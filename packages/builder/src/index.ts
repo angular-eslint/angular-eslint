@@ -1,13 +1,9 @@
 import { createBuilder } from '@angular-devkit/architect';
 import eslint from 'eslint';
-import { readFileSync } from 'fs';
+import { existsSync, readFileSync } from 'fs';
 import glob from 'glob';
 import { Minimatch } from 'minimatch';
 import path from 'path';
-/**
- * TODO: Remove dependency on tslint
- */
-import * as tslint from 'tslint';
 import ts from 'typescript';
 
 export function stripBom(data: string) {
@@ -33,19 +29,48 @@ async function _loadESLint() {
   }
 }
 
-function _getFilesToLint(
+/**
+ * - Copied from TSLint source:
+ *
+ * Returns an array of all outputs that are not `undefined`
+ */
+export function mapDefined<T, U>(
+  inputs: ReadonlyArray<T>,
+  getOutput: (input: T) => U | undefined,
+): U[] {
+  const out = [];
+  for (const input of inputs) {
+    const output = getOutput(input);
+    if (output !== undefined) {
+      out.push(output);
+    }
+  }
+  return out;
+}
+
+/**
+ * - Adapted from TSLint source:
+ *
+ * Returns a list of source file names from a TypeScript program. This includes all referenced
+ * files and excludes declaration (".d.ts") files, as well as JSON files, to avoid problems with
+ * `resolveJsonModule`.
+ */
+function getFileNamesFromProgram(program: ts.Program): string[] {
+  return mapDefined(program.getSourceFiles(), file =>
+    file.fileName.endsWith('.d.ts') ||
+    file.fileName.endsWith('.json') ||
+    program.isSourceFileFromExternalLibrary(file)
+      ? undefined
+      : file.fileName,
+  );
+}
+
+function getFilesToLint(
   root: string,
   options: any,
-  linter: typeof tslint.Linter,
   program?: ts.Program,
 ): string[] {
-  /**
-   * TODO: Option not implemented yet
-   */
   const ignore = options.exclude;
-  /**
-   * TODO: Option not implemented yet
-   */
   const files = options.files || [];
 
   if (files.length > 0) {
@@ -59,10 +84,7 @@ function _getFilesToLint(
     return [];
   }
 
-  /**
-   * TODO: Remove dependency on TSLint here
-   */
-  let programFiles = linter.getFileNames(program);
+  let programFiles = getFileNamesFromProgram(program);
 
   if (ignore && ignore.length > 0) {
     // normalize to support ./ paths
@@ -81,6 +103,88 @@ function _getFilesToLint(
   return programFiles;
 }
 
+/**
+ * - Copied from TSLint source:
+ *
+ * Generic error typing for EcmaScript errors
+ * Define `Error` here to avoid using `Error` from @types/node.
+ * Using the `node` version causes a compilation error when this code is used as an npm library if @types/node is not already imported.
+ */
+export declare class Error {
+  public name?: string;
+  public message: string;
+  public stack?: string;
+  constructor(message?: string);
+}
+
+/**
+ * - Copied from TSLint source:
+ *
+ * Used to exit the program and display a friendly message without the callstack.
+ */
+export class FatalError extends Error {
+  public static NAME = 'FatalError';
+  constructor(public message: string, public innerError?: Error) {
+    super(message);
+    this.name = FatalError.NAME;
+
+    // Fix prototype chain for target ES5
+    Object.setPrototypeOf(this, FatalError.prototype);
+  }
+}
+
+/**
+ * - Adapted from TSLint source:
+ *
+ * Creates a TypeScript program object from a tsconfig.json file path and optional project directory.
+ */
+function createProgram(
+  configFile: string,
+  projectDirectory: string = path.dirname(configFile),
+): ts.Program {
+  const config = ts.readConfigFile(configFile, ts.sys.readFile);
+  if (config.error !== undefined) {
+    throw new FatalError(
+      ts.formatDiagnostics([config.error], {
+        getCanonicalFileName: f => f,
+        getCurrentDirectory: process.cwd,
+        getNewLine: () => '\n',
+      }),
+    );
+  }
+  const parseConfigHost: ts.ParseConfigHost = {
+    fileExists: existsSync,
+    readDirectory: ts.sys.readDirectory,
+    readFile: file => readFileSync(file, 'utf8'),
+    useCaseSensitiveFileNames: true,
+  };
+  const parsed = ts.parseJsonConfigFileContent(
+    config.config,
+    parseConfigHost,
+    path.resolve(projectDirectory),
+    { noEmit: true },
+  );
+  if (parsed.errors !== undefined) {
+    // ignore warnings and 'TS18003: No inputs were found in config file ...'
+    const errors = parsed.errors.filter(
+      d => d.category === ts.DiagnosticCategory.Error && d.code !== 18003,
+    );
+    if (errors.length !== 0) {
+      throw new FatalError(
+        ts.formatDiagnostics(errors, {
+          getCanonicalFileName: f => f,
+          getCurrentDirectory: process.cwd,
+          getNewLine: () => '\n',
+        }),
+      );
+    }
+  }
+  const host = ts.createCompilerHost(parsed.options, true);
+  const program = ts.createProgram(parsed.fileNames, parsed.options, host);
+
+  return program;
+}
+
 async function _lint(
   projectESLint: typeof eslint,
   systemRoot: string,
@@ -90,7 +194,7 @@ async function _lint(
   program?: any,
   allPrograms?: any[],
 ): Promise<any[]> {
-  const files = _getFilesToLint(systemRoot, options, tslint.Linter, program);
+  const files = getFilesToLint(systemRoot, options, program);
 
   const cli = new projectESLint.CLIEngine({
     configFile: eslintConfigPath,
@@ -174,12 +278,9 @@ async function _run(options: any, context: any): Promise<any> {
 
     context.reportProgress(0, tsConfigs.length);
 
-    /**
-     * TODO: Remove dependency on TSLint here
-     */
-    const allPrograms = tsConfigs.map((tsConfig: any) => {
-      return tslint.Linter.createProgram(path.resolve(systemRoot, tsConfig));
-    });
+    const allPrograms = tsConfigs.map((tsConfig: any) =>
+      createProgram(path.resolve(systemRoot, tsConfig)),
+    );
 
     let i = 0;
     for (const program of allPrograms) {

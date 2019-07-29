@@ -18,9 +18,6 @@
     "builders.json"
   ],
   "builders": "./builders.json",
-  "dependencies": {
-    "tslint": "5.18.0"
-  },
   "peerDependencies": {
     "@angular-devkit/build-angular": ">=0.800.0",
     "eslint": "*",

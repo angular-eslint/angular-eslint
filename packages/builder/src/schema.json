@@ -35,6 +35,22 @@
       "description": "Hide output text.",
       "default": false
     },
+    "exclude": {
+      "type": "array",
+      "description": "Files to exclude from linting.",
+      "default": [],
+      "items": {
+        "type": "string"
+      }
+    },
+    "files": {
+      "type": "array",
+      "description": "Files to include in linting.",
+      "default": [],
+      "items": {
+        "type": "string"
+      }
+    },
     "format": {
       "type": "string",
       "description": "ESLint Output formatter (https://eslint.org/docs/user-guide/formatters).",
