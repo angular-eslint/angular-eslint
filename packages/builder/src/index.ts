@@ -149,9 +149,6 @@ async function _run(options: any, context: any): Promise<any> {
     context.logger.info(`\nLinting ${JSON.stringify(projectName)}...`);
   }
 
-  /**
-   * TODO: version 5.5 was the TSLint one, figure out the actually constraints for TSLint
-   */
   const projectESLint = await _loadESLint();
   // TODO: Fix upstream type info, missing static version property
   const version =
@@ -159,10 +156,10 @@ async function _run(options: any, context: any): Promise<any> {
   if (
     !version ||
     version.length < 2 ||
-    Number(version[0]) < 5 ||
-    Number(version[1]) < 5
+    Number(version[0]) < 6 ||
+    Number(version[1]) < 1
   ) {
-    throw new Error('ESLint must be version 5.5 or higher.');
+    throw new Error('ESLint must be version 6.1 or higher.');
   }
 
   const eslintConfigPath = path.resolve(systemRoot, options.eslintConfig);
