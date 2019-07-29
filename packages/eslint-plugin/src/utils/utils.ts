@@ -1,4 +1,4 @@
-import { TSESTree } from '@typescript-eslint/typescript-estree';
+import { TSESTree } from '@typescript-eslint/experimental-utils';
 
 export const objectKeys = Object.keys as <T>(
   o: T,
