@@ -2,7 +2,7 @@ import { parseTemplate } from '@angular/compiler';
 import EventEmitter from 'events';
 
 const { ScopeManager, Scope } = require('eslint-scope');
-const NodeEventGenerator = require('eslint/lib/util/node-event-generator');
+const NodeEventGenerator = require('eslint/lib/linter/node-event-generator');
 
 const emitters = new WeakMap();
 
@@ -111,100 +111,103 @@ function preprocessNode(node: { [x: string]: any; type: any }) {
   }
 }
 
-module.exports = {
-  parseForESLint: function(code: string, options: { filePath: string }) {
-    const ast = {
-      type: 'Program',
-      comments: [],
-      tokens: [],
-      templateNodes: parseTemplate(code, options.filePath).nodes,
-      range: [0, 1],
-      loc: {
-        start: {
-          line: 0,
-          column: 0,
-        },
-        end: {
-          line: 0,
-          column: 1,
-        },
+function parseForESLint(code: string, options: { filePath: string }) {
+  const ast = {
+    type: 'Program',
+    comments: [],
+    tokens: [],
+    templateNodes: parseTemplate(code, options.filePath).nodes,
+    range: [0, 1],
+    loc: {
+      start: {
+        line: 0,
+        column: 0,
       },
-      value: code,
-    };
+      end: {
+        line: 0,
+        column: 1,
+      },
+    },
+    value: code,
+  };
 
-    // @ts-ignore
-    const scopeManager = new ScopeManager({});
-    // @ts-ignore
-    const globalScope = new Scope(scopeManager, 'module', null, ast, false);
+  // @ts-ignore
+  const scopeManager = new ScopeManager({});
+  // @ts-ignore
+  const globalScope = new Scope(scopeManager, 'module', null, ast, false);
 
-    preprocessNode(ast);
+  preprocessNode(ast);
 
-    return {
-      ast,
-      scopeManager,
-      visitorKeys: KEYS,
-      services: {
-        convertNodeSourceSpanToLoc(sourceSpan: {
-          start: { line: number; col: any };
-          end: { line: number; col: any };
-        }) {
-          return {
-            start: {
-              line: sourceSpan.start.line + 1,
-              column: sourceSpan.start.col,
-            },
-            end: {
-              line: sourceSpan.end.line + 1,
-              column: sourceSpan.end.col,
-            },
-          };
-        },
-        defineTemplateBodyVisitor(
-          templateBodyVisitor: { [x: string]: any },
-          scriptVisitor: { [x: string]: any },
-        ) {
-          const rootAST = ast;
-          if (scriptVisitor == null) {
-            scriptVisitor = {}; //eslint-disable-line no-param-reassign
-          }
-          if (rootAST == null) {
-            return scriptVisitor;
-          }
-
-          let emitter = emitters.get(rootAST);
-
-          // If this is the first time, initialize the intermediate event emitter.
-          if (emitter == null) {
-            emitter = new EventEmitter();
-            emitter.setMaxListeners(0);
-            emitters.set(rootAST, emitter);
-
-            const programExitHandler = scriptVisitor['Program:exit'];
-            scriptVisitor['Program:exit'] = (node: any) => {
-              try {
-                if (typeof programExitHandler === 'function') {
-                  programExitHandler(node);
-                }
-
-                // Traverse template body.
-                const generator = new NodeEventGenerator(emitter);
-                traverse(rootAST, null, generator);
-              } finally {
-                // @ts-ignore
-                scriptVisitor['Program:exit'] = programExitHandler;
-                emitters.delete(rootAST);
-              }
-            };
-          }
-
-          // Register handlers into the intermediate event emitter.
-          for (const selector of Object.keys(templateBodyVisitor)) {
-            emitter.on(selector, templateBodyVisitor[selector]);
-          }
-
+  return {
+    ast,
+    scopeManager,
+    visitorKeys: KEYS,
+    services: {
+      convertNodeSourceSpanToLoc(sourceSpan: {
+        start: { line: number; col: any };
+        end: { line: number; col: any };
+      }) {
+        return {
+          start: {
+            line: sourceSpan.start.line + 1,
+            column: sourceSpan.start.col,
+          },
+          end: {
+            line: sourceSpan.end.line + 1,
+            column: sourceSpan.end.col,
+          },
+        };
+      },
+      defineTemplateBodyVisitor(
+        templateBodyVisitor: { [x: string]: any },
+        scriptVisitor: { [x: string]: any },
+      ) {
+        const rootAST = ast;
+        if (scriptVisitor == null) {
+          scriptVisitor = {}; //eslint-disable-line no-param-reassign
+        }
+        if (rootAST == null) {
           return scriptVisitor;
-        },
+        }
+
+        let emitter = emitters.get(rootAST);
+
+        // If this is the first time, initialize the intermediate event emitter.
+        if (emitter == null) {
+          emitter = new EventEmitter();
+          emitter.setMaxListeners(0);
+          emitters.set(rootAST, emitter);
+
+          const programExitHandler = scriptVisitor['Program:exit'];
+          scriptVisitor['Program:exit'] = (node: any) => {
+            try {
+              if (typeof programExitHandler === 'function') {
+                programExitHandler(node);
+              }
+
+              // Traverse template body.
+              const generator = new NodeEventGenerator(emitter);
+              traverse(rootAST, null, generator);
+            } finally {
+              // @ts-ignore
+              scriptVisitor['Program:exit'] = programExitHandler;
+              emitters.delete(rootAST);
+            }
+          };
+        }
+
+        // Register handlers into the intermediate event emitter.
+        for (const selector of Object.keys(templateBodyVisitor)) {
+          emitter.on(selector, templateBodyVisitor[selector]);
+        }
+
+        return scriptVisitor;
       },
-    };
-  },
+    },
+  };
+}
+
+module.exports = {
+  parseForESLint,
+  parse: parseForESLint,
 };

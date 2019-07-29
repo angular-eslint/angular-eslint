@@ -10,7 +10,7 @@ import {
 
 const ruleTester = new RuleTester({
   parser: '@angular-eslint/template-parser',
-} as any);
+});
 
 const messageId: MessageIds = 'bananaInABox';
 
