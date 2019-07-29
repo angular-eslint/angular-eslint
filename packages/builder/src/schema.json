@@ -1,0 +1,66 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "title": "ESLint Target",
+  "description": "ESLint target options for Build Facade.",
+  "type": "object",
+  "properties": {
+    "eslintConfig": {
+      "type": "string",
+      "description": "The name of the ESLint configuration file."
+    },
+    "tsConfig": {
+      "description": "The name of the TypeScript configuration file.",
+      "oneOf": [
+        { "type": "string" },
+        {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      ]
+    },
+    "fix": {
+      "type": "boolean",
+      "description": "Fixes linting errors (may overwrite linted files).",
+      "default": false
+    },
+    "force": {
+      "type": "boolean",
+      "description": "Succeeds even if there was linting errors.",
+      "default": false
+    },
+    "silent": {
+      "type": "boolean",
+      "description": "Hide output text.",
+      "default": false
+    },
+    "format": {
+      "type": "string",
+      "description": "ESLint Output formatter (https://eslint.org/docs/user-guide/formatters).",
+      "default": "stylish",
+      "anyOf": [
+        {
+          "enum": [
+            "stylish",
+            "compact",
+            "codeframe",
+            "unix",
+            "visualstudio",
+            "table",
+            "checkstyle",
+            "html",
+            "jslint-xml",
+            "json",
+            "json-with-metadata",
+            "junit",
+            "tap"
+          ]
+        },
+        { "minLength": 1 }
+      ]
+    }
+  },
+  "additionalProperties": false,
+  "required": ["eslintConfig"]
+}

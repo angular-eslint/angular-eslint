@@ -1,0 +1,27 @@
+{
+  "name": "@angular-eslint/template-parser",
+  "version": "0.0.1-alpha.12",
+  "description": "Angular Template parser for ESLint",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "rm -rf ./dist && microbundle --no-sourcemap --target=node --compress --format=cjs",
+    "typecheck": "tsc --noEmit"
+  },
+  "files": [
+    "dist",
+    "package.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "dependencies": {
+    "eslint-scope": "^4.0.0"
+  },
+  "peerDependencies": {
+    "@angular/compiler": "*",
+    "eslint": "*",
+    "typescript": "*"
+  },
+  "gitHead": "a1fa84453b178ad182f25c33d9a147e67881ef54"
+}

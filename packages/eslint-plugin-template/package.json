@@ -1,0 +1,29 @@
+{
+  "name": "@angular-eslint/eslint-plugin-template",
+  "version": "0.0.1-alpha.12",
+  "description": "ESLint plugin for Angular Templates",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "rm -rf ./dist && microbundle --no-sourcemap --target=node --compress --format=cjs",
+    "test": "jest --coverage",
+    "typecheck": "tsc --noEmit"
+  },
+  "files": [
+    "dist",
+    "package.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "dependencies": {
+    "@typescript-eslint/experimental-utils": "2.0.0-alpha.4",
+    "eslint-scope": "^4.0.0"
+  },
+  "peerDependencies": {
+    "@angular-eslint/template-parser": "*",
+    "eslint": "*",
+    "typescript": "*"
+  },
+  "gitHead": "a1fa84453b178ad182f25c33d9a147e67881ef54"
+}

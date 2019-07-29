@@ -1,0 +1,9 @@
+{
+  "builders": {
+    "lint": {
+      "implementation": "./dist",
+      "schema": "./dist/schema.json",
+      "description": "Run ESLint over a TypeScript project"
+    }
+  }
+}

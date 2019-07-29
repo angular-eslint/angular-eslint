@@ -1,0 +1,7 @@
+**/dist
+**/coverage
+**/.vscode
+**/.nyc_output
+**/.github
+
+tools/scripts/assets/patched-microbundle.js
