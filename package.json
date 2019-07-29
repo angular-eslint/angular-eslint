@@ -1,0 +1,59 @@
+{
+  "name": "@angular-eslint/angular-eslint",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "contributors": [
+    "James Henry <angular-eslint@jameshenry.email>"
+  ],
+  "license": "MIT",
+  "repository": "angular-eslint/angular-eslint",
+  "bugs": {
+    "url": "https://github.com/angular-eslint/angular-eslint/issues"
+  },
+  "scripts": {
+    "build": "lerna run build",
+    "test": "lerna run test --parallel",
+    "check-clean-workspace-after-install": "git diff --quiet --exit-code",
+    "clean": "lerna clean && lerna run clean",
+    "cz": "git-cz",
+    "postinstall": "node ./tools/scripts/apply-patched-microbundle.js && lerna bootstrap && yarn build && lerna link && npm run check-clean-workspace-after-install",
+    "pre-commit": "yarn lint-staged",
+    "pre-push": "yarn format-check",
+    "format": "prettier --write \"./**/*.{ts,js,json,md}\"",
+    "format-check": "prettier --list-different \"./**/*.{ts,js,json,md}\"",
+    "typecheck": "lerna run typecheck"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^0.800.0",
+    "@angular/compiler": "^8.0.2",
+    "@commitlint/cli": "^8.1.0",
+    "@commitlint/config-conventional": "^8.1.0",
+    "@types/eslint": "^4.16.6",
+    "@types/jest": "^24.0.13",
+    "@types/json-schema": "^7.0.3",
+    "@types/node": "^10.12.2",
+    "@typescript-eslint/parser": "2.0.0-alpha.4",
+    "eslint": "^6.1.0",
+    "husky": "^3.0.0",
+    "jest": "^24.8.0",
+    "lerna": "^3.14.1",
+    "lint-staged": "^9.2.0",
+    "microbundle": "0.11.0",
+    "prettier": "^1.17.1",
+    "terser": "^4.0.0",
+    "ts-jest": "^24.0.2",
+    "typescript": "~3.5.3"
+  }
+}
