@@ -1,4 +1,4 @@
-import { TSESTree } from '@typescript-eslint/typescript-estree';
+import { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import { COMPONENT_CLASS_DECORATOR } from '../utils/selectors';
 import {
