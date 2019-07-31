@@ -1,3 +1,27 @@
+import componentClassSuffix, {
+  RULE_NAME as componentClassSuffixRuleName,
+} from './rules/component-class-suffix';
+import noHostMetadataProperty, {
+  RULE_NAME as noHostMetadataPropertyRuleName,
+} from './rules/no-host-metadata-property';
+import noInputsMetadataProperty, {
+  RULE_NAME as noInputsMetadataPropertyRuleName,
+} from './rules/no-inputs-metadata-property';
+import noOutputOnPrefix, {
+  RULE_NAME as noOutputOnPrefixRuleName,
+} from './rules/no-output-on-prefix';
+import noOutputsMetadataProperty, {
+  RULE_NAME as noOutputsMetadataPropertyRuleName,
+} from './rules/no-outputs-metadata-property';
+import noPipeImpure, {
+  RULE_NAME as noPipeImpureRuleName,
+} from './rules/no-pipe-impure';
+import noQueriesMetadataProperty, {
+  RULE_NAME as noQueriesMetadataPropertyRuleName,
+} from './rules/no-queries-metadata-property';
+import preferOnPushComponentChangeDetection, {
+  RULE_NAME as preferOnPushComponentChangeDetectionRuleName,
+} from './rules/prefer-on-push-component-change-detection';
 import useComponentSelector, {
   RULE_NAME as useComponentSelectorRuleName,
 } from './rules/use-component-selector';
@@ -13,24 +37,6 @@ import usePipeDecorator, {
 import usePipeTransformInterface, {
   RULE_NAME as usePipeTransformInterfaceRuleName,
 } from './rules/use-pipe-transform-interface';
-import noOutputOnPrefix, {
-  RULE_NAME as noOutputOnPrefixRuleName,
-} from './rules/no-output-on-prefix';
-import noHostMetadataProperty, {
-  RULE_NAME as noHostMetadataPropertyRuleName,
-} from './rules/no-host-metadata-property';
-import noInputsMetadataProperty, {
-  RULE_NAME as noInputsMetadataPropertyRuleName,
-} from './rules/no-inputs-metadata-property';
-import noOutputsMetadataProperty, {
-  RULE_NAME as noOutputsMetadataPropertyRuleName,
-} from './rules/no-outputs-metadata-property';
-import noQueriesMetadataProperty, {
-  RULE_NAME as noQueriesMetadataPropertyRuleName,
-} from './rules/no-queries-metadata-property';
-import componentClassSuffix, {
-  RULE_NAME as componentClassSuffixRuleName,
-} from './rules/component-class-suffix';
 
 export default {
   rules: {
@@ -45,5 +51,7 @@ export default {
     [noOutputsMetadataPropertyRuleName]: noOutputsMetadataProperty,
     [noQueriesMetadataPropertyRuleName]: noQueriesMetadataProperty,
     [componentClassSuffixRuleName]: componentClassSuffix,
+    [noPipeImpureRuleName]: noPipeImpure,
+    [preferOnPushComponentChangeDetectionRuleName]: preferOnPushComponentChangeDetection,
   },
 };

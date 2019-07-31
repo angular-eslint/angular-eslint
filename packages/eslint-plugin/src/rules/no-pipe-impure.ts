@@ -1,7 +1,7 @@
 import { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import { PIPE_CLASS_DECORATOR } from '../utils/selectors';
-import { getDecoratorProperty } from '../utils/utils';
+import { getDecoratorProperty, isLiteral } from '../utils/utils';
 
 type Options = [];
 export type MessageIds = 'noPipeImpure';
@@ -31,8 +31,13 @@ export default createESLintRule<Options, MessageIds>({
           'pure',
         ) as TSESTree.Property;
 
-        if (!pureProperty || !!(pureProperty.value as TSESTree.Literal).value)
+        if (
+          !pureProperty ||
+          !isLiteral(pureProperty.value) ||
+          !!pureProperty.value.value
+        ) {
           return;
+        }
 
         context.report({
           node: pureProperty.value,
