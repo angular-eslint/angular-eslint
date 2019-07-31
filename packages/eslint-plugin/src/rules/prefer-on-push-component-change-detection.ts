@@ -1,7 +1,7 @@
 import { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import { COMPONENT_CLASS_DECORATOR } from '../utils/selectors';
-import { getDecoratorPropertyValue } from '../utils/utils';
+import { getDecoratorPropertyValue, isIdentifier } from '../utils/utils';
 
 type Options = [];
 export type MessageIds = 'preferOnPushComponentChangeDetection';
@@ -37,14 +37,18 @@ export default createESLintRule<Options, MessageIds>({
             node,
             messageId: 'preferOnPushComponentChangeDetection',
           });
-        } else if (
-          (changeDetectionExpression.property as TSESTree.Identifier).name !==
-          ON_PUSH
+          return;
+        }
+
+        if (
+          !isIdentifier(changeDetectionExpression.property) ||
+          changeDetectionExpression.property.name !== ON_PUSH
         ) {
           context.report({
             node: changeDetectionExpression,
             messageId: 'preferOnPushComponentChangeDetection',
           });
+          return;
         }
       },
     };
