@@ -16,6 +16,9 @@ import noOutputNative, {
 import noOutputRename, {
   RULE_NAME as noOutputRenameRuleName,
 } from './rules/no-output-rename';
+import noInputRename, {
+  RULE_NAME as noInputRenameRuleName,
+} from './rules/no-input-rename';
 import noOutputsMetadataProperty, {
   RULE_NAME as noOutputsMetadataPropertyRuleName,
 } from './rules/no-outputs-metadata-property';
@@ -61,5 +64,6 @@ export default {
     [preferOnPushComponentChangeDetectionRuleName]: preferOnPushComponentChangeDetection,
     [noOutputRenameRuleName]: noOutputRename,
     [noOutputNativeRuleName]: noOutputNative,
+    [noInputRenameRuleName]: noInputRename,
   },
 };
