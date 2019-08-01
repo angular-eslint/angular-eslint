@@ -93,7 +93,8 @@ ruleTester.run(RULE_NAME, rule, {
       messageId,
     }),
     convertAnnotatedSourceToFailureCase({
-      description: 'should fail when an input property is fake renamed',
+      description:
+        'should fail when an input property is renamed unnecessarily',
       annotatedSource: `
       @Component({
         selector: 'foo'
