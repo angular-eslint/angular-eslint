@@ -85,7 +85,7 @@ export const angularLifecycleMethodKeys = objectKeys(AngularLifecycleMethods);
  * Equivalents of utils exported by TypeScript itself for its own AST
  */
 
-function isCallExpression(
+export function isCallExpression(
   node: TSESTree.Node,
 ): node is TSESTree.CallExpression {
   return node.type === 'CallExpression';

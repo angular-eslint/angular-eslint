@@ -92,20 +92,19 @@ ruleTester.run(RULE_NAME, rule, {
       `,
       messageId,
     }),
-    // convertAnnotatedSourceToFailureCase({
-    //   description: 'should fail when an input property is fake renamed',
-    //   annotatedSource: `
-    //   @Component({
-    //     selector: 'foo'
-    //   })
-    //   class TestComponent {
-    //     @Input('foo') label: string;
-    //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    //   }
-    //       `,
-    //   messageId,
-    // }),
-
+    convertAnnotatedSourceToFailureCase({
+      description: 'should fail when an input property is fake renamed',
+      annotatedSource: `
+      @Component({
+        selector: 'foo'
+      })
+      class TestComponent {
+        @Input('foo') label: string;
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      }
+          `,
+      messageId,
+    }),
     convertAnnotatedSourceToFailureCase({
       description: 'should fail when an input property is renamed',
       annotatedSource: `

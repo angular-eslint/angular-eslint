@@ -4,6 +4,7 @@ import {
   getDecoratorPropertyValue,
   isIdentifier,
   isLiteral,
+  isCallExpression,
   kebabToCamelCase,
   toTitleCase,
 } from '../utils/utils';
@@ -103,7 +104,13 @@ export default createESLintRule<Options, MessageIds>({
         const decorator =
           classDeclaration.decorators && classDeclaration.decorators[0];
 
-        if (decorator) {
+        if (
+          decorator &&
+          decorator.expression &&
+          isCallExpression(decorator.expression) &&
+          isIdentifier(decorator.expression.callee) &&
+          decorator.expression.callee.name === 'Directive'
+        ) {
           const selector = getDecoratorPropertyValue(decorator, 'selector');
 
           if (selector && isLiteral(selector) && selector.value) {
