@@ -1,6 +1,9 @@
 import componentClassSuffix, {
   RULE_NAME as componentClassSuffixRuleName,
 } from './rules/component-class-suffix';
+import contextualLifecycle, {
+  RULE_NAME as contextualLifecycleRuleName,
+} from './rules/contextual-lifecycle';
 import noHostMetadataProperty, {
   RULE_NAME as noHostMetadataPropertyRuleName,
 } from './rules/no-host-metadata-property';
@@ -41,6 +44,7 @@ import usePipeTransformInterface, {
 export default {
   rules: {
     [useComponentSelectorRuleName]: useComponentSelector,
+    [contextualLifecycleRuleName]: contextualLifecycle,
     [useComponentViewEncapsulationRuleName]: useComponentViewEncapsulation,
     [useLifecycleInterfaceRuleName]: useLifecycleInterface,
     [usePipeDecoratorRuleName]: usePipeDecorator,

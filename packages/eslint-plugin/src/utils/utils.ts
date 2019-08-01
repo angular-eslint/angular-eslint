@@ -80,6 +80,23 @@ export const angularLifecycleInterfaceKeys = objectKeys(
 );
 export const angularLifecycleMethodKeys = objectKeys(AngularLifecycleMethods);
 
+export const ANGULAR_CLASS_DECORATOR_LIFECYCLE_METHOD_MAPPER: ReadonlyMap<
+  AngularClassDecoratorKeys,
+  ReadonlySet<AngularLifecycleMethodKeys>
+> = new Map([
+  [AngularClassDecorators.Component, new Set(angularLifecycleMethodKeys)],
+  [AngularClassDecorators.Directive, new Set(angularLifecycleMethodKeys)],
+  [
+    AngularClassDecorators.Injectable,
+    new Set<AngularLifecycleMethodKeys>([AngularLifecycleMethods.ngOnDestroy]),
+  ],
+  [AngularClassDecorators.NgModule, new Set<AngularLifecycleMethodKeys>([])],
+  [
+    AngularClassDecorators.Pipe,
+    new Set<AngularLifecycleMethodKeys>([AngularLifecycleMethods.ngOnDestroy]),
+  ],
+]);
+
 /**
  * SECTION START:
  * Equivalents of utils exported by TypeScript itself for its own AST
@@ -173,9 +190,8 @@ export const getDecorator = (
   return node.decorators.find(
     decorator =>
       isCallExpression(decorator.expression) &&
-      decorator.expression.arguments &&
-      decorator.expression.arguments.length > 0 &&
-      getDecoratorName(decorator) === decoratorName,
+      isIdentifier(decorator.expression.callee) &&
+      decorator.expression.callee.name === decoratorName,
   );
 };
 
