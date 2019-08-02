@@ -248,6 +248,15 @@ export const getDeclaredAngularLifecycleInterfaces = (
     isAngularLifecycleInterface,
   ) as ReadonlyArray<AngularLifecycleInterfaceKeys>;
 
+export const getDeclaredAngularLifecycleMethods = (
+  node: TSESTree.ClassDeclaration,
+): ReadonlyArray<AngularLifecycleMethodKeys> =>
+  getDeclaredMethods(node)
+    .map(getMethodName)
+    .filter(isAngularLifecycleMethod) as ReadonlyArray<
+    AngularLifecycleMethodKeys
+  >;
+
 export const ANGULAR_LIFECYCLE_INTERFACES: ReadonlySet<
   AngularLifecycleInterfaceKeys
 > = new Set(angularLifecycleInterfaceKeys);
