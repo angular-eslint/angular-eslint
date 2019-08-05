@@ -86,16 +86,21 @@ export default createESLintRule<Options, MessageIds>({
           propertyAlias: string,
           propertyName: string,
         ): boolean => {
-          return !!(
-            (propertyAlias !== propertyName &&
-              directiveSelectors &&
-              directiveSelectors.some(x =>
-                new RegExp(`^${x}((${toTitleCase(propertyName)}$)|(?=$))`).test(
-                  propertyAlias,
-                ),
-              )) ||
-            (whiteListAliases.has(propertyAlias) &&
-              propertyName === kebabToCamelCase(propertyAlias))
+          if (
+            propertyAlias !== propertyName &&
+            directiveSelectors &&
+            directiveSelectors.some(x =>
+              new RegExp(`^${x}((${toTitleCase(propertyName)}$)|(?=$))`).test(
+                propertyAlias,
+              ),
+            )
+          ) {
+            return true;
+          }
+
+          return (
+            whiteListAliases.has(propertyAlias) &&
+            propertyName === kebabToCamelCase(propertyAlias)
           );
         };
 
