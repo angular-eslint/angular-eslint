@@ -76,7 +76,9 @@ export default createESLintRule<Options, MessageIds>({
       ) {
         const inputCallExpression = node.expression as TSESTree.CallExpression;
 
-        if (inputCallExpression.arguments.length === 0) return;
+        if (inputCallExpression.arguments.length === 0) {
+          return;
+        }
 
         let directiveSelectors: ReadonlyArray<any>;
 
@@ -131,8 +133,9 @@ export default createESLintRule<Options, MessageIds>({
           propertyAlias &&
           isIdentifier(classProperty.key) &&
           canPropertyBeAliased(propertyAlias.toString(), classProperty.key.name)
-        )
+        ) {
           return;
+        }
 
         context.report({
           node: classProperty,
