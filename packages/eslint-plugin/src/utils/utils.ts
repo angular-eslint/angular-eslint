@@ -190,8 +190,9 @@ export const getDecorator = (
   return node.decorators.find(
     decorator =>
       isCallExpression(decorator.expression) &&
-      isIdentifier(decorator.expression.callee) &&
-      decorator.expression.callee.name === decoratorName,
+      decorator.expression.arguments &&
+      decorator.expression.arguments.length > 0 &&
+      getDecoratorName(decorator) === decoratorName,
   );
 };
 

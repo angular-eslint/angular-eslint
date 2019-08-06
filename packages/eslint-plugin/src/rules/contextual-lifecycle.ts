@@ -1,13 +1,17 @@
 import { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
+import {
+  PIPE_CLASS_DECORATOR,
+  DIRECTIVE_CLASS_DECORATOR,
+  INJECTABLE_CLASS_DECORATOR,
+  MODULE_CLASS_DECORATOR,
+} from '../utils/selectors';
 
 import {
   ANGULAR_CLASS_DECORATOR_LIFECYCLE_METHOD_MAPPER,
   AngularClassDecorators,
-  AngularLifecycleMethodKeys,
   getClassName,
   getDeclaredMethods,
-  getDecorator,
   getMethodName,
   isAngularLifecycleMethod,
 } from '../utils/utils';
@@ -33,70 +37,50 @@ export default createESLintRule<Options, MessageIds>({
   },
   defaultOptions: [],
   create(context) {
+    function checkContext(
+      node: TSESTree.Decorator,
+      decorator: AngularClassDecorators,
+    ) {
+      const className = getClassName(node);
+      const classParent = node.parent as TSESTree.ClassDeclaration;
+      const allowedMethods = ANGULAR_CLASS_DECORATOR_LIFECYCLE_METHOD_MAPPER.get(
+        decorator,
+      );
+
+      const declaredMethods = getDeclaredMethods(classParent);
+
+      for (const method of declaredMethods) {
+        const methodName = getMethodName(method);
+        if (
+          !isAngularLifecycleMethod(methodName) ||
+          (allowedMethods && allowedMethods.has(methodName))
+        )
+          continue;
+
+        context.report({
+          node: method.key,
+          messageId: 'contextuaLifecycle',
+          data: {
+            methodName,
+            className,
+            decorator,
+          },
+        });
+      }
+    }
+
     return {
-      ClassDeclaration(node: TSESTree.ClassDeclaration) {
-        const className = getClassName(node);
-        const isDirective = !!getDecorator(
-          node,
-          AngularClassDecorators.Directive,
-        );
-        const isInjectable = !!getDecorator(
-          node,
-          AngularClassDecorators.Injectable,
-        );
-        const isPipe = !!getDecorator(node, AngularClassDecorators.Pipe);
-        const isNgModule = !!getDecorator(
-          node,
-          AngularClassDecorators.NgModule,
-        );
-
-        let allowedMethods: ReadonlySet<AngularLifecycleMethodKeys> | undefined;
-        let decoratorName: string;
-
-        if (isInjectable) {
-          allowedMethods = ANGULAR_CLASS_DECORATOR_LIFECYCLE_METHOD_MAPPER.get(
-            AngularClassDecorators.Injectable,
-          );
-          decoratorName = AngularClassDecorators.Injectable;
-        } else if (isDirective) {
-          allowedMethods = ANGULAR_CLASS_DECORATOR_LIFECYCLE_METHOD_MAPPER.get(
-            AngularClassDecorators.Directive,
-          );
-          decoratorName = AngularClassDecorators.Directive;
-        } else if (isPipe) {
-          allowedMethods = ANGULAR_CLASS_DECORATOR_LIFECYCLE_METHOD_MAPPER.get(
-            AngularClassDecorators.Pipe,
-          );
-          decoratorName = AngularClassDecorators.Pipe;
-        } else if (isNgModule) {
-          allowedMethods = ANGULAR_CLASS_DECORATOR_LIFECYCLE_METHOD_MAPPER.get(
-            AngularClassDecorators.NgModule,
-          );
-          decoratorName = AngularClassDecorators.NgModule;
-        } else {
-          return;
-        }
-
-        const declaredMethods = getDeclaredMethods(node);
-
-        for (const method of declaredMethods) {
-          const methodName = getMethodName(method);
-          if (
-            !isAngularLifecycleMethod(methodName) ||
-            (allowedMethods && allowedMethods.has(methodName))
-          )
-            continue;
-
-          context.report({
-            node: method.key,
-            messageId: 'contextuaLifecycle',
-            data: {
-              methodName,
-              className,
-              decoratorName,
-            },
-          });
-        }
+      [PIPE_CLASS_DECORATOR](pipeHandler: TSESTree.Decorator) {
+        checkContext(pipeHandler, AngularClassDecorators.Pipe);
+      },
+      [INJECTABLE_CLASS_DECORATOR](injectableHandler: TSESTree.Decorator) {
+        checkContext(injectableHandler, AngularClassDecorators.Injectable);
+      },
+      [MODULE_CLASS_DECORATOR](moduleHandler: TSESTree.Decorator) {
+        checkContext(moduleHandler, AngularClassDecorators.NgModule);
+      },
+      [DIRECTIVE_CLASS_DECORATOR](directiveHandler: TSESTree.Decorator) {
+        checkContext(directiveHandler, AngularClassDecorators.Directive);
       },
     };
   },
