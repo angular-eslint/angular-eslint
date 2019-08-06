@@ -13,6 +13,12 @@ import noInputsMetadataProperty, {
 import noOutputOnPrefix, {
   RULE_NAME as noOutputOnPrefixRuleName,
 } from './rules/no-output-on-prefix';
+import noOutputNative, {
+  RULE_NAME as noOutputNativeRuleName,
+} from './rules/no-output-native';
+import noOutputRename, {
+  RULE_NAME as noOutputRenameRuleName,
+} from './rules/no-output-rename';
 import noOutputsMetadataProperty, {
   RULE_NAME as noOutputsMetadataPropertyRuleName,
 } from './rules/no-outputs-metadata-property';
@@ -57,5 +63,7 @@ export default {
     [componentClassSuffixRuleName]: componentClassSuffix,
     [noPipeImpureRuleName]: noPipeImpure,
     [preferOnPushComponentChangeDetectionRuleName]: preferOnPushComponentChangeDetection,
+    [noOutputRenameRuleName]: noOutputRename,
+    [noOutputNativeRuleName]: noOutputNative,
   },
 };
