@@ -70,17 +70,17 @@ export default createESLintRule<Options, MessageIds>({
     }
 
     return {
-      [PIPE_CLASS_DECORATOR](pipeHandler: TSESTree.Decorator) {
-        checkContext(pipeHandler, AngularClassDecorators.Pipe);
+      [PIPE_CLASS_DECORATOR](node: TSESTree.Decorator) {
+        checkContext(node, AngularClassDecorators.Pipe);
       },
-      [INJECTABLE_CLASS_DECORATOR](injectableHandler: TSESTree.Decorator) {
-        checkContext(injectableHandler, AngularClassDecorators.Injectable);
+      [INJECTABLE_CLASS_DECORATOR](node: TSESTree.Decorator) {
+        checkContext(node, AngularClassDecorators.Injectable);
       },
-      [MODULE_CLASS_DECORATOR](moduleHandler: TSESTree.Decorator) {
-        checkContext(moduleHandler, AngularClassDecorators.NgModule);
+      [MODULE_CLASS_DECORATOR](node: TSESTree.Decorator) {
+        checkContext(node, AngularClassDecorators.NgModule);
       },
-      [DIRECTIVE_CLASS_DECORATOR](directiveHandler: TSESTree.Decorator) {
-        checkContext(directiveHandler, AngularClassDecorators.Directive);
+      [DIRECTIVE_CLASS_DECORATOR](node: TSESTree.Decorator) {
+        checkContext(node, AngularClassDecorators.Directive);
       },
     };
   },
