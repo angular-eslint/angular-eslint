@@ -63,6 +63,12 @@ export enum AngularLifecycleMethods {
   ngDoCheck = 'ngDoCheck',
 }
 
+export const OPTION_STYLE_CAMEL_CASE = 'camelCase';
+export const OPTION_STYLE_KEBAB_CASE = 'kebab-case';
+export type SelectorStyle =
+  | typeof OPTION_STYLE_CAMEL_CASE
+  | typeof OPTION_STYLE_KEBAB_CASE;
+
 export type AngularClassDecoratorKeys = keyof typeof AngularClassDecorators;
 export type AngularInnerClassDecoratorKeys = Exclude<
   keyof typeof AngularInnerClassDecorators,
@@ -367,3 +373,63 @@ export const getLifecycleInterfaceByMethodName = (
   methodName: AngularLifecycleMethodKeys,
 ): AngularLifecycleInterfaceKeys =>
   methodName.slice(2) as AngularLifecycleInterfaceKeys;
+
+/**
+ * Enforces the invariant that the input is an array.
+ */
+export function arrayify<T>(arg?: T | T[]): T[] {
+  if (Array.isArray(arg)) {
+    return arg;
+  } else if (arg != undefined) {
+    return [arg];
+  } else {
+    return [];
+  }
+}
+
+// Needed because in the current Typescript version (TS 3.3.3333), Boolean() cannot be used to perform a null check.
+// For more, see: https://github.com/Microsoft/TypeScript/issues/16655
+export const isNotNullOrUndefined = <T>(
+  input: null | undefined | T,
+): input is T => input !== null && input !== undefined;
+
+export const SelectorValidator = {
+  attribute(selector: string): boolean {
+    return selector.length !== 0;
+  },
+
+  camelCase(selector: string): boolean {
+    return /^[a-zA-Z0-9\[\]]+$/.test(selector);
+  },
+
+  element(selector: string): boolean {
+    return selector !== null;
+  },
+
+  kebabCase(selector: string): boolean {
+    return /^[a-z0-9\-]+\-[a-z0-9\-]+$/.test(selector);
+  },
+
+  prefix(
+    prefix: string,
+    selectorStyle: SelectorStyle,
+  ): (selector: string) => boolean {
+    const regex = new RegExp(`^\\[?(${prefix})`);
+
+    return selector => {
+      if (!prefix) return true;
+
+      if (!regex.test(selector)) return false;
+
+      const suffix = selector.replace(regex, '');
+
+      if (selectorStyle === OPTION_STYLE_CAMEL_CASE) {
+        return !suffix || suffix[0] === suffix[0].toUpperCase();
+      } else if (selectorStyle === OPTION_STYLE_KEBAB_CASE) {
+        return !suffix || suffix[0] === '-';
+      }
+
+      throw Error('Invalid selector style!');
+    };
+  },
+};
