@@ -1,9 +1,6 @@
 import componentClassSuffix, {
   RULE_NAME as componentClassSuffixRuleName,
 } from './rules/component-class-suffix';
-import componentSelector, {
-  RULE_NAME as componentSelectorRuleName,
-} from './rules/component-selector';
 import contextualLifecycle, {
   RULE_NAME as contextualLifecycleRuleName,
 } from './rules/contextual-lifecycle';
