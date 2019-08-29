@@ -1,40 +1,39 @@
 import { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
-import { COMPONENT_CLASS_DECORATOR } from '../utils/selectors';
+import { DIRECTIVE_CLASS_DECORATOR } from '../utils/selectors';
 import {
   arrayify,
-  getDecoratorPropertyValue,
   OPTION_STYLE_CAMEL_CASE,
   OPTION_STYLE_KEBAB_CASE,
+  getDecoratorPropertyValue,
   SelectorStyle,
 } from '../utils/utils';
+
 import {
   checkSelector,
   checkValidOptions,
+  reportPrefixError,
+  reportTypeError,
   OPTION_TYPE_ATTRIBUTE,
   OPTION_TYPE_ELEMENT,
   Options,
-  reportPrefixError,
   reportStyleError,
-  reportTypeError,
 } from '../utils/property-selector';
 
-export const RULE_NAME = 'component-selector';
+export const RULE_NAME = 'directive-selector';
 export type MessageIds = 'prefixFailure' | 'styleFailure' | 'typeFailure';
 
 const STYLE_GUIDE_PREFIX_LINK =
-  'https://angular.io/guide/styleguide#style-02-07';
-const STYLE_GUIDE_STYLE_LINK =
-  'https://angular.io/guide/styleguide#style-05-02';
-const STYLE_GUIDE_TYPE_LINK = 'https://angular.io/guide/styleguide#style-05-03';
+  'https://angular.io/guide/styleguide#style-02-08';
+const STYLE_GUIDE_STYLE_TYPE_LINK =
+  'https://angular.io/guide/styleguide#style-02-06';
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
   meta: {
     type: 'suggestion',
     docs: {
-      description: `Component selectors should follow given naming rules. See more at ${STYLE_GUIDE_PREFIX_LINK}, ${STYLE_GUIDE_STYLE_LINK}
-      and ${STYLE_GUIDE_TYPE_LINK}.`,
+      description: `Directive selectors should follow given naming rules. See more at ${STYLE_GUIDE_STYLE_TYPE_LINK} and ${STYLE_GUIDE_PREFIX_LINK}.`,
       category: 'Best Practices',
       recommended: false,
     },
@@ -66,8 +65,8 @@ export default createESLintRule<Options, MessageIds>({
     ],
     messages: {
       prefixFailure: `The selector should be prefixed by one of the prefixes: '{{prefix}}' (${STYLE_GUIDE_PREFIX_LINK})`,
-      styleFailure: `The selector should be {{style}} (${STYLE_GUIDE_STYLE_LINK})`,
-      typeFailure: `The selector should be used as an {{type}} (${STYLE_GUIDE_TYPE_LINK})`,
+      styleFailure: `The selector should be {{style}} (${STYLE_GUIDE_STYLE_TYPE_LINK})`,
+      typeFailure: `The selector should be used as an {{type}} (${STYLE_GUIDE_STYLE_TYPE_LINK})`,
     },
   },
   defaultOptions: [
@@ -81,7 +80,7 @@ export default createESLintRule<Options, MessageIds>({
     const { type, prefix, style } = options;
 
     return {
-      [COMPONENT_CLASS_DECORATOR](node: TSESTree.Decorator) {
+      [DIRECTIVE_CLASS_DECORATOR](node: TSESTree.Decorator) {
         const rawSelectors = getDecoratorPropertyValue(node, 'selector');
 
         if (!rawSelectors) {

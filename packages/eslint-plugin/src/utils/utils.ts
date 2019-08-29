@@ -150,6 +150,12 @@ export function isLiteral(node: TSESTree.Node): node is TSESTree.Literal {
   return node.type === 'Literal';
 }
 
+export function isTemplateLiteral(
+  node: TSESTree.Node,
+): node is TSESTree.TemplateLiteral {
+  return node.type === 'TemplateLiteral';
+}
+
 interface LiteralWithStringValue extends TSESTree.Literal {
   value: string;
 }
