@@ -1,12 +1,12 @@
 import componentClassSuffix, {
   RULE_NAME as componentClassSuffixRuleName,
 } from './rules/component-class-suffix';
-import contextualLifecycle, {
-  RULE_NAME as contextualLifecycleRuleName,
-} from './rules/contextual-lifecycle';
 import componentSelector, {
   RULE_NAME as componentSelectorRuleName,
 } from './rules/component-selector';
+import contextualLifecycle, {
+  RULE_NAME as contextualLifecycleRuleName,
+} from './rules/contextual-lifecycle';
 import directiveSelector, {
   RULE_NAME as directiveSelectorRuleName,
 } from './rules/directive-selector';
@@ -16,12 +16,15 @@ import noHostMetadataProperty, {
 import noInputsMetadataProperty, {
   RULE_NAME as noInputsMetadataPropertyRuleName,
 } from './rules/no-inputs-metadata-property';
-import noOutputOnPrefix, {
-  RULE_NAME as noOutputOnPrefixRuleName,
-} from './rules/no-output-on-prefix';
+import noLifecycleCall, {
+  RULE_NAME as noLifecycleCallRuleName,
+} from './rules/no-lifecycle-call';
 import noOutputNative, {
   RULE_NAME as noOutputNativeRuleName,
 } from './rules/no-output-native';
+import noOutputOnPrefix, {
+  RULE_NAME as noOutputOnPrefixRuleName,
+} from './rules/no-output-on-prefix';
 import noOutputRename, {
   RULE_NAME as noOutputRenameRuleName,
 } from './rules/no-output-rename';
@@ -55,23 +58,24 @@ import usePipeTransformInterface, {
 
 export default {
   rules: {
+    [componentClassSuffixRuleName]: componentClassSuffix,
     [componentSelectorRuleName]: componentSelector,
-    [directiveSelectorRuleName]: directiveSelector,
-    [useComponentSelectorRuleName]: useComponentSelector,
     [contextualLifecycleRuleName]: contextualLifecycle,
+    [directiveSelectorRuleName]: directiveSelector,
+    [noHostMetadataPropertyRuleName]: noHostMetadataProperty,
+    [noInputsMetadataPropertyRuleName]: noInputsMetadataProperty,
+    [noLifecycleCallRuleName]: noLifecycleCall,
+    [noOutputNativeRuleName]: noOutputNative,
+    [noOutputOnPrefixRuleName]: noOutputOnPrefix,
+    [noOutputRenameRuleName]: noOutputRename,
+    [noOutputsMetadataPropertyRuleName]: noOutputsMetadataProperty,
+    [noPipeImpureRuleName]: noPipeImpure,
+    [noQueriesMetadataPropertyRuleName]: noQueriesMetadataProperty,
+    [preferOnPushComponentChangeDetectionRuleName]: preferOnPushComponentChangeDetection,
+    [useComponentSelectorRuleName]: useComponentSelector,
     [useComponentViewEncapsulationRuleName]: useComponentViewEncapsulation,
     [useLifecycleInterfaceRuleName]: useLifecycleInterface,
     [usePipeDecoratorRuleName]: usePipeDecorator,
     [usePipeTransformInterfaceRuleName]: usePipeTransformInterface,
-    [noOutputOnPrefixRuleName]: noOutputOnPrefix,
-    [noHostMetadataPropertyRuleName]: noHostMetadataProperty,
-    [noInputsMetadataPropertyRuleName]: noInputsMetadataProperty,
-    [noOutputsMetadataPropertyRuleName]: noOutputsMetadataProperty,
-    [noQueriesMetadataPropertyRuleName]: noQueriesMetadataProperty,
-    [componentClassSuffixRuleName]: componentClassSuffix,
-    [noPipeImpureRuleName]: noPipeImpure,
-    [preferOnPushComponentChangeDetectionRuleName]: preferOnPushComponentChangeDetection,
-    [noOutputRenameRuleName]: noOutputRename,
-    [noOutputNativeRuleName]: noOutputNative,
   },
 };
