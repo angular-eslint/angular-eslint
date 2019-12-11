@@ -200,9 +200,6 @@ async function _lint(
     configFile: eslintConfigPath,
     useEslintrc: false,
     fix: !!options.fix,
-    rules: {
-      semi: 2,
-    },
   });
 
   const lintReports: eslint.CLIEngine.LintReport[] = [];
