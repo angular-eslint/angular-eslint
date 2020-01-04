@@ -32,7 +32,7 @@ jobs:
         displayName: 'Run unit tests'
 
       - script: |
-          npx codecov -t $(CODECOV_TOKEN)
+          bash <(curl -s https://codecov.io/bash) -t $(CODECOV_TOKEN)
         displayName: 'Publish code coverage report'
 
   - job: unit_tests_on_other_node_versions
