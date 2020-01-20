@@ -43,11 +43,25 @@ If you are looking for general help in migrating from TSLint to ESLint, you can 
 
 For Angular project's specifically, the migration involves a few different aspects:
 
-1. Replacing the builder the Angular CLI will use when you run `ng lint`
+1. Installing dev-dependencies
 
-2. Replacing your `tslint.json` files with `.eslintrc.json` files
+```
+npm install --save-dev @angular-eslint/eslint-plugin @angular-eslint/eslint-plugin-template @angular-eslint/template-parser
+```
 
-3. Populating the `.eslintrc.json` files appropriately to match the previous setup you had in the Codelyzer + TSLint world
+2. Replacing the builder Angular CLI will use when you run `ng lint`
+
+3. Replacing your `tslint.json` files with `.eslintrc.json` files
+
+```json
+{
+  "parser": "@angular-eslint/template-parser",
+  "plugins": ["@angular-eslint/eslint-plugin", "@angular-eslint/eslint-plugin-template", ...]
+  ...
+}
+```
+
+4. Populating the `.eslintrc.json` files appropriately to match the previous setup you had in the Codelyzer + TSLint world
 
 Soon we will provide an example project and also an `ng add` schematic to handle all of this for you automatically.
 
