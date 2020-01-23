@@ -439,3 +439,6 @@ export const SelectorValidator = {
     };
   },
 };
+
+export const kebabToCamelCase = (value: string) =>
+  value.replace(/-[a-zA-Z]/g, x => x[1].toUpperCase());
