@@ -200,10 +200,10 @@ async function _lint(
     configFile: eslintConfigPath,
     useEslintrc: false,
     fix: !!options.fix,
+    cache: !!options.cache,
   });
 
-  const lintReports: eslint.CLIEngine.LintReport[] = [];
-
+  const filesToLint: string[] = [];
   for (const file of files) {
     if (program && allPrograms) {
       // If it cannot be found in ANY program, then this is an error.
@@ -224,18 +224,16 @@ async function _lint(
       continue;
     }
 
-    const contents = getFileContents(file);
-
     /**
      * TODO: this was copied from TSLint builder - is it necessary here?
      */
     // Give some breathing space to other promises that might be waiting.
     await Promise.resolve();
-    lintReports.push(cli.executeOnText(contents, file));
     lintedFiles.add(file);
+    filesToLint.push(file);
   }
 
-  return lintReports;
+  return [cli.executeOnFiles(filesToLint)];
 }
 
 async function _run(options: any, context: any): Promise<any> {

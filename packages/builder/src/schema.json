@@ -25,6 +25,11 @@
       "description": "Fixes linting errors (may overwrite linted files).",
       "default": false
     },
+    "cache": {
+      "type": "boolean",
+      "description": "Only check changed files.",
+      "default": false
+    },
     "force": {
       "type": "boolean",
       "description": "Succeeds even if there was linting errors.",
