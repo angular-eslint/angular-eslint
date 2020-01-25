@@ -108,7 +108,7 @@ export const ANGULAR_CLASS_DECORATOR_LIFECYCLE_METHOD_MAPPER: ReadonlyMap<
  * Equivalents of utils exported by TypeScript itself for its own AST
  */
 
-function isCallExpression(
+export function isCallExpression(
   node: TSESTree.Node,
 ): node is TSESTree.CallExpression {
   return node.type === 'CallExpression';
