@@ -10,6 +10,9 @@ import {
 
 const ruleTester = new RuleTester({
   parser: '@typescript-eslint/parser',
+  parserOptions: {
+    sourceType: 'module',
+  },
 });
 
 const messageId: MessageIds = 'noOutputRename';
@@ -18,6 +21,7 @@ ruleTester.run(RULE_NAME, rule, {
   valid: [
     // should succeed when a directive output property is properly used
     `
+    import { Output } from '@angular/core';
     @Component({
       template: 'test'
     })
@@ -27,6 +31,7 @@ ruleTester.run(RULE_NAME, rule, {
     `,
     // should succeed when the directive's selector is also an output property
     `
+    import { Output } from '@angular/core';
     @Directive({
       selector: '[foo], test'
     })
@@ -34,25 +39,37 @@ ruleTester.run(RULE_NAME, rule, {
       @Output('foo') bar = new EventEmitter<void>();
     }
     `,
+    // should succeed when an Output decorator is not imported from '@angular/core'
+    `
+    import { Output } from 'baz';
+    @Component({
+      template: 'test'
+    })
+    class TestComponent {
+      @Output('onChange') change = new EventEmitter<void>();
+    }
+    `,
   ],
   invalid: [
     convertAnnotatedSourceToFailureCase({
       description: 'should fail when a directive output property is renamed',
       annotatedSource: `
-     @Component({
-       template: 'test'
-     })
-     class TestComponent {
-       @Output('onChange') change = new EventEmitter<void>();
-       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     }
-          `,
+      import { Output } from '@angular/core';
+      @Component({
+        template: 'test'
+      })
+      class TestComponent {
+        @Output('onChange') change = new EventEmitter<void>();
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      }
+      `,
       messageId,
     }),
     convertAnnotatedSourceToFailureCase({
       description:
         'should fail when a directive output property is renamed and its name is strictly equal to the property',
       annotatedSource: `
+      import { Output } from '@angular/core';
       @Component({
         template: 'test'
       })
@@ -68,6 +85,7 @@ ruleTester.run(RULE_NAME, rule, {
       description:
         "should fail when the directive's selector matches exactly both property name and the alias",
       annotatedSource: `
+      import { Output } from '@angular/core';
       @Directive({
         selector: '[test], foo'
       })

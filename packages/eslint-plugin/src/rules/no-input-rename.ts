@@ -7,6 +7,7 @@ import {
   isCallExpression,
   kebabToCamelCase,
   AngularClassDecorators,
+  isImportedFrom,
 } from '../utils/utils';
 
 type Options = [];
@@ -76,6 +77,13 @@ export default createESLintRule<Options, MessageIds>({
       ) {
         const inputCallExpression = node.expression as TSESTree.CallExpression;
 
+        if (
+          !isImportedFrom(
+            inputCallExpression.callee as TSESTree.Identifier,
+            '@angular/core',
+          )
+        )
+          return;
         if (inputCallExpression.arguments.length === 0) return;
 
         // handle directive's selector is also an input property

@@ -10,6 +10,9 @@ import {
 
 const ruleTester = new RuleTester({
   parser: '@typescript-eslint/parser',
+  parserOptions: {
+    sourceType: 'module',
+  },
 });
 
 const messageId: MessageIds = 'noInputRename';
@@ -18,6 +21,7 @@ ruleTester.run(RULE_NAME, rule, {
   valid: [
     // should succeed when a component input property is not renamed
     `
+    import { Input } from '@angular/core';
     @Component
     class TestComponent {
       @Input() label: string;
@@ -25,6 +29,7 @@ ruleTester.run(RULE_NAME, rule, {
     `,
     // should succeed when a component input setter is not renamed
     `
+    import { Input } from '@angular/core';
     @Component
     class TestComponent {
       @Input() set label(label: string) {}
@@ -32,6 +37,7 @@ ruleTester.run(RULE_NAME, rule, {
     `,
     // should succeed when a directive selector is strictly equal to the alias
     `
+    import { Input } from '@angular/core';
     @Directive({
       selector: '[foo]'
     })
@@ -41,6 +47,7 @@ ruleTester.run(RULE_NAME, rule, {
     `,
     // should succeed when the first directive selector is strictly equal to the alias
     `
+    import { Input } from '@angular/core';
     @Directive({
       selector: '[foo], test'
     })
@@ -50,6 +57,7 @@ ruleTester.run(RULE_NAME, rule, {
     `,
     // should succeed when the second directive selector is strictly equal to the alias
     `
+    import { Input } from '@angular/core';
     @Directive({
       selector: '[foo], myselector'
     })
@@ -59,6 +67,7 @@ ruleTester.run(RULE_NAME, rule, {
     `,
     // should succeed when a directive selector is also an input property
     `
+    import { Input } from '@angular/core';
     @Directive({
       selector: '[foo], label2'
     })
@@ -68,6 +77,7 @@ ruleTester.run(RULE_NAME, rule, {
     `,
     // should succeed when a directive selector is also an input property with tag
     `
+    import { Input } from '@angular/core';
     @Directive({
       selector: 'foo[bar]'
     })
@@ -77,6 +87,7 @@ ruleTester.run(RULE_NAME, rule, {
     `,
     // should succeed when an input alias is kebab-cased and whitelisted
     `
+    import { Input } from '@angular/core';
     @Directive({
       selector: 'foo'
     })
@@ -86,6 +97,7 @@ ruleTester.run(RULE_NAME, rule, {
     `,
     // should succeed when an input alias is strictly equal to the selector plus the property name
     `
+    import { Input } from '@angular/core';
     @Directive({
       selector: 'foo'
     })
@@ -93,11 +105,22 @@ ruleTester.run(RULE_NAME, rule, {
       @Input('fooMyColor') myColor: string;
     }
     `,
+    // should succeed when an Input decorator is not imported from '@angular/core'
+    `
+    import { Input } from 'baz';
+    @Component({
+      selector: 'foo'
+    })
+    class TestComponent {
+      @Input('bar') label: string;
+    }
+    `,
   ],
   invalid: [
     convertAnnotatedSourceToFailureCase({
       description: 'should fail when a component input property is renamed',
       annotatedSource: `
+      import { Input } from '@angular/core';
       @Component({
         selector: 'foo'
       })
@@ -111,6 +134,7 @@ ruleTester.run(RULE_NAME, rule, {
     convertAnnotatedSourceToFailureCase({
       description: 'should fail when a component input setter is renamed',
       annotatedSource: `
+      import { Input } from '@angular/core';
       @Component({
         selector: 'foo'
       })
@@ -125,6 +149,7 @@ ruleTester.run(RULE_NAME, rule, {
       description:
         'should fail when a component input property is fake renamed',
       annotatedSource: `
+      import { Input } from '@angular/core';
       @Component({
         selector: 'foo'
       })
@@ -138,6 +163,7 @@ ruleTester.run(RULE_NAME, rule, {
     convertAnnotatedSourceToFailureCase({
       description: 'should fail when a component input setter is fake renamed',
       annotatedSource: `
+      import { Input } from '@angular/core';
       @Component({
         selector: 'foo'
       })
@@ -151,6 +177,7 @@ ruleTester.run(RULE_NAME, rule, {
     convertAnnotatedSourceToFailureCase({
       description: 'should fail when a directive input property is renamed',
       annotatedSource: `
+      import { Input } from '@angular/core';
       @Directive({
         selector: '[foo]'
       })
@@ -165,6 +192,7 @@ ruleTester.run(RULE_NAME, rule, {
       description:
         'should fail when a directive input property is renamed and its name is strictly equal to the property',
       annotatedSource: `
+      import { Input } from '@angular/core';
       @Directive({
         selector: '[label]'
       })
@@ -179,6 +207,7 @@ ruleTester.run(RULE_NAME, rule, {
       description:
         'should fail when a directive input property has the same name as the alias',
       annotatedSource: `
+      import { Input } from '@angular/core';
       @Directive({
         selector: '[foo]'
       })
@@ -192,6 +221,7 @@ ruleTester.run(RULE_NAME, rule, {
     convertAnnotatedSourceToFailureCase({
       description: `should fail when a directive input alias is kebab-cased and whitelisted, but the property doesn't match the alias`,
       annotatedSource: `
+      import { Input } from '@angular/core';
       @Directive({
         selector: 'foo'
       })
@@ -205,6 +235,7 @@ ruleTester.run(RULE_NAME, rule, {
     convertAnnotatedSourceToFailureCase({
       description: `should fail when a directive input alias is prefixed by directive's selector, but the suffix does not match the property name`,
       annotatedSource: `
+      import { Input } from '@angular/core';
       @Directive({
         selector: 'foo'
       })
@@ -219,6 +250,7 @@ ruleTester.run(RULE_NAME, rule, {
       description:
         'should fail when a directive input alias is not strictly equal to the selector plus the property name',
       annotatedSource: `
+      import { Input } from '@angular/core';
       @Directive({
         selector: 'foo'
       })

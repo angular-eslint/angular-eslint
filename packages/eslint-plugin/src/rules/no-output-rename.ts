@@ -6,6 +6,7 @@ import {
   isLiteral,
   isCallExpression,
   AngularClassDecorators,
+  isImportedFrom,
 } from '../utils/utils';
 
 type Options = [];
@@ -35,6 +36,13 @@ export default createESLintRule<Options, MessageIds>({
       ) {
         const outputCallExpression = node.expression as TSESTree.CallExpression;
 
+        if (
+          !isImportedFrom(
+            outputCallExpression.callee as TSESTree.Identifier,
+            '@angular/core',
+          )
+        )
+          return;
         if (outputCallExpression.arguments.length === 0) return;
 
         // handle directive's selector is also an output property
