@@ -10,15 +10,6 @@ export function stripBom(data: string) {
   return data.replace(/^\uFEFF/, '');
 }
 
-function getFileContents(file: string): string {
-  // NOTE: The tslint CLI checks for and excludes MPEG transport streams; this does not.
-  try {
-    return stripBom(readFileSync(file, 'utf-8'));
-  } catch {
-    throw new Error(`Could not read file '${file}'.`);
-  }
-}
-
 async function _loadESLint() {
   let eslint;
   try {
