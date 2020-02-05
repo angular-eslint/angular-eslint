@@ -51,6 +51,10 @@
         "type": "string"
       }
     },
+    "outputFile": {
+      "type": "string",
+      "description": "Output file for formatted output."
+    },
     "format": {
       "type": "string",
       "description": "ESLint Output formatter (https://eslint.org/docs/user-guide/formatters).",

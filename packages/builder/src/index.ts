@@ -1,6 +1,6 @@
-import { createBuilder } from '@angular-devkit/architect';
-import eslint from 'eslint';
-import { existsSync, readFileSync } from 'fs';
+import { createBuilder, BuilderHandlerFn } from '@angular-devkit/architect';
+import eslint, { CLIEngine } from 'eslint';
+import { existsSync, readFileSync, writeFileSync } from 'fs';
 import glob from 'glob';
 import { Minimatch } from 'minimatch';
 import path from 'path';
@@ -238,7 +238,10 @@ async function _lint(
   return lintReports;
 }
 
-async function _run(options: any, context: any): Promise<any> {
+const _run: BuilderHandlerFn<any> = async function _run(
+  options,
+  context,
+): Promise<any> {
   const systemRoot = context.workspaceRoot;
   process.chdir(context.currentDirectory);
   const projectName = (context.target && context.target.project) || '<???>';
@@ -313,37 +316,59 @@ async function _run(options: any, context: any): Promise<any> {
   }
 
   // TODO: Fix upstream type info, missing static method
-  const formatter = (eslint.CLIEngine as any).getFormatter(options.format);
+  const formatter: CLIEngine.Formatter = (eslint.CLIEngine as any).getFormatter(
+    options.format,
+  );
 
-  let totalErrors = 0;
-  let totalWarnings = 0;
-
+  const bundledReport: eslint.CLIEngine.LintReport = {
+    errorCount: 0,
+    fixableErrorCount: 0,
+    fixableWarningCount: 0,
+    warningCount: 0,
+    results: [],
+  };
   for (const report of lintReports) {
     // output fixes to disk
     eslint.CLIEngine.outputFixes(report);
 
     if (report.errorCount || report.warningCount) {
-      totalErrors += report.errorCount;
-      totalWarnings += report.warningCount;
-      context.logger.info(formatter(report.results));
+      bundledReport.errorCount += report.errorCount;
+      bundledReport.warningCount += report.warningCount;
+      bundledReport.fixableErrorCount += report.fixableErrorCount;
+      bundledReport.fixableWarningCount += report.fixableWarningCount;
+      bundledReport.results.push(...report.results);
     }
   }
 
-  if (totalWarnings > 0 && printInfo) {
+  const formattedResults = formatter(bundledReport.results);
+  context.logger.info(formattedResults);
+
+  if (options.outputFile) {
+    writeFileSync(
+      path.join(context.workspaceRoot, options.outputFile),
+      formattedResults,
+    );
+  }
+
+  if (bundledReport.warningCount > 0 && printInfo) {
     context.logger.warn('Lint warnings found in the listed files.\n');
   }
 
-  if (totalErrors > 0 && printInfo) {
+  if (bundledReport.errorCount > 0 && printInfo) {
     context.logger.error('Lint errors found in the listed files.\n');
   }
 
-  if (totalWarnings === 0 && totalErrors === 0 && printInfo) {
+  if (
+    bundledReport.warningCount === 0 &&
+    bundledReport.errorCount === 0 &&
+    printInfo
+  ) {
     context.logger.info('All files pass linting.\n');
   }
 
   return {
-    success: options.force || totalErrors === 0,
+    success: options.force || bundledReport.errorCount === 0,
   };
-}
+};
 
 export default createBuilder(_run);
