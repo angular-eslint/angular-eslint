@@ -97,9 +97,6 @@ export function convertAnnotatedSourceToFailureCase<T extends string>({
   annotatedOutput?: string;
 }): InvalidTestCase<T, typeof options> {
   const parsed = parseInvalidSource(annotatedSource, '');
-  if (!parsed.failure.startPosition) {
-    throw new Error(JSON.stringify(parsed));
-  }
   const error: TestCaseError<T> = {
     messageId,
     line: parsed.failure.startPosition.line + 1,
