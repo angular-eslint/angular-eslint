@@ -1,6 +1,9 @@
 import componentClassSuffix, {
   RULE_NAME as componentClassSuffixRuleName,
 } from './rules/component-class-suffix';
+import componentMaxInlineDeclarations, {
+  RULE_NAME as componentMaxInlineDeclarationsRuleName,
+} from './rules/component-max-inline-declarations';
 import componentSelector, {
   RULE_NAME as componentSelectorRuleName,
 } from './rules/component-selector';
@@ -62,6 +65,7 @@ import usePipeTransformInterface, {
 export default {
   rules: {
     [componentClassSuffixRuleName]: componentClassSuffix,
+    [componentMaxInlineDeclarationsRuleName]: componentMaxInlineDeclarations,
     [componentSelectorRuleName]: componentSelector,
     [contextualLifecycleRuleName]: contextualLifecycle,
     [directiveSelectorRuleName]: directiveSelector,
