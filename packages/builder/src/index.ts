@@ -194,7 +194,7 @@ async function _lint(
     cache: !!options.cache,
   });
 
-  const lintReports: CLIEngine.LintReport[] = [];
+  const lintReports: eslint.CLIEngine.LintReport[] = [];
   for (const file of files) {
     if (program && allPrograms) {
       // If it cannot be found in ANY program, then this is an error.
@@ -220,10 +220,8 @@ async function _lint(
      */
     // Give some breathing space to other promises that might be waiting.
     await Promise.resolve();
+    lintReports.push(cli.executeOnFiles([file]));
     lintedFiles.add(file);
-
-    const report = cli.executeOnFiles([file]);
-    lintReports.push(report);
   }
 
   return lintReports;
