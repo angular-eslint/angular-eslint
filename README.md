@@ -49,6 +49,11 @@ For Angular project's specifically, the migration involves a few different aspec
 
 3. Populating the `.eslintrc.json` files appropriately to match the previous setup you had in the Codelyzer + TSLint world
 
+**The best source of information for performing this migration** is located within the Angular CLI integration test within this monorepo. Check out the relevant configuration files:
+
+- [packages/integration-tests/fixtures/angular-cli-workspace/.eslintrc.js](./packages/integration-tests/fixtures/angular-cli-workspace/.eslintrc.js)
+- [packages/integration-tests/fixtures/angular-cli-workspace/angular.json](./packages/integration-tests/fixtures/angular-cli-workspace/angular.json)
+
 Soon we will provide an example project and also an `ng add` schematic to handle all of this for you automatically.
 
 If you are interested in creating this, we would be very grateful to receive a PR in the meantime!
@@ -58,3 +63,5 @@ If you are interested in creating this, we would be very grateful to receive a P
 Help wanted to document previous Codelyzer rules and progress made so far in this repo!
 
 Please use this as inspiration: https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/ROADMAP.md
+
+You can also see how the setup and rules are mapped within the integration test setup: [packages/integration-tests/fixtures/angular-cli-workspace/.eslintrc.js](./packages/integration-tests/fixtures/angular-cli-workspace/.eslintrc.js)
