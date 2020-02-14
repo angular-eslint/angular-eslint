@@ -1,5 +1,5 @@
 import { createBuilder } from '@angular-devkit/architect';
-import eslint from 'eslint';
+import eslint, { CLIEngine } from 'eslint';
 import { existsSync, readFileSync } from 'fs';
 import glob from 'glob';
 import { Minimatch } from 'minimatch';
@@ -194,7 +194,7 @@ async function _lint(
     cache: !!options.cache,
   });
 
-  const filesToLint: string[] = [];
+  const lintReports: CLIEngine.LintReport[] = [];
   for (const file of files) {
     if (program && allPrograms) {
       // If it cannot be found in ANY program, then this is an error.
@@ -221,10 +221,12 @@ async function _lint(
     // Give some breathing space to other promises that might be waiting.
     await Promise.resolve();
     lintedFiles.add(file);
-    filesToLint.push(file);
+
+    const report = cli.executeOnFiles([file]);
+    lintReports.push(report);
   }
 
-  return [cli.executeOnFiles(filesToLint)];
+  return lintReports;
 }
 
 async function _run(options: any, context: any): Promise<any> {
