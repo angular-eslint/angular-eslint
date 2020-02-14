@@ -1,5 +1,5 @@
 import { createBuilder } from '@angular-devkit/architect';
-import eslint, { CLIEngine } from 'eslint';
+import eslint from 'eslint';
 import { existsSync, readFileSync } from 'fs';
 import glob from 'glob';
 import { Minimatch } from 'minimatch';
