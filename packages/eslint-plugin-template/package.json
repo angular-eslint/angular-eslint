@@ -17,7 +17,7 @@
     "LICENSE"
   ],
   "dependencies": {
-    "@typescript-eslint/experimental-utils": "2.0.0-alpha.4",
+    "@typescript-eslint/experimental-utils": "2.19.2",
     "eslint-scope": "^4.0.0"
   },
   "peerDependencies": {

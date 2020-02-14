@@ -7,7 +7,7 @@ import {
 export const createESLintRule = ESLintUtils.RuleCreator(() => ``);
 
 type RequiredParserServices = {
-  [k in keyof ParserServices]: Exclude<ParserServices[k], undefined>
+  [k in keyof ParserServices]: Exclude<ParserServices[k], undefined>;
 };
 
 /**
@@ -39,7 +39,7 @@ type NodeMaps = {
   [k in keyof Pick<
     ParserServices,
     'esTreeNodeToTSNodeMap' | 'tsNodeToESTreeNodeMap'
-  >]: NonNullable<ParserServices[k]>
+  >]: NonNullable<ParserServices[k]>;
 };
 
 /**

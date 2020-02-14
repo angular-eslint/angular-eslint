@@ -44,16 +44,8 @@ export default createESLintRule<Options, MessageIds>({
     },
     schema: [],
     messages: {
-      noConflictingLifecycleInterface: `Implementing ${
-        AngularLifecycleInterfaces.DoCheck
-      } and ${
-        AngularLifecycleInterfaces.OnChanges
-      } in a class is not recommended`,
-      noConflictingLifecycleMethod: `Declaring ${
-        AngularLifecycleMethods.ngDoCheck
-      } and ${
-        AngularLifecycleMethods.ngOnChanges
-      } method in a class is not recommended`,
+      noConflictingLifecycleInterface: `Implementing ${AngularLifecycleInterfaces.DoCheck} and ${AngularLifecycleInterfaces.OnChanges} in a class is not recommended`,
+      noConflictingLifecycleMethod: `Declaring ${AngularLifecycleMethods.ngDoCheck} and ${AngularLifecycleMethods.ngOnChanges} method in a class is not recommended`,
     },
   },
   defaultOptions: [],

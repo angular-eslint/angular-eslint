@@ -10,6 +10,9 @@ import contextualLifecycle, {
 import directiveSelector, {
   RULE_NAME as directiveSelectorRuleName,
 } from './rules/directive-selector';
+import noConflictingLifecycle, {
+  RULE_NAME as noConflictingLifecycleRuleName,
+} from './rules/no-conflicting-lifecycle';
 import noHostMetadataProperty, {
   RULE_NAME as noHostMetadataPropertyRuleName,
 } from './rules/no-host-metadata-property';
@@ -62,6 +65,7 @@ export default {
     [componentSelectorRuleName]: componentSelector,
     [contextualLifecycleRuleName]: contextualLifecycle,
     [directiveSelectorRuleName]: directiveSelector,
+    [noConflictingLifecycleRuleName]: noConflictingLifecycle,
     [noHostMetadataPropertyRuleName]: noHostMetadataProperty,
     [noInputsMetadataPropertyRuleName]: noInputsMetadataProperty,
     [noLifecycleCallRuleName]: noLifecycleCall,

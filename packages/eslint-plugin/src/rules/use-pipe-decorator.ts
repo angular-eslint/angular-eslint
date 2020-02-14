@@ -13,17 +13,13 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description: `Ensures that classes implementing ${PIPE_TRANSFORM} interface use @${
-        AngularClassDecorators.Pipe
-      } decorator`,
+      description: `Ensures that classes implementing ${PIPE_TRANSFORM} interface use @${AngularClassDecorators.Pipe} decorator`,
       category: 'Best Practices',
       recommended: false,
     },
     schema: [],
     messages: {
-      usePipeDecorator: `Classes that implement the ${PIPE_TRANSFORM} interface should be decorated with @${
-        AngularClassDecorators.Pipe
-      }`,
+      usePipeDecorator: `Classes that implement the ${PIPE_TRANSFORM} interface should be decorated with @${AngularClassDecorators.Pipe}`,
     },
   },
   defaultOptions: [],

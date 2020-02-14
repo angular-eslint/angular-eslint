@@ -15,6 +15,7 @@
   "scripts": {
     "build": "lerna run build",
     "test": "lerna run test --parallel",
+    "integration-tests": "lerna run integration-tests",
     "check-clean-workspace-after-install": "git diff --quiet --exit-code",
     "clean": "lerna clean && lerna run clean",
     "cz": "git-cz",
@@ -22,7 +23,7 @@
     "pre-commit": "yarn lint-staged",
     "pre-push": "yarn format-check",
     "format": "prettier --write \"./**/*.{ts,js,json,md}\"",
-    "format-check": "prettier --list-different \"./**/*.{ts,js,json,md}\"",
+    "format-check": "prettier --check \"./**/*.{ts,js,json,md}\"",
     "typecheck": "lerna run typecheck"
   },
   "config": {
@@ -36,24 +37,25 @@
     ]
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^0.800.0",
-    "@angular/compiler": "^8.0.2",
+    "@angular-devkit/build-angular": "~0.900.2",
+    "@angular/compiler": "~9.0.1",
     "@commitlint/cli": "^8.1.0",
     "@commitlint/config-conventional": "^8.1.0",
     "@types/eslint": "^4.16.6",
     "@types/jest": "^24.0.13",
     "@types/json-schema": "^7.0.3",
     "@types/node": "^10.12.2",
-    "@typescript-eslint/parser": "2.0.0-alpha.4",
-    "eslint": "^6.1.0",
+    "@typescript-eslint/parser": "2.19.2",
+    "eslint": "^6.8.0",
+    "execa": "^3.4.0",
     "husky": "^3.0.0",
     "jest": "^24.8.0",
     "lerna": "^3.14.1",
     "lint-staged": "^9.2.0",
     "microbundle": "0.11.0",
-    "prettier": "^1.17.1",
+    "prettier": "^1.19.1",
     "terser": "^4.0.0",
     "ts-jest": "^24.0.2",
-    "typescript": "~3.5.3"
+    "typescript": "~3.7.5"
   }
 }
