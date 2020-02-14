@@ -24,9 +24,7 @@ export default createESLintRule<Options, MessageIds>({
     },
     schema: [],
     messages: {
-      noHostMetadataProperty: `Use @${
-        AngularInnerClassDecorators.Output
-      } rather than the \`${METADATA_PROPERTY_NAME}\` metadata property (${STYLE_GUIDE_LINK})`,
+      noHostMetadataProperty: `Use @${AngularInnerClassDecorators.Output} rather than the \`${METADATA_PROPERTY_NAME}\` metadata property (${STYLE_GUIDE_LINK})`,
     },
   },
   defaultOptions: [],

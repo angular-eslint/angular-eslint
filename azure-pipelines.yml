@@ -9,8 +9,8 @@ jobs:
     steps:
       - task: NodeTool@0
         inputs:
-          versionSpec: 12
-        displayName: 'Install Node.js 12'
+          versionSpec: 13
+        displayName: 'Install Node.js 13'
 
       - script: |
           # This also runs a build as part of the postinstall
@@ -32,6 +32,10 @@ jobs:
         displayName: 'Run unit tests'
 
       - script: |
+          yarn integration-tests
+        displayName: 'Run integration tests'
+
+      - script: |
           bash <(curl -s https://codecov.io/bash) -t $(CODECOV_TOKEN)
         displayName: 'Publish code coverage report'
 
@@ -42,10 +46,10 @@ jobs:
     strategy:
       maxParallel: 3
       matrix:
+        node_12_x:
+          node_version: 12.x
         node_10_x:
           node_version: 10.x
-        node_8_x:
-          node_version: 8.x
     steps:
       - task: NodeTool@0
         inputs:

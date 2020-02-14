@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`angular-cli-workspace it should produce the expected lint output 1`] = `
+"
+Linting \\"angular-cli-workspace\\"...
+
+__ROOT__/angular-cli-workspace/src/app/app.component.ts
+   2:1  error    'rxjs/Rx' import is restricted from being used. Please import directly from 'rxjs' instead                             no-restricted-imports
+   5:1  error    Unexpected property on console object was called                                                                       no-restricted-syntax
+  15:3  warning  Lifecycle interface 'OnInit' should be implemented for method 'ngOnInit'. (https://angular.io/styleguide#style-09-01)  @angular-eslint/use-lifecycle-interface
+
+✖ 3 problems (2 errors, 1 warning)
+
+
+__ROOT__/angular-cli-workspace/src/app/example.pipe.ts
+  6:8  error  Classes decorated with @Pipe decorator should implement PipeTransform interface  @angular-eslint/use-pipe-transform-interface
+
+✖ 1 problem (1 error, 0 warnings)
+
+
+__ROOT__/angular-cli-workspace/src/app/example.component.ts
+  12:3  error  Use @Input rather than the \`inputs\` metadata property (https://angular.io/styleguide#style-05-12)    @angular-eslint/no-inputs-metadata-property
+  13:3  error  Use @Output rather than the \`outputs\` metadata property (https://angular.io/styleguide#style-05-12)  @angular-eslint/no-outputs-metadata-property
+  14:3  error  Use @Output rather than the \`host\` metadata property (https://angular.io/styleguide#style-05-12)     @angular-eslint/no-host-metadata-property
+  18:3  error  In the class \\"ExampleComponent\\", the output property \\"onFoo\\" should not be prefixed with on          @angular-eslint/no-output-on-prefix
+
+✖ 4 problems (4 errors, 0 warnings)
+
+
+__ROOT__/angular-cli-workspace/src/app/app.component.spec.ts
+  19:6  error  Strings must use singlequote  quotes
+
+✖ 1 problem (1 error, 0 warnings)
+  1 error and 0 warnings potentially fixable with the \`--fix\` option.
+"
+`;

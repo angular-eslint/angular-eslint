@@ -156,9 +156,9 @@ export function isTemplateLiteral(
   return node.type === 'TemplateLiteral';
 }
 
-interface LiteralWithStringValue extends TSESTree.Literal {
+type LiteralWithStringValue = TSESTree.Literal & {
   value: string;
-}
+};
 
 /**
  * ESTree does not differentiate between different types of Literals at the AST level,
@@ -286,13 +286,13 @@ export const getDeclaredAngularLifecycleMethods = (
     AngularLifecycleMethodKeys
   >;
 
-export const ANGULAR_LIFECYCLE_INTERFACES: ReadonlySet<
-  AngularLifecycleInterfaceKeys
-> = new Set(angularLifecycleInterfaceKeys);
+export const ANGULAR_LIFECYCLE_INTERFACES: ReadonlySet<AngularLifecycleInterfaceKeys> = new Set(
+  angularLifecycleInterfaceKeys,
+);
 
-export const ANGULAR_LIFECYCLE_METHODS: ReadonlySet<
-  AngularLifecycleMethodKeys
-> = new Set(angularLifecycleMethodKeys);
+export const ANGULAR_LIFECYCLE_METHODS: ReadonlySet<AngularLifecycleMethodKeys> = new Set(
+  angularLifecycleMethodKeys,
+);
 
 export const isAngularLifecycleInterface = (
   value: string,
