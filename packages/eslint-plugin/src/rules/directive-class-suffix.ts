@@ -6,7 +6,7 @@ import { getClassName, getDeclaredInterfaceNames } from '../utils/utils';
 type Options = [
   {
     suffixes: string[];
-  }
+  },
 ];
 export type MessageIds = 'directiveClassSuffix';
 export const RULE_NAME = 'directive-class-suffix';

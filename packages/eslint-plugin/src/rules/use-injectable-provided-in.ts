@@ -15,17 +15,13 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description: `"Using the 'providedIn' property makes classes decorated with @${
-        AngularClassDecorators.Injectable
-      } tree shakeable`,
+      description: `"Using the 'providedIn' property makes classes decorated with @${AngularClassDecorators.Injectable} tree shakeable`,
       category: 'Best Practices',
       recommended: false,
     },
     schema: [],
     messages: {
-      useInjectableProvidedIn: `Classes decorated with @${
-        AngularClassDecorators.Injectable
-      } should use the 'providedIn' property`,
+      useInjectableProvidedIn: `Classes decorated with @${AngularClassDecorators.Injectable} should use the 'providedIn' property`,
     },
   },
   defaultOptions: [],

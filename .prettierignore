@@ -3,5 +3,8 @@
 **/.vscode
 **/.nyc_output
 **/.github
+**/node_modules
+
+packages/integration-tests/fixtures
 
 tools/scripts/assets/patched-microbundle.js

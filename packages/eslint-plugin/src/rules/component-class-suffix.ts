@@ -6,7 +6,7 @@ import { getClassName } from '../utils/utils';
 type Options = [
   {
     suffixes: string[];
-  }
+  },
 ];
 export type MessageIds = 'componentClassSuffix';
 export const RULE_NAME = 'component-class-suffix';
