@@ -13,7 +13,7 @@ type Options = [
     template?: number;
     styles?: number;
     animations?: number;
-  }
+  },
 ];
 export const messageId = 'componentMaxInlineDeclarations';
 export type MessageIds = typeof messageId;
