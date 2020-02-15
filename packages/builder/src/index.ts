@@ -10,15 +10,6 @@ export function stripBom(data: string) {
   return data.replace(/^\uFEFF/, '');
 }
 
-function getFileContents(file: string): string {
-  // NOTE: The tslint CLI checks for and excludes MPEG transport streams; this does not.
-  try {
-    return stripBom(readFileSync(file, 'utf-8'));
-  } catch {
-    throw new Error(`Could not read file '${file}'.`);
-  }
-}
-
 async function _loadESLint() {
   let eslint;
   try {
@@ -200,10 +191,10 @@ async function _lint(
     configFile: eslintConfigPath,
     useEslintrc: false,
     fix: !!options.fix,
+    cache: !!options.cache,
   });
 
   const lintReports: eslint.CLIEngine.LintReport[] = [];
-
   for (const file of files) {
     if (program && allPrograms) {
       // If it cannot be found in ANY program, then this is an error.
@@ -224,14 +215,12 @@ async function _lint(
       continue;
     }
 
-    const contents = getFileContents(file);
-
     /**
      * TODO: this was copied from TSLint builder - is it necessary here?
      */
     // Give some breathing space to other promises that might be waiting.
     await Promise.resolve();
-    lintReports.push(cli.executeOnText(contents, file));
+    lintReports.push(cli.executeOnFiles([file]));
     lintedFiles.add(file);
   }
 
