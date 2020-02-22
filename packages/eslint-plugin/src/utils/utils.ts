@@ -156,6 +156,18 @@ export function isTemplateLiteral(
   return node.type === 'TemplateLiteral';
 }
 
+function isImportDeclaration(
+  node: TSESTree.Node,
+): node is TSESTree.ImportDeclaration {
+  return node.type === 'ImportDeclaration';
+}
+
+function isImportSpecifier(
+  node: TSESTree.Node,
+): node is TSESTree.ImportSpecifier {
+  return node.type === 'ImportSpecifier';
+}
+
 type LiteralWithStringValue = TSESTree.Literal & {
   value: string;
 };
@@ -439,3 +451,28 @@ export const SelectorValidator = {
     };
   },
 };
+
+export const kebabToCamelCase = (value: string) =>
+  value.replace(/-[a-zA-Z]/g, x => x[1].toUpperCase());
+
+export function isImportedFrom(
+  identifier: TSESTree.Identifier,
+  module: string,
+) {
+  let parentNode: TSESTree.Node | undefined = identifier;
+  while ((parentNode = parentNode.parent)) {
+    if (parentNode.type !== 'Program') continue;
+    return parentNode.body.some(
+      node =>
+        isImportDeclaration(node) &&
+        (node.source as TSESTree.Literal).value === module &&
+        node.specifiers.some(
+          specifier =>
+            isImportSpecifier(specifier) &&
+            specifier.imported.name === identifier.name &&
+            specifier.local.name === identifier.name,
+        ),
+    );
+  }
+  return false;
+}

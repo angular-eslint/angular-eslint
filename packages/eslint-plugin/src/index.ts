@@ -34,6 +34,9 @@ import noOutputOnPrefix, {
 import noOutputRename, {
   RULE_NAME as noOutputRenameRuleName,
 } from './rules/no-output-rename';
+import noInputRename, {
+  RULE_NAME as noInputRenameRuleName,
+} from './rules/no-input-rename';
 import noOutputsMetadataProperty, {
   RULE_NAME as noOutputsMetadataPropertyRuleName,
 } from './rules/no-outputs-metadata-property';
@@ -76,6 +79,7 @@ export default {
     [noOutputNativeRuleName]: noOutputNative,
     [noOutputOnPrefixRuleName]: noOutputOnPrefix,
     [noOutputRenameRuleName]: noOutputRename,
+    [noInputRenameRuleName]: noInputRename,
     [noOutputsMetadataPropertyRuleName]: noOutputsMetadataProperty,
     [noPipeImpureRuleName]: noPipeImpure,
     [noQueriesMetadataPropertyRuleName]: noQueriesMetadataProperty,
