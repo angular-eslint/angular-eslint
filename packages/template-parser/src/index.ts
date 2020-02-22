@@ -1,18 +1,52 @@
-import { parseTemplate } from '@angular/compiler';
+import { parseTemplate, ParseSourceSpan } from '@angular/compiler';
 import EventEmitter from 'events';
-
-const { ScopeManager, Scope } = require('eslint-scope');
-const NodeEventGenerator = require('eslint/lib/linter/node-event-generator');
+import { ScopeManager, Scope } from 'eslint-scope';
+// @ts-ignore
+import NodeEventGenerator from 'eslint/lib/linter/node-event-generator';
 
 const emitters = new WeakMap();
 
-const KEYS: any = {
+interface Node {
+  [x: string]: any;
+  type: string;
+}
+
+interface VisitorKeys {
+  [nodeName: string]: string[];
+}
+
+interface LOC {
+  line: number;
+  column: number;
+}
+
+interface AST extends Node {
+  type: string;
+  comments: string[];
+  tokens: string[];
+  range: [number, number];
+  loc: {
+    start: LOC;
+    end: LOC;
+  };
+  templateNodes: any[];
+  value: string;
+}
+
+const KEYS: VisitorKeys = {
   Program: ['templateNodes'],
   Element: ['children', 'outputs'],
   BoundEvent: ['handler'],
+  BoundText: ['value'],
+  ASTWithSource: ['ast'],
+  Interpolation: ['expressions'],
+  PrefixNot: ['expression'],
+  Binary: ['left', 'right'],
+  Template: ['templateAttrs', 'children'],
+  BoundAttribute: ['value'],
 };
 
-function fallbackKeysFilter(this: any, key: string) {
+function fallbackKeysFilter(this: Node, key: string) {
   let value = null;
   return (
     key !== 'comments' &&
@@ -28,21 +62,23 @@ function fallbackKeysFilter(this: any, key: string) {
   );
 }
 
-function getFallbackKeys(node: { [x: string]: any; type?: string | number }) {
+function getFallbackKeys(node: Node): string[] {
   return Object.keys(node).filter(fallbackKeysFilter, node);
 }
 
-function isNode(x: { type: any }) {
+function isNode(x: any): x is Node {
   return x !== null && typeof x === 'object' && typeof x.type === 'string';
 }
 
+type NodeVisitorFn = (node: Node, parent: Node | null) => void;
+
 function traverse(
-  node: { [x: string]: any; type: string | number },
-  parent: any,
+  node: Node,
+  parent: Node | null,
   visitor: {
-    enterNode: (arg0: any, arg1: any) => void;
-    visitorKeys: any;
-    leaveNode: (arg0: any, arg1: any) => void;
+    visitorKeys: VisitorKeys;
+    enterNode: NodeVisitorFn;
+    leaveNode: NodeVisitorFn;
   },
 ) {
   let i = 0;
@@ -74,7 +110,7 @@ function traverse(
 /**
  * Need all Nodes to have a `type` property before we begin
  */
-function preprocessNode(node: { [x: string]: any; type: any }) {
+function preprocessNode(node: Node) {
   let i = 0;
   let j = 0;
 
@@ -111,56 +147,112 @@ function preprocessNode(node: { [x: string]: any; type: any }) {
   }
 }
 
+function convertNodeSourceSpanToLoc(sourceSpan: ParseSourceSpan) {
+  return {
+    start: {
+      line: sourceSpan.start.line + 1,
+      column: sourceSpan.start.col,
+    },
+    end: {
+      line: sourceSpan.end.line + 1,
+      column: sourceSpan.end.col,
+    },
+  };
+}
+
+function getStartSourceSpanFromAST(ast: AST): ParseSourceSpan {
+  let startSourceSpan: ParseSourceSpan;
+  ast.templateNodes.forEach(node => {
+    const nodeSourceSpan = node.startSourceSpan || node.sourceSpan;
+
+    if (!startSourceSpan) {
+      startSourceSpan = nodeSourceSpan;
+      return;
+    }
+
+    if (
+      nodeSourceSpan &&
+      nodeSourceSpan.start.offset < startSourceSpan.start.offset
+    ) {
+      startSourceSpan = nodeSourceSpan;
+      return;
+    }
+  });
+  return startSourceSpan!;
+}
+
+function getEndSourceSpanFromAST(ast: AST): ParseSourceSpan {
+  let endSourceSpan: ParseSourceSpan;
+  ast.templateNodes.forEach(node => {
+    const nodeSourceSpan = node.endSourceSpan || node.sourceSpan;
+
+    if (!endSourceSpan) {
+      endSourceSpan = nodeSourceSpan;
+      return;
+    }
+
+    if (
+      nodeSourceSpan &&
+      nodeSourceSpan.end.offset > endSourceSpan.end.offset
+    ) {
+      endSourceSpan = nodeSourceSpan;
+      return;
+    }
+  });
+  return endSourceSpan!;
+}
+
 function parseForESLint(code: string, options: { filePath: string }) {
-  const ast = {
+  const angularCompilerResult = parseTemplate(code, options.filePath, {
+    preserveWhitespaces: false,
+  });
+
+  const ast: AST = {
     type: 'Program',
     comments: [],
     tokens: [],
-    templateNodes: parseTemplate(code, options.filePath).nodes,
-    range: [0, 1],
+    range: [0, 0],
     loc: {
-      start: {
-        line: 0,
-        column: 0,
-      },
-      end: {
-        line: 0,
-        column: 1,
-      },
+      start: { line: 0, column: 0 },
+      end: { line: 0, column: 0 },
     },
+    templateNodes: angularCompilerResult.nodes,
     value: code,
   };
 
+  /**
+   * The types for ScopeManager seem to be wrong, it requires an configuration object argument
+   * or it will throw at runtime
+   */
   // @ts-ignore
   const scopeManager = new ScopeManager({});
+  /**
+   * Create a global scope for the ScopeManager, the types for Scope also
+   * seem to be wrong
+   */
   // @ts-ignore
-  const globalScope = new Scope(scopeManager, 'module', null, ast, false);
+  new Scope(scopeManager, 'module', null, ast, false);
 
   preprocessNode(ast);
+
+  const startSourceSpan = getStartSourceSpanFromAST(ast);
+  const endSourceSpan = getEndSourceSpanFromAST(ast);
+
+  ast.range = [startSourceSpan.start.offset, endSourceSpan.end.offset];
+  ast.loc = {
+    start: convertNodeSourceSpanToLoc(startSourceSpan!).start,
+    end: convertNodeSourceSpanToLoc(endSourceSpan!).end,
+  };
 
   return {
     ast,
     scopeManager,
     visitorKeys: KEYS,
     services: {
-      convertNodeSourceSpanToLoc(sourceSpan: {
-        start: { line: number; col: any };
-        end: { line: number; col: any };
-      }) {
-        return {
-          start: {
-            line: sourceSpan.start.line + 1,
-            column: sourceSpan.start.col,
-          },
-          end: {
-            line: sourceSpan.end.line + 1,
-            column: sourceSpan.end.col,
-          },
-        };
-      },
+      convertNodeSourceSpanToLoc,
       defineTemplateBodyVisitor(
-        templateBodyVisitor: { [x: string]: any },
-        scriptVisitor: { [x: string]: any },
+        templateBodyVisitor: { [x: string]: Function },
+        scriptVisitor: { [x: string]: Function },
       ) {
         const rootAST = ast;
         if (scriptVisitor == null) {
@@ -179,7 +271,7 @@ function parseForESLint(code: string, options: { filePath: string }) {
           emitters.set(rootAST, emitter);
 
           const programExitHandler = scriptVisitor['Program:exit'];
-          scriptVisitor['Program:exit'] = (node: any) => {
+          scriptVisitor['Program:exit'] = (node: Node) => {
             try {
               if (typeof programExitHandler === 'function') {
                 programExitHandler(node);
