@@ -86,32 +86,70 @@ export function convertAnnotatedSourceToFailureCase<T extends string>({
   description: _,
   annotatedSource,
   messageId,
+  messages = [],
   data,
   options = [],
   annotatedOutput,
 }: {
   description: string;
   annotatedSource: string;
-  messageId: T;
+  messageId?: T;
+  messages?: { char: string; messageId: T }[];
   data?: Record<string, any>;
   options?: any;
   annotatedOutput?: string;
 }): InvalidTestCase<T, typeof options> {
-  const parsed = parseInvalidSource(annotatedSource, '');
-  const error: TestCaseError<T> = {
-    messageId,
-    line: parsed.failure.startPosition.line + 1,
-    column: parsed.failure.startPosition.character + 1,
-    endLine: parsed.failure.endPosition.line + 1,
-    endColumn: parsed.failure.endPosition.character + 1,
-  };
-  if (data) {
-    error.data = data;
+  if (!messageId && (!messages || !messages.length)) {
+    throw new Error(
+      'Either `messageId` or `messages` is required when configuring a failure case',
+    );
   }
+
+  if (messageId) {
+    messages = [
+      {
+        char: '~',
+        messageId,
+      },
+    ];
+  }
+
+  let parsedSource = '';
+
+  const errors: TestCaseError<T>[] = messages.map(
+    ({ char: currentValueChar, messageId }) => {
+      const otherChars = messages
+        .filter(({ char }) => char !== currentValueChar)
+        .map(({ char }) => char);
+
+      const parsedForChar = parseInvalidSource(
+        annotatedSource,
+        '',
+        currentValueChar,
+        otherChars,
+      );
+      parsedSource = parsedForChar.source;
+
+      const error: TestCaseError<T> = {
+        messageId,
+        line: parsedForChar.failure.startPosition.line + 1,
+        column: parsedForChar.failure.startPosition.character + 1,
+        endLine: parsedForChar.failure.endPosition.line + 1,
+        endColumn: parsedForChar.failure.endPosition.character + 1,
+      };
+
+      if (data) {
+        error.data = data;
+      }
+
+      return error;
+    },
+  );
+
   const invalidTestCase: InvalidTestCase<T, typeof options> = {
-    code: parsed.source,
+    code: parsedSource,
     options,
-    errors: [error],
+    errors,
   };
   if (annotatedOutput) {
     invalidTestCase.output = parseInvalidSource(annotatedOutput, '').source;

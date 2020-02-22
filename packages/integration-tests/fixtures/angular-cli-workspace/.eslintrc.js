@@ -156,10 +156,7 @@ module.exports = {
         '@angular-eslint/no-host-metadata-property': 'error',
 
         // ORIGINAL tslint.json -> "no-input-rename": true,
-        /**
-         * TODO: Not converted yet
-         */
-        // '@angular-eslint/no-input-rename': 'error',
+        '@angular-eslint/no-input-rename': 'error',
 
         // ORIGINAL tslint.json -> "no-inputs-metadata-property": true,
         '@angular-eslint/no-inputs-metadata-property': 'error',
@@ -180,9 +177,7 @@ module.exports = {
         // APPLIED VIA TEMPLATE-RELATED CONFIG BELOW
 
         // ORIGINAL tslint.json -> "template-no-negated-async": true,
-        /**
-         * TODO: Not converted yet
-         */
+        // APPLIED VIA TEMPLATE-RELATED CONFIG BELOW
 
         // ORIGINAL tslint.json -> "use-lifecycle-interface": true,
         '@angular-eslint/use-lifecycle-interface': 'warn',
@@ -196,7 +191,11 @@ module.exports = {
       parser: '@angular-eslint/template-parser',
       plugins: ['@angular-eslint/template'],
       rules: {
+        // ORIGINAL tslint.json -> "template-banana-in-box": true,
         '@angular-eslint/template/banana-in-a-box': 'error',
+
+        // ORIGINAL tslint.json -> "template-no-negated-async": true,
+        '@angular-eslint/template/no-negated-async': 'error',
       },
     },
   ],
