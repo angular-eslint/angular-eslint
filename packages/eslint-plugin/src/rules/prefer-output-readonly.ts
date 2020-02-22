@@ -3,7 +3,7 @@ import { createESLintRule } from '../utils/create-eslint-rule';
 
 type Options = [];
 export type MessageIds = 'preferOutputReadonly';
-export const RULE_NAME = 'no-output-on-prefix';
+export const RULE_NAME = 'prefer-output-readonly';
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,

@@ -49,6 +49,9 @@ import noQueriesMetadataProperty, {
 import preferOnPushComponentChangeDetection, {
   RULE_NAME as preferOnPushComponentChangeDetectionRuleName,
 } from './rules/prefer-on-push-component-change-detection';
+import preferOutputReadonly, {
+  RULE_NAME as preferOutputReadonlyRuleName,
+} from './rules/prefer-output-readonly';
 import useComponentSelector, {
   RULE_NAME as useComponentSelectorRuleName,
 } from './rules/use-component-selector';
@@ -84,6 +87,7 @@ export default {
     [noPipeImpureRuleName]: noPipeImpure,
     [noQueriesMetadataPropertyRuleName]: noQueriesMetadataProperty,
     [preferOnPushComponentChangeDetectionRuleName]: preferOnPushComponentChangeDetection,
+    [preferOutputReadonlyRuleName]: preferOutputReadonly,
     [useComponentSelectorRuleName]: useComponentSelector,
     [useComponentViewEncapsulationRuleName]: useComponentViewEncapsulation,
     [useLifecycleInterfaceRuleName]: useLifecycleInterface,
