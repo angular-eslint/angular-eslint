@@ -4,6 +4,9 @@ import {
   getDecoratorPropertyValue,
   isIdentifier,
   isLiteral,
+  isCallExpression,
+  AngularClassDecorators,
+  isImportedFrom,
 } from '../utils/utils';
 
 type Options = [];
@@ -33,6 +36,13 @@ export default createESLintRule<Options, MessageIds>({
       ) {
         const outputCallExpression = node.expression as TSESTree.CallExpression;
 
+        if (
+          !isImportedFrom(
+            outputCallExpression.callee as TSESTree.Identifier,
+            '@angular/core',
+          )
+        )
+          return;
         if (outputCallExpression.arguments.length === 0) return;
 
         // handle directive's selector is also an output property
@@ -54,7 +64,14 @@ export default createESLintRule<Options, MessageIds>({
           .parent as TSESTree.ClassDeclaration;
 
         const decorator =
-          classDeclaration.decorators && classDeclaration.decorators[0];
+          classDeclaration.decorators &&
+          classDeclaration.decorators.find(
+            decorator =>
+              isCallExpression(decorator.expression) &&
+              isIdentifier(decorator.expression.callee) &&
+              decorator.expression.callee.name ===
+                AngularClassDecorators.Directive,
+          );
 
         if (decorator) {
           const selector = getDecoratorPropertyValue(decorator, 'selector');
