@@ -24,8 +24,5 @@
     "eslint": "*",
     "typescript": "*"
   },
-  "gitHead": "a1fa84453b178ad182f25c33d9a147e67881ef54",
-  "devDependencies": {
-    "ts-node": "^8.6.2"
-  }
+  "gitHead": "a1fa84453b178ad182f25c33d9a147e67881ef54"
 }
