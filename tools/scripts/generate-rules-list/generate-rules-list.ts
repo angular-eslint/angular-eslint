@@ -3,7 +3,7 @@
 import fs from 'fs';
 import path from 'path';
 import prettier from 'prettier';
-import src from '../src';
+import src from '../../../packages/eslint-plugin/src';
 import { getAngularESLintPRs, getCodelyzerRulesList } from './helpers';
 import { CodelyzerRule, PRDetails, RuleDetails } from './interfaces';
 
