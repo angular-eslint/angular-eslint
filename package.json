@@ -24,7 +24,8 @@
     "pre-push": "yarn format-check",
     "format": "prettier --write \"./**/*.{ts,js,json,md}\"",
     "format-check": "prettier --check \"./**/*.{ts,js,json,md}\"",
-    "typecheck": "lerna run typecheck"
+    "typecheck": "lerna run typecheck",
+    "update-readme": "ts-node --files --transpile-only --project tsconfig.tools.json tools/scripts/generate-rules-list/generate-rules-list.ts"
   },
   "config": {
     "commitizen": {
@@ -57,6 +58,7 @@
     "prettier": "^1.19.1",
     "terser": "^4.0.0",
     "ts-jest": "^24.0.2",
+    "ts-node": "^8.6.2",
     "typescript": "~3.7.5"
   }
 }
