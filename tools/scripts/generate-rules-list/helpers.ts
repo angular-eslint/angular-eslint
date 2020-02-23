@@ -1,11 +1,12 @@
 import https, { RequestOptions } from 'https';
-import { CodelyzerRule, GithubPullRequest, PRDetails } from './interfaces';
+import { CodelyzerRule, PRDetails } from './interfaces';
 
 /**
  * @description
  * Calls the github api for the specified path and returns a Promise for the json response.
  *
  * @param path The api path to call
+ * @returns an object representing the json returned by the endpoint.
  */
 const callGithubApi = <T>(optionOverrides: RequestOptions) => {
   const options = {
@@ -35,9 +36,12 @@ const callGithubApi = <T>(optionOverrides: RequestOptions) => {
 /**
  * @description
  * Returns a list of rule names that are currently in progress.
+ *
+ * @async
+ * @returns an Array of PRDetails.
  */
 export const getAngularESLintPRs = async () => {
-  const prsJson = await callGithubApi<GithubPullRequest[]>({
+  const prsJson = await callGithubApi<PRDetails[]>({
     path: '/repos/angular-eslint/angular-eslint/pulls?state=open',
   });
 
@@ -49,6 +53,13 @@ export const getAngularESLintPRs = async () => {
   }));
 };
 
+/**
+ * @description
+ * Returns a list of CodelyzerRule from the Codelyzer repository.
+ *
+ * @async
+ * @returns an Array of CodelyzerRule.
+ */
 export const getCodelyzerRulesList = async () => {
   const rulesJson = await callGithubApi<CodelyzerRule[]>({
     host: 'raw.githubusercontent.com',

@@ -7,11 +7,17 @@ import src from '../../../packages/eslint-plugin/src';
 import { getAngularESLintPRs, getCodelyzerRulesList } from './helpers';
 import { CodelyzerRule, PRDetails, RuleDetails } from './interfaces';
 
+/**
+ * Stores a map from status text to emoji
+ */
 const keyLegend = {
   done: ':white_check_mark:',
   'work in progress': ':construction:',
 };
 
+/**
+ * Stores static text elements for the readme.
+ */
 const staticElements = {
   rulesListKey: Object.keys(keyLegend).map(key => `${keyLegend[key]} = ${key}`),
   legendSpacerRow: '-----',
@@ -19,24 +25,61 @@ const staticElements = {
   ruleSpacerRow: ['-----', ':-:'],
 };
 
+/**
+ * @description
+ * Returns a PR for the specified rule if one exists. Otherwise returns undefined.
+ *
+ * A PR is matched if the title starts with 'feat(eslint-plugin)' and the title contains the rule name.
+ *
+ * @param rule the CodelyzerRule to find a PR for.
+ * @param currentPrs the current list of PRs
+ * @returns a PRDetail if it matches the rule otherwise returns undefined.
+ */
 const findPR = (rule: CodelyzerRule, currentPrs: PRDetails[]) =>
   currentPrs.find(
     ({ title }) =>
       title.startsWith('feat(eslint-plugin)') && title.match(rule.ruleName),
   );
 
+/**
+ * @description
+ * Maps the specified RuleDetails to a markdown list of links to codelyzer docs.
+ *
+ * @param rules an Array of RuleDetails to map
+ * @returns an Array of strings representing the list of links to codelyzer docs.
+ */
 const buildRelativeLinksList = (rules: RuleDetails[]) =>
   rules.map(({ name }) => `[\`${name}\`]: https://codelyzer.com/rules/${name}`);
 
+/**
+ * @description
+ * Maps the specified PRDetails to a markdown list of links to PRs.
+ *
+ * @param prs an Array of PRDetails to map.
+ * @returns an Array of strings representing the list of links to PRs.
+ */
 const buildPRLinksList = (prs: PRDetails[]) =>
   prs.map(({ url, number }) => `[\`PR${number}\`]: ${url}`);
 
+/**
+ * @description
+ * Returns an Array of strings representing the markdown rows for the Legend table.
+ *
+ * @returns an Array of strings representing the markdown rows for the Legend table.
+ */
 const buildLegendTable = () => [
   '| |',
   `|${staticElements.legendSpacerRow}|`,
   ...staticElements.rulesListKey.map(key => `|${key}|`),
 ];
 
+/**
+ * @description
+ * Returns an Array of strings representing the markdown rows for a rules list table.
+ *
+ * @param rules an Array of RuleDetails to map
+ * @returns an Array of strings representing the markdown rows for a rules list table.
+ */
 const ruleList = (rules: RuleDetails[]) =>
   rules.map(({ name, done, pr }) =>
     [
@@ -49,6 +92,13 @@ const ruleList = (rules: RuleDetails[]) =>
     ].join('|'),
   );
 
+/**
+ * @description
+ * Returns an Array of strings representing the markdown tables for each Codelyzer Rule Type.
+ *
+ * @param rules an Array of RuleDetails to map
+ * @returns an Array of strings representing the markdown tables for each Codelyzer Rule Type.
+ */
 const buildRulesTables = (rules: RuleDetails[]) => {
   const ruleTypes = [...new Set(rules.map(({ type }) => type))].sort();
 
@@ -66,6 +116,16 @@ const buildRulesTables = (rules: RuleDetails[]) => {
   return sections;
 };
 
+/**
+ * @description
+ * Updates the specified markdown with the rules list and returns the result string.
+ *
+ * Markdown must contain the <!-- begin rule list --> and <!-- end rule list --> tags
+ *
+ * @param rules an Array of RuleDetails to update the markdown with.
+ * @param markdown a string representing the markdown to update.
+ * @returns a string representing the modified markdown.
+ */
 const updateRulesList = (rules: RuleDetails[], markdown: string): string => {
   const listBeginMarker = `<!-- begin rule list -->`;
   const listEndMarker = `<!-- end rule list -->`;
@@ -99,7 +159,8 @@ const updateRulesList = (rules: RuleDetails[], markdown: string): string => {
 };
 
 /**
- * Generates a Rules List in the following format:
+ * @description
+ * Generates a Rules List for the README in the following format:
  *
  * <!-- begin rule list -->
  *
@@ -115,6 +176,8 @@ const updateRulesList = (rules: RuleDetails[], markdown: string): string => {
  * [`pr<number>`]: <link to pr>
  *
  * <!-- end rule list -->
+ *
+ * @async
  */
 const updateReadme = async () => {
   const codelyzerRules = await getCodelyzerRulesList();
