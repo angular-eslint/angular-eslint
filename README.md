@@ -67,7 +67,7 @@ If you are interested in creating this, we would be very grateful to receive a P
 | :white_check_mark: = done         |
 | :construction: = work in progress |
 
-### Functionality
+#### Functionality
 
 | Codelyzer rule                                  |       Status       |
 | ----------------------------------------------- | :----------------: |
@@ -94,7 +94,7 @@ If you are interested in creating this, we would be very grateful to receive a P
 | [`use-injectable-provided-in`]                  |                    |
 | [`use-lifecycle-interface`]                     | :white_check_mark: |
 
-### Maintainability
+#### Maintainability
 
 | Codelyzer rule                        |       Status       |
 | ------------------------------------- | :----------------: |
@@ -118,7 +118,7 @@ If you are interested in creating this, we would be very grateful to receive a P
 | [`use-pipe-decorator`]                | :white_check_mark: |
 | [`use-pipe-transform-interface`]      | :white_check_mark: |
 
-### Style
+#### Style
 
 | Codelyzer rule                   |       Status       |
 | -------------------------------- | :----------------: |
