@@ -84,7 +84,7 @@ If you are interested in creating this, we would be very grateful to receive a P
 | [`template-accessibility-tabindex-no-positive`] |                    |
 | [`template-accessibility-table-scope`]          |                    |
 | [`template-accessibility-valid-aria`]           |                    |
-| [`template-banana-in-box`]                      |                    |
+| [`template-banana-in-box`]                      | :white_check_mark: |
 | [`template-click-events-have-key-events`]       |                    |
 | [`template-mouse-events-have-key-events`]       |                    |
 | [`template-no-any`]                             |                    |
