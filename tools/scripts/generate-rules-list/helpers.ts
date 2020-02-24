@@ -5,7 +5,7 @@ import { CodelyzerRule, PRDetails } from './interfaces';
  * @description
  * Calls the github api for the specified path and returns a Promise for the json response.
  *
- * @param path The api path to call
+ * @param optionOverrides RequestOptions for the Request.
  * @returns an object representing the json returned by the endpoint.
  */
 const callGithubApi = <T>(optionOverrides: RequestOptions) => {
