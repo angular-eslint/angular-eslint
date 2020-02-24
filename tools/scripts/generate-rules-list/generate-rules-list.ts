@@ -3,9 +3,17 @@
 import fs from 'fs';
 import path from 'path';
 import prettier from 'prettier';
+import templateSrc from '../../../packages/eslint-plugin-template/src';
 import src from '../../../packages/eslint-plugin/src';
 import { getAngularESLintPRs, getCodelyzerRulesList } from './helpers';
 import { CodelyzerRule, PRDetails, RuleDetails } from './interfaces';
+
+/**
+ * Stores a mapping from codelyzer rules to eslint rules that have changed name.
+ */
+const RULE_MAP = {
+  'template-banana-in-box': 'banana-in-a-box',
+};
 
 /**
  * Stores a map from status text to emoji
@@ -160,6 +168,33 @@ const updateRulesList = (rules: RuleDetails[], markdown: string): string => {
 
 /**
  * @description
+ * Returns an Array of RuleDetails for the specified CodelyzerRule array.
+ *
+ * @param codelyzerRules an Array of CodelyzerRules to convert to RuleDetails
+ * @param rules a map of RuleModules for the ESLint project that have been completed.
+ * @param currentPrs an Array of PRDetails
+ * @returns an Array of RuleDetails for the specified CodelyzerRule array.
+ */
+const createRuleDetails = (
+  codelyzerRules: CodelyzerRule[],
+  rules: typeof src['rules'] | typeof templateSrc['rules'],
+  currentPrs: PRDetails[],
+) => {
+  const isDone = (ruleName: string) =>
+    (rules[ruleName] ||
+      rules[RULE_MAP[ruleName]] ||
+      rules[ruleName.replace(/^template\-/, '')]) !== undefined;
+
+  return codelyzerRules.map(rule => ({
+    name: rule.ruleName,
+    type: rule.type,
+    done: isDone(rule.ruleName),
+    pr: findPR(rule, currentPrs),
+  }));
+};
+
+/**
+ * @description
  * Generates a Rules List for the README in the following format:
  *
  * <!-- begin rule list -->
@@ -182,15 +217,25 @@ const updateRulesList = (rules: RuleDetails[], markdown: string): string => {
 const updateReadme = async () => {
   const codelyzerRules = await getCodelyzerRulesList();
   const currentPrs = await getAngularESLintPRs();
-  const currentRules = src.rules;
-  const ruleDetails = codelyzerRules.map(rule => ({
-    name: rule.ruleName,
-    type: rule.type,
-    done: currentRules[rule.ruleName] !== undefined,
-    pr: findPR(rule, currentPrs),
-  }));
+  const templatePrefix = 'template-';
+  const pluginRuleDetails = createRuleDetails(
+    codelyzerRules.filter(rule => !rule.ruleName.startsWith(templatePrefix)),
+    src.rules,
+    currentPrs,
+  );
+  const templateRuleDetails = createRuleDetails(
+    codelyzerRules.filter(rule => rule.ruleName.startsWith(templatePrefix)),
+    templateSrc.rules,
+    currentPrs,
+  );
+  const ruleDetails = pluginRuleDetails
+    .concat(templateRuleDetails)
+    .sort(({ name: ruleNameA }, { name: ruleNameB }) =>
+      ruleNameA.localeCompare(ruleNameB),
+    );
 
   const readmeFile = path.resolve(__dirname, '../../../README.md');
+
   let readme = fs.readFileSync(readmeFile, 'utf8');
 
   readme = updateRulesList(ruleDetails, readme);
