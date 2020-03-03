@@ -90,7 +90,7 @@ If you are interested in creating this, we would be very grateful to receive a P
 | [`template-no-any`]                             |                    |
 | [`template-no-autofocus`]                       |                    |
 | [`template-no-distracting-elements`]            |                    |
-| [`template-no-negated-async`]                   |                    |
+| [`template-no-negated-async`]                   | :white_check_mark: |
 | [`use-injectable-provided-in`]                  |                    |
 | [`use-lifecycle-interface`]                     | :white_check_mark: |
 
