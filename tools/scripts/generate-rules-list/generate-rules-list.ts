@@ -1,10 +1,8 @@
-#!/usr/bin/env ts-node
-
 import fs from 'fs';
 import path from 'path';
 import prettier from 'prettier';
-import templateSrc from '../../../packages/eslint-plugin-template/src';
-import src from '../../../packages/eslint-plugin/src';
+import templateSrc from '~eslint-plugin-template/src';
+import src from '~eslint-plugin/src';
 import { getAngularESLintPRs, getCodelyzerRulesList } from './helpers';
 import { CodelyzerRule, PRDetails, RuleDetails } from './interfaces';
 
@@ -31,6 +29,8 @@ const staticElements = {
   legendSpacerRow: '-----',
   ruleHeaderRow: ['Codelyzer rule', 'Status'],
   ruleSpacerRow: ['-----', ':-:'],
+  listBeginMarker: `<!-- begin rule list -->`,
+  listEndMarker: `<!-- end rule list -->`,
 };
 
 /**
@@ -135,11 +135,8 @@ const buildRulesTables = (rules: RuleDetails[]) => {
  * @returns a string representing the modified markdown.
  */
 const updateRulesList = (rules: RuleDetails[], markdown: string): string => {
-  const listBeginMarker = `<!-- begin rule list -->`;
-  const listEndMarker = `<!-- end rule list -->`;
-
-  const listStartIndex = markdown.indexOf(listBeginMarker);
-  const listEndIndex = markdown.indexOf(listEndMarker);
+  const listStartIndex = markdown.indexOf(staticElements.listBeginMarker);
+  const listEndIndex = markdown.indexOf(staticElements.listEndMarker);
 
   if (listStartIndex === -1 || listEndIndex === -1) {
     throw new Error(`cannot find start or end of rules list`);
@@ -147,7 +144,7 @@ const updateRulesList = (rules: RuleDetails[], markdown: string): string => {
 
   return [
     markdown.substring(0, listStartIndex - 1),
-    listBeginMarker,
+    staticElements.listBeginMarker,
     '',
     ...buildLegendTable(),
     '',
@@ -195,6 +192,22 @@ const createRuleDetails = (
 
 /**
  * @description
+ * Returns the Rules List section from the specified markdown.
+ *
+ * @param markdown a string representing the markdown to retrieve the rules list from.
+ */
+const getRulesListMarkdown = (markdown: string) => {
+  const listStartIndex = markdown.indexOf(staticElements.listBeginMarker);
+  const listEndIndex = markdown.indexOf(staticElements.listEndMarker);
+
+  return markdown.substring(
+    listStartIndex,
+    listEndIndex + staticElements.listEndMarker.length,
+  );
+};
+
+/**
+ * @description
  * Generates a Rules List for the README in the following format:
  *
  * <!-- begin rule list -->
@@ -214,7 +227,7 @@ const createRuleDetails = (
  *
  * @async
  */
-const updateReadme = async () => {
+const generateReadme = async (readme: string) => {
   const codelyzerRules = await getCodelyzerRulesList();
   const currentPrs = await getAngularESLintPRs();
   const templatePrefix = 'template-';
@@ -234,14 +247,65 @@ const updateReadme = async () => {
       ruleNameA.localeCompare(ruleNameB),
     );
 
-  const readmeFile = path.resolve(__dirname, '../../../README.md');
+  let nextReadme = updateRulesList(ruleDetails, readme);
+  nextReadme = prettier.format(nextReadme, { parser: 'markdown' });
 
-  let readme = fs.readFileSync(readmeFile, 'utf8');
-
-  readme = updateRulesList(ruleDetails, readme);
-  readme = prettier.format(readme, { parser: 'markdown' });
-
-  fs.writeFileSync(readmeFile, readme, 'utf8');
+  return nextReadme;
 };
 
-updateReadme();
+/**
+ * @description
+ * Returns a string representing the path to the root README.md file.
+ */
+const getReadmePath = () => path.resolve(process.cwd(), 'README.md');
+
+/**
+ * @description
+ * Updates the README.md file in the root directory with the Rules List. Returns true if successful.
+ *
+ * @async
+ */
+export const updateReadme = async () => {
+  try {
+    const readmeFile = getReadmePath();
+
+    let readme = fs.readFileSync(readmeFile, 'utf8');
+    readme = await generateReadme(readme);
+
+    fs.writeFileSync(readmeFile, readme, 'utf8');
+
+    return true;
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+};
+
+/**
+ * @description
+ * Determines whether or not the README needs updates. Returns true if it does not.
+ *
+ * @async
+ */
+export const checkReadme = async () => {
+  try {
+    const readmeFile = getReadmePath();
+
+    const readme = fs.readFileSync(readmeFile, 'utf8');
+    const nextReadme = await generateReadme(readme);
+
+    const originalRulesList = getRulesListMarkdown(readme);
+    const nextRulesList = getRulesListMarkdown(nextReadme);
+
+    if (originalRulesList !== nextRulesList) {
+      throw new Error(
+        'Please update the README before pushing: `yarn update-readme`.',
+      );
+    }
+
+    return true;
+  } catch (err) {
+    console.error(`\x1b[31m%s\x1b[0m`, err.message);
+    return false;
+  }
+};
