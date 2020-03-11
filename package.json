@@ -21,10 +21,13 @@
     "cz": "git-cz",
     "postinstall": "node ./tools/scripts/apply-patched-microbundle.js && lerna bootstrap && yarn build && lerna link && npm run check-clean-workspace-after-install",
     "pre-commit": "yarn lint-staged",
-    "pre-push": "yarn format-check",
+    "pre-push": "yarn check-readme && yarn format-check",
     "format": "prettier --write \"./**/*.{ts,js,json,md}\"",
     "format-check": "prettier --check \"./**/*.{ts,js,json,md}\"",
-    "typecheck": "lerna run typecheck"
+    "typecheck": "lerna run typecheck",
+    "check-readme": "yarn exec-tool check-readme",
+    "update-readme": "yarn exec-tool update-readme",
+    "exec-tool": "ts-node --files --transpile-only --project tsconfig.tools.json -r tsconfig-paths/register tools/scripts/exec-tool.ts"
   },
   "config": {
     "commitizen": {
@@ -46,6 +49,7 @@
     "@types/jest": "^24.0.13",
     "@types/json-schema": "^7.0.3",
     "@types/node": "^10.12.2",
+    "@types/prettier": "^1.19.0",
     "@typescript-eslint/parser": "2.19.2",
     "eslint": "^6.8.0",
     "execa": "^3.4.0",
@@ -57,6 +61,8 @@
     "prettier": "^1.19.1",
     "terser": "^4.0.0",
     "ts-jest": "^24.0.2",
+    "ts-node": "^8.6.2",
+    "tsconfig-paths": "^3.9.0",
     "typescript": "~3.7.5"
   }
 }
