@@ -3,7 +3,7 @@
 <p align="center">Monorepo for all the tooling which enables ESLint to lint Angular projects</p>
 
 <p align="center">
-    <a href="https://dev.azure.com/angular-eslint/angular-eslint/_build/latest?definitionId=1&branchName=master"><img src="https://img.shields.io/azure-devops/build/angular-eslint/angular-eslint/1/master.svg?label=%F0%9F%9A%80%20Azure%20Pipelines&style=flat-square" alt="Azure Pipelines"/></a>
+    <a href="https://actions-badge.atrox.dev/angular-eslint/angular-eslint/goto?ref=master"><img alt="Build Status" src="https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fangular-eslint%2Fangular-eslint%2Fbadge%3Fref%3Dmaster&style=flat-square" /></a>
     <a href="https://www.npmjs.com/package/@angular-eslint/builder"><img src="https://img.shields.io/npm/v/@angular-eslint/builder/latest.svg?style=flat-square" alt="NPM Version" /></a>
     <a href="https://github.com/angular-eslint/angular-eslint/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/@angular-eslint/builder.svg?style=flat-square" alt="GitHub license" /></a>
     <a href="https://www.npmjs.com/package/@angular-eslint/builder"><img src="https://img.shields.io/npm/dm/@angular-eslint/builder.svg?style=flat-square" alt="NPM Downloads" /></a>

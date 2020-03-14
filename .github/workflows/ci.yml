@@ -1,0 +1,97 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  primary_code_validation_and_tests:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - uses: actions/checkout@v2
+
+    - name: Setup Node.js for use with actions
+      uses: actions/setup-node@v1.1.0
+      with:
+        version: 13
+
+    - name: Get yarn cache directory path
+      id: yarn-cache-dir-path
+      run: echo "::set-output name=dir::$(yarn cache dir)"
+
+    - uses: actions/cache@v1
+      id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+      with:
+        path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+        key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-yarn-
+
+    - name: Install dependencies
+      run: |
+        # This also runs a build as part of the postinstall
+        # bootstrap
+        yarn --ignore-engines --frozen-lockfile
+
+    - name: Typecheck all packages
+      run: |
+        # Note that this command *also* typechecks tests/tools,
+        # whereas the build only checks src files
+        yarn typecheck
+
+    - name: Check code formatting
+      run: |
+        yarn format-check
+
+    - name: Run unit tests
+      run: |
+        yarn test
+
+    - name: Run integration tests
+      run: |
+        yarn integration-tests
+
+    - name: Publish code coverage report
+      run: |
+        bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }}
+
+  unit_tests_on_other_node_versions:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [10, 12]
+
+    steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - uses: actions/checkout@v2
+
+    - uses: actions/setup-node@v1
+      with:
+        # The Node.js version to configure
+        node-version: ${{ matrix.node }}
+
+    - name: Get yarn cache directory path
+      id: yarn-cache-dir-path
+      run: echo "::set-output name=dir::$(yarn cache dir)"
+
+    - uses: actions/cache@v1
+      id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+      with:
+        path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+        key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-yarn-
+
+    - name: Install dependencies
+      run: |
+        # This also runs a build as part of the postinstall
+        # bootstrap
+        yarn --ignore-engines --frozen-lockfile
+
+    - name: Run unit tests
+      run: |
+        yarn test
