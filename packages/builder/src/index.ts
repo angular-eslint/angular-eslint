@@ -64,6 +64,11 @@ function getFilesToLint(
   const ignore = options.exclude;
   const files = options.files || [];
 
+  const componentHTMLFiles = ['**/*.component.html']
+    .map(file => glob.sync(file, { cwd: root, ignore: ignore, nodir: true }))
+    .reduce((prev, curr) => prev.concat(curr), [])
+    .map(file => path.join(root, file));
+
   if (files.length > 0) {
     return files
       .map((file: any) => glob.sync(file, { cwd: root, ignore, nodir: true }))
@@ -75,7 +80,10 @@ function getFilesToLint(
     return [];
   }
 
-  let programFiles = getFileNamesFromProgram(program);
+  let programFiles = [
+    ...componentHTMLFiles,
+    ...getFileNamesFromProgram(program),
+  ];
 
   if (ignore && ignore.length > 0) {
     // normalize to support ./ paths
@@ -189,6 +197,7 @@ async function _lint(
 
   const cli = new projectESLint.CLIEngine({
     configFile: eslintConfigPath,
+    extensions: ['.ts', '.html'],
     useEslintrc: false,
     fix: !!options.fix,
     cache: !!options.cache,
@@ -196,7 +205,7 @@ async function _lint(
 
   const lintReports: eslint.CLIEngine.LintReport[] = [];
   for (const file of files) {
-    if (program && allPrograms) {
+    if (file.endsWith('.ts') && program && allPrograms) {
       // If it cannot be found in ANY program, then this is an error.
       if (allPrograms.every(p => p.getSourceFile(file) === undefined)) {
         throw new Error(

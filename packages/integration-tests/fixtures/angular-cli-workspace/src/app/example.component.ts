@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
-  selector: 'app-example',
+  selector: "app-example",
   template: `
     <input type="text" name="foo" ([ngModel])="foo">
 
