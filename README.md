@@ -89,7 +89,7 @@ If you are interested in creating this, we would be very grateful to receive a P
 | [`template-no-autofocus`]                       |                    |
 | [`template-no-distracting-elements`]            |                    |
 | [`template-no-negated-async`]                   | :white_check_mark: |
-| [`use-injectable-provided-in`]                  |                    |
+| [`use-injectable-provided-in`]                  | :white_check_mark: |
 | [`use-lifecycle-interface`]                     | :white_check_mark: |
 
 #### Maintainability
@@ -98,14 +98,14 @@ If you are interested in creating this, we would be very grateful to receive a P
 | ------------------------------------- | :----------------: |
 | [`component-max-inline-declarations`] | :white_check_mark: |
 | [`no-conflicting-lifecycle`]          | :white_check_mark: |
-| [`no-forward-ref`]                    |                    |
+| [`no-forward-ref`]                    | :white_check_mark: |
 | [`no-input-prefix`]                   |                    |
 | [`no-input-rename`]                   | :white_check_mark: |
 | [`no-output-on-prefix`]               | :white_check_mark: |
 | [`no-output-rename`]                  | :white_check_mark: |
 | [`no-unused-css`]                     |                    |
 | [`prefer-output-readonly`]            | :white_check_mark: |
-| [`relative-url-prefix`]               |                    |
+| [`relative-url-prefix`]               | :white_check_mark: |
 | [`template-conditional-complexity`]   |                    |
 | [`template-cyclomatic-complexity`]    |                    |
 | [`template-i18n`]                     |                    |
@@ -123,7 +123,7 @@ If you are interested in creating this, we would be very grateful to receive a P
 | [`angular-whitespace`]           |                    |
 | [`component-class-suffix`]       | :white_check_mark: |
 | [`component-selector`]           | :white_check_mark: |
-| [`directive-class-suffix`]       |                    |
+| [`directive-class-suffix`]       | :white_check_mark: |
 | [`directive-selector`]           | :white_check_mark: |
 | [`import-destructuring-spacing`] |                    |
 | [`no-host-metadata-property`]    | :white_check_mark: |
