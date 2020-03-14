@@ -1,5 +1,6 @@
 <h1 align="center">Angular ESLint</h1>
 
+
 <p align="center">Monorepo for all the tooling which enables ESLint to lint Angular projects</p>
 
 <p align="center">
