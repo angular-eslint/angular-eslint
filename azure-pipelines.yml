@@ -14,12 +14,12 @@ jobs:
 
       - script: |
           # This also runs a build as part of the postinstall
-          # bootstrap
+          # bootstrap.
           yarn --ignore-engines --frozen-lockfile
 
       - script: |
           # Note that this command *also* typechecks tests/tools,
-          # whereas the build only checks src files
+          # whereas the build only checks src files.
           yarn typecheck
         displayName: 'Typecheck all packages'
 
