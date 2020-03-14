@@ -11,7 +11,6 @@ function quickExtractComponentDecorator(text: string) {
 function quickStripComponentDecoratorFromMetadata(
   componentDecoratorMatch: string,
 ): string {
-  // remove @Component()
   return componentDecoratorMatch
     .slice(0, componentDecoratorMatch.length - 1)
     .replace('@Component(', '');
@@ -24,46 +23,27 @@ function quickGetRangeForTemplate(text: string, template: string) {
 
 const rangeMap = new Map();
 
-export function preprocessTSFile(text: string, filename: string) {
+export function preprocessComponentFile(text: string, filename: string) {
   if (!filename.endsWith('.component.ts')) {
-    // console.log("preprocess: Ignoring non-component source file", filename);
-    return [''];
+    return [text];
   }
-
   /**
    * Ignore malformed Component files
    */
   const componentDecoratorMatch = quickExtractComponentDecorator(text);
   if (!componentDecoratorMatch) {
-    // console.log(
-    //   "preprocess: Ignoring component with no detectable @Component() decorator",
-    //   filename
-    // );
-    return [''];
+    return [text];
   }
   /**
    * Ignore Components which have external template files, they will be linted directly
    */
-  if (componentDecoratorMatch.includes('templateUrl')) {
-    // console.log(
-    //   "preprocess: Ignoring component with external template",
-    //   filename
-    // );
-    return [''];
+  if (
+    componentDecoratorMatch.includes('templateUrl') ||
+    !componentDecoratorMatch.includes('template')
+  ) {
+    return [text];
   }
 
-  if (!componentDecoratorMatch.includes('template')) {
-    // console.log(
-    //   "preprocess: Ignoring component with neither inline nor external template",
-    //   filename
-    // );
-    return [''];
-  }
-
-  //   console.log(
-  //     "preprocess: Extracting inline template for Component file",
-  //     filename
-  //   );
   try {
     const metadataText = quickStripComponentDecoratorFromMetadata(
       componentDecoratorMatch,
@@ -78,10 +58,6 @@ export function preprocessTSFile(text: string, filename: string) {
 
     const range = quickGetRangeForTemplate(text, metadata.template);
 
-    // console.log(
-    //   "preprocess: creating TS SourceFile for Component file",
-    //   filename
-    // );
     const sourceFile = ts.createSourceFile(
       filename,
       text,
@@ -96,63 +72,88 @@ export function preprocessTSFile(text: string, filename: string) {
         end: sourceFile.getLineAndCharacterOfPosition(range[1]),
       },
     });
-
-    return [metadata.template]; // return an array of strings to lint
+    /**
+     * We return an array containing both the original source, and a new fragment
+     * representing the inline HTML template. It must have an appropriate .html
+     * extension so that it can be linted using the right rules and plugins.
+     *
+     * The postprocessor will handle tying things back to the right position
+     * in the original file, so this temporary filename will never be visible
+     * to the end user.
+     */
+    return [
+      text,
+      {
+        text: metadata.template,
+        filename: 'inline-template.component.html',
+      },
+    ];
   } catch (err) {
     console.log(err);
     console.error(
       'preprocess: ERROR could not parse @Component() metadata',
       filename,
     );
-    return [''];
+    return [text];
   }
 }
 
-export function postprocessTSFile(
+export function postprocessComponentFile(
   multiDimensionalMessages: any[][],
   filename: string,
 ) {
-  const messages = multiDimensionalMessages[0];
-  if (!messages.length) {
-    return messages;
+  const messagesFromComponentSource = multiDimensionalMessages[0];
+  const messagesFromInlineTemplateHTML = multiDimensionalMessages[1];
+  /**
+   * If the Component did not have an inline template the second item
+   * in the multiDimensionalMessages will not exist
+   */
+  if (
+    !messagesFromInlineTemplateHTML ||
+    !messagesFromInlineTemplateHTML.length
+  ) {
+    return messagesFromComponentSource;
   }
   const rangeData = rangeMap.get(filename);
   if (!rangeData) {
-    return messages;
+    return messagesFromComponentSource;
   }
-  //   console.log("postprocess: Found original range data", rangeData, messages);
+  /**
+   * Adjust message location data to apply it back to the
+   * original file
+   */
+  return [
+    ...messagesFromComponentSource,
+    ...messagesFromInlineTemplateHTML.map(
+      (message: {
+        line: string | number;
+        column: any;
+        endLine: string | number;
+        endColumn: any;
+        fix: { range: [number, number]; text: string };
+      }) => {
+        message.line = message.line + rangeData.lineAndCharacter.start.line;
+        message.column = message.column;
 
-  // adjust message location data
-  return messages.map(
-    (message: {
-      line: string | number;
-      column: any;
-      endLine: string | number;
-      endColumn: any;
-      fix: { range: [number, number]; text: string };
-    }) => {
-      //   console.log("message before", message);
-      message.line = message.line + rangeData.lineAndCharacter.start.line;
-      message.column = message.column;
+        message.endLine =
+          message.endLine + rangeData.lineAndCharacter.start.line;
+        message.endColumn = message.endColumn;
 
-      message.endLine = message.endLine + rangeData.lineAndCharacter.start.line;
-      message.endColumn = message.endColumn;
-
-      const startOffset = rangeData.range[0];
-      message.fix.range = [
-        startOffset + message.fix.range[0],
-        startOffset + message.fix.range[1],
-      ];
-      //   console.log(message);
-      return message;
-    },
-  );
+        const startOffset = rangeData.range[0];
+        message.fix.range = [
+          startOffset + message.fix.range[0],
+          startOffset + message.fix.range[1],
+        ];
+        return message;
+      },
+    ),
+  ];
 }
 
 export default {
-  '.ts': {
-    preprocess: preprocessTSFile,
-    postprocess: postprocessTSFile,
+  'extract-inline-html': {
+    preprocess: preprocessComponentFile,
+    postprocess: postprocessComponentFile,
     supportsAutofix: true,
   },
 };
