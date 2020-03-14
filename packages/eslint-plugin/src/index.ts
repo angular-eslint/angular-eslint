@@ -10,15 +10,24 @@ import componentSelector, {
 import contextualLifecycle, {
   RULE_NAME as contextualLifecycleRuleName,
 } from './rules/contextual-lifecycle';
+import directiveClassSuffix, {
+  RULE_NAME as directiveClassSuffixRuleName,
+} from './rules/directive-class-suffix';
 import directiveSelector, {
   RULE_NAME as directiveSelectorRuleName,
 } from './rules/directive-selector';
 import noConflictingLifecycle, {
   RULE_NAME as noConflictingLifecycleRuleName,
 } from './rules/no-conflicting-lifecycle';
+import noForwardRef, {
+  RULE_NAME as noForwardRefRuleName,
+} from './rules/no-forward-ref';
 import noHostMetadataProperty, {
   RULE_NAME as noHostMetadataPropertyRuleName,
 } from './rules/no-host-metadata-property';
+import noInputRename, {
+  RULE_NAME as noInputRenameRuleName,
+} from './rules/no-input-rename';
 import noInputsMetadataProperty, {
   RULE_NAME as noInputsMetadataPropertyRuleName,
 } from './rules/no-inputs-metadata-property';
@@ -34,9 +43,6 @@ import noOutputOnPrefix, {
 import noOutputRename, {
   RULE_NAME as noOutputRenameRuleName,
 } from './rules/no-output-rename';
-import noInputRename, {
-  RULE_NAME as noInputRenameRuleName,
-} from './rules/no-input-rename';
 import noOutputsMetadataProperty, {
   RULE_NAME as noOutputsMetadataPropertyRuleName,
 } from './rules/no-outputs-metadata-property';
@@ -52,12 +58,18 @@ import preferOnPushComponentChangeDetection, {
 import preferOutputReadonly, {
   RULE_NAME as preferOutputReadonlyRuleName,
 } from './rules/prefer-output-readonly';
+import relativeUrlPrefix, {
+  RULE_NAME as relativeUrlPrefixRuleName,
+} from './rules/relative-url-prefix';
 import useComponentSelector, {
   RULE_NAME as useComponentSelectorRuleName,
 } from './rules/use-component-selector';
 import useComponentViewEncapsulation, {
   RULE_NAME as useComponentViewEncapsulationRuleName,
 } from './rules/use-component-view-encapsulation';
+import useInjectableProvidedIn, {
+  RULE_NAME as useInjectableProvidedInRuleName,
+} from './rules/use-injectable-provided-in';
 import useLifecycleInterface, {
   RULE_NAME as useLifecycleInterfaceRuleName,
 } from './rules/use-lifecycle-interface';
@@ -74,22 +86,26 @@ export default {
     [componentMaxInlineDeclarationsRuleName]: componentMaxInlineDeclarations,
     [componentSelectorRuleName]: componentSelector,
     [contextualLifecycleRuleName]: contextualLifecycle,
+    [directiveClassSuffixRuleName]: directiveClassSuffix,
     [directiveSelectorRuleName]: directiveSelector,
     [noConflictingLifecycleRuleName]: noConflictingLifecycle,
+    [noForwardRefRuleName]: noForwardRef,
     [noHostMetadataPropertyRuleName]: noHostMetadataProperty,
+    [noInputRenameRuleName]: noInputRename,
     [noInputsMetadataPropertyRuleName]: noInputsMetadataProperty,
     [noLifecycleCallRuleName]: noLifecycleCall,
     [noOutputNativeRuleName]: noOutputNative,
     [noOutputOnPrefixRuleName]: noOutputOnPrefix,
     [noOutputRenameRuleName]: noOutputRename,
-    [noInputRenameRuleName]: noInputRename,
     [noOutputsMetadataPropertyRuleName]: noOutputsMetadataProperty,
     [noPipeImpureRuleName]: noPipeImpure,
     [noQueriesMetadataPropertyRuleName]: noQueriesMetadataProperty,
     [preferOnPushComponentChangeDetectionRuleName]: preferOnPushComponentChangeDetection,
     [preferOutputReadonlyRuleName]: preferOutputReadonly,
+    [relativeUrlPrefixRuleName]: relativeUrlPrefix,
     [useComponentSelectorRuleName]: useComponentSelector,
     [useComponentViewEncapsulationRuleName]: useComponentViewEncapsulation,
+    [useInjectableProvidedInRuleName]: useInjectableProvidedIn,
     [useLifecycleInterfaceRuleName]: useLifecycleInterface,
     [usePipeDecoratorRuleName]: usePipeDecorator,
     [usePipeTransformInterfaceRuleName]: usePipeTransformInterface,
