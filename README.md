@@ -25,9 +25,7 @@ We would also be very grateful for documentation PRs!
 
 Please follow the links below for the packages you care about.
 
-- [`@angular-eslint/builder`](./packages/builder/) - An Angular CLI Builder which is used to execute ESLint on your Angular projects using standard commands such as `ng lint`</p>
-
-  - This package is also used to power ESLint usage within https://github.com/nrwl/nx workspaces, regardless of which framework is being used.
+- [`@angular-eslint/builder`](./packages/builder/) - An Angular CLI Builder which is used to execute ESLint on your Angular projects using standard commands such as `ng lint`
 
 - [`@angular-eslint/eslint-plugin`](./packages/eslint-plugin) - An ESLint-specific plugin that contains rules which are specific to Angular projects. It can be combined with any other ESLint plugins in the normal way.
 

@@ -45,15 +45,15 @@ module.exports = {
         // '@angular-eslint/directive-class-suffix': 'error'
 
         // ORIGINAL tslint.json -> "directive-selector": [true, "attribute", "app", "camelCase"],
-        "@angular-eslint/directive-selector": [
+        '@angular-eslint/directive-selector': [
           'error',
-          { type: 'attribute', prefix: 'app', style: 'camelCase' }
+          { type: 'attribute', prefix: 'app', style: 'camelCase' },
         ],
 
         // ORIGINAL tslint.json -> "component-selector": [true, "element", "app", "kebab-case"],
-        "@angular-eslint/component-selector": [
+        '@angular-eslint/component-selector': [
           'error',
-          { type: 'element', prefix: 'app', style: 'kebab-case' }
+          { type: 'element', prefix: 'app', style: 'kebab-case' },
         ],
 
         // ORIGINAL tslint.json -> "import-blacklist": [true, "rxjs/Rx"],
@@ -150,7 +150,7 @@ module.exports = {
         'comma-dangle': 'off',
 
         // ORIGINAL tslint.json -> "no-conflicting-lifecycle": true,
-        "@angular-eslint/no-conflicting-lifecycle": 'error',
+        '@angular-eslint/no-conflicting-lifecycle': 'error',
 
         // ORIGINAL tslint.json -> "no-host-metadata-property": true,
         '@angular-eslint/no-host-metadata-property': 'error',
@@ -197,6 +197,16 @@ module.exports = {
         // ORIGINAL tslint.json -> "template-no-negated-async": true,
         '@angular-eslint/template/no-negated-async': 'error',
       },
+    },
+    {
+      files: ['*.component.ts'],
+      parser: '@typescript-eslint/parser',
+      parserOptions: {
+        ecmaVersion: 2020,
+        sourceType: 'module',
+      },
+      plugins: ['@angular-eslint/template'],
+      processor: '@angular-eslint/template/extract-inline-html',
     },
   ],
 };
