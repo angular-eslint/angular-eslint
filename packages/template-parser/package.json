@@ -9,6 +9,11 @@
     "build": "rm -rf ./dist && microbundle --no-sourcemap --target=node --compress --format=cjs",
     "typecheck": "tsc --noEmit"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/angular-eslint/angular-eslint.git",
+    "directory": "packages/template-parser"
+  },
   "files": [
     "dist",
     "package.json",
@@ -23,10 +28,5 @@
     "eslint": "*",
     "typescript": "*"
   },
-  "gitHead": "a1fa84453b178ad182f25c33d9a147e67881ef54",
-  "repository": {
-    "type" : "git",
-    "url" : "https://github.com/angular-eslint/angular-eslint.git",
-    "directory": "packages/template-parser"
-  }
+  "gitHead": "a1fa84453b178ad182f25c33d9a147e67881ef54"
 }
