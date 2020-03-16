@@ -99,7 +99,7 @@ If you are interested in creating this, we would be very grateful to receive a P
 | [`component-max-inline-declarations`] | :white_check_mark: |
 | [`no-conflicting-lifecycle`]          | :white_check_mark: |
 | [`no-forward-ref`]                    | :white_check_mark: |
-| [`no-input-prefix`]                   |                    |
+| [`no-input-prefix`]                   | :white_check_mark: |
 | [`no-input-rename`]                   | :white_check_mark: |
 | [`no-output-on-prefix`]               | :white_check_mark: |
 | [`no-output-rename`]                  | :white_check_mark: |
@@ -190,5 +190,7 @@ If you are interested in creating this, we would be very grateful to receive a P
 [`use-pipe-transform-interface`]: https://codelyzer.com/rules/use-pipe-transform-interface
 
 <!-- PR Links -->
+
+[`pr55`]: https://api.github.com/repos/angular-eslint/angular-eslint/pulls/55
 
 <!-- end rule list -->
