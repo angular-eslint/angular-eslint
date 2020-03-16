@@ -10,6 +10,11 @@
     "test": "jest --coverage",
     "typecheck": "tsc --noEmit"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/angular-eslint/angular-eslint.git",
+    "directory": "packages/eslint-plugin-template"
+  },
   "files": [
     "dist",
     "package.json",

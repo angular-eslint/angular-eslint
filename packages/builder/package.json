@@ -10,6 +10,11 @@
     "postbuild": "cp src/schema.json dist/",
     "typecheck": "tsc --noEmit"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/angular-eslint/angular-eslint.git",
+    "directory": "packages/builder"
+  },
   "files": [
     "dist",
     "package.json",
