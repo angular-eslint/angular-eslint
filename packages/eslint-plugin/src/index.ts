@@ -25,6 +25,9 @@ import noForwardRef, {
 import noHostMetadataProperty, {
   RULE_NAME as noHostMetadataPropertyRuleName,
 } from './rules/no-host-metadata-property';
+import noInputPrefix, {
+  RULE_NAME as noInputPrefixRuleName,
+} from './rules/no-input-prefix';
 import noInputRename, {
   RULE_NAME as noInputRenameRuleName,
 } from './rules/no-input-rename';
@@ -91,6 +94,7 @@ export default {
     [noConflictingLifecycleRuleName]: noConflictingLifecycle,
     [noForwardRefRuleName]: noForwardRef,
     [noHostMetadataPropertyRuleName]: noHostMetadataProperty,
+    [noInputPrefixRuleName]: noInputPrefix,
     [noInputRenameRuleName]: noInputRename,
     [noInputsMetadataPropertyRuleName]: noInputsMetadataProperty,
     [noLifecycleCallRuleName]: noLifecycleCall,
