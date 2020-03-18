@@ -201,6 +201,7 @@ async function _lint(
     useEslintrc: false,
     fix: !!options.fix,
     cache: !!options.cache,
+    ignorePath: options.ignorePath,
   });
 
   const lintReports: eslint.CLIEngine.LintReport[] = [];
