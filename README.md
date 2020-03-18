@@ -35,6 +35,24 @@ Please follow the links below for the packages you care about.
 
 <br>
 
+### Linting inline-templates with the VSCode extension for ESLint
+
+If you use vscode-eslint, and inline-templates on your Angular Components, you will need to make sure you add the following to your VSCode settings:
+
+```json
+// ... more config
+
+"eslint.options": {
+  "extensions": [".ts", ".html"]
+}
+
+// ... more config
+```
+
+Please see the following issue for more information: https://github.com/microsoft/vscode-eslint/issues/922
+
+<br>
+
 ### Migrating from Codelyzer and TSLint
 
 If you are looking for general help in migrating from TSLint to ESLint, you can check out this project: https://github.com/typescript-eslint/tslint-to-eslint-config
@@ -190,7 +208,5 @@ If you are interested in creating this, we would be very grateful to receive a P
 [`use-pipe-transform-interface`]: https://codelyzer.com/rules/use-pipe-transform-interface
 
 <!-- PR Links -->
-
-[`pr55`]: https://api.github.com/repos/angular-eslint/angular-eslint/pulls/55
 
 <!-- end rule list -->
