@@ -6,7 +6,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "rm -rf ./dist && tsc -p tsconfig.json",
+    "build": "rm -rf ./dist && tsc -p tsconfig.json && cp src/collection.json dist/collection.json",
     "test": "jest --coverage",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
