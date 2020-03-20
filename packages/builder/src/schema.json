@@ -80,6 +80,10 @@
         },
         { "minLength": 1 }
       ]
+    },
+    "ignorePath": {
+      "type": "string",
+      "description": "The path of the ignore file."
     }
   },
   "additionalProperties": false,
