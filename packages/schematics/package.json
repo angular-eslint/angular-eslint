@@ -6,7 +6,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "rm -rf ./dist && tsc -p tsconfig.json && cp src/collection.json dist/collection.json",
+    "build": "rm -rf ./dist && tsc -p tsconfig.json && cp src/collection.json dist/collection.json && cp src/ng-add/schema.json dist/ng-add/schema.json",
     "test": "jest --coverage",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
@@ -21,7 +21,7 @@
     "README.md",
     "LICENSE"
   ],
-  "schematics": "dist/collection.json",
+  "schematics": "./dist/collection.json",
   "devDependencies": {
     "@angular-devkit/schematics": "^9.0.7"
   },
