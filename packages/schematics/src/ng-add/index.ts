@@ -5,7 +5,8 @@ import {
   chain,
 } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
-import packageJSON from '../../package.json';
+
+const packageJSON = require('../../package.json');
 
 function addAngularESLintPackages() {
   return (host: Tree, context: SchematicContext) => {

@@ -6,7 +6,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "rm -rf ./dist && microbundle --no-sourcemap --target=node --compress --format=cjs",
+    "build": "rm -rf ./dist && tsc -p tsconfig.json",
     "test": "jest --coverage",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
@@ -21,6 +21,7 @@
     "README.md",
     "LICENSE"
   ],
+  "schematics": "dist/collection.json",
   "devDependencies": {
     "@angular-devkit/schematics": "^9.0.7"
   },

@@ -4,8 +4,8 @@ import {
 } from '@angular-devkit/schematics/testing';
 import * as path from 'path';
 import { Tree } from '@angular-devkit/schematics';
-// @ts-ignore
-import packageJSON from '../../package.json';
+
+const packageJSON = require('../../package.json');
 
 describe('ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
