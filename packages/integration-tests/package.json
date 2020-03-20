@@ -1,6 +1,6 @@
 {
   "name": "@angular-eslint/integration-tests",
-  "version": "0.0.1-alpha.23",
+  "version": "0.0.1-alpha.24",
   "private": true,
   "scripts": {
     "integration-tests": "jest",
