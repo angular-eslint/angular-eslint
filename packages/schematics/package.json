@@ -1,7 +1,7 @@
 {
-  "name": "@angular-eslint/eslint-plugin-template",
+  "name": "@angular-eslint/schematics",
   "version": "0.0.1-alpha.23",
-  "description": "ESLint plugin for Angular Templates",
+  "description": "Angular Schematics for angular-eslint",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -13,7 +13,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/angular-eslint/angular-eslint.git",
-    "directory": "packages/eslint-plugin-template"
+    "directory": "packages/schematics"
   },
   "files": [
     "dist",
@@ -21,14 +21,11 @@
     "README.md",
     "LICENSE"
   ],
-  "dependencies": {
-    "@typescript-eslint/experimental-utils": "2.19.2",
-    "eslint-scope": "^4.0.0"
+  "devDependencies": {
+    "@angular-devkit/schematics": "^9.0.7"
   },
   "peerDependencies": {
-    "@angular-eslint/template-parser": "*",
-    "eslint": "*",
-    "typescript": "*"
+    "@angular-devkit/schematics": "*"
   },
   "gitHead": "a1fa84453b178ad182f25c33d9a147e67881ef54"
 }

@@ -55,9 +55,19 @@ Please see the following issue for more information: https://github.com/microsof
 
 ### Migrating from Codelyzer and TSLint
 
-If you are looking for general help in migrating from TSLint to ESLint, you can check out this project: https://github.com/typescript-eslint/tslint-to-eslint-config
+We have some work in progress tooling to make this as automated as possible, but the reality is it will always be somewhat project-specific as to how much work will be involved in the migration.
 
-For Angular project's specifically, the migration involves a few different aspects:
+The first step is to run the schematic to add `@angular-eslint` to your project:
+
+```sh
+ng add @angular-eslint/schematics
+```
+
+This will handle installing the latest version of all the relevant packages for you and adding them to the `devDependencies` of your `package.json`.
+
+**Soon this ng-add schematic will also handle applying some of the following steps for you automatically**.
+
+The migration involves a few different aspects:
 
 1. Replacing the builder the Angular CLI will use when you run `ng lint`
 
@@ -65,14 +75,12 @@ For Angular project's specifically, the migration involves a few different aspec
 
 3. Populating the `.eslintrc.json` files appropriately to match the previous setup you had in the Codelyzer + TSLint world
 
-**The best source of information for performing this migration** is located within the Angular CLI integration test within this monorepo. Check out the relevant configuration files:
+**The best reference configurations for performing your own migration** are located within the Angular CLI integration test within this monorepo. Check out the relevant configuration files:
 
 - [packages/integration-tests/fixtures/angular-cli-workspace/.eslintrc.js](./packages/integration-tests/fixtures/angular-cli-workspace/.eslintrc.js)
 - [packages/integration-tests/fixtures/angular-cli-workspace/angular.json](./packages/integration-tests/fixtures/angular-cli-workspace/angular.json)
 
-Soon we will provide an example project and also an `ng add` schematic to handle all of this for you automatically.
-
-If you are interested in creating this, we would be very grateful to receive a PR in the meantime!
+If you are looking for general help in migrating from TSLint to ESLint, you can check out this project: https://github.com/typescript-eslint/tslint-to-eslint-config
 
 ### Rules List
 

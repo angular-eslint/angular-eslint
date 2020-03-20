@@ -1,0 +1,9 @@
+{
+  "schematics": {
+    "ng-add": {
+      "factory": "./ng-add",
+      "schema": "./ng-add/schema.json",
+      "description": "Add angular-eslint to an existing project"
+    }
+  }
+}

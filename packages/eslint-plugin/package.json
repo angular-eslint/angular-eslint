@@ -8,7 +8,7 @@
   "scripts": {
     "build": "rm -rf ./dist && microbundle --no-sourcemap --target=node --compress --format=cjs",
     "test": "jest --coverage",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "repository": {
     "type": "git",
