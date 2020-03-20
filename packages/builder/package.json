@@ -8,7 +8,7 @@
   "scripts": {
     "build": "rm -rf ./dist && tsc --project tsconfig.build.json && terser ./dist/index.js --output=./dist/index.js",
     "postbuild": "cp src/schema.json dist/",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "repository": {
     "type": "git",
