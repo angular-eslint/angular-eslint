@@ -42,7 +42,7 @@ const KEYS: VisitorKeys = {
   Interpolation: ['expressions'],
   PrefixNot: ['expression'],
   Binary: ['left', 'right'],
-  Template: ['templateAttrs', 'children'],
+  Template: ['templateAttrs', 'children', 'inputs'],
   BoundAttribute: ['value'],
 };
 
