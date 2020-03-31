@@ -133,7 +133,7 @@ If you are looking for general help in migrating from TSLint to ESLint, you can 
 | [`prefer-output-readonly`]            | :white_check_mark: |
 | [`relative-url-prefix`]               | :white_check_mark: |
 | [`template-conditional-complexity`]   |                    |
-| [`template-cyclomatic-complexity`]    |                    |
+| [`template-cyclomatic-complexity`]    | :white_check_mark: |
 | [`template-i18n`]                     |                    |
 | [`template-no-call-expression`]       |                    |
 | [`template-use-track-by-function`]    |                    |
