@@ -1,7 +1,7 @@
 import ts from 'typescript';
 
 function quickExtractComponentDecorator(text: string) {
-  const matches = text.match(/@Component\({(\s.*\s)*}\)/);
+  const matches = text.match(/@Component\s*\(\s*{(?:(?!}\s*\))(?:\s|.))*}\s*\)/);
   if (!matches || !matches.length) {
     return null;
   }
