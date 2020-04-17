@@ -1,21 +1,5 @@
 import ts from 'typescript';
 
-function quickExtractComponentDecorator(text: string) {
-  const matches = text.match(/@Component\({(\s.*\s)*}\)/);
-  if (!matches || !matches.length) {
-    return null;
-  }
-  return matches[0];
-}
-
-function quickStripComponentDecoratorFromMetadata(
-  componentDecoratorMatch: string,
-): string {
-  return componentDecoratorMatch
-    .slice(0, componentDecoratorMatch.length - 1)
-    .replace('@Component(', '');
-}
-
 function quickGetRangeForTemplate(text: string, template: string) {
   const start = text.indexOf(template);
   return [start, start + template.length];
@@ -23,47 +7,107 @@ function quickGetRangeForTemplate(text: string, template: string) {
 
 const rangeMap = new Map();
 
+const multipleComponentsPerFileError =
+  '@angular-eslint/eslint-plugin-template currently only supports 1 Component per file';
+
 export function preprocessComponentFile(text: string, filename: string) {
   if (!filename.endsWith('.component.ts')) {
     return [text];
   }
-  /**
-   * Ignore malformed Component files
-   */
-  const componentDecoratorMatch = quickExtractComponentDecorator(text);
-  if (!componentDecoratorMatch) {
-    return [text];
-  }
-  /**
-   * Ignore Components which have external template files, they will be linted directly
-   */
-  if (
-    componentDecoratorMatch.includes('templateUrl') ||
-    !componentDecoratorMatch.includes('template')
-  ) {
-    return [text];
-  }
 
   try {
-    const metadataText = quickStripComponentDecoratorFromMetadata(
-      componentDecoratorMatch,
-    );
-    const metadata: any = metadataText
-      .split(',')
-      .map(x => x.split(':').map(y => y.trim()))
-      .reduce((a: any, x) => {
-        a[x[0]] = x[1];
-        return a;
-      }, {});
-
-    const range = quickGetRangeForTemplate(text, metadata.template);
-
     const sourceFile = ts.createSourceFile(
       filename,
       text,
       ts.ScriptTarget.Latest,
-      /* setParentNodes */ false,
+      /* setParentNodes */ true,
     );
+
+    const classDeclarations = sourceFile.statements.filter(s =>
+      ts.isClassDeclaration(s),
+    );
+    if (!classDeclarations || !classDeclarations.length) {
+      return [text];
+    }
+
+    /**
+     * Find all the Component decorators
+     */
+    const componentDecoratorNodes: ts.Decorator[] = [];
+    for (const classDeclaration of classDeclarations) {
+      if (classDeclaration.decorators) {
+        for (const decorator of classDeclaration.decorators) {
+          if (
+            ts.isCallExpression(decorator) &&
+            ts.isIdentifier(decorator.expression) &&
+            decorator.expression.getText() === 'Component'
+          ) {
+          }
+          componentDecoratorNodes.push(decorator);
+        }
+      }
+    }
+
+    /**
+     * Ignore malformed Component files
+     */
+    if (!componentDecoratorNodes || !componentDecoratorNodes.length) {
+      return [text];
+    }
+
+    /**
+     * Only support one component per file for now...
+     * I don't know if people actually use multiple components per file in practice
+     * and I think it makes sense to wait until people complain about this before
+     * attempting to figure out support for it (rather than having something half-baked)
+     */
+    if (componentDecoratorNodes.length > 1) {
+      throw new Error(multipleComponentsPerFileError);
+    }
+
+    const componentDecoratorNode = componentDecoratorNodes[0];
+    /**
+     * Ignore malformed component metadata
+     */
+    if (
+      !ts.isDecorator(componentDecoratorNode) ||
+      !ts.isCallExpression(componentDecoratorNode.expression) ||
+      componentDecoratorNode.expression.arguments.length !== 1
+    ) {
+      return [text];
+    }
+
+    const metadata = componentDecoratorNode.expression.arguments[0];
+    if (!ts.isObjectLiteralExpression(metadata)) {
+      return [text];
+    }
+
+    /**
+     * Ignore Components which have external template files, they will be linted directly,
+     * and any that have inline templates which are malformed
+     */
+    const templateProperty = metadata.properties.find(
+      id => id && id.name && id.name.getText() === 'template',
+    );
+    if (
+      metadata.properties.find(
+        id => id && id.name && id.name.getText() === 'templateUrl',
+      ) ||
+      !templateProperty
+    ) {
+      return [text];
+    }
+
+    if (
+      !ts.isPropertyAssignment(templateProperty) ||
+      !ts.isStringLiteralLike(templateProperty.initializer)
+    ) {
+      return [text];
+    }
+
+    const templateText = templateProperty.initializer.text;
+
+    const range = quickGetRangeForTemplate(text, templateText);
 
     rangeMap.set(filename, {
       range,
@@ -84,11 +128,15 @@ export function preprocessComponentFile(text: string, filename: string) {
     return [
       text,
       {
-        text: metadata.template,
+        text: templateText,
         filename: 'inline-template.component.html',
       },
     ];
   } catch (err) {
+    // Rethrow known error
+    if (err.message === multipleComponentsPerFileError) {
+      throw err;
+    }
     console.log(err);
     console.error(
       'preprocess: ERROR could not parse @Component() metadata',
