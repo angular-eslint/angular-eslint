@@ -160,8 +160,8 @@ function convertNodeSourceSpanToLoc(sourceSpan: ParseSourceSpan) {
   };
 }
 
-function getStartSourceSpanFromAST(ast: AST): ParseSourceSpan {
-  let startSourceSpan: ParseSourceSpan;
+function getStartSourceSpanFromAST(ast: AST): ParseSourceSpan | null {
+  let startSourceSpan: ParseSourceSpan | null = null;
   ast.templateNodes.forEach(node => {
     const nodeSourceSpan = node.startSourceSpan || node.sourceSpan;
 
@@ -178,11 +178,11 @@ function getStartSourceSpanFromAST(ast: AST): ParseSourceSpan {
       return;
     }
   });
-  return startSourceSpan!;
+  return startSourceSpan;
 }
 
-function getEndSourceSpanFromAST(ast: AST): ParseSourceSpan {
-  let endSourceSpan: ParseSourceSpan;
+function getEndSourceSpanFromAST(ast: AST): ParseSourceSpan | null {
+  let endSourceSpan: ParseSourceSpan | null = null;
   ast.templateNodes.forEach(node => {
     const nodeSourceSpan = node.endSourceSpan || node.sourceSpan;
 
@@ -199,7 +199,7 @@ function getEndSourceSpanFromAST(ast: AST): ParseSourceSpan {
       return;
     }
   });
-  return endSourceSpan!;
+  return endSourceSpan;
 }
 
 function parseForESLint(code: string, options: { filePath: string }) {
@@ -238,11 +238,13 @@ function parseForESLint(code: string, options: { filePath: string }) {
   const startSourceSpan = getStartSourceSpanFromAST(ast);
   const endSourceSpan = getEndSourceSpanFromAST(ast);
 
-  ast.range = [startSourceSpan.start.offset, endSourceSpan.end.offset];
-  ast.loc = {
-    start: convertNodeSourceSpanToLoc(startSourceSpan!).start,
-    end: convertNodeSourceSpanToLoc(endSourceSpan!).end,
-  };
+  if (startSourceSpan && endSourceSpan) {
+    ast.range = [startSourceSpan.start.offset, endSourceSpan.end.offset];
+    ast.loc = {
+      start: convertNodeSourceSpanToLoc(startSourceSpan).start,
+      end: convertNodeSourceSpanToLoc(endSourceSpan).end,
+    };
+  }
 
   return {
     ast,
