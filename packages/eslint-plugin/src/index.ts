@@ -16,6 +16,9 @@ import directiveClassSuffix, {
 import directiveSelector, {
   RULE_NAME as directiveSelectorRuleName,
 } from './rules/directive-selector';
+import noAttributeDecorator, {
+  RULE_NAME as noAttributeDecoratorRuleName,
+} from './rules/no-attribute-decorator';
 import noConflictingLifecycle, {
   RULE_NAME as noConflictingLifecycleRuleName,
 } from './rules/no-conflicting-lifecycle';
@@ -91,6 +94,7 @@ export default {
     [contextualLifecycleRuleName]: contextualLifecycle,
     [directiveClassSuffixRuleName]: directiveClassSuffix,
     [directiveSelectorRuleName]: directiveSelector,
+    [noAttributeDecoratorRuleName]: noAttributeDecorator,
     [noConflictingLifecycleRuleName]: noConflictingLifecycle,
     [noForwardRefRuleName]: noForwardRef,
     [noHostMetadataPropertyRuleName]: noHostMetadataProperty,
