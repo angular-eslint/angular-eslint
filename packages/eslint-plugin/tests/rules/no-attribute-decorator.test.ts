@@ -15,6 +15,7 @@ ruleTester.run(RULE_NAME, rule, {
     // should pass if constructor does not exist
     `
       class Test {
+        public foo(){}
       }
     `,
     // should pass if constructor exists but no parameter
