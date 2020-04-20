@@ -1,0 +1,137 @@
+import rule, { RULE_NAME } from '../../src/rules/no-attribute-decorator';
+import { RuleTester } from '../test-helper';
+
+//------------------------------------------------------------------------------
+// Tests
+//------------------------------------------------------------------------------
+const ruleTester = new RuleTester({
+  parser: '@typescript-eslint/parser',
+});
+
+const messageId = 'noAttributeDecorator';
+
+ruleTester.run(RULE_NAME, rule, {
+  valid: [
+    // should pass if constructor does not exist
+    `
+      class Test {
+      }
+    `,
+    // should pass if constructor exists but no parameter
+    `
+      class Test {
+        constructor() {}
+      }
+    `,
+    // should pass if constructor exists and have one parameter without decorator
+    `
+      class Test {
+        constructor(foo: any) {}
+      }
+    `,
+    // should pass if constructor exists and have one parameter with decorator
+    `
+      class Test {
+        constructor(@Optional() foo: any) {}
+      }
+    `,
+    // // should pass if constructor exists and have multiple parameters without decorator
+    `
+      class Test {
+        constructor(foo: any, @Optional() bar: any) {}
+      }
+    `,
+    // // should pass if constructor exists and have multiple parameters with decorator
+    `
+      class Test {
+        constructor(@Optional() foo: any, @Optional() bar: any) {}
+      }
+    `,
+  ],
+  invalid: [
+    {
+      // should fail if constructor has one parameter with @Attribute decorator
+      code: `
+      class Test {
+        constructor(@Attribute() foo: any) {}
+      }
+    `,
+      errors: [
+        {
+          messageId: messageId,
+          line: 3,
+          column: 34,
+        },
+      ],
+    },
+
+    {
+      // should fail if constructor has one parameter with @Attribute decorator
+      code: `
+      class Test {
+        constructor(@Attribute("name") foo: any) {}
+      }
+    `,
+      errors: [
+        {
+          messageId: messageId,
+          line: 3,
+          column: 40,
+        },
+      ],
+    },
+
+    {
+      // should fail if constructor has multiple parameters but one with @Attribute decorator
+      code: `
+      class Test {
+        constructor(foo: any, @Attribute()  bar: any) {}
+      }
+    `,
+      errors: [
+        {
+          messageId: messageId,
+          line: 3,
+          column: 45,
+        },
+      ],
+    },
+
+    {
+      // should fail if constructor has multiple parameters but one with @Attribute decorator
+      code: `
+      class Test {
+        constructor(@Optional() foo: any, @Attribute()  bar: any) {}
+      }
+    `,
+      errors: [
+        {
+          messageId: messageId,
+          line: 3,
+          column: 57,
+        },
+      ],
+    },
+
+    {
+      // should fail if constructor has multiple parameters and all with @Attribute decorator
+      code: `
+      class Test {
+        constructor(@Attribute() foo: any, @Attribute() bar: any) {}
+      }
+    `,
+      errors: [
+        {
+          messageId: messageId,
+          line: 3,
+          column: 34,
+        },
+        {
+          messageId: messageId,
+          line: 3,
+          column: 57,
+        },
+      ],
+    },
+  ],
+});

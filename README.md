@@ -97,7 +97,7 @@ If you are looking for general help in migrating from TSLint to ESLint, you can 
 | ----------------------------------------------- | :----------------: |
 | [`contextual-decorator`]                        |                    |
 | [`contextual-lifecycle`]                        | :white_check_mark: |
-| [`no-attribute-decorator`]                      |                    |
+| [`no-attribute-decorator`]                      | :white_check_mark: |
 | [`no-lifecycle-call`]                           | :white_check_mark: |
 | [`no-output-native`]                            | :white_check_mark: |
 | [`no-pipe-impure`]                              | :white_check_mark: |
