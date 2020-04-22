@@ -38,12 +38,12 @@ export function preprocessComponentFile(text: string, filename: string) {
       if (classDeclaration.decorators) {
         for (const decorator of classDeclaration.decorators) {
           if (
-            ts.isCallExpression(decorator) &&
-            ts.isIdentifier(decorator.expression) &&
-            decorator.expression.getText() === 'Component'
+            ts.isCallExpression(decorator.expression) &&
+            ts.isIdentifier(decorator.expression.expression) &&
+            decorator.expression.expression.text === 'Component'
           ) {
+            componentDecoratorNodes.push(decorator);
           }
-          componentDecoratorNodes.push(decorator);
         }
       }
     }
