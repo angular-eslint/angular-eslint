@@ -34,16 +34,17 @@ interface AST extends Node {
 }
 
 const KEYS: VisitorKeys = {
-  Program: ['templateNodes'],
-  Element: ['children', 'outputs'],
+  ASTWithSource: ['ast'],
+  Binary: ['left', 'right'],
+  BoundAttribute: ['value'],
   BoundEvent: ['handler'],
   BoundText: ['value'],
-  ASTWithSource: ['ast'],
+  Element: ['children', 'inputs', 'outputs'],
   Interpolation: ['expressions'],
   PrefixNot: ['expression'],
-  Binary: ['left', 'right'],
+  Program: ['templateNodes'],
+  PropertyRead: ['receiver'],
   Template: ['templateAttrs', 'children', 'inputs'],
-  BoundAttribute: ['value'],
 };
 
 function fallbackKeysFilter(this: Node, key: string) {
