@@ -1,8 +1,8 @@
-import rule, { MessageIds, RULE_NAME } from '../../src/rules/no-pipe-impure';
 import {
   convertAnnotatedSourceToFailureCase,
   RuleTester,
-} from '../test-helper';
+} from '@angular-eslint/utils';
+import rule, { MessageIds, RULE_NAME } from '../../src/rules/no-pipe-impure';
 
 //------------------------------------------------------------------------------
 // Tests

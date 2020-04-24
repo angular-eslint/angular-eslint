@@ -1,8 +1,8 @@
-import rule, { MessageIds, RULE_NAME } from '../../src/rules/no-lifecycle-call';
 import {
   convertAnnotatedSourceToFailureCase,
   RuleTester,
-} from '../test-helper';
+} from '@angular-eslint/utils';
+import rule, { MessageIds, RULE_NAME } from '../../src/rules/no-lifecycle-call';
 
 const ruleTester = new RuleTester({
   parser: '@typescript-eslint/parser',

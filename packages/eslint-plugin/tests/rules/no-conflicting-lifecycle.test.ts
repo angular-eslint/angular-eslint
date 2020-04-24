@@ -1,8 +1,11 @@
+import {
+  convertAnnotatedSourceToFailureCase,
+  RuleTester,
+} from '@angular-eslint/utils';
 import rule, {
   MessageIds,
   RULE_NAME,
 } from '../../src/rules/no-conflicting-lifecycle';
-import { RuleTester } from '../test-helper';
 
 //------------------------------------------------------------------------------
 // Tests
@@ -51,84 +54,76 @@ ruleTester.run(RULE_NAME, rule, {
     `,
   ],
   invalid: [
-    {
-      // should fail if implement DoCheck and OnChanges
-      code: `
-      class Test implements DoCheck, OnChanges, run {
-        test() {}
-        test1() {}
-      }
-    `,
-      errors: [
+    convertAnnotatedSourceToFailureCase({
+      description: `it should fail if implement DoCheck and OnChanges`,
+      annotatedSource: `
+        class Test implements DoCheck, OnChanges, run {
+                              ~~~~~~~  ^^^^^^^^^
+          test() {}
+          test1() {}
+        }
+      `,
+      messages: [
         {
+          char: '~',
           messageId: interfaceMessageId,
-          line: 2,
-          column: 29,
-          endColumn: 36,
         },
         {
+          char: '^',
           messageId: interfaceMessageId,
-          line: 2,
-          column: 38,
-          endColumn: 47,
         },
       ],
-    },
-
-    {
-      // should fail if implement DoCheck and OnChanges and contain the ngDoCheck and ngOnChanges methods
-      code: `
-      class Test implements DoCheck, OnChanges {
-        ngDoCheck() {}
-        ngOnChanges() {}
-      }
-    `,
-      errors: [
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description: `it should fail if implement DoCheck and OnChanges and contain the ngDoCheck and ngOnChanges methods`,
+      annotatedSource: `
+        class Test implements DoCheck, OnChanges {
+                              ~~~~~~~  ^^^^^^^^^
+          ngDoCheck() {}
+          ##############
+          ngOnChanges() {}
+          ****************
+        }
+      `,
+      messages: [
         {
+          char: '~',
           messageId: interfaceMessageId,
-          line: 2,
-          column: 29,
-          endColumn: 36,
         },
         {
+          char: '^',
           messageId: interfaceMessageId,
-          line: 2,
-          column: 38,
-          endColumn: 47,
         },
         {
+          char: '#',
           messageId: methodMessageId,
-          line: 3,
-          column: 9,
         },
         {
+          char: '*',
           messageId: methodMessageId,
-          line: 4,
-          column: 9,
         },
       ],
-    },
-
-    {
-      // should fail if the ngDoCheck and ngOnChanges methods exist
-      code: `
-      class Test {
-        ngDoCheck() {}
-        ngOnChanges() {}
-      }
-    `,
-      errors: [
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description: `it should fail if the ngDoCheck and ngOnChanges methods exist`,
+      annotatedSource: `
+        class Test {
+          ngDoCheck() {}
+          ~~~~~~~~~~~~~~
+          ngOnChanges() {}
+          ^^^^^^^^^^^^^^^^
+        }
+      `,
+      messages: [
         {
+          char: '~',
           messageId: methodMessageId,
-          line: 3,
-          column: 9,
         },
         {
+          char: '^',
           messageId: methodMessageId,
-          line: 4,
-          column: 9,
         },
       ],
-    },
+    }),
   ],
 });
