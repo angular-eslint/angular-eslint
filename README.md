@@ -135,7 +135,7 @@ If you are looking for general help in migrating from TSLint to ESLint, you can 
 | [`template-conditional-complexity`]   |                    |
 | [`template-cyclomatic-complexity`]    | :white_check_mark: |
 | [`template-i18n`]                     |                    |
-| [`template-no-call-expression`]       |                    |
+| [`template-no-call-expression`]       | :white_check_mark: |
 | [`template-use-track-by-function`]    |                    |
 | [`use-component-selector`]            | :white_check_mark: |
 | [`use-component-view-encapsulation`]  | :white_check_mark: |

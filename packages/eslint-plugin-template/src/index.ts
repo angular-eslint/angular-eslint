@@ -5,6 +5,9 @@ import bananaInABox, {
 import cyclomaticComplexity, {
   RULE_NAME as cyclomaticComplexityRuleName,
 } from './rules/cyclomatic-complexity';
+import noCallExpression, {
+  RULE_NAME as noCallExpressionRule,
+} from './rules/no-call-expression';
 import noNegatedAsync, {
   RULE_NAME as noNegatedAsyncRuleName,
 } from './rules/no-negated-async';
@@ -14,6 +17,7 @@ export default {
   rules: {
     [bananaInABoxRuleName]: bananaInABox,
     [cyclomaticComplexityRuleName]: cyclomaticComplexity,
+    [noCallExpressionRule]: noCallExpression,
     [noNegatedAsyncRuleName]: noNegatedAsync,
   },
 };
