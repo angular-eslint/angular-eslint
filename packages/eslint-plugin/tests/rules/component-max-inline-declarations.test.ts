@@ -1,11 +1,11 @@
+import {
+  convertAnnotatedSourceToFailureCase,
+  RuleTester,
+} from '@angular-eslint/utils';
 import rule, {
   messageId,
   RULE_NAME,
 } from '../../src/rules/component-max-inline-declarations';
-import {
-  convertAnnotatedSourceToFailureCase,
-  RuleTester,
-} from '../test-helper';
 
 //------------------------------------------------------------------------------
 // Tests

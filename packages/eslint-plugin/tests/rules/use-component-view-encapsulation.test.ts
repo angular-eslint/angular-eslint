@@ -1,11 +1,11 @@
+import {
+  convertAnnotatedSourceToFailureCase,
+  RuleTester,
+} from '@angular-eslint/utils';
 import rule, {
   MessageIds,
   RULE_NAME,
 } from '../../src/rules/use-component-view-encapsulation';
-import {
-  convertAnnotatedSourceToFailureCase,
-  RuleTester,
-} from '../test-helper';
 
 //------------------------------------------------------------------------------
 // Tests

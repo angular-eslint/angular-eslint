@@ -1,11 +1,11 @@
+import {
+  convertAnnotatedSourceToFailureCase,
+  RuleTester,
+} from '@angular-eslint/utils';
 import rule, {
   MessageIds,
   RULE_NAME,
 } from '../../src/rules/contextual-lifecycle';
-import {
-  convertAnnotatedSourceToFailureCase,
-  RuleTester,
-} from '../test-helper';
 
 //------------------------------------------------------------------------------
 // Tests

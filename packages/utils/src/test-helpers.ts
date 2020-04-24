@@ -1,4 +1,3 @@
-import { TSESLint } from '@typescript-eslint/experimental-utils';
 /**
  * TODO: expose properly from @typescript-eslint/experimental-utils
  */
@@ -6,117 +5,6 @@ import {
   TestCaseError,
   InvalidTestCase,
 } from '@typescript-eslint/experimental-utils/dist/ts-eslint';
-
-import * as path from 'path';
-
-const parser = '@typescript-eslint/parser';
-
-type RuleTesterConfig = Omit<TSESLint.RuleTesterConfig, 'parser'> & {
-  parser: typeof parser;
-};
-export class RuleTester extends TSESLint.RuleTester {
-  private filename: string | undefined = undefined;
-
-  // as of eslint 6 you have to provide an absolute path to the parser
-  // but that's not as clean to type, this saves us trying to manually enforce
-  // that contributors require.resolve everything
-  constructor(options: RuleTesterConfig) {
-    super({
-      ...options,
-      parser: require.resolve(options.parser),
-    });
-
-    if (options.parserOptions && options.parserOptions.project) {
-      this.filename = path.join(getFixturesRootDir(), 'file.ts');
-    }
-  }
-
-  // as of eslint 6 you have to provide an absolute path to the parser
-  // If you don't do that at the test level, the test will fail somewhat cryptically...
-  // This is a lot more explicit
-  run<TMessageIds extends string, TOptions extends Readonly<unknown[]>>(
-    name: string,
-    rule: TSESLint.RuleModule<TMessageIds, TOptions>,
-    tests: TSESLint.RunTests<TMessageIds, TOptions>,
-  ): void {
-    const errorMessage = `Do not set the parser at the test level unless you want to use a parser other than ${parser}`;
-
-    if (this.filename) {
-      tests.valid = tests.valid.map(test => {
-        if (typeof test === 'string') {
-          return {
-            code: test,
-            filename: this.filename,
-          };
-        }
-        return test;
-      });
-    }
-
-    tests.valid.forEach(test => {
-      if (typeof test !== 'string') {
-        if (test.parser === parser) {
-          throw new Error(errorMessage);
-        }
-        if (!test.filename) {
-          test.filename = this.filename;
-        }
-      }
-    });
-    tests.invalid.forEach(test => {
-      if (test.parser === parser) {
-        throw new Error(errorMessage);
-      }
-      if (!test.filename) {
-        test.filename = this.filename;
-      }
-    });
-
-    super.run(name, rule, tests);
-  }
-}
-
-function getFixturesRootDir() {
-  return path.join(process.cwd(), 'tests/fixtures/');
-}
-
-export function convertAnnotatedSourceToFailureCase<T extends string>({
-  // @ts-ignore
-  description: _,
-  annotatedSource,
-  messageId,
-  data,
-  options = [],
-  annotatedOutput,
-}: {
-  description: string;
-  annotatedSource: string;
-  messageId: T;
-  data?: Record<string, any>;
-  options?: any;
-  annotatedOutput?: string;
-}): InvalidTestCase<T, typeof options> {
-  const parsed = parseInvalidSource(annotatedSource, '');
-  const error: TestCaseError<T> = {
-    messageId,
-    line: parsed.failure.startPosition.line + 1,
-    column: parsed.failure.startPosition.character + 1,
-    endLine: parsed.failure.endPosition.line + 1,
-    endColumn: parsed.failure.endPosition.character + 1,
-  };
-  if (data) {
-    error.data = data;
-  }
-  const invalidTestCase: InvalidTestCase<T, typeof options> = {
-    code: parsed.source,
-    options,
-    errors: [error],
-  };
-  if (annotatedOutput) {
-    invalidTestCase.output = parseInvalidSource(annotatedOutput, '').source;
-  }
-  return invalidTestCase;
-}
 
 /**
  * FROM CODELYZER
@@ -235,3 +123,79 @@ export const parseInvalidSource = (
     source: newSource,
   };
 };
+
+export function convertAnnotatedSourceToFailureCase<T extends string>({
+  // @ts-ignore
+  description: _,
+  annotatedSource,
+  messageId,
+  messages = [],
+  data,
+  options = [],
+  annotatedOutput,
+}: {
+  description: string;
+  annotatedSource: string;
+  messageId?: T;
+  messages?: { char: string; messageId: T }[];
+  data?: Record<string, any>;
+  options?: any;
+  annotatedOutput?: string;
+}): InvalidTestCase<T, typeof options> {
+  if (!messageId && (!messages || !messages.length)) {
+    throw new Error(
+      'Either `messageId` or `messages` is required when configuring a failure case',
+    );
+  }
+
+  if (messageId) {
+    messages = [
+      {
+        char: '~',
+        messageId,
+      },
+    ];
+  }
+
+  let parsedSource = '';
+
+  const errors: TestCaseError<T>[] = messages.map(
+    ({ char: currentValueChar, messageId }) => {
+      const otherChars = messages
+        .filter(({ char }) => char !== currentValueChar)
+        .map(({ char }) => char);
+
+      const parsedForChar = parseInvalidSource(
+        annotatedSource,
+        '',
+        currentValueChar,
+        otherChars,
+      );
+      parsedSource = parsedForChar.source;
+
+      const error: TestCaseError<T> = {
+        messageId,
+        line: parsedForChar.failure.startPosition.line + 1,
+        column: parsedForChar.failure.startPosition.character + 1,
+        endLine: parsedForChar.failure.endPosition.line + 1,
+        endColumn: parsedForChar.failure.endPosition.character + 1,
+      };
+
+      if (data) {
+        error.data = data;
+      }
+
+      return error;
+    },
+  );
+
+  const invalidTestCase: InvalidTestCase<T, typeof options> = {
+    code: parsedSource,
+    options,
+    errors,
+  };
+  if (annotatedOutput) {
+    invalidTestCase.output = parseInvalidSource(annotatedOutput, '').source;
+  }
+  return invalidTestCase;
+}
