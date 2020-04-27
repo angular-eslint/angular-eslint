@@ -4,6 +4,11 @@
       "factory": "./ng-add",
       "schema": "./ng-add/schema.json",
       "description": "Add angular-eslint to an existing project"
+    },
+    "migrate-project-to-eslint": {
+      "factory": "./migrate-project-to-eslint",
+      "schema": "./migrate-project-to-eslint/schema.json",
+      "description": "Migrate an Angular CLI project to ESLint"
     }
   }
 }

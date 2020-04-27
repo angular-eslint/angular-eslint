@@ -1,6 +1,6 @@
 {
-  "name": "@angular-eslint/integration-tests-angular-cli-workspace",
-  "version": "0.0.1-alpha.18",
+  "name": "tslint-to-eslint-migration",
+  "version": "0.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -11,7 +11,6 @@
   },
   "private": true,
   "dependencies": {
-    "@angular-eslint/schematics": "file:angular-eslint-schematics-0.0.1-alpha.29.tgz",
     "@angular/animations": "~9.0.1",
     "@angular/common": "~9.0.1",
     "@angular/compiler": "~9.0.1",
@@ -26,18 +25,12 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.900.2",
-    "@angular-eslint/builder": "file:angular-eslint-builder-0.0.1-alpha.29.tgz",
-    "@angular-eslint/eslint-plugin": "file:angular-eslint-eslint-plugin-0.0.1-alpha.29.tgz",
-    "@angular-eslint/eslint-plugin-template": "file:angular-eslint-eslint-plugin-template-0.0.1-alpha.29.tgz",
-    "@angular-eslint/template-parser": "file:angular-eslint-template-parser-0.0.1-alpha.29.tgz",
     "@angular/cli": "~9.0.2",
     "@angular/compiler-cli": "~9.0.1",
     "@angular/language-service": "~9.0.1",
+    "@types/node": "^12.11.1",
     "@types/jasmine": "~3.5.0",
     "@types/jasminewd2": "~2.0.3",
-    "@types/node": "^12.11.1",
-    "@typescript-eslint/eslint-plugin": "^2.0.0-alpha.4",
-    "@typescript-eslint/parser": "^2.0.0-alpha.4",
     "codelyzer": "^5.1.2",
     "jasmine-core": "~3.5.0",
     "jasmine-spec-reporter": "~4.2.1",

@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "migrate-project-to-eslint",
+  "title": "Migrate an Angular CLI project to ESLint",
+  "type": "object",
+  "examples": [
+    {
+      "command": "g @angular-eslint/schematics:migrate-project-to-eslint --project my-project",
+      "description": "Migrate my-project to use ESLint for linting"
+    }
+  ],
+  "properties": {
+    "projectName": {
+      "type": "string",
+      "alias": "project",
+      "description": "The name of the project to move"
+    }
+  },
+  "required": ["projectName"]
+}

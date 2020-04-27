@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`tslint-to-eslint-migration schematics should transform an existing Angular CLI workspace to use ESLint 1`] = `
+"Installing packages for tooling via yarn.
+Installed packages for tooling via yarn.
+CREATE .eslintrc.json (782 bytes)
+UPDATE package.json (1606 bytes)"
+`;
+
+exports[`tslint-to-eslint-migration schematics should transform an existing Angular CLI workspace to use ESLint 2`] = `
+"CREATE projects/another-app/.eslintrc.json (39 bytes)
+UPDATE angular.json (7685 bytes)"
+`;

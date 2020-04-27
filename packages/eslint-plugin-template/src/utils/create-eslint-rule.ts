@@ -1,8 +1,4 @@
-import {
-  ESLintUtils,
-  TSESLint,
-  ParserServices,
-} from '@typescript-eslint/experimental-utils';
+import { ESLintUtils } from '@typescript-eslint/experimental-utils';
 
 export const createESLintRule = ESLintUtils.RuleCreator(() => ``);
 
@@ -11,20 +7,16 @@ interface SourceSpan {
   end: { line: number; col: any };
 }
 
-declare module '@typescript-eslint/experimental-utils' {
-  export interface ParserServices {
-    defineTemplateBodyVisitor: Function;
-    convertNodeSourceSpanToLoc: (sourceSpan: SourceSpan) => any;
-  }
+interface ParserServices {
+  defineTemplateBodyVisitor: Function;
+  convertNodeSourceSpanToLoc: (sourceSpan: SourceSpan) => any;
 }
 
-export function getTemplateParserServices<
-  TMessageIds extends string,
-  TOptions extends any[]
->(context: TSESLint.RuleContext<TMessageIds, TOptions>): ParserServices {
+export function getTemplateParserServices(context: any): ParserServices {
   if (
     !context.parserServices ||
-    !(context.parserServices as any).defineTemplateBodyVisitor
+    !(context.parserServices as any).defineTemplateBodyVisitor ||
+    !(context.parserServices as any).convertNodeSourceSpanToLoc
   ) {
     /**
      * The user needs to have configured "parser" in their eslint config and set it
