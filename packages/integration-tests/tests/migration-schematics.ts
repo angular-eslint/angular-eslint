@@ -27,14 +27,14 @@ function runNgAdd(directory: string): unknown {
       cwd,
     });
 
-    const { stdout: schematicOutput } = execa.sync(
+    const { stdout } = execa.sync(
       'npx',
       ['ng', 'add', './node_modules/@angular-eslint/schematics'],
       {
         cwd,
       },
     );
-    return schematicOutput;
+    return stdout;
   });
 }
 
@@ -43,7 +43,7 @@ function runMigrateProjectToESLint(
   projectName: string,
 ): unknown {
   return runCommandsAndNormalizeOutput(directory, (cwd: string) => {
-    const { stdout: schematicOutput } = execa.sync(
+    const { stdout } = execa.sync(
       'npx',
       [
         'ng',
@@ -56,7 +56,7 @@ function runMigrateProjectToESLint(
         cwd,
       },
     );
-    return schematicOutput;
+    return stdout;
   });
 }
 
@@ -66,7 +66,10 @@ describe('tslint-to-eslint-migration schematics', () => {
      * Run ng-add to add the required dependencies and root level config file
      */
     const ngAddOutput = runNgAdd('tslint-to-eslint-migration');
-    expect(ngAddOutput).toMatchSnapshot();
+    expect(ngAddOutput).toContain('Installing packages for tooling');
+    expect(ngAddOutput).toContain('Installed packages for tooling');
+    expect(ngAddOutput).toContain('CREATE .eslintrc.json');
+    expect(ngAddOutput).toContain('UPDATE package.json');
     /**
      * Run migrate-project-to-eslint to convert an existing Angular CLI project
      * to use ESlint for its lint target instead of TSLint
@@ -75,6 +78,9 @@ describe('tslint-to-eslint-migration schematics', () => {
       'tslint-to-eslint-migration',
       'another-app',
     );
-    expect(migrateProjectToESLintOutput).toMatchSnapshot();
+    expect(migrateProjectToESLintOutput).toContain(
+      'CREATE projects/another-app/.eslintrc.json',
+    );
+    expect(migrateProjectToESLintOutput).toContain('UPDATE angular.json');
   });
 });
