@@ -2,7 +2,7 @@ import rule, { RULE_NAME } from '../../src/rules/no-attribute-decorator';
 import {
   convertAnnotatedSourceToFailureCase,
   RuleTester,
-} from '../test-helper';
+} from '@angular-eslint/utils';
 
 //------------------------------------------------------------------------------
 // Tests
