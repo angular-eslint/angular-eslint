@@ -24,6 +24,9 @@
   "dependencies": {
     "@typescript-eslint/experimental-utils": "2.19.2"
   },
+  "devDependencies": {
+    "@angular-eslint/utils": "0.0.1-alpha.29"
+  },
   "peerDependencies": {
     "eslint": "*",
     "typescript": "*"

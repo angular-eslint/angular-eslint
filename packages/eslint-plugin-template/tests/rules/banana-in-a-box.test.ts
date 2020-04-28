@@ -1,8 +1,8 @@
-import rule, { MessageIds, RULE_NAME } from '../../src/rules/banana-in-a-box';
 import {
   convertAnnotatedSourceToFailureCase,
   RuleTester,
-} from '../test-helper';
+} from '@angular-eslint/utils';
+import rule, { MessageIds, RULE_NAME } from '../../src/rules/banana-in-a-box';
 
 //------------------------------------------------------------------------------
 // Tests

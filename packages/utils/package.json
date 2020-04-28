@@ -1,0 +1,25 @@
+{
+  "name": "@angular-eslint/utils",
+  "version": "0.0.1-alpha.29",
+  "private": true,
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "rm -rf ./dist && tsc",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "files": [
+    "dist",
+    "package.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "peerDependencies": {
+    "eslint": "*",
+    "typescript": "*"
+  },
+  "dependencies": {
+    "@typescript-eslint/experimental-utils": "2.19.2"
+  }
+}
