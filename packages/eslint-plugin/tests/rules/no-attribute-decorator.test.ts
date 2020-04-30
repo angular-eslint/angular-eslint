@@ -101,25 +101,25 @@ ruleTester.run(RULE_NAME, rule, {
       messageId,
     }),
 
-    {
-      // should fail if constructor has multiple parameters and all with @Attribute decorator
-      code: `
+    convertAnnotatedSourceToFailureCase({
+      description: `should fail if constructor has multiple parameters
+      and all with @Attribute decorator`,
+      annotatedSource: `
       class Test {
         constructor(@Attribute() foo: any, @Attribute() bar: any) {}
+                                 ~~~~~~~~               ^^^^^^^^
       }
     `,
-      errors: [
+      messages: [
         {
+          char: '~',
           messageId: messageId,
-          line: 3,
-          column: 34,
         },
         {
+          char: '^',
           messageId: messageId,
-          line: 3,
-          column: 57,
         },
       ],
-    },
+    }),
   ],
 });
