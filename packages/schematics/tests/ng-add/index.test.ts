@@ -7,6 +7,7 @@ import { Tree } from '@angular-devkit/schematics';
 
 const packageJSON = require('../../package.json');
 
+const eslintVersion = packageJSON.devDependencies['eslint'];
 const typescriptESLintVersion =
   packageJSON.devDependencies['@typescript-eslint/experimental-utils'];
 
@@ -27,13 +28,15 @@ describe('ng-add', () => {
     }),
   );
 
-  it('should add relevant @angular-eslint and @typescript-eslint packages', async () => {
+  it('should add relevant eslint, @angular-eslint and @typescript-eslint packages', async () => {
     const tree = await schematicRunner
       .runSchematicAsync('ng-add', {}, appTree)
       .toPromise();
     const projectPackageJSON = JSON.parse(tree.readContent('/package.json'));
     const devDeps = projectPackageJSON.devDependencies;
     const deps = projectPackageJSON.dependencies;
+
+    expect(devDeps['eslint']).toEqual(eslintVersion);
 
     expect(devDeps['@angular-eslint/builder']).toEqual(packageJSON.version);
     expect(devDeps['@angular-eslint/eslint-plugin']).toEqual(
