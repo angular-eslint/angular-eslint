@@ -35,6 +35,18 @@ export class RuleTester extends TSESLint.RuleTester {
     if (options.parserOptions && options.parserOptions.project) {
       this.filename = path.join(getFixturesRootDir(), 'file.ts');
     }
+
+    // make sure that the parser doesn't hold onto file handles between tests
+    // on linux (i.e. our CI env), there can be very a limited number of watch handles available
+    afterAll(() => {
+      try {
+        // instead of creating a hard dependency, just use a soft require
+        // a bit weird, but if they're using this tooling, it'll be installed
+        require(options.parser).clearCaches();
+      } catch {
+        // ignored
+      }
+    });
   }
 
   // as of eslint 6 you have to provide an absolute path to the parser

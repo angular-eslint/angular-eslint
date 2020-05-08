@@ -23,7 +23,8 @@
   ],
   "schematics": "./dist/collection.json",
   "devDependencies": {
-    "@angular-devkit/schematics": "^9.0.7"
+    "@angular-devkit/schematics": "^9.0.7",
+    "@typescript-eslint/experimental-utils": "2.31.0"
   },
   "peerDependencies": {
     "@angular-devkit/schematics": "*"
