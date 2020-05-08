@@ -19,7 +19,7 @@ export default createESLintRule<Options, MessageIds>({
     docs: {
       description: `Ensures tht classes decorated with @${AngularClassDecorators.Pipe} implement ${PIPE_TRANSFORM} interface`,
       category: 'Best Practices',
-      recommended: false,
+      recommended: 'error',
     },
     schema: [],
     messages: {

@@ -1,3 +1,7 @@
+import all from './configs/all.json';
+import base from './configs/base.json';
+import recommended from './configs/recommended.json';
+
 import componentClassSuffix, {
   RULE_NAME as componentClassSuffixRuleName,
 } from './rules/component-class-suffix';
@@ -87,6 +91,11 @@ import usePipeTransformInterface, {
 } from './rules/use-pipe-transform-interface';
 
 export default {
+  configs: {
+    all,
+    base,
+    recommended,
+  },
   rules: {
     [componentClassSuffixRuleName]: componentClassSuffix,
     [componentMaxInlineDeclarationsRuleName]: componentMaxInlineDeclarations,

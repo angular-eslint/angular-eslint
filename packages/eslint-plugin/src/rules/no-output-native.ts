@@ -188,7 +188,7 @@ export default createESLintRule<Options, MessageIds>({
     docs: {
       description: 'Disallows naming directive outputs as standard DOM event.',
       category: 'Best Practices',
-      recommended: false,
+      recommended: 'error',
     },
     schema: [],
     messages: {

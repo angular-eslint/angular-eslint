@@ -1,0 +1,77 @@
+{
+  "extends": "./configs/base.json",
+  "rules": {
+    "@typescript-eslint/array-type": "off",
+    "arrow-parens": "off",
+    "no-restricted-imports": [
+      "error",
+      {
+        "paths": [
+          {
+            "name": "rxjs/Rx",
+            "message": "Please import directly from 'rxjs' instead"
+          }
+        ]
+      }
+    ],
+    "@typescript-eslint/interface-name-prefix": "off",
+    "max-classes-per-file": "off",
+    "max-len": ["error", { "code": 140 }],
+    "@typescript-eslint/explicit-member-accessibility": "off",
+    "@typescript-eslint/member-ordering": [
+      "error",
+      {
+        "default": [
+          "static-field",
+          "instance-field",
+          "static-method",
+          "instance-method"
+        ]
+      }
+    ],
+    "no-multiple-empty-lines": "off",
+    "no-restricted-syntax": [
+      "error",
+      {
+        "selector": "CallExpression[callee.object.name=\"console\"][callee.property.name=/^(debug|info|time|timeEnd|trace)$/]",
+        "message": "Unexpected property on console object was called"
+      }
+    ],
+    "no-empty": "off",
+    "@typescript-eslint/no-inferrable-types": [
+      "error",
+      { "ignoreParameters": true }
+    ],
+    "@typescript-eslint/no-non-null-assertion": "error",
+    "no-fallthrough": "error",
+    "@typescript-eslint/no-var-requires": "off",
+    "quote-props": ["error", "as-needed"],
+    "sort-keys": "off",
+    "quotes": ["error", "single"],
+    "comma-dangle": "off",
+    "@angular-eslint/component-class-suffix": "error",
+    "@angular-eslint/contextual-lifecycle": "error",
+    "@angular-eslint/directive-class-suffix": "error",
+    "@angular-eslint/no-conflicting-lifecycle": "error",
+    "@angular-eslint/no-host-metadata-property": "error",
+    "@angular-eslint/no-input-rename": "error",
+    "@angular-eslint/no-inputs-metadata-property": "error",
+    "@angular-eslint/no-output-native": "error",
+    "@angular-eslint/no-output-on-prefix": "error",
+    "@angular-eslint/no-output-rename": "error",
+    "@angular-eslint/no-outputs-metadata-property": "error",
+    "@angular-eslint/use-lifecycle-interface": "warn",
+    "@angular-eslint/use-pipe-transform-interface": "error"
+  },
+  "overrides": [
+    {
+      "files": ["*.component.html"],
+      "parser": "@angular-eslint/template-parser",
+      "plugins": ["@angular-eslint/template"],
+      "rules": {
+        "@angular-eslint/template/banana-in-a-box": "error",
+        "@angular-eslint/template/no-negated-async": "error"
+      }
+    }
+  ]
+}

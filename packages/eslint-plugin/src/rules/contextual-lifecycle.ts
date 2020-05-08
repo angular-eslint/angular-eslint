@@ -28,7 +28,7 @@ export default createESLintRule<Options, MessageIds>({
       description:
         'Ensures that classes use allowed lifecycle method in its body',
       category: 'Possible Errors',
-      recommended: false,
+      recommended: 'error',
     },
     schema: [],
     messages: {

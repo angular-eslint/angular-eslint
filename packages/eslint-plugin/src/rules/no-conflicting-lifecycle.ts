@@ -40,7 +40,7 @@ export default createESLintRule<Options, MessageIds>({
       description:
         'Ensures that directives not implement conflicting lifecycle interfaces.',
       category: 'Best Practices',
-      recommended: false,
+      recommended: 'error',
     },
     schema: [],
     messages: {

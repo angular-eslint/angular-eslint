@@ -14,7 +14,7 @@ export default createESLintRule<Options, MessageIds>({
     docs: {
       description: `Ensures that strict equality is used when evaluating negations on async pipe output`,
       category: 'Best Practices',
-      recommended: false,
+      recommended: 'error',
     },
     fixable: 'code',
     schema: [],
