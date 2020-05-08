@@ -93,30 +93,30 @@ If you are looking for general help in migrating from TSLint to ESLint, you can 
 
 #### Functionality
 
-| Codelyzer rule                                  |          Status          |
-| ----------------------------------------------- | :----------------------: |
-| [`contextual-decorator`]                        |                          |
-| [`contextual-lifecycle`]                        |    :white_check_mark:    |
-| [`no-attribute-decorator`]                      | [:construction:][`pr72`] |
-| [`no-lifecycle-call`]                           |    :white_check_mark:    |
-| [`no-output-native`]                            |    :white_check_mark:    |
-| [`no-pipe-impure`]                              |    :white_check_mark:    |
-| [`prefer-on-push-component-change-detection`]   |    :white_check_mark:    |
-| [`template-accessibility-alt-text`]             |                          |
-| [`template-accessibility-elements-content`]     |                          |
-| [`template-accessibility-label-for`]            |                          |
-| [`template-accessibility-tabindex-no-positive`] |                          |
-| [`template-accessibility-table-scope`]          |                          |
-| [`template-accessibility-valid-aria`]           |                          |
-| [`template-banana-in-box`]                      |    :white_check_mark:    |
-| [`template-click-events-have-key-events`]       |                          |
-| [`template-mouse-events-have-key-events`]       |                          |
-| [`template-no-any`]                             |                          |
-| [`template-no-autofocus`]                       |                          |
-| [`template-no-distracting-elements`]            |                          |
-| [`template-no-negated-async`]                   |    :white_check_mark:    |
-| [`use-injectable-provided-in`]                  |    :white_check_mark:    |
-| [`use-lifecycle-interface`]                     |    :white_check_mark:    |
+| Codelyzer rule                                  |       Status       |
+| ----------------------------------------------- | :----------------: |
+| [`contextual-decorator`]                        |                    |
+| [`contextual-lifecycle`]                        | :white_check_mark: |
+| [`no-attribute-decorator`]                      | :white_check_mark: |
+| [`no-lifecycle-call`]                           | :white_check_mark: |
+| [`no-output-native`]                            | :white_check_mark: |
+| [`no-pipe-impure`]                              | :white_check_mark: |
+| [`prefer-on-push-component-change-detection`]   | :white_check_mark: |
+| [`template-accessibility-alt-text`]             |                    |
+| [`template-accessibility-elements-content`]     |                    |
+| [`template-accessibility-label-for`]            |                    |
+| [`template-accessibility-tabindex-no-positive`] |                    |
+| [`template-accessibility-table-scope`]          |                    |
+| [`template-accessibility-valid-aria`]           |                    |
+| [`template-banana-in-box`]                      | :white_check_mark: |
+| [`template-click-events-have-key-events`]       |                    |
+| [`template-mouse-events-have-key-events`]       |                    |
+| [`template-no-any`]                             |                    |
+| [`template-no-autofocus`]                       |                    |
+| [`template-no-distracting-elements`]            |                    |
+| [`template-no-negated-async`]                   | :white_check_mark: |
+| [`use-injectable-provided-in`]                  | :white_check_mark: |
+| [`use-lifecycle-interface`]                     | :white_check_mark: |
 
 #### Maintainability
 
