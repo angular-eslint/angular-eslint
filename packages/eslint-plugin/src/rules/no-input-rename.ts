@@ -62,7 +62,7 @@ export default createESLintRule<Options, MessageIds>({
       description:
         'Disallows renaming directive inputs by providing a string to the decorator.',
       category: 'Best Practices',
-      recommended: false,
+      recommended: 'error',
     },
     schema: [],
     messages: {

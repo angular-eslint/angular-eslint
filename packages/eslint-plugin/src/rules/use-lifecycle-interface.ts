@@ -23,7 +23,7 @@ export default createESLintRule<Options, MessageIds>({
       description:
         'Ensures classes implement lifecycle interfaces corresponding to the declared lifecycle methods',
       category: 'Best Practices',
-      recommended: false,
+      recommended: 'warn',
     },
     schema: [],
     messages: {

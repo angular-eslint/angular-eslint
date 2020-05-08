@@ -47,6 +47,10 @@ jobs:
       run: |
         yarn format-check
 
+    - name: Check configs
+      run: |
+        yarn check-configs
+
     - name: Run unit tests
       run: |
         yarn test

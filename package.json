@@ -27,7 +27,9 @@
     "typecheck": "lerna run typecheck",
     "check-readme": "yarn exec-tool check-readme",
     "update-readme": "yarn exec-tool update-readme",
-    "exec-tool": "ts-node --files --transpile-only --project tsconfig.tools.json -r tsconfig-paths/register tools/scripts/exec-tool.ts"
+    "exec-tool": "ts-node --files --transpile-only --project tsconfig.tools.json -r tsconfig-paths/register tools/scripts/exec-tool.ts",
+    "check-configs": "lerna run check-configs",
+    "update-configs": "ts-node --files --transpile-only --project tsconfig.tools.json -r tsconfig-paths/register tools/scripts/generate-configs.ts"
   },
   "config": {
     "commitizen": {

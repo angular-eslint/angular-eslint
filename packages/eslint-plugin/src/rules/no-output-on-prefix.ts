@@ -13,7 +13,7 @@ export default createESLintRule<Options, MessageIds>({
     docs: {
       description: `Name events without the prefix on. See more at https://angular.io/guide/styleguide#dont-prefix-output-properties.`,
       category: 'Best Practices',
-      recommended: false,
+      recommended: 'error',
     },
     schema: [],
     messages: {
