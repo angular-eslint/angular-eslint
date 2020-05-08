@@ -217,6 +217,4 @@ If you are looking for general help in migrating from TSLint to ESLint, you can 
 
 <!-- PR Links -->
 
-[`pr72`]: https://api.github.com/repos/angular-eslint/angular-eslint/pulls/72
-
 <!-- end rule list -->
