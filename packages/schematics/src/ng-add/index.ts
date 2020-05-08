@@ -21,6 +21,11 @@ function addAngularESLintPackages() {
     json.devDependencies = json.devDependencies || {};
 
     /**
+     * eslint packages
+     */
+    json.devDependencies['eslint'] = packageJSON.devDependencies['eslint'];
+
+    /**
      * @angular-eslint packages
      */
     json.devDependencies['@angular-eslint/builder'] = packageJSON.version;
