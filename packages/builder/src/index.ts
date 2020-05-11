@@ -257,7 +257,7 @@ async function _run(options: any, context: any): Promise<any> {
     !version ||
     version.length < 2 ||
     Number(version[0]) < 6 ||
-    Number(version[1]) < 1
+    (Number(version[0]) === 6 && Number(version[1]) < 1)
   ) {
     throw new Error('ESLint must be version 6.1 or higher.');
   }
