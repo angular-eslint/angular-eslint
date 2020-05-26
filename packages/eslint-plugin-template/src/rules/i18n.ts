@@ -185,7 +185,9 @@ export default createESLintRule<Options, MessageIds>({
                   data: {
                     attribName: attrib.name,
                   },
-                  fix: () => null,
+                  // Little bit of a hack,
+                  // but VS code ignores suggestions with no fix!?
+                  fix: fixer => fixer.insertTextBeforeRange([0, 0], ''),
                 },
               ],
             });
