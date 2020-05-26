@@ -73,7 +73,13 @@ ruleTester.run(RULE_NAME, rule, {
           placeholder="More translation, please"
           class="red"
         >
-          <span i18n>Some text to translate</span>
+          <div
+            *ngIf="true"
+            width="100px"
+            label="Templates need translation too."
+          >
+            <span i18n>Some text to translate</span>
+          </div>
         </div>`,
       errors: [
         {
@@ -87,9 +93,19 @@ ruleTester.run(RULE_NAME, rule, {
           column: 9,
         },
         {
-          messageId: i18nId,
+          messageId: i18nAttrib,
           line: 8,
           column: 11,
+        },
+        {
+          messageId: i18nAttrib,
+          line: 8,
+          column: 11,
+        },
+        {
+          messageId: i18nId,
+          line: 13,
+          column: 13,
         },
       ],
       output: `
@@ -99,7 +115,13 @@ ruleTester.run(RULE_NAME, rule, {
           placeholder="More translation, please"
           class="red"
         >
-          <span i18n>Some text to translate</span>
+          <div i18n-label
+            *ngIf="true"
+            width="100px"
+            label="Templates need translation too."
+          >
+            <span i18n>Some text to translate</span>
+          </div>
         </div>`,
     },
   ],
