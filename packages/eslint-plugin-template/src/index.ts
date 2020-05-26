@@ -11,6 +11,7 @@ import noCallExpression, {
 import noNegatedAsync, {
   RULE_NAME as noNegatedAsyncRuleName,
 } from './rules/no-negated-async';
+import i18n, { RULE_NAME as i18nRuleName } from './rules/i18n';
 
 export default {
   processors,
@@ -19,5 +20,6 @@ export default {
     [cyclomaticComplexityRuleName]: cyclomaticComplexity,
     [noCallExpressionRule]: noCallExpression,
     [noNegatedAsyncRuleName]: noNegatedAsync,
+    [i18nRuleName]: i18n,
   },
 };
