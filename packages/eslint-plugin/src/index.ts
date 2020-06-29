@@ -89,6 +89,9 @@ import usePipeDecorator, {
 import usePipeTransformInterface, {
   RULE_NAME as usePipeTransformInterfaceRuleName,
 } from './rules/use-pipe-transform-interface';
+import pipePrefix, {
+  RULE_NAME as pipePrefixRuleName,
+} from './rules/pipe-prefix';
 
 export default {
   configs: {
@@ -126,5 +129,6 @@ export default {
     [useLifecycleInterfaceRuleName]: useLifecycleInterface,
     [usePipeDecoratorRuleName]: usePipeDecorator,
     [usePipeTransformInterfaceRuleName]: usePipeTransformInterface,
+    [pipePrefixRuleName]: pipePrefix,
   },
 };
