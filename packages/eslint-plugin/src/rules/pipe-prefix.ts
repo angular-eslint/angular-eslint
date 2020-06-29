@@ -59,11 +59,11 @@ export default createESLintRule<Options, MessageIds>({
 
     return {
       [PIPE_CLASS_DECORATOR](node: TSESTree.Decorator) {
-        const rawNameSelector = getDecoratorPropertyValue(node, 'name');
+        const nameSelector = getDecoratorPropertyValue(node, 'name');
         const classParent = node.parent as TSESTree.ClassDeclaration;
         const className = getClassName(classParent);
 
-        if (!rawNameSelector) {
+        if (!nameSelector) {
           return;
         }
 
@@ -73,37 +73,37 @@ export default createESLintRule<Options, MessageIds>({
           return;
         }
 
-        const prefixStr = prefixes.join(',');
-        const prefixExpression = prefixes.join('|');
+        const allowPrefixesMsg = prefixes.join(',');
+        const allowPrefixesExpression = prefixes.join('|');
         const prefixValidator = SelectorValidator.prefix(
-          prefixExpression,
+          allowPrefixesExpression,
           'camelCase',
         );
 
-        let propName = null;
+        let nameValue = null;
 
-        if (rawNameSelector && isLiteral(rawNameSelector)) {
-          propName = rawNameSelector.value as string;
+        if (nameSelector && isLiteral(nameSelector)) {
+          nameValue = nameSelector.value as string;
         } else if (
-          rawNameSelector &&
-          isTemplateLiteral(rawNameSelector) &&
-          rawNameSelector.quasis[0]
+          nameSelector &&
+          isTemplateLiteral(nameSelector) &&
+          nameSelector.quasis[0]
         ) {
-          propName = rawNameSelector.quasis[0].value.raw as string;
+          nameValue = nameSelector.quasis[0].value.raw as string;
         }
 
-        if (propName === null) {
+        if (nameValue === null) {
           return;
         }
 
-        if (!prefixValidator.apply(this, [propName])) {
+        if (!prefixValidator.apply(this, [nameValue])) {
           context.report({
-            node: rawNameSelector,
+            node: nameSelector,
             messageId: 'pipePrefix',
             data: {
               className,
-              prefixStr,
-              propName,
+              prefixStr: allowPrefixesMsg,
+              propName: nameValue,
             },
           });
         }
