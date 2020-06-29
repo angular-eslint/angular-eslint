@@ -59,11 +59,11 @@ export default createESLintRule<Options, MessageIds>({
 
     return {
       [PIPE_CLASS_DECORATOR](node: TSESTree.Decorator) {
-        const rawSelectors = getDecoratorPropertyValue(node, 'name');
+        const rawNameSelector = getDecoratorPropertyValue(node, 'name');
         const classParent = node.parent as TSESTree.ClassDeclaration;
         const className = getClassName(classParent);
 
-        if (!rawSelectors) {
+        if (!rawNameSelector) {
           return;
         }
 
@@ -80,17 +80,25 @@ export default createESLintRule<Options, MessageIds>({
           'camelCase',
         );
 
-        let propName = '';
+        let propName = null;
 
-        if (node && isLiteral(node)) {
-          propName = node.value as string;
-        } else if (node && isTemplateLiteral(node) && node.quasis[0]) {
-          propName = node.quasis[0].value.raw as string;
+        if (rawNameSelector && isLiteral(rawNameSelector)) {
+          propName = rawNameSelector.value as string;
+        } else if (
+          rawNameSelector &&
+          isTemplateLiteral(rawNameSelector) &&
+          rawNameSelector.quasis[0]
+        ) {
+          propName = rawNameSelector.quasis[0].value.raw as string;
+        }
+
+        if (propName === null) {
+          return;
         }
 
         if (!prefixValidator.apply(this, [propName])) {
           context.report({
-            node: classParent.id ? classParent.id : classParent,
+            node: rawNameSelector,
             messageId: 'pipePrefix',
             data: {
               className,
