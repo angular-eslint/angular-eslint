@@ -118,5 +118,22 @@ ruleTester.run(RULE_NAME, rule, {
         },
       ],
     }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'should fail when Pipe has no prefix applying multiple prefixes',
+      annotatedSource: `
+        @Pipe({
+          name: 'foo-bar'
+                ~~~~~~~~~
+        })
+        class Test {}
+      `,
+      messageId,
+      options: [
+        {
+          prefixes: ['ng', 'mg', 'sg'],
+        },
+      ],
+    }),
   ],
 });
