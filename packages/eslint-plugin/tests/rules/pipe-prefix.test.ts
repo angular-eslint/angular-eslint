@@ -62,7 +62,9 @@ ruleTester.run(RULE_NAME, rule, {
     {
       // should ignore the rule when the rule option is blank
       code: `
-        @Pipe
+        @Pipe({
+          name: 'ngBarFoo'
+        })
         class Test {}
       `,
       options: [
