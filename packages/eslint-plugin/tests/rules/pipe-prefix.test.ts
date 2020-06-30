@@ -48,6 +48,18 @@ ruleTester.run(RULE_NAME, rule, {
       ],
     },
     {
+      // should ignore the rule when the rule option is blank
+      code: `
+        @Pipe
+        class Test {}
+      `,
+      options: [
+        {
+          prefixes: [],
+        },
+      ],
+    },
+    {
       // should succeed with prefix ng in @Pipe
       code: `
         @Pipe({
@@ -66,6 +78,20 @@ ruleTester.run(RULE_NAME, rule, {
       code: `
         @Pipe({
           name: 'ngBarFoo'
+        })
+        class Test {}
+      `,
+      options: [
+        {
+          prefixes: ['ng', 'sg', 'mg'],
+        },
+      ],
+    },
+    {
+      // should succeed with multiple prefixes in @Pipe
+      code: `
+        @Pipe({
+          name: \`ngBarFoo\`
         })
         class Test {}
       `,
