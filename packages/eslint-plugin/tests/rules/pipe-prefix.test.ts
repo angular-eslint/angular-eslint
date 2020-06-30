@@ -29,6 +29,18 @@ ruleTester.run(RULE_NAME, rule, {
       ],
     },
     {
+      // should not fail when @Pipe does not have content
+      code: `
+        @Pipe({})
+        class Test {}
+      `,
+      options: [
+        {
+          prefixes: ['ng'],
+        },
+      ],
+    },
+    {
       // should ignore the rule when the name is a variable
       code: `
         export function mockPipe(name: string): any {
