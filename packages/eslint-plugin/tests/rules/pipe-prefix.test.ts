@@ -93,7 +93,8 @@ ruleTester.run(RULE_NAME, rule, {
         @Pipe({
           name: pipeName
         })
-        class Test {}      `,
+        class Test {}
+      `,
       options: [
         {
           prefixes: ['ng'],

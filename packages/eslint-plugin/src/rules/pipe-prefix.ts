@@ -2,9 +2,9 @@ import { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import { PIPE_CLASS_DECORATOR } from '../utils/selectors';
 import {
-  getClassName,
   getDecoratorPropertyValue,
-  isLiteral,
+  getReadablePrefixes,
+  isLiteralWithStringValue,
   isTemplateLiteral,
   SelectorValidator,
 } from '../utils/utils';
@@ -20,9 +20,9 @@ export const RULE_NAME = 'pipe-prefix';
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
   meta: {
-    type: 'layout',
+    type: 'suggestion',
     docs: {
-      description: `Enforce consistent prefix for pipes.`,
+      description: 'Enforce consistent prefix for pipes.',
       category: 'Stylistic Issues',
       recommended: false,
     },
@@ -36,13 +36,14 @@ export default createESLintRule<Options, MessageIds>({
               type: 'string',
             },
             minimum: 1,
+            uniqueItems: true,
           },
         },
         additionalProperties: false,
       },
     ],
     messages: {
-      pipePrefix: `The name of the Pipe decorator of class "{{className}}" should start with prefix "{{prefixes}}", however its value is "{{propName}}"`,
+      pipePrefix: `@Pipe's name should be prefixed by {{prefixes}}`,
     },
   },
   defaultOptions: [
@@ -50,18 +51,14 @@ export default createESLintRule<Options, MessageIds>({
       prefixes: [],
     },
   ],
-  create(context, [options]) {
-    const { prefixes } = options;
-
-    function checkValidOption(prefixes: any) {
+  create(context, [{ prefixes }]) {
+    function checkValidOption(prefixes: unknown) {
       return Array.isArray(prefixes) && prefixes.length > 0;
     }
 
     return {
       [PIPE_CLASS_DECORATOR](node: TSESTree.Decorator) {
         const nameSelector = getDecoratorPropertyValue(node, 'name');
-        const classParent = node.parent as TSESTree.ClassDeclaration;
-        const className = getClassName(classParent);
 
         if (!nameSelector) {
           return;
@@ -73,26 +70,21 @@ export default createESLintRule<Options, MessageIds>({
           return;
         }
 
-        const allowPrefixesMsg = prefixes.join(',');
         const allowPrefixesExpression = prefixes.join('|');
         const prefixValidator = SelectorValidator.prefix(
           allowPrefixesExpression,
           'camelCase',
         );
 
-        let nameValue = null;
+        let nameValue;
 
-        if (nameSelector && isLiteral(nameSelector)) {
-          nameValue = nameSelector.value as string;
-        } else if (
-          nameSelector &&
-          isTemplateLiteral(nameSelector) &&
-          nameSelector.quasis[0]
-        ) {
+        if (isLiteralWithStringValue(nameSelector)) {
+          nameValue = nameSelector.value;
+        } else if (isTemplateLiteral(nameSelector) && nameSelector.quasis[0]) {
           nameValue = nameSelector.quasis[0].value.raw as string;
         }
 
-        if (nameValue === null) {
+        if (!nameValue) {
           return;
         }
 
@@ -101,9 +93,7 @@ export default createESLintRule<Options, MessageIds>({
             node: nameSelector,
             messageId: 'pipePrefix',
             data: {
-              className,
-              prefixStr: allowPrefixesMsg,
-              propName: nameValue,
+              prefixStr: getReadablePrefixes(prefixes),
             },
           });
         }
