@@ -93,7 +93,7 @@ export default createESLintRule<Options, MessageIds>({
             node: nameSelector,
             messageId: 'pipePrefix',
             data: {
-              prefixStr: getReadablePrefixes(prefixes),
+              prefixes: getReadablePrefixes(prefixes),
             },
           });
         }
