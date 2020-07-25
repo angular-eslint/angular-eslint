@@ -118,6 +118,18 @@ The migration involves a few different aspects:
 
 If you are looking for general help in migrating from TSLint to ESLint, you can check out this project: https://github.com/typescript-eslint/tslint-to-eslint-config
 
+<br>
+
+### Usage without Angular CLI Builder
+
+If you're using this without the Angular CLI Builder don't forget to include `.component.html` as one of the file extensions when running the eslint CLI, otherwise templates will not be linted, e.g.:
+
+```
+eslint --ext .ts,.component.html
+```
+
+<br>
+
 ### Rules List
 
 <!-- begin rule list -->
