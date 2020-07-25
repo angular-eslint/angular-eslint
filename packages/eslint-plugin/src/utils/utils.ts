@@ -476,3 +476,19 @@ export function isImportedFrom(
   }
   return false;
 }
+
+/**
+ * Convert an array of prefix to human-readable text.
+ */
+export const getReadablePrefixes = (prefixes: string[]): string => {
+  const prefixesLength = prefixes.length;
+
+  if (prefixesLength === 1) {
+    return `"${prefixes[0]}"`;
+  }
+
+  return `${prefixes
+    .map(x => `"${x}"`)
+    .slice(0, prefixesLength - 1)
+    .join(', ')} or "${[...prefixes].pop()}"`;
+};

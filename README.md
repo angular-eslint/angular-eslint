@@ -156,7 +156,7 @@ If you are looking for general help in migrating from TSLint to ESLint, you can 
 | [`no-inputs-metadata-property`]  | :white_check_mark: |
 | [`no-outputs-metadata-property`] | :white_check_mark: |
 | [`no-queries-metadata-property`] | :white_check_mark: |
-| [`pipe-prefix`]                  |                    |
+| [`pipe-prefix`]                  | :white_check_mark: |
 | [`prefer-inline-decorator`]      |                    |
 
 <!-- Codelyzer Links -->
@@ -216,5 +216,7 @@ If you are looking for general help in migrating from TSLint to ESLint, you can 
 [`use-pipe-transform-interface`]: https://codelyzer.com/rules/use-pipe-transform-interface
 
 <!-- PR Links -->
+
+[`pr106`]: https://api.github.com/repos/angular-eslint/angular-eslint/pulls/106
 
 <!-- end rule list -->
