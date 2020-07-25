@@ -35,6 +35,42 @@ Please follow the links below for the packages you care about.
 
 <br>
 
+### Linting templates with Angular ESLint
+
+You can change the parser in the main section of your eslint config file to the template parser in this project. The rules in /template will then be available to use in your main config section. If any rules in OTHER packages then complain about not having access to the parser they need, you can add an 'overrides' section to your config specifically for the template rules instead, e.g.:
+
+```json
+// ... more config
+"overrides": [
+    {
+      "files": ["*.component.html"],
+      "parser": "@angular-eslint/template-parser",
+      "plugins": ["@angular-eslint/template"],
+      "rules": {
+        "@angular-eslint/template/banana-in-a-box": "error",
+        "@angular-eslint/template/cyclomatic-complexity": "error",
+        "@angular-eslint/template/no-call-expression": "error",
+        "@angular-eslint/template/no-negated-async": "error",
+        "@angular-eslint/template/i18n": [
+          "error",
+          {
+            "checkId": false,
+            "checkText": true,
+            "checkAttributes": true,
+            "ignoreAttributes": [
+              "field",
+              "identifier"
+            ]
+          }
+        ]
+      }
+    }
+  ]
+// ... more config
+```
+
+<br>
+
 ### Linting inline-templates with the VSCode extension for ESLint
 
 If you use vscode-eslint, and inline-templates on your Angular Components, you will need to make sure you add the following to your VSCode settings:
