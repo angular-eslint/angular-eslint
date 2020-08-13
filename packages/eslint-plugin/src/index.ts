@@ -62,6 +62,9 @@ import noPipeImpure, {
 import noQueriesMetadataProperty, {
   RULE_NAME as noQueriesMetadataPropertyRuleName,
 } from './rules/no-queries-metadata-property';
+import noEmptyLifecycleMethod, {
+  RULE_NAME as noEmptyLifecycleMethodRuleName,
+} from './rules/no-empty-lifecycle-method';
 import preferOnPushComponentChangeDetection, {
   RULE_NAME as preferOnPushComponentChangeDetectionRuleName,
 } from './rules/prefer-on-push-component-change-detection';
@@ -120,6 +123,7 @@ export default {
     [noOutputsMetadataPropertyRuleName]: noOutputsMetadataProperty,
     [noPipeImpureRuleName]: noPipeImpure,
     [noQueriesMetadataPropertyRuleName]: noQueriesMetadataProperty,
+    [noEmptyLifecycleMethodRuleName]: noEmptyLifecycleMethod,
     [preferOnPushComponentChangeDetectionRuleName]: preferOnPushComponentChangeDetection,
     [preferOutputReadonlyRuleName]: preferOutputReadonly,
     [relativeUrlPrefixRuleName]: relativeUrlPrefix,
