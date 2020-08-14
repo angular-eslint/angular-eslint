@@ -42,8 +42,8 @@
     ]
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.900.2",
-    "@angular/compiler": "~9.0.1",
+    "@angular-devkit/build-angular": "~0.1000.6",
+    "@angular/compiler": "~10.0.9",
     "@commitlint/cli": "^8.1.0",
     "@commitlint/config-conventional": "^8.1.0",
     "@types/eslint": "^4.16.6",

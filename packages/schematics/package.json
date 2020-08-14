@@ -23,7 +23,7 @@
   ],
   "schematics": "./dist/collection.json",
   "devDependencies": {
-    "@angular-devkit/schematics": "^9.0.7",
+    "@angular-devkit/schematics": "^10.0.6",
     "@typescript-eslint/experimental-utils": "3.9.0",
     "eslint": "^6.8.0"
   },

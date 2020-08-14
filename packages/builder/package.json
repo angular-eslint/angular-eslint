@@ -24,7 +24,7 @@
   ],
   "builders": "./builders.json",
   "peerDependencies": {
-    "@angular-devkit/build-angular": "~0.900.2",
+    "@angular-devkit/build-angular": "~0.1000.6",
     "eslint": "*",
     "typescript": "*"
   },
