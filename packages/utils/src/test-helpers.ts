@@ -182,7 +182,8 @@ export function convertAnnotatedSourceToFailureCase<T extends string>({
       };
 
       if (data) {
-        error.data = data;
+        // TODO: Make .data writable in @typescript-eslint/experimental-utils types
+        (error as any).data = data;
       }
 
       return error;
@@ -195,7 +196,11 @@ export function convertAnnotatedSourceToFailureCase<T extends string>({
     errors,
   };
   if (annotatedOutput) {
-    invalidTestCase.output = parseInvalidSource(annotatedOutput, '').source;
+    // TODO: Make .output writable in @typescript-eslint/experimental-utils types
+    (invalidTestCase as any).output = parseInvalidSource(
+      annotatedOutput,
+      '',
+    ).source;
   }
   return invalidTestCase;
 }

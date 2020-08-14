@@ -6,7 +6,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "rm -rf ./dist && microbundle --no-sourcemap --target=node --compress --format=cjs",
+    "build": "rm -rf ./dist && microbundle --tsconfig tsconfig.build.json --no-sourcemap --target=node --compress --format=cjs",
     "test": "jest --coverage",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
@@ -22,7 +22,7 @@
     "LICENSE"
   ],
   "dependencies": {
-    "@typescript-eslint/experimental-utils": "2.31.0"
+    "@typescript-eslint/experimental-utils": "3.9.0"
   },
   "devDependencies": {
     "@angular-eslint/utils": "^0.0.1-alpha.33"

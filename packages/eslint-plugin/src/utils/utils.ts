@@ -254,7 +254,7 @@ export const getPipeDecorator = (
 ): TSESTree.Decorator | undefined => getDecorator(node, 'Pipe');
 
 export const getSymbolName = (
-  expression: TSESTree.ExpressionWithTypeArguments,
+  expression: TSESTree.TSClassImplements,
 ): string => {
   const { expression: childExpression } = expression;
 
@@ -266,7 +266,7 @@ export const getSymbolName = (
 
 export const getDeclaredInterfaces = (
   node: TSESTree.ClassDeclaration,
-): TSESTree.ExpressionWithTypeArguments[] => {
+): TSESTree.TSClassImplements[] => {
   return node.implements || [];
 };
 
