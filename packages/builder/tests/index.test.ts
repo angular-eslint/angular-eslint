@@ -40,7 +40,7 @@ function mockEslint() {
 
 function mockCreateProgram() {
   jest.doMock('../src/utils/ts-utils', () => ({
-    createProgram: jest.fn().mockImplementation(path => path + '-program'),
+    createProgram: jest.fn().mockImplementation((path) => path + '-program'),
   }));
 }
 

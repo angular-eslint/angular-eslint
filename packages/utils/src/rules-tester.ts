@@ -72,7 +72,7 @@ export class RuleTester extends TSESLint.RuleTester {
 
     if (this.filename) {
       // TODO: Make .valid writable in @typescript-eslint/experimental-utils types
-      (tests as any).valid = tests.valid.map(test => {
+      (tests as any).valid = tests.valid.map((test) => {
         if (typeof test === 'string') {
           return {
             code: test,
@@ -83,7 +83,7 @@ export class RuleTester extends TSESLint.RuleTester {
       });
     }
 
-    tests.valid.forEach(test => {
+    tests.valid.forEach((test) => {
       if (typeof test !== 'string') {
         if (isValidParser(test.parser)) {
           throw new Error(errorMessage);
@@ -94,7 +94,7 @@ export class RuleTester extends TSESLint.RuleTester {
         }
       }
     });
-    tests.invalid.forEach(test => {
+    tests.invalid.forEach((test) => {
       if (isValidParser(test.parser)) {
         throw new Error(errorMessage);
       }

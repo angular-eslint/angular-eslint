@@ -1,10 +1,18 @@
-import { createBuilder } from '@angular-devkit/architect';
-import { CLIEngine } from 'eslint';
+import {
+  createBuilder,
+  BuilderOutput,
+  BuilderContext,
+} from '@angular-devkit/architect';
+import { ESLint } from 'eslint';
 import path from 'path';
-import { loadESLint, lint } from './utils/eslint-utils';
+import { lint, loadESLint } from './utils/eslint-utils';
 import { createProgram } from './utils/ts-utils';
+import { Schema } from './schema';
 
-async function run(options: any, context: any): Promise<any> {
+async function run(
+  options: Schema,
+  context: BuilderContext,
+): Promise<BuilderOutput> {
   const systemRoot = context.workspaceRoot;
   process.chdir(context.currentDirectory);
   const projectName = (context.target && context.target.project) || '<???>';
@@ -17,18 +25,17 @@ async function run(options: any, context: any): Promise<any> {
   }
 
   const projectESLint = await loadESLint();
-  // TODO: Fix upstream type info, missing static version property
-  const version =
-    (projectESLint.Linter as any).version &&
-    (projectESLint.Linter as any).version.split('.');
+  const version = projectESLint.ESLint?.version?.split('.');
   if (
     !version ||
     version.length < 2 ||
-    Number(version[0]) < 6 ||
-    (Number(version[0]) === 6 && Number(version[1]) < 1)
+    Number(version[0]) < 7 ||
+    (Number(version[0]) === 7 && Number(version[1]) < 6)
   ) {
-    throw new Error('ESLint must be version 6.1 or higher.');
+    throw new Error('ESLint must be version 7.6 or higher.');
   }
+
+  const eslint = new projectESLint.ESLint({});
 
   /**
    * We want users to have the option of not specifying the config path, and let
@@ -38,7 +45,7 @@ async function run(options: any, context: any): Promise<any> {
     ? path.resolve(systemRoot, options.eslintConfig)
     : undefined;
 
-  let lintReports: CLIEngine.LintReport[] = [];
+  let lintResults: ESLint.LintResult[] = [];
   const lintedFiles = new Set<string>();
 
   if (options.tsConfig) {
@@ -54,8 +61,8 @@ async function run(options: any, context: any): Promise<any> {
 
     let i = 0;
     for (const program of allPrograms) {
-      lintReports = [
-        ...lintReports,
+      lintResults = [
+        ...lintResults,
         ...(await lint(
           systemRoot,
           eslintConfigPath,
@@ -68,32 +75,31 @@ async function run(options: any, context: any): Promise<any> {
       context.reportProgress(++i, allPrograms.length);
     }
   } else {
-    lintReports = [
-      ...lintReports,
+    lintResults = [
+      ...lintResults,
       ...(await lint(systemRoot, eslintConfigPath, options, lintedFiles)),
     ];
   }
 
-  if (lintReports.length === 0) {
+  if (lintResults.length === 0) {
     throw new Error('Invalid lint configuration. Nothing to lint.');
   }
 
-  // TODO: Fix upstream type info, missing static method
-  const formatter = (projectESLint.CLIEngine as any).getFormatter(
-    options.format,
-  );
+  const formatter = await eslint.loadFormatter(options.format);
 
   let totalErrors = 0;
   let totalWarnings = 0;
 
-  for (const report of lintReports) {
-    // output fixes to disk
-    projectESLint.CLIEngine.outputFixes(report);
+  // output fixes to disk
+  if (options.fix) {
+    await projectESLint.ESLint.outputFixes(lintResults);
+  }
 
-    if (report.errorCount || report.warningCount) {
-      totalErrors += report.errorCount;
-      totalWarnings += report.warningCount;
-      context.logger.info(formatter(report.results));
+  for (const result of lintResults) {
+    if (result.errorCount || result.warningCount) {
+      totalErrors += result.errorCount;
+      totalWarnings += result.warningCount;
+      context.logger.info(formatter.format([result]));
     }
   }
 

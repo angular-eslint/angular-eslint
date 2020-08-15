@@ -56,7 +56,7 @@ export default createESLintRule<Options, MessageIds>({
       );
 
       const hasInterfaceConflictingLifecycle = LIFECYCLE_INTERFACES.every(
-        lifecycleInterface =>
+        (lifecycleInterface) =>
           declaredAngularLifecycleInterfaces.includes(lifecycleInterface),
       );
 
@@ -64,7 +64,7 @@ export default createESLintRule<Options, MessageIds>({
 
       const declaredInterfaces = getDeclaredInterfaces(node);
       const declaredAngularLifecycleInterfacesNodes = declaredInterfaces.filter(
-        node =>
+        (node) =>
           isIdentifier(node.expression) &&
           isAngularLifecycleInterface(node.expression.name),
       );
@@ -82,7 +82,7 @@ export default createESLintRule<Options, MessageIds>({
       );
 
       const hasMethodConflictingLifecycle = LIFECYCLE_METHODS.every(
-        lifecycleMethod =>
+        (lifecycleMethod) =>
           declaredAngularLifecycleMethods.includes(lifecycleMethod),
       );
 
@@ -90,7 +90,7 @@ export default createESLintRule<Options, MessageIds>({
 
       const declaredMethods = getDeclaredMethods(node);
       const declaredAngularLifecycleMethodNodes = declaredMethods.filter(
-        node =>
+        (node) =>
           isIdentifier(node.key) && isAngularLifecycleMethod(node.key.name),
       );
 

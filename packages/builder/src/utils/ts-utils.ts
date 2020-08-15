@@ -45,7 +45,7 @@ export function createProgram(
   if (config.error !== undefined) {
     throw new FatalError(
       ts.formatDiagnostics([config.error], {
-        getCanonicalFileName: f => f,
+        getCanonicalFileName: (f) => f,
         getCurrentDirectory: process.cwd,
         getNewLine: () => '\n',
       }),
@@ -54,7 +54,7 @@ export function createProgram(
   const parseConfigHost: ts.ParseConfigHost = {
     fileExists: existsSync,
     readDirectory: ts.sys.readDirectory,
-    readFile: file => readFileSync(file, 'utf8'),
+    readFile: (file) => readFileSync(file, 'utf8'),
     useCaseSensitiveFileNames: true,
   };
   const parsed = ts.parseJsonConfigFileContent(
@@ -66,12 +66,12 @@ export function createProgram(
   if (parsed.errors !== undefined) {
     // ignore warnings and 'TS18003: No inputs were found in config file ...'
     const errors = parsed.errors.filter(
-      d => d.category === ts.DiagnosticCategory.Error && d.code !== 18003,
+      (d) => d.category === ts.DiagnosticCategory.Error && d.code !== 18003,
     );
     if (errors.length !== 0) {
       throw new FatalError(
         ts.formatDiagnostics(errors, {
-          getCanonicalFileName: f => f,
+          getCanonicalFileName: (f) => f,
           getCurrentDirectory: process.cwd,
           getNewLine: () => '\n',
         }),

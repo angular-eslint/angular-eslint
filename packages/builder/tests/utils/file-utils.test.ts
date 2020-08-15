@@ -1,5 +1,5 @@
 jest.mock('glob', () => ({
-  sync: jest.fn().mockImplementation(fileOrPattern => {
+  sync: jest.fn().mockImplementation((fileOrPattern) => {
     // Prevent the '**/*.component.html' pattern from being returned in tests
     if (fileOrPattern === '**/*.component.html') {
       return [];

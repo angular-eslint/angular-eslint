@@ -1,17 +1,18 @@
-export interface Schema {
+import type { JsonObject } from '@angular-devkit/core';
+
+export interface Schema extends JsonObject {
   tsConfig: string | string[];
   format: Formatter;
   files: string[];
   force: boolean;
   silent: boolean;
-  quiet: boolean;
   fix: boolean;
   cache: boolean;
   outputFile: string;
   cacheLocation: string;
   exclude: string[];
-  eslintConfig?: string;
-  ignorePath?: string;
+  eslintConfig: string | null;
+  ignorePath: string | null;
 }
 
 type Formatter =

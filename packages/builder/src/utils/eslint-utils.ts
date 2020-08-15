@@ -1,6 +1,6 @@
-import { getFilesToLint } from './file-utils';
+import { ESLint } from 'eslint';
 import { Schema } from '../schema';
-import { CLIEngine } from 'eslint';
+import { getFilesToLint } from './file-utils';
 
 export async function loadESLint() {
   let eslint;
@@ -19,25 +19,31 @@ export async function lint(
   lintedFiles: Set<string>,
   program?: any,
   allPrograms?: any[],
-): Promise<any[]> {
+): Promise<ESLint.LintResult[]> {
   const files = getFilesToLint(systemRoot, options, program);
 
   const projectESLint = await loadESLint();
-  const cli: CLIEngine = new projectESLint.CLIEngine({
-    configFile: eslintConfigPath,
+
+  const eslint = new projectESLint.ESLint({
     useEslintrc: true,
+    overrideConfigFile: eslintConfigPath,
+    overrideConfig: {
+      parserOptions: {
+        project: options.tsConfig,
+      },
+    },
+    ignorePath: options.ignorePath || undefined,
     fix: !!options.fix,
     cache: !!options.cache,
     cacheLocation: options.cacheLocation,
-    ignorePath: options.ignorePath,
   });
 
-  const lintReports: CLIEngine.LintReport[] = [];
+  let lintResults: ESLint.LintResult[] = [];
 
   for (const file of files) {
-    if (program && allPrograms) {
+    if (file.endsWith('.ts') && program && allPrograms) {
       // If it cannot be found in ANY program, then this is an error.
-      if (allPrograms.every(p => p.getSourceFile(file) === undefined)) {
+      if (allPrograms.every((p) => p.getSourceFile(file) === undefined)) {
         throw new Error(
           `File ${JSON.stringify(file)} is not part of a TypeScript project '${
             options.tsConfig
@@ -54,19 +60,11 @@ export async function lint(
       continue;
     }
 
-    /**
-     * TODO: this was copied from TSLint builder - is it necessary here?
-     */
-    // Give some breathing space to other promises that might be waiting.
-    await Promise.resolve();
-    const report = cli.executeOnFiles([file]);
-    if (options.quiet) {
-      report.results = CLIEngine.getErrorResults(report.results);
-      report.errorCount = 0;
-    }
-    lintReports.push(report);
+    const results = await eslint.lintFiles([file]);
+
+    lintResults = [...lintResults, ...results];
     lintedFiles.add(file);
   }
 
-  return lintReports;
+  return lintResults;
 }

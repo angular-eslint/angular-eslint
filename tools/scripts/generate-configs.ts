@@ -285,7 +285,7 @@ const recommendedConfig: LinterConfig = {
   rules: {
     ...additionalTypeScriptRules,
     ...eslintPluginRuleEntries
-      .filter(entry => !!entry[1].meta.docs?.recommended)
+      .filter((entry) => !!entry[1].meta.docs?.recommended)
       .reduce<LinterConfigRules>(
         (config, entry) =>
           reducer('@angular-eslint/', config, entry, {
@@ -301,7 +301,7 @@ const recommendedConfig: LinterConfig = {
       parser: '@angular-eslint/template-parser',
       plugins: ['@angular-eslint/template'],
       rules: eslintPluginTemplateRuleEntries
-        .filter(entry => !!entry[1].meta.docs?.recommended)
+        .filter((entry) => !!entry[1].meta.docs?.recommended)
         .reduce<LinterConfigRules>(
           (config, entry) =>
             reducer('@angular-eslint/template/', config, entry, {

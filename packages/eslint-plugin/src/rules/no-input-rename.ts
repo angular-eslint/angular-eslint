@@ -96,10 +96,11 @@ export default createESLintRule<Options, MessageIds>({
           return !!(
             (propertyAlias !== propertyName &&
               directiveSelectors &&
-              directiveSelectors.some(x =>
+              directiveSelectors.some((x) =>
                 new RegExp(
-                  `^${x}((${propertyName[0].toUpperCase() +
-                    propertyName.slice(1)}$)|(?=$))`,
+                  `^${x}((${
+                    propertyName[0].toUpperCase() + propertyName.slice(1)
+                  }$)|(?=$))`,
                 ).test(propertyAlias),
               )) ||
             (whiteListAliases.has(propertyAlias) &&
@@ -116,7 +117,7 @@ export default createESLintRule<Options, MessageIds>({
         const decorator =
           classDeclaration.decorators &&
           classDeclaration.decorators.find(
-            decorator =>
+            (decorator) =>
               isCallExpression(decorator.expression) &&
               isIdentifier(decorator.expression.callee) &&
               decorator.expression.callee.name ===

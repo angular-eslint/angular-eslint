@@ -65,7 +65,7 @@ export default createESLintRule<Options, MessageIds>({
         const disallowedPrefixes = options.prefixes;
 
         const isDisallowedPrefix = disallowedPrefixes.some(
-          x => x === memberName || new RegExp(`^${x}[^a-z]`).test(memberName),
+          (x) => x === memberName || new RegExp(`^${x}[^a-z]`).test(memberName),
         );
 
         if (!isDisallowedPrefix) {

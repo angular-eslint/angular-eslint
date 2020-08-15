@@ -57,7 +57,7 @@ export default createESLintRule<Options, MessageIds>({
 
         const declaredInterfaceNames = getDeclaredInterfaceNames(classParent);
         const hasValidatorInterface = declaredInterfaceNames.some(
-          interfaceName => interfaceName.endsWith(ValidatorSuffix),
+          (interfaceName) => interfaceName.endsWith(ValidatorSuffix),
         );
 
         if (hasValidatorInterface) {
@@ -66,7 +66,7 @@ export default createESLintRule<Options, MessageIds>({
 
         if (
           !className ||
-          !suffixes.some(suffix => className.endsWith(suffix))
+          !suffixes.some((suffix) => className.endsWith(suffix))
         ) {
           context.report({
             node: classParent.id ? classParent.id : classParent,

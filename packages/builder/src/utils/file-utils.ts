@@ -30,7 +30,7 @@ function mapDefined<T, U>(
  * `resolveJsonModule`.
  */
 function getFileNamesFromProgram(program: ts.Program): string[] {
-  return mapDefined(program.getSourceFiles(), file =>
+  return mapDefined(program.getSourceFiles(), (file) =>
     file.fileName.endsWith('.d.ts') ||
     file.fileName.endsWith('.json') ||
     program.isSourceFileFromExternalLibrary(file)
@@ -48,9 +48,9 @@ export function getFilesToLint(
   const files = options.files || [];
 
   const componentHTMLFiles = ['**/*.component.html']
-    .map(file => glob.sync(file, { cwd: root, ignore: ignore, nodir: true }))
+    .map((file) => glob.sync(file, { cwd: root, ignore: ignore, nodir: true }))
     .reduce((prev, curr) => prev.concat(curr), [])
-    .map(file => path.join(root, file));
+    .map((file) => path.join(root, file));
 
   if (files.length > 0) {
     return files

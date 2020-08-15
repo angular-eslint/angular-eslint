@@ -55,7 +55,7 @@ export default createESLintRule<Options, MessageIds>({
 
         if (
           !className ||
-          !suffixes.some(suffix => className.endsWith(suffix))
+          !suffixes.some((suffix) => className.endsWith(suffix))
         ) {
           context.report({
             node: classParent.id ? classParent.id : classParent,
