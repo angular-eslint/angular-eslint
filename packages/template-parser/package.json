@@ -21,7 +21,7 @@
     "LICENSE"
   ],
   "dependencies": {
-    "eslint-scope": "^4.0.0"
+    "eslint-scope": "^5.1.0"
   },
   "peerDependencies": {
     "@angular/compiler": "*",
