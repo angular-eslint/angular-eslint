@@ -20,6 +20,6 @@
     "typescript": "*"
   },
   "dependencies": {
-    "@typescript-eslint/experimental-utils": "2.31.0"
+    "@typescript-eslint/experimental-utils": "3.9.0"
   }
 }

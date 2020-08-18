@@ -113,7 +113,7 @@ export const checkValidOptions = (
   const isTypeOptionValid =
     typeOption.length > 0 &&
     typeOption.every(
-      argument =>
+      (argument) =>
         [OPTION_TYPE_ELEMENT, OPTION_TYPE_ATTRIBUTE].indexOf(argument) !== -1,
     );
 
@@ -152,8 +152,10 @@ export const checkSelector = (
 
   if (node && isLiteral(node)) {
     listSelectors = CssSelector.parse(node.raw);
-    hasExpectedPrefix = arrayify<string>(node.value as string).some(selector =>
-      prefixOption.some(prefix =>
+    hasExpectedPrefix = arrayify<string>(
+      node.value as string,
+    ).some((selector) =>
+      prefixOption.some((prefix) =>
         SelectorValidator.prefix(prefix, styleOption)(selector),
       ),
     );
@@ -161,8 +163,8 @@ export const checkSelector = (
     listSelectors = CssSelector.parse(node.quasis[0].value.raw);
     hasExpectedPrefix = arrayify<string>(
       node.quasis[0].value.raw as string,
-    ).some(selector =>
-      prefixOption.some(prefix =>
+    ).some((selector) =>
+      prefixOption.some((prefix) =>
         SelectorValidator.prefix(prefix, styleOption)(selector),
       ),
     );
@@ -174,7 +176,7 @@ export const checkSelector = (
 
   const validSelectors = getValidSelectors(listSelectors, types);
 
-  const hasExpectedStyle = validSelectors.some(selector =>
+  const hasExpectedStyle = validSelectors.some((selector) =>
     styleValidator(selector),
   );
 

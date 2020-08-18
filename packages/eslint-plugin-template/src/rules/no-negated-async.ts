@@ -33,16 +33,14 @@ export default createESLintRule<Options, MessageIds>({
     return parserServices.defineTemplateBodyVisitor({
       ['BindingPipe[name=async]'](node: any) {
         if (node.parent.type === 'PrefixNot') {
-          const additionalStartOffset =
-            node.parent.parent.type === 'Interpolation' ? -1 : -0;
-          const additionalEndOffset =
-            node.parent.parent.type === 'Interpolation' ? -2 : 0;
+          const additionalOffset =
+            node.parent.parent.type === 'Interpolation' ? -1 : 0;
 
           const start = sourceCode.getLocFromIndex(
-            node.parent.sourceSpan.start + additionalStartOffset,
+            node.parent.sourceSpan.start + additionalOffset,
           );
           const end = sourceCode.getLocFromIndex(
-            node.parent.sourceSpan.end + additionalEndOffset,
+            node.parent.sourceSpan.end + additionalOffset,
           );
 
           context.report({
@@ -59,7 +57,7 @@ export default createESLintRule<Options, MessageIds>({
           const additionalStartOffset =
             node.parent.parent.type === 'Interpolation' ? -2 : -1;
           const additionalEndOffset =
-            node.parent.parent.type === 'Interpolation' ? -2 : 0;
+            node.parent.parent.type === 'Interpolation' ? -1 : 0;
           const start = sourceCode.getLocFromIndex(
             node.parent.sourceSpan.start + additionalStartOffset,
           );

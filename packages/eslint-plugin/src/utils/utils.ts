@@ -212,7 +212,7 @@ export const getDecorator = (
     return undefined;
   }
   return node.decorators.find(
-    decorator =>
+    (decorator) =>
       isCallExpression(decorator.expression) &&
       decorator.expression.arguments &&
       decorator.expression.arguments.length > 0 &&
@@ -254,7 +254,7 @@ export const getPipeDecorator = (
 ): TSESTree.Decorator | undefined => getDecorator(node, 'Pipe');
 
 export const getSymbolName = (
-  expression: TSESTree.ExpressionWithTypeArguments,
+  expression: TSESTree.TSClassImplements,
 ): string => {
   const { expression: childExpression } = expression;
 
@@ -266,7 +266,7 @@ export const getSymbolName = (
 
 export const getDeclaredInterfaces = (
   node: TSESTree.ClassDeclaration,
-): TSESTree.ExpressionWithTypeArguments[] => {
+): TSESTree.TSClassImplements[] => {
   return node.implements || [];
 };
 
@@ -279,7 +279,7 @@ export const getDeclaredInterfaceName = (
   value: string,
 ): string | undefined =>
   getDeclaredInterfaceNames(node).find(
-    interfaceName => interfaceName === value,
+    (interfaceName) => interfaceName === value,
   );
 
 export const getDeclaredAngularLifecycleInterfaces = (
@@ -353,7 +353,7 @@ export const getDecoratorProperty = (
 
   const properties = arg.properties as TSESTree.Property[];
   const property = properties.find(
-    prop => !!(prop.key && isIdentifier(prop.key) && prop.key.name === name),
+    (prop) => !!(prop.key && isIdentifier(prop.key) && prop.key.name === name),
   );
 
   if (!property || !isProperty(property)) return undefined;
@@ -434,7 +434,7 @@ export const SelectorValidator = {
   ): (selector: string) => boolean {
     const regex = new RegExp(`^\\[?(${prefix})`);
 
-    return selector => {
+    return (selector) => {
       if (!prefix) return true;
 
       if (!regex.test(selector)) return false;
@@ -453,7 +453,7 @@ export const SelectorValidator = {
 };
 
 export const kebabToCamelCase = (value: string) =>
-  value.replace(/-[a-zA-Z]/g, x => x[1].toUpperCase());
+  value.replace(/-[a-zA-Z]/g, (x) => x[1].toUpperCase());
 
 export function isImportedFrom(
   identifier: TSESTree.Identifier,
@@ -463,11 +463,11 @@ export function isImportedFrom(
   while ((parentNode = parentNode.parent)) {
     if (parentNode.type !== 'Program') continue;
     return parentNode.body.some(
-      node =>
+      (node) =>
         isImportDeclaration(node) &&
         (node.source as TSESTree.Literal).value === module &&
         node.specifiers.some(
-          specifier =>
+          (specifier) =>
             isImportSpecifier(specifier) &&
             specifier.imported.name === identifier.name &&
             specifier.local.name === identifier.name,
@@ -488,7 +488,7 @@ export const getReadablePrefixes = (prefixes: string[]): string => {
   }
 
   return `${prefixes
-    .map(x => `"${x}"`)
+    .map((x) => `"${x}"`)
     .slice(0, prefixesLength - 1)
     .join(', ')} or "${[...prefixes].pop()}"`;
 };

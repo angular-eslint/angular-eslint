@@ -1,5 +1,14 @@
 import { TSESLint } from '@typescript-eslint/experimental-utils';
 import * as path from 'path';
+import * as ts from 'typescript';
+
+/**
+ * Temporary solution until v4.0.0 of TypeScript and typescript-eslint
+ * See: https://github.com/typescript-eslint/typescript-eslint/issues/2388
+ */
+declare module 'typescript' {
+  type NamedTupleMember = ts.Node;
+}
 
 const VALID_PARSERS = [
   '@angular-eslint/template-parser',
@@ -62,7 +71,8 @@ export class RuleTester extends TSESLint.RuleTester {
     )}`;
 
     if (this.filename) {
-      tests.valid = tests.valid.map(test => {
+      // TODO: Make .valid writable in @typescript-eslint/experimental-utils types
+      (tests as any).valid = tests.valid.map((test) => {
         if (typeof test === 'string') {
           return {
             code: test,
@@ -73,22 +83,24 @@ export class RuleTester extends TSESLint.RuleTester {
       });
     }
 
-    tests.valid.forEach(test => {
+    tests.valid.forEach((test) => {
       if (typeof test !== 'string') {
         if (isValidParser(test.parser)) {
           throw new Error(errorMessage);
         }
         if (!test.filename) {
-          test.filename = this.filename;
+          // TODO: Make .filename writable in @typescript-eslint/experimental-utils types
+          (test as any).filename = this.filename;
         }
       }
     });
-    tests.invalid.forEach(test => {
+    tests.invalid.forEach((test) => {
       if (isValidParser(test.parser)) {
         throw new Error(errorMessage);
       }
       if (!test.filename) {
-        test.filename = this.filename;
+        // TODO: Make .filename writable in @typescript-eslint/experimental-utils types
+        (test as any).filename = this.filename;
       }
     });
 

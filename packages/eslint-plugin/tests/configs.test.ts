@@ -24,13 +24,13 @@ describe('configs', () => {
   describe('all', () => {
     it('should contain all of the rules from both plugins', () => {
       expect(
-        Object.keys(eslintPlugin.rules).every(ruleName =>
+        Object.keys(eslintPlugin.rules).every((ruleName) =>
           containsRule(eslintPlugin.configs.all, ruleName),
         ),
       );
 
       expect(
-        Object.keys(eslintPluginTemplate.rules).every(ruleName =>
+        Object.keys(eslintPluginTemplate.rules).every((ruleName) =>
           containsRule(eslintPlugin.configs.all, ruleName),
         ),
       );
@@ -41,16 +41,16 @@ describe('configs', () => {
     it('should contain the recommended rules', () => {
       expect(
         Object.entries(eslintPlugin.rules)
-          .filter(entry => !!entry[1].meta.docs?.recommended)
-          .every(entry =>
+          .filter((entry) => !!entry[1].meta.docs?.recommended)
+          .every((entry) =>
             containsRule(eslintPlugin.configs.recommended, entry[0]),
           ),
       );
 
       expect(
         Object.entries(eslintPluginTemplate.rules)
-          .filter(entry => !!entry[1].meta.docs?.recommended)
-          .every(entry =>
+          .filter((entry) => !!entry[1].meta.docs?.recommended)
+          .every((entry) =>
             containsRule(eslintPlugin.configs.recommended, entry[0]),
           ),
       );

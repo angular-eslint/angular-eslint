@@ -265,6 +265,4 @@ eslint --ext .ts,.component.html
 
 <!-- PR Links -->
 
-[`pr106`]: https://api.github.com/repos/angular-eslint/angular-eslint/pulls/106
-
 <!-- end rule list -->

@@ -62,7 +62,7 @@ function addAngularESLintPackages() {
   };
 }
 
-export default function(): Rule {
+export default function (): Rule {
   return (host: Tree, context: SchematicContext) => {
     return chain([addAngularESLintPackages()])(host, context);
   };

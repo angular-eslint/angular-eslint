@@ -7,7 +7,7 @@ import {
 
 const [node, execTool, command] = process.argv;
 
-process.on('unhandledRejection', err => {
+process.on('unhandledRejection', (err) => {
   console.error(err);
   process.exitCode = 1;
 });

@@ -66,7 +66,7 @@ export default createESLintRule<Options, MessageIds>({
         const decorator =
           classDeclaration.decorators &&
           classDeclaration.decorators.find(
-            decorator =>
+            (decorator) =>
               isCallExpression(decorator.expression) &&
               isIdentifier(decorator.expression.callee) &&
               decorator.expression.callee.name ===
