@@ -1,6 +1,6 @@
 {
   "name": "@angular-eslint/eslint-plugin",
-  "version": "0.0.1-alpha.33",
+  "version": "0.1.0-beta.1",
   "description": "ESLint plugin for Angular applications, following angular.io/styleguide",
   "license": "MIT",
   "main": "dist/index.js",
@@ -26,7 +26,7 @@
     "@typescript-eslint/experimental-utils": "3.9.0"
   },
   "devDependencies": {
-    "@angular-eslint/utils": "^0.0.1-alpha.33"
+    "@angular-eslint/utils": "^0.1.0-beta.1"
   },
   "peerDependencies": {
     "eslint": "*",
