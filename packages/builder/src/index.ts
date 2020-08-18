@@ -90,10 +90,8 @@ async function run(
   let totalErrors = 0;
   let totalWarnings = 0;
 
-  // output fixes to disk
-  if (options.fix) {
-    await projectESLint.ESLint.outputFixes(lintResults);
-  }
+  // output fixes to disk, if applicable based on the options
+  await projectESLint.ESLint.outputFixes(lintResults);
 
   for (const result of lintResults) {
     if (result.errorCount || result.warningCount) {

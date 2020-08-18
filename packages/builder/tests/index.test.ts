@@ -9,18 +9,27 @@ import { TestingArchitectHost } from '@angular-devkit/architect/testing';
 import { JsonObject, logging, schema } from '@angular-devkit/core';
 
 const formattedReports = ['formatted report 1'];
-const mockFormatter = jest.fn().mockReturnValue(formattedReports);
-const mockGetFormatter = jest.fn().mockReturnValue(mockFormatter);
+const mockFormatter = {
+  format: jest.fn().mockReturnValue(formattedReports),
+};
+const mockLoadFormatter = jest.fn().mockReturnValue(mockFormatter);
 const mockOutputFixes = jest.fn();
 const loggerSpy = jest.fn();
 
-class MockCliEngine {
-  executeOnFiles = jest.fn().mockImplementation(() => 'some report');
-  static getFormatter = mockGetFormatter;
+// class MockCliEngine {
+//   executeOnFiles = jest.fn().mockImplementation(() => 'some report');
+//   static getFormatter = mockGetFormatter;
+//   static outputFixes = mockOutputFixes;
+// }
+
+const VALID_ESLINT_VERSION = '7.6';
+
+class MockESLint {
+  static version = VALID_ESLINT_VERSION;
   static outputFixes = mockOutputFixes;
+  loadFormatter = mockLoadFormatter;
 }
 
-let mockEslintVersion = '6.5';
 let mockReports: any[] = [{ results: [], usedDeprecatedRules: [] }];
 function mockEslint() {
   jest.doMock('../src/utils/eslint-utils', () => {
@@ -28,10 +37,11 @@ function mockEslint() {
       lint: jest.fn().mockReturnValue(mockReports),
       loadESLint: jest.fn().mockReturnValue(
         Promise.resolve({
-          CLIEngine: MockCliEngine,
-          Linter: {
-            version: mockEslintVersion,
-          },
+          ESLint: MockESLint,
+          // CLIEngine: MockCliEngine,
+          // Linter: {
+          //   version: mockEslintVersion,
+          // },
         }),
       ),
     };
@@ -80,7 +90,7 @@ async function runBuilder(options: JsonObject) {
 
 describe('Linter Builder', () => {
   beforeEach(() => {
-    mockEslintVersion = '6.5';
+    MockESLint.version = VALID_ESLINT_VERSION;
     mockReports = [{ results: [], usedDeprecatedRules: [] }];
   });
 
@@ -89,19 +99,18 @@ describe('Linter Builder', () => {
   });
 
   it('should throw if the eslint version is not supported', async () => {
-    mockEslintVersion = '1.6';
+    MockESLint.version = '1.6';
     setupMocks();
     const result = runBuilder({
       eslintConfig: './.eslintrc',
       tsConfig: [],
     });
     await expect(result).rejects.toThrow(
-      /ESLint must be version 6.1 or higher/,
+      /ESLint must be version 7.6 or higher/,
     );
   });
 
   it('should not throw if the eslint version is supported', async () => {
-    mockEslintVersion = '6.1';
     setupMocks();
     const result = runBuilder({
       eslintConfig: './.eslintrc',
@@ -228,13 +237,13 @@ describe('Linter Builder', () => {
       files: ['includedFile1'],
       format: 'json',
     });
-    expect(mockGetFormatter).toHaveBeenCalledWith('json');
+    expect(mockLoadFormatter).toHaveBeenCalledWith('json');
     await runBuilder({
       eslintConfig: './.eslintrc',
       files: ['includedFile1'],
       format: 'html',
     });
-    expect(mockGetFormatter).toHaveBeenCalledWith('html');
+    expect(mockLoadFormatter).toHaveBeenCalledWith('html');
   });
 
   it('should pass all the reports to the fix engine, even if --fix is false', async () => {
