@@ -15,7 +15,13 @@ async function run(
 ): Promise<BuilderOutput> {
   const systemRoot = context.workspaceRoot;
   process.chdir(context.currentDirectory);
-  const projectName = (context.target && context.target.project) || '<???>';
+
+  const projectName = context.target?.project || '<???>';
+  let projectSourceRoot: string | undefined = undefined;
+  try {
+    const projectMetadata = await context.getProjectMetadata(projectName);
+    projectSourceRoot = projectMetadata.sourceRoot as string;
+  } catch {}
 
   const printInfo = options.format && !options.silent;
 
@@ -65,6 +71,7 @@ async function run(
         ...lintResults,
         ...(await lint(
           systemRoot,
+          projectSourceRoot,
           eslintConfigPath,
           options,
           lintedFiles,
@@ -77,7 +84,13 @@ async function run(
   } else {
     lintResults = [
       ...lintResults,
-      ...(await lint(systemRoot, eslintConfigPath, options, lintedFiles)),
+      ...(await lint(
+        systemRoot,
+        projectSourceRoot,
+        eslintConfigPath,
+        options,
+        lintedFiles,
+      )),
     ];
   }
 

@@ -29,6 +29,7 @@ describe('eslint-utils', () => {
     const lintedFiles = new Set();
     await lint(
       '/root',
+      undefined,
       './.eslintrc',
       <any>{ foo: 'bar' },
       lintedFiles,
@@ -36,6 +37,7 @@ describe('eslint-utils', () => {
     ).catch(() => {});
     expect(getFilesToLint).toHaveBeenCalledWith(
       '/root',
+      '.',
       { foo: 'bar' },
       'ts-program',
     );
@@ -45,6 +47,7 @@ describe('eslint-utils', () => {
     const lintedFiles = new Set();
     await lint(
       '/root',
+      undefined,
       './.eslintrc',
       <any>{ fix: true, cache: true, cacheLocation: '/root/cache' },
       lintedFiles,
@@ -78,6 +81,7 @@ describe('eslint-utils', () => {
     lintedFiles.add('file4.ts');
     const reports = await lint(
       '/root',
+      undefined,
       './.eslintrc',
       <any>{ foo: 'bar' },
       lintedFiles,
@@ -98,6 +102,7 @@ describe('eslint-utils', () => {
     const lintedFiles = new Set();
     const lintPromise = lint(
       '/root',
+      undefined,
       './.eslintrc',
       <any>{ tsConfig: 'my-ts-project' },
       lintedFiles,
@@ -122,6 +127,7 @@ describe('eslint-utils', () => {
     const lintedFiles = new Set();
     const lintPromise = lint(
       '/root',
+      undefined,
       './.eslintrc',
       <any>{ tsConfig: 'my-ts-project' },
       lintedFiles,

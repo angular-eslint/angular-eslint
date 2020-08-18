@@ -45,5 +45,60 @@ __ROOT__/angular-cli-workspace/src/app/app.component.spec.ts
 
 ✖ 1 problem (1 error, 0 warnings)
   1 error and 0 warnings potentially fixable with the \`--fix\` option.
+
+
+Linting \\"another-app\\"...
+
+__ROOT__/angular-cli-workspace/projects/another-app/src/app/app.component.html
+   12:1  error  This line has a length of 159. Maximum allowed is 140   max-len
+  306:1  error  This line has a length of 532. Maximum allowed is 140   max-len
+  313:1  error  This line has a length of 540. Maximum allowed is 140   max-len
+  327:1  error  This line has a length of 219. Maximum allowed is 140   max-len
+  328:1  error  This line has a length of 523. Maximum allowed is 140   max-len
+  335:1  error  This line has a length of 151. Maximum allowed is 140   max-len
+  336:1  error  This line has a length of 288. Maximum allowed is 140   max-len
+  347:1  error  This line has a length of 205. Maximum allowed is 140   max-len
+  351:1  error  This line has a length of 184. Maximum allowed is 140   max-len
+  354:1  error  This line has a length of 220. Maximum allowed is 140   max-len
+  358:1  error  This line has a length of 176. Maximum allowed is 140   max-len
+  362:1  error  This line has a length of 435. Maximum allowed is 140   max-len
+  366:1  error  This line has a length of 176. Maximum allowed is 140   max-len
+  379:1  error  This line has a length of 167. Maximum allowed is 140   max-len
+  385:1  error  This line has a length of 167. Maximum allowed is 140   max-len
+  391:1  error  This line has a length of 167. Maximum allowed is 140   max-len
+  397:1  error  This line has a length of 165. Maximum allowed is 140   max-len
+  403:1  error  This line has a length of 165. Maximum allowed is 140   max-len
+  409:1  error  This line has a length of 165. Maximum allowed is 140   max-len
+  429:1  error  This line has a length of 188. Maximum allowed is 140   max-len
+  430:1  error  This line has a length of 158. Maximum allowed is 140   max-len
+  431:1  error  This line has a length of 165. Maximum allowed is 140   max-len
+  432:1  error  This line has a length of 165. Maximum allowed is 140   max-len
+  433:1  error  This line has a length of 162. Maximum allowed is 140   max-len
+  440:1  error  This line has a length of 187. Maximum allowed is 140   max-len
+  441:1  error  This line has a length of 159. Maximum allowed is 140   max-len
+  442:1  error  This line has a length of 188. Maximum allowed is 140   max-len
+  443:1  error  This line has a length of 174. Maximum allowed is 140   max-len
+  450:1  error  This line has a length of 172. Maximum allowed is 140   max-len
+  457:1  error  This line has a length of 190. Maximum allowed is 140   max-len
+  458:1  error  This line has a length of 160. Maximum allowed is 140   max-len
+  462:1  error  This line has a length of 217. Maximum allowed is 140   max-len
+  466:1  error  This line has a length of 187. Maximum allowed is 140   max-len
+  474:1  error  This line has a length of 190. Maximum allowed is 140   max-len
+  475:1  error  This line has a length of 160. Maximum allowed is 140   max-len
+  476:1  error  This line has a length of 410. Maximum allowed is 140   max-len
+  483:1  error  This line has a length of 2884. Maximum allowed is 140  max-len
+  509:1  error  This line has a length of 261. Maximum allowed is 140   max-len
+  514:1  error  This line has a length of 230. Maximum allowed is 140   max-len
+  518:1  error  This line has a length of 148. Maximum allowed is 140   max-len
+  519:1  error  This line has a length of 1046. Maximum allowed is 140  max-len
+
+✖ 41 problems (41 errors, 0 warnings)
+
+
+__ROOT__/angular-cli-workspace/projects/another-app/src/app/app.component.spec.ts
+  19:6  error  Strings must use singlequote  quotes
+
+✖ 1 problem (1 error, 0 warnings)
+  1 error and 0 warnings potentially fixable with the \`--fix\` option.
 "
 `;

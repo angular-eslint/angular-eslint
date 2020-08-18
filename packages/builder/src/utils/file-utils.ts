@@ -41,13 +41,14 @@ function getFileNamesFromProgram(program: ts.Program): string[] {
 
 export function getFilesToLint(
   root: string,
+  projectSourceRoot: string,
   options: { exclude: string[]; files: string[] },
   program?: ts.Program,
 ): string[] {
   const ignore = options.exclude;
   const files = options.files || [];
 
-  const componentHTMLFiles = ['**/*.component.html']
+  const projectComponentHTMLFiles = [`${projectSourceRoot}/**/*.component.html`]
     .map((file) => glob.sync(file, { cwd: root, ignore: ignore, nodir: true }))
     .reduce((prev, curr) => prev.concat(curr), [])
     .map((file) => path.join(root, file));
@@ -64,7 +65,7 @@ export function getFilesToLint(
   }
 
   let programFiles = [
-    ...componentHTMLFiles,
+    ...projectComponentHTMLFiles,
     ...getFileNamesFromProgram(program),
   ];
 

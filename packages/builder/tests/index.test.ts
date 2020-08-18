@@ -16,12 +16,6 @@ const mockLoadFormatter = jest.fn().mockReturnValue(mockFormatter);
 const mockOutputFixes = jest.fn();
 const loggerSpy = jest.fn();
 
-// class MockCliEngine {
-//   executeOnFiles = jest.fn().mockImplementation(() => 'some report');
-//   static getFormatter = mockGetFormatter;
-//   static outputFixes = mockOutputFixes;
-// }
-
 const VALID_ESLINT_VERSION = '7.6';
 
 class MockESLint {
@@ -38,10 +32,6 @@ function mockEslint() {
       loadESLint: jest.fn().mockReturnValue(
         Promise.resolve({
           ESLint: MockESLint,
-          // CLIEngine: MockCliEngine,
-          // Linter: {
-          //   version: mockEslintVersion,
-          // },
         }),
       ),
     };
@@ -133,6 +123,7 @@ describe('Linter Builder', () => {
       expect(lint).toHaveBeenCalledTimes(1);
       expect(lint).toHaveBeenCalledWith(
         '/root',
+        undefined,
         '/root/.eslintrc',
         expect.anything(),
         expect.any(Set),
@@ -156,6 +147,7 @@ describe('Linter Builder', () => {
       expect(lint).toHaveBeenNthCalledWith(
         1,
         '/root',
+        undefined,
         '/root/.eslintrc',
         expect.anything(),
         expect.any(Set),
@@ -165,6 +157,7 @@ describe('Linter Builder', () => {
       expect(lint).toHaveBeenNthCalledWith(
         2,
         '/root',
+        undefined,
         '/root/.eslintrc',
         expect.anything(),
         expect.any(Set),
@@ -185,6 +178,7 @@ describe('Linter Builder', () => {
       expect(lint).toHaveBeenCalledTimes(1);
       expect(lint).toHaveBeenCalledWith(
         '/root',
+        undefined,
         '/root/.eslintrc',
         expect.anything(),
         expect.any(Set),
@@ -205,6 +199,7 @@ describe('Linter Builder', () => {
     });
     expect(lint).toHaveBeenCalledWith(
       expect.anything(),
+      undefined,
       expect.anything(),
       {
         eslintConfig: './.eslintrc',

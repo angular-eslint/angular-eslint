@@ -1,7 +1,7 @@
 jest.mock('glob', () => ({
   sync: jest.fn().mockImplementation((fileOrPattern) => {
-    // Prevent the '**/*.component.html' pattern from being returned in tests
-    if (fileOrPattern === '**/*.component.html') {
+    // Prevent the './**/*.component.html' pattern from being returned in tests
+    if (fileOrPattern === './**/*.component.html') {
       return [];
     }
     return fileOrPattern;
@@ -25,7 +25,7 @@ describe('file-utils', () => {
   it('should return a list of applicable files, based on given patterns, always including any ".component.html" files', () => {
     const files = ['file1', 'file2', 'foo.component.html'];
     const exclude = ['file2'];
-    const toLint = getFilesToLint('/root', { files, exclude });
+    const toLint = getFilesToLint('/root', '.', { files, exclude });
 
     expect(toLint).toEqual([
       '/root/file1',
@@ -47,12 +47,12 @@ describe('file-utils', () => {
       isSourceFileFromExternalLibrary: (file: { isFromExternalLib: boolean }) =>
         file.isFromExternalLib,
     };
-    const toLint = getFilesToLint('/root', {}, program);
+    const toLint = getFilesToLint('/root', '.', {}, program);
     expect(toLint).toEqual(['foo.ts', 'bar.ts']);
   });
 
   it('should return an empty array if neither file patterns nor a ts.Program are given', () => {
-    const toLint = getFilesToLint('/root', { files: [] });
+    const toLint = getFilesToLint('/root', '.', { files: [] });
     expect(toLint).toEqual([]);
   });
 
@@ -67,7 +67,7 @@ describe('file-utils', () => {
       getSourceFiles: () => sourceFiles,
       isSourceFileFromExternalLibrary: () => false,
     };
-    const toLint = getFilesToLint('/root', { exclude }, program);
+    const toLint = getFilesToLint('/root', '.', { exclude }, program);
     expect(toLint).toEqual(['foo.ts', 'bar.ts']);
   });
 });

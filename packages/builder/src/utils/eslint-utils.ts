@@ -14,13 +14,14 @@ export async function loadESLint() {
 
 export async function lint(
   systemRoot: string,
+  projectSourceRoot: string = '.',
   eslintConfigPath: string | undefined,
   options: Schema,
   lintedFiles: Set<string>,
   program?: any,
   allPrograms?: any[],
 ): Promise<ESLint.LintResult[]> {
-  const files = getFilesToLint(systemRoot, options, program);
+  const files = getFilesToLint(systemRoot, projectSourceRoot, options, program);
 
   const projectESLint = await loadESLint();
 
