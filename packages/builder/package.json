@@ -8,6 +8,7 @@
   "scripts": {
     "build": "rm -rf ./dist && tsc --project tsconfig.build.json && terser ./dist/index.js --output=./dist/index.js",
     "postbuild": "cp src/schema.json dist/",
+    "test": "jest --coverage",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "repository": {
@@ -24,7 +25,7 @@
   ],
   "builders": "./builders.json",
   "peerDependencies": {
-    "@angular-devkit/build-angular": "~0.900.2",
+    "@angular-devkit/architect": "~0.1000.6",
     "eslint": "*",
     "typescript": "*"
   },

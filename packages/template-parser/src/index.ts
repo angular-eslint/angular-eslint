@@ -163,7 +163,7 @@ function convertNodeSourceSpanToLoc(sourceSpan: ParseSourceSpan) {
 
 function getStartSourceSpanFromAST(ast: AST): ParseSourceSpan | null {
   let startSourceSpan: ParseSourceSpan | null = null;
-  ast.templateNodes.forEach(node => {
+  ast.templateNodes.forEach((node) => {
     const nodeSourceSpan = node.startSourceSpan || node.sourceSpan;
 
     if (!startSourceSpan) {
@@ -184,7 +184,7 @@ function getStartSourceSpanFromAST(ast: AST): ParseSourceSpan | null {
 
 function getEndSourceSpanFromAST(ast: AST): ParseSourceSpan | null {
   let endSourceSpan: ParseSourceSpan | null = null;
-  ast.templateNodes.forEach(node => {
+  ast.templateNodes.forEach((node) => {
     const nodeSourceSpan = node.endSourceSpan || node.sourceSpan;
 
     if (!endSourceSpan) {

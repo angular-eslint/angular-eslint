@@ -25,7 +25,9 @@ const keyLegend = {
  * Stores static text elements for the readme.
  */
 const staticElements = {
-  rulesListKey: Object.keys(keyLegend).map(key => `${keyLegend[key]} = ${key}`),
+  rulesListKey: Object.keys(keyLegend).map(
+    (key) => `${keyLegend[key]} = ${key}`,
+  ),
   legendSpacerRow: '-----',
   ruleHeaderRow: ['Codelyzer rule', 'Status'],
   ruleSpacerRow: ['-----', ':-:'],
@@ -78,7 +80,7 @@ const buildPRLinksList = (prs: PRDetails[]) =>
 const buildLegendTable = () => [
   '| |',
   `|${staticElements.legendSpacerRow}|`,
-  ...staticElements.rulesListKey.map(key => `|${key}|`),
+  ...staticElements.rulesListKey.map((key) => `|${key}|`),
 ];
 
 /**
@@ -110,13 +112,13 @@ const ruleList = (rules: RuleDetails[]) =>
 const buildRulesTables = (rules: RuleDetails[]) => {
   const ruleTypes = [...new Set(rules.map(({ type }) => type))].sort();
 
-  const sections = ruleTypes.map(ruleType =>
+  const sections = ruleTypes.map((ruleType) =>
     [
       `#### ${ruleType.charAt(0).toUpperCase()}${ruleType.slice(1)}`,
       '',
       staticElements.ruleHeaderRow.join('|'),
       staticElements.ruleSpacerRow.join('|'),
-      ...ruleList(rules.filter(rule => rule.type === ruleType)),
+      ...ruleList(rules.filter((rule) => rule.type === ruleType)),
       '',
     ].join('\n'),
   );
@@ -157,7 +159,7 @@ const updateRulesList = (rules: RuleDetails[], markdown: string): string => {
     '<!-- PR Links -->',
     '',
     ...buildPRLinksList(
-      rules.map(rule => rule.pr).filter(pr => pr !== undefined),
+      rules.map((rule) => rule.pr).filter((pr) => pr !== undefined),
     ),
     markdown.substring(listEndIndex),
   ].join('\n');
@@ -182,7 +184,7 @@ const createRuleDetails = (
       rules[RULE_MAP[ruleName]] ||
       rules[ruleName.replace(/^template\-/, '')]) !== undefined;
 
-  return codelyzerRules.map(rule => ({
+  return codelyzerRules.map((rule) => ({
     name: rule.ruleName,
     type: rule.type,
     done: isDone(rule.ruleName),
@@ -232,12 +234,12 @@ const generateReadme = async (readme: string) => {
   const currentPrs = await getAngularESLintPRs();
   const templatePrefix = 'template-';
   const pluginRuleDetails = createRuleDetails(
-    codelyzerRules.filter(rule => !rule.ruleName.startsWith(templatePrefix)),
+    codelyzerRules.filter((rule) => !rule.ruleName.startsWith(templatePrefix)),
     src.rules,
     currentPrs,
   );
   const templateRuleDetails = createRuleDetails(
-    codelyzerRules.filter(rule => rule.ruleName.startsWith(templatePrefix)),
+    codelyzerRules.filter((rule) => rule.ruleName.startsWith(templatePrefix)),
     templateSrc.rules,
     currentPrs,
   );

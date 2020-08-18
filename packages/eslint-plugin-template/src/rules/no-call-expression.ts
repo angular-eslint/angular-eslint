@@ -36,13 +36,8 @@ export default createESLintRule<Options, MessageIds>({
           return;
         }
 
-        const additionalEndOffset =
-          node.parent.type === 'Interpolation' ? -1 : 0;
-
         const start = sourceCode.getLocFromIndex(node.sourceSpan.start);
-        const end = sourceCode.getLocFromIndex(
-          node.sourceSpan.end + additionalEndOffset,
-        );
+        const end = sourceCode.getLocFromIndex(node.sourceSpan.end);
 
         context.report({
           messageId: 'noCallExpression',

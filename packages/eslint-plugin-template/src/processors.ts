@@ -23,7 +23,7 @@ export function preprocessComponentFile(text: string, filename: string) {
       /* setParentNodes */ true,
     );
 
-    const classDeclarations = sourceFile.statements.filter(s =>
+    const classDeclarations = sourceFile.statements.filter((s) =>
       ts.isClassDeclaration(s),
     );
     if (!classDeclarations || !classDeclarations.length) {
@@ -87,11 +87,11 @@ export function preprocessComponentFile(text: string, filename: string) {
      * and any that have inline templates which are malformed
      */
     const templateProperty = metadata.properties.find(
-      id => id && id.name && id.name.getText() === 'template',
+      (id) => id && id.name && id.name.getText() === 'template',
     );
     if (
       metadata.properties.find(
-        id => id && id.name && id.name.getText() === 'templateUrl',
+        (id) => id && id.name && id.name.getText() === 'templateUrl',
       ) ||
       !templateProperty
     ) {

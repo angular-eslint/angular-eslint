@@ -28,7 +28,7 @@ function runLint(directory: string): unknown {
 
 const integrationTests: [string][] = [['angular-cli-workspace']];
 
-describe.each(integrationTests)('%s', directory => {
+describe.each(integrationTests)('%s', (directory) => {
   it('it should produce the expected lint output', () => {
     const lintOutput = runLint(directory);
     expect(lintOutput).toMatchSnapshot();

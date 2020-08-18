@@ -6,7 +6,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "rm -rf ./dist && microbundle --no-sourcemap --target=node --compress --format=cjs",
+    "build": "rm -rf ./dist && microbundle --tsconfig tsconfig.build.json --no-sourcemap --target=node --compress --format=cjs",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "repository": {
@@ -21,7 +21,7 @@
     "LICENSE"
   ],
   "dependencies": {
-    "eslint-scope": "^4.0.0"
+    "eslint-scope": "^5.1.0"
   },
   "peerDependencies": {
     "@angular/compiler": "*",

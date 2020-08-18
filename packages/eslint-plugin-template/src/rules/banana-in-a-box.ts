@@ -47,7 +47,7 @@ export default createESLintRule<Options, MessageIds>({
         context.report({
           messageId: 'bananaInABox',
           loc,
-          fix: fixer =>
+          fix: (fixer) =>
             fixer.replaceTextRange(
               [
                 startIndex,

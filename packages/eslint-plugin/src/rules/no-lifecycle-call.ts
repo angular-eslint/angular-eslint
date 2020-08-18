@@ -22,7 +22,7 @@ export default createESLintRule<Options, MessageIds>({
   defaultOptions: [],
   create(context) {
     return {
-      MemberExpression: node => {
+      MemberExpression: (node) => {
         const {
           object: { type: nodeObjectType },
           parent,

@@ -18,11 +18,11 @@ const callGithubApi = <T>(optionOverrides: RequestOptions) => {
     ...optionOverrides,
   };
 
-  return new Promise<T>(resolve => {
-    https.get(options, response => {
+  return new Promise<T>((resolve) => {
+    https.get(options, (response) => {
       let data = '';
 
-      response.on('data', chunk => {
+      response.on('data', (chunk) => {
         data += chunk;
       });
 

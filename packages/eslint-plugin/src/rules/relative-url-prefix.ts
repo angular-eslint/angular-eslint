@@ -51,7 +51,7 @@ export default createESLintRule<Options, MessageIds>({
             isArrayExpression(styleUrlsProperty.value) &&
             styleUrlsProperty.value.elements.length > 0
           ) {
-            styleUrlsProperty.value.elements.forEach(e => {
+            styleUrlsProperty.value.elements.forEach((e) => {
               if (
                 isLiteralWithStringValue(e) &&
                 !/^\.\/[^\.\/|\.\.\/]/.test(e.value)

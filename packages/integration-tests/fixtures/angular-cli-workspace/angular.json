@@ -96,7 +96,6 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "eslintConfig": ".eslintrc.js",
             "tsConfig": [
               "tsconfig.app.json",
               "tsconfig.spec.json",
@@ -116,6 +115,123 @@
           "configurations": {
             "production": {
               "devServerTarget": "angular-cli-workspace:serve:production"
+            }
+          }
+        }
+      }
+    },
+    "another-app": {
+      "projectType": "application",
+      "schematics": {},
+      "root": "projects/another-app",
+      "sourceRoot": "projects/another-app/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/another-app",
+            "index": "projects/another-app/src/index.html",
+            "main": "projects/another-app/src/main.ts",
+            "polyfills": "projects/another-app/src/polyfills.ts",
+            "tsConfig": "projects/another-app/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "projects/another-app/src/favicon.ico",
+              "projects/another-app/src/assets"
+            ],
+            "styles": [
+              "projects/another-app/src/styles.css"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/another-app/src/environments/environment.ts",
+                  "with": "projects/another-app/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "another-app:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "another-app:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "another-app:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/another-app/src/test.ts",
+            "polyfills": "projects/another-app/src/polyfills.ts",
+            "tsConfig": "projects/another-app/tsconfig.spec.json",
+            "karmaConfig": "projects/another-app/karma.conf.js",
+            "assets": [
+              "projects/another-app/src/favicon.ico",
+              "projects/another-app/src/assets"
+            ],
+            "styles": [
+              "projects/another-app/src/styles.css"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "tsConfig": [
+              "projects/another-app/tsconfig.app.json",
+              "projects/another-app/tsconfig.spec.json",
+              "projects/another-app/e2e/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/another-app/e2e/protractor.conf.js",
+            "devServerTarget": "another-app:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "another-app:serve:production"
             }
           }
         }

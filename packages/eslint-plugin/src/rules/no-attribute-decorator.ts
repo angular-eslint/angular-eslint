@@ -34,7 +34,7 @@ export default createESLintRule<Options, MessageIds>({
     }
 
     function validateParams(node: TSESTree.MethodDefinition): void {
-      node.value.params.forEach(parameter => {
+      node.value.params.forEach((parameter) => {
         if (parameter.decorators != null) {
           for (const decorator of parameter.decorators) {
             if (
