@@ -1,0 +1,7 @@
+{
+  "extends": ["../../.eslintrc.js"],
+  "parserOptions": {
+    "project": "projects/robot-websites/tsconfig.eslint.json"
+  },
+  "rules": {}
+}

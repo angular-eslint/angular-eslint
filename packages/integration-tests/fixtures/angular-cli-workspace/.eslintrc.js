@@ -8,6 +8,15 @@ module.exports = {
    * for what this recommended config contains.
    */
   extends: ['plugin:@angular-eslint/recommended'],
+
+  /**
+   * We use a dedicated tsconfig file for the compilation related to linting so that we
+   * have complete control over what gets included and we can maximize performance
+   */
+  parserOptions: {
+    project: './tsconfig.eslint.json',
+  },
+
   rules: {
     // ORIGINAL tslint.json -> "directive-selector": [true, "attribute", "app", "camelCase"],
     '@angular-eslint/directive-selector': [
@@ -20,6 +29,8 @@ module.exports = {
       'error',
       { type: 'element', prefix: 'app', style: 'kebab-case' },
     ],
+
+    quotes: ['error', 'single', { allowTemplateLiterals: true }],
   },
   overrides: [
     /**
@@ -31,7 +42,8 @@ module.exports = {
      * })
      * ...
      *
-     * It is not necessary if you only use .html files for templates.
+     * It is not necessary if you only use .html files for templates and you
+     * can remove the entire `overrides: []` config.
      */
     {
       files: ['*.component.ts'],

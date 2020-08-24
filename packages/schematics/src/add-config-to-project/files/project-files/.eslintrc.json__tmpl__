@@ -1,0 +1,7 @@
+{
+  "extends": ["<%= rootESLintConfigPath %>"],
+  "parserOptions": {
+    "project": "<%= eslintTSConfigFilePath %>"
+  },
+  "rules": {}
+}

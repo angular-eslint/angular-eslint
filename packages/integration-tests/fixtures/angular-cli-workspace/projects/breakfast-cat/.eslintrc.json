@@ -1,0 +1,7 @@
+{
+  "extends": ["../../.eslintrc.js"],
+  "parserOptions": {
+    "project": "projects/breakfast-cat/tsconfig.eslint.json"
+  },
+  "rules": {}
+}

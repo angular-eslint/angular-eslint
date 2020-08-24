@@ -111,6 +111,26 @@
     rxjs "6.5.5"
     source-map "0.7.3"
 
+"@angular-devkit/core@10.0.7":
+  version "10.0.7"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/core/-/core-10.0.7.tgz#f88c1fe316e83049703c658ec82b2d1f811b1e36"
+  integrity sha512-pXaZgsQ8LHpRx4QGAUYDE8GwBQLAtoqPh6oUCwRJwBExm5rl13OGPTBWewHiq0ysV/SnFXvOjxwAaHQvC1AgZw==
+  dependencies:
+    ajv "6.12.3"
+    fast-json-stable-stringify "2.1.0"
+    magic-string "0.25.7"
+    rxjs "6.5.5"
+    source-map "0.7.3"
+
+"@angular-devkit/schematics@10.0.7":
+  version "10.0.7"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/schematics/-/schematics-10.0.7.tgz#460272c3fa4a4838d2da65a0e3f512c557d486f1"
+  integrity sha512-eyyYPgpjtr3h7WbnNbkDubJ/p+8TgKU6abWd+NmBfTvyeHrpVFUYZabNRcdXwUDSVzfTQKdmLynIkESj/KROrg==
+  dependencies:
+    "@angular-devkit/core" "10.0.7"
+    ora "4.0.4"
+    rxjs "6.5.5"
+
 "@angular-devkit/schematics@^10.0.6":
   version "10.0.6"
   resolved "https://registry.yarnpkg.com/@angular-devkit/schematics/-/schematics-10.0.6.tgz#dc3486448cc34544f7076f7fe0a67b75137ae840"
@@ -2442,6 +2462,14 @@
   integrity sha512-c/qwwcHyafOQuVQJj0IlBjf5yYgBI7YPJ77k4fOJYesb41jio65eaJODRUmfYKhTOFBrIZ66kgvGPlNbjuoRdQ==
   dependencies:
     any-observable "^0.3.0"
+
+"@schematics/angular@^10.0.6":
+  version "10.0.7"
+  resolved "https://registry.yarnpkg.com/@schematics/angular/-/angular-10.0.7.tgz#feec7bd9fba02ab39606f865fa0a3b3d82ab7422"
+  integrity sha512-0SljGZjA68tOsn7OIps79lTy9Y96OZglLnBqO6pSLlmCkGMbjFY2ssKQXJzwR0jJ5+TWBjWjpn2U5mir4yzOuQ==
+  dependencies:
+    "@angular-devkit/core" "10.0.7"
+    "@angular-devkit/schematics" "10.0.7"
 
 "@types/babel__core@^7.1.0":
   version "7.1.9"
@@ -11883,7 +11911,7 @@ strip-indent@^3.0.0:
   dependencies:
     min-indent "^1.0.0"
 
-strip-json-comments@^3.1.0:
+strip-json-comments@3.1.1, strip-json-comments@^3.1.0:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-3.1.1.tgz#31f1281b3832630434831c310c01cccda8cbe006"
   integrity sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==

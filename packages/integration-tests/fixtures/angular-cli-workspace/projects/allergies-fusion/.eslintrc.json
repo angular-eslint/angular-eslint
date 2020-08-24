@@ -1,0 +1,7 @@
+{
+  "extends": ["../../.eslintrc.js"],
+  "parserOptions": {
+    "project": "projects/allergies-fusion/tsconfig.eslint.json"
+  },
+  "rules": {}
+}

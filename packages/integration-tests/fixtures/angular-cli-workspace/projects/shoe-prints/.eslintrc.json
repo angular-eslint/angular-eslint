@@ -1,0 +1,7 @@
+{
+  "extends": ["../../.eslintrc.js"],
+  "parserOptions": {
+    "project": "projects/shoe-prints/tsconfig.eslint.json"
+  },
+  "rules": {}
+}

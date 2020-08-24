@@ -46,6 +46,7 @@
     "@angular/compiler": "~10.0.9",
     "@commitlint/cli": "^8.1.0",
     "@commitlint/config-conventional": "^8.1.0",
+    "@schematics/angular": "^10.0.6",
     "@types/eslint": "^7.2.0",
     "@types/eslint-scope": "^3.7.0",
     "@types/jest": "^24.0.13",

@@ -3,7 +3,12 @@
     "ng-add": {
       "factory": "./ng-add",
       "schema": "./ng-add/schema.json",
-      "description": "Add angular-eslint to an existing project"
+      "description": "Add angular-eslint to an existing workspace"
+    },
+    "add-config-to-project": {
+      "factory": "./add-config-to-project",
+      "schema": "./add-config-to-project/schema.json",
+      "description": "Add ESLint related configuration to an existing project within a workspace"
     }
   }
 }

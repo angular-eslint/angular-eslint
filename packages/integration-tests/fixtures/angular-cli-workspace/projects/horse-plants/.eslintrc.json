@@ -1,0 +1,7 @@
+{
+  "extends": ["../../.eslintrc.js"],
+  "parserOptions": {
+    "project": "projects/horse-plants/tsconfig.eslint.json"
+  },
+  "rules": {}
+}

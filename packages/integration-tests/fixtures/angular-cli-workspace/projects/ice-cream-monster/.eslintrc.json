@@ -1,0 +1,7 @@
+{
+  "extends": ["../../.eslintrc.js"],
+  "parserOptions": {
+    "project": "projects/ice-cream-monster/tsconfig.eslint.json"
+  },
+  "rules": {}
+}
