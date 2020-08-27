@@ -26,7 +26,6 @@
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.1000.6",
     "@angular-eslint/builder": "file:angular-eslint-builder-0.1.0-beta.1.tgz",
-    "@angular-eslint/builder2": "file:angular-eslint-builder2-0.1.0-beta.1.tgz",
     "@angular-eslint/eslint-plugin": "file:angular-eslint-eslint-plugin-0.1.0-beta.1.tgz",
     "@angular-eslint/eslint-plugin-template": "file:angular-eslint-eslint-plugin-template-0.1.0-beta.1.tgz",
     "@angular-eslint/template-parser": "file:angular-eslint-template-parser-0.1.0-beta.1.tgz",
