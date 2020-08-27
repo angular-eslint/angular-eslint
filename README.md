@@ -33,6 +33,83 @@ Please follow the links below for the packages you care about.
 
 - [`@angular-eslint/eslint-plugin-template`](./packages/eslint-plugin-template/) - An ESLint-specific plugin which, when used in conjunction with `@angular-eslint/template-parser`, allows for Angular template-specific linting rules to run.
 
+- [`@angular-eslint/schematics`](./packages/schematics/) - Schematics which are used to add and update configuration files which are relevant for running ESLint on an Angular workspace.
+
+<br>
+
+### Migrating from Codelyzer and TSLint
+
+We have some work in progress tooling to make this as automated as possible, but the reality is it will always be somewhat project-specific as to how much work will be involved in the migration.
+
+#### Step 1 - Add relevant dependencies
+
+The first step is to run the schematic to add `@angular-eslint` to your project:
+
+```sh
+ng add @angular-eslint/schematics
+```
+
+This will handle installing the latest version of all the relevant packages for you and adding them to the `devDependencies` of your `package.json`.
+
+#### Step 2 - Add new ESLint-related configuration
+
+The next thing to do is consider which "project" you want to migrate to use ESLint. If you have a single application in your workspace you will likely have just a single entry in the `projects` configuration object within your `angular.json` file. If you have a `projects/` directory in your workspace, you will have multiple entires in your `projects` configuration and you will need to chose which one you want to migrate using the `add-config-to-project` schematic.
+
+You can run it like so:
+
+```sh
+ng g @angular-eslint/schematics:add-config-to-project {{YOUR_PROJECT_NAME_GOES_HERE}}
+```
+
+NOTE: If you have multiple projects in your workspace and the one you are running the schematic on is from your `projects/` directory, you will need to make sure you have created a root level `.eslintrc.json` or `.eslintrc.js` file in your workspace before you run it (it will error if you don't). This is to ensure you don't end up with a broken setup for the project.
+
+The schematic will do the following for you:
+
+- CREATE a `tsconfig.eslint.json` at the root of the specific project which extends from the root config
+- CREATE a `.eslintrc.json` at the root of the specific project which extends from the root config
+- UPDATE the project's `architect` configuration in the `angular.json` to add a new target called `eslint`
+
+You can run the new target like so:
+
+```sh
+npx ng run {{YOUR_PROJECT_NAME_GOES_HERE}}:eslint
+```
+
+This command uses the Angular CLI's standard tooling to invoke the `builder` from this project and ultimately run ESLint on the files which are relevant to your chosen project.
+
+**As this stage you have both TSLint and ESLint configured as different targets for your project - we have not removed or changed TSLint in any way**.
+
+#### Step 3 - Use the new ESLint configuration files to match your original TSLint configuration, or change it however you would like
+
+Currently this is a manual step, but we hope to create a schematic to assist with this process soon. See [Notes on configuration migrations](#notes-on-configuration-migrations) below for some more info.
+
+#### Step 4 - Remove TSLint configuration and use only ESLint
+
+Once you are happy with your ESLint setup, you simply need to remove the project specific `tslint.json` and the `lint` configuration block within the project's `architect` configuration block in your `angular.json`.
+
+Then you need to rename your `eslint` target to just `lint` and it will work as you are used to via:
+
+```sh
+npx ng run {{YOUR_PROJECT_NAME_GOES_HERE}}:lint
+```
+
+OR
+
+```sh
+npx ng lint {{YOUR_PROJECT_NAME_GOES_HERE}}
+```
+
+<br>
+
+### Notes on configuration migrations
+
+**The best reference configurations for performing your own migration** are located within the Angular CLI integration test within this monorepo. Check out the relevant configuration files:
+
+- [packages/integration-tests/fixtures/angular-cli-workspace/.eslintrc.js](./packages/integration-tests/fixtures/angular-cli-workspace/.eslintrc.js)
+- [packages/integration-tests/fixtures/angular-cli-workspace/angular.json](./packages/integration-tests/fixtures/angular-cli-workspace/angular.json)
+
+If you are looking for general help in migrating from TSLint to ESLint, you can check out this project: https://github.com/typescript-eslint/tslint-to-eslint-config
+
 <br>
 
 ### Linting templates with Angular ESLint
@@ -86,37 +163,6 @@ If you use vscode-eslint, and inline-templates on your Angular Components, you w
 ```
 
 Please see the following issue for more information: https://github.com/microsoft/vscode-eslint/issues/922
-
-<br>
-
-### Migrating from Codelyzer and TSLint
-
-We have some work in progress tooling to make this as automated as possible, but the reality is it will always be somewhat project-specific as to how much work will be involved in the migration.
-
-The first step is to run the schematic to add `@angular-eslint` to your project:
-
-```sh
-ng add @angular-eslint/schematics
-```
-
-This will handle installing the latest version of all the relevant packages for you and adding them to the `devDependencies` of your `package.json`.
-
-**Soon this ng-add schematic will also handle applying some of the following steps for you automatically**.
-
-The migration involves a few different aspects:
-
-1. Replacing the builder the Angular CLI will use when you run `ng lint`
-
-2. Replacing your `tslint.json` files with `.eslintrc.json` files
-
-3. Populating the `.eslintrc.json` files appropriately to match the previous setup you had in the Codelyzer + TSLint world
-
-**The best reference configurations for performing your own migration** are located within the Angular CLI integration test within this monorepo. Check out the relevant configuration files:
-
-- [packages/integration-tests/fixtures/angular-cli-workspace/.eslintrc.js](./packages/integration-tests/fixtures/angular-cli-workspace/.eslintrc.js)
-- [packages/integration-tests/fixtures/angular-cli-workspace/angular.json](./packages/integration-tests/fixtures/angular-cli-workspace/angular.json)
-
-If you are looking for general help in migrating from TSLint to ESLint, you can check out this project: https://github.com/typescript-eslint/tslint-to-eslint-config
 
 <br>
 

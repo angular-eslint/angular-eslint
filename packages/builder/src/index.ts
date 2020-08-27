@@ -1,13 +1,12 @@
 import {
-  createBuilder,
-  BuilderOutput,
   BuilderContext,
+  BuilderOutput,
+  createBuilder,
 } from '@angular-devkit/architect';
 import { ESLint } from 'eslint';
 import path from 'path';
-import { lint, loadESLint } from './utils/eslint-utils';
-import { createProgram } from './utils/ts-utils';
 import { Schema } from './schema';
+import { lint, loadESLint } from './utils/eslint-utils';
 
 async function run(
   options: Schema,
@@ -17,12 +16,6 @@ async function run(
   process.chdir(context.currentDirectory);
 
   const projectName = context.target?.project || '<???>';
-  let projectSourceRoot: string | undefined = undefined;
-  try {
-    const projectMetadata = await context.getProjectMetadata(projectName);
-    projectSourceRoot = projectMetadata.sourceRoot as string;
-  } catch {}
-
   const printInfo = options.format && !options.silent;
 
   context.reportStatus(`Linting ${JSON.stringify(projectName)}...`);
@@ -51,48 +44,10 @@ async function run(
     ? path.resolve(systemRoot, options.eslintConfig)
     : undefined;
 
-  let lintResults: ESLint.LintResult[] = [];
-  const lintedFiles = new Set<string>();
-
-  if (options.tsConfig) {
-    const tsConfigs = Array.isArray(options.tsConfig)
-      ? options.tsConfig
-      : [options.tsConfig];
-
-    context.reportProgress(0, tsConfigs.length);
-
-    const allPrograms = tsConfigs.map((tsConfig: any) =>
-      createProgram(path.resolve(systemRoot, tsConfig)),
-    );
-
-    let i = 0;
-    for (const program of allPrograms) {
-      lintResults = [
-        ...lintResults,
-        ...(await lint(
-          systemRoot,
-          projectSourceRoot,
-          eslintConfigPath,
-          options,
-          lintedFiles,
-          program,
-          allPrograms,
-        )),
-      ];
-      context.reportProgress(++i, allPrograms.length);
-    }
-  } else {
-    lintResults = [
-      ...lintResults,
-      ...(await lint(
-        systemRoot,
-        projectSourceRoot,
-        eslintConfigPath,
-        options,
-        lintedFiles,
-      )),
-    ];
-  }
+  const lintResults: ESLint.LintResult[] = await lint(
+    eslintConfigPath,
+    options,
+  );
 
   if (lintResults.length === 0) {
     throw new Error('Invalid lint configuration. Nothing to lint.');

@@ -8,18 +8,6 @@
       "type": "string",
       "description": "The name of the ESLint configuration file."
     },
-    "tsConfig": {
-      "description": "The name of the TypeScript configuration file.",
-      "oneOf": [
-        { "type": "string" },
-        {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      ]
-    },
     "fix": {
       "type": "boolean",
       "description": "Fixes linting errors (may overwrite linted files).",
@@ -52,9 +40,9 @@
         "type": "string"
       }
     },
-    "files": {
+    "lintFilePatterns": {
       "type": "array",
-      "description": "Files to include in linting.",
+      "description": "One or more files/dirs/globs to pass directly to ESLint's lintFiles() method.",
       "default": [],
       "items": {
         "type": "string"
@@ -91,5 +79,5 @@
     }
   },
   "additionalProperties": false,
-  "required": ["tsConfig"]
+  "required": ["lintFilePatterns"]
 }

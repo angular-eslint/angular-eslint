@@ -6,7 +6,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "rm -rf ./dist && tsc -p tsconfig.json && cp src/collection.json dist/collection.json && cp src/ng-add/schema.json dist/ng-add/schema.json",
+    "build": "rm -rf ./dist && tsc -p tsconfig.json && cp src/collection.json dist/collection.json && cp src/ng-add/schema.json dist/ng-add/schema.json && cp src/add-config-to-project/schema.json dist/add-config-to-project/schema.json && cp -R src/add-config-to-project/files dist/add-config-to-project/files",
     "test": "jest --coverage",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
@@ -22,6 +22,9 @@
     "LICENSE"
   ],
   "schematics": "./dist/collection.json",
+  "dependencies": {
+    "strip-json-comments": "3.1.1"
+  },
   "devDependencies": {
     "@angular-devkit/schematics": "^10.0.6",
     "@typescript-eslint/experimental-utils": "3.9.0",

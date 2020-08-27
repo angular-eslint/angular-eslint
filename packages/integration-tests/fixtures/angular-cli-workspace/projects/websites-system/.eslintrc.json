@@ -1,0 +1,7 @@
+{
+  "extends": ["../../.eslintrc.js"],
+  "parserOptions": {
+    "project": "projects/websites-system/tsconfig.eslint.json"
+  },
+  "rules": {}
+}

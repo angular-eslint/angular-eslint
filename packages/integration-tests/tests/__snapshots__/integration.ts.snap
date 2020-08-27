@@ -4,8 +4,8 @@ exports[`angular-cli-workspace it should produce the expected lint output 1`] = 
 "
 Linting \\"angular-cli-workspace\\"...
 
-__ROOT__/angular-cli-workspace/src/app/app.component.html
-  1:31  error  Invalid binding syntax. Use [(expr)] instead  @angular-eslint/template/banana-in-a-box
+__ROOT__/angular-cli-workspace/src/app/app.component.spec.ts
+  19:6  error  Strings must use singlequote  quotes
 
 ✖ 1 problem (1 error, 0 warnings)
   1 error and 0 warnings potentially fixable with the \`--fix\` option.
@@ -17,12 +17,6 @@ __ROOT__/angular-cli-workspace/src/app/app.component.ts
   15:3  warning  Lifecycle interface 'OnInit' should be implemented for method 'ngOnInit'. (https://angular.io/styleguide#style-09-01)  @angular-eslint/use-lifecycle-interface
 
 ✖ 3 problems (2 errors, 1 warning)
-
-
-__ROOT__/angular-cli-workspace/src/app/example.pipe.ts
-  6:8  error  Classes decorated with @Pipe decorator should implement PipeTransform interface  @angular-eslint/use-pipe-transform-interface
-
-✖ 1 problem (1 error, 0 warnings)
 
 
 __ROOT__/angular-cli-workspace/src/app/example.component.ts
@@ -40,14 +34,27 @@ __ROOT__/angular-cli-workspace/src/app/example.component.ts
   5 errors and 0 warnings potentially fixable with the \`--fix\` option.
 
 
-__ROOT__/angular-cli-workspace/src/app/app.component.spec.ts
-  19:6  error  Strings must use singlequote  quotes
+__ROOT__/angular-cli-workspace/src/app/example.pipe.ts
+  6:8  error  Classes decorated with @Pipe decorator should implement PipeTransform interface  @angular-eslint/use-pipe-transform-interface
+
+✖ 1 problem (1 error, 0 warnings)
+
+
+__ROOT__/angular-cli-workspace/src/app/app.component.html
+  1:31  error  Invalid binding syntax. Use [(expr)] instead  @angular-eslint/template/banana-in-a-box
 
 ✖ 1 problem (1 error, 0 warnings)
   1 error and 0 warnings potentially fixable with the \`--fix\` option.
 
 
 Linting \\"another-app\\"...
+
+__ROOT__/angular-cli-workspace/projects/another-app/src/app/app.component.spec.ts
+  19:6  error  Strings must use singlequote  quotes
+
+✖ 1 problem (1 error, 0 warnings)
+  1 error and 0 warnings potentially fixable with the \`--fix\` option.
+
 
 __ROOT__/angular-cli-workspace/projects/another-app/src/app/app.component.html
    12:1  error  This line has a length of 159. Maximum allowed is 140   max-len
@@ -95,10 +102,35 @@ __ROOT__/angular-cli-workspace/projects/another-app/src/app/app.component.html
 ✖ 41 problems (41 errors, 0 warnings)
 
 
-__ROOT__/angular-cli-workspace/projects/another-app/src/app/app.component.spec.ts
-  19:6  error  Strings must use singlequote  quotes
+Linting \\"horse-plants\\"...
+All files pass linting.
 
-✖ 1 problem (1 error, 0 warnings)
-  1 error and 0 warnings potentially fixable with the \`--fix\` option.
+
+Linting \\"allergies-fusion\\"...
+All files pass linting.
+
+
+Linting \\"breakfast-cat\\"...
+All files pass linting.
+
+
+Linting \\"prints-soda\\"...
+All files pass linting.
+
+
+Linting \\"ice-cream-monster\\"...
+All files pass linting.
+
+
+Linting \\"shoe-prints\\"...
+All files pass linting.
+
+
+Linting \\"websites-system\\"...
+All files pass linting.
+
+
+Linting \\"robot-websites\\"...
+All files pass linting.
 "
 `;

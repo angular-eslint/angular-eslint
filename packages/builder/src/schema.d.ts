@@ -1,15 +1,13 @@
 import type { JsonObject } from '@angular-devkit/core';
 
 export interface Schema extends JsonObject {
-  tsConfig: string | string[];
   format: Formatter;
-  files: string[];
+  lintFilePatterns: string[];
   force: boolean;
   silent: boolean;
   fix: boolean;
   cache: boolean;
-  outputFile: string;
-  cacheLocation: string;
+  cacheLocation: string | null;
   exclude: string[];
   eslintConfig: string | null;
   ignorePath: string | null;

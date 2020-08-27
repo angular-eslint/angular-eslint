@@ -12,7 +12,7 @@ function addAngularESLintPackages() {
   return (host: Tree, context: SchematicContext) => {
     if (!host.exists('package.json')) {
       throw new Error(
-        'Could not locate package.json at the root of your project',
+        'Could not find a `package.json` file at the root of your workspace',
       );
     }
 

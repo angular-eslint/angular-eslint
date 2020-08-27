@@ -18,6 +18,54 @@
     },
     {
       "path": "./projects/another-app/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/horse-plants/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/horse-plants/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/allergies-fusion/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/allergies-fusion/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/breakfast-cat/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/breakfast-cat/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/prints-soda/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/prints-soda/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/ice-cream-monster/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/ice-cream-monster/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/shoe-prints/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/shoe-prints/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/websites-system/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/websites-system/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/robot-websites/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/robot-websites/tsconfig.spec.json"
     }
   ]
 }
