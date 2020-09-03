@@ -37,11 +37,11 @@ Please follow the links below for the packages you care about.
 
 <br>
 
-### Migrating from Codelyzer and TSLint
+## Migrating from Codelyzer and TSLint
 
 We have some work in progress tooling to make this as automated as possible, but the reality is it will always be somewhat project-specific as to how much work will be involved in the migration.
 
-#### Step 1 - Add relevant dependencies
+### Step 1 - Add relevant dependencies
 
 The first step is to run the schematic to add `@angular-eslint` to your project:
 
@@ -51,7 +51,7 @@ ng add @angular-eslint/schematics
 
 This will handle installing the latest version of all the relevant packages for you and adding them to the `devDependencies` of your `package.json`.
 
-#### Step 2 - Add new ESLint-related configuration
+### Step 2 - Add new ESLint-related configuration
 
 The next thing to do is consider which "project" you want to migrate to use ESLint. If you have a single application in your workspace you will likely have just a single entry in the `projects` configuration object within your `angular.json` file. If you have a `projects/` directory in your workspace, you will have multiple entires in your `projects` configuration and you will need to chose which one you want to migrate using the `add-config-to-project` schematic.
 
@@ -79,11 +79,11 @@ This command uses the Angular CLI's standard tooling to invoke the `builder` fro
 
 **As this stage you have both TSLint and ESLint configured as different targets for your project - we have not removed or changed TSLint in any way**.
 
-#### Step 3 - Use the new ESLint configuration files to match your original TSLint configuration, or change it however you would like
+### Step 3 - Use the new ESLint configuration files to match your original TSLint configuration, or change it however you would like
 
-Currently this is a manual step, but we hope to create a schematic to assist with this process soon. See [Notes on configuration migrations](#notes-on-configuration-migrations) below for some more info.
+Currently this is a manual step, but we hope to create a schematic to assist with this process soon. See [Notes on ESLint Configuration](#notes-on-eslint-configuration) below for some more info.
 
-#### Step 4 - Remove TSLint configuration and use only ESLint
+### Step 4 - Remove TSLint configuration and use only ESLint
 
 Once you are happy with your ESLint setup, you simply need to remove the project specific `tslint.json` and the `lint` configuration block within the project's `architect` configuration block in your `angular.json`.
 
@@ -101,50 +101,68 @@ npx ng lint {{YOUR_PROJECT_NAME_GOES_HERE}}
 
 <br>
 
-### Notes on configuration migrations
+## Notes on ESLint Configuration
 
-**The best reference configurations for performing your own migration** are located within the Angular CLI integration test within this monorepo. Check out the relevant configuration files:
+It's important to understand up front that **using Angular with ESLint is actually an advanced/complex use-case** because of the nature of the files involved:
+
+- Angular projects use **TypeScript files** for source code
+- Angular projects use a **custom/extended form of HTML** for templates (be they inline or external HTML files)
+
+The thing is: **ESLint understands neither of these things out of the box.**
+
+Fortunately, however, ESLint has clearly defined points of extensibility that we can leverage to make this all work.
+
+> For detailed information about ESLint plugins, parsers etc please review the official ESLint documentation: https://eslint.org
+
+**The key principal of our configuration required for Angular projects is that we need to run different blocks of configuration for different file types/extensions**. In other words, we don't want the same rules to apply on TypeScript files that we do on HTML/inline-templates.
+
+Therefore, the critical part of our configuration is the `"overrides"` array:
+
+```cjson
+{
+  "overrides": [
+    /**
+     * -----------------------------------------------------
+     * TYPESCRIPT FILES (COMPONENTS, SERVICES ETC) (.ts)
+     * -----------------------------------------------------
+     */
+    {
+      "files": ["*.ts"],
+      // ... config specific to TypeScript files
+    },
+
+    /**
+     * -----------------------------------------------------
+     * COMPONENT TEMPLATES
+     * -----------------------------------------------------
+     */
+    {
+      "files": ["*.component.html"],
+      // ... config specific to Angular Component templates
+    },
+
+    /**
+     * -----------------------------------------------------
+     * EXTRACT INLINE TEMPLATES (from within .component.ts)
+     * -----------------------------------------------------
+     */
+    {
+      "files": ["*.component.ts"],
+      // ... applies a special processor to extract the template
+      "extends": ["plugin:@angular-eslint/template/process-inline-templates"]
+    }
+  ]
+}
+```
+
+By setting up our config in this way, we have complete control over what rules etc apply to what file types and our separate concerns remain clearer and easier to maintain.
+
+**For a full reference configuration example** check out the full Angular CLI integration test located within this monorepo. Check out the relevant configuration files:
 
 - [packages/integration-tests/fixtures/angular-cli-workspace/.eslintrc.js](./packages/integration-tests/fixtures/angular-cli-workspace/.eslintrc.js)
 - [packages/integration-tests/fixtures/angular-cli-workspace/angular.json](./packages/integration-tests/fixtures/angular-cli-workspace/angular.json)
 
-If you are looking for general help in migrating from TSLint to ESLint, you can check out this project: https://github.com/typescript-eslint/tslint-to-eslint-config
-
-<br>
-
-### Linting templates with Angular ESLint
-
-You can change the parser in the main section of your eslint config file to the template parser in this project. The rules in /template will then be available to use in your main config section. If any rules in OTHER packages then complain about not having access to the parser they need, you can add an 'overrides' section to your config specifically for the template rules instead, e.g.:
-
-```json
-// ... more config
-"overrides": [
-    {
-      "files": ["*.component.html"],
-      "parser": "@angular-eslint/template-parser",
-      "plugins": ["@angular-eslint/template"],
-      "rules": {
-        "@angular-eslint/template/banana-in-a-box": "error",
-        "@angular-eslint/template/cyclomatic-complexity": "error",
-        "@angular-eslint/template/no-call-expression": "error",
-        "@angular-eslint/template/no-negated-async": "error",
-        "@angular-eslint/template/i18n": [
-          "error",
-          {
-            "checkId": false,
-            "checkText": true,
-            "checkAttributes": true,
-            "ignoreAttributes": [
-              "field",
-              "identifier"
-            ]
-          }
-        ]
-      }
-    }
-  ]
-// ... more config
-```
+If you are looking for general help in migrating specific rules from TSLint to ESLint, you can check out this project: https://github.com/typescript-eslint/tslint-to-eslint-config
 
 <br>
 

@@ -1,4 +1,4 @@
-import eslintPlugin from '../src';
+import eslintPluginTemplate from '../src';
 
 interface Config {
   extends?: string | string[];
@@ -16,15 +16,15 @@ function containsRule(config: any, ruleName: string): boolean {
 describe('configs', () => {
   describe('base', () => {
     it('exists', () => {
-      expect(eslintPlugin.configs.base).toBeDefined();
+      expect(eslintPluginTemplate.configs.base).toBeDefined();
     });
   });
 
   describe('all', () => {
     it('should contain all of the rules from the plugin', () => {
       expect(
-        Object.keys(eslintPlugin.rules).every((ruleName) =>
-          containsRule(eslintPlugin.configs.all, ruleName),
+        Object.keys(eslintPluginTemplate.rules).every((ruleName) =>
+          containsRule(eslintPluginTemplate.configs.all, ruleName),
         ),
       );
     });
@@ -33,10 +33,10 @@ describe('configs', () => {
   describe('recommended', () => {
     it('should contain the recommended rules', () => {
       expect(
-        Object.entries(eslintPlugin.rules)
+        Object.entries(eslintPluginTemplate.rules)
           .filter((entry) => !!entry[1].meta.docs?.recommended)
           .every((entry) =>
-            containsRule(eslintPlugin.configs.recommended, entry[0]),
+            containsRule(eslintPluginTemplate.configs.recommended, entry[0]),
           ),
       );
     });

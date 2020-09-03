@@ -62,16 +62,5 @@
     "@angular-eslint/no-outputs-metadata-property": "error",
     "@angular-eslint/use-lifecycle-interface": "warn",
     "@angular-eslint/use-pipe-transform-interface": "error"
-  },
-  "overrides": [
-    {
-      "files": ["*.component.html"],
-      "parser": "@angular-eslint/template-parser",
-      "plugins": ["@angular-eslint/template"],
-      "rules": {
-        "@angular-eslint/template/banana-in-a-box": "error",
-        "@angular-eslint/template/no-negated-async": "error"
-      }
-    }
-  ]
+  }
 }
