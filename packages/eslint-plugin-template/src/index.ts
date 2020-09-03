@@ -1,3 +1,7 @@
+import all from './configs/all.json';
+import base from './configs/base.json';
+import recommended from './configs/recommended.json';
+import processInlineTemplates from './configs/process-inline-templates.json';
 import processors from './processors';
 import bananaInABox, {
   RULE_NAME as bananaInABoxRuleName,
@@ -13,6 +17,12 @@ import noNegatedAsync, {
 } from './rules/no-negated-async';
 
 export default {
+  configs: {
+    all,
+    base,
+    recommended,
+    'process-inline-templates': processInlineTemplates,
+  },
   processors,
   rules: {
     [bananaInABoxRuleName]: bananaInABox,

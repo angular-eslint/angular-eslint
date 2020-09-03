@@ -6,27 +6,18 @@ These configs exist for your convenience. They contain configuration intended to
 
 The recommended set is an **_opinionated_** set of rules that we think you should use because:
 
-1. They help you adhere to TypeScript and Angular best practices.
+1. They help you adhere to Angular template best practices.
 2. They help catch probable issue vectors in your code.
 
-That being said, it is not the only way to use `@typescript-eslint/eslint-plugin` and `@angular-eslint/eslint-plugin`, nor is it the way that will necessarily work 100% for your project/company. It has been built based off of three main things:
+That being said, it is not the only way to use `@angular-eslint/eslint-plugin-template`, nor is it the way that will necessarily work 100% for your project/company. It has been built based off of two main things:
 
-1. TypeScript best practices collected and collated from places like:
-   - [TypeScript repo](https://github.com/Microsoft/TypeScript).
-   - [TypeScript documentation](https://www.typescriptlang.org/docs/home.html).
-   - The style used by many OSS TypeScript projects.
-2. Angular best practices collected and collated from places like:
+1. Angular best practices collected and collated from places like:
    - [Angular repo](https://github.com/angular/angular).
    - [Angular documentation](https://angular.io).
    - Advice from the Angular Team at Google.
-3. The combined state of community contributed rulesets at the time of creation.
+2. The combined state of community contributed rulesets at the time of creation.
 
 We will not add new rules to the recommended set unless we release a major package version (i.e. it is seen as a breaking change).
-
-NOTE: The recommended config contains config for ESLint core rules, as well as two different plugins:
-
-- `@typescript-eslint/eslint-plugin`
-- `@angular-eslint/eslint-plugin`
 
 ### Altering the recommended set to suit your project
 
@@ -34,10 +25,10 @@ If you disagree with a rule (or it disagrees with your codebase), consider using
 
 ```cjson
 {
-  "extends": ["plugin:@angular-eslint/recommended"],
+  "extends": ["plugin:@angular-eslint/template/recommended"],
   "rules": {
-    // our project thinks using renaming inputs is ok
-    "@angular-eslint/no-input-rename": "off
+    // our project thinks using negated async pipes is ok
+    "@angular-eslint/template/no-negated-async": "off
   }
 }
 ```
