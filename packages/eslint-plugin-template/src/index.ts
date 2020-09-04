@@ -15,6 +15,9 @@ import noCallExpression, {
 import noNegatedAsync, {
   RULE_NAME as noNegatedAsyncRuleName,
 } from './rules/no-negated-async';
+import accessibilityTabindexNoPositive, {
+  RULE_NAME as accessibilityTabindexNoPositiveRuleName,
+} from './rules/accessibility-tabindex-no-positive';
 
 export default {
   configs: {
@@ -29,5 +32,6 @@ export default {
     [cyclomaticComplexityRuleName]: cyclomaticComplexity,
     [noCallExpressionRule]: noCallExpression,
     [noNegatedAsyncRuleName]: noNegatedAsync,
+    [accessibilityTabindexNoPositiveRuleName]: accessibilityTabindexNoPositive,
   },
 };
