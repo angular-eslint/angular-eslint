@@ -5,7 +5,7 @@ import {
 import rule, {
   MessageIds,
   RULE_NAME,
-} from '../../src/rules/accessibility-tabindex-no-positive';
+} from '../../src/rules/no-positive-tabindex';
 
 //------------------------------------------------------------------------------
 // Tests
@@ -15,7 +15,7 @@ const ruleTester = new RuleTester({
   parser: '@angular-eslint/template-parser',
 });
 
-const messageId: MessageIds = 'accessibilityTabindexNoPositive';
+const messageId: MessageIds = 'noPositiveTabindex';
 
 ruleTester.run(RULE_NAME, rule, {
   valid: [

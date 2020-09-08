@@ -4,8 +4,8 @@ import {
 } from '../utils/create-eslint-rule';
 
 type Options = [];
-export type MessageIds = 'accessibilityTabindexNoPositive';
-export const RULE_NAME = 'accessibility-tabindex-no-positive';
+export type MessageIds = 'noPositiveTabindex';
+export const RULE_NAME = 'no-positive-tabindex';
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
@@ -18,7 +18,7 @@ export default createESLintRule<Options, MessageIds>({
     },
     schema: [],
     messages: {
-      accessibilityTabindexNoPositive: 'tabindex attribute cannot be positive',
+      noPositiveTabindex: 'tabindex attribute cannot be positive',
     },
   },
   defaultOptions: [],
@@ -55,7 +55,7 @@ export default createESLintRule<Options, MessageIds>({
             node.startSourceSpan,
           );
           context.report({
-            messageId: 'accessibilityTabindexNoPositive',
+            messageId: 'noPositiveTabindex',
             loc,
           });
         }
