@@ -4,8 +4,8 @@ import {
 } from '../utils/create-eslint-rule';
 
 type Options = [];
-export type MessageIds = 'bananaInABox';
-export const RULE_NAME = 'banana-in-a-box';
+export type MessageIds = 'bananaInBox';
+export const RULE_NAME = 'banana-in-box';
 
 const INVALID_PATTERN = /\[(.*)\]/;
 const VALID_CLOSE_BOX = ')]';
@@ -23,7 +23,7 @@ export default createESLintRule<Options, MessageIds>({
     fixable: 'code',
     schema: [],
     messages: {
-      bananaInABox: 'Invalid binding syntax. Use [(expr)] instead',
+      bananaInBox: 'Invalid binding syntax. Use [(expr)] instead',
     },
   },
   defaultOptions: [],
@@ -45,7 +45,7 @@ export default createESLintRule<Options, MessageIds>({
         const startIndex = sourceCode.getIndexFromLoc(loc.start);
 
         context.report({
-          messageId: 'bananaInABox',
+          messageId: 'bananaInBox',
           loc,
           fix: (fixer) =>
             fixer.replaceTextRange(

@@ -2,7 +2,7 @@ import {
   convertAnnotatedSourceToFailureCase,
   RuleTester,
 } from '@angular-eslint/utils';
-import rule, { MessageIds, RULE_NAME } from '../../src/rules/banana-in-a-box';
+import rule, { MessageIds, RULE_NAME } from '../../src/rules/banana-in-box';
 
 //------------------------------------------------------------------------------
 // Tests
@@ -12,7 +12,7 @@ const ruleTester = new RuleTester({
   parser: '@angular-eslint/template-parser',
 });
 
-const messageId: MessageIds = 'bananaInABox';
+const messageId: MessageIds = 'bananaInBox';
 
 ruleTester.run(RULE_NAME, rule, {
   valid: [
