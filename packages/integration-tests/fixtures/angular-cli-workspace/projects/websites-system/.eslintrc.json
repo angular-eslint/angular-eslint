@@ -1,7 +1,11 @@
 {
-  "extends": ["../../.eslintrc.js"],
+  "extends": ["../../.eslintrc.json"],
   "parserOptions": {
-    "project": "projects/websites-system/tsconfig.eslint.json"
+    "project": [
+      "projects/websites-system/tsconfig.*?.json",
+      "projects/websites-system/e2e/tsconfig.json"
+    ],
+    "createDefaultProgram": true
   },
   "rules": {}
 }

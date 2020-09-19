@@ -8,7 +8,6 @@ export interface Schema extends JsonObject {
   fix: boolean;
   cache: boolean;
   cacheLocation: string | null;
-  exclude: string[];
   eslintConfig: string | null;
   ignorePath: string | null;
 }

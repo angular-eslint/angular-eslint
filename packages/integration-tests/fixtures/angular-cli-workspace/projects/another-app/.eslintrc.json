@@ -1,7 +1,20 @@
 {
-  "extends": ["../../.eslintrc.js"],
-  "parserOptions": {
-    "project": "projects/another-app/tsconfig.eslint.json"
-  },
-  "rules": {}
+  "extends": ["../../.eslintrc.json"],
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "parserOptions": {
+        "project": [
+          "projects/another-app/tsconfig.*?.json",
+          "projects/another-app/e2e/tsconfig.json"
+        ],
+        "createDefaultProgram": true
+      },
+      "rules": {}
+    },
+    {
+      "files": ["*.component.html"],
+      "rules": {}
+    }
+  ]
 }

@@ -32,14 +32,6 @@
       "description": "Hide output text.",
       "default": false
     },
-    "exclude": {
-      "type": "array",
-      "description": "Files to exclude from linting.",
-      "default": [],
-      "items": {
-        "type": "string"
-      }
-    },
     "lintFilePatterns": {
       "type": "array",
       "description": "One or more files/dirs/globs to pass directly to ESLint's lintFiles() method.",

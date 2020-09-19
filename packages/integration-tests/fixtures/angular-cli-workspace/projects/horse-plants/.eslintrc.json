@@ -1,7 +1,20 @@
 {
-  "extends": ["../../.eslintrc.js"],
-  "parserOptions": {
-    "project": "projects/horse-plants/tsconfig.eslint.json"
-  },
-  "rules": {}
+  "extends": ["../../.eslintrc.json"],
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "parserOptions": {
+        "project": [
+          "projects/horse-plants/tsconfig.*?.json",
+          "projects/horse-plants/e2e/tsconfig.json"
+        ],
+        "createDefaultProgram": true
+      },
+      "rules": {}
+    },
+    {
+      "files": ["*.component.html"],
+      "rules": {}
+    }
+  ]
 }
