@@ -11,6 +11,7 @@ import { CodelyzerRule, PRDetails, RuleDetails } from './interfaces';
  */
 const RULE_MAP = {
   'template-banana-in-box': 'banana-in-box',
+  'template-accessibility-tabindex-no-positive': 'no-positive-tabindex',
 };
 
 /**
