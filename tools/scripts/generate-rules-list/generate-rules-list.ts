@@ -10,7 +10,7 @@ import { CodelyzerRule, PRDetails, RuleDetails } from './interfaces';
  * Stores a mapping from codelyzer rules to eslint rules that have changed name.
  */
 const RULE_MAP = {
-  'template-banana-in-box': 'banana-in-a-box',
+  'template-banana-in-box': 'banana-in-box',
   'template-accessibility-tabindex-no-positive': 'no-positive-tabindex',
 };
 

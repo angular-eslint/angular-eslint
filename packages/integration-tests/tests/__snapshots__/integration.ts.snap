@@ -25,10 +25,10 @@ __ROOT__/angular-cli-workspace/src/app/example.component.ts
   13:3   error  Use @Output rather than the \`outputs\` metadata property (https://angular.io/styleguide#style-05-12)  @angular-eslint/no-outputs-metadata-property
   14:3   error  Use @Output rather than the \`host\` metadata property (https://angular.io/styleguide#style-05-12)     @angular-eslint/no-host-metadata-property
   18:3   error  In the class \\"ExampleComponent\\", the output property \\"onFoo\\" should not be prefixed with on          @angular-eslint/no-output-on-prefix
-   6:35  error  Invalid binding syntax. Use [(expr)] instead                                                         @angular-eslint/template/banana-in-a-box
-   8:15  error  Invalid binding syntax. Use [(expr)] instead                                                         @angular-eslint/template/banana-in-a-box
-   8:29  error  Invalid binding syntax. Use [(expr)] instead                                                         @angular-eslint/template/banana-in-a-box
-   9:48  error  Invalid binding syntax. Use [(expr)] instead                                                         @angular-eslint/template/banana-in-a-box
+   6:35  error  Invalid binding syntax. Use [(expr)] instead                                                         @angular-eslint/template/banana-in-box
+   8:15  error  Invalid binding syntax. Use [(expr)] instead                                                         @angular-eslint/template/banana-in-box
+   8:29  error  Invalid binding syntax. Use [(expr)] instead                                                         @angular-eslint/template/banana-in-box
+   9:48  error  Invalid binding syntax. Use [(expr)] instead                                                         @angular-eslint/template/banana-in-box
 
 ✖ 9 problems (9 errors, 0 warnings)
   5 errors and 0 warnings potentially fixable with the \`--fix\` option.
@@ -41,7 +41,7 @@ __ROOT__/angular-cli-workspace/src/app/example.pipe.ts
 
 
 __ROOT__/angular-cli-workspace/src/app/app.component.html
-  1:31  error  Invalid binding syntax. Use [(expr)] instead  @angular-eslint/template/banana-in-a-box
+  1:31  error  Invalid binding syntax. Use [(expr)] instead  @angular-eslint/template/banana-in-box
 
 ✖ 1 problem (1 error, 0 warnings)
   1 error and 0 warnings potentially fixable with the \`--fix\` option.

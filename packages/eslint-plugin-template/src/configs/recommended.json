@@ -1,7 +1,7 @@
 {
   "extends": "./configs/base.json",
   "rules": {
-    "@angular-eslint/template/banana-in-a-box": "error",
+    "@angular-eslint/template/banana-in-box": "error",
     "@angular-eslint/template/no-negated-async": "error"
   }
 }

@@ -3,9 +3,9 @@ import base from './configs/base.json';
 import recommended from './configs/recommended.json';
 import processInlineTemplates from './configs/process-inline-templates.json';
 import processors from './processors';
-import bananaInABox, {
-  RULE_NAME as bananaInABoxRuleName,
-} from './rules/banana-in-a-box';
+import bananaInBox, {
+  RULE_NAME as bananaInBoxRuleName,
+} from './rules/banana-in-box';
 import cyclomaticComplexity, {
   RULE_NAME as cyclomaticComplexityRuleName,
 } from './rules/cyclomatic-complexity';
@@ -28,7 +28,7 @@ export default {
   },
   processors,
   rules: {
-    [bananaInABoxRuleName]: bananaInABox,
+    [bananaInBoxRuleName]: bananaInBox,
     [cyclomaticComplexityRuleName]: cyclomaticComplexity,
     [noCallExpressionRule]: noCallExpression,
     [noNegatedAsyncRuleName]: noNegatedAsync,
