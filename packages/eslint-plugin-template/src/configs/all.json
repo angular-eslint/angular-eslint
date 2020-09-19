@@ -4,6 +4,7 @@
     "@angular-eslint/template/banana-in-a-box": "error",
     "@angular-eslint/template/cyclomatic-complexity": "error",
     "@angular-eslint/template/no-call-expression": "error",
-    "@angular-eslint/template/no-negated-async": "error"
+    "@angular-eslint/template/no-negated-async": "error",
+    "@angular-eslint/template/no-positive-tabindex": "error"
   }
 }
