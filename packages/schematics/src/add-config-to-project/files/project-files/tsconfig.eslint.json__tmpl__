@@ -1,7 +1,0 @@
-{
-  "extends": "<%= offsetFromRoot %>tsconfig.base.json",
-  "compilerOptions": {
-    "noEmit": true
-  },
-  "include": ["src", "e2e"]
-}

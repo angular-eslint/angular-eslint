@@ -1,7 +1,20 @@
 {
-  "extends": ["../../.eslintrc.js"],
-  "parserOptions": {
-    "project": "projects/ice-cream-monster/tsconfig.eslint.json"
-  },
-  "rules": {}
+  "extends": ["../../.eslintrc.json"],
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "parserOptions": {
+        "project": [
+          "projects/ice-cream-monster/tsconfig.*?.json",
+          "projects/ice-cream-monster/e2e/tsconfig.json"
+        ],
+        "createDefaultProgram": true
+      },
+      "rules": {}
+    },
+    {
+      "files": ["*.component.html"],
+      "rules": {}
+    }
+  ]
 }

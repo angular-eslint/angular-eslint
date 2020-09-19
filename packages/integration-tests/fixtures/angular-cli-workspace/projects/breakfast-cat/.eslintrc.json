@@ -1,7 +1,20 @@
 {
-  "extends": ["../../.eslintrc.js"],
-  "parserOptions": {
-    "project": "projects/breakfast-cat/tsconfig.eslint.json"
-  },
-  "rules": {}
+  "extends": ["../../.eslintrc.json"],
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "parserOptions": {
+        "project": [
+          "projects/breakfast-cat/tsconfig.*?.json",
+          "projects/breakfast-cat/e2e/tsconfig.json"
+        ],
+        "createDefaultProgram": true
+      },
+      "rules": {}
+    },
+    {
+      "files": ["*.component.html"],
+      "rules": {}
+    }
+  ]
 }

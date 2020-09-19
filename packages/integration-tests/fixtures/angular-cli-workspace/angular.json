@@ -86,8 +86,7 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["src/**/*.ts", "src/**/*.component.html"],
-            "exclude": ["**/node_modules/**"]
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.component.html"]
           }
         },
         "e2e": {
@@ -196,8 +195,7 @@
             "lintFilePatterns": [
               "projects/another-app/**/*.ts",
               "projects/another-app/**/*.component.html"
-            ],
-            "exclude": ["**/node_modules/**"]
+            ]
           }
         },
         "e2e": {
@@ -306,8 +304,7 @@
             "lintFilePatterns": [
               "projects/horse-plants/**/*.ts",
               "projects/horse-plants/**/*.component.html"
-            ],
-            "exclude": ["**/node_modules/**"]
+            ]
           }
         },
         "e2e": {
@@ -416,8 +413,7 @@
             "lintFilePatterns": [
               "projects/allergies-fusion/**/*.ts",
               "projects/allergies-fusion/**/*.component.html"
-            ],
-            "exclude": ["**/node_modules/**"]
+            ]
           }
         },
         "e2e": {
@@ -526,8 +522,7 @@
             "lintFilePatterns": [
               "projects/breakfast-cat/**/*.ts",
               "projects/breakfast-cat/**/*.component.html"
-            ],
-            "exclude": ["**/node_modules/**"]
+            ]
           }
         },
         "e2e": {
@@ -636,8 +631,7 @@
             "lintFilePatterns": [
               "projects/prints-soda/**/*.ts",
               "projects/prints-soda/**/*.component.html"
-            ],
-            "exclude": ["**/node_modules/**"]
+            ]
           }
         },
         "e2e": {
@@ -746,8 +740,7 @@
             "lintFilePatterns": [
               "projects/ice-cream-monster/**/*.ts",
               "projects/ice-cream-monster/**/*.component.html"
-            ],
-            "exclude": ["**/node_modules/**"]
+            ]
           }
         },
         "e2e": {
@@ -856,8 +849,7 @@
             "lintFilePatterns": [
               "projects/shoe-prints/**/*.ts",
               "projects/shoe-prints/**/*.component.html"
-            ],
-            "exclude": ["**/node_modules/**"]
+            ]
           }
         },
         "e2e": {
@@ -966,8 +958,7 @@
             "lintFilePatterns": [
               "projects/websites-system/**/*.ts",
               "projects/websites-system/**/*.component.html"
-            ],
-            "exclude": ["**/node_modules/**"]
+            ]
           }
         },
         "e2e": {
@@ -1076,8 +1067,7 @@
             "lintFilePatterns": [
               "projects/robot-websites/**/*.ts",
               "projects/robot-websites/**/*.component.html"
-            ],
-            "exclude": ["**/node_modules/**"]
+            ]
           }
         },
         "e2e": {

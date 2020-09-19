@@ -61,12 +61,9 @@ You can run it like so:
 ng g @angular-eslint/schematics:add-config-to-project {{YOUR_PROJECT_NAME_GOES_HERE}}
 ```
 
-NOTE: If you have multiple projects in your workspace and the one you are running the schematic on is from your `projects/` directory, you will need to make sure you have created a root level `.eslintrc.json` or `.eslintrc.js` file in your workspace before you run it (it will error if you don't). This is to ensure you don't end up with a broken setup for the project.
-
 The schematic will do the following for you:
 
-- CREATE a `tsconfig.eslint.json` at the root of the specific project which extends from the root config
-- CREATE a `.eslintrc.json` at the root of the specific project which extends from the root config
+- CREATE a `.eslintrc.json` at the root of the specific project which extends from the root config (if you do not already have a root config, it will also add one automatically for you)
 - UPDATE the project's `architect` configuration in the `angular.json` to add a new target called `eslint`
 
 You can run the new target like so:
@@ -159,7 +156,7 @@ By setting up our config in this way, we have complete control over what rules e
 
 **For a full reference configuration example** check out the full Angular CLI integration test located within this monorepo. Check out the relevant configuration files:
 
-- [packages/integration-tests/fixtures/angular-cli-workspace/.eslintrc.js](./packages/integration-tests/fixtures/angular-cli-workspace/.eslintrc.js)
+- [packages/integration-tests/fixtures/angular-cli-workspace/.eslintrc.json](./packages/integration-tests/fixtures/angular-cli-workspace/.eslintrc.json)
 - [packages/integration-tests/fixtures/angular-cli-workspace/angular.json](./packages/integration-tests/fixtures/angular-cli-workspace/angular.json)
 
 If you are looking for general help in migrating specific rules from TSLint to ESLint, you can check out this project: https://github.com/typescript-eslint/tslint-to-eslint-config

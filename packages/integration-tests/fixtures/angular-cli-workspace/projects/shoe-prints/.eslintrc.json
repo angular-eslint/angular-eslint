@@ -1,7 +1,11 @@
 {
-  "extends": ["../../.eslintrc.js"],
+  "extends": ["../../.eslintrc.json"],
   "parserOptions": {
-    "project": "projects/shoe-prints/tsconfig.eslint.json"
+    "project": [
+      "projects/shoe-prints/tsconfig.*?.json",
+      "projects/shoe-prints/e2e/tsconfig.json"
+    ],
+    "createDefaultProgram": true
   },
   "rules": {}
 }

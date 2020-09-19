@@ -1,7 +1,17 @@
 {
   "extends": ["<%= rootESLintConfigPath %>"],
-  "parserOptions": {
-    "project": "<%= eslintTSConfigFilePath %>"
-  },
-  "rules": {}
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "parserOptions": {
+        "project": <%= parserOptionsProject %>,
+        "createDefaultProgram": <%= parserCreateDefaultProgram %>
+      },
+      "rules": {}
+    },
+    {
+      "files": ["*.component.html"],
+      "rules": {}
+    }
+  ]
 }
