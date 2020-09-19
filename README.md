@@ -217,7 +217,7 @@ eslint --ext .ts,.component.html
 | [`template-accessibility-alt-text`]             |                    |
 | [`template-accessibility-elements-content`]     |                    |
 | [`template-accessibility-label-for`]            |                    |
-| [`template-accessibility-tabindex-no-positive`] |                    |
+| [`template-accessibility-tabindex-no-positive`] | :white_check_mark: |
 | [`template-accessibility-table-scope`]          |                    |
 | [`template-accessibility-valid-aria`]           |                    |
 | [`template-banana-in-box`]                      | :white_check_mark: |
