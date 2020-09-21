@@ -194,7 +194,7 @@ describe('add-config-to-project', () => {
               \\"extends\\": [\\"plugin:@angular-eslint/template/process-inline-templates\\"]
             }
           ]
-        };
+        }
         "
       `);
     });
@@ -354,7 +354,7 @@ describe('add-config-to-project', () => {
                 \\"extends\\": [\\"plugin:@angular-eslint/template/process-inline-templates\\"]
               }
             ]
-          };
+          }
           "
         `);
       });

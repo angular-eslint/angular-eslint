@@ -102,4 +102,4 @@
       "extends": ["plugin:@angular-eslint/template/process-inline-templates"]
     }
   ]
-};
+}
