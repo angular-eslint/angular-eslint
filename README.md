@@ -163,16 +163,26 @@ If you are looking for general help in migrating specific rules from TSLint to E
 
 <br>
 
-### Linting inline-templates with the VSCode extension for ESLint
+### Linting HTML files and inline-templates with the VSCode extension for ESLint
 
-If you use vscode-eslint, and inline-templates on your Angular Components, you will need to make sure you add the following to your VSCode settings:
+If you use vscode-eslint, and want to lint HTML files and inline-templates on your Angular Components, you will need to make sure you add the following to your VSCode `settings.json`:
 
-```json
+```jsonc
 // ... more config
 
 "eslint.options": {
   "extensions": [".ts", ".html"]
-}
+},
+
+// ... more config
+
+"eslint.validate": [
+  "javascript",
+  "javascriptreact",
+  "typescript",
+  "typescriptreact",
+  "html"
+],
 
 // ... more config
 ```
