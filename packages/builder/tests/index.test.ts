@@ -355,7 +355,7 @@ describe('Linter Builder', () => {
               line: 0,
               column: 0,
               message: 'Mock warning message',
-              severity: 2,
+              severity: 1,
               ruleId: null,
             },
           ],
