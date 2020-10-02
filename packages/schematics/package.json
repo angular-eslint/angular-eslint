@@ -1,6 +1,6 @@
 {
   "name": "@angular-eslint/schematics",
-  "version": "0.5.0-beta.1",
+  "version": "0.5.0-beta.2",
   "description": "Angular Schematics for angular-eslint",
   "license": "MIT",
   "main": "dist/index.js",

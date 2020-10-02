@@ -1,6 +1,6 @@
 {
   "name": "@angular-eslint/eslint-plugin-template",
-  "version": "0.5.0-beta.1",
+  "version": "0.5.0-beta.2",
   "description": "ESLint plugin for Angular Templates",
   "license": "MIT",
   "main": "dist/index.js",
@@ -26,7 +26,7 @@
     "@typescript-eslint/experimental-utils": "4.3.0"
   },
   "devDependencies": {
-    "@angular-eslint/utils": "^0.5.0-beta.1"
+    "@angular-eslint/utils": "^0.5.0-beta.2"
   },
   "peerDependencies": {
     "@angular-eslint/template-parser": "*",
