@@ -13,10 +13,12 @@ import { Schema } from '../src/schema';
 const mockFormatter = {
   format: jest
     .fn()
-    .mockImplementation((results: ESLint.LintResult[]): string[] =>
-      results.map(({ messages }) =>
-        messages.map(({ message }) => message).join('\n'),
-      ),
+    .mockImplementation((results: ESLint.LintResult[]): string =>
+      results
+        .map(({ messages }) =>
+          messages.map(({ message }) => message).join('\n'),
+        )
+        .join('\n'),
     ),
 };
 const mockLoadFormatter = jest.fn().mockReturnValue(mockFormatter);
