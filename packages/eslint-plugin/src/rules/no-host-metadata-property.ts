@@ -11,7 +11,7 @@ export type MessageIds = 'noHostMetadataProperty';
 export const RULE_NAME = 'no-host-metadata-property';
 
 const METADATA_PROPERTY_NAME = 'host';
-const STYLE_GUIDE_LINK = 'https://angular.io/styleguide#style-05-12';
+const STYLE_GUIDE_LINK = 'https://angular.io/styleguide#style-06-03';
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
@@ -24,7 +24,7 @@ export default createESLintRule<Options, MessageIds>({
     },
     schema: [],
     messages: {
-      noHostMetadataProperty: `Use @${AngularInnerClassDecorators.Output} rather than the \`${METADATA_PROPERTY_NAME}\` metadata property (${STYLE_GUIDE_LINK})`,
+      noHostMetadataProperty: `Use @${AngularInnerClassDecorators.HostBinding} or @${AngularInnerClassDecorators.HostListener} rather than the \`${METADATA_PROPERTY_NAME}\` metadata property (${STYLE_GUIDE_LINK})`,
     },
   },
   defaultOptions: [],
