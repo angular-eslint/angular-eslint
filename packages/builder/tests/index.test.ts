@@ -7,11 +7,19 @@
 import { Architect } from '@angular-devkit/architect';
 import { TestingArchitectHost } from '@angular-devkit/architect/testing';
 import { logging, schema } from '@angular-devkit/core';
+import { ESLint } from 'eslint';
 import { Schema } from '../src/schema';
 
-const formattedReports = ['formatted report 1'];
 const mockFormatter = {
-  format: jest.fn().mockReturnValue(formattedReports),
+  format: jest
+    .fn()
+    .mockImplementation((results: ESLint.LintResult[]): string =>
+      results
+        .map(({ messages }) =>
+          messages.map(({ message }) => message).join('\n'),
+        )
+        .join('\n'),
+    ),
 };
 const mockLoadFormatter = jest.fn().mockReturnValue(mockFormatter);
 const mockOutputFixes = jest.fn();
@@ -25,7 +33,9 @@ class MockESLint {
   loadFormatter = mockLoadFormatter;
 }
 
-let mockReports: any[] = [{ results: [], usedDeprecatedRules: [] }];
+let mockReports: any[] = [
+  { results: [], messages: [], usedDeprecatedRules: [] },
+];
 function mockEslint() {
   jest.doMock('../src/utils/eslint-utils', () => {
     return {
@@ -51,6 +61,7 @@ function createValidRunBuilderOptions(
     cacheLocation: 'cacheLocation1',
     format: 'stylish',
     force: false,
+    quiet: false,
     silent: false,
     ignorePath: null,
     ...additionalOptions,
@@ -93,7 +104,7 @@ async function runBuilder(options: Schema) {
 describe('Linter Builder', () => {
   beforeEach(() => {
     MockESLint.version = VALID_ESLINT_VERSION;
-    mockReports = [{ results: [], usedDeprecatedRules: [] }];
+    mockReports = [{ results: [], messages: [], usedDeprecatedRules: [] }];
   });
 
   afterAll(() => {
@@ -124,6 +135,7 @@ describe('Linter Builder', () => {
         eslintConfig: './.eslintrc',
         exclude: ['excludedFile1'],
         fix: true,
+        quiet: false,
         cache: true,
         cacheLocation: 'cacheLocation1',
         format: 'stylish',
@@ -137,6 +149,7 @@ describe('Linter Builder', () => {
       eslintConfig: './.eslintrc',
       exclude: ['excludedFile1'],
       fix: true,
+      quiet: false,
       cache: true,
       cacheLocation: 'cacheLocation1',
       format: 'stylish',
@@ -199,12 +212,14 @@ describe('Linter Builder', () => {
           errorCount: 1,
           warningCount: 4,
           results: [],
+          messages: [],
           usedDeprecatedRules: [],
         },
         {
           errorCount: 3,
           warningCount: 6,
           results: [],
+          messages: [],
           usedDeprecatedRules: [],
         },
       ];
@@ -242,12 +257,14 @@ describe('Linter Builder', () => {
           errorCount: 0,
           warningCount: 0,
           results: [],
+          messages: [],
           usedDeprecatedRules: [],
         },
         {
           errorCount: 0,
           warningCount: 0,
           results: [],
+          messages: [],
           usedDeprecatedRules: [],
         },
       ];
@@ -290,12 +307,14 @@ describe('Linter Builder', () => {
           errorCount: 1,
           warningCount: 4,
           results: [],
+          messages: [],
           usedDeprecatedRules: [],
         },
         {
           errorCount: 3,
           warningCount: 6,
           results: [],
+          messages: [],
           usedDeprecatedRules: [],
         },
       ];
@@ -326,6 +345,70 @@ describe('Linter Builder', () => {
         }),
       );
     });
+
+    it('should not log warnings if the quiet flag was passed', async () => {
+      mockReports = [
+        {
+          errorCount: 0,
+          warningCount: 4,
+          results: [],
+          messages: [
+            {
+              line: 0,
+              column: 0,
+              message: 'Mock warning message',
+              severity: 1,
+              ruleId: null,
+            },
+          ],
+          usedDeprecatedRules: [],
+        },
+        {
+          errorCount: 0,
+          warningCount: 6,
+          results: [],
+          messages: [],
+          usedDeprecatedRules: [],
+        },
+      ];
+      setupMocks();
+      await runBuilder(
+        createValidRunBuilderOptions({
+          eslintConfig: './.eslintrc',
+          lintFilePatterns: ['includedFile1'],
+          format: 'json',
+          quiet: true,
+          silent: false,
+        }),
+      );
+      const flattenedCalls = loggerSpy.mock.calls.reduce((logs, call) => {
+        return [...logs, call[0]];
+      }, []);
+      expect(flattenedCalls).not.toContainEqual(
+        expect.objectContaining({
+          message: expect.stringContaining('Mock warning message'),
+        }),
+      );
+      expect(flattenedCalls).not.toContainEqual(
+        expect.objectContaining({
+          message: expect.stringContaining(
+            'Lint errors found in the listed files.',
+          ),
+        }),
+      );
+      expect(flattenedCalls).not.toContainEqual(
+        expect.objectContaining({
+          message: expect.stringContaining(
+            'Lint warnings found in the listed files.',
+          ),
+        }),
+      );
+      expect(flattenedCalls).toContainEqual(
+        expect.objectContaining({
+          message: expect.stringContaining('All files pass linting.'),
+        }),
+      );
+    });
   });
 
   it('should be a success if there are no errors', async () => {
@@ -334,12 +417,14 @@ describe('Linter Builder', () => {
         errorCount: 0,
         warningCount: 4,
         results: [],
+        messages: [],
         usedDeprecatedRules: [],
       },
       {
         errorCount: 0,
         warningCount: 6,
         results: [],
+        messages: [],
         usedDeprecatedRules: [],
       },
     ];
@@ -361,12 +446,14 @@ describe('Linter Builder', () => {
         errorCount: 2,
         warningCount: 4,
         results: [],
+        messages: [],
         usedDeprecatedRules: [],
       },
       {
         errorCount: 3,
         warningCount: 6,
         results: [],
+        messages: [],
         usedDeprecatedRules: [],
       },
     ];
@@ -389,12 +476,14 @@ describe('Linter Builder', () => {
         errorCount: 2,
         warningCount: 4,
         results: [],
+        messages: [],
         usedDeprecatedRules: [],
       },
       {
         errorCount: 3,
         warningCount: 6,
         results: [],
+        messages: [],
         usedDeprecatedRules: [],
       },
     ];

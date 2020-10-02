@@ -27,6 +27,11 @@
       "description": "Succeeds even if there was linting errors.",
       "default": false
     },
+    "quiet": {
+      "type": "boolean",
+      "description": "Report errors only.",
+      "default": false
+    },
     "silent": {
       "type": "boolean",
       "description": "Hide output text.",

@@ -4,6 +4,7 @@ export interface Schema extends JsonObject {
   format: Formatter;
   lintFilePatterns: string[];
   force: boolean;
+  quiet: boolean;
   silent: boolean;
   fix: boolean;
   cache: boolean;
