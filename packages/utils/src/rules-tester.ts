@@ -1,14 +1,5 @@
 import { TSESLint } from '@typescript-eslint/experimental-utils';
 import * as path from 'path';
-import * as ts from 'typescript';
-
-/**
- * Temporary solution until v4.0.0 of TypeScript and typescript-eslint
- * See: https://github.com/typescript-eslint/typescript-eslint/issues/2388
- */
-declare module 'typescript' {
-  type NamedTupleMember = ts.Node;
-}
 
 const VALID_PARSERS = [
   '@angular-eslint/template-parser',
