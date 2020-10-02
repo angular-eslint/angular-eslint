@@ -17,6 +17,7 @@ async function run(
 
   const projectName = context.target?.project || '<???>';
   const printInfo = options.format && !options.silent;
+  const reportOnlyErrors = options.quiet;
 
   context.reportStatus(`Linting ${JSON.stringify(projectName)}...`);
   if (printInfo) {
@@ -65,11 +66,19 @@ async function run(
     if (result.errorCount || result.warningCount) {
       totalErrors += result.errorCount;
       totalWarnings += result.warningCount;
+
+      if (reportOnlyErrors) {
+        // Collect only errors (Linter.Severity === 2)
+        result.messages = result.messages.filter(
+          ({ severity }) => severity === 2,
+        );
+      }
+
       context.logger.info(formatter.format([result]));
     }
   }
 
-  if (totalWarnings > 0 && printInfo) {
+  if (totalWarnings > 0 && printInfo && !reportOnlyErrors) {
     context.logger.warn('Lint warnings found in the listed files.\n');
   }
 
@@ -77,7 +86,11 @@ async function run(
     context.logger.error('Lint errors found in the listed files.\n');
   }
 
-  if (totalWarnings === 0 && totalErrors === 0 && printInfo) {
+  if (
+    (totalWarnings === 0 || reportOnlyErrors) &&
+    totalErrors === 0 &&
+    printInfo
+  ) {
     context.logger.info('All files pass linting.\n');
   }
 
