@@ -1,12 +1,12 @@
 {
   "name": "@angular-eslint/schematics",
-  "version": "0.5.0-beta.2",
+  "version": "0.5.0-beta.3",
   "description": "Angular Schematics for angular-eslint",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "rm -rf ./dist && tsc -p tsconfig.json && cp src/collection.json dist/collection.json && cp src/ng-add/schema.json dist/ng-add/schema.json && cp src/add-config-to-project/schema.json dist/add-config-to-project/schema.json && cp -R src/add-config-to-project/files dist/add-config-to-project/files",
+    "build": "rimraf ./dist && tsc -p tsconfig.json && ncp src/collection.json dist/collection.json && ncp src/ng-add/schema.json dist/ng-add/schema.json && ncp src/add-config-to-project/schema.json dist/add-config-to-project/schema.json && ncp src/add-config-to-project/files dist/add-config-to-project/files",
     "test": "jest --coverage",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
@@ -33,5 +33,5 @@
   "peerDependencies": {
     "@angular-devkit/schematics": "*"
   },
-  "gitHead": "8cf7fd67b1d17152b85843677bd4171ac6658e0c"
+  "gitHead": "b33a81ff1ec99736417cae843924db683ad8f586"
 }

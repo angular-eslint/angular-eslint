@@ -1,12 +1,12 @@
 {
   "name": "@angular-eslint/eslint-plugin-template",
-  "version": "0.5.0-beta.2",
+  "version": "0.5.0-beta.3",
   "description": "ESLint plugin for Angular Templates",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "rm -rf ./dist && microbundle --tsconfig tsconfig.build.json --no-sourcemap --target=node --compress --format=cjs && cp -R ./src/configs ./dist/configs",
+    "build": "rimraf ./dist && microbundle --tsconfig tsconfig.build.json --no-sourcemap --target=node --compress --format=cjs && ncp ./src/configs ./dist/configs",
     "test": "jest --coverage",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "check-configs": "jest tests/configs.test.ts --runTestsByPath --runInBand"
@@ -26,12 +26,12 @@
     "@typescript-eslint/experimental-utils": "4.3.0"
   },
   "devDependencies": {
-    "@angular-eslint/utils": "^0.5.0-beta.2"
+    "@angular-eslint/utils": "^0.5.0-beta.3"
   },
   "peerDependencies": {
     "@angular-eslint/template-parser": "*",
     "eslint": "*",
     "typescript": "*"
   },
-  "gitHead": "8cf7fd67b1d17152b85843677bd4171ac6658e0c"
+  "gitHead": "b33a81ff1ec99736417cae843924db683ad8f586"
 }

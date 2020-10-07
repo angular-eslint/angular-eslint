@@ -1,13 +1,13 @@
 {
   "name": "@angular-eslint/builder",
-  "version": "0.5.0-beta.2",
+  "version": "0.5.0-beta.3",
   "description": "Angular CLI builder for ESLint",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "rm -rf ./dist && tsc --project tsconfig.build.json && terser ./dist/index.js --output=./dist/index.js",
-    "postbuild": "cp src/schema.json dist/",
+    "build": "rimraf ./dist && tsc --project tsconfig.build.json && terser ./dist/index.js --output=./dist/index.js",
+    "postbuild": "ncp src/schema.json dist/schema.json",
     "test": "jest --coverage",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
@@ -29,5 +29,5 @@
     "eslint": "*",
     "typescript": "*"
   },
-  "gitHead": "8cf7fd67b1d17152b85843677bd4171ac6658e0c"
+  "gitHead": "b33a81ff1ec99736417cae843924db683ad8f586"
 }
