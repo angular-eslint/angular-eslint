@@ -149,7 +149,7 @@ export function preprocessComponentFile(text: string, filename: string) {
 export function postprocessComponentFile(
   multiDimensionalMessages: any[][],
   filename: string,
-) {
+): string[] {
   const messagesFromComponentSource = multiDimensionalMessages[0];
   const messagesFromInlineTemplateHTML = multiDimensionalMessages[1];
   /**
@@ -178,7 +178,7 @@ export function postprocessComponentFile(
         column: any;
         endLine: string | number;
         endColumn: any;
-        fix: { range: [number, number]; text: string };
+        fix?: { range: [number, number]; text: string };
       }) => {
         message.line = message.line + rangeData.lineAndCharacter.start.line;
         message.column = message.column;
@@ -187,11 +187,13 @@ export function postprocessComponentFile(
           message.endLine + rangeData.lineAndCharacter.start.line;
         message.endColumn = message.endColumn;
 
-        const startOffset = rangeData.range[0];
-        message.fix.range = [
-          startOffset + message.fix.range[0],
-          startOffset + message.fix.range[1],
-        ];
+        if (message.fix) {
+          const startOffset = rangeData.range[0];
+          message.fix.range = [
+            startOffset + message.fix.range[0],
+            startOffset + message.fix.range[1],
+          ];
+        }
         return message;
       },
     ),
