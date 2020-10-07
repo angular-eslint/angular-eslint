@@ -32,7 +32,7 @@ export default createESLintRule<Options, MessageIds>({
     },
     schema: [],
     messages: {
-      contextuaLifecycle: `The method {{methodName}} is not allowed for class {{className}} because it is decorated with {{decoratorName}}`,
+      contextuaLifecycle: `The method {{methodName}} is not allowed for class {{className}} because it is decorated with {{decorator}}`,
     },
   },
   defaultOptions: [],
