@@ -231,7 +231,7 @@ eslint --ext .ts,.component.html
 | [`template-click-events-have-key-events`]       |                    |
 | [`template-mouse-events-have-key-events`]       |                    |
 | [`template-no-any`]                             |                    |
-| [`template-no-autofocus`]                       |                    |
+| [`template-no-autofocus`]                       | :white_check_mark: |
 | [`template-no-distracting-elements`]            |                    |
 | [`template-no-negated-async`]                   | :white_check_mark: |
 | [`use-injectable-provided-in`]                  | :white_check_mark: |

@@ -9,8 +9,11 @@ import bananaInBox, {
 import cyclomaticComplexity, {
   RULE_NAME as cyclomaticComplexityRuleName,
 } from './rules/cyclomatic-complexity';
+import noAutofocus, {
+  RULE_NAME as noAutofocusRuleName,
+} from './rules/no-autofocus';
 import noCallExpression, {
-  RULE_NAME as noCallExpressionRule,
+  RULE_NAME as noCallExpressionRuleName,
 } from './rules/no-call-expression';
 import noNegatedAsync, {
   RULE_NAME as noNegatedAsyncRuleName,
@@ -30,7 +33,8 @@ export default {
   rules: {
     [bananaInBoxRuleName]: bananaInBox,
     [cyclomaticComplexityRuleName]: cyclomaticComplexity,
-    [noCallExpressionRule]: noCallExpression,
+    [noAutofocusRuleName]: noAutofocus,
+    [noCallExpressionRuleName]: noCallExpression,
     [noNegatedAsyncRuleName]: noNegatedAsync,
     [noPositiveTabindexRuleName]: noPositiveTabindex,
   },
