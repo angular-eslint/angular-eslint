@@ -6,8 +6,8 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "rm -rf ./dist && tsc --project tsconfig.build.json && terser ./dist/index.js --output=./dist/index.js",
-    "postbuild": "cp src/schema.json dist/",
+    "build": "rimraf ./dist && tsc --project tsconfig.build.json && terser ./dist/index.js --output=./dist/index.js",
+    "postbuild": "ncp src/schema.json dist/schema.json",
     "test": "jest --coverage",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },

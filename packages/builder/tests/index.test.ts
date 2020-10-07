@@ -8,6 +8,7 @@ import { Architect } from '@angular-devkit/architect';
 import { TestingArchitectHost } from '@angular-devkit/architect/testing';
 import { logging, schema } from '@angular-devkit/core';
 import { ESLint } from 'eslint';
+import { resolve } from 'path';
 import { Schema } from '../src/schema';
 
 const mockFormatter = {
@@ -79,7 +80,10 @@ async function runBuilder(options: Schema) {
   const registry = new schema.CoreSchemaRegistry();
   registry.addPostTransform(schema.transforms.addUndefinedDefaults);
 
-  const testArchitectHost = new TestingArchitectHost('/root', '/root');
+  const testArchitectHost = new TestingArchitectHost(
+    resolve('/root'),
+    resolve('/root'),
+  );
   const builderName = '@angular-eslint/builder:lint';
 
   /**
@@ -144,7 +148,7 @@ describe('Linter Builder', () => {
         ignorePath: null,
       }),
     );
-    expect(lint).toHaveBeenCalledWith('/root/.eslintrc', {
+    expect(lint).toHaveBeenCalledWith(resolve('/root/.eslintrc'), {
       lintFilePatterns: [],
       eslintConfig: './.eslintrc',
       exclude: ['excludedFile1'],
