@@ -2,8 +2,7 @@ import processors from '../src/processors';
 
 describe('extract-inline-html', () => {
   describe('preprocess()', () => {
-    // Only consider files which follow the standard convention {NAME}.component.ts
-    describe('non-component files', () => {
+    describe('unsupported file extensions', () => {
       const testCases = [
         {
           filename: 'component.ts',
@@ -26,12 +25,31 @@ describe('extract-inline-html', () => {
 
       testCases.forEach((tc, i) => {
         it(`should not transform non-component file sources, CASE: ${i}`, () => {
+          spyOn(console, 'warn');
+
           expect(
             processors['extract-inline-html'].preprocess(
               fileSource,
               tc.filename,
             ),
           ).toEqual([{ text: fileSource, filename: tc.filename }]);
+
+          expect(console.warn).toHaveBeenNthCalledWith(
+            1,
+            '\nWARNING: You have configured the @angular-eslint/template/extract-inline-html processor to run on an unsupported file, it will do nothing.',
+          );
+          expect(console.warn).toHaveBeenNthCalledWith(
+            2,
+            `\n- The file: ${tc.filename}`,
+          );
+          expect(console.warn).toHaveBeenNthCalledWith(
+            3,
+            `- Supported file extensions for inline Component template extraction are: .component.ts, .page.ts, .dialog.ts, .modal.ts, .popover.ts, .bottomsheet.ts, .snackbar.ts`,
+          );
+          expect(console.warn).toHaveBeenNthCalledWith(
+            4,
+            `\nSee this comment for further explanation: https://github.com/angular-eslint/angular-eslint/issues/157#issuecomment-708235861\n`,
+          );
         });
       });
     });
@@ -104,6 +122,7 @@ describe('extract-inline-html', () => {
       `;
       const testCases = [
         {
+          filename: 'test.page.ts', // supported custom file suffix
           input: `
             @Component({
               selector: "app-example",
@@ -127,6 +146,7 @@ describe('extract-inline-html', () => {
         `,
         },
         {
+          filename: 'test.component.ts',
           // Space before closing curly brace: https://github.com/angular-eslint/angular-eslint/issues/68
           input: `
             @Component({
@@ -151,6 +171,7 @@ describe('extract-inline-html', () => {
         `,
         },
         {
+          filename: 'test.component.ts',
           // prettier-ignore comment within metadata https://github.com/angular-eslint/angular-eslint/issues/60
           input: `
             @Component({
@@ -180,12 +201,9 @@ describe('extract-inline-html', () => {
       testCases.forEach((tc, i) => {
         it(`should extract the inline HTML of components with inline templates, CASE: ${i}`, () => {
           expect(
-            processors['extract-inline-html'].preprocess(
-              tc.input,
-              'test.component.ts',
-            ),
+            processors['extract-inline-html'].preprocess(tc.input, tc.filename),
           ).toEqual([
-            { text: tc.input, filename: 'test.component.ts' },
+            { text: tc.input, filename: tc.filename },
             {
               filename: 'inline-template.component.html',
               text: inlineTemplate,
