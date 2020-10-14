@@ -31,7 +31,7 @@ describe('extract-inline-html', () => {
               fileSource,
               tc.filename,
             ),
-          ).toEqual([fileSource]);
+          ).toEqual([{ text: fileSource, filename: tc.filename }]);
         });
       });
     });
@@ -66,7 +66,7 @@ describe('extract-inline-html', () => {
               tc.input,
               'test.component.ts',
             ),
-          ).toEqual([tc.input]);
+          ).toEqual([{ text: tc.input, filename: 'test.component.ts' }]);
         });
       });
     });
@@ -90,7 +90,7 @@ describe('extract-inline-html', () => {
               tc.input,
               'test.component.ts',
             ),
-          ).toEqual([tc.input]);
+          ).toEqual([{ text: tc.input, filename: 'test.component.ts' }]);
         });
       });
     });
@@ -185,7 +185,7 @@ describe('extract-inline-html', () => {
               'test.component.ts',
             ),
           ).toEqual([
-            tc.input,
+            { text: tc.input, filename: 'test.component.ts' },
             {
               filename: 'inline-template.component.html',
               text: inlineTemplate,
@@ -228,7 +228,7 @@ describe('extract-inline-html', () => {
               'test.component.ts',
             ),
           ).toEqual([
-            tc.input,
+            { text: tc.input, filename: 'test.component.ts' },
             {
               filename: 'inline-template.component.html',
               text: inlineTemplate,
@@ -267,6 +267,42 @@ describe('extract-inline-html', () => {
         }).toThrowErrorMatchingInlineSnapshot(
           `"@angular-eslint/eslint-plugin-template currently only supports 1 Component per file"`,
         );
+      });
+    });
+  });
+
+  describe('postprocess()', () => {
+    describe('messages only from component source', () => {
+      const mockError = {
+        ruleId: 'quotes',
+        severity: 2,
+        message: 'Strings must use singlequote.',
+        line: 1,
+        column: 13,
+        nodeType: 'Literal',
+        messageId: 'wrongQuotes',
+        endLine: 1,
+        endColumn: 19,
+        fix: { range: [12, 18], text: "'text'" },
+      };
+      const testCases = [
+        {
+          multiDimensionalMessages: [[mockError]],
+        },
+        {
+          multiDimensionalMessages: [[mockError], []],
+        },
+      ];
+
+      testCases.forEach((tc, i) => {
+        it(`should not adjust message locations from the template source, CASE: ${i}`, () => {
+          expect(
+            processors['extract-inline-html'].postprocess(
+              tc.multiDimensionalMessages,
+              'test.component.ts',
+            ),
+          ).toEqual(tc.multiDimensionalMessages[0]);
+        });
       });
     });
   });

@@ -10,9 +10,13 @@ const rangeMap = new Map();
 const multipleComponentsPerFileError =
   '@angular-eslint/eslint-plugin-template currently only supports 1 Component per file';
 
-export function preprocessComponentFile(text: string, filename: string) {
+export function preprocessComponentFile(
+  text: string,
+  filename: string,
+): { text: string; filename: string }[] {
+  const codeBlocks = [{ text, filename }];
   if (!filename.endsWith('.component.ts')) {
-    return [text];
+    return codeBlocks;
   }
 
   try {
@@ -27,7 +31,7 @@ export function preprocessComponentFile(text: string, filename: string) {
       ts.isClassDeclaration(s),
     );
     if (!classDeclarations || !classDeclarations.length) {
-      return [text];
+      return codeBlocks;
     }
 
     /**
@@ -52,7 +56,7 @@ export function preprocessComponentFile(text: string, filename: string) {
      * Ignore malformed Component files
      */
     if (!componentDecoratorNodes || !componentDecoratorNodes.length) {
-      return [text];
+      return codeBlocks;
     }
 
     /**
@@ -74,12 +78,12 @@ export function preprocessComponentFile(text: string, filename: string) {
       !ts.isCallExpression(componentDecoratorNode.expression) ||
       componentDecoratorNode.expression.arguments.length !== 1
     ) {
-      return [text];
+      return codeBlocks;
     }
 
     const metadata = componentDecoratorNode.expression.arguments[0];
     if (!ts.isObjectLiteralExpression(metadata)) {
-      return [text];
+      return codeBlocks;
     }
 
     /**
@@ -95,14 +99,14 @@ export function preprocessComponentFile(text: string, filename: string) {
       ) ||
       !templateProperty
     ) {
-      return [text];
+      return codeBlocks;
     }
 
     if (
       !ts.isPropertyAssignment(templateProperty) ||
       !ts.isStringLiteralLike(templateProperty.initializer)
     ) {
-      return [text];
+      return codeBlocks;
     }
 
     const templateText = templateProperty.initializer.text;
@@ -125,13 +129,11 @@ export function preprocessComponentFile(text: string, filename: string) {
      * in the original file, so this temporary filename will never be visible
      * to the end user.
      */
-    return [
-      text,
-      {
-        text: templateText,
-        filename: 'inline-template.component.html',
-      },
-    ];
+    codeBlocks.push({
+      text: templateText,
+      filename: 'inline-template.component.html',
+    });
+    return codeBlocks;
   } catch (err) {
     // Rethrow known error
     if (err.message === multipleComponentsPerFileError) {
@@ -142,14 +144,14 @@ export function preprocessComponentFile(text: string, filename: string) {
       'preprocess: ERROR could not parse @Component() metadata',
       filename,
     );
-    return [text];
+    return codeBlocks;
   }
 }
 
 export function postprocessComponentFile(
   multiDimensionalMessages: any[][],
   filename: string,
-) {
+): any[] {
   const messagesFromComponentSource = multiDimensionalMessages[0];
   const messagesFromInlineTemplateHTML = multiDimensionalMessages[1];
   /**
@@ -162,10 +164,12 @@ export function postprocessComponentFile(
   ) {
     return messagesFromComponentSource;
   }
+
   const rangeData = rangeMap.get(filename);
   if (!rangeData) {
     return messagesFromComponentSource;
   }
+
   /**
    * Adjust message location data to apply it back to the
    * original file
@@ -178,7 +182,7 @@ export function postprocessComponentFile(
         column: any;
         endLine: string | number;
         endColumn: any;
-        fix: { range: [number, number]; text: string };
+        fix?: { range: [number, number]; text: string };
       }) => {
         message.line = message.line + rangeData.lineAndCharacter.start.line;
         message.column = message.column;
@@ -187,11 +191,13 @@ export function postprocessComponentFile(
           message.endLine + rangeData.lineAndCharacter.start.line;
         message.endColumn = message.endColumn;
 
-        const startOffset = rangeData.range[0];
-        message.fix.range = [
-          startOffset + message.fix.range[0],
-          startOffset + message.fix.range[1],
-        ];
+        if (message.fix) {
+          const startOffset = rangeData.range[0];
+          message.fix.range = [
+            startOffset + message.fix.range[0],
+            startOffset + message.fix.range[1],
+          ];
+        }
         return message;
       },
     ),
