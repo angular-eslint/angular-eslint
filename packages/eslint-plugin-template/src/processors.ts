@@ -10,12 +10,44 @@ const rangeMap = new Map();
 const multipleComponentsPerFileError =
   '@angular-eslint/eslint-plugin-template currently only supports 1 Component per file';
 
+/**
+ * We try and skip as much work as possible by only considering files for processing if they
+ * have a reasonable chance of having an Angular Component declared within them.
+ *
+ * The most common case by far is that the file ends in .component.ts, but other custom suffixes are
+ * supported by the schematics from the CLI, and we also support some known alternative conventions.
+ */
+const supportedComponentFiles = [
+  '.component.ts',
+  '.page.ts',
+  '.dialog.ts',
+  '.modal.ts',
+  '.popover.ts',
+  '.bottomsheet.ts',
+  '.snackbar.ts',
+];
+
 export function preprocessComponentFile(
   text: string,
   filename: string,
 ): { text: string; filename: string }[] {
   const codeBlocks = [{ text, filename }];
-  if (!filename.endsWith('.component.ts')) {
+
+  if (
+    !supportedComponentFiles.some((supported) => filename.endsWith(supported))
+  ) {
+    console.warn(
+      '\nWARNING: You have configured the @angular-eslint/template/extract-inline-html processor to run on an unsupported file, it will do nothing.',
+    );
+    console.warn(`\n- The file: ${filename}`);
+    console.warn(
+      `- Supported file extensions for inline Component template extraction are: ${supportedComponentFiles.join(
+        ', ',
+      )}`,
+    );
+    console.warn(
+      `\nSee this comment for further explanation: https://github.com/angular-eslint/angular-eslint/issues/157#issuecomment-708235861\n`,
+    );
     return codeBlocks;
   }
 
