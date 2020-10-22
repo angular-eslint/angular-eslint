@@ -63,10 +63,10 @@ async function run(
   await projectESLint.ESLint.outputFixes(lintResults);
 
   for (const result of lintResults) {
-    if (result.errorCount || result.warningCount) {
-      totalErrors += result.errorCount;
-      totalWarnings += result.warningCount;
+    totalErrors += result.errorCount;
+    totalWarnings += result.warningCount;
 
+    if (result.errorCount || (result.warningCount && !reportOnlyErrors)) {
       if (reportOnlyErrors) {
         // Collect only errors (Linter.Severity === 2)
         result.messages = result.messages.filter(
