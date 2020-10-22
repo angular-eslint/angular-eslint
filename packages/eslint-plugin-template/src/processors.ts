@@ -30,8 +30,9 @@ const supportedComponentFiles = [
 export function preprocessComponentFile(
   text: string,
   filename: string,
-): { text: string; filename: string }[] {
-  const codeBlocks = [{ text, filename }];
+): Array<string | { text: string; filename: string }> {
+  // This effectively instructs ESLint that there were no code blocks to extract for the current file
+  const noopResult = [text];
 
   if (
     !supportedComponentFiles.some((supported) => filename.endsWith(supported))
@@ -48,7 +49,7 @@ export function preprocessComponentFile(
     console.warn(
       `\nSee this comment for further explanation: https://github.com/angular-eslint/angular-eslint/issues/157#issuecomment-708235861\n`,
     );
-    return codeBlocks;
+    return noopResult;
   }
 
   try {
@@ -63,7 +64,7 @@ export function preprocessComponentFile(
       ts.isClassDeclaration(s),
     );
     if (!classDeclarations || !classDeclarations.length) {
-      return codeBlocks;
+      return noopResult;
     }
 
     /**
@@ -88,7 +89,7 @@ export function preprocessComponentFile(
      * Ignore malformed Component files
      */
     if (!componentDecoratorNodes || !componentDecoratorNodes.length) {
-      return codeBlocks;
+      return noopResult;
     }
 
     /**
@@ -110,12 +111,12 @@ export function preprocessComponentFile(
       !ts.isCallExpression(componentDecoratorNode.expression) ||
       componentDecoratorNode.expression.arguments.length !== 1
     ) {
-      return codeBlocks;
+      return noopResult;
     }
 
     const metadata = componentDecoratorNode.expression.arguments[0];
     if (!ts.isObjectLiteralExpression(metadata)) {
-      return codeBlocks;
+      return noopResult;
     }
 
     /**
@@ -131,14 +132,14 @@ export function preprocessComponentFile(
       ) ||
       !templateProperty
     ) {
-      return codeBlocks;
+      return noopResult;
     }
 
     if (
       !ts.isPropertyAssignment(templateProperty) ||
       !ts.isStringLiteralLike(templateProperty.initializer)
     ) {
-      return codeBlocks;
+      return noopResult;
     }
 
     const templateText = templateProperty.initializer.text;
@@ -161,11 +162,13 @@ export function preprocessComponentFile(
      * in the original file, so this temporary filename will never be visible
      * to the end user.
      */
-    codeBlocks.push({
-      text: templateText,
-      filename: 'inline-template.component.html',
-    });
-    return codeBlocks;
+    return [
+      text,
+      {
+        text: templateText,
+        filename: 'inline-template.component.html',
+      },
+    ];
   } catch (err) {
     // Rethrow known error
     if (err.message === multipleComponentsPerFileError) {
@@ -176,7 +179,7 @@ export function preprocessComponentFile(
       'preprocess: ERROR could not parse @Component() metadata',
       filename,
     );
-    return codeBlocks;
+    return noopResult;
   }
 }
 
