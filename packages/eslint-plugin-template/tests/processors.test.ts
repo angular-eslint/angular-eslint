@@ -32,7 +32,7 @@ describe('extract-inline-html', () => {
               fileSource,
               tc.filename,
             ),
-          ).toEqual([{ text: fileSource, filename: tc.filename }]);
+          ).toEqual([fileSource]);
 
           expect(console.warn).toHaveBeenNthCalledWith(
             1,
@@ -84,7 +84,7 @@ describe('extract-inline-html', () => {
               tc.input,
               'test.component.ts',
             ),
-          ).toEqual([{ text: tc.input, filename: 'test.component.ts' }]);
+          ).toEqual([tc.input]);
         });
       });
     });
@@ -108,7 +108,7 @@ describe('extract-inline-html', () => {
               tc.input,
               'test.component.ts',
             ),
-          ).toEqual([{ text: tc.input, filename: 'test.component.ts' }]);
+          ).toEqual([tc.input]);
         });
       });
     });
@@ -203,7 +203,7 @@ describe('extract-inline-html', () => {
           expect(
             processors['extract-inline-html'].preprocess(tc.input, tc.filename),
           ).toEqual([
-            { text: tc.input, filename: tc.filename },
+            tc.input,
             {
               filename: 'inline-template.component.html',
               text: inlineTemplate,
@@ -246,7 +246,7 @@ describe('extract-inline-html', () => {
               'test.component.ts',
             ),
           ).toEqual([
-            { text: tc.input, filename: 'test.component.ts' },
+            tc.input,
             {
               filename: 'inline-template.component.html',
               text: inlineTemplate,
