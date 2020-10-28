@@ -47,7 +47,7 @@
     "@typescript-eslint/no-var-requires": "off",
     "quote-props": ["error", "as-needed"],
     "sort-keys": "off",
-    "quotes": ["error", "single"],
+    "quotes": ["error", "single", { "allowTemplateLiterals": true }],
     "comma-dangle": "off",
     "@angular-eslint/component-class-suffix": "error",
     "@angular-eslint/contextual-lifecycle": "error",
