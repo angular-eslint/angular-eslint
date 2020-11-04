@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`v1020-single-project-yarn-auto-convert it should pass linting after converting the out of the box Angular CLI setup (with a custom prefix set) 1`] = `
+Object {
+  "overrides": Array [
+    Object {
+      "extends": Array [
+        "plugin:@angular-eslint/recommended",
+      ],
+      "files": Array [
+        "*.ts",
+      ],
+      "parserOptions": Object {
+        "createDefaultProgram": true,
+        "project": Array [
+          "tsconfig.*?.json",
+          "e2e/tsconfig.json",
+        ],
+      },
+      "rules": Object {
+        "@angular-eslint/component-selector": Array [
+          "error",
+          Object {
+            "prefix": "some-custom-prefix",
+            "style": "kebab-case",
+            "type": "element",
+          },
+        ],
+        "@angular-eslint/directive-selector": Array [
+          "error",
+          Object {
+            "prefix": "some-custom-prefix",
+            "style": "camelCase",
+            "type": "attribute",
+          },
+        ],
+      },
+    },
+    Object {
+      "extends": Array [
+        "plugin:@angular-eslint/template/recommended",
+      ],
+      "files": Array [
+        "*.component.html",
+      ],
+      "rules": Object {},
+    },
+    Object {
+      "extends": Array [
+        "plugin:@angular-eslint/template/process-inline-templates",
+      ],
+      "files": Array [
+        "*.component.ts",
+      ],
+      "settings": Object {
+        "ANGULAR_ESLINT_DOCUMENTATION_NOTE": "This entry in the overrides is only here to extract inline templates from Components, you should not configure rules here",
+      },
+    },
+  ],
+  "root": true,
+}
+`;
+
+exports[`v1020-single-project-yarn-auto-convert it should pass linting after converting the out of the box Angular CLI setup (with a custom prefix set) 2`] = `
+Object {
+  "builder": "@angular-eslint/builder:lint",
+  "options": Object {
+    "lintFilePatterns": Array [
+      "src/**/*.ts",
+      "src/**/*.component.html",
+    ],
+  },
+}
+`;
+
+exports[`v1020-single-project-yarn-auto-convert it should pass linting after converting the out of the box Angular CLI setup (with a custom prefix set) 3`] = `
+"
+Linting \\"v1020-single-project-yarn-auto-convert\\"...
+All files pass linting.
+"
+`;

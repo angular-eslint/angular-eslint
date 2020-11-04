@@ -10,12 +10,12 @@ import {
   Tree,
   url,
 } from '@angular-devkit/schematics';
-import { Schema } from './schema';
 import {
+  addESLintTargetToProject,
   getProjectConfig,
   offsetFromRoot,
-  updateWorkspaceInTree,
-} from './utils';
+} from '../utils';
+import { Schema } from './schema';
 
 function createConfigFilesForProject(options: Schema): Rule {
   return (host: Tree, context: SchematicContext) => {
@@ -97,40 +97,12 @@ function createConfigFilesForProject(options: Schema): Rule {
   };
 }
 
-function addESLintTargetToProjectConfig(options: Schema): Rule {
-  return updateWorkspaceInTree((workspaceJson) => {
-    const existingProjectConfig = workspaceJson.projects[options.project];
-
-    let lintFilePatternsRoot = '';
-
-    // Default Angular CLI project at the root of the workspace
-    if (existingProjectConfig.root === '') {
-      lintFilePatternsRoot = 'src';
-    } else {
-      lintFilePatternsRoot = existingProjectConfig.root;
-    }
-
-    const eslintTargetConfig = {
-      builder: '@angular-eslint/builder:lint',
-      options: {
-        lintFilePatterns: [
-          `${lintFilePatternsRoot}/**/*.ts`,
-          `${lintFilePatternsRoot}/**/*.component.html`,
-        ],
-      },
-    };
-
-    existingProjectConfig.architect.eslint = eslintTargetConfig;
-
-    return workspaceJson;
-  });
-}
-
 export default function (options: Schema): Rule {
   return (host: Tree, context: SchematicContext) => {
     return chain([
       createConfigFilesForProject(options),
-      addESLintTargetToProjectConfig(options),
+      // Add a new target called "eslint" (do not overwrite "lint")
+      addESLintTargetToProject(options.project, 'eslint'),
     ])(host, context);
   };
 }
