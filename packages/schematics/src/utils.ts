@@ -1,5 +1,5 @@
 /**
- * Utils taken from various parts of Nx:
+ * Some utils taken from various parts of Nx:
  * https://github.com/nrwl/nx
  *
  * Thanks, Nrwl folks!
@@ -14,7 +14,7 @@ import stripJsonComments from 'strip-json-comments';
  * @param path The path to the JSON file
  * @returns The JSON data in the file.
  */
-function readJsonInTree<T = any>(host: Tree, path: string): T {
+export function readJsonInTree<T = any>(host: Tree, path: string): T {
   if (!host.exists(path)) {
     throw new Error(`Cannot find ${path}`);
   }
@@ -24,6 +24,29 @@ function readJsonInTree<T = any>(host: Tree, path: string): T {
   } catch (e) {
     throw new Error(`Cannot parse ${path}: ${e.message}`);
   }
+}
+
+/**
+ * This method is specifically for updating JSON in a Tree
+ * @param path Path of JSON file in the Tree
+ * @param callback Manipulation of the JSON data
+ * @returns A rule which updates a JSON file file in a Tree
+ */
+export function updateJsonInTree<T = any, O = T>(
+  path: string,
+  callback: (json: T, context: SchematicContext) => O,
+): Rule {
+  return (host: Tree, context: SchematicContext): Tree => {
+    if (!host.exists(path)) {
+      host.create(path, serializeJson(callback({} as T, context)));
+      return host;
+    }
+    host.overwrite(
+      path,
+      serializeJson(callback(readJsonInTree(host, path), context)),
+    );
+    return host;
+  };
 }
 
 function getWorkspacePath(host: Tree) {
@@ -65,4 +88,36 @@ export function updateWorkspaceInTree<T = any, O = T>(
     );
     return host;
   };
+}
+
+export function addESLintTargetToProject(
+  projectName: string,
+  targetName: 'eslint' | 'lint',
+): Rule {
+  return updateWorkspaceInTree((workspaceJson) => {
+    const existingProjectConfig = workspaceJson.projects[projectName];
+
+    let lintFilePatternsRoot = '';
+
+    // Default Angular CLI project at the root of the workspace
+    if (existingProjectConfig.root === '') {
+      lintFilePatternsRoot = 'src';
+    } else {
+      lintFilePatternsRoot = existingProjectConfig.root;
+    }
+
+    const eslintTargetConfig = {
+      builder: '@angular-eslint/builder:lint',
+      options: {
+        lintFilePatterns: [
+          `${lintFilePatternsRoot}/**/*.ts`,
+          `${lintFilePatternsRoot}/**/*.component.html`,
+        ],
+      },
+    };
+
+    existingProjectConfig.architect[targetName] = eslintTargetConfig;
+
+    return workspaceJson;
+  });
 }

@@ -21,9 +21,15 @@ function addAngularESLintPackages() {
     json.devDependencies = json.devDependencies || {};
 
     /**
-     * eslint packages
+     * eslint and other 3rd party eslint plugin packages
      */
     json.devDependencies['eslint'] = packageJSON.devDependencies['eslint'];
+    json.devDependencies['eslint-plugin-import'] =
+      packageJSON.devDependencies['eslint-plugin-import'];
+    json.devDependencies['eslint-plugin-jsdoc'] =
+      packageJSON.devDependencies['eslint-plugin-jsdoc'];
+    json.devDependencies['eslint-plugin-prefer-arrow'] =
+      packageJSON.devDependencies['eslint-plugin-prefer-arrow'];
 
     /**
      * @angular-eslint packages

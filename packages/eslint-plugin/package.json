@@ -30,6 +30,9 @@
   },
   "peerDependencies": {
     "eslint": "*",
+    "eslint-plugin-import": "*",
+    "eslint-plugin-jsdoc": "*",
+    "eslint-plugin-prefer-arrow": "*",
     "typescript": "*"
   },
   "gitHead": "b33a81ff1ec99736417cae843924db683ad8f586"
