@@ -165,6 +165,24 @@ function convertRootTSLintConfig(
         true,
       );
 
+      updateArrPropAndRemoveDuplication(
+        convertedRootESLintConfig,
+        {
+          /**
+           * For now, extending from these is too different to what the CLI ships with today, so
+           * we remove them from the converted results. We should look to move towards extending
+           * from these once we have more influence over the generated code. We don't want users
+           * to have lint errors from OOTB generated code.
+           */
+          extends: [
+            'plugin:@typescript-eslint/recommended',
+            'plugin:@typescript-eslint/recommended-requiring-type-checking',
+          ],
+        },
+        'extends',
+        true,
+      );
+
       /**
        * We don't want the user to depend on the TSLint fallback plugin, we will instead
        * explicitly inform them of the rules that could not be converted automatically and
@@ -228,6 +246,13 @@ function convertRootTSLintConfig(
          */
         delete convertedRootESLintConfig.rules['@typescript-eslint/quotes'];
         delete convertedRootESLintConfig.rules['no-restricted-imports'];
+
+        /**
+         * We have handled this in eslint-plugin recommended.json, any subtle differences that would
+         * case the deduplication logic not to find a match can be addressed via PRs to the recommended
+         * config in the plugin
+         */
+        delete convertedRootESLintConfig.rules['no-console'];
       }
 
       updateObjPropAndRemoveDuplication(
@@ -288,7 +313,10 @@ function convertRootTSLintConfig(
             project: ['tsconfig.*?.json', 'e2e/tsconfig.json'],
             createDefaultProgram: true,
           },
-          extends: ['plugin:@angular-eslint/recommended'],
+          extends: [
+            'plugin:@angular-eslint/recommended',
+            ...(convertedRootESLintConfig.extends || []),
+          ],
           plugins: convertedRootESLintConfig.plugins || undefined,
           rules: convertedRules,
         },
@@ -300,10 +328,14 @@ function convertRootTSLintConfig(
         },
       ];
 
-      delete convertedRootESLintConfig.rules;
+      // No longer relevant/required
       delete convertedRootESLintConfig.parser;
       delete convertedRootESLintConfig.parserOptions;
+
+      // All applied in the .ts overrides block
+      delete convertedRootESLintConfig.rules;
       delete convertedRootESLintConfig.plugins;
+      delete convertedRootESLintConfig.extends;
 
       return convertedRootESLintConfig;
     });

@@ -174,11 +174,11 @@
           "dirxml",
           "error",
           "groupCollapsed",
-          "_buffer",
-          "_counters",
-          "_timers",
-          "_groupDepth",
-          "_getSourceMaps"
+          "Console",
+          "profile",
+          "profileEnd",
+          "timeStamp",
+          "context"
         ]
       }
     ],

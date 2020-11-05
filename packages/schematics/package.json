@@ -29,7 +29,10 @@
   "devDependencies": {
     "@angular-devkit/schematics": "^10.1.4",
     "@typescript-eslint/experimental-utils": "4.3.0",
-    "eslint": "^7.6.0"
+    "eslint": "^7.6.0",
+    "eslint-plugin-import": "2.22.1",
+    "eslint-plugin-jsdoc": "30.7.6",
+    "eslint-plugin-prefer-arrow": "1.2.2"
   },
   "peerDependencies": {
     "@angular-devkit/schematics": "*"
