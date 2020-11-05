@@ -43,6 +43,14 @@ export default function convert(schema: Schema): Rule {
         // Overwrite the "lint" target directly
         addESLintTargetToProject(schema.project, 'lint'),
         convertRootTSLintConfig('tslint.json', rootEslintrcJsonPath),
+        (tree) => {
+          // This still seems to be generated as an empty file
+          // TODO: Fix in tslint-to-eslint-config library
+          const tslintToEslintConfigLogPath = 'tslint-to-eslint-config.log';
+          if (tree.exists(tslintToEslintConfigLogPath)) {
+            tree.delete(tslintToEslintConfigLogPath);
+          }
+        },
       ]);
     }
 
