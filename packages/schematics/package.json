@@ -34,5 +34,5 @@
   "peerDependencies": {
     "@angular-devkit/schematics": "*"
   },
-  "gitHead": "b33a81ff1ec99736417cae843924db683ad8f586"
+  "gitHead": "7a92faa8c58964e966abfae38ca049ae9cb3e78a"
 }
