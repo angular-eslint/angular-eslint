@@ -33,6 +33,24 @@ export async function convertToESLintConfig(
         '\nError: TSLint v5.18 required in order to run this schematic. Please update your version and try again.\n',
       );
     }
+    /**
+     * Make a print-config issue easier to understand for the end user.
+     * This error could occur if, for example, the user does not have a TSLint plugin installed correctly that they
+     * reference in their config.
+     */
+    const printConfigFailureMessageStart =
+      'Command failed: npx tslint --print-config "tslint.json"';
+    if (
+      reportedConfiguration.message.startsWith(printConfigFailureMessageStart)
+    ) {
+      throw new Error(
+        `\nThere was a critical error when trying to inspect your tslint.json: \n${reportedConfiguration.message.replace(
+          printConfigFailureMessageStart,
+          '',
+        )}`,
+      );
+    }
+
     throw new Error(`Unexpected error: ${reportedConfiguration.message}`);
   }
 

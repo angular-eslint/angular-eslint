@@ -447,7 +447,7 @@ function ensureESLintPluginsAreInstalled(
     const json = JSON.parse(projectPackageJSON);
     json.devDependencies = json.devDependencies || {};
 
-    let requiresInstall = false;
+    const pluginsToInstall = [];
 
     for (const pluginName of eslintPluginsToBeInstalled) {
       if (
@@ -455,11 +455,19 @@ function ensureESLintPluginsAreInstalled(
         !json.dependencies?.[pluginName]
       ) {
         json.devDependencies[pluginName] = 'latest';
-        requiresInstall = true;
+        pluginsToInstall.push(pluginName);
       }
     }
 
-    if (requiresInstall) {
+    if (pluginsToInstall.length > 0) {
+      context.logger.info(
+        '\nTo most closely match your tslint.json, the `latest` version of following eslint plugins have been installed:',
+      );
+      context.logger.warn('\n  - ' + pluginsToInstall.join('\n  - '));
+      context.logger.warn(
+        '\nNOTE: You may wish to pin these to a specific version number in your package.json, rather than leaving it open to `latest`.\n',
+      );
+
       host.overwrite('package.json', JSON.stringify(json, null, 2));
       context.addTask(new NodePackageInstallTask());
     }
