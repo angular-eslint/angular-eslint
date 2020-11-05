@@ -18,6 +18,7 @@ export async function convertToESLintConfig(
 ): Promise<{
   convertedESLintConfig: ESLintLinter.Config;
   unconvertedTSLintRules: TSLintRuleOptions[];
+  ensureESLintPlugins: string[];
 }> {
   const reportedConfiguration = await findReportedConfiguration(
     'npx tslint --print-config',
@@ -46,6 +47,15 @@ export async function convertToESLintConfig(
     originalConfigurations,
   );
 
+  // These are already covered by our recommended config, and are installed by the `ng add` schematic
+  const expectedESLintPlugins = [
+    'eslint-plugin-jsdoc',
+    'eslint-plugin-prefer-arrow',
+    'eslint-plugin-import',
+    '@angular-eslint/eslint-plugin',
+    '@angular-eslint/eslint-plugin-template',
+  ];
+
   const convertedESLintConfig = joinConfigConversionResults(
     summarizedConfiguration,
     originalConfigurations,
@@ -54,5 +64,8 @@ export async function convertToESLintConfig(
   return {
     convertedESLintConfig,
     unconvertedTSLintRules: summarizedConfiguration.missing,
+    ensureESLintPlugins: Array.from(summarizedConfiguration.plugins).filter(
+      (pluginName) => !expectedESLintPlugins.includes(pluginName),
+    ),
   };
 }
