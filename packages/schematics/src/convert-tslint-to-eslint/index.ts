@@ -127,7 +127,7 @@ function convertRootTSLintConfig(
   rootTslintJsonPath: string,
   rootEslintrcJsonPath: string,
 ): Rule {
-  return async (tree) => {
+  return async (tree, context) => {
     const rawRootTslintJson = readJsonInTree(tree, rootTslintJsonPath);
     const convertedRoot = await convertToESLintConfig(
       'tslint.json',
@@ -218,10 +218,26 @@ function convertRootTSLintConfig(
        *    "check-type",
        *    "check-typecast",
        *  ]
-       *
-       * TODO: Handle communicating the unconverted TSLint rules to the user
-       * data is available here -> convertedRoot.unconvertedTSLintRules
        */
+      const unconvertedTSLintRuleNames = convertedRoot.unconvertedTSLintRules
+        .filter(
+          (unconverted) =>
+            !['import-spacing', 'whitespace', 'typedef'].includes(
+              unconverted.ruleName,
+            ),
+        )
+        .map((unconverted) => unconverted.ruleName);
+
+      if (unconvertedTSLintRuleNames.length > 0) {
+        context.logger.warn(
+          `\nWARNING: Within "${rootTslintJsonPath}", the following ${unconvertedTSLintRuleNames.length} rule(s) did not have known converters in https://github.com/typescript-eslint/tslint-to-eslint-config`,
+        );
+        context.logger.warn('\n  - ' + unconvertedTSLintRuleNames.join('\n- '));
+        context.logger.warn(
+          '\nYou will need to decide on how to handle the above manually, but everything else has been handled for you automatically.\n',
+        );
+      }
+
       if (convertedRootESLintConfig.rules) {
         delete convertedRootESLintConfig.rules[
           '@typescript-eslint/tslint/config'
@@ -251,13 +267,14 @@ function convertRootTSLintConfig(
         /**
          * We want to use these ones differently (with different rule config) to
          * how they were converted, so they wouldn't be cleaned up by our deduplication logic
+         * and we have to manually remove them.
          */
         delete convertedRootESLintConfig.rules['@typescript-eslint/quotes'];
         delete convertedRootESLintConfig.rules['no-restricted-imports'];
 
         /**
          * We have handled this in eslint-plugin recommended.json, any subtle differences that would
-         * case the deduplication logic not to find a match can be addressed via PRs to the recommended
+         * cause the deduplication logic not to find a match can be addressed via PRs to the recommended
          * config in the plugin
          */
         delete convertedRootESLintConfig.rules['no-console'];
