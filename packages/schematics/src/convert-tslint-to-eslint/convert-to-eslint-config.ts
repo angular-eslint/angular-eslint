@@ -4,7 +4,13 @@ import {
   findReportedConfiguration,
   joinConfigConversionResults,
 } from 'tslint-to-eslint-config';
-import type { TSLintRuleOptions } from 'tslint-to-eslint-config/src/converters/lintConfigs/rules/types';
+
+type TSLintRuleSeverity = 'warning' | 'error' | 'off';
+type TSLintRuleOptions = {
+  ruleArguments: any[];
+  ruleName: string;
+  ruleSeverity: TSLintRuleSeverity;
+};
 
 export async function convertToESLintConfig(
   pathToTslintJson: string,
