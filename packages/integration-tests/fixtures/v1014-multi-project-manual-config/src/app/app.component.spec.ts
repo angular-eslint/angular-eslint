@@ -16,16 +16,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it("should have as title 'angular-cli-workspace'", () => {
+  it("should have as title 'v1014-multi-project-manual-config'", () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('angular-cli-workspace');
+    expect(app.title).toEqual('v1014-multi-project-manual-config');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('angular-cli-workspace app is running!');
+    expect(compiled.querySelector('.content span').textContent).toContain('v1014-multi-project-manual-config app is running!');
   });
 });

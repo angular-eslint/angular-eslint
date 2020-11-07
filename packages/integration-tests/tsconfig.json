@@ -4,5 +4,5 @@
     "composite": false,
     "rootDir": "."
   },
-  "files": ["tests/integration.ts"]
+  "include": ["tests"]
 }

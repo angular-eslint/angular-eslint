@@ -25,7 +25,7 @@ function runLint(directory: string): string | undefined {
   }
 }
 
-const integrationTests: [string][] = [['angular-cli-workspace']];
+const integrationTests: [string][] = [['v1014-multi-project-manual-config']];
 
 describe.each(integrationTests)('%s', (directory) => {
   it('it should produce the expected lint output', () => {

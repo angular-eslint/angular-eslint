@@ -120,7 +120,7 @@ async function setupFixtures() {
     await spawnLocalRegistry();
     await publishPackagesToVerdaccio();
 
-    process.chdir('fixtures/angular-cli-workspace');
+    process.chdir('fixtures/v1014-multi-project-manual-config');
     await setPackageManagerForNg('npm');
     await runNpmInstall();
     await runNgAdd();
