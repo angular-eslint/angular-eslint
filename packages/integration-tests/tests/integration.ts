@@ -15,10 +15,6 @@ function runLint(directory: string): string | undefined {
     const cwd = path.join(FIXTURES_DIR, directory);
     process.chdir(cwd);
 
-    execa.sync(path.join(cwd, '../../install-fixture-deps.sh'), {
-      cwd,
-    });
-
     const { stdout: lintOutput } = execa.sync('npx', ['ng', 'lint'], {
       cwd,
     });

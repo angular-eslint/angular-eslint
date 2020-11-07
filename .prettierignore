@@ -7,4 +7,4 @@
 
 packages/integration-tests/fixtures
 
-tools/scripts/assets/patched-microbundle.js
+tmp
