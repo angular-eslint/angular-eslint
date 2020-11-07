@@ -30,7 +30,7 @@ packages:
     publish: $all
     unpublish: $all
 
-    # if package is not available locally, proxy requests to 'yarn' registry
+    # if package is not available locally, proxy requests to 'npmjs' registry
     proxy: npmjs
 
 # log settings

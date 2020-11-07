@@ -33,7 +33,7 @@ async function spawnLocalRegistry() {
 
   await new Promise((res, rej) => {
     // Uncomment to see logs from Verdaccio
-    // localRegistryProcess.stdout.pipe(process.stdout);
+    localRegistryProcess.stdout.pipe(process.stdout);
     localRegistryProcess.stdout.on('data', (data: Buffer) => {
       collectedOutput.push(data.toString());
       // wait for local-registry to come online
