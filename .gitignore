@@ -111,3 +111,5 @@ dist
 .rts2_cache_es
 .rts2_cache_umd
 .rts2*
+
+tmp

@@ -156,8 +156,8 @@ By setting up our config in this way, we have complete control over what rules e
 
 **For a full reference configuration example** check out the full Angular CLI integration test located within this monorepo. Check out the relevant configuration files:
 
-- [packages/integration-tests/fixtures/angular-cli-workspace/.eslintrc.json](./packages/integration-tests/fixtures/angular-cli-workspace/.eslintrc.json)
-- [packages/integration-tests/fixtures/angular-cli-workspace/angular.json](./packages/integration-tests/fixtures/angular-cli-workspace/angular.json)
+- [packages/integration-tests/fixtures/v1014-multi-project-manual-config/.eslintrc.json](./packages/integration-tests/fixtures/v1014-multi-project-manual-config/.eslintrc.json)
+- [packages/integration-tests/fixtures/v1014-multi-project-manual-config/angular.json](./packages/integration-tests/fixtures/v1014-multi-project-manual-config/angular.json)
 
 If you are looking for general help in migrating specific rules from TSLint to ESLint, you can check out this project: https://github.com/typescript-eslint/tslint-to-eslint-config
 

@@ -10,7 +10,7 @@ describe('workspace-project App', () => {
 
   it('should display welcome message', () => {
     page.navigateTo();
-    expect(page.getTitleText()).toEqual('angular-cli-workspace app is running!');
+    expect(page.getTitleText()).toEqual('v1014-multi-project-manual-config app is running!');
   });
 
   afterEach(async () => {

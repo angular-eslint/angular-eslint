@@ -15,10 +15,6 @@ function runLint(directory: string): string | undefined {
     const cwd = path.join(FIXTURES_DIR, directory);
     process.chdir(cwd);
 
-    execa.sync(path.join(cwd, '../../install-fixture-deps.sh'), {
-      cwd,
-    });
-
     const { stdout: lintOutput } = execa.sync('npx', ['ng', 'lint'], {
       cwd,
     });
@@ -29,7 +25,7 @@ function runLint(directory: string): string | undefined {
   }
 }
 
-const integrationTests: [string][] = [['angular-cli-workspace']];
+const integrationTests: [string][] = [['v1014-multi-project-manual-config']];
 
 describe.each(integrationTests)('%s', (directory) => {
   it('it should produce the expected lint output', () => {

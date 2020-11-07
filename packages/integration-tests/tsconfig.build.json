@@ -6,5 +6,5 @@
     "rootDir": ".",
     "resolveJsonModule": true
   },
-  "files": ["tests/integration.ts"]
+  "include": ["tests"]
 }

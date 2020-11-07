@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "angular-cli-workspace": {
+    "v1014-multi-project-manual-config": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/angular-cli-workspace",
+            "outputPath": "dist/v1014-multi-project-manual-config",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -57,18 +57,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "angular-cli-workspace:build"
+            "browserTarget": "v1014-multi-project-manual-config:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "angular-cli-workspace:build:production"
+              "browserTarget": "v1014-multi-project-manual-config:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "angular-cli-workspace:build"
+            "browserTarget": "v1014-multi-project-manual-config:build"
           }
         },
         "test": {
@@ -93,11 +93,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "angular-cli-workspace:serve"
+            "devServerTarget": "v1014-multi-project-manual-config:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "angular-cli-workspace:serve:production"
+              "devServerTarget": "v1014-multi-project-manual-config:serve:production"
             }
           }
         }
@@ -1085,5 +1085,8 @@
       }
     }
   },
-  "defaultProject": "angular-cli-workspace"
+  "defaultProject": "v1014-multi-project-manual-config",
+  "cli": {
+    "packageManager": "npm"
+  }
 }
