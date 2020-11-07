@@ -8,10 +8,8 @@ auth:
 uplinks:
   npmjs:
     url: https://registry.npmjs.org/
-    cache: true
   yarn:
     url: https://registry.yarnpkg.com
-    cache: true
 
 packages:
   '@*/*':
@@ -19,7 +17,7 @@ packages:
     access: $all
     publish: $all
     unpublish: $all
-    proxy: npmjs
+    proxy: yarn
 
   '**':
     # allow all users (including non-authenticated users) to read and
@@ -31,7 +29,7 @@ packages:
     unpublish: $all
 
     # if package is not available locally, proxy requests to 'npmjs' registry
-    proxy: npmjs
+    proxy: yarn
 
 # log settings
 logs:
