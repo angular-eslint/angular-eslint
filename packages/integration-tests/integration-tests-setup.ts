@@ -67,17 +67,6 @@ async function publishPackagesToVerdaccio() {
   return await subprocess;
 }
 
-async function setPackageManagerForNg(packageManager: 'npm' | 'yarn') {
-  const subprocess = execa('ng', [
-    'config',
-    'cli.packageManager',
-    packageManager,
-  ]);
-  subprocess.stdout.pipe(process.stdout);
-  subprocess.stderr.pipe(process.stderr);
-  return await subprocess;
-}
-
 async function runNpmInstall() {
   if (process.env.npm_config_registry!.indexOf('http://localhost') === -1) {
     throw Error(`
@@ -121,7 +110,6 @@ async function setupFixtures() {
     await publishPackagesToVerdaccio();
 
     process.chdir('fixtures/v1014-multi-project-manual-config');
-    await setPackageManagerForNg('npm');
     await runNpmInstall();
     await runNgAdd();
 

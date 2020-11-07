@@ -1085,5 +1085,8 @@
       }
     }
   },
-  "defaultProject": "v1014-multi-project-manual-config"
+  "defaultProject": "v1014-multi-project-manual-config",
+  "cli": {
+    "packageManager": "npm"
+  }
 }
