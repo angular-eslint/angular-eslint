@@ -19,12 +19,6 @@ jobs:
       with:
         version: 13
 
-    - name: Ensure remote registry
-      run: |
-        npm config get registry
-        npm config set registry https://registry.npmjs.org/
-        npm config get registry
-
     - name: Get yarn cache directory path
       id: yarn-cache-dir-path
       run: echo "::set-output name=dir::$(yarn cache dir)"
