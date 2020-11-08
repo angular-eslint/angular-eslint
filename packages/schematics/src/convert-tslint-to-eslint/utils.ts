@@ -77,8 +77,8 @@ export function ensureESLintPluginsAreInstalled(
       context.logger.info(
         '\nINFO: To most closely match your tslint.json, the `latest` version of the following eslint plugin(s) have been installed:',
       );
-      context.logger.warn('\n  - ' + pluginsToInstall.join('\n  - '));
-      context.logger.warn(
+      context.logger.info('\n  - ' + pluginsToInstall.join('\n  - '));
+      context.logger.info(
         '\nPlease note, you may wish to pin these to a specific version number in your package.json, rather than leaving it open to `latest`.\n',
       );
 
