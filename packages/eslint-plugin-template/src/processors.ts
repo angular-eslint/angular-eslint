@@ -11,21 +11,44 @@ const multipleComponentsPerFileError =
   '@angular-eslint/eslint-plugin-template currently only supports 1 Component per file';
 
 /**
- * We try and skip as much work as possible by only considering files for processing if they
- * have a reasonable chance of having an Angular Component declared within them.
+ * Because ultimately a user is in control of how and when this processor gets invoked,
+ * we can't fully protect them against doing more work than is necessary in all cases.
  *
- * The most common case by far is that the file ends in .component.ts, but other custom suffixes are
- * supported by the schematics from the CLI, and we also support some known alternative conventions.
+ * Therefore, before we do a full parse of a TypeScript file to try and extract one or
+ * more Component declarations we want to do a really quick check for whether or not
+ * a file is likely to contain them.
  */
-const supportedComponentFiles = [
-  '.component.ts',
-  '.page.ts',
-  '.dialog.ts',
-  '.modal.ts',
-  '.popover.ts',
-  '.bottomsheet.ts',
-  '.snackbar.ts',
-];
+export function isFileLikelyToContainComponentDeclarations(
+  text: string,
+  filename: string,
+): boolean {
+  /**
+   * Quickest possible heuristic is based on file extension suffix
+   */
+  if (
+    [
+      '.component.ts',
+      '.page.ts',
+      '.dialog.ts',
+      '.modal.ts',
+      '.popover.ts',
+      '.bottomsheet.ts',
+      '.snackbar.ts',
+    ].some((likelySuffix) => filename.endsWith(likelySuffix))
+  ) {
+    return true;
+  }
+
+  /**
+   * Next quickest possible heuristic is the presence of the substring 'Component'
+   * and the substring '@angular/core' within the file contents
+   */
+  if (text.includes('Component') && text.includes('@angular/core')) {
+    return true;
+  }
+
+  return false;
+}
 
 export function preprocessComponentFile(
   text: string,
@@ -34,21 +57,7 @@ export function preprocessComponentFile(
   // This effectively instructs ESLint that there were no code blocks to extract for the current file
   const noopResult = [text];
 
-  if (
-    !supportedComponentFiles.some((supported) => filename.endsWith(supported))
-  ) {
-    console.warn(
-      '\nWARNING: You have configured the @angular-eslint/template/extract-inline-html processor to run on an unsupported file, it will do nothing.',
-    );
-    console.warn(`\n- The file: ${filename}`);
-    console.warn(
-      `- Supported file extensions for inline Component template extraction are: ${supportedComponentFiles.join(
-        ', ',
-      )}`,
-    );
-    console.warn(
-      `\nSee this comment for further explanation: https://github.com/angular-eslint/angular-eslint/issues/157#issuecomment-708235861\n`,
-    );
+  if (!isFileLikelyToContainComponentDeclarations(text, filename)) {
     return noopResult;
   }
 

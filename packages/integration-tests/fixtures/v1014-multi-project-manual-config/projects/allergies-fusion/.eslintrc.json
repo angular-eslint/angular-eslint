@@ -13,7 +13,7 @@
       "rules": {}
     },
     {
-      "files": ["*.component.html"],
+      "files": ["*.html"],
       "rules": {}
     }
   ]

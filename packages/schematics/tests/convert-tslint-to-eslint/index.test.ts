@@ -112,6 +112,7 @@ describe('convert-tslint-to-eslint', () => {
             Object {
               "extends": Array [
                 "plugin:@angular-eslint/recommended",
+                "plugin:@angular-eslint/template/process-inline-templates",
               ],
               "files": Array [
                 "*.ts",
@@ -147,20 +148,9 @@ describe('convert-tslint-to-eslint', () => {
                 "plugin:@angular-eslint/template/recommended",
               ],
               "files": Array [
-                "*.component.html",
+                "*.html",
               ],
               "rules": Object {},
-            },
-            Object {
-              "extends": Array [
-                "plugin:@angular-eslint/template/process-inline-templates",
-              ],
-              "files": Array [
-                "*.component.ts",
-              ],
-              "settings": Object {
-                "ANGULAR_ESLINT_DOCUMENTATION_NOTE": "This entry in the overrides is only here to extract inline templates from Components, you should not configure rules here",
-              },
             },
           ],
           "root": true,

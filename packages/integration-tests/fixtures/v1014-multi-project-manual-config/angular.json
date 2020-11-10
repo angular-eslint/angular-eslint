@@ -86,7 +86,7 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["src/**/*.ts", "src/**/*.component.html"]
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
           }
         },
         "e2e": {
@@ -194,7 +194,7 @@
           "options": {
             "lintFilePatterns": [
               "projects/another-app/**/*.ts",
-              "projects/another-app/**/*.component.html"
+              "projects/another-app/**/*.html"
             ]
           }
         },
@@ -303,7 +303,7 @@
           "options": {
             "lintFilePatterns": [
               "projects/horse-plants/**/*.ts",
-              "projects/horse-plants/**/*.component.html"
+              "projects/horse-plants/**/*.html"
             ]
           }
         },
@@ -412,7 +412,7 @@
           "options": {
             "lintFilePatterns": [
               "projects/allergies-fusion/**/*.ts",
-              "projects/allergies-fusion/**/*.component.html"
+              "projects/allergies-fusion/**/*.html"
             ]
           }
         },
@@ -521,7 +521,7 @@
           "options": {
             "lintFilePatterns": [
               "projects/breakfast-cat/**/*.ts",
-              "projects/breakfast-cat/**/*.component.html"
+              "projects/breakfast-cat/**/*.html"
             ]
           }
         },
@@ -630,7 +630,7 @@
           "options": {
             "lintFilePatterns": [
               "projects/prints-soda/**/*.ts",
-              "projects/prints-soda/**/*.component.html"
+              "projects/prints-soda/**/*.html"
             ]
           }
         },
@@ -739,7 +739,7 @@
           "options": {
             "lintFilePatterns": [
               "projects/ice-cream-monster/**/*.ts",
-              "projects/ice-cream-monster/**/*.component.html"
+              "projects/ice-cream-monster/**/*.html"
             ]
           }
         },
@@ -848,7 +848,7 @@
           "options": {
             "lintFilePatterns": [
               "projects/shoe-prints/**/*.ts",
-              "projects/shoe-prints/**/*.component.html"
+              "projects/shoe-prints/**/*.html"
             ]
           }
         },
@@ -957,7 +957,7 @@
           "options": {
             "lintFilePatterns": [
               "projects/websites-system/**/*.ts",
-              "projects/websites-system/**/*.component.html"
+              "projects/websites-system/**/*.html"
             ]
           }
         },
@@ -1066,7 +1066,7 @@
           "options": {
             "lintFilePatterns": [
               "projects/robot-websites/**/*.ts",
-              "projects/robot-websites/**/*.component.html"
+              "projects/robot-websites/**/*.html"
             ]
           }
         },

@@ -111,7 +111,7 @@ export function addESLintTargetToProject(
       options: {
         lintFilePatterns: [
           `${lintFilePatternsRoot}/**/*.ts`,
-          `${lintFilePatternsRoot}/**/*.component.html`,
+          `${lintFilePatternsRoot}/**/*.html`,
         ],
       },
     };

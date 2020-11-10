@@ -287,6 +287,7 @@ function convertRootTSLintConfig(
             },
             extends: [
               'plugin:@angular-eslint/recommended',
+              'plugin:@angular-eslint/template/process-inline-templates',
               ...(convertedRootESLintConfig.extends || []),
             ],
             plugins: convertedRootESLintConfig.plugins || undefined,
@@ -294,24 +295,9 @@ function convertRootTSLintConfig(
           },
 
           {
-            files: ['*.component.html'],
+            files: ['*.html'],
             extends: ['plugin:@angular-eslint/template/recommended'],
             rules: templateRules,
-          },
-
-          {
-            files: ['*.component.ts'],
-            extends: [
-              'plugin:@angular-eslint/template/process-inline-templates',
-            ],
-            settings: {
-              /**
-               * Leverage the fact that settings can be arbitrary key value pairs to create some inline documentation
-               * that will survive JSON (de-)serialization.
-               */
-              ANGULAR_ESLINT_DOCUMENTATION_NOTE:
-                'This entry in the overrides is only here to extract inline templates from Components, you should not configure rules here',
-            },
           },
         ];
 
