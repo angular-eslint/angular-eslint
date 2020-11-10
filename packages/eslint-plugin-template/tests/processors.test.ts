@@ -208,7 +208,7 @@ describe('extract-inline-html', () => {
           ).toEqual([
             tc.input,
             {
-              filename: 'inline-template.component.html',
+              filename: 'inline-template-1.component.html',
               text: inlineTemplate,
             },
           ]);
@@ -251,7 +251,7 @@ describe('extract-inline-html', () => {
           ).toEqual([
             tc.input,
             {
-              filename: 'inline-template.component.html',
+              filename: 'inline-template-1.component.html',
               text: inlineTemplate,
             },
           ]);
@@ -263,31 +263,40 @@ describe('extract-inline-html', () => {
      * Currently explicitly unsupported...
      */
     describe('multiple components in a single file', () => {
-      it(`should throw`, () => {
-        expect(() => {
+      it(`should support extracting inline templates from multiple Components in a single file`, () => {
+        const input = `
+          import { Component } from '@angular/core';
+
+          @Component({
+            selector: 'app-a',
+            template: '<h1>Hello, A!</h1>',
+            styleUrls: ['./a.component.scss']
+          })
+          export class ComponentA {}
+
+          @Component({
+            selector: 'app-b',
+            template: '<h1>Hello, B!</h1>',
+            styleUrls: ['./b.component.scss']
+          })
+          export class ComponentB {}
+        `;
+        expect(
           processors['extract-inline-html'].preprocess(
-            `
-            import { Component } from '@angular/core';
-
-            @Component({
-              selector: 'app-a',
-              template: '<h1>Hello, A!</h1>',
-              styleUrls: ['./a.component.scss']
-            })
-            export class ComponentA {}
-
-            @Component({
-              selector: 'app-b',
-              template: '<h1>Hello, B!</h1>',
-              styleUrls: ['./b.component.scss']
-            })
-            export class ComponentB {}
-        `,
+            input,
             'multiple-in-one.component.ts',
-          );
-        }).toThrowErrorMatchingInlineSnapshot(
-          `"@angular-eslint/eslint-plugin-template currently only supports 1 Component per file"`,
-        );
+          ),
+        ).toEqual([
+          input,
+          {
+            filename: 'inline-template-1.component.html',
+            text: '<h1>Hello, A!</h1>',
+          },
+          {
+            filename: 'inline-template-2.component.html',
+            text: '<h1>Hello, B!</h1>',
+          },
+        ]);
       });
     });
   });
