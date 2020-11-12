@@ -155,6 +155,13 @@ async function setupFixtures() {
     await runNgAdd();
     await runConvertTSLintToESLint('v1020-single-project-yarn-auto-convert');
 
+    process.chdir('../v1020-multi-project-yarn-auto-convert');
+    await runYarnInstall();
+    await runNgAdd();
+    // Deliberately don't convert the root project first, so we can ensure this is also supported
+    await runConvertTSLintToESLint('another-app');
+    await runConvertTSLintToESLint('v1020-multi-project-yarn-auto-convert');
+
     cleanUp(0);
   } catch (e) {
     console.log(e);
