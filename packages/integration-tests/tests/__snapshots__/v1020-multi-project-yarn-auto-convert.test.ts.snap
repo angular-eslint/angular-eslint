@@ -66,6 +66,9 @@ Object {
 exports[`v1020-multi-project-yarn-auto-convert it should pass linting after converting the out of the box Angular CLI setup (with an additional project called "another-app" with a custom prefix set) 3`] = `
 Object {
   "extends": "../../.eslintrc.json",
+  "ignorePatterns": Array [
+    "!**/*",
+  ],
   "overrides": Array [
     Object {
       "files": Array [
