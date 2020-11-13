@@ -77,9 +77,9 @@ ruleTester.run(RULE_NAME, rule, {
               <app-happy-hero    *ngSwitchCase="'happy'"    [hero]="currentHero"></app-happy-hero>
               <app-sad-hero      *ngSwitchCase="'sad'"      [hero]="currentHero"></app-sad-hero>
               <app-confused-hero *ngSwitchCase="'confused'" [hero]="currentHero"></app-confused-hero>
-                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                  ~~~~~~~~~~~~~~~~~~~~~~~~
               <app-unknown-hero  *ngSwitchDefault           [hero]="currentHero"></app-unknown-hero>
-                                 ^^^^^^^^^^^^^^^^
+                                  ^^^^^^^^^^^^^^^
             </div>
           </div>
         </div>
@@ -117,11 +117,11 @@ ruleTester.run(RULE_NAME, rule, {
             <div [ngSwitch]="person.emotion">
               <app-happy-hero    *ngSwitchCase="'happy'"    [hero]="currentHero"></app-happy-hero>
               <app-sad-hero      *ngSwitchCase="'sad'"      [hero]="currentHero"></app-sad-hero>
-                                 ~~~~~~~~~~~~~~~~~~~~~
+                                  ~~~~~~~~~~~~~~~~~~~
               <app-confused-hero *ngSwitchCase="'confused'" [hero]="currentHero"></app-confused-hero>
-                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^
               <app-unknown-hero  *ngSwitchDefault           [hero]="currentHero"></app-unknown-hero>
-                                 ################
+                                  ###############
             </div>
           </div>
         </div>

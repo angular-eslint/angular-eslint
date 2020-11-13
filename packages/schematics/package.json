@@ -29,7 +29,7 @@
     "tslint-to-eslint-config": "2.0.0-beta5"
   },
   "devDependencies": {
-    "@angular-devkit/schematics": "^10.1.4",
+    "@angular-devkit/schematics": "^11.0.1",
     "@typescript-eslint/experimental-utils": "4.3.0",
     "eslint": "^7.6.0",
     "eslint-plugin-import": "2.22.1",
