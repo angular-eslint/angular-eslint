@@ -21,6 +21,14 @@ We would also be very grateful for documentation PRs!
 
 <br>
 
+## Supported Angular CLI Versions
+
+We support Angular CLI `10.1.0` and onwards, including Angular CLI `11.x`. This range is also captured by our integration-tests package.
+
+**Please do not open issues related to unsupported versions of the Angular CLI**.
+
+<br>
+
 ## Packages included in this project
 
 Please follow the links below for the packages you care about.

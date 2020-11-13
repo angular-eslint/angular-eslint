@@ -43,11 +43,11 @@
     ]
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.1001.4",
-    "@angular/compiler": "~10.1.4",
+    "@angular-devkit/build-angular": "~0.1100.1",
+    "@angular/compiler": "~11.0.0",
     "@commitlint/cli": "^8.1.0",
     "@commitlint/config-conventional": "^8.1.0",
-    "@schematics/angular": "^10.1.4",
+    "@schematics/angular": "^11.0.1",
     "@types/eslint": "^7.2.0",
     "@types/eslint-scope": "^3.7.0",
     "@types/jest": "^26.0.15",

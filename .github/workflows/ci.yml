@@ -17,7 +17,7 @@ jobs:
     - name: Setup Node.js for use with actions
       uses: actions/setup-node@v1.1.0
       with:
-        version: 13
+        version: 15
 
     - name: Get yarn cache directory path
       id: yarn-cache-dir-path
@@ -67,7 +67,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [10, 12]
+        node: [10, 12, 14]
 
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
