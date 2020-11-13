@@ -142,11 +142,6 @@ async function runConvertTSLintToESLint(projectName: string) {
 
 async function setupFixtures() {
   try {
-    const subprocess = execa('ls', ['-la', './tmp/local-registry']);
-    subprocess.stdout.pipe(process.stdout);
-    subprocess.stderr.pipe(process.stderr);
-    await subprocess;
-
     // @ts-ignore
     await spawnLocalRegistry();
     await publishPackagesToVerdaccio();
