@@ -1,11 +1,13 @@
 {
   "extends": ["../../.eslintrc.json"],
+  "ignorePatterns": ["!**/*"],
   "overrides": [
     {
       "files": ["*.ts"],
       "parserOptions": {
         "project": [
-          "projects/prints-soda/tsconfig.*?.json",
+          "projects/prints-soda/tsconfig.app.json",
+          "projects/prints-soda/tsconfig.spec.json",
           "projects/prints-soda/e2e/tsconfig.json"
         ],
         "createDefaultProgram": true
@@ -13,7 +15,7 @@
       "rules": {}
     },
     {
-      "files": ["*.component.html"],
+      "files": ["*.html"],
       "rules": {}
     }
   ]
