@@ -35,6 +35,12 @@ const eslintPluginTemplateConfigRecommendedOriginal: any =
 
 export default function convert(schema: Schema): Rule {
   return (tree: Tree, _context: SchematicContext) => {
+    if (tree.exists('tsconfig.base.json')) {
+      throw new Error(
+        '\nError: Angular CLI v10.1.0 and later (and no `tsconfig.base.json`) is required in order to run this schematic. Please update your workspace and try again.\n',
+      );
+    }
+
     const { root: projectRoot } = getProjectConfig(tree, schema.project);
 
     // Default Angular CLI project at the root of the workspace
@@ -192,11 +198,14 @@ function convertRootTSLintConfig(
 
     convertedRootESLintConfig.root = true;
 
+    // Each additional project is linted independently
+    convertedRootESLintConfig.ignorePatterns = ['projects/**/*'];
+
     convertedRootESLintConfig.overrides = [
       {
         files: ['*.ts'],
         parserOptions: {
-          project: ['tsconfig.*?.json', 'e2e/tsconfig.json'],
+          project: ['tsconfig.json', 'e2e/tsconfig.json'],
           createDefaultProgram: true,
         },
         extends: [

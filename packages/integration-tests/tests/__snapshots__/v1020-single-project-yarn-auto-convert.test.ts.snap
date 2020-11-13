@@ -2,6 +2,9 @@
 
 exports[`v1020-single-project-yarn-auto-convert it should pass linting after converting the out of the box Angular CLI setup (with a custom prefix set) 1`] = `
 Object {
+  "ignorePatterns": Array [
+    "projects/**/*",
+  ],
   "overrides": Array [
     Object {
       "extends": Array [
@@ -14,7 +17,7 @@ Object {
       "parserOptions": Object {
         "createDefaultProgram": true,
         "project": Array [
-          "tsconfig.*?.json",
+          "tsconfig.json",
           "e2e/tsconfig.json",
         ],
       },

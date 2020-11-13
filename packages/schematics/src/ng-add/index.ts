@@ -16,6 +16,12 @@ function addAngularESLintPackages() {
       );
     }
 
+    if (host.exists('tsconfig.base.json')) {
+      throw new Error(
+        '\nError: Angular CLI v10.1.0 and later (and no `tsconfig.base.json`) is required in order to run this schematic. Please update your workspace and try again.\n',
+      );
+    }
+
     const projectPackageJSON = host.read('package.json')!.toString('utf-8');
     const json = JSON.parse(projectPackageJSON);
     json.devDependencies = json.devDependencies || {};
