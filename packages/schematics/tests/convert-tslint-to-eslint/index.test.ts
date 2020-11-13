@@ -45,7 +45,8 @@ schematicRunner.registerCollection(
 );
 
 function setupAngularWorkspace(workspaceTree: UnitTestTree): void {
-  workspaceTree.create('tsconfig.base.json', JSON.stringify({}));
+  workspaceTree.create('tsconfig.json', JSON.stringify({}));
+  workspaceTree.create('e2e/tsconfig.json', JSON.stringify({}));
   workspaceTree.create('package.json', JSON.stringify({}));
   workspaceTree.create('tslint.json', JSON.stringify(exampleRootTslintJson));
   workspaceTree.create(
@@ -106,56 +107,7 @@ describe('convert-tslint-to-eslint', () => {
         )
         .toPromise();
 
-      expect(readJsonInTree(result, '.eslintrc.json')).toMatchInlineSnapshot(`
-        Object {
-          "overrides": Array [
-            Object {
-              "extends": Array [
-                "plugin:@angular-eslint/recommended",
-                "plugin:@angular-eslint/template/process-inline-templates",
-              ],
-              "files": Array [
-                "*.ts",
-              ],
-              "parserOptions": Object {
-                "createDefaultProgram": true,
-                "project": Array [
-                  "tsconfig.*?.json",
-                  "e2e/tsconfig.json",
-                ],
-              },
-              "rules": Object {
-                "@angular-eslint/component-selector": Array [
-                  "error",
-                  Object {
-                    "prefix": "app",
-                    "style": "kebab-case",
-                    "type": "element",
-                  },
-                ],
-                "@angular-eslint/directive-selector": Array [
-                  "error",
-                  Object {
-                    "prefix": "app",
-                    "style": "camelCase",
-                    "type": "attribute",
-                  },
-                ],
-              },
-            },
-            Object {
-              "extends": Array [
-                "plugin:@angular-eslint/template/recommended",
-              ],
-              "files": Array [
-                "*.html",
-              ],
-              "rules": Object {},
-            },
-          ],
-          "root": true,
-        }
-      `);
+      expect(readJsonInTree(result, '.eslintrc.json')).toMatchSnapshot();
     });
   });
 
