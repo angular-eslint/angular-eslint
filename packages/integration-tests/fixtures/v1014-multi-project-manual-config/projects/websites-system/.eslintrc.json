@@ -1,11 +1,22 @@
 {
   "extends": ["../../.eslintrc.json"],
-  "parserOptions": {
-    "project": [
-      "projects/websites-system/tsconfig.*?.json",
-      "projects/websites-system/e2e/tsconfig.json"
-    ],
-    "createDefaultProgram": true
-  },
-  "rules": {}
+  "ignorePatterns": ["!**/*"],
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "parserOptions": {
+        "project": [
+          "projects/websites-system/tsconfig.app.json",
+          "projects/websites-system/tsconfig.spec.json",
+          "projects/websites-system/e2e/tsconfig.json"
+        ],
+        "createDefaultProgram": true
+      },
+      "rules": {}
+    },
+    {
+      "files": ["*.html"],
+      "rules": {}
+    }
+  ]
 }

@@ -51,6 +51,16 @@ describe.each(integrationTests)('%s', (directory) => {
         .projects['another-app'].architect.lint,
     ).toMatchSnapshot();
 
+    // Additional library project ("another-lib")
+    expect(
+      require('../fixtures/v1020-multi-project-yarn-auto-convert/projects/another-lib/.eslintrc.json'),
+    ).toMatchSnapshot();
+
+    expect(
+      require('../fixtures/v1020-multi-project-yarn-auto-convert/angular.json')
+        .projects['another-lib'].architect.lint,
+    ).toMatchSnapshot();
+
     const lintOutput = runLint(directory);
     expect(lintOutput).toMatchSnapshot();
   });

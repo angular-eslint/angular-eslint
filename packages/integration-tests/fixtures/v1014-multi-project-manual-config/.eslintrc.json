@@ -14,6 +14,8 @@
  */
  {
   "root": true,
+  // Additional projects are linted separately
+  "ignorePatterns": ["projects/**/*"],
   "overrides": [
     /**
      * -----------------------------------------------------
@@ -24,7 +26,8 @@
       "files": ["*.ts"],
       "parserOptions": {
         "project": [
-          "tsconfig.*?.json",
+          "tsconfig.app.json",
+          "tsconfig.spec.json",
           "e2e/tsconfig.json"
         ],
         "createDefaultProgram": true

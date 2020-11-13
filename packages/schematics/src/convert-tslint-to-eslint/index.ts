@@ -362,13 +362,17 @@ function convertNonRootTSLintConfig(
     let project;
     if (projectType === 'application') {
       project = [
-        `${projectRoot}/tsconfig.*?.json`,
+        `${projectRoot}/tsconfig.app.json`,
+        `${projectRoot}/tsconfig.spec.json`,
         `${projectRoot}/e2e/tsconfig.json`,
       ];
     }
     // Libraries don't have an e2e directory
     if (projectType === 'library') {
-      project = [`${projectRoot}/tsconfig.*?.json`];
+      project = [
+        `${projectRoot}/tsconfig.lib.json`,
+        `${projectRoot}/tsconfig.spec.json`,
+      ];
     }
 
     convertedProjectESLintConfig.overrides = [
