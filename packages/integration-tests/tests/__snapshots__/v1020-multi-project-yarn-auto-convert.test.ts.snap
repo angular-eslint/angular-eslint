@@ -133,5 +133,9 @@ All files pass linting.
 
 Linting \\"another-app\\"...
 All files pass linting.
+
+
+Linting \\"another-lib\\"...
+All files pass linting.
 "
 `;

@@ -236,6 +236,46 @@
           }
         }
       }
+    },
+    "another-lib": {
+      "projectType": "library",
+      "root": "projects/another-lib",
+      "sourceRoot": "projects/another-lib/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/another-lib/tsconfig.lib.json",
+            "project": "projects/another-lib/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/another-lib/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/another-lib/src/test.ts",
+            "tsConfig": "projects/another-lib/tsconfig.spec.json",
+            "karmaConfig": "projects/another-lib/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/another-lib/tsconfig.lib.json",
+              "projects/another-lib/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }},
   "defaultProject": "v1020-multi-project-yarn-auto-convert"
 }

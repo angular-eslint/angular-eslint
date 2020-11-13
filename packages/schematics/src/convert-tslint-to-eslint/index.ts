@@ -41,7 +41,10 @@ export default function convert(schema: Schema): Rule {
       );
     }
 
-    const { root: projectRoot } = getProjectConfig(tree, schema.project);
+    const { root: projectRoot, projectType } = getProjectConfig(
+      tree,
+      schema.project,
+    );
 
     // Default Angular CLI project at the root of the workspace
     const isRootAngularProject: boolean = projectRoot === '';
@@ -71,6 +74,7 @@ export default function convert(schema: Schema): Rule {
         ? noop()
         : convertNonRootTSLintConfig(
             projectRoot,
+            projectType,
             projectTSLintJsonPath,
             rootESLintrcJsonPath,
           ),
@@ -243,6 +247,7 @@ function convertRootTSLintConfig(
 
 function convertNonRootTSLintConfig(
   projectRoot: string,
+  projectType: 'application' | 'library',
   projectTSLintJsonPath: string,
   rootESLintrcJsonPath: string,
 ): Rule {
@@ -354,14 +359,23 @@ function convertNonRootTSLintConfig(
 
     convertedProjectESLintConfig.ignorePatterns = ['!**/*'];
 
+    let project;
+    if (projectType === 'application') {
+      project = [
+        `${projectRoot}/tsconfig.*?.json`,
+        `${projectRoot}/e2e/tsconfig.json`,
+      ];
+    }
+    // Libraries don't have an e2e directory
+    if (projectType === 'library') {
+      project = [`${projectRoot}/tsconfig.*?.json`];
+    }
+
     convertedProjectESLintConfig.overrides = [
       {
         files: ['*.ts'],
         parserOptions: {
-          project: [
-            `${projectRoot}/tsconfig.*?.json`,
-            `${projectRoot}/e2e/tsconfig.json`,
-          ],
+          project,
           createDefaultProgram: true,
         },
         extends: convertedExtends || undefined,

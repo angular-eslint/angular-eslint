@@ -160,7 +160,8 @@ async function setupFixtures() {
     await runNgAdd();
     // Deliberately don't convert the root project first, so we can ensure this is also supported
     await runConvertTSLintToESLint('another-app');
-    await runConvertTSLintToESLint('v1020-multi-project-yarn-auto-convert');
+    await runConvertTSLintToESLint('v1020-multi-project-yarn-auto-convert'); // root project
+    await runConvertTSLintToESLint('another-lib');
 
     cleanUp(0);
   } catch (e) {
