@@ -9,8 +9,11 @@ import {
 import eslintPlugin from '@angular-eslint/eslint-plugin';
 import eslintPluginTemplate from '@angular-eslint/eslint-plugin-template';
 import type { Linter } from 'eslint';
+import type { TSLintRuleOptions } from 'tslint-to-eslint-config';
+import { convertFileComments } from 'tslint-to-eslint-config';
 import {
   addESLintTargetToProject,
+  getAllSourceFilesForProject,
   getProjectConfig,
   offsetFromRoot,
   readJsonInTree,
@@ -50,6 +53,7 @@ export default function convert(schema: Schema): Rule {
       // Overwrite the "lint" target directly for the selected project in the angular.json
       addESLintTargetToProject(schema.project, 'lint'),
       ensureRootESLintConfig(tree, rootESLintrcJsonPath),
+      convertTSLintDisableCommentsForProject(schema.project),
 
       isRootAngularProject
         ? noop()
@@ -339,6 +343,8 @@ function convertNonRootTSLintConfig(
     )}.eslintrc.json`;
     convertedProjectESLintConfig.extends = relativeOffestToRootESLintrcJson;
 
+    convertedProjectESLintConfig.ignorePatterns = ['!**/*'];
+
     convertedProjectESLintConfig.overrides = [
       {
         files: ['*.ts'],
@@ -535,7 +541,7 @@ function dedupePluginsAgainstConfigs(
 function warnInCaseOfUnconvertedRules(
   context: SchematicContext,
   tslintConfigPath: string,
-  unconvertedTSLintRules: any[],
+  unconvertedTSLintRules: TSLintRuleOptions[],
 ): void {
   /*
    * The following rules are known to be missing from the Angular CLI equivalent TSLint
@@ -579,4 +585,27 @@ function warnInCaseOfUnconvertedRules(
       '\nYou will need to decide on how to handle the above manually, but everything else has been handled for you automatically.\n',
     );
   }
+}
+
+function likelyContainsTSLintComment(fileContent: string): boolean {
+  return fileContent.includes('tslint:');
+}
+
+function convertTSLintDisableCommentsForProject(projectName: string): Rule {
+  return (tree: Tree) => {
+    const allSourceFiles = getAllSourceFilesForProject(tree, projectName);
+    const allTypeScriptSourceFiles = allSourceFiles.filter((f) =>
+      f.endsWith('.ts'),
+    );
+
+    for (const filePath of allTypeScriptSourceFiles) {
+      const fileContent = tree.read(filePath)!.toString('utf-8');
+      // Avoid updating files if we don't have to
+      if (!likelyContainsTSLintComment(fileContent)) {
+        continue;
+      }
+      const updatedFileContent = convertFileComments({ fileContent, filePath });
+      tree.overwrite(filePath, updatedFileContent);
+    }
+  };
 }

@@ -3,14 +3,8 @@ import {
   createESLintConfiguration,
   findReportedConfiguration,
   joinConfigConversionResults,
+  TSLintRuleOptions,
 } from 'tslint-to-eslint-config';
-
-type TSLintRuleSeverity = 'warning' | 'error' | 'off';
-type TSLintRuleOptions = {
-  ruleArguments: any[];
-  ruleName: string;
-  ruleSeverity: TSLintRuleSeverity;
-};
 
 export async function convertToESLintConfig(
   pathToTslintJson: string,

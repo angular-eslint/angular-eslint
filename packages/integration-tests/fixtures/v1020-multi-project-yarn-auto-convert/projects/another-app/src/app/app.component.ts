@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'customprefix-root',
+  // eslint-disable-next-line
+  selector: 'lintfail-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })

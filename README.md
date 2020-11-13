@@ -67,6 +67,7 @@ The schematic will do the following for you:
   - The contents of this `.eslintrc.json` will be the closest possible equivalent to your `tslint.json` that the tooling can figure out.
   - You will want to pay close attention to the terminal output of the schematic as it runs, because it will let you know if it couldn't find an appropriate converter for a TSLint rule, or if it has installed any additional ESLint plugins to help you match up your new setup with your old one.
 - UPDATE the project's `architect` configuration in the `angular.json` to such that the `lint` "target" will invoke ESLint instead of TSLint.
+- UPDATE any instances of `tslint:disable` comments that are located within your TypeScript source files to their ESLint equivalent.
 
 Now when you run:
 
@@ -74,11 +75,11 @@ Now when you run:
 npx ng lint {{YOUR_PROJECT_NAME_GOES_HERE}}
 ```
 
-...you are running ESLint!
+...you are running ESLint on your project! 🎉
 
-### Step 3 - Remove TSLint configuration and use only ESLint
+### Step 3 - Remove root TSLint configuration and use only ESLint
 
-Once you are happy with your ESLint setup, you simply need to remove the project specific `tslint.json` and potentially uninstall TSLint and any TSLint-related plugins/dependencies if your Angular CLI workspace is now no longer using TSLint at all.
+Once you are happy with your ESLint setup, you simply need to remove the root-level `tslint.json` and potentially uninstall TSLint and any TSLint-related plugins/dependencies if your Angular CLI workspace is now no longer using TSLint at all.
 
 <br>
 

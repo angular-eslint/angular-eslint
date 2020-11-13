@@ -4,8 +4,8 @@
  *
  * Thanks, Nrwl folks!
  */
-import { normalize } from '@angular-devkit/core';
-import { Tree, SchematicContext, Rule } from '@angular-devkit/schematics';
+import { join, normalize, Path } from '@angular-devkit/core';
+import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import stripJsonComments from 'strip-json-comments';
 
 /**
@@ -120,4 +120,46 @@ export function addESLintTargetToProject(
 
     return workspaceJson;
   });
+}
+
+function allFilesInDirInHost(
+  host: Tree,
+  path: Path,
+  options: {
+    recursive: boolean;
+  } = { recursive: true },
+): Path[] {
+  const dir = host.getDir(path);
+  const res: Path[] = [];
+  dir.subfiles.forEach((p) => {
+    res.push(join(path, p));
+  });
+
+  if (!options.recursive) {
+    return res;
+  }
+
+  dir.subdirs.forEach((p) => {
+    res.push(...allFilesInDirInHost(host, join(path, p)));
+  });
+  return res;
+}
+
+export function getAllSourceFilesForProject(
+  host: Tree,
+  projectName: string,
+): Path[] {
+  const workspaceJson = readJsonInTree(host, 'angular.json');
+  const existingProjectConfig = workspaceJson.projects[projectName];
+
+  let pathRoot = '';
+
+  // Default Angular CLI project at the root of the workspace
+  if (existingProjectConfig.root === '') {
+    pathRoot = 'src';
+  } else {
+    pathRoot = existingProjectConfig.root;
+  }
+
+  return allFilesInDirInHost(host, normalize(pathRoot));
 }
