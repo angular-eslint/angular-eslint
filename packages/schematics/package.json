@@ -1,6 +1,6 @@
 {
   "name": "@angular-eslint/schematics",
-  "version": "0.7.0-alpha.14",
+  "version": "0.7.0-beta.0",
   "description": "Angular Schematics for angular-eslint",
   "license": "MIT",
   "main": "dist/index.js",
@@ -23,8 +23,8 @@
   ],
   "schematics": "./dist/collection.json",
   "dependencies": {
-    "@angular-eslint/eslint-plugin": "^0.7.0-alpha.14",
-    "@angular-eslint/eslint-plugin-template": "^0.7.0-alpha.14",
+    "@angular-eslint/eslint-plugin": "^0.7.0-beta.0",
+    "@angular-eslint/eslint-plugin-template": "^0.7.0-beta.0",
     "strip-json-comments": "3.1.1",
     "tslint-to-eslint-config": "2.0.0-beta5"
   },
