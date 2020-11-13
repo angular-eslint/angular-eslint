@@ -1,5 +1,5 @@
 {
-  "name": "@angular-eslint/integration-tests-v1014-multi-project-manual-config",
+  "name": "v1014-multi-project-manual-config",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

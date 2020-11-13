@@ -1,11 +1,22 @@
 {
   "extends": ["../../.eslintrc.json"],
-  "parserOptions": {
-    "project": [
-      "projects/shoe-prints/tsconfig.*?.json",
-      "projects/shoe-prints/e2e/tsconfig.json"
-    ],
-    "createDefaultProgram": true
-  },
-  "rules": {}
+  "ignorePatterns": ["!**/*"],
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "parserOptions": {
+        "project": [
+          "projects/shoe-prints/tsconfig.app.json",
+          "projects/shoe-prints/tsconfig.spec.json",
+          "projects/shoe-prints/e2e/tsconfig.json"
+        ],
+        "createDefaultProgram": true
+      },
+      "rules": {}
+    },
+    {
+      "files": ["*.html"],
+      "rules": {}
+    }
+  ]
 }

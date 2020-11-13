@@ -4,8 +4,8 @@
  */
 import { Component } from '@angular/core';
 
-const SomeDecorator: any = () => {}
-@SomeDecorator({})
+const someDecorator = (x) => (y) => {};
+@someDecorator({})
 export class Foo {}
 
 @Component({

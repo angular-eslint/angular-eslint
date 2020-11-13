@@ -1,59 +1,62 @@
-import processors from '../src/processors';
+import processors, {
+  isFileLikelyToContainComponentDeclarations,
+} from '../src/processors';
 
 describe('extract-inline-html', () => {
-  describe('preprocess()', () => {
-    describe('unsupported file extensions', () => {
-      const testCases = [
-        {
-          filename: 'component.ts',
-        },
-        {
-          filename: 'foo.ts',
-        },
-        {
-          filename: 'bar.cmp.ts',
-        },
-      ];
+  describe('isFileLikelyToContainComponents()', () => {
+    interface TestCase {
+      text: string;
+      filename: string;
+      expected: boolean;
+    }
 
-      const fileSource = `
-        @Component({
-          selector: '',
-          foo: true
-        })
-        export class Component {}
-      `;
+    const testCases: TestCase[] = [
+      {
+        text: '',
+        filename: 'foo.component.ts',
+        expected: true, // Likely filename suffix
+      },
+      {
+        text: '',
+        filename: 'foo.ts',
+        expected: false, // Unlikely filename suffix and no references
+      },
+      {
+        text: `
+          @Component({
+            selector: '',
+            foo: true
+          })
+          export class Component {}
+        `,
+        filename: 'bar.cmp.ts',
+        expected: false, // No reference to @angular/core
+      },
+      {
+        text: `
+          import { Component } from '@angular/core';
 
-      testCases.forEach((tc, i) => {
-        it(`should not transform non-component file sources, CASE: ${i}`, () => {
-          spyOn(console, 'warn');
+          @Component({
+            selector: '',
+            foo: true
+          })
+          export class Component {}
+        `,
+        filename: 'anything.ts',
+        expected: true, // References both Component and @angular/core
+      },
+    ];
 
-          expect(
-            processors['extract-inline-html'].preprocess(
-              fileSource,
-              tc.filename,
-            ),
-          ).toEqual([fileSource]);
-
-          expect(console.warn).toHaveBeenNthCalledWith(
-            1,
-            '\nWARNING: You have configured the @angular-eslint/template/extract-inline-html processor to run on an unsupported file, it will do nothing.',
-          );
-          expect(console.warn).toHaveBeenNthCalledWith(
-            2,
-            `\n- The file: ${tc.filename}`,
-          );
-          expect(console.warn).toHaveBeenNthCalledWith(
-            3,
-            `- Supported file extensions for inline Component template extraction are: .component.ts, .page.ts, .dialog.ts, .modal.ts, .popover.ts, .bottomsheet.ts, .snackbar.ts`,
-          );
-          expect(console.warn).toHaveBeenNthCalledWith(
-            4,
-            `\nSee this comment for further explanation: https://github.com/angular-eslint/angular-eslint/issues/157#issuecomment-708235861\n`,
-          );
-        });
+    testCases.forEach((tc, i) => {
+      it(`should return true if the given file contents and name are likely to contain Component declarations, CASE: ${i}`, () => {
+        expect(
+          isFileLikelyToContainComponentDeclarations(tc.text, tc.filename),
+        ).toEqual(tc.expected);
       });
     });
+  });
 
+  describe('preprocess()', () => {
     describe('malformed component files/component files without inline templates', () => {
       const testCases = [
         {
@@ -122,7 +125,7 @@ describe('extract-inline-html', () => {
       `;
       const testCases = [
         {
-          filename: 'test.page.ts', // supported custom file suffix
+          filename: 'test.page.ts', // likely custom file suffix
           input: `
             @Component({
               selector: "app-example",
@@ -205,7 +208,7 @@ describe('extract-inline-html', () => {
           ).toEqual([
             tc.input,
             {
-              filename: 'inline-template.component.html',
+              filename: 'inline-template-1.component.html',
               text: inlineTemplate,
             },
           ]);
@@ -248,7 +251,7 @@ describe('extract-inline-html', () => {
           ).toEqual([
             tc.input,
             {
-              filename: 'inline-template.component.html',
+              filename: 'inline-template-1.component.html',
               text: inlineTemplate,
             },
           ]);
@@ -260,31 +263,40 @@ describe('extract-inline-html', () => {
      * Currently explicitly unsupported...
      */
     describe('multiple components in a single file', () => {
-      it(`should throw`, () => {
-        expect(() => {
+      it(`should support extracting inline templates from multiple Components in a single file`, () => {
+        const input = `
+          import { Component } from '@angular/core';
+
+          @Component({
+            selector: 'app-a',
+            template: '<h1>Hello, A!</h1>',
+            styleUrls: ['./a.component.scss']
+          })
+          export class ComponentA {}
+
+          @Component({
+            selector: 'app-b',
+            template: '<h1>Hello, B!</h1>',
+            styleUrls: ['./b.component.scss']
+          })
+          export class ComponentB {}
+        `;
+        expect(
           processors['extract-inline-html'].preprocess(
-            `
-            import { Component } from '@angular/core';
-
-            @Component({
-              selector: 'app-a',
-              template: '<h1>Hello, A!</h1>',
-              styleUrls: ['./a.component.scss']
-            })
-            export class ComponentA {}
-
-            @Component({
-              selector: 'app-b',
-              template: '<h1>Hello, B!</h1>',
-              styleUrls: ['./b.component.scss']
-            })
-            export class ComponentB {}
-        `,
+            input,
             'multiple-in-one.component.ts',
-          );
-        }).toThrowErrorMatchingInlineSnapshot(
-          `"@angular-eslint/eslint-plugin-template currently only supports 1 Component per file"`,
-        );
+          ),
+        ).toEqual([
+          input,
+          {
+            filename: 'inline-template-1.component.html',
+            text: '<h1>Hello, A!</h1>',
+          },
+          {
+            filename: 'inline-template-2.component.html',
+            text: '<h1>Hello, B!</h1>',
+          },
+        ]);
       });
     });
   });

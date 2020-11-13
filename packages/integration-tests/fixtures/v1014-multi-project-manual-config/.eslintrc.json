@@ -1,4 +1,3 @@
-
 /**
  * -----------------------------------------------------
  * NOTES ON CONFIGURATION STRUCTURE
@@ -15,6 +14,8 @@
  */
  {
   "root": true,
+  // Additional projects are linted separately
+  "ignorePatterns": ["projects/**/*"],
   "overrides": [
     /**
      * -----------------------------------------------------
@@ -25,12 +26,38 @@
       "files": ["*.ts"],
       "parserOptions": {
         "project": [
-          "tsconfig.*?.json",
+          "tsconfig.app.json",
+          "tsconfig.spec.json",
           "e2e/tsconfig.json"
         ],
         "createDefaultProgram": true
       },
-      "extends": ["plugin:@angular-eslint/recommended"],
+      "extends": [
+        "plugin:@angular-eslint/recommended",
+
+        /**
+         * -----------------------------------------------------
+         * EXTRACT INLINE TEMPLATES (from within Component declarations)
+         * -----------------------------------------------------
+         *
+         * This extra extends is necessary to extract inline templates from within
+         * Component metadata, e.g.:
+         *
+         * @Component({
+         *  template: `<h1>Hello, World!</h1>`
+         * })
+         * ...
+         *
+         * It works by extracting the template part of the file and treating it as
+         * if it were a full .html file, and it will therefore match the configuration
+         * specific for *.html above when it comes to actual rules etc.
+         *
+         * NOTE: This processor will skip a lot of work when it runs if you don't use
+         * inline templates in your projects currently, and when it runs on a non-Component
+         * file so there is no great benefit in removing it, but you can if you want to.
+         */
+        "plugin:@angular-eslint/template/process-inline-templates"
+      ],
       "rules": {
         /**
          * Any TypeScript related rules you wish to use/reconfigure over and above the
@@ -54,12 +81,12 @@
      * COMPONENT TEMPLATES
      * -----------------------------------------------------
      *
-     * If you use inline templates, make sure you read the notes on the configuration
-     * object after this one to understand how they relate to this configuration directly
-     * below.
+     * If you use inline templates, make sure you you have read the notes on the extends
+     * in the "*.ts" overrides above to understand how they relate to this configuration
+     * directly below.
      */
     {
-      "files": ["*.component.html"],
+      "files": ["*.html"],
       "extends": ["plugin:@angular-eslint/template/recommended"],
       "rules": {
         /**
@@ -71,35 +98,6 @@
          */
         "max-len": ["error", { "code": 140 }]
       }
-    },
-
-    /**
-     * -----------------------------------------------------
-     * EXTRACT INLINE TEMPLATES (from within .component.ts)
-     * -----------------------------------------------------
-     *
-     * This extra piece of configuration is necessary to extract inline
-     * templates from within Component metadata, e.g.:
-     *
-     * @Component({
-     *  template: `<h1>Hello, World!</h1>`
-     * })
-     * ...
-     *
-     * It works by extracting the template part of the file and treating it as
-     * if it were a full .html file, and it will therefore match the configuration
-     * specific for *.component.html above when it comes to actual rules etc.
-     *
-     * NOTE: This processor will skip a lot of work when it runs if you don't use
-     * inline templates in your projects currently, so there is no great benefit
-     * in removing it, but you can if you want to.
-     *
-     * You won't specify any rules here. As noted above, the rules that are relevant
-     * to inline templates are the same as the ones defined for *.component.html.
-     */
-    {
-      "files": ["*.component.ts"],
-      "extends": ["plugin:@angular-eslint/template/process-inline-templates"]
     }
   ]
 }

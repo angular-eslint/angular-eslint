@@ -32,7 +32,6 @@ async function spawnLocalRegistry() {
   }, 10000);
 
   await new Promise((res, rej) => {
-    // Uncomment to see logs from Verdaccio
     localRegistryProcess.stdout.pipe(process.stdout);
     localRegistryProcess.stdout.on('data', (data: Buffer) => {
       collectedOutput.push(data.toString());
@@ -83,6 +82,22 @@ async function runNpmInstall() {
   return await subprocess;
 }
 
+async function runYarnInstall() {
+  if (process.env.npm_config_registry!.indexOf('http://localhost') === -1) {
+    throw Error(`
+      ------------------
+      💣 ERROR 💣 => $NPM_REGISTRY does not look like a local registry'
+      ------------------
+    `);
+  }
+
+  const subprocess = execa('yarn', ['install']);
+  subprocess.stdout.pipe(process.stdout);
+  subprocess.stderr.pipe(process.stderr);
+
+  return await subprocess;
+}
+
 async function runNgAdd() {
   if (process.env.npm_config_registry!.indexOf('http://localhost') === -1) {
     throw Error(`
@@ -103,6 +118,28 @@ async function runNgAdd() {
   return await subprocess;
 }
 
+async function runConvertTSLintToESLint(projectName: string) {
+  if (process.env.npm_config_registry!.indexOf('http://localhost') === -1) {
+    throw Error(`
+      ------------------
+      💣 ERROR 💣 => $NPM_REGISTRY does not look like a local registry'
+      ------------------
+    `);
+  }
+
+  const subprocess = execa('npx', [
+    'ng',
+    'g',
+    `@angular-eslint/schematics:convert-tslint-to-eslint`,
+    '--project',
+    projectName,
+  ]);
+  subprocess.stdout.pipe(process.stdout);
+  subprocess.stderr.pipe(process.stderr);
+
+  return await subprocess;
+}
+
 async function setupFixtures() {
   try {
     // @ts-ignore
@@ -112,6 +149,19 @@ async function setupFixtures() {
     process.chdir('fixtures/v1014-multi-project-manual-config');
     await runNpmInstall();
     await runNgAdd();
+
+    process.chdir('../v1020-single-project-yarn-auto-convert');
+    await runYarnInstall();
+    await runNgAdd();
+    await runConvertTSLintToESLint('v1020-single-project-yarn-auto-convert');
+
+    process.chdir('../v1020-multi-project-yarn-auto-convert');
+    await runYarnInstall();
+    await runNgAdd();
+    // Deliberately don't convert the root project first, so we can ensure this is also supported
+    await runConvertTSLintToESLint('another-app');
+    await runConvertTSLintToESLint('v1020-multi-project-yarn-auto-convert'); // root project
+    await runConvertTSLintToESLint('another-lib');
 
     cleanUp(0);
   } catch (e) {

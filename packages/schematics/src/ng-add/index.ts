@@ -16,14 +16,26 @@ function addAngularESLintPackages() {
       );
     }
 
+    if (host.exists('tsconfig.base.json')) {
+      throw new Error(
+        '\nError: Angular CLI v10.1.0 and later (and no `tsconfig.base.json`) is required in order to run this schematic. Please update your workspace and try again.\n',
+      );
+    }
+
     const projectPackageJSON = host.read('package.json')!.toString('utf-8');
     const json = JSON.parse(projectPackageJSON);
     json.devDependencies = json.devDependencies || {};
 
     /**
-     * eslint packages
+     * eslint and other 3rd party eslint plugin packages
      */
     json.devDependencies['eslint'] = packageJSON.devDependencies['eslint'];
+    json.devDependencies['eslint-plugin-import'] =
+      packageJSON.devDependencies['eslint-plugin-import'];
+    json.devDependencies['eslint-plugin-jsdoc'] =
+      packageJSON.devDependencies['eslint-plugin-jsdoc'];
+    json.devDependencies['eslint-plugin-prefer-arrow'] =
+      packageJSON.devDependencies['eslint-plugin-prefer-arrow'];
 
     /**
      * @angular-eslint packages

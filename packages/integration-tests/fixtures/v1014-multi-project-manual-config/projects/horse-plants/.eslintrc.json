@@ -1,11 +1,13 @@
 {
   "extends": ["../../.eslintrc.json"],
+  "ignorePatterns": ["!**/*"],
   "overrides": [
     {
       "files": ["*.ts"],
       "parserOptions": {
         "project": [
-          "projects/horse-plants/tsconfig.*?.json",
+          "projects/horse-plants/tsconfig.app.json",
+          "projects/horse-plants/tsconfig.spec.json",
           "projects/horse-plants/e2e/tsconfig.json"
         ],
         "createDefaultProgram": true
@@ -13,7 +15,7 @@
       "rules": {}
     },
     {
-      "files": ["*.component.html"],
+      "files": ["*.html"],
       "rules": {}
     }
   ]
