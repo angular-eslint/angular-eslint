@@ -53,7 +53,7 @@ This will handle installing the latest version of all the relevant packages for 
 
 ### Step 2 - Add new ESLint-related configuration
 
-The next thing to do is consider which "project" you want to migrate to use ESLint. If you have a single application in your workspace you will likely have just a single entry in the `projects` configuration object within your `angular.json` file. If you have a `projects/` directory in your workspace, you will have multiple entires in your `projects` configuration and you will need to chose which one you want to migrate using the `add-config-to-project` schematic.
+The next thing to do is consider which "project" you want to migrate to use ESLint. If you have a single application in your workspace you will likely have just a single entry in the `projects` configuration object within your `angular.json` file. If you have a `projects/` directory in your workspace, you will have multiple entries in your `projects` configuration and you will need to chose which one you want to migrate using the `add-config-to-project` schematic.
 
 You can run it like so:
 
