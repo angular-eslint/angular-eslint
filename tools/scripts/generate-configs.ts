@@ -218,6 +218,11 @@ const additionalTypeScriptRules: LinterConfigRules = {
   'comma-dangle': 'off',
 };
 
+console.log();
+console.log(
+  '------------------------------------------------ eslint-plugin/base.json ------------------------------------------------',
+);
+
 const baseConfig: LinterConfig = {
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -240,7 +245,7 @@ writeConfig(
 
 console.log();
 console.log(
-  '------------------------------------------------ all.json ------------------------------------------------',
+  '------------------------------------------------ eslint-plugin/all.json ------------------------------------------------',
 );
 const allConfig: LinterConfig = {
   extends: './configs/base.json',
@@ -254,21 +259,6 @@ const allConfig: LinterConfig = {
       {},
     ),
   },
-  overrides: [
-    {
-      files: ['*.component.html'],
-      parser: '@angular-eslint/template-parser',
-      plugins: ['@angular-eslint/template'],
-      rules: eslintPluginTemplateRuleEntries.reduce<LinterConfigRules>(
-        (config, entry) =>
-          reducer('@angular-eslint/template/', config, entry, {
-            errorLevel: 'error',
-            filterDeprecated: true,
-          }),
-        {},
-      ),
-    },
-  ],
 };
 writeConfig(
   allConfig,
@@ -277,7 +267,7 @@ writeConfig(
 
 console.log();
 console.log(
-  '------------------------------ recommended.json ------------------------------',
+  '------------------------------ eslint-plugin/recommended.json ------------------------------',
 );
 
 const recommendedConfig: LinterConfig = {
@@ -295,28 +285,77 @@ const recommendedConfig: LinterConfig = {
         {},
       ),
   },
-  overrides: [
-    {
-      files: ['*.component.html'],
-      parser: '@angular-eslint/template-parser',
-      plugins: ['@angular-eslint/template'],
-      rules: eslintPluginTemplateRuleEntries
-        .filter((entry) => !!entry[1].meta.docs?.recommended)
-        .reduce<LinterConfigRules>(
-          (config, entry) =>
-            reducer('@angular-eslint/template/', config, entry, {
-              filterDeprecated: false,
-              filterRequiresTypeChecking: 'exclude',
-            }),
-          {},
-        ),
-    },
-  ],
 };
 writeConfig(
   recommendedConfig,
   path.resolve(
     __dirname,
     '../../packages/eslint-plugin/src/configs/recommended.json',
+  ),
+);
+
+console.log();
+console.log(
+  '------------------------------------------------ eslint-plugin-template/base.json ------------------------------------------------',
+);
+
+const baseTemplateConfig: LinterConfig = {
+  parser: '@angular-eslint/template-parser',
+  plugins: ['@angular-eslint/template'],
+};
+writeConfig(
+  baseTemplateConfig,
+  path.resolve(
+    __dirname,
+    '../../packages/eslint-plugin-template/src/configs/base.json',
+  ),
+);
+
+console.log();
+console.log(
+  '------------------------------------------------ eslint-plugin-template/all.json ------------------------------------------------',
+);
+const allTemplateConfig: LinterConfig = {
+  extends: './configs/base.json',
+  rules: eslintPluginTemplateRuleEntries.reduce<LinterConfigRules>(
+    (config, entry) =>
+      reducer('@angular-eslint/template/', config, entry, {
+        errorLevel: 'error',
+        filterDeprecated: true,
+      }),
+    {},
+  ),
+};
+writeConfig(
+  allTemplateConfig,
+  path.resolve(
+    __dirname,
+    '../../packages/eslint-plugin-template/src/configs/all.json',
+  ),
+);
+
+console.log();
+console.log(
+  '------------------------------ eslint-plugin-template/recommended.json ------------------------------',
+);
+
+const recommendedTemplateConfig: LinterConfig = {
+  extends: './configs/base.json',
+  rules: eslintPluginTemplateRuleEntries
+    .filter((entry) => !!entry[1].meta.docs?.recommended)
+    .reduce<LinterConfigRules>(
+      (config, entry) =>
+        reducer('@angular-eslint/template/', config, entry, {
+          filterDeprecated: false,
+          filterRequiresTypeChecking: 'exclude',
+        }),
+      {},
+    ),
+};
+writeConfig(
+  recommendedTemplateConfig,
+  path.resolve(
+    __dirname,
+    '../../packages/eslint-plugin-template/src/configs/recommended.json',
   ),
 );

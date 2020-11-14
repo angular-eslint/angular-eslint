@@ -1,6 +1,8 @@
 import all from './configs/all.json';
 import base from './configs/base.json';
 import recommended from './configs/recommended.json';
+import ngCliCompat from './configs/ng-cli-compat.json';
+import ngCliCompatFormattingAddOn from './configs/ng-cli-compat--formatting-add-on.json';
 
 import componentClassSuffix, {
   RULE_NAME as componentClassSuffixRuleName,
@@ -101,6 +103,8 @@ export default {
     all,
     base,
     recommended,
+    ['ng-cli-compat']: ngCliCompat,
+    ['ng-cli-compat--formatting-add-on']: ngCliCompatFormattingAddOn,
   },
   rules: {
     [componentClassSuffixRuleName]: componentClassSuffix,

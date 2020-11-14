@@ -28,8 +28,10 @@ import {
 } from './utils';
 
 const eslintPluginConfigBaseOriginal: any = eslintPlugin.configs.base;
-const eslintPluginConfigRecommendedOriginal: any =
-  eslintPlugin.configs.recommended;
+const eslintPluginConfigNgCliCompatOriginal: any =
+  eslintPlugin.configs['ng-cli-compat'];
+const eslintPluginConfigNgCliCompatFormattingAddOnOriginal: any =
+  eslintPlugin.configs['ng-cli-compat--formatting-add-on'];
 const eslintPluginTemplateConfigRecommendedOriginal: any =
   eslintPluginTemplate.configs.recommended;
 
@@ -124,8 +126,11 @@ function convertRootTSLintConfig(
 
     // We mutate these as part of the transformations, so make copies first
     const eslintPluginConfigBase = { ...eslintPluginConfigBaseOriginal };
-    const eslintPluginConfigRecommended = {
-      ...eslintPluginConfigRecommendedOriginal,
+    const eslintPluginConfigNgCliCompat = {
+      ...eslintPluginConfigNgCliCompatOriginal,
+    };
+    const eslintPluginConfigNgCliCompatFormattingAddOn = {
+      ...eslintPluginConfigNgCliCompatFormattingAddOnOriginal,
     };
     const eslintPluginTemplateConfigRecommended = {
       ...eslintPluginTemplateConfigRecommendedOriginal,
@@ -135,10 +140,10 @@ function convertRootTSLintConfig(
      * Force these 2 rules to be defined in the user's .eslintrc.json by removing
      * them from the comparison config before deduping
      */
-    delete eslintPluginConfigRecommended.rules[
+    delete eslintPluginConfigNgCliCompat.rules[
       '@angular-eslint/directive-selector'
     ];
-    delete eslintPluginConfigRecommended.rules[
+    delete eslintPluginConfigNgCliCompat.rules[
       '@angular-eslint/component-selector'
     ];
 
@@ -146,12 +151,13 @@ function convertRootTSLintConfig(
 
     /**
      * To avoid users' configs being bigger and more verbose than necessary, we perform some
-     * deduplication against our underlying recommended configuration that they will extend from.
+     * deduplication against our underlying ng-cli-compat configuration that they will extend from.
      */
 
     dedupePluginsAgainstConfigs(convertedRootESLintConfig, [
-      eslintPluginConfigRecommended,
       eslintPluginConfigBase,
+      eslintPluginConfigNgCliCompat,
+      eslintPluginConfigNgCliCompatFormattingAddOn,
       {
         plugins: [
           '@angular-eslint/eslint-plugin', // this is another alias to consider when deduping
@@ -181,12 +187,14 @@ function convertRootTSLintConfig(
 
     dedupeRulesAgainstConfigs(convertedRootESLintConfig, [
       eslintPluginConfigBase,
-      eslintPluginConfigRecommended,
+      eslintPluginConfigNgCliCompat,
+      eslintPluginConfigNgCliCompatFormattingAddOn,
     ]);
 
     dedupeEnvAgainstConfigs(convertedRootESLintConfig, [
       eslintPluginConfigBase,
-      eslintPluginConfigRecommended,
+      eslintPluginConfigNgCliCompat,
+      eslintPluginConfigNgCliCompatFormattingAddOn,
     ]);
 
     const { codeRules, templateRules } = separateCodeAndTemplateRules(
@@ -213,7 +221,8 @@ function convertRootTSLintConfig(
           createDefaultProgram: true,
         },
         extends: [
-          'plugin:@angular-eslint/recommended',
+          'plugin:@angular-eslint/ng-cli-compat',
+          'plugin:@angular-eslint/ng-cli-compat--formatting-add-on',
           'plugin:@angular-eslint/template/process-inline-templates',
           ...(convertedRootESLintConfig.extends || []),
         ],
@@ -269,8 +278,11 @@ function convertNonRootTSLintConfig(
 
     // We mutate these as part of the transformations, so make copies first
     const eslintPluginConfigBase = { ...eslintPluginConfigBaseOriginal };
-    const eslintPluginConfigRecommended = {
-      ...eslintPluginConfigRecommendedOriginal,
+    const eslintPluginConfigNgCliCompat = {
+      ...eslintPluginConfigNgCliCompatOriginal,
+    };
+    const eslintPluginConfigNgCliCompatFormattingAddOn = {
+      ...eslintPluginConfigNgCliCompatFormattingAddOnOriginal,
     };
     const eslintPluginTemplateConfigRecommended = {
       ...eslintPluginTemplateConfigRecommendedOriginal,
@@ -280,10 +292,10 @@ function convertNonRootTSLintConfig(
      * Force these 2 rules to be defined in the user's .eslintrc.json by removing
      * them from the comparison config before deduping
      */
-    delete eslintPluginConfigRecommended.rules[
+    delete eslintPluginConfigNgCliCompat.rules[
       '@angular-eslint/directive-selector'
     ];
-    delete eslintPluginConfigRecommended.rules[
+    delete eslintPluginConfigNgCliCompat.rules[
       '@angular-eslint/component-selector'
     ];
 
@@ -291,13 +303,14 @@ function convertNonRootTSLintConfig(
 
     /**
      * To avoid users' configs being bigger and more verbose than necessary, we perform some
-     * deduplication against our underlying recommended configuration that they will extend from,
+     * deduplication against our underlying ng-cli-compat configuration that they will extend from,
      * as well as the root config.
      */
 
     dedupePluginsAgainstConfigs(convertedProjectESLintConfig, [
-      eslintPluginConfigRecommended,
       eslintPluginConfigBase,
+      eslintPluginConfigNgCliCompat,
+      eslintPluginConfigNgCliCompatFormattingAddOn,
       {
         plugins: [
           '@angular-eslint/eslint-plugin', // this is another alias to consider when deduping
@@ -327,13 +340,15 @@ function convertNonRootTSLintConfig(
 
     dedupeRulesAgainstConfigs(convertedProjectESLintConfig, [
       eslintPluginConfigBase,
-      eslintPluginConfigRecommended,
+      eslintPluginConfigNgCliCompat,
+      eslintPluginConfigNgCliCompatFormattingAddOn,
       rawRootESLintrcJson,
     ]);
 
     dedupeEnvAgainstConfigs(convertedProjectESLintConfig, [
       eslintPluginConfigBase,
-      eslintPluginConfigRecommended,
+      eslintPluginConfigNgCliCompat,
+      eslintPluginConfigNgCliCompatFormattingAddOn,
       rawRootESLintrcJson,
     ]);
 
@@ -511,8 +526,8 @@ function removeUndesiredRulesFromConfig(convertedConfig: Linter.Config) {
   delete convertedConfig.rules['no-restricted-imports'];
 
   /**
-   * We have handled this in eslint-plugin recommended.json, any subtle differences that would
-   * cause the deduplication logic not to find a match can be addressed via PRs to the recommended
+   * We have handled this in eslint-plugin ng-cli-compat.json, any subtle differences that would
+   * cause the deduplication logic not to find a match can be addressed via PRs to the ng-cli-compat
    * config in the plugin.
    */
   delete convertedConfig.rules['no-console'];

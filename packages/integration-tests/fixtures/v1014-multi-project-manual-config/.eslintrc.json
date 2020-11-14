@@ -33,7 +33,18 @@
         "createDefaultProgram": true
       },
       "extends": [
-        "plugin:@angular-eslint/recommended",
+        "plugin:@angular-eslint/ng-cli-compat",
+
+        /**
+         * NOTE:
+         *
+         * We strongly recommend using a dedicated code formatter, like Prettier, and not
+         * using a linter to enforce code formatting concerns.
+         *
+         * However, for maximum compatibility with how the Angular CLI has traditionally
+         * done things using TSLint, this code formatting related add-on config is provided.
+         */
+        "plugin:@angular-eslint/ng-cli-compat--formatting-add-on",
 
         /**
          * -----------------------------------------------------
