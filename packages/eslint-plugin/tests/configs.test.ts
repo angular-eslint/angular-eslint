@@ -20,6 +20,20 @@ describe('configs', () => {
     });
   });
 
+  describe('ng-cli-compat', () => {
+    it('exists', () => {
+      expect(eslintPlugin.configs['ng-cli-compat']).toBeDefined();
+    });
+  });
+
+  describe('ng-cli-compat--formatting-add-on', () => {
+    it('exists', () => {
+      expect(
+        eslintPlugin.configs['ng-cli-compat--formatting-add-on'],
+      ).toBeDefined();
+    });
+  });
+
   describe('all', () => {
     it('should contain all of the rules from the plugin', () => {
       expect(
