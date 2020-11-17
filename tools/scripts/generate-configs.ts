@@ -212,7 +212,7 @@ const additionalTypeScriptRules: LinterConfigRules = {
    */
 
   // ORIGINAL tslint.json -> "quotemark": [true, "single"],
-  quotes: ['error', 'single'],
+  quotes: ['error', 'single', { allowTemplateLiterals: true }],
 
   // ORIGINAL tslint.json -> "trailing-comma": false,
   'comma-dangle': 'off',
