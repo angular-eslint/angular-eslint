@@ -2,6 +2,18 @@
 
 These configs exist for your convenience. They contain configuration intended to save you time and effort when configuring your project by disabling rules known to conflict with this repository, or cause issues in Angular codebases.
 
+## `ng-cli-compat` and `ng-cli-compat--formatting-add-on`
+
+If you have used the `convert-tslint-to-eslint` schematic, you might have noticed that it generated a config which extend from `ng-cli-compat` and `ng-cli-compat--formatting-add-on`.
+
+As you might infer from the names, these configs exist to most closely match what the Angular CLI used to configure for TSLint and help us reduce a lot of the boilerplate config as part of the TSLint -> ESLint conversion.
+
+You are free to remove them or customize them in any way you wish. Over time, we will encourage people more and more to move towards the `recommended` config instead, because this will not be static, it will evolve as recommendations from the Angular Team and community do.
+
+Note: The equivalent TSLint config from the Angular CLI = both `ng-cli-compat` + `ng-cli-compat--formatting-add-on`.
+
+The reason for separating out the formatting related rules is that we fundamentally believe you should not use a linter for formatting concerns (you should use a dedicated code formatting tool like Prettier instead), and having them in a separate config that is extended from makes it super easy to remove if you choose to.
+
 ## `recommended`
 
 The recommended set is an **_opinionated_** set of rules that we think you should use because:
