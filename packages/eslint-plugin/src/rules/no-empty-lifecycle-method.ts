@@ -23,7 +23,7 @@ export default createESLintRule<Options, MessageIds>({
     },
     schema: [],
     messages: {
-      noEmptyLifecycleMethod: `Declaring {{methodName}} lifecycle method in a class is not recommended`,
+      noEmptyLifecycleMethod: `Lifecycle method {{methodName}} should not be empty`,
     },
   },
   defaultOptions: [],
