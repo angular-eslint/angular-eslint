@@ -29,6 +29,24 @@ We support Angular CLI `10.1.0` and onwards, including Angular CLI `11.x`. This 
 
 <br>
 
+## Usage with Nx Monorepos
+
+Nx leans on some, _but not all_ of the packages from this project.
+
+Specifically:
+
+- It does not use the builder to execute ESLint
+- It does not use the schematics to generate files and config, and is responsible for configuring ESLint via `.eslintrc.json` files in a way that makes sense for Nx workspaces.
+
+**We strongly recommend that you do not try and hand-craft setups with angular-eslint and Nx**. It is easy to gets things wrong.
+
+- **If using Angular CLI**, use the angular-eslint tooling as instructed below
+- **If using Nx**, defer to the Nx tooling itself to configure things for you, it has been designed and tested specifically for this purpose.
+
+Issues specific to Nx's support of Angular + ESLint should be filed on the Nx repo: https://github.com/nrwl/nx
+
+<br>
+
 ## Packages included in this project
 
 Please follow the links below for the packages you care about.
@@ -45,7 +63,7 @@ Please follow the links below for the packages you care about.
 
 <br>
 
-## Migrating from Codelyzer and TSLint
+## Migrating an Angular CLI project from Codelyzer and TSLint
 
 We have some tooling to make this as automated as possible, but the reality is it will always be somewhat project-specific as to how much work will be involved in the migration.
 
@@ -141,7 +159,13 @@ Therefore, the critical part of our configuration is the `"overrides"` array:
 
 By setting up our config in this way, we have complete control over what rules etc apply to what file types and our separate concerns remain clearer and easier to maintain.
 
-**For a full reference configuration example** check out the full manually configured Angular CLI integration test located within this monorepo. Check out the relevant configuration files:
+### Seriously, move (mostly) all configuration into `overrides`
+
+Even though you may be more familiar with including ESLint rules, plugins etc at the top level of your config object, we strongly recommend only really having `overrides` (and a couple of other things like `ignorePatterns`, `root` etc) at the top level and including all plugins, rules etc within the relevant block in the overrides array.
+
+Anything you apply at the top level will apply to ALL files, and as we've said above there is a really strict separation of concerns between source code and templates in Angular projects, so it is very rare that things apply to all files.
+
+Our schematics already do the "right" thing for you automatically in this regard, but if you have to configure things manually for whatever reason, **a full reference configuration example** can be found in the manual integration test located within this monorepo. Check out the relevant configuration files:
 
 - [packages/integration-tests/fixtures/v1014-multi-project-manual-config/.eslintrc.json](./packages/integration-tests/fixtures/v1014-multi-project-manual-config/.eslintrc.json)
 - [packages/integration-tests/fixtures/v1014-multi-project-manual-config/angular.json](./packages/integration-tests/fixtures/v1014-multi-project-manual-config/angular.json)
@@ -185,6 +209,76 @@ If you're using this without the Angular CLI Builder don't forget to include `.h
 ```
 eslint --ext .ts,.html
 ```
+
+<br>
+
+## Notes on performance
+
+### Background and understanding the trade-offs
+
+As you have hopefully understood from the above section on ESLint configuration what we are dealing with here is a set of tools that were _not_ designed and optimized for this specific use-case.
+
+In software development we are permanently faced with trade-offs. In this case you can think about it this way:
+
+On the one hand...
+
+> By using ESLint with Angular (both its TypeScript source code, and its HTML templates), we gain access to a truly massive ecosystem of existing rules, plugins and IDE extensions that we can instantly leverage on our projects.
+
+On the other...
+
+> The tooling will never be as fast or memory efficient, or as easy to configure, as something which was purpose built for a narrower use-case and which, well, does less...
+
+TSLint was more in the latter camp - it was purpose built for linting TypeScript source code (note, _not_ HTML), and so it was (depending on the codebase) faster and more efficient at doing it - but it was hugely lacking in community support, features, plugins, rules etc...
+
+Ok, so now we know which side of this particular trade-off we are on. That's an important start.
+
+### ESLint configs and performance
+
+Given the increased complexity around configuration, it is possible to end up with non-performant setups if we are not careful.
+
+The first thing is to understand that if you are majorly deviating from the configs that this tooling generates for you automatically, you are greatly increasing the risk of you running into those issues.
+
+The most important piece of ESLint configuration with regards to performance is the `parserOptions.project` option.
+
+It is what informs `typescript-eslint` what tsconfigs should be used to create TypeScript `Program`s behind the scenes as the lint process runs. Without this, it would not be possible to leverage rules which take advantage of type information, we could only lint based on raw syntax.
+
+If `parserOptions.project` has been configured, by default `typescript-eslint` will take this as a sign that you only want to lint files that are captured within the scope of the TypeScript `Program`s which are created. For example, let's say you have a `tsconfig.json` that contains the following:
+
+```jsonc
+{
+  // ...more config
+  "include" [
+    "src/**/*.ts"
+  ]
+}
+```
+
+If you provide that file as a reference for `typescript-eslint`, it will conclude that you only want to lint `.ts` files within `src/`. If you attempt to lint a file outside of this pattern, it will error. Seems reasonable, right?
+
+Unfortunately, for us in the context of the Angular CLI, we have an added complication. The Angular CLI generates one or more files which are not included in _any_ tsconfig scopes (such as `environment.prod.ts`).
+
+To prevent this causing errors for users, we therefore enable the `createDefaultProgram` option for `typescript-eslint` when we generate your config (it's `false` by default). This flag tells `typescript-eslint` not to error in the case in finds a file not in a `Program`, and instead create a whole new Program to encapsulate that file and then carry on.
+
+This is not ideal, but it works. However, can you see what we've now exposed ourselves to by enabling this?
+
+Now if we run linting - _any_ files which are included in the lint run (e.g. by the glob patterns in the builder config in `angular.json`) will be linted, and if they are not in scope of an existing tsconfig a whole new Program will be created for each one of them.
+
+Having patterns which do not makes sense together (files to lint vs provided tsconfigs) is usually how seriously non-performant setups can originate from your config. For small projects creating Programs takes a matter of seconds, for large projects, it can take far longer (depending on the circumstances).
+
+Here are some steps you can take if you're linting process feels "unreasonably" slow:
+
+- Run the process with debug information from `typescript-eslint` enabled:
+
+```sh
+DEBUG=typescript-eslint:* ng lint
+```
+
+You will now see a ton of logs which were not visible before. The two most common issues to look out for are:
+
+- If you see a lot of logs saying that particular files are not being found in existing `Program`s (the scenario we described above) and default `Program`s have to be created
+- If you see files included for a project that should not be
+
+If you are still having problems after you have done some digging into these, feel free to open and issue to discuss it further, providing as much context as possible (including the logs from the command above).
 
 <br>
 
