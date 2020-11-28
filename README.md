@@ -25,6 +25,16 @@ We would also be very grateful for documentation PRs!
 
 We support Angular CLI `10.1.0` and onwards, including Angular CLI `11.x`. This range is also captured by our integration-tests package.
 
+### Why Angular `10.1.0`?
+
+Angular `10.1.0` is significant because at version `10.0.0` the Angular Team switched to using project references and a `tsconfig.base.json` at the root of the project. This ultimately was deemed to be unsuccessful and in `10.1.0` they switched back to the original `tsconfig.json` without project references. Because angular-eslint and typescript-eslint care about your underlying TypeScript config, it is important that you are on the updated version which does _not_ use project references.
+
+The schematic will error if you try and run it when you still have a `tsconfig.base.json`.
+
+As usual, the Angular Team provided an automatic migration for these changes as part of `ng update`, so for most people this change wasn't an issue. If you updated manually (which is highly discouraged), then it is possible you did not apply this critical change and will therefore run into the error with the schematic.
+
+We recommend going back an running the automated migrations from `ng update`, or fixing things up manually as a last resort.
+
 **Please do not open issues related to unsupported versions of the Angular CLI**.
 
 <br>
@@ -164,6 +174,60 @@ By setting up our config in this way, we have complete control over what rules e
 Even though you may be more familiar with including ESLint rules, plugins etc at the top level of your config object, we strongly recommend only really having `overrides` (and a couple of other things like `ignorePatterns`, `root` etc) at the top level and including all plugins, rules etc within the relevant block in the overrides array.
 
 Anything you apply at the top level will apply to ALL files, and as we've said above there is a really strict separation of concerns between source code and templates in Angular projects, so it is very rare that things apply to all files.
+
+Let's take a look at full (but minimal), manual example of a config file (**although we recommend deferring to the schematics for automatic config generation whenever possible**):
+
+**.eslintrc.json**
+
+```jsonc
+{
+  "root": true,
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "parserOptions": {
+        "project": [
+          "tsconfig.app.json",
+          "tsconfig.spec.json",
+          "e2e/tsconfig.json"
+        ],
+        "createDefaultProgram": true
+      },
+      "extends": [
+        "plugin:@angular-eslint/recommended",
+        // This is required if you use inline templates in Components
+        "plugin:@angular-eslint/template/process-inline-templates"
+      ],
+      "rules": {
+        /**
+         * Any TypeScript source code (NOT TEMPLATE) related rules you wish to use/reconfigure over and above the
+         * recommended set provided by the @angular-eslint project would go here.
+         */
+        "@angular-eslint/directive-selector": [
+          "error",
+          { "type": "attribute", "prefix": "app", "style": "camelCase" }
+        ],
+        "@angular-eslint/component-selector": [
+          "error",
+          { "type": "element", "prefix": "app", "style": "kebab-case" }
+        ]
+      }
+    },
+    {
+      "files": ["*.html"],
+      "extends": ["plugin:@angular-eslint/template/recommended"],
+      "rules": {
+        /**
+         * Any template/HTML related rules you wish to use/reconfigure over and above the
+         * recommended set provided by the @angular-eslint project would go here.
+         */
+      }
+    }
+  ]
+}
+```
+
+> If I wanted to include other source code related rules extends etc, such as extending from `eslint:recommended`, then I would include that in the `"extends": []` within the `*.ts` override block, NOT the root of the config object.
 
 Our schematics already do the "right" thing for you automatically in this regard, but if you have to configure things manually for whatever reason, **a full reference configuration example** can be found in the manual integration test located within this monorepo. Check out the relevant configuration files:
 

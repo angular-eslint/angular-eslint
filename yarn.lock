@@ -4898,7 +4898,7 @@ code-point-at@^1.0.0:
   resolved "https://registry.yarnpkg.com/code-point-at/-/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
   integrity sha1-DQcLTQQ6W+ozovGkDi7bPZpMz3c=
 
-coffeescript@^1.10.0:
+coffeescript@1.12.7:
   version "1.12.7"
   resolved "https://registry.yarnpkg.com/coffeescript/-/coffeescript-1.12.7.tgz#e57ee4c4867cf7f606bfc4a0f2d550c0981ddd27"
   integrity sha512-pLXHFxQMPklVoEekowk8b3erNynC+DVJzChxS/LCBBgR6/8AJkHivkm//zbowcfc7BTCAjryuhx6gPqPRfsFoA==
@@ -5421,12 +5421,12 @@ crypto-browserify@^3.11.0:
     randombytes "^2.0.0"
     randomfill "^1.0.3"
 
-cson-parser@4.0.5:
-  version "4.0.5"
-  resolved "https://registry.yarnpkg.com/cson-parser/-/cson-parser-4.0.5.tgz#72d525b4832bdc0e6b7cf8a9dfeb249058d3fbce"
-  integrity sha512-XgloWiJcHy3TeuonPJseMfZOuwDpfczIQ12xw+DS2D8TCFxbj61gVlu8Cfs6lOwucQlrJFCvBTiovBqYMwPfQw==
+cson-parser@4.0.7:
+  version "4.0.7"
+  resolved "https://registry.yarnpkg.com/cson-parser/-/cson-parser-4.0.7.tgz#41cfbcb16f6481d7dbd8e80784db1d87a2bbd04d"
+  integrity sha512-BSnAl0gllETWjU9/lb8MmeqhsGaRINPwhoPiBjI/TJBRvKf/24I9EVqnwvmk6R3Gt66cMRSGVktl6QicxIb72g==
   dependencies:
-    coffeescript "^1.10.0"
+    coffeescript "1.12.7"
 
 css-color-names@0.0.4, css-color-names@^0.0.4:
   version "0.0.4"
@@ -14058,21 +14058,21 @@ tslib@^2.0.0:
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.0.1.tgz#410eb0d113e5b6356490eec749603725b021b43e"
   integrity sha512-SgIkNheinmEBgx1IUNirK0TUD4X9yjjBRTqqjggWCU3pUEqIk3/Uwl3yRixYKT6WjQuGiwDv4NomL3wqRCj+CQ==
 
-tslint-to-eslint-config@2.0.0-beta5:
-  version "2.0.0-beta5"
-  resolved "https://registry.yarnpkg.com/tslint-to-eslint-config/-/tslint-to-eslint-config-2.0.0-beta5.tgz#51dfd3061915886174b11575ebd1f8f6f3b4a52d"
-  integrity sha512-6v+jlBFT7fRLAR+MB1ptMtgcNVp+xRomtjPk2DIimZwydhBJBCp/j5gEKKIB1nankWPASDx9f5YUWOh/jwnuXg==
+tslint-to-eslint-config@2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/tslint-to-eslint-config/-/tslint-to-eslint-config-2.0.1.tgz#c814513ed47cce47ebf89588806b7c607d06b59e"
+  integrity sha512-RURU/zcBQpW9jKS7H2J6of4+64npTb0nrH7ND8tNhagMwryVjVnUDcucsl8DQuD7tO9RgjFO9bmJfDhyP0yV1w==
   dependencies:
     chalk "4.1.0"
     commander "6.2.0"
-    cson-parser "4.0.5"
+    cson-parser "4.0.7"
     eslint-config-prettier "6.15.0"
     glob "7.1.6"
     json5 "2.1.3"
     lodash "4.17.20"
     minimatch "3.0.4"
     tslint "6.1.3"
-    typescript "4.0.5"
+    typescript "4.1.2"
 
 tslint@6.1.3:
   version "6.1.3"
@@ -14207,6 +14207,11 @@ typescript@4.0.5:
   version "4.0.5"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.0.5.tgz#ae9dddfd1069f1cb5beb3ef3b2170dd7c1332389"
   integrity sha512-ywmr/VrTVCmNTJ6iV2LwIrfG1P+lv6luD8sUJs+2eI9NLGigaN+nUQc13iHqisq7bra9lnmUSYqbJvegraBOPQ==
+
+typescript@4.1.2:
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.1.2.tgz#6369ef22516fe5e10304aae5a5c4862db55380e9"
+  integrity sha512-thGloWsGH3SOxv1SoY7QojKi0tc+8FnOmiarEGMbd/lar7QOEd3hvlx3Fp5y6FlDUGl9L+pd4n2e+oToGMmhRQ==
 
 typescript@^3.9.5:
   version "3.9.7"
