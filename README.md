@@ -243,6 +243,42 @@ We have several premade configs within this project which you can extend from (a
 - Source code: https://github.com/angular-eslint/angular-eslint/blob/master/packages/eslint-plugin/src/configs/README.md
 - Templates: https://github.com/angular-eslint/angular-eslint/blob/master/packages/eslint-plugin-template/src/configs/README.md
 
+## Going fully manual (not recommended)
+
+Our premade configs handle the `parser` and `plugins` options for you behind the scenes so that your final config can be more concise.
+
+If for some reason you wanted to not include any of the premade recommended configs, or you wanted to significantly customize your setup, a fully manual example with the right parsers and plugins wired up (but no actual rules activated) would look like this:
+
+```jsonc
+{
+  "root": true,
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "parser": "@typescript-eslint/parser",
+      "parserOptions": {
+        "ecmaVersion": 2020,
+        "sourceType": "module",
+        "project": [
+          "tsconfig.app.json",
+          "tsconfig.spec.json",
+          "e2e/tsconfig.json"
+        ],
+        "createDefaultProgram": true
+      },
+      "plugins": ["@typescript-eslint", "@angular-eslint"],
+      "rules": {}
+    },
+    {
+      "files": ["*.html"],
+      "parser": "@angular-eslint/template-parser",
+      "plugins": ["@angular-eslint/template"],
+      "rules": {}
+    }
+  ]
+}
+```
+
 <br>
 
 ### Linting HTML files and inline-templates with the VSCode extension for ESLint
