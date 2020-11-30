@@ -259,6 +259,49 @@ describe('extract-inline-html', () => {
       });
     });
 
+    describe('components with inline templates and CRLF', () => {
+      let inlineTemplate = `\r\n
+        <div [style.height]="aBool ? '100px' : '200px'"></div>\r\n
+        <div [style]="{height: this.aBool ? '100px' : '200px'}"></div>\r\n
+        <div [style]="{height: '100px'}"></div>\r\n
+      `;
+
+      const testCases = [
+        {
+          input: `
+            import {Component} from '@angular/core';\r\n
+\r\n
+            @Component({\r\n
+              selector: 'app-root',\r\n
+              template: \`${inlineTemplate}\`,\r\n
+              styleUrls: ['./app.component.scss']\r\n
+            })\r\n
+            export class AppComponent {\r\n
+              public aBool = false;\r\n
+              public aStyle = {height: this.aBool ? '100px' : '200px'};\r\n
+            }\r\n
+        `,
+        },
+      ];
+
+      testCases.forEach((tc, i) => {
+        it(`should extract the inline HTML of components with inline templates, CASE: ${i}`, () => {
+          expect(
+            processors['extract-inline-html'].preprocess(
+              tc.input,
+              'test.component.ts',
+            ),
+          ).toEqual([
+            tc.input,
+            {
+              filename: 'inline-template-1.component.html',
+              text: inlineTemplate.replace(/\r\n/g, '\n'),
+            },
+          ]);
+        });
+      });
+    });
+
     /**
      * Currently explicitly unsupported...
      */
