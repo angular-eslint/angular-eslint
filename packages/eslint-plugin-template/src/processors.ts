@@ -1,6 +1,7 @@
 import ts from 'typescript';
 
 function quickGetRangeForTemplate(text: string, template: string) {
+  text = text.replace(/\r\n/g, '\n');
   const start = text.indexOf(template);
   return [start, start + template.length];
 }
