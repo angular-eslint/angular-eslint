@@ -162,6 +162,7 @@ export const checkSelector = (
   } else if (node && isTemplateLiteral(node) && node.quasis[0]) {
     listSelectors = CssSelector.parse(node.quasis[0].value.raw);
     hasExpectedPrefix = arrayify<string>(
+      // FIXME: @Gavin, use listSelector here
       node.quasis[0].value.raw as string,
     ).some((selector) =>
       prefixOption.some((prefix) =>
