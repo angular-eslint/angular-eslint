@@ -21,6 +21,9 @@ import noNegatedAsync, {
 import noPositiveTabindex, {
   RULE_NAME as noPositiveTabindexRuleName,
 } from './rules/no-positive-tabindex';
+import useTrackByFunction, {
+  RULE_NAME as useTrackByFunctionRuleName,
+} from './rules/use-track-by-function';
 
 export default {
   configs: {
@@ -37,5 +40,6 @@ export default {
     [noCallExpressionRuleName]: noCallExpression,
     [noNegatedAsyncRuleName]: noNegatedAsync,
     [noPositiveTabindexRuleName]: noPositiveTabindex,
+    [useTrackByFunctionRuleName]: useTrackByFunction,
   },
 };

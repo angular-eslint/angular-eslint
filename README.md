@@ -443,7 +443,7 @@ If you are still having problems after you have done some digging into these, fe
 | [`template-cyclomatic-complexity`]    | :white_check_mark: |
 | [`template-i18n`]                     |                    |
 | [`template-no-call-expression`]       | :white_check_mark: |
-| [`template-use-track-by-function`]    |                    |
+| [`template-use-track-by-function`]    | :white_check_mark: |
 | [`use-component-selector`]            | :white_check_mark: |
 | [`use-component-view-encapsulation`]  | :white_check_mark: |
 | [`use-pipe-decorator`]                | :white_check_mark: |
