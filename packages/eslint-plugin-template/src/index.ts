@@ -25,9 +25,7 @@ import i18n, { RULE_NAME as i18nRuleName } from './rules/i18n';
 import useTrackByFunction, {
   RULE_NAME as useTrackByFunctionRuleName,
 } from './rules/use-track-by-function';
-import i18n, { 
-  RULE_NAME as i18nRuleName 
-} from './rules/i18n';
+import i18n, { RULE_NAME as i18nRuleName } from './rules/i18n';
 
 export default {
   configs: {
