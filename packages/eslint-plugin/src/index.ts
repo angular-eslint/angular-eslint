@@ -97,6 +97,9 @@ import usePipeTransformInterface, {
 import pipePrefix, {
   RULE_NAME as pipePrefixRuleName,
 } from './rules/pipe-prefix';
+import importDestructuringSpacing, {
+  RULE_NAME as importDestructuringSpacingRuleName,
+} from './rules/import-destructuring-spacing';
 
 export default {
   configs: {
@@ -138,5 +141,6 @@ export default {
     [usePipeDecoratorRuleName]: usePipeDecorator,
     [usePipeTransformInterfaceRuleName]: usePipeTransformInterface,
     [pipePrefixRuleName]: pipePrefix,
+    [importDestructuringSpacingRuleName]: importDestructuringSpacing,
   },
 };

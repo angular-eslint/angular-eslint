@@ -462,7 +462,7 @@ If you are still having problems after you have done some digging into these, fe
 | [`component-selector`]           | :white_check_mark: |
 | [`directive-class-suffix`]       | :white_check_mark: |
 | [`directive-selector`]           | :white_check_mark: |
-| [`import-destructuring-spacing`] |                    |
+| [`import-destructuring-spacing`] | :white_check_mark: |
 | [`no-host-metadata-property`]    | :white_check_mark: |
 | [`no-inputs-metadata-property`]  | :white_check_mark: |
 | [`no-outputs-metadata-property`] | :white_check_mark: |
