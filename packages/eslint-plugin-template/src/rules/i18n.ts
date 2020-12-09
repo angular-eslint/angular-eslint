@@ -138,6 +138,11 @@ export default createESLintRule<Options, MessageIds>({
     // build a big list of attributes to ignore
     const allIgnoredAttribs: string[] = [...DEFAULT_IGNORE_ATTRIBUTES];
     if (ignoreAttributes && ignoreAttributes.length > 0) {
+    const { checkId, checkText, checkAttributes, ignoreAttributes } = options;
+
+    // build a big list of attributes to ignore
+    const allIgnoredAttribs: string[] = DEFAULT_IGNORE_ATTRIBUTES;
+    if (ignoreAttributes) {
       allIgnoredAttribs.push(...ignoreAttributes);
     }
 
@@ -154,6 +159,11 @@ export default createESLintRule<Options, MessageIds>({
       const startIndex = sourceCode.getIndexFromLoc(loc.start);
       let insertIndex = startIndex + 1;
       insertIndex += name.length;
+      if (!name) {
+        console.log(node);
+      } else {
+        insertIndex += name.length;
+      }
 
       // Check all of the text attributes on the element
       node.attributes.forEach((attrib: any) => {
@@ -226,6 +236,8 @@ export default createESLintRule<Options, MessageIds>({
           checkText &&
           (!checkIgnoreTags || checkIgnoreTags.indexOf(node.name) === -1)
         ) {
+
+        if (checkText) {
           // Attempted to check for child nodes that also include i18n
           // however these throw a template parser error before the linter
           // is allowed to run, so no need!
