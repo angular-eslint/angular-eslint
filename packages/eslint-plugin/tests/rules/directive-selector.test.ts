@@ -141,6 +141,56 @@ ruleTester.run(RULE_NAME, rule, {
         },
       ],
     },
+    {
+      code: `
+      @Directive({
+        selector: \`
+          [app-foo-bar]
+        \`
+      })
+      class Test {}
+      `,
+      options: [
+        {
+          type: ['attribute'],
+          prefix: ['app'],
+          style: 'kebab-case',
+        },
+      ],
+    },
+    {
+      code: `
+      @Directive({
+        selector: \`
+          [app-foo-bar],
+          [app-bar-foo]
+        \`
+      })
+      class Test {}
+      `,
+      options: [
+        {
+          type: ['attribute'],
+          prefix: ['app'],
+          style: 'kebab-case',
+        },
+      ],
+    },
+    {
+      code: `
+      @Directive({
+        selector: 'button[app-foo-bar]'
+      })
+      class Test {}
+      `,
+      options: [
+        {
+          type: ['attribute'],
+          prefix: ['app'],
+          style: 'kebab-case',
+        },
+      ],
+    },
   ],
   invalid: [
     convertAnnotatedSourceToFailureCase({

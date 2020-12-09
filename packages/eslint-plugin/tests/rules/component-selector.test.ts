@@ -141,6 +141,56 @@ ruleTester.run(RULE_NAME, rule, {
     },
     {
       code: `
+      @Component({
+        selector: \`
+          [appFooBar]
+        \`
+      })
+      class Test {}
+      `,
+      options: [
+        {
+          type: ['attribute', 'element'],
+          prefix: ['app', 'ng'],
+          style: 'camelCase',
+        },
+      ],
+    },
+    {
+      code: `
+      @Component({
+        selector: \`
+          [appFooBar],
+          [appBarFoo]
+        \`
+      })
+      class Test {}
+      `,
+      options: [
+        {
+          type: ['attribute', 'element'],
+          prefix: ['app', 'ng'],
+          style: 'camelCase',
+        },
+      ],
+    },
+    {
+      code: `
+      @Component({
+        selector: \`button[appFooBar]\`
+      })
+      class Test {}
+      `,
+      options: [
+        {
+          type: ['attribute', 'element'],
+          prefix: ['app', 'ng'],
+          style: 'camelCase',
+        },
+      ],
+    },
+    {
+      code: `
       @Directive({
         selector: 'app-foo-bar'
       })
