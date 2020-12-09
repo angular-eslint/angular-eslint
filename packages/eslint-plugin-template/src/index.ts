@@ -21,6 +21,7 @@ import noNegatedAsync, {
 import noPositiveTabindex, {
   RULE_NAME as noPositiveTabindexRuleName,
 } from './rules/no-positive-tabindex';
+import i18n, { RULE_NAME as i18nRuleName } from './rules/i18n';
 
 export default {
   configs: {
@@ -37,5 +38,6 @@ export default {
     [noCallExpressionRuleName]: noCallExpression,
     [noNegatedAsyncRuleName]: noNegatedAsync,
     [noPositiveTabindexRuleName]: noPositiveTabindex,
+    [i18nRuleName]: i18n,
   },
 };
