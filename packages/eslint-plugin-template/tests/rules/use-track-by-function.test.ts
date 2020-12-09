@@ -81,18 +81,6 @@ ruleTester.run(RULE_NAME, rule, {
       `,
       messageId,
     }),
-    //
-    // FIXME @angular/compiler can parse ngForTrackBy template text even if it's missing colon.
-    // convertAnnotatedSourceToFailureCase({
-    //   description: 'should fail when trackBy is missing colon',
-    //   annotatedSource: `
-    //     <div *ngFor="let item of [1, 2, 3]; trackBy trackByFn">
-    //          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    //       {{ item }}
-    //     </div>
-    //   `,
-    //   messageId,
-    // }),
     convertAnnotatedSourceToFailureCase({
       description: 'should fail when [ngForTrackBy] is missing in ng-template',
       annotatedSource: `
