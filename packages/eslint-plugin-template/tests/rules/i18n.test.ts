@@ -48,21 +48,66 @@ ruleTester.run(RULE_NAME, rule, {
             </span>
           </div>`,
     },
+    {
+      filename: 'test.component.html',
+      code: `
+        <div
+          tooltip="This tooltip property is ignored"
+        >
+          <span i18n>Some text to translate</span>
+        </div>`,
+      options: [
+        {
+          ignoreAttributes: ['tooltip'],
+          checkId: false,
+        },
+      ],
+    },
+    {
+      filename: 'test.component.html',
+      code: `
+        <div
+          i18n-tooltip="@@tooltip.label"
+          tooltip="This tooltip property is ignored"
+        >
+          <span>Some text to translate</span>
+        </div>`,
+      options: [
+        {
+          checkText: false,
+        },
+      ],
+    },
+    {
+      filename: 'test.component.html',
+      code: `
+        <div
+          i18n-tooltip="@@tooltip.label"
+          tooltip="This tooltip property is ignored"
+        >
+          <mat-icon>valid</mat-icon>
+        </div>`,
+      options: [
+        {
+          ignoreTags: ['mat-icon'],
+        },
+      ],
+    },
   ],
   invalid: [
     convertAnnotatedSourceToFailureCase({
       description: 'it should fail if i18n is missing',
       annotatedSource: `
-          <div>
-            <span>Some text to translate</span>
-            ~~~~~~
-          </div>`,
+            <div>
+                <span>Some text to translate</span>
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            </div>`,
       messageId: i18nText,
       annotatedOutput: `
-          <div>
-            <span i18n>Some text to translate</span>
-            ~~~~~~~~~~~
-          </div>`,
+            <div>
+                <span i18n>Some text to translate</span>
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            </div>`,
     }),
     {
       filename: 'test.component.html',
@@ -85,27 +130,27 @@ ruleTester.run(RULE_NAME, rule, {
         {
           messageId: i18nAttrib,
           line: 2,
-          column: 9,
+          column: 11,
         },
         {
           messageId: i18nIdOnAttrib,
           line: 2,
-          column: 9,
-        },
-        {
-          messageId: i18nAttrib,
-          line: 8,
           column: 11,
         },
         {
           messageId: i18nAttrib,
           line: 8,
-          column: 11,
+          column: 13,
+        },
+        {
+          messageId: i18nAttrib,
+          line: 8,
+          column: 13,
         },
         {
           messageId: i18nId,
           line: 13,
-          column: 13,
+          column: 15,
         },
       ],
       output: `
@@ -123,6 +168,11 @@ ruleTester.run(RULE_NAME, rule, {
               <span i18n>Some text to translate</span>
             </div>
           </div>`,
+      options: [
+        {
+          ignoreAttributes: [],
+        },
+      ],
     },
   ],
 });

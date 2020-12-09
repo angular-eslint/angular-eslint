@@ -31,6 +31,7 @@ const DEFAULT_IGNORE_ATTRIBUTES = [
   'tabindex',
   'formControlName',
 ];
+const DEFAULT_IGNORE_TAGS: string[] = [];
 
 type Options = [
   {
@@ -38,6 +39,7 @@ type Options = [
     checkText?: boolean;
     checkAttributes?: boolean;
     ignoreAttributes?: string[];
+    ignoreTags?: string[];
   },
 ];
 
@@ -46,6 +48,7 @@ const defaultOptions = {
   checkText: true,
   checkAttributes: true,
   ignoreAttributes: [''],
+  ignoreTags: [],
 };
 
 export type MessageIds =
@@ -91,6 +94,12 @@ export default createESLintRule<Options, MessageIds>({
               type: 'string',
             },
           },
+          ignoreTags: {
+            type: 'array',
+            items: {
+              type: 'string',
+            },
+          },
         },
         additionalProperties: false,
       },
@@ -116,11 +125,19 @@ export default createESLintRule<Options, MessageIds>({
   create(context, [options]) {
     const parserServices = getTemplateParserServices(context);
     const sourceCode = context.getSourceCode();
-    const { checkId, checkText, checkAttributes, ignoreAttributes } = options;
+    const {
+      checkId,
+      checkText,
+      checkAttributes,
+      ignoreAttributes,
+      ignoreTags,
+    } = options;
+    const checkIgnoreTags =
+      ignoreTags && ignoreTags.length > 0 ? ignoreTags : DEFAULT_IGNORE_TAGS;
 
     // build a big list of attributes to ignore
-    const allIgnoredAttribs: string[] = DEFAULT_IGNORE_ATTRIBUTES;
-    if (ignoreAttributes) {
+    const allIgnoredAttribs: string[] = [...DEFAULT_IGNORE_ATTRIBUTES];
+    if (ignoreAttributes && ignoreAttributes.length > 0) {
       allIgnoredAttribs.push(...ignoreAttributes);
     }
 
@@ -136,11 +153,7 @@ export default createESLintRule<Options, MessageIds>({
       const loc = parserServices.convertNodeSourceSpanToLoc(node.sourceSpan);
       const startIndex = sourceCode.getIndexFromLoc(loc.start);
       let insertIndex = startIndex + 1;
-      if (!name) {
-        console.log(node);
-      } else {
-        insertIndex += name.length;
-      }
+      insertIndex += name.length;
 
       // Check all of the text attributes on the element
       node.attributes.forEach((attrib: any) => {
@@ -209,8 +222,10 @@ export default createESLintRule<Options, MessageIds>({
         }
       } else {
         // No i18n attribute here!
-
-        if (checkText) {
+        if (
+          checkText &&
+          (!checkIgnoreTags || checkIgnoreTags.indexOf(node.name) === -1)
+        ) {
           // Attempted to check for child nodes that also include i18n
           // however these throw a template parser error before the linter
           // is allowed to run, so no need!
