@@ -24,6 +24,9 @@ import noPositiveTabindex, {
 import useTrackByFunction, {
   RULE_NAME as useTrackByFunctionRuleName,
 } from './rules/use-track-by-function';
+import noDistractingElements, {
+  RULE_NAME as noDistractingElementsRuleName,
+} from './rules/no-distracting-elements';
 
 export default {
   configs: {
@@ -41,5 +44,6 @@ export default {
     [noNegatedAsyncRuleName]: noNegatedAsync,
     [noPositiveTabindexRuleName]: noPositiveTabindex,
     [useTrackByFunctionRuleName]: useTrackByFunction,
+    [noDistractingElementsRuleName]: noDistractingElements,
   },
 };
