@@ -24,6 +24,9 @@ import noPositiveTabindex, {
 import useTrackByFunction, {
   RULE_NAME as useTrackByFunctionRuleName,
 } from './rules/use-track-by-function';
+import mouseEventsHaveKeyEvents, {
+  RULE_NAME as mouseEventsHaveKeyEventsRuleName,
+} from './rules/mouse-events-have-key-events-rule';
 
 export default {
   configs: {
@@ -41,5 +44,6 @@ export default {
     [noNegatedAsyncRuleName]: noNegatedAsync,
     [noPositiveTabindexRuleName]: noPositiveTabindex,
     [useTrackByFunctionRuleName]: useTrackByFunction,
+    [mouseEventsHaveKeyEventsRuleName]: mouseEventsHaveKeyEvents,
   },
 };
