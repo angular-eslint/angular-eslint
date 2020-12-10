@@ -58,5 +58,8 @@ function validateAttribute(
   context.report({
     loc,
     messageId: 'accessibilityValidAria',
+    data: {
+      attribute: attribute.name,
+    },
   });
 }
