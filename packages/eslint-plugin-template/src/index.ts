@@ -24,6 +24,9 @@ import noPositiveTabindex, {
 import useTrackByFunction, {
   RULE_NAME as useTrackByFunctionRuleName,
 } from './rules/use-track-by-function';
+import noDistractingElements, {
+  RULE_NAME as noDistractingElementsRuleName,
+} from './rules/no-distracting-elements';
 import i18n, { RULE_NAME as i18nRuleName } from './rules/i18n';
 import mouseEventsHaveKeyEvents, {
   RULE_NAME as mouseEventsHaveKeyEventsRuleName,
@@ -45,6 +48,7 @@ export default {
     [noNegatedAsyncRuleName]: noNegatedAsync,
     [noPositiveTabindexRuleName]: noPositiveTabindex,
     [useTrackByFunctionRuleName]: useTrackByFunction,
+    [noDistractingElementsRuleName]: noDistractingElements,
     [i18nRuleName]: i18n,
     [mouseEventsHaveKeyEventsRuleName]: mouseEventsHaveKeyEvents,
   },

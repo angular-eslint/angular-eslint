@@ -424,7 +424,7 @@ If you are still having problems after you have done some digging into these, fe
 | [`template-mouse-events-have-key-events`]       | :white_check_mark: |
 | [`template-no-any`]                             |                    |
 | [`template-no-autofocus`]                       | :white_check_mark: |
-| [`template-no-distracting-elements`]            |                    |
+| [`template-no-distracting-elements`]            | :white_check_mark: |
 | [`template-no-negated-async`]                   | :white_check_mark: |
 | [`use-injectable-provided-in`]                  | :white_check_mark: |
 | [`use-lifecycle-interface`]                     | :white_check_mark: |
