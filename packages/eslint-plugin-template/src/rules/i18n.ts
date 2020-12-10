@@ -154,7 +154,6 @@ export default createESLintRule<Options, MessageIds>({
       const startIndex = sourceCode.getIndexFromLoc(loc.start);
       let insertIndex = startIndex + 1;
       insertIndex += name.length;
-
       // Check all of the text attributes on the element
       node.attributes.forEach((attrib: any) => {
         if (attrib.i18n) {
@@ -179,7 +178,8 @@ export default createESLintRule<Options, MessageIds>({
             attrib.value !== 'false' &&
             !isSizeOrNumber(attrib.value) &&
             !attrib.name.startsWith(':xml') &&
-            !allIgnoredAttribs.includes(attrib.name)
+            !allIgnoredAttribs.includes(attrib.name) &&
+            !allIgnoredAttribs.includes(name + '[' + attrib.name + ']')
           ) {
             context.report({
               messageId: 'i18nAttrib',

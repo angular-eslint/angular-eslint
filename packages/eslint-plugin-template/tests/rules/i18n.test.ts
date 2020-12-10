@@ -108,6 +108,11 @@ ruleTester.run(RULE_NAME, rule, {
                 <span i18n>Some text to translate</span>
                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             </div>`,
+      options: [
+        {
+          ignoreAttributes: [],
+        },
+      ],
     }),
     {
       filename: 'test.component.html',
@@ -123,7 +128,7 @@ ruleTester.run(RULE_NAME, rule, {
               width="100px"
               label="Templates need translation too."
             >
-              <span i18n>Some text to translate</span>
+              <span i18n label="valid with i18n">Some text to translate</span>
             </div>
           </div>`,
       errors: [
@@ -165,12 +170,12 @@ ruleTester.run(RULE_NAME, rule, {
               width="100px"
               label="Templates need translation too."
             >
-              <span i18n>Some text to translate</span>
+              <span i18n label="valid with i18n">Some text to translate</span>
             </div>
           </div>`,
       options: [
         {
-          ignoreAttributes: [],
+          ignoreAttributes: ['span[label]'],
         },
       ],
     },
