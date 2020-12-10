@@ -27,6 +27,12 @@ ruleTester.run(RULE_NAME, rule, {
 `,
     `
     @Component({
+      styleUrls: ['../foobar.css']
+    })
+    class Test {}
+`,
+    `
+    @Component({
       styleUrls: ['./foo.css', './bar.css', './whatyouwant.css']
     })
     class Test {}
@@ -34,6 +40,12 @@ ruleTester.run(RULE_NAME, rule, {
     `
     @Component({
       templateUrl: './foobar.html'
+    })
+    class Test {}
+`,
+    `
+    @Component({
+      templateUrl: '../foobar.html'
     })
     class Test {}
 `,
@@ -78,17 +90,6 @@ ruleTester.run(RULE_NAME, rule, {
         @Component({
           templateUrl: 'foobar.html'
                        ~~~~~~~~~~~~~
-        })
-        class Test {}
-      `,
-      messageId,
-    }),
-    convertAnnotatedSourceToFailureCase({
-      description: `it should fail when a relative URL isn't prefixed with ./`,
-      annotatedSource: `
-        @Component({
-          templateUrl: '../foobar.html'
-                       ~~~~~~~~~~~~~~~~
         })
         class Test {}
       `,
