@@ -254,13 +254,6 @@ export default createESLintRule<Options, MessageIds>({
                   )),
             )
           ) {
-            node.children
-              .filter((item: any) => item.type === 'BoundText')
-              .forEach((item: any) => {
-                console.log(
-                  JSON.stringify(item.value.ast.strings.join('').trim()),
-                );
-              });
             // If at least one child is a text node then we probably need i18n
             context.report({
               messageId: 'i18nText',
