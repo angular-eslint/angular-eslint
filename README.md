@@ -421,10 +421,10 @@ If you are still having problems after you have done some digging into these, fe
 | [`template-accessibility-valid-aria`]           |                    |
 | [`template-banana-in-box`]                      | :white_check_mark: |
 | [`template-click-events-have-key-events`]       |                    |
-| [`template-mouse-events-have-key-events`]       |                    |
+| [`template-mouse-events-have-key-events`]       | :white_check_mark: |
 | [`template-no-any`]                             |                    |
 | [`template-no-autofocus`]                       | :white_check_mark: |
-| [`template-no-distracting-elements`]            |                    |
+| [`template-no-distracting-elements`]            | :white_check_mark: |
 | [`template-no-negated-async`]                   | :white_check_mark: |
 | [`use-injectable-provided-in`]                  | :white_check_mark: |
 | [`use-lifecycle-interface`]                     | :white_check_mark: |
@@ -445,7 +445,7 @@ If you are still having problems after you have done some digging into these, fe
 | [`relative-url-prefix`]               | :white_check_mark: |
 | [`template-conditional-complexity`]   |                    |
 | [`template-cyclomatic-complexity`]    | :white_check_mark: |
-| [`template-i18n`]                     |                    |
+| [`template-i18n`]                     | :white_check_mark: |
 | [`template-no-call-expression`]       | :white_check_mark: |
 | [`template-use-track-by-function`]    | :white_check_mark: |
 | [`use-component-selector`]            | :white_check_mark: |
