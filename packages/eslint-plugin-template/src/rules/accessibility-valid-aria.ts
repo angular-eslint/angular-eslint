@@ -1,4 +1,4 @@
-const { aria } = require('aria-query');
+import { aria } from 'aria-query';
 
 import {
   createESLintRule,
@@ -30,31 +30,33 @@ export default createESLintRule<Options, MessageIds>({
   create(context) {
     const parserServices = getTemplateParserServices(context);
 
-    return {
-      // Note that we're using the `Element` visitor except of `TextAttribute`
-      // and `BoundAttribute`, because `TextAttribute` visitor method is not called
-      // for element attributes 🤷
-      Element(node: any) {
-        const attributes = [...node.inputs, ...node.attributes];
-
-        for (const attribute of attributes) {
-          if (
-            !attribute.name.startsWith('aria-') ||
-            ariaAttributes.has(attribute.name)
-          ) {
-            continue;
-          }
-
-          const loc = parserServices.convertNodeSourceSpanToLoc(
-            attribute.sourceSpan,
-          );
-
-          context.report({
-            loc,
-            messageId: 'accessibilityValidAria',
-          });
-        }
+    return parserServices.defineTemplateBodyVisitor({
+      BoundAttribute(attribute: any) {
+        validateAttribute(context, parserServices, attribute);
       },
-    };
+      TextAttribute(attribute: any) {
+        validateAttribute(context, parserServices, attribute);
+      },
+    });
   },
 });
+
+function validateAttribute(
+  context: any,
+  parserServices: any,
+  attribute: any,
+): void {
+  if (
+    !attribute.name.startsWith('aria-') ||
+    ariaAttributes.has(attribute.name)
+  ) {
+    return;
+  }
+
+  const loc = parserServices.convertNodeSourceSpanToLoc(attribute.sourceSpan);
+
+  context.report({
+    loc,
+    messageId: 'accessibilityValidAria',
+  });
+}

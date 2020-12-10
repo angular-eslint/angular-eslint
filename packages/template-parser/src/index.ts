@@ -1,5 +1,5 @@
 import { parseTemplate, ParseSourceSpan } from '@angular/compiler';
-import EventEmitter from 'events';
+import { EventEmitter } from 'events';
 import { ScopeManager, Scope } from 'eslint-scope';
 // @ts-ignore
 import NodeEventGenerator from 'eslint/lib/linter/node-event-generator';
@@ -39,7 +39,7 @@ const KEYS: VisitorKeys = {
   BoundAttribute: ['value'],
   BoundEvent: ['handler'],
   BoundText: ['value'],
-  Element: ['children', 'inputs', 'outputs'],
+  Element: ['children', 'inputs', 'outputs', 'attributes'],
   Interpolation: ['expressions'],
   PrefixNot: ['expression'],
   Program: ['templateNodes'],
