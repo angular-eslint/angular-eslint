@@ -12,19 +12,20 @@ export type MessageIds = 'relativeUrlPrefix';
 export const RULE_NAME = 'relative-url-prefix';
 
 const STYLE_GUIDE_LINK = 'https://angular.io/styleguide#style-05-04';
+const RELATIVE_URL_PREFIX_MATCHER = /^\.{1,2}\/[^.\/]/;
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
   meta: {
     type: 'suggestion',
     docs: {
-      description: `The ./ prefix is standard syntax for relative URLs; don't depend on Angular's current ability to do without that prefix. See more at ${STYLE_GUIDE_LINK}.`,
+      description: `The ./ and ../ prefix is standard syntax for relative URLs; don't depend on Angular's current ability to do without that prefix. See more at ${STYLE_GUIDE_LINK}.`,
       category: 'Best Practices',
       recommended: false,
     },
     schema: [],
     messages: {
-      relativeUrlPrefix: `The ./ prefix is standard syntax for relative URLs. (${STYLE_GUIDE_LINK})`,
+      relativeUrlPrefix: `The ./ and ../ prefix is standard syntax for relative URLs. (${STYLE_GUIDE_LINK})`,
     },
   },
   defaultOptions: [],
@@ -36,7 +37,9 @@ export default createESLintRule<Options, MessageIds>({
           templateUrlProperty &&
           isLiteralWithStringValue(templateUrlProperty.value)
         ) {
-          if (!/^\.\/[^\.\/|\.\.\/]/.test(templateUrlProperty.value.value)) {
+          if (
+            !RELATIVE_URL_PREFIX_MATCHER.test(templateUrlProperty.value.value)
+          ) {
             context.report({
               node: templateUrlProperty.value,
               messageId: 'relativeUrlPrefix',
@@ -54,7 +57,7 @@ export default createESLintRule<Options, MessageIds>({
             styleUrlsProperty.value.elements.forEach((e) => {
               if (
                 isLiteralWithStringValue(e) &&
-                !/^\.\/[^\.\/|\.\.\/]/.test(e.value)
+                !RELATIVE_URL_PREFIX_MATCHER.test(e.value)
               ) {
                 context.report({
                   node: e,
