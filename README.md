@@ -445,7 +445,7 @@ If you are still having problems after you have done some digging into these, fe
 | [`relative-url-prefix`]               | :white_check_mark: |
 | [`template-conditional-complexity`]   |                    |
 | [`template-cyclomatic-complexity`]    | :white_check_mark: |
-| [`template-i18n`]                     |                    |
+| [`template-i18n`]                     | :white_check_mark: |
 | [`template-no-call-expression`]       | :white_check_mark: |
 | [`template-use-track-by-function`]    | :white_check_mark: |
 | [`use-component-selector`]            | :white_check_mark: |
