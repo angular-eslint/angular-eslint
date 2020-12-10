@@ -24,6 +24,9 @@ import noPositiveTabindex, {
 import useTrackByFunction, {
   RULE_NAME as useTrackByFunctionRuleName,
 } from './rules/use-track-by-function';
+import accessibilityElementsContent, {
+  RULE_NAME as accessibilityElementsContentRuleName,
+} from './rules/accessibility-elements-content';
 
 export default {
   configs: {
@@ -41,5 +44,6 @@ export default {
     [noNegatedAsyncRuleName]: noNegatedAsync,
     [noPositiveTabindexRuleName]: noPositiveTabindex,
     [useTrackByFunctionRuleName]: useTrackByFunction,
+    [accessibilityElementsContentRuleName]: accessibilityElementsContent,
   },
 };

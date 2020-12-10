@@ -414,7 +414,7 @@ If you are still having problems after you have done some digging into these, fe
 | [`no-pipe-impure`]                              | :white_check_mark: |
 | [`prefer-on-push-component-change-detection`]   | :white_check_mark: |
 | [`template-accessibility-alt-text`]             |                    |
-| [`template-accessibility-elements-content`]     |                    |
+| [`template-accessibility-elements-content`]     | :white_check_mark: |
 | [`template-accessibility-label-for`]            |                    |
 | [`template-accessibility-tabindex-no-positive`] | :white_check_mark: |
 | [`template-accessibility-table-scope`]          |                    |
