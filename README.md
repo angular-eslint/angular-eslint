@@ -420,7 +420,7 @@ If you are still having problems after you have done some digging into these, fe
 | [`template-accessibility-table-scope`]          |                    |
 | [`template-accessibility-valid-aria`]           |                    |
 | [`template-banana-in-box`]                      | :white_check_mark: |
-| [`template-click-events-have-key-events`]       |                    |
+| [`template-click-events-have-key-events`]       | :white_check_mark: |
 | [`template-mouse-events-have-key-events`]       | :white_check_mark: |
 | [`template-no-any`]                             |                    |
 | [`template-no-autofocus`]                       | :white_check_mark: |

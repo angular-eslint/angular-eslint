@@ -34,6 +34,9 @@ import i18n, { RULE_NAME as i18nRuleName } from './rules/i18n';
 import mouseEventsHaveKeyEvents, {
   RULE_NAME as mouseEventsHaveKeyEventsRuleName,
 } from './rules/mouse-events-have-key-events-rule';
+import clickEventsHaveKeyEvents, {
+  RULE_NAME as clickEventsHaveKeyEventsRuleName,
+} from './rules/click-events-have-key-events';
 
 export default {
   configs: {
@@ -55,5 +58,6 @@ export default {
     [noDistractingElementsRuleName]: noDistractingElements,
     [i18nRuleName]: i18n,
     [mouseEventsHaveKeyEventsRuleName]: mouseEventsHaveKeyEvents,
+    [clickEventsHaveKeyEventsRuleName]: clickEventsHaveKeyEvents,
   },
 };
