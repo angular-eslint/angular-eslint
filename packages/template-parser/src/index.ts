@@ -39,7 +39,7 @@ const KEYS: VisitorKeys = {
   BoundAttribute: ['value'],
   BoundEvent: ['handler'],
   BoundText: ['value'],
-  Element: ['children', 'inputs', 'outputs'],
+  Element: ['children', 'inputs', 'outputs', 'attributes'],
   Interpolation: ['expressions'],
   PrefixNot: ['expression'],
   Program: ['templateNodes'],
