@@ -68,10 +68,12 @@ ruleTester.run(RULE_NAME, rule, {
       annotatedSource: `
         {{ $any(framework).name }}
             ~~~~~~~~~~~~~~~
+       <div>
         {{ this.$any(framework).name }}
             ^^^^^^^^^^^^^^^^^^^^
+        </div>
         <a [href]="$any(getHref())">Click here</a>'
-                    ###############
+                   ###############
       `,
       messages: [
         {
