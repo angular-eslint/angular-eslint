@@ -25,27 +25,31 @@ export default createESLintRule<Options, MessageIds>({
   create(context) {
     const parserServices = getTemplateParserServices(context);
 
-    return {
-      Element(node: any) {
-        if (node.name === 'th') {
-          return;
-        }
-
-        const attributes = [...node.inputs, ...node.attributes];
-
-        for (const attribute of attributes) {
-          if (attribute.name !== 'scope') continue;
-
-          const loc = parserServices.convertNodeSourceSpanToLoc(
-            attribute.sourceSpan,
-          );
-
-          context.report({
-            loc,
-            messageId: 'accessibilityTableScope',
-          });
-        }
+    return parserServices.defineTemplateBodyVisitor({
+      BoundAttribute(attribute: any) {
+        validateAttribute(context, parserServices, attribute);
       },
-    };
+      TextAttribute(attribute: any) {
+        validateAttribute(context, parserServices, attribute);
+      },
+    });
   },
 });
+
+function validateAttribute(
+  context: any,
+  parserServices: ReturnType<typeof getTemplateParserServices>,
+  attribute: any,
+): void {
+  console.log;
+  if (attribute.parent.name === 'th' || attribute.name !== 'scope') {
+    return;
+  }
+
+  const loc = parserServices.convertNodeSourceSpanToLoc(attribute.sourceSpan);
+
+  context.report({
+    loc,
+    messageId: 'accessibilityTableScope',
+  });
+}
