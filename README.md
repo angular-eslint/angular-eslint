@@ -318,7 +318,7 @@ Please see the following issue for more information: https://github.com/microsof
 If you're using this without the Angular CLI Builder don't forget to include `.html` as one of the file extensions when running the eslint CLI, otherwise templates will not be linted, e.g.:
 
 ```
-eslint --ext .ts,.html
+eslint --ext .ts,.html .
 ```
 
 <br>

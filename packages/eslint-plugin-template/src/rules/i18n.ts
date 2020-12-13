@@ -3,7 +3,7 @@ import {
   getTemplateParserServices,
 } from '../utils/create-eslint-rule';
 
-const TEXT_TYPE_NAMES = ['Text', 'BoundText', 'Icu'];
+const TEXT_TYPE_NAMES = ['Text', 'Icu'];
 const ATTRIB_I18N = 'i18n';
 const DEFAULT_IGNORE_ATTRIBUTES = [
   'class',
@@ -32,6 +32,7 @@ const DEFAULT_IGNORE_ATTRIBUTES = [
   'formControlName',
 ];
 const DEFAULT_IGNORE_TAGS: string[] = [];
+const DEFAULT_BOUND_TEXT_ALLOWED_PATTERN = /[A-Z]/i;
 
 type Options = [
   {
@@ -40,6 +41,7 @@ type Options = [
     checkAttributes?: boolean;
     ignoreAttributes?: string[];
     ignoreTags?: string[];
+    boundTextAllowedPattern?: string;
   },
 ];
 
@@ -49,6 +51,7 @@ const defaultOptions = {
   checkAttributes: true,
   ignoreAttributes: [''],
   ignoreTags: [],
+  boundTextAllowedPattern: '',
 };
 
 export type MessageIds =
@@ -100,6 +103,9 @@ export default createESLintRule<Options, MessageIds>({
               type: 'string',
             },
           },
+          boundTextAllowedPattern: {
+            type: 'string',
+          },
         },
         additionalProperties: false,
       },
@@ -131,9 +137,13 @@ export default createESLintRule<Options, MessageIds>({
       checkAttributes,
       ignoreAttributes,
       ignoreTags,
+      boundTextAllowedPattern,
     } = options;
     const checkIgnoreTags =
       ignoreTags && ignoreTags.length > 0 ? ignoreTags : DEFAULT_IGNORE_TAGS;
+    const checkBoundTextAllowedPattern = boundTextAllowedPattern
+      ? new RegExp(boundTextAllowedPattern)
+      : DEFAULT_BOUND_TEXT_ALLOWED_PATTERN;
 
     // build a big list of attributes to ignore
     const allIgnoredAttribs: string[] = [...DEFAULT_IGNORE_ATTRIBUTES];
@@ -233,8 +243,15 @@ export default createESLintRule<Options, MessageIds>({
           // Need to check the children
           if (
             node.children &&
-            node.children.some((child: any) =>
-              TEXT_TYPE_NAMES.includes(child.type),
+            node.children.some(
+              (child: any) =>
+                // is type of text node
+                TEXT_TYPE_NAMES.includes(child.type) ||
+                // bound text that has no text
+                (child.type === 'BoundText' &&
+                  checkBoundTextAllowedPattern.test(
+                    child.value.ast.strings.join('').trim(),
+                  )),
             )
           ) {
             // If at least one child is a text node then we probably need i18n

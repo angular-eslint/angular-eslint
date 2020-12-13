@@ -93,6 +93,17 @@ ruleTester.run(RULE_NAME, rule, {
         },
       ],
     },
+    {
+      filename: 'test.component.html',
+      code: `
+        <div
+          i18n-tooltip="@@tooltip.label"
+          tooltip="This tooltip property is ignored"
+        >
+          -{{data_from_backend}}
+        </div>`,
+      options: [{}],
+    },
   ],
   invalid: [
     convertAnnotatedSourceToFailureCase({
@@ -179,5 +190,24 @@ ruleTester.run(RULE_NAME, rule, {
         },
       ],
     },
+    convertAnnotatedSourceToFailureCase({
+      description: 'it should fail because of the custom pattern',
+      annotatedSource: `
+      <div>
+        <span>-{{data_from_backend}}</span>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      </div>`,
+      messageId: i18nText,
+      annotatedOutput: `
+      <div>
+        <span i18n>-{{data_from_backend}}</span>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      </div>`,
+      options: [
+        {
+          boundTextAllowedPattern: '-',
+        },
+      ],
+    }),
   ],
 });
