@@ -353,7 +353,7 @@ export const getDecoratorProperty = (
 
   const properties = arg.properties as TSESTree.Property[];
   const property = properties.find(
-    (prop) => !!(prop.key && isIdentifier(prop.key) && prop.key.name === name),
+    (prop) => prop.key && isIdentifier(prop.key) && prop.key.name === name,
   );
 
   if (!property || !isProperty(property)) return undefined;
@@ -425,7 +425,7 @@ export const SelectorValidator = {
   },
 
   kebabCase(selector: string): boolean {
-    return /^[a-z0-9\-]+\-[a-z0-9\-]+$/.test(selector);
+    return /^[a-z0-9\-]+-[a-z0-9\-]+$/.test(selector);
   },
 
   prefix(

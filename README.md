@@ -1,3 +1,7 @@
+<p align="center">
+  <img alt="angular-eslint-logo" src="https://user-images.githubusercontent.com/900523/101620109-0e5e1f00-3a0c-11eb-8c40-b1d9a8bb3c4c.png" width="128" height="128" />
+</p>
+
 <h1 align="center">Angular ESLint</h1>
 
 <p align="center">Monorepo for all the tooling which enables ESLint to lint Angular projects</p>
@@ -314,7 +318,7 @@ Please see the following issue for more information: https://github.com/microsof
 If you're using this without the Angular CLI Builder don't forget to include `.html` as one of the file extensions when running the eslint CLI, otherwise templates will not be linted, e.g.:
 
 ```
-eslint --ext .ts,.html
+eslint --ext .ts,.html .
 ```
 
 <br>
@@ -410,17 +414,17 @@ If you are still having problems after you have done some digging into these, fe
 | [`no-pipe-impure`]                              | :white_check_mark: |
 | [`prefer-on-push-component-change-detection`]   | :white_check_mark: |
 | [`template-accessibility-alt-text`]             |                    |
-| [`template-accessibility-elements-content`]     |                    |
+| [`template-accessibility-elements-content`]     | :white_check_mark: |
 | [`template-accessibility-label-for`]            |                    |
 | [`template-accessibility-tabindex-no-positive`] | :white_check_mark: |
 | [`template-accessibility-table-scope`]          |                    |
-| [`template-accessibility-valid-aria`]           |                    |
+| [`template-accessibility-valid-aria`]           | :white_check_mark: |
 | [`template-banana-in-box`]                      | :white_check_mark: |
 | [`template-click-events-have-key-events`]       |                    |
-| [`template-mouse-events-have-key-events`]       |                    |
+| [`template-mouse-events-have-key-events`]       | :white_check_mark: |
 | [`template-no-any`]                             | :white_check_mark: |
 | [`template-no-autofocus`]                       | :white_check_mark: |
-| [`template-no-distracting-elements`]            |                    |
+| [`template-no-distracting-elements`]            | :white_check_mark: |
 | [`template-no-negated-async`]                   | :white_check_mark: |
 | [`use-injectable-provided-in`]                  | :white_check_mark: |
 | [`use-lifecycle-interface`]                     | :white_check_mark: |
@@ -441,9 +445,9 @@ If you are still having problems after you have done some digging into these, fe
 | [`relative-url-prefix`]               | :white_check_mark: |
 | [`template-conditional-complexity`]   |                    |
 | [`template-cyclomatic-complexity`]    | :white_check_mark: |
-| [`template-i18n`]                     |                    |
+| [`template-i18n`]                     | :white_check_mark: |
 | [`template-no-call-expression`]       | :white_check_mark: |
-| [`template-use-track-by-function`]    |                    |
+| [`template-use-track-by-function`]    | :white_check_mark: |
 | [`use-component-selector`]            | :white_check_mark: |
 | [`use-component-view-encapsulation`]  | :white_check_mark: |
 | [`use-pipe-decorator`]                | :white_check_mark: |

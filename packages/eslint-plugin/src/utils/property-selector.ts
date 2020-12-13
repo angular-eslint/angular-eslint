@@ -148,26 +148,11 @@ export const checkSelector = (
       : SelectorValidator.camelCase;
 
   let listSelectors = null;
-  let hasExpectedPrefix = null;
 
   if (node && isLiteral(node)) {
     listSelectors = CssSelector.parse(node.raw);
-    hasExpectedPrefix = arrayify<string>(
-      node.value as string,
-    ).some((selector) =>
-      prefixOption.some((prefix) =>
-        SelectorValidator.prefix(prefix, styleOption)(selector),
-      ),
-    );
   } else if (node && isTemplateLiteral(node) && node.quasis[0]) {
     listSelectors = CssSelector.parse(node.quasis[0].value.raw);
-    hasExpectedPrefix = arrayify<string>(
-      node.quasis[0].value.raw as string,
-    ).some((selector) =>
-      prefixOption.some((prefix) =>
-        SelectorValidator.prefix(prefix, styleOption)(selector),
-      ),
-    );
   }
 
   if (!listSelectors) {
@@ -175,6 +160,12 @@ export const checkSelector = (
   }
 
   const validSelectors = getValidSelectors(listSelectors, types);
+
+  const hasExpectedPrefix = validSelectors.some((selector) =>
+    prefixOption.some((prefix) =>
+      SelectorValidator.prefix(prefix, styleOption)(selector),
+    ),
+  );
 
   const hasExpectedStyle = validSelectors.some((selector) =>
     styleValidator(selector),

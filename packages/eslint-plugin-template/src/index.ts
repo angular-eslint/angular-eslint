@@ -21,6 +21,22 @@ import noNegatedAsync, {
 import noPositiveTabindex, {
   RULE_NAME as noPositiveTabindexRuleName,
 } from './rules/no-positive-tabindex';
+import useTrackByFunction, {
+  RULE_NAME as useTrackByFunctionRuleName,
+} from './rules/use-track-by-function';
+import accessibilityElementsContent, {
+  RULE_NAME as accessibilityElementsContentRuleName,
+} from './rules/accessibility-elements-content';
+import noDistractingElements, {
+  RULE_NAME as noDistractingElementsRuleName,
+} from './rules/no-distracting-elements';
+import i18n, { RULE_NAME as i18nRuleName } from './rules/i18n';
+import mouseEventsHaveKeyEvents, {
+  RULE_NAME as mouseEventsHaveKeyEventsRuleName,
+} from './rules/mouse-events-have-key-events-rule';
+import accessibilityValidAria, {
+  RULE_NAME as accessibilityValidAriaRuleName,
+} from './rules/accessibility-valid-aria';
 
 export default {
   configs: {
@@ -37,5 +53,11 @@ export default {
     [noCallExpressionRuleName]: noCallExpression,
     [noNegatedAsyncRuleName]: noNegatedAsync,
     [noPositiveTabindexRuleName]: noPositiveTabindex,
+    [useTrackByFunctionRuleName]: useTrackByFunction,
+    [accessibilityElementsContentRuleName]: accessibilityElementsContent,
+    [noDistractingElementsRuleName]: noDistractingElements,
+    [i18nRuleName]: i18n,
+    [mouseEventsHaveKeyEventsRuleName]: mouseEventsHaveKeyEvents,
+    [accessibilityValidAriaRuleName]: accessibilityValidAria,
   },
 };
