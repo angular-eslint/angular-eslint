@@ -37,6 +37,9 @@ import mouseEventsHaveKeyEvents, {
 import accessibilityValidAria, {
   RULE_NAME as accessibilityValidAriaRuleName,
 } from './rules/accessibility-valid-aria';
+import conditionalСomplexity, {
+  RULE_NAME as conditionalСomplexityRuleName,
+} from './rules/conditional-complexity';
 
 export default {
   configs: {
@@ -59,5 +62,6 @@ export default {
     [i18nRuleName]: i18n,
     [mouseEventsHaveKeyEventsRuleName]: mouseEventsHaveKeyEvents,
     [accessibilityValidAriaRuleName]: accessibilityValidAria,
+    [conditionalСomplexityRuleName]: conditionalСomplexity,
   },
 };
