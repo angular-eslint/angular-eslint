@@ -3,6 +3,7 @@
   "rules": {
     "@angular-eslint/template/banana-in-box": "error",
     "@angular-eslint/template/cyclomatic-complexity": "error",
+    "@angular-eslint/template/no-any": "error",
     "@angular-eslint/template/no-autofocus": "error",
     "@angular-eslint/template/no-call-expression": "error",
     "@angular-eslint/template/no-negated-async": "error",

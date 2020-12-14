@@ -422,7 +422,7 @@ If you are still having problems after you have done some digging into these, fe
 | [`template-banana-in-box`]                      | :white_check_mark: |
 | [`template-click-events-have-key-events`]       |                    |
 | [`template-mouse-events-have-key-events`]       | :white_check_mark: |
-| [`template-no-any`]                             |                    |
+| [`template-no-any`]                             | :white_check_mark: |
 | [`template-no-autofocus`]                       | :white_check_mark: |
 | [`template-no-distracting-elements`]            | :white_check_mark: |
 | [`template-no-negated-async`]                   | :white_check_mark: |
