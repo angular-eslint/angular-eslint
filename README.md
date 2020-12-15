@@ -417,7 +417,7 @@ If you are still having problems after you have done some digging into these, fe
 | [`template-accessibility-elements-content`]     | :white_check_mark: |
 | [`template-accessibility-label-for`]            |                    |
 | [`template-accessibility-tabindex-no-positive`] | :white_check_mark: |
-| [`template-accessibility-table-scope`]          |                    |
+| [`template-accessibility-table-scope`]          | :white_check_mark: |
 | [`template-accessibility-valid-aria`]           | :white_check_mark: |
 | [`template-banana-in-box`]                      | :white_check_mark: |
 | [`template-click-events-have-key-events`]       |                    |
