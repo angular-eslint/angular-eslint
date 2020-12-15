@@ -117,6 +117,8 @@ function preprocessNode(node: Node) {
 
   const keys = KEYS[node.type] || getFallbackKeys(node);
 
+  console.log('preprocessNode: node = ', node);
+
   for (i = 0; i < keys.length; ++i) {
     const child = node[keys[i]];
     const isArr = Array.isArray(child);
@@ -135,7 +137,10 @@ function preprocessNode(node: Node) {
           // Angular sometimes uses a prop called type already
           c.__originalType = c.type;
         }
-        if (!c.type) {
+        // Pay attention to the condition `typeof c.type === number`,
+        // Angular compiler sets `type` property for some AST nodes,
+        // e.g. for the `BoundAttribute`, which is a `BindingType`.
+        if (!c.type || typeof c.type === 'number') {
           c.type = c.constructor.name;
         }
         if (isNode(c)) {
