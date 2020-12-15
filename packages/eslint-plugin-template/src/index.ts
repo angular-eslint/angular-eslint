@@ -37,6 +37,12 @@ import mouseEventsHaveKeyEvents, {
 import accessibilityAltText, {
   RULE_NAME as accessibilityAltTextRuleName,
 } from './rules/accessibility-alt-text';
+import accessibilityValidAria, {
+  RULE_NAME as accessibilityValidAriaRuleName,
+} from './rules/accessibility-valid-aria';
+import accessibilityTableScope, {
+  RULE_NAME as accessibilityTableScopeRuleName,
+} from './rules/accessibility-table-scope';
 
 export default {
   configs: {
@@ -59,5 +65,7 @@ export default {
     [i18nRuleName]: i18n,
     [mouseEventsHaveKeyEventsRuleName]: mouseEventsHaveKeyEvents,
     [accessibilityAltTextRuleName]: accessibilityAltText,
+    [accessibilityValidAriaRuleName]: accessibilityValidAria,
+    [accessibilityTableScopeRuleName]: accessibilityTableScope,
   },
 };
