@@ -117,8 +117,6 @@ function preprocessNode(node: Node) {
 
   const keys = KEYS[node.type] || getFallbackKeys(node);
 
-  console.log('preprocessNode: node = ', node);
-
   for (i = 0; i < keys.length; ++i) {
     const child = node[keys[i]];
     const isArr = Array.isArray(child);
