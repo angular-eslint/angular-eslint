@@ -40,6 +40,9 @@ import accessibilityValidAria, {
 import accessibilityTableScope, {
   RULE_NAME as accessibilityTableScopeRuleName,
 } from './rules/accessibility-table-scope';
+import conditionalСomplexity, {
+  RULE_NAME as conditionalСomplexityRuleName,
+} from './rules/conditional-complexity';
 
 export default {
   configs: {
@@ -63,5 +66,6 @@ export default {
     [mouseEventsHaveKeyEventsRuleName]: mouseEventsHaveKeyEvents,
     [accessibilityValidAriaRuleName]: accessibilityValidAria,
     [accessibilityTableScopeRuleName]: accessibilityTableScope,
+    [conditionalСomplexityRuleName]: conditionalСomplexity,
   },
 };
