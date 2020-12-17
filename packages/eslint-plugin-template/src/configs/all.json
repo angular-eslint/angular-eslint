@@ -14,6 +14,7 @@
     "@angular-eslint/template/accessibility-table-scope": "error",
     "@angular-eslint/template/no-distracting-elements": "error",
     "@angular-eslint/template/i18n": "error",
-    "@angular-eslint/template/mouse-events-have-key-events": "error"
+    "@angular-eslint/template/mouse-events-have-key-events": "error",
+    "@angular-eslint/template/conditional-complexity": "error"
   }
 }

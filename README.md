@@ -443,7 +443,7 @@ If you are still having problems after you have done some digging into these, fe
 | [`no-unused-css`]                     |                    |
 | [`prefer-output-readonly`]            | :white_check_mark: |
 | [`relative-url-prefix`]               | :white_check_mark: |
-| [`template-conditional-complexity`]   |                    |
+| [`template-conditional-complexity`]   | :white_check_mark: |
 | [`template-cyclomatic-complexity`]    | :white_check_mark: |
 | [`template-i18n`]                     | :white_check_mark: |
 | [`template-no-call-expression`]       | :white_check_mark: |
