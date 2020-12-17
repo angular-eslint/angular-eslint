@@ -40,8 +40,12 @@ ruleTester.run(RULE_NAME, rule, {
       messageId,
       description: 'should fail image does not have alt text',
       annotatedSource: `
-        <img src="foo">
-        ~~~~~~~~~~~~~~~
+        <ng-template>
+          <div>
+            <img src="foo">
+            ~~~~~~~~~~~~~~~
+          </div>
+        </ng-template>
       `,
     }),
     convertAnnotatedSourceToFailureCase({
@@ -56,8 +60,8 @@ ruleTester.run(RULE_NAME, rule, {
       messageId,
       description: 'should fail when area does not have alt or label text',
       annotatedSource: `
-        <area>
-        ~~~~~~
+        <area />
+        ~~~~~~~~
       `,
     }),
     convertAnnotatedSourceToFailureCase({

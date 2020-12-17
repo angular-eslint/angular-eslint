@@ -38,8 +38,9 @@ export default createESLintRule<Options, MessageIds>({
         const isValid = isValidNode(node);
 
         if (!isValid) {
-          const loc = parserServices.convertNodeSourceSpanToLoc(
-            node.sourceSpan,
+          const loc = parserServices.convertElementSourceSpanToLoc(
+            context,
+            node,
           );
 
           context.report({
