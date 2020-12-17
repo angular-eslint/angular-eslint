@@ -67,22 +67,32 @@ function lookupTheVoidNode(
   rootNodes: Node[],
   sourceSpan: ParseSourceSpan,
 ): Node | null {
-  let voidNodeBeingLookedUp: Node | null = null;
-
   for (const node of rootNodes) {
-    if (node instanceof Element) {
-      voidNodeBeingLookedUp = lookupTheVoidNode(node.children, sourceSpan);
-    }
-
     if (
+      // We can't compare by `node.sourceSpan == sourceSpan` since references
+      // will differ. But comparing `line` and` offset` is the
+      // correct way, because they will not differ.
       node.sourceSpan.start.line === sourceSpan.start.line &&
       node.sourceSpan.start.offset === sourceSpan.start.offset
     ) {
-      voidNodeBeingLookedUp = node;
+      return node;
+    }
+
+    // `HtmlParser` will return a list of root nodes, these nodes
+    // can be either text or elements. Elements might have child elements.
+    if (node instanceof Element) {
+      const voidNodeBeingLookedUp = lookupTheVoidNode(
+        node.children,
+        sourceSpan,
+      );
+
+      if (voidNodeBeingLookedUp !== null) {
+        return voidNodeBeingLookedUp;
+      }
     }
   }
 
-  return voidNodeBeingLookedUp;
+  return null;
 }
 
 let htmlParser: HtmlParser | null = null;
