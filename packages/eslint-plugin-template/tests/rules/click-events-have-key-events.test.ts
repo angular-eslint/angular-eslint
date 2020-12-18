@@ -19,27 +19,49 @@ const messageId: MessageIds = 'clickEventsHaveKeyEvents';
 
 ruleTester.run(RULE_NAME, rule, {
   valid: [
-    '<div (click)="onClick()" (keyup)="onKeyup()"></div>',
-    '<div (click)="onClick()" (keyup.enter)="onKeyup()"></div>',
-    '<cui-button (click)="onClick()"></cui-button>',
-    '<div (click)="onClick()" aria-hidden="true"></div>',
-    '<div (click)="onClick()" [attr.aria-hidden]="true"></div>',
-    '<div (click)="onClick()" [attr.aria-hidden]="ariaHidden"></div>',
-    '<div (click)="onClick()" role="presentation"></div>',
-    `<div (click)="onClick()" [attr.role]="'none'"></div>`,
-    '<div (click)="onClick()" [attr.role]="roleName"></div>',
-    '<input (click)="onClick()">',
-    '<button (click)="onClick()"></button>',
-    '<textarea (click)="onClick()"></textarea>',
-    `
-    <select (click)="onClick()">
-      <option (click)="onClick()"></option>
-    </select>
-    `,
-    '<textarea (click)="onClick()"></textarea>',
-    '<a href="#" (click)="onClick()"></a>',
-    '<a [attr.href]="href" class="anchor" (click)="onClick()"></a>',
-    `<a [routerLink]="'route'" (click)="onClick()"></a>`,
+    {
+      // It should work when click events are associated with key events.
+      code: '<div (click)="onClick()" (keyup)="onKeyup()"></div>',
+    },
+    {
+      // It should work when click events are associated with key pseudo events.
+      code: '<div (click)="onClick()" (keyup.enter)="onKeyup()"></div>',
+    },
+    {
+      // It should work when click events are passed to custom element.
+      code: '<cui-button (click)="onClick()"></cui-button>',
+    },
+    {
+      // It should work when element has aria-hidden.
+      code: `
+        <div (click)="onClick()" aria-hidden="true"></div>
+        <div (click)="onClick()" [attr.aria-hidden]="true"></div>
+        <div (click)="onClick()" [attr.aria-hidden]="ariaHidden"></div>
+      `,
+    },
+    {
+      // It should work when element has presentation role.
+      code: `
+        <div (click)="onClick()" role="presentation"></div>
+        <div (click)="onClick()" [attr.role]="'none'"></div>
+        <div (click)="onClick()" [attr.role]="roleName"></div>
+      `,
+    },
+    {
+      // It should work when element is interactive.
+      code: `
+        <input (click)="onClick()">
+        <button (click)="onClick()"></button>
+        <textarea (click)="onClick()"></textarea>
+        <select (click)="onClick()">
+          <option (click)="onClick()"></option>
+        </select>
+        <textarea (click)="onClick()"></textarea>
+        <a href="#" (click)="onClick()"></a>
+        <a [attr.href]="href" class="anchor" (click)="onClick()"></a>
+        <a [routerLink]="'route'" (click)="onClick()"></a>
+      `,
+    },
   ],
   invalid: [
     convertAnnotatedSourceToFailureCase({
