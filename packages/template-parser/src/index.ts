@@ -4,6 +4,11 @@ import { ScopeManager, Scope } from 'eslint-scope';
 // @ts-ignore
 import NodeEventGenerator from 'eslint/lib/linter/node-event-generator';
 
+import {
+  convertNodeSourceSpanToLoc,
+  convertElementSourceSpanToLoc,
+} from './convert-source-span-to-loc';
+
 const emitters = new WeakMap();
 
 interface Node {
@@ -39,7 +44,7 @@ const KEYS: VisitorKeys = {
   BoundAttribute: ['value'],
   BoundEvent: ['handler'],
   BoundText: ['value'],
-  Element: ['children', 'inputs', 'outputs'],
+  Element: ['children', 'inputs', 'outputs', 'attributes'],
   Interpolation: ['expressions'],
   PrefixNot: ['expression'],
   Program: ['templateNodes'],
@@ -135,7 +140,10 @@ function preprocessNode(node: Node) {
           // Angular sometimes uses a prop called type already
           c.__originalType = c.type;
         }
-        if (!c.type) {
+        // Pay attention to the condition `typeof c.type === number`,
+        // Angular compiler sets `type` property for some AST nodes,
+        // e.g. for the `BoundAttribute`, which is a `BindingType`.
+        if (!c.type || typeof c.type === 'number') {
           c.type = c.constructor.name;
         }
         if (isNode(c)) {
@@ -146,19 +154,6 @@ function preprocessNode(node: Node) {
       preprocessNode(child);
     }
   }
-}
-
-function convertNodeSourceSpanToLoc(sourceSpan: ParseSourceSpan) {
-  return {
-    start: {
-      line: sourceSpan.start.line + 1,
-      column: sourceSpan.start.col,
-    },
-    end: {
-      line: sourceSpan.end.line + 1,
-      column: sourceSpan.end.col,
-    },
-  };
 }
 
 function getStartSourceSpanFromAST(ast: AST): ParseSourceSpan | null {
@@ -253,6 +248,7 @@ function parseForESLint(code: string, options: { filePath: string }) {
     visitorKeys: KEYS,
     services: {
       convertNodeSourceSpanToLoc,
+      convertElementSourceSpanToLoc,
       defineTemplateBodyVisitor(
         templateBodyVisitor: { [x: string]: Function },
         scriptVisitor: { [x: string]: Function },

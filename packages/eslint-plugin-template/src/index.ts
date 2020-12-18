@@ -37,6 +37,18 @@ import mouseEventsHaveKeyEvents, {
 import clickEventsHaveKeyEvents, {
   RULE_NAME as clickEventsHaveKeyEventsRuleName,
 } from './rules/click-events-have-key-events';
+import accessibilityAltText, {
+  RULE_NAME as accessibilityAltTextRuleName,
+} from './rules/accessibility-alt-text';
+import accessibilityValidAria, {
+  RULE_NAME as accessibilityValidAriaRuleName,
+} from './rules/accessibility-valid-aria';
+import accessibilityTableScope, {
+  RULE_NAME as accessibilityTableScopeRuleName,
+} from './rules/accessibility-table-scope';
+import conditionalСomplexity, {
+  RULE_NAME as conditionalСomplexityRuleName,
+} from './rules/conditional-complexity';
 
 export default {
   configs: {
@@ -59,5 +71,9 @@ export default {
     [i18nRuleName]: i18n,
     [mouseEventsHaveKeyEventsRuleName]: mouseEventsHaveKeyEvents,
     [clickEventsHaveKeyEventsRuleName]: clickEventsHaveKeyEvents,
+    [accessibilityAltTextRuleName]: accessibilityAltText,
+    [accessibilityValidAriaRuleName]: accessibilityValidAria,
+    [accessibilityTableScopeRuleName]: accessibilityTableScope,
+    [conditionalСomplexityRuleName]: conditionalСomplexity,
   },
 };

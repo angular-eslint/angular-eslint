@@ -318,7 +318,7 @@ Please see the following issue for more information: https://github.com/microsof
 If you're using this without the Angular CLI Builder don't forget to include `.html` as one of the file extensions when running the eslint CLI, otherwise templates will not be linted, e.g.:
 
 ```
-eslint --ext .ts,.html
+eslint --ext .ts,.html .
 ```
 
 <br>
@@ -413,16 +413,16 @@ If you are still having problems after you have done some digging into these, fe
 | [`no-output-native`]                            | :white_check_mark: |
 | [`no-pipe-impure`]                              | :white_check_mark: |
 | [`prefer-on-push-component-change-detection`]   | :white_check_mark: |
-| [`template-accessibility-alt-text`]             |                    |
+| [`template-accessibility-alt-text`]             | :white_check_mark: |
 | [`template-accessibility-elements-content`]     | :white_check_mark: |
 | [`template-accessibility-label-for`]            |                    |
 | [`template-accessibility-tabindex-no-positive`] | :white_check_mark: |
-| [`template-accessibility-table-scope`]          |                    |
-| [`template-accessibility-valid-aria`]           |                    |
+| [`template-accessibility-table-scope`]          | :white_check_mark: |
+| [`template-accessibility-valid-aria`]           | :white_check_mark: |
 | [`template-banana-in-box`]                      | :white_check_mark: |
 | [`template-click-events-have-key-events`]       | :white_check_mark: |
 | [`template-mouse-events-have-key-events`]       | :white_check_mark: |
-| [`template-no-any`]                             |                    |
+| [`template-no-any`]                             | :white_check_mark: |
 | [`template-no-autofocus`]                       | :white_check_mark: |
 | [`template-no-distracting-elements`]            | :white_check_mark: |
 | [`template-no-negated-async`]                   | :white_check_mark: |
@@ -443,7 +443,7 @@ If you are still having problems after you have done some digging into these, fe
 | [`no-unused-css`]                     |                    |
 | [`prefer-output-readonly`]            | :white_check_mark: |
 | [`relative-url-prefix`]               | :white_check_mark: |
-| [`template-conditional-complexity`]   |                    |
+| [`template-conditional-complexity`]   | :white_check_mark: |
 | [`template-cyclomatic-complexity`]    | :white_check_mark: |
 | [`template-i18n`]                     | :white_check_mark: |
 | [`template-no-call-expression`]       | :white_check_mark: |
