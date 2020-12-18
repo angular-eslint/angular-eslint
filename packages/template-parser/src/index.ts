@@ -4,6 +4,11 @@ import { ScopeManager, Scope } from 'eslint-scope';
 // @ts-ignore
 import NodeEventGenerator from 'eslint/lib/linter/node-event-generator';
 
+import {
+  convertNodeSourceSpanToLoc,
+  convertElementSourceSpanToLoc,
+} from './convert-source-span-to-loc';
+
 const emitters = new WeakMap();
 
 interface Node {
@@ -151,19 +156,6 @@ function preprocessNode(node: Node) {
   }
 }
 
-function convertNodeSourceSpanToLoc(sourceSpan: ParseSourceSpan) {
-  return {
-    start: {
-      line: sourceSpan.start.line + 1,
-      column: sourceSpan.start.col,
-    },
-    end: {
-      line: sourceSpan.end.line + 1,
-      column: sourceSpan.end.col,
-    },
-  };
-}
-
 function getStartSourceSpanFromAST(ast: AST): ParseSourceSpan | null {
   let startSourceSpan: ParseSourceSpan | null = null;
   ast.templateNodes.forEach((node) => {
@@ -256,6 +248,7 @@ function parseForESLint(code: string, options: { filePath: string }) {
     visitorKeys: KEYS,
     services: {
       convertNodeSourceSpanToLoc,
+      convertElementSourceSpanToLoc,
       defineTemplateBodyVisitor(
         templateBodyVisitor: { [x: string]: Function },
         scriptVisitor: { [x: string]: Function },

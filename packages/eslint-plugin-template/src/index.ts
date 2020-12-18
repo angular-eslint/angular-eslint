@@ -34,6 +34,9 @@ import i18n, { RULE_NAME as i18nRuleName } from './rules/i18n';
 import mouseEventsHaveKeyEvents, {
   RULE_NAME as mouseEventsHaveKeyEventsRuleName,
 } from './rules/mouse-events-have-key-events-rule';
+import accessibilityAltText, {
+  RULE_NAME as accessibilityAltTextRuleName,
+} from './rules/accessibility-alt-text';
 import accessibilityValidAria, {
   RULE_NAME as accessibilityValidAriaRuleName,
 } from './rules/accessibility-valid-aria';
@@ -64,6 +67,7 @@ export default {
     [noDistractingElementsRuleName]: noDistractingElements,
     [i18nRuleName]: i18n,
     [mouseEventsHaveKeyEventsRuleName]: mouseEventsHaveKeyEvents,
+    [accessibilityAltTextRuleName]: accessibilityAltText,
     [accessibilityValidAriaRuleName]: accessibilityValidAria,
     [accessibilityTableScopeRuleName]: accessibilityTableScope,
     [conditionalСomplexityRuleName]: conditionalСomplexity,
