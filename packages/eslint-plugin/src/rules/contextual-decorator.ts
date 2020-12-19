@@ -33,25 +33,12 @@ export default createESLintRule<Options, MessageIds>({
   defaultOptions: [],
   create(context) {
     return {
-      MethodDefinition(node: TSESTree.MethodDefinition) {
-        // The TypeScript compiler parses `get` and `set` blocks into
-        // `GetAccessor` and `SetAccessor` nodes, so basically these would've
-        // been different AST nodes. The `@typescript-eslint/parser` parses `get`
-        // and `set` blocks into `MethodDefinition` AST nodes, same as `constructor`
-        // and single class methods, like `private myMethod() {}`.
-        if (node.kind === 'constructor') {
-          return;
-        }
-
-        validateNode(context, node);
-      },
-      ClassProperty(node: TSESTree.ClassProperty) {
-        validateNode(context, node);
-      },
-      TSParameterProperty(node: TSESTree.TSParameterProperty) {
-        // The `TSParameterProperty` is a parameter declaration inside a constructor,
-        // e.g. `constructor(private myNumber: number) {}`.
-        //                   ~~~~~~~~~~~~~~~~~~~~~~~~
+      'MethodDefinition[kind="set"], MethodDefinition[kind="get"], MethodDefinition[kind="method"], ClassProperty, TSParameterProperty'(
+        node:
+          | TSESTree.MethodDefinition
+          | TSESTree.ClassProperty
+          | TSESTree.TSParameterProperty,
+      ) {
         validateNode(context, node);
       },
     };
