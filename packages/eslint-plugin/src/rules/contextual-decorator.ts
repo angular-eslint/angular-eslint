@@ -59,7 +59,6 @@ export default createESLintRule<Options, MessageIds>({
         validateNode(context, node);
       },
       ClassProperty(node: TSESTree.ClassProperty) {
-        // This will be `PropertyDeclaration`.
         validateNode(context, node);
       },
       TSParameterProperty(node: TSESTree.TSParameterProperty) {
