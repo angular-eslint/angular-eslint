@@ -24,20 +24,7 @@ export default createESLintRule<Options, MessageIds>({
       category: 'Best Practices',
       recommended: 'error',
     },
-    schema: [
-      {
-        type: 'object',
-        properties: {
-          suffixes: {
-            type: 'array',
-            items: {
-              type: 'string',
-            },
-          },
-        },
-        additionalProperties: false,
-      },
-    ],
+    schema: [],
     messages: {
       contextualDecorator:
         'Decorator out of context for "@{{classDecoratorName}}()"',
