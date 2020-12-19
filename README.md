@@ -406,7 +406,7 @@ If you are still having problems after you have done some digging into these, fe
 
 | Codelyzer rule                                  |       Status       |
 | ----------------------------------------------- | :----------------: |
-| [`contextual-decorator`]                        |                    |
+| [`contextual-decorator`]                        | :white_check_mark: |
 | [`contextual-lifecycle`]                        | :white_check_mark: |
 | [`no-attribute-decorator`]                      | :white_check_mark: |
 | [`no-lifecycle-call`]                           | :white_check_mark: |
