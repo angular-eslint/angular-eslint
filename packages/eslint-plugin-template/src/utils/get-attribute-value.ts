@@ -33,7 +33,7 @@ export function getAttributeValue<T = string>(
   }
 }
 
-export function nonAnAttribute(
+export function notAnAttribute(
   attribute: unknown,
 ): attribute is null | typeof PROPERTY {
   return attribute === null || attribute === PROPERTY;

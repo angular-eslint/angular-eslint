@@ -5,8 +5,8 @@ import {
   getTemplateParserServices,
 } from '../utils/create-eslint-rule';
 import {
+  notAnAttribute,
   getAttributeValue,
-  nonAnAttribute,
 } from '../utils/get-attribute-value';
 
 type Options = [];
@@ -34,7 +34,7 @@ export default createESLintRule<Options, MessageIds>({
       Element(node: TmplAstElement) {
         const tabIndex = getAttributeValue<string | number>(node, 'tabindex');
 
-        if (nonAnAttribute(tabIndex)) {
+        if (notAnAttribute(tabIndex)) {
           return;
         }
 
