@@ -65,7 +65,7 @@ function validateNode(
     | TSESTree.ClassProperty
     | TSESTree.TSParameterProperty,
 ): void {
-  if (!node.decorators) {
+  if (!node.decorators || node.decorators.length === 0) {
     return;
   }
 
