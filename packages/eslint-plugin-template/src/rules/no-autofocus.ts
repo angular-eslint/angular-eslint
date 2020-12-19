@@ -1,4 +1,10 @@
 import {
+  TmplAstBoundAttribute,
+  TmplAstElement,
+  TmplAstTextAttribute,
+} from '@angular/compiler';
+
+import {
   createESLintRule,
   getTemplateParserServices,
 } from '../utils/create-eslint-rule';
@@ -27,20 +33,32 @@ export default createESLintRule<Options, MessageIds>({
     const parserServices = getTemplateParserServices(context);
 
     return parserServices.defineTemplateBodyVisitor({
-      Element(node: any) {
-        const hasAttr = (node: any, prop: string) =>
-          node.attributes.find(({ name }: any) => name === prop);
+      Element(node: TmplAstElement) {
+        const autofocusAttributeOrBinding = lookupTheAutofocusAttributeOrBinding(
+          node,
+        );
 
-        if (hasAttr(node, 'autofocus')) {
+        if (autofocusAttributeOrBinding) {
           const loc = parserServices.convertNodeSourceSpanToLoc(
-            node.startSourceSpan,
+            autofocusAttributeOrBinding.sourceSpan,
           );
+
           context.report({
-            messageId: 'noAutofocus',
             loc,
+            messageId: 'noAutofocus',
           });
         }
       },
     });
   },
 });
+
+const autofocus = 'autofocus';
+function lookupTheAutofocusAttributeOrBinding(node: TmplAstElement) {
+  return (
+    node.attributes.find(
+      (attribute: TmplAstTextAttribute) => attribute.name === autofocus,
+    ) ||
+    node.inputs.find((input: TmplAstBoundAttribute) => input.name === autofocus)
+  );
+}
