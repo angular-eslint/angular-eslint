@@ -1,31 +1,42 @@
+import {
+  TmplAstBoundAttribute,
+  TmplAstElement,
+  TmplAstTextAttribute,
+} from '@angular/compiler';
+
 import { getLiteralValue } from './get-literal-value';
 import { getAttributeValue } from './get-attribute-value';
 
 export function attributesComparator(
   baseAttributes: any[] = [],
-  node: any,
+  node: TmplAstElement,
 ): boolean {
-  const attributes: any[] = [...node.attributes, ...node.inputs];
+  const attributes: (TmplAstTextAttribute | TmplAstBoundAttribute)[] = [
+    ...node.attributes,
+    ...node.inputs,
+  ];
 
   return baseAttributes.every((baseAttribute) =>
-    attributes.some((attribute) => {
-      if (node.name === 'a' && attribute.name === 'routerLink') {
-        return true;
-      }
+    attributes.some(
+      (attribute: TmplAstTextAttribute | TmplAstBoundAttribute) => {
+        if (node.name === 'a' && attribute.name === 'routerLink') {
+          return true;
+        }
 
-      if (baseAttribute.name !== attribute.name) {
-        return false;
-      }
+        if (baseAttribute.name !== attribute.name) {
+          return false;
+        }
 
-      if (
-        baseAttribute.value &&
-        baseAttribute.value !==
-          getLiteralValue(getAttributeValue(node, baseAttribute.name))
-      ) {
-        return false;
-      } else {
-        return true;
-      }
-    }),
+        if (
+          baseAttribute.value &&
+          baseAttribute.value !==
+            getLiteralValue(getAttributeValue(node, baseAttribute.name))
+        ) {
+          return false;
+        } else {
+          return true;
+        }
+      },
+    ),
   );
 }

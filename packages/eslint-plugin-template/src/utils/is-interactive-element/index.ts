@@ -1,11 +1,12 @@
-import { dom } from 'aria-query';
+import { TmplAstElement } from '@angular/compiler';
 
+import { getDomElements } from '../get-dom-elements';
 import { attributesComparator } from '../attributes-comparator';
 import { getInteractiveElementRoleSchemas } from './get-interactive-element-role-schemas';
 import { getNonInteractiveElementRoleSchemas } from './get-non-interactive-element-role-schemas';
 import { getInteractiveElementAXObjectSchemas } from './get-interactive-element-ax-object-schemas';
 
-function checkIsInteractiveElement(node: any): boolean {
+function checkIsInteractiveElement(node: TmplAstElement): boolean {
   function elementSchemaMatcher(elementSchema: any) {
     return (
       node.name === elementSchema.name &&
@@ -45,13 +46,6 @@ function checkIsInteractiveElement(node: any): boolean {
  * has a dynamic handler on it and we need to discern whether or not
  * it's intention is to be interacted with on the DOM.
  */
-export function isInteractiveElement(node: any): boolean {
+export function isInteractiveElement(node: TmplAstElement): boolean {
   return getDomElements().has(node.name) && checkIsInteractiveElement(node);
-}
-
-// Since this is a top-level module (it will be included via `require`), we do not need to
-// initialize the `Set`, since this rule may not be applied, thus the `Set` will consume memory.
-let domElements: Set<string> | null = null;
-function getDomElements(): Set<string> {
-  return domElements || (domElements = new Set(dom.keys()));
 }

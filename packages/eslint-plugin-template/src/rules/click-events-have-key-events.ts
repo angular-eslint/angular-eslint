@@ -1,9 +1,10 @@
-import { dom } from 'aria-query';
+import { TmplAstElement } from '@angular/compiler';
 
 import {
   createESLintRule,
   getTemplateParserServices,
 } from '../utils/create-eslint-rule';
+import { getDomElements } from '../utils/get-dom-elements';
 import { isPresentationRole } from '../utils/is-presentational-role';
 import { isInteractiveElement } from '../utils/is-interactive-element';
 import { isHiddenFromScreenReader } from '../utils/is-hidden-from-screen-reader';
@@ -11,8 +12,6 @@ import { isHiddenFromScreenReader } from '../utils/is-hidden-from-screen-reader'
 type Options = [];
 export type MessageIds = 'clickEventsHaveKeyEvents';
 export const RULE_NAME = 'click-events-have-key-events';
-
-const domElements = new Set<string>(dom.keys());
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
@@ -33,8 +32,8 @@ export default createESLintRule<Options, MessageIds>({
   defaultOptions: [],
   create(context) {
     return {
-      Element(node: any) {
-        if (!domElements.has(node.name)) {
+      Element(node: TmplAstElement) {
+        if (!getDomElements().has(node.name)) {
           return;
         }
 

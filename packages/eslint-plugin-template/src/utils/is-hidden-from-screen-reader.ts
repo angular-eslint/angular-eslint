@@ -11,7 +11,7 @@ import { getAttributeValue } from './get-attribute-value';
  */
 export function isHiddenFromScreenReader(node: any): boolean {
   if (node.name.toUpperCase() === 'INPUT') {
-    const hidden = getAttributeValue<string>(node, 'type');
+    const hidden = getAttributeValue(node, 'type');
     if (typeof hidden === 'string' && hidden.toUpperCase() === 'HIDDEN') {
       return true;
     }
