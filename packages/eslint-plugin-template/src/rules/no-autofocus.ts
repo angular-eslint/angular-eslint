@@ -1,8 +1,4 @@
-import {
-  TmplAstBoundAttribute,
-  TmplAstElement,
-  TmplAstTextAttribute,
-} from '@angular/compiler';
+import { TmplAstTextAttribute, TmplAstBoundAttribute } from '@angular/compiler';
 
 import {
   createESLintRule,
@@ -32,33 +28,17 @@ export default createESLintRule<Options, MessageIds>({
   create(context) {
     const parserServices = getTemplateParserServices(context);
 
-    return parserServices.defineTemplateBodyVisitor({
-      Element(node: TmplAstElement) {
-        const autofocusAttributeOrBinding = lookupTheAutofocusAttributeOrBinding(
-          node,
-        );
+    return {
+      'TextAttribute[name="autofocus"], BoundAttribute[name="autofocus"]'(
+        node: TmplAstTextAttribute | TmplAstBoundAttribute,
+      ) {
+        const loc = parserServices.convertNodeSourceSpanToLoc(node.sourceSpan);
 
-        if (autofocusAttributeOrBinding) {
-          const loc = parserServices.convertNodeSourceSpanToLoc(
-            autofocusAttributeOrBinding.sourceSpan,
-          );
-
-          context.report({
-            loc,
-            messageId: 'noAutofocus',
-          });
-        }
+        context.report({
+          loc,
+          messageId: 'noAutofocus',
+        });
       },
-    });
+    };
   },
 });
-
-const autofocus = 'autofocus';
-function lookupTheAutofocusAttributeOrBinding(node: TmplAstElement) {
-  return (
-    node.attributes.find(
-      (attribute: TmplAstTextAttribute) => attribute.name === autofocus,
-    ) ||
-    node.inputs.find((input: TmplAstBoundAttribute) => input.name === autofocus)
-  );
-}
