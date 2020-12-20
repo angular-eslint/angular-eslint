@@ -42,7 +42,9 @@ export default createESLintRule<Options, MessageIds>({
 
         const hasInnerContent = node.inputs.some(
           (input: any) =>
-            input.name === 'innerHTML' || input.name === 'innerText',
+            input.name === 'innerHTML' ||
+            input.name === 'innerHtml' ||
+            input.name === 'innerText',
         );
 
         if (hasInnerContent) {
