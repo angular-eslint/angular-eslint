@@ -30,23 +30,20 @@ export default createESLintRule<Options, MessageIds>({
     const parserServices = getTemplateParserServices(context);
 
     return {
-      'TextAttribute[name=/aria-*/], BoundAttribute[name=/aria-*/]'(
-        attribute: TmplAstTextAttribute | TmplAstBoundAttribute,
-      ) {
-        if (getAriaAttributes().has(attribute.name)) {
+      'TextAttribute[name=/aria-*/], BoundAttribute[name=/aria-*/]'({
+        name,
+        sourceSpan,
+      }: TmplAstTextAttribute | TmplAstBoundAttribute) {
+        if (getAriaAttributes().has(name)) {
           return;
         }
 
-        const loc = parserServices.convertNodeSourceSpanToLoc(
-          attribute.sourceSpan,
-        );
+        const loc = parserServices.convertNodeSourceSpanToLoc(sourceSpan);
 
         context.report({
           loc,
           messageId: 'accessibilityValidAria',
-          data: {
-            attribute: attribute.name,
-          },
+          data: { attribute: name },
         });
       },
     };
