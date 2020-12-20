@@ -88,9 +88,6 @@ import useInjectableProvidedIn, {
 import useLifecycleInterface, {
   RULE_NAME as useLifecycleInterfaceRuleName,
 } from './rules/use-lifecycle-interface';
-import usePipeDecorator, {
-  RULE_NAME as usePipeDecoratorRuleName,
-} from './rules/use-pipe-decorator';
 import usePipeTransformInterface, {
   RULE_NAME as usePipeTransformInterfaceRuleName,
 } from './rules/use-pipe-transform-interface';
@@ -135,7 +132,6 @@ export default {
     [useComponentViewEncapsulationRuleName]: useComponentViewEncapsulation,
     [useInjectableProvidedInRuleName]: useInjectableProvidedIn,
     [useLifecycleInterfaceRuleName]: useLifecycleInterface,
-    [usePipeDecoratorRuleName]: usePipeDecorator,
     [usePipeTransformInterfaceRuleName]: usePipeTransformInterface,
     [pipePrefixRuleName]: pipePrefix,
   },

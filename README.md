@@ -450,7 +450,6 @@ If you are still having problems after you have done some digging into these, fe
 | [`template-use-track-by-function`]    | :white_check_mark: |
 | [`use-component-selector`]            | :white_check_mark: |
 | [`use-component-view-encapsulation`]  | :white_check_mark: |
-| [`use-pipe-decorator`]                | :white_check_mark: |
 | [`use-pipe-transform-interface`]      | :white_check_mark: |
 
 #### Style
@@ -523,7 +522,6 @@ If you are still having problems after you have done some digging into these, fe
 [`use-component-view-encapsulation`]: https://codelyzer.com/rules/use-component-view-encapsulation
 [`use-injectable-provided-in`]: https://codelyzer.com/rules/use-injectable-provided-in
 [`use-lifecycle-interface`]: https://codelyzer.com/rules/use-lifecycle-interface
-[`use-pipe-decorator`]: https://codelyzer.com/rules/use-pipe-decorator
 [`use-pipe-transform-interface`]: https://codelyzer.com/rules/use-pipe-transform-interface
 
 <!-- PR Links -->
