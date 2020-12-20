@@ -33,7 +33,7 @@ export default createESLintRule<Options, MessageIds>({
   defaultOptions: [],
   create(context) {
     return {
-      'MethodDefinition[kind="set"], MethodDefinition[kind="get"], MethodDefinition[kind="method"], ClassProperty, TSParameterProperty'(
+      'MethodDefinition[kind=/^(get|set|method)$/], ClassProperty, TSParameterProperty'(
         node:
           | TSESTree.MethodDefinition
           | TSESTree.ClassProperty
@@ -52,7 +52,7 @@ function validateNode(
     | TSESTree.ClassProperty
     | TSESTree.TSParameterProperty,
 ): void {
-  if (!node.decorators || node.decorators.length === 0) {
+  if (!node.decorators?.length) {
     return;
   }
 
@@ -101,7 +101,7 @@ function validateDecorator(
   decorator: TSESTree.Decorator,
   classDecoratorName: AngularClassDecoratorKeys,
 ): void {
-  const decoratorName: string | undefined = getDecoratorName(decorator);
+  const decoratorName = getDecoratorName(decorator);
 
   if (!decoratorName || !isAngularInnerClassDecorator(decoratorName)) {
     return;
