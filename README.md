@@ -393,84 +393,90 @@ If you are still having problems after you have done some digging into these, fe
 
 <br>
 
-### Rules List
+# Codelyzer Migration Guide
 
-<!-- begin rule list -->
+This document serves as a guide to help you migrate from Codelyzer.
+It lists all Codelyzer rules along side rules from the ESLint ecosystem that are the same or similar.
 
-|                                   |
-| --------------------------------- |
-| :white_check_mark: = done         |
-| :construction: = work in progress |
+## Codelyzer rules
+
+✅ = done<br>
+🌟 = in ESLint core<br>
+🔌 = in another plugin<br>
+🌓 = implementations differ or ESLint version is missing functionality<br>
+🛑 = unimplemented<br>
 
 #### Functionality
 
-| Codelyzer rule                                  |       Status       |
-| ----------------------------------------------- | :----------------: |
-| [`contextual-decorator`]                        |                    |
-| [`contextual-lifecycle`]                        | :white_check_mark: |
-| [`no-attribute-decorator`]                      | :white_check_mark: |
-| [`no-lifecycle-call`]                           | :white_check_mark: |
-| [`no-output-native`]                            | :white_check_mark: |
-| [`no-pipe-impure`]                              | :white_check_mark: |
-| [`prefer-on-push-component-change-detection`]   | :white_check_mark: |
-| [`template-accessibility-alt-text`]             | :white_check_mark: |
-| [`template-accessibility-elements-content`]     | :white_check_mark: |
-| [`template-accessibility-label-for`]            |                    |
-| [`template-accessibility-tabindex-no-positive`] | :white_check_mark: |
-| [`template-accessibility-table-scope`]          | :white_check_mark: |
-| [`template-accessibility-valid-aria`]           | :white_check_mark: |
-| [`template-banana-in-box`]                      | :white_check_mark: |
-| [`template-click-events-have-key-events`]       |                    |
-| [`template-mouse-events-have-key-events`]       | :white_check_mark: |
-| [`template-no-any`]                             | :white_check_mark: |
-| [`template-no-autofocus`]                       | :white_check_mark: |
-| [`template-no-distracting-elements`]            | :white_check_mark: |
-| [`template-no-negated-async`]                   | :white_check_mark: |
-| [`use-injectable-provided-in`]                  | :white_check_mark: |
-| [`use-lifecycle-interface`]                     | :white_check_mark: |
+| Codelyzer rule                                  |     | ESLint rule                                                                   |
+| ----------------------------------------------- | :-: | ----------------------------------------------------------------------------- |
+| [`contextual-decorator`]                        | 🛑  | N/A                                                                           |
+| [`contextual-lifecycle`]                        | ✅  | [`@angular-eslint/eslint-plugin/contextual-lifecycle`]                        |
+| [`no-attribute-decorator`]                      | ✅  | [`@angular-eslint/eslint-plugin/no-attribute-decorator`]                      |
+| [`no-lifecycle-call`]                           | ✅  | [`@angular-eslint/eslint-plugin/no-lifecycle-call`]                           |
+| [`no-output-native`]                            | ✅  | [`@angular-eslint/eslint-plugin/no-output-native`]                            |
+| [`no-pipe-impure`]                              | ✅  | [`@angular-eslint/eslint-plugin/no-pipe-impure`]                              |
+| [`prefer-on-push-component-change-detection`]   | ✅  | [`@angular-eslint/eslint-plugin/prefer-on-push-component-change-detection`]   |
+| [`template-accessibility-alt-text`]             | ✅  | [`@angular-eslint/eslint-plugin-template/accessibility-alt-text`]             |
+| [`template-accessibility-elements-content`]     | ✅  | [`@angular-eslint/eslint-plugin-template/accessibility-elements-content`]     |
+| [`template-accessibility-label-for`]            | 🛑  | N/A                                                                           |
+| [`template-accessibility-tabindex-no-positive`] | ✅  | [`@angular-eslint/eslint-plugin-template/accessibility-tabindex-no-positive`] |
+| [`template-accessibility-table-scope`]          | ✅  | [`@angular-eslint/eslint-plugin-template/accessibility-table-scope`]          |
+| [`template-accessibility-valid-aria`]           | ✅  | [`@angular-eslint/eslint-plugin-template/accessibility-valid-aria`]           |
+| [`template-banana-in-box`]                      | ✅  | [`@angular-eslint/eslint-plugin-template/banana-in-box`]                      |
+| [`template-click-events-have-key-events`]       | ✅  | [`@angular-eslint/eslint-plugin-template/click-events-have-key-events`]       |
+| [`template-mouse-events-have-key-events`]       | 🛑  | N/A                                                                           |
+| [`template-no-any`]                             | ✅  | [`@angular-eslint/eslint-plugin-template/no-any`]                             |
+| [`template-no-autofocus`]                       | ✅  | [`@angular-eslint/eslint-plugin-template/no-autofocus`]                       |
+| [`template-no-distracting-elements`]            | ✅  | [`@angular-eslint/eslint-plugin-template/no-distracting-elements`]            |
+| [`template-no-negated-async`]                   | ✅  | [`@angular-eslint/eslint-plugin-template/no-negated-async`]                   |
+| [`use-injectable-provided-in`]                  | ✅  | [`@angular-eslint/eslint-plugin/use-injectable-provided-in`]                  |
+| [`use-lifecycle-interface`]                     | ✅  | [`@angular-eslint/eslint-plugin/use-lifecycle-interface`]                     |
 
 #### Maintainability
 
-| Codelyzer rule                        |       Status       |
-| ------------------------------------- | :----------------: |
-| [`component-max-inline-declarations`] | :white_check_mark: |
-| [`no-conflicting-lifecycle`]          | :white_check_mark: |
-| [`no-forward-ref`]                    | :white_check_mark: |
-| [`no-input-prefix`]                   | :white_check_mark: |
-| [`no-input-rename`]                   | :white_check_mark: |
-| [`no-output-on-prefix`]               | :white_check_mark: |
-| [`no-output-rename`]                  | :white_check_mark: |
-| [`no-unused-css`]                     |                    |
-| [`prefer-output-readonly`]            | :white_check_mark: |
-| [`relative-url-prefix`]               | :white_check_mark: |
-| [`template-conditional-complexity`]   | :white_check_mark: |
-| [`template-cyclomatic-complexity`]    | :white_check_mark: |
-| [`template-i18n`]                     | :white_check_mark: |
-| [`template-no-call-expression`]       | :white_check_mark: |
-| [`template-use-track-by-function`]    | :white_check_mark: |
-| [`use-component-selector`]            | :white_check_mark: |
-| [`use-component-view-encapsulation`]  | :white_check_mark: |
-| [`use-pipe-decorator`]                | :white_check_mark: |
-| [`use-pipe-transform-interface`]      | :white_check_mark: |
+| Codelyzer rule                        |     | ESLint rule                                                         |
+| ------------------------------------- | :-: | ------------------------------------------------------------------- |
+| [`component-max-inline-declarations`] | ✅  | [`@angular-eslint/eslint-plugin/component-max-inline-declarations`] |
+| [`no-conflicting-lifecycle`]          | ✅  | [`@angular-eslint/eslint-plugin/no-conflicting-lifecycle`]          |
+| [`no-forward-ref`]                    | ✅  | [`@angular-eslint/eslint-plugin/no-forward-ref`]                    |
+| [`no-input-prefix`]                   | ✅  | [`@angular-eslint/eslint-plugin/no-input-prefix`]                   |
+| [`no-input-rename`]                   | ✅  | [`@angular-eslint/eslint-plugin/no-input-rename`]                   |
+| [`no-output-on-prefix`]               | ✅  | [`@angular-eslint/eslint-plugin/no-output-on-prefix`]               |
+| [`no-output-rename`]                  | ✅  | [`@angular-eslint/eslint-plugin/no-output-rename`]                  |
+| [`no-unused-css`]                     | 🛑  | N/A                                                                 |
+| [`prefer-output-readonly`]            | ✅  | [`@angular-eslint/eslint-plugin/prefer-output-readonly`]            |
+| [`relative-url-prefix`]               | ✅  | [`@angular-eslint/eslint-plugin/relative-url-prefix`]               |
+| [`template-conditional-complexity`]   | ✅  | [`@angular-eslint/eslint-plugin-template/conditional-complexity`]   |
+| [`template-cyclomatic-complexity`]    | ✅  | [`@angular-eslint/eslint-plugin-template/cyclomatic-complexity`]    |
+| [`template-i18n`]                     | ✅  | [`@angular-eslint/eslint-plugin-template/i18n`]                     |
+| [`template-no-call-expression`]       | ✅  | [`@angular-eslint/eslint-plugin-template/no-call-expression`]       |
+| [`template-use-track-by-function`]    | ✅  | [`@angular-eslint/eslint-plugin-template/use-track-by-function`]    |
+| [`use-component-selector`]            | ✅  | [`@angular-eslint/eslint-plugin/use-component-selector`]            |
+| [`use-component-view-encapsulation`]  | ✅  | [`@angular-eslint/eslint-plugin/use-component-view-encapsulation`]  |
+| [`use-pipe-decorator`]                | ✅  | [`@angular-eslint/eslint-plugin/use-pipe-decorator`]                |
+| [`use-pipe-transform-interface`]      | ✅  | [`@angular-eslint/eslint-plugin/use-pipe-transform-interface`]      |
 
 #### Style
 
-| Codelyzer rule                   |       Status       |
-| -------------------------------- | :----------------: |
-| [`angular-whitespace`]           |                    |
-| [`component-class-suffix`]       | :white_check_mark: |
-| [`component-selector`]           | :white_check_mark: |
-| [`directive-class-suffix`]       | :white_check_mark: |
-| [`directive-selector`]           | :white_check_mark: |
-| [`import-destructuring-spacing`] |                    |
-| [`no-host-metadata-property`]    | :white_check_mark: |
-| [`no-inputs-metadata-property`]  | :white_check_mark: |
-| [`no-outputs-metadata-property`] | :white_check_mark: |
-| [`no-queries-metadata-property`] | :white_check_mark: |
-| [`pipe-prefix`]                  | :white_check_mark: |
-| [`prefer-inline-decorator`]      |                    |
+| Codelyzer rule                   |     | ESLint rule                                                    |
+| -------------------------------- | :-: | -------------------------------------------------------------- |
+| [`angular-whitespace`]           | 🔌  | Use [`prettier`]                                               |
+| [`component-class-suffix`]       | ✅  | [`@angular-eslint/eslint-plugin/component-class-suffix`]       |
+| [`component-selector`]           | ✅  | [`@angular-eslint/eslint-plugin/component-selector`]           |
+| [`directive-class-suffix`]       | ✅  | [`@angular-eslint/eslint-plugin/directive-class-suffix`]       |
+| [`directive-selector`]           | ✅  | [`@angular-eslint/eslint-plugin/directive-selector`]           |
+| [`import-destructuring-spacing`] | 🌟  | [`object-curly-spacing`] or use [`prettier`]                   |
+| [`no-host-metadata-property`]    | ✅  | [`@angular-eslint/eslint-plugin/no-host-metadata-property`]    |
+| [`no-inputs-metadata-property`]  | ✅  | [`@angular-eslint/eslint-plugin/no-inputs-metadata-property`]  |
+| [`no-outputs-metadata-property`] | ✅  | [`@angular-eslint/eslint-plugin/no-outputs-metadata-property`] |
+| [`no-queries-metadata-property`] | ✅  | [`@angular-eslint/eslint-plugin/no-queries-metadata-property`] |
+| [`pipe-prefix`]                  | ✅  | [`@angular-eslint/eslint-plugin/pipe-prefix`]                  |
+| [`prefer-inline-decorator`]      | 🔌  | Use [`prettier`]                                               |
 
-<!-- Codelyzer Links -->
+[`prettier`]: https://prettier.io
+
+<!-- Codelyzer -->
 
 [`angular-whitespace`]: https://codelyzer.com/rules/angular-whitespace
 [`component-class-suffix`]: https://codelyzer.com/rules/component-class-suffix
@@ -526,6 +532,58 @@ If you are still having problems after you have done some digging into these, fe
 [`use-pipe-decorator`]: https://codelyzer.com/rules/use-pipe-decorator
 [`use-pipe-transform-interface`]: https://codelyzer.com/rules/use-pipe-transform-interface
 
-<!-- PR Links -->
+<!-- ESLint core -->
 
-<!-- end rule list -->
+[`object-curly-spacing`]: https://eslint.org/docs/rules/object-curly-spacing
+
+<!-- @angular-eslint/eslint-plugin -->
+
+[`angular-eslint/eslint-plugin/contextual-lifecycle`]: https://github.com/angular-eslint/angular-eslint/tree/master/packages/eslint-plugin/src/rules/contextual-lifecycle.ts
+[`angular-eslint/eslint-plugin/no-attribute-decorator`]: https://github.com/angular-eslint/angular-eslint/tree/master/packages/eslint-plugin/src/rules/no-attribute-decorator.ts
+[`angular-eslint/eslint-plugin/no-lifecycle-call`]: https://github.com/angular-eslint/angular-eslint/tree/master/packages/eslint-plugin/src/rules/no-lifecycle-call.ts
+[`angular-eslint/eslint-plugin/no-output-native`]: https://github.com/angular-eslint/angular-eslint/tree/master/packages/eslint-plugin/src/rules/no-output-native.ts
+[`angular-eslint/eslint-plugin/no-pipe-impure`]: https://github.com/angular-eslint/angular-eslint/tree/master/packages/eslint-plugin/src/rules/no-pipe-impure.ts
+[`angular-eslint/eslint-plugin/prefer-on-push-component-change-detection`]: https://github.com/angular-eslint/angular-eslint/tree/master/packages/eslint-plugin/src/rules/prefer-on-push-component-change-detection.ts
+[`angular-eslint/eslint-plugin/use-injectable-provided-in`]: https://github.com/angular-eslint/angular-eslint/tree/master/packages/eslint-plugin/src/rules/use-injectable-provided-in.ts
+[`angular-eslint/eslint-plugin/use-lifecycle-interface`]: https://github.com/angular-eslint/angular-eslint/tree/master/packages/eslint-plugin/src/rules/use-lifecycle-interface.ts
+[`angular-eslint/eslint-plugin/component-max-inline-declarations`]: https://github.com/angular-eslint/angular-eslint/tree/master/packages/eslint-plugin/src/rules/component-max-inline-declarations.ts
+[`angular-eslint/eslint-plugin/no-conflicting-lifecycle`]: https://github.com/angular-eslint/angular-eslint/tree/master/packages/eslint-plugin/src/rules/no-conflicting-lifecycle.ts
+[`angular-eslint/eslint-plugin/no-forward-ref`]: https://github.com/angular-eslint/angular-eslint/tree/master/packages/eslint-plugin/src/rules/no-forward-ref.ts
+[`angular-eslint/eslint-plugin/no-input-prefix`]: https://github.com/angular-eslint/angular-eslint/tree/master/packages/eslint-plugin/src/rules/no-input-prefix.ts
+[`angular-eslint/eslint-plugin/no-input-rename`]: https://github.com/angular-eslint/angular-eslint/tree/master/packages/eslint-plugin/src/rules/no-input-rename.ts
+[`angular-eslint/eslint-plugin/no-output-on-prefix`]: https://github.com/angular-eslint/angular-eslint/tree/master/packages/eslint-plugin/src/rules/no-output-on-prefix.ts
+[`angular-eslint/eslint-plugin/no-output-rename`]: https://github.com/angular-eslint/angular-eslint/tree/master/packages/eslint-plugin/src/rules/no-output-rename.ts
+[`angular-eslint/eslint-plugin/prefer-output-readonly`]: https://github.com/angular-eslint/angular-eslint/tree/master/packages/eslint-plugin/src/rules/prefer-output-readonly.ts
+[`angular-eslint/eslint-plugin/relative-url-prefix`]: https://github.com/angular-eslint/angular-eslint/tree/master/packages/eslint-plugin/src/rules/relative-url-prefix.ts
+[`angular-eslint/eslint-plugin/use-component-selector`]: https://github.com/angular-eslint/angular-eslint/tree/master/packages/eslint-plugin/src/rules/use-component-selector.ts
+[`angular-eslint/eslint-plugin/use-component-view-encapsulation`]: https://github.com/angular-eslint/angular-eslint/tree/master/packages/eslint-plugin/src/rules/use-component-view-encapsulation.ts
+[`angular-eslint/eslint-plugin/use-pipe-decorator`]: https://github.com/angular-eslint/angular-eslint/tree/master/packages/eslint-plugin/src/rules/use-pipe-decorator.ts
+[`angular-eslint/eslint-plugin/use-pipe-transform-interface`]: https://github.com/angular-eslint/angular-eslint/tree/master/packages/eslint-plugin/src/rules/use-pipe-transform-interface.ts
+[`angular-eslint/eslint-plugin/component-class-suffix`]: https://github.com/angular-eslint/angular-eslint/tree/master/packages/eslint-plugin/src/rules/component-class-suffix.ts
+[`angular-eslint/eslint-plugin/component-selector`]: https://github.com/angular-eslint/angular-eslint/tree/master/packages/eslint-plugin/src/rules/component-selector.ts
+[`angular-eslint/eslint-plugin/directive-class-suffix`]: https://github.com/angular-eslint/angular-eslint/tree/master/packages/eslint-plugin/src/rules/directive-class-suffix.ts
+[`angular-eslint/eslint-plugin/directive-selector`]: https://github.com/angular-eslint/angular-eslint/tree/master/packages/eslint-plugin/src/rules/directive-selector.ts
+[`angular-eslint/eslint-plugin/no-host-metadata-property`]: https://github.com/angular-eslint/angular-eslint/tree/master/packages/eslint-plugin/src/rules/no-host-metadata-property.ts
+[`angular-eslint/eslint-plugin/no-inputs-metadata-property`]: https://github.com/angular-eslint/angular-eslint/tree/master/packages/eslint-plugin/src/rules/no-inputs-metadata-property.ts
+[`angular-eslint/eslint-plugin/no-outputs-metadata-property`]: https://github.com/angular-eslint/angular-eslint/tree/master/packages/eslint-plugin/src/rules/no-outputs-metadata-property.ts
+[`angular-eslint/eslint-plugin/no-queries-metadata-property`]: https://github.com/angular-eslint/angular-eslint/tree/master/packages/eslint-plugin/src/rules/no-queries-metadata-property.ts
+[`angular-eslint/eslint-plugin/pipe-prefix`]: https://github.com/angular-eslint/angular-eslint/tree/master/packages/eslint-plugin/src/rules/pipe-prefix.ts
+
+<!-- @angular-eslint/eslint-plugin-template -->
+
+[`@angular-eslint/eslint-plugin-template/accessibility-alt-text`]: https://github.com/angular-eslint/angular-eslint/tree/master/packages/eslint-plugin-template/src/rules/accessibility-alt-text.ts
+[`@angular-eslint/eslint-plugin-template/accessibility-elements-content`]: https://github.com/angular-eslint/angular-eslint/tree/master/packages/eslint-plugin-template/src/rules/accessibility-elements-content.ts
+[`@angular-eslint/eslint-plugin-template/accessibility-tabindex-no-positive`]: https://github.com/angular-eslint/angular-eslint/tree/master/packages/eslint-plugin-template/src/rules/accessibility-tabindex-no-positive.ts
+[`@angular-eslint/eslint-plugin-template/accessibility-table-scope`]: https://github.com/angular-eslint/angular-eslint/tree/master/packages/eslint-plugin-template/src/rules/accessibility-table-scope.ts
+[`@angular-eslint/eslint-plugin-template/accessibility-valid-aria`]: https://github.com/angular-eslint/angular-eslint/tree/master/packages/eslint-plugin-template/src/rules/accessibility-valid-aria.ts
+[`@angular-eslint/eslint-plugin-template/banana-in-box`]: https://github.com/angular-eslint/angular-eslint/tree/master/packages/eslint-plugin-template/src/rules/banana-in-box.ts
+[`@angular-eslint/eslint-plugin-template/click-events-have-key-events`]: https://github.com/angular-eslint/angular-eslint/tree/master/packages/eslint-plugin-template/src/rules/click-events-have-key-events.ts
+[`@angular-eslint/eslint-plugin-template/no-any`]: https://github.com/angular-eslint/angular-eslint/tree/master/packages/eslint-plugin-template/src/rules/no-any.ts
+[`@angular-eslint/eslint-plugin-template/no-autofocus`]: https://github.com/angular-eslint/angular-eslint/tree/master/packages/eslint-plugin-template/src/rules/no-autofocus.ts
+[`@angular-eslint/eslint-plugin-template/no-distracting-elements`]: https://github.com/angular-eslint/angular-eslint/tree/master/packages/eslint-plugin-template/src/rules/no-distracting-elements.ts
+[`@angular-eslint/eslint-plugin-template/no-negated-async`]: https://github.com/angular-eslint/angular-eslint/tree/master/packages/eslint-plugin-template/src/rules/no-negated-async.ts
+[`@angular-eslint/eslint-plugin-template/conditional-complexity`]: https://github.com/angular-eslint/angular-eslint/tree/master/packages/eslint-plugin-template/src/rules/conditional-complexity.ts
+[`@angular-eslint/eslint-plugin-template/cyclomatic-complexity`]: https://github.com/angular-eslint/angular-eslint/tree/master/packages/eslint-plugin-template/src/rules/cyclomatic-complexity.ts
+[`@angular-eslint/eslint-plugin-template/i18n`]: https://github.com/angular-eslint/angular-eslint/tree/master/packages/eslint-plugin-template/src/rules/i18n.ts
+[`@angular-eslint/eslint-plugin-template/no-call-expression`]: https://github.com/angular-eslint/angular-eslint/tree/master/packages/eslint-plugin-template/src/rules/no-call-expression.ts
+[`@angular-eslint/eslint-plugin-template/use-track-by-function`]: https://github.com/angular-eslint/angular-eslint/tree/master/packages/eslint-plugin-template/src/rules/use-track-by-function.ts
