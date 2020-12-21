@@ -1,6 +1,6 @@
 import eslintPluginTemplate from '../src';
 
-const ESLINT_PLUGIN_PREFFIX = '@angular-eslint/template/';
+const ESLINT_PLUGIN_TEMPLATE_PREFIX = '@angular-eslint/template/';
 
 interface Config {
   extends?: string | string[];
@@ -8,11 +8,11 @@ interface Config {
   overrides?: Config[];
 }
 
-function containsRule(config: any, ruleName: string): boolean {
-  const prefixedRuleName = `${ESLINT_PLUGIN_PREFFIX}${ruleName}`;
-  return (
-    Boolean(config.rules?.[prefixedRuleName]) ||
-    config.overrides?.some((config: Config) => config.rules?.[prefixedRuleName])
+function containsRule(config: Config, ruleName: string): boolean {
+  const prefixedRuleName = `${ESLINT_PLUGIN_TEMPLATE_PREFIX}${ruleName}`;
+  return Boolean(
+    config.rules?.[prefixedRuleName] ||
+      config.overrides?.some(({ rules }) => rules?.[prefixedRuleName]),
   );
 }
 
@@ -35,11 +35,15 @@ describe('configs', () => {
     it('should only contain valid rules', () => {
       expect(
         Object.keys(eslintPluginTemplate.configs.all.rules)
-          .filter((ruleName) => ruleName.startsWith(ESLINT_PLUGIN_PREFFIX))
+          .filter((ruleName) =>
+            ruleName.startsWith(ESLINT_PLUGIN_TEMPLATE_PREFIX),
+          )
           .every((ruleName) =>
             Boolean(
-              (eslintPluginTemplate.rules as any)[
-                ruleName.slice(ESLINT_PLUGIN_PREFFIX.length)
+              eslintPluginTemplate.rules[
+                ruleName.slice(
+                  ESLINT_PLUGIN_TEMPLATE_PREFIX.length,
+                ) as keyof typeof eslintPluginTemplate.rules
               ],
             ),
           ),
@@ -61,11 +65,15 @@ describe('configs', () => {
     it('should only contain valid rules', () => {
       expect(
         Object.keys(eslintPluginTemplate.configs.recommended.rules)
-          .filter((ruleName) => ruleName.startsWith(ESLINT_PLUGIN_PREFFIX))
+          .filter((ruleName) =>
+            ruleName.startsWith(ESLINT_PLUGIN_TEMPLATE_PREFIX),
+          )
           .every((ruleName) =>
             Boolean(
-              (eslintPluginTemplate.rules as any)[
-                ruleName.slice(ESLINT_PLUGIN_PREFFIX.length)
+              eslintPluginTemplate.rules[
+                ruleName.slice(
+                  ESLINT_PLUGIN_TEMPLATE_PREFIX.length,
+                ) as keyof typeof eslintPluginTemplate.rules
               ],
             ),
           ),
