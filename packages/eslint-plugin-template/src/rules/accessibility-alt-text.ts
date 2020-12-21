@@ -1,13 +1,14 @@
+import { TmplAstElement } from '@angular/compiler';
+
 import {
   createESLintRule,
   getTemplateParserServices,
 } from '../utils/create-eslint-rule';
+import { getAttributeValue } from '../utils/get-attribute-value';
 
 type Options = [];
 export type MessageIds = 'accessibilityAltText';
 export const RULE_NAME = 'accessibility-alt-text';
-
-const elements = ['img', 'object', 'area', 'input'];
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
@@ -30,11 +31,7 @@ export default createESLintRule<Options, MessageIds>({
     const parserServices = getTemplateParserServices(context);
 
     return {
-      Element(node: any) {
-        if (elements.indexOf(node.name) === -1) {
-          return;
-        }
-
+      'Element[name=/^(img|area|object|input)$/]'(node: TmplAstElement) {
         const isValid = isValidNode(node);
 
         if (!isValid) {
@@ -71,10 +68,10 @@ function isValidNode(node: any): boolean {
 /**
  * In this case, we check that the `<img>` element has an `alt` attribute or `attr.alt` binding.
  */
-function isValidImgNode(node: any): boolean {
+function isValidImgNode(node: TmplAstElement): boolean {
   return (
-    node.attributes.some((attribute: any) => isAlt(attribute.name)) ||
-    node.inputs.some((input: any) => isAlt(input.name))
+    node.attributes.some(({ name }) => isAlt(name)) ||
+    node.inputs.some(({ name }) => isAlt(name))
   );
 }
 
@@ -117,7 +114,7 @@ function isValidObjectNode(node: any): boolean {
  * In this case, we check that the `<area>` element has an `alt` or `aria-label` attribute.
  * Otherwise, we check for the presence of `attr.alt` or `attr.aria-label` bindings.
  */
-function isValidAreaNode(node: any): boolean {
+function isValidAreaNode(node: TmplAstElement): boolean {
   let hasAltAttribute = false,
     hasAriaLabelAttribute = false;
 
@@ -148,14 +145,8 @@ function isValidAreaNode(node: any): boolean {
  * In this case, we check that the `<input>` element has an `alt` or `aria-label` attribute.
  * Otherwise, we check for the presence of `attr.alt` or `attr.aria-label` bindings.
  */
-function isValidInputNode(node: any): boolean {
-  const typeAttribute = node.attributes.find(
-    (attribute: any) => attribute.name === 'type',
-  );
-
-  const typeBinding = node.inputs.find((input: any) => input.name === 'type');
-
-  const type: string | undefined = typeAttribute?.value || typeBinding?.value;
+function isValidInputNode(node: TmplAstElement): boolean {
+  const type = getAttributeValue<string>(node, 'type');
   // We are only interested in the `<input type="image">` elements.
   if (type !== 'image') {
     return true;
