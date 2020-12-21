@@ -28,7 +28,7 @@ If you disagree with a rule (or it disagrees with your codebase), consider using
   "extends": ["plugin:@angular-eslint/template/recommended"],
   "rules": {
     // our project thinks using negated async pipes is ok
-    "@angular-eslint/template/no-negated-async": "off
+    "@angular-eslint/template/no-negated-async": "off"
   }
 }
 ```
