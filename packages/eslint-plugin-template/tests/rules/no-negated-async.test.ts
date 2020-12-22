@@ -83,18 +83,9 @@ ruleTester.run(RULE_NAME, rule, {
         </div>
       `,
       messages: [
-        {
-          char: '~',
-          messageId: 'noNegatedAsync',
-        },
-        {
-          char: '^',
-          messageId: 'noLooseEquality',
-        },
-        {
-          char: '#',
-          messageId: 'noLooseEquality',
-        },
+        { char: '~', messageId: 'noNegatedAsync' },
+        { char: '^', messageId: 'noLooseEquality' },
+        { char: '#', messageId: 'noLooseEquality' },
       ],
     }),
   ],
