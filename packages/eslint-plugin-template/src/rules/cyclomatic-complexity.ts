@@ -1,18 +1,12 @@
+import { TmplAstBoundAttribute, TmplAstTextAttribute } from '@angular/compiler';
 import {
   createESLintRule,
   getTemplateParserServices,
 } from '../utils/create-eslint-rule';
 
-type Options = [
-  {
-    maxComplexity: number;
-  },
-];
+type Options = [{ maxComplexity: number }];
 export type MessageIds = 'cyclomaticComplexity';
 export const RULE_NAME = 'cyclomatic-complexity';
-
-const BOUND_ATTRIBUTE_NAMES = ['ngForOf', 'ngIf', 'ngSwitchCase'];
-const TEXT_ATTRIBUTE_NAMES = ['ngSwitchDefault'];
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
@@ -23,7 +17,6 @@ export default createESLintRule<Options, MessageIds>({
       category: 'Best Practices',
       recommended: false,
     },
-    fixable: 'code',
     schema: [
       {
         type: 'object',
@@ -38,53 +31,30 @@ export default createESLintRule<Options, MessageIds>({
     ],
     messages: {
       cyclomaticComplexity:
-        'The cyclomatic complexity exceeded the defined limit of {{maxComplexity}}. Your template should be refactored.',
+        'The cyclomatic complexity "{{totalComplexity}}" exceeds the defined limit "{{maxComplexity}}"',
     },
   },
-  defaultOptions: [
-    {
-      maxComplexity: 5,
-    },
-  ],
-  create(context: any, [options]) {
+  defaultOptions: [{ maxComplexity: 5 }],
+  create(context, [{ maxComplexity }]) {
     let totalComplexity = 0;
-
     const parserServices = getTemplateParserServices(context);
-    const { maxComplexity } = options;
 
-    const validateCyclomaticComplexity = (node: any) => {
-      totalComplexity += 1;
+    return {
+      'BoundAttribute[name=/^(ngForOf|ngIf|ngSwitchCase)$/], TextAttribute[name="ngSwitchDefault"]'({
+        sourceSpan,
+      }: TmplAstBoundAttribute | TmplAstTextAttribute) {
+        totalComplexity += 1;
 
-      if (totalComplexity <= maxComplexity) {
-        return;
-      }
+        if (totalComplexity <= maxComplexity) return;
 
-      const loc = parserServices.convertNodeSourceSpanToLoc(node.sourceSpan);
+        const loc = parserServices.convertNodeSourceSpanToLoc(sourceSpan);
 
-      context.report({
-        messageId: 'cyclomaticComplexity',
-        loc,
-        data: {
-          maxComplexity,
-        },
-      });
+        context.report({
+          messageId: 'cyclomaticComplexity',
+          loc,
+          data: { maxComplexity, totalComplexity },
+        });
+      },
     };
-
-    return parserServices.defineTemplateBodyVisitor({
-      BoundAttribute(node: any) {
-        if (!BOUND_ATTRIBUTE_NAMES.includes(node.name)) {
-          return;
-        }
-
-        validateCyclomaticComplexity(node);
-      },
-      TextAttribute(node: any) {
-        if (!TEXT_ATTRIBUTE_NAMES.includes(node.name)) {
-          return;
-        }
-
-        validateCyclomaticComplexity(node);
-      },
-    });
   },
 });

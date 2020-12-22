@@ -25,11 +25,7 @@ ruleTester.run(RULE_NAME, rule, {
           <div>{{ person.name }}</div>
         </div>
       `,
-      options: [
-        {
-          maxComplexity: 1,
-        },
-      ],
+      options: [{ maxComplexity: 1 }],
     },
     {
       code: `
@@ -39,11 +35,7 @@ ruleTester.run(RULE_NAME, rule, {
           </div>
         </div>
       `,
-      options: [
-        {
-          maxComplexity: 2,
-        },
-      ],
+      options: [{ maxComplexity: 2 }],
     },
     {
       code: `
@@ -58,11 +50,7 @@ ruleTester.run(RULE_NAME, rule, {
           </div>
         </div>
       `,
-      options: [
-        {
-          maxComplexity: 5,
-        },
-      ],
+      options: [{ maxComplexity: 5 }],
     },
   ],
   invalid: [
@@ -85,20 +73,10 @@ ruleTester.run(RULE_NAME, rule, {
         </div>
       `,
       messages: [
-        {
-          char: '~',
-          messageId,
-        },
-        {
-          char: '^',
-          messageId,
-        },
+        { char: '~', messageId },
+        { char: '^', messageId },
       ],
-      options: [
-        {
-          maxComplexity: 5,
-        },
-      ],
+      options: [{ maxComplexity: 5 }],
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -127,24 +105,11 @@ ruleTester.run(RULE_NAME, rule, {
         </div>
       `,
       messages: [
-        {
-          char: '~',
-          messageId,
-        },
-        {
-          char: '^',
-          messageId,
-        },
-        {
-          char: '#',
-          messageId,
-        },
+        { char: '~', messageId },
+        { char: '^', messageId },
+        { char: '#', messageId },
       ],
-      options: [
-        {
-          maxComplexity: 6,
-        },
-      ],
+      options: [{ maxComplexity: 6 }],
     }),
   ],
 });
