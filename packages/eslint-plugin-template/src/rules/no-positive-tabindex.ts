@@ -1,13 +1,8 @@
-import { TmplAstElement } from '@angular/compiler';
-
+import { TmplAstBoundAttribute, TmplAstTextAttribute } from '@angular/compiler';
 import {
   createESLintRule,
   getTemplateParserServices,
 } from '../utils/create-eslint-rule';
-import {
-  getAttributeValue,
-  notAnAttributeOrIsProperty,
-} from '../utils/get-attribute-value';
 
 type Options = [];
 export type MessageIds = 'noPositiveTabindex';
@@ -18,7 +13,7 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description: `Ensures that the tabindex attribute is not positive`,
+      description: 'Ensures that the tabindex attribute is not positive',
       category: 'Best Practices',
       recommended: false,
     },
@@ -30,29 +25,18 @@ export default createESLintRule<Options, MessageIds>({
   defaultOptions: [],
   create(context) {
     const parserServices = getTemplateParserServices(context);
-    return parserServices.defineTemplateBodyVisitor({
-      Element(node: TmplAstElement) {
-        const tabIndex = getAttributeValue<string | number>(node, 'tabindex');
 
-        if (notAnAttributeOrIsProperty(tabIndex)) {
-          return;
-        }
+    return {
+      'BoundAttribute[name="tabindex"][value.ast.value>0], TextAttribute[name="tabindex"][value>0]'({
+        sourceSpan,
+      }: TmplAstBoundAttribute | TmplAstTextAttribute) {
+        const loc = parserServices.convertNodeSourceSpanToLoc(sourceSpan);
 
-        // This check is used because the `parseInt` signature expects a
-        // string as the first parameter and does not accept numbers.
-        const numericTabIndex =
-          typeof tabIndex === 'string' ? parseInt(tabIndex, 10) : tabIndex;
-
-        if (numericTabIndex > 0) {
-          const loc = parserServices.convertNodeSourceSpanToLoc(
-            node.startSourceSpan,
-          );
-          context.report({
-            messageId: 'noPositiveTabindex',
-            loc,
-          });
-        }
+        context.report({
+          loc,
+          messageId: 'noPositiveTabindex',
+        });
       },
-    });
+    };
   },
 });
