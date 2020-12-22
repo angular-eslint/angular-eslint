@@ -41,3 +41,9 @@ export function getAttributeValue<T extends string | number | boolean = string>(
     return PROPERTY;
   }
 }
+
+export function notAnAttributeOrIsProperty(
+  attribute: unknown,
+): attribute is null | typeof PROPERTY {
+  return attribute === null || attribute === PROPERTY;
+}

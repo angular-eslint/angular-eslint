@@ -1,11 +1,10 @@
 import { aria } from 'aria-query';
+import { TmplAstBoundAttribute, TmplAstTextAttribute } from '@angular/compiler';
 
 import {
   createESLintRule,
   getTemplateParserServices,
 } from '../utils/create-eslint-rule';
-
-const ariaAttributes = new Set<string>(aria.keys());
 
 type Options = [];
 export type MessageIds = 'accessibilityValidAria';
@@ -30,36 +29,28 @@ export default createESLintRule<Options, MessageIds>({
   create(context) {
     const parserServices = getTemplateParserServices(context);
 
-    return parserServices.defineTemplateBodyVisitor({
-      BoundAttribute(attribute: any) {
-        validateAttribute(context, parserServices, attribute);
+    return {
+      'TextAttribute[name=/aria-*/], BoundAttribute[name=/aria-*/]'({
+        name,
+        sourceSpan,
+      }: TmplAstTextAttribute | TmplAstBoundAttribute) {
+        if (getAriaAttributes().has(name)) {
+          return;
+        }
+
+        const loc = parserServices.convertNodeSourceSpanToLoc(sourceSpan);
+
+        context.report({
+          loc,
+          messageId: 'accessibilityValidAria',
+          data: { attribute: name },
+        });
       },
-      TextAttribute(attribute: any) {
-        validateAttribute(context, parserServices, attribute);
-      },
-    });
+    };
   },
 });
 
-function validateAttribute(
-  context: any,
-  parserServices: any,
-  attribute: any,
-): void {
-  if (
-    !attribute.name.startsWith('aria-') ||
-    ariaAttributes.has(attribute.name)
-  ) {
-    return;
-  }
-
-  const loc = parserServices.convertNodeSourceSpanToLoc(attribute.sourceSpan);
-
-  context.report({
-    loc,
-    messageId: 'accessibilityValidAria',
-    data: {
-      attribute: attribute.name,
-    },
-  });
+let ariaAttributes: Set<string> | null = null;
+function getAriaAttributes(): Set<string> {
+  return ariaAttributes || (ariaAttributes = new Set<string>(aria.keys()));
 }
