@@ -1,3 +1,4 @@
+import { BoundEventAst } from '@angular/compiler';
 import {
   createESLintRule,
   getTemplateParserServices,
@@ -6,7 +7,6 @@ import {
 type Options = [];
 export type MessageIds = 'bananaInBox';
 export const RULE_NAME = 'banana-in-box';
-
 const INVALID_PATTERN = /\[(.*)\]/;
 const VALID_CLOSE_BOX = ')]';
 const VALID_OPEN_BOX = '[(';
@@ -16,7 +16,7 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description: `Ensures that the two-way data binding syntax is correct`,
+      description: 'Ensures that the two-way data binding syntax is correct',
       category: 'Best Practices',
       recommended: 'error',
     },
@@ -31,17 +31,15 @@ export default createESLintRule<Options, MessageIds>({
     const parserServices = getTemplateParserServices(context);
     const sourceCode = context.getSourceCode();
 
-    return parserServices.defineTemplateBodyVisitor({
-      BoundEvent(node: any) {
-        const matches = node.name.match(INVALID_PATTERN);
-        if (!matches) {
-          return;
-        }
+    return {
+      BoundEvent({ name, sourceSpan }: BoundEventAst) {
+        const matches = name.match(INVALID_PATTERN);
 
-        const text = matches[1];
+        if (!matches) return;
+
+        const [, text] = matches;
         const newText = `${VALID_OPEN_BOX}${text}${VALID_CLOSE_BOX}`;
-
-        const loc = parserServices.convertNodeSourceSpanToLoc(node.sourceSpan);
+        const loc = parserServices.convertNodeSourceSpanToLoc(sourceSpan);
         const startIndex = sourceCode.getIndexFromLoc(loc.start);
 
         context.report({
@@ -49,14 +47,11 @@ export default createESLintRule<Options, MessageIds>({
           loc,
           fix: (fixer) =>
             fixer.replaceTextRange(
-              [
-                startIndex,
-                '('.length + startIndex + ')'.length + node.name.length,
-              ],
+              [startIndex, startIndex + name.length + 2],
               newText,
             ),
         });
       },
-    });
+    };
   },
 });
