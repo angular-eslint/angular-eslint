@@ -13,6 +13,10 @@ uplinks:
     timeout: 60s
     cache: false
     maxage: 30m
+    agent_options:
+      keepAlive: true
+      maxSockets: 40
+      maxFreeSockets: 10
   yarn:
     url: https://registry.yarnpkg.com
     max_fails: 30
@@ -20,6 +24,10 @@ uplinks:
     timeout: 60s
     cache: false
     maxage: 30m
+    agent_options:
+      keepAlive: true
+      maxSockets: 40
+      maxFreeSockets: 10
 
 packages:
   '@*/*':
