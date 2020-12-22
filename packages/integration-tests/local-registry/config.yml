@@ -8,12 +8,26 @@ auth:
 uplinks:
   npmjs:
     url: https://registry.npmjs.org/
-    max_fails: 20
+    max_fails: 30
     fail_timeout: 10m
+    timeout: 60s
+    cache: false
+    maxage: 30m
+    agent_options:
+      keepAlive: true
+      maxSockets: 40
+      maxFreeSockets: 10
   yarn:
     url: https://registry.yarnpkg.com
-    max_fails: 20
+    max_fails: 30
     fail_timeout: 10m
+    timeout: 60s
+    cache: false
+    maxage: 30m
+    agent_options:
+      keepAlive: true
+      maxSockets: 40
+      maxFreeSockets: 10
 
 packages:
   '@*/*':
@@ -37,4 +51,5 @@ packages:
 
 # log settings
 logs:
-  - { type: stdout, format: pretty, level: http }
+  # Change level to http to get more verbose output when working locally if needed
+  - { type: stdout, format: pretty, level: warn }

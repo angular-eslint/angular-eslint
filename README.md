@@ -406,7 +406,7 @@ If you are still having problems after you have done some digging into these, fe
 
 | Codelyzer rule                                  |       Status       |
 | ----------------------------------------------- | :----------------: |
-| [`contextual-decorator`]                        |                    |
+| [`contextual-decorator`]                        | :white_check_mark: |
 | [`contextual-lifecycle`]                        | :white_check_mark: |
 | [`no-attribute-decorator`]                      | :white_check_mark: |
 | [`no-lifecycle-call`]                           | :white_check_mark: |
@@ -420,7 +420,7 @@ If you are still having problems after you have done some digging into these, fe
 | [`template-accessibility-table-scope`]          | :white_check_mark: |
 | [`template-accessibility-valid-aria`]           | :white_check_mark: |
 | [`template-banana-in-box`]                      | :white_check_mark: |
-| [`template-click-events-have-key-events`]       |                    |
+| [`template-click-events-have-key-events`]       | :white_check_mark: |
 | [`template-mouse-events-have-key-events`]       | :white_check_mark: |
 | [`template-no-any`]                             | :white_check_mark: |
 | [`template-no-autofocus`]                       | :white_check_mark: |
@@ -527,5 +527,8 @@ If you are still having problems after you have done some digging into these, fe
 [`use-pipe-transform-interface`]: https://codelyzer.com/rules/use-pipe-transform-interface
 
 <!-- PR Links -->
+
+[`pr233`]: https://api.github.com/repos/angular-eslint/angular-eslint/pulls/233
+[`pr260`]: https://api.github.com/repos/angular-eslint/angular-eslint/pulls/260
 
 <!-- end rule list -->
