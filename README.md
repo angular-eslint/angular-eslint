@@ -404,30 +404,30 @@ If you are still having problems after you have done some digging into these, fe
 
 #### Functionality
 
-| Codelyzer rule                                  |          Status           |
-| ----------------------------------------------- | :-----------------------: |
-| [`contextual-decorator`]                        | [:construction:][`pr233`] |
-| [`contextual-lifecycle`]                        |    :white_check_mark:     |
-| [`no-attribute-decorator`]                      |    :white_check_mark:     |
-| [`no-lifecycle-call`]                           |    :white_check_mark:     |
-| [`no-output-native`]                            |    :white_check_mark:     |
-| [`no-pipe-impure`]                              |    :white_check_mark:     |
-| [`prefer-on-push-component-change-detection`]   |    :white_check_mark:     |
-| [`template-accessibility-alt-text`]             |    :white_check_mark:     |
-| [`template-accessibility-elements-content`]     |    :white_check_mark:     |
-| [`template-accessibility-label-for`]            |                           |
-| [`template-accessibility-tabindex-no-positive`] |    :white_check_mark:     |
-| [`template-accessibility-table-scope`]          |    :white_check_mark:     |
-| [`template-accessibility-valid-aria`]           |    :white_check_mark:     |
-| [`template-banana-in-box`]                      |    :white_check_mark:     |
-| [`template-click-events-have-key-events`]       |    :white_check_mark:     |
-| [`template-mouse-events-have-key-events`]       |    :white_check_mark:     |
-| [`template-no-any`]                             |    :white_check_mark:     |
-| [`template-no-autofocus`]                       |    :white_check_mark:     |
-| [`template-no-distracting-elements`]            |    :white_check_mark:     |
-| [`template-no-negated-async`]                   |    :white_check_mark:     |
-| [`use-injectable-provided-in`]                  |    :white_check_mark:     |
-| [`use-lifecycle-interface`]                     |    :white_check_mark:     |
+| Codelyzer rule                                  |       Status       |
+| ----------------------------------------------- | :----------------: |
+| [`contextual-decorator`]                        | :white_check_mark: |
+| [`contextual-lifecycle`]                        | :white_check_mark: |
+| [`no-attribute-decorator`]                      | :white_check_mark: |
+| [`no-lifecycle-call`]                           | :white_check_mark: |
+| [`no-output-native`]                            | :white_check_mark: |
+| [`no-pipe-impure`]                              | :white_check_mark: |
+| [`prefer-on-push-component-change-detection`]   | :white_check_mark: |
+| [`template-accessibility-alt-text`]             | :white_check_mark: |
+| [`template-accessibility-elements-content`]     | :white_check_mark: |
+| [`template-accessibility-label-for`]            |                    |
+| [`template-accessibility-tabindex-no-positive`] | :white_check_mark: |
+| [`template-accessibility-table-scope`]          | :white_check_mark: |
+| [`template-accessibility-valid-aria`]           | :white_check_mark: |
+| [`template-banana-in-box`]                      | :white_check_mark: |
+| [`template-click-events-have-key-events`]       | :white_check_mark: |
+| [`template-mouse-events-have-key-events`]       | :white_check_mark: |
+| [`template-no-any`]                             | :white_check_mark: |
+| [`template-no-autofocus`]                       | :white_check_mark: |
+| [`template-no-distracting-elements`]            | :white_check_mark: |
+| [`template-no-negated-async`]                   | :white_check_mark: |
+| [`use-injectable-provided-in`]                  | :white_check_mark: |
+| [`use-lifecycle-interface`]                     | :white_check_mark: |
 
 #### Maintainability
 
