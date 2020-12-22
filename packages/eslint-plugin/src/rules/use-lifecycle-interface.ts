@@ -2,17 +2,17 @@ import { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import {
   AngularLifecycleInterfaces,
+  AngularLifecycleMethodKeys,
+  ANGULAR_LIFECYCLE_METHODS,
+  getAngularClassDecorator,
   getDeclaredAngularLifecycleInterfaces,
-  getDeclaredMethods,
   getLifecycleInterfaceByMethodName,
-  getMethodName,
-  isAngularLifecycleMethod,
+  toPattern,
 } from '../utils/utils';
 
 type Options = [];
 export type MessageIds = 'useLifecycleInterface';
 export const RULE_NAME = 'use-lifecycle-interface';
-
 const STYLE_GUIDE_LINK = 'https://angular.io/styleguide#style-09-01';
 
 export default createESLintRule<Options, MessageIds>({
@@ -21,45 +21,47 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description:
-        'Ensures classes implement lifecycle interfaces corresponding to the declared lifecycle methods',
+        'Ensures that classes implement lifecycle interfaces corresponding to the declared lifecycle methods',
       category: 'Best Practices',
       recommended: 'warn',
     },
     schema: [],
     messages: {
-      useLifecycleInterface: `Lifecycle interface '{{interfaceName}}' should be implemented for method '{{methodName}}'. (${STYLE_GUIDE_LINK})`,
+      useLifecycleInterface: `Lifecycle interface "{{interfaceName}}" should be implemented for method "{{methodName}}" (${STYLE_GUIDE_LINK})`,
     },
   },
   defaultOptions: [],
   create(context) {
+    const angularLifecycleMethodsPattern = toPattern([
+      ...ANGULAR_LIFECYCLE_METHODS,
+    ]);
+
     return {
-      ClassDeclaration(node: TSESTree.ClassDeclaration) {
+      [`MethodDefinition[key.name=${angularLifecycleMethodsPattern}]`]({
+        key,
+        parent,
+      }: TSESTree.MethodDefinition) {
+        const classDeclaration = parent!.parent as TSESTree.ClassDeclaration;
+
+        if (!getAngularClassDecorator(classDeclaration)) return;
+
         const declaredLifecycleInterfaces = getDeclaredAngularLifecycleInterfaces(
-          node,
+          classDeclaration,
         );
-        const declaredMethods = getDeclaredMethods(node);
+        const methodName = (key as TSESTree.Identifier)
+          .name as AngularLifecycleMethodKeys;
+        const interfaceName = getLifecycleInterfaceByMethodName(methodName);
+        const isMethodImplemented = declaredLifecycleInterfaces.includes(
+          AngularLifecycleInterfaces[interfaceName],
+        );
 
-        for (const method of declaredMethods) {
-          const methodName = getMethodName(method);
+        if (isMethodImplemented) return;
 
-          if (!isAngularLifecycleMethod(methodName)) continue;
-
-          const interfaceName = getLifecycleInterfaceByMethodName(methodName);
-          const isMethodImplemented = declaredLifecycleInterfaces.includes(
-            AngularLifecycleInterfaces[interfaceName],
-          );
-
-          if (isMethodImplemented) continue;
-
-          context.report({
-            node: method.key,
-            messageId: 'useLifecycleInterface',
-            data: {
-              interfaceName,
-              methodName,
-            },
-          });
-        }
+        context.report({
+          node: key,
+          messageId: 'useLifecycleInterface',
+          data: { interfaceName, methodName },
+        });
       },
     };
   },
