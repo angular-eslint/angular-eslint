@@ -1,15 +1,17 @@
-import { Parser, Lexer, Binary, ASTWithSource } from '@angular/compiler';
+import {
+  ASTWithSource,
+  Binary,
+  Lexer,
+  Parser,
+  TmplAstBoundAttribute,
+} from '@angular/compiler';
 
 import {
   createESLintRule,
   getTemplateParserServices,
 } from '../utils/create-eslint-rule';
 
-type Options = [
-  {
-    maxComplexity: number;
-  },
-];
+type Options = [{ maxComplexity: number }];
 
 export type MessageIds = 'conditionalСomplexity';
 export const RULE_NAME = 'conditional-complexity';
@@ -23,7 +25,6 @@ export default createESLintRule<Options, MessageIds>({
       category: 'Best Practices',
       recommended: false,
     },
-    fixable: 'code',
     schema: [
       {
         type: 'object',
@@ -37,39 +38,32 @@ export default createESLintRule<Options, MessageIds>({
       },
     ],
     messages: {
-      conditionalСomplexity: `The condition complexity (cost '{{totalComplexity}}') exceeded the defined limit (cost '{{maxComplexity}}'). The conditional expression should be moved into the component.`,
+      conditionalСomplexity:
+        'The condition complexity "{{totalComplexity}}" exceeds the defined limit "{{maxComplexity}}"',
     },
   },
-  defaultOptions: [
-    {
-      maxComplexity: 5,
-    },
-  ],
-  create(context, [options]) {
+  defaultOptions: [{ maxComplexity: 5 }],
+  create(context, [{ maxComplexity }]) {
     const parserServices = getTemplateParserServices(context);
 
-    return parserServices.defineTemplateBodyVisitor({
-      BoundAttribute(node: any) {
-        if (node.name !== 'ngIf') {
-          return;
-        }
+    return {
+      'BoundAttribute[name="ngIf"]'({
+        sourceSpan,
+        value,
+      }: TmplAstBoundAttribute) {
+        const totalComplexity = getTotalComplexity(value as ASTWithSource);
 
-        const { maxComplexity } = options;
-        const totalComplexity = getTotalComplexity(node.value);
+        if (totalComplexity <= maxComplexity) return;
 
-        if (totalComplexity <= maxComplexity) {
-          return;
-        }
-
-        const loc = parserServices.convertNodeSourceSpanToLoc(node.sourceSpan);
+        const loc = parserServices.convertNodeSourceSpanToLoc(sourceSpan);
 
         context.report({
           loc,
           messageId: 'conditionalСomplexity',
-          data: { totalComplexity, maxComplexity },
+          data: { maxComplexity, totalComplexity },
         });
       },
-    });
+    };
   },
 });
 
@@ -79,12 +73,11 @@ function getParser(): Parser {
   return parser || (parser = new Parser(new Lexer()));
 }
 
-function getTotalComplexity(ast: ASTWithSource): number {
-  const expression = ast.source !== null ? ast.source.replace(/\s/g, '') : '';
+function getTotalComplexity({ source }: ASTWithSource): number {
+  const expression = source?.replace(/\s/g, '') ?? '';
   const parser = getParser();
   const astWithSource = parser.parseAction(expression, null, 0);
   const conditions: Binary[] = [];
-
   let totalComplexity = 0;
   let condition = astWithSource.ast as Binary;
 
