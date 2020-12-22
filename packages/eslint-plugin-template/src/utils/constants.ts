@@ -1,1 +1,1 @@
-export const PROPERTY: [string] = ['PROPERTY'];
+export const PROPERTY: unique symbol = Symbol('PROPERTY');

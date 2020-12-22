@@ -67,10 +67,19 @@ ruleTester.run(RULE_NAME, rule, {
     convertAnnotatedSourceToFailureCase({
       messageId,
       description:
-        'should fail when input element with type image does not have alt or text image',
+        'should fail when input element with type image attribute does not have alt or text image',
       annotatedSource: `
         <input type="image">
         ~~~~~~~~~~~~~~~~~~~~
+      `,
+    }),
+    convertAnnotatedSourceToFailureCase({
+      messageId,
+      description:
+        'should fail when input element with type image binding does not have alt or text image',
+      annotatedSource: `
+        <input [type]="'image'">
+        ~~~~~~~~~~~~~~~~~~~~~~~~
       `,
     }),
   ],
