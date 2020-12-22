@@ -16,22 +16,13 @@ const messageId: MessageIds = 'bananaInBox';
 
 ruleTester.run(RULE_NAME, rule, {
   valid: [
-    {
-      filename: 'test.component.html',
-      code: `<input type="text" name="foo" [ngModel]="foo">`,
-    },
-    {
-      filename: 'test.component.html',
-      code: `<input type="text" name="foo" [(ngModel)]="foo">`,
-    },
-    {
-      filename: 'test.component.html',
-      code: `
-        <button type="button" (click)="navigate(['/resources'])">
-          Navigate
-        </button>
-`,
-    },
+    '<input type="text" name="foo" [ngModel]="foo">',
+    '<input type="text" name="foo" [(ngModel)]="foo">',
+    `
+      <button type="button" (click)="navigate(['/resources'])">
+        Navigate
+      </button>
+    `,
   ],
   invalid: [
     convertAnnotatedSourceToFailureCase({
@@ -48,27 +39,14 @@ ruleTester.run(RULE_NAME, rule, {
       `,
     }),
     {
-      filename: 'test.component.html',
       code: `
         <app-item ([bar])="bar" ([item])="item" [(test)]="test"></app-item>
         <div [baz]="oneWay" (emitter)="emitter" ([twoWay])="twoWay"></div>
       `,
       errors: [
-        {
-          messageId,
-          line: 2,
-          column: 19,
-        },
-        {
-          messageId,
-          line: 2,
-          column: 33,
-        },
-        {
-          messageId,
-          line: 3,
-          column: 49,
-        },
+        { column: 19, line: 2, messageId },
+        { column: 33, line: 2, messageId },
+        { column: 49, line: 3, messageId },
       ],
       output: `
         <app-item [(bar)]="bar" [(item)]="item" [(test)]="test"></app-item>

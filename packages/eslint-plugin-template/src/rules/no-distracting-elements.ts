@@ -1,3 +1,4 @@
+import { TmplAstElement } from '@angular/compiler';
 import {
   createESLintRule,
   getTemplateParserServices,
@@ -12,14 +13,14 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description: 'Enforces that no distracting elements are used.',
+      description: 'Enforces that no distracting elements are used',
       category: 'Best Practices',
       recommended: false,
     },
     schema: [],
     messages: {
       noDistractingElements:
-        'Do not use <{{element}}> elements as they can create visual accessibility issues and are deprecated.',
+        'Do not use <{{element}}> elements as they can create visual accessibility issues and are deprecated',
     },
   },
   defaultOptions: [],
@@ -27,20 +28,17 @@ export default createESLintRule<Options, MessageIds>({
     const parserServices = getTemplateParserServices(context);
 
     return {
-      Element(node: any) {
-        if (node.name === 'marquee' || node.name === 'blink') {
-          const loc = parserServices.convertNodeSourceSpanToLoc(
-            node.sourceSpan,
-          );
+      'Element[name=/^(blink|marquee)$/]'({
+        name: element,
+        sourceSpan,
+      }: TmplAstElement) {
+        const loc = parserServices.convertNodeSourceSpanToLoc(sourceSpan);
 
-          context.report({
-            loc,
-            messageId: 'noDistractingElements',
-            data: {
-              element: node.name,
-            },
-          });
-        }
+        context.report({
+          loc,
+          messageId: 'noDistractingElements',
+          data: { element },
+        });
       },
     };
   },

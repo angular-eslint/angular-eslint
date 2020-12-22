@@ -1,6 +1,7 @@
 {
   "extends": "./configs/base.json",
   "rules": {
+    "@angular-eslint/contextual-decorator": "error",
     "@angular-eslint/component-class-suffix": "error",
     "@angular-eslint/component-max-inline-declarations": "error",
     "@angular-eslint/component-selector": "error",
