@@ -297,6 +297,15 @@ export const getDecorator = (
   );
 };
 
+export const getAngularClassDecorator = ({
+  decorators,
+}: TSESTree.ClassDeclaration): AngularClassDecoratorKeys | undefined => {
+  return decorators
+    ?.map(getDecoratorName)
+    .filter(isNotNullOrUndefined)
+    .find(isAngularClassDecorator);
+};
+
 export const getDecoratorArgument = (
   decorator: TSESTree.Decorator,
 ): TSESTree.ObjectExpression | undefined => {

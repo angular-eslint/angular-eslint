@@ -1,12 +1,11 @@
 import { TSESLint, TSESTree } from '@typescript-eslint/experimental-utils';
 
 import {
-  getDecoratorName,
-  isAngularClassDecorator,
   isAngularInnerClassDecorator,
-  isNotNullOrUndefined,
   AngularClassDecoratorKeys,
   ANGULAR_CLASS_DECORATOR_MAPPER,
+  getAngularClassDecorator,
+  getDecoratorName,
 } from '../utils/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
@@ -62,7 +61,7 @@ function validateNode(
     return;
   }
 
-  const classDecoratorName = getClassDecoratorName(classDeclaration);
+  const classDecoratorName = getAngularClassDecorator(classDeclaration);
 
   if (!classDecoratorName) {
     return;
@@ -85,15 +84,6 @@ function lookupTheClassDeclaration(
   }
 
   return null;
-}
-
-function getClassDecoratorName(
-  classDeclaration: TSESTree.ClassDeclaration,
-): AngularClassDecoratorKeys | undefined {
-  return (classDeclaration.decorators || [])
-    .map(getDecoratorName)
-    .filter(isNotNullOrUndefined)
-    .find(isAngularClassDecorator);
 }
 
 function validateDecorator(
