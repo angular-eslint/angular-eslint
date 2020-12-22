@@ -1,6 +1,6 @@
 import {
   createESLintRule,
-  getTemplateParserServices,
+  ensureTemplateParser,
 } from '../utils/create-eslint-rule';
 
 type Options = [];
@@ -12,11 +12,11 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description: `Ensures that strict equality is used when evaluating negations on async pipe output`,
+      description:
+        'Ensures that strict equality is used when evaluating negations on async pipe output',
       category: 'Best Practices',
       recommended: 'error',
     },
-    fixable: 'code',
     schema: [],
     messages: {
       noNegatedAsync:
@@ -27,54 +27,49 @@ export default createESLintRule<Options, MessageIds>({
   },
   defaultOptions: [],
   create(context) {
-    const parserServices = getTemplateParserServices(context);
+    ensureTemplateParser(context);
     const sourceCode = context.getSourceCode();
 
-    return parserServices.defineTemplateBodyVisitor({
-      ['BindingPipe[name=async]'](node: any) {
-        if (node.parent.type === 'PrefixNot') {
-          const additionalOffset =
-            node.parent.parent.type === 'Interpolation' ? -1 : 0;
+    return {
+      'PrefixNot > BindingPipe[name=async]'({
+        parent: {
+          parent: { type },
+          sourceSpan: { end, start },
+        },
+      }: any) {
+        const additionalOffset = isInterpolation(type) ? -1 : 0;
+        const loc = {
+          start: sourceCode.getLocFromIndex(start + additionalOffset),
+          end: sourceCode.getLocFromIndex(end + additionalOffset),
+        } as const;
 
-          const start = sourceCode.getLocFromIndex(
-            node.parent.sourceSpan.start + additionalOffset,
-          );
-          const end = sourceCode.getLocFromIndex(
-            node.parent.sourceSpan.end + additionalOffset,
-          );
-
-          context.report({
-            messageId: 'noNegatedAsync',
-            loc: {
-              start,
-              end,
-            },
-          });
-          return;
-        }
-
-        if (node.parent.type === 'Binary' && node.parent.operation === '==') {
-          const additionalStartOffset =
-            node.parent.parent.type === 'Interpolation' ? -2 : -1;
-          const additionalEndOffset =
-            node.parent.parent.type === 'Interpolation' ? -1 : 0;
-          const start = sourceCode.getLocFromIndex(
-            node.parent.sourceSpan.start + additionalStartOffset,
-          );
-          const end = sourceCode.getLocFromIndex(
-            node.parent.sourceSpan.end + additionalEndOffset,
-          );
-
-          context.report({
-            messageId: 'noLooseEquality',
-            loc: {
-              start,
-              end,
-            },
-          });
-          return;
-        }
+        context.report({
+          messageId: 'noNegatedAsync',
+          loc,
+        });
       },
-    });
+      'Binary[operation="=="] > BindingPipe[name=async]'({
+        parent: {
+          parent: { type },
+          sourceSpan: { end, start },
+        },
+      }: any) {
+        const additionalStartOffset = isInterpolation(type) ? -2 : -1;
+        const additionalEndOffset = isInterpolation(type) ? -1 : 0;
+        const loc = {
+          start: sourceCode.getLocFromIndex(start + additionalStartOffset),
+          end: sourceCode.getLocFromIndex(end + additionalEndOffset),
+        } as const;
+
+        context.report({
+          messageId: 'noLooseEquality',
+          loc,
+        });
+      },
+    };
   },
 });
+
+function isInterpolation(value: string): value is 'Interpolation' {
+  return value === 'Interpolation';
+}
