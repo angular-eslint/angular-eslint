@@ -579,3 +579,6 @@ export const getReadablePrefixes = (prefixes: string[]): string => {
     .slice(0, prefixesLength - 1)
     .join(', ')} or "${[...prefixes].pop()}"`;
 };
+
+export const toPattern = (value: readonly unknown[]) =>
+  RegExp(`^(${value.join('|')})$`);
