@@ -120,9 +120,15 @@ ruleTester.run(RULE_NAME, rule, {
     }
     `,
     `
-    @Pipe
+    @NgModule()
     class Test {
-      ngOnInit() { }
+      ngOnInit() { console.log('ngOnInit') }
+    }
+    `,
+    `
+    @Pipe()
+    class Test {
+      ngDoBootstrap() { console.log('ngDoBootstrap') }
     }
     `,
   ],
@@ -134,7 +140,7 @@ ruleTester.run(RULE_NAME, rule, {
         @Component()
         class Test {
           ngAfterContentChecked() { }
-          ~~~~~~~~~~~~~~~~~~~~~
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~
         }
       `,
       messageId,
@@ -146,7 +152,7 @@ ruleTester.run(RULE_NAME, rule, {
         @Component()
         class Test {
           ngAfterContentInit() { }
-          ~~~~~~~~~~~~~~~~~~
+          ~~~~~~~~~~~~~~~~~~~~~~~~
         }
       `,
       messageId,
@@ -158,7 +164,7 @@ ruleTester.run(RULE_NAME, rule, {
         @Component()
         class Test {
           ngAfterViewChecked() { }
-          ~~~~~~~~~~~~~~~~~~
+          ~~~~~~~~~~~~~~~~~~~~~~~~
         }
       `,
       messageId,
@@ -170,7 +176,19 @@ ruleTester.run(RULE_NAME, rule, {
         @Component()
         class Test {
           ngAfterViewInit() { }
-          ~~~~~~~~~~~~~~~
+          ~~~~~~~~~~~~~~~~~~~~~
+        }
+      `,
+      messageId,
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'Class with @Component should fail if ngDoBootstrap() method is empty',
+      annotatedSource: `
+        @Component()
+        class Test {
+          ngDoBootstrap() { }
+          ~~~~~~~~~~~~~~~~~~~
         }
       `,
       messageId,
@@ -182,7 +200,7 @@ ruleTester.run(RULE_NAME, rule, {
         @Component()
         class Test {
           ngDoCheck() { }
-          ~~~~~~~~~
+          ~~~~~~~~~~~~~~~
         }
       `,
       messageId,
@@ -194,7 +212,7 @@ ruleTester.run(RULE_NAME, rule, {
         @Component()
         class Test {
           ngOnChanges() { }
-          ~~~~~~~~~~~
+          ~~~~~~~~~~~~~~~~~
         }
       `,
       messageId,
@@ -206,7 +224,7 @@ ruleTester.run(RULE_NAME, rule, {
         @Component()
         class Test {
           ngOnDestroy() { }
-          ~~~~~~~~~~~
+          ~~~~~~~~~~~~~~~~~
         }
       `,
       messageId,
@@ -218,7 +236,7 @@ ruleTester.run(RULE_NAME, rule, {
         @Component()
         class Test {
           ngOnInit() { }
-          ~~~~~~~~
+          ~~~~~~~~~~~~~~
         }
       `,
       messageId,
@@ -230,7 +248,7 @@ ruleTester.run(RULE_NAME, rule, {
         @Directive()
         class Test {
           ngAfterContentChecked() { }
-          ~~~~~~~~~~~~~~~~~~~~~
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~
         }
       `,
       messageId,
@@ -242,7 +260,7 @@ ruleTester.run(RULE_NAME, rule, {
         @Directive()
         class Test {
           ngAfterContentInit() { }
-          ~~~~~~~~~~~~~~~~~~
+          ~~~~~~~~~~~~~~~~~~~~~~~~
         }
       `,
       messageId,
@@ -254,7 +272,7 @@ ruleTester.run(RULE_NAME, rule, {
         @Directive()
         class Test {
           ngAfterViewChecked() { }
-          ~~~~~~~~~~~~~~~~~~
+          ~~~~~~~~~~~~~~~~~~~~~~~~
         }
       `,
       messageId,
@@ -266,7 +284,19 @@ ruleTester.run(RULE_NAME, rule, {
         @Directive()
         class Test {
           ngAfterViewInit() { }
-          ~~~~~~~~~~~~~~~
+          ~~~~~~~~~~~~~~~~~~~~~
+        }
+      `,
+      messageId,
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'Class with @Directive should fail if ngDoBootstrap() method is empty',
+      annotatedSource: `
+        @Directive()
+        class Test {
+          ngDoBootstrap() { }
+          ~~~~~~~~~~~~~~~~~~~
         }
       `,
       messageId,
@@ -278,7 +308,7 @@ ruleTester.run(RULE_NAME, rule, {
         @Directive()
         class Test {
           ngDoCheck() { }
-          ~~~~~~~~~
+          ~~~~~~~~~~~~~~~
         }
       `,
       messageId,
@@ -290,7 +320,7 @@ ruleTester.run(RULE_NAME, rule, {
         @Directive()
         class Test {
           ngOnChanges() { }
-          ~~~~~~~~~~~
+          ~~~~~~~~~~~~~~~~~
         }
       `,
       messageId,
@@ -302,7 +332,7 @@ ruleTester.run(RULE_NAME, rule, {
         @Directive()
         class Test {
           ngOnDestroy() { }
-          ~~~~~~~~~~~
+          ~~~~~~~~~~~~~~~~~
         }
       `,
       messageId,
@@ -314,7 +344,7 @@ ruleTester.run(RULE_NAME, rule, {
         @Directive()
         class Test {
           ngOnInit() { }
-          ~~~~~~~~
+          ~~~~~~~~~~~~~~
         }
       `,
       messageId,
