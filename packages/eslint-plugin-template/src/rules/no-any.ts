@@ -1,5 +1,8 @@
 import { MethodCall } from '@angular/compiler';
-import { createESLintRule } from '../utils/create-eslint-rule';
+import {
+  createESLintRule,
+  ensureTemplateParser,
+} from '../utils/create-eslint-rule';
 
 type Options = [];
 export type MessageIds = 'noAny';
@@ -22,6 +25,7 @@ export default createESLintRule<Options, MessageIds>({
   },
   defaultOptions: [],
   create(context) {
+    ensureTemplateParser(context);
     const sourceCode = context.getSourceCode();
 
     return {

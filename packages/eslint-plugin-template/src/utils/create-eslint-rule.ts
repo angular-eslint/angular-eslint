@@ -17,6 +17,17 @@ interface ParserServices {
 }
 
 export function getTemplateParserServices(context: any): ParserServices {
+  ensureTemplateParser(context);
+  return context.parserServices;
+}
+
+/**
+ * Utility for rule authors to ensure that their rule is correctly being used with @angular-eslint/template-parser
+ * If @angular-eslint/template-parser is not the configured parser when the function is invoked it will throw
+ */
+export function ensureTemplateParser(
+  context: TSESLint.RuleContext<string, []>,
+) {
   if (
     !context.parserServices ||
     !(context.parserServices as any).defineTemplateBodyVisitor ||
@@ -31,5 +42,4 @@ export function getTemplateParserServices(context: any): ParserServices {
       "You have used a rule which requires '@angular-eslint/template-parser' to be used as the 'parser' in your ESLint config.",
     );
   }
-  return context.parserServices;
 }
