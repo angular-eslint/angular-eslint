@@ -1,3 +1,5 @@
+import { TmplAstTextAttribute, TmplAstBoundAttribute } from '@angular/compiler';
+
 import {
   createESLintRule,
   getTemplateParserServices,
@@ -26,21 +28,17 @@ export default createESLintRule<Options, MessageIds>({
   create(context) {
     const parserServices = getTemplateParserServices(context);
 
-    return parserServices.defineTemplateBodyVisitor({
-      Element(node: any) {
-        const hasAttr = (node: any, prop: string) =>
-          node.attributes.find(({ name }: any) => name === prop);
+    return {
+      'TextAttribute[name="autofocus"], BoundAttribute[name="autofocus"]'(
+        node: TmplAstTextAttribute | TmplAstBoundAttribute,
+      ) {
+        const loc = parserServices.convertNodeSourceSpanToLoc(node.sourceSpan);
 
-        if (hasAttr(node, 'autofocus')) {
-          const loc = parserServices.convertNodeSourceSpanToLoc(
-            node.startSourceSpan,
-          );
-          context.report({
-            messageId: 'noAutofocus',
-            loc,
-          });
-        }
+        context.report({
+          loc,
+          messageId: 'noAutofocus',
+        });
       },
-    });
+    };
   },
 });
