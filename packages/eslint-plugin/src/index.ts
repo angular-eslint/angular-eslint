@@ -4,6 +4,9 @@ import recommended from './configs/recommended.json';
 import ngCliCompat from './configs/ng-cli-compat.json';
 import ngCliCompatFormattingAddOn from './configs/ng-cli-compat--formatting-add-on.json';
 
+import contextualDecorator, {
+  RULE_NAME as contextualDecoratorRuleName,
+} from './rules/contextual-decorator';
 import componentClassSuffix, {
   RULE_NAME as componentClassSuffixRuleName,
 } from './rules/component-class-suffix';
@@ -107,6 +110,7 @@ export default {
     ['ng-cli-compat--formatting-add-on']: ngCliCompatFormattingAddOn,
   },
   rules: {
+    [contextualDecoratorRuleName]: contextualDecorator,
     [componentClassSuffixRuleName]: componentClassSuffix,
     [componentMaxInlineDeclarationsRuleName]: componentMaxInlineDeclarations,
     [componentSelectorRuleName]: componentSelector,
