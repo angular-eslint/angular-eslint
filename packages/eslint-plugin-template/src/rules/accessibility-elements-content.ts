@@ -1,3 +1,4 @@
+import { TmplAstElement } from '@angular/compiler';
 import {
   createESLintRule,
   getTemplateParserServices,
@@ -6,8 +7,11 @@ import {
 type Options = [];
 export type MessageIds = 'accessibilityElementsContent';
 export const RULE_NAME = 'accessibility-elements-content';
-
-const elements = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'a', 'button'];
+const innerContentInputs: ReadonlySet<string> = new Set([
+  'innerHtml',
+  'innerHTML',
+  'innerText',
+]);
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
@@ -29,34 +33,23 @@ export default createESLintRule<Options, MessageIds>({
     const parserServices = getTemplateParserServices(context);
 
     return {
-      Element(node: any) {
-        if (elements.indexOf(node.name) === -1) {
-          return;
-        }
-
-        const hasContent = node.children.length > 0;
-
-        if (hasContent) {
-          return;
-        }
-
-        const hasInnerContent = node.inputs.some(
-          (input: any) =>
-            input.name === 'innerHTML' || input.name === 'innerText',
+      'Element[name=/^(a|button|h1|h2|h3|h4|h5|h6)$/][children.length=0]'({
+        inputs,
+        name: element,
+        sourceSpan,
+      }: TmplAstElement) {
+        const hasInnerContent = inputs.some(({ name }) =>
+          innerContentInputs.has(name),
         );
 
-        if (hasInnerContent) {
-          return;
-        }
+        if (hasInnerContent) return;
 
-        const loc = parserServices.convertNodeSourceSpanToLoc(node.sourceSpan);
+        const loc = parserServices.convertNodeSourceSpanToLoc(sourceSpan);
 
         context.report({
           loc,
           messageId: 'accessibilityElementsContent',
-          data: {
-            element: node.name,
-          },
+          data: { element },
         });
       },
     };

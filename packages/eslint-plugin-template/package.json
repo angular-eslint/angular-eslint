@@ -24,7 +24,8 @@
   ],
   "dependencies": {
     "@typescript-eslint/experimental-utils": "4.3.0",
-    "aria-query": "^4.2.2"
+    "aria-query": "^4.2.2",
+    "axobject-query": "^2.2.0"
   },
   "devDependencies": {
     "@angular-eslint/utils": "^0.8.0-beta.6",
