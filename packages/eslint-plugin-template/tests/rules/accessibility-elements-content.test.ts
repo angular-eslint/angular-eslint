@@ -21,7 +21,7 @@ ruleTester.run(RULE_NAME, rule, {
   valid: [
     '<h1>Heading Content!</h1>',
     '<h2><app-content></app-content></h2>',
-    '<h3 [innerHTML]="dangerouslySetHTML"></h3>',
+    '<h3 [innerHtml]="dangerouslySetHTML"></h3>',
     '<h4 [innerText]="text"></h4>',
     '<a>Anchor Content!</a>',
     '<a><app-content></app-content></a>',

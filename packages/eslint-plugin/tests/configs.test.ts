@@ -1,15 +1,18 @@
 import eslintPlugin from '../src';
 
+const ESLINT_PLUGIN_PREFIX = '@angular-eslint/';
+
 interface Config {
   extends?: string | string[];
   rules?: { [ruleName: string]: string | object };
   overrides?: Config[];
 }
 
-function containsRule(config: any, ruleName: string): boolean {
-  return (
-    Boolean(config.rules?.[ruleName]) ||
-    config.overrides?.some((config: Config) => config.rules?.[ruleName])
+function containsRule(config: Config, ruleName: string): boolean {
+  const prefixedRuleName = `${ESLINT_PLUGIN_PREFIX}${ruleName}`;
+  return Boolean(
+    config.rules?.[prefixedRuleName] ||
+      config.overrides?.some(({ rules }) => rules?.[prefixedRuleName]),
   );
 }
 
@@ -40,7 +43,23 @@ describe('configs', () => {
         Object.keys(eslintPlugin.rules).every((ruleName) =>
           containsRule(eslintPlugin.configs.all, ruleName),
         ),
-      );
+      ).toBe(true);
+    });
+
+    it('should only contain valid rules', () => {
+      expect(
+        Object.keys(eslintPlugin.configs.all.rules)
+          .filter((ruleName) => ruleName.startsWith(ESLINT_PLUGIN_PREFIX))
+          .every((ruleName) =>
+            Boolean(
+              eslintPlugin.rules[
+                ruleName.slice(
+                  ESLINT_PLUGIN_PREFIX.length,
+                ) as keyof typeof eslintPlugin.rules
+              ],
+            ),
+          ),
+      ).toBe(true);
     });
   });
 
@@ -52,7 +71,23 @@ describe('configs', () => {
           .every((entry) =>
             containsRule(eslintPlugin.configs.recommended, entry[0]),
           ),
-      );
+      ).toBe(true);
+    });
+
+    it('should only contain valid rules', () => {
+      expect(
+        Object.keys(eslintPlugin.configs.recommended.rules)
+          .filter((ruleName) => ruleName.startsWith(ESLINT_PLUGIN_PREFIX))
+          .every((ruleName) =>
+            Boolean(
+              eslintPlugin.rules[
+                ruleName.slice(
+                  ESLINT_PLUGIN_PREFIX.length,
+                ) as keyof typeof eslintPlugin.rules
+              ],
+            ),
+          ),
+      ).toBe(true);
     });
   });
 });
