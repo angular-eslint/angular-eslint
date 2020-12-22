@@ -528,4 +528,6 @@ If you are still having problems after you have done some digging into these, fe
 
 <!-- PR Links -->
 
+[`pr260`]: https://api.github.com/repos/angular-eslint/angular-eslint/pulls/260
+
 <!-- end rule list -->
