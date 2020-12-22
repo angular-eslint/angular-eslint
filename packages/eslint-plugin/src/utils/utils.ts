@@ -170,7 +170,7 @@ export function isMemberExpression(
   return node.type === 'MemberExpression';
 }
 
-function isClassDeclaration(
+export function isClassDeclaration(
   node: TSESTree.Node,
 ): node is TSESTree.ClassDeclaration {
   return node.type === 'ClassDeclaration';
@@ -202,7 +202,7 @@ export function isTemplateLiteral(
   return node.type === 'TemplateLiteral';
 }
 
-function isImportDeclaration(
+export function isImportDeclaration(
   node: TSESTree.Node,
 ): node is TSESTree.ImportDeclaration {
   return node.type === 'ImportDeclaration';
