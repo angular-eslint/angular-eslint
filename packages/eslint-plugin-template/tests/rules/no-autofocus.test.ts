@@ -18,12 +18,20 @@ ruleTester.run(RULE_NAME, rule, {
   valid: [`<input type="text" />`],
   invalid: [
     convertAnnotatedSourceToFailureCase({
+      messageId,
       description: 'should fail when autofocus attribute supplied',
       annotatedSource: `
         <textarea autofocus></textarea>
-        ~~~~~~~~~~~~~~~~~~~~
+                  ~~~~~~~~~
       `,
+    }),
+    convertAnnotatedSourceToFailureCase({
       messageId,
+      description: 'should fail when autofocus attribute binding supplied',
+      annotatedSource: `
+        <div [attr.autofocus]="false">Autofocus</div>
+             ~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
     }),
   ],
 });
