@@ -1,7 +1,13 @@
+import { TmplAstElement } from '@angular/compiler';
+
 import {
   createESLintRule,
   getTemplateParserServices,
 } from '../utils/create-eslint-rule';
+import {
+  notAnAttribute,
+  getAttributeValue,
+} from '../utils/get-attribute-value';
 
 type Options = [];
 export type MessageIds = 'noPositiveTabindex';
@@ -23,34 +29,21 @@ export default createESLintRule<Options, MessageIds>({
   },
   defaultOptions: [],
   create(context) {
-    const getAttributeValue = (element: any, property: string) => {
-      const attr = element.attributes.find(
-        (attr: any) => attr.name === property,
-      );
-      const input = element.inputs.find(
-        (input: any) => input.name === property,
-      );
-      if (attr) {
-        return attr.value;
-      }
-
-      if (!input || !input.value.ast) {
-        return undefined;
-      }
-
-      return input.value.ast.value;
-    };
-
     const parserServices = getTemplateParserServices(context);
     return parserServices.defineTemplateBodyVisitor({
-      ['Element'](node: any) {
-        let tabIndexValue = getAttributeValue(node, 'tabindex');
-        if (!tabIndexValue) {
+      Element(node: TmplAstElement) {
+        const tabIndex = getAttributeValue<string | number>(node, 'tabindex');
+
+        if (notAnAttribute(tabIndex)) {
           return;
         }
 
-        tabIndexValue = parseInt(tabIndexValue, 10);
-        if (tabIndexValue > 0) {
+        // This check is used because the `parseInt` signature expects a
+        // string as the first parameter and does not accept numbers.
+        const numericTabIndex =
+          typeof tabIndex === 'string' ? parseInt(tabIndex, 10) : tabIndex;
+
+        if (numericTabIndex > 0) {
           const loc = parserServices.convertNodeSourceSpanToLoc(
             node.startSourceSpan,
           );

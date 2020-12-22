@@ -18,6 +18,9 @@ import accessibilityValidAria, {
 import bananaInBox, {
   RULE_NAME as bananaInBoxRuleName,
 } from './rules/banana-in-box';
+import clickEventsHaveKeyEvents, {
+  RULE_NAME as clickEventsHaveKeyEventsRuleName,
+} from './rules/click-events-have-key-events';
 import conditionalСomplexity, {
   RULE_NAME as conditionalСomplexityRuleName,
 } from './rules/conditional-complexity';
@@ -63,6 +66,7 @@ export default {
     [accessibilityValidAriaRuleName]: accessibilityValidAria,
     [bananaInBoxRuleName]: bananaInBox,
     [conditionalСomplexityRuleName]: conditionalСomplexity,
+    [clickEventsHaveKeyEventsRuleName]: clickEventsHaveKeyEvents,
     [cyclomaticComplexityRuleName]: cyclomaticComplexity,
     [i18nRuleName]: i18n,
     [mouseEventsHaveKeyEventsRuleName]: mouseEventsHaveKeyEvents,
