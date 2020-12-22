@@ -103,6 +103,52 @@ export const ANGULAR_CLASS_DECORATOR_LIFECYCLE_METHOD_MAPPER: ReadonlyMap<
   ],
 ]);
 
+export const ANGULAR_INNER_CLASS_DECORATORS: ReadonlySet<AngularInnerClassDecoratorKeys> = new Set(
+  angularInnerClassDecoratorKeys,
+);
+
+export const ANGULAR_CLASS_DECORATORS: ReadonlySet<AngularClassDecoratorKeys> = new Set(
+  angularClassDecoratorKeys,
+);
+
+export const ANGULAR_CLASS_DECORATOR_MAPPER: ReadonlyMap<
+  AngularClassDecoratorKeys,
+  ReadonlySet<AngularInnerClassDecoratorKeys>
+> = new Map([
+  [AngularClassDecorators.Component, ANGULAR_INNER_CLASS_DECORATORS],
+  [AngularClassDecorators.Directive, ANGULAR_INNER_CLASS_DECORATORS],
+  [
+    AngularClassDecorators.Injectable,
+    new Set([
+      AngularInnerClassDecorators.Host,
+      AngularInnerClassDecorators.Inject,
+      AngularInnerClassDecorators.Optional,
+      AngularInnerClassDecorators.Self,
+      AngularInnerClassDecorators.SkipSelf,
+    ]),
+  ],
+  [
+    AngularClassDecorators.NgModule,
+    new Set([
+      AngularInnerClassDecorators.Host,
+      AngularInnerClassDecorators.Inject,
+      AngularInnerClassDecorators.Optional,
+      AngularInnerClassDecorators.Self,
+      AngularInnerClassDecorators.SkipSelf,
+    ]),
+  ],
+  [
+    AngularClassDecorators.Pipe,
+    new Set([
+      AngularInnerClassDecorators.Host,
+      AngularInnerClassDecorators.Inject,
+      AngularInnerClassDecorators.Optional,
+      AngularInnerClassDecorators.Self,
+      AngularInnerClassDecorators.SkipSelf,
+    ]),
+  ],
+]);
+
 /**
  * SECTION START:
  * Equivalents of utils exported by TypeScript itself for its own AST
@@ -315,6 +361,16 @@ export const isAngularLifecycleMethod = (
   value: string,
 ): value is AngularLifecycleMethodKeys =>
   ANGULAR_LIFECYCLE_METHODS.has(value as AngularLifecycleMethodKeys);
+
+export const isAngularClassDecorator = (
+  value: string,
+): value is AngularClassDecoratorKeys =>
+  ANGULAR_CLASS_DECORATORS.has(value as AngularClassDecoratorKeys);
+
+export const isAngularInnerClassDecorator = (
+  value: string,
+): value is AngularInnerClassDecoratorKeys =>
+  ANGULAR_INNER_CLASS_DECORATORS.has(value as AngularInnerClassDecoratorKeys);
 
 /**
  * `ClassProperty` nodes can have different types of `key`s
