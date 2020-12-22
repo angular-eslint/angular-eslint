@@ -22,7 +22,7 @@ export default createESLintRule<Options, MessageIds>({
       description:
         'Ensures that classes use contextual decorators in its body.',
       category: 'Best Practices',
-      recommended: 'error',
+      recommended: false,
     },
     schema: [],
     messages: {
