@@ -189,14 +189,64 @@ Object {
 exports[`v1101-strict-multi-project-auto-convert it should pass linting after converting the out of the box Angular CLI setup (with an additional project called "another-app" with a custom prefix set) 7`] = `
 "
 Linting \\"v1101-strict-multi-project-auto-convert\\"...
-All files pass linting.
+
+__ROOT__/v1101-strict-multi-project-auto-convert/src/app/app.component.ts
+  9:14  error  Pipes should implement PipeTransform interface  @angular-eslint/use-pipe-transform-interface
+
+✖ 1 problem (1 error, 0 warnings)
+  1 error and 0 warnings potentially fixable with the \`--fix\` option.
+
+
+__ROOT__/v1101-strict-multi-project-auto-convert/src/app/app.module.ts
+  16:14  error  Pipes should implement PipeTransform interface  @angular-eslint/use-pipe-transform-interface
+
+✖ 1 problem (1 error, 0 warnings)
+  1 error and 0 warnings potentially fixable with the \`--fix\` option.
 
 
 Linting \\"another-lib\\"...
-All files pass linting.
+
+__ROOT__/v1101-strict-multi-project-auto-convert/projects/another-lib/src/lib/another-lib.component.ts
+  13:14  error  Pipes should implement PipeTransform interface  @angular-eslint/use-pipe-transform-interface
+
+✖ 1 problem (1 error, 0 warnings)
+  1 error and 0 warnings potentially fixable with the \`--fix\` option.
+
+
+__ROOT__/v1101-strict-multi-project-auto-convert/projects/another-lib/src/lib/another-lib.module.ts
+  12:14  error  Pipes should implement PipeTransform interface  @angular-eslint/use-pipe-transform-interface
+
+✖ 1 problem (1 error, 0 warnings)
+  1 error and 0 warnings potentially fixable with the \`--fix\` option.
+
+
+__ROOT__/v1101-strict-multi-project-auto-convert/projects/another-lib/src/lib/another-lib.service.ts
+  6:14  error  Pipes should implement PipeTransform interface  @angular-eslint/use-pipe-transform-interface
+
+✖ 1 problem (1 error, 0 warnings)
+  1 error and 0 warnings potentially fixable with the \`--fix\` option.
 
 
 Linting \\"another-app\\"...
-All files pass linting.
+
+__ROOT__/v1101-strict-multi-project-auto-convert/projects/another-app/e2e/src/app.po.ts
+  3:14  error  Pipes should implement PipeTransform interface  @angular-eslint/use-pipe-transform-interface
+
+✖ 1 problem (1 error, 0 warnings)
+  1 error and 0 warnings potentially fixable with the \`--fix\` option.
+
+
+__ROOT__/v1101-strict-multi-project-auto-convert/projects/another-app/src/app/app.component.ts
+  9:14  error  Pipes should implement PipeTransform interface  @angular-eslint/use-pipe-transform-interface
+
+✖ 1 problem (1 error, 0 warnings)
+  1 error and 0 warnings potentially fixable with the \`--fix\` option.
+
+
+__ROOT__/v1101-strict-multi-project-auto-convert/projects/another-app/src/app/app.module.ts
+  16:14  error  Pipes should implement PipeTransform interface  @angular-eslint/use-pipe-transform-interface
+
+✖ 1 problem (1 error, 0 warnings)
+  1 error and 0 warnings potentially fixable with the \`--fix\` option.
 "
 `;

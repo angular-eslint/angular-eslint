@@ -70,6 +70,18 @@ Object {
 exports[`v1020-single-project-yarn-auto-convert it should pass linting after converting the out of the box Angular CLI setup (with a custom prefix set) 3`] = `
 "
 Linting \\"v1020-single-project-yarn-auto-convert\\"...
-All files pass linting.
+
+__ROOT__/v1020-single-project-yarn-auto-convert/src/app/app.component.ts
+  8:14  error  Pipes should implement PipeTransform interface  @angular-eslint/use-pipe-transform-interface
+
+✖ 1 problem (1 error, 0 warnings)
+  1 error and 0 warnings potentially fixable with the \`--fix\` option.
+
+
+__ROOT__/v1020-single-project-yarn-auto-convert/src/app/app.module.ts
+  16:14  error  Pipes should implement PipeTransform interface  @angular-eslint/use-pipe-transform-interface
+
+✖ 1 problem (1 error, 0 warnings)
+  1 error and 0 warnings potentially fixable with the \`--fix\` option.
 "
 `;
