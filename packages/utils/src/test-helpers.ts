@@ -18,9 +18,9 @@ interface SourcePosition {
  * FROM CODELYZER
  */
 interface ExpectedFailure {
-  readonly endPosition: SourcePosition;
+  readonly endPosition?: SourcePosition;
   readonly message: string;
-  readonly startPosition: SourcePosition;
+  readonly startPosition?: SourcePosition;
 }
 
 /**
@@ -158,27 +158,34 @@ export function convertAnnotatedSourceToFailureCase<T extends string>({
   }
 
   let parsedSource = '';
-
   const errors: TestCaseError<T>[] = messages.map(
     ({ char: currentValueChar, messageId }) => {
       const otherChars = messages
         .filter(({ char }) => char !== currentValueChar)
         .map(({ char }) => char);
-
       const parsedForChar = parseInvalidSource(
         annotatedSource,
         '',
         currentValueChar,
         otherChars,
       );
+      const {
+        failure: { endPosition, startPosition },
+      } = parsedForChar;
       parsedSource = parsedForChar.source;
+
+      if (!endPosition || !startPosition) {
+        throw Error(
+          `Char '${currentValueChar}' has been specified in \`messages\`, however it is not present in the source of the failure case`,
+        );
+      }
 
       const error: TestCaseError<T> = {
         messageId,
-        line: parsedForChar.failure.startPosition.line + 1,
-        column: parsedForChar.failure.startPosition.character + 1,
-        endLine: parsedForChar.failure.endPosition.line + 1,
-        endColumn: parsedForChar.failure.endPosition.character + 1,
+        line: startPosition.line + 1,
+        column: startPosition.character + 1,
+        endLine: endPosition.line + 1,
+        endColumn: endPosition.character + 1,
       };
 
       if (data) {
