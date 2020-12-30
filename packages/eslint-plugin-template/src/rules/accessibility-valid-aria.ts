@@ -9,20 +9,21 @@ import {
 type Options = [];
 export type MessageIds = 'accessibilityValidAria';
 export const RULE_NAME = 'accessibility-valid-aria';
+const ARIA_PATTERN = /^aria-.*/;
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
   meta: {
     type: 'suggestion',
     docs: {
-      description: 'Ensures that the correct ARIA attributes are used.',
+      description: 'Ensures that correct ARIA attributes are used',
       category: 'Best Practices',
       recommended: false,
     },
     schema: [],
     messages: {
       accessibilityValidAria:
-        '{{attribute}}: This attribute is an invalid ARIA attribute.',
+        'The `{{attribute}}` is an invalid ARIA attribute',
     },
   },
   defaultOptions: [],
@@ -30,27 +31,25 @@ export default createESLintRule<Options, MessageIds>({
     const parserServices = getTemplateParserServices(context);
 
     return {
-      'TextAttribute[name=/aria-*/], BoundAttribute[name=/aria-*/]'({
-        name,
+      [`BoundAttribute[name=${ARIA_PATTERN}], TextAttribute[name=${ARIA_PATTERN}]`]({
+        name: attribute,
         sourceSpan,
-      }: TmplAstTextAttribute | TmplAstBoundAttribute) {
-        if (getAriaAttributes().has(name)) {
-          return;
-        }
+      }: TmplAstBoundAttribute | TmplAstTextAttribute) {
+        if (getAriaAttributes().has(attribute)) return;
 
         const loc = parserServices.convertNodeSourceSpanToLoc(sourceSpan);
 
         context.report({
           loc,
           messageId: 'accessibilityValidAria',
-          data: { attribute: name },
+          data: { attribute },
         });
       },
     };
   },
 });
 
-let ariaAttributes: Set<string> | null = null;
-function getAriaAttributes(): Set<string> {
+let ariaAttributes: ReadonlySet<string> | null = null;
+function getAriaAttributes(): ReadonlySet<string> {
   return ariaAttributes || (ariaAttributes = new Set<string>(aria.keys()));
 }
