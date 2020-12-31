@@ -1,8 +1,8 @@
 import {
+  chain,
   Rule,
   SchematicContext,
   Tree,
-  chain,
 } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 
@@ -45,14 +45,14 @@ function addAngularESLintPackages() {
     json.devDependencies['@angular-eslint/eslint-plugin-template'] =
       packageJSON.version;
     /**
-     * It seems `ng add` will automatically add the @angular-eslint/schematics package to the
-     * dependencies section, so move it to devDependencies at this point
+     * It seems in certain versions of Angular CLI `ng add` will automatically add the
+     * @angular-eslint/schematics package to the dependencies section, so clean that up
+     * at this point
      */
-    if (json.dependencies && json.dependencies['@angular-eslint/schematics']) {
-      json.devDependencies['@angular-eslint/schematics'] =
-        json.dependencies['@angular-eslint/schematics'];
+    if (json.dependencies?.['@angular-eslint/schematics']) {
       delete json.dependencies['@angular-eslint/schematics'];
     }
+    json.devDependencies['@angular-eslint/schematics'] = packageJSON.version;
     json.devDependencies['@angular-eslint/template-parser'] =
       packageJSON.version;
 

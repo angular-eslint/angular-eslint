@@ -163,3 +163,117 @@ export function getAllSourceFilesForProject(
 
   return allFilesInDirInHost(host, normalize(pathRoot));
 }
+
+type ProjectType = 'application' | 'library';
+
+export function setESLintProjectBasedOnProjectType(
+  projectRoot: string,
+  projectType: ProjectType,
+) {
+  let project;
+  if (projectType === 'application') {
+    project = [
+      `${projectRoot}/tsconfig.app.json`,
+      `${projectRoot}/tsconfig.spec.json`,
+      `${projectRoot}/e2e/tsconfig.json`,
+    ];
+  }
+  // Libraries don't have an e2e directory
+  if (projectType === 'library') {
+    project = [
+      `${projectRoot}/tsconfig.lib.json`,
+      `${projectRoot}/tsconfig.spec.json`,
+    ];
+  }
+  return project;
+}
+
+export function createRootESLintConfig() {
+  return {
+    root: true,
+    ignorePatterns: ['projects/**/*'],
+    overrides: [
+      {
+        files: ['*.ts'],
+        parserOptions: {
+          project: ['tsconfig.json', 'e2e/tsconfig.json'],
+          createDefaultProgram: true,
+        },
+        extends: [
+          'plugin:@angular-eslint/recommended',
+          'plugin:@angular-eslint/template/process-inline-templates',
+        ],
+        rules: {},
+      },
+
+      {
+        files: ['*.html'],
+        extends: ['plugin:@angular-eslint/template/recommended'],
+        rules: {},
+      },
+    ],
+  };
+}
+
+function createProjectESLintConfig(
+  rootPath: string,
+  projectRoot: string,
+  projectType: ProjectType,
+  prefix: string,
+) {
+  return {
+    extends: `${offsetFromRoot(rootPath)}.eslintrc.json`,
+    ignorePatterns: ['!**/*'],
+    overrides: [
+      {
+        files: ['*.ts'],
+        parserOptions: {
+          project: setESLintProjectBasedOnProjectType(projectRoot, projectType),
+          createDefaultProgram: true,
+        },
+        rules: {
+          '@angular-eslint/directive-selector': [
+            'error',
+            { type: 'attribute', prefix, style: 'camelCase' },
+          ],
+          '@angular-eslint/component-selector': [
+            'error',
+            { type: 'element', prefix, style: 'kebab-case' },
+          ],
+        },
+      },
+
+      {
+        files: ['*.html'],
+        rules: {},
+      },
+    ],
+  };
+}
+
+export function createESLintConfigForProject(projectName: string): Rule {
+  return (tree: Tree) => {
+    const angularJSON = readJsonInTree(tree, 'angular.json');
+    const { root: projectRoot, projectType, prefix } = angularJSON.projects[
+      projectName
+    ];
+    return updateJsonInTree(
+      join(normalize(projectRoot), '.eslintrc.json'),
+      () =>
+        createProjectESLintConfig(
+          tree.root.path,
+          projectRoot,
+          projectType,
+          prefix,
+        ),
+    );
+  };
+}
+
+export function removeTSLintJSONForProject(projectName: string): Rule {
+  return (tree: Tree) => {
+    const angularJSON = readJsonInTree(tree, 'angular.json');
+    const { root: projectRoot } = angularJSON.projects[projectName];
+    tree.delete(join(normalize(projectRoot), 'tslint.json'));
+  };
+}

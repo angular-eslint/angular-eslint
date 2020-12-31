@@ -1,4 +1,5 @@
 {
+  "extends": ["@schematics/angular"],
   "schematics": {
     "ng-add": {
       "factory": "./ng-add",
@@ -9,6 +10,18 @@
       "factory": "./convert-tslint-to-eslint",
       "schema": "./convert-tslint-to-eslint/schema.json",
       "description": "Convert the given project's TSLint setup to an equivalent ESLint one"
+    },
+    "application": {
+      "aliases": ["app"],
+      "factory": "./application",
+      "schema": "./application/schema.json",
+      "description": "Create an Angular application."
+    },
+    "library": {
+      "aliases": ["lib"],
+      "factory": "./library",
+      "schema": "./library/schema.json",
+      "description": "Generate a library project for Angular."
     }
   }
 }
