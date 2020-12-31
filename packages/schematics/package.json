@@ -6,7 +6,8 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "rimraf ./dist && tsc -p tsconfig.json && ncp src/collection.json dist/collection.json && ncp src/ng-add/schema.json dist/ng-add/schema.json && ncp src/convert-tslint-to-eslint/schema.json dist/convert-tslint-to-eslint/schema.json",
+    "prebuild": "ncp ../../node_modules/@schematics/angular/workspace/schema.json src/workspace/schema.json && ncp ../../node_modules/@schematics/angular/application/schema.json src/application/schema.json && ncp ../../node_modules/@schematics/angular/library/schema.json src/library/schema.json",
+    "build": "rimraf ./dist && tsc -p tsconfig.json && ncp src/collection.json dist/collection.json && ncp src/ng-add/schema.json dist/ng-add/schema.json && ncp src/convert-tslint-to-eslint/schema.json dist/convert-tslint-to-eslint/schema.json && ncp src/workspace/schema.json dist/workspace/schema.json && ncp src/application/schema.json dist/application/schema.json && ncp src/library/schema.json dist/library/schema.json && ncp src/workspace-post/schema.json dist/workspace-post/schema.json",
     "test": "jest --coverage",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },

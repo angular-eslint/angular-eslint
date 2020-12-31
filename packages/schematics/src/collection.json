@@ -1,5 +1,18 @@
 {
+  "extends": ["@schematics/angular"],
   "schematics": {
+    "workspace": {
+      "factory": "./workspace",
+      "schema": "./workspace/schema.json",
+      "description": "Create an Angular workspace.",
+      "hidden": true
+    },
+    "workspace-post": {
+      "factory": "./workspace-post",
+      "schema": "./workspace-post/schema.json",
+      "description": "Private: Invoked within Angular workspace creation",
+      "hidden": true
+    },
     "ng-add": {
       "factory": "./ng-add",
       "schema": "./ng-add/schema.json",
@@ -9,6 +22,18 @@
       "factory": "./convert-tslint-to-eslint",
       "schema": "./convert-tslint-to-eslint/schema.json",
       "description": "Convert the given project's TSLint setup to an equivalent ESLint one"
+    },
+    "application": {
+      "aliases": ["app"],
+      "factory": "./application",
+      "schema": "./application/schema.json",
+      "description": "Create an Angular application."
+    },
+    "library": {
+      "aliases": ["lib"],
+      "factory": "./library",
+      "schema": "./library/schema.json",
+      "description": "Generate a library project for Angular."
     }
   }
 }

@@ -17,6 +17,7 @@ import {
   getProjectConfig,
   offsetFromRoot,
   readJsonInTree,
+  setESLintProjectBasedOnProjectType,
   updateJsonInTree,
 } from '../utils';
 import { convertToESLintConfig } from './convert-to-eslint-config';
@@ -374,27 +375,11 @@ function convertNonRootTSLintConfig(
 
     convertedProjectESLintConfig.ignorePatterns = ['!**/*'];
 
-    let project;
-    if (projectType === 'application') {
-      project = [
-        `${projectRoot}/tsconfig.app.json`,
-        `${projectRoot}/tsconfig.spec.json`,
-        `${projectRoot}/e2e/tsconfig.json`,
-      ];
-    }
-    // Libraries don't have an e2e directory
-    if (projectType === 'library') {
-      project = [
-        `${projectRoot}/tsconfig.lib.json`,
-        `${projectRoot}/tsconfig.spec.json`,
-      ];
-    }
-
     convertedProjectESLintConfig.overrides = [
       {
         files: ['*.ts'],
         parserOptions: {
-          project,
+          project: setESLintProjectBasedOnProjectType(projectRoot, projectType),
           createDefaultProgram: true,
         },
         extends: convertedExtends || undefined,
