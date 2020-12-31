@@ -269,13 +269,13 @@ export default createESLintRule<Options, MessageIds>({
       }
     }
 
-    return parserServices.defineTemplateBodyVisitor({
+    return {
       Element(node: any) {
         checkNode(node, node.name);
       },
       Template(node: any) {
         checkNode(node, node.tagName);
       },
-    });
+    };
   },
 });
