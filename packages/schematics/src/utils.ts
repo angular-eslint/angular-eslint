@@ -188,7 +188,23 @@ export function setESLintProjectBasedOnProjectType(
   return project;
 }
 
-export function createRootESLintConfig() {
+export function createRootESLintConfig(prefix: string | null) {
+  let codeRules;
+  if (prefix) {
+    codeRules = {
+      '@angular-eslint/directive-selector': [
+        'error',
+        { type: 'attribute', prefix, style: 'camelCase' },
+      ],
+      '@angular-eslint/component-selector': [
+        'error',
+        { type: 'element', prefix, style: 'kebab-case' },
+      ],
+    };
+  } else {
+    codeRules = {};
+  }
+
   return {
     root: true,
     ignorePatterns: ['projects/**/*'],
@@ -203,7 +219,7 @@ export function createRootESLintConfig() {
           'plugin:@angular-eslint/recommended',
           'plugin:@angular-eslint/template/process-inline-templates',
         ],
-        rules: {},
+        rules: codeRules,
       },
 
       {
@@ -257,6 +273,14 @@ export function createESLintConfigForProject(projectName: string): Rule {
     const { root: projectRoot, projectType, prefix } = angularJSON.projects[
       projectName
     ];
+    /**
+     * If the root is an empty string it must be the initial project created at the
+     * root by the Angular CLI's workspace schematic. We handle creating the root level
+     * config in our own workspace schematic.
+     */
+    if (projectRoot === '') {
+      return;
+    }
     return updateJsonInTree(
       join(normalize(projectRoot), '.eslintrc.json'),
       () =>
@@ -274,6 +298,35 @@ export function removeTSLintJSONForProject(projectName: string): Rule {
   return (tree: Tree) => {
     const angularJSON = readJsonInTree(tree, 'angular.json');
     const { root: projectRoot } = angularJSON.projects[projectName];
-    tree.delete(join(normalize(projectRoot), 'tslint.json'));
+    tree.delete(join(normalize(projectRoot || '/'), 'tslint.json'));
   };
+}
+
+export function createRootESLintConfigFile(workspaceName: string): Rule {
+  return (tree) => {
+    const angularJSON = readJsonInTree(
+      tree,
+      join(normalize(workspaceName), 'angular.json'),
+    );
+    let lintPrefix: string | null = null;
+    if (angularJSON.projects?.[workspaceName]) {
+      const { prefix } = angularJSON.projects[workspaceName];
+      lintPrefix = prefix;
+    }
+    return updateJsonInTree(
+      join(normalize(workspaceName), '.eslintrc.json'),
+      () => createRootESLintConfig(lintPrefix),
+    );
+  };
+}
+
+export function sortObjectByKeys(obj: Record<string, unknown>) {
+  return Object.keys(obj)
+    .sort()
+    .reduce((result, key) => {
+      return {
+        ...result,
+        [key]: obj[key],
+      };
+    }, {});
 }

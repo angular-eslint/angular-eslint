@@ -1,6 +1,18 @@
 {
   "extends": ["@schematics/angular"],
   "schematics": {
+    "workspace": {
+      "factory": "./workspace",
+      "schema": "./workspace/schema.json",
+      "description": "Create an Angular workspace.",
+      "hidden": true
+    },
+    "workspace-post": {
+      "factory": "./workspace-post",
+      "schema": "./workspace-post/schema.json",
+      "description": "Private: Invoked within Angular workspace creation",
+      "hidden": true
+    },
     "ng-add": {
       "factory": "./ng-add",
       "schema": "./ng-add/schema.json",
