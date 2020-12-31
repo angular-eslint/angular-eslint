@@ -29,7 +29,7 @@ export default createESLintRule<Options, MessageIds>({
     const sourceCode = context.getSourceCode();
 
     return {
-      ':not(BoundEvent) > * > MethodCall[name!="$any"]'({
+      ':not(BoundEvent) > * > :matches(MethodCall[name!="$any"], SafeMethodCall)'({
         sourceSpan: { end, start },
       }: MethodCall) {
         const loc = {
