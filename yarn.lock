@@ -12,7 +12,7 @@
 
 "@angular-devkit/architect@0.1100.5":
   version "0.1100.5"
-  resolved "http://localhost:4872/@angular-devkit%2farchitect/-/architect-0.1100.5.tgz#3cf9b25464d484160b10417668efbdbd15c9e492"
+  resolved "https://registry.yarnpkg.com/@angular-devkit%2farchitect/-/architect-0.1100.5.tgz#3cf9b25464d484160b10417668efbdbd15c9e492"
   integrity sha512-yOYfucNouc1doTbcGbCNMXGMSc36+j97XpdNoeGyzFQ7GwezLAro0a9gxc5PdOxndfelkND7J1JuOjxdW5O17A==
   dependencies:
     "@angular-devkit/core" "11.0.5"
@@ -126,7 +126,7 @@
 
 "@angular-devkit/core@11.0.5":
   version "11.0.5"
-  resolved "http://localhost:4872/@angular-devkit%2fcore/-/core-11.0.5.tgz#8239486d2de6c08fc55d2a64f12a7f5d518c8beb"
+  resolved "https://registry.yarnpkg.com/@angular-devkit%2fcore/-/core-11.0.5.tgz#8239486d2de6c08fc55d2a64f12a7f5d518c8beb"
   integrity sha512-hwV8fjF8JNPJkiVWw8MNzeIfDo01aD/OAOlC4L5rQnVHn+i2EiU3brSDmFqyeHPPV3h/QjuBkS3tkN7gSnVWaQ==
   dependencies:
     ajv "6.12.6"
@@ -146,7 +146,7 @@
 
 "@angular-devkit/schematics@11.0.5":
   version "11.0.5"
-  resolved "http://localhost:4872/@angular-devkit%2fschematics/-/schematics-11.0.5.tgz#e5d89451daa644eccce93970709f7cdf44c11982"
+  resolved "https://registry.yarnpkg.com/@angular-devkit%2fschematics/-/schematics-11.0.5.tgz#e5d89451daa644eccce93970709f7cdf44c11982"
   integrity sha512-0NKGC8Nf/4vvDpWKB7bwxIazvNnNHnZBX6XlyBXNl+fW8tpTef3PNMJMSErTz9LFnuv61vsKbc36u/Ek2YChWg==
   dependencies:
     "@angular-devkit/core" "11.0.5"
@@ -155,7 +155,7 @@
 
 "@angular/cli@11.x":
   version "11.0.5"
-  resolved "http://localhost:4872/@angular%2fcli/-/cli-11.0.5.tgz#1066d290fc91460f98cedcfbc9a5736340661467"
+  resolved "https://registry.yarnpkg.com/@angular%2fcli/-/cli-11.0.5.tgz#1066d290fc91460f98cedcfbc9a5736340661467"
   integrity sha512-k4j/2z7qkuigJ1shH0McW1wW63clhrbrg98FK4/KWhU/sce5AgVjuHDQFycAclTwHesf7Vs6Gzt7zGlqUmeKIg==
   dependencies:
     "@angular-devkit/architect" "0.1100.5"
@@ -3087,7 +3087,7 @@
 
 "@schematics/angular@11.0.5":
   version "11.0.5"
-  resolved "http://localhost:4872/@schematics%2fangular/-/angular-11.0.5.tgz#149f908fd600e881ff87c5192d2673d0e3c37f38"
+  resolved "https://registry.yarnpkg.com/@schematics%2fangular/-/angular-11.0.5.tgz#149f908fd600e881ff87c5192d2673d0e3c37f38"
   integrity sha512-7p2wweoJYhim8YUy3ih1SrPGqRsa6+aEFbYgo9v4zt7b3tOva8SvkbC2alayK74fclzQ7umqa6xAwvWhy8ORvg==
   dependencies:
     "@angular-devkit/core" "11.0.5"
@@ -3105,7 +3105,7 @@
 
 "@schematics/update@0.1100.5":
   version "0.1100.5"
-  resolved "http://localhost:4872/@schematics%2fupdate/-/update-0.1100.5.tgz#40b529d93db51e6f66378bd9f4ff99f2e9c278f6"
+  resolved "https://registry.yarnpkg.com/@schematics%2fupdate/-/update-0.1100.5.tgz#40b529d93db51e6f66378bd9f4ff99f2e9c278f6"
   integrity sha512-BYtKKuiWsrlc4FMW3bRyl4tm6lWNMTi8oql/mtkSgH7V5eMmaLDJtM+zDl+qyC/KHPxbHTfoHDapfv1tITSWjA==
   dependencies:
     "@angular-devkit/core" "11.0.5"
@@ -3608,7 +3608,7 @@
 
 "@yarnpkg/lockfile@1.1.0":
   version "1.1.0"
-  resolved "http://localhost:4872/@yarnpkg%2flockfile/-/lockfile-1.1.0.tgz#e77a97fbd345b76d83245edcd17d393b1b41fb31"
+  resolved "https://registry.yarnpkg.com/@yarnpkg%2flockfile/-/lockfile-1.1.0.tgz#e77a97fbd345b76d83245edcd17d393b1b41fb31"
   integrity sha512-GpSwvyXOcOOlV70vbnzjj4fW5xW/FdUF6nQEt1ENy7m4ZCczi1+/buVUPAqmGfqznsORNFzUMjctTIp8a9tuCQ==
 
 "@zkochan/cmd-shim@^3.1.0":
@@ -7725,7 +7725,7 @@ hosted-git-info@^2.1.4, hosted-git-info@^2.7.1:
 
 hosted-git-info@^3.0.6:
   version "3.0.7"
-  resolved "http://localhost:4872/hosted-git-info/-/hosted-git-info-3.0.7.tgz#a30727385ea85acfcee94e0aad9e368c792e036c"
+  resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-3.0.7.tgz#a30727385ea85acfcee94e0aad9e368c792e036c"
   integrity sha512-fWqc0IcuXs+BmE9orLDyVykAG9GJtGLGuZAAqgcckPgv5xad4AcXGIv8galtQvlwutxSlaMcdw7BUtq2EIvqCQ==
   dependencies:
     lru-cache "^6.0.0"
@@ -8116,7 +8116,7 @@ inherits@2.0.3:
 
 ini@1.3.6:
   version "1.3.6"
-  resolved "http://localhost:4872/ini/-/ini-1.3.6.tgz#f1c46a2a93a253e7b3905115e74d527cd23061a1"
+  resolved "https://registry.yarnpkg.com/ini/-/ini-1.3.6.tgz#f1c46a2a93a253e7b3905115e74d527cd23061a1"
   integrity sha512-IZUoxEjNjubzrmvzZU4lKP7OnYmX72XRl3sqkfJhBKweKi5rnGi5+IUdlj/H1M+Ip5JQ1WzaDMOBRY90Ajc5jg==
 
 ini@^1.3.2, ini@^1.3.4:
@@ -10675,7 +10675,7 @@ npm-bundled@^1.0.1:
 
 npm-install-checks@^4.0.0:
   version "4.0.0"
-  resolved "http://localhost:4872/npm-install-checks/-/npm-install-checks-4.0.0.tgz#a37facc763a2fde0497ef2c6d0ac7c3fbe00d7b4"
+  resolved "https://registry.yarnpkg.com/npm-install-checks/-/npm-install-checks-4.0.0.tgz#a37facc763a2fde0497ef2c6d0ac7c3fbe00d7b4"
   integrity sha512-09OmyDkNLYwqKPOnbI8exiOZU2GVVmQp7tgez2BPi5OZC8M82elDAps7sxC4l//uSUtotWqoEIDwjRvWH4qz8w==
   dependencies:
     semver "^7.1.1"
@@ -10701,7 +10701,7 @@ npm-normalize-package-bin@^1.0.0, npm-normalize-package-bin@^1.0.1:
 
 npm-package-arg@8.1.0, npm-package-arg@^8.0.0:
   version "8.1.0"
-  resolved "http://localhost:4872/npm-package-arg/-/npm-package-arg-8.1.0.tgz#b5f6319418c3246a1c38e1a8fbaa06231bc5308f"
+  resolved "https://registry.yarnpkg.com/npm-package-arg/-/npm-package-arg-8.1.0.tgz#b5f6319418c3246a1c38e1a8fbaa06231bc5308f"
   integrity sha512-/ep6QDxBkm9HvOhOg0heitSd7JHA1U7y1qhhlRlteYYAi9Pdb/ZV7FW5aHpkrpM8+P+4p/jjR8zCyKPBMBjSig==
   dependencies:
     hosted-git-info "^3.0.6"
@@ -10729,7 +10729,7 @@ npm-packlist@^1.1.12, npm-packlist@^1.4.4:
 
 npm-pick-manifest@6.1.0:
   version "6.1.0"
-  resolved "http://localhost:4872/npm-pick-manifest/-/npm-pick-manifest-6.1.0.tgz#2befed87b0fce956790f62d32afb56d7539c022a"
+  resolved "https://registry.yarnpkg.com/npm-pick-manifest/-/npm-pick-manifest-6.1.0.tgz#2befed87b0fce956790f62d32afb56d7539c022a"
   integrity sha512-ygs4k6f54ZxJXrzT0x34NybRlLeZ4+6nECAIbr2i0foTnijtS1TJiyzpqtuUAJOps/hO0tNDr8fRV5g+BtRlTw==
   dependencies:
     npm-install-checks "^4.0.0"
@@ -10747,7 +10747,7 @@ npm-pick-manifest@^3.0.0:
 
 npm-registry-fetch@^4.0.0:
   version "4.0.7"
-  resolved "http://localhost:4872/npm-registry-fetch/-/npm-registry-fetch-4.0.7.tgz#57951bf6541e0246b34c9f9a38ab73607c9449d7"
+  resolved "https://registry.yarnpkg.com/npm-registry-fetch/-/npm-registry-fetch-4.0.7.tgz#57951bf6541e0246b34c9f9a38ab73607c9449d7"
   integrity sha512-cny9v0+Mq6Tjz+e0erFAB+RYJ/AVGzkjnISiobqP8OWj9c9FLoZZu8/SPSKJWE17F1tk4018wfjV+ZbIbqC7fQ==
   dependencies:
     JSONStream "^1.3.4"
@@ -11180,7 +11180,7 @@ p-waterfall@^1.0.0:
 
 pacote@9.5.12:
   version "9.5.12"
-  resolved "http://localhost:4872/pacote/-/pacote-9.5.12.tgz#1e11dd7a8d736bcc36b375a9804d41bb0377bf66"
+  resolved "https://registry.yarnpkg.com/pacote/-/pacote-9.5.12.tgz#1e11dd7a8d736bcc36b375a9804d41bb0377bf66"
   integrity sha512-BUIj/4kKbwWg4RtnBncXPJd15piFSVNpTzY0rysSr3VnMowTYgkGKcaHrbReepAkjTr8lH2CVWRi58Spg2CicQ==
   dependencies:
     bluebird "^3.5.3"
@@ -13052,7 +13052,7 @@ semver-compare@^1.0.0:
 
 semver-intersect@1.4.0:
   version "1.4.0"
-  resolved "http://localhost:4872/semver-intersect/-/semver-intersect-1.4.0.tgz#bdd9c06bedcdd2fedb8cd352c3c43ee8c61321f3"
+  resolved "https://registry.yarnpkg.com/semver-intersect/-/semver-intersect-1.4.0.tgz#bdd9c06bedcdd2fedb8cd352c3c43ee8c61321f3"
   integrity sha512-d8fvGg5ycKAq0+I6nfWeCx6ffaWJCsBYU0H2Rq56+/zFePYfT8mXkB3tWBSjR5BerkHNZ5eTPIk1/LBYas35xQ==
   dependencies:
     semver "^5.0.0"
@@ -13872,7 +13872,7 @@ svgo@^1.0.0:
 
 symbol-observable@2.0.3:
   version "2.0.3"
-  resolved "http://localhost:4872/symbol-observable/-/symbol-observable-2.0.3.tgz#5b521d3d07a43c351055fa43b8355b62d33fd16a"
+  resolved "https://registry.yarnpkg.com/symbol-observable/-/symbol-observable-2.0.3.tgz#5b521d3d07a43c351055fa43b8355b62d33fd16a"
   integrity sha512-sQV7phh2WCYAn81oAkakC5qjq2Ml0g8ozqz03wOGnx9dDlG1de6yrF+0RAzSJD8fPUow3PTSMf2SAbOGxb93BA==
 
 symbol-observable@^1.1.0:
@@ -14522,7 +14522,7 @@ unique-slug@^2.0.0:
 
 universal-analytics@0.4.23:
   version "0.4.23"
-  resolved "http://localhost:4872/universal-analytics/-/universal-analytics-0.4.23.tgz#d915e676850c25c4156762471bdd7cf2eaaca8ac"
+  resolved "https://registry.yarnpkg.com/universal-analytics/-/universal-analytics-0.4.23.tgz#d915e676850c25c4156762471bdd7cf2eaaca8ac"
   integrity sha512-lgMIH7XBI6OgYn1woDEmxhGdj8yDefMKg7GkWdeATAlQZFrMrNyxSkpDzY57iY0/6fdlzTbBV03OawvvzG+q7A==
   dependencies:
     debug "^4.1.1"
@@ -14650,7 +14650,7 @@ utils-merge@1.0.1:
 
 uuid@8.3.1:
   version "8.3.1"
-  resolved "http://localhost:4872/uuid/-/uuid-8.3.1.tgz#2ba2e6ca000da60fce5a196954ab241131e05a31"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.1.tgz#2ba2e6ca000da60fce5a196954ab241131e05a31"
   integrity sha512-FOmRr+FmWEIG8uhZv6C2bTgEVXsHk08kE7mPlrBbEe+c3r9pjceVPgupIfNIhc4yx55H69OXANrUaSuu9eInKg==
 
 uuid@^3.0.0, uuid@^3.0.1, uuid@^3.3.2, uuid@^3.4.0:
