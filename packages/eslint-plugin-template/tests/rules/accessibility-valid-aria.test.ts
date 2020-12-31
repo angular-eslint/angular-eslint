@@ -14,31 +14,31 @@ import rule, {
 const ruleTester = new RuleTester({
   parser: '@angular-eslint/template-parser',
 });
-
 const messageId: MessageIds = 'accessibilityValidAria';
 
 ruleTester.run(RULE_NAME, rule, {
   valid: [
     '<input aria-labelledby="Text">',
-    '<input [attr.aria-labelledby]="text">',
+    '<div ariaselected="0"></div>',
+    '<textarea [attr.aria-readonly]="readonly"></textarea>',
+    '<button [variant]="variant">Text</button>',
   ],
   invalid: [
     convertAnnotatedSourceToFailureCase({
-      messageId,
-      description:
-        'should fail when aria attributes are misspelled or if they does not exist',
+      description: 'should fail if the attribute is an invalid ARIA attribute',
       annotatedSource: `
-        <input aria-labelby="text">
-               ~~~~~~~~~~~~~~~~~~~
+        <div aria-roledescriptio="text">Text</div>
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~
+        <input [aria-labelby]="label">
+               ^^^^^^^^^^^^^^^^^^^^^^               
+        <input [attr.aria-requiredIf]="required">
+               #################################
       `,
-    }),
-    convertAnnotatedSourceToFailureCase({
-      messageId,
-      description: 'should fail when using wrong aria attributes with inputs',
-      annotatedSource: `
-        <input [aria-labelby]="text">
-               ~~~~~~~~~~~~~~~~~~~~~
-      `,
+      messages: [
+        { char: '~', messageId },
+        { char: '^', messageId },
+        { char: '#', messageId },
+      ],
     }),
   ],
 });
