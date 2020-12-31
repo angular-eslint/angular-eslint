@@ -1,15 +1,9 @@
-import { parseTemplate, ParseSourceSpan } from '@angular/compiler';
-import EventEmitter from 'events';
-import { ScopeManager, Scope } from 'eslint-scope';
-// @ts-ignore
-import NodeEventGenerator from 'eslint/lib/linter/node-event-generator';
-
+import { ParseSourceSpan, parseTemplate } from '@angular/compiler';
+import { Scope, ScopeManager } from 'eslint-scope';
 import {
-  convertNodeSourceSpanToLoc,
   convertElementSourceSpanToLoc,
+  convertNodeSourceSpanToLoc,
 } from './convert-source-span-to-loc';
-
-const emitters = new WeakMap();
 
 interface Node {
   [x: string]: any;
@@ -74,43 +68,6 @@ function getFallbackKeys(node: Node): string[] {
 
 function isNode(x: any): x is Node {
   return x !== null && typeof x === 'object' && typeof x.type === 'string';
-}
-
-type NodeVisitorFn = (node: Node, parent: Node | null) => void;
-
-function traverse(
-  node: Node,
-  parent: Node | null,
-  visitor: {
-    visitorKeys: VisitorKeys;
-    enterNode: NodeVisitorFn;
-    leaveNode: NodeVisitorFn;
-  },
-) {
-  let i = 0;
-  let j = 0;
-
-  visitor.enterNode(node, parent);
-
-  const keys =
-    (visitor.visitorKeys || KEYS)[node.type] || getFallbackKeys(node);
-
-  for (i = 0; i < keys.length; ++i) {
-    const child = node[keys[i]];
-    const isArr = Array.isArray(child);
-    if (isArr) {
-      for (j = 0; j < child.length; ++j) {
-        const c = child[j];
-        if (isNode(c)) {
-          traverse(c, node, visitor);
-        }
-      }
-    } else if (isNode(child)) {
-      traverse(child, node, visitor);
-    }
-  }
-
-  visitor.leaveNode(node, parent);
 }
 
 /**
@@ -249,51 +206,6 @@ function parseForESLint(code: string, options: { filePath: string }) {
     services: {
       convertNodeSourceSpanToLoc,
       convertElementSourceSpanToLoc,
-      defineTemplateBodyVisitor(
-        templateBodyVisitor: { [x: string]: Function },
-        scriptVisitor: { [x: string]: Function },
-      ) {
-        const rootAST = ast;
-        if (scriptVisitor == null) {
-          scriptVisitor = {}; //eslint-disable-line no-param-reassign
-        }
-        if (rootAST == null) {
-          return scriptVisitor;
-        }
-
-        let emitter = emitters.get(rootAST);
-
-        // If this is the first time, initialize the intermediate event emitter.
-        if (emitter == null) {
-          emitter = new EventEmitter();
-          emitter.setMaxListeners(0);
-          emitters.set(rootAST, emitter);
-
-          const programExitHandler = scriptVisitor['Program:exit'];
-          scriptVisitor['Program:exit'] = (node: Node) => {
-            try {
-              if (typeof programExitHandler === 'function') {
-                programExitHandler(node);
-              }
-
-              // Traverse template body.
-              const generator = new NodeEventGenerator(emitter);
-              traverse(rootAST, null, generator);
-            } finally {
-              // @ts-ignore
-              scriptVisitor['Program:exit'] = programExitHandler;
-              emitters.delete(rootAST);
-            }
-          };
-        }
-
-        // Register handlers into the intermediate event emitter.
-        for (const selector of Object.keys(templateBodyVisitor)) {
-          emitter.on(selector, templateBodyVisitor[selector]);
-        }
-
-        return scriptVisitor;
-      },
     },
   };
 }
