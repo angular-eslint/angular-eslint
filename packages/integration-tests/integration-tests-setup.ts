@@ -38,7 +38,7 @@ async function spawnLocalRegistry() {
       // wait for local-registry to come online
       if (data.includes('http address')) {
         resolvedOrRejected = true;
-        res();
+        res(undefined);
       }
     });
     localRegistryProcess.stderr.pipe(process.stderr);
@@ -118,6 +118,47 @@ async function runNgAdd() {
   return await subprocess;
 }
 
+async function runNgNew(workspaceName: string) {
+  if (process.env.npm_config_registry!.indexOf('http://localhost') === -1) {
+    throw Error(`
+      ------------------
+      💣 ERROR 💣 => $NPM_REGISTRY does not look like a local registry'
+      ------------------
+    `);
+  }
+
+  console.log(process.cwd());
+
+  const subprocess = execa('../node_modules/.bin/ng', [
+    'new',
+    `--collection=@angular-eslint/schematics`,
+    `--strict=true`,
+    `--package-manager=npm`,
+    `--interactive=false`,
+    workspaceName,
+  ]);
+  subprocess.stdout.pipe(process.stdout);
+  subprocess.stderr.pipe(process.stderr);
+
+  return await subprocess;
+}
+
+async function runNgGenerate(args: string[]) {
+  if (process.env.npm_config_registry!.indexOf('http://localhost') === -1) {
+    throw Error(`
+      ------------------
+      💣 ERROR 💣 => $NPM_REGISTRY does not look like a local registry'
+      ------------------
+    `);
+  }
+
+  const subprocess = execa('npx', ['ng', 'generate', ...args]);
+  subprocess.stdout.pipe(process.stdout);
+  subprocess.stderr.pipe(process.stderr);
+
+  return await subprocess;
+}
+
 async function runConvertTSLintToESLint(projectName: string) {
   if (process.env.npm_config_registry!.indexOf('http://localhost') === -1) {
     throw Error(`
@@ -170,6 +211,12 @@ async function setupFixtures() {
     await runConvertTSLintToESLint('v1101-strict-multi-project-auto-convert');
     await runConvertTSLintToESLint('another-app');
     await runConvertTSLintToESLint('another-lib');
+
+    process.chdir('../');
+    await runNgNew('v11-new-workspace');
+    process.chdir('./v11-new-workspace');
+    await runNgGenerate(['app', 'another-app', '--interactive=false']);
+    await runNgGenerate(['lib', 'another-lib', '--interactive=false']);
 
     cleanUp(0);
   } catch (e) {

@@ -9,6 +9,9 @@
     "integration-tests": "jest",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
+  "dependencies": {
+    "@angular/cli": "11.x"
+  },
   "peerDependencies": {
     "eslint": "*",
     "typescript": "*"

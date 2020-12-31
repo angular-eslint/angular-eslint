@@ -8,3 +8,7 @@
 packages/integration-tests/fixtures
 
 tmp
+
+# Copied directly and kept in sync with schemas in node_modules
+packages/schematics/src/application/schema.json
+packages/schematics/src/workspace/schema.json

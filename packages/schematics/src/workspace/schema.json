@@ -44,5 +44,8 @@
       "enum": ["npm", "yarn", "pnpm", "cnpm"]
     }
   },
-  "required": ["name", "version"]
+  "required": [
+    "name",
+    "version"
+  ]
 }
