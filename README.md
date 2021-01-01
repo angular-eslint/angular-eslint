@@ -19,9 +19,25 @@
 
 > **This project is made possible** thanks to the continued hard work going into https://github.com/typescript-eslint/typescript-eslint, and brilliant work on the original TSLint rule implementations in https://github.com/mgechev/codelyzer.
 
-Feel free to begin playing with the tooling in your own projects and submit PRs with missing rules and bug fixes.
+<br>
 
-We would also be very grateful for documentation PRs!
+## Quick Start with Angular and ESLint
+
+In order to create a brand new Angular CLI workspace which uses ESLint instead of TSLint and Codelyzer, simply run the following commands:
+
+```sh
+# Install the Angular CLI and @angular-eslint/schematics globally however you want (e.g. npm, yarn, volta etc)
+
+npm i -g @angular/cli @angular-devkit/{core,schematics} @angular-eslint/schematics
+
+# Create a new Angular CLI workspace using the @angular-eslint/schematics collection (instead of the default)
+
+ng new --collection=@angular-eslint/schematics
+```
+
+After you follow the interactive prompts the Angular CLI gives you, you have now created a TSLint and Codelyzer free workspace with ng lint all set up and ready to lint your source code and HTML templates using ESLint! 🚀
+
+Read on to find out more about the project and some important things to bear in mind with configuration and performance.
 
 <br>
 
