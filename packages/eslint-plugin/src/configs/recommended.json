@@ -1,8 +1,6 @@
 {
   "extends": "./configs/base.json",
   "rules": {
-    "@typescript-eslint/array-type": "off",
-    "arrow-parens": "off",
     "no-restricted-imports": [
       "error",
       {
@@ -14,10 +12,6 @@
         ]
       }
     ],
-    "@typescript-eslint/interface-name-prefix": "off",
-    "max-classes-per-file": "off",
-    "max-len": ["error", { "code": 140 }],
-    "@typescript-eslint/explicit-member-accessibility": "off",
     "@typescript-eslint/member-ordering": [
       "error",
       {
@@ -29,7 +23,6 @@
         ]
       }
     ],
-    "no-multiple-empty-lines": "off",
     "no-restricted-syntax": [
       "error",
       {
@@ -37,18 +30,12 @@
         "message": "Unexpected property on console object was called"
       }
     ],
-    "no-empty": "off",
     "@typescript-eslint/no-inferrable-types": [
       "error",
       { "ignoreParameters": true }
     ],
     "@typescript-eslint/no-non-null-assertion": "error",
     "no-fallthrough": "error",
-    "@typescript-eslint/no-var-requires": "off",
-    "quote-props": ["error", "as-needed"],
-    "sort-keys": "off",
-    "quotes": ["error", "single", { "allowTemplateLiterals": true }],
-    "comma-dangle": "off",
     "@angular-eslint/component-class-suffix": "error",
     "@angular-eslint/contextual-lifecycle": "error",
     "@angular-eslint/directive-class-suffix": "error",

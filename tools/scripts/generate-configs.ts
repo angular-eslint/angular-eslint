@@ -112,18 +112,6 @@ function writeConfig(config: LinterConfig, filePath: string): void {
 }
 
 const additionalTypeScriptRules: LinterConfigRules = {
-  // ORIGINAL tslint.json -> "array-type": false,
-  '@typescript-eslint/array-type': 'off',
-
-  // ORIGINAL tslint.json -> "arrow-parens": false,
-  'arrow-parens': 'off',
-
-  // ORIGINAL tslint.json -> "deprecation": { "severity": "warning" },
-  /**
-   * | [`deprecation`]              | 🌓  | [`import/no-deprecated`] <sup>[1]</sup>            |
-   * <sup>[1]</sup> Only warns when importing deprecated symbols<br>
-   */
-
   // ORIGINAL tslint.json -> "import-blacklist": [true, "rxjs/Rx"],
   'no-restricted-imports': [
     'error',
@@ -136,18 +124,6 @@ const additionalTypeScriptRules: LinterConfigRules = {
       ],
     },
   ],
-
-  // ORIGINAL tslint.json -> "interface-name": false,
-  '@typescript-eslint/interface-name-prefix': 'off',
-
-  // ORIGINAL tslint.json -> "max-classes-per-file": false,
-  'max-classes-per-file': 'off',
-
-  // ORIGINAL tslint.json -> "max-line-length": [true, 140],
-  'max-len': ['error', { code: 140 }],
-
-  // ORIGINAL tslint.json -> "member-access": false,
-  '@typescript-eslint/explicit-member-accessibility': 'off',
 
   // ORIGINAL tslint.json -> "member-ordering": [true, { "order": ["static-field", "instance-field", "static-method", "instance-method"] } ],
   '@typescript-eslint/member-ordering': [
@@ -162,9 +138,6 @@ const additionalTypeScriptRules: LinterConfigRules = {
     },
   ],
 
-  // ORIGINAL tslint.json -> "no-consecutive-blank-lines": false,
-  'no-multiple-empty-lines': 'off',
-
   // ORIGINAL tslint.json -> "no-console": [true, "debug", "info", "time", "timeEnd", "trace"],
   'no-restricted-syntax': [
     'error',
@@ -174,9 +147,6 @@ const additionalTypeScriptRules: LinterConfigRules = {
       message: 'Unexpected property on console object was called',
     },
   ],
-
-  // ORIGINAL tslint.json -> "no-empty": false,
-  'no-empty': 'off',
 
   // ORIGINAL tslint.json -> "no-inferrable-types": [true, "ignore-params"],
   '@typescript-eslint/no-inferrable-types': [
@@ -189,33 +159,8 @@ const additionalTypeScriptRules: LinterConfigRules = {
   // ORIGINAL tslint.json -> "no-non-null-assertion": true,
   '@typescript-eslint/no-non-null-assertion': 'error',
 
-  // ORIGINAL tslint.json -> "no-redundant-jsdoc": true,
-  /**
-   * | [`no-redundant-jsdoc`]              | 🛑  | N/A ([open issue](https://github.com/gajus/eslint-plugin-jsdoc/issues/134))         |
-   */
-
   // ORIGINAL tslint.json -> "no-switch-case-fall-through": true,
   'no-fallthrough': 'error',
-
-  // ORIGINAL tslint.json -> "no-var-requires": false,
-  '@typescript-eslint/no-var-requires': 'off',
-
-  // ORIGINAL tslint.json -> "object-literal-key-quotes": [true, "as-needed"],
-  'quote-props': ['error', 'as-needed'],
-
-  // ORIGINAL tslint.json -> "object-literal-sort-keys": false,
-  'sort-keys': 'off',
-
-  // ORIGINAL tslint.json -> "ordered-imports": false,
-  /**
-   * Needs import plugin
-   */
-
-  // ORIGINAL tslint.json -> "quotemark": [true, "single"],
-  quotes: ['error', 'single', { allowTemplateLiterals: true }],
-
-  // ORIGINAL tslint.json -> "trailing-comma": false,
-  'comma-dangle': 'off',
 };
 
 console.log();
