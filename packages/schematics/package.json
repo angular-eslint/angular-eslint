@@ -30,6 +30,7 @@
     "tslint-to-eslint-config": "2.0.1"
   },
   "devDependencies": {
+    "@angular-devkit/core": "^11.0.1",
     "@angular-devkit/schematics": "^11.0.1",
     "@typescript-eslint/experimental-utils": "4.3.0",
     "eslint": "^7.6.0",
@@ -38,6 +39,7 @@
     "eslint-plugin-prefer-arrow": "1.2.2"
   },
   "peerDependencies": {
+    "@angular-devkit/core": "*",
     "@angular-devkit/schematics": "*"
   },
   "gitHead": "7a92faa8c58964e966abfae38ca049ae9cb3e78a"
