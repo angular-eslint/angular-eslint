@@ -10,19 +10,20 @@ Examples of **incorrect** code for this rule (with default configuration):
 
 ```javascript
 @Component({
-	selector: "app-root",
-	templateUrl: "./app.component.html",
-	styleUrls: ["./app.component.css"]
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css'],
 })
 class App {}
 ```
 
 Example of **correct** code for this rule:
+
 ```javascript
 @Component({
-	selector: "app-root",
-	templateUrl: "./app.component.html",
-	styleUrls: ["./app.component.css"]
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css'],
 })
 class AppComponent {}
 ```
@@ -30,11 +31,15 @@ class AppComponent {}
 ## Options
 
 By default, the suffix will be `Component`. You may pass an array of suffixes, for example:
+
 ```json
 {
-    "@angular-eslint/component-class-suffix": ["error", {
-        "suffixes": ["Component", "Comp"]
-    }]
+  "@angular-eslint/component-class-suffix": [
+    "error",
+    {
+      "suffixes": ["Component", "Comp"]
+    }
+  ]
 }
 ```
 
@@ -42,33 +47,34 @@ Examples of **incorrect** code with the above options:
 
 ```javascript
 @Component({
-	selector: "app-root",
-	templateUrl: "./app.component.html",
-	styleUrls: ["./app.component.css"]
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css'],
 })
 export class AppCompe {}
 
 @Component({
-	selector: "app-root",
-	templateUrl: "./app.component.html",
-	styleUrls: ["./app.component.css"]
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css'],
 })
 export class App {}
 ```
 
 Example of **correct** code with the above options:
+
 ```javascript
 @Component({
-	selector: "app-root",
-	templateUrl: "./app.component.html",
-	styleUrls: ["./app.component.css"]
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css'],
 })
 export class AppComp {}
 
 @Component({
-	selector: "app-root",
-	templateUrl: "./app.component.html",
-	styleUrls: ["./app.component.css"]
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent {}
 ```
