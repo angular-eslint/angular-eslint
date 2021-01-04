@@ -140,7 +140,7 @@ ruleTester.run(RULE_NAME, rule, {
         @Component()
         class Test {
           ngAfterContentChecked() { }
-          ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+          ~~~~~~~~~~~~~~~~~~~~~
         }
       `,
       messageId,
@@ -152,7 +152,7 @@ ruleTester.run(RULE_NAME, rule, {
         @Component()
         class Test {
           ngAfterContentInit() { }
-          ~~~~~~~~~~~~~~~~~~~~~~~~
+          ~~~~~~~~~~~~~~~~~~
         }
       `,
       messageId,
@@ -164,7 +164,7 @@ ruleTester.run(RULE_NAME, rule, {
         @Component()
         class Test {
           ngAfterViewChecked() { }
-          ~~~~~~~~~~~~~~~~~~~~~~~~
+          ~~~~~~~~~~~~~~~~~~
         }
       `,
       messageId,
@@ -176,7 +176,7 @@ ruleTester.run(RULE_NAME, rule, {
         @Component()
         class Test {
           ngAfterViewInit() { }
-          ~~~~~~~~~~~~~~~~~~~~~
+          ~~~~~~~~~~~~~~~
         }
       `,
       messageId,
@@ -188,7 +188,7 @@ ruleTester.run(RULE_NAME, rule, {
         @Component()
         class Test {
           ngDoBootstrap() { }
-          ~~~~~~~~~~~~~~~~~~~
+          ~~~~~~~~~~~~~
         }
       `,
       messageId,
@@ -200,7 +200,7 @@ ruleTester.run(RULE_NAME, rule, {
         @Component()
         class Test {
           ngDoCheck() { }
-          ~~~~~~~~~~~~~~~
+          ~~~~~~~~~
         }
       `,
       messageId,
@@ -212,7 +212,7 @@ ruleTester.run(RULE_NAME, rule, {
         @Component()
         class Test {
           ngOnChanges() { }
-          ~~~~~~~~~~~~~~~~~
+          ~~~~~~~~~~~
         }
       `,
       messageId,
@@ -224,7 +224,7 @@ ruleTester.run(RULE_NAME, rule, {
         @Component()
         class Test {
           ngOnDestroy() { }
-          ~~~~~~~~~~~~~~~~~
+          ~~~~~~~~~~~
         }
       `,
       messageId,
@@ -236,7 +236,7 @@ ruleTester.run(RULE_NAME, rule, {
         @Component()
         class Test {
           ngOnInit() { }
-          ~~~~~~~~~~~~~~
+          ~~~~~~~~
         }
       `,
       messageId,
@@ -248,7 +248,7 @@ ruleTester.run(RULE_NAME, rule, {
         @Directive()
         class Test {
           ngAfterContentChecked() { }
-          ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+          ~~~~~~~~~~~~~~~~~~~~~
         }
       `,
       messageId,
@@ -260,7 +260,7 @@ ruleTester.run(RULE_NAME, rule, {
         @Directive()
         class Test {
           ngAfterContentInit() { }
-          ~~~~~~~~~~~~~~~~~~~~~~~~
+          ~~~~~~~~~~~~~~~~~~
         }
       `,
       messageId,
@@ -272,7 +272,7 @@ ruleTester.run(RULE_NAME, rule, {
         @Directive()
         class Test {
           ngAfterViewChecked() { }
-          ~~~~~~~~~~~~~~~~~~~~~~~~
+          ~~~~~~~~~~~~~~~~~~
         }
       `,
       messageId,
@@ -284,7 +284,7 @@ ruleTester.run(RULE_NAME, rule, {
         @Directive()
         class Test {
           ngAfterViewInit() { }
-          ~~~~~~~~~~~~~~~~~~~~~
+          ~~~~~~~~~~~~~~~
         }
       `,
       messageId,
@@ -296,7 +296,7 @@ ruleTester.run(RULE_NAME, rule, {
         @Directive()
         class Test {
           ngDoBootstrap() { }
-          ~~~~~~~~~~~~~~~~~~~
+          ~~~~~~~~~~~~~
         }
       `,
       messageId,
@@ -308,7 +308,7 @@ ruleTester.run(RULE_NAME, rule, {
         @Directive()
         class Test {
           ngDoCheck() { }
-          ~~~~~~~~~~~~~~~
+          ~~~~~~~~~
         }
       `,
       messageId,
@@ -320,7 +320,7 @@ ruleTester.run(RULE_NAME, rule, {
         @Directive()
         class Test {
           ngOnChanges() { }
-          ~~~~~~~~~~~~~~~~~
+          ~~~~~~~~~~~
         }
       `,
       messageId,
@@ -332,7 +332,7 @@ ruleTester.run(RULE_NAME, rule, {
         @Directive()
         class Test {
           ngOnDestroy() { }
-          ~~~~~~~~~~~~~~~~~
+          ~~~~~~~~~~~
         }
       `,
       messageId,
@@ -344,7 +344,7 @@ ruleTester.run(RULE_NAME, rule, {
         @Directive()
         class Test {
           ngOnInit() { }
-          ~~~~~~~~~~~~~~
+          ~~~~~~~~
         }
       `,
       messageId,

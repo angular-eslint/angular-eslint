@@ -40,7 +40,7 @@ export default createESLintRule<Options, MessageIds>({
         if (!getAngularClassDecorator(classDeclaration)) return;
 
         context.report({
-          node,
+          node: node.key,
           messageId: 'noEmptyLifecycleMethod',
         });
       },
