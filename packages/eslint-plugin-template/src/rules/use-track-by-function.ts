@@ -25,7 +25,7 @@ export default createESLintRule<Options, MessageIds>({
   create(context) {
     const parserServices = getTemplateParserServices(context);
 
-    return parserServices.defineTemplateBodyVisitor({
+    return {
       ['BoundAttribute.inputs[name="ngForOf"]'](node: any) {
         if (
           node.parent.inputs.some(
@@ -72,6 +72,6 @@ export default createESLintRule<Options, MessageIds>({
           loc,
         });
       },
-    });
+    };
   },
 });

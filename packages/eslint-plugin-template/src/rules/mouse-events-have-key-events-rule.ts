@@ -1,3 +1,4 @@
+import { TmplAstElement } from '@angular/compiler';
 import {
   createESLintRule,
   getTemplateParserServices,
@@ -31,8 +32,8 @@ export default createESLintRule<Options, MessageIds>({
   create(context) {
     const parserServices = getTemplateParserServices(context);
 
-    return parserServices.defineTemplateBodyVisitor({
-      ['Element'](node: any) {
+    return {
+      Element(node: TmplAstElement) {
         let hasMouseOver = false,
           hasMouseOut = false,
           hasFocus = false,
@@ -68,6 +69,6 @@ export default createESLintRule<Options, MessageIds>({
           });
         }
       },
-    });
+    };
   },
 });

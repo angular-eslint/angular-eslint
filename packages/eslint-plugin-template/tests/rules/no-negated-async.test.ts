@@ -2,7 +2,7 @@ import {
   convertAnnotatedSourceToFailureCase,
   RuleTester,
 } from '@angular-eslint/utils';
-import rule, { RULE_NAME } from '../../src/rules/no-negated-async';
+import rule, { MessageIds, RULE_NAME } from '../../src/rules/no-negated-async';
 
 //------------------------------------------------------------------------------
 // Tests
@@ -11,6 +11,9 @@ import rule, { RULE_NAME } from '../../src/rules/no-negated-async';
 const ruleTester = new RuleTester({
   parser: '@angular-eslint/template-parser',
 });
+
+const noLooseEquality: MessageIds = 'noLooseEquality';
+const noNegatedAsync: MessageIds = 'noNegatedAsync';
 
 ruleTester.run(RULE_NAME, rule, {
   valid: [
@@ -38,7 +41,7 @@ ruleTester.run(RULE_NAME, rule, {
         {{ !(foo | async) }}
            ~~~~~~~~~~~~~~
       `,
-      messageId: 'noNegatedAsync',
+      messageId: noNegatedAsync,
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -47,7 +50,7 @@ ruleTester.run(RULE_NAME, rule, {
           {{ !(foo | somethingElse | async) }}
              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       `,
-      messageId: 'noNegatedAsync',
+      messageId: noNegatedAsync,
     }),
     convertAnnotatedSourceToFailureCase({
       description: 'it should fail if the async pipe uses loose equality',
@@ -55,7 +58,7 @@ ruleTester.run(RULE_NAME, rule, {
         {{ (foo | async) == false }}
            ~~~~~~~~~~~~~~~~~~~~~~
       `,
-      messageId: 'noLooseEquality',
+      messageId: noLooseEquality,
     }),
     convertAnnotatedSourceToFailureCase({
       description: 'it should fail if async pipe is negated using *ngIf',
@@ -63,7 +66,7 @@ ruleTester.run(RULE_NAME, rule, {
         <div *ngIf="!(a | async)"></div>
                     ~~~~~~~~~~~~
       `,
-      messageId: 'noNegatedAsync',
+      messageId: noNegatedAsync,
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -83,18 +86,9 @@ ruleTester.run(RULE_NAME, rule, {
         </div>
       `,
       messages: [
-        {
-          char: '~',
-          messageId: 'noNegatedAsync',
-        },
-        {
-          char: '^',
-          messageId: 'noLooseEquality',
-        },
-        {
-          char: '#',
-          messageId: 'noLooseEquality',
-        },
+        { char: '~', messageId: noNegatedAsync },
+        { char: '^', messageId: noLooseEquality },
+        { char: '#', messageId: noLooseEquality },
       ],
     }),
   ],

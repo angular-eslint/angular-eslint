@@ -18,7 +18,7 @@ const ruleTester = new RuleTester({
 const messageId: MessageIds = 'accessibilityTableScope';
 
 ruleTester.run(RULE_NAME, rule, {
-  valid: ['<th scope="col"></th>', '<th [attr.scope]="col"></th>'],
+  valid: ['<th></th>', '<th scope="col"></th>', '<th [attr.scope]="col"></th>'],
   invalid: [
     convertAnnotatedSourceToFailureCase({
       messageId,

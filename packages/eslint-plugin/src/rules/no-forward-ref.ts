@@ -1,4 +1,5 @@
 import { TSESTree } from '@typescript-eslint/experimental-utils';
+
 import { createESLintRule } from '../utils/create-eslint-rule';
 
 type Options = [];
@@ -23,18 +24,10 @@ export default createESLintRule<Options, MessageIds>({
   },
   defaultOptions: [],
   create(context) {
-    /**
-     * TODO: Investigate ways of making this faster using known
-     * usage of forwardRef()
-     */
     return {
-      'CallExpression[callee.type="Identifier"]'(
+      [`CallExpression[callee.type="Identifier"][callee.name="${FORWARD_REF}"]`](
         node: TSESTree.CallExpression,
       ) {
-        const callee = node.callee as TSESTree.Identifier;
-        if (callee.name !== FORWARD_REF) {
-          return;
-        }
         context.report({
           node,
           messageId: 'noForwardRef',

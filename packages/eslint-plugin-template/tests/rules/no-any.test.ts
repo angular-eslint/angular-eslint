@@ -76,18 +76,9 @@ ruleTester.run(RULE_NAME, rule, {
                    ###############
       `,
       messages: [
-        {
-          char: '~',
-          messageId,
-        },
-        {
-          char: '^',
-          messageId,
-        },
-        {
-          char: '#',
-          messageId,
-        },
+        { char: '~', messageId },
+        { char: '^', messageId },
+        { char: '#', messageId },
       ],
     }),
   ],

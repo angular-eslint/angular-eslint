@@ -1,6 +1,6 @@
 {
   "name": "@angular-eslint/integration-tests",
-  "version": "0.8.0-beta.6",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "kill-existing-verdaccio": "kill $(lsof -t -i:4872) || true",
@@ -9,11 +9,14 @@
     "integration-tests": "jest",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
+  "dependencies": {
+    "@angular/cli": "11.x"
+  },
   "peerDependencies": {
     "eslint": "*",
     "typescript": "*"
   },
   "devDependencies": {
-    "verdaccio": "^4.8.1"
+    "verdaccio": "^4.10.0"
   }
 }

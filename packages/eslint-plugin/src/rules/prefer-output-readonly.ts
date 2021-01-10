@@ -24,16 +24,11 @@ export default createESLintRule<Options, MessageIds>({
   defaultOptions: [],
   create(context) {
     return {
-      'ClassProperty > Decorator[expression.callee.name="Output"]'(
-        node: TSESTree.Decorator,
-      ) {
-        const property = node.parent as TSESTree.ClassProperty;
-        if (property.readonly) {
-          return;
-        }
-
+      'ClassProperty[readonly=undefined] > Decorator[expression.callee.name="Output"]'({
+        parent,
+      }: TSESTree.Decorator) {
         context.report({
-          node: property.key,
+          node: (parent as TSESTree.ClassProperty).key,
           messageId: 'preferOutputReadonly',
         });
       },
