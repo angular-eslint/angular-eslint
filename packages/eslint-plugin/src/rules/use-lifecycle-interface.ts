@@ -27,7 +27,7 @@ export default createESLintRule<Options, MessageIds>({
     },
     schema: [],
     messages: {
-      useLifecycleInterface: `Lifecycle interface "{{interfaceName}}" should be implemented for method "{{methodName}}" (${STYLE_GUIDE_LINK})`,
+      useLifecycleInterface: `Lifecycle interface '{{interfaceName}}' should be implemented for method '{{methodName}}'. (${STYLE_GUIDE_LINK})`,
     },
   },
   defaultOptions: [],
