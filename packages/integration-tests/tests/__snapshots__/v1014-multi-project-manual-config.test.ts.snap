@@ -14,7 +14,7 @@ __ROOT__/v1014-multi-project-manual-config/src/app/app.component.spec.ts
 __ROOT__/v1014-multi-project-manual-config/src/app/app.component.ts
    2:1  error  'rxjs/Rx' import is restricted from being used. Please import directly from 'rxjs' instead                             no-restricted-imports
    5:1  error  Unexpected console statement                                                                                           no-console
-  15:3  error  Lifecycle interface "OnInit" should be implemented for method "ngOnInit" (https://angular.io/styleguide#style-09-01)  @angular-eslint/use-lifecycle-interface
+  15:3  error  Lifecycle interface 'OnInit' should be implemented for method 'ngOnInit'. (https://angular.io/styleguide#style-09-01)  @angular-eslint/use-lifecycle-interface
 
 ✖ 3 problems (3 errors, 0 warnings)
 
