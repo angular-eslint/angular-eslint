@@ -8,7 +8,6 @@ interface SourceSpan {
 }
 
 interface ParserServices {
-  defineTemplateBodyVisitor: Function;
   convertNodeSourceSpanToLoc: (sourceSpan: SourceSpan) => any;
   convertElementSourceSpanToLoc: <TMessageIds extends string>(
     context: TSESLint.RuleContext<TMessageIds, []>,
@@ -30,7 +29,6 @@ export function ensureTemplateParser(
 ) {
   if (
     !context.parserServices ||
-    !(context.parserServices as any).defineTemplateBodyVisitor ||
     !(context.parserServices as any).convertNodeSourceSpanToLoc ||
     (!context.parserServices as any).convertElementSourceSpanToLoc
   ) {

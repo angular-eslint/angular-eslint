@@ -19,9 +19,39 @@
 
 > **This project is made possible** thanks to the continued hard work going into https://github.com/typescript-eslint/typescript-eslint, and brilliant work on the original TSLint rule implementations in https://github.com/mgechev/codelyzer.
 
-Feel free to begin playing with the tooling in your own projects and submit PRs with missing rules and bug fixes.
+<br>
 
-We would also be very grateful for documentation PRs!
+## Table of Contents
+
+- [Quick Start with Angular and ESLint](#quick-start-with-angular-and-eslint)
+- [Supported Angular CLI Versions](#supported-angular-cli-versions)
+- [Usage with Nx Monorepos](#usage-with-nx-monorepos)
+- [Packages included in this project](#packages-included-in-this-project)
+- [Package Versions](#package-versions)
+- [Migrating an Angular CLI project from Codelyzer and TSLint](#migrating-an-angular-cli-project-from-codelyzer-and-tslint)
+- [Notes on ESLint Configuration](#notes-on-eslint-configuration)
+- [Notes on Performance](#notes-on-performance)
+- [Rules List](#rules-list)
+
+<br>
+
+## Quick Start with Angular and ESLint
+
+In order to create a brand new Angular CLI workspace which uses ESLint instead of TSLint and Codelyzer, simply run the following commands:
+
+```sh
+# Install the Angular CLI and @angular-eslint/schematics globally however you want (e.g. npm, yarn, volta etc)
+
+npm i -g @angular/cli @angular-devkit/{core,schematics} @angular-eslint/schematics
+
+# Create a new Angular CLI workspace using the @angular-eslint/schematics collection (instead of the default)
+
+ng new --collection=@angular-eslint/schematics
+```
+
+After you follow the interactive prompts the Angular CLI gives you, you have now created a TSLint and Codelyzer free workspace with ng lint all set up and ready to lint your source code and HTML templates using ESLint! 🚀
+
+Read on to find out more about the project and some important things to bear in mind with configuration and performance.
 
 <br>
 
@@ -74,6 +104,24 @@ Please follow the links below for the packages you care about.
 - [`@angular-eslint/eslint-plugin-template`](./packages/eslint-plugin-template/) - An ESLint-specific plugin which, when used in conjunction with `@angular-eslint/template-parser`, allows for Angular template-specific linting rules to run.
 
 - [`@angular-eslint/schematics`](./packages/schematics/) - Schematics which are used to add and update configuration files which are relevant for running ESLint on an Angular workspace.
+
+<br>
+
+## Package Versions
+
+All of the packages are published with the same version number to make it easier to coordinate both releases and installations.
+
+We publish a canary release on every successful merge to master, so **you never need to wait for a new stable version to make use of any updates**.
+
+The latest version under the `latest` tag is:
+
+<a href="https://www.npmjs.com/package/@angular-eslint/schematics"><img src="https://img.shields.io/npm/v/@angular-eslint/schematics/latest.svg?style=flat-square" alt="NPM Version" /></a>
+
+The latest version under the `canary` tag **(latest commit to master)** is:
+
+<a href="https://www.npmjs.com/package/@angular-eslint/schematics"><img src="https://img.shields.io/npm/v/@angular-eslint/schematics/canary.svg?style=flat-square" alt="NPM Version" /></a>
+
+(Note: The only exception to the automated publishes described above is when we are in the final phases of creating the next major version of the libraries - e.g. going from `1.x.x` to `2.x.x`. During these periods, we manually publish `canary` releases until we are happy with the release and promote it to `latest`.)
 
 <br>
 
@@ -393,7 +441,7 @@ If you are still having problems after you have done some digging into these, fe
 
 <br>
 
-### Rules List
+## Rules List
 
 <!-- begin rule list -->
 
@@ -528,7 +576,6 @@ If you are still having problems after you have done some digging into these, fe
 
 <!-- PR Links -->
 
-[`pr233`]: https://api.github.com/repos/angular-eslint/angular-eslint/pulls/233
 [`pr260`]: https://api.github.com/repos/angular-eslint/angular-eslint/pulls/260
 
 <!-- end rule list -->
