@@ -21,6 +21,20 @@
 
 <br>
 
+## Table of Contents
+
+- [Quick Start with Angular and ESLint](#quick-start-with-angular-and-eslint)
+- [Supported Angular CLI Versions](#supported-angular-cli-versions)
+- [Usage with Nx Monorepos](#usage-with-nx-monorepos)
+- [Packages included in this project](#packages-included-in-this-project)
+- [Package Versions](#package-versions)
+- [Migrating an Angular CLI project from Codelyzer and TSLint](#migrating-an-angular-cli-project-from-codelyzer-and-tslint)
+- [Notes on ESLint Configuration](#notes-on-eslint-configuration)
+- [Notes on Performance](#notes-on-performance)
+- [Rules List](#rules-list)
+
+<br>
+
 ## Quick Start with Angular and ESLint
 
 In order to create a brand new Angular CLI workspace which uses ESLint instead of TSLint and Codelyzer, simply run the following commands:
@@ -90,6 +104,24 @@ Please follow the links below for the packages you care about.
 - [`@angular-eslint/eslint-plugin-template`](./packages/eslint-plugin-template/) - An ESLint-specific plugin which, when used in conjunction with `@angular-eslint/template-parser`, allows for Angular template-specific linting rules to run.
 
 - [`@angular-eslint/schematics`](./packages/schematics/) - Schematics which are used to add and update configuration files which are relevant for running ESLint on an Angular workspace.
+
+<br>
+
+## Package Versions
+
+All of the packages are published with the same version number to make it easier to coordinate both releases and installations.
+
+We publish a canary release on every successful merge to master, so **you never need to wait for a new stable version to make use of any updates**.
+
+The latest version under the `latest` tag is:
+
+<a href="https://www.npmjs.com/package/@angular-eslint/schematics"><img src="https://img.shields.io/npm/v/@angular-eslint/schematics/latest.svg?style=flat-square" alt="NPM Version" /></a>
+
+The latest version under the `canary` tag **(latest commit to master)** is:
+
+<a href="https://www.npmjs.com/package/@angular-eslint/schematics"><img src="https://img.shields.io/npm/v/@angular-eslint/schematics/canary.svg?style=flat-square" alt="NPM Version" /></a>
+
+(Note: The only exception to the automated publishes described above is when we are in the final phases of creating the next major version of the libraries - e.g. going from `1.x.x` to `2.x.x`. During these periods, we manually publish `canary` releases until we are happy with the release and promote it to `latest`.)
 
 <br>
 
@@ -409,7 +441,7 @@ If you are still having problems after you have done some digging into these, fe
 
 <br>
 
-### Rules List
+## Rules List
 
 <!-- begin rule list -->
 
