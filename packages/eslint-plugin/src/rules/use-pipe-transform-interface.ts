@@ -62,7 +62,7 @@ function getErrorSchemaOptions(classDeclaration: TSESTree.ClassDeclaration) {
   ] = classDeclaration.implements
     ? [
         classDeclarationIdentifier,
-        classDeclaration.implements[classDeclaration.implements.length - 1],
+        getLast(classDeclaration.implements),
         `, ${PIPE_TRANSFORM}`,
       ]
     : [
@@ -104,7 +104,11 @@ function getImportFix(node: TSESTree.ClassDeclaration, fixer: RuleFixer) {
     );
   }
 
-  const lastImportSpecifier = importDeclaration.specifiers.slice(-1)[0];
+  const lastImportSpecifier = getLast(importDeclaration.specifiers);
 
   return fixer.insertTextAfter(lastImportSpecifier, `, ${PIPE_TRANSFORM}`);
+}
+
+function getLast<T extends readonly unknown[]>(items: T): T[0] {
+  return items.slice(-1)[0];
 }
