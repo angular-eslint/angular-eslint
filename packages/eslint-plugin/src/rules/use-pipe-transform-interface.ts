@@ -1,7 +1,8 @@
 import { TSESTree } from '@typescript-eslint/experimental-utils';
 import { RuleFixer } from '@typescript-eslint/experimental-utils/dist/ts-eslint';
 import { createESLintRule } from '../utils/create-eslint-rule';
-import { isClassDeclaration, isImportDeclaration } from '../utils/utils';
+import { PIPE_CLASS_DECORATOR } from '../utils/selectors';
+import { getDeclaredInterfaceName, isImportDeclaration } from '../utils/utils';
 
 type Options = [];
 export type MessageIds = 'usePipeTransformInterface';
@@ -14,33 +15,35 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description: `Ensures that Pipes implement ${PIPE_TRANSFORM} interface`,
+      description: `Ensures that Pipes implement \`${PIPE_TRANSFORM}\` interface`,
       category: 'Best Practices',
       recommended: 'error',
     },
     fixable: 'code',
     schema: [],
     messages: {
-      usePipeTransformInterface: `Pipes should implement ${PIPE_TRANSFORM} interface`,
+      usePipeTransformInterface: `Pipes should implement \`${PIPE_TRANSFORM}\` interface`,
     },
   },
   defaultOptions: [],
   create(context) {
-    const selector = `ClassDeclaration[implements=undefined], ClassDeclaration > :matches(TSClassImplements:not([expression.name="${PIPE_TRANSFORM}"], [expression.property.name="${PIPE_TRANSFORM}"]))`;
-
     return {
-      [selector](node: TSESTree.ClassDeclaration | TSESTree.TSClassImplements) {
+      [PIPE_CLASS_DECORATOR]({
+        parent: classDeclaration,
+      }: TSESTree.Decorator & { parent: TSESTree.ClassDeclaration }) {
+        if (getDeclaredInterfaceName(classDeclaration, PIPE_TRANSFORM)) return;
+
         const {
           errorNode,
           implementsNodeReplace,
           implementsTextReplace,
-        } = getErrorSchemaOptions(node);
+        } = getErrorSchemaOptions(classDeclaration);
 
         context.report({
           node: errorNode,
           messageId: 'usePipeTransformInterface',
           fix: (fixer) => [
-            getImportFix(node, fixer),
+            getImportFix(classDeclaration, fixer),
             fixer.insertTextAfter(implementsNodeReplace, implementsTextReplace),
           ],
         });
@@ -49,26 +52,29 @@ export default createESLintRule<Options, MessageIds>({
   },
 });
 
-function getErrorSchemaOptions(
-  node: TSESTree.ClassDeclaration | TSESTree.TSClassImplements,
-) {
+function getErrorSchemaOptions(classDeclaration: TSESTree.ClassDeclaration) {
+  const classDeclarationIdentifier = classDeclaration.id as TSESTree.Identifier;
   const [
     errorNode,
     implementsNodeReplace,
     implementsTextReplace,
-  ] = isClassDeclaration(node)
-    ? [node.id!, node.id!, ` implements ${PIPE_TRANSFORM}`]
-    : [
-        (node.parent as TSESTree.ClassDeclaration).id!,
-        node,
+  ] = classDeclaration.implements
+    ? [
+        classDeclarationIdentifier,
+        classDeclaration.implements[classDeclaration.implements.length - 1],
         `, ${PIPE_TRANSFORM}`,
+      ]
+    : [
+        classDeclarationIdentifier,
+        classDeclarationIdentifier,
+        ` implements ${PIPE_TRANSFORM}`,
       ];
 
   return { errorNode, implementsNodeReplace, implementsTextReplace } as const;
 }
 
 function getImportDeclaration(
-  node: TSESTree.ClassDeclaration | TSESTree.TSClassImplements,
+  node: TSESTree.ClassDeclaration,
   module: string,
 ): TSESTree.ImportDeclaration | undefined {
   let parentNode: TSESTree.Node | undefined = node;
@@ -84,10 +90,7 @@ function getImportDeclaration(
   return parentNode;
 }
 
-function getImportFix(
-  node: TSESTree.ClassDeclaration | TSESTree.TSClassImplements,
-  fixer: RuleFixer,
-) {
+function getImportFix(node: TSESTree.ClassDeclaration, fixer: RuleFixer) {
   const importDeclaration = getImportDeclaration(
     node,
     ANGULAR_CORE_MODULE_PATH,
