@@ -12,7 +12,6 @@ import {
 
 import {
   createESLintRule,
-  ensureTemplateParser,
   getTemplateParserServices,
 } from '../utils/create-eslint-rule';
 
@@ -44,7 +43,6 @@ export default createESLintRule<Options, MessageIds>({
   },
   defaultOptions: [{ maxComplexity: 5 }],
   create(context, [{ maxComplexity }]) {
-    ensureTemplateParser(context);
     const sourceCode = context.getSourceCode();
     const parserServices = getTemplateParserServices(context);
 
