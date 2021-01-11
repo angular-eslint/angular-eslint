@@ -1,8 +1,4 @@
-// TODO: Refactor this import once https://github.com/typescript-eslint/typescript-eslint/issues/2931 is fixed.
-import {
-  TestCaseError,
-  InvalidTestCase,
-} from '@typescript-eslint/experimental-utils/dist/ts-eslint';
+import { TSESLint } from '@typescript-eslint/experimental-utils';
 
 /**
  * FROM CODELYZER
@@ -139,7 +135,7 @@ export function convertAnnotatedSourceToFailureCase<T extends string>({
   data?: Record<string, any>;
   options?: any;
   annotatedOutput?: string;
-}): InvalidTestCase<T, typeof options> {
+}): TSESLint.InvalidTestCase<T, typeof options> {
   if (!messageId && (!messages || !messages.length)) {
     throw new Error(
       'Either `messageId` or `messages` is required when configuring a failure case',
@@ -156,7 +152,7 @@ export function convertAnnotatedSourceToFailureCase<T extends string>({
   }
 
   let parsedSource = '';
-  const errors: TestCaseError<T>[] = messages.map(
+  const errors: TSESLint.TestCaseError<T>[] = messages.map(
     ({ char: currentValueChar, messageId }) => {
       const otherChars = messages
         .filter(({ char }) => char !== currentValueChar)
@@ -178,7 +174,7 @@ export function convertAnnotatedSourceToFailureCase<T extends string>({
         );
       }
 
-      const error: TestCaseError<T> = {
+      const error: TSESLint.TestCaseError<T> = {
         messageId,
         line: startPosition.line + 1,
         column: startPosition.character + 1,
@@ -195,7 +191,7 @@ export function convertAnnotatedSourceToFailureCase<T extends string>({
     },
   );
 
-  const invalidTestCase: InvalidTestCase<T, typeof options> = {
+  const invalidTestCase: TSESLint.InvalidTestCase<T, typeof options> = {
     code: parsedSource,
     options,
     errors,

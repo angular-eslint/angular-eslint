@@ -1,6 +1,4 @@
-import { TSESTree } from '@typescript-eslint/experimental-utils';
-// TODO: Refactor this import once https://github.com/typescript-eslint/typescript-eslint/issues/2931 is fixed.
-import { RuleFixer } from '@typescript-eslint/experimental-utils/dist/ts-eslint';
+import { TSESTree, TSESLint } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import { PIPE_CLASS_DECORATOR } from '../utils/selectors';
 import { getDeclaredInterfaceName, isImportDeclaration } from '../utils/utils';
@@ -91,7 +89,10 @@ function getImportDeclaration(
   return parentNode;
 }
 
-function getImportFix(node: TSESTree.ClassDeclaration, fixer: RuleFixer) {
+function getImportFix(
+  node: TSESTree.ClassDeclaration,
+  fixer: TSESLint.RuleFixer,
+) {
   const importDeclaration = getImportDeclaration(
     node,
     ANGULAR_CORE_MODULE_PATH,
