@@ -27,7 +27,11 @@ ruleTester.run(RULE_NAME, rule, {
     class Test implements OnInit {
       ngOnInit() {}
     }
- `,
+    `,
+    `class Test implements DoBootstrap {
+      ngDoBootstrap() {}
+    }
+    `,
     `
     class Test extends Component implements OnInit, OnDestroy  {
       ngOnInit() {}
@@ -38,7 +42,7 @@ ruleTester.run(RULE_NAME, rule, {
 
       ngOnSmth() {}
     }
-`,
+    `,
     `
     class Test extends Component implements ng.OnInit, ng.OnDestroy  {
       ngOnInit() {}
@@ -49,16 +53,15 @@ ruleTester.run(RULE_NAME, rule, {
 
       ngOnSmth() {}
     }
-`,
-    `
-    class Test {}
-`,
+    `,
+    'class Test {}',
   ],
   invalid: [
     convertAnnotatedSourceToFailureCase({
       description:
         'it should fail if lifecycle method is declared without implementing its interface',
       annotatedSource: `
+        @Component()
         class Test {
           ngOnInit() {
           ~~~~~~~~
@@ -75,6 +78,7 @@ ruleTester.run(RULE_NAME, rule, {
       description:
         'it should fail if one of the lifecycle methods is declared without implementing its interface',
       annotatedSource: `
+        @Directive()
         class Test extends Component implements OnInit {
           ngOnInit() {}
 
@@ -89,40 +93,33 @@ ruleTester.run(RULE_NAME, rule, {
         methodName: AngularLifecycleMethods.ngOnDestroy,
       },
     }),
-    {
-      // it should fail if lifecycle methods are declared without implementing their interfaces
-      code: `
-      class Test {
-        ngOnInit() {}
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'it should fail if lifecycle methods are declared without implementing their interfaces',
+      annotatedSource: `
+        @Injectable()
+        class Test {
+          ngDoBootstrap() {}
+          ~~~~~~~~~~~~~
 
-        ngOnDestroy() {}
-      }
-`,
-      errors: [
-        {
-          messageId: 'useLifecycleInterface',
-          data: {
-            interfaceName: AngularLifecycleInterfaces.OnInit,
-            methodName: AngularLifecycleMethods.ngOnInit,
-          },
-          line: 3,
-          column: 9,
-        },
-        {
-          messageId: 'useLifecycleInterface',
-          data: {
-            interfaceName: AngularLifecycleInterfaces.OnDestroy,
-            methodName: AngularLifecycleMethods.ngOnDestroy,
-          },
-          line: 5,
-          column: 9,
-        },
+          ngOnInit() {}
+          ^^^^^^^^
+
+          ngOnDestroy() {}
+          ###########
+        }
+      `,
+      messages: [
+        { char: '~', messageId },
+        { char: '^', messageId },
+        { char: '#', messageId },
       ],
-    },
+    }),
     convertAnnotatedSourceToFailureCase({
       description:
         'it should fail if lifecycle methods are declared without implementing their interfaces, using namespace',
       annotatedSource: `
+        @NgModule()
         class Test extends Component implements ng.OnInit {
           ngOnInit() {}
 

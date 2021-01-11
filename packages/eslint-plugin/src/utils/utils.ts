@@ -46,10 +46,11 @@ export enum AngularLifecycleInterfaces {
   AfterContentInit = 'AfterContentInit',
   AfterViewChecked = 'AfterViewChecked',
   AfterViewInit = 'AfterViewInit',
+  DoBootstrap = 'DoBootstrap',
+  DoCheck = 'DoCheck',
   OnChanges = 'OnChanges',
   OnDestroy = 'OnDestroy',
   OnInit = 'OnInit',
-  DoCheck = 'DoCheck',
 }
 
 export enum AngularLifecycleMethods {
@@ -57,10 +58,11 @@ export enum AngularLifecycleMethods {
   ngAfterContentInit = 'ngAfterContentInit',
   ngAfterViewChecked = 'ngAfterViewChecked',
   ngAfterViewInit = 'ngAfterViewInit',
+  ngDoBootstrap = 'ngDoBootstrap',
+  ngDoCheck = 'ngDoCheck',
   ngOnChanges = 'ngOnChanges',
   ngOnDestroy = 'ngOnDestroy',
   ngOnInit = 'ngOnInit',
-  ngDoCheck = 'ngDoCheck',
 }
 
 export const OPTION_STYLE_CAMEL_CASE = 'camelCase';
@@ -90,13 +92,42 @@ export const ANGULAR_CLASS_DECORATOR_LIFECYCLE_METHOD_MAPPER: ReadonlyMap<
   AngularClassDecoratorKeys,
   ReadonlySet<AngularLifecycleMethodKeys>
 > = new Map([
-  [AngularClassDecorators.Component, new Set(angularLifecycleMethodKeys)],
-  [AngularClassDecorators.Directive, new Set(angularLifecycleMethodKeys)],
+  [
+    AngularClassDecorators.Component,
+    new Set([
+      AngularLifecycleMethods.ngAfterContentChecked,
+      AngularLifecycleMethods.ngAfterContentInit,
+      AngularLifecycleMethods.ngAfterViewChecked,
+      AngularLifecycleMethods.ngAfterViewInit,
+      AngularLifecycleMethods.ngOnChanges,
+      AngularLifecycleMethods.ngOnDestroy,
+      AngularLifecycleMethods.ngOnInit,
+      AngularLifecycleMethods.ngDoCheck,
+    ]),
+  ],
+  [
+    AngularClassDecorators.Directive,
+    new Set([
+      AngularLifecycleMethods.ngAfterContentChecked,
+      AngularLifecycleMethods.ngAfterContentInit,
+      AngularLifecycleMethods.ngAfterViewChecked,
+      AngularLifecycleMethods.ngAfterViewInit,
+      AngularLifecycleMethods.ngOnChanges,
+      AngularLifecycleMethods.ngOnDestroy,
+      AngularLifecycleMethods.ngOnInit,
+      AngularLifecycleMethods.ngDoCheck,
+    ]),
+  ],
   [
     AngularClassDecorators.Injectable,
     new Set<AngularLifecycleMethodKeys>([AngularLifecycleMethods.ngOnDestroy]),
   ],
-  [AngularClassDecorators.NgModule, new Set<AngularLifecycleMethodKeys>([])],
+  [
+    AngularClassDecorators.NgModule,
+    new Set<AngularLifecycleMethodKeys>([
+      AngularLifecycleMethods.ngDoBootstrap,
+    ]),
+  ],
   [
     AngularClassDecorators.Pipe,
     new Set<AngularLifecycleMethodKeys>([AngularLifecycleMethods.ngOnDestroy]),
@@ -264,6 +295,15 @@ export const getDecorator = (
       decorator.expression.arguments.length > 0 &&
       getDecoratorName(decorator) === decoratorName,
   );
+};
+
+export const getAngularClassDecorator = ({
+  decorators,
+}: TSESTree.ClassDeclaration): AngularClassDecoratorKeys | undefined => {
+  return decorators
+    ?.map(getDecoratorName)
+    .filter(isNotNullOrUndefined)
+    .find(isAngularClassDecorator);
 };
 
 export const getDecoratorArgument = (
@@ -548,3 +588,6 @@ export const getReadablePrefixes = (prefixes: string[]): string => {
     .slice(0, prefixesLength - 1)
     .join(', ')} or "${[...prefixes].pop()}"`;
 };
+
+export const toPattern = (value: readonly unknown[]) =>
+  RegExp(`^(${value.join('|')})$`);

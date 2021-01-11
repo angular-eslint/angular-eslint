@@ -54,6 +54,15 @@ ruleTester.run(RULE_NAME, rule, {
     })
     class Test {
       test() {
+        super.ngDoBootstrap();
+      }
+    }`,
+
+    `@Component({
+      selector: 'test'
+    })
+    class Test {
+      test() {
         super.ngDoCheck();
       }
     }`,
@@ -119,6 +128,15 @@ ruleTester.run(RULE_NAME, rule, {
     })
     class Test {
       test() {
+        super.ngDoBootstrap();
+      }
+    }`,
+
+    `@Directive({
+      selector: 'test'
+    })
+    class Test {
+      test() {
         super.ngDoCheck();
       }
     }`,
@@ -168,6 +186,13 @@ ruleTester.run(RULE_NAME, rule, {
     class Test {
       test() {
         super.ngAfterViewInit();
+      }
+    }`,
+
+    `@Injectable()
+    class Test {
+      test() {
+        super.ngDoBootstrap();
       }
     }`,
 
@@ -227,6 +252,15 @@ ruleTester.run(RULE_NAME, rule, {
     class Test {
       test() {
         super.ngAfterViewInit();
+      }
+    }`,
+
+    `@Pipe({
+      name: 'test'
+    })
+    class Test {
+      test() {
+        super.ngDoBootstrap();
       }
     }`,
 
@@ -349,6 +383,20 @@ ruleTester.run(RULE_NAME, rule, {
     }),
 
     convertAnnotatedSourceToFailureCase({
+      description: 'it should fail if explicitly calling ngDoBootstrap()',
+      annotatedSource: `@Component({
+        selector: 'test'
+      })
+      class Test {
+        test() {
+          this.ngDoBootstrap();
+          ~~~~~~~~~~~~~~~~~~~~
+        }
+      }`,
+      messageId,
+    }),
+
+    convertAnnotatedSourceToFailureCase({
       description: 'it should fail if explicitly calling ngDoCheck()',
       annotatedSource: `@Component({
         selector: 'test'
@@ -450,6 +498,20 @@ ruleTester.run(RULE_NAME, rule, {
     }),
 
     convertAnnotatedSourceToFailureCase({
+      description: 'it should fail if explicitly calling ngDoBootstrap()',
+      annotatedSource: `@Directive({
+        selector: 'test'
+      })
+      class Test {
+        test() {
+          this.ngDoBootstrap();
+          ~~~~~~~~~~~~~~~~~~~~
+        }
+      }`,
+      messageId,
+    }),
+
+    convertAnnotatedSourceToFailureCase({
       description: 'it should fail if explicitly calling ngDoCheck()',
       annotatedSource: `@Directive({
         selector: 'test'
@@ -537,6 +599,18 @@ ruleTester.run(RULE_NAME, rule, {
         test() {
           this.ngAfterViewInit();
           ~~~~~~~~~~~~~~~~~~~~~~
+        }
+      }`,
+      messageId,
+    }),
+
+    convertAnnotatedSourceToFailureCase({
+      description: 'it should fail if explicitly calling ngDoBootstrap()',
+      annotatedSource: `@Injectable()
+      class Test {
+        test() {
+          this.ngDoBootstrap();
+          ~~~~~~~~~~~~~~~~~~~~
         }
       }`,
       messageId,
@@ -632,6 +706,20 @@ ruleTester.run(RULE_NAME, rule, {
         test() {
           this.ngAfterViewInit();
           ~~~~~~~~~~~~~~~~~~~~~~
+        }
+      }`,
+      messageId,
+    }),
+
+    convertAnnotatedSourceToFailureCase({
+      description: 'it should fail if explicitly calling ngDoBootstrap()',
+      annotatedSource: `@Pipe({
+        name: 'test'
+      })
+      class Test {
+        test() {
+          this.ngDoBootstrap();
+          ~~~~~~~~~~~~~~~~~~~~
         }
       }`,
       messageId,
