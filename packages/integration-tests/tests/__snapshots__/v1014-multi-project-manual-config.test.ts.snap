@@ -12,20 +12,11 @@ __ROOT__/v1014-multi-project-manual-config/src/app/app.component.spec.ts
 
 
 __ROOT__/v1014-multi-project-manual-config/src/app/app.component.ts
-   2:1   error  'rxjs/Rx' import is restricted from being used. Please import directly from 'rxjs' instead                             no-restricted-imports
-   5:1   error  Unexpected console statement                                                                                           no-console
-  12:14  error  Pipes should implement PipeTransform interface                                                                         @angular-eslint/use-pipe-transform-interface
-  15:3   error  Lifecycle interface 'OnInit' should be implemented for method 'ngOnInit'. (https://angular.io/styleguide#style-09-01)  @angular-eslint/use-lifecycle-interface
+   2:1  error  'rxjs/Rx' import is restricted from being used. Please import directly from 'rxjs' instead                             no-restricted-imports
+   5:1  error  Unexpected console statement                                                                                           no-console
+  15:3  error  Lifecycle interface 'OnInit' should be implemented for method 'ngOnInit'. (https://angular.io/styleguide#style-09-01)  @angular-eslint/use-lifecycle-interface
 
-✖ 4 problems (4 errors, 0 warnings)
-  1 error and 0 warnings potentially fixable with the \`--fix\` option.
-
-
-__ROOT__/v1014-multi-project-manual-config/src/app/app.module.ts
-  15:14  error  Pipes should implement PipeTransform interface  @angular-eslint/use-pipe-transform-interface
-
-✖ 1 problem (1 error, 0 warnings)
-  1 error and 0 warnings potentially fixable with the \`--fix\` option.
+✖ 3 problems (3 errors, 0 warnings)
 
 
 __ROOT__/v1014-multi-project-manual-config/src/app/example.component.ts
@@ -33,42 +24,31 @@ __ROOT__/v1014-multi-project-manual-config/src/app/example.component.ts
   12:3   error  Use @Input rather than the \`inputs\` metadata property (https://angular.io/styleguide#style-05-12)                       @angular-eslint/no-inputs-metadata-property
   13:3   error  Use @Output rather than the \`outputs\` metadata property (https://angular.io/styleguide#style-05-12)                     @angular-eslint/no-outputs-metadata-property
   14:3   error  Use @HostBinding or @HostListener rather than the \`host\` metadata property (https://angular.io/styleguide#style-06-03)  @angular-eslint/no-host-metadata-property
-  16:14  error  Pipes should implement PipeTransform interface                                                                          @angular-eslint/use-pipe-transform-interface
   18:3   error  In the class \\"ExampleComponent\\", the output property \\"onFoo\\" should not be prefixed with on                             @angular-eslint/no-output-on-prefix
    6:35  error  Invalid binding syntax. Use [(expr)] instead                                                                            @angular-eslint/template/banana-in-box
    8:15  error  Invalid binding syntax. Use [(expr)] instead                                                                            @angular-eslint/template/banana-in-box
    8:29  error  Invalid binding syntax. Use [(expr)] instead                                                                            @angular-eslint/template/banana-in-box
    9:48  error  Invalid binding syntax. Use [(expr)] instead                                                                            @angular-eslint/template/banana-in-box
 
-✖ 10 problems (10 errors, 0 warnings)
-  6 errors and 0 warnings potentially fixable with the \`--fix\` option.
+✖ 9 problems (9 errors, 0 warnings)
+  5 errors and 0 warnings potentially fixable with the \`--fix\` option.
 
 
 __ROOT__/v1014-multi-project-manual-config/src/app/example.pipe.ts
-  6:14  error  Pipes should implement PipeTransform interface  @angular-eslint/use-pipe-transform-interface
+  6:14  error  Pipes should implement \`PipeTransform\` interface  @angular-eslint/use-pipe-transform-interface
 
 ✖ 1 problem (1 error, 0 warnings)
   1 error and 0 warnings potentially fixable with the \`--fix\` option.
 
 
 __ROOT__/v1014-multi-project-manual-config/src/app/multiple-inline-templates.page.ts
-   4:13  error  Strings must use singlequote                    @typescript-eslint/quotes
-   9:14  error  Pipes should implement PipeTransform interface  @angular-eslint/use-pipe-transform-interface
-  12:13  error  Strings must use singlequote                    @typescript-eslint/quotes
-  17:14  error  Pipes should implement PipeTransform interface  @angular-eslint/use-pipe-transform-interface
-   6:35  error  Invalid binding syntax. Use [(expr)] instead    @angular-eslint/template/banana-in-box
-  14:48  error  Invalid binding syntax. Use [(expr)] instead    @angular-eslint/template/banana-in-box
+   4:13  error  Strings must use singlequote                  @typescript-eslint/quotes
+  12:13  error  Strings must use singlequote                  @typescript-eslint/quotes
+   6:35  error  Invalid binding syntax. Use [(expr)] instead  @angular-eslint/template/banana-in-box
+  14:48  error  Invalid binding syntax. Use [(expr)] instead  @angular-eslint/template/banana-in-box
 
-✖ 6 problems (6 errors, 0 warnings)
-  6 errors and 0 warnings potentially fixable with the \`--fix\` option.
-
-
-__ROOT__/v1014-multi-project-manual-config/src/app/regression-73.component.ts
-   9:14  error  Pipes should implement PipeTransform interface  @angular-eslint/use-pipe-transform-interface
-  15:14  error  Pipes should implement PipeTransform interface  @angular-eslint/use-pipe-transform-interface
-
-✖ 2 problems (2 errors, 0 warnings)
-  2 errors and 0 warnings potentially fixable with the \`--fix\` option.
+✖ 4 problems (4 errors, 0 warnings)
+  4 errors and 0 warnings potentially fixable with the \`--fix\` option.
 
 
 __ROOT__/v1014-multi-project-manual-config/src/app/app.component.html
@@ -80,29 +60,8 @@ __ROOT__/v1014-multi-project-manual-config/src/app/app.component.html
 
 Linting \\"another-app\\"...
 
-__ROOT__/v1014-multi-project-manual-config/projects/another-app/e2e/src/app.po.ts
-  3:14  error  Pipes should implement PipeTransform interface  @angular-eslint/use-pipe-transform-interface
-
-✖ 1 problem (1 error, 0 warnings)
-  1 error and 0 warnings potentially fixable with the \`--fix\` option.
-
-
 __ROOT__/v1014-multi-project-manual-config/projects/another-app/src/app/app.component.spec.ts
   19:6  error  Strings must use singlequote  @typescript-eslint/quotes
-
-✖ 1 problem (1 error, 0 warnings)
-  1 error and 0 warnings potentially fixable with the \`--fix\` option.
-
-
-__ROOT__/v1014-multi-project-manual-config/projects/another-app/src/app/app.component.ts
-  8:14  error  Pipes should implement PipeTransform interface  @angular-eslint/use-pipe-transform-interface
-
-✖ 1 problem (1 error, 0 warnings)
-  1 error and 0 warnings potentially fixable with the \`--fix\` option.
-
-
-__ROOT__/v1014-multi-project-manual-config/projects/another-app/src/app/app.module.ts
-  16:14  error  Pipes should implement PipeTransform interface  @angular-eslint/use-pipe-transform-interface
 
 ✖ 1 problem (1 error, 0 warnings)
   1 error and 0 warnings potentially fixable with the \`--fix\` option.
@@ -155,186 +114,34 @@ __ROOT__/v1014-multi-project-manual-config/projects/another-app/src/app/app.comp
 
 
 Linting \\"horse-plants\\"...
-
-__ROOT__/v1014-multi-project-manual-config/projects/horse-plants/e2e/src/app.po.ts
-  3:14  error  Pipes should implement PipeTransform interface  @angular-eslint/use-pipe-transform-interface
-
-✖ 1 problem (1 error, 0 warnings)
-  1 error and 0 warnings potentially fixable with the \`--fix\` option.
-
-
-__ROOT__/v1014-multi-project-manual-config/projects/horse-plants/src/app/app.component.ts
-  8:14  error  Pipes should implement PipeTransform interface  @angular-eslint/use-pipe-transform-interface
-
-✖ 1 problem (1 error, 0 warnings)
-  1 error and 0 warnings potentially fixable with the \`--fix\` option.
-
-
-__ROOT__/v1014-multi-project-manual-config/projects/horse-plants/src/app/app.module.ts
-  16:14  error  Pipes should implement PipeTransform interface  @angular-eslint/use-pipe-transform-interface
-
-✖ 1 problem (1 error, 0 warnings)
-  1 error and 0 warnings potentially fixable with the \`--fix\` option.
+All files pass linting.
 
 
 Linting \\"allergies-fusion\\"...
-
-__ROOT__/v1014-multi-project-manual-config/projects/allergies-fusion/e2e/src/app.po.ts
-  3:14  error  Pipes should implement PipeTransform interface  @angular-eslint/use-pipe-transform-interface
-
-✖ 1 problem (1 error, 0 warnings)
-  1 error and 0 warnings potentially fixable with the \`--fix\` option.
-
-
-__ROOT__/v1014-multi-project-manual-config/projects/allergies-fusion/src/app/app.component.ts
-  8:14  error  Pipes should implement PipeTransform interface  @angular-eslint/use-pipe-transform-interface
-
-✖ 1 problem (1 error, 0 warnings)
-  1 error and 0 warnings potentially fixable with the \`--fix\` option.
-
-
-__ROOT__/v1014-multi-project-manual-config/projects/allergies-fusion/src/app/app.module.ts
-  16:14  error  Pipes should implement PipeTransform interface  @angular-eslint/use-pipe-transform-interface
-
-✖ 1 problem (1 error, 0 warnings)
-  1 error and 0 warnings potentially fixable with the \`--fix\` option.
+All files pass linting.
 
 
 Linting \\"breakfast-cat\\"...
-
-__ROOT__/v1014-multi-project-manual-config/projects/breakfast-cat/e2e/src/app.po.ts
-  3:14  error  Pipes should implement PipeTransform interface  @angular-eslint/use-pipe-transform-interface
-
-✖ 1 problem (1 error, 0 warnings)
-  1 error and 0 warnings potentially fixable with the \`--fix\` option.
-
-
-__ROOT__/v1014-multi-project-manual-config/projects/breakfast-cat/src/app/app.component.ts
-  8:14  error  Pipes should implement PipeTransform interface  @angular-eslint/use-pipe-transform-interface
-
-✖ 1 problem (1 error, 0 warnings)
-  1 error and 0 warnings potentially fixable with the \`--fix\` option.
-
-
-__ROOT__/v1014-multi-project-manual-config/projects/breakfast-cat/src/app/app.module.ts
-  16:14  error  Pipes should implement PipeTransform interface  @angular-eslint/use-pipe-transform-interface
-
-✖ 1 problem (1 error, 0 warnings)
-  1 error and 0 warnings potentially fixable with the \`--fix\` option.
+All files pass linting.
 
 
 Linting \\"prints-soda\\"...
-
-__ROOT__/v1014-multi-project-manual-config/projects/prints-soda/e2e/src/app.po.ts
-  3:14  error  Pipes should implement PipeTransform interface  @angular-eslint/use-pipe-transform-interface
-
-✖ 1 problem (1 error, 0 warnings)
-  1 error and 0 warnings potentially fixable with the \`--fix\` option.
-
-
-__ROOT__/v1014-multi-project-manual-config/projects/prints-soda/src/app/app.component.ts
-  8:14  error  Pipes should implement PipeTransform interface  @angular-eslint/use-pipe-transform-interface
-
-✖ 1 problem (1 error, 0 warnings)
-  1 error and 0 warnings potentially fixable with the \`--fix\` option.
-
-
-__ROOT__/v1014-multi-project-manual-config/projects/prints-soda/src/app/app.module.ts
-  16:14  error  Pipes should implement PipeTransform interface  @angular-eslint/use-pipe-transform-interface
-
-✖ 1 problem (1 error, 0 warnings)
-  1 error and 0 warnings potentially fixable with the \`--fix\` option.
+All files pass linting.
 
 
 Linting \\"ice-cream-monster\\"...
-
-__ROOT__/v1014-multi-project-manual-config/projects/ice-cream-monster/e2e/src/app.po.ts
-  3:14  error  Pipes should implement PipeTransform interface  @angular-eslint/use-pipe-transform-interface
-
-✖ 1 problem (1 error, 0 warnings)
-  1 error and 0 warnings potentially fixable with the \`--fix\` option.
-
-
-__ROOT__/v1014-multi-project-manual-config/projects/ice-cream-monster/src/app/app.component.ts
-  8:14  error  Pipes should implement PipeTransform interface  @angular-eslint/use-pipe-transform-interface
-
-✖ 1 problem (1 error, 0 warnings)
-  1 error and 0 warnings potentially fixable with the \`--fix\` option.
-
-
-__ROOT__/v1014-multi-project-manual-config/projects/ice-cream-monster/src/app/app.module.ts
-  16:14  error  Pipes should implement PipeTransform interface  @angular-eslint/use-pipe-transform-interface
-
-✖ 1 problem (1 error, 0 warnings)
-  1 error and 0 warnings potentially fixable with the \`--fix\` option.
+All files pass linting.
 
 
 Linting \\"shoe-prints\\"...
-
-__ROOT__/v1014-multi-project-manual-config/projects/shoe-prints/e2e/src/app.po.ts
-  3:14  error  Pipes should implement PipeTransform interface  @angular-eslint/use-pipe-transform-interface
-
-✖ 1 problem (1 error, 0 warnings)
-  1 error and 0 warnings potentially fixable with the \`--fix\` option.
-
-
-__ROOT__/v1014-multi-project-manual-config/projects/shoe-prints/src/app/app.component.ts
-  8:14  error  Pipes should implement PipeTransform interface  @angular-eslint/use-pipe-transform-interface
-
-✖ 1 problem (1 error, 0 warnings)
-  1 error and 0 warnings potentially fixable with the \`--fix\` option.
-
-
-__ROOT__/v1014-multi-project-manual-config/projects/shoe-prints/src/app/app.module.ts
-  16:14  error  Pipes should implement PipeTransform interface  @angular-eslint/use-pipe-transform-interface
-
-✖ 1 problem (1 error, 0 warnings)
-  1 error and 0 warnings potentially fixable with the \`--fix\` option.
+All files pass linting.
 
 
 Linting \\"websites-system\\"...
-
-__ROOT__/v1014-multi-project-manual-config/projects/websites-system/e2e/src/app.po.ts
-  3:14  error  Pipes should implement PipeTransform interface  @angular-eslint/use-pipe-transform-interface
-
-✖ 1 problem (1 error, 0 warnings)
-  1 error and 0 warnings potentially fixable with the \`--fix\` option.
-
-
-__ROOT__/v1014-multi-project-manual-config/projects/websites-system/src/app/app.component.ts
-  8:14  error  Pipes should implement PipeTransform interface  @angular-eslint/use-pipe-transform-interface
-
-✖ 1 problem (1 error, 0 warnings)
-  1 error and 0 warnings potentially fixable with the \`--fix\` option.
-
-
-__ROOT__/v1014-multi-project-manual-config/projects/websites-system/src/app/app.module.ts
-  16:14  error  Pipes should implement PipeTransform interface  @angular-eslint/use-pipe-transform-interface
-
-✖ 1 problem (1 error, 0 warnings)
-  1 error and 0 warnings potentially fixable with the \`--fix\` option.
+All files pass linting.
 
 
 Linting \\"robot-websites\\"...
-
-__ROOT__/v1014-multi-project-manual-config/projects/robot-websites/e2e/src/app.po.ts
-  3:14  error  Pipes should implement PipeTransform interface  @angular-eslint/use-pipe-transform-interface
-
-✖ 1 problem (1 error, 0 warnings)
-  1 error and 0 warnings potentially fixable with the \`--fix\` option.
-
-
-__ROOT__/v1014-multi-project-manual-config/projects/robot-websites/src/app/app.component.ts
-  8:14  error  Pipes should implement PipeTransform interface  @angular-eslint/use-pipe-transform-interface
-
-✖ 1 problem (1 error, 0 warnings)
-  1 error and 0 warnings potentially fixable with the \`--fix\` option.
-
-
-__ROOT__/v1014-multi-project-manual-config/projects/robot-websites/src/app/app.module.ts
-  16:14  error  Pipes should implement PipeTransform interface  @angular-eslint/use-pipe-transform-interface
-
-✖ 1 problem (1 error, 0 warnings)
-  1 error and 0 warnings potentially fixable with the \`--fix\` option.
+All files pass linting.
 "
 `;
