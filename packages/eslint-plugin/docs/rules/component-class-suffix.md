@@ -8,7 +8,7 @@ This rule follows the recommendation from the [Angular styleguide](https://angul
 
 Examples of **incorrect** code for this rule (with default configuration):
 
-```javascript
+```ts
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -19,7 +19,7 @@ class App {}
 
 Example of **correct** code for this rule:
 
-```javascript
+```ts
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -45,7 +45,7 @@ By default, the suffix will be `Component`. You may pass an array of suffixes, f
 
 Examples of **incorrect** code with the above options:
 
-```javascript
+```ts
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -63,7 +63,7 @@ export class App {}
 
 Example of **correct** code with the above options:
 
-```javascript
+```ts
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
