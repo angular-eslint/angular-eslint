@@ -1,6 +1,4 @@
-/**
- * TODO: expose properly from @typescript-eslint/experimental-utils
- */
+// TODO: Refactor this import once https://github.com/typescript-eslint/typescript-eslint/issues/2931 is fixed.
 import {
   TestCaseError,
   InvalidTestCase,
