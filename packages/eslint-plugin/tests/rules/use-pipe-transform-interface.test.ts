@@ -69,7 +69,7 @@ ruleTester.run(RULE_NAME, rule, {
           Directive } from '@angular/core';
 
         @Pipe({ name: 'test' })
-        export class TestPipe implements AnInterface, 
+        export class TestPipe implements AnInterface {
                      ~~~~~~~~
           transform(value: string) {}
         }
