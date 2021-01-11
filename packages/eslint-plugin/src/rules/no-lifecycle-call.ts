@@ -22,12 +22,11 @@ export default createESLintRule<Options, MessageIds>({
   defaultOptions: [],
   create(context) {
     return {
-      MemberExpression: (node) => {
-        const {
-          object: { type: nodeObjectType },
-          parent,
-          property,
-        } = node;
+      MemberExpression: ({
+        object: { type: nodeObjectType },
+        parent,
+        property,
+      }) => {
         const isSuperCall = nodeObjectType === 'Super';
 
         if (

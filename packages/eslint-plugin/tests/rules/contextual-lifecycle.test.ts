@@ -20,10 +20,10 @@ const messageId: MessageIds = 'contextuaLifecycle';
 ruleTester.run(RULE_NAME, rule, {
   valid: [
     `
-     @Injectable()
-     class Test {
+    @Injectable()
+    class Test {
       ngOnDestroy() { console.log('OnDestroy'); }
-     }
+    }
     `,
     `
     @Component()
@@ -127,6 +127,12 @@ ruleTester.run(RULE_NAME, rule, {
     }
     `,
     `
+    @NgModule()
+    class Test {
+      ngDoBootstrap() {}
+    }
+    `,
+    `
     @Pipe()
     class Test {
       ngOnDestroy() { console.log('OnDestroy'); }
@@ -134,6 +140,30 @@ ruleTester.run(RULE_NAME, rule, {
     `,
   ],
   invalid: [
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'Class with @Component should fail if ngDoBootstrap() method is present',
+      annotatedSource: `
+        @Component()
+        class Test {
+          ngDoBootstrap() {}
+          ~~~~~~~~~~~~~
+        }
+      `,
+      messageId,
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'Class with @Directive should fail if ngDoBootstrap() method is present',
+      annotatedSource: `
+        @Directive()
+        class Test {
+          ngDoBootstrap() {}
+          ~~~~~~~~~~~~~
+        }
+      `,
+      messageId,
+    }),
     convertAnnotatedSourceToFailureCase({
       description:
         'Class with @Injectable should fail if ngAfterContentChecked() method is present',
@@ -166,6 +196,18 @@ ruleTester.run(RULE_NAME, rule, {
         class Test {
           ngAfterViewInit() { console.log('ngAfterViewInit'); }
           ~~~~~~~~~~~~~~~
+        }
+      `,
+      messageId,
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'Class with @Injectable should fail if ngDoBootstrap() method is present',
+      annotatedSource: `
+        @Injectable()
+        class Test {
+          ngDoBootstrap() {}
+          ~~~~~~~~~~~~~
         }
       `,
       messageId,
@@ -352,6 +394,18 @@ ruleTester.run(RULE_NAME, rule, {
     }),
     convertAnnotatedSourceToFailureCase({
       description:
+        'Class with @Pipe should fail if ngDoBootstrap() method is present',
+      annotatedSource: `
+        @Pipe()
+        class Test {
+          ngDoBootstrap() {}
+          ~~~~~~~~~~~~~
+        }
+      `,
+      messageId,
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
         'Class with @Pipe should fail if ngDoCheck() method is present',
       annotatedSource: `
         @Pipe()
@@ -390,18 +444,20 @@ ruleTester.run(RULE_NAME, rule, {
       description:
         'It should fail if @Directive and @Pipe decorators are present on the same file and the @Pipe contains a non allowed method',
       annotatedSource: `
-      @Pipe()
-      class Test implements DoCheck {
-        constructor() {}
+        @Pipe()
+        class Test implements DoCheck {
+          constructor() {}
+          
           ngDoCheck() {}
           ~~~~~~~~~
-      }
-      @Directive()
-      class TestDirective implements OnInit {
-        ngOnInit() {
-          console.log('Initialized');
         }
-      }
+        
+        @Directive()
+        class TestDirective implements OnInit {
+          ngOnInit() {
+            console.log('Initialized');
+          }
+        }
       `,
       messageId,
     }),
