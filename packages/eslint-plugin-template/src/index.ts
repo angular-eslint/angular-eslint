@@ -9,6 +9,9 @@ import accessibilityAltText, {
 import accessibilityElementsContent, {
   RULE_NAME as accessibilityElementsContentRuleName,
 } from './rules/accessibility-elements-content';
+import accessibilityLabelFor, {
+  RULE_NAME as accessibilityLabelForRuleName,
+} from './rules/accessibility-label-for';
 import accessibilityTableScope, {
   RULE_NAME as accessibilityTableScopeRuleName,
 } from './rules/accessibility-table-scope';
@@ -62,6 +65,7 @@ export default {
   rules: {
     [accessibilityAltTextRuleName]: accessibilityAltText,
     [accessibilityElementsContentRuleName]: accessibilityElementsContent,
+    [accessibilityLabelForRuleName]: accessibilityLabelFor,
     [accessibilityTableScopeRuleName]: accessibilityTableScope,
     [accessibilityValidAriaRuleName]: accessibilityValidAria,
     [bananaInBoxRuleName]: bananaInBox,

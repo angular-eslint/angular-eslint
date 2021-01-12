@@ -463,7 +463,7 @@ If you are still having problems after you have done some digging into these, fe
 | [`prefer-on-push-component-change-detection`]   | :white_check_mark: |
 | [`template-accessibility-alt-text`]             | :white_check_mark: |
 | [`template-accessibility-elements-content`]     | :white_check_mark: |
-| [`template-accessibility-label-for`]            |                    |
+| [`template-accessibility-label-for`]            | :white_check_mark: |
 | [`template-accessibility-tabindex-no-positive`] | :white_check_mark: |
 | [`template-accessibility-table-scope`]          | :white_check_mark: |
 | [`template-accessibility-valid-aria`]           | :white_check_mark: |

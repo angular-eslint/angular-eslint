@@ -1,16 +1,15 @@
 import { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import {
-  PIPE_CLASS_DECORATOR,
+  COMPONENT_CLASS_DECORATOR,
   DIRECTIVE_CLASS_DECORATOR,
   INJECTABLE_CLASS_DECORATOR,
   MODULE_CLASS_DECORATOR,
+  PIPE_CLASS_DECORATOR,
 } from '../utils/selectors';
-
 import {
   ANGULAR_CLASS_DECORATOR_LIFECYCLE_METHOD_MAPPER,
   AngularClassDecorators,
-  getClassName,
   getDeclaredMethods,
   getMethodName,
   isAngularLifecycleMethod,
@@ -26,52 +25,51 @@ export default createESLintRule<Options, MessageIds>({
     type: 'problem',
     docs: {
       description:
-        'Ensures that classes use allowed lifecycle method in its body',
+        'Ensures that lifecycle methods are used in a correct context',
       category: 'Possible Errors',
       recommended: 'error',
     },
     schema: [],
     messages: {
-      contextuaLifecycle: `The method {{methodName}} is not allowed for class {{className}} because it is decorated with {{decorator}}`,
+      contextuaLifecycle: `This lifecycle method is not called for {{decorator}}`,
     },
   },
   defaultOptions: [],
   create(context) {
     function checkContext(
-      node: TSESTree.Decorator,
+      { parent }: TSESTree.Decorator,
       decorator: AngularClassDecorators,
     ) {
-      const className = getClassName(node);
-      const classParent = node.parent as TSESTree.ClassDeclaration;
+      const classDeclaration = parent as TSESTree.ClassDeclaration;
       const allowedMethods = ANGULAR_CLASS_DECORATOR_LIFECYCLE_METHOD_MAPPER.get(
         decorator,
       );
-
-      const declaredMethods = getDeclaredMethods(classParent);
+      const declaredMethods = getDeclaredMethods(classDeclaration);
 
       for (const method of declaredMethods) {
         const methodName = getMethodName(method);
+
         if (
           !isAngularLifecycleMethod(methodName) ||
-          (allowedMethods && allowedMethods.has(methodName))
-        )
+          allowedMethods?.has(methodName)
+        ) {
           continue;
+        }
 
         context.report({
           node: method.key,
           messageId: 'contextuaLifecycle',
-          data: {
-            methodName,
-            className,
-            decorator,
-          },
+          data: { decorator },
         });
       }
     }
 
     return {
-      [PIPE_CLASS_DECORATOR](node: TSESTree.Decorator) {
-        checkContext(node, AngularClassDecorators.Pipe);
+      [COMPONENT_CLASS_DECORATOR](node: TSESTree.Decorator) {
+        checkContext(node, AngularClassDecorators.Component);
+      },
+      [DIRECTIVE_CLASS_DECORATOR](node: TSESTree.Decorator) {
+        checkContext(node, AngularClassDecorators.Directive);
       },
       [INJECTABLE_CLASS_DECORATOR](node: TSESTree.Decorator) {
         checkContext(node, AngularClassDecorators.Injectable);
@@ -79,8 +77,8 @@ export default createESLintRule<Options, MessageIds>({
       [MODULE_CLASS_DECORATOR](node: TSESTree.Decorator) {
         checkContext(node, AngularClassDecorators.NgModule);
       },
-      [DIRECTIVE_CLASS_DECORATOR](node: TSESTree.Decorator) {
-        checkContext(node, AngularClassDecorators.Directive);
+      [PIPE_CLASS_DECORATOR](node: TSESTree.Decorator) {
+        checkContext(node, AngularClassDecorators.Pipe);
       },
     };
   },

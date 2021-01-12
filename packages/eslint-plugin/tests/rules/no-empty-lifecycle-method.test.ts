@@ -120,9 +120,15 @@ ruleTester.run(RULE_NAME, rule, {
     }
     `,
     `
-    @Pipe
+    @NgModule()
     class Test {
-      ngOnInit() { }
+      ngOnInit() { console.log('ngOnInit') }
+    }
+    `,
+    `
+    @Pipe()
+    class Test {
+      ngDoBootstrap() { console.log('ngDoBootstrap') }
     }
     `,
   ],
@@ -171,6 +177,18 @@ ruleTester.run(RULE_NAME, rule, {
         class Test {
           ngAfterViewInit() { }
           ~~~~~~~~~~~~~~~
+        }
+      `,
+      messageId,
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'Class with @Component should fail if ngDoBootstrap() method is empty',
+      annotatedSource: `
+        @Component()
+        class Test {
+          ngDoBootstrap() { }
+          ~~~~~~~~~~~~~
         }
       `,
       messageId,
@@ -267,6 +285,18 @@ ruleTester.run(RULE_NAME, rule, {
         class Test {
           ngAfterViewInit() { }
           ~~~~~~~~~~~~~~~
+        }
+      `,
+      messageId,
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'Class with @Directive should fail if ngDoBootstrap() method is empty',
+      annotatedSource: `
+        @Directive()
+        class Test {
+          ngDoBootstrap() { }
+          ~~~~~~~~~~~~~
         }
       `,
       messageId,
