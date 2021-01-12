@@ -76,7 +76,7 @@ function getParser(): Parser {
 function getTotalComplexity({ source }: ASTWithSource): number {
   const expression = source?.replace(/\s/g, '') ?? '';
   const parser = getParser();
-  const astWithSource = parser.parseAction(expression, null, 0);
+  const astWithSource = parser.parseAction(expression, null!, 0);
   const conditions: Binary[] = [];
   let totalComplexity = 0;
   let condition = astWithSource.ast as Binary;
