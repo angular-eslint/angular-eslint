@@ -14,12 +14,6 @@ import {
   getTemplateParserServices,
 } from '../utils/create-eslint-rule';
 
-// As in the time it being write the `ARIAPropertyDefinition` (https://github.com/DefinitelyTyped/DefinitelyTyped/blob/64ae44025dbd41afb3b865ca37deddef7de1c5fb/types/aria-query/index.d.ts#L302-L306)
-// is incorrect (`value` should be `values`), we created this hackish type to avoid `any`.
-type ARIAPropertyDefinitionHack = Omit<ARIAPropertyDefinition, 'value'> & {
-  readonly values: ARIAPropertyDefinition['value'];
-};
-
 type Options = [];
 export type MessageIds =
   | 'accessibilityValidAria'
@@ -55,7 +49,7 @@ export default createESLintRule<Options, MessageIds>({
       ) {
         const { name: attribute, sourceSpan } = astAttribute;
         const ariaPropertyDefinition = aria.get(attribute as ARIAProperty) as
-          | ARIAPropertyDefinitionHack
+          | ARIAPropertyDefinition
           | undefined;
         const loc = parserServices.convertNodeSourceSpanToLoc(sourceSpan);
 
@@ -141,7 +135,7 @@ function isString(value: unknown): value is string {
 }
 
 function isValidAriaPropertyValue(
-  { allowundefined, type, values }: ARIAPropertyDefinitionHack,
+  { allowundefined, type, values }: ARIAPropertyDefinition,
   attributeValue: boolean | number | string,
 ): boolean {
   if (allowundefined && isNil(attributeValue)) return true;
