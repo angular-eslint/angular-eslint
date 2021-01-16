@@ -446,6 +446,54 @@ If you are still having problems after you have done some digging into these, fe
 
 <br>
 
+---
+
+<br>
+
+The **ultimate fallback solution** to performance problems caused by the `Program` issues described above is to stop piggybacking on your existing tsconfig files (such as `tsconfig.app.json`, `tsconfig.spec.json` etc), and instead create a laser-focused, dedicated tsconfig file for your ESLint use-case:
+
+- Create a new tsconfig file at the root of the project within the workspace (e.g. a clear name might be `tsconfig.eslint.json`)
+- Set the contents of `tsconfig.eslint.json` to:
+  - extend from any root/base tsconfig you may have which sets important `compilerOptions`
+  - directly include files you care about for linting purposes
+
+For example, it may look like:
+
+**tsconfig.eslint.json**
+
+```jsonc
+{
+  "extends": "./tsconfig.json",
+  "include" [ // adjust "includes" to what makes sense for you and your project
+    "src/**/*.ts",
+    "e2e/**/*.ts"
+  ]
+}
+```
+
+- Update your project's .eslintrc.json to use the new tsconfig file instead of its existing setting.
+
+For example, the diff might look something like this:
+
+```diff
+  "parserOptions": {
+    "project": [
+-     "tsconfig.app.json",
+-     "tsconfig.spec.json",
+-     "e2e/tsconfig.json"
++     "tsconfig.eslint.json"
+    ],
+-   "createDefaultProgram": true
++   "createDefaultProgram": false
+  },
+```
+
+As you can see, we are also setting `"createDefaultProgram"` to `false` because in this scenario we have full control over what files will be included in the `Program` created behind the scenes for our lint run and we should never need that potentially expensive auto-fallback again. (NOTE: You can also just remove the `"createDefaultProgram"` setting altogether because its default value is `false`).
+
+If you are not sure what `"createDefaultProgram"` does, please reread the section above on ESLint Configs and Performance.
+
+<br>
+
 ## Rules List
 
 <!-- begin rule list -->
