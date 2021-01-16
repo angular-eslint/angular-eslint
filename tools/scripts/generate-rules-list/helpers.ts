@@ -40,7 +40,7 @@ const callGithubApi = <T>(optionOverrides: RequestOptions) => {
  * @async
  * @returns an Array of PRDetails.
  */
-export const getAngularESLintPRs = async () => {
+export const getAngularESLintPRs = async (): Promise<PRDetails[]> => {
   const prsJson = await callGithubApi<PRDetails[]>({
     path: '/repos/angular-eslint/angular-eslint/pulls?state=open',
   });
@@ -60,7 +60,7 @@ export const getAngularESLintPRs = async () => {
  * @async
  * @returns an Array of CodelyzerRule.
  */
-export const getCodelyzerRulesList = async () => {
+export const getCodelyzerRulesList = async (): Promise<CodelyzerRule[]> => {
   const rulesJson = await callGithubApi<CodelyzerRule[]>({
     host: 'raw.githubusercontent.com',
     path: '/mgechev/codelyzer/master/docs/_data/rules.json',

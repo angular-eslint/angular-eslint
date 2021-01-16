@@ -155,10 +155,11 @@ function isValidAriaPropertyValue(
     case 'string':
       return isString(attributeValue);
     case 'token':
-    case 'tokenlist':
+    case 'tokenlist': {
       const parsedAttributeValue = isBooleanLike(attributeValue)
         ? JSON.parse((attributeValue as unknown) as string)
         : attributeValue;
       return Boolean(values?.includes(parsedAttributeValue));
+    }
   }
 }

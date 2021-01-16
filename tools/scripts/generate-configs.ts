@@ -50,7 +50,7 @@ const eslintPluginTemplateRuleEntries = Object.entries(
 function reducer(
   ruleNamePrefix: '@angular-eslint/' | '@angular-eslint/template/',
   config: LinterConfigRules,
-  entry: [string, TSESLint.RuleModule<any, unknown[]>],
+  entry: [string, TSESLint.RuleModule<string, unknown[]>],
   settings: {
     errorLevel?: 'error' | 'warn';
     filterDeprecated: boolean;

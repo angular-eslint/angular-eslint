@@ -2,11 +2,13 @@ jest.mock('eslint', () => ({
   ESLint: jest.fn(),
 }));
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { ESLint } = require('eslint');
 (<jest.SpyInstance>ESLint).mockImplementation(() => ({
   lintFiles: (args: string[]) => args,
 }));
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { lint } = require('../../src/utils/eslint-utils');
 
 describe('eslint-utils', () => {
@@ -15,10 +17,11 @@ describe('eslint-utils', () => {
   });
 
   it('should create the ESLint instance with the proper parameters', async () => {
-    await lint('./.eslintrc.json', <any>{
+    await lint('./.eslintrc.json', <unknown>{
       fix: true,
       cache: true,
       cacheLocation: '/root/cache',
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
     }).catch(() => {});
 
     expect(ESLint).toHaveBeenCalledWith({
@@ -33,10 +36,11 @@ describe('eslint-utils', () => {
   });
 
   it('should create the ESLint instance with the proper parameters', async () => {
-    await lint(undefined, <any>{
+    await lint(undefined, <unknown>{
       fix: true,
       cache: true,
       cacheLocation: '/root/cache',
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
     }).catch(() => {});
 
     expect(ESLint).toHaveBeenCalledWith({

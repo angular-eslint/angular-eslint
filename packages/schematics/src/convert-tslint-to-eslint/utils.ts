@@ -35,6 +35,7 @@ export function updateObjPropAndRemoveDuplication(
     try {
       assert.deepStrictEqual(val, valueOfSamePropInExtendedConfig);
       delete json[objPropName][name];
+      // eslint-disable-next-line no-empty
     } catch {}
   }
 
@@ -57,6 +58,7 @@ export function ensureESLintPluginsAreInstalled(
       );
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const projectPackageJSON = host.read('package.json')!.toString('utf-8');
     const json = JSON.parse(projectPackageJSON);
     json.devDependencies = json.devDependencies || {};

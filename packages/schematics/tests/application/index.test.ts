@@ -8,11 +8,16 @@ import { readJsonInTree } from '../../src/utils';
 
 const { Tree } = angularDevkitSchematics;
 
-jest.mock('@angular-devkit/schematics', () => ({
-  __esModule: true,
-  // @ts-ignore
-  ...jest.requireActual('@angular-devkit/schematics'),
-}));
+jest.mock(
+  '@angular-devkit/schematics',
+  () =>
+    ({
+      __esModule: true,
+      ...jest.requireActual('@angular-devkit/schematics'),
+      // For some reason TS (BUT only via ts-jest, not in VSCode) has an issue with this spread usage of requireActual(), so suppressing with any
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } as any),
+);
 
 describe('application', () => {
   const schematicRunner = new SchematicTestRunner(
@@ -81,7 +86,7 @@ describe('application', () => {
       .toPromise();
 
     expect(tree.exists('projects/foo/tslint.json')).toBe(false);
-    expect(tree.read('projects/foo/.eslintrc.json')!.toString())
+    expect(tree.read('projects/foo/.eslintrc.json')?.toString())
       .toMatchInlineSnapshot(`
       "{
         \\"extends\\": \\"../../.eslintrc.json\\",

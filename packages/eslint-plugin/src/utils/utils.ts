@@ -513,7 +513,7 @@ export const SelectorValidator = {
   },
 
   camelCase(selector: string): boolean {
-    return /^[a-zA-Z0-9\[\]]+$/.test(selector);
+    return /^[a-zA-Z0-9[\]]+$/.test(selector);
   },
 
   element(selector: string): boolean {
@@ -521,7 +521,7 @@ export const SelectorValidator = {
   },
 
   kebabCase(selector: string): boolean {
-    return /^[a-z0-9\-]+-[a-z0-9\-]+$/.test(selector);
+    return /^[a-z0-9-]+-[a-z0-9-]+$/.test(selector);
   },
 
   prefix(

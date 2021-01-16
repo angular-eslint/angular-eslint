@@ -87,7 +87,7 @@ export default createESLintRule<Options, MessageIds>({
         if (inputCallExpression.arguments.length === 0) return;
 
         // handle directive's selector is also an input property
-        let directiveSelectors: ReadonlyArray<any>;
+        let directiveSelectors: ReadonlyArray<unknown>;
 
         const canPropertyBeAliased = (
           propertyAlias: string,
@@ -129,7 +129,7 @@ export default createESLintRule<Options, MessageIds>({
 
           if (selector && isLiteral(selector) && selector.value) {
             directiveSelectors = (selector.value.toString() || '')
-              .replace(/[\[\]\s]/g, '')
+              .replace(/[[\]\s]/g, '')
               .split(',');
           }
         }

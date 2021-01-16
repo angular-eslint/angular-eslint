@@ -182,7 +182,7 @@ const createRuleDetails = (
   const isDone = (ruleName: string) =>
     (rules[ruleName] ||
       rules[RULE_MAP[ruleName]] ||
-      rules[ruleName.replace(/^template\-/, '')]) !== undefined;
+      rules[ruleName.replace(/^template-/, '')]) !== undefined;
 
   return codelyzerRules.map((rule) => ({
     name: rule.ruleName,
@@ -267,7 +267,7 @@ const getReadmePath = () => path.resolve(process.cwd(), 'README.md');
  *
  * @async
  */
-export const updateReadme = async () => {
+export const updateReadme = async (): Promise<boolean> => {
   try {
     const readmeFile = getReadmePath();
 
@@ -289,7 +289,7 @@ export const updateReadme = async () => {
  *
  * @async
  */
-export const checkReadme = async () => {
+export const checkReadme = async (): Promise<boolean> => {
   try {
     const readmeFile = getReadmePath();
 

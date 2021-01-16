@@ -4,7 +4,7 @@ const ESLINT_PLUGIN_PREFIX = '@angular-eslint/';
 
 interface Config {
   extends?: string | string[];
-  rules?: { [ruleName: string]: string | object };
+  rules?: { [ruleName: string]: string | unknown };
   overrides?: Config[];
 }
 
