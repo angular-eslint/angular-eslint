@@ -138,7 +138,7 @@ export function convertAnnotatedSourceToFailureCase<T extends string>({
   data?: Record<string, unknown>;
   options?: readonly unknown[];
   annotatedOutput?: string;
-}): TSESLint.InvalidTestCase<T, typeof options> {
+}): TSESLint.InvalidTestCase<T, readonly unknown[]> {
   if (!messageId && (!messages || !messages.length)) {
     throw new Error(
       'Either `messageId` or `messages` is required when configuring a failure case',
@@ -195,7 +195,7 @@ export function convertAnnotatedSourceToFailureCase<T extends string>({
     },
   );
 
-  const invalidTestCase: TSESLint.InvalidTestCase<T, typeof options> = {
+  const invalidTestCase: TSESLint.InvalidTestCase<T, readonly unknown[]> = {
     code: parsedSource,
     options,
     errors,
