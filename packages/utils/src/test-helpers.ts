@@ -21,7 +21,7 @@ interface ExpectedFailure {
  * FROM CODELYZER
  */
 const escapeRegexp = (value: string): string =>
-  value.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+  value.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
 
 /**
  * FROM CODELYZER
@@ -74,7 +74,7 @@ export const parseInvalidSource = (
   let line = 0;
   let lastCol = 0;
   let lastLine = 0;
-  let startPosition: any;
+  let startPosition: SourcePosition | undefined;
 
   for (const currentChar of replacedSource) {
     if (currentChar === '\n') {
@@ -112,6 +112,7 @@ export const parseInvalidSource = (
     failure: {
       endPosition,
       message,
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       startPosition: startPosition!,
     },
     source: newSource,
@@ -119,8 +120,10 @@ export const parseInvalidSource = (
 };
 
 export function convertAnnotatedSourceToFailureCase<T extends string>({
-  // @ts-ignore
+  /* eslint-disable @typescript-eslint/no-unused-vars */
+  // @ts-expect-error It is nice to require the description for maintainability, even though we don't use it directly.
   description: _,
+  /* eslint-enable @typescript-eslint/no-unused-vars */
   annotatedSource,
   messageId,
   messages = [],
@@ -132,10 +135,10 @@ export function convertAnnotatedSourceToFailureCase<T extends string>({
   annotatedSource: string;
   messageId?: T;
   messages?: { char: string; messageId: T }[];
-  data?: Record<string, any>;
-  options?: any;
+  data?: Record<string, unknown>;
+  options?: readonly unknown[];
   annotatedOutput?: string;
-}): TSESLint.InvalidTestCase<T, typeof options> {
+}): TSESLint.InvalidTestCase<T, readonly unknown[]> {
   if (!messageId && (!messages || !messages.length)) {
     throw new Error(
       'Either `messageId` or `messages` is required when configuring a failure case',
@@ -184,6 +187,7 @@ export function convertAnnotatedSourceToFailureCase<T extends string>({
 
       if (data) {
         // TODO: Make .data writable in @typescript-eslint/experimental-utils types
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (error as any).data = data;
       }
 
@@ -191,13 +195,14 @@ export function convertAnnotatedSourceToFailureCase<T extends string>({
     },
   );
 
-  const invalidTestCase: TSESLint.InvalidTestCase<T, typeof options> = {
+  const invalidTestCase: TSESLint.InvalidTestCase<T, readonly unknown[]> = {
     code: parsedSource,
     options,
     errors,
   };
   if (annotatedOutput) {
     // TODO: Make .output writable in @typescript-eslint/experimental-utils types
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (invalidTestCase as any).output = parseInvalidSource(
       annotatedOutput,
       '',

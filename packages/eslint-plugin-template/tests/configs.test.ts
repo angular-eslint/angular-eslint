@@ -4,7 +4,7 @@ const ESLINT_PLUGIN_TEMPLATE_PREFIX = '@angular-eslint/template/';
 
 interface Config {
   extends?: string | string[];
-  rules?: { [ruleName: string]: string | object };
+  rules?: { [ruleName: string]: string | Record<string, unknown> };
   overrides?: Config[];
 }
 

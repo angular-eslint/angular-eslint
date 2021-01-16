@@ -1,7 +1,7 @@
-import { ESLint } from 'eslint';
+import type * as ESLintLibrary from 'eslint';
 import { Schema } from '../schema';
 
-export async function loadESLint() {
+export async function loadESLint(): Promise<typeof ESLintLibrary> {
   let eslint;
   try {
     eslint = await import('eslint');
@@ -14,7 +14,7 @@ export async function loadESLint() {
 export async function lint(
   eslintConfigPath: string | undefined,
   options: Schema,
-): Promise<ESLint.LintResult[]> {
+): Promise<ESLintLibrary.ESLint.LintResult[]> {
   const projectESLint = await loadESLint();
 
   const eslint = new projectESLint.ESLint({

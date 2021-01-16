@@ -5,6 +5,7 @@ import {
 import * as path from 'path';
 import { Tree } from '@angular-devkit/schematics';
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const packageJSON = require('../../package.json');
 
 const eslintVersion = packageJSON.devDependencies['eslint'];

@@ -37,7 +37,7 @@ const eslintPluginTemplateConfigRecommendedOriginal: any =
   eslintPluginTemplate.configs.recommended;
 
 export default function convert(schema: Schema): Rule {
-  return (tree: Tree, _context: SchematicContext) => {
+  return (tree: Tree) => {
     if (tree.exists('tsconfig.base.json')) {
       throw new Error(
         '\nError: Angular CLI v10.1.0 and later (and no `tsconfig.base.json`) is required in order to run this schematic. Please update your workspace and try again.\n',

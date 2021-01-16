@@ -5,7 +5,7 @@ import {
   updateReadme,
 } from '~tools/scripts/generate-rules-list/generate-rules-list';
 
-const [node, execTool, command] = process.argv;
+const [, , command] = process.argv;
 
 process.on('unhandledRejection', (err) => {
   console.error(err);

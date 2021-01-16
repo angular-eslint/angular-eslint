@@ -260,7 +260,7 @@ describe('extract-inline-html', () => {
     });
 
     describe('components with inline templates and CRLF', () => {
-      let inlineTemplate = `\r\n
+      const inlineTemplate = `\r\n
         <div [style.height]="aBool ? '100px' : '200px'"></div>\r\n
         <div [style]="{height: this.aBool ? '100px' : '200px'}"></div>\r\n
         <div [style]="{height: '100px'}"></div>\r\n

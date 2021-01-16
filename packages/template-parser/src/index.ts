@@ -173,17 +173,10 @@ function parseForESLint(code: string, options: { filePath: string }) {
     value: code,
   };
 
-  /**
-   * The types for ScopeManager seem to be wrong, it requires an configuration object argument
-   * or it will throw at runtime
-   */
-  // @ts-ignore
+  // @ts-expect-error The types for ScopeManager seem to be wrong, it requires a configuration object or it will throw at runtime
   const scopeManager = new ScopeManager({});
-  /**
-   * Create a global scope for the ScopeManager, the types for Scope also
-   * seem to be wrong
-   */
-  // @ts-ignore
+
+  // @ts-expect-error Create a global scope for the ScopeManager, the types for Scope also seem to be wrong
   new Scope(scopeManager, 'module', null, ast, false);
 
   preprocessNode(ast);

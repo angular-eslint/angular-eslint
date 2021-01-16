@@ -1,8 +1,8 @@
 import execa from 'execa';
-const { spawn } = require('child_process');
-const kill = require('tree-kill');
+import { ChildProcess, spawn } from 'child_process';
+import kill from 'tree-kill';
 
-let localRegistryProcess: any;
+let localRegistryProcess: ChildProcess;
 
 const VERSION = `9999.0.1-local-integration-tests`;
 
@@ -20,7 +20,7 @@ async function spawnLocalRegistry() {
     '4872',
   ]);
 
-  let collectedOutput: string[] = [];
+  const collectedOutput: string[] = [];
   let resolvedOrRejected = false;
 
   setTimeout(() => {
@@ -51,7 +51,7 @@ async function spawnLocalRegistry() {
 }
 
 async function publishPackagesToVerdaccio() {
-  if (process.env.npm_config_registry!.indexOf('http://localhost') === -1) {
+  if (process.env.npm_config_registry?.indexOf('http://localhost') === -1) {
     throw Error(`
       ------------------
       💣 ERROR 💣 => $NPM_REGISTRY does not look like a local registry'
@@ -67,7 +67,7 @@ async function publishPackagesToVerdaccio() {
 }
 
 async function runNpmInstall() {
-  if (process.env.npm_config_registry!.indexOf('http://localhost') === -1) {
+  if (process.env.npm_config_registry?.indexOf('http://localhost') === -1) {
     throw Error(`
       ------------------
       💣 ERROR 💣 => $NPM_REGISTRY does not look like a local registry'
@@ -83,7 +83,7 @@ async function runNpmInstall() {
 }
 
 async function runYarnInstall() {
-  if (process.env.npm_config_registry!.indexOf('http://localhost') === -1) {
+  if (process.env.npm_config_registry?.indexOf('http://localhost') === -1) {
     throw Error(`
       ------------------
       💣 ERROR 💣 => $NPM_REGISTRY does not look like a local registry'
@@ -99,7 +99,7 @@ async function runYarnInstall() {
 }
 
 async function runNgAdd() {
-  if (process.env.npm_config_registry!.indexOf('http://localhost') === -1) {
+  if (process.env.npm_config_registry?.indexOf('http://localhost') === -1) {
     throw Error(`
       ------------------
       💣 ERROR 💣 => $NPM_REGISTRY does not look like a local registry'
@@ -119,7 +119,7 @@ async function runNgAdd() {
 }
 
 async function runNgNew(workspaceName: string) {
-  if (process.env.npm_config_registry!.indexOf('http://localhost') === -1) {
+  if (process.env.npm_config_registry?.indexOf('http://localhost') === -1) {
     throw Error(`
       ------------------
       💣 ERROR 💣 => $NPM_REGISTRY does not look like a local registry'
@@ -144,7 +144,7 @@ async function runNgNew(workspaceName: string) {
 }
 
 async function runNgGenerate(args: string[]) {
-  if (process.env.npm_config_registry!.indexOf('http://localhost') === -1) {
+  if (process.env.npm_config_registry?.indexOf('http://localhost') === -1) {
     throw Error(`
       ------------------
       💣 ERROR 💣 => $NPM_REGISTRY does not look like a local registry'
@@ -160,7 +160,7 @@ async function runNgGenerate(args: string[]) {
 }
 
 async function runConvertTSLintToESLint(projectName: string) {
-  if (process.env.npm_config_registry!.indexOf('http://localhost') === -1) {
+  if (process.env.npm_config_registry?.indexOf('http://localhost') === -1) {
     throw Error(`
       ------------------
       💣 ERROR 💣 => $NPM_REGISTRY does not look like a local registry'
@@ -183,7 +183,6 @@ async function runConvertTSLintToESLint(projectName: string) {
 
 async function setupFixtures() {
   try {
-    // @ts-ignore
     await spawnLocalRegistry();
     await publishPackagesToVerdaccio();
 
@@ -233,19 +232,23 @@ function cleanUp(code: number) {
     if (!process.env.CI) {
       kill(0);
     }
-  } catch (e) {}
+    // eslint-disable-next-line no-empty
+  } catch {}
   try {
-    if (localRegistryProcess) localRegistryProcess.kill(0);
-  } catch (e) {}
+    if (localRegistryProcess) localRegistryProcess.kill();
+    // eslint-disable-next-line no-empty
+  } catch {}
   // try killing everything after in case something hasn't terminated
   try {
     if (!process.env.CI) {
       kill(0, 'SIGKILL');
     }
-  } catch (e) {}
+    // eslint-disable-next-line no-empty
+  } catch {}
   try {
-    if (localRegistryProcess) localRegistryProcess.kill(0, 'SIGKILL');
-  } catch (e) {}
+    if (localRegistryProcess) localRegistryProcess.kill('SIGKILL');
+    // eslint-disable-next-line no-empty
+  } catch {}
 
   process.exit(code);
 }

@@ -56,6 +56,10 @@ jobs:
       run: |
         yarn check-configs
 
+    - name: Run linting
+      run: |
+        yarn lint
+
     - name: Run unit tests
       run: |
         yarn test

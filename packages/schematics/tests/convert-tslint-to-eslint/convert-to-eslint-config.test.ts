@@ -4,9 +4,11 @@ import {
 } from './example-tslint-configs';
 
 // Since upgrading to (ts-)jest 26 this usage of this mock has caused issues...
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 const {
   mockFindReportedConfiguration,
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
 } = require('./mock-tslint-to-eslint-config');
 
 /**
@@ -15,6 +17,7 @@ const {
 jest.mock('tslint-to-eslint-config', () => {
   return {
     // Since upgrading to (ts-)jest 26 this usage of this mock has caused issues...
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     ...jest.requireActual('tslint-to-eslint-config'),
     findReportedConfiguration: jest.fn(mockFindReportedConfiguration),
@@ -23,6 +26,7 @@ jest.mock('tslint-to-eslint-config', () => {
 
 const {
   convertToESLintConfig,
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
 } = require('../../src/convert-tslint-to-eslint/convert-to-eslint-config');
 
 describe('convertToESLintConfig()', () => {

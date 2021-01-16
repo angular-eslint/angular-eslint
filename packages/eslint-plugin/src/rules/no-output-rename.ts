@@ -79,7 +79,7 @@ export default createESLintRule<Options, MessageIds>({
           if (selector && isLiteral(selector) && selector.value) {
             directiveSelectors = new Set(
               (selector.value.toString() || '')
-                .replace(/[\[\]\s]/g, '')
+                .replace(/[[\]\s]/g, '')
                 .split(','),
             );
           }

@@ -187,6 +187,8 @@ export function preprocessComponentFile(
 
 export function postprocessComponentFile(
   multiDimensionalMessages: any[][],
+  // We don't currently need the filename in our implementation, but keeping it for clarity regarding the postprocess() function signature
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _filename: string,
 ): any[] {
   const messagesFromComponentSource = multiDimensionalMessages[0];
@@ -213,7 +215,7 @@ export function postprocessComponentFile(
     ...messagesFromComponentSource,
 
     // Ah, multi-dimensional arrays without .flat() ...
-    ...([] as any[]).concat(
+    ...([] as unknown[]).concat(
       ...messagesFromAllInlineTemplateHTML.map(
         (messagesFromInlineTemplateHTML, i) => {
           const inlineTemplateTmpFilename = `inline-template-${++i}.component.html`;
@@ -232,11 +234,9 @@ export function postprocessComponentFile(
             }) => {
               message.line =
                 message.line + rangeData.lineAndCharacter.start.line;
-              message.column = message.column;
 
               message.endLine =
                 message.endLine + rangeData.lineAndCharacter.start.line;
-              message.endColumn = message.endColumn;
 
               if (message.fix) {
                 const startOffset = rangeData.range[0];
