@@ -488,7 +488,7 @@ For example, the diff might look something like this:
   },
 ```
 
-As you can see, we are also setting `"createDefaultProgram"` to `false` because in this scenario we have full control over what files will be included in the `Program` created behind the scenes for our lint run and we should never need that potentially expensive auto-fallback again.
+As you can see, we are also setting `"createDefaultProgram"` to `false` because in this scenario we have full control over what files will be included in the `Program` created behind the scenes for our lint run and we should never need that potentially expensive auto-fallback again. (NOTE: You can also just remove the `"createDefaultProgram"` setting altogether because its default value is `false`).
 
 If you are not sure what `"createDefaultProgram"` does, please reread the section above on ESLint Configs and Performance.
 
