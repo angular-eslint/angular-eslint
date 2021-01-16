@@ -432,6 +432,11 @@ Here are some steps you can take if you're linting process feels "unreasonably" 
 DEBUG=typescript-eslint:* ng lint
 ```
 
+- Full explanation of this command:
+  - `ng lint` is being invoked as normal (you would run the full command above in the same way you run `ng lint` normally in whatever terminal you use), but we are also setting an environment variable called `DEBUG`, and giving it a value of `typescript-eslint:*`.
+  - `DEBUG` is a relatively common environment variable because it is supported by some common logging/debugging libraries as a way to toggle how verbose the overall output is at runtime.
+  - The value of `typescript-eslint:*` will get picked up by the logger within the `typescript-eslint` library and cause it to log very verbosely to the standard output of your terminal as it executes.
+
 You will now see a ton of logs which were not visible before. The two most common issues to look out for are:
 
 - If you see a lot of logs saying that particular files are not being found in existing `Program`s (the scenario we described above) and default `Program`s have to be created
@@ -575,7 +580,5 @@ If you are still having problems after you have done some digging into these, fe
 [`use-pipe-transform-interface`]: https://codelyzer.com/rules/use-pipe-transform-interface
 
 <!-- PR Links -->
-
-[`pr260`]: https://api.github.com/repos/angular-eslint/angular-eslint/pulls/260
 
 <!-- end rule list -->
