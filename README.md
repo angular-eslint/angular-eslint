@@ -464,7 +464,7 @@ For example, it may look like:
 ```jsonc
 {
   "extends": "./tsconfig.json",
-  "include": [ 
+  "include": [
     // adjust "includes" to what makes sense for you and your project
     "src/**/*.ts",
     "e2e/**/*.ts"
