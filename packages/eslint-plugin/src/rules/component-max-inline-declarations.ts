@@ -120,11 +120,12 @@ export default createESLintRule<Options, MessageIds>({
       [`${COMPONENT_CLASS_DECORATOR} Property[key.name='animations']`]({
         value,
       }: TSESTree.Property) {
-        if (!isArrayExpression(value)) return;
+        if (!isArrayExpression(value) || value.elements.length === 0) return;
 
-        const lineCount = value.elements.reduce(
-          (lines, element) => lines + getLinesCount(element),
-          0,
+        const animationsBracketsSize = 2;
+        const lineCount = Math.max(
+          value.loc.end.line - value.loc.start.line - animationsBracketsSize,
+          1,
         );
 
         if (lineCount <= animations) return;
