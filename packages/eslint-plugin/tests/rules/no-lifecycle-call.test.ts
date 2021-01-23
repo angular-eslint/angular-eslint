@@ -15,7 +15,7 @@ ruleTester.run(RULE_NAME, rule, {
     `
     @Component()
     class Test {
-      test(): void { 
+      ngAfterContentChecked(): void { 
         super.ngAfterContentChecked(); 
       }
     }
@@ -158,6 +158,20 @@ ruleTester.run(RULE_NAME, rule, {
           test(): void {
             this.ngOnInit();
             ~~~~~~~~~~~~~~~
+          }
+        }
+      `,
+      messageId,
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'should fail if super.<lifecycle method>() is called in a incorrect context',
+      annotatedSource: `
+        @Component({ template: '' })
+        class Test extends ParentComponent {
+          test(): void {
+            super.ngOnChanges();
+            ~~~~~~~~~~~~~~~~~~~
           }
         }
       `,
