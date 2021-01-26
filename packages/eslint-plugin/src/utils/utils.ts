@@ -223,6 +223,10 @@ function isProperty(node: TSESTree.Node): node is TSESTree.Property {
   return node.type === 'Property';
 }
 
+function isProgram(node: TSESTree.Node): node is TSESTree.Program {
+  return node.type === 'Program';
+}
+
 export function isLiteral(node: TSESTree.Node): node is TSESTree.Literal {
   return node.type === 'Literal';
 }
@@ -260,16 +264,35 @@ export function isLiteralWithStringValue(
   return node.type === 'Literal' && typeof node.value === 'string';
 }
 
-function isMethodDefinition(
+export function isMethodDefinition(
   node: TSESTree.Node,
 ): node is TSESTree.MethodDefinition {
   return node.type === 'MethodDefinition';
+}
+
+export function isSuper(node: TSESTree.Node): node is TSESTree.Super {
+  return node.type === 'Super';
 }
 
 /**
  * SECTION END:
  * Equivalents of utils exported by TypeScript itself for its own AST
  */
+
+export function getNearestNodeFrom<T extends TSESTree.Node>(
+  { parent }: TSESTree.Node,
+  predicate: (parent: TSESTree.Node) => parent is T,
+): T | null {
+  while (parent && !isProgram(parent)) {
+    if (predicate(parent)) {
+      return (parent as unknown) as T;
+    }
+
+    parent = parent.parent as TSESTree.Node | undefined;
+  }
+
+  return null;
+}
 
 export const getClassName = (node: TSESTree.Node): string | undefined => {
   if (isClassDeclaration(node)) {
