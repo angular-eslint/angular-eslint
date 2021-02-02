@@ -44,6 +44,9 @@ import noCallExpression, {
 import noDistractingElements, {
   RULE_NAME as noDistractingElementsRuleName,
 } from './rules/no-distracting-elements';
+import noDuplicateAttributes, {
+  RULE_NAME as noDuplicateAttributesRuleName,
+} from './rules/no-duplicate-attributes';
 import noNegatedAsync, {
   RULE_NAME as noNegatedAsyncRuleName,
 } from './rules/no-negated-async';
@@ -78,6 +81,7 @@ export default {
     [noAutofocusRuleName]: noAutofocus,
     [noCallExpressionRuleName]: noCallExpression,
     [noDistractingElementsRuleName]: noDistractingElements,
+    [noDuplicateAttributesRuleName]: noDuplicateAttributes,
     [noNegatedAsyncRuleName]: noNegatedAsync,
     [noPositiveTabindexRuleName]: noPositiveTabindex,
     [useTrackByFunctionRuleName]: useTrackByFunction,
