@@ -43,7 +43,7 @@ ruleTester.run(RULE_NAME, rule, {
       description: 'it should fail with call expression in expression binding',
       annotatedSource: `
       {{ $any(framework).name }}
-          ~~~~~~~~~~~~~~~
+         ~~~~~~~~~~~~~~~
       `,
       messageId,
     }),
@@ -51,7 +51,7 @@ ruleTester.run(RULE_NAME, rule, {
       description: 'it should fail with call expression using "this"',
       annotatedSource: `
       {{ this.$any(framework).name }}
-          ~~~~~~~~~~~~~~~~~~~~
+         ~~~~~~~~~~~~~~~~~~~~
       `,
       messageId,
     }),
@@ -67,10 +67,10 @@ ruleTester.run(RULE_NAME, rule, {
       description: 'it should fail for multiple cases',
       annotatedSource: `
         {{ $any(framework).name }}
-            ~~~~~~~~~~~~~~~
+           ~~~~~~~~~~~~~~~
        <div>
         {{ this.$any(framework).name }}
-            ^^^^^^^^^^^^^^^^^^^^
+           ^^^^^^^^^^^^^^^^^^^^
         </div>
         <a [href]="$any(getHref())">Click here</a>'
                    ###############

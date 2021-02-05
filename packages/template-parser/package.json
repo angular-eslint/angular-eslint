@@ -25,7 +25,7 @@
     "eslint-scope": "^5.1.0"
   },
   "peerDependencies": {
-    "@angular/compiler": "*",
+    "@angular/compiler": "~11.1.2",
     "eslint": "*",
     "typescript": "*"
   },
