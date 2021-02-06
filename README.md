@@ -575,7 +575,7 @@ If you see a rule below that has **no status** against it, then please feel free
 | [`no-outputs-metadata-property`] | @angular-eslint/no-outputs-metadata-property | :white_check_mark: |
 | [`no-queries-metadata-property`] | @angular-eslint/no-queries-metadata-property | :white_check_mark: |
 | [`pipe-prefix`]                  |         @angular-eslint/pipe-prefix          | :white_check_mark: |
-| [`prefer-inline-decorator`]      |                                              |                    |
+| [`prefer-inline-decorator`]      |          N/A, see explanation above          | :no_good:          |
 
 <!-- Codelyzer Links -->
 

@@ -25,7 +25,11 @@ interface RuleDetails {
  * We will not be maintaining conversions of the following rules because
  * they are formatting based. Use prettier y'all!
  */
-const wontFixList = ['angular-whitespace', 'import-destructuring-spacing'];
+const wontFixList = [
+  'angular-whitespace',
+  'import-destructuring-spacing',
+  'prefer-inline-decorator',
+];
 
 /**
  * Stores a mapping from codelyzer rules to eslint rules that have changed name.
