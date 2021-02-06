@@ -1,5 +1,5 @@
 {
-  "npmScope": "@angular-eslint",
+  "npmScope": "angular-eslint",
   "implicitDependencies": {
     "workspace.json": "*",
     "package.json": {
