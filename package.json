@@ -22,16 +22,16 @@
     "postinstall": "lerna bootstrap && yarn build && lerna link && npm run check-clean-workspace-after-install",
     "check-clean-integration-test-fixtures": "tools/scripts/check-clean-integration-test-fixtures.sh",
     "pre-commit": "yarn lint-staged && yarn check-clean-integration-test-fixtures",
-    "pre-push": "yarn check-readme && yarn format-check",
+    "pre-push": "yarn check-readme-rules-list && yarn format-check",
     "format": "prettier --write \"./**/*.{ts,js,json,md}\"",
     "format-check": "prettier --check \"./**/*.{ts,js,json,md}\"",
     "lint": "eslint . --ext .js,.ts",
     "typecheck": "nx run-many --target=typecheck --all --parallel",
-    "check-readme": "yarn exec-tool check-readme",
-    "update-readme": "yarn exec-tool update-readme",
-    "exec-tool": "ts-node --files --transpile-only --project tsconfig.tools.json -r tsconfig-paths/register tools/scripts/exec-tool.ts",
+    "check-readme-rules-list": "ts-node --transpile-only --project tsconfig.tools.json tools/scripts/check-readme-rules-list.ts",
+    "update-readme-rules-list": "ts-node --transpile-only --project tsconfig.tools.json tools/scripts/update-readme-rules-list.ts",
+    "exec-tool": "ts-node --transpile-only --project tsconfig.tools.json tools/scripts/exec-tool.ts",
     "check-configs": "nx run-many --target=check-configs --all --parallel",
-    "update-configs": "ts-node --files --transpile-only --project tsconfig.tools.json -r tsconfig-paths/register tools/scripts/generate-configs.ts"
+    "update-configs": "ts-node --transpile-only --project tsconfig.tools.json tools/scripts/generate-configs.ts"
   },
   "config": {
     "commitizen": {
@@ -75,7 +75,6 @@
     "terser": "^4.0.0",
     "ts-jest": "^26.4.3",
     "ts-node": "^8.6.2",
-    "tsconfig-paths": "^3.9.0",
     "typescript": "~4.0.3"
   }
 }

@@ -1,12 +1,6 @@
 {
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "module": "CommonJS",
-    "baseUrl": "./",
-    "paths": {
-      "~eslint-plugin/*": ["./packages/eslint-plugin/*"],
-      "~eslint-plugin-template/*": ["./packages/eslint-plugin-template/*"],
-      "~tools/*": ["./tools/*"]
-    }
+    "module": "commonjs"
   }
 }
