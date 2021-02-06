@@ -11,6 +11,8 @@ env:
   # that causes a ENEEDAUTH error in the publishing step of the integration-tests that needs
   # to be figured out
   PRIMARY_NODE_VERSION: 15.4
+  NX_BRANCH: ${{ github.event.number }}
+  NX_RUN_GROUP: ${{ github.run_id }}
 
 jobs:
   primary_code_validation_and_tests:

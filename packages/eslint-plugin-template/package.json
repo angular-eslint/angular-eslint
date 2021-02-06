@@ -9,7 +9,8 @@
     "build": "rimraf ./dist && microbundle --tsconfig tsconfig.build.json --no-sourcemap --target=node --compress --format=cjs && ncp ./src/configs ./dist/configs",
     "test": "jest --coverage",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "check-configs": "jest tests/configs.test.ts --runTestsByPath --runInBand"
+    "check-configs": "jest tests/configs.test.ts --runTestsByPath --runInBand",
+    "clean": "rimraf ./dist"
   },
   "repository": {
     "type": "git",
