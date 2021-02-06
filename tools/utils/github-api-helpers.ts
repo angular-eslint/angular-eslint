@@ -2,11 +2,7 @@ import https, { RequestOptions } from 'https';
 import { CodelyzerRule, PRDetails } from './interfaces';
 
 /**
- * @description
  * Calls the github api for the specified path and returns a Promise for the json response.
- *
- * @param optionOverrides RequestOptions for the Request.
- * @returns an object representing the json returned by the endpoint.
  */
 const callGithubApi = <T>(optionOverrides: RequestOptions) => {
   const options = {
@@ -34,11 +30,7 @@ const callGithubApi = <T>(optionOverrides: RequestOptions) => {
 };
 
 /**
- * @description
  * Returns a list of rule names that are currently in progress.
- *
- * @async
- * @returns an Array of PRDetails.
  */
 export const getAngularESLintPRs = async (): Promise<PRDetails[]> => {
   const prsJson = await callGithubApi<PRDetails[]>({
@@ -54,11 +46,7 @@ export const getAngularESLintPRs = async (): Promise<PRDetails[]> => {
 };
 
 /**
- * @description
- * Returns a list of CodelyzerRule from the Codelyzer repository.
- *
- * @async
- * @returns an Array of CodelyzerRule.
+ * Returns a list of `CodelyzerRule`s from the Codelyzer repository.
  */
 export const getCodelyzerRulesList = async (): Promise<CodelyzerRule[]> => {
   const rulesJson = await callGithubApi<CodelyzerRule[]>({

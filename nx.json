@@ -21,7 +21,8 @@
           "test",
           "lint",
           "e2e",
-          "integration-tests"
+          "integration-tests",
+          "check-configs"
         ],
         "runtimeCacheInputs": ["node --version"],
         "canTrackAnalytics": false,

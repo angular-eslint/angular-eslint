@@ -1,42 +1,74 @@
+import templateSrc from '@angular-eslint/eslint-plugin-template/src';
+import src from '@angular-eslint/eslint-plugin/src';
 import fs from 'fs';
 import path from 'path';
 import prettier from 'prettier';
-import templateSrc from '~eslint-plugin-template/src';
-import src from '~eslint-plugin/src';
-import { getAngularESLintPRs, getCodelyzerRulesList } from './helpers';
-import { CodelyzerRule, PRDetails, RuleDetails } from './interfaces';
+import {
+  getAngularESLintPRs,
+  getCodelyzerRulesList,
+} from './github-api-helpers';
+import { CodelyzerRule, PRDetails } from './interfaces';
+
+/**
+ * Represents status details for an ESLint Rule.
+ */
+interface RuleDetails {
+  name: string;
+  eslintName: string;
+  type: CodelyzerRule['type'];
+  wontFix: boolean;
+  done: boolean;
+  pr: PRDetails | undefined;
+}
+
+/**
+ * We will not be maintaining conversions of the following rules because
+ * they are formatting based. Use prettier y'all!
+ */
+const wontFixList = ['angular-whitespace', 'import-destructuring-spacing'];
 
 /**
  * Stores a mapping from codelyzer rules to eslint rules that have changed name.
  */
 const RULE_MAP = {
   'template-accessibility-tabindex-no-positive': 'no-positive-tabindex',
-};
+} as const;
 
 /**
  * Stores a map from status text to emoji
  */
 const keyLegend = {
-  done: ':white_check_mark:',
-  'work in progress': ':construction:',
-};
+  done: {
+    emoji: ':white_check_mark:',
+    description: 'We have created an ESLint equivalent of this TSLint rule',
+  },
+  wip: {
+    emoji: ':construction:',
+    description:
+      'There is an open PR to provide an ESLint equivalent of this TSLint rule',
+  },
+  wontFix: {
+    emoji: ':no_good:',
+    description:
+      'This TSLint rule should be replaced by a dedicated code formatter, such as Prettier',
+  },
+} as const;
 
 /**
  * Stores static text elements for the readme.
  */
 const staticElements = {
-  rulesListKey: Object.keys(keyLegend).map(
-    (key) => `${keyLegend[key]} = ${key}`,
+  rulesListKey: Object.values(keyLegend).map(
+    ({ emoji, description }) => `${emoji} = ${description}`,
   ),
   legendSpacerRow: '-----',
-  ruleHeaderRow: ['Codelyzer rule', 'Status'],
+  ruleHeaderRow: ['Codelyzer Rule', 'ESLint Equivalent', 'Status'],
   ruleSpacerRow: ['-----', ':-:'],
   listBeginMarker: `<!-- begin rule list -->`,
   listEndMarker: `<!-- end rule list -->`,
-};
+} as const;
 
 /**
- * @description
  * Returns a PR for the specified rule if one exists. Otherwise returns undefined.
  *
  * A PR is matched if the title starts with 'feat(eslint-plugin)' and the title contains the rule name.
@@ -52,17 +84,15 @@ const findPR = (rule: CodelyzerRule, currentPrs: PRDetails[]) =>
   );
 
 /**
- * @description
  * Maps the specified RuleDetails to a markdown list of links to codelyzer docs.
  *
  * @param rules an Array of RuleDetails to map
  * @returns an Array of strings representing the list of links to codelyzer docs.
  */
 const buildRelativeLinksList = (rules: RuleDetails[]) =>
-  rules.map(({ name }) => `[\`${name}\`]: https://codelyzer.com/rules/${name}`);
+  rules.map(({ name }) => `[\`${name}\`]: http://codelyzer.com/rules/${name}`);
 
 /**
- * @description
  * Maps the specified PRDetails to a markdown list of links to PRs.
  *
  * @param prs an Array of PRDetails to map.
@@ -72,38 +102,38 @@ const buildPRLinksList = (prs: PRDetails[]) =>
   prs.map(({ url, number }) => `[\`PR${number}\`]: ${url}`);
 
 /**
- * @description
  * Returns an Array of strings representing the markdown rows for the Legend table.
  *
  * @returns an Array of strings representing the markdown rows for the Legend table.
  */
 const buildLegendTable = () => [
-  '| |',
+  '| Explanation of Statuses |',
   `|${staticElements.legendSpacerRow}|`,
   ...staticElements.rulesListKey.map((key) => `|${key}|`),
 ];
 
 /**
- * @description
  * Returns an Array of strings representing the markdown rows for a rules list table.
  *
  * @param rules an Array of RuleDetails to map
  * @returns an Array of strings representing the markdown rows for a rules list table.
  */
 const ruleList = (rules: RuleDetails[]) =>
-  rules.map(({ name, done, pr }) =>
+  rules.map(({ name, eslintName, wontFix, done, pr }) =>
     [
       `[\`${name}\`]`,
-      done
-        ? keyLegend.done
+      wontFix ? 'N/A, see explanation above' : eslintName,
+      wontFix
+        ? keyLegend.wontFix.emoji
+        : done
+        ? keyLegend.done.emoji
         : pr
-        ? `[${keyLegend['work in progress']}][\`PR${pr.number}\`]`
+        ? `[${keyLegend.wip.emoji}][\`PR${pr.number}\`]`
         : '|',
     ].join('|'),
   );
 
 /**
- * @description
  * Returns an Array of strings representing the markdown tables for each Codelyzer Rule Type.
  *
  * @param rules an Array of RuleDetails to map
@@ -127,7 +157,6 @@ const buildRulesTables = (rules: RuleDetails[]) => {
 };
 
 /**
- * @description
  * Updates the specified markdown with the rules list and returns the result string.
  *
  * Markdown must contain the <!-- begin rule list --> and <!-- end rule list --> tags
@@ -166,7 +195,6 @@ const updateRulesList = (rules: RuleDetails[], markdown: string): string => {
 };
 
 /**
- * @description
  * Returns an Array of RuleDetails for the specified CodelyzerRule array.
  *
  * @param codelyzerRules an Array of CodelyzerRules to convert to RuleDetails
@@ -178,46 +206,52 @@ const createRuleDetails = (
   codelyzerRules: CodelyzerRule[],
   rules: typeof src['rules'] | typeof templateSrc['rules'],
   currentPrs: PRDetails[],
-) => {
-  const isDone = (ruleName: string) =>
-    (rules[ruleName] ||
-      rules[RULE_MAP[ruleName]] ||
-      rules[ruleName.replace(/^template-/, '')]) !== undefined;
+  isTemplateRules: boolean,
+): RuleDetails[] => {
+  function getESLintName(ruleName: string): string {
+    if (rules[ruleName]) {
+      return `@angular-eslint/${ruleName}`;
+    }
+    if (rules[RULE_MAP[ruleName]]) {
+      return `@angular-eslint/${isTemplateRules ? 'template/' : ''}${
+        RULE_MAP[ruleName]
+      }`;
+    }
+    if (rules[ruleName.replace(/^template-/, '')]) {
+      return `@angular-eslint/template/${ruleName.replace(/^template-/, '')}`;
+    }
+    return '';
+  }
 
-  return codelyzerRules.map((rule) => ({
-    name: rule.ruleName,
-    type: rule.type,
-    done: isDone(rule.ruleName),
-    pr: findPR(rule, currentPrs),
-  }));
+  return codelyzerRules.map((rule) => {
+    const eslintName = getESLintName(rule.ruleName);
+    return {
+      name: rule.ruleName,
+      eslintName,
+      wontFix: wontFixList.includes(rule.ruleName),
+      type: rule.type,
+      done: !!eslintName,
+      pr: findPR(rule, currentPrs),
+    };
+  });
 };
 
-/**
- * @description
- * Returns the Rules List section from the specified markdown.
- *
- * @param markdown a string representing the markdown to retrieve the rules list from.
- */
-const getRulesListMarkdown = (markdown: string) => {
-  const listStartIndex = markdown.indexOf(staticElements.listBeginMarker);
-  const listEndIndex = markdown.indexOf(staticElements.listEndMarker);
+const README_PATH = path.resolve(process.cwd(), 'README.md');
 
-  return markdown.substring(
-    listStartIndex,
-    listEndIndex + staticElements.listEndMarker.length,
-  );
-};
+export function readExistingReadmeFile(): string {
+  return fs.readFileSync(README_PATH, 'utf8');
+}
+
+export function updateReadmeFile(updatedContents: string): void {
+  fs.writeFileSync(README_PATH, updatedContents, 'utf8');
+}
 
 /**
- * @description
- * Generates a Rules List for the README in the following format:
+ * Regenerate the Rules List for the README in the following format:
  *
  * <!-- begin rule list -->
  *
- * #### Type
- * | Codelyzer rule | Status |
- * | -------------- | :----: |
- * | [`Rule name`] | <status emoji> |
+ * ...TABLES WITH RULE STATUSES...
  *
  * <!-- Relative Links -->
  * [`Rule name`]: <link to codelyzer docs>
@@ -226,88 +260,37 @@ const getRulesListMarkdown = (markdown: string) => {
  * [`pr<number>`]: <link to pr>
  *
  * <!-- end rule list -->
- *
- * @async
  */
-const generateReadme = async (readme: string) => {
+export const regenerateReadmeRulesList = async (): Promise<string> => {
+  const existingReadme = readExistingReadmeFile();
+
   const codelyzerRules = await getCodelyzerRulesList();
   const currentPrs = await getAngularESLintPRs();
+
   const templatePrefix = 'template-';
+
   const pluginRuleDetails = createRuleDetails(
     codelyzerRules.filter((rule) => !rule.ruleName.startsWith(templatePrefix)),
     src.rules,
     currentPrs,
+    false,
   );
+
   const templateRuleDetails = createRuleDetails(
     codelyzerRules.filter((rule) => rule.ruleName.startsWith(templatePrefix)),
     templateSrc.rules,
     currentPrs,
+    true,
   );
+
   const ruleDetails = pluginRuleDetails
     .concat(templateRuleDetails)
     .sort(({ name: ruleNameA }, { name: ruleNameB }) =>
       ruleNameA.localeCompare(ruleNameB),
     );
 
-  let nextReadme = updateRulesList(ruleDetails, readme);
-  nextReadme = prettier.format(nextReadme, { parser: 'markdown' });
+  let updatedReadme = updateRulesList(ruleDetails, existingReadme);
+  updatedReadme = prettier.format(updatedReadme, { parser: 'markdown' });
 
-  return nextReadme;
-};
-
-/**
- * @description
- * Returns a string representing the path to the root README.md file.
- */
-const getReadmePath = () => path.resolve(process.cwd(), 'README.md');
-
-/**
- * @description
- * Updates the README.md file in the root directory with the Rules List. Returns true if successful.
- *
- * @async
- */
-export const updateReadme = async (): Promise<boolean> => {
-  try {
-    const readmeFile = getReadmePath();
-
-    let readme = fs.readFileSync(readmeFile, 'utf8');
-    readme = await generateReadme(readme);
-
-    fs.writeFileSync(readmeFile, readme, 'utf8');
-
-    return true;
-  } catch (err) {
-    console.error(err);
-    return false;
-  }
-};
-
-/**
- * @description
- * Determines whether or not the README needs updates. Returns true if it does not.
- *
- * @async
- */
-export const checkReadme = async (): Promise<boolean> => {
-  try {
-    const readmeFile = getReadmePath();
-
-    const readme = fs.readFileSync(readmeFile, 'utf8');
-    const nextReadme = await generateReadme(readme);
-
-    const originalRulesList = getRulesListMarkdown(readme);
-    const nextRulesList = getRulesListMarkdown(nextReadme);
-
-    if (originalRulesList !== nextRulesList) {
-      throw new Error(
-        'Please update the README before pushing: `yarn update-readme`.',
-      );
-    }
-
-    return true;
-  } catch (err) {
-    console.error(`\x1b[31m%s\x1b[0m`, err.message);
-    return false;
-  }
+  return updatedReadme;
 };

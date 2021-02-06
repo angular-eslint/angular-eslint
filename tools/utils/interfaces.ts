@@ -1,5 +1,4 @@
 /**
- * @description
  * Represents a CodelyzerRule.
  */
 export interface CodelyzerRule {
@@ -8,7 +7,6 @@ export interface CodelyzerRule {
 }
 
 /**
- * @description
  * Represents a subset of Pull Request details pulled from the GitHub PR api.
  */
 export interface PRDetails {
@@ -16,15 +14,4 @@ export interface PRDetails {
   title: string;
   state: string;
   number: number;
-}
-
-/**
- * @description
- * Represents status details for a ESLint Rule.
- */
-export interface RuleDetails {
-  name: string;
-  type: CodelyzerRule['type'];
-  done: boolean;
-  pr: PRDetails | undefined;
 }
