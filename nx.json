@@ -16,7 +16,14 @@
       "runner": "@nrwl/nx-cloud",
       "options": {
         "accessToken": "Y2MxNmI0YWItNDdhYS00ZWUxLTliZjMtODkzYjZkYTE4YjgxfHJlYWQtd3JpdGU=",
-        "cacheableOperations": ["build", "test", "lint", "e2e"],
+        "cacheableOperations": [
+          "build",
+          "test",
+          "lint",
+          "e2e",
+          "integration-tests"
+        ],
+        "runtimeCacheInputs": ["node --version"],
         "canTrackAnalytics": false,
         "showUsageWarnings": true
       }
@@ -33,7 +40,14 @@
       "implicitDependencies": []
     },
     "integration-tests": {
-      "implicitDependencies": []
+      "implicitDependencies": [
+        "builder",
+        "eslint-plugin",
+        "eslint-plugin-template",
+        "schematics",
+        "template-parser",
+        "utils"
+      ]
     },
     "schematics": {
       "implicitDependencies": []
