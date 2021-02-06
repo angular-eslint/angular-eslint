@@ -1,0 +1,65 @@
+{
+  "npmScope": "angular-eslint",
+  "implicitDependencies": {
+    "workspace.json": "*",
+    "package.json": {
+      "dependencies": "*",
+      "devDependencies": "*"
+    },
+    "nx.json": "*"
+  },
+  "workspaceLayout": {
+    "libsDir": "packages"
+  },
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "@nrwl/nx-cloud",
+      "options": {
+        "accessToken": "Y2MxNmI0YWItNDdhYS00ZWUxLTliZjMtODkzYjZkYTE4YjgxfHJlYWQtd3JpdGU=",
+        "cacheableOperations": [
+          "build",
+          "test",
+          "lint",
+          "e2e",
+          "integration-tests"
+        ],
+        "runtimeCacheInputs": ["node --version"],
+        "canTrackAnalytics": false,
+        "showUsageWarnings": true
+      }
+    }
+  },
+  "projects": {
+    "builder": {
+      "implicitDependencies": []
+    },
+    "eslint-plugin": {
+      "implicitDependencies": []
+    },
+    "eslint-plugin-template": {
+      "implicitDependencies": []
+    },
+    "integration-tests": {
+      "implicitDependencies": [
+        "builder",
+        "eslint-plugin",
+        "eslint-plugin-template",
+        "schematics",
+        "template-parser",
+        "utils"
+      ]
+    },
+    "schematics": {
+      "implicitDependencies": []
+    },
+    "template-parser": {
+      "implicitDependencies": []
+    },
+    "utils": {
+      "implicitDependencies": []
+    }
+  },
+  "affected": {
+    "defaultBase": "master"
+  }
+}
