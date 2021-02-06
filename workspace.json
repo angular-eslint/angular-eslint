@@ -15,7 +15,15 @@
     },
     "integration-tests": {
       "root": "packages/integration-tests",
-      "type": "library"
+      "type": "library",
+      "targets": {
+        "integration-tests": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [{ "command": "lerna run integration-tests" }]
+          }
+        }
+      }
     },
     "schematics": {
       "root": "packages/schematics",
