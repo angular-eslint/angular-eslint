@@ -62,27 +62,49 @@ async function run(
   // output fixes to disk, if applicable based on the options
   await projectESLint.ESLint.outputFixes(lintResults);
 
-  for (const result of lintResults) {
-    totalErrors += result.errorCount;
-    totalWarnings += result.warningCount;
+  /**
+   * Depending on user configuration we may not want to report on all the
+   * results, so we need to adjust them before formatting.
+   */
+  const finalLintResults: ESLint.LintResult[] = lintResults
+    .map((result): ESLint.LintResult | null => {
+      totalErrors += result.errorCount;
+      totalWarnings += result.warningCount;
 
-    if (result.errorCount || (result.warningCount && !reportOnlyErrors)) {
-      if (reportOnlyErrors) {
-        // Collect only errors (Linter.Severity === 2)
-        result.messages = result.messages.filter(
-          ({ severity }) => severity === 2,
-        );
+      if (result.errorCount || (result.warningCount && !reportOnlyErrors)) {
+        if (reportOnlyErrors) {
+          // Collect only errors (Linter.Severity === 2)
+          result.messages = result.messages.filter(
+            ({ severity }) => severity === 2,
+          );
+        }
+
+        return result;
       }
 
-      context.logger.info(formatter.format([result]));
-    }
+      return null;
+    })
+    // Filter out the null values
+    .filter(Boolean) as ESLint.LintResult[];
+
+  const hasWarningsToPrint: boolean =
+    totalWarnings > 0 && printInfo && !reportOnlyErrors;
+  const hasErrorsToPrint: boolean = totalErrors > 0 && printInfo;
+
+  /**
+   * It's important that we format all results together so that custom
+   * formatters, such as checkstyle, can provide a valid output for the
+   * whole project being linted.
+   */
+  if (hasWarningsToPrint || hasErrorsToPrint) {
+    context.logger.info(formatter.format(finalLintResults));
   }
 
-  if (totalWarnings > 0 && printInfo && !reportOnlyErrors) {
+  if (hasWarningsToPrint) {
     context.logger.warn('Lint warnings found in the listed files.\n');
   }
 
-  if (totalErrors > 0 && printInfo) {
+  if (hasErrorsToPrint) {
     context.logger.error('Lint errors found in the listed files.\n');
   }
 
