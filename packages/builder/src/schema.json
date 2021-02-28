@@ -32,6 +32,11 @@
       "description": "Report errors only.",
       "default": false
     },
+    "maxWarnings": {
+      "type": "integer",
+      "description": "Number of warnings to trigger nonzero exit code.",
+      "default": -1
+    },
     "silent": {
       "type": "boolean",
       "description": "Hide output text.",
