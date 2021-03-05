@@ -549,7 +549,7 @@ describe('Linter Builder', () => {
     mockReports = [
       {
         errorCount: 0,
-        warningCount: 0,
+        warningCount: 1,
         results: [],
         messages: [],
         usedDeprecatedRules: [],
@@ -568,7 +568,7 @@ describe('Linter Builder', () => {
     const flattenedCalls = loggerSpy.mock.calls.reduce((logs, call) => {
       return [...logs, call[0]];
     }, []);
-    expect(flattenedCalls).not.toContainEqual(
+    expect(flattenedCalls).toContainEqual(
       expect.objectContaining({
         message: expect.stringContaining(
           'Found too many warnings (maximum: 0).',
