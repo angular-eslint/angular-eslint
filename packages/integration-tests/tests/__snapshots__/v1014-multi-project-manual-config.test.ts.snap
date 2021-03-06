@@ -4,20 +4,16 @@ exports[`v1014-multi-project-manual-config it should produce the expected lint o
 "
 Linting \\"v1014-multi-project-manual-config\\"...
 
+__ROOT__/v1014-multi-project-manual-config/src/app/app.component.html
+  1:31  error  Invalid binding syntax. Use [(expr)] instead  @angular-eslint/template/banana-in-box
+
 __ROOT__/v1014-multi-project-manual-config/src/app/app.component.spec.ts
   19:6  error  Strings must use singlequote  @typescript-eslint/quotes
-
-✖ 1 problem (1 error, 0 warnings)
-  1 error and 0 warnings potentially fixable with the \`--fix\` option.
-
 
 __ROOT__/v1014-multi-project-manual-config/src/app/app.component.ts
    2:1  error  'rxjs/Rx' import is restricted from being used. Please import directly from 'rxjs' instead                             no-restricted-imports
    5:1  error  Unexpected console statement                                                                                           no-console
   15:3  error  Lifecycle interface 'OnInit' should be implemented for method 'ngOnInit'. (https://angular.io/styleguide#style-09-01)  @angular-eslint/use-lifecycle-interface
-
-✖ 3 problems (3 errors, 0 warnings)
-
 
 __ROOT__/v1014-multi-project-manual-config/src/app/example.component.ts
    4:13  error  Strings must use singlequote                                                                                            @typescript-eslint/quotes
@@ -30,16 +26,8 @@ __ROOT__/v1014-multi-project-manual-config/src/app/example.component.ts
    8:29  error  Invalid binding syntax. Use [(expr)] instead                                                                            @angular-eslint/template/banana-in-box
    9:48  error  Invalid binding syntax. Use [(expr)] instead                                                                            @angular-eslint/template/banana-in-box
 
-✖ 9 problems (9 errors, 0 warnings)
-  5 errors and 0 warnings potentially fixable with the \`--fix\` option.
-
-
 __ROOT__/v1014-multi-project-manual-config/src/app/example.pipe.ts
   6:14  error  Pipes should implement \`PipeTransform\` interface  @angular-eslint/use-pipe-transform-interface
-
-✖ 1 problem (1 error, 0 warnings)
-  1 error and 0 warnings potentially fixable with the \`--fix\` option.
-
 
 __ROOT__/v1014-multi-project-manual-config/src/app/multiple-inline-templates.page.ts
    4:13  error  Strings must use singlequote                  @typescript-eslint/quotes
@@ -47,25 +35,11 @@ __ROOT__/v1014-multi-project-manual-config/src/app/multiple-inline-templates.pag
    6:35  error  Invalid binding syntax. Use [(expr)] instead  @angular-eslint/template/banana-in-box
   14:48  error  Invalid binding syntax. Use [(expr)] instead  @angular-eslint/template/banana-in-box
 
-✖ 4 problems (4 errors, 0 warnings)
-  4 errors and 0 warnings potentially fixable with the \`--fix\` option.
-
-
-__ROOT__/v1014-multi-project-manual-config/src/app/app.component.html
-  1:31  error  Invalid binding syntax. Use [(expr)] instead  @angular-eslint/template/banana-in-box
-
-✖ 1 problem (1 error, 0 warnings)
-  1 error and 0 warnings potentially fixable with the \`--fix\` option.
+✖ 19 problems (19 errors, 0 warnings)
+  12 errors and 0 warnings potentially fixable with the \`--fix\` option.
 
 
 Linting \\"another-app\\"...
-
-__ROOT__/v1014-multi-project-manual-config/projects/another-app/src/app/app.component.spec.ts
-  19:6  error  Strings must use singlequote  @typescript-eslint/quotes
-
-✖ 1 problem (1 error, 0 warnings)
-  1 error and 0 warnings potentially fixable with the \`--fix\` option.
-
 
 __ROOT__/v1014-multi-project-manual-config/projects/another-app/src/app/app.component.html
    12:1  error  This line has a length of 159. Maximum allowed is 140   max-len
@@ -110,7 +84,11 @@ __ROOT__/v1014-multi-project-manual-config/projects/another-app/src/app/app.comp
   518:1  error  This line has a length of 148. Maximum allowed is 140   max-len
   519:1  error  This line has a length of 1046. Maximum allowed is 140  max-len
 
-✖ 41 problems (41 errors, 0 warnings)
+__ROOT__/v1014-multi-project-manual-config/projects/another-app/src/app/app.component.spec.ts
+  19:6  error  Strings must use singlequote  @typescript-eslint/quotes
+
+✖ 42 problems (42 errors, 0 warnings)
+  1 error and 0 warnings potentially fixable with the \`--fix\` option.
 
 
 Linting \\"horse-plants\\"...
