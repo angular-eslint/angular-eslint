@@ -557,7 +557,6 @@ If you see a rule below that has **no status** against it, then please feel free
 | [`template-use-track-by-function`]    |  @angular-eslint/template/use-track-by-function   | :white_check_mark: |
 | [`use-component-selector`]            |      @angular-eslint/use-component-selector       | :white_check_mark: |
 | [`use-component-view-encapsulation`]  | @angular-eslint/use-component-view-encapsulation  | :white_check_mark: |
-| [`use-pipe-decorator`]                |        @angular-eslint/use-pipe-decorator         | :white_check_mark: |
 | [`use-pipe-transform-interface`]      |   @angular-eslint/use-pipe-transform-interface    | :white_check_mark: |
 
 #### Style
@@ -630,7 +629,6 @@ If you see a rule below that has **no status** against it, then please feel free
 [`use-component-view-encapsulation`]: http://codelyzer.com/rules/use-component-view-encapsulation
 [`use-injectable-provided-in`]: http://codelyzer.com/rules/use-injectable-provided-in
 [`use-lifecycle-interface`]: http://codelyzer.com/rules/use-lifecycle-interface
-[`use-pipe-decorator`]: http://codelyzer.com/rules/use-pipe-decorator
 [`use-pipe-transform-interface`]: http://codelyzer.com/rules/use-pipe-transform-interface
 
 <!-- PR Links -->
