@@ -291,7 +291,7 @@ describe('convertToESLintConfig()', () => {
               "error",
               "rxjs/Rx",
             ],
-            "no-shadow": Array [
+            "@typescript-eslint/no-shadow": Array [
               "error",
               Object {
                 "hoist": "all",

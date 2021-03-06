@@ -16,6 +16,7 @@
     "build": "nx run-many --target=build --all --parallel",
     "test": "nx run-many --target=test --all --parallel",
     "integration-tests": "lerna run integration-tests",
+    "update-integration-tests": "lerna run update-integration-tests",
     "check-clean-workspace-after-install": "git diff --quiet --exit-code",
     "clean": "lerna clean && nx run-many --target=clean --all --parallel",
     "cz": "git-cz",

@@ -7,6 +7,7 @@
     "reset-verdaccio-storage": "rimraf tmp/local-registry/storage",
     "preintegration-tests": "npm run kill-existing-verdaccio && npm run reset-verdaccio-storage && npx ts-node --project tsconfig.tools.json integration-tests-setup.ts",
     "integration-tests": "jest",
+    "update-integration-tests": "npm run integration-tests -- -u",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "clean": "rimraf tmp && rimraf fixtures/**/node_modules"
   },

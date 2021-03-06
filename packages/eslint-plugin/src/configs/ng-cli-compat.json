@@ -165,7 +165,7 @@
         "message": "Please import directly from 'rxjs' instead"
       }
     ],
-    "no-shadow": [
+    "@typescript-eslint/no-shadow": [
       "error",
       {
         "hoist": "all"
