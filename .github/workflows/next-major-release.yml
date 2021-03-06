@@ -1,119 +1,24 @@
-name: CI
+name: Next Major Release
 
 on:
-  push:
-    branches: [ 'next-major-release/**' ]
-  pull_request:
-    branches: [ 'next-major-release/**' ]
+  workflow_run:
+    workflows: ['CI']
+    branches: ['next-major-release/**']
+    types:
+      - completed
 
 env:
   # Temporarily pinning to 15.4 for the v15 installation because there is some change in NPM
   # that causes a ENEEDAUTH error in the publishing step of the integration-tests that needs
   # to be figured out
   PRIMARY_NODE_VERSION: 15.4
-  NX_BRANCH: ${{ github.event.number }}
-  NX_RUN_GROUP: ${{ github.run_id }}
 
 jobs:
-  primary_code_validation_and_tests:
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v2
-
-    - name: Use Node.js ${{ env.PRIMARY_NODE_VERSION }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ env.PRIMARY_NODE_VERSION }}
-
-    - name: Get yarn cache directory path
-      id: yarn-cache-dir-path
-      run: echo "::set-output name=dir::$(yarn cache dir)"
-
-    - uses: actions/cache@v2
-      id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
-      with:
-        path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-        key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-yarn-
-
-    - name: Install dependencies
-      run: |
-        # This also runs a build as part of the postinstall
-        # bootstrap
-        yarn --ignore-engines --frozen-lockfile
-
-    - name: Typecheck all packages
-      run: |
-        # Note that this command *also* typechecks tests/tools,
-        # whereas the build only checks src files
-        yarn typecheck
-
-    - name: Check code formatting
-      run: |
-        yarn format-check
-
-    - name: Check configs
-      run: |
-        yarn check-configs
-
-    - name: Run linting
-      run: |
-        yarn lint
-
-    - name: Run unit tests
-      run: |
-        yarn test
-
-    - name: Run integration tests
-      run: |
-        yarn integration-tests
-
-    - name: Publish code coverage report
-      run: |
-        bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }}
-
-  unit_tests_on_other_node_versions:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node: [10, 12, 14]
-
-    steps:
-    - uses: actions/checkout@v2
-
-    - uses: actions/setup-node@v1
-      with:
-        # The Node.js version to configure
-        node-version: ${{ matrix.node }}
-
-    - name: Get yarn cache directory path
-      id: yarn-cache-dir-path
-      run: echo "::set-output name=dir::$(yarn cache dir)"
-
-    - uses: actions/cache@v2
-      id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
-      with:
-        path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-        key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-yarn-
-
-    - name: Install dependencies
-      run: |
-        # This also runs a build as part of the postinstall
-        # bootstrap
-        yarn --ignore-engines --frozen-lockfile
-
-    - name: Run unit tests
-      run: |
-        yarn test
-
-  publish_canary_version:
+  publish_major_prerelease_version:
     name: Publish the latest code as a prerelease of the next major version
     runs-on: ubuntu-latest
-    needs: [primary_code_validation_and_tests, unit_tests_on_other_node_versions]
+    # Important, only run if CI workflow was successful
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - uses: actions/checkout@v2
 

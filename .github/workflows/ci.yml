@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, 'next-major-release/**' ]
   pull_request:
-    branches: [ master ]
+    branches: [ master, 'next-major-release/**' ]
 
 env:
   # Temporarily pinning to 15.4 for the v15 installation because there is some change in NPM
