@@ -14,6 +14,7 @@ let interactiveElementAXObjectSchemas: AXObjectSchema[] | null = null;
 export function getInteractiveElementAXObjectSchemas(): AXObjectSchema[] {
   if (interactiveElementAXObjectSchemas === null) {
     // This package doesn't have type definitions.
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const { AXObjects, elementAXObjects } = require('axobject-query');
 
     // This set will contain all possible roles in ARIA, which are

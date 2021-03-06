@@ -5,14 +5,16 @@ import {
   getHtmlTagDefinition,
 } from '@angular/compiler';
 import { ParseSourceSpan } from '@angular/compiler';
-import { TSESLint } from '@typescript-eslint/experimental-utils';
+import { TSESLint, TSESTree } from '@typescript-eslint/experimental-utils';
 
 type Context<TMessageIds extends string> = TSESLint.RuleContext<
   TMessageIds,
   []
 >;
 
-export function convertNodeSourceSpanToLoc(sourceSpan: ParseSourceSpan) {
+export function convertNodeSourceSpanToLoc(
+  sourceSpan: ParseSourceSpan,
+): TSESTree.SourceLocation {
   return {
     start: {
       line: sourceSpan.start.line + 1,
@@ -28,7 +30,7 @@ export function convertNodeSourceSpanToLoc(sourceSpan: ParseSourceSpan) {
 export function convertElementSourceSpanToLoc<TMessageIds extends string>(
   context: Context<TMessageIds>,
   node: any,
-) {
+): TSESTree.SourceLocation {
   if (node.type !== 'Element') {
     // We explicitly throw an exception since this function should not be used
     // with non-element nodes, e.g. `TextAttribute` or `MethodDefinition`, etc.
@@ -51,7 +53,7 @@ export function convertElementSourceSpanToLoc<TMessageIds extends string>(
 
 function tryToFindTheVoidNodeThatMatchesTheSourceSpan<
   TMessageIds extends string
->(context: Context<TMessageIds>, node: any): Node | null {
+>(context: Context<TMessageIds>, node: Node): Node | null {
   // Previously, `codelyzer` used `TemplateParser` to parse a template into an AST tree.
   // The `TemplateParser` used `HtmlParser`, because `HtmlParser` still sets the end span
   // for void elements.

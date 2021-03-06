@@ -1,6 +1,6 @@
 {
   "name": "@angular-eslint/builder",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "Angular CLI builder for ESLint",
   "license": "MIT",
   "main": "dist/index.js",
@@ -9,7 +9,8 @@
     "build": "rimraf ./dist && tsc --project tsconfig.build.json && terser ./dist/index.js --output=./dist/index.js",
     "postbuild": "ncp src/schema.json dist/schema.json",
     "test": "jest --coverage",
-    "typecheck": "tsc -p tsconfig.json --noEmit"
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "clean": "rimraf ./dist"
   },
   "repository": {
     "type": "git",

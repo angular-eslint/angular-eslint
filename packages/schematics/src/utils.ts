@@ -18,6 +18,7 @@ export function readJsonInTree<T = any>(host: Tree, path: string): T {
   if (!host.exists(path)) {
     throw new Error(`Cannot find ${path}`);
   }
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const contents = stripJsonComments(host.read(path)!.toString('utf-8'));
   try {
     return JSON.parse(contents);

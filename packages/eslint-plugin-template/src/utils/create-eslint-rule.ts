@@ -25,12 +25,13 @@ export function getTemplateParserServices(context: any): ParserServices {
  * If @angular-eslint/template-parser is not the configured parser when the function is invoked it will throw
  */
 export function ensureTemplateParser(
-  context: TSESLint.RuleContext<string, []>,
+  context: TSESLint.RuleContext<string, readonly unknown[]>,
 ) {
   if (
-    !context.parserServices ||
-    !(context.parserServices as any).convertNodeSourceSpanToLoc ||
-    (!context.parserServices as any).convertElementSourceSpanToLoc
+    !((context.parserServices as unknown) as ParserServices)
+      ?.convertNodeSourceSpanToLoc ||
+    !((context.parserServices as unknown) as ParserServices)
+      ?.convertElementSourceSpanToLoc
   ) {
     /**
      * The user needs to have configured "parser" in their eslint config and set it

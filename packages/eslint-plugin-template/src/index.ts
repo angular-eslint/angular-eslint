@@ -9,6 +9,9 @@ import accessibilityAltText, {
 import accessibilityElementsContent, {
   RULE_NAME as accessibilityElementsContentRuleName,
 } from './rules/accessibility-elements-content';
+import accessibilityLabelFor, {
+  RULE_NAME as accessibilityLabelForRuleName,
+} from './rules/accessibility-label-for';
 import accessibilityTableScope, {
   RULE_NAME as accessibilityTableScopeRuleName,
 } from './rules/accessibility-table-scope';
@@ -41,6 +44,9 @@ import noCallExpression, {
 import noDistractingElements, {
   RULE_NAME as noDistractingElementsRuleName,
 } from './rules/no-distracting-elements';
+import noDuplicateAttributes, {
+  RULE_NAME as noDuplicateAttributesRuleName,
+} from './rules/no-duplicate-attributes';
 import noNegatedAsync, {
   RULE_NAME as noNegatedAsyncRuleName,
 } from './rules/no-negated-async';
@@ -62,6 +68,7 @@ export default {
   rules: {
     [accessibilityAltTextRuleName]: accessibilityAltText,
     [accessibilityElementsContentRuleName]: accessibilityElementsContent,
+    [accessibilityLabelForRuleName]: accessibilityLabelFor,
     [accessibilityTableScopeRuleName]: accessibilityTableScope,
     [accessibilityValidAriaRuleName]: accessibilityValidAria,
     [bananaInBoxRuleName]: bananaInBox,
@@ -74,6 +81,7 @@ export default {
     [noAutofocusRuleName]: noAutofocus,
     [noCallExpressionRuleName]: noCallExpression,
     [noDistractingElementsRuleName]: noDistractingElements,
+    [noDuplicateAttributesRuleName]: noDuplicateAttributes,
     [noNegatedAsyncRuleName]: noNegatedAsync,
     [noPositiveTabindexRuleName]: noPositiveTabindex,
     [useTrackByFunctionRuleName]: useTrackByFunction,

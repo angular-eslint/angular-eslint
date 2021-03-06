@@ -1,6 +1,10 @@
 import {
+  AST,
   ASTWithSource,
   Binary,
+  BindingPipe,
+  Conditional,
+  Interpolation,
   Lexer,
   Parser,
   TmplAstBoundAttribute,
@@ -12,7 +16,6 @@ import {
 } from '../utils/create-eslint-rule';
 
 type Options = [{ maxComplexity: number }];
-
 export type MessageIds = 'conditionalСomplexity';
 export const RULE_NAME = 'conditional-complexity';
 
@@ -21,37 +24,40 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description: `The condition complexity shouldn't exceed a rational limit in a template.`,
+      description:
+        'The conditional complexity should not exceed a rational limit',
       category: 'Best Practices',
       recommended: false,
     },
     schema: [
       {
         type: 'object',
-        properties: {
-          maxComplexity: {
-            type: 'number',
-            minimum: 1,
-          },
-        },
+        properties: { maxComplexity: { minimum: 1, type: 'number' } },
         additionalProperties: false,
       },
     ],
     messages: {
       conditionalСomplexity:
-        'The condition complexity "{{totalComplexity}}" exceeds the defined limit "{{maxComplexity}}"',
+        'The conditional complexity "{{totalComplexity}}" exceeds the defined limit "{{maxComplexity}}"',
     },
   },
   defaultOptions: [{ maxComplexity: 5 }],
   create(context, [{ maxComplexity }]) {
+    const sourceCode = context.getSourceCode();
     const parserServices = getTemplateParserServices(context);
 
     return {
-      'BoundAttribute[name="ngIf"]'({
+      BoundAttribute({
+        value: { source },
         sourceSpan,
-        value,
-      }: TmplAstBoundAttribute) {
-        const totalComplexity = getTotalComplexity(value as ASTWithSource);
+      }: TmplAstBoundAttribute & { value: ASTWithSource }) {
+        if (!source) return;
+
+        const rawSource = source.replace(/\s/g, '');
+        const possibleBinary = extractPossibleBinaryOrConditionalFrom(
+          getParser().parseBinding(rawSource, null, 0).ast,
+        );
+        const totalComplexity = getTotalComplexity(possibleBinary);
 
         if (totalComplexity <= maxComplexity) return;
 
@@ -63,9 +69,34 @@ export default createESLintRule<Options, MessageIds>({
           data: { maxComplexity, totalComplexity },
         });
       },
+      Interpolation({ expressions }: Interpolation) {
+        for (const expression of expressions) {
+          const totalComplexity = getTotalComplexity(expression);
+
+          if (totalComplexity <= maxComplexity) continue;
+
+          const {
+            sourceSpan: { end, start },
+          } = expression;
+          const loc = {
+            end: sourceCode.getLocFromIndex(end),
+            start: sourceCode.getLocFromIndex(start),
+          } as const;
+
+          context.report({
+            loc,
+            messageId: 'conditionalСomplexity',
+            data: { maxComplexity, totalComplexity },
+          });
+        }
+      },
     };
   },
 });
+
+function extractPossibleBinaryOrConditionalFrom(node: AST): AST {
+  return node instanceof BindingPipe ? node.exp : node;
+}
 
 let parser: Parser | null = null;
 // Instantiate the `Parser` class lazily only when this rule is applied.
@@ -73,36 +104,38 @@ function getParser(): Parser {
   return parser || (parser = new Parser(new Lexer()));
 }
 
-function getTotalComplexity({ source }: ASTWithSource): number {
-  const expression = source?.replace(/\s/g, '') ?? '';
-  const parser = getParser();
-  const astWithSource = parser.parseAction(expression, null, 0);
-  const conditions: Binary[] = [];
-  let totalComplexity = 0;
-  let condition = astWithSource.ast as Binary;
+function getTotalComplexity(ast: AST): number {
+  const possibleBinaryOrConditional = extractPossibleBinaryOrConditionalFrom(
+    ast,
+  );
 
-  if (condition.operation) {
-    totalComplexity++;
-    conditions.push(condition);
+  if (
+    !(
+      possibleBinaryOrConditional instanceof Binary ||
+      possibleBinaryOrConditional instanceof Conditional
+    )
+  ) {
+    return 0;
   }
 
-  while (conditions.length > 0) {
-    const condition = conditions.pop()!;
+  let total = 1;
 
-    if (!condition.operation) {
-      continue;
+  if (possibleBinaryOrConditional instanceof Binary) {
+    if (possibleBinaryOrConditional.left instanceof Binary) {
+      total += getTotalComplexity(possibleBinaryOrConditional.left);
     }
 
-    if (condition.left instanceof Binary) {
-      totalComplexity++;
-      conditions.push(condition.left);
-    }
-
-    if (condition.right instanceof Binary) {
-      totalComplexity++;
-      conditions.push(condition.right);
+    if (possibleBinaryOrConditional.right instanceof Binary) {
+      total += getTotalComplexity(possibleBinaryOrConditional.right);
     }
   }
 
-  return totalComplexity;
+  if (possibleBinaryOrConditional instanceof Conditional) {
+    total +=
+      getTotalComplexity(possibleBinaryOrConditional.condition) +
+      getTotalComplexity(possibleBinaryOrConditional.trueExp) +
+      getTotalComplexity(possibleBinaryOrConditional.falseExp);
+  }
+
+  return total;
 }

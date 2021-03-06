@@ -1,24 +1,22 @@
 import { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
+import { COMPONENT_CLASS_DECORATOR } from '../utils/selectors';
 import {
-  getDecoratorPropertyValue,
+  isArrayExpression,
   isLiteral,
   isTemplateLiteral,
-  isArrayExpression,
 } from '../utils/utils';
-import { COMPONENT_CLASS_DECORATOR } from '../utils/selectors';
 
 type Options = [
   {
-    template?: number;
-    styles?: number;
-    animations?: number;
+    readonly template?: number;
+    readonly styles?: number;
+    readonly animations?: number;
   },
 ];
-export const messageId = 'componentMaxInlineDeclarations';
-export type MessageIds = typeof messageId;
+export type MessageIds = 'componentMaxInlineDeclarations';
 export const RULE_NAME = 'component-max-inline-declarations';
-const STYLE_GUIDE_LINK = 'https://angular.io/guide/styleguide#style-05-04.';
+const STYLE_GUIDE_LINK = 'https://angular.io/guide/styleguide#style-05-04';
 const NEW_LINE_REGEXP = /\r\n|\r|\n/;
 const DEFAULT_TEMPLATE_LIMIT = 3;
 const DEFAULT_STYLES_LIMIT = 3;
@@ -27,9 +25,12 @@ const DEFAULT_ANIMATIONS_LIMIT = 15;
 function getLinesCount(node: TSESTree.Node): number {
   if (isTemplateLiteral(node)) {
     return node.quasis[0].value.raw.trim().split(NEW_LINE_REGEXP).length;
-  } else if (isLiteral(node)) {
+  }
+
+  if (isLiteral(node)) {
     return node.raw.trim().split(NEW_LINE_REGEXP).length;
   }
+
   return 0;
 }
 
@@ -39,7 +40,7 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description:
-        'Disallows having too many lines in inline template and styles. Forces separate template or styles file creation.',
+        'Enforces a maximum number of lines in inline template, styles and animations',
       category: 'Best Practices',
       recommended: false,
     },
@@ -61,7 +62,7 @@ export default createESLintRule<Options, MessageIds>({
       },
     ],
     messages: {
-      componentMaxInlineDeclarations: `Exceeds the maximum allowed inline lines for {{propertyType}}. Defined limit: {{definedLimit}} / total lines: {{totalLines}} (${STYLE_GUIDE_LINK})`,
+      componentMaxInlineDeclarations: `\`{{propertyType}}\` has too many lines ({{lineCount}}). Maximum allowed is {{max}} (${STYLE_GUIDE_LINK})`,
     },
   },
   defaultOptions: [
@@ -75,70 +76,69 @@ export default createESLintRule<Options, MessageIds>({
     template = template > -1 ? template : DEFAULT_TEMPLATE_LIMIT;
     styles = styles > -1 ? styles : DEFAULT_STYLES_LIMIT;
     animations = animations > -1 ? animations : DEFAULT_ANIMATIONS_LIMIT;
+
     return {
-      [COMPONENT_CLASS_DECORATOR](node: TSESTree.Decorator) {
-        const templatePropertyValue = getDecoratorPropertyValue(
-          node,
-          'template',
-        );
-        if (templatePropertyValue) {
-          const totalLines = getLinesCount(templatePropertyValue);
-          if (totalLines > template) {
-            context.report({
-              node: templatePropertyValue,
-              messageId,
-              data: {
-                propertyType: 'template',
-                definedLimit: template,
-                totalLines,
-              },
-            });
-          }
-        }
+      [`${COMPONENT_CLASS_DECORATOR} Property[key.name='template']`]({
+        value,
+      }: TSESTree.Property) {
+        const lineCount = getLinesCount(value);
 
-        const stylesPropertyValue = getDecoratorPropertyValue(node, 'styles');
-        if (stylesPropertyValue && isArrayExpression(stylesPropertyValue)) {
-          const totalLines = stylesPropertyValue.elements.reduce(
-            (lines, element) => lines + getLinesCount(element),
-            0,
-          );
-          if (totalLines > styles) {
-            context.report({
-              node: stylesPropertyValue,
-              messageId,
-              data: {
-                propertyType: 'styles',
-                definedLimit: styles,
-                totalLines,
-              },
-            });
-          }
-        }
+        if (lineCount <= template) return;
 
-        const animationsPropertyValue = getDecoratorPropertyValue(
-          node,
-          'animations',
+        context.report({
+          node: value,
+          messageId: 'componentMaxInlineDeclarations',
+          data: {
+            lineCount,
+            max: template,
+            propertyType: 'template',
+          },
+        });
+      },
+      [`${COMPONENT_CLASS_DECORATOR} Property[key.name='styles']`]({
+        value,
+      }: TSESTree.Property) {
+        if (!isArrayExpression(value)) return;
+
+        const lineCount = value.elements.reduce(
+          (lines, element) => lines + getLinesCount(element),
+          0,
         );
-        if (
-          animationsPropertyValue &&
-          isArrayExpression(animationsPropertyValue)
-        ) {
-          const totalLines = animationsPropertyValue.elements.reduce(
-            (lines, element) => lines + getLinesCount(element),
-            0,
-          );
-          if (totalLines > animations) {
-            context.report({
-              node: animationsPropertyValue,
-              messageId,
-              data: {
-                propertyType: 'animations',
-                definedLimit: animations,
-                totalLines,
-              },
-            });
-          }
-        }
+
+        if (lineCount <= styles) return;
+
+        context.report({
+          node: value,
+          messageId: 'componentMaxInlineDeclarations',
+          data: {
+            lineCount,
+            max: styles,
+            propertyType: 'styles',
+          },
+        });
+      },
+      [`${COMPONENT_CLASS_DECORATOR} Property[key.name='animations']`]({
+        value,
+      }: TSESTree.Property) {
+        if (!isArrayExpression(value) || value.elements.length === 0) return;
+
+        const animationsBracketsSize = 2;
+        const lineCount = Math.max(
+          value.loc.end.line - value.loc.start.line - animationsBracketsSize,
+          1,
+        );
+
+        if (lineCount <= animations) return;
+
+        context.report({
+          node: value,
+          messageId: 'componentMaxInlineDeclarations',
+          data: {
+            lineCount,
+            max: animations,
+            propertyType: 'animations',
+          },
+        });
       },
     };
   },

@@ -35,9 +35,10 @@ __ROOT__/v1014-multi-project-manual-config/src/app/example.component.ts
 
 
 __ROOT__/v1014-multi-project-manual-config/src/app/example.pipe.ts
-  6:8  error  Classes decorated with @Pipe decorator should implement PipeTransform interface  @angular-eslint/use-pipe-transform-interface
+  6:14  error  Pipes should implement \`PipeTransform\` interface  @angular-eslint/use-pipe-transform-interface
 
 ✖ 1 problem (1 error, 0 warnings)
+  1 error and 0 warnings potentially fixable with the \`--fix\` option.
 
 
 __ROOT__/v1014-multi-project-manual-config/src/app/multiple-inline-templates.page.ts

@@ -3,7 +3,7 @@ import {
   RuleTester,
 } from '@angular-eslint/utils';
 import rule, {
-  messageId,
+  MessageIds,
   RULE_NAME,
 } from '../../src/rules/component-max-inline-declarations';
 
@@ -14,10 +14,11 @@ import rule, {
 const ruleTester = new RuleTester({
   parser: '@typescript-eslint/parser',
 });
+const messageId: MessageIds = 'componentMaxInlineDeclarations';
 
 ruleTester.run(RULE_NAME, rule, {
   valid: [
-    // should succeed if the number of lines does not exceeds the default lines limit (template)
+    // should succeed if the number of the template lines does not exceeds the default lines limit
     `
     @Component({
       template: '<div>just one line template</div>'
@@ -25,20 +26,16 @@ ruleTester.run(RULE_NAME, rule, {
     class Test {}
     `,
     {
-      // should succeed if a negative limit is used and the number of lines does not exceeds the default lines limit (template)
+      // should succeed if a negative limit is used and the number of the template lines does not exceeds the default lines limit
       code: `
       @Component({
         template: '<div>first line</div>'
       })
       class Test {}
       `,
-      options: [
-        {
-          template: -5,
-        },
-      ],
+      options: [{ template: -5 }],
     },
-    // should succeed if the number of lines does not exceeds the default lines limit (styles)
+    // should succeed if the number of the styles lines does not exceeds the default lines limit
     `
     @Component({
       styles: ['div { display: none; }']
@@ -46,44 +43,45 @@ ruleTester.run(RULE_NAME, rule, {
     class Test {}
     `,
     {
-      // should succeed if a negative limit is used and the number of lines does not exceeds the default lines limit (styles)
+      // should succeed if a negative limit is used and the number of the styles lines does not exceeds the default lines limit
       code: `
       @Component({
         styles: ['div { display: none; }']
       })
       class Test {}
       `,
-      options: [
-        {
-          styles: -5,
-        },
-      ],
+      options: [{ styles: -5 }],
     },
-    // should succeed if the number of lines does not exceeds the default lines limit (animations)
+    // should succeed if the number of the animations lines does not exceeds the default lines limit
     `
     @Component({
-      animations: [\`state('void', style({opacity: 0, transform: 'scale(1, 0)'}))\`]
+      animations: [state('void', style({opacity: 0, transform: 'scale(1, 0)'}))]
     })
     class Test {}
     `,
     {
-      // should succeed if a negative limit is used and the number of lines does not exceeds the default lines limit (animations)
+      // should succeed if a negative limit is used and the number of the animations lines does not exceeds the default lines limit
       code: `
       @Component({
         animations: [\`state('void', style({opacity: 0, transform: 'scale(1, 0)'}))\`]
       })
       class Test {}
       `,
-      options: [
-        {
-          animations: -5,
-        },
-      ],
+      options: [{ animations: -5 }],
     },
-    // should succeed when none of the template, styles and animations properties are present
+    // should succeed if template, styles and animations properties are not present
     `
     @Component({
       styleUrls: ['./foobar.scss'],
+      templateUrl: './foobar.html',
+    })
+    class Test {}
+    `,
+    `
+    @Component({
+      animations: [
+        state('void', style({opacity: 0, transform: 'scale(1, 0)'}))
+      ],
       templateUrl: './foobar.html',
     })
     class Test {}
@@ -92,25 +90,22 @@ ruleTester.run(RULE_NAME, rule, {
   invalid: [
     convertAnnotatedSourceToFailureCase({
       description:
-        'should fail if the number of lines exceeds the default lines limit (template)',
+        'should fail if the number of the template lines exceeds the default lines limit',
       annotatedSource: `
       @Component({
         template: \`
                   ~
           <div>first line</div>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
           <div>second line</div>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
           <div>third line</div>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
           <div>fourth line</div>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         \`
-~~~~~~~~~
+        ~
       })
       class Test {}
       `,
       messageId,
+      data: { lineCount: 4, max: 3, propertyType: 'template' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -123,75 +118,58 @@ ruleTester.run(RULE_NAME, rule, {
       class Test {}
       `,
       messageId,
-      options: [
-        {
-          template: 0,
-        },
-      ],
+      options: [{ template: 0 }],
+      data: { lineCount: 1, max: 0, propertyType: 'template' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
-        'should fail if the number of lines exceeds the default lines limit (styles)',
+        'should fail if the number of the styles lines exceeds the default lines limit',
       annotatedSource: `
       @Component({
         styles: [
                 ~
           \`
-~~~~~~~~~~~
             div {
-~~~~~~~~~~~~~~~~~
               display: block;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
               height: 40px;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
             }
-~~~~~~~~~~~~~
           \`
-~~~~~~~~~~~
         ]
-~~~~~~~~~
+        ~
       })
       class Test {}
       `,
       messageId,
+      data: { lineCount: 4, max: 3, propertyType: 'styles' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
-        'should fail if the sum of lines (from separate inline styles) exceeds the default lines limit (styles)',
+        'should fail if the sum of lines (from separate styles) exceeds the default lines limit',
       annotatedSource: `
       @Component({
         styles: [
                 ~
           \`
-~~~~~~~~~~~
             div {
-~~~~~~~~~~~~~~~~~
               display: block;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             }
-~~~~~~~~~~~~~
           \`,
-~~~~~~~~~~~~
           \`
-~~~~~~~~~~~
             span {
-~~~~~~~~~~~~~~~~~~
               width: 30px;
-~~~~~~~~~~~~~~~~~~~~~~~~~~
             }
-~~~~~~~~~~~~~
           \`
-~~~~~~~~~~~
         ]
-~~~~~~~~~
+        ~
       })
       class Test {}
       `,
       messageId,
+      data: { lineCount: 6, max: 3, propertyType: 'styles' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
-        'should fail if the number of lines exceeds a custom lines limit (styles)',
+        'should fail if the number of the styles lines exceeds a custom lines limit',
       annotatedSource: `
       @Component({
         styles: ['div { display: none; }']
@@ -200,136 +178,91 @@ ruleTester.run(RULE_NAME, rule, {
       class Test {}
       `,
       messageId,
-      options: [
-        {
-          styles: 0,
-        },
-      ],
+      options: [{ styles: 0 }],
+      data: { lineCount: 1, max: 0, propertyType: 'styles' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
-        'should fail if the number of lines exceeds the default lines limit (animations)',
+        'should fail if the number of the animations lines exceeds the default lines limit',
       annotatedSource: `
       @Component({
-        animations: [
+        animations: [{
                     ~
-          \`
-~~~~~~~~~~~
-            transformPanel: trigger('transformPanel',
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-              [
-~~~~~~~~~~~~~~~
-                state('void', style({opacity: 0, transform: 'scale(1, 0)'})),
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                state('enter', style({opacity: 1, transform: 'scale(1, 1)'})),
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                transition('void => enter', group([
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                  query('@fadeInCalendar', animateChild()),
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                  animate('400ms cubic-bezier(0.25, 0.8, 0.25, 1)')
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                ])),
-~~~~~~~~~~~~~~~~~~~~
-                transition('* => void', animate('100ms linear', style({opacity: 0})))
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-              ]
-~~~~~~~~~~~~~~~
-            ),
-~~~~~~~~~~~~~~
-            fadeInCalendar: trigger('fadeInCalendar', [
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-              state('void', style({opacity: 0})),
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-              state('enter', style({opacity: 1})),
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-              transition('void => *', animate('400ms 100ms cubic-bezier(0.55, 0, 0.55, 0.2)'))
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            ]
-~~~~~~~~~~~~~
-          \`
-~~~~~~~~~~~
-        ]
-~~~~~~~~~
+          transformPanelWrap: trigger('transformPanelWrap', [
+            transition('* => void', query('@transformPanel', [animateChild()], {optional: true})),
+          ]),
+          transformPanel: trigger('transformPanel', [
+            state('void', style({
+              transform: 'scaleY(0.8)',
+              minWidth: '100%',
+              opacity: 0
+            })),
+            state('showing', style({
+              opacity: 1,
+              minWidth: 'calc(100% + 32px)',
+              transform: 'scaleY(1)'
+            })),
+            state('next', style({height: '0px', visibility: 'hidden'}))
+          ])
+        }]
+         ~
       })
       class Test {}
       `,
       messageId,
+      data: { lineCount: 16, max: 15, propertyType: 'animations' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
-        'should fail if the sum of lines exceeds the default lines limit (animations)',
+        'should fail if the sum of lines (from separate animations) exceeds the default lines limit',
       annotatedSource: `
       @Component({
         animations: [
                     ~
-          \`
-~~~~~~~~~~~
-            transformPanel: trigger('transformPanel',
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-              [
-~~~~~~~~~~~~~~~
-                state('void', style({opacity: 0, transform: 'scale(1, 0)'}))
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-              ]
-~~~~~~~~~~~~~~~
-            )
-~~~~~~~~~~~~~
-          \`,
-~~~~~~~~~~~~
-          \`
-~~~~~~~~~~~
-            transformPanel: trigger('transformPanel',
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-              [
-~~~~~~~~~~~~~~~
-                state('void', style({opacity: 0, transform: 'scale(1, 0)'}))
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-              ]
-~~~~~~~~~~~~~~~
-            )
-~~~~~~~~~~~~~
-          \`
-~~~~~~~~~~~
+          trigger('dialogContainer', [
+            transition('* => void', query('@transformPanel', [animateChild()], {optional: true}))
+          ]),
+          trigger('transformPanel', [
+            state('void', style({
+              transform: 'scaleY(0.8)',
+              minWidth: '100%',
+              opacity: 0
+            })),
+            state('showing', style({
+              opacity: 1,
+              minWidth: 'calc(100% + 32px)',
+              transform: 'scaleY(1)'
+            }))
+          ]),
+          trigger('transformPanel', [
+            state('void', style({opacity: 0, transform: 'scale(1, 0)'}))
+          ])
         ]
-~~~~~~~~~
+        ~
       })
       class Test {}
       `,
       messageId,
+      data: { lineCount: 18, max: 15, propertyType: 'animations' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
-        'should fail if the number of lines exceeds a custom lines limit (animations)',
+        'should fail if the number of the animations lines exceeds a custom lines limit',
       annotatedSource: `
       @Component({
-        animations: [
+        animations: [{
                     ~
-          \`
-~~~~~~~~~~~
-            transformPanel: trigger('transformPanel',
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-              [
-~~~~~~~~~~~~~~~
-                state('void', style({opacity: 0, transform: 'scale(1, 0)'}))
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-              ]
-~~~~~~~~~~~~~~~
-            )
-~~~~~~~~~~~~~
-          \`
-~~~~~~~~~~~
-        ]
-~~~~~~~~~
+          transformPanel: trigger('transformPanel', [
+            state('void', style({opacity: 0, transform: 'scale(1, 0)'}))
+          ])
+        }]
+         ~
       })
       class Test {}
       `,
       messageId,
-      options: [
-        {
-          animations: 2,
-        },
-      ],
+      options: [{ animations: 2 }],
+      data: { lineCount: 3, max: 2, propertyType: 'animations' },
     }),
   ],
 });

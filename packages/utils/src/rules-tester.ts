@@ -42,6 +42,7 @@ export class RuleTester extends TSESLint.RuleTester {
       try {
         // instead of creating a hard dependency, just use a soft require
         // a bit weird, but if they're using this tooling, it'll be installed
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
         require(options.parser).clearCaches();
       } catch {
         // ignored
@@ -63,6 +64,7 @@ export class RuleTester extends TSESLint.RuleTester {
 
     if (this.filename) {
       // TODO: Make .valid writable in @typescript-eslint/experimental-utils types
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (tests as any).valid = tests.valid.map((test) => {
         if (typeof test === 'string') {
           return {
@@ -81,6 +83,7 @@ export class RuleTester extends TSESLint.RuleTester {
         }
         if (!test.filename) {
           // TODO: Make .filename writable in @typescript-eslint/experimental-utils types
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (test as any).filename = this.filename;
         }
       }
@@ -91,6 +94,7 @@ export class RuleTester extends TSESLint.RuleTester {
       }
       if (!test.filename) {
         // TODO: Make .filename writable in @typescript-eslint/experimental-utils types
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (test as any).filename = this.filename;
       }
     });

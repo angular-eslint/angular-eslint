@@ -1,11 +1,9 @@
 import { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
-import { COMPONENT_OR_DIRECTIVE_CLASS_DECORATOR } from '../utils/selectors';
-
 import {
-  getDeclaredMethods,
-  getMethodName,
-  isAngularLifecycleMethod,
+  ANGULAR_LIFECYCLE_METHODS,
+  getAngularClassDecorator,
+  toPattern,
 } from '../utils/utils';
 
 type Options = [];
@@ -17,39 +15,34 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description: 'Disallows declaring empty lifecycle hook methods',
+      description: 'Disallows declaring empty lifecycle methods',
       category: 'Best Practices',
       recommended: 'error',
     },
     schema: [],
     messages: {
-      noEmptyLifecycleMethod: `Lifecycle method {{methodName}} should not be empty`,
+      noEmptyLifecycleMethod: 'Lifecycle methods should not be empty',
     },
   },
   defaultOptions: [],
   create(context) {
-    const isMethodEmpty = (node: TSESTree.MethodDefinition): boolean => {
-      return !node.value.body || node.value.body.body.length === 0;
-    };
+    const angularLifecycleMethodsPattern = toPattern([
+      ...ANGULAR_LIFECYCLE_METHODS,
+    ]);
 
     return {
-      [COMPONENT_OR_DIRECTIVE_CLASS_DECORATOR](node: TSESTree.Decorator) {
-        const classParent = node.parent as TSESTree.ClassDeclaration;
-        const declaredMethods = getDeclaredMethods(classParent);
+      [`MethodDefinition[key.name=${angularLifecycleMethodsPattern}][value.body.body.length=0]`](
+        node: TSESTree.MethodDefinition,
+      ) {
+        const classDeclaration = node.parent!
+          .parent as TSESTree.ClassDeclaration;
 
-        for (const method of declaredMethods) {
-          const methodName = getMethodName(method);
-          if (!isAngularLifecycleMethod(methodName) || !isMethodEmpty(method))
-            continue;
+        if (!getAngularClassDecorator(classDeclaration)) return;
 
-          context.report({
-            node: method.key,
-            messageId: 'noEmptyLifecycleMethod',
-            data: {
-              methodName,
-            },
-          });
-        }
+        context.report({
+          node: node.key,
+          messageId: 'noEmptyLifecycleMethod',
+        });
       },
     };
   },

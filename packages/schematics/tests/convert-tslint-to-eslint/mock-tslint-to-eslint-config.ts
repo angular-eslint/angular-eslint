@@ -14,7 +14,7 @@ import {
 export function mockFindReportedConfiguration(
   _: unknown,
   pathToTSLintJson: string,
-) {
+): Record<string, unknown> {
   if (pathToTSLintJson === 'tslint.json') {
     return exampleRootTslintJson.tslintPrintConfigResult;
   }

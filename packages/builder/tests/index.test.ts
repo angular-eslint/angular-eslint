@@ -34,7 +34,7 @@ class MockESLint {
   loadFormatter = mockLoadFormatter;
 }
 
-let mockReports: any[] = [
+let mockReports: unknown[] = [
   { results: [], messages: [], usedDeprecatedRules: [] },
 ];
 function mockEslint() {
@@ -72,6 +72,7 @@ function createValidRunBuilderOptions(
 function setupMocks() {
   jest.resetModules();
   jest.clearAllMocks();
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   jest.spyOn(process, 'chdir').mockImplementation(() => {});
   mockEslint();
 }
@@ -91,6 +92,7 @@ async function runBuilder(options: Schema) {
    * to run a build before tests run and it is dynamic enough
    * to come after jest does its mocking
    */
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const { default: builderImplementation } = require('../src/index');
   testArchitectHost.addBuilder(builderName, builderImplementation);
 
@@ -132,6 +134,7 @@ describe('Linter Builder', () => {
 
   it('should invoke the linter with the options that were passed to the builder', async () => {
     setupMocks();
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const { lint } = require('../src/utils/eslint-utils');
     await runBuilder(
       createValidRunBuilderOptions({

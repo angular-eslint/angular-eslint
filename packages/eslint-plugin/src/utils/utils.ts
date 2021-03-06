@@ -46,10 +46,11 @@ export enum AngularLifecycleInterfaces {
   AfterContentInit = 'AfterContentInit',
   AfterViewChecked = 'AfterViewChecked',
   AfterViewInit = 'AfterViewInit',
+  DoBootstrap = 'DoBootstrap',
+  DoCheck = 'DoCheck',
   OnChanges = 'OnChanges',
   OnDestroy = 'OnDestroy',
   OnInit = 'OnInit',
-  DoCheck = 'DoCheck',
 }
 
 export enum AngularLifecycleMethods {
@@ -57,10 +58,11 @@ export enum AngularLifecycleMethods {
   ngAfterContentInit = 'ngAfterContentInit',
   ngAfterViewChecked = 'ngAfterViewChecked',
   ngAfterViewInit = 'ngAfterViewInit',
+  ngDoBootstrap = 'ngDoBootstrap',
+  ngDoCheck = 'ngDoCheck',
   ngOnChanges = 'ngOnChanges',
   ngOnDestroy = 'ngOnDestroy',
   ngOnInit = 'ngOnInit',
-  ngDoCheck = 'ngDoCheck',
 }
 
 export const OPTION_STYLE_CAMEL_CASE = 'camelCase';
@@ -90,13 +92,42 @@ export const ANGULAR_CLASS_DECORATOR_LIFECYCLE_METHOD_MAPPER: ReadonlyMap<
   AngularClassDecoratorKeys,
   ReadonlySet<AngularLifecycleMethodKeys>
 > = new Map([
-  [AngularClassDecorators.Component, new Set(angularLifecycleMethodKeys)],
-  [AngularClassDecorators.Directive, new Set(angularLifecycleMethodKeys)],
+  [
+    AngularClassDecorators.Component,
+    new Set([
+      AngularLifecycleMethods.ngAfterContentChecked,
+      AngularLifecycleMethods.ngAfterContentInit,
+      AngularLifecycleMethods.ngAfterViewChecked,
+      AngularLifecycleMethods.ngAfterViewInit,
+      AngularLifecycleMethods.ngOnChanges,
+      AngularLifecycleMethods.ngOnDestroy,
+      AngularLifecycleMethods.ngOnInit,
+      AngularLifecycleMethods.ngDoCheck,
+    ]),
+  ],
+  [
+    AngularClassDecorators.Directive,
+    new Set([
+      AngularLifecycleMethods.ngAfterContentChecked,
+      AngularLifecycleMethods.ngAfterContentInit,
+      AngularLifecycleMethods.ngAfterViewChecked,
+      AngularLifecycleMethods.ngAfterViewInit,
+      AngularLifecycleMethods.ngOnChanges,
+      AngularLifecycleMethods.ngOnDestroy,
+      AngularLifecycleMethods.ngOnInit,
+      AngularLifecycleMethods.ngDoCheck,
+    ]),
+  ],
   [
     AngularClassDecorators.Injectable,
     new Set<AngularLifecycleMethodKeys>([AngularLifecycleMethods.ngOnDestroy]),
   ],
-  [AngularClassDecorators.NgModule, new Set<AngularLifecycleMethodKeys>([])],
+  [
+    AngularClassDecorators.NgModule,
+    new Set<AngularLifecycleMethodKeys>([
+      AngularLifecycleMethods.ngDoBootstrap,
+    ]),
+  ],
   [
     AngularClassDecorators.Pipe,
     new Set<AngularLifecycleMethodKeys>([AngularLifecycleMethods.ngOnDestroy]),
@@ -170,7 +201,7 @@ export function isMemberExpression(
   return node.type === 'MemberExpression';
 }
 
-function isClassDeclaration(
+export function isClassDeclaration(
   node: TSESTree.Node,
 ): node is TSESTree.ClassDeclaration {
   return node.type === 'ClassDeclaration';
@@ -192,6 +223,10 @@ function isProperty(node: TSESTree.Node): node is TSESTree.Property {
   return node.type === 'Property';
 }
 
+function isProgram(node: TSESTree.Node): node is TSESTree.Program {
+  return node.type === 'Program';
+}
+
 export function isLiteral(node: TSESTree.Node): node is TSESTree.Literal {
   return node.type === 'Literal';
 }
@@ -202,7 +237,7 @@ export function isTemplateLiteral(
   return node.type === 'TemplateLiteral';
 }
 
-function isImportDeclaration(
+export function isImportDeclaration(
   node: TSESTree.Node,
 ): node is TSESTree.ImportDeclaration {
   return node.type === 'ImportDeclaration';
@@ -229,16 +264,35 @@ export function isLiteralWithStringValue(
   return node.type === 'Literal' && typeof node.value === 'string';
 }
 
-function isMethodDefinition(
+export function isMethodDefinition(
   node: TSESTree.Node,
 ): node is TSESTree.MethodDefinition {
   return node.type === 'MethodDefinition';
+}
+
+export function isSuper(node: TSESTree.Node): node is TSESTree.Super {
+  return node.type === 'Super';
 }
 
 /**
  * SECTION END:
  * Equivalents of utils exported by TypeScript itself for its own AST
  */
+
+export function getNearestNodeFrom<T extends TSESTree.Node>(
+  { parent }: TSESTree.Node,
+  predicate: (parent: TSESTree.Node) => parent is T,
+): T | null {
+  while (parent && !isProgram(parent)) {
+    if (predicate(parent)) {
+      return (parent as unknown) as T;
+    }
+
+    parent = parent.parent as TSESTree.Node | undefined;
+  }
+
+  return null;
+}
 
 export const getClassName = (node: TSESTree.Node): string | undefined => {
   if (isClassDeclaration(node)) {
@@ -264,6 +318,15 @@ export const getDecorator = (
       decorator.expression.arguments.length > 0 &&
       getDecoratorName(decorator) === decoratorName,
   );
+};
+
+export const getAngularClassDecorator = ({
+  decorators,
+}: TSESTree.ClassDeclaration): AngularClassDecoratorKeys | undefined => {
+  return decorators
+    ?.map(getDecoratorName)
+    .filter(isNotNullOrUndefined)
+    .find(isAngularClassDecorator);
 };
 
 export const getDecoratorArgument = (
@@ -473,7 +536,7 @@ export const SelectorValidator = {
   },
 
   camelCase(selector: string): boolean {
-    return /^[a-zA-Z0-9\[\]]+$/.test(selector);
+    return /^[a-zA-Z0-9[\]]+$/.test(selector);
   },
 
   element(selector: string): boolean {
@@ -481,7 +544,7 @@ export const SelectorValidator = {
   },
 
   kebabCase(selector: string): boolean {
-    return /^[a-z0-9\-]+-[a-z0-9\-]+$/.test(selector);
+    return /^[a-z0-9-]+-[a-z0-9-]+$/.test(selector);
   },
 
   prefix(
@@ -548,3 +611,6 @@ export const getReadablePrefixes = (prefixes: string[]): string => {
     .slice(0, prefixesLength - 1)
     .join(', ')} or "${[...prefixes].pop()}"`;
 };
+
+export const toPattern = (value: readonly unknown[]) =>
+  RegExp(`^(${value.join('|')})$`);

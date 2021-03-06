@@ -1,0 +1,33 @@
+{
+  "version": 2,
+  "projects": {
+    "builder": {
+      "root": "packages/builder",
+      "type": "library"
+    },
+    "eslint-plugin": {
+      "root": "packages/eslint-plugin",
+      "type": "library"
+    },
+    "eslint-plugin-template": {
+      "root": "packages/eslint-plugin-template",
+      "type": "library"
+    },
+    "integration-tests": {
+      "root": "packages/integration-tests",
+      "type": "library"
+    },
+    "schematics": {
+      "root": "packages/schematics",
+      "type": "library"
+    },
+    "template-parser": {
+      "root": "packages/template-parser",
+      "type": "library"
+    },
+    "utils": {
+      "root": "packages/utils",
+      "type": "library"
+    }
+  }
+}
