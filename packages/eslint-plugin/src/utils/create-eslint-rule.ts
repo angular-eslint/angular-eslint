@@ -4,7 +4,9 @@ import {
   TSESLint,
 } from '@typescript-eslint/experimental-utils';
 
-export const createESLintRule = ESLintUtils.RuleCreator(() => ``);
+export const createESLintRule = ESLintUtils.RuleCreator(
+  (_ruleName) => `https://github.com/angular-eslint/angular-eslint`,
+);
 
 type RequiredParserServices = {
   [k in keyof ParserServices]: Exclude<ParserServices[k], undefined>;
