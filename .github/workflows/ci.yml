@@ -20,12 +20,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-      if: github.ref == 'refs/heads/master'
-
-    - uses: actions/checkout@v2
-      if: github.ref != 'refs/heads/master'
       with:
-        ref: ${{ github.event.pull_request.head.ref }}
         fetch-depth: 0
 
     - name: Use Node.js ${{ env.PRIMARY_NODE_VERSION }}
@@ -89,6 +84,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
 
     - uses: actions/setup-node@v1
       with:
@@ -124,6 +121,8 @@ jobs:
     if: github.ref == 'refs/heads/master'
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       # Fetch all history for all tags and branches in this job because lerna needs it
       - run: |
