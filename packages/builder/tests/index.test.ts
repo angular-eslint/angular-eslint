@@ -571,7 +571,7 @@ describe('Linter Builder', () => {
     expect(flattenedCalls).toContainEqual(
       expect.objectContaining({
         message: expect.stringContaining(
-          'Found too many warnings (maximum: 0).',
+          'Found 1 warnings, which exceeds your configured limit (0).',
         ),
       }),
     );
