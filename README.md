@@ -57,7 +57,7 @@ Read on to find out more about the project and some important things to bear in 
 
 ## Supported Angular CLI Versions
 
-For v2.x.x, we currently support Angular CLI `11.1.2` and onwards. This is also captured by our integration-tests package.
+For v2.x.x, we currently support Angular CLI `11.2.0` and onwards. This is also captured by our integration-tests package.
 
 For v1.x.x of these packages we supported Angular from `10.1.0` to `11.1.0`.
 
