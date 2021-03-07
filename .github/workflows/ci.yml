@@ -20,13 +20,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-      if: ${{ !startsWith(github.ref, 'refs/heads/next-major-release/') }}
+      if: github.ref == 'refs/heads/master'
       with:
         fetch-depth: 0
 
     # Ensure no detached HEAD state for next-major-release/** PRs, it breaks integration-tests
     - uses: actions/checkout@v2
-      if: ${{ startsWith(github.ref, 'refs/heads/next-major-release/') }}
+      if: github.ref != 'refs/heads/master'
       with:
         ref: ${{ github.event.pull_request.head.ref }}
         fetch-depth: 0
