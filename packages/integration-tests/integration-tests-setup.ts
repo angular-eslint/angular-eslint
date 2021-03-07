@@ -203,11 +203,11 @@ async function setupFixtures() {
     await runConvertTSLintToESLint('v1123-multi-project-yarn-auto-convert'); // root project
     await runConvertTSLintToESLint('another-lib');
 
-    process.chdir('../v1101-strict-multi-project-auto-convert');
+    process.chdir('../v1123-strict-multi-project-auto-convert');
     await runYarnInstall();
     await runNgAdd();
     // Convert the root project first
-    await runConvertTSLintToESLint('v1101-strict-multi-project-auto-convert');
+    await runConvertTSLintToESLint('v1123-strict-multi-project-auto-convert');
     await runConvertTSLintToESLint('another-app');
     await runConvertTSLintToESLint('another-lib');
 

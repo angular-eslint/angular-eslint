@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'v1101-strict-multi-project-auto-convert';
+  title = 'v1123-strict-multi-project-auto-convert';
 }

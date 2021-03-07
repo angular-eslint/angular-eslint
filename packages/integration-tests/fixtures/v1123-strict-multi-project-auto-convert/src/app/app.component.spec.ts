@@ -16,16 +16,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'v1101-strict-multi-project-auto-convert'`, () => {
+  it(`should have as title 'v1123-strict-multi-project-auto-convert'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('v1101-strict-multi-project-auto-convert');
+    expect(app.title).toEqual('v1123-strict-multi-project-auto-convert');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('v1101-strict-multi-project-auto-convert app is running!');
+    expect(compiled.querySelector('.content span').textContent).toContain('v1123-strict-multi-project-auto-convert app is running!');
   });
 });

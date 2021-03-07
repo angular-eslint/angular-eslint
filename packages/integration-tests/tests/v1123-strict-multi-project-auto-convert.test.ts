@@ -27,38 +27,38 @@ function runLint(directory: string): string | undefined {
 }
 
 const integrationTests: [string][] = [
-  ['v1101-strict-multi-project-auto-convert'],
+  ['v1123-strict-multi-project-auto-convert'],
 ];
 
 describe.each(integrationTests)('%s', (directory) => {
   it('it should pass linting after converting the out of the box Angular CLI setup (with an additional project called "another-app" with a custom prefix set)', () => {
     // Root project
     expect(
-      require('../fixtures/v1101-strict-multi-project-auto-convert/.eslintrc.json'),
+      require('../fixtures/v1123-strict-multi-project-auto-convert/.eslintrc.json'),
     ).toMatchSnapshot();
 
     expect(
-      require('../fixtures/v1101-strict-multi-project-auto-convert/angular.json')
-        .projects['v1101-strict-multi-project-auto-convert'].architect.lint,
+      require('../fixtures/v1123-strict-multi-project-auto-convert/angular.json')
+        .projects['v1123-strict-multi-project-auto-convert'].architect.lint,
     ).toMatchSnapshot();
 
     // Additional project ("another-app")
     expect(
-      require('../fixtures/v1101-strict-multi-project-auto-convert/projects/another-app/.eslintrc.json'),
+      require('../fixtures/v1123-strict-multi-project-auto-convert/projects/another-app/.eslintrc.json'),
     ).toMatchSnapshot();
 
     expect(
-      require('../fixtures/v1101-strict-multi-project-auto-convert/angular.json')
+      require('../fixtures/v1123-strict-multi-project-auto-convert/angular.json')
         .projects['another-app'].architect.lint,
     ).toMatchSnapshot();
 
     // Additional library project ("another-lib")
     expect(
-      require('../fixtures/v1101-strict-multi-project-auto-convert/projects/another-lib/.eslintrc.json'),
+      require('../fixtures/v1123-strict-multi-project-auto-convert/projects/another-lib/.eslintrc.json'),
     ).toMatchSnapshot();
 
     expect(
-      require('../fixtures/v1101-strict-multi-project-auto-convert/angular.json')
+      require('../fixtures/v1123-strict-multi-project-auto-convert/angular.json')
         .projects['another-lib'].architect.lint,
     ).toMatchSnapshot();
 

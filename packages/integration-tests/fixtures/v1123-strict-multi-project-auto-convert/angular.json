@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "v1101-strict-multi-project-auto-convert": {
+    "v1123-strict-multi-project-auto-convert": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:application": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/v1101-strict-multi-project-auto-convert",
+            "outputPath": "dist/v1123-strict-multi-project-auto-convert",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -65,18 +65,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "v1101-strict-multi-project-auto-convert:build"
+            "browserTarget": "v1123-strict-multi-project-auto-convert:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "v1101-strict-multi-project-auto-convert:build:production"
+              "browserTarget": "v1123-strict-multi-project-auto-convert:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "v1101-strict-multi-project-auto-convert:build"
+            "browserTarget": "v1123-strict-multi-project-auto-convert:build"
           }
         },
         "test": {
@@ -113,11 +113,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "v1101-strict-multi-project-auto-convert:serve"
+            "devServerTarget": "v1123-strict-multi-project-auto-convert:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "v1101-strict-multi-project-auto-convert:serve:production"
+              "devServerTarget": "v1123-strict-multi-project-auto-convert:serve:production"
             }
           }
         }
@@ -284,5 +284,5 @@
       }
     }
   },
-  "defaultProject": "v1101-strict-multi-project-auto-convert"
+  "defaultProject": "v1123-strict-multi-project-auto-convert"
 }

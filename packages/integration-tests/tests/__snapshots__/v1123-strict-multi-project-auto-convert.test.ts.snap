@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`v1101-strict-multi-project-auto-convert it should pass linting after converting the out of the box Angular CLI setup (with an additional project called "another-app" with a custom prefix set) 1`] = `
+exports[`v1123-strict-multi-project-auto-convert it should pass linting after converting the out of the box Angular CLI setup (with an additional project called "another-app" with a custom prefix set) 1`] = `
 Object {
   "ignorePatterns": Array [
     "projects/**/*",
@@ -55,7 +55,7 @@ Object {
 }
 `;
 
-exports[`v1101-strict-multi-project-auto-convert it should pass linting after converting the out of the box Angular CLI setup (with an additional project called "another-app" with a custom prefix set) 2`] = `
+exports[`v1123-strict-multi-project-auto-convert it should pass linting after converting the out of the box Angular CLI setup (with an additional project called "another-app" with a custom prefix set) 2`] = `
 Object {
   "builder": "@angular-eslint/builder:lint",
   "options": Object {
@@ -67,7 +67,7 @@ Object {
 }
 `;
 
-exports[`v1101-strict-multi-project-auto-convert it should pass linting after converting the out of the box Angular CLI setup (with an additional project called "another-app" with a custom prefix set) 3`] = `
+exports[`v1123-strict-multi-project-auto-convert it should pass linting after converting the out of the box Angular CLI setup (with an additional project called "another-app" with a custom prefix set) 3`] = `
 Object {
   "extends": "../../.eslintrc.json",
   "ignorePatterns": Array [
@@ -115,7 +115,7 @@ Object {
 }
 `;
 
-exports[`v1101-strict-multi-project-auto-convert it should pass linting after converting the out of the box Angular CLI setup (with an additional project called "another-app" with a custom prefix set) 4`] = `
+exports[`v1123-strict-multi-project-auto-convert it should pass linting after converting the out of the box Angular CLI setup (with an additional project called "another-app" with a custom prefix set) 4`] = `
 Object {
   "builder": "@angular-eslint/builder:lint",
   "options": Object {
@@ -127,7 +127,7 @@ Object {
 }
 `;
 
-exports[`v1101-strict-multi-project-auto-convert it should pass linting after converting the out of the box Angular CLI setup (with an additional project called "another-app" with a custom prefix set) 5`] = `
+exports[`v1123-strict-multi-project-auto-convert it should pass linting after converting the out of the box Angular CLI setup (with an additional project called "another-app" with a custom prefix set) 5`] = `
 Object {
   "extends": "../../.eslintrc.json",
   "ignorePatterns": Array [
@@ -174,7 +174,7 @@ Object {
 }
 `;
 
-exports[`v1101-strict-multi-project-auto-convert it should pass linting after converting the out of the box Angular CLI setup (with an additional project called "another-app" with a custom prefix set) 6`] = `
+exports[`v1123-strict-multi-project-auto-convert it should pass linting after converting the out of the box Angular CLI setup (with an additional project called "another-app" with a custom prefix set) 6`] = `
 Object {
   "builder": "@angular-eslint/builder:lint",
   "options": Object {
@@ -186,9 +186,9 @@ Object {
 }
 `;
 
-exports[`v1101-strict-multi-project-auto-convert it should pass linting after converting the out of the box Angular CLI setup (with an additional project called "another-app" with a custom prefix set) 7`] = `
+exports[`v1123-strict-multi-project-auto-convert it should pass linting after converting the out of the box Angular CLI setup (with an additional project called "another-app" with a custom prefix set) 7`] = `
 "
-Linting \\"v1101-strict-multi-project-auto-convert\\"...
+Linting \\"v1123-strict-multi-project-auto-convert\\"...
 All files pass linting.
 
 

@@ -12,7 +12,7 @@
     "clean": "rimraf tmp && rimraf fixtures/**/node_modules"
   },
   "dependencies": {
-    "@angular/cli": ">= 11.2.0 < 12.0.0"
+    "@angular/cli": "~11.2.3"
   },
   "peerDependencies": {
     "eslint": "*",
