@@ -20,7 +20,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+      if: github.ref == 'refs/heads/master'
+
+    - uses: actions/checkout@v2
+      if: github.ref != 'refs/heads/master'
       with:
+        ref: ${{ github.event.pull_request.head.ref }}
         fetch-depth: 0
 
     - name: Use Node.js ${{ env.PRIMARY_NODE_VERSION }}
