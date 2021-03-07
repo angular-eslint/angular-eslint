@@ -31,7 +31,7 @@
 - [Migrating an Angular CLI project from Codelyzer and TSLint](#migrating-an-angular-cli-project-from-codelyzer-and-tslint)
 - [Notes on ESLint Configuration](#notes-on-eslint-configuration)
 - [Notes on Performance](#notes-on-performance)
-- [Rules List](#rules-list)
+- [Rules List](#status-of-codelyzer-rules-conversion)
 
 <br>
 
@@ -333,7 +333,71 @@ If for some reason you wanted to not include any of the premade recommended conf
 
 <br>
 
-### Linting HTML files and inline-templates with the VSCode extension for ESLint
+## Notes for `eslint-plugin-prettier` users
+
+Prettier is an awesome code formatter which can be used entirely independently of linting.
+
+Some folks, however, like to apply prettier by using it inside of ESLint, using `eslint-plugin-prettier`. If this applies to you then you will want to read this section on how to apply it correctly for HTML templates. Make sure you read and fully understand the information above on the importance of `"overrides"` before reading this section.
+
+When using `eslint-plugin-prettier`, in order to get the full range of scenarios working, namely:
+
+- ESLint + prettier together should work on Components with external templates
+- ESLint + prettier together should work on the external template HTML files themselves
+- ESLint + prettier together should work on Components with inline templates
+
+We need to use **two different overrides for HTML**: one which applies `@angular-eslint/template` rules, one which applies `prettier`.
+
+> Do not apply `@angular-eslint/template` rules and `prettier` within the same override block.
+
+The reason for this is down to the internals of the special ESLint processor for inline Component templates mentioned in the overrides section above and the hidden files it generates behind the scenes. Those files have names which match this pattern `*inline-template-*.component.html` and so we need to get `eslint-plugin-prettier` to ignore those files, otherwise it will get confused about them not existing directly in your project.
+
+Here is a fully working (tested in VSCode and on the command line via `ng lint`) example:
+
+**.eslintrc.json**
+
+```jsonc
+{
+  "root": true,
+  "ignorePatterns": ["projects/**/*"],
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "parserOptions": {
+        "project": ["tsconfig.json", "e2e/tsconfig.json"],
+        "createDefaultProgram": true
+      },
+      "extends": [
+        "plugin:@angular-eslint/recommended",
+        "plugin:@angular-eslint/template/process-inline-templates",
+        "plugin:prettier/recommended"
+      ],
+      "rules": {}
+    },
+    // NOTE: WE ARE NOT APPLYING PRETTIER IN THIS OVERRIDE, ONLY @ANGULAR-ESLINT/TEMPLATE
+    {
+      "files": ["*.html"],
+      "extends": ["plugin:@angular-eslint/template/recommended"],
+      "rules": {}
+    },
+    // NOTE: WE ARE NOT APPLYING @ANGULAR-ESLINT/TEMPLATE IN THIS OVERRIDE, ONLY PRETTIER
+    {
+      "files": ["*.html"],
+      "excludedFiles": ["*inline-template-*.component.html"],
+      "extends": ["plugin:prettier/recommended"],
+      "rules": {
+        // NOTE: WE ARE OVERRIDING THE DEFAULT CONFIG TO ALWAYS SET THE PARSER TO HTML (SEE BELOW)
+        "prettier/prettier": ["error", { "parser": "html" }]
+      }
+    }
+  ]
+}
+```
+
+We are setting the parser for `eslint-plugin-prettier` explicitly within our relevant override block so that it does not need to rely on inferrence. In this case we know it should always use its HTML parser, because we are wiring it up to only run on HTML files within that override.
+
+<br>
+
+## Linting HTML files and inline-templates with the VSCode extension for ESLint
 
 If you use vscode-eslint, and want to lint HTML files and inline-templates on your Angular Components, you will need to make sure you add the following to your VSCode `settings.json`:
 
@@ -361,7 +425,7 @@ Please see the following issue for more information: https://github.com/microsof
 
 <br>
 
-### Usage without Angular CLI Builder
+## Usage without Angular CLI Builder
 
 If you're using this without the Angular CLI Builder don't forget to include `.html` as one of the file extensions when running the eslint CLI, otherwise templates will not be linted, e.g.:
 
