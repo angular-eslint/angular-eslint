@@ -157,7 +157,8 @@ function getEndSourceSpanFromAST(ast: AST): ParseSourceSpan | null {
 
 function parseForESLint(code: string, options: { filePath: string }) {
   const angularCompilerResult = parseTemplate(code, options.filePath, {
-    preserveWhitespaces: false,
+    preserveWhitespaces: true,
+    preserveLineEndings: true,
   });
 
   const ast: AST = {

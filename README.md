@@ -57,9 +57,13 @@ Read on to find out more about the project and some important things to bear in 
 
 ## Supported Angular CLI Versions
 
-We support Angular CLI `10.1.0` and onwards, including Angular CLI `11.x`. This range is also captured by our integration-tests package.
+For v2.x.x, we currently support Angular CLI `11.1.2` and onwards. This is also captured by our integration-tests package.
 
-### Why Angular `10.1.0`?
+For v1.x.x of these packages we supported Angular from `10.1.0` to `11.1.0`.
+
+> NOTE: In the future, we will switch the major version of these packages to match the Angular major version which we support
+
+### Why does Angular support in v1.x.x start at Angular `10.1.0`?
 
 Angular `10.1.0` is significant because at version `10.0.0` the Angular Team switched to using project references and a `tsconfig.base.json` at the root of the project. This ultimately was deemed to be unsuccessful and in `10.1.0` they switched back to the original `tsconfig.json` without project references. Because angular-eslint and typescript-eslint care about your underlying TypeScript config, it is important that you are on the updated version which does _not_ use project references.
 

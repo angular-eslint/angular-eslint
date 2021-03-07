@@ -245,8 +245,9 @@ export default createESLintRule<Options, MessageIds>({
             node.children &&
             node.children.some(
               (child: any) =>
-                // is type of text node
-                TEXT_TYPE_NAMES.includes(child.type) ||
+                // is type of text node AND does not only contain whitespace
+                (TEXT_TYPE_NAMES.includes(child.type) &&
+                  /\S/.test(child.value)) ||
                 // bound text that has no text
                 (child.type === 'BoundText' &&
                   checkBoundTextAllowedPattern.test(

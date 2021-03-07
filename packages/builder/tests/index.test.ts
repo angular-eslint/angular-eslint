@@ -101,7 +101,7 @@ async function runBuilder(options: Schema) {
   logger.subscribe(loggerSpy);
 
   const run = await architect.scheduleBuilder(builderName, options, {
-    logger,
+    logger: logger as any,
   });
 
   return run.result;

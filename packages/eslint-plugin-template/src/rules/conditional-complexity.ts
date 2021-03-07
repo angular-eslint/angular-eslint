@@ -9,10 +9,9 @@ import {
   Parser,
   TmplAstBoundAttribute,
 } from '@angular/compiler';
-
 import {
   createESLintRule,
-  getTemplateParserServices,
+  ensureTemplateParser,
 } from '../utils/create-eslint-rule';
 
 type Options = [{ maxComplexity: number }];
@@ -43,28 +42,33 @@ export default createESLintRule<Options, MessageIds>({
   },
   defaultOptions: [{ maxComplexity: 5 }],
   create(context, [{ maxComplexity }]) {
+    ensureTemplateParser(context);
     const sourceCode = context.getSourceCode();
-    const parserServices = getTemplateParserServices(context);
 
     return {
-      BoundAttribute({
-        value: { source },
-        sourceSpan,
-      }: TmplAstBoundAttribute & { value: ASTWithSource }) {
-        if (!source) return;
+      BoundAttribute(node: TmplAstBoundAttribute & { value: ASTWithSource }) {
+        if (!node.value.source) {
+          return;
+        }
 
-        const rawSource = source.replace(/\s/g, '');
         const possibleBinary = extractPossibleBinaryOrConditionalFrom(
-          getParser().parseBinding(rawSource, null, 0).ast,
+          getParser().parseBinding(node.value.source, '', 0).ast,
         );
         const totalComplexity = getTotalComplexity(possibleBinary);
 
-        if (totalComplexity <= maxComplexity) return;
+        if (totalComplexity <= maxComplexity) {
+          return;
+        }
 
-        const loc = parserServices.convertNodeSourceSpanToLoc(sourceSpan);
+        const {
+          sourceSpan: { start, end },
+        } = node.value;
 
         context.report({
-          loc,
+          loc: {
+            start: sourceCode.getLocFromIndex(start),
+            end: sourceCode.getLocFromIndex(end),
+          },
           messageId: 'conditionalСomplexity',
           data: { maxComplexity, totalComplexity },
         });
@@ -73,18 +77,19 @@ export default createESLintRule<Options, MessageIds>({
         for (const expression of expressions) {
           const totalComplexity = getTotalComplexity(expression);
 
-          if (totalComplexity <= maxComplexity) continue;
+          if (totalComplexity <= maxComplexity) {
+            continue;
+          }
 
           const {
-            sourceSpan: { end, start },
+            sourceSpan: { start, end },
           } = expression;
-          const loc = {
-            end: sourceCode.getLocFromIndex(end),
-            start: sourceCode.getLocFromIndex(start),
-          } as const;
 
           context.report({
-            loc,
+            loc: {
+              start: sourceCode.getLocFromIndex(start),
+              end: sourceCode.getLocFromIndex(end),
+            },
             messageId: 'conditionalСomplexity',
             data: { maxComplexity, totalComplexity },
           });

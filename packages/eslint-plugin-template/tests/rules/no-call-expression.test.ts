@@ -57,7 +57,7 @@ ruleTester.run(RULE_NAME, rule, {
       description: 'it should fail for safe/unsafe method calls',
       annotatedSource: `
         {{ obj?.nested1() }} {{ obj!.nested1() }}
-            ~~~~~~~~~~~~~~       ^^^^^^^^^^^^^^      
+           ~~~~~~~~~~~~~~       ^^^^^^^^^^^^^^
         <button [type]="obj!.$any(b)!.getType()">info</button>
                         #######################
         <a [href]="obj.propertyA?.href()">info</a>

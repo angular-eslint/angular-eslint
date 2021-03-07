@@ -32,14 +32,12 @@ export default createESLintRule<Options, MessageIds>({
       ':not(BoundEvent) > * > :matches(MethodCall[name!="$any"], SafeMethodCall)'({
         sourceSpan: { end, start },
       }: MethodCall) {
-        const loc = {
-          start: sourceCode.getLocFromIndex(start),
-          end: sourceCode.getLocFromIndex(end),
-        } as const;
-
         context.report({
           messageId: 'noCallExpression',
-          loc,
+          loc: {
+            start: sourceCode.getLocFromIndex(start),
+            end: sourceCode.getLocFromIndex(end),
+          },
         });
       },
     };
