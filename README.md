@@ -287,8 +287,8 @@ Let's take a look at full (but minimal), manual example of a config file (**alth
 
 Our schematics already do the "right" thing for you automatically in this regard, but if you have to configure things manually for whatever reason, **a full reference configuration example** can be found in the manual integration test located within this monorepo. Check out the relevant configuration files:
 
-- [packages/integration-tests/fixtures/v1014-multi-project-manual-config/.eslintrc.json](./packages/integration-tests/fixtures/v1014-multi-project-manual-config/.eslintrc.json)
-- [packages/integration-tests/fixtures/v1014-multi-project-manual-config/angular.json](./packages/integration-tests/fixtures/v1014-multi-project-manual-config/angular.json)
+- [packages/integration-tests/fixtures/v1123-multi-project-manual-config/.eslintrc.json](./packages/integration-tests/fixtures/v1123-multi-project-manual-config/.eslintrc.json)
+- [packages/integration-tests/fixtures/v1123-multi-project-manual-config/angular.json](./packages/integration-tests/fixtures/v1123-multi-project-manual-config/angular.json)
 
 If you are looking for general help in migrating specific rules from TSLint to ESLint, you can check out this incredible project that we depend on in our conversion schematic: https://github.com/typescript-eslint/tslint-to-eslint-config
 

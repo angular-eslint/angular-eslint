@@ -1,0 +1,202 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`v1123-multi-project-yarn-auto-convert it should pass linting after converting the out of the box Angular CLI setup (with an additional project called "another-app" with a custom prefix set) 1`] = `
+Object {
+  "ignorePatterns": Array [
+    "projects/**/*",
+  ],
+  "overrides": Array [
+    Object {
+      "extends": Array [
+        "plugin:@angular-eslint/ng-cli-compat",
+        "plugin:@angular-eslint/ng-cli-compat--formatting-add-on",
+        "plugin:@angular-eslint/template/process-inline-templates",
+      ],
+      "files": Array [
+        "*.ts",
+      ],
+      "parserOptions": Object {
+        "createDefaultProgram": true,
+        "project": Array [
+          "tsconfig.json",
+          "e2e/tsconfig.json",
+        ],
+      },
+      "rules": Object {
+        "@angular-eslint/component-selector": Array [
+          "error",
+          Object {
+            "prefix": "app",
+            "style": "kebab-case",
+            "type": "element",
+          },
+        ],
+        "@angular-eslint/directive-selector": Array [
+          "error",
+          Object {
+            "prefix": "app",
+            "style": "camelCase",
+            "type": "attribute",
+          },
+        ],
+      },
+    },
+    Object {
+      "extends": Array [
+        "plugin:@angular-eslint/template/recommended",
+      ],
+      "files": Array [
+        "*.html",
+      ],
+      "rules": Object {},
+    },
+  ],
+  "root": true,
+}
+`;
+
+exports[`v1123-multi-project-yarn-auto-convert it should pass linting after converting the out of the box Angular CLI setup (with an additional project called "another-app" with a custom prefix set) 2`] = `
+Object {
+  "builder": "@angular-eslint/builder:lint",
+  "options": Object {
+    "lintFilePatterns": Array [
+      "src/**/*.ts",
+      "src/**/*.html",
+    ],
+  },
+}
+`;
+
+exports[`v1123-multi-project-yarn-auto-convert it should pass linting after converting the out of the box Angular CLI setup (with an additional project called "another-app" with a custom prefix set) 3`] = `
+Object {
+  "extends": "../../.eslintrc.json",
+  "ignorePatterns": Array [
+    "!**/*",
+  ],
+  "overrides": Array [
+    Object {
+      "files": Array [
+        "*.ts",
+      ],
+      "parserOptions": Object {
+        "createDefaultProgram": true,
+        "project": Array [
+          "projects/another-app/tsconfig.app.json",
+          "projects/another-app/tsconfig.spec.json",
+          "projects/another-app/e2e/tsconfig.json",
+        ],
+      },
+      "rules": Object {
+        "@angular-eslint/component-selector": Array [
+          "error",
+          Object {
+            "prefix": "customprefix",
+            "style": "kebab-case",
+            "type": "element",
+          },
+        ],
+        "@angular-eslint/directive-selector": Array [
+          "error",
+          Object {
+            "prefix": "customprefix",
+            "style": "camelCase",
+            "type": "attribute",
+          },
+        ],
+      },
+    },
+    Object {
+      "files": Array [
+        "*.html",
+      ],
+      "rules": Object {},
+    },
+  ],
+}
+`;
+
+exports[`v1123-multi-project-yarn-auto-convert it should pass linting after converting the out of the box Angular CLI setup (with an additional project called "another-app" with a custom prefix set) 4`] = `
+Object {
+  "builder": "@angular-eslint/builder:lint",
+  "options": Object {
+    "lintFilePatterns": Array [
+      "projects/another-app/**/*.ts",
+      "projects/another-app/**/*.html",
+    ],
+  },
+}
+`;
+
+exports[`v1123-multi-project-yarn-auto-convert it should pass linting after converting the out of the box Angular CLI setup (with an additional project called "another-app" with a custom prefix set) 5`] = `
+Object {
+  "extends": "../../.eslintrc.json",
+  "ignorePatterns": Array [
+    "!**/*",
+  ],
+  "overrides": Array [
+    Object {
+      "files": Array [
+        "*.ts",
+      ],
+      "parserOptions": Object {
+        "createDefaultProgram": true,
+        "project": Array [
+          "projects/another-lib/tsconfig.lib.json",
+          "projects/another-lib/tsconfig.spec.json",
+        ],
+      },
+      "rules": Object {
+        "@angular-eslint/component-selector": Array [
+          "error",
+          Object {
+            "prefix": "lib",
+            "style": "kebab-case",
+            "type": "element",
+          },
+        ],
+        "@angular-eslint/directive-selector": Array [
+          "error",
+          Object {
+            "prefix": "lib",
+            "style": "camelCase",
+            "type": "attribute",
+          },
+        ],
+      },
+    },
+    Object {
+      "files": Array [
+        "*.html",
+      ],
+      "rules": Object {},
+    },
+  ],
+}
+`;
+
+exports[`v1123-multi-project-yarn-auto-convert it should pass linting after converting the out of the box Angular CLI setup (with an additional project called "another-app" with a custom prefix set) 6`] = `
+Object {
+  "builder": "@angular-eslint/builder:lint",
+  "options": Object {
+    "lintFilePatterns": Array [
+      "projects/another-lib/**/*.ts",
+      "projects/another-lib/**/*.html",
+    ],
+  },
+}
+`;
+
+exports[`v1123-multi-project-yarn-auto-convert it should pass linting after converting the out of the box Angular CLI setup (with an additional project called "another-app" with a custom prefix set) 7`] = `
+"
+Linting \\"v1123-multi-project-yarn-auto-convert\\"...
+All files pass linting.
+
+
+Linting \\"another-app\\"...
+All files pass linting.
+
+
+Linting \\"another-lib\\"...
+All files pass linting.
+"
+`;
