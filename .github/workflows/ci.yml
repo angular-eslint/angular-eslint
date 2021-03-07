@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [ master, 'next-major-release/**' ]
+    branches: [ master ]
   pull_request:
     branches: [ master, 'next-major-release/**' ]
 
