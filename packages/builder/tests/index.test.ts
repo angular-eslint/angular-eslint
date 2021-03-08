@@ -63,6 +63,7 @@ function createValidRunBuilderOptions(
     format: 'stylish',
     force: false,
     quiet: false,
+    maxWarnings: -1,
     silent: false,
     ignorePath: null,
     ...additionalOptions,
@@ -148,6 +149,7 @@ describe('Linter Builder', () => {
         format: 'stylish',
         force: false,
         silent: false,
+        maxWarnings: -1,
         ignorePath: null,
       }),
     );
@@ -162,6 +164,7 @@ describe('Linter Builder', () => {
       format: 'stylish',
       force: false,
       silent: false,
+      maxWarnings: -1,
       ignorePath: null,
     });
   });
@@ -331,6 +334,7 @@ describe('Linter Builder', () => {
           eslintConfig: './.eslintrc',
           lintFilePatterns: ['includedFile1'],
           format: 'json',
+          maxWarnings: 1,
           silent: true,
         }),
       );
@@ -510,5 +514,66 @@ describe('Linter Builder', () => {
       }),
     );
     expect(output.success).toBeFalsy();
+  });
+
+  it('should be a failure if the the amount of warnings exceeds the maxWarnings option', async () => {
+    mockReports = [
+      {
+        errorCount: 0,
+        warningCount: 4,
+        results: [],
+        messages: [],
+        usedDeprecatedRules: [],
+      },
+      {
+        errorCount: 0,
+        warningCount: 6,
+        results: [],
+        messages: [],
+        usedDeprecatedRules: [],
+      },
+    ];
+    setupMocks();
+    const output = await runBuilder(
+      createValidRunBuilderOptions({
+        eslintConfig: './.eslintrc',
+        lintFilePatterns: ['includedFile1'],
+        format: 'json',
+        maxWarnings: 5,
+      }),
+    );
+    expect(output.success).toBeFalsy();
+  });
+
+  it('should log too many warnings even if quiet flag was passed', async () => {
+    mockReports = [
+      {
+        errorCount: 0,
+        warningCount: 1,
+        results: [],
+        messages: [],
+        usedDeprecatedRules: [],
+      },
+    ];
+    setupMocks();
+    await runBuilder(
+      createValidRunBuilderOptions({
+        eslintConfig: './.eslintrc',
+        lintFilePatterns: ['includedFile1'],
+        format: 'json',
+        quiet: true,
+        maxWarnings: 0,
+      }),
+    );
+    const flattenedCalls = loggerSpy.mock.calls.reduce((logs, call) => {
+      return [...logs, call[0]];
+    }, []);
+    expect(flattenedCalls).toContainEqual(
+      expect.objectContaining({
+        message: expect.stringContaining(
+          'Found 1 warnings, which exceeds your configured limit (0).',
+        ),
+      }),
+    );
   });
 });
