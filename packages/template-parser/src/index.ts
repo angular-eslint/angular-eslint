@@ -44,6 +44,7 @@ const KEYS: VisitorKeys = {
   Program: ['templateNodes'],
   PropertyRead: ['receiver'],
   Template: ['templateAttrs', 'children', 'inputs'],
+  BindingPipe: ['exp'],
 };
 
 function fallbackKeysFilter(this: Node, key: string) {
