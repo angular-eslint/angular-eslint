@@ -64,7 +64,7 @@ export default function convert(schema: Schema): Rule {
     return chain([
       // Overwrite the "lint" target directly for the selected project in the angular.json
       addESLintTargetToProject(schema.project, 'lint'),
-      ensureRootESLintConfig(tree, rootESLintrcJsonPath),
+      ensureRootESLintConfig(schema, tree, rootESLintrcJsonPath),
       convertTSLintDisableCommentsForProject(schema.project),
 
       isRootAngularProject
@@ -76,6 +76,7 @@ export default function convert(schema: Schema): Rule {
       isRootAngularProject
         ? noop()
         : convertNonRootTSLintConfig(
+            schema,
             projectRoot,
             projectType,
             projectTSLintJsonPath,
@@ -96,6 +97,7 @@ export default function convert(schema: Schema): Rule {
  * .eslintrc.json available to us to extend from.
  */
 function ensureRootESLintConfig(
+  schema: Schema,
   tree: Tree,
   rootESLintrcJsonPath: string,
 ): Rule {
@@ -103,10 +105,11 @@ function ensureRootESLintConfig(
 
   return hasExistingRootESLintrcConfig
     ? noop()
-    : convertRootTSLintConfig('tslint.json', rootESLintrcJsonPath);
+    : convertRootTSLintConfig(schema, 'tslint.json', rootESLintrcJsonPath);
 }
 
 function convertRootTSLintConfig(
+  schema: Schema,
   rootTSLintJsonPath: string,
   rootESLintrcJsonPath: string,
 ): Rule {
@@ -149,6 +152,8 @@ function convertRootTSLintConfig(
     ];
 
     removeUndesiredRulesFromConfig(convertedRootESLintConfig);
+    adjustSomeRuleConfigs(convertedRootESLintConfig);
+    handleFormattingRules(schema, context, convertedRootESLintConfig);
 
     /**
      * To avoid users' configs being bigger and more verbose than necessary, we perform some
@@ -256,6 +261,7 @@ function convertRootTSLintConfig(
 }
 
 function convertNonRootTSLintConfig(
+  schema: Schema,
   projectRoot: string,
   projectType: 'application' | 'library',
   projectTSLintJsonPath: string,
@@ -301,6 +307,8 @@ function convertNonRootTSLintConfig(
     ];
 
     removeUndesiredRulesFromConfig(convertedProjectESLintConfig);
+    adjustSomeRuleConfigs(convertedProjectESLintConfig);
+    handleFormattingRules(schema, context, convertedProjectESLintConfig);
 
     /**
      * To avoid users' configs being bigger and more verbose than necessary, we perform some
@@ -474,18 +482,61 @@ function separateCodeAndTemplateRules(convertedESLintConfig: Linter.Config) {
   };
 }
 
+function handleFormattingRules(
+  schema: Schema,
+  context: SchematicContext,
+  convertedConfig: Linter.Config,
+) {
+  if (!convertedConfig.rules) {
+    return;
+  }
+  if (!schema.convertIndentationRules) {
+    delete convertedConfig.rules['@typescript-eslint/indent'];
+    return;
+  }
+  /**
+   * We really don't want to encourage the practice of using a linter
+   * for formatting concerns. Please use prettier y'all!
+   */
+  if (convertedConfig.rules['@typescript-eslint/indent']) {
+    context.logger.warn(
+      `\nWARNING: You are currently using a linting rule to deal with indentation. Linters are not well suited to purely code formatting concerns, such as indentation.`,
+    );
+    context.logger.warn(
+      '\nPer your instructions we have migrated your TSLint indentation configuration to its equivalent in ESLint, but we strongly recommend switching to a dedicated code formatter such as https://prettier.io\n',
+    );
+  }
+}
+
+function adjustSomeRuleConfigs(convertedConfig: Linter.Config) {
+  if (!convertedConfig.rules) {
+    return;
+  }
+  /**
+   * Adjust the quotes rule to always add allowTemplateLiterals as it is most common and can
+   * always be removed by the user if undesired in their case.
+   */
+  if (convertedConfig.rules['@typescript-eslint/quotes']) {
+    if (!Array.isArray(convertedConfig.rules['@typescript-eslint/quotes'])) {
+      convertedConfig.rules['@typescript-eslint/quotes'] = [
+        convertedConfig.rules['@typescript-eslint/quotes'],
+        'single',
+      ];
+    }
+    if (!convertedConfig.rules['@typescript-eslint/quotes'][2]) {
+      convertedConfig.rules['@typescript-eslint/quotes'].push({
+        allowTemplateLiterals: true,
+      });
+    }
+  }
+}
+
 function removeUndesiredRulesFromConfig(convertedConfig: Linter.Config) {
   if (!convertedConfig.rules) {
     return;
   }
 
   delete convertedConfig.rules['@typescript-eslint/tslint/config'];
-
-  /**
-   * We really don't want to continue the practice of using a linter
-   * for formatting concerns. Please use prettier y'all!
-   */
-  delete convertedConfig.rules['@typescript-eslint/indent'];
 
   /**
    * BOTH OF THESE RULES CREATE A LOT OF NOISE ON OOTB POLYFILLS.TS
@@ -507,7 +558,6 @@ function removeUndesiredRulesFromConfig(convertedConfig: Linter.Config) {
    * are converted. Because they exist with different config, they wouldn't be cleaned
    * up by our deduplication logic and we have to manually remove them.
    */
-  delete convertedConfig.rules['@typescript-eslint/quotes'];
   delete convertedConfig.rules['no-restricted-imports'];
 
   /**

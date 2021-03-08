@@ -182,7 +182,7 @@ describe('convertToESLintConfig()', () => {
             "@typescript-eslint/prefer-namespace-keyword": "error",
             "@typescript-eslint/quotes": Array [
               "error",
-              "single",
+              "double",
             ],
             "@typescript-eslint/semi": Array [
               "error",

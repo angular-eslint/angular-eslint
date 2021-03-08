@@ -40,7 +40,8 @@ export const exampleRootTslintJson = {
       'no-switch-case-fall-through': true,
       'no-var-requires': false,
       'object-literal-key-quotes': [true, 'as-needed'],
-      quotemark: [true, 'single'],
+      // Custom config - set to double quotes into of single to ensure no deduping false positives
+      quotemark: [true, 'double'],
       semicolon: {
         options: ['always'],
       },
@@ -525,7 +526,7 @@ export const exampleRootTslintJson = {
         ruleSeverity: 'error',
       },
       quotemark: {
-        ruleArguments: ['single'],
+        ruleArguments: ['double'],
         ruleSeverity: 'error',
       },
       semicolon: {
