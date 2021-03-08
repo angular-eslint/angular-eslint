@@ -18,6 +18,7 @@ async function run(
   const projectName = context.target?.project || '<???>';
   const printInfo = options.format && !options.silent;
   const reportOnlyErrors = options.quiet;
+  const maxWarnings = options.maxWarnings;
 
   context.reportStatus(`Linting ${JSON.stringify(projectName)}...`);
   if (printInfo) {
@@ -116,8 +117,15 @@ async function run(
     context.logger.info('All files pass linting.\n');
   }
 
+  const tooManyWarnings = maxWarnings >= 0 && totalWarnings > maxWarnings;
+  if (tooManyWarnings && printInfo) {
+    context.logger.error(
+      `Found ${totalWarnings} warnings, which exceeds your configured limit (${options.maxWarnings}). Either increase your maxWarnings limit or fix some of the lint warnings.`,
+    );
+  }
+
   return {
-    success: options.force || totalErrors === 0,
+    success: options.force || (totalErrors === 0 && !tooManyWarnings),
   };
 }
 
