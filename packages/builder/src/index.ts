@@ -98,7 +98,7 @@ async function run(
   const tooManyWarnings = maxWarnings >= 0 && totalWarnings > maxWarnings;
   if (tooManyWarnings && printInfo) {
     context.logger.error(
-      `Found ${totalWarnings} warnings, which exceeds your configured limit (${options.maxWarnings}). Either fix some of them or increase the value of the maxWarnings option.`,
+      `Found ${totalWarnings} warnings, which exceeds your configured limit (${options.maxWarnings}). Either increase your maxWarnings limit or fix some of the lint warnings.`,
     );
   }
 
