@@ -389,15 +389,15 @@ Here is a fully working (tested in VSCode and on the command line via `ng lint`)
       "excludedFiles": ["*inline-template-*.component.html"],
       "extends": ["plugin:prettier/recommended"],
       "rules": {
-        // NOTE: WE ARE OVERRIDING THE DEFAULT CONFIG TO ALWAYS SET THE PARSER TO HTML (SEE BELOW)
-        "prettier/prettier": ["error", { "parser": "html" }]
+        // NOTE: WE ARE OVERRIDING THE DEFAULT CONFIG TO ALWAYS SET THE PARSER TO ANGULAR (SEE BELOW)
+        "prettier/prettier": ["error", { "parser": "angular" }]
       }
     }
   ]
 }
 ```
 
-We are setting the parser for `eslint-plugin-prettier` explicitly within our relevant override block so that it does not need to rely on inferrence. In this case we know it should always use its HTML parser, because we are wiring it up to only run on HTML files within that override.
+We are setting the parser for `eslint-plugin-prettier` explicitly within our relevant override block so that it does not need to rely on inference. In this case we know it should always use its `angular` parser, because we are wiring it up to only run on angular HTML files within that override. (_it's assumed that all HTML files in the project are angular templates_)
 
 <br>
 
