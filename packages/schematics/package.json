@@ -24,6 +24,9 @@
     "LICENSE"
   ],
   "schematics": "./dist/collection.json",
+  "ng-update": {
+    "migrations": "./migrations.json"
+  },
   "dependencies": {
     "@angular-eslint/eslint-plugin": "2.0.0-alpha.4",
     "@angular-eslint/eslint-plugin-template": "2.0.0-alpha.4",

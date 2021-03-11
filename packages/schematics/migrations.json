@@ -1,0 +1,10 @@
+{
+  "$schema": "../../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "update-2-0-0": {
+      "version": "2.0.0-beta.5",
+      "description": "Updates @angular-eslint to v2",
+      "factory": "./src/migrations/update-2-0-0/update-2-0-0"
+    }
+  }
+}
