@@ -25,7 +25,6 @@
   ],
   "schematics": "./dist/collection.json",
   "ng-update": {
-    "requirements": {},
     "migrations": "./dist/migrations.json"
   },
   "dependencies": {
