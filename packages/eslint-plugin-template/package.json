@@ -1,6 +1,6 @@
 {
   "name": "@angular-eslint/eslint-plugin-template",
-  "version": "2.0.0-alpha.10",
+  "version": "2.0.0",
   "description": "ESLint plugin for Angular Templates",
   "license": "MIT",
   "main": "dist/index.js",
@@ -29,7 +29,7 @@
     "axobject-query": "^2.2.0"
   },
   "devDependencies": {
-    "@angular-eslint/utils": "2.0.0-alpha.10",
+    "@angular-eslint/utils": "2.0.0",
     "@types/aria-query": "^4.2.0"
   },
   "peerDependencies": {
