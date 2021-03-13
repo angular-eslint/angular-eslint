@@ -7,7 +7,7 @@ import {
   updateJsonInTree,
 } from '../../utils';
 
-const updatedAngularESLintVersion = '2.0.0-alpha.10';
+const updatedAngularESLintVersion = '^2.0.0';
 const updatedTypeScriptESLintVersion = '4.16.1';
 
 function updateIfExists(
