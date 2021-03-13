@@ -571,11 +571,11 @@ If you see a rule below that has **no status** against it, then please feel free
 
 <!-- begin rule list -->
 
-| Explanation of Statuses                                                                         |
-| ----------------------------------------------------------------------------------------------- |
-| :white_check_mark: = We have created an ESLint equivalent of this TSLint rule                   |
-| :construction: = There is an open PR to provide an ESLint equivalent of this TSLint rule        |
-| :no_good: = This TSLint rule should be replaced by a dedicated code formatter, such as Prettier |
+| Explanation of Statuses                                                                                                                                            |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| :white_check_mark: = We have created an ESLint equivalent of this TSLint rule                                                                                      |
+| :construction: = There is an open PR to provide an ESLint equivalent of this TSLint rule                                                                           |
+| :no_good: = This TSLint rule has been replaced by functionality within the Angular compiler, or should be replaced by a dedicated code formatter, such as Prettier |
 
 #### Functionality
 
@@ -625,6 +625,7 @@ If you see a rule below that has **no status** against it, then please feel free
 | [`template-use-track-by-function`]    |  @angular-eslint/template/use-track-by-function   | :white_check_mark: |
 | [`use-component-selector`]            |      @angular-eslint/use-component-selector       | :white_check_mark: |
 | [`use-component-view-encapsulation`]  | @angular-eslint/use-component-view-encapsulation  | :white_check_mark: |
+| [`use-pipe-decorator`]                |            N/A, see explanation above             | :no_good:          |
 | [`use-pipe-transform-interface`]      |   @angular-eslint/use-pipe-transform-interface    | :white_check_mark: |
 
 #### Style
@@ -697,6 +698,7 @@ If you see a rule below that has **no status** against it, then please feel free
 [`use-component-view-encapsulation`]: http://codelyzer.com/rules/use-component-view-encapsulation
 [`use-injectable-provided-in`]: http://codelyzer.com/rules/use-injectable-provided-in
 [`use-lifecycle-interface`]: http://codelyzer.com/rules/use-lifecycle-interface
+[`use-pipe-decorator`]: http://codelyzer.com/rules/use-pipe-decorator
 [`use-pipe-transform-interface`]: http://codelyzer.com/rules/use-pipe-transform-interface
 
 <!-- PR Links -->

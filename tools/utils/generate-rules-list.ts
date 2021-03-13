@@ -29,6 +29,7 @@ const wontFixList = [
   'angular-whitespace',
   'import-destructuring-spacing',
   'prefer-inline-decorator',
+  'use-pipe-decorator',
 ];
 
 /**
@@ -54,7 +55,7 @@ const keyLegend = {
   wontFix: {
     emoji: ':no_good:',
     description:
-      'This TSLint rule should be replaced by a dedicated code formatter, such as Prettier',
+      'This TSLint rule has been replaced by functionality within the Angular compiler, or should be replaced by a dedicated code formatter, such as Prettier',
   },
 } as const;
 
