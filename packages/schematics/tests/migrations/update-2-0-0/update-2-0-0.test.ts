@@ -8,7 +8,7 @@ import { Tree } from '@angular-devkit/schematics';
 describe('update-2-0-0', () => {
   const migrationSchematicRunner = new SchematicTestRunner(
     '@angular-eslint/schematics',
-    path.join(__dirname, '../../../migrations.json'),
+    path.join(__dirname, '../../../src/migrations.json'),
   );
 
   const appTree = new UnitTestTree(Tree.empty());
