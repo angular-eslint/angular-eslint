@@ -168,6 +168,12 @@ describe('convertToESLintConfig()', () => {
             "@typescript-eslint/no-namespace": "error",
             "@typescript-eslint/no-non-null-assertion": "error",
             "@typescript-eslint/no-parameter-properties": "off",
+            "@typescript-eslint/no-shadow": Array [
+              "error",
+              Object {
+                "hoist": "all",
+              },
+            ],
             "@typescript-eslint/no-unused-expressions": "error",
             "@typescript-eslint/no-use-before-define": "off",
             "@typescript-eslint/no-var-requires": "off",
@@ -176,7 +182,7 @@ describe('convertToESLintConfig()', () => {
             "@typescript-eslint/prefer-namespace-keyword": "error",
             "@typescript-eslint/quotes": Array [
               "error",
-              "single",
+              "double",
             ],
             "@typescript-eslint/semi": Array [
               "error",
@@ -290,12 +296,6 @@ describe('convertToESLintConfig()', () => {
             "no-restricted-imports": Array [
               "error",
               "rxjs/Rx",
-            ],
-            "no-shadow": Array [
-              "error",
-              Object {
-                "hoist": "all",
-              },
             ],
             "no-throw-literal": "error",
             "no-trailing-spaces": "error",

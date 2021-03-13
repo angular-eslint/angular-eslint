@@ -43,7 +43,7 @@ ruleTester.run(RULE_NAME, rule, {
         'should fail if the conditional complexity exceeds the maximum default',
       annotatedSource: `
         <div *ngIf="a === '3' || (b === '3' && c.d !== '1' && e.f !== '6' && q !== g)">
-              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
           Content
         </div>
       `,
@@ -55,7 +55,7 @@ ruleTester.run(RULE_NAME, rule, {
         'should fail if the conditional complexity exceeds the maximum defined',
       annotatedSource: `
         <ng-container *ngIf="control && control.invalid && (control.touched || (showOnDirty && control.dirty))">
-                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
           Content
         </ng-container>
       `,
@@ -68,7 +68,7 @@ ruleTester.run(RULE_NAME, rule, {
         'should fail if the conditional complexity exceeds the maximum defined when using pipes to create a variable',
       annotatedSource: `
         <ng-container *ngIf="control && control.invalid && (control.touched || (showOnDirty && control.dirty)) && control.errors | keys as errorKeys">
-                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
           {{ errorKeys }}
         </ng-container>
       `,
@@ -81,7 +81,7 @@ ruleTester.run(RULE_NAME, rule, {
         'should fail if the conditional complexity exceeds the maximum default when using [class] binding',
       annotatedSource: `
         <div [class.px-4]="a <= b || (b > c && c >= d && d < e)">
-             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
           Content
         </div>
       `,
@@ -93,7 +93,7 @@ ruleTester.run(RULE_NAME, rule, {
         'should fail if the conditional complexity exceeds the maximum default when using nested conditionals',
       annotatedSource: `
         <div [class.my-2]="a === 'x' ? v === c : b === 3 ? 0 : c > 3 && d === 9 ? 9 : 'xa'">
-             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
           Content
         </div>
       `,
@@ -105,7 +105,7 @@ ruleTester.run(RULE_NAME, rule, {
         'should fail if the conditional complexity exceeds the maximum default when using conditionals within interpolation',
       annotatedSource: `
         {{ test.xyz }} {{ ab > 2 && cd === 9 && control?.invalid && (control.touched || (showOnDirty && control.dirty)) ? 'some value' : 'another value' }} {{ control.touched }}
-                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~      
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       `,
       data: { maxComplexity: 5, totalComplexity: 8 },
     }),

@@ -37,9 +37,13 @@ ruleTester.run(RULE_NAME, rule, {
   invalid: [
     convertAnnotatedSourceToFailureCase({
       description: 'it should fail if async pipe is negated',
+      /**
+       * Deliberately including some leading whitespace within the binding to assert
+       * location correctness
+       */
       annotatedSource: `
-        {{ !(foo | async) }}
-           ~~~~~~~~~~~~~~
+        {{      !(foo | async) }}
+                ~~~~~~~~~~~~~~
       `,
       messageId: noNegatedAsync,
     }),
@@ -54,9 +58,13 @@ ruleTester.run(RULE_NAME, rule, {
     }),
     convertAnnotatedSourceToFailureCase({
       description: 'it should fail if the async pipe uses loose equality',
+      /**
+       * Deliberately including some leading whitespace within the binding to assert
+       * location correctness
+       */
       annotatedSource: `
-        {{ (foo | async) == false }}
-           ~~~~~~~~~~~~~~~~~~~~~~
+        {{    (foo | async) == false }}
+              ~~~~~~~~~~~~~~~~~~~~~~
       `,
       messageId: noLooseEquality,
     }),

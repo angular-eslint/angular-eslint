@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [ master, 'next-major-release/**' ]
+    branches: [ master ]
   pull_request:
     branches: [ master, 'next-major-release/**' ]
 
@@ -20,6 +20,16 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+      if: github.ref == 'refs/heads/master'
+      with:
+        fetch-depth: 0
+
+    # Ensure no detached HEAD state for next-major-release/** PRs, it breaks integration-tests
+    - uses: actions/checkout@v2
+      if: github.ref != 'refs/heads/master'
+      with:
+        ref: ${{ github.event.pull_request.head.ref }}
+        fetch-depth: 0
 
     - name: Use Node.js ${{ env.PRIMARY_NODE_VERSION }}
       uses: actions/setup-node@v1
@@ -82,6 +92,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
 
     - uses: actions/setup-node@v1
       with:
@@ -117,6 +129,8 @@ jobs:
     if: github.ref == 'refs/heads/master'
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       # Fetch all history for all tags and branches in this job because lerna needs it
       - run: |

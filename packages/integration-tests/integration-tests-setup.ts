@@ -186,28 +186,28 @@ async function setupFixtures() {
     await spawnLocalRegistry();
     await publishPackagesToVerdaccio();
 
-    process.chdir('fixtures/v1014-multi-project-manual-config');
+    process.chdir('fixtures/v1123-multi-project-manual-config');
     await runNpmInstall();
     await runNgAdd();
 
-    process.chdir('../v1020-single-project-yarn-auto-convert');
+    process.chdir('../v1123-single-project-yarn-auto-convert');
     await runYarnInstall();
     await runNgAdd();
-    await runConvertTSLintToESLint('v1020-single-project-yarn-auto-convert');
+    await runConvertTSLintToESLint('v1123-single-project-yarn-auto-convert');
 
-    process.chdir('../v1020-multi-project-yarn-auto-convert');
+    process.chdir('../v1123-multi-project-yarn-auto-convert');
     await runYarnInstall();
     await runNgAdd();
     // Deliberately don't convert the root project first, so we can ensure this is also supported
     await runConvertTSLintToESLint('another-app');
-    await runConvertTSLintToESLint('v1020-multi-project-yarn-auto-convert'); // root project
+    await runConvertTSLintToESLint('v1123-multi-project-yarn-auto-convert'); // root project
     await runConvertTSLintToESLint('another-lib');
 
-    process.chdir('../v1101-strict-multi-project-auto-convert');
+    process.chdir('../v1123-strict-multi-project-auto-convert');
     await runYarnInstall();
     await runNgAdd();
     // Convert the root project first
-    await runConvertTSLintToESLint('v1101-strict-multi-project-auto-convert');
+    await runConvertTSLintToESLint('v1123-strict-multi-project-auto-convert');
     await runConvertTSLintToESLint('another-app');
     await runConvertTSLintToESLint('another-lib');
 

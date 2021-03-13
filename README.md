@@ -57,9 +57,13 @@ Read on to find out more about the project and some important things to bear in 
 
 ## Supported Angular CLI Versions
 
-We support Angular CLI `10.1.0` and onwards, including Angular CLI `11.x`. This range is also captured by our integration-tests package.
+For v2.x.x, we currently support Angular CLI `11.2.0` and onwards. This is also captured by our integration-tests package.
 
-### Why Angular `10.1.0`?
+For v1.x.x of these packages we supported Angular from `10.1.0` to `11.1.0`.
+
+> NOTE: In the future, we will switch the major version of these packages to match the Angular major version which we support
+
+### Why does Angular support in v1.x.x start at Angular `10.1.0`?
 
 Angular `10.1.0` is significant because at version `10.0.0` the Angular Team switched to using project references and a `tsconfig.base.json` at the root of the project. This ultimately was deemed to be unsuccessful and in `10.1.0` they switched back to the original `tsconfig.json` without project references. Because angular-eslint and typescript-eslint care about your underlying TypeScript config, it is important that you are on the updated version which does _not_ use project references.
 
@@ -283,8 +287,8 @@ Let's take a look at full (but minimal), manual example of a config file (**alth
 
 Our schematics already do the "right" thing for you automatically in this regard, but if you have to configure things manually for whatever reason, **a full reference configuration example** can be found in the manual integration test located within this monorepo. Check out the relevant configuration files:
 
-- [packages/integration-tests/fixtures/v1014-multi-project-manual-config/.eslintrc.json](./packages/integration-tests/fixtures/v1014-multi-project-manual-config/.eslintrc.json)
-- [packages/integration-tests/fixtures/v1014-multi-project-manual-config/angular.json](./packages/integration-tests/fixtures/v1014-multi-project-manual-config/angular.json)
+- [packages/integration-tests/fixtures/v1123-multi-project-manual-config/.eslintrc.json](./packages/integration-tests/fixtures/v1123-multi-project-manual-config/.eslintrc.json)
+- [packages/integration-tests/fixtures/v1123-multi-project-manual-config/angular.json](./packages/integration-tests/fixtures/v1123-multi-project-manual-config/angular.json)
 
 If you are looking for general help in migrating specific rules from TSLint to ESLint, you can check out this incredible project that we depend on in our conversion schematic: https://github.com/typescript-eslint/tslint-to-eslint-config
 
@@ -621,7 +625,6 @@ If you see a rule below that has **no status** against it, then please feel free
 | [`template-use-track-by-function`]    |  @angular-eslint/template/use-track-by-function   | :white_check_mark: |
 | [`use-component-selector`]            |      @angular-eslint/use-component-selector       | :white_check_mark: |
 | [`use-component-view-encapsulation`]  | @angular-eslint/use-component-view-encapsulation  | :white_check_mark: |
-| [`use-pipe-decorator`]                |        @angular-eslint/use-pipe-decorator         | :white_check_mark: |
 | [`use-pipe-transform-interface`]      |   @angular-eslint/use-pipe-transform-interface    | :white_check_mark: |
 
 #### Style
@@ -694,7 +697,6 @@ If you see a rule below that has **no status** against it, then please feel free
 [`use-component-view-encapsulation`]: http://codelyzer.com/rules/use-component-view-encapsulation
 [`use-injectable-provided-in`]: http://codelyzer.com/rules/use-injectable-provided-in
 [`use-lifecycle-interface`]: http://codelyzer.com/rules/use-lifecycle-interface
-[`use-pipe-decorator`]: http://codelyzer.com/rules/use-pipe-decorator
 [`use-pipe-transform-interface`]: http://codelyzer.com/rules/use-pipe-transform-interface
 
 <!-- PR Links -->

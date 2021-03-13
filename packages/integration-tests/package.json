@@ -1,17 +1,18 @@
 {
   "name": "@angular-eslint/integration-tests",
-  "version": "1.2.0",
+  "version": "2.0.0-alpha.10",
   "private": true,
   "scripts": {
     "kill-existing-verdaccio": "kill $(lsof -t -i:4872) || true",
     "reset-verdaccio-storage": "rimraf tmp/local-registry/storage",
     "preintegration-tests": "npm run kill-existing-verdaccio && npm run reset-verdaccio-storage && npx ts-node --project tsconfig.tools.json integration-tests-setup.ts",
     "integration-tests": "jest",
+    "update-integration-tests": "npm run integration-tests -- -u",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "clean": "rimraf tmp && rimraf fixtures/**/node_modules"
   },
   "dependencies": {
-    "@angular/cli": "11.x"
+    "@angular/cli": "~11.2.3"
   },
   "peerDependencies": {
     "eslint": "*",

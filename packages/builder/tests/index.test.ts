@@ -102,7 +102,7 @@ async function runBuilder(options: Schema) {
   logger.subscribe(loggerSpy);
 
   const run = await architect.scheduleBuilder(builderName, options, {
-    logger,
+    logger: logger as any,
   });
 
   return run.result;
@@ -200,6 +200,82 @@ describe('Linter Builder', () => {
       }),
     );
     expect(mockLoadFormatter).toHaveBeenCalledWith('html');
+  });
+
+  it(`should include all the reports in a single call to the formatter's format method`, async () => {
+    mockReports = [
+      {
+        errorCount: 1,
+        warningCount: 0,
+        results: [],
+        messages: [
+          {
+            line: 0,
+            column: 0,
+            message: 'Mock error message 1',
+            severity: 2,
+            ruleId: null,
+          },
+        ],
+        usedDeprecatedRules: [],
+      },
+      {
+        errorCount: 1,
+        warningCount: 0,
+        results: [],
+        messages: [
+          {
+            line: 1,
+            column: 1,
+            message: 'Mock error message 2',
+            severity: 2,
+            ruleId: null,
+          },
+        ],
+        usedDeprecatedRules: [],
+      },
+    ];
+    setupMocks();
+    await runBuilder(
+      createValidRunBuilderOptions({
+        eslintConfig: './.eslintrc',
+        lintFilePatterns: ['includedFile1', 'includedFile2'],
+        format: 'checkstyle',
+      }),
+    );
+    expect(mockLoadFormatter).toHaveBeenCalledWith('checkstyle');
+    expect(mockFormatter.format).toHaveBeenCalledWith([
+      {
+        errorCount: 1,
+        messages: [
+          {
+            column: 0,
+            line: 0,
+            message: 'Mock error message 1',
+            ruleId: null,
+            severity: 2,
+          },
+        ],
+        results: [],
+        usedDeprecatedRules: [],
+        warningCount: 0,
+      },
+      {
+        errorCount: 1,
+        messages: [
+          {
+            column: 1,
+            line: 1,
+            message: 'Mock error message 2',
+            ruleId: null,
+            severity: 2,
+          },
+        ],
+        results: [],
+        usedDeprecatedRules: [],
+        warningCount: 0,
+      },
+    ]);
   });
 
   it('should pass all the reports to the fix engine, even if --fix is false', async () => {

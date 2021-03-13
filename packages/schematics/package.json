@@ -1,13 +1,13 @@
 {
   "name": "@angular-eslint/schematics",
-  "version": "1.2.0",
+  "version": "2.0.0-alpha.10",
   "description": "Angular Schematics for angular-eslint",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "prebuild": "ncp ../../node_modules/@schematics/angular/workspace/schema.json src/workspace/schema.json && ncp ../../node_modules/@schematics/angular/application/schema.json src/application/schema.json && ncp ../../node_modules/@schematics/angular/library/schema.json src/library/schema.json",
-    "build": "rimraf ./dist && tsc -p tsconfig.json && ncp src/collection.json dist/collection.json && ncp src/ng-add/schema.json dist/ng-add/schema.json && ncp src/convert-tslint-to-eslint/schema.json dist/convert-tslint-to-eslint/schema.json && ncp src/workspace/schema.json dist/workspace/schema.json && ncp src/application/schema.json dist/application/schema.json && ncp src/library/schema.json dist/library/schema.json && ncp src/workspace-post/schema.json dist/workspace-post/schema.json",
+    "build": "rimraf ./dist && tsc -p tsconfig.json && ncp src/collection.json dist/collection.json && ncp src/migrations.json dist/migrations.json && ncp src/ng-add/schema.json dist/ng-add/schema.json && ncp src/convert-tslint-to-eslint/schema.json dist/convert-tslint-to-eslint/schema.json && ncp src/workspace/schema.json dist/workspace/schema.json && ncp src/application/schema.json dist/application/schema.json && ncp src/library/schema.json dist/library/schema.json && ncp src/workspace-post/schema.json dist/workspace-post/schema.json",
     "test": "jest --coverage",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "clean": "rimraf ./dist"
@@ -24,24 +24,24 @@
     "LICENSE"
   ],
   "schematics": "./dist/collection.json",
+  "ng-update": {
+    "migrations": "./dist/migrations.json"
+  },
   "dependencies": {
-    "@angular-eslint/eslint-plugin": "1.2.0",
-    "@angular-eslint/eslint-plugin-template": "1.2.0",
+    "@angular-eslint/eslint-plugin": "2.0.0-alpha.10",
+    "@angular-eslint/eslint-plugin-template": "2.0.0-alpha.10",
     "strip-json-comments": "3.1.1",
-    "tslint-to-eslint-config": "2.0.1"
+    "tslint-to-eslint-config": "2.2.0"
   },
   "devDependencies": {
-    "@angular-devkit/core": "^11.0.1",
-    "@angular-devkit/schematics": "^11.0.1",
-    "@typescript-eslint/experimental-utils": "4.3.0",
+    "@typescript-eslint/experimental-utils": "4.16.1",
     "eslint": "^7.6.0",
     "eslint-plugin-import": "2.22.1",
     "eslint-plugin-jsdoc": "30.7.6",
     "eslint-plugin-prefer-arrow": "1.2.2"
   },
   "peerDependencies": {
-    "@angular-devkit/core": "*",
-    "@angular-devkit/schematics": "*"
+    "@angular/cli": ">= 11.2.0 < 12.0.0"
   },
   "gitHead": "7a92faa8c58964e966abfae38ca049ae9cb3e78a"
 }

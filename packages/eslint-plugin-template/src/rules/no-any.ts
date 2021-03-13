@@ -32,14 +32,12 @@ export default createESLintRule<Options, MessageIds>({
       [`MethodCall[name="${ANY_TYPE_CAST_FUNCTION_NAME}"][receiver.expression=undefined][receiver.name=undefined]`]({
         sourceSpan: { end, start },
       }: MethodCall) {
-        const loc = {
-          start: sourceCode.getLocFromIndex(start),
-          end: sourceCode.getLocFromIndex(end),
-        } as const;
-
         context.report({
           messageId: 'noAny',
-          loc,
+          loc: {
+            start: sourceCode.getLocFromIndex(start),
+            end: sourceCode.getLocFromIndex(end),
+          },
         });
       },
     };

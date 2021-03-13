@@ -39,6 +39,13 @@ Object {
             "type": "attribute",
           },
         ],
+        "@typescript-eslint/quotes": Array [
+          "error",
+          "double",
+          Object {
+            "allowTemplateLiterals": true,
+          },
+        ],
       },
     },
     Object {

@@ -19,23 +19,27 @@ jest.mock(
     } as any),
 );
 
-describe('application', () => {
-  const schematicRunner = new SchematicTestRunner(
-    '@angular-eslint/schematics',
-    path.join(__dirname, '../../src/collection.json'),
-  );
+const schematicRunner = new SchematicTestRunner(
+  '@angular-eslint/schematics',
+  path.join(__dirname, '../../src/collection.json'),
+);
 
-  const appTree = new UnitTestTree(Tree.empty());
-  appTree.create('package.json', JSON.stringify({}));
-  appTree.create(
-    'angular.json',
-    JSON.stringify({
-      $schema: './node_modules/@angular/cli/lib/config/schema.json',
-      version: 1,
-      newProjectRoot: 'projects',
-      projects: {},
-    }),
-  );
+describe('application', () => {
+  let appTree: UnitTestTree;
+
+  beforeEach(() => {
+    appTree = new UnitTestTree(Tree.empty());
+    appTree.create('package.json', JSON.stringify({}));
+    appTree.create(
+      'angular.json',
+      JSON.stringify({
+        $schema: './node_modules/@angular/cli/lib/config/schema.json',
+        version: 1,
+        newProjectRoot: 'projects',
+        projects: {},
+      }),
+    );
+  });
 
   it('should pass all the given options directly to the @schematics/angular schematic', async () => {
     const spy = jest.spyOn(angularDevkitSchematics, 'externalSchematic');

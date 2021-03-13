@@ -18,6 +18,11 @@
         "index": 0
       },
       "x-prompt": "Which project would you like to convert from TSLint to ESLint?"
+    },
+    "convertIndentationRules": {
+      "description": "Whether or not rules relating purely to indentation (code formatting) should be converted. It is strongly encouraged to switch to https://prettier.io instead.",
+      "type": "boolean",
+      "default": false
     }
   }
 }

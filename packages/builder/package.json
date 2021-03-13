@@ -1,6 +1,6 @@
 {
   "name": "@angular-eslint/builder",
-  "version": "1.2.0",
+  "version": "2.0.0-alpha.10",
   "description": "Angular CLI builder for ESLint",
   "license": "MIT",
   "main": "dist/index.js",
@@ -26,7 +26,7 @@
   ],
   "builders": "./builders.json",
   "peerDependencies": {
-    "@angular-devkit/architect": "~0.1001.4 || ~0.1100.1",
+    "@angular/cli": ">= 11.2.0 < 12.0.0",
     "eslint": "*",
     "typescript": "*"
   },
