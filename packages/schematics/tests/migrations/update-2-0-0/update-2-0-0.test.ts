@@ -25,6 +25,45 @@ describe('update-2-0-0', () => {
       },
     }),
   );
+  appTree.create(
+    'angular.json',
+    JSON.stringify({
+      $schema: './node_modules/@angular/cli/lib/config/schema.json',
+      version: 1,
+      newProjectRoot: 'projects',
+      projects: {
+        foo: {
+          root: 'projects/foo',
+        },
+        bar: {
+          root: 'projects/bar',
+        },
+      },
+    }),
+  );
+
+  // Root config
+  appTree.create(
+    '.eslintrc.json',
+    JSON.stringify({ rules: { 'use-pipe-decorator': 'error' } }),
+  );
+
+  // Project configs
+  appTree.create(
+    'projects/foo/.eslintrc.json',
+    JSON.stringify({ rules: { 'use-pipe-decorator': 'error' } }),
+  );
+  appTree.create(
+    'projects/bar/.eslintrc.json',
+    JSON.stringify({
+      overrides: [
+        {
+          files: ['*.ts'],
+          rules: { 'use-pipe-decorator': 'error' },
+        },
+      ],
+    }),
+  );
 
   it('should update relevant @angular-eslint and @typescript-eslint packages', async () => {
     const tree = await migrationSchematicRunner
@@ -46,47 +85,6 @@ describe('update-2-0-0', () => {
   });
 
   it('should remove any explicit usage of the use-pipe-decorator rule', async () => {
-    // Root config
-    appTree.create(
-      '.eslintrc.json',
-      JSON.stringify({ rules: { 'use-pipe-decorator': 'error' } }),
-    );
-
-    // Project configs
-    appTree.create(
-      'angular.json',
-      JSON.stringify({
-        $schema: './node_modules/@angular/cli/lib/config/schema.json',
-        version: 1,
-        newProjectRoot: 'projects',
-        projects: {
-          foo: {
-            root: 'projects/foo',
-          },
-          bar: {
-            root: 'projects/bar',
-          },
-        },
-      }),
-    );
-
-    // Project configs
-    appTree.create(
-      'projects/foo/.eslintrc.json',
-      JSON.stringify({ rules: { 'use-pipe-decorator': 'error' } }),
-    );
-    appTree.create(
-      'projects/bar/.eslintrc.json',
-      JSON.stringify({
-        overrides: [
-          {
-            files: ['*.ts'],
-            rules: { 'use-pipe-decorator': 'error' },
-          },
-        ],
-      }),
-    );
-
     const tree = await migrationSchematicRunner
       .runSchematicAsync('update-2-0-0', {}, appTree)
       .toPromise();
