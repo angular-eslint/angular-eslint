@@ -1,5 +1,5 @@
 {
-  "$schema": "../../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "$schema": "../../../node_modules/@angular-devkit/schematics/collection-schema.json",
   "schematics": {
     "update-2-0-0": {
       "version": "2.0.0-beta.5",
