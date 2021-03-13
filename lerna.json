@@ -5,7 +5,7 @@
   "stream": true,
   "command": {
     "version": {
-      "allowBranch": ["main", "next-major-release/*"]
+      "allowBranch": ["master", "next-major-release/*"]
     }
   }
 }
