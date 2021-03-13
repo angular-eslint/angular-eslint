@@ -5,6 +5,22 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [2.0.0](https://github.com/angular-eslint/angular-eslint/compare/v1.2.0...v2.0.0) (2021-03-13)
 
+We have provided automated migrations for you to move to v2.
+
+All you need to do is first update to Angular and Angular CLI v11.2.0 or above (see https://update.angular.io for full instructions relating to Angular updates):
+
+```sh
+npx ng update @angular/cli @angular/core
+```
+
+And then run the update schematics for `@angular-eslint`:
+
+```sh
+npx ng update @angular-eslint/schematics
+```
+
+---
+
 ### Bug Fixes
 
 - **template-parser:** add BindingPipe exp to VisitorKeys ([#337](https://github.com/angular-eslint/angular-eslint/issues/337)) ([#338](https://github.com/angular-eslint/angular-eslint/issues/338)) ([75c406f](https://github.com/angular-eslint/angular-eslint/commit/75c406f9f496740a694681916b8b4cd7b438d574))
@@ -18,13 +34,15 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 ### BREAKING CHANGES
 
 - The format of results output has changed
-- The rule no longer exists for use
+
+- The `use-pipe-decorator` rule no longer exists for use
 
 - feat(template-parser): updated use of parseTemplate to improve loc data
-- Requires @angular/compiler 11.2.0 and above
+
+  - Requires @angular/compiler 11.2.0 and above
 
 - feat(schematics): change way indent and quotes are handled by conversion schematics
-- The conversion schematic handle these rules differently
+  - The conversion schematic handle these rules differently
 
 # [1.2.0](https://github.com/angular-eslint/angular-eslint/compare/v1.1.0...v1.2.0) (2021-02-06)
 
