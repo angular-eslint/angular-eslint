@@ -1,4 +1,7 @@
-import { TmplAstTextAttribute, TmplAstBoundAttribute } from '@angular/compiler';
+import type {
+  TmplAstTextAttribute,
+  TmplAstBoundAttribute,
+} from '@angular/compiler';
 
 import {
   createESLintRule,

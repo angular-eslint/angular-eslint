@@ -1,4 +1,3 @@
-import { aria, ARIAProperty, ARIAPropertyDefinition } from 'aria-query';
 import {
   AST,
   ASTWithSource,
@@ -8,7 +7,7 @@ import {
   TmplAstBoundAttribute,
   TmplAstTextAttribute,
 } from '@angular/compiler';
-
+import { aria, ARIAProperty, ARIAPropertyDefinition } from 'aria-query';
 import {
   createESLintRule,
   getTemplateParserServices,

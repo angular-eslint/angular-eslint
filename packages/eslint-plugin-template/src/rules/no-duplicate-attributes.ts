@@ -1,11 +1,10 @@
-import {
-  BindingType,
+import type {
   TmplAstBoundAttribute,
   TmplAstBoundEvent,
   TmplAstElement,
   TmplAstTextAttribute,
-  ParsedEventType,
 } from '@angular/compiler';
+import { BindingType, ParsedEventType } from '@angular/compiler';
 import {
   createESLintRule,
   getTemplateParserServices,

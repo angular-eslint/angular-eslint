@@ -1,4 +1,4 @@
-import { TmplAstElement } from '@angular/compiler';
+import type { TmplAstElement } from '@angular/compiler';
 
 import { getDomElements } from '../get-dom-elements';
 import { attributesComparator } from '../attributes-comparator';

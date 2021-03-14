@@ -1,11 +1,9 @@
-import {
-  ASTWithSource,
-  LiteralPrimitive,
+import type {
   TmplAstBoundAttribute,
   TmplAstElement,
   TmplAstTextAttribute,
 } from '@angular/compiler';
-
+import { ASTWithSource, LiteralPrimitive } from '@angular/compiler';
 import { PROPERTY } from './constants';
 
 // The generic type `T` extends plain types because literal primitives
