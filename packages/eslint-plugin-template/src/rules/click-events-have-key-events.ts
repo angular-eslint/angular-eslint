@@ -1,4 +1,4 @@
-import { TmplAstElement } from '@angular/compiler';
+import type { TmplAstElement } from '@angular/compiler';
 
 import {
   createESLintRule,

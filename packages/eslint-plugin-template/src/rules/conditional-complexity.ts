@@ -1,13 +1,15 @@
-import {
+import type {
   AST,
   ASTWithSource,
+  Interpolation,
+  TmplAstBoundAttribute,
+} from '@angular/compiler';
+import {
   Binary,
   BindingPipe,
   Conditional,
-  Interpolation,
   Lexer,
   Parser,
-  TmplAstBoundAttribute,
 } from '@angular/compiler';
 import {
   createESLintRule,

@@ -1,4 +1,4 @@
-import { Binary, PrefixNot } from '@angular/compiler';
+import type { Binary, PrefixNot } from '@angular/compiler';
 import {
   createESLintRule,
   ensureTemplateParser,
