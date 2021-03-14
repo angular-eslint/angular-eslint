@@ -129,8 +129,6 @@ jobs:
     if: github.ref == 'refs/heads/master'
     steps:
       - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
 
       # Fetch all history for all tags and branches in this job because lerna needs it
       - run: |
