@@ -88,9 +88,8 @@ async function run(
     // Filter out the null values
     .filter(Boolean) as ESLint.LintResult[];
 
-  const hasWarningsToPrint: boolean =
-    totalWarnings > 0 && printInfo && !reportOnlyErrors;
-  const hasErrorsToPrint: boolean = totalErrors > 0 && printInfo;
+  const hasWarningsToPrint: boolean = totalWarnings > 0 && !reportOnlyErrors;
+  const hasErrorsToPrint: boolean = totalErrors > 0;
 
   /**
    * It's important that we format all results together so that custom
@@ -101,11 +100,11 @@ async function run(
     context.logger.info(formatter.format(finalLintResults));
   }
 
-  if (hasWarningsToPrint) {
+  if (hasWarningsToPrint && printInfo) {
     context.logger.warn('Lint warnings found in the listed files.\n');
   }
 
-  if (hasErrorsToPrint) {
+  if (hasErrorsToPrint && printInfo) {
     context.logger.error('Lint errors found in the listed files.\n');
   }
 
