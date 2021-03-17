@@ -171,7 +171,7 @@ npx ng lint {{YOUR_PROJECT_NAME_GOES_HERE}}
 
 ### Step 3 - Remove root TSLint configuration and use only ESLint
 
-Once you are happy with your ESLint setup, you simply need to remove the root-level `tslint.json` and potentially uninstall TSLint and any TSLint-related plugins/dependencies if your Angular CLI workspace is now no longer using TSLint at all.
+Once you are happy with your ESLint setup, you simply need to remove the root-level `tslint.json` and potentially uninstall TSLint and any TSLint-related plugins/dependencies like `codelyzer`, if your Angular CLI workspace is now no longer using TSLint at all.
 
 <br>
 
