@@ -188,7 +188,7 @@ Fortunately, however, ESLint has clearly defined points of extensibility that we
 
 > For detailed information about ESLint plugins, parsers etc please review the official ESLint documentation: https://eslint.org
 
-**The key principal of our configuration required for Angular projects is that we need to run different blocks of configuration for different file types/extensions**. In other words, we don't want the same rules to apply on TypeScript files that we do on HTML/inline-templates.
+**The key principle of our configuration required for Angular projects is that we need to run different blocks of configuration for different file types/extensions**. In other words, we don't want the same rules to apply on TypeScript files that we do on HTML/inline-templates.
 
 Therefore, the critical part of our configuration is the `"overrides"` array:
 
