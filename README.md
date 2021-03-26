@@ -563,6 +563,18 @@ If you are not sure what `"createDefaultProgram"` does, please reread the sectio
 
 <br>
 
+---
+
+## Non-Codelyzer Rules
+
+| Rule Name             | Rule Description                                                                    |
+| --------------------- | ----------------------------------------------------------------------------------- |
+| ngmodule-array-sorted | Rule enforces a sorted array in NgModule decorator properties for class identifiers |
+
+<br>
+
+---
+
 ## Status of Codelyzer Rules Conversion
 
 The table below shows the status of each Codelyzer Rule in terms of whether or not an equivalent for it has been created within `@angular-eslint`.
