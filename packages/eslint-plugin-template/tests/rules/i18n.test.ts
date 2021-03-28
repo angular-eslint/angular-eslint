@@ -104,6 +104,14 @@ ruleTester.run(RULE_NAME, rule, {
         </div>`,
       options: [{}],
     },
+    {
+      code: `
+        <my-component size="s">
+          <span>-{{data_from_backend}}</span>
+        </my-component>
+      `,
+      options: [{ ignoreTags: ['my-component'] }],
+    },
   ],
   invalid: [
     convertAnnotatedSourceToFailureCase({
