@@ -95,10 +95,11 @@ async function run(
    * It's important that we format all results together so that custom
    * formatters, such as checkstyle, can provide a valid output for the
    * whole project being linted.
+   *
+   * Additionally, we want to always log because different formatters
+   * handled the "no results" case differently.
    */
-  if (hasWarningsToPrint || hasErrorsToPrint) {
-    context.logger.info(formatter.format(finalLintResults));
-  }
+  context.logger.info(formatter.format(finalLintResults));
 
   if (hasWarningsToPrint && printInfo) {
     context.logger.warn('Lint warnings found in the listed files.\n');

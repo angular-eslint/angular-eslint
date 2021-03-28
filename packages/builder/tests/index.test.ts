@@ -478,11 +478,6 @@ describe('Linter Builder', () => {
       );
       expect(flattenedCalls).not.toContainEqual(
         expect.objectContaining({
-          message: expect.stringMatching(/^\s*$/),
-        }),
-      );
-      expect(flattenedCalls).not.toContainEqual(
-        expect.objectContaining({
           message: expect.stringContaining(
             'Lint errors found in the listed files.',
           ),
