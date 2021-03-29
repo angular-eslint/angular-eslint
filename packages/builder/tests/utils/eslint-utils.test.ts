@@ -17,7 +17,7 @@ describe('eslint-utils', () => {
   });
 
   it('should create the ESLint instance with the proper parameters', async () => {
-    await lint('./.eslintrc.json', <unknown>{
+    await lint('/root', './.eslintrc.json', <unknown>{
       fix: true,
       cache: true,
       cacheLocation: '/root/cache',
@@ -36,7 +36,7 @@ describe('eslint-utils', () => {
   });
 
   it('should create the ESLint instance with the proper parameters', async () => {
-    await lint(undefined, <unknown>{
+    await lint('/root', undefined, <unknown>{
       fix: true,
       cache: true,
       cacheLocation: '/root/cache',

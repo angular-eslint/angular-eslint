@@ -153,7 +153,7 @@ describe('Linter Builder', () => {
         ignorePath: null,
       }),
     );
-    expect(lint).toHaveBeenCalledWith(resolve('/root/.eslintrc'), {
+    expect(lint).toHaveBeenCalledWith('/root', resolve('/root/.eslintrc'), {
       lintFilePatterns: [],
       eslintConfig: './.eslintrc',
       exclude: ['excludedFile1'],
