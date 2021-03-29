@@ -19,7 +19,7 @@ export default function (options: Schema): Rule {
     /**
      * This appeared to be the only way to schedule clean up work on e.g. tslint.json
      * because there are parts of the @schematics/angular workspace schematic as they
-     * exist today which will error if tslint.json is not present.
+     * exist before Angular-CLI v12 which will error if tslint.json is not present.
      */
     context.addTask(
       new RunSchematicTask('workspace-post', { name: options.name }),
