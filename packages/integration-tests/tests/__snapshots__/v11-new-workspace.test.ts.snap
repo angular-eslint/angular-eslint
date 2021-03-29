@@ -217,10 +217,12 @@ Object {
 exports[`v11-new-workspace it should pass linting after creating a new workspace from scratch using @angular-eslint 11`] = `
 "
 Linting \\"v11-new-workspace\\"...
+
 All files pass linting.
 
 
 Linting \\"another-app\\"...
+
 All files pass linting.
 
 
