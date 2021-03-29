@@ -12,8 +12,8 @@ async function run(
   options: Schema,
   context: BuilderContext,
 ): Promise<BuilderOutput> {
-  const systemRoot = context.workspaceRoot;
-  process.chdir(context.currentDirectory);
+  const workspaceRoot = context.workspaceRoot;
+  process.chdir(workspaceRoot);
 
   const projectName = context.target?.project || '<???>';
   const printInfo = options.format && !options.silent;
@@ -43,10 +43,11 @@ async function run(
    * eslint automatically resolve the `.eslintrc` files in each folder.
    */
   const eslintConfigPath = options.eslintConfig
-    ? path.resolve(systemRoot, options.eslintConfig)
+    ? path.resolve(workspaceRoot, options.eslintConfig)
     : undefined;
 
   const lintResults: ESLint.LintResult[] = await lint(
+    workspaceRoot,
     eslintConfigPath,
     options,
   );
