@@ -35,10 +35,7 @@
   },
   "devDependencies": {
     "@typescript-eslint/experimental-utils": "4.16.1",
-    "eslint": "^7.6.0",
-    "eslint-plugin-import": "2.22.1",
-    "eslint-plugin-jsdoc": "30.7.6",
-    "eslint-plugin-prefer-arrow": "1.2.2"
+    "eslint": "^7.6.0"
   },
   "peerDependencies": {
     "@angular/cli": ">= 11.2.0 < 12.0.0"

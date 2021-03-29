@@ -32,9 +32,6 @@
   "peerDependencies": {
     "@angular/compiler": ">= 11.2.0 < 12.0.0",
     "eslint": "*",
-    "eslint-plugin-import": "*",
-    "eslint-plugin-jsdoc": "*",
-    "eslint-plugin-prefer-arrow": "*",
     "typescript": "*"
   },
   "gitHead": "7a92faa8c58964e966abfae38ca049ae9cb3e78a"
