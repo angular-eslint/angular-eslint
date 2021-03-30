@@ -79,6 +79,9 @@ import preferOutputReadonly, {
 import relativeUrlPrefix, {
   RULE_NAME as relativeUrlPrefixRuleName,
 } from './rules/relative-url-prefix';
+import sortNgmoduleArrays, {
+  RULE_NAME as sortNgmoduleArraysName,
+} from './rules/sort-ngmodule-arrays';
 import useComponentSelector, {
   RULE_NAME as useComponentSelectorRuleName,
 } from './rules/use-component-selector';
@@ -132,6 +135,7 @@ export default {
     [preferOnPushComponentChangeDetectionRuleName]: preferOnPushComponentChangeDetection,
     [preferOutputReadonlyRuleName]: preferOutputReadonly,
     [relativeUrlPrefixRuleName]: relativeUrlPrefix,
+    [sortNgmoduleArraysName]: sortNgmoduleArrays,
     [useComponentSelectorRuleName]: useComponentSelector,
     [useComponentViewEncapsulationRuleName]: useComponentViewEncapsulation,
     [useInjectableProvidedInRuleName]: useInjectableProvidedIn,
