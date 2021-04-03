@@ -48,15 +48,9 @@ export default createESLintRule<Options, MessageIds>({
       {
         type: 'object',
         properties: {
-          template: {
-            type: 'number',
-          },
-          styles: {
-            type: 'number',
-          },
-          animations: {
-            type: 'number',
-          },
+          template: { minimum: 0, type: 'number' },
+          styles: { minimum: 0, type: 'number' },
+          animations: { minimum: 0, type: 'number' },
         },
         additionalProperties: false,
       },
@@ -72,11 +66,16 @@ export default createESLintRule<Options, MessageIds>({
       animations: DEFAULT_ANIMATIONS_LIMIT,
     },
   ],
-  create(context, [{ template = -1, styles = -1, animations = -1 }]) {
-    template = template > -1 ? template : DEFAULT_TEMPLATE_LIMIT;
-    styles = styles > -1 ? styles : DEFAULT_STYLES_LIMIT;
-    animations = animations > -1 ? animations : DEFAULT_ANIMATIONS_LIMIT;
-
+  create(
+    context,
+    [
+      {
+        template = DEFAULT_TEMPLATE_LIMIT,
+        styles = DEFAULT_STYLES_LIMIT,
+        animations = DEFAULT_ANIMATIONS_LIMIT,
+      },
+    ],
+  ) {
     return {
       [`${COMPONENT_CLASS_DECORATOR} Property[key.name='template']`]({
         value,
