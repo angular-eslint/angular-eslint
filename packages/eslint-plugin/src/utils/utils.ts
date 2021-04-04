@@ -296,7 +296,7 @@ export function getNearestNodeFrom<T extends TSESTree.Node>(
 
 export const getClassName = (node: TSESTree.Node): string | undefined => {
   if (isClassDeclaration(node)) {
-    return node.id ? node.id.name : undefined;
+    return node.id?.name;
   }
   if (node.parent) {
     return getClassName(node.parent);
