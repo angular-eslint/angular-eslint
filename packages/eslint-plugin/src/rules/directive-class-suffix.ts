@@ -1,7 +1,11 @@
 import { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import { DIRECTIVE_CLASS_DECORATOR } from '../utils/selectors';
-import { getClassName, getDeclaredInterfaceNames } from '../utils/utils';
+import {
+  getClassName,
+  getDeclaredInterfaceNames,
+  getDecoratorPropertyValue,
+} from '../utils/utils';
 
 type Options = [
   {
@@ -52,6 +56,13 @@ export default createESLintRule<Options, MessageIds>({
 
     return {
       [DIRECTIVE_CLASS_DECORATOR](node: TSESTree.Decorator) {
+        const selectorPropertyValue = getDecoratorPropertyValue(
+          node,
+          'selector',
+        );
+
+        if (!selectorPropertyValue) return;
+
         const classParent = node.parent as TSESTree.ClassDeclaration;
         const className = getClassName(classParent);
 

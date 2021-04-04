@@ -38,8 +38,8 @@ ruleTester.run(RULE_NAME, rule, {
     class TestValidator implements AsyncValidator {}
 `,
     `
-    @Directive
-    class TestDirective {}
+    @Directive()
+    class Test {}
 `,
     `
     @Pipe({
