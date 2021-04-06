@@ -5,7 +5,7 @@ import {
   getClassName,
   getDeclaredInterfaceNames,
   getDecoratorPropertyValue,
-  getReadablePrefixes,
+  toHumanReadableText,
 } from '../utils/utils';
 
 type Options = [{ readonly suffixes: readonly string[] }];
@@ -72,7 +72,7 @@ export default createESLintRule<Options, MessageIds>({
             messageId: 'directiveClassSuffix',
             data: {
               className,
-              suffixes: getReadablePrefixes(allSuffixes),
+              suffixes: toHumanReadableText(allSuffixes),
             },
           });
         }
