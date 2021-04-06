@@ -7,11 +7,11 @@ import {
   isIdentifier,
 } from '../utils/utils';
 
-import { NgModule } from '@angular/compiler/src/core';
+import type { NgModule } from '@angular/compiler/src/core';
 
 type Options = [];
-export const RULE_NAME = 'sort-ngmodule-arrays';
-export type MessageIds = 'sortNgmoduleArrays';
+export const RULE_NAME = 'sort-ngmodule-metadata-arrays';
+export type MessageIds = 'sortNgmoduleMetadataArrays';
 const validProperties: (keyof NgModule)[] = [
   'bootstrap',
   'declarations',
@@ -34,7 +34,7 @@ export default createESLintRule<Options, MessageIds>({
     },
     schema: [],
     messages: {
-      sortNgmoduleArrays:
+      sortNgmoduleMetadataArrays:
         'NgModule metadata arrays should be sorted in ASC alphabetical order',
     },
   },
@@ -59,7 +59,7 @@ export default createESLintRule<Options, MessageIds>({
             );
           if (!unorderedNode) return;
           context.report({
-            messageId: 'sortNgmoduleArrays',
+            messageId: 'sortNgmoduleMetadataArrays',
             node: unorderedNode,
           });
         });

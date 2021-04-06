@@ -5,7 +5,7 @@ import {
 import rule, {
   MessageIds,
   RULE_NAME,
-} from '../../src/rules/sort-ngmodule-arrays';
+} from '../../src/rules/sort-ngmodule-metadata-arrays';
 
 //------------------------------------------------------------------------------
 // Tests
@@ -15,7 +15,7 @@ const ruleTester = new RuleTester({
   parser: '@typescript-eslint/parser',
 });
 
-const messageIdSortFailure: MessageIds = 'sortNgmoduleArrays';
+const messageIdSortFailure: MessageIds = 'sortNgmoduleMetadataArrays';
 
 ruleTester.run(RULE_NAME, rule, {
   valid: [

@@ -1,4 +1,4 @@
-# Enforces sorting of values within NgModule metadata arrays (`sort-ngmodule-arrays`)
+# Enforces sorting of values within NgModule metadata arrays (`sort-ngmodule-metadata-arrays`)
 
 This rule enforces that NgModule metadata arrays have a sorted list of identifiers. Objects such as provider definitions, call expressions and computed members will be ignored for sorting purposes. Sorting is based on simple string localeCompare.
 
@@ -28,6 +28,6 @@ There are no additional options for this rule
 
 ```json
 {
-  "@angular-eslint/sort-ngmodule-arrays": ["error"]
+  "@angular-eslint/sort-ngmodule-metadata-arrays": ["error"]
 }
 ```
