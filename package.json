@@ -44,7 +44,6 @@
       "@commitlint/config-conventional"
     ]
   },
-  "dependencies": {},
   "devDependencies": {
     "@angular-devkit/architect": "~0.1102.3",
     "@angular-devkit/build-angular": "~0.1102.3",
@@ -63,8 +62,8 @@
     "@types/jest": "^26.0.15",
     "@types/node": "^10.12.2",
     "@types/prettier": "^1.19.0",
-    "@typescript-eslint/parser": "4.16.1",
     "@typescript-eslint/eslint-plugin": "4.16.1",
+    "@typescript-eslint/parser": "4.16.1",
     "eslint": "^7.6.0",
     "eslint-config-prettier": "7.1.0",
     "eslint-plugin-import": "2.22.1",
