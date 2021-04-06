@@ -1,4 +1,4 @@
-# Enforces sorting of array identifiers for NgModule Properties (`sort-ngmodule-arrays`)
+# Enforces sorting of values within NgModule metadata arrays (`sort-ngmodule-arrays`)
 
 This rule enforces that NgModule metadata arrays have a sorted list of identifiers. Objects such as provider definitions, call expressions and computed members will be ignored for sorting purposes. Sorting is based on simple string localeCompare.
 
