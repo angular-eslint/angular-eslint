@@ -2,10 +2,8 @@ import {
   convertAnnotatedSourceToFailureCase,
   RuleTester,
 } from '@angular-eslint/utils';
-import rule, {
-  MessageIds,
-  RULE_NAME,
-} from '../../src/rules/click-events-have-key-events';
+import type { MessageIds } from '../../src/rules/click-events-have-key-events';
+import rule, { RULE_NAME } from '../../src/rules/click-events-have-key-events';
 
 //------------------------------------------------------------------------------
 // Tests

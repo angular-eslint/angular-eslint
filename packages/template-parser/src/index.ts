@@ -1,4 +1,5 @@
-import { ParseSourceSpan, parseTemplate } from '@angular/compiler';
+import type { ParseSourceSpan } from '@angular/compiler';
+import { parseTemplate } from '@angular/compiler';
 import type { Comment } from '@angular/compiler/src/render3/r3_ast';
 import { Scope, ScopeManager } from 'eslint-scope';
 import {

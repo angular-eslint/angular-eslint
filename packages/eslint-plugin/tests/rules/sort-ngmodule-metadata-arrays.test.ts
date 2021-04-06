@@ -2,10 +2,8 @@ import {
   convertAnnotatedSourceToFailureCase,
   RuleTester,
 } from '@angular-eslint/utils';
-import rule, {
-  MessageIds,
-  RULE_NAME,
-} from '../../src/rules/sort-ngmodule-metadata-arrays';
+import type { MessageIds } from '../../src/rules/sort-ngmodule-metadata-arrays';
+import rule, { RULE_NAME } from '../../src/rules/sort-ngmodule-metadata-arrays';
 
 //------------------------------------------------------------------------------
 // Tests

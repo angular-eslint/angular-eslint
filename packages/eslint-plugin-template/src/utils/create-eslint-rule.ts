@@ -1,4 +1,5 @@
-import { ESLintUtils, TSESLint } from '@typescript-eslint/experimental-utils';
+import type { TSESLint } from '@typescript-eslint/experimental-utils';
+import { ESLintUtils } from '@typescript-eslint/experimental-utils';
 
 export const createESLintRule = ESLintUtils.RuleCreator(
   (_ruleName) => `https://github.com/angular-eslint/angular-eslint`,

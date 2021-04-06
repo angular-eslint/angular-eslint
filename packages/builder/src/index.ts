@@ -1,11 +1,8 @@
-import {
-  BuilderContext,
-  BuilderOutput,
-  createBuilder,
-} from '@angular-devkit/architect';
-import { ESLint } from 'eslint';
+import type { BuilderContext, BuilderOutput } from '@angular-devkit/architect';
+import { createBuilder } from '@angular-devkit/architect';
+import type { ESLint } from 'eslint';
 import path from 'path';
-import { Schema } from './schema';
+import type { Schema } from './schema';
 import { lint, loadESLint } from './utils/eslint-utils';
 
 async function run(

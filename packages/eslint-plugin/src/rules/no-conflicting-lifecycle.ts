@@ -1,11 +1,13 @@
-import { TSESTree } from '@typescript-eslint/experimental-utils';
+import type { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
+import type {
+  AngularLifecycleInterfaceKeys,
+  AngularLifecycleMethodKeys,
+} from '../utils/utils';
 import {
   AngularLifecycleInterfaces,
   getDeclaredAngularLifecycleInterfaces,
   AngularLifecycleMethods,
-  AngularLifecycleInterfaceKeys,
-  AngularLifecycleMethodKeys,
   getDeclaredAngularLifecycleMethods,
   getDeclaredInterfaces,
   isAngularLifecycleInterface,

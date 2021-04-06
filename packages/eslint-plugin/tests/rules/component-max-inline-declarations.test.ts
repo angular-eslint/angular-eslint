@@ -2,8 +2,8 @@ import {
   convertAnnotatedSourceToFailureCase,
   RuleTester,
 } from '@angular-eslint/utils';
+import type { MessageIds } from '../../src/rules/component-max-inline-declarations';
 import rule, {
-  MessageIds,
   RULE_NAME,
 } from '../../src/rules/component-max-inline-declarations';
 

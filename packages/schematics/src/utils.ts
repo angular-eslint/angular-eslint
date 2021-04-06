@@ -4,8 +4,9 @@
  *
  * Thanks, Nrwl folks!
  */
-import { join, normalize, Path } from '@angular-devkit/core';
-import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
+import type { Path } from '@angular-devkit/core';
+import { join, normalize } from '@angular-devkit/core';
+import type { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import stripJsonComments from 'strip-json-comments';
 
 /**

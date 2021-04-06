@@ -2,10 +2,8 @@ import {
   convertAnnotatedSourceToFailureCase,
   RuleTester,
 } from '@angular-eslint/utils';
-import rule, {
-  MessageIds,
-  RULE_NAME,
-} from '../../src/rules/directive-class-suffix';
+import type { MessageIds } from '../../src/rules/directive-class-suffix';
+import rule, { RULE_NAME } from '../../src/rules/directive-class-suffix';
 
 //------------------------------------------------------------------------------
 // Tests
