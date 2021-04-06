@@ -37,6 +37,7 @@ ruleTester.run(RULE_NAME, rule, {
     })
     class TestValidator implements AsyncValidator {}
     `,
+    // https://github.com/angular-eslint/angular-eslint/issues/353
     `
     @Directive()
     class Test {}
