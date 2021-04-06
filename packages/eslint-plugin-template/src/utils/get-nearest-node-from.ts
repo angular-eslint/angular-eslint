@@ -1,5 +1,5 @@
-import { AST } from '@angular/compiler';
-import { Node } from '@angular/compiler/src/render3/r3_ast';
+import type { AST } from '@angular/compiler';
+import type { Node } from '@angular/compiler/src/render3/r3_ast';
 
 type ASTOrNodeWithParent = (AST | Node) & { parent?: ASTOrNodeWithParent };
 
