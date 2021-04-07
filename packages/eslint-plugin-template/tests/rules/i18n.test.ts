@@ -105,12 +105,24 @@ ruleTester.run(RULE_NAME, rule, {
       options: [{}],
     },
     {
+      // https://github.com/angular-eslint/angular-eslint/issues/298
       code: `
         <my-component size="s">
           <span>-{{data_from_backend}}</span>
         </my-component>
       `,
       options: [{ ignoreTags: ['my-component'] }],
+    },
+    {
+      // https://github.com/angular-eslint/angular-eslint/issues/327
+      code: `<p i18n="@@customId">Lorem ipsum <i>dolor</i> sit amet.</p>`,
+      options: [
+        {
+          checkAttributes: false,
+          checkId: true,
+          checkText: false,
+        },
+      ],
     },
   ],
   invalid: [
