@@ -1,4 +1,5 @@
 import { ParseSourceSpan, parseTemplate } from '@angular/compiler';
+import type { Comment } from '@angular/compiler/src/render3/r3_ast';
 import { Scope, ScopeManager } from 'eslint-scope';
 import {
   convertElementSourceSpanToLoc,
@@ -14,20 +15,29 @@ interface VisitorKeys {
   [nodeName: string]: string[];
 }
 
-interface LOC {
-  line: number;
-  column: number;
+interface SourceLocation {
+  start: {
+    line: number;
+    column: number;
+  };
+  end: {
+    line: number;
+    column: number;
+  };
+}
+interface Token {
+  type: string;
+  loc: SourceLocation;
+  range: [number, number];
+  value: string;
 }
 
 interface AST extends Node {
   type: string;
-  comments: string[];
-  tokens: string[];
+  comments: Token[];
+  tokens: Token[];
   range: [number, number];
-  loc: {
-    start: LOC;
-    end: LOC;
-  };
+  loc: SourceLocation;
   templateNodes: any[];
   value: string;
 }
@@ -156,15 +166,44 @@ function getEndSourceSpanFromAST(ast: AST): ParseSourceSpan | null {
   return endSourceSpan;
 }
 
+function convertNgAstCommentsToTokens(comments: Comment[]) {
+  const commentTokens = comments.map((comment) => {
+    return {
+      // In an HTML context, effectively all our comments are Block comments
+      type: 'Block',
+      value: comment.value,
+      loc: convertNodeSourceSpanToLoc(comment.sourceSpan),
+      range: [comment.sourceSpan.start.offset, comment.sourceSpan.end.offset],
+    } as Token;
+  });
+  /**
+   * ESLint requires this to be sorted by Token#range[0]
+   * https://eslint.org/docs/developer-guide/working-with-custom-parsers
+   */
+  return commentTokens.sort((a, b) => a.range[0] - b.range[0]);
+}
+
 function parseForESLint(code: string, options: { filePath: string }) {
   const angularCompilerResult = parseTemplate(code, options.filePath, {
     preserveWhitespaces: true,
     preserveLineEndings: true,
+    collectCommentNodes: true,
   });
+
+  /**
+   * Before v11.2.8 (and this PR https://github.com/angular/angular/pull/41251) the @angular/compiler did not
+   * expose Comment nodes on its returned AST, so we need to check they exist before attempting to transform them.
+   *
+   * TODO: Remove this check once the minimum supported version of Angular is v12
+   */
+  let ngAstCommentNodes: Comment[] = [];
+  if (Array.isArray(angularCompilerResult.commentNodes)) {
+    ngAstCommentNodes = angularCompilerResult.commentNodes;
+  }
 
   const ast: AST = {
     type: 'Program',
-    comments: [],
+    comments: convertNgAstCommentsToTokens(ngAstCommentNodes),
     tokens: [],
     range: [0, 0],
     loc: {
