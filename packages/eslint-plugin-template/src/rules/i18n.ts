@@ -160,6 +160,7 @@ export default createESLintRule<Options, MessageIds>({
     }
 
     function checkNode(node: any, name: string): void {
+      if (checkIgnoreTags.includes(node.name)) return;
       const loc = parserServices.convertNodeSourceSpanToLoc(node.sourceSpan);
       const startIndex = sourceCode.getIndexFromLoc(loc.start);
       let insertIndex = startIndex + 1;
@@ -232,10 +233,7 @@ export default createESLintRule<Options, MessageIds>({
         }
       } else {
         // No i18n attribute here!
-        if (
-          checkText &&
-          (!checkIgnoreTags || checkIgnoreTags.indexOf(node.name) === -1)
-        ) {
+        if (checkText) {
           // Attempted to check for child nodes that also include i18n
           // however these throw a template parser error before the linter
           // is allowed to run, so no need!

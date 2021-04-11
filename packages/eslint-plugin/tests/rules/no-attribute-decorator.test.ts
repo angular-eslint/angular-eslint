@@ -17,108 +17,53 @@ ruleTester.run(RULE_NAME, rule, {
   valid: [
     // should pass if constructor does not exist
     `
-      class Test {
-        public foo(){}
-      }
+    class Test {
+      foo() {}
+    }
     `,
-    // should pass if constructor exists but no parameter
+    // should pass if the constructor has no parameter properties
     `
-      class Test {
-        constructor() {}
-      }
+    class Test {
+      constructor() {}
+    }
     `,
-    // should pass if constructor exists and have one parameter without decorator
+    // should pass if the constructor exists, but none of the parameter properties are decorated with `@ Attribute`
     `
-      class Test {
-        constructor(foo: any) {}
-      }
-    `,
-    // should pass if constructor exists and have one parameter with decorator
-    `
-      class Test {
-        constructor(@Optional() foo: any) {}
-      }
-    `,
-    // // should pass if constructor exists and have multiple parameters without decorator
-    `
-      class Test {
-        constructor(foo: any, @Optional() bar: any) {}
-      }
-    `,
-    // // should pass if constructor exists and have multiple parameters with decorator
-    `
-      class Test {
-        constructor(@Optional() foo: any, @Optional() bar: any) {}
-      }
+    class Test {
+      constructor(@Optional() foo: string, @Optional() bar: string, baz: number) {}
+    }
     `,
   ],
   invalid: [
     convertAnnotatedSourceToFailureCase({
       description:
-        'should fail if constructor has one parameter with @Attribute decorator',
+        'should fail if a parameter property is decorated with `@Attribute`',
       annotatedSource: `
-      class Test {
-        constructor(@Attribute() foo: any) {}
-                                 ~~~~~~~~
-      }
-    `,
+        class Test {
+          constructor(@Attribute() foo: string) {}
+                      ~~~~~~~~~~~~
+        }
+      `,
       messageId,
     }),
-
     convertAnnotatedSourceToFailureCase({
       description:
-        'should fail if constructor has one parameter with @Attribute decorator',
+        'should fail if multiple parameter properties are decorated with `@Attribute`',
       annotatedSource: `
-      class Test {
-        constructor(@Attribute("name") foo: any) {}
-                                       ~~~~~~~~
-      }
-    `,
-      messageId,
-    }),
-
-    convertAnnotatedSourceToFailureCase({
-      description:
-        'should fail if constructor has multiple parameters but one with @Attribute decorator',
-      annotatedSource: `
-      class Test {
-        constructor(foo: any, @Attribute() bar: any) {}
-                                           ~~~~~~~~
-      }
-    `,
-      messageId,
-    }),
-
-    convertAnnotatedSourceToFailureCase({
-      description:
-        'should fail if constructor has multiple parameters but one with @Attribute decorator',
-      annotatedSource: `
-      class Test {
-        constructor(@Optional() foo: any, @Attribute() bar: any) {}
-                                                       ~~~~~~~~
-      }
-    `,
-      messageId,
-    }),
-
-    convertAnnotatedSourceToFailureCase({
-      description: `should fail if constructor has multiple parameters
-      and all with @Attribute decorator`,
-      annotatedSource: `
-      class Test {
-        constructor(@Attribute() foo: any, @Attribute() bar: any) {}
-                                 ~~~~~~~~               ^^^^^^^^
-      }
-    `,
+        class Test {
+          constructor(
+            @Inject(TOKEN) token: string,
+            randomNumber: number,
+            @Attribute() foo: string,
+            ~~~~~~~~~~~~
+            @Attribute('baz') bar: string
+            ^^^^^^^^^^^^^^^^^
+          ) {}
+        }
+      `,
       messages: [
-        {
-          char: '~',
-          messageId: messageId,
-        },
-        {
-          char: '^',
-          messageId: messageId,
-        },
+        { char: '~', messageId },
+        { char: '^', messageId },
       ],
     }),
   ],
