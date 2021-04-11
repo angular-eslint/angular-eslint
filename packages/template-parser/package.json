@@ -8,6 +8,7 @@
   "scripts": {
     "build": "rimraf ./dist && microbundle --tsconfig tsconfig.build.json --no-sourcemap --target=node --compress --format=cjs",
     "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "jest --coverage",
     "clean": "rimraf ./dist"
   },
   "repository": {
