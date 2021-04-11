@@ -1,4 +1,11 @@
-import type { MethodCall } from '@angular/compiler';
+import {
+  AST,
+  Conditional,
+  MethodCall,
+  SafeMethodCall,
+  TmplAstBoundEvent,
+} from '@angular/compiler';
+import { getNearestNodeFrom } from '../utils/get-nearest-node-from';
 import {
   createESLintRule,
   ensureTemplateParser,
@@ -28,18 +35,47 @@ export default createESLintRule<Options, MessageIds>({
     ensureTemplateParser(context);
     const sourceCode = context.getSourceCode();
 
+    function report({ sourceSpan: { end, start } }: AST) {
+      context.report({
+        messageId: 'noCallExpression',
+        loc: {
+          start: sourceCode.getLocFromIndex(start),
+          end: sourceCode.getLocFromIndex(end),
+        },
+      });
+    }
+
     return {
-      ':not(BoundEvent) > * > :matches(MethodCall[name!="$any"], SafeMethodCall)'({
-        sourceSpan: { end, start },
-      }: MethodCall) {
-        context.report({
-          messageId: 'noCallExpression',
-          loc: {
-            start: sourceCode.getLocFromIndex(start),
-            end: sourceCode.getLocFromIndex(end),
-          },
-        });
+      'Conditional, MethodCall[name!="$any"], SafeMethodCall'(
+        conditionalOrMethodCall: Conditional | MethodCall | SafeMethodCall,
+      ) {
+        const isChildOfBoundEvent = !!getNearestNodeFrom(
+          conditionalOrMethodCall,
+          isBoundEvent,
+        );
+
+        if (isChildOfBoundEvent) return;
+
+        if (!(conditionalOrMethodCall instanceof Conditional)) {
+          report(conditionalOrMethodCall);
+
+          return;
+        }
+
+        const { falseExp, trueExp } = conditionalOrMethodCall;
+
+        if (isMethodCall(falseExp)) report(falseExp);
+
+        if (isMethodCall(trueExp)) report(trueExp);
       },
     };
   },
 });
+
+function isBoundEvent(node: unknown): node is TmplAstBoundEvent {
+  return node instanceof TmplAstBoundEvent;
+}
+
+function isMethodCall(node: unknown): node is MethodCall | SafeMethodCall {
+  return node instanceof MethodCall || node instanceof SafeMethodCall;
+}
