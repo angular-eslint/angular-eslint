@@ -3,14 +3,18 @@ import {
   createESLintRule,
   getTemplateParserServices,
 } from '../utils/create-eslint-rule';
+import { isHiddenFromScreenReader } from '../utils/is-hidden-from-screen-reader';
 
 type Options = [];
 export type MessageIds = 'accessibilityElementsContent';
 export const RULE_NAME = 'accessibility-elements-content';
-const innerContentInputs: ReadonlySet<string> = new Set([
+const safelistAttributes: ReadonlySet<string> = new Set([
+  'aria-label',
   'innerHtml',
   'innerHTML',
   'innerText',
+  'outerHTML',
+  'title',
 ]);
 
 export default createESLintRule<Options, MessageIds>({
@@ -19,13 +23,13 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description:
-        'Ensures that the heading, anchor and button elements have content in it.',
+        'Ensures that the heading, anchor and button elements have content in it',
       category: 'Best Practices',
       recommended: false,
     },
     schema: [],
     messages: {
-      accessibilityElementsContent: '<{{element}}/> should have content.',
+      accessibilityElementsContent: '<{{element}}> should have content',
     },
   },
   defaultOptions: [],
@@ -33,16 +37,17 @@ export default createESLintRule<Options, MessageIds>({
     const parserServices = getTemplateParserServices(context);
 
     return {
-      'Element[name=/^(a|button|h1|h2|h3|h4|h5|h6)$/][children.length=0]'({
-        inputs,
-        name: element,
-        sourceSpan,
-      }: TmplAstElement) {
-        const hasInnerContent = inputs.some(({ name }) =>
-          innerContentInputs.has(name),
-        );
+      'Element[name=/^(a|button|h1|h2|h3|h4|h5|h6)$/][children.length=0]'(
+        node: TmplAstElement,
+      ) {
+        if (isHiddenFromScreenReader(node)) return;
 
-        if (hasInnerContent) return;
+        const { attributes, inputs, name: element, sourceSpan } = node;
+        const hasAttributeSafelisted = [...attributes, ...inputs]
+          .map(({ name }) => name)
+          .some((inputName) => safelistAttributes.has(inputName));
+
+        if (hasAttributeSafelisted) return;
 
         const loc = parserServices.convertNodeSourceSpanToLoc(sourceSpan);
 

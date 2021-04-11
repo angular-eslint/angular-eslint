@@ -219,7 +219,7 @@ export default createESLintRule<Options, MessageIds>({
         }
       });
 
-      if (node.i18n) {
+      if (node.i18n && !node.parent?.i18n) {
         // if this element already has i18n
         if (checkId) {
           if (!node.i18n.customId) {
@@ -231,39 +231,33 @@ export default createESLintRule<Options, MessageIds>({
             });
           }
         }
-      } else {
-        // No i18n attribute here!
-        if (checkText) {
-          // Attempted to check for child nodes that also include i18n
-          // however these throw a template parser error before the linter
-          // is allowed to run, so no need!
-
-          // Need to check the children
-          if (
-            node.children &&
-            node.children.some(
-              (child: any) =>
-                // is type of text node AND does not only contain whitespace
-                (TEXT_TYPE_NAMES.includes(child.type) &&
-                  /\S/.test(child.value)) ||
-                // bound text that has no text
-                (child.type === 'BoundText' &&
-                  checkBoundTextAllowedPattern.test(
-                    child.value.ast.strings.join('').trim(),
-                  )),
-            )
-          ) {
-            // If at least one child is a text node then we probably need i18n
-            context.report({
-              messageId: 'i18nText',
-              loc,
-              fix: (fixer) =>
-                fixer.replaceTextRange(
-                  [insertIndex, insertIndex],
-                  ' ' + ATTRIB_I18N,
-                ),
-            });
-          }
+      } else if (!node.i18n && checkText) {
+        // Attempted to check for child nodes that also include i18n
+        // however these throw a template parser error before the linter
+        // is allowed to run, so no need!
+        if (
+          node.children.some(
+            (child: any) =>
+              // is type of text node AND does not only contain whitespace
+              (TEXT_TYPE_NAMES.includes(child.type) &&
+                /\S/.test(child.value)) ||
+              // bound text that has no text
+              (child.type === 'BoundText' &&
+                checkBoundTextAllowedPattern.test(
+                  child.value.ast.strings.join('').trim(),
+                )),
+          )
+        ) {
+          // If at least one child is a text node then we probably need i18n
+          context.report({
+            messageId: 'i18nText',
+            loc,
+            fix: (fixer) =>
+              fixer.replaceTextRange(
+                [insertIndex, insertIndex],
+                ' ' + ATTRIB_I18N,
+              ),
+          });
         }
       }
     }
