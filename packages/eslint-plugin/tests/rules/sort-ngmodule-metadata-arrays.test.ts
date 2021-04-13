@@ -38,7 +38,8 @@ ruleTester.run(RULE_NAME, rule, {
           AComponent,
           bDirective,
           cPipe,
-          DComponent
+          DComponent,
+          VariableComponent,
         ],
         providers: [
           AProvider,
