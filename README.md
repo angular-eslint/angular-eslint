@@ -563,6 +563,17 @@ If you are not sure what `"createDefaultProgram"` does, please reread the sectio
 
 <br>
 
+## Using `eslint-disable` comments in Angular templates
+
+If you want to be able to use `eslint-disable` comments in your Angular templates you just need to ensure you are using:
+
+- `@angular` CLI tooling packages version `11.2.8` or higher
+- `@angular-eslint` tooling packages version `2.1.0` or higher
+
+Make sure you are using valid HTML comments, i.e. `<!-- this syntax -->`, not the kind of comments you use in TypeScript code.
+
+<br>
+
 ## Status of Codelyzer Rules Conversion
 
 The table below shows the status of each Codelyzer Rule in terms of whether or not an equivalent for it has been created within `@angular-eslint`.

@@ -253,7 +253,19 @@ function convertRootTSLintConfig(
     delete convertedRootESLintConfig.extends;
 
     return chain([
-      ensureESLintPluginsAreInstalled(convertedRoot.ensureESLintPlugins),
+      ensureESLintPluginsAreInstalled(
+        Array.from(
+          new Set([
+            /**
+             * These three plugins are needed for the ng-cli-compat config
+             */
+            'eslint-plugin-import',
+            'eslint-plugin-jsdoc',
+            'eslint-plugin-prefer-arrow',
+            ...convertedRoot.ensureESLintPlugins,
+          ]),
+        ),
+      ),
       // Create the .eslintrc.json file in the tree using the finalized config
       updateJsonInTree(rootESLintrcJsonPath, () => convertedRootESLintConfig),
     ]);

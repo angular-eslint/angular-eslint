@@ -5,6 +5,11 @@
       "version": "1.9.0",
       "description": "Updates @angular-eslint to v2",
       "factory": "./migrations/update-2-0-0/update-2-0-0"
+    },
+    "update-3-0-0": {
+      "version": "2.9.0",
+      "description": "Updates @angular-eslint to v3",
+      "factory": "./migrations/update-3-0-0/update-3-0-0"
     }
   }
 }

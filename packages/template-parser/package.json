@@ -1,6 +1,6 @@
 {
   "name": "@angular-eslint/template-parser",
-  "version": "2.0.2",
+  "version": "3.0.0-alpha.2",
   "description": "Angular Template parser for ESLint",
   "license": "MIT",
   "main": "dist/index.js",
@@ -8,6 +8,7 @@
   "scripts": {
     "build": "rimraf ./dist && microbundle --tsconfig tsconfig.build.json --no-sourcemap --target=node --compress --format=cjs",
     "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "jest --coverage",
     "clean": "rimraf ./dist"
   },
   "repository": {

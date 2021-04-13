@@ -70,6 +70,7 @@ Object {
 exports[`v1123-single-project-yarn-auto-convert it should pass linting after converting the out of the box Angular CLI setup (with a custom prefix set) 3`] = `
 "
 Linting \\"v1123-single-project-yarn-auto-convert\\"...
+
 All files pass linting.
 "
 `;
