@@ -45,13 +45,17 @@ describe('update-2-0-0', () => {
   // Root config
   appTree.create(
     '.eslintrc.json',
-    JSON.stringify({ rules: { 'use-pipe-decorator': 'error' } }),
+    JSON.stringify({
+      rules: { '@angular-eslint/use-pipe-decorator': 'error' },
+    }),
   );
 
   // Project configs
   appTree.create(
     'projects/foo/.eslintrc.json',
-    JSON.stringify({ rules: { 'use-pipe-decorator': 'error' } }),
+    JSON.stringify({
+      rules: { '@angular-eslint/use-pipe-decorator': 'error' },
+    }),
   );
   appTree.create(
     'projects/bar/.eslintrc.json',
@@ -59,7 +63,7 @@ describe('update-2-0-0', () => {
       overrides: [
         {
           files: ['*.ts'],
-          rules: { 'use-pipe-decorator': 'error' },
+          rules: { '@angular-eslint/use-pipe-decorator': 'error' },
         },
       ],
     }),
@@ -84,7 +88,7 @@ describe('update-2-0-0', () => {
     `);
   });
 
-  it('should remove any explicit usage of the use-pipe-decorator rule', async () => {
+  it('should remove any explicit usage of the @angular-eslint/use-pipe-decorator rule', async () => {
     const tree = await migrationSchematicRunner
       .runSchematicAsync('update-2-0-0', {}, appTree)
       .toPromise();
