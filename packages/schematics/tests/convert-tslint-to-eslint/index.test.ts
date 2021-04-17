@@ -4,7 +4,7 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 import * as path from 'path';
-import { Schema } from '../../src/convert-tslint-to-eslint/schema';
+import type { Schema } from '../../src/convert-tslint-to-eslint/schema';
 import { exampleRootTslintJson } from './example-tslint-configs';
 import { readJsonInTree } from '../../src/utils';
 

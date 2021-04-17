@@ -1,5 +1,5 @@
+import type { AST } from '@angular/compiler';
 import {
-  AST,
   Conditional,
   MethodCall,
   SafeMethodCall,

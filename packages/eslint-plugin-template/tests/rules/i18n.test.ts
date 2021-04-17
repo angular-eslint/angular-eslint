@@ -2,7 +2,8 @@ import {
   convertAnnotatedSourceToFailureCase,
   RuleTester,
 } from '@angular-eslint/utils';
-import rule, { MessageIds, RULE_NAME } from '../../src/rules/i18n';
+import type { MessageIds } from '../../src/rules/i18n';
+import rule, { RULE_NAME } from '../../src/rules/i18n';
 
 //------------------------------------------------------------------------------
 // Tests
@@ -134,11 +135,6 @@ ruleTester.run(RULE_NAME, rule, {
                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             </div>`,
       messageId: i18nText,
-      annotatedOutput: `
-            <div>
-                <span i18n>Some text to translate</span>
-                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            </div>`,
       options: [
         {
           ignoreAttributes: [],
@@ -218,11 +214,6 @@ ruleTester.run(RULE_NAME, rule, {
         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       </div>`,
       messageId: i18nText,
-      annotatedOutput: `
-      <div>
-        <span i18n>-{{data_from_backend}}</span>
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      </div>`,
       options: [
         {
           boundTextAllowedPattern: '-',

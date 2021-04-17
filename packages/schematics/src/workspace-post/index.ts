@@ -1,11 +1,6 @@
 import { join, normalize } from '@angular-devkit/core';
-import {
-  chain,
-  noop,
-  Rule,
-  SchematicContext,
-  Tree,
-} from '@angular-devkit/schematics';
+import type { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
+import { chain, noop } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import {
   createRootESLintConfigFile,

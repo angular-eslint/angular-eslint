@@ -7,9 +7,9 @@
 import { Architect } from '@angular-devkit/architect';
 import { TestingArchitectHost } from '@angular-devkit/architect/testing';
 import { logging, schema } from '@angular-devkit/core';
-import { ESLint } from 'eslint';
+import type { ESLint } from 'eslint';
 import { resolve } from 'path';
-import { Schema } from '../src/schema';
+import type { Schema } from '../src/schema';
 
 const mockFormatter = {
   format: jest

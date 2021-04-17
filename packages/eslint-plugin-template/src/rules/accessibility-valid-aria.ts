@@ -1,13 +1,13 @@
+import type { AST, ASTWithSource } from '@angular/compiler';
 import {
-  AST,
-  ASTWithSource,
   LiteralArray,
   LiteralMap,
   LiteralPrimitive,
   TmplAstBoundAttribute,
   TmplAstTextAttribute,
 } from '@angular/compiler';
-import { aria, ARIAProperty, ARIAPropertyDefinition } from 'aria-query';
+import type { ARIAProperty, ARIAPropertyDefinition } from 'aria-query';
+import { aria } from 'aria-query';
 import {
   createESLintRule,
   getTemplateParserServices,

@@ -1,10 +1,8 @@
+import type { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import {
   chain,
   externalSchematic,
-  Rule,
   schematic,
-  SchematicContext,
-  Tree,
 } from '@angular-devkit/schematics';
 import { RunSchematicTask } from '@angular-devkit/schematics/tasks';
 /**

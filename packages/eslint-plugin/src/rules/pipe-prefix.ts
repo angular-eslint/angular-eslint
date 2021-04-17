@@ -1,12 +1,12 @@
-import { TSESTree } from '@typescript-eslint/experimental-utils';
+import type { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import { PIPE_CLASS_DECORATOR } from '../utils/selectors';
 import {
   getDecoratorPropertyValue,
-  getReadablePrefixes,
   isLiteralWithStringValue,
   isTemplateLiteral,
   SelectorValidator,
+  toHumanReadableText,
 } from '../utils/utils';
 
 type Options = [
@@ -93,7 +93,7 @@ export default createESLintRule<Options, MessageIds>({
             node: nameSelector,
             messageId: 'pipePrefix',
             data: {
-              prefixes: getReadablePrefixes(prefixes),
+              prefixes: toHumanReadableText(prefixes),
             },
           });
         }

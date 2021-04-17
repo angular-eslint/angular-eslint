@@ -2,10 +2,8 @@ import {
   convertAnnotatedSourceToFailureCase,
   RuleTester,
 } from '@angular-eslint/utils';
-import rule, {
-  MessageIds,
-  RULE_NAME,
-} from '../../src/rules/no-conflicting-lifecycle';
+import type { MessageIds } from '../../src/rules/no-conflicting-lifecycle';
+import rule, { RULE_NAME } from '../../src/rules/no-conflicting-lifecycle';
 
 //------------------------------------------------------------------------------
 // Tests

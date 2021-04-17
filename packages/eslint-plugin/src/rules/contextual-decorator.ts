@@ -1,8 +1,8 @@
-import { TSESLint, TSESTree } from '@typescript-eslint/experimental-utils';
+import type { TSESLint, TSESTree } from '@typescript-eslint/experimental-utils';
 
+import type { AngularClassDecoratorKeys } from '../utils/utils';
 import {
   isAngularInnerClassDecorator,
-  AngularClassDecoratorKeys,
   ANGULAR_CLASS_DECORATOR_MAPPER,
   getAngularClassDecorator,
   getDecoratorName,

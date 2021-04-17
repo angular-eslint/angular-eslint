@@ -7,7 +7,7 @@ import {
   getAngularESLintPRs,
   getCodelyzerRulesList,
 } from './github-api-helpers';
-import { CodelyzerRule, PRDetails } from './interfaces';
+import type { CodelyzerRule, PRDetails } from './interfaces';
 
 /**
  * Represents status details for an ESLint Rule.

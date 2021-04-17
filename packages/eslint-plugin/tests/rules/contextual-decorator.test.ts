@@ -2,10 +2,8 @@ import {
   convertAnnotatedSourceToFailureCase,
   RuleTester,
 } from '@angular-eslint/utils';
-import rule, {
-  MessageIds,
-  RULE_NAME,
-} from '../../src/rules/contextual-decorator';
+import type { MessageIds } from '../../src/rules/contextual-decorator';
+import rule, { RULE_NAME } from '../../src/rules/contextual-decorator';
 
 //------------------------------------------------------------------------------
 // Tests
