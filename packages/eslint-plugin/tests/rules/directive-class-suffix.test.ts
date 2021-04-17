@@ -22,48 +22,55 @@ ruleTester.run(RULE_NAME, rule, {
       selector: 'sgBarFoo'
     })
     class TestDirective {}
-`,
+    `,
     `
     @Directive({
       selector: 'sgBarFoo'
     })
     class TestValidator implements Validator {}
-`,
+    `,
     `
     @Directive({
       selector: 'sgBarFoo'
     })
     class TestValidator implements AsyncValidator {}
-`,
+    `,
     `
     @Directive
-    class TestDirective {}
-`,
+    class Test {}
+    `,
+    // https://github.com/angular-eslint/angular-eslint/issues/353
+    `
+    @Directive()
+    class Test {}
+    `,
+    `
+    @Component({
+      selector: 'sg-bar-foo'
+    })
+    class TestComponent {}
+    `,
     `
     @Pipe({
-      selector: 'sg-test-pipe'
+      name: 'sgPipe'
     })
     class TestPipe {}
-`,
+    `,
     `
     @Injectable()
     class TestService {}
-`,
+    `,
     `
     class TestEmpty {}
-`,
+    `,
     {
       code: `
         @Directive({
-            selector: 'sgBarFoo'
+          selector: 'sgBarFoo'
         })
-        class TestPage {}
+        class TestDir {}
       `,
-      options: [
-        {
-          suffixes: ['Page'],
-        },
-      ],
+      options: [{ suffixes: ['Dir'] }],
     },
     {
       code: `
@@ -72,16 +79,13 @@ ruleTester.run(RULE_NAME, rule, {
         })
         class TestPage {}
       `,
-      options: [
-        {
-          suffixes: ['Page', 'View'],
-        },
-      ],
+      options: [{ suffixes: ['Page', 'View'] }],
     },
   ],
   invalid: [
     convertAnnotatedSourceToFailureCase({
-      description: 'it should fail when directive class has the wrong suffix',
+      description:
+        'it should fail if directive class name does not end with the default suffix',
       annotatedSource: `
         @Directive({
           selector: 'sg-foo-bar'
@@ -90,54 +94,37 @@ ruleTester.run(RULE_NAME, rule, {
               ~~~~
       `,
       messageId,
+      data: { className: 'Test', suffixes: ['"Directive"'] },
     }),
     convertAnnotatedSourceToFailureCase({
-      description: `it should fail when a different list of suffixes is set and doesn't match`,
+      description:
+        'it should fail if directive class name does not end with one of the default suffixes',
       annotatedSource: `
         @Directive({
-            selector: 'sgBarFoo'
+          selector: 'sg-foo-bar'
         })
-        class TestPage {}
-              ~~~~~~~~
+        class TestDirectivePage implements AsyncValidator {}
+              ~~~~~~~~~~~~~~~~~
       `,
       messageId,
-      options: [
-        {
-          suffixes: ['Directive', 'View'],
-        },
-      ],
+      data: {
+        className: 'TestDirectivePage',
+        suffixes: ['"Directive"', '"Validator"'].join(' or '),
+      },
     }),
     convertAnnotatedSourceToFailureCase({
-      description: `it should fail when a different list of suffixes is set and doesn't match`,
-      annotatedSource: `
-        @Directive({
-          selector: 'sgBarFoo'
-        })
-        class TestPage {}
-              ~~~~~~~~
-      `,
-      messageId,
-      options: [
-        {
-          suffixes: ['Directive'],
-        },
-      ],
-    }),
-    convertAnnotatedSourceToFailureCase({
-      description: `it should fail when a different list of suffixes is set and doesn't match`,
+      description:
+        'it should fail if directive class name does not end with the custom suffix',
       annotatedSource: `
         @Directive({
           selector: 'sgBarFoo'
         })
-        class TestDirective {}
-              ~~~~~~~~~~~~~
+        class TestPageDirective {}
+              ~~~~~~~~~~~~~~~~~
       `,
       messageId,
-      options: [
-        {
-          suffixes: ['Page'],
-        },
-      ],
+      data: { className: 'TestPageDirective', suffixes: ['"Page"'] },
+      options: [{ suffixes: ['Page'] }],
     }),
   ],
 });

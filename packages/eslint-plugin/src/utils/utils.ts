@@ -296,7 +296,7 @@ export function getNearestNodeFrom<T extends TSESTree.Node>(
 
 export const getClassName = (node: TSESTree.Node): string | undefined => {
   if (isClassDeclaration(node)) {
-    return node.id ? node.id.name : undefined;
+    return node.id?.name;
   }
   if (node.parent) {
     return getClassName(node.parent);
@@ -597,19 +597,19 @@ export function isImportedFrom(
 }
 
 /**
- * Convert an array of prefix to human-readable text.
+ * Convert an array to human-readable text.
  */
-export const getReadablePrefixes = (prefixes: string[]): string => {
-  const prefixesLength = prefixes.length;
+export const toHumanReadableText = (items: readonly string[]): string => {
+  const itemsLength = items.length;
 
-  if (prefixesLength === 1) {
-    return `"${prefixes[0]}"`;
+  if (itemsLength === 1) {
+    return `"${items[0]}"`;
   }
 
-  return `${prefixes
-    .map((x) => `"${x}"`)
-    .slice(0, prefixesLength - 1)
-    .join(', ')} or "${[...prefixes].pop()}"`;
+  return `${items
+    .map((item) => `"${item}"`)
+    .slice(0, itemsLength - 1)
+    .join(', ')} or "${[...items].pop()}"`;
 };
 
 export const toPattern = (value: readonly unknown[]) =>

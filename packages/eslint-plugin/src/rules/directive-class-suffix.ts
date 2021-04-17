@@ -1,19 +1,19 @@
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import { DIRECTIVE_CLASS_DECORATOR } from '../utils/selectors';
-import { getClassName, getDeclaredInterfaceNames } from '../utils/utils';
+import {
+  getClassName,
+  getDeclaredInterfaceNames,
+  getDecoratorPropertyValue,
+  toHumanReadableText,
+} from '../utils/utils';
 
-type Options = [
-  {
-    suffixes: string[];
-  },
-];
+type Options = [{ readonly suffixes: readonly string[] }];
 export type MessageIds = 'directiveClassSuffix';
 export const RULE_NAME = 'directive-class-suffix';
-
 const STYLE_GUIDE_LINK = 'https://angular.io/styleguide#style-02-03';
-
-const ValidatorSuffix = 'Validator';
+const DEFAULT_SUFFIXES = ['Directive'] as const;
+const VALIDATOR_SUFFIX = 'Validator';
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
@@ -39,41 +39,40 @@ export default createESLintRule<Options, MessageIds>({
       },
     ],
     messages: {
-      directiveClassSuffix: `The name of the class {{className}} should end with the suffix {{suffixes}} (${STYLE_GUIDE_LINK})`,
+      directiveClassSuffix: `The name of the class {{className}} should end with suffix(es) {{suffixes}} (${STYLE_GUIDE_LINK})`,
     },
   },
-  defaultOptions: [
-    {
-      suffixes: ['Directive'],
-    },
-  ],
-  create(context, [options]) {
-    const { suffixes } = options;
-
+  defaultOptions: [{ suffixes: DEFAULT_SUFFIXES }],
+  create(context, [{ suffixes }]) {
     return {
       [DIRECTIVE_CLASS_DECORATOR](node: TSESTree.Decorator) {
-        const classParent = node.parent as TSESTree.ClassDeclaration;
-        const className = getClassName(classParent);
-
-        const declaredInterfaceNames = getDeclaredInterfaceNames(classParent);
-        const hasValidatorInterface = declaredInterfaceNames.some(
-          (interfaceName) => interfaceName.endsWith(ValidatorSuffix),
+        const selectorPropertyValue = getDecoratorPropertyValue(
+          node,
+          'selector',
         );
 
-        if (hasValidatorInterface) {
-          suffixes.push(ValidatorSuffix);
-        }
+        if (!selectorPropertyValue) return;
+
+        const classParent = node.parent as TSESTree.ClassDeclaration;
+        const className = getClassName(classParent);
+        const declaredInterfaceNames = getDeclaredInterfaceNames(classParent);
+        const hasValidatorInterface = declaredInterfaceNames.some(
+          (interfaceName) => interfaceName.endsWith(VALIDATOR_SUFFIX),
+        );
+        const allSuffixes = suffixes.concat(
+          hasValidatorInterface ? VALIDATOR_SUFFIX : [],
+        );
 
         if (
           !className ||
-          !suffixes.some((suffix) => className.endsWith(suffix))
+          !allSuffixes.some((suffix) => className.endsWith(suffix))
         ) {
           context.report({
-            node: classParent.id ? classParent.id : classParent,
+            node: classParent.id ?? classParent,
             messageId: 'directiveClassSuffix',
             data: {
               className,
-              suffixes,
+              suffixes: toHumanReadableText(allSuffixes),
             },
           });
         }
