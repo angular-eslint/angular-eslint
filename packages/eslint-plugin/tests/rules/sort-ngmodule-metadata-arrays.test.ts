@@ -12,46 +12,44 @@ import rule, { RULE_NAME } from '../../src/rules/sort-ngmodule-metadata-arrays';
 const ruleTester = new RuleTester({
   parser: '@typescript-eslint/parser',
 });
-
-const messageIdSortFailure: MessageIds = 'sortNgmoduleMetadataArrays';
+const messageId: MessageIds = 'sortNgmoduleMetadataArrays';
 
 ruleTester.run(RULE_NAME, rule, {
   valid: [
-    {
-      code: `
-      @NgModule({
-        imports: [
-          _foo,
-          AModule,
-          bModule,
-          cModule,
-          DModule,
-        ],
-        bootstrap: [
-          AppModule1,
-          AppModule2,
-          AppModule3,
-        ],
-        declarations: [
-          AComponent,
-          bDirective,
-          cPipe,
-          DComponent
-        ],
-        providers: [
-          AProvider,
-          {
-            provide: 'myprovider',
-            useClass: MyProvider,
-          },
-          bProvider,
-          cProvider,
-          DProvider,
-        ],
-      })
-      class Test {}
-      `,
-    },
+    `
+    @NgModule({
+      bootstrap: [
+        AppModule1,
+        AppModule2,
+        AppModule3,
+      ],
+      declarations: [
+        AComponent,
+        bDirective,
+        cPipe,
+        DComponent,
+        VariableComponent,
+      ],
+      imports: [
+        _foo,
+        AModule,
+        bModule,
+        cModule,
+        DModule,
+      ],
+      providers: [
+        AProvider,
+        {
+          provide: 'myprovider',
+          useClass: MyProvider,
+        },
+        bProvider,
+        cProvider,
+        DProvider,
+      ],
+    })
+    class Test {}
+    `,
   ],
   invalid: [
     convertAnnotatedSourceToFailureCase({
@@ -68,7 +66,7 @@ ruleTester.run(RULE_NAME, rule, {
       })
       class Test {}
       `,
-      messageId: messageIdSortFailure,
+      messageId,
     }),
     convertAnnotatedSourceToFailureCase({
       description: 'it should fail if declarations array is not sorted ASC',
@@ -79,12 +77,12 @@ ruleTester.run(RULE_NAME, rule, {
           cPipe,
           ~~~~~
           bDirective,
-          DComponent
+          DComponent,
         ],
       })
       class Test {}
       `,
-      messageId: messageIdSortFailure,
+      messageId,
     }),
     convertAnnotatedSourceToFailureCase({
       description: 'it should fail if exports array is not sorted ASC',
@@ -95,12 +93,12 @@ ruleTester.run(RULE_NAME, rule, {
           cPipe,
           ~~~~~
           bDirective,
-          DComponent
+          DComponent,
         ],
       })
       class Test {}
       `,
-      messageId: messageIdSortFailure,
+      messageId,
     }),
     convertAnnotatedSourceToFailureCase({
       description: 'it should fail if bootstrap array is not sorted ASC',
@@ -115,7 +113,7 @@ ruleTester.run(RULE_NAME, rule, {
       })
       class Test {}
       `,
-      messageId: messageIdSortFailure,
+      messageId,
     }),
     convertAnnotatedSourceToFailureCase({
       description: 'it should fail if schemas array is not sorted ASC',
@@ -130,7 +128,7 @@ ruleTester.run(RULE_NAME, rule, {
       })
       class Test {}
       `,
-      messageId: messageIdSortFailure,
+      messageId,
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -151,7 +149,7 @@ ruleTester.run(RULE_NAME, rule, {
       })
       class Test {}
       `,
-      messageId: messageIdSortFailure,
+      messageId,
     }),
   ],
 });

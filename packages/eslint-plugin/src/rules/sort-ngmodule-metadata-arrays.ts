@@ -53,10 +53,12 @@ export default createESLintRule<Options, MessageIds>({
           }
           const unorderedNode = initializer.elements
             .filter(isIdentifier)
-            .find(
-              ({ name }, index, list) =>
-                name.localeCompare(list[index + 1]?.name) === 1,
-            );
+            .find(({ name }, index, list) => {
+              const nextElementName = list[index + 1]?.name;
+              return (
+                nextElementName && name.localeCompare(nextElementName) === 1
+              );
+            });
           if (!unorderedNode) return;
           context.report({
             messageId: 'sortNgmoduleMetadataArrays',
