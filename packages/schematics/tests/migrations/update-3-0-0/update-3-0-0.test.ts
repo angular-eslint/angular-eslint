@@ -46,10 +46,17 @@ describe('update-3-0-0', () => {
     appTree.create(
       '.eslintrc.json',
       JSON.stringify({
+        rules: { '@angular-eslint/component-max-inline-declarations': 'error' },
         // Overrides extends
         overrides: [
           // String form of extends
-          { files: ['*.ts'], extends: 'plugin:@angular-eslint/recommended' },
+          {
+            files: ['*.ts'],
+            extends: 'plugin:@angular-eslint/recommended',
+            rules: {
+              '@angular-eslint/component-max-inline-declarations': ['error'],
+            },
+          },
         ],
       }),
     );
@@ -71,6 +78,15 @@ describe('update-3-0-0', () => {
             extends: [
               'plugin:@angular-eslint/something-other-than-recommended',
             ],
+            rules: {
+              '@angular-eslint/component-max-inline-declarations': [
+                'error',
+                {
+                  animations: -1,
+                  template: 5,
+                },
+              ],
+            },
           },
         ],
       }),
@@ -111,8 +127,16 @@ describe('update-3-0-0', () => {
             "files": Array [
               "*.ts",
             ],
+            "rules": Object {
+              "@angular-eslint/component-max-inline-declarations": Array [
+                "error",
+              ],
+            },
           },
         ],
+        "rules": Object {
+          "@angular-eslint/component-max-inline-declarations": "error",
+        },
       }
     `);
 
@@ -141,6 +165,83 @@ describe('update-3-0-0', () => {
             "files": Array [
               "*.ts",
             ],
+            "rules": Object {
+              "@angular-eslint/component-max-inline-declarations": Array [
+                "error",
+                Object {
+                  "template": 5,
+                },
+              ],
+            },
+          },
+        ],
+      }
+    `);
+  });
+
+  it('should remove any negative usage of the component-max-inline-declarations rule', async () => {
+    const tree = await migrationSchematicRunner
+      .runSchematicAsync('update-3-0-0', {}, appTree)
+      .toPromise();
+
+    const rootESLint = JSON.parse(tree.readContent('.eslintrc.json'));
+    expect(rootESLint).toMatchInlineSnapshot(`
+      Object {
+        "overrides": Array [
+          Object {
+            "extends": Array [
+              "plugin:@angular-eslint/recommended",
+              "plugin:@angular-eslint/recommended--extra",
+            ],
+            "files": Array [
+              "*.ts",
+            ],
+            "rules": Object {
+              "@angular-eslint/component-max-inline-declarations": Array [
+                "error",
+              ],
+            },
+          },
+        ],
+        "rules": Object {
+          "@angular-eslint/component-max-inline-declarations": "error",
+        },
+      }
+    `);
+
+    const fooESLint = JSON.parse(
+      tree.readContent('projects/foo/.eslintrc.json'),
+    );
+    expect(fooESLint).toMatchInlineSnapshot(`
+      Object {
+        "extends": Array [
+          "plugin:@angular-eslint/recommended",
+          "plugin:@angular-eslint/recommended--extra",
+        ],
+      }
+    `);
+
+    const barESLint = JSON.parse(
+      tree.readContent('projects/bar/.eslintrc.json'),
+    );
+    expect(barESLint).toMatchInlineSnapshot(`
+      Object {
+        "overrides": Array [
+          Object {
+            "extends": Array [
+              "plugin:@angular-eslint/something-other-than-recommended",
+            ],
+            "files": Array [
+              "*.ts",
+            ],
+            "rules": Object {
+              "@angular-eslint/component-max-inline-declarations": Array [
+                "error",
+                Object {
+                  "template": 5,
+                },
+              ],
+            },
           },
         ],
       }

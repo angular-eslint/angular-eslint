@@ -118,6 +118,72 @@ function applyRecommendedExtraExtends(host: Tree) {
   return chain(rules);
 }
 
+function removeNegativeValuesFromComponentMaxInlineDeclarations(
+  rule: Linter.RuleEntry | undefined,
+) {
+  if (!Array.isArray(rule) || rule.length !== 2) return;
+  const [, currentSchema] = rule;
+  rule[1] = Object.entries(currentSchema).reduce(
+    (accumulator, [key, value]) => {
+      return Number(value) < 0 ? accumulator : { ...accumulator, [key]: value };
+    },
+    {},
+  );
+}
+
+function updateComponentMaxInlineDeclarationsSchema({
+  overrides,
+  rules,
+}: Linter.Config) {
+  removeNegativeValuesFromComponentMaxInlineDeclarations(
+    rules?.['@angular-eslint/component-max-inline-declarations'],
+  );
+  for (const override of overrides ?? []) {
+    removeNegativeValuesFromComponentMaxInlineDeclarations(
+      override.rules?.['@angular-eslint/component-max-inline-declarations'],
+    );
+  }
+}
+
+function updateComponentMaxInlineDeclarations(host: Tree) {
+  const angularJSON = readJsonInTree(host, 'angular.json');
+
+  const rules = [
+    // Update from root config
+    updateJsonInTree('.eslintrc.json', (json) => {
+      updateComponentMaxInlineDeclarationsSchema(json);
+      return json;
+    }),
+  ];
+
+  for (const projectName of Object.keys(angularJSON.projects)) {
+    const allSourceFilesForProject = getAllSourceFilesForProject(
+      host,
+      projectName,
+    );
+    const projectESLintConfigPath = allSourceFilesForProject.find((path) =>
+      path.endsWith('.eslintrc.json'),
+    );
+    if (!projectESLintConfigPath) {
+      continue;
+    }
+
+    rules.push(
+      // Update from project configs
+      updateJsonInTree(projectESLintConfigPath.toString(), (json) => {
+        updateComponentMaxInlineDeclarationsSchema(json);
+        return json;
+      }),
+    );
+  }
+
+  return chain(rules);
+}
+
 export default function () {
-  return chain([updateRelevantDependencies, applyRecommendedExtraExtends]);
+  return chain([
+    updateRelevantDependencies,
+    applyRecommendedExtraExtends,
+    updateComponentMaxInlineDeclarations,
+  ]);
 }
