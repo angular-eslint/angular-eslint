@@ -1,11 +1,6 @@
 import { join, normalize } from '@angular-devkit/core';
-import {
-  chain,
-  noop,
-  Rule,
-  SchematicContext,
-  Tree,
-} from '@angular-devkit/schematics';
+import type { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
+import { chain, noop } from '@angular-devkit/schematics';
 import eslintPlugin from '@angular-eslint/eslint-plugin';
 import eslintPluginTemplate from '@angular-eslint/eslint-plugin-template';
 import type { Linter } from 'eslint';
@@ -21,7 +16,7 @@ import {
   updateJsonInTree,
 } from '../utils';
 import { convertToESLintConfig } from './convert-to-eslint-config';
-import { Schema } from './schema';
+import type { Schema } from './schema';
 import {
   ensureESLintPluginsAreInstalled,
   updateArrPropAndRemoveDuplication,

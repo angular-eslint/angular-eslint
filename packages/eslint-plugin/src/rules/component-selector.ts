@@ -1,19 +1,19 @@
-import { TSESTree } from '@typescript-eslint/experimental-utils';
+import type { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import { COMPONENT_CLASS_DECORATOR } from '../utils/selectors';
+import type { SelectorStyle } from '../utils/utils';
 import {
   arrayify,
   getDecoratorPropertyValue,
   OPTION_STYLE_CAMEL_CASE,
   OPTION_STYLE_KEBAB_CASE,
-  SelectorStyle,
 } from '../utils/utils';
+import type { Options } from '../utils/property-selector';
 import {
   checkSelector,
   checkValidOptions,
   OPTION_TYPE_ATTRIBUTE,
   OPTION_TYPE_ELEMENT,
-  Options,
   reportPrefixError,
   reportStyleError,
   reportTypeError,

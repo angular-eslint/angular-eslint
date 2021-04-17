@@ -1,11 +1,7 @@
-import {
-  Node,
-  Element,
-  HtmlParser,
-  getHtmlTagDefinition,
-} from '@angular/compiler';
-import { ParseSourceSpan } from '@angular/compiler';
-import { TSESLint, TSESTree } from '@typescript-eslint/experimental-utils';
+import type { Node } from '@angular/compiler';
+import { Element, HtmlParser, getHtmlTagDefinition } from '@angular/compiler';
+import type { ParseSourceSpan } from '@angular/compiler';
+import type { TSESLint, TSESTree } from '@typescript-eslint/experimental-utils';
 
 type Context<TMessageIds extends string> = TSESLint.RuleContext<
   TMessageIds,

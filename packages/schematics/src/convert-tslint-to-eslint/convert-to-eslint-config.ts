@@ -1,9 +1,9 @@
 import type { Linter as ESLintLinter } from 'eslint';
+import type { TSLintRuleOptions } from 'tslint-to-eslint-config';
 import {
   createESLintConfiguration,
   findReportedConfiguration,
   joinConfigConversionResults,
-  TSLintRuleOptions,
 } from 'tslint-to-eslint-config';
 
 export async function convertToESLintConfig(

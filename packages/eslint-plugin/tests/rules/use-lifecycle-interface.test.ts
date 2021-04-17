@@ -2,10 +2,8 @@ import {
   convertAnnotatedSourceToFailureCase,
   RuleTester,
 } from '@angular-eslint/utils';
-import rule, {
-  MessageIds,
-  RULE_NAME,
-} from '../../src/rules/use-lifecycle-interface';
+import type { MessageIds } from '../../src/rules/use-lifecycle-interface';
+import rule, { RULE_NAME } from '../../src/rules/use-lifecycle-interface';
 import {
   AngularLifecycleInterfaces,
   AngularLifecycleMethods,

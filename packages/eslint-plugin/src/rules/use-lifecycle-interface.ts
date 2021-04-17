@@ -1,8 +1,8 @@
-import { TSESTree } from '@typescript-eslint/experimental-utils';
+import type { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
+import type { AngularLifecycleMethodKeys } from '../utils/utils';
 import {
   AngularLifecycleInterfaces,
-  AngularLifecycleMethodKeys,
   ANGULAR_LIFECYCLE_METHODS,
   getAngularClassDecorator,
   getDeclaredAngularLifecycleInterfaces,

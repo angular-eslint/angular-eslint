@@ -1,5 +1,5 @@
 import type * as ESLintLibrary from 'eslint';
-import { Schema } from '../schema';
+import type { Schema } from '../schema';
 
 export async function loadESLint(): Promise<typeof ESLintLibrary> {
   let eslint;

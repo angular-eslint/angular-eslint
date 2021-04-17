@@ -2,7 +2,8 @@ import {
   convertAnnotatedSourceToFailureCase,
   RuleTester,
 } from '@angular-eslint/utils';
-import rule, { MessageIds, RULE_NAME } from '../../src/rules/no-negated-async';
+import type { MessageIds } from '../../src/rules/no-negated-async';
+import rule, { RULE_NAME } from '../../src/rules/no-negated-async';
 
 //------------------------------------------------------------------------------
 // Tests

@@ -2,10 +2,8 @@ import {
   convertAnnotatedSourceToFailureCase,
   RuleTester,
 } from '@angular-eslint/utils';
-import rule, {
-  MessageIds,
-  RULE_NAME,
-} from '../../src/rules/use-component-selector';
+import type { MessageIds } from '../../src/rules/use-component-selector';
+import rule, { RULE_NAME } from '../../src/rules/use-component-selector';
 
 //------------------------------------------------------------------------------
 // Tests
