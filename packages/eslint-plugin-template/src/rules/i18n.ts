@@ -248,15 +248,9 @@ export default createESLintRule<Options, MessageIds>({
                 )),
           )
         ) {
-          // If at least one child is a text node then we probably need i18n
           context.report({
             messageId: 'i18nText',
             loc,
-            fix: (fixer) =>
-              fixer.replaceTextRange(
-                [insertIndex, insertIndex],
-                ' ' + ATTRIB_I18N,
-              ),
           });
         }
       }

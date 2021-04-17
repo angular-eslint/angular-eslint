@@ -135,11 +135,6 @@ ruleTester.run(RULE_NAME, rule, {
                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             </div>`,
       messageId: i18nText,
-      annotatedOutput: `
-            <div>
-                <span i18n>Some text to translate</span>
-                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            </div>`,
       options: [
         {
           ignoreAttributes: [],
@@ -219,11 +214,6 @@ ruleTester.run(RULE_NAME, rule, {
         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       </div>`,
       messageId: i18nText,
-      annotatedOutput: `
-      <div>
-        <span i18n>-{{data_from_backend}}</span>
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      </div>`,
       options: [
         {
           boundTextAllowedPattern: '-',
