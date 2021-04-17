@@ -5,9 +5,39 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [3.0.0](https://github.com/angular-eslint/angular-eslint/compare/v2.1.1...v3.0.0) (2021-04-17)
 
-### Features
+PR #388 (f92b184)
 
-- v3.0.0 ([#388](https://github.com/angular-eslint/angular-eslint/issues/388)) ([f92b184](https://github.com/angular-eslint/angular-eslint/commit/f92b184c5b0b57328d0a323ac8c89f1b3017b8d4))
+We have provided automated migrations for you to move to v3.
+
+All you need to do is run the update schematics for `@angular-eslint`:
+
+```sh
+npx ng update @angular-eslint/schematics
+```
+
+---
+
+### BREAKING CHANGES
+
+- The `recommended` configs from `@angular-eslint/eslin-plugin` now only configures rules directly from that plugin. This provides an overall more intuitive experience when stacking the recommended config with other plugins from the ecosystem. If you wish to continue having the same experience (with mixed `@angular-eslint` and `@typescript-eslint` rules in the configs you inherit from you can add the new `recommended--extra` config to your ESLint extends in the relevant config.
+
+E.g. extract from .eslintrc.json
+
+```diff
+  "extends": [
+    "plugin:@angular-eslint/recommended",
++   "plugin:@angular-eslint/recommended--extra",
+  ],
+```
+
+- Within the `builder`, linting now always runs relative to your workspace root. This should not have any impact on my workflows but is important if you run `ng lint` from within subdirectories of your workspace.
+
+- Within the `builder`, we always make a call to format, even if the lint results are empty. This is important for non-default formatters.
+
+- We have removed the hard peerDependency on the 3rd party eslint plugins `import` `jsdoc` and `prefer-arrow`. These plugins are only required if you are converted an existing workspace to TSLint and they will still be installed on demand in that scenario.
+
+- Within the `eslint-plugin`, the `component-max-inline-declarations` rule will no longer accept negative values as input. Previously it would silently use the default values in this case. An automated migration is provided for this change as part of the `ng update` schematics.
+
 
 ## [2.1.1](https://github.com/angular-eslint/angular-eslint/compare/v2.1.0...v2.1.1) (2021-04-17)
 
