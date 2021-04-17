@@ -153,7 +153,7 @@ describe('Linter Builder', () => {
         ignorePath: null,
       }),
     );
-    expect(lint).toHaveBeenCalledWith(resolve('/root/.eslintrc'), {
+    expect(lint).toHaveBeenCalledWith('/root', resolve('/root/.eslintrc'), {
       lintFilePatterns: [],
       eslintConfig: './.eslintrc',
       exclude: ['excludedFile1'],
@@ -474,11 +474,6 @@ describe('Linter Builder', () => {
       expect(flattenedCalls).not.toContainEqual(
         expect.objectContaining({
           message: expect.stringContaining('Mock warning message'),
-        }),
-      );
-      expect(flattenedCalls).not.toContainEqual(
-        expect.objectContaining({
-          message: expect.stringMatching(/^\s*$/),
         }),
       );
       expect(flattenedCalls).not.toContainEqual(

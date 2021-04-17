@@ -111,58 +111,6 @@ function writeConfig(config: LinterConfig, filePath: string): void {
   fs.writeFileSync(filePath, configStr);
 }
 
-const additionalTypeScriptRules: LinterConfigRules = {
-  // ORIGINAL tslint.json -> "import-blacklist": [true, "rxjs/Rx"],
-  'no-restricted-imports': [
-    'error',
-    {
-      paths: [
-        {
-          name: 'rxjs/Rx',
-          message: "Please import directly from 'rxjs' instead",
-        },
-      ],
-    },
-  ],
-
-  // ORIGINAL tslint.json -> "member-ordering": [true, { "order": ["static-field", "instance-field", "static-method", "instance-method"] } ],
-  '@typescript-eslint/member-ordering': [
-    'error',
-    {
-      default: [
-        'static-field',
-        'instance-field',
-        'static-method',
-        'instance-method',
-      ],
-    },
-  ],
-
-  // ORIGINAL tslint.json -> "no-console": [true, "debug", "info", "time", "timeEnd", "trace"],
-  'no-restricted-syntax': [
-    'error',
-    {
-      selector:
-        'CallExpression[callee.object.name="console"][callee.property.name=/^(debug|info|time|timeEnd|trace)$/]',
-      message: 'Unexpected property on console object was called',
-    },
-  ],
-
-  // ORIGINAL tslint.json -> "no-inferrable-types": [true, "ignore-params"],
-  '@typescript-eslint/no-inferrable-types': [
-    'error',
-    {
-      ignoreParameters: true,
-    },
-  ],
-
-  // ORIGINAL tslint.json -> "no-non-null-assertion": true,
-  '@typescript-eslint/no-non-null-assertion': 'error',
-
-  // ORIGINAL tslint.json -> "no-switch-case-fall-through": true,
-  'no-fallthrough': 'error',
-};
-
 console.log();
 console.log(
   '------------------------------------------------ eslint-plugin/base.json ------------------------------------------------',
@@ -176,12 +124,6 @@ const baseConfig: LinterConfig = {
     project: './tsconfig.json',
   },
   plugins: ['@typescript-eslint', '@angular-eslint'],
-  // extends: [
-  //   'eslint:recommended',
-  //   'plugin:@typescript-eslint/eslint-recommended',
-  //   'plugin:@typescript-eslint/recommended',
-  //   'plugin:@typescript-eslint/recommended-requiring-type-checking',
-  // ],
 };
 writeConfig(
   baseConfig,
@@ -218,7 +160,6 @@ console.log(
 const recommendedConfig: LinterConfig = {
   extends: './configs/base.json',
   rules: {
-    ...additionalTypeScriptRules,
     ...eslintPluginRuleEntries
       .filter((entry) => !!entry[1].meta.docs?.recommended)
       .reduce<LinterConfigRules>(
@@ -236,6 +177,77 @@ writeConfig(
   path.resolve(
     __dirname,
     '../../packages/eslint-plugin/src/configs/recommended.json',
+  ),
+);
+
+console.log();
+console.log(
+  '------------------------------ eslint-plugin/recommended--extra.json ------------------------------',
+);
+
+/**
+ * Additional recommended typescript rules which come from plugins other than the ones provided
+ * by @angular-eslint
+ */
+const recommendedExtraConfig: LinterConfig = {
+  extends: './configs/base.json',
+  rules: {
+    // ORIGINAL tslint.json -> "import-blacklist": [true, "rxjs/Rx"],
+    'no-restricted-imports': [
+      'error',
+      {
+        paths: [
+          {
+            name: 'rxjs/Rx',
+            message: "Please import directly from 'rxjs' instead",
+          },
+        ],
+      },
+    ],
+
+    // ORIGINAL tslint.json -> "member-ordering": [true, { "order": ["static-field", "instance-field", "static-method", "instance-method"] } ],
+    '@typescript-eslint/member-ordering': [
+      'error',
+      {
+        default: [
+          'static-field',
+          'instance-field',
+          'static-method',
+          'instance-method',
+        ],
+      },
+    ],
+
+    // ORIGINAL tslint.json -> "no-console": [true, "debug", "info", "time", "timeEnd", "trace"],
+    'no-restricted-syntax': [
+      'error',
+      {
+        selector:
+          'CallExpression[callee.object.name="console"][callee.property.name=/^(debug|info|time|timeEnd|trace)$/]',
+        message: 'Unexpected property on console object was called',
+      },
+    ],
+
+    // ORIGINAL tslint.json -> "no-inferrable-types": [true, "ignore-params"],
+    '@typescript-eslint/no-inferrable-types': [
+      'error',
+      {
+        ignoreParameters: true,
+      },
+    ],
+
+    // ORIGINAL tslint.json -> "no-non-null-assertion": true,
+    '@typescript-eslint/no-non-null-assertion': 'error',
+
+    // ORIGINAL tslint.json -> "no-switch-case-fall-through": true,
+    'no-fallthrough': 'error',
+  },
+};
+writeConfig(
+  recommendedExtraConfig,
+  path.resolve(
+    __dirname,
+    '../../packages/eslint-plugin/src/configs/recommended--extra.json',
   ),
 );
 

@@ -1,6 +1,6 @@
 {
   "name": "@angular-eslint/template-parser",
-  "version": "2.1.1",
+  "version": "3.0.0-alpha.2",
   "description": "Angular Template parser for ESLint",
   "license": "MIT",
   "main": "dist/index.js",

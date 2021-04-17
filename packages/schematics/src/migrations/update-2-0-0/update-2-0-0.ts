@@ -86,7 +86,7 @@ function removeUsePipeDecorator(host: Tree) {
   const rules = [
     // Remove from root config
     updateJsonInTree('.eslintrc.json', (json) => {
-      removeRuleFromESLintConfig('use-pipe-decorator', json);
+      removeRuleFromESLintConfig('@angular-eslint/use-pipe-decorator', json);
       return json;
     }),
   ];
@@ -106,7 +106,7 @@ function removeUsePipeDecorator(host: Tree) {
     rules.push(
       // Remove from project configs
       updateJsonInTree(projectESLintConfigPath.toString(), (json) => {
-        removeRuleFromESLintConfig('use-pipe-decorator', json);
+        removeRuleFromESLintConfig('@angular-eslint/use-pipe-decorator', json);
         return json;
       }),
     );

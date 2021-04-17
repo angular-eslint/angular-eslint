@@ -59,11 +59,12 @@ export async function convertToESLintConfig(
     originalConfigurations,
   );
 
-  // These are already covered by our recommended config, and are installed by the `ng add` schematic
   const expectedESLintPlugins = [
+    // These are added to support the ng-cli-compat configs
     'eslint-plugin-jsdoc',
     'eslint-plugin-prefer-arrow',
     'eslint-plugin-import',
+    // These are already covered by our recommended config, and are installed by the `ng add` schematic
     '@angular-eslint/eslint-plugin',
     '@angular-eslint/eslint-plugin-template',
   ];

@@ -92,34 +92,42 @@ __ROOT__/v1123-multi-project-manual-config/projects/another-app/src/app/app.comp
 
 
 Linting \\"horse-plants\\"...
+
 All files pass linting.
 
 
 Linting \\"allergies-fusion\\"...
+
 All files pass linting.
 
 
 Linting \\"breakfast-cat\\"...
+
 All files pass linting.
 
 
 Linting \\"prints-soda\\"...
+
 All files pass linting.
 
 
 Linting \\"ice-cream-monster\\"...
+
 All files pass linting.
 
 
 Linting \\"shoe-prints\\"...
+
 All files pass linting.
 
 
 Linting \\"websites-system\\"...
+
 All files pass linting.
 
 
 Linting \\"robot-websites\\"...
+
 All files pass linting.
 "
 `;

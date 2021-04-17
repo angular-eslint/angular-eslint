@@ -25,16 +25,6 @@ ruleTester.run(RULE_NAME, rule, {
     })
     class Test {}
     `,
-    {
-      // should succeed if a negative limit is used and the number of the template lines does not exceeds the default lines limit
-      code: `
-      @Component({
-        template: '<div>first line</div>'
-      })
-      class Test {}
-      `,
-      options: [{ template: -5 }],
-    },
     // should succeed if the number of the styles lines does not exceeds the default lines limit
     `
     @Component({
@@ -42,16 +32,6 @@ ruleTester.run(RULE_NAME, rule, {
     })
     class Test {}
     `,
-    {
-      // should succeed if a negative limit is used and the number of the styles lines does not exceeds the default lines limit
-      code: `
-      @Component({
-        styles: ['div { display: none; }']
-      })
-      class Test {}
-      `,
-      options: [{ styles: -5 }],
-    },
     // should succeed if the number of the animations lines does not exceeds the default lines limit
     `
     @Component({
@@ -59,16 +39,6 @@ ruleTester.run(RULE_NAME, rule, {
     })
     class Test {}
     `,
-    {
-      // should succeed if a negative limit is used and the number of the animations lines does not exceeds the default lines limit
-      code: `
-      @Component({
-        animations: [\`state('void', style({opacity: 0, transform: 'scale(1, 0)'}))\`]
-      })
-      class Test {}
-      `,
-      options: [{ animations: -5 }],
-    },
     // should succeed if template, styles and animations properties are not present
     `
     @Component({

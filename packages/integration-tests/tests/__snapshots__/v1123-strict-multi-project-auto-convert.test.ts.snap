@@ -189,14 +189,17 @@ Object {
 exports[`v1123-strict-multi-project-auto-convert it should pass linting after converting the out of the box Angular CLI setup (with an additional project called "another-app" with a custom prefix set) 7`] = `
 "
 Linting \\"v1123-strict-multi-project-auto-convert\\"...
+
 All files pass linting.
 
 
 Linting \\"another-lib\\"...
+
 All files pass linting.
 
 
 Linting \\"another-app\\"...
+
 All files pass linting.
 "
 `;
