@@ -38,7 +38,6 @@ E.g. extract from .eslintrc.json
 
 - Within the `eslint-plugin`, the `component-max-inline-declarations` rule will no longer accept negative values as input. Previously it would silently use the default values in this case. An automated migration is provided for this change as part of the `ng update` schematics.
 
-
 ## [2.1.1](https://github.com/angular-eslint/angular-eslint/compare/v2.1.0...v2.1.1) (2021-04-17)
 
 ### Bug Fixes
