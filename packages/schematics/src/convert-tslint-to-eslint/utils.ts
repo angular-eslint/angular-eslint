@@ -1,6 +1,7 @@
 import type { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import * as assert from 'assert';
+import { sortObjectByKeys } from '../utils';
 
 export function updateArrPropAndRemoveDuplication(
   json: Record<string, any>,
@@ -87,6 +88,37 @@ export function ensureESLintPluginsAreInstalled(
       host.overwrite('package.json', JSON.stringify(json, null, 2));
       context.addTask(new NodePackageInstallTask());
     }
+
+    return host;
+  };
+}
+
+export function uninstallTSLintAndCodelyzer(): Rule {
+  return (host: Tree, context: SchematicContext) => {
+    if (!host.exists('package.json')) {
+      throw new Error(
+        'Could not find a `package.json` file at the root of your workspace',
+      );
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const projectPackageJSON = host.read('package.json')!.toString('utf-8');
+    const json = JSON.parse(projectPackageJSON);
+
+    if (json.devDependencies) {
+      delete json.devDependencies['tslint'];
+      delete json.devDependencies['codelyzer'];
+      json.devDependencies = sortObjectByKeys(json.devDependencies);
+    }
+
+    if (json.dependencies) {
+      delete json.dependencies['tslint'];
+      delete json.dependencies['codelyzer'];
+      json.dependencies = sortObjectByKeys(json.dependencies);
+    }
+
+    host.overwrite('package.json', JSON.stringify(json, null, 2));
+    context.addTask(new NodePackageInstallTask());
 
     return host;
   };

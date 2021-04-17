@@ -51,9 +51,40 @@ export function updateJsonInTree<T = any, O = T>(
   };
 }
 
-function getWorkspacePath(host: Tree) {
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export function getWorkspacePath(host: Tree) {
   const possibleFiles = ['/workspace.json', '/angular.json', '/.angular.json'];
   return possibleFiles.filter((path) => host.exists(path))[0];
+}
+
+export function isTSLintUsedInWorkspace(tree: Tree): boolean {
+  const workspaceJson = readJsonInTree(tree, getWorkspacePath(tree));
+  if (!workspaceJson) {
+    return false;
+  }
+
+  for (const [, projectConfig] of Object.entries(
+    workspaceJson.projects,
+  ) as any) {
+    if (!projectConfig || !projectConfig.architect) {
+      continue;
+    }
+
+    for (const [, targetConfig] of Object.entries(
+      projectConfig.architect,
+    ) as any) {
+      if (!targetConfig) {
+        continue;
+      }
+
+      if (targetConfig.builder === '@angular-devkit/build-angular:tslint') {
+        // Workspace is still using TSLint, exit early
+        return true;
+      }
+    }
+  }
+  // If we got this far the user has no remaining TSLint usage
+  return false;
 }
 
 export function getProjectConfig(host: Tree, name: string): any {

@@ -21,43 +21,38 @@
 
 <br>
 
-## Table of Contents
-
-- [Quick Start with Angular and ESLint](#quick-start-with-angular-and-eslint)
-- [Supported Angular CLI Versions](#supported-angular-cli-versions)
-- [Usage with Nx Monorepos](#usage-with-nx-monorepos)
-- [Packages included in this project](#packages-included-in-this-project)
-- [Package Versions](#package-versions)
-- [Migrating an Angular CLI project from Codelyzer and TSLint](#migrating-an-angular-cli-project-from-codelyzer-and-tslint)
-- [Notes on ESLint Configuration](#notes-on-eslint-configuration)
-- [Notes on Performance](#notes-on-performance)
-- [Rules List](#status-of-codelyzer-rules-conversion)
-
-<br>
-
 ## Quick Start with Angular and ESLint
 
-In order to create a brand new Angular CLI workspace which uses ESLint instead of TSLint and Codelyzer, simply run the following commands:
+1. Follow the latest **Getting Started** guide on https://angular.io/ in order to install the Angular CLI
+
+2. Create a new Angular CLI workspace in the normal way, optionally using any of the supported command line arguments and following the interactive prompts:
 
 ```sh
-# Install the Angular CLI and @angular-eslint/schematics globally however you want (e.g. npm, yarn, volta etc)
-
-npm i -g @angular/cli @angular-devkit/{core,schematics} @angular-eslint/schematics
-
-# Create a new Angular CLI workspace using the @angular-eslint/schematics collection (instead of the default)
-
-ng new --collection=@angular-eslint/schematics
+ng new # --maybe --some --other --flags --here
 ```
 
-After you follow the interactive prompts the Angular CLI gives you, you have now created a TSLint and Codelyzer free workspace with ng lint all set up and ready to lint your source code and HTML templates using ESLint! 🚀
+3. **Change directory into your new workspace** and then use the Angular CLI to add `@angular-eslint/schematics`:
 
-Read on to find out more about the project and some important things to bear in mind with configuration and performance.
+```sh
+ng add @angular-eslint/schematics
+```
+
+4. Run the conversion schematic to automatically convert your new project from TSLint to ESLint:
+
+```sh
+ng g @angular-eslint/schematics:convert-tslint-to-eslint --remove-tslint-if-no-more-tslint-targets --ignore-existing-tslint-config
+```
+
+NOTES:
+
+- We set `--remove-tslint-if-no-more-tslint-targets` so that we remove TSLint and Codelyzer from the workspace automatically.
+- We set `--ignore-existing-tslint-config` so that we jump straight to the up to date recommended ESLint setup, without converting the previous Angular CLI TSLint setup, which is unnecessary for brand new projects.
 
 <br>
 
 ## Supported Angular CLI Versions
 
-For v2.x.x, we currently support Angular CLI `11.2.0` and onwards. This is also captured by our integration-tests package.
+For `@angular-eslint` versions greater than v2, we currently support Angular CLI `11.2.0` and onwards. This is also captured by our integration-tests package.
 
 For v1.x.x of these packages we supported Angular from `10.1.0` to `11.1.0`.
 
@@ -145,9 +140,13 @@ This will handle installing the latest version of all the relevant packages for 
 
 ### Step 2 - Run the `convert-tslint-to-eslint` schematic on a project
 
-The next thing to do is consider which "project" you want to migrate to use ESLint. If you have a single application in your workspace you will likely have just a single entry in the `projects` configuration object within your `angular.json` file. If you have a `projects/` directory in your workspace, you will have multiple entries in your `projects` configuration and you will need to chose which one you want to migrate using the `convert-tslint-to-eslint` schematic.
+If you just have a single project in your workspace you can just run:
 
-You can run it like so:
+```sh
+ng g @angular-eslint/schematics:convert-tslint-to-eslint
+```
+
+If you have a `projects/` directory or similar in your workspace, you will have multiple entries in your `projects` configuration and you will need to chose which one you want to migrate using the `convert-tslint-to-eslint` schematic:
 
 ```sh
 ng g @angular-eslint/schematics:convert-tslint-to-eslint {{YOUR_PROJECT_NAME_GOES_HERE}}
@@ -160,6 +159,7 @@ The schematic will do the following for you:
   - You will want to pay close attention to the terminal output of the schematic as it runs, because it will let you know if it couldn't find an appropriate converter for a TSLint rule, or if it has installed any additional ESLint plugins to help you match up your new setup with your old one.
 - UPDATE the project's `architect` configuration in the `angular.json` to such that the `lint` "target" will invoke ESLint instead of TSLint.
 - UPDATE any instances of `tslint:disable` comments that are located within your TypeScript source files to their ESLint equivalent.
+- If you choose YES (the default) for the `removeTSLintIfNoMoreTSLintTargets` option, it will also automatically remove TSLint and Codelyzer from your workspace if you have no more usage of them left.
 
 Now when you run:
 
@@ -169,13 +169,19 @@ npx ng lint {{YOUR_PROJECT_NAME_GOES_HERE}}
 
 ...you are running ESLint on your project! 🎉
 
-### Step 3 - Remove root TSLint configuration and use only ESLint
+<br>
 
-Once you are happy with your ESLint setup, you simply need to remove the root-level `tslint.json` and potentially uninstall TSLint and any TSLint-related plugins/dependencies like `codelyzer`, if your Angular CLI workspace is now no longer using TSLint at all.
+## Notes on Supported ESLint Configuration File Types
+
+**We strongly recommend you stick to using `.eslintrc.json`.**
+
+This is not a constraint we force upon you, and you are more than welcome to use any of ESLint's supported file types for your ESLint config files, e.g. `.eslintrc.js`, `.eslintrc.yml` **however** please note that you will not receive any automated updates to your config from this toolset if you choose to use something other than `.eslintrc.json`. We will also only generate `.eslintrc.json` files from our code generators (which you could then convert yourself if you wanted to).
+
+The reason for this is very simple - JSON is a format which is very easy to statically analyze and write transformations for and it is beyond the scope of this community-run project to provide multiple implementations of every possible migration for every possible ESLint configuration file type for every version we release.
 
 <br>
 
-## Notes on ESLint Configuration
+## Notes on ESLint Configuration Itself
 
 It's important to understand up front that **using Angular with ESLint is actually an advanced/complex use-case** because of the nature of the files involved:
 
