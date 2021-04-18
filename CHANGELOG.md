@@ -5,6 +5,27 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [4.0.0](https://github.com/angular-eslint/angular-eslint/compare/v3.0.1...v4.0.0) (2021-04-18)
 
+We have provided automated migrations for you to move to v4.
+
+All you need to do is run the update schematics for `@angular-eslint`:
+
+```sh
+npx ng update @angular-eslint/schematics
+```
+
+NOTE: For this release, there are no automated migrations to be run, other than automatically updating the version number of your other `@angular-eslint` packages.
+
+### BREAKING CHANGES
+
+- Passing `--collection=@angular-eslint/schematics` to `ng new` is no longer supported:
+
+  - If you attempt to do it you will get a clear error with instructions on what to do instead.
+  - This means we have one consistent way to add `@angular-eslint` to a workspace - run `ng add @angular-eslint/schematics` - regardless of whether that workspace is brand new or has existed for a while.
+
+- We have introduced two new options to the `convert-tslint-to-eslint` schematic:
+  - `--remove-tslint-if-no-more-tslint-targets` so that we remove TSLint and Codelyzer from the workspace automatically if we detect you have no TSLint usage remaining (`true` by default).
+  - `--ignore-existing-tslint-config` so that we can jump straight to the up to date recommended ESLint setup, without converting the previous Angular CLI TSLint setup, which is unnecessary for brand new projects (`false` by default).
+
 ### Features
 
 - **schematics:** options for convert-tslint-to-eslint ([#419](https://github.com/angular-eslint/angular-eslint/issues/419)) ([18fd863](https://github.com/angular-eslint/angular-eslint/commit/18fd863d6948578db96252da57702338a8ea5ea0))
