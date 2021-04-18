@@ -243,8 +243,8 @@ async function setupFixtures() {
     process.chdir('./v11-new-workspace');
     await runNgAdd();
     await runConvertTSLintToESLint([
-      '--removeTSLintIfNoMoreTSLintTargets',
-      '--ignoreExistingTslintConfig',
+      '--remove-tslint-if-no-more-tslint-targets',
+      '--ignore-existing-tslint-config',
     ]); // no project specified, will convert only project in workspace
     await runNgGenerate(['app', 'another-app', '--interactive=false']);
     await runNgGenerate(['lib', 'another-lib', '--interactive=false']);

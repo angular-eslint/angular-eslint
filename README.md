@@ -159,7 +159,7 @@ The schematic will do the following for you:
   - You will want to pay close attention to the terminal output of the schematic as it runs, because it will let you know if it couldn't find an appropriate converter for a TSLint rule, or if it has installed any additional ESLint plugins to help you match up your new setup with your old one.
 - UPDATE the project's `architect` configuration in the `angular.json` to such that the `lint` "target" will invoke ESLint instead of TSLint.
 - UPDATE any instances of `tslint:disable` comments that are located within your TypeScript source files to their ESLint equivalent.
-- If you choose YES (the default) for the `removeTSLintIfNoMoreTSLintTargets` option, it will also automatically remove TSLint and Codelyzer from your workspace if you have no more usage of them left.
+- If you choose YES (the default) for the `--remove-tslint-if-no-more-tslint-targets` option, it will also automatically remove TSLint and Codelyzer from your workspace if you have no more usage of them left.
 
 Now when you run:
 
