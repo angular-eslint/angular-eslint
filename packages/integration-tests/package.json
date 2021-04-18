@@ -1,6 +1,6 @@
 {
   "name": "@angular-eslint/integration-tests",
-  "version": "4.0.0-alpha.3",
+  "version": "4.0.0-alpha.4",
   "private": true,
   "scripts": {
     "kill-existing-verdaccio": "kill $(lsof -t -i:4872) || true",
