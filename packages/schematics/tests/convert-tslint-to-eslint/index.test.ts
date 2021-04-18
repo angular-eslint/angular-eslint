@@ -106,6 +106,8 @@ describe('convert-tslint-to-eslint', () => {
           {
             project: testDefaultStyleProjectName,
             convertIndentationRules: false,
+            removeTslintIfNoMoreTslintTargets: true,
+            ignoreExistingTslintConfig: false,
           },
           workspaceTree,
         )
@@ -123,6 +125,8 @@ describe('convert-tslint-to-eslint', () => {
           {
             project: testDefaultStyleProjectName,
             convertIndentationRules: false,
+            removeTslintIfNoMoreTslintTargets: true,
+            ignoreExistingTslintConfig: false,
           },
           workspaceTree,
         )
