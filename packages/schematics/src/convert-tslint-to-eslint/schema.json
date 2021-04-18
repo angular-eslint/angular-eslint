@@ -16,13 +16,24 @@
       "$default": {
         "$source": "argv",
         "index": 0
-      },
-      "x-prompt": "Which project would you like to convert from TSLint to ESLint?"
+      }
     },
     "convertIndentationRules": {
       "description": "Whether or not rules relating purely to indentation (code formatting) should be converted. It is strongly encouraged to switch to https://prettier.io instead.",
       "type": "boolean",
       "default": false
+    },
+    "removeTslintIfNoMoreTslintTargets": {
+      "type": "boolean",
+      "description": "If this conversion leaves no more TSLint usage in the workspace, it will remove TSLint and related dependencies and configuration",
+      "default": true,
+      "x-prompt": "Would you like to remove TSLint and its related config if there are no TSLint projects remaining after this conversion?"
+    },
+    "ignoreExistingTslintConfig": {
+      "type": "boolean",
+      "description": "If true we will not use existing TSLint config as a reference, we will just reset the project with the latest recommended ESLint config",
+      "default": false,
+      "x-prompt": "Would you like to ignore the existing TSLint config? Recommended if the TSLint config has not been altered much as it makes the new ESLint config cleaner."
     }
   }
 }

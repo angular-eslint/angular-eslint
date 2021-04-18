@@ -10,6 +10,11 @@
       "version": "2.9.0",
       "description": "Updates @angular-eslint to v3",
       "factory": "./migrations/update-3-0-0/update-3-0-0"
+    },
+    "update-4-0-0": {
+      "version": "3.9.0",
+      "description": "Updates @angular-eslint to v4",
+      "factory": "./migrations/update-4-0-0/update-4-0-0"
     }
   }
 }

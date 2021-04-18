@@ -1,4 +1,6 @@
 export interface Schema {
-  project: string;
+  project?: string;
   convertIndentationRules: boolean;
+  removeTslintIfNoMoreTslintTargets?: boolean;
+  ignoreExistingTslintConfig: boolean;
 }

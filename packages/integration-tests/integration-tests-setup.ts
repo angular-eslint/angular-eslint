@@ -132,7 +132,6 @@ async function runNgNew(workspaceName: string) {
 
   const subprocess = execa('../node_modules/.bin/ng', [
     'new',
-    `--collection=@angular-eslint/schematics`,
     `--strict=true`,
     `--package-manager=npm`,
     `--interactive=false`,
@@ -160,7 +159,7 @@ async function runNgGenerate(args: string[]) {
   return await subprocess;
 }
 
-async function runConvertTSLintToESLint(projectName: string) {
+async function runConvertTSLintToESLint(additionalArgs?: string[]) {
   if (process.env.npm_config_registry?.indexOf('http://localhost') === -1) {
     throw Error(`
       ------------------
@@ -169,13 +168,12 @@ async function runConvertTSLintToESLint(projectName: string) {
     `);
   }
 
-  const subprocess = execa('npx', [
-    'ng',
-    'g',
-    `@angular-eslint/schematics:convert-tslint-to-eslint`,
-    '--project',
-    projectName,
-  ]);
+  let args = ['ng', 'g', `@angular-eslint/schematics:convert-tslint-to-eslint`];
+  if (additionalArgs) {
+    args = [...args, ...additionalArgs];
+  }
+
+  const subprocess = execa('npx', args);
   subprocess.stdout.pipe(process.stdout);
   subprocess.stderr.pipe(process.stderr);
 
@@ -194,27 +192,60 @@ async function setupFixtures() {
     process.chdir('../v1123-single-project-yarn-auto-convert');
     await runYarnInstall();
     await runNgAdd();
-    await runConvertTSLintToESLint('v1123-single-project-yarn-auto-convert');
+    await runConvertTSLintToESLint([
+      '--no-interactive',
+      '--project',
+      'v1123-single-project-yarn-auto-convert',
+    ]);
 
     process.chdir('../v1123-multi-project-yarn-auto-convert');
     await runYarnInstall();
     await runNgAdd();
     // Deliberately don't convert the root project first, so we can ensure this is also supported
-    await runConvertTSLintToESLint('another-app');
-    await runConvertTSLintToESLint('v1123-multi-project-yarn-auto-convert'); // root project
-    await runConvertTSLintToESLint('another-lib');
+    await runConvertTSLintToESLint([
+      '--no-interactive',
+      '--project',
+      'another-app',
+    ]);
+    await runConvertTSLintToESLint([
+      '--no-interactive',
+      '--project',
+      'v1123-multi-project-yarn-auto-convert',
+    ]); // root project
+    await runConvertTSLintToESLint([
+      '--no-interactive',
+      '--project',
+      'another-lib',
+    ]);
 
     process.chdir('../v1123-strict-multi-project-auto-convert');
     await runYarnInstall();
     await runNgAdd();
     // Convert the root project first
-    await runConvertTSLintToESLint('v1123-strict-multi-project-auto-convert');
-    await runConvertTSLintToESLint('another-app');
-    await runConvertTSLintToESLint('another-lib');
+    await runConvertTSLintToESLint([
+      '--no-interactive',
+      '--project',
+      'v1123-strict-multi-project-auto-convert',
+    ]);
+    await runConvertTSLintToESLint([
+      '--no-interactive',
+      '--project',
+      'another-app',
+    ]);
+    await runConvertTSLintToESLint([
+      '--no-interactive',
+      '--project',
+      'another-lib',
+    ]);
 
     process.chdir('../');
     await runNgNew('v11-new-workspace');
     process.chdir('./v11-new-workspace');
+    await runNgAdd();
+    await runConvertTSLintToESLint([
+      '--remove-tslint-if-no-more-tslint-targets',
+      '--ignore-existing-tslint-config',
+    ]); // no project specified, will convert only project in workspace
     await runNgGenerate(['app', 'another-app', '--interactive=false']);
     await runNgGenerate(['lib', 'another-lib', '--interactive=false']);
 

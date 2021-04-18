@@ -1,33 +1,21 @@
-import type { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
-import {
-  chain,
-  externalSchematic,
-  schematic,
-} from '@angular-devkit/schematics';
-import { RunSchematicTask } from '@angular-devkit/schematics/tasks';
-/**
- * We are able to use the full, unaltered Schema directly from @schematics/angular
- * The applicable json file is copied from node_modules as a prebuiid step to ensure
- * they stay in sync.
- */
-import type { Schema } from '@schematics/angular/workspace/schema';
+import type { Rule } from '@angular-devkit/schematics';
 
-export default function (options: Schema): Rule {
-  return (host: Tree, context: SchematicContext) => {
-    /**
-     * This appeared to be the only way to schedule clean up work on e.g. tslint.json
-     * because there are parts of the @schematics/angular workspace schematic as they
-     * exist before Angular-CLI v12 which will error if tslint.json is not present.
-     */
-    context.addTask(
-      new RunSchematicTask('workspace-post', { name: options.name }),
+export default function (): Rule {
+  return () => {
+    throw new Error(
+      '\n' +
+        `
+Error: Using \`--collection=@angular-eslint/schematics\` is no longer supported.
+
+In previous versions of @angular-eslint we attempted to let developers create Angular CLI workspaces and add ESLint in a single command by providing the \`--collection\` flag to \`ng new\`.
+
+This worked for simple scenarios but it was not possible to support all the options of \`ng new\` this way and it was harder to reason about in many cases.
+
+Instead, simply:
+- Run \`ng new\` (without \`--collection\`) and create your Angular CLI workspace with whatever options you prefer.
+- Change directory to your new workspace and run \`ng add @angular-eslint/schematics\` to add all relevant ESLint packages.
+- Run \`ng g @angular-eslint/schematics:convert-tslint-to-eslint --remove-tslint-if-no-more-tslint-targets --ignore-existing-tslint-config\` to automatically convert your new project from TSLint to ESLint.
+`.trim(),
     );
-
-    return chain([
-      // Invoke the standard Angular CLI workspace generation
-      externalSchematic('@schematics/angular', 'workspace', options),
-      // Add all the relevant dependencies
-      schematic('ng-add', {}),
-    ])(host, context);
   };
 }
