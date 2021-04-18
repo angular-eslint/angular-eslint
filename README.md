@@ -56,7 +56,7 @@ If you stuck to those exact commands above you will also see the following in yo
   }
 ```
 
-Read the section on Using ESLint by default when generating new project
+Read the section on [Using ESLint by default when generating new Projects within your Workspace](#using-eslint-by-default-when-generating-new-projects-within-your-workspace) to understand why this is useful.
 
 <br>
 
