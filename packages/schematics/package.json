@@ -43,5 +43,5 @@
   "peerDependencies": {
     "@angular/cli": ">= 11.2.0 < 12.0.0"
   },
-  "gitHead": "210b7edca46ac780b4ccf1b32ce0252bdab28579"
+  "gitHead": "1548b79451c85941a9debac007aa4e5d36c6f425"
 }

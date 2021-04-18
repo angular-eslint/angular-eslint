@@ -1,6 +1,7 @@
 import type { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { chain } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
+import { sortObjectByKeys } from '../utils';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const packageJSON = require('../../package.json');
@@ -53,6 +54,7 @@ function addAngularESLintPackages() {
     ] = typescriptESLintVersion;
     json.devDependencies['@typescript-eslint/parser'] = typescriptESLintVersion;
 
+    json.devDependencies = sortObjectByKeys(json.devDependencies);
     host.overwrite('package.json', JSON.stringify(json, null, 2));
 
     context.addTask(new NodePackageInstallTask());
