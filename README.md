@@ -196,7 +196,7 @@ ng g @angular-eslint/schematics:app
 ng g @angular-eslint/schematics:lib
 ```
 
-Or, alternatively, if you don't want to have to remember to set that collection prefix in front of the `:` every time, so can set the default collection in your `angular.json` to be `@angular-eslint/schematics`.
+Or, alternatively, if you don't want to have to remember to set that collection prefix in front of the `:` every time, you can set the default collection in your `angular.json` to be `@angular-eslint/schematics`.
 
 You can either do that by hand by adjusting the JSON, or by running the following Angular CLI command:
 
