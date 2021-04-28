@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.2.0](https://github.com/angular-eslint/angular-eslint/compare/v4.1.0...v4.2.0) (2021-04-28)
+
+### Features
+
+- **schematics:** add add-eslint-to-project schematic ([#426](https://github.com/angular-eslint/angular-eslint/issues/426)) ([7ae557d](https://github.com/angular-eslint/angular-eslint/commit/7ae557d94f53833fbfbf5128d39f64c7bb1c3c5f))
+
 # [4.1.0](https://github.com/angular-eslint/angular-eslint/compare/v4.0.0...v4.1.0) (2021-04-28)
 
 ### Bug Fixes
