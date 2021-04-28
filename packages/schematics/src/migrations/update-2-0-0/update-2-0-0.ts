@@ -2,11 +2,7 @@ import type { SchematicContext, Tree } from '@angular-devkit/schematics';
 import { chain } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import type { Linter } from 'eslint';
-import {
-  getAllSourceFilesForProject,
-  readJsonInTree,
-  updateJsonInTree,
-} from '../../utils';
+import { updateJsonInTree, visitNotIgnoredFiles } from '../../utils';
 
 const updatedAngularESLintVersion = '^2.0.0';
 const updatedTypeScriptESLintVersion = '4.16.1';
@@ -80,41 +76,21 @@ function removeRuleFromESLintConfig(ruleName: string, config: Linter.Config) {
   }
 }
 
-function removeUsePipeDecorator(host: Tree) {
-  const angularJSON = readJsonInTree(host, 'angular.json');
-
-  const rules = [
-    // Remove from root config
-    updateJsonInTree('.eslintrc.json', (json) => {
-      removeRuleFromESLintConfig('@angular-eslint/use-pipe-decorator', json);
-      return json;
-    }),
-  ];
-
-  for (const projectName of Object.keys(angularJSON.projects)) {
-    const allSourceFilesForProject = getAllSourceFilesForProject(
-      host,
-      projectName,
-    );
-    const projectESLintConfigPath = allSourceFilesForProject.find((f) =>
-      f.endsWith('.eslintrc.json'),
-    );
-    if (!projectESLintConfigPath) {
-      continue;
-    }
-
-    rules.push(
-      // Remove from project configs
-      updateJsonInTree(projectESLintConfigPath.toString(), (json) => {
-        removeRuleFromESLintConfig('@angular-eslint/use-pipe-decorator', json);
+function removeUsePipeDecoratorRule() {
+  const ruleName = '@angular-eslint/use-pipe-decorator';
+  return chain([
+    visitNotIgnoredFiles((filePath) => {
+      if (!filePath.endsWith('.eslintrc.json')) {
+        return;
+      }
+      return updateJsonInTree(filePath.toString(), (json) => {
+        removeRuleFromESLintConfig(ruleName, json);
         return json;
-      }),
-    );
-  }
-
-  return chain(rules);
+      });
+    }),
+  ]);
 }
 
 export default function () {
-  return chain([updateRelevantDependencies, removeUsePipeDecorator]);
+  return chain([updateRelevantDependencies, removeUsePipeDecoratorRule]);
 }

@@ -2,11 +2,7 @@ import type { SchematicContext, Tree } from '@angular-devkit/schematics';
 import { chain } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import type { Linter } from 'eslint';
-import {
-  getAllSourceFilesForProject,
-  readJsonInTree,
-  updateJsonInTree,
-} from '../../utils';
+import { updateJsonInTree, visitNotIgnoredFiles } from '../../utils';
 
 const updatedAngularESLintVersion = '^3.0.0';
 
@@ -84,39 +80,18 @@ function addRecommendedExtraExtendsWhereApplicable(config: Linter.Config) {
   }
 }
 
-function applyRecommendedExtraExtends(host: Tree) {
-  const angularJSON = readJsonInTree(host, 'angular.json');
-
-  const rules = [
-    // Apply to root config
-    updateJsonInTree('.eslintrc.json', (json) => {
-      addRecommendedExtraExtendsWhereApplicable(json);
-      return json;
-    }),
-  ];
-
-  for (const projectName of Object.keys(angularJSON.projects)) {
-    const allSourceFilesForProject = getAllSourceFilesForProject(
-      host,
-      projectName,
-    );
-    const projectESLintConfigPath = allSourceFilesForProject.find((f) =>
-      f.endsWith('.eslintrc.json'),
-    );
-    if (!projectESLintConfigPath) {
-      continue;
-    }
-
-    rules.push(
-      // Apply to project configs
-      updateJsonInTree(projectESLintConfigPath.toString(), (json) => {
+function applyRecommendedExtraExtends() {
+  return chain([
+    visitNotIgnoredFiles((filePath) => {
+      if (!filePath.endsWith('.eslintrc.json')) {
+        return;
+      }
+      return updateJsonInTree(filePath.toString(), (json) => {
         addRecommendedExtraExtendsWhereApplicable(json);
         return json;
-      }),
-    );
-  }
-
-  return chain(rules);
+      });
+    }),
+  ]);
 }
 
 function removeNegativeValuesFromComponentMaxInlineDeclarations(
@@ -146,39 +121,18 @@ function updateComponentMaxInlineDeclarationsSchema({
   }
 }
 
-function updateComponentMaxInlineDeclarations(host: Tree) {
-  const angularJSON = readJsonInTree(host, 'angular.json');
-
-  const rules = [
-    // Update from root config
-    updateJsonInTree('.eslintrc.json', (json) => {
-      updateComponentMaxInlineDeclarationsSchema(json);
-      return json;
-    }),
-  ];
-
-  for (const projectName of Object.keys(angularJSON.projects)) {
-    const allSourceFilesForProject = getAllSourceFilesForProject(
-      host,
-      projectName,
-    );
-    const projectESLintConfigPath = allSourceFilesForProject.find((path) =>
-      path.endsWith('.eslintrc.json'),
-    );
-    if (!projectESLintConfigPath) {
-      continue;
-    }
-
-    rules.push(
-      // Update from project configs
-      updateJsonInTree(projectESLintConfigPath.toString(), (json) => {
+function updateComponentMaxInlineDeclarations() {
+  return chain([
+    visitNotIgnoredFiles((filePath) => {
+      if (!filePath.endsWith('.eslintrc.json')) {
+        return;
+      }
+      return updateJsonInTree(filePath.toString(), (json) => {
         updateComponentMaxInlineDeclarationsSchema(json);
         return json;
-      }),
-    );
-  }
-
-  return chain(rules);
+      });
+    }),
+  ]);
 }
 
 export default function () {
