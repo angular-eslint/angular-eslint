@@ -47,7 +47,69 @@ describe('utils', () => {
               root: '',
               sourceRoot: 'src',
               prefix: 'app',
+              // "targets" is an undocumented but supported alias of "architect"
+              targets: {
+                build: {},
+                serve: {},
+                'extract-i18n': {},
+                test: {},
+                lint: {},
+                e2e: {},
+              },
+            },
+          },
+        },
+        expected: false,
+      },
+      {
+        angularJson: {
+          $schema: './node_modules/@angular/cli/lib/config/schema.json',
+          version: 1,
+          newProjectRoot: 'projects',
+          projects: {
+            foo: {
+              projectType: 'application',
+              schematics: {},
+              root: '',
+              sourceRoot: 'src',
+              prefix: 'app',
               architect: {
+                build: {},
+                serve: {},
+                'extract-i18n': {},
+                test: {},
+                lint: {
+                  builder: '@angular-devkit/build-angular:tslint',
+                  options: {
+                    tsConfig: [
+                      'tsconfig.app.json',
+                      'tsconfig.spec.json',
+                      'e2e/tsconfig.json',
+                    ],
+                    exclude: ['**/node_modules/**'],
+                  },
+                  e2e: {},
+                },
+              },
+            },
+          },
+        },
+        expected: true,
+      },
+      {
+        angularJson: {
+          $schema: './node_modules/@angular/cli/lib/config/schema.json',
+          version: 1,
+          newProjectRoot: 'projects',
+          projects: {
+            foo: {
+              projectType: 'application',
+              schematics: {},
+              root: '',
+              sourceRoot: 'src',
+              prefix: 'app',
+              // "targets" is an undocumented but supported alias of "architect"
+              targets: {
                 build: {},
                 serve: {},
                 'extract-i18n': {},

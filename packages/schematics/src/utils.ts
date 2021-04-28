@@ -57,6 +57,24 @@ export function getWorkspacePath(host: Tree) {
   return possibleFiles.filter((path) => host.exists(path))[0];
 }
 
+type TargetsConfig = Record<string, { builder: string; options: unknown }>;
+
+function getTargetsConfigFromProject(
+  projectConfig: { architect?: TargetsConfig } & { targets?: TargetsConfig },
+): TargetsConfig | null {
+  if (!projectConfig) {
+    return null;
+  }
+  if (projectConfig.architect) {
+    return projectConfig.architect;
+  }
+  // "targets" is an undocumented but supported alias of "architect"
+  if (projectConfig.targets) {
+    return projectConfig.targets;
+  }
+  return null;
+}
+
 export function isTSLintUsedInWorkspace(tree: Tree): boolean {
   const workspaceJson = readJsonInTree(tree, getWorkspacePath(tree));
   if (!workspaceJson) {
@@ -66,13 +84,12 @@ export function isTSLintUsedInWorkspace(tree: Tree): boolean {
   for (const [, projectConfig] of Object.entries(
     workspaceJson.projects,
   ) as any) {
-    if (!projectConfig || !projectConfig.architect) {
+    const targetsConfig = getTargetsConfigFromProject(projectConfig);
+    if (!targetsConfig) {
       continue;
     }
 
-    for (const [, targetConfig] of Object.entries(
-      projectConfig.architect,
-    ) as any) {
+    for (const [, targetConfig] of Object.entries(targetsConfig)) {
       if (!targetConfig) {
         continue;
       }
