@@ -324,11 +324,10 @@ export function createESLintConfigForProject(projectName: string): Rule {
     ];
     /**
      * If the root is an empty string it must be the initial project created at the
-     * root by the Angular CLI's workspace schematic. We handle creating the root level
-     * config in our own workspace schematic.
+     * root by the Angular CLI's workspace schematic
      */
     if (projectRoot === '') {
-      return;
+      return createRootESLintConfigFile(projectName);
     }
     return updateJsonInTree(
       join(normalize(projectRoot), '.eslintrc.json'),
@@ -347,24 +346,23 @@ export function removeTSLintJSONForProject(projectName: string): Rule {
   return (tree: Tree) => {
     const angularJSON = readJsonInTree(tree, 'angular.json');
     const { root: projectRoot } = angularJSON.projects[projectName];
-    tree.delete(join(normalize(projectRoot || '/'), 'tslint.json'));
+    const tslintJsonPath = join(normalize(projectRoot || '/'), 'tslint.json');
+    if (tree.exists(tslintJsonPath)) {
+      tree.delete(tslintJsonPath);
+    }
   };
 }
 
-export function createRootESLintConfigFile(workspaceName: string): Rule {
+function createRootESLintConfigFile(projectName: string): Rule {
   return (tree) => {
-    const angularJSON = readJsonInTree(
-      tree,
-      join(normalize(workspaceName), 'angular.json'),
-    );
+    const angularJSON = readJsonInTree(tree, getWorkspacePath(tree));
     let lintPrefix: string | null = null;
-    if (angularJSON.projects?.[workspaceName]) {
-      const { prefix } = angularJSON.projects[workspaceName];
+    if (angularJSON.projects?.[projectName]) {
+      const { prefix } = angularJSON.projects[projectName];
       lintPrefix = prefix;
     }
-    return updateJsonInTree(
-      join(normalize(workspaceName), '.eslintrc.json'),
-      () => createRootESLintConfig(lintPrefix),
+    return updateJsonInTree('.eslintrc.json', () =>
+      createRootESLintConfig(lintPrefix),
     );
   };
 }
@@ -378,4 +376,23 @@ export function sortObjectByKeys(obj: Record<string, unknown>) {
         [key]: obj[key],
       };
     }, {});
+}
+
+/**
+ * To make certain schematic usage conversion more ergonomic, if the user does not specify a project
+ * and only has a single project in their angular.json we will just go ahead and use that one.
+ */
+export function determineTargetProjectName(
+  tree: Tree,
+  maybeProject?: string,
+): string | null {
+  if (maybeProject) {
+    return maybeProject;
+  }
+  const workspaceJson = readJsonInTree(tree, getWorkspacePath(tree));
+  const projects = Object.keys(workspaceJson.projects);
+  if (projects.length === 1) {
+    return projects[0];
+  }
+  return null;
 }

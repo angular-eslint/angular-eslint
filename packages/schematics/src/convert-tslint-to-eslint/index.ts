@@ -7,11 +7,14 @@ import type { Linter } from 'eslint';
 import type { TSLintRuleOptions } from 'tslint-to-eslint-config';
 import {
   addESLintTargetToProject,
+  createESLintConfigForProject,
+  determineTargetProjectName,
   getProjectConfig,
   getWorkspacePath,
   isTSLintUsedInWorkspace,
   offsetFromRoot,
   readJsonInTree,
+  removeTSLintJSONForProject,
   setESLintProjectBasedOnProjectType,
   updateJsonInTree,
 } from '../utils';
@@ -35,26 +38,6 @@ const eslintPluginConfigNgCliCompatFormattingAddOnOriginal: any =
 const eslintPluginTemplateConfigRecommendedOriginal: any =
   eslintPluginTemplate.configs.recommended;
 
-/**
- * To make the conversion more ergonomic, if the user does not specify a project
- * to convert and only has a single project in their angular.json we will just go
- * ahead and convert that one.
- */
-function determineProjectToConvert(
-  tree: Tree,
-  maybeProject?: string,
-): string | null {
-  if (maybeProject) {
-    return maybeProject;
-  }
-  const workspaceJson = readJsonInTree(tree, getWorkspacePath(tree));
-  const projects = Object.keys(workspaceJson.projects);
-  if (projects.length === 1) {
-    return projects[0];
-  }
-  return null;
-}
-
 export default function convert(schema: Schema): Rule {
   return (tree: Tree) => {
     if (tree.exists('tsconfig.base.json')) {
@@ -63,13 +46,14 @@ export default function convert(schema: Schema): Rule {
       );
     }
 
-    const projectName = determineProjectToConvert(tree, schema.project);
+    const projectName = determineTargetProjectName(tree, schema.project);
     if (!projectName) {
       throw new Error(
         '\n' +
-          `Error: You must specify a project to convert because you have multiple projects in your angular.json\n
-          
-          E.g. npx ng g @angular-eslint/schematics:convert-tslint-to-eslint {{YOUR_PROJECT_NAME_GOES_HERE}}
+          `
+Error: You must specify a project to convert because you have multiple projects in your angular.json
+
+E.g. npx ng g @angular-eslint/schematics:convert-tslint-to-eslint {{YOUR_PROJECT_NAME_GOES_HERE}}
         `.trim(),
       );
     }
@@ -103,8 +87,15 @@ export default function convert(schema: Schema): Rule {
             tree,
             projectTSLintJsonPath,
           ),
-      isRootAngularProject || schema.ignoreExistingTslintConfig
+      isRootAngularProject
         ? noop()
+        : schema.ignoreExistingTslintConfig
+        ? chain([
+            // Create the latest recommended ESLint config file for the project
+            createESLintConfigForProject(projectName),
+            // Delete the TSLint config file for the project
+            removeTSLintJSONForProject(projectName),
+          ])
         : convertNonRootTSLintConfig(
             schema,
             projectRoot,

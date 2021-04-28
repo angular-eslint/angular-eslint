@@ -28,6 +28,11 @@
       "factory": "./library",
       "schema": "./library/schema.json",
       "description": "Generate a library project for Angular."
+    },
+    "add-eslint-to-project": {
+      "factory": "./add-eslint-to-project",
+      "schema": "./add-eslint-to-project/schema.json",
+      "description": "Add ESLint to an Angular CLI project"
     }
   }
 }
