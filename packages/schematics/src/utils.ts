@@ -7,6 +7,9 @@
 import type { Path } from '@angular-devkit/core';
 import { join, normalize } from '@angular-devkit/core';
 import type { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
+import { callRule } from '@angular-devkit/schematics';
+import type { Ignore } from 'ignore';
+import ignore from 'ignore';
 import stripJsonComments from 'strip-json-comments';
 
 /**
@@ -172,46 +175,42 @@ export function addESLintTargetToProject(
   });
 }
 
-function allFilesInDirInHost(
-  host: Tree,
-  path: Path,
-  options: {
-    recursive: boolean;
-  } = { recursive: true },
-): Path[] {
-  const dir = host.getDir(path);
-  const res: Path[] = [];
-  dir.subfiles.forEach((p) => {
-    res.push(join(path, p));
-  });
+/**
+ * Utility to act on all files in a tree that are not ignored by git.
+ */
+export function visitNotIgnoredFiles(
+  visitor: (file: Path, host: Tree, context: SchematicContext) => void | Rule,
+  dir: Path = normalize(''),
+): Rule {
+  return (host, context) => {
+    let ig: Ignore;
+    if (host.exists('.gitignore')) {
+      ig = ignore();
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      ig.add(host.read('.gitignore')!.toString());
+    }
+    function visit(_dir: Path) {
+      if (_dir && ig?.ignores(_dir)) {
+        return;
+      }
+      const dirEntry = host.getDir(_dir);
+      dirEntry.subfiles.forEach((file) => {
+        if (ig?.ignores(join(_dir, file))) {
+          return;
+        }
+        const maybeRule = visitor(join(_dir, file), host, context);
+        if (maybeRule) {
+          callRule(maybeRule, host, context).subscribe();
+        }
+      });
 
-  if (!options.recursive) {
-    return res;
-  }
+      dirEntry.subdirs.forEach((subdir) => {
+        visit(join(_dir, subdir));
+      });
+    }
 
-  dir.subdirs.forEach((p) => {
-    res.push(...allFilesInDirInHost(host, join(path, p)));
-  });
-  return res;
-}
-
-export function getAllSourceFilesForProject(
-  host: Tree,
-  projectName: string,
-): Path[] {
-  const workspaceJson = readJsonInTree(host, 'angular.json');
-  const existingProjectConfig = workspaceJson.projects[projectName];
-
-  let pathRoot = '';
-
-  // Default Angular CLI project at the root of the workspace
-  if (existingProjectConfig.root === '') {
-    pathRoot = 'src';
-  } else {
-    pathRoot = existingProjectConfig.root;
-  }
-
-  return allFilesInDirInHost(host, normalize(pathRoot));
+    visit(dir);
+  };
 }
 
 type ProjectType = 'application' | 'library';

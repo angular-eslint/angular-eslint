@@ -25,9 +25,14 @@ jest.mock('tslint-to-eslint-config', () => {
 });
 
 const {
-  convertToESLintConfig,
+  createConvertToESLintConfig,
   // eslint-disable-next-line @typescript-eslint/no-var-requires
 } = require('../../src/convert-tslint-to-eslint/convert-to-eslint-config');
+
+const convertToESLintConfig = createConvertToESLintConfig({
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  logger: { info: () => {} },
+});
 
 describe('convertToESLintConfig()', () => {
   beforeEach(() => {

@@ -5,10 +5,8 @@ import eslintPlugin from '@angular-eslint/eslint-plugin';
 import eslintPluginTemplate from '@angular-eslint/eslint-plugin-template';
 import type { Linter } from 'eslint';
 import type { TSLintRuleOptions } from 'tslint-to-eslint-config';
-import { convertFileComments } from 'tslint-to-eslint-config';
 import {
   addESLintTargetToProject,
-  getAllSourceFilesForProject,
   getProjectConfig,
   getWorkspacePath,
   isTSLintUsedInWorkspace,
@@ -17,7 +15,10 @@ import {
   setESLintProjectBasedOnProjectType,
   updateJsonInTree,
 } from '../utils';
-import { convertToESLintConfig } from './convert-to-eslint-config';
+import {
+  convertTSLintDisableCommentsForProject,
+  createConvertToESLintConfig,
+} from './convert-to-eslint-config';
 import type { Schema } from './schema';
 import {
   ensureESLintPluginsAreInstalled,
@@ -220,6 +221,7 @@ function convertRootTSLintConfig(
 ): Rule {
   return async (tree, context) => {
     const rawRootTSLintJson = readJsonInTree(tree, rootTSLintJsonPath);
+    const convertToESLintConfig = createConvertToESLintConfig(context);
     const convertedRoot = await convertToESLintConfig(
       'tslint.json',
       rawRootTSLintJson,
@@ -387,6 +389,7 @@ function convertNonRootTSLintConfig(
   return async (tree, context) => {
     const rawProjectTSLintJson = readJsonInTree(tree, projectTSLintJsonPath);
     const rawRootESLintrcJson = readJsonInTree(tree, rootESLintrcJsonPath);
+    const convertToESLintConfig = createConvertToESLintConfig(context);
     const convertedProject = await convertToESLintConfig(
       projectTSLintJsonPath,
       rawProjectTSLintJson,
@@ -779,27 +782,4 @@ function warnInCaseOfUnconvertedRules(
       '\nYou will need to decide on how to handle the above manually, but everything else has been handled for you automatically.\n',
     );
   }
-}
-
-function likelyContainsTSLintComment(fileContent: string): boolean {
-  return fileContent.includes('tslint:');
-}
-
-function convertTSLintDisableCommentsForProject(projectName: string): Rule {
-  return (tree: Tree) => {
-    const allSourceFiles = getAllSourceFilesForProject(tree, projectName);
-    const allTypeScriptSourceFiles = allSourceFiles.filter((f) =>
-      f.endsWith('.ts'),
-    );
-
-    for (const filePath of allTypeScriptSourceFiles) {
-      const fileContent = tree.read(filePath)!.toString('utf-8');
-      // Avoid updating files if we don't have to
-      if (!likelyContainsTSLintComment(fileContent)) {
-        continue;
-      }
-      const updatedFileContent = convertFileComments({ fileContent, filePath });
-      tree.overwrite(filePath, updatedFileContent);
-    }
-  };
 }
