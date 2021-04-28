@@ -1,6 +1,6 @@
 {
   "name": "@angular-eslint/schematics",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "description": "Angular Schematics for angular-eslint",
   "license": "MIT",
   "main": "dist/index.js",
@@ -31,8 +31,8 @@
     "save": "devDependencies"
   },
   "dependencies": {
-    "@angular-eslint/eslint-plugin": "4.0.0",
-    "@angular-eslint/eslint-plugin-template": "4.0.0",
+    "@angular-eslint/eslint-plugin": "4.1.0",
+    "@angular-eslint/eslint-plugin-template": "4.1.0",
     "ignore": "5.1.8",
     "strip-json-comments": "3.1.1",
     "tmp": "0.2.1"

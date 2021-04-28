@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.1.0](https://github.com/angular-eslint/angular-eslint/compare/v4.0.0...v4.1.0) (2021-04-28)
+
+### Bug Fixes
+
+- **schematics:** support workspaces which use targets alias ([#424](https://github.com/angular-eslint/angular-eslint/issues/424)) ([da6bcf7](https://github.com/angular-eslint/angular-eslint/commit/da6bcf70027cc4b339ef2e825a931ec882d4711f))
+
+### Features
+
+- **schematics:** dynamically install tslint-to-eslint-config as needed ([#425](https://github.com/angular-eslint/angular-eslint/issues/425)) ([27ca474](https://github.com/angular-eslint/angular-eslint/commit/27ca474419defb79b552b233689a2dbf31b8ad92))
+
 # [4.0.0](https://github.com/angular-eslint/angular-eslint/compare/v3.0.1...v4.0.0) (2021-04-18)
 
 ### Features
