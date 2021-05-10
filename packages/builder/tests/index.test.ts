@@ -6,7 +6,7 @@
  */
 import { Architect } from '@angular-devkit/architect';
 import { TestingArchitectHost } from '@angular-devkit/architect/testing';
-import { logging, schema } from '@angular-devkit/core';
+import { logging, schema, json } from '@angular-devkit/core';
 import type { ESLint } from 'eslint';
 import { resolve } from 'path';
 import type { Schema } from '../src/schema';
@@ -79,7 +79,7 @@ function setupMocks() {
 }
 
 async function runBuilder(options: Schema) {
-  const registry = new schema.CoreSchemaRegistry();
+  const registry = new json.schema.CoreSchemaRegistry();
   registry.addPostTransform(schema.transforms.addUndefinedDefaults);
 
   const testArchitectHost = new TestingArchitectHost(
@@ -97,7 +97,7 @@ async function runBuilder(options: Schema) {
   const { default: builderImplementation } = require('../src/index');
   testArchitectHost.addBuilder(builderName, builderImplementation);
 
-  const architect = new Architect(testArchitectHost, registry);
+  const architect = new Architect(testArchitectHost, registry as any);
   const logger = new logging.Logger('');
   logger.subscribe(loggerSpy);
 

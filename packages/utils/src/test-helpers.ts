@@ -121,7 +121,6 @@ export const parseInvalidSource = (
 
 export function convertAnnotatedSourceToFailureCase<T extends string>({
   /* eslint-disable @typescript-eslint/no-unused-vars */
-  // @ts-expect-error It is nice to require the description for maintainability, even though we don't use it directly.
   description: _,
   /* eslint-enable @typescript-eslint/no-unused-vars */
   annotatedSource,
