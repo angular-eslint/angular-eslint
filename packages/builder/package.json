@@ -1,6 +1,6 @@
 {
   "name": "@angular-eslint/builder",
-  "version": "4.2.1",
+  "version": "4.3.0",
   "description": "Angular CLI builder for ESLint",
   "license": "MIT",
   "main": "dist/index.js",
