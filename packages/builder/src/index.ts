@@ -1,19 +1,16 @@
-import {
-  BuilderContext,
-  BuilderOutput,
-  createBuilder,
-} from '@angular-devkit/architect';
-import { ESLint } from 'eslint';
+import type { BuilderContext, BuilderOutput } from '@angular-devkit/architect';
+import { createBuilder } from '@angular-devkit/architect';
+import type { ESLint } from 'eslint';
 import path from 'path';
-import { Schema } from './schema';
+import type { Schema } from './schema';
 import { lint, loadESLint } from './utils/eslint-utils';
 
 async function run(
   options: Schema,
   context: BuilderContext,
 ): Promise<BuilderOutput> {
-  const systemRoot = context.workspaceRoot;
-  process.chdir(context.currentDirectory);
+  const workspaceRoot = context.workspaceRoot;
+  process.chdir(workspaceRoot);
 
   const projectName = context.target?.project || '<???>';
   const printInfo = options.format && !options.silent;
@@ -43,10 +40,11 @@ async function run(
    * eslint automatically resolve the `.eslintrc` files in each folder.
    */
   const eslintConfigPath = options.eslintConfig
-    ? path.resolve(systemRoot, options.eslintConfig)
+    ? path.resolve(workspaceRoot, options.eslintConfig)
     : undefined;
 
   const lintResults: ESLint.LintResult[] = await lint(
+    workspaceRoot,
     eslintConfigPath,
     options,
   );
@@ -95,10 +93,11 @@ async function run(
    * It's important that we format all results together so that custom
    * formatters, such as checkstyle, can provide a valid output for the
    * whole project being linted.
+   *
+   * Additionally, we want to always log because different formatters
+   * handled the "no results" case differently.
    */
-  if (hasWarningsToPrint || hasErrorsToPrint) {
-    context.logger.info(formatter.format(finalLintResults));
-  }
+  context.logger.info(formatter.format(finalLintResults));
 
   if (hasWarningsToPrint && printInfo) {
     context.logger.warn('Lint warnings found in the listed files.\n');

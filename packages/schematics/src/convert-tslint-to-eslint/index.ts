@@ -1,29 +1,31 @@
 import { join, normalize } from '@angular-devkit/core';
-import {
-  chain,
-  noop,
-  Rule,
-  SchematicContext,
-  Tree,
-} from '@angular-devkit/schematics';
+import type { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
+import { chain, noop } from '@angular-devkit/schematics';
 import eslintPlugin from '@angular-eslint/eslint-plugin';
 import eslintPluginTemplate from '@angular-eslint/eslint-plugin-template';
 import type { Linter } from 'eslint';
 import type { TSLintRuleOptions } from 'tslint-to-eslint-config';
-import { convertFileComments } from 'tslint-to-eslint-config';
 import {
   addESLintTargetToProject,
-  getAllSourceFilesForProject,
+  createESLintConfigForProject,
+  determineTargetProjectName,
   getProjectConfig,
+  getWorkspacePath,
+  isTSLintUsedInWorkspace,
   offsetFromRoot,
   readJsonInTree,
+  removeTSLintJSONForProject,
   setESLintProjectBasedOnProjectType,
   updateJsonInTree,
 } from '../utils';
-import { convertToESLintConfig } from './convert-to-eslint-config';
-import { Schema } from './schema';
+import {
+  convertTSLintDisableCommentsForProject,
+  createConvertToESLintConfig,
+} from './convert-to-eslint-config';
+import type { Schema } from './schema';
 import {
   ensureESLintPluginsAreInstalled,
+  uninstallTSLintAndCodelyzer,
   updateArrPropAndRemoveDuplication,
   updateObjPropAndRemoveDuplication,
 } from './utils';
@@ -44,9 +46,21 @@ export default function convert(schema: Schema): Rule {
       );
     }
 
+    const projectName = determineTargetProjectName(tree, schema.project);
+    if (!projectName) {
+      throw new Error(
+        '\n' +
+          `
+Error: You must specify a project to convert because you have multiple projects in your angular.json
+
+E.g. npx ng g @angular-eslint/schematics:convert-tslint-to-eslint {{YOUR_PROJECT_NAME_GOES_HERE}}
+        `.trim(),
+      );
+    }
+
     const { root: projectRoot, projectType } = getProjectConfig(
       tree,
-      schema.project,
+      projectName,
     );
 
     // Default Angular CLI project at the root of the workspace
@@ -63,11 +77,11 @@ export default function convert(schema: Schema): Rule {
 
     return chain([
       // Overwrite the "lint" target directly for the selected project in the angular.json
-      addESLintTargetToProject(schema.project, 'lint'),
-      ensureRootESLintConfig(schema, tree, rootESLintrcJsonPath),
-      convertTSLintDisableCommentsForProject(schema.project),
+      addESLintTargetToProject(projectName, 'lint'),
+      ensureRootESLintConfig(schema, tree, projectName, rootESLintrcJsonPath),
+      convertTSLintDisableCommentsForProject(projectName),
 
-      isRootAngularProject
+      isRootAngularProject || schema.ignoreExistingTslintConfig
         ? noop()
         : removeExtendsFromProjectTSLintConfigBeforeConverting(
             tree,
@@ -75,6 +89,13 @@ export default function convert(schema: Schema): Rule {
           ),
       isRootAngularProject
         ? noop()
+        : schema.ignoreExistingTslintConfig
+        ? chain([
+            // Create the latest recommended ESLint config file for the project
+            createESLintConfigForProject(projectName),
+            // Delete the TSLint config file for the project
+            removeTSLintJSONForProject(projectName),
+          ])
         : convertNonRootTSLintConfig(
             schema,
             projectRoot,
@@ -82,6 +103,27 @@ export default function convert(schema: Schema): Rule {
             projectTSLintJsonPath,
             rootESLintrcJsonPath,
           ),
+      function cleanUpTSLintIfNoLongerInUse(tree) {
+        if (
+          schema.removeTslintIfNoMoreTslintTargets &&
+          !isTSLintUsedInWorkspace(tree)
+        ) {
+          tree.delete(join(normalize(tree.root.path), 'tslint.json'));
+          return chain([
+            /**
+             * Update the default schematics collection to @angular-eslint so that future projects within
+             * the same workspace will also use ESLint
+             */
+            updateJsonInTree(getWorkspacePath(tree), (json) => {
+              json.cli = json.cli || {};
+              json.cli.defaultCollection = '@angular-eslint/schematics';
+              return json;
+            }),
+            uninstallTSLintAndCodelyzer(),
+          ]);
+        }
+        return undefined;
+      },
     ]);
   };
 }
@@ -99,13 +141,68 @@ export default function convert(schema: Schema): Rule {
 function ensureRootESLintConfig(
   schema: Schema,
   tree: Tree,
+  projectName: string,
   rootESLintrcJsonPath: string,
 ): Rule {
   const hasExistingRootESLintrcConfig = tree.exists(rootESLintrcJsonPath);
+  if (hasExistingRootESLintrcConfig) {
+    return noop();
+  }
 
-  return hasExistingRootESLintrcConfig
-    ? noop()
-    : convertRootTSLintConfig(schema, 'tslint.json', rootESLintrcJsonPath);
+  /**
+   * When ignoreExistingTslintConfig is set, Do not perform a conversion of the root
+   * TSLint config and instead switch the workspace directly to using the latest
+   * recommended ESLint config.
+   */
+  if (schema.ignoreExistingTslintConfig) {
+    const workspaceJson = readJsonInTree(tree, getWorkspacePath(tree));
+    const prefix = workspaceJson.projects[projectName].prefix || 'app';
+
+    return updateJsonInTree(rootESLintrcJsonPath, () => ({
+      root: true,
+      // Each additional project is linted independently
+      ignorePatterns: ['projects/**/*'],
+      overrides: [
+        {
+          files: ['*.ts'],
+          parserOptions: {
+            project: ['tsconfig.json', 'e2e/tsconfig.json'],
+            createDefaultProgram: true,
+          },
+          extends: [
+            'plugin:@angular-eslint/recommended',
+            'plugin:@angular-eslint/template/process-inline-templates',
+          ],
+          rules: {
+            '@angular-eslint/component-selector': [
+              'error',
+              {
+                prefix,
+                style: 'kebab-case',
+                type: 'element',
+              },
+            ],
+            '@angular-eslint/directive-selector': [
+              'error',
+              {
+                prefix,
+                style: 'camelCase',
+                type: 'attribute',
+              },
+            ],
+          },
+        },
+
+        {
+          files: ['*.html'],
+          extends: ['plugin:@angular-eslint/template/recommended'],
+          rules: {},
+        },
+      ],
+    }));
+  }
+
+  return convertRootTSLintConfig(schema, 'tslint.json', rootESLintrcJsonPath);
 }
 
 function convertRootTSLintConfig(
@@ -115,6 +212,7 @@ function convertRootTSLintConfig(
 ): Rule {
   return async (tree, context) => {
     const rawRootTSLintJson = readJsonInTree(tree, rootTSLintJsonPath);
+    const convertToESLintConfig = createConvertToESLintConfig(context);
     const convertedRoot = await convertToESLintConfig(
       'tslint.json',
       rawRootTSLintJson,
@@ -253,7 +351,19 @@ function convertRootTSLintConfig(
     delete convertedRootESLintConfig.extends;
 
     return chain([
-      ensureESLintPluginsAreInstalled(convertedRoot.ensureESLintPlugins),
+      ensureESLintPluginsAreInstalled(
+        Array.from(
+          new Set([
+            /**
+             * These three plugins are needed for the ng-cli-compat config
+             */
+            'eslint-plugin-import',
+            'eslint-plugin-jsdoc',
+            'eslint-plugin-prefer-arrow',
+            ...convertedRoot.ensureESLintPlugins,
+          ]),
+        ),
+      ),
       // Create the .eslintrc.json file in the tree using the finalized config
       updateJsonInTree(rootESLintrcJsonPath, () => convertedRootESLintConfig),
     ]);
@@ -270,6 +380,7 @@ function convertNonRootTSLintConfig(
   return async (tree, context) => {
     const rawProjectTSLintJson = readJsonInTree(tree, projectTSLintJsonPath);
     const rawRootESLintrcJson = readJsonInTree(tree, rootESLintrcJsonPath);
+    const convertToESLintConfig = createConvertToESLintConfig(context);
     const convertedProject = await convertToESLintConfig(
       projectTSLintJsonPath,
       rawProjectTSLintJson,
@@ -662,27 +773,4 @@ function warnInCaseOfUnconvertedRules(
       '\nYou will need to decide on how to handle the above manually, but everything else has been handled for you automatically.\n',
     );
   }
-}
-
-function likelyContainsTSLintComment(fileContent: string): boolean {
-  return fileContent.includes('tslint:');
-}
-
-function convertTSLintDisableCommentsForProject(projectName: string): Rule {
-  return (tree: Tree) => {
-    const allSourceFiles = getAllSourceFilesForProject(tree, projectName);
-    const allTypeScriptSourceFiles = allSourceFiles.filter((f) =>
-      f.endsWith('.ts'),
-    );
-
-    for (const filePath of allTypeScriptSourceFiles) {
-      const fileContent = tree.read(filePath)!.toString('utf-8');
-      // Avoid updating files if we don't have to
-      if (!likelyContainsTSLintComment(fileContent)) {
-        continue;
-      }
-      const updatedFileContent = convertFileComments({ fileContent, filePath });
-      tree.overwrite(filePath, updatedFileContent);
-    }
-  };
 }

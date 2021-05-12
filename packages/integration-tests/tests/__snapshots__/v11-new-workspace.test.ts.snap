@@ -15,9 +15,6 @@ Object {
   "@typescript-eslint/eslint-plugin": "4.16.1",
   "@typescript-eslint/parser": "4.16.1",
   "eslint": "^7.6.0",
-  "eslint-plugin-import": "2.22.1",
-  "eslint-plugin-jsdoc": "30.7.6",
-  "eslint-plugin-prefer-arrow": "1.2.2",
   "jasmine-core": "~3.6.0",
   "jasmine-spec-reporter": "~5.0.0",
   "karma": "~6.1.0",
@@ -220,10 +217,12 @@ Object {
 exports[`v11-new-workspace it should pass linting after creating a new workspace from scratch using @angular-eslint 11`] = `
 "
 Linting \\"v11-new-workspace\\"...
+
 All files pass linting.
 
 
 Linting \\"another-app\\"...
+
 All files pass linting.
 
 

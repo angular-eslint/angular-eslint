@@ -4,8 +4,12 @@
  *
  * Thanks, Nrwl folks!
  */
-import { join, normalize, Path } from '@angular-devkit/core';
-import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
+import type { Path } from '@angular-devkit/core';
+import { join, normalize } from '@angular-devkit/core';
+import type { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
+import { callRule } from '@angular-devkit/schematics';
+import type { Ignore } from 'ignore';
+import ignore from 'ignore';
 import stripJsonComments from 'strip-json-comments';
 
 /**
@@ -50,9 +54,57 @@ export function updateJsonInTree<T = any, O = T>(
   };
 }
 
-function getWorkspacePath(host: Tree) {
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export function getWorkspacePath(host: Tree) {
   const possibleFiles = ['/workspace.json', '/angular.json', '/.angular.json'];
   return possibleFiles.filter((path) => host.exists(path))[0];
+}
+
+type TargetsConfig = Record<string, { builder: string; options: unknown }>;
+
+function getTargetsConfigFromProject(
+  projectConfig: { architect?: TargetsConfig } & { targets?: TargetsConfig },
+): TargetsConfig | null {
+  if (!projectConfig) {
+    return null;
+  }
+  if (projectConfig.architect) {
+    return projectConfig.architect;
+  }
+  // "targets" is an undocumented but supported alias of "architect"
+  if (projectConfig.targets) {
+    return projectConfig.targets;
+  }
+  return null;
+}
+
+export function isTSLintUsedInWorkspace(tree: Tree): boolean {
+  const workspaceJson = readJsonInTree(tree, getWorkspacePath(tree));
+  if (!workspaceJson) {
+    return false;
+  }
+
+  for (const [, projectConfig] of Object.entries(
+    workspaceJson.projects,
+  ) as any) {
+    const targetsConfig = getTargetsConfigFromProject(projectConfig);
+    if (!targetsConfig) {
+      continue;
+    }
+
+    for (const [, targetConfig] of Object.entries(targetsConfig)) {
+      if (!targetConfig) {
+        continue;
+      }
+
+      if (targetConfig.builder === '@angular-devkit/build-angular:tslint') {
+        // Workspace is still using TSLint, exit early
+        return true;
+      }
+    }
+  }
+  // If we got this far the user has no remaining TSLint usage
+  return false;
 }
 
 export function getProjectConfig(host: Tree, name: string): any {
@@ -123,46 +175,42 @@ export function addESLintTargetToProject(
   });
 }
 
-function allFilesInDirInHost(
-  host: Tree,
-  path: Path,
-  options: {
-    recursive: boolean;
-  } = { recursive: true },
-): Path[] {
-  const dir = host.getDir(path);
-  const res: Path[] = [];
-  dir.subfiles.forEach((p) => {
-    res.push(join(path, p));
-  });
+/**
+ * Utility to act on all files in a tree that are not ignored by git.
+ */
+export function visitNotIgnoredFiles(
+  visitor: (file: Path, host: Tree, context: SchematicContext) => void | Rule,
+  dir: Path = normalize(''),
+): Rule {
+  return (host, context) => {
+    let ig: Ignore;
+    if (host.exists('.gitignore')) {
+      ig = ignore();
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      ig.add(host.read('.gitignore')!.toString());
+    }
+    function visit(_dir: Path) {
+      if (_dir && ig?.ignores(_dir)) {
+        return;
+      }
+      const dirEntry = host.getDir(_dir);
+      dirEntry.subfiles.forEach((file) => {
+        if (ig?.ignores(join(_dir, file))) {
+          return;
+        }
+        const maybeRule = visitor(join(_dir, file), host, context);
+        if (maybeRule) {
+          callRule(maybeRule, host, context).subscribe();
+        }
+      });
 
-  if (!options.recursive) {
-    return res;
-  }
+      dirEntry.subdirs.forEach((subdir) => {
+        visit(join(_dir, subdir));
+      });
+    }
 
-  dir.subdirs.forEach((p) => {
-    res.push(...allFilesInDirInHost(host, join(path, p)));
-  });
-  return res;
-}
-
-export function getAllSourceFilesForProject(
-  host: Tree,
-  projectName: string,
-): Path[] {
-  const workspaceJson = readJsonInTree(host, 'angular.json');
-  const existingProjectConfig = workspaceJson.projects[projectName];
-
-  let pathRoot = '';
-
-  // Default Angular CLI project at the root of the workspace
-  if (existingProjectConfig.root === '') {
-    pathRoot = 'src';
-  } else {
-    pathRoot = existingProjectConfig.root;
-  }
-
-  return allFilesInDirInHost(host, normalize(pathRoot));
+    visit(dir);
+  };
 }
 
 type ProjectType = 'application' | 'library';
@@ -276,11 +324,10 @@ export function createESLintConfigForProject(projectName: string): Rule {
     ];
     /**
      * If the root is an empty string it must be the initial project created at the
-     * root by the Angular CLI's workspace schematic. We handle creating the root level
-     * config in our own workspace schematic.
+     * root by the Angular CLI's workspace schematic
      */
     if (projectRoot === '') {
-      return;
+      return createRootESLintConfigFile(projectName);
     }
     return updateJsonInTree(
       join(normalize(projectRoot), '.eslintrc.json'),
@@ -299,24 +346,23 @@ export function removeTSLintJSONForProject(projectName: string): Rule {
   return (tree: Tree) => {
     const angularJSON = readJsonInTree(tree, 'angular.json');
     const { root: projectRoot } = angularJSON.projects[projectName];
-    tree.delete(join(normalize(projectRoot || '/'), 'tslint.json'));
+    const tslintJsonPath = join(normalize(projectRoot || '/'), 'tslint.json');
+    if (tree.exists(tslintJsonPath)) {
+      tree.delete(tslintJsonPath);
+    }
   };
 }
 
-export function createRootESLintConfigFile(workspaceName: string): Rule {
+function createRootESLintConfigFile(projectName: string): Rule {
   return (tree) => {
-    const angularJSON = readJsonInTree(
-      tree,
-      join(normalize(workspaceName), 'angular.json'),
-    );
+    const angularJSON = readJsonInTree(tree, getWorkspacePath(tree));
     let lintPrefix: string | null = null;
-    if (angularJSON.projects?.[workspaceName]) {
-      const { prefix } = angularJSON.projects[workspaceName];
+    if (angularJSON.projects?.[projectName]) {
+      const { prefix } = angularJSON.projects[projectName];
       lintPrefix = prefix;
     }
-    return updateJsonInTree(
-      join(normalize(workspaceName), '.eslintrc.json'),
-      () => createRootESLintConfig(lintPrefix),
+    return updateJsonInTree('.eslintrc.json', () =>
+      createRootESLintConfig(lintPrefix),
     );
   };
 }
@@ -330,4 +376,23 @@ export function sortObjectByKeys(obj: Record<string, unknown>) {
         [key]: obj[key],
       };
     }, {});
+}
+
+/**
+ * To make certain schematic usage conversion more ergonomic, if the user does not specify a project
+ * and only has a single project in their angular.json we will just go ahead and use that one.
+ */
+export function determineTargetProjectName(
+  tree: Tree,
+  maybeProject?: string,
+): string | null {
+  if (maybeProject) {
+    return maybeProject;
+  }
+  const workspaceJson = readJsonInTree(tree, getWorkspacePath(tree));
+  const projects = Object.keys(workspaceJson.projects);
+  if (projects.length === 1) {
+    return projects[0];
+  }
+  return null;
 }

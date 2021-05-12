@@ -2,10 +2,8 @@ import {
   convertAnnotatedSourceToFailureCase,
   RuleTester,
 } from '@angular-eslint/utils';
-import rule, {
-  MessageIds,
-  RULE_NAME,
-} from '../../src/rules/no-empty-lifecycle-method';
+import type { MessageIds } from '../../src/rules/no-empty-lifecycle-method';
+import rule, { RULE_NAME } from '../../src/rules/no-empty-lifecycle-method';
 
 //------------------------------------------------------------------------------
 // Tests

@@ -1,4 +1,4 @@
-import { TSESTree, TSESLint } from '@typescript-eslint/experimental-utils';
+import type { TSESTree, TSESLint } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import { PIPE_CLASS_DECORATOR } from '../utils/selectors';
 import { getDeclaredInterfaceName, isImportDeclaration } from '../utils/utils';

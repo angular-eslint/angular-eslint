@@ -2,10 +2,8 @@ import {
   convertAnnotatedSourceToFailureCase,
   RuleTester,
 } from '@angular-eslint/utils';
-import rule, {
-  MessageIds,
-  RULE_NAME,
-} from '../../src/rules/no-call-expression';
+import type { MessageIds } from '../../src/rules/no-call-expression';
+import rule, { RULE_NAME } from '../../src/rules/no-call-expression';
 
 //------------------------------------------------------------------------------
 // Tests
@@ -24,6 +22,9 @@ ruleTester.run(RULE_NAME, rule, {
       <button type="button" (click)="handleClick()">Click Here</button>
       {{ $any(info) }}
       <input (change)="obj?.changeHandler()">
+      <form [formGroup]="form" (ngSubmit)="form.valid || save()"></form>
+      <form [formGroup]="form" (ngSubmit)="form.valid && save()"></form>
+      <form [formGroup]="form" (ngSubmit)="id ? save() : edit()"></form>
     `,
   ],
   invalid: [
@@ -52,6 +53,33 @@ ruleTester.run(RULE_NAME, rule, {
                    ~~~~~~~~
       `,
       messageId,
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description: 'it should fail for call expression with binaries',
+      annotatedSource: `
+        <a [href]="id && createUrl()">info</a>
+                         ~~~~~~~~~~~
+        {{ id || obj?.nested1() }}
+                 ^^^^^^^^^^^^^^
+      `,
+      messages: [
+        { char: '~', messageId },
+        { char: '^', messageId },
+      ],
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description: 'it should fail for call expression within conditionals',
+      annotatedSource: `
+        <a [href]="id ? a?.createUrl() : editUrl()">info</a>
+                        ~~~~~~~~~~~~~~   ^^^^^^^^^
+        {{ 1 === 2 ? 3 : obj?.nested1() }}
+                         ##############
+      `,
+      messages: [
+        { char: '~', messageId },
+        { char: '^', messageId },
+        { char: '#', messageId },
+      ],
     }),
     convertAnnotatedSourceToFailureCase({
       description: 'it should fail for safe/unsafe method calls',

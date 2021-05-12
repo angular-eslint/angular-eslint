@@ -2,10 +2,8 @@ import {
   convertAnnotatedSourceToFailureCase,
   RuleTester,
 } from '@angular-eslint/utils';
-import rule, {
-  MessageIds,
-  RULE_NAME,
-} from '../../src/rules/no-positive-tabindex';
+import type { MessageIds } from '../../src/rules/no-positive-tabindex';
+import rule, { RULE_NAME } from '../../src/rules/no-positive-tabindex';
 
 //------------------------------------------------------------------------------
 // Tests

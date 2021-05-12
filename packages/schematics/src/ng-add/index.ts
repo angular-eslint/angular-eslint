@@ -1,10 +1,7 @@
-import {
-  chain,
-  Rule,
-  SchematicContext,
-  Tree,
-} from '@angular-devkit/schematics';
+import type { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
+import { chain } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
+import { sortObjectByKeys } from '../utils';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const packageJSON = require('../../package.json');
@@ -26,17 +23,7 @@ function addAngularESLintPackages() {
     const projectPackageJSON = host.read('package.json')!.toString('utf-8');
     const json = JSON.parse(projectPackageJSON);
     json.devDependencies = json.devDependencies || {};
-
-    /**
-     * eslint and other 3rd party eslint plugin packages
-     */
     json.devDependencies['eslint'] = packageJSON.devDependencies['eslint'];
-    json.devDependencies['eslint-plugin-import'] =
-      packageJSON.devDependencies['eslint-plugin-import'];
-    json.devDependencies['eslint-plugin-jsdoc'] =
-      packageJSON.devDependencies['eslint-plugin-jsdoc'];
-    json.devDependencies['eslint-plugin-prefer-arrow'] =
-      packageJSON.devDependencies['eslint-plugin-prefer-arrow'];
 
     /**
      * @angular-eslint packages
@@ -67,9 +54,16 @@ function addAngularESLintPackages() {
     ] = typescriptESLintVersion;
     json.devDependencies['@typescript-eslint/parser'] = typescriptESLintVersion;
 
+    json.devDependencies = sortObjectByKeys(json.devDependencies);
     host.overwrite('package.json', JSON.stringify(json, null, 2));
 
     context.addTask(new NodePackageInstallTask());
+
+    context.logger.info(`
+All @angular-eslint dependencies have been successfully installed 🎉
+
+Please see https://github.com/angular-eslint/angular-eslint for how to add ESLint configuration to your project.
+`);
 
     return host;
   };

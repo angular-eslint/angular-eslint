@@ -1,6 +1,11 @@
 {
   "name": "@angular-eslint/angular-eslint",
   "private": true,
+  "volta": {
+    "node": "14.16.1",
+    "npm": "6.14.12",
+    "yarn": "1.22.10"
+  },
   "workspaces": [
     "packages/*"
   ],
@@ -44,13 +49,12 @@
       "@commitlint/config-conventional"
     ]
   },
-  "dependencies": {},
   "devDependencies": {
-    "@angular-devkit/architect": "~0.1102.3",
-    "@angular-devkit/build-angular": "~0.1102.3",
-    "@angular/cli": "~11.2.4",
-    "@angular/compiler": "~11.2.4",
-    "@angular/compiler-cli": "~11.2.4",
+    "@angular-devkit/architect": "~0.1102.8",
+    "@angular-devkit/build-angular": "~0.1102.8",
+    "@angular/cli": "~11.2.8",
+    "@angular/compiler": "~11.2.8",
+    "@angular/compiler-cli": "~11.2.8",
     "@commitlint/cli": "^8.1.0",
     "@commitlint/config-conventional": "^8.1.0",
     "@nrwl/cli": "11.2.10",
@@ -63,13 +67,10 @@
     "@types/jest": "^26.0.15",
     "@types/node": "^10.12.2",
     "@types/prettier": "^1.19.0",
-    "@typescript-eslint/parser": "4.16.1",
     "@typescript-eslint/eslint-plugin": "4.16.1",
+    "@typescript-eslint/parser": "4.16.1",
     "eslint": "^7.6.0",
     "eslint-config-prettier": "7.1.0",
-    "eslint-plugin-import": "2.22.1",
-    "eslint-plugin-jsdoc": "30.7.6",
-    "eslint-plugin-prefer-arrow": "1.2.2",
     "execa": "^3.4.0",
     "husky": "^3.0.0",
     "jest": "^26.6.3",

@@ -7,9 +7,9 @@
 import { Architect } from '@angular-devkit/architect';
 import { TestingArchitectHost } from '@angular-devkit/architect/testing';
 import { logging, schema } from '@angular-devkit/core';
-import { ESLint } from 'eslint';
+import type { ESLint } from 'eslint';
 import { resolve } from 'path';
-import { Schema } from '../src/schema';
+import type { Schema } from '../src/schema';
 
 const mockFormatter = {
   format: jest
@@ -153,7 +153,7 @@ describe('Linter Builder', () => {
         ignorePath: null,
       }),
     );
-    expect(lint).toHaveBeenCalledWith(resolve('/root/.eslintrc'), {
+    expect(lint).toHaveBeenCalledWith('/root', resolve('/root/.eslintrc'), {
       lintFilePatterns: [],
       eslintConfig: './.eslintrc',
       exclude: ['excludedFile1'],
@@ -474,11 +474,6 @@ describe('Linter Builder', () => {
       expect(flattenedCalls).not.toContainEqual(
         expect.objectContaining({
           message: expect.stringContaining('Mock warning message'),
-        }),
-      );
-      expect(flattenedCalls).not.toContainEqual(
-        expect.objectContaining({
-          message: expect.stringMatching(/^\s*$/),
         }),
       );
       expect(flattenedCalls).not.toContainEqual(

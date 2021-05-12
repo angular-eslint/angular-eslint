@@ -1,13 +1,13 @@
 import { CssSelector } from '@angular/compiler';
-import { TSESTree } from '@typescript-eslint/experimental-utils';
+import type { TSESTree } from '@typescript-eslint/experimental-utils';
 
+import type { SelectorStyle } from './utils';
 import {
   arrayify,
   isLiteral,
   isTemplateLiteral,
   OPTION_STYLE_CAMEL_CASE,
   OPTION_STYLE_KEBAB_CASE,
-  SelectorStyle,
   SelectorValidator,
 } from './utils';
 

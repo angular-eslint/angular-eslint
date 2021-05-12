@@ -2,10 +2,8 @@ import {
   convertAnnotatedSourceToFailureCase,
   RuleTester,
 } from '@angular-eslint/utils';
-import rule, {
-  MessageIds,
-  RULE_NAME,
-} from '../../src/rules/use-injectable-provided-in';
+import type { MessageIds } from '../../src/rules/use-injectable-provided-in';
+import rule, { RULE_NAME } from '../../src/rules/use-injectable-provided-in';
 
 //------------------------------------------------------------------------------
 // Tests

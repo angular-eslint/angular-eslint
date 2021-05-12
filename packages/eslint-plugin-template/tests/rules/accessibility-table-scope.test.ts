@@ -2,10 +2,8 @@ import {
   convertAnnotatedSourceToFailureCase,
   RuleTester,
 } from '@angular-eslint/utils';
-import rule, {
-  MessageIds,
-  RULE_NAME,
-} from '../../src/rules/accessibility-table-scope';
+import type { MessageIds } from '../../src/rules/accessibility-table-scope';
+import rule, { RULE_NAME } from '../../src/rules/accessibility-table-scope';
 
 //------------------------------------------------------------------------------
 // Tests

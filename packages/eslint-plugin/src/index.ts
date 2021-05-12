@@ -1,6 +1,7 @@
 import all from './configs/all.json';
 import base from './configs/base.json';
 import recommended from './configs/recommended.json';
+import recommendedExtra from './configs/recommended--extra.json';
 import ngCliCompat from './configs/ng-cli-compat.json';
 import ngCliCompatFormattingAddOn from './configs/ng-cli-compat--formatting-add-on.json';
 
@@ -79,6 +80,9 @@ import preferOutputReadonly, {
 import relativeUrlPrefix, {
   RULE_NAME as relativeUrlPrefixRuleName,
 } from './rules/relative-url-prefix';
+import sortNgmoduleMetadataArrays, {
+  RULE_NAME as sortNgmoduleMetadataArraysName,
+} from './rules/sort-ngmodule-metadata-arrays';
 import useComponentSelector, {
   RULE_NAME as useComponentSelectorRuleName,
 } from './rules/use-component-selector';
@@ -103,6 +107,7 @@ export default {
     all,
     base,
     recommended,
+    ['recommended--extra']: recommendedExtra,
     ['ng-cli-compat']: ngCliCompat,
     ['ng-cli-compat--formatting-add-on']: ngCliCompatFormattingAddOn,
   },
@@ -132,6 +137,7 @@ export default {
     [preferOnPushComponentChangeDetectionRuleName]: preferOnPushComponentChangeDetection,
     [preferOutputReadonlyRuleName]: preferOutputReadonly,
     [relativeUrlPrefixRuleName]: relativeUrlPrefix,
+    [sortNgmoduleMetadataArraysName]: sortNgmoduleMetadataArrays,
     [useComponentSelectorRuleName]: useComponentSelector,
     [useComponentViewEncapsulationRuleName]: useComponentViewEncapsulation,
     [useInjectableProvidedInRuleName]: useInjectableProvidedIn,

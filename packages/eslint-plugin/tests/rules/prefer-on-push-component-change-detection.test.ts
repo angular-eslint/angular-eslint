@@ -2,8 +2,8 @@ import {
   convertAnnotatedSourceToFailureCase,
   RuleTester,
 } from '@angular-eslint/utils';
+import type { MessageIds } from '../../src/rules/prefer-on-push-component-change-detection';
 import rule, {
-  MessageIds,
   RULE_NAME,
 } from '../../src/rules/prefer-on-push-component-change-detection';
 

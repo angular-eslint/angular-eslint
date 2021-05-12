@@ -33,7 +33,7 @@
       "default": false
     },
     "maxWarnings": {
-      "type": "integer",
+      "type": "number",
       "description": "Number of warnings to trigger nonzero exit code.",
       "default": -1
     },

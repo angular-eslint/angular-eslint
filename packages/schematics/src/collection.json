@@ -7,12 +7,6 @@
       "description": "Create an Angular workspace.",
       "hidden": true
     },
-    "workspace-post": {
-      "factory": "./workspace-post",
-      "schema": "./workspace-post/schema.json",
-      "description": "Private: Invoked within Angular workspace creation",
-      "hidden": true
-    },
     "ng-add": {
       "factory": "./ng-add",
       "schema": "./ng-add/schema.json",
@@ -34,6 +28,11 @@
       "factory": "./library",
       "schema": "./library/schema.json",
       "description": "Generate a library project for Angular."
+    },
+    "add-eslint-to-project": {
+      "factory": "./add-eslint-to-project",
+      "schema": "./add-eslint-to-project/schema.json",
+      "description": "Add ESLint to an Angular CLI project"
     }
   }
 }

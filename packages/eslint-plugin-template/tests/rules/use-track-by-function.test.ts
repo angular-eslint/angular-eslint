@@ -2,10 +2,8 @@ import {
   convertAnnotatedSourceToFailureCase,
   RuleTester,
 } from '@angular-eslint/utils';
-import rule, {
-  MessageIds,
-  RULE_NAME,
-} from '../../src/rules/use-track-by-function';
+import type { MessageIds } from '../../src/rules/use-track-by-function';
+import rule, { RULE_NAME } from '../../src/rules/use-track-by-function';
 
 //------------------------------------------------------------------------------
 // Tests

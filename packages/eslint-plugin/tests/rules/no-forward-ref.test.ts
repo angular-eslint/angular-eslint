@@ -2,7 +2,8 @@ import {
   convertAnnotatedSourceToFailureCase,
   RuleTester,
 } from '@angular-eslint/utils';
-import rule, { MessageIds, RULE_NAME } from '../../src/rules/no-forward-ref';
+import type { MessageIds } from '../../src/rules/no-forward-ref';
+import rule, { RULE_NAME } from '../../src/rules/no-forward-ref';
 
 //------------------------------------------------------------------------------
 // Tests

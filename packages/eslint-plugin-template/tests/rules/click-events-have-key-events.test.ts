@@ -2,10 +2,8 @@ import {
   convertAnnotatedSourceToFailureCase,
   RuleTester,
 } from '@angular-eslint/utils';
-import rule, {
-  MessageIds,
-  RULE_NAME,
-} from '../../src/rules/click-events-have-key-events';
+import type { MessageIds } from '../../src/rules/click-events-have-key-events';
+import rule, { RULE_NAME } from '../../src/rules/click-events-have-key-events';
 
 //------------------------------------------------------------------------------
 // Tests
@@ -34,6 +32,7 @@ ruleTester.run(RULE_NAME, rule, {
     {
       // It should work when element has aria-hidden.
       code: `
+        <div (click)="onClick()" aria-hidden"></div>
         <div (click)="onClick()" aria-hidden="true"></div>
         <div (click)="onClick()" [attr.aria-hidden]="true"></div>
         <div (click)="onClick()" [attr.aria-hidden]="ariaHidden"></div>

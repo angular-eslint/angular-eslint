@@ -1,5 +1,6 @@
-import https, { RequestOptions } from 'https';
-import { CodelyzerRule, PRDetails } from './interfaces';
+import type { RequestOptions } from 'https';
+import https from 'https';
+import type { CodelyzerRule, PRDetails } from './interfaces';
 
 /**
  * Calls the github api for the specified path and returns a Promise for the json response.

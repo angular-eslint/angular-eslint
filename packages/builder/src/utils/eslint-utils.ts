@@ -1,5 +1,6 @@
 import type * as ESLintLibrary from 'eslint';
-import { Schema } from '../schema';
+import { join } from 'path';
+import type { Schema } from '../schema';
 
 export async function loadESLint(): Promise<typeof ESLintLibrary> {
   let eslint;
@@ -12,6 +13,7 @@ export async function loadESLint(): Promise<typeof ESLintLibrary> {
 }
 
 export async function lint(
+  workspaceRoot: string,
   eslintConfigPath: string | undefined,
   options: Schema,
 ): Promise<ESLintLibrary.ESLint.LintResult[]> {
@@ -34,5 +36,8 @@ export async function lint(
     errorOnUnmatchedPattern: false,
   });
 
-  return await eslint.lintFiles(options.lintFilePatterns);
+  return await eslint.lintFiles(
+    // lintFilePatterns are defined relative to the root of the Angular-CLI workspace
+    options.lintFilePatterns.map((p) => join(workspaceRoot, p)),
+  );
 }
