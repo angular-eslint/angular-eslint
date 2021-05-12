@@ -7,9 +7,6 @@ on:
     branches: [ master, 'next-major-release/**' ]
 
 env:
-  # Temporarily pinning to 15.4 for the v15 installation because there is some change in NPM
-  # that causes a ENEEDAUTH error in the publishing step of the integration-tests that needs
-  # to be figured out
   PRIMARY_NODE_VERSION: 14
   NX_BRANCH: ${{ github.event.number }}
   NX_RUN_GROUP: ${{ github.run_id }}

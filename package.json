@@ -1,6 +1,11 @@
 {
   "name": "@angular-eslint/angular-eslint",
   "private": true,
+  "volta": {
+    "node": "14.16.1",
+    "npm": "6.14.12",
+    "yarn": "1.22.10"
+  },
   "workspaces": [
     "packages/*"
   ],
