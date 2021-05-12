@@ -2,8 +2,8 @@ import {
   convertAnnotatedSourceToFailureCase,
   RuleTester,
 } from '@angular-eslint/utils';
+import type { MessageIds } from '../../src/rules/accessibility-label-has-associated-control';
 import rule, {
-  MessageIds,
   RULE_NAME,
 } from '../../src/rules/accessibility-label-has-associated-control';
 
