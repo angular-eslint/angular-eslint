@@ -24,7 +24,7 @@
     "LICENSE"
   ],
   "dependencies": {
-    "@typescript-eslint/experimental-utils": "4.16.1",
+    "@typescript-eslint/experimental-utils": "4.23.0",
     "aria-query": "^4.2.2",
     "axobject-query": "^2.2.0"
   },

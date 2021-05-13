@@ -39,8 +39,8 @@
   },
   "devDependencies": {
     "@types/tmp": "0.2.0",
-    "@typescript-eslint/experimental-utils": "4.16.1",
-    "eslint": "^7.6.0",
+    "@typescript-eslint/experimental-utils": "4.23.0",
+    "eslint": "^7.26.0",
     "tslint-to-eslint-config": "^2.3.0"
   },
   "peerDependencies": {
