@@ -1,7 +1,7 @@
 import all from './configs/all.json';
 import base from './configs/base.json';
-import recommended from './configs/recommended.json';
 import processInlineTemplates from './configs/process-inline-templates.json';
+import recommended from './configs/recommended.json';
 import processors from './processors';
 import accessibilityAltText, {
   RULE_NAME as accessibilityAltTextRuleName,
@@ -33,6 +33,7 @@ import conditionalСomplexity, {
 import cyclomaticComplexity, {
   RULE_NAME as cyclomaticComplexityRuleName,
 } from './rules/cyclomatic-complexity';
+import eqeqeq, { RULE_NAME as eqeqeqRuleName } from './rules/eqeqeq';
 import i18n, { RULE_NAME as i18nRuleName } from './rules/i18n';
 import mouseEventsHaveKeyEvents, {
   RULE_NAME as mouseEventsHaveKeyEventsRuleName,
@@ -79,6 +80,7 @@ export default {
     [conditionalСomplexityRuleName]: conditionalСomplexity,
     [clickEventsHaveKeyEventsRuleName]: clickEventsHaveKeyEvents,
     [cyclomaticComplexityRuleName]: cyclomaticComplexity,
+    [eqeqeqRuleName]: eqeqeq,
     [i18nRuleName]: i18n,
     [mouseEventsHaveKeyEventsRuleName]: mouseEventsHaveKeyEvents,
     [noAnyRuleName]: noAny,
