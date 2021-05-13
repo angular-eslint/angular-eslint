@@ -26,6 +26,8 @@ ruleTester.run(RULE_NAME, rule, {
     `{{ (foo | async) === false }}`,
     // it should succeed if any other pipe is negated
     `{{ !(foo | notAnAsyncPipe) }}`,
+    // https://github.com/angular-eslint/angular-eslint/issues/404
+    `<div [class.mx-4]="!!(foo | async)"></div>`,
   ],
   invalid: [
     convertAnnotatedSourceToFailureCase({
