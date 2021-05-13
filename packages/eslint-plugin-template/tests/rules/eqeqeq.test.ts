@@ -23,7 +23,7 @@ ruleTester.run(RULE_NAME, rule, {
       code: `
         <div *appShow="(d == null && e === null && (f | lowercase) == undefined) || g === undefined">
       `,
-      options: [{ allowNilCheck: true }],
+      options: [{ allowNullOrUndefined: true }],
     },
   ],
   invalid: [
@@ -56,7 +56,7 @@ ruleTester.run(RULE_NAME, rule, {
         actualOperation: '!=',
         expectedOperation: '!==',
       },
-      options: [{ allowNilCheck: true }],
+      options: [{ allowNullOrUndefined: true }],
       annotatedOutput: `
         <div [attr.disabled]="test !== 'undefined' && null == 3"></div>
                               ~~~~~~~~~~~~~~~~~~~~
@@ -155,7 +155,7 @@ ruleTester.run(RULE_NAME, rule, {
                                                     ~~~~~~
       `,
       messageId,
-      options: [{ allowNilCheck: true }],
+      options: [{ allowNullOrUndefined: true }],
       data: {
         actualOperation: '!=',
         expectedOperation: '!==',
@@ -167,7 +167,7 @@ ruleTester.run(RULE_NAME, rule, {
     }),
     convertAnnotatedSourceToFailureCase({
       description:
-        'it should fail if the operation is not strict compared to a nil value',
+        'it should fail if the operation is not strict compared to literal undefined',
       annotatedSource: `
         {{ undefined != test1 }}
            ~~~~~~~~~~~~~~~~~~

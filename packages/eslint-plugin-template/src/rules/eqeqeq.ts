@@ -6,10 +6,10 @@ import {
 } from '../utils/create-eslint-rule';
 import { getNearestNodeFrom } from '../utils/get-nearest-node-from';
 
-type Options = [{ readonly allowNilCheck?: boolean }];
+type Options = [{ readonly allowNullOrUndefined?: boolean }];
 export type MessageIds = 'eqeqeq';
 export const RULE_NAME = 'eqeqeq';
-const DEFAULT_OPTIONS: Options[0] = { allowNilCheck: false };
+const DEFAULT_OPTIONS: Options[0] = { allowNullOrUndefined: false };
 
 export default createESLintRule<Options, MessageIds>({
   name: 'eqeqeq',
@@ -25,9 +25,9 @@ export default createESLintRule<Options, MessageIds>({
       {
         type: 'object',
         properties: {
-          allowNilCheck: {
+          allowNullOrUndefined: {
             type: 'boolean',
-            default: DEFAULT_OPTIONS.allowNilCheck,
+            default: DEFAULT_OPTIONS.allowNullOrUndefined,
           },
         },
         additionalProperties: false,
@@ -39,7 +39,7 @@ export default createESLintRule<Options, MessageIds>({
     },
   },
   defaultOptions: [DEFAULT_OPTIONS],
-  create(context, [{ allowNilCheck }]) {
+  create(context, [{ allowNullOrUndefined }]) {
     ensureTemplateParser(context);
     const sourceCode = context.getSourceCode();
 
@@ -53,7 +53,7 @@ export default createESLintRule<Options, MessageIds>({
         } = node;
         const isNilComparison = [left, right].some(isNilValue);
 
-        if (allowNilCheck && isNilComparison) return;
+        if (allowNullOrUndefined && isNilComparison) return;
 
         context.report({
           loc: {
@@ -66,10 +66,9 @@ export default createESLintRule<Options, MessageIds>({
             expectedOperation: `${operation}=`,
           },
           fix: (fixer) => {
-            const { source, sourceSpan } =
-              getNearestNodeFrom(node, isASTWithSource) ?? {};
+            const { source } = getNearestNodeFrom(node, isASTWithSource) ?? {};
 
-            if (!source || !sourceSpan) return [];
+            if (!source) return [];
 
             return fixer.insertTextAfterRange(
               [start + getSpanLength(left) + 1, end - getSpanLength(right) - 1],
