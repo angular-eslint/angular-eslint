@@ -1,15 +1,10 @@
-import type { AST } from '@angular/compiler';
-import {
-  Conditional,
-  MethodCall,
-  SafeMethodCall,
-  TmplAstBoundEvent,
-} from '@angular/compiler';
-import { getNearestNodeFrom } from '../utils/get-nearest-node-from';
+import type { MethodCall, SafeMethodCall } from '@angular/compiler';
+import { TmplAstBoundEvent } from '@angular/compiler';
 import {
   createESLintRule,
   ensureTemplateParser,
 } from '../utils/create-eslint-rule';
+import { getNearestNodeFrom } from '../utils/get-nearest-node-from';
 
 type Options = [];
 export type MessageIds = 'noCallExpression';
@@ -35,38 +30,24 @@ export default createESLintRule<Options, MessageIds>({
     ensureTemplateParser(context);
     const sourceCode = context.getSourceCode();
 
-    function report({ sourceSpan: { end, start } }: AST) {
-      context.report({
-        messageId: 'noCallExpression',
-        loc: {
-          start: sourceCode.getLocFromIndex(start),
-          end: sourceCode.getLocFromIndex(end),
-        },
-      });
-    }
-
     return {
-      'Conditional, MethodCall[name!="$any"], SafeMethodCall'(
-        conditionalOrMethodCall: Conditional | MethodCall | SafeMethodCall,
+      'MethodCall[name!="$any"], SafeMethodCall'(
+        node: MethodCall | SafeMethodCall,
       ) {
-        const isChildOfBoundEvent = !!getNearestNodeFrom(
-          conditionalOrMethodCall,
-          isBoundEvent,
-        );
+        const isChildOfBoundEvent = !!getNearestNodeFrom(node, isBoundEvent);
 
         if (isChildOfBoundEvent) return;
 
-        if (!(conditionalOrMethodCall instanceof Conditional)) {
-          report(conditionalOrMethodCall);
-
-          return;
-        }
-
-        const { falseExp, trueExp } = conditionalOrMethodCall;
-
-        if (isMethodCall(falseExp)) report(falseExp);
-
-        if (isMethodCall(trueExp)) report(trueExp);
+        const {
+          sourceSpan: { start, end },
+        } = node;
+        context.report({
+          messageId: 'noCallExpression',
+          loc: {
+            start: sourceCode.getLocFromIndex(start),
+            end: sourceCode.getLocFromIndex(end),
+          },
+        });
       },
     };
   },
@@ -74,8 +55,4 @@ export default createESLintRule<Options, MessageIds>({
 
 function isBoundEvent(node: unknown): node is TmplAstBoundEvent {
   return node instanceof TmplAstBoundEvent;
-}
-
-function isMethodCall(node: unknown): node is MethodCall | SafeMethodCall {
-  return node instanceof MethodCall || node instanceof SafeMethodCall;
 }

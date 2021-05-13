@@ -49,6 +49,7 @@ const KEYS: VisitorKeys = {
   BoundAttribute: ['value'],
   BoundEvent: ['handler'],
   BoundText: ['value'],
+  Conditional: ['condition', 'trueExp', 'falseExp'],
   Element: ['children', 'inputs', 'outputs', 'attributes'],
   Interpolation: ['expressions'],
   PrefixNot: ['expression'],
