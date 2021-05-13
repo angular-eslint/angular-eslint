@@ -63,6 +63,7 @@ describe('update-12-0-0', () => {
             extends: 'plugin:@angular-eslint/recommended',
             rules: {
               '@angular-eslint/template/accessibility-label-for': ['error'],
+              '@angular-eslint/template/no-negated-async': 'error',
             },
           },
         ],
@@ -95,6 +96,7 @@ describe('update-12-0-0', () => {
                   labelComponents: ['app-label', 'ngx-label'],
                 },
               ],
+              '@angular-eslint/template/no-negated-async': 'error',
             },
           },
         ],
@@ -124,6 +126,93 @@ describe('update-12-0-0', () => {
   });
 
   it('should migrate from accessibility-label-for to accessibility-label-has-associated-control', async () => {
+    const tree = await migrationSchematicRunner
+      .runSchematicAsync('update-12-0-0', {}, appTree)
+      .toPromise();
+    const rootESLint = JSON.parse(tree.readContent('.eslintrc.json'));
+    expect(rootESLint).toMatchInlineSnapshot(`
+      Object {
+        "overrides": Array [
+          Object {
+            "extends": "plugin:@angular-eslint/recommended",
+            "files": Array [
+              "*.ts",
+            ],
+            "rules": Object {
+              "@angular-eslint/template/accessibility-label-has-associated-control": Array [
+                "error",
+              ],
+              "@angular-eslint/template/eqeqeq": "error",
+              "@angular-eslint/template/no-negated-async": "error",
+            },
+          },
+        ],
+        "rules": Object {
+          "@angular-eslint/template/accessibility-label-has-associated-control": "error",
+        },
+      }
+    `);
+
+    const fooESLint = JSON.parse(
+      tree.readContent('projects/foo/.eslintrc.json'),
+    );
+    expect(fooESLint).toMatchInlineSnapshot(`
+      Object {
+        "extends": Array [
+          "plugin:@angular-eslint/recommended",
+        ],
+      }
+    `);
+
+    const barESLint = JSON.parse(
+      tree.readContent('projects/bar/.eslintrc.json'),
+    );
+    expect(barESLint).toMatchInlineSnapshot(`
+      Object {
+        "overrides": Array [
+          Object {
+            "extends": Array [
+              "plugin:@angular-eslint/something-other-than-recommended",
+            ],
+            "files": Array [
+              "*.ts",
+            ],
+            "rules": Object {
+              "@angular-eslint/template/accessibility-label-has-associated-control": Array [
+                "error",
+                Object {
+                  "controlComponents": Array [
+                    "p-inputMask",
+                    "bs4-input",
+                  ],
+                  "labelComponents": Array [
+                    Object {
+                      "inputs": Array [
+                        "assoc",
+                        "elementId",
+                      ],
+                      "selector": "app-label",
+                    },
+                    Object {
+                      "inputs": Array [
+                        "assoc",
+                        "elementId",
+                      ],
+                      "selector": "ngx-label",
+                    },
+                  ],
+                },
+              ],
+              "@angular-eslint/template/eqeqeq": "error",
+              "@angular-eslint/template/no-negated-async": "error",
+            },
+          },
+        ],
+      }
+    `);
+  });
+
+  it('should add eqeqeq', async () => {
     const tree = await migrationSchematicRunner
       .runSchematicAsync('update-12-0-0', {}, appTree)
       .toPromise();

@@ -64,6 +64,35 @@ function updateAccessibilityLabelFor() {
   ]);
 }
 
+function addEqeqeqIfNeeded(rules: Partial<Linter.RulesRecord> | undefined) {
+  if (
+    !rules ||
+    !rules['@angular-eslint/template/no-negated-async'] ||
+    rules['@angular-eslint/template/eqeqeq']
+  ) {
+    return;
+  }
+
+  rules['@angular-eslint/template/eqeqeq'] = 'error';
+}
+
+function addEqeqeq() {
+  return chain([
+    visitNotIgnoredFiles((filePath) => {
+      if (!filePath.endsWith('.eslintrc.json')) {
+        return;
+      }
+      return updateJsonInTree(filePath.toString(), (json) => {
+        addEqeqeqIfNeeded(json.rules);
+        (json.overrides ?? []).forEach((override: Linter.ConfigOverride) =>
+          addEqeqeqIfNeeded(override.rules),
+        );
+        return json;
+      });
+    }),
+  ]);
+}
+
 export default function migration(): Rule {
   return chain([
     updateDependencies([
@@ -101,5 +130,6 @@ export default function migration(): Rule {
       },
     ]),
     updateAccessibilityLabelFor,
+    addEqeqeq,
   ]);
 }
