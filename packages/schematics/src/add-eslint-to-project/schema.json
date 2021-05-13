@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "add-eslint-to-project",
+  "$id": "add-eslint-to-project",
   "title": "Add ESLint to an Angular CLI project",
   "type": "object",
   "properties": {

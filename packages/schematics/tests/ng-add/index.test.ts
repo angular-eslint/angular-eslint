@@ -29,6 +29,31 @@ describe('ng-add', () => {
     }),
   );
 
+  appTree.create(
+    'angular.json',
+    JSON.stringify({
+      $schema: './node_modules/@angular/cli/lib/config/schema.json',
+      version: 1,
+      newProjectRoot: 'projects',
+      projects: {
+        foo: {
+          projectType: 'application',
+          schematics: {},
+          root: '',
+          sourceRoot: 'src',
+          prefix: 'app',
+          architect: {
+            build: {},
+            serve: {},
+            'extract-i18n': {},
+            test: {},
+            e2e: {},
+          },
+        },
+      },
+    }),
+  );
+
   it('should add relevant eslint, @angular-eslint and @typescript-eslint packages', async () => {
     const tree = await schematicRunner
       .runSchematicAsync('ng-add', {}, appTree)

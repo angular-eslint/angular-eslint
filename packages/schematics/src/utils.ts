@@ -62,7 +62,7 @@ export function getWorkspacePath(host: Tree) {
 
 type TargetsConfig = Record<string, { builder: string; options: unknown }>;
 
-function getTargetsConfigFromProject(
+export function getTargetsConfigFromProject(
   projectConfig: { architect?: TargetsConfig } & { targets?: TargetsConfig },
 ): TargetsConfig | null {
   if (!projectConfig) {

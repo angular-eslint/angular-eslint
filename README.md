@@ -21,7 +21,39 @@
 
 <br>
 
-## Quick Start with Angular and ESLint
+## Quick Start with Angular v12 and later
+
+1. Follow the latest **Getting Started** guide on https://angular.io/ in order to install the Angular CLI
+
+2. Create a new Angular CLI workspace in the normal way, optionally using any of the supported command line arguments and following the interactive prompts:
+
+```sh
+ng new # --maybe --some --other --flags --here
+```
+
+3. **Change directory into your new workspace** and then use the Angular CLI to add `@angular-eslint/schematics`.
+
+```sh
+ng add @angular-eslint/schematics
+```
+
+...and that's it!
+
+As well as installing all relevant dependencies, the `ng add` command will automatically detect that you have a workspace with a single project in it, which does not have a linter configured yet. It can therefore go ahead and wire everything to up for you!
+
+You will also see that it added the following in your angular.json:
+
+```json
+  "cli": {
+    "defaultCollection": "@angular-eslint/schematics"
+  }
+```
+
+Read the section on [Using ESLint by default when generating new Projects within your Workspace](#using-eslint-by-default-when-generating-new-projects-within-your-workspace) to understand why this is useful.
+
+<br>
+
+## Quick Start with Angular before v12
 
 1. Follow the latest **Getting Started** guide on https://angular.io/ in order to install the Angular CLI
 
@@ -37,7 +69,7 @@ ng new # --maybe --some --other --flags --here
 ng add @angular-eslint/schematics
 ```
 
-4. Run the conversion schematic to automatically convert your new project from TSLint to ESLint:
+4. Before v12, the Angular CLI shipped with a TSLint setup, so you should run the conversion schematic to automatically convert your new project from TSLint to ESLint:
 
 ```sh
 ng g @angular-eslint/schematics:convert-tslint-to-eslint --remove-tslint-if-no-more-tslint-targets --ignore-existing-tslint-config
@@ -62,21 +94,18 @@ Read the section on [Using ESLint by default when generating new Projects within
 
 ## Supported Angular CLI Versions
 
-For `@angular-eslint` versions greater than v2, we currently support Angular CLI `11.2.0` and onwards. This is also captured by our integration-tests package.
+As of v12, we aligned the major version of `@angular-eslint` with Angular (and Angular CLI).
 
-For v1.x.x of these packages we supported Angular from `10.1.0` to `11.1.0`.
+Therefore, as an example (because these versions may or may not exist yet when you read this):
 
-> NOTE: In the future, we will switch the major version of these packages to match the Angular major version which we support
+- `@angular-eslint` packages at `12.x.x` and `@angular/cli@12.x.x` are compatible
+- `@angular-eslint` packages at `13.x.x` and `@angular/cli@13.x.x` are compatible
+- `@angular-eslint` packages at `14.x.x` and `@angular/cli@14.x.x` are compatible
+- ...and so on...
 
-### Why does Angular support in v1.x.x start at Angular `10.1.0`?
+> NOTE: the exact minor and patch versions of each library represented here by `x`'s do not need to match each other, just the first (major) number
 
-Angular `10.1.0` is significant because at version `10.0.0` the Angular Team switched to using project references and a `tsconfig.base.json` at the root of the project. This ultimately was deemed to be unsuccessful and in `10.1.0` they switched back to the original `tsconfig.json` without project references. Because angular-eslint and typescript-eslint care about your underlying TypeScript config, it is important that you are on the updated version which does _not_ use project references.
-
-The schematic will error if you try and run it when you still have a `tsconfig.base.json`.
-
-As usual, the Angular Team provided an automatic migration for these changes as part of `ng update`, so for most people this change wasn't an issue. If you updated manually (which is highly discouraged), then it is possible you did not apply this critical change and will therefore run into the error with the schematic.
-
-We recommend going back an running the automated migrations from `ng update`, or fixing things up manually as a last resort.
+For an understanding of Angular CLI version support prior to v12, please see [./docs/ANGULAR_VERSION_SUPPORT.md](./docs/ANGULAR_VERSION_SUPPORT.md)
 
 **Please do not open issues related to unsupported versions of the Angular CLI**.
 
@@ -131,6 +160,20 @@ The latest version under the `canary` tag **(latest commit to master)** is:
 <a href="https://www.npmjs.com/package/@angular-eslint/schematics"><img src="https://img.shields.io/npm/v/@angular-eslint/schematics/canary.svg?style=flat-square" alt="NPM Version" /></a>
 
 (Note: The only exception to the automated publishes described above is when we are in the final phases of creating the next major version of the libraries - e.g. going from `1.x.x` to `2.x.x`. During these periods, we manually publish `canary` releases until we are happy with the release and promote it to `latest`.)
+
+<br>
+
+## Adding ESLint configuration to an existing Angular CLI project which _has no existing linter_
+
+**NOTE: If you are looking for instructions on how to migrate a project which uses TSLint, please see the next section.**
+
+If you want to add ESLint configuration (a `.eslintrc.json` file and an applicable `"lint"` target in your `angular.json`) to an existing Angular CLI project which does not yet have a linter set up, you can invoke the following schematic:
+
+```sh
+ng g @angular-eslint/schematics:add-eslint-to-project {{YOUR_PROJECT_NAME_GOES_HERE}}
+```
+
+> If you only have a single project in your Angular CLI workspace, the project name argument is optional
 
 <br>
 
