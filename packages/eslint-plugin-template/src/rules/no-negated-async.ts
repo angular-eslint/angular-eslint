@@ -1,4 +1,4 @@
-import type { BindingPipe } from '@angular/compiler';
+import type { BindingPipe, PrefixNot } from '@angular/compiler';
 import {
   createESLintRule,
   ensureTemplateParser,
@@ -31,8 +31,8 @@ export default createESLintRule<Options, MessageIds>({
     return {
       'PrefixNot > BindingPipe[name="async"]'({
         parent: { sourceSpan },
-      }: {
-        parent: BindingPipe;
+      }: BindingPipe & {
+        parent: PrefixNot;
       }) {
         context.report({
           messageId: 'noNegatedAsync',
