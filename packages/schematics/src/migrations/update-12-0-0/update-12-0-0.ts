@@ -21,7 +21,7 @@ function migrateToAccessibilityLabelHasAssociatedControlSchema(
     controlComponents: currentSchema.controlComponents,
     labelComponents: currentSchema.labelComponents.map((selector: string) => {
       return { inputs: currentSchema.labelAttributes, selector };
-    }, []),
+    }),
   };
 }
 
