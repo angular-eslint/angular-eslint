@@ -1,35 +1,32 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`v11-new-workspace it should pass linting after creating a new workspace from scratch using @angular-eslint 2`] = `
+exports[`v12-new-workspace it should pass linting after creating a new workspace from scratch using @angular-eslint 2`] = `
 Object {
-  "@angular-devkit/build-angular": "~0.1102.3",
+  "@angular-devkit/build-angular": "~12.0.0",
   "@angular-eslint/builder": "9999.0.1-local-integration-tests",
   "@angular-eslint/eslint-plugin": "9999.0.1-local-integration-tests",
   "@angular-eslint/eslint-plugin-template": "9999.0.1-local-integration-tests",
   "@angular-eslint/schematics": "9999.0.1-local-integration-tests",
   "@angular-eslint/template-parser": "9999.0.1-local-integration-tests",
-  "@angular/cli": "~11.2.3",
-  "@angular/compiler-cli": "~11.2.4",
+  "@angular/cli": "~12.0.0",
+  "@angular/compiler-cli": "~12.0.0",
   "@types/jasmine": "~3.6.0",
   "@types/node": "^12.11.1",
   "@typescript-eslint/eslint-plugin": "4.16.1",
   "@typescript-eslint/parser": "4.16.1",
   "eslint": "^7.6.0",
-  "jasmine-core": "~3.6.0",
-  "jasmine-spec-reporter": "~5.0.0",
-  "karma": "~6.1.0",
+  "jasmine-core": "~3.7.0",
+  "karma": "~6.3.0",
   "karma-chrome-launcher": "~3.1.0",
   "karma-coverage": "~2.0.3",
   "karma-jasmine": "~4.0.0",
   "karma-jasmine-html-reporter": "^1.5.0",
-  "ng-packagr": "^11.0.0",
-  "protractor": "~7.0.0",
-  "ts-node": "~8.3.0",
-  "typescript": "~4.1.5",
+  "ng-packagr": "^12.0.0",
+  "typescript": "~4.2.3",
 }
 `;
 
-exports[`v11-new-workspace it should pass linting after creating a new workspace from scratch using @angular-eslint 3`] = `
+exports[`v12-new-workspace it should pass linting after creating a new workspace from scratch using @angular-eslint 3`] = `
 Object {
   "ignorePatterns": Array [
     "projects/**/*",
@@ -83,7 +80,7 @@ Object {
 }
 `;
 
-exports[`v11-new-workspace it should pass linting after creating a new workspace from scratch using @angular-eslint 4`] = `
+exports[`v12-new-workspace it should pass linting after creating a new workspace from scratch using @angular-eslint 4`] = `
 Object {
   "builder": "@angular-eslint/builder:lint",
   "options": Object {
@@ -95,7 +92,7 @@ Object {
 }
 `;
 
-exports[`v11-new-workspace it should pass linting after creating a new workspace from scratch using @angular-eslint 6`] = `
+exports[`v12-new-workspace it should pass linting after creating a new workspace from scratch using @angular-eslint 6`] = `
 Object {
   "extends": "../../.eslintrc.json",
   "ignorePatterns": Array [
@@ -143,7 +140,7 @@ Object {
 }
 `;
 
-exports[`v11-new-workspace it should pass linting after creating a new workspace from scratch using @angular-eslint 7`] = `
+exports[`v12-new-workspace it should pass linting after creating a new workspace from scratch using @angular-eslint 7`] = `
 Object {
   "builder": "@angular-eslint/builder:lint",
   "options": Object {
@@ -155,7 +152,7 @@ Object {
 }
 `;
 
-exports[`v11-new-workspace it should pass linting after creating a new workspace from scratch using @angular-eslint 9`] = `
+exports[`v12-new-workspace it should pass linting after creating a new workspace from scratch using @angular-eslint 9`] = `
 Object {
   "extends": "../../.eslintrc.json",
   "ignorePatterns": Array [
@@ -202,7 +199,7 @@ Object {
 }
 `;
 
-exports[`v11-new-workspace it should pass linting after creating a new workspace from scratch using @angular-eslint 10`] = `
+exports[`v12-new-workspace it should pass linting after creating a new workspace from scratch using @angular-eslint 10`] = `
 Object {
   "builder": "@angular-eslint/builder:lint",
   "options": Object {
@@ -214,9 +211,9 @@ Object {
 }
 `;
 
-exports[`v11-new-workspace it should pass linting after creating a new workspace from scratch using @angular-eslint 11`] = `
+exports[`v12-new-workspace it should pass linting after creating a new workspace from scratch using @angular-eslint 11`] = `
 "
-Linting \\"v11-new-workspace\\"...
+Linting \\"v12-new-workspace\\"...
 
 All files pass linting.
 
@@ -228,7 +225,7 @@ All files pass linting.
 
 Linting \\"another-lib\\"...
 
-__ROOT__/v11-new-workspace/projects/another-lib/src/lib/another-lib.component.ts
+__ROOT__/v12-new-workspace/projects/another-lib/src/lib/another-lib.component.ts
   17:3  error  Lifecycle methods should not be empty  @angular-eslint/no-empty-lifecycle-method
 
 ✖ 1 problem (1 error, 0 warnings)

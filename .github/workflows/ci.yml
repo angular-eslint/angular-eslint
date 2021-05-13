@@ -77,7 +77,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [12, 16]
+        # Angular CLI explicitly only supports Node version 12 or 14 at the time of writing
+        node: [12]
 
     steps:
     - uses: actions/checkout@v2

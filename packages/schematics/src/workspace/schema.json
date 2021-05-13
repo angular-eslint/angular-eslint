@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "SchematicsAngularWorkspace",
+  "$id": "SchematicsAngularWorkspace",
   "title": "Angular Workspace Options Schema",
   "type": "object",
   "properties": {},

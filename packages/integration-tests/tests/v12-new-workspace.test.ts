@@ -26,59 +26,59 @@ function runLint(directory: string): string | undefined {
   }
 }
 
-const integrationTests: [string][] = [['v11-new-workspace']];
+const integrationTests: [string][] = [['v12-new-workspace']];
 
 describe.each(integrationTests)('%s', (directory) => {
   it('it should pass linting after creating a new workspace from scratch using @angular-eslint', () => {
     // TSLint configs and dependencies should not be present
     expect(() =>
-      require('../fixtures/v11-new-workspace/tslint.json'),
+      require('../fixtures/v12-new-workspace/tslint.json'),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Cannot find module '../fixtures/v11-new-workspace/tslint.json' from 'tests/v11-new-workspace.test.ts'"`,
+      `"Cannot find module '../fixtures/v12-new-workspace/tslint.json' from 'tests/v12-new-workspace.test.ts'"`,
     );
     expect(
-      require('../fixtures/v11-new-workspace/package.json').devDependencies,
+      require('../fixtures/v12-new-workspace/package.json').devDependencies,
     ).toMatchSnapshot();
 
     // Root project
     expect(
-      require('../fixtures/v11-new-workspace/.eslintrc.json'),
+      require('../fixtures/v12-new-workspace/.eslintrc.json'),
     ).toMatchSnapshot();
 
     expect(
-      require('../fixtures/v11-new-workspace/angular.json').projects[
-        'v11-new-workspace'
+      require('../fixtures/v12-new-workspace/angular.json').projects[
+        'v12-new-workspace'
       ].architect.lint,
     ).toMatchSnapshot();
 
     // Additional project ("another-app")
     expect(() =>
-      require('../fixtures/v11-new-workspace/projects/another-app/tslint.json'),
+      require('../fixtures/v12-new-workspace/projects/another-app/tslint.json'),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Cannot find module '../fixtures/v11-new-workspace/projects/another-app/tslint.json' from 'tests/v11-new-workspace.test.ts'"`,
+      `"Cannot find module '../fixtures/v12-new-workspace/projects/another-app/tslint.json' from 'tests/v12-new-workspace.test.ts'"`,
     );
     expect(
-      require('../fixtures/v11-new-workspace/projects/another-app/.eslintrc.json'),
+      require('../fixtures/v12-new-workspace/projects/another-app/.eslintrc.json'),
     ).toMatchSnapshot();
 
     expect(
-      require('../fixtures/v11-new-workspace/angular.json').projects[
+      require('../fixtures/v12-new-workspace/angular.json').projects[
         'another-app'
       ].architect.lint,
     ).toMatchSnapshot();
 
     // Additional library project ("another-lib")
     expect(() =>
-      require('../fixtures/v11-new-workspace/projects/another-lib/tslint.json'),
+      require('../fixtures/v12-new-workspace/projects/another-lib/tslint.json'),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Cannot find module '../fixtures/v11-new-workspace/projects/another-lib/tslint.json' from 'tests/v11-new-workspace.test.ts'"`,
+      `"Cannot find module '../fixtures/v12-new-workspace/projects/another-lib/tslint.json' from 'tests/v12-new-workspace.test.ts'"`,
     );
     expect(
-      require('../fixtures/v11-new-workspace/projects/another-lib/.eslintrc.json'),
+      require('../fixtures/v12-new-workspace/projects/another-lib/.eslintrc.json'),
     ).toMatchSnapshot();
 
     expect(
-      require('../fixtures/v11-new-workspace/angular.json').projects[
+      require('../fixtures/v12-new-workspace/angular.json').projects[
         'another-lib'
       ].architect.lint,
     ).toMatchSnapshot();
