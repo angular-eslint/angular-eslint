@@ -18,7 +18,7 @@ export default createESLintRule<Options, MessageIds>({
     docs: {
       description: 'Requires `===` and `!==` in place of `==` and `!=`',
       category: 'Best Practices',
-      recommended: false,
+      recommended: 'error',
     },
     fixable: 'code',
     schema: [

@@ -278,7 +278,7 @@ const allTemplateConfig: LinterConfig = {
     (config, entry) =>
       reducer('@angular-eslint/template/', config, entry, {
         errorLevel: 'error',
-        filterDeprecated: true,
+        filterDeprecated: false,
       }),
     {},
   ),
