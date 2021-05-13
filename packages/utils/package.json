@@ -1,6 +1,6 @@
 {
   "name": "@angular-eslint/utils",
-  "version": "12.0.0-alpha.3",
+  "version": "12.0.0-alpha.4",
   "private": true,
   "license": "MIT",
   "main": "dist/index.js",
