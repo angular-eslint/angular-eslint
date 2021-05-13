@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "add-angular-eslint",
+  "$id": "add-angular-eslint",
   "title": "Add angular-eslint to an existing workspace",
   "type": "object",
   "properties": {},

@@ -239,13 +239,15 @@ async function setupFixtures() {
     ]);
 
     process.chdir('../');
-    await runNgNew('v11-new-workspace');
-    process.chdir('./v11-new-workspace');
+    await runNgNew('v12-new-workspace');
+    process.chdir('./v12-new-workspace');
+
+    /**
+     * ng-add should detect that it is a single project workspace with no existing linter wired up
+     * and configure ESlint automatically.
+     */
     await runNgAdd();
-    await runConvertTSLintToESLint([
-      '--remove-tslint-if-no-more-tslint-targets',
-      '--ignore-existing-tslint-config',
-    ]); // no project specified, will convert only project in workspace
+
     await runNgGenerate(['app', 'another-app', '--interactive=false']);
     await runNgGenerate(['lib', 'another-lib', '--interactive=false']);
 

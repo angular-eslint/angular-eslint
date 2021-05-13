@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "convert-tslint-to-eslint",
+  "$id": "convert-tslint-to-eslint",
   "title": "Convert an Angular CLI project from TSLint to ESLint",
   "examples": [
     {

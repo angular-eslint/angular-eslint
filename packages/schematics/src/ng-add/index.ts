@@ -1,7 +1,12 @@
 import type { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
-import { chain } from '@angular-devkit/schematics';
+import { chain, schematic } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
-import { sortObjectByKeys } from '../utils';
+import {
+  getTargetsConfigFromProject,
+  readJsonInTree,
+  sortObjectByKeys,
+  updateJsonInTree,
+} from '../utils';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const packageJSON = require('../../package.json');
@@ -69,8 +74,52 @@ Please see https://github.com/angular-eslint/angular-eslint for how to add ESLin
   };
 }
 
+function applyESLintConfigIfSingleProjectWithNoExistingTSLint() {
+  return (host: Tree, context: SchematicContext) => {
+    const angularJson = readJsonInTree(host, 'angular.json');
+    if (!angularJson || !angularJson.projects) {
+      return;
+    }
+    // Anything other than a single project, finish here as there is nothing more we can do automatically
+    const projectNames = Object.keys(angularJson.projects);
+    if (projectNames.length !== 1) {
+      return;
+    }
+
+    const singleProject = angularJson.projects[projectNames[0]];
+    const targetsConfig = getTargetsConfigFromProject(singleProject);
+    // Only possible if malformed, safer to finish here
+    if (!targetsConfig) {
+      return;
+    }
+
+    // The project already has a lint builder setup, finish here as there is nothing more we can do automatically
+    if (targetsConfig.lint) {
+      return;
+    }
+
+    context.logger.info(`
+We detected that you have a single project in your workspace and no existing linter wired up, so we are configuring ESLint for you automatically.
+
+Please see https://github.com/angular-eslint/angular-eslint for more information.
+`);
+
+    return chain([
+      schematic('add-eslint-to-project', {}),
+      updateJsonInTree('angular.json', (json) => {
+        json.cli = json.cli || {};
+        json.cli.defaultCollection = '@angular-eslint/schematics';
+        return json;
+      }),
+    ]);
+  };
+}
+
 export default function (): Rule {
   return (host: Tree, context: SchematicContext) => {
-    return chain([addAngularESLintPackages()])(host, context);
+    return chain([
+      addAngularESLintPackages(),
+      applyESLintConfigIfSingleProjectWithNoExistingTSLint(),
+    ])(host, context);
   };
 }

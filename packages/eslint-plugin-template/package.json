@@ -34,7 +34,7 @@
   },
   "peerDependencies": {
     "@angular-eslint/template-parser": "*",
-    "@angular/compiler": ">= 12.0.0-rc.2 < 13.0.0",
+    "@angular/compiler": ">= 12.0.0 < 13.0.0",
     "eslint": "*",
     "typescript": "*"
   },
