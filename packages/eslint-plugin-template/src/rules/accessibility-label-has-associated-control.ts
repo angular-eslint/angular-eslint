@@ -53,7 +53,19 @@ export default createESLintRule<Options, MessageIds>({
             uniqueItems: true,
           },
           labelComponents: {
-            items: { required: ['selector'], type: 'object' },
+            items: {
+              additionalProperties: false,
+              properties: {
+                inputs: {
+                  items: { type: 'string' },
+                  type: 'array',
+                  uniqueItems: true,
+                },
+                selector: { type: 'string' },
+              },
+              required: ['selector'],
+              type: 'object',
+            },
             type: 'array',
             uniqueItems: true,
           },
