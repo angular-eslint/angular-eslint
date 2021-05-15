@@ -14,6 +14,7 @@ export default createESLintRule<Options, MessageIds>({
         'Prefer to declare `@Output` as readonly since they are not supposed to be reassigned',
       category: 'Best Practices',
       recommended: false,
+      suggestion: true,
     },
     schema: [],
     messages: {
