@@ -1,25 +1,21 @@
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import { COMPONENT_CLASS_DECORATOR } from '../utils/selectors';
-import {
-  getDecoratorProperty,
-  isArrayExpression,
-  isLiteralWithStringValue,
-} from '../utils/utils';
+import { isArrayExpression, isLiteralWithStringValue } from '../utils/utils';
 
 type Options = [];
 export type MessageIds = 'relativeUrlPrefix';
 export const RULE_NAME = 'relative-url-prefix';
 
 const STYLE_GUIDE_LINK = 'https://angular.io/styleguide#style-05-04';
-const RELATIVE_URL_PREFIX_MATCHER = /^\.{1,2}\/[^./]/;
+const RELATIVE_URL_PREFIX_MATCHER = /^\.\.?\/.+/;
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
   meta: {
     type: 'suggestion',
     docs: {
-      description: `The ./ and ../ prefix is standard syntax for relative URLs; don't depend on Angular's current ability to do without that prefix. See more at ${STYLE_GUIDE_LINK}.`,
+      description: `The ./ and ../ prefix is standard syntax for relative URLs; don't depend on Angular's current ability to do without that prefix. See more at ${STYLE_GUIDE_LINK}`,
       category: 'Best Practices',
       recommended: false,
     },
@@ -31,43 +27,35 @@ export default createESLintRule<Options, MessageIds>({
   defaultOptions: [],
   create(context) {
     return {
-      [COMPONENT_CLASS_DECORATOR](node: TSESTree.Decorator) {
-        const templateUrlProperty = getDecoratorProperty(node, 'templateUrl');
-        if (
-          templateUrlProperty &&
-          isLiteralWithStringValue(templateUrlProperty.value)
-        ) {
-          if (
-            !RELATIVE_URL_PREFIX_MATCHER.test(templateUrlProperty.value.value)
-          ) {
-            context.report({
-              node: templateUrlProperty.value,
-              messageId: 'relativeUrlPrefix',
-            });
-          }
-        }
+      [`${COMPONENT_CLASS_DECORATOR} Property[key.name='templateUrl']`]({
+        value,
+      }: TSESTree.Property) {
+        if (!isUrlInvalid(value)) return;
 
-        const styleUrlsProperty = getDecoratorProperty(node, 'styleUrls');
-        if (styleUrlsProperty) {
-          if (
-            styleUrlsProperty.value &&
-            isArrayExpression(styleUrlsProperty.value) &&
-            styleUrlsProperty.value.elements.length > 0
-          ) {
-            styleUrlsProperty.value.elements.forEach((e) => {
-              if (
-                isLiteralWithStringValue(e) &&
-                !RELATIVE_URL_PREFIX_MATCHER.test(e.value)
-              ) {
-                context.report({
-                  node: e,
-                  messageId: 'relativeUrlPrefix',
-                });
-              }
-            });
-          }
-        }
+        context.report({
+          node: value,
+          messageId: 'relativeUrlPrefix',
+        });
+      },
+      [`${COMPONENT_CLASS_DECORATOR} Property[key.name='styleUrls']`]({
+        value,
+      }: TSESTree.Property) {
+        if (!isArrayExpression(value)) return;
+
+        value.elements.filter(isUrlInvalid).forEach((element) => {
+          context.report({
+            node: element,
+            messageId: 'relativeUrlPrefix',
+          });
+        });
       },
     };
   },
 });
+
+function isUrlInvalid(node: TSESTree.Property | TSESTree.Property['value']) {
+  return (
+    !isLiteralWithStringValue(node) ||
+    !RELATIVE_URL_PREFIX_MATCHER.test(node.value)
+  );
+}
