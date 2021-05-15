@@ -2,7 +2,7 @@ import type { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
 type Options = [];
-export type MessageIds = 'preferOutputReadonly' | 'suggestFix';
+export type MessageIds = 'preferOutputReadonly' | 'suggestAddReadonlyModifier';
 export const RULE_NAME = 'prefer-output-readonly';
 
 export default createESLintRule<Options, MessageIds>({
@@ -19,7 +19,7 @@ export default createESLintRule<Options, MessageIds>({
     messages: {
       preferOutputReadonly:
         'Prefer to declare `@Output` as readonly since they are not supposed to be reassigned',
-      suggestFix: 'Add readonly modifier',
+      suggestAddReadonlyModifier: 'Add readonly modifier',
     },
   },
   defaultOptions: [],
@@ -33,7 +33,7 @@ export default createESLintRule<Options, MessageIds>({
           messageId: 'preferOutputReadonly',
           suggest: [
             {
-              messageId: 'suggestFix',
+              messageId: 'suggestAddReadonlyModifier',
               fix: (fixer) => fixer.insertTextBefore(key, 'readonly '),
             },
           ],

@@ -13,7 +13,7 @@ const ruleTester = new RuleTester({
   parser: '@typescript-eslint/parser',
 });
 const messageId: MessageIds = 'preferOutputReadonly';
-const suggestFix: MessageIds = 'suggestFix';
+const suggestAddReadonlyModifier: MessageIds = 'suggestAddReadonlyModifier';
 
 ruleTester.run(RULE_NAME, rule, {
   valid: [
@@ -35,7 +35,7 @@ ruleTester.run(RULE_NAME, rule, {
       messageId,
       suggestions: [
         {
-          messageId: suggestFix,
+          messageId: suggestAddReadonlyModifier,
           output: `
         class Test {
           @Output() readonly testEmitter = new EventEmitter<string>();
