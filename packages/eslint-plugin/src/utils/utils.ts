@@ -1,4 +1,4 @@
-import type { TSESTree } from '@typescript-eslint/experimental-utils';
+import type { TSESLint, TSESTree } from '@typescript-eslint/experimental-utils';
 
 export const objectKeys = Object.keys as <T>(
   o: T,
@@ -292,6 +292,140 @@ export function getNearestNodeFrom<T extends TSESTree.Node>(
   }
 
   return null;
+}
+
+export function getImportDeclarations(
+  node: TSESTree.Node,
+  moduleName: string,
+): readonly TSESTree.ImportDeclaration[] | undefined {
+  let parentNode: TSESTree.Node | undefined = node;
+
+  while ((parentNode = parentNode.parent)) {
+    if (parentNode.type !== 'Program') continue;
+
+    return parentNode.body.filter(
+      (node): node is TSESTree.ImportDeclaration =>
+        isImportDeclaration(node) && node.source.value === moduleName,
+    );
+  }
+
+  return parentNode;
+}
+
+export function getImplementsRemoveFix(
+  sourceCode: Readonly<TSESLint.SourceCode>,
+  classDeclaration: TSESTree.ClassDeclaration,
+  interfaceName: string,
+  fixer: TSESLint.RuleFixer,
+): TSESLint.RuleFix | TSESLint.RuleFix[] {
+  const { implements: classImplements } = classDeclaration;
+
+  if (!classImplements) return [];
+
+  const identifier = classImplements
+    .map(({ expression }) => expression)
+    .filter(isIdentifier)
+    .find(({ name }) => name === interfaceName);
+
+  if (!identifier) return [];
+
+  const isFirstInterface = classImplements[0].expression === identifier;
+  const isLastInterface =
+    classImplements[classImplements.length - 1].expression === identifier;
+  const isSingleInterface = isFirstInterface && isLastInterface;
+
+  if (isSingleInterface && classDeclaration.id) {
+    return fixer.removeRange([
+      classDeclaration.id.range[1],
+      classImplements[0].range[1],
+    ]);
+  }
+
+  const tokenAfterInterface = sourceCode.getTokenAfter(identifier);
+
+  if (isFirstInterface && tokenAfterInterface) {
+    return fixer.removeRange([
+      identifier.range[0],
+      tokenAfterInterface.range[1],
+    ]);
+  }
+
+  const tokenBeforeInterface = sourceCode.getTokenBefore(identifier);
+
+  if (tokenBeforeInterface) {
+    return fixer.removeRange([
+      tokenBeforeInterface.range[0],
+      identifier.range[1],
+    ]);
+  }
+
+  return [];
+}
+
+function getImportDeclarationSpecifier(
+  importDeclarations: readonly TSESTree.ImportDeclaration[],
+  importedName: string,
+) {
+  for (const importDeclaration of importDeclarations) {
+    const importSpecifier = importDeclaration.specifiers.find(
+      (importClause): importClause is TSESTree.ImportSpecifier => {
+        return (
+          isImportSpecifier(importClause) &&
+          importClause.imported.name === importedName
+        );
+      },
+    );
+
+    if (importSpecifier) {
+      return { importDeclaration, importSpecifier } as const;
+    }
+  }
+
+  return undefined;
+}
+
+export function getImportRemoveFix(
+  sourceCode: Readonly<TSESLint.SourceCode>,
+  importDeclarations: readonly TSESTree.ImportDeclaration[],
+  importedName: string,
+  fixer: TSESLint.RuleFixer,
+): TSESLint.RuleFix | TSESLint.RuleFix[] {
+  const { importDeclaration, importSpecifier } =
+    getImportDeclarationSpecifier(importDeclarations, importedName) ?? {};
+
+  if (!importDeclaration || !importSpecifier) return [];
+
+  const isFirstImportSpecifier =
+    importDeclaration.specifiers[0] === importSpecifier;
+  const isLastImportSpecifier =
+    importDeclaration.specifiers[importDeclaration.specifiers.length - 1] ===
+    importSpecifier;
+  const isSingleImportSpecifier =
+    isFirstImportSpecifier && isLastImportSpecifier;
+
+  if (isSingleImportSpecifier) {
+    return fixer.remove(importDeclaration);
+  }
+
+  const tokenAfterImportSpecifier = sourceCode.getTokenAfter(importSpecifier);
+
+  if (isFirstImportSpecifier && tokenAfterImportSpecifier) {
+    return fixer.removeRange([
+      importSpecifier.range[0],
+      tokenAfterImportSpecifier.range[1],
+    ]);
+  }
+
+  const tokenBeforeImportSpecifier = sourceCode.getTokenBefore(importSpecifier);
+
+  if (tokenBeforeImportSpecifier) {
+    return fixer.removeRange([
+      tokenBeforeImportSpecifier.range[0],
+      importSpecifier.range[1],
+    ]);
+  }
+
+  return [];
 }
 
 export const getClassName = (node: TSESTree.Node): string | undefined => {
