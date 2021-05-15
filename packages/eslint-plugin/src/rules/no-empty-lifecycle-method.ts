@@ -31,16 +31,15 @@ export default createESLintRule<Options, MessageIds>({
     ]);
 
     return {
-      [`MethodDefinition[key.name=${angularLifecycleMethodsPattern}][value.body.body.length=0]`](
-        node: TSESTree.MethodDefinition,
+      [`ClassDeclaration > ClassBody > MethodDefinition[key.name=${angularLifecycleMethodsPattern}][value.body.body.length=0]`](
+        node: TSESTree.MethodDefinition & {
+          parent: TSESTree.ClassBody & { parent: TSESTree.ClassDeclaration };
+        },
       ) {
-        const classDeclaration = node.parent!
-          .parent as TSESTree.ClassDeclaration;
-
-        if (!getAngularClassDecorator(classDeclaration)) return;
+        if (!getAngularClassDecorator(node.parent.parent)) return;
 
         context.report({
-          node: node.key,
+          node,
           messageId: 'noEmptyLifecycleMethod',
         });
       },

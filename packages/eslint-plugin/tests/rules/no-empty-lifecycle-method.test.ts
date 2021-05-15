@@ -12,7 +12,6 @@ import rule, { RULE_NAME } from '../../src/rules/no-empty-lifecycle-method';
 const ruleTester = new RuleTester({
   parser: '@typescript-eslint/parser',
 });
-
 const messageId: MessageIds = 'noEmptyLifecycleMethod';
 
 ruleTester.run(RULE_NAME, rule, {
@@ -24,325 +23,155 @@ ruleTester.run(RULE_NAME, rule, {
     }
     `,
     `
-    @Component()
-    class Test {
-      ngAfterContentInit() { console.log('AfterContentInit'); }
-    }
-    `,
-    `
-    @Component()
-    class Test {
-      ngAfterViewChecked() { console.log('AfterViewChecked'); }
-    }
-    `,
-    `
-    @Component()
-    class Test {
-      ngAfterViewInit() { console.log('AfterViewInit'); }
-    }
-    `,
-    `
-    @Component()
-    class Test {
-      ngDoCheck() { console.log('DoCheck'); }
-    }`,
-    `
-    @Component()
-    class Test {
-      ngOnChanges() { console.log('OnChanges'); }
-    }
-    `,
-    `
-    @Component()
-    class Test {
-      ngOnDestroy() { console.log('OnDestroy'); }
-    }
-    `,
-    `
-    @Component()
-    class Test {
-      ngOnInit() { console.log('OnInit'); }
-    }
-    `,
-    `
-    @Directive()
-    class Test {
-      ngAfterContentChecked() { console.log('AfterContentChecked'); }
-    }
-    `,
-    `
     @Directive()
     class Test {
       ngAfterContentInit() { console.log('AfterContentInit'); }
     }
     `,
     `
-    @Directive()
+    @Injectable()
     class Test {
       ngAfterViewChecked() { console.log('AfterViewChecked'); }
-    }
-    `,
-    `
-    @Directive()
-    class Test {
-      ngAfterViewInit() { console.log('AfterViewInit'); }
-    }
-    `,
-    `
-    @Directive()
-    class Test {
-      ngDoCheck() { console.log('DoCheck'); }
-    }
-    `,
-    `
-    @Directive()
-    class Test {
-      ngOnChanges() { console.log('OnChanges'); }
-    }
-    `,
-    `
-    @Directive()
-    class Test {
-      ngOnDestroy() { console.log('OnDestroy'); }
-    }
-    `,
-    `
-    @Directive()
-    class Test {
-      ngOnInit() { console.log('OnInit'); }
-    }
-    `,
-    `
-    class Test {
-      ngOnInit() { }
     }
     `,
     `
     @NgModule()
     class Test {
-      ngOnInit() { console.log('ngOnInit') }
+      ngAfterViewInit() { console.log('AfterViewInit'); }
     }
     `,
     `
     @Pipe()
     class Test {
-      ngDoBootstrap() { console.log('ngDoBootstrap') }
+      ngDoBootstrap() { console.log('DoBootstrap'); }
+    }
+    `,
+    `
+    @Component()
+    class Test {
+      ngDoCheck() { console.log('DoCheck'); }
+    }
+    `,
+    `
+    @Directive()
+    class Test {
+      ngOnChanges() { console.log('OnChanges'); }
+    }
+    `,
+    `
+    @Injectable()
+    class Test {
+      ngOnDestroy() { console.log('OnDestroy'); }
+    }
+    `,
+    `
+    @NgModule()
+    class Test {
+      ngOnInit() { console.log('OnInit'); }
+    }
+    `,
+    `
+    class Test {
+      ngOnInit() {}
     }
     `,
   ],
   invalid: [
     convertAnnotatedSourceToFailureCase({
-      description:
-        'Class with @Component should fail if ngAfterContentChecked() method is empty',
+      description: 'should fail if ngAfterContentChecked() method is empty',
       annotatedSource: `
         @Component()
         class Test {
-          ngAfterContentChecked() { }
-          ~~~~~~~~~~~~~~~~~~~~~
+          ngAfterContentChecked() {}
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~
         }
       `,
       messageId,
     }),
     convertAnnotatedSourceToFailureCase({
-      description:
-        'Class with @Component should fail if ngAfterContentInit() method is empty',
+      description: 'should fail if ngAfterContentInit() method is empty',
       annotatedSource: `
-        @Component()
+        @Directive()
         class Test {
-          ngAfterContentInit() { }
+          ngAfterContentInit() {}
+          ~~~~~~~~~~~~~~~~~~~~~~~
+        }
+      `,
+      messageId,
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description: 'should fail if ngAfterViewChecked() method is empty',
+      annotatedSource: `
+        @Injectable()
+        class Test {
+          ngAfterViewChecked() {}
+          ~~~~~~~~~~~~~~~~~~~~~~~
+        }
+      `,
+      messageId,
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description: 'should fail if ngAfterViewInit() method is empty',
+      annotatedSource: `
+        @NgModule()
+        class Test {
+          ngAfterViewInit() {}
+          ~~~~~~~~~~~~~~~~~~~~
+        }
+      `,
+      messageId,
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description: 'should fail if ngDoBootstrap() method is empty',
+      annotatedSource: `
+        @Pipe()
+        class Test {
+          ngDoBootstrap() {}
           ~~~~~~~~~~~~~~~~~~
         }
       `,
       messageId,
     }),
     convertAnnotatedSourceToFailureCase({
-      description:
-        'Class with @Component should fail if ngAfterViewChecked() method is empty',
+      description: 'should fail if ngDoCheck() method is empty',
       annotatedSource: `
         @Component()
         class Test {
-          ngAfterViewChecked() { }
-          ~~~~~~~~~~~~~~~~~~
+          ngDoCheck() {}
+          ~~~~~~~~~~~~~~
         }
       `,
       messageId,
     }),
     convertAnnotatedSourceToFailureCase({
-      description:
-        'Class with @Component should fail if ngAfterViewInit() method is empty',
+      description: 'should fail if ngOnChanges() method is empty',
       annotatedSource: `
-        @Component()
+        @Directive()
         class Test {
-          ngAfterViewInit() { }
-          ~~~~~~~~~~~~~~~
+          ngOnChanges() {}
+          ~~~~~~~~~~~~~~~~
         }
       `,
       messageId,
     }),
     convertAnnotatedSourceToFailureCase({
-      description:
-        'Class with @Component should fail if ngDoBootstrap() method is empty',
+      description: 'should fail if ngOnDestroy() method is empty',
       annotatedSource: `
-        @Component()
+        @Injectable()
         class Test {
-          ngDoBootstrap() { }
+          ngOnDestroy() {}
+          ~~~~~~~~~~~~~~~~
+        }
+      `,
+      messageId,
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description: 'should fail if ngOnInit() method is empty',
+      annotatedSource: `
+        @NgModule()
+        class Test {
+          ngOnInit() {}
           ~~~~~~~~~~~~~
-        }
-      `,
-      messageId,
-    }),
-    convertAnnotatedSourceToFailureCase({
-      description:
-        'Class with @Component should fail if ngDoCheck() method is empty',
-      annotatedSource: `
-        @Component()
-        class Test {
-          ngDoCheck() { }
-          ~~~~~~~~~
-        }
-      `,
-      messageId,
-    }),
-    convertAnnotatedSourceToFailureCase({
-      description:
-        'Class with @Component should fail if ngOnChanges() method is empty',
-      annotatedSource: `
-        @Component()
-        class Test {
-          ngOnChanges() { }
-          ~~~~~~~~~~~
-        }
-      `,
-      messageId,
-    }),
-    convertAnnotatedSourceToFailureCase({
-      description:
-        'Class with @Component should fail if ngOnDestroy() method is empty',
-      annotatedSource: `
-        @Component()
-        class Test {
-          ngOnDestroy() { }
-          ~~~~~~~~~~~
-        }
-      `,
-      messageId,
-    }),
-    convertAnnotatedSourceToFailureCase({
-      description:
-        'Class with @Component should fail if ngOnInit() method is empty',
-      annotatedSource: `
-        @Component()
-        class Test {
-          ngOnInit() { }
-          ~~~~~~~~
-        }
-      `,
-      messageId,
-    }),
-    convertAnnotatedSourceToFailureCase({
-      description:
-        'Class with @Directive should fail if ngAfterContentChecked() method is empty',
-      annotatedSource: `
-        @Directive()
-        class Test {
-          ngAfterContentChecked() { }
-          ~~~~~~~~~~~~~~~~~~~~~
-        }
-      `,
-      messageId,
-    }),
-    convertAnnotatedSourceToFailureCase({
-      description:
-        'Class with @Directive should fail if ngAfterContentInit() method is empty',
-      annotatedSource: `
-        @Directive()
-        class Test {
-          ngAfterContentInit() { }
-          ~~~~~~~~~~~~~~~~~~
-        }
-      `,
-      messageId,
-    }),
-    convertAnnotatedSourceToFailureCase({
-      description:
-        'Class with @Directive should fail if ngAfterViewChecked() method is empty',
-      annotatedSource: `
-        @Directive()
-        class Test {
-          ngAfterViewChecked() { }
-          ~~~~~~~~~~~~~~~~~~
-        }
-      `,
-      messageId,
-    }),
-    convertAnnotatedSourceToFailureCase({
-      description:
-        'Class with @Directive should fail if ngAfterViewInit() method is empty',
-      annotatedSource: `
-        @Directive()
-        class Test {
-          ngAfterViewInit() { }
-          ~~~~~~~~~~~~~~~
-        }
-      `,
-      messageId,
-    }),
-    convertAnnotatedSourceToFailureCase({
-      description:
-        'Class with @Directive should fail if ngDoBootstrap() method is empty',
-      annotatedSource: `
-        @Directive()
-        class Test {
-          ngDoBootstrap() { }
-          ~~~~~~~~~~~~~
-        }
-      `,
-      messageId,
-    }),
-    convertAnnotatedSourceToFailureCase({
-      description:
-        'Class with @Directive should fail if ngDoCheck() method is empty',
-      annotatedSource: `
-        @Directive()
-        class Test {
-          ngDoCheck() { }
-          ~~~~~~~~~
-        }
-      `,
-      messageId,
-    }),
-    convertAnnotatedSourceToFailureCase({
-      description:
-        'Class with @Directive should fail if ngOnChanges() method is empty',
-      annotatedSource: `
-        @Directive()
-        class Test {
-          ngOnChanges() { }
-          ~~~~~~~~~~~
-        }
-      `,
-      messageId,
-    }),
-    convertAnnotatedSourceToFailureCase({
-      description:
-        'Class with @Directive should fail if ngOnDestroy() method is empty',
-      annotatedSource: `
-        @Directive()
-        class Test {
-          ngOnDestroy() { }
-          ~~~~~~~~~~~
-        }
-      `,
-      messageId,
-    }),
-    convertAnnotatedSourceToFailureCase({
-      description:
-        'Class with @Directive should fail if ngOnInit() method is empty',
-      annotatedSource: `
-        @Directive()
-        class Test {
-          ngOnInit() { }
-          ~~~~~~~~
         }
       `,
       messageId,

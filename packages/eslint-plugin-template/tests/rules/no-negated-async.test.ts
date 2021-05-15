@@ -59,5 +59,14 @@ ruleTester.run(RULE_NAME, rule, {
       `,
       messageId,
     }),
+    // https://github.com/angular-eslint/angular-eslint/issues/280#issuecomment-760208638
+    convertAnnotatedSourceToFailureCase({
+      description: 'it should fail if async pipe is negated within binary',
+      annotatedSource: `
+        {{ nullable ?? !(obsVar | async) }}
+                       ~~~~~~~~~~~~~~~~~
+      `,
+      messageId,
+    }),
   ],
 });
