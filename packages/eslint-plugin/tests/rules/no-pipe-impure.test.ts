@@ -12,7 +12,6 @@ import rule, { RULE_NAME } from '../../src/rules/no-pipe-impure';
 const ruleTester = new RuleTester({
   parser: '@typescript-eslint/parser',
 });
-
 const messageId: MessageIds = 'noPipeImpure';
 
 ruleTester.run(RULE_NAME, rule, {
@@ -24,14 +23,14 @@ ruleTester.run(RULE_NAME, rule, {
       pure: true
     })
     class Test {}
-`,
+    `,
     // should succeed if pure property is not set
     `
-        @Pipe({
-          name: 'test'
-        })
-        class Test {}
-`,
+    @Pipe({
+      name: 'test'
+    })
+    class Test {}
+    `,
   ],
   invalid: [
     convertAnnotatedSourceToFailureCase({
@@ -40,7 +39,7 @@ ruleTester.run(RULE_NAME, rule, {
       @Pipe({
         name: 'test',
         pure: false
-              ~~~~~
+        ~~~~~~~~~~~
       })
       class Test {}
       `,
