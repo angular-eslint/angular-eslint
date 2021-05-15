@@ -129,6 +129,7 @@ export function convertAnnotatedSourceToFailureCase<T extends string>({
   data,
   options = [],
   annotatedOutput,
+  suggestions,
 }: {
   description: string;
   annotatedSource: string;
@@ -137,6 +138,7 @@ export function convertAnnotatedSourceToFailureCase<T extends string>({
   data?: Record<string, unknown>;
   options?: readonly unknown[];
   annotatedOutput?: string;
+  suggestions?: TSESLint.SuggestionOutput<T>[];
 }): TSESLint.InvalidTestCase<T, readonly unknown[]> {
   if (!messageId && (!messages || !messages.length)) {
     throw new Error(
@@ -182,6 +184,7 @@ export function convertAnnotatedSourceToFailureCase<T extends string>({
         column: startPosition.character + 1,
         endLine: endPosition.line + 1,
         endColumn: endPosition.character + 1,
+        suggestions,
       };
 
       if (data) {
