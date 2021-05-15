@@ -29,7 +29,7 @@ export default createESLintRule<Options, MessageIds>({
     const sourceCode = context.getSourceCode();
 
     return {
-      'PrefixNot > BindingPipe[name="async"]'({
+      ':not(PrefixNot) > PrefixNot > BindingPipe[name="async"]'({
         parent: { sourceSpan },
       }: BindingPipe & {
         parent: PrefixNot;
