@@ -57,8 +57,8 @@ ruleTester.run(RULE_NAME, rule, {
           Content
         </ng-container>
       `,
-      data: { maxComplexity: 3, totalComplexity: 4 },
       options: [{ maxComplexity: 3 }],
+      data: { maxComplexity: 3, totalComplexity: 4 },
     }),
     convertAnnotatedSourceToFailureCase({
       messageId,
@@ -106,6 +106,21 @@ ruleTester.run(RULE_NAME, rule, {
                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       `,
       data: { maxComplexity: 5, totalComplexity: 8 },
+    }),
+    // https://github.com/angular-eslint/angular-eslint/issues/280
+    convertAnnotatedSourceToFailureCase({
+      messageId,
+      description:
+        'should fail if the conditional complexity exceeds the maximum defined when using a pipe',
+      annotatedSource: `
+        <ng-container
+          *ngIf="(control | isDefined) && control.invalid && (control.touched || (showOnDirty && control.dirty))">
+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+          Content
+        </ng-container>
+      `,
+      options: [{ maxComplexity: 3 }],
+      data: { maxComplexity: 3, totalComplexity: 4 },
     }),
   ],
 });
