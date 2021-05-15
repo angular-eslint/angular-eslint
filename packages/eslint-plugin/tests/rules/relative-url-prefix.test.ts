@@ -12,70 +12,66 @@ import rule, { RULE_NAME } from '../../src/rules/relative-url-prefix';
 const ruleTester = new RuleTester({
   parser: '@typescript-eslint/parser',
 });
-
 const messageId: MessageIds = 'relativeUrlPrefix';
 
 ruleTester.run(RULE_NAME, rule, {
   valid: [
     `
     @Component({
-      styleUrls: ['./foobar.css']
+      styleUrls: [
+        './foo.css',
+        '../bar.css',
+        '../../baz.scss',
+        '../../../baz.sass',
+        './../test.css',
+        '.././angular.sass'
+      ]
     })
     class Test {}
-`,
-    `
-    @Component({
-      styleUrls: ['../foobar.css']
-    })
-    class Test {}
-`,
-    `
-    @Component({
-      styleUrls: ['./foo.css', './bar.css', './whatyouwant.css']
-    })
-    class Test {}
-`,
+    `,
     `
     @Component({
       templateUrl: './foobar.html'
     })
     class Test {}
-`,
+    `,
     `
     @Component({
       templateUrl: '../foobar.html'
     })
     class Test {}
-`,
+    `,
+    `
+    @Component({
+      templateUrl: '../../foobar.html'
+    })
+    class Test {}
+    `,
+    `
+    @Component({
+      templateUrl: '../../../foobar.html'
+    })
+    class Test {}
+    `,
+    `
+    @Component({
+      templateUrl: './../foobar.html'
+    })
+    class Test {}
+    `,
+    `
+    @Component({
+      templateUrl: '.././foobar.html'
+    })
+    class Test {}
+    `,
   ],
   invalid: [
     convertAnnotatedSourceToFailureCase({
-      description: `it should fail when a relative URL isn't prefixed with ./`,
+      description: 'it should fail if one of "styleUrls" is absolute',
       annotatedSource: `
         @Component({
-          styleUrls: ['foobar.css']
-                      ~~~~~~~~~~~~
-        })
-        class Test {}
-      `,
-      messageId,
-    }),
-    convertAnnotatedSourceToFailureCase({
-      description: `it should fail when a relative URL isn't prefixed with ./`,
-      annotatedSource: `
-        @Component({
-          styleUrls: ['./../foobar.css']
-                      ~~~~~~~~~~~~~~~~~
-        })
-        class Test {}
-      `,
-      messageId,
-    }),
-    convertAnnotatedSourceToFailureCase({
-      description: `it should fail when one relative URL isn't prefixed with ./`,
-      annotatedSource: `
-        @Component({
-          styleUrls: ['./foo.css', 'bar.css', './whatyouwant.css']
+          styleUrls: ['./foo.css', 'bar.css', '../baz.scss', '../../test.css']
                                    ~~~~~~~~~
         })
         class Test {}
@@ -83,22 +79,11 @@ ruleTester.run(RULE_NAME, rule, {
       messageId,
     }),
     convertAnnotatedSourceToFailureCase({
-      description: `it should fail when a relative URL isn't prefixed with ./`,
+      description: 'it should fail if "templateUrl" is absolute',
       annotatedSource: `
         @Component({
           templateUrl: 'foobar.html'
                        ~~~~~~~~~~~~~
-        })
-        class Test {}
-      `,
-      messageId,
-    }),
-    convertAnnotatedSourceToFailureCase({
-      description: `it should fail when a relative URL isn't prefixed with ./`,
-      annotatedSource: `
-        @Component({
-          templateUrl: '.././foobar.html'
-                       ~~~~~~~~~~~~~~~~~~
         })
         class Test {}
       `,
