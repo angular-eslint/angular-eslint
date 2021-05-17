@@ -29,6 +29,8 @@ const SAFELIST_ATTRIBUTES: ReadonlySet<string> = new Set([
   'href',
   'id',
   'lang',
+  'ngClass',
+  'routerLink',
   'src',
   'stroke',
   'stroke-width',

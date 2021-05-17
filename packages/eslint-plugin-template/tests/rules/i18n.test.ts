@@ -88,6 +88,19 @@ ruleTester.run(RULE_NAME, rule, {
         },
       ],
     },
+    {
+      // https://github.com/angular-eslint/angular-eslint/issues/466
+      code: `
+        <a
+          mat-button
+          ngClass="class"
+          routerLink="exclusions"
+          i18n="@@keywording.tools.exclusions"
+        >
+          Exclusions
+        </a>
+      `,
+    },
   ],
   invalid: [
     convertAnnotatedSourceToFailureCase({
