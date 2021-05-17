@@ -223,7 +223,7 @@ export default createESLintRule<Options, MessageIds>({
         }
 
         if (
-          checkAttributes &&
+          !checkAttributes ||
           isSafeAttribute(tagName, attributeName, attributeValue)
         ) {
           continue;
