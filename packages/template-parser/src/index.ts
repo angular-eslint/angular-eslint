@@ -206,6 +206,7 @@ function parseForESLint(code: string, options: { filePath: string }) {
   const ast: AST = {
     type: 'Program',
     comments: convertNgAstCommentsToTokens(ngAstCommentNodes),
+    body: [],
     tokens: [],
     range: [0, 0],
     loc: {
