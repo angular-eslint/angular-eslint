@@ -116,6 +116,23 @@ ruleTester.run(RULE_NAME, rule, {
       @Input('bar') label: string;
     }
     `,
+    // should succeed when an input alias rename to the value listed in the allowedRenames
+    {
+      code: `
+      import { Input } from '@angular/core';
+      @Directive({
+        selector: 'foo'
+      })
+      class TestDirective {
+        @Input('allowedName') bar: string;
+      }
+      `,
+      options: [
+        {
+          allowedRenames: ['allowedName'],
+        },
+      ],
+    },
   ],
   invalid: [
     convertAnnotatedSourceToFailureCase({
@@ -261,6 +278,26 @@ ruleTester.run(RULE_NAME, rule, {
       }
       `,
       messageId,
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'should fail when a directive input property is renamed and not listed in the allowedRenames list',
+      annotatedSource: `
+      import { Input } from '@angular/core';
+      @Directive({
+        selector: 'foo'
+      })
+      class TestDirective {
+        @Input('disallowedName') bar: string;
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      }
+      `,
+      messageId,
+      options: [
+        {
+          allowedRenames: ['allowedName'],
+        },
+      ],
     }),
   ],
 });

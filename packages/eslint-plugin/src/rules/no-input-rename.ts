@@ -10,7 +10,11 @@ import {
   isImportedFrom,
 } from '../utils/utils';
 
-type Options = [];
+type Options = [
+  {
+    allowedRenames: string[];
+  },
+];
 export type MessageIds = 'noInputRename';
 export const RULE_NAME = 'no-input-rename';
 
@@ -64,13 +68,30 @@ export default createESLintRule<Options, MessageIds>({
       category: 'Best Practices',
       recommended: 'error',
     },
-    schema: [],
+    schema: [
+      {
+        type: 'object',
+        properties: {
+          allowedRenames: {
+            type: 'array',
+            items: {
+              type: 'string',
+            },
+          },
+        },
+        additionalProperties: false,
+      },
+    ],
     messages: {
       noInputRename: `In the class {{className}}, the directive input property {{propertyName}} should not be renamed`,
     },
   },
-  defaultOptions: [],
-  create(context) {
+  defaultOptions: [
+    {
+      allowedRenames: [],
+    },
+  ],
+  create(context, [{ allowedRenames }]) {
     return {
       ':matches(ClassProperty, MethodDefinition[kind="set"]) > Decorator[expression.callee.name="Input"]'(
         node: TSESTree.Decorator,
@@ -93,7 +114,8 @@ export default createESLintRule<Options, MessageIds>({
           propertyAlias: string,
           propertyName: string,
         ): boolean => {
-          return !!(
+          return (
+            allowedRenames.indexOf(propertyAlias) !== -1 ||
             (propertyAlias !== propertyName &&
               directiveSelectors &&
               directiveSelectors.some((x) =>
