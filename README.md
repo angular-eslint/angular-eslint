@@ -815,4 +815,6 @@ If you see a rule below that has **no status** against it, then please feel free
 
 <!-- PR Links -->
 
+[`pr475`]: https://api.github.com/repos/angular-eslint/angular-eslint/pulls/475
+
 <!-- end rule list -->
