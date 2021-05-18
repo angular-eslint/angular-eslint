@@ -207,7 +207,7 @@ export function isClassDeclaration(
   return node.type === 'ClassDeclaration';
 }
 
-function isObjectExpression(
+export function isObjectExpression(
   node: TSESTree.Node,
 ): node is TSESTree.ObjectExpression {
   return node.type === 'ObjectExpression';

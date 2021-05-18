@@ -3,7 +3,9 @@ import { createESLintRule } from '../utils/create-eslint-rule';
 import { COMPONENT_OR_DIRECTIVE_CLASS_DECORATOR } from '../utils/selectors';
 import {
   AngularInnerClassDecorators,
+  isIdentifier,
   isLiteral,
+  isObjectExpression,
   isProperty,
 } from '../utils/utils';
 
@@ -43,13 +45,14 @@ export default createESLintRule<Options, MessageIds>({
   create(context, [{ allowStatic }]) {
     return {
       [`${COMPONENT_OR_DIRECTIVE_CLASS_DECORATOR} Property[key.name="${METADATA_PROPERTY_NAME}"]`](
-        node: TSESTree.Property & { value: TSESTree.ObjectExpression },
+        node: TSESTree.Property,
       ) {
-        const properties = allowStatic
-          ? node.value.properties.filter(isDynamicProperty)
-          : [node];
+        const properties =
+          allowStatic && isObjectExpression(node.value)
+            ? node.value.properties.filter(isDynamic)
+            : [node];
 
-        properties.forEach((property: TSESTree.Property) => {
+        properties.forEach((property) => {
           context.report({
             node: property,
             messageId: 'noHostMetadataProperty',
@@ -64,15 +67,33 @@ function startsWithLetter({ [0]: firstLetter }: string) {
   return firstLetter.toLowerCase() !== firstLetter.toUpperCase();
 }
 
-function isDynamicProperty(
-  property: TSESTree.ObjectLiteralElement,
+function isEmptyStringValue(
+  property: TSESTree.Property,
 ): property is TSESTree.Property & {
-  key: TSESTree.Literal & { value: string };
+  value: TSESTree.Literal & { value: '' };
+} {
+  return isLiteral(property.value) && property.value.value === '';
+}
+
+function isStatic(
+  property: TSESTree.Property,
+): property is TSESTree.Property & {
+  computed: false;
+  key: (TSESTree.Identifier | TSESTree.Literal) & { value: string };
 } {
   return (
-    isProperty(property) &&
-    isLiteral(property.key) &&
-    typeof property.key.value === 'string' &&
-    !startsWithLetter(property.key.value)
+    !property.computed &&
+    (isIdentifier(property.key) ||
+      (isLiteral(property.key) &&
+        typeof property.key.value === 'string' &&
+        startsWithLetter(property.key.value)))
+  );
+}
+
+function isDynamic(
+  property: TSESTree.ObjectLiteralElement,
+): property is TSESTree.Property {
+  return (
+    isProperty(property) && !isStatic(property) && !isEmptyStringValue(property)
   );
 }
