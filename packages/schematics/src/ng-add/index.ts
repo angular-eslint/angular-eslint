@@ -29,6 +29,8 @@ function addAngularESLintPackages() {
     const json = JSON.parse(projectPackageJSON);
     json.devDependencies = json.devDependencies || {};
     json.devDependencies['eslint'] = packageJSON.devDependencies['eslint'];
+    json.scripts = json.scripts || {};
+    json.scripts['lint'] = json.scripts['lint'] || 'ng lint';
 
     /**
      * @angular-eslint packages

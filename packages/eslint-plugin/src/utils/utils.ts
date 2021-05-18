@@ -207,7 +207,7 @@ export function isClassDeclaration(
   return node.type === 'ClassDeclaration';
 }
 
-function isObjectExpression(
+export function isObjectExpression(
   node: TSESTree.Node,
 ): node is TSESTree.ObjectExpression {
   return node.type === 'ObjectExpression';
@@ -219,7 +219,7 @@ export function isArrayExpression(
   return node.type === 'ArrayExpression';
 }
 
-function isProperty(node: TSESTree.Node): node is TSESTree.Property {
+export function isProperty(node: TSESTree.Node): node is TSESTree.Property {
   return node.type === 'Property';
 }
 
