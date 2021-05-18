@@ -1,6 +1,7 @@
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
-import { isLiteral, getClassName, getClassPropertyName } from '../utils/utils';
+import { OUTPUT_DECORATOR } from '../utils/selectors';
+import { toPattern } from '../utils/utils';
 
 type Options = [];
 export type MessageIds = 'noOutputNative';
@@ -11,39 +12,27 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description: 'Disallows naming directive outputs as standard DOM event.',
+      description: 'Disallows naming Outputs as standard DOM event',
       category: 'Best Practices',
       recommended: 'error',
     },
     schema: [],
     messages: {
       noOutputNative:
-        'The output property should not be named or renamed as a native event',
+        'Outputs should not be named or aliased as standard DOM event',
     },
   },
   defaultOptions: [],
   create(context) {
+    const nativeEventNames = toPattern([...getNativeEventNames()]);
+    const outputAliasSelector = `ClassProperty:has(${OUTPUT_DECORATOR}[expression.arguments.0.value=${nativeEventNames}])`;
+    const outputPropertySelector = `ClassProperty:has(${OUTPUT_DECORATOR}):has(Identifier[name=${nativeEventNames}])`;
+    const selectors = [outputAliasSelector, outputPropertySelector].join(',');
+
     return {
-      'ClassProperty > Decorator[expression.callee.name="Output"]'(
-        node: TSESTree.Decorator,
-      ) {
-        const classProperty = node.parent as TSESTree.ClassProperty;
-        const className = getClassName(node);
-
-        if (!className) return;
-
-        const propertyName = getClassPropertyName(classProperty);
-
-        const outputCallExpression = node.expression as TSESTree.CallExpression;
-        const arg = outputCallExpression.arguments[0];
-
-        const outputName = (arg && isLiteral(arg) && arg.value) || propertyName;
-
-        if (!outputName || !getNativeEventNames().has(outputName.toString()))
-          return;
-
+      [selectors](node: TSESTree.ClassProperty) {
         context.report({
-          node: classProperty,
+          node,
           messageId: 'noOutputNative',
         });
       },
