@@ -13,13 +13,13 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description: `Ensures that Output names or its alias are not be named "on" or prefixed with it. See more at ${STYLE_GUIDE_LINK}`,
+      description: `Ensures that Output bindings, including aliases, are not named "on", nor prefixed with it. See more at ${STYLE_GUIDE_LINK}`,
       category: 'Best Practices',
       recommended: 'error',
     },
     schema: [],
     messages: {
-      noOutputOnPrefix: `Output names or its alias should not be named "on" or prefixed with it (${STYLE_GUIDE_LINK})`,
+      noOutputOnPrefix: `Output bindings, including aliases, should not be named "on", nor prefixed with it (${STYLE_GUIDE_LINK})`,
     },
   },
   defaultOptions: [],
