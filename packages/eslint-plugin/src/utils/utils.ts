@@ -219,7 +219,7 @@ export function isArrayExpression(
   return node.type === 'ArrayExpression';
 }
 
-function isProperty(node: TSESTree.Node): node is TSESTree.Property {
+export function isProperty(node: TSESTree.Node): node is TSESTree.Property {
   return node.type === 'Property';
 }
 

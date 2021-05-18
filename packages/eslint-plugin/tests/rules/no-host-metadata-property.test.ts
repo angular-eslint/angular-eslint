@@ -12,7 +12,6 @@ import rule, { RULE_NAME } from '../../src/rules/no-host-metadata-property';
 const ruleTester = new RuleTester({
   parser: '@typescript-eslint/parser',
 });
-
 const messageId: MessageIds = 'noHostMetadataProperty';
 
 ruleTester.run(RULE_NAME, rule, {
@@ -22,14 +21,29 @@ ruleTester.run(RULE_NAME, rule, {
       selector: 'app-test',
       template: 'Hello'
     })
-    class TestComponent {}
-`,
+    class Test {}
+    `,
     `
     @Directive({
       selector: 'app-test'
     })
-    class TestDirective {}
-`,
+    class Test {}
+    `,
+    {
+      code: `
+        @Component({
+          host: {
+            shorthand,
+            [computed]: 'test',
+            static: true,
+            'class': 'class1'
+          },
+          selector: 'app-test'
+        })
+        class Test {}
+      `,
+      options: [{ allowStatic: true }],
+    },
   ],
   invalid: [
     convertAnnotatedSourceToFailureCase({
@@ -46,7 +60,7 @@ ruleTester.run(RULE_NAME, rule, {
           ~
           selector: 'app-test'
         })
-        class TestComponent {}
+        class Test {}
       `,
       messageId,
     }),
@@ -64,9 +78,34 @@ ruleTester.run(RULE_NAME, rule, {
           ~
           selector: 'app-test'
         })
-        class TestDirective {}
+        class Test {}
       `,
       messageId,
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'it should fail if non-static properties are used with `allowStatic` option',
+      annotatedSource: `
+        @Directive({
+          host: {
+            shorthand,
+            [computed]: 'test',
+            static: true,
+            'class': 'class1',
+            '(click)': 'bar()',
+            ~~~~~~~~~~~~~~~~~~
+            '[attr.role]': role
+            ^^^^^^^^^^^^^^^^^^^
+          },
+          selector: 'app-test'
+        })
+        class Test {}
+      `,
+      messages: [
+        { char: '~', messageId },
+        { char: '^', messageId },
+      ],
+      options: [{ allowStatic: true }],
     }),
   ],
 });
