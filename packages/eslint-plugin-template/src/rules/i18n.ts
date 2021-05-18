@@ -29,6 +29,8 @@ const SAFELIST_ATTRIBUTES: ReadonlySet<string> = new Set([
   'href',
   'id',
   'lang',
+  'ngClass',
+  'routerLink',
   'src',
   'stroke',
   'stroke-width',
@@ -221,7 +223,7 @@ export default createESLintRule<Options, MessageIds>({
         }
 
         if (
-          checkAttributes &&
+          !checkAttributes ||
           isSafeAttribute(tagName, attributeName, attributeValue)
         ) {
           continue;

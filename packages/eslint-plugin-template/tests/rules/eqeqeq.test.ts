@@ -13,6 +13,7 @@ const ruleTester = new RuleTester({
   parser: '@angular-eslint/template-parser',
 });
 const messageId: MessageIds = 'eqeqeq';
+const suggestStrictEquality: MessageIds = 'suggestStrictEquality';
 
 ruleTester.run(RULE_NAME, rule, {
   valid: [
@@ -31,7 +32,7 @@ ruleTester.run(RULE_NAME, rule, {
       description:
         'it should fail if the operation is not strict within interpolation',
       annotatedSource: `
-        {{ test == 'null' }}
+        {{ 'null' == test }}
            ~~~~~~~~~~~~~~
       `,
       messageId,
@@ -40,7 +41,7 @@ ruleTester.run(RULE_NAME, rule, {
         expectedOperation: '===',
       },
       annotatedOutput: `
-        {{ test === 'null' }}
+        {{ 'null' === test }}
            ~~~~~~~~~~~~~~~
       `,
     }),
@@ -48,7 +49,7 @@ ruleTester.run(RULE_NAME, rule, {
       description:
         'it should fail if the operation is not strict within attribute directive',
       annotatedSource: `
-        <div [attr.disabled]="test != 'undefined' && null == 3"></div>
+        <div [attr.disabled]="test != 'undefined' && null == '3'"></div>
                               ~~~~~~~~~~~~~~~~~~~
       `,
       messageId,
@@ -58,7 +59,7 @@ ruleTester.run(RULE_NAME, rule, {
       },
       options: [{ allowNullOrUndefined: true }],
       annotatedOutput: `
-        <div [attr.disabled]="test !== 'undefined' && null == 3"></div>
+        <div [attr.disabled]="test !== 'undefined' && null == '3'"></div>
                               ~~~~~~~~~~~~~~~~~~~~
       `,
     }),
@@ -74,27 +75,45 @@ ruleTester.run(RULE_NAME, rule, {
         actualOperation: '==',
         expectedOperation: '===',
       },
-      annotatedOutput: `
+      suggestions: [
+        {
+          messageId: suggestStrictEquality,
+          output: `
         <div *ngIf="test === true || test1 !== undefined"></div>
-                    ~~~~~~~~~~~~~
+                    
       `,
+          data: {
+            actualOperation: '==',
+            expectedOperation: '===',
+          },
+        },
+      ],
     }),
     convertAnnotatedSourceToFailureCase({
       description:
         'it should fail if the operation is not strict within conditional',
       annotatedSource: `
-        {{ one != two ? c > d : 'hey!' }}
-           ~~~~~~~~~~
+        {{ one != '02' ? c > d : 'hey!' }}
+           ~~~~~~~~~~~
       `,
       messageId,
       data: {
         actualOperation: '!=',
         expectedOperation: '!==',
       },
-      annotatedOutput: `
-        {{ one !== two ? c > d : 'hey!' }}
-           ~~~~~~~~~~~
+      suggestions: [
+        {
+          messageId: suggestStrictEquality,
+          output: `
+        {{ one !== '02' ? c > d : 'hey!' }}
+           
       `,
+          data: {
+            actualOperation: '!=',
+            expectedOperation: '!==',
+          },
+        },
+      ],
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -108,10 +127,19 @@ ruleTester.run(RULE_NAME, rule, {
         actualOperation: '==',
         expectedOperation: '===',
       },
-      annotatedOutput: `
+      suggestions: [
+        {
+          messageId: suggestStrictEquality,
+          output: `
         {{ a === b && 1 === b ? c > d : 'hey!' }}
-                      ~~~~~~~
+                      
       `,
+          data: {
+            actualOperation: '==',
+            expectedOperation: '===',
+          },
+        },
+      ],
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -125,34 +153,52 @@ ruleTester.run(RULE_NAME, rule, {
         actualOperation: '!=',
         expectedOperation: '!==',
       },
-      annotatedOutput: `
+      suggestions: [
+        {
+          messageId: suggestStrictEquality,
+          output: `
         {{ c > d ? a !== b : 'hey!' }}
-                   ~~~~~~~
+                   
       `,
+          data: {
+            actualOperation: '!=',
+            expectedOperation: '!==',
+          },
+        },
+      ],
     }),
     convertAnnotatedSourceToFailureCase({
       description:
         'it should fail if the operation is not strict within conditional (falseExp)',
       annotatedSource: `
-        {{ c > d ? 'hey!' : a == b }}
-                            ~~~~~~
+        {{ c > d ? 'hey!' : a == false }}
+                            ~~~~~~~~~~
       `,
       messageId,
       data: {
         actualOperation: '==',
         expectedOperation: '===',
       },
-      annotatedOutput: `
-        {{ c > d ? 'hey!' : a === b }}
-                            ~~~~~~~
+      suggestions: [
+        {
+          messageId: suggestStrictEquality,
+          output: `
+        {{ c > d ? 'hey!' : a === false }}
+                            
       `,
+          data: {
+            actualOperation: '==',
+            expectedOperation: '===',
+          },
+        },
+      ],
     }),
     convertAnnotatedSourceToFailureCase({
       description:
         'it should fail if the operation is not strict within recursive conditional',
       annotatedSource: `
-        {{ undefined == test1 && a === b ? (c > d ? d != 3 : v === 4) : 'hey!' }}
-                                                    ~~~~~~
+        {{ undefined == test1 && a === b ? (c > d ? d != '0' : v === 4) : 'hey!' }}
+                                                    ~~~~~~~~
       `,
       messageId,
       options: [{ allowNullOrUndefined: true }],
@@ -160,10 +206,19 @@ ruleTester.run(RULE_NAME, rule, {
         actualOperation: '!=',
         expectedOperation: '!==',
       },
-      annotatedOutput: `
-        {{ undefined == test1 && a === b ? (c > d ? d !== 3 : v === 4) : 'hey!' }}
-                                                    ~~~~~~~
+      suggestions: [
+        {
+          messageId: suggestStrictEquality,
+          output: `
+        {{ undefined == test1 && a === b ? (c > d ? d !== '0' : v === 4) : 'hey!' }}
+                                                    
       `,
+          data: {
+            actualOperation: '!=',
+            expectedOperation: '!==',
+          },
+        },
+      ],
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -177,10 +232,19 @@ ruleTester.run(RULE_NAME, rule, {
         actualOperation: '!=',
         expectedOperation: '!==',
       },
-      annotatedOutput: `
+      suggestions: [
+        {
+          messageId: suggestStrictEquality,
+          output: `
         {{ undefined !== test1 }}
-           ~~~~~~~~~~~~~~~~~~~
+           
       `,
+          data: {
+            actualOperation: '!=',
+            expectedOperation: '!==',
+          },
+        },
+      ],
     }),
   ],
 });

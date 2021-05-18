@@ -1,26 +1,29 @@
-import type { TSESLint } from '@typescript-eslint/experimental-utils';
+import type { ParseSourceSpan, TmplAstElement } from '@angular/compiler';
+import type { TSESLint, TSESTree } from '@typescript-eslint/experimental-utils';
 import { ESLintUtils } from '@typescript-eslint/experimental-utils';
 
 export const createESLintRule = ESLintUtils.RuleCreator(
   (_ruleName) => `https://github.com/angular-eslint/angular-eslint`,
 );
 
-interface SourceSpan {
-  start: { line: number; col: any };
-  end: { line: number; col: any };
-}
-
 interface ParserServices {
-  convertNodeSourceSpanToLoc: (sourceSpan: SourceSpan) => any;
+  convertNodeSourceSpanToLoc: (
+    sourceSpan: ParseSourceSpan,
+  ) => TSESTree.SourceLocation;
   convertElementSourceSpanToLoc: <TMessageIds extends string>(
     context: TSESLint.RuleContext<TMessageIds, []>,
-    node: any,
-  ) => any;
+    node: TmplAstElement,
+  ) => TSESTree.SourceLocation;
 }
 
-export function getTemplateParserServices(context: any): ParserServices {
+export function getTemplateParserServices<
+  TMessageIds extends string,
+  TOptions extends readonly unknown[]
+>(
+  context: Readonly<TSESLint.RuleContext<TMessageIds, TOptions>>,
+): ParserServices {
   ensureTemplateParser(context);
-  return context.parserServices;
+  return (context.parserServices as unknown) as ParserServices;
 }
 
 /**
@@ -29,7 +32,7 @@ export function getTemplateParserServices(context: any): ParserServices {
  */
 export function ensureTemplateParser(
   context: TSESLint.RuleContext<string, readonly unknown[]>,
-) {
+): void {
   if (
     !((context.parserServices as unknown) as ParserServices)
       ?.convertNodeSourceSpanToLoc ||
