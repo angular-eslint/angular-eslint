@@ -77,6 +77,7 @@ export default createESLintRule<Options, MessageIds>({
             items: {
               type: 'string',
             },
+            description: 'A whitelist of allowed input renames',
           },
         },
         additionalProperties: false,
