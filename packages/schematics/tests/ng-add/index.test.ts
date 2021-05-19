@@ -61,6 +61,9 @@ describe('ng-add', () => {
     const projectPackageJSON = JSON.parse(tree.readContent('/package.json'));
     const devDeps = projectPackageJSON.devDependencies;
     const deps = projectPackageJSON.dependencies;
+    const scripts = projectPackageJSON.scripts;
+
+    expect(scripts['lint']).toEqual('ng lint');
 
     expect(devDeps['eslint']).toEqual(eslintVersion);
 

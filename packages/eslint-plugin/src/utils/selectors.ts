@@ -15,3 +15,7 @@ export const INJECTABLE_CLASS_DECORATOR =
 
 export const MODULE_CLASS_DECORATOR =
   'ClassDeclaration > Decorator[expression.callee.name="NgModule"]';
+
+export const OUTPUT_DECORATOR = 'Decorator[expression.callee.name="Output"]';
+
+export const OUTPUT_CLASS_DECORATOR = `ClassProperty > ${OUTPUT_DECORATOR}`;

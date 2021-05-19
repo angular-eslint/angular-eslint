@@ -12,7 +12,6 @@ import rule, { RULE_NAME } from '../../src/rules/no-host-metadata-property';
 const ruleTester = new RuleTester({
   parser: '@typescript-eslint/parser',
 });
-
 const messageId: MessageIds = 'noHostMetadataProperty';
 
 ruleTester.run(RULE_NAME, rule, {
@@ -22,14 +21,31 @@ ruleTester.run(RULE_NAME, rule, {
       selector: 'app-test',
       template: 'Hello'
     })
-    class TestComponent {}
-`,
+    class Test {}
+    `,
     `
     @Directive({
       selector: 'app-test'
     })
-    class TestDirective {}
-`,
+    class Test {}
+    `,
+    {
+      code: `
+        const shorthand = 'testing';
+
+        @Component({
+          host: {
+            shorthand,
+            static: true,
+            'class': 'class1',
+            '[@routerTransition]': ''
+          },
+          selector: 'app-test'
+        })
+        class Test {}
+      `,
+      options: [{ allowStatic: true }],
+    },
   ],
   invalid: [
     convertAnnotatedSourceToFailureCase({
@@ -46,7 +62,7 @@ ruleTester.run(RULE_NAME, rule, {
           ~
           selector: 'app-test'
         })
-        class TestComponent {}
+        class Test {}
       `,
       messageId,
     }),
@@ -64,9 +80,53 @@ ruleTester.run(RULE_NAME, rule, {
           ~
           selector: 'app-test'
         })
-        class TestDirective {}
+        class Test {}
       `,
       messageId,
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'it should fail if non-static properties are used with `allowStatic` option',
+      annotatedSource: `
+        const computed = '[class]';
+
+        @Directive({
+          host: {
+            [computed]: 'test',
+            ~~~~~~~~~~~~~~~~~~
+            static: true,
+            'class': 'class1',
+            '(click)': 'bar()',
+            ^^^^^^^^^^^^^^^^^^
+            '[attr.role]': role,
+            ###################
+            '[@routerTransition]': 'test'
+            %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+          },
+          selector: 'app-test'
+        })
+        class Test {}
+      `,
+      messages: [
+        { char: '~', messageId },
+        { char: '^', messageId },
+        { char: '#', messageId },
+        { char: '%', messageId },
+      ],
+      options: [{ allowStatic: true }],
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description: 'it should fail if "host" metadata property is shorthand',
+      annotatedSource: `
+        @Component({
+          host,
+          ~~~~
+          selector: 'app-test'
+        })
+        class Test {}
+      `,
+      messageId,
+      options: [{ allowStatic: true }],
     }),
   ],
 });

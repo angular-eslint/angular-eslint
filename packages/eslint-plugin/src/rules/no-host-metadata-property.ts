@@ -3,13 +3,16 @@ import { createESLintRule } from '../utils/create-eslint-rule';
 import { COMPONENT_OR_DIRECTIVE_CLASS_DECORATOR } from '../utils/selectors';
 import {
   AngularInnerClassDecorators,
-  getDecoratorPropertyValue,
+  isIdentifier,
+  isLiteral,
+  isObjectExpression,
+  isProperty,
 } from '../utils/utils';
 
-type Options = [];
+type Options = [{ readonly allowStatic?: boolean }];
 export type MessageIds = 'noHostMetadataProperty';
 export const RULE_NAME = 'no-host-metadata-property';
-
+const DEFAULT_OPTIONS: Options[0] = { allowStatic: false };
 const METADATA_PROPERTY_NAME = 'host';
 const STYLE_GUIDE_LINK = 'https://angular.io/styleguide#style-06-03';
 
@@ -18,32 +21,79 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description: `Disallows usage of the \`${METADATA_PROPERTY_NAME}\` metadata property. See more at ${STYLE_GUIDE_LINK}.`,
+      description: `Disallows usage of the \`${METADATA_PROPERTY_NAME}\` metadata property. See more at ${STYLE_GUIDE_LINK}`,
       category: 'Best Practices',
       recommended: 'error',
     },
-    schema: [],
+    schema: [
+      {
+        type: 'object',
+        properties: {
+          allowStatic: {
+            type: 'boolean',
+            default: DEFAULT_OPTIONS.allowStatic,
+          },
+        },
+        additionalProperties: false,
+      },
+    ],
     messages: {
       noHostMetadataProperty: `Use @${AngularInnerClassDecorators.HostBinding} or @${AngularInnerClassDecorators.HostListener} rather than the \`${METADATA_PROPERTY_NAME}\` metadata property (${STYLE_GUIDE_LINK})`,
     },
   },
-  defaultOptions: [],
-  create(context) {
+  defaultOptions: [DEFAULT_OPTIONS],
+  create(context, [{ allowStatic }]) {
     return {
-      [COMPONENT_OR_DIRECTIVE_CLASS_DECORATOR](node: TSESTree.Decorator) {
-        const propertyExpression = getDecoratorPropertyValue(
-          node,
-          METADATA_PROPERTY_NAME,
-        );
-        if (!propertyExpression) {
-          return;
-        }
+      [`${COMPONENT_OR_DIRECTIVE_CLASS_DECORATOR} Property[key.name="${METADATA_PROPERTY_NAME}"]`](
+        node: TSESTree.Property,
+      ) {
+        const properties =
+          allowStatic && isObjectExpression(node.value)
+            ? node.value.properties.filter(isDynamic)
+            : [node];
 
-        context.report({
-          node: propertyExpression.parent as TSESTree.Property,
-          messageId: 'noHostMetadataProperty',
+        properties.forEach((property) => {
+          context.report({
+            node: property,
+            messageId: 'noHostMetadataProperty',
+          });
         });
       },
     };
   },
 });
+
+function startsWithLetter({ [0]: firstLetter }: string) {
+  return firstLetter.toLowerCase() !== firstLetter.toUpperCase();
+}
+
+function isEmptyStringValue(
+  property: TSESTree.Property,
+): property is TSESTree.Property & {
+  value: TSESTree.Literal & { value: '' };
+} {
+  return isLiteral(property.value) && property.value.value === '';
+}
+
+function isStatic(
+  property: TSESTree.Property,
+): property is TSESTree.Property & {
+  computed: false;
+  key: (TSESTree.Identifier | TSESTree.Literal) & { value: string };
+} {
+  return (
+    !property.computed &&
+    (isIdentifier(property.key) ||
+      (isLiteral(property.key) &&
+        typeof property.key.value === 'string' &&
+        startsWithLetter(property.key.value)))
+  );
+}
+
+function isDynamic(
+  property: TSESTree.ObjectLiteralElement,
+): property is TSESTree.Property {
+  return (
+    isProperty(property) && !isStatic(property) && !isEmptyStringValue(property)
+  );
+}
