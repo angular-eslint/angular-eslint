@@ -106,7 +106,6 @@ describe('library', () => {
               \\"project\\": [
                 \\"projects/bar/tsconfig.app.json\\",
                 \\"projects/bar/tsconfig.spec.json\\",
-                \\"projects/bar/e2e/tsconfig.json\\"
               ],
               \\"createDefaultProgram\\": true
             },
