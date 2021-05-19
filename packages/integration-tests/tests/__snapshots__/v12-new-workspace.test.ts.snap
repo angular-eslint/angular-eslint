@@ -44,7 +44,6 @@ Object {
         "createDefaultProgram": true,
         "project": Array [
           "tsconfig.json",
-          "e2e/tsconfig.json",
         ],
       },
       "rules": Object {
