@@ -189,6 +189,7 @@ export function visitNotIgnoredFiles(
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       ig.add(host.read('.gitignore')!.toString());
     }
+
     function visit(_dir: Path) {
       if (_dir && ig?.ignores(_dir)) {
         return;
@@ -261,11 +262,6 @@ export function createRootESLintConfig(
     codeRules = {};
   }
 
-  const project = ['tsconfig.json'];
-  if (hasE2e) {
-    project.push('e2e/tsconfig.json');
-  }
-
   return {
     root: true,
     ignorePatterns: ['projects/**/*'],
@@ -273,7 +269,9 @@ export function createRootESLintConfig(
       {
         files: ['*.ts'],
         parserOptions: {
-          project: project,
+          project: hasE2e
+            ? ['tsconfig.json', 'e2e/tsconfig.json']
+            : ['tsconfig.json'],
           createDefaultProgram: true,
         },
         extends: [
