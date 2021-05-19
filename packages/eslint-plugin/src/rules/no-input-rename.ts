@@ -12,7 +12,7 @@ import {
 
 type Options = [
   {
-    allowedRenames: string[];
+    readonly allowedNames?: readonly string[];
   },
 ];
 export type MessageIds = 'noInputRename';
@@ -72,12 +72,13 @@ export default createESLintRule<Options, MessageIds>({
       {
         type: 'object',
         properties: {
-          allowedRenames: {
+          allowedNames: {
             type: 'array',
             items: {
               type: 'string',
             },
-            description: 'A whitelist of allowed input renames',
+            description: 'A list with allowed input names',
+            uniqueItems: true,
           },
         },
         additionalProperties: false,
@@ -89,10 +90,10 @@ export default createESLintRule<Options, MessageIds>({
   },
   defaultOptions: [
     {
-      allowedRenames: [],
+      allowedNames: [],
     },
   ],
-  create(context, [{ allowedRenames }]) {
+  create(context, [{ allowedNames = [] }]) {
     return {
       ':matches(ClassProperty, MethodDefinition[kind="set"]) > Decorator[expression.callee.name="Input"]'(
         node: TSESTree.Decorator,
@@ -116,7 +117,7 @@ export default createESLintRule<Options, MessageIds>({
           propertyName: string,
         ): boolean => {
           return (
-            allowedRenames.indexOf(propertyAlias) !== -1 ||
+            allowedNames.includes(propertyAlias) ||
             (propertyAlias !== propertyName &&
               directiveSelectors &&
               directiveSelectors.some((x) =>

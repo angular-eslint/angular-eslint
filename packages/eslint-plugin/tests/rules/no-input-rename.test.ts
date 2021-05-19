@@ -129,7 +129,7 @@ ruleTester.run(RULE_NAME, rule, {
       `,
       options: [
         {
-          allowedRenames: ['allowedName'],
+          allowedNames: ['allowedName'],
         },
       ],
     },
@@ -295,7 +295,7 @@ ruleTester.run(RULE_NAME, rule, {
       messageId,
       options: [
         {
-          allowedRenames: ['allowedName'],
+          allowedNames: ['allowedName'],
         },
       ],
     }),
