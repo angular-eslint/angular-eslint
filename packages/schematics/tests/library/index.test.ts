@@ -105,7 +105,7 @@ describe('library', () => {
             \\"parserOptions\\": {
               \\"project\\": [
                 \\"projects/bar/tsconfig.app.json\\",
-                \\"projects/bar/tsconfig.spec.json\\",
+                \\"projects/bar/tsconfig.spec.json\\"
               ],
               \\"createDefaultProgram\\": true
             },

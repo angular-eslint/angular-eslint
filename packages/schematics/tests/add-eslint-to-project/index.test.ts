@@ -12,6 +12,7 @@ const schematicRunner = new SchematicTestRunner(
 );
 
 const rootProjectName = 'root-project';
+const legacyProjectName = 'legacy-project';
 const otherProjectName = 'other-project';
 
 describe('add-eslint-to-project', () => {
@@ -39,6 +40,20 @@ describe('add-eslint-to-project', () => {
               'extract-i18n': {},
               test: {},
               lint: {},
+            },
+          },
+          [legacyProjectName]: {
+            projectType: 'application',
+            schematics: {},
+            root: `projects/${legacyProjectName}`,
+            sourceRoot: `projects/${legacyProjectName}/src`,
+            prefix: 'app',
+            architect: {
+              build: {},
+              serve: {},
+              'extract-i18n': {},
+              test: {},
+              lint: {},
               e2e: {},
             },
           },
@@ -54,7 +69,6 @@ describe('add-eslint-to-project', () => {
               'extract-i18n': {},
               test: {},
               lint: {},
-              e2e: {},
             },
           },
         },
@@ -104,7 +118,6 @@ describe('add-eslint-to-project', () => {
               "createDefaultProgram": true,
               "project": Array [
                 "tsconfig.json",
-                "e2e/tsconfig.json",
               ],
             },
             "rules": Object {
@@ -141,9 +154,9 @@ describe('add-eslint-to-project', () => {
     `);
   });
 
-  it('should add ESLint to the any other Angular CLI projects which are generated after the workspace is', async () => {
+  it('should add ESLint to the legacy Angular CLI projects which are generated with e2e after the workspace is', async () => {
     const options = {
-      project: otherProjectName,
+      project: legacyProjectName,
     };
 
     await schematicRunner
@@ -151,7 +164,7 @@ describe('add-eslint-to-project', () => {
       .toPromise();
 
     const projectConfig = readJsonInTree(appTree, 'angular.json').projects[
-      otherProjectName
+      legacyProjectName
     ];
 
     expect(projectConfig.architect.lint).toMatchInlineSnapshot(`
@@ -159,8 +172,8 @@ describe('add-eslint-to-project', () => {
         "builder": "@angular-eslint/builder:lint",
         "options": Object {
           "lintFilePatterns": Array [
-            "projects/other-project/**/*.ts",
-            "projects/other-project/**/*.html",
+            "projects/legacy-project/**/*.ts",
+            "projects/legacy-project/**/*.html",
           ],
         },
       }
@@ -181,9 +194,9 @@ describe('add-eslint-to-project', () => {
             "parserOptions": Object {
               "createDefaultProgram": true,
               "project": Array [
-                "projects/other-project/tsconfig.app.json",
-                "projects/other-project/tsconfig.spec.json",
-                "projects/other-project/e2e/tsconfig.json",
+                "projects/legacy-project/tsconfig.app.json",
+                "projects/legacy-project/tsconfig.spec.json",
+                "projects/legacy-project/e2e/tsconfig.json",
               ],
             },
             "rules": Object {
@@ -212,132 +225,6 @@ describe('add-eslint-to-project', () => {
             "rules": Object {},
           },
         ],
-      }
-    `);
-  });
-});
-
-describe('add-eslint-to-non-e2e-project', () => {
-  let appTree: UnitTestTree;
-
-  beforeEach(() => {
-    appTree = new UnitTestTree(Tree.empty());
-    appTree.create('package.json', JSON.stringify({}));
-    appTree.create(
-      'angular.json',
-      JSON.stringify({
-        $schema: './node_modules/@angular/cli/lib/config/schema.json',
-        version: 1,
-        newProjectRoot: 'projects',
-        projects: {
-          [rootProjectName]: {
-            projectType: 'application',
-            schematics: {},
-            root: '',
-            sourceRoot: 'src',
-            prefix: 'app',
-            architect: {
-              build: {},
-              serve: {},
-              'extract-i18n': {},
-              test: {},
-              lint: {},
-            },
-          },
-          [otherProjectName]: {
-            projectType: 'application',
-            schematics: {},
-            root: `projects/${otherProjectName}`,
-            sourceRoot: `projects/${otherProjectName}/src`,
-            prefix: 'app',
-            architect: {
-              build: {},
-              serve: {},
-              'extract-i18n': {},
-              test: {},
-              lint: {},
-              e2e: {},
-            },
-          },
-        },
-      }),
-    );
-  });
-
-  it('should add ESLint to the standard Angular CLI root project which it generates by default', async () => {
-    const options = {
-      project: rootProjectName,
-    };
-
-    await schematicRunner
-      .runSchematicAsync('add-eslint-to-project', options, appTree)
-      .toPromise();
-
-    expect(
-      readJsonInTree(appTree, 'angular.json').projects[rootProjectName]
-        .architect.lint,
-    ).toMatchInlineSnapshot(`
-      Object {
-        "builder": "@angular-eslint/builder:lint",
-        "options": Object {
-          "lintFilePatterns": Array [
-            "src/**/*.ts",
-            "src/**/*.html",
-          ],
-        },
-      }
-    `);
-
-    expect(readJsonInTree(appTree, '.eslintrc.json')).toMatchInlineSnapshot(`
-      Object {
-        "ignorePatterns": Array [
-          "projects/**/*",
-        ],
-        "overrides": Array [
-          Object {
-            "extends": Array [
-              "plugin:@angular-eslint/recommended",
-              "plugin:@angular-eslint/template/process-inline-templates",
-            ],
-            "files": Array [
-              "*.ts",
-            ],
-            "parserOptions": Object {
-              "createDefaultProgram": true,
-              "project": Array [
-                "tsconfig.json",
-              ],
-            },
-            "rules": Object {
-              "@angular-eslint/component-selector": Array [
-                "error",
-                Object {
-                  "prefix": "app",
-                  "style": "kebab-case",
-                  "type": "element",
-                },
-              ],
-              "@angular-eslint/directive-selector": Array [
-                "error",
-                Object {
-                  "prefix": "app",
-                  "style": "camelCase",
-                  "type": "attribute",
-                },
-              ],
-            },
-          },
-          Object {
-            "extends": Array [
-              "plugin:@angular-eslint/template/recommended",
-            ],
-            "files": Array [
-              "*.html",
-            ],
-            "rules": Object {},
-          },
-        ],
-        "root": true,
       }
     `);
   });
