@@ -108,7 +108,6 @@ Object {
         "project": Array [
           "projects/another-app/tsconfig.app.json",
           "projects/another-app/tsconfig.spec.json",
-          "projects/another-app/e2e/tsconfig.json",
         ],
       },
       "rules": Object {
