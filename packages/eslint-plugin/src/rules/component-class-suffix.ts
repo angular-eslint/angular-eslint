@@ -1,7 +1,7 @@
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import { COMPONENT_CLASS_DECORATOR } from '../utils/selectors';
-import { getClassName } from '../utils/utils';
+import { getClassName, toHumanReadableText } from '../utils/utils';
 
 type Options = [
   {
@@ -10,7 +10,6 @@ type Options = [
 ];
 export type MessageIds = 'componentClassSuffix';
 export const RULE_NAME = 'component-class-suffix';
-
 const STYLE_GUIDE_LINK = 'https://angular.io/styleguide#style-02-03';
 
 export default createESLintRule<Options, MessageIds>({
@@ -37,7 +36,7 @@ export default createESLintRule<Options, MessageIds>({
       },
     ],
     messages: {
-      componentClassSuffix: `The name of the class {{className}} should end with the suffix {{suffixes}} (${STYLE_GUIDE_LINK})`,
+      componentClassSuffix: `@Components should be suffixed by {{suffixes}} (${STYLE_GUIDE_LINK})`,
     },
   },
   defaultOptions: [
@@ -45,9 +44,7 @@ export default createESLintRule<Options, MessageIds>({
       suffixes: ['Component'],
     },
   ],
-  create(context, [options]) {
-    const { suffixes } = options;
-
+  create(context, [{ suffixes }]) {
     return {
       [COMPONENT_CLASS_DECORATOR](node: TSESTree.Decorator) {
         const classParent = node.parent as TSESTree.ClassDeclaration;
@@ -60,10 +57,7 @@ export default createESLintRule<Options, MessageIds>({
           context.report({
             node: classParent.id ? classParent.id : classParent,
             messageId: 'componentClassSuffix',
-            data: {
-              className,
-              suffixes,
-            },
+            data: { suffixes: toHumanReadableText(suffixes) },
           });
         }
       },
