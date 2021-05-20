@@ -148,6 +148,7 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
+      data: { classDecoratorName: 'Component' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -160,6 +161,7 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
+      data: { classDecoratorName: 'Directive' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -167,11 +169,12 @@ ruleTester.run(RULE_NAME, rule, {
       annotatedSource: `
         @Injectable()
         class Test {
-            ngAfterContentChecked() { console.log('AfterContentChecked'); }
-            ~~~~~~~~~~~~~~~~~~~~~
+          ngAfterContentChecked() { console.log('AfterContentChecked'); }
+          ~~~~~~~~~~~~~~~~~~~~~
         }
       `,
       messageId,
+      data: { classDecoratorName: 'Injectable' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -184,6 +187,7 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
+      data: { classDecoratorName: 'Injectable' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -196,6 +200,7 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
+      data: { classDecoratorName: 'Injectable' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -208,6 +213,7 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
+      data: { classDecoratorName: 'Injectable' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -220,6 +226,7 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
+      data: { classDecoratorName: 'Injectable' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -232,6 +239,7 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
+      data: { classDecoratorName: 'Injectable' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -244,6 +252,7 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
+      data: { classDecoratorName: 'Injectable' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -256,6 +265,7 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
+      data: { classDecoratorName: 'NgModule' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -268,6 +278,7 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
+      data: { classDecoratorName: 'NgModule' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -280,6 +291,7 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
+      data: { classDecoratorName: 'NgModule' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -292,6 +304,7 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
+      data: { classDecoratorName: 'NgModule' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -304,6 +317,7 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
+      data: { classDecoratorName: 'NgModule' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -316,6 +330,7 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
+      data: { classDecoratorName: 'NgModule' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -328,6 +343,7 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
+      data: { classDecoratorName: 'NgModule' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -340,6 +356,7 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
+      data: { classDecoratorName: 'NgModule' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -352,6 +369,7 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
+      data: { classDecoratorName: 'Pipe' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -364,6 +382,7 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
+      data: { classDecoratorName: 'Pipe' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -376,6 +395,7 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
+      data: { classDecoratorName: 'Pipe' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -388,6 +408,7 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
+      data: { classDecoratorName: 'Pipe' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -400,6 +421,7 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
+      data: { classDecoratorName: 'Pipe' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -412,6 +434,7 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
+      data: { classDecoratorName: 'Pipe' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -424,6 +447,7 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
+      data: { classDecoratorName: 'Pipe' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -436,6 +460,7 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
+      data: { classDecoratorName: 'Pipe' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -457,6 +482,7 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
+      data: { classDecoratorName: 'Pipe' },
     }),
   ],
 });
