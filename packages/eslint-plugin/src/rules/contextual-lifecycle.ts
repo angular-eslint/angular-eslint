@@ -8,15 +8,15 @@ import {
   PIPE_CLASS_DECORATOR,
 } from '../utils/selectors';
 import {
-  ANGULAR_CLASS_DECORATOR_LIFECYCLE_METHOD_MAPPER,
   AngularClassDecorators,
+  ANGULAR_CLASS_DECORATOR_LIFECYCLE_METHOD_MAPPER,
   getDeclaredMethods,
   getMethodName,
   isAngularLifecycleMethod,
 } from '../utils/utils';
 
 type Options = [];
-export type MessageIds = 'contextuaLifecycle';
+export type MessageIds = 'contextualLifecycle';
 export const RULE_NAME = 'contextual-lifecycle';
 
 export default createESLintRule<Options, MessageIds>({
@@ -31,7 +31,7 @@ export default createESLintRule<Options, MessageIds>({
     },
     schema: [],
     messages: {
-      contextuaLifecycle: `This lifecycle method is not called for {{decorator}}`,
+      contextualLifecycle: `This lifecycle method is not called for {{decorator}}`,
     },
   },
   defaultOptions: [],
@@ -58,7 +58,7 @@ export default createESLintRule<Options, MessageIds>({
 
         context.report({
           node: method.key,
-          messageId: 'contextuaLifecycle',
+          messageId: 'contextualLifecycle',
           data: { decorator },
         });
       }

@@ -12,8 +12,7 @@ import rule, { RULE_NAME } from '../../src/rules/contextual-lifecycle';
 const ruleTester = new RuleTester({
   parser: '@typescript-eslint/parser',
 });
-
-const messageId: MessageIds = 'contextuaLifecycle';
+const messageId: MessageIds = 'contextualLifecycle';
 
 ruleTester.run(RULE_NAME, rule, {
   valid: [
