@@ -427,9 +427,6 @@ export function determineTargetProjectHasE2E(
   angularJSON: any,
   projectName: string,
 ): boolean {
-  if (angularJSON.projects?.[projectName]) {
-    const { architect } = angularJSON.projects[projectName];
-    return Object.prototype.hasOwnProperty.call(architect, 'e2e');
-  }
-  return false;
+  const { architect } = angularJSON.projects[projectName];
+  return Object.prototype.hasOwnProperty.call(architect, 'e2e');
 }
