@@ -12,7 +12,6 @@ import rule, { RULE_NAME } from '../../src/rules/use-component-selector';
 const ruleTester = new RuleTester({
   parser: '@typescript-eslint/parser',
 });
-
 const messageId: MessageIds = 'useComponentSelector';
 
 ruleTester.run(RULE_NAME, rule, {
@@ -33,9 +32,6 @@ ruleTester.run(RULE_NAME, rule, {
         class Test {}
       `,
       messageId,
-      data: {
-        className: 'Test',
-      },
     }),
     convertAnnotatedSourceToFailureCase({
       description: 'it should fail when selector is not given in @Component',
@@ -45,9 +41,6 @@ ruleTester.run(RULE_NAME, rule, {
         class Test {}
       `,
       messageId,
-      data: {
-        className: 'Test',
-      },
     }),
     convertAnnotatedSourceToFailureCase({
       description: 'it should fail when selector is empty in @Component',
@@ -60,9 +53,6 @@ ruleTester.run(RULE_NAME, rule, {
         class Test {}
       `,
       messageId,
-      data: {
-        className: 'Test',
-      },
     }),
     convertAnnotatedSourceToFailureCase({
       description: 'it should fail when selector equals 0 in @Component',
@@ -75,9 +65,6 @@ ruleTester.run(RULE_NAME, rule, {
         class Test {}
       `,
       messageId,
-      data: {
-        className: 'Test',
-      },
     }),
     convertAnnotatedSourceToFailureCase({
       description: 'it should fail when selector equals null in @Component',
@@ -90,9 +77,6 @@ ruleTester.run(RULE_NAME, rule, {
         class Test {}
       `,
       messageId,
-      data: {
-        className: 'Test',
-      },
     }),
   ],
 });
