@@ -12,7 +12,6 @@ import rule, { RULE_NAME } from '../../src/rules/no-duplicate-attributes';
 const ruleTester = new RuleTester({
   parser: '@angular-eslint/template-parser',
 });
-
 const messageId: MessageIds = 'noDuplicateAttributes';
 
 ruleTester.run(RULE_NAME, rule, {
@@ -37,8 +36,8 @@ ruleTester.run(RULE_NAME, rule, {
                ~~~~~~~~~~~~ ^^^^^^^^^^^^
       `,
       messages: [
-        { char: '~', messageId },
-        { char: '^', messageId },
+        { char: '~', messageId, data: { attributeName: 'name' } },
+        { char: '^', messageId, data: { attributeName: 'name' } },
       ],
     }),
     convertAnnotatedSourceToFailureCase({
@@ -49,8 +48,8 @@ ruleTester.run(RULE_NAME, rule, {
                ~~~~~~~~~~~~ ^^^^^^^^^^
       `,
       messages: [
-        { char: '~', messageId },
-        { char: '^', messageId },
+        { char: '~', messageId, data: { attributeName: 'name' } },
+        { char: '^', messageId, data: { attributeName: 'name' } },
       ],
     }),
     convertAnnotatedSourceToFailureCase({
@@ -60,8 +59,8 @@ ruleTester.run(RULE_NAME, rule, {
                ~~~~~~~~~~ ^^^^^^^^^^
       `,
       messages: [
-        { char: '~', messageId },
-        { char: '^', messageId },
+        { char: '~', messageId, data: { attributeName: 'name' } },
+        { char: '^', messageId, data: { attributeName: 'name' } },
       ],
     }),
     convertAnnotatedSourceToFailureCase({
@@ -71,8 +70,8 @@ ruleTester.run(RULE_NAME, rule, {
                ~~~~~~~~~~~~~~~~~~~~~~ ^^^^^^^^^^^^^^^^^^^^^^
       `,
       messages: [
-        { char: '~', messageId },
-        { char: '^', messageId },
+        { char: '~', messageId, data: { attributeName: 'change' } },
+        { char: '^', messageId, data: { attributeName: 'change' } },
       ],
     }),
     convertAnnotatedSourceToFailureCase({
@@ -82,8 +81,8 @@ ruleTester.run(RULE_NAME, rule, {
                ~~~~~~~~~~~~~~~~~~~ ^^^^^^^^^^^^^^^^^^^^^^^^
       `,
       messages: [
-        { char: '~', messageId },
-        { char: '^', messageId },
+        { char: '~', messageId, data: { attributeName: 'ngModel' } },
+        { char: '^', messageId, data: { attributeName: 'ngModel' } },
       ],
     }),
     convertAnnotatedSourceToFailureCase({
@@ -94,8 +93,8 @@ ruleTester.run(RULE_NAME, rule, {
                ~~~~~~~~~~~~               ^^^^^^^^^^^^
       `,
       messages: [
-        { char: '~', messageId },
-        { char: '^', messageId },
+        { char: '~', messageId, data: { attributeName: 'name' } },
+        { char: '^', messageId, data: { attributeName: 'name' } },
       ],
     }),
     convertAnnotatedSourceToFailureCase({
@@ -105,9 +104,9 @@ ruleTester.run(RULE_NAME, rule, {
                ~~~~~~~~~~~~ ^^^^^^^^^^^^ ############
       `,
       messages: [
-        { char: '~', messageId },
-        { char: '^', messageId },
-        { char: '#', messageId },
+        { char: '~', messageId, data: { attributeName: 'name' } },
+        { char: '^', messageId, data: { attributeName: 'name' } },
+        { char: '#', messageId, data: { attributeName: 'name' } },
       ],
     }),
     convertAnnotatedSourceToFailureCase({
@@ -117,10 +116,10 @@ ruleTester.run(RULE_NAME, rule, {
                ~~~~~~~~~~~~~~~~~~~ ^^^^^^^^^^^^ ######################## %%%%%%%%%%
       `,
       messages: [
-        { char: '~', messageId },
-        { char: '^', messageId },
-        { char: '#', messageId },
-        { char: '%', messageId },
+        { char: '~', messageId, data: { attributeName: 'ngModel' } },
+        { char: '^', messageId, data: { attributeName: 'name' } },
+        { char: '#', messageId, data: { attributeName: 'ngModel' } },
+        { char: '%', messageId, data: { attributeName: 'name' } },
       ],
     }),
     convertAnnotatedSourceToFailureCase({
@@ -130,8 +129,8 @@ ruleTester.run(RULE_NAME, rule, {
                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
       `,
       messages: [
-        { char: '~', messageId },
-        { char: '^', messageId },
+        { char: '~', messageId, data: { attributeName: '@fade.start' } },
+        { char: '^', messageId, data: { attributeName: '@fade.start' } },
       ],
     }),
     convertAnnotatedSourceToFailureCase({
@@ -141,8 +140,8 @@ ruleTester.run(RULE_NAME, rule, {
                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
       `,
       messages: [
-        { char: '~', messageId },
-        { char: '^', messageId },
+        { char: '~', messageId, data: { attributeName: 'window:resize' } },
+        { char: '^', messageId, data: { attributeName: 'window:resize' } },
       ],
     }),
     convertAnnotatedSourceToFailureCase({
@@ -153,8 +152,8 @@ ruleTester.run(RULE_NAME, rule, {
       `,
       options: [{ allowTwoWayDataBinding: false }],
       messages: [
-        { char: '~', messageId },
-        { char: '^', messageId },
+        { char: '~', messageId, data: { attributeName: 'ngModelChange' } },
+        { char: '^', messageId, data: { attributeName: 'ngModelChange' } },
       ],
     }),
   ],
