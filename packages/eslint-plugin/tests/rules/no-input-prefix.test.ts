@@ -15,7 +15,6 @@ const ruleTester = new RuleTester({
     sourceType: 'module',
   },
 });
-
 const messageId: MessageIds = 'noInputPrefix';
 
 ruleTester.run(RULE_NAME, rule, {
@@ -28,11 +27,7 @@ ruleTester.run(RULE_NAME, rule, {
           @Input() label: string;
         }
       `,
-      options: [
-        {
-          prefixes: ['is'],
-        },
-      ],
+      options: [{ prefixes: ['is'] }],
     },
     {
       code: `
@@ -42,11 +37,7 @@ ruleTester.run(RULE_NAME, rule, {
           @Input() issueName: string;
         }
       `,
-      options: [
-        {
-          prefixes: ['is'],
-        },
-      ],
+      options: [{ prefixes: ['is'] }],
     },
     {
       code: `
@@ -56,11 +47,7 @@ ruleTester.run(RULE_NAME, rule, {
           @Input() isEnabled: boolean;
         }
       `,
-      options: [
-        {
-          prefixes: ['should'],
-        },
-      ],
+      options: [{ prefixes: ['should'] }],
     },
     {
       code: `
@@ -70,11 +57,7 @@ ruleTester.run(RULE_NAME, rule, {
           @Output() isEnabled: boolean;
         }
       `,
-      options: [
-        {
-          prefixes: ['is'],
-        },
-      ],
+      options: [{ prefixes: ['is'] }],
     },
     // should succeed when an Input decorator is not imported from '@angular/core'
     {
@@ -84,11 +67,7 @@ ruleTester.run(RULE_NAME, rule, {
           @Input() isEnabled: boolean;
         }
       `,
-      options: [
-        {
-          prefixes: ['is'],
-        },
-      ],
+      options: [{ prefixes: ['is'] }],
     },
   ],
   invalid: [
@@ -104,11 +83,8 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
-      options: [
-        {
-          prefixes: ['is', 'should'],
-        },
-      ],
+      options: [{ prefixes: ['is', 'should'] }],
+      data: { prefixes: '"is" or "should"' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -122,11 +98,8 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
-      options: [
-        {
-          prefixes: ['is', 'should'],
-        },
-      ],
+      options: [{ prefixes: ['is', 'should'] }],
+      data: { prefixes: '"is" or "should"' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -140,11 +113,8 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
-      options: [
-        {
-          prefixes: ['is', 'should'],
-        },
-      ],
+      options: [{ prefixes: ['is', 'should'] }],
+      data: { prefixes: '"is" or "should"' },
     }),
   ],
 });

@@ -1,6 +1,10 @@
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
-import { getClassPropertyName, isImportedFrom } from '../utils/utils';
+import {
+  getClassPropertyName,
+  isImportedFrom,
+  toHumanReadableText,
+} from '../utils/utils';
 
 type Options = [
   {
@@ -35,7 +39,7 @@ export default createESLintRule<Options, MessageIds>({
       },
     ],
     messages: {
-      noInputPrefix: `@Inputs should not be prefixed by {{disallowedPrefixes}}`,
+      noInputPrefix: '@Inputs should not be prefixed by {{prefixes}}',
     },
   },
   defaultOptions: [
@@ -43,7 +47,7 @@ export default createESLintRule<Options, MessageIds>({
       prefixes: [],
     },
   ],
-  create(context, [options]) {
+  create(context, [{ prefixes }]) {
     return {
       ':matches(ClassProperty, MethodDefinition[kind="set"]) > Decorator[expression.callee.name="Input"]'(
         node: TSESTree.Decorator,
@@ -61,10 +65,7 @@ export default createESLintRule<Options, MessageIds>({
 
         const property = node.parent as TSESTree.ClassProperty;
         const memberName = getClassPropertyName(property);
-
-        const disallowedPrefixes = options.prefixes;
-
-        const isDisallowedPrefix = disallowedPrefixes.some(
+        const isDisallowedPrefix = prefixes.some(
           (x) => x === memberName || new RegExp(`^${x}[^a-z]`).test(memberName),
         );
 
@@ -76,7 +77,7 @@ export default createESLintRule<Options, MessageIds>({
           node: property,
           messageId: 'noInputPrefix',
           data: {
-            disallowedPrefixes: disallowedPrefixes.join(', '),
+            prefixes: toHumanReadableText(prefixes),
           },
         });
       },
