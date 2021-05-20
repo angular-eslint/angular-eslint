@@ -39,7 +39,7 @@ export default createESLintRule<Options, MessageIds>({
       },
     ],
     messages: {
-      directiveClassSuffix: `The name of the class {{className}} should end with suffix(es) {{suffixes}} (${STYLE_GUIDE_LINK})`,
+      directiveClassSuffix: `@Directives should be suffixed by {{suffixes}} (${STYLE_GUIDE_LINK})`,
     },
   },
   defaultOptions: [{ suffixes: DEFAULT_SUFFIXES }],
@@ -70,10 +70,7 @@ export default createESLintRule<Options, MessageIds>({
           context.report({
             node: classParent.id ?? classParent,
             messageId: 'directiveClassSuffix',
-            data: {
-              className,
-              suffixes: toHumanReadableText(allSuffixes),
-            },
+            data: { suffixes: toHumanReadableText(allSuffixes) },
           });
         }
       },
