@@ -1,8 +1,7 @@
 import type {
-  TmplAstTextAttribute,
   TmplAstBoundAttribute,
+  TmplAstTextAttribute,
 } from '@angular/compiler';
-
 import {
   createESLintRule,
   getTemplateParserServices,
@@ -17,10 +16,11 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description: `Ensure that autofocus attribute is not used`,
+      description: 'Ensures that autofocus attribute is not used',
       category: 'Best Practices',
       recommended: false,
     },
+    fixable: 'code',
     schema: [],
     messages: {
       noAutofocus:
@@ -40,6 +40,11 @@ export default createESLintRule<Options, MessageIds>({
         context.report({
           loc,
           messageId: 'noAutofocus',
+          fix: (fixer) =>
+            fixer.removeRange([
+              node.sourceSpan.start.col,
+              node.sourceSpan.end.col + 1,
+            ]),
         });
       },
     };
