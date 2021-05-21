@@ -153,20 +153,24 @@ describe('Linter Builder', () => {
         ignorePath: null,
       }),
     );
-    expect(lint).toHaveBeenCalledWith('/root', resolve('/root/.eslintrc'), {
-      lintFilePatterns: [],
-      eslintConfig: './.eslintrc',
-      exclude: ['excludedFile1'],
-      fix: true,
-      quiet: false,
-      cache: true,
-      cacheLocation: 'cacheLocation1',
-      format: 'stylish',
-      force: false,
-      silent: false,
-      maxWarnings: -1,
-      ignorePath: null,
-    });
+    expect(lint).toHaveBeenCalledWith(
+      resolve('/root'),
+      resolve('/root/.eslintrc'),
+      {
+        lintFilePatterns: [],
+        eslintConfig: './.eslintrc',
+        exclude: ['excludedFile1'],
+        fix: true,
+        quiet: false,
+        cache: true,
+        cacheLocation: 'cacheLocation1',
+        format: 'stylish',
+        force: false,
+        silent: false,
+        maxWarnings: -1,
+        ignorePath: null,
+      },
+    );
   });
 
   it('should throw if no reports generated', async () => {
