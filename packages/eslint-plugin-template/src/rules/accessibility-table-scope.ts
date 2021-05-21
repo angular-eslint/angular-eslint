@@ -20,6 +20,7 @@ export default createESLintRule<Options, MessageIds>({
       category: 'Best Practices',
       recommended: false,
     },
+    fixable: 'code',
     schema: [],
     messages: {
       accessibilityTableScope: 'Scope attribute can only be on <th> element',
@@ -38,6 +39,11 @@ export default createESLintRule<Options, MessageIds>({
         context.report({
           loc,
           messageId: 'accessibilityTableScope',
+          fix: (fixer) =>
+            fixer.removeRange([
+              sourceSpan.start.offset - 1,
+              sourceSpan.end.offset,
+            ]),
         });
       },
     };
