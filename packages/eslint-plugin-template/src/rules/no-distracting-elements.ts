@@ -17,6 +17,7 @@ export default createESLintRule<Options, MessageIds>({
       category: 'Best Practices',
       recommended: false,
     },
+    fixable: 'code',
     schema: [],
     messages: {
       noDistractingElements:
@@ -38,6 +39,8 @@ export default createESLintRule<Options, MessageIds>({
           loc,
           messageId: 'noDistractingElements',
           data: { element },
+          fix: (fixer) =>
+            fixer.removeRange([sourceSpan.start.offset, sourceSpan.end.offset]),
         });
       },
     };
