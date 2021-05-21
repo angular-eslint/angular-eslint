@@ -12,7 +12,6 @@ import rule, { RULE_NAME } from '../../src/rules/no-distracting-elements';
 const ruleTester = new RuleTester({
   parser: '@angular-eslint/template-parser',
 });
-
 const messageId: MessageIds = 'noDistractingElements';
 
 ruleTester.run(RULE_NAME, rule, {
@@ -20,18 +19,26 @@ ruleTester.run(RULE_NAME, rule, {
   invalid: [
     convertAnnotatedSourceToFailureCase({
       messageId,
-      description: 'should fail when distracting element marquee is used',
+      description: 'should fail if `marquee` is used',
       annotatedSource: `
-        <marquee></marquee>
+        <marquee></marquee>{{ test }}
         ~~~~~~~~~~~~~~~~~~~
+      `,
+      annotatedOutput: `
+        {{ test }}
+        
       `,
     }),
     convertAnnotatedSourceToFailureCase({
       messageId,
-      description: 'should fail when distracting element blink is used',
+      description: 'should fail if `blink` is used',
       annotatedSource: `
-        <blink></blink>
-        ~~~~~~~~~~~~~~~
+        <div></div><blink></blink>
+                   ~~~~~~~~~~~~~~~
+      `,
+      annotatedOutput: `
+        <div></div>
+                   
       `,
     }),
   ],
