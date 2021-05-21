@@ -12,7 +12,6 @@ import rule, { RULE_NAME } from '../../src/rules/no-autofocus';
 const ruleTester = new RuleTester({
   parser: '@angular-eslint/template-parser',
 });
-
 const messageId: MessageIds = 'noAutofocus';
 
 ruleTester.run(RULE_NAME, rule, {
@@ -25,12 +24,20 @@ ruleTester.run(RULE_NAME, rule, {
         <textarea autofocus></textarea>
                   ~~~~~~~~~
       `,
+      annotatedOutput: `
+        <textarea></textarea>
+                  ~~~~~~~~~
+      `,
     }),
     convertAnnotatedSourceToFailureCase({
       messageId,
       description: 'should fail when autofocus attribute binding supplied',
       annotatedSource: `
         <div [attr.autofocus]="false">Autofocus</div>
+             ~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+      annotatedOutput: `
+        <div>Autofocus</div>
              ~~~~~~~~~~~~~~~~~~~~~~~~
       `,
     }),

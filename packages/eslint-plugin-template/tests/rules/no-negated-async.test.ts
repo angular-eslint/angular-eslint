@@ -13,6 +13,9 @@ const ruleTester = new RuleTester({
   parser: '@angular-eslint/template-parser',
 });
 const messageId: MessageIds = 'noNegatedAsync';
+const suggestFalseComparison: MessageIds = 'suggestFalseComparison';
+const suggestNullComparison: MessageIds = 'suggestNullComparison';
+const suggestUndefinedComparison: MessageIds = 'suggestUndefinedComparison';
 
 ruleTester.run(RULE_NAME, rule, {
   valid: [
@@ -41,6 +44,29 @@ ruleTester.run(RULE_NAME, rule, {
                 ~~~~~~~~~~~~~~
       `,
       messageId,
+      suggestions: [
+        {
+          messageId: suggestFalseComparison,
+          output: `
+        {{      (foo | async) === false }}
+                
+      `,
+        },
+        {
+          messageId: suggestNullComparison,
+          output: `
+        {{      (foo | async) === null }}
+                
+      `,
+        },
+        {
+          messageId: suggestUndefinedComparison,
+          output: `
+        {{      (foo | async) === undefined }}
+                
+      `,
+        },
+      ],
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -50,6 +76,29 @@ ruleTester.run(RULE_NAME, rule, {
            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       `,
       messageId,
+      suggestions: [
+        {
+          messageId: suggestFalseComparison,
+          output: `
+        {{ (foo | somethingElse | async) === false }}
+           
+      `,
+        },
+        {
+          messageId: suggestNullComparison,
+          output: `
+        {{ (foo | somethingElse | async) === null }}
+           
+      `,
+        },
+        {
+          messageId: suggestUndefinedComparison,
+          output: `
+        {{ (foo | somethingElse | async) === undefined }}
+           
+      `,
+        },
+      ],
     }),
     convertAnnotatedSourceToFailureCase({
       description: 'it should fail if async pipe is negated using *ngIf',
@@ -58,6 +107,29 @@ ruleTester.run(RULE_NAME, rule, {
                     ~~~~~~~~~~~~
       `,
       messageId,
+      suggestions: [
+        {
+          messageId: suggestFalseComparison,
+          output: `
+        <div *ngIf="(a | async) === false"></div>
+                    
+      `,
+        },
+        {
+          messageId: suggestNullComparison,
+          output: `
+        <div *ngIf="(a | async) === null"></div>
+                    
+      `,
+        },
+        {
+          messageId: suggestUndefinedComparison,
+          output: `
+        <div *ngIf="(a | async) === undefined"></div>
+                    
+      `,
+        },
+      ],
     }),
     // https://github.com/angular-eslint/angular-eslint/issues/280#issuecomment-760208638
     convertAnnotatedSourceToFailureCase({
@@ -67,6 +139,29 @@ ruleTester.run(RULE_NAME, rule, {
                        ~~~~~~~~~~~~~~~~~
       `,
       messageId,
+      suggestions: [
+        {
+          messageId: suggestFalseComparison,
+          output: `
+        {{ nullable ?? (obsVar | async) === false }}
+                       
+      `,
+        },
+        {
+          messageId: suggestNullComparison,
+          output: `
+        {{ nullable ?? (obsVar | async) === null }}
+                       
+      `,
+        },
+        {
+          messageId: suggestUndefinedComparison,
+          output: `
+        {{ nullable ?? (obsVar | async) === undefined }}
+                       
+      `,
+        },
+      ],
     }),
   ],
 });
