@@ -64,7 +64,7 @@ export default createESLintRule<Options, MessageIds>({
       },
     ],
     messages: {
-      prefixFailure: `The selector should be prefixed by {{prefix}} (${STYLE_GUIDE_PREFIX_LINK})`,
+      prefixFailure: `The selector should start with one of these prefixes: {{prefix}} (${STYLE_GUIDE_PREFIX_LINK})`,
       styleFailure: `The selector should be {{style}} (${STYLE_GUIDE_STYLE_LINK})`,
       typeFailure: `The selector should be used as an {{type}} (${STYLE_GUIDE_TYPE_LINK})`,
     },
