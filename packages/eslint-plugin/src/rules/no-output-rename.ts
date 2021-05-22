@@ -1,17 +1,18 @@
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import {
-  getDecoratorPropertyValue,
-  isIdentifier,
-  isLiteral,
-  isCallExpression,
   AngularClassDecorators,
+  getDecoratorPropertyValue,
+  isCallExpression,
+  isIdentifier,
   isImportedFrom,
+  isLiteral,
 } from '../utils/utils';
 
 type Options = [];
 export type MessageIds = 'noOutputRename';
 export const RULE_NAME = 'no-output-rename';
+const STYLE_GUIDE_LINK = 'https://angular.io/guide/styleguide#style-05-13';
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
@@ -25,7 +26,7 @@ export default createESLintRule<Options, MessageIds>({
     },
     schema: [],
     messages: {
-      noOutputRename: '@Outputs should not be renamed',
+      noOutputRename: `@Outputs should not be aliased (${STYLE_GUIDE_LINK})`,
     },
   },
   defaultOptions: [],

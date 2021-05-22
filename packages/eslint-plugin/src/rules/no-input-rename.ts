@@ -13,6 +13,7 @@ import {
 type Options = [];
 export type MessageIds = 'noInputRename';
 export const RULE_NAME = 'no-input-rename';
+const STYLE_GUIDE_LINK = 'https://angular.io/guide/styleguide#style-05-13';
 
 // source: https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques
 const safelistAliases = new Set<string>([
@@ -66,7 +67,7 @@ export default createESLintRule<Options, MessageIds>({
     },
     schema: [],
     messages: {
-      noInputRename: '@Inputs should not be renamed',
+      noInputRename: `@Inputs should not be aliased (${STYLE_GUIDE_LINK})`,
     },
   },
   defaultOptions: [],

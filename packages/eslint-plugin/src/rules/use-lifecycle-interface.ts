@@ -20,14 +20,13 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description:
-        'Ensures that classes implement lifecycle interfaces corresponding to the declared lifecycle methods',
+      description: `Ensures that classes implement lifecycle interfaces corresponding to the declared lifecycle methods. See more at ${STYLE_GUIDE_LINK}`,
       category: 'Best Practices',
       recommended: 'warn',
     },
     schema: [],
     messages: {
-      useLifecycleInterface: `Lifecycle interface '{{interfaceName}}' should be implemented for method '{{methodName}}'. (${STYLE_GUIDE_LINK})`,
+      useLifecycleInterface: `Lifecycle interface \`{{interfaceName}}\` should be implemented for method \`{{methodName}}\` (${STYLE_GUIDE_LINK})`,
     },
   },
   defaultOptions: [],
