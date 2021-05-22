@@ -15,7 +15,6 @@ const ruleTester = new RuleTester({
     sourceType: 'module',
   },
 });
-
 const messageId: MessageIds = 'noInputRename';
 
 ruleTester.run(RULE_NAME, rule, {

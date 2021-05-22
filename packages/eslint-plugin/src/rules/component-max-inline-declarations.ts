@@ -39,8 +39,7 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description:
-        'Enforces a maximum number of lines in inline template, styles and animations',
+      description: `Enforces a maximum number of lines in inline template, styles and animations. See more at ${STYLE_GUIDE_LINK}`,
       category: 'Best Practices',
       recommended: false,
     },

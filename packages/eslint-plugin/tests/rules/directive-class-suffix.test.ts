@@ -12,7 +12,6 @@ import rule, { RULE_NAME } from '../../src/rules/directive-class-suffix';
 const ruleTester = new RuleTester({
   parser: '@typescript-eslint/parser',
 });
-
 const messageId: MessageIds = 'directiveClassSuffix';
 
 ruleTester.run(RULE_NAME, rule, {
@@ -94,7 +93,7 @@ ruleTester.run(RULE_NAME, rule, {
               ~~~~
       `,
       messageId,
-      data: { className: 'Test', suffixes: ['"Directive"'] },
+      data: { suffixes: '"Directive"' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -107,10 +106,7 @@ ruleTester.run(RULE_NAME, rule, {
               ~~~~~~~~~~~~~~~~~
       `,
       messageId,
-      data: {
-        className: 'TestDirectivePage',
-        suffixes: ['"Directive"', '"Validator"'].join(' or '),
-      },
+      data: { suffixes: '"Directive" or "Validator"' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -123,8 +119,8 @@ ruleTester.run(RULE_NAME, rule, {
               ~~~~~~~~~~~~~~~~~
       `,
       messageId,
-      data: { className: 'TestPageDirective', suffixes: ['"Page"'] },
       options: [{ suffixes: ['Page'] }],
+      data: { suffixes: '"Page"' },
     }),
   ],
 });

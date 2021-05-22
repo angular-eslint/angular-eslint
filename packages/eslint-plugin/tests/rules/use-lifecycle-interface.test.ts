@@ -16,7 +16,6 @@ import {
 const ruleTester = new RuleTester({
   parser: '@typescript-eslint/parser',
 });
-
 const messageId: MessageIds = 'useLifecycleInterface';
 
 ruleTester.run(RULE_NAME, rule, {
@@ -108,9 +107,30 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messages: [
-        { char: '~', messageId },
-        { char: '^', messageId },
-        { char: '#', messageId },
+        {
+          char: '~',
+          messageId,
+          data: {
+            interfaceName: AngularLifecycleInterfaces.DoBootstrap,
+            methodName: AngularLifecycleMethods.ngDoBootstrap,
+          },
+        },
+        {
+          char: '^',
+          messageId,
+          data: {
+            interfaceName: AngularLifecycleInterfaces.OnInit,
+            methodName: AngularLifecycleMethods.ngOnInit,
+          },
+        },
+        {
+          char: '#',
+          messageId,
+          data: {
+            interfaceName: AngularLifecycleInterfaces.OnDestroy,
+            methodName: AngularLifecycleMethods.ngOnDestroy,
+          },
+        },
       ],
     }),
     convertAnnotatedSourceToFailureCase({
