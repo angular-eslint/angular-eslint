@@ -58,18 +58,18 @@ export default createESLintRule<Options, MessageIds>({
               return [current, list[index + 1]];
             })
             .find(([current, next]) => {
-              return next && current.name.localeCompare(next?.name) === 1;
+              return next && current.name.localeCompare(next.name) === 1;
             });
           if (!unorderedNodes) return;
 
-          const [unorderedNode, _nextNode] = unorderedNodes;
+          const [unorderedNode, nextNode] = unorderedNodes;
           context.report({
             messageId: 'sortNgmoduleMetadataArrays',
             node: unorderedNode,
             fix: (fixer) => {
               return [
-                fixer.replaceText(unorderedNode, _nextNode.name),
-                fixer.replaceText(_nextNode, unorderedNode.name),
+                fixer.replaceText(unorderedNode, nextNode.name),
+                fixer.replaceText(nextNode, unorderedNode.name),
               ];
             },
           });
