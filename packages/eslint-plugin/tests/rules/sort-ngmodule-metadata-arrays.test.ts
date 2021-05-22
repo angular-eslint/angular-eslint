@@ -67,6 +67,18 @@ ruleTester.run(RULE_NAME, rule, {
       class Test {}
       `,
       messageId,
+      annotatedOutput: `
+      @NgModule({
+        imports: [
+          aModule,
+          bModule,
+          cModule,
+          ~~~~~~~
+          DModule,
+        ]
+      })
+      class Test {}
+      `,
     }),
     convertAnnotatedSourceToFailureCase({
       description: 'it should fail if declarations array is not sorted ASC',
@@ -83,6 +95,18 @@ ruleTester.run(RULE_NAME, rule, {
       class Test {}
       `,
       messageId,
+      annotatedOutput: `
+      @NgModule({
+        declarations: [
+          AComponent,
+          bDirective,
+          ~~~~~
+          cPipe,
+          DComponent,
+        ],
+      })
+      class Test {}
+      `,
     }),
     convertAnnotatedSourceToFailureCase({
       description: 'it should fail if exports array is not sorted ASC',
@@ -99,6 +123,18 @@ ruleTester.run(RULE_NAME, rule, {
       class Test {}
       `,
       messageId,
+      annotatedOutput: `
+      @NgModule({
+        exports: [
+          AComponent,
+          bDirective,
+          ~~~~~
+          cPipe,
+          DComponent,
+        ],
+      })
+      class Test {}
+      `,
     }),
     convertAnnotatedSourceToFailureCase({
       description: 'it should fail if bootstrap array is not sorted ASC',
@@ -114,6 +150,17 @@ ruleTester.run(RULE_NAME, rule, {
       class Test {}
       `,
       messageId,
+      annotatedOutput: `
+      @NgModule({
+        bootstrap: [
+          AppModule2,
+          AppModule1,
+          ~~~~~~~~~~
+          AppModule3,
+        ]
+      })
+      class Test {}
+      `,
     }),
     convertAnnotatedSourceToFailureCase({
       description: 'it should fail if schemas array is not sorted ASC',
@@ -129,6 +176,17 @@ ruleTester.run(RULE_NAME, rule, {
       class Test {}
       `,
       messageId,
+      annotatedOutput: `
+      @NgModule({
+        schemas: [
+          A_SCHEMA,
+          B_SCHEMA,
+          ~~~~~~~~
+          C_SCHEMA,
+        ]
+      })
+      class Test {}
+      `,
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -150,6 +208,22 @@ ruleTester.run(RULE_NAME, rule, {
       class Test {}
       `,
       messageId,
+      annotatedOutput: `
+      @NgModule({
+        imports: [
+          AProvider,
+          {
+            provide: 'myprovider',
+            useClass: MyProvider,
+          },
+          bProvider,
+          ~~~~~~~~~
+          cProvider,
+          DProvider,
+        ]
+      })
+      class Test {}
+      `,
     }),
   ],
 });
