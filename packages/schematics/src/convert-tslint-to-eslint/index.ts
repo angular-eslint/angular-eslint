@@ -498,7 +498,11 @@ function convertNonRootTSLintConfig(
       {
         files: ['*.ts'],
         parserOptions: {
-          project: setESLintProjectBasedOnProjectType(projectRoot, projectType),
+          project: setESLintProjectBasedOnProjectType(
+            projectRoot,
+            projectType,
+            true,
+          ),
           createDefaultProgram: true,
         },
         extends: convertedExtends || undefined,
