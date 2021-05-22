@@ -34,7 +34,7 @@ export default createESLintRule<Options, MessageIds>({
     ],
     messages: {
       cyclomaticComplexity:
-        'The cyclomatic complexity "{{totalComplexity}}" exceeds the defined limit "{{maxComplexity}}"',
+        'The cyclomatic complexity {{totalComplexity}} exceeds the defined limit {{maxComplexity}}',
     },
   },
   defaultOptions: [{ maxComplexity: 5 }],
