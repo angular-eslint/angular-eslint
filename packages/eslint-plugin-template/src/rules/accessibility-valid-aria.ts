@@ -16,7 +16,8 @@ import {
 type Options = [];
 export type MessageIds =
   | 'accessibilityValidAria'
-  | 'accessibilityValidAriaValue';
+  | 'accessibilityValidAriaValue'
+  | 'suggestRemoveInvalidAria';
 export const RULE_NAME = 'accessibility-valid-aria';
 const ARIA_PATTERN = /^aria-.*/;
 
@@ -29,6 +30,7 @@ export default createESLintRule<Options, MessageIds>({
         'Ensures that correct ARIA attributes and respective values are used',
       category: 'Best Practices',
       recommended: false,
+      suggestion: true,
     },
     schema: [],
     messages: {
@@ -36,6 +38,7 @@ export default createESLintRule<Options, MessageIds>({
         'The `{{attribute}}` is an invalid ARIA attribute',
       accessibilityValidAriaValue:
         'The `{{attribute}}` has an invalid value. Check the valid values at https://raw.githack.com/w3c/aria/stable/#roles',
+      suggestRemoveInvalidAria: 'Remove attribute `{{attribute}}`',
     },
   },
   defaultOptions: [],
@@ -57,6 +60,17 @@ export default createESLintRule<Options, MessageIds>({
             loc,
             messageId: 'accessibilityValidAria',
             data: { attribute },
+            suggest: [
+              {
+                messageId: 'suggestRemoveInvalidAria',
+                data: { attribute },
+                fix: (fixer) =>
+                  fixer.removeRange([
+                    sourceSpan.start.offset - 1,
+                    sourceSpan.end.offset,
+                  ]),
+              },
+            ],
           });
 
           return;
