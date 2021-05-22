@@ -31,8 +31,7 @@ export default createESLintRule<Options, MessageIds>({
     },
     schema: [],
     messages: {
-      contextualLifecycle:
-        'Lifecycle out of context for "@{{classDecoratorName}}()"',
+      contextualLifecycle: `Angular will not invoke the \`{{methodName}}\` lifecycle method within \`@{{classDecoratorName}}()\` classes`,
     },
   },
   defaultOptions: [],
@@ -60,7 +59,7 @@ export default createESLintRule<Options, MessageIds>({
         context.report({
           node: method.key,
           messageId: 'contextualLifecycle',
-          data: { classDecoratorName: decorator },
+          data: { classDecoratorName: decorator, methodName },
         });
       }
     }

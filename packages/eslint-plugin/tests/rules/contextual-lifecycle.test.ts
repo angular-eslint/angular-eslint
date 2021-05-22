@@ -148,7 +148,7 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
-      data: { classDecoratorName: 'Component' },
+      data: { classDecoratorName: 'Component', methodName: 'ngDoBootstrap' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -161,7 +161,7 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
-      data: { classDecoratorName: 'Directive' },
+      data: { classDecoratorName: 'Directive', methodName: 'ngDoBootstrap' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -174,7 +174,10 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
-      data: { classDecoratorName: 'Injectable' },
+      data: {
+        classDecoratorName: 'Injectable',
+        methodName: 'ngAfterContentChecked',
+      },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -187,7 +190,10 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
-      data: { classDecoratorName: 'Injectable' },
+      data: {
+        classDecoratorName: 'Injectable',
+        methodName: 'ngAfterContentInit',
+      },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -200,7 +206,7 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
-      data: { classDecoratorName: 'Injectable' },
+      data: { classDecoratorName: 'Injectable', methodName: 'ngAfterViewInit' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -213,7 +219,7 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
-      data: { classDecoratorName: 'Injectable' },
+      data: { classDecoratorName: 'Injectable', methodName: 'ngDoBootstrap' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -226,7 +232,7 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
-      data: { classDecoratorName: 'Injectable' },
+      data: { classDecoratorName: 'Injectable', methodName: 'ngDoCheck' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -239,7 +245,7 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
-      data: { classDecoratorName: 'Injectable' },
+      data: { classDecoratorName: 'Injectable', methodName: 'ngOnChanges' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -252,7 +258,7 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
-      data: { classDecoratorName: 'Injectable' },
+      data: { classDecoratorName: 'Injectable', methodName: 'ngOnInit' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -265,7 +271,10 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
-      data: { classDecoratorName: 'NgModule' },
+      data: {
+        classDecoratorName: 'NgModule',
+        methodName: 'ngAfterContentChecked',
+      },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -278,7 +287,10 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
-      data: { classDecoratorName: 'NgModule' },
+      data: {
+        classDecoratorName: 'NgModule',
+        methodName: 'ngAfterContentInit',
+      },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -291,7 +303,10 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
-      data: { classDecoratorName: 'NgModule' },
+      data: {
+        classDecoratorName: 'NgModule',
+        methodName: 'ngAfterViewChecked',
+      },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -304,7 +319,7 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
-      data: { classDecoratorName: 'NgModule' },
+      data: { classDecoratorName: 'NgModule', methodName: 'ngAfterViewInit' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -317,7 +332,7 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
-      data: { classDecoratorName: 'NgModule' },
+      data: { classDecoratorName: 'NgModule', methodName: 'ngDoCheck' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -330,7 +345,7 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
-      data: { classDecoratorName: 'NgModule' },
+      data: { classDecoratorName: 'NgModule', methodName: 'ngOnChanges' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -343,7 +358,7 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
-      data: { classDecoratorName: 'NgModule' },
+      data: { classDecoratorName: 'NgModule', methodName: 'ngOnInit' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -356,7 +371,7 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
-      data: { classDecoratorName: 'NgModule' },
+      data: { classDecoratorName: 'NgModule', methodName: 'ngOnDestroy' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -369,7 +384,7 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
-      data: { classDecoratorName: 'Pipe' },
+      data: { classDecoratorName: 'Pipe', methodName: 'ngAfterContentChecked' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -382,7 +397,7 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
-      data: { classDecoratorName: 'Pipe' },
+      data: { classDecoratorName: 'Pipe', methodName: 'ngAfterContentInit' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -395,7 +410,7 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
-      data: { classDecoratorName: 'Pipe' },
+      data: { classDecoratorName: 'Pipe', methodName: 'ngAfterViewChecked' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -408,7 +423,7 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
-      data: { classDecoratorName: 'Pipe' },
+      data: { classDecoratorName: 'Pipe', methodName: 'ngAfterViewInit' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -421,7 +436,7 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
-      data: { classDecoratorName: 'Pipe' },
+      data: { classDecoratorName: 'Pipe', methodName: 'ngDoBootstrap' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -434,7 +449,7 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
-      data: { classDecoratorName: 'Pipe' },
+      data: { classDecoratorName: 'Pipe', methodName: 'ngDoCheck' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -447,7 +462,7 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
-      data: { classDecoratorName: 'Pipe' },
+      data: { classDecoratorName: 'Pipe', methodName: 'ngOnChanges' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -460,7 +475,7 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
-      data: { classDecoratorName: 'Pipe' },
+      data: { classDecoratorName: 'Pipe', methodName: 'ngOnInit' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -473,7 +488,7 @@ ruleTester.run(RULE_NAME, rule, {
           ngDoCheck() {}
           ~~~~~~~~~
         }
-        
+ 
         @Directive()
         class TestDirective implements OnInit {
           ngOnInit() {
@@ -482,7 +497,7 @@ ruleTester.run(RULE_NAME, rule, {
         }
       `,
       messageId,
-      data: { classDecoratorName: 'Pipe' },
+      data: { classDecoratorName: 'Pipe', methodName: 'ngDoCheck' },
     }),
   ],
 });
