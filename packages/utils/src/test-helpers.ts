@@ -20,8 +20,9 @@ interface ExpectedFailure {
 /**
  * FROM CODELYZER
  */
-const escapeRegexp = (value: string): string =>
-  value.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
+function escapeRegexp(value: string) {
+  return value.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
+}
 
 /**
  * FROM CODELYZER
@@ -47,26 +48,23 @@ const escapeRegexp = (value: string): string =>
  * contains the `.startPosition` and `.endPosition` of the tildes.
  *
  * @param source The annotated source code with tildes.
- * @param message Passed to the result's `.failure.message` property.
  * @param specialChar The character to look for; in the above example that's ~.
  * @param otherChars All other characters which should be ignored. Used when asserting multiple
  *                   failures where there are multiple invalid characters.
  * @returns {{source: string, failure: {message: string, startPosition: null, endPosition: any}}}
  */
-export const parseInvalidSource = (
+export function parseInvalidSource(
   source: string,
-  message: string,
   specialChar = '~',
-  otherChars: string[] = [],
-): { failure: ExpectedFailure; source: string } => {
+  otherChars: readonly string[] = [],
+): { readonly failure: ExpectedFailure; readonly source: string } {
   let replacedSource: string;
 
   if (otherChars.length === 0) {
     replacedSource = source;
   } else {
     const patternAsStr = `[${otherChars.map(escapeRegexp).join('')}]`;
-    const pattern = new RegExp(patternAsStr, 'g');
-
+    const pattern = RegExp(patternAsStr, 'g');
     replacedSource = source.replace(pattern, ' ');
   }
 
@@ -104,66 +102,66 @@ export const parseInvalidSource = (
     line: lastLine,
   };
   const newSource = replacedSource.replace(
-    new RegExp(escapeRegexp(specialChar), 'g'),
+    RegExp(escapeRegexp(specialChar), 'g'),
     '',
   );
 
   return {
     failure: {
       endPosition,
-      message,
+      message: '',
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       startPosition: startPosition!,
     },
     source: newSource,
   };
+}
+
+type BaseErrorOptions = {
+  readonly description: string;
+  readonly annotatedSource: string;
+  readonly options?: readonly unknown[];
+  readonly annotatedOutput?: string;
 };
 
-export function convertAnnotatedSourceToFailureCase<T extends string>({
-  /* eslint-disable @typescript-eslint/no-unused-vars */
-  description: _,
-  /* eslint-enable @typescript-eslint/no-unused-vars */
-  annotatedSource,
-  messageId,
-  messages = [],
-  data,
-  options = [],
-  annotatedOutput,
-  suggestions,
-}: {
-  description: string;
-  annotatedSource: string;
-  messageId?: T;
-  messages?: { char: string; messageId: T }[];
-  data?: Record<string, unknown>;
-  options?: readonly unknown[];
-  annotatedOutput?: string;
-  suggestions?: TSESLint.SuggestionOutput<T>[];
-}): TSESLint.InvalidTestCase<T, readonly unknown[]> {
-  if (!messageId && (!messages || !messages.length)) {
-    throw new Error(
-      'Either `messageId` or `messages` is required when configuring a failure case',
-    );
-  }
+type Message<TMessageIds extends string> = {
+  readonly messageId: TMessageIds;
+  readonly data?: Record<string, unknown>;
+  readonly suggestions?: TSESLint.SuggestionOutput<TMessageIds>[];
+};
 
-  if (messageId) {
-    messages = [
-      {
-        char: '~',
-        messageId,
-      },
-    ];
-  }
+type SingleErrorOptions<TMessageIds extends string> = BaseErrorOptions &
+  Message<TMessageIds>;
 
+type MultipleErrorOptions<TMessageIds extends string> = BaseErrorOptions & {
+  readonly messages: readonly (Message<TMessageIds> & {
+    readonly char: string;
+  })[];
+};
+
+export function convertAnnotatedSourceToFailureCase<TMessageIds extends string>(
+  errorOptions: SingleErrorOptions<TMessageIds>,
+): TSESLint.InvalidTestCase<TMessageIds, readonly unknown[]>;
+export function convertAnnotatedSourceToFailureCase<TMessageIds extends string>(
+  errorOptions: MultipleErrorOptions<TMessageIds>,
+): TSESLint.InvalidTestCase<TMessageIds, readonly unknown[]>;
+export function convertAnnotatedSourceToFailureCase<TMessageIds extends string>(
+  errorOptions:
+    | SingleErrorOptions<TMessageIds>
+    | MultipleErrorOptions<TMessageIds>,
+): TSESLint.InvalidTestCase<TMessageIds, readonly unknown[]> {
+  const messages: MultipleErrorOptions<TMessageIds>['messages'] =
+    'messageId' in errorOptions
+      ? [{ ...errorOptions, char: '~' }]
+      : errorOptions.messages;
   let parsedSource = '';
-  const errors: TSESLint.TestCaseError<T>[] = messages.map(
-    ({ char: currentValueChar, messageId }) => {
+  const errors: TSESLint.TestCaseError<TMessageIds>[] = messages.map(
+    ({ char: currentValueChar, data, messageId, suggestions }) => {
       const otherChars = messages
-        .filter(({ char }) => char !== currentValueChar)
-        .map(({ char }) => char);
+        .map(({ char }) => char)
+        .filter((char) => char !== currentValueChar);
       const parsedForChar = parseInvalidSource(
-        annotatedSource,
-        '',
+        errorOptions.annotatedSource,
         currentValueChar,
         otherChars,
       );
@@ -178,7 +176,8 @@ export function convertAnnotatedSourceToFailureCase<T extends string>({
         );
       }
 
-      const error: TSESLint.TestCaseError<T> = {
+      return {
+        data,
         messageId,
         line: startPosition.line + 1,
         column: startPosition.character + 1,
@@ -186,29 +185,15 @@ export function convertAnnotatedSourceToFailureCase<T extends string>({
         endColumn: endPosition.character + 1,
         suggestions,
       };
-
-      if (data) {
-        // TODO: Make .data writable in @typescript-eslint/experimental-utils types
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (error as any).data = data;
-      }
-
-      return error;
     },
   );
 
-  const invalidTestCase: TSESLint.InvalidTestCase<T, readonly unknown[]> = {
+  return {
     code: parsedSource,
-    options,
+    options: errorOptions.options ?? [],
     errors,
+    output: errorOptions.annotatedOutput
+      ? parseInvalidSource(errorOptions.annotatedOutput).source
+      : null,
   };
-  if (annotatedOutput) {
-    // TODO: Make .output writable in @typescript-eslint/experimental-utils types
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (invalidTestCase as any).output = parseInvalidSource(
-      annotatedOutput,
-      '',
-    ).source;
-  }
-  return invalidTestCase;
 }

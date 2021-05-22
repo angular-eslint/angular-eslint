@@ -122,7 +122,7 @@ export default createESLintRule<Options, MessageIds>({
       },
     ],
     messages: {
-      i18nAttribute: `Attribute '{{attributeName}}' has no corresponding i18n attribute. See more at ${STYLE_GUIDE_I18N_ATTRIBUTE_LINK}`,
+      i18nAttribute: `Attribute "{{attributeName}}" has no corresponding i18n attribute. See more at ${STYLE_GUIDE_I18N_ATTRIBUTE_LINK}`,
       i18nId: `Missing custom message identifier. See more at ${STYLE_GUIDE_I18N_ATTRIBUTE_ID_LINK}`,
       i18nIdOnAttribute: `Missing custom message identifier on attribute "{{attributeName}}". See more at ${STYLE_GUIDE_I18N_ATTRIBUTE_ID_LINK}`,
       i18nSuggestIgnore:

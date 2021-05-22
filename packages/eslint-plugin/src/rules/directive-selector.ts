@@ -1,28 +1,26 @@
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
-import { DIRECTIVE_CLASS_DECORATOR } from '../utils/selectors';
-import type { SelectorStyle } from '../utils/utils';
-import {
-  arrayify,
-  OPTION_STYLE_CAMEL_CASE,
-  OPTION_STYLE_KEBAB_CASE,
-  getDecoratorPropertyValue,
-} from '../utils/utils';
-
 import type { Options } from '../utils/property-selector';
 import {
   checkSelector,
   checkValidOptions,
-  reportPrefixError,
-  reportTypeError,
   OPTION_TYPE_ATTRIBUTE,
   OPTION_TYPE_ELEMENT,
+  reportPrefixError,
   reportStyleError,
+  reportTypeError,
 } from '../utils/property-selector';
+import { DIRECTIVE_CLASS_DECORATOR } from '../utils/selectors';
+import type { SelectorStyle } from '../utils/utils';
+import {
+  arrayify,
+  getDecoratorPropertyValue,
+  OPTION_STYLE_CAMEL_CASE,
+  OPTION_STYLE_KEBAB_CASE,
+} from '../utils/utils';
 
 export const RULE_NAME = 'directive-selector';
 export type MessageIds = 'prefixFailure' | 'styleFailure' | 'typeFailure';
-
 const STYLE_GUIDE_PREFIX_LINK =
   'https://angular.io/guide/styleguide#style-02-08';
 const STYLE_GUIDE_STYLE_TYPE_LINK =
@@ -64,7 +62,7 @@ export default createESLintRule<Options, MessageIds>({
       },
     ],
     messages: {
-      prefixFailure: `The selector should be prefixed by one of the prefixes: '{{prefix}}' (${STYLE_GUIDE_PREFIX_LINK})`,
+      prefixFailure: `The selector should start with one of these prefixes: {{prefix}} (${STYLE_GUIDE_PREFIX_LINK})`,
       styleFailure: `The selector should be {{style}} (${STYLE_GUIDE_STYLE_TYPE_LINK})`,
       typeFailure: `The selector should be used as an {{type}} (${STYLE_GUIDE_STYLE_TYPE_LINK})`,
     },
@@ -76,9 +74,7 @@ export default createESLintRule<Options, MessageIds>({
       style: '',
     },
   ],
-  create(context, [options]) {
-    const { type, prefix, style } = options;
-
+  create(context, [{ type, prefix, style }]) {
     return {
       [DIRECTIVE_CLASS_DECORATOR](node: TSESTree.Decorator) {
         const rawSelectors = getDecoratorPropertyValue(node, 'selector');

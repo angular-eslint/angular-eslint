@@ -39,7 +39,7 @@ export default createESLintRule<Options, MessageIds>({
     ],
     messages: {
       conditionalСomplexity:
-        'The conditional complexity "{{totalComplexity}}" exceeds the defined limit "{{maxComplexity}}"',
+        'The conditional complexity {{totalComplexity}} exceeds the defined limit {{maxComplexity}}',
     },
   },
   defaultOptions: [{ maxComplexity: 5 }],

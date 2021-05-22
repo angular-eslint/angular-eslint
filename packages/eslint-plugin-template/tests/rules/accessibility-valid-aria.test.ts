@@ -29,7 +29,7 @@ ruleTester.run(RULE_NAME, rule, {
       <div aria-relevant="additions">additions</div>
       <div aria-checked="false">checked</div>
       <div role="slider" [aria-valuemin]="1"></div>
-      <input 
+      <input
         aria-placeholder="Placeholder"
         aria-orientation="undefined"
         [attr.aria-checked]="test && isChecked"
@@ -47,14 +47,26 @@ ruleTester.run(RULE_NAME, rule, {
         <div aria-roledescriptio="text">Text</div>
              ~~~~~~~~~~~~~~~~~~~~~~~~~~
         <input [aria-labelby]="label">
-               ^^^^^^^^^^^^^^^^^^^^^^               
+               ^^^^^^^^^^^^^^^^^^^^^^
         <input [attr.aria-requiredIf]="required">
                #################################
       `,
       messages: [
-        { char: '~', messageId: accessibilityValidAria },
-        { char: '^', messageId: accessibilityValidAria },
-        { char: '#', messageId: accessibilityValidAria },
+        {
+          char: '~',
+          messageId: accessibilityValidAria,
+          data: { attribute: 'aria-roledescriptio' },
+        },
+        {
+          char: '^',
+          messageId: accessibilityValidAria,
+          data: { attribute: 'aria-labelby' },
+        },
+        {
+          char: '#',
+          messageId: accessibilityValidAria,
+          data: { attribute: 'aria-requiredIf' },
+        },
       ],
     }),
     convertAnnotatedSourceToFailureCase({
@@ -63,7 +75,7 @@ ruleTester.run(RULE_NAME, rule, {
         <div aria-expanded="notABoolean">notABoolean</div>
              ~~~~~~~~~~~~~~~~~~~~~~~~~~~
         <div aria-haspopup="notAToken">notAToken</div>
-             ^^^^^^^^^^^^^^^^^^^^^^^^^            
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
         <input [attr.aria-rowcount]="{ a: 2 }">notAnInteger
                ###############################
         <div aria-relevant="notATokenList">notATokenList</div>
@@ -76,13 +88,41 @@ ruleTester.run(RULE_NAME, rule, {
                @@@@@@@@@@@@@@@@@@@@@@@@@@@
       `,
       messages: [
-        { char: '~', messageId: accessibilityValidAriaValue },
-        { char: '^', messageId: accessibilityValidAriaValue },
-        { char: '#', messageId: accessibilityValidAriaValue },
-        { char: '%', messageId: accessibilityValidAriaValue },
-        { char: '¶', messageId: accessibilityValidAriaValue },
-        { char: '¨', messageId: accessibilityValidAriaValue },
-        { char: '@', messageId: accessibilityValidAriaValue },
+        {
+          char: '~',
+          messageId: accessibilityValidAriaValue,
+          data: { attribute: 'aria-expanded' },
+        },
+        {
+          char: '^',
+          messageId: accessibilityValidAriaValue,
+          data: { attribute: 'aria-haspopup' },
+        },
+        {
+          char: '#',
+          messageId: accessibilityValidAriaValue,
+          data: { attribute: 'aria-rowcount' },
+        },
+        {
+          char: '%',
+          messageId: accessibilityValidAriaValue,
+          data: { attribute: 'aria-relevant' },
+        },
+        {
+          char: '¶',
+          messageId: accessibilityValidAriaValue,
+          data: { attribute: 'aria-checked' },
+        },
+        {
+          char: '¨',
+          messageId: accessibilityValidAriaValue,
+          data: { attribute: 'aria-valuemin' },
+        },
+        {
+          char: '@',
+          messageId: accessibilityValidAriaValue,
+          data: { attribute: 'aria-placeholder' },
+        },
       ],
     }),
   ],

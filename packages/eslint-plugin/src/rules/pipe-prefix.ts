@@ -43,7 +43,7 @@ export default createESLintRule<Options, MessageIds>({
       },
     ],
     messages: {
-      pipePrefix: `@Pipe's name should be prefixed by {{prefixes}}`,
+      pipePrefix: '@Pipes should be prefixed by {{prefixes}}',
     },
   },
   defaultOptions: [
