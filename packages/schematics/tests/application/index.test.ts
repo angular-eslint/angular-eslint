@@ -105,8 +105,7 @@ describe('application', () => {
             \\"parserOptions\\": {
               \\"project\\": [
                 \\"projects/foo/tsconfig.app.json\\",
-                \\"projects/foo/tsconfig.spec.json\\",
-                \\"projects/foo/e2e/tsconfig.json\\"
+                \\"projects/foo/tsconfig.spec.json\\"
               ],
               \\"createDefaultProgram\\": true
             },

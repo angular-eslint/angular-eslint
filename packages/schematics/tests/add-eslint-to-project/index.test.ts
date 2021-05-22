@@ -12,6 +12,7 @@ const schematicRunner = new SchematicTestRunner(
 );
 
 const rootProjectName = 'root-project';
+const legacyProjectName = 'legacy-project';
 const otherProjectName = 'other-project';
 
 describe('add-eslint-to-project', () => {
@@ -39,6 +40,20 @@ describe('add-eslint-to-project', () => {
               'extract-i18n': {},
               test: {},
               lint: {},
+            },
+          },
+          [legacyProjectName]: {
+            projectType: 'application',
+            schematics: {},
+            root: `projects/${legacyProjectName}`,
+            sourceRoot: `projects/${legacyProjectName}/src`,
+            prefix: 'app',
+            architect: {
+              build: {},
+              serve: {},
+              'extract-i18n': {},
+              test: {},
+              lint: {},
               e2e: {},
             },
           },
@@ -54,7 +69,6 @@ describe('add-eslint-to-project', () => {
               'extract-i18n': {},
               test: {},
               lint: {},
-              e2e: {},
             },
           },
         },
@@ -104,7 +118,6 @@ describe('add-eslint-to-project', () => {
               "createDefaultProgram": true,
               "project": Array [
                 "tsconfig.json",
-                "e2e/tsconfig.json",
               ],
             },
             "rules": Object {
@@ -137,6 +150,81 @@ describe('add-eslint-to-project', () => {
           },
         ],
         "root": true,
+      }
+    `);
+  });
+
+  it('should add ESLint to the legacy Angular CLI projects which are generated with e2e after the workspace is', async () => {
+    const options = {
+      project: legacyProjectName,
+    };
+
+    await schematicRunner
+      .runSchematicAsync('add-eslint-to-project', options, appTree)
+      .toPromise();
+
+    const projectConfig = readJsonInTree(appTree, 'angular.json').projects[
+      legacyProjectName
+    ];
+
+    expect(projectConfig.architect.lint).toMatchInlineSnapshot(`
+      Object {
+        "builder": "@angular-eslint/builder:lint",
+        "options": Object {
+          "lintFilePatterns": Array [
+            "projects/legacy-project/**/*.ts",
+            "projects/legacy-project/**/*.html",
+          ],
+        },
+      }
+    `);
+
+    expect(readJsonInTree(appTree, `${projectConfig.root}/.eslintrc.json`))
+      .toMatchInlineSnapshot(`
+      Object {
+        "extends": "../../.eslintrc.json",
+        "ignorePatterns": Array [
+          "!**/*",
+        ],
+        "overrides": Array [
+          Object {
+            "files": Array [
+              "*.ts",
+            ],
+            "parserOptions": Object {
+              "createDefaultProgram": true,
+              "project": Array [
+                "projects/legacy-project/tsconfig.app.json",
+                "projects/legacy-project/tsconfig.spec.json",
+                "projects/legacy-project/e2e/tsconfig.json",
+              ],
+            },
+            "rules": Object {
+              "@angular-eslint/component-selector": Array [
+                "error",
+                Object {
+                  "prefix": "app",
+                  "style": "kebab-case",
+                  "type": "element",
+                },
+              ],
+              "@angular-eslint/directive-selector": Array [
+                "error",
+                Object {
+                  "prefix": "app",
+                  "style": "camelCase",
+                  "type": "attribute",
+                },
+              ],
+            },
+          },
+          Object {
+            "files": Array [
+              "*.html",
+            ],
+            "rules": Object {},
+          },
+        ],
       }
     `);
   });
@@ -183,7 +271,6 @@ describe('add-eslint-to-project', () => {
               "project": Array [
                 "projects/other-project/tsconfig.app.json",
                 "projects/other-project/tsconfig.spec.json",
-                "projects/other-project/e2e/tsconfig.json",
               ],
             },
             "rules": Object {

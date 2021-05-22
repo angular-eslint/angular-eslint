@@ -189,6 +189,7 @@ export function visitNotIgnoredFiles(
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       ig.add(host.read('.gitignore')!.toString());
     }
+
     function visit(_dir: Path) {
       if (_dir && ig?.ignores(_dir)) {
         return;
@@ -218,14 +219,18 @@ type ProjectType = 'application' | 'library';
 export function setESLintProjectBasedOnProjectType(
   projectRoot: string,
   projectType: ProjectType,
+  hasE2e?: boolean,
 ) {
   let project;
   if (projectType === 'application') {
     project = [
       `${projectRoot}/tsconfig.app.json`,
       `${projectRoot}/tsconfig.spec.json`,
-      `${projectRoot}/e2e/tsconfig.json`,
     ];
+
+    if (hasE2e) {
+      project.push(`${projectRoot}/e2e/tsconfig.json`);
+    }
   }
   // Libraries don't have an e2e directory
   if (projectType === 'library') {
@@ -237,7 +242,10 @@ export function setESLintProjectBasedOnProjectType(
   return project;
 }
 
-export function createRootESLintConfig(prefix: string | null) {
+export function createRootESLintConfig(
+  prefix: string | null,
+  hasE2e?: boolean,
+) {
   let codeRules;
   if (prefix) {
     codeRules = {
@@ -261,7 +269,9 @@ export function createRootESLintConfig(prefix: string | null) {
       {
         files: ['*.ts'],
         parserOptions: {
-          project: ['tsconfig.json', 'e2e/tsconfig.json'],
+          project: hasE2e
+            ? ['tsconfig.json', 'e2e/tsconfig.json']
+            : ['tsconfig.json'],
           createDefaultProgram: true,
         },
         extends: [
@@ -285,6 +295,7 @@ function createProjectESLintConfig(
   projectRoot: string,
   projectType: ProjectType,
   prefix: string,
+  hasE2e: boolean,
 ) {
   return {
     extends: `${offsetFromRoot(rootPath)}.eslintrc.json`,
@@ -293,7 +304,11 @@ function createProjectESLintConfig(
       {
         files: ['*.ts'],
         parserOptions: {
-          project: setESLintProjectBasedOnProjectType(projectRoot, projectType),
+          project: setESLintProjectBasedOnProjectType(
+            projectRoot,
+            projectType,
+            hasE2e,
+          ),
           createDefaultProgram: true,
         },
         rules: {
@@ -322,6 +337,9 @@ export function createESLintConfigForProject(projectName: string): Rule {
     const { root: projectRoot, projectType, prefix } = angularJSON.projects[
       projectName
     ];
+
+    const hasE2e = determineTargetProjectHasE2E(angularJSON, projectName);
+
     /**
      * If the root is an empty string it must be the initial project created at the
      * root by the Angular CLI's workspace schematic
@@ -337,6 +355,7 @@ export function createESLintConfigForProject(projectName: string): Rule {
           projectRoot,
           projectType,
           prefix,
+          hasE2e,
         ),
     );
   };
@@ -357,12 +376,15 @@ function createRootESLintConfigFile(projectName: string): Rule {
   return (tree) => {
     const angularJSON = readJsonInTree(tree, getWorkspacePath(tree));
     let lintPrefix: string | null = null;
+    const hasE2e = determineTargetProjectHasE2E(angularJSON, projectName);
+
     if (angularJSON.projects?.[projectName]) {
       const { prefix } = angularJSON.projects[projectName];
       lintPrefix = prefix;
     }
+
     return updateJsonInTree('.eslintrc.json', () =>
-      createRootESLintConfig(lintPrefix),
+      createRootESLintConfig(lintPrefix, hasE2e),
     );
   };
 }
@@ -395,4 +417,15 @@ export function determineTargetProjectName(
     return projects[0];
   }
   return null;
+}
+
+/**
+ * Checking if the target project has e2e setup
+ * Method will check if angular project architect has e2e configuration to determine if e2e setup
+ */
+export function determineTargetProjectHasE2E(
+  angularJSON: any,
+  projectName: string,
+): boolean {
+  return !!getTargetsConfigFromProject(angularJSON.projects[projectName])?.e2e;
 }
