@@ -20,7 +20,7 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description: `Directive class names should end with one of these suffixes: {{suffixes}}. See more at ${STYLE_GUIDE_LINK}`,
+      description: `Classes decorated with @Directive must have suffix "Directive" (or custom) in their name. See more at ${STYLE_GUIDE_LINK}`,
       category: 'Best Practices',
       recommended: 'error',
     },
