@@ -17,7 +17,7 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description: `Classes decorated with @Component must have suffix "Component" (or custom) in their name. See more at ${STYLE_GUIDE_LINK}.`,
+      description: `Component class names should end with one of these suffixes: {{suffixes}}. See more at ${STYLE_GUIDE_LINK}`,
       category: 'Best Practices',
       recommended: 'error',
     },
@@ -36,7 +36,7 @@ export default createESLintRule<Options, MessageIds>({
       },
     ],
     messages: {
-      componentClassSuffix: `@Components should be suffixed by {{suffixes}} (${STYLE_GUIDE_LINK})`,
+      componentClassSuffix: `Component class names should end with one of these suffixes: {{suffixes}} (${STYLE_GUIDE_LINK})`,
     },
   },
   defaultOptions: [
