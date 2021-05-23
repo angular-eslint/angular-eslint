@@ -45,7 +45,7 @@ export default createESLintRule<Options, MessageIds>({
 });
 
 function validateNode(
-  context: TSESLint.RuleContext<MessageIds, []>,
+  context: Readonly<TSESLint.RuleContext<string, readonly unknown[]>>,
   node:
     | TSESTree.MethodDefinition
     | TSESTree.ClassProperty
@@ -73,7 +73,7 @@ function validateNode(
 }
 
 function validateDecorator(
-  context: TSESLint.RuleContext<MessageIds, []>,
+  context: Readonly<TSESLint.RuleContext<string, readonly unknown[]>>,
   decorator: TSESTree.Decorator,
   classDecoratorName: AngularClassDecoratorKeys,
 ): void {

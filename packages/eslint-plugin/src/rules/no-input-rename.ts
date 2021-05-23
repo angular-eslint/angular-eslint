@@ -1,12 +1,12 @@
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
+import { ASTUtils } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import {
   AngularClassDecorators,
   getDecoratorPropertyValue,
   isCallExpression,
-  isIdentifier,
   isImportedFrom,
-  isLiteral,
+  isLiteralWithStringValue,
   kebabToCamelCase,
 } from '../utils/utils';
 
@@ -111,7 +111,7 @@ export default createESLintRule<Options, MessageIds>({
         if (inputCallExpression.arguments.length === 0) return;
 
         // handle directive's selector is also an input property
-        let directiveSelectors: ReadonlyArray<unknown>;
+        let directiveSelectors: readonly string[];
 
         const canPropertyBeAliased = (
           propertyAlias: string,
@@ -141,7 +141,7 @@ export default createESLintRule<Options, MessageIds>({
         const decorator = decorators?.find(
           (decorator) =>
             isCallExpression(decorator.expression) &&
-            isIdentifier(decorator.expression.callee) &&
+            ASTUtils.isIdentifier(decorator.expression.callee) &&
             decorator.expression.callee.name ===
               AngularClassDecorators.Directive,
         );
@@ -149,8 +149,8 @@ export default createESLintRule<Options, MessageIds>({
         if (decorator) {
           const selector = getDecoratorPropertyValue(decorator, 'selector');
 
-          if (selector && isLiteral(selector) && selector.value) {
-            directiveSelectors = (selector.value.toString() || '')
+          if (selector && isLiteralWithStringValue(selector)) {
+            directiveSelectors = selector.value
               .replace(/[[\]\s]/g, '')
               .split(',');
           }
@@ -161,7 +161,7 @@ export default createESLintRule<Options, MessageIds>({
 
         if (
           propertyAlias &&
-          isIdentifier(classProperty.key) &&
+          ASTUtils.isIdentifier(classProperty.key) &&
           canPropertyBeAliased(propertyAlias.toString(), classProperty.key.name)
         )
           return;

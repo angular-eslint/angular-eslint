@@ -12,14 +12,8 @@ type RequiredParserServices = {
   [k in keyof ParserServices]: Exclude<ParserServices[k], undefined>;
 };
 
-/**
- * TODO: Expose via @typescript-eslint/experimental-utils
- */
-export function getParserServices<
-  TMessageIds extends string,
-  TOptions extends any[]
->(
-  context: TSESLint.RuleContext<TMessageIds, TOptions>,
+export function getParserServices(
+  context: Readonly<TSESLint.RuleContext<string, readonly unknown[]>>,
 ): RequiredParserServices {
   if (
     !context.parserServices ||
@@ -44,14 +38,8 @@ type NodeMaps = {
   >]: NonNullable<ParserServices[k]>;
 };
 
-/**
- * TODO: Expose via @typescript-eslint/experimental-utils
- */
-export function getNodeMaps<
-  _TMessageIds extends string,
-  _TOptions extends any[]
->(
-  context: any, // RuleContext<TMessageIds, TOptions>
+export function getNodeMaps(
+  context: Readonly<TSESLint.RuleContext<string, readonly unknown[]>>,
 ): NodeMaps {
   if (
     !context.parserServices ||

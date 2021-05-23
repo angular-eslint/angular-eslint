@@ -1,5 +1,5 @@
 import { CssSelector } from '@angular/compiler';
-import type { TSESTree } from '@typescript-eslint/experimental-utils';
+import type { TSESLint, TSESTree } from '@typescript-eslint/experimental-utils';
 import type { SelectorStyle } from './utils';
 import {
   arrayify,
@@ -31,39 +31,36 @@ const SELECTOR_TYPE_MAPPER: Record<string, SelectorTypeInternal> = {
 
 export type Options = [
   {
-    type: SelectorTypeOption | Array<SelectorTypeOption>;
-    prefix: string | Array<string>;
-    style: SelectorTypeOption;
+    readonly type: SelectorTypeOption | readonly SelectorTypeOption[];
+    readonly prefix: string | readonly string[];
+    readonly style: SelectorTypeOption;
   },
 ];
 
 const getValidSelectors = (
-  selectors: CssSelector[],
-  types: SelectorTypeInternal[],
-): ReadonlyArray<string> => {
-  return selectors.reduce<ReadonlyArray<string>>(
-    (previousValue, currentValue) => {
-      const validSelectors = types.reduce<ReadonlyArray<string>>(
-        (accumulator, type) => {
-          const value = currentValue[type];
-          return value ? accumulator.concat(value) : accumulator;
-        },
-        [],
-      );
+  selectors: readonly CssSelector[],
+  types: readonly SelectorTypeInternal[],
+): readonly string[] => {
+  return selectors.reduce<readonly string[]>((previousValue, currentValue) => {
+    const validSelectors = types.reduce<readonly string[]>(
+      (accumulator, type) => {
+        const value = currentValue[type];
+        return value ? accumulator.concat(value) : accumulator;
+      },
+      [],
+    );
 
-      return previousValue.concat(validSelectors);
-    },
-    [],
-  );
+    return previousValue.concat(validSelectors);
+  }, []);
 };
 
 export const reportPrefixError = (
-  node: TSESTree.Expression | TSESTree.Literal,
-  prefix: string | Array<string>,
-  context: any,
-) => {
+  node: TSESTree.Node,
+  prefix: string | readonly string[],
+  context: Readonly<TSESLint.RuleContext<string, readonly unknown[]>>,
+): void => {
   context.report({
-    node: node,
+    node,
     messageId: 'prefixFailure',
     data: {
       prefix: toHumanReadableText(arrayify(prefix)),
@@ -72,12 +69,12 @@ export const reportPrefixError = (
 };
 
 export const reportStyleError = (
-  node: TSESTree.Expression | TSESTree.Literal,
+  node: TSESTree.Node,
   style: SelectorStyleOption,
-  context: any,
-) => {
+  context: Readonly<TSESLint.RuleContext<string, readonly unknown[]>>,
+): void => {
   context.report({
-    node: node,
+    node,
     messageId: 'styleFailure',
     data: {
       style,
@@ -86,12 +83,12 @@ export const reportStyleError = (
 };
 
 export const reportTypeError = (
-  node: TSESTree.Expression | TSESTree.Literal,
-  type: SelectorTypeOption | Array<SelectorTypeOption>,
-  context: any,
-) => {
+  node: TSESTree.Node,
+  type: SelectorTypeOption | readonly SelectorTypeOption[],
+  context: Readonly<TSESLint.RuleContext<string, readonly unknown[]>>,
+): void => {
   context.report({
-    node: node,
+    node,
     messageId: 'typeFailure',
     data: {
       type,
@@ -100,8 +97,8 @@ export const reportTypeError = (
 };
 
 export const checkValidOptions = (
-  type: SelectorTypeOption | Array<SelectorTypeOption>,
-  prefix: string | Array<string>,
+  type: SelectorTypeOption | readonly SelectorTypeOption[],
+  prefix: string | readonly string[],
   style: SelectorStyleOption,
 ): boolean => {
   // Get options
@@ -127,21 +124,24 @@ export const checkValidOptions = (
 };
 
 export const checkSelector = (
-  node: TSESTree.Expression | TSESTree.Literal,
-  type: SelectorTypeOption | Array<SelectorTypeOption>,
-  prefixOption: Array<string>,
+  node: TSESTree.Node,
+  typeOption: SelectorTypeOption | readonly SelectorTypeOption[],
+  prefixOption: readonly string[],
   styleOption: SelectorStyle,
-) => {
+): {
+  readonly hasExpectedPrefix: boolean;
+  readonly hasExpectedType: boolean;
+  readonly hasExpectedStyle: boolean;
+} | null => {
   // Get valid list of selectors
-  const types: SelectorTypeInternal[] = arrayify<SelectorTypeOption>(
-    type || [OPTION_TYPE_ATTRS, OPTION_TYPE_ELEMENT],
-  ).reduce<Array<SelectorTypeInternal>>(
+  const types = arrayify<SelectorTypeOption>(
+    typeOption || [OPTION_TYPE_ATTRS, OPTION_TYPE_ELEMENT],
+  ).reduce<readonly SelectorTypeInternal[]>(
     (previousValue, currentValue) =>
       previousValue.concat(SELECTOR_TYPE_MAPPER[currentValue]),
     [],
   );
 
-  //  if (isTypeOptionValid && isPrefixOptionValid && isStyleOptionValid) {
   const styleValidator =
     styleOption === OPTION_STYLE_KEBAB_CASE
       ? SelectorValidator.kebabCase

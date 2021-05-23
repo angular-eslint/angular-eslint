@@ -1,4 +1,5 @@
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
+import { ASTUtils } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import type {
   AngularLifecycleInterfaceKeys,
@@ -6,13 +7,12 @@ import type {
 } from '../utils/utils';
 import {
   AngularLifecycleInterfaces,
-  getDeclaredAngularLifecycleInterfaces,
   AngularLifecycleMethods,
+  getDeclaredAngularLifecycleInterfaces,
   getDeclaredAngularLifecycleMethods,
   getDeclaredInterfaces,
-  isAngularLifecycleInterface,
-  isIdentifier,
   getDeclaredMethods,
+  isAngularLifecycleInterface,
   isAngularLifecycleMethod,
 } from '../utils/utils';
 
@@ -20,16 +20,12 @@ type Options = [];
 export type MessageIds =
   | 'noConflictingLifecycleInterface'
   | 'noConflictingLifecycleMethod';
-
 export const RULE_NAME = 'no-conflicting-lifecycle';
-
-// const STYLE_GUIDE_LINK = 'https://angular.io/api/core/DoCheck#description.';
-
-const LIFECYCLE_INTERFACES: ReadonlyArray<AngularLifecycleInterfaceKeys> = [
+const LIFECYCLE_INTERFACES: readonly AngularLifecycleInterfaceKeys[] = [
   AngularLifecycleInterfaces.DoCheck,
   AngularLifecycleInterfaces.OnChanges,
 ];
-const LIFECYCLE_METHODS: ReadonlyArray<AngularLifecycleMethodKeys> = [
+const LIFECYCLE_METHODS: readonly AngularLifecycleMethodKeys[] = [
   AngularLifecycleMethods.ngDoCheck,
   AngularLifecycleMethods.ngOnChanges,
 ];
@@ -67,7 +63,7 @@ export default createESLintRule<Options, MessageIds>({
       const declaredInterfaces = getDeclaredInterfaces(node);
       const declaredAngularLifecycleInterfacesNodes = declaredInterfaces.filter(
         (node) =>
-          isIdentifier(node.expression) &&
+          ASTUtils.isIdentifier(node.expression) &&
           isAngularLifecycleInterface(node.expression.name),
       );
 
@@ -93,7 +89,8 @@ export default createESLintRule<Options, MessageIds>({
       const declaredMethods = getDeclaredMethods(node);
       const declaredAngularLifecycleMethodNodes = declaredMethods.filter(
         (node) =>
-          isIdentifier(node.key) && isAngularLifecycleMethod(node.key.name),
+          ASTUtils.isIdentifier(node.key) &&
+          isAngularLifecycleMethod(node.key.name),
       );
 
       for (const method of declaredAngularLifecycleMethodNodes) {

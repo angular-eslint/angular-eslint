@@ -1,11 +1,11 @@
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
+import { ASTUtils } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import {
   ANGULAR_LIFECYCLE_METHODS,
   getAngularClassDecorator,
   getNearestNodeFrom,
   isClassDeclaration,
-  isIdentifier,
   isMethodDefinition,
   isSuper,
   toPattern,
@@ -60,7 +60,9 @@ function hasSameName(
   { key }: TSESTree.MethodDefinition,
 ): boolean {
   return (
-    isIdentifier(property) && isIdentifier(key) && property.name === key.name
+    ASTUtils.isIdentifier(property) &&
+    ASTUtils.isIdentifier(key) &&
+    property.name === key.name
   );
 }
 
