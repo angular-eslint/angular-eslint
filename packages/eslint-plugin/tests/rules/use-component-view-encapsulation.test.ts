@@ -14,8 +14,9 @@ import rule, {
 const ruleTester = new RuleTester({
   parser: '@typescript-eslint/parser',
 });
-
 const messageId: MessageIds = 'useComponentViewEncapsulation';
+const suggestRemoveViewEncapsulationNone: MessageIds =
+  'suggestRemoveViewEncapsulationNone';
 
 ruleTester.run(RULE_NAME, rule, {
   valid: [
@@ -25,33 +26,58 @@ ruleTester.run(RULE_NAME, rule, {
       selector: 'app-foo-bar'
     })
     export class Test {}
-`,
+    `,
     `
     @Component({
       encapsulation: ViewEncapsulation.Native,
       selector: 'app-foo-bar'
     })
     export class Test {}
-`,
+    `,
     `
     @Component({
       encapsulation: ViewEncapsulation.ShadowDom,
       selector: 'app-foo-bar'
     })
     export class Test {}
-`,
+    `,
     `
+    function encapsulation() {
+      return ViewEncapsulation.None;
+    }
+
     @Component({
+      encapsulation: encapsulation()
+    })
+    export class Test {}
+    `,
+    `
+    const encapsulation = 'templateUrl';
+    @Component({
+      [encapsulation]: '../a.html',
       selector: 'app-foo-bar'
     })
     export class Test {}
-`,
+    `,
+    `
+    const encapsulation = 'templateUrl';
+    @Component({
+      encapsulation,
+      selector: 'app-foo-bar'
+    })
+    export class Test {}
+    `,
+    `
+    const options = {};
+    @Component(options)
+    export class Test {}
+    `,
     `
     @NgModule({
       bootstrap: [Foo]
     })
     export class Test {}
-`,
+    `,
   ],
   invalid: [
     convertAnnotatedSourceToFailureCase({
@@ -65,6 +91,50 @@ ruleTester.run(RULE_NAME, rule, {
         export class Test {}
       `,
       messageId,
+      suggestions: [
+        {
+          messageId: suggestRemoveViewEncapsulationNone,
+          output: `
+        @Component({
+          
+                         
+          selector: 'app-foo-bar',
+        })
+        export class Test {}
+      `,
+        },
+      ],
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description: 'it should fail if ViewEncapsulation.None is set',
+      annotatedSource: `
+        import { ViewEncapsulation } from '@angular/core';
+        import { HttpClient } from '@angular/common/http';
+
+        @Component({
+          selector: 'app-foo-bar',
+          encapsulation: ViewEncapsulation.None
+                         ~~~~~~~~~~~~~~~~~~~~~~
+        })
+        export class Test {}
+      `,
+      messageId,
+      suggestions: [
+        {
+          messageId: suggestRemoveViewEncapsulationNone,
+          output: `
+        
+        import { HttpClient } from '@angular/common/http';
+
+        @Component({
+          selector: 'app-foo-bar',
+          
+                         
+        })
+        export class Test {}
+      `,
+        },
+      ],
     }),
   ],
 });
