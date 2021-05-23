@@ -15,13 +15,13 @@ function getFixturesRootDir() {
 }
 
 function isValidParser(
-  str: string | undefined = '',
-): str is typeof VALID_PARSERS[number] {
-  return ((VALID_PARSERS as unknown) as string[]).includes(str);
+  parser?: string,
+): parser is typeof VALID_PARSERS[number] {
+  return VALID_PARSERS.includes(parser as typeof VALID_PARSERS[number]);
 }
 
 export class RuleTester extends TSESLint.RuleTester {
-  private filename: string | undefined = undefined;
+  private filename?: string;
 
   // as of eslint 6 you have to provide an absolute path to the parser
   // but that's not as clean to type, this saves us trying to manually enforce
@@ -32,7 +32,7 @@ export class RuleTester extends TSESLint.RuleTester {
       parser: require.resolve(options.parser),
     });
 
-    if (options.parserOptions && options.parserOptions.project) {
+    if (options.parserOptions?.project) {
       this.filename = path.join(getFixturesRootDir(), 'file.ts');
     }
 
@@ -53,52 +53,35 @@ export class RuleTester extends TSESLint.RuleTester {
   // as of eslint 6 you have to provide an absolute path to the parser
   // If you don't do that at the test level, the test will fail somewhat cryptically...
   // This is a lot more explicit
-  run<TMessageIds extends string, TOptions extends Readonly<unknown[]>>(
+  run<TMessageIds extends string, TOptions extends readonly unknown[]>(
     name: string,
     rule: TSESLint.RuleModule<TMessageIds, TOptions>,
-    tests: TSESLint.RunTests<TMessageIds, TOptions>,
+    { valid, invalid }: TSESLint.RunTests<TMessageIds, TOptions>,
   ): void {
     const errorMessage = `Do not set the parser at the test level unless you want to use a parser other than ${VALID_PARSERS.join(
       ', ',
     )}`;
-
-    if (this.filename) {
-      // TODO: Make .valid writable in @typescript-eslint/experimental-utils types
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (tests as any).valid = tests.valid.map((test) => {
-        if (typeof test === 'string') {
-          return {
-            code: test,
-            filename: this.filename,
-          };
+    const parsedTests = {
+      valid: valid.map((test) => {
+        if (typeof test !== 'string' && isValidParser(test.parser)) {
+          throw Error(errorMessage);
         }
-        return test;
-      });
-    }
-
-    tests.valid.forEach((test) => {
-      if (typeof test !== 'string') {
+        return {
+          ...(typeof test === 'string' ? { code: test } : test),
+          filename: this.filename,
+        };
+      }),
+      invalid: invalid.map((test) => {
         if (isValidParser(test.parser)) {
-          throw new Error(errorMessage);
+          throw Error(errorMessage);
         }
-        if (!test.filename) {
-          // TODO: Make .filename writable in @typescript-eslint/experimental-utils types
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (test as any).filename = this.filename;
-        }
-      }
-    });
-    tests.invalid.forEach((test) => {
-      if (isValidParser(test.parser)) {
-        throw new Error(errorMessage);
-      }
-      if (!test.filename) {
-        // TODO: Make .filename writable in @typescript-eslint/experimental-utils types
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (test as any).filename = this.filename;
-      }
-    });
+        return {
+          ...test,
+          filename: this.filename,
+        };
+      }),
+    };
 
-    super.run(name, rule, tests);
+    super.run(name, rule, parsedTests);
   }
 }
