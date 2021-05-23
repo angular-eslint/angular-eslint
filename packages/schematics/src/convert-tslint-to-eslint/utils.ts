@@ -4,7 +4,9 @@ import * as assert from 'assert';
 import { sortObjectByKeys } from '../utils';
 
 export function updateArrPropAndRemoveDuplication(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   json: Record<string, any>,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   configBeingExtended: Record<string, any>,
   arrPropName: string,
   deleteIfUltimatelyEmpty: boolean,
@@ -21,7 +23,9 @@ export function updateArrPropAndRemoveDuplication(
 }
 
 export function updateObjPropAndRemoveDuplication(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   json: Record<string, any>,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   configBeingExtended: Record<string, any>,
   objPropName: string,
   deleteIfUltimatelyEmpty: boolean,
@@ -59,8 +63,9 @@ export function ensureESLintPluginsAreInstalled(
       );
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const projectPackageJSON = host.read('package.json')!.toString('utf-8');
+    const projectPackageJSON = (host.read('package.json') as Buffer).toString(
+      'utf-8',
+    );
     const json = JSON.parse(projectPackageJSON);
     json.devDependencies = json.devDependencies || {};
 
@@ -101,8 +106,9 @@ export function uninstallTSLintAndCodelyzer(): Rule {
       );
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const projectPackageJSON = host.read('package.json')!.toString('utf-8');
+    const projectPackageJSON = (host.read('package.json') as Buffer).toString(
+      'utf-8',
+    );
     const json = JSON.parse(projectPackageJSON);
 
     if (json.devDependencies) {

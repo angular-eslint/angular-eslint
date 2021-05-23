@@ -1,4 +1,4 @@
-import type { SchematicContext, Tree } from '@angular-devkit/schematics';
+import type { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { chain } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import { updateJsonInTree } from '../../utils';
@@ -47,6 +47,6 @@ function updateRelevantDependencies(host: Tree, context: SchematicContext) {
   })(host, context);
 }
 
-export default function () {
+export default function (): Rule {
   return chain([updateRelevantDependencies]);
 }
