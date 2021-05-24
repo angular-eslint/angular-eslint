@@ -24,6 +24,7 @@ ruleTester.run(RULE_NAME, rule, {
         <marquee></marquee>{{ test }}
         ~~~~~~~~~~~~~~~~~~~
       `,
+      data: { element: 'marquee' },
       annotatedOutput: `
         {{ test }}
         
@@ -36,6 +37,7 @@ ruleTester.run(RULE_NAME, rule, {
         <div></div><blink></blink>
                    ~~~~~~~~~~~~~~~
       `,
+      data: { element: 'blink' },
       annotatedOutput: `
         <div></div>
                    

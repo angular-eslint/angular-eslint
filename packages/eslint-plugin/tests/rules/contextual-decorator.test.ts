@@ -12,7 +12,6 @@ import rule, { RULE_NAME } from '../../src/rules/contextual-decorator';
 const ruleTester = new RuleTester({
   parser: '@typescript-eslint/parser',
 });
-
 const messageId: MessageIds = 'contextualDecorator';
 
 ruleTester.run(RULE_NAME, rule, {
@@ -868,6 +867,7 @@ ruleTester.run(RULE_NAME, rule, {
           private _label: string;
         }
       `,
+      data: { classDecoratorName: 'Injectable' },
     }),
     convertAnnotatedSourceToFailureCase({
       messageId,
@@ -889,6 +889,7 @@ ruleTester.run(RULE_NAME, rule, {
           private _label: string;
         }
       `,
+      data: { classDecoratorName: 'Injectable' },
     }),
     convertAnnotatedSourceToFailureCase({
       messageId,
@@ -906,6 +907,7 @@ ruleTester.run(RULE_NAME, rule, {
           }
         }
       `,
+      data: { classDecoratorName: 'Injectable' },
     }),
     // Methods.
     convertAnnotatedSourceToFailureCase({
@@ -924,6 +926,7 @@ ruleTester.run(RULE_NAME, rule, {
           }
         }
       `,
+      data: { classDecoratorName: 'Injectable' },
     }),
     // Parameter properties.
     convertAnnotatedSourceToFailureCase({
@@ -941,6 +944,7 @@ ruleTester.run(RULE_NAME, rule, {
           ) {}
         }
       `,
+      data: { classDecoratorName: 'Injectable' },
     }),
     // Properties.
     convertAnnotatedSourceToFailureCase({
@@ -956,6 +960,7 @@ ruleTester.run(RULE_NAME, rule, {
           ~~~~~~~~~~~~~~~~~~~
         }
       `,
+      data: { classDecoratorName: 'Injectable' },
     }),
     convertAnnotatedSourceToFailureCase({
       messageId,
@@ -970,6 +975,7 @@ ruleTester.run(RULE_NAME, rule, {
           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         }
       `,
+      data: { classDecoratorName: 'Injectable' },
     }),
     convertAnnotatedSourceToFailureCase({
       messageId,
@@ -984,6 +990,7 @@ ruleTester.run(RULE_NAME, rule, {
           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         }
       `,
+      data: { classDecoratorName: 'Injectable' },
     }),
     convertAnnotatedSourceToFailureCase({
       messageId,
@@ -998,6 +1005,7 @@ ruleTester.run(RULE_NAME, rule, {
           ~~~~~~~~
         }
       `,
+      data: { classDecoratorName: 'NgModule' },
     }),
     convertAnnotatedSourceToFailureCase({
       messageId,
@@ -1012,6 +1020,7 @@ ruleTester.run(RULE_NAME, rule, {
           ~~~~~~~~~
         }
       `,
+      data: { classDecoratorName: 'NgModule' },
     }),
     convertAnnotatedSourceToFailureCase({
       messageId,
@@ -1026,6 +1035,7 @@ ruleTester.run(RULE_NAME, rule, {
           ~~~~~~~~~~~~~~~~
         }
       `,
+      data: { classDecoratorName: 'NgModule' },
     }),
     convertAnnotatedSourceToFailureCase({
       messageId,
@@ -1040,6 +1050,7 @@ ruleTester.run(RULE_NAME, rule, {
           ~~~~~~~~~~~~~~~~~~~
         }
       `,
+      data: { classDecoratorName: 'NgModule' },
     }),
     // Multiple declarations.
     convertAnnotatedSourceToFailureCase({
@@ -1098,22 +1109,27 @@ ruleTester.run(RULE_NAME, rule, {
         {
           char: '~',
           messageId,
+          data: { classDecoratorName: 'NgModule' },
         },
         {
           char: '^',
           messageId,
+          data: { classDecoratorName: 'NgModule' },
         },
         {
           char: '#',
           messageId,
+          data: { classDecoratorName: 'NgModule' },
         },
         {
           char: '%',
           messageId,
+          data: { classDecoratorName: 'NgModule' },
         },
         {
           char: '¶',
           messageId,
+          data: { classDecoratorName: 'NgModule' },
         },
       ],
     }),
@@ -1138,6 +1154,7 @@ ruleTester.run(RULE_NAME, rule, {
           private _label: string;
         }
       `,
+      data: { classDecoratorName: 'Pipe' },
     }),
     convertAnnotatedSourceToFailureCase({
       messageId,
@@ -1159,6 +1176,7 @@ ruleTester.run(RULE_NAME, rule, {
           private _label: string;
         }
       `,
+      data: { classDecoratorName: 'Pipe' },
     }),
     convertAnnotatedSourceToFailureCase({
       messageId,
@@ -1176,6 +1194,7 @@ ruleTester.run(RULE_NAME, rule, {
           }
         }
       `,
+      data: { classDecoratorName: 'Pipe' },
     }),
     convertAnnotatedSourceToFailureCase({
       messageId,
@@ -1193,6 +1212,7 @@ ruleTester.run(RULE_NAME, rule, {
           }
         }
       `,
+      data: { classDecoratorName: 'Pipe' },
     }),
     convertAnnotatedSourceToFailureCase({
       messageId,
@@ -1209,6 +1229,7 @@ ruleTester.run(RULE_NAME, rule, {
           ) {}
         }
       `,
+      data: { classDecoratorName: 'Pipe' },
     }),
     convertAnnotatedSourceToFailureCase({
       messageId,
@@ -1223,6 +1244,7 @@ ruleTester.run(RULE_NAME, rule, {
           ~~~~~~~~~~~~~~~~~~~
         }
       `,
+      data: { classDecoratorName: 'Pipe' },
     }),
     convertAnnotatedSourceToFailureCase({
       messageId,
@@ -1237,6 +1259,7 @@ ruleTester.run(RULE_NAME, rule, {
           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         }
       `,
+      data: { classDecoratorName: 'Pipe' },
     }),
     convertAnnotatedSourceToFailureCase({
       messageId,
@@ -1251,6 +1274,7 @@ ruleTester.run(RULE_NAME, rule, {
           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         }
       `,
+      data: { classDecoratorName: 'Pipe' },
     }),
     convertAnnotatedSourceToFailureCase({
       messageId,
@@ -1265,6 +1289,7 @@ ruleTester.run(RULE_NAME, rule, {
           ~~~~~~~~
         }
       `,
+      data: { classDecoratorName: 'Pipe' },
     }),
     convertAnnotatedSourceToFailureCase({
       messageId,
@@ -1279,6 +1304,7 @@ ruleTester.run(RULE_NAME, rule, {
           ~~~~~~~~~
         }
       `,
+      data: { classDecoratorName: 'Pipe' },
     }),
     convertAnnotatedSourceToFailureCase({
       messageId,
@@ -1293,6 +1319,7 @@ ruleTester.run(RULE_NAME, rule, {
           ~~~~~~~~~~~~~~~~
         }
       `,
+      data: { classDecoratorName: 'Pipe' },
     }),
     convertAnnotatedSourceToFailureCase({
       messageId,
@@ -1307,6 +1334,7 @@ ruleTester.run(RULE_NAME, rule, {
           ~~~~~~~~~~~~~~~~~~~
         }
       `,
+      data: { classDecoratorName: 'Pipe' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -1364,22 +1392,27 @@ ruleTester.run(RULE_NAME, rule, {
         {
           char: '~',
           messageId,
+          data: { classDecoratorName: 'Pipe' },
         },
         {
           char: '^',
           messageId,
+          data: { classDecoratorName: 'Pipe' },
         },
         {
           char: '#',
           messageId,
+          data: { classDecoratorName: 'Pipe' },
         },
         {
           char: '%',
           messageId,
+          data: { classDecoratorName: 'Pipe' },
         },
         {
           char: '¶',
           messageId,
+          data: { classDecoratorName: 'Pipe' },
         },
       ],
     }),
@@ -1404,6 +1437,7 @@ ruleTester.run(RULE_NAME, rule, {
           ~~~~~~~~
         }
       `,
+      data: { classDecoratorName: 'Pipe' },
     }),
   ],
 });

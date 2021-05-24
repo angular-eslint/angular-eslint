@@ -12,7 +12,6 @@ import rule, { RULE_NAME } from '../../src/rules/cyclomatic-complexity';
 const ruleTester = new RuleTester({
   parser: '@angular-eslint/template-parser',
 });
-
 const messageId: MessageIds = 'cyclomaticComplexity';
 
 ruleTester.run(RULE_NAME, rule, {
@@ -71,8 +70,16 @@ ruleTester.run(RULE_NAME, rule, {
         </div>
       `,
       messages: [
-        { char: '~', messageId },
-        { char: '^', messageId },
+        {
+          char: '~',
+          messageId,
+          data: { maxComplexity: 5, totalComplexity: 6 },
+        },
+        {
+          char: '^',
+          messageId,
+          data: { maxComplexity: 5, totalComplexity: 7 },
+        },
       ],
       options: [{ maxComplexity: 5 }],
     }),
@@ -103,9 +110,21 @@ ruleTester.run(RULE_NAME, rule, {
         </div>
       `,
       messages: [
-        { char: '~', messageId },
-        { char: '^', messageId },
-        { char: '#', messageId },
+        {
+          char: '~',
+          messageId,
+          data: { maxComplexity: 6, totalComplexity: 7 },
+        },
+        {
+          char: '^',
+          messageId,
+          data: { maxComplexity: 6, totalComplexity: 8 },
+        },
+        {
+          char: '#',
+          messageId,
+          data: { maxComplexity: 6, totalComplexity: 9 },
+        },
       ],
       options: [{ maxComplexity: 6 }],
     }),

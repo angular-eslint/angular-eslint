@@ -21,18 +21,13 @@ export default createESLintRule<Options, MessageIds>({
     },
     schema: [],
     messages: {
-      useComponentSelector: `The selector of the component '{{className}}' is mandatory`,
+      useComponentSelector: 'The selector of the component is mandatory',
     },
   },
   defaultOptions: [],
   create(context) {
     return {
       [COMPONENT_CLASS_DECORATOR](node: TSESTree.Decorator) {
-        const classParent = node.parent as TSESTree.ClassDeclaration;
-        if (!classParent || !classParent.id || !classParent.id.name) {
-          return;
-        }
-
         const selector = getDecoratorPropertyValue(node, 'selector');
 
         if (
@@ -46,9 +41,6 @@ export default createESLintRule<Options, MessageIds>({
         context.report({
           node,
           messageId: 'useComponentSelector',
-          data: {
-            className: classParent.id.name,
-          },
         });
       },
     };

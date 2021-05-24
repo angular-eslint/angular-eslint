@@ -12,7 +12,6 @@ import rule, { RULE_NAME } from '../../src/rules/component-class-suffix';
 const ruleTester = new RuleTester({
   parser: '@typescript-eslint/parser',
 });
-
 const messageId: MessageIds = 'componentClassSuffix';
 
 ruleTester.run(RULE_NAME, rule, {
@@ -50,11 +49,7 @@ ruleTester.run(RULE_NAME, rule, {
         })
         class TestPage {}
       `,
-      options: [
-        {
-          suffixes: ['Page'],
-        },
-      ],
+      options: [{ suffixes: ['Page'] }],
     },
     {
       code: `
@@ -63,11 +58,7 @@ ruleTester.run(RULE_NAME, rule, {
         })
         class TestPage {}
       `,
-      options: [
-        {
-          suffixes: ['Page', 'View'],
-        },
-      ],
+      options: [{ suffixes: ['Page', 'View'] }],
     },
   ],
   invalid: [
@@ -82,6 +73,7 @@ ruleTester.run(RULE_NAME, rule, {
               ~~~~
       `,
       messageId,
+      data: { suffixes: '"Component"' },
     }),
     convertAnnotatedSourceToFailureCase({
       description: `it should fail when a different list of suffixes is set and doesn't match`,
@@ -93,11 +85,8 @@ ruleTester.run(RULE_NAME, rule, {
               ~~~~~~~~
       `,
       messageId,
-      options: [
-        {
-          suffixes: ['Component', 'View'],
-        },
-      ],
+      options: [{ suffixes: ['Component', 'View'] }],
+      data: { suffixes: '"Component" or "View"' },
     }),
     convertAnnotatedSourceToFailureCase({
       description: `it should fail when a different list of suffixes is set and doesn't match`,
@@ -109,11 +98,8 @@ ruleTester.run(RULE_NAME, rule, {
               ~~~~~~~~
       `,
       messageId,
-      options: [
-        {
-          suffixes: ['Component'],
-        },
-      ],
+      options: [{ suffixes: ['Component'] }],
+      data: { suffixes: '"Component"' },
     }),
     convertAnnotatedSourceToFailureCase({
       description: `it should fail when a different list of suffixes is set and doesn't match`,
@@ -125,11 +111,8 @@ ruleTester.run(RULE_NAME, rule, {
               ~~~~~~~~~~~~~
       `,
       messageId,
-      options: [
-        {
-          suffixes: ['Page'],
-        },
-      ],
+      options: [{ suffixes: ['Page'] }],
+      data: { suffixes: '"Page"' },
     }),
   ],
 });

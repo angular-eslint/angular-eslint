@@ -12,7 +12,6 @@ import rule, { RULE_NAME } from '../../src/rules/pipe-prefix';
 const ruleTester = new RuleTester({
   parser: '@typescript-eslint/parser',
 });
-
 const messageId: MessageIds = 'pipePrefix';
 
 ruleTester.run(RULE_NAME, rule, {
@@ -23,11 +22,7 @@ ruleTester.run(RULE_NAME, rule, {
         @Pipe
         class Test {}
       `,
-      options: [
-        {
-          prefixes: ['ng'],
-        },
-      ],
+      options: [{ prefixes: ['ng'] }],
     },
     {
       // should not fail when @Pipe does not have content
@@ -35,11 +30,7 @@ ruleTester.run(RULE_NAME, rule, {
         @Pipe({})
         class Test {}
       `,
-      options: [
-        {
-          prefixes: ['ng'],
-        },
-      ],
+      options: [{ prefixes: ['ng'] }],
     },
     {
       // should ignore the rule when the name is a variable
@@ -54,11 +45,7 @@ ruleTester.run(RULE_NAME, rule, {
           return MockPipe;
         }
       `,
-      options: [
-        {
-          prefixes: ['ng'],
-        },
-      ],
+      options: [{ prefixes: ['ng'] }],
     },
     {
       // should ignore the rule when the rule option is blank
@@ -68,11 +55,7 @@ ruleTester.run(RULE_NAME, rule, {
         })
         class Test {}
       `,
-      options: [
-        {
-          prefixes: [],
-        },
-      ],
+      options: [{ prefixes: [] }],
     },
     {
       // should succeed with prefix ng in @Pipe
@@ -82,11 +65,7 @@ ruleTester.run(RULE_NAME, rule, {
         })
         class Test {}
       `,
-      options: [
-        {
-          prefixes: ['ng'],
-        },
-      ],
+      options: [{ prefixes: ['ng'] }],
     },
     {
       // should succeed with multiple prefixes in @Pipe
@@ -96,11 +75,7 @@ ruleTester.run(RULE_NAME, rule, {
         })
         class Test {}
       `,
-      options: [
-        {
-          prefixes: ['ng', 'sg', 'mg'],
-        },
-      ],
+      options: [{ prefixes: ['ng', 'sg', 'mg'] }],
     },
     {
       // should succeed with multiple prefixes in @Pipe
@@ -110,22 +85,14 @@ ruleTester.run(RULE_NAME, rule, {
         })
         class Test {}
       `,
-      options: [
-        {
-          prefixes: ['ng', 'sg', 'mg'],
-        },
-      ],
+      options: [{ prefixes: ['ng', 'sg', 'mg'] }],
     },
     {
       // should succeed when the class is not a Pipe
       code: `
         class Test {}
       `,
-      options: [
-        {
-          prefixes: ['ng'],
-        },
-      ],
+      options: [{ prefixes: ['ng'] }],
     },
     {
       // should do nothing if the name of the pipe is not a literal
@@ -136,11 +103,7 @@ ruleTester.run(RULE_NAME, rule, {
         })
         class Test {}
       `,
-      options: [
-        {
-          prefixes: ['ng'],
-        },
-      ],
+      options: [{ prefixes: ['ng'] }],
     },
   ],
   invalid: [
@@ -154,11 +117,8 @@ ruleTester.run(RULE_NAME, rule, {
         class Test {}
       `,
       messageId,
-      options: [
-        {
-          prefixes: ['ng'],
-        },
-      ],
+      options: [{ prefixes: ['ng'] }],
+      data: { prefixes: '"ng"' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
@@ -171,11 +131,8 @@ ruleTester.run(RULE_NAME, rule, {
         class Test {}
       `,
       messageId,
-      options: [
-        {
-          prefixes: ['ng', 'mg', 'sg'],
-        },
-      ],
+      options: [{ prefixes: ['ng', 'mg', 'sg'] }],
+      data: { prefixes: '"ng", "mg" or "sg"' },
     }),
   ],
 });

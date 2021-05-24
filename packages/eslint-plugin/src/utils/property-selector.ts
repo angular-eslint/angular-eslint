@@ -1,6 +1,5 @@
 import { CssSelector } from '@angular/compiler';
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
-
 import type { SelectorStyle } from './utils';
 import {
   arrayify,
@@ -9,6 +8,7 @@ import {
   OPTION_STYLE_CAMEL_CASE,
   OPTION_STYLE_KEBAB_CASE,
   SelectorValidator,
+  toHumanReadableText,
 } from './utils';
 
 export const OPTION_TYPE_ATTRIBUTE = 'attribute';
@@ -66,7 +66,7 @@ export const reportPrefixError = (
     node: node,
     messageId: 'prefixFailure',
     data: {
-      prefix,
+      prefix: toHumanReadableText(arrayify(prefix)),
     },
   });
 };

@@ -12,7 +12,6 @@ import rule, { RULE_NAME } from '../../src/rules/accessibility-alt-text';
 const ruleTester = new RuleTester({
   parser: '@angular-eslint/template-parser',
 });
-
 const messageId: MessageIds = 'accessibilityAltText';
 
 ruleTester.run(RULE_NAME, rule, {
@@ -45,6 +44,7 @@ ruleTester.run(RULE_NAME, rule, {
           </div>
         </ng-template>
       `,
+      data: { element: 'img' },
     }),
     convertAnnotatedSourceToFailureCase({
       messageId,
@@ -53,6 +53,7 @@ ruleTester.run(RULE_NAME, rule, {
         <object></object>
         ~~~~~~~~~~~~~~~~~
       `,
+      data: { element: 'object' },
     }),
     convertAnnotatedSourceToFailureCase({
       messageId,
@@ -61,6 +62,7 @@ ruleTester.run(RULE_NAME, rule, {
         <area />
         ~~~~~~~~
       `,
+      data: { element: 'area' },
     }),
     convertAnnotatedSourceToFailureCase({
       messageId,
@@ -70,6 +72,7 @@ ruleTester.run(RULE_NAME, rule, {
         <input type="image">
         ~~~~~~~~~~~~~~~~~~~~
       `,
+      data: { element: 'input' },
     }),
     convertAnnotatedSourceToFailureCase({
       messageId,
@@ -79,6 +82,7 @@ ruleTester.run(RULE_NAME, rule, {
         <input [type]="'image'">
         ~~~~~~~~~~~~~~~~~~~~~~~~
       `,
+      data: { element: 'input' },
     }),
   ],
 });

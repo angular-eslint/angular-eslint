@@ -12,7 +12,6 @@ import rule, { RULE_NAME } from '../../src/rules/component-selector';
 const ruleTester = new RuleTester({
   parser: '@typescript-eslint/parser',
 });
-
 const messageIdPrefixFailure: MessageIds = 'prefixFailure';
 const messageIdStyleFailure: MessageIds = 'styleFailure';
 const messageIdTypeFailure: MessageIds = 'typeFailure';
@@ -215,6 +214,7 @@ ruleTester.run(RULE_NAME, rule, {
       `,
       messageId: messageIdPrefixFailure,
       options: [{ type: 'element', prefix: 'sg', style: 'kebab-case' }],
+      data: { prefix: '"sg"' },
     }),
     convertAnnotatedSourceToFailureCase({
       description: `it should fail if a selector is not prefixed by a valid option`,
@@ -227,6 +227,7 @@ ruleTester.run(RULE_NAME, rule, {
       `,
       messageId: messageIdPrefixFailure,
       options: [{ type: 'element', prefix: 'sg', style: 'kebab-case' }],
+      data: { prefix: '"sg"' },
     }),
     convertAnnotatedSourceToFailureCase({
       description: `it should fail if a selector is not prefixed by any valid option`,
@@ -241,6 +242,7 @@ ruleTester.run(RULE_NAME, rule, {
       options: [
         { type: 'attribute', prefix: ['cd', 'ng'], style: 'kebab-case' },
       ],
+      data: { prefix: '"cd" or "ng"' },
     }),
     convertAnnotatedSourceToFailureCase({
       description: `it should fail if a complex selector is not prefixed by any valid option`,
@@ -255,6 +257,7 @@ ruleTester.run(RULE_NAME, rule, {
       options: [
         { type: 'element', prefix: ['foo', 'cd', 'ng'], style: 'kebab-case' },
       ],
+      data: { prefix: '"foo", "cd" or "ng"' },
     }),
     convertAnnotatedSourceToFailureCase({
       description: `it should fail if a selector is not camelCased`,
@@ -267,6 +270,7 @@ ruleTester.run(RULE_NAME, rule, {
       `,
       messageId: messageIdStyleFailure,
       options: [{ type: 'attribute', prefix: 'ng', style: 'camelCase' }],
+      data: { style: 'camelCase' },
     }),
     convertAnnotatedSourceToFailureCase({
       description: `it should fail if a selector is not kebab-cased`,
@@ -279,6 +283,7 @@ ruleTester.run(RULE_NAME, rule, {
       `,
       messageId: messageIdStyleFailure,
       options: [{ type: 'element', prefix: 'app', style: 'kebab-case' }],
+      data: { style: 'kebab-case' },
     }),
     convertAnnotatedSourceToFailureCase({
       description: `it should fail if a selector uses kebab-case style, but no dash`,
@@ -291,6 +296,7 @@ ruleTester.run(RULE_NAME, rule, {
       `,
       messageId: messageIdStyleFailure,
       options: [{ type: 'element', prefix: 'app', style: 'kebab-case' }],
+      data: { style: 'kebab-case' },
     }),
     convertAnnotatedSourceToFailureCase({
       description: `it should fail if a selector is not used as an element`,
@@ -303,6 +309,7 @@ ruleTester.run(RULE_NAME, rule, {
       `,
       messageId: messageIdTypeFailure,
       options: [{ type: 'element', prefix: ['app', 'ng'], style: 'camelCase' }],
+      data: { type: 'element' },
     }),
     convertAnnotatedSourceToFailureCase({
       description: `it should fail if a selector is not used as an attribute`,
@@ -317,9 +324,10 @@ ruleTester.run(RULE_NAME, rule, {
       options: [
         { type: 'attribute', prefix: ['app', 'ng'], style: 'kebab-case' },
       ],
+      data: { type: 'attribute' },
     }),
     convertAnnotatedSourceToFailureCase({
-      description: `it should fail if a selector is not used as an element`,
+      description: `it should fail if a selector is not used as an attribute`,
       annotatedSource: `
       @Component({
         selector: 'appFooBar'
@@ -331,6 +339,7 @@ ruleTester.run(RULE_NAME, rule, {
       options: [
         { type: 'attribute', prefix: ['app', 'ng'], style: 'camelCase' },
       ],
+      data: { type: 'attribute' },
     }),
   ],
 });
