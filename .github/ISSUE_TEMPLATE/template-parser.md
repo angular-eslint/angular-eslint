@@ -32,7 +32,7 @@ Please consider creating an isolated reproduction repo to make it easy for the v
 
 | package                            | version |
 | ---------------------------------- | ------- |
-| `@typescript-eslint       `        | `X.Y.Z` |
+| `@angular-eslint/template-parser`  | `X.Y.Z` |
 | `TypeScript`                       | `X.Y.Z` |
 | `ESLint`                           | `X.Y.Z` |
 | `node`                             | `X.Y.Z` |
