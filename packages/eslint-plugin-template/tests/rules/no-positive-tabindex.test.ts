@@ -12,7 +12,6 @@ import rule, { RULE_NAME } from '../../src/rules/no-positive-tabindex';
 const ruleTester = new RuleTester({
   parser: '@angular-eslint/template-parser',
 });
-
 const messageId: MessageIds = 'noPositiveTabindex';
 
 ruleTester.run(RULE_NAME, rule, {
