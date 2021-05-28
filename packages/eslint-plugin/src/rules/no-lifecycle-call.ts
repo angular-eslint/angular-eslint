@@ -2,13 +2,13 @@ import type { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import {
   ANGULAR_LIFECYCLE_METHODS,
-  isSuper,
+  getAngularClassDecorator,
+  getNearestNodeFrom,
   isClassDeclaration,
   isIdentifier,
   isMethodDefinition,
+  isSuper,
   toPattern,
-  getAngularClassDecorator,
-  getNearestNodeFrom,
 } from '../utils/utils';
 
 type Options = [];
@@ -36,27 +36,24 @@ export default createESLintRule<Options, MessageIds>({
     ]);
 
     return {
-      [`ClassDeclaration MemberExpression[property.name=${angularLifeCycleMethodsPattern}]`]: (
-        node: TSESTree.MemberExpression,
+      [`ClassDeclaration CallExpression > MemberExpression[property.name=${angularLifeCycleMethodsPattern}]`]: (
+        node: TSESTree.MemberExpression & { parent: TSESTree.CallExpression },
       ) => {
+        const classDeclaration = getNearestNodeFrom(node, isClassDeclaration);
+
         if (
-          !getAngularClassDecorator(getClassDeclaration(node)!) ||
+          !classDeclaration ||
+          !getAngularClassDecorator(classDeclaration) ||
           (isSuper(node.object) && isSuperCallAllowed(node))
         ) {
           return;
         }
 
-        context.report({ node: node.parent!, messageId: 'noLifecycleCall' });
+        context.report({ node: node.parent, messageId: 'noLifecycleCall' });
       },
     };
   },
 });
-
-function getClassDeclaration(
-  node: TSESTree.MemberExpression,
-): TSESTree.ClassDeclaration | null {
-  return getNearestNodeFrom(node, isClassDeclaration);
-}
 
 function hasSameName(
   { property }: TSESTree.MemberExpression,
