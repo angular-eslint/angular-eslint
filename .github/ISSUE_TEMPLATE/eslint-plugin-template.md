@@ -34,12 +34,14 @@ Please consider creating an isolated reproduction repo to make it easy for the v
 
 **Versions**
 
-| package                            | version |
-| ---------------------------------- | ------- |
-| `@typescript-eslint       `        | `X.Y.Z` |
-| `TypeScript`                       | `X.Y.Z` |
-| `ESLint`                           | `X.Y.Z` |
-| `node`                             | `X.Y.Z` |
+| package                                   | version |
+| ----------------------------------        | ------- |
+| `@angular-eslint/eslint-plugin-template`  | `X.Y.Z` |
+| `@angular-eslint/template-parser`         | `X.Y.Z` |
+| `@typescript-eslint/parser`               | `X.Y.Z` |
+| `TypeScript`                              | `X.Y.Z` |
+| `ESLint`                                  | `X.Y.Z` |
+| `node`                                    | `X.Y.Z` |
 
 ```sh
 # Please run `npx ng version` in your project and paste the full output here:
