@@ -384,6 +384,31 @@ function getImportDeclarationSpecifier(
   return undefined;
 }
 
+export function getLast<T extends readonly unknown[]>(items: T): T[number] {
+  return items.slice(-1)[0];
+}
+
+export function getImportAddFix(
+  node: TSESTree.ClassDeclaration,
+  moduleName: string,
+  importedName: string,
+  fixer: TSESLint.RuleFixer,
+): TSESLint.RuleFix {
+  const importDeclarations = getImportDeclarations(node, moduleName);
+
+  if (!importDeclarations?.length) {
+    return fixer.insertTextAfterRange(
+      [0, 0],
+      `import { ${importedName} } from '${moduleName}';\n`,
+    );
+  }
+
+  const firstImportDeclaration = importDeclarations[0];
+  const lastImportSpecifier = getLast(firstImportDeclaration.specifiers);
+
+  return fixer.insertTextAfter(lastImportSpecifier, `, ${importedName}`);
+}
+
 export function getImportRemoveFix(
   sourceCode: Readonly<TSESLint.SourceCode>,
   importDeclarations: readonly TSESTree.ImportDeclaration[],
@@ -426,6 +451,22 @@ export function getImportRemoveFix(
   }
 
   return [];
+}
+
+export function getImplementsSchemaFixer(
+  { id, implements: implementz }: TSESTree.ClassDeclaration,
+  interfaceName: string,
+): {
+  readonly implementsNodeReplace:
+    | TSESTree.TSClassImplements
+    | TSESTree.Identifier;
+  readonly implementsTextReplace: string;
+} {
+  const [implementsNodeReplace, implementsTextReplace] = implementz
+    ? [getLast(implementz), `, ${interfaceName}`]
+    : [id as TSESTree.Identifier, ` implements ${interfaceName}`];
+
+  return { implementsNodeReplace, implementsTextReplace } as const;
 }
 
 export const getClassName = (node: TSESTree.Node): string | undefined => {
@@ -710,24 +751,20 @@ export const kebabToCamelCase = (value: string) =>
 
 export function isImportedFrom(
   identifier: TSESTree.Identifier,
-  module: string,
-) {
-  let parentNode: TSESTree.Node | undefined = identifier;
-  while ((parentNode = parentNode.parent)) {
-    if (parentNode.type !== 'Program') continue;
-    return parentNode.body.some(
-      (node) =>
-        isImportDeclaration(node) &&
-        (node.source as TSESTree.Literal).value === module &&
-        node.specifiers.some(
-          (specifier) =>
-            isImportSpecifier(specifier) &&
-            specifier.imported.name === identifier.name &&
-            specifier.local.name === identifier.name,
-        ),
-    );
-  }
-  return false;
+  moduleName: string,
+): boolean {
+  const importDeclarations = getImportDeclarations(identifier, moduleName);
+
+  return Boolean(
+    importDeclarations?.some((importDeclaration) =>
+      importDeclaration.specifiers.some(
+        (specifier) =>
+          isImportSpecifier(specifier) &&
+          specifier.imported.name === identifier.name &&
+          specifier.local.name === identifier.name,
+      ),
+    ),
+  );
 }
 
 /**
