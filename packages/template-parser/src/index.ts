@@ -1,6 +1,7 @@
 import type { ParseSourceSpan } from '@angular/compiler';
 import { parseTemplate } from '@angular/compiler';
 import type { Comment } from '@angular/compiler/src/render3/r3_ast';
+import type { TSESTree } from '@typescript-eslint/types';
 import { Scope, ScopeManager } from 'eslint-scope';
 import {
   convertElementSourceSpanToLoc,
@@ -8,7 +9,8 @@ import {
 } from './convert-source-span-to-loc';
 
 interface Node {
-  [x: string]: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [key: string]: any;
   type: string;
 }
 
@@ -16,31 +18,16 @@ interface VisitorKeys {
   [nodeName: string]: string[];
 }
 
-interface SourceLocation {
-  start: {
-    line: number;
-    column: number;
-  };
-  end: {
-    line: number;
-    column: number;
-  };
-}
-interface Token {
+interface Token extends TSESTree.BaseNode {
   type: string;
-  loc: SourceLocation;
-  range: [number, number];
   value: string;
 }
 
-interface AST extends Node {
-  type: string;
+interface AST extends Node, Token {
   comments: Token[];
   tokens: Token[];
-  range: [number, number];
-  loc: SourceLocation;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   templateNodes: any[];
-  value: string;
 }
 
 const KEYS: VisitorKeys = {
@@ -79,8 +66,12 @@ function getFallbackKeys(node: Node): string[] {
   return Object.keys(node).filter(fallbackKeysFilter, node);
 }
 
-function isNode(x: any): x is Node {
-  return x !== null && typeof x === 'object' && typeof x.type === 'string';
+function isNode(node: unknown): node is Node {
+  return (
+    node !== null &&
+    typeof node === 'object' &&
+    typeof (node as { type?: unknown }).type === 'string'
+  );
 }
 
 /**
@@ -185,7 +176,18 @@ function convertNgAstCommentsToTokens(comments: Comment[]) {
   return commentTokens.sort((a, b) => a.range[0] - b.range[0]);
 }
 
-function parseForESLint(code: string, options: { filePath: string }) {
+function parseForESLint(
+  code: string,
+  options: { filePath: string },
+): {
+  ast: AST;
+  scopeManager: ScopeManager;
+  visitorKeys: VisitorKeys;
+  services: {
+    convertElementSourceSpanToLoc: typeof convertElementSourceSpanToLoc;
+    convertNodeSourceSpanToLoc: typeof convertNodeSourceSpanToLoc;
+  };
+} {
   const angularCompilerResult = parseTemplate(code, options.filePath, {
     preserveWhitespaces: true,
     preserveLineEndings: true,
@@ -248,7 +250,7 @@ function parseForESLint(code: string, options: { filePath: string }) {
 
 export default {
   parseForESLint,
-  parse: function parse(code: string, options: { filePath: string }) {
+  parse: function parse(code: string, options: { filePath: string }): AST {
     return parseForESLint(code, options).ast;
   },
 };
