@@ -17,7 +17,7 @@ function eslintRelatedChanges(options: Schema) {
    * The types coming from the @schematics/angular schema seem to be wrong, if name isn't
    * provided the interactive CLI prompt will throw
    */
-  const projectName: string = options.name!;
+  const projectName = options.name as string;
   return chain([
     // Update the lint builder and config in angular.json
     addESLintTargetToProject(projectName, 'lint'),

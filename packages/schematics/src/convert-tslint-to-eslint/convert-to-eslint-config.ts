@@ -172,8 +172,7 @@ export function convertTSLintDisableCommentsForProject(
       if (!filePath.endsWith('.ts')) {
         return;
       }
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const fileContent = host.read(filePath)!.toString('utf-8');
+      const fileContent = (host.read(filePath) as Buffer).toString('utf-8');
       // Avoid updating files if we don't have to
       if (!likelyContainsTSLintComment(fileContent)) {
         return;

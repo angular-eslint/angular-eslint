@@ -25,7 +25,9 @@ function addAngularESLintPackages() {
       );
     }
 
-    const projectPackageJSON = host.read('package.json')!.toString('utf-8');
+    const projectPackageJSON = (host.read('package.json') as Buffer).toString(
+      'utf-8',
+    );
     const json = JSON.parse(projectPackageJSON);
     json.devDependencies = json.devDependencies || {};
     json.devDependencies['eslint'] = packageJSON.devDependencies['eslint'];
