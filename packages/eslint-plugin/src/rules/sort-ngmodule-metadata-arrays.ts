@@ -32,6 +32,7 @@ export default createESLintRule<Options, MessageIds>({
       category: 'Best Practices',
       recommended: false,
     },
+    fixable: 'code',
     schema: [],
     messages: {
       sortNgmoduleMetadataArrays:
@@ -51,18 +52,26 @@ export default createESLintRule<Options, MessageIds>({
           ) {
             return;
           }
-          const unorderedNode = initializer.elements
+          const unorderedNodes = initializer.elements
             .filter(isIdentifier)
-            .find(({ name }, index, list) => {
-              const nextElementName = list[index + 1]?.name;
-              return (
-                nextElementName && name.localeCompare(nextElementName) === 1
-              );
+            .map((current, index, list) => {
+              return [current, list[index + 1]];
+            })
+            .find(([current, next]) => {
+              return next && current.name.localeCompare(next.name) === 1;
             });
-          if (!unorderedNode) return;
+          if (!unorderedNodes) return;
+
+          const [unorderedNode, nextNode] = unorderedNodes;
           context.report({
             messageId: 'sortNgmoduleMetadataArrays',
             node: unorderedNode,
+            fix: (fixer) => {
+              return [
+                fixer.replaceText(unorderedNode, nextNode.name),
+                fixer.replaceText(nextNode, unorderedNode.name),
+              ];
+            },
           });
         });
       },

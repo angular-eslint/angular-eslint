@@ -10,7 +10,11 @@ import {
   kebabToCamelCase,
 } from '../utils/utils';
 
-type Options = [];
+type Options = [
+  {
+    readonly allowedNames?: readonly string[];
+  },
+];
 export type MessageIds = 'noInputRename';
 export const RULE_NAME = 'no-input-rename';
 const STYLE_GUIDE_LINK = 'https://angular.io/guide/styleguide#style-05-13';
@@ -65,13 +69,32 @@ export default createESLintRule<Options, MessageIds>({
       category: 'Best Practices',
       recommended: 'error',
     },
-    schema: [],
+    schema: [
+      {
+        type: 'object',
+        properties: {
+          allowedNames: {
+            type: 'array',
+            items: {
+              type: 'string',
+            },
+            description: 'A list with allowed input names',
+            uniqueItems: true,
+          },
+        },
+        additionalProperties: false,
+      },
+    ],
     messages: {
       noInputRename: `@Inputs should not be aliased (${STYLE_GUIDE_LINK})`,
     },
   },
-  defaultOptions: [],
-  create(context) {
+  defaultOptions: [
+    {
+      allowedNames: [],
+    },
+  ],
+  create(context, [{ allowedNames = [] }]) {
     return {
       ':matches(ClassProperty, MethodDefinition[kind="set"]) > Decorator[expression.callee.name="Input"]'(
         node: TSESTree.Decorator,
@@ -94,7 +117,8 @@ export default createESLintRule<Options, MessageIds>({
           propertyAlias: string,
           propertyName: string,
         ): boolean => {
-          return !!(
+          return (
+            allowedNames.includes(propertyAlias) ||
             (propertyAlias !== propertyName &&
               directiveSelectors &&
               directiveSelectors.some((x) =>

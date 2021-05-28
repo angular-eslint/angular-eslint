@@ -12,7 +12,6 @@ import rule, { RULE_NAME } from '../../src/rules/use-pipe-transform-interface';
 const ruleTester = new RuleTester({
   parser: '@typescript-eslint/parser',
 });
-
 const messageId: MessageIds = 'usePipeTransformInterface';
 
 ruleTester.run(RULE_NAME, rule, {
@@ -90,6 +89,7 @@ ruleTester.run(RULE_NAME, rule, {
       description:
         'it should fail if a Pipe implements interfaces, but not the PipeTransform',
       annotatedSource: `
+        import type { OnInit } from '@angular/core';
         import { Pipe } from '@angular/core';
 
         @OtherDecorator() @Pipe({ name: 'test' })
@@ -100,7 +100,8 @@ ruleTester.run(RULE_NAME, rule, {
       `,
       messageId,
       annotatedOutput: `
-        import { Pipe, PipeTransform } from '@angular/core';
+        import type { OnInit, PipeTransform } from '@angular/core';
+        import { Pipe } from '@angular/core';
 
         @OtherDecorator() @Pipe({ name: 'test' })
         export class TestPipe implements AnInterface, AnotherInterface, PipeTransform {

@@ -13,6 +13,7 @@ const ruleTester = new RuleTester({
   parser: '@angular-eslint/template-parser',
 });
 const messageId: MessageIds = 'noDuplicateAttributes';
+const suggestRemoveAttribute: MessageIds = 'suggestRemoveAttribute';
 
 ruleTester.run(RULE_NAME, rule, {
   valid: [
@@ -36,8 +37,36 @@ ruleTester.run(RULE_NAME, rule, {
                ~~~~~~~~~~~~ ^^^^^^^^^^^^
       `,
       messages: [
-        { char: '~', messageId, data: { attributeName: 'name' } },
-        { char: '^', messageId, data: { attributeName: 'name' } },
+        {
+          char: '~',
+          messageId,
+          data: { attributeName: 'name' },
+          suggestions: [
+            {
+              messageId: suggestRemoveAttribute,
+              output: `
+        <input [name]="bar">
+                            
+      `,
+              data: { attributeName: 'name' },
+            },
+          ],
+        },
+        {
+          char: '^',
+          messageId,
+          data: { attributeName: 'name' },
+          suggestions: [
+            {
+              messageId: suggestRemoveAttribute,
+              output: `
+        <input [name]="foo">
+                            
+      `,
+              data: { attributeName: 'name' },
+            },
+          ],
+        },
       ],
     }),
     convertAnnotatedSourceToFailureCase({
@@ -48,8 +77,36 @@ ruleTester.run(RULE_NAME, rule, {
                ~~~~~~~~~~~~ ^^^^^^^^^^
       `,
       messages: [
-        { char: '~', messageId, data: { attributeName: 'name' } },
-        { char: '^', messageId, data: { attributeName: 'name' } },
+        {
+          char: '~',
+          messageId,
+          data: { attributeName: 'name' },
+          suggestions: [
+            {
+              messageId: suggestRemoveAttribute,
+              output: `
+        <input name="bar">
+                            
+      `,
+              data: { attributeName: 'name' },
+            },
+          ],
+        },
+        {
+          char: '^',
+          messageId,
+          data: { attributeName: 'name' },
+          suggestions: [
+            {
+              messageId: suggestRemoveAttribute,
+              output: `
+        <input [name]="foo">
+                            
+      `,
+              data: { attributeName: 'name' },
+            },
+          ],
+        },
       ],
     }),
     convertAnnotatedSourceToFailureCase({
@@ -59,8 +116,36 @@ ruleTester.run(RULE_NAME, rule, {
                ~~~~~~~~~~ ^^^^^^^^^^
       `,
       messages: [
-        { char: '~', messageId, data: { attributeName: 'name' } },
-        { char: '^', messageId, data: { attributeName: 'name' } },
+        {
+          char: '~',
+          messageId,
+          data: { attributeName: 'name' },
+          suggestions: [
+            {
+              messageId: suggestRemoveAttribute,
+              output: `
+        <input name="bar">
+                          
+      `,
+              data: { attributeName: 'name' },
+            },
+          ],
+        },
+        {
+          char: '^',
+          messageId,
+          data: { attributeName: 'name' },
+          suggestions: [
+            {
+              messageId: suggestRemoveAttribute,
+              output: `
+        <input name="foo">
+                          
+      `,
+              data: { attributeName: 'name' },
+            },
+          ],
+        },
       ],
     }),
     convertAnnotatedSourceToFailureCase({
@@ -70,8 +155,36 @@ ruleTester.run(RULE_NAME, rule, {
                ~~~~~~~~~~~~~~~~~~~~~~ ^^^^^^^^^^^^^^^^^^^^^^
       `,
       messages: [
-        { char: '~', messageId, data: { attributeName: 'change' } },
-        { char: '^', messageId, data: { attributeName: 'change' } },
+        {
+          char: '~',
+          messageId,
+          data: { attributeName: 'change' },
+          suggestions: [
+            {
+              messageId: suggestRemoveAttribute,
+              output: `
+        <input (change)="bar($event)">
+                                      
+      `,
+              data: { attributeName: 'change' },
+            },
+          ],
+        },
+        {
+          char: '^',
+          messageId,
+          data: { attributeName: 'change' },
+          suggestions: [
+            {
+              messageId: suggestRemoveAttribute,
+              output: `
+        <input (change)="foo($event)">
+                                      
+      `,
+              data: { attributeName: 'change' },
+            },
+          ],
+        },
       ],
     }),
     convertAnnotatedSourceToFailureCase({
@@ -81,8 +194,36 @@ ruleTester.run(RULE_NAME, rule, {
                ~~~~~~~~~~~~~~~~~~~ ^^^^^^^^^^^^^^^^^^^^^^^^
       `,
       messages: [
-        { char: '~', messageId, data: { attributeName: 'ngModel' } },
-        { char: '^', messageId, data: { attributeName: 'ngModel' } },
+        {
+          char: '~',
+          messageId,
+          data: { attributeName: 'ngModel' },
+          suggestions: [
+            {
+              messageId: suggestRemoveAttribute,
+              output: `
+        <input [(ngModel)]="otherModel">
+                                   
+      `,
+              data: { attributeName: 'ngModel' },
+            },
+          ],
+        },
+        {
+          char: '^',
+          messageId,
+          data: { attributeName: 'ngModel' },
+          suggestions: [
+            {
+              messageId: suggestRemoveAttribute,
+              output: `
+        <input [(ngModel)]="model">
+                                   
+      `,
+              data: { attributeName: 'ngModel' },
+            },
+          ],
+        },
       ],
     }),
     convertAnnotatedSourceToFailureCase({
@@ -93,8 +234,36 @@ ruleTester.run(RULE_NAME, rule, {
                ~~~~~~~~~~~~               ^^^^^^^^^^^^
       `,
       messages: [
-        { char: '~', messageId, data: { attributeName: 'name' } },
-        { char: '^', messageId, data: { attributeName: 'name' } },
+        {
+          char: '~',
+          messageId,
+          data: { attributeName: 'name' },
+          suggestions: [
+            {
+              messageId: suggestRemoveAttribute,
+              output: `
+        <input [other]="bam" [name]="bar">
+                                          
+      `,
+              data: { attributeName: 'name' },
+            },
+          ],
+        },
+        {
+          char: '^',
+          messageId,
+          data: { attributeName: 'name' },
+          suggestions: [
+            {
+              messageId: suggestRemoveAttribute,
+              output: `
+        <input [name]="foo" [other]="bam">
+                                          
+      `,
+              data: { attributeName: 'name' },
+            },
+          ],
+        },
       ],
     }),
     convertAnnotatedSourceToFailureCase({
@@ -104,9 +273,51 @@ ruleTester.run(RULE_NAME, rule, {
                ~~~~~~~~~~~~ ^^^^^^^^^^^^ ############
       `,
       messages: [
-        { char: '~', messageId, data: { attributeName: 'name' } },
-        { char: '^', messageId, data: { attributeName: 'name' } },
-        { char: '#', messageId, data: { attributeName: 'name' } },
+        {
+          char: '~',
+          messageId,
+          data: { attributeName: 'name' },
+          suggestions: [
+            {
+              messageId: suggestRemoveAttribute,
+              output: `
+        <input [name]="bar" [name]="bam">
+                                         
+      `,
+              data: { attributeName: 'name' },
+            },
+          ],
+        },
+        {
+          char: '^',
+          messageId,
+          data: { attributeName: 'name' },
+          suggestions: [
+            {
+              messageId: suggestRemoveAttribute,
+              output: `
+        <input [name]="foo" [name]="bam">
+                                         
+      `,
+              data: { attributeName: 'name' },
+            },
+          ],
+        },
+        {
+          char: '#',
+          messageId,
+          data: { attributeName: 'name' },
+          suggestions: [
+            {
+              messageId: suggestRemoveAttribute,
+              output: `
+        <input [name]="foo" [name]="bar">
+                                         
+      `,
+              data: { attributeName: 'name' },
+            },
+          ],
+        },
       ],
     }),
     convertAnnotatedSourceToFailureCase({
@@ -116,10 +327,66 @@ ruleTester.run(RULE_NAME, rule, {
                ~~~~~~~~~~~~~~~~~~~ ^^^^^^^^^^^^ ######################## %%%%%%%%%%
       `,
       messages: [
-        { char: '~', messageId, data: { attributeName: 'ngModel' } },
-        { char: '^', messageId, data: { attributeName: 'name' } },
-        { char: '#', messageId, data: { attributeName: 'ngModel' } },
-        { char: '%', messageId, data: { attributeName: 'name' } },
+        {
+          char: '~',
+          messageId,
+          data: { attributeName: 'ngModel' },
+          suggestions: [
+            {
+              messageId: suggestRemoveAttribute,
+              output: `
+        <input [name]="foo" [(ngModel)]="otherModel" name="bar">
+                                                                         
+      `,
+              data: { attributeName: 'ngModel' },
+            },
+          ],
+        },
+        {
+          char: '^',
+          messageId,
+          data: { attributeName: 'name' },
+          suggestions: [
+            {
+              messageId: suggestRemoveAttribute,
+              output: `
+        <input [(ngModel)]="model" [(ngModel)]="otherModel" name="bar">
+                                                                         
+      `,
+              data: { attributeName: 'name' },
+            },
+          ],
+        },
+        {
+          char: '#',
+          messageId,
+          data: { attributeName: 'ngModel' },
+          suggestions: [
+            {
+              messageId: suggestRemoveAttribute,
+              output: `
+        <input [(ngModel)]="model" [name]="foo" name="bar">
+                                                                         
+      `,
+              data: { attributeName: 'ngModel' },
+            },
+          ],
+        },
+        {
+          char: '%',
+          messageId,
+          data: { attributeName: 'name' },
+          suggestions: [
+            {
+              messageId: suggestRemoveAttribute,
+              output: `
+        <input [(ngModel)]="model" [name]="foo" [(ngModel)]="otherModel">
+                                                                         
+      `,
+              data: { attributeName: 'name' },
+            },
+          ],
+        },
       ],
     }),
     convertAnnotatedSourceToFailureCase({
@@ -129,8 +396,36 @@ ruleTester.run(RULE_NAME, rule, {
                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
       `,
       messages: [
-        { char: '~', messageId, data: { attributeName: '@fade.start' } },
-        { char: '^', messageId, data: { attributeName: '@fade.start' } },
+        {
+          char: '~',
+          messageId,
+          data: { attributeName: '@fade.start' },
+          suggestions: [
+            {
+              messageId: suggestRemoveAttribute,
+              output: `
+        <input (@fade.start)="animationStarted($event)">
+                                                        
+      `,
+              data: { attributeName: '@fade.start' },
+            },
+          ],
+        },
+        {
+          char: '^',
+          messageId,
+          data: { attributeName: '@fade.start' },
+          suggestions: [
+            {
+              messageId: suggestRemoveAttribute,
+              output: `
+        <input (@fade.start)="animationStarted($event)">
+                                                        
+      `,
+              data: { attributeName: '@fade.start' },
+            },
+          ],
+        },
       ],
     }),
     convertAnnotatedSourceToFailureCase({
@@ -140,8 +435,36 @@ ruleTester.run(RULE_NAME, rule, {
                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
       `,
       messages: [
-        { char: '~', messageId, data: { attributeName: 'window:resize' } },
-        { char: '^', messageId, data: { attributeName: 'window:resize' } },
+        {
+          char: '~',
+          messageId,
+          data: { attributeName: 'window:resize' },
+          suggestions: [
+            {
+              messageId: suggestRemoveAttribute,
+              output: `
+        <input (resize)="resize()" (window:resize)="windowResized2($event)">
+                                                                           
+      `,
+              data: { attributeName: 'window:resize' },
+            },
+          ],
+        },
+        {
+          char: '^',
+          messageId,
+          data: { attributeName: 'window:resize' },
+          suggestions: [
+            {
+              messageId: suggestRemoveAttribute,
+              output: `
+        <input (window:resize)="windowResized($event)" (resize)="resize()">
+                                                                           
+      `,
+              data: { attributeName: 'window:resize' },
+            },
+          ],
+        },
       ],
     }),
     convertAnnotatedSourceToFailureCase({
@@ -152,8 +475,36 @@ ruleTester.run(RULE_NAME, rule, {
       `,
       options: [{ allowTwoWayDataBinding: false }],
       messages: [
-        { char: '~', messageId, data: { attributeName: 'ngModelChange' } },
-        { char: '^', messageId, data: { attributeName: 'ngModelChange' } },
+        {
+          char: '~',
+          messageId,
+          data: { attributeName: 'ngModelChange' },
+          suggestions: [
+            {
+              messageId: suggestRemoveAttribute,
+              output: `
+        <input (ngModelChange)="modelChanged()">
+                                   
+      `,
+              data: { attributeName: 'ngModelChange' },
+            },
+          ],
+        },
+        {
+          char: '^',
+          messageId,
+          data: { attributeName: 'ngModelChange' },
+          suggestions: [
+            {
+              messageId: suggestRemoveAttribute,
+              output: `
+        <input [(ngModel)]="model">
+                                   
+      `,
+              data: { attributeName: 'ngModelChange' },
+            },
+          ],
+        },
       ],
     }),
   ],

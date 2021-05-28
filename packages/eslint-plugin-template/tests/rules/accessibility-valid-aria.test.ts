@@ -14,6 +14,7 @@ const ruleTester = new RuleTester({
 });
 const accessibilityValidAria: MessageIds = 'accessibilityValidAria';
 const accessibilityValidAriaValue: MessageIds = 'accessibilityValidAriaValue';
+const suggestRemoveInvalidAria: MessageIds = 'suggestRemoveInvalidAria';
 
 ruleTester.run(RULE_NAME, rule, {
   valid: [
@@ -56,16 +57,58 @@ ruleTester.run(RULE_NAME, rule, {
           char: '~',
           messageId: accessibilityValidAria,
           data: { attribute: 'aria-roledescriptio' },
+          suggestions: [
+            {
+              messageId: suggestRemoveInvalidAria,
+              data: { attribute: 'aria-roledescriptio' },
+              output: `
+        <div>Text</div>
+                                       
+        <input [aria-labelby]="label">
+                                     
+        <input [attr.aria-requiredIf]="required">
+               
+      `,
+            },
+          ],
         },
         {
           char: '^',
           messageId: accessibilityValidAria,
           data: { attribute: 'aria-labelby' },
+          suggestions: [
+            {
+              messageId: suggestRemoveInvalidAria,
+              data: { attribute: 'aria-labelby' },
+              output: `
+        <div aria-roledescriptio="text">Text</div>
+                                       
+        <input>
+                                     
+        <input [attr.aria-requiredIf]="required">
+               
+      `,
+            },
+          ],
         },
         {
           char: '#',
           messageId: accessibilityValidAria,
           data: { attribute: 'aria-requiredIf' },
+          suggestions: [
+            {
+              messageId: suggestRemoveInvalidAria,
+              data: { attribute: 'aria-requiredIf' },
+              output: `
+        <div aria-roledescriptio="text">Text</div>
+                                       
+        <input [aria-labelby]="label">
+                                     
+        <input>
+               
+      `,
+            },
+          ],
         },
       ],
     }),
