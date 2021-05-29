@@ -30,6 +30,7 @@ import {
   updateObjPropAndRemoveDuplication,
 } from './utils';
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const eslintPluginConfigBaseOriginal: any = eslintPlugin.configs.base;
 const eslintPluginConfigNgCliCompatOriginal: any =
   eslintPlugin.configs['ng-cli-compat'];
@@ -37,6 +38,7 @@ const eslintPluginConfigNgCliCompatFormattingAddOnOriginal: any =
   eslintPlugin.configs['ng-cli-compat--formatting-add-on'];
 const eslintPluginTemplateConfigRecommendedOriginal: any =
   eslintPluginTemplate.configs.recommended;
+/* eslint-enable @typescript-eslint/no-explicit-any */
 
 export default function convert(schema: Schema): Rule {
   return (tree: Tree) => {

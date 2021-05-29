@@ -1,12 +1,6 @@
-import type { Node } from '@angular/compiler';
-import { Element, HtmlParser, getHtmlTagDefinition } from '@angular/compiler';
-import type { ParseSourceSpan } from '@angular/compiler';
+import type { Node, ParseSourceSpan, TmplAstElement } from '@angular/compiler';
+import { Element, getHtmlTagDefinition, HtmlParser } from '@angular/compiler';
 import type { TSESLint, TSESTree } from '@typescript-eslint/experimental-utils';
-
-type Context<TMessageIds extends string> = TSESLint.RuleContext<
-  TMessageIds,
-  []
->;
 
 export function convertNodeSourceSpanToLoc(
   sourceSpan: ParseSourceSpan,
@@ -23,9 +17,9 @@ export function convertNodeSourceSpanToLoc(
   };
 }
 
-export function convertElementSourceSpanToLoc<TMessageIds extends string>(
-  context: Context<TMessageIds>,
-  node: any,
+export function convertElementSourceSpanToLoc(
+  context: Readonly<TSESLint.RuleContext<string, readonly unknown[]>>,
+  node: TmplAstElement & { type: string },
 ): TSESTree.SourceLocation {
   if (node.type !== 'Element') {
     // We explicitly throw an exception since this function should not be used
@@ -41,15 +35,17 @@ export function convertElementSourceSpanToLoc<TMessageIds extends string>(
   if (getHtmlTagDefinition(node.name).isVoid) {
     // Fallback to the original `node` if the
     // `tryToFindTheVoidNodeThatMatchesTheSourceSpan` returns nothing.
-    node = tryToFindTheVoidNodeThatMatchesTheSourceSpan(context, node) || node;
+    node = (tryToFindTheVoidNodeThatMatchesTheSourceSpan(context, node) ||
+      node) as typeof node;
   }
 
   return convertNodeSourceSpanToLoc(node.sourceSpan);
 }
 
-function tryToFindTheVoidNodeThatMatchesTheSourceSpan<
-  TMessageIds extends string
->(context: Context<TMessageIds>, node: Node): Node | null {
+function tryToFindTheVoidNodeThatMatchesTheSourceSpan(
+  context: Readonly<TSESLint.RuleContext<string, readonly unknown[]>>,
+  node: TmplAstElement,
+): Node | null {
   // Previously, `codelyzer` used `TemplateParser` to parse a template into an AST tree.
   // The `TemplateParser` used `HtmlParser`, because `HtmlParser` still sets the end span
   // for void elements.

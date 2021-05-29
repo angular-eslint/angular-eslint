@@ -10,17 +10,10 @@ import {
   getTemplateParserServices,
 } from '../utils/create-eslint-rule';
 
-type Options = [
-  {
-    allowTwoWayDataBinding?: boolean;
-  },
-];
-export type MessageIds = 'noDuplicateAttributes';
+type Options = [{ readonly allowTwoWayDataBinding?: boolean }];
+export type MessageIds = 'noDuplicateAttributes' | 'suggestRemoveAttribute';
 export const RULE_NAME = 'no-duplicate-attributes';
-
-const defaultOptions = {
-  allowTwoWayDataBinding: true,
-};
+const DEFAULT_OPTIONS: Options[0] = { allowTwoWayDataBinding: true };
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
@@ -31,6 +24,7 @@ export default createESLintRule<Options, MessageIds>({
         'Ensures that there are no duplicate input properties or output event listeners',
       category: 'Possible Errors',
       recommended: false,
+      suggestion: true,
     },
     schema: [
       {
@@ -38,16 +32,18 @@ export default createESLintRule<Options, MessageIds>({
         properties: {
           allowTwoWayDataBinding: {
             type: 'boolean',
+            default: DEFAULT_OPTIONS.allowTwoWayDataBinding,
           },
         },
         additionalProperties: false,
       },
     ],
     messages: {
-      noDuplicateAttributes: 'Duplicate attribute "{{attributeName}}"',
+      noDuplicateAttributes: 'Duplicate attribute `{{attributeName}}`',
+      suggestRemoveAttribute: 'Remove attribute `{{attributeName}}`',
     },
   },
-  defaultOptions: [defaultOptions],
+  defaultOptions: [DEFAULT_OPTIONS],
   create(context, [{ allowTwoWayDataBinding }]) {
     const parserServices = getTemplateParserServices(context);
 
@@ -57,7 +53,6 @@ export default createESLintRule<Options, MessageIds>({
           ...inputs,
           ...attributes,
         ]);
-
         const filteredOutputs = allowTwoWayDataBinding
           ? outputs.filter((output) => {
               return !inputs.some(
@@ -67,25 +62,32 @@ export default createESLintRule<Options, MessageIds>({
               );
             })
           : outputs;
-
         const duplicateOutputs = findDuplicates(filteredOutputs);
-
         const allDuplicates = [
           ...duplicateInputsAndAttributes,
           ...duplicateOutputs,
-        ];
+        ] as const;
 
         allDuplicates.forEach((duplicate) => {
           const loc = parserServices.convertNodeSourceSpanToLoc(
             duplicate.sourceSpan,
           );
+          const data = {
+            attributeName: getAttributeName(duplicate),
+          } as const;
 
           context.report({
             messageId: 'noDuplicateAttributes',
             loc,
-            data: {
-              attributeName: getAttributeName(duplicate),
-            },
+            data,
+            suggest: [
+              {
+                messageId: 'suggestRemoveAttribute',
+                fix: (fixer) =>
+                  fixer.removeRange([loc.start.column, loc.end.column + 1]),
+                data,
+              },
+            ],
           });
         });
       },

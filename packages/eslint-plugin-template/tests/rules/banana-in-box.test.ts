@@ -12,7 +12,6 @@ import rule, { RULE_NAME } from '../../src/rules/banana-in-box';
 const ruleTester = new RuleTester({
   parser: '@angular-eslint/template-parser',
 });
-
 const messageId: MessageIds = 'bananaInBox';
 
 ruleTester.run(RULE_NAME, rule, {
@@ -39,20 +38,26 @@ ruleTester.run(RULE_NAME, rule, {
                                       ~~~~~~~~~~~~~~~~~
       `,
     }),
-    {
-      code: `
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'it should fail if the parens and square brackets are reversed',
+      annotatedSource: `
         <app-item ([bar])="bar" ([item])="item" [(test)]="test"></app-item>
+                  ~~~~~~~~~~~~~ ^^^^^^^^^^^^^^^
         <div [baz]="oneWay" (emitter)="emitter" ([twoWay])="twoWay"></div>
+                                                ###################
       `,
-      errors: [
-        { column: 19, line: 2, messageId },
-        { column: 33, line: 2, messageId },
-        { column: 49, line: 3, messageId },
+      messages: [
+        { char: '~', messageId },
+        { char: '^', messageId },
+        { char: '#', messageId },
       ],
-      output: `
+      annotatedOutput: `
         <app-item [(bar)]="bar" [(item)]="item" [(test)]="test"></app-item>
+                                               
         <div [baz]="oneWay" (emitter)="emitter" [(twoWay)]="twoWay"></div>
+                                                
       `,
-    },
+    }),
   ],
 });
