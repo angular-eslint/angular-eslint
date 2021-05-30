@@ -1,4 +1,5 @@
 import type {
+  ParseSourceSpan,
   TmplAstBoundAttribute,
   TmplAstTextAttribute,
 } from '@angular/compiler';
@@ -8,7 +9,7 @@ import {
 } from '../utils/create-eslint-rule';
 
 type Options = [];
-export type MessageIds = 'noPositiveTabindex';
+export type MessageIds = 'noPositiveTabindex' | 'suggestNonNegativeTabindex';
 export const RULE_NAME = 'no-positive-tabindex';
 
 export default createESLintRule<Options, MessageIds>({
@@ -22,7 +23,8 @@ export default createESLintRule<Options, MessageIds>({
     },
     schema: [],
     messages: {
-      noPositiveTabindex: '`tabindex` attribute should not be positive',
+      noPositiveTabindex: 'The `tabindex` attribute should not be positive',
+      suggestNonNegativeTabindex: 'Use `tabindex="{{tabindex}}"`',
     },
   },
   defaultOptions: [],
@@ -31,13 +33,24 @@ export default createESLintRule<Options, MessageIds>({
 
     return {
       'BoundAttribute[name="tabindex"][value.ast.value>0], TextAttribute[name="tabindex"][value>0]'({
-        sourceSpan,
-      }: TmplAstBoundAttribute | TmplAstTextAttribute) {
-        const loc = parserServices.convertNodeSourceSpanToLoc(sourceSpan);
+        valueSpan,
+      }: (TmplAstBoundAttribute | TmplAstTextAttribute) & {
+        valueSpan: ParseSourceSpan;
+      }) {
+        const loc = parserServices.convertNodeSourceSpanToLoc(valueSpan);
 
         context.report({
           loc,
           messageId: 'noPositiveTabindex',
+          suggest: ['-1', '0'].map((tabindex) => ({
+            messageId: 'suggestNonNegativeTabindex',
+            fix: (fixer) =>
+              fixer.replaceTextRange(
+                [valueSpan.start.offset, valueSpan.end.offset],
+                tabindex,
+              ),
+            data: { tabindex },
+          })),
         });
       },
     };
