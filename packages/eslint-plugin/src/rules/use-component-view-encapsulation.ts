@@ -34,11 +34,13 @@ export default createESLintRule<Options, MessageIds>({
     const sourceCode = context.getSourceCode();
 
     return {
-      [`${COMPONENT_CLASS_DECORATOR} Property[key.name=encapsulation][value.object.name='ViewEncapsulation'][value.property.name='None']`](
-        node: TSESTree.Property,
+      [`${COMPONENT_CLASS_DECORATOR} Property[key.name='encapsulation'] > MemberExpression[object.name='ViewEncapsulation'] > Identifier[name='None']`](
+        node: TSESTree.Identifier & {
+          parent: TSESTree.MemberExpression & { parent: TSESTree.Property };
+        },
       ) {
         context.report({
-          node: node.value,
+          node,
           messageId: 'useComponentViewEncapsulation',
           suggest: [
             {
@@ -50,7 +52,11 @@ export default createESLintRule<Options, MessageIds>({
                 );
 
                 return [
-                  getNodeToCommaRemoveFix(sourceCode, node, fixer),
+                  getNodeToCommaRemoveFix(
+                    sourceCode,
+                    node.parent.parent,
+                    fixer,
+                  ),
                 ].concat(
                   getImportRemoveFix(
                     sourceCode,
