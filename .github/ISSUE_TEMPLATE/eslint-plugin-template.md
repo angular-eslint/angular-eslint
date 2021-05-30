@@ -40,7 +40,7 @@ Please consider creating an isolated reproduction repo to make it easy for the v
 }
 ```
 
-```TS
+```HTML
 // your repro code case
 ```
 
