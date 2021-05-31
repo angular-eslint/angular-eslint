@@ -12,7 +12,7 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description: 'Disallows naming Outputs as standard DOM event',
+      description: 'Disallows naming or aliasing outputs as standard DOM event',
       category: 'Best Practices',
       recommended: 'error',
     },
@@ -25,12 +25,14 @@ export default createESLintRule<Options, MessageIds>({
   defaultOptions: [],
   create(context) {
     const nativeEventNames = toPattern([...getNativeEventNames()]);
-    const outputAliasSelector = `ClassProperty:has(${OUTPUT_DECORATOR}[expression.arguments.0.value=${nativeEventNames}])`;
-    const outputPropertySelector = `ClassProperty:has(${OUTPUT_DECORATOR}):has(Identifier[name=${nativeEventNames}])`;
+    const outputAliasSelector = `ClassProperty ${OUTPUT_DECORATOR} :matches(Literal[value=${nativeEventNames}], TemplateElement[value.raw=${nativeEventNames}])`;
+    const outputPropertySelector = `ClassProperty[computed=false]:has(${OUTPUT_DECORATOR}) > :matches(Identifier[name=${nativeEventNames}], Literal[value=${nativeEventNames}])`;
     const selectors = [outputAliasSelector, outputPropertySelector].join(',');
 
     return {
-      [selectors](node: TSESTree.ClassProperty) {
+      [selectors](
+        node: TSESTree.Identifier | TSESTree.Literal | TSESTree.TemplateElement,
+      ) {
         context.report({
           node,
           messageId: 'noOutputNative',
