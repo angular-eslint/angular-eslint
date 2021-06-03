@@ -23,7 +23,7 @@
 
 ## Quick Start with Angular v12 and later
 
-1. Follow the latest **Getting Started** guide on https://angular.io/ in order to install the Angular CLI
+1. Follow the latest **Getting Started** guide on https://angular.io/ in order to install the Angular CLI 
 
 2. Create a new Angular CLI workspace in the normal way, optionally using any of the supported command line arguments and following the interactive prompts:
 
