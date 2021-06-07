@@ -1,5 +1,5 @@
-import * as ariaQuery from 'aria-query';
 import type { ARIARoleDefintionKey, ARIARoleRelationConcept } from 'aria-query';
+import { elementRoles, roles } from 'aria-query';
 
 let interactiveElementRoleSchemas: ARIARoleRelationConcept[] | null = null;
 
@@ -9,16 +9,17 @@ let interactiveElementRoleSchemas: ARIARoleRelationConcept[] | null = null;
 // for the first time, so we will not take up the memory.
 export function getInteractiveElementRoleSchemas(): ARIARoleRelationConcept[] {
   if (interactiveElementRoleSchemas === null) {
-    const roleKeys = [...ariaQuery.roles.keys()];
-    const elementRoleEntries = [...ariaQuery.elementRoles];
+    const roleKeys = [...roles.keys()];
+    const elementRoleEntries = [...elementRoles];
 
     // This set will contain all possible values for the `role` attribute,
     // e.g. `button`, `navigation` or `presentation`.
     const interactiveRoles = new Set<ARIARoleDefintionKey>(
       roleKeys
         .filter((name: ARIARoleDefintionKey) => {
-          const role = ariaQuery.roles.get(name)!;
+          const role = roles.get(name);
           return (
+            role &&
             !role.abstract &&
             // The `progressbar` is descended from `widget`, but in practice, its
             // value is always `readonly`, so we treat it as a non-interactive role.
@@ -33,15 +34,15 @@ export function getInteractiveElementRoleSchemas(): ARIARoleRelationConcept[] {
         ),
     );
 
-    interactiveElementRoleSchemas = elementRoleEntries.reduce(
-      (accumulator: ARIARoleRelationConcept[], [elementSchema, roleSet]) => {
-        if ([...roleSet].some((role) => interactiveRoles.has(role))) {
-          accumulator.push(elementSchema);
-        }
-        return accumulator;
-      },
-      [],
-    );
+    interactiveElementRoleSchemas = elementRoleEntries.reduce<
+      ARIARoleRelationConcept[]
+    >((accumulator, [elementSchema, roleSet]) => {
+      return accumulator.concat(
+        [...roleSet].every((role) => interactiveRoles.has(role))
+          ? elementSchema
+          : [],
+      );
+    }, []);
   }
 
   return interactiveElementRoleSchemas;

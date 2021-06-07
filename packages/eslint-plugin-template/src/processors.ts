@@ -48,7 +48,7 @@ export function isFileLikelyToContainComponentDeclarations(
   return false;
 }
 
-type PreprocessResult = Array<string | { text: string; filename: string }>;
+type PreprocessResult = (string | { text: string; filename: string })[];
 
 export function preprocessComponentFile(
   text: string,
@@ -186,11 +186,24 @@ export function preprocessComponentFile(
 }
 
 export function postprocessComponentFile(
-  multiDimensionalMessages: any[][],
+  multiDimensionalMessages: {
+    ruleId: string;
+    severity: number;
+    message: string;
+    line: number;
+    column: number;
+    nodeType: string;
+    messageId: string;
+    endLine: number;
+    endColumn: number;
+    fix?: {
+      range: number[];
+      text: string;
+    };
+  }[][],
   // We don't currently need the filename in our implementation, but keeping it for clarity regarding the postprocess() function signature
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _filename: string,
-): any[] {
+): readonly unknown[] {
   const messagesFromComponentSource = multiDimensionalMessages[0];
   /**
    * If the Component did not have one or more inline templates defined within it
@@ -224,30 +237,21 @@ export function postprocessComponentFile(
             return [];
           }
 
-          return messagesFromInlineTemplateHTML.map(
-            (message: {
-              line: string | number;
-              column: any;
-              endLine: string | number;
-              endColumn: any;
-              fix?: { range: [number, number]; text: string };
-            }) => {
-              message.line =
-                message.line + rangeData.lineAndCharacter.start.line;
+          return messagesFromInlineTemplateHTML.map((message) => {
+            message.line = message.line + rangeData.lineAndCharacter.start.line;
 
-              message.endLine =
-                message.endLine + rangeData.lineAndCharacter.start.line;
+            message.endLine =
+              message.endLine + rangeData.lineAndCharacter.start.line;
 
-              if (message.fix) {
-                const startOffset = rangeData.range[0];
-                message.fix.range = [
-                  startOffset + message.fix.range[0],
-                  startOffset + message.fix.range[1],
-                ];
-              }
-              return message;
-            },
-          );
+            if (message.fix) {
+              const startOffset = rangeData.range[0];
+              message.fix.range = [
+                startOffset + message.fix.range[0],
+                startOffset + message.fix.range[1],
+              ];
+            }
+            return message;
+          });
         },
       ),
     ),
