@@ -3,12 +3,12 @@ import type {
   TmplAstElement,
   TmplAstTextAttribute,
 } from '@angular/compiler';
-
-import { getLiteralValue } from './get-literal-value';
+import type { ARIARoleRelationConceptAttribute } from 'aria-query';
 import { getAttributeValue } from './get-attribute-value';
+import { getLiteralValue } from './get-literal-value';
 
 export function attributesComparator(
-  baseAttributes: any[] = [],
+  baseAttributes: readonly ARIARoleRelationConceptAttribute[] = [],
   node: TmplAstElement,
 ): boolean {
   const attributes: (TmplAstTextAttribute | TmplAstBoundAttribute)[] = [
@@ -27,15 +27,11 @@ export function attributesComparator(
           return false;
         }
 
-        if (
-          baseAttribute.value &&
-          baseAttribute.value !==
+        return (
+          !baseAttribute.value ||
+          baseAttribute.value ===
             getLiteralValue(getAttributeValue(node, baseAttribute.name))
-        ) {
-          return false;
-        } else {
-          return true;
-        }
+        );
       },
     ),
   );
