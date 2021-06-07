@@ -32,6 +32,18 @@ Are you opening an issue because the rule you're trying to use is not found?
 Please consider creating an isolated reproduction repo to make it easy for the volunteer maintainers debug your issue.
 -->
 
+```JSON
+{
+  "rules": {
+    "@angular-eslint/template/<rule>": ["<setting>"]
+  }
+}
+```
+
+```HTML
+// your repro code case
+```
+
 **Versions**
 
 | package                                   | version |
@@ -39,7 +51,6 @@ Please consider creating an isolated reproduction repo to make it easy for the v
 | `@angular-eslint/eslint-plugin-template`  | `X.Y.Z` |
 | `@angular-eslint/template-parser`         | `X.Y.Z` |
 | `@typescript-eslint/parser`               | `X.Y.Z` |
-| `TypeScript`                              | `X.Y.Z` |
 | `ESLint`                                  | `X.Y.Z` |
 | `node`                                    | `X.Y.Z` |
 
