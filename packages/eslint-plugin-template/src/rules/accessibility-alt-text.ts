@@ -1,5 +1,4 @@
-import type { TmplAstElement } from '@angular/compiler';
-
+import type { Node, TmplAstElement } from '@angular/compiler';
 import {
   createESLintRule,
   getTemplateParserServices,
@@ -53,7 +52,7 @@ export default createESLintRule<Options, MessageIds>({
   },
 });
 
-function isValidNode(node: any): boolean {
+function isValidNode(node: TmplAstElement): boolean {
   if (node.name === 'img') {
     return isValidImgNode(node);
   } else if (node.name === 'object') {
@@ -79,7 +78,7 @@ function isValidImgNode(node: TmplAstElement): boolean {
  * In this case, we check that the `<object>` element has a `title` or `aria-label` attribute.
  * Otherwise, we check for the presence of `attr.title` or `attr.aria-label` bindings.
  */
-function isValidObjectNode(node: any): boolean {
+function isValidObjectNode(node: TmplAstElement): boolean {
   let hasTitleAttribute = false,
     hasAriaLabelAttribute = false;
 
@@ -107,7 +106,10 @@ function isValidObjectNode(node: any): boolean {
     return true;
   }
 
-  return node.children.length > 0 && !!node.children[0].value;
+  return (
+    node.children.length > 0 &&
+    !!((node.children[0] as unknown) as Node & { value?: unknown }).value
+  );
 }
 
 /**

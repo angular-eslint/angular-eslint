@@ -1,17 +1,14 @@
 import type { TmplAstElement } from '@angular/compiler';
-
-import { getDomElements } from '../get-dom-elements';
+import type { ARIARoleRelationConcept } from 'aria-query';
 import { attributesComparator } from '../attributes-comparator';
+import { getDomElements } from '../get-dom-elements';
+import { getInteractiveElementAXObjectSchemas } from './get-interactive-element-ax-object-schemas';
 import { getInteractiveElementRoleSchemas } from './get-interactive-element-role-schemas';
 import { getNonInteractiveElementRoleSchemas } from './get-non-interactive-element-role-schemas';
-import { getInteractiveElementAXObjectSchemas } from './get-interactive-element-ax-object-schemas';
 
 function checkIsInteractiveElement(node: TmplAstElement): boolean {
-  function elementSchemaMatcher(elementSchema: any) {
-    return (
-      node.name === elementSchema.name &&
-      attributesComparator(elementSchema.attributes, node)
-    );
+  function elementSchemaMatcher({ attributes, name }: ARIARoleRelationConcept) {
+    return node.name === name && attributesComparator(attributes, node);
   }
   // Check in elementRoles for inherent interactive role associations for
   // this element.
@@ -30,14 +27,7 @@ function checkIsInteractiveElement(node: TmplAstElement): boolean {
     return false;
   }
   // Check in elementAXObjects for AX Tree associations for this element.
-  const isInteractiveAXElement = getInteractiveElementAXObjectSchemas().some(
-    elementSchemaMatcher,
-  );
-  if (isInteractiveAXElement) {
-    return true;
-  }
-
-  return false;
+  return getInteractiveElementAXObjectSchemas().some(elementSchemaMatcher);
 }
 
 /**
