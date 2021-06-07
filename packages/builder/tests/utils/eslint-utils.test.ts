@@ -17,10 +17,11 @@ describe('eslint-utils', () => {
   });
 
   it('should create the ESLint instance with the proper parameters', async () => {
-    await lint('/root', './.eslintrc.json', <unknown>{
+    await lint('/root', './.eslintrc.json', {
       fix: true,
       cache: true,
       cacheLocation: '/root/cache',
+      cacheStrategy: 'content',
       // eslint-disable-next-line @typescript-eslint/no-empty-function
     }).catch(() => {});
 
@@ -29,6 +30,7 @@ describe('eslint-utils', () => {
       fix: true,
       cache: true,
       cacheLocation: '/root/cache',
+      cacheStrategy: 'content',
       ignorePath: undefined,
       useEslintrc: true,
       errorOnUnmatchedPattern: false,
@@ -36,10 +38,11 @@ describe('eslint-utils', () => {
   });
 
   it('should create the ESLint instance with the proper parameters', async () => {
-    await lint('/root', undefined, <unknown>{
+    await lint('/root', undefined, {
       fix: true,
       cache: true,
       cacheLocation: '/root/cache',
+      cacheStrategy: 'content',
       // eslint-disable-next-line @typescript-eslint/no-empty-function
     }).catch(() => {});
 
@@ -48,6 +51,7 @@ describe('eslint-utils', () => {
       fix: true,
       cache: true,
       cacheLocation: '/root/cache',
+      cacheStrategy: 'content',
       ignorePath: undefined,
       useEslintrc: true,
       errorOnUnmatchedPattern: false,
