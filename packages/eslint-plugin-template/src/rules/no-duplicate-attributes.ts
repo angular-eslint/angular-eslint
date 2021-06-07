@@ -141,14 +141,14 @@ function getAttributeName(
 }
 
 function findDuplicates(
-  elements: Array<TmplAstBoundEvent>,
-): Array<TmplAstBoundEvent>;
+  elements: readonly TmplAstBoundEvent[],
+): readonly TmplAstBoundEvent[];
 function findDuplicates(
-  elements: Array<TmplAstBoundAttribute | TmplAstTextAttribute>,
-): Array<TmplAstBoundAttribute | TmplAstTextAttribute>;
+  elements: readonly (TmplAstBoundAttribute | TmplAstTextAttribute)[],
+): readonly (TmplAstBoundAttribute | TmplAstTextAttribute)[];
 function findDuplicates(
-  elements: Array<{ name: string }>,
-): Array<{ name: string }> {
+  elements: readonly { name: string }[],
+): readonly { name: string }[] {
   return elements.filter((element) => {
     return elements.some(
       (otherElement) =>
