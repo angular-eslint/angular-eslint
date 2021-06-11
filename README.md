@@ -80,7 +80,7 @@ NOTES:
 - We set `--remove-tslint-if-no-more-tslint-targets` so that we remove TSLint and Codelyzer from the workspace automatically.
 - We set `--ignore-existing-tslint-config` so that we jump straight to the up to date recommended ESLint setup, without converting the previous Angular CLI TSLint setup, which is unnecessary for brand new projects.
 
-If you stuck to those exact commands above you will also see the following in your angular.json:
+If you stick to those exact commands above you will also see the following in your angular.json:
 
 ```json
   "cli": {
