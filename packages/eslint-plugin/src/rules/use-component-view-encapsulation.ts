@@ -5,6 +5,7 @@ import {
   getImportDeclarations,
   getImportRemoveFix,
   getNodeToCommaRemoveFix,
+  isNotNullOrUndefined,
 } from '../utils/utils';
 
 type Options = [];
@@ -46,10 +47,8 @@ export default createESLintRule<Options, MessageIds>({
             {
               messageId: 'suggestRemoveViewEncapsulationNone',
               fix: (fixer) => {
-                const importDeclarations = getImportDeclarations(
-                  node,
-                  '@angular/core',
-                );
+                const importDeclarations =
+                  getImportDeclarations(node, '@angular/core') ?? [];
 
                 return [
                   getNodeToCommaRemoveFix(
@@ -57,14 +56,13 @@ export default createESLintRule<Options, MessageIds>({
                     node.parent.parent,
                     fixer,
                   ),
-                ].concat(
                   getImportRemoveFix(
                     sourceCode,
-                    importDeclarations ?? [],
+                    importDeclarations,
                     'ViewEncapsulation',
                     fixer,
                   ),
-                );
+                ].filter(isNotNullOrUndefined);
               },
             },
           ],
