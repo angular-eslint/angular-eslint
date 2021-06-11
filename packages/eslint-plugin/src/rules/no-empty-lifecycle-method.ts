@@ -6,6 +6,7 @@ import {
   getImplementsRemoveFix,
   getImportDeclarations,
   getImportRemoveFix,
+  isNotNullOrUndefined,
   toPattern,
 } from '../utils/utils';
 
@@ -54,13 +55,12 @@ export default createESLintRule<Options, MessageIds>({
             {
               messageId: 'suggestRemoveLifecycleMethod',
               fix: (fixer) => {
-                const importDeclarations = getImportDeclarations(
-                  node,
-                  '@angular/core',
-                );
+                const importDeclarations =
+                  getImportDeclarations(node, '@angular/core') ?? [];
                 const interfaceName = node.key.name.replace(/^ng+/, '');
 
-                return [fixer.remove(node)].concat(
+                return [
+                  fixer.remove(node),
                   getImplementsRemoveFix(
                     sourceCode,
                     node.parent.parent,
@@ -69,11 +69,11 @@ export default createESLintRule<Options, MessageIds>({
                   ),
                   getImportRemoveFix(
                     sourceCode,
-                    importDeclarations ?? [],
+                    importDeclarations,
                     interfaceName,
                     fixer,
                   ),
-                );
+                ].filter(isNotNullOrUndefined);
               },
             },
           ],

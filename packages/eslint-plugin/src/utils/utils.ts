@@ -285,10 +285,10 @@ export function getNearestNodeFrom<T extends TSESTree.Node>(
 ): T | null {
   while (parent && !isProgram(parent)) {
     if (predicate(parent)) {
-      return (parent as unknown) as T;
+      return parent;
     }
 
-    parent = parent.parent as TSESTree.Node | undefined;
+    parent = parent.parent;
   }
 
   return null;
@@ -301,7 +301,7 @@ export function getImportDeclarations(
   let parentNode: TSESTree.Node | undefined = node;
 
   while ((parentNode = parentNode.parent)) {
-    if (parentNode.type !== 'Program') continue;
+    if (!isProgram(parentNode)) continue;
 
     return parentNode.body.filter(
       (node): node is TSESTree.ImportDeclaration =>
@@ -317,17 +317,17 @@ export function getImplementsRemoveFix(
   classDeclaration: TSESTree.ClassDeclaration,
   interfaceName: string,
   fixer: TSESLint.RuleFixer,
-): TSESLint.RuleFix | TSESLint.RuleFix[] {
+): TSESLint.RuleFix | undefined {
   const { implements: classImplements } = classDeclaration;
 
-  if (!classImplements) return [];
+  if (!classImplements) return undefined;
 
   const identifier = classImplements
     .map(({ expression }) => expression)
     .filter(isIdentifier)
     .find(({ name }) => name === interfaceName);
 
-  if (!identifier) return [];
+  if (!identifier) return undefined;
 
   const isFirstInterface = classImplements[0].expression === identifier;
   const isLastInterface =
@@ -352,14 +352,12 @@ export function getImplementsRemoveFix(
 
   const tokenBeforeInterface = sourceCode.getTokenBefore(identifier);
 
-  if (tokenBeforeInterface) {
-    return fixer.removeRange([
-      tokenBeforeInterface.range[0],
-      identifier.range[1],
-    ]);
-  }
+  if (!tokenBeforeInterface) return undefined;
 
-  return [];
+  return fixer.removeRange([
+    tokenBeforeInterface.range[0],
+    identifier.range[1],
+  ]);
 }
 
 function getImportDeclarationSpecifier(
@@ -414,11 +412,11 @@ export function getImportRemoveFix(
   importDeclarations: readonly TSESTree.ImportDeclaration[],
   importedName: string,
   fixer: TSESLint.RuleFixer,
-): TSESLint.RuleFix | TSESLint.RuleFix[] {
+): TSESLint.RuleFix | undefined {
   const { importDeclaration, importSpecifier } =
     getImportDeclarationSpecifier(importDeclarations, importedName) ?? {};
 
-  if (!importDeclaration || !importSpecifier) return [];
+  if (!importDeclaration || !importSpecifier) return undefined;
 
   const isFirstImportSpecifier =
     importDeclaration.specifiers[0] === importSpecifier;
@@ -443,14 +441,12 @@ export function getImportRemoveFix(
 
   const tokenBeforeImportSpecifier = sourceCode.getTokenBefore(importSpecifier);
 
-  if (tokenBeforeImportSpecifier) {
-    return fixer.removeRange([
-      tokenBeforeImportSpecifier.range[0],
-      importSpecifier.range[1],
-    ]);
-  }
+  if (!tokenBeforeImportSpecifier) return undefined;
 
-  return [];
+  return fixer.removeRange([
+    tokenBeforeImportSpecifier.range[0],
+    importSpecifier.range[1],
+  ]);
 }
 
 export function getImplementsSchemaFixer(
