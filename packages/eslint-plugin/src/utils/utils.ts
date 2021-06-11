@@ -282,7 +282,7 @@ export function isSuper(node: TSESTree.Node): node is TSESTree.Super {
 export function getNearestNodeFrom<T extends TSESTree.Node>(
   { parent }: TSESTree.Node,
   predicate: (parent: TSESTree.Node) => parent is T,
-): T | undefined {
+): T | null {
   while (parent && !isProgram(parent)) {
     if (predicate(parent)) {
       return parent;
@@ -291,7 +291,7 @@ export function getNearestNodeFrom<T extends TSESTree.Node>(
     parent = parent.parent;
   }
 
-  return undefined;
+  return null;
 }
 
 export function getImportDeclarations(

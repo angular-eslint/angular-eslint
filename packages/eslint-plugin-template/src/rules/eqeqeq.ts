@@ -110,10 +110,10 @@ const getFix = ({
   start: number;
   end: number;
   fixer: TSESLint.RuleFixer;
-}): TSESLint.RuleFix | TSESLint.RuleFix[] => {
+}): TSESLint.RuleFix | null => {
   const { source } = getNearestNodeFrom(node, isASTWithSource) ?? {};
 
-  if (!source) return [];
+  if (!source) return null;
 
   return fixer.insertTextAfterRange(
     [start + getSpanLength(left) + 1, end - getSpanLength(right) - 1],

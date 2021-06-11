@@ -15,10 +15,10 @@ export function getNearestNodeFrom<T extends ASTOrNodeWithParent>(
 ): T | null {
   while (parent && !isProgram(parent)) {
     if (predicate(parent)) {
-      return (parent as unknown) as T;
+      return parent;
     }
 
-    parent = parent.parent as ASTOrNodeWithParent | undefined;
+    parent = parent.parent;
   }
 
   return null;
