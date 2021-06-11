@@ -1,10 +1,12 @@
 import type { AST } from '@angular/compiler';
 import type { Node } from '@angular/compiler/src/render3/r3_ast';
+import type { TSESTree } from '@typescript-eslint/experimental-utils';
+import { AST_NODE_TYPES } from '@typescript-eslint/types';
 
 type ASTOrNodeWithParent = (AST | Node) & { parent?: ASTOrNodeWithParent };
 
-function isProgram({ type }: any): boolean {
-  return type === 'Program';
+function isProgram(node: unknown): node is TSESTree.Program {
+  return (node as { type?: string }).type === AST_NODE_TYPES.Program;
 }
 
 export function getNearestNodeFrom<T extends ASTOrNodeWithParent>(
@@ -13,10 +15,10 @@ export function getNearestNodeFrom<T extends ASTOrNodeWithParent>(
 ): T | null {
   while (parent && !isProgram(parent)) {
     if (predicate(parent)) {
-      return (parent as unknown) as T;
+      return parent;
     }
 
-    parent = parent.parent as ASTOrNodeWithParent | undefined;
+    parent = parent.parent;
   }
 
   return null;

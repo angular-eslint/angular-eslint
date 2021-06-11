@@ -10,6 +10,7 @@ export interface Schema extends JsonObject {
   fix: boolean;
   cache: boolean;
   cacheLocation: string | null;
+  cacheStrategy: 'content' | 'metadata' | null;
   eslintConfig: string | null;
   ignorePath: string | null;
 }

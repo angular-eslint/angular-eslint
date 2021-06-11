@@ -1,13 +1,14 @@
 import type { TSESLint, TSESTree } from '@typescript-eslint/experimental-utils';
-
+import { createESLintRule } from '../utils/create-eslint-rule';
 import type { AngularClassDecoratorKeys } from '../utils/utils';
 import {
-  isAngularInnerClassDecorator,
   ANGULAR_CLASS_DECORATOR_MAPPER,
   getAngularClassDecorator,
   getDecoratorName,
+  getNearestNodeFrom,
+  isAngularInnerClassDecorator,
+  isClassDeclaration,
 } from '../utils/utils';
-import { createESLintRule } from '../utils/create-eslint-rule';
 
 type Options = [];
 export type MessageIds = 'contextualDecorator';
@@ -18,8 +19,7 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description:
-        'Ensures that classes use contextual decorators in its body.',
+      description: 'Ensures that classes use contextual decorators in its body',
       category: 'Best Practices',
       recommended: false,
     },
@@ -55,7 +55,7 @@ function validateNode(
     return;
   }
 
-  const classDeclaration = lookupTheClassDeclaration(node);
+  const classDeclaration = getNearestNodeFrom(node, isClassDeclaration);
 
   if (!classDeclaration) {
     return;
@@ -70,20 +70,6 @@ function validateNode(
   for (const decorator of node.decorators) {
     validateDecorator(context, decorator, classDecoratorName);
   }
-}
-
-function lookupTheClassDeclaration(
-  node: TSESTree.Node,
-): TSESTree.ClassDeclaration | null {
-  while (node.parent) {
-    if (node.type === 'ClassDeclaration') {
-      return node;
-    }
-
-    node = node.parent;
-  }
-
-  return null;
 }
 
 function validateDecorator(
@@ -101,7 +87,7 @@ function validateDecorator(
     classDecoratorName,
   );
 
-  if (!allowedDecorators || allowedDecorators.has(decoratorName)) {
+  if (allowedDecorators?.has(decoratorName)) {
     return;
   }
 

@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [12.1.0](https://github.com/angular-eslint/angular-eslint/compare/v12.0.0...v12.1.0) (2021-05-30)
+
+### Bug Fixes
+
+- **template-parser:** generate correct index.d.ts when building ([#480](https://github.com/angular-eslint/angular-eslint/issues/480)) ([e150044](https://github.com/angular-eslint/angular-eslint/commit/e150044b23496a5af42c335e7635429cb122532d))
+
 # [12.0.0](https://github.com/angular-eslint/angular-eslint/compare/v4.3.0...v12.0.0) (2021-05-13)
 
 ### Bug Fixes

@@ -1,5 +1,5 @@
-import * as ariaQuery from 'aria-query';
 import type { ARIARoleDefintionKey, ARIARoleRelationConcept } from 'aria-query';
+import { elementRoles, roles } from 'aria-query';
 
 let nonInteractiveElementRoleSchemas: ARIARoleRelationConcept[] | null = null;
 
@@ -9,14 +9,15 @@ let nonInteractiveElementRoleSchemas: ARIARoleRelationConcept[] | null = null;
 // for the first time, so we will not take up the memory.
 export function getNonInteractiveElementRoleSchemas(): ARIARoleRelationConcept[] {
   if (nonInteractiveElementRoleSchemas === null) {
-    const roleKeys = [...ariaQuery.roles.keys()];
-    const elementRoleEntries = [...ariaQuery.elementRoles];
+    const roleKeys = [...roles.keys()];
+    const elementRoleEntries = [...elementRoles];
 
     const nonInteractiveRoles = new Set<ARIARoleDefintionKey>(
       roleKeys
-        .filter((name: ARIARoleDefintionKey) => {
-          const role = ariaQuery.roles.get(name)!;
+        .filter((name) => {
+          const role = roles.get(name);
           return (
+            role &&
             !role.abstract &&
             // 'toolbar' does not descend from widget, but it does support
             // aria-activedescendant, thus in practice we treat it as a widget.
@@ -31,17 +32,15 @@ export function getNonInteractiveElementRoleSchemas(): ARIARoleRelationConcept[]
         ),
     );
 
-    nonInteractiveElementRoleSchemas = elementRoleEntries.reduce(
-      (accumulator: ARIARoleRelationConcept[], [elementSchema, roleSet]) => {
-        if (
-          [...roleSet].every((role): boolean => nonInteractiveRoles.has(role))
-        ) {
-          accumulator.push(elementSchema);
-        }
-        return accumulator;
-      },
-      [],
-    );
+    nonInteractiveElementRoleSchemas = elementRoleEntries.reduce<
+      ARIARoleRelationConcept[]
+    >((accumulator, [elementSchema, roleSet]) => {
+      return accumulator.concat(
+        [...roleSet].every((role) => nonInteractiveRoles.has(role))
+          ? elementSchema
+          : [],
+      );
+    }, []);
   }
 
   return nonInteractiveElementRoleSchemas;

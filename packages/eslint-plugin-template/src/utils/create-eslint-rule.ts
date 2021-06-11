@@ -10,17 +10,14 @@ interface ParserServices {
   convertNodeSourceSpanToLoc: (
     sourceSpan: ParseSourceSpan,
   ) => TSESTree.SourceLocation;
-  convertElementSourceSpanToLoc: <TMessageIds extends string>(
-    context: TSESLint.RuleContext<TMessageIds, []>,
+  convertElementSourceSpanToLoc: (
+    context: Readonly<TSESLint.RuleContext<string, readonly unknown[]>>,
     node: TmplAstElement,
   ) => TSESTree.SourceLocation;
 }
 
-export function getTemplateParserServices<
-  TMessageIds extends string,
-  TOptions extends readonly unknown[]
->(
-  context: Readonly<TSESLint.RuleContext<TMessageIds, TOptions>>,
+export function getTemplateParserServices(
+  context: Readonly<TSESLint.RuleContext<string, readonly unknown[]>>,
 ): ParserServices {
   ensureTemplateParser(context);
   return (context.parserServices as unknown) as ParserServices;
@@ -31,7 +28,7 @@ export function getTemplateParserServices<
  * If @angular-eslint/template-parser is not the configured parser when the function is invoked it will throw
  */
 export function ensureTemplateParser(
-  context: TSESLint.RuleContext<string, readonly unknown[]>,
+  context: Readonly<TSESLint.RuleContext<string, readonly unknown[]>>,
 ): void {
   if (
     !((context.parserServices as unknown) as ParserServices)

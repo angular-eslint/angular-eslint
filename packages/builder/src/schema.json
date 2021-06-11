@@ -22,6 +22,12 @@
       "type": "string",
       "description": "Path to the cache file or directory."
     },
+    "cacheStrategy": {
+      "type": "string",
+      "description": "Strategy to use for detecting changed files in the cache.",
+      "default": "metadata",
+      "enum": ["metadata", "content"]
+    },
     "force": {
       "type": "boolean",
       "description": "Succeeds even if there was linting errors.",

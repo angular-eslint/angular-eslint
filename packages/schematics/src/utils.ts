@@ -18,12 +18,14 @@ import stripJsonComments from 'strip-json-comments';
  * @param path The path to the JSON file
  * @returns The JSON data in the file.
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function readJsonInTree<T = any>(host: Tree, path: string): T {
   if (!host.exists(path)) {
     throw new Error(`Cannot find ${path}`);
   }
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const contents = stripJsonComments(host.read(path)!.toString('utf-8'));
+  const contents = stripJsonComments(
+    (host.read(path) as Buffer).toString('utf-8'),
+  );
   try {
     return JSON.parse(contents);
   } catch (e) {
@@ -37,6 +39,7 @@ export function readJsonInTree<T = any>(host: Tree, path: string): T {
  * @param callback Manipulation of the JSON data
  * @returns A rule which updates a JSON file file in a Tree
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function updateJsonInTree<T = any, O = T>(
   path: string,
   callback: (json: T, context: SchematicContext) => O,
@@ -86,6 +89,7 @@ export function isTSLintUsedInWorkspace(tree: Tree): boolean {
 
   for (const [, projectConfig] of Object.entries(
     workspaceJson.projects,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ) as any) {
     const targetsConfig = getTargetsConfigFromProject(projectConfig);
     if (!targetsConfig) {
@@ -107,6 +111,7 @@ export function isTSLintUsedInWorkspace(tree: Tree): boolean {
   return false;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function getProjectConfig(host: Tree, name: string): any {
   const workspaceJson = readJsonInTree(host, getWorkspacePath(host));
   const projectConfig = workspaceJson.projects[name];
@@ -126,10 +131,11 @@ export function offsetFromRoot(fullPathToSourceDir: string): string {
   return offset;
 }
 
-function serializeJson(json: any): string {
+function serializeJson(json: unknown): string {
   return `${JSON.stringify(json, null, 2)}\n`;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function updateWorkspaceInTree<T = any, O = T>(
   callback: (json: T, context: SchematicContext, host: Tree) => O,
 ): Rule {
@@ -186,8 +192,7 @@ export function visitNotIgnoredFiles(
     let ig: Ignore;
     if (host.exists('.gitignore')) {
       ig = ignore();
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      ig.add(host.read('.gitignore')!.toString());
+      ig.add((host.read('.gitignore') as Buffer).toString());
     }
 
     function visit(_dir: Path) {
@@ -216,6 +221,7 @@ export function visitNotIgnoredFiles(
 
 type ProjectType = 'application' | 'library';
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function setESLintProjectBasedOnProjectType(
   projectRoot: string,
   projectType: ProjectType,
@@ -242,6 +248,7 @@ export function setESLintProjectBasedOnProjectType(
   return project;
 }
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function createRootESLintConfig(
   prefix: string | null,
   hasE2e?: boolean,
@@ -389,7 +396,9 @@ function createRootESLintConfigFile(projectName: string): Rule {
   };
 }
 
-export function sortObjectByKeys(obj: Record<string, unknown>) {
+export function sortObjectByKeys(
+  obj: Record<string, unknown>,
+): Record<string, unknown> {
   return Object.keys(obj)
     .sort()
     .reduce((result, key) => {
@@ -424,6 +433,7 @@ export function determineTargetProjectName(
  * Method will check if angular project architect has e2e configuration to determine if e2e setup
  */
 export function determineTargetProjectHasE2E(
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
   angularJSON: any,
   projectName: string,
 ): boolean {

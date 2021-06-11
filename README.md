@@ -80,7 +80,7 @@ NOTES:
 - We set `--remove-tslint-if-no-more-tslint-targets` so that we remove TSLint and Codelyzer from the workspace automatically.
 - We set `--ignore-existing-tslint-config` so that we jump straight to the up to date recommended ESLint setup, without converting the previous Angular CLI TSLint setup, which is unnecessary for brand new projects.
 
-If you stuck to those exact commands above you will also see the following in your angular.json:
+If you stick to those exact commands above you will also see the following in your angular.json:
 
 ```json
   "cli": {
@@ -120,7 +120,7 @@ Specifically:
 - It does not use the builder to execute ESLint
 - It does not use the schematics to generate files and config, and is responsible for configuring ESLint via `.eslintrc.json` files in a way that makes sense for Nx workspaces.
 
-**We strongly recommend that you do not try and hand-craft setups with angular-eslint and Nx**. It is easy to gets things wrong.
+**We strongly recommend that you do not try and hand-craft setups with angular-eslint and Nx**. It is easy to get things wrong.
 
 - **If using Angular CLI**, use the angular-eslint tooling as instructed below
 - **If using Nx**, defer to the Nx tooling itself to configure things for you, it has been designed and tested specifically for this purpose.

@@ -6,7 +6,7 @@
  */
 import { Architect } from '@angular-devkit/architect';
 import { TestingArchitectHost } from '@angular-devkit/architect/testing';
-import { logging, schema, json } from '@angular-devkit/core';
+import { json, logging, schema } from '@angular-devkit/core';
 import type { ESLint } from 'eslint';
 import { resolve } from 'path';
 import type { Schema } from '../src/schema';
@@ -60,6 +60,7 @@ function createValidRunBuilderOptions(
     fix: true,
     cache: true,
     cacheLocation: 'cacheLocation1',
+    cacheStrategy: 'content',
     format: 'stylish',
     force: false,
     quiet: false,
@@ -146,6 +147,7 @@ describe('Linter Builder', () => {
         quiet: false,
         cache: true,
         cacheLocation: 'cacheLocation1',
+        cacheStrategy: 'content',
         format: 'stylish',
         force: false,
         silent: false,
@@ -164,6 +166,7 @@ describe('Linter Builder', () => {
         quiet: false,
         cache: true,
         cacheLocation: 'cacheLocation1',
+        cacheStrategy: 'content',
         format: 'stylish',
         force: false,
         silent: false,

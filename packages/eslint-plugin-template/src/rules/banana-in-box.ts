@@ -37,19 +37,20 @@ export default createESLintRule<Options, MessageIds>({
 
         if (!matches) return;
 
-        const [, text] = matches;
-        const newText = `${VALID_OPEN_BOX}${text}${VALID_CLOSE_BOX}`;
         const loc = parserServices.convertNodeSourceSpanToLoc(sourceSpan);
-        const startIndex = sourceCode.getIndexFromLoc(loc.start);
 
         context.report({
           messageId: 'bananaInBox',
           loc,
-          fix: (fixer) =>
-            fixer.replaceTextRange(
+          fix: (fixer) => {
+            const [, textInTheBox] = matches;
+            const textToReplace = `${VALID_OPEN_BOX}${textInTheBox}${VALID_CLOSE_BOX}`;
+            const startIndex = sourceCode.getIndexFromLoc(loc.start);
+            return fixer.replaceTextRange(
               [startIndex, startIndex + name.length + 2],
-              newText,
-            ),
+              textToReplace,
+            );
+          },
         });
       },
     };
