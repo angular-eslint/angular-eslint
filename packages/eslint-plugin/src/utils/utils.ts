@@ -1,4 +1,5 @@
 import type { TSESLint, TSESTree } from '@typescript-eslint/experimental-utils';
+import { ASTUtils } from '@typescript-eslint/experimental-utils';
 
 export const objectKeys = Object.keys as <T>(
   o: T,
@@ -358,6 +359,18 @@ export function getImplementsRemoveFix(
     tokenBeforeInterface.range[0],
     identifier.range[1],
   ]);
+}
+
+export function getNodeToCommaRemoveFix(
+  sourceCode: Readonly<TSESLint.SourceCode>,
+  node: TSESTree.Node,
+  fixer: TSESLint.RuleFixer,
+): TSESLint.RuleFix {
+  const tokenAfterNode = sourceCode.getTokenAfter(node);
+
+  return tokenAfterNode && ASTUtils.isCommaToken(tokenAfterNode)
+    ? fixer.removeRange([node.range[0], tokenAfterNode.range[1]])
+    : fixer.remove(node);
 }
 
 function getImportDeclarationSpecifier(
