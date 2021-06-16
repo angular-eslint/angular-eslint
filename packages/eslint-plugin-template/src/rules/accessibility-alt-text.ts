@@ -1,13 +1,39 @@
-import type { Node, TmplAstElement } from '@angular/compiler';
+import type {
+  TmplAstBoundAttribute,
+  TmplAstTextAttribute,
+} from '@angular/compiler';
+import { TmplAstElement } from '@angular/compiler';
+import type { TSESLint } from '@typescript-eslint/experimental-utils';
 import {
   createESLintRule,
   getTemplateParserServices,
 } from '../utils/create-eslint-rule';
-import { getAttributeValue } from '../utils/get-attribute-value';
+import { hasAccessibleChild } from '../utils/has-accessible-child';
+import {
+  attribute,
+  binaryOrNullableAttribute,
+  emptyOrNullableAttribute,
+} from '../utils/selectors';
 
 type Options = [];
-export type MessageIds = 'accessibilityAltText';
+export type MessageIds =
+  | 'altTextArea'
+  | 'altTextImg'
+  | 'altTextImgWithPresentationRole'
+  | 'altTextInput'
+  | 'altTextObject'
+  | 'altTextWithBinaryOrEmptyOrNullableAriaLabel'
+  | 'altTextWithBinaryOrNullableAlt'
+  | 'suggestReplaceWithEmptyAlt';
 export const RULE_NAME = 'accessibility-alt-text';
+const STYLE_GUIDE_AREA_LINK =
+  'https://www.w3.org/TR/WCAG20-TECHS/H24.html and https://dequeuniversity.com/rules/axe/3.2/area-alt';
+const STYLE_GUIDE_IMG_LINK =
+  'https://www.w3.org/TR/WCAG20-TECHS/H37.html and https://dequeuniversity.com/rules/axe/3.2/image-alt';
+const STYLE_GUIDE_INPUT_LINK =
+  'https://www.w3.org/TR/WCAG20-TECHS/H36.html and https://dequeuniversity.com/rules/axe/3.2/input-image-alt';
+const STYLE_GUIDE_OBJECT_LINK =
+  'https://dequeuniversity.com/rules/axe/3.2/object-alt';
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
@@ -15,152 +41,145 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description:
-        'Enforces alternate text for elements which require the alt, aria-label, aria-labelledby attributes.',
+        'Ensures alternate text for elements which require the `alt`, `aria-label`, `aria-labelledby` or `title` attribute',
       category: 'Best Practices',
       recommended: false,
+      suggestion: true,
     },
     schema: [],
     messages: {
-      accessibilityAltText:
-        '<{{element}}/> element must have a text alternative.',
+      altTextArea: `Each \`area\` within an image map should have alternate text by providing a meaningful text through \`alt\` (can be empty for decorative images), \`aria-label\` or \`aria-labelledby\` attribute. See more at ${STYLE_GUIDE_AREA_LINK}`,
+      altTextImg: `\`<img>\` element should have alternate text by providing a meaningful text through \`alt\` (can be empty for decorative images), \`aria-label\` or \`aria-labelledby\` attribute. See more at ${STYLE_GUIDE_IMG_LINK}`,
+      altTextWithBinaryOrEmptyOrNullableAriaLabel: `The \`{{ariaAttributeName}}\` attribute should have a value. The \`alt\` attribute is preferred over \`{{ariaAttributeName}}\` for images`,
+      altTextWithBinaryOrNullableAlt:
+        'The `alt` attribute should have a value (use `alt=""` for decorative images)',
+      altTextImgWithPresentationRole: `Prefer \`alt=""\` over a presentation role. First rule of aria is to not use aria if it can be achieved via native HTML`,
+      altTextInput: `\`<input type="image">\` element should have alternate text by providing a meaningful text through \`alt\` (can be empty for decorative images), \`aria-label\` or \`aria-labelledby\` attribute. See more at ${STYLE_GUIDE_INPUT_LINK}`,
+      altTextObject: `Embedded \`<object>\` element should have  alternate text by either providing a meaningful text through \`aria-label\`, \`aria-labelledby\` or \`title\` attribute, inner text or accessible child. See more at ${STYLE_GUIDE_OBJECT_LINK}`,
+      suggestReplaceWithEmptyAlt: 'Use `alt=""`',
     },
   },
   defaultOptions: [],
   create(context) {
     const parserServices = getTemplateParserServices(context);
+    const ariaLabelPattern = /^aria-label(ledby)?$/;
+    const objectContentPattern =
+      /^(aria-label(ledby)?|(inner)(Html|HTML|Text)|outerHTML|title)$/;
+    const presentationRolePattern = /^(none|presentation)$/;
+    const altAttribute = attribute('alt');
+    const ariaLabelAttribute = attribute(ariaLabelPattern);
+    const contentObjectAttribute = attribute(objectContentPattern);
+    const inputImageAttribute = attribute('type', 'image');
+    const binaryOrNullableAltAttribute = binaryOrNullableAttribute('alt');
+    const binaryOrNullableAriaLabelAttribute =
+      binaryOrNullableAttribute(ariaLabelPattern);
+    const presentationRoleAttribute = attribute(
+      'role',
+      presentationRolePattern,
+    );
+    const emptyOrNullableAriaLabelAttribute =
+      emptyOrNullableAttribute(ariaLabelPattern);
+    const emptyOrNullableObjectContentAttribute =
+      emptyOrNullableAttribute(objectContentPattern);
+    const areaSelector = 'Element[name="area"]';
+    const imgSelector = 'Element[name="img"]';
+    const inputImageSelector =
+      `Element[name='input']:has(${inputImageAttribute})` as const;
+    const areaWithoutAccessibilitySelector =
+      `${areaSelector}:not(:has(${altAttribute}, ${ariaLabelAttribute}))` as const;
+    const imgWithoutAccessibilitySelector =
+      `${imgSelector}:not(:has(${presentationRoleAttribute}, ${altAttribute}, ${ariaLabelAttribute}))` as const;
+    const imgWithPresentationRoleSelector =
+      `${imgSelector}:not(:has(${altAttribute})) > ${presentationRoleAttribute}` as const;
+    const inputImageWithoutAccessibilitySelector =
+      `${inputImageSelector}:not(:has(${altAttribute}, ${ariaLabelAttribute}))` as const;
+    const objectSelector =
+      `:matches(Element[name='object'] > ${emptyOrNullableObjectContentAttribute}, Element[name='object']:not(:has(${contentObjectAttribute})))` as const;
+    const withBinaryOrEmptyOrNullableAriaLabelSelector =
+      `:matches(${imgSelector}:not(:has(${altAttribute}, ${presentationRoleAttribute})) > ${emptyOrNullableAriaLabelAttribute}, :matches(${areaSelector}, ${inputImageSelector}) > :matches(${emptyOrNullableAriaLabelAttribute}, ${binaryOrNullableAriaLabelAttribute}))` as const;
+    const withBinaryOrNullableAltSelector =
+      `:matches(${areaSelector}, ${imgSelector}, ${inputImageSelector}) > ${binaryOrNullableAltAttribute}` as const;
+
+    function reportFor(
+      node: TmplAstElement | TmplAstBoundAttribute | TmplAstTextAttribute,
+      messageId: MessageIds,
+      reportDescriptor?: Omit<
+        TSESLint.ReportDescriptor<MessageIds>,
+        'loc' | 'messageId' | 'node'
+      >,
+    ) {
+      const loc =
+        node instanceof TmplAstElement
+          ? parserServices.convertElementSourceSpanToLoc(context, node)
+          : parserServices.convertNodeSourceSpanToLoc(node.sourceSpan);
+      context.report({ ...reportDescriptor, loc, messageId });
+    }
 
     return {
-      'Element[name=/^(img|area|object|input)$/]'(node: TmplAstElement) {
-        const isValid = isValidNode(node);
-
-        if (!isValid) {
-          const loc = parserServices.convertElementSourceSpanToLoc(
-            context,
-            node,
-          );
-
-          context.report({
-            loc,
-            messageId: 'accessibilityAltText',
-            data: {
-              element: node.name,
+      [areaWithoutAccessibilitySelector](node: TmplAstElement) {
+        reportFor(node, 'altTextArea');
+      },
+      [imgWithoutAccessibilitySelector](node: TmplAstElement) {
+        reportFor(node, 'altTextImg');
+      },
+      [imgWithPresentationRoleSelector](
+        node: TmplAstBoundAttribute | TmplAstTextAttribute,
+      ) {
+        reportFor(node, 'altTextImgWithPresentationRole', {
+          suggest: [
+            {
+              messageId: 'suggestReplaceWithEmptyAlt',
+              fix: (fixer) => getFix(fixer, node),
             },
-          });
+          ],
+        });
+      },
+      [inputImageWithoutAccessibilitySelector](node: TmplAstElement) {
+        reportFor(node, 'altTextInput');
+      },
+      [objectSelector](
+        node: TmplAstElement | TmplAstBoundAttribute | TmplAstTextAttribute,
+      ) {
+        if (node instanceof TmplAstElement && hasAccessibleChild(node)) {
+          return;
         }
+
+        reportFor(node, 'altTextObject');
+      },
+      [withBinaryOrEmptyOrNullableAriaLabelSelector](
+        node: TmplAstBoundAttribute | TmplAstTextAttribute,
+      ) {
+        reportFor(node, 'altTextWithBinaryOrEmptyOrNullableAriaLabel', {
+          data: {
+            ariaAttributeName: node.name,
+          },
+          suggest: [
+            {
+              messageId: 'suggestReplaceWithEmptyAlt',
+              fix: (fixer) => getFix(fixer, node),
+            },
+          ],
+        });
+      },
+      [withBinaryOrNullableAltSelector](
+        node: TmplAstBoundAttribute | TmplAstTextAttribute,
+      ) {
+        reportFor(node, 'altTextWithBinaryOrNullableAlt', {
+          suggest: [
+            {
+              messageId: 'suggestReplaceWithEmptyAlt',
+              fix: (fixer) => getFix(fixer, node),
+            },
+          ],
+        });
       },
     };
   },
 });
 
-function isValidNode(node: TmplAstElement): boolean {
-  if (node.name === 'img') {
-    return isValidImgNode(node);
-  } else if (node.name === 'object') {
-    return isValidObjectNode(node);
-  } else if (node.name === 'area') {
-    return isValidAreaNode(node);
-  } else {
-    return isValidInputNode(node);
-  }
-}
-
-/**
- * In this case, we check that the `<img>` element has an `alt` attribute or `attr.alt` binding.
- */
-function isValidImgNode(node: TmplAstElement): boolean {
-  return (
-    node.attributes.some(({ name }) => isAlt(name)) ||
-    node.inputs.some(({ name }) => isAlt(name))
-  );
-}
-
-/**
- * In this case, we check that the `<object>` element has a `title` or `aria-label` attribute.
- * Otherwise, we check for the presence of `attr.title` or `attr.aria-label` bindings.
- */
-function isValidObjectNode(node: TmplAstElement): boolean {
-  let hasTitleAttribute = false,
-    hasAriaLabelAttribute = false;
-
-  for (const attribute of node.attributes) {
-    hasTitleAttribute = attribute.name === 'title';
-    hasAriaLabelAttribute = isAriaLabel(attribute.name);
-  }
-
-  // Note that we return "early" before looping through `element.inputs`.
-  // Because if the element has an attribute, then we don't need to iterate
-  // over the inputs unnecessarily.
-  if (hasTitleAttribute || hasAriaLabelAttribute) {
-    return true;
-  }
-
-  let hasTitleBinding = false,
-    hasAriaLabelBinding = false;
-
-  for (const input of node.inputs) {
-    hasTitleBinding = input.name === 'title';
-    hasAriaLabelBinding = isAriaLabel(input.name);
-  }
-
-  if (hasTitleBinding || hasAriaLabelBinding) {
-    return true;
-  }
-
-  return (
-    node.children.length > 0 &&
-    !!(node.children[0] as unknown as Node & { value?: unknown }).value
-  );
-}
-
-/**
- * In this case, we check that the `<area>` element has an `alt` or `aria-label` attribute.
- * Otherwise, we check for the presence of `attr.alt` or `attr.aria-label` bindings.
- */
-function isValidAreaNode(node: TmplAstElement): boolean {
-  let hasAltAttribute = false,
-    hasAriaLabelAttribute = false;
-
-  for (const attribute of node.attributes) {
-    hasAltAttribute = isAlt(attribute.name);
-    hasAriaLabelAttribute = isAriaLabel(attribute.name);
-  }
-
-  // Note that we return "early" before looping through `element.inputs`.
-  // Because if the element has an attribute, then we don't need to iterate
-  // over the inputs unnecessarily.
-  if (hasAltAttribute || hasAriaLabelAttribute) {
-    return true;
-  }
-
-  let hasAltBinding = false,
-    hasAriaLabelBinding = false;
-
-  for (const input of node.inputs) {
-    hasAltBinding = isAlt(input.name);
-    hasAriaLabelBinding = isAriaLabel(input.name);
-  }
-
-  return hasAltBinding || hasAriaLabelBinding;
-}
-
-/**
- * In this case, we check that the `<input>` element has an `alt` or `aria-label` attribute.
- * Otherwise, we check for the presence of `attr.alt` or `attr.aria-label` bindings.
- */
-function isValidInputNode(node: TmplAstElement): boolean {
-  const type = getAttributeValue(node, 'type');
-  // We are only interested in the `<input type="image">` elements.
-  if (type !== 'image') {
-    return true;
-  } else {
-    return isValidAreaNode(node);
-  }
-}
-
-function isAriaLabel(name: string): name is 'aria-label' | 'aria-labelledby' {
-  return name === 'aria-label' || name === 'aria-labelledby';
-}
-
-function isAlt(name: string): name is 'alt' {
-  return name === 'alt';
+function getFix(
+  fixer: TSESLint.RuleFixer,
+  { sourceSpan: { start, end } }: TmplAstBoundAttribute | TmplAstTextAttribute,
+) {
+  return fixer.replaceTextRange([start.offset - 1, end.offset], ' alt=""');
 }

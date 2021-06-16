@@ -10,7 +10,7 @@ import { TmplAstBoundEvent } from '@angular/compiler';
  * ```html
  * <div [style.display.none]="test"></div> <!-- Instead of "display", "style.display.none" -->
  * <div [attr.role]="'none'"></div> <!-- Instead of "attr.role", "role" -->
- * <div ([ngModel])="test"></div> <!-- Instead of "ngModel", "ngModelChange" -->
+ * <div [(ngModel)]="test"></div> <!-- Instead of "ngModel", "ngModelChange" -->
  * <div (@fade.start)="handle()"></div> <!-- Instead of "fade", "@fade.start" -->
  * ```
  */

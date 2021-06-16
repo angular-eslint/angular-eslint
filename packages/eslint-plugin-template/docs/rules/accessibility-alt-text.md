@@ -13,10 +13,12 @@
 
 # `@angular-eslint/template/accessibility-alt-text`
 
-Enforces alternate text for elements which require the alt, aria-label, aria-labelledby attributes.
+Ensures alternate text for elements which require the `alt`, `aria-label`, `aria-labelledby` or `title` attribute
 
 - Type: suggestion
 - Category: Best Practices
+
+- 💡 Provides suggestions on how to fix issues (https://eslint.org/docs/developer-guide/working-with-rules#providing-suggestions)
 
 <br>
 
@@ -35,22 +37,65 @@ The rule does not have any configuration options.
 ❌ - Examples of **incorrect** code for this rule:
 
 ```html
+<area>
+~~~~~~
+```
+
+```html
+<area alt>
+      ~~~
+```
+
+```html
+<area [alt]="null">
+      ~~~~~~~~~~~~
+```
+
+```html
+<area aria-label>
+      ~~~~~~~~~~
+```
+
+```html
+<area aria-labelledby="">
+      ~~~~~~~~~~~~~~~~~~
+```
+
+```html
+<img alt>
+     ~~~
+```
+
+```html
+<img [alt]="undefined">
+     ~~~~~~~~~~~~~~~~~
+```
+
+```html
+<img aria-label="">
+     ~~~~~~~~~~~~~
+```
+
+```html
+<img [attr.aria-labelledby]="">
+     ~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+```html
+<img role="none">
+     ~~~~~~~~~~~
+```
+
+```html
+<img [attr.role]="'presentation'">
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+```html
 <ng-template>
-  <div>
-    <img src="foo">
-    ~~~~~~~~~~~~~~~
-  </div>
+  <a href="/maps/nav.map"><img src="/images/navbar.gif" ismap></a>
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 </ng-template>
-```
-
-```html
-<object></object>
-~~~~~~~~~~~~~~~~~
-```
-
-```html
-<area />
-~~~~~~~~
 ```
 
 ```html
@@ -59,8 +104,47 @@ The rule does not have any configuration options.
 ```
 
 ```html
-<input [type]="'image'">
-~~~~~~~~~~~~~~~~~~~~~~~~
+<input type="image" [alt]="null">
+                    ~~~~~~~~~~~~
+```
+
+```html
+<input aria-label="" [type]="'image'">
+       ~~~~~~~~~~~~~
+```
+
+```html
+<input [attr.aria-labelledby]="null" [attr.type]="'image'">
+       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+```html
+<object></object>
+~~~~~~~~~~~~~~~~~
+```
+
+```html
+<object [innerHttp]="testing"><i aria-hidden></i></object>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+```html
+<object aria-label=""></object>
+        ~~~~~~~~~~~~~
+```
+
+```html
+<object aria-labelledby></object>
+        ~~~~~~~~~~~~~~~
+```
+
+```html
+<object [title]="null"></object>
+        ~~~~~~~~~~~~~~
+<object title=""></object>
+        ~~~~~~~~
+<object [attr.title]="undefined"></object>
+        ~~~~~~~~~~~~~~~~~~~~~~~~
 ```
 
 <br>
@@ -72,47 +156,123 @@ The rule does not have any configuration options.
 ✅ - Examples of **correct** code for this rule:
 
 ```html
-<img src="foo" alt="Foo eating a sandwich.">
+<div></div>
 ```
 
 ```html
-<img src="foo" [attr.alt]="altText">
+<app-top-bar [attr.aria-label]="'Aria'"></app-top-bar>
 ```
 
 ```html
-<img src="foo" [attr.alt]="'Alt Text'">
+<area alt="">
 ```
 
 ```html
-<img src="foo" alt="">
+<area alt=" ">
 ```
 
 ```html
-<object aria-label="foo">
+<area [alt]="">
 ```
 
 ```html
-<object aria-labelledby="id1">
+<area alt="This is descriptive!">
 ```
 
 ```html
-<object>Meaningful description</object>
+<area aria-label="id1">
 ```
 
 ```html
-<object title="An object">
+<area [attr.aria-labelledby]="'foo'">
 ```
 
 ```html
-<area aria-label="foo"></area>
+<img alt="">
 ```
 
 ```html
-<area aria-labelledby="id1"></area>
+<img alt=" ">
 ```
 
 ```html
-<area alt="This is descriptive!"></area>
+<img alt="foo">
+```
+
+```html
+<img alt="{{null}}">
+```
+
+```html
+<img [attr.alt]="'foo'">
+```
+
+```html
+<img [alt]="alt">
+```
+
+```html
+<img [alt]="alt ?? 'Alt text'">
+```
+
+```html
+<img [alt]="foo.bar || ''">
+```
+
+```html
+<img [alt]="{{alt + 'Alt text'}}">
+```
+
+```html
+<img [alt]="getAlt()">
+```
+
+```html
+<img [alt]="error ? 'not working' : 'working'">
+```
+
+```html
+<img alt="" role="none">
+```
+
+```html
+<img [alt]="''" role="presentation">
+```
+
+```html
+<img alt="" [attr.role]="none">
+```
+
+```html
+<img alt="" [role]="'presentation'">
+```
+
+```html
+<img alt="" aria-label="foo">
+```
+
+```html
+<img alt="" [attr.aria-labelledby]="'id0'">
+```
+
+```html
+<img [attr.aria-label]="'foo'">
+```
+
+```html
+<img aria-labelledby="id1">
+```
+
+```html
+<img src="images/solar_system.jpg" alt="Solar System" width="472" height="800" usemap="#map">
+<map name="map">
+  <area shape="rect" coords="115,158,276,192" href="http://en.wikipedia.org/wiki/Mercury_%28planet%29" alt="Mercury">
+  <area shape="rect" coords="115,193,276,234" href="http://en.wikipedia.org/wiki/Venus" alt="Venus">
+</map>
+```
+
+```html
+<input>
 ```
 
 ```html
@@ -120,7 +280,19 @@ The rule does not have any configuration options.
 ```
 
 ```html
+<input type="image" alt="">
+```
+
+```html
+<input type="image" alt=" ">
+```
+
+```html
 <input type="image" alt="This is descriptive!">
+```
+
+```html
+<input aria-label="">
 ```
 
 ```html
@@ -128,5 +300,41 @@ The rule does not have any configuration options.
 ```
 
 ```html
-<input type="image" aria-labelledby="id1">
+<input type="image" [attr.aria-labelledby]="id1">
+```
+
+```html
+<object aria-label="foo"></object>
+```
+
+```html
+<object [attr.aria-labelledby]="id1"></object>
+```
+
+```html
+<object innerHtml="foo"></object>
+```
+
+```html
+<object [innerHTML]="foo"></object>
+```
+
+```html
+<object [innerText]="foo"></object>
+```
+
+```html
+<object outerHTML="foo"></object>
+```
+
+```html
+<object title="An object"></object>
+```
+
+```html
+<object>Meaningful description</object>
+```
+
+```html
+<object><p>Meaningful description</p></object>
 ```
