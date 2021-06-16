@@ -6,6 +6,8 @@ import {
   createESLintRule,
   getTemplateParserServices,
 } from '../utils/create-eslint-rule';
+import { getDomElements } from '../utils/get-dom-elements';
+import { toPattern } from '../utils/to-pattern';
 
 type Options = [];
 export type MessageIds = 'accessibilityTableScope';
@@ -16,22 +18,27 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description: 'Ensures that scope is not used on any element except <th>',
+      description:
+        'Ensures that the `scope` attribute is only used on the `<th>` element',
       category: 'Best Practices',
       recommended: false,
     },
     fixable: 'code',
     schema: [],
     messages: {
-      accessibilityTableScope: 'Scope attribute can only be on <th> element',
+      accessibilityTableScope:
+        'The `scope` attribute should only be on the `<th>` element',
     },
   },
   defaultOptions: [],
   create(context) {
     const parserServices = getTemplateParserServices(context);
+    const domElementsPattern = toPattern(
+      [...getDomElements()].filter((domElement) => domElement !== 'th'),
+    );
 
     return {
-      'Element[name!="th"] > :matches(BoundAttribute[name="scope"], TextAttribute[name="scope"])'({
+      [`Element[name=${domElementsPattern}] > :matches(BoundAttribute, TextAttribute)[name='scope']`]({
         sourceSpan,
       }: TmplAstBoundAttribute | TmplAstTextAttribute) {
         const loc = parserServices.convertNodeSourceSpanToLoc(sourceSpan);
