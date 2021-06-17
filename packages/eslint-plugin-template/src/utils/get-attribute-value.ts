@@ -1,10 +1,12 @@
-import type {
-  TmplAstBoundAttribute,
-  TmplAstElement,
-  TmplAstTextAttribute,
+import type { TmplAstElement } from '@angular/compiler';
+import {
+  ASTWithSource,
+  LiteralArray,
+  LiteralMap,
+  LiteralPrimitive,
 } from '@angular/compiler';
-import { ASTWithSource, LiteralPrimitive } from '@angular/compiler';
-import { PROPERTY } from './constants';
+import { PROPERTY_READ } from './constants';
+import { getOriginalAttributeName } from './get-original-attribute-name';
 
 // The generic type `T` extends plain types because literal primitives
 // can contain values that are of plain types. E.g. this is a literal primitive:
@@ -13,35 +15,34 @@ import { PROPERTY } from './constants';
 // And this is not:
 // <input [disabled]="disabled">
 //        ~~~~~~~~~~~~~~~~~~~~~
-export function getAttributeValue<T extends string | number | boolean = string>(
-  node: TmplAstElement,
+export function getAttributeValue(
+  { attributes, inputs }: TmplAstElement,
   attributeName: string,
-): T | string | null | typeof PROPERTY {
-  const attribute = node.attributes.find(
-    (attribute: TmplAstTextAttribute) => attribute.name === attributeName,
+): unknown {
+  const attribute = attributes.find(
+    (attribute) => getOriginalAttributeName(attribute) === attributeName,
   );
 
   if (attribute) {
     return attribute.value;
   }
 
-  const input = node.inputs.find(
-    (input: TmplAstBoundAttribute) => input.name === attributeName,
+  const input = inputs.find(
+    (input) => getOriginalAttributeName(input) === attributeName,
   );
 
-  if (!input || !(input.value instanceof ASTWithSource)) {
+  if (!(input?.value instanceof ASTWithSource)) {
     return null;
+  } else if (input.value.ast instanceof LiteralArray) {
+    return input.value.ast.expressions;
+  } else if (input.value.ast instanceof LiteralMap) {
+    const { keys, values } = input.value.ast;
+    return keys.reduce((current, next, index) => {
+      return current.set(next.key, values[index]);
+    }, new Map<string, unknown>());
   } else if (input.value.ast instanceof LiteralPrimitive) {
     return input.value.ast.value;
-  } else {
-    // This means that an AST contains a property read, e.g.
-    // `<input [disabled]="disabled">`.
-    return PROPERTY;
   }
-}
 
-export function notAnAttributeOrIsProperty(
-  attribute: unknown,
-): attribute is null | typeof PROPERTY {
-  return attribute === null || attribute === PROPERTY;
+  return PROPERTY_READ;
 }

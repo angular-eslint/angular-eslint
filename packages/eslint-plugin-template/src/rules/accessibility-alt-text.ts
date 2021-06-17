@@ -148,7 +148,7 @@ function isValidAreaNode(node: TmplAstElement): boolean {
  * Otherwise, we check for the presence of `attr.alt` or `attr.aria-label` bindings.
  */
 function isValidInputNode(node: TmplAstElement): boolean {
-  const type = getAttributeValue<string>(node, 'type');
+  const type = getAttributeValue(node, 'type');
   // We are only interested in the `<input type="image">` elements.
   if (type !== 'image') {
     return true;

@@ -43,7 +43,6 @@ ruleTester.run(RULE_NAME, rule, {
       code: `
         <div (click)="onClick()" role="presentation"></div>
         <div (click)="onClick()" [attr.role]="'none'"></div>
-        <div (click)="onClick()" [attr.role]="roleName"></div>
       `,
     },
     {
