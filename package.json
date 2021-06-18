@@ -25,7 +25,7 @@
     "check-clean-workspace-after-install": "git diff --quiet --exit-code",
     "clean": "lerna clean && nx run-many --target=clean --all --parallel",
     "cz": "git-cz",
-    "postinstall": "lerna bootstrap && yarn build && lerna link && npm run check-clean-workspace-after-install",
+    "postinstall": "yarn build && yarn check-clean-workspace-after-install",
     "check-clean-integration-test-fixtures": "tools/scripts/check-clean-integration-test-fixtures.sh",
     "pre-commit": "yarn lint-staged && yarn check-clean-integration-test-fixtures",
     "pre-push": "yarn check-readme-rules-list && yarn format-check",

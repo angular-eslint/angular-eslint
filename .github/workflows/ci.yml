@@ -47,14 +47,13 @@ jobs:
           ${{ runner.os }}-node-${{ steps.yarn-cache-dir-path.outputs.node_version }}-yarn-
 
     - name: Install dependencies (skipping postinstall)
-      # We use --ignore-scripts to skip automatic postinstall and give us more control to distribute tasks
-      run: yarn --ignore-engines --frozen-lockfile --prefer-offline --ignore-scripts
+      # We use --ignore-scripts to skip automatic postinstall and give us more control over distributing build tasks
+      run: |
+        yarn --ignore-engines --frozen-lockfile --prefer-offline --ignore-scripts
+        yarn check-clean-workspace-after-install
 
     - name: Run distributed builds
       run: yarn build
-
-    - name: Run postinstall logic manually
-      run: yarn postinstall
 
     - name: Typecheck all packages (not distributable)
       run: |
