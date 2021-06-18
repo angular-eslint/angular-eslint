@@ -69,8 +69,8 @@ jobs:
       with:
         cmd1: yarn check-configs
         cmd2: yarn lint
-        cmd3: yarn test
-        cmd4: yarn integration-tests
+        cmd3: NX_CLOUD_DISTRIBUTED_EXECUTION=false yarn test
+        cmd4: NX_CLOUD_DISTRIBUTED_EXECUTION=false yarn integration-tests
 
     - name: Publish code coverage report
       run: |
