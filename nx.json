@@ -6,7 +6,8 @@
       "dependencies": "*",
       "devDependencies": "*"
     },
-    "nx.json": "*"
+    "nx.json": "*",
+    ".github/workflows/ci.yml": "*"
   },
   "workspaceLayout": {
     "libsDir": "packages"
