@@ -1,12 +1,12 @@
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
+import { ASTUtils } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import {
   AngularClassDecorators,
   getDecoratorPropertyValue,
   isCallExpression,
-  isIdentifier,
   isImportedFrom,
-  isLiteral,
+  isLiteralWithStringValue,
 } from '../utils/utils';
 
 type Options = [];
@@ -47,7 +47,7 @@ export default createESLintRule<Options, MessageIds>({
         if (outputCallExpression.arguments.length === 0) return;
 
         // handle directive's selector is also an output property
-        let directiveSelectors: ReadonlySet<any>;
+        let directiveSelectors: ReadonlySet<string>;
 
         const canPropertyBeAliased = (
           propertyAlias: string,
@@ -64,24 +64,20 @@ export default createESLintRule<Options, MessageIds>({
         const classDeclaration = (classProperty.parent as TSESTree.ClassBody)
           .parent as TSESTree.ClassDeclaration;
 
-        const decorator =
-          classDeclaration.decorators &&
-          classDeclaration.decorators.find(
-            (decorator) =>
-              isCallExpression(decorator.expression) &&
-              isIdentifier(decorator.expression.callee) &&
-              decorator.expression.callee.name ===
-                AngularClassDecorators.Directive,
-          );
+        const decorator = classDeclaration.decorators?.find(
+          (decorator) =>
+            isCallExpression(decorator.expression) &&
+            ASTUtils.isIdentifier(decorator.expression.callee) &&
+            decorator.expression.callee.name ===
+              AngularClassDecorators.Directive,
+        );
 
         if (decorator) {
           const selector = getDecoratorPropertyValue(decorator, 'selector');
 
-          if (selector && isLiteral(selector) && selector.value) {
+          if (selector && isLiteralWithStringValue(selector)) {
             directiveSelectors = new Set(
-              (selector.value.toString() || '')
-                .replace(/[[\]\s]/g, '')
-                .split(','),
+              selector.value.replace(/[[\]\s]/g, '').split(','),
             );
           }
         }
@@ -91,7 +87,7 @@ export default createESLintRule<Options, MessageIds>({
 
         if (
           propertyAlias &&
-          isIdentifier(classProperty.key) &&
+          ASTUtils.isIdentifier(classProperty.key) &&
           canPropertyBeAliased(propertyAlias.toString(), classProperty.key.name)
         )
           return;

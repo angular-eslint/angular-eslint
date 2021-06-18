@@ -50,6 +50,7 @@ export default createESLintRule<Options, MessageIds>({
         const methodName = getMethodName(method);
 
         if (
+          !methodName ||
           !isAngularLifecycleMethod(methodName) ||
           allowedMethods?.has(methodName)
         ) {

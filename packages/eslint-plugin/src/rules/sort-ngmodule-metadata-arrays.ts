@@ -1,13 +1,9 @@
+import type { NgModule } from '@angular/compiler/src/core';
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
+import { ASTUtils } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import { MODULE_CLASS_DECORATOR } from '../utils/selectors';
-import {
-  getDecoratorPropertyValue,
-  isArrayExpression,
-  isIdentifier,
-} from '../utils/utils';
-
-import type { NgModule } from '@angular/compiler/src/core';
+import { getDecoratorPropertyValue, isArrayExpression } from '../utils/utils';
 
 type Options = [];
 export const RULE_NAME = 'sort-ngmodule-metadata-arrays';
@@ -53,7 +49,7 @@ export default createESLintRule<Options, MessageIds>({
             return;
           }
           const unorderedNodes = initializer.elements
-            .filter(isIdentifier)
+            .filter(ASTUtils.isIdentifier)
             .map((current, index, list) => {
               return [current, list[index + 1]];
             })

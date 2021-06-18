@@ -1,9 +1,10 @@
 import type { TSESLint, TSESTree } from '@typescript-eslint/experimental-utils';
 import { ASTUtils } from '@typescript-eslint/experimental-utils';
+import { AST_NODE_TYPES } from '@typescript-eslint/types';
 
 export const objectKeys = Object.keys as <T>(
   o: T,
-) => ReadonlyArray<Extract<keyof T, string>>;
+) => readonly Extract<keyof T, string>[];
 
 export enum AngularClassDecorators {
   Component = 'Component',
@@ -189,65 +190,61 @@ export const ANGULAR_CLASS_DECORATOR_MAPPER: ReadonlyMap<
 export function isCallExpression(
   node: TSESTree.Node,
 ): node is TSESTree.CallExpression {
-  return node.type === 'CallExpression';
-}
-
-export function isIdentifier(node: TSESTree.Node): node is TSESTree.Identifier {
-  return node.type === 'Identifier';
+  return node.type === AST_NODE_TYPES.CallExpression;
 }
 
 export function isMemberExpression(
   node: TSESTree.Node,
 ): node is TSESTree.MemberExpression {
-  return node.type === 'MemberExpression';
+  return node.type === AST_NODE_TYPES.MemberExpression;
 }
 
 export function isClassDeclaration(
   node: TSESTree.Node,
 ): node is TSESTree.ClassDeclaration {
-  return node.type === 'ClassDeclaration';
+  return node.type === AST_NODE_TYPES.ClassDeclaration;
 }
 
 export function isObjectExpression(
   node: TSESTree.Node,
 ): node is TSESTree.ObjectExpression {
-  return node.type === 'ObjectExpression';
+  return node.type === AST_NODE_TYPES.ObjectExpression;
 }
 
 export function isArrayExpression(
   node: TSESTree.Node,
 ): node is TSESTree.ArrayExpression {
-  return node.type === 'ArrayExpression';
+  return node.type === AST_NODE_TYPES.ArrayExpression;
 }
 
 export function isProperty(node: TSESTree.Node): node is TSESTree.Property {
-  return node.type === 'Property';
+  return node.type === AST_NODE_TYPES.Property;
 }
 
 function isProgram(node: TSESTree.Node): node is TSESTree.Program {
-  return node.type === 'Program';
+  return node.type === AST_NODE_TYPES.Program;
 }
 
 export function isLiteral(node: TSESTree.Node): node is TSESTree.Literal {
-  return node.type === 'Literal';
+  return node.type === AST_NODE_TYPES.Literal;
 }
 
 export function isTemplateLiteral(
   node: TSESTree.Node,
 ): node is TSESTree.TemplateLiteral {
-  return node.type === 'TemplateLiteral';
+  return node.type === AST_NODE_TYPES.TemplateLiteral;
 }
 
 export function isImportDeclaration(
   node: TSESTree.Node,
 ): node is TSESTree.ImportDeclaration {
-  return node.type === 'ImportDeclaration';
+  return node.type === AST_NODE_TYPES.ImportDeclaration;
 }
 
 function isImportSpecifier(
   node: TSESTree.Node,
 ): node is TSESTree.ImportSpecifier {
-  return node.type === 'ImportSpecifier';
+  return node.type === AST_NODE_TYPES.ImportSpecifier;
 }
 
 type LiteralWithStringValue = TSESTree.Literal & {
@@ -262,17 +259,17 @@ type LiteralWithStringValue = TSESTree.Literal & {
 export function isLiteralWithStringValue(
   node: TSESTree.Node,
 ): node is LiteralWithStringValue {
-  return node.type === 'Literal' && typeof node.value === 'string';
+  return isLiteral(node) && typeof node.value === 'string';
 }
 
 export function isMethodDefinition(
   node: TSESTree.Node,
 ): node is TSESTree.MethodDefinition {
-  return node.type === 'MethodDefinition';
+  return node.type === AST_NODE_TYPES.MethodDefinition;
 }
 
 export function isSuper(node: TSESTree.Node): node is TSESTree.Super {
-  return node.type === 'Super';
+  return node.type === AST_NODE_TYPES.Super;
 }
 
 /**
@@ -325,7 +322,7 @@ export function getImplementsRemoveFix(
 
   const identifier = classImplements
     .map(({ expression }) => expression)
-    .filter(isIdentifier)
+    .filter(ASTUtils.isIdentifier)
     .find(({ name }) => name === interfaceName);
 
   if (!identifier) return undefined;
@@ -492,10 +489,7 @@ export const getDecorator = (
   node: TSESTree.ClassDeclaration,
   decoratorName: string,
 ): TSESTree.Decorator | undefined => {
-  if (!node.decorators) {
-    return undefined;
-  }
-  return node.decorators.find(
+  return node.decorators?.find(
     (decorator) =>
       isCallExpression(decorator.expression) &&
       decorator.expression.arguments &&
@@ -513,59 +507,46 @@ export const getAngularClassDecorator = ({
     .find(isAngularClassDecorator);
 };
 
-export const getDecoratorArgument = (
-  decorator: TSESTree.Decorator,
-): TSESTree.ObjectExpression | undefined => {
-  const { expression } = decorator;
-  if (
-    !isCallExpression(expression) ||
-    !expression.arguments ||
-    expression.arguments.length === 0
-  ) {
+export const getDecoratorArgument = ({
+  expression,
+}: TSESTree.Decorator): TSESTree.ObjectExpression | undefined => {
+  if (!isCallExpression(expression) || expression.arguments.length === 0) {
     return undefined;
   }
-  const arg = expression.arguments[0];
+  const [arg] = expression.arguments;
   return isObjectExpression(arg) && arg.properties ? arg : undefined;
 };
 
-export const getDecoratorName = (
-  decorator: TSESTree.Decorator,
-): string | undefined => {
-  const { expression } = decorator;
+export const getDecoratorName = ({
+  expression,
+}: TSESTree.Decorator): string | undefined => {
+  if (ASTUtils.isIdentifier(expression)) return expression.name;
 
-  if (isIdentifier(expression)) return expression.name;
-
-  if (isCallExpression(expression) && isIdentifier(expression.callee)) {
-    return expression.callee.name;
-  }
-
-  return undefined;
+  return isCallExpression(expression) &&
+    ASTUtils.isIdentifier(expression.callee)
+    ? expression.callee.name
+    : undefined;
 };
 
 export const getPipeDecorator = (
   node: TSESTree.ClassDeclaration,
 ): TSESTree.Decorator | undefined => getDecorator(node, 'Pipe');
 
-export const getSymbolName = (
-  expression: TSESTree.TSClassImplements,
-): string => {
-  const { expression: childExpression } = expression;
-
-  // TODO: Investigate "as any"
-  return isMemberExpression(childExpression)
-    ? (childExpression.property as any).name
-    : (childExpression as any).name;
-};
-
 export const getDeclaredInterfaces = (
   node: TSESTree.ClassDeclaration,
 ): TSESTree.TSClassImplements[] => {
-  return node.implements || [];
+  return node.implements ?? [];
 };
 
 export const getDeclaredInterfaceNames = (
   node: TSESTree.ClassDeclaration,
-): string[] => getDeclaredInterfaces(node).map(getSymbolName);
+): readonly string[] =>
+  getDeclaredInterfaces(node)
+    .map(({ expression }) =>
+      isMemberExpression(expression) ? expression.property : expression,
+    )
+    .filter(ASTUtils.isIdentifier)
+    .map(({ name }) => name);
 
 export const getDeclaredInterfaceName = (
   node: TSESTree.ClassDeclaration,
@@ -577,19 +558,18 @@ export const getDeclaredInterfaceName = (
 
 export const getDeclaredAngularLifecycleInterfaces = (
   node: TSESTree.ClassDeclaration,
-): ReadonlyArray<AngularLifecycleInterfaceKeys> =>
+): readonly AngularLifecycleInterfaceKeys[] =>
   getDeclaredInterfaceNames(node).filter(
     isAngularLifecycleInterface,
-  ) as ReadonlyArray<AngularLifecycleInterfaceKeys>;
+  ) as readonly AngularLifecycleInterfaceKeys[];
 
 export const getDeclaredAngularLifecycleMethods = (
   node: TSESTree.ClassDeclaration,
-): ReadonlyArray<AngularLifecycleMethodKeys> =>
+): readonly AngularLifecycleMethodKeys[] =>
   getDeclaredMethods(node)
     .map(getMethodName)
-    .filter(isAngularLifecycleMethod) as ReadonlyArray<
-    AngularLifecycleMethodKeys
-  >;
+    .filter(isNotNullOrUndefined)
+    .filter(isAngularLifecycleMethod) as readonly AngularLifecycleMethodKeys[];
 
 export const ANGULAR_LIFECYCLE_INTERFACES: ReadonlySet<AngularLifecycleInterfaceKeys> = new Set(
   angularLifecycleInterfaceKeys,
@@ -630,64 +610,47 @@ export const isAngularInnerClassDecorator = (
  *  ['c'] // Literal
  * }
  */
-export function getClassPropertyName(
-  classProperty: TSESTree.ClassProperty,
-): string {
-  if (classProperty.key.type === 'Identifier') {
-    return classProperty.key.name;
+export function getClassPropertyName({ key }: TSESTree.ClassProperty): string {
+  if (ASTUtils.isIdentifier(key)) {
+    return key.name;
   }
 
-  if (classProperty.key.type === 'Literal') {
-    return classProperty.key.raw;
+  if (isLiteral(key)) {
+    return key.raw;
   }
 
-  throw new Error(
-    `Unexpected "ClassProperty.key.type" provided: ${classProperty.key.type}`,
-  );
+  throw new Error(`Unexpected "ClassProperty.key.type" provided: ${key.type}`);
 }
 
 export const getDecoratorProperty = (
   decorator: TSESTree.Decorator,
   name: string,
 ): TSESTree.Property | undefined => {
-  const arg = getDecoratorArgument(decorator);
-
-  if (!arg || !isObjectExpression(arg)) return undefined;
-
-  const properties = arg.properties as TSESTree.Property[];
-  const property = properties.find(
-    (prop) => prop.key && isIdentifier(prop.key) && prop.key.name === name,
-  );
-
-  if (!property || !isProperty(property)) return undefined;
-
-  return property;
+  return getDecoratorArgument(decorator)
+    ?.properties.filter(isProperty)
+    .find(({ key }) => ASTUtils.isIdentifier(key) && key.name === name);
 };
 
 export const getDecoratorPropertyValue = (
   decorator: TSESTree.Decorator,
   name: string,
-): TSESTree.Expression | TSESTree.Literal | undefined => {
-  const property = getDecoratorProperty(decorator, name);
-  if (!property) {
-    return undefined;
-  }
-
-  /**
-   * TODO: Investigate as any
-   */
-  return property.value as any;
+): TSESTree.Property['value'] | undefined => {
+  return getDecoratorProperty(decorator, name)?.value;
 };
 
-export const getDeclaredMethods = (node: TSESTree.ClassDeclaration) => {
-  return node.body.body.filter(isMethodDefinition);
+export const getDeclaredMethods = ({
+  body: { body },
+}: TSESTree.ClassDeclaration): readonly TSESTree.MethodDefinition[] => {
+  return body.filter(isMethodDefinition);
 };
 
-export const getMethodName = (node: TSESTree.MethodDefinition): string => {
-  if (isLiteral(node.key)) {
-    return node.key.value as string;
+export const getMethodName = (
+  node: TSESTree.MethodDefinition,
+): string | undefined => {
+  if (isLiteralWithStringValue(node.key)) {
+    return node.key.value;
   }
-  return (node.key as TSESTree.Identifier).name;
+  return ASTUtils.isIdentifier(node.key) ? node.key.name : undefined;
 };
 
 export const getLifecycleInterfaceByMethodName = (
@@ -698,14 +661,11 @@ export const getLifecycleInterfaceByMethodName = (
 /**
  * Enforces the invariant that the input is an array.
  */
-export function arrayify<T>(arg?: T | T[]): T[] {
+export function arrayify<T>(arg?: T | readonly T[]): readonly T[] {
   if (Array.isArray(arg)) {
     return arg;
-  } else if (arg != undefined) {
-    return [arg];
-  } else {
-    return [];
   }
+  return (arg ? [arg] : []) as readonly T[];
 }
 
 // Needed because in the current Typescript version (TS 3.3.3333), Boolean() cannot be used to perform a null check.
@@ -755,8 +715,10 @@ export const SelectorValidator = {
   },
 };
 
-export const kebabToCamelCase = (value: string) =>
-  value.replace(/-[a-zA-Z]/g, (x) => x[1].toUpperCase());
+export const kebabToCamelCase = (value: string): string =>
+  value.replace(/-[a-zA-Z]/g, ({ 1: letterAfterDash }) =>
+    letterAfterDash.toUpperCase(),
+  );
 
 export function isImportedFrom(
   identifier: TSESTree.Identifier,
@@ -792,5 +754,5 @@ export const toHumanReadableText = (items: readonly string[]): string => {
     .join(', ')} or "${[...items].pop()}"`;
 };
 
-export const toPattern = (value: readonly unknown[]) =>
+export const toPattern = (value: readonly unknown[]): RegExp =>
   RegExp(`^(${value.join('|')})$`);

@@ -38,14 +38,14 @@ export default createESLintRule<Options, MessageIds>({
     return {
       [`MethodDefinition[key.name=${angularLifecycleMethodsPattern}]`]({
         key,
-        parent,
-      }: TSESTree.MethodDefinition) {
-        const classDeclaration = parent!.parent as TSESTree.ClassDeclaration;
-
-        if (!getAngularClassDecorator(classDeclaration)) return;
+        parent: { parent },
+      }: TSESTree.MethodDefinition & { parent: TSESTree.ClassBody } & {
+        parent: TSESTree.ClassDeclaration;
+      }) {
+        if (!getAngularClassDecorator(parent)) return;
 
         const declaredLifecycleInterfaces = getDeclaredAngularLifecycleInterfaces(
-          classDeclaration,
+          parent,
         );
         const methodName = (key as TSESTree.Identifier)
           .name as AngularLifecycleMethodKeys;

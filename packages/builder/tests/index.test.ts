@@ -98,12 +98,12 @@ async function runBuilder(options: Schema) {
   const { default: builderImplementation } = require('../src/index');
   testArchitectHost.addBuilder(builderName, builderImplementation);
 
-  const architect = new Architect(testArchitectHost, registry as any);
+  const architect = new Architect(testArchitectHost, registry);
   const logger = new logging.Logger('');
   logger.subscribe(loggerSpy);
 
   const run = await architect.scheduleBuilder(builderName, options, {
-    logger: logger as any,
+    logger,
   });
 
   return run.result;

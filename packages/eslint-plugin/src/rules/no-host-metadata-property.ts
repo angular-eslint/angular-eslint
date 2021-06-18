@@ -1,10 +1,10 @@
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
+import { ASTUtils } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import { COMPONENT_OR_DIRECTIVE_CLASS_DECORATOR } from '../utils/selectors';
 import {
   AngularInnerClassDecorators,
-  isIdentifier,
-  isLiteral,
+  isLiteralWithStringValue,
   isObjectExpression,
   isProperty,
 } from '../utils/utils';
@@ -72,7 +72,9 @@ function isEmptyStringValue(
 ): property is TSESTree.Property & {
   value: TSESTree.Literal & { value: '' };
 } {
-  return isLiteral(property.value) && property.value.value === '';
+  return (
+    isLiteralWithStringValue(property.value) && property.value.value === ''
+  );
 }
 
 function isStatic(
@@ -83,9 +85,8 @@ function isStatic(
 } {
   return (
     !property.computed &&
-    (isIdentifier(property.key) ||
-      (isLiteral(property.key) &&
-        typeof property.key.value === 'string' &&
+    (ASTUtils.isIdentifier(property.key) ||
+      (isLiteralWithStringValue(property.key) &&
         startsWithLetter(property.key.value)))
   );
 }
