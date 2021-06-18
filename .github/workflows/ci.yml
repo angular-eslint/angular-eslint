@@ -22,7 +22,7 @@ jobs:
     - uses: actions/checkout@v2
       with:
         fetch-depth: 0
-    
+
     - name: Derive appropriate SHAs for base and head for `nx affected` commands
       uses: jameshenry/nx-set-shas@v0.3
       with:
@@ -45,11 +45,9 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-node-${{ steps.yarn-cache-dir-path.outputs.node_version }}-yarn-
 
-    - name: Install dependencies
-      run: |
-        # This also runs a build as part of the postinstall
-        # bootstrap
-        yarn --ignore-engines --frozen-lockfile --prefer-offline
+    - name: Install dependencies (skipping postinstall)
+      # We use --ignore-scripts to skip automatic postinstall and give us more control to distribute tasks
+      run: yarn --ignore-engines --frozen-lockfile --prefer-offline --ignore-scripts
 
     - name: Typecheck all packages
       run: |
@@ -59,6 +57,12 @@ jobs:
 
     - name: Check code formatting
       run: yarn format-check
+
+    - name: Run distributed builds
+      run: yarn build
+
+    - name: Run postinstall logic manually
+      run: yarn postinstall
 
     - name: Run parallel distributed tasks for check-configs, lint, test and integration-tests targets
       uses: jameshenry/parallel-bash-commands@v1
@@ -108,16 +112,15 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-${{ steps.yarn-cache-dir-path.outputs.node_version }}-yarn-
 
-      - name: Install dependencies
-        run: |
-          # This also runs a build as part of the postinstall
-          # bootstrap
-          yarn --ignore-engines --frozen-lockfile --prefer-offline
+      - name: Install dependencies (skipping postinstall)
+        # We use --ignore-scripts to skip automatic postinstall and give us more control to distribute tasks
+        run: yarn --ignore-engines --frozen-lockfile --prefer-offline --ignore-scripts
 
       - name: Start Nx Agent ${{ matrix.agent }}
         run: npx nx-cloud start-agent
   
   unit_tests_on_other_node_versions:
+    name: Unit tests on other supported Node versions
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -152,14 +155,17 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-node-${{ steps.yarn-cache-dir-path.outputs.node_version }}-yarn-
 
-    - name: Install dependencies
-      run: |
-        # This also runs a build as part of the postinstall
-        # bootstrap
-        yarn --ignore-engines --frozen-lockfile --prefer-offline
+    - name: Install dependencies (skipping postinstall)
+      # We use --ignore-scripts to skip automatic postinstall and give us more control to distribute tasks
+      run: yarn --ignore-engines --frozen-lockfile --prefer-offline --ignore-scripts
 
-    - name: Run unit tests
-      run: yarn test
+    - name: Run build on Node ${{ matrix.node }}
+      # We cannot distribute this because the agents are set up to run the primary node version, not this alternative we are testing
+      run: NX_CLOUD_DISTRIBUTED_EXECUTION=false yarn build
+
+    - name: Run unit tests on Node ${{ matrix.node }}
+      # We cannot distribute this because the agents are set up to run the primary node version, not this alternative we are testing
+      run: NX_CLOUD_DISTRIBUTED_EXECUTION=false yarn test
 
   publish_canary_version:
     name: Publish the latest code as a canary version
@@ -192,11 +198,14 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-${{ steps.yarn-cache-dir-path.outputs.node_version }}-yarn-
 
-      - name: Install dependencies
-        run: |
-          # This also runs a build as part of the postinstall
-          # bootstrap
-          yarn --ignore-engines --frozen-lockfile --prefer-offline
+      - name: Install dependencies (skipping postinstall)
+        # We use --ignore-scripts to skip automatic postinstall and give us more control to distribute tasks
+        run: yarn --ignore-engines --frozen-lockfile --prefer-offline --ignore-scripts
+
+      - name: Run build ahead of publishing
+        # We cannot distribute this because the agents have already been stopped by this point
+        # but it should not matter because this should be a full cloud cache hit
+        run: NX_CLOUD_DISTRIBUTED_EXECUTION=false yarn build
 
       - name: Publish all packages to npm
         run: npx lerna publish --loglevel=verbose --canary --exact --force-publish --yes
