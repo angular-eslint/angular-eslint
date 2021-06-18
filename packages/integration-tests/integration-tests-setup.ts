@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import execa from 'execa';
 import type { ChildProcess } from 'child_process';
 import { spawn } from 'child_process';
@@ -33,8 +34,8 @@ async function spawnLocalRegistry() {
   }, 10000);
 
   await new Promise((res, rej) => {
-    localRegistryProcess.stdout.pipe(process.stdout);
-    localRegistryProcess.stdout.on('data', (data: Buffer) => {
+    localRegistryProcess.stdout!.pipe(process.stdout);
+    localRegistryProcess.stdout!.on('data', (data: Buffer) => {
       collectedOutput.push(data.toString());
       // wait for local-registry to come online
       if (data.includes('http address')) {
@@ -42,7 +43,7 @@ async function spawnLocalRegistry() {
         res(undefined);
       }
     });
-    localRegistryProcess.stderr.pipe(process.stderr);
+    localRegistryProcess.stderr!.pipe(process.stderr);
     localRegistryProcess.on('error', (err: Error) => {
       console.error(collectedOutput.join(''));
       resolvedOrRejected = true;
@@ -61,8 +62,8 @@ async function publishPackagesToVerdaccio() {
   }
 
   const subprocess = execa('./publish-to-verdaccio.sh', [VERSION]);
-  subprocess.stdout.pipe(process.stdout);
-  subprocess.stderr.pipe(process.stderr);
+  subprocess.stdout!.pipe(process.stdout);
+  subprocess.stderr!.pipe(process.stderr);
 
   return await subprocess;
 }
@@ -77,8 +78,8 @@ async function runNpmInstall() {
   }
 
   const subprocess = execa('npm', ['install']);
-  subprocess.stdout.pipe(process.stdout);
-  subprocess.stderr.pipe(process.stderr);
+  subprocess.stdout!.pipe(process.stdout);
+  subprocess.stderr!.pipe(process.stderr);
 
   return await subprocess;
 }
@@ -93,8 +94,8 @@ async function runYarnInstall() {
   }
 
   const subprocess = execa('yarn', ['install']);
-  subprocess.stdout.pipe(process.stdout);
-  subprocess.stderr.pipe(process.stderr);
+  subprocess.stdout!.pipe(process.stdout);
+  subprocess.stderr!.pipe(process.stderr);
 
   return await subprocess;
 }
@@ -113,8 +114,8 @@ async function runNgAdd() {
     'add',
     `@angular-eslint/schematics@${VERSION}`,
   ]);
-  subprocess.stdout.pipe(process.stdout);
-  subprocess.stderr.pipe(process.stderr);
+  subprocess.stdout!.pipe(process.stdout);
+  subprocess.stderr!.pipe(process.stderr);
 
   return await subprocess;
 }
@@ -137,8 +138,8 @@ async function runNgNew(workspaceName: string) {
     `--interactive=false`,
     workspaceName,
   ]);
-  subprocess.stdout.pipe(process.stdout);
-  subprocess.stderr.pipe(process.stderr);
+  subprocess.stdout!.pipe(process.stdout);
+  subprocess.stderr!.pipe(process.stderr);
 
   return await subprocess;
 }
@@ -153,8 +154,8 @@ async function runNgGenerate(args: string[]) {
   }
 
   const subprocess = execa('npx', ['ng', 'generate', ...args]);
-  subprocess.stdout.pipe(process.stdout);
-  subprocess.stderr.pipe(process.stderr);
+  subprocess.stdout!.pipe(process.stdout);
+  subprocess.stderr!.pipe(process.stderr);
 
   return await subprocess;
 }
@@ -174,8 +175,8 @@ async function runConvertTSLintToESLint(additionalArgs?: string[]) {
   }
 
   const subprocess = execa('npx', args);
-  subprocess.stdout.pipe(process.stdout);
-  subprocess.stderr.pipe(process.stderr);
+  subprocess.stdout!.pipe(process.stdout);
+  subprocess.stderr!.pipe(process.stderr);
 
   return await subprocess;
 }
