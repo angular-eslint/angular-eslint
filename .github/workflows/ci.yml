@@ -27,6 +27,7 @@ jobs:
       uses: jameshenry/nx-set-shas@v0.3
       with:
         error-on-no-matching-tags: false
+        main-branch-name: master
 
     - name: Install node and npm based on the volta config in our package.json
       uses: volta-cli/action@v1
@@ -135,6 +136,7 @@ jobs:
       uses: jameshenry/nx-set-shas@v0.3
       with:
         error-on-no-matching-tags: false
+        main-branch-name: master
 
     - uses: actions/setup-node@v1
       with:
