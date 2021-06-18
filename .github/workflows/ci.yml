@@ -49,14 +49,14 @@ jobs:
       # We use --ignore-scripts to skip automatic postinstall and give us more control to distribute tasks
       run: yarn --ignore-engines --frozen-lockfile --prefer-offline --ignore-scripts
 
-    - name: Typecheck all packages
+    - name: Typecheck all packages (not distributable)
       run: |
         # Note that this command *also* typechecks tests/tools,
         # whereas the build only checks src files
-        yarn typecheck
+        NX_CLOUD_DISTRIBUTED_EXECUTION=false yarn typecheck
 
-    - name: Check code formatting
-      run: yarn format-check
+    - name: Check code formatting (not distributable)
+      run: NX_CLOUD_DISTRIBUTED_EXECUTION=false yarn format-check
 
     - name: Run distributed builds
       run: yarn build
