@@ -7,6 +7,8 @@ import {
   createESLintRule,
   getTemplateParserServices,
 } from '../utils/create-eslint-rule';
+import { getDomElements } from '../utils/get-dom-elements';
+import { toPattern } from '../utils/to-pattern';
 
 type Options = [];
 export type MessageIds = 'noPositiveTabindex' | 'suggestNonNegativeTabindex';
@@ -30,9 +32,10 @@ export default createESLintRule<Options, MessageIds>({
   defaultOptions: [],
   create(context) {
     const parserServices = getTemplateParserServices(context);
+    const elementNamePattern = toPattern([...getDomElements()]);
 
     return {
-      'BoundAttribute[name="tabindex"][value.ast.value>0], TextAttribute[name="tabindex"][value>0]'({
+      [`Element[name=${elementNamePattern}] > BoundAttribute[name="tabindex"][value.ast.value>0], TextAttribute[name="tabindex"][value>0]`]({
         valueSpan,
       }: (TmplAstBoundAttribute | TmplAstTextAttribute) & {
         valueSpan: ParseSourceSpan;
