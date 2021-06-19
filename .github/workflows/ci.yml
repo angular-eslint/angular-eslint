@@ -12,7 +12,7 @@ concurrency:
 
 env:
   NX_CLOUD_DISTRIBUTED_EXECUTION: true
-  NX_VERBOSE_LOGGING: true
+  NX_VERBOSE_LOGGING: false
 
 jobs:
   primary:
@@ -66,7 +66,8 @@ jobs:
         cmd4: yarn lint
         cmd5: yarn test
 
-    - run: npx nx run-many --target=integration-test --all
+    - name: Run distributed integration tests
+      run: npx nx run-many --target=integration-test --all
 
     - name: Publish code coverage report
       run: |
