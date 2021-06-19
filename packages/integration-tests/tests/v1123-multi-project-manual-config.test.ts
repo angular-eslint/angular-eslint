@@ -1,35 +1,24 @@
-import * as execa from 'execa';
 import path from 'path';
+import { runNgAdd, runNpmInstall } from '../utils/local-registry-process';
+import { runLint } from '../utils/run-lint';
 
 const FIXTURES_DIR = path.join(__dirname, '../fixtures/');
+const fixtureDirectory = 'v1123-multi-project-manual-config';
 
-function normalizeOutput(value: string): string {
-  return value.replace(
-    new RegExp(`^${FIXTURES_DIR.replace(/\\/g, '\\\\')}(.*?)$`, 'gm'),
-    (_, c1) => `__ROOT__/${c1.replace(/\\/g, '/')}`,
-  );
-}
+describe(fixtureDirectory, () => {
+  // Allow enough time for npm install and ng add to complete
+  jest.setTimeout(120000);
 
-function runLint(directory: string): string | undefined {
-  try {
-    const cwd = path.join(FIXTURES_DIR, directory);
+  beforeEach(async () => {
+    const cwd = process.cwd();
+    process.chdir(path.join(FIXTURES_DIR, fixtureDirectory));
+    await runNpmInstall();
+    await runNgAdd();
     process.chdir(cwd);
+  });
 
-    const { stdout: lintOutput } = execa.sync('npx', ['ng', 'lint'], {
-      cwd,
-    });
-
-    return normalizeOutput(lintOutput);
-  } catch (error) {
-    return normalizeOutput(error.stdout || error);
-  }
-}
-
-const integrationTests: [string][] = [['v1123-multi-project-manual-config']];
-
-describe.each(integrationTests)('%s', (directory) => {
   it('it should produce the expected lint output', () => {
-    const lintOutput = runLint(directory);
+    const lintOutput = runLint(fixtureDirectory);
     expect(lintOutput).toMatchSnapshot();
   });
 });

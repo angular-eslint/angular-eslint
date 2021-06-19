@@ -74,7 +74,7 @@ __ROOT__/v1123-multi-project-manual-config/projects/another-app/src/app/app.comp
   457:1  error  This line has a length of 190. Maximum allowed is 140   max-len
   458:1  error  This line has a length of 160. Maximum allowed is 140   max-len
   462:1  error  This line has a length of 217. Maximum allowed is 140   max-len
-  466:1  error  This line has a length of 187. Maximum allowed is 140   max-len
+  466:1  error  This line has a length of 187. Maximum allowed is 140   mmax-len
   474:1  error  This line has a length of 190. Maximum allowed is 140   max-len
   475:1  error  This line has a length of 160. Maximum allowed is 140   max-len
   476:1  error  This line has a length of 410. Maximum allowed is 140   max-len

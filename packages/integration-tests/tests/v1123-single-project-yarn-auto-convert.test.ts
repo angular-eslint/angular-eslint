@@ -1,36 +1,30 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import * as execa from 'execa';
 import path from 'path';
+import {
+  runConvertTSLintToESLint,
+  runNgAdd,
+  runYarnInstall,
+} from '../utils/local-registry-process';
+import { runLint } from '../utils/run-lint';
 
 const FIXTURES_DIR = path.join(__dirname, '../fixtures/');
+const fixtureDirectory = 'v1123-single-project-yarn-auto-convert';
 
-function normalizeOutput(value: string): string {
-  return value.replace(
-    new RegExp(`^${FIXTURES_DIR.replace(/\\/g, '\\\\')}(.*?)$`, 'gm'),
-    (_, c1) => `__ROOT__/${c1.replace(/\\/g, '/')}`,
-  );
-}
+describe(fixtureDirectory, () => {
+  // Allow enough time for yarn install, ng add and convert-tslint-to-eslint schematic to complete
+  jest.setTimeout(120000);
 
-function runLint(directory: string): string | undefined {
-  try {
-    const cwd = path.join(FIXTURES_DIR, directory);
-    process.chdir(cwd);
+  beforeEach(async () => {
+    process.chdir(path.join(FIXTURES_DIR, fixtureDirectory));
+    await runYarnInstall();
+    await runNgAdd();
+    await runConvertTSLintToESLint([
+      '--no-interactive',
+      '--project',
+      'v1123-single-project-yarn-auto-convert',
+    ]);
+  });
 
-    const { stdout: lintOutput } = execa.sync('npx', ['ng', 'lint'], {
-      cwd,
-    });
-
-    return normalizeOutput(lintOutput);
-  } catch (error) {
-    return normalizeOutput(error.stdout || error);
-  }
-}
-
-const integrationTests: [string][] = [
-  ['v1123-single-project-yarn-auto-convert'],
-];
-
-describe.each(integrationTests)('%s', (directory) => {
   it('it should pass linting after converting the out of the box Angular CLI setup (with a custom prefix set)', () => {
     expect(
       require('../fixtures/v1123-single-project-yarn-auto-convert/.eslintrc.json'),
@@ -41,7 +35,7 @@ describe.each(integrationTests)('%s', (directory) => {
         .projects['v1123-single-project-yarn-auto-convert'].architect.lint,
     ).toMatchSnapshot();
 
-    const lintOutput = runLint(directory);
+    const lintOutput = runLint(fixtureDirectory);
     expect(lintOutput).toMatchSnapshot();
   });
 });

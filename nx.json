@@ -60,7 +60,7 @@
       "implicitDependencies": []
     },
     "eslint-plugin-template": {
-      "implicitDependencies": []
+      "implicitDependencies": ["template-parser"]
     },
     "integration-tests": {
       "implicitDependencies": [
@@ -71,6 +71,21 @@
         "template-parser",
         "utils"
       ]
+    },
+    "integration-tests-suite-1": {
+      "implicitDependencies": ["integration-tests"]
+    },
+    "integration-tests-suite-2": {
+      "implicitDependencies": ["integration-tests"]
+    },
+    "integration-tests-suite-3": {
+      "implicitDependencies": ["integration-tests"]
+    },
+    "integration-tests-suite-4": {
+      "implicitDependencies": ["integration-tests"]
+    },
+    "integration-tests-suite-5": {
+      "implicitDependencies": ["integration-tests"]
     },
     "schematics": {
       "implicitDependencies": []

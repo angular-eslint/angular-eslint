@@ -1,34 +1,29 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import * as execa from 'execa';
 import path from 'path';
+import {
+  runNgAdd,
+  runNgGenerate,
+  runNgNew,
+} from '../utils/local-registry-process';
+import { runLint } from '../utils/run-lint';
 
 const FIXTURES_DIR = path.join(__dirname, '../fixtures/');
+const fixtureDirectory = 'v12-new-workspace';
 
-function normalizeOutput(value: string): string {
-  return value.replace(
-    new RegExp(`^${FIXTURES_DIR.replace(/\\/g, '\\\\')}(.*?)$`, 'gm'),
-    (_, c1) => `__ROOT__/${c1.replace(/\\/g, '/')}`,
-  );
-}
+describe(fixtureDirectory, () => {
+  // Allow enough time for ng new, ng add and ng generate to complete
+  jest.setTimeout(180000);
 
-function runLint(directory: string): string | undefined {
-  try {
-    const cwd = path.join(FIXTURES_DIR, directory);
-    process.chdir(cwd);
+  beforeEach(async () => {
+    process.chdir(FIXTURES_DIR);
+    await runNgNew(fixtureDirectory);
 
-    const { stdout: lintOutput } = execa.sync('npx', ['ng', 'lint'], {
-      cwd,
-    });
+    process.chdir(path.join(FIXTURES_DIR, fixtureDirectory));
+    await runNgAdd();
+    await runNgGenerate(['app', 'another-app', '--interactive=false']);
+    await runNgGenerate(['lib', 'another-lib', '--interactive=false']);
+  });
 
-    return normalizeOutput(lintOutput);
-  } catch (error) {
-    return normalizeOutput(error.stdout || error);
-  }
-}
-
-const integrationTests: [string][] = [['v12-new-workspace']];
-
-describe.each(integrationTests)('%s', (directory) => {
   it('it should pass linting after creating a new workspace from scratch using @angular-eslint', () => {
     // TSLint configs and dependencies should not be present
     expect(() =>
@@ -83,7 +78,7 @@ describe.each(integrationTests)('%s', (directory) => {
       ].architect.lint,
     ).toMatchSnapshot();
 
-    const lintOutput = runLint(directory);
+    const lintOutput = runLint(fixtureDirectory);
     expect(lintOutput).toMatchSnapshot();
   });
 });
