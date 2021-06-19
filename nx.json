@@ -22,7 +22,7 @@
           "test",
           "lint",
           "e2e",
-          "integration-tests",
+          "integration-test",
           "check-configs",
           "typecheck"
         ],
