@@ -55,18 +55,16 @@ jobs:
     - name: Check code formatting (not distributable)
       run: NX_CLOUD_DISTRIBUTED_EXECUTION=false yarn format-check
 
-    - name: Run distributed builds
-      run: yarn build
-
-    - name: Run parallel distributed tasks for typecheck, check-configs, lint and test targets
+    - name: Run parallel distributed tasks for build, typecheck, check-configs, lint and test targets
       uses: jameshenry/parallel-bash-commands@v1
       with:
-        # Note that this command *also* typechecks tests/tools,
+        # Note that the typecheck target *also* typechecks tests/tools,
         # whereas the build only checks src files
         cmd1: yarn typecheck
-        cmd2: yarn check-configs
-        cmd3: yarn lint
-        cmd4: NX_CLOUD_DISTRIBUTED_EXECUTION=false yarn test
+        cmd2: yarn build
+        cmd3: yarn check-configs
+        cmd4: yarn lint
+        cmd5: yarn test
 
     - name: Run integration tests (not distributable)
       run: NX_CLOUD_DISTRIBUTED_EXECUTION=false yarn integration-tests
@@ -90,7 +88,7 @@ jobs:
     timeout-minutes: 60
     strategy:
       matrix:
-        agent: [1, 2, 3]
+        agent: [1, 2, 3, 4, 5, 6]
     steps:
       - uses: actions/checkout@v2
 
@@ -159,13 +157,14 @@ jobs:
       # We use --ignore-scripts to skip automatic postinstall and give us more control to distribute tasks
       run: yarn --ignore-engines --frozen-lockfile --prefer-offline --ignore-scripts
 
-    - name: Run build on Node ${{ matrix.node }}
-      # We cannot distribute this because the agents are set up to run the primary node version, not this alternative we are testing
-      run: NX_CLOUD_DISTRIBUTED_EXECUTION=false yarn build
-
-    - name: Run unit tests on Node ${{ matrix.node }}
-      # We cannot distribute this because the agents are set up to run the primary node version, not this alternative we are testing
-      run: NX_CLOUD_DISTRIBUTED_EXECUTION=false yarn test
+    - name: Run parallel tasks for build and test targets on Node ${{ matrix.node }} (not distributable)
+      uses: jameshenry/parallel-bash-commands@v1
+      env:
+        # We cannot distribute these because the agents are set up to run the primary node version, not this alternative we are testing
+        NX_CLOUD_DISTRIBUTED_EXECUTION: false
+      with:
+        cmd1: yarn build
+        cmd2: yarn test
 
   publish_canary_version:
     name: Publish the latest code as a canary version

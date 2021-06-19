@@ -38,6 +38,18 @@
         "target": "build",
         "projects": "dependencies"
       }
+    ],
+    "typecheck": [
+      {
+        "target": "build",
+        "projects": "dependencies"
+      }
+    ],
+    "test": [
+      {
+        "target": "build",
+        "projects": "dependencies"
+      }
     ]
   },
   "projects": {

@@ -123,7 +123,7 @@
           "options": {
             "cwd": "packages/eslint-plugin-template",
             "parallel": false,
-            "commands": ["npx jest --coverage"]
+            "commands": ["npx nx build template-parser", "npx jest --coverage"]
           }
         },
         "clean": {
