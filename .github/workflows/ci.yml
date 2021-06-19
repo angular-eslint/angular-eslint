@@ -55,11 +55,11 @@ jobs:
     - name: Run distributed builds
       run: yarn build
 
-    - name: Typecheck all packages (not distributable)
+    - name: Typecheck all packages
       run: |
         # Note that this command *also* typechecks tests/tools,
         # whereas the build only checks src files
-        NX_CLOUD_DISTRIBUTED_EXECUTION=false yarn typecheck
+        yarn typecheck
 
     - name: Check code formatting (not distributable)
       run: NX_CLOUD_DISTRIBUTED_EXECUTION=false yarn format-check
