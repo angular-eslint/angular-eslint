@@ -219,7 +219,7 @@
       "root": "packages/integration-tests",
       "type": "library",
       "targets": {
-        "integration-test": {
+        "integration-testt": {
           "executor": "@nrwl/workspace:run-commands",
           "options": {
             "cwd": "packages/integration-tests",
@@ -236,12 +236,15 @@
       "root": "packages/integration-tests",
       "type": "library",
       "targets": {
-        "integration-testt": {
+        "integration-test": {
           "executor": "@nrwl/workspace:run-commands",
           "options": {
             "cwd": "packages/integration-tests",
             "parallel": false,
-            "commands": ["npx jest tests/v12-new-workspace.test.ts"]
+            "commands": [
+              "npx nx spawn-and-populate-local-registry integration-tests",
+              "npx jest tests/v12-new-workspace.test.ts"
+            ]
           }
         }
       }
