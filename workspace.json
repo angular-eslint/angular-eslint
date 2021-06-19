@@ -7,7 +7,7 @@
       "targets": {
         "build": {
           "executor": "@nrwl/workspace:run-commands",
-          "output": "packages/builder/dist",
+          "outputs": ["packages/builder/dist"],
           "options": {
             "cwd": "packages/builder",
             "parallel": false,
@@ -18,6 +18,31 @@
               "ncp src/schema.json dist/schema.json"
             ]
           }
+        },
+        "test": {
+          "executor": "@nrwl/workspace:run-commands",
+          "outputs": ["packages/builder/coverage"],
+          "options": {
+            "cwd": "packages/builder",
+            "parallel": false,
+            "commands": ["npx jest --coverage"]
+          }
+        },
+        "clean": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "cwd": "packages/builder",
+            "parallel": false,
+            "commands": ["npx rimraf ./dist"]
+          }
+        },
+        "typecheck": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "cwd": "packages/builder",
+            "parallel": false,
+            "commands": ["npx tsc -p tsconfig.json --noEmit"]
+          }
         }
       }
     },
@@ -27,7 +52,7 @@
       "targets": {
         "build": {
           "executor": "@nrwl/workspace:run-commands",
-          "output": "packages/eslint-plugin/dist",
+          "outputs": ["packages/eslint-plugin/dist"],
           "options": {
             "cwd": "packages/eslint-plugin",
             "parallel": false,
@@ -35,6 +60,41 @@
               "npx rimraf ./dist",
               "npx microbundle --tsconfig tsconfig.build.json --no-sourcemap --target=node --compress --format=cjs",
               "npx ncp ./src/configs ./dist/configs"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/workspace:run-commands",
+          "outputs": ["packages/eslint-plugin/coverage"],
+          "options": {
+            "cwd": "packages/eslint-plugin",
+            "parallel": false,
+            "commands": ["npx jest --coverage"]
+          }
+        },
+        "clean": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "cwd": "packages/eslint-plugin",
+            "parallel": false,
+            "commands": ["npx rimraf ./dist"]
+          }
+        },
+        "typecheck": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "cwd": "packages/eslint-plugin",
+            "parallel": false,
+            "commands": ["npx tsc -p tsconfig.json --noEmit"]
+          }
+        },
+        "check-configs": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "cwd": "packages/eslint-plugin",
+            "parallel": false,
+            "commands": [
+              "npx jest tests/configs.test.ts --runTestsByPath --runInBand"
             ]
           }
         }
@@ -46,7 +106,7 @@
       "targets": {
         "build": {
           "executor": "@nrwl/workspace:run-commands",
-          "output": "packages/eslint-plugin-template/dist",
+          "outputs": ["packages/eslint-plugin-template/dist"],
           "options": {
             "cwd": "packages/eslint-plugin-template",
             "parallel": false,
@@ -56,12 +116,68 @@
               "npx ncp ./src/configs ./dist/configs"
             ]
           }
+        },
+        "test": {
+          "executor": "@nrwl/workspace:run-commands",
+          "outputs": ["packages/eslint-plugin-template/coverage"],
+          "options": {
+            "cwd": "packages/eslint-plugin-template",
+            "parallel": false,
+            "commands": ["npx jest --coverage"]
+          }
+        },
+        "clean": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "cwd": "packages/eslint-plugin-template",
+            "parallel": false,
+            "commands": ["npx rimraf ./dist"]
+          }
+        },
+        "typecheck": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "cwd": "packages/eslint-plugin-template",
+            "parallel": false,
+            "commands": ["npx tsc -p tsconfig.json --noEmit"]
+          }
+        },
+        "check-configs": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "cwd": "packages/eslint-plugin-template",
+            "parallel": false,
+            "commands": [
+              "npx jest tests/configs.test.ts --runTestsByPath --runInBand"
+            ]
+          }
         }
       }
     },
     "integration-tests": {
       "root": "packages/integration-tests",
-      "type": "library"
+      "type": "library",
+      "targets": {
+        "clean": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "cwd": "packages/integration-tests",
+            "parallel": false,
+            "commands": [
+              "npx rimraf tmp",
+              "npx rimraf fixtures/**/node_modules"
+            ]
+          }
+        },
+        "typecheck": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "cwd": "packages/integration-tests",
+            "parallel": false,
+            "commands": ["npx tsc -p tsconfig.json --noEmit"]
+          }
+        }
+      }
     },
     "schematics": {
       "root": "packages/schematics",
@@ -69,7 +185,7 @@
       "targets": {
         "build": {
           "executor": "@nrwl/workspace:run-commands",
-          "output": "packages/schematics/dist",
+          "outputs": ["packages/schematics/dist"],
           "options": {
             "cwd": "packages/schematics",
             "parallel": false,
@@ -88,6 +204,31 @@
               "npx ncp src/add-eslint-to-project/schema.json dist/add-eslint-to-project/schema.json"
             ]
           }
+        },
+        "test": {
+          "executor": "@nrwl/workspace:run-commands",
+          "outputs": ["packages/schematics/coverage"],
+          "options": {
+            "cwd": "packages/schematics",
+            "parallel": false,
+            "commands": ["npx jest --coverage"]
+          }
+        },
+        "clean": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "cwd": "packages/schematics",
+            "parallel": false,
+            "commands": ["npx rimraf ./dist"]
+          }
+        },
+        "typecheck": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "cwd": "packages/schematics",
+            "parallel": false,
+            "commands": ["npx tsc -p tsconfig.json --noEmit"]
+          }
         }
       }
     },
@@ -97,7 +238,7 @@
       "targets": {
         "build": {
           "executor": "@nrwl/workspace:run-commands",
-          "output": "packages/template-parser/dist",
+          "outputs": ["packages/template-parser/dist"],
           "options": {
             "cwd": "packages/template-parser",
             "parallel": false,
@@ -105,6 +246,31 @@
               "npx rimraf ./dist",
               "microbundle --tsconfig tsconfig.build.json --no-sourcemap --target=node --compress --format=cjs"
             ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/workspace:run-commands",
+          "outputs": ["packages/template-parser/coverage"],
+          "options": {
+            "cwd": "packages/template-parser",
+            "parallel": false,
+            "commands": ["npx jest --coverage"]
+          }
+        },
+        "clean": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "cwd": "packages/template-parser",
+            "parallel": false,
+            "commands": ["npx rimraf ./dist"]
+          }
+        },
+        "typecheck": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "cwd": "packages/template-parser",
+            "parallel": false,
+            "commands": ["npx tsc -p tsconfig.json --noEmit"]
           }
         }
       }
@@ -115,11 +281,27 @@
       "targets": {
         "build": {
           "executor": "@nrwl/workspace:run-commands",
-          "output": "packages/utils/dist",
+          "outputs": ["packages/utils/dist"],
           "options": {
             "cwd": "packages/utils",
             "parallel": false,
             "commands": ["npx rimraf ./dist", "tsc"]
+          }
+        },
+        "clean": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "cwd": "packages/utils",
+            "parallel": false,
+            "commands": ["npx rimraf ./dist"]
+          }
+        },
+        "typecheck": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "cwd": "packages/utils",
+            "parallel": false,
+            "commands": ["npx tsc -p tsconfig.json --noEmit"]
           }
         }
       }
