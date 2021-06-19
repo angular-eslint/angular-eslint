@@ -7,6 +7,7 @@ import {
   runNgAdd,
   runYarnInstall,
 } from '../utils/local-registry-process';
+import { requireUncached } from '../utils/require-uncached';
 import { runLint } from '../utils/run-lint';
 
 const fixtureDirectory = 'v1123-single-project-yarn-auto-convert';
@@ -27,12 +28,15 @@ describe(fixtureDirectory, () => {
 
   it('it should pass linting after converting the out of the box Angular CLI setup (with a custom prefix set)', async () => {
     expect(
-      require('../fixtures/v1123-single-project-yarn-auto-convert/.eslintrc.json'),
+      requireUncached(
+        '../fixtures/v1123-single-project-yarn-auto-convert/.eslintrc.json',
+      ),
     ).toMatchSnapshot();
 
     expect(
-      require('../fixtures/v1123-single-project-yarn-auto-convert/angular.json')
-        .projects['v1123-single-project-yarn-auto-convert'].architect.lint,
+      requireUncached(
+        '../fixtures/v1123-single-project-yarn-auto-convert/angular.json',
+      ).projects['v1123-single-project-yarn-auto-convert'].architect.lint,
     ).toMatchSnapshot();
 
     const lintOutput = await runLint(fixtureDirectory);
