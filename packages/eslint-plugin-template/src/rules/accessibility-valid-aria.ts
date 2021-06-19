@@ -1,5 +1,6 @@
-import type { AST, ASTWithSource } from '@angular/compiler';
+import type { AST } from '@angular/compiler';
 import {
+  ASTWithSource,
   LiteralArray,
   LiteralMap,
   LiteralPrimitive,
@@ -12,6 +13,8 @@ import {
   createESLintRule,
   getTemplateParserServices,
 } from '../utils/create-eslint-rule';
+import { getDomElements } from '../utils/get-dom-elements';
+import { toPattern } from '../utils/to-pattern';
 
 type Options = [];
 export type MessageIds =
@@ -19,7 +22,6 @@ export type MessageIds =
   | 'accessibilityValidAriaValue'
   | 'suggestRemoveInvalidAria';
 export const RULE_NAME = 'accessibility-valid-aria';
-const ARIA_PATTERN = /^aria-.*/;
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
@@ -44,15 +46,14 @@ export default createESLintRule<Options, MessageIds>({
   defaultOptions: [],
   create(context) {
     const parserServices = getTemplateParserServices(context);
+    const elementNamePattern = toPattern([...getDomElements()]);
 
     return {
-      [`BoundAttribute[name=${ARIA_PATTERN}], TextAttribute[name=${ARIA_PATTERN}]`](
-        astAttribute: TmplAstBoundAttribute | TmplAstTextAttribute,
+      [`Element[name=${elementNamePattern}] > :matches(BoundAttribute, TextAttribute)[name=/^aria-.+/]`](
+        node: TmplAstBoundAttribute | TmplAstTextAttribute,
       ) {
-        const { name: attribute, sourceSpan } = astAttribute;
-        const ariaPropertyDefinition = aria.get(attribute as ARIAProperty) as
-          | ARIAPropertyDefinition
-          | undefined;
+        const { name: attribute, sourceSpan } = node;
+        const ariaPropertyDefinition = aria.get(attribute as ARIAProperty);
         const loc = parserServices.convertNodeSourceSpanToLoc(sourceSpan);
 
         if (!ariaPropertyDefinition) {
@@ -76,7 +77,7 @@ export default createESLintRule<Options, MessageIds>({
           return;
         }
 
-        const ast = extractASTFrom(astAttribute);
+        const ast = extractASTFrom(node);
 
         if (
           canIgnoreNode(ast) ||
@@ -114,9 +115,10 @@ function canIgnoreNode(ast: unknown): boolean {
 
 function extractASTFrom(
   attribute: TmplAstBoundAttribute | TmplAstTextAttribute,
-): AST | TmplAstTextAttribute {
-  return attribute instanceof TmplAstBoundAttribute
-    ? (attribute.value as ASTWithSource).ast
+): AST | TmplAstBoundAttribute | TmplAstTextAttribute {
+  return attribute instanceof TmplAstBoundAttribute &&
+    attribute.value instanceof ASTWithSource
+    ? attribute.value.ast
     : attribute;
 }
 

@@ -18,18 +18,19 @@ const suggestRemoveInvalidAria: MessageIds = 'suggestRemoveInvalidAria';
 
 ruleTester.run(RULE_NAME, rule, {
   valid: [
+    '<input aria-labelledby="Text">',
+    '<div ariaselected="0"></div>',
+    '<textarea [attr.aria-readonly]="readonly"></textarea>',
+    '<button [variant]="variant">Text</button>',
+    '<div aria-expanded="true">aria-expanded</div>',
+    '<div aria-haspopup="menu">aria-haspopup</div>',
+    '<div [attr.aria-pressed]="undefined">aria-pressed</div>',
+    '<input [attr.aria-rowcount]="2">',
+    '<div aria-relevant="additions">additions</div>',
+    '<div aria-checked="false">checked</div>',
+    '<div role="slider" [aria-valuemin]="1"></div>',
+    '<div aria-="text">Text</div>',
     `
-      <input aria-labelledby="Text">
-      <div ariaselected="0"></div>
-      <textarea [attr.aria-readonly]="readonly"></textarea>
-      <button [variant]="variant">Text</button>
-      <div aria-expanded="true">aria-expanded</div>
-      <div aria-haspopup="menu">aria-haspopup</div>
-      <div [attr.aria-pressed]="undefined">aria-pressed</div>
-      <input [attr.aria-rowcount]="2">
-      <div aria-relevant="additions">additions</div>
-      <div aria-checked="false">checked</div>
-      <div role="slider" [aria-valuemin]="1"></div>
       <input
         aria-placeholder="Placeholder"
         aria-orientation="undefined"
@@ -40,6 +41,8 @@ ruleTester.run(RULE_NAME, rule, {
         [attr.aria-live]="inputSchema['live']"
         [attr.aria-required]="inputSchema?.isRequired">
     `,
+    '<app-custom aria-x="text">Text</app-custom>',
+    '<app-test aria-expanded="notABoolean"></app-test>',
   ],
   invalid: [
     convertAnnotatedSourceToFailureCase({
