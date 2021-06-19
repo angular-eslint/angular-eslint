@@ -27,6 +27,7 @@ ruleTester.run(RULE_NAME, rule, {
     '<span [attr.tabindex]="tabIndex"></span>',
     '<span [attr.tabindex]="null"></span>',
     '<span [attr.tabindex]="undefined"></span>',
+    '<app-test [tabindex]="1"></app-test>',
   ],
   invalid: [
     convertAnnotatedSourceToFailureCase({
