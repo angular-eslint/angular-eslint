@@ -37,7 +37,7 @@ describe(fixtureDirectory, () => {
     ]);
   });
 
-  it('it should pass linting after converting the out of the box Angular CLI setup (with an additional project called "another-app" with a custom prefix set)', () => {
+  it('it should pass linting after converting the out of the box Angular CLI setup (with an additional project called "another-app" with a custom prefix set)', async () => {
     // Root project
     expect(
       require('../fixtures/v1123-strict-multi-project-auto-convert/.eslintrc.json'),
@@ -68,7 +68,7 @@ describe(fixtureDirectory, () => {
         .projects['another-lib'].architect.lint,
     ).toMatchSnapshot();
 
-    const lintOutput = runLint(fixtureDirectory);
+    const lintOutput = await runLint(fixtureDirectory);
     expect(lintOutput).toMatchSnapshot();
   });
 });

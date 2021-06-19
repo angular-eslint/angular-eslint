@@ -24,7 +24,7 @@ describe(fixtureDirectory, () => {
     await runNgGenerate(['lib', 'another-lib', '--interactive=false']);
   });
 
-  it('it should pass linting after creating a new workspace from scratch using @angular-eslint', () => {
+  it('it should pass linting after creating a new workspace from scratch using @angular-eslint', async () => {
     // TSLint configs and dependencies should not be present
     expect(() =>
       require('../fixtures/v12-new-workspace/tslint.json'),
@@ -78,7 +78,7 @@ describe(fixtureDirectory, () => {
       ].architect.lint,
     ).toMatchSnapshot();
 
-    const lintOutput = runLint(fixtureDirectory);
+    const lintOutput = await runLint(fixtureDirectory);
     expect(lintOutput).toMatchSnapshot();
   });
 });

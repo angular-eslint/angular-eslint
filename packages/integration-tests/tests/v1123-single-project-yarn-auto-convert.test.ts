@@ -25,7 +25,7 @@ describe(fixtureDirectory, () => {
     ]);
   });
 
-  it('it should pass linting after converting the out of the box Angular CLI setup (with a custom prefix set)', () => {
+  it('it should pass linting after converting the out of the box Angular CLI setup (with a custom prefix set)', async () => {
     expect(
       require('../fixtures/v1123-single-project-yarn-auto-convert/.eslintrc.json'),
     ).toMatchSnapshot();
@@ -35,7 +35,7 @@ describe(fixtureDirectory, () => {
         .projects['v1123-single-project-yarn-auto-convert'].architect.lint,
     ).toMatchSnapshot();
 
-    const lintOutput = runLint(fixtureDirectory);
+    const lintOutput = await runLint(fixtureDirectory);
     expect(lintOutput).toMatchSnapshot();
   });
 });

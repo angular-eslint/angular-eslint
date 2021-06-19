@@ -1,25 +1,35 @@
-import * as execa from 'execa';
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import execa from 'execa';
 import path from 'path';
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const stripAnsi = require('strip-ansi');
 
 const FIXTURES_DIR = path.join(__dirname, '../fixtures/');
 
 function normalizeOutput(value: string): string {
-  return value.replace(
-    new RegExp(`^${FIXTURES_DIR.replace(/\\/g, '\\\\')}(.*?)$`, 'gm'),
-    (_, c1) => `__ROOT__/${c1.replace(/\\/g, '/')}`,
+  return stripAnsi(
+    value.replace(
+      new RegExp(`^${FIXTURES_DIR.replace(/\\/g, '\\\\')}(.*?)$`, 'gm'),
+      (_, c1) => `__ROOT__/${c1.replace(/\\/g, '/')}`,
+    ),
   );
 }
 
-export function runLint(directory: string): string | undefined {
+export async function runLint(directory: string): Promise<string | undefined> {
   try {
-    const cwd = path.join(FIXTURES_DIR, directory);
-    process.chdir(cwd);
-
-    const { stdout: lintOutput } = execa.sync('npx', ['ng', 'lint'], {
-      cwd,
+    const subprocess = execa('npx', ['ng', 'lint'], {
+      cwd: path.join(FIXTURES_DIR, directory),
     });
 
-    return normalizeOutput(lintOutput);
+    /* eslint-disable @typescript-eslint/no-non-null-assertion */
+    subprocess.stdout!.pipe(process.stdout);
+    subprocess.stderr!.pipe(process.stderr);
+    /* eslint-enable @typescript-eslint/no-non-null-assertion */
+
+    const { stdout } = await subprocess;
+
+    return normalizeOutput(stdout);
   } catch (error) {
     return normalizeOutput(error.stdout || error);
   }

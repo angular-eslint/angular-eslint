@@ -20,8 +20,8 @@ describe(fixtureDirectory, () => {
     process.chdir(cwd);
   });
 
-  it('it should produce the expected lint output', () => {
-    const lintOutput = runLint(fixtureDirectory);
+  it('it should produce the expected lint output', async () => {
+    const lintOutput = await runLint(fixtureDirectory);
     expect(lintOutput).toMatchSnapshot();
   });
 });

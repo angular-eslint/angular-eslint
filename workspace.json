@@ -219,7 +219,7 @@
       "root": "packages/integration-tests",
       "type": "library",
       "targets": {
-        "integration-testt": {
+        "integration-test": {
           "executor": "@nrwl/workspace:run-commands",
           "options": {
             "cwd": "packages/integration-tests",
