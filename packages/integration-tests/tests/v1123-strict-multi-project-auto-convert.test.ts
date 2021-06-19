@@ -1,18 +1,18 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import path from 'path';
 import {
+  FIXTURES_DIR,
+  LONG_TIMEOUT_MS,
   runConvertTSLintToESLint,
   runNgAdd,
   runYarnInstall,
 } from '../utils/local-registry-process';
 import { runLint } from '../utils/run-lint';
 
-const FIXTURES_DIR = path.join(__dirname, '../fixtures/');
 const fixtureDirectory = 'v1123-strict-multi-project-auto-convert';
 
 describe(fixtureDirectory, () => {
-  // Allow enough time for yarn install, ng add and multiple convert-tslint-to-eslint schematics to complete
-  jest.setTimeout(180000);
+  jest.setTimeout(LONG_TIMEOUT_MS);
 
   beforeEach(async () => {
     process.chdir(path.join(FIXTURES_DIR, fixtureDirectory));

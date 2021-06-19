@@ -2,7 +2,13 @@
 import type { ChildProcess } from 'child_process';
 import { spawn } from 'child_process';
 import execa from 'execa';
+import { join } from 'path';
 import kill from 'tree-kill';
+
+export const FIXTURES_DIR = join(__dirname, '../fixtures/');
+
+// Used to ensure all the time-consuming setup steps for fixtures do not cause jest to time out
+export const LONG_TIMEOUT_MS = 600000; // 10 mins
 
 let localRegistryProcess: ChildProcess;
 

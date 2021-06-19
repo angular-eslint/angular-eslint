@@ -1,13 +1,16 @@
 import path from 'path';
-import { runNgAdd, runNpmInstall } from '../utils/local-registry-process';
+import {
+  FIXTURES_DIR,
+  LONG_TIMEOUT_MS,
+  runNgAdd,
+  runNpmInstall,
+} from '../utils/local-registry-process';
 import { runLint } from '../utils/run-lint';
 
-const FIXTURES_DIR = path.join(__dirname, '../fixtures/');
 const fixtureDirectory = 'v1123-multi-project-manual-config';
 
 describe(fixtureDirectory, () => {
-  // Allow enough time for npm install and ng add to complete
-  jest.setTimeout(120000);
+  jest.setTimeout(LONG_TIMEOUT_MS);
 
   beforeEach(async () => {
     const cwd = process.cwd();

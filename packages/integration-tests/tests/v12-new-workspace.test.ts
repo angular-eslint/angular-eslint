@@ -1,18 +1,18 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import path from 'path';
 import {
+  FIXTURES_DIR,
+  LONG_TIMEOUT_MS,
   runNgAdd,
   runNgGenerate,
   runNgNew,
 } from '../utils/local-registry-process';
 import { runLint } from '../utils/run-lint';
 
-const FIXTURES_DIR = path.join(__dirname, '../fixtures/');
 const fixtureDirectory = 'v12-new-workspace';
 
 describe(fixtureDirectory, () => {
-  // Allow enough time for ng new, ng add and ng generate to complete
-  jest.setTimeout(180000);
+  jest.setTimeout(LONG_TIMEOUT_MS);
 
   beforeEach(async () => {
     process.chdir(FIXTURES_DIR);
