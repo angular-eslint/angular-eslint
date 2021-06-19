@@ -67,7 +67,7 @@ jobs:
         cmd5: yarn test
 
     - run: |
-        npx nx spawn-and-populate-local-registry integration-tests
+        NX_CLOUD_DISTRIBUTED_EXECUTION=false npx nx spawn-and-populate-local-registry integration-tests
         npx nx run-many --target=integration-test --all
 
     - name: Publish code coverage report
