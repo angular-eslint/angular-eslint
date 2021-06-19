@@ -52,25 +52,24 @@ jobs:
         yarn --ignore-engines --frozen-lockfile --prefer-offline --ignore-scripts
         yarn check-clean-workspace-after-install
 
-    - name: Run distributed builds
-      run: yarn build
-
-    - name: Typecheck all packages
-      run: |
-        # Note that this command *also* typechecks tests/tools,
-        # whereas the build only checks src files
-        yarn typecheck
-
     - name: Check code formatting (not distributable)
       run: NX_CLOUD_DISTRIBUTED_EXECUTION=false yarn format-check
 
-    - name: Run parallel distributed tasks for check-configs, lint, test and integration-tests targets
+    - name: Run distributed builds
+      run: yarn build
+
+    - name: Run parallel distributed tasks for typecheck, check-configs, lint and test targets
       uses: jameshenry/parallel-bash-commands@v1
       with:
-        cmd1: yarn check-configs
-        cmd2: yarn lint
-        cmd3: NX_CLOUD_DISTRIBUTED_EXECUTION=false yarn test
-        cmd4: NX_CLOUD_DISTRIBUTED_EXECUTION=false yarn integration-tests
+        # Note that this command *also* typechecks tests/tools,
+        # whereas the build only checks src files
+        cmd1: yarn typecheck
+        cmd2: yarn check-configs
+        cmd3: yarn lint
+        cmd4: NX_CLOUD_DISTRIBUTED_EXECUTION=false yarn test
+
+    - name: Run integration tests (not distributable)
+      run: NX_CLOUD_DISTRIBUTED_EXECUTION=false yarn integration-tests
 
     - name: Publish code coverage report
       run: |
