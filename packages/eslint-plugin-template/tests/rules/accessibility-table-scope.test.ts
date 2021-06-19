@@ -15,27 +15,36 @@ const ruleTester = new RuleTester({
 const messageId: MessageIds = 'accessibilityTableScope';
 
 ruleTester.run(RULE_NAME, rule, {
-  valid: ['<th></th>', '<th scope="col"></th>', '<th [attr.scope]="col"></th>'],
+  valid: [
+    '<th></th>',
+    '<th scope="col"></th>',
+    `<th [scope]="'col'"></th>`,
+    '<th [attr.scope]="scope"></th>',
+    '<div Scope="col"></div>',
+    '<button [appscope]="col"></button>',
+    '<app-table scope></app-table>',
+    '<app-row [scope]="row"></app-row>',
+  ],
   invalid: [
     convertAnnotatedSourceToFailureCase({
-      messageId,
       description: 'should fail if `scope` attribute is not on `th` element',
       annotatedSource: `
         {{ test }}<div scope></div>
                        ~~~~~
       `,
+      messageId,
       annotatedOutput: `
         {{ test }}<div></div>
                        
       `,
     }),
     convertAnnotatedSourceToFailureCase({
-      messageId,
       description: 'should fail if `scope` input is not on `th` element',
       annotatedSource: `
         <div [attr.scope]="scope"></div><p></p>
              ~~~~~~~~~~~~~~~~~~~~
       `,
+      messageId,
       annotatedOutput: `
         <div></div><p></p>
              
