@@ -66,9 +66,7 @@ jobs:
         cmd4: yarn lint
         cmd5: yarn test
 
-    - run: |
-        NX_CLOUD_DISTRIBUTED_EXECUTION=false npx nx spawn-and-populate-local-registry integration-tests
-        npx nx run-many --target=integration-test --all --exclude integration-tests-suite-3 integration-tests-suite-4 integration-tests-suite-5
+    - run: npx nx run-many --target=integration-test --all
 
     - name: Publish code coverage report
       run: |

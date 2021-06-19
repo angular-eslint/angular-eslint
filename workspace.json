@@ -225,6 +225,7 @@
             "cwd": "packages/integration-tests",
             "parallel": false,
             "commands": [
+              "npx nx spawn-and-populate-local-registry integration-tests",
               "npx jest tests/v1123-multi-project-manual-config.test.ts"
             ]
           }
@@ -235,7 +236,7 @@
       "root": "packages/integration-tests",
       "type": "library",
       "targets": {
-        "integration-test": {
+        "integration-testt": {
           "executor": "@nrwl/workspace:run-commands",
           "options": {
             "cwd": "packages/integration-tests",
@@ -249,7 +250,7 @@
       "root": "packages/integration-tests",
       "type": "library",
       "targets": {
-        "integration-test": {
+        "integration-testt": {
           "executor": "@nrwl/workspace:run-commands",
           "options": {
             "cwd": "packages/integration-tests",
@@ -265,7 +266,7 @@
       "root": "packages/integration-tests",
       "type": "library",
       "targets": {
-        "integration-test": {
+        "integration-testt": {
           "executor": "@nrwl/workspace:run-commands",
           "options": {
             "cwd": "packages/integration-tests",
@@ -281,7 +282,7 @@
       "root": "packages/integration-tests",
       "type": "library",
       "targets": {
-        "integration-test": {
+        "integration-testt": {
           "executor": "@nrwl/workspace:run-commands",
           "options": {
             "cwd": "packages/integration-tests",
