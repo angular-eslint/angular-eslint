@@ -50,6 +50,12 @@
         "target": "build",
         "projects": "dependencies"
       }
+    ],
+    "integration-test": [
+      {
+        "target": "build",
+        "projects": "dependencies"
+      }
     ]
   },
   "projects": {
@@ -73,7 +79,15 @@
       ]
     },
     "integration-tests-suite-1": {
-      "implicitDependencies": ["integration-tests"]
+      "implicitDependencies": [
+        "integration-tests",
+        "builder",
+        "eslint-plugin",
+        "eslint-plugin-template",
+        "schematics",
+        "template-parser",
+        "utils"
+      ]
     },
     "integration-tests-suite-2": {
       "implicitDependencies": ["integration-tests"]
