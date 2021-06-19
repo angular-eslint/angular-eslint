@@ -28,7 +28,7 @@ describe(fixtureDirectory, () => {
   it('it should pass linting after creating a new workspace from scratch using @angular-eslint', async () => {
     // TSLint configs and dependencies should not be present
     expect(() =>
-      requireUncached('../fixtures/v12-new-workspace/tslint.json'),
+      require('../fixtures/v12-new-workspace/tslint.json'),
     ).toThrowErrorMatchingInlineSnapshot(
       `"Cannot find module '../fixtures/v12-new-workspace/tslint.json' from 'tests/v12-new-workspace.test.ts'"`,
     );
@@ -50,9 +50,7 @@ describe(fixtureDirectory, () => {
 
     // Additional project ("another-app")
     expect(() =>
-      requireUncached(
-        '../fixtures/v12-new-workspace/projects/another-app/tslint.json',
-      ),
+      require('../fixtures/v12-new-workspace/projects/another-app/tslint.json'),
     ).toThrowErrorMatchingInlineSnapshot(
       `"Cannot find module '../fixtures/v12-new-workspace/projects/another-app/tslint.json' from 'tests/v12-new-workspace.test.ts'"`,
     );
@@ -70,9 +68,7 @@ describe(fixtureDirectory, () => {
 
     // Additional library project ("another-lib")
     expect(() =>
-      requireUncached(
-        '../fixtures/v12-new-workspace/projects/another-lib/tslint.json',
-      ),
+      require('../fixtures/v12-new-workspace/projects/another-lib/tslint.json'),
     ).toThrowErrorMatchingInlineSnapshot(
       `"Cannot find module '../fixtures/v12-new-workspace/projects/another-lib/tslint.json' from 'tests/v12-new-workspace.test.ts'"`,
     );
