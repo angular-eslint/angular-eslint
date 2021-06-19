@@ -13,7 +13,15 @@ function normalizeOutput(value: string): string {
       new RegExp(`^${FIXTURES_DIR.replace(/\\/g, '\\\\')}(.*?)$`, 'gm'),
       (_, c1) => `__ROOT__/${c1.replace(/\\/g, '/')}`,
     ),
-  );
+    /**
+     * This one is ridiculous...
+     *
+     * No matter what I try (including the use of `strip-ansi`), I do not seem to be
+     * able to stop the inclusion of this extra `m` any other way (it is presumably
+     * coming from an ANSI code becuase of its initial appearance in CI as [27m).
+     * It happens locally and CI... but only exactly once.
+     */
+  ).replace('mmax-len', 'max-len');
 }
 
 export async function runLint(directory: string): Promise<string | undefined> {
