@@ -1,35 +1,31 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import * as execa from 'execa';
 import path from 'path';
+import {
+  FIXTURES_DIR,
+  LONG_TIMEOUT_MS,
+  runNgAdd,
+  runNgGenerate,
+  runNgNew,
+} from '../utils/local-registry-process';
+import { requireUncached } from '../utils/require-uncached';
+import { runLint } from '../utils/run-lint';
 
-const FIXTURES_DIR = path.join(__dirname, '../fixtures/');
+const fixtureDirectory = 'v12-new-workspace';
 
-function normalizeOutput(value: string): string {
-  return value.replace(
-    new RegExp(`^${FIXTURES_DIR.replace(/\\/g, '\\\\')}(.*?)$`, 'gm'),
-    (_, c1) => `__ROOT__/${c1.replace(/\\/g, '/')}`,
-  );
-}
+describe(fixtureDirectory, () => {
+  jest.setTimeout(LONG_TIMEOUT_MS);
 
-function runLint(directory: string): string | undefined {
-  try {
-    const cwd = path.join(FIXTURES_DIR, directory);
-    process.chdir(cwd);
+  beforeEach(async () => {
+    process.chdir(FIXTURES_DIR);
+    await runNgNew(fixtureDirectory);
 
-    const { stdout: lintOutput } = execa.sync('npx', ['ng', 'lint'], {
-      cwd,
-    });
+    process.chdir(path.join(FIXTURES_DIR, fixtureDirectory));
+    await runNgAdd();
+    await runNgGenerate(['app', 'another-app', '--interactive=false']);
+    await runNgGenerate(['lib', 'another-lib', '--interactive=false']);
+  });
 
-    return normalizeOutput(lintOutput);
-  } catch (error) {
-    return normalizeOutput(error.stdout || error);
-  }
-}
-
-const integrationTests: [string][] = [['v12-new-workspace']];
-
-describe.each(integrationTests)('%s', (directory) => {
-  it('it should pass linting after creating a new workspace from scratch using @angular-eslint', () => {
+  it('it should pass linting after creating a new workspace from scratch using @angular-eslint', async () => {
     // TSLint configs and dependencies should not be present
     expect(() =>
       require('../fixtures/v12-new-workspace/tslint.json'),
@@ -37,16 +33,17 @@ describe.each(integrationTests)('%s', (directory) => {
       `"Cannot find module '../fixtures/v12-new-workspace/tslint.json' from 'tests/v12-new-workspace.test.ts'"`,
     );
     expect(
-      require('../fixtures/v12-new-workspace/package.json').devDependencies,
+      requireUncached('../fixtures/v12-new-workspace/package.json')
+        .devDependencies,
     ).toMatchSnapshot();
 
     // Root project
     expect(
-      require('../fixtures/v12-new-workspace/.eslintrc.json'),
+      requireUncached('../fixtures/v12-new-workspace/.eslintrc.json'),
     ).toMatchSnapshot();
 
     expect(
-      require('../fixtures/v12-new-workspace/angular.json').projects[
+      requireUncached('../fixtures/v12-new-workspace/angular.json').projects[
         'v12-new-workspace'
       ].architect.lint,
     ).toMatchSnapshot();
@@ -58,11 +55,13 @@ describe.each(integrationTests)('%s', (directory) => {
       `"Cannot find module '../fixtures/v12-new-workspace/projects/another-app/tslint.json' from 'tests/v12-new-workspace.test.ts'"`,
     );
     expect(
-      require('../fixtures/v12-new-workspace/projects/another-app/.eslintrc.json'),
+      requireUncached(
+        '../fixtures/v12-new-workspace/projects/another-app/.eslintrc.json',
+      ),
     ).toMatchSnapshot();
 
     expect(
-      require('../fixtures/v12-new-workspace/angular.json').projects[
+      requireUncached('../fixtures/v12-new-workspace/angular.json').projects[
         'another-app'
       ].architect.lint,
     ).toMatchSnapshot();
@@ -74,16 +73,18 @@ describe.each(integrationTests)('%s', (directory) => {
       `"Cannot find module '../fixtures/v12-new-workspace/projects/another-lib/tslint.json' from 'tests/v12-new-workspace.test.ts'"`,
     );
     expect(
-      require('../fixtures/v12-new-workspace/projects/another-lib/.eslintrc.json'),
+      requireUncached(
+        '../fixtures/v12-new-workspace/projects/another-lib/.eslintrc.json',
+      ),
     ).toMatchSnapshot();
 
     expect(
-      require('../fixtures/v12-new-workspace/angular.json').projects[
+      requireUncached('../fixtures/v12-new-workspace/angular.json').projects[
         'another-lib'
       ].architect.lint,
     ).toMatchSnapshot();
 
-    const lintOutput = runLint(directory);
+    const lintOutput = await runLint(fixtureDirectory);
     expect(lintOutput).toMatchSnapshot();
   });
 });

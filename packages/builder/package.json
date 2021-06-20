@@ -5,13 +5,6 @@
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "scripts": {
-    "build": "rimraf ./dist && tsc --project tsconfig.build.json && terser ./dist/index.js --output=./dist/index.js",
-    "postbuild": "ncp src/schema.json dist/schema.json",
-    "test": "jest --coverage",
-    "typecheck": "tsc -p tsconfig.json --noEmit",
-    "clean": "rimraf ./dist"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/angular-eslint/angular-eslint.git",
