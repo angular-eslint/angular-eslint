@@ -186,6 +186,12 @@ jobs:
           echo "::set-output name=dir::$(yarn cache dir)"
           echo "::set-output name=node_version::$(node --version)"
 
+      - name: Apply version resolved by volta to standard Node action make authenticated npm publish easier
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ steps.yarn-cache-dir-path.outputs.node_version }}
+          registry-url: https://registry.npmjs.org/
+
       - uses: actions/cache@v2
         id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
         with:
