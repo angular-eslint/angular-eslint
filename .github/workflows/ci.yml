@@ -177,11 +177,8 @@ jobs:
       # Fetch all history for all tags and branches in this job because lerna needs it
       - run: git fetch --prune --unshallow
 
-      - name: Use Node.js ${{ env.PRIMARY_NODE_VERSION }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ env.PRIMARY_NODE_VERSION }}
-          registry-url: https://registry.npmjs.org/
+      - name: Install node and npm based on the volta config in our package.json
+        uses: volta-cli/action@v1
 
       - name: Get yarn cache directory path and node version for cache key
         id: yarn-cache-dir-path
