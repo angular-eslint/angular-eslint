@@ -1,12 +1,11 @@
 {
   "npmScope": "angular-eslint",
   "implicitDependencies": {
-    "workspace.json": "*",
     "package.json": {
       "dependencies": "*",
       "devDependencies": "*"
     },
-    "nx.json": "*",
+    ".eslintrc.json": "*",
     ".github/workflows/ci.yml": "*"
   },
   "workspaceLayout": {

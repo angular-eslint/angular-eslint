@@ -225,7 +225,7 @@
             "cwd": "packages/integration-tests",
             "parallel": false,
             "commands": [
-              "npx nx spawn-and-populate-local-registry integration-tests",
+              "[ \"{args.withRegistry}\" = \"true\" ] && npx nx spawn-and-populate-local-registry integration-tests || true",
               "npx jest tests/v1123-multi-project-manual-config.test.ts"
             ]
           }
@@ -242,7 +242,7 @@
             "cwd": "packages/integration-tests",
             "parallel": false,
             "commands": [
-              "npx nx spawn-and-populate-local-registry integration-tests",
+              "[ \"{args.withRegistry}\" = \"true\" ] && npx nx spawn-and-populate-local-registry integration-tests || true",
               "npx jest tests/v12-new-workspace.test.ts"
             ]
           }
@@ -259,7 +259,7 @@
             "cwd": "packages/integration-tests",
             "parallel": false,
             "commands": [
-              "npx nx spawn-and-populate-local-registry integration-tests",
+              "[ \"{args.withRegistry}\" = \"true\" ] && npx nx spawn-and-populate-local-registry integration-tests || true",
               "npx jest tests/v1123-multi-project-yarn-auto-convert.test.ts"
             ]
           }
@@ -276,7 +276,7 @@
             "cwd": "packages/integration-tests",
             "parallel": false,
             "commands": [
-              "npx nx spawn-and-populate-local-registry integration-tests",
+              "[ \"{args.withRegistry}\" = \"true\" ] && npx nx spawn-and-populate-local-registry integration-tests || true",
               "npx jest tests/v1123-single-project-yarn-auto-convert.test.ts"
             ]
           }
@@ -293,7 +293,7 @@
             "cwd": "packages/integration-tests",
             "parallel": false,
             "commands": [
-              "npx nx spawn-and-populate-local-registry integration-tests",
+              "[ \"{args.withRegistry}\" = \"true\" ] && npx nx spawn-and-populate-local-registry integration-tests || true",
               "npx jest tests/v1123-strict-multi-project-auto-convert.test.ts"
             ]
           }
