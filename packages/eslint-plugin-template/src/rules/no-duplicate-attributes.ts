@@ -95,6 +95,7 @@ export default createESLintRule<Options, MessageIds>({
   },
 });
 
+// TODO: Revisit overloads once we upgrade to TS 4.3, which offers a better support for calling array methods using union types (https://devblogs.microsoft.com/typescript/announcing-typescript-4-3/#contextual-narrowing).
 function findDuplicates(
   elements: readonly TmplAstBoundEvent[],
 ): readonly TmplAstBoundEvent[];
@@ -102,8 +103,16 @@ function findDuplicates(
   elements: readonly (TmplAstBoundAttribute | TmplAstTextAttribute)[],
 ): readonly (TmplAstBoundAttribute | TmplAstTextAttribute)[];
 function findDuplicates(
-  elements: readonly { name: string }[],
-): readonly { name: string }[] {
+  elements: readonly (
+    | TmplAstBoundEvent
+    | TmplAstBoundAttribute
+    | TmplAstTextAttribute
+  )[],
+): readonly (
+  | TmplAstBoundEvent
+  | TmplAstBoundAttribute
+  | TmplAstTextAttribute
+)[] {
   return elements.filter((element) => {
     return elements.some(
       (otherElement) =>

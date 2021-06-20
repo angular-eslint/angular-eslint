@@ -3,25 +3,27 @@ import type { ARIARoleRelationConceptAttribute } from 'aria-query';
 import { getAttributeValue } from './get-attribute-value';
 
 export function attributesComparator(
-  baseAttributes: readonly ARIARoleRelationConceptAttribute[],
+  ariaRoleRelationConceptAttributes: readonly ARIARoleRelationConceptAttribute[],
   node: TmplAstElement,
 ): boolean {
-  const attributes = [...node.attributes, ...node.inputs];
+  const attributesInputs = [...node.attributes, ...node.inputs];
 
-  return baseAttributes.every((baseAttribute) =>
-    attributes.some(({ name }) => {
-      if (node.name === 'a' && name === 'routerLink') {
-        return true;
-      }
+  return ariaRoleRelationConceptAttributes.every(
+    (ariaRoleRelationConceptAttribute) =>
+      attributesInputs.some(({ name }) => {
+        if (node.name === 'a' && name === 'routerLink') {
+          return true;
+        }
 
-      if (baseAttribute.name !== name) {
-        return false;
-      }
+        if (ariaRoleRelationConceptAttribute.name !== name) {
+          return false;
+        }
 
-      return (
-        !baseAttribute.value ||
-        baseAttribute.value === getAttributeValue(node, baseAttribute.name)
-      );
-    }),
+        return (
+          !ariaRoleRelationConceptAttribute.value ||
+          ariaRoleRelationConceptAttribute.value ===
+            getAttributeValue(node, ariaRoleRelationConceptAttribute.name)
+        );
+      }),
   );
 }
