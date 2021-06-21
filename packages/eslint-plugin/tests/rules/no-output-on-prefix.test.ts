@@ -19,56 +19,118 @@ ruleTester.run(RULE_NAME, rule, {
     `
     @Component()
     class Test {
-      @Output() change = new EventEmitter<void>();
-    }
-    `,
-    `
-    @Component()
-    class Test {
-      @Output('testing') oneProp = new EventEmitter<void>();
+      on = new EventEmitter();
     }
     `,
     `
     @Directive()
     class Test {
-      @Output() selectionChanged = new EventEmitter<void>();
+      @Output() buttonChange = new EventEmitter<'on'>();
+    }
+    `,
+    `
+    @Component()
+    class Test {
+      @Output() On = new EventEmitter<{ on: onType }>();
+    }
+    `,
+    `
+    @Directive()
+    class Test {
+      @Output(\`one\`) ontype = new EventEmitter<{ bar: string, on: boolean }>();
+    }
+    `,
+    `
+    @Component()
+    class Test {
+      @Output('oneProp') common = new EventEmitter<ComplextOn>();
+    }
+    `,
+    `
+    @Directive()
+    class Test<On> {
+      @Output() ON = new EventEmitter<On>();
+    }
+    `,
+    `
+    const on = 'on';
+    @Component()
+    class Test {
+      @Output(on) touchMove: EventEmitter<{ action: 'on' | 'off' }> = new EventEmitter<{ action: 'on' | 'off' }>();
+    }
+    `,
+    `
+    const test = 'on';
+    const on = 'on';
+    @Directive()
+    class Test {
+      @Output(test) [on]: EventEmitter<OnTest>;
     }
     `,
   ],
   invalid: [
     convertAnnotatedSourceToFailureCase({
-      description: `it should fail if a component output property's name is prefixed with "on"`,
+      description:
+        'should fail if output property is named "on" in `@Component`',
       annotatedSource: `
         @Component()
         class Test {
-          @Output() onChange = new EventEmitter<void>();
-          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        }
-      `,
-      messageId,
-    }),
-    convertAnnotatedSourceToFailureCase({
-      description: `it should fail if a component output property's alias is prefixed with "on"`,
-      annotatedSource: `
-        @Component()
-        class Test {
-          @Output('onChange') test = new EventEmitter<void>();
-          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+          @Output() on: EventEmitter<any> = new EventEmitter<{}>();
+                    ~~
         }
       `,
       messageId,
     }),
     convertAnnotatedSourceToFailureCase({
       description:
-        'it should fail if a directive output property name is equal to "on"',
+        'should fail if output property is named with "\'on\'" prefix in `@Directive`',
       annotatedSource: `
         @Directive()
         class Test {
-          @Output() on = new EventEmitter<void>();
-          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+          @Output() @Custom('on') 'onPrefix' = new EventEmitter<void>();
+                                  ~~~~~~~~~~
         }
       `,
       messageId,
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'should fail if output property is aliased as "`on`" in `@Component`',
+      annotatedSource: `
+        @Component()
+        class Test {
+          @Custom() @Output(\`on\`) _on = getOutput();
+                            ~~~~
+        }
+      `,
+      messageId,
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'should fail if output property is aliased with "on" prefix in `@Directive`',
+      annotatedSource: `
+        @Directive()
+        class Test {
+          @Output('onPrefix') _on = (this.subject$ as Subject<{on: boolean}>).pipe();
+                  ~~~~~~~~~~
+        }
+      `,
+      messageId,
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'should fail if output property is named with prefix "on" and aliased as "on" without `@Component` or `@Directive`',
+      annotatedSource: `
+        @Injectable()
+        class Test {
+          @Output('on') onPrefix = this.getOutput();
+                  ~~~~  ^^^^^^^^
+        }
+      `,
+      messages: [
+        { char: '~', messageId },
+        { char: '^', messageId },
+      ],
     }),
   ],
 });
