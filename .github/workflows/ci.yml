@@ -73,8 +73,8 @@ jobs:
       run: |
         bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }}
 
-    - name: Tag main branch if all jobs succeed
-      if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+    - name: Tag master branch if all jobs succeed
+      if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
       uses: jameshenry/nx-tag-successful-ci-run@v0.1
 
     - name: Stop all running agents for this CI run
