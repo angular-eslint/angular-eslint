@@ -4,9 +4,9 @@ import { createESLintRule } from '../utils/create-eslint-rule';
 import { COMPONENT_OR_DIRECTIVE_CLASS_DECORATOR } from '../utils/selectors';
 import {
   AngularInnerClassDecorators,
-  isLiteralWithStringValue,
   isObjectExpression,
   isProperty,
+  isStringLiteral,
 } from '../utils/utils';
 
 type Options = [{ readonly allowStatic?: boolean }];
@@ -72,9 +72,7 @@ function isEmptyStringValue(
 ): property is TSESTree.Property & {
   value: TSESTree.Literal & { value: '' };
 } {
-  return (
-    isLiteralWithStringValue(property.value) && property.value.value === ''
-  );
+  return isStringLiteral(property.value) && property.value.value === '';
 }
 
 function isStatic(
@@ -86,8 +84,7 @@ function isStatic(
   return (
     !property.computed &&
     (ASTUtils.isIdentifier(property.key) ||
-      (isLiteralWithStringValue(property.key) &&
-        startsWithLetter(property.key.value)))
+      (isStringLiteral(property.key) && startsWithLetter(property.key.value)))
   );
 }
 

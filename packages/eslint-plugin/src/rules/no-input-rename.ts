@@ -6,7 +6,7 @@ import {
   getDecoratorPropertyValue,
   isCallExpression,
   isImportedFrom,
-  isLiteralWithStringValue,
+  isStringLiteral,
   kebabToCamelCase,
 } from '../utils/utils';
 
@@ -149,7 +149,7 @@ export default createESLintRule<Options, MessageIds>({
         if (decorator) {
           const selector = getDecoratorPropertyValue(decorator, 'selector');
 
-          if (selector && isLiteralWithStringValue(selector)) {
+          if (selector && isStringLiteral(selector)) {
             directiveSelectors = selector.value
               .replace(/[[\]\s]/g, '')
               .split(',');

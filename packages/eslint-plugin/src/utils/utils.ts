@@ -245,18 +245,14 @@ function isImportSpecifier(
   return node.type === AST_NODE_TYPES.ImportSpecifier;
 }
 
-type LiteralWithStringValue = TSESTree.Literal & {
-  value: string;
-};
-
 /**
- * ESTree does not differentiate between different types of Literals at the AST level,
- * but it is a common thing to need to do, so this utility and interface are here to
- * avoid repeated typeof checks on the node's value.
+ * `ESTree` does not differentiate between different types of `Literals` at the `AST` level,
+ * but it is a common thing to need to do, so this utility are here to
+ * avoid repeated `typeof` checks on the node's value.
  */
-export function isLiteralWithStringValue(
+export function isStringLiteral(
   node: TSESTree.Node,
-): node is LiteralWithStringValue {
+): node is TSESTree.StringLiteral {
   return isLiteral(node) && typeof node.value === 'string';
 }
 
@@ -643,7 +639,7 @@ export const getDeclaredMethods = ({
 export const getMethodName = (
   node: TSESTree.MethodDefinition,
 ): string | undefined => {
-  if (isLiteralWithStringValue(node.key)) {
+  if (isStringLiteral(node.key)) {
     return node.key.value;
   }
   return ASTUtils.isIdentifier(node.key) ? node.key.name : undefined;

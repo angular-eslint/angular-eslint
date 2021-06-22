@@ -6,7 +6,7 @@ import {
   getDecoratorPropertyValue,
   isCallExpression,
   isImportedFrom,
-  isLiteralWithStringValue,
+  isStringLiteral,
 } from '../utils/utils';
 
 type Options = [];
@@ -75,7 +75,7 @@ export default createESLintRule<Options, MessageIds>({
         if (decorator) {
           const selector = getDecoratorPropertyValue(decorator, 'selector');
 
-          if (selector && isLiteralWithStringValue(selector)) {
+          if (selector && isStringLiteral(selector)) {
             directiveSelectors = new Set(
               selector.value.replace(/[[\]\s]/g, '').split(','),
             );
