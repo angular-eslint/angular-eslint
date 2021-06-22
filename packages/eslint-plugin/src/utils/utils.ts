@@ -182,10 +182,8 @@ export const ANGULAR_CLASS_DECORATOR_MAPPER: ReadonlyMap<
   ],
 ]);
 
-/**
- * SECTION START:
- * Equivalents of utils exported by TypeScript itself for its own AST
- */
+// SECTION START:
+// Equivalents of utils exported by TypeScript itself for its own AST
 
 export function isCallExpression(
   node: TSESTree.Node,
@@ -272,10 +270,8 @@ export function isSuper(node: TSESTree.Node): node is TSESTree.Super {
   return node.type === AST_NODE_TYPES.Super;
 }
 
-/**
- * SECTION END:
- * Equivalents of utils exported by TypeScript itself for its own AST
- */
+// SECTION END:
+// Equivalents of utils exported by TypeScript itself for its own AST
 
 export function getNearestNodeFrom<T extends TSESTree.Node>(
   { parent }: TSESTree.Node,
