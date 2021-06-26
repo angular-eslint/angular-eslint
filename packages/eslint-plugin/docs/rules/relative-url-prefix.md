@@ -13,10 +13,11 @@
 
 # `@angular-eslint/relative-url-prefix`
 
-The ./ and ../ prefix is standard syntax for relative URLs; don't depend on Angular's current ability to do without that prefix. See more at https://angular.io/styleguide#style-05-04
+Ensures that URLs uses the prefixes './' and '../'. See more at https://angular.io/styleguide#style-05-04
 
 - Type: suggestion
 - Category: Best Practices
+- 🔧 Supports autofix (`--fix`)
 
 <br>
 
@@ -44,8 +45,32 @@ class Test {}
 
 ```ts
 @Component({
+  'styleUrls': [`test.css`],
+                ~~~~~~~~~~
+})
+class Test {}
+```
+
+```ts
+@Component({
+  [`styleUrls`]: [`test.css`]
+                  ~~~~~~~~~~
+})
+class Test {}
+```
+
+```ts
+@Component({
   templateUrl: 'foobar.html'
                ~~~~~~~~~~~~~
+})
+class Test {}
+```
+
+```ts
+@Component({
+  ['templateUrl']: `foobar.html`
+                   ~~~~~~~~~~~~~
 })
 class Test {}
 ```
@@ -59,10 +84,69 @@ class Test {}
 ✅ - Examples of **correct** code for this rule:
 
 ```ts
+class Test {}
+```
+
+```ts
+@Component()
+class Test {}
+```
+
+```ts
+@Component({})
+class Test {}
+```
+
+```ts
+const options = {};
+@Component(options)
+class Test {}
+```
+
+```ts
+@Component({
+  template: 'app-test'
+})
+class Test {}
+```
+
+```ts
+@Component({
+  [styleUrls]: 'app-test',
+})
+class Test {}
+```
+
+```ts
+@Component({
+  templateUrl,
+})
+class Test {}
+```
+
+```ts
+@Component({
+  'styleUrls': styles
+})
+class Test {}
+```
+
+```ts
+function templateUrl() {
+  return 'test.pug';
+}
+
+@Component({
+  templateUrl: templateUrl(),
+})
+class Test {}
+```
+
+```ts
 @Component({
   styleUrls: [
     './foo.css',
-    '../bar.css',
+    `../bar.css`,
     '../../baz.scss',
     '../../../baz.sass',
     './../test.css',
@@ -102,14 +186,19 @@ class Test {}
 
 ```ts
 @Component({
-  templateUrl: './../foobar.html'
+  ['templateUrl']: `./../foobar.html`
 })
 class Test {}
 ```
 
 ```ts
 @Component({
-  templateUrl: '.././foobar.html'
+  [`styleUrls`]: ['.././foobar.html']
 })
+class Test {}
+```
+
+```ts
+@Directive()
 class Test {}
 ```

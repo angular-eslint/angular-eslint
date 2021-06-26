@@ -5,56 +5,61 @@ import { createESLintRule } from '../utils/create-eslint-rule';
 type Options = [];
 export type MessageIds = 'relativeUrlPrefix';
 export const RULE_NAME = 'relative-url-prefix';
-
 const STYLE_GUIDE_LINK = 'https://angular.io/styleguide#style-05-04';
-const RELATIVE_URL_PREFIX_MATCHER = /^\.\.?\/.+/;
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
   meta: {
     type: 'suggestion',
     docs: {
-      description: `The ./ and ../ prefix is standard syntax for relative URLs; don't depend on Angular's current ability to do without that prefix. See more at ${STYLE_GUIDE_LINK}`,
+      description: `Ensures that URLs uses the prefixes './' and '../'. See more at ${STYLE_GUIDE_LINK}`,
       category: 'Best Practices',
       recommended: false,
     },
+    fixable: 'code',
     schema: [],
     messages: {
-      relativeUrlPrefix: `The ./ and ../ prefix is standard syntax for relative URLs. (${STYLE_GUIDE_LINK})`,
+      relativeUrlPrefix: `Use './' or '../' prefixes for URLs (${STYLE_GUIDE_LINK})`,
     },
   },
   defaultOptions: [],
   create(context) {
+    const relativeUrlPrefixPattern = /^\.\.?\/.+/;
+    const styleUrlLiteralOrTemplateElement = `${Selectors.metadataProperty(
+      'styleUrls',
+    )} ArrayExpression :matches(Literal, TemplateElement)` as const;
+    const templateUrlProperty = `${Selectors.metadataProperty(
+      'templateUrl',
+    )}[value.type=/^(Template)?Literal$/]` as const;
+    const selector =
+      `${Selectors.COMPONENT_CLASS_DECORATOR} :matches(${styleUrlLiteralOrTemplateElement}, ${templateUrlProperty})` as const;
+
     return {
-      [`${Selectors.COMPONENT_CLASS_DECORATOR} Property[key.name='templateUrl']`]({
-        value,
-      }: TSESTree.Property) {
-        if (!isUrlInvalid(value)) return;
+      [selector](
+        node:
+          | (Omit<TSESTree.PropertyNonComputedName, 'value'> & {
+              value: TSESTree.Literal | TSESTree.TemplateLiteral;
+            })
+          | TSESTree.Literal
+          | TSESTree.TemplateElement,
+      ) {
+        const nodeValue = ASTUtils.isProperty(node) ? node.value : node;
+        const url = ASTUtils.getRawText(nodeValue);
+
+        if (!url || relativeUrlPrefixPattern.test(url)) {
+          return;
+        }
 
         context.report({
-          node: value,
+          node: nodeValue,
           messageId: 'relativeUrlPrefix',
-        });
-      },
-      [`${Selectors.COMPONENT_CLASS_DECORATOR} Property[key.name='styleUrls']`]({
-        value,
-      }: TSESTree.Property) {
-        if (!ASTUtils.isArrayExpression(value)) return;
-
-        value.elements.filter(isUrlInvalid).forEach((element) => {
-          context.report({
-            node: element,
-            messageId: 'relativeUrlPrefix',
-          });
+          fix: (fixer) =>
+            fixer.replaceText(
+              nodeValue,
+              ASTUtils.getReplacementText(nodeValue, `./${url}`),
+            ),
         });
       },
     };
   },
 });
-
-function isUrlInvalid(node: TSESTree.Property | TSESTree.Property['value']) {
-  return (
-    !ASTUtils.isStringLiteral(node) ||
-    !RELATIVE_URL_PREFIX_MATCHER.test(node.value)
-  );
-}
