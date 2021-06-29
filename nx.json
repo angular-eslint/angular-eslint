@@ -58,25 +58,6 @@
     ]
   },
   "projects": {
-    "builder": {
-      "implicitDependencies": []
-    },
-    "eslint-plugin": {
-      "implicitDependencies": []
-    },
-    "eslint-plugin-template": {
-      "implicitDependencies": ["template-parser"]
-    },
-    "integration-tests": {
-      "implicitDependencies": [
-        "builder",
-        "eslint-plugin",
-        "eslint-plugin-template",
-        "schematics",
-        "template-parser",
-        "utils"
-      ]
-    },
     "integration-tests-suite-1": {
       "implicitDependencies": [
         "integration-tests",
@@ -131,15 +112,6 @@
         "template-parser",
         "utils"
       ]
-    },
-    "schematics": {
-      "implicitDependencies": []
-    },
-    "template-parser": {
-      "implicitDependencies": []
-    },
-    "utils": {
-      "implicitDependencies": []
     }
   },
   "affected": {

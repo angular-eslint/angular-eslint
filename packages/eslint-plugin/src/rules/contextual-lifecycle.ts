@@ -41,9 +41,8 @@ export default createESLintRule<Options, MessageIds>({
       decorator: AngularClassDecorators,
     ) {
       const classDeclaration = parent as TSESTree.ClassDeclaration;
-      const allowedMethods = ANGULAR_CLASS_DECORATOR_LIFECYCLE_METHOD_MAPPER.get(
-        decorator,
-      );
+      const allowedMethods =
+        ANGULAR_CLASS_DECORATOR_LIFECYCLE_METHOD_MAPPER.get(decorator);
       const declaredMethods = getDeclaredMethods(classDeclaration);
 
       for (const method of declaredMethods) {

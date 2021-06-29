@@ -34,9 +34,9 @@ const MAX_RULE_NAME_LENGTH =
 
 const DEFAULT_RULE_SETTING = 'warn';
 
-const eslintPluginRuleEntries = Object.entries(
-  eslintPlugin.rules,
-).sort((a, b) => a[0].localeCompare(b[0]));
+const eslintPluginRuleEntries = Object.entries(eslintPlugin.rules).sort(
+  (a, b) => a[0].localeCompare(b[0]),
+);
 const eslintPluginTemplateRuleEntries = Object.entries(
   eslintPluginTemplate.rules,
 ).sort((a, b) => a[0].localeCompare(b[0]));

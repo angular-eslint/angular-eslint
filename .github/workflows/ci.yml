@@ -24,7 +24,7 @@ jobs:
         fetch-depth: 0
 
     - name: Derive appropriate SHAs for base and head for `nx affected` commands
-      uses: jameshenry/nx-set-shas@v0.3
+      uses: nrwl/nx-set-shas@v1
       with:
         error-on-no-matching-tags: false
         main-branch-name: master
@@ -75,7 +75,7 @@ jobs:
 
     - name: Tag master branch if all jobs succeed
       if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
-      uses: jameshenry/nx-tag-successful-ci-run@v0.1
+      uses: nrwl/nx-tag-successful-ci-run@v1
 
     - name: Stop all running agents for this CI run
       # It's important that we always run this step, otherwise in the case of any failures in preceding non-Nx steps, the agents will keep running and waste billable minutes
@@ -129,7 +129,7 @@ jobs:
         fetch-depth: 0
 
     - name: Derive appropriate SHAs for base and head for `nx affected` commands
-      uses: jameshenry/nx-set-shas@v0.3
+      uses: nrwl/nx-set-shas@v1
       with:
         error-on-no-matching-tags: false
         main-branch-name: master

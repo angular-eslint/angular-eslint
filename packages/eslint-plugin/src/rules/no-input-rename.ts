@@ -156,8 +156,9 @@ export default createESLintRule<Options, MessageIds>({
           }
         }
 
-        const propertyAlias = (inputCallExpression
-          .arguments[0] as TSESTree.Literal).value;
+        const propertyAlias = (
+          inputCallExpression.arguments[0] as TSESTree.Literal
+        ).value;
 
         if (
           propertyAlias &&

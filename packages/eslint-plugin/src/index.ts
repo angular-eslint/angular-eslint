@@ -134,7 +134,8 @@ export default {
     [noPipeImpureRuleName]: noPipeImpure,
     [noQueriesMetadataPropertyRuleName]: noQueriesMetadataProperty,
     [noEmptyLifecycleMethodRuleName]: noEmptyLifecycleMethod,
-    [preferOnPushComponentChangeDetectionRuleName]: preferOnPushComponentChangeDetection,
+    [preferOnPushComponentChangeDetectionRuleName]:
+      preferOnPushComponentChangeDetection,
     [preferOutputReadonlyRuleName]: preferOutputReadonly,
     [relativeUrlPrefixRuleName]: relativeUrlPrefix,
     [sortNgmoduleMetadataArraysName]: sortNgmoduleMetadataArrays,

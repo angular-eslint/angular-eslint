@@ -82,8 +82,9 @@ export default createESLintRule<Options, MessageIds>({
           }
         }
 
-        const propertyAlias = (outputCallExpression
-          .arguments[0] as TSESTree.Literal).value;
+        const propertyAlias = (
+          outputCallExpression.arguments[0] as TSESTree.Literal
+        ).value;
 
         if (
           propertyAlias &&
