@@ -49,9 +49,8 @@ export default createESLintRule<Options, MessageIds>({
   defaultOptions: [],
   create(context) {
     const validateInterfaces = (node: TSESTree.ClassDeclaration) => {
-      const declaredAngularLifecycleInterfaces = getDeclaredAngularLifecycleInterfaces(
-        node,
-      );
+      const declaredAngularLifecycleInterfaces =
+        getDeclaredAngularLifecycleInterfaces(node);
 
       const hasInterfaceConflictingLifecycle = LIFECYCLE_INTERFACES.every(
         (lifecycleInterface) =>
@@ -75,9 +74,8 @@ export default createESLintRule<Options, MessageIds>({
       }
     };
     const validateMethods = (node: TSESTree.ClassDeclaration) => {
-      const declaredAngularLifecycleMethods = getDeclaredAngularLifecycleMethods(
-        node,
-      );
+      const declaredAngularLifecycleMethods =
+        getDeclaredAngularLifecycleMethods(node);
 
       const hasMethodConflictingLifecycle = LIFECYCLE_METHODS.every(
         (lifecycleMethod) =>

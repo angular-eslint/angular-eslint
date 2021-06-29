@@ -78,7 +78,8 @@ export type AngularInnerClassDecoratorKeys = Exclude<
   keyof typeof AngularInnerClassDecorators,
   number
 >;
-export type AngularLifecycleInterfaceKeys = keyof typeof AngularLifecycleInterfaces;
+export type AngularLifecycleInterfaceKeys =
+  keyof typeof AngularLifecycleInterfaces;
 export type AngularLifecycleMethodKeys = keyof typeof AngularLifecycleMethods;
 
 export const angularClassDecoratorKeys = objectKeys(AngularClassDecorators);
@@ -136,13 +137,11 @@ export const ANGULAR_CLASS_DECORATOR_LIFECYCLE_METHOD_MAPPER: ReadonlyMap<
   ],
 ]);
 
-export const ANGULAR_INNER_CLASS_DECORATORS: ReadonlySet<AngularInnerClassDecoratorKeys> = new Set(
-  angularInnerClassDecoratorKeys,
-);
+export const ANGULAR_INNER_CLASS_DECORATORS: ReadonlySet<AngularInnerClassDecoratorKeys> =
+  new Set(angularInnerClassDecoratorKeys);
 
-export const ANGULAR_CLASS_DECORATORS: ReadonlySet<AngularClassDecoratorKeys> = new Set(
-  angularClassDecoratorKeys,
-);
+export const ANGULAR_CLASS_DECORATORS: ReadonlySet<AngularClassDecoratorKeys> =
+  new Set(angularClassDecoratorKeys);
 
 export const ANGULAR_CLASS_DECORATOR_MAPPER: ReadonlyMap<
   AngularClassDecoratorKeys,
@@ -571,13 +570,11 @@ export const getDeclaredAngularLifecycleMethods = (
     .filter(isNotNullOrUndefined)
     .filter(isAngularLifecycleMethod) as readonly AngularLifecycleMethodKeys[];
 
-export const ANGULAR_LIFECYCLE_INTERFACES: ReadonlySet<AngularLifecycleInterfaceKeys> = new Set(
-  angularLifecycleInterfaceKeys,
-);
+export const ANGULAR_LIFECYCLE_INTERFACES: ReadonlySet<AngularLifecycleInterfaceKeys> =
+  new Set(angularLifecycleInterfaceKeys);
 
-export const ANGULAR_LIFECYCLE_METHODS: ReadonlySet<AngularLifecycleMethodKeys> = new Set(
-  angularLifecycleMethodKeys,
-);
+export const ANGULAR_LIFECYCLE_METHODS: ReadonlySet<AngularLifecycleMethodKeys> =
+  new Set(angularLifecycleMethodKeys);
 
 export const isAngularLifecycleInterface = (
   value: string,

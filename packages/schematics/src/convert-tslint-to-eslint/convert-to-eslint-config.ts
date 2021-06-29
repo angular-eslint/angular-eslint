@@ -7,8 +7,8 @@ import type * as TslintToEslintConfig from 'tslint-to-eslint-config';
 import { readJsonInTree, visitNotIgnoredFiles } from '../utils';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const tslintToEslintConfigVersion = require('../../package.json')
-  .devDependencies['tslint-to-eslint-config'];
+const tslintToEslintConfigVersion =
+  require('../../package.json').devDependencies['tslint-to-eslint-config'];
 
 type TslintToEslintConfigLibrary = {
   createESLintConfiguration: typeof TslintToEslintConfig['createESLintConfiguration'];
