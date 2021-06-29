@@ -6,8 +6,8 @@ import { dirSync } from 'tmp';
 import type * as TslintToEslintConfig from 'tslint-to-eslint-config';
 import { readJsonInTree, visitNotIgnoredFiles } from '../utils';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const tslintToEslintConfigVersion =
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   require('../../package.json').devDependencies['tslint-to-eslint-config'];
 
 type TslintToEslintConfigLibrary = {
