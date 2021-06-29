@@ -91,6 +91,16 @@ export default createESLintRule<Options, MessageIds>({
           return;
         }
 
+        const rawEncapsulation = getDecoratorPropertyValue(
+          node,
+          'encapsulation',
+        );
+
+        if (rawEncapsulation) {
+          // override style for shadow dom encapsulated component
+          style = OPTION_STYLE_KEBAB_CASE;
+        }
+
         const hasExpectedSelector = checkSelector(
           rawSelectors,
           type,

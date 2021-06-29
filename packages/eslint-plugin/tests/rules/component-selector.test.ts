@@ -383,23 +383,23 @@ ruleTester.run(RULE_NAME, rule, {
       })
       class Test {}
       `,
-      messageId: messageIdTypeFailure,
+      messageId: messageIdStyleFailure,
       options: [{ type: 'element', prefix: ['app'], style: 'camelCase' }],
-      data: { type: 'element' },
+      data: { style: 'kebab-case' },
     }),
     convertAnnotatedSourceToFailureCase({
       description: `it should fail if a ShadowDom selector is contains hyphen`,
       annotatedSource: `
       @Component({
         encapsulation: ViewEncapsulation.ShadowDom,
-        selector: 'appfoobar'
-                  ~~~~~~~~~~~
+        selector: 'app'
+                  ~~~~~
       })
       class Test {}
       `,
-      messageId: messageIdTypeFailure,
+      messageId: messageIdStyleFailure,
       options: [{ type: 'element', prefix: ['app'], style: 'camelCase' }],
-      data: { type: 'element' },
+      data: { style: 'kebab-case' },
     }),
   ],
 });
