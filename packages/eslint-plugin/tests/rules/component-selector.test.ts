@@ -188,6 +188,38 @@ ruleTester.run(RULE_NAME, rule, {
     },
     {
       code: `
+      @Component({
+        encapsulation: ViewEncapsulation.ShadowDom,
+        selector: \`app-foo-bar\`
+      })
+      class Test {}
+      `,
+      options: [
+        {
+          type: ['element'],
+          prefix: ['app'],
+          style: 'camelCase',
+        },
+      ],
+    },
+    {
+      code: `
+      @Component({
+        encapsulation: ViewEncapsulation.ShadowDom,
+        selector: \`app-foo-bar\`
+      })
+      class Test {}
+      `,
+      options: [
+        {
+          type: ['element'],
+          prefix: ['app'],
+          style: 'kebab-case',
+        },
+      ],
+    },
+    {
+      code: `
       @Directive({
         selector: 'app-foo-bar'
       })
@@ -340,6 +372,34 @@ ruleTester.run(RULE_NAME, rule, {
         { type: 'attribute', prefix: ['app', 'ng'], style: 'camelCase' },
       ],
       data: { type: 'attribute' },
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description: `it should fail if a ShadowDom selector is not kebab-case`,
+      annotatedSource: `
+      @Component({
+        encapsulation: ViewEncapsulation.ShadowDom,
+        selector: 'appFooBar'
+                  ~~~~~~~~~~~
+      })
+      class Test {}
+      `,
+      messageId: messageIdTypeFailure,
+      options: [{ type: 'element', prefix: ['app'], style: 'camelCase' }],
+      data: { type: 'element' },
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description: `it should fail if a ShadowDom selector is contains hyphen`,
+      annotatedSource: `
+      @Component({
+        encapsulation: ViewEncapsulation.ShadowDom,
+        selector: 'appfoobar'
+                  ~~~~~~~~~~~
+      })
+      class Test {}
+      `,
+      messageId: messageIdTypeFailure,
+      options: [{ type: 'element', prefix: ['app'], style: 'camelCase' }],
+      data: { type: 'element' },
     }),
   ],
 });
