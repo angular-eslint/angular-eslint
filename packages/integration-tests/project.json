@@ -1,0 +1,66 @@
+{
+  "root": "packages/integration-tests",
+  "type": "library",
+  "targets": {
+    "clean": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "packages/integration-tests",
+        "parallel": false,
+        "commands": ["npx rimraf tmp", "npx rimraf fixtures/**/node_modules"]
+      }
+    },
+    "typecheck": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "packages/integration-tests",
+        "parallel": false,
+        "commands": ["npx tsc -p tsconfig.json --noEmit"]
+      }
+    },
+    "kill-existing-verdaccio": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "packages/integration-tests",
+        "parallel": false,
+        "commands": ["kill $(lsof -t -i:4872) || true"]
+      }
+    },
+    "reset-verdaccio-storage": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "packages/integration-tests",
+        "parallel": false,
+        "commands": ["npx rimraf tmp/local-registry/storage"]
+      }
+    },
+    "spawn-and-populate-local-registry": {
+      "dependsOn": [
+        {
+          "target": "kill-existing-verdaccio",
+          "projects": "self"
+        },
+        {
+          "target": "reset-verdaccio-storage",
+          "projects": "self"
+        }
+      ],
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "packages/integration-tests",
+        "commands": [
+          "npx ts-node --project tsconfig.tools.json spawn-and-populate-local-registry.ts"
+        ],
+        "readyWhen": "Publishing complete"
+      }
+    }
+  },
+  "implicitDependencies": [
+    "builder",
+    "eslint-plugin",
+    "eslint-plugin-template",
+    "schematics",
+    "template-parser",
+    "utils"
+  ]
+}

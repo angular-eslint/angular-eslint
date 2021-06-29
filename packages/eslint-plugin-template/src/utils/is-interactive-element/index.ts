@@ -12,17 +12,15 @@ function checkIsInteractiveElement(node: TmplAstElement): boolean {
   }
   // Check in elementRoles for inherent interactive role associations for
   // this element.
-  const isInherentInteractiveElement = getInteractiveElementRoleSchemas().some(
-    elementSchemaMatcher,
-  );
+  const isInherentInteractiveElement =
+    getInteractiveElementRoleSchemas().some(elementSchemaMatcher);
   if (isInherentInteractiveElement) {
     return true;
   }
   // Check in elementRoles for inherent non-interactive role associations for
   // this element.
-  const isInherentNonInteractiveElement = getNonInteractiveElementRoleSchemas().some(
-    elementSchemaMatcher,
-  );
+  const isInherentNonInteractiveElement =
+    getNonInteractiveElementRoleSchemas().some(elementSchemaMatcher);
   if (isInherentNonInteractiveElement) {
     return false;
   }

@@ -341,9 +341,11 @@ function createProjectESLintConfig(
 export function createESLintConfigForProject(projectName: string): Rule {
   return (tree: Tree) => {
     const angularJSON = readJsonInTree(tree, 'angular.json');
-    const { root: projectRoot, projectType, prefix } = angularJSON.projects[
-      projectName
-    ];
+    const {
+      root: projectRoot,
+      projectType,
+      prefix,
+    } = angularJSON.projects[projectName];
 
     const hasE2e = determineTargetProjectHasE2E(angularJSON, projectName);
 

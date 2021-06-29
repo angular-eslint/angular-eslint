@@ -36,21 +36,22 @@ export default createESLintRule<Options, MessageIds>({
     ]);
 
     return {
-      [`ClassDeclaration CallExpression > MemberExpression[property.name=${angularLifeCycleMethodsPattern}]`]: (
-        node: TSESTree.MemberExpression & { parent: TSESTree.CallExpression },
-      ) => {
-        const classDeclaration = getNearestNodeFrom(node, isClassDeclaration);
+      [`ClassDeclaration CallExpression > MemberExpression[property.name=${angularLifeCycleMethodsPattern}]`]:
+        (
+          node: TSESTree.MemberExpression & { parent: TSESTree.CallExpression },
+        ) => {
+          const classDeclaration = getNearestNodeFrom(node, isClassDeclaration);
 
-        if (
-          !classDeclaration ||
-          !getAngularClassDecorator(classDeclaration) ||
-          (isSuper(node.object) && isSuperCallAllowed(node))
-        ) {
-          return;
-        }
+          if (
+            !classDeclaration ||
+            !getAngularClassDecorator(classDeclaration) ||
+            (isSuper(node.object) && isSuperCallAllowed(node))
+          ) {
+            return;
+          }
 
-        context.report({ node: node.parent, messageId: 'noLifecycleCall' });
-      },
+          context.report({ node: node.parent, messageId: 'noLifecycleCall' });
+        },
     };
   },
 });

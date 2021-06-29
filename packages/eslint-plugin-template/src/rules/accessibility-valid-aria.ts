@@ -129,7 +129,7 @@ function isBooleanLike(value: unknown): value is boolean | 'false' | 'true' {
 function isInteger(value: unknown): boolean {
   return (
     !Number.isNaN(value) &&
-    parseInt((Number(value) as unknown) as string) == value &&
+    parseInt(Number(value) as unknown as string) == value &&
     !Number.isNaN(parseInt(value as string, 10))
   );
 }
@@ -172,7 +172,7 @@ function isValidAriaPropertyValue(
     case 'token':
     case 'tokenlist': {
       const parsedAttributeValue = isBooleanLike(attributeValue)
-        ? JSON.parse((attributeValue as unknown) as string)
+        ? JSON.parse(attributeValue as unknown as string)
         : attributeValue;
       return Boolean(values?.includes(parsedAttributeValue));
     }
