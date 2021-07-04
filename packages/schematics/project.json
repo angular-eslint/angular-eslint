@@ -1,0 +1,54 @@
+{
+  "root": "packages/schematics",
+  "type": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": ["packages/schematics/dist"],
+      "options": {
+        "cwd": "packages/schematics",
+        "parallel": false,
+        "commands": [
+          "npx ncp ../../node_modules/@schematics/angular/application/schema.json src/application/schema.json",
+          "npx ncp ../../node_modules/@schematics/angular/library/schema.json src/library/schema.json",
+          "npx rimraf ./dist",
+          "npx tsc -p tsconfig.json",
+          "npx ncp src/collection.json dist/collection.json",
+          "npx ncp src/migrations.json dist/migrations.json",
+          "npx ncp src/ng-add/schema.json dist/ng-add/schema.json",
+          "npx ncp src/convert-tslint-to-eslint/schema.json dist/convert-tslint-to-eslint/schema.json",
+          "npx ncp src/application/schema.json dist/application/schema.json",
+          "npx ncp src/library/schema.json dist/library/schema.json",
+          "npx ncp src/workspace/schema.json dist/workspace/schema.json",
+          "npx ncp src/add-eslint-to-project/schema.json dist/add-eslint-to-project/schema.json"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": ["packages/schematics/coverage"],
+      "options": {
+        "cwd": "packages/schematics",
+        "parallel": false,
+        "commands": ["npx jest --coverage"]
+      }
+    },
+    "clean": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "packages/schematics",
+        "parallel": false,
+        "commands": ["npx rimraf ./dist"]
+      }
+    },
+    "typecheck": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "packages/schematics",
+        "parallel": false,
+        "commands": ["npx tsc -p tsconfig.json --noEmit"]
+      }
+    }
+  },
+  "implicitDependencies": []
+}

@@ -58,9 +58,8 @@ function addAngularESLintPackages() {
      */
     const typescriptESLintVersion =
       packageJSON.devDependencies['@typescript-eslint/experimental-utils'];
-    json.devDependencies[
-      '@typescript-eslint/eslint-plugin'
-    ] = typescriptESLintVersion;
+    json.devDependencies['@typescript-eslint/eslint-plugin'] =
+      typescriptESLintVersion;
     json.devDependencies['@typescript-eslint/parser'] = typescriptESLintVersion;
 
     json.devDependencies = sortObjectByKeys(json.devDependencies);

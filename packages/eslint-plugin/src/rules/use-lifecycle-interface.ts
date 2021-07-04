@@ -44,9 +44,8 @@ export default createESLintRule<Options, MessageIds>({
       }) {
         if (!getAngularClassDecorator(parent)) return;
 
-        const declaredLifecycleInterfaces = getDeclaredAngularLifecycleInterfaces(
-          parent,
-        );
+        const declaredLifecycleInterfaces =
+          getDeclaredAngularLifecycleInterfaces(parent);
         const methodName = (key as TSESTree.Identifier)
           .name as AngularLifecycleMethodKeys;
         const interfaceName = getLifecycleInterfaceByMethodName(methodName);

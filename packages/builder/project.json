@@ -1,0 +1,46 @@
+{
+  "root": "packages/builder",
+  "type": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": ["packages/builder/dist"],
+      "options": {
+        "cwd": "packages/builder",
+        "parallel": false,
+        "commands": [
+          "npx rimraf ./dist",
+          "npx tsc --project tsconfig.build.json",
+          "terser ./dist/index.js --output=./dist/index.js",
+          "ncp src/schema.json dist/schema.json"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": ["packages/builder/coverage"],
+      "options": {
+        "cwd": "packages/builder",
+        "parallel": false,
+        "commands": ["npx jest --coverage"]
+      }
+    },
+    "clean": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "packages/builder",
+        "parallel": false,
+        "commands": ["npx rimraf ./dist"]
+      }
+    },
+    "typecheck": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "packages/builder",
+        "parallel": false,
+        "commands": ["npx tsc -p tsconfig.json --noEmit"]
+      }
+    }
+  },
+  "implicitDependencies": []
+}

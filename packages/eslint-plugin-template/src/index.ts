@@ -73,7 +73,8 @@ export default {
     [accessibilityAltTextRuleName]: accessibilityAltText,
     [accessibilityElementsContentRuleName]: accessibilityElementsContent,
     [accessibilityLabelForRuleName]: accessibilityLabelFor,
-    [accessibilityLabelHasAssociatedControlRuleName]: accessibilityLabelHasAssociatedControl,
+    [accessibilityLabelHasAssociatedControlRuleName]:
+      accessibilityLabelHasAssociatedControl,
     [accessibilityTableScopeRuleName]: accessibilityTableScope,
     [accessibilityValidAriaRuleName]: accessibilityValidAria,
     [bananaInBoxRuleName]: bananaInBox,
