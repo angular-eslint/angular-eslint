@@ -1,10 +1,7 @@
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import { COMPONENT_CLASS_DECORATOR } from '../utils/selectors';
-import {
-  getDecoratorPropertyValue,
-  isLiteralWithStringValue,
-} from '../utils/utils';
+import { getDecoratorPropertyValue, isStringLiteral } from '../utils/utils';
 
 type Options = [];
 export type MessageIds = 'useComponentSelector';
@@ -30,11 +27,7 @@ export default createESLintRule<Options, MessageIds>({
       [COMPONENT_CLASS_DECORATOR](node: TSESTree.Decorator) {
         const selector = getDecoratorPropertyValue(node, 'selector');
 
-        if (
-          selector &&
-          isLiteralWithStringValue(selector) &&
-          selector.value.length
-        ) {
+        if (selector && isStringLiteral(selector) && selector.value.length) {
           return;
         }
 

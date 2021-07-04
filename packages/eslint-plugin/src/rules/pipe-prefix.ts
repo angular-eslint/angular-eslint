@@ -3,7 +3,7 @@ import { createESLintRule } from '../utils/create-eslint-rule';
 import { PIPE_CLASS_DECORATOR } from '../utils/selectors';
 import {
   getDecoratorPropertyValue,
-  isLiteralWithStringValue,
+  isStringLiteral,
   isTemplateLiteral,
   SelectorValidator,
   toHumanReadableText,
@@ -78,7 +78,7 @@ export default createESLintRule<Options, MessageIds>({
 
         let nameValue;
 
-        if (isLiteralWithStringValue(nameSelector)) {
+        if (isStringLiteral(nameSelector)) {
           nameValue = nameSelector.value;
         } else if (isTemplateLiteral(nameSelector) && nameSelector.quasis[0]) {
           nameValue = nameSelector.quasis[0].value.raw as string;
