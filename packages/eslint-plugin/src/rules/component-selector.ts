@@ -18,6 +18,9 @@ import {
   OPTION_STYLE_CAMEL_CASE,
   OPTION_STYLE_KEBAB_CASE,
 } from '../utils/utils';
+import { ASTUtils } from '@typescript-eslint/experimental-utils';
+
+export const VIEW_ENCAPSULATION_SHADOW_DOM = 'ShadowDom';
 
 export const RULE_NAME = 'component-selector';
 export type MessageIds = 'prefixFailure' | 'styleFailure' | 'typeFailure';
@@ -94,9 +97,12 @@ export default createESLintRule<Options, MessageIds>({
         const rawEncapsulation = getDecoratorPropertyValue(
           node,
           'encapsulation',
-        );
+        ) as TSESTree.MemberExpression;
 
-        if (rawEncapsulation) {
+        if (
+          ASTUtils.isIdentifier(rawEncapsulation?.property) &&
+          rawEncapsulation.property.name === VIEW_ENCAPSULATION_SHADOW_DOM
+        ) {
           // override style for shadow dom encapsulated component
           style = OPTION_STYLE_KEBAB_CASE;
         }

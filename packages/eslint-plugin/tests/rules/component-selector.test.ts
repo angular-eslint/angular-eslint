@@ -189,8 +189,8 @@ ruleTester.run(RULE_NAME, rule, {
     {
       code: `
       @Component({
-        encapsulation: ViewEncapsulation.ShadowDom,
-        selector: \`app-foo-bar\`
+        selector: \`app-foo-bar\`,
+        encapsulation: ViewEncapsulation.ShadowDom
       })
       class Test {}
       `,
@@ -205,8 +205,8 @@ ruleTester.run(RULE_NAME, rule, {
     {
       code: `
       @Component({
-        encapsulation: ViewEncapsulation.ShadowDom,
-        selector: \`app-foo-bar\`
+        selector: \`app-foo-bar\`,
+        encapsulation: ViewEncapsulation.ShadowDom
       })
       class Test {}
       `,
