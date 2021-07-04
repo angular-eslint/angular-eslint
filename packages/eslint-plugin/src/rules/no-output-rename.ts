@@ -2,15 +2,24 @@ import type { TSESTree } from '@typescript-eslint/experimental-utils';
 import { ASTUtils } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import {
-  AngularClassDecorators,
-  getDecoratorPropertyValue,
-  isCallExpression,
-  isImportedFrom,
-  isStringLiteral,
+  COMPONENT_OR_DIRECTIVE_CLASS_DECORATOR,
+  OUTPUTS_METADATA_PROPERTY,
+  OUTPUT_ALIAS,
+} from '../utils/selectors';
+import {
+  capitalize,
+  getNearestNodeFrom,
+  getRawText,
+  getReplacementText,
+  isClassPropertyOrMethodDefinition,
+  withoutBracketsAndWhitespaces,
 } from '../utils/utils';
 
 type Options = [];
-export type MessageIds = 'noOutputRename';
+export type MessageIds =
+  | 'noOutputRename'
+  | 'suggestRemoveAliasName'
+  | 'suggestReplaceOriginalNameWithAliasName';
 export const RULE_NAME = 'no-output-rename';
 const STYLE_GUIDE_LINK = 'https://angular.io/guide/styleguide#style-05-13';
 
@@ -19,85 +28,130 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description:
-        'Disallows renaming directive outputs by providing a string to the decorator.',
+      description: 'Ensures that output bindings are not aliased',
       category: 'Best Practices',
       recommended: 'error',
+      suggestion: true,
     },
+    fixable: 'code',
     schema: [],
     messages: {
-      noOutputRename: `@Outputs should not be aliased (${STYLE_GUIDE_LINK})`,
+      noOutputRename: `Output bindings should not be aliased (${STYLE_GUIDE_LINK})`,
+      suggestRemoveAliasName: 'Remove alias name',
+      suggestReplaceOriginalNameWithAliasName:
+        'Remove alias name and use it as the original name',
     },
   },
   defaultOptions: [],
   create(context) {
+    let selectors: ReadonlySet<string> = new Set();
+
     return {
-      'ClassProperty > Decorator[expression.callee.name="Output"]'(
-        node: TSESTree.Decorator,
+      [`${COMPONENT_OR_DIRECTIVE_CLASS_DECORATOR} Property[key.name='selector'] :matches(Literal, TemplateElement)`](
+        node: TSESTree.StringLiteral | TSESTree.TemplateElement,
       ) {
-        const outputCallExpression = node.expression as TSESTree.CallExpression;
-
-        if (
-          !isImportedFrom(
-            outputCallExpression.callee as TSESTree.Identifier,
-            '@angular/core',
-          )
-        )
-          return;
-        if (outputCallExpression.arguments.length === 0) return;
-
-        // handle directive's selector is also an output property
-        let directiveSelectors: ReadonlySet<string>;
-
-        const canPropertyBeAliased = (
-          propertyAlias: string,
-          propertyName: string,
-        ): boolean => {
-          return !!(
-            directiveSelectors &&
-            directiveSelectors.has(propertyAlias) &&
-            propertyAlias !== propertyName
-          );
-        };
-
-        const classProperty = node.parent as TSESTree.ClassProperty;
-        const classDeclaration = (classProperty.parent as TSESTree.ClassBody)
-          .parent as TSESTree.ClassDeclaration;
-
-        const decorator = classDeclaration.decorators?.find(
-          (decorator) =>
-            isCallExpression(decorator.expression) &&
-            ASTUtils.isIdentifier(decorator.expression.callee) &&
-            decorator.expression.callee.name ===
-              AngularClassDecorators.Directive,
+        selectors = new Set(
+          withoutBracketsAndWhitespaces(getRawText(node)).split(','),
+        );
+      },
+      [OUTPUT_ALIAS](node: TSESTree.StringLiteral | TSESTree.TemplateElement) {
+        const classPropertyOrMethodDefinition = getNearestNodeFrom(
+          node,
+          isClassPropertyOrMethodDefinition,
         );
 
-        if (decorator) {
-          const selector = getDecoratorPropertyValue(decorator, 'selector');
-
-          if (selector && isStringLiteral(selector)) {
-            directiveSelectors = new Set(
-              selector.value.replace(/[[\]\s]/g, '').split(','),
-            );
-          }
+        if (
+          !classPropertyOrMethodDefinition ||
+          !ASTUtils.isIdentifier(classPropertyOrMethodDefinition.key)
+        ) {
+          return;
         }
 
-        const propertyAlias = (
-          outputCallExpression.arguments[0] as TSESTree.Literal
-        ).value;
+        const aliasName = getRawText(node);
+        const propertyName = getRawText(classPropertyOrMethodDefinition.key);
 
-        if (
-          propertyAlias &&
-          ASTUtils.isIdentifier(classProperty.key) &&
-          canPropertyBeAliased(propertyAlias.toString(), classProperty.key.name)
-        )
-          return;
+        if (aliasName === propertyName) {
+          context.report({
+            node,
+            messageId: 'noOutputRename',
+            fix: (fixer) => fixer.remove(node),
+          });
+        } else if (!isAliasNameAllowed(selectors, propertyName, aliasName)) {
+          context.report({
+            node,
+            messageId: 'noOutputRename',
+            suggest: [
+              {
+                messageId: 'suggestRemoveAliasName',
+                fix: (fixer) => fixer.remove(node),
+              },
+              {
+                messageId: 'suggestReplaceOriginalNameWithAliasName',
+                fix: (fixer) => [
+                  fixer.remove(node),
+                  fixer.replaceText(
+                    classPropertyOrMethodDefinition.key,
+                    aliasName.includes('-') ? `'${aliasName}'` : aliasName,
+                  ),
+                ],
+              },
+            ],
+          });
+        }
+      },
+      [OUTPUTS_METADATA_PROPERTY](
+        node: TSESTree.StringLiteral | TSESTree.TemplateElement,
+      ) {
+        const [propertyName, aliasName] = withoutBracketsAndWhitespaces(
+          getRawText(node),
+        ).split(':');
 
-        context.report({
-          node: classProperty,
-          messageId: 'noOutputRename',
-        });
+        if (!aliasName) return;
+
+        if (aliasName === propertyName) {
+          context.report({
+            node,
+            messageId: 'noOutputRename',
+            fix: (fixer) =>
+              fixer.replaceText(node, getReplacementText(node, propertyName)),
+          });
+        } else if (!isAliasNameAllowed(selectors, propertyName, aliasName)) {
+          context.report({
+            node,
+            messageId: 'noOutputRename',
+            suggest: (
+              [
+                ['suggestRemoveAliasName', propertyName],
+                ['suggestReplaceOriginalNameWithAliasName', aliasName],
+              ] as const
+            ).map(([messageId, name]) => ({
+              messageId,
+              fix: (fixer) =>
+                fixer.replaceText(node, getReplacementText(node, name)),
+            })),
+          });
+        }
+      },
+      'ClassDeclaration:exit'() {
+        selectors = new Set();
       },
     };
   },
 });
+
+function composedName(selector: string, propertyName: string): string {
+  return `${selector}${capitalize(propertyName)}`;
+}
+
+function isAliasNameAllowed(
+  selectors: ReadonlySet<string>,
+  propertyName: string,
+  aliasName: string,
+): boolean {
+  return [...selectors].some((selector) => {
+    return (
+      selector === aliasName ||
+      composedName(selector, propertyName) === aliasName
+    );
+  });
+}
