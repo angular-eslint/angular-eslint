@@ -15,81 +15,101 @@ env:
   NX_VERBOSE_LOGGING: false
 
 jobs:
+  create_nx_run_group:
+    name: Create NX_RUN_GROUP
+    runs-on: ubuntu-latest
+    outputs:
+      nx_run_group: ${{ steps.set_nx_run_group.outputs.nx_run_group }}
+    steps:
+      - name: Set NX_RUN_GROUP based on $GITHUB_RUN_ID and a uuid
+        id: set_nx_run_group
+        run: |
+          NX_RUN_GROUP="$GITHUB_RUN_ID--$(uuidgen)"
+          echo "::set-output name=nx_run_group::$NX_RUN_GROUP"
+
   primary:
     name: Primary
+    needs: [create_nx_run_group]
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
+      - name: Set NX_RUN_GROUP based on the output of the create_nx_run_group job
+        run: echo "NX_RUN_GROUP=${{ needs.create_nx_run_group.outputs.nx_run_group }}" >> $GITHUB_ENV
 
-    - name: Derive appropriate SHAs for base and head for `nx affected` commands
-      uses: nrwl/nx-set-shas@v1
-      with:
-        error-on-no-matching-tags: false
-        main-branch-name: master
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
-    - name: Install node and npm based on the volta config in our package.json
-      uses: volta-cli/action@v1
+      - name: Derive appropriate SHAs for base and head for `nx affected` commands
+        uses: nrwl/nx-set-shas@v1
+        with:
+          error-on-no-matching-tags: false
+          main-branch-name: master
 
-    - name: Get yarn cache directory path and node version for cache key
-      id: yarn-cache-dir-path
-      run: |
-        echo "::set-output name=dir::$(yarn cache dir)"
-        echo "::set-output name=node_version::$(node --version)"
+      - name: Install node and npm based on the volta config in our package.json
+        uses: volta-cli/action@v1
 
-    - uses: actions/cache@v2
-      id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
-      with:
-        path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-        key: ${{ runner.os }}-node-${{ steps.yarn-cache-dir-path.outputs.node_version }}-yarn-${{ hashFiles('**/yarn.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-node-${{ steps.yarn-cache-dir-path.outputs.node_version }}-yarn-
+      - name: Get yarn cache directory path and node version for cache key
+        id: yarn-cache-dir-path
+        run: |
+          echo "::set-output name=dir::$(yarn cache dir)"
+          echo "::set-output name=node_version::$(node --version)"
 
-    - name: Install dependencies (skipping postinstall)
-      # We use --ignore-scripts to skip automatic postinstall and give us more control over distributing build tasks
-      run: |
-        yarn --ignore-engines --frozen-lockfile --prefer-offline --ignore-scripts
-        yarn check-clean-workspace-after-install
+      - uses: actions/cache@v2
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ steps.yarn-cache-dir-path.outputs.node_version }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ steps.yarn-cache-dir-path.outputs.node_version }}-yarn-
 
-    - name: Check code formatting (not distributable)
-      run: NX_CLOUD_DISTRIBUTED_EXECUTION=false yarn format-check
+      - name: Install dependencies (skipping postinstall)
+        # We use --ignore-scripts to skip automatic postinstall and give us more control over distributing build tasks
+        run: |
+          yarn --ignore-engines --frozen-lockfile --prefer-offline --ignore-scripts
+          yarn check-clean-workspace-after-install
 
-    - name: Run parallel distributed tasks for build, typecheck, check-configs, lint and test targets
-      uses: jameshenry/parallel-bash-commands@v1
-      with:
-        # Note that the typecheck target *also* typechecks tests/tools,
-        # whereas the build only checks src files
-        cmd1: yarn typecheck
-        cmd2: yarn build
-        cmd3: yarn check-configs
-        cmd4: yarn lint
-        cmd5: yarn test
+      - name: Check code formatting (not distributable)
+        run: NX_CLOUD_DISTRIBUTED_EXECUTION=false yarn format-check
 
-    - name: Run distributed integration tests with independent local registries
-      run: npx nx run-many --target=integration-test --all --withRegistry
+      - name: Run parallel distributed tasks for build, typecheck, check-configs, lint and test targets
+        uses: jameshenry/parallel-bash-commands@v1
+        with:
+          # Note that the typecheck target *also* typechecks tests/tools,
+          # whereas the build only checks src files
+          cmd1: yarn typecheck
+          cmd2: yarn build
+          cmd3: yarn check-configs
+          cmd4: yarn lint
+          cmd5: yarn test
 
-    - name: Publish code coverage report
-      run: |
-        bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }}
+      - name: Run distributed integration tests with independent local registries
+        run: npx nx run-many --target=integration-test --all --withRegistry
 
-    - name: Tag master branch if all jobs succeed
-      if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
-      uses: nrwl/nx-tag-successful-ci-run@v1
+      - name: Publish code coverage report
+        run: |
+          bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }}
 
-    - name: Stop all running agents for this CI run
-      # It's important that we always run this step, otherwise in the case of any failures in preceding non-Nx steps, the agents will keep running and waste billable minutes
-      if: ${{ always() }}
-      run: npx nx-cloud stop-all-agents
+      - name: Tag master branch if all jobs succeed
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+        uses: nrwl/nx-tag-successful-ci-run@v1
+
+      - name: Stop all running agents for this CI run
+        # It's important that we always run this step, otherwise in the case of any failures in preceding non-Nx steps, the agents will keep running and waste billable minutes
+        if: ${{ always() }}
+        run: npx nx-cloud stop-all-agents
 
   agents:
     name: Nx Distributed CI Agents
+    needs: [create_nx_run_group]
     runs-on: ubuntu-latest
     timeout-minutes: 60
     strategy:
       matrix:
         agent: [1, 2, 3, 4, 5, 6]
     steps:
+      - name: Set NX_RUN_GROUP based on the output of the create_nx_run_group job
+        run: echo "NX_RUN_GROUP=${{ needs.create_nx_run_group.outputs.nx_run_group }}" >> $GITHUB_ENV
+
       - uses: actions/checkout@v2
 
       - name: Install node and npm based on the volta config in our package.json
@@ -118,60 +138,70 @@ jobs:
   
   unit_tests_on_other_node_versions:
     name: Unit tests on other supported Node versions
+    needs: [create_nx_run_group]
     runs-on: ubuntu-latest
     strategy:
       matrix:
         # Angular CLI explicitly only supports Node version 12 or 14 at the time of writing
         node: [12]
     steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
+      - name: Set NX_RUN_GROUP based on the output of the create_nx_run_group job
+        run: echo "NX_RUN_GROUP=${{ needs.create_nx_run_group.outputs.nx_run_group }}" >> $GITHUB_ENV
 
-    - name: Derive appropriate SHAs for base and head for `nx affected` commands
-      uses: nrwl/nx-set-shas@v1
-      with:
-        error-on-no-matching-tags: false
-        main-branch-name: master
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
-    - uses: actions/setup-node@v1
-      with:
-        # The Node.js version to configure
-        node-version: ${{ matrix.node }}
+      - name: Derive appropriate SHAs for base and head for `nx affected` commands
+        uses: nrwl/nx-set-shas@v1
+        with:
+          error-on-no-matching-tags: false
+          main-branch-name: master
 
-    - name: Get yarn cache directory path and node version for cache key
-      id: yarn-cache-dir-path
-      run: |
-        echo "::set-output name=dir::$(yarn cache dir)"
-        echo "::set-output name=node_version::$(node --version)"
+      - uses: actions/setup-node@v1
+        with:
+          # The Node.js version to configure
+          node-version: ${{ matrix.node }}
 
-    - uses: actions/cache@v2
-      id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
-      with:
-        path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-        key: ${{ runner.os }}-node-${{ steps.yarn-cache-dir-path.outputs.node_version }}-yarn-${{ hashFiles('**/yarn.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-node-${{ steps.yarn-cache-dir-path.outputs.node_version }}-yarn-
+      - name: Get yarn cache directory path and node version for cache key
+        id: yarn-cache-dir-path
+        run: |
+          echo "::set-output name=dir::$(yarn cache dir)"
+          echo "::set-output name=node_version::$(node --version)"
 
-    - name: Install dependencies (skipping postinstall)
-      # We use --ignore-scripts to skip automatic postinstall and give us more control to distribute tasks
-      run: yarn --ignore-engines --frozen-lockfile --prefer-offline --ignore-scripts
+      - uses: actions/cache@v2
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ steps.yarn-cache-dir-path.outputs.node_version }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ steps.yarn-cache-dir-path.outputs.node_version }}-yarn-
 
-    - name: Run parallel tasks for build and test targets on Node ${{ matrix.node }} (not distributable)
-      uses: jameshenry/parallel-bash-commands@v1
-      env:
-        # We cannot distribute these because the agents are set up to run the primary node version, not this alternative we are testing
-        NX_CLOUD_DISTRIBUTED_EXECUTION: false
-      with:
-        cmd1: yarn build
-        cmd2: yarn test
+      - name: Install dependencies (skipping postinstall)
+        # We use --ignore-scripts to skip automatic postinstall and give us more control to distribute tasks
+        run: yarn --ignore-engines --frozen-lockfile --prefer-offline --ignore-scripts
+
+      - name: Run build targets on Node ${{ matrix.node }} (not distributable)
+        env:
+          # We cannot distribute these because the agents are set up to run the primary node version, not this alternative we are testing
+          NX_CLOUD_DISTRIBUTED_EXECUTION: false
+        run: yarn build
+
+      - name: Run test targets on Node ${{ matrix.node }} (not distributable)
+        env:
+          # We cannot distribute these because the agents are set up to run the primary node version, not this alternative we are testing
+          NX_CLOUD_DISTRIBUTED_EXECUTION: false
+        run: yarn test
 
   publish_canary_version:
     name: Publish the latest code as a canary version
     runs-on: ubuntu-latest
-    needs: [primary, unit_tests_on_other_node_versions]
+    needs: [create_nx_run_group, primary, unit_tests_on_other_node_versions]
     if: github.ref == 'refs/heads/master'
     steps:
+      - name: Set NX_RUN_GROUP based on the output of the create_nx_run_group job
+        run: echo "NX_RUN_GROUP=${{ needs.create_nx_run_group.outputs.nx_run_group }}" >> $GITHUB_ENV
+
       - uses: actions/checkout@v2
 
       # Fetch all history for all tags and branches in this job because lerna needs it
