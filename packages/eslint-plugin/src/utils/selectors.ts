@@ -18,4 +18,8 @@ export const MODULE_CLASS_DECORATOR =
 
 export const OUTPUT_DECORATOR = 'Decorator[expression.callee.name="Output"]';
 
-export const OUTPUT_CLASS_DECORATOR = `ClassProperty > ${OUTPUT_DECORATOR}`;
+export const OUTPUTS_METADATA_PROPERTY = `${COMPONENT_OR_DIRECTIVE_CLASS_DECORATOR} Property[key.name='outputs'] > ArrayExpression :matches(Literal, TemplateElement)`;
+
+export const OUTPUT_ALIAS = `:matches(ClassProperty, MethodDefinition[kind='get']) ${OUTPUT_DECORATOR} :matches(Literal, TemplateElement)`;
+
+export const OUTPUT_PROPERTY_OR_GETTER = `:matches(ClassProperty, MethodDefinition[kind='get'])[computed=false]:has(${OUTPUT_DECORATOR}) > :matches(Identifier, Literal)`;
