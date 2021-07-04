@@ -1,12 +1,16 @@
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
-import { OUTPUT_DECORATOR } from '../utils/selectors';
+import {
+  OUTPUTS_METADATA_PROPERTY,
+  OUTPUT_ALIAS,
+  OUTPUT_PROPERTY_OR_GETTER,
+} from '../utils/selectors';
+import { getRawText } from '../utils/utils';
 
 type Options = [];
 export type MessageIds = 'noOutputOnPrefix';
 export const RULE_NAME = 'no-output-on-prefix';
 const STYLE_GUIDE_LINK = 'https://angular.io/guide/styleguide#style-05-16';
-const OUTPUT_ON_PATTERN = /^on((?![a-z])|(?=$))/;
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
@@ -24,14 +28,31 @@ export default createESLintRule<Options, MessageIds>({
   },
   defaultOptions: [],
   create(context) {
-    const outputAliasSelector = `ClassProperty ${OUTPUT_DECORATOR} :matches(Literal[value=${OUTPUT_ON_PATTERN}], TemplateElement[value.raw=${OUTPUT_ON_PATTERN}])`;
-    const outputPropertySelector = `ClassProperty[computed=false]:has(${OUTPUT_DECORATOR}) > :matches(Identifier[name=${OUTPUT_ON_PATTERN}], Literal[value=${OUTPUT_ON_PATTERN}])`;
-    const selectors = [outputAliasSelector, outputPropertySelector].join(',');
+    const outputOnPattern = /^on(([^a-z])|(?=$))/;
+    const selectors = [
+      OUTPUTS_METADATA_PROPERTY,
+      OUTPUT_ALIAS,
+      OUTPUT_PROPERTY_OR_GETTER,
+    ].join(',');
 
     return {
       [selectors](
-        node: TSESTree.Identifier | TSESTree.Literal | TSESTree.TemplateElement,
+        node:
+          | TSESTree.Identifier
+          | TSESTree.StringLiteral
+          | TSESTree.TemplateElement,
       ) {
+        const [propertyName, aliasName] = getRawText(node)
+          .replace(/\s/g, '')
+          .split(':');
+
+        if (
+          !outputOnPattern.test(propertyName) &&
+          !outputOnPattern.test(aliasName)
+        ) {
+          return;
+        }
+
         context.report({
           node,
           messageId: 'noOutputOnPrefix',

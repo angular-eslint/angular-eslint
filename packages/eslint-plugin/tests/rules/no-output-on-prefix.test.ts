@@ -17,6 +17,12 @@ const messageId: MessageIds = 'noOutputOnPrefix';
 ruleTester.run(RULE_NAME, rule, {
   valid: [
     `
+    @Page({
+      outputs: ['on', onChange, \`onLine\`, 'on: on2', 'offline: on', ...onCheck, onOutput()],
+    })
+    class Test {}
+    `,
+    `
     @Component()
     class Test {
       on = new EventEmitter();
@@ -67,13 +73,65 @@ ruleTester.run(RULE_NAME, rule, {
       @Output(test) [on]: EventEmitter<OnTest>;
     }
     `,
+    `
+    @Component({
+      selector: 'foo',
+      outputs: [\`test: ${'foo'}\`]
+    })
+    class Test {}
+    `,
+    `
+    @Directive({
+      selector: 'foo',
+    })
+    class Test {
+      @Output() get 'getter'() {}
+    }
+    `,
   ],
   invalid: [
     convertAnnotatedSourceToFailureCase({
       description:
-        'should fail if output property is named "on" in `@Component`',
+        'should fail if output metadata property is named "on" in `@Component`',
       annotatedSource: `
-        @Component()
+        @Component({
+          outputs: ['on']
+                    ~~~~
+        })
+        class Test {}
+      `,
+      messageId,
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'should fail if output metadata property is aliased as "on" in `@Directive`',
+      annotatedSource: `
+        @Directive({
+          inputs: [onCredit],
+          outputs: [onLevel, \`test: on\`, onFunction()],
+                             ~~~~~~~~~~
+        })
+        class Test {}
+      `,
+      messageId,
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'should fail if output metadata property is named "onTest" in `@Component`',
+      annotatedSource: `
+        @Component({
+          outputs: ['onTest: test', ...onArray],
+                    ~~~~~~~~~~~~~~
+        })
+        class Test {}
+      `,
+      messageId,
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'should fail if output property is named "on" in `@Directive`',
+      annotatedSource: `
+        @Directive()
         class Test {
           @Output() on: EventEmitter<any> = new EventEmitter<{}>();
                     ~~
@@ -83,9 +141,9 @@ ruleTester.run(RULE_NAME, rule, {
     }),
     convertAnnotatedSourceToFailureCase({
       description:
-        'should fail if output property is named with "\'on\'" prefix in `@Directive`',
+        'should fail if output property is named with "\'on\'" prefix in `@Component`',
       annotatedSource: `
-        @Directive()
+        @Component()
         class Test {
           @Output() @Custom('on') 'onPrefix' = new EventEmitter<void>();
                                   ~~~~~~~~~~
@@ -95,9 +153,9 @@ ruleTester.run(RULE_NAME, rule, {
     }),
     convertAnnotatedSourceToFailureCase({
       description:
-        'should fail if output property is aliased as "`on`" in `@Component`',
+        'should fail if output property is aliased as "`on`" in `@Directive`',
       annotatedSource: `
-        @Component()
+        @Directive()
         class Test {
           @Custom() @Output(\`on\`) _on = getOutput();
                             ~~~~
@@ -107,11 +165,35 @@ ruleTester.run(RULE_NAME, rule, {
     }),
     convertAnnotatedSourceToFailureCase({
       description:
-        'should fail if output property is aliased with "on" prefix in `@Directive`',
+        'should fail if output property is aliased with "on" prefix in `@Component`',
+      annotatedSource: `
+        @Component()
+        class Test {
+          @Output('onPrefix') _on = (this.subject$ as Subject<{on: boolean}>).pipe();
+                  ~~~~~~~~~~
+        }
+      `,
+      messageId,
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'should fail if output getter is named with "on" prefix in `@Directive`',
       annotatedSource: `
         @Directive()
         class Test {
-          @Output('onPrefix') _on = (this.subject$ as Subject<{on: boolean}>).pipe();
+          @Output('getter') get 'on-getter'() {}
+                                ~~~~~~~~~~~
+        }
+      `,
+      messageId,
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'should fail if output getter is aliased with "on" prefix in `@Component`',
+      annotatedSource: `
+        @Component()
+        class Test {
+          @Output(\`${'onGetter'}\`) get getter() {}
                   ~~~~~~~~~~
         }
       `,
