@@ -1,7 +1,7 @@
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import { COMPONENT_CLASS_DECORATOR } from '../utils/selectors';
-import { isArrayExpression, isLiteralWithStringValue } from '../utils/utils';
+import { isArrayExpression, isStringLiteral } from '../utils/utils';
 
 type Options = [];
 export type MessageIds = 'relativeUrlPrefix';
@@ -55,7 +55,6 @@ export default createESLintRule<Options, MessageIds>({
 
 function isUrlInvalid(node: TSESTree.Property | TSESTree.Property['value']) {
   return (
-    !isLiteralWithStringValue(node) ||
-    !RELATIVE_URL_PREFIX_MATCHER.test(node.value)
+    !isStringLiteral(node) || !RELATIVE_URL_PREFIX_MATCHER.test(node.value)
   );
 }
