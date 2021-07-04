@@ -112,9 +112,8 @@ function getParser(): Parser {
 }
 
 function getTotalComplexity(ast: AST): number {
-  const possibleBinaryOrConditional = extractPossibleBinaryOrConditionalFrom(
-    ast,
-  );
+  const possibleBinaryOrConditional =
+    extractPossibleBinaryOrConditionalFrom(ast);
 
   if (
     !(

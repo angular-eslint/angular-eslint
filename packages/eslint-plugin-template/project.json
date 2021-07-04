@@ -1,0 +1,55 @@
+{
+  "root": "packages/eslint-plugin-template",
+  "type": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": ["packages/eslint-plugin-template/dist"],
+      "options": {
+        "cwd": "packages/eslint-plugin-template",
+        "parallel": false,
+        "commands": [
+          "npx rimraf ./dist",
+          "npx microbundle --tsconfig tsconfig.build.json --no-sourcemap --target=node --compress --format=cjs",
+          "npx ncp ./src/configs ./dist/configs"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": ["packages/eslint-plugin-template/coverage"],
+      "options": {
+        "cwd": "packages/eslint-plugin-template",
+        "parallel": false,
+        "commands": ["npx nx build template-parser", "npx jest --coverage"]
+      }
+    },
+    "clean": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "packages/eslint-plugin-template",
+        "parallel": false,
+        "commands": ["npx rimraf ./dist"]
+      }
+    },
+    "typecheck": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "packages/eslint-plugin-template",
+        "parallel": false,
+        "commands": ["npx tsc -p tsconfig.json --noEmit"]
+      }
+    },
+    "check-configs": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "packages/eslint-plugin-template",
+        "parallel": false,
+        "commands": [
+          "npx jest tests/configs.test.ts --runTestsByPath --runInBand"
+        ]
+      }
+    }
+  },
+  "implicitDependencies": ["template-parser"]
+}

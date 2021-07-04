@@ -20,7 +20,7 @@ export function getTemplateParserServices(
   context: Readonly<TSESLint.RuleContext<string, readonly unknown[]>>,
 ): ParserServices {
   ensureTemplateParser(context);
-  return (context.parserServices as unknown) as ParserServices;
+  return context.parserServices as unknown as ParserServices;
 }
 
 /**
@@ -31,9 +31,9 @@ export function ensureTemplateParser(
   context: Readonly<TSESLint.RuleContext<string, readonly unknown[]>>,
 ): void {
   if (
-    !((context.parserServices as unknown) as ParserServices)
+    !(context.parserServices as unknown as ParserServices)
       ?.convertNodeSourceSpanToLoc ||
-    !((context.parserServices as unknown) as ParserServices)
+    !(context.parserServices as unknown as ParserServices)
       ?.convertElementSourceSpanToLoc
   ) {
     /**

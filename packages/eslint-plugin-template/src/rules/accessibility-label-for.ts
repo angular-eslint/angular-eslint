@@ -68,11 +68,8 @@ export default createESLintRule<Options, MessageIds>({
   ],
   create(context, [options]) {
     const parserServices = getTemplateParserServices(context);
-    const {
-      controlComponents,
-      labelAttributes,
-      labelComponents,
-    } = getParsedOptions(options);
+    const { controlComponents, labelAttributes, labelComponents } =
+      getParsedOptions(options);
     const labelComponentsPattern = toPattern([...labelComponents]);
 
     return {
