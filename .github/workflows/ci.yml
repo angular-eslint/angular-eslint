@@ -18,8 +18,11 @@ jobs:
   create_nx_run_group:
     name: Create NX_RUN_GROUP
     runs-on: ubuntu-latest
+    outputs:
+      nx_run_group: ${{ steps.set_nx_run_group.outputs.nx_run_group }}
     steps:
       - name: Set NX_RUN_GROUP based on $GITHUB_RUN_ID and a uuid
+        id: set_nx_run_group
         run: |
           NX_RUN_GROUP="$GITHUB_RUN_ID--$(uuidgen)"
           echo "::set-output name=nx_run_group::$NX_RUN_GROUP"
