@@ -15,12 +15,14 @@ import type { SelectorStyle } from '../utils/utils';
 import {
   arrayify,
   getDecoratorPropertyValue,
+  isMemberExpression,
   OPTION_STYLE_CAMEL_CASE,
   OPTION_STYLE_KEBAB_CASE,
 } from '../utils/utils';
 import { ASTUtils } from '@typescript-eslint/experimental-utils';
 
 const VIEW_ENCAPSULATION_SHADOW_DOM = 'ShadowDom';
+const VIEW_ENCAPSULATION = 'ViewEncapsulation';
 export const RULE_NAME = 'component-selector';
 export type MessageIds = 'prefixFailure' | 'styleFailure' | 'typeFailure';
 const STYLE_GUIDE_PREFIX_LINK =
@@ -93,16 +95,11 @@ export default createESLintRule<Options, MessageIds>({
           return;
         }
 
-        const rawEncapsulation = getDecoratorPropertyValue(
-          node,
-          'encapsulation',
-        ) as TSESTree.MemberExpression;
-
         if (
-          ASTUtils.isIdentifier(rawEncapsulation?.property) &&
-          rawEncapsulation.property.name === VIEW_ENCAPSULATION_SHADOW_DOM
+          style !== OPTION_STYLE_KEBAB_CASE &&
+          hasEncapsulationShadowDomProperty(node)
         ) {
-          // override style for shadow dom encapsulated component
+          // override `style` for ShadowDom-encapsulated components. See https://github.com/angular-eslint/angular-eslint/issues/534.
           style = OPTION_STYLE_KEBAB_CASE;
         }
 
@@ -128,3 +125,15 @@ export default createESLintRule<Options, MessageIds>({
     };
   },
 });
+
+function hasEncapsulationShadowDomProperty(node: TSESTree.Decorator) {
+  const encapsulationValue = getDecoratorPropertyValue(node, 'encapsulation');
+  return (
+    encapsulationValue &&
+    isMemberExpression(encapsulationValue) &&
+    ASTUtils.isIdentifier(encapsulationValue.object) &&
+    encapsulationValue.object.name === VIEW_ENCAPSULATION &&
+    ASTUtils.isIdentifier(encapsulationValue.property) &&
+    encapsulationValue.property.name === VIEW_ENCAPSULATION_SHADOW_DOM
+  );
+}
