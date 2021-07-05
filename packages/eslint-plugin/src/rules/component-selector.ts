@@ -20,8 +20,7 @@ import {
 } from '../utils/utils';
 import { ASTUtils } from '@typescript-eslint/experimental-utils';
 
-export const VIEW_ENCAPSULATION_SHADOW_DOM = 'ShadowDom';
-
+const VIEW_ENCAPSULATION_SHADOW_DOM = 'ShadowDom';
 export const RULE_NAME = 'component-selector';
 export type MessageIds = 'prefixFailure' | 'styleFailure' | 'typeFailure';
 const STYLE_GUIDE_PREFIX_LINK =

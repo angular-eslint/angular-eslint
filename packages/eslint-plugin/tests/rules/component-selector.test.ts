@@ -187,6 +187,7 @@ ruleTester.run(RULE_NAME, rule, {
       ],
     },
     {
+      // https://github.com/angular-eslint/angular-eslint/issues/534
       code: `
       @Component({
         selector: \`app-foo-bar\`,
@@ -203,6 +204,7 @@ ruleTester.run(RULE_NAME, rule, {
       ],
     },
     {
+      // https://github.com/angular-eslint/angular-eslint/issues/534
       code: `
       @Component({
         selector: \`app-foo-bar\`,
@@ -374,6 +376,7 @@ ruleTester.run(RULE_NAME, rule, {
       data: { type: 'attribute' },
     }),
     convertAnnotatedSourceToFailureCase({
+      // https://github.com/angular-eslint/angular-eslint/issues/534
       description: `it should fail if a ShadowDom selector is not kebab-case`,
       annotatedSource: `
       @Component({
@@ -388,6 +391,7 @@ ruleTester.run(RULE_NAME, rule, {
       data: { style: 'kebab-case' },
     }),
     convertAnnotatedSourceToFailureCase({
+      // https://github.com/angular-eslint/angular-eslint/issues/534
       description: `it should fail if a ShadowDom selector is contains hyphen`,
       annotatedSource: `
       @Component({
