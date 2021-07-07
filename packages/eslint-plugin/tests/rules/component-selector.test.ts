@@ -377,7 +377,7 @@ ruleTester.run(RULE_NAME, rule, {
     }),
     convertAnnotatedSourceToFailureCase({
       // https://github.com/angular-eslint/angular-eslint/issues/534
-      description: `it should fail if a ShadowDom selector is not kebab-case`,
+      description: `it should fail if a ShadowDom-encapsulated component's selector is not kebab-cased`,
       annotatedSource: `
       @Component({
         encapsulation: ViewEncapsulation.ShadowDom,
@@ -392,7 +392,7 @@ ruleTester.run(RULE_NAME, rule, {
     }),
     convertAnnotatedSourceToFailureCase({
       // https://github.com/angular-eslint/angular-eslint/issues/534
-      description: `it should fail if a ShadowDom selector is contains hyphen`,
+      description: `it should fail if a ShadowDom-encapsulated component's selector doesn't contain hyphen`,
       annotatedSource: `
       @Component({
         encapsulation: ViewEncapsulation.ShadowDom,
