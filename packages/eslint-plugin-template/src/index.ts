@@ -61,6 +61,10 @@ import useTrackByFunction, {
   RULE_NAME as useTrackByFunctionRuleName,
 } from './rules/use-track-by-function';
 
+import attributesOrder, {
+  RULE_NAME as attributesOrderRuleName,
+} from './rules/attributes-order';
+
 export default {
   configs: {
     all,
@@ -92,5 +96,6 @@ export default {
     [noNegatedAsyncRuleName]: noNegatedAsync,
     [noPositiveTabindexRuleName]: noPositiveTabindex,
     [useTrackByFunctionRuleName]: useTrackByFunction,
+    [attributesOrderRuleName]: attributesOrder
   },
 };
