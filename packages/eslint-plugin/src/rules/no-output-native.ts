@@ -1,7 +1,12 @@
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
-import { OUTPUT_DECORATOR } from '../utils/selectors';
-import { toPattern } from '../utils/utils';
+import { getNativeEventNames } from '../utils/get-native-event-names';
+import {
+  OUTPUTS_METADATA_PROPERTY,
+  OUTPUT_ALIAS,
+  OUTPUT_PROPERTY_OR_GETTER,
+} from '../utils/selectors';
+import { getRawText } from '../utils/utils';
 
 type Options = [];
 export type MessageIds = 'noOutputNative';
@@ -12,27 +17,44 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description: 'Disallows naming or aliasing outputs as standard DOM event',
+      description:
+        'Ensures that output bindings, including aliases, are not named as standard DOM events',
       category: 'Best Practices',
       recommended: 'error',
     },
     schema: [],
     messages: {
       noOutputNative:
-        'Outputs should not be named or aliased as standard DOM event',
+        'Output bindings, including aliases, should not be named as standard DOM events',
     },
   },
   defaultOptions: [],
   create(context) {
-    const nativeEventNames = toPattern([...getNativeEventNames()]);
-    const outputAliasSelector = `ClassProperty ${OUTPUT_DECORATOR} :matches(Literal[value=${nativeEventNames}], TemplateElement[value.raw=${nativeEventNames}])`;
-    const outputPropertySelector = `ClassProperty[computed=false]:has(${OUTPUT_DECORATOR}) > :matches(Identifier[name=${nativeEventNames}], Literal[value=${nativeEventNames}])`;
-    const selectors = [outputAliasSelector, outputPropertySelector].join(',');
+    const nativeEventNames = getNativeEventNames();
+    const selectors = [
+      OUTPUTS_METADATA_PROPERTY,
+      OUTPUT_ALIAS,
+      OUTPUT_PROPERTY_OR_GETTER,
+    ].join(',');
 
     return {
       [selectors](
-        node: TSESTree.Identifier | TSESTree.Literal | TSESTree.TemplateElement,
+        node:
+          | TSESTree.Identifier
+          | TSESTree.StringLiteral
+          | TSESTree.TemplateElement,
       ) {
+        const [propertyName, aliasName] = getRawText(node)
+          .replace(/\s/g, '')
+          .split(':');
+
+        if (
+          !nativeEventNames.has(propertyName) &&
+          !nativeEventNames.has(aliasName)
+        ) {
+          return;
+        }
+
         context.report({
           node,
           messageId: 'noOutputNative',
@@ -41,184 +63,3 @@ export default createESLintRule<Options, MessageIds>({
     };
   },
 });
-
-let nativeEventNames: ReadonlySet<string> | null = null;
-function getNativeEventNames(): ReadonlySet<string> {
-  return (
-    nativeEventNames ||
-    // Source: https://developer.mozilla.org/en-US/docs/Web/Events
-    (nativeEventNames = new Set<string>([
-      'abort',
-      'afterprint',
-      'animationend',
-      'animationiteration',
-      'animationstart',
-      'appinstalled',
-      'audioprocess',
-      'audioend',
-      'audiostart',
-      'beforeprint',
-      'beforeunload',
-      'beginEvent',
-      'blocked',
-      'blur',
-      'boundary',
-      'cached',
-      'canplay',
-      'canplaythrough',
-      'change',
-      'chargingchange',
-      'chargingtimechange',
-      'checking',
-      'click',
-      'close',
-      'complete',
-      'compositionend',
-      'compositionstart',
-      'compositionupdate',
-      'contextmenu',
-      'copy',
-      'cut',
-      'dblclick',
-      'devicechange',
-      'devicelight',
-      'devicemotion',
-      'deviceorientation',
-      'deviceproximity',
-      'dischargingtimechange',
-      'DOMAttributeNameChanged',
-      'DOMAttrModified',
-      'DOMCharacterDataModified',
-      'DOMContentLoaded',
-      'DOMElementNameChanged',
-      'focus',
-      'focusin',
-      'focusout',
-      'DOMNodeInserted',
-      'DOMNodeInsertedIntoDocument',
-      'DOMNodeRemoved',
-      'DOMNodeRemovedFromDocument',
-      'DOMSubtreeModified',
-      'downloading',
-      'drag',
-      'dragend',
-      'dragenter',
-      'dragleave',
-      'dragover',
-      'dragstart',
-      'drop',
-      'durationchange',
-      'emptied',
-      'end',
-      'ended',
-      'endEvent',
-      'error',
-      'fullscreenchange',
-      'fullscreenerror',
-      'gamepadconnected',
-      'gamepaddisconnected',
-      'gotpointercapture',
-      'hashchange',
-      'lostpointercapture',
-      'input',
-      'invalid',
-      'keydown',
-      'keypress',
-      'keyup',
-      'languagechange',
-      'levelchange',
-      'load',
-      'loadeddata',
-      'loadedmetadata',
-      'loadend',
-      'loadstart',
-      'mark',
-      'message',
-      'messageerror',
-      'mousedown',
-      'mouseenter',
-      'mouseleave',
-      'mousemove',
-      'mouseout',
-      'mouseover',
-      'mouseup',
-      'nomatch',
-      'notificationclick',
-      'noupdate',
-      'obsolete',
-      'offline',
-      'online',
-      'open',
-      'orientationchange',
-      'pagehide',
-      'pageshow',
-      'paste',
-      'pause',
-      'pointercancel',
-      'pointerdown',
-      'pointerenter',
-      'pointerleave',
-      'pointerlockchange',
-      'pointerlockerror',
-      'pointermove',
-      'pointerout',
-      'pointerover',
-      'pointerup',
-      'play',
-      'playing',
-      'popstate',
-      'progress',
-      'push',
-      'pushsubscriptionchange',
-      'ratechange',
-      'readystatechange',
-      'repeatEvent',
-      'reset',
-      'resize',
-      'resourcetimingbufferfull',
-      'result',
-      'resume',
-      'scroll',
-      'seeked',
-      'seeking',
-      'select',
-      'selectstart',
-      'selectionchange',
-      'show',
-      'soundend',
-      'soundstart',
-      'speechend',
-      'speechstart',
-      'stalled',
-      'start',
-      'storage',
-      'submit',
-      'success',
-      'suspend',
-      'SVGAbort',
-      'SVGError',
-      'SVGLoad',
-      'SVGResize',
-      'SVGScroll',
-      'SVGUnload',
-      'SVGZoom',
-      'timeout',
-      'timeupdate',
-      'touchcancel',
-      'touchend',
-      'touchmove',
-      'touchstart',
-      'transitionend',
-      'unload',
-      'updateready',
-      'upgradeneeded',
-      'userproximity',
-      'voiceschanged',
-      'versionchange',
-      'visibilitychange',
-      'volumechange',
-      'waiting',
-      'wheel',
-    ]))
-  );
-}

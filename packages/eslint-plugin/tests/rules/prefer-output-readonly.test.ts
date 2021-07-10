@@ -19,6 +19,11 @@ ruleTester.run(RULE_NAME, rule, {
   valid: [
     `
     class Test {
+      testEmitter = new EventEmitter<string>();
+    }
+    `,
+    `
+    class Test {
       @Output() readonly testEmitter = new EventEmitter<string>();
     }
     `,
