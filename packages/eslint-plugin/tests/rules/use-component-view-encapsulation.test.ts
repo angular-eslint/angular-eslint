@@ -25,20 +25,20 @@ ruleTester.run(RULE_NAME, rule, {
       encapsulation: ViewEncapsulation.Emulated,
       selector: 'app-foo-bar'
     })
-    export class Test {}
+    class Test {}
     `,
     `
     @Component({
       encapsulation: ViewEncapsulation.Native,
       selector: 'app-foo-bar',
     })
-    export class Test {}
+    class Test {}
     `,
     `
     @Component({
       encapsulation: ViewEncapsulation.ShadowDom,
     })
-    export class Test {}
+    class Test {}
     `,
     `
     function encapsulation() {
@@ -48,57 +48,62 @@ ruleTester.run(RULE_NAME, rule, {
     @Component({
       encapsulation: encapsulation()
     })
-    export class Test {}
+    class Test {}
     `,
     `
     const encapsulation = 'templateUrl';
     @Component({
       [encapsulation]: '../a.html'
     })
-    export class Test {}
+    class Test {}
     `,
     `
     const encapsulation = 'templateUrl';
     @Component({
       encapsulation
     })
-    export class Test {}
+    class Test {}
     `,
     `
     const test = 'test';
     @Component({
       encapsulation: test,
     })
-    export class Test {}
+    class Test {}
     `,
     `
     @Component({
       encapsulation: undefined,
     })
-    export class Test {}
+    class Test {}
+    `,
+    `
+    @Component({})
+    class Test {}
     `,
     `
     const options = {};
     @Component(options)
-    export class Test {}
+    class Test {}
     `,
     `
     @NgModule({
       bootstrap: [Foo]
     })
-    export class Test {}
+    class Test {}
     `,
   ],
   invalid: [
     convertAnnotatedSourceToFailureCase({
-      description: 'it should fail if `ViewEncapsulation.None` is set',
+      description:
+        'should fail if `encapsulation` is set to `ViewEncapsulation.None`',
       annotatedSource: `
         @Component({
           encapsulation: ViewEncapsulation.None,
                                            ~~~~
           selector: 'app-foo-bar',
         })
-        export class Test {}
+        class Test {}
       `,
       messageId,
       suggestions: [
@@ -110,24 +115,24 @@ ruleTester.run(RULE_NAME, rule, {
                                            
           selector: 'app-foo-bar',
         })
-        export class Test {}
+        class Test {}
       `,
         },
       ],
     }),
     convertAnnotatedSourceToFailureCase({
       description:
-        'it should fail if `ViewEncapsulation.None` is set and the suggestions should remove it along with its import',
+        'should fail if `encapsulation` is set to `ViewEncapsulation.None` and the suggestions should remove it along with its import',
       annotatedSource: `
         import { ViewEncapsulation } from '@angular/core';
         import { HttpClient } from '@angular/common/http';
 
         @Component({
           selector: 'app-foo-bar',
-          encapsulation: ViewEncapsulation.None
-                                           ~~~~
+          'encapsulation': ViewEncapsulation.None
+                                             ~~~~
         })
-        export class Test {}
+        class Test {}
       `,
       messageId,
       suggestions: [
@@ -140,9 +145,9 @@ ruleTester.run(RULE_NAME, rule, {
         @Component({
           selector: 'app-foo-bar',
           
-                                           
+                                             
         })
-        export class Test {}
+        class Test {}
       `,
         },
       ],
