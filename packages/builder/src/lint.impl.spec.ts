@@ -1,12 +1,4 @@
-/**
- * Tests heavily adapted from:
- * https://github.com/nrwl/nx/blob/8a9565de01cdacdfab17553c7f5c31de988113e3/packages/linter/src/builders/lint/lint.impl.spec.ts
- *
- * Thanks, Nrwl folks!
- */
-import { Architect } from '@angular-devkit/architect';
-import { TestingArchitectHost } from '@angular-devkit/architect/testing';
-import { json, logging, schema } from '@angular-devkit/core';
+import type { ExecutorContext } from '@nrwl/devkit';
 import type { ESLint } from 'eslint';
 import { resolve } from 'path';
 import type { Schema } from './schema';
@@ -24,7 +16,6 @@ const mockFormatter = {
 };
 const mockLoadFormatter = jest.fn().mockReturnValue(mockFormatter);
 const mockOutputFixes = jest.fn();
-const loggerSpy = jest.fn();
 
 const VALID_ESLINT_VERSION = '7.6';
 
@@ -37,25 +28,25 @@ class MockESLint {
 let mockReports: unknown[] = [
   { results: [], messages: [], usedDeprecatedRules: [] },
 ];
-function mockEslint() {
-  jest.doMock('./utils/eslint-utils', () => {
-    return {
-      lint: jest.fn().mockReturnValue(mockReports),
-      loadESLint: jest.fn().mockReturnValue(
-        Promise.resolve({
-          ESLint: MockESLint,
-        }),
-      ),
-    };
-  });
-}
+const mockLint = jest.fn().mockImplementation(() => mockReports);
+jest.mock('./utils/eslint-utils', () => {
+  return {
+    lint: mockLint,
+    loadESLint: jest.fn().mockReturnValue(
+      Promise.resolve({
+        ESLint: MockESLint,
+      }),
+    ),
+  };
+});
+import lintExecutor from './lint.impl';
 
 function createValidRunBuilderOptions(
   additionalOptions: Partial<Schema> = {},
 ): Schema {
   return {
     lintFilePatterns: [],
-    eslintConfig: './.eslintrc',
+    eslintConfig: null,
     exclude: ['excludedFile1'],
     fix: true,
     cache: true,
@@ -76,43 +67,34 @@ function setupMocks() {
   jest.clearAllMocks();
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   jest.spyOn(process, 'chdir').mockImplementation(() => {});
-  mockEslint();
-}
-
-async function runBuilder(options: Schema) {
-  const registry = new json.schema.CoreSchemaRegistry();
-  registry.addPostTransform(schema.transforms.addUndefinedDefaults);
-
-  const testArchitectHost = new TestingArchitectHost(
-    resolve('/root'),
-    resolve('/root'),
-  );
-  const builderName = '@angular-eslint/builder:lint';
-
-  /**
-   * Require in the implementation from src so that we don't need
-   * to run a build before tests run and it is dynamic enough
-   * to come after jest does its mocking
-   */
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const { default: builderImplementation } = require('./lint.impl');
-  testArchitectHost.addBuilder(builderName, builderImplementation);
-
-  const architect = new Architect(testArchitectHost, registry);
-  const logger = new logging.Logger('');
-  logger.subscribe(loggerSpy);
-
-  const run = await architect.scheduleBuilder(builderName, options, {
-    logger,
-  });
-
-  return run.result;
+  console.warn = jest.fn();
+  console.error = jest.fn();
+  console.info = jest.fn();
 }
 
 describe('Linter Builder', () => {
+  let mockContext: ExecutorContext;
+
   beforeEach(() => {
     MockESLint.version = VALID_ESLINT_VERSION;
     mockReports = [{ results: [], messages: [], usedDeprecatedRules: [] }];
+    const projectName = 'proj';
+    mockContext = {
+      projectName,
+      root: '/root',
+      cwd: '/root',
+      workspace: {
+        version: 2,
+        projects: {
+          [projectName]: {
+            root: `apps/${projectName}`,
+            sourceRoot: `apps/${projectName}/src`,
+            targets: {},
+          },
+        },
+      },
+      isVerbose: false,
+    };
   });
 
   afterAll(() => {
@@ -122,7 +104,7 @@ describe('Linter Builder', () => {
   it('should throw if the eslint version is not supported', async () => {
     MockESLint.version = '1.6';
     setupMocks();
-    const result = runBuilder(createValidRunBuilderOptions());
+    const result = lintExecutor(createValidRunBuilderOptions(), mockContext);
     await expect(result).rejects.toThrow(
       /ESLint must be version 7.6 or higher/,
     );
@@ -130,15 +112,13 @@ describe('Linter Builder', () => {
 
   it('should not throw if the eslint version is supported', async () => {
     setupMocks();
-    const result = runBuilder(createValidRunBuilderOptions());
+    const result = lintExecutor(createValidRunBuilderOptions(), mockContext);
     await expect(result).resolves.not.toThrow();
   });
 
   it('should invoke the linter with the options that were passed to the builder', async () => {
     setupMocks();
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const { lint } = require('./utils/eslint-utils');
-    await runBuilder(
+    await lintExecutor(
       createValidRunBuilderOptions({
         lintFilePatterns: [],
         eslintConfig: './.eslintrc',
@@ -154,8 +134,9 @@ describe('Linter Builder', () => {
         maxWarnings: -1,
         ignorePath: null,
       }),
+      mockContext,
     );
-    expect(lint).toHaveBeenCalledWith(
+    expect(mockLint).toHaveBeenCalledWith(
       resolve('/root'),
       resolve('/root/.eslintrc'),
       {
@@ -179,10 +160,11 @@ describe('Linter Builder', () => {
   it('should throw if no reports generated', async () => {
     mockReports = [];
     setupMocks();
-    const result = runBuilder(
+    const result = lintExecutor(
       createValidRunBuilderOptions({
         lintFilePatterns: ['includedFile1'],
       }),
+      mockContext,
     );
     await expect(result).rejects.toThrow(
       /Invalid lint configuration. Nothing to lint./,
@@ -191,20 +173,22 @@ describe('Linter Builder', () => {
 
   it('should create a new instance of the formatter with the selected user option', async () => {
     setupMocks();
-    await runBuilder(
+    await lintExecutor(
       createValidRunBuilderOptions({
         eslintConfig: './.eslintrc',
         lintFilePatterns: ['includedFile1'],
         format: 'json',
       }),
+      mockContext,
     );
     expect(mockLoadFormatter).toHaveBeenCalledWith('json');
-    await runBuilder(
+    await lintExecutor(
       createValidRunBuilderOptions({
         eslintConfig: './.eslintrc',
         lintFilePatterns: ['includedFile1'],
         format: 'html',
       }),
+      mockContext,
     );
     expect(mockLoadFormatter).toHaveBeenCalledWith('html');
   });
@@ -243,12 +227,13 @@ describe('Linter Builder', () => {
       },
     ];
     setupMocks();
-    await runBuilder(
+    await lintExecutor(
       createValidRunBuilderOptions({
         eslintConfig: './.eslintrc',
         lintFilePatterns: ['includedFile1', 'includedFile2'],
         format: 'checkstyle',
       }),
+      mockContext,
     );
     expect(mockLoadFormatter).toHaveBeenCalledWith('checkstyle');
     expect(mockFormatter.format).toHaveBeenCalledWith([
@@ -287,13 +272,14 @@ describe('Linter Builder', () => {
 
   it('should pass all the reports to the fix engine, even if --fix is false', async () => {
     setupMocks();
-    await runBuilder(
+    await lintExecutor(
       createValidRunBuilderOptions({
         eslintConfig: './.eslintrc',
         lintFilePatterns: ['includedFile1'],
         format: 'json',
         fix: false,
       }),
+      mockContext,
     );
     expect(mockOutputFixes).toHaveBeenCalled();
   });
@@ -317,33 +303,22 @@ describe('Linter Builder', () => {
         },
       ];
       setupMocks();
-      await runBuilder(
+      await lintExecutor(
         createValidRunBuilderOptions({
           eslintConfig: './.eslintrc',
           lintFilePatterns: ['includedFile1'],
           format: 'json',
           silent: false,
         }),
+        mockContext,
       );
-      const flattenedCalls = loggerSpy.mock.calls.reduce((logs, call) => {
-        return [...logs, call[0]];
-      }, []);
-      expect(flattenedCalls).toContainEqual(
-        expect.objectContaining({
-          message: expect.stringContaining(
-            'Lint errors found in the listed files.',
-          ),
-        }),
+      expect(console.error).toHaveBeenCalledWith(
+        'Lint errors found in the listed files.\n',
       );
-      expect(flattenedCalls).toContainEqual(
-        expect.objectContaining({
-          message: expect.stringContaining(
-            'Lint warnings found in the listed files.',
-          ),
-        }),
+      expect(console.warn).toHaveBeenCalledWith(
+        'Lint warnings found in the listed files.\n',
       );
     });
-
     it('should log if there are no warnings or errors', async () => {
       mockReports = [
         {
@@ -362,38 +337,23 @@ describe('Linter Builder', () => {
         },
       ];
       setupMocks();
-      await runBuilder(
+      await lintExecutor(
         createValidRunBuilderOptions({
           eslintConfig: './.eslintrc',
           lintFilePatterns: ['includedFile1'],
           format: 'json',
           silent: false,
         }),
+        mockContext,
       );
-      const flattenedCalls = loggerSpy.mock.calls.reduce((logs, call) => {
-        return [...logs, call[0]];
-      }, []);
-      expect(flattenedCalls).not.toContainEqual(
-        expect.objectContaining({
-          message: expect.stringContaining(
-            'Lint errors found in the listed files.',
-          ),
-        }),
+      expect(console.error).not.toHaveBeenCalledWith(
+        'Lint errors found in the listed files.\n',
       );
-      expect(flattenedCalls).not.toContainEqual(
-        expect.objectContaining({
-          message: expect.stringContaining(
-            'Lint warnings found in the listed files.',
-          ),
-        }),
+      expect(console.warn).not.toHaveBeenCalledWith(
+        'Lint warnings found in the listed files.\n',
       );
-      expect(flattenedCalls).toContainEqual(
-        expect.objectContaining({
-          message: expect.stringContaining('All files pass linting.'),
-        }),
-      );
+      expect(console.info).toHaveBeenCalledWith('All files pass linting.\n');
     });
-
     it('should not log if the silent flag was passed', async () => {
       mockReports = [
         {
@@ -412,7 +372,7 @@ describe('Linter Builder', () => {
         },
       ];
       setupMocks();
-      await runBuilder(
+      await lintExecutor(
         createValidRunBuilderOptions({
           eslintConfig: './.eslintrc',
           lintFilePatterns: ['includedFile1'],
@@ -420,26 +380,15 @@ describe('Linter Builder', () => {
           maxWarnings: 1,
           silent: true,
         }),
+        mockContext,
       );
-      const flattenedCalls = loggerSpy.mock.calls.reduce((logs, call) => {
-        return [...logs, call[0]];
-      }, []);
-      expect(flattenedCalls).not.toContainEqual(
-        expect.objectContaining({
-          message: expect.stringContaining(
-            'Lint errors found in the listed files.',
-          ),
-        }),
+      expect(console.error).not.toHaveBeenCalledWith(
+        'Lint errors found in the listed files.\n',
       );
-      expect(flattenedCalls).not.toContainEqual(
-        expect.objectContaining({
-          message: expect.stringContaining(
-            'Lint warnings found in the listed files.',
-          ),
-        }),
+      expect(console.warn).not.toHaveBeenCalledWith(
+        'Lint warnings found in the listed files.\n',
       );
     });
-
     it('should not log warnings if the quiet flag was passed', async () => {
       mockReports = [
         {
@@ -466,7 +415,7 @@ describe('Linter Builder', () => {
         },
       ];
       setupMocks();
-      await runBuilder(
+      await lintExecutor(
         createValidRunBuilderOptions({
           eslintConfig: './.eslintrc',
           lintFilePatterns: ['includedFile1'],
@@ -474,34 +423,16 @@ describe('Linter Builder', () => {
           quiet: true,
           silent: false,
         }),
+        mockContext,
       );
-      const flattenedCalls = loggerSpy.mock.calls.reduce((logs, call) => {
-        return [...logs, call[0]];
-      }, []);
-      expect(flattenedCalls).not.toContainEqual(
-        expect.objectContaining({
-          message: expect.stringContaining('Mock warning message'),
-        }),
+      expect(console.info).not.toHaveBeenCalledWith('Mock warning message\n');
+      expect(console.error).not.toHaveBeenCalledWith(
+        'Lint errors found in the listed files.\n',
       );
-      expect(flattenedCalls).not.toContainEqual(
-        expect.objectContaining({
-          message: expect.stringContaining(
-            'Lint errors found in the listed files.',
-          ),
-        }),
+      expect(console.warn).not.toHaveBeenCalledWith(
+        'Lint warnings found in the listed files.\n',
       );
-      expect(flattenedCalls).not.toContainEqual(
-        expect.objectContaining({
-          message: expect.stringContaining(
-            'Lint warnings found in the listed files.',
-          ),
-        }),
-      );
-      expect(flattenedCalls).toContainEqual(
-        expect.objectContaining({
-          message: expect.stringContaining('All files pass linting.'),
-        }),
-      );
+      expect(console.info).toHaveBeenCalledWith('All files pass linting.\n');
     });
   });
 
@@ -523,13 +454,14 @@ describe('Linter Builder', () => {
       },
     ];
     setupMocks();
-    const output = await runBuilder(
+    const output = await lintExecutor(
       createValidRunBuilderOptions({
         eslintConfig: './.eslintrc',
         lintFilePatterns: ['includedFile1'],
         format: 'json',
         silent: true,
       }),
+      mockContext,
     );
     expect(output.success).toBeTruthy();
   });
@@ -552,7 +484,7 @@ describe('Linter Builder', () => {
       },
     ];
     setupMocks();
-    const output = await runBuilder(
+    const output = await lintExecutor(
       createValidRunBuilderOptions({
         eslintConfig: './.eslintrc',
         lintFilePatterns: ['includedFile1'],
@@ -560,6 +492,7 @@ describe('Linter Builder', () => {
         silent: true,
         force: true,
       }),
+      mockContext,
     );
     expect(output.success).toBeTruthy();
   });
@@ -582,7 +515,7 @@ describe('Linter Builder', () => {
       },
     ];
     setupMocks();
-    const output = await runBuilder(
+    const output = await lintExecutor(
       createValidRunBuilderOptions({
         eslintConfig: './.eslintrc',
         lintFilePatterns: ['includedFile1'],
@@ -590,6 +523,7 @@ describe('Linter Builder', () => {
         silent: true,
         force: false,
       }),
+      mockContext,
     );
     expect(output.success).toBeFalsy();
   });
@@ -612,13 +546,14 @@ describe('Linter Builder', () => {
       },
     ];
     setupMocks();
-    const output = await runBuilder(
+    const output = await lintExecutor(
       createValidRunBuilderOptions({
         eslintConfig: './.eslintrc',
         lintFilePatterns: ['includedFile1'],
         format: 'json',
         maxWarnings: 5,
       }),
+      mockContext,
     );
     expect(output.success).toBeFalsy();
   });
@@ -634,7 +569,7 @@ describe('Linter Builder', () => {
       },
     ];
     setupMocks();
-    await runBuilder(
+    await lintExecutor(
       createValidRunBuilderOptions({
         eslintConfig: './.eslintrc',
         lintFilePatterns: ['includedFile1'],
@@ -642,16 +577,10 @@ describe('Linter Builder', () => {
         quiet: true,
         maxWarnings: 0,
       }),
+      mockContext,
     );
-    const flattenedCalls = loggerSpy.mock.calls.reduce((logs, call) => {
-      return [...logs, call[0]];
-    }, []);
-    expect(flattenedCalls).toContainEqual(
-      expect.objectContaining({
-        message: expect.stringContaining(
-          'Found 1 warnings, which exceeds your configured limit (0).',
-        ),
-      }),
+    expect(console.error).toHaveBeenCalledWith(
+      'Found 1 warnings, which exceeds your configured limit (0). Either increase your maxWarnings limit or fix some of the lint warnings.',
     );
   });
 });
