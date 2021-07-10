@@ -13,37 +13,144 @@ const ruleTester = new RuleTester({
   parser: '@typescript-eslint/parser',
 });
 const messageId: MessageIds = 'noPipeImpure';
+const suggestRemovePipeImpure: MessageIds = 'suggestRemovePipeImpure';
 
 ruleTester.run(RULE_NAME, rule, {
   valid: [
-    // should succeed if pure property is set to true
+    `class Test {}`,
+    `
+    @Pipe()
+    class Test {}
+    `,
+    `
+    const options = {};
+    @Pipe(options)
+    class Test {}
+    `,
     `
     @Pipe({
       name: 'test',
-      pure: true
     })
     class Test {}
     `,
-    // should succeed if pure property is not set
     `
     @Pipe({
-      name: 'test'
+      pure: !0,
+    })
+    class Test {}
+    `,
+    `
+    @Pipe({
+      pure: !!isPure(),
+    })
+    class Test {}
+    `,
+    `
+    const pure = 'pure';
+    @Pipe({
+      [pure]: false
+    })
+    class Test {}
+    `,
+    `
+    const pure = false;
+    @Pipe({
+      pure,
+    })
+    class Test {}
+    `,
+    `
+    function isPure() {
+      return false;
+    }
+
+    @Pipe({
+      pure: isPure(),
+    })
+    class Test {}
+    `,
+    `
+    @NgModule({
+      bootstrap: [Foo]
     })
     class Test {}
     `,
   ],
   invalid: [
     convertAnnotatedSourceToFailureCase({
-      description: 'it should fail if pure property is set to false',
+      description: 'should fail if `pure` property is set to `false`',
       annotatedSource: `
-      @Pipe({
-        name: 'test',
-        pure: false
-        ~~~~~~~~~~~
-      })
-      class Test {}
+        @Pipe({
+          pure: false
+          ~~~~~~~~~~~
+        })
+        class Test {}
       `,
       messageId,
+      suggestions: [
+        {
+          messageId: suggestRemovePipeImpure,
+          output: `
+        @Pipe({
+          
+          
+        })
+        class Test {}
+      `,
+        },
+      ],
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'should fail if `pure` property is literal and is set to `false`',
+      annotatedSource: `
+        @Pipe({
+          name: 'test',
+          'pure': false,
+          ~~~~~~~~~~~~~
+        })
+        class Test {}
+      `,
+      messageId,
+      suggestions: [
+        {
+          messageId: suggestRemovePipeImpure,
+          output: `
+        @Pipe({
+          name: 'test',
+          
+          
+        })
+        class Test {}
+      `,
+        },
+      ],
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'should fail if `pure` property is literal and is set to `!true`',
+      annotatedSource: `
+        @Pipe({
+          name: 'test',
+          'pure': !true
+          ~~~~~~~~~~~~~
+        })
+        class Test {}
+      `,
+      messageId,
+      suggestions: [
+        {
+          messageId: suggestRemovePipeImpure,
+          output: `
+        @Pipe({
+          name: 'test',
+          
+          
+        })
+        class Test {}
+      `,
+        },
+      ],
     }),
   ],
 });
