@@ -1,7 +1,7 @@
 {
   "builders": {
     "lint": {
-      "implementation": "./dist/lint.impl",
+      "implementation": "./dist/compat",
       "schema": "./dist/schema.json",
       "description": "Run ESLint over a TypeScript project"
     }
