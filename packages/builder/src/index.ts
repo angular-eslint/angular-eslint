@@ -2,6 +2,7 @@ import type { BuilderContext, BuilderOutput } from '@angular-devkit/architect';
 import { createBuilder } from '@angular-devkit/architect';
 import type { ESLint } from 'eslint';
 import path from 'path';
+import fs from 'fs';
 import type { Schema } from './schema';
 import { lint, loadESLint } from './utils/eslint-utils';
 
@@ -97,7 +98,12 @@ async function run(
    * Additionally, we want to always log because different formatters
    * handled the "no results" case differently.
    */
-  context.logger.info(formatter.format(finalLintResults));
+  const formattedResults = formatter.format(finalLintResults);
+  context.logger.info(formattedResults);
+
+  if (options.outputFile) {
+    writeReportFile(context, options.outputFile, formattedResults);
+  }
 
   if (hasWarningsToPrint && printInfo) {
     context.logger.warn('Lint warnings found in the listed files.\n');
@@ -125,6 +131,17 @@ async function run(
   return {
     success: options.force || (totalErrors === 0 && !tooManyWarnings),
   };
+}
+
+function writeReportFile(
+  context: BuilderContext,
+  filePath: string,
+  formattedResults: string,
+) {
+  const pathToOutputFile = path.join(context.workspaceRoot, filePath);
+  const dir = path.dirname(pathToOutputFile);
+  fs.mkdirSync(dir, { recursive: true });
+  fs.writeFileSync(pathToOutputFile, formattedResults);
 }
 
 export default createBuilder(run);
