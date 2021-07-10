@@ -2,8 +2,8 @@ import type { TSESTree } from '@typescript-eslint/experimental-utils';
 import { ASTUtils } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import {
-  COMPONENT_OR_DIRECTIVE_CLASS_DECORATOR,
-  OUTPUTS_METADATA_PROPERTY,
+  COMPONENT_OR_DIRECTIVE_SELECTOR_LITERAL,
+  OUTPUTS_METADATA_PROPERTY_LITERAL,
   OUTPUT_ALIAS,
 } from '../utils/selectors';
 import {
@@ -47,14 +47,14 @@ export default createESLintRule<Options, MessageIds>({
     let selectors: ReadonlySet<string> = new Set();
 
     return {
-      [`${COMPONENT_OR_DIRECTIVE_CLASS_DECORATOR} Property[key.name='selector'] :matches(Literal, TemplateElement)`](
-        node: TSESTree.StringLiteral | TSESTree.TemplateElement,
+      [COMPONENT_OR_DIRECTIVE_SELECTOR_LITERAL](
+        node: TSESTree.Literal | TSESTree.TemplateElement,
       ) {
         selectors = new Set(
           withoutBracketsAndWhitespaces(getRawText(node)).split(','),
         );
       },
-      [OUTPUT_ALIAS](node: TSESTree.StringLiteral | TSESTree.TemplateElement) {
+      [OUTPUT_ALIAS](node: TSESTree.Literal | TSESTree.TemplateElement) {
         const classPropertyOrMethodDefinition = getNearestNodeFrom(
           node,
           isClassPropertyOrMethodDefinition,
@@ -99,8 +99,8 @@ export default createESLintRule<Options, MessageIds>({
           });
         }
       },
-      [OUTPUTS_METADATA_PROPERTY](
-        node: TSESTree.StringLiteral | TSESTree.TemplateElement,
+      [OUTPUTS_METADATA_PROPERTY_LITERAL](
+        node: TSESTree.Literal | TSESTree.TemplateElement,
       ) {
         const [propertyName, aliasName] = withoutBracketsAndWhitespaces(
           getRawText(node),
