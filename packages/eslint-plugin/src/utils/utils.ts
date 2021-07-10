@@ -202,6 +202,18 @@ export function isClassDeclaration(
   return node.type === AST_NODE_TYPES.ClassDeclaration;
 }
 
+export function isClassProperty(
+  node: TSESTree.Node,
+): node is TSESTree.ClassProperty {
+  return node.type === AST_NODE_TYPES.ClassProperty;
+}
+
+export function isClassPropertyOrMethodDefinition(
+  node: TSESTree.Node,
+): node is TSESTree.ClassProperty | TSESTree.MethodDefinition {
+  return isClassProperty(node) || isMethodDefinition(node);
+}
+
 export function isObjectExpression(
   node: TSESTree.Node,
 ): node is TSESTree.ObjectExpression {
@@ -650,11 +662,11 @@ export const getLifecycleInterfaceByMethodName = (
 /**
  * Enforces the invariant that the input is an array.
  */
-export function arrayify<T>(arg?: T | readonly T[]): readonly T[] {
-  if (Array.isArray(arg)) {
-    return arg;
+export function arrayify<T>(value: T | readonly T[]): readonly T[] {
+  if (Array.isArray(value)) {
+    return value;
   }
-  return (arg ? [arg] : []) as readonly T[];
+  return (value ? [value] : []) as readonly T[];
 }
 
 // Needed because in the current Typescript version (TS 3.3.3333), Boolean() cannot be used to perform a null check.
@@ -754,4 +766,19 @@ export function getRawText(
   }
 
   return isStringLiteral(node) ? node.value : node.value.raw;
+}
+
+export function getReplacementText(
+  node: TSESTree.StringLiteral | TSESTree.TemplateElement,
+  text: string,
+): string {
+  return isStringLiteral(node) ? `'${text}'` : `\`${text}\``;
+}
+
+export function capitalize<T extends string>(text: T): Capitalize<T> {
+  return `${text[0].toUpperCase()}${text.slice(1)}` as Capitalize<T>;
+}
+
+export function withoutBracketsAndWhitespaces(text: string): string {
+  return text.replace(/[[\]\s]/g, '');
 }

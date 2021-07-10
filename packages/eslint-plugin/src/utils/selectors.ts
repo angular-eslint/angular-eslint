@@ -1,5 +1,5 @@
 export const COMPONENT_OR_DIRECTIVE_CLASS_DECORATOR =
-  'ClassDeclaration > Decorator:matches([expression.callee.name="Component"], [expression.callee.name="Directive"])';
+  'ClassDeclaration > Decorator[expression.callee.name=/^(Component|Directive)$/]';
 
 export const COMPONENT_CLASS_DECORATOR =
   'ClassDeclaration > Decorator[expression.callee.name="Component"]';
