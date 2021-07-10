@@ -1,25 +1,23 @@
-import type { BuilderContext, BuilderOutput } from '@angular-devkit/architect';
-import { createBuilder } from '@angular-devkit/architect';
+import type { ExecutorContext } from '@nrwl/devkit';
 import type { ESLint } from 'eslint';
 import path from 'path';
 import type { Schema } from './schema';
 import { lint, loadESLint } from './utils/eslint-utils';
 
-async function run(
+export default async function run(
   options: Schema,
-  context: BuilderContext,
-): Promise<BuilderOutput> {
-  const workspaceRoot = context.workspaceRoot;
+  context: ExecutorContext,
+): Promise<{ success: boolean }> {
+  const workspaceRoot = context.root;
   process.chdir(workspaceRoot);
 
-  const projectName = context.target?.project || '<???>';
+  const projectName = context.projectName || '<???>';
   const printInfo = options.format && !options.silent;
   const reportOnlyErrors = options.quiet;
   const maxWarnings = options.maxWarnings;
 
-  context.reportStatus(`Linting ${JSON.stringify(projectName)}...`);
   if (printInfo) {
-    context.logger.info(`\nLinting ${JSON.stringify(projectName)}...`);
+    console.info(`\nLinting ${JSON.stringify(projectName)}...`);
   }
 
   const projectESLint = await loadESLint();
@@ -97,14 +95,14 @@ async function run(
    * Additionally, we want to always log because different formatters
    * handled the "no results" case differently.
    */
-  context.logger.info(formatter.format(finalLintResults));
+  console.info(formatter.format(finalLintResults));
 
   if (hasWarningsToPrint && printInfo) {
-    context.logger.warn('Lint warnings found in the listed files.\n');
+    console.warn('Lint warnings found in the listed files.\n');
   }
 
   if (hasErrorsToPrint && printInfo) {
-    context.logger.error('Lint errors found in the listed files.\n');
+    console.error('Lint errors found in the listed files.\n');
   }
 
   if (
@@ -112,12 +110,12 @@ async function run(
     totalErrors === 0 &&
     printInfo
   ) {
-    context.logger.info('All files pass linting.\n');
+    console.info('All files pass linting.\n');
   }
 
   const tooManyWarnings = maxWarnings >= 0 && totalWarnings > maxWarnings;
   if (tooManyWarnings && printInfo) {
-    context.logger.error(
+    console.error(
       `Found ${totalWarnings} warnings, which exceeds your configured limit (${options.maxWarnings}). Either increase your maxWarnings limit or fix some of the lint warnings.`,
     );
   }
@@ -126,5 +124,3 @@ async function run(
     success: options.force || (totalErrors === 0 && !tooManyWarnings),
   };
 }
-
-export default createBuilder(run);

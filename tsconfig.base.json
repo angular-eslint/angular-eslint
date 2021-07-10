@@ -17,6 +17,7 @@
     "target": "es2017",
     "baseUrl": ".",
     "lib": ["es2017"],
+    "skipLibCheck": true,
     "paths": {
       "@angular-eslint/builder": ["packages/builder/dist/index"],
       "@angular-eslint/builder/*": ["packages/builder/*"],
