@@ -745,3 +745,13 @@ export const toHumanReadableText = (items: readonly string[]): string => {
 
 export const toPattern = (value: readonly unknown[]): RegExp =>
   RegExp(`^(${value.join('|')})$`);
+
+export function getRawText(
+  node: TSESTree.Identifier | TSESTree.StringLiteral | TSESTree.TemplateElement,
+): string {
+  if (ASTUtils.isIdentifier(node)) {
+    return node.name;
+  }
+
+  return isStringLiteral(node) ? node.value : node.value.raw;
+}
