@@ -9,7 +9,7 @@ const { ESLint } = require('eslint');
 }));
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const { lint } = require('../../src/utils/eslint-utils');
+const { lint } = require('./eslint-utils');
 
 describe('eslint-utils', () => {
   beforeEach(() => {

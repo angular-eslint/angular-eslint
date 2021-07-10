@@ -9,7 +9,7 @@ import { TestingArchitectHost } from '@angular-devkit/architect/testing';
 import { json, logging, schema } from '@angular-devkit/core';
 import type { ESLint } from 'eslint';
 import { resolve } from 'path';
-import type { Schema } from '../src/schema';
+import type { Schema } from './schema';
 
 const mockFormatter = {
   format: jest
@@ -38,7 +38,7 @@ let mockReports: unknown[] = [
   { results: [], messages: [], usedDeprecatedRules: [] },
 ];
 function mockEslint() {
-  jest.doMock('../src/utils/eslint-utils', () => {
+  jest.doMock('./utils/eslint-utils', () => {
     return {
       lint: jest.fn().mockReturnValue(mockReports),
       loadESLint: jest.fn().mockReturnValue(
@@ -95,7 +95,7 @@ async function runBuilder(options: Schema) {
    * to come after jest does its mocking
    */
   // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const { default: builderImplementation } = require('../src/index');
+  const { default: builderImplementation } = require('./lint.impl');
   testArchitectHost.addBuilder(builderName, builderImplementation);
 
   const architect = new Architect(testArchitectHost, registry);
@@ -137,7 +137,7 @@ describe('Linter Builder', () => {
   it('should invoke the linter with the options that were passed to the builder', async () => {
     setupMocks();
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const { lint } = require('../src/utils/eslint-utils');
+    const { lint } = require('./utils/eslint-utils');
     await runBuilder(
       createValidRunBuilderOptions({
         lintFilePatterns: [],
