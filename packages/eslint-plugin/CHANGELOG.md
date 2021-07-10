@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [12.2.2](https://github.com/angular-eslint/angular-eslint/compare/v12.2.1...v12.2.2) (2021-07-10)
+
+### Bug Fixes
+
+- **eslint-plugin:** [no-output-on-prefix] handle `getters` and `outputs` metadata property ([#566](https://github.com/angular-eslint/angular-eslint/issues/566)) ([5884482](https://github.com/angular-eslint/angular-eslint/commit/588448214c31f01ec78ea892095ff0d05048a8c8))
+- **eslint-plugin:** [no-output-rename] handle `getters` and `outputs` metadata property ([#568](https://github.com/angular-eslint/angular-eslint/issues/568)) ([c803ffd](https://github.com/angular-eslint/angular-eslint/commit/c803ffdf020a29939cfd7d763e0206198b4eac72))
+
 ## [12.2.1](https://github.com/angular-eslint/angular-eslint/compare/v12.2.0...v12.2.1) (2021-07-10)
 
 ### Bug Fixes
