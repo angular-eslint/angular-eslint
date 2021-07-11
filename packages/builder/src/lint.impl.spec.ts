@@ -70,6 +70,7 @@ function createValidRunBuilderOptions(
     ignorePath: null,
     outputFile: null,
     noEslintrc: false,
+    rulesdir: [],
     ...additionalOptions,
   };
 }
@@ -147,6 +148,7 @@ describe('Linter Builder', () => {
         outputFile: null,
         ignorePath: null,
         noEslintrc: false,
+        rulesdir: [],
       }),
       mockContext,
     );
@@ -169,6 +171,7 @@ describe('Linter Builder', () => {
         outputFile: null,
         ignorePath: null,
         noEslintrc: false,
+        rulesdir: [],
       },
     );
   });
