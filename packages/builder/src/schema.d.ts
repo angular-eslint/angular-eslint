@@ -16,6 +16,7 @@ export interface Schema extends JsonObject {
   outputFile: string | null;
   noEslintrc: boolean;
   rulesdir: string[];
+  resolvePluginsRelativeTo: string | null;
 }
 
 type Formatter =
