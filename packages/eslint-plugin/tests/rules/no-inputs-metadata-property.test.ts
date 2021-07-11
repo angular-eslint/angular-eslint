@@ -12,29 +12,56 @@ import rule, { RULE_NAME } from '../../src/rules/no-inputs-metadata-property';
 const ruleTester = new RuleTester({
   parser: '@typescript-eslint/parser',
 });
-
 const messageId: MessageIds = 'noInputsMetadataProperty';
 
 ruleTester.run(RULE_NAME, rule, {
   valid: [
+    `class Test {}`,
     `
-    @Component({
+    @Component()
+    class Test {}
+    `,
+    `
+    @Directive({})
+    class Test {}
+    `,
+    `
+    const options = {};
+    @Component(options)
+    class Test {}
+    `,
+    `
+    @Directive({
       selector: 'app-test',
       template: 'Hello'
     })
-    class TestComponent {}
-`,
+    class Test {}
+    `,
     `
-    @Directive({
-      selector: 'app-test'
+    @Component({
+      selector: 'app-test',
+      queries: {},
     })
-    class TestDirective {}
-`,
+    class Test {}
+    `,
+    `
+    const inputs = 'providers';
+    @Directive({
+      [inputs]: [],
+    })
+    class Test {}
+    `,
+    `
+    @NgModule({
+      bootstrap: [Foo]
+    })
+    class Test {}
+    `,
   ],
   invalid: [
     convertAnnotatedSourceToFailureCase({
       description:
-        'it should fail if "inputs" metadata property is used in @Component',
+        'should fail if `inputs` metadata property is used in `@Component`',
       annotatedSource: `
         @Component({
           inputs: [
@@ -44,13 +71,13 @@ ruleTester.run(RULE_NAME, rule, {
           ~
           selector: 'app-test'
         })
-        class TestComponent {}
+        class Test {}
       `,
       messageId,
     }),
     convertAnnotatedSourceToFailureCase({
       description:
-        'it should fail if "inputs" metadata property is used in @Directive',
+        'should fail if `inputs` metadata property is used in `@Directive`',
       annotatedSource: `
         @Directive({
           inputs: [
@@ -60,7 +87,71 @@ ruleTester.run(RULE_NAME, rule, {
           ~
           selector: 'app-test'
         })
-        class TestDirective {}
+        class Test {}
+      `,
+      messageId,
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description: 'should fail if `inputs` metadata property is shorthand',
+      annotatedSource: `
+        @Component({
+          inputs,
+          ~~~~~~
+        })
+        class Test {}
+      `,
+      messageId,
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'should fail if `inputs` metadata property has no properties',
+      annotatedSource: `
+        @Component({
+          inputs: [],
+          ~~~~~~~~~~
+        })
+        class Test {}
+      `,
+      messageId,
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        "should fail if `inputs` metadata property's value is a variable",
+      annotatedSource: `
+        const test = [];
+        @Component({
+          inputs: test,
+          ~~~~~~~~~~~~
+        })
+        class Test {}
+      `,
+      messageId,
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        "should fail if `inputs` metadata property's value is `undefined`",
+      annotatedSource: `
+        @Component({
+          inputs: undefined,
+          ~~~~~~~~~~~~~~~~~
+        })
+        class Test {}
+      `,
+      messageId,
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        "should fail if `inputs` metadata property's key is `Literal` and its value is a function",
+      annotatedSource: `
+        function inputs() {
+          return [];
+        }
+
+        @Directive({
+          'inputs': inputs(),
+          ~~~~~~~~~~~~~~~~~~
+        })
+        class Test {}
       `,
       messageId,
     }),

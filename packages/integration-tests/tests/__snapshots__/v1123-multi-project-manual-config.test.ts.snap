@@ -17,7 +17,7 @@ __ROOT__/v1123-multi-project-manual-config/src/app/app.component.ts
 
 __ROOT__/v1123-multi-project-manual-config/src/app/example.component.ts
    4:13  error  Strings must use singlequote                                                                                                          @typescript-eslint/quotes
-  12:3   error  Use @Input rather than the \`inputs\` metadata property (https://angular.io/styleguide#style-05-12)                                     @angular-eslint/no-inputs-metadata-property
+  12:3   error  Use `@Input` rather than the \`inputs\` metadata property (https://angular.io/styleguide#style-05-12)                                     @angular-eslint/no-inputs-metadata-property
   13:3   error  Use \`@Output\` rather than the \`outputs\` metadata property (https://angular.io/styleguide#style-05-12)                                 @angular-eslint/no-outputs-metadata-property
   14:3   error  Use @HostBinding or @HostListener rather than the \`host\` metadata property (https://angular.io/styleguide#style-06-03)                @angular-eslint/no-host-metadata-property
   18:13  error  Output bindings, including aliases, should not be named \\"on\\", nor prefixed with it (https://angular.io/guide/styleguide#style-05-16)  @angular-eslint/no-output-on-prefix
