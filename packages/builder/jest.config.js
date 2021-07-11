@@ -1,13 +1,15 @@
-'use strict';
-
 module.exports = {
+  displayName: 'builder',
+  preset: '../../jest.preset.js',
+  globals: {
+    'ts-jest': {
+      tsconfig: '<rootDir>/tsconfig.spec.json',
+    },
+  },
   testEnvironment: 'node',
   transform: {
-    '^.+\\.tsx?$': 'ts-jest',
+    '^.+\\.[tj]sx?$': 'ts-jest',
   },
-  testRegex: './tests/.+\\.test\\.ts$',
-  collectCoverage: false,
-  collectCoverageFrom: ['src/**/*.{js,jsx,ts,tsx}'],
-  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
-  coverageReporters: ['text-summary', 'lcov'],
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
+  coverageDirectory: '../../coverage/packages/builder',
 };
