@@ -1,3 +1,6 @@
+// Force module scoping
+export default {};
+
 jest.mock('eslint', () => ({
   ESLint: jest.fn(),
 }));
@@ -55,6 +58,28 @@ describe('eslint-utils', () => {
       ignorePath: undefined,
       useEslintrc: true,
       errorOnUnmatchedPattern: false,
+    });
+  });
+
+  describe('noEslintrc', () => {
+    it('should create the ESLint instance with "useEslintrc" set to false', async () => {
+      await lint('/root', undefined, {
+        fix: true,
+        cache: true,
+        cacheLocation: '/root/cache',
+        noEslintrc: true,
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+      }).catch(() => {});
+
+      expect(ESLint).toHaveBeenCalledWith({
+        overrideConfigFile: undefined,
+        fix: true,
+        cache: true,
+        cacheLocation: '/root/cache',
+        ignorePath: undefined,
+        useEslintrc: false,
+        errorOnUnmatchedPattern: false,
+      });
     });
   });
 });
