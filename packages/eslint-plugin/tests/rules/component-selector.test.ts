@@ -15,6 +15,8 @@ const ruleTester = new RuleTester({
 const messageIdPrefixFailure: MessageIds = 'prefixFailure';
 const messageIdStyleFailure: MessageIds = 'styleFailure';
 const messageIdTypeFailure: MessageIds = 'typeFailure';
+const messageIdShadowDomEncapsulatedStyleFailure: MessageIds =
+  'shadowDomEncapsulatedStyleFailure';
 
 ruleTester.run(RULE_NAME, rule, {
   valid: [
@@ -386,9 +388,8 @@ ruleTester.run(RULE_NAME, rule, {
       })
       class Test {}
       `,
-      messageId: messageIdStyleFailure,
+      messageId: messageIdShadowDomEncapsulatedStyleFailure,
       options: [{ type: 'element', prefix: ['app'], style: 'camelCase' }],
-      data: { style: 'kebab-case' },
     }),
     convertAnnotatedSourceToFailureCase({
       // https://github.com/angular-eslint/angular-eslint/issues/534
@@ -401,9 +402,8 @@ ruleTester.run(RULE_NAME, rule, {
       })
       class Test {}
       `,
-      messageId: messageIdStyleFailure,
+      messageId: messageIdShadowDomEncapsulatedStyleFailure,
       options: [{ type: 'element', prefix: ['app'], style: 'camelCase' }],
-      data: { style: 'kebab-case' },
     }),
   ],
 });

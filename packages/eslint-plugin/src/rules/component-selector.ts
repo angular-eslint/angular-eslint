@@ -6,6 +6,7 @@ import {
   checkValidOptions,
   OPTION_TYPE_ATTRIBUTE,
   OPTION_TYPE_ELEMENT,
+  reportError,
   reportPrefixError,
   reportStyleError,
   reportTypeError,
@@ -24,12 +25,18 @@ import { ASTUtils } from '@typescript-eslint/experimental-utils';
 const VIEW_ENCAPSULATION_SHADOW_DOM = 'ShadowDom';
 const VIEW_ENCAPSULATION = 'ViewEncapsulation';
 export const RULE_NAME = 'component-selector';
-export type MessageIds = 'prefixFailure' | 'styleFailure' | 'typeFailure';
+export type MessageIds =
+  | 'prefixFailure'
+  | 'styleFailure'
+  | 'typeFailure'
+  | 'shadowDomEncapsulatedStyleFailure';
 const STYLE_GUIDE_PREFIX_LINK =
   'https://angular.io/guide/styleguide#style-02-07';
 const STYLE_GUIDE_STYLE_LINK =
   'https://angular.io/guide/styleguide#style-05-02';
 const STYLE_GUIDE_TYPE_LINK = 'https://angular.io/guide/styleguide#style-05-03';
+const SHADOW_DOM_ENCAPSULATED_STYLE_LINK =
+  'https://github.com/angular-eslint/angular-eslint/issues/534';
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
@@ -71,6 +78,7 @@ export default createESLintRule<Options, MessageIds>({
       prefixFailure: `The selector should start with one of these prefixes: {{prefix}} (${STYLE_GUIDE_PREFIX_LINK})`,
       styleFailure: `The selector should be {{style}} (${STYLE_GUIDE_STYLE_LINK})`,
       typeFailure: `The selector should be used as an {{type}} (${STYLE_GUIDE_TYPE_LINK})`,
+      shadowDomEncapsulatedStyleFailure: `The selector of a ShadowDom-encapsulated component should be \`${OPTION_STYLE_KEBAB_CASE}\` (${SHADOW_DOM_ENCAPSULATED_STYLE_LINK})`,
     },
   },
   defaultOptions: [
@@ -84,6 +92,7 @@ export default createESLintRule<Options, MessageIds>({
     return {
       [COMPONENT_CLASS_DECORATOR](node: TSESTree.Decorator) {
         const rawSelectors = getDecoratorPropertyValue(node, 'selector');
+        let overrideByShadowDomEncapsulated = false;
 
         if (!rawSelectors) {
           return;
@@ -101,6 +110,7 @@ export default createESLintRule<Options, MessageIds>({
         ) {
           // override `style` for ShadowDom-encapsulated components. See https://github.com/angular-eslint/angular-eslint/issues/534.
           style = OPTION_STYLE_KEBAB_CASE;
+          overrideByShadowDomEncapsulated = true;
         }
 
         const hasExpectedSelector = checkSelector(
@@ -117,7 +127,16 @@ export default createESLintRule<Options, MessageIds>({
         if (!hasExpectedSelector.hasExpectedType) {
           reportTypeError(rawSelectors, type, context);
         } else if (!hasExpectedSelector.hasExpectedStyle) {
-          reportStyleError(rawSelectors, style, context);
+          if (overrideByShadowDomEncapsulated) {
+            reportError(
+              rawSelectors,
+              'shadowDomEncapsulatedStyleFailure',
+              style,
+              context,
+            );
+          } else {
+            reportStyleError(rawSelectors, style, context);
+          }
         } else if (!hasExpectedSelector.hasExpectedPrefix) {
           reportPrefixError(rawSelectors, prefix, context);
         }

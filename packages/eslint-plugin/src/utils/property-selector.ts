@@ -96,6 +96,21 @@ export const reportTypeError = (
   });
 };
 
+export const reportError = (
+  node: TSESTree.Node,
+  messageId: string,
+  type: SelectorTypeOption | readonly SelectorTypeOption[],
+  context: Readonly<TSESLint.RuleContext<string, readonly unknown[]>>,
+): void => {
+  context.report({
+    node,
+    messageId: messageId,
+    data: {
+      type,
+    },
+  });
+};
+
 export const checkValidOptions = (
   type: SelectorTypeOption | readonly SelectorTypeOption[],
   prefix: string | readonly string[],
