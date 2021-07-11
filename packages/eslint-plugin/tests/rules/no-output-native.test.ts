@@ -17,6 +17,12 @@ const messageId: MessageIds = 'noOutputNative';
 ruleTester.run(RULE_NAME, rule, {
   valid: [
     `
+    @Page({
+      outputs: ['play', popstate, \`online\`, 'obsolete: obsol', 'store: storage'],
+    })
+    class Test {}
+    `,
+    `
     @Component()
     class Test {
       change = new EventEmitter();
@@ -69,13 +75,65 @@ ruleTester.run(RULE_NAME, rule, {
       @Output(blur) [click]: EventEmitter<Blur>;
     }
     `,
+    `
+    @Component({
+      selector: 'foo',
+      outputs: [\`test: ${'foo'}\`]
+    })
+    class Test {}
+    `,
+    `
+    @Directive({
+      selector: 'foo',
+    })
+    class Test {
+      @Output() get 'getter'() {}
+    }
+    `,
   ],
   invalid: [
     convertAnnotatedSourceToFailureCase({
       description:
-        'should fail if output property is named "change" in `@Component`',
+        'should fail if output metadata property is named "pagehide" in `@Component`',
       annotatedSource: `
-        @Component()
+        @Component({
+          outputs: ['pagehide']
+                    ~~~~~~~~~~
+        })
+        class Test {}
+      `,
+      messageId,
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'should fail if output metadata property is aliased as "copy" in `@Directive`',
+      annotatedSource: `
+        @Directive({
+          inputs: ['abort'],
+          outputs: [boundary, \`test: copy\`],
+                              ~~~~~~~~~~~~
+        })
+        class Test {}
+      `,
+      messageId,
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'should fail if output metadata property is named "orientationchange" in `@Component`',
+      annotatedSource: `
+        @Component({
+          outputs: ['orientationchange: orientation'],
+                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        })
+        class Test {}
+      `,
+      messageId,
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'should fail if output property is named "change" in `@Directive`',
+      annotatedSource: `
+        @Directive()
         class Test {
           @Output() change: EventEmitter<any> = new EventEmitter<{}>();
                     ~~~~~~
@@ -85,9 +143,9 @@ ruleTester.run(RULE_NAME, rule, {
     }),
     convertAnnotatedSourceToFailureCase({
       description:
-        'should fail if output property is named "\'change\'" in `@Directive`',
+        'should fail if output property is named "\'change\'" in `@Component`',
       annotatedSource: `
-        @Directive()
+        @Component()
         class Test {
           @Output() @Custom('change') 'change' = new EventEmitter<void>();
                                       ~~~~~~~~
@@ -97,9 +155,9 @@ ruleTester.run(RULE_NAME, rule, {
     }),
     convertAnnotatedSourceToFailureCase({
       description:
-        'should fail if output property is aliased as "`change`" in `@Component`',
+        'should fail if output property is aliased as "`change`" in `@Directive`',
       annotatedSource: `
-        @Component()
+        @Directive()
         class Test {
           @Custom() @Output(\`change\`) _change = getOutput();
                             ~~~~~~~~
@@ -109,12 +167,36 @@ ruleTester.run(RULE_NAME, rule, {
     }),
     convertAnnotatedSourceToFailureCase({
       description:
-        'should fail if output property is aliased as "change" in `@Directive`',
+        'should fail if output property is aliased as "change" in `@Component`',
       annotatedSource: `
-        @Directive()
+        @Component()
         class Test {
           @Output('change') _change = (this.subject$ as Subject<{blur: boolean}>).pipe();
                   ~~~~~~~~
+        }
+      `,
+      messageId,
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'should fail if output getter is named "\'cut\'" in `@Directive`',
+      annotatedSource: `
+        @Directive()
+        class Test {
+          @Output('getter') get 'cut'() {}
+                                ~~~~~
+        }
+      `,
+      messageId,
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'should fail if output getter is aliased as "devicechange" in `@Component`',
+      annotatedSource: `
+        @Component()
+        class Test {
+          @Output(\`${'devicechange'}\`) get getter() {}
+                  ~~~~~~~~~~~~~~
         }
       `,
       messageId,
