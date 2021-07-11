@@ -93,6 +93,14 @@
       "type": "boolean",
       "description": "The equivalent of the --no-eslintrc flag on the ESLint CLI, it is false by default",
       "default": false
+    },
+    "rulesdir": {
+      "type": "array",
+      "description": "The equivalent of the --rulesdir flag on the ESLint CLI, it is an empty array by default",
+      "default": [],
+      "items": {
+        "type": "string"
+      }
     }
   },
   "additionalProperties": false,
