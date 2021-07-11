@@ -22,6 +22,10 @@
       "type": "string",
       "description": "Path to the cache file or directory."
     },
+    "outputFile": {
+      "type": "string",
+      "description": "File to write report to instead of the console."
+    },
     "cacheStrategy": {
       "type": "string",
       "description": "Strategy to use for detecting changed files in the cache.",
