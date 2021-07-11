@@ -190,16 +190,25 @@ exports[`v1123-multi-project-yarn-auto-convert it should pass linting after conv
 "
 Linting \\"v1123-multi-project-yarn-auto-convert\\"...
 
-All files pass linting.
+__ROOT__/v1123-multi-project-yarn-auto-convert/src/test.ts
+  13:5  error  Member call should be declared before all method definitions  @typescript-eslint/member-ordering
+
+✖ 1 problem (1 error, 0 warnings)
 
 
 Linting \\"another-app\\"...
 
-All files pass linting.
+__ROOT__/v1123-multi-project-yarn-auto-convert/projects/another-app/src/test.ts
+  13:5  error  Member call should be declared before all method definitions  @typescript-eslint/member-ordering
+
+✖ 1 problem (1 error, 0 warnings)
 
 
 Linting \\"another-lib\\"...
 
-All files pass linting.
+__ROOT__/v1123-multi-project-yarn-auto-convert/projects/another-lib/src/test.ts
+  14:5  error  Member call should be declared before all method definitions  @typescript-eslint/member-ordering
+
+✖ 1 problem (1 error, 0 warnings)
 "
 `;

@@ -20,13 +20,19 @@ export async function lint(
   const projectESLint = await loadESLint();
 
   const eslint = new projectESLint.ESLint({
-    useEslintrc: true,
+    /**
+     * If "noEslintrc" is set to `true` (and therefore here "useEslintrc" will be `false`), then ESLint will not
+     * merge the provided config with others it finds automatically.
+     */
+    useEslintrc: !options.noEslintrc,
     overrideConfigFile: eslintConfigPath,
     ignorePath: options.ignorePath || undefined,
     fix: !!options.fix,
     cache: !!options.cache,
     cacheLocation: options.cacheLocation || undefined,
     cacheStrategy: options.cacheStrategy || undefined,
+    resolvePluginsRelativeTo: options.resolvePluginsRelativeTo || undefined,
+    rulePaths: options.rulesdir || [],
     /**
      * Default is `true` and if not overridden the eslint.lintFiles() method will throw an error
      * when no target files are found.

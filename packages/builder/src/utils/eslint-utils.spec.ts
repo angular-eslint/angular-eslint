@@ -1,3 +1,6 @@
+// Force module scoping
+export default {};
+
 jest.mock('eslint', () => ({
   ESLint: jest.fn(),
 }));
@@ -34,6 +37,7 @@ describe('eslint-utils', () => {
       ignorePath: undefined,
       useEslintrc: true,
       errorOnUnmatchedPattern: false,
+      rulePaths: [],
     });
   });
 
@@ -55,6 +59,80 @@ describe('eslint-utils', () => {
       ignorePath: undefined,
       useEslintrc: true,
       errorOnUnmatchedPattern: false,
+      rulePaths: [],
+    });
+  });
+
+  describe('noEslintrc', () => {
+    it('should create the ESLint instance with "useEslintrc" set to false', async () => {
+      await lint('/root', undefined, {
+        fix: true,
+        cache: true,
+        cacheLocation: '/root/cache',
+        noEslintrc: true,
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+      }).catch(() => {});
+
+      expect(ESLint).toHaveBeenCalledWith({
+        overrideConfigFile: undefined,
+        fix: true,
+        cache: true,
+        cacheLocation: '/root/cache',
+        ignorePath: undefined,
+        useEslintrc: false,
+        errorOnUnmatchedPattern: false,
+        rulePaths: [],
+      });
+    });
+  });
+
+  describe('rulesdir', () => {
+    it('should create the ESLint instance with "rulePaths" set to the given value for rulesdir', async () => {
+      const extraRuleDirectories = ['./some-rules', '../some-more-rules'];
+      await lint('/root', undefined, {
+        fix: true,
+        cache: true,
+        cacheLocation: '/root/cache',
+        cacheStrategy: 'content',
+        rulesdir: extraRuleDirectories,
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+      }).catch(() => {});
+
+      expect(ESLint).toHaveBeenCalledWith({
+        fix: true,
+        cache: true,
+        cacheLocation: '/root/cache',
+        cacheStrategy: 'content',
+        ignorePath: undefined,
+        useEslintrc: true,
+        errorOnUnmatchedPattern: false,
+        rulePaths: extraRuleDirectories,
+      });
+    });
+  });
+
+  describe('resolvePluginsRelativeTo', () => {
+    it('should create the ESLint instance with "resolvePluginsRelativeTo" set to the given value for resolvePluginsRelativeTo', async () => {
+      await lint('/root', undefined, {
+        fix: true,
+        cache: true,
+        cacheLocation: '/root/cache',
+        cacheStrategy: 'content',
+        resolvePluginsRelativeTo: './some-path',
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+      }).catch(() => {});
+
+      expect(ESLint).toHaveBeenCalledWith({
+        fix: true,
+        cache: true,
+        cacheLocation: '/root/cache',
+        cacheStrategy: 'content',
+        ignorePath: undefined,
+        useEslintrc: true,
+        errorOnUnmatchedPattern: false,
+        rulePaths: [],
+        resolvePluginsRelativeTo: './some-path',
+      });
     });
   });
 });
