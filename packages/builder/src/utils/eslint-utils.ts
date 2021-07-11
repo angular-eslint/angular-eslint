@@ -31,6 +31,7 @@ export async function lint(
     cache: !!options.cache,
     cacheLocation: options.cacheLocation || undefined,
     cacheStrategy: options.cacheStrategy || undefined,
+    resolvePluginsRelativeTo: options.resolvePluginsRelativeTo || undefined,
     rulePaths: options.rulesdir || [],
     /**
      * Default is `true` and if not overridden the eslint.lintFiles() method will throw an error

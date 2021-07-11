@@ -110,4 +110,29 @@ describe('eslint-utils', () => {
       });
     });
   });
+
+  describe('resolvePluginsRelativeTo', () => {
+    it('should create the ESLint instance with "resolvePluginsRelativeTo" set to the given value for resolvePluginsRelativeTo', async () => {
+      await lint('/root', undefined, {
+        fix: true,
+        cache: true,
+        cacheLocation: '/root/cache',
+        cacheStrategy: 'content',
+        resolvePluginsRelativeTo: './some-path',
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+      }).catch(() => {});
+
+      expect(ESLint).toHaveBeenCalledWith({
+        fix: true,
+        cache: true,
+        cacheLocation: '/root/cache',
+        cacheStrategy: 'content',
+        ignorePath: undefined,
+        useEslintrc: true,
+        errorOnUnmatchedPattern: false,
+        rulePaths: [],
+        resolvePluginsRelativeTo: './some-path',
+      });
+    });
+  });
 });
