@@ -1,7 +1,9 @@
 import type { ExecutorContext } from '@nrwl/devkit';
 import type { ESLint } from 'eslint';
-import path from 'path';
+import { writeFileSync } from 'fs';
+import { dirname, join, resolve } from 'path';
 import type { Schema } from './schema';
+import { createDirectory } from './utils/create-directory';
 import { lint, loadESLint } from './utils/eslint-utils';
 
 export default async function run(
@@ -38,7 +40,7 @@ export default async function run(
    * eslint automatically resolve the `.eslintrc` files in each folder.
    */
   const eslintConfigPath = options.eslintConfig
-    ? path.resolve(workspaceRoot, options.eslintConfig)
+    ? resolve(workspaceRoot, options.eslintConfig)
     : undefined;
 
   const lintResults: ESLint.LintResult[] = await lint(
@@ -92,10 +94,19 @@ export default async function run(
    * formatters, such as checkstyle, can provide a valid output for the
    * whole project being linted.
    *
-   * Additionally, we want to always log because different formatters
-   * handled the "no results" case differently.
+   * Additionally, apart from when outputting to a file, we want to always
+   * log (even when no results) because different formatters handled the
+   * "no results" case differently.
    */
-  console.info(formatter.format(finalLintResults));
+  const formattedResults = formatter.format(finalLintResults);
+
+  if (options.outputFile) {
+    const pathToOutputFile = join(context.root, options.outputFile);
+    createDirectory(dirname(pathToOutputFile));
+    writeFileSync(pathToOutputFile, formattedResults);
+  } else {
+    console.info(formattedResults);
+  }
 
   if (hasWarningsToPrint && printInfo) {
     console.warn('Lint warnings found in the listed files.\n');

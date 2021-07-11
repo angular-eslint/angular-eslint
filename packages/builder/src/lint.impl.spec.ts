@@ -3,6 +3,16 @@ import type { ESLint } from 'eslint';
 import { resolve } from 'path';
 import type { Schema } from './schema';
 
+// If we use esm here we get `TypeError: Cannot redefine property: writeFileSync`
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const fs = require('fs');
+jest.spyOn(fs, 'writeFileSync').mockImplementation();
+
+const mockCreateDirectory = jest.fn();
+jest.mock('./utils/create-directory', () => ({
+  createDirectory: mockCreateDirectory,
+}));
+
 const mockFormatter = {
   format: jest
     .fn()
@@ -58,6 +68,7 @@ function createValidRunBuilderOptions(
     maxWarnings: -1,
     silent: false,
     ignorePath: null,
+    outputFile: null,
     ...additionalOptions,
   };
 }
@@ -132,6 +143,7 @@ describe('Linter Builder', () => {
         force: false,
         silent: false,
         maxWarnings: -1,
+        outputFile: null,
         ignorePath: null,
       }),
       mockContext,
@@ -152,6 +164,7 @@ describe('Linter Builder', () => {
         force: false,
         silent: false,
         maxWarnings: -1,
+        outputFile: null,
         ignorePath: null,
       },
     );
@@ -582,5 +595,57 @@ describe('Linter Builder', () => {
     expect(console.error).toHaveBeenCalledWith(
       'Found 1 warnings, which exceeds your configured limit (0). Either increase your maxWarnings limit or fix some of the lint warnings.',
     );
+  });
+
+  it('should attempt to write the lint results to the output file, if specified', async () => {
+    mockReports = [
+      {
+        errorCount: 2,
+        warningCount: 4,
+        results: [],
+        messages: [],
+        usedDeprecatedRules: [],
+      },
+      {
+        errorCount: 3,
+        warningCount: 6,
+        results: [],
+        messages: [],
+        usedDeprecatedRules: [],
+      },
+    ];
+    setupMocks();
+    await lintExecutor(
+      createValidRunBuilderOptions({
+        eslintConfig: './.eslintrc.json',
+        lintFilePatterns: ['includedFile1'],
+        format: 'json',
+        silent: true,
+        force: false,
+        outputFile: 'a/b/c/outputFile1',
+      }),
+      mockContext,
+    );
+    expect(mockCreateDirectory).toHaveBeenCalledWith('/root/a/b/c');
+    expect(fs.writeFileSync).toHaveBeenCalledWith(
+      '/root/a/b/c/outputFile1',
+      mockFormatter.format(mockReports),
+    );
+  });
+
+  it('should not attempt to write the lint results to the output file, if not specified', async () => {
+    setupMocks();
+    jest.spyOn(fs, 'writeFileSync').mockImplementation();
+    await lintExecutor(
+      createValidRunBuilderOptions({
+        eslintConfig: './.eslintrc.json',
+        lintFilePatterns: ['includedFile1'],
+        format: 'json',
+        silent: true,
+        force: false,
+      }),
+      mockContext,
+    );
+    expect(fs.writeFileSync).not.toHaveBeenCalled();
   });
 });

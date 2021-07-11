@@ -13,6 +13,7 @@ export interface Schema extends JsonObject {
   cacheStrategy: 'content' | 'metadata' | null;
   eslintConfig: string | null;
   ignorePath: string | null;
+  outputFile: string | null;
 }
 
 type Formatter =
