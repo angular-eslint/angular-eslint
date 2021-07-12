@@ -3,32 +3,41 @@ import { createESLintRule } from '../utils/create-eslint-rule';
 import { metadataProperty } from '../utils/selectors';
 import { getDecoratorPropertyAddFix, isProperty } from '../utils/utils';
 
-type Options = [];
+type Options = [{ readonly ignoreClassNamePattern?: string }];
 export type MessageIds = 'useInjectableProvidedIn' | 'suggestInjector';
 export const RULE_NAME = 'use-injectable-provided-in';
+const METADATA_PROPERTY_NAME = 'providedIn';
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
   meta: {
     type: 'suggestion',
     docs: {
-      description:
-        'Using the `providedIn` property makes `Injectables` tree-shakable',
+      description: `Using the \`${METADATA_PROPERTY_NAME}\` property makes \`Injectables\` tree-shakable`,
       category: 'Best Practices',
       recommended: false,
       suggestion: true,
     },
-    schema: [],
+    schema: [
+      {
+        type: 'object',
+        properties: {
+          ignoreClassNamePattern: {
+            type: 'string',
+          },
+        },
+        additionalProperties: false,
+      },
+    ],
     messages: {
-      useInjectableProvidedIn:
-        'The `providedIn` property is mandatory for `Injectables`',
-      suggestInjector: "Use `providedIn: '{{injector}}'`",
+      useInjectableProvidedIn: `The \`${METADATA_PROPERTY_NAME}\` property is mandatory for \`Injectables\``,
+      suggestInjector: `Use \`${METADATA_PROPERTY_NAME}: '{{injector}}'\``,
     },
   },
-  defaultOptions: [],
-  create(context) {
-    const injectableClassDecorator = `ClassDeclaration:not(:has(TSClassImplements:matches([expression.property.name='HttpInterceptor'], [expression.name='HttpInterceptor']))) > Decorator[expression.callee.name="Injectable"]`;
-    const providedInMetadataProperty = metadataProperty('providedIn');
+  defaultOptions: [{}],
+  create(context, [{ ignoreClassNamePattern }]) {
+    const injectableClassDecorator = `ClassDeclaration:not([id.name=${ignoreClassNamePattern}]):not(:has(TSClassImplements:matches([expression.property.name='HttpInterceptor'], [expression.name='HttpInterceptor']))) > Decorator[expression.callee.name="Injectable"]`;
+    const providedInMetadataProperty = metadataProperty(METADATA_PROPERTY_NAME);
     const withoutProvidedInDecorator = `${injectableClassDecorator}:matches([expression.arguments.length=0], [expression.arguments.0.type='ObjectExpression']:not(:has(${providedInMetadataProperty})))`;
     const nullableProvidedInProperty = `${injectableClassDecorator} ${providedInMetadataProperty}:matches([value.type='Identifier'][value.name='undefined'], [value.type='Literal'][value.raw='null'])`;
     const selectors = [
@@ -39,7 +48,7 @@ export default createESLintRule<Options, MessageIds>({
     return {
       [selectors](node: TSESTree.Decorator | TSESTree.Property) {
         context.report({
-          node,
+          node: isProperty(node) ? node.value : node,
           messageId: 'useInjectableProvidedIn',
           suggest: (['any', 'platform', 'root'] as const).map((injector) => ({
             messageId: 'suggestInjector',
@@ -49,7 +58,7 @@ export default createESLintRule<Options, MessageIds>({
                 : getDecoratorPropertyAddFix(
                     node,
                     fixer,
-                    `providedIn: '${injector}'`,
+                    `${METADATA_PROPERTY_NAME}: '${injector}'`,
                   ) ?? [];
             },
             data: { injector },

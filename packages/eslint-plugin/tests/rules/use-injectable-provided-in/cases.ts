@@ -25,7 +25,13 @@ export const valid = [
   `,
   `
     @Injectable({
-      providedIn: SomeModule,
+      ['providedIn']: SomeModule,
+    })
+    class Test {}
+  `,
+  `
+    @Injectable({
+      [\`providedIn\`]: providedIn(),
     })
     class Test {}
   `,
@@ -39,6 +45,14 @@ export const valid = [
     @Injectable()
     class Test implements ng.HttpInterceptor {}
   `,
+  // https://github.com/angular-eslint/angular-eslint/issues/236
+  {
+    code: `
+        @Injectable()
+        class TestEffects {}
+      `,
+    options: [{ ignoreClassNamePattern: '/Effects$/' }],
+  },
   `
     @CustomInjectable()
     class Test {}
@@ -106,7 +120,7 @@ export const invalid = [
     description: 'should fail if `providedIn` is set to `null`',
     annotatedSource: `
       @Injectable({ providedIn: null })
-                    ~~~~~~~~~~~~~~~~
+                                ~~~~
       class Test {}
     `,
     messageId,
@@ -114,26 +128,85 @@ export const invalid = [
       messageId: suggestInjector,
       output: `
       @Injectable({ providedIn: '${injector}' })
-                    
+                                
       class Test {}
     `,
       data: { injector },
     })),
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if `providedIn` is set to `undefined`',
+    description:
+      "should fail if `providedIn` metadata property's key is `Literal` and its value is set to `undefined`",
     annotatedSource: `
-      @Injectable({ 'providedIn': undefined })
-                    ~~~~~~~~~~~~~~~~~~~~~~~
+      @Injectable({ ['providedIn']: undefined })
+                                    ~~~~~~~~~
       class Test {}
+
+      @Injectable()
+      class HttpPostInterceptor implements HttpInterceptor {}
     `,
     messageId,
     suggestions: (['any', 'platform', 'root'] as const).map((injector) => ({
       messageId: suggestInjector,
       output: `
-      @Injectable({ 'providedIn': '${injector}' })
-                    
+      @Injectable({ ['providedIn']: '${injector}' })
+                                    
       class Test {}
+
+      @Injectable()
+      class HttpPostInterceptor implements HttpInterceptor {}
+    `,
+      data: { injector },
+    })),
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      "should fail if `providedIn` metadata property's key is computed `Literal` and its value is set to `undefined`",
+    annotatedSource: `
+      @Injectable({ ['providedIn']: undefined })
+                                    ~~~~~~~~~
+      class Test {}
+
+      @Injectable()
+      class ProvidedInNgModule {}
+    `,
+    messageId,
+    options: [{ ignoreClassNamePattern: '/(Effects|NgModule)$/' }],
+    suggestions: (['any', 'platform', 'root'] as const).map((injector) => ({
+      messageId: suggestInjector,
+      output: `
+      @Injectable({ ['providedIn']: '${injector}' })
+                                    
+      class Test {}
+
+      @Injectable()
+      class ProvidedInNgModule {}
+    `,
+      data: { injector },
+    })),
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      "should fail if `providedIn` metadata property's key is computed `TemplateLiteral` and its value is set to `undefined`",
+    annotatedSource: `
+      @Injectable({ [\`providedIn\`]: undefined })
+                                    ~~~~~~~~~
+      class Test {}
+
+      @Injectable()
+      class TestEffects {}
+    `,
+    messageId,
+    options: [{ ignoreClassNamePattern: '/(Effects|NgModule)$/' }],
+    suggestions: (['any', 'platform', 'root'] as const).map((injector) => ({
+      messageId: suggestInjector,
+      output: `
+      @Injectable({ [\`providedIn\`]: '${injector}' })
+                                    
+      class Test {}
+
+      @Injectable()
+      class TestEffects {}
     `,
       data: { injector },
     })),
