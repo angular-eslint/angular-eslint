@@ -71,6 +71,9 @@ exports[`v1123-single-project-yarn-auto-convert it should pass linting after con
 "
 Linting \\"v1123-single-project-yarn-auto-convert\\"...
 
-All files pass linting.
+__ROOT__/v1123-single-project-yarn-auto-convert/src/test.ts
+  13:5  error  Member call should be declared before all method definitions  @typescript-eslint/member-ordering
+
+✖ 1 problem (1 error, 0 warnings)
 "
 `;
