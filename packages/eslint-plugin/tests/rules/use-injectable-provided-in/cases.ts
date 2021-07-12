@@ -29,6 +29,16 @@ export const valid = [
     })
     class Test {}
   `,
+  // https://github.com/angular-eslint/angular-eslint/issues/236
+  `
+    @Injectable()
+    class Test implements HttpInterceptor {}
+  `,
+  // https://github.com/angular-eslint/angular-eslint/issues/236
+  `
+    @Injectable()
+    class Test implements ng.HttpInterceptor {}
+  `,
   `
     @CustomInjectable()
     class Test {}

@@ -1,9 +1,6 @@
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
-import {
-  INJECTABLE_CLASS_DECORATOR,
-  metadataProperty,
-} from '../utils/selectors';
+import { metadataProperty } from '../utils/selectors';
 import { getDecoratorPropertyAddFix, isProperty } from '../utils/utils';
 
 type Options = [];
@@ -30,9 +27,10 @@ export default createESLintRule<Options, MessageIds>({
   },
   defaultOptions: [],
   create(context) {
+    const injectableClassDecorator = `ClassDeclaration:not(:has(TSClassImplements:matches([expression.property.name='HttpInterceptor'], [expression.name='HttpInterceptor']))) > Decorator[expression.callee.name="Injectable"]`;
     const providedInMetadataProperty = metadataProperty('providedIn');
-    const withoutProvidedInDecorator = `${INJECTABLE_CLASS_DECORATOR}:matches([expression.arguments.length=0], [expression.arguments.0.type='ObjectExpression']:not(:has(${providedInMetadataProperty})))`;
-    const nullableProvidedInProperty = `${INJECTABLE_CLASS_DECORATOR} ${providedInMetadataProperty}:matches([value.type='Identifier'][value.name='undefined'], [value.type='Literal'][value.raw='null'])`;
+    const withoutProvidedInDecorator = `${injectableClassDecorator}:matches([expression.arguments.length=0], [expression.arguments.0.type='ObjectExpression']:not(:has(${providedInMetadataProperty})))`;
+    const nullableProvidedInProperty = `${injectableClassDecorator} ${providedInMetadataProperty}:matches([value.type='Identifier'][value.name='undefined'], [value.type='Literal'][value.raw='null'])`;
     const selectors = [
       withoutProvidedInDecorator,
       nullableProvidedInProperty,
