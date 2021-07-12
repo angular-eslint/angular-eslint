@@ -1,13 +1,13 @@
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
-import { INJECTABLE_CLASS_DECORATOR } from '../utils/selectors';
 import {
-  AngularClassDecorators,
-  getDecoratorPropertyValue,
-} from '../utils/utils';
+  INJECTABLE_CLASS_DECORATOR,
+  metadataProperty,
+} from '../utils/selectors';
+import { getDecoratorPropertyAddFix, isProperty } from '../utils/utils';
 
 type Options = [];
-export type MessageIds = 'useInjectableProvidedIn';
+export type MessageIds = 'useInjectableProvidedIn' | 'suggestInjector';
 export const RULE_NAME = 'use-injectable-provided-in';
 
 export default createESLintRule<Options, MessageIds>({
@@ -15,27 +15,47 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description: `"Using the 'providedIn' property makes classes decorated with @${AngularClassDecorators.Injectable} tree shakeable`,
+      description:
+        'Using the `providedIn` property makes `Injectables` tree-shakable',
       category: 'Best Practices',
       recommended: false,
+      suggestion: true,
     },
     schema: [],
     messages: {
-      useInjectableProvidedIn: `Classes decorated with @${AngularClassDecorators.Injectable} should use the 'providedIn' property`,
+      useInjectableProvidedIn:
+        'The `providedIn` property is mandatory for `Injectables`',
+      suggestInjector: "Use `providedIn: '{{injector}}'`",
     },
   },
   defaultOptions: [],
   create(context) {
-    return {
-      [INJECTABLE_CLASS_DECORATOR](node: TSESTree.Decorator) {
-        const providedInValue = getDecoratorPropertyValue(node, 'providedIn');
-        if (providedInValue) {
-          return;
-        }
+    const providedInMetadataProperty = metadataProperty('providedIn');
+    const withoutProvidedInDecorator = `${INJECTABLE_CLASS_DECORATOR}:matches([expression.arguments.length=0], [expression.arguments.0.type='ObjectExpression']:not(:has(${providedInMetadataProperty})))`;
+    const nullableProvidedInProperty = `${INJECTABLE_CLASS_DECORATOR} ${providedInMetadataProperty}:matches([value.type='Identifier'][value.name='undefined'], [value.type='Literal'][value.raw='null'])`;
+    const selectors = [
+      withoutProvidedInDecorator,
+      nullableProvidedInProperty,
+    ].join(',');
 
+    return {
+      [selectors](node: TSESTree.Decorator | TSESTree.Property) {
         context.report({
           node,
           messageId: 'useInjectableProvidedIn',
+          suggest: (['any', 'platform', 'root'] as const).map((injector) => ({
+            messageId: 'suggestInjector',
+            fix: (fixer) => {
+              return isProperty(node)
+                ? fixer.replaceText(node.value, `'${injector}'`)
+                : getDecoratorPropertyAddFix(
+                    node,
+                    fixer,
+                    `providedIn: '${injector}'`,
+                  ) ?? [];
+            },
+            data: { injector },
+          })),
         });
       },
     };
