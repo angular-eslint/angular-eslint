@@ -6,7 +6,6 @@ import {
   checkValidOptions,
   OPTION_TYPE_ATTRIBUTE,
   OPTION_TYPE_ELEMENT,
-  reportError,
   reportPrefixError,
   reportStyleError,
   reportTypeError,
@@ -92,7 +91,6 @@ export default createESLintRule<Options, MessageIds>({
     return {
       [COMPONENT_CLASS_DECORATOR](node: TSESTree.Decorator) {
         const rawSelectors = getDecoratorPropertyValue(node, 'selector');
-        let overrideByShadowDomEncapsulated = false;
 
         if (!rawSelectors) {
           return;
@@ -104,20 +102,18 @@ export default createESLintRule<Options, MessageIds>({
           return;
         }
 
-        if (
+        // override `style` for ShadowDom-encapsulated components. See https://github.com/angular-eslint/angular-eslint/issues/534.
+        const overrideStyle =
           style !== OPTION_STYLE_KEBAB_CASE &&
           hasEncapsulationShadowDomProperty(node)
-        ) {
-          // override `style` for ShadowDom-encapsulated components. See https://github.com/angular-eslint/angular-eslint/issues/534.
-          style = OPTION_STYLE_KEBAB_CASE;
-          overrideByShadowDomEncapsulated = true;
-        }
+            ? OPTION_STYLE_KEBAB_CASE
+            : style;
 
         const hasExpectedSelector = checkSelector(
           rawSelectors,
           type,
           arrayify<string>(prefix),
-          style as SelectorStyle,
+          overrideStyle as SelectorStyle,
         );
 
         if (hasExpectedSelector === null) {
@@ -127,15 +123,13 @@ export default createESLintRule<Options, MessageIds>({
         if (!hasExpectedSelector.hasExpectedType) {
           reportTypeError(rawSelectors, type, context);
         } else if (!hasExpectedSelector.hasExpectedStyle) {
-          if (overrideByShadowDomEncapsulated) {
-            reportError(
-              rawSelectors,
-              'shadowDomEncapsulatedStyleFailure',
-              style,
-              context,
-            );
-          } else {
+          if (style === overrideStyle) {
             reportStyleError(rawSelectors, style, context);
+          } else {
+            context.report({
+              node: rawSelectors,
+              messageId: 'shadowDomEncapsulatedStyleFailure',
+            });
           }
         } else if (!hasExpectedSelector.hasExpectedPrefix) {
           reportPrefixError(rawSelectors, prefix, context);
