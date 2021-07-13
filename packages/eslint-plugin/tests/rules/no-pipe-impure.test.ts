@@ -23,6 +23,10 @@ ruleTester.run(RULE_NAME, rule, {
     class Test {}
     `,
     `
+    @Pipe({})
+    class Test {}
+    `,
+    `
     const options = {};
     @Pipe(options)
     class Test {}
@@ -30,6 +34,12 @@ ruleTester.run(RULE_NAME, rule, {
     `
     @Pipe({
       name: 'test',
+    })
+    class Test {}
+    `,
+    `
+    @Pipe({
+      pure: true
     })
     class Test {}
     `,
