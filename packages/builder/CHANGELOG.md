@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [12.3.0](https://github.com/angular-eslint/angular-eslint/compare/v12.2.2...v12.3.0) (2021-07-13)
+
+### Features
+
+- **builder:** add noEslintrc option ([#588](https://github.com/angular-eslint/angular-eslint/issues/588)) ([4b150bf](https://github.com/angular-eslint/angular-eslint/commit/4b150bff94d80b22aba2c6e2d170235d5ab71251))
+- **builder:** add resolvePluginsRelativeTo option ([#590](https://github.com/angular-eslint/angular-eslint/issues/590)) ([3bea308](https://github.com/angular-eslint/angular-eslint/commit/3bea3085db38d28cfdd4fbc8158ba1b69b42e73d))
+- **builder:** add rulesdir option ([#589](https://github.com/angular-eslint/angular-eslint/issues/589)) ([ff9557d](https://github.com/angular-eslint/angular-eslint/commit/ff9557d17e4f9f662f241a3db3ec3744fce1d2dc))
+- **builder:** added outputFile option ([#587](https://github.com/angular-eslint/angular-eslint/issues/587)) ([420734b](https://github.com/angular-eslint/angular-eslint/commit/420734b891c61dcbcf2404f03db6251b28e458ac))
+
 ## [12.2.2](https://github.com/angular-eslint/angular-eslint/compare/v12.2.1...v12.2.2) (2021-07-10)
 
 **Note:** Version bump only for package @angular-eslint/builder

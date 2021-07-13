@@ -1,6 +1,6 @@
 {
   "name": "@angular-eslint/integration-tests",
-  "version": "12.2.2",
+  "version": "12.3.0",
   "private": true,
   "dependencies": {
     "@angular/cli": "~12.1.1"

@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [12.3.0](https://github.com/angular-eslint/angular-eslint/compare/v12.2.2...v12.3.0) (2021-07-13)
+
+### Bug Fixes
+
+- **eslint-plugin:** [no-input-prefix] handle alias and `inputs` metadata property ([#582](https://github.com/angular-eslint/angular-eslint/issues/582)) ([675ee11](https://github.com/angular-eslint/angular-eslint/commit/675ee11f541e9e08c87df75a9004a12d0f0403bf))
+- **eslint-plugin:** [no-input-rename] handle alias and `inputs` metadata property ([#583](https://github.com/angular-eslint/angular-eslint/issues/583)) ([2883e18](https://github.com/angular-eslint/angular-eslint/commit/2883e185abca4cfd2a7191f5c10742d521f48a89))
+- **eslint-plugin:** [use-component-view-encapsulation] handle literal `encapsulation` properly ([#586](https://github.com/angular-eslint/angular-eslint/issues/586)) ([3a9b7f4](https://github.com/angular-eslint/angular-eslint/commit/3a9b7f4056b33918ead342efa331d21b9b1f4309))
+- **eslint-plugin:** [use-pipe-transform-interface] handle type imports properly in fix ([#592](https://github.com/angular-eslint/angular-eslint/issues/592)) ([ac3fb12](https://github.com/angular-eslint/angular-eslint/commit/ac3fb126f1171284db6a52775c044aaedef2b90e))
+
+### Features
+
+- **eslint-plugin:** [component-selector] handle shadow dom components properly ([#559](https://github.com/angular-eslint/angular-eslint/issues/559)) ([ecbe684](https://github.com/angular-eslint/angular-eslint/commit/ecbe68431fb73177d905676fef3df9be9c646636))
+- **eslint-plugin:** [no-pipe-impure] add suggestion ([#585](https://github.com/angular-eslint/angular-eslint/issues/585)) ([149bf2f](https://github.com/angular-eslint/angular-eslint/commit/149bf2ffe0af7af1b0fc6b249321b50cf5d9f0a6))
+- **schematics:** better support @angular/cli 12.1 ([#591](https://github.com/angular-eslint/angular-eslint/issues/591)) ([c5da07b](https://github.com/angular-eslint/angular-eslint/commit/c5da07b2d0c506dde24f0abc3e212db9deeaca82))
+
 ## [12.2.2](https://github.com/angular-eslint/angular-eslint/compare/v12.2.1...v12.2.2) (2021-07-10)
 
 ### Bug Fixes
