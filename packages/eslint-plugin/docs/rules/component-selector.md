@@ -22,6 +22,8 @@ interface Options {
 
 The Angular styleguide recommends setting `type` to `element` and `style` to `kebab-case`, as well as setting at least a prefix.
 
+**Note**: The rule ignores the `style` config for ShadowDom-encapsulated components and just forces it to be `kebab-case`.
+
 ## Examples
 
 In the examples below, we will use the following configuration:

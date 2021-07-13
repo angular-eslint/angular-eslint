@@ -11,292 +11,419 @@ import rule, { RULE_NAME } from '../../src/rules/no-input-rename';
 
 const ruleTester = new RuleTester({
   parser: '@typescript-eslint/parser',
-  parserOptions: {
-    sourceType: 'module',
-  },
 });
 const messageId: MessageIds = 'noInputRename';
+const suggestRemoveAliasName: MessageIds = 'suggestRemoveAliasName';
+const suggestReplaceOriginalNameWithAliasName: MessageIds =
+  'suggestReplaceOriginalNameWithAliasName';
 
 ruleTester.run(RULE_NAME, rule, {
   valid: [
-    // should succeed when a component input property is not renamed
+    `class Test {}`,
     `
-    import { Input } from '@angular/core';
-    @Component
-    class TestComponent {
-      @Input() label: string;
-    }
-    `,
-    // should succeed when a component input setter is not renamed
-    `
-    import { Input } from '@angular/core';
-    @Component
-    class TestComponent {
-      @Input() set label(label: string) {}
-    }
-    `,
-    // should succeed when a directive selector is strictly equal to the alias
-    `
-    import { Input } from '@angular/core';
-    @Directive({
-      selector: '[foo]'
+    @Page({
+      inputs: ['play', popstate, \`online\`, 'obsolete: obsol', 'store: storage'],
     })
-    class TestDirective {
-      @Input('foo') bar = new EventEmitter<void>();
+    class Test {}
+    `,
+    `
+    @Component()
+    class Test {
+      change = new EventEmitter();
     }
     `,
-    // should succeed when the first directive selector is strictly equal to the alias
     `
-    import { Input } from '@angular/core';
-    @Directive({
-      selector: '[foo], test'
+    @Directive()
+    class Test {
+      @Input() buttonChange = new EventEmitter<'change'>();
+    }
+    `,
+    `
+    @Component({
+      inputs,
     })
-    class TestDirective {
-      @Input('foo') bar = new EventEmitter<void>();
-    }
+    class Test {}
     `,
-    // should succeed when the second directive selector is strictly equal to the alias
     `
-    import { Input } from '@angular/core';
     @Directive({
-      selector: '[foo], myselector'
+      inputs: [...test],
     })
-    class TestDirective {
-      @Input('myselector') bar: string;
-    }
+    class Test {}
     `,
-    // should succeed when a directive selector is also an input property
     `
-    import { Input } from '@angular/core';
-    @Directive({
-      selector: '[foo], label2'
+    @Component({
+      inputs: func(),
     })
-    class TestDirective {
-      @Input() foo: string;
+    class Test {}
+    `,
+    `
+    @Directive({
+      inputs: [func(), 'a'],
+    })
+    class Test {}
+    `,
+    `
+    @Component({})
+    class Test {
+      @Input() set setter(setter: string) {}
     }
     `,
-    // should succeed when a directive selector is also an input property with tag
+    {
+      code: `
+      @Component({
+        inputs: ['foo: aria-wrong']
+      })
+      class Test {
+        @Input('aria-wrong') set setter(setter: string) {}
+      }
+      `,
+      options: [{ allowedNames: ['aria-wrong'] }],
+    },
     `
-    import { Input } from '@angular/core';
-    @Directive({
+    const change = 'change';
+    @Component()
+    class Test {
+      @Input(change) touchMove: EventEmitter<{ action: 'click' | 'close' }> = new EventEmitter<{ action: 'click' | 'close' }>();
+    }
+    `,
+    `
+    const blur = 'blur';
+    const click = 'click';
+    @Directive()
+    class Test {
+      @Input(blur) [click]: EventEmitter<Blur>;
+    }
+    `,
+    `
+    @Component({
       selector: 'foo[bar]'
     })
-    class TestDirective {
+    class Test {
       @Input() bar: string;
     }
     `,
-    // should succeed when an input alias is kebab-cased and whitelisted
     `
-    import { Input } from '@angular/core';
+    @Directive({
+      'selector': 'foo',
+      'inputs': [\`test: ${'foo'}\`]
+    })
+    class Test {}
+    `,
+    `
+    @Component({
+      selector: '[foo], test',
+    })
+    class Test {
+      @Input('foo') label: string;
+    }
+    `,
+    `
     @Directive({
       selector: 'foo'
     })
-    class TestDirective {
+    class Test {
       @Input('aria-label') ariaLabel: string;
     }
     `,
-    // should succeed when an input alias is strictly equal to the selector plus the property name
+    {
+      code: `
+      @Component({
+        inputs: ['foo: allowedName']
+      })
+      class Test {
+        @Input() bar: string;
+      }
+      `,
+      options: [{ allowedNames: ['allowedName'] }],
+    },
     `
-    import { Input } from '@angular/core';
     @Directive({
       selector: 'foo'
     })
-    class TestDirective {
+    class Test {
       @Input('fooMyColor') myColor: string;
     }
     `,
-    // should succeed when an Input decorator is not imported from '@angular/core'
-    `
-    import { Input } from 'baz';
-    @Component({
-      selector: 'foo'
-    })
-    class TestComponent {
-      @Input('bar') label: string;
-    }
-    `,
-    // should succeed when an input alias rename to the value listed in the allowedRenames
-    {
-      code: `
-      import { Input } from '@angular/core';
-      @Directive({
-        selector: 'foo'
-      })
-      class TestDirective {
-        @Input('allowedName') bar: string;
-      }
-      `,
-      options: [
-        {
-          allowedNames: ['allowedName'],
-        },
-      ],
-    },
   ],
   invalid: [
     convertAnnotatedSourceToFailureCase({
-      description: 'should fail when a component input property is renamed',
+      description:
+        'should fail if `inputs` metadata property is aliased in `@Component`',
       annotatedSource: `
-      import { Input } from '@angular/core';
-      @Component({
-        selector: 'foo'
-      })
-      class TestComponent {
-        @Input('bar') label: string;
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      }
+        @Component({
+          inputs: ['a: b']
+                   ~~~~~~
+        })
+        class Test {}
       `,
       messageId,
-    }),
-    convertAnnotatedSourceToFailureCase({
-      description: 'should fail when a component input setter is renamed',
-      annotatedSource: `
-      import { Input } from '@angular/core';
-      @Component({
-        selector: 'foo'
-      })
-      class TestComponent {
-        @Input('bar') set label(label: string) {}
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      }
+      suggestions: (
+        [
+          [suggestRemoveAliasName, 'a'],
+          [suggestReplaceOriginalNameWithAliasName, 'b'],
+        ] as const
+      ).map(([messageId, name]) => ({
+        messageId,
+        output: `
+        @Component({
+          inputs: ['${name}']
+                   
+        })
+        class Test {}
       `,
-      messageId,
+      })),
     }),
     convertAnnotatedSourceToFailureCase({
       description:
-        'should fail when a component input property is fake renamed',
+        'should fail if `inputs` metadata property is aliased in `@Directive`',
       annotatedSource: `
-      import { Input } from '@angular/core';
-      @Component({
-        selector: 'foo'
-      })
-      class TestComponent {
-        @Input('foo') label: string;
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      }
+        @Directive({
+          outputs: ['abort'],
+          inputs: [boundary, \`test: copy\`, 'check: check'],
+                             ~~~~~~~~~~~~
+        })
+        class Test {}
       `,
       messageId,
-    }),
-    convertAnnotatedSourceToFailureCase({
-      description: 'should fail when a component input setter is fake renamed',
-      annotatedSource: `
-      import { Input } from '@angular/core';
-      @Component({
-        selector: 'foo'
-      })
-      class TestComponent {
-        @Input('foo') set label(label: string) {}
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~s
-      }
+      options: [{ allowedNames: ['check', 'test'] }],
+      suggestions: (
+        [
+          [suggestRemoveAliasName, 'test'],
+          [suggestReplaceOriginalNameWithAliasName, 'copy'],
+        ] as const
+      ).map(([messageId, name]) => ({
+        messageId,
+        output: `
+        @Directive({
+          outputs: ['abort'],
+          inputs: [boundary, \`${name}\`, 'check: check'],
+                             
+        })
+        class Test {}
       `,
-      messageId,
-    }),
-    convertAnnotatedSourceToFailureCase({
-      description: 'should fail when a directive input property is renamed',
-      annotatedSource: `
-      import { Input } from '@angular/core';
-      @Directive({
-        selector: '[foo]'
-      })
-      class TestDirective {
-        @Input('labelText') label: string;
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      }
-      `,
-      messageId,
+      })),
     }),
     convertAnnotatedSourceToFailureCase({
       description:
-        'should fail when a directive input property is renamed and its name is strictly equal to the property',
+        'should fail if `inputs` metadata property is `Literal` and aliased with the same name in `@Component`',
       annotatedSource: `
-      import { Input } from '@angular/core';
-      @Directive({
-        selector: '[label]'
-      })
-      class TestDirective {
-        @Input('label') label: string;
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      }
+        @Component({
+          'inputs': ['orientation: orientation'],
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~
+        })
+        class Test {}
       `,
       messageId,
+      annotatedOutput: `
+        @Component({
+          'inputs': ['orientation'],
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~
+        })
+        class Test {}
+      `,
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description: 'should fail if input property is aliased with backticks',
+      annotatedSource: `
+        @Component()
+        class Test {
+          @Custom() @Input(\`change\`) _change = getInput();
+                           ~~~~~~~~
+        }
+      `,
+      messageId,
+      suggestions: (
+        [
+          [suggestRemoveAliasName, '_change'],
+          [suggestReplaceOriginalNameWithAliasName, 'change'],
+        ] as const
+      ).map(([messageId, propertyName]) => ({
+        messageId,
+        output: `
+        @Component()
+        class Test {
+          @Custom() @Input() ${propertyName} = getInput();
+                           
+        }
+      `,
+      })),
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description: 'should fail if input property is aliased',
+      annotatedSource: `
+        @Directive()
+        class Test {
+          @Input('change') change = (this.subject$ as Subject<{blur: boolean}>).pipe();
+                 ~~~~~~~~
+        }
+      `,
+      messageId,
+      annotatedOutput: `
+        @Directive()
+        class Test {
+          @Input() change = (this.subject$ as Subject<{blur: boolean}>).pipe();
+                 ~~~~~~~~
+        }
+      `,
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description: 'should fail if input setter is aliased',
+      annotatedSource: `
+        @Component()
+        class Test {
+          @Input(\`${'devicechange'}\`) set setter(setter: string) {}
+                 ~~~~~~~~~~~~~~
+
+          @Input('allowedName') test: string;
+        }
+      `,
+      messageId,
+      options: [{ allowedNames: ['allowedName'] }],
+      suggestions: (
+        [
+          [suggestRemoveAliasName, 'setter'],
+          [suggestReplaceOriginalNameWithAliasName, 'devicechange'],
+        ] as const
+      ).map(([messageId, propertyName]) => ({
+        messageId,
+        output: `
+        @Component()
+        class Test {
+          @Input() set ${propertyName}(setter: string) {}
+                 
+
+          @Input('allowedName') test: string;
+        }
+      `,
+      })),
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description: `should fail if a input 'aria-*' alias name does not match the property name`,
+      annotatedSource: `
+        @Directive({
+          selector: 'foo'
+        })
+        class Test {
+          @Input('aria-invalid') ariaBusy: string;
+                 ~~~~~~~~~~~~~~
+        }
+      `,
+      messageId,
+      suggestions: (
+        [
+          [suggestRemoveAliasName, 'ariaBusy'],
+          [suggestReplaceOriginalNameWithAliasName, "'aria-invalid'"],
+        ] as const
+      ).map(([messageId, propertyName]) => ({
+        messageId,
+        output: `
+        @Directive({
+          selector: 'foo'
+        })
+        class Test {
+          @Input() ${propertyName}: string;
+                 
+        }
+      `,
+      })),
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description: `should fail if input alias is prefixed by directive's selector, but the suffix does not match the property name`,
+      annotatedSource: `
+        @Component({
+          selector: 'foo'
+        })
+        class Test {
+          @Input('fooColor') colors: string;
+                 ~~~~~~~~~~
+        }
+      `,
+      messageId,
+      suggestions: (
+        [
+          [suggestRemoveAliasName, 'colors'],
+          [suggestReplaceOriginalNameWithAliasName, 'fooColor'],
+        ] as const
+      ).map(([messageId, propertyName]) => ({
+        messageId,
+        output: `
+        @Component({
+          selector: 'foo'
+        })
+        class Test {
+          @Input() ${propertyName}: string;
+                 
+        }
+      `,
+      })),
     }),
     convertAnnotatedSourceToFailureCase({
       description:
-        'should fail when a directive input property has the same name as the alias',
+        'should fail if input alias is not strictly equal to the selector plus the property name in `camelCase` form',
       annotatedSource: `
-      import { Input } from '@angular/core';
-      @Directive({
-        selector: '[foo]'
-      })
-      class TestDirective {
-        @Input('label') label: string;
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      }
+        @Directive({
+          'selector': 'foo'
+        })
+        class Test {
+          @Input('foocolor') color: string;
+                 ~~~~~~~~~~
+        }
       `,
       messageId,
-    }),
-    convertAnnotatedSourceToFailureCase({
-      description: `should fail when a directive input alias is kebab-cased and whitelisted, but the property doesn't match the alias`,
-      annotatedSource: `
-      import { Input } from '@angular/core';
-      @Directive({
-        selector: 'foo'
-      })
-      class TestDirective {
-        @Input('aria-invalid') ariaBusy: string;
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      }
+      suggestions: (
+        [
+          [suggestRemoveAliasName, 'color'],
+          [suggestReplaceOriginalNameWithAliasName, 'foocolor'],
+        ] as const
+      ).map(([messageId, propertyName]) => ({
+        messageId,
+        output: `
+        @Directive({
+          'selector': 'foo'
+        })
+        class Test {
+          @Input() ${propertyName}: string;
+                 
+        }
       `,
-      messageId,
-    }),
-    convertAnnotatedSourceToFailureCase({
-      description: `should fail when a directive input alias is prefixed by directive's selector, but the suffix does not match the property name`,
-      annotatedSource: `
-      import { Input } from '@angular/core';
-      @Directive({
-        selector: 'foo'
-      })
-      class TestDirective {
-        @Input('fooColor') colors: string;
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      }
-      `,
-      messageId,
+      })),
     }),
     convertAnnotatedSourceToFailureCase({
       description:
-        'should fail when a directive input alias is not strictly equal to the selector plus the property name',
+        'should fail if input property is aliased without `@Component` or `@Directive` decorator',
       annotatedSource: `
-      import { Input } from '@angular/core';
-      @Directive({
-        selector: 'foo'
-      })
-      class TestDirective {
-        @Input('foocolor') color: string;
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      }
+        @Component({
+          selector: 'click',
+        })
+        class Test {}
+
+        @Injectable()
+        class Test {
+          @Input('click') blur = this.getInput();
+                 ~~~~~~~
+        }
       `,
       messageId,
-    }),
-    convertAnnotatedSourceToFailureCase({
-      description:
-        'should fail when a directive input property is renamed and not listed in the allowedRenames list',
-      annotatedSource: `
-      import { Input } from '@angular/core';
-      @Directive({
-        selector: 'foo'
-      })
-      class TestDirective {
-        @Input('disallowedName') bar: string;
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      }
+      suggestions: (
+        [
+          [suggestRemoveAliasName, 'blur'],
+          [suggestReplaceOriginalNameWithAliasName, 'click'],
+        ] as const
+      ).map(([messageId, propertyName]) => ({
+        messageId,
+        output: `
+        @Component({
+          selector: 'click',
+        })
+        class Test {}
+
+        @Injectable()
+        class Test {
+          @Input() ${propertyName} = this.getInput();
+                 
+        }
       `,
-      messageId,
-      options: [
-        {
-          allowedNames: ['allowedName'],
-        },
-      ],
+      })),
     }),
   ],
 });

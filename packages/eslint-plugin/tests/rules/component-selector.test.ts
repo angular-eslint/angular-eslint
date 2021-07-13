@@ -15,6 +15,8 @@ const ruleTester = new RuleTester({
 const messageIdPrefixFailure: MessageIds = 'prefixFailure';
 const messageIdStyleFailure: MessageIds = 'styleFailure';
 const messageIdTypeFailure: MessageIds = 'typeFailure';
+const messageIdShadowDomEncapsulatedStyleFailure: MessageIds =
+  'shadowDomEncapsulatedStyleFailure';
 
 ruleTester.run(RULE_NAME, rule, {
   valid: [
@@ -187,6 +189,40 @@ ruleTester.run(RULE_NAME, rule, {
       ],
     },
     {
+      // https://github.com/angular-eslint/angular-eslint/issues/534
+      code: `
+      @Component({
+        selector: \`app-foo-bar\`,
+        encapsulation: ViewEncapsulation.ShadowDom
+      })
+      class Test {}
+      `,
+      options: [
+        {
+          type: ['element'],
+          prefix: ['app'],
+          style: 'camelCase',
+        },
+      ],
+    },
+    {
+      // https://github.com/angular-eslint/angular-eslint/issues/534
+      code: `
+      @Component({
+        selector: \`app-foo-bar\`,
+        encapsulation: ViewEncapsulation.ShadowDom
+      })
+      class Test {}
+      `,
+      options: [
+        {
+          type: ['element'],
+          prefix: ['app'],
+          style: 'kebab-case',
+        },
+      ],
+    },
+    {
       code: `
       @Directive({
         selector: 'app-foo-bar'
@@ -340,6 +376,34 @@ ruleTester.run(RULE_NAME, rule, {
         { type: 'attribute', prefix: ['app', 'ng'], style: 'camelCase' },
       ],
       data: { type: 'attribute' },
+    }),
+    convertAnnotatedSourceToFailureCase({
+      // https://github.com/angular-eslint/angular-eslint/issues/534
+      description: `it should fail if a ShadowDom-encapsulated component's selector is not kebab-cased`,
+      annotatedSource: `
+      @Component({
+        encapsulation: ViewEncapsulation.ShadowDom,
+        selector: 'appFooBar'
+                  ~~~~~~~~~~~
+      })
+      class Test {}
+      `,
+      messageId: messageIdShadowDomEncapsulatedStyleFailure,
+      options: [{ type: 'element', prefix: ['app'], style: 'camelCase' }],
+    }),
+    convertAnnotatedSourceToFailureCase({
+      // https://github.com/angular-eslint/angular-eslint/issues/534
+      description: `it should fail if a ShadowDom-encapsulated component's selector doesn't contain hyphen`,
+      annotatedSource: `
+      @Component({
+        encapsulation: ViewEncapsulation.ShadowDom,
+        selector: 'app'
+                  ~~~~~
+      })
+      class Test {}
+      `,
+      messageId: messageIdShadowDomEncapsulatedStyleFailure,
+      options: [{ type: 'element', prefix: ['app'], style: 'camelCase' }],
     }),
   ],
 });

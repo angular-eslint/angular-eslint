@@ -759,20 +759,29 @@ export const toPattern = (value: readonly unknown[]): RegExp =>
   RegExp(`^(${value.join('|')})$`);
 
 export function getRawText(
-  node: TSESTree.Identifier | TSESTree.StringLiteral | TSESTree.TemplateElement,
+  node:
+    | TSESTree.Identifier
+    | TSESTree.Literal
+    | TSESTree.TemplateElement
+    | TSESTree.TemplateLiteral,
 ): string {
   if (ASTUtils.isIdentifier(node)) {
     return node.name;
   }
 
-  return isStringLiteral(node) ? node.value : node.value.raw;
+  if (isLiteral(node)) {
+    return String(node.value);
+  }
+
+  const templateElement = isTemplateLiteral(node) ? node.quasis[0] : node;
+  return templateElement.value.raw;
 }
 
 export function getReplacementText(
-  node: TSESTree.StringLiteral | TSESTree.TemplateElement,
+  node: TSESTree.Literal | TSESTree.TemplateElement | TSESTree.TemplateLiteral,
   text: string,
 ): string {
-  return isStringLiteral(node) ? `'${text}'` : `\`${text}\``;
+  return isLiteral(node) ? `'${text}'` : `\`${text}\``;
 }
 
 export function capitalize<T extends string>(text: T): Capitalize<T> {
