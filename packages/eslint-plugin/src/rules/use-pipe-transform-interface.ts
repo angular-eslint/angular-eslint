@@ -1,10 +1,9 @@
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
-import { PIPE_CLASS_DECORATOR } from '../utils/selectors';
 import {
-  getDeclaredInterfaceName,
   getImplementsSchemaFixer,
   getImportAddFix,
+  isNotNullOrUndefined,
 } from '../utils/utils';
 
 type Options = [];
@@ -17,7 +16,7 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description: `Ensures that Pipes implement \`${PIPE_TRANSFORM}\` interface`,
+      description: `Ensures that \`Pipes\` implement \`${PIPE_TRANSFORM}\` interface`,
       category: 'Best Practices',
       recommended: 'error',
     },
@@ -30,11 +29,9 @@ export default createESLintRule<Options, MessageIds>({
   defaultOptions: [],
   create(context) {
     return {
-      [PIPE_CLASS_DECORATOR]({
+      [`ClassDeclaration:not(:has(TSClassImplements:matches([expression.name='${PIPE_TRANSFORM}'], [expression.property.name='${PIPE_TRANSFORM}']))) > Decorator[expression.callee.name='Pipe']`]({
         parent: classDeclaration,
       }: TSESTree.Decorator & { parent: TSESTree.ClassDeclaration }) {
-        if (getDeclaredInterfaceName(classDeclaration, PIPE_TRANSFORM)) return;
-
         context.report({
           node: classDeclaration.id ?? classDeclaration,
           messageId: 'usePipeTransformInterface',
@@ -53,7 +50,7 @@ export default createESLintRule<Options, MessageIds>({
                 implementsNodeReplace,
                 implementsTextReplace,
               ),
-            ];
+            ].filter(isNotNullOrUndefined);
           },
         });
       },

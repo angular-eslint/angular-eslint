@@ -404,7 +404,7 @@ export function getImportAddFix(
   moduleName: string,
   importedName: string,
   fixer: TSESLint.RuleFixer,
-): TSESLint.RuleFix {
+): TSESLint.RuleFix | undefined {
   const importDeclarations = getImportDeclarations(node, moduleName);
 
   if (!importDeclarations?.length) {
@@ -413,6 +413,13 @@ export function getImportAddFix(
       `import { ${importedName} } from '${moduleName}';\n`,
     );
   }
+
+  const importDeclarationSpecifier = getImportDeclarationSpecifier(
+    importDeclarations,
+    importedName,
+  );
+
+  if (importDeclarationSpecifier) return undefined;
 
   const firstImportDeclaration = importDeclarations[0];
   const lastImportSpecifier = getLast(firstImportDeclaration.specifiers);

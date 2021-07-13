@@ -18,31 +18,34 @@ ruleTester.run(RULE_NAME, rule, {
   valid: [
     `
     @Component({ template: 'test' })
-    export class TestComponent {}
-
+    class Test {}
+    `,
+    `
     @Pipe({ name: 'test' })
-    export class TestPipe implements PipeTransform {
+    class Test implements PipeTransform {
       transform(value: string) {}
     }
-    
+    `,
+    `
     @OtherDecorator() @Pipe({ name: 'test' })
-    export class TestPipe implements PipeTransform {
+    class Test implements PipeTransform {
       transform(value: string) {}
     }
-    
+    `,
+    `
     @Pipe({ name: 'test' })
-    export class TestPipe implements ng.PipeTransform {
+    class Test implements ng.PipeTransform {
       transform(value: string) {}
     }
     `,
   ],
   invalid: [
     convertAnnotatedSourceToFailureCase({
-      description: 'it should fail if a Pipe has no interface implemented',
+      description: 'should fail if a `Pipe` has no interface implemented',
       annotatedSource: `
         @Pipe({ name: 'test' })
-        export class TestPipe {
-                     ~~~~~~~~
+        class Test {
+              ~~~~
           transform(value: string) {}
         }
       `,
@@ -50,62 +53,62 @@ ruleTester.run(RULE_NAME, rule, {
       annotatedOutput: `import { PipeTransform } from '@angular/core';
 
         @Pipe({ name: 'test' })
-        export class TestPipe implements PipeTransform {
-                     ~~~~~~~~
+        class Test implements PipeTransform {
+              ~~~~
           transform(value: string) {}
         }
       `,
     }),
     convertAnnotatedSourceToFailureCase({
       description:
-        'it should fail if a Pipe implements a interface, but not the PipeTransform',
+        'should fail if a `Pipe` implements a interface, but not the `PipeTransform`',
       annotatedSource: `
         import { HttpClient } from '@angular/common/http';
+        import type { PipeTransform } from '@angular/core';
         import { Component,
           Pipe,
           Directive } from '@angular/core';
 
         @Pipe({ name: 'test' })
-        export class TestPipe implements AnInterface {
-                     ~~~~~~~~
+        class Test implements AnInterface {
+              ~~~~
           transform(value: string) {}
         }
       `,
       messageId,
       annotatedOutput: `
         import { HttpClient } from '@angular/common/http';
+        import type { PipeTransform } from '@angular/core';
         import { Component,
           Pipe,
-          Directive, PipeTransform } from '@angular/core';
+          Directive } from '@angular/core';
 
         @Pipe({ name: 'test' })
-        export class TestPipe implements AnInterface, PipeTransform {
-                     ~~~~~~~~
+        class Test implements AnInterface, PipeTransform {
+              ~~~~
           transform(value: string) {}
         }
       `,
     }),
     convertAnnotatedSourceToFailureCase({
       description:
-        'it should fail if a Pipe implements interfaces, but not the PipeTransform',
+        'should fail if a `Pipe` implements interfaces, but not the `PipeTransform`',
       annotatedSource: `
         import type { OnInit } from '@angular/core';
-        import { Pipe } from '@angular/core';
 
         @OtherDecorator() @Pipe({ name: 'test' })
-        export class TestPipe implements AnInterface, AnotherInterface {
-                     ~~~~~~~~
+        class Test implements AnInterface, AnotherInterface {
+              ~~~~
           transform(value: string) {}
         }
       `,
       messageId,
       annotatedOutput: `
         import type { OnInit, PipeTransform } from '@angular/core';
-        import { Pipe } from '@angular/core';
 
         @OtherDecorator() @Pipe({ name: 'test' })
-        export class TestPipe implements AnInterface, AnotherInterface, PipeTransform {
-                     ~~~~~~~~
+        class Test implements AnInterface, AnotherInterface, PipeTransform {
+              ~~~~
           transform(value: string) {}
         }
       `,
