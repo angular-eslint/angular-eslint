@@ -1,6 +1,6 @@
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
-import { PIPE_CLASS_DECORATOR } from '../utils/selectors';
+import { metadataProperty, PIPE_CLASS_DECORATOR } from '../utils/selectors';
 import { getNodeToCommaRemoveFix } from '../utils/utils';
 
 type Options = [];
@@ -29,8 +29,10 @@ export default createESLintRule<Options, MessageIds>({
     const sourceCode = context.getSourceCode();
 
     return {
-      [`${PIPE_CLASS_DECORATOR} ObjectExpression > Property:matches([key.name='pure'], [key.value='pure']):matches([value.value=false], [value.operator='!'][value.argument.value=true])[computed=false]`](
-        node: TSESTree.Property & { parent: TSESTree.ObjectExpression },
+      [`${PIPE_CLASS_DECORATOR} ${metadataProperty(
+        'pure',
+      )}:matches([value.value=false], [value.operator='!'][value.argument.value=true])`](
+        node: TSESTree.Property,
       ) {
         context.report({
           node,

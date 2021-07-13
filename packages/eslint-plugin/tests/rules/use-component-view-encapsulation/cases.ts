@@ -12,130 +12,194 @@ export const valid = [
       selector: 'app-foo-bar'
     })
     class Test {}
-    `,
+  `,
   `
     @Component({
-      encapsulation: ViewEncapsulation.Native,
+      'encapsulation': ViewEncapsulation.Native,
       selector: 'app-foo-bar',
     })
     class Test {}
-    `,
+  `,
   `
     @Component({
-      encapsulation: ViewEncapsulation.ShadowDom,
+      ['encapsulation']: ViewEncapsulation.ShadowDom,
     })
     class Test {}
-    `,
+  `,
   `
     function encapsulation() {
       return ViewEncapsulation.None;
     }
 
     @Component({
-      encapsulation: encapsulation()
+      [\`encapsulation\`]: encapsulation()
     })
     class Test {}
-    `,
+  `,
   `
     const encapsulation = 'templateUrl';
     @Component({
       [encapsulation]: '../a.html'
     })
     class Test {}
-    `,
+  `,
   `
     const encapsulation = 'templateUrl';
     @Component({
       encapsulation
     })
     class Test {}
-    `,
+  `,
   `
     const test = 'test';
     @Component({
       encapsulation: test,
     })
     class Test {}
-    `,
+  `,
   `
     @Component({
       encapsulation: undefined,
     })
     class Test {}
-    `,
+  `,
   `
     @Component({})
     class Test {}
-    `,
+  `,
   `
     const options = {};
     @Component(options)
     class Test {}
-    `,
+  `,
   `
     @NgModule({
       bootstrap: [Foo]
     })
     class Test {}
-    `,
+  `,
 ];
 
 export const invalid = [
   convertAnnotatedSourceToFailureCase({
     description:
-      'should fail if `encapsulation` is set to `ViewEncapsulation.None`',
+      'should fail if `encapsulation` metadata property is set to `ViewEncapsulation.None`',
     annotatedSource: `
-        @Component({
-          encapsulation: ViewEncapsulation.None,
-                                           ~~~~
-          selector: 'app-foo-bar',
-        })
-        class Test {}
-      `,
+      @Component({
+        encapsulation: ViewEncapsulation.None,
+                                         ~~~~
+        selector: 'app-foo-bar',
+      })
+      class Test {}
+    `,
     messageId,
     suggestions: [
       {
         messageId: suggestRemoveViewEncapsulationNone,
         output: `
-        @Component({
-          
-                                           
-          selector: 'app-foo-bar',
-        })
-        class Test {}
-      `,
+      @Component({
+        
+                                         
+        selector: 'app-foo-bar',
+      })
+      class Test {}
+    `,
       },
     ],
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'should fail if `encapsulation` is set to `ViewEncapsulation.None` and the suggestions should remove it along with its import',
+      "should fail if `encapsulation` property's key is `Literal` and its value is set to `ViewEncapsulation.None`",
     annotatedSource: `
-        import { ViewEncapsulation } from '@angular/core';
-        import { HttpClient } from '@angular/common/http';
+      import type { ViewEncapsulation } from '@angular/core';
+      import { HttpClient } from '@angular/common/http';
 
-        @Component({
-          selector: 'app-foo-bar',
-          'encapsulation': ViewEncapsulation.None
-                                             ~~~~
-        })
-        class Test {}
-      `,
+      @Component({
+        selector: 'app-foo-bar',
+        'encapsulation': ViewEncapsulation.None
+                                           ~~~~
+      })
+      class Test {}
+    `,
     messageId,
     suggestions: [
       {
         messageId: suggestRemoveViewEncapsulationNone,
         output: `
-        
-        import { HttpClient } from '@angular/common/http';
+      
+      import { HttpClient } from '@angular/common/http';
 
-        @Component({
-          selector: 'app-foo-bar',
-          
+      @Component({
+        selector: 'app-foo-bar',
+        
+                                           
+      })
+      class Test {}
+    `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      "should fail if `encapsulation` property's key is computed `Literal` and its value is set to `ViewEncapsulation.None`",
+    annotatedSource: `
+      import { ViewEncapsulation } from '@angular/core';
+      import { HttpClient } from '@angular/common/http';
+
+      @Component({
+        selector: 'app-foo-bar',
+        ['encapsulation']: ViewEncapsulation.None
+                                             ~~~~
+      })
+      class Test {}
+    `,
+    messageId,
+    suggestions: [
+      {
+        messageId: suggestRemoveViewEncapsulationNone,
+        output: `
+      
+      import { HttpClient } from '@angular/common/http';
+
+      @Component({
+        selector: 'app-foo-bar',
+        
                                              
-        })
-        class Test {}
-      `,
+      })
+      class Test {}
+    `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      "should fail if `encapsulation` property's key is computed `TemplateLiteral` and its value is set to `ViewEncapsulation.None`",
+    annotatedSource: `
+      import { ViewEncapsulation } from '@angular/core';
+      import { HttpClient } from '@angular/common/http';
+
+      @Component({
+        selector: 'app-foo-bar',
+        [\`encapsulation\`]: ViewEncapsulation.None
+                                             ~~~~
+      })
+      class Test {}
+    `,
+    messageId,
+    suggestions: [
+      {
+        messageId: suggestRemoveViewEncapsulationNone,
+        output: `
+      
+      import { HttpClient } from '@angular/common/http';
+
+      @Component({
+        selector: 'app-foo-bar',
+        
+                                             
+      })
+      class Test {}
+    `,
       },
     ],
   }),
