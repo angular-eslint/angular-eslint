@@ -11,110 +11,258 @@ import rule, { RULE_NAME } from '../../src/rules/no-input-prefix';
 
 const ruleTester = new RuleTester({
   parser: '@typescript-eslint/parser',
-  parserOptions: {
-    sourceType: 'module',
-  },
 });
 const messageId: MessageIds = 'noInputPrefix';
 
 ruleTester.run(RULE_NAME, rule, {
   valid: [
     {
-      code: `
-        import { Input } from '@angular/core';
-        @Component()
-        class TestComponent {
-          @Input() label: string;
-        }
-      `,
-      options: [{ prefixes: ['is'] }],
+      code: `class Test {}`,
+      options: [{ prefixes: ['on'] }],
     },
     {
       code: `
-        import { Input } from '@angular/core';
-        @Component()
-        class TestComponent {
-          @Input() issueName: string;
-        }
+      @Page({
+        inputs: ['on', onChange, \`onLine\`, 'on: on2', 'offline: on', ...onCheck, onInput()],
+      })
+      class Test {}
       `,
-      options: [{ prefixes: ['is'] }],
+      options: [{ prefixes: ['on'] }],
     },
     {
       code: `
-        import { Input } from '@angular/core';
-        @Component()
-        class TestComponent {
-          @Input() isEnabled: boolean;
-        }
+      @Component()
+      class Test {
+        on = new EventEmitter();
+      }
       `,
-      options: [{ prefixes: ['should'] }],
+      options: [{ prefixes: ['on'] }],
     },
     {
       code: `
-        import { Output } from '@angular/core';
-        @Component()
-        class TestComponent {
-          @Output() isEnabled: boolean;
-        }
+      @Directive()
+      class Test {
+        @Input() buttonChange = new EventEmitter<'on'>();
+      }
       `,
-      options: [{ prefixes: ['is'] }],
+      options: [{ prefixes: ['on'] }],
     },
-    // should succeed when an Input decorator is not imported from '@angular/core'
     {
       code: `
-        @Component()
-        class TestComponent {
-          @Input() isEnabled: boolean;
-        }
+      @Component()
+      class Test {
+        @Input() On = new EventEmitter<{ on: onType }>();
+      }
       `,
-      options: [{ prefixes: ['is'] }],
+      options: [{ prefixes: ['on'] }],
     },
+    {
+      code: `
+      @Directive()
+      class Test {
+        @Input(\`one\`) ontype = new EventEmitter<{ bar: string, on: boolean }>();
+      }
+      `,
+      options: [{ prefixes: ['on'] }],
+    },
+    {
+      code: `
+      @Component()
+      class Test {
+        @Input('oneProp') common = new EventEmitter<ComplextOn>();
+      }
+      `,
+      options: [{ prefixes: ['on'] }],
+    },
+    {
+      code: `
+      @Directive()
+      class Test<On> {
+        @Input() ON = new EventEmitter<On>();
+      }
+      `,
+      options: [{ prefixes: ['on'] }],
+    },
+    {
+      code: `
+      const on = 'on';
+      @Component()
+      class Test {
+        @Input(on) touchMove: EventEmitter<{ action: 'on' | 'off' }> = new EventEmitter<{ action: 'on' | 'off' }>();
+      }
+      `,
+      options: [{ prefixes: ['on'] }],
+    },
+    {
+      code: `
+      const test = 'on';
+      const on = 'on';
+      @Directive()
+      class Test {
+        @Input(test) [on]: EventEmitter<OnTest>;
+      }
+      `,
+      options: [{ prefixes: ['on'] }],
+    },
+    `
+    @Component({
+      selector: 'foo',
+      'inputs': [\`test: ${'foo'}\`]
+    })
+    class Test {}
+    `,
+    `
+    @Directive({
+      selector: 'foo',
+    })
+    class Test {
+      @Input() set 'setter'() {}
+    }
+    `,
   ],
   invalid: [
     convertAnnotatedSourceToFailureCase({
       description:
-        'it should fail when a component input property is named with a disallowed prefix',
+        'should fail if `inputs` metadata property is named "on" in `@Component`',
       annotatedSource: `
-        import { Input } from '@angular/core';
-        @Component()
-        class TestComponent {
-          @Input() isEnabled: string;
-          ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        }
+        @Component({
+          inputs: ['on']
+                   ~~~~
+        })
+        class Test {}
       `,
       messageId,
-      options: [{ prefixes: ['is', 'should'] }],
-      data: { prefixes: '"is" or "should"' },
+      options: [{ prefixes: ['on'] }],
+      data: { prefixes: '"on"' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
-        'it should fail when a component input property is named with a disallowed prefix',
+        'should fail if `inputs` metadata property is aliased as "on" in `@Directive`',
       annotatedSource: `
-        import { Input } from '@angular/core';
-        @Component()
-        class TestComponent {
-          @Input() shouldLoad: string;
-          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        }
+        @Directive({
+          outputs: [onCredit],
+          inputs: [onLevel, \`test: on\`, onFunction()],
+                            ~~~~~~~~~~
+        })
+        class Test {}
       `,
       messageId,
-      options: [{ prefixes: ['is', 'should'] }],
-      data: { prefixes: '"is" or "should"' },
+      options: [{ prefixes: ['on'] }],
+      data: { prefixes: '"on"' },
     }),
     convertAnnotatedSourceToFailureCase({
       description:
-        'it should fail when a component input property is named with a disallowed prefix',
+        'should fail if `inputs` metadata property is `Literal` and named "onTest" in `@Component`',
       annotatedSource: `
-        import { Input } from '@angular/core';
-        @Component()
-        class TestComponent {
-          @Input() is: string;
-          ~~~~~~~~~~~~~~~~~~~~
+        @Component({
+          'inputs': ['onTest: test', ...onArray],
+                     ~~~~~~~~~~~~~~
+        })
+        class Test {}
+      `,
+      messageId,
+      options: [{ prefixes: ['on'] }],
+      data: { prefixes: '"on"' },
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'should fail if input property is named "on" in `@Directive`',
+      annotatedSource: `
+        @Directive()
+        class Test {
+          @Input() on: EventEmitter<any> = new EventEmitter<{}>();
+                   ~~
         }
       `,
       messageId,
-      options: [{ prefixes: ['is', 'should'] }],
-      data: { prefixes: '"is" or "should"' },
+      options: [{ prefixes: ['on'] }],
+      data: { prefixes: '"on"' },
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'should fail if input property is named with "\'on\'" prefix in `@Component`',
+      annotatedSource: `
+        @Component()
+        class Test {
+          @Input() @Custom('on') 'onPrefix' = new EventEmitter<void>();
+                                 ~~~~~~~~~~
+        }
+      `,
+      messageId,
+      options: [{ prefixes: ['on'] }],
+      data: { prefixes: '"on"' },
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'should fail if input property is aliased as "`on`" in `@Directive`',
+      annotatedSource: `
+        @Directive()
+        class Test {
+          @Custom() @Input(\`on\`) _on = getInput();
+                           ~~~~
+        }
+      `,
+      messageId,
+      options: [{ prefixes: ['on'] }],
+      data: { prefixes: '"on"' },
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'should fail if input property is aliased with "on" prefix in `@Component`',
+      annotatedSource: `
+        @Component()
+        class Test {
+          @Input('onPrefix') _on = (this.subject$ as Subject<{on: boolean}>).pipe();
+                 ~~~~~~~~~~
+        }
+      `,
+      messageId,
+      options: [{ prefixes: ['on'] }],
+      data: { prefixes: '"on"' },
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'should fail if input setter is named with "on" prefix in `@Directive`',
+      annotatedSource: `
+        @Directive()
+        class Test {
+          @Input('setter') set 'on-setter'() {}
+                               ~~~~~~~~~~~
+        }
+      `,
+      messageId,
+      options: [{ prefixes: ['on'] }],
+      data: { prefixes: '"on"' },
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'should fail if input setter is aliased with "on" prefix in `@Component`',
+      annotatedSource: `
+        @Component()
+        class Test {
+          @Input(\`${'onSetter'}\`) set setter() {}
+                 ~~~~~~~~~~
+        }
+      `,
+      messageId,
+      options: [{ prefixes: ['on'] }],
+      data: { prefixes: '"on"' },
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'should fail if input property is named with prefix "on" and aliased as "on" without `@Component` or `@Directive`',
+      annotatedSource: `
+        @Injectable()
+        class Test {
+          @Input('on') isPrefix = this.getInput();
+                 ~~~~  ^^^^^^^^
+        }
+      `,
+      messages: [
+        { char: '~', messageId, data: { prefixes: '"on", "is" or "should"' } },
+        { char: '^', messageId, data: { prefixes: '"on", "is" or "should"' } },
+      ],
+      options: [{ prefixes: ['on', 'is', 'should'] }],
     }),
   ],
 });

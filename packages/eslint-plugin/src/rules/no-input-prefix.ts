@@ -1,16 +1,13 @@
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import {
-  getClassPropertyName,
-  isImportedFrom,
-  toHumanReadableText,
-} from '../utils/utils';
+  INPUTS_METADATA_PROPERTY_LITERAL,
+  INPUT_ALIAS,
+  INPUT_PROPERTY_OR_SETTER,
+} from '../utils/selectors';
+import { getRawText, toHumanReadableText } from '../utils/utils';
 
-type Options = [
-  {
-    prefixes: string[];
-  },
-];
+type Options = [{ readonly prefixes: readonly string[] }];
 export type MessageIds = 'noInputPrefix';
 export const RULE_NAME = 'no-input-prefix';
 
@@ -20,7 +17,7 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description:
-        'Input names should not be prefixed by the configured disallowed prefixes.',
+        'Ensures that input bindings, including aliases, are not named or prefixed by the configured disallowed prefixes',
       category: 'Best Practices',
       recommended: false,
     },
@@ -39,42 +36,35 @@ export default createESLintRule<Options, MessageIds>({
       },
     ],
     messages: {
-      noInputPrefix: '@Inputs should not be prefixed by {{prefixes}}',
+      noInputPrefix:
+        'Input bindings, including aliases, should not be named, nor prefixed by {{prefixes}}',
     },
   },
-  defaultOptions: [
-    {
-      prefixes: [],
-    },
-  ],
+  defaultOptions: [{ prefixes: [] }],
   create(context, [{ prefixes }]) {
+    const selectors = [
+      INPUTS_METADATA_PROPERTY_LITERAL,
+      INPUT_ALIAS,
+      INPUT_PROPERTY_OR_SETTER,
+    ].join(',');
+
     return {
-      ':matches(ClassProperty, MethodDefinition[kind="set"]) > Decorator[expression.callee.name="Input"]'(
-        node: TSESTree.Decorator,
+      [selectors](
+        node: TSESTree.Identifier | TSESTree.Literal | TSESTree.TemplateElement,
       ) {
-        const inputCallExpression = node.expression as TSESTree.CallExpression;
-
-        if (
-          !isImportedFrom(
-            inputCallExpression.callee as TSESTree.Identifier,
-            '@angular/core',
-          )
-        ) {
-          return;
-        }
-
-        const property = node.parent as TSESTree.ClassProperty;
-        const memberName = getClassPropertyName(property);
-        const isDisallowedPrefix = prefixes.some(
-          (x) => x === memberName || new RegExp(`^${x}[^a-z]`).test(memberName),
+        const [propertyName, aliasName] = getRawText(node)
+          .replace(/\s/g, '')
+          .split(':');
+        const hasDisallowedPrefix = prefixes.some((prefix) =>
+          isDisallowedPrefix(prefix, propertyName, aliasName),
         );
 
-        if (!isDisallowedPrefix) {
+        if (!hasDisallowedPrefix) {
           return;
         }
 
         context.report({
-          node: property,
+          node,
           messageId: 'noInputPrefix',
           data: {
             prefixes: toHumanReadableText(prefixes),
@@ -84,3 +74,12 @@ export default createESLintRule<Options, MessageIds>({
     };
   },
 });
+
+function isDisallowedPrefix(
+  prefix: string,
+  propertyName: string,
+  aliasName: string,
+): boolean {
+  const prefixPattern = RegExp(`^${prefix}(([^a-z])|(?=$))`);
+  return prefixPattern.test(propertyName) || prefixPattern.test(aliasName);
+}
