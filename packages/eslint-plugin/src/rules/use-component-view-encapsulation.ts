@@ -35,7 +35,7 @@ export default createESLintRule<Options, MessageIds>({
     const sourceCode = context.getSourceCode();
 
     return {
-      [`${COMPONENT_CLASS_DECORATOR} Property[key.name='encapsulation'] > MemberExpression[object.name='ViewEncapsulation'] > Identifier[name='None']`](
+      [`${COMPONENT_CLASS_DECORATOR} Property:matches([key.name='encapsulation'], [key.value='encapsulation']) > MemberExpression[object.name='ViewEncapsulation'] > Identifier[name='None']`](
         node: TSESTree.Identifier & {
           parent: TSESTree.MemberExpression & { parent: TSESTree.Property };
         },
