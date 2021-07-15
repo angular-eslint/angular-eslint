@@ -1,13 +1,9 @@
-/**
- * This usage seems a little wonky, but don't want to run any risk of breaking changes
- * to the compiled output of the template-parser node module, so leaving until v13.
- */
-import { default as templateParser } from '../src/index';
+import { parseForESLint } from '../src/index';
 
 describe('parseForESLint()', () => {
   it('should work', () => {
     expect(
-      templateParser.parseForESLint(
+      parseForESLint(
         `
       <!-- eslint-disable-next-line -->
       <div>some node</div>
