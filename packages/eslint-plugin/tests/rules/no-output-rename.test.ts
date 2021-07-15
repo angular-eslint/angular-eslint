@@ -19,6 +19,7 @@ const suggestReplaceOriginalNameWithAliasName: MessageIds =
 
 ruleTester.run(RULE_NAME, rule, {
   valid: [
+    `class Test {}`,
     `
     @Page({
       outputs: ['play', popstate, \`online\`, 'obsolete: obsol', 'store: storage'],
@@ -92,8 +93,22 @@ ruleTester.run(RULE_NAME, rule, {
     `,
     `
     @Directive({
-      selector: 'foo',
-      outputs: [\`test: ${'foo'}\`]
+      'selector': 'foo',
+      'outputs': [\`test: ${'foo'}\`]
+    })
+    class Test {}
+    `,
+    `
+    @Component({
+      'selector': 'foo',
+      ['outputs']: [\`test: ${'foo'}\`]
+    })
+    class Test {}
+    `,
+    `
+    @Directive({
+      'selector': 'foo',
+      [\`outputs\`]: [\`test: ${'foo'}\`]
     })
     class Test {}
     `,
@@ -117,7 +132,7 @@ ruleTester.run(RULE_NAME, rule, {
   invalid: [
     convertAnnotatedSourceToFailureCase({
       description:
-        'should fail if output metadata property is aliased in `@Component`',
+        'should fail if `outputs` metadata property is aliased in `@Component`',
       annotatedSource: `
         @Component({
           outputs: ['a: b']
@@ -144,12 +159,12 @@ ruleTester.run(RULE_NAME, rule, {
     }),
     convertAnnotatedSourceToFailureCase({
       description:
-        'should fail if output metadata property is aliased in `@Directive`',
+        'should fail if `outputs` metadata property is `Literal` and aliased in `@Directive`',
       annotatedSource: `
         @Directive({
-          outputs: ['abort'],
-          outputs: [boundary, \`test: copy\`],
-                              ~~~~~~~~~~~~
+          inputs: ['abort'],
+          'outputs': [boundary, \`test: copy\`],
+                                ~~~~~~~~~~~~
         })
         class Test {}
       `,
@@ -163,9 +178,9 @@ ruleTester.run(RULE_NAME, rule, {
         messageId,
         output: `
         @Directive({
-          outputs: ['abort'],
-          outputs: [boundary, \`${name}\`],
-                              
+          inputs: ['abort'],
+          'outputs': [boundary, \`${name}\`],
+                                
         })
         class Test {}
       `,
@@ -173,19 +188,38 @@ ruleTester.run(RULE_NAME, rule, {
     }),
     convertAnnotatedSourceToFailureCase({
       description:
-        'should fail if output metadata property is aliased with the same name in `@Component`',
+        'should fail if `outputs` metadata property is computed `Literal` and aliased with the same name in `@Component`',
       annotatedSource: `
         @Component({
-          outputs: ['orientation: orientation'],
-                    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+          ['outputs']: ['orientation: orientation'],
+                        ~~~~~~~~~~~~~~~~~~~~~~~~~~
         })
         class Test {}
       `,
       messageId,
       annotatedOutput: `
         @Component({
-          outputs: ['orientation'],
-                    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+          ['outputs']: ['orientation'],
+                        ~~~~~~~~~~~~~~~~~~~~~~~~~~
+        })
+        class Test {}
+      `,
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'should fail if `outputs` metadata property is computed `TemplateLiteral` and aliased with the same name in `@Directive`',
+      annotatedSource: `
+        @Directive({
+          [\`outputs\`]: ['orientation: orientation'],
+                        ~~~~~~~~~~~~~~~~~~~~~~~~~~
+        })
+        class Test {}
+      `,
+      messageId,
+      annotatedOutput: `
+        @Directive({
+          [\`outputs\`]: ['orientation'],
+                        ~~~~~~~~~~~~~~~~~~~~~~~~~~
         })
         class Test {}
       `,
@@ -267,7 +301,7 @@ ruleTester.run(RULE_NAME, rule, {
     convertAnnotatedSourceToFailureCase({
       description: `should fail if output alias is prefixed by directive's selector, but the suffix does not match the property name`,
       annotatedSource: `
-        @Component({
+        @Directive({
           selector: 'foo'
         })
         class Test {
@@ -284,7 +318,7 @@ ruleTester.run(RULE_NAME, rule, {
       ).map(([messageId, propertyName]) => ({
         messageId,
         output: `
-        @Component({
+        @Directive({
           selector: 'foo'
         })
         class Test {
@@ -298,8 +332,8 @@ ruleTester.run(RULE_NAME, rule, {
       description:
         'should fail if output alias is not strictly equal to the selector plus the property name in `camelCase` form',
       annotatedSource: `
-        @Directive({
-          selector: 'foo'
+        @Component({
+          'selector': 'foo'
         })
         class Test {
           @Output('foocolor') color: string;
@@ -315,8 +349,8 @@ ruleTester.run(RULE_NAME, rule, {
       ).map(([messageId, propertyName]) => ({
         messageId,
         output: `
-        @Directive({
-          selector: 'foo'
+        @Component({
+          'selector': 'foo'
         })
         class Test {
           @Output() ${propertyName}: string;

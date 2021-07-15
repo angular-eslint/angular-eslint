@@ -1,7 +1,7 @@
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import {
-  OUTPUTS_METADATA_PROPERTY,
+  OUTPUTS_METADATA_PROPERTY_LITERAL,
   OUTPUT_ALIAS,
   OUTPUT_PROPERTY_OR_GETTER,
 } from '../utils/selectors';
@@ -30,17 +30,14 @@ export default createESLintRule<Options, MessageIds>({
   create(context) {
     const outputOnPattern = /^on(([^a-z])|(?=$))/;
     const selectors = [
-      OUTPUTS_METADATA_PROPERTY,
+      OUTPUTS_METADATA_PROPERTY_LITERAL,
       OUTPUT_ALIAS,
       OUTPUT_PROPERTY_OR_GETTER,
     ].join(',');
 
     return {
       [selectors](
-        node:
-          | TSESTree.Identifier
-          | TSESTree.StringLiteral
-          | TSESTree.TemplateElement,
+        node: TSESTree.Identifier | TSESTree.Literal | TSESTree.TemplateElement,
       ) {
         const [propertyName, aliasName] = getRawText(node)
           .replace(/\s/g, '')

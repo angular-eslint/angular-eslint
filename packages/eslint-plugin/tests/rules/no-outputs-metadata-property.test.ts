@@ -16,32 +16,37 @@ const messageId: MessageIds = 'noOutputsMetadataProperty';
 
 ruleTester.run(RULE_NAME, rule, {
   valid: [
+    `class Test {}`,
     `
-    @Directive()
+    @Component()
+    class Test {}
+    `,
+    `
+    @Directive({})
     class Test {}
     `,
     `
     const options = {};
     @Component(options)
-    export class Test {}
+    class Test {}
     `,
     `
-    @Component({
+    @Directive({
       selector: 'app-test',
       template: 'Hello'
     })
     class Test {}
     `,
     `
-    @Directive({
+    @Component({
       selector: 'app-test',
       queries: {},
     })
     class Test {}
     `,
     `
-    const outputs = 'host';
-    @Component({
+    const outputs = 'providers';
+    @Directive({
       [outputs]: [],
     })
     class Test {}
@@ -50,13 +55,13 @@ ruleTester.run(RULE_NAME, rule, {
     @NgModule({
       bootstrap: [Foo]
     })
-    export class Test {}
+    class Test {}
     `,
   ],
   invalid: [
     convertAnnotatedSourceToFailureCase({
       description:
-        'it should fail if "outputs" metadata property is used in `@Component`',
+        'should fail if `outputs` metadata property is used in `@Component`',
       annotatedSource: `
         @Component({
           outputs: [
@@ -72,7 +77,7 @@ ruleTester.run(RULE_NAME, rule, {
     }),
     convertAnnotatedSourceToFailureCase({
       description:
-        'it should fail if "outputs" metadata property is used in `@Directive`',
+        'should fail if `outputs` metadata property is used in `@Directive`',
       annotatedSource: `
         @Directive({
           outputs: [
@@ -87,67 +92,66 @@ ruleTester.run(RULE_NAME, rule, {
       messageId,
     }),
     convertAnnotatedSourceToFailureCase({
-      description: 'it should fail if "outputs" metadata property is shorthand',
+      description: 'should fail if `outputs` metadata property is shorthand',
       annotatedSource: `
         @Component({
           outputs,
           ~~~~~~~
         })
-        export class Test {}
+        class Test {}
       `,
       messageId,
     }),
     convertAnnotatedSourceToFailureCase({
       description:
-        'it should fail if "outputs" metadata property has no properties',
+        'should fail if `outputs` metadata property has no properties',
       annotatedSource: `
-        @Component({
+        @Directive({
           outputs: [],
           ~~~~~~~~~~~
         })
-        export class Test {}
+        class Test {}
       `,
       messageId,
     }),
     convertAnnotatedSourceToFailureCase({
       description:
-        'it should fail if "outputs" metadata property\'s value is a variable',
+        "should fail if `outputs` metadata property's key is `Literal` and its value is a variable",
       annotatedSource: `
         const test = [];
-
         @Component({
-          outputs: test,
-          ~~~~~~~~~~~~~
+          'outputs': test,
+          ~~~~~~~~~~~~~~~
         })
-        export class Test {}
+        class Test {}
       `,
       messageId,
     }),
     convertAnnotatedSourceToFailureCase({
       description:
-        'it should fail if "outputs" metadata property\'s value is `undefined`',
+        "should fail if `outputs` metadata property's key is computed `Literal` and its value is `undefined`",
       annotatedSource: `
-        @Component({
-          outputs: undefined,
-          ~~~~~~~~~~~~~~~~~~
+        @Directive({
+          ['outputs']: undefined,
+          ~~~~~~~~~~~~~~~~~~~~~~
         })
-        export class Test {}
+        class Test {}
       `,
       messageId,
     }),
     convertAnnotatedSourceToFailureCase({
       description:
-        'it should fail if "outputs" metadata property\'s value is a function',
+        "should fail if `outputs` metadata property's key is computed `TemplateLiteral` and its value is a function",
       annotatedSource: `
         function outputs() {
           return [];
         }
 
-        @Directive({
-          outputs: outputs(),
-          ~~~~~~~~~~~~~~~~~~
+        @Component({
+          [\`outputs\`]: outputs(),
+          ~~~~~~~~~~~~~~~~~~~~~~
         })
-        export class Test {}
+        class Test {}
       `,
       messageId,
     }),
