@@ -248,9 +248,8 @@ function parseForESLint(
   };
 }
 
-export default {
-  parseForESLint,
-  parse: function parse(code: string, options: { filePath: string }): AST {
-    return parseForESLint(code, options).ast;
-  },
-};
+export { parseForESLint };
+
+export function parse(code: string, options: { filePath: string }): AST {
+  return parseForESLint(code, options).ast;
+}
