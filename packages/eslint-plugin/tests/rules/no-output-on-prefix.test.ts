@@ -16,6 +16,7 @@ const messageId: MessageIds = 'noOutputOnPrefix';
 
 ruleTester.run(RULE_NAME, rule, {
   valid: [
+    `class Test {}`,
     `
     @Page({
       outputs: ['on', onChange, \`onLine\`, 'on: on2', 'offline: on', ...onCheck, onOutput()],
@@ -76,7 +77,21 @@ ruleTester.run(RULE_NAME, rule, {
     `
     @Component({
       selector: 'foo',
-      outputs: [\`test: ${'foo'}\`]
+      'outputs': [\`test: ${'foo'}\`]
+    })
+    class Test {}
+    `,
+    `
+    @Directive({
+      selector: 'foo',
+      ['outputs']: [\`test: ${'foo'}\`]
+    })
+    class Test {}
+    `,
+    `
+    @Component({
+      'selector': 'foo',
+      [\`outputs\`]: [\`test: ${'foo'}\`]
     })
     class Test {}
     `,
@@ -92,7 +107,7 @@ ruleTester.run(RULE_NAME, rule, {
   invalid: [
     convertAnnotatedSourceToFailureCase({
       description:
-        'should fail if output metadata property is named "on" in `@Component`',
+        'should fail if `outputs` metadata property is named "on" in `@Component`',
       annotatedSource: `
         @Component({
           outputs: ['on']
@@ -104,12 +119,12 @@ ruleTester.run(RULE_NAME, rule, {
     }),
     convertAnnotatedSourceToFailureCase({
       description:
-        'should fail if output metadata property is aliased as "on" in `@Directive`',
+        'should fail if `outputs` metadata property is `Literal` and aliased as "on" in `@Directive`',
       annotatedSource: `
         @Directive({
           inputs: [onCredit],
-          outputs: [onLevel, \`test: on\`, onFunction()],
-                             ~~~~~~~~~~
+          'outputs': [onLevel, \`test: on\`, onFunction()],
+                               ~~~~~~~~~~
         })
         class Test {}
       `,
@@ -117,11 +132,11 @@ ruleTester.run(RULE_NAME, rule, {
     }),
     convertAnnotatedSourceToFailureCase({
       description:
-        'should fail if output metadata property is named "onTest" in `@Component`',
+        'should fail if `outputs` metadata property is computed `Literal` and named "onTest" in `@Component`',
       annotatedSource: `
         @Component({
-          outputs: ['onTest: test', ...onArray],
-                    ~~~~~~~~~~~~~~
+          ['outputs']: ['onTest: test', ...onArray],
+                        ~~~~~~~~~~~~~~
         })
         class Test {}
       `,
@@ -129,9 +144,21 @@ ruleTester.run(RULE_NAME, rule, {
     }),
     convertAnnotatedSourceToFailureCase({
       description:
-        'should fail if output property is named "on" in `@Directive`',
+        'should fail if `outputs` metadata property is computed `TemplateLiteral` and named "onTest" in `@Directive`',
       annotatedSource: `
-        @Directive()
+        @Directive({
+          [\`outputs\`]: ['onTest: test', ...onArray],
+                        ~~~~~~~~~~~~~~
+        })
+        class Test {}
+      `,
+      messageId,
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'should fail if output property is named "on" in `@Component`',
+      annotatedSource: `
+        @Component()
         class Test {
           @Output() on: EventEmitter<any> = new EventEmitter<{}>();
                     ~~
@@ -141,9 +168,9 @@ ruleTester.run(RULE_NAME, rule, {
     }),
     convertAnnotatedSourceToFailureCase({
       description:
-        'should fail if output property is named with "\'on\'" prefix in `@Component`',
+        'should fail if output property is named with "\'on\'" prefix in `@Directive`',
       annotatedSource: `
-        @Component()
+        @Directive()
         class Test {
           @Output() @Custom('on') 'onPrefix' = new EventEmitter<void>();
                                   ~~~~~~~~~~
@@ -153,9 +180,9 @@ ruleTester.run(RULE_NAME, rule, {
     }),
     convertAnnotatedSourceToFailureCase({
       description:
-        'should fail if output property is aliased as "`on`" in `@Directive`',
+        'should fail if output property is aliased as "`on`" in `@Component`',
       annotatedSource: `
-        @Directive()
+        @Component()
         class Test {
           @Custom() @Output(\`on\`) _on = getOutput();
                             ~~~~
@@ -165,9 +192,9 @@ ruleTester.run(RULE_NAME, rule, {
     }),
     convertAnnotatedSourceToFailureCase({
       description:
-        'should fail if output property is aliased with "on" prefix in `@Component`',
+        'should fail if output property is aliased with "on" prefix in `@Directive`',
       annotatedSource: `
-        @Component()
+        @Directive()
         class Test {
           @Output('onPrefix') _on = (this.subject$ as Subject<{on: boolean}>).pipe();
                   ~~~~~~~~~~
@@ -177,9 +204,9 @@ ruleTester.run(RULE_NAME, rule, {
     }),
     convertAnnotatedSourceToFailureCase({
       description:
-        'should fail if output getter is named with "on" prefix in `@Directive`',
+        'should fail if output getter is named with "on" prefix in `@Component`',
       annotatedSource: `
-        @Directive()
+        @Component()
         class Test {
           @Output('getter') get 'on-getter'() {}
                                 ~~~~~~~~~~~
@@ -189,9 +216,9 @@ ruleTester.run(RULE_NAME, rule, {
     }),
     convertAnnotatedSourceToFailureCase({
       description:
-        'should fail if output getter is aliased with "on" prefix in `@Component`',
+        'should fail if output getter is aliased with "on" prefix in `@Directive`',
       annotatedSource: `
-        @Component()
+        @Directive()
         class Test {
           @Output(\`${'onGetter'}\`) get getter() {}
                   ~~~~~~~~~~

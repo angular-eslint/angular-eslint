@@ -1,6 +1,9 @@
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
-import { COMPONENT_OR_DIRECTIVE_CLASS_DECORATOR } from '../utils/selectors';
+import {
+  COMPONENT_OR_DIRECTIVE_CLASS_DECORATOR,
+  metadataProperty,
+} from '../utils/selectors';
 
 type Options = [];
 export type MessageIds = 'noOutputsMetadataProperty';
@@ -25,9 +28,9 @@ export default createESLintRule<Options, MessageIds>({
   defaultOptions: [],
   create(context) {
     return {
-      [`${COMPONENT_OR_DIRECTIVE_CLASS_DECORATOR} Property[key.name="${METADATA_PROPERTY_NAME}"][computed=false]`](
-        node: TSESTree.Property,
-      ) {
+      [`${COMPONENT_OR_DIRECTIVE_CLASS_DECORATOR} ${metadataProperty(
+        METADATA_PROPERTY_NAME,
+      )}`](node: TSESTree.Property) {
         context.report({
           node,
           messageId: 'noOutputsMetadataProperty',

@@ -16,6 +16,7 @@ const messageId: MessageIds = 'noOutputNative';
 
 ruleTester.run(RULE_NAME, rule, {
   valid: [
+    `class Test {}`,
     `
     @Page({
       outputs: ['play', popstate, \`online\`, 'obsolete: obsol', 'store: storage'],
@@ -78,7 +79,21 @@ ruleTester.run(RULE_NAME, rule, {
     `
     @Component({
       selector: 'foo',
-      outputs: [\`test: ${'foo'}\`]
+      'outputs': [\`test: ${'foo'}\`]
+    })
+    class Test {}
+    `,
+    `
+    @Directive({
+      selector: 'foo',
+      ['outputs']: [\`test: ${'foo'}\`]
+    })
+    class Test {}
+    `,
+    `
+    @Component({
+      'selector': 'foo',
+      [\`outputs\`]: [\`test: ${'foo'}\`]
     })
     class Test {}
     `,
@@ -94,11 +109,11 @@ ruleTester.run(RULE_NAME, rule, {
   invalid: [
     convertAnnotatedSourceToFailureCase({
       description:
-        'should fail if output metadata property is named "pagehide" in `@Component`',
+        'should fail if `outputs` metadata property is `Literal` and named "pagehide" in `@Component`',
       annotatedSource: `
         @Component({
-          outputs: ['pagehide']
-                    ~~~~~~~~~~
+          'outputs': ['pagehide']
+                      ~~~~~~~~~~
         })
         class Test {}
       `,
@@ -106,12 +121,12 @@ ruleTester.run(RULE_NAME, rule, {
     }),
     convertAnnotatedSourceToFailureCase({
       description:
-        'should fail if output metadata property is aliased as "copy" in `@Directive`',
+        'should fail if `outputs` metadata property is computed `Literal` and aliased as "copy" in `@Directive`',
       annotatedSource: `
         @Directive({
           inputs: ['abort'],
-          outputs: [boundary, \`test: copy\`],
-                              ~~~~~~~~~~~~
+          ['outputs']: [boundary, \`test: copy\`],
+                                  ~~~~~~~~~~~~
         })
         class Test {}
       `,
@@ -119,9 +134,22 @@ ruleTester.run(RULE_NAME, rule, {
     }),
     convertAnnotatedSourceToFailureCase({
       description:
-        'should fail if output metadata property is named "orientationchange" in `@Component`',
+        'should fail if `outputs` metadata property is computed `TemplateLiteral` and aliased as "copy" in `@Component`',
       annotatedSource: `
         @Component({
+          inputs: ['abort'],
+          [\`outputs\`]: [boundary, \`test: copy\`],
+                                  ~~~~~~~~~~~~
+        })
+        class Test {}
+      `,
+      messageId,
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'should fail if `outputs` metadata property is named "orientationchange" in `@Directive`',
+      annotatedSource: `
+        @Directive({
           outputs: ['orientationchange: orientation'],
                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         })
@@ -131,9 +159,9 @@ ruleTester.run(RULE_NAME, rule, {
     }),
     convertAnnotatedSourceToFailureCase({
       description:
-        'should fail if output property is named "change" in `@Directive`',
+        'should fail if output property is named "change" in `@Component`',
       annotatedSource: `
-        @Directive()
+        @Component()
         class Test {
           @Output() change: EventEmitter<any> = new EventEmitter<{}>();
                     ~~~~~~
@@ -143,9 +171,9 @@ ruleTester.run(RULE_NAME, rule, {
     }),
     convertAnnotatedSourceToFailureCase({
       description:
-        'should fail if output property is named "\'change\'" in `@Component`',
+        'should fail if output property is named "\'change\'" in `@Directive`',
       annotatedSource: `
-        @Component()
+        @Directive()
         class Test {
           @Output() @Custom('change') 'change' = new EventEmitter<void>();
                                       ~~~~~~~~
@@ -155,9 +183,9 @@ ruleTester.run(RULE_NAME, rule, {
     }),
     convertAnnotatedSourceToFailureCase({
       description:
-        'should fail if output property is aliased as "`change`" in `@Directive`',
+        'should fail if output property is aliased as "`change`" in `@Component`',
       annotatedSource: `
-        @Directive()
+        @Component()
         class Test {
           @Custom() @Output(\`change\`) _change = getOutput();
                             ~~~~~~~~
@@ -167,9 +195,9 @@ ruleTester.run(RULE_NAME, rule, {
     }),
     convertAnnotatedSourceToFailureCase({
       description:
-        'should fail if output property is aliased as "change" in `@Component`',
+        'should fail if output property is aliased as "change" in `@Directive`',
       annotatedSource: `
-        @Component()
+        @Directive()
         class Test {
           @Output('change') _change = (this.subject$ as Subject<{blur: boolean}>).pipe();
                   ~~~~~~~~
@@ -179,9 +207,9 @@ ruleTester.run(RULE_NAME, rule, {
     }),
     convertAnnotatedSourceToFailureCase({
       description:
-        'should fail if output getter is named "\'cut\'" in `@Directive`',
+        'should fail if output getter is named "\'cut\'" in `@Component`',
       annotatedSource: `
-        @Directive()
+        @Component()
         class Test {
           @Output('getter') get 'cut'() {}
                                 ~~~~~
@@ -191,9 +219,9 @@ ruleTester.run(RULE_NAME, rule, {
     }),
     convertAnnotatedSourceToFailureCase({
       description:
-        'should fail if output getter is aliased as "devicechange" in `@Component`',
+        'should fail if output getter is aliased as "devicechange" in `@Directive`',
       annotatedSource: `
-        @Component()
+        @Directive()
         class Test {
           @Output(\`${'devicechange'}\`) get getter() {}
                   ~~~~~~~~~~~~~~
