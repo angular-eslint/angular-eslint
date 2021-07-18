@@ -1,4 +1,8 @@
-import type { MethodCall, SafeMethodCall } from '@angular/compiler';
+import type {
+  FunctionCall,
+  MethodCall,
+  SafeMethodCall,
+} from '@angular/compiler';
 import { TmplAstBoundEvent } from '@angular/compiler';
 import {
   createESLintRule,
@@ -31,10 +35,12 @@ export default createESLintRule<Options, MessageIds>({
     const sourceCode = context.getSourceCode();
 
     return {
-      'MethodCall[name!="$any"], SafeMethodCall'(
-        node: MethodCall | SafeMethodCall,
+      'FunctionCall, MethodCall[name!="$any"], SafeMethodCall'(
+        node: FunctionCall | MethodCall | SafeMethodCall,
       ) {
-        const isChildOfBoundEvent = !!getNearestNodeFrom(node, isBoundEvent);
+        const isChildOfBoundEvent = Boolean(
+          getNearestNodeFrom(node, isBoundEvent),
+        );
 
         if (isChildOfBoundEvent) return;
 
@@ -42,11 +48,11 @@ export default createESLintRule<Options, MessageIds>({
           sourceSpan: { start, end },
         } = node;
         context.report({
-          messageId: 'noCallExpression',
           loc: {
             start: sourceCode.getLocFromIndex(start),
             end: sourceCode.getLocFromIndex(end),
           },
+          messageId: 'noCallExpression',
         });
       },
     };
