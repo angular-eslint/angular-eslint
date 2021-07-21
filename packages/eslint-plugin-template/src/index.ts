@@ -96,6 +96,6 @@ export default {
     [noNegatedAsyncRuleName]: noNegatedAsync,
     [noPositiveTabindexRuleName]: noPositiveTabindex,
     [useTrackByFunctionRuleName]: useTrackByFunction,
-    [attributesOrderRuleName]: attributesOrder
+    [attributesOrderRuleName]: attributesOrder,
   },
 };
