@@ -1,41 +1,31 @@
-import type { TmplAstElement } from '@angular/compiler';
-import {
+import type {
+  TmplAstElement,
   BindingType,
+  TmplAstTextAttribute,
+} from '@angular/compiler';
+import {
   TmplAstBoundAttribute,
   TmplAstBoundEvent,
   TmplAstReference,
-  TmplAstTextAttribute,
 } from '@angular/compiler';
-import { createESLintRule, getTemplateParserServices } from '../utils/create-eslint-rule';
+import {
+  createESLintRule,
+  getTemplateParserServices,
+} from '../utils/create-eslint-rule';
 import { Template } from '@angular/compiler/src/render3/r3_ast';
 
-enum OrderAttributeType {
-  TEMPLATE_REFERENCE = 1,
-  STRUCTURAL,
-  CLASS,
-  STYLE,
-  ID,
-  NAME,
-  DATA,
-  SRC,
-  FOR,
-  TYPE,
-  HREF,
-  VALUE,
-  TITLE,
-  ALT,
-  ROLE,
-  ARIA,
-  INPUT,
-  OUTPUT,
-  BANANA,
-  ANIMATION,
-  OTHER_ATTRIBUTES
+export enum OrderAttributeType {
+  TEMPLATE_REFERENCE = 'TEMPLATE_REFERENCE',
+  STRUCTURAL_DIRECTIVE = 'STRUCTURAL_DIRECTIVE',
+  ATTRIBUTE_BINDING = 'ATTRIBUTE_BINDING',
+  INPUT_BINDING = 'INPUT_BINDING',
+  OUTPUT_BINDING = 'OUTPUT_BINDING',
+  TWO_WAY_BINDING = 'TWO_WAY_BINDING',
 }
 
 type Options = [
   {
-    order: OrderAttributeType[]
+    order: OrderAttributeType[];
   },
 ];
 
@@ -43,51 +33,45 @@ interface HasOrderType {
   orderType: OrderAttributeType;
 }
 
-interface HasParent {
-  parent: any;
+interface HasTemplateParent {
+  parent: Template;
 }
 
 interface HasOriginalType {
-  __originalType: BindingType
+  __originalType: BindingType;
 }
 
-type ExtendedTmplAstBoundAttribute = TmplAstBoundAttribute & HasOrderType & HasParent & HasOriginalType;
-type ExtendedTmplAstBoundEvent = TmplAstBoundEvent & HasOrderType & HasParent;
-type ExtendedTmplAstTextAttribute = TmplAstTextAttribute & HasOrderType & HasParent;
-type ExtendedTmplAstReference = TmplAstReference & HasOrderType & HasParent;
-type ExtendedTmplAstElement = TmplAstElement & HasParent;
+type InputsOutputsHash = Record<
+  string,
+  { input: ExtendedTmplAstBoundAttribute; output?: ExtendedTmplAstBoundEvent }
+>;
+
+type ExtendedTmplAstBoundAttribute = TmplAstBoundAttribute &
+  HasOrderType &
+  HasOriginalType;
+type ExtendedTmplAstBoundEvent = TmplAstBoundEvent & HasOrderType;
+type ExtendedTmplAstTextAttribute = TmplAstTextAttribute & HasOrderType;
+type ExtendedTmplAstReference = TmplAstReference & HasOrderType;
+type ExtendedTmplAstElement = TmplAstElement & HasTemplateParent;
 type OrderAttributeNode =
-  ExtendedTmplAstBoundAttribute
+  | ExtendedTmplAstBoundAttribute
   | ExtendedTmplAstBoundEvent
   | ExtendedTmplAstTextAttribute
-  | ExtendedTmplAstReference
+  | ExtendedTmplAstReference;
 export type MessageIds = 'attributesOrder';
 export const RULE_NAME = 'attributes-order';
 
+const DEFAULT_ORDER = [
+  OrderAttributeType.STRUCTURAL_DIRECTIVE,
+  OrderAttributeType.TEMPLATE_REFERENCE,
+  OrderAttributeType.ATTRIBUTE_BINDING,
+  OrderAttributeType.INPUT_BINDING,
+  OrderAttributeType.TWO_WAY_BINDING,
+  OrderAttributeType.OUTPUT_BINDING,
+];
+
 const defaultOptions: Options[number] = {
-  order: [
-    OrderAttributeType.TEMPLATE_REFERENCE,
-    OrderAttributeType.STRUCTURAL,
-    OrderAttributeType.ID,
-    OrderAttributeType.CLASS,
-    OrderAttributeType.NAME,
-    OrderAttributeType.DATA,
-    OrderAttributeType.SRC,
-    OrderAttributeType.FOR,
-    OrderAttributeType.TYPE,
-    OrderAttributeType.HREF,
-    OrderAttributeType.VALUE,
-    OrderAttributeType.TITLE,
-    OrderAttributeType.STYLE,
-    OrderAttributeType.ALT,
-    OrderAttributeType.ROLE,
-    OrderAttributeType.ARIA,
-    OrderAttributeType.INPUT,
-    OrderAttributeType.OUTPUT,
-    OrderAttributeType.BANANA,
-    OrderAttributeType.ANIMATION,
-    OrderAttributeType.OTHER_ATTRIBUTES,
-  ],
+  order: [...DEFAULT_ORDER],
 };
 
 export default createESLintRule<Options, MessageIds>({
@@ -95,8 +79,7 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'problem',
     docs: {
-      description:
-        'Ensures that html attributes are sorted correctly',
+      description: 'Ensures that html attributes are sorted correctly',
       category: 'Possible Errors',
       recommended: false,
     },
@@ -106,14 +89,19 @@ export default createESLintRule<Options, MessageIds>({
         properties: {
           order: {
             type: 'array',
-            of: 'string',
+            uniqueItems: true,
+            minimum: 6,
+            items: {
+              enum: [...DEFAULT_ORDER],
+            },
           },
         },
         additionalProperties: false,
       },
     ],
     messages: {
-      attributesOrder: 'Attributes order is incorrect',
+      attributesOrder:
+        'Attributes order is incorrect, expected {{types}} at this position',
     },
   },
   defaultOptions: [defaultOptions],
@@ -124,59 +112,85 @@ export default createESLintRule<Options, MessageIds>({
       Element(element: TmplAstElement) {
         const { attributes, inputs, outputs, references } = element;
 
-        const structuralAttrs = extractTemplateAttrs(element as ExtendedTmplAstElement);
-        const attrs = [...attributes, ...inputs, ...outputs, ...references] as OrderAttributeNode[];
-        const typedAttrs = attrs.map(attr => ({
+        const structuralAttrs = extractTemplateAttrs(
+          element as ExtendedTmplAstElement,
+        );
+        const attrs = [...attributes, ...references] as OrderAttributeNode[];
+        const typedAttrs = attrs.map((attr) => ({
           ...attr,
           orderType: getOrderAttributeType(attr),
         })) as OrderAttributeNode[];
-        const sortedTypedAttrs = sortAttrs([...typedAttrs, ...structuralAttrs]);
+        const { extractedBananaBoxes, extractedInputs, extractedOutputs } =
+          extractBananaBoxes(
+            inputs as ExtendedTmplAstBoundAttribute[],
+            outputs as ExtendedTmplAstBoundEvent[],
+          );
+        const sortedTypedAttrs = sortAttrsByLocation([
+          ...structuralAttrs,
+          ...typedAttrs,
+          ...extractedInputs,
+          ...extractedOutputs,
+          ...extractedBananaBoxes,
+        ]);
 
         if (sortedTypedAttrs.length < 2) {
           return;
         }
 
-        const filteredOrder = order.filter(orderType => sortedTypedAttrs.some(attr => attr.orderType === orderType));
+        const filteredOrder = order.filter((orderType) =>
+          sortedTypedAttrs.some((attr) => attr.orderType === orderType),
+        );
 
         let expectedOrderTypeStartIndex = 0;
         let expectedOrderTypeEndIndex = 1;
-        const getExpectedOrderTypes = () => filteredOrder.slice(expectedOrderTypeStartIndex, expectedOrderTypeEndIndex);
+        let prevType;
 
-        sortedTypedAttrs.forEach((attr, index) => {
-          if (index === 1) {
-            expectedOrderTypeEndIndex += 1;
-          } else {
-            const orderTypes = getExpectedOrderTypes();
+        console.log(
+          '>>>> inspect',
+          filteredOrder,
+          'attrs:',
+          sortedTypedAttrs.map((attr) => attr.name).join(', '),
+        );
 
-            if (!orderTypes.length) {
-              return;
-            }
+        for (let i = 0; i < sortedTypedAttrs.length; i++) {
+          const expectedOrderTypes = filteredOrder.slice(
+            expectedOrderTypeStartIndex,
+            expectedOrderTypeEndIndex,
+          );
 
-            if (orderTypes.includes(attr.orderType)) {
-              if (attr.orderType !== filteredOrder[expectedOrderTypeStartIndex]) {
-                expectedOrderTypeStartIndex += 1;
-                expectedOrderTypeEndIndex += 1;
-              }
-            } else {
-              const loc = parserServices.convertNodeSourceSpanToLoc(attr.sourceSpan);
-
-              context.report({
-                loc,
-                messageId: 'attributesOrder',
-              });
-
-              return;
-            }
+          if (!expectedOrderTypes.length) {
+            return;
           }
-        });
+
+          const attr = sortedTypedAttrs[i];
+
+          if (!expectedOrderTypes.includes(attr.orderType)) {
+            const loc = parserServices.convertNodeSourceSpanToLoc(
+              attr.sourceSpan,
+            );
+
+            context.report({
+              loc,
+              messageId: 'attributesOrder',
+              data: { types: expectedOrderTypes.join(' or ') },
+            });
+            break;
+          }
+
+          if (i === 0) {
+            expectedOrderTypeEndIndex++;
+          } else if (attr.orderType !== prevType) {
+            expectedOrderTypeStartIndex++;
+            expectedOrderTypeEndIndex++;
+          }
+          prevType = attr.orderType;
+        }
       },
     };
   },
 });
 
-function sortAttrs(
-  list: OrderAttributeNode[],
-): OrderAttributeNode[] {
+function sortAttrsByLocation(list: OrderAttributeNode[]): OrderAttributeNode[] {
   return list.sort((a, b) => {
     if (a.sourceSpan.start.line != b.sourceSpan.start.line) {
       return a.sourceSpan.start.line - b.sourceSpan.start.line;
@@ -188,77 +202,115 @@ function sortAttrs(
 
 function getOrderAttributeType(node: OrderAttributeNode): OrderAttributeType {
   switch (node.constructor.name) {
-    case TmplAstTextAttribute.name:
-      return getTextAttributeOrderType(node as ExtendedTmplAstTextAttribute);
     case TmplAstBoundAttribute.name:
-      return getBoundAttributeOrderType(node as ExtendedTmplAstBoundAttribute);
+      return OrderAttributeType.INPUT_BINDING;
     case TmplAstBoundEvent.name:
-      return OrderAttributeType.OUTPUT;
+      return OrderAttributeType.OUTPUT_BINDING;
     case TmplAstReference.name:
       return OrderAttributeType.TEMPLATE_REFERENCE;
-  }
-
-  return OrderAttributeType.OTHER_ATTRIBUTES;
-}
-
-function getTextAttributeOrderType(
-  node: ExtendedTmplAstTextAttribute | ExtendedTmplAstBoundAttribute,
-): OrderAttributeType {
-  if (node.name.startsWith('data-')) {
-    return OrderAttributeType.DATA;
-  }
-  if (node.name.startsWith('aria-')) {
-    return OrderAttributeType.ARIA;
-  }
-  switch (node.name) {
-    case 'id':
-      return OrderAttributeType.ID;
-    case 'class':
-      return OrderAttributeType.CLASS;
-    case 'style':
-      return OrderAttributeType.STYLE;
-    case 'src':
-      return OrderAttributeType.SRC;
-    case 'type':
-      return OrderAttributeType.TYPE;
-    case 'for':
-      return OrderAttributeType.FOR;
-    case 'href':
-      return OrderAttributeType.HREF;
-    case 'value':
-      return OrderAttributeType.VALUE;
-    case 'title':
-      return OrderAttributeType.TITLE;
-    case 'alt':
-      return OrderAttributeType.ALT;
-    case 'role':
-      return OrderAttributeType.ROLE;
     default:
-      return OrderAttributeType.OTHER_ATTRIBUTES;
+      return OrderAttributeType.ATTRIBUTE_BINDING;
   }
 }
 
-function getBoundAttributeOrderType(node: ExtendedTmplAstBoundAttribute): OrderAttributeType {
-  switch (node.__originalType) {
-    case BindingType.Class:
-      return OrderAttributeType.CLASS;
-    case BindingType.Style:
-      return OrderAttributeType.STYLE;
-    case BindingType.Animation:
-      return OrderAttributeType.ANIMATION;
-    case BindingType.Attribute:
-      return getTextAttributeOrderType(node);
-    case BindingType.Property:
-      return getTextAttributeOrderType(node);
-    default:
-      return OrderAttributeType.INPUT;
-  }
-}
-
-function extractTemplateAttrs(node: ExtendedTmplAstElement): (ExtendedTmplAstBoundAttribute | ExtendedTmplAstTextAttribute)[] {
-  if (node.parent.constructor.name === Template.name && node.name === node.parent.tagName && node.parent.templateAttrs.length) {
-    return node.parent.templateAttrs.map((attr: any) => ({ ...attr, orderType: OrderAttributeType.STRUCTURAL }));
+function extractTemplateAttrs(
+  node: ExtendedTmplAstElement,
+): (ExtendedTmplAstBoundAttribute | ExtendedTmplAstTextAttribute)[] {
+  if (
+    node.parent.constructor.name === Template.name &&
+    node.name === node.parent.tagName &&
+    node.parent.templateAttrs.length
+  ) {
+    return node.parent.templateAttrs.map(
+      (attr) =>
+        ({
+          ...attr,
+          orderType: OrderAttributeType.STRUCTURAL_DIRECTIVE,
+        } as ExtendedTmplAstBoundAttribute | ExtendedTmplAstTextAttribute),
+    );
   }
 
   return [];
+}
+
+function extractBananaBoxes(
+  inputs: ExtendedTmplAstBoundAttribute[],
+  outputs: ExtendedTmplAstBoundEvent[],
+): any {
+  const extractedBananaBoxes: ExtendedTmplAstBoundAttribute[] = [];
+  const extractedInputs: ExtendedTmplAstBoundAttribute[] = [];
+  const extractedOutputs: ExtendedTmplAstBoundEvent[] = [];
+
+  const { hash, notMatchedOutputs } = getInputsOutputsHash(inputs, outputs);
+  const extractedOutputsFromHash = notMatchedOutputs.map((output) => {
+    return {
+      ...output,
+      orderType: OrderAttributeType.OUTPUT_BINDING,
+    } as ExtendedTmplAstBoundEvent;
+  });
+
+  extractedOutputs.push(...extractedOutputsFromHash);
+
+  Object.keys(hash).forEach((inputKey) => {
+    const { input, output } = hash[inputKey];
+
+    if (!output) {
+      extractedInputs.push({
+        ...input,
+        orderType: OrderAttributeType.INPUT_BINDING,
+      } as ExtendedTmplAstBoundAttribute);
+      return;
+    }
+
+    if ((input.value as any).location === (output.handler as any).location) {
+      extractedBananaBoxes.push({
+        ...input,
+        orderType: OrderAttributeType.TWO_WAY_BINDING,
+      } as ExtendedTmplAstBoundAttribute);
+    } else {
+      extractedInputs.push({
+        ...input,
+        orderType: OrderAttributeType.INPUT_BINDING,
+      } as ExtendedTmplAstBoundAttribute);
+      extractedOutputs.push({
+        ...output,
+        orderType: OrderAttributeType.OUTPUT_BINDING,
+      } as ExtendedTmplAstBoundEvent);
+    }
+  });
+
+  return {
+    extractedBananaBoxes,
+    extractedInputs,
+    extractedOutputs,
+  };
+}
+
+function getInputsOutputsHash(
+  inputs: ExtendedTmplAstBoundAttribute[],
+  outputs: ExtendedTmplAstBoundEvent[],
+): { hash: InputsOutputsHash; notMatchedOutputs: ExtendedTmplAstBoundEvent[] } {
+  const hash: InputsOutputsHash = {};
+  const notMatchedOutputs: ExtendedTmplAstBoundEvent[] = [];
+
+  inputs.forEach((input) => {
+    hash[input.name] = { input };
+  });
+  outputs.forEach((output) => {
+    if (!output.name.endsWith('Change')) {
+      notMatchedOutputs.push(output);
+      return;
+    }
+
+    const name = output.name.substring(0, output.name.lastIndexOf('Change'));
+
+    if (!hash[name]) {
+      notMatchedOutputs.push(output);
+      return;
+    }
+
+    hash[name].output = output;
+  });
+
+  return { hash, notMatchedOutputs };
 }
