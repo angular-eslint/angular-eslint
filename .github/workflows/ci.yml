@@ -40,9 +40,8 @@ jobs:
           fetch-depth: 0
 
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
-        uses: nrwl/nx-set-shas@v1
+        uses: nrwl/nx-set-shas@v2
         with:
-          error-on-no-matching-tags: false
           main-branch-name: master
 
       - name: Install node and npm based on the volta config in our package.json
@@ -88,12 +87,6 @@ jobs:
       - name: Publish code coverage report
         run: |
           bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }}
-
-      - name: Tag master branch if all jobs succeed
-        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
-        uses: nrwl/nx-tag-successful-ci-run@v1
-        with:
-          remove-tags-matching-pattern: 'nx_successful_ci_run__*'
 
       - name: Stop all running agents for this CI run
         # It's important that we always run this step, otherwise in the case of any failures in preceding non-Nx steps, the agents will keep running and waste billable minutes
