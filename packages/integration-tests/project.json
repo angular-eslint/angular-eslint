@@ -49,7 +49,8 @@
       "options": {
         "cwd": "packages/integration-tests",
         "commands": [
-          "npx ts-node --project tsconfig.tools.json spawn-and-populate-local-registry.ts"
+          "npx ts-node --project tsconfig.tools.json spawn-and-populate-local-registry.ts",
+          "exit 0"
         ],
         "readyWhen": "Publishing complete"
       }
