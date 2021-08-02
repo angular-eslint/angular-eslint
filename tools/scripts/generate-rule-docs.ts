@@ -132,8 +132,9 @@ ${convertCodeExamplesToMarkdown(ruleData.invalid, 'invalid')}
 ${convertCodeExamplesToMarkdown(ruleData.valid, 'valid')}
 `;
 
+    const outputFilePath = join(docsOutputDir, `${ruleName}.md`);
     writeFileSync(
-      join(docsOutputDir, `${ruleName}.md`),
+      outputFilePath,
       format(md, {
         /**
          * NOTE: In the .prettierrc we set:
@@ -143,7 +144,7 @@ ${convertCodeExamplesToMarkdown(ruleData.valid, 'valid')}
          * code samples, because otherwise it will move the ~~~ (error highlights) to
          * the wrong locations.
          */
-        ...(await resolveConfig('../../')),
+        ...(await resolveConfig(outputFilePath)),
         parser: 'markdown',
       }),
     );
