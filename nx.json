@@ -6,7 +6,11 @@
       "devDependencies": "*"
     },
     ".eslintrc.json": "*",
-    ".github/workflows/ci.yml": "*"
+    ".github/workflows/ci.yml": "*",
+    "tools/scripts/generate-rule-docs.ts": [
+      "eslint-plugin",
+      "eslint-plugin-template"
+    ]
   },
   "workspaceLayout": {
     "libsDir": "packages"

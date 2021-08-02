@@ -49,6 +49,30 @@
           "npx jest tests/configs.test.ts --runTestsByPath --runInBand"
         ]
       }
+    },
+    "check-rule-docs": {
+      "dependsOn": [
+        {
+          "projects": "self",
+          "target": "update-rule-docs"
+        }
+      ],
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "parallel": false,
+        "commands": [
+          "git diff --quiet --exit-code packages/eslint-plugin/docs || (echo \"\n-------\n\nCHECK RULE DOCS ERROR: You have uncommitted changes to the generated rule docs.\n\nYou should run `yarn update-rule-docs` and commit the result.\n\n-------\n\" && exit 1)"
+        ]
+      }
+    },
+    "update-rule-docs": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "parallel": false,
+        "commands": [
+          "npx ts-node --project ./tsconfig.tools.json ./tools/scripts/generate-rule-docs.ts eslint-plugin"
+        ]
+      }
     }
   },
   "implicitDependencies": []

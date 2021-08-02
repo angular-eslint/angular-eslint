@@ -68,7 +68,7 @@ The rule does not have any configuration options.
   {{ item }}
 </div>
 <ng-template ngFor let-item [ngForOf]="[1, 2, 3]" let-i="index">
-                            ^^^^^^^^^^^^^^^^^^^^^
+                            ~~~~~~~~~~~~~~~~~~~~~
   {{ item }}
 </ng-template>
 ```
