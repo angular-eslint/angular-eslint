@@ -24,6 +24,7 @@
           "integration-test",
           "check-configs",
           "check-rule-docs",
+          "update-rule-docs",
           "typecheck"
         ],
         "runtimeCacheInputs": ["node --version"],
