@@ -37,7 +37,9 @@
     "update-readme-rules-list": "ts-node --transpile-only --project tsconfig.tools.json tools/scripts/update-readme-rules-list.ts",
     "exec-tool": "ts-node --transpile-only --project tsconfig.tools.json tools/scripts/exec-tool.ts",
     "check-configs": "nx run-many --target=check-configs --all --parallel",
-    "update-configs": "ts-node --transpile-only --project tsconfig.tools.json tools/scripts/generate-configs.ts"
+    "update-configs": "ts-node --transpile-only --project tsconfig.tools.json tools/scripts/generate-configs.ts",
+    "check-rule-docs": "nx run-many --target=check-rule-docs --all --parallel",
+    "update-rule-docs": "nx run-many --target=update-rule-docs --all --parallel"
   },
   "config": {
     "commitizen": {
@@ -68,7 +70,7 @@
     "@types/eslint-scope": "^3.7.0",
     "@types/jest": "^26.0.15",
     "@types/node": "14.14.33",
-    "@types/prettier": "^1.19.0",
+    "@types/prettier": "2.3.2",
     "@typescript-eslint/eslint-plugin": "4.28.2",
     "@typescript-eslint/parser": "4.28.2",
     "eslint": "^7.26.0",
@@ -76,6 +78,7 @@
     "execa": "^5.1.1",
     "husky": "^3.0.0",
     "jest": "27.0.3",
+    "json-schema-to-typescript": "^10.1.4",
     "lerna": "^3.14.1",
     "lint-staged": "^9.2.0",
     "microbundle": "0.13.0",

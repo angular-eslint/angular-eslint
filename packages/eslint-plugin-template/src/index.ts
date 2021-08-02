@@ -37,7 +37,7 @@ import eqeqeq, { RULE_NAME as eqeqeqRuleName } from './rules/eqeqeq';
 import i18n, { RULE_NAME as i18nRuleName } from './rules/i18n';
 import mouseEventsHaveKeyEvents, {
   RULE_NAME as mouseEventsHaveKeyEventsRuleName,
-} from './rules/mouse-events-have-key-events-rule';
+} from './rules/mouse-events-have-key-events';
 import noAny, { RULE_NAME as noAnyRuleName } from './rules/no-any';
 import noAutofocus, {
   RULE_NAME as noAutofocusRuleName,
