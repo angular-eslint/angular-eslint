@@ -11,6 +11,8 @@ type Options = [{ maxComplexity: number }];
 export type MessageIds = 'cyclomaticComplexity';
 export const RULE_NAME = 'cyclomatic-complexity';
 
+const DEFAULT_MAX_COMPLEXITY = 5;
+
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
   meta: {
@@ -27,6 +29,9 @@ export default createESLintRule<Options, MessageIds>({
           maxComplexity: {
             type: 'number',
             minimum: 1,
+            // Used by docs generator, edit with care
+            description: `
+Default is: \`${DEFAULT_MAX_COMPLEXITY}\``.trim(),
           },
         },
         additionalProperties: false,
@@ -37,7 +42,7 @@ export default createESLintRule<Options, MessageIds>({
         'The cyclomatic complexity {{totalComplexity}} exceeds the defined limit {{maxComplexity}}',
     },
   },
-  defaultOptions: [{ maxComplexity: 5 }],
+  defaultOptions: [{ maxComplexity: DEFAULT_MAX_COMPLEXITY }],
   create(context, [{ maxComplexity }]) {
     let totalComplexity = 0;
     const parserServices = getTemplateParserServices(context);

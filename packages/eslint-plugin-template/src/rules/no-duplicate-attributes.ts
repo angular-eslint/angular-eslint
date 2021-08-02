@@ -33,6 +33,11 @@ export default createESLintRule<Options, MessageIds>({
           allowTwoWayDataBinding: {
             type: 'boolean',
             default: DEFAULT_OPTIONS.allowTwoWayDataBinding,
+            // Used by docs generator, edit with care
+            description: `
+Whether or not two-way data binding is allowed as an exception to the rule.
+
+Default is: \`${DEFAULT_OPTIONS.allowTwoWayDataBinding}\``.trim(),
           },
         },
         additionalProperties: false,

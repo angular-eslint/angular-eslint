@@ -47,9 +47,30 @@ export default createESLintRule<Options, MessageIds>({
       {
         additionalProperties: false,
         properties: {
-          controlComponents: OPTION_SCHEMA_VALUE,
-          labelAttributes: OPTION_SCHEMA_VALUE,
-          labelComponents: OPTION_SCHEMA_VALUE,
+          controlComponents: {
+            // Used by docs generator, edit with care
+            description: `
+Default value:
+${JSON.stringify(DEFAULT_ELEMENTS)}
+`.trim(),
+            ...OPTION_SCHEMA_VALUE,
+          },
+          labelAttributes: {
+            // Used by docs generator, edit with care
+            description: `
+Default value:
+${JSON.stringify(DEFAULT_LABEL_ATTRIBUTES)}
+  `.trim(),
+            ...OPTION_SCHEMA_VALUE,
+          },
+          labelComponents: {
+            // Used by docs generator, edit with care
+            description: `
+Default value:
+${JSON.stringify(DEFAULT_LABEL_COMPONENTS)}
+`.trim(),
+            ...OPTION_SCHEMA_VALUE,
+          },
         },
         type: 'object',
       },

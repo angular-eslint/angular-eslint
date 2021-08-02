@@ -133,9 +133,20 @@ type Message<TMessageIds extends string> = {
 type SingleErrorOptions<TMessageIds extends string> = BaseErrorOptions &
   Message<TMessageIds>;
 
+export const SPECIAL_UNDERLINE_CHARS = [
+  '~',
+  '^',
+  '#',
+  '%',
+  '¶',
+  '*',
+  '¨',
+  '@',
+] as const;
+
 type MultipleErrorOptions<TMessageIds extends string> = BaseErrorOptions & {
   readonly messages: readonly (Message<TMessageIds> & {
-    readonly char: string;
+    readonly char: typeof SPECIAL_UNDERLINE_CHARS[number];
   })[];
 };
 
