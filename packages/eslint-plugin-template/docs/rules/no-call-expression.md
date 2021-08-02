@@ -53,23 +53,23 @@ The rule does not have any configuration options.
 <a [href]="id && createUrl()">info</a>
                  ~~~~~~~~~~~
 {{ id || obj?.nested1() }}
-         ^^^^^^^^^^^^^^
+         ~~~~~~~~~~~~~~
 ```
 
 ```html
 <a [href]="id ? a?.createUrl() : editUrl()">info</a>
-                ~~~~~~~~~~~~~~   ^^^^^^^^^
+                ~~~~~~~~~~~~~~   ~~~~~~~~~
 {{ 1 === 2 ? 3 : obj?.nested1() }}
-                 ##############
+                 ~~~~~~~~~~~~~~
 ```
 
 ```html
 {{ obj?.nested1() }} {{ obj!.nested1() }}
-   ~~~~~~~~~~~~~~       ^^^^^^^^^^^^^^
+   ~~~~~~~~~~~~~~       ~~~~~~~~~~~~~~
 <button [type]="obj!.$any(b)!.getType()">info</button>
-                #######################
+                ~~~~~~~~~~~~~~~~~~~~~~~
 <a [href]="obj.propertyA?.href()">info</a>
-           %%%%%%%%%%%%%%%%%%%%%
+           ~~~~~~~~~~~~~~~~~~~~~
 ```
 
 <br>

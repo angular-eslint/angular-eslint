@@ -7,9 +7,9 @@ import { SPECIAL_UNDERLINE_CHARS } from '../../packages/utils/src/test-helpers';
 
 const plugin = process.argv[2];
 
-if (plugin !== 'eslint-plugin-template') {
+if (plugin !== 'eslint-plugin-template' && plugin !== 'eslint-plugin') {
   console.error(
-    `\nError: the first argument to the script must be "eslint-plugin-template"`,
+    `\nError: the first argument to the script must be "eslint-plugin-template" or "eslint-plugin"`,
   );
   process.exit(1);
 }
@@ -26,10 +26,6 @@ const testDirs = readdirSync(testDirsDir);
   const allRuleData = await generateAllRuleData();
 
   for (const [ruleName, ruleData] of Object.entries(allRuleData)) {
-    if (ruleName !== 'no-any') {
-      continue;
-    }
-
     const {
       ruleConfig: {
         meta: {
@@ -119,7 +115,11 @@ ${schemaAsInterface}
 
 ❌ - Examples of **incorrect** code for this rule:
 
-${convertCodeExamplesToMarkdown(ruleData.invalid, 'invalid')}
+${convertCodeExamplesToMarkdown(
+  ruleData.invalid,
+  'invalid',
+  plugin === 'eslint-plugin-template' ? 'html' : 'ts',
+)}
 
 <br>
 
@@ -129,7 +129,11 @@ ${convertCodeExamplesToMarkdown(ruleData.invalid, 'invalid')}
 
 ✅ - Examples of **correct** code for this rule:
 
-${convertCodeExamplesToMarkdown(ruleData.valid, 'valid')}
+${convertCodeExamplesToMarkdown(
+  ruleData.valid,
+  'valid',
+  plugin === 'eslint-plugin-template' ? 'html' : 'ts',
+)}
 `;
 
     const outputFilePath = join(docsOutputDir, `${ruleName}.md`);
@@ -292,6 +296,7 @@ function escapeRegExp(str: string) {
 function convertCodeExamplesToMarkdown(
   codeExamples: string[] = [],
   kind: 'valid' | 'invalid',
+  highligher: 'html' | 'ts',
 ): string {
   return codeExamples
     .map((code) => {
@@ -302,7 +307,7 @@ function convertCodeExamplesToMarkdown(
         formattedCode = standardizeSpecialUnderlineChar(formattedCode);
       }
       return `
-\`\`\`html
+\`\`\`${highligher}
 ${formattedCode}
 \`\`\`
   `;

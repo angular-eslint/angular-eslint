@@ -40,26 +40,26 @@ The rule does not have any configuration options.
 <div aria-roledescriptio="text">Text</div>
      ~~~~~~~~~~~~~~~~~~~~~~~~~~
 <input [aria-labelby]="label">
-       ^^^^^^^^^^^^^^^^^^^^^^
+       ~~~~~~~~~~~~~~~~~~~~~~
 <input [attr.aria-requiredIf]="required">
-       #################################
+       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ```
 
 ```html
 <div aria-expanded="notABoolean">notABoolean</div>
      ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 <div aria-haspopup="notAToken">notAToken</div>
-     ^^^^^^^^^^^^^^^^^^^^^^^^^
+     ~~~~~~~~~~~~~~~~~~~~~~~~~
 <input [attr.aria-rowcount]="{ a: 2 }">notAnInteger
-       ###############################
+       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 <div aria-relevant="notATokenList">notATokenList</div>
-     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 <div aria-checked="notATristate">notATristate</div>
-     ¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 <div role="slider" [attr.aria-valuemin]="[1, 2]">notANumber</div>
-                   ¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 <input [attr.aria-placeholder]="4">notAPlaceholder
-       @@@@@@@@@@@@@@@@@@@@@@@@@@@
+       ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ```
 
 <br>
