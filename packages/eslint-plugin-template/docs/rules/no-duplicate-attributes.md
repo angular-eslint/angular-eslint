@@ -31,7 +31,7 @@ interface Options {
   /**
    * Whether or not two-way data binding is allowed as an exception to the rule.
    *
-   * Default is: `true`
+   * Default: `true`
    */
   allowTwoWayDataBinding?: boolean;
 }

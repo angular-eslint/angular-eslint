@@ -26,6 +26,9 @@ The rule accepts an options object with the following properties:
 
 ```ts
 interface Options {
+  /**
+   * Default: `["Directive"]`
+   */
   suffixes?: string[];
 }
 

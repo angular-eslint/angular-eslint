@@ -27,7 +27,7 @@ The rule accepts an options object with the following properties:
 ```ts
 interface Options {
   /**
-   * Default is: `5`
+   * Default: `5`
    */
   maxComplexity?: number;
 }

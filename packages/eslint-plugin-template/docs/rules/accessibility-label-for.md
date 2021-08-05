@@ -33,18 +33,15 @@ The rule accepts an options object with the following properties:
 ```ts
 interface Options {
   /**
-   * Default value:
-   * ["button","input","meter","output","progress","select","textarea"]
+   * Default: `["button","input","meter","output","progress","select","textarea"]`
    */
   controlComponents?: string[];
   /**
-   * Default value:
-   * ["for","htmlFor"]
+   * Default: `["for","htmlFor"]`
    */
   labelAttributes?: string[];
   /**
-   * Default value:
-   * ["label"]
+   * Default: `["label"]`
    */
   labelComponents?: string[];
 }

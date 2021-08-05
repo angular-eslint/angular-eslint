@@ -31,6 +31,8 @@ The rule accepts an options object with the following properties:
 interface Options {
   /**
    * A list with allowed input names
+   *
+   * Default: `[]`
    */
   allowedNames?: string[];
 }
