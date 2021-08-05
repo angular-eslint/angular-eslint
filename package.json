@@ -79,6 +79,7 @@
     "husky": "^3.0.0",
     "jest": "27.0.3",
     "json-schema-to-typescript": "^10.1.4",
+    "json-schema-traverse": "^1.0.0",
     "lerna": "^3.14.1",
     "lint-staged": "^9.2.0",
     "microbundle": "0.13.0",

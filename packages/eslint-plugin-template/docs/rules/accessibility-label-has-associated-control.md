@@ -26,7 +26,13 @@ The rule accepts an options object with the following properties:
 
 ```ts
 interface Options {
+  /**
+   * Default: `["input","meter","output","progress","select","textarea"]`
+   */
   controlComponents?: string[];
+  /**
+   * Default: `[{"inputs":["for","htmlFor"],"selector":"label"}]`
+   */
   labelComponents?: {
     inputs?: string[];
     selector: string;

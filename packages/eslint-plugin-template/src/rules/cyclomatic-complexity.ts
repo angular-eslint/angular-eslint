@@ -29,9 +29,6 @@ export default createESLintRule<Options, MessageIds>({
           maxComplexity: {
             type: 'number',
             minimum: 1,
-            // Used by docs generator, edit with care
-            description: `
-Default is: \`${DEFAULT_MAX_COMPLEXITY}\``.trim(),
           },
         },
         additionalProperties: false,

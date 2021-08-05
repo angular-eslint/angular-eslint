@@ -1,8 +1,9 @@
 import { readdirSync, readFileSync, writeFileSync } from 'fs';
 import { compile } from 'json-schema-to-typescript';
+import traverse from 'json-schema-traverse';
 import { join, relative } from 'path';
-import ts from 'typescript';
 import { format, resolveConfig } from 'prettier';
+import ts from 'typescript';
 import { SPECIAL_UNDERLINE_CHARS } from '../../packages/utils/src/test-helpers';
 
 const plugin = process.argv[2];
@@ -36,6 +37,7 @@ const testDirs = readdirSync(testDirsDir);
           fixable,
           schema,
         },
+        defaultOptions,
       },
       ruleFilePath,
       testCasesFilePath,
@@ -43,6 +45,42 @@ const testDirs = readdirSync(testDirsDir);
 
     let schemaAsInterface = '';
     if (Array.isArray(schema) && schema[0]) {
+      /**
+       * json-schema-to-typescript does not do anything with the "default" property,
+       * but it's really useful to include in the documentation, so we we apply the
+       * default value in a consistent way to the "description" property before
+       * converting.
+       */
+      traverse(schema[0], {
+        allKeys: true,
+        cb: (...data) => {
+          const [schemaNode, , , , , , keyIndex] = data;
+
+          let defaultValue = null;
+
+          if (typeof schemaNode.default !== 'undefined') {
+            defaultValue = schemaNode.default;
+          } else if (defaultOptions?.length) {
+            for (const defaultOption of defaultOptions) {
+              const defaultValueForNode = defaultOption[keyIndex as string];
+              if (defaultValueForNode) {
+                defaultValue = defaultValueForNode;
+              }
+            }
+          }
+
+          if (defaultValue) {
+            if (schemaNode.description) {
+              schemaNode.description += '\n\n';
+            } else {
+              schemaNode.description = '';
+            }
+            const serializedDefaultValue = JSON.stringify(defaultValue);
+            schemaNode.description += `Default: \`${serializedDefaultValue}\``;
+            return;
+          }
+        },
+      });
       schemaAsInterface = await compile(schema[0], 'Options', {
         bannerComment: '',
       });

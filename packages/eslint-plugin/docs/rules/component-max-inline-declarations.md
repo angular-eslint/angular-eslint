@@ -26,8 +26,17 @@ The rule accepts an options object with the following properties:
 
 ```ts
 interface Options {
+  /**
+   * Default: `3`
+   */
   template?: number;
+  /**
+   * Default: `3`
+   */
   styles?: number;
+  /**
+   * Default: `15`
+   */
   animations?: number;
 }
 
