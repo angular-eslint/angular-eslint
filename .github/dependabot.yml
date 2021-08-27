@@ -4,3 +4,8 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+  
+  - package-ecosystem: "npm"
+    directory: "/packages/integration-tests/fixtures"
+    ignore:
+      - dependency-name: "*"
