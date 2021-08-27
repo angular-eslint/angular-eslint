@@ -54,7 +54,7 @@
   "devDependencies": {
     "@angular-devkit/architect": "0.1201.1",
     "@angular-devkit/build-angular": "12.1.1",
-    "@angular/cli": "12.1.1",
+    "@angular/cli": "12.2.3",
     "@angular/compiler": "12.1.1",
     "@angular/compiler-cli": "12.1.1",
     "@commitlint/cli": "^8.1.0",
@@ -82,7 +82,7 @@
     "json-schema-traverse": "^1.0.0",
     "lerna": "^3.14.1",
     "lint-staged": "^9.2.0",
-    "microbundle": "0.13.0",
+    "microbundle": "0.13.3",
     "ncp": "^2.0.0",
     "prettier": "2.3.2",
     "rimraf": "^3.0.2",
