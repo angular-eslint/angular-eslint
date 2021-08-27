@@ -11,5 +11,7 @@ updates:
   # Attempt to get dependabot to ignore integration test fixtures
   - package-ecosystem: "npm"
     directory: "/packages/integration-tests/fixtures"
+    schedule:
+      interval: "weekly"
     ignore:
       - dependency-name: "*"
