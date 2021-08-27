@@ -4,7 +4,11 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    ignore:
+      # @nrwl deps should always be updated by running `npx nx migrate @nrwl/workspace`
+      - dependency-name: "@nrwl/*"
   
+  # Attempt to get dependabot to ignore integration test fixtures
   - package-ecosystem: "npm"
     directory: "/packages/integration-tests/fixtures"
     ignore:
