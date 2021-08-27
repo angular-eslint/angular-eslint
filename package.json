@@ -63,7 +63,7 @@
     "@nrwl/devkit": "12.6.0",
     "@nrwl/jest": "12.6.0",
     "@nrwl/nx-cloud": "12.3.0",
-    "@nrwl/tao": "12.6.0",
+    "@nrwl/tao": "12.8.0",
     "@nrwl/workspace": "12.6.0",
     "@schematics/angular": "12.0.0",
     "@types/eslint": "^7.2.1",
