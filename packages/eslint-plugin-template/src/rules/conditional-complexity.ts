@@ -20,6 +20,8 @@ type Options = [{ maxComplexity: number }];
 export type MessageIds = 'conditionalСomplexity';
 export const RULE_NAME = 'conditional-complexity';
 
+const DEFAULT_MAX_COMPLEXITY = 5;
+
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
   meta: {
@@ -33,7 +35,12 @@ export default createESLintRule<Options, MessageIds>({
     schema: [
       {
         type: 'object',
-        properties: { maxComplexity: { minimum: 1, type: 'number' } },
+        properties: {
+          maxComplexity: {
+            minimum: 1,
+            type: 'number',
+          },
+        },
         additionalProperties: false,
       },
     ],
@@ -42,7 +49,7 @@ export default createESLintRule<Options, MessageIds>({
         'The conditional complexity {{totalComplexity}} exceeds the defined limit {{maxComplexity}}',
     },
   },
-  defaultOptions: [{ maxComplexity: 5 }],
+  defaultOptions: [{ maxComplexity: DEFAULT_MAX_COMPLEXITY }],
   create(context, [{ maxComplexity }]) {
     ensureTemplateParser(context);
     const sourceCode = context.getSourceCode();
@@ -112,9 +119,8 @@ function getParser(): Parser {
 }
 
 function getTotalComplexity(ast: AST): number {
-  const possibleBinaryOrConditional = extractPossibleBinaryOrConditionalFrom(
-    ast,
-  );
+  const possibleBinaryOrConditional =
+    extractPossibleBinaryOrConditionalFrom(ast);
 
   if (
     !(

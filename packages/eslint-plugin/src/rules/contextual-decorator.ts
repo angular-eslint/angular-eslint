@@ -83,9 +83,8 @@ function validateDecorator(
     return;
   }
 
-  const allowedDecorators = ANGULAR_CLASS_DECORATOR_MAPPER.get(
-    classDecoratorName,
-  );
+  const allowedDecorators =
+    ANGULAR_CLASS_DECORATOR_MAPPER.get(classDecoratorName);
 
   if (allowedDecorators?.has(decoratorName)) {
     return;

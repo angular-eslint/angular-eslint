@@ -78,7 +78,8 @@ export type AngularInnerClassDecoratorKeys = Exclude<
   keyof typeof AngularInnerClassDecorators,
   number
 >;
-export type AngularLifecycleInterfaceKeys = keyof typeof AngularLifecycleInterfaces;
+export type AngularLifecycleInterfaceKeys =
+  keyof typeof AngularLifecycleInterfaces;
 export type AngularLifecycleMethodKeys = keyof typeof AngularLifecycleMethods;
 
 export const angularClassDecoratorKeys = objectKeys(AngularClassDecorators);
@@ -136,13 +137,11 @@ export const ANGULAR_CLASS_DECORATOR_LIFECYCLE_METHOD_MAPPER: ReadonlyMap<
   ],
 ]);
 
-export const ANGULAR_INNER_CLASS_DECORATORS: ReadonlySet<AngularInnerClassDecoratorKeys> = new Set(
-  angularInnerClassDecoratorKeys,
-);
+export const ANGULAR_INNER_CLASS_DECORATORS: ReadonlySet<AngularInnerClassDecoratorKeys> =
+  new Set(angularInnerClassDecoratorKeys);
 
-export const ANGULAR_CLASS_DECORATORS: ReadonlySet<AngularClassDecoratorKeys> = new Set(
-  angularClassDecoratorKeys,
-);
+export const ANGULAR_CLASS_DECORATORS: ReadonlySet<AngularClassDecoratorKeys> =
+  new Set(angularClassDecoratorKeys);
 
 export const ANGULAR_CLASS_DECORATOR_MAPPER: ReadonlyMap<
   AngularClassDecoratorKeys,
@@ -182,10 +181,8 @@ export const ANGULAR_CLASS_DECORATOR_MAPPER: ReadonlyMap<
   ],
 ]);
 
-/**
- * SECTION START:
- * Equivalents of utils exported by TypeScript itself for its own AST
- */
+// SECTION START:
+// Equivalents of utils exported by TypeScript itself for its own AST
 
 export function isCallExpression(
   node: TSESTree.Node,
@@ -203,6 +200,18 @@ export function isClassDeclaration(
   node: TSESTree.Node,
 ): node is TSESTree.ClassDeclaration {
   return node.type === AST_NODE_TYPES.ClassDeclaration;
+}
+
+export function isClassProperty(
+  node: TSESTree.Node,
+): node is TSESTree.ClassProperty {
+  return node.type === AST_NODE_TYPES.ClassProperty;
+}
+
+export function isClassPropertyOrMethodDefinition(
+  node: TSESTree.Node,
+): node is TSESTree.ClassProperty | TSESTree.MethodDefinition {
+  return isClassProperty(node) || isMethodDefinition(node);
 }
 
 export function isObjectExpression(
@@ -247,18 +256,14 @@ function isImportSpecifier(
   return node.type === AST_NODE_TYPES.ImportSpecifier;
 }
 
-type LiteralWithStringValue = TSESTree.Literal & {
-  value: string;
-};
-
 /**
- * ESTree does not differentiate between different types of Literals at the AST level,
- * but it is a common thing to need to do, so this utility and interface are here to
- * avoid repeated typeof checks on the node's value.
+ * `ESTree` does not differentiate between different types of `Literals` at the `AST` level,
+ * but it is a common thing to need to do, so this utility are here to
+ * avoid repeated `typeof` checks on the node's value.
  */
-export function isLiteralWithStringValue(
+export function isStringLiteral(
   node: TSESTree.Node,
-): node is LiteralWithStringValue {
+): node is TSESTree.StringLiteral {
   return isLiteral(node) && typeof node.value === 'string';
 }
 
@@ -272,10 +277,8 @@ export function isSuper(node: TSESTree.Node): node is TSESTree.Super {
   return node.type === AST_NODE_TYPES.Super;
 }
 
-/**
- * SECTION END:
- * Equivalents of utils exported by TypeScript itself for its own AST
- */
+// SECTION END:
+// Equivalents of utils exported by TypeScript itself for its own AST
 
 export function getNearestNodeFrom<T extends TSESTree.Node>(
   { parent }: TSESTree.Node,
@@ -401,7 +404,7 @@ export function getImportAddFix(
   moduleName: string,
   importedName: string,
   fixer: TSESLint.RuleFixer,
-): TSESLint.RuleFix {
+): TSESLint.RuleFix | undefined {
   const importDeclarations = getImportDeclarations(node, moduleName);
 
   if (!importDeclarations?.length) {
@@ -410,6 +413,13 @@ export function getImportAddFix(
       `import { ${importedName} } from '${moduleName}';\n`,
     );
   }
+
+  const importDeclarationSpecifier = getImportDeclarationSpecifier(
+    importDeclarations,
+    importedName,
+  );
+
+  if (importDeclarationSpecifier) return undefined;
 
   const firstImportDeclaration = importDeclarations[0];
   const lastImportSpecifier = getLast(firstImportDeclaration.specifiers);
@@ -571,13 +581,11 @@ export const getDeclaredAngularLifecycleMethods = (
     .filter(isNotNullOrUndefined)
     .filter(isAngularLifecycleMethod) as readonly AngularLifecycleMethodKeys[];
 
-export const ANGULAR_LIFECYCLE_INTERFACES: ReadonlySet<AngularLifecycleInterfaceKeys> = new Set(
-  angularLifecycleInterfaceKeys,
-);
+export const ANGULAR_LIFECYCLE_INTERFACES: ReadonlySet<AngularLifecycleInterfaceKeys> =
+  new Set(angularLifecycleInterfaceKeys);
 
-export const ANGULAR_LIFECYCLE_METHODS: ReadonlySet<AngularLifecycleMethodKeys> = new Set(
-  angularLifecycleMethodKeys,
-);
+export const ANGULAR_LIFECYCLE_METHODS: ReadonlySet<AngularLifecycleMethodKeys> =
+  new Set(angularLifecycleMethodKeys);
 
 export const isAngularLifecycleInterface = (
   value: string,
@@ -647,7 +655,7 @@ export const getDeclaredMethods = ({
 export const getMethodName = (
   node: TSESTree.MethodDefinition,
 ): string | undefined => {
-  if (isLiteralWithStringValue(node.key)) {
+  if (isStringLiteral(node.key)) {
     return node.key.value;
   }
   return ASTUtils.isIdentifier(node.key) ? node.key.name : undefined;
@@ -661,11 +669,11 @@ export const getLifecycleInterfaceByMethodName = (
 /**
  * Enforces the invariant that the input is an array.
  */
-export function arrayify<T>(arg?: T | readonly T[]): readonly T[] {
-  if (Array.isArray(arg)) {
-    return arg;
+export function arrayify<T>(value: T | readonly T[]): readonly T[] {
+  if (Array.isArray(value)) {
+    return value;
   }
-  return (arg ? [arg] : []) as readonly T[];
+  return (value ? [value] : []) as readonly T[];
 }
 
 // Needed because in the current Typescript version (TS 3.3.3333), Boolean() cannot be used to perform a null check.
@@ -756,3 +764,37 @@ export const toHumanReadableText = (items: readonly string[]): string => {
 
 export const toPattern = (value: readonly unknown[]): RegExp =>
   RegExp(`^(${value.join('|')})$`);
+
+export function getRawText(
+  node:
+    | TSESTree.Identifier
+    | TSESTree.Literal
+    | TSESTree.TemplateElement
+    | TSESTree.TemplateLiteral,
+): string {
+  if (ASTUtils.isIdentifier(node)) {
+    return node.name;
+  }
+
+  if (isLiteral(node)) {
+    return String(node.value);
+  }
+
+  const templateElement = isTemplateLiteral(node) ? node.quasis[0] : node;
+  return templateElement.value.raw;
+}
+
+export function getReplacementText(
+  node: TSESTree.Literal | TSESTree.TemplateElement | TSESTree.TemplateLiteral,
+  text: string,
+): string {
+  return isLiteral(node) ? `'${text}'` : `\`${text}\``;
+}
+
+export function capitalize<T extends string>(text: T): Capitalize<T> {
+  return `${text[0].toUpperCase()}${text.slice(1)}` as Capitalize<T>;
+}
+
+export function withoutBracketsAndWhitespaces(text: string): string {
+  return text.replace(/[[\]\s]/g, '');
+}

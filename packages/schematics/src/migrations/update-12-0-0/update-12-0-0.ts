@@ -45,9 +45,8 @@ function migrateToAccessibilityLabelHasAssociatedControlName(
   const accessibilityLabelForRule =
     rules['@angular-eslint/template/accessibility-label-for'];
   delete rules['@angular-eslint/template/accessibility-label-for'];
-  rules[
-    '@angular-eslint/template/accessibility-label-has-associated-control'
-  ] = accessibilityLabelForRule;
+  rules['@angular-eslint/template/accessibility-label-has-associated-control'] =
+    accessibilityLabelForRule;
 }
 
 function updateAccessibilityLabelFor() {

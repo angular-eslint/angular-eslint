@@ -47,9 +47,10 @@ export default createESLintRule<Options, MessageIds>({
       {
         additionalProperties: false,
         properties: {
-          controlComponents: OPTION_SCHEMA_VALUE,
-          labelAttributes: OPTION_SCHEMA_VALUE,
-          labelComponents: OPTION_SCHEMA_VALUE,
+          // NOTE: These need to be unique objects for documentation generation purposes
+          controlComponents: { ...OPTION_SCHEMA_VALUE },
+          labelAttributes: { ...OPTION_SCHEMA_VALUE },
+          labelComponents: { ...OPTION_SCHEMA_VALUE },
         },
         type: 'object',
       },
@@ -68,11 +69,8 @@ export default createESLintRule<Options, MessageIds>({
   ],
   create(context, [options]) {
     const parserServices = getTemplateParserServices(context);
-    const {
-      controlComponents,
-      labelAttributes,
-      labelComponents,
-    } = getParsedOptions(options);
+    const { controlComponents, labelAttributes, labelComponents } =
+      getParsedOptions(options);
     const labelComponentsPattern = toPattern([...labelComponents]);
 
     return {

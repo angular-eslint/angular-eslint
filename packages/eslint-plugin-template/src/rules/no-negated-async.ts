@@ -25,7 +25,7 @@ export default createESLintRule<Options, MessageIds>({
     schema: [],
     messages: {
       noNegatedAsync:
-        'Async pipe results should not be negated. Use (observable | async) === (false || null || undefined) to check its value instead',
+        'Async pipe results should not be negated. Use `(observable | async) === false`, `(observable | async) === null`, or `(observable | async) === undefined` to check its value instead',
       suggestFalseComparison: 'Compare with `false`',
       suggestNullComparison: 'Compare with `null`',
       suggestUndefinedComparison: 'Compare with `undefined`',

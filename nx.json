@@ -6,7 +6,11 @@
       "devDependencies": "*"
     },
     ".eslintrc.json": "*",
-    ".github/workflows/ci.yml": "*"
+    ".github/workflows/ci.yml": "*",
+    "tools/scripts/generate-rule-docs.ts": [
+      "eslint-plugin",
+      "eslint-plugin-template"
+    ]
   },
   "workspaceLayout": {
     "libsDir": "packages"
@@ -23,6 +27,8 @@
           "e2e",
           "integration-test",
           "check-configs",
+          "check-rule-docs",
+          "update-rule-docs",
           "typecheck"
         ],
         "runtimeCacheInputs": ["node --version"],
@@ -58,25 +64,6 @@
     ]
   },
   "projects": {
-    "builder": {
-      "implicitDependencies": []
-    },
-    "eslint-plugin": {
-      "implicitDependencies": []
-    },
-    "eslint-plugin-template": {
-      "implicitDependencies": ["template-parser"]
-    },
-    "integration-tests": {
-      "implicitDependencies": [
-        "builder",
-        "eslint-plugin",
-        "eslint-plugin-template",
-        "schematics",
-        "template-parser",
-        "utils"
-      ]
-    },
     "integration-tests-suite-1": {
       "implicitDependencies": [
         "integration-tests",
@@ -131,15 +118,6 @@
         "template-parser",
         "utils"
       ]
-    },
-    "schematics": {
-      "implicitDependencies": []
-    },
-    "template-parser": {
-      "implicitDependencies": []
-    },
-    "utils": {
-      "implicitDependencies": []
     }
   },
   "affected": {

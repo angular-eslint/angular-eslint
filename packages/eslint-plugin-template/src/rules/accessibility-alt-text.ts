@@ -108,7 +108,7 @@ function isValidObjectNode(node: TmplAstElement): boolean {
 
   return (
     node.children.length > 0 &&
-    !!((node.children[0] as unknown) as Node & { value?: unknown }).value
+    !!(node.children[0] as unknown as Node & { value?: unknown }).value
   );
 }
 
