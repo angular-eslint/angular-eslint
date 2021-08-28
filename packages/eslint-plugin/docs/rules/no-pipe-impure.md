@@ -56,8 +56,17 @@ class Test {}
 ```ts
 @Pipe({
   name: 'test',
-  'pure': !true
-  ~~~~~~~~~~~~~
+  ['pure']: !true
+  ~~~~~~~~~~~~~~~
+})
+class Test {}
+```
+
+```ts
+@Pipe({
+  name: 'test',
+  [`pure`]: false
+  ~~~~~~~~~~~~~~~
 })
 class Test {}
 ```
@@ -106,14 +115,14 @@ class Test {}
 
 ```ts
 @Pipe({
-  pure: !0,
+  'pure': !0,
 })
 class Test {}
 ```
 
 ```ts
 @Pipe({
-  pure: !!isPure(),
+  ['pure']: !!isPure(),
 })
 class Test {}
 ```
@@ -140,7 +149,7 @@ function isPure() {
 }
 
 @Pipe({
-  pure: isPure(),
+  [`pure`]: isPure(),
 })
 class Test {}
 ```

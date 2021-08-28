@@ -44,13 +44,37 @@ class Test {}
 ```
 
 ```ts
-import { ViewEncapsulation } from '@angular/core';
+import type { ViewEncapsulation } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-foo-bar',
   'encapsulation': ViewEncapsulation.None
                                      ~~~~
+})
+class Test {}
+```
+
+```ts
+import { ViewEncapsulation } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
+@Component({
+  selector: 'app-foo-bar',
+  ['encapsulation']: ViewEncapsulation.None
+                                       ~~~~
+})
+class Test {}
+```
+
+```ts
+import { ViewEncapsulation } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
+@Component({
+  selector: 'app-foo-bar',
+  [`encapsulation`]: ViewEncapsulation.None
+                                       ~~~~
 })
 class Test {}
 ```
@@ -73,7 +97,7 @@ class Test {}
 
 ```ts
 @Component({
-  encapsulation: ViewEncapsulation.Native,
+  'encapsulation': ViewEncapsulation.Native,
   selector: 'app-foo-bar',
 })
 class Test {}
@@ -81,7 +105,7 @@ class Test {}
 
 ```ts
 @Component({
-  encapsulation: ViewEncapsulation.ShadowDom,
+  ['encapsulation']: ViewEncapsulation.ShadowDom,
 })
 class Test {}
 ```
@@ -92,7 +116,7 @@ function encapsulation() {
 }
 
 @Component({
-  encapsulation: encapsulation()
+  [`encapsulation`]: encapsulation()
 })
 class Test {}
 ```
