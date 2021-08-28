@@ -13,7 +13,7 @@ import { getOriginalAttributeName } from '../utils/get-original-attribute-name';
 type Options = [{ readonly allowTwoWayDataBinding?: boolean }];
 export type MessageIds = 'noDuplicateAttributes' | 'suggestRemoveAttribute';
 export const RULE_NAME = 'no-duplicate-attributes';
-const DEFAULT_OPTIONS: Options[0] = { allowTwoWayDataBinding: true };
+const DEFAULT_OPTIONS: Options[number] = { allowTwoWayDataBinding: true };
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
@@ -96,24 +96,12 @@ export default createESLintRule<Options, MessageIds>({
   },
 });
 
-// TODO: Revisit overloads once we upgrade to TS 4.3, which offers a better support for calling array methods using union types (https://devblogs.microsoft.com/typescript/announcing-typescript-4-3/#contextual-narrowing).
-function findDuplicates(
-  elements: readonly TmplAstBoundEvent[],
-): readonly TmplAstBoundEvent[];
-function findDuplicates(
-  elements: readonly (TmplAstBoundAttribute | TmplAstTextAttribute)[],
-): readonly (TmplAstBoundAttribute | TmplAstTextAttribute)[];
-function findDuplicates(
-  elements: readonly (
+function findDuplicates<
+  TAttributeType extends
     | TmplAstBoundEvent
     | TmplAstBoundAttribute
-    | TmplAstTextAttribute
-  )[],
-): readonly (
-  | TmplAstBoundEvent
-  | TmplAstBoundAttribute
-  | TmplAstTextAttribute
-)[] {
+    | TmplAstTextAttribute,
+>(elements: readonly TAttributeType[]): readonly TAttributeType[] {
   return elements.filter((element) => {
     return elements.some(
       (otherElement) =>
