@@ -13,16 +13,25 @@
 
 # `@angular-eslint/use-injectable-provided-in`
 
-"Using the 'providedIn' property makes classes decorated with @Injectable tree shakeable
+Using the `providedIn` property makes `Injectables` tree-shakable
 
 - Type: suggestion
 - Category: Best Practices
+
+- 💡 Provides suggestions on how to fix issues (https://eslint.org/docs/developer-guide/working-with-rules#providing-suggestions)
 
 <br>
 
 ## Rule Options
 
-The rule does not have any configuration options.
+The rule accepts an options object with the following properties:
+
+```ts
+interface Options {
+  ignoreClassNamePattern?: string;
+}
+
+```
 
 <br>
 
@@ -40,6 +49,52 @@ The rule does not have any configuration options.
 class Test {}
 ```
 
+```ts
+@Injectable({})
+~~~~~~~~~~~~~~~
+class Test {}
+```
+
+```ts
+const providedIn = 'anotherProperty';
+@Injectable({ [providedIn]: [] })
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+class Test {}
+```
+
+```ts
+@Injectable({ providedIn: null })
+                          ~~~~
+class Test {}
+```
+
+```ts
+@Injectable({ ['providedIn']: undefined })
+                              ~~~~~~~~~
+class Test {}
+
+@Injectable()
+class HttpPostInterceptor implements HttpInterceptor {}
+```
+
+```ts
+@Injectable({ ['providedIn']: undefined })
+                              ~~~~~~~~~
+class Test {}
+
+@Injectable()
+class ProvidedInNgModule {}
+```
+
+```ts
+@Injectable({ [`providedIn`]: undefined })
+                              ~~~~~~~~~
+class Test {}
+
+@Injectable()
+class TestEffects {}
+```
+
 <br>
 
 ---
@@ -49,15 +104,54 @@ class Test {}
 ✅ - Examples of **correct** code for this rule:
 
 ```ts
+class Test {}
+```
+
+```ts
+const options = {};
+@Injectable(options)
+class Test {}
+```
+
+```ts
 @Injectable({
-  providedIn: 'root'
+  providedIn: `any`,
 })
 class Test {}
 ```
 
 ```ts
 @Injectable({
-  providedIn: SomeModule
+  'providedIn': 'root',
 })
+class Test {}
+```
+
+```ts
+@Injectable({
+  ['providedIn']: SomeModule,
+})
+class Test {}
+```
+
+```ts
+@Injectable({
+  [`providedIn`]: providedIn(),
+})
+class Test {}
+```
+
+```ts
+@Injectable()
+class Test implements HttpInterceptor {}
+```
+
+```ts
+@Injectable()
+class Test implements ng.HttpInterceptor {}
+```
+
+```ts
+@CustomInjectable()
 class Test {}
 ```
