@@ -1,6 +1,6 @@
 import type { TSESLint, TSESTree } from '@typescript-eslint/experimental-utils';
 import { ASTUtils } from '@typescript-eslint/experimental-utils';
-import { AST_NODE_TYPES } from '@typescript-eslint/types';
+import { AST_NODE_TYPES, AST_TOKEN_TYPES } from '@typescript-eslint/types';
 
 export const objectKeys = Object.keys as <T>(
   o: T,
@@ -196,6 +196,12 @@ export function isMemberExpression(
   return node.type === AST_NODE_TYPES.MemberExpression;
 }
 
+export function isIdentifierOrMemberExpression(
+  node: TSESTree.Node,
+): node is TSESTree.Identifier | TSESTree.MemberExpression {
+  return ASTUtils.isIdentifier(node) || isMemberExpression(node);
+}
+
 export function isClassDeclaration(
   node: TSESTree.Node,
 ): node is TSESTree.ClassDeclaration {
@@ -236,6 +242,12 @@ function isProgram(node: TSESTree.Node): node is TSESTree.Program {
 
 export function isLiteral(node: TSESTree.Node): node is TSESTree.Literal {
   return node.type === AST_NODE_TYPES.Literal;
+}
+
+export function isTemplateElement(
+  node: TSESTree.Node,
+): node is TSESTree.TemplateElement {
+  return node.type === AST_NODE_TYPES.TemplateElement;
 }
 
 export function isTemplateLiteral(
@@ -280,6 +292,12 @@ export function isSuper(node: TSESTree.Node): node is TSESTree.Super {
 // SECTION END:
 // Equivalents of utils exported by TypeScript itself for its own AST
 
+export function isImplementsToken(
+  token: TSESTree.Token,
+): token is TSESTree.KeywordToken & { value: 'implements' } {
+  return token.type === AST_TOKEN_TYPES.Keyword && token.value === 'implements';
+}
+
 export function getNearestNodeFrom<T extends TSESTree.Node>(
   { parent }: TSESTree.Node,
   predicate: (parent: TSESTree.Node) => parent is T,
@@ -323,42 +341,35 @@ export function getImplementsRemoveFix(
 
   if (!classImplements) return undefined;
 
-  const identifier = classImplements
-    .map(({ expression }) => expression)
-    .filter(ASTUtils.isIdentifier)
-    .find(({ name }) => name === interfaceName);
+  const identifier = getInterface(classDeclaration, interfaceName);
 
   if (!identifier) return undefined;
 
   const isFirstInterface = classImplements[0].expression === identifier;
-  const isLastInterface =
-    classImplements[classImplements.length - 1].expression === identifier;
-  const isSingleInterface = isFirstInterface && isLastInterface;
-
-  if (isSingleInterface && classDeclaration.id) {
-    return fixer.removeRange([
-      classDeclaration.id.range[1],
-      classImplements[0].range[1],
-    ]);
-  }
-
-  const tokenAfterInterface = sourceCode.getTokenAfter(identifier);
-
-  if (isFirstInterface && tokenAfterInterface) {
-    return fixer.removeRange([
-      identifier.range[0],
-      tokenAfterInterface.range[1],
-    ]);
-  }
-
+  const isLastInterface = getLast(classImplements).expression === identifier;
+  const hasSingleInterfaceImplemented = isFirstInterface && isLastInterface;
   const tokenBeforeInterface = sourceCode.getTokenBefore(identifier);
 
-  if (!tokenBeforeInterface) return undefined;
+  if (hasSingleInterfaceImplemented) {
+    return !tokenBeforeInterface || !isImplementsToken(tokenBeforeInterface)
+      ? undefined
+      : fixer.removeRange([
+          tokenBeforeInterface.range[0],
+          classImplements[0].range[1],
+        ]);
+  }
 
-  return fixer.removeRange([
-    tokenBeforeInterface.range[0],
-    identifier.range[1],
-  ]);
+  if (isFirstInterface) {
+    const tokenAfterInterface = sourceCode.getTokenAfter(identifier);
+
+    return !tokenAfterInterface
+      ? undefined
+      : fixer.removeRange([identifier.range[0], tokenAfterInterface.range[1]]);
+  }
+
+  return !tokenBeforeInterface
+    ? undefined
+    : fixer.removeRange([tokenBeforeInterface.range[0], identifier.range[1]]);
 }
 
 export function getNodeToCommaRemoveFix(
@@ -441,8 +452,7 @@ export function getImportRemoveFix(
   const isFirstImportSpecifier =
     importDeclaration.specifiers[0] === importSpecifier;
   const isLastImportSpecifier =
-    importDeclaration.specifiers[importDeclaration.specifiers.length - 1] ===
-    importSpecifier;
+    getLast(importDeclaration.specifiers) === importSpecifier;
   const isSingleImportSpecifier =
     isFirstImportSpecifier && isLastImportSpecifier;
 
@@ -470,7 +480,7 @@ export function getImportRemoveFix(
 }
 
 export function getImplementsSchemaFixer(
-  { id, implements: implementz }: TSESTree.ClassDeclaration,
+  { id, implements: classImplements }: TSESTree.ClassDeclaration,
   interfaceName: string,
 ): {
   readonly implementsNodeReplace:
@@ -478,8 +488,8 @@ export function getImplementsSchemaFixer(
     | TSESTree.Identifier;
   readonly implementsTextReplace: string;
 } {
-  const [implementsNodeReplace, implementsTextReplace] = implementz
-    ? [getLast(implementz), `, ${interfaceName}`]
+  const [implementsNodeReplace, implementsTextReplace] = classImplements
+    ? [getLast(classImplements), `, ${interfaceName}`]
     : [id as TSESTree.Identifier, ` implements ${interfaceName}`];
 
   return { implementsNodeReplace, implementsTextReplace } as const;
@@ -574,29 +584,40 @@ export const getPipeDecorator = (
   node: TSESTree.ClassDeclaration,
 ): TSESTree.Decorator | undefined => getDecorator(node, 'Pipe');
 
-export const getDeclaredInterfaces = (
+export function getInterfaces(
   node: TSESTree.ClassDeclaration,
-): TSESTree.TSClassImplements[] => {
-  return node.implements ?? [];
-};
+): readonly (TSESTree.Identifier | TSESTree.MemberExpression)[] {
+  return (node.implements ?? [])
+    .map(({ expression }) => expression)
+    .filter(isIdentifierOrMemberExpression);
+}
 
-export const getDeclaredInterfaceNames = (
+export function getInterface(
   node: TSESTree.ClassDeclaration,
-): readonly string[] =>
-  getDeclaredInterfaces(node)
-    .map(({ expression }) =>
-      isMemberExpression(expression) ? expression.property : expression,
-    )
-    .filter(ASTUtils.isIdentifier)
-    .map(({ name }) => name);
-
-export const getDeclaredInterfaceName = (
-  node: TSESTree.ClassDeclaration,
-  value: string,
-): string | undefined =>
-  getDeclaredInterfaceNames(node).find(
-    (interfaceName) => interfaceName === value,
+  interfaceName: string,
+): TSESTree.Identifier | TSESTree.MemberExpression | undefined {
+  return getInterfaces(node).find(
+    (interfaceMember) => getInterfaceName(interfaceMember) === interfaceName,
   );
+}
+
+export function getDeclaredInterfaceNames(
+  node: TSESTree.ClassDeclaration,
+): readonly string[] {
+  return getInterfaces(node).map(getInterfaceName).filter(isNotNullOrUndefined);
+}
+
+export function getInterfaceName(
+  interfaceMember: TSESTree.Identifier | TSESTree.MemberExpression,
+): string | undefined {
+  if (ASTUtils.isIdentifier(interfaceMember)) {
+    return interfaceMember.name;
+  }
+
+  return ASTUtils.isIdentifier(interfaceMember.property)
+    ? interfaceMember.property.name
+    : undefined;
+}
 
 export const getDeclaredAngularLifecycleInterfaces = (
   node: TSESTree.ClassDeclaration,
@@ -797,23 +818,28 @@ export const toHumanReadableText = (items: readonly string[]): string => {
 export const toPattern = (value: readonly unknown[]): RegExp =>
   RegExp(`^(${value.join('|')})$`);
 
-export function getRawText(
-  node:
-    | TSESTree.Identifier
-    | TSESTree.Literal
-    | TSESTree.TemplateElement
-    | TSESTree.TemplateLiteral,
-): string {
+export function getRawText(node: TSESTree.Node): string {
   if (ASTUtils.isIdentifier(node)) {
     return node.name;
+  }
+
+  if (isClassProperty(node) || isMethodDefinition(node) || isProperty(node)) {
+    return getRawText(node.key);
   }
 
   if (isLiteral(node)) {
     return String(node.value);
   }
 
-  const templateElement = isTemplateLiteral(node) ? node.quasis[0] : node;
-  return templateElement.value.raw;
+  if (isTemplateElement(node)) {
+    return node.value.raw;
+  }
+
+  if (isTemplateLiteral(node)) {
+    return node.quasis[0].value.raw;
+  }
+
+  throw Error(`Unexpected \`node.type\` provided: ${node.type}`);
 }
 
 export function getReplacementText(
