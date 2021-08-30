@@ -102,18 +102,6 @@
     "@angular-devkit/architect" "0.1201.1"
     rxjs "6.6.7"
 
-"@angular-devkit/core@12.0.0":
-  version "12.0.0"
-  resolved "https://registry.yarnpkg.com/@angular-devkit/core/-/core-12.0.0.tgz#e5f1dc4ba2e65a7aeb1fb14659e17a0f92dbae1b"
-  integrity sha512-4Cys++a684hCDTL/1X6j9izsjsqvYs3m6LF58zvKZHeG/Yhdofv1rV+3YGVYAorOx9w4spAgYTmr99TYnBGQWQ==
-  dependencies:
-    ajv "8.2.0"
-    ajv-formats "2.0.2"
-    fast-json-stable-stringify "2.1.0"
-    magic-string "0.25.7"
-    rxjs "6.6.7"
-    source-map "0.7.3"
-
 "@angular-devkit/core@12.1.1":
   version "12.1.1"
   resolved "https://registry.yarnpkg.com/@angular-devkit/core/-/core-12.1.1.tgz#c5c6aaaebb00adb4b96e8930f5053502599b699f"
@@ -126,14 +114,17 @@
     rxjs "6.6.7"
     source-map "0.7.3"
 
-"@angular-devkit/schematics@12.0.0":
-  version "12.0.0"
-  resolved "https://registry.yarnpkg.com/@angular-devkit/schematics/-/schematics-12.0.0.tgz#d46fa41d8968b64b6234f828fc16a227630fe621"
-  integrity sha512-xp6b8QF+MYT3kXEDo6MFRQRDGkFxAHBdBCo2wdo8qvoNHIr+8XYZwDEb8z0SbzzJmXFbDXk1vmavcNSd6+uLXg==
+"@angular-devkit/core@12.2.3":
+  version "12.2.3"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/core/-/core-12.2.3.tgz#16810ebdb0daee0d8732275af5da64d7eb64410a"
+  integrity sha512-qt1hcX5zydGmCI9gEFcqTyJDcFEScSHPRqx0dlm61hCtBF75C2g7erSgb35zE3kZ7UE9UQY28JffFnwCj6uJhQ==
   dependencies:
-    "@angular-devkit/core" "12.0.0"
-    ora "5.4.0"
+    ajv "8.6.2"
+    ajv-formats "2.1.0"
+    fast-json-stable-stringify "2.1.0"
+    magic-string "0.25.7"
     rxjs "6.6.7"
+    source-map "0.7.3"
 
 "@angular-devkit/schematics@12.1.1":
   version "12.1.1"
@@ -141,6 +132,15 @@
   integrity sha512-oRsvlhJQLXkGWdJvArOby+G4j8UX2uCHwrN4EC1hXUKs84UsD+UATYOAh4h2auy+I+sdrmELUaHwdI4wdKpqnw==
   dependencies:
     "@angular-devkit/core" "12.1.1"
+    ora "5.4.1"
+    rxjs "6.6.7"
+
+"@angular-devkit/schematics@12.2.3":
+  version "12.2.3"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/schematics/-/schematics-12.2.3.tgz#307b5af645449e64bfa2e9c0eb8f14462531c1a9"
+  integrity sha512-pbYOK8DK1V7YCzt8C3OckjQDGvCQqrLmg5kH+nLLAYOlkToRk3DBPIocuF9tCflNt6tEIkRJM4lPeDyy/z/GjQ==
+  dependencies:
+    "@angular-devkit/core" "12.2.3"
     ora "5.4.1"
     rxjs "6.6.7"
 
@@ -3238,15 +3238,6 @@
   dependencies:
     any-observable "^0.3.0"
 
-"@schematics/angular@12.0.0":
-  version "12.0.0"
-  resolved "https://registry.yarnpkg.com/@schematics/angular/-/angular-12.0.0.tgz#519c8d2bfb548c2678d7b3589548a7ff37e0dcf0"
-  integrity sha512-6fS1MuzLvuiuS8ruSl919+mXTBDgpMY+mC+n1iM70rHvDms6+wEIwuyEty6Mw7JsPFXwcFAsIBt3EZCplzHhmg==
-  dependencies:
-    "@angular-devkit/core" "12.0.0"
-    "@angular-devkit/schematics" "12.0.0"
-    jsonc-parser "3.0.0"
-
 "@schematics/angular@12.1.1":
   version "12.1.1"
   resolved "https://registry.yarnpkg.com/@schematics/angular/-/angular-12.1.1.tgz#e0e0d909cb641f808fa04fd1567e1f06c3676923"
@@ -3254,6 +3245,15 @@
   dependencies:
     "@angular-devkit/core" "12.1.1"
     "@angular-devkit/schematics" "12.1.1"
+    jsonc-parser "3.0.0"
+
+"@schematics/angular@12.2.3":
+  version "12.2.3"
+  resolved "https://registry.yarnpkg.com/@schematics/angular/-/angular-12.2.3.tgz#e0e21fdc0e8aff6c5d6ad9f1f4712ed46585baec"
+  integrity sha512-MyInM0/Dg1geP5eYx370IX6l70ZTtGq7QIt9CFBViHlX4BWNmXq5bbJIPYJ/FWwT+zhSK7zp5AcyDKg6PWqh/Q==
+  dependencies:
+    "@angular-devkit/core" "12.2.3"
+    "@angular-devkit/schematics" "12.2.3"
     jsonc-parser "3.0.0"
 
 "@sinonjs/commons@^1.7.0":
@@ -3973,13 +3973,6 @@ ajv-errors@^1.0.0:
   resolved "https://registry.yarnpkg.com/ajv-errors/-/ajv-errors-1.0.1.tgz#f35986aceb91afadec4102fbd85014950cefa64d"
   integrity sha512-DCRfO/4nQ+89p/RK43i8Ezd41EqdGIU4ld7nGF8OQ14oc/we5rEntLCUa7+jrn3nn83BosfwZA0wb4pon2o8iQ==
 
-ajv-formats@2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/ajv-formats/-/ajv-formats-2.0.2.tgz#69875cb99d76c74be46e9c7a4444bc232354eba0"
-  integrity sha512-Brah4Uo5/U8v76c6euTwtjVFFaVishwnJrQBYpev1JRh4vjA1F4HY3UzQez41YUCszUCXKagG8v6eVRBHV1gkw==
-  dependencies:
-    ajv "^8.0.0"
-
 ajv-formats@2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/ajv-formats/-/ajv-formats-2.1.0.tgz#96eaf83e38d32108b66d82a9cb0cfa24886cdfeb"
@@ -3992,20 +3985,20 @@ ajv-keywords@^3.1.0, ajv-keywords@^3.4.1, ajv-keywords@^3.5.2:
   resolved "https://registry.yarnpkg.com/ajv-keywords/-/ajv-keywords-3.5.2.tgz#31f29da5ab6e00d1c2d329acf7b5929614d5014d"
   integrity sha512-5p6WTN0DdTGVQk6VjcEju19IgaHudalcfabD7yhDGeA6bcQnmL+CpveLJq/3hvfwd1aof6L386Ougkx6RfyMIQ==
 
-ajv@8.2.0:
-  version "8.2.0"
-  resolved "https://registry.yarnpkg.com/ajv/-/ajv-8.2.0.tgz#c89d3380a784ce81b2085f48811c4c101df4c602"
-  integrity sha512-WSNGFuyWd//XO8n/m/EaOlNLtO0yL8EXT/74LqT4khdhpZjP7lkj/kT5uwRmGitKEVp/Oj7ZUHeGfPtgHhQ5CA==
+ajv@8.6.0:
+  version "8.6.0"
+  resolved "https://registry.yarnpkg.com/ajv/-/ajv-8.6.0.tgz#60cc45d9c46a477d80d92c48076d972c342e5720"
+  integrity sha512-cnUG4NSBiM4YFBxgZIj/In3/6KX+rQ2l2YPRVcvAMQGWEPKuXoPIhxzwqh31jA3IPbI4qEOp/5ILI4ynioXsGQ==
   dependencies:
     fast-deep-equal "^3.1.1"
     json-schema-traverse "^1.0.0"
     require-from-string "^2.0.2"
     uri-js "^4.2.2"
 
-ajv@8.6.0:
-  version "8.6.0"
-  resolved "https://registry.yarnpkg.com/ajv/-/ajv-8.6.0.tgz#60cc45d9c46a477d80d92c48076d972c342e5720"
-  integrity sha512-cnUG4NSBiM4YFBxgZIj/In3/6KX+rQ2l2YPRVcvAMQGWEPKuXoPIhxzwqh31jA3IPbI4qEOp/5ILI4ynioXsGQ==
+ajv@8.6.2:
+  version "8.6.2"
+  resolved "https://registry.yarnpkg.com/ajv/-/ajv-8.6.2.tgz#2fb45e0e5fcbc0813326c1c3da535d1881bb0571"
+  integrity sha512-9807RlWAgT564wT+DjeyU5OFMPjmzxVobvDFmNAhY+5zD6A2ly3jDp6sgnfyDtlIQ+7H97oc/DGCzzfu9rjw9w==
   dependencies:
     fast-deep-equal "^3.1.1"
     json-schema-traverse "^1.0.0"
@@ -12064,21 +12057,6 @@ optionator@^0.9.1:
     prelude-ls "^1.2.1"
     type-check "^0.4.0"
     word-wrap "^1.2.3"
-
-ora@5.4.0:
-  version "5.4.0"
-  resolved "https://registry.yarnpkg.com/ora/-/ora-5.4.0.tgz#42eda4855835b9cd14d33864c97a3c95a3f56bf4"
-  integrity sha512-1StwyXQGoU6gdjYkyVcqOLnVlbKj+6yPNNOxJVgpt9t4eksKjiriiHuxktLYkgllwk+D6MbC4ihH84L1udRXPg==
-  dependencies:
-    bl "^4.1.0"
-    chalk "^4.1.0"
-    cli-cursor "^3.1.0"
-    cli-spinners "^2.5.0"
-    is-interactive "^1.0.0"
-    is-unicode-supported "^0.1.0"
-    log-symbols "^4.1.0"
-    strip-ansi "^6.0.0"
-    wcwidth "^1.0.1"
 
 ora@5.4.1, ora@^5.3.0:
   version "5.4.1"
