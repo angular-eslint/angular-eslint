@@ -1,32 +1,22 @@
 import type { TSESLint } from '@typescript-eslint/experimental-utils';
 
-/**
- * FROM CODELYZER
- */
-interface SourcePosition {
+// #region FROM CODELYZER
+type SourcePosition = {
   readonly character: number;
   readonly line: number;
-}
+};
 
-/**
- * FROM CODELYZER
- */
-interface ExpectedFailure {
+type ExpectedFailure = {
   readonly endPosition?: SourcePosition;
   readonly message: string;
   readonly startPosition?: SourcePosition;
-}
+};
 
-/**
- * FROM CODELYZER
- */
 function escapeRegexp(value: string) {
   return value.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
 }
 
 /**
- * FROM CODELYZER
- *
  * When testing a failure, we also test to see if the linter will report the correct place where
  * the source code doesn't match the rule.
  *
@@ -116,6 +106,7 @@ export function parseInvalidSource(
     source: newSource,
   };
 }
+// #endregion FROM CODELYZER
 
 type BaseErrorOptions = {
   readonly description: string;
