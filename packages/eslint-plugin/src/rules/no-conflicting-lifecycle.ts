@@ -10,8 +10,9 @@ import {
   AngularLifecycleMethods,
   getDeclaredAngularLifecycleInterfaces,
   getDeclaredAngularLifecycleMethods,
-  getDeclaredInterfaces,
   getDeclaredMethods,
+  getInterfaceName,
+  getInterfaces,
   isAngularLifecycleInterface,
   isAngularLifecycleMethod,
 } from '../utils/utils';
@@ -59,11 +60,12 @@ export default createESLintRule<Options, MessageIds>({
 
       if (!hasInterfaceConflictingLifecycle) return;
 
-      const declaredInterfaces = getDeclaredInterfaces(node);
+      const declaredInterfaces = getInterfaces(node);
       const declaredAngularLifecycleInterfacesNodes = declaredInterfaces.filter(
-        (node) =>
-          ASTUtils.isIdentifier(node.expression) &&
-          isAngularLifecycleInterface(node.expression.name),
+        (node) => {
+          const interfaceName = getInterfaceName(node);
+          return interfaceName && isAngularLifecycleInterface(interfaceName);
+        },
       );
 
       for (const interFaceNode of declaredAngularLifecycleInterfacesNodes) {
