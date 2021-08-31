@@ -58,6 +58,12 @@ export default createESLintRule<Options, MessageIds>({
                 const importDeclarations =
                   getImportDeclarations(node, '@angular/core') ?? [];
                 const interfaceName = getRawText(node).replace(/^ng+/, '');
+                const text = sourceCode.getText();
+                const totalInterfaceOccurrences = getTotalInterfaceOccurrences(
+                  text,
+                  interfaceName,
+                );
+                const totalInterfaceOccurrencesSafeForRemoval = 2;
 
                 return [
                   fixer.remove(node),
@@ -67,12 +73,15 @@ export default createESLintRule<Options, MessageIds>({
                     interfaceName,
                     fixer,
                   ),
-                  getImportRemoveFix(
-                    sourceCode,
-                    importDeclarations,
-                    interfaceName,
-                    fixer,
-                  ),
+                  totalInterfaceOccurrences <=
+                  totalInterfaceOccurrencesSafeForRemoval
+                    ? getImportRemoveFix(
+                        sourceCode,
+                        importDeclarations,
+                        interfaceName,
+                        fixer,
+                      )
+                    : null,
                 ].filter(isNotNullOrUndefined);
               },
             },
@@ -82,3 +91,13 @@ export default createESLintRule<Options, MessageIds>({
     };
   },
 });
+
+function stripSpecialCharacters(text: string) {
+  return text.replace(/[\W]/g, '');
+}
+
+function getTotalInterfaceOccurrences(text: string, interfaceName: string) {
+  return text
+    .split(' ')
+    .filter((item) => stripSpecialCharacters(item) === interfaceName).length;
+}

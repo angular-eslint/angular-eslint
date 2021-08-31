@@ -289,6 +289,13 @@ export const invalid = [
       import {DoBootstrap, OnInit} from '@angular/core';
       @NgModule()
       class Test implements OnInit, DoBootstrap {
+        ngOnInit() {
+          this.init();
+        }
+      }
+
+      @NgModule()
+      class Test2 implements OnInit, DoBootstrap {
         ngOnInit() {}
         ~~~~~~~~~~~~~
       }
@@ -298,9 +305,16 @@ export const invalid = [
       {
         messageId: suggestRemoveLifecycleMethod,
         output: `
-      import {DoBootstrap} from '@angular/core';
+      import {DoBootstrap, OnInit} from '@angular/core';
       @NgModule()
-      class Test implements  DoBootstrap {
+      class Test implements OnInit, DoBootstrap {
+        ngOnInit() {
+          this.init();
+        }
+      }
+
+      @NgModule()
+      class Test2 implements  DoBootstrap {
         
         
       }
