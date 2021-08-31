@@ -8,7 +8,7 @@ import { getNonInteractiveElementRoleSchemas } from './get-non-interactive-eleme
 
 function checkIsInteractiveElement(node: TmplAstElement): boolean {
   function elementSchemaMatcher({ attributes, name }: ARIARoleRelationConcept) {
-    return node.name === name && attributesComparator(attributes, node);
+    return node.name === name && attributesComparator(attributes ?? [], node);
   }
   // Check in elementRoles for inherent interactive role associations for
   // this element.

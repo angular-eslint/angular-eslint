@@ -1,13 +1,12 @@
 import type { TmplAstElement } from '@angular/compiler';
-
 import {
   createESLintRule,
   getTemplateParserServices,
 } from '../utils/create-eslint-rule';
 import { getDomElements } from '../utils/get-dom-elements';
-import { isPresentationRole } from '../utils/is-presentational-role';
-import { isInteractiveElement } from '../utils/is-interactive-element';
 import { isHiddenFromScreenReader } from '../utils/is-hidden-from-screen-reader';
+import { isInteractiveElement } from '../utils/is-interactive-element';
+import { isPresentationRole } from '../utils/is-presentation-role';
 
 type Options = [];
 export type MessageIds = 'clickEventsHaveKeyEvents';

@@ -24,8 +24,8 @@ export const LITERAL_OR_TEMPLATE_ELEMENT = ':matches(Literal, TemplateElement)';
 
 export function metadataProperty<TKey extends string>(
   key: TKey,
-): `Property:matches([key.name='${TKey}'][computed=false], [key.value='${TKey}'], [key.quasis.0.value.raw='${TKey}'])` {
-  return `Property:matches([key.name='${key}'][computed=false], [key.value='${key}'], [key.quasis.0.value.raw='${key}'])`;
+): `Property:matches([key.name=${TKey}][computed=false], [key.value=${TKey}], [key.quasis.0.value.raw=${TKey}])` {
+  return `Property:matches([key.name=${key}][computed=false], [key.value=${key}], [key.quasis.0.value.raw=${key}])`;
 }
 
 export const COMPONENT_SELECTOR_LITERAL = `${COMPONENT_CLASS_DECORATOR} ${metadataProperty(

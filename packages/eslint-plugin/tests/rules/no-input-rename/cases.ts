@@ -13,49 +13,49 @@ export const valid = [
       inputs: ['play', popstate, \`online\`, 'obsolete: obsol', 'store: storage'],
     })
     class Test {}
-    `,
+  `,
   `
     @Component()
     class Test {
       change = new EventEmitter();
     }
-    `,
+  `,
   `
     @Directive()
     class Test {
       @Input() buttonChange = new EventEmitter<'change'>();
     }
-    `,
+  `,
   `
     @Component({
       inputs,
     })
     class Test {}
-    `,
+  `,
   `
     @Directive({
       inputs: [...test],
     })
     class Test {}
-    `,
+  `,
   `
     @Component({
       inputs: func(),
     })
     class Test {}
-    `,
+  `,
   `
     @Directive({
       inputs: [func(), 'a'],
     })
     class Test {}
-    `,
+  `,
   `
     @Component({})
     class Test {
       @Input() set setter(setter: string) {}
     }
-    `,
+  `,
   {
     code: `
       @Component({
@@ -73,7 +73,7 @@ export const valid = [
     class Test {
       @Input(change) touchMove: EventEmitter<{ action: 'click' | 'close' }> = new EventEmitter<{ action: 'click' | 'close' }>();
     }
-    `,
+  `,
   `
     const blur = 'blur';
     const click = 'click';
@@ -81,7 +81,7 @@ export const valid = [
     class Test {
       @Input(blur) [click]: EventEmitter<Blur>;
     }
-    `,
+  `,
   `
     @Component({
       selector: 'foo[bar]'
@@ -89,14 +89,28 @@ export const valid = [
     class Test {
       @Input() bar: string;
     }
-    `,
+  `,
   `
     @Directive({
       'selector': 'foo',
       'inputs': [\`test: ${'foo'}\`]
     })
     class Test {}
-    `,
+  `,
+  `
+    @Component({
+      'selector': 'foo',
+      ['inputs']: [\`test: ${'foo'}\`]
+    })
+    class Test {}
+  `,
+  `
+    @Directive({
+      'selector': 'foo',
+      [\`inputs\`]: [\`test: ${'foo'}\`]
+    })
+    class Test {}
+  `,
   `
     @Component({
       selector: '[foo], test',
@@ -104,7 +118,7 @@ export const valid = [
     class Test {
       @Input('foo') label: string;
     }
-    `,
+  `,
   `
     @Directive({
       selector: 'foo'
@@ -112,7 +126,7 @@ export const valid = [
     class Test {
       @Input('aria-label') ariaLabel: string;
     }
-    `,
+  `,
   {
     code: `
       @Component({
@@ -131,7 +145,7 @@ export const valid = [
     class Test {
       @Input('fooMyColor') myColor: string;
     }
-    `,
+  `,
 ];
 
 export const invalid = [
@@ -139,12 +153,12 @@ export const invalid = [
     description:
       'should fail if `inputs` metadata property is aliased in `@Component`',
     annotatedSource: `
-        @Component({
-          inputs: ['a: b']
-                   ~~~~~~
-        })
-        class Test {}
-      `,
+      @Component({
+        inputs: ['a: b']
+                 ~~~~~~
+      })
+      class Test {}
+    `,
     messageId,
     suggestions: (
       [
@@ -154,25 +168,25 @@ export const invalid = [
     ).map(([messageId, name]) => ({
       messageId,
       output: `
-        @Component({
-          inputs: ['${name}']
-                   
-        })
-        class Test {}
-      `,
+      @Component({
+        inputs: ['${name}']
+                 
+      })
+      class Test {}
+    `,
     })),
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'should fail if `inputs` metadata property is aliased in `@Directive`',
+      'should fail if `inputs` metadata property is literal and aliased in `@Directive`',
     annotatedSource: `
-        @Directive({
-          outputs: ['abort'],
-          inputs: [boundary, \`test: copy\`, 'check: check'],
+      @Directive({
+        outputs: ['abort'],
+        'inputs': [boundary, \`test: copy\`, 'check: check'],
                              ~~~~~~~~~~~~
-        })
-        class Test {}
-      `,
+      })
+      class Test {}
+    `,
     messageId,
     options: [{ allowedNames: ['check', 'test'] }],
     suggestions: (
@@ -183,43 +197,62 @@ export const invalid = [
     ).map(([messageId, name]) => ({
       messageId,
       output: `
-        @Directive({
-          outputs: ['abort'],
-          inputs: [boundary, \`${name}\`, 'check: check'],
+      @Directive({
+        outputs: ['abort'],
+        'inputs': [boundary, \`${name}\`, 'check: check'],
                              
-        })
-        class Test {}
-      `,
+      })
+      class Test {}
+    `,
     })),
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'should fail if `inputs` metadata property is `Literal` and aliased with the same name in `@Component`',
+      'should fail if `inputs` metadata property is computed `Literal` and aliased with the same name in `@Component`',
     annotatedSource: `
-        @Component({
-          'inputs': ['orientation: orientation'],
+      @Component({
+        ['inputs']: ['orientation: orientation'],
                      ~~~~~~~~~~~~~~~~~~~~~~~~~~
-        })
-        class Test {}
-      `,
+      })
+      class Test {}
+    `,
     messageId,
     annotatedOutput: `
-        @Component({
-          'inputs': ['orientation'],
+      @Component({
+        ['inputs']: ['orientation'],
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      })
+      class Test {}
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if `inputs` metadata property is computed `TemplateLiteral` and aliased with the same name in `@Directive`',
+    annotatedSource: `
+      @Directive({
+        [\`inputs\`]: ['orientation: orientation'],
                      ~~~~~~~~~~~~~~~~~~~~~~~~~~
-        })
-        class Test {}
-      `,
+      })
+      class Test {}
+    `,
+    messageId,
+    annotatedOutput: `
+      @Directive({
+        [\`inputs\`]: ['orientation'],
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      })
+      class Test {}
+    `,
   }),
   convertAnnotatedSourceToFailureCase({
     description: 'should fail if input property is aliased with backticks',
     annotatedSource: `
-        @Component()
-        class Test {
-          @Custom() @Input(\`change\`) _change = getInput();
-                           ~~~~~~~~
-        }
-      `,
+      @Component()
+      class Test {
+        @Custom() @Input(\`change\`) _change = getInput();
+                         ~~~~~~~~
+      }
+    `,
     messageId,
     suggestions: (
       [
@@ -229,43 +262,43 @@ export const invalid = [
     ).map(([messageId, propertyName]) => ({
       messageId,
       output: `
-        @Component()
-        class Test {
-          @Custom() @Input() ${propertyName} = getInput();
-                           
-        }
-      `,
+      @Component()
+      class Test {
+        @Custom() @Input() ${propertyName} = getInput();
+                         
+      }
+    `,
     })),
   }),
   convertAnnotatedSourceToFailureCase({
     description: 'should fail if input property is aliased',
     annotatedSource: `
-        @Directive()
-        class Test {
-          @Input('change') change = (this.subject$ as Subject<{blur: boolean}>).pipe();
-                 ~~~~~~~~
-        }
-      `,
+      @Directive()
+      class Test {
+        @Input('change') change = (this.subject$ as Subject<{blur: boolean}>).pipe();
+               ~~~~~~~~
+      }
+    `,
     messageId,
     annotatedOutput: `
-        @Directive()
-        class Test {
-          @Input() change = (this.subject$ as Subject<{blur: boolean}>).pipe();
-                 ~~~~~~~~
-        }
-      `,
+      @Directive()
+      class Test {
+        @Input() change = (this.subject$ as Subject<{blur: boolean}>).pipe();
+               ~~~~~~~~
+      }
+    `,
   }),
   convertAnnotatedSourceToFailureCase({
     description: 'should fail if input setter is aliased',
     annotatedSource: `
-        @Component()
-        class Test {
-          @Input(\`${'devicechange'}\`) set setter(setter: string) {}
-                 ~~~~~~~~~~~~~~
+      @Component()
+      class Test {
+        @Input(\`${'devicechange'}\`) set setter(setter: string) {}
+               ~~~~~~~~~~~~~~
 
-          @Input('allowedName') test: string;
-        }
-      `,
+        @Input('allowedName') test: string;
+      }
+    `,
     messageId,
     options: [{ allowedNames: ['allowedName'] }],
     suggestions: (
@@ -276,27 +309,27 @@ export const invalid = [
     ).map(([messageId, propertyName]) => ({
       messageId,
       output: `
-        @Component()
-        class Test {
-          @Input() set ${propertyName}(setter: string) {}
-                 
+      @Component()
+      class Test {
+        @Input() set ${propertyName}(setter: string) {}
+               
 
-          @Input('allowedName') test: string;
-        }
-      `,
+        @Input('allowedName') test: string;
+      }
+    `,
     })),
   }),
   convertAnnotatedSourceToFailureCase({
     description: `should fail if a input 'aria-*' alias name does not match the property name`,
     annotatedSource: `
-        @Directive({
-          selector: 'foo'
-        })
-        class Test {
-          @Input('aria-invalid') ariaBusy: string;
-                 ~~~~~~~~~~~~~~
-        }
-      `,
+      @Directive({
+        selector: 'foo'
+      })
+      class Test {
+        @Input('aria-invalid') ariaBusy: string;
+               ~~~~~~~~~~~~~~
+      }
+    `,
     messageId,
     suggestions: (
       [
@@ -306,27 +339,27 @@ export const invalid = [
     ).map(([messageId, propertyName]) => ({
       messageId,
       output: `
-        @Directive({
-          selector: 'foo'
-        })
-        class Test {
-          @Input() ${propertyName}: string;
-                 
-        }
-      `,
+      @Directive({
+        selector: 'foo'
+      })
+      class Test {
+        @Input() ${propertyName}: string;
+               
+      }
+    `,
     })),
   }),
   convertAnnotatedSourceToFailureCase({
-    description: `should fail if input alias is prefixed by directive's selector, but the suffix does not match the property name`,
+    description: `should fail if input alias is prefixed by component's selector, but the suffix does not match the property name`,
     annotatedSource: `
-        @Component({
-          selector: 'foo'
-        })
-        class Test {
-          @Input('fooColor') colors: string;
-                 ~~~~~~~~~~
-        }
-      `,
+      @Component({
+        selector: 'foo'
+      })
+      class Test {
+        @Input('fooColor') colors: string;
+               ~~~~~~~~~~
+      }
+    `,
     messageId,
     suggestions: (
       [
@@ -336,28 +369,28 @@ export const invalid = [
     ).map(([messageId, propertyName]) => ({
       messageId,
       output: `
-        @Component({
-          selector: 'foo'
-        })
-        class Test {
-          @Input() ${propertyName}: string;
-                 
-        }
-      `,
+      @Component({
+        selector: 'foo'
+      })
+      class Test {
+        @Input() ${propertyName}: string;
+               
+      }
+    `,
     })),
   }),
   convertAnnotatedSourceToFailureCase({
     description:
       'should fail if input alias is not strictly equal to the selector plus the property name in `camelCase` form',
     annotatedSource: `
-        @Directive({
-          'selector': 'foo'
-        })
-        class Test {
-          @Input('foocolor') color: string;
-                 ~~~~~~~~~~
-        }
-      `,
+      @Directive({
+        'selector': 'foo'
+      })
+      class Test {
+        @Input('foocolor') color: string;
+               ~~~~~~~~~~
+      }
+    `,
     messageId,
     suggestions: (
       [
@@ -367,31 +400,31 @@ export const invalid = [
     ).map(([messageId, propertyName]) => ({
       messageId,
       output: `
-        @Directive({
-          'selector': 'foo'
-        })
-        class Test {
-          @Input() ${propertyName}: string;
-                 
-        }
-      `,
+      @Directive({
+        'selector': 'foo'
+      })
+      class Test {
+        @Input() ${propertyName}: string;
+               
+      }
+    `,
     })),
   }),
   convertAnnotatedSourceToFailureCase({
     description:
       'should fail if input property is aliased without `@Component` or `@Directive` decorator',
     annotatedSource: `
-        @Component({
-          selector: 'click',
-        })
-        class Test {}
+      @Component({
+        selector: 'click',
+      })
+      class Test {}
 
-        @Injectable()
-        class Test {
-          @Input('click') blur = this.getInput();
-                 ~~~~~~~
-        }
-      `,
+      @Injectable()
+      class Test {
+        @Input('click') blur = this.getInput();
+               ~~~~~~~
+      }
+    `,
     messageId,
     suggestions: (
       [
@@ -401,17 +434,17 @@ export const invalid = [
     ).map(([messageId, propertyName]) => ({
       messageId,
       output: `
-        @Component({
-          selector: 'click',
-        })
-        class Test {}
+      @Component({
+        selector: 'click',
+      })
+      class Test {}
 
-        @Injectable()
-        class Test {
-          @Input() ${propertyName} = this.getInput();
-                 
-        }
-      `,
+      @Injectable()
+      class Test {
+        @Input() ${propertyName} = this.getInput();
+               
+      }
+    `,
     })),
   }),
 ];

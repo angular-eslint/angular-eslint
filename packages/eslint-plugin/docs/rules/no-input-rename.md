@@ -60,16 +60,24 @@ class Test {}
 ```ts
 @Directive({
   outputs: ['abort'],
-  inputs: [boundary, `test: copy`, 'check: check'],
-                     ~~~~~~~~~~~~
+  'inputs': [boundary, `test: copy`, 'check: check'],
+                       ~~~~~~~~~~~~
 })
 class Test {}
 ```
 
 ```ts
 @Component({
-  'inputs': ['orientation: orientation'],
-             ~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ['inputs']: ['orientation: orientation'],
+               ~~~~~~~~~~~~~~~~~~~~~~~~~~
+})
+class Test {}
+```
+
+```ts
+@Directive({
+  [`inputs`]: ['orientation: orientation'],
+               ~~~~~~~~~~~~~~~~~~~~~~~~~~
 })
 class Test {}
 ```

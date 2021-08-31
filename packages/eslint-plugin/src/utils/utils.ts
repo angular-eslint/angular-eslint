@@ -485,6 +485,38 @@ export function getImplementsSchemaFixer(
   return { implementsNodeReplace, implementsTextReplace } as const;
 }
 
+export function getDecoratorPropertyAddFix(
+  { expression }: TSESTree.Decorator,
+  fixer: TSESLint.RuleFixer,
+  text: string,
+): TSESLint.RuleFix | undefined {
+  if (!isCallExpression(expression)) {
+    return undefined;
+  }
+
+  const [firstArgument] = expression.arguments;
+
+  if (!firstArgument || !isObjectExpression(firstArgument)) {
+    // `@Component()` => `@Component({changeDetection: ChangeDetectionStrategy.OnPush})`
+    const [initialRange, endRange] = expression.range;
+    return fixer.insertTextAfterRange(
+      [initialRange + 1, endRange - 1],
+      `{${text}}`,
+    );
+  }
+
+  const { properties } = firstArgument;
+
+  if (properties.length === 0) {
+    //` @Component({})` => `@Component({changeDetection: ChangeDetectionStrategy.OnPush})`
+    const [initialRange, endRange] = firstArgument.range;
+    return fixer.insertTextAfterRange([initialRange + 1, endRange - 1], text);
+  }
+
+  // `@Component({...})` => `@Component({changeDetection: ChangeDetectionStrategy.OnPush, ...})`
+  return fixer.insertTextBefore(properties[0], `${text},`);
+}
+
 export const getClassName = (node: TSESTree.Node): string | undefined => {
   if (isClassDeclaration(node)) {
     return node.id?.name;
