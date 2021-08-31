@@ -119,6 +119,13 @@ class Test implements ng.OnDestroy {
 import {DoBootstrap, OnInit} from '@angular/core';
 @NgModule()
 class Test implements OnInit, DoBootstrap {
+  ngOnInit() {
+    this.init();
+  }
+}
+
+@NgModule()
+class Test2 implements OnInit, DoBootstrap {
   ngOnInit() {}
   ~~~~~~~~~~~~~
 }
