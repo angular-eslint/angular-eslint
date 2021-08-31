@@ -30,7 +30,7 @@ export default createESLintRule<Options, MessageIds>({
     return {
       [`${COMPONENT_OR_DIRECTIVE_CLASS_DECORATOR} ${metadataProperty(
         METADATA_PROPERTY_NAME,
-      )}`](node: TSESTree.PropertyNonComputedName) {
+      )}`](node: TSESTree.Property) {
         context.report({
           node,
           messageId: 'noInputsMetadataProperty',

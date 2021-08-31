@@ -67,7 +67,7 @@ class Test {}
 ```
 
 ```ts
-@Component({
+@Directive({
   inputs: [],
   ~~~~~~~~~~
 })
@@ -77,16 +77,16 @@ class Test {}
 ```ts
 const test = [];
 @Component({
-  inputs: test,
-  ~~~~~~~~~~~~
+  'inputs': test,
+  ~~~~~~~~~~~~~~
 })
 class Test {}
 ```
 
 ```ts
-@Component({
-  inputs: undefined,
-  ~~~~~~~~~~~~~~~~~
+@Directive({
+  ['inputs']: undefined,
+  ~~~~~~~~~~~~~~~~~~~~~
 })
 class Test {}
 ```
@@ -96,9 +96,9 @@ function inputs() {
   return [];
 }
 
-@Directive({
-  'inputs': inputs(),
-  ~~~~~~~~~~~~~~~~~~
+@Component({
+  [`inputs`]: inputs(),
+  ~~~~~~~~~~~~~~~~~~~~
 })
 class Test {}
 ```

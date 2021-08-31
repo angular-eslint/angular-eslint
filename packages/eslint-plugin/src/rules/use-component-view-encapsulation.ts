@@ -1,6 +1,9 @@
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
-import { COMPONENT_CLASS_DECORATOR } from '../utils/selectors';
+import {
+  COMPONENT_CLASS_DECORATOR,
+  metadataProperty,
+} from '../utils/selectors';
 import {
   getImportDeclarations,
   getImportRemoveFix,
@@ -35,7 +38,9 @@ export default createESLintRule<Options, MessageIds>({
     const sourceCode = context.getSourceCode();
 
     return {
-      [`${COMPONENT_CLASS_DECORATOR} Property:matches([key.name='encapsulation'], [key.value='encapsulation']) > MemberExpression[object.name='ViewEncapsulation'] > Identifier[name='None']`](
+      [`${COMPONENT_CLASS_DECORATOR} ${metadataProperty(
+        'encapsulation',
+      )} > MemberExpression[object.name='ViewEncapsulation'] > Identifier[name='None']`](
         node: TSESTree.Identifier & {
           parent: TSESTree.MemberExpression & { parent: TSESTree.Property };
         },
