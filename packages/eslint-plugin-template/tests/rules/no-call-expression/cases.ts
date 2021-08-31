@@ -4,63 +4,48 @@ import type { MessageIds } from '../../../src/rules/no-call-expression';
 const messageId: MessageIds = 'noCallExpression';
 
 export const valid = [
-  `
-      {{ info }}
-      <button type="button" (click)="handleClick()">Click Here</button>
-      {{ $any(info) }}
-      <input (change)="obj?.changeHandler()">
-      <form [formGroup]="form" (ngSubmit)="form.valid || save()"></form>
-      <form [formGroup]="form" (ngSubmit)="form.valid && save()"></form>
-      <form [formGroup]="form" (ngSubmit)="id ? save() : edit()"></form>
-    `,
+  '{{ info }}',
+  '<button type="button" (click)="handleClick()">Click Here</button>',
+  '{{ $any(info) }}',
+  '<input (change)="obj?.changeHandler()">',
+  '<form [formGroup]="form" (ngSubmit)="form.valid || save()"></form>',
+  '<form [formGroup]="form" (ngSubmit)="form.valid && save()"></form>',
+  '<form [formGroup]="form" (ngSubmit)="id ? save() : edit()"></form>',
 ];
 
 export const invalid = [
   convertAnnotatedSourceToFailureCase({
-    description: 'it should fail for call expression in an expression binding',
+    description: 'should fail for `FunctionCall` within `Interpolation`',
     annotatedSource: `
-        <div>{{ getInfo() }}</div>
-                ~~~~~~~~~
+        <div>{{ getInfo()() }}</div>
+                ~~~~~~~~~~~
+      `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail for `MethodCall` within `TextAttribute`',
+    annotatedSource: `
+        <a href="{{ getUrls().user }}"></a>
+                    ~~~~~~~~~
+      `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail for `SafeMethodCall` within `BoundAttribute`',
+    annotatedSource: `
+        <p [test]="test?.getInfo()"></p>
+                   ~~~~~~~~~~~~~~~
       `,
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'it should fail when using a property resulted from a call expression in an expression binding',
+      'should fail for `FunctionCall`, `MethodCall` and `SafeMethodCall` within `Binary`',
     annotatedSource: `
-        <a href="http://example.com">{{ getInfo().name }}</a>
-                                        ~~~~~~~~~
-      `,
-    messageId,
-  }),
-  convertAnnotatedSourceToFailureCase({
-    description: 'it should fail for call expression in a property binding',
-    annotatedSource: `
-        <a [href]="getUrl()">info</a>
-                   ~~~~~~~~
-      `,
-    messageId,
-  }),
-  convertAnnotatedSourceToFailureCase({
-    description: 'it should fail for call expression with binaries',
-    annotatedSource: `
-        <a [href]="id && createUrl()">info</a>
-                         ~~~~~~~~~~~
+        <a [href]="id && createUrl() && test()($any)">info</a>
+                         ~~~~~~~~~~~    ^^^^^^^^^^^^
         {{ id || obj?.nested1() }}
-                 ^^^^^^^^^^^^^^
-      `,
-    messages: [
-      { char: '~', messageId },
-      { char: '^', messageId },
-    ],
-  }),
-  convertAnnotatedSourceToFailureCase({
-    description: 'it should fail for call expression within conditionals',
-    annotatedSource: `
-        <a [href]="id ? a?.createUrl() : editUrl()">info</a>
-                        ~~~~~~~~~~~~~~   ^^^^^^^^^
-        {{ 1 === 2 ? 3 : obj?.nested1() }}
-                         ##############
+                 ##############
       `,
     messages: [
       { char: '~', messageId },
@@ -69,12 +54,27 @@ export const invalid = [
     ],
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'it should fail for safe/unsafe method calls',
+    description:
+      'should fail for `FunctionCall`, `MethodCall` and `SafeMethodCall` within `Conditional`',
+    annotatedSource: `
+        <a [href]="id ? a?.createUrl() : editUrl(3)">info</a>
+                        ~~~~~~~~~~~~~~   ^^^^^^^^^^
+        {{ 1 === 2 ? 3 : obj?.nested1()() }}
+                         ################
+      `,
+    messages: [
+      { char: '~', messageId },
+      { char: '^', messageId },
+      { char: '#', messageId },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail for safe/unsafe calls',
     annotatedSource: `
         {{ obj?.nested1() }} {{ obj!.nested1() }}
            ~~~~~~~~~~~~~~       ^^^^^^^^^^^^^^
-        <button [type]="obj!.$any(b)!.getType()">info</button>
-                        #######################
+        <button [type]="obj!.$any(b)!.getType()()">info</button>
+                        #########################
         <a [href]="obj.propertyA?.href()">info</a>
                    %%%%%%%%%%%%%%%%%%%%%
       `,
