@@ -35,39 +35,39 @@ The rule does not have any configuration options.
 ❌ - Examples of **incorrect** code for this rule:
 
 ```html
-<div>{{ getInfo() }}</div>
-        ~~~~~~~~~
+<div>{{ getInfo()() }}</div>
+        ~~~~~~~~~~~
 ```
 
 ```html
-<a href="http://example.com">{{ getInfo().name }}</a>
-                                ~~~~~~~~~
+<a href="{{ getUrls().user }}"></a>
+            ~~~~~~~~~
 ```
 
 ```html
-<a [href]="getUrl()">info</a>
-           ~~~~~~~~
+<p [test]="test?.getInfo()"></p>
+           ~~~~~~~~~~~~~~~
 ```
 
 ```html
-<a [href]="id && createUrl()">info</a>
-                 ~~~~~~~~~~~
+<a [href]="id && createUrl() && test()($any)">info</a>
+                 ~~~~~~~~~~~    ~~~~~~~~~~~~
 {{ id || obj?.nested1() }}
          ~~~~~~~~~~~~~~
 ```
 
 ```html
-<a [href]="id ? a?.createUrl() : editUrl()">info</a>
-                ~~~~~~~~~~~~~~   ~~~~~~~~~
-{{ 1 === 2 ? 3 : obj?.nested1() }}
-                 ~~~~~~~~~~~~~~
+<a [href]="id ? a?.createUrl() : editUrl(3)">info</a>
+                ~~~~~~~~~~~~~~   ~~~~~~~~~~
+{{ 1 === 2 ? 3 : obj?.nested1()() }}
+                 ~~~~~~~~~~~~~~~~
 ```
 
 ```html
 {{ obj?.nested1() }} {{ obj!.nested1() }}
    ~~~~~~~~~~~~~~       ~~~~~~~~~~~~~~
-<button [type]="obj!.$any(b)!.getType()">info</button>
-                ~~~~~~~~~~~~~~~~~~~~~~~
+<button [type]="obj!.$any(b)!.getType()()">info</button>
+                ~~~~~~~~~~~~~~~~~~~~~~~~~
 <a [href]="obj.propertyA?.href()">info</a>
            ~~~~~~~~~~~~~~~~~~~~~
 ```
@@ -82,10 +82,28 @@ The rule does not have any configuration options.
 
 ```html
 {{ info }}
+```
+
+```html
 <button type="button" (click)="handleClick()">Click Here</button>
+```
+
+```html
 {{ $any(info) }}
+```
+
+```html
 <input (change)="obj?.changeHandler()">
+```
+
+```html
 <form [formGroup]="form" (ngSubmit)="form.valid || save()"></form>
+```
+
+```html
 <form [formGroup]="form" (ngSubmit)="form.valid && save()"></form>
+```
+
+```html
 <form [formGroup]="form" (ngSubmit)="id ? save() : edit()"></form>
 ```
