@@ -30,7 +30,6 @@ export const valid = [
     code: `
         <div (click)="onClick()" role="presentation"></div>
         <div (click)="onClick()" [attr.role]="'none'"></div>
-        <div (click)="onClick()" [attr.role]="roleName"></div>
       `,
   },
   {

@@ -55,22 +55,30 @@ class Test {}
 ```ts
 @Directive({
   outputs: [onCredit],
-  inputs: [onLevel, `test: on`, onFunction()],
-                    ~~~~~~~~~~
+  'inputs': [onLevel, `test: on`, onFunction()],
+                      ~~~~~~~~~~
 })
 class Test {}
 ```
 
 ```ts
 @Component({
-  'inputs': ['onTest: test', ...onArray],
-             ~~~~~~~~~~~~~~
+  ['inputs']: ['onTest: test', ...onArray],
+               ~~~~~~~~~~~~~~
 })
 class Test {}
 ```
 
 ```ts
-@Directive()
+@Directive({
+  [`inputs`]: ['onTest: test', ...onArray],
+               ~~~~~~~~~~~~~~
+})
+class Test {}
+```
+
+```ts
+@Component()
 class Test {
   @Input() on: EventEmitter<any> = new EventEmitter<{}>();
            ~~
@@ -78,7 +86,7 @@ class Test {
 ```
 
 ```ts
-@Component()
+@Directive()
 class Test {
   @Input() @Custom('on') 'onPrefix' = new EventEmitter<void>();
                          ~~~~~~~~~~
@@ -86,7 +94,7 @@ class Test {
 ```
 
 ```ts
-@Directive()
+@Component()
 class Test {
   @Custom() @Input(`on`) _on = getInput();
                    ~~~~
@@ -94,7 +102,7 @@ class Test {
 ```
 
 ```ts
-@Component()
+@Directive()
 class Test {
   @Input('onPrefix') _on = (this.subject$ as Subject<{on: boolean}>).pipe();
          ~~~~~~~~~~
@@ -102,7 +110,7 @@ class Test {
 ```
 
 ```ts
-@Directive()
+@Component()
 class Test {
   @Input('setter') set 'on-setter'() {}
                        ~~~~~~~~~~~

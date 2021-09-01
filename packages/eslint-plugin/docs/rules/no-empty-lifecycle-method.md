@@ -46,7 +46,7 @@ class Test {
 
 ```ts
 @Directive()
-class Test {
+class Test extends BaseDirective {
   ngAfterContentInit() {}
   ~~~~~~~~~~~~~~~~~~~~~~~
 }
@@ -54,17 +54,17 @@ class Test {
 
 ```ts
 @Injectable()
-class Test {
-  ngAfterViewChecked() {}
-  ~~~~~~~~~~~~~~~~~~~~~~~
+class Test extends BaseTest implements AfterViewChecked, OnDestroy {
+  'ngAfterViewChecked'() {}
+  ~~~~~~~~~~~~~~~~~~~~~~~~~
 }
 ```
 
 ```ts
 @NgModule()
 class Test {
-  ngAfterViewInit() {}
-  ~~~~~~~~~~~~~~~~~~~~
+  ['ngAfterViewInit']() {}
+  ~~~~~~~~~~~~~~~~~~~~~~~~
 }
 ```
 
@@ -76,8 +76,8 @@ import {
 } from '@angular/core';
 @Pipe()
 class Test {
-  ngDoBootstrap() {}
-  ~~~~~~~~~~~~~~~~~~
+  [`ngDoBootstrap`]() {}
+  ~~~~~~~~~~~~~~~~~~~~~~
 }
 ```
 
@@ -90,8 +90,8 @@ import {
 @Component()
 class Test
     implements AfterViewChecked,
-               AfterViewInit,
-               DoCheck {
+                AfterViewInit,
+                DoCheck {
   ngDoCheck() {}
   ~~~~~~~~~~~~~~
 }
@@ -107,9 +107,9 @@ class Test implements OnChanges, AfterContentInit {
 ```
 
 ```ts
-import {OnDestroy} from '@angular/core';
+import * as ng from '@angular/core';
 @Injectable()
-class Test implements OnDestroy {
+class Test implements ng.OnDestroy {
   ngOnDestroy() {}
   ~~~~~~~~~~~~~~~~
 }
@@ -119,6 +119,21 @@ class Test implements OnDestroy {
 import {DoBootstrap, OnInit} from '@angular/core';
 @NgModule()
 class Test implements OnInit, DoBootstrap {
+  ngOnInit() {
+    this.init();
+  }
+}
+
+@NgModule()
+class Test2 implements OnInit, DoBootstrap {
+  ngOnInit() {}
+  ~~~~~~~~~~~~~
+}
+```
+
+```ts
+@Component()
+class Test extends BaseComponent<unknown> implements OnInit {
   ngOnInit() {}
   ~~~~~~~~~~~~~
 }
@@ -192,6 +207,13 @@ class Test {
 @NgModule()
 class Test {
   ngOnInit() { console.log('OnInit'); }
+}
+```
+
+```ts
+@Component()
+class Test {
+  [ngOnInit]() {}
 }
 ```
 
