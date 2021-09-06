@@ -319,16 +319,14 @@ export function getImportDeclarations(
 ): readonly TSESTree.ImportDeclaration[] | undefined {
   let parentNode: TSESTree.Node | undefined = node;
 
-  while ((parentNode = parentNode.parent)) {
-    if (!isProgram(parentNode)) continue;
-
-    return parentNode.body.filter(
-      (node): node is TSESTree.ImportDeclaration =>
-        isImportDeclaration(node) && node.source.value === moduleName,
-    );
+  while (parentNode && !isProgram(parentNode)) {
+    parentNode = parentNode.parent;
   }
 
-  return parentNode;
+  return parentNode?.body.filter(
+    (node): node is TSESTree.ImportDeclaration =>
+      isImportDeclaration(node) && node.source.value === moduleName,
+  );
 }
 
 export function getImplementsRemoveFix(
@@ -386,14 +384,14 @@ export function getNodeToCommaRemoveFix(
 
 function getImportDeclarationSpecifier(
   importDeclarations: readonly TSESTree.ImportDeclaration[],
-  importedName: string,
+  importName: string,
 ) {
   for (const importDeclaration of importDeclarations) {
     const importSpecifier = importDeclaration.specifiers.find(
       (importClause): importClause is TSESTree.ImportSpecifier => {
         return (
           isImportSpecifier(importClause) &&
-          importClause.imported.name === importedName
+          importClause.imported.name === importName
         );
       },
     );
@@ -410,42 +408,61 @@ export function getLast<T extends readonly unknown[]>(items: T): T[number] {
   return items.slice(-1)[0];
 }
 
-export function getImportAddFix(
-  node: TSESTree.ClassDeclaration,
-  moduleName: string,
-  importedName: string,
-  fixer: TSESLint.RuleFixer,
-): TSESLint.RuleFix | undefined {
+export function getImportAddFix({
+  compatibleWithTypeOnlyImport = false,
+  fixer,
+  importName,
+  moduleName,
+  node,
+}: {
+  compatibleWithTypeOnlyImport?: boolean;
+  fixer: TSESLint.RuleFixer;
+  importName: string;
+  moduleName: string;
+  node: TSESTree.Node;
+}): TSESLint.RuleFix | undefined {
+  const fullImport = `import { ${importName} } from '${moduleName}';\n`;
   const importDeclarations = getImportDeclarations(node, moduleName);
 
   if (!importDeclarations?.length) {
-    return fixer.insertTextAfterRange(
-      [0, 0],
-      `import { ${importedName} } from '${moduleName}';\n`,
-    );
+    return fixer.insertTextAfterRange([0, 0], fullImport);
   }
 
   const importDeclarationSpecifier = getImportDeclarationSpecifier(
     importDeclarations,
-    importedName,
+    importName,
   );
 
-  if (importDeclarationSpecifier) return undefined;
+  if (importDeclarationSpecifier) {
+    return undefined;
+  }
 
-  const firstImportDeclaration = importDeclarations[0];
-  const lastImportSpecifier = getLast(firstImportDeclaration.specifiers);
+  const [{ importKind, specifiers }] = importDeclarations;
 
-  return fixer.insertTextAfter(lastImportSpecifier, `, ${importedName}`);
+  if (!compatibleWithTypeOnlyImport && importKind === 'type') {
+    return fixer.insertTextAfterRange([0, 0], fullImport);
+  }
+
+  const lastImportSpecifier = getLast(specifiers);
+
+  switch (lastImportSpecifier.type) {
+    case AST_NODE_TYPES.ImportDefaultSpecifier:
+      return fixer.insertTextAfter(lastImportSpecifier, `, { ${importName} }`);
+    case AST_NODE_TYPES.ImportNamespaceSpecifier:
+      return fixer.insertTextAfterRange([0, 0], fullImport);
+    default:
+      return fixer.insertTextAfter(lastImportSpecifier, `, ${importName}`);
+  }
 }
 
 export function getImportRemoveFix(
   sourceCode: Readonly<TSESLint.SourceCode>,
   importDeclarations: readonly TSESTree.ImportDeclaration[],
-  importedName: string,
+  importName: string,
   fixer: TSESLint.RuleFixer,
 ): TSESLint.RuleFix | undefined {
   const { importDeclaration, importSpecifier } =
-    getImportDeclarationSpecifier(importDeclarations, importedName) ?? {};
+    getImportDeclarationSpecifier(importDeclarations, importName) ?? {};
 
   if (!importDeclaration || !importSpecifier) return undefined;
 
@@ -671,8 +688,10 @@ export const isAngularInnerClassDecorator = (
  *  ['c'] // Literal
  * }
  */
-export function getClassPropertyName({ key }: TSESTree.ClassProperty): string {
-  if (ASTUtils.isIdentifier(key)) {
+export function getClassPropertyName(node: TSESTree.ClassProperty): string {
+  const { key } = node;
+
+  if (ASTUtils.isIdentifier(key) && !node.computed) {
     return key.name;
   }
 
@@ -711,7 +730,9 @@ export const getMethodName = (
   if (isStringLiteral(node.key)) {
     return node.key.value;
   }
-  return ASTUtils.isIdentifier(node.key) ? node.key.name : undefined;
+  return ASTUtils.isIdentifier(node.key) && !node.computed
+    ? node.key.name
+    : undefined;
 };
 
 export const getLifecycleInterfaceByMethodName = (
