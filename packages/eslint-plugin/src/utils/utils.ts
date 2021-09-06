@@ -220,6 +220,18 @@ export function isClassPropertyOrMethodDefinition(
   return isClassProperty(node) || isMethodDefinition(node);
 }
 
+export function isImportDefaultSpecifier(
+  node: TSESTree.Node,
+): node is TSESTree.ImportDefaultSpecifier {
+  return node.type === AST_NODE_TYPES.ImportDefaultSpecifier;
+}
+
+export function isImportNamespaceSpecifier(
+  node: TSESTree.Node,
+): node is TSESTree.ImportNamespaceSpecifier {
+  return node.type === AST_NODE_TYPES.ImportNamespaceSpecifier;
+}
+
 export function isObjectExpression(
   node: TSESTree.Node,
 ): node is TSESTree.ObjectExpression {
@@ -319,14 +331,16 @@ export function getImportDeclarations(
 ): readonly TSESTree.ImportDeclaration[] | undefined {
   let parentNode: TSESTree.Node | undefined = node;
 
-  while (parentNode && !isProgram(parentNode)) {
-    parentNode = parentNode.parent;
+  while ((parentNode = parentNode.parent)) {
+    if (!isProgram(parentNode)) continue;
+
+    return parentNode.body.filter(
+      (node): node is TSESTree.ImportDeclaration =>
+        isImportDeclaration(node) && node.source.value === moduleName,
+    );
   }
 
-  return parentNode?.body.filter(
-    (node): node is TSESTree.ImportDeclaration =>
-      isImportDeclaration(node) && node.source.value === moduleName,
-  );
+  return parentNode;
 }
 
 export function getImplementsRemoveFix(
@@ -408,6 +422,28 @@ export function getLast<T extends readonly unknown[]>(items: T): T[number] {
   return items.slice(-1)[0];
 }
 
+function getCorrespondentImportClause(
+  importDeclarations: readonly TSESTree.ImportDeclaration[],
+  compatibleWithTypeOnlyImport = false,
+) {
+  let importClause: TSESTree.ImportClause | undefined;
+
+  for (const { importKind, specifiers } of importDeclarations) {
+    const lastImportSpecifier = getLast(specifiers);
+
+    if (
+      (!compatibleWithTypeOnlyImport && importKind === 'type') ||
+      isImportNamespaceSpecifier(lastImportSpecifier)
+    ) {
+      continue;
+    }
+
+    importClause = lastImportSpecifier;
+  }
+
+  return importClause;
+}
+
 export function getImportAddFix({
   compatibleWithTypeOnlyImport = false,
   fixer,
@@ -437,22 +473,19 @@ export function getImportAddFix({
     return undefined;
   }
 
-  const [{ importKind, specifiers }] = importDeclarations;
+  const importClause = getCorrespondentImportClause(
+    importDeclarations,
+    compatibleWithTypeOnlyImport,
+  );
 
-  if (!compatibleWithTypeOnlyImport && importKind === 'type') {
+  if (!importClause) {
     return fixer.insertTextAfterRange([0, 0], fullImport);
   }
 
-  const lastImportSpecifier = getLast(specifiers);
-
-  switch (lastImportSpecifier.type) {
-    case AST_NODE_TYPES.ImportDefaultSpecifier:
-      return fixer.insertTextAfter(lastImportSpecifier, `, { ${importName} }`);
-    case AST_NODE_TYPES.ImportNamespaceSpecifier:
-      return fixer.insertTextAfterRange([0, 0], fullImport);
-    default:
-      return fixer.insertTextAfter(lastImportSpecifier, `, ${importName}`);
-  }
+  const replacementText = isImportDefaultSpecifier(importClause)
+    ? `, { ${importName} }`
+    : `, ${importName}`;
+  return fixer.insertTextAfter(importClause, replacementText);
 }
 
 export function getImportRemoveFix(
@@ -555,15 +588,15 @@ export const getClassName = (node: TSESTree.Node): string | undefined => {
 };
 
 export const getDecorator = (
-  node: TSESTree.ClassDeclaration,
+  node:
+    | TSESTree.ClassDeclaration
+    | TSESTree.ClassProperty
+    | TSESTree.Identifier
+    | TSESTree.MethodDefinition,
   decoratorName: string,
 ): TSESTree.Decorator | undefined => {
   return node.decorators?.find(
-    (decorator) =>
-      isCallExpression(decorator.expression) &&
-      decorator.expression.arguments &&
-      decorator.expression.arguments.length > 0 &&
-      getDecoratorName(decorator) === decoratorName,
+    (decorator) => getDecoratorName(decorator) === decoratorName,
   );
 };
 
@@ -688,10 +721,11 @@ export const isAngularInnerClassDecorator = (
  *  ['c'] // Literal
  * }
  */
-export function getClassPropertyName(node: TSESTree.ClassProperty): string {
-  const { key } = node;
-
-  if (ASTUtils.isIdentifier(key) && !node.computed) {
+export function getClassPropertyName({
+  computed,
+  key,
+}: TSESTree.ClassProperty): string {
+  if (ASTUtils.isIdentifier(key) && !computed) {
     return key.name;
   }
 
@@ -724,15 +758,15 @@ export const getDeclaredMethods = ({
   return body.filter(isMethodDefinition);
 };
 
-export const getMethodName = (
-  node: TSESTree.MethodDefinition,
-): string | undefined => {
-  if (isStringLiteral(node.key)) {
-    return node.key.value;
+export const getMethodName = ({
+  computed,
+  key,
+}: TSESTree.MethodDefinition): string | undefined => {
+  if (isStringLiteral(key)) {
+    return key.value;
   }
-  return ASTUtils.isIdentifier(node.key) && !node.computed
-    ? node.key.name
-    : undefined;
+
+  return ASTUtils.isIdentifier(key) && !computed ? key.name : undefined;
 };
 
 export const getLifecycleInterfaceByMethodName = (
