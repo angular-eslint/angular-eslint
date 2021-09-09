@@ -13,7 +13,7 @@
 
 # `@angular-eslint/sort-ngmodule-metadata-arrays`
 
-Enforces ASC alphabetical order for NgModule metadata arrays for easy visual scanning
+Ensures ASC alphabetical order for `NgModule` metadata arrays for easy visual scanning
 
 - Type: suggestion
 - Category: Best Practices
@@ -37,20 +37,15 @@ The rule does not have any configuration options.
 
 ```ts
 @NgModule({
-  imports: [
-    aModule,
-    bModule,
-    DModule,
-    ~~~~~~~
-    cModule,
-  ]
+  imports: [aModule, bModule, DModule, cModule]
+                              ~~~~~~~
 })
 class Test {}
 ```
 
 ```ts
 @NgModule({
-  declarations: [
+  'declarations': [
     AComponent,
     cPipe,
     ~~~~~
@@ -63,7 +58,7 @@ class Test {}
 
 ```ts
 @NgModule({
-  exports: [
+  ['exports']: [
     AComponent,
     cPipe,
     ~~~~~
@@ -76,7 +71,7 @@ class Test {}
 
 ```ts
 @NgModule({
-  bootstrap: [
+  [`bootstrap`]: [
     AppModule2,
     AppModule3,
     ~~~~~~~~~~
@@ -124,27 +119,63 @@ class Test {}
 ✅ - Examples of **correct** code for this rule:
 
 ```ts
+class Test {}
+```
+
+```ts
+@NgModule()
+class Test {}
+```
+
+```ts
+@NgModule({})
+class Test {}
+```
+
+```ts
+const options = {};
+@NgModule(options)
+class Test {}
+```
+
+```ts
+@NgModule({
+  bootstrap,
+  declarations: declarations,
+  providers: providers(),
+  schemas: [],
+  [imports]: [
+    aModule,
+    bModule,
+    DModule,
+    cModule,
+  ],
+})
+class Test {}
+```
+
+```ts
 @NgModule({
   bootstrap: [
     AppModule1,
     AppModule2,
     AppModule3,
   ],
-  declarations: [
+  'declarations': [
     AComponent,
     bDirective,
     cPipe,
     DComponent,
     VariableComponent,
   ],
-  imports: [
+  ['imports']: [
     _foo,
     AModule,
     bModule,
     cModule,
     DModule,
   ],
-  providers: [
+  [`providers`]: [
     AProvider,
     {
       provide: 'myprovider',
@@ -154,6 +185,16 @@ class Test {}
     cProvider,
     DProvider,
   ],
+})
+class Test {}
+```
+
+```ts
+@Component({
+  providers: [
+    DeclarationD,
+    DeclarationA,
+  ]
 })
 class Test {}
 ```
