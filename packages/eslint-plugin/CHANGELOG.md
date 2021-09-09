@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [12.4.0](https://github.com/angular-eslint/angular-eslint/compare/v12.3.1...v12.4.0) (2021-09-09)
+
+### Bug Fixes
+
+- **eslint-plugin:** [no-empty-lifecycle-method] incorrect suggestions and correct reports ([#606](https://github.com/angular-eslint/angular-eslint/issues/606)) ([a446e8f](https://github.com/angular-eslint/angular-eslint/commit/a446e8ff521725d354dc23242c4ad23bc52c9681))
+- **eslint-plugin:** [sort-ngmodule-metadata-arrays] handle literal metadata and computed properties ([#667](https://github.com/angular-eslint/angular-eslint/issues/667)) ([f993069](https://github.com/angular-eslint/angular-eslint/commit/f99306977254e2894ad769448f0cbebd7665cbcd))
+- **eslint-plugin:** properly handle computed literals for some rules ([#600](https://github.com/angular-eslint/angular-eslint/issues/600)) ([fbd6ff7](https://github.com/angular-eslint/angular-eslint/commit/fbd6ff7e5c5e4e249cbb5159c36cac3416e9ae3b))
+
+### Features
+
+- **eslint-plugin:** [prefer-on-push-component-change-detection] add suggestion ([#666](https://github.com/angular-eslint/angular-eslint/issues/666)) ([3723c4c](https://github.com/angular-eslint/angular-eslint/commit/3723c4ca591ba8b62b78717e683ee82e7a5a4b07))
+- **eslint-plugin:** [use-injectable-provided-in] add suggestion ([#594](https://github.com/angular-eslint/angular-eslint/issues/594)) ([bdef8c7](https://github.com/angular-eslint/angular-eslint/commit/bdef8c77bcc72aa20c58c2c5c8fd0489675adcfd))
+
 ## [12.3.1](https://github.com/angular-eslint/angular-eslint/compare/v12.3.0...v12.3.1) (2021-07-15)
 
 ### Bug Fixes

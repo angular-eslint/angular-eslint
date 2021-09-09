@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [12.4.0](https://github.com/angular-eslint/angular-eslint/compare/v12.3.1...v12.4.0) (2021-09-09)
+
+### Bug Fixes
+
+- **eslint-plugin-template:** [i18n] fixes some incorrect reports ([#665](https://github.com/angular-eslint/angular-eslint/issues/665)) ([a011b9d](https://github.com/angular-eslint/angular-eslint/commit/a011b9d6711482f0713e30208d46b38ce266741d))
+- **eslint-plugin-template:** [no-call-expression]: `FunctionCall`s not being reported ([#601](https://github.com/angular-eslint/angular-eslint/issues/601)) ([5552b13](https://github.com/angular-eslint/angular-eslint/commit/5552b13a87ff0a04ea92a12f54decfbb0c4f984e))
+- **eslint-plugin-template:** include more checks for `isHiddenFromScreenReader` ([#545](https://github.com/angular-eslint/angular-eslint/issues/545)) ([db2bc05](https://github.com/angular-eslint/angular-eslint/commit/db2bc057458bf7080b7848934dd6a30582dced27))
+
 ## [12.3.1](https://github.com/angular-eslint/angular-eslint/compare/v12.3.0...v12.3.1) (2021-07-15)
 
 **Note:** Version bump only for package @angular-eslint/eslint-plugin-template

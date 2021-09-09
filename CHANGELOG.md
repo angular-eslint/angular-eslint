@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [12.4.0](https://github.com/angular-eslint/angular-eslint/compare/v12.3.1...v12.4.0) (2021-09-09)
+
+### Bug Fixes
+
+- **eslint-plugin:** [no-empty-lifecycle-method] incorrect suggestions and correct reports ([#606](https://github.com/angular-eslint/angular-eslint/issues/606)) ([a446e8f](https://github.com/angular-eslint/angular-eslint/commit/a446e8ff521725d354dc23242c4ad23bc52c9681))
+- **eslint-plugin:** [sort-ngmodule-metadata-arrays] handle literal metadata and computed properties ([#667](https://github.com/angular-eslint/angular-eslint/issues/667)) ([f993069](https://github.com/angular-eslint/angular-eslint/commit/f99306977254e2894ad769448f0cbebd7665cbcd))
+- **eslint-plugin:** properly handle computed literals for some rules ([#600](https://github.com/angular-eslint/angular-eslint/issues/600)) ([fbd6ff7](https://github.com/angular-eslint/angular-eslint/commit/fbd6ff7e5c5e4e249cbb5159c36cac3416e9ae3b))
+- **eslint-plugin-template:** [i18n] fixes some incorrect reports ([#665](https://github.com/angular-eslint/angular-eslint/issues/665)) ([a011b9d](https://github.com/angular-eslint/angular-eslint/commit/a011b9d6711482f0713e30208d46b38ce266741d))
+- **eslint-plugin-template:** [no-call-expression]: `FunctionCall`s not being reported ([#601](https://github.com/angular-eslint/angular-eslint/issues/601)) ([5552b13](https://github.com/angular-eslint/angular-eslint/commit/5552b13a87ff0a04ea92a12f54decfbb0c4f984e))
+- **eslint-plugin-template:** include more checks for `isHiddenFromScreenReader` ([#545](https://github.com/angular-eslint/angular-eslint/issues/545)) ([db2bc05](https://github.com/angular-eslint/angular-eslint/commit/db2bc057458bf7080b7848934dd6a30582dced27))
+
+### Features
+
+- **eslint-plugin:** [prefer-on-push-component-change-detection] add suggestion ([#666](https://github.com/angular-eslint/angular-eslint/issues/666)) ([3723c4c](https://github.com/angular-eslint/angular-eslint/commit/3723c4ca591ba8b62b78717e683ee82e7a5a4b07))
+- **eslint-plugin:** [use-injectable-provided-in] add suggestion ([#594](https://github.com/angular-eslint/angular-eslint/issues/594)) ([bdef8c7](https://github.com/angular-eslint/angular-eslint/commit/bdef8c77bcc72aa20c58c2c5c8fd0489675adcfd))
+- **utils:** make package public ([#673](https://github.com/angular-eslint/angular-eslint/issues/673)) ([0386082](https://github.com/angular-eslint/angular-eslint/commit/0386082feea5291e7d745ce60a6ee29add486299))
+
 ## [12.3.1](https://github.com/angular-eslint/angular-eslint/compare/v12.3.0...v12.3.1) (2021-07-15)
 
 ### Bug Fixes
