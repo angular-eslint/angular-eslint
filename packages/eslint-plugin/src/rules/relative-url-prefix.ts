@@ -1,7 +1,6 @@
+import { ASTUtils, Selectors } from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
-import { COMPONENT_CLASS_DECORATOR } from '../utils/selectors';
-import { isArrayExpression, isStringLiteral } from '../utils/utils';
 
 type Options = [];
 export type MessageIds = 'relativeUrlPrefix';
@@ -27,7 +26,7 @@ export default createESLintRule<Options, MessageIds>({
   defaultOptions: [],
   create(context) {
     return {
-      [`${COMPONENT_CLASS_DECORATOR} Property[key.name='templateUrl']`]({
+      [`${Selectors.COMPONENT_CLASS_DECORATOR} Property[key.name='templateUrl']`]({
         value,
       }: TSESTree.Property) {
         if (!isUrlInvalid(value)) return;
@@ -37,10 +36,10 @@ export default createESLintRule<Options, MessageIds>({
           messageId: 'relativeUrlPrefix',
         });
       },
-      [`${COMPONENT_CLASS_DECORATOR} Property[key.name='styleUrls']`]({
+      [`${Selectors.COMPONENT_CLASS_DECORATOR} Property[key.name='styleUrls']`]({
         value,
       }: TSESTree.Property) {
-        if (!isArrayExpression(value)) return;
+        if (!ASTUtils.isArrayExpression(value)) return;
 
         value.elements.filter(isUrlInvalid).forEach((element) => {
           context.report({
@@ -55,6 +54,7 @@ export default createESLintRule<Options, MessageIds>({
 
 function isUrlInvalid(node: TSESTree.Property | TSESTree.Property['value']) {
   return (
-    !isStringLiteral(node) || !RELATIVE_URL_PREFIX_MATCHER.test(node.value)
+    !ASTUtils.isStringLiteral(node) ||
+    !RELATIVE_URL_PREFIX_MATCHER.test(node.value)
   );
 }

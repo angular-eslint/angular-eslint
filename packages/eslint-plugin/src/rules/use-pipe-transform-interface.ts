@@ -1,10 +1,6 @@
+import { RuleFixes, isNotNullOrUndefined } from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
-import {
-  getImplementsSchemaFixer,
-  getImportAddFix,
-  isNotNullOrUndefined,
-} from '../utils/utils';
 
 type Options = [];
 export type MessageIds = 'usePipeTransformInterface';
@@ -37,10 +33,13 @@ export default createESLintRule<Options, MessageIds>({
           messageId: 'usePipeTransformInterface',
           fix: (fixer) => {
             const { implementsNodeReplace, implementsTextReplace } =
-              getImplementsSchemaFixer(classDeclaration, PIPE_TRANSFORM);
+              RuleFixes.getImplementsSchemaFixer(
+                classDeclaration,
+                PIPE_TRANSFORM,
+              );
 
             return [
-              getImportAddFix({
+              RuleFixes.getImportAddFix({
                 compatibleWithTypeOnlyImport: true,
                 fixer,
                 importName: PIPE_TRANSFORM,

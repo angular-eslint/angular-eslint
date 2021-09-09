@@ -1,7 +1,6 @@
+import { ASTUtils, RuleFixes, Selectors } from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
-import { metadataProperty } from '../utils/selectors';
-import { getDecoratorPropertyAddFix, isProperty } from '../utils/utils';
 
 type Options = [{ readonly ignoreClassNamePattern?: string }];
 export type MessageIds = 'useInjectableProvidedIn' | 'suggestInjector';
@@ -37,7 +36,9 @@ export default createESLintRule<Options, MessageIds>({
   defaultOptions: [{}],
   create(context, [{ ignoreClassNamePattern }]) {
     const injectableClassDecorator = `ClassDeclaration:not([id.name=${ignoreClassNamePattern}]):not(:has(TSClassImplements:matches([expression.property.name='HttpInterceptor'], [expression.name='HttpInterceptor']))) > Decorator[expression.callee.name="Injectable"]`;
-    const providedInMetadataProperty = metadataProperty(METADATA_PROPERTY_NAME);
+    const providedInMetadataProperty = Selectors.metadataProperty(
+      METADATA_PROPERTY_NAME,
+    );
     const withoutProvidedInDecorator = `${injectableClassDecorator}:matches([expression.arguments.length=0], [expression.arguments.0.type='ObjectExpression']:not(:has(${providedInMetadataProperty})))`;
     const nullableProvidedInProperty = `${injectableClassDecorator} ${providedInMetadataProperty}:matches([value.type='Identifier'][value.name='undefined'], [value.type='Literal'][value.raw='null'])`;
     const selectors = [
@@ -48,14 +49,14 @@ export default createESLintRule<Options, MessageIds>({
     return {
       [selectors](node: TSESTree.Decorator | TSESTree.Property) {
         context.report({
-          node: isProperty(node) ? node.value : node,
+          node: ASTUtils.isProperty(node) ? node.value : node,
           messageId: 'useInjectableProvidedIn',
           suggest: (['any', 'platform', 'root'] as const).map((injector) => ({
             messageId: 'suggestInjector',
             fix: (fixer) => {
-              return isProperty(node)
+              return ASTUtils.isProperty(node)
                 ? fixer.replaceText(node.value, `'${injector}'`)
-                : getDecoratorPropertyAddFix(
+                : RuleFixes.getDecoratorPropertyAddFix(
                     node,
                     fixer,
                     `${METADATA_PROPERTY_NAME}: '${injector}'`,

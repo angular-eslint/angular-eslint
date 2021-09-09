@@ -1,19 +1,12 @@
-import type { TSESTree } from '@typescript-eslint/experimental-utils';
-import { ASTUtils } from '@typescript-eslint/experimental-utils';
-import { createESLintRule } from '../utils/create-eslint-rule';
 import {
-  COMPONENT_OR_DIRECTIVE_SELECTOR_LITERAL,
-  OUTPUTS_METADATA_PROPERTY_LITERAL,
-  OUTPUT_ALIAS,
-} from '../utils/selectors';
-import {
+  ASTUtils,
   capitalize,
-  getNearestNodeFrom,
-  getRawText,
-  getReplacementText,
-  isClassPropertyOrMethodDefinition,
+  Selectors,
   withoutBracketsAndWhitespaces,
-} from '../utils/utils';
+} from '@angular-eslint/utils';
+import type { TSESTree } from '@typescript-eslint/experimental-utils';
+import { ASTUtils as TSESLintASTUtils } from '@typescript-eslint/experimental-utils';
+import { createESLintRule } from '../utils/create-eslint-rule';
 
 type Options = [];
 export type MessageIds =
@@ -47,28 +40,32 @@ export default createESLintRule<Options, MessageIds>({
     let selectors: ReadonlySet<string> = new Set();
 
     return {
-      [COMPONENT_OR_DIRECTIVE_SELECTOR_LITERAL](
+      [Selectors.COMPONENT_OR_DIRECTIVE_SELECTOR_LITERAL](
         node: TSESTree.Literal | TSESTree.TemplateElement,
       ) {
         selectors = new Set(
-          withoutBracketsAndWhitespaces(getRawText(node)).split(','),
+          withoutBracketsAndWhitespaces(ASTUtils.getRawText(node)).split(','),
         );
       },
-      [OUTPUT_ALIAS](node: TSESTree.Literal | TSESTree.TemplateElement) {
-        const classPropertyOrMethodDefinition = getNearestNodeFrom(
+      [Selectors.OUTPUT_ALIAS](
+        node: TSESTree.Literal | TSESTree.TemplateElement,
+      ) {
+        const classPropertyOrMethodDefinition = ASTUtils.getNearestNodeFrom(
           node,
-          isClassPropertyOrMethodDefinition,
+          ASTUtils.isClassPropertyOrMethodDefinition,
         );
 
         if (
           !classPropertyOrMethodDefinition ||
-          !ASTUtils.isIdentifier(classPropertyOrMethodDefinition.key)
+          !TSESLintASTUtils.isIdentifier(classPropertyOrMethodDefinition.key)
         ) {
           return;
         }
 
-        const aliasName = getRawText(node);
-        const propertyName = getRawText(classPropertyOrMethodDefinition.key);
+        const aliasName = ASTUtils.getRawText(node);
+        const propertyName = ASTUtils.getRawText(
+          classPropertyOrMethodDefinition.key,
+        );
 
         if (aliasName === propertyName) {
           context.report({
@@ -99,11 +96,11 @@ export default createESLintRule<Options, MessageIds>({
           });
         }
       },
-      [OUTPUTS_METADATA_PROPERTY_LITERAL](
+      [Selectors.OUTPUTS_METADATA_PROPERTY_LITERAL](
         node: TSESTree.Literal | TSESTree.TemplateElement,
       ) {
         const [propertyName, aliasName] = withoutBracketsAndWhitespaces(
-          getRawText(node),
+          ASTUtils.getRawText(node),
         ).split(':');
 
         if (!aliasName) return;
@@ -113,7 +110,10 @@ export default createESLintRule<Options, MessageIds>({
             node,
             messageId: 'noOutputRename',
             fix: (fixer) =>
-              fixer.replaceText(node, getReplacementText(node, propertyName)),
+              fixer.replaceText(
+                node,
+                ASTUtils.getReplacementText(node, propertyName),
+              ),
           });
         } else if (!isAliasNameAllowed(selectors, propertyName, aliasName)) {
           context.report({
@@ -127,7 +127,10 @@ export default createESLintRule<Options, MessageIds>({
             ).map(([messageId, name]) => ({
               messageId,
               fix: (fixer) =>
-                fixer.replaceText(node, getReplacementText(node, name)),
+                fixer.replaceText(
+                  node,
+                  ASTUtils.getReplacementText(node, name),
+                ),
             })),
           });
         }

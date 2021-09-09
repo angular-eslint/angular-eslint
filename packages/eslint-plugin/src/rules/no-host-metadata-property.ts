@@ -1,13 +1,7 @@
+import { ASTUtils, Selectors } from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
-import { ASTUtils } from '@typescript-eslint/experimental-utils';
+import { ASTUtils as TSESLintASTUtils } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
-import { COMPONENT_OR_DIRECTIVE_CLASS_DECORATOR } from '../utils/selectors';
-import {
-  AngularInnerClassDecorators,
-  isObjectExpression,
-  isProperty,
-  isStringLiteral,
-} from '../utils/utils';
 
 type Options = [{ readonly allowStatic?: boolean }];
 export type MessageIds = 'noHostMetadataProperty';
@@ -38,17 +32,17 @@ export default createESLintRule<Options, MessageIds>({
       },
     ],
     messages: {
-      noHostMetadataProperty: `Use @${AngularInnerClassDecorators.HostBinding} or @${AngularInnerClassDecorators.HostListener} rather than the \`${METADATA_PROPERTY_NAME}\` metadata property (${STYLE_GUIDE_LINK})`,
+      noHostMetadataProperty: `Use @${ASTUtils.AngularInnerClassDecorators.HostBinding} or @${ASTUtils.AngularInnerClassDecorators.HostListener} rather than the \`${METADATA_PROPERTY_NAME}\` metadata property (${STYLE_GUIDE_LINK})`,
     },
   },
   defaultOptions: [DEFAULT_OPTIONS],
   create(context, [{ allowStatic }]) {
     return {
-      [`${COMPONENT_OR_DIRECTIVE_CLASS_DECORATOR} Property[key.name="${METADATA_PROPERTY_NAME}"]`](
+      [`${Selectors.COMPONENT_OR_DIRECTIVE_CLASS_DECORATOR} Property[key.name="${METADATA_PROPERTY_NAME}"]`](
         node: TSESTree.Property,
       ) {
         const properties =
-          allowStatic && isObjectExpression(node.value)
+          allowStatic && ASTUtils.isObjectExpression(node.value)
             ? node.value.properties.filter(isDynamic)
             : [node];
 
@@ -72,7 +66,9 @@ function isEmptyStringValue(
 ): property is TSESTree.Property & {
   value: TSESTree.Literal & { value: '' };
 } {
-  return isStringLiteral(property.value) && property.value.value === '';
+  return (
+    ASTUtils.isStringLiteral(property.value) && property.value.value === ''
+  );
 }
 
 function isStatic(
@@ -83,8 +79,9 @@ function isStatic(
 } {
   return (
     !property.computed &&
-    (ASTUtils.isIdentifier(property.key) ||
-      (isStringLiteral(property.key) && startsWithLetter(property.key.value)))
+    (TSESLintASTUtils.isIdentifier(property.key) ||
+      (ASTUtils.isStringLiteral(property.key) &&
+        startsWithLetter(property.key.value)))
   );
 }
 
@@ -92,6 +89,8 @@ function isDynamic(
   property: TSESTree.ObjectLiteralElement,
 ): property is TSESTree.Property {
   return (
-    isProperty(property) && !isStatic(property) && !isEmptyStringValue(property)
+    ASTUtils.isProperty(property) &&
+    !isStatic(property) &&
+    !isEmptyStringValue(property)
   );
 }

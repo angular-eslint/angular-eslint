@@ -1,9 +1,8 @@
-import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/utils';
-import type { MessageIds } from '../../../src/rules/use-lifecycle-interface';
 import {
-  AngularLifecycleInterfaces,
-  AngularLifecycleMethods,
-} from '../../../src/utils/utils';
+  ASTUtils,
+  convertAnnotatedSourceToFailureCase,
+} from '@angular-eslint/utils';
+import type { MessageIds } from '../../../src/rules/use-lifecycle-interface';
 
 const messageId: MessageIds = 'useLifecycleInterface';
 
@@ -56,8 +55,8 @@ export const invalid = [
       `,
     messageId,
     data: {
-      interfaceName: AngularLifecycleInterfaces.OnInit,
-      methodName: AngularLifecycleMethods.ngOnInit,
+      interfaceName: ASTUtils.AngularLifecycleInterfaces.OnInit,
+      methodName: ASTUtils.AngularLifecycleMethods.ngOnInit,
     },
   }),
   convertAnnotatedSourceToFailureCase({
@@ -75,8 +74,8 @@ export const invalid = [
       `,
     messageId,
     data: {
-      interfaceName: AngularLifecycleInterfaces.OnDestroy,
-      methodName: AngularLifecycleMethods.ngOnDestroy,
+      interfaceName: ASTUtils.AngularLifecycleInterfaces.OnDestroy,
+      methodName: ASTUtils.AngularLifecycleMethods.ngOnDestroy,
     },
   }),
   convertAnnotatedSourceToFailureCase({
@@ -100,24 +99,24 @@ export const invalid = [
         char: '~',
         messageId,
         data: {
-          interfaceName: AngularLifecycleInterfaces.DoBootstrap,
-          methodName: AngularLifecycleMethods.ngDoBootstrap,
+          interfaceName: ASTUtils.AngularLifecycleInterfaces.DoBootstrap,
+          methodName: ASTUtils.AngularLifecycleMethods.ngDoBootstrap,
         },
       },
       {
         char: '^',
         messageId,
         data: {
-          interfaceName: AngularLifecycleInterfaces.OnInit,
-          methodName: AngularLifecycleMethods.ngOnInit,
+          interfaceName: ASTUtils.AngularLifecycleInterfaces.OnInit,
+          methodName: ASTUtils.AngularLifecycleMethods.ngOnInit,
         },
       },
       {
         char: '#',
         messageId,
         data: {
-          interfaceName: AngularLifecycleInterfaces.OnDestroy,
-          methodName: AngularLifecycleMethods.ngOnDestroy,
+          interfaceName: ASTUtils.AngularLifecycleInterfaces.OnDestroy,
+          methodName: ASTUtils.AngularLifecycleMethods.ngOnDestroy,
         },
       },
     ],
@@ -137,8 +136,8 @@ export const invalid = [
       `,
     messageId,
     data: {
-      interfaceName: AngularLifecycleInterfaces.OnDestroy,
-      methodName: AngularLifecycleMethods.ngOnDestroy,
+      interfaceName: ASTUtils.AngularLifecycleInterfaces.OnDestroy,
+      methodName: ASTUtils.AngularLifecycleMethods.ngOnDestroy,
     },
   }),
 ];

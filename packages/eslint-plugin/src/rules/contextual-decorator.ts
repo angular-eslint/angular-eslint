@@ -1,14 +1,6 @@
+import { ASTUtils } from '@angular-eslint/utils';
 import type { TSESLint, TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
-import type { AngularClassDecoratorKeys } from '../utils/utils';
-import {
-  ANGULAR_CLASS_DECORATOR_MAPPER,
-  getAngularClassDecorator,
-  getDecoratorName,
-  getNearestNodeFrom,
-  isAngularInnerClassDecorator,
-  isClassDeclaration,
-} from '../utils/utils';
 
 type Options = [];
 export type MessageIds = 'contextualDecorator';
@@ -55,13 +47,17 @@ function validateNode(
     return;
   }
 
-  const classDeclaration = getNearestNodeFrom(node, isClassDeclaration);
+  const classDeclaration = ASTUtils.getNearestNodeFrom(
+    node,
+    ASTUtils.isClassDeclaration,
+  );
 
   if (!classDeclaration) {
     return;
   }
 
-  const classDecoratorName = getAngularClassDecorator(classDeclaration);
+  const classDecoratorName =
+    ASTUtils.getAngularClassDecorator(classDeclaration);
 
   if (!classDecoratorName) {
     return;
@@ -75,16 +71,16 @@ function validateNode(
 function validateDecorator(
   context: Readonly<TSESLint.RuleContext<string, readonly unknown[]>>,
   decorator: TSESTree.Decorator,
-  classDecoratorName: AngularClassDecoratorKeys,
+  classDecoratorName: ASTUtils.AngularClassDecoratorKeys,
 ): void {
-  const decoratorName = getDecoratorName(decorator);
+  const decoratorName = ASTUtils.getDecoratorName(decorator);
 
-  if (!decoratorName || !isAngularInnerClassDecorator(decoratorName)) {
+  if (!decoratorName || !ASTUtils.isAngularInnerClassDecorator(decoratorName)) {
     return;
   }
 
   const allowedDecorators =
-    ANGULAR_CLASS_DECORATOR_MAPPER.get(classDecoratorName);
+    ASTUtils.ANGULAR_CLASS_DECORATOR_MAPPER.get(classDecoratorName);
 
   if (allowedDecorators?.has(decoratorName)) {
     return;

@@ -51,6 +51,10 @@ cd ./packages/template-parser
 npm publish --registry $NPM_REGISTRY
 cd -
 
+cd ./packages/utils
+npm publish --registry $NPM_REGISTRY
+cd -
+
 echo ""
 
 echo "Publishing complete"

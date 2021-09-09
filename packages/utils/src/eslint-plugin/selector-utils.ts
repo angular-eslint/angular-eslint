@@ -1,15 +1,13 @@
 import { CssSelector } from '@angular/compiler';
 import type { TSESLint, TSESTree } from '@typescript-eslint/experimental-utils';
-import type { SelectorStyle } from './utils';
+import type { SelectorStyle } from './ast-utils';
 import {
-  arrayify,
   isLiteral,
   isTemplateLiteral,
   OPTION_STYLE_CAMEL_CASE,
   OPTION_STYLE_KEBAB_CASE,
-  SelectorValidator,
-  toHumanReadableText,
-} from './utils';
+} from './ast-utils';
+import { arrayify, toHumanReadableText } from '../utils';
 
 export const OPTION_TYPE_ATTRIBUTE = 'attribute';
 export const OPTION_TYPE_ATTRS = 'attrs';
@@ -36,6 +34,47 @@ export type Options = [
     readonly style: SelectorTypeOption;
   },
 ];
+
+export const SelectorValidator = {
+  attribute(selector: string): boolean {
+    return selector.length !== 0;
+  },
+
+  camelCase(selector: string): boolean {
+    return /^[a-zA-Z0-9[\]]+$/.test(selector);
+  },
+
+  element(selector: string): boolean {
+    return selector !== null;
+  },
+
+  kebabCase(selector: string): boolean {
+    return /^[a-z0-9-]+-[a-z0-9-]+$/.test(selector);
+  },
+
+  prefix(
+    prefix: string,
+    selectorStyle: SelectorStyle,
+  ): (selector: string) => boolean {
+    const regex = new RegExp(`^\\[?(${prefix})`);
+
+    return (selector) => {
+      if (!prefix) return true;
+
+      if (!regex.test(selector)) return false;
+
+      const suffix = selector.replace(regex, '');
+
+      if (selectorStyle === OPTION_STYLE_CAMEL_CASE) {
+        return !suffix || suffix[0] === suffix[0].toUpperCase();
+      } else if (selectorStyle === OPTION_STYLE_KEBAB_CASE) {
+        return !suffix || suffix[0] === '-';
+      }
+
+      throw Error('Invalid selector style!');
+    };
+  },
+};
 
 const getValidSelectors = (
   selectors: readonly CssSelector[],

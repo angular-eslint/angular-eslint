@@ -17,10 +17,8 @@
     "LICENSE"
   ],
   "dependencies": {
+    "@angular-eslint/utils": "12.4.1",
     "@typescript-eslint/experimental-utils": "4.28.2"
-  },
-  "devDependencies": {
-    "@angular-eslint/utils": "12.4.1"
   },
   "peerDependencies": {
     "@angular/compiler": ">= 12.0.0 < 13.0.0",

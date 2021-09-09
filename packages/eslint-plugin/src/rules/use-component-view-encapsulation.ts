@@ -1,15 +1,11 @@
+import {
+  ASTUtils,
+  RuleFixes,
+  isNotNullOrUndefined,
+  Selectors,
+} from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
-import {
-  COMPONENT_CLASS_DECORATOR,
-  metadataProperty,
-} from '../utils/selectors';
-import {
-  getImportDeclarations,
-  getImportRemoveFix,
-  getNodeToCommaRemoveFix,
-  isNotNullOrUndefined,
-} from '../utils/utils';
 
 type Options = [];
 export type MessageIds =
@@ -38,7 +34,7 @@ export default createESLintRule<Options, MessageIds>({
     const sourceCode = context.getSourceCode();
 
     return {
-      [`${COMPONENT_CLASS_DECORATOR} ${metadataProperty(
+      [`${Selectors.COMPONENT_CLASS_DECORATOR} ${Selectors.metadataProperty(
         'encapsulation',
       )} > MemberExpression[object.name='ViewEncapsulation'] > Identifier[name='None']`](
         node: TSESTree.Identifier & {
@@ -53,15 +49,15 @@ export default createESLintRule<Options, MessageIds>({
               messageId: 'suggestRemoveViewEncapsulationNone',
               fix: (fixer) => {
                 const importDeclarations =
-                  getImportDeclarations(node, '@angular/core') ?? [];
+                  ASTUtils.getImportDeclarations(node, '@angular/core') ?? [];
 
                 return [
-                  getNodeToCommaRemoveFix(
+                  RuleFixes.getNodeToCommaRemoveFix(
                     sourceCode,
                     node.parent.parent,
                     fixer,
                   ),
-                  getImportRemoveFix(
+                  RuleFixes.getImportRemoveFix(
                     sourceCode,
                     importDeclarations,
                     'ViewEncapsulation',

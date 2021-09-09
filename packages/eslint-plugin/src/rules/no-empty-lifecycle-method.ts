@@ -1,15 +1,12 @@
+import {
+  ASTUtils,
+  RuleFixes,
+  isNotNullOrUndefined,
+  Selectors,
+  toPattern,
+} from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
-import { methodDefinition } from '../utils/selectors';
-import {
-  ANGULAR_LIFECYCLE_METHODS,
-  getImplementsRemoveFix,
-  getImportDeclarations,
-  getImportRemoveFix,
-  getRawText,
-  isNotNullOrUndefined,
-  toPattern,
-} from '../utils/utils';
 
 type Options = [];
 export type MessageIds =
@@ -37,11 +34,11 @@ export default createESLintRule<Options, MessageIds>({
   create(context) {
     const sourceCode = context.getSourceCode();
     const angularLifecycleMethodsPattern = toPattern([
-      ...ANGULAR_LIFECYCLE_METHODS,
+      ...ASTUtils.ANGULAR_LIFECYCLE_METHODS,
     ]);
 
     return {
-      [`ClassDeclaration:has(Decorator[expression.callee.name=/^(Component|Directive|Injectable|NgModule|Pipe)$/]) > ClassBody > ${methodDefinition(
+      [`ClassDeclaration:has(Decorator[expression.callee.name=/^(Component|Directive|Injectable|NgModule|Pipe)$/]) > ClassBody > ${Selectors.methodDefinition(
         angularLifecycleMethodsPattern,
       )}[value.body.body.length=0]`](
         node: TSESTree.MethodDefinition & {
@@ -56,8 +53,11 @@ export default createESLintRule<Options, MessageIds>({
               messageId: 'suggestRemoveLifecycleMethod',
               fix: (fixer) => {
                 const importDeclarations =
-                  getImportDeclarations(node, '@angular/core') ?? [];
-                const interfaceName = getRawText(node).replace(/^ng+/, '');
+                  ASTUtils.getImportDeclarations(node, '@angular/core') ?? [];
+                const interfaceName = ASTUtils.getRawText(node).replace(
+                  /^ng+/,
+                  '',
+                );
                 const text = sourceCode.getText();
                 const totalInterfaceOccurrences = getTotalInterfaceOccurrences(
                   text,
@@ -67,7 +67,7 @@ export default createESLintRule<Options, MessageIds>({
 
                 return [
                   fixer.remove(node),
-                  getImplementsRemoveFix(
+                  RuleFixes.getImplementsRemoveFix(
                     sourceCode,
                     node.parent.parent,
                     interfaceName,
@@ -75,7 +75,7 @@ export default createESLintRule<Options, MessageIds>({
                   ),
                   totalInterfaceOccurrences <=
                   totalInterfaceOccurrencesSafeForRemoval
-                    ? getImportRemoveFix(
+                    ? RuleFixes.getImportRemoveFix(
                         sourceCode,
                         importDeclarations,
                         interfaceName,
