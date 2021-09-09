@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [12.4.1](https://github.com/angular-eslint/angular-eslint/compare/v12.4.0...v12.4.1) (2021-09-09)
+
+**Note:** Version bump only for package @angular-eslint/integration-tests
+
 # [12.4.0](https://github.com/angular-eslint/angular-eslint/compare/v12.3.1...v12.4.0) (2021-09-09)
 
 **Note:** Version bump only for package @angular-eslint/integration-tests

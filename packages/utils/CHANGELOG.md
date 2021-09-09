@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [12.4.1](https://github.com/angular-eslint/angular-eslint/compare/v12.4.0...v12.4.1) (2021-09-09)
+
+### Bug Fixes
+
+- **utils:** add missing filename option for invalid case utils ([#674](https://github.com/angular-eslint/angular-eslint/issues/674)) ([80b72b3](https://github.com/angular-eslint/angular-eslint/commit/80b72b32fc41f240cbf6962883f20ed4c0f37548))
+
 # [12.4.0](https://github.com/angular-eslint/angular-eslint/compare/v12.3.1...v12.4.0) (2021-09-09)
 
 ### Features
