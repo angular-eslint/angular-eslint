@@ -4,214 +4,243 @@ import type { MessageIds } from '../../../src/rules/sort-ngmodule-metadata-array
 const messageId: MessageIds = 'sortNgmoduleMetadataArrays';
 
 export const valid = [
+  `class Test {}`,
   `
+  @NgModule()
+  class Test {}
+  `,
+  `
+  @NgModule({})
+  class Test {}
+  `,
+  `
+  const options = {};
+  @NgModule(options)
+  class Test {}
+  `,
+  `
+  @NgModule({
+    bootstrap,
+    declarations: declarations,
+    providers: providers(),
+    schemas: [],
+    [imports]: [
+      aModule,
+      bModule,
+      DModule,
+      cModule,
+    ],
+  })
+  class Test {}
+  `,
+  `
+  @NgModule({
+    bootstrap: [
+      AppModule1,
+      AppModule2,
+      AppModule3,
+    ],
+    'declarations': [
+      AComponent,
+      bDirective,
+      cPipe,
+      DComponent,
+      VariableComponent,
+    ],
+    ['imports']: [
+      _foo,
+      AModule,
+      bModule,
+      cModule,
+      DModule,
+    ],
+    [\`providers\`]: [
+      AProvider,
+      {
+        provide: 'myprovider',
+        useClass: MyProvider,
+      },
+      bProvider,
+      cProvider,
+      DProvider,
+    ],
+  })
+  class Test {}
+  `,
+  `
+  @Component({
+    providers: [        
+      DeclarationD,
+      DeclarationA,
+    ]
+  })
+  class Test {}
+  `,
+];
+
+export const invalid = [
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail if `imports` metadata arrays is not sorted ASC',
+    annotatedSource: `
     @NgModule({
-      bootstrap: [
-        AppModule1,
-        AppModule2,
-        AppModule3,
+      imports: [aModule, bModule, DModule, cModule]
+                                  ~~~~~~~
+    })
+    class Test {}
+    `,
+    messageId,
+    annotatedOutput: `
+    @NgModule({
+      imports: [aModule, bModule, cModule, DModule]
+                                  ~~~~~~~
+    })
+    class Test {}
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if `declarations` metadata arrays is not sorted ASC',
+    annotatedSource: `
+    @NgModule({
+      'declarations': [
+        AComponent,
+        cPipe,
+        ~~~~~
+        bDirective,
+        DComponent,
       ],
-      declarations: [
+    })
+    class Test {}
+    `,
+    messageId,
+    annotatedOutput: `
+    @NgModule({
+      'declarations': [
         AComponent,
         bDirective,
+        ~~~~~
         cPipe,
         DComponent,
-        VariableComponent,
       ],
+    })
+    class Test {}
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail if `exports` metadata arrays is not sorted ASC',
+    annotatedSource: `
+    @NgModule({
+      ['exports']: [
+        AComponent,
+        cPipe,
+        ~~~~~
+        bDirective,
+        DComponent,
+      ],
+    })
+    class Test {}
+    `,
+    messageId,
+    annotatedOutput: `
+    @NgModule({
+      ['exports']: [
+        AComponent,
+        bDirective,
+        ~~~~~
+        cPipe,
+        DComponent,
+      ],
+    })
+    class Test {}
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail if `bootstrap` metadata arrays is not sorted ASC',
+    annotatedSource: `
+    @NgModule({
+      [\`bootstrap\`]: [
+        AppModule2,
+        AppModule3,
+        ~~~~~~~~~~
+        AppModule1,
+      ]
+    })
+    class Test {}
+    `,
+    messageId,
+    annotatedOutput: `
+    @NgModule({
+      [\`bootstrap\`]: [
+        AppModule2,
+        AppModule1,
+        ~~~~~~~~~~
+        AppModule3,
+      ]
+    })
+    class Test {}
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail if `schemas` metadata arrays is not sorted ASC',
+    annotatedSource: `
+    @NgModule({
+      schemas: [
+        A_SCHEMA,
+        C_SCHEMA,
+        ~~~~~~~~
+        B_SCHEMA,
+      ]
+    })
+    class Test {}
+    `,
+    messageId,
+    annotatedOutput: `
+    @NgModule({
+      schemas: [
+        A_SCHEMA,
+        B_SCHEMA,
+        ~~~~~~~~
+        C_SCHEMA,
+      ]
+    })
+    class Test {}
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if `providers` metadata arrays is not sorted ASC, but ignore objects',
+    annotatedSource: `
+    @NgModule({
       imports: [
-        _foo,
-        AModule,
-        bModule,
-        cModule,
-        DModule,
-      ],
-      providers: [
+        AProvider,
+        {
+          provide: 'myprovider',
+          useClass: MyProvider,
+        },
+        cProvider,
+        ~~~~~~~~~
+        bProvider,
+        DProvider,
+      ]
+    })
+    class Test {}
+    `,
+    messageId,
+    annotatedOutput: `
+    @NgModule({
+      imports: [
         AProvider,
         {
           provide: 'myprovider',
           useClass: MyProvider,
         },
         bProvider,
+        ~~~~~~~~~
         cProvider,
         DProvider,
-      ],
+      ]
     })
     class Test {}
     `,
-];
-
-export const invalid = [
-  convertAnnotatedSourceToFailureCase({
-    description: 'it should fail if imports array is not sorted ASC',
-    annotatedSource: `
-      @NgModule({
-        imports: [
-          aModule,
-          bModule,
-          DModule,
-          ~~~~~~~
-          cModule,
-        ]
-      })
-      class Test {}
-      `,
-    messageId,
-    annotatedOutput: `
-      @NgModule({
-        imports: [
-          aModule,
-          bModule,
-          cModule,
-          ~~~~~~~
-          DModule,
-        ]
-      })
-      class Test {}
-      `,
-  }),
-  convertAnnotatedSourceToFailureCase({
-    description: 'it should fail if declarations array is not sorted ASC',
-    annotatedSource: `
-      @NgModule({
-        declarations: [
-          AComponent,
-          cPipe,
-          ~~~~~
-          bDirective,
-          DComponent,
-        ],
-      })
-      class Test {}
-      `,
-    messageId,
-    annotatedOutput: `
-      @NgModule({
-        declarations: [
-          AComponent,
-          bDirective,
-          ~~~~~
-          cPipe,
-          DComponent,
-        ],
-      })
-      class Test {}
-      `,
-  }),
-  convertAnnotatedSourceToFailureCase({
-    description: 'it should fail if exports array is not sorted ASC',
-    annotatedSource: `
-      @NgModule({
-        exports: [
-          AComponent,
-          cPipe,
-          ~~~~~
-          bDirective,
-          DComponent,
-        ],
-      })
-      class Test {}
-      `,
-    messageId,
-    annotatedOutput: `
-      @NgModule({
-        exports: [
-          AComponent,
-          bDirective,
-          ~~~~~
-          cPipe,
-          DComponent,
-        ],
-      })
-      class Test {}
-      `,
-  }),
-  convertAnnotatedSourceToFailureCase({
-    description: 'it should fail if bootstrap array is not sorted ASC',
-    annotatedSource: `
-      @NgModule({
-        bootstrap: [
-          AppModule2,
-          AppModule3,
-          ~~~~~~~~~~
-          AppModule1,
-        ]
-      })
-      class Test {}
-      `,
-    messageId,
-    annotatedOutput: `
-      @NgModule({
-        bootstrap: [
-          AppModule2,
-          AppModule1,
-          ~~~~~~~~~~
-          AppModule3,
-        ]
-      })
-      class Test {}
-      `,
-  }),
-  convertAnnotatedSourceToFailureCase({
-    description: 'it should fail if schemas array is not sorted ASC',
-    annotatedSource: `
-      @NgModule({
-        schemas: [
-          A_SCHEMA,
-          C_SCHEMA,
-          ~~~~~~~~
-          B_SCHEMA,
-        ]
-      })
-      class Test {}
-      `,
-    messageId,
-    annotatedOutput: `
-      @NgModule({
-        schemas: [
-          A_SCHEMA,
-          B_SCHEMA,
-          ~~~~~~~~
-          C_SCHEMA,
-        ]
-      })
-      class Test {}
-      `,
-  }),
-  convertAnnotatedSourceToFailureCase({
-    description:
-      'it should fail if providers array is not sorted ASC, but ignore objects',
-    annotatedSource: `
-      @NgModule({
-        imports: [
-          AProvider,
-          {
-            provide: 'myprovider',
-            useClass: MyProvider,
-          },
-          cProvider,
-          ~~~~~~~~~
-          bProvider,
-          DProvider,
-        ]
-      })
-      class Test {}
-      `,
-    messageId,
-    annotatedOutput: `
-      @NgModule({
-        imports: [
-          AProvider,
-          {
-            provide: 'myprovider',
-            useClass: MyProvider,
-          },
-          bProvider,
-          ~~~~~~~~~
-          cProvider,
-          DProvider,
-        ]
-      })
-      class Test {}
-      `,
   }),
 ];

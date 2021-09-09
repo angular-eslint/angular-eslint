@@ -40,12 +40,13 @@ export default createESLintRule<Options, MessageIds>({
               getImplementsSchemaFixer(classDeclaration, PIPE_TRANSFORM);
 
             return [
-              getImportAddFix(
-                classDeclaration,
-                '@angular/core',
-                PIPE_TRANSFORM,
+              getImportAddFix({
+                compatibleWithTypeOnlyImport: true,
                 fixer,
-              ),
+                importName: PIPE_TRANSFORM,
+                moduleName: '@angular/core',
+                node: classDeclaration,
+              }),
               fixer.insertTextAfter(
                 implementsNodeReplace,
                 implementsTextReplace,

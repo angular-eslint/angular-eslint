@@ -13,10 +13,12 @@
 
 # `@angular-eslint/prefer-on-push-component-change-detection`
 
-Enforces component's change detection to ChangeDetectionStrategy.OnPush.
+Ensures component's `changeDetection` is set to `ChangeDetectionStrategy.OnPush`
 
 - Type: suggestion
 - Category: Best Practices
+
+- 💡 Provides suggestions on how to fix issues (https://eslint.org/docs/developer-guide/working-with-rules#providing-suggestions)
 
 <br>
 
@@ -35,19 +37,51 @@ The rule does not have any configuration options.
 ❌ - Examples of **incorrect** code for this rule:
 
 ```ts
-@Component({
-  changeDetection: ChangeDetectionStrategy.Default
-                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-})
+@Component()
+~~~~~~~~~~~~
 class Test {}
 ```
 
 ```ts
-@Component({
-~~~~~~~~~~~~
-  selector: 'foo'
-})
-~~
+import type { ChangeDetectionStrategy } from '@angular/core';
+
+@Component({})
+~~~~~~~~~~~~~~
+class Test {}
+```
+
+```ts
+import { Component } from '@angular/core';
+const changeDetection = 'template';
+@Component({ [changeDetection]: '' })
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+class Test {}
+```
+
+```ts
+@Component({ changeDetection: undefined })
+                              ~~~~~~~~~
+class Test {}
+```
+
+```ts
+import * as ng from '@angular/core';
+@Component({ 'changeDetection': ChangeDetectionStrategy.Default })
+                                                        ~~~~~~~
+class Test {}
+```
+
+```ts
+import type { OnInit } from '@angular/core';
+@Component({ ['changeDetection']: ChangeDetectionStrategy.Default })
+                                                          ~~~~~~~
+class Test {}
+```
+
+```ts
+import ng from '@angular/core';
+@Component({ [`changeDetection`]: ChangeDetectionStrategy.Default })
+                                                          ~~~~~~~
 class Test {}
 ```
 
@@ -60,8 +94,58 @@ class Test {}
 ✅ - Examples of **correct** code for this rule:
 
 ```ts
+class Test {}
+```
+
+```ts
+const options = {};
+@Component(options)
+class Test {}
+```
+
+```ts
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+class Test {}
+```
+
+```ts
+@Component({
+  'changeDetection': changeDetection,
+})
+class Test {}
+```
+
+```ts
+const changeDetection = ChangeDetectionStrategy.Default;
+@Component({
+  changeDetection,
+})
+class Test {}
+```
+
+```ts
+function changeDetection() {
+  return ChangeDetectionStrategy.OnPush;
+}
+
+@Component({
+  ['changeDetection']: changeDetection(),
+})
+class Test {}
+```
+
+```ts
+@Component({
+  [`changeDetection`]: ChangeDetectionStrategy.OnPush,
+})
+class Test {}
+```
+
+```ts
+@NgModule({
+  bootstrap: [Foo]
 })
 class Test {}
 ```
