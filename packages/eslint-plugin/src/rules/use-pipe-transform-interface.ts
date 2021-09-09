@@ -33,7 +33,10 @@ export default createESLintRule<Options, MessageIds>({
           messageId: 'usePipeTransformInterface',
           fix: (fixer) => {
             const { implementsNodeReplace, implementsTextReplace } =
-              RuleFixes.getImplementsSchemaFixer(classDeclaration, PIPE_TRANSFORM);
+              RuleFixes.getImplementsSchemaFixer(
+                classDeclaration,
+                PIPE_TRANSFORM,
+              );
 
             return [
               RuleFixes.getImportAddFix({
