@@ -56,6 +56,12 @@
         "projects": "dependencies"
       }
     ],
+    "check-configs": [
+      {
+        "target": "build",
+        "projects": "dependencies"
+      }
+    ],
     "integration-test": [
       {
         "target": "build",
