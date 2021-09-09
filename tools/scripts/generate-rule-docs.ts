@@ -4,7 +4,7 @@ import traverse from 'json-schema-traverse';
 import { join, relative } from 'path';
 import { format, resolveConfig } from 'prettier';
 import ts from 'typescript';
-import { SPECIAL_UNDERLINE_CHARS } from '../../packages/utils/src/test-helpers';
+import { SPECIAL_UNDERLINE_CHARS } from '../../packages/utils/src/convert-annotated-source-to-failure-case';
 
 const plugin = process.argv[2];
 
