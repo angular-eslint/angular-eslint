@@ -1,9 +1,6 @@
+import { Selectors } from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
-import {
-  COMPONENT_OR_DIRECTIVE_CLASS_DECORATOR,
-  metadataProperty,
-} from '../utils/selectors';
 
 type Options = [];
 export type MessageIds = 'noOutputsMetadataProperty';
@@ -28,9 +25,11 @@ export default createESLintRule<Options, MessageIds>({
   defaultOptions: [],
   create(context) {
     return {
-      [`${COMPONENT_OR_DIRECTIVE_CLASS_DECORATOR} ${metadataProperty(
-        METADATA_PROPERTY_NAME,
-      )}`](node: TSESTree.Property) {
+      [`${
+        Selectors.COMPONENT_OR_DIRECTIVE_CLASS_DECORATOR
+      } ${Selectors.metadataProperty(METADATA_PROPERTY_NAME)}`](
+        node: TSESTree.Property,
+      ) {
         context.report({
           node,
           messageId: 'noOutputsMetadataProperty',

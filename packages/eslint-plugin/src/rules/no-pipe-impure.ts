@@ -1,7 +1,6 @@
+import { RuleFixes, Selectors } from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
-import { metadataProperty, PIPE_CLASS_DECORATOR } from '../utils/selectors';
-import { getNodeToCommaRemoveFix } from '../utils/utils';
 
 type Options = [];
 export type MessageIds = 'noPipeImpure' | 'suggestRemovePipeImpure';
@@ -29,7 +28,7 @@ export default createESLintRule<Options, MessageIds>({
     const sourceCode = context.getSourceCode();
 
     return {
-      [`${PIPE_CLASS_DECORATOR} ${metadataProperty(
+      [`${Selectors.PIPE_CLASS_DECORATOR} ${Selectors.metadataProperty(
         'pure',
       )}:matches([value.value=false], [value.operator='!'][value.argument.value=true])`](
         node: TSESTree.Property,
@@ -40,7 +39,8 @@ export default createESLintRule<Options, MessageIds>({
           suggest: [
             {
               messageId: 'suggestRemovePipeImpure',
-              fix: (fixer) => getNodeToCommaRemoveFix(sourceCode, node, fixer),
+              fix: (fixer) =>
+                RuleFixes.getNodeToCommaRemoveFix(sourceCode, node, fixer),
             },
           ],
         });

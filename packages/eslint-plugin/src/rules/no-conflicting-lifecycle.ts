@@ -1,34 +1,21 @@
+import { ASTUtils } from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
-import { ASTUtils } from '@typescript-eslint/experimental-utils';
+import { ASTUtils as TSESLintASTUtils } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
-import type {
-  AngularLifecycleInterfaceKeys,
-  AngularLifecycleMethodKeys,
-} from '../utils/utils';
-import {
-  AngularLifecycleInterfaces,
-  AngularLifecycleMethods,
-  getDeclaredAngularLifecycleInterfaces,
-  getDeclaredAngularLifecycleMethods,
-  getDeclaredMethods,
-  getInterfaceName,
-  getInterfaces,
-  isAngularLifecycleInterface,
-  isAngularLifecycleMethod,
-} from '../utils/utils';
 
 type Options = [];
 export type MessageIds =
   | 'noConflictingLifecycleInterface'
   | 'noConflictingLifecycleMethod';
 export const RULE_NAME = 'no-conflicting-lifecycle';
-const LIFECYCLE_INTERFACES: readonly AngularLifecycleInterfaceKeys[] = [
-  AngularLifecycleInterfaces.DoCheck,
-  AngularLifecycleInterfaces.OnChanges,
-];
-const LIFECYCLE_METHODS: readonly AngularLifecycleMethodKeys[] = [
-  AngularLifecycleMethods.ngDoCheck,
-  AngularLifecycleMethods.ngOnChanges,
+const LIFECYCLE_INTERFACES: readonly ASTUtils.AngularLifecycleInterfaceKeys[] =
+  [
+    ASTUtils.AngularLifecycleInterfaces.DoCheck,
+    ASTUtils.AngularLifecycleInterfaces.OnChanges,
+  ];
+const LIFECYCLE_METHODS: readonly ASTUtils.AngularLifecycleMethodKeys[] = [
+  ASTUtils.AngularLifecycleMethods.ngDoCheck,
+  ASTUtils.AngularLifecycleMethods.ngOnChanges,
 ];
 
 export default createESLintRule<Options, MessageIds>({
@@ -43,15 +30,15 @@ export default createESLintRule<Options, MessageIds>({
     },
     schema: [],
     messages: {
-      noConflictingLifecycleInterface: `Implementing ${AngularLifecycleInterfaces.DoCheck} and ${AngularLifecycleInterfaces.OnChanges} in a class is not recommended`,
-      noConflictingLifecycleMethod: `Declaring ${AngularLifecycleMethods.ngDoCheck} and ${AngularLifecycleMethods.ngOnChanges} method in a class is not recommended`,
+      noConflictingLifecycleInterface: `Implementing ${ASTUtils.AngularLifecycleInterfaces.DoCheck} and ${ASTUtils.AngularLifecycleInterfaces.OnChanges} in a class is not recommended`,
+      noConflictingLifecycleMethod: `Declaring ${ASTUtils.AngularLifecycleMethods.ngDoCheck} and ${ASTUtils.AngularLifecycleMethods.ngOnChanges} method in a class is not recommended`,
     },
   },
   defaultOptions: [],
   create(context) {
     const validateInterfaces = (node: TSESTree.ClassDeclaration) => {
       const declaredAngularLifecycleInterfaces =
-        getDeclaredAngularLifecycleInterfaces(node);
+        ASTUtils.getDeclaredAngularLifecycleInterfaces(node);
 
       const hasInterfaceConflictingLifecycle = LIFECYCLE_INTERFACES.every(
         (lifecycleInterface) =>
@@ -60,11 +47,13 @@ export default createESLintRule<Options, MessageIds>({
 
       if (!hasInterfaceConflictingLifecycle) return;
 
-      const declaredInterfaces = getInterfaces(node);
+      const declaredInterfaces = ASTUtils.getInterfaces(node);
       const declaredAngularLifecycleInterfacesNodes = declaredInterfaces.filter(
         (node) => {
-          const interfaceName = getInterfaceName(node);
-          return interfaceName && isAngularLifecycleInterface(interfaceName);
+          const interfaceName = ASTUtils.getInterfaceName(node);
+          return (
+            interfaceName && ASTUtils.isAngularLifecycleInterface(interfaceName)
+          );
         },
       );
 
@@ -77,7 +66,7 @@ export default createESLintRule<Options, MessageIds>({
     };
     const validateMethods = (node: TSESTree.ClassDeclaration) => {
       const declaredAngularLifecycleMethods =
-        getDeclaredAngularLifecycleMethods(node);
+        ASTUtils.getDeclaredAngularLifecycleMethods(node);
 
       const hasMethodConflictingLifecycle = LIFECYCLE_METHODS.every(
         (lifecycleMethod) =>
@@ -86,11 +75,11 @@ export default createESLintRule<Options, MessageIds>({
 
       if (!hasMethodConflictingLifecycle) return;
 
-      const declaredMethods = getDeclaredMethods(node);
+      const declaredMethods = ASTUtils.getDeclaredMethods(node);
       const declaredAngularLifecycleMethodNodes = declaredMethods.filter(
         (node) =>
-          ASTUtils.isIdentifier(node.key) &&
-          isAngularLifecycleMethod(node.key.name),
+          TSESLintASTUtils.isIdentifier(node.key) &&
+          ASTUtils.isAngularLifecycleMethod(node.key.name),
       );
 
       for (const method of declaredAngularLifecycleMethodNodes) {

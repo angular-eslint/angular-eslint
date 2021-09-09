@@ -1,11 +1,10 @@
+import {
+  ASTUtils,
+  Selectors,
+  toHumanReadableText,
+} from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
-import {
-  INPUTS_METADATA_PROPERTY_LITERAL,
-  INPUT_ALIAS,
-  INPUT_PROPERTY_OR_SETTER,
-} from '../utils/selectors';
-import { getRawText, toHumanReadableText } from '../utils/utils';
 
 type Options = [{ readonly prefixes: readonly string[] }];
 export type MessageIds = 'noInputPrefix';
@@ -43,16 +42,16 @@ export default createESLintRule<Options, MessageIds>({
   defaultOptions: [{ prefixes: [] }],
   create(context, [{ prefixes }]) {
     const selectors = [
-      INPUTS_METADATA_PROPERTY_LITERAL,
-      INPUT_ALIAS,
-      INPUT_PROPERTY_OR_SETTER,
+      Selectors.INPUTS_METADATA_PROPERTY_LITERAL,
+      Selectors.INPUT_ALIAS,
+      Selectors.INPUT_PROPERTY_OR_SETTER,
     ].join(',');
 
     return {
       [selectors](
         node: TSESTree.Identifier | TSESTree.Literal | TSESTree.TemplateElement,
       ) {
-        const [propertyName, aliasName] = getRawText(node)
+        const [propertyName, aliasName] = ASTUtils.getRawText(node)
           .replace(/\s/g, '')
           .split(':');
         const hasDisallowedPrefix = prefixes.some((prefix) =>

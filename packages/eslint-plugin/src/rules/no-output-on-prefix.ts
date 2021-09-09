@@ -1,11 +1,6 @@
+import { ASTUtils, Selectors } from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
-import {
-  OUTPUTS_METADATA_PROPERTY_LITERAL,
-  OUTPUT_ALIAS,
-  OUTPUT_PROPERTY_OR_GETTER,
-} from '../utils/selectors';
-import { getRawText } from '../utils/utils';
 
 type Options = [];
 export type MessageIds = 'noOutputOnPrefix';
@@ -30,16 +25,16 @@ export default createESLintRule<Options, MessageIds>({
   create(context) {
     const outputOnPattern = /^on(([^a-z])|(?=$))/;
     const selectors = [
-      OUTPUTS_METADATA_PROPERTY_LITERAL,
-      OUTPUT_ALIAS,
-      OUTPUT_PROPERTY_OR_GETTER,
+      Selectors.OUTPUTS_METADATA_PROPERTY_LITERAL,
+      Selectors.OUTPUT_ALIAS,
+      Selectors.OUTPUT_PROPERTY_OR_GETTER,
     ].join(',');
 
     return {
       [selectors](
         node: TSESTree.Identifier | TSESTree.Literal | TSESTree.TemplateElement,
       ) {
-        const [propertyName, aliasName] = getRawText(node)
+        const [propertyName, aliasName] = ASTUtils.getRawText(node)
           .replace(/\s/g, '')
           .split(':');
 

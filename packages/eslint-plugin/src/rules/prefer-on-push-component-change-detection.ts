@@ -1,16 +1,11 @@
+import {
+  ASTUtils,
+  RuleFixes,
+  isNotNullOrUndefined,
+  Selectors,
+} from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
-import {
-  COMPONENT_CLASS_DECORATOR,
-  metadataProperty,
-} from '../utils/selectors';
-import {
-  getDecoratorPropertyAddFix,
-  getImportAddFix,
-  isMemberExpression,
-  isNotNullOrUndefined,
-  isProperty,
-} from '../utils/utils';
 
 type Options = [];
 export type MessageIds =
@@ -50,13 +45,13 @@ export default createESLintRule<Options, MessageIds>({
   },
   defaultOptions: [],
   create(context) {
-    const changeDetectionMetadataProperty = metadataProperty(
+    const changeDetectionMetadataProperty = Selectors.metadataProperty(
       METADATA_PROPERTY_NAME,
     );
     const withoutChangeDetectionDecorator =
-      `${COMPONENT_CLASS_DECORATOR}:matches([expression.arguments.length=0], [expression.arguments.0.type='ObjectExpression']:not(:has(${changeDetectionMetadataProperty})))` as const;
+      `${Selectors.COMPONENT_CLASS_DECORATOR}:matches([expression.arguments.length=0], [expression.arguments.0.type='ObjectExpression']:not(:has(${changeDetectionMetadataProperty})))` as const;
     const nonChangeDetectionOnPushProperty =
-      `${COMPONENT_CLASS_DECORATOR} > CallExpression > ObjectExpression > ${changeDetectionMetadataProperty}:matches([value.type='Identifier'][value.name='undefined'], [value.object.name='ChangeDetectionStrategy'][value.property.name!='OnPush'])` as const;
+      `${Selectors.COMPONENT_CLASS_DECORATOR} > CallExpression > ObjectExpression > ${changeDetectionMetadataProperty}:matches([value.type='Identifier'][value.name='undefined'], [value.object.name='ChangeDetectionStrategy'][value.property.name!='OnPush'])` as const;
     const selectors = [
       withoutChangeDetectionDecorator,
       nonChangeDetectionOnPushProperty,
@@ -71,28 +66,28 @@ export default createESLintRule<Options, MessageIds>({
             {
               messageId: 'suggestAddChangeDetectionOnPush',
               fix: (fixer) => {
-                if (isProperty(node)) {
+                if (ASTUtils.isProperty(node)) {
                   return [
-                    getImportAddFix({
+                    RuleFixes.getImportAddFix({
                       fixer,
                       importName: 'ChangeDetectionStrategy',
                       moduleName: '@angular/core',
                       node: node.parent.parent.parent.parent,
                     }),
-                    isMemberExpression(node.value)
+                    ASTUtils.isMemberExpression(node.value)
                       ? fixer.replaceText(node.value.property, 'OnPush')
                       : fixer.replaceText(node.value, STRATEGY_ON_PUSH),
                   ].filter(isNotNullOrUndefined);
                 }
 
                 return [
-                  getImportAddFix({
+                  RuleFixes.getImportAddFix({
                     fixer,
                     importName: 'ChangeDetectionStrategy',
                     moduleName: '@angular/core',
                     node: node.parent,
                   }),
-                  getDecoratorPropertyAddFix(
+                  RuleFixes.getDecoratorPropertyAddFix(
                     node,
                     fixer,
                     `${METADATA_PROPERTY_NAME}: ${STRATEGY_ON_PUSH}`,
@@ -108,9 +103,11 @@ export default createESLintRule<Options, MessageIds>({
 });
 
 function nodeToReport(node: TSESTree.Node) {
-  if (!isProperty(node)) {
+  if (!ASTUtils.isProperty(node)) {
     return node;
   }
 
-  return isMemberExpression(node.value) ? node.value.property : node.value;
+  return ASTUtils.isMemberExpression(node.value)
+    ? node.value.property
+    : node.value;
 }

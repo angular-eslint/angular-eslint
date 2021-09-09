@@ -1,6 +1,6 @@
+import { Selectors } from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
-import { OUTPUT_DECORATOR } from '../utils/selectors';
 
 type Options = [];
 export type MessageIds = 'preferOutputReadonly' | 'suggestAddReadonlyModifier';
@@ -27,7 +27,7 @@ export default createESLintRule<Options, MessageIds>({
   defaultOptions: [],
   create(context) {
     return {
-      [`ClassProperty:not([readonly]) > ${OUTPUT_DECORATOR}`]({
+      [`ClassProperty:not([readonly]) > ${Selectors.OUTPUT_DECORATOR}`]({
         parent: { key },
       }: TSESTree.Decorator & { parent: TSESTree.ClassProperty }) {
         context.report({

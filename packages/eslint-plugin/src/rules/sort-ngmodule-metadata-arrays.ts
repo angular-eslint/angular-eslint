@@ -1,7 +1,7 @@
+import { Selectors } from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
-import { ASTUtils } from '@typescript-eslint/experimental-utils';
+import { ASTUtils as TSESLintASTUtils } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
-import { metadataProperty, MODULE_CLASS_DECORATOR } from '../utils/selectors';
 
 type Options = [];
 export type MessageIds = 'sortNgmoduleMetadataArrays';
@@ -30,11 +30,11 @@ export default createESLintRule<Options, MessageIds>({
       /^(bootstrap|declarations|entryComponents|exports|imports|providers|schemas)$/;
 
     return {
-      [`${MODULE_CLASS_DECORATOR} ${metadataProperty(
+      [`${Selectors.MODULE_CLASS_DECORATOR} ${Selectors.metadataProperty(
         metadataPropertyPattern,
       )} ArrayExpression`]({ elements }: TSESTree.ArrayExpression) {
         const unorderedNodes = elements
-          .filter(ASTUtils.isIdentifier)
+          .filter(TSESLintASTUtils.isIdentifier)
           .map((current, index, list) => [current, list[index + 1]])
           .find(([current, next]) => {
             return next && current.name.localeCompare(next.name) === 1;
