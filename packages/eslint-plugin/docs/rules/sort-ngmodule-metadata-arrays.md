@@ -21,6 +21,8 @@ Ensures ASC alphabetical order for `NgModule` metadata arrays for easy visual sc
 - Category: Best Practices
 - 🔧 Supports autofix (`--fix`)
 
+- 💡 Provides suggestions on how to fix issues (https://eslint.org/docs/developer-guide/working-with-rules#providing-suggestions)
+
 <br>
 
 ## Rule Options
@@ -239,6 +241,211 @@ class Test {}
   ]
 })
 class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/sort-ngmodule-metadata-arrays": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@NgModule({
+  providers: [
+    // @ts-ignore
+    AProvider,
+    // @ts-expect-error
+    {
+      useClass: MyProvider,
+      // eslint-disable-next-line sort-keys
+      provide: 'myprovider',
+    },
+    cProvider,
+    bProvider, // TODO: This provider should be removed soon.
+    ~~~~~~~~~
+    /* CommentAfter */ DProvider,
+  ]
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/sort-ngmodule-metadata-arrays": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@NgModule({
+  bootstrap,
+  declarations: declarations,
+  providers: providers(),
+  schemas: [],
+  [imports]: [
+    aModule,
+    bModule,
+    DModule,
+    cModule,
+    ~~~~~~~
+  ],
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/sort-ngmodule-metadata-arrays": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@NgModule({
+  bootstrap,
+  declarations: declarations,
+  providers: providers(),
+  schemas: [],
+  imports: [
+    Module1,
+    [...commonModules, Module4, Module0],
+                                ~~~~~~~
+  ],
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/sort-ngmodule-metadata-arrays": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@NgModule({
+  imports: [
+    AppRoutingModule,
+    BrowserModule,
+    DeprecatedModule as unknown as Type<unknown>,
+    FlexLayoutModule,
+    HttpClientModule,
+    new Array([TestModule]),
+    MatListModule,
+    ...(shouldLoadModules ? [ModuleA, ModuleB] : []),
+    MatMenuModule,
+    StoreModule.forRoot({}),
+    MatSidenavModule,
+    MatToolbarModule,
+    ...[sharedDeclarations],
+    BrowserAnimationsModule,
+    ~~~~~~~~~~~~~~~~~~~~~~~
+    Test!,
+  ],
+  declarations: [
+    AutoHeightDirective,
+    NgxColumnComponent,
+    NgxOptionsComponent,
+    TableBuilderComponent,
+    TableTbodyComponent,
+    TableTheadComponent,
+    TableCellComponent,
+    ~~~~~~~~~~~~~~~~~~
+    TemplateBodyTdDirective,
+    [B, A, C],
+        ~
+    TemplateHeadThDirective,
+    ObserverViewDirective,
+    NgxContextMenuComponent,
+    NgxContextMenuItemComponent,
+    NgxContextMenuDividerComponent,
+    NgxMenuContentComponent,
+    NgxEmptyComponent,
+    NgxHeaderComponent,
+    NgxFooterComponent,
+    NgxFilterViewerComponent,
+    NgxFilterComponent,
+    NgxFilterDirective,
+    DragIconComponent,
+    NgxSourceNullComponent,
+    DisableRowPipe,
+    TableSelectedItemsPipe,
+    MapToTableEntriesPipe,
+    VirtualForDirective,
+    GetFreeSizePipe,
+    GetClientHeightPipe
+  ],
+  providers: [
+    {provide: 'TOKEN', useFactory: useToken},
+    WebWorkerThreadService,
+  ],
+})
+class TableBuilderModule {
+  static forRoot(): ModuleWithProviders<TableBuilderModule> {
+    return { ngModule: TableBuilderModule, providers: [] };
+  }
+}
 ```
 
 <br>
