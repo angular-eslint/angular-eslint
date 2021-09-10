@@ -1,4 +1,4 @@
-import type { TSESTree } from '@typescript-eslint/experimental-utils';
+import type { TSESLint, TSESTree } from '@typescript-eslint/experimental-utils';
 import {
   ASTUtils,
   AST_NODE_TYPES,
@@ -507,6 +507,22 @@ export function getReplacementText(
   text: string,
 ): string {
   return isLiteral(node) ? `'${text}'` : `\`${text}\``;
+}
+
+/**
+ * Checks whether any comments exist or not given a node.
+ * @param sourceCode The source code.
+ * @param node The node to check.
+ * @returns `true` if one or more comments exist.
+ */
+export function hasComments(
+  sourceCode: Readonly<TSESLint.SourceCode>,
+  node: TSESTree.Node,
+): boolean {
+  return (
+    sourceCode.getCommentsBefore(node).length > 0 ||
+    sourceCode.getCommentsAfter(node).length > 0
+  );
 }
 
 // SECTION START:

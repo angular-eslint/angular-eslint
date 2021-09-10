@@ -2,6 +2,7 @@ import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/utils';
 import type { MessageIds } from '../../../src/rules/sort-ngmodule-metadata-arrays';
 
 const messageId: MessageIds = 'sortNgmoduleMetadataArrays';
+const suggestFix: MessageIds = 'suggestFix';
 
 export const valid = [
   `class Test {}`,
@@ -16,21 +17,6 @@ export const valid = [
   `
   const options = {};
   @NgModule(options)
-  class Test {}
-  `,
-  `
-  @NgModule({
-    bootstrap,
-    declarations: declarations,
-    providers: providers(),
-    schemas: [],
-    [imports]: [
-      aModule,
-      bModule,
-      DModule,
-      cModule,
-    ],
-  })
   class Test {}
   `,
   `
@@ -69,7 +55,7 @@ export const valid = [
   `,
   `
   @Component({
-    providers: [        
+    providers: [
       DeclarationD,
       DeclarationA,
     ]
@@ -84,7 +70,7 @@ export const invalid = [
     annotatedSource: `
     @NgModule({
       imports: [aModule, bModule, DModule, cModule]
-                                  ~~~~~~~
+                                           ~~~~~~~
     })
     class Test {}
     `,
@@ -92,7 +78,7 @@ export const invalid = [
     annotatedOutput: `
     @NgModule({
       imports: [aModule, bModule, cModule, DModule]
-                                  ~~~~~~~
+                                           ~~~~~~~
     })
     class Test {}
     `,
@@ -105,8 +91,8 @@ export const invalid = [
       'declarations': [
         AComponent,
         cPipe,
-        ~~~~~
         bDirective,
+        ~~~~~~~~~~
         DComponent,
       ],
     })
@@ -118,8 +104,8 @@ export const invalid = [
       'declarations': [
         AComponent,
         bDirective,
-        ~~~~~
         cPipe,
+        ~~~~~~~~~~
         DComponent,
       ],
     })
@@ -133,8 +119,8 @@ export const invalid = [
       ['exports']: [
         AComponent,
         cPipe,
-        ~~~~~
         bDirective,
+        ~~~~~~~~~~
         DComponent,
       ],
     })
@@ -146,8 +132,8 @@ export const invalid = [
       ['exports']: [
         AComponent,
         bDirective,
-        ~~~~~
         cPipe,
+        ~~~~~~~~~~
         DComponent,
       ],
     })
@@ -161,8 +147,8 @@ export const invalid = [
       [\`bootstrap\`]: [
         AppModule2,
         AppModule3,
-        ~~~~~~~~~~
         AppModule1,
+        ~~~~~~~~~~
       ]
     })
     class Test {}
@@ -171,10 +157,10 @@ export const invalid = [
     annotatedOutput: `
     @NgModule({
       [\`bootstrap\`]: [
-        AppModule2,
         AppModule1,
-        ~~~~~~~~~~
+        AppModule2,
         AppModule3,
+        ~~~~~~~~~~
       ]
     })
     class Test {}
@@ -187,8 +173,8 @@ export const invalid = [
       schemas: [
         A_SCHEMA,
         C_SCHEMA,
-        ~~~~~~~~
         B_SCHEMA,
+        ~~~~~~~~
       ]
     })
     class Test {}
@@ -199,48 +185,265 @@ export const invalid = [
       schemas: [
         A_SCHEMA,
         B_SCHEMA,
-        ~~~~~~~~
         C_SCHEMA,
+        ~~~~~~~~
       ]
     })
     class Test {}
     `,
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail if `providers` metadata arrays is not sorted ASC, but ignore objects',
+    description: 'should fail and suggest instead of fix when having comments',
     annotatedSource: `
     @NgModule({
-      imports: [
+      providers: [
+        // @ts-ignore
         AProvider,
+        // @ts-expect-error
         {
-          provide: 'myprovider',
           useClass: MyProvider,
+          // eslint-disable-next-line sort-keys
+          provide: 'myprovider',
         },
         cProvider,
+        bProvider, // TODO: This provider should be removed soon.
         ~~~~~~~~~
-        bProvider,
-        DProvider,
+        /* CommentAfter */ DProvider,
       ]
+    })
+    class Test {}
+    `,
+    messageId,
+    suggestions: [
+      {
+        messageId: suggestFix,
+        output: `
+    @NgModule({
+      providers: [
+        // @ts-ignore
+        AProvider,
+        // @ts-expect-error
+        bProvider,
+        cProvider,
+        DProvider, // TODO: This provider should be removed soon.
+        
+        /* CommentAfter */ {
+          useClass: MyProvider,
+          // eslint-disable-next-line sort-keys
+          provide: 'myprovider',
+        },
+      ]
+    })
+    class Test {}
+    `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if computed property metadata arrays is not sorted ASC',
+    annotatedSource: `
+    @NgModule({
+      bootstrap,
+      declarations: declarations,
+      providers: providers(),
+      schemas: [],
+      [imports]: [
+        aModule,
+        bModule,
+        DModule,
+        cModule,
+        ~~~~~~~
+      ],
     })
     class Test {}
     `,
     messageId,
     annotatedOutput: `
     @NgModule({
-      imports: [
-        AProvider,
-        {
-          provide: 'myprovider',
-          useClass: MyProvider,
-        },
-        bProvider,
-        ~~~~~~~~~
-        cProvider,
-        DProvider,
-      ]
+      bootstrap,
+      declarations: declarations,
+      providers: providers(),
+      schemas: [],
+      [imports]: [
+        aModule,
+        bModule,
+        cModule,
+        DModule,
+        
+      ],
     })
     class Test {}
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if nested arrays within metadata is not sorted ASC',
+    annotatedSource: `
+    @NgModule({
+      bootstrap,
+      declarations: declarations,
+      providers: providers(),
+      schemas: [],
+      imports: [
+        Module1,
+        [...commonModules, Module4, Module0],
+                                    ~~~~~~~
+      ],
+    })
+    class Test {}
+    `,
+    messageId,
+    annotatedOutput: `
+    @NgModule({
+      bootstrap,
+      declarations: declarations,
+      providers: providers(),
+      schemas: [],
+      imports: [
+        Module1,
+        [Module0, Module4, ...commonModules],
+                                    
+      ],
+    })
+    class Test {}
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    // https://github.com/angular-eslint/angular-eslint/issues/675
+    description: 'should fail and fix multiple reports at once',
+    annotatedSource: `
+    @NgModule({
+      imports: [
+        AppRoutingModule,
+        BrowserModule,
+        DeprecatedModule as unknown as Type<unknown>,
+        FlexLayoutModule,
+        HttpClientModule,
+        new Array([TestModule]),
+        MatListModule,
+        ...(shouldLoadModuleB ? [ModuleA, ModuleB] : []),
+        MatMenuModule,
+        StoreModule.forRoot({}),
+        MatSidenavModule,
+        MatToolbarModule,
+        ...[sharedDeclarations],
+        BrowserAnimationsModule,
+        ~~~~~~~~~~~~~~~~~~~~~~~
+        Test!,
+      ],
+      declarations: [
+        AutoHeightDirective,
+        NgxColumnComponent,
+        NgxOptionsComponent,
+        TableBuilderComponent,
+        TableTbodyComponent,
+        TableTheadComponent,
+        TableCellComponent,
+        ^^^^^^^^^^^^^^^^^^
+        TemplateBodyTdDirective,
+        [B, A, C],
+            #
+        TemplateHeadThDirective,
+        ObserverViewDirective,
+        NgxContextMenuComponent,
+        NgxContextMenuItemComponent,
+        NgxContextMenuDividerComponent,
+        NgxMenuContentComponent,
+        NgxEmptyComponent,
+        NgxHeaderComponent,
+        NgxFooterComponent,
+        NgxFilterViewerComponent,
+        NgxFilterComponent,
+        NgxFilterDirective,
+        DragIconComponent,
+        NgxSourceNullComponent,
+        DisableRowPipe,
+        TableSelectedItemsPipe,
+        MapToTableEntriesPipe,
+        VirtualForDirective,
+        GetFreeSizePipe,
+        GetClientHeightPipe
+      ],
+      providers: [
+        {provide: 'TOKEN', useFactory: useToken},
+        WebWorkerThreadService,
+      ],
+    })
+    class TableBuilderModule {
+      static forRoot(): ModuleWithProviders<TableBuilderModule> {
+        return { ngModule: TableBuilderModule, providers: [] };
+      }
+    }
+    `,
+    messages: [
+      { char: '~', messageId },
+      { char: '^', messageId },
+      { char: '#', messageId },
+    ],
+    annotatedOutput: `
+    @NgModule({
+      imports: [
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        BrowserModule,
+        FlexLayoutModule,
+        HttpClientModule,
+        MatListModule,
+        MatMenuModule,
+        MatSidenavModule,
+        MatToolbarModule,
+        DeprecatedModule as unknown as Type<unknown>,
+        new Array([TestModule]),
+        ...(shouldLoadModuleB ? [ModuleA, ModuleB] : []),
+        StoreModule.forRoot({}),
+        ...[sharedDeclarations],
+                               
+        Test!,
+      ],
+      declarations: [
+        AutoHeightDirective,
+        DisableRowPipe,
+        DragIconComponent,
+        GetClientHeightPipe,
+        GetFreeSizePipe,
+        MapToTableEntriesPipe,
+        NgxColumnComponent,
+                          
+        NgxContextMenuComponent,
+        NgxContextMenuDividerComponent,
+            
+        NgxContextMenuItemComponent,
+        NgxEmptyComponent,
+        NgxFilterComponent,
+        NgxFilterDirective,
+        NgxFilterViewerComponent,
+        NgxFooterComponent,
+        NgxHeaderComponent,
+        NgxMenuContentComponent,
+        NgxOptionsComponent,
+        NgxSourceNullComponent,
+        ObserverViewDirective,
+        TableBuilderComponent,
+        TableCellComponent,
+        TableSelectedItemsPipe,
+        TableTbodyComponent,
+        TableTheadComponent,
+        TemplateBodyTdDirective,
+        TemplateHeadThDirective,
+        VirtualForDirective,
+        [B, A, C]
+      ],
+      providers: [
+        {provide: 'TOKEN', useFactory: useToken},
+        WebWorkerThreadService,
+      ],
+    })
+    class TableBuilderModule {
+      static forRoot(): ModuleWithProviders<TableBuilderModule> {
+        return { ngModule: TableBuilderModule, providers: [] };
+      }
+    }
     `,
   }),
 ];

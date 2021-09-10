@@ -65,3 +65,32 @@ export function capitalize<T extends string>(text: T): Capitalize<T> {
 export function withoutBracketsAndWhitespaces(text: string): string {
   return text.replace(/[[\]\s]/g, '');
 }
+
+/**
+ * Split the `array` into two `arrays`, where the first array contains all
+ * the items that don't satisfy the received predicate and the second the
+ * ones that do.
+ * @example
+ * ```ts
+ * const [others, numbers] = partition([1, 2, 'a', true], isNumber);
+ * // others => ['a', true];
+ * // numbers => [1, 2];
+ * ```
+ */
+export function partition<TItem, TPredicateResult extends TItem>(
+  items: readonly TItem[],
+  predicate: (
+    value: TItem,
+    index?: number,
+    array?: readonly TItem[],
+  ) => value is TPredicateResult,
+): readonly [TItem[], TPredicateResult[]] {
+  return items.reduce<readonly [TItem[], TPredicateResult[]]>(
+    (partition, item, index, array) => {
+      const partitionIndex = predicate(item, index, array) ? 1 : 0;
+      partition[partitionIndex].push(item as TPredicateResult);
+      return partition;
+    },
+    [[], []],
+  );
+}
