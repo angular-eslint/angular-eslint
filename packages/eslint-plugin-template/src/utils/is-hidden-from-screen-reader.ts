@@ -1,3 +1,4 @@
+import type { LiteralPrimitive } from '@angular/compiler';
 import { TmplAstElement } from '@angular/compiler';
 import { getAttributeValue } from './get-attribute-value';
 import { getNearestNodeFrom } from './get-nearest-node-from';
@@ -84,10 +85,17 @@ function hasHiddenDynamicStylesWithLiteralValues(
  */
 function hasHiddenStaticNgStyles(node: TmplAstElement): boolean {
   const ngStyleAttributeValue = getAttributeValue(node, 'ngStyle');
+
+  function isMap(
+    possibleMap: unknown,
+  ): possibleMap is Map<string, LiteralPrimitive> {
+    return possibleMap instanceof Map;
+  }
+
   return (
-    ngStyleAttributeValue instanceof Map &&
-    (ngStyleAttributeValue.get('display') === 'none' ||
-      ngStyleAttributeValue.get('visibility') === 'hidden')
+    isMap(ngStyleAttributeValue) &&
+    (ngStyleAttributeValue.get('display')?.value === 'none' ||
+      ngStyleAttributeValue.get('visibility')?.value === 'hidden')
   );
 }
 

@@ -15,7 +15,7 @@ import { getOriginalAttributeName } from './get-original-attribute-name';
  * getAttributeValue(Element(`<div property="test"></div>`), 'nonExistent'); // null
  * getAttributeValue(Element(`<div aria-role="none"></div>`), 'role'); // 'none'
  * getAttributeValue(Element(`<div [attr.aria-checked]="true"></div>`), 'aria-checked'); // true
- * getAttributeValue(Element(`<button [variant]="variant"></button>`), 'variant'); // PROPERTY
+ * getAttributeValue(Element(`<button [variant]="variant"></button>`), 'variant'); // PROPERTY_READ
  * ```
  */
 export function getAttributeValue(
