@@ -10,20 +10,25 @@ function checkIsInteractiveElement(node: TmplAstElement): boolean {
   function elementSchemaMatcher({ attributes, name }: ARIARoleRelationConcept) {
     return node.name === name && attributesComparator(attributes ?? [], node);
   }
+
   // Check in elementRoles for inherent interactive role associations for
   // this element.
   const isInherentInteractiveElement =
     getInteractiveElementRoleSchemas().some(elementSchemaMatcher);
+
   if (isInherentInteractiveElement) {
     return true;
   }
+
   // Check in elementRoles for inherent non-interactive role associations for
   // this element.
   const isInherentNonInteractiveElement =
     getNonInteractiveElementRoleSchemas().some(elementSchemaMatcher);
+
   if (isInherentNonInteractiveElement) {
     return false;
   }
+
   // Check in elementAXObjects for AX Tree associations for this element.
   return getInteractiveElementAXObjectSchemas().some(elementSchemaMatcher);
 }
