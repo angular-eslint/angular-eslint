@@ -67,7 +67,7 @@ export function withoutBracketsAndWhitespaces(text: string): string {
 }
 
 /**
- * Split the `array` into two `arrays`, where the first array contains all
+ * Splits the `array` into two `arrays`, where the first array contains all
  * the items that don't satisfy the received predicate and the second the
  * ones that do.
  * @example
