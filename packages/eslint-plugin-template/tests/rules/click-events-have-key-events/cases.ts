@@ -4,121 +4,109 @@ import type { MessageIds } from '../../../src/rules/click-events-have-key-events
 const messageId: MessageIds = 'clickEventsHaveKeyEvents';
 
 export const valid = [
-  {
-    // It should work when click events are associated with key events.
-    code: '<div (click)="onClick()" (keyup)="onKeyup()"></div>',
-  },
-  {
-    // It should work when click events are associated with key pseudo events.
-    code: '<div (click)="onClick()" (keyup.enter)="onKeyup()"></div>',
-  },
-  {
-    // It should work when click events are passed to custom element.
-    code: '<cui-button (click)="onClick()"></cui-button>',
-  },
-  {
-    // It should work when element has aria-hidden.
-    code: `
-        <div (click)="onClick()" aria-hidden"></div>
-        <div (click)="onClick()" aria-hidden="true"></div>
-        <div (click)="onClick()" [attr.aria-hidden]="true"></div>
-        <div (click)="onClick()" [attr.aria-hidden]="ariaHidden"></div>
-      `,
-  },
-  {
-    // It should work when element has presentation role.
-    code: `
-        <div (click)="onClick()" role="presentation"></div>
-        <div (click)="onClick()" [attr.role]="'none'"></div>
-      `,
-  },
-  {
-    // It should work when element is interactive.
-    code: `
-        <input (click)="onClick()">
-        <button (click)="onClick()"></button>
-        <textarea (click)="onClick()"></textarea>
-        <select (click)="onClick()">
-          <option (click)="onClick()"></option>
-        </select>
-        <textarea (click)="onClick()"></textarea>
-        <a href="#" (click)="onClick()"></a>
-        <a [attr.href]="href" class="anchor" (click)="onClick()"></a>
-        <a [routerLink]="'route'" (click)="onClick()"></a>
-      `,
-  },
+  // should pass if element has `click` event and accessibility events
+  '<div (click)="onClick()" (keyup)="onKeyup()"></div>',
+  // should pass if element has `click` event and pseudo accessibility events
+  '<div (click)="onClick()" (keypress.enter)="onKeypress()"></div>',
+  // should pass if element has `click` event and complex pseudo accessibility events
+  '<div (click)="onClick()" (keydown.shift.f)="onKeydown()"></div>',
+  // should pass if element is a custom element
+  '<cui-button (click)="onClick()"></cui-button>',
+  // should pass if element has `click` event and although it doesn't have accessibility events, it is hidden from screen reader
+  `
+    <div (click)="onClick()" hidden></div>
+    <div style="display: none">
+      <header (click)="onClick()"></header>
+    </div>
+    <div (click)="onClick()" [style.display.none]="true"></div>
+    <div (click)="onClick()" [ngStyle]="{visibility: 'hidden'}"></div>
+    <div (click)="onClick()" aria-hidden></div>
+    <div (click)="onClick()" aria-hidden="true"></div>
+    <div (click)="onClick()" [attr.aria-hidden]="true"></div>
+    <div (click)="onClick()" [attr.aria-hidden]="'true'"></div>
+  `,
+  // should pass if element has `click` event and although it doesn't have accessibility events, it is has a presentation-like role
+  `
+    <div (click)="onClick()" role="presentation"></div>
+    <div (click)="onClick()" [attr.role]="'none'"></div>
+  `,
+  // should pass if element has `click` event and although it doesn't have accessibility events, it is is interactive (and fulfill all the necessary attributes)
+  `
+    <input (click)="onClick()">
+    <button (click)="onClick()"></button>
+    <textarea (click)="onClick()"></textarea>
+    <select (click)="onClick()">
+      <option (click)="onClick()"></option>
+    </select>
+    <textarea (click)="onClick()"></textarea>
+    <a href="#" (click)="onClick()"></a>
+    <a [attr.href]="href" class="anchor" (click)="onClick()"></a>
+    <a [routerLink]="'route'" (click)="onClick()"></a>
+  `,
 ];
 
 export const invalid = [
   convertAnnotatedSourceToFailureCase({
-    messageId,
-    description: 'should fail when click is not accompanied with key events',
+    description:
+      'should fail if a non-interactive element has `click` event, but not accessibility events',
     annotatedSource: `
-        <div (click)="onClick()"></div>
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      `,
+      <div (click)="onClick()"></div>
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if an interactive element (without attributes that make it interactive) has `click` event, but not accessibility events',
+    annotatedSource: `
+      <a (click)="onClick()"></a>
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    messageId,
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
     description:
-      'should fail when click is not accompanied with key events on non interactive element',
+      'should fail if a non-interactive element has `click` event and its `aria-hidden` attribute is set to `false`',
     annotatedSource: `
-        <header (click)="onClick()"></header>
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      `,
+      <div (click)="onClick()" aria-hidden="false"></div>
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
     description:
-      'should fail when click is not accompanied with key events on interactive element without attributes that make them interactive',
+      'should fail if a non-interactive element has `click` event and its `aria-hidden` input is set to a `PropertyRead`',
     annotatedSource: `
-        <a (click)="onClick()"></a>
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      `,
+      <div (click)="onClick()" [attr.aria-hidden]="ariaHidden"></div>
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
     description:
-      'should fail when click is not accompanied with key events and has aria-hidden attribute as false',
+      'should fail if a non-interactive element has `click` event and its `role` attribute is not presentation-like',
     annotatedSource: `
-        <div (click)="onClick()" aria-hidden="false"></div>
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      `,
+      <div (click)="onClick()" role="header"></div>
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
   }),
   convertAnnotatedSourceToFailureCase({
-    messageId,
     description:
-      'should fail when click is not accompanied with key events and has aria-hidden input as false',
+      'should fail if an interactive element (without attributes that make it interactive) has `click` event and its `role` input is not presentation-like',
     annotatedSource: `
-        <div (click)="onClick()" [attr.aria-hidden]="'false'"></div>
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      `,
+      <a (click)="onClick()" [attr.role]="'header'"></a>
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    messageId,
     description:
-      'should fail when click is not accompanied with key events and has role other than presentational',
+      'should fail if a non-interactive element has `click` event and its `role` input is a `PropertyRead`',
     annotatedSource: `
-        <div (click)="onClick()" role="header"></div>
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      `,
-  }),
-  convertAnnotatedSourceToFailureCase({
+      <div (click)="onClick()" [role]="role"></div>
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
     messageId,
-    description:
-      'should fail when click is not accompanied with key events and has aria-hidden attribute as false',
-    annotatedSource: `
-        <div (click)="onClick()" role="aside"></div>
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      `,
-  }),
-  convertAnnotatedSourceToFailureCase({
-    messageId,
-    description:
-      'should fail when click is not accompanied with key events and has role other than presentational',
-    annotatedSource: `
-        <div (click)="onClick()" [attr.role]="'header'"></div>
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      `,
   }),
 ];

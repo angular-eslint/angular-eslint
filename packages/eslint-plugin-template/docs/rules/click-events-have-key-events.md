@@ -13,7 +13,7 @@
 
 # `@angular-eslint/template/click-events-have-key-events`
 
-Ensures that the click event is accompanied with at least one key event keyup, keydown or keypress.
+Ensures that the `click` event is accompanied by at least one of the following: `keydown`, `keypress` or `keyup` events. Coding for the keyboard is important for users with physical disabilities who cannot use a mouse, AT compatibility, and screenreader users. This does not apply for interactive or hidden elements. See more at https://www.w3.org/WAI/WCAG21/Understanding/keyboard
 
 - Type: suggestion
 - Category: Best Practices
@@ -40,11 +40,6 @@ The rule does not have any configuration options.
 ```
 
 ```html
-<header (click)="onClick()"></header>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-```
-
-```html
 <a (click)="onClick()"></a>
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ```
@@ -55,8 +50,8 @@ The rule does not have any configuration options.
 ```
 
 ```html
-<div (click)="onClick()" [attr.aria-hidden]="'false'"></div>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<div (click)="onClick()" [attr.aria-hidden]="ariaHidden"></div>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ```
 
 ```html
@@ -65,13 +60,13 @@ The rule does not have any configuration options.
 ```
 
 ```html
-<div (click)="onClick()" role="aside"></div>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<a (click)="onClick()" [attr.role]="'header'"></a>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ```
 
 ```html
-<div (click)="onClick()" [attr.role]="'header'"></div>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<div (click)="onClick()" [role]="role"></div>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ```
 
 <br>
@@ -81,3 +76,50 @@ The rule does not have any configuration options.
 <br>
 
 ✅ - Examples of **correct** code for this rule:
+
+```html
+<div (click)="onClick()" (keyup)="onKeyup()"></div>
+```
+
+```html
+<div (click)="onClick()" (keypress.enter)="onKeypress()"></div>
+```
+
+```html
+<div (click)="onClick()" (keydown.shift.f)="onKeydown()"></div>
+```
+
+```html
+<cui-button (click)="onClick()"></cui-button>
+```
+
+```html
+<div (click)="onClick()" hidden></div>
+<div style="display: none">
+  <header (click)="onClick()"></header>
+</div>
+<div (click)="onClick()" [style.display.none]="true"></div>
+<div (click)="onClick()" [ngStyle]="{visibility: 'hidden'}"></div>
+<div (click)="onClick()" aria-hidden></div>
+<div (click)="onClick()" aria-hidden="true"></div>
+<div (click)="onClick()" [attr.aria-hidden]="true"></div>
+<div (click)="onClick()" [attr.aria-hidden]="'true'"></div>
+```
+
+```html
+<div (click)="onClick()" role="presentation"></div>
+<div (click)="onClick()" [attr.role]="'none'"></div>
+```
+
+```html
+<input (click)="onClick()">
+<button (click)="onClick()"></button>
+<textarea (click)="onClick()"></textarea>
+<select (click)="onClick()">
+  <option (click)="onClick()"></option>
+</select>
+<textarea (click)="onClick()"></textarea>
+<a href="#" (click)="onClick()"></a>
+<a [attr.href]="href" class="anchor" (click)="onClick()"></a>
+<a [routerLink]="'route'" (click)="onClick()"></a>
+```
