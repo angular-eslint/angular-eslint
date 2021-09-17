@@ -7,7 +7,6 @@ const i18nCustomIdOnAttribute: MessageIds = 'i18nCustomIdOnAttribute';
 const i18nCustomIdOnElement: MessageIds = 'i18nCustomIdOnElement';
 const i18nDuplicateCustomId: MessageIds = 'i18nDuplicateCustomId';
 const suggestAddI18nAttribute: MessageIds = 'suggestAddI18nAttribute';
-const suggestIgnoreAttribute: MessageIds = 'suggestIgnoreAttribute';
 
 export const valid = [
   `
@@ -165,16 +164,6 @@ export const invalid = [
       <div tooltip="This requires translation" i18n-tooltip></div>
            ~~~~~~~
     `,
-    suggestions: [
-      {
-        messageId: suggestIgnoreAttribute,
-        output: `
-      <div tooltip="This requires translation"></div>
-           
-    `,
-        data: { attributeName: 'tooltip' },
-      },
-    ],
   }),
   convertAnnotatedSourceToFailureCase({
     description:
@@ -417,34 +406,6 @@ export const invalid = [
         char: '~',
         messageId: i18nAttribute,
         data: { attributeName: 'tooltip' },
-        suggestions: [
-          {
-            messageId: suggestIgnoreAttribute,
-            output: `
-      <div
-        tooltip="This requires translation"
-               
-        i18n-placeholder
-        placeholder="More translation, please"
-                   
-        class="red"
-      >
-        <div
-          *ngIf="true"
-          width="100px"
-          label="Templates need translation too."
-               
-        >
-          <span i18n label="label is ignored in 'ignoreAttributes'">
-          
-            Missing custom ID
-          </span>
-                
-        </div>
-      </div>
-    `,
-          },
-        ],
       },
       {
         char: '^',
@@ -455,34 +416,6 @@ export const invalid = [
         char: '#',
         messageId: i18nAttribute,
         data: { attributeName: 'label' },
-        suggestions: [
-          {
-            messageId: suggestIgnoreAttribute,
-            output: `
-      <div
-        tooltip="This requires translation"
-               
-        i18n-placeholder
-        placeholder="More translation, please"
-                   
-        class="red"
-      >
-        <div
-          *ngIf="true"
-          width="100px"
-          label="Templates need translation too."
-               
-        >
-          <span i18n label="label is ignored in 'ignoreAttributes'">
-          
-            Missing custom ID
-          </span>
-                
-        </div>
-      </div>
-    `,
-          },
-        ],
       },
       { char: '%', messageId: i18nCustomIdOnElement },
     ],
