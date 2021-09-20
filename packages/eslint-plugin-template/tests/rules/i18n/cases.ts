@@ -45,13 +45,16 @@ export const valid = [
     `,
     options: [{ ignoreTags: ['mat-icon'] }],
   },
+  `<div>-{{data_from_backend}}</div>`,
+  `<div>1{{data_from_backend}}</div>`,
+  `<div>-1{{data_from_backend}}</div>`,
   {
     code: `
-      <div i18n-tooltip="@@tooltip.label" tooltip="This tooltip property is ignored">
-        -{{data_from_backend}}
+      <div>
+        My company untranslatable name{{data_from_backend}}
       </div>
     `,
-    options: [{ boundTextAllowedPattern: '-' }],
+    options: [{ boundTextAllowedPattern: 'My company untranslatable name' }],
   },
   {
     // https://github.com/angular-eslint/angular-eslint/issues/298
@@ -87,6 +90,12 @@ export const valid = [
     `,
     options: [{ checkId: true, checkText: true }],
   },
+  // https://github.com/angular-eslint/angular-eslint/issues/682
+  `
+    <ng-template #errorMessage>
+      {{ error.title }}
+    </ng-template>
+  `,
   `
     <ng-container i18n="@@description">
       { value, plural, =0 {<div>No elements</div>} =1 {111} }
@@ -170,15 +179,15 @@ export const invalid = [
       'should fail if `i18n` attribute is missing on element containing bound text',
     annotatedSource: `
       <div>
-        <span>-{{data_from_backend}}</span>
-              ~~~~~~~~~~~~~~~~~~~~~~
+        <span>test{{data_from_backend}}</span>
+              ~~~~~~~~~~~~~~~~~~~~~~~~~
       </div>
     `,
     messageId: i18nAttributeOnIcuOrText,
     options: [{ ignoreTags: [] }],
     annotatedOutput: `
       <div>
-        <span i18n>-{{data_from_backend}}</span>
+        <span i18n>test{{data_from_backend}}</span>
               
       </div>
     `,
