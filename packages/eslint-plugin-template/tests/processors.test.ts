@@ -116,32 +116,6 @@ describe('extract-inline-html', () => {
       });
     });
 
-    describe('components with simple inline template string', () => {
-      it('should work when the template initializer is a simple string literal', () => {
-        const input = `
-          @Component({
-            selector: 'app-a',
-            template: '<h1>Hello, A!</h1>',
-            styleUrls: ['./a.component.scss']
-          })
-          export class ComponentA {}
-        `;
-
-        expect(
-          processors['extract-inline-html'].preprocess(
-            input,
-            'test.component.ts',
-          ),
-        ).toEqual([
-          input,
-          {
-            filename: 'inline-template-1.component.html',
-            text: '<h1>Hello, A!</h1>',
-          },
-        ]);
-      });
-    });
-
     describe('components with inline templates', () => {
       const inlineTemplate = `
         <input type="text" name="foo" ([ngModel])="foo">
@@ -321,77 +295,16 @@ describe('extract-inline-html', () => {
             tc.input,
             {
               filename: 'inline-template-1.component.html',
-              text: inlineTemplate,
+              text: inlineTemplate.replace(/\r\n/g, '\n'),
             },
           ]);
         });
       });
     });
 
-    // https://github.com/angular-eslint/angular-eslint/issues/207
-    describe('components with inline templates containing escape characters', () => {
-      /* eslint-disable no-useless-escape */
-      const inlineTemplateContainingEscapeCharacters1 = `
-        <input [value]="\\\${{this.aCost}} USD"></input>
-        <input [value]="'It\\\'s free'"></input>
-      `;
-      /* eslint-enable no-useless-escape */
-
-      const testCases = [
-        // NOTE: intentionally using variable for input and expected extraction assertion
-        {
-          input: `
-            import {Component} from '@angular/core';
-            @Component({
-              selector: 'app-root',
-              template: \`${inlineTemplateContainingEscapeCharacters1}\`,
-              styleUrls: ['./app.component.scss']
-            })
-            export class AppComponent {
-              public aCost = 20;
-            }
-          `,
-          expectedExtraction: inlineTemplateContainingEscapeCharacters1,
-        },
-        // NOTE: intentionally NOT using a variable within the test code to ensure broader coverage (and to avoid test-specific escape logic)
-        {
-          input: `
-            @Component({
-              selector: 'app-component',
-              template: \`
-                <component
-                  [prop]="true ? 'test for \\'@\\' escaping' : 'false'"
-                ></component>
-              \`
-            })
-            export class AppComponent {}
-          `,
-          expectedExtraction: `
-                <component
-                  [prop]="true ? 'test for \\'@\\' escaping' : 'false'"
-                ></component>
-              `,
-        },
-      ];
-
-      testCases.forEach((tc, i) => {
-        it(`should extract the inline HTML of components with inline templates, CASE: ${i}`, () => {
-          expect(
-            processors['extract-inline-html'].preprocess(
-              tc.input,
-              'test.component.ts',
-            ),
-          ).toEqual([
-            tc.input,
-            {
-              filename: 'inline-template-1.component.html',
-              text: tc.expectedExtraction,
-            },
-          ]);
-        });
-      });
-    });
-
+    /**
+     * Currently explicitly unsupported...
+     */
     describe('multiple components in a single file', () => {
       it(`should support extracting inline templates from multiple Components in a single file`, () => {
         const input = `

@@ -1,5 +1,11 @@
 import ts from 'typescript';
 
+function quickGetRangeForTemplate(text: string, template: string) {
+  text = text.replace(/\r\n/g, '\n');
+  const start = text.indexOf(template);
+  return [start, start + template.length];
+}
+
 const rangeMap = new Map();
 
 /**
@@ -131,40 +137,24 @@ export function preprocessComponentFile(
         continue;
       }
 
-      if (!ts.isPropertyAssignment(templateProperty)) {
+      if (
+        !ts.isPropertyAssignment(templateProperty) ||
+        !ts.isStringLiteralLike(templateProperty.initializer)
+      ) {
         continue;
       }
 
-      let templateText: string | undefined;
+      const templateText = templateProperty.initializer.text;
 
-      const templatePropertyInitializer = templateProperty.initializer;
-      if (ts.isNoSubstitutionTemplateLiteral(templatePropertyInitializer)) {
-        templateText = templatePropertyInitializer.rawText;
-      }
-
-      if (ts.isTemplateExpression(templatePropertyInitializer)) {
-        templateText = templatePropertyInitializer.getText();
-      }
-
-      if (ts.isStringLiteral(templatePropertyInitializer)) {
-        templateText = templatePropertyInitializer.text;
-      }
-
-      // The template initializer is somehow not a string literal or a string template
-      if (!templateText) {
-        continue;
-      }
+      const range = quickGetRangeForTemplate(text, templateText);
 
       const inlineTemplateTmpFilename = `inline-template-${++id}.component.html`;
 
-      const start = templateProperty.initializer.getStart();
-      const end = templateProperty.initializer.getEnd();
-
       rangeMap.set(inlineTemplateTmpFilename, {
-        range: [start, end],
+        range,
         lineAndCharacter: {
-          start: sourceFile.getLineAndCharacterOfPosition(start),
-          end: sourceFile.getLineAndCharacterOfPosition(end),
+          start: sourceFile.getLineAndCharacterOfPosition(range[0]),
+          end: sourceFile.getLineAndCharacterOfPosition(range[1]),
         },
       });
 
