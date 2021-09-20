@@ -44,7 +44,7 @@ export default createESLintRule<Options, MessageIds>({
 
         const [unorderedNode, nextNode] = unorderedNodes;
         context.report({
-          node: unorderedNode,
+          node: nextNode,
           messageId: 'sortNgmoduleMetadataArrays',
           fix: (fixer) => [
             fixer.replaceText(unorderedNode, nextNode.name),

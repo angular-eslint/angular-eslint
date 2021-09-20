@@ -84,7 +84,7 @@ export const invalid = [
     annotatedSource: `
     @NgModule({
       imports: [aModule, bModule, DModule, cModule]
-                                  ~~~~~~~
+                                           ~~~~~~~
     })
     class Test {}
     `,
@@ -92,7 +92,7 @@ export const invalid = [
     annotatedOutput: `
     @NgModule({
       imports: [aModule, bModule, cModule, DModule]
-                                  ~~~~~~~
+                                           ~~~~~~~
     })
     class Test {}
     `,
@@ -105,8 +105,8 @@ export const invalid = [
       'declarations': [
         AComponent,
         cPipe,
-        ~~~~~
         bDirective,
+        ~~~~~~~~~~
         DComponent,
       ],
     })
@@ -118,8 +118,8 @@ export const invalid = [
       'declarations': [
         AComponent,
         bDirective,
-        ~~~~~
         cPipe,
+        ~~~~~~~~~~
         DComponent,
       ],
     })
@@ -133,8 +133,8 @@ export const invalid = [
       ['exports']: [
         AComponent,
         cPipe,
-        ~~~~~
         bDirective,
+        ~~~~~~~~~~
         DComponent,
       ],
     })
@@ -146,8 +146,8 @@ export const invalid = [
       ['exports']: [
         AComponent,
         bDirective,
-        ~~~~~
         cPipe,
+        ~~~~~~~~~~
         DComponent,
       ],
     })
@@ -161,8 +161,8 @@ export const invalid = [
       [\`bootstrap\`]: [
         AppModule2,
         AppModule3,
-        ~~~~~~~~~~
         AppModule1,
+        ~~~~~~~~~~
       ]
     })
     class Test {}
@@ -173,8 +173,8 @@ export const invalid = [
       [\`bootstrap\`]: [
         AppModule2,
         AppModule1,
-        ~~~~~~~~~~
         AppModule3,
+        ~~~~~~~~~~
       ]
     })
     class Test {}
@@ -187,8 +187,8 @@ export const invalid = [
       schemas: [
         A_SCHEMA,
         C_SCHEMA,
-        ~~~~~~~~
         B_SCHEMA,
+        ~~~~~~~~
       ]
     })
     class Test {}
@@ -199,8 +199,8 @@ export const invalid = [
       schemas: [
         A_SCHEMA,
         B_SCHEMA,
-        ~~~~~~~~
         C_SCHEMA,
+        ~~~~~~~~
       ]
     })
     class Test {}
@@ -208,18 +208,18 @@ export const invalid = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'should fail if `providers` metadata arrays is not sorted ASC, but ignore objects',
+      'should fail if `providers` metadata arrays is not sorted ASC, ignoring objects',
     annotatedSource: `
     @NgModule({
-      imports: [
+      providers: [
         AProvider,
         {
           provide: 'myprovider',
           useClass: MyProvider,
         },
         cProvider,
-        ~~~~~~~~~
         bProvider,
+        ~~~~~~~~~
         DProvider,
       ]
     })
@@ -228,15 +228,15 @@ export const invalid = [
     messageId,
     annotatedOutput: `
     @NgModule({
-      imports: [
+      providers: [
         AProvider,
         {
           provide: 'myprovider',
           useClass: MyProvider,
         },
         bProvider,
-        ~~~~~~~~~
         cProvider,
+        ~~~~~~~~~
         DProvider,
       ]
     })
