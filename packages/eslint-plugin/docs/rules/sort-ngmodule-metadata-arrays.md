@@ -110,6 +110,23 @@ class Test {}
 class Test {}
 ```
 
+```ts
+@NgModule({
+  bootstrap,
+  declarations: declarations,
+  providers: providers(),
+  schemas: [],
+  [imports]: [
+    aModule,
+    bModule,
+    DModule,
+    cModule,
+    ~~~~~~~
+  ],
+})
+class Test {}
+```
+
 <br>
 
 ---
@@ -135,22 +152,6 @@ class Test {}
 ```ts
 const options = {};
 @NgModule(options)
-class Test {}
-```
-
-```ts
-@NgModule({
-  bootstrap,
-  declarations: declarations,
-  providers: providers(),
-  schemas: [],
-  [imports]: [
-    aModule,
-    bModule,
-    DModule,
-    cModule,
-  ],
-})
 class Test {}
 ```
 
