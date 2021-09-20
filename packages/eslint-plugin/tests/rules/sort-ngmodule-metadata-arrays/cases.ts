@@ -20,21 +20,6 @@ export const valid = [
   `,
   `
   @NgModule({
-    bootstrap,
-    declarations: declarations,
-    providers: providers(),
-    schemas: [],
-    [imports]: [
-      aModule,
-      bModule,
-      DModule,
-      cModule,
-    ],
-  })
-  class Test {}
-  `,
-  `
-  @NgModule({
     bootstrap: [
       AppModule1,
       AppModule2,
@@ -239,6 +224,43 @@ export const invalid = [
         ~~~~~~~~~
         DProvider,
       ]
+    })
+    class Test {}
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if a computed property has unordered metadata array',
+    annotatedSource: `
+    @NgModule({
+      bootstrap,
+      declarations: declarations,
+      providers: providers(),
+      schemas: [],
+      [imports]: [
+        aModule,
+        bModule,
+        DModule,
+        cModule,
+        ~~~~~~~
+      ],
+    })
+    class Test {}
+    `,
+    messageId,
+    annotatedOutput: `
+    @NgModule({
+      bootstrap,
+      declarations: declarations,
+      providers: providers(),
+      schemas: [],
+      [imports]: [
+        aModule,
+        bModule,
+        cModule,
+        DModule,
+        ~~~~~~~~~
+      ],
     })
     class Test {}
     `,
