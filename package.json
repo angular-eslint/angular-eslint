@@ -58,7 +58,7 @@
     "@angular/compiler": "12.1.1",
     "@angular/compiler-cli": "12.1.1",
     "@commitlint/cli": "^8.1.0",
-    "@commitlint/config-conventional": "^8.1.0",
+    "@commitlint/config-conventional": "^13.1.0",
     "@nrwl/cli": "12.9.0",
     "@nrwl/devkit": "12.9.0",
     "@nrwl/jest": "12.9.0",
