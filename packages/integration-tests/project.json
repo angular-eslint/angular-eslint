@@ -37,6 +37,10 @@
     "spawn-and-populate-local-registry": {
       "dependsOn": [
         {
+          "target": "build",
+          "projects": "dependencies"
+        },
+        {
           "target": "kill-existing-verdaccio",
           "projects": "self"
         },
