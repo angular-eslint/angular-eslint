@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [12.5.0](https://github.com/angular-eslint/angular-eslint/compare/v12.4.1...v12.5.0) (2021-09-20)
+
+### Features
+
+- **utils:** publicly expose utils related to eslint-plugin ([#676](https://github.com/angular-eslint/angular-eslint/issues/676)) ([07711f1](https://github.com/angular-eslint/angular-eslint/commit/07711f14f497d01ab767089742d0b77fa25958c7))
+
 ## [12.4.1](https://github.com/angular-eslint/angular-eslint/compare/v12.4.0...v12.4.1) (2021-09-09)
 
 **Note:** Version bump only for package @angular-eslint/integration-tests

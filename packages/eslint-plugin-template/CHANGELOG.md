@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [12.5.0](https://github.com/angular-eslint/angular-eslint/compare/v12.4.1...v12.5.0) (2021-09-20)
+
+### Bug Fixes
+
+- **eslint-plugin-template:** [mouse-events-have-key-events] ignore custom components ([#680](https://github.com/angular-eslint/angular-eslint/issues/680)) ([f65874b](https://github.com/angular-eslint/angular-eslint/commit/f65874b6b1fb012f1f8a1a564b6348cd7ae2117f))
+- **eslint-plugin-template:** support escape chars in inline templates ([#691](https://github.com/angular-eslint/angular-eslint/issues/691)) ([8b89ec7](https://github.com/angular-eslint/angular-eslint/commit/8b89ec7ba1ebdd5a29914bac457387d4b65bd691))
+
 ## [12.4.1](https://github.com/angular-eslint/angular-eslint/compare/v12.4.0...v12.4.1) (2021-09-09)
 
 **Note:** Version bump only for package @angular-eslint/eslint-plugin-template
