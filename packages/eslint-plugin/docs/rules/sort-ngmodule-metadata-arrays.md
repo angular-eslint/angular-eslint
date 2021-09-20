@@ -38,7 +38,7 @@ The rule does not have any configuration options.
 ```ts
 @NgModule({
   imports: [aModule, bModule, DModule, cModule]
-                              ~~~~~~~
+                                       ~~~~~~~
 })
 class Test {}
 ```
@@ -48,8 +48,8 @@ class Test {}
   'declarations': [
     AComponent,
     cPipe,
-    ~~~~~
     bDirective,
+    ~~~~~~~~~~
     DComponent,
   ],
 })
@@ -61,8 +61,8 @@ class Test {}
   ['exports']: [
     AComponent,
     cPipe,
-    ~~~~~
     bDirective,
+    ~~~~~~~~~~
     DComponent,
   ],
 })
@@ -74,8 +74,8 @@ class Test {}
   [`bootstrap`]: [
     AppModule2,
     AppModule3,
-    ~~~~~~~~~~
     AppModule1,
+    ~~~~~~~~~~
   ]
 })
 class Test {}
@@ -86,8 +86,8 @@ class Test {}
   schemas: [
     A_SCHEMA,
     C_SCHEMA,
-    ~~~~~~~~
     B_SCHEMA,
+    ~~~~~~~~
   ]
 })
 class Test {}
@@ -95,15 +95,15 @@ class Test {}
 
 ```ts
 @NgModule({
-  imports: [
+  providers: [
     AProvider,
     {
       provide: 'myprovider',
       useClass: MyProvider,
     },
     cProvider,
-    ~~~~~~~~~
     bProvider,
+    ~~~~~~~~~
     DProvider,
   ]
 })
