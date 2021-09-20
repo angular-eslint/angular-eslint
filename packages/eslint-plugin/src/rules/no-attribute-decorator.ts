@@ -10,14 +10,14 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'problem',
     docs: {
-      description: 'Disallows usage of @Attribute decorator.',
+      description: `The @Attribute decorator is used to obtain a single value for an attribute. This is a much less common use-case than getting a stream of values (using @Input), so often the @Attribute decorator is mistakenly used when @Input was what was intended. This rule disallows usage of @Attribute decorator altogether in order to prevent these mistakes.`,
       category: 'Possible Errors',
       recommended: false,
     },
     schema: [],
     messages: {
       noAttributeDecorator:
-        'The usage of @Attribute is considered a bad practice. Use @Input instead',
+        '@Attribute can only obtain a single value and is rarely what is required. Use @Input instead to retrieve a stream of values.',
     },
   },
   defaultOptions: [],

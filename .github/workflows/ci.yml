@@ -73,6 +73,9 @@ jobs:
       - name: Check code formatting (not distributable)
         run: NX_CLOUD_DISTRIBUTED_EXECUTION=false yarn format-check
 
+      - name: Build utils upfront to avoid cache race condition (will be addressed in Nx itself soon)
+        run: npx nx build utils
+
       - name: Run parallel distributed tasks for build, typecheck, check-configs, check-rule-docs, lint and test targets
         uses: jameshenry/parallel-bash-commands@v1
         with:
