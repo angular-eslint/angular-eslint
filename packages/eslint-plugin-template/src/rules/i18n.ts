@@ -63,8 +63,7 @@ export type MessageIds =
   | 'i18nCustomIdOnAttribute'
   | 'i18nCustomIdOnElement'
   | 'i18nDuplicateCustomId'
-  | 'suggestAddI18nAttribute'
-  | 'suggestIgnoreAttribute';
+  | 'suggestAddI18nAttribute';
 type StronglyTypedElement = Omit<TmplAstElement, 'i18n'> & {
   i18n: Message;
   parent?: AST;
@@ -156,8 +155,6 @@ export default createESLintRule<Options, MessageIds>({
       i18nCustomIdOnElement: `Missing custom ID on element. See more at ${STYLE_GUIDE_LINK_CUSTOM_IDS}`,
       i18nDuplicateCustomId: `Duplicate custom ID "@@{{customId}}". See more at ${STYLE_GUIDE_LINK_UNIQUE_CUSTOM_IDS}`,
       suggestAddI18nAttribute: 'Add the `i18n` attribute',
-      suggestIgnoreAttribute:
-        'Add the attribute name "{{attributeName}}" to the `ignoreAttributes` option in the eslint config',
     },
   },
   defaultOptions: [DEFAULT_OPTIONS],
@@ -260,14 +257,6 @@ export default createESLintRule<Options, MessageIds>({
             ` i18n-${attributeName}`,
           );
         },
-        suggest: [
-          {
-            messageId: 'suggestIgnoreAttribute',
-            data: { attributeName },
-            // Little bit of a hack as VSCode ignores suggestions with no fix!?
-            fix: (fixer) => fixer.insertTextBeforeRange([0, 0], ''),
-          },
-        ],
       });
     }
 
