@@ -52,7 +52,9 @@ jobs:
         run: |
           echo "::set-output name=dir::$(yarn cache dir)"
           echo "::set-output name=node_version::$(node --version)"
-          echo "NX_CLOUD_ENV_NAME=Node $(node --version)" >> $GITHUB_ENV
+
+          # Added the - at the end to function as a separator to improve readability in the PR comment from the Nx cloud app
+          echo "NX_CLOUD_ENV_NAME=Node $(node --version) -" >> $GITHUB_ENV
 
       - uses: actions/cache@v2
         id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
@@ -138,7 +140,8 @@ jobs:
     needs: [create_nx_run_group]
     runs-on: ubuntu-latest
     env:
-      NX_CLOUD_ENV_NAME: 'Node v${{ matrix.node }}'
+      # Added the - at the end to function as a separator to improve readability in the PR comment from the Nx cloud app
+      NX_CLOUD_ENV_NAME: 'Node v${{ matrix.node }} -'
     strategy:
       matrix:
         # Angular CLI explicitly only supports Node version 12 or 14 at the time of writing
