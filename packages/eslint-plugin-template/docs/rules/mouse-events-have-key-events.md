@@ -13,7 +13,7 @@
 
 # `@angular-eslint/template/mouse-events-have-key-events`
 
-Ensures that the Mouse Events mouseover and mouseout are accompanied with Key Events focus and blur.
+Ensures that the mouse events `mouseout` and `mouseover` are accompanied by `focus` and `blur` events respectively. Coding for the keyboard is important for users with physical disabilities who cannot use a mouse, AT compatibility, and screenreader users. See more at https://www.w3.org/WAI/WCAG21/Understanding/keyboard
 
 - Type: suggestion
 - Category: Best Practices
@@ -40,8 +40,8 @@ The rule does not have any configuration options.
 ```
 
 ```html
-<div (mouseout)="onMouseOut()"></div>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<div (mouseout)="onMouseOut()" (focus)="onFocus()"></div>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ```
 
 <br>
@@ -51,3 +51,19 @@ The rule does not have any configuration options.
 <br>
 
 ✅ - Examples of **correct** code for this rule:
+
+```html
+<app-test (mouseover)="onMouseOver()"></app-test>
+```
+
+```html
+<app-test (mouseout)="onMouseOut()"></app-test>
+```
+
+```html
+<div (mouseover)="onMouseOver()" (focus)="onFocus()"></div>
+```
+
+```html
+<div (mouseout)="onMouseOut()" (blur)="onBlur()"></div>
+```
