@@ -28,8 +28,12 @@ export function readJsonInTree<T = any>(host: Tree, path: string): T {
   );
   try {
     return JSON.parse(contents);
-  } catch (e) {
-    throw new Error(`Cannot parse ${path}: ${e.message}`);
+  } catch (error) {
+    throw new Error(
+      `Cannot parse ${path}${
+        error instanceof Error ? ':' + error.message : ''
+      }`,
+    );
   }
 }
 
