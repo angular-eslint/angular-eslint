@@ -47,11 +47,12 @@ jobs:
       - name: Install node and npm based on the volta config in our package.json
         uses: volta-cli/action@v1
 
-      - name: Get yarn cache directory path and node version for cache key
+      - name: Get yarn cache directory path and node version for cache key and NX_CLOUD_ENV_NAME
         id: yarn-cache-dir-path
         run: |
           echo "::set-output name=dir::$(yarn cache dir)"
           echo "::set-output name=node_version::$(node --version)"
+          echo "NX_CLOUD_ENV_NAME=\"Node $(node --version)\"" >> $GITHUB_ENV
 
       - uses: actions/cache@v2
         id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
@@ -136,6 +137,8 @@ jobs:
     name: Unit tests on other supported Node versions
     needs: [create_nx_run_group]
     runs-on: ubuntu-latest
+    env:
+      NX_CLOUD_ENV_NAME: 'Node v${{ matrix.node }}'
     strategy:
       matrix:
         # Angular CLI explicitly only supports Node version 12 or 14 at the time of writing
