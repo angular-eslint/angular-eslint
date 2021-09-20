@@ -39,6 +39,8 @@ export async function runLint(directory: string): Promise<string | undefined> {
 
     return normalizeOutput(stdout);
   } catch (error) {
-    return normalizeOutput(error.stdout || error);
+    return normalizeOutput(
+      (error as { stdout?: string }).stdout || (error as string),
+    );
   }
 }
