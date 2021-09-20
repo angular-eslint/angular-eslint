@@ -26,13 +26,10 @@ export default createESLintRule<Options, MessageIds>({
   },
   defaultOptions: [],
   create(context) {
-    const metadataPropertyPattern =
-      /^(bootstrap|declarations|entryComponents|exports|imports|providers|schemas)$/;
-
     return {
-      [`${Selectors.MODULE_CLASS_DECORATOR} ${Selectors.metadataProperty(
-        metadataPropertyPattern,
-      )} ArrayExpression`]({ elements }: TSESTree.ArrayExpression) {
+      [`${Selectors.MODULE_CLASS_DECORATOR} Property ArrayExpression`]({
+        elements,
+      }: TSESTree.ArrayExpression) {
         const unorderedNodes = elements
           .filter(TSESLintASTUtils.isIdentifier)
           .map((current, index, list) => [current, list[index + 1]])
