@@ -11,6 +11,8 @@
 
 -->
 
+<br>
+
 # `@angular-eslint/prefer-on-push-component-change-detection`
 
 Ensures component's `changeDetection` is set to `ChangeDetectionStrategy.OnPush`
@@ -34,13 +36,54 @@ The rule does not have any configuration options.
 
 <br>
 
-❌ - Examples of **incorrect** code for this rule:
+<details>
+<summary>❌ - Toggle examples of <strong>incorrect</strong> code for this rule</summary>
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-on-push-component-change-detection": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 @Component()
 ~~~~~~~~~~~~
 class Test {}
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-on-push-component-change-detection": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 import type { ChangeDetectionStrategy } from '@angular/core';
@@ -50,6 +93,28 @@ import type { ChangeDetectionStrategy } from '@angular/core';
 class Test {}
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-on-push-component-change-detection": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
 ```ts
 import { Component } from '@angular/core';
 const changeDetection = 'template';
@@ -58,11 +123,55 @@ const changeDetection = 'template';
 class Test {}
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-on-push-component-change-detection": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
 ```ts
 @Component({ changeDetection: undefined })
                               ~~~~~~~~~
 class Test {}
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-on-push-component-change-detection": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 import * as ng from '@angular/core';
@@ -71,16 +180,31 @@ import * as ng from '@angular/core';
 class Test {}
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-on-push-component-change-detection": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
 ```ts
 import type { OnInit } from '@angular/core';
 @Component({ ['changeDetection']: ChangeDetectionStrategy.Default })
-                                                          ~~~~~~~
-class Test {}
-```
-
-```ts
-import ng from '@angular/core';
-@Component({ [`changeDetection`]: ChangeDetectionStrategy.Default })
                                                           ~~~~~~~
 class Test {}
 ```
@@ -91,17 +215,111 @@ class Test {}
 
 <br>
 
-✅ - Examples of **correct** code for this rule:
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-on-push-component-change-detection": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+import ng from '@angular/core';
+@Component({ [`changeDetection`]: ChangeDetectionStrategy.Default })
+                                                          ~~~~~~~
+class Test {}
+```
+
+</details>
+
+<br>
+
+---
+
+<br>
+
+<details>
+<summary>✅ - Toggle examples of <strong>correct</strong> code for this rule</summary>
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-on-push-component-change-detection": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```ts
 class Test {}
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-on-push-component-change-detection": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```ts
 const options = {};
 @Component(options)
 class Test {}
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-on-push-component-change-detection": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```ts
 @Component({
@@ -110,12 +328,56 @@ class Test {}
 class Test {}
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-on-push-component-change-detection": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```ts
 @Component({
   'changeDetection': changeDetection,
 })
 class Test {}
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-on-push-component-change-detection": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```ts
 const changeDetection = ChangeDetectionStrategy.Default;
@@ -124,6 +386,28 @@ const changeDetection = ChangeDetectionStrategy.Default;
 })
 class Test {}
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-on-push-component-change-detection": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```ts
 function changeDetection() {
@@ -136,6 +420,28 @@ function changeDetection() {
 class Test {}
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-on-push-component-change-detection": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```ts
 @Component({
   [`changeDetection`]: ChangeDetectionStrategy.OnPush,
@@ -143,9 +449,35 @@ class Test {}
 class Test {}
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-on-push-component-change-detection": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```ts
 @NgModule({
   bootstrap: [Foo]
 })
 class Test {}
 ```
+
+</details>
+
+<br>

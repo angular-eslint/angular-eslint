@@ -11,6 +11,8 @@
 
 -->
 
+<br>
+
 # `@angular-eslint/template/cyclomatic-complexity`
 
 Checks cyclomatic complexity against a specified limit. It is a quantitative measure of the number of linearly independent paths through a program's source code
@@ -42,7 +44,29 @@ interface Options {
 
 <br>
 
-❌ - Examples of **incorrect** code for this rule:
+<details>
+<summary>❌ - Toggle examples of <strong>incorrect</strong> code for this rule</summary>
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/cyclomatic-complexity": [
+      "error",
+      {
+        "maxComplexity": 5
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```html
 <div *ngIf="a === '1'">
@@ -59,6 +83,31 @@ interface Options {
   </div>
 </div>
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/cyclomatic-complexity": [
+      "error",
+      {
+        "maxComplexity": 6
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```html
 <div [fakeDirective]="'test'"></div>
@@ -84,10 +133,115 @@ interface Options {
 </div>
 ```
 
+</details>
+
 <br>
 
 ---
 
 <br>
 
-✅ - Examples of **correct** code for this rule:
+<details>
+<summary>✅ - Toggle examples of <strong>correct</strong> code for this rule</summary>
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/cyclomatic-complexity": [
+      "error",
+      {
+        "maxComplexity": 1
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div *ngIf="a === '1'">
+  <div>{{ person.name }}</div>
+</div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/cyclomatic-complexity": [
+      "error",
+      {
+        "maxComplexity": 2
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div *ngIf="a === '1'">
+  <div *ngFor="let person of persons; trackBy: trackByFn">
+    {{ person.name }}
+  </div>
+</div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/cyclomatic-complexity": [
+      "error",
+      {
+        "maxComplexity": 5
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div *ngIf="a === '1'">
+  <div *ngFor="let person of persons; trackBy: trackByFn">
+    {{ person.name }}
+    <div [ngSwitch]="person.emotion">
+      <app-happy-hero    *ngSwitchCase="'happy'" [hero]="currentHero"></app-happy-hero>
+      <app-sad-hero      *ngSwitchCase="'sad'"   [hero]="currentHero"></app-sad-hero>
+      <app-unknown-hero  *ngSwitchDefault        [hero]="currentHero"></app-unknown-hero>
+    </div>
+  </div>
+</div>
+```
+
+</details>
+
+<br>

@@ -11,6 +11,8 @@
 
 -->
 
+<br>
+
 # `@angular-eslint/use-component-selector`
 
 Component selector must be declared
@@ -32,7 +34,26 @@ The rule does not have any configuration options.
 
 <br>
 
-❌ - Examples of **incorrect** code for this rule:
+<details>
+<summary>❌ - Toggle examples of <strong>incorrect</strong> code for this rule</summary>
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/use-component-selector": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 @Component()
@@ -40,34 +61,60 @@ The rule does not have any configuration options.
 class Test {}
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/use-component-selector": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
 ```ts
 @Component()
 ~~~~~~~~~~~~
 class Test {}
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/use-component-selector": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 @Component({
 ~~~~~~~~~~~~
   selector: ''
-})
-~~
-class Test {}
-```
-
-```ts
-@Component({
-~~~~~~~~~~~~
-  selector: 0
-})
-~~
-class Test {}
-```
-
-```ts
-@Component({
-~~~~~~~~~~~~
-  selector: null
 })
 ~~
 class Test {}
@@ -79,7 +126,90 @@ class Test {}
 
 <br>
 
-✅ - Examples of **correct** code for this rule:
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/use-component-selector": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({
+~~~~~~~~~~~~
+  selector: 0
+})
+~~
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/use-component-selector": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({
+~~~~~~~~~~~~
+  selector: null
+})
+~~
+class Test {}
+```
+
+</details>
+
+<br>
+
+---
+
+<br>
+
+<details>
+<summary>✅ - Toggle examples of <strong>correct</strong> code for this rule</summary>
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/use-component-selector": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```ts
 @Component({
@@ -87,3 +217,7 @@ class Test {}
 })
 class Test {}
 ```
+
+</details>
+
+<br>

@@ -167,7 +167,6 @@ export const invalid = [
            ~~~~~~~
     `,
     messageId: i18nAttribute,
-    options: [{}],
     data: { attributeName: 'tooltip' },
     annotatedOutput: `
       <div tooltip="This requires translation" i18n-tooltip></div>

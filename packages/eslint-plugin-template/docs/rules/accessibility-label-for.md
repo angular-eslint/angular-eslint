@@ -11,6 +11,8 @@
 
 -->
 
+<br>
+
 # `@angular-eslint/template/accessibility-label-for`
 
 ## ⚠️ THIS RULE IS DEPRECATED
@@ -56,16 +58,30 @@ interface Options {
 
 <br>
 
-❌ - Examples of **incorrect** code for this rule:
+<details>
+<summary>❌ - Toggle examples of <strong>incorrect</strong> code for this rule</summary>
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/accessibility-label-for": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```html
 <label>Label</label>
 ~~~~~~~~~~~~~~~~~~~~
-```
-
-```html
-<app-label anotherAttribute="id"></app-label>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ```
 
 <br>
@@ -74,7 +90,63 @@ interface Options {
 
 <br>
 
-✅ - Examples of **correct** code for this rule:
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/accessibility-label-for": [
+      "error",
+      {
+        "labelAttributes": [
+          "id"
+        ],
+        "labelComponents": [
+          "app-label"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<app-label anotherAttribute="id"></app-label>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+</details>
+
+<br>
+
+---
+
+<br>
+
+<details>
+<summary>✅ - Toggle examples of <strong>correct</strong> code for this rule</summary>
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/accessibility-label-for": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```html
 <ng-container *ngFor="let item of items; index as index">
@@ -86,3 +158,97 @@ interface Options {
 <label [attr.for]="id"></label>
 <label [htmlFor]="id"></label>
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/accessibility-label-for": [
+      "error",
+      {
+        "labelAttributes": [
+          "id"
+        ],
+        "labelComponents": [
+          "app-label"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<app-label id="name"></app-label>
+<app-label id="{{name}}"></app-label>
+<app-label [id]="name"></app-label>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/accessibility-label-for": [
+      "error",
+      {
+        "controlComponents": [
+          "app-input"
+        ],
+        "labelComponents": [
+          "app-label"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<label><button>Button</button></label>
+<label><input type="radio"></label>
+<label><meter></meter></label>
+<label><output></output></label>
+<label><progress></progress></label>
+<label><select><option>1</option></select></label>
+<label><textarea></textarea></label>
+<a-label><input></a-label>
+<label>
+  Label
+  <input>
+</label>
+<label>
+  Label
+  <span><input></span>
+</label>
+<app-label>
+  <span>
+    <app-input></app-input>
+  </span>
+</app-label>
+```
+
+</details>
+
+<br>

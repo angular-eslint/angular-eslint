@@ -11,6 +11,8 @@
 
 -->
 
+<br>
+
 # `@angular-eslint/directive-class-suffix`
 
 Classes decorated with @Directive must have suffix "Directive" (or custom) in their name. See more at https://angular.io/styleguide#style-02-03
@@ -42,7 +44,26 @@ interface Options {
 
 <br>
 
-❌ - Examples of **incorrect** code for this rule:
+<details>
+<summary>❌ - Toggle examples of <strong>incorrect</strong> code for this rule</summary>
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-class-suffix": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 @Directive({
@@ -52,19 +73,33 @@ class Test {}
       ~~~~
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-class-suffix": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
 ```ts
 @Directive({
   selector: 'sg-foo-bar'
 })
 class TestDirectivePage implements AsyncValidator {}
-      ~~~~~~~~~~~~~~~~~
-```
-
-```ts
-@Directive({
-  selector: 'sgBarFoo'
-})
-class TestPageDirective {}
       ~~~~~~~~~~~~~~~~~
 ```
 
@@ -74,7 +109,63 @@ class TestPageDirective {}
 
 <br>
 
-✅ - Examples of **correct** code for this rule:
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-class-suffix": [
+      "error",
+      {
+        "suffixes": [
+          "Page"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Directive({
+  selector: 'sgBarFoo'
+})
+class TestPageDirective {}
+      ~~~~~~~~~~~~~~~~~
+```
+
+</details>
+
+<br>
+
+---
+
+<br>
+
+<details>
+<summary>✅ - Toggle examples of <strong>correct</strong> code for this rule</summary>
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-class-suffix": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```ts
 @Directive({
@@ -83,12 +174,56 @@ class TestPageDirective {}
 class TestDirective {}
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-class-suffix": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```ts
 @Directive({
   selector: 'sgBarFoo'
 })
 class TestValidator implements Validator {}
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-class-suffix": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```ts
 @Directive({
@@ -97,15 +232,81 @@ class TestValidator implements Validator {}
 class TestValidator implements AsyncValidator {}
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-class-suffix": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```ts
 @Directive
 class Test {}
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-class-suffix": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```ts
 @Directive()
 class Test {}
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-class-suffix": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```ts
 @Component({
@@ -114,6 +315,28 @@ class Test {}
 class TestComponent {}
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-class-suffix": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```ts
 @Pipe({
   name: 'sgPipe'
@@ -121,11 +344,128 @@ class TestComponent {}
 class TestPipe {}
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-class-suffix": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```ts
 @Injectable()
 class TestService {}
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-class-suffix": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```ts
 class TestEmpty {}
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-class-suffix": [
+      "error",
+      {
+        "suffixes": [
+          "Dir"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: 'sgBarFoo'
+})
+class TestDir {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-class-suffix": [
+      "error",
+      {
+        "suffixes": [
+          "Page",
+          "View"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: 'sgBarFoo'
+})
+class TestPage {}
+```
+
+</details>
+
+<br>

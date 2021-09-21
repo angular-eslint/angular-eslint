@@ -11,6 +11,8 @@
 
 -->
 
+<br>
+
 # `@angular-eslint/no-empty-lifecycle-method`
 
 Disallows declaring empty lifecycle methods
@@ -34,7 +36,26 @@ The rule does not have any configuration options.
 
 <br>
 
-❌ - Examples of **incorrect** code for this rule:
+<details>
+<summary>❌ - Toggle examples of <strong>incorrect</strong> code for this rule</summary>
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-empty-lifecycle-method": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 @Component()
@@ -44,6 +65,28 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-empty-lifecycle-method": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
 ```ts
 @Directive()
 class Test extends BaseDirective {
@@ -51,6 +94,28 @@ class Test extends BaseDirective {
   ~~~~~~~~~~~~~~~~~~~~~~~
 }
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-empty-lifecycle-method": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 @Injectable()
@@ -60,6 +125,28 @@ class Test extends BaseTest implements AfterViewChecked, OnDestroy {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-empty-lifecycle-method": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
 ```ts
 @NgModule()
 class Test {
@@ -67,6 +154,28 @@ class Test {
   ~~~~~~~~~~~~~~~~~~~~~~~~
 }
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-empty-lifecycle-method": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 import { HttpInterceptor } from '@angular/common/http';
@@ -80,6 +189,28 @@ class Test {
   ~~~~~~~~~~~~~~~~~~~~~~
 }
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-empty-lifecycle-method": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 import {
@@ -97,6 +228,28 @@ class Test
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-empty-lifecycle-method": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
 ```ts
 import {OnChanges, AfterContentInit} from '@angular/core';
 @Directive()
@@ -106,6 +259,28 @@ class Test implements OnChanges, AfterContentInit {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-empty-lifecycle-method": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
 ```ts
 import * as ng from '@angular/core';
 @Injectable()
@@ -114,6 +289,28 @@ class Test implements ng.OnDestroy {
   ~~~~~~~~~~~~~~~~
 }
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-empty-lifecycle-method": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 import {DoBootstrap, OnInit} from '@angular/core';
@@ -131,11 +328,69 @@ class Test2 implements OnInit, DoBootstrap {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-empty-lifecycle-method": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
 ```ts
 @Component()
 class Test extends BaseComponent<unknown> implements OnInit {
   ngOnInit() {}
   ~~~~~~~~~~~~~
+}
+```
+
+</details>
+
+<br>
+
+---
+
+<br>
+
+<details>
+<summary>✅ - Toggle examples of <strong>correct</strong> code for this rule</summary>
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-empty-lifecycle-method": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component()
+class Test {
+  ngAfterContentChecked() { console.log('AfterContentChecked'); }
 }
 ```
 
@@ -145,14 +400,21 @@ class Test extends BaseComponent<unknown> implements OnInit {
 
 <br>
 
-✅ - Examples of **correct** code for this rule:
+#### Default Config
 
-```ts
-@Component()
-class Test {
-  ngAfterContentChecked() { console.log('AfterContentChecked'); }
+```json
+{
+  "rules": {
+    "@angular-eslint/no-empty-lifecycle-method": [
+      "error"
+    ]
+  }
 }
 ```
+
+<br>
+
+#### ✅ Valid Code
 
 ```ts
 @Directive()
@@ -161,12 +423,56 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-empty-lifecycle-method": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```ts
 @Injectable()
 class Test {
   ngAfterViewChecked() { console.log('AfterViewChecked'); }
 }
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-empty-lifecycle-method": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```ts
 @NgModule()
@@ -175,12 +481,56 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-empty-lifecycle-method": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```ts
 @Pipe()
 class Test {
   ngDoBootstrap() { console.log('DoBootstrap'); }
 }
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-empty-lifecycle-method": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```ts
 @Component()
@@ -189,12 +539,56 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-empty-lifecycle-method": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```ts
 @Directive()
 class Test {
   ngOnChanges() { console.log('OnChanges'); }
 }
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-empty-lifecycle-method": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```ts
 @Injectable()
@@ -203,12 +597,56 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-empty-lifecycle-method": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```ts
 @NgModule()
 class Test {
   ngOnInit() { console.log('OnInit'); }
 }
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-empty-lifecycle-method": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```ts
 @Component()
@@ -217,8 +655,34 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-empty-lifecycle-method": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```ts
 class Test {
   ngOnInit() {}
 }
 ```
+
+</details>
+
+<br>

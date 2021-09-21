@@ -11,6 +11,8 @@
 
 -->
 
+<br>
+
 # `@angular-eslint/directive-selector`
 
 Directive selectors should follow given naming rules. See more at https://angular.io/guide/styleguide#style-02-06 and https://angular.io/guide/styleguide#style-02-08.
@@ -41,67 +43,35 @@ interface Options {
 
 <br>
 
-❌ - Examples of **incorrect** code for this rule:
+<details>
+<summary>❌ - Toggle examples of <strong>incorrect</strong> code for this rule</summary>
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-selector": [
+      "error",
+      {
+        "type": "element",
+        "prefix": "bar",
+        "style": "kebab-case"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 @Directive({
   selector: 'app-foo-bar'
-            ~~~~~~~~~~~~~
-})
-class Test {}
-```
-
-```ts
-@Directive({
-  selector: '[app-foo-bar]'
-            ~~~~~~~~~~~~~~~
-})
-class Test {}
-```
-
-```ts
-@Directive({
-  selector: 'app-foo-bar[baz].app'
-            ~~~~~~~~~~~~~~~~~~~~~~
-})
-class Test {}
-```
-
-```ts
-@Directive({
-  selector: '[app-bar-foo]'
-            ~~~~~~~~~~~~~~~
-})
-class Test {}
-```
-
-```ts
-@Directive({
-  selector: 'appFooBar'
-            ~~~~~~~~~~~
-})
-class Test {}
-```
-
-```ts
-@Directive({
-  selector: 'app'
-            ~~~~~
-})
-class Test {}
-```
-
-```ts
-@Directive({
-  selector: `app-foo-bar`
-            ~~~~~~~~~~~~~
-})
-class Test {}
-```
-
-```ts
-@Directive({
-  selector: '[appFooBar]'
             ~~~~~~~~~~~~~
 })
 class Test {}
@@ -113,4 +83,781 @@ class Test {}
 
 <br>
 
-✅ - Examples of **correct** code for this rule:
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-selector": [
+      "error",
+      {
+        "type": "attribute",
+        "prefix": [
+          "cd",
+          "ng"
+        ],
+        "style": "kebab-case"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Directive({
+  selector: '[app-foo-bar]'
+            ~~~~~~~~~~~~~~~
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-selector": [
+      "error",
+      {
+        "type": "element",
+        "prefix": [
+          "foo",
+          "cd",
+          "ng"
+        ],
+        "style": "kebab-case"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Directive({
+  selector: 'app-foo-bar[baz].app'
+            ~~~~~~~~~~~~~~~~~~~~~~
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-selector": [
+      "error",
+      {
+        "type": "attribute",
+        "prefix": "app",
+        "style": "camelCase"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Directive({
+  selector: '[app-bar-foo]'
+            ~~~~~~~~~~~~~~~
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-selector": [
+      "error",
+      {
+        "type": "element",
+        "prefix": "app",
+        "style": "kebab-case"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Directive({
+  selector: 'appFooBar'
+            ~~~~~~~~~~~
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-selector": [
+      "error",
+      {
+        "type": "element",
+        "prefix": "app",
+        "style": "kebab-case"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Directive({
+  selector: 'app'
+            ~~~~~
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-selector": [
+      "error",
+      {
+        "type": "attribute",
+        "prefix": [
+          "app",
+          "ng"
+        ],
+        "style": "kebab-case"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Directive({
+  selector: `app-foo-bar`
+            ~~~~~~~~~~~~~
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-selector": [
+      "error",
+      {
+        "type": "element",
+        "prefix": [
+          "app",
+          "ng"
+        ],
+        "style": "camelCase"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Directive({
+  selector: '[appFooBar]'
+            ~~~~~~~~~~~~~
+})
+class Test {}
+```
+
+</details>
+
+<br>
+
+---
+
+<br>
+
+<details>
+<summary>✅ - Toggle examples of <strong>correct</strong> code for this rule</summary>
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-selector": [
+      "error",
+      {
+        "type": "element",
+        "prefix": "app",
+        "style": "kebab-case"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: 'app-foo-bar'
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-selector": [
+      "error",
+      {
+        "type": "attribute",
+        "prefix": [
+          "app",
+          "ng"
+        ],
+        "style": "kebab-case"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: '[app-foo-bar]'
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-selector": [
+      "error",
+      {
+        "type": "element",
+        "prefix": [
+          "app",
+          "cd",
+          "ng"
+        ],
+        "style": "kebab-case"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: 'app-foo-bar[baz].app'
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-selector": [
+      "error",
+      {
+        "type": "element",
+        "prefix": [
+          "app",
+          "cd",
+          "ngg"
+        ],
+        "style": "kebab-case"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({ selector: 'app-bar' }) class TestOne {}
+@Directive({ selector: 'ngg-bar' }) class TestTwo {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-selector": [
+      "error",
+      {
+        "type": "element",
+        "prefix": "app",
+        "style": "camelCase"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: 'appBarFoo'
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-selector": [
+      "error",
+      {
+        "type": "element",
+        "prefix": "app1",
+        "style": "kebab-case"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: 'app1-foo-bar'
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-selector": [
+      "error",
+      {
+        "type": "element",
+        "prefix": "app",
+        "style": "kebab-case"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+const selectorName = 'appFooBar';
+@Directive({
+  selector: selectorName
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-selector": [
+      "error",
+      {
+        "type": "attribute",
+        "prefix": [
+          "app",
+          "ng"
+        ],
+        "style": "kebab-case"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: \`[app-foo-bar]\`
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-selector": [
+      "error",
+      {
+        "type": "attribute",
+        "prefix": [
+          "app",
+          "baz"
+        ],
+        "style": "kebab-case"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: 'baz-[app-bar-foo][foe].bar'
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-selector": [
+      "error",
+      {
+        "type": "element",
+        "prefix": [
+          "app",
+          "ng"
+        ],
+        "style": "kebab-case"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: 'app-bar-foo[baz].bar'
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-selector": [
+      "error",
+      {
+        "type": [
+          "element"
+        ],
+        "prefix": [
+          "bar"
+        ],
+        "style": "kebab-case"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  selector: 'app-foo-bar'
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-selector": [
+      "error",
+      {
+        "type": [
+          "attribute"
+        ],
+        "prefix": [
+          "app"
+        ],
+        "style": "kebab-case"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: \`
+    [app-foo-bar]
+  \`
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-selector": [
+      "error",
+      {
+        "type": [
+          "attribute"
+        ],
+        "prefix": [
+          "app"
+        ],
+        "style": "kebab-case"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: \`
+    [app-foo-bar],
+    [app-bar-foo]
+  \`
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-selector": [
+      "error",
+      {
+        "type": [
+          "attribute"
+        ],
+        "prefix": [
+          "app"
+        ],
+        "style": "kebab-case"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: 'button[app-foo-bar]'
+})
+class Test {}
+```
+
+</details>
+
+<br>

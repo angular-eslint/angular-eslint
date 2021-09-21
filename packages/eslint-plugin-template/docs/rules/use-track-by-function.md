@@ -11,6 +11,8 @@
 
 -->
 
+<br>
+
 # `@angular-eslint/template/use-track-by-function`
 
 Ensures trackBy function is used
@@ -32,7 +34,26 @@ The rule does not have any configuration options.
 
 <br>
 
-❌ - Examples of **incorrect** code for this rule:
+<details>
+<summary>❌ - Toggle examples of <strong>incorrect</strong> code for this rule</summary>
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/use-track-by-function": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```html
 <ul>
@@ -43,30 +64,29 @@ The rule does not have any configuration options.
 </ul>
 ```
 
-```html
-<ng-template ngFor let-item [ngForOf]="[1, 2, 3]" let-i="index">
-                            ~~~~~~~~~~~~~~~~~~~~~
-  {{ item }}
-</ng-template>
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/use-track-by-function": [
+      "error"
+    ]
+  }
+}
 ```
 
-```html
-<div *ngFor="let item of [1, 2, 3]; trackBy: trackByFn">
-  {{ item }}
-</div>
-<ul>
-  <li *ngFor="let item of [1, 2, 3];">
-      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    {{ item }}
-  </li>
-</ul>
-```
+<br>
+
+#### ❌ Invalid Code
 
 ```html
-<div *ngFor="let item of [1, 2, 3];">
-     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  {{ item }}
-</div>
 <ng-template ngFor let-item [ngForOf]="[1, 2, 3]" let-i="index">
                             ~~~~~~~~~~~~~~~~~~~~~
   {{ item }}
@@ -79,7 +99,95 @@ The rule does not have any configuration options.
 
 <br>
 
-✅ - Examples of **correct** code for this rule:
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/use-track-by-function": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div *ngFor="let item of [1, 2, 3]; trackBy: trackByFn">
+  {{ item }}
+</div>
+<ul>
+  <li *ngFor="let item of [1, 2, 3];">
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    {{ item }}
+  </li>
+</ul>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/use-track-by-function": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div *ngFor="let item of [1, 2, 3];">
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  {{ item }}
+</div>
+<ng-template ngFor let-item [ngForOf]="[1, 2, 3]" let-i="index">
+                            ~~~~~~~~~~~~~~~~~~~~~
+  {{ item }}
+</ng-template>
+```
+
+</details>
+
+<br>
+
+---
+
+<br>
+
+<details>
+<summary>✅ - Toggle examples of <strong>correct</strong> code for this rule</summary>
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/use-track-by-function": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```html
 <div *ngFor="let item of [1, 2, 3]; trackBy: trackByFn">
@@ -87,11 +195,55 @@ The rule does not have any configuration options.
 </div>
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/use-track-by-function": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```html
 <div *ngFor="let item of [1, 2, 3]; let i = index; trackBy: trackByFn">
   {{ item }}
 </div>
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/use-track-by-function": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```html
 <div *ngFor="let item of [1, 2, 3]; trackBy : trackByFn">
@@ -99,11 +251,55 @@ The rule does not have any configuration options.
 </div>
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/use-track-by-function": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```html
 <div *ngFor='let item of [1, 2, 3]; let i = index; trackBy: trackByFn'>
   {{ item }}
 </div>
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/use-track-by-function": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```html
 <div *ngFor  =  "let item of [1, 2, 3]; let i = index; trackBy : trackByFn">
@@ -111,12 +307,56 @@ The rule does not have any configuration options.
 </div>
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/use-track-by-function": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```html
 <ng-template ngFor let-item [ngForOf]="[1, 2, 3]" let-i="index"
   [ngForTrackBy]="trackByFn">
   {{ item }}
 </ng-template>
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/use-track-by-function": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```html
 <div *ngFor="let item of ['a', 'b', 'c']; index as i; trackBy: trackByFn">
@@ -129,6 +369,28 @@ The rule does not have any configuration options.
 </ng-template>
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/use-track-by-function": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```html
 <div *ngFor="
   let item of [1, 2, 3];
@@ -136,3 +398,7 @@ The rule does not have any configuration options.
   trackBy : trackByFn
 ">
 ```
+
+</details>
+
+<br>

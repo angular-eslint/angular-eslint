@@ -11,6 +11,8 @@
 
 -->
 
+<br>
+
 # `@angular-eslint/pipe-prefix`
 
 Enforce consistent prefix for pipes.
@@ -42,15 +44,31 @@ interface Options {
 
 <br>
 
-❌ - Examples of **incorrect** code for this rule:
+<details>
+<summary>❌ - Toggle examples of <strong>incorrect</strong> code for this rule</summary>
 
-```ts
-@Pipe({
-  name: 'foo-bar'
-        ~~~~~~~~~
-})
-class Test {}
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/pipe-prefix": [
+      "error",
+      {
+        "prefixes": [
+          "ng"
+        ]
+      }
+    ]
+  }
+}
 ```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 @Pipe({
@@ -66,4 +84,351 @@ class Test {}
 
 <br>
 
-✅ - Examples of **correct** code for this rule:
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/pipe-prefix": [
+      "error",
+      {
+        "prefixes": [
+          "ng",
+          "mg",
+          "sg"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Pipe({
+  name: 'foo-bar'
+        ~~~~~~~~~
+})
+class Test {}
+```
+
+</details>
+
+<br>
+
+---
+
+<br>
+
+<details>
+<summary>✅ - Toggle examples of <strong>correct</strong> code for this rule</summary>
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/pipe-prefix": [
+      "error",
+      {
+        "prefixes": [
+          "ng"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Pipe
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/pipe-prefix": [
+      "error",
+      {
+        "prefixes": [
+          "ng"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Pipe({})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/pipe-prefix": [
+      "error",
+      {
+        "prefixes": [
+          "ng"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+export function mockPipe(name: string): any {
+  @Pipe({ name })
+  class MockPipe implements PipeTransform {
+    transform(input: any): any {
+      return input;
+    }
+  }
+  return MockPipe;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/pipe-prefix": [
+      "error",
+      {
+        "prefixes": []
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Pipe({
+  name: 'ngBarFoo'
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/pipe-prefix": [
+      "error",
+      {
+        "prefixes": [
+          "ng"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Pipe({
+  name: 'ngBarFoo'
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/pipe-prefix": [
+      "error",
+      {
+        "prefixes": [
+          "ng",
+          "sg",
+          "mg"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Pipe({
+  name: 'ngBarFoo'
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/pipe-prefix": [
+      "error",
+      {
+        "prefixes": [
+          "ng",
+          "sg",
+          "mg"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Pipe({
+  name: \`ngBarFoo\`
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/pipe-prefix": [
+      "error",
+      {
+        "prefixes": [
+          "ng"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/pipe-prefix": [
+      "error",
+      {
+        "prefixes": [
+          "ng"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+const pipeName = 'fooBar';
+@Pipe({
+  name: pipeName
+})
+class Test {}
+```
+
+</details>
+
+<br>

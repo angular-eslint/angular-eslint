@@ -11,6 +11,8 @@
 
 -->
 
+<br>
+
 # `@angular-eslint/prefer-output-readonly`
 
 Prefer to declare `@Output` as `readonly` since they are not supposed to be reassigned
@@ -34,12 +36,66 @@ The rule does not have any configuration options.
 
 <br>
 
-❌ - Examples of **incorrect** code for this rule:
+<details>
+<summary>❌ - Toggle examples of <strong>incorrect</strong> code for this rule</summary>
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-output-readonly": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 class Test {
   @Output() testEmitter = new EventEmitter<string>();
             ~~~~~~~~~~~
+}
+```
+
+</details>
+
+<br>
+
+---
+
+<br>
+
+<details>
+<summary>✅ - Toggle examples of <strong>correct</strong> code for this rule</summary>
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-output-readonly": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+class Test {
+  testEmitter = new EventEmitter<string>();
 }
 ```
 
@@ -49,16 +105,28 @@ class Test {
 
 <br>
 
-✅ - Examples of **correct** code for this rule:
+#### Default Config
 
-```ts
-class Test {
-  testEmitter = new EventEmitter<string>();
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-output-readonly": [
+      "error"
+    ]
+  }
 }
 ```
+
+<br>
+
+#### ✅ Valid Code
 
 ```ts
 class Test {
   @Output() readonly testEmitter = new EventEmitter<string>();
 }
 ```
+
+</details>
+
+<br>

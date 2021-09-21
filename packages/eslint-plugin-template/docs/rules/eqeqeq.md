@@ -11,6 +11,8 @@
 
 -->
 
+<br>
+
 # `@angular-eslint/template/eqeqeq`
 
 Requires `===` and `!==` in place of `==` and `!=`
@@ -42,51 +44,30 @@ interface Options {
 
 <br>
 
-❌ - Examples of **incorrect** code for this rule:
+<details>
+<summary>❌ - Toggle examples of <strong>incorrect</strong> code for this rule</summary>
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/eqeqeq": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```html
 {{ 'null' == test }}
    ~~~~~~~~~~~~~~
-```
-
-```html
-<div [attr.disabled]="test != 'undefined' && null == '3'"></div>
-                      ~~~~~~~~~~~~~~~~~~~
-```
-
-```html
-<div *ngIf="test == true || test1 !== undefined"></div>
-            ~~~~~~~~~~~~
-```
-
-```html
-{{ one != '02' ? c > d : 'hey!' }}
-   ~~~~~~~~~~~
-```
-
-```html
-{{ a === b && 1 == b ? c > d : 'hey!' }}
-              ~~~~~~
-```
-
-```html
-{{ c > d ? a != b : 'hey!' }}
-           ~~~~~~
-```
-
-```html
-{{ c > d ? 'hey!' : a == false }}
-                    ~~~~~~~~~~
-```
-
-```html
-{{ undefined == test1 && a === b ? (c > d ? d != '0' : v === 4) : 'hey!' }}
-                                            ~~~~~~~~
-```
-
-```html
-{{ undefined != test1 }}
-   ~~~~~~~~~~~~~~~~~~
 ```
 
 <br>
@@ -95,16 +76,336 @@ interface Options {
 
 <br>
 
-✅ - Examples of **correct** code for this rule:
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/eqeqeq": [
+      "error",
+      {
+        "allowNullOrUndefined": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [attr.disabled]="test != 'undefined' && null == '3'"></div>
+                      ~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/eqeqeq": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div *ngIf="test == true || test1 !== undefined"></div>
+            ~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/eqeqeq": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+{{ one != '02' ? c > d : 'hey!' }}
+   ~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/eqeqeq": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+{{ a === b && 1 == b ? c > d : 'hey!' }}
+              ~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/eqeqeq": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+{{ c > d ? a != b : 'hey!' }}
+           ~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/eqeqeq": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+{{ c > d ? 'hey!' : a == false }}
+                    ~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/eqeqeq": [
+      "error",
+      {
+        "allowNullOrUndefined": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+{{ undefined == test1 && a === b ? (c > d ? d != '0' : v === 4) : 'hey!' }}
+                                            ~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/eqeqeq": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+{{ undefined != test1 }}
+   ~~~~~~~~~~~~~~~~~~
+```
+
+</details>
+
+<br>
+
+---
+
+<br>
+
+<details>
+<summary>✅ - Toggle examples of <strong>correct</strong> code for this rule</summary>
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/eqeqeq": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```html
 {{ a === 1 }}
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/eqeqeq": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```html
 <div [class.testing]="b === false">
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/eqeqeq": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```html
 <div *ngIf="c === test">
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/eqeqeq": [
+      "error",
+      {
+        "allowNullOrUndefined": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div *appShow="(d == null && e === null && (f | lowercase) == undefined) || g === undefined">
+```
+
+</details>
+
+<br>

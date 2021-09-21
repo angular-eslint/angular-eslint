@@ -11,6 +11,8 @@
 
 -->
 
+<br>
+
 # `@angular-eslint/no-host-metadata-property`
 
 Disallows usage of the `host` metadata property. See more at https://angular.io/styleguide#style-06-03
@@ -39,7 +41,26 @@ interface Options {
 
 <br>
 
-❌ - Examples of **incorrect** code for this rule:
+<details>
+<summary>❌ - Toggle examples of <strong>incorrect</strong> code for this rule</summary>
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-host-metadata-property": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 @Component({
@@ -55,6 +76,28 @@ interface Options {
 class Test {}
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-host-metadata-property": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
 ```ts
 @Directive({
   host: {
@@ -68,6 +111,31 @@ class Test {}
 })
 class Test {}
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-host-metadata-property": [
+      "error",
+      {
+        "allowStatic": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 const computed = '[class]';
@@ -90,10 +158,101 @@ const computed = '[class]';
 class Test {}
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-host-metadata-property": [
+      "error",
+      {
+        "allowStatic": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
 ```ts
 @Component({
   host,
   ~~~~
+  selector: 'app-test'
+})
+class Test {}
+```
+
+</details>
+
+<br>
+
+---
+
+<br>
+
+<details>
+<summary>✅ - Toggle examples of <strong>correct</strong> code for this rule</summary>
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-host-metadata-property": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  selector: 'app-test',
+  template: 'Hello'
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-host-metadata-property": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
   selector: 'app-test'
 })
 class Test {}
@@ -105,19 +264,40 @@ class Test {}
 
 <br>
 
-✅ - Examples of **correct** code for this rule:
+#### Custom Config
 
-```ts
-@Component({
-  selector: 'app-test',
-  template: 'Hello'
-})
-class Test {}
+```json
+{
+  "rules": {
+    "@angular-eslint/no-host-metadata-property": [
+      "error",
+      {
+        "allowStatic": true
+      }
+    ]
+  }
+}
 ```
 
+<br>
+
+#### ✅ Valid Code
+
 ```ts
-@Directive({
+const shorthand = 'testing';
+
+@Component({
+  host: {
+    shorthand,
+    static: true,
+    'class': 'class1',
+    '[@routerTransition]': ''
+  },
   selector: 'app-test'
 })
 class Test {}
 ```
+
+</details>
+
+<br>

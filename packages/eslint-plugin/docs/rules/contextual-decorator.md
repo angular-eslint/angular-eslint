@@ -11,6 +11,8 @@
 
 -->
 
+<br>
+
 # `@angular-eslint/contextual-decorator`
 
 Ensures that classes use contextual decorators in its body
@@ -32,7 +34,26 @@ The rule does not have any configuration options.
 
 <br>
 
-❌ - Examples of **incorrect** code for this rule:
+<details>
+<summary>❌ - Toggle examples of <strong>incorrect</strong> code for this rule</summary>
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 @Injectable({
@@ -51,6 +72,28 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
 ```ts
 @Injectable({
   providedIn: 'root'
@@ -67,6 +110,28 @@ class Test {
   private _label: string;
 }
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 @Injectable({
@@ -81,6 +146,28 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
 ```ts
 @Injectable({
   providedIn: 'root'
@@ -94,6 +181,28 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
 ```ts
 @Injectable({
   providedIn: 'root'
@@ -106,6 +215,28 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
 ```ts
 @Injectable({
   providedIn: 'root'
@@ -115,6 +246,28 @@ class Test {
   ~~~~~~~~~~~~~~~~~~~
 }
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 @Injectable({
@@ -126,6 +279,28 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
 ```ts
 @Injectable({
   providedIn: 'root'
@@ -135,6 +310,28 @@ class Test {
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 @NgModule({
@@ -146,6 +343,28 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
 ```ts
 @NgModule({
   providers: []
@@ -155,6 +374,28 @@ class Test {
   ~~~~~~~~~
 }
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 @NgModule({
@@ -166,6 +407,28 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
 ```ts
 @NgModule({
   providers: []
@@ -175,6 +438,28 @@ class Test {
   ~~~~~~~~~~~~~~~~~~~
 }
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 @NgModule({
@@ -226,6 +511,28 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
 ```ts
 @Pipe({
   name: 'test'
@@ -243,6 +550,28 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
 ```ts
 @Pipe({
   name: 'test'
@@ -259,6 +588,28 @@ class Test {
   private _label: string;
 }
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 @Pipe({
@@ -273,6 +624,28 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
 ```ts
 @Pipe({
   name: 'test'
@@ -286,6 +659,28 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
 ```ts
 @Pipe({
   name: 'test'
@@ -298,6 +693,28 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
 ```ts
 @Pipe({
   name: 'test'
@@ -307,6 +724,28 @@ class Test {
   ~~~~~~~~~~~~~~~~~~~
 }
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 @Pipe({
@@ -318,6 +757,28 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
 ```ts
 @Pipe({
   name: 'test'
@@ -327,6 +788,28 @@ class Test {
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 @Pipe({
@@ -338,6 +821,28 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
 ```ts
 @Pipe({
   name: 'test'
@@ -347,6 +852,28 @@ class Test {
   ~~~~~~~~~
 }
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 @Pipe({
@@ -358,6 +885,28 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
 ```ts
 @Pipe({
   name: 'test'
@@ -367,6 +916,28 @@ class Test {
   ~~~~~~~~~~~~~~~~~~~
 }
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 @Pipe({
@@ -417,6 +988,28 @@ class Test {
   clickHandler(): void {}
 }
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 @Directive({
@@ -435,10 +1028,1895 @@ class Test {
 }
 ```
 
+</details>
+
 <br>
 
 ---
 
 <br>
 
-✅ - Examples of **correct** code for this rule:
+<details>
+<summary>✅ - Toggle examples of <strong>correct</strong> code for this rule</summary>
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  template: 'Hi!'
+})
+class Test {
+  @Input()
+  get label(): string {
+    return this._label;
+  }
+  set label(value: string) {
+    this._label = value;
+  }
+  private _label: string;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  template: 'Hi!'
+})
+class Test {
+  @Input()
+  set label(value: string) {
+    this._label = value;
+  }
+  get label(): string {
+    return this._label;
+  }
+  private _label: string;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  template: 'Hi!'
+})
+class Test {
+  @ViewChild(Pane)
+  set label(value: Pane) {
+    doSomething();
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  template: 'Hi!'
+})
+class Test {
+  @HostListener('mouseover')
+  mouseOver() {
+    this.doSomething();
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  template: 'Hi!'
+})
+class Test {
+  constructor(
+    @Host() private readonly host: DynamicHost
+  ) {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  template: 'Hi!'
+})
+class Test {
+  constructor(
+    @Inject(LOCALE_ID) private readonly localeId: string
+  ) {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  template: 'Hi!'
+})
+class Test {
+  constructor(
+    @Optional() testBase: TestBase,
+  ) {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  template: 'Hi!'
+})
+class Test {
+  constructor(
+    @Self() public readonly test: Test,
+  ) {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  template: 'Hi!'
+})
+class Test {
+  constructor(
+    @SkipSelf() protected readonly parentTest: ParentTest
+  ) {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  template: 'Hi!'
+})
+class Test {
+  @ContentChild(Pane) pane: Pane;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  template: 'Hi!'
+})
+class Test {
+  @ContentChildren(Pane, { descendants: true }) arbitraryNestedPanes: QueryList<Pane>;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  template: 'Hi!'
+})
+class Test {
+  @HostBinding('class.card-outline') private isCardOutline: boolean;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  template: 'Hi!'
+})
+class Test {
+  @Input() label: string;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  template: 'Hi!'
+})
+class Test {
+  @Output() emitter = new EventEmitter<void>();
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  template: 'Hi!'
+})
+class Test {
+  @ViewChild(Pane)
+  set pane(value: Pane) {
+    console.log('panel setter called');
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  template: 'Hi!'
+})
+class Test {
+  @ViewChildren(Pane) panes: QueryList<Pane>;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  template: 'Hi!'
+})
+class Test {
+  @ContentChild(Pane) pane: Pane;
+
+  @Input()
+  get label(): string {
+    return this._label;
+  }
+  set label(value: string) {
+    this._label = value;
+  }
+  private _label: string;
+
+  @ViewChild(Pane)
+  set label(value: Pane) {
+    doSomething();
+  }
+
+  get type(): string {
+    return this._type;
+  }
+  set type(value: string) {
+    this._type = value;
+  }
+  private _type: string;
+
+  private prop: string | undefined;
+
+  constructor(
+    @Attribute('test') private readonly test: string,
+    @Host() @Optional() private readonly host: DynamicHost,
+    @Inject(LOCALE_ID) private readonly localeId: string,
+    @Inject(TEST_BASE) @Optional() testBase: TestBase,
+    @Optional() @Self() public readonly test: Test,
+    @Optional() @SkipSelf() protected readonly parentTest: ParentTest
+  ) {}
+
+  @HostListener('mouseover')
+  mouseOver(): void {
+    this.doSomething();
+  }
+
+  clickHandler(): void {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: 'test'
+})
+class Test {
+  @Input()
+  get label(): string {
+    return this._label;
+  }
+  set label(value: string) {
+    this._label = value;
+  }
+  private _label: string;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: 'test'
+})
+class Test {
+  @Input()
+  set label(value: string) {
+    this._label = value;
+  }
+  get label(): string {
+    return this._label;
+  }
+  private _label: string;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: 'test'
+})
+class Test {
+  @ViewChild(Pane)
+  set label(value: Pane) {
+    doSomething();
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: 'test'
+})
+class Test {
+  @HostListener('mouseover')
+  mouseOver() {
+    this.doSomething();
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: 'test'
+})
+class Test {
+  constructor(
+    @Host() private readonly host: DynamicHost
+  ) {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: 'test'
+})
+class Test {
+  constructor(
+    @Inject(LOCALE_ID) private readonly localeId: string
+  ) {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: 'test'
+})
+class Test {
+  constructor(
+    @Optional() testBase: TestBase,
+  ) {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: 'test'
+})
+class Test {
+  constructor(
+    @Self() public readonly test: Test,
+  ) {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: 'test'
+})
+class Test {
+  constructor(
+    @SkipSelf() protected readonly parentTest: ParentTest
+  ) {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: 'test'
+})
+class Test {
+  @ContentChild(Pane) pane: Pane;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: 'test'
+})
+class Test {
+  @ContentChildren(Pane, { descendants: true }) arbitraryNestedPanes: QueryList<Pane>;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: 'test'
+})
+class Test {
+  @HostBinding('class.card-outline') private isCardOutline: boolean;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: 'test'
+})
+class Test {
+  @Input() label: string;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: 'test'
+})
+class Test {
+  @Output() emitter = new EventEmitter<void>();
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: 'test'
+})
+class Test {
+  @ViewChild(Pane)
+  set pane(value: Pane) {
+    console.log('panel setter called');
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: 'test'
+})
+class Test {
+  @ViewChildren(Pane) panes: QueryList<Pane>;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: 'test'
+})
+class Test {
+  @ContentChild(Pane) pane: Pane;
+
+  @Input()
+  get label(): string {
+    return this._label;
+  }
+  set label(value: string) {
+    this._label = value;
+  }
+  private _label: string;
+
+  @ViewChild(Pane)
+  set label(value: Pane) {
+    doSomething();
+  }
+
+  get type(): string {
+    return this._type;
+  }
+  set type(value: string) {
+    this._type = value;
+  }
+  private _type: string;
+
+  private prop: string | undefined;
+
+  constructor(
+    @Attribute('test') private readonly test: string,
+    @Host() @Optional() private readonly host: DynamicHost,
+    @Inject(LOCALE_ID) private readonly localeId: string,
+    @Inject(TEST_BASE) @Optional() testBase: TestBase,
+    @Optional() @Self() public readonly test: Test,
+    @Optional() @SkipSelf() protected readonly parentTest: ParentTest
+  ) {}
+
+  @HostListener('mouseover')
+  mouseOver(): void {
+    this.doSomething();
+  }
+
+  clickHandler(): void {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Injectable({
+  providedIn: 'root'
+})
+class Test {
+  constructor(
+    @Host() private readonly host: DynamicHost
+  ) {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Injectable({
+  providedIn: 'root'
+})
+class Test {
+  constructor(
+    @Inject(LOCALE_ID) private readonly localeId: string
+  ) {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Injectable({
+  providedIn: 'root'
+})
+class Test {
+  constructor(
+    @Optional() testBase: TestBase,
+  ) {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Injectable({
+  providedIn: 'root'
+})
+class Test {
+  constructor(
+    @Self() public readonly test: Test,
+  ) {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Injectable({
+  providedIn: 'root'
+})
+class Test {
+  constructor(
+    @SkipSelf() protected readonly parentTest: ParentTest
+  ) {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Injectable({
+  providedIn: 'root'
+})
+class Test {
+  get type(): string {
+    return this._type;
+  }
+  set type(value: string) {
+    this._type = value;
+  }
+  private _type: string;
+
+  private prop: string | undefined;
+
+  constructor(
+    @Host() @Optional() private readonly host: DynamicHost,
+    @Inject(LOCALE_ID) private readonly localeId: string,
+    @Inject(TEST_BASE) @Optional() testBase: TestBase,
+    @Optional() @Self() public readonly test: Test,
+    @Optional() @SkipSelf() protected readonly parentTest: ParentTest
+  ) {}
+
+  clickHandler(): void {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@NgModule({
+  providers: []
+})
+class Test {
+  constructor(
+    @Host() private readonly host: DynamicHost
+  ) {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@NgModule({
+  providers: []
+})
+class Test {
+  constructor(
+    @Inject(LOCALE_ID) private readonly localeId: string
+  ) {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@NgModule({
+  providers: []
+})
+class Test {
+  constructor(
+    @Optional() testBase: TestBase,
+  ) {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@NgModule({
+  providers: []
+})
+class Test {
+  constructor(
+    @Self() public readonly test: Test,
+  ) {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@NgModule({
+  providers: []
+})
+class Test {
+  constructor(
+    @SkipSelf() protected readonly parentTest: ParentTest
+  ) {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@NgModule({
+  providers: []
+})
+class Test {
+  get type(): string {
+    return this._type;
+  }
+  set type(value: string) {
+    this._type = value;
+  }
+  private _type: string;
+
+  private prop: string | undefined;
+
+  constructor(
+    @Host() @Optional() private readonly host: DynamicHost,
+    @Inject(LOCALE_ID) private readonly localeId: string,
+    @Inject(TEST_BASE) @Optional() testBase: TestBase,
+    @Optional() @Self() public readonly test: Test,
+    @Optional() @SkipSelf() protected readonly parentTest: ParentTest
+  ) {}
+
+  clickHandler(): void {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Pipe({
+  name: 'test'
+})
+class Test {
+  constructor(
+    @Host() private readonly host: DynamicHost
+  ) {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Pipe({
+  name: 'test'
+})
+class Test {
+  constructor(
+    @Inject(LOCALE_ID) private readonly localeId: string
+  ) {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Pipe({
+  name: 'test'
+})
+class Test {
+  constructor(
+    @Optional() testBase: TestBase,
+  ) {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Pipe({
+  name: 'test'
+})
+class Test {
+  constructor(
+    @Self() public readonly test: Test,
+  ) {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Pipe({
+  name: 'test'
+})
+class Test {
+  constructor(
+    @SkipSelf() protected readonly parentTest: ParentTest
+  ) {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Pipe({
+  name: 'test'
+})
+class Test {
+  get type(): string {
+    return this._type;
+  }
+  set type(value: string) {
+    this._type = value;
+  }
+  private _type: string;
+
+  private prop: string | undefined;
+
+  constructor(
+    @Host() @Optional() private readonly host: DynamicHost,
+    @Inject(LOCALE_ID) private readonly localeId: string,
+    @Inject(TEST_BASE) @Optional() testBase: TestBase,
+    @Optional() @Self() public readonly test: Test,
+    @Optional() @SkipSelf() protected readonly parentTest: ParentTest
+  ) {}
+
+  clickHandler(): void {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Injectable()
+class TestService {
+  constructor() {}
+}
+
+@Component({
+  selector: 'app-test',
+  template: '<h1>Hello</h1>',
+  providers: [TestService]
+})
+class TestComponent implements OnChanges {
+  @Output() emitter = new EventEmitter<void>();
+
+  constructor(private test: TestService) {}
+}
+```
+
+</details>
+
+<br>

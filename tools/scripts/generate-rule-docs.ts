@@ -87,6 +87,10 @@ const testDirs = readdirSync(testDirsDir);
       schemaAsInterface = schemaAsInterface.replace('export ', '');
     }
 
+    const fullRuleName = `@angular-eslint/${
+      plugin === 'eslint-plugin-template' ? 'template/' : ''
+    }${ruleName}`;
+
     const md = `
 <!--
 
@@ -101,9 +105,9 @@ const testDirs = readdirSync(testDirsDir);
 
 -->
 
-# \`@angular-eslint/${
-      plugin === 'eslint-plugin-template' ? 'template/' : ''
-    }${ruleName}\`
+<br>
+
+# \`${fullRuleName}\`
 
 ${
   deprecated
@@ -151,13 +155,17 @@ ${schemaAsInterface}
 
 <br>
 
-❌ - Examples of **incorrect** code for this rule:
+<details>
+<summary>❌ - Toggle examples of <strong>incorrect</strong> code for this rule</summary>
 
 ${convertCodeExamplesToMarkdown(
   ruleData.invalid,
   'invalid',
   plugin === 'eslint-plugin-template' ? 'html' : 'ts',
+  fullRuleName,
 )}
+
+</details>
 
 <br>
 
@@ -165,13 +173,19 @@ ${convertCodeExamplesToMarkdown(
 
 <br>
 
-✅ - Examples of **correct** code for this rule:
+<details>
+<summary>✅ - Toggle examples of <strong>correct</strong> code for this rule</summary>
 
 ${convertCodeExamplesToMarkdown(
   ruleData.valid,
   'valid',
   plugin === 'eslint-plugin-template' ? 'html' : 'ts',
+  fullRuleName,
 )}
+
+</details>
+
+<br>
 `;
 
     const outputFilePath = join(docsOutputDir, `${ruleName}.md`);
@@ -199,13 +213,18 @@ interface RuleData {
   ruleFilePath: string;
   testCasesFilePath: string;
   ruleConfig: any;
-  valid: any[];
-  invalid: any[];
+  valid: ExtractedTestCase[];
+  invalid: ExtractedTestCase[];
 }
 
 type AllRuleData = {
   [ruleName: string]: RuleData;
 };
+
+interface ExtractedTestCase {
+  code: string;
+  options?: any[];
+}
 
 async function generateAllRuleData(): Promise<AllRuleData> {
   const ruleData: AllRuleData = {};
@@ -235,45 +254,98 @@ async function generateAllRuleData(): Promise<AllRuleData> {
       true,
     );
 
-    const extractedValid: string[] = [];
-    const extractedInvalid: string[] = [];
+    const extractedValid: ExtractedTestCase[] = [];
+    const extractedInvalid: ExtractedTestCase[] = [];
 
     const extractNodes = (node: ts.Node) => {
       if (
         ts.isVariableDeclaration(node) &&
-        (node.name as any).escapedText === 'valid' &&
+        node.name.getText() === 'valid' &&
         node.initializer &&
         ts.isArrayLiteralExpression(node.initializer)
       ) {
         node.initializer.elements.forEach((el) => {
+          const newExtractedTestCase: ExtractedTestCase = {
+            code: '',
+          };
+
           if (ts.isStringLiteralLike(el)) {
-            extractedValid.push(el.text);
+            newExtractedTestCase.code = el.text;
+          }
+
+          if (ts.isObjectLiteralExpression(el)) {
+            el.properties.forEach((prop) => {
+              if (
+                ts.isPropertyAssignment(prop) &&
+                prop.name.getText() === 'code'
+              ) {
+                if (ts.isNoSubstitutionTemplateLiteral(prop.initializer)) {
+                  newExtractedTestCase.code =
+                    prop.initializer.rawText || prop.initializer.text;
+                }
+                if (ts.isTemplateExpression(prop.initializer)) {
+                  newExtractedTestCase.code = prop.initializer.getText();
+                }
+                if (ts.isStringLiteral(prop.initializer)) {
+                  newExtractedTestCase.code = prop.initializer.text;
+                }
+              }
+
+              if (
+                ts.isPropertyAssignment(prop) &&
+                prop.name.getText() === 'options' &&
+                ts.isArrayLiteralExpression(prop.initializer)
+              ) {
+                newExtractedTestCase.options =
+                  convertArrayLiteralExpressionToCode(prop.initializer);
+              }
+            });
+          }
+
+          if (newExtractedTestCase.code) {
+            extractedValid.push(newExtractedTestCase);
           }
         });
       }
 
       if (
         ts.isVariableDeclaration(node) &&
-        (node.name as any).escapedText === 'invalid' &&
+        node.name.getText() === 'invalid' &&
         node.initializer &&
         ts.isArrayLiteralExpression(node.initializer)
       ) {
         node.initializer.elements.forEach((el) => {
           if (
             ts.isCallExpression(el) &&
-            (el.expression as any).escapedText ===
-              'convertAnnotatedSourceToFailureCase'
+            el.expression.getText() === 'convertAnnotatedSourceToFailureCase'
           ) {
+            const newExtractedTestCase: ExtractedTestCase = {
+              code: '',
+            };
+
             const config = el.arguments[0] as ts.ObjectLiteralExpression;
             config.properties.forEach((prop) => {
               if (
                 ts.isPropertyAssignment(prop) &&
-                (prop.name as any).escapedText === 'annotatedSource' &&
+                prop.name.getText() === 'annotatedSource' &&
                 ts.isNoSubstitutionTemplateLiteral(prop.initializer)
               ) {
-                extractedInvalid.push(prop.initializer.text);
+                newExtractedTestCase.code = prop.initializer.text;
+              }
+
+              if (
+                ts.isPropertyAssignment(prop) &&
+                prop.name.getText() === 'options' &&
+                ts.isArrayLiteralExpression(prop.initializer)
+              ) {
+                newExtractedTestCase.options =
+                  convertArrayLiteralExpressionToCode(prop.initializer);
               }
             });
+
+            if (newExtractedTestCase.code) {
+              extractedInvalid.push(newExtractedTestCase);
+            }
           }
         });
       }
@@ -332,22 +404,58 @@ function escapeRegExp(str: string) {
 }
 
 function convertCodeExamplesToMarkdown(
-  codeExamples: string[] = [],
+  codeExamples: ExtractedTestCase[] = [],
   kind: 'valid' | 'invalid',
   highligher: 'html' | 'ts',
+  ruleName: string,
 ): string {
   return codeExamples
-    .map((code) => {
+    .map(({ code, options }, i) => {
       let formattedCode = removeLeadingAndTrailingEmptyLinesFromCodeExample(
         removeLeadingIndentationFromCodeExample(code),
       );
       if (kind === 'invalid') {
         formattedCode = standardizeSpecialUnderlineChar(formattedCode);
       }
-      return `
+
+      const exampleRuleConfig: unknown[] = ['error'];
+      // Not all unit tests have options configured
+      if (options) {
+        exampleRuleConfig.push(options[0]);
+      }
+      const formattedConfig = JSON.stringify(
+        {
+          rules: {
+            [ruleName]: exampleRuleConfig,
+          },
+        },
+        null,
+        2,
+      );
+
+      return `<br>
+
+#### ${options ? 'Custom' : 'Default'} Config
+
+\`\`\`json
+${formattedConfig}
+\`\`\`
+
+<br>
+
+#### ${kind === 'invalid' ? '❌ Invalid' : '✅ Valid'} Code
+
 \`\`\`${highligher}
 ${formattedCode}
 \`\`\`
+
+${
+  i === codeExamples.length - 1
+    ? ''
+    : `<br>
+
+---`
+}
   `;
     })
     .join('\n');
@@ -424,4 +532,89 @@ function removeLeadingIndentationFromCodeExample(code: string): string {
       );
     })
     .join('\n');
+}
+
+function convertStringLikeToCode(strLike: ts.StringLiteralLike): string {
+  if (ts.isStringLiteralLike(strLike)) {
+    return strLike.text;
+  }
+  return '';
+}
+
+function convertNumericalLiteralToCode(numLiteral: ts.NumericLiteral): number {
+  return Number(numLiteral.text);
+}
+
+function convertBooleanLiteralToCode(
+  booleanLiteral: ts.BooleanLiteral,
+): boolean {
+  const stringified = booleanLiteral.getText();
+  if (stringified === 'false') {
+    return false;
+  }
+  if (stringified === 'true') {
+    return true;
+  }
+  throw new Error(
+    `Could not convert booleanLiteral node to code: ${booleanLiteral}`,
+  );
+}
+
+function convertArrayLiteralExpressionToCode(
+  arrExpr: ts.ArrayLiteralExpression,
+): unknown[] {
+  const arr: unknown[] = [];
+  arrExpr.elements.forEach((el) => {
+    if (ts.isObjectLiteralExpression(el)) {
+      const item = convertObjectLiteralExpressionToCode(el);
+      arr.push(item);
+    }
+    if (ts.isStringLiteralLike(el)) {
+      const item = convertStringLikeToCode(el);
+      arr.push(item);
+    }
+    if (ts.isArrayLiteralExpression(el)) {
+      const item = convertArrayLiteralExpressionToCode(el);
+      arr.push(item);
+    }
+  });
+  return arr;
+}
+
+function convertObjectLiteralExpressionToCode(
+  objExpr: ts.ObjectLiteralExpression,
+): Record<string, unknown> {
+  const obj: Record<string, unknown> = {};
+  objExpr.properties.forEach((prop) => {
+    if (ts.isPropertyAssignment(prop)) {
+      const key = prop.name.getText();
+
+      let val;
+      if (ts.isObjectLiteralExpression(prop.initializer)) {
+        val = convertObjectLiteralExpressionToCode(prop.initializer);
+      }
+      if (ts.isStringLiteralLike(prop.initializer)) {
+        val = convertStringLikeToCode(prop.initializer);
+      }
+      if (ts.isArrayLiteralExpression(prop.initializer)) {
+        val = convertArrayLiteralExpressionToCode(prop.initializer);
+      }
+      if (ts.isNumericLiteral(prop.initializer)) {
+        val = convertNumericalLiteralToCode(prop.initializer);
+      }
+      if (
+        prop.initializer.kind === ts.SyntaxKind.TrueKeyword ||
+        prop.initializer.kind === ts.SyntaxKind.FalseKeyword
+      ) {
+        val = convertBooleanLiteralToCode(
+          prop.initializer as ts.BooleanLiteral,
+        );
+      }
+
+      if (key && typeof val !== 'undefined') {
+        obj[key] = val;
+      }
+    }
+  });
+  return obj;
 }
