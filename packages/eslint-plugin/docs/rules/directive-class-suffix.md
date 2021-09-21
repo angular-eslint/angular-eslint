@@ -116,13 +116,11 @@ class TestDirectivePage implements AsyncValidator {}
   "rules": {
     "@angular-eslint/directive-class-suffix": [
       "error",
-      [
-        {
-          "suffixes": [
-            "Page"
-          ]
-        }
-      ]
+      {
+        "suffixes": [
+          "Page"
+        ]
+      }
     ]
   }
 }
@@ -412,13 +410,11 @@ class TestEmpty {}
   "rules": {
     "@angular-eslint/directive-class-suffix": [
       "error",
-      [
-        {
-          "suffixes": [
-            "Dir"
-          ]
-        }
-      ]
+      {
+        "suffixes": [
+          "Dir"
+        ]
+      }
     ]
   }
 }
@@ -448,14 +444,12 @@ class TestDir {}
   "rules": {
     "@angular-eslint/directive-class-suffix": [
       "error",
-      [
-        {
-          "suffixes": [
-            "Page",
-            "View"
-          ]
-        }
-      ]
+      {
+        "suffixes": [
+          "Page",
+          "View"
+        ]
+      }
     ]
   }
 }

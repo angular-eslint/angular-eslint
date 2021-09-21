@@ -83,11 +83,9 @@ interface Options {
   "rules": {
     "@angular-eslint/template/eqeqeq": [
       "error",
-      [
-        {
-          "allowNullOrUndefined": true
-        }
-      ]
+      {
+        "allowNullOrUndefined": true
+      }
     ]
   }
 }
@@ -250,11 +248,9 @@ interface Options {
   "rules": {
     "@angular-eslint/template/eqeqeq": [
       "error",
-      [
-        {
-          "allowNullOrUndefined": true
-        }
-      ]
+      {
+        "allowNullOrUndefined": true
+      }
     ]
   }
 }
@@ -394,11 +390,9 @@ interface Options {
   "rules": {
     "@angular-eslint/template/eqeqeq": [
       "error",
-      [
-        {
-          "allowNullOrUndefined": true
-        }
-      ]
+      {
+        "allowNullOrUndefined": true
+      }
     ]
   }
 }

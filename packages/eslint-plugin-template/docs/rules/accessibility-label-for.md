@@ -97,16 +97,14 @@ interface Options {
   "rules": {
     "@angular-eslint/template/accessibility-label-for": [
       "error",
-      [
-        {
-          "labelAttributes": [
-            "id"
-          ],
-          "labelComponents": [
-            "app-label"
-          ]
-        }
-      ]
+      {
+        "labelAttributes": [
+          "id"
+        ],
+        "labelComponents": [
+          "app-label"
+        ]
+      }
     ]
   }
 }
@@ -174,16 +172,14 @@ interface Options {
   "rules": {
     "@angular-eslint/template/accessibility-label-for": [
       "error",
-      [
-        {
-          "labelAttributes": [
-            "id"
-          ],
-          "labelComponents": [
-            "app-label"
-          ]
-        }
-      ]
+      {
+        "labelAttributes": [
+          "id"
+        ],
+        "labelComponents": [
+          "app-label"
+        ]
+      }
     ]
   }
 }
@@ -212,16 +208,14 @@ interface Options {
   "rules": {
     "@angular-eslint/template/accessibility-label-for": [
       "error",
-      [
-        {
-          "controlComponents": [
-            "app-input"
-          ],
-          "labelComponents": [
-            "app-label"
-          ]
-        }
-      ]
+      {
+        "controlComponents": [
+          "app-input"
+        ],
+        "labelComponents": [
+          "app-label"
+        ]
+      }
     ]
   }
 }

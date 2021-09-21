@@ -125,11 +125,9 @@ class Test {}
   "rules": {
     "@angular-eslint/no-host-metadata-property": [
       "error",
-      [
-        {
-          "allowStatic": true
-        }
-      ]
+      {
+        "allowStatic": true
+      }
     ]
   }
 }
@@ -173,11 +171,9 @@ class Test {}
   "rules": {
     "@angular-eslint/no-host-metadata-property": [
       "error",
-      [
-        {
-          "allowStatic": true
-        }
-      ]
+      {
+        "allowStatic": true
+      }
     ]
   }
 }
@@ -275,11 +271,9 @@ class Test {}
   "rules": {
     "@angular-eslint/no-host-metadata-property": [
       "error",
-      [
-        {
-          "allowStatic": true
-        }
-      ]
+      {
+        "allowStatic": true
+      }
     ]
   }
 }

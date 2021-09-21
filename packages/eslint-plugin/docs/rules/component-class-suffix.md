@@ -86,14 +86,12 @@ class Test {}
   "rules": {
     "@angular-eslint/component-class-suffix": [
       "error",
-      [
-        {
-          "suffixes": [
-            "Component",
-            "View"
-          ]
-        }
-      ]
+      {
+        "suffixes": [
+          "Component",
+          "View"
+        ]
+      }
     ]
   }
 }
@@ -124,13 +122,11 @@ class TestPage {}
   "rules": {
     "@angular-eslint/component-class-suffix": [
       "error",
-      [
-        {
-          "suffixes": [
-            "Component"
-          ]
-        }
-      ]
+      {
+        "suffixes": [
+          "Component"
+        ]
+      }
     ]
   }
 }
@@ -161,13 +157,11 @@ class TestPage {}
   "rules": {
     "@angular-eslint/component-class-suffix": [
       "error",
-      [
-        {
-          "suffixes": [
-            "Page"
-          ]
-        }
-      ]
+      {
+        "suffixes": [
+          "Page"
+        ]
+      }
     ]
   }
 }
@@ -346,13 +340,11 @@ class TestEmpty {}
   "rules": {
     "@angular-eslint/component-class-suffix": [
       "error",
-      [
-        {
-          "suffixes": [
-            "Page"
-          ]
-        }
-      ]
+      {
+        "suffixes": [
+          "Page"
+        ]
+      }
     ]
   }
 }
@@ -382,14 +374,12 @@ class TestPage {}
   "rules": {
     "@angular-eslint/component-class-suffix": [
       "error",
-      [
-        {
-          "suffixes": [
-            "Page",
-            "View"
-          ]
-        }
-      ]
+      {
+        "suffixes": [
+          "Page",
+          "View"
+        ]
+      }
     ]
   }
 }

@@ -56,11 +56,9 @@ interface Options {
   "rules": {
     "@angular-eslint/template/cyclomatic-complexity": [
       "error",
-      [
-        {
-          "maxComplexity": 5
-        }
-      ]
+      {
+        "maxComplexity": 5
+      }
     ]
   }
 }
@@ -99,11 +97,9 @@ interface Options {
   "rules": {
     "@angular-eslint/template/cyclomatic-complexity": [
       "error",
-      [
-        {
-          "maxComplexity": 6
-        }
-      ]
+      {
+        "maxComplexity": 6
+      }
     ]
   }
 }
@@ -157,11 +153,9 @@ interface Options {
   "rules": {
     "@angular-eslint/template/cyclomatic-complexity": [
       "error",
-      [
-        {
-          "maxComplexity": 1
-        }
-      ]
+      {
+        "maxComplexity": 1
+      }
     ]
   }
 }
@@ -190,11 +184,9 @@ interface Options {
   "rules": {
     "@angular-eslint/template/cyclomatic-complexity": [
       "error",
-      [
-        {
-          "maxComplexity": 2
-        }
-      ]
+      {
+        "maxComplexity": 2
+      }
     ]
   }
 }
@@ -225,11 +217,9 @@ interface Options {
   "rules": {
     "@angular-eslint/template/cyclomatic-complexity": [
       "error",
-      [
-        {
-          "maxComplexity": 5
-        }
-      ]
+      {
+        "maxComplexity": 5
+      }
     ]
   }
 }

@@ -100,11 +100,9 @@ class Test {}
   "rules": {
     "@angular-eslint/component-max-inline-declarations": [
       "error",
-      [
-        {
-          "template": 0
-        }
-      ]
+      {
+        "template": 0
+      }
     ]
   }
 }
@@ -215,11 +213,9 @@ class Test {}
   "rules": {
     "@angular-eslint/component-max-inline-declarations": [
       "error",
-      [
-        {
-          "styles": 0
-        }
-      ]
+      {
+        "styles": 0
+      }
     ]
   }
 }
@@ -348,11 +344,9 @@ class Test {}
   "rules": {
     "@angular-eslint/component-max-inline-declarations": [
       "error",
-      [
-        {
-          "animations": 2
-        }
-      ]
+      {
+        "animations": 2
+      }
     ]
   }
 }

@@ -199,11 +199,9 @@ class HttpPostInterceptor implements HttpInterceptor {}
   "rules": {
     "@angular-eslint/use-injectable-provided-in": [
       "error",
-      [
-        {
-          "ignoreClassNamePattern": "/(Effects|NgModule)$/"
-        }
-      ]
+      {
+        "ignoreClassNamePattern": "/(Effects|NgModule)$/"
+      }
     ]
   }
 }
@@ -235,11 +233,9 @@ class ProvidedInNgModule {}
   "rules": {
     "@angular-eslint/use-injectable-provided-in": [
       "error",
-      [
-        {
-          "ignoreClassNamePattern": "/(Effects|NgModule)$/"
-        }
-      ]
+      {
+        "ignoreClassNamePattern": "/(Effects|NgModule)$/"
+      }
     ]
   }
 }
@@ -502,11 +498,9 @@ class Test implements ng.HttpInterceptor {}
   "rules": {
     "@angular-eslint/use-injectable-provided-in": [
       "error",
-      [
-        {
-          "ignoreClassNamePattern": "/Effects$/"
-        }
-      ]
+      {
+        "ignoreClassNamePattern": "/Effects$/"
+      }
     ]
   }
 }

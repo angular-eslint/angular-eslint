@@ -330,11 +330,9 @@ interface Options {
   "rules": {
     "@angular-eslint/template/no-duplicate-attributes": [
       "error",
-      [
-        {
-          "allowTwoWayDataBinding": false
-        }
-      ]
+      {
+        "allowTwoWayDataBinding": false
+      }
     ]
   }
 }

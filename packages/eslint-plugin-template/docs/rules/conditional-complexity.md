@@ -85,11 +85,9 @@ interface Options {
   "rules": {
     "@angular-eslint/template/conditional-complexity": [
       "error",
-      [
-        {
-          "maxComplexity": 3
-        }
-      ]
+      {
+        "maxComplexity": 3
+      }
     ]
   }
 }
@@ -119,11 +117,9 @@ interface Options {
   "rules": {
     "@angular-eslint/template/conditional-complexity": [
       "error",
-      [
-        {
-          "maxComplexity": 2
-        }
-      ]
+      {
+        "maxComplexity": 2
+      }
     ]
   }
 }
@@ -238,11 +234,9 @@ interface Options {
   "rules": {
     "@angular-eslint/template/conditional-complexity": [
       "error",
-      [
-        {
-          "maxComplexity": 3
-        }
-      ]
+      {
+        "maxComplexity": 3
+      }
     ]
   }
 }
@@ -312,11 +306,9 @@ interface Options {
   "rules": {
     "@angular-eslint/template/conditional-complexity": [
       "error",
-      [
-        {
-          "maxComplexity": 9
-        }
-      ]
+      {
+        "maxComplexity": 9
+      }
     ]
   }
 }

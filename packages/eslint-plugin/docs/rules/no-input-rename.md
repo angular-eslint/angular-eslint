@@ -91,14 +91,12 @@ class Test {}
   "rules": {
     "@angular-eslint/no-input-rename": [
       "error",
-      [
-        {
-          "allowedNames": [
-            "check",
-            "test"
-          ]
-        }
-      ]
+      {
+        "allowedNames": [
+          "check",
+          "test"
+        ]
+      }
     ]
   }
 }
@@ -646,13 +644,11 @@ class Test {
   "rules": {
     "@angular-eslint/no-input-rename": [
       "error",
-      [
-        {
-          "allowedNames": [
-            "aria-wrong"
-          ]
-        }
-      ]
+      {
+        "allowedNames": [
+          "aria-wrong"
+        ]
+      }
     ]
   }
 }
@@ -838,13 +834,11 @@ class Test {
   "rules": {
     "@angular-eslint/no-input-rename": [
       "error",
-      [
-        {
-          "allowedNames": [
-            "allowedName"
-          ]
-        }
-      ]
+      {
+        "allowedNames": [
+          "allowedName"
+        ]
+      }
     ]
   }
 }

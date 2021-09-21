@@ -55,13 +55,11 @@ interface Options {
   "rules": {
     "@angular-eslint/directive-selector": [
       "error",
-      [
-        {
-          "type": "element",
-          "prefix": "bar",
-          "style": "kebab-case"
-        }
-      ]
+      {
+        "type": "element",
+        "prefix": "bar",
+        "style": "kebab-case"
+      }
     ]
   }
 }
@@ -92,16 +90,14 @@ class Test {}
   "rules": {
     "@angular-eslint/directive-selector": [
       "error",
-      [
-        {
-          "type": "attribute",
-          "prefix": [
-            "cd",
-            "ng"
-          ],
-          "style": "kebab-case"
-        }
-      ]
+      {
+        "type": "attribute",
+        "prefix": [
+          "cd",
+          "ng"
+        ],
+        "style": "kebab-case"
+      }
     ]
   }
 }
@@ -132,17 +128,15 @@ class Test {}
   "rules": {
     "@angular-eslint/directive-selector": [
       "error",
-      [
-        {
-          "type": "element",
-          "prefix": [
-            "foo",
-            "cd",
-            "ng"
-          ],
-          "style": "kebab-case"
-        }
-      ]
+      {
+        "type": "element",
+        "prefix": [
+          "foo",
+          "cd",
+          "ng"
+        ],
+        "style": "kebab-case"
+      }
     ]
   }
 }
@@ -173,13 +167,11 @@ class Test {}
   "rules": {
     "@angular-eslint/directive-selector": [
       "error",
-      [
-        {
-          "type": "attribute",
-          "prefix": "app",
-          "style": "camelCase"
-        }
-      ]
+      {
+        "type": "attribute",
+        "prefix": "app",
+        "style": "camelCase"
+      }
     ]
   }
 }
@@ -210,13 +202,11 @@ class Test {}
   "rules": {
     "@angular-eslint/directive-selector": [
       "error",
-      [
-        {
-          "type": "element",
-          "prefix": "app",
-          "style": "kebab-case"
-        }
-      ]
+      {
+        "type": "element",
+        "prefix": "app",
+        "style": "kebab-case"
+      }
     ]
   }
 }
@@ -247,13 +237,11 @@ class Test {}
   "rules": {
     "@angular-eslint/directive-selector": [
       "error",
-      [
-        {
-          "type": "element",
-          "prefix": "app",
-          "style": "kebab-case"
-        }
-      ]
+      {
+        "type": "element",
+        "prefix": "app",
+        "style": "kebab-case"
+      }
     ]
   }
 }
@@ -284,16 +272,14 @@ class Test {}
   "rules": {
     "@angular-eslint/directive-selector": [
       "error",
-      [
-        {
-          "type": "attribute",
-          "prefix": [
-            "app",
-            "ng"
-          ],
-          "style": "kebab-case"
-        }
-      ]
+      {
+        "type": "attribute",
+        "prefix": [
+          "app",
+          "ng"
+        ],
+        "style": "kebab-case"
+      }
     ]
   }
 }
@@ -324,16 +310,14 @@ class Test {}
   "rules": {
     "@angular-eslint/directive-selector": [
       "error",
-      [
-        {
-          "type": "element",
-          "prefix": [
-            "app",
-            "ng"
-          ],
-          "style": "camelCase"
-        }
-      ]
+      {
+        "type": "element",
+        "prefix": [
+          "app",
+          "ng"
+        ],
+        "style": "camelCase"
+      }
     ]
   }
 }
@@ -371,13 +355,11 @@ class Test {}
   "rules": {
     "@angular-eslint/directive-selector": [
       "error",
-      [
-        {
-          "type": "element",
-          "prefix": "app",
-          "style": "kebab-case"
-        }
-      ]
+      {
+        "type": "element",
+        "prefix": "app",
+        "style": "kebab-case"
+      }
     ]
   }
 }
@@ -407,16 +389,14 @@ class Test {}
   "rules": {
     "@angular-eslint/directive-selector": [
       "error",
-      [
-        {
-          "type": "attribute",
-          "prefix": [
-            "app",
-            "ng"
-          ],
-          "style": "kebab-case"
-        }
-      ]
+      {
+        "type": "attribute",
+        "prefix": [
+          "app",
+          "ng"
+        ],
+        "style": "kebab-case"
+      }
     ]
   }
 }
@@ -446,17 +426,15 @@ class Test {}
   "rules": {
     "@angular-eslint/directive-selector": [
       "error",
-      [
-        {
-          "type": "element",
-          "prefix": [
-            "app",
-            "cd",
-            "ng"
-          ],
-          "style": "kebab-case"
-        }
-      ]
+      {
+        "type": "element",
+        "prefix": [
+          "app",
+          "cd",
+          "ng"
+        ],
+        "style": "kebab-case"
+      }
     ]
   }
 }
@@ -486,17 +464,15 @@ class Test {}
   "rules": {
     "@angular-eslint/directive-selector": [
       "error",
-      [
-        {
-          "type": "element",
-          "prefix": [
-            "app",
-            "cd",
-            "ngg"
-          ],
-          "style": "kebab-case"
-        }
-      ]
+      {
+        "type": "element",
+        "prefix": [
+          "app",
+          "cd",
+          "ngg"
+        ],
+        "style": "kebab-case"
+      }
     ]
   }
 }
@@ -524,13 +500,11 @@ class Test {}
   "rules": {
     "@angular-eslint/directive-selector": [
       "error",
-      [
-        {
-          "type": "element",
-          "prefix": "app",
-          "style": "camelCase"
-        }
-      ]
+      {
+        "type": "element",
+        "prefix": "app",
+        "style": "camelCase"
+      }
     ]
   }
 }
@@ -560,13 +534,11 @@ class Test {}
   "rules": {
     "@angular-eslint/directive-selector": [
       "error",
-      [
-        {
-          "type": "element",
-          "prefix": "app1",
-          "style": "kebab-case"
-        }
-      ]
+      {
+        "type": "element",
+        "prefix": "app1",
+        "style": "kebab-case"
+      }
     ]
   }
 }
@@ -596,13 +568,11 @@ class Test {}
   "rules": {
     "@angular-eslint/directive-selector": [
       "error",
-      [
-        {
-          "type": "element",
-          "prefix": "app",
-          "style": "kebab-case"
-        }
-      ]
+      {
+        "type": "element",
+        "prefix": "app",
+        "style": "kebab-case"
+      }
     ]
   }
 }
@@ -633,16 +603,14 @@ class Test {}
   "rules": {
     "@angular-eslint/directive-selector": [
       "error",
-      [
-        {
-          "type": "attribute",
-          "prefix": [
-            "app",
-            "ng"
-          ],
-          "style": "kebab-case"
-        }
-      ]
+      {
+        "type": "attribute",
+        "prefix": [
+          "app",
+          "ng"
+        ],
+        "style": "kebab-case"
+      }
     ]
   }
 }
@@ -672,16 +640,14 @@ class Test {}
   "rules": {
     "@angular-eslint/directive-selector": [
       "error",
-      [
-        {
-          "type": "attribute",
-          "prefix": [
-            "app",
-            "baz"
-          ],
-          "style": "kebab-case"
-        }
-      ]
+      {
+        "type": "attribute",
+        "prefix": [
+          "app",
+          "baz"
+        ],
+        "style": "kebab-case"
+      }
     ]
   }
 }
@@ -711,16 +677,14 @@ class Test {}
   "rules": {
     "@angular-eslint/directive-selector": [
       "error",
-      [
-        {
-          "type": "element",
-          "prefix": [
-            "app",
-            "ng"
-          ],
-          "style": "kebab-case"
-        }
-      ]
+      {
+        "type": "element",
+        "prefix": [
+          "app",
+          "ng"
+        ],
+        "style": "kebab-case"
+      }
     ]
   }
 }
@@ -750,17 +714,15 @@ class Test {}
   "rules": {
     "@angular-eslint/directive-selector": [
       "error",
-      [
-        {
-          "type": [
-            "element"
-          ],
-          "prefix": [
-            "bar"
-          ],
-          "style": "kebab-case"
-        }
-      ]
+      {
+        "type": [
+          "element"
+        ],
+        "prefix": [
+          "bar"
+        ],
+        "style": "kebab-case"
+      }
     ]
   }
 }
@@ -790,17 +752,15 @@ class Test {}
   "rules": {
     "@angular-eslint/directive-selector": [
       "error",
-      [
-        {
-          "type": [
-            "attribute"
-          ],
-          "prefix": [
-            "app"
-          ],
-          "style": "kebab-case"
-        }
-      ]
+      {
+        "type": [
+          "attribute"
+        ],
+        "prefix": [
+          "app"
+        ],
+        "style": "kebab-case"
+      }
     ]
   }
 }
@@ -832,17 +792,15 @@ class Test {}
   "rules": {
     "@angular-eslint/directive-selector": [
       "error",
-      [
-        {
-          "type": [
-            "attribute"
-          ],
-          "prefix": [
-            "app"
-          ],
-          "style": "kebab-case"
-        }
-      ]
+      {
+        "type": [
+          "attribute"
+        ],
+        "prefix": [
+          "app"
+        ],
+        "style": "kebab-case"
+      }
     ]
   }
 }
@@ -875,17 +833,15 @@ class Test {}
   "rules": {
     "@angular-eslint/directive-selector": [
       "error",
-      [
-        {
-          "type": [
-            "attribute"
-          ],
-          "prefix": [
-            "app"
-          ],
-          "style": "kebab-case"
-        }
-      ]
+      {
+        "type": [
+          "attribute"
+        ],
+        "prefix": [
+          "app"
+        ],
+        "style": "kebab-case"
+      }
     ]
   }
 }

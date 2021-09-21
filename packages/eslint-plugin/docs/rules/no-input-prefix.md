@@ -56,13 +56,11 @@ interface Options {
   "rules": {
     "@angular-eslint/no-input-prefix": [
       "error",
-      [
-        {
-          "prefixes": [
-            "on"
-          ]
-        }
-      ]
+      {
+        "prefixes": [
+          "on"
+        ]
+      }
     ]
   }
 }
@@ -93,13 +91,11 @@ class Test {}
   "rules": {
     "@angular-eslint/no-input-prefix": [
       "error",
-      [
-        {
-          "prefixes": [
-            "on"
-          ]
-        }
-      ]
+      {
+        "prefixes": [
+          "on"
+        ]
+      }
     ]
   }
 }
@@ -131,13 +127,11 @@ class Test {}
   "rules": {
     "@angular-eslint/no-input-prefix": [
       "error",
-      [
-        {
-          "prefixes": [
-            "on"
-          ]
-        }
-      ]
+      {
+        "prefixes": [
+          "on"
+        ]
+      }
     ]
   }
 }
@@ -168,13 +162,11 @@ class Test {}
   "rules": {
     "@angular-eslint/no-input-prefix": [
       "error",
-      [
-        {
-          "prefixes": [
-            "on"
-          ]
-        }
-      ]
+      {
+        "prefixes": [
+          "on"
+        ]
+      }
     ]
   }
 }
@@ -205,13 +197,11 @@ class Test {}
   "rules": {
     "@angular-eslint/no-input-prefix": [
       "error",
-      [
-        {
-          "prefixes": [
-            "on"
-          ]
-        }
-      ]
+      {
+        "prefixes": [
+          "on"
+        ]
+      }
     ]
   }
 }
@@ -242,13 +232,11 @@ class Test {
   "rules": {
     "@angular-eslint/no-input-prefix": [
       "error",
-      [
-        {
-          "prefixes": [
-            "on"
-          ]
-        }
-      ]
+      {
+        "prefixes": [
+          "on"
+        ]
+      }
     ]
   }
 }
@@ -279,13 +267,11 @@ class Test {
   "rules": {
     "@angular-eslint/no-input-prefix": [
       "error",
-      [
-        {
-          "prefixes": [
-            "on"
-          ]
-        }
-      ]
+      {
+        "prefixes": [
+          "on"
+        ]
+      }
     ]
   }
 }
@@ -316,13 +302,11 @@ class Test {
   "rules": {
     "@angular-eslint/no-input-prefix": [
       "error",
-      [
-        {
-          "prefixes": [
-            "on"
-          ]
-        }
-      ]
+      {
+        "prefixes": [
+          "on"
+        ]
+      }
     ]
   }
 }
@@ -353,13 +337,11 @@ class Test {
   "rules": {
     "@angular-eslint/no-input-prefix": [
       "error",
-      [
-        {
-          "prefixes": [
-            "on"
-          ]
-        }
-      ]
+      {
+        "prefixes": [
+          "on"
+        ]
+      }
     ]
   }
 }
@@ -390,15 +372,13 @@ class Test {
   "rules": {
     "@angular-eslint/no-input-prefix": [
       "error",
-      [
-        {
-          "prefixes": [
-            "on",
-            "is",
-            "should"
-          ]
-        }
-      ]
+      {
+        "prefixes": [
+          "on",
+          "is",
+          "should"
+        ]
+      }
     ]
   }
 }
@@ -436,13 +416,11 @@ class Test {
   "rules": {
     "@angular-eslint/no-input-prefix": [
       "error",
-      [
-        {
-          "prefixes": [
-            "on"
-          ]
-        }
-      ]
+      {
+        "prefixes": [
+          "on"
+        ]
+      }
     ]
   }
 }
@@ -469,13 +447,11 @@ class Test {}
   "rules": {
     "@angular-eslint/no-input-prefix": [
       "error",
-      [
-        {
-          "prefixes": [
-            "on"
-          ]
-        }
-      ]
+      {
+        "prefixes": [
+          "on"
+        ]
+      }
     ]
   }
 }
@@ -505,13 +481,11 @@ class Test {}
   "rules": {
     "@angular-eslint/no-input-prefix": [
       "error",
-      [
-        {
-          "prefixes": [
-            "on"
-          ]
-        }
-      ]
+      {
+        "prefixes": [
+          "on"
+        ]
+      }
     ]
   }
 }
@@ -541,13 +515,11 @@ class Test {
   "rules": {
     "@angular-eslint/no-input-prefix": [
       "error",
-      [
-        {
-          "prefixes": [
-            "on"
-          ]
-        }
-      ]
+      {
+        "prefixes": [
+          "on"
+        ]
+      }
     ]
   }
 }
@@ -577,13 +549,11 @@ class Test {
   "rules": {
     "@angular-eslint/no-input-prefix": [
       "error",
-      [
-        {
-          "prefixes": [
-            "on"
-          ]
-        }
-      ]
+      {
+        "prefixes": [
+          "on"
+        ]
+      }
     ]
   }
 }
@@ -613,13 +583,11 @@ class Test {
   "rules": {
     "@angular-eslint/no-input-prefix": [
       "error",
-      [
-        {
-          "prefixes": [
-            "on"
-          ]
-        }
-      ]
+      {
+        "prefixes": [
+          "on"
+        ]
+      }
     ]
   }
 }
@@ -649,13 +617,11 @@ class Test {
   "rules": {
     "@angular-eslint/no-input-prefix": [
       "error",
-      [
-        {
-          "prefixes": [
-            "on"
-          ]
-        }
-      ]
+      {
+        "prefixes": [
+          "on"
+        ]
+      }
     ]
   }
 }
@@ -685,13 +651,11 @@ class Test {
   "rules": {
     "@angular-eslint/no-input-prefix": [
       "error",
-      [
-        {
-          "prefixes": [
-            "on"
-          ]
-        }
-      ]
+      {
+        "prefixes": [
+          "on"
+        ]
+      }
     ]
   }
 }
@@ -721,13 +685,11 @@ class Test<On> {
   "rules": {
     "@angular-eslint/no-input-prefix": [
       "error",
-      [
-        {
-          "prefixes": [
-            "on"
-          ]
-        }
-      ]
+      {
+        "prefixes": [
+          "on"
+        ]
+      }
     ]
   }
 }
@@ -758,13 +720,11 @@ class Test {
   "rules": {
     "@angular-eslint/no-input-prefix": [
       "error",
-      [
-        {
-          "prefixes": [
-            "on"
-          ]
-        }
-      ]
+      {
+        "prefixes": [
+          "on"
+        ]
+      }
     ]
   }
 }

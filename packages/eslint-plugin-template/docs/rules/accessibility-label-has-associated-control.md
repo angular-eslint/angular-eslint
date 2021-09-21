@@ -90,18 +90,16 @@ interface Options {
   "rules": {
     "@angular-eslint/template/accessibility-label-has-associated-control": [
       "error",
-      [
-        {
-          "labelComponents": [
-            {
-              "inputs": [
-                "id"
-              ],
-              "selector": "app-label"
-            }
-          ]
-        }
-      ]
+      {
+        "labelComponents": [
+          {
+            "inputs": [
+              "id"
+            ],
+            "selector": "app-label"
+          }
+        ]
+      }
     ]
   }
 }
@@ -169,21 +167,19 @@ interface Options {
   "rules": {
     "@angular-eslint/template/accessibility-label-has-associated-control": [
       "error",
-      [
-        {
-          "controlComponents": [
-            "app-input"
-          ],
-          "labelComponents": [
-            {
-              "inputs": [
-                "id"
-              ],
-              "selector": "app-label"
-            }
-          ]
-        }
-      ]
+      {
+        "controlComponents": [
+          "app-input"
+        ],
+        "labelComponents": [
+          {
+            "inputs": [
+              "id"
+            ],
+            "selector": "app-label"
+          }
+        ]
+      }
     ]
   }
 }
@@ -213,21 +209,19 @@ interface Options {
   "rules": {
     "@angular-eslint/template/accessibility-label-has-associated-control": [
       "error",
-      [
-        {
-          "controlComponents": [
-            "app-input"
-          ],
-          "labelComponents": [
-            {
-              "inputs": [
-                "id"
-              ],
-              "selector": "app-label"
-            }
-          ]
-        }
-      ]
+      {
+        "controlComponents": [
+          "app-input"
+        ],
+        "labelComponents": [
+          {
+            "inputs": [
+              "id"
+            ],
+            "selector": "app-label"
+          }
+        ]
+      }
     ]
   }
 }

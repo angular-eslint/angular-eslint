@@ -421,7 +421,7 @@ function convertCodeExamplesToMarkdown(
       const exampleRuleConfig: unknown[] = ['error'];
       // Not all unit tests have options configured
       if (options) {
-        exampleRuleConfig.push(options);
+        exampleRuleConfig.push(options[0]);
       }
       const formattedConfig = JSON.stringify(
         {

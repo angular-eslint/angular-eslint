@@ -56,13 +56,11 @@ interface Options {
   "rules": {
     "@angular-eslint/pipe-prefix": [
       "error",
-      [
-        {
-          "prefixes": [
-            "ng"
-          ]
-        }
-      ]
+      {
+        "prefixes": [
+          "ng"
+        ]
+      }
     ]
   }
 }
@@ -93,15 +91,13 @@ class Test {}
   "rules": {
     "@angular-eslint/pipe-prefix": [
       "error",
-      [
-        {
-          "prefixes": [
-            "ng",
-            "mg",
-            "sg"
-          ]
-        }
-      ]
+      {
+        "prefixes": [
+          "ng",
+          "mg",
+          "sg"
+        ]
+      }
     ]
   }
 }
@@ -139,13 +135,11 @@ class Test {}
   "rules": {
     "@angular-eslint/pipe-prefix": [
       "error",
-      [
-        {
-          "prefixes": [
-            "ng"
-          ]
-        }
-      ]
+      {
+        "prefixes": [
+          "ng"
+        ]
+      }
     ]
   }
 }
@@ -173,13 +167,11 @@ class Test {}
   "rules": {
     "@angular-eslint/pipe-prefix": [
       "error",
-      [
-        {
-          "prefixes": [
-            "ng"
-          ]
-        }
-      ]
+      {
+        "prefixes": [
+          "ng"
+        ]
+      }
     ]
   }
 }
@@ -207,13 +199,11 @@ class Test {}
   "rules": {
     "@angular-eslint/pipe-prefix": [
       "error",
-      [
-        {
-          "prefixes": [
-            "ng"
-          ]
-        }
-      ]
+      {
+        "prefixes": [
+          "ng"
+        ]
+      }
     ]
   }
 }
@@ -248,11 +238,9 @@ export function mockPipe(name: string): any {
   "rules": {
     "@angular-eslint/pipe-prefix": [
       "error",
-      [
-        {
-          "prefixes": []
-        }
-      ]
+      {
+        "prefixes": []
+      }
     ]
   }
 }
@@ -282,13 +270,11 @@ class Test {}
   "rules": {
     "@angular-eslint/pipe-prefix": [
       "error",
-      [
-        {
-          "prefixes": [
-            "ng"
-          ]
-        }
-      ]
+      {
+        "prefixes": [
+          "ng"
+        ]
+      }
     ]
   }
 }
@@ -318,15 +304,13 @@ class Test {}
   "rules": {
     "@angular-eslint/pipe-prefix": [
       "error",
-      [
-        {
-          "prefixes": [
-            "ng",
-            "sg",
-            "mg"
-          ]
-        }
-      ]
+      {
+        "prefixes": [
+          "ng",
+          "sg",
+          "mg"
+        ]
+      }
     ]
   }
 }
@@ -356,15 +340,13 @@ class Test {}
   "rules": {
     "@angular-eslint/pipe-prefix": [
       "error",
-      [
-        {
-          "prefixes": [
-            "ng",
-            "sg",
-            "mg"
-          ]
-        }
-      ]
+      {
+        "prefixes": [
+          "ng",
+          "sg",
+          "mg"
+        ]
+      }
     ]
   }
 }
@@ -394,13 +376,11 @@ class Test {}
   "rules": {
     "@angular-eslint/pipe-prefix": [
       "error",
-      [
-        {
-          "prefixes": [
-            "ng"
-          ]
-        }
-      ]
+      {
+        "prefixes": [
+          "ng"
+        ]
+      }
     ]
   }
 }
@@ -427,13 +407,11 @@ class Test {}
   "rules": {
     "@angular-eslint/pipe-prefix": [
       "error",
-      [
-        {
-          "prefixes": [
-            "ng"
-          ]
-        }
-      ]
+      {
+        "prefixes": [
+          "ng"
+        ]
+      }
     ]
   }
 }
