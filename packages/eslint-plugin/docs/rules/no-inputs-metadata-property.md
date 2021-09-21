@@ -11,6 +11,8 @@
 
 -->
 
+<br>
+
 # `@angular-eslint/no-inputs-metadata-property`
 
 Disallows usage of the `inputs` metadata property. See more at https://angular.io/styleguide#style-05-12
@@ -32,7 +34,26 @@ The rule does not have any configuration options.
 
 <br>
 
-❌ - Examples of **incorrect** code for this rule:
+<details>
+<summary>❌ - Toggle examples of <strong>incorrect</strong> code for this rule</summary>
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-inputs-metadata-property": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 @Component({
@@ -46,6 +67,28 @@ The rule does not have any configuration options.
 class Test {}
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-inputs-metadata-property": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
 ```ts
 @Directive({
   inputs: [
@@ -57,6 +100,28 @@ class Test {}
 })
 class Test {}
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-inputs-metadata-property": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 @Component({
@@ -66,6 +131,28 @@ class Test {}
 class Test {}
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-inputs-metadata-property": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
 ```ts
 @Directive({
   inputs: [],
@@ -73,6 +160,28 @@ class Test {}
 })
 class Test {}
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-inputs-metadata-property": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 const test = [];
@@ -83,6 +192,28 @@ const test = [];
 class Test {}
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-inputs-metadata-property": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
 ```ts
 @Directive({
   ['inputs']: undefined,
@@ -90,6 +221,28 @@ class Test {}
 })
 class Test {}
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-inputs-metadata-property": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 function inputs() {
@@ -103,33 +256,142 @@ function inputs() {
 class Test {}
 ```
 
+</details>
+
 <br>
 
 ---
 
 <br>
 
-✅ - Examples of **correct** code for this rule:
+<details>
+<summary>✅ - Toggle examples of <strong>correct</strong> code for this rule</summary>
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-inputs-metadata-property": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```ts
 class Test {}
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-inputs-metadata-property": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```ts
 @Component()
 class Test {}
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-inputs-metadata-property": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```ts
 @Directive({})
 class Test {}
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-inputs-metadata-property": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```ts
 const options = {};
 @Component(options)
 class Test {}
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-inputs-metadata-property": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```ts
 @Directive({
@@ -139,6 +401,28 @@ class Test {}
 class Test {}
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-inputs-metadata-property": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```ts
 @Component({
   selector: 'app-test',
@@ -146,6 +430,28 @@ class Test {}
 })
 class Test {}
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-inputs-metadata-property": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```ts
 const inputs = 'providers';
@@ -155,9 +461,35 @@ const inputs = 'providers';
 class Test {}
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-inputs-metadata-property": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```ts
 @NgModule({
   bootstrap: [Foo]
 })
 class Test {}
 ```
+
+</details>
+
+<br>

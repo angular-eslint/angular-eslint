@@ -11,6 +11,8 @@
 
 -->
 
+<br>
+
 # `@angular-eslint/contextual-lifecycle`
 
 Ensures that lifecycle methods are used in a correct context
@@ -32,7 +34,26 @@ The rule does not have any configuration options.
 
 <br>
 
-❌ - Examples of **incorrect** code for this rule:
+<details>
+<summary>❌ - Toggle examples of <strong>incorrect</strong> code for this rule</summary>
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 @Component()
@@ -42,6 +63,28 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
 ```ts
 @Directive()
 class Test {
@@ -49,6 +92,28 @@ class Test {
   ~~~~~~~~~~~~~
 }
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 @Injectable()
@@ -58,6 +123,28 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
 ```ts
 @Injectable()
 class Test {
@@ -66,6 +153,28 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
 ```ts
 @Injectable()
 class Test {
@@ -73,6 +182,28 @@ class Test {
   ~~~~~~~~~~~~~~~
 }
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 @Injectable()
@@ -82,6 +213,28 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
 ```ts
 @Injectable()
 class Test {
@@ -89,6 +242,28 @@ class Test {
   ~~~~~~~~~
 }
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 @Injectable()
@@ -98,6 +273,28 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
 ```ts
 @Injectable()
 class Test {
@@ -105,6 +302,28 @@ class Test {
   ~~~~~~~~
 }
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 @NgModule()
@@ -114,6 +333,28 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
 ```ts
 @NgModule()
 class Test {
@@ -121,6 +362,28 @@ class Test {
   ~~~~~~~~~~~~~~~~~~
 }
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 @NgModule()
@@ -130,6 +393,28 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
 ```ts
 @NgModule()
 class Test {
@@ -137,6 +422,28 @@ class Test {
   ~~~~~~~~~~~~~~~
 }
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 @NgModule()
@@ -146,6 +453,28 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
 ```ts
 @NgModule()
 class Test {
@@ -154,6 +483,28 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
 ```ts
 @NgModule()
 class Test {
@@ -161,6 +512,28 @@ class Test {
   ~~~~~~~~
 }
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 @NgModule()
@@ -170,6 +543,28 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
 ```ts
 @Pipe()
 class Test {
@@ -177,6 +572,28 @@ class Test {
   ~~~~~~~~~~~~~~~~~~~~~
 }
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 @Pipe()
@@ -186,6 +603,28 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
 ```ts
 @Pipe()
 class Test {
@@ -193,6 +632,28 @@ class Test {
   ~~~~~~~~~~~~~~~~~~
 }
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 @Pipe()
@@ -202,6 +663,28 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
 ```ts
 @Pipe()
 class Test {
@@ -209,6 +692,28 @@ class Test {
   ~~~~~~~~~~~~~
 }
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 @Pipe()
@@ -218,6 +723,28 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
 ```ts
 @Pipe()
 class Test {
@@ -226,6 +753,28 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
 ```ts
 @Pipe()
 class Test {
@@ -233,6 +782,28 @@ class Test {
   ~~~~~~~~
 }
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 @Pipe()
@@ -251,13 +822,34 @@ class TestDirective implements OnInit {
 }
 ```
 
+</details>
+
 <br>
 
 ---
 
 <br>
 
-✅ - Examples of **correct** code for this rule:
+<details>
+<summary>✅ - Toggle examples of <strong>correct</strong> code for this rule</summary>
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```ts
 @Injectable()
@@ -266,12 +858,56 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```ts
 @Component()
 class Test {
   ngAfterContentChecked() { console.log('AfterContentChecked'); }
 }
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```ts
 @Component()
@@ -280,12 +916,56 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```ts
 @Component()
 class Test {
   ngAfterViewChecked() { console.log('AfterViewChecked'); }
 }
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```ts
 @Component()
@@ -294,12 +974,56 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```ts
 @Component()
 class Test {
   ngDoCheck() { console.log('DoCheck'); }
 }
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```ts
 @Component()
@@ -308,6 +1032,28 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```ts
 @Component()
 class Test {
@@ -315,12 +1061,56 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```ts
 @Component()
 class Test {
   ngOnInit() { console.log('OnInit'); }
 }
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```ts
 @Directive()
@@ -329,12 +1119,56 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```ts
 @Directive()
 class Test {
   ngAfterContentInit() { console.log('AfterContentInit'); }
 }
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```ts
 @Directive()
@@ -343,12 +1177,56 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```ts
 @Directive()
 class Test {
   ngAfterViewInit() { console.log('AfterViewInit'); }
 }
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```ts
 @Directive()
@@ -357,12 +1235,56 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```ts
 @Directive()
 class Test {
   ngOnChanges() { console.log('OnChanges'); }
 }
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```ts
 @Directive()
@@ -371,12 +1293,56 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```ts
 @Directive()
 class Test {
   ngOnInit() { console.log('OnInit'); }
 }
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```ts
 @Injectable()
@@ -384,6 +1350,28 @@ class Test {
   ngOnDestroy() { console.log('OnDestroy'); }
 }
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```ts
 @NgModule()
@@ -392,9 +1380,35 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```ts
 @Pipe()
 class Test {
   ngOnDestroy() { console.log('OnDestroy'); }
 }
 ```
+
+</details>
+
+<br>

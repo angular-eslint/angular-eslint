@@ -11,6 +11,8 @@
 
 -->
 
+<br>
+
 # `@angular-eslint/use-component-view-encapsulation`
 
 Disallows using `ViewEncapsulation.None`
@@ -32,7 +34,26 @@ The rule does not have any configuration options.
 
 <br>
 
-❌ - Examples of **incorrect** code for this rule:
+<details>
+<summary>❌ - Toggle examples of <strong>incorrect</strong> code for this rule</summary>
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/use-component-view-encapsulation": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 @Component({
@@ -42,6 +63,28 @@ The rule does not have any configuration options.
 })
 class Test {}
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/use-component-view-encapsulation": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 import type { ViewEncapsulation } from '@angular/core';
@@ -55,6 +98,28 @@ import { HttpClient } from '@angular/common/http';
 class Test {}
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/use-component-view-encapsulation": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
 ```ts
 import { ViewEncapsulation } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -66,6 +131,28 @@ import { HttpClient } from '@angular/common/http';
 })
 class Test {}
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/use-component-view-encapsulation": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 import { ViewEncapsulation } from '@angular/core';
@@ -79,13 +166,34 @@ import { HttpClient } from '@angular/common/http';
 class Test {}
 ```
 
+</details>
+
 <br>
 
 ---
 
 <br>
 
-✅ - Examples of **correct** code for this rule:
+<details>
+<summary>✅ - Toggle examples of <strong>correct</strong> code for this rule</summary>
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/use-component-view-encapsulation": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```ts
 @Component({
@@ -95,6 +203,28 @@ class Test {}
 class Test {}
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/use-component-view-encapsulation": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```ts
 @Component({
   'encapsulation': ViewEncapsulation.Native,
@@ -103,12 +233,56 @@ class Test {}
 class Test {}
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/use-component-view-encapsulation": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```ts
 @Component({
   ['encapsulation']: ViewEncapsulation.ShadowDom,
 })
 class Test {}
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/use-component-view-encapsulation": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```ts
 function encapsulation() {
@@ -121,6 +295,28 @@ function encapsulation() {
 class Test {}
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/use-component-view-encapsulation": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```ts
 const encapsulation = 'templateUrl';
 @Component({
@@ -128,6 +324,28 @@ const encapsulation = 'templateUrl';
 })
 class Test {}
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/use-component-view-encapsulation": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```ts
 const encapsulation = 'templateUrl';
@@ -137,6 +355,28 @@ const encapsulation = 'templateUrl';
 class Test {}
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/use-component-view-encapsulation": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```ts
 const test = 'test';
 @Component({
@@ -145,6 +385,28 @@ const test = 'test';
 class Test {}
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/use-component-view-encapsulation": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```ts
 @Component({
   encapsulation: undefined,
@@ -152,10 +414,54 @@ class Test {}
 class Test {}
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/use-component-view-encapsulation": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```ts
 @Component({})
 class Test {}
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/use-component-view-encapsulation": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```ts
 const options = {};
@@ -163,9 +469,35 @@ const options = {};
 class Test {}
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/use-component-view-encapsulation": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```ts
 @NgModule({
   bootstrap: [Foo]
 })
 class Test {}
 ```
+
+</details>
+
+<br>

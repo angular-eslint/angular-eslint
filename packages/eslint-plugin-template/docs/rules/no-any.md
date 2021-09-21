@@ -11,6 +11,8 @@
 
 -->
 
+<br>
+
 # `@angular-eslint/template/no-any`
 
 The use of "$any" nullifies the compile-time benefits of Angular's type system
@@ -34,22 +36,107 @@ The rule does not have any configuration options.
 
 <br>
 
-❌ - Examples of **incorrect** code for this rule:
+<details>
+<summary>❌ - Toggle examples of <strong>incorrect</strong> code for this rule</summary>
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-any": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```html
 {{ $any(framework).name }}
    ~~~~~~~~~~~~~~~
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-any": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
 ```html
 {{ this.$any(framework).name }}
    ~~~~~~~~~~~~~~~~~~~~
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-any": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
 ```html
 <a [href]="$any(getHref())">Click here</a>
            ~~~~~~~~~~~~~~~
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-any": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```html
 {{ $any(framework).name }}
@@ -62,33 +149,164 @@ The rule does not have any configuration options.
            ~~~~~~~~~~~~~~~
 ```
 
+</details>
+
 <br>
 
 ---
 
 <br>
 
-✅ - Examples of **correct** code for this rule:
+<details>
+<summary>✅ - Toggle examples of <strong>correct</strong> code for this rule</summary>
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-any": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```html
 {{ $any }}
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-any": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```html
 {{ obj.$any() }}
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-any": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```html
 {{ obj?.x?.y!.z!.$any() }}
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-any": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```html
 <a [href]="$test()">Click here</a>
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-any": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```html
 <button type="button" (click)="anyClick()">Click here</button>
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-any": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```html
 {{ $any }}
@@ -96,3 +314,7 @@ The rule does not have any configuration options.
 <a [href]="$test()">Click here</a>
 <button type="button" (click)="anyClick()">Click here</button>
 ```
+
+</details>
+
+<br>

@@ -11,6 +11,8 @@
 
 -->
 
+<br>
+
 # `@angular-eslint/use-pipe-transform-interface`
 
 Ensures that `Pipes` implement `PipeTransform` interface
@@ -33,7 +35,26 @@ The rule does not have any configuration options.
 
 <br>
 
-❌ - Examples of **incorrect** code for this rule:
+<details>
+<summary>❌ - Toggle examples of <strong>incorrect</strong> code for this rule</summary>
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/use-pipe-transform-interface": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 @Pipe({ name: 'test' })
@@ -42,6 +63,28 @@ class Test {
   transform(value: string) {}
 }
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/use-pipe-transform-interface": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 import { HttpClient } from '@angular/common/http';
@@ -57,6 +100,28 @@ class Test implements AnInterface {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/use-pipe-transform-interface": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
 ```ts
 import type { OnInit } from '@angular/core';
 
@@ -67,18 +132,61 @@ class Test implements AnInterface, AnotherInterface {
 }
 ```
 
+</details>
+
 <br>
 
 ---
 
 <br>
 
-✅ - Examples of **correct** code for this rule:
+<details>
+<summary>✅ - Toggle examples of <strong>correct</strong> code for this rule</summary>
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/use-pipe-transform-interface": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```ts
 @Component({ template: 'test' })
 class Test {}
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/use-pipe-transform-interface": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```ts
 @Pipe({ name: 'test' })
@@ -86,6 +194,28 @@ class Test implements PipeTransform {
   transform(value: string) {}
 }
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/use-pipe-transform-interface": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```ts
 @OtherDecorator() @Pipe({ name: 'test' })
@@ -94,9 +224,35 @@ class Test implements PipeTransform {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/use-pipe-transform-interface": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```ts
 @Pipe({ name: 'test' })
 class Test implements ng.PipeTransform {
   transform(value: string) {}
 }
 ```
+
+</details>
+
+<br>

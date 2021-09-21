@@ -11,6 +11,8 @@
 
 -->
 
+<br>
+
 # `@angular-eslint/no-queries-metadata-property`
 
 Disallows usage of the `queries` metadata property. See more at https://angular.io/styleguide#style-05-12.
@@ -32,7 +34,26 @@ The rule does not have any configuration options.
 
 <br>
 
-❌ - Examples of **incorrect** code for this rule:
+<details>
+<summary>❌ - Toggle examples of <strong>incorrect</strong> code for this rule</summary>
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-queries-metadata-property": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 @Component({
@@ -49,6 +70,28 @@ The rule does not have any configuration options.
 class TestComponent {}
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-queries-metadata-property": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
 ```ts
 @Directive({
   queries: {
@@ -64,13 +107,34 @@ class TestComponent {}
 class TestDirective {}
 ```
 
+</details>
+
 <br>
 
 ---
 
 <br>
 
-✅ - Examples of **correct** code for this rule:
+<details>
+<summary>✅ - Toggle examples of <strong>correct</strong> code for this rule</summary>
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-queries-metadata-property": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```ts
 @Component({
@@ -80,9 +144,35 @@ class TestDirective {}
 class TestComponent {}
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-queries-metadata-property": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```ts
 @Directive({
   selector: 'app-test'
 })
 class TestDirective {}
 ```
+
+</details>
+
+<br>

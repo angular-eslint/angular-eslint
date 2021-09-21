@@ -11,6 +11,8 @@
 
 -->
 
+<br>
+
 # `@angular-eslint/no-input-prefix`
 
 Ensures that input bindings, including aliases, are not named or prefixed by the configured disallowed prefixes
@@ -42,7 +44,33 @@ interface Options {
 
 <br>
 
-❌ - Examples of **incorrect** code for this rule:
+<details>
+<summary>❌ - Toggle examples of <strong>incorrect</strong> code for this rule</summary>
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-prefix": [
+      "error",
+      [
+        {
+          "prefixes": [
+            "on"
+          ]
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 @Component({
@@ -51,6 +79,35 @@ interface Options {
 })
 class Test {}
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-prefix": [
+      "error",
+      [
+        {
+          "prefixes": [
+            "on"
+          ]
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 @Directive({
@@ -61,6 +118,35 @@ class Test {}
 class Test {}
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-prefix": [
+      "error",
+      [
+        {
+          "prefixes": [
+            "on"
+          ]
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
 ```ts
 @Component({
   ['inputs']: ['onTest: test', ...onArray],
@@ -68,6 +154,35 @@ class Test {}
 })
 class Test {}
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-prefix": [
+      "error",
+      [
+        {
+          "prefixes": [
+            "on"
+          ]
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 @Directive({
@@ -77,51 +192,40 @@ class Test {}
 class Test {}
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-prefix": [
+      "error",
+      [
+        {
+          "prefixes": [
+            "on"
+          ]
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
 ```ts
 @Component()
 class Test {
   @Input() on: EventEmitter<any> = new EventEmitter<{}>();
            ~~
-}
-```
-
-```ts
-@Directive()
-class Test {
-  @Input() @Custom('on') 'onPrefix' = new EventEmitter<void>();
-                         ~~~~~~~~~~
-}
-```
-
-```ts
-@Component()
-class Test {
-  @Custom() @Input(`on`) _on = getInput();
-                   ~~~~
-}
-```
-
-```ts
-@Directive()
-class Test {
-  @Input('onPrefix') _on = (this.subject$ as Subject<{on: boolean}>).pipe();
-         ~~~~~~~~~~
-}
-```
-
-```ts
-@Component()
-class Test {
-  @Input('setter') set 'on-setter'() {}
-                       ~~~~~~~~~~~
-}
-```
-
-```ts
-@Injectable()
-class Test {
-  @Input('on') isPrefix = this.getInput();
-         ~~~~  ~~~~~~~~
 }
 ```
 
@@ -131,7 +235,575 @@ class Test {
 
 <br>
 
-✅ - Examples of **correct** code for this rule:
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-prefix": [
+      "error",
+      [
+        {
+          "prefixes": [
+            "on"
+          ]
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Directive()
+class Test {
+  @Input() @Custom('on') 'onPrefix' = new EventEmitter<void>();
+                         ~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-prefix": [
+      "error",
+      [
+        {
+          "prefixes": [
+            "on"
+          ]
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component()
+class Test {
+  @Custom() @Input(`on`) _on = getInput();
+                   ~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-prefix": [
+      "error",
+      [
+        {
+          "prefixes": [
+            "on"
+          ]
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Directive()
+class Test {
+  @Input('onPrefix') _on = (this.subject$ as Subject<{on: boolean}>).pipe();
+         ~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-prefix": [
+      "error",
+      [
+        {
+          "prefixes": [
+            "on"
+          ]
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component()
+class Test {
+  @Input('setter') set 'on-setter'() {}
+                       ~~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-prefix": [
+      "error",
+      [
+        {
+          "prefixes": [
+            "on",
+            "is",
+            "should"
+          ]
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Injectable()
+class Test {
+  @Input('on') isPrefix = this.getInput();
+         ~~~~  ~~~~~~~~
+}
+```
+
+</details>
+
+<br>
+
+---
+
+<br>
+
+<details>
+<summary>✅ - Toggle examples of <strong>correct</strong> code for this rule</summary>
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-prefix": [
+      "error",
+      [
+        {
+          "prefixes": [
+            "on"
+          ]
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-prefix": [
+      "error",
+      [
+        {
+          "prefixes": [
+            "on"
+          ]
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Page({
+  inputs: ['on', onChange, \`onLine\`, 'on: on2', 'offline: on', ...onCheck, onInput()],
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-prefix": [
+      "error",
+      [
+        {
+          "prefixes": [
+            "on"
+          ]
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component()
+class Test {
+  on = new EventEmitter();
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-prefix": [
+      "error",
+      [
+        {
+          "prefixes": [
+            "on"
+          ]
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive()
+class Test {
+  @Input() buttonChange = new EventEmitter<'on'>();
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-prefix": [
+      "error",
+      [
+        {
+          "prefixes": [
+            "on"
+          ]
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component()
+class Test {
+  @Input() On = new EventEmitter<{ on: onType }>();
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-prefix": [
+      "error",
+      [
+        {
+          "prefixes": [
+            "on"
+          ]
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive()
+class Test {
+  @Input(\`one\`) ontype = new EventEmitter<{ bar: string, on: boolean }>();
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-prefix": [
+      "error",
+      [
+        {
+          "prefixes": [
+            "on"
+          ]
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component()
+class Test {
+  @Input('oneProp') common = new EventEmitter<ComplextOn>();
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-prefix": [
+      "error",
+      [
+        {
+          "prefixes": [
+            "on"
+          ]
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive()
+class Test<On> {
+  @Input() ON = new EventEmitter<On>();
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-prefix": [
+      "error",
+      [
+        {
+          "prefixes": [
+            "on"
+          ]
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+const on = 'on';
+@Component()
+class Test {
+  @Input(on) touchMove: EventEmitter<{ action: 'on' | 'off' }> = new EventEmitter<{ action: 'on' | 'off' }>();
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-prefix": [
+      "error",
+      [
+        {
+          "prefixes": [
+            "on"
+          ]
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+const test = 'on';
+const on = 'on';
+@Directive()
+class Test {
+  @Input(test) [on]: EventEmitter<OnTest>;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-prefix": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```ts
 @Directive({
@@ -141,3 +813,7 @@ class Test {
   @Input() set 'setter'() {}
 }
 ```
+
+</details>
+
+<br>

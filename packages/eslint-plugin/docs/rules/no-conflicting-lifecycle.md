@@ -11,6 +11,8 @@
 
 -->
 
+<br>
+
 # `@angular-eslint/no-conflicting-lifecycle`
 
 Ensures that directives not implement conflicting lifecycle interfaces.
@@ -32,7 +34,26 @@ The rule does not have any configuration options.
 
 <br>
 
-❌ - Examples of **incorrect** code for this rule:
+<details>
+<summary>❌ - Toggle examples of <strong>incorrect</strong> code for this rule</summary>
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-conflicting-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 class Test implements DoCheck, OnChanges, run {
@@ -42,18 +63,31 @@ class Test implements DoCheck, OnChanges, run {
 }
 ```
 
-```ts
-class Test implements DoCheck, OnChanges {
-                      ~~~~~~~  ~~~~~~~~~
-  ngDoCheck() {}
-  ~~~~~~~~~~~~~~
-  ngOnChanges() {}
-  ~~~~~~~~~~~~~~~~
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-conflicting-lifecycle": [
+      "error"
+    ]
+  }
 }
 ```
 
+<br>
+
+#### ❌ Invalid Code
+
 ```ts
-class Test {
+class Test implements DoCheck, OnChanges {
+                      ~~~~~~~  ~~~~~~~~~
   ngDoCheck() {}
   ~~~~~~~~~~~~~~
   ngOnChanges() {}
@@ -67,17 +101,113 @@ class Test {
 
 <br>
 
-✅ - Examples of **correct** code for this rule:
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-conflicting-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+class Test {
+  ngDoCheck() {}
+  ~~~~~~~~~~~~~~
+  ngOnChanges() {}
+  ~~~~~~~~~~~~~~~~
+}
+```
+
+</details>
+
+<br>
+
+---
+
+<br>
+
+<details>
+<summary>✅ - Toggle examples of <strong>correct</strong> code for this rule</summary>
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-conflicting-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```ts
 class Test implements DoCheck {}
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-conflicting-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```ts
 class Test {
   ngDoCheck() {}
 }
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-conflicting-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```ts
 class Test implements DoCheck {
@@ -85,9 +215,53 @@ class Test implements DoCheck {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-conflicting-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```ts
 class Test implements OnChanges {}
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-conflicting-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```ts
 class Test {
@@ -95,8 +269,34 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-conflicting-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```ts
 class Test implements OnChanges {
   ngOnChanges() {}
 }
 ```
+
+</details>
+
+<br>

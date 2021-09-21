@@ -11,6 +11,8 @@
 
 -->
 
+<br>
+
 # `@angular-eslint/template/no-distracting-elements`
 
 Enforces that no distracting elements are used
@@ -33,16 +35,30 @@ The rule does not have any configuration options.
 
 <br>
 
-❌ - Examples of **incorrect** code for this rule:
+<details>
+<summary>❌ - Toggle examples of <strong>incorrect</strong> code for this rule</summary>
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-distracting-elements": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```html
 <marquee></marquee>{{ test }}
 ~~~~~~~~~~~~~~~~~~~
-```
-
-```html
-<div></div><blink></blink>
-           ~~~~~~~~~~~~~~~
 ```
 
 <br>
@@ -51,8 +67,60 @@ The rule does not have any configuration options.
 
 <br>
 
-✅ - Examples of **correct** code for this rule:
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-distracting-elements": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div></div><blink></blink>
+           ~~~~~~~~~~~~~~~
+```
+
+</details>
+
+<br>
+
+---
+
+<br>
+
+<details>
+<summary>✅ - Toggle examples of <strong>correct</strong> code for this rule</summary>
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-distracting-elements": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```html
 <div>Valid</div>
 ```
+
+</details>
+
+<br>

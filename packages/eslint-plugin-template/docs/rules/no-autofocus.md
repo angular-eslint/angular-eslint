@@ -11,6 +11,8 @@
 
 -->
 
+<br>
+
 # `@angular-eslint/template/no-autofocus`
 
 Ensures that the `autofocus` attribute is not used
@@ -33,21 +35,29 @@ The rule does not have any configuration options.
 
 <br>
 
-❌ - Examples of **incorrect** code for this rule:
+<details>
+<summary>❌ - Toggle examples of <strong>incorrect</strong> code for this rule</summary>
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-autofocus": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```html
 <button autofocus>Click me!</button>
-        ~~~~~~~~~
-```
-
-```html
-<input [attr.autofocus]="false">
-       ~~~~~~~~~~~~~~~~~~~~~~~~
-```
-
-```html
-<app-test [autofocus]="true"></app-test>
-<select autofocus></select>
         ~~~~~~~~~
 ```
 
@@ -57,28 +67,218 @@ The rule does not have any configuration options.
 
 <br>
 
-✅ - Examples of **correct** code for this rule:
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-autofocus": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<input [attr.autofocus]="false">
+       ~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-autofocus": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<app-test [autofocus]="true"></app-test>
+<select autofocus></select>
+        ~~~~~~~~~
+```
+
+</details>
+
+<br>
+
+---
+
+<br>
+
+<details>
+<summary>✅ - Toggle examples of <strong>correct</strong> code for this rule</summary>
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-autofocus": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```html
 <input type="text">
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-autofocus": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```html
 <textarea autoFocus></textarea>
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-autofocus": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```html
 <div [autoFocus]="true"></div>
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-autofocus": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```html
 <button [appautofocus]="false">Click me!</button>
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-autofocus": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```html
 <app-drag-drop autofocus></app-drag-drop>
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-autofocus": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```html
 <app-textarea [autofocus]="false"></app-textarea>
 ```
+
+</details>
+
+<br>

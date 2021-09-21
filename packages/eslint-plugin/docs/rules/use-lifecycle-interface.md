@@ -11,6 +11,8 @@
 
 -->
 
+<br>
+
 # `@angular-eslint/use-lifecycle-interface`
 
 Ensures that classes implement lifecycle interfaces corresponding to the declared lifecycle methods. See more at https://angular.io/styleguide#style-09-01
@@ -32,7 +34,26 @@ The rule does not have any configuration options.
 
 <br>
 
-❌ - Examples of **incorrect** code for this rule:
+<details>
+<summary>❌ - Toggle examples of <strong>incorrect</strong> code for this rule</summary>
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/use-lifecycle-interface": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 @Component()
@@ -42,6 +63,28 @@ class Test {
   }
 }
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/use-lifecycle-interface": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 @Directive()
@@ -53,6 +96,28 @@ class Test extends Component implements OnInit {
   }
 }
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/use-lifecycle-interface": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```ts
 @Injectable()
@@ -68,6 +133,28 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/use-lifecycle-interface": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
 ```ts
 @NgModule()
 class Test extends Component implements ng.OnInit {
@@ -79,13 +166,34 @@ class Test extends Component implements ng.OnInit {
 }
 ```
 
+</details>
+
 <br>
 
 ---
 
 <br>
 
-✅ - Examples of **correct** code for this rule:
+<details>
+<summary>✅ - Toggle examples of <strong>correct</strong> code for this rule</summary>
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/use-lifecycle-interface": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```ts
 class Test implements OnInit {
@@ -93,11 +201,55 @@ class Test implements OnInit {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/use-lifecycle-interface": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```ts
 class Test implements DoBootstrap {
       ngDoBootstrap() {}
     }
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/use-lifecycle-interface": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```ts
 class Test extends Component implements OnInit, OnDestroy  {
@@ -111,6 +263,28 @@ class Test extends Component implements OnInit, OnDestroy  {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/use-lifecycle-interface": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```ts
 class Test extends Component implements ng.OnInit, ng.OnDestroy  {
   ngOnInit() {}
@@ -123,6 +297,32 @@ class Test extends Component implements ng.OnInit, ng.OnDestroy  {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/use-lifecycle-interface": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```ts
 class Test {}
 ```
+
+</details>
+
+<br>

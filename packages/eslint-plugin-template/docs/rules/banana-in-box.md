@@ -11,6 +11,8 @@
 
 -->
 
+<br>
+
 # `@angular-eslint/template/banana-in-box`
 
 Ensures that the two-way data binding syntax is correct
@@ -33,18 +35,30 @@ The rule does not have any configuration options.
 
 <br>
 
-❌ - Examples of **incorrect** code for this rule:
+<details>
+<summary>❌ - Toggle examples of <strong>incorrect</strong> code for this rule</summary>
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/banana-in-box": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```html
 <input type="text" name="foo" ([ngModel])="foo">
                               ~~~~~~~~~~~~~~~~~
-```
-
-```html
-<app-item ([bar])="bar" ([item])="item" [(test)]="test"></app-item>
-          ~~~~~~~~~~~~~ ~~~~~~~~~~~~~~~
-<div [baz]="oneWay" (emitter)="emitter" ([twoWay])="twoWay"></div>
-                                        ~~~~~~~~~~~~~~~~~~~
 ```
 
 <br>
@@ -53,18 +67,116 @@ The rule does not have any configuration options.
 
 <br>
 
-✅ - Examples of **correct** code for this rule:
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/banana-in-box": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<app-item ([bar])="bar" ([item])="item" [(test)]="test"></app-item>
+          ~~~~~~~~~~~~~ ~~~~~~~~~~~~~~~
+<div [baz]="oneWay" (emitter)="emitter" ([twoWay])="twoWay"></div>
+                                        ~~~~~~~~~~~~~~~~~~~
+```
+
+</details>
+
+<br>
+
+---
+
+<br>
+
+<details>
+<summary>✅ - Toggle examples of <strong>correct</strong> code for this rule</summary>
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/banana-in-box": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```html
 <input type="text" name="foo" [ngModel]="foo">
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/banana-in-box": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```html
 <input type="text" name="foo" [(ngModel)]="foo">
 ```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/banana-in-box": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
 
 ```html
 <button type="button" (click)="navigate(['/resources'])">
   Navigate
 </button>
 ```
+
+</details>
+
+<br>
