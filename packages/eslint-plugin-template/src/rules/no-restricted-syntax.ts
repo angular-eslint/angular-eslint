@@ -84,13 +84,16 @@ export default createESLintRule<Options, MessageIds>({
 });
 
 function getNormalizedOptions(selectorOrOption: Options[number]) {
-  const isStringFormat = typeof selectorOrOption === 'string';
-  const selector = isStringFormat
+  const selector = isString(selectorOrOption)
     ? selectorOrOption
     : selectorOrOption.selector;
   const message =
-    !isStringFormat && selectorOrOption.message
+    !isString(selectorOrOption) && selectorOrOption.message
       ? selectorOrOption.message
       : `Using \`${selector}\` is not allowed.`;
   return { message, selector } as const;
+}
+
+function isString(value: Options[number]): value is string {
+  return typeof value === 'string';
 }
