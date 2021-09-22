@@ -11,6 +11,8 @@
 
 -->
 
+<br>
+
 # `@angular-eslint/template/no-restricted-syntax`
 
 Disallows specified syntax.
@@ -32,26 +34,31 @@ The rule does not have any configuration options.
 
 <br>
 
-❌ - Examples of **incorrect** code for this rule:
+<details>
+<summary>❌ - Toggle examples of <strong>incorrect</strong> code for this rule</summary>
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-restricted-syntax": [
+      "error",
+      "Interpolation"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
 
 ```html
 <article>{{readSomethingPlease}}</article>
          ~~~~~~~~~~~~~~~~~~~~~~~
-```
-
-```html
-<button>Click me!</button>
-~~~~~~~~~~~~~~~~~~~~~~~~~~
-```
-
-```html
-<button type="invalidType">Click me!</button>
-        ~~~~~~~~~~~~~~~~~~
-```
-
-```html
-<button [ngClass]="classes?.class1">Click me!</button>
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ```
 
 <br>
@@ -60,4 +67,214 @@ The rule does not have any configuration options.
 
 <br>
 
-✅ - Examples of **correct** code for this rule:
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-restricted-syntax": [
+      "error",
+      {
+        "selector": "Element[name='button']:not(:has(:matches(BoundAttribute, TextAttribute)[name='type']))",
+        "message": "Missing an explicit type attribute for button"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<button>Click me!</button>
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-restricted-syntax": [
+      "error",
+      {
+        "selector": "Element[name='button'] :matches(BoundAttribute, TextAttribute)[name='type'][value!=/^(button|reset|submit)$/]"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<button type="invalidType">Click me!</button>
+        ~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-restricted-syntax": [
+      "error",
+      "BoundAttribute[name=\"ngClass\"]"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<button [ngClass]="classes?.class1">Click me!</button>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+</details>
+
+<br>
+
+---
+
+<br>
+
+<details>
+<summary>✅ - Toggle examples of <strong>correct</strong> code for this rule</summary>
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-restricted-syntax": [
+      "error",
+      "Binary[operation=/^(==|!=)$/]"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+{{ amIUsingStrictEquality === true ? 'Yes' : 'No' }}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-restricted-syntax": [
+      "error",
+      "Template[children.length=0]"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<input [formControl]="formControl">
+<textarea [ngModel]="formControl"></textarea>
+<ng-template>Child here!</ng-template>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-restricted-syntax": [
+      "error",
+      {
+        "selector": ":matches(BoundAttribute, TextAttribute)[name='ngClass']"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div [class]="classes"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-restricted-syntax": [
+      "error",
+      {
+        "message": "Do not use `| json`.",
+        "selector": "BindingPipe[name='json']"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<ng-container *translator="let translator">
+  {{ translator | async }}
+</ng-container>
+{{ one ?? other }}
+```
+
+</details>
+
+<br>
