@@ -57,6 +57,9 @@ import noNegatedAsync, {
 import noPositiveTabindex, {
   RULE_NAME as noPositiveTabindexRuleName,
 } from './rules/no-positive-tabindex';
+import noRestrictedSyntax, {
+  RULE_NAME as noRestrictedSyntaxRuleName,
+} from './rules/no-restricted-syntax';
 import useTrackByFunction, {
   RULE_NAME as useTrackByFunctionRuleName,
 } from './rules/use-track-by-function';
@@ -91,6 +94,7 @@ export default {
     [noDuplicateAttributesRuleName]: noDuplicateAttributes,
     [noNegatedAsyncRuleName]: noNegatedAsync,
     [noPositiveTabindexRuleName]: noPositiveTabindex,
+    [noRestrictedSyntaxRuleName]: noRestrictedSyntax,
     [useTrackByFunctionRuleName]: useTrackByFunction,
   },
 };
