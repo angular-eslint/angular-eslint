@@ -280,6 +280,41 @@ class Test {}
 class Test {}
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/sort-ngmodule-metadata-arrays": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@NgModule({
+  imports: [
+    Module1,
+    [...commonModules, Module4, Module0],
+                                ~~~~~~~
+    ...(shouldLoadModules ? [ModuleB, ModuleA] : []),
+                                      ~~~~~~~
+  ],
+})
+class Test {}
+```
+
 </details>
 
 <br>
@@ -447,6 +482,76 @@ class Test {}
     bProvider,
     cProvider,
     DProvider,
+  ],
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/sort-ngmodule-metadata-arrays": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@NgModule({
+  providers: [
+    {
+      provide: API_LINK,
+      useFactory: createHttpLink,
+      deps: [HttpLink, EnvService, Injector, LocaleService],
+    },
+  ],
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/sort-ngmodule-metadata-arrays": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@NgModule({
+  providers: [
+    {
+      provide: API_LINK,
+      useFactory: createHttpLink,
+      [deps]: [HttpLink, EnvService, Injector, LocaleService],
+    },
   ],
 })
 class Test {}

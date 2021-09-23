@@ -1,4 +1,4 @@
-import { Selectors } from '@angular-eslint/utils';
+import { ASTUtils, Selectors } from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
 import { ASTUtils as TSESLintASTUtils } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
@@ -29,7 +29,20 @@ export default createESLintRule<Options, MessageIds>({
     return {
       [`${Selectors.MODULE_CLASS_DECORATOR} Property ArrayExpression`]({
         elements,
+        parent,
       }: TSESTree.ArrayExpression) {
+        const isObjectWithinArrayExpression = Boolean(
+          parent?.parent &&
+            ASTUtils.isObjectExpression(parent.parent) &&
+            parent.parent.parent &&
+            ASTUtils.isArrayExpression(parent.parent.parent),
+        );
+
+        // // ignore `ObjectExpression` within `ArrayExpression`.
+        if (isObjectWithinArrayExpression) {
+          return;
+        }
+
         const unorderedNodes = elements
           .filter(TSESLintASTUtils.isIdentifier)
           .map((current, index, list) => [current, list[index + 1]])

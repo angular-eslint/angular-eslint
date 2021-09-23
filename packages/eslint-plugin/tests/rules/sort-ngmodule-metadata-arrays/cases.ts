@@ -52,6 +52,31 @@ export const valid = [
   })
   class Test {}
   `,
+  // https://github.com/angular-eslint/angular-eslint/issues/703
+  `
+  @NgModule({
+    providers: [
+      {
+        provide: API_LINK,
+        useFactory: createHttpLink,
+        deps: [HttpLink, EnvService, Injector, LocaleService],
+      },
+    ],
+  })
+  class Test {}
+  `,
+  `
+  @NgModule({
+    providers: [
+      {
+        provide: API_LINK,
+        useFactory: createHttpLink,
+        [deps]: [HttpLink, EnvService, Injector, LocaleService],
+      },
+    ],
+  })
+  class Test {}
+  `,
   `
   @Component({
     providers: [        
@@ -260,6 +285,38 @@ export const invalid = [
         cModule,
         DModule,
         ~~~~~~~~~
+      ],
+    })
+    class Test {}
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if nested arrays within metadata is not sorted ASC',
+    annotatedSource: `
+    @NgModule({
+      imports: [
+        Module1,
+        [...commonModules, Module4, Module0],
+                                    ~~~~~~~
+        ...(shouldLoadModules ? [ModuleB, ModuleA] : []),
+                                          ^^^^^^^
+      ],
+    })
+    class Test {}
+    `,
+    messages: [
+      { char: '~', messageId },
+      { char: '^', messageId },
+    ],
+    annotatedOutput: `
+    @NgModule({
+      imports: [
+        Module1,
+        [...commonModules, Module0, Module4],
+                                           
+        ...(shouldLoadModules ? [ModuleA, ModuleB] : []),
+                                          
       ],
     })
     class Test {}
