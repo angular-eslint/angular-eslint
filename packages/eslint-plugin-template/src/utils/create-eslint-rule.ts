@@ -1,10 +1,6 @@
 import type { ParseSourceSpan, TmplAstElement } from '@angular/compiler';
-import type {
-  ESLintUtils,
-  TSESLint,
-  TSESTree,
-} from '@typescript-eslint/experimental-utils';
-import { applyDefault } from '@typescript-eslint/experimental-utils/dist/eslint-utils';
+import type { TSESLint, TSESTree } from '@typescript-eslint/experimental-utils';
+import { ESLintUtils } from '@typescript-eslint/experimental-utils';
 
 /**
  * We need to patch the RuleCreator in order to preserve the defaultOptions
@@ -20,7 +16,7 @@ const patchedRuleCreator: typeof ESLintUtils.RuleCreator = (urlCreator) => {
       }),
       defaultOptions,
       create(context) {
-        const optionsWithDefault = applyDefault(
+        const optionsWithDefault = ESLintUtils.applyDefault(
           defaultOptions,
           context.options,
         );
