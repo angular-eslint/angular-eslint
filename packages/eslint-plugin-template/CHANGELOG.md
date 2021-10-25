@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [12.6.0](https://github.com/angular-eslint/angular-eslint/compare/v12.5.0...v12.6.0) (2021-10-25)
+
+### Bug Fixes
+
+- **eslint-plugin-template:** [i18n] ignore empty strings and non-texts within `BoundText` by default ([#683](https://github.com/angular-eslint/angular-eslint/issues/683)) ([4075643](https://github.com/angular-eslint/angular-eslint/commit/4075643f259c791f1995c207ca14c9c93c3098d6))
+
+### Features
+
+- **bundled-angular-compiler:** create own bundle for `@angular/compiler` ([#720](https://github.com/angular-eslint/angular-eslint/issues/720)) ([0c42299](https://github.com/angular-eslint/angular-eslint/commit/0c422993496bb2670fbd31f55a5fe829704f5112))
+
 # [12.5.0](https://github.com/angular-eslint/angular-eslint/compare/v12.4.1...v12.5.0) (2021-09-20)
 
 ### Bug Fixes
