@@ -21,6 +21,12 @@
     "paths": {
       "@angular-eslint/builder": ["packages/builder/dist/index"],
       "@angular-eslint/builder/*": ["packages/builder/*"],
+      "@angular-eslint/bundled-angular-compiler": [
+        "packages/bundled-angular-compiler/dist/index"
+      ],
+      "@angular-eslint/bundled-angular-compiler/*": [
+        "packages/bundled-angular-compiler/*"
+      ],
       "@angular-eslint/eslint-plugin": ["packages/eslint-plugin/dist/index"],
       "@angular-eslint/eslint-plugin/*": ["packages/eslint-plugin/*"],
       "@angular-eslint/eslint-plugin-template": [

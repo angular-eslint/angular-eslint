@@ -1,4 +1,4 @@
-import type { BoundEventAst } from '@angular/compiler';
+import type { BoundEventAst } from '@angular-eslint/bundled-angular-compiler';
 import {
   createESLintRule,
   getTemplateParserServices,

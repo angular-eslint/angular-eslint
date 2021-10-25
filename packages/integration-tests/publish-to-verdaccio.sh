@@ -35,6 +35,10 @@ cd ./packages/builder
 npm publish --registry $NPM_REGISTRY
 cd -
 
+cd ./packages/bundled-angular-compiler
+npm publish --registry $NPM_REGISTRY
+cd -
+
 cd ./packages/eslint-plugin
 npm publish --registry $NPM_REGISTRY
 cd -

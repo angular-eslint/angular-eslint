@@ -1,5 +1,7 @@
-import type { AST } from '@angular/compiler';
-import type { Node } from '@angular/compiler/src/render3/r3_ast';
+import type {
+  AST,
+  R3_Node as Node,
+} from '@angular-eslint/bundled-angular-compiler';
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
 import { AST_NODE_TYPES } from '@typescript-eslint/types';
 

@@ -1,5 +1,8 @@
-import type { AST, Binary } from '@angular/compiler';
-import { ASTWithSource, LiteralPrimitive } from '@angular/compiler';
+import type { AST, Binary } from '@angular-eslint/bundled-angular-compiler';
+import {
+  ASTWithSource,
+  LiteralPrimitive,
+} from '@angular-eslint/bundled-angular-compiler';
 import type { TSESLint } from '@typescript-eslint/experimental-utils';
 import {
   createESLintRule,

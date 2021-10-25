@@ -15,6 +15,7 @@
     "typescript": "*"
   },
   "dependencies": {
+    "@angular-eslint/bundled-angular-compiler": "12.5.0",
     "@typescript-eslint/experimental-utils": "4.28.2"
   }
 }

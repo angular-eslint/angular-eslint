@@ -21,7 +21,6 @@
     "@typescript-eslint/experimental-utils": "4.28.2"
   },
   "peerDependencies": {
-    "@angular/compiler": ">= 12.0.0 < 13.0.0",
     "eslint": "*",
     "typescript": "*"
   },

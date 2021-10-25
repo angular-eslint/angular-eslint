@@ -2,8 +2,8 @@ import type {
   FunctionCall,
   MethodCall,
   SafeMethodCall,
-} from '@angular/compiler';
-import { TmplAstBoundEvent } from '@angular/compiler';
+} from '@angular-eslint/bundled-angular-compiler';
+import { TmplAstBoundEvent } from '@angular-eslint/bundled-angular-compiler';
 import {
   createESLintRule,
   ensureTemplateParser,

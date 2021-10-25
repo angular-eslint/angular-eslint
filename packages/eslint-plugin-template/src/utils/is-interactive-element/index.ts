@@ -1,4 +1,4 @@
-import type { TmplAstElement } from '@angular/compiler';
+import type { TmplAstElement } from '@angular-eslint/bundled-angular-compiler';
 import type { ARIARoleRelationConcept } from 'aria-query';
 import { attributesComparator } from '../attributes-comparator';
 import { getDomElements } from '../get-dom-elements';

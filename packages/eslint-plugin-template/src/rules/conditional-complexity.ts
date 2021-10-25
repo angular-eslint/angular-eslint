@@ -3,14 +3,14 @@ import type {
   ASTWithSource,
   Interpolation,
   TmplAstBoundAttribute,
-} from '@angular/compiler';
+} from '@angular-eslint/bundled-angular-compiler';
 import {
   Binary,
   BindingPipe,
   Conditional,
   Lexer,
   Parser,
-} from '@angular/compiler';
+} from '@angular-eslint/bundled-angular-compiler';
 import {
   createESLintRule,
   ensureTemplateParser,

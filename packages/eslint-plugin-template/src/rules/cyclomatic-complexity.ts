@@ -1,7 +1,7 @@
 import type {
   TmplAstBoundAttribute,
   TmplAstTextAttribute,
-} from '@angular/compiler';
+} from '@angular-eslint/bundled-angular-compiler';
 import {
   createESLintRule,
   getTemplateParserServices,

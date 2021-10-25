@@ -1,4 +1,4 @@
-import { TmplAstElement } from '@angular/compiler';
+import { TmplAstElement } from '@angular-eslint/bundled-angular-compiler';
 import { getAttributeValue } from './get-attribute-value';
 import { getNearestNodeFrom } from './get-nearest-node-from';
 

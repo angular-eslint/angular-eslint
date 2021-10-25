@@ -1,4 +1,4 @@
-import type { MethodCall } from '@angular/compiler';
+import type { MethodCall } from '@angular-eslint/bundled-angular-compiler';
 import {
   createESLintRule,
   ensureTemplateParser,

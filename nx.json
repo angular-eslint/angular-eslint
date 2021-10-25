@@ -74,6 +74,7 @@
       "implicitDependencies": [
         "integration-tests",
         "builder",
+        "bundled-angular-compiler",
         "eslint-plugin",
         "eslint-plugin-template",
         "schematics",
@@ -85,6 +86,7 @@
       "implicitDependencies": [
         "integration-tests",
         "builder",
+        "bundled-angular-compiler",
         "eslint-plugin",
         "eslint-plugin-template",
         "schematics",
@@ -96,6 +98,7 @@
       "implicitDependencies": [
         "integration-tests",
         "builder",
+        "bundled-angular-compiler",
         "eslint-plugin",
         "eslint-plugin-template",
         "schematics",

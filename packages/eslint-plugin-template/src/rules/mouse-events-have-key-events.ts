@@ -1,4 +1,4 @@
-import type { TmplAstElement } from '@angular/compiler';
+import type { TmplAstElement } from '@angular-eslint/bundled-angular-compiler';
 import type { TSESLint } from '@typescript-eslint/experimental-utils';
 import {
   createESLintRule,

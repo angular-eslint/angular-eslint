@@ -1,4 +1,7 @@
-import type { ParseSourceSpan, TmplAstElement } from '@angular/compiler';
+import type {
+  ParseSourceSpan,
+  TmplAstElement,
+} from '@angular-eslint/bundled-angular-compiler';
 import type {
   ESLintUtils,
   TSESLint,

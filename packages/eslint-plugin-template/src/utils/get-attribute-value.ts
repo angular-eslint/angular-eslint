@@ -1,10 +1,10 @@
-import type { TmplAstElement } from '@angular/compiler';
+import type { TmplAstElement } from '@angular-eslint/bundled-angular-compiler';
 import {
   ASTWithSource,
   LiteralArray,
   LiteralMap,
   LiteralPrimitive,
-} from '@angular/compiler';
+} from '@angular-eslint/bundled-angular-compiler';
 import { PROPERTY_READ } from './constants';
 import { getOriginalAttributeName } from './get-original-attribute-name';
 

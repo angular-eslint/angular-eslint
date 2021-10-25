@@ -1,4 +1,7 @@
-import type { Node, TmplAstElement } from '@angular/compiler';
+import type {
+  Node,
+  TmplAstElement,
+} from '@angular-eslint/bundled-angular-compiler';
 import {
   createESLintRule,
   getTemplateParserServices,

@@ -1,6 +1,8 @@
-import type { ParseSourceSpan } from '@angular/compiler';
-import { parseTemplate } from '@angular/compiler';
-import type { Comment } from '@angular/compiler/src/render3/r3_ast';
+import type {
+  ParseSourceSpan,
+  Comment,
+} from '@angular-eslint/bundled-angular-compiler';
+import { parseTemplate } from '@angular-eslint/bundled-angular-compiler';
 import type { TSESTree } from '@typescript-eslint/types';
 import { Scope, ScopeManager } from 'eslint-scope';
 import {
