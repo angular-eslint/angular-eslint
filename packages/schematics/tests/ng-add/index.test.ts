@@ -65,7 +65,7 @@ describe('ng-add', () => {
 
     expect(scripts['lint']).toEqual('ng lint');
 
-    expect(devDeps['eslint']).toEqual(eslintVersion);
+    expect(devDeps['eslint']).toEqual(`^${eslintVersion}`);
 
     expect(devDeps['@angular-eslint/builder']).toEqual(packageJSON.version);
     expect(devDeps['@angular-eslint/eslint-plugin']).toEqual(

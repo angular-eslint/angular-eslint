@@ -125,7 +125,7 @@ export default function migration(): Rule {
       },
       {
         packageName: 'eslint',
-        version: updatedESLintVersion,
+        version: `^${updatedESLintVersion}`,
       },
     ]),
     updateAccessibilityLabelFor,

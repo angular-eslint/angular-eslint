@@ -3,13 +3,13 @@
   "version": "12.6.0",
   "private": true,
   "dependencies": {
-    "@angular/cli": "~12.1.1"
+    "@angular/cli": "12.1.1"
   },
   "peerDependencies": {
     "eslint": "*",
     "typescript": "*"
   },
   "devDependencies": {
-    "verdaccio": "^4.10.0"
+    "verdaccio": "4.10.0"
   }
 }
