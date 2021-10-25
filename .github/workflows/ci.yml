@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master, 'next-major-release/**' ]
+    branches: [master, 'next-major-release/**']
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
@@ -137,7 +137,7 @@ jobs:
 
       - name: Start Nx Agent ${{ matrix.agent }}
         run: npx nx-cloud start-agent
-  
+
   unit_tests_on_other_node_versions:
     name: Unit tests on other supported Node versions
     needs: [create_nx_run_group]
@@ -155,9 +155,8 @@ jobs:
           fetch-depth: 0
 
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
-        uses: nrwl/nx-set-shas@v1
+        uses: nrwl/nx-set-shas@v2
         with:
-          error-on-no-matching-tags: false
           main-branch-name: master
 
       - uses: actions/setup-node@v1
