@@ -1,4 +1,5 @@
 version: 2
+
 updates:
   - package-ecosystem: "npm"
     directory: "/"
@@ -7,11 +8,5 @@ updates:
     ignore:
       # @nrwl deps should always be updated by running `npx nx migrate @nrwl/workspace`
       - dependency-name: "@nrwl/*"
-  
-  # Attempt to get dependabot to ignore integration test fixtures
-  - package-ecosystem: "npm"
-    directory: "/packages/integration-tests/fixtures"
-    schedule:
-      interval: "weekly"
-    ignore:
-      - dependency-name: "*"
+    # Disable version updates, this does not affect security updates
+    open-pull-requests-limit: 0
