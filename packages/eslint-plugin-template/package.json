@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@angular-eslint/utils": "12.6.0",
-    "@types/aria-query": "4.2.1"
+    "@types/aria-query": "4.2.2"
   },
   "peerDependencies": {
     "eslint": "*",
