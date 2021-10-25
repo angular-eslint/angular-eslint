@@ -1,3 +1,9 @@
+# This workflow is used to augment the capabilities of the renovate GitHub app by running a full
+# `nx migrate` when renovate opens a PR to change the version of @nrwl/workspace.
+#
+# You will therefore also notice that in the renovate configuration, we ignore any packages which
+# Nx will manage for us as part of `nx migrate` such as the remaining @nrwl/* packages and jest.
+
 name: Nx Migrate
 
 on:
