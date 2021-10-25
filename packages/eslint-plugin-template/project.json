@@ -75,5 +75,5 @@
       }
     }
   },
-  "implicitDependencies": ["bundled-angular-compiler", "template-parser"]
+  "implicitDependencies": ["template-parser"]
 }
