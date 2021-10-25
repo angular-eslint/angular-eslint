@@ -1,5 +1,13 @@
-import type { Node, ParseSourceSpan, TmplAstElement } from '@angular/compiler';
-import { Element, getHtmlTagDefinition, HtmlParser } from '@angular/compiler';
+import type {
+  Node,
+  ParseSourceSpan,
+  TmplAstElement,
+} from '@angular-eslint/bundled-angular-compiler';
+import {
+  Element,
+  getHtmlTagDefinition,
+  HtmlParser,
+} from '@angular-eslint/bundled-angular-compiler';
 import type { TSESLint, TSESTree } from '@typescript-eslint/experimental-utils';
 
 export function convertNodeSourceSpanToLoc(

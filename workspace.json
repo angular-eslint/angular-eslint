@@ -2,6 +2,7 @@
   "version": 2,
   "projects": {
     "builder": "packages/builder",
+    "bundled-angular-compiler": "packages/bundled-angular-compiler",
     "eslint-plugin": "packages/eslint-plugin",
     "eslint-plugin-template": "packages/eslint-plugin-template",
     "integration-tests": "packages/integration-tests",

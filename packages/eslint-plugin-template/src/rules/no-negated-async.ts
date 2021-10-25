@@ -1,4 +1,7 @@
-import type { BindingPipe, PrefixNot } from '@angular/compiler';
+import type {
+  BindingPipe,
+  PrefixNot,
+} from '@angular-eslint/bundled-angular-compiler';
 import {
   createESLintRule,
   ensureTemplateParser,

@@ -1,4 +1,4 @@
-import type { AST } from '@angular/compiler';
+import type { AST } from '@angular-eslint/bundled-angular-compiler';
 import {
   ASTWithSource,
   LiteralArray,
@@ -6,7 +6,7 @@ import {
   LiteralPrimitive,
   TmplAstBoundAttribute,
   TmplAstTextAttribute,
-} from '@angular/compiler';
+} from '@angular-eslint/bundled-angular-compiler';
 import type { ARIAProperty, ARIAPropertyDefinition } from 'aria-query';
 import { aria } from 'aria-query';
 import {

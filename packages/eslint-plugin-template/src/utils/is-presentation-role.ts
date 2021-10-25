@@ -1,4 +1,4 @@
-import type { TmplAstElement } from '@angular/compiler';
+import type { TmplAstElement } from '@angular-eslint/bundled-angular-compiler';
 import { getAttributeValue } from './get-attribute-value';
 
 const presentationRoles: ReadonlySet<string> = new Set([

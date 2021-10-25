@@ -196,6 +196,13 @@
   dependencies:
     tslib "^2.2.0"
 
+"@angular/compiler@12.2.11":
+  version "12.2.11"
+  resolved "https://registry.yarnpkg.com/@angular/compiler/-/compiler-12.2.11.tgz#bed059f42b4290f50d6daa464102a8e2bab9dc1b"
+  integrity sha512-78b5Uf+79gOKEyF/ixFAGJANNHnhueofSxgToBmJkTTpqTX6Xzdfzw8W+ehpJADp52eBjmZ+rv7b9sgBsiJ1tg==
+  dependencies:
+    tslib "^2.2.0"
+
 "@apidevtools/json-schema-ref-parser@9.0.9":
   version "9.0.9"
   resolved "https://registry.yarnpkg.com/@apidevtools/json-schema-ref-parser/-/json-schema-ref-parser-9.0.9.tgz#d720f9256e3609621280584f2b47ae165359268b"
