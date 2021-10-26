@@ -159,7 +159,7 @@ jobs:
         with:
           main-branch-name: master
 
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v2
         with:
           # The Node.js version to configure
           node-version: ${{ matrix.node }}
@@ -222,7 +222,7 @@ jobs:
           echo "::set-output name=node_version::$(node --version)"
 
       - name: Apply version resolved by volta to standard Node action make authenticated npm publish easier
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: ${{ steps.yarn-cache-dir-path.outputs.node_version }}
           registry-url: https://registry.npmjs.org/
