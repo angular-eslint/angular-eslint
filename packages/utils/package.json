@@ -1,6 +1,6 @@
 {
   "name": "@angular-eslint/utils",
-  "version": "12.6.0",
+  "version": "12.6.1",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -15,7 +15,7 @@
     "typescript": "*"
   },
   "dependencies": {
-    "@angular-eslint/bundled-angular-compiler": "12.6.0",
+    "@angular-eslint/bundled-angular-compiler": "12.6.1",
     "@typescript-eslint/experimental-utils": "4.28.2"
   }
 }
