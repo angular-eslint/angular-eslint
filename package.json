@@ -82,7 +82,7 @@
     "json-schema-traverse": "1.0.0",
     "lerna": "3.22.1",
     "lint-staged": "9.5.0",
-    "microbundle": "0.13.3",
+    "microbundle": "0.14.1",
     "ncp": "2.0.0",
     "prettier": "2.3.2",
     "rimraf": "3.0.2",
