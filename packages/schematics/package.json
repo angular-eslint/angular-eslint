@@ -18,6 +18,12 @@
   ],
   "schematics": "./dist/collection.json",
   "ng-update": {
+    "packageGroup": [
+      "@angular-eslint/builder",
+      "@angular-eslint/eslint-plugin",
+      "@angular-eslint/eslint-plugin-template",
+      "@angular-eslint/template-parser"
+     ],
     "migrations": "./dist/migrations.json"
   },
   "ng-add": {
