@@ -80,7 +80,7 @@
     "jest": "27.2.3",
     "json-schema-to-typescript": "10.1.5",
     "json-schema-traverse": "1.0.0",
-    "lerna": "3.22.1",
+    "lerna": "4.0.0",
     "lint-staged": "11.2.5",
     "microbundle": "0.14.1",
     "ncp": "2.0.0",
