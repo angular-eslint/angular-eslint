@@ -66,6 +66,7 @@ jobs:
           fi
 
           # Ensure all the changed files are formatted appropriately
+          npx nx format
           yarn format
 
           # Commit all the changes to the PR (see note on not being able to use secrets.GITHUB_TOKEN for this)
