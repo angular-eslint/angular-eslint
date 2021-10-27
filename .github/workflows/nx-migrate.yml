@@ -60,6 +60,7 @@ jobs:
           npx nx migrate @nrwl/workspace@$NX_VERSION
 
           # Sometimes Nx can require config formatting changes after a migrate command
+          yarn --ignore-scripts
           npx nx format
 
           # migrations.json may or may not exist after running nx migrate
