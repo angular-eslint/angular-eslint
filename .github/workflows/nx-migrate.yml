@@ -30,6 +30,11 @@ jobs:
           # To ensure we can push from a different user (and therefore cause actions to rerun)
           persist-credentials: false
 
+      - name: Derive appropriate SHAs for base and head for `nx affected` commands
+        uses: nrwl/nx-set-shas@v2
+        with:
+          main-branch-name: master
+
       - name: Check if @nrwl/workspace was changed as part of the latest commit on the PR
         id: nrwl-workspace-package-check
         run: |
