@@ -54,6 +54,9 @@ jobs:
 
           npx nx migrate @nrwl/workspace@$NX_VERSION
 
+          # Sometimes Nx can require config formatting changes after a migrate command
+          npx nx format
+
           # migrations.json may or may not exist after running nx migrate
           if [ -f migrations.json ]; then
             # This will also invoke yarn automatically
@@ -66,7 +69,6 @@ jobs:
           fi
 
           # Ensure all the changed files are formatted appropriately
-          npx nx format
           yarn format
 
           # Commit all the changes to the PR (see note on not being able to use secrets.GITHUB_TOKEN for this)
