@@ -69,68 +69,6 @@
       }
     ]
   },
-  "projects": {
-    "integration-tests-suite-1": {
-      "implicitDependencies": [
-        "integration-tests",
-        "builder",
-        "bundled-angular-compiler",
-        "eslint-plugin",
-        "eslint-plugin-template",
-        "schematics",
-        "template-parser",
-        "utils"
-      ]
-    },
-    "integration-tests-suite-2": {
-      "implicitDependencies": [
-        "integration-tests",
-        "builder",
-        "bundled-angular-compiler",
-        "eslint-plugin",
-        "eslint-plugin-template",
-        "schematics",
-        "template-parser",
-        "utils"
-      ]
-    },
-    "integration-tests-suite-3": {
-      "implicitDependencies": [
-        "integration-tests",
-        "builder",
-        "bundled-angular-compiler",
-        "eslint-plugin",
-        "eslint-plugin-template",
-        "schematics",
-        "template-parser",
-        "utils"
-      ]
-    },
-    "integration-tests-suite-4": {
-      "implicitDependencies": [
-        "integration-tests",
-        "builder",
-        "bundled-angular-compiler",
-        "eslint-plugin",
-        "eslint-plugin-template",
-        "schematics",
-        "template-parser",
-        "utils"
-      ]
-    },
-    "integration-tests-suite-5": {
-      "implicitDependencies": [
-        "integration-tests",
-        "builder",
-        "bundled-angular-compiler",
-        "eslint-plugin",
-        "eslint-plugin-template",
-        "schematics",
-        "template-parser",
-        "utils"
-      ]
-    }
-  },
   "affected": {
     "defaultBase": "master"
   }

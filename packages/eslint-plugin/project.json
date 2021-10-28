@@ -75,5 +75,5 @@
       }
     }
   },
-  "implicitDependencies": []
+  "implicitDependencies": ["bundled-angular-compiler"]
 }
