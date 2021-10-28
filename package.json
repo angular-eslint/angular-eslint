@@ -64,7 +64,7 @@
     "@nrwl/jest": "12.10.0",
     "@nrwl/nx-cloud": "12.5.1",
     "@nrwl/tao": "12.10.0",
-    "@nrwl/workspace": "12.10.0",
+    "@nrwl/workspace": "13.1.2",
     "@schematics/angular": "12.0.0",
     "@types/eslint": "7.2.13",
     "@types/eslint-scope": "3.7.1",
