@@ -11,4 +11,4 @@ fi
 yarn build
 
 # Check for a clean workspace after install and build
-git diff --quiet --exit-code
+yarn check-clean-workspace-after-install
