@@ -61,12 +61,6 @@
         "target": "build",
         "projects": "dependencies"
       }
-    ],
-    "integration-test": [
-      {
-        "target": "build",
-        "projects": "dependencies"
-      }
     ]
   },
   "affected": {
