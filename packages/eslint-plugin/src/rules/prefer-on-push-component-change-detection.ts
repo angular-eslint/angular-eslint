@@ -33,10 +33,9 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description: `Ensures component's \`${METADATA_PROPERTY_NAME}\` is set to \`${STRATEGY_ON_PUSH}\``,
-      category: 'Best Practices',
       recommended: false,
-      suggestion: true,
     },
+    hasSuggestions: true,
     schema: [],
     messages: {
       preferOnPushComponentChangeDetection: `The component's \`${METADATA_PROPERTY_NAME}\` value should be set to \`${STRATEGY_ON_PUSH}\``,

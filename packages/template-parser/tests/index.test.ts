@@ -67,6 +67,16 @@ describe('parseForESLint()', () => {
         ],
         "templateNodes": Array [
           Text$3 {
+            "loc": Object {
+              "end": Object {
+                "column": 6,
+                "line": 2,
+              },
+              "start": Object {
+                "column": 6,
+                "line": 2,
+              },
+            },
             "sourceSpan": ParseSourceSpan {
               "details": null,
               "end": ParseLocation {
@@ -114,6 +124,16 @@ describe('parseForESLint()', () => {
             ",
           },
           Text$3 {
+            "loc": Object {
+              "end": Object {
+                "column": 6,
+                "line": 3,
+              },
+              "start": Object {
+                "column": 6,
+                "line": 3,
+              },
+            },
             "sourceSpan": ParseSourceSpan {
               "details": null,
               "end": ParseLocation {
@@ -164,6 +184,16 @@ describe('parseForESLint()', () => {
             "attributes": Array [],
             "children": Array [
               Text$3 {
+                "loc": Object {
+                  "end": Object {
+                    "column": 20,
+                    "line": 3,
+                  },
+                  "start": Object {
+                    "column": 11,
+                    "line": 3,
+                  },
+                },
                 "sourceSpan": ParseSourceSpan {
                   "details": null,
                   "end": ParseLocation {
@@ -254,6 +284,16 @@ describe('parseForESLint()', () => {
             },
             "i18n": undefined,
             "inputs": Array [],
+            "loc": Object {
+              "end": Object {
+                "column": 26,
+                "line": 3,
+              },
+              "start": Object {
+                "column": 6,
+                "line": 3,
+              },
+            },
             "name": "div",
             "outputs": Array [],
             "references": Array [],
@@ -344,6 +384,16 @@ describe('parseForESLint()', () => {
             "type": "Element$1",
           },
           Text$3 {
+            "loc": Object {
+              "end": Object {
+                "column": 6,
+                "line": 4,
+              },
+              "start": Object {
+                "column": 6,
+                "line": 4,
+              },
+            },
             "sourceSpan": ParseSourceSpan {
               "details": null,
               "end": ParseLocation {
@@ -391,6 +441,16 @@ describe('parseForESLint()', () => {
             ",
           },
           Text$3 {
+            "loc": Object {
+              "end": Object {
+                "column": 4,
+                "line": 5,
+              },
+              "start": Object {
+                "column": 4,
+                "line": 5,
+              },
+            },
             "sourceSpan": ParseSourceSpan {
               "details": null,
               "end": ParseLocation {

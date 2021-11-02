@@ -18,7 +18,7 @@
   ],
   "dependencies": {
     "@angular-eslint/utils": "12.6.1",
-    "@typescript-eslint/experimental-utils": "4.28.2"
+    "@typescript-eslint/experimental-utils": "5.3.0"
   },
   "peerDependencies": {
     "eslint": "*",

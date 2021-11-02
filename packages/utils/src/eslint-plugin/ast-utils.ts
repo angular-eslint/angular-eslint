@@ -330,7 +330,7 @@ export const getClassName = (node: TSESTree.Node): string | undefined => {
 export const getDecorator = (
   node:
     | TSESTree.ClassDeclaration
-    | TSESTree.ClassProperty
+    | TSESTree.PropertyDefinition
     | TSESTree.Identifier
     | TSESTree.MethodDefinition,
   decoratorName: string,
@@ -397,7 +397,7 @@ export const isAngularInnerClassDecorator = (
   ANGULAR_INNER_CLASS_DECORATORS.has(value as AngularInnerClassDecoratorKeys);
 
 /**
- * `ClassProperty` nodes can have different types of `key`s
+ * `PropertyDefinition` nodes can have different types of `key`s
  *
  * E.g.
  *
@@ -407,10 +407,10 @@ export const isAngularInnerClassDecorator = (
  *  ['c'] // Literal
  * }
  */
-export function getClassPropertyName({
+export function getPropertyDefinitionName({
   computed,
   key,
-}: TSESTree.ClassProperty): string {
+}: TSESTree.PropertyDefinition): string {
   if (ASTUtils.isIdentifier(key) && !computed) {
     return key.name;
   }
@@ -419,7 +419,9 @@ export function getClassPropertyName({
     return key.raw;
   }
 
-  throw new Error(`Unexpected "ClassProperty.key.type" provided: ${key.type}`);
+  throw new Error(
+    `Unexpected "PropertyDefinition.key.type" provided: ${key.type}`,
+  );
 }
 
 export const getDecoratorProperty = (
@@ -483,7 +485,11 @@ export function getRawText(node: TSESTree.Node): string {
     return node.name;
   }
 
-  if (isClassProperty(node) || isMethodDefinition(node) || isProperty(node)) {
+  if (
+    isPropertyDefinition(node) ||
+    isMethodDefinition(node) ||
+    isProperty(node)
+  ) {
     return getRawText(node.key);
   }
 
@@ -536,16 +542,16 @@ export function isClassDeclaration(
   return node.type === AST_NODE_TYPES.ClassDeclaration;
 }
 
-export function isClassProperty(
+export function isPropertyDefinition(
   node: TSESTree.Node,
-): node is TSESTree.ClassProperty {
-  return node.type === AST_NODE_TYPES.ClassProperty;
+): node is TSESTree.PropertyDefinition {
+  return node.type === AST_NODE_TYPES.PropertyDefinition;
 }
 
-export function isClassPropertyOrMethodDefinition(
+export function isPropertyOrMethodDefinition(
   node: TSESTree.Node,
-): node is TSESTree.ClassProperty | TSESTree.MethodDefinition {
-  return isClassProperty(node) || isMethodDefinition(node);
+): node is TSESTree.PropertyDefinition | TSESTree.MethodDefinition {
+  return isPropertyDefinition(node) || isMethodDefinition(node);
 }
 
 export function isImportDefaultSpecifier(

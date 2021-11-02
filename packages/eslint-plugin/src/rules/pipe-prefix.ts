@@ -21,7 +21,6 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description: 'Enforce consistent prefix for pipes.',
-      category: 'Stylistic Issues',
       recommended: false,
     },
     schema: [

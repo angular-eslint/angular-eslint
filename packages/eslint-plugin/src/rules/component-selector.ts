@@ -31,7 +31,6 @@ export default createESLintRule<SelectorUtils.Options, MessageIds>({
     docs: {
       description: `Component selectors should follow given naming rules. See more at ${STYLE_GUIDE_PREFIX_LINK}, ${STYLE_GUIDE_STYLE_LINK}
       and ${STYLE_GUIDE_TYPE_LINK}.`,
-      category: 'Best Practices',
       recommended: false,
     },
     schema: [

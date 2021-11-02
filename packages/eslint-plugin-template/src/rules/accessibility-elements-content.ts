@@ -24,7 +24,6 @@ export default createESLintRule<Options, MessageIds>({
     docs: {
       description:
         'Ensures that the heading, anchor and button elements have content in it',
-      category: 'Best Practices',
       recommended: false,
     },
     schema: [],
