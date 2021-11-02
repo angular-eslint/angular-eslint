@@ -30,19 +30,15 @@ const testDirs = readdirSync(testDirsDir);
   for (const [ruleName, ruleData] of Object.entries(allRuleData)) {
     const {
       ruleConfig: {
-        meta: {
-          deprecated,
-          replacedBy,
-          type,
-          docs: { description, category, suggestion },
-          fixable,
-          schema,
-        },
+        meta: { deprecated, replacedBy, type, fixable, schema },
         defaultOptions,
       },
       ruleFilePath,
       testCasesFilePath,
     } = ruleData;
+
+    const docs = ruleData.ruleConfig.meta.docs as TSESLint.RuleMetaDataDocs;
+    const { description, category, suggestion } = docs;
 
     let schemaAsInterface = '';
     if (Array.isArray(schema) && schema[0]) {
@@ -112,7 +108,7 @@ const testDirs = readdirSync(testDirsDir);
 
 ${
   deprecated
-    ? `## ⚠️ THIS RULE IS DEPRECATED\n\nPlease use ${replacedBy
+    ? `## ⚠️ THIS RULE IS DEPRECATED\n\nPlease use ${(replacedBy || [])
         .map(
           (r: string) =>
             `\`@angular-eslint/${
@@ -214,7 +210,7 @@ interface RuleData {
   ruleFilePath: string;
   testCasesFilePath: string;
   ruleConfig: TSESLint.RuleModule<string, []> & {
-    defaultOptions?: unknown[];
+    defaultOptions?: Record<string, unknown>[];
   };
   valid: ExtractedTestCase[];
   invalid: ExtractedTestCase[];
