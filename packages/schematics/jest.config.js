@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-  displayName: 'eslint-plugin-template',
+  displayName: 'schematics',
   preset: '../../jest.preset.js',
   globals: {
     'ts-jest': {
@@ -15,5 +15,5 @@ module.exports = {
   testMatch: null,
   testRegex: ['./tests/.+\\.test\\.ts$'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  coverageDirectory: '../../coverage/packages/eslint-plugin-template',
+  coverageDirectory: '../../coverage/packages/schematics',
 };

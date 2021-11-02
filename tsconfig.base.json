@@ -22,10 +22,6 @@
       "@angular-eslint/bundled-angular-compiler": [
         "packages/bundled-angular-compiler/src/index.ts"
       ],
-      "@angular-eslint/template-parser": [
-        "packages/template-parser/dist/index"
-      ],
-      "@angular-eslint/template-parser/*": ["packages/template-parser/*"],
       "@angular-eslint/utils": ["packages/utils/src/index.ts"]
     }
   }
