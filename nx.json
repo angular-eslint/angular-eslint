@@ -26,7 +26,6 @@
           "lint",
           "e2e",
           "integration-test",
-          "check-configs",
           "check-rule-docs",
           "update-rule-docs",
           "typecheck"
@@ -45,18 +44,6 @@
       }
     ],
     "typecheck": [
-      {
-        "target": "build",
-        "projects": "dependencies"
-      }
-    ],
-    "test": [
-      {
-        "target": "build",
-        "projects": "dependencies"
-      }
-    ],
-    "check-configs": [
       {
         "target": "build",
         "projects": "dependencies"

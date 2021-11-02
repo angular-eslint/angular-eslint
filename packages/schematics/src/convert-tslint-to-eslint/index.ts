@@ -1,7 +1,9 @@
 import { join, normalize } from '@angular-devkit/core';
 import type { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { chain, noop } from '@angular-devkit/schematics';
+// @ts-expect-error ...
 import eslintPlugin from '@angular-eslint/eslint-plugin';
+// @ts-expect-error ...
 import eslintPluginTemplate from '@angular-eslint/eslint-plugin-template';
 import type { Linter } from 'eslint';
 import type { TSLintRuleOptions } from 'tslint-to-eslint-config';

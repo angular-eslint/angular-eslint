@@ -16,12 +16,11 @@
       }
     },
     "test": {
-      "executor": "@nrwl/workspace:run-commands",
-      "outputs": ["packages/eslint-plugin/coverage"],
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/packages/eslint-plugin"],
       "options": {
-        "cwd": "packages/eslint-plugin",
-        "parallel": false,
-        "commands": ["npx jest --coverage"]
+        "jestConfig": "packages/eslint-plugin/jest.config.js",
+        "passWithNoTests": false
       }
     },
     "clean": {
@@ -38,16 +37,6 @@
         "cwd": "packages/eslint-plugin",
         "parallel": false,
         "commands": ["npx tsc -p tsconfig.json --noEmit"]
-      }
-    },
-    "check-configs": {
-      "executor": "@nrwl/workspace:run-commands",
-      "options": {
-        "cwd": "packages/eslint-plugin",
-        "parallel": false,
-        "commands": [
-          "npx jest tests/configs.test.ts --runTestsByPath --runInBand"
-        ]
       }
     },
     "check-rule-docs": {

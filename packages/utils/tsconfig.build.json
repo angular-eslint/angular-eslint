@@ -3,7 +3,12 @@
   "compilerOptions": {
     "outDir": "./dist",
     "module": "commonjs",
-    "declaration": true
+    "declaration": true,
+    "paths": {
+      "@angular-eslint/bundled-angular-compiler": [
+        "../../bundled-angular-compiler/dist/index.js"
+      ]
+    }
   },
   "include": ["src"]
 }
