@@ -18,7 +18,6 @@
 Disallows usage of the `host` metadata property. See more at https://angular.io/styleguide#style-06-03
 
 - Type: suggestion
-- Category: Best Practices
 
 <br>
 

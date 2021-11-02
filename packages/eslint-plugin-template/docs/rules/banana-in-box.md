@@ -18,7 +18,6 @@
 Ensures that the two-way data binding syntax is correct
 
 - Type: suggestion
-- Category: Best Practices
 - 🔧 Supports autofix (`--fix`)
 
 <br>

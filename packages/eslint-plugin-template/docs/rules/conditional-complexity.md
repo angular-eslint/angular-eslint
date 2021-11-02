@@ -18,7 +18,6 @@
 The conditional complexity should not exceed a rational limit
 
 - Type: suggestion
-- Category: Best Practices
 
 <br>
 

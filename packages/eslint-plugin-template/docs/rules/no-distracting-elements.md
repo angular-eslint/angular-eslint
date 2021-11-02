@@ -18,7 +18,6 @@
 Enforces that no distracting elements are used
 
 - Type: suggestion
-- Category: Best Practices
 - 🔧 Supports autofix (`--fix`)
 
 <br>

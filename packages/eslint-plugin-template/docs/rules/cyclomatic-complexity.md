@@ -18,7 +18,6 @@
 Checks cyclomatic complexity against a specified limit. It is a quantitative measure of the number of linearly independent paths through a program's source code
 
 - Type: suggestion
-- Category: Best Practices
 
 <br>
 

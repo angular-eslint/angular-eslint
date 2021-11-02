@@ -18,7 +18,6 @@
 Enforce consistent prefix for pipes.
 
 - Type: suggestion
-- Category: Stylistic Issues
 
 <br>
 

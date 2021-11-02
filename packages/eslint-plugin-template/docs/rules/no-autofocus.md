@@ -18,7 +18,6 @@
 Ensures that the `autofocus` attribute is not used
 
 - Type: suggestion
-- Category: Best Practices
 - 🔧 Supports autofix (`--fix`)
 
 <br>

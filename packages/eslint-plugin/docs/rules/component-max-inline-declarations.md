@@ -18,7 +18,6 @@
 Enforces a maximum number of lines in inline template, styles and animations. See more at https://angular.io/guide/styleguide#style-05-04
 
 - Type: suggestion
-- Category: Best Practices
 
 <br>
 

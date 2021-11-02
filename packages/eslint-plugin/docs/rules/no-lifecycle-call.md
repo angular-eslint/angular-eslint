@@ -18,7 +18,6 @@
 Disallows explicit calls to lifecycle methods
 
 - Type: suggestion
-- Category: Best Practices
 
 <br>
 
