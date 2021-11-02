@@ -49,7 +49,7 @@ export default createESLintRule<Options, MessageIds>({
     const elementNamePattern = toPattern([...getDomElements()]);
 
     return {
-      [`Element[name=${elementNamePattern}] > :matches(BoundAttribute, TextAttribute)[name=/^aria-.+/]`](
+      [`Element$1[name=${elementNamePattern}] > :matches(BoundAttribute, TextAttribute)[name=/^aria-.+/]`](
         node: TmplAstBoundAttribute | TmplAstTextAttribute,
       ) {
         const { name: attribute, sourceSpan } = node;

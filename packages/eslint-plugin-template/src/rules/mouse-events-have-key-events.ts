@@ -48,7 +48,7 @@ export default createESLintRule<Options, MessageIds>({
     return eventPairs.reduce<Record<string, TSESLint.RuleFunction>>(
       (accumulator, [keyEvent, mouseEvent]) => ({
         ...accumulator,
-        [`Element[name=${domElementsPattern}]:has(BoundEvent[name='${mouseEvent}']):not(:has(BoundEvent[name='${keyEvent}']))`]({
+        [`Element$1[name=${domElementsPattern}]:has(BoundEvent[name='${mouseEvent}']):not(:has(BoundEvent[name='${keyEvent}']))`]({
           sourceSpan,
         }: TmplAstElement) {
           const loc = parserServices.convertNodeSourceSpanToLoc(sourceSpan);

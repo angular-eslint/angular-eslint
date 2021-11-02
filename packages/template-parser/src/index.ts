@@ -39,7 +39,7 @@ const KEYS: VisitorKeys = {
   BoundEvent: ['handler'],
   BoundText: ['value'],
   Conditional: ['condition', 'trueExp', 'falseExp'],
-  Element: ['children', 'inputs', 'outputs', 'attributes'],
+  Element$1: ['children', 'inputs', 'outputs', 'attributes'],
   Interpolation: ['expressions'],
   PrefixNot: ['expression'],
   Program: ['templateNodes'],
@@ -196,12 +196,6 @@ function parseForESLint(
     collectCommentNodes: true,
   });
 
-  /**
-   * Before v11.2.8 (and this PR https://github.com/angular/angular/pull/41251) the @angular/compiler did not
-   * expose Comment nodes on its returned AST, so we need to check they exist before attempting to transform them.
-   *
-   * TODO: Remove this check once the minimum supported version of Angular is v12
-   */
   let ngAstCommentNodes: Comment[] = [];
   if (Array.isArray(angularCompilerResult.commentNodes)) {
     ngAstCommentNodes = angularCompilerResult.commentNodes;

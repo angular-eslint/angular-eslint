@@ -35,7 +35,7 @@ export default createESLintRule<Options, MessageIds>({
     const elementNamePattern = toPattern([...getDomElements()]);
 
     return {
-      [`Element[name=${elementNamePattern}] > BoundAttribute[name="tabindex"][value.ast.value>0], TextAttribute[name="tabindex"][value>0]`]({
+      [`Element$1[name=${elementNamePattern}] > BoundAttribute[name="tabindex"][value.ast.value>0], TextAttribute[name="tabindex"][value>0]`]({
         valueSpan,
       }: (TmplAstBoundAttribute | TmplAstTextAttribute) & {
         valueSpan: ParseSourceSpan;

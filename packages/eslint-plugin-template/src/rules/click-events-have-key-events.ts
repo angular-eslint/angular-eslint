@@ -31,7 +31,7 @@ export default createESLintRule<Options, MessageIds>({
   defaultOptions: [],
   create(context) {
     return {
-      Element(node: TmplAstElement) {
+      Element$1(node: TmplAstElement) {
         if (!getDomElements().has(node.name)) {
           return;
         }

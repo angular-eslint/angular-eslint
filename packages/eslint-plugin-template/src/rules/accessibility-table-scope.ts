@@ -38,7 +38,7 @@ export default createESLintRule<Options, MessageIds>({
     );
 
     return {
-      [`Element[name=${domElementsPattern}] > :matches(BoundAttribute, TextAttribute)[name='scope']`]({
+      [`Element$1[name=${domElementsPattern}] > :matches(BoundAttribute, TextAttribute)[name='scope']`]({
         sourceSpan,
       }: TmplAstBoundAttribute | TmplAstTextAttribute) {
         const loc = parserServices.convertNodeSourceSpanToLoc(sourceSpan);

@@ -49,7 +49,7 @@ export default createESLintRule<Options, MessageIds>({
     const parserServices = getTemplateParserServices(context);
 
     return {
-      Element({ inputs, outputs, attributes }: TmplAstElement) {
+      Element$1({ inputs, outputs, attributes }: TmplAstElement) {
         const duplicateInputsAndAttributes = findDuplicates([
           ...inputs,
           ...attributes,

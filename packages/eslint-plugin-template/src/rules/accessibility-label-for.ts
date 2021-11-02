@@ -74,7 +74,7 @@ export default createESLintRule<Options, MessageIds>({
     const labelComponentsPattern = toPattern([...labelComponents]);
 
     return {
-      [`Element[name=${labelComponentsPattern}]`](node: TmplAstElement) {
+      [`Element$1[name=${labelComponentsPattern}]`](node: TmplAstElement) {
         const attributesInputs: ReadonlySet<string> = new Set(
           [...node.attributes, ...node.inputs].map(({ name }) => name),
         );

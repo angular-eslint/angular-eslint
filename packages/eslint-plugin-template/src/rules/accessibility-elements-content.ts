@@ -37,7 +37,7 @@ export default createESLintRule<Options, MessageIds>({
     const parserServices = getTemplateParserServices(context);
 
     return {
-      'Element[name=/^(a|button|h1|h2|h3|h4|h5|h6)$/][children.length=0]'(
+      'Element$1[name=/^(a|button|h1|h2|h3|h4|h5|h6)$/][children.length=0]'(
         node: TmplAstElement,
       ) {
         if (isHiddenFromScreenReader(node)) return;

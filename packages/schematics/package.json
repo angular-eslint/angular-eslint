@@ -37,7 +37,7 @@
     "tslint-to-eslint-config": "2.4.0"
   },
   "peerDependencies": {
-    "@angular/cli": ">= 12.0.0 < 13.0.0"
+    "@angular/cli": ">= 13.0.0-rc.2 < 14.0.0"
   },
   "gitHead": "d1d0e9f61f6a864d14507aa09c4b08c085309e7d"
 }

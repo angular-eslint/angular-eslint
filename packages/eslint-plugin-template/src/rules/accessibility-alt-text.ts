@@ -33,7 +33,7 @@ export default createESLintRule<Options, MessageIds>({
     const parserServices = getTemplateParserServices(context);
 
     return {
-      'Element[name=/^(img|area|object|input)$/]'(node: TmplAstElement) {
+      'Element$1[name=/^(img|area|object|input)$/]'(node: TmplAstElement) {
         const isValid = isValidNode(node);
 
         if (!isValid) {

@@ -66,7 +66,7 @@ describe('parseForESLint()', () => {
           106,
         ],
         "templateNodes": Array [
-          Text {
+          Text$3 {
             "sourceSpan": ParseSourceSpan {
               "details": null,
               "end": ParseLocation {
@@ -109,11 +109,11 @@ describe('parseForESLint()', () => {
                 "offset": 7,
               },
             },
-            "type": "Text",
+            "type": "Text$3",
             "value": "
             ",
           },
-          Text {
+          Text$3 {
             "sourceSpan": ParseSourceSpan {
               "details": null,
               "end": ParseLocation {
@@ -156,14 +156,14 @@ describe('parseForESLint()', () => {
                 "offset": 47,
               },
             },
-            "type": "Text",
+            "type": "Text$3",
             "value": "
             ",
           },
-          Element {
+          Element$1 {
             "attributes": Array [],
             "children": Array [
-              Text {
+              Text$3 {
                 "sourceSpan": ParseSourceSpan {
                   "details": null,
                   "end": ParseLocation {
@@ -206,7 +206,7 @@ describe('parseForESLint()', () => {
                     "offset": 52,
                   },
                 },
-                "type": "Text",
+                "type": "Text$3",
                 "value": "some node",
               },
             ],
@@ -341,9 +341,9 @@ describe('parseForESLint()', () => {
                 "offset": 47,
               },
             },
-            "type": "Element",
+            "type": "Element$1",
           },
-          Text {
+          Text$3 {
             "sourceSpan": ParseSourceSpan {
               "details": null,
               "end": ParseLocation {
@@ -386,11 +386,11 @@ describe('parseForESLint()', () => {
                 "offset": 74,
               },
             },
-            "type": "Text",
+            "type": "Text$3",
             "value": "
             ",
           },
-          Text {
+          Text$3 {
             "sourceSpan": ParseSourceSpan {
               "details": null,
               "end": ParseLocation {
@@ -433,7 +433,7 @@ describe('parseForESLint()', () => {
                 "offset": 106,
               },
             },
-            "type": "Text",
+            "type": "Text$3",
             "value": "
           ",
           },

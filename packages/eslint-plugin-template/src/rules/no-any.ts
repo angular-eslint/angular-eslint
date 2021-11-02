@@ -1,4 +1,9 @@
-import type { MethodCall } from '@angular-eslint/bundled-angular-compiler';
+import type { Call } from '@angular-eslint/bundled-angular-compiler';
+import {
+  ImplicitReceiver,
+  PropertyRead,
+  ThisReceiver,
+} from '@angular-eslint/bundled-angular-compiler';
 import {
   createESLintRule,
   ensureTemplateParser,
@@ -31,10 +36,25 @@ export default createESLintRule<Options, MessageIds>({
     const sourceCode = context.getSourceCode();
 
     return {
-      [`MethodCall[name="${ANY_TYPE_CAST_FUNCTION_NAME}"]:not([receiver.expression]):not([receiver.name])`]({
-        nameSpan,
+      [`Call[receiver.name="${ANY_TYPE_CAST_FUNCTION_NAME}"]`]({
+        receiver,
         sourceSpan: { end, start },
-      }: MethodCall) {
+      }: Call) {
+        if (!(receiver instanceof PropertyRead)) {
+          return;
+        }
+        if (
+          !(
+            // this.$any() is also valid usage of the native Angular $any()
+            (
+              receiver.receiver instanceof ThisReceiver ||
+              receiver.receiver instanceof ImplicitReceiver
+            )
+          )
+        ) {
+          return;
+        }
+        const nameSpan = receiver.nameSpan;
         context.report({
           messageId: 'noAny',
           loc: {

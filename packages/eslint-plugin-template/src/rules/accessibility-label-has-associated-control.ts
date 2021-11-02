@@ -93,7 +93,7 @@ export default createESLintRule<Options, MessageIds>({
     const labelComponentsPattern = toPattern(labelSelectors);
 
     return {
-      [`Element[name=${labelComponentsPattern}]`](node: TmplAstElement) {
+      [`Element$1[name=${labelComponentsPattern}]`](node: TmplAstElement) {
         const element = allLabelComponents.find(
           ({ selector }) => selector === node.name,
         );

@@ -35,7 +35,7 @@ export default createESLintRule<Options, MessageIds>({
     const elementNamePattern = toPattern([...getDomElements()]);
 
     return {
-      [`Element[name=${elementNamePattern}] > :matches(BoundAttribute, TextAttribute)[name="autofocus"]`]({
+      [`Element$1[name=${elementNamePattern}] > :matches(BoundAttribute, TextAttribute)[name="autofocus"]`]({
         sourceSpan,
       }: TmplAstBoundAttribute | TmplAstTextAttribute) {
         const loc = parserServices.convertNodeSourceSpanToLoc(sourceSpan);

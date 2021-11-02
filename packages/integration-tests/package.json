@@ -2,9 +2,6 @@
   "name": "@angular-eslint/integration-tests",
   "version": "12.6.1",
   "private": true,
-  "dependencies": {
-    "@angular/cli": "12.1.1"
-  },
   "peerDependencies": {
     "eslint": "*",
     "typescript": "*"

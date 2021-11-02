@@ -29,7 +29,7 @@ export function convertElementSourceSpanToLoc(
   context: Readonly<TSESLint.RuleContext<string, readonly unknown[]>>,
   node: TmplAstElement & { type: string },
 ): TSESTree.SourceLocation {
-  if (node.type !== 'Element') {
+  if (node.type !== 'Element$1') {
     // We explicitly throw an exception since this function should not be used
     // with non-element nodes, e.g. `TextAttribute` or `MethodDefinition`, etc.
     throw new Error(
