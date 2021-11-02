@@ -108,7 +108,7 @@ describe('Linter Builder', () => {
         },
       },
       isVerbose: false,
-    } as any;
+    };
   });
 
   afterAll(() => {

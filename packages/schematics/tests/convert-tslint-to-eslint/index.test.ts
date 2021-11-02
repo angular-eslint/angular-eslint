@@ -98,7 +98,7 @@ describe('convert-tslint-to-eslint', () => {
       .toPromise();
   });
 
-  xdescribe('default Angular CLI project (i.e. uses a src/ directory at the root of the workspace)', () => {
+  describe('default Angular CLI project (i.e. uses a src/ directory at the root of the workspace)', () => {
     it('should work', async () => {
       const result = await schematicRunner
         .runSchematicAsync<Schema>(
@@ -117,7 +117,7 @@ describe('convert-tslint-to-eslint', () => {
     });
   });
 
-  xdescribe('additional project (e.g. within projects/ directory)', () => {
+  describe('additional project (e.g. within projects/ directory)', () => {
     it('should work', async () => {
       await schematicRunner
         .runSchematicAsync<Schema>(
