@@ -18,7 +18,6 @@
 Ensures that directives not implement conflicting lifecycle interfaces.
 
 - Type: suggestion
-- Category: Best Practices
 
 <br>
 

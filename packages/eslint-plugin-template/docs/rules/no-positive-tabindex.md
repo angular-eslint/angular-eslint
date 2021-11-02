@@ -18,7 +18,8 @@
 Ensures that the `tabindex` attribute is not positive
 
 - Type: suggestion
-- Category: Best Practices
+
+- 💡 Provides suggestions on how to fix issues (https://eslint.org/docs/developer-guide/working-with-rules#providing-suggestions)
 
 <br>
 

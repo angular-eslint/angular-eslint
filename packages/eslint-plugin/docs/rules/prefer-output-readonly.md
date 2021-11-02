@@ -18,7 +18,6 @@
 Prefer to declare `@Output` as `readonly` since they are not supposed to be reassigned
 
 - Type: suggestion
-- Category: Best Practices
 
 - 💡 Provides suggestions on how to fix issues (https://eslint.org/docs/developer-guide/working-with-rules#providing-suggestions)
 

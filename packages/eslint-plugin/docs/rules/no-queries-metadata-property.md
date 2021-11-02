@@ -18,7 +18,6 @@
 Disallows usage of the `queries` metadata property. See more at https://angular.io/styleguide#style-05-12.
 
 - Type: suggestion
-- Category: Best Practices
 
 <br>
 

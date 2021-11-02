@@ -18,7 +18,6 @@
 Ensures that output bindings, including aliases, are not named "on", nor prefixed with it. See more at https://angular.io/guide/styleguide#style-05-16
 
 - Type: suggestion
-- Category: Best Practices
 
 <br>
 

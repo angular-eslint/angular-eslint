@@ -18,7 +18,6 @@
 Ensures that the click event is accompanied with at least one key event keyup, keydown or keypress.
 
 - Type: suggestion
-- Category: Best Practices
 
 <br>
 

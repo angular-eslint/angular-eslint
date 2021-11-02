@@ -18,7 +18,6 @@
 Directive selectors should follow given naming rules. See more at https://angular.io/guide/styleguide#style-02-06 and https://angular.io/guide/styleguide#style-02-08.
 
 - Type: suggestion
-- Category: Best Practices
 
 <br>
 

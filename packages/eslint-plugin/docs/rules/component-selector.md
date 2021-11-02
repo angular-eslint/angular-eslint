@@ -19,7 +19,6 @@ Component selectors should follow given naming rules. See more at https://angula
 and https://angular.io/guide/styleguide#style-05-03.
 
 - Type: suggestion
-- Category: Best Practices
 
 <br>
 

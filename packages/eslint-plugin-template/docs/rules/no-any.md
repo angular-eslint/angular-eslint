@@ -18,7 +18,6 @@
 The use of "$any" nullifies the compile-time benefits of Angular's type system
 
 - Type: suggestion
-- Category: Best Practices
 
 - 💡 Provides suggestions on how to fix issues (https://eslint.org/docs/developer-guide/working-with-rules#providing-suggestions)
 

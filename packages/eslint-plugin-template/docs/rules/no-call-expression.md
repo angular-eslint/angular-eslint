@@ -18,7 +18,6 @@
 Disallows calling expressions in templates, except for output handlers
 
 - Type: suggestion
-- Category: Best Practices
 
 <br>
 

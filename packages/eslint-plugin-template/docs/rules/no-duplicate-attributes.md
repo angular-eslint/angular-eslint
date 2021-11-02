@@ -18,7 +18,6 @@
 Ensures that there are no duplicate input properties or output event listeners
 
 - Type: problem
-- Category: Possible Errors
 
 - 💡 Provides suggestions on how to fix issues (https://eslint.org/docs/developer-guide/working-with-rules#providing-suggestions)
 
