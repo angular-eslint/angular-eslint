@@ -29,7 +29,9 @@ export function readJsonInTree<T = any>(host: Tree, path: string): T {
   try {
     return JSON.parse(contents);
   } catch (e) {
-    throw new Error(`Cannot parse ${path}: ${e.message}`);
+    throw new Error(
+      `Cannot parse ${path}: ${e instanceof Error ? e.message : ''}`,
+    );
   }
 }
 

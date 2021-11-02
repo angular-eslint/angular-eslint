@@ -41,7 +41,7 @@ export async function runLint(directory: string): Promise<string | undefined> {
     const { stdout } = await subprocess;
 
     return normalizeOutput(stdout);
-  } catch (error) {
+  } catch (error: any) {
     return normalizeOutput(error.stdout || error);
   }
 }

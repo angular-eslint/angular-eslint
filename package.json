@@ -19,7 +19,7 @@
   },
   "scripts": {
     "build": "nx run-many --target=build --all --parallel",
-    "test": "nx run-many --target=test --all --parallel",
+    "test": "nx run-many --target=test --all",
     "integration-tests": "nx clean integration-tests && nx spawn-and-populate-local-registry integration-tests && nx run-many --target=integration-test --all",
     "update-integration-tests": "yarn integration-tests -u",
     "check-clean-workspace-after-install": "git diff --quiet --exit-code",
@@ -73,7 +73,7 @@
     "eslint-config-prettier": "8.3.0",
     "execa": "5.1.1",
     "husky": "3.1.0",
-    "jest": "27.2.3",
+    "jest": "27.3.1",
     "json-schema-to-typescript": "10.1.5",
     "json-schema-traverse": "1.0.0",
     "lerna": "4.0.0",
@@ -85,8 +85,8 @@
     "strip-ansi": "6.0.1",
     "terser": "5.9.0",
     "tree-kill": "^1.2.2",
-    "ts-jest": "27.0.5",
+    "ts-jest": "27.0.7",
     "ts-node": "10.4.0",
-    "typescript": "4.3.5"
+    "typescript": "4.4.4"
   }
 }
