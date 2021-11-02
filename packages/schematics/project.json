@@ -25,6 +25,12 @@
       }
     },
     "test": {
+      "dependsOn": [
+        {
+          "projects": "dependencies",
+          "target": "build"
+        }
+      ],
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/packages/schematics"],
       "options": {
