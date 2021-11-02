@@ -1,13 +1,19 @@
 'use strict';
 
 module.exports = {
+  displayName: 'eslint-plugin-template',
+  preset: '../../jest.preset.js',
+  globals: {
+    'ts-jest': {
+      tsconfig: '<rootDir>/tsconfig.spec.json',
+    },
+  },
   testEnvironment: 'node',
   transform: {
     '^.+\\.tsx?$': 'ts-jest',
   },
+  testMatch: null,
   testRegex: ['./tests/.+\\.test\\.ts$', './tests/.+/spec\\.ts$'],
-  collectCoverage: false,
-  collectCoverageFrom: ['src/**/*.{js,jsx,ts,tsx}'],
-  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
-  coverageReporters: ['text-summary', 'lcov'],
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
+  coverageDirectory: '../../coverage/packages/eslint-plugin-template',
 };

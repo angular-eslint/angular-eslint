@@ -2,7 +2,13 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "module": "commonjs"
+    "module": "commonjs",
+    "paths": {
+      "@angular-eslint/eslint-plugin": ["../../eslint-plugin/dist/index.js"],
+      "@angular-eslint/eslint-plugin-template": [
+        "../../eslint-plugin-template/dist/index.js"
+      ]
+    }
   },
   "include": ["src"]
 }

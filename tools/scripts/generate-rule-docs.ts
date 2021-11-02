@@ -1,3 +1,4 @@
+import type { TSESLint } from '@typescript-eslint/experimental-utils';
 import { readdirSync, readFileSync, writeFileSync } from 'fs';
 import { compile } from 'json-schema-to-typescript';
 import traverse from 'json-schema-traverse';
@@ -29,19 +30,15 @@ const testDirs = readdirSync(testDirsDir);
   for (const [ruleName, ruleData] of Object.entries(allRuleData)) {
     const {
       ruleConfig: {
-        meta: {
-          deprecated,
-          replacedBy,
-          type,
-          docs: { description, category, suggestion },
-          fixable,
-          schema,
-        },
+        meta: { deprecated, replacedBy, type, fixable, schema },
         defaultOptions,
       },
       ruleFilePath,
       testCasesFilePath,
     } = ruleData;
+
+    const docs = ruleData.ruleConfig.meta.docs as TSESLint.RuleMetaDataDocs;
+    const { description, category, suggestion } = docs;
 
     let schemaAsInterface = '';
     if (Array.isArray(schema) && schema[0]) {
@@ -111,7 +108,7 @@ const testDirs = readdirSync(testDirsDir);
 
 ${
   deprecated
-    ? `## ⚠️ THIS RULE IS DEPRECATED\n\nPlease use ${replacedBy
+    ? `## ⚠️ THIS RULE IS DEPRECATED\n\nPlease use ${(replacedBy || [])
         .map(
           (r: string) =>
             `\`@angular-eslint/${
@@ -212,7 +209,9 @@ ${convertCodeExamplesToMarkdown(
 interface RuleData {
   ruleFilePath: string;
   testCasesFilePath: string;
-  ruleConfig: any;
+  ruleConfig: TSESLint.RuleModule<string, []> & {
+    defaultOptions?: Record<string, unknown>[];
+  };
   valid: ExtractedTestCase[];
   invalid: ExtractedTestCase[];
 }
@@ -223,7 +222,7 @@ type AllRuleData = {
 
 interface ExtractedTestCase {
   code: string;
-  options?: any[];
+  options?: unknown[];
 }
 
 async function generateAllRuleData(): Promise<AllRuleData> {
@@ -389,7 +388,11 @@ function standardizeSpecialUnderlineChar(str: string): string {
         return line
           .split('')
           .map((char) =>
-            SPECIAL_UNDERLINE_CHARS.includes(char as any) ? '~' : char,
+            SPECIAL_UNDERLINE_CHARS.includes(
+              char as typeof SPECIAL_UNDERLINE_CHARS[number],
+            )
+              ? '~'
+              : char,
           )
           .join('');
       }

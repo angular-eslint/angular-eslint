@@ -174,7 +174,7 @@ export async function runNgNew(
 
   console.log(process.cwd());
 
-  const subprocess = execa('../node_modules/.bin/ng', [
+  const subprocess = execa('../../../node_modules/.bin/ng', [
     'new',
     `--strict=true`,
     `--package-manager=npm`,

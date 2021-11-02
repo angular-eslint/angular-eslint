@@ -23,7 +23,7 @@
     "integration-tests": "nx clean integration-tests && nx spawn-and-populate-local-registry integration-tests && nx run-many --target=integration-test --all",
     "update-integration-tests": "yarn integration-tests -u",
     "check-clean-workspace-after-install": "git diff --quiet --exit-code",
-    "clean": "lerna clean && nx run-many --target=clean --all --parallel",
+    "clean": "nx reset && lerna clean && nx run-many --target=clean --all --parallel",
     "cz": "git-cz",
     "postinstall": "tools/scripts/postinstall.sh",
     "check-clean-integration-test-fixtures": "tools/scripts/check-clean-integration-test-fixtures.sh",
@@ -36,7 +36,6 @@
     "check-readme-rules-list": "ts-node --transpile-only --project tsconfig.tools.json tools/scripts/check-readme-rules-list.ts",
     "update-readme-rules-list": "ts-node --transpile-only --project tsconfig.tools.json tools/scripts/update-readme-rules-list.ts",
     "exec-tool": "ts-node --transpile-only --project tsconfig.tools.json tools/scripts/exec-tool.ts",
-    "check-configs": "nx run-many --target=check-configs --all --parallel",
     "update-configs": "ts-node --transpile-only --project tsconfig.tools.json tools/scripts/generate-configs.ts",
     "check-rule-docs": "nx run-many --target=check-rule-docs --all --parallel",
     "update-rule-docs": "nx run-many --target=update-rule-docs --all --parallel"
@@ -52,11 +51,8 @@
     ]
   },
   "devDependencies": {
-    "@angular-devkit/architect": "0.1201.1",
-    "@angular-devkit/build-angular": "12.1.1",
     "@angular/cli": "12.1.1",
     "@angular/compiler": "12.1.1",
-    "@angular/compiler-cli": "12.1.1",
     "@commitlint/cli": "13.2.1",
     "@commitlint/config-conventional": "13.2.0",
     "@nrwl/cli": "13.1.2",
@@ -88,6 +84,7 @@
     "rimraf": "3.0.2",
     "strip-ansi": "6.0.1",
     "terser": "5.9.0",
+    "tree-kill": "^1.2.2",
     "ts-jest": "27.0.5",
     "ts-node": "10.4.0",
     "typescript": "4.3.5"
