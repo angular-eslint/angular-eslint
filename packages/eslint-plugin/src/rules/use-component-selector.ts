@@ -12,7 +12,6 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description: 'Component selector must be declared',
-      category: 'Best Practices',
       recommended: false,
     },
     schema: [],

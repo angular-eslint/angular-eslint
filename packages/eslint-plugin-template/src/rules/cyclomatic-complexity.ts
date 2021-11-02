@@ -19,7 +19,6 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description: `Checks cyclomatic complexity against a specified limit. It is a quantitative measure of the number of linearly independent paths through a program's source code`,
-      category: 'Best Practices',
       recommended: false,
     },
     schema: [

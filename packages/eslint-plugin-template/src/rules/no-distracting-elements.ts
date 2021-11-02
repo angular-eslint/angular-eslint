@@ -14,7 +14,6 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description: 'Enforces that no distracting elements are used',
-      category: 'Best Practices',
       recommended: false,
     },
     fixable: 'code',

@@ -30,10 +30,9 @@ export default createESLintRule<Options, MessageIds>({
     docs: {
       description:
         'Ensures that correct ARIA attributes and respective values are used',
-      category: 'Best Practices',
       recommended: false,
-      suggestion: true,
     },
+    hasSuggestions: true,
     schema: [],
     messages: {
       accessibilityValidAria:

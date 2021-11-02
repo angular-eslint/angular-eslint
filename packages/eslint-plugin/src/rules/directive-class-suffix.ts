@@ -19,7 +19,6 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description: `Classes decorated with @Directive must have suffix "Directive" (or custom) in their name. See more at ${STYLE_GUIDE_LINK}`,
-      category: 'Best Practices',
       recommended: 'error',
     },
     schema: [

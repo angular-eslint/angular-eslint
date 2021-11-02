@@ -19,7 +19,6 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description: 'Ensures that the `autofocus` attribute is not used',
-      category: 'Best Practices',
       recommended: false,
     },
     fixable: 'code',

@@ -20,7 +20,6 @@ export default createESLintRule<SelectorUtils.Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description: `Directive selectors should follow given naming rules. See more at ${STYLE_GUIDE_STYLE_TYPE_LINK} and ${STYLE_GUIDE_PREFIX_LINK}.`,
-      category: 'Best Practices',
       recommended: false,
     },
     schema: [

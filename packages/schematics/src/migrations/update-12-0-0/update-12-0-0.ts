@@ -5,12 +5,8 @@ import { updateJsonInTree, visitNotIgnoredFiles } from '../../utils';
 import { updateDependencies } from '../utils/dependencies';
 
 const updatedAngularESLintVersion = '^12.0.0';
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const packageJSON = require('../../../package.json');
-const updatedTypeScriptESLintVersion =
-  packageJSON.devDependencies['@typescript-eslint/experimental-utils'];
-const updatedESLintVersion = packageJSON.devDependencies['eslint'];
+const updatedTypeScriptESLintVersion = '4.28.2';
+const updatedESLintVersion = '7.26.0';
 
 function migrateToAccessibilityLabelHasAssociatedControlSchema(
   rule: Linter.RuleEntry | undefined,

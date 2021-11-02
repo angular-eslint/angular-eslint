@@ -20,7 +20,6 @@ export default createESLintRule<Options, MessageIds>({
     docs: {
       description:
         'Ensures that the `scope` attribute is only used on the `<th>` element',
-      category: 'Best Practices',
       recommended: false,
     },
     fixable: 'code',

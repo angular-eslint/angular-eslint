@@ -22,10 +22,9 @@ export default createESLintRule<Options, MessageIds>({
     docs: {
       description:
         'Ensures that there are no duplicate input properties or output event listeners',
-      category: 'Possible Errors',
       recommended: false,
-      suggestion: true,
     },
+    hasSuggestions: true,
     schema: [
       {
         type: 'object',
