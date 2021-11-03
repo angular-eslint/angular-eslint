@@ -18,7 +18,6 @@
 Ensures that the mouse events `mouseout` and `mouseover` are accompanied by `focus` and `blur` events respectively. Coding for the keyboard is important for users with physical disabilities who cannot use a mouse, AT compatibility, and screenreader users. See more at https://www.w3.org/WAI/WCAG21/Understanding/keyboard
 
 - Type: suggestion
-- Category: Best Practices
 
 <br>
 

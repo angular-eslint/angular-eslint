@@ -18,7 +18,6 @@
 Classes decorated with @Component must have suffix "Component" (or custom) in their name. See more at https://angular.io/styleguide#style-02-03
 
 - Type: suggestion
-- Category: Best Practices
 
 <br>
 

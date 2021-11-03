@@ -20,10 +20,9 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description: `The use of "${ANY_TYPE_CAST_FUNCTION_NAME}" nullifies the compile-time benefits of Angular's type system`,
-      category: 'Best Practices',
       recommended: false,
-      suggestion: true,
     },
+    hasSuggestions: true,
     schema: [],
     messages: {
       noAny: `Avoid using "${ANY_TYPE_CAST_FUNCTION_NAME}" in templates`,

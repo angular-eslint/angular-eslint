@@ -18,7 +18,6 @@
 Ensures that the `scope` attribute is only used on the `<th>` element
 
 - Type: suggestion
-- Category: Best Practices
 - 🔧 Supports autofix (`--fix`)
 
 <br>

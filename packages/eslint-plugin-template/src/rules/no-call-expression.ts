@@ -17,7 +17,6 @@ export default createESLintRule<Options, MessageIds>({
     docs: {
       description:
         'Disallows calling expressions in templates, except for output handlers',
-      category: 'Best Practices',
       recommended: false,
     },
     schema: [],

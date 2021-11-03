@@ -13,7 +13,6 @@ export default createESLintRule<Options, MessageIds>({
     docs: {
       description:
         'Ensures that lifecycle methods are used in a correct context',
-      category: 'Possible Errors',
       recommended: 'error',
     },
     schema: [],

@@ -18,7 +18,6 @@
 Ensures that output bindings, including aliases, are not named as standard DOM events
 
 - Type: suggestion
-- Category: Best Practices
 
 <br>
 

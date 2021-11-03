@@ -31,7 +31,7 @@
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^12.11.1",
     "codelyzer": "^6.0.0",
-    "eslint-plugin-import": "2.22.1",
+    "eslint-plugin-import": "2.25.2",
     "eslint-plugin-jsdoc": "30.7.6",
     "eslint-plugin-prefer-arrow": "1.2.2",
     "jasmine-core": "~3.6.0",

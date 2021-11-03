@@ -18,7 +18,6 @@
 Component selector must be declared
 
 - Type: suggestion
-- Category: Best Practices
 
 <br>
 

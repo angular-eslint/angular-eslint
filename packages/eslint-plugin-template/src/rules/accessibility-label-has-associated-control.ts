@@ -40,7 +40,6 @@ export default createESLintRule<Options, MessageIds>({
     docs: {
       description:
         'Ensures that a label element/component is associated with a form element',
-      category: 'Best Practices',
       recommended: false,
     },
     schema: [

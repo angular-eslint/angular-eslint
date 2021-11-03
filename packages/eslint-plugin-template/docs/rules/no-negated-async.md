@@ -18,7 +18,6 @@
 Ensures that async pipe results are not negated
 
 - Type: suggestion
-- Category: Best Practices
 
 - 💡 Provides suggestions on how to fix issues (https://eslint.org/docs/developer-guide/working-with-rules#providing-suggestions)
 
