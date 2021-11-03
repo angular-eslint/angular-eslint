@@ -18,7 +18,15 @@
   ],
   "schematics": "./dist/collection.json",
   "ng-update": {
-    "migrations": "./dist/migrations.json"
+    "migrations": "./dist/migrations.json",
+    "packageGroup": [
+      "@angular-eslint/builder",
+      "@angular-eslint/bundled-angular-compiler",
+      "@angular-eslint/eslint-plugin",
+      "@angular-eslint/eslint-plugin-template",
+      "@angular-eslint/template-parser",
+      "@angular-eslint/utils"
+    ]
   },
   "ng-add": {
     "save": "devDependencies"
