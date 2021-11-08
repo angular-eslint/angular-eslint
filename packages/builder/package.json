@@ -19,10 +19,10 @@
   ],
   "builders": "./builders.json",
   "dependencies": {
-    "@nrwl/devkit": "12.6.0"
+    "@nrwl/devkit": "13.1.3"
   },
   "peerDependencies": {
-    "eslint": "*",
+    "eslint": "^7.0.0 || ^8.0.0",
     "typescript": "*"
   },
   "gitHead": "d1d0e9f61f6a864d14507aa09c4b08c085309e7d"
