@@ -207,7 +207,7 @@ export const invalid = [
     annotatedOutput: `
       <div>
         <span i18n>test{{data_from_backend}}</span>
-              
+
       </div>
     `,
   }),
@@ -222,7 +222,7 @@ export const invalid = [
     options: [{ checkAttributes: false }],
     annotatedOutput: `
       <ng-container i18n>{ value, plural, =0 {<div>No elements</div>} =1 {111} }</ng-container>
-      
+
     `,
   }),
   convertAnnotatedSourceToFailureCase({
@@ -239,7 +239,7 @@ export const invalid = [
     annotatedOutput: `
       <div>
         <ng-container i18n>Some text&nbsp;t@ tr1nslate</ng-container>
-                      
+
       </div>
     `,
   }),
@@ -259,7 +259,7 @@ export const invalid = [
             messageId: suggestAddI18nAttribute,
             output: `
       <p i18n>Lorem ipsum <em i18n="@@dolor">dolor</em> sit amet.</p>
-                                                   
+
     `,
           },
         ],
@@ -272,7 +272,7 @@ export const invalid = [
             messageId: suggestAddI18nAttribute,
             output: `
       <p i18n>Lorem ipsum <em i18n="@@dolor">dolor</em> sit amet.</p>
-                                                   
+
     `,
           },
         ],
@@ -450,23 +450,23 @@ export const invalid = [
     annotatedOutput: `
       <div
         tooltip="This requires translation" i18n-tooltip
-               
+
         i18n-placeholder
         placeholder="More translation, please"
-                   
+
         class="red"
       >
         <div
           *ngIf="true"
           width="100px"
           label="Templates need translation too." i18n-label
-               
+
         >
           <span i18n label="label is ignored in 'ignoreAttributes'">
-          
+
             Missing custom ID
           </span>
-                
+
         </div>
       </div>
     `,
