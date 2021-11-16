@@ -208,24 +208,23 @@ export default createESLintRule<Options, MessageIds>({
 
       const loc = parserServices.convertNodeSourceSpanToLoc(sourceSpan);
 
-      if (!requireDescription) {
-        if (!isEmpty(customId)) {
-          const sourceSpans = collectedCustomIds.get(customId) ?? [];
-          collectedCustomIds.set(customId, [...sourceSpans, sourceSpan]);
-          return;
-        }
-
-        context.report({
-          messageId: 'i18nCustomIdOnElement',
-          loc,
-        });
-      } else {
-        if (isEmpty(description)) {
+      if (checkId) {
+        if (isEmpty(customId)) {
           context.report({
-            messageId: 'i18nMissingDescription',
+            messageId: 'i18nCustomIdOnElement',
             loc,
           });
+        } else {
+          const sourceSpans = collectedCustomIds.get(customId) ?? [];
+          collectedCustomIds.set(customId, [...sourceSpans, sourceSpan]);
         }
+      }
+
+      if (requireDescription && isEmpty(description)) {
+        context.report({
+          messageId: 'i18nMissingDescription',
+          loc,
+        });
       }
     }
 

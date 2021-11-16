@@ -162,6 +162,12 @@ export const valid = [
     code: `
       <h1 i18n="An introduction header for this sample">Hello i18n!</h1>
     `,
+    options: [{ checkId: false, requireDescription: true }],
+  },
+  {
+    code: `
+      <h1 i18n="An introduction header for this sample@@custom-id">Hello i18n!</h1>
+    `,
     options: [{ requireDescription: true }],
   },
 ];
@@ -463,6 +469,16 @@ export const invalid = [
     annotatedSource: `
       <h1 i18n>Hello</h1>
       ~~~~~~~~~~~~~~~~~~~
+    `,
+    messageId: i18nMissingDescription,
+    options: [{ checkId: false, requireDescription: true }],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if i18n description is missing, despite an ID being provided',
+    annotatedSource: `
+      <h1 i18n="@@custom-id">Hello</h1>
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     `,
     messageId: i18nMissingDescription,
     options: [{ requireDescription: true }],
