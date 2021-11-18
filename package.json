@@ -84,7 +84,7 @@
     "rimraf": "3.0.2",
     "strip-ansi": "6.0.1",
     "terser": "5.9.0",
-    "tree-kill": "^1.2.2",
+    "tree-kill": "1.2.2",
     "ts-jest": "27.0.5",
     "ts-node": "10.4.0",
     "typescript": "4.3.5"
