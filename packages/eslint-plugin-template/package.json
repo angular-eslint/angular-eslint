@@ -1,6 +1,6 @@
 {
   "name": "@angular-eslint/eslint-plugin-template",
-  "version": "12.6.1",
+  "version": "12.7.0",
   "description": "ESLint plugin for Angular Templates",
   "license": "MIT",
   "main": "dist/index.js",
@@ -17,13 +17,13 @@
     "LICENSE"
   ],
   "dependencies": {
-    "@angular-eslint/bundled-angular-compiler": "12.6.1",
+    "@angular-eslint/bundled-angular-compiler": "12.7.0",
     "@typescript-eslint/experimental-utils": "4.28.2",
     "aria-query": "^4.2.2",
     "axobject-query": "^2.2.0"
   },
   "devDependencies": {
-    "@angular-eslint/utils": "12.6.1",
+    "@angular-eslint/utils": "12.7.0",
     "@types/aria-query": "4.2.2"
   },
   "peerDependencies": {

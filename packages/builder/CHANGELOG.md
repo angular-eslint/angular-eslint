@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [12.7.0](https://github.com/angular-eslint/angular-eslint/compare/v12.6.1...v12.7.0) (2021-11-18)
+
+### Features
+
+- **builder:** expose nx executor without ng-compat layer ([#808](https://github.com/angular-eslint/angular-eslint/issues/808)) ([b2cd5d1](https://github.com/angular-eslint/angular-eslint/commit/b2cd5d1756ac466882b953b641fed59a3403421a))
+
 ## [12.6.1](https://github.com/angular-eslint/angular-eslint/compare/v12.6.0...v12.6.1) (2021-10-26)
 
 **Note:** Version bump only for package @angular-eslint/builder
