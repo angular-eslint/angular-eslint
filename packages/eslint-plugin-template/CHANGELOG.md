@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [12.7.0](https://github.com/angular-eslint/angular-eslint/compare/v12.6.1...v12.7.0) (2021-11-18)
+
+### Features
+
+- **i18n:** option to require description for i18n metadata ([#804](https://github.com/angular-eslint/angular-eslint/issues/804)) ([7d072e2](https://github.com/angular-eslint/angular-eslint/commit/7d072e2ec053f388adce00be54c75d8c76373699))
+
 ## [12.6.1](https://github.com/angular-eslint/angular-eslint/compare/v12.6.0...v12.6.1) (2021-10-26)
 
 ### Bug Fixes
