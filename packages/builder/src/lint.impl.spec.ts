@@ -98,6 +98,7 @@ describe('Linter Builder', () => {
       root: '/root',
       cwd: '/root',
       workspace: {
+        npmScope: '',
         version: 2,
         projects: {
           [projectName]: {

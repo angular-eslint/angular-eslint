@@ -48,6 +48,12 @@
         "target": "build",
         "projects": "dependencies"
       }
+    ],
+    "update-rule-docs": [
+      {
+        "target": "build",
+        "projects": "dependencies"
+      }
     ]
   },
   "affected": {
