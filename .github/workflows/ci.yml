@@ -74,15 +74,22 @@ jobs:
         run: NX_CLOUD_DISTRIBUTED_EXECUTION=false yarn format-check
 
       - name: Run parallel distributed tasks for build, typecheck, check-rule-docs, lint and test targets
-        uses: jameshenry/parallel-bash-commands@v1
-        with:
-          # Note that the typecheck target *also* typechecks tests and tools,
-          # whereas the build only checks src files
-          cmd1: yarn typecheck
-          cmd2: yarn build
-          cmd3: yarn check-rule-docs
-          cmd4: yarn lint
-          cmd5: yarn test
+        run: |
+          # yarn typecheck
+          # yarn build
+          # yarn check-rule-docs
+          # yarn lint
+          yarn test
+              
+        # uses: jameshenry/parallel-bash-commands@v1
+        # with:
+        #   # Note that the typecheck target *also* typechecks tests and tools,
+        #   # whereas the build only checks src files
+        #   cmd1: yarn typecheck
+        #   cmd2: yarn build
+        #   cmd3: yarn check-rule-docs
+        #   cmd4: yarn lint
+        #   cmd5: yarn test
 
       - name: Run distributed integration tests with independent local registries
         run: npx nx run-many --target=integration-test --all --withRegistry
