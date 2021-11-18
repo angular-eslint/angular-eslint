@@ -4,6 +4,7 @@ import { updateDependencies } from '../utils/dependencies';
 
 const updatedTypeScriptESLintVersion = '5.3.0';
 const updatedESLintVersion = '8.2.0';
+const updatedESLintPluginImportVersion = '2.25.2';
 
 export default function migration(): Rule {
   return chain([
@@ -23,6 +24,10 @@ export default function migration(): Rule {
       {
         packageName: 'eslint',
         version: `^${updatedESLintVersion}`,
+      },
+      {
+        packageName: 'eslint-plugin-import',
+        version: updatedESLintPluginImportVersion,
       },
     ]),
   ]);
