@@ -19,7 +19,7 @@
   },
   "scripts": {
     "build": "nx run-many --target=build --all --parallel",
-    "test": "nx run-many --target=test --all",
+    "test": "nx run-many --target=test --all --parallel",
     "integration-tests": "nx clean integration-tests && nx spawn-and-populate-local-registry integration-tests && nx run-many --target=integration-test --all",
     "update-integration-tests": "yarn integration-tests -u",
     "check-clean-workspace-after-install": "git diff --quiet --exit-code",
