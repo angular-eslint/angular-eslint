@@ -18,7 +18,6 @@
 Ensures that classes use contextual decorators in its body
 
 - Type: suggestion
-- Category: Best Practices
 
 <br>
 

@@ -18,7 +18,6 @@
 Enforces alternate text for elements which require the alt, aria-label, aria-labelledby attributes.
 
 - Type: suggestion
-- Category: Best Practices
 
 <br>
 

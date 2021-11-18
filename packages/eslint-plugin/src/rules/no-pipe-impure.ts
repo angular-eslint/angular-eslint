@@ -12,10 +12,9 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description: 'Disallows the declaration of impure pipes',
-      category: 'Best Practices',
       recommended: false,
-      suggestion: true,
     },
+    hasSuggestions: true,
     schema: [],
     messages: {
       noPipeImpure:

@@ -24,7 +24,6 @@ Please use `@angular-eslint/template/accessibility-label-has-associated-control`
 Ensures that a label element/component is associated with a form element
 
 - Type: suggestion
-- Category: Best Practices
 
 <br>
 

@@ -24,11 +24,10 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description: 'Ensures that input bindings are not aliased',
-      category: 'Best Practices',
       recommended: 'error',
-      suggestion: true,
     },
     fixable: 'code',
+    hasSuggestions: true,
     schema: [
       {
         type: 'object',
@@ -68,21 +67,21 @@ export default createESLintRule<Options, MessageIds>({
       [Selectors.INPUT_ALIAS](
         node: TSESTree.Literal | TSESTree.TemplateElement,
       ) {
-        const classPropertyOrMethodDefinition = ASTUtils.getNearestNodeFrom(
+        const propertyOrMethodDefinition = ASTUtils.getNearestNodeFrom(
           node,
-          ASTUtils.isClassPropertyOrMethodDefinition,
+          ASTUtils.isPropertyOrMethodDefinition,
         );
 
         if (
-          !classPropertyOrMethodDefinition ||
-          !TSESLintASTUtils.isIdentifier(classPropertyOrMethodDefinition.key)
+          !propertyOrMethodDefinition ||
+          !TSESLintASTUtils.isIdentifier(propertyOrMethodDefinition.key)
         ) {
           return;
         }
 
         const aliasName = ASTUtils.getRawText(node);
         const propertyName = ASTUtils.getRawText(
-          classPropertyOrMethodDefinition.key,
+          propertyOrMethodDefinition.key,
         );
 
         if (
@@ -113,7 +112,7 @@ export default createESLintRule<Options, MessageIds>({
                 fix: (fixer) => [
                   fixer.remove(node),
                   fixer.replaceText(
-                    classPropertyOrMethodDefinition.key,
+                    propertyOrMethodDefinition.key,
                     aliasName.includes('-') ? `'${aliasName}'` : aliasName,
                   ),
                 ],

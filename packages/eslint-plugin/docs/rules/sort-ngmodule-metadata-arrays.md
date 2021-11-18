@@ -18,7 +18,6 @@
 Ensures ASC alphabetical order for `NgModule` metadata arrays for easy visual scanning
 
 - Type: suggestion
-- Category: Best Practices
 - 🔧 Supports autofix (`--fix`)
 
 <br>

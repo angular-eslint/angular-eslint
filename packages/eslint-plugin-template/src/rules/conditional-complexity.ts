@@ -29,7 +29,6 @@ export default createESLintRule<Options, MessageIds>({
     docs: {
       description:
         'The conditional complexity should not exceed a rational limit',
-      category: 'Best Practices',
       recommended: false,
     },
     schema: [

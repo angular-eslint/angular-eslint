@@ -30,7 +30,7 @@ const testDirs = readdirSync(testDirsDir);
   for (const [ruleName, ruleData] of Object.entries(allRuleData)) {
     const {
       ruleConfig: {
-        meta: { deprecated, replacedBy, type, fixable, schema },
+        meta: { deprecated, replacedBy, type, fixable, schema, hasSuggestions },
         defaultOptions,
       },
       ruleFilePath,
@@ -38,7 +38,7 @@ const testDirs = readdirSync(testDirsDir);
     } = ruleData;
 
     const docs = ruleData.ruleConfig.meta.docs as TSESLint.RuleMetaDataDocs;
-    const { description, category, suggestion } = docs;
+    const { description } = docs;
 
     let schemaAsInterface = '';
     if (Array.isArray(schema) && schema[0]) {
@@ -78,6 +78,7 @@ const testDirs = readdirSync(testDirsDir);
           }
         },
       });
+      // @ts-expect-error ...
       schemaAsInterface = await compile(schema[0], 'Options', {
         bannerComment: '',
       });
@@ -120,10 +121,9 @@ ${
 }${description}
 
 - Type: ${type}
-- Category: ${category}
 ${fixable === 'code' ? '- 🔧 Supports autofix (`--fix`)\n' : ''}
 ${
-  suggestion
+  hasSuggestions
     ? '- 💡 Provides suggestions on how to fix issues (https://eslint.org/docs/developer-guide/working-with-rules#providing-suggestions)'
     : ''
 }
