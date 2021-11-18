@@ -34,7 +34,7 @@
   "dependencies": {
     "@angular-eslint/eslint-plugin": "12.6.1",
     "@angular-eslint/eslint-plugin-template": "12.6.1",
-    "ignore": "5.1.8",
+    "ignore": "5.1.9",
     "strip-json-comments": "3.1.1",
     "tmp": "0.2.1"
   },
