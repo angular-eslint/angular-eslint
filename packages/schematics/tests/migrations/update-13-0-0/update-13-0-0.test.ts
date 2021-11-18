@@ -42,7 +42,7 @@ describe('update-13-0-0', () => {
           "@typescript-eslint/eslint-plugin": "5.3.0",
           "@typescript-eslint/experimental-utils": "5.3.0",
           "@typescript-eslint/parser": "5.3.0",
-          "eslint": "^8.1.0",
+          "eslint": "^8.2.0",
         },
       }
     `);

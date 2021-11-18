@@ -3,7 +3,7 @@ import { chain } from '@angular-devkit/schematics';
 import { updateDependencies } from '../utils/dependencies';
 
 const updatedTypeScriptESLintVersion = '5.3.0';
-const updatedESLintVersion = '8.1.0';
+const updatedESLintVersion = '8.2.0';
 
 export default function migration(): Rule {
   return chain([

@@ -12,7 +12,7 @@ concurrency:
 
 env:
   NX_CLOUD_DISTRIBUTED_EXECUTION: true
-  NX_VERBOSE_LOGGING: true
+  NX_VERBOSE_LOGGING: false
 
 jobs:
   create_nx_run_group:

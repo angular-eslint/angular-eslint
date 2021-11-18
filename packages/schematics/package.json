@@ -42,11 +42,11 @@
   "devDependencies": {
     "@types/tmp": "0.2.2",
     "@typescript-eslint/experimental-utils": "5.3.0",
-    "eslint": "8.1.0",
+    "eslint": "8.2.0",
     "tslint-to-eslint-config": "2.4.0"
   },
   "peerDependencies": {
-    "@angular/cli": ">= 13.0.0-rc.2 < 14.0.0"
+    "@angular/cli": ">= 13.0.0 < 14.0.0"
   },
   "gitHead": "d1d0e9f61f6a864d14507aa09c4b08c085309e7d"
 }
