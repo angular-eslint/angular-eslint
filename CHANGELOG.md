@@ -5,6 +5,16 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [13.0.0](https://github.com/angular-eslint/angular-eslint/compare/v12.7.0...v13.0.0) (2021-11-18)
 
+Whilst this is a major release of the packages, in this case the major version change is primarily there to signify alignment with v13 of Angular.
+
+You should look to migrate to v13 of all Angular packages, as well as v8 of `eslint` and v5 of `typescript-eslint`.
+
+All of this will be handled for you automatically if you leverage the `ng update` schematics provided by `@angular-eslint`. You can simply include `@angular-eslint/schematics` in your `ng update` command alongside `@angular/cli` and `@angular/core`, for example:
+
+```sh
+npx ng update @angular/cli @angular/core @angular-eslint/schematics
+```
+
 ### Features
 
 - angular-eslint v13 ([#780](https://github.com/angular-eslint/angular-eslint/issues/780)) ([f7ce631](https://github.com/angular-eslint/angular-eslint/commit/f7ce631524dd7834a422a5ac93a4c0534f9f23fa))
