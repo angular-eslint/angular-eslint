@@ -33,7 +33,7 @@
     "format-check": "prettier --check \"./**/*.{ts,js,json,md}\"",
     "lint": "eslint . --ext .js,.ts",
     "typecheck": "nx run-many --target=typecheck --all --parallel",
-    "check-readme-rules-list": "ts-node --transpile-only --project tsconfig.tools.json tools/scripts/check-readme-rules-list.ts",
+    "check-readme-rules-list": "nx build bundled-angular-compiler && ts-node --transpile-only --project tsconfig.tools.json tools/scripts/check-readme-rules-list.ts",
     "update-readme-rules-list": "ts-node --transpile-only --project tsconfig.tools.json tools/scripts/update-readme-rules-list.ts",
     "exec-tool": "ts-node --transpile-only --project tsconfig.tools.json tools/scripts/exec-tool.ts",
     "update-configs": "ts-node --transpile-only --project tsconfig.tools.json tools/scripts/generate-configs.ts",
