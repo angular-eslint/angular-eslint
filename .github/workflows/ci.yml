@@ -79,7 +79,7 @@ jobs:
           # yarn build
           # yarn check-rule-docs
           # yarn lint
-          yarn test
+          yarn test --maxParallel=1
               
         # uses: jameshenry/parallel-bash-commands@v1
         # with:
