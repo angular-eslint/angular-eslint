@@ -5,5 +5,12 @@
       "schema": "./dist/schema.json",
       "description": "Run ESLint over a TypeScript project"
     }
+  },
+  "executors": {
+    "lint": {
+      "implementation": "./dist/lint.impl.js",
+      "schema": "./dist/schema.json",
+      "description": "Run ESLint over a TypeScript project"
+    }
   }
 }
