@@ -11,7 +11,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  NX_CLOUD_DISTRIBUTED_EXECUTION: false
+  NX_CLOUD_DISTRIBUTED_EXECUTION: true
   NX_VERBOSE_LOGGING: true
 
 jobs:
