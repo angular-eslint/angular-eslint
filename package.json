@@ -58,7 +58,7 @@
     "@nrwl/cli": "13.1.4",
     "@nrwl/devkit": "13.1.4",
     "@nrwl/jest": "13.1.4",
-    "@nrwl/nx-cloud": "13.0.0-beta.9",
+    "@nrwl/nx-cloud": "12.5.3",
     "@nrwl/tao": "13.1.4",
     "@nrwl/workspace": "13.1.4",
     "@schematics/angular": "13.0.0-rc.2",
