@@ -73,7 +73,7 @@ jobs:
       - name: Check code formatting (not distributable)
         run: NX_CLOUD_DISTRIBUTED_EXECUTION=false yarn format-check
 
-      - name: Run parallel distributed tasks for build, typecheck, check-rule-docs, lint and test targets      
+      - name: Run parallel distributed tasks for build, typecheck, check-rule-docs, lint and test targets
         uses: jameshenry/parallel-bash-commands@v1
         with:
           # Note that the typecheck target *also* typechecks tests and tools,
@@ -103,7 +103,7 @@ jobs:
     timeout-minutes: 60
     strategy:
       matrix:
-        agent: [1]
+        agent: [1, 2, 3, 4, 5, 6]
     steps:
       - name: Set NX_RUN_GROUP based on the output of the create_nx_run_group job
         run: echo "NX_RUN_GROUP=${{ needs.create_nx_run_group.outputs.nx_run_group }}" >> $GITHUB_ENV
