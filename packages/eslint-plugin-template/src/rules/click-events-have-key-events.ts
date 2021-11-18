@@ -19,7 +19,6 @@ export default createESLintRule<Options, MessageIds>({
     docs: {
       description:
         'Ensures that the click event is accompanied with at least one key event keyup, keydown or keypress.',
-      category: 'Best Practices',
       recommended: false,
     },
     schema: [],
@@ -31,7 +30,7 @@ export default createESLintRule<Options, MessageIds>({
   defaultOptions: [],
   create(context) {
     return {
-      Element(node: TmplAstElement) {
+      Element$1(node: TmplAstElement) {
         if (!getDomElements().has(node.name)) {
           return;
         }

@@ -114,11 +114,10 @@ export default createESLintRule<Options, MessageIds>({
         'texts. ' +
         'Can also check for texts without i18n attribute, elements that do not ' +
         'use custom ID (@@) feature and duplicate custom IDs',
-      category: 'Best Practices',
       recommended: false,
-      suggestion: true,
     },
     fixable: 'code',
+    hasSuggestions: true,
     schema: [
       {
         type: 'object',
@@ -328,19 +327,19 @@ export default createESLintRule<Options, MessageIds>({
 
     return {
       ...((checkId || requireDescription) && {
-        'Element[i18n]'(node: StronglyTypedElement) {
+        'Element$1[i18n]'(node: StronglyTypedElement) {
           handleElement(node);
         },
       }),
       ...((checkAttributes || checkId) && {
-        [`Element > TextAttribute[value=${PL_PATTERN}]`](
+        [`Element$1 > TextAttribute[value=${PL_PATTERN}]`](
           node: StronglyTypedTextAttribute,
         ) {
           handleTextAttribute(node);
         },
       }),
       ...(checkText && {
-        [`BoundText, Icu, Text[value=${PL_PATTERN}]`](
+        [`BoundText, Icu$1, Text$3[value=${PL_PATTERN}]`](
           node: StronglyTypedBoundTextOrIcuOrText,
         ) {
           handleBoundTextOrIcuOrText(node);

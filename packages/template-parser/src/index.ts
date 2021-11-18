@@ -10,10 +10,12 @@ import {
   convertNodeSourceSpanToLoc,
 } from './convert-source-span-to-loc';
 
+type NodeOrTokenType = any;
+
 interface Node {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
-  type: string;
+  type: NodeOrTokenType;
 }
 
 interface VisitorKeys {
@@ -21,7 +23,7 @@ interface VisitorKeys {
 }
 
 interface Token extends TSESTree.BaseNode {
-  type: string;
+  type: NodeOrTokenType;
   value: string;
 }
 
@@ -39,7 +41,7 @@ const KEYS: VisitorKeys = {
   BoundEvent: ['handler'],
   BoundText: ['value'],
   Conditional: ['condition', 'trueExp', 'falseExp'],
-  Element: ['children', 'inputs', 'outputs', 'attributes'],
+  Element$1: ['children', 'inputs', 'outputs', 'attributes'],
   Interpolation: ['expressions'],
   PrefixNot: ['expression'],
   Program: ['templateNodes'],
@@ -77,13 +79,18 @@ function isNode(node: unknown): node is Node {
 }
 
 /**
- * Need all Nodes to have a `type` property before we begin
+ * ESLint requires all Nodes to have `type` and `loc` properties before it can
+ * work with the custom AST.
  */
 function preprocessNode(node: Node) {
   let i = 0;
   let j = 0;
 
   const keys = KEYS[node.type] || getFallbackKeys(node);
+
+  if (!node.loc && node.sourceSpan) {
+    node.loc = convertNodeSourceSpanToLoc(node.sourceSpan);
+  }
 
   for (i = 0; i < keys.length; ++i) {
     const child = node[keys[i]];
@@ -196,12 +203,6 @@ function parseForESLint(
     collectCommentNodes: true,
   });
 
-  /**
-   * Before v11.2.8 (and this PR https://github.com/angular/angular/pull/41251) the @angular/compiler did not
-   * expose Comment nodes on its returned AST, so we need to check they exist before attempting to transform them.
-   *
-   * TODO: Remove this check once the minimum supported version of Angular is v12
-   */
   let ngAstCommentNodes: Comment[] = [];
   if (Array.isArray(angularCompilerResult.commentNodes)) {
     ngAstCommentNodes = angularCompilerResult.commentNodes;

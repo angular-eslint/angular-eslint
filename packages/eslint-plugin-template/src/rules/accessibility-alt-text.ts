@@ -19,7 +19,6 @@ export default createESLintRule<Options, MessageIds>({
     docs: {
       description:
         'Enforces alternate text for elements which require the alt, aria-label, aria-labelledby attributes.',
-      category: 'Best Practices',
       recommended: false,
     },
     schema: [],
@@ -33,7 +32,7 @@ export default createESLintRule<Options, MessageIds>({
     const parserServices = getTemplateParserServices(context);
 
     return {
-      'Element[name=/^(img|area|object|input)$/]'(node: TmplAstElement) {
+      'Element$1[name=/^(img|area|object|input)$/]'(node: TmplAstElement) {
         const isValid = isValidNode(node);
 
         if (!isValid) {

@@ -1,6 +1,6 @@
 {
   "name": "@angular-eslint/eslint-plugin",
-  "version": "12.7.0",
+  "version": "13.0.0-alpha.1",
   "description": "ESLint plugin for Angular applications, following angular.io/styleguide",
   "license": "MIT",
   "main": "dist/index.js",
@@ -17,11 +17,11 @@
     "LICENSE"
   ],
   "dependencies": {
-    "@angular-eslint/utils": "12.7.0",
-    "@typescript-eslint/experimental-utils": "4.28.2"
+    "@angular-eslint/utils": "13.0.0-alpha.1",
+    "@typescript-eslint/experimental-utils": "5.3.0"
   },
   "peerDependencies": {
-    "eslint": "*",
+    "eslint": "^7.0.0 || ^8.0.0",
     "typescript": "*"
   },
   "gitHead": "d1d0e9f61f6a864d14507aa09c4b08c085309e7d"

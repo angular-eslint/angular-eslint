@@ -18,7 +18,6 @@
 Ensures component's `changeDetection` is set to `ChangeDetectionStrategy.OnPush`
 
 - Type: suggestion
-- Category: Best Practices
 
 - 💡 Provides suggestions on how to fix issues (https://eslint.org/docs/developer-guide/working-with-rules#providing-suggestions)
 

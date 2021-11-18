@@ -18,7 +18,6 @@
 Ensures trackBy function is used
 
 - Type: suggestion
-- Category: Best Practices
 
 <br>
 

@@ -40,7 +40,6 @@ export default createESLintRule<Options, MessageIds>({
     docs: {
       description:
         'Ensures that a label element/component is associated with a form element',
-      category: 'Best Practices',
       recommended: false,
     },
     schema: [
@@ -74,7 +73,7 @@ export default createESLintRule<Options, MessageIds>({
     const labelComponentsPattern = toPattern([...labelComponents]);
 
     return {
-      [`Element[name=${labelComponentsPattern}]`](node: TmplAstElement) {
+      [`Element$1[name=${labelComponentsPattern}]`](node: TmplAstElement) {
         const attributesInputs: ReadonlySet<string> = new Set(
           [...node.attributes, ...node.inputs].map(({ name }) => name),
         );

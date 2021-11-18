@@ -18,7 +18,6 @@
 Disallows usage of `forwardRef` references for DI
 
 - Type: suggestion
-- Category: Best Practices
 
 <br>
 

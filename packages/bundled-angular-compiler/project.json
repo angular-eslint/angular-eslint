@@ -10,7 +10,7 @@
         "parallel": false,
         "commands": [
           "npx rimraf ./dist",
-          "npx microbundle --tsconfig tsconfig.build.json --no-sourcemap --target=node --format=cjs --alias @angular/compiler=node_modules/@angular/compiler/fesm2015/compiler.js"
+          "npx microbundle --tsconfig tsconfig.build.json --no-sourcemap --target=node --format=cjs"
         ]
       }
     },

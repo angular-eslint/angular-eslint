@@ -66,7 +66,17 @@ describe('parseForESLint()', () => {
           106,
         ],
         "templateNodes": Array [
-          Text {
+          Text$3 {
+            "loc": Object {
+              "end": Object {
+                "column": 6,
+                "line": 2,
+              },
+              "start": Object {
+                "column": 6,
+                "line": 2,
+              },
+            },
             "sourceSpan": ParseSourceSpan {
               "details": null,
               "end": ParseLocation {
@@ -109,11 +119,21 @@ describe('parseForESLint()', () => {
                 "offset": 7,
               },
             },
-            "type": "Text",
+            "type": "Text$3",
             "value": "
             ",
           },
-          Text {
+          Text$3 {
+            "loc": Object {
+              "end": Object {
+                "column": 6,
+                "line": 3,
+              },
+              "start": Object {
+                "column": 6,
+                "line": 3,
+              },
+            },
             "sourceSpan": ParseSourceSpan {
               "details": null,
               "end": ParseLocation {
@@ -156,14 +176,24 @@ describe('parseForESLint()', () => {
                 "offset": 47,
               },
             },
-            "type": "Text",
+            "type": "Text$3",
             "value": "
             ",
           },
-          Element {
+          Element$1 {
             "attributes": Array [],
             "children": Array [
-              Text {
+              Text$3 {
+                "loc": Object {
+                  "end": Object {
+                    "column": 20,
+                    "line": 3,
+                  },
+                  "start": Object {
+                    "column": 11,
+                    "line": 3,
+                  },
+                },
                 "sourceSpan": ParseSourceSpan {
                   "details": null,
                   "end": ParseLocation {
@@ -206,7 +236,7 @@ describe('parseForESLint()', () => {
                     "offset": 52,
                   },
                 },
-                "type": "Text",
+                "type": "Text$3",
                 "value": "some node",
               },
             ],
@@ -254,6 +284,16 @@ describe('parseForESLint()', () => {
             },
             "i18n": undefined,
             "inputs": Array [],
+            "loc": Object {
+              "end": Object {
+                "column": 26,
+                "line": 3,
+              },
+              "start": Object {
+                "column": 6,
+                "line": 3,
+              },
+            },
             "name": "div",
             "outputs": Array [],
             "references": Array [],
@@ -341,9 +381,19 @@ describe('parseForESLint()', () => {
                 "offset": 47,
               },
             },
-            "type": "Element",
+            "type": "Element$1",
           },
-          Text {
+          Text$3 {
+            "loc": Object {
+              "end": Object {
+                "column": 6,
+                "line": 4,
+              },
+              "start": Object {
+                "column": 6,
+                "line": 4,
+              },
+            },
             "sourceSpan": ParseSourceSpan {
               "details": null,
               "end": ParseLocation {
@@ -386,11 +436,21 @@ describe('parseForESLint()', () => {
                 "offset": 74,
               },
             },
-            "type": "Text",
+            "type": "Text$3",
             "value": "
             ",
           },
-          Text {
+          Text$3 {
+            "loc": Object {
+              "end": Object {
+                "column": 4,
+                "line": 5,
+              },
+              "start": Object {
+                "column": 4,
+                "line": 5,
+              },
+            },
             "sourceSpan": ParseSourceSpan {
               "details": null,
               "end": ParseLocation {
@@ -433,7 +493,7 @@ describe('parseForESLint()', () => {
                 "offset": 106,
               },
             },
-            "type": "Text",
+            "type": "Text$3",
             "value": "
           ",
           },

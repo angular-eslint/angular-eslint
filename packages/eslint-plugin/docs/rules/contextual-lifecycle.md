@@ -18,7 +18,6 @@
 Ensures that lifecycle methods are used in a correct context
 
 - Type: problem
-- Category: Possible Errors
 
 <br>
 

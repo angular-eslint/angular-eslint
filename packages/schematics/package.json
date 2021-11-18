@@ -1,6 +1,6 @@
 {
   "name": "@angular-eslint/schematics",
-  "version": "12.7.0",
+  "version": "13.0.0-alpha.1",
   "description": "Angular Schematics for angular-eslint",
   "license": "MIT",
   "main": "dist/index.js",
@@ -18,34 +18,35 @@
   ],
   "schematics": "./dist/collection.json",
   "ng-update": {
+    "packageGroupName": "@angular-eslint/schematics",
+    "migrations": "./dist/migrations.json",
     "packageGroup": [
       "@angular-eslint/builder",
+      "@angular-eslint/bundled-angular-compiler",
       "@angular-eslint/eslint-plugin",
       "@angular-eslint/eslint-plugin-template",
-      "@angular-eslint/schematics",
-      "@angular-eslint/template-parser"
-    ],
-    "packageGroupName": "@angular-eslint/schematics",
-    "migrations": "./dist/migrations.json"
+      "@angular-eslint/template-parser",
+      "@angular-eslint/utils"
+    ]
   },
   "ng-add": {
     "save": "devDependencies"
   },
   "dependencies": {
-    "@angular-eslint/eslint-plugin": "12.7.0",
-    "@angular-eslint/eslint-plugin-template": "12.7.0",
+    "@angular-eslint/eslint-plugin": "13.0.0-alpha.1",
+    "@angular-eslint/eslint-plugin-template": "13.0.0-alpha.1",
     "ignore": "5.1.9",
     "strip-json-comments": "3.1.1",
     "tmp": "0.2.1"
   },
   "devDependencies": {
     "@types/tmp": "0.2.2",
-    "@typescript-eslint/experimental-utils": "4.28.2",
-    "eslint": "7.26.0",
+    "@typescript-eslint/experimental-utils": "5.3.0",
+    "eslint": "8.2.0",
     "tslint-to-eslint-config": "2.4.0"
   },
   "peerDependencies": {
-    "@angular/cli": ">= 12.0.0 < 13.0.0"
+    "@angular/cli": ">= 13.0.0 < 14.0.0"
   },
   "gitHead": "d1d0e9f61f6a864d14507aa09c4b08c085309e7d"
 }

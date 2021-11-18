@@ -28,7 +28,6 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description: `Ensures that the mouse events \`${MouseEvents.MouseOut}\` and \`${MouseEvents.MouseOver}\` are accompanied by \`${KeyEvents.Focus}\` and \`${KeyEvents.Blur}\` events respectively. Coding for the keyboard is important for users with physical disabilities who cannot use a mouse, AT compatibility, and screenreader users. See more at ${STYLE_GUIDE_LINK}`,
-      category: 'Best Practices',
       recommended: false,
     },
     schema: [],
@@ -48,7 +47,7 @@ export default createESLintRule<Options, MessageIds>({
     return eventPairs.reduce<Record<string, TSESLint.RuleFunction>>(
       (accumulator, [keyEvent, mouseEvent]) => ({
         ...accumulator,
-        [`Element[name=${domElementsPattern}]:has(BoundEvent[name='${mouseEvent}']):not(:has(BoundEvent[name='${keyEvent}']))`]({
+        [`Element$1[name=${domElementsPattern}]:has(BoundEvent[name='${mouseEvent}']):not(:has(BoundEvent[name='${keyEvent}']))`]({
           sourceSpan,
         }: TmplAstElement) {
           const loc = parserServices.convertNodeSourceSpanToLoc(sourceSpan);

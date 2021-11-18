@@ -44,7 +44,7 @@
             "parallel": false,
             "commands": [
               "[ \"{args.withRegistry}\" = \"true\" ] && npx nx spawn-and-populate-local-registry integration-tests || true",
-              "npx jest tests/v12-new-workspace.test.ts"
+              "npx jest tests/v13-new-workspace.test.ts"
             ]
           }
         }

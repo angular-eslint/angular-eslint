@@ -18,7 +18,6 @@
 Ensures that `Pipes` implement `PipeTransform` interface
 
 - Type: suggestion
-- Category: Best Practices
 - 🔧 Supports autofix (`--fix`)
 
 <br>

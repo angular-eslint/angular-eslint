@@ -18,7 +18,6 @@
 Ensures that the heading, anchor and button elements have content in it
 
 - Type: suggestion
-- Category: Best Practices
 
 <br>
 

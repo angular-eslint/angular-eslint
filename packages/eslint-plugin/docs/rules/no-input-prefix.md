@@ -18,7 +18,6 @@
 Ensures that input bindings, including aliases, are not named or prefixed by the configured disallowed prefixes
 
 - Type: suggestion
-- Category: Best Practices
 
 <br>
 
