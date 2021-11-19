@@ -1,4 +1,5 @@
 import ts from 'typescript';
+import { basename } from 'path';
 
 const rangeMap = new Map();
 
@@ -155,7 +156,8 @@ export function preprocessComponentFile(
         continue;
       }
 
-      const inlineTemplateTmpFilename = `inline-template-${++id}.component.html`;
+      const baseFilename = basename(filename);
+      const inlineTemplateTmpFilename = `inline-template-${baseFilename}-${++id}.component.html`;
 
       const start = templateProperty.initializer.getStart();
       const end = templateProperty.initializer.getEnd();
