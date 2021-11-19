@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [13.0.1](https://github.com/angular-eslint/angular-eslint/compare/v13.0.0...v13.0.1) (2021-11-19)
+
+**Note:** Version bump only for package @angular-eslint/utils
+
 # [13.0.0](https://github.com/angular-eslint/angular-eslint/compare/v12.7.0...v13.0.0) (2021-11-18)
 
 ### Features

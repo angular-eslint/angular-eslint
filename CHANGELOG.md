@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [13.0.1](https://github.com/angular-eslint/angular-eslint/compare/v13.0.0...v13.0.1) (2021-11-19)
+
+### Bug Fixes
+
+- **schematics:** auto update eslint-plugin-import as part of v13 ng update ([#836](https://github.com/angular-eslint/angular-eslint/issues/836)) ([705e83b](https://github.com/angular-eslint/angular-eslint/commit/705e83b6da8e3bf77bbf00305972024f9cffd11b))
+
 # [13.0.0](https://github.com/angular-eslint/angular-eslint/compare/v12.7.0...v13.0.0) (2021-11-18)
 
 Whilst this is a major release of the packages, in this case the major version change is primarily there to signify alignment with v13 of Angular.
