@@ -170,6 +170,13 @@ export const valid = [
     `,
     options: [{ requireDescription: true }],
   },
+  {
+    code: `
+      <span i18n="@@custom-id">Some text to translate</span>
+      <span i18n="@@custom-id">Some text to translate</span>
+    `,
+    options: [{ checkDuplicateId: false }],
+  },
 ];
 
 export const invalid = [
