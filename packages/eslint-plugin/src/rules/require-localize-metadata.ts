@@ -11,7 +11,7 @@ const DEFAULT_OPTIONS: Options[number] = {
   requireDescription: false,
 };
 
-const VALID_LOCALIZED_STRING_WITH_DESCRIPTION = new RegExp(/`:[^|]*:.*`/);
+const VALID_LOCALIZED_STRING_WITH_DESCRIPTION = new RegExp(/:[^|]*:.*/);
 
 // TODO: The following values are also used in eslint-plugin-template/i18n, and should likely be centralized
 const STYLE_GUIDE_LINK = 'https://angular.io/guide/i18n';
@@ -26,8 +26,8 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description: `Ensures that $localize tagged messages contain a description.`,
-      category: 'Best Practices',
+      description:
+        'Ensures that $localize tagged messages contain a description.',
       recommended: false,
     },
     schema: [
@@ -48,38 +48,52 @@ export default createESLintRule<Options, MessageIds>({
   },
   defaultOptions: [DEFAULT_OPTIONS],
   create(context, [{ requireDescription }]) {
-    function reportRequireLocalizeMetadataError(token: TSESTree.Token) {
+    function reportRequireLocalizeMetadataError(
+      templateElement: TSESTree.TemplateElement,
+    ) {
       context.report({
-        node: token,
+        loc: templateElement.loc,
         messageId: 'requireLocalizeMetadata',
       });
     }
 
-    function testTaggedMessageTokenWithDescription(token: TSESTree.Token) {
-      if (!VALID_LOCALIZED_STRING_WITH_DESCRIPTION.test(token.value)) {
-        reportRequireLocalizeMetadataError(token);
+    function testLocalizeTemplateElementWithDescription(
+      templateElement: TSESTree.TemplateElement,
+    ) {
+      if (
+        !VALID_LOCALIZED_STRING_WITH_DESCRIPTION.test(templateElement.value.raw)
+      ) {
+        reportRequireLocalizeMetadataError(templateElement);
       }
     }
 
-    function testTaggedMessageToken(token: TSESTree.Token) {
+    function testLocalizeTemplateElement(
+      templateElement: TSESTree.TemplateElement,
+    ) {
       if (requireDescription) {
         // Test for i18n description only
-        testTaggedMessageTokenWithDescription(token);
+        testLocalizeTemplateElementWithDescription(templateElement);
       }
     }
 
     return {
-      Program(programNode: TSESTree.Program) {
-        const tokens = programNode.tokens;
+      TaggedTemplateExpression(
+        taggedTemplateExpression: TSESTree.TaggedTemplateExpression,
+      ) {
+        const identifierName = (
+          taggedTemplateExpression.tag as TSESTree.Identifier
+        ).name;
+        const templateElement = taggedTemplateExpression.quasi.quasis[0];
 
-        if (!tokens || !requireDescription) {
-          return;
+        if (
+          requireDescription &&
+          !!identifierName &&
+          identifierName === '$localize' &&
+          !!templateElement
+        ) {
+          testLocalizeTemplateElement(templateElement);
         } else {
-          tokens.forEach((token, i) => {
-            if (token.value === '$localize') {
-              testTaggedMessageToken(tokens[i + 1]);
-            }
-          });
+          return;
         }
       },
     };
