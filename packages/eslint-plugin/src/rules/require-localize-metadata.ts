@@ -11,7 +11,9 @@ const DEFAULT_OPTIONS: Options[number] = {
   requireDescription: false,
 };
 
-const VALID_LOCALIZED_STRING_WITH_DESCRIPTION = new RegExp(/:[^|]*:.*/);
+const VALID_LOCALIZED_STRING_WITH_DESCRIPTION = new RegExp(
+  /:(.*\|)?([\w\s]+){1}(@@.*)?:.+/,
+);
 
 // TODO: The following values are also used in eslint-plugin-template/i18n, and should likely be centralized
 const STYLE_GUIDE_LINK = 'https://angular.io/guide/i18n';

@@ -5,6 +5,9 @@ const messageId: MessageIds = 'requireLocalizeMetadata';
 
 export const valid = [
   `const localizedText = $localize\`Hello i18n!\`;`,
+  `const localizedText = $localize\`:site header|:Hello i18n!\`;`,
+  `const localizedText = $localize\`:@@custom_id:Hello i18n!\`;`,
+  `const localizedText = $localize\`:site header|@@custom_id:Hello i18n!\`;`,
   {
     code: `
       let localizedText = $localize\`:An introduction header for this sample:Hello i18n!\`;
@@ -31,6 +34,10 @@ export const valid = [
     code: `
       someFunction($localize\`:An introduction header for this sample:Hello i18n!\`);
     `,
+    options: [{ requireDescription: true }],
+  },
+  {
+    code: `const localizedText = \`Hello i18n!\`;`,
     options: [{ requireDescription: true }],
   },
 ];
@@ -75,6 +82,36 @@ export const invalid = [
     annotatedSource: `
       someFunction($localize\`Hello i18n!\`);
                             ~~~~~~~~~~~~~
+    `,
+    messageId,
+    options: [{ requireDescription: true }],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'it should fail if no $localize description is provided when required for variable declarations, despite a $localize meaning being provided',
+    annotatedSource: `
+      const localizedText = $localize\`:site header|:Hello i18n!\`;
+                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    messageId,
+    options: [{ requireDescription: true }],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'it should fail if no $localize description is provided when required for variable declarations, despite a $localize ID being provided',
+    annotatedSource: `
+      const localizedText = $localize\`:@@custom_id:Hello i18n!\`;
+                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    messageId,
+    options: [{ requireDescription: true }],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'it should fail if no $localize description is provided when required for variable declarations, despite a $localize meaning and ID being provided',
+    annotatedSource: `
+      const localizedText = $localize\`:site header|@@custom_id:Hello i18n!\`;
+                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     `,
     messageId,
     options: [{ requireDescription: true }],
