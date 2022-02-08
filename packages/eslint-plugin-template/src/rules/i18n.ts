@@ -422,7 +422,7 @@ function isBooleanLike(value: string): value is 'false' | 'true' {
 }
 
 function isEmpty(value: string) {
-  return value.trim().length === 0;
+  return value == null || value.trim().length === 0;
 }
 
 function isNumeric(value: string) {
