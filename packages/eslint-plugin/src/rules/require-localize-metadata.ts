@@ -89,13 +89,10 @@ export default createESLintRule<Options, MessageIds>({
 
         if (
           requireDescription &&
-          !!identifierName &&
           identifierName === '$localize' &&
           !!templateElement
         ) {
           testLocalizeTemplateElement(templateElement);
-        } else {
-          return;
         }
       },
     };
