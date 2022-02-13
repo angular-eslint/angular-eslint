@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [13.1.0](https://github.com/angular-eslint/angular-eslint/compare/v13.0.1...v13.1.0) (2022-02-13)
+
+### Bug Fixes
+
+- **eslint-plugin-template:** [i18n] do not throw when compiler returns null i18n description ([#892](https://github.com/angular-eslint/angular-eslint/issues/892)) ([d349149](https://github.com/angular-eslint/angular-eslint/commit/d3491492b925bd7855d86f7a1fd90297acaee743))
+- rule docs links in create-eslint-rule utils ([#907](https://github.com/angular-eslint/angular-eslint/issues/907)) ([94f6e21](https://github.com/angular-eslint/angular-eslint/commit/94f6e2126088ac300e7a010a45e575cadd4d8e78))
+- update dependency ignore to v5.2.0 ([#913](https://github.com/angular-eslint/angular-eslint/issues/913)) ([5480102](https://github.com/angular-eslint/angular-eslint/commit/54801025adcd31b721d293e58884b646de41e2b4))
+
+### Features
+
+- **eslint-plugin-template:** [i18n] add checkDuplicateId option ([#868](https://github.com/angular-eslint/angular-eslint/issues/868)) ([edaf46f](https://github.com/angular-eslint/angular-eslint/commit/edaf46f2f321b9d5a3ba148048b997366e79495d))
+- update angular/compiler to v13.2.2 ([#834](https://github.com/angular-eslint/angular-eslint/issues/834)) ([9847978](https://github.com/angular-eslint/angular-eslint/commit/9847978778c3772425d727214f0600a04b6c234c))
+
 ## [13.0.1](https://github.com/angular-eslint/angular-eslint/compare/v13.0.0...v13.0.1) (2021-11-19)
 
 ### Bug Fixes
