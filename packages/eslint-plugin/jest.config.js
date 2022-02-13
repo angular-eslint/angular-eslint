@@ -17,4 +17,5 @@ module.exports = {
   testRegex: ['./tests/.+\\.test\\.ts$', './tests/.+/spec\\.ts$'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   coverageDirectory: '../../coverage/packages/eslint-plugin',
+  coverageReporters: ['text-summary', 'lcov'],
 };
