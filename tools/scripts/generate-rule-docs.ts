@@ -78,7 +78,6 @@ const testDirs = readdirSync(testDirsDir);
           }
         },
       });
-      // @ts-expect-error ...
       schemaAsInterface = await compile(schema[0], 'Options', {
         bannerComment: '',
       });
