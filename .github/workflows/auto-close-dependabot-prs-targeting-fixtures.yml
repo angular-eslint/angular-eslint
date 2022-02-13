@@ -18,38 +18,10 @@ jobs:
     name: Auto-close the PR if dependabot opened it and is targeting an integration test fixture
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-
-    - name: Install node and npm based on the volta config in our package.json
-      uses: volta-cli/action@v1
-
-    - name: Get yarn cache directory path and node version for cache key
-      id: yarn-cache-dir-path
-      run: |
-        echo "::set-output name=dir::$(yarn cache dir)"
-        echo "::set-output name=node_version::$(node --version)"
-
-    - name: Apply version resolved by volta to standard Node action make authenticated npm publish easier
-      uses: actions/setup-node@v2
-      with:
-        node-version: ${{ steps.yarn-cache-dir-path.outputs.node_version }}
-        registry-url: https://registry.npmjs.org/
-
-    - uses: actions/cache@v2
-      id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
-      with:
-        path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-        key: ${{ runner.os }}-node-${{ steps.yarn-cache-dir-path.outputs.node_version }}-yarn-${{ hashFiles('**/yarn.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-node-${{ steps.yarn-cache-dir-path.outputs.node_version }}-yarn-
-
-    - name: Install dependencies (skipping postinstall)
-      # We use --ignore-scripts to skip automatic postinstall
-      run: yarn --ignore-engines --frozen-lockfile --prefer-offline --ignore-scripts
-
     - name: Auto-close the PR
-      uses: ./.github/actions/auto-close-pr
+      uses: roots/issue-closer@v1.1
       with:
-        # We seemingly cannot use secrets.GITHUB_TOKEN for this, so we use a PAT instead
-        github-token: ${{ secrets.JAMES_HENRY_GITHUB_TOKEN }}
-        comment: "Auto-closed because it targets an integration test fixture lock file. It's really frustrating that we cannot get dependabot to ignore these from the scans it does: https://github.com/dependabot/dependabot-core/issues/4364"
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        pr-close-message: "Auto-closed because it targets an integration test fixture lock file. It's really frustrating that we cannot get dependabot to ignore these from the scans it does: https://github.com/dependabot/dependabot-core/issues/4364"
+        # Abusing this premade action somewhat... This string will always fail to be found (i.e. the PR will always be closed if we got to this point in the workflow)
+        pr-pattern: '^\b$'
