@@ -16,4 +16,5 @@ module.exports = {
   testRegex: ['./tests/.+\\.test\\.ts$'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   coverageDirectory: '../../coverage/packages/schematics',
+  coverageReporters: ['text-summary', 'lcov'],
 };
