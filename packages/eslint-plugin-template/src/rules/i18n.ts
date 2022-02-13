@@ -54,6 +54,7 @@ type Options = [
   {
     readonly boundTextAllowedPattern?: string;
     readonly checkAttributes?: boolean;
+    readonly checkDuplicateId?: boolean;
     readonly checkId?: boolean;
     readonly checkText?: boolean;
     readonly ignoreAttributes?: readonly string[];
@@ -91,6 +92,7 @@ export const RULE_NAME = 'i18n';
 const DEFAULT_OPTIONS: Options[number] = {
   checkAttributes: true,
   checkId: true,
+  checkDuplicateId: true,
   checkText: true,
   ignoreAttributes: [...DEFAULT_ALLOWED_ATTRIBUTES],
 };
@@ -128,6 +130,10 @@ export default createESLintRule<Options, MessageIds>({
           checkAttributes: {
             type: 'boolean',
             default: DEFAULT_OPTIONS.checkAttributes,
+          },
+          checkDuplicateId: {
+            type: 'boolean',
+            default: DEFAULT_OPTIONS.checkDuplicateId,
           },
           checkId: {
             type: 'boolean',
@@ -176,6 +182,7 @@ export default createESLintRule<Options, MessageIds>({
         boundTextAllowedPattern,
         checkAttributes,
         checkId,
+        checkDuplicateId,
         checkText,
         ignoreAttributes,
         ignoreTags,
@@ -307,18 +314,20 @@ export default createESLintRule<Options, MessageIds>({
     }
 
     function reportDuplicatedCustomIds() {
-      for (const [customId, sourceSpans] of collectedCustomIds) {
-        if (sourceSpans.length <= 1) {
-          break;
-        }
+      if (checkDuplicateId) {
+        for (const [customId, sourceSpans] of collectedCustomIds) {
+          if (sourceSpans.length <= 1) {
+            break;
+          }
 
-        for (const sourceSpan of sourceSpans) {
-          const loc = parserServices.convertNodeSourceSpanToLoc(sourceSpan);
-          context.report({
-            messageId: 'i18nDuplicateCustomId',
-            loc,
-            data: { customId },
-          });
+          for (const sourceSpan of sourceSpans) {
+            const loc = parserServices.convertNodeSourceSpanToLoc(sourceSpan);
+            context.report({
+              messageId: 'i18nDuplicateCustomId',
+              loc,
+              data: { customId },
+            });
+          }
         }
       }
 
