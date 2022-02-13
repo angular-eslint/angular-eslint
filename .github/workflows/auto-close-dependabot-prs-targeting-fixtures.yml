@@ -18,6 +18,7 @@ jobs:
     name: Auto-close the PR if dependabot opened it and is targeting an integration test fixture
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v2
     - name: Auto-close the PR
       uses: ./.github/actions/auto-close-pr
       with:
