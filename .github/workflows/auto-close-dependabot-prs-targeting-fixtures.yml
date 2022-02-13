@@ -23,5 +23,5 @@ jobs:
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
         issue-close-message: "Auto-closed because it targets an integration test fixture lock file. It's really frustrating that we cannot get dependabot to ignore these from the scans it does: https://github.com/dependabot/dependabot-core/issues/4364"
-        # Abusing this premade action somewhat... This pattern will always fail to be found (i.e. the PR will always be closed if we got to this point in the workflow)
-        issue-pattern: '^\b$'
+        # Abusing this premade action somewhat... This string will always fail to be found (i.e. the PR will always be closed if we got to this point in the workflow)
+        issue-pattern: '416A1F3D-EB47-4C2F-B7FC-E67A8069F582-11B399B2-9426-41AC-BEAD-44D58222518A'
