@@ -29,6 +29,8 @@ const patchedRuleCreator: typeof ESLintUtils.RuleCreator = (urlCreator) => {
   };
 };
 
+patchedRuleCreator.withoutDocs = ESLintUtils.RuleCreator.withoutDocs;
+
 export const createESLintRule = patchedRuleCreator(
   (ruleName) =>
     `https://github.com/angular-eslint/angular-eslint/blob/master/packages/eslint-plugin-template/docs/rules/${ruleName}.md`,
