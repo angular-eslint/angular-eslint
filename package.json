@@ -76,7 +76,7 @@
     "execa": "5.1.1",
     "husky": "3.1.0",
     "jest": "27.3.1",
-    "jest-preset-angular": "^11.0.0",
+    "jest-preset-angular": "11.0.0",
     "json-schema-to-typescript": "10.1.5",
     "json-schema-traverse": "1.0.0",
     "lerna": "4.0.0",
