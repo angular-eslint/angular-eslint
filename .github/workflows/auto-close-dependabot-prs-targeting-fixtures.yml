@@ -19,9 +19,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Auto-close the PR
-      uses: roots/issue-closer@v1.1
+      uses: ./.github/actions/auto-close-pr
       with:
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
-        issue-close-message: "Auto-closed because it targets an integration test fixture lock file. It's really frustrating that we cannot get dependabot to ignore these from the scans it does: https://github.com/dependabot/dependabot-core/issues/4364"
-        # Abusing this premade action somewhat... This string will always fail to be found (i.e. the PR will always be closed if we got to this point in the workflow)
-        issue-pattern: ".*guidelines for Contributing.*"
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        comment: "Auto-closed because it targets an integration test fixture lock file. It's really frustrating that we cannot get dependabot to ignore these from the scans it does: https://github.com/dependabot/dependabot-core/issues/4364"
+

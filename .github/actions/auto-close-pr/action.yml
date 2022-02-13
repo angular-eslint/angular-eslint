@@ -1,0 +1,14 @@
+name: Auto-close PR
+description: Auto-closes a PR and leaves a comment
+
+inputs:
+  github-token:
+    description: The value of secrets.GITHUB_TOKEN
+    required: true
+  comment:
+    description: The body of the content to post on the auto-closed PR
+    required: true
+
+runs:
+  using: node16
+  main: index.js
