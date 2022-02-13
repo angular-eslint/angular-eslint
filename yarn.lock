@@ -6600,22 +6600,10 @@ gzip-size@^6.0.0:
   dependencies:
     duplexer "^0.1.2"
 
-handlebars@4.7.7:
+handlebars@4.7.7, handlebars@^4.7.6:
   version "4.7.7"
   resolved "https://registry.yarnpkg.com/handlebars/-/handlebars-4.7.7.tgz#9ce33416aad02dbd6c8fafa8240d5d98004945a1"
   integrity sha512-aAcXm5OAfE/8IXkcZvCepKU3VzW1/39Fb5ZuqMtgI/hT8X2YgoMvBY5dLhq/cpOvw7Lk1nK/UF71aLG/ZnVYRA==
-  dependencies:
-    minimist "^1.2.5"
-    neo-async "^2.6.0"
-    source-map "^0.6.1"
-    wordwrap "^1.0.0"
-  optionalDependencies:
-    uglify-js "^3.1.4"
-
-handlebars@^4.7.6:
-  version "4.7.6"
-  resolved "https://registry.yarnpkg.com/handlebars/-/handlebars-4.7.6.tgz#d4c05c1baf90e9945f77aa68a7a219aa4a7df74e"
-  integrity sha512-1f2BACcBfiwAfStCKZNrUCgqNZkGsAT7UM3kkYtXuLo0KnaVfjKOyf7PRzB6++aK9STyT1Pd2ZCPe3EGOXleXA==
   dependencies:
     minimist "^1.2.5"
     neo-async "^2.6.0"
@@ -8856,7 +8844,12 @@ minimist-options@4.1.0:
     is-plain-obj "^1.1.0"
     kind-of "^6.0.3"
 
-minimist@^1.2.0, minimist@^1.2.5:
+minimist@^1.2.0:
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.5.tgz#67d66014b66a6a8aaa0c083c5fd58df4e4e97602"
+  integrity sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==
+
+minimist@^1.2.5:
   version "1.2.5"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.5.tgz#67d66014b66a6a8aaa0c083c5fd58df4e4e97602"
   integrity sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==
@@ -11301,7 +11294,12 @@ source-map@^0.5.0:
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.5.7.tgz#8a039d2d1021d22d1ea14c80d8ea468ba2ef3fcc"
   integrity sha1-igOdLRAh0i0eoUyA2OpGi6LvP8w=
 
-source-map@^0.6.0, source-map@^0.6.1, source-map@~0.6.1:
+source-map@^0.6.0, source-map@~0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
+  integrity sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==
+
+source-map@^0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
   integrity sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==
@@ -12227,9 +12225,9 @@ typescript@^4.1.3:
   integrity sha512-DqQgihaQ9cUrskJo9kIyW/+g0Vxsk8cDtZ52a3NGh0YNTfpUSArXSohyUGnvbPazEPLu398C0UxmKSOrPumUzA==
 
 uglify-js@^3.1.4:
-  version "3.10.1"
-  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.10.1.tgz#dd14767eb7150de97f2573a5ff210db14fffe4ad"
-  integrity sha512-RjxApKkrPJB6kjJxQS3iZlf///REXWYxYJxO/MpmlQzVkDWVI3PSnCBWezMecmTU/TRkNxrl8bmsfFQCp+LO+Q==
+  version "3.15.1"
+  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.15.1.tgz#9403dc6fa5695a6172a91bc983ea39f0f7c9086d"
+  integrity sha512-FAGKF12fWdkpvNJZENacOH0e/83eG6JyVQyanIJaBXCN1J11TUQv1T1/z8S+Z0CG0ZPk1nPcreF/c7lrTd0TEQ==
 
 uid-number@0.0.6:
   version "0.0.6"
