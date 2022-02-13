@@ -50,5 +50,6 @@ jobs:
     - name: Auto-close the PR
       uses: ./.github/actions/auto-close-pr
       with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+        # We seemingly cannot use secrets.GITHUB_TOKEN for this, so we use a PAT instead
+        github-token: ${{ secrets.JAMES_HENRY_GITHUB_TOKEN }}
         comment: "Auto-closed because it targets an integration test fixture lock file. It's really frustrating that we cannot get dependabot to ignore these from the scans it does: https://github.com/dependabot/dependabot-core/issues/4364"
