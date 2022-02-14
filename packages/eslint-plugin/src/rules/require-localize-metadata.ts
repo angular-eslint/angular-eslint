@@ -1,4 +1,4 @@
-import type { TSESTree } from '@typescript-eslint/experimental-utils';
+import { ASTUtils, TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
 type Options = [
@@ -15,7 +15,6 @@ const VALID_LOCALIZED_STRING_WITH_DESCRIPTION = new RegExp(
   /:(.*\|)?([\w\s]+){1}(@@.*)?:.+/,
 );
 
-// TODO: The following values are also used in eslint-plugin-template/i18n, and should likely be centralized
 const STYLE_GUIDE_LINK = 'https://angular.io/guide/i18n';
 const STYLE_GUIDE_LINK_COMMON_PREPARE = `${STYLE_GUIDE_LINK}-common-prepare`;
 const STYLE_GUIDE_LINK_METADATA_FOR_TRANSLATION = `${STYLE_GUIDE_LINK_COMMON_PREPARE}#i18n-metadata-for-translation`;
@@ -82,17 +81,17 @@ export default createESLintRule<Options, MessageIds>({
       TaggedTemplateExpression(
         taggedTemplateExpression: TSESTree.TaggedTemplateExpression,
       ) {
-        const identifierName = (
-          taggedTemplateExpression.tag as TSESTree.Identifier
-        ).name;
-        const templateElement = taggedTemplateExpression.quasi.quasis[0];
+        if (ASTUtils.isIdentifier(taggedTemplateExpression.tag)) {
+          const identifierName = taggedTemplateExpression.tag.name;
+          const templateElement = taggedTemplateExpression.quasi.quasis[0];
 
-        if (
-          requireDescription &&
-          identifierName === '$localize' &&
-          !!templateElement
-        ) {
-          testLocalizeTemplateElement(templateElement);
+          if (
+            requireDescription &&
+            identifierName === '$localize' &&
+            !!templateElement
+          ) {
+            testLocalizeTemplateElement(templateElement);
+          }
         }
       },
     };
