@@ -69,29 +69,20 @@ export default createESLintRule<Options, MessageIds>({
       }
     }
 
-    function testLocalizeTemplateElement(
-      templateElement: TSESTree.TemplateElement,
-    ) {
-      if (requireDescription) {
-        // Test for i18n description only
-        testLocalizeTemplateElementWithDescription(templateElement);
-      }
-    }
-
     return {
       TaggedTemplateExpression(
         taggedTemplateExpression: TSESTree.TaggedTemplateExpression,
       ) {
-        if (ASTUtils.isIdentifier(taggedTemplateExpression.tag)) {
+        if (
+          requireDescription &&
+          ASTUtils.isIdentifier(taggedTemplateExpression.tag)
+        ) {
           const identifierName = taggedTemplateExpression.tag.name;
           const templateElement = taggedTemplateExpression.quasi.quasis[0];
 
-          if (
-            requireDescription &&
-            identifierName === '$localize' &&
-            !!templateElement
-          ) {
-            testLocalizeTemplateElement(templateElement);
+          if (identifierName === '$localize' && !!templateElement) {
+            // Test for i18n description only
+            testLocalizeTemplateElementWithDescription(templateElement);
           }
         }
       },
