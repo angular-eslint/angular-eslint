@@ -56,7 +56,7 @@ jobs:
           # Added the - at the end to function as a separator to improve readability in the PR comment from the Nx cloud app
           echo "NX_CLOUD_ENV_NAME=Node $(node --version) -" >> $GITHUB_ENV
 
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
@@ -122,7 +122,7 @@ jobs:
           echo "::set-output name=dir::$(yarn cache dir)"
           echo "::set-output name=node_version::$(node --version)"
 
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
@@ -174,7 +174,7 @@ jobs:
           # NOTE: We are intentionally not using matrix.node here because that does not contain the full semver value
           echo "NX_CLOUD_ENV_NAME=Node $(node --version) -" >> $GITHUB_ENV
 
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
@@ -227,7 +227,7 @@ jobs:
           node-version: ${{ steps.yarn-cache-dir-path.outputs.node_version }}
           registry-url: https://registry.npmjs.org/
 
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
