@@ -54,7 +54,7 @@
     "@actions/github": "5.0.0",
     "@angular/cli": "13.2.3",
     "@angular/compiler": "13.2.2",
-    "@commitlint/cli": "16.2.1",
+    "@commitlint/cli": "16.2.3",
     "@commitlint/config-conventional": "16.2.1",
     "@nrwl/cli": "13.8.1",
     "@nrwl/devkit": "13.8.1",
