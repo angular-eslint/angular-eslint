@@ -81,7 +81,7 @@
     "microbundle": "0.14.2",
     "ncp": "2.0.0",
     "nx": "13.9.6",
-    "prettier": "2.6.1",
+    "prettier": "2.6.2",
     "rimraf": "3.0.2",
     "strip-ansi": "6.0.1",
     "terser": "5.12.1",
