@@ -143,8 +143,9 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        # Angular CLI explicitly only supports Node version 12 or 14 at the time of writing
-        node: [12]
+        # Additionally supported node versions taken from:
+        # https://gist.github.com/LayZeeDK/c822cc812f75bb07b7c55d07ba2719b3
+        node: ['^12.20.2', '^14.15.5']
     steps:
       - name: Set NX_RUN_GROUP based on the output of the create_nx_run_group job
         run: echo "NX_RUN_GROUP=${{ needs.create_nx_run_group.outputs.nx_run_group }}" >> $GITHUB_ENV
@@ -158,7 +159,7 @@ jobs:
         with:
           main-branch-name: master
 
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with:
           # The Node.js version to configure
           node-version: ${{ matrix.node }}
@@ -221,7 +222,7 @@ jobs:
           echo "::set-output name=node_version::$(node --version)"
 
       - name: Apply version resolved by volta to standard Node action make authenticated npm publish easier
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ steps.yarn-cache-dir-path.outputs.node_version }}
           registry-url: https://registry.npmjs.org/
