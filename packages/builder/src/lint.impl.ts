@@ -98,7 +98,7 @@ export default async function run(
    * log (even when no results) because different formatters handled the
    * "no results" case differently.
    */
-  const formattedResults = formatter.format(finalLintResults);
+  const formattedResults = await formatter.format(finalLintResults);
 
   if (options.outputFile) {
     const pathToOutputFile = join(context.root, options.outputFile);
