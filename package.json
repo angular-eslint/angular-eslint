@@ -51,7 +51,7 @@
   },
   "devDependencies": {
     "@actions/core": "1.6.0",
-    "@actions/github": "5.0.0",
+    "@actions/github": "5.0.1",
     "@angular/cli": "13.2.3",
     "@angular/compiler": "13.2.2",
     "@commitlint/cli": "16.2.3",
