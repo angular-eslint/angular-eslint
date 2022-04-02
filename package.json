@@ -79,7 +79,7 @@
     "json-schema-to-typescript": "10.1.5",
     "json-schema-traverse": "1.0.0",
     "lerna": "4.0.0",
-    "lint-staged": "12.3.4",
+    "lint-staged": "12.3.7",
     "microbundle": "0.14.2",
     "ncp": "2.0.0",
     "prettier": "2.5.1",
