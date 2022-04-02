@@ -116,7 +116,8 @@ export async function runNpmInstall(): Promise<
     `);
   }
 
-  const subprocess = execa('npm', ['install']);
+  // TODO: Upgrade npm fixtures so that --force is no longer needed
+  const subprocess = execa('npm', ['install', '--force']);
   subprocess.stdout!.pipe(process.stdout);
   subprocess.stderr!.pipe(process.stderr);
 
