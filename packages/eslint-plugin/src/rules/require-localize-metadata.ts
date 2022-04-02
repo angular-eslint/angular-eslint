@@ -29,7 +29,7 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description:
-        'Ensures that $localize tagged messages contain a description.',
+        'Ensures that $localize tagged messages contain helpful metadata to aid with translations.',
       recommended: false,
     },
     schema: [

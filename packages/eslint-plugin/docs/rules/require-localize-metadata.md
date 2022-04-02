@@ -15,7 +15,7 @@
 
 # `@angular-eslint/require-localize-metadata`
 
-Ensures that $localize tagged messages contain a description.
+Ensures that $localize tagged messages contain helpful metadata to aid with translations.
 
 - Type: suggestion
 
