@@ -508,4 +508,309 @@ describe('parseForESLint()', () => {
       }
     `);
   });
+
+  describe('ng-template parsing', () => {
+    it('should appropriately parse ng-templates with attributes into an AST', () => {
+      expect(
+        parseForESLint('<ng-template dir="hello" i18n-dir></ng-template>', {
+          filePath: './ng-template.html',
+        }).ast,
+      ).toMatchInlineSnapshot(`
+        Object {
+          "comments": Array [],
+          "loc": Object {
+            "end": Object {
+              "column": 48,
+              "line": 1,
+            },
+            "start": Object {
+              "column": 0,
+              "line": 1,
+            },
+          },
+          "range": Array [
+            0,
+            48,
+          ],
+          "templateNodes": Array [
+            Template {
+              "attributes": Array [
+                TextAttribute {
+                  "i18n": Message {
+                    "customId": "",
+                    "description": "",
+                    "id": "3964919876711037238",
+                    "legacyIds": Array [],
+                    "meaning": "",
+                    "messageString": "hello",
+                    "nodes": Array [
+                      Text$2 {
+                        "sourceSpan": ParseSourceSpan {
+                          "details": null,
+                          "end": ParseLocation {
+                            "col": 23,
+                            "file": ParseSourceFile {
+                              "content": "<ng-template dir=\\"hello\\" i18n-dir></ng-template>",
+                              "url": "./ng-template.html",
+                            },
+                            "line": 0,
+                            "offset": 23,
+                          },
+                          "fullStart": ParseLocation {
+                            "col": 18,
+                            "file": ParseSourceFile {
+                              "content": "<ng-template dir=\\"hello\\" i18n-dir></ng-template>",
+                              "url": "./ng-template.html",
+                            },
+                            "line": 0,
+                            "offset": 18,
+                          },
+                          "start": ParseLocation {
+                            "col": 18,
+                            "file": ParseSourceFile {
+                              "content": "<ng-template dir=\\"hello\\" i18n-dir></ng-template>",
+                              "url": "./ng-template.html",
+                            },
+                            "line": 0,
+                            "offset": 18,
+                          },
+                        },
+                        "value": "hello",
+                      },
+                    ],
+                    "placeholderToMessage": Object {},
+                    "placeholders": Object {},
+                    "sources": Array [
+                      Object {
+                        "endCol": 19,
+                        "endLine": 1,
+                        "filePath": "./ng-template.html",
+                        "startCol": 19,
+                        "startLine": 1,
+                      },
+                    ],
+                  },
+                  "keySpan": ParseSourceSpan {
+                    "details": null,
+                    "end": ParseLocation {
+                      "col": 16,
+                      "file": ParseSourceFile {
+                        "content": "<ng-template dir=\\"hello\\" i18n-dir></ng-template>",
+                        "url": "./ng-template.html",
+                      },
+                      "line": 0,
+                      "offset": 16,
+                    },
+                    "fullStart": ParseLocation {
+                      "col": 13,
+                      "file": ParseSourceFile {
+                        "content": "<ng-template dir=\\"hello\\" i18n-dir></ng-template>",
+                        "url": "./ng-template.html",
+                      },
+                      "line": 0,
+                      "offset": 13,
+                    },
+                    "start": ParseLocation {
+                      "col": 13,
+                      "file": ParseSourceFile {
+                        "content": "<ng-template dir=\\"hello\\" i18n-dir></ng-template>",
+                        "url": "./ng-template.html",
+                      },
+                      "line": 0,
+                      "offset": 13,
+                    },
+                  },
+                  "loc": Object {
+                    "end": Object {
+                      "column": 24,
+                      "line": 1,
+                    },
+                    "start": Object {
+                      "column": 13,
+                      "line": 1,
+                    },
+                  },
+                  "name": "dir",
+                  "sourceSpan": ParseSourceSpan {
+                    "details": null,
+                    "end": ParseLocation {
+                      "col": 24,
+                      "file": ParseSourceFile {
+                        "content": "<ng-template dir=\\"hello\\" i18n-dir></ng-template>",
+                        "url": "./ng-template.html",
+                      },
+                      "line": 0,
+                      "offset": 24,
+                    },
+                    "fullStart": ParseLocation {
+                      "col": 13,
+                      "file": ParseSourceFile {
+                        "content": "<ng-template dir=\\"hello\\" i18n-dir></ng-template>",
+                        "url": "./ng-template.html",
+                      },
+                      "line": 0,
+                      "offset": 13,
+                    },
+                    "start": ParseLocation {
+                      "col": 13,
+                      "file": ParseSourceFile {
+                        "content": "<ng-template dir=\\"hello\\" i18n-dir></ng-template>",
+                        "url": "./ng-template.html",
+                      },
+                      "line": 0,
+                      "offset": 13,
+                    },
+                  },
+                  "type": "TextAttribute",
+                  "value": "hello",
+                  "valueSpan": ParseSourceSpan {
+                    "details": null,
+                    "end": ParseLocation {
+                      "col": 23,
+                      "file": ParseSourceFile {
+                        "content": "<ng-template dir=\\"hello\\" i18n-dir></ng-template>",
+                        "url": "./ng-template.html",
+                      },
+                      "line": 0,
+                      "offset": 23,
+                    },
+                    "fullStart": ParseLocation {
+                      "col": 18,
+                      "file": ParseSourceFile {
+                        "content": "<ng-template dir=\\"hello\\" i18n-dir></ng-template>",
+                        "url": "./ng-template.html",
+                      },
+                      "line": 0,
+                      "offset": 18,
+                    },
+                    "start": ParseLocation {
+                      "col": 18,
+                      "file": ParseSourceFile {
+                        "content": "<ng-template dir=\\"hello\\" i18n-dir></ng-template>",
+                        "url": "./ng-template.html",
+                      },
+                      "line": 0,
+                      "offset": 18,
+                    },
+                  },
+                },
+              ],
+              "children": Array [],
+              "endSourceSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 48,
+                  "file": ParseSourceFile {
+                    "content": "<ng-template dir=\\"hello\\" i18n-dir></ng-template>",
+                    "url": "./ng-template.html",
+                  },
+                  "line": 0,
+                  "offset": 48,
+                },
+                "fullStart": ParseLocation {
+                  "col": 34,
+                  "file": ParseSourceFile {
+                    "content": "<ng-template dir=\\"hello\\" i18n-dir></ng-template>",
+                    "url": "./ng-template.html",
+                  },
+                  "line": 0,
+                  "offset": 34,
+                },
+                "start": ParseLocation {
+                  "col": 34,
+                  "file": ParseSourceFile {
+                    "content": "<ng-template dir=\\"hello\\" i18n-dir></ng-template>",
+                    "url": "./ng-template.html",
+                  },
+                  "line": 0,
+                  "offset": 34,
+                },
+              },
+              "i18n": undefined,
+              "inputs": Array [],
+              "loc": Object {
+                "end": Object {
+                  "column": 48,
+                  "line": 1,
+                },
+                "start": Object {
+                  "column": 0,
+                  "line": 1,
+                },
+              },
+              "outputs": Array [],
+              "references": Array [],
+              "sourceSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 48,
+                  "file": ParseSourceFile {
+                    "content": "<ng-template dir=\\"hello\\" i18n-dir></ng-template>",
+                    "url": "./ng-template.html",
+                  },
+                  "line": 0,
+                  "offset": 48,
+                },
+                "fullStart": ParseLocation {
+                  "col": 0,
+                  "file": ParseSourceFile {
+                    "content": "<ng-template dir=\\"hello\\" i18n-dir></ng-template>",
+                    "url": "./ng-template.html",
+                  },
+                  "line": 0,
+                  "offset": 0,
+                },
+                "start": ParseLocation {
+                  "col": 0,
+                  "file": ParseSourceFile {
+                    "content": "<ng-template dir=\\"hello\\" i18n-dir></ng-template>",
+                    "url": "./ng-template.html",
+                  },
+                  "line": 0,
+                  "offset": 0,
+                },
+              },
+              "startSourceSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 34,
+                  "file": ParseSourceFile {
+                    "content": "<ng-template dir=\\"hello\\" i18n-dir></ng-template>",
+                    "url": "./ng-template.html",
+                  },
+                  "line": 0,
+                  "offset": 34,
+                },
+                "fullStart": ParseLocation {
+                  "col": 0,
+                  "file": ParseSourceFile {
+                    "content": "<ng-template dir=\\"hello\\" i18n-dir></ng-template>",
+                    "url": "./ng-template.html",
+                  },
+                  "line": 0,
+                  "offset": 0,
+                },
+                "start": ParseLocation {
+                  "col": 0,
+                  "file": ParseSourceFile {
+                    "content": "<ng-template dir=\\"hello\\" i18n-dir></ng-template>",
+                    "url": "./ng-template.html",
+                  },
+                  "line": 0,
+                  "offset": 0,
+                },
+              },
+              "tagName": "ng-template",
+              "templateAttrs": Array [],
+              "type": "Template",
+              "variables": Array [],
+            },
+          ],
+          "tokens": Array [],
+          "type": "Program",
+          "value": "<ng-template dir=\\"hello\\" i18n-dir></ng-template>",
+        }
+      `);
+    });
+  });
 });

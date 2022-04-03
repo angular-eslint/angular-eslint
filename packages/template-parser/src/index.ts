@@ -46,7 +46,7 @@ const KEYS: VisitorKeys = {
   PrefixNot: ['expression'],
   Program: ['templateNodes'],
   PropertyRead: ['receiver'],
-  Template: ['templateAttrs', 'children', 'inputs'],
+  Template: ['templateAttrs', 'children', 'inputs', 'attributes'],
   BindingPipe: ['exp'],
 };
 
