@@ -17,12 +17,11 @@ export const valid = [
     code: '<cui-button (click)="onClick()"></cui-button>',
   },
   {
-    // It should work when element has aria-hidden.
+    // It should work when element has a static value for aria-hidden.
     code: `
-        <div (click)="onClick()" aria-hidden"></div>
+        <div (click)="onClick()" aria-hidden></div>
         <div (click)="onClick()" aria-hidden="true"></div>
         <div (click)="onClick()" [attr.aria-hidden]="true"></div>
-        <div (click)="onClick()" [attr.aria-hidden]="ariaHidden"></div>
       `,
   },
   {
@@ -120,5 +119,23 @@ export const invalid = [
         <div (click)="onClick()" [attr.role]="'header'"></div>
         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail when aria-hidden is set dynamically via a property binding',
+    annotatedSource: `
+      <div (click)="onClick()" [attr.aria-hidden]="ariaHidden"></div>
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail when hidden is set dynamically via a property binding',
+    annotatedSource: `
+      <div (click)="onClick()" [attr.hidden]="hidden"></div>
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
   }),
 ];

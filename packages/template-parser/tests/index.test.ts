@@ -1,3 +1,4 @@
+import type { TemplateParseError } from '../src/index';
 import { parseForESLint } from '../src/index';
 
 describe('parseForESLint()', () => {
@@ -507,5 +508,34 @@ describe('parseForESLint()', () => {
           ",
       }
     `);
+  });
+
+  describe('parse errors', () => {
+    it('should appropriately throw if the Angular compiler produced parse errors', () => {
+      expect.assertions(2);
+
+      let error: TemplateParseError;
+      try {
+        parseForESLint(
+          '<p i18n>Lorem ipsum <em i18n="@@dolor">dolor</em> sit amet.</p>',
+          {
+            filePath: './invalid-nested-i18ns.html',
+          },
+        );
+      } catch (err: any) {
+        error = err;
+        expect(error).toMatchInlineSnapshot(
+          `[TemplateParseError: Cannot mark an element as translatable inside of a translatable section. Please remove the nested i18n marker.]`,
+        );
+        expect(JSON.stringify(error, null, 2)).toMatchInlineSnapshot(`
+          "{
+            \\"fileName\\": \\"./invalid-nested-i18ns.html\\",
+            \\"index\\": 20,
+            \\"lineNumber\\": 1,
+            \\"column\\": 21
+          }"
+        `);
+      }
+    });
   });
 });

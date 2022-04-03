@@ -1,6 +1,7 @@
 import type {
-  ParseSourceSpan,
   Comment,
+  ParseError,
+  ParseSourceSpan,
 } from '@angular-eslint/bundled-angular-compiler';
 import { parseTemplate } from '@angular-eslint/bundled-angular-compiler';
 import type { TSESTree } from '@typescript-eslint/types';
@@ -185,6 +186,34 @@ function convertNgAstCommentsToTokens(comments: Comment[]) {
   return commentTokens.sort((a, b) => a.range[0] - b.range[0]);
 }
 
+export class TemplateParseError extends Error {
+  constructor(
+    message: string,
+    public readonly fileName: string,
+    public readonly index: number,
+    public readonly lineNumber: number,
+    public readonly column: number,
+  ) {
+    super(message);
+    Object.defineProperty(this, 'name', {
+      value: new.target.name,
+      enumerable: false,
+      configurable: true,
+    });
+  }
+}
+
+export function createTemplateParseError(
+  parseError: ParseError,
+): TemplateParseError {
+  const message = parseError.msg;
+  const fileName = parseError.span.start.file.url;
+  const index = parseError.span.start.offset;
+  const lineNumber = parseError.span.start.line + 1;
+  const column = parseError.span.start.col + 1;
+  return new TemplateParseError(message, fileName, index, lineNumber, column);
+}
+
 function parseForESLint(
   code: string,
   options: { filePath: string },
@@ -238,6 +267,10 @@ function parseForESLint(
       start: convertNodeSourceSpanToLoc(startSourceSpan).start,
       end: convertNodeSourceSpanToLoc(endSourceSpan).end,
     };
+  }
+
+  if (angularCompilerResult.errors?.length) {
+    throw createTemplateParseError(angularCompilerResult.errors[0]);
   }
 
   return {
