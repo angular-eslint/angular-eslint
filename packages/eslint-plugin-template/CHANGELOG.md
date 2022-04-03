@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [13.2.0](https://github.com/angular-eslint/angular-eslint/compare/v13.1.0...v13.2.0) (2022-04-03)
+
+### Features
+
+- **parser:** propagate parse errors from angular compiler ([#969](https://github.com/angular-eslint/angular-eslint/issues/969)) ([ab9b496](https://github.com/angular-eslint/angular-eslint/commit/ab9b496095c7194d614394c04548f6848c0d6aff))
+
 # [13.1.0](https://github.com/angular-eslint/angular-eslint/compare/v13.0.1...v13.1.0) (2022-02-13)
 
 ### Bug Fixes

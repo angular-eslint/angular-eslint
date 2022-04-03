@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [13.2.0](https://github.com/angular-eslint/angular-eslint/compare/v13.1.0...v13.2.0) (2022-04-03)
+
+### Features
+
+- **eslint-plugin-template:** add require-localize-metadata rule ([#844](https://github.com/angular-eslint/angular-eslint/issues/844)) ([ca1edf0](https://github.com/angular-eslint/angular-eslint/commit/ca1edf0434b497a7bb756789136499243cee8fe9))
+
 # [13.1.0](https://github.com/angular-eslint/angular-eslint/compare/v13.0.1...v13.1.0) (2022-02-13)
 
 ### Bug Fixes

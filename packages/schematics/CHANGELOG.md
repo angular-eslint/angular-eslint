@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [13.2.0](https://github.com/angular-eslint/angular-eslint/compare/v13.1.0...v13.2.0) (2022-04-03)
+
+### Bug Fixes
+
+- **schematics:** support more permutations of ng-add ([#970](https://github.com/angular-eslint/angular-eslint/issues/970)) ([0bf549b](https://github.com/angular-eslint/angular-eslint/commit/0bf549b758a6921ff602136d9872e10bb924baf3))
+
 # [13.1.0](https://github.com/angular-eslint/angular-eslint/compare/v13.0.1...v13.1.0) (2022-02-13)
 
 ### Bug Fixes
