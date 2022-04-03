@@ -15,6 +15,10 @@ export function isHiddenFromScreenReader(node: TmplAstElement): boolean {
     hasHiddenStaticStyles(node) ||
     hasHiddenStaticNgStyles(node) ||
     hasHiddenDynamicStylesWithLiteralValues(node) ||
+    /**
+     * We can't know if the element is hidden from screen reader if the value of `aria-hidden` or `hidden`
+     * is set dynamically via an Angular property binding, so we just check for raw HTML truthiness here.
+     */
     isHtmlTruthy(node, 'aria-hidden') ||
     isHtmlTruthy(node, 'hidden')
   ) {
