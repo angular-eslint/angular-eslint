@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "$id": "SchematicsAngularWorkspace",
+  "$id": "angular-eslint-workspace",
   "title": "Angular Workspace Options Schema",
   "type": "object",
   "properties": {},
