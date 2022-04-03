@@ -1,0 +1,146 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`v13-new-workspace-create-application-false-project-then-ng-add it should pass linting when ng-add is run before adding a project 2`] = `
+Object {
+  "@angular-devkit/build-angular": "~13.3.1",
+  "@angular-eslint/builder": "9999.0.1-local-integration-tests",
+  "@angular-eslint/eslint-plugin": "9999.0.1-local-integration-tests",
+  "@angular-eslint/eslint-plugin-template": "9999.0.1-local-integration-tests",
+  "@angular-eslint/schematics": "9999.0.1-local-integration-tests",
+  "@angular-eslint/template-parser": "9999.0.1-local-integration-tests",
+  "@angular/cli": "~13.3.1",
+  "@angular/compiler-cli": "~13.3.0",
+  "@types/jasmine": "~3.10.0",
+  "@types/node": "^12.11.1",
+  "@typescript-eslint/eslint-plugin": "5.17.0",
+  "@typescript-eslint/parser": "5.17.0",
+  "eslint": "^8.12.0",
+  "jasmine-core": "~4.0.0",
+  "karma": "~6.3.0",
+  "karma-chrome-launcher": "~3.1.0",
+  "karma-coverage": "~2.1.0",
+  "karma-jasmine": "~4.0.0",
+  "karma-jasmine-html-reporter": "~1.7.0",
+  "typescript": "~4.6.2",
+}
+`;
+
+exports[`v13-new-workspace-create-application-false-project-then-ng-add it should pass linting when ng-add is run before adding a project 3`] = `
+Object {
+  "ignorePatterns": Array [
+    "projects/**/*",
+  ],
+  "overrides": Array [
+    Object {
+      "extends": Array [
+        "plugin:@angular-eslint/recommended",
+        "plugin:@angular-eslint/template/process-inline-templates",
+      ],
+      "files": Array [
+        "*.ts",
+      ],
+      "parserOptions": Object {
+        "createDefaultProgram": true,
+        "project": Array [
+          "tsconfig.json",
+        ],
+      },
+      "rules": Object {
+        "@angular-eslint/component-selector": Array [
+          "error",
+          Object {
+            "prefix": "app",
+            "style": "kebab-case",
+            "type": "element",
+          },
+        ],
+        "@angular-eslint/directive-selector": Array [
+          "error",
+          Object {
+            "prefix": "app",
+            "style": "camelCase",
+            "type": "attribute",
+          },
+        ],
+      },
+    },
+    Object {
+      "extends": Array [
+        "plugin:@angular-eslint/template/recommended",
+      ],
+      "files": Array [
+        "*.html",
+      ],
+      "rules": Object {},
+    },
+  ],
+  "root": true,
+}
+`;
+
+exports[`v13-new-workspace-create-application-false-project-then-ng-add it should pass linting when ng-add is run before adding a project 5`] = `
+Object {
+  "extends": "../../.eslintrc.json",
+  "ignorePatterns": Array [
+    "!**/*",
+  ],
+  "overrides": Array [
+    Object {
+      "files": Array [
+        "*.ts",
+      ],
+      "parserOptions": Object {
+        "createDefaultProgram": true,
+        "project": Array [
+          "projects/app-project/tsconfig.app.json",
+          "projects/app-project/tsconfig.spec.json",
+        ],
+      },
+      "rules": Object {
+        "@angular-eslint/component-selector": Array [
+          "error",
+          Object {
+            "prefix": "app",
+            "style": "kebab-case",
+            "type": "element",
+          },
+        ],
+        "@angular-eslint/directive-selector": Array [
+          "error",
+          Object {
+            "prefix": "app",
+            "style": "camelCase",
+            "type": "attribute",
+          },
+        ],
+      },
+    },
+    Object {
+      "files": Array [
+        "*.html",
+      ],
+      "rules": Object {},
+    },
+  ],
+}
+`;
+
+exports[`v13-new-workspace-create-application-false-project-then-ng-add it should pass linting when ng-add is run before adding a project 6`] = `
+Object {
+  "builder": "@angular-eslint/builder:lint",
+  "options": Object {
+    "lintFilePatterns": Array [
+      "projects/app-project/**/*.ts",
+      "projects/app-project/**/*.html",
+    ],
+  },
+}
+`;
+
+exports[`v13-new-workspace-create-application-false-project-then-ng-add it should pass linting when ng-add is run before adding a project 7`] = `
+"
+Linting \\"app-project\\"...
+
+All files pass linting.
+"
+`;
