@@ -46,7 +46,7 @@ const KEYS: VisitorKeys = {
   PrefixNot: ['expression'],
   Program: ['templateNodes'],
   PropertyRead: ['receiver'],
-  Template: ['templateAttrs', 'children', 'inputs', 'attributes'],
+  Template: ['templateAttrs', 'children', 'inputs'],
   BindingPipe: ['exp'],
 };
 
@@ -88,6 +88,23 @@ function preprocessNode(node: Node) {
 
   const keys = KEYS[node.type] || getFallbackKeys(node);
 
+  /**
+   * Template is a special kind of node because it can appear in multiple forms:
+   * - `<ng-template>`
+   * - `<div *ngIf>` <--- NOT an Element, rather a Template with an Element as a child
+   *
+   * In the case of the Template being a "part of" an Element the node will be constructed
+   * correctly with the relevant location information etc, but for an ng-template we need
+   * to temporarily add "attributes" here so that the nodes will be processed correctly,
+   * and then remove them again so that ESLint does not traverse into them causing potential
+   * duplication with Elements.
+   */
+  if (node.type === 'Template' && node.tagName === 'ng-template') {
+    if (!keys.includes('attributes')) {
+      keys.push('attributes');
+    }
+  }
+
   if (!node.loc && node.sourceSpan) {
     node.loc = convertNodeSourceSpanToLoc(node.sourceSpan);
   }
@@ -123,6 +140,14 @@ function preprocessNode(node: Node) {
     } else if (isNode(child)) {
       preprocessNode(child);
     }
+  }
+
+  /**
+   * Remove attributes for ng-template again so that they don't get traversed into,
+   * see notes above.
+   */
+  if (node.type === 'Template' && node.tagName === 'ng-template') {
+    keys.pop();
   }
 }
 
