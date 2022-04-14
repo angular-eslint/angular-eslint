@@ -1,18 +1,20 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/utils';
 import type { MessageIds } from '../../../src/rules/conditional-complexity';
 
-const messageId: MessageIds = 'conditionalСomplexity';
+const messageId: MessageIds = 'conditionalComplexity';
 
 export const valid = [
   `
-      <div *ngIf="a === '1' || b === '2' && c.d !== e">Content</div>
-      <div *ngIf="isValid; then thenTemplateRef; else elseTemplateRef">Content</div>
-      <ng-template #thenTemplateRef>thenTemplateRef</ng-template>
-      <ng-template #elseTemplateRef>elseTemplateRef</ng-template>
-      <div [class.mw-100]="test === 7"></div>
-      <div [attr.aria-label]="testing === 'ab' ? 'bc' : 'de'"></div>
-      <div [attr.custom-attr]="'test345' | appPipe"></div>
-    `,
+    <div *ngIf="a === '1' || b === '2' && c.d !== e">Content</div>
+    <div *ngIf="isValid; then thenTemplateRef; else elseTemplateRef">Content</div>
+    <ng-template #thenTemplateRef>thenTemplateRef</ng-template>
+    <ng-template #elseTemplateRef>elseTemplateRef</ng-template>
+    <div [class.mw-100]="test === 7"></div>
+    <div [attr.aria-label]="testing === 'ab' ? 'bc' : 'de'"></div>
+    <div [attr.custom-attr]="'test345' | appPipe"></div>
+  `,
+  // https://github.com/angular-eslint/angular-eslint/issues/863
+  `<div class="col" id="one-two-three-four-five-six-seven-eight-{{9}}"></div>`,
   {
     code: `
         <div *ngIf="a === '3' || (b === '3' && c.d !== '1' && e.f !== '6' && q !== g)">
