@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [13.2.1](https://github.com/angular-eslint/angular-eslint/compare/v13.2.0...v13.2.1) (2022-04-14)
+
+### Bug Fixes
+
+- **eslint-plugin-template:** false positive conditional complexity in BoundAttribute > Interpolation ([#986](https://github.com/angular-eslint/angular-eslint/issues/986)) ([c3f3120](https://github.com/angular-eslint/angular-eslint/commit/c3f3120b57f7dfe7ff1ff3f3a8791b2cf988e905))
+
 # [13.2.0](https://github.com/angular-eslint/angular-eslint/compare/v13.1.0...v13.2.0) (2022-04-03)
 
 ### Features
