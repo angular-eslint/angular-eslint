@@ -27,8 +27,8 @@ import bananaInBox, {
 import clickEventsHaveKeyEvents, {
   RULE_NAME as clickEventsHaveKeyEventsRuleName,
 } from './rules/click-events-have-key-events';
-import conditionalСomplexity, {
-  RULE_NAME as conditionalСomplexityRuleName,
+import conditionalComplexity, {
+  RULE_NAME as conditionalComplexityRuleName,
 } from './rules/conditional-complexity';
 import cyclomaticComplexity, {
   RULE_NAME as cyclomaticComplexityRuleName,
@@ -78,7 +78,7 @@ export default {
     [accessibilityTableScopeRuleName]: accessibilityTableScope,
     [accessibilityValidAriaRuleName]: accessibilityValidAria,
     [bananaInBoxRuleName]: bananaInBox,
-    [conditionalСomplexityRuleName]: conditionalСomplexity,
+    [conditionalComplexityRuleName]: conditionalComplexity,
     [clickEventsHaveKeyEventsRuleName]: clickEventsHaveKeyEvents,
     [cyclomaticComplexityRuleName]: cyclomaticComplexity,
     [eqeqeqRuleName]: eqeqeq,

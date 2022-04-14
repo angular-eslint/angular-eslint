@@ -62,6 +62,7 @@
     },
     "update-rule-docs": {
       "executor": "@nrwl/workspace:run-commands",
+      "outputs": ["packages/eslint-plugin-template/docs"],
       "options": {
         "parallel": false,
         "commands": [
