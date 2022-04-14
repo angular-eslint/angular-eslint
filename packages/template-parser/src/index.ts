@@ -214,9 +214,14 @@ export function createTemplateParseError(
   return new TemplateParseError(message, fileName, index, lineNumber, column);
 }
 
+export interface ParserOptions {
+  filePath: string;
+  suppressParseErrors?: boolean;
+}
+
 function parseForESLint(
   code: string,
-  options: { filePath: string },
+  options: ParserOptions,
 ): {
   ast: AST;
   scopeManager: ScopeManager;
@@ -269,7 +274,10 @@ function parseForESLint(
     };
   }
 
-  if (angularCompilerResult.errors?.length) {
+  // TODO: Stop suppressing parse errors by default in v14
+  const suppressParseErrors = options.suppressParseErrors ?? true;
+
+  if (!suppressParseErrors && angularCompilerResult.errors?.length) {
     throw createTemplateParseError(angularCompilerResult.errors[0]);
   }
 
@@ -286,6 +294,6 @@ function parseForESLint(
 
 export { parseForESLint };
 
-export function parse(code: string, options: { filePath: string }): AST {
+export function parse(code: string, options: ParserOptions): AST {
   return parseForESLint(code, options).ast;
 }

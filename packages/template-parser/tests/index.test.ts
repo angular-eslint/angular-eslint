@@ -511,7 +511,20 @@ describe('parseForESLint()', () => {
   });
 
   describe('parse errors', () => {
-    it('should appropriately throw if the Angular compiler produced parse errors', () => {
+    it('should not throw if the Angular compiler produced parse errors by default', () => {
+      expect.assertions(1);
+
+      const { ast } = parseForESLint(
+        '<p>consumed resources are at {{ ${percent} | formatPercentLocale }}</p>',
+        {
+          filePath:
+            './inline-template-source-using-template-literal-interpolation.html',
+        },
+      );
+      expect(ast).toBeDefined();
+    });
+
+    it('should appropriately throw if the Angular compiler produced parse errors and `parserOptions.suppressParseErrors` is set to false', () => {
       expect.assertions(2);
 
       let error: TemplateParseError;
@@ -520,6 +533,7 @@ describe('parseForESLint()', () => {
           '<p i18n>Lorem ipsum <em i18n="@@dolor">dolor</em> sit amet.</p>',
           {
             filePath: './invalid-nested-i18ns.html',
+            suppressParseErrors: false,
           },
         );
       } catch (err: any) {
