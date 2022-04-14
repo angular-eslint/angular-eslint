@@ -298,6 +298,32 @@ interface Options {
 
 <br>
 
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/conditional-complexity": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div class="col" id="one-two-three-four-five-six-seven-eight-{{9}}"></div>
+```
+
+<br>
+
+---
+
+<br>
+
 #### Custom Config
 
 ```json
