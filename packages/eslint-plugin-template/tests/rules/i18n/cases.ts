@@ -188,7 +188,13 @@ export const valid = [
   },
   {
     code: `
-      <img [src]="logo" i18n-title="Logo for the app" title="App Logo" i18n-alt="App logo" alt="App Logo"/> 
+      <img 
+        [src]="logo"
+        i18n-title="Logo for the app"
+        title="App Logo"
+        i18n-alt="Translated alt logo"
+        alt="Alternate logo"
+      /> 
     `,
     options: [{ checkId: false, requireDescription: true }],
   },
@@ -537,7 +543,7 @@ export const invalid = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'should fail if i18n-<attr> description is missing when there is no i18n attribute',
+      'should fail if i18n-<attr> description is missing when there is no text content to translate',
     annotatedSource: `
       <img [src]="logo" i18n-title title="App Logo" i18n-alt="App logo" alt="App Logo"/>
                                    ~~~~~
