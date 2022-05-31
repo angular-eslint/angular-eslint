@@ -52,8 +52,8 @@
   "devDependencies": {
     "@actions/core": "1.6.0",
     "@actions/github": "5.0.1",
-    "@angular/cli": "13.3.1",
-    "@angular/compiler": "13.3.1",
+    "@angular/cli": "14.0.0-rc.2",
+    "@angular/compiler": "14.0.0-rc.2",
     "@commitlint/cli": "16.2.3",
     "@commitlint/config-conventional": "16.2.1",
     "@nrwl/devkit": "13.9.7",
