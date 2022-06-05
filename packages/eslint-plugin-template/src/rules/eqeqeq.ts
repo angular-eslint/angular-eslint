@@ -41,7 +41,7 @@ export default createESLintRule<Options, MessageIds>({
       eqeqeq:
         'Expected `{{expectedOperation}}` but received `{{actualOperation}}`',
       suggestStrictEquality:
-        'Replace `{{expectedOperation}}` with `{{actualOperation}}`',
+        'Replace `{{actualOperation}}` with `{{expectedOperation}}`',
     },
   },
   defaultOptions: [DEFAULT_OPTIONS],
