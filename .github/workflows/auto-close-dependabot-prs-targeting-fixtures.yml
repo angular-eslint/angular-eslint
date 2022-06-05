@@ -11,6 +11,10 @@ on:
     paths:
       - 'packages/integration-tests/fixtures/**'
 
+# Need to give extended permissions to secrets.GITHUB_TOKEN
+permissions:
+  pull-requests: write
+
 jobs:
   maybe_auto_close:
     # Only run if it was dependabot that triggered the workflow
