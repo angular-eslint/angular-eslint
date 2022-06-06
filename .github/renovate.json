@@ -20,11 +20,11 @@
         "https://github.com/typescript-eslint/typescript-eslint"
       ],
       "groupName": "typescript-eslint packages",
-      "extends": [":semanticCommitTypeAll(feat)"]
+      "semanticCommitType": "feat"
     },
     {
       "matchPackageNames": ["eslint"],
-      "extends": [":semanticCommitTypeAll(feat)"]
+      "semanticCommitType": "feat"
     }
   ]
 }
