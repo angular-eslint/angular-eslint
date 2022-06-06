@@ -53,7 +53,7 @@
     "@actions/core": "1.8.2",
     "@actions/github": "5.0.3",
     "@angular/cli": "13.3.1",
-    "@angular/compiler": "13.3.1",
+    "@angular/compiler": "14.0.0",
     "@commitlint/cli": "16.3.0",
     "@commitlint/config-conventional": "16.2.4",
     "@nrwl/devkit": "13.9.7",
