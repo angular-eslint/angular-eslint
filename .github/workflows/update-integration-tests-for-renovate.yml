@@ -54,7 +54,7 @@ jobs:
           yarn build
 
           # Update the integration test snapshots
-          yarn update-integration-tests
+          yarn update-integration-tests --skip-nx-cache
 
           # Ensure all the changed files are formatted appropriately
           yarn format
