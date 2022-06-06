@@ -51,6 +51,7 @@ jobs:
           gh pr checkout ${{ github.event.pull_request.number }}
 
           yarn --ignore-scripts
+          yarn build
 
           # Update the integration test snapshots
           yarn update-integration-tests
