@@ -27,13 +27,22 @@ jobs:
           # To ensure we can push from a different user (and therefore cause actions to rerun)
           persist-credentials: false
 
-      - name: Check if eslint was changed as part of the latest commit on the PR
-        id: eslint-package-check
+      - name: Check if any relevant package was changed as part of the latest commit by renovate bot on the PR
+        id: relevant-packages-check
         run: |
-          git diff HEAD~1 -G"eslint" --exit-code package.json && echo "eslint unchanged" || echo "::set-output name=was-changed::true"
+          declare -a packages=(
+            "eslint"
+            "@typescript-eslint/parser"
+          )
 
-      - name: Update integration tests if eslint changed and commit the results
-        if: ${{ steps.eslint-package-check.outputs.was-changed == 'true' }}
+          for package in "${packages[@]}"
+          do
+            # It's important we have the leading (escaped) " here so we know it is the start of the package name
+            git diff HEAD~1 -G"\"$package" --exit-code package.json && echo "$package unchanged" || echo "::set-output name=was-changed::true"
+          done
+
+      - name: Update integration tests if any relevant package was changed and commit the updated snapshots
+        if: ${{ steps.relevant-packages-check.outputs.was-changed == 'true' }}
         env:
           # We cannot use secrets.GITHUB_TOKEN for this because it is not permitted to kick off subsequent actions worfklow runs, so we use a PAT instead
           GITHUB_TOKEN: ${{ secrets.JAMES_HENRY_GITHUB_TOKEN }}
@@ -55,6 +64,6 @@ jobs:
           git remote set-url origin https://x-access-token:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git
 
           # Only add snapshot files (lots of other files will have been altered by the update, but we don't want to commit them)
-          git add *.snap
+          git add packages/integration-tests/tests/**/*.snap
           git commit -m "chore: update integration test snapshots"
           git push
