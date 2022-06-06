@@ -78,7 +78,7 @@
     "json-schema-traverse": "1.0.0",
     "lerna": "4.0.0",
     "lint-staged": "12.5.0",
-    "microbundle": "0.14.2",
+    "microbundle": "0.15.0",
     "ncp": "2.0.0",
     "nx": "13.9.7",
     "prettier": "2.6.2",
