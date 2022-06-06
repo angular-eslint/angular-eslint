@@ -26,7 +26,7 @@ export default createESLintRule<Options, MessageIds>({
   defaultOptions: [],
   create(context) {
     return {
-      [`${Selectors.MODULE_CLASS_DECORATOR} Property ArrayExpression`]({
+      [`${Selectors.MODULE_CLASS_DECORATOR} Property[key.name!="deps"] > ArrayExpression`]({
         elements,
       }: TSESTree.ArrayExpression) {
         const unorderedNodes = elements
