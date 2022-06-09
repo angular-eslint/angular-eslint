@@ -51,7 +51,7 @@
   },
   "devDependencies": {
     "@actions/core": "1.6.0",
-    "@actions/github": "5.0.1",
+    "@actions/github": "5.0.3",
     "@angular/cli": "13.3.1",
     "@angular/compiler": "13.3.1",
     "@commitlint/cli": "16.2.3",
@@ -65,7 +65,7 @@
     "@types/eslint-scope": "3.7.3",
     "@types/jest": "27.0.2",
     "@types/node": "16.11.26",
-    "@types/prettier": "2.4.4",
+    "@types/prettier": "2.6.3",
     "@typescript-eslint/eslint-plugin": "5.17.0",
     "@typescript-eslint/parser": "5.17.0",
     "eslint": "8.12.0",
