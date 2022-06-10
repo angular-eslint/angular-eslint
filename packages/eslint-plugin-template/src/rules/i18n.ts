@@ -250,18 +250,28 @@ export default createESLintRule<Options, MessageIds>({
         keySpan ?? sourceSpan,
       );
 
-      if (checkId && i18n) {
-        const { customId } = i18n;
+      if (i18n) {
+        const { customId, description } = i18n;
 
-        if (isEmpty(customId)) {
+        if (checkId) {
+          if (isEmpty(customId)) {
+            context.report({
+              messageId: 'i18nCustomIdOnAttribute',
+              loc: keyOrSourceSpanLoc,
+              data: { attributeName },
+            });
+          } else {
+            const sourceSpans = collectedCustomIds.get(customId) ?? [];
+            collectedCustomIds.set(customId, [...sourceSpans, sourceSpan]);
+          }
+        }
+
+        if (requireDescription && isEmpty(description)) {
           context.report({
-            messageId: 'i18nCustomIdOnAttribute',
+            messageId: 'i18nMissingDescription',
             loc: keyOrSourceSpanLoc,
             data: { attributeName },
           });
-        } else {
-          const sourceSpans = collectedCustomIds.get(customId) ?? [];
-          collectedCustomIds.set(customId, [...sourceSpans, sourceSpan]);
         }
       }
 
@@ -340,7 +350,7 @@ export default createESLintRule<Options, MessageIds>({
           handleElement(node);
         },
       }),
-      ...((checkAttributes || checkId) && {
+      ...((checkAttributes || checkId || requireDescription) && {
         [`Element$1 > TextAttribute[value=${PL_PATTERN}]`](
           node: StronglyTypedTextAttribute,
         ) {
