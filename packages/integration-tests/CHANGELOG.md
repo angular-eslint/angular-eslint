@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [13.3.0](https://github.com/angular-eslint/angular-eslint/compare/v13.2.1...v13.3.0) (2022-06-10)
+
+### Features
+
+- update dependency eslint to v8.17.0 ([#979](https://github.com/angular-eslint/angular-eslint/issues/979)) ([7cabac0](https://github.com/angular-eslint/angular-eslint/commit/7cabac039b895316d6a363cd23765cf7311adf2c))
+
 ## [13.2.1](https://github.com/angular-eslint/angular-eslint/compare/v13.2.0...v13.2.1) (2022-04-14)
 
 **Note:** Version bump only for package @angular-eslint/integration-tests

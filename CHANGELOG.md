@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [13.3.0](https://github.com/angular-eslint/angular-eslint/compare/v13.2.1...v13.3.0) (2022-06-10)
+
+### Bug Fixes
+
+- **eslint-plugin-template:** [eqeqeq] update suggest message ([#1000](https://github.com/angular-eslint/angular-eslint/issues/1000)) ([821cb8e](https://github.com/angular-eslint/angular-eslint/commit/821cb8ec0f69beb0cc7d1fb60ad653a1c3c77152))
+- **eslint-plugin:** [sort-ngmodule-metadata-arrays] do not sort deps property ([#1001](https://github.com/angular-eslint/angular-eslint/issues/1001)) ([e6d12f2](https://github.com/angular-eslint/angular-eslint/commit/e6d12f21f94aeda5667a32d580b002fc1597cff2))
+
+### Features
+
+- **eslint-plugin-template:** [i18n] add requireDescription option ([#988](https://github.com/angular-eslint/angular-eslint/issues/988)) ([8f55ba8](https://github.com/angular-eslint/angular-eslint/commit/8f55ba832dfe54a4b44334802c3691f839e3ce5d))
+- update dependency eslint to v8.17.0 ([#979](https://github.com/angular-eslint/angular-eslint/issues/979)) ([7cabac0](https://github.com/angular-eslint/angular-eslint/commit/7cabac039b895316d6a363cd23765cf7311adf2c))
+
 ## [13.2.1](https://github.com/angular-eslint/angular-eslint/compare/v13.2.0...v13.2.1) (2022-04-14)
 
 ### Bug Fixes

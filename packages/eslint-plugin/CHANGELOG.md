@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [13.3.0](https://github.com/angular-eslint/angular-eslint/compare/v13.2.1...v13.3.0) (2022-06-10)
+
+### Bug Fixes
+
+- **eslint-plugin:** [sort-ngmodule-metadata-arrays] do not sort deps property ([#1001](https://github.com/angular-eslint/angular-eslint/issues/1001)) ([e6d12f2](https://github.com/angular-eslint/angular-eslint/commit/e6d12f21f94aeda5667a32d580b002fc1597cff2))
+
 ## [13.2.1](https://github.com/angular-eslint/angular-eslint/compare/v13.2.0...v13.2.1) (2022-04-14)
 
 ### Bug Fixes
