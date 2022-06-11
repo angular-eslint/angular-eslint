@@ -1,5 +1,5 @@
 {
-  "root": "packages/eslint-plugin-template",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "type": "library",
   "targets": {
     "build": {
@@ -25,7 +25,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/packages/eslint-plugin-template"],
       "options": {
-        "jestConfig": "packages/eslint-plugin-template/jest.config.js",
+        "jestConfig": "packages/eslint-plugin-template/jest.config.ts",
         "passWithNoTests": false
       }
     },

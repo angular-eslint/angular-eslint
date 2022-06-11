@@ -1,7 +1,8 @@
+/* eslint-disable */
 'use strict';
 
-module.exports = {
-  displayName: 'schematics',
+export default {
+  displayName: 'template-parser',
   preset: '../../jest.preset.js',
   globals: {
     'ts-jest': {
@@ -10,11 +11,12 @@ module.exports = {
   },
   testEnvironment: 'node',
   transform: {
-    '^.+\\.[tj]sx?$': 'ts-jest',
+    '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
   },
+  transformIgnorePatterns: ['node_modules/(?!.*\\.mjs$)'],
   testMatch: null,
   testRegex: ['./tests/.+\\.test\\.ts$'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  coverageDirectory: '../../coverage/packages/schematics',
+  coverageDirectory: '../../coverage/packages/template-parser',
   coverageReporters: ['text-summary', 'lcov'],
 };

@@ -1,5 +1,5 @@
 {
-  "root": "packages/schematics",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "type": "library",
   "targets": {
     "build": {
@@ -34,7 +34,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/packages/schematics"],
       "options": {
-        "jestConfig": "packages/schematics/jest.config.js",
+        "jestConfig": "packages/schematics/jest.config.ts",
         "passWithNoTests": false
       }
     },
