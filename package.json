@@ -61,7 +61,7 @@
     "@nrwl/nx-cloud": "14.0.8",
     "@nrwl/workspace": "14.2.4",
     "@schematics/angular": "13.3.1",
-    "@types/eslint": "8.4.2",
+    "@types/eslint": "8.4.3",
     "@types/eslint-scope": "3.7.3",
     "@types/jest": "27.4.1",
     "@types/node": "16.11.39",
