@@ -2,7 +2,7 @@
 
 exports[`v13-new-workspace it should pass linting after creating a new workspace from scratch using @angular-eslint 2`] = `
 Object {
-  "@angular-devkit/build-angular": "^14.0.1",
+  "@angular-devkit/build-angular": "^14.0.0",
   "@angular-eslint/builder": "9999.0.1-local-integration-tests",
   "@angular-eslint/eslint-plugin": "9999.0.1-local-integration-tests",
   "@angular-eslint/eslint-plugin-template": "9999.0.1-local-integration-tests",
