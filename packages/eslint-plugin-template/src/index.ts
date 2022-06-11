@@ -60,6 +60,9 @@ import noPositiveTabindex, {
 import useTrackByFunction, {
   RULE_NAME as useTrackByFunctionRuleName,
 } from './rules/use-track-by-function';
+import buttonHasType, {
+  RULE_NAME as buttonHasTypeRuleName,
+} from './rules/button-has-type';
 
 export default {
   configs: {
@@ -92,5 +95,6 @@ export default {
     [noNegatedAsyncRuleName]: noNegatedAsync,
     [noPositiveTabindexRuleName]: noPositiveTabindex,
     [useTrackByFunctionRuleName]: useTrackByFunction,
+    [buttonHasTypeRuleName]: buttonHasType,
   },
 };
