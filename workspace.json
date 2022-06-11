@@ -9,7 +9,7 @@
     "integration-tests": "packages/integration-tests",
     "integration-tests-suite-1": {
       "$schema": "../../node_modules/nx/schemas/project-schema.json",
-      "root": "packages/integration-tests",
+      "root": "packages/integration-tests/suites/1",
       "type": "library",
       "targets": {
         "integration-test": {
@@ -37,7 +37,7 @@
     },
     "integration-tests-suite-2": {
       "$schema": "../../node_modules/nx/schemas/project-schema.json",
-      "root": "packages/integration-tests",
+      "root": "packages/integration-tests/suites/2",
       "type": "library",
       "targets": {
         "integration-test": {
@@ -65,7 +65,7 @@
     },
     "integration-tests-suite-3": {
       "$schema": "../../node_modules/nx/schemas/project-schema.json",
-      "root": "packages/integration-tests",
+      "root": "packages/integration-tests/suites/3",
       "type": "library",
       "targets": {
         "integration-test": {
@@ -93,7 +93,7 @@
     },
     "integration-tests-suite-4": {
       "$schema": "../../node_modules/nx/schemas/project-schema.json",
-      "root": "packages/integration-tests",
+      "root": "packages/integration-tests/suites/4",
       "type": "library",
       "targets": {
         "integration-test": {
@@ -121,7 +121,7 @@
     },
     "integration-tests-suite-5": {
       "$schema": "../../node_modules/nx/schemas/project-schema.json",
-      "root": "packages/integration-tests",
+      "root": "packages/integration-tests/suites/5",
       "type": "library",
       "targets": {
         "integration-test": {
@@ -149,7 +149,7 @@
     },
     "integration-tests-suite-6": {
       "$schema": "../../node_modules/nx/schemas/project-schema.json",
-      "root": "packages/integration-tests",
+      "root": "packages/integration-tests/suites/6",
       "type": "library",
       "targets": {
         "integration-test": {
@@ -177,7 +177,7 @@
     },
     "integration-tests-suite-7": {
       "$schema": "../../node_modules/nx/schemas/project-schema.json",
-      "root": "packages/integration-tests",
+      "root": "packages/integration-tests/suites/7",
       "type": "library",
       "targets": {
         "integration-test": {
