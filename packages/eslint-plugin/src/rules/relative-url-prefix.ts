@@ -51,7 +51,9 @@ export default createESLintRule<Options, MessageIds>({
   },
 });
 
-function isUrlInvalid(node: TSESTree.Property | TSESTree.Property['value']) {
+function isUrlInvalid(
+  node: TSESTree.Property['value'] | TSESTree.SpreadElement,
+) {
   return (
     !ASTUtils.isStringLiteral(node) ||
     !RELATIVE_URL_PREFIX_MATCHER.test(node.value)

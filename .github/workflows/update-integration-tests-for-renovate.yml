@@ -1,0 +1,70 @@
+# This workflow is used to augment the capabilities of the renovate GitHub app by updating the
+# integration test snapshots when certain dependencies are updated.
+
+name: Renovate Update Integration Tests
+
+on:
+  pull_request:
+    branches: [master]
+    paths:
+      - 'package.json'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  maybe_update_integration_tests:
+    # Only run if it was the renovate bot that triggered the workflow (otherwise we'll create a loop)
+    if: contains('["renovate[bot]"]', github.actor) == true
+    name: Update if required
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          # To allow us to perform the git diff we need the git history
+          fetch-depth: 0
+          # To ensure we can push from a different user (and therefore cause actions to rerun)
+          persist-credentials: false
+
+      - name: Check if any relevant package was changed as part of the latest commit by renovate bot on the PR
+        id: relevant-packages-check
+        run: |
+          declare -a packages=(
+            "eslint"
+            "@typescript-eslint/parser"
+          )
+
+          for package in "${packages[@]}"
+          do
+            # It's important we have the leading (escaped) " here so we know it is the start of the package name
+            git diff HEAD~1 -G"\"$package" --exit-code package.json && echo "$package unchanged" || echo "::set-output name=was-changed::true"
+          done
+
+      - name: Update integration tests if any relevant package was changed and commit the updated snapshots
+        if: ${{ steps.relevant-packages-check.outputs.was-changed == 'true' }}
+        env:
+          # We cannot use secrets.GITHUB_TOKEN for this because it is not permitted to kick off subsequent actions worfklow runs, so we use a PAT instead
+          GITHUB_TOKEN: ${{ secrets.JAMES_HENRY_GITHUB_TOKEN }}
+        run: |
+          # Checkout the PR branch using the github CLI
+          gh pr checkout ${{ github.event.pull_request.number }}
+
+          yarn --ignore-scripts
+          yarn build
+
+          # Update the integration test snapshots
+          yarn update-integration-tests --skip-nx-cache
+
+          # Ensure all the changed files are formatted appropriately
+          yarn format
+
+          # Commit all snapshot changes to the PR (see note on not being able to use secrets.GITHUB_TOKEN for this)
+          git config --global user.email "james@henry.sc"
+          git config --global user.name "JamesHenry"
+          git remote set-url origin https://x-access-token:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git
+
+          # Only add snapshot files (lots of other files will have been altered by the update, but we don't want to commit them)
+          git add packages/integration-tests/tests/**/*.snap
+          git commit -m "chore: update integration test snapshots"
+          git push

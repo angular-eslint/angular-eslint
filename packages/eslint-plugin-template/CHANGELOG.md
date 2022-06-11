@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [13.4.0](https://github.com/angular-eslint/angular-eslint/compare/v13.3.0...v13.4.0) (2022-06-11)
+
+### Features
+
+- update typescript-eslint packages to v5.27.1 ([#1022](https://github.com/angular-eslint/angular-eslint/issues/1022)) ([99e8d4a](https://github.com/angular-eslint/angular-eslint/commit/99e8d4a256b8d2d71ee9b809649cb0846fdadeb9))
+
+# [13.3.0](https://github.com/angular-eslint/angular-eslint/compare/v13.2.1...v13.3.0) (2022-06-10)
+
+### Bug Fixes
+
+- **eslint-plugin-template:** [eqeqeq] update suggest message ([#1000](https://github.com/angular-eslint/angular-eslint/issues/1000)) ([821cb8e](https://github.com/angular-eslint/angular-eslint/commit/821cb8ec0f69beb0cc7d1fb60ad653a1c3c77152))
+
+### Features
+
+- **eslint-plugin-template:** [i18n] add requireDescription option ([#988](https://github.com/angular-eslint/angular-eslint/issues/988)) ([8f55ba8](https://github.com/angular-eslint/angular-eslint/commit/8f55ba832dfe54a4b44334802c3691f839e3ce5d))
+
 ## [13.2.1](https://github.com/angular-eslint/angular-eslint/compare/v13.2.0...v13.2.1) (2022-04-14)
 
 ### Bug Fixes

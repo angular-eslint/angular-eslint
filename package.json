@@ -2,8 +2,8 @@
   "name": "@angular-eslint/angular-eslint",
   "private": true,
   "volta": {
-    "node": "16.14.2",
-    "yarn": "1.22.18"
+    "node": "16.15.1",
+    "yarn": "1.22.19"
   },
   "workspaces": [
     "packages/*"
@@ -37,7 +37,8 @@
     "exec-tool": "ts-node --transpile-only --project tsconfig.tools.json tools/scripts/exec-tool.ts",
     "update-configs": "ts-node --transpile-only --project tsconfig.tools.json tools/scripts/generate-configs.ts",
     "check-rule-docs": "nx run-many --target=check-rule-docs --all --parallel",
-    "update-rule-docs": "nx run-many --target=update-rule-docs --all --parallel"
+    "update-rule-docs": "nx run-many --target=update-rule-docs --all --parallel",
+    "prepare": "husky install"
   },
   "config": {
     "commitizen": {
@@ -50,45 +51,44 @@
     ]
   },
   "devDependencies": {
-    "@actions/core": "1.6.0",
-    "@actions/github": "5.0.1",
+    "@actions/core": "1.8.2",
+    "@actions/github": "5.0.3",
     "@angular/cli": "14.0.0",
     "@angular/compiler": "14.0.0",
-    "@commitlint/cli": "16.2.3",
-    "@commitlint/config-conventional": "16.2.1",
-    "@nrwl/devkit": "13.9.7",
-    "@nrwl/jest": "13.9.7",
-    "@nrwl/nx-cloud": "13.2.2",
-    "@nrwl/workspace": "13.9.7",
+    "@commitlint/cli": "17.0.2",
+    "@commitlint/config-conventional": "17.0.2",
+    "@nrwl/devkit": "14.2.4",
+    "@nrwl/jest": "14.2.4",
+    "@nrwl/nx-cloud": "14.0.8",
+    "@nrwl/workspace": "14.2.4",
     "@schematics/angular": "14.0.0",
-    "@types/eslint": "8.4.1",
+    "@types/eslint": "8.4.3",
     "@types/eslint-scope": "3.7.3",
     "@types/jest": "28.1.1",
-    "@types/node": "16.11.26",
-    "@types/prettier": "2.4.4",
-    "@typescript-eslint/eslint-plugin": "5.17.0",
-    "@typescript-eslint/parser": "5.17.0",
-    "eslint": "8.12.0",
+    "@types/node": "16.11.39",
+    "@types/prettier": "2.6.3",
+    "@typescript-eslint/eslint-plugin": "5.27.1",
+    "@typescript-eslint/parser": "5.27.1",
+    "eslint": "8.17.0",
     "eslint-config-prettier": "8.5.0",
     "execa": "5.1.1",
-    "husky": "3.1.0",
+    "husky": "8.0.1",
     "jest": "28.1.0",
     "jest-preset-angular": "12.1.0",
     "json-schema-to-typescript": "10.1.5",
     "json-schema-traverse": "1.0.0",
-    "lerna": "4.0.0",
-    "lint-staged": "12.3.7",
-    "microbundle": "0.14.2",
+    "lerna": "5.1.1",
+    "lint-staged": "13.0.1",
+    "microbundle": "0.15.0",
     "ncp": "2.0.0",
-    "nx": "13.9.7",
+    "nx": "14.2.4",
     "prettier": "2.6.2",
     "rimraf": "3.0.2",
     "strip-ansi": "6.0.1",
-    "terser": "5.12.1",
+    "terser": "5.14.1",
     "tree-kill": "1.2.2",
     "ts-jest": "28.0.4",
-    "ts-node": "10.7.0",
-    "typescript": "4.6.3"
-  },
-  "version": "0.0.0"
+    "ts-node": "10.8.1",
+    "typescript": "4.7.3"
+  }
 }

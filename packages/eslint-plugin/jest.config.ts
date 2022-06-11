@@ -1,7 +1,8 @@
+/* eslint-disable */
 'use strict';
 
-module.exports = {
-  displayName: 'eslint-plugin-template',
+export default {
+  displayName: 'eslint-plugin',
   preset: '../../jest.preset.js',
   globals: {
     'ts-jest': {
@@ -10,11 +11,12 @@ module.exports = {
   },
   testEnvironment: 'node',
   transform: {
-    '^.+\\.tsx?$': 'ts-jest',
+    '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
   },
+  transformIgnorePatterns: ['node_modules/(?!.*\\.mjs$)'],
   testMatch: null,
   testRegex: ['./tests/.+\\.test\\.ts$', './tests/.+/spec\\.ts$'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  coverageDirectory: '../../coverage/packages/eslint-plugin-template',
+  coverageDirectory: '../../coverage/packages/eslint-plugin',
   coverageReporters: ['text-summary', 'lcov'],
 };

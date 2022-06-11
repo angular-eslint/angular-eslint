@@ -54,10 +54,22 @@ export const valid = [
   `,
   `
   @Component({
-    providers: [        
+    providers: [
       DeclarationD,
       DeclarationA,
     ]
+  })
+  class Test {}
+  `,
+  `
+  @NgModule({
+    providers: [
+      {
+        provide: 'myprovider',
+        useFactory: myProviderFactory,
+        deps: [TOKEN_Z, ClassX, ClassA, TOKEN_A],
+      },
+    ],
   })
   class Test {}
   `,
