@@ -72,7 +72,7 @@
     "eslint": "8.17.0",
     "eslint-config-prettier": "8.5.0",
     "execa": "5.1.1",
-    "husky": "^8.0.0",
+    "husky": "8.0.1",
     "jest": "27.5.1",
     "jest-preset-angular": "11.1.1",
     "json-schema-to-typescript": "10.1.5",
