@@ -37,7 +37,8 @@
     "exec-tool": "ts-node --transpile-only --project tsconfig.tools.json tools/scripts/exec-tool.ts",
     "update-configs": "ts-node --transpile-only --project tsconfig.tools.json tools/scripts/generate-configs.ts",
     "check-rule-docs": "nx run-many --target=check-rule-docs --all --parallel",
-    "update-rule-docs": "nx run-many --target=update-rule-docs --all --parallel"
+    "update-rule-docs": "nx run-many --target=update-rule-docs --all --parallel",
+    "prepare": "husky install"
   },
   "config": {
     "commitizen": {
@@ -71,7 +72,7 @@
     "eslint": "8.17.0",
     "eslint-config-prettier": "8.5.0",
     "execa": "5.1.1",
-    "husky": "3.1.0",
+    "husky": "^8.0.0",
     "jest": "27.5.1",
     "jest-preset-angular": "11.1.1",
     "json-schema-to-typescript": "10.1.5",
