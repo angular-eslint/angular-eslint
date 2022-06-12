@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [13.5.0](https://github.com/angular-eslint/angular-eslint/compare/v13.4.0...v13.5.0) (2022-06-12)
+
+### Features
+
+- **eslint-plugin-template:** [button-has-type] add rule ([#928](https://github.com/angular-eslint/angular-eslint/issues/928)) ([f19bb30](https://github.com/angular-eslint/angular-eslint/commit/f19bb30bf875eacb3bd82709687e4f6ecd6abac7))
+
 # [13.4.0](https://github.com/angular-eslint/angular-eslint/compare/v13.3.0...v13.4.0) (2022-06-11)
 
 ### Features
