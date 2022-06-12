@@ -20,7 +20,7 @@
     "@angular-eslint/bundled-angular-compiler": "14.0.0-alpha.1",
     "@typescript-eslint/experimental-utils": "5.27.1",
     "aria-query": "5.0.0",
-    "axobject-query": "^2.2.0"
+    "axobject-query": "3.0.1"
   },
   "devDependencies": {
     "@angular-eslint/utils": "14.0.0-alpha.1",

@@ -27,7 +27,7 @@ export function getInteractiveElementAXObjectSchemas(): AXObjectSchema[] {
 
     // This will contain all schemas that are related to ARIA roles
     // listed in the above set `interactiveAXObjects`.
-    interactiveElementAXObjectSchemas = [...elementAXObjects].reduce<
+    interactiveElementAXObjectSchemas = [...elementAXObjects.entries()].reduce<
       AXObjectSchema[]
     >((accumulator, [elementSchema, AXObjectSet]) => {
       return accumulator.concat(
