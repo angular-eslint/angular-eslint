@@ -1,5 +1,5 @@
-import type { MethodCall, SafeMethodCall } from '@angular/compiler';
-import { TmplAstBoundEvent } from '@angular/compiler';
+import type { Call } from '@angular-eslint/bundled-angular-compiler';
+import { TmplAstBoundEvent } from '@angular-eslint/bundled-angular-compiler';
 import {
   createESLintRule,
   ensureTemplateParser,
@@ -17,7 +17,6 @@ export default createESLintRule<Options, MessageIds>({
     docs: {
       description:
         'Disallows calling expressions in templates, except for output handlers',
-      category: 'Best Practices',
       recommended: false,
     },
     schema: [],
@@ -31,10 +30,10 @@ export default createESLintRule<Options, MessageIds>({
     const sourceCode = context.getSourceCode();
 
     return {
-      'MethodCall[name!="$any"], SafeMethodCall'(
-        node: MethodCall | SafeMethodCall,
-      ) {
-        const isChildOfBoundEvent = !!getNearestNodeFrom(node, isBoundEvent);
+      'Call[receiver.name!="$any"]'(node: Call) {
+        const isChildOfBoundEvent = Boolean(
+          getNearestNodeFrom(node, isBoundEvent),
+        );
 
         if (isChildOfBoundEvent) return;
 
@@ -42,11 +41,11 @@ export default createESLintRule<Options, MessageIds>({
           sourceSpan: { start, end },
         } = node;
         context.report({
-          messageId: 'noCallExpression',
           loc: {
             start: sourceCode.getLocFromIndex(start),
             end: sourceCode.getLocFromIndex(end),
           },
+          messageId: 'noCallExpression',
         });
       },
     };

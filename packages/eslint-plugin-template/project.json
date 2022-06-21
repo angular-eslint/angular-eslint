@@ -1,5 +1,5 @@
 {
-  "root": "packages/eslint-plugin-template",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "type": "library",
   "targets": {
     "build": {
@@ -16,12 +16,17 @@
       }
     },
     "test": {
-      "executor": "@nrwl/workspace:run-commands",
-      "outputs": ["packages/eslint-plugin-template/coverage"],
+      "dependsOn": [
+        {
+          "projects": "dependencies",
+          "target": "build"
+        }
+      ],
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/packages/eslint-plugin-template"],
       "options": {
-        "cwd": "packages/eslint-plugin-template",
-        "parallel": false,
-        "commands": ["npx nx build template-parser", "npx jest --coverage"]
+        "jestConfig": "packages/eslint-plugin-template/jest.config.ts",
+        "passWithNoTests": false
       }
     },
     "clean": {
@@ -40,16 +45,31 @@
         "commands": ["npx tsc -p tsconfig.json --noEmit"]
       }
     },
-    "check-configs": {
+    "check-rule-docs": {
+      "dependsOn": [
+        {
+          "projects": "self",
+          "target": "update-rule-docs"
+        }
+      ],
       "executor": "@nrwl/workspace:run-commands",
       "options": {
-        "cwd": "packages/eslint-plugin-template",
         "parallel": false,
         "commands": [
-          "npx jest tests/configs.test.ts --runTestsByPath --runInBand"
+          "git diff --quiet --exit-code packages/eslint-plugin-template/docs || (echo \"\n-------\n\nCHECK RULE DOCS ERROR: You have uncommitted changes to the generated rule docs.\n\nYou should run `yarn update-rule-docs` and commit the result.\n\n-------\n\" && exit 1)"
+        ]
+      }
+    },
+    "update-rule-docs": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": ["packages/eslint-plugin-template/docs"],
+      "options": {
+        "parallel": false,
+        "commands": [
+          "npx ts-node --project ./tsconfig.tools.json ./tools/scripts/generate-rule-docs.ts eslint-plugin-template"
         ]
       }
     }
   },
-  "implicitDependencies": ["template-parser"]
+  "implicitDependencies": ["template-parser", "bundled-angular-compiler"]
 }

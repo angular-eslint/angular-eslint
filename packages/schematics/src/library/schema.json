@@ -10,6 +10,7 @@
     "name": {
       "type": "string",
       "description": "The name of the library.",
+      "pattern": "^(?:@[a-zA-Z0-9-*~][a-zA-Z0-9-*._~]*/)?[a-zA-Z0-9-~][a-zA-Z0-9-._~]*$",
       "$default": {
         "$source": "argv",
         "index": 0
@@ -43,13 +44,7 @@
       "type": "boolean",
       "default": false,
       "description": "Do not update \"tsconfig.json\" to add a path mapping for the new library. The path mapping is needed to use the library in an app, but can be disabled here to simplify development."
-    },
-    "lintFix": {
-      "type": "boolean",
-      "description": "Apply lint fixes after generating the library.",
-      "x-user-analytics": 15,
-      "x-deprecated": "Use \"ng lint --fix\" directly instead."
     }
   },
-  "required": []
+  "required": ["name"]
 }

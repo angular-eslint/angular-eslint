@@ -1,7 +1,7 @@
 import type {
   TmplAstBoundAttribute,
   TmplAstTextAttribute,
-} from '@angular/compiler';
+} from '@angular-eslint/bundled-angular-compiler';
 import {
   createESLintRule,
   getTemplateParserServices,
@@ -20,7 +20,6 @@ export default createESLintRule<Options, MessageIds>({
     docs: {
       description:
         'Ensures that the `scope` attribute is only used on the `<th>` element',
-      category: 'Best Practices',
       recommended: false,
     },
     fixable: 'code',
@@ -38,7 +37,7 @@ export default createESLintRule<Options, MessageIds>({
     );
 
     return {
-      [`Element[name=${domElementsPattern}] > :matches(BoundAttribute, TextAttribute)[name='scope']`]({
+      [`Element$1[name=${domElementsPattern}] > :matches(BoundAttribute, TextAttribute)[name='scope']`]({
         sourceSpan,
       }: TmplAstBoundAttribute | TmplAstTextAttribute) {
         const loc = parserServices.convertNodeSourceSpanToLoc(sourceSpan);

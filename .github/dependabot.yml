@@ -1,0 +1,12 @@
+version: 2
+
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    ignore:
+      # @nrwl deps should always be updated by running `npx nx migrate @nrwl/workspace`
+      - dependency-name: "@nrwl/*"
+    # Disable version updates, this does not affect security updates
+    open-pull-requests-limit: 0

@@ -1,4 +1,4 @@
-import type { TmplAstElement } from '@angular/compiler';
+import type { TmplAstElement } from '@angular-eslint/bundled-angular-compiler';
 import {
   createESLintRule,
   getTemplateParserServices,
@@ -14,7 +14,6 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description: 'Enforces that no distracting elements are used',
-      category: 'Best Practices',
       recommended: false,
     },
     fixable: 'code',
@@ -29,7 +28,7 @@ export default createESLintRule<Options, MessageIds>({
     const parserServices = getTemplateParserServices(context);
 
     return {
-      'Element[name=/^(blink|marquee)$/]'({
+      'Element$1[name=/^(blink|marquee)$/]'({
         name: element,
         sourceSpan,
       }: TmplAstElement) {

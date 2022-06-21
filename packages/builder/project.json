@@ -1,5 +1,5 @@
 {
-  "root": "packages/builder",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "type": "library",
   "targets": {
     "build": {
@@ -17,12 +17,11 @@
       }
     },
     "test": {
-      "executor": "@nrwl/workspace:run-commands",
-      "outputs": ["packages/builder/coverage"],
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/packages/builder"],
       "options": {
-        "cwd": "packages/builder",
-        "parallel": false,
-        "commands": ["npx jest --coverage"]
+        "jestConfig": "packages/builder/jest.config.ts",
+        "passWithNoTests": true
       }
     },
     "clean": {

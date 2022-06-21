@@ -2,6 +2,7 @@ import type { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { chain, schematic } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import {
+  createRootESLintConfig,
   getTargetsConfigFromProject,
   readJsonInTree,
   sortObjectByKeys,
@@ -30,7 +31,9 @@ function addAngularESLintPackages() {
     );
     const json = JSON.parse(projectPackageJSON);
     json.devDependencies = json.devDependencies || {};
-    json.devDependencies['eslint'] = packageJSON.devDependencies['eslint'];
+    json.devDependencies[
+      'eslint'
+    ] = `^${packageJSON.devDependencies['eslint']}`;
     json.scripts = json.scripts || {};
     json.scripts['lint'] = json.scripts['lint'] || 'ng lint';
 
@@ -83,8 +86,34 @@ function applyESLintConfigIfSingleProjectWithNoExistingTSLint() {
     if (!angularJson || !angularJson.projects) {
       return;
     }
-    // Anything other than a single project, finish here as there is nothing more we can do automatically
+
+    /**
+     * If the workspace was created by passing `--create-application=false` to `ng new`
+     * then there will be an angular.json file with a projects object, but no projects
+     * within it.
+     *
+     * In this case we should still configure the root eslint config and set the default
+     * collection to use in angular.json.
+     */
     const projectNames = Object.keys(angularJson.projects);
+    if (projectNames.length === 0) {
+      return chain([
+        updateJsonInTree('.eslintrc.json', () =>
+          createRootESLintConfig(null, false),
+        ),
+        updateJsonInTree('angular.json', (json) => {
+          json.cli = json.cli || {};
+          json.cli.defaultCollection = '@angular-eslint/schematics';
+          return json;
+        }),
+      ]);
+    }
+
+    /**
+     * The only other use-case we can reliably support for automatic configuration
+     * is the default case of having a single project in the workspace, so for anything
+     * else we bail at this point.
+     */
     if (projectNames.length !== 1) {
       return;
     }
@@ -101,11 +130,13 @@ function applyESLintConfigIfSingleProjectWithNoExistingTSLint() {
       return;
     }
 
-    context.logger.info(`
+    context.logger.info(
+      `
 We detected that you have a single project in your workspace and no existing linter wired up, so we are configuring ESLint for you automatically.
 
 Please see https://github.com/angular-eslint/angular-eslint for more information.
-`);
+`.trimStart(),
+    );
 
     return chain([
       schematic('add-eslint-to-project', {}),

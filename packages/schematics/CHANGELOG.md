@@ -3,6 +3,104 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [13.5.0](https://github.com/angular-eslint/angular-eslint/compare/v13.4.0...v13.5.0) (2022-06-12)
+
+**Note:** Version bump only for package @angular-eslint/schematics
+
+# [13.4.0](https://github.com/angular-eslint/angular-eslint/compare/v13.3.0...v13.4.0) (2022-06-11)
+
+### Features
+
+- update typescript-eslint packages to v5.27.1 ([#1022](https://github.com/angular-eslint/angular-eslint/issues/1022)) ([99e8d4a](https://github.com/angular-eslint/angular-eslint/commit/99e8d4a256b8d2d71ee9b809649cb0846fdadeb9))
+
+# [13.3.0](https://github.com/angular-eslint/angular-eslint/compare/v13.2.1...v13.3.0) (2022-06-10)
+
+### Features
+
+- update dependency eslint to v8.17.0 ([#979](https://github.com/angular-eslint/angular-eslint/issues/979)) ([7cabac0](https://github.com/angular-eslint/angular-eslint/commit/7cabac039b895316d6a363cd23765cf7311adf2c))
+
+## [13.2.1](https://github.com/angular-eslint/angular-eslint/compare/v13.2.0...v13.2.1) (2022-04-14)
+
+**Note:** Version bump only for package @angular-eslint/schematics
+
+# [13.2.0](https://github.com/angular-eslint/angular-eslint/compare/v13.1.0...v13.2.0) (2022-04-03)
+
+### Bug Fixes
+
+- **schematics:** support more permutations of ng-add ([#970](https://github.com/angular-eslint/angular-eslint/issues/970)) ([0bf549b](https://github.com/angular-eslint/angular-eslint/commit/0bf549b758a6921ff602136d9872e10bb924baf3))
+
+# [13.1.0](https://github.com/angular-eslint/angular-eslint/compare/v13.0.1...v13.1.0) (2022-02-13)
+
+### Bug Fixes
+
+- update dependency ignore to v5.2.0 ([#913](https://github.com/angular-eslint/angular-eslint/issues/913)) ([5480102](https://github.com/angular-eslint/angular-eslint/commit/54801025adcd31b721d293e58884b646de41e2b4))
+
+### Features
+
+- update angular/compiler to v13.2.2 ([#834](https://github.com/angular-eslint/angular-eslint/issues/834)) ([9847978](https://github.com/angular-eslint/angular-eslint/commit/9847978778c3772425d727214f0600a04b6c234c))
+
+## [13.0.1](https://github.com/angular-eslint/angular-eslint/compare/v13.0.0...v13.0.1) (2021-11-19)
+
+### Bug Fixes
+
+- **schematics:** auto update eslint-plugin-import as part of v13 ng update ([#836](https://github.com/angular-eslint/angular-eslint/issues/836)) ([705e83b](https://github.com/angular-eslint/angular-eslint/commit/705e83b6da8e3bf77bbf00305972024f9cffd11b))
+
+# [13.0.0](https://github.com/angular-eslint/angular-eslint/compare/v12.7.0...v13.0.0) (2021-11-18)
+
+### Features
+
+- angular-eslint v13 ([#780](https://github.com/angular-eslint/angular-eslint/issues/780)) ([f7ce631](https://github.com/angular-eslint/angular-eslint/commit/f7ce631524dd7834a422a5ac93a4c0534f9f23fa))
+
+# [12.7.0](https://github.com/angular-eslint/angular-eslint/compare/v12.6.1...v12.7.0) (2021-11-18)
+
+### Bug Fixes
+
+- update dependency ignore to v5.1.9 ([#784](https://github.com/angular-eslint/angular-eslint/issues/784)) ([e4574ce](https://github.com/angular-eslint/angular-eslint/commit/e4574ce21d9175f6fc5f27e03a0ca6f81b466a96))
+
+### Features
+
+- **schematics:** add package group for ng update ([#807](https://github.com/angular-eslint/angular-eslint/issues/807)) ([ce2e47d](https://github.com/angular-eslint/angular-eslint/commit/ce2e47d50a4814f5cea3e075a0c5a3e8dbbfd44e))
+
+## [12.6.1](https://github.com/angular-eslint/angular-eslint/compare/v12.6.0...v12.6.1) (2021-10-26)
+
+### Bug Fixes
+
+- pin dependencies ([#726](https://github.com/angular-eslint/angular-eslint/issues/726)) ([5c21189](https://github.com/angular-eslint/angular-eslint/commit/5c211898d7a678dbc08f9c9205828ed92b28808d))
+
+# [12.6.0](https://github.com/angular-eslint/angular-eslint/compare/v12.5.0...v12.6.0) (2021-10-25)
+
+**Note:** Version bump only for package @angular-eslint/schematics
+
+# [12.5.0](https://github.com/angular-eslint/angular-eslint/compare/v12.4.1...v12.5.0) (2021-09-20)
+
+**Note:** Version bump only for package @angular-eslint/schematics
+
+## [12.4.1](https://github.com/angular-eslint/angular-eslint/compare/v12.4.0...v12.4.1) (2021-09-09)
+
+**Note:** Version bump only for package @angular-eslint/schematics
+
+# [12.4.0](https://github.com/angular-eslint/angular-eslint/compare/v12.3.1...v12.4.0) (2021-09-09)
+
+**Note:** Version bump only for package @angular-eslint/schematics
+
+## [12.3.1](https://github.com/angular-eslint/angular-eslint/compare/v12.3.0...v12.3.1) (2021-07-15)
+
+**Note:** Version bump only for package @angular-eslint/schematics
+
+# [12.3.0](https://github.com/angular-eslint/angular-eslint/compare/v12.2.2...v12.3.0) (2021-07-13)
+
+### Features
+
+- **schematics:** better support @angular/cli 12.1 ([#591](https://github.com/angular-eslint/angular-eslint/issues/591)) ([c5da07b](https://github.com/angular-eslint/angular-eslint/commit/c5da07b2d0c506dde24f0abc3e212db9deeaca82))
+
+## [12.2.2](https://github.com/angular-eslint/angular-eslint/compare/v12.2.1...v12.2.2) (2021-07-10)
+
+**Note:** Version bump only for package @angular-eslint/schematics
+
+## [12.2.1](https://github.com/angular-eslint/angular-eslint/compare/v12.2.0...v12.2.1) (2021-07-10)
+
+**Note:** Version bump only for package @angular-eslint/schematics
+
 # [12.2.0](https://github.com/angular-eslint/angular-eslint/compare/v12.1.0...v12.2.0) (2021-06-20)
 
 **Note:** Version bump only for package @angular-eslint/schematics

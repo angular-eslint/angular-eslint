@@ -1,6 +1,9 @@
-import type { ParseSourceSpan } from '@angular/compiler';
-import { parseTemplate } from '@angular/compiler';
-import type { Comment } from '@angular/compiler/src/render3/r3_ast';
+import type {
+  Comment,
+  ParseError,
+  ParseSourceSpan,
+} from '@angular-eslint/bundled-angular-compiler';
+import { parseTemplate } from '@angular-eslint/bundled-angular-compiler';
 import type { TSESTree } from '@typescript-eslint/types';
 import { Scope, ScopeManager } from 'eslint-scope';
 import {
@@ -8,10 +11,12 @@ import {
   convertNodeSourceSpanToLoc,
 } from './convert-source-span-to-loc';
 
+type NodeOrTokenType = any;
+
 interface Node {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
-  type: string;
+  type: NodeOrTokenType;
 }
 
 interface VisitorKeys {
@@ -19,7 +24,7 @@ interface VisitorKeys {
 }
 
 interface Token extends TSESTree.BaseNode {
-  type: string;
+  type: NodeOrTokenType;
   value: string;
 }
 
@@ -37,7 +42,7 @@ const KEYS: VisitorKeys = {
   BoundEvent: ['handler'],
   BoundText: ['value'],
   Conditional: ['condition', 'trueExp', 'falseExp'],
-  Element: ['children', 'inputs', 'outputs', 'attributes'],
+  Element$1: ['children', 'inputs', 'outputs', 'attributes'],
   Interpolation: ['expressions'],
   PrefixNot: ['expression'],
   Program: ['templateNodes'],
@@ -75,13 +80,18 @@ function isNode(node: unknown): node is Node {
 }
 
 /**
- * Need all Nodes to have a `type` property before we begin
+ * ESLint requires all Nodes to have `type` and `loc` properties before it can
+ * work with the custom AST.
  */
 function preprocessNode(node: Node) {
   let i = 0;
   let j = 0;
 
   const keys = KEYS[node.type] || getFallbackKeys(node);
+
+  if (!node.loc && node.sourceSpan) {
+    node.loc = convertNodeSourceSpanToLoc(node.sourceSpan);
+  }
 
   for (i = 0; i < keys.length; ++i) {
     const child = node[keys[i]];
@@ -176,9 +186,42 @@ function convertNgAstCommentsToTokens(comments: Comment[]) {
   return commentTokens.sort((a, b) => a.range[0] - b.range[0]);
 }
 
+export class TemplateParseError extends Error {
+  constructor(
+    message: string,
+    public readonly fileName: string,
+    public readonly index: number,
+    public readonly lineNumber: number,
+    public readonly column: number,
+  ) {
+    super(message);
+    Object.defineProperty(this, 'name', {
+      value: new.target.name,
+      enumerable: false,
+      configurable: true,
+    });
+  }
+}
+
+export function createTemplateParseError(
+  parseError: ParseError,
+): TemplateParseError {
+  const message = parseError.msg;
+  const fileName = parseError.span.start.file.url;
+  const index = parseError.span.start.offset;
+  const lineNumber = parseError.span.start.line + 1;
+  const column = parseError.span.start.col + 1;
+  return new TemplateParseError(message, fileName, index, lineNumber, column);
+}
+
+export interface ParserOptions {
+  filePath: string;
+  suppressParseErrors?: boolean;
+}
+
 function parseForESLint(
   code: string,
-  options: { filePath: string },
+  options: ParserOptions,
 ): {
   ast: AST;
   scopeManager: ScopeManager;
@@ -194,12 +237,6 @@ function parseForESLint(
     collectCommentNodes: true,
   });
 
-  /**
-   * Before v11.2.8 (and this PR https://github.com/angular/angular/pull/41251) the @angular/compiler did not
-   * expose Comment nodes on its returned AST, so we need to check they exist before attempting to transform them.
-   *
-   * TODO: Remove this check once the minimum supported version of Angular is v12
-   */
   let ngAstCommentNodes: Comment[] = [];
   if (Array.isArray(angularCompilerResult.commentNodes)) {
     ngAstCommentNodes = angularCompilerResult.commentNodes;
@@ -237,6 +274,13 @@ function parseForESLint(
     };
   }
 
+  // TODO: Stop suppressing parse errors by default in v14
+  const suppressParseErrors = options.suppressParseErrors ?? true;
+
+  if (!suppressParseErrors && angularCompilerResult.errors?.length) {
+    throw createTemplateParseError(angularCompilerResult.errors[0]);
+  }
+
   return {
     ast,
     scopeManager,
@@ -248,9 +292,8 @@ function parseForESLint(
   };
 }
 
-export default {
-  parseForESLint,
-  parse: function parse(code: string, options: { filePath: string }): AST {
-    return parseForESLint(code, options).ast;
-  },
-};
+export { parseForESLint };
+
+export function parse(code: string, options: ParserOptions): AST {
+  return parseForESLint(code, options).ast;
+}

@@ -1,7 +1,7 @@
 import type {
   TmplAstBoundAttribute,
   TmplAstTextAttribute,
-} from '@angular/compiler';
+} from '@angular-eslint/bundled-angular-compiler';
 import {
   createESLintRule,
   getTemplateParserServices,
@@ -11,13 +11,14 @@ type Options = [{ maxComplexity: number }];
 export type MessageIds = 'cyclomaticComplexity';
 export const RULE_NAME = 'cyclomatic-complexity';
 
+const DEFAULT_MAX_COMPLEXITY = 5;
+
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
   meta: {
     type: 'suggestion',
     docs: {
       description: `Checks cyclomatic complexity against a specified limit. It is a quantitative measure of the number of linearly independent paths through a program's source code`,
-      category: 'Best Practices',
       recommended: false,
     },
     schema: [
@@ -37,7 +38,7 @@ export default createESLintRule<Options, MessageIds>({
         'The cyclomatic complexity {{totalComplexity}} exceeds the defined limit {{maxComplexity}}',
     },
   },
-  defaultOptions: [{ maxComplexity: 5 }],
+  defaultOptions: [{ maxComplexity: DEFAULT_MAX_COMPLEXITY }],
   create(context, [{ maxComplexity }]) {
     let totalComplexity = 0;
     const parserServices = getTemplateParserServices(context);

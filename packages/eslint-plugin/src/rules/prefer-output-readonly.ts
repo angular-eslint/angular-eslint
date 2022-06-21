@@ -1,3 +1,4 @@
+import { Selectors } from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
@@ -11,24 +12,23 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description:
-        'Prefer to declare `@Output` as readonly since they are not supposed to be reassigned',
-      category: 'Best Practices',
+        'Prefer to declare `@Output` as `readonly` since they are not supposed to be reassigned',
       recommended: false,
-      suggestion: true,
     },
+    hasSuggestions: true,
     schema: [],
     messages: {
       preferOutputReadonly:
-        'Prefer to declare `@Output` as readonly since they are not supposed to be reassigned',
-      suggestAddReadonlyModifier: 'Add readonly modifier',
+        'Prefer to declare `@Output` as `readonly` since they are not supposed to be reassigned',
+      suggestAddReadonlyModifier: 'Add `readonly` modifier',
     },
   },
   defaultOptions: [],
   create(context) {
     return {
-      'ClassProperty[readonly=undefined] > Decorator[expression.callee.name="Output"]'({
+      [`PropertyDefinition:not([readonly]) > ${Selectors.OUTPUT_DECORATOR}`]({
         parent: { key },
-      }: TSESTree.Decorator & { parent: TSESTree.ClassProperty }) {
+      }: TSESTree.Decorator & { parent: TSESTree.PropertyDefinition }) {
         context.report({
           node: key,
           messageId: 'preferOutputReadonly',

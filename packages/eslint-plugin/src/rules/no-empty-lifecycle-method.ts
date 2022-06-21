@@ -1,14 +1,12 @@
+import {
+  ASTUtils,
+  RuleFixes,
+  isNotNullOrUndefined,
+  Selectors,
+  toPattern,
+} from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
-import {
-  ANGULAR_LIFECYCLE_METHODS,
-  getAngularClassDecorator,
-  getImplementsRemoveFix,
-  getImportDeclarations,
-  getImportRemoveFix,
-  isNotNullOrUndefined,
-  toPattern,
-} from '../utils/utils';
 
 type Options = [];
 export type MessageIds =
@@ -22,10 +20,9 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description: 'Disallows declaring empty lifecycle methods',
-      category: 'Best Practices',
       recommended: 'error',
-      suggestion: true,
     },
+    hasSuggestions: true,
     schema: [],
     messages: {
       noEmptyLifecycleMethod: 'Lifecycle methods should not be empty',
@@ -36,18 +33,17 @@ export default createESLintRule<Options, MessageIds>({
   create(context) {
     const sourceCode = context.getSourceCode();
     const angularLifecycleMethodsPattern = toPattern([
-      ...ANGULAR_LIFECYCLE_METHODS,
+      ...ASTUtils.ANGULAR_LIFECYCLE_METHODS,
     ]);
 
     return {
-      [`ClassDeclaration > ClassBody > MethodDefinition[key.name=${angularLifecycleMethodsPattern}][value.body.body.length=0]`](
+      [`ClassDeclaration:has(Decorator[expression.callee.name=/^(Component|Directive|Injectable|NgModule|Pipe)$/]) > ClassBody > ${Selectors.methodDefinition(
+        angularLifecycleMethodsPattern,
+      )}[value.body.body.length=0]`](
         node: TSESTree.MethodDefinition & {
-          key: TSESTree.Identifier;
           parent: TSESTree.ClassBody & { parent: TSESTree.ClassDeclaration };
         },
       ) {
-        if (!getAngularClassDecorator(node.parent.parent)) return;
-
         context.report({
           node,
           messageId: 'noEmptyLifecycleMethod',
@@ -56,23 +52,35 @@ export default createESLintRule<Options, MessageIds>({
               messageId: 'suggestRemoveLifecycleMethod',
               fix: (fixer) => {
                 const importDeclarations =
-                  getImportDeclarations(node, '@angular/core') ?? [];
-                const interfaceName = node.key.name.replace(/^ng+/, '');
+                  ASTUtils.getImportDeclarations(node, '@angular/core') ?? [];
+                const interfaceName = ASTUtils.getRawText(node).replace(
+                  /^ng+/,
+                  '',
+                );
+                const text = sourceCode.getText();
+                const totalInterfaceOccurrences = getTotalInterfaceOccurrences(
+                  text,
+                  interfaceName,
+                );
+                const totalInterfaceOccurrencesSafeForRemoval = 2;
 
                 return [
                   fixer.remove(node),
-                  getImplementsRemoveFix(
+                  RuleFixes.getImplementsRemoveFix(
                     sourceCode,
                     node.parent.parent,
                     interfaceName,
                     fixer,
                   ),
-                  getImportRemoveFix(
-                    sourceCode,
-                    importDeclarations,
-                    interfaceName,
-                    fixer,
-                  ),
+                  totalInterfaceOccurrences <=
+                  totalInterfaceOccurrencesSafeForRemoval
+                    ? RuleFixes.getImportRemoveFix(
+                        sourceCode,
+                        importDeclarations,
+                        interfaceName,
+                        fixer,
+                      )
+                    : null,
                 ].filter(isNotNullOrUndefined);
               },
             },
@@ -82,3 +90,13 @@ export default createESLintRule<Options, MessageIds>({
     };
   },
 });
+
+function stripSpecialCharacters(text: string) {
+  return text.replace(/[\W]/g, '');
+}
+
+function getTotalInterfaceOccurrences(text: string, interfaceName: string) {
+  return text
+    .split(' ')
+    .filter((item) => stripSpecialCharacters(item) === interfaceName).length;
+}

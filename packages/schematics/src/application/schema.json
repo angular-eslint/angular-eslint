@@ -3,7 +3,7 @@
   "$id": "SchematicsAngularApp",
   "title": "Angular Application Options Schema",
   "type": "object",
-  "description": "Generates a new basic app definition in the \"projects\" subfolder of the workspace.",
+  "description": "Generates a new basic application definition in the \"projects\" subfolder of the workspace.",
   "additionalProperties": false,
   "properties": {
     "projectRoot": {
@@ -14,6 +14,7 @@
     "name": {
       "description": "The name of the new app.",
       "type": "string",
+      "pattern": "^(?:@[a-zA-Z0-9-*~][a-zA-Z0-9-*._~]*/)?[a-zA-Z0-9-~][a-zA-Z0-9-._~]*$",
       "$default": {
         "$source": "argv",
         "index": 0
@@ -33,7 +34,7 @@
       "x-user-analytics": 10
     },
     "viewEncapsulation": {
-      "description": "The view encapsulation strategy to use in the new app.",
+      "description": "The view encapsulation strategy to use in the new application.",
       "enum": ["Emulated", "None", "ShadowDom"],
       "type": "string",
       "x-user-analytics": 11
@@ -101,23 +102,11 @@
       "type": "boolean",
       "default": false
     },
-    "lintFix": {
-      "type": "boolean",
-      "description": "Apply lint fixes after generating the application.",
-      "x-user-analytics": 15,
-      "x-deprecated": "Use \"ng lint --fix\" directly instead."
-    },
     "strict": {
       "description": "Creates an application with stricter bundle budgets settings.",
       "type": "boolean",
       "default": true,
       "x-user-analytics": 7
-    },
-    "legacyBrowsers": {
-      "type": "boolean",
-      "description": "Add support for legacy browsers like Internet Explorer using differential loading.",
-      "default": false,
-      "x-deprecated": "Legacy browsers support is deprecated since version 12. For more information, see https://angular.io/guide/browser-support"
     }
   },
   "required": ["name"]

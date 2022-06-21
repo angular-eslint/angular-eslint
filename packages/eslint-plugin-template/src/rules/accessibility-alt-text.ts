@@ -1,4 +1,7 @@
-import type { Node, TmplAstElement } from '@angular/compiler';
+import type {
+  Node,
+  TmplAstElement,
+} from '@angular-eslint/bundled-angular-compiler';
 import {
   createESLintRule,
   getTemplateParserServices,
@@ -16,7 +19,6 @@ export default createESLintRule<Options, MessageIds>({
     docs: {
       description:
         'Enforces alternate text for elements which require the alt, aria-label, aria-labelledby attributes.',
-      category: 'Best Practices',
       recommended: false,
     },
     schema: [],
@@ -30,7 +32,7 @@ export default createESLintRule<Options, MessageIds>({
     const parserServices = getTemplateParserServices(context);
 
     return {
-      'Element[name=/^(img|area|object|input)$/]'(node: TmplAstElement) {
+      'Element$1[name=/^(img|area|object|input)$/]'(node: TmplAstElement) {
         const isValid = isValidNode(node);
 
         if (!isValid) {
@@ -148,7 +150,7 @@ function isValidAreaNode(node: TmplAstElement): boolean {
  * Otherwise, we check for the presence of `attr.alt` or `attr.aria-label` bindings.
  */
 function isValidInputNode(node: TmplAstElement): boolean {
-  const type = getAttributeValue<string>(node, 'type');
+  const type = getAttributeValue(node, 'type');
   // We are only interested in the `<input type="image">` elements.
   if (type !== 'image') {
     return true;

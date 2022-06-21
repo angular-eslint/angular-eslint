@@ -1,13 +1,12 @@
-import type { TmplAstElement } from '@angular/compiler';
-
+import type { TmplAstElement } from '@angular-eslint/bundled-angular-compiler';
 import {
   createESLintRule,
   getTemplateParserServices,
 } from '../utils/create-eslint-rule';
 import { getDomElements } from '../utils/get-dom-elements';
-import { isPresentationRole } from '../utils/is-presentational-role';
-import { isInteractiveElement } from '../utils/is-interactive-element';
 import { isHiddenFromScreenReader } from '../utils/is-hidden-from-screen-reader';
+import { isInteractiveElement } from '../utils/is-interactive-element';
+import { isPresentationRole } from '../utils/is-presentation-role';
 
 type Options = [];
 export type MessageIds = 'clickEventsHaveKeyEvents';
@@ -20,7 +19,6 @@ export default createESLintRule<Options, MessageIds>({
     docs: {
       description:
         'Ensures that the click event is accompanied with at least one key event keyup, keydown or keypress.',
-      category: 'Best Practices',
       recommended: false,
     },
     schema: [],
@@ -32,7 +30,7 @@ export default createESLintRule<Options, MessageIds>({
   defaultOptions: [],
   create(context) {
     return {
-      Element(node: TmplAstElement) {
+      Element$1(node: TmplAstElement) {
         if (!getDomElements().has(node.name)) {
           return;
         }

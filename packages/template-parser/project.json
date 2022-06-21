@@ -1,5 +1,5 @@
 {
-  "root": "packages/template-parser",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "type": "library",
   "targets": {
     "build": {
@@ -15,12 +15,11 @@
       }
     },
     "test": {
-      "executor": "@nrwl/workspace:run-commands",
-      "outputs": ["packages/template-parser/coverage"],
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/packages/template-parser"],
       "options": {
-        "cwd": "packages/template-parser",
-        "parallel": false,
-        "commands": ["npx jest --coverage"]
+        "jestConfig": "packages/template-parser/jest.config.ts",
+        "passWithNoTests": false
       }
     },
     "clean": {

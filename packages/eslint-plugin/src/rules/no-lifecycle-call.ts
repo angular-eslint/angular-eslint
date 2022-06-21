@@ -1,15 +1,7 @@
+import { ASTUtils, toPattern } from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
-import { ASTUtils } from '@typescript-eslint/experimental-utils';
+import { ASTUtils as TSESLintASTUtils } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
-import {
-  ANGULAR_LIFECYCLE_METHODS,
-  getAngularClassDecorator,
-  getNearestNodeFrom,
-  isClassDeclaration,
-  isMethodDefinition,
-  isSuper,
-  toPattern,
-} from '../utils/utils';
 
 type Options = [];
 export type MessageIds = 'noLifecycleCall';
@@ -21,7 +13,6 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description: 'Disallows explicit calls to lifecycle methods',
-      category: 'Best Practices',
       recommended: false,
     },
     schema: [],
@@ -32,7 +23,7 @@ export default createESLintRule<Options, MessageIds>({
   defaultOptions: [],
   create(context) {
     const angularLifeCycleMethodsPattern = toPattern([
-      ...ANGULAR_LIFECYCLE_METHODS,
+      ...ASTUtils.ANGULAR_LIFECYCLE_METHODS,
     ]);
 
     return {
@@ -40,12 +31,15 @@ export default createESLintRule<Options, MessageIds>({
         (
           node: TSESTree.MemberExpression & { parent: TSESTree.CallExpression },
         ) => {
-          const classDeclaration = getNearestNodeFrom(node, isClassDeclaration);
+          const classDeclaration = ASTUtils.getNearestNodeFrom(
+            node,
+            ASTUtils.isClassDeclaration,
+          );
 
           if (
             !classDeclaration ||
-            !getAngularClassDecorator(classDeclaration) ||
-            (isSuper(node.object) && isSuperCallAllowed(node))
+            !ASTUtils.getAngularClassDecorator(classDeclaration) ||
+            (ASTUtils.isSuper(node.object) && isSuperCallAllowed(node))
           ) {
             return;
           }
@@ -61,14 +55,17 @@ function hasSameName(
   { key }: TSESTree.MethodDefinition,
 ): boolean {
   return (
-    ASTUtils.isIdentifier(property) &&
-    ASTUtils.isIdentifier(key) &&
+    TSESLintASTUtils.isIdentifier(property) &&
+    TSESLintASTUtils.isIdentifier(key) &&
     property.name === key.name
   );
 }
 
 function isSuperCallAllowed(node: TSESTree.MemberExpression): boolean {
-  const methodDefinition = getNearestNodeFrom(node, isMethodDefinition);
+  const methodDefinition = ASTUtils.getNearestNodeFrom(
+    node,
+    ASTUtils.isMethodDefinition,
+  );
 
   return Boolean(methodDefinition && hasSameName(node, methodDefinition));
 }

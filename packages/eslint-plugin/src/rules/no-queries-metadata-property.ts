@@ -1,10 +1,6 @@
+import { ASTUtils, Selectors } from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
-import { COMPONENT_OR_DIRECTIVE_CLASS_DECORATOR } from '../utils/selectors';
-import {
-  AngularInnerClassDecorators,
-  getDecoratorPropertyValue,
-} from '../utils/utils';
 
 type Options = [];
 export type MessageIds = 'noQueriesMetadataProperty';
@@ -19,19 +15,20 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description: `Disallows usage of the \`${METADATA_PROPERTY_NAME}\` metadata property. See more at ${STYLE_GUIDE_LINK}.`,
-      category: 'Best Practices',
       recommended: false,
     },
     schema: [],
     messages: {
-      noQueriesMetadataProperty: `Use @${AngularInnerClassDecorators.Output} rather than the \`${METADATA_PROPERTY_NAME}\` metadata property (${STYLE_GUIDE_LINK})`,
+      noQueriesMetadataProperty: `Use @${ASTUtils.AngularInnerClassDecorators.Output} rather than the \`${METADATA_PROPERTY_NAME}\` metadata property (${STYLE_GUIDE_LINK})`,
     },
   },
   defaultOptions: [],
   create(context) {
     return {
-      [COMPONENT_OR_DIRECTIVE_CLASS_DECORATOR](node: TSESTree.Decorator) {
-        const propertyExpression = getDecoratorPropertyValue(
+      [Selectors.COMPONENT_OR_DIRECTIVE_CLASS_DECORATOR](
+        node: TSESTree.Decorator,
+      ) {
+        const propertyExpression = ASTUtils.getDecoratorPropertyValue(
           node,
           METADATA_PROPERTY_NAME,
         );

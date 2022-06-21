@@ -3,17 +3,17 @@ import type {
   TmplAstBoundEvent,
   TmplAstElement,
   TmplAstTextAttribute,
-} from '@angular/compiler';
-import { BindingType, ParsedEventType } from '@angular/compiler';
+} from '@angular-eslint/bundled-angular-compiler';
 import {
   createESLintRule,
   getTemplateParserServices,
 } from '../utils/create-eslint-rule';
+import { getOriginalAttributeName } from '../utils/get-original-attribute-name';
 
 type Options = [{ readonly allowTwoWayDataBinding?: boolean }];
 export type MessageIds = 'noDuplicateAttributes' | 'suggestRemoveAttribute';
 export const RULE_NAME = 'no-duplicate-attributes';
-const DEFAULT_OPTIONS: Options[0] = { allowTwoWayDataBinding: true };
+const DEFAULT_OPTIONS: Options[number] = { allowTwoWayDataBinding: true };
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
@@ -22,10 +22,9 @@ export default createESLintRule<Options, MessageIds>({
     docs: {
       description:
         'Ensures that there are no duplicate input properties or output event listeners',
-      category: 'Possible Errors',
       recommended: false,
-      suggestion: true,
     },
+    hasSuggestions: true,
     schema: [
       {
         type: 'object',
@@ -33,6 +32,7 @@ export default createESLintRule<Options, MessageIds>({
           allowTwoWayDataBinding: {
             type: 'boolean',
             default: DEFAULT_OPTIONS.allowTwoWayDataBinding,
+            description: `Whether or not two-way data binding is allowed as an exception to the rule.`,
           },
         },
         additionalProperties: false,
@@ -48,7 +48,7 @@ export default createESLintRule<Options, MessageIds>({
     const parserServices = getTemplateParserServices(context);
 
     return {
-      Element({ inputs, outputs, attributes }: TmplAstElement) {
+      Element$1({ inputs, outputs, attributes }: TmplAstElement) {
         const duplicateInputsAndAttributes = findDuplicates([
           ...inputs,
           ...attributes,
@@ -73,12 +73,12 @@ export default createESLintRule<Options, MessageIds>({
             duplicate.sourceSpan,
           );
           const data = {
-            attributeName: getAttributeName(duplicate),
+            attributeName: getOriginalAttributeName(duplicate),
           } as const;
 
           context.report({
-            messageId: 'noDuplicateAttributes',
             loc,
+            messageId: 'noDuplicateAttributes',
             data,
             suggest: [
               {
@@ -95,65 +95,18 @@ export default createESLintRule<Options, MessageIds>({
   },
 });
 
-interface BoundAttribute extends Omit<TmplAstBoundAttribute, 'type'> {
-  type: 'BoundAttribute';
-  __originalType: BindingType;
-}
-
-interface BoundEvent extends Omit<TmplAstBoundEvent, 'type'> {
-  type: 'BoundEvent';
-  __originalType: ParsedEventType;
-}
-
-function getAttributeName(
-  attribute:
-    | BoundAttribute
-    | TmplAstTextAttribute
-    | BoundEvent
-    | { name: string },
-): string {
-  if ('type' in attribute) {
-    if (attribute.type === 'BoundAttribute') {
-      switch (attribute.__originalType) {
-        case BindingType.Class:
-          return `class.${attribute.name}`;
-        case BindingType.Style:
-          return `style.${attribute.name}${
-            attribute.unit ? '.' + attribute.unit : ''
-          }`;
-        case BindingType.Animation:
-          return `@${attribute.name}`;
-      }
-    } else if (attribute.type === 'BoundEvent') {
-      if (attribute.__originalType === ParsedEventType.Animation) {
-        return `@${attribute.name}${
-          attribute.phase ? '.' + attribute.phase : ''
-        }`;
-      }
-
-      if (attribute.target) {
-        return `${attribute.target}:${attribute.name}`;
-      }
-    }
-  }
-
-  return attribute.name;
-}
-
-function findDuplicates(
-  elements: readonly TmplAstBoundEvent[],
-): readonly TmplAstBoundEvent[];
-function findDuplicates(
-  elements: readonly (TmplAstBoundAttribute | TmplAstTextAttribute)[],
-): readonly (TmplAstBoundAttribute | TmplAstTextAttribute)[];
-function findDuplicates(
-  elements: readonly { name: string }[],
-): readonly { name: string }[] {
+function findDuplicates<
+  TAttributeType extends
+    | TmplAstBoundEvent
+    | TmplAstBoundAttribute
+    | TmplAstTextAttribute,
+>(elements: readonly TAttributeType[]): readonly TAttributeType[] {
   return elements.filter((element) => {
     return elements.some(
       (otherElement) =>
         otherElement !== element &&
-        getAttributeName(otherElement) === getAttributeName(element),
+        getOriginalAttributeName(otherElement) ===
+          getOriginalAttributeName(element),
     );
   });
 }

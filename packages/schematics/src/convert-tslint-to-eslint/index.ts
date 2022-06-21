@@ -1,8 +1,6 @@
 import { join, normalize } from '@angular-devkit/core';
 import type { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { chain, noop } from '@angular-devkit/schematics';
-import eslintPlugin from '@angular-eslint/eslint-plugin';
-import eslintPluginTemplate from '@angular-eslint/eslint-plugin-template';
 import type { Linter } from 'eslint';
 import type { TSLintRuleOptions } from 'tslint-to-eslint-config';
 import {
@@ -30,15 +28,18 @@ import {
   updateObjPropAndRemoveDuplication,
 } from './utils';
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-const eslintPluginConfigBaseOriginal: any = eslintPlugin.configs.base;
-const eslintPluginConfigNgCliCompatOriginal: any =
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const eslintPlugin = require('@angular-eslint/eslint-plugin');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const eslintPluginTemplate = require('@angular-eslint/eslint-plugin-template');
+
+const eslintPluginConfigBaseOriginal = eslintPlugin.configs.base;
+const eslintPluginConfigNgCliCompatOriginal =
   eslintPlugin.configs['ng-cli-compat'];
-const eslintPluginConfigNgCliCompatFormattingAddOnOriginal: any =
+const eslintPluginConfigNgCliCompatFormattingAddOnOriginal =
   eslintPlugin.configs['ng-cli-compat--formatting-add-on'];
-const eslintPluginTemplateConfigRecommendedOriginal: any =
+const eslintPluginTemplateConfigRecommendedOriginal =
   eslintPluginTemplate.configs.recommended;
-/* eslint-enable @typescript-eslint/no-explicit-any */
 
 export default function convert(schema: Schema): Rule {
   return (tree: Tree) => {

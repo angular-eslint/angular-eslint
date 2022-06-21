@@ -1,7 +1,7 @@
 import type {
   TmplAstBoundAttribute,
   TmplAstTextAttribute,
-} from '@angular/compiler';
+} from '@angular-eslint/bundled-angular-compiler';
 import {
   createESLintRule,
   getTemplateParserServices,
@@ -19,7 +19,6 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description: 'Ensures that the `autofocus` attribute is not used',
-      category: 'Best Practices',
       recommended: false,
     },
     fixable: 'code',
@@ -35,7 +34,7 @@ export default createESLintRule<Options, MessageIds>({
     const elementNamePattern = toPattern([...getDomElements()]);
 
     return {
-      [`Element[name=${elementNamePattern}] > :matches(BoundAttribute, TextAttribute)[name="autofocus"]`]({
+      [`Element$1[name=${elementNamePattern}] > :matches(BoundAttribute, TextAttribute)[name="autofocus"]`]({
         sourceSpan,
       }: TmplAstBoundAttribute | TmplAstTextAttribute) {
         const loc = parserServices.convertNodeSourceSpanToLoc(sourceSpan);

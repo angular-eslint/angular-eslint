@@ -1,5 +1,5 @@
 {
-  "root": "packages/utils",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "type": "library",
   "targets": {
     "build": {
@@ -8,7 +8,7 @@
       "options": {
         "cwd": "packages/utils",
         "parallel": false,
-        "commands": ["npx rimraf ./dist", "tsc"]
+        "commands": ["npx rimraf ./dist", "tsc -p tsconfig.build.json"]
       }
     },
     "clean": {
@@ -28,5 +28,5 @@
       }
     }
   },
-  "implicitDependencies": []
+  "implicitDependencies": ["bundled-angular-compiler"]
 }

@@ -1,4 +1,4 @@
-import type { BoundEventAst } from '@angular/compiler';
+import type { TmplAstBoundEvent } from '@angular-eslint/bundled-angular-compiler';
 import {
   createESLintRule,
   getTemplateParserServices,
@@ -17,7 +17,6 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description: 'Ensures that the two-way data binding syntax is correct',
-      category: 'Best Practices',
       recommended: 'error',
     },
     fixable: 'code',
@@ -32,7 +31,7 @@ export default createESLintRule<Options, MessageIds>({
     const sourceCode = context.getSourceCode();
 
     return {
-      BoundEvent({ name, sourceSpan }: BoundEventAst) {
+      BoundEvent({ name, sourceSpan }: TmplAstBoundEvent) {
         const matches = name.match(INVALID_PATTERN);
 
         if (!matches) return;

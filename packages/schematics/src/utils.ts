@@ -7,7 +7,7 @@
 import type { Path } from '@angular-devkit/core';
 import { join, normalize } from '@angular-devkit/core';
 import type { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
-import { callRule } from '@angular-devkit/schematics';
+import { callRule, chain } from '@angular-devkit/schematics';
 import type { Ignore } from 'ignore';
 import ignore from 'ignore';
 import stripJsonComments from 'strip-json-comments';
@@ -29,7 +29,9 @@ export function readJsonInTree<T = any>(host: Tree, path: string): T {
   try {
     return JSON.parse(contents);
   } catch (e) {
-    throw new Error(`Cannot parse ${path}: ${e.message}`);
+    throw new Error(
+      `Cannot parse ${path}: ${e instanceof Error ? e.message : ''}`,
+    );
   }
 }
 
@@ -356,9 +358,13 @@ export function createESLintConfigForProject(projectName: string): Rule {
     if (projectRoot === '') {
       return createRootESLintConfigFile(projectName);
     }
-    return updateJsonInTree(
-      join(normalize(projectRoot), '.eslintrc.json'),
-      () =>
+
+    return chain([
+      // If, for whatever reason, the root .eslintrc.json doesn't exist yet, create it
+      tree.exists('.eslintrc.json')
+        ? () => undefined
+        : createRootESLintConfigFile(projectName),
+      updateJsonInTree(join(normalize(projectRoot), '.eslintrc.json'), () =>
         createProjectESLintConfig(
           tree.root.path,
           projectRoot,
@@ -366,7 +372,8 @@ export function createESLintConfigForProject(projectName: string): Rule {
           prefix,
           hasE2e,
         ),
-    );
+      ),
+    ]);
   };
 }
 

@@ -2,7 +2,7 @@ import type {
   ParseSourceSpan,
   TmplAstBoundAttribute,
   TmplAstTextAttribute,
-} from '@angular/compiler';
+} from '@angular-eslint/bundled-angular-compiler';
 import {
   createESLintRule,
   getTemplateParserServices,
@@ -20,9 +20,9 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description: 'Ensures that the `tabindex` attribute is not positive',
-      category: 'Best Practices',
       recommended: false,
     },
+    hasSuggestions: true,
     schema: [],
     messages: {
       noPositiveTabindex: 'The `tabindex` attribute should not be positive',
@@ -35,7 +35,7 @@ export default createESLintRule<Options, MessageIds>({
     const elementNamePattern = toPattern([...getDomElements()]);
 
     return {
-      [`Element[name=${elementNamePattern}] > BoundAttribute[name="tabindex"][value.ast.value>0], TextAttribute[name="tabindex"][value>0]`]({
+      [`Element$1[name=${elementNamePattern}] > BoundAttribute[name="tabindex"][value.ast.value>0], TextAttribute[name="tabindex"][value>0]`]({
         valueSpan,
       }: (TmplAstBoundAttribute | TmplAstTextAttribute) & {
         valueSpan: ParseSourceSpan;

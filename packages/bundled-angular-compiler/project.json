@@ -1,0 +1,35 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "type": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": ["packages/bundled-angular-compiler/dist"],
+      "options": {
+        "cwd": "packages/bundled-angular-compiler",
+        "parallel": false,
+        "commands": [
+          "npx rimraf ./dist",
+          "npx microbundle --tsconfig tsconfig.build.json --no-sourcemap --target=node --format=cjs"
+        ]
+      }
+    },
+    "clean": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "packages/bundled-angular-compiler",
+        "parallel": false,
+        "commands": ["npx rimraf ./dist"]
+      }
+    },
+    "typecheck": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "packages/bundled-angular-compiler",
+        "parallel": false,
+        "commands": ["npx tsc -p tsconfig.json --noEmit"]
+      }
+    }
+  },
+  "implicitDependencies": []
+}

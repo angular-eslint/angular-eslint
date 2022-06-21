@@ -1,13 +1,10 @@
-/**
- * This usage seems a little wonky, but don't want to run any risk of breaking changes
- * to the compiled output of the template-parser node module, so leaving until v13.
- */
-import { default as templateParser } from '../src/index';
+import type { TemplateParseError } from '../src/index';
+import { parseForESLint } from '../src/index';
 
 describe('parseForESLint()', () => {
   it('should work', () => {
     expect(
-      templateParser.parseForESLint(
+      parseForESLint(
         `
       <!-- eslint-disable-next-line -->
       <div>some node</div>
@@ -70,7 +67,17 @@ describe('parseForESLint()', () => {
           106,
         ],
         "templateNodes": Array [
-          Text {
+          Text$3 {
+            "loc": Object {
+              "end": Object {
+                "column": 6,
+                "line": 2,
+              },
+              "start": Object {
+                "column": 6,
+                "line": 2,
+              },
+            },
             "sourceSpan": ParseSourceSpan {
               "details": null,
               "end": ParseLocation {
@@ -113,11 +120,21 @@ describe('parseForESLint()', () => {
                 "offset": 7,
               },
             },
-            "type": "Text",
+            "type": "Text$3",
             "value": "
             ",
           },
-          Text {
+          Text$3 {
+            "loc": Object {
+              "end": Object {
+                "column": 6,
+                "line": 3,
+              },
+              "start": Object {
+                "column": 6,
+                "line": 3,
+              },
+            },
             "sourceSpan": ParseSourceSpan {
               "details": null,
               "end": ParseLocation {
@@ -160,14 +177,24 @@ describe('parseForESLint()', () => {
                 "offset": 47,
               },
             },
-            "type": "Text",
+            "type": "Text$3",
             "value": "
             ",
           },
-          Element {
+          Element$1 {
             "attributes": Array [],
             "children": Array [
-              Text {
+              Text$3 {
+                "loc": Object {
+                  "end": Object {
+                    "column": 20,
+                    "line": 3,
+                  },
+                  "start": Object {
+                    "column": 11,
+                    "line": 3,
+                  },
+                },
                 "sourceSpan": ParseSourceSpan {
                   "details": null,
                   "end": ParseLocation {
@@ -210,7 +237,7 @@ describe('parseForESLint()', () => {
                     "offset": 52,
                   },
                 },
-                "type": "Text",
+                "type": "Text$3",
                 "value": "some node",
               },
             ],
@@ -258,6 +285,16 @@ describe('parseForESLint()', () => {
             },
             "i18n": undefined,
             "inputs": Array [],
+            "loc": Object {
+              "end": Object {
+                "column": 26,
+                "line": 3,
+              },
+              "start": Object {
+                "column": 6,
+                "line": 3,
+              },
+            },
             "name": "div",
             "outputs": Array [],
             "references": Array [],
@@ -345,9 +382,19 @@ describe('parseForESLint()', () => {
                 "offset": 47,
               },
             },
-            "type": "Element",
+            "type": "Element$1",
           },
-          Text {
+          Text$3 {
+            "loc": Object {
+              "end": Object {
+                "column": 6,
+                "line": 4,
+              },
+              "start": Object {
+                "column": 6,
+                "line": 4,
+              },
+            },
             "sourceSpan": ParseSourceSpan {
               "details": null,
               "end": ParseLocation {
@@ -390,11 +437,21 @@ describe('parseForESLint()', () => {
                 "offset": 74,
               },
             },
-            "type": "Text",
+            "type": "Text$3",
             "value": "
             ",
           },
-          Text {
+          Text$3 {
+            "loc": Object {
+              "end": Object {
+                "column": 4,
+                "line": 5,
+              },
+              "start": Object {
+                "column": 4,
+                "line": 5,
+              },
+            },
             "sourceSpan": ParseSourceSpan {
               "details": null,
               "end": ParseLocation {
@@ -437,7 +494,7 @@ describe('parseForESLint()', () => {
                 "offset": 106,
               },
             },
-            "type": "Text",
+            "type": "Text$3",
             "value": "
           ",
           },
@@ -451,5 +508,48 @@ describe('parseForESLint()', () => {
           ",
       }
     `);
+  });
+
+  describe('parse errors', () => {
+    it('should not throw if the Angular compiler produced parse errors by default', () => {
+      expect.assertions(1);
+
+      const { ast } = parseForESLint(
+        '<p>consumed resources are at {{ ${percent} | formatPercentLocale }}</p>',
+        {
+          filePath:
+            './inline-template-source-using-template-literal-interpolation.html',
+        },
+      );
+      expect(ast).toBeDefined();
+    });
+
+    it('should appropriately throw if the Angular compiler produced parse errors and `parserOptions.suppressParseErrors` is set to false', () => {
+      expect.assertions(2);
+
+      let error: TemplateParseError;
+      try {
+        parseForESLint(
+          '<p i18n>Lorem ipsum <em i18n="@@dolor">dolor</em> sit amet.</p>',
+          {
+            filePath: './invalid-nested-i18ns.html',
+            suppressParseErrors: false,
+          },
+        );
+      } catch (err: any) {
+        error = err;
+        expect(error).toMatchInlineSnapshot(
+          `[TemplateParseError: Cannot mark an element as translatable inside of a translatable section. Please remove the nested i18n marker.]`,
+        );
+        expect(JSON.stringify(error, null, 2)).toMatchInlineSnapshot(`
+          "{
+            \\"fileName\\": \\"./invalid-nested-i18ns.html\\",
+            \\"index\\": 20,
+            \\"lineNumber\\": 1,
+            \\"column\\": 21
+          }"
+        `);
+      }
+    });
   });
 });

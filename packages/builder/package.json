@@ -1,6 +1,6 @@
 {
   "name": "@angular-eslint/builder",
-  "version": "12.2.0",
+  "version": "13.5.0",
   "description": "Angular CLI builder for ESLint",
   "license": "MIT",
   "main": "dist/index.js",
@@ -18,10 +18,12 @@
     "builders.json"
   ],
   "builders": "./builders.json",
+  "dependencies": {
+    "@nrwl/devkit": "13.1.3"
+  },
   "peerDependencies": {
-    "@angular/cli": ">= 12.0.0 < 13.0.0",
-    "eslint": "*",
+    "eslint": "^7.0.0 || ^8.0.0",
     "typescript": "*"
   },
-  "gitHead": "d1d0e9f61f6a864d14507aa09c4b08c085309e7d"
+  "gitHead": "e2006e5e9c99e5a943d1a999e0efa5247d29ec24"
 }

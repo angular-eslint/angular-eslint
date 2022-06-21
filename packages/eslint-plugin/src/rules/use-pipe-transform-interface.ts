@@ -1,11 +1,6 @@
+import { RuleFixes, isNotNullOrUndefined } from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
-import { PIPE_CLASS_DECORATOR } from '../utils/selectors';
-import {
-  getDeclaredInterfaceName,
-  getImplementsSchemaFixer,
-  getImportAddFix,
-} from '../utils/utils';
 
 type Options = [];
 export type MessageIds = 'usePipeTransformInterface';
@@ -17,8 +12,7 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description: `Ensures that Pipes implement \`${PIPE_TRANSFORM}\` interface`,
-      category: 'Best Practices',
+      description: `Ensures that \`Pipes\` implement \`${PIPE_TRANSFORM}\` interface`,
       recommended: 'error',
     },
     fixable: 'code',
@@ -30,30 +24,32 @@ export default createESLintRule<Options, MessageIds>({
   defaultOptions: [],
   create(context) {
     return {
-      [PIPE_CLASS_DECORATOR]({
+      [`ClassDeclaration:not(:has(TSClassImplements:matches([expression.name='${PIPE_TRANSFORM}'], [expression.property.name='${PIPE_TRANSFORM}']))) > Decorator[expression.callee.name='Pipe']`]({
         parent: classDeclaration,
       }: TSESTree.Decorator & { parent: TSESTree.ClassDeclaration }) {
-        if (getDeclaredInterfaceName(classDeclaration, PIPE_TRANSFORM)) return;
-
         context.report({
           node: classDeclaration.id ?? classDeclaration,
           messageId: 'usePipeTransformInterface',
           fix: (fixer) => {
             const { implementsNodeReplace, implementsTextReplace } =
-              getImplementsSchemaFixer(classDeclaration, PIPE_TRANSFORM);
+              RuleFixes.getImplementsSchemaFixer(
+                classDeclaration,
+                PIPE_TRANSFORM,
+              );
 
             return [
-              getImportAddFix(
-                classDeclaration,
-                '@angular/core',
-                PIPE_TRANSFORM,
+              RuleFixes.getImportAddFix({
+                compatibleWithTypeOnlyImport: true,
                 fixer,
-              ),
+                importName: PIPE_TRANSFORM,
+                moduleName: '@angular/core',
+                node: classDeclaration,
+              }),
               fixer.insertTextAfter(
                 implementsNodeReplace,
                 implementsTextReplace,
               ),
-            ];
+            ].filter(isNotNullOrUndefined);
           },
         });
       },

@@ -116,9 +116,9 @@ describe('update-12-0-0', () => {
           "@angular-eslint/eslint-plugin": "^12.0.0",
           "@angular-eslint/eslint-plugin-template": "^12.0.0",
           "@angular-eslint/template-parser": "^12.0.0",
-          "@typescript-eslint/eslint-plugin": "4.23.0",
-          "@typescript-eslint/experimental-utils": "4.23.0",
-          "@typescript-eslint/parser": "4.23.0",
+          "@typescript-eslint/eslint-plugin": "4.28.2",
+          "@typescript-eslint/experimental-utils": "4.28.2",
+          "@typescript-eslint/parser": "4.28.2",
           "eslint": "^7.26.0",
         },
       }

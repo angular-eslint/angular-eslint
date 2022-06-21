@@ -1,12 +1,15 @@
 {
+  "$schema": "./node_modules/nx/schemas/workspace-schema.json",
   "version": 2,
   "projects": {
     "builder": "packages/builder",
+    "bundled-angular-compiler": "packages/bundled-angular-compiler",
     "eslint-plugin": "packages/eslint-plugin",
     "eslint-plugin-template": "packages/eslint-plugin-template",
     "integration-tests": "packages/integration-tests",
     "integration-tests-suite-1": {
-      "root": "packages/integration-tests",
+      "$schema": "../../node_modules/nx/schemas/project-schema.json",
+      "root": "packages/integration-tests/suites/1",
       "type": "library",
       "targets": {
         "integration-test": {
@@ -20,10 +23,21 @@
             ]
           }
         }
-      }
+      },
+      "implicitDependencies": [
+        "integration-tests",
+        "builder",
+        "bundled-angular-compiler",
+        "eslint-plugin",
+        "eslint-plugin-template",
+        "schematics",
+        "template-parser",
+        "utils"
+      ]
     },
     "integration-tests-suite-2": {
-      "root": "packages/integration-tests",
+      "$schema": "../../node_modules/nx/schemas/project-schema.json",
+      "root": "packages/integration-tests/suites/2",
       "type": "library",
       "targets": {
         "integration-test": {
@@ -33,14 +47,25 @@
             "parallel": false,
             "commands": [
               "[ \"{args.withRegistry}\" = \"true\" ] && npx nx spawn-and-populate-local-registry integration-tests || true",
-              "npx jest tests/v12-new-workspace.test.ts"
+              "npx jest tests/v13-new-workspace.test.ts"
             ]
           }
         }
-      }
+      },
+      "implicitDependencies": [
+        "integration-tests",
+        "builder",
+        "bundled-angular-compiler",
+        "eslint-plugin",
+        "eslint-plugin-template",
+        "schematics",
+        "template-parser",
+        "utils"
+      ]
     },
     "integration-tests-suite-3": {
-      "root": "packages/integration-tests",
+      "$schema": "../../node_modules/nx/schemas/project-schema.json",
+      "root": "packages/integration-tests/suites/3",
       "type": "library",
       "targets": {
         "integration-test": {
@@ -54,10 +79,21 @@
             ]
           }
         }
-      }
+      },
+      "implicitDependencies": [
+        "integration-tests",
+        "builder",
+        "bundled-angular-compiler",
+        "eslint-plugin",
+        "eslint-plugin-template",
+        "schematics",
+        "template-parser",
+        "utils"
+      ]
     },
     "integration-tests-suite-4": {
-      "root": "packages/integration-tests",
+      "$schema": "../../node_modules/nx/schemas/project-schema.json",
+      "root": "packages/integration-tests/suites/4",
       "type": "library",
       "targets": {
         "integration-test": {
@@ -71,10 +107,21 @@
             ]
           }
         }
-      }
+      },
+      "implicitDependencies": [
+        "integration-tests",
+        "builder",
+        "bundled-angular-compiler",
+        "eslint-plugin",
+        "eslint-plugin-template",
+        "schematics",
+        "template-parser",
+        "utils"
+      ]
     },
     "integration-tests-suite-5": {
-      "root": "packages/integration-tests",
+      "$schema": "../../node_modules/nx/schemas/project-schema.json",
+      "root": "packages/integration-tests/suites/5",
       "type": "library",
       "targets": {
         "integration-test": {
@@ -88,7 +135,73 @@
             ]
           }
         }
-      }
+      },
+      "implicitDependencies": [
+        "integration-tests",
+        "builder",
+        "bundled-angular-compiler",
+        "eslint-plugin",
+        "eslint-plugin-template",
+        "schematics",
+        "template-parser",
+        "utils"
+      ]
+    },
+    "integration-tests-suite-6": {
+      "$schema": "../../node_modules/nx/schemas/project-schema.json",
+      "root": "packages/integration-tests/suites/6",
+      "type": "library",
+      "targets": {
+        "integration-test": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "cwd": "packages/integration-tests",
+            "parallel": false,
+            "commands": [
+              "[ \"{args.withRegistry}\" = \"true\" ] && npx nx spawn-and-populate-local-registry integration-tests || true",
+              "npx jest tests/v13-new-workspace-create-application-false-ng-add-then-project.test.ts"
+            ]
+          }
+        }
+      },
+      "implicitDependencies": [
+        "integration-tests",
+        "builder",
+        "bundled-angular-compiler",
+        "eslint-plugin",
+        "eslint-plugin-template",
+        "schematics",
+        "template-parser",
+        "utils"
+      ]
+    },
+    "integration-tests-suite-7": {
+      "$schema": "../../node_modules/nx/schemas/project-schema.json",
+      "root": "packages/integration-tests/suites/7",
+      "type": "library",
+      "targets": {
+        "integration-test": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "cwd": "packages/integration-tests",
+            "parallel": false,
+            "commands": [
+              "[ \"{args.withRegistry}\" = \"true\" ] && npx nx spawn-and-populate-local-registry integration-tests || true",
+              "npx jest tests/v13-new-workspace-create-application-false-project-then-ng-add.test.ts"
+            ]
+          }
+        }
+      },
+      "implicitDependencies": [
+        "integration-tests",
+        "builder",
+        "bundled-angular-compiler",
+        "eslint-plugin",
+        "eslint-plugin-template",
+        "schematics",
+        "template-parser",
+        "utils"
+      ]
     },
     "schematics": "packages/schematics",
     "template-parser": "packages/template-parser",

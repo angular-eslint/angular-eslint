@@ -1,11 +1,6 @@
+import { ASTUtils, Selectors } from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
-import { COMPONENT_CLASS_DECORATOR } from '../utils/selectors';
-import {
-  isArrayExpression,
-  isLiteral,
-  isTemplateLiteral,
-} from '../utils/utils';
 
 type Options = [
   {
@@ -23,11 +18,11 @@ const DEFAULT_STYLES_LIMIT = 3;
 const DEFAULT_ANIMATIONS_LIMIT = 15;
 
 function getLinesCount(node: TSESTree.Node): number {
-  if (isTemplateLiteral(node)) {
+  if (ASTUtils.isTemplateLiteral(node)) {
     return node.quasis[0].value.raw.trim().split(NEW_LINE_REGEXP).length;
   }
 
-  if (isLiteral(node)) {
+  if (ASTUtils.isLiteral(node)) {
     return node.raw.trim().split(NEW_LINE_REGEXP).length;
   }
 
@@ -40,7 +35,6 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description: `Enforces a maximum number of lines in inline template, styles and animations. See more at ${STYLE_GUIDE_LINK}`,
-      category: 'Best Practices',
       recommended: false,
     },
     schema: [
@@ -76,7 +70,7 @@ export default createESLintRule<Options, MessageIds>({
     ],
   ) {
     return {
-      [`${COMPONENT_CLASS_DECORATOR} Property[key.name='template']`]({
+      [`${Selectors.COMPONENT_CLASS_DECORATOR} Property[key.name='template']`]({
         value,
       }: TSESTree.Property) {
         const lineCount = getLinesCount(value);
@@ -93,10 +87,10 @@ export default createESLintRule<Options, MessageIds>({
           },
         });
       },
-      [`${COMPONENT_CLASS_DECORATOR} Property[key.name='styles']`]({
+      [`${Selectors.COMPONENT_CLASS_DECORATOR} Property[key.name='styles']`]({
         value,
       }: TSESTree.Property) {
-        if (!isArrayExpression(value)) return;
+        if (!ASTUtils.isArrayExpression(value)) return;
 
         const lineCount = value.elements.reduce(
           (lines, element) => lines + getLinesCount(element),
@@ -115,10 +109,11 @@ export default createESLintRule<Options, MessageIds>({
           },
         });
       },
-      [`${COMPONENT_CLASS_DECORATOR} Property[key.name='animations']`]({
+      [`${Selectors.COMPONENT_CLASS_DECORATOR} Property[key.name='animations']`]({
         value,
       }: TSESTree.Property) {
-        if (!isArrayExpression(value) || value.elements.length === 0) return;
+        if (!ASTUtils.isArrayExpression(value) || value.elements.length === 0)
+          return;
 
         const animationsBracketsSize = 2;
         const lineCount = Math.max(

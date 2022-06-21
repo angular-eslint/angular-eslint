@@ -1,14 +1,6 @@
+import { ASTUtils, toPattern } from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
-import type { AngularLifecycleMethodKeys } from '../utils/utils';
-import {
-  AngularLifecycleInterfaces,
-  ANGULAR_LIFECYCLE_METHODS,
-  getAngularClassDecorator,
-  getDeclaredAngularLifecycleInterfaces,
-  getLifecycleInterfaceByMethodName,
-  toPattern,
-} from '../utils/utils';
 
 type Options = [];
 export type MessageIds = 'useLifecycleInterface';
@@ -21,7 +13,6 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description: `Ensures that classes implement lifecycle interfaces corresponding to the declared lifecycle methods. See more at ${STYLE_GUIDE_LINK}`,
-      category: 'Best Practices',
       recommended: 'warn',
     },
     schema: [],
@@ -32,7 +23,7 @@ export default createESLintRule<Options, MessageIds>({
   defaultOptions: [],
   create(context) {
     const angularLifecycleMethodsPattern = toPattern([
-      ...ANGULAR_LIFECYCLE_METHODS,
+      ...ASTUtils.ANGULAR_LIFECYCLE_METHODS,
     ]);
 
     return {
@@ -42,15 +33,16 @@ export default createESLintRule<Options, MessageIds>({
       }: TSESTree.MethodDefinition & { parent: TSESTree.ClassBody } & {
         parent: TSESTree.ClassDeclaration;
       }) {
-        if (!getAngularClassDecorator(parent)) return;
+        if (!ASTUtils.getAngularClassDecorator(parent)) return;
 
         const declaredLifecycleInterfaces =
-          getDeclaredAngularLifecycleInterfaces(parent);
+          ASTUtils.getDeclaredAngularLifecycleInterfaces(parent);
         const methodName = (key as TSESTree.Identifier)
-          .name as AngularLifecycleMethodKeys;
-        const interfaceName = getLifecycleInterfaceByMethodName(methodName);
+          .name as ASTUtils.AngularLifecycleMethodKeys;
+        const interfaceName =
+          ASTUtils.getLifecycleInterfaceByMethodName(methodName);
         const isMethodImplemented = declaredLifecycleInterfaces.includes(
-          AngularLifecycleInterfaces[interfaceName],
+          ASTUtils.AngularLifecycleInterfaces[interfaceName],
         );
 
         if (isMethodImplemented) return;

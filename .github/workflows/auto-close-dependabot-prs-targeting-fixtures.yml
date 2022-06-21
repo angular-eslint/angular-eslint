@@ -1,0 +1,33 @@
+# It's really frustrating that we cannot get dependabot to ignore the integration test fixture
+# lock files from the scans it does: https://github.com/dependabot/dependabot-core/issues/4364
+#
+# This workflow will auto-close any such PRs.
+
+name: Auto-close dependabot PRs targeting integration test fixtures
+
+on:
+  pull_request:
+    branches: [master]
+    paths:
+      - 'packages/integration-tests/fixtures/**'
+
+# Need to give extended permissions to secrets.GITHUB_TOKEN
+permissions:
+  pull-requests: write
+
+jobs:
+  maybe_auto_close:
+    # Only run if it was dependabot that triggered the workflow
+    if: contains('["dependabot[bot]"]', github.actor) == true
+    name: Auto-close the PR if dependabot opened it and is targeting an integration test fixture
+    runs-on: ubuntu-latest
+    steps:
+    - name: Auto-close the PR
+      uses: roots/issue-closer@v1.1
+      env:
+        ACTIONS_STEP_DEBUG: true
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        pr-close-message: "Auto-closed because it targets an integration test fixture lock file. It's really frustrating that we cannot get dependabot to ignore these from the scans it does: https://github.com/dependabot/dependabot-core/issues/4364"
+        # Abusing this premade action somewhat... This string will always fail to be found (i.e. the PR will always be closed if we got to this point in the workflow)
+        pr-pattern: "DADE14A83EA749C5B9ABA34217AEEB6D"

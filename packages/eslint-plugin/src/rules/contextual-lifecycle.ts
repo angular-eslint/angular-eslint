@@ -1,19 +1,6 @@
+import { ASTUtils, Selectors } from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
-import {
-  COMPONENT_CLASS_DECORATOR,
-  DIRECTIVE_CLASS_DECORATOR,
-  INJECTABLE_CLASS_DECORATOR,
-  MODULE_CLASS_DECORATOR,
-  PIPE_CLASS_DECORATOR,
-} from '../utils/selectors';
-import {
-  AngularClassDecorators,
-  ANGULAR_CLASS_DECORATOR_LIFECYCLE_METHOD_MAPPER,
-  getDeclaredMethods,
-  getMethodName,
-  isAngularLifecycleMethod,
-} from '../utils/utils';
 
 type Options = [];
 export type MessageIds = 'contextualLifecycle';
@@ -26,7 +13,6 @@ export default createESLintRule<Options, MessageIds>({
     docs: {
       description:
         'Ensures that lifecycle methods are used in a correct context',
-      category: 'Possible Errors',
       recommended: 'error',
     },
     schema: [],
@@ -38,19 +24,19 @@ export default createESLintRule<Options, MessageIds>({
   create(context) {
     function checkContext(
       { parent }: TSESTree.Decorator,
-      decorator: AngularClassDecorators,
+      decorator: ASTUtils.AngularClassDecorators,
     ) {
       const classDeclaration = parent as TSESTree.ClassDeclaration;
       const allowedMethods =
-        ANGULAR_CLASS_DECORATOR_LIFECYCLE_METHOD_MAPPER.get(decorator);
-      const declaredMethods = getDeclaredMethods(classDeclaration);
+        ASTUtils.ANGULAR_CLASS_DECORATOR_LIFECYCLE_METHOD_MAPPER.get(decorator);
+      const declaredMethods = ASTUtils.getDeclaredMethods(classDeclaration);
 
       for (const method of declaredMethods) {
-        const methodName = getMethodName(method);
+        const methodName = ASTUtils.getMethodName(method);
 
         if (
           !methodName ||
-          !isAngularLifecycleMethod(methodName) ||
+          !ASTUtils.isAngularLifecycleMethod(methodName) ||
           allowedMethods?.has(methodName)
         ) {
           continue;
@@ -65,20 +51,20 @@ export default createESLintRule<Options, MessageIds>({
     }
 
     return {
-      [COMPONENT_CLASS_DECORATOR](node: TSESTree.Decorator) {
-        checkContext(node, AngularClassDecorators.Component);
+      [Selectors.COMPONENT_CLASS_DECORATOR](node: TSESTree.Decorator) {
+        checkContext(node, ASTUtils.AngularClassDecorators.Component);
       },
-      [DIRECTIVE_CLASS_DECORATOR](node: TSESTree.Decorator) {
-        checkContext(node, AngularClassDecorators.Directive);
+      [Selectors.DIRECTIVE_CLASS_DECORATOR](node: TSESTree.Decorator) {
+        checkContext(node, ASTUtils.AngularClassDecorators.Directive);
       },
-      [INJECTABLE_CLASS_DECORATOR](node: TSESTree.Decorator) {
-        checkContext(node, AngularClassDecorators.Injectable);
+      [Selectors.INJECTABLE_CLASS_DECORATOR](node: TSESTree.Decorator) {
+        checkContext(node, ASTUtils.AngularClassDecorators.Injectable);
       },
-      [MODULE_CLASS_DECORATOR](node: TSESTree.Decorator) {
-        checkContext(node, AngularClassDecorators.NgModule);
+      [Selectors.MODULE_CLASS_DECORATOR](node: TSESTree.Decorator) {
+        checkContext(node, ASTUtils.AngularClassDecorators.NgModule);
       },
-      [PIPE_CLASS_DECORATOR](node: TSESTree.Decorator) {
-        checkContext(node, AngularClassDecorators.Pipe);
+      [Selectors.PIPE_CLASS_DECORATOR](node: TSESTree.Decorator) {
+        checkContext(node, ASTUtils.AngularClassDecorators.Pipe);
       },
     };
   },

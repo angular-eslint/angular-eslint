@@ -1,5 +1,5 @@
 {
-  "root": "packages/schematics",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "type": "library",
   "targets": {
     "build": {
@@ -12,7 +12,7 @@
           "npx ncp ../../node_modules/@schematics/angular/application/schema.json src/application/schema.json",
           "npx ncp ../../node_modules/@schematics/angular/library/schema.json src/library/schema.json",
           "npx rimraf ./dist",
-          "npx tsc -p tsconfig.json",
+          "npx tsc -p tsconfig.build.json",
           "npx ncp src/collection.json dist/collection.json",
           "npx ncp src/migrations.json dist/migrations.json",
           "npx ncp src/ng-add/schema.json dist/ng-add/schema.json",
@@ -25,12 +25,17 @@
       }
     },
     "test": {
-      "executor": "@nrwl/workspace:run-commands",
-      "outputs": ["packages/schematics/coverage"],
+      "dependsOn": [
+        {
+          "projects": "dependencies",
+          "target": "build"
+        }
+      ],
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/packages/schematics"],
       "options": {
-        "cwd": "packages/schematics",
-        "parallel": false,
-        "commands": ["npx jest --coverage"]
+        "jestConfig": "packages/schematics/jest.config.ts",
+        "passWithNoTests": false
       }
     },
     "clean": {

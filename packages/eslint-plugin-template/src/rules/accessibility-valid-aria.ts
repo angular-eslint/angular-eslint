@@ -1,4 +1,4 @@
-import type { AST } from '@angular/compiler';
+import type { AST } from '@angular-eslint/bundled-angular-compiler';
 import {
   ASTWithSource,
   LiteralArray,
@@ -6,7 +6,7 @@ import {
   LiteralPrimitive,
   TmplAstBoundAttribute,
   TmplAstTextAttribute,
-} from '@angular/compiler';
+} from '@angular-eslint/bundled-angular-compiler';
 import type { ARIAProperty, ARIAPropertyDefinition } from 'aria-query';
 import { aria } from 'aria-query';
 import {
@@ -30,10 +30,9 @@ export default createESLintRule<Options, MessageIds>({
     docs: {
       description:
         'Ensures that correct ARIA attributes and respective values are used',
-      category: 'Best Practices',
       recommended: false,
-      suggestion: true,
     },
+    hasSuggestions: true,
     schema: [],
     messages: {
       accessibilityValidAria:
@@ -49,7 +48,7 @@ export default createESLintRule<Options, MessageIds>({
     const elementNamePattern = toPattern([...getDomElements()]);
 
     return {
-      [`Element[name=${elementNamePattern}] > :matches(BoundAttribute, TextAttribute)[name=/^aria-.+/]`](
+      [`Element$1[name=${elementNamePattern}] > :matches(BoundAttribute, TextAttribute)[name=/^aria-.+/]`](
         node: TmplAstBoundAttribute | TmplAstTextAttribute,
       ) {
         const { name: attribute, sourceSpan } = node;

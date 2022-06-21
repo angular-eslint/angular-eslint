@@ -17,27 +17,12 @@
     "target": "es2017",
     "baseUrl": ".",
     "lib": ["es2017"],
+    "skipLibCheck": true,
     "paths": {
-      "@angular-eslint/builder": ["packages/builder/dist/index"],
-      "@angular-eslint/builder/*": ["packages/builder/*"],
-      "@angular-eslint/eslint-plugin": ["packages/eslint-plugin/dist/index"],
-      "@angular-eslint/eslint-plugin/*": ["packages/eslint-plugin/*"],
-      "@angular-eslint/eslint-plugin-template": [
-        "packages/eslint-plugin-template/dist/index"
+      "@angular-eslint/bundled-angular-compiler": [
+        "packages/bundled-angular-compiler/src/index.ts"
       ],
-      "@angular-eslint/eslint-plugin-template/*": [
-        "packages/eslint-plugin-template/*"
-      ],
-      "@angular-eslint/integration-tests": ["packages/integration-tests"],
-      "@angular-eslint/integration-tests/*": ["packages/integration-tests/*"],
-      "@angular-eslint/schematics": ["packages/schematics/dist/index"],
-      "@angular-eslint/schematics/*": ["packages/schematics/*"],
-      "@angular-eslint/template-parser": [
-        "packages/template-parser/dist/index"
-      ],
-      "@angular-eslint/template-parser/*": ["packages/template-parser/*"],
-      "@angular-eslint/utils": ["packages/utils/dist/index"],
-      "@angular-eslint/utils/*": ["packages/utils/*"]
+      "@angular-eslint/utils": ["packages/utils/src/index.ts"]
     }
   }
 }

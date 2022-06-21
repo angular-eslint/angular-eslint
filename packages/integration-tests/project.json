@@ -1,5 +1,5 @@
 {
-  "root": "packages/integration-tests",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "type": "library",
   "targets": {
     "clean": {
@@ -37,6 +37,10 @@
     "spawn-and-populate-local-registry": {
       "dependsOn": [
         {
+          "target": "build",
+          "projects": "dependencies"
+        },
+        {
           "target": "kill-existing-verdaccio",
           "projects": "self"
         },
@@ -49,7 +53,8 @@
       "options": {
         "cwd": "packages/integration-tests",
         "commands": [
-          "npx ts-node --project tsconfig.tools.json spawn-and-populate-local-registry.ts"
+          "npx ts-node --project tsconfig.tools.json spawn-and-populate-local-registry.ts",
+          "exit 0"
         ],
         "readyWhen": "Publishing complete"
       }
@@ -57,6 +62,7 @@
   },
   "implicitDependencies": [
     "builder",
+    "bundled-angular-compiler",
     "eslint-plugin",
     "eslint-plugin-template",
     "schematics",

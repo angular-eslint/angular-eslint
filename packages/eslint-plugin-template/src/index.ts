@@ -27,8 +27,8 @@ import bananaInBox, {
 import clickEventsHaveKeyEvents, {
   RULE_NAME as clickEventsHaveKeyEventsRuleName,
 } from './rules/click-events-have-key-events';
-import conditionalСomplexity, {
-  RULE_NAME as conditionalСomplexityRuleName,
+import conditionalComplexity, {
+  RULE_NAME as conditionalComplexityRuleName,
 } from './rules/conditional-complexity';
 import cyclomaticComplexity, {
   RULE_NAME as cyclomaticComplexityRuleName,
@@ -37,7 +37,7 @@ import eqeqeq, { RULE_NAME as eqeqeqRuleName } from './rules/eqeqeq';
 import i18n, { RULE_NAME as i18nRuleName } from './rules/i18n';
 import mouseEventsHaveKeyEvents, {
   RULE_NAME as mouseEventsHaveKeyEventsRuleName,
-} from './rules/mouse-events-have-key-events-rule';
+} from './rules/mouse-events-have-key-events';
 import noAny, { RULE_NAME as noAnyRuleName } from './rules/no-any';
 import noAutofocus, {
   RULE_NAME as noAutofocusRuleName,
@@ -60,6 +60,9 @@ import noPositiveTabindex, {
 import useTrackByFunction, {
   RULE_NAME as useTrackByFunctionRuleName,
 } from './rules/use-track-by-function';
+import buttonHasType, {
+  RULE_NAME as buttonHasTypeRuleName,
+} from './rules/button-has-type';
 
 import attributesOrder, {
   RULE_NAME as attributesOrderRuleName,
@@ -82,7 +85,7 @@ export default {
     [accessibilityTableScopeRuleName]: accessibilityTableScope,
     [accessibilityValidAriaRuleName]: accessibilityValidAria,
     [bananaInBoxRuleName]: bananaInBox,
-    [conditionalСomplexityRuleName]: conditionalСomplexity,
+    [conditionalComplexityRuleName]: conditionalComplexity,
     [clickEventsHaveKeyEventsRuleName]: clickEventsHaveKeyEvents,
     [cyclomaticComplexityRuleName]: cyclomaticComplexity,
     [eqeqeqRuleName]: eqeqeq,
@@ -97,5 +100,6 @@ export default {
     [noPositiveTabindexRuleName]: noPositiveTabindex,
     [useTrackByFunctionRuleName]: useTrackByFunction,
     [attributesOrderRuleName]: attributesOrder,
+    [buttonHasTypeRuleName]: buttonHasType,
   },
 };

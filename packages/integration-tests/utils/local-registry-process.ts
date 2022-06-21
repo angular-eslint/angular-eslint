@@ -163,6 +163,7 @@ export async function runNgAdd(): Promise<execa.ExecaChildProcess<string>> {
 
 export async function runNgNew(
   workspaceName: string,
+  createApplication = true,
 ): Promise<execa.ExecaChildProcess<string>> {
   if (process.env.npm_config_registry?.indexOf('http://localhost') === -1) {
     throw Error(`
@@ -172,13 +173,19 @@ export async function runNgNew(
     `);
   }
 
-  console.log(process.cwd());
-
-  const subprocess = execa('../node_modules/.bin/ng', [
-    'new',
+  const ngNewArgs = [
     `--strict=true`,
     `--package-manager=npm`,
     `--interactive=false`,
+  ];
+
+  if (!createApplication) {
+    ngNewArgs.push(`--create-application=false`);
+  }
+
+  const subprocess = execa('../../../node_modules/.bin/ng', [
+    'new',
+    ...ngNewArgs,
     workspaceName,
   ]);
   subprocess.stdout!.pipe(process.stdout);

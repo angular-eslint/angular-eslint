@@ -1,38 +1,29 @@
-import type {
-  TmplAstBoundAttribute,
-  TmplAstElement,
-  TmplAstTextAttribute,
-} from '@angular/compiler';
+import type { TmplAstElement } from '@angular-eslint/bundled-angular-compiler';
 import type { ARIARoleRelationConceptAttribute } from 'aria-query';
 import { getAttributeValue } from './get-attribute-value';
-import { getLiteralValue } from './get-literal-value';
 
 export function attributesComparator(
-  baseAttributes: readonly ARIARoleRelationConceptAttribute[] = [],
+  ariaRoleRelationConceptAttributes: readonly ARIARoleRelationConceptAttribute[],
   node: TmplAstElement,
 ): boolean {
-  const attributes: (TmplAstTextAttribute | TmplAstBoundAttribute)[] = [
-    ...node.attributes,
-    ...node.inputs,
-  ];
+  const attributesInputs = [...node.attributes, ...node.inputs];
 
-  return baseAttributes.every((baseAttribute) =>
-    attributes.some(
-      (attribute: TmplAstTextAttribute | TmplAstBoundAttribute) => {
-        if (node.name === 'a' && attribute.name === 'routerLink') {
+  return ariaRoleRelationConceptAttributes.every(
+    (ariaRoleRelationConceptAttribute) =>
+      attributesInputs.some(({ name }) => {
+        if (node.name === 'a' && name === 'routerLink') {
           return true;
         }
 
-        if (baseAttribute.name !== attribute.name) {
+        if (ariaRoleRelationConceptAttribute.name !== name) {
           return false;
         }
 
         return (
-          !baseAttribute.value ||
-          baseAttribute.value ===
-            getLiteralValue(getAttributeValue(node, baseAttribute.name))
+          !ariaRoleRelationConceptAttribute.value ||
+          ariaRoleRelationConceptAttribute.value ===
+            getAttributeValue(node, ariaRoleRelationConceptAttribute.name)
         );
-      },
-    ),
+      }),
   );
 }

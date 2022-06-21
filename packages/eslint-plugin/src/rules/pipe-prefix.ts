@@ -1,13 +1,11 @@
+import {
+  ASTUtils,
+  Selectors,
+  SelectorUtils,
+  toHumanReadableText,
+} from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
-import { PIPE_CLASS_DECORATOR } from '../utils/selectors';
-import {
-  getDecoratorPropertyValue,
-  isStringLiteral,
-  isTemplateLiteral,
-  SelectorValidator,
-  toHumanReadableText,
-} from '../utils/utils';
 
 type Options = [
   {
@@ -23,7 +21,6 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description: 'Enforce consistent prefix for pipes.',
-      category: 'Stylistic Issues',
       recommended: false,
     },
     schema: [
@@ -57,8 +54,8 @@ export default createESLintRule<Options, MessageIds>({
     }
 
     return {
-      [PIPE_CLASS_DECORATOR](node: TSESTree.Decorator) {
-        const nameSelector = getDecoratorPropertyValue(node, 'name');
+      [Selectors.PIPE_CLASS_DECORATOR](node: TSESTree.Decorator) {
+        const nameSelector = ASTUtils.getDecoratorPropertyValue(node, 'name');
 
         if (!nameSelector) {
           return;
@@ -71,16 +68,19 @@ export default createESLintRule<Options, MessageIds>({
         }
 
         const allowPrefixesExpression = prefixes.join('|');
-        const prefixValidator = SelectorValidator.prefix(
+        const prefixValidator = SelectorUtils.SelectorValidator.prefix(
           allowPrefixesExpression,
           'camelCase',
         );
 
         let nameValue;
 
-        if (isStringLiteral(nameSelector)) {
+        if (ASTUtils.isStringLiteral(nameSelector)) {
           nameValue = nameSelector.value;
-        } else if (isTemplateLiteral(nameSelector) && nameSelector.quasis[0]) {
+        } else if (
+          ASTUtils.isTemplateLiteral(nameSelector) &&
+          nameSelector.quasis[0]
+        ) {
           nameValue = nameSelector.quasis[0].value.raw as string;
         }
 

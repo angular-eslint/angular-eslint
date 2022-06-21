@@ -1,0 +1,30 @@
+{
+  "extends": [
+    "config:base",
+    ":semanticCommits",
+    ":semanticCommitScopeDisabled"
+  ],
+  "ignorePaths": ["packages/integration-tests/fixtures/**"],
+  "ignoreDeps": [
+    "@nrwl/cli",
+    "@nrwl/devkit",
+    "@nrwl/jest",
+    "@nrwl/tao",
+    "@types/jest",
+    "jest",
+    "ts-jest"
+  ],
+  "packageRules": [
+    {
+      "matchSourceUrlPrefixes": [
+        "https://github.com/typescript-eslint/typescript-eslint"
+      ],
+      "groupName": "typescript-eslint packages",
+      "semanticCommitType": "feat"
+    },
+    {
+      "matchPackageNames": ["eslint"],
+      "semanticCommitType": "feat"
+    }
+  ]
+}

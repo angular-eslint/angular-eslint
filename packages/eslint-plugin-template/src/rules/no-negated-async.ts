@@ -1,4 +1,7 @@
-import type { BindingPipe, PrefixNot } from '@angular/compiler';
+import type {
+  BindingPipe,
+  PrefixNot,
+} from '@angular-eslint/bundled-angular-compiler';
 import {
   createESLintRule,
   ensureTemplateParser,
@@ -18,10 +21,9 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description: 'Ensures that async pipe results are not negated',
-      category: 'Best Practices',
       recommended: 'error',
-      suggestion: true,
     },
+    hasSuggestions: true,
     schema: [],
     messages: {
       noNegatedAsync:

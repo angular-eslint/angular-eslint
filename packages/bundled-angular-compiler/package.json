@@ -1,0 +1,19 @@
+{
+  "name": "@angular-eslint/bundled-angular-compiler",
+  "version": "13.5.0",
+  "description": "A CJS bundled version of @angular/compiler",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/angular-eslint/angular-eslint.git",
+    "directory": "packages/bundled-angular-compiler"
+  },
+  "files": [
+    "dist",
+    "package.json",
+    "README.md"
+  ],
+  "gitHead": "e2006e5e9c99e5a943d1a999e0efa5247d29ec24"
+}

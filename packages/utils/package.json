@@ -1,7 +1,6 @@
 {
   "name": "@angular-eslint/utils",
-  "version": "12.2.0",
-  "private": true,
+  "version": "13.5.0",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -12,10 +11,12 @@
     "LICENSE"
   ],
   "peerDependencies": {
-    "eslint": "*",
+    "eslint": "^7.0.0 || ^8.0.0",
     "typescript": "*"
   },
   "dependencies": {
-    "@typescript-eslint/experimental-utils": "4.23.0"
-  }
+    "@angular-eslint/bundled-angular-compiler": "13.5.0",
+    "@typescript-eslint/experimental-utils": "5.27.1"
+  },
+  "gitHead": "e2006e5e9c99e5a943d1a999e0efa5247d29ec24"
 }

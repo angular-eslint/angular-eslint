@@ -1,12 +1,11 @@
+import {
+  ASTUtils,
+  RuleFixes,
+  isNotNullOrUndefined,
+  Selectors,
+} from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
-import { COMPONENT_CLASS_DECORATOR } from '../utils/selectors';
-import {
-  getImportDeclarations,
-  getImportRemoveFix,
-  getNodeToCommaRemoveFix,
-  isNotNullOrUndefined,
-} from '../utils/utils';
 
 type Options = [];
 export type MessageIds =
@@ -21,9 +20,9 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description: `Disallows using \`${VIEW_ENCAPSULATION_NONE}\``,
-      category: 'Best Practices',
       recommended: false,
     },
+    hasSuggestions: true,
     schema: [],
     messages: {
       useComponentViewEncapsulation: `Using \`${VIEW_ENCAPSULATION_NONE}\` makes your styles global, which may have an unintended effect`,
@@ -35,7 +34,9 @@ export default createESLintRule<Options, MessageIds>({
     const sourceCode = context.getSourceCode();
 
     return {
-      [`${COMPONENT_CLASS_DECORATOR} Property[key.name='encapsulation'] > MemberExpression[object.name='ViewEncapsulation'] > Identifier[name='None']`](
+      [`${Selectors.COMPONENT_CLASS_DECORATOR} ${Selectors.metadataProperty(
+        'encapsulation',
+      )} > MemberExpression[object.name='ViewEncapsulation'] > Identifier[name='None']`](
         node: TSESTree.Identifier & {
           parent: TSESTree.MemberExpression & { parent: TSESTree.Property };
         },
@@ -48,15 +49,15 @@ export default createESLintRule<Options, MessageIds>({
               messageId: 'suggestRemoveViewEncapsulationNone',
               fix: (fixer) => {
                 const importDeclarations =
-                  getImportDeclarations(node, '@angular/core') ?? [];
+                  ASTUtils.getImportDeclarations(node, '@angular/core') ?? [];
 
                 return [
-                  getNodeToCommaRemoveFix(
+                  RuleFixes.getNodeToCommaRemoveFix(
                     sourceCode,
                     node.parent.parent,
                     fixer,
                   ),
-                  getImportRemoveFix(
+                  RuleFixes.getImportRemoveFix(
                     sourceCode,
                     importDeclarations,
                     'ViewEncapsulation',

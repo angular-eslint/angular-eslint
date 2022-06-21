@@ -1,5 +1,5 @@
 {
-  "root": "packages/eslint-plugin",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "type": "library",
   "targets": {
     "build": {
@@ -16,12 +16,11 @@
       }
     },
     "test": {
-      "executor": "@nrwl/workspace:run-commands",
-      "outputs": ["packages/eslint-plugin/coverage"],
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/packages/eslint-plugin"],
       "options": {
-        "cwd": "packages/eslint-plugin",
-        "parallel": false,
-        "commands": ["npx jest --coverage"]
+        "jestConfig": "packages/eslint-plugin/jest.config.ts",
+        "passWithNoTests": false
       }
     },
     "clean": {
@@ -40,16 +39,31 @@
         "commands": ["npx tsc -p tsconfig.json --noEmit"]
       }
     },
-    "check-configs": {
+    "check-rule-docs": {
+      "dependsOn": [
+        {
+          "projects": "self",
+          "target": "update-rule-docs"
+        }
+      ],
       "executor": "@nrwl/workspace:run-commands",
       "options": {
-        "cwd": "packages/eslint-plugin",
         "parallel": false,
         "commands": [
-          "npx jest tests/configs.test.ts --runTestsByPath --runInBand"
+          "git diff --quiet --exit-code packages/eslint-plugin/docs || (echo \"\n-------\n\nCHECK RULE DOCS ERROR: You have uncommitted changes to the generated rule docs.\n\nYou should run `yarn update-rule-docs` and commit the result.\n\n-------\n\" && exit 1)"
+        ]
+      }
+    },
+    "update-rule-docs": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": ["packages/eslint-plugin/docs"],
+      "options": {
+        "parallel": false,
+        "commands": [
+          "npx ts-node --project ./tsconfig.tools.json ./tools/scripts/generate-rule-docs.ts eslint-plugin"
         ]
       }
     }
   },
-  "implicitDependencies": []
+  "implicitDependencies": ["bundled-angular-compiler"]
 }

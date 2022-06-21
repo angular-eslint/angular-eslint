@@ -1,7 +1,10 @@
+import {
+  ASTUtils,
+  Selectors,
+  toHumanReadableText,
+} from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
-import { COMPONENT_CLASS_DECORATOR } from '../utils/selectors';
-import { getClassName, toHumanReadableText } from '../utils/utils';
 
 type Options = [
   {
@@ -18,7 +21,6 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description: `Classes decorated with @Component must have suffix "Component" (or custom) in their name. See more at ${STYLE_GUIDE_LINK}`,
-      category: 'Best Practices',
       recommended: 'error',
     },
     schema: [
@@ -46,9 +48,9 @@ export default createESLintRule<Options, MessageIds>({
   ],
   create(context, [{ suffixes }]) {
     return {
-      [COMPONENT_CLASS_DECORATOR](node: TSESTree.Decorator) {
+      [Selectors.COMPONENT_CLASS_DECORATOR](node: TSESTree.Decorator) {
         const classParent = node.parent as TSESTree.ClassDeclaration;
-        const className = getClassName(classParent);
+        const className = ASTUtils.getClassName(classParent);
 
         if (
           !className ||

@@ -1,5 +1,8 @@
-import type { AST, Binary } from '@angular/compiler';
-import { ASTWithSource, LiteralPrimitive } from '@angular/compiler';
+import type { AST, Binary } from '@angular-eslint/bundled-angular-compiler';
+import {
+  ASTWithSource,
+  LiteralPrimitive,
+} from '@angular-eslint/bundled-angular-compiler';
 import type { TSESLint } from '@typescript-eslint/experimental-utils';
 import {
   createESLintRule,
@@ -18,10 +21,9 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description: 'Requires `===` and `!==` in place of `==` and `!=`',
-      category: 'Best Practices',
       recommended: 'error',
-      suggestion: true,
     },
+    hasSuggestions: true,
     fixable: 'code',
     schema: [
       {
@@ -39,7 +41,7 @@ export default createESLintRule<Options, MessageIds>({
       eqeqeq:
         'Expected `{{expectedOperation}}` but received `{{actualOperation}}`',
       suggestStrictEquality:
-        'Replace `{{expectedOperation}}` with `{{actualOperation}}`',
+        'Replace `{{actualOperation}}` with `{{expectedOperation}}`',
     },
   },
   defaultOptions: [DEFAULT_OPTIONS],

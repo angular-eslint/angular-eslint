@@ -1,24 +1,26 @@
 import type {
   AST,
   ASTWithSource,
-  Interpolation,
   TmplAstBoundAttribute,
-} from '@angular/compiler';
+} from '@angular-eslint/bundled-angular-compiler';
 import {
   Binary,
   BindingPipe,
   Conditional,
+  Interpolation,
   Lexer,
   Parser,
-} from '@angular/compiler';
+} from '@angular-eslint/bundled-angular-compiler';
 import {
   createESLintRule,
   ensureTemplateParser,
 } from '../utils/create-eslint-rule';
 
 type Options = [{ maxComplexity: number }];
-export type MessageIds = 'conditionalСomplexity';
+export type MessageIds = 'conditionalComplexity';
 export const RULE_NAME = 'conditional-complexity';
+
+const DEFAULT_MAX_COMPLEXITY = 5;
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
@@ -27,29 +29,33 @@ export default createESLintRule<Options, MessageIds>({
     docs: {
       description:
         'The conditional complexity should not exceed a rational limit',
-      category: 'Best Practices',
       recommended: false,
     },
     schema: [
       {
         type: 'object',
-        properties: { maxComplexity: { minimum: 1, type: 'number' } },
+        properties: {
+          maxComplexity: {
+            minimum: 1,
+            type: 'number',
+          },
+        },
         additionalProperties: false,
       },
     ],
     messages: {
-      conditionalСomplexity:
+      conditionalComplexity:
         'The conditional complexity {{totalComplexity}} exceeds the defined limit {{maxComplexity}}',
     },
   },
-  defaultOptions: [{ maxComplexity: 5 }],
+  defaultOptions: [{ maxComplexity: DEFAULT_MAX_COMPLEXITY }],
   create(context, [{ maxComplexity }]) {
     ensureTemplateParser(context);
     const sourceCode = context.getSourceCode();
 
     return {
       BoundAttribute(node: TmplAstBoundAttribute & { value: ASTWithSource }) {
-        if (!node.value.source) {
+        if (!node.value.source || node.value.ast instanceof Interpolation) {
           return;
         }
 
@@ -71,7 +77,7 @@ export default createESLintRule<Options, MessageIds>({
             start: sourceCode.getLocFromIndex(start),
             end: sourceCode.getLocFromIndex(end),
           },
-          messageId: 'conditionalСomplexity',
+          messageId: 'conditionalComplexity',
           data: { maxComplexity, totalComplexity },
         });
       },
@@ -92,7 +98,7 @@ export default createESLintRule<Options, MessageIds>({
               start: sourceCode.getLocFromIndex(start),
               end: sourceCode.getLocFromIndex(end),
             },
-            messageId: 'conditionalСomplexity',
+            messageId: 'conditionalComplexity',
             data: { maxComplexity, totalComplexity },
           });
         }

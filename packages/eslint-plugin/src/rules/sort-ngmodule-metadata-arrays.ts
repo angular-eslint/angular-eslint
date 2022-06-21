@@ -1,22 +1,11 @@
-import type { NgModule } from '@angular/compiler/src/core';
+import { Selectors } from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/experimental-utils';
-import { ASTUtils } from '@typescript-eslint/experimental-utils';
+import { ASTUtils as TSESLintASTUtils } from '@typescript-eslint/experimental-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
-import { MODULE_CLASS_DECORATOR } from '../utils/selectors';
-import { getDecoratorPropertyValue, isArrayExpression } from '../utils/utils';
 
 type Options = [];
-export const RULE_NAME = 'sort-ngmodule-metadata-arrays';
 export type MessageIds = 'sortNgmoduleMetadataArrays';
-const validProperties: (keyof NgModule)[] = [
-  'bootstrap',
-  'declarations',
-  'entryComponents',
-  'exports',
-  'imports',
-  'providers',
-  'schemas',
-];
+export const RULE_NAME = 'sort-ngmodule-metadata-arrays';
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
@@ -24,51 +13,39 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description:
-        'Enforces ASC alphabetical order for NgModule metadata arrays for easy visual scanning',
-      category: 'Best Practices',
+        'Ensures ASC alphabetical order for `NgModule` metadata arrays for easy visual scanning',
       recommended: false,
     },
     fixable: 'code',
     schema: [],
     messages: {
       sortNgmoduleMetadataArrays:
-        'NgModule metadata arrays should be sorted in ASC alphabetical order',
+        '`NgModule` metadata arrays should be sorted in ASC alphabetical order',
     },
   },
   defaultOptions: [],
   create(context) {
     return {
-      [MODULE_CLASS_DECORATOR](node: TSESTree.Decorator) {
-        validProperties.forEach((prop: keyof NgModule) => {
-          const initializer = getDecoratorPropertyValue(node, prop);
-          if (
-            !initializer ||
-            !isArrayExpression(initializer) ||
-            initializer.elements.length < 2
-          ) {
-            return;
-          }
-          const unorderedNodes = initializer.elements
-            .filter(ASTUtils.isIdentifier)
-            .map((current, index, list) => {
-              return [current, list[index + 1]];
-            })
-            .find(([current, next]) => {
-              return next && current.name.localeCompare(next.name) === 1;
-            });
-          if (!unorderedNodes) return;
-
-          const [unorderedNode, nextNode] = unorderedNodes;
-          context.report({
-            messageId: 'sortNgmoduleMetadataArrays',
-            node: unorderedNode,
-            fix: (fixer) => {
-              return [
-                fixer.replaceText(unorderedNode, nextNode.name),
-                fixer.replaceText(nextNode, unorderedNode.name),
-              ];
-            },
+      [`${Selectors.MODULE_CLASS_DECORATOR} Property[key.name!="deps"] > ArrayExpression`]({
+        elements,
+      }: TSESTree.ArrayExpression) {
+        const unorderedNodes = elements
+          .filter(TSESLintASTUtils.isIdentifier)
+          .map((current, index, list) => [current, list[index + 1]])
+          .find(([current, next]) => {
+            return next && current.name.localeCompare(next.name) === 1;
           });
+
+        if (!unorderedNodes) return;
+
+        const [unorderedNode, nextNode] = unorderedNodes;
+        context.report({
+          node: nextNode,
+          messageId: 'sortNgmoduleMetadataArrays',
+          fix: (fixer) => [
+            fixer.replaceText(unorderedNode, nextNode.name),
+            fixer.replaceText(nextNode, unorderedNode.name),
+          ],
         });
       },
     };

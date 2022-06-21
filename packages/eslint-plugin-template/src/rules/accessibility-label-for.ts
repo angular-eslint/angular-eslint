@@ -1,4 +1,4 @@
-import type { TmplAstElement } from '@angular/compiler';
+import type { TmplAstElement } from '@angular-eslint/bundled-angular-compiler';
 import {
   createESLintRule,
   getTemplateParserServices,
@@ -40,16 +40,16 @@ export default createESLintRule<Options, MessageIds>({
     docs: {
       description:
         'Ensures that a label element/component is associated with a form element',
-      category: 'Best Practices',
       recommended: false,
     },
     schema: [
       {
         additionalProperties: false,
         properties: {
-          controlComponents: OPTION_SCHEMA_VALUE,
-          labelAttributes: OPTION_SCHEMA_VALUE,
-          labelComponents: OPTION_SCHEMA_VALUE,
+          // NOTE: These need to be unique objects for documentation generation purposes
+          controlComponents: { ...OPTION_SCHEMA_VALUE },
+          labelAttributes: { ...OPTION_SCHEMA_VALUE },
+          labelComponents: { ...OPTION_SCHEMA_VALUE },
         },
         type: 'object',
       },
@@ -73,7 +73,7 @@ export default createESLintRule<Options, MessageIds>({
     const labelComponentsPattern = toPattern([...labelComponents]);
 
     return {
-      [`Element[name=${labelComponentsPattern}]`](node: TmplAstElement) {
+      [`Element$1[name=${labelComponentsPattern}]`](node: TmplAstElement) {
         const attributesInputs: ReadonlySet<string> = new Set(
           [...node.attributes, ...node.inputs].map(({ name }) => name),
         );
