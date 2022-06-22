@@ -63,6 +63,7 @@ import useTrackByFunction, {
 import buttonHasType, {
   RULE_NAME as buttonHasTypeRuleName,
 } from './rules/button-has-type';
+import quotes, { RULE_NAME as quotesRuleName } from './rules/quotes';
 
 export default {
   configs: {
@@ -96,5 +97,6 @@ export default {
     [noPositiveTabindexRuleName]: noPositiveTabindex,
     [useTrackByFunctionRuleName]: useTrackByFunction,
     [buttonHasTypeRuleName]: buttonHasType,
+    [quotesRuleName]: quotes,
   },
 };
