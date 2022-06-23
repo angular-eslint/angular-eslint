@@ -41,7 +41,9 @@ describe('ng-add', () => {
           $schema: './node_modules/@angular/cli/lib/config/schema.json',
           version: 1,
           newProjectRoot: 'projects',
-          defaultCollection: '@schematics/angular',
+          cli: {
+            defaultCollection: '@schematics/angular',
+          },
           projects: {
             foo: {
               projectType: 'application',
