@@ -135,7 +135,7 @@ describe('extract-inline-html', () => {
         ).toEqual([
           input,
           {
-            filename: 'inline-template-1.component.html',
+            filename: 'inline-template-test.component.ts-1.component.html',
             text: '<h1>Hello, A!</h1>',
           },
         ]);
@@ -234,7 +234,7 @@ describe('extract-inline-html', () => {
           ).toEqual([
             tc.input,
             {
-              filename: 'inline-template-1.component.html',
+              filename: `inline-template-${tc.filename}-1.component.html`,
               text: inlineTemplate,
             },
           ]);
@@ -277,7 +277,7 @@ describe('extract-inline-html', () => {
           ).toEqual([
             tc.input,
             {
-              filename: 'inline-template-1.component.html',
+              filename: 'inline-template-test.component.ts-1.component.html',
               text: inlineTemplate,
             },
           ]);
@@ -320,7 +320,7 @@ describe('extract-inline-html', () => {
           ).toEqual([
             tc.input,
             {
-              filename: 'inline-template-1.component.html',
+              filename: 'inline-template-test.component.ts-1.component.html',
               text: inlineTemplate,
             },
           ]);
@@ -384,7 +384,7 @@ describe('extract-inline-html', () => {
           ).toEqual([
             tc.input,
             {
-              filename: 'inline-template-1.component.html',
+              filename: 'inline-template-test.component.ts-1.component.html',
               text: tc.expectedExtraction,
             },
           ]);
@@ -419,11 +419,13 @@ describe('extract-inline-html', () => {
         ).toEqual([
           input,
           {
-            filename: 'inline-template-1.component.html',
+            filename:
+              'inline-template-multiple-in-one.component.ts-1.component.html',
             text: '<h1>Hello, A!</h1>',
           },
           {
-            filename: 'inline-template-2.component.html',
+            filename:
+              'inline-template-multiple-in-one.component.ts-2.component.html',
             text: '<h1>Hello, B!</h1>',
           },
         ]);

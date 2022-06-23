@@ -1,3 +1,4 @@
+import { basename } from 'path';
 import ts from 'typescript';
 
 const rangeMap = new Map();
@@ -155,7 +156,8 @@ export function preprocessComponentFile(
         continue;
       }
 
-      const inlineTemplateTmpFilename = `inline-template-${++id}.component.html`;
+      const baseFilename = basename(filename);
+      const inlineTemplateTmpFilename = `inline-template-${baseFilename}-${++id}.component.html`;
 
       const start = templateProperty.initializer.getStart();
       const end = templateProperty.initializer.getEnd();
@@ -211,8 +213,7 @@ export function postprocessComponentFile(
       text: string;
     };
   }[][],
-  // We don't currently need the filename in our implementation, but keeping it for clarity regarding the postprocess() function signature
-  _filename: string,
+  filename: string,
 ): readonly unknown[] {
   const messagesFromComponentSource = multiDimensionalMessages[0];
   /**
@@ -236,34 +237,31 @@ export function postprocessComponentFile(
    */
   const res = [
     ...messagesFromComponentSource,
+    ...messagesFromAllInlineTemplateHTML.flatMap(
+      (messagesFromInlineTemplateHTML, i) => {
+        const baseFilename = basename(filename);
+        const inlineTemplateTmpFilename = `inline-template-${baseFilename}-${++i}.component.html`;
+        const rangeData = rangeMap.get(inlineTemplateTmpFilename);
+        if (!rangeData) {
+          return [];
+        }
 
-    // Ah, multi-dimensional arrays without .flat() ...
-    ...([] as unknown[]).concat(
-      ...messagesFromAllInlineTemplateHTML.map(
-        (messagesFromInlineTemplateHTML, i) => {
-          const inlineTemplateTmpFilename = `inline-template-${++i}.component.html`;
-          const rangeData = rangeMap.get(inlineTemplateTmpFilename);
-          if (!rangeData) {
-            return [];
+        return messagesFromInlineTemplateHTML.map((message) => {
+          message.line = message.line + rangeData.lineAndCharacter.start.line;
+
+          message.endLine =
+            message.endLine + rangeData.lineAndCharacter.start.line;
+
+          if (message.fix) {
+            const startOffset = rangeData.range[0];
+            message.fix.range = [
+              startOffset + message.fix.range[0],
+              startOffset + message.fix.range[1],
+            ];
           }
-
-          return messagesFromInlineTemplateHTML.map((message) => {
-            message.line = message.line + rangeData.lineAndCharacter.start.line;
-
-            message.endLine =
-              message.endLine + rangeData.lineAndCharacter.start.line;
-
-            if (message.fix) {
-              const startOffset = rangeData.range[0];
-              message.fix.range = [
-                startOffset + message.fix.range[0],
-                startOffset + message.fix.range[1],
-              ];
-            }
-            return message;
-          });
-        },
-      ),
+          return message;
+        });
+      },
     ),
   ];
   return res;
