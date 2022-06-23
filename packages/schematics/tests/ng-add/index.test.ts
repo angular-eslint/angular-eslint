@@ -41,6 +41,7 @@ describe('ng-add', () => {
           $schema: './node_modules/@angular/cli/lib/config/schema.json',
           version: 1,
           newProjectRoot: 'projects',
+          defaultCollection: '@schematics/angular',
           projects: {
             foo: {
               projectType: 'application',
@@ -102,14 +103,24 @@ describe('ng-add', () => {
       );
     });
 
-    it('should set the defaultCollection in angular.json', async () => {
+    it('should remove the old defaultCollection property in angular.json', async () => {
       const tree = await schematicRunner
         .runSchematicAsync('ng-add', {}, workspaceTree)
         .toPromise();
       const angularJson = JSON.parse(tree.readContent('/angular.json'));
-      expect(angularJson.cli.defaultCollection).toEqual(
-        '@angular-eslint/schematics',
-      );
+      expect(angularJson.cli.defaultCollection).not.toBeDefined();
+    });
+
+    it('should set the schematicCollections in angular.json', async () => {
+      const tree = await schematicRunner
+        .runSchematicAsync('ng-add', {}, workspaceTree)
+        .toPromise();
+      const angularJson = JSON.parse(tree.readContent('/angular.json'));
+      expect(angularJson.cli.schematicCollections).toMatchInlineSnapshot(`
+        Array [
+          "@angular-eslint/schematics",
+        ]
+      `);
     });
 
     it('should create the root .eslintrc.json file', async () => {
@@ -227,14 +238,24 @@ describe('ng-add', () => {
       );
     });
 
-    it('should set the defaultCollection in angular.json', async () => {
+    it('should remove the old defaultCollection property in angular.json', async () => {
       const tree = await schematicRunner
         .runSchematicAsync('ng-add', {}, workspaceTree)
         .toPromise();
       const angularJson = JSON.parse(tree.readContent('/angular.json'));
-      expect(angularJson.cli.defaultCollection).toEqual(
-        '@angular-eslint/schematics',
-      );
+      expect(angularJson.cli.defaultCollection).not.toBeDefined();
+    });
+
+    it('should set the schematicCollections in angular.json', async () => {
+      const tree = await schematicRunner
+        .runSchematicAsync('ng-add', {}, workspaceTree)
+        .toPromise();
+      const angularJson = JSON.parse(tree.readContent('/angular.json'));
+      expect(angularJson.cli.schematicCollections).toMatchInlineSnapshot(`
+        Array [
+          "@angular-eslint/schematics",
+        ]
+      `);
     });
 
     it('should create the root .eslintrc.json file', async () => {
@@ -352,14 +373,24 @@ describe('ng-add', () => {
       );
     });
 
-    it('should set the defaultCollection in angular.json', async () => {
+    it('should remove the old defaultCollection property in angular.json', async () => {
       const tree = await schematicRunner
         .runSchematicAsync('ng-add', {}, workspaceTree)
         .toPromise();
       const angularJson = JSON.parse(tree.readContent('/angular.json'));
-      expect(angularJson.cli.defaultCollection).toEqual(
-        '@angular-eslint/schematics',
-      );
+      expect(angularJson.cli.defaultCollection).not.toBeDefined();
+    });
+
+    it('should set the schematicCollections in angular.json', async () => {
+      const tree = await schematicRunner
+        .runSchematicAsync('ng-add', {}, workspaceTree)
+        .toPromise();
+      const angularJson = JSON.parse(tree.readContent('/angular.json'));
+      expect(angularJson.cli.schematicCollections).toMatchInlineSnapshot(`
+        Array [
+          "@angular-eslint/schematics",
+        ]
+      `);
     });
 
     it('should create the root .eslintrc.json file', async () => {
