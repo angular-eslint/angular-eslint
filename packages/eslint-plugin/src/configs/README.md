@@ -49,7 +49,7 @@ If you disagree with a rule (or it disagrees with your codebase), consider using
   "extends": ["plugin:@angular-eslint/recommended"],
   "rules": {
     // our project thinks using renaming inputs is ok
-    "@angular-eslint/no-input-rename": "off
+    "@angular-eslint/no-input-rename": "off"
   }
 }
 ```
