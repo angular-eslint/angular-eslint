@@ -13,7 +13,7 @@ Object {
   "@types/jasmine": "~4.0.0",
   "@typescript-eslint/eslint-plugin": "5.28.0",
   "@typescript-eslint/parser": "5.28.0",
-  "eslint": "^8.17.0",
+  "eslint": "^8.18.0",
   "jasmine-core": "~4.1.0",
   "karma": "~6.3.0",
   "karma-chrome-launcher": "~3.1.0",
