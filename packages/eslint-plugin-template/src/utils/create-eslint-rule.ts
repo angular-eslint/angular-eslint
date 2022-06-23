@@ -2,8 +2,8 @@ import type {
   ParseSourceSpan,
   TmplAstElement,
 } from '@angular-eslint/bundled-angular-compiler';
-import type { TSESLint, TSESTree } from '@typescript-eslint/experimental-utils';
-import { ESLintUtils } from '@typescript-eslint/experimental-utils';
+import type { TSESLint, TSESTree } from '@typescript-eslint/utils';
+import { ESLintUtils } from '@typescript-eslint/utils';
 
 /**
  * We need to patch the RuleCreator in order to preserve the defaultOptions

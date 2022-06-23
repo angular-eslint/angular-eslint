@@ -3,7 +3,7 @@ import {
   ASTWithSource,
   LiteralPrimitive,
 } from '@angular-eslint/bundled-angular-compiler';
-import type { TSESLint } from '@typescript-eslint/experimental-utils';
+import type { TSESLint } from '@typescript-eslint/utils';
 import {
   createESLintRule,
   ensureTemplateParser,

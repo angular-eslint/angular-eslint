@@ -1,5 +1,5 @@
-import type { TSESLint, TSESTree } from '@typescript-eslint/experimental-utils';
-import { ASTUtils } from '@typescript-eslint/experimental-utils';
+import type { TSESLint, TSESTree } from '@typescript-eslint/utils';
+import { ASTUtils } from '@typescript-eslint/utils';
 import {
   getCorrespondentImportClause,
   getImportDeclarations,

@@ -10,7 +10,7 @@ let nonInteractiveElementRoleSchemas: ARIARoleRelationConcept[] | null = null;
 export function getNonInteractiveElementRoleSchemas(): ARIARoleRelationConcept[] {
   if (nonInteractiveElementRoleSchemas === null) {
     const roleKeys = [...roles.keys()];
-    const elementRoleEntries = [...elementRoles];
+    const elementRoleEntries = [...elementRoles.entries()];
 
     const nonInteractiveRoles = new Set<ARIARoleDefintionKey>(
       roleKeys

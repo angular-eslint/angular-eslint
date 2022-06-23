@@ -7,6 +7,7 @@ import {
   readJsonInTree,
   sortObjectByKeys,
   updateJsonInTree,
+  updateSchematicCollections,
 } from '../utils';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -60,7 +61,7 @@ function addAngularESLintPackages() {
      * @typescript-eslint packages
      */
     const typescriptESLintVersion =
-      packageJSON.devDependencies['@typescript-eslint/experimental-utils'];
+      packageJSON.devDependencies['@typescript-eslint/utils'];
     json.devDependencies['@typescript-eslint/eslint-plugin'] =
       typescriptESLintVersion;
     json.devDependencies['@typescript-eslint/parser'] = typescriptESLintVersion;
@@ -92,8 +93,8 @@ function applyESLintConfigIfSingleProjectWithNoExistingTSLint() {
      * then there will be an angular.json file with a projects object, but no projects
      * within it.
      *
-     * In this case we should still configure the root eslint config and set the default
-     * collection to use in angular.json.
+     * In this case we should still configure the root eslint config and set the
+     * schematicCollections to use in angular.json.
      */
     const projectNames = Object.keys(angularJson.projects);
     if (projectNames.length === 0) {
@@ -101,11 +102,9 @@ function applyESLintConfigIfSingleProjectWithNoExistingTSLint() {
         updateJsonInTree('.eslintrc.json', () =>
           createRootESLintConfig(null, false),
         ),
-        updateJsonInTree('angular.json', (json) => {
-          json.cli = json.cli || {};
-          json.cli.defaultCollection = '@angular-eslint/schematics';
-          return json;
-        }),
+        updateJsonInTree('angular.json', (json) =>
+          updateSchematicCollections(json),
+        ),
       ]);
     }
 
@@ -140,11 +139,9 @@ Please see https://github.com/angular-eslint/angular-eslint for more information
 
     return chain([
       schematic('add-eslint-to-project', {}),
-      updateJsonInTree('angular.json', (json) => {
-        json.cli = json.cli || {};
-        json.cli.defaultCollection = '@angular-eslint/schematics';
-        return json;
-      }),
+      updateJsonInTree('angular.json', (json) =>
+        updateSchematicCollections(json),
+      ),
     ]);
   };
 }

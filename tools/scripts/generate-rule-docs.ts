@@ -1,4 +1,4 @@
-import type { TSESLint } from '@typescript-eslint/experimental-utils';
+import type { TSESLint } from '@typescript-eslint/utils';
 import { readdirSync, readFileSync, writeFileSync } from 'fs';
 import { compile } from 'json-schema-to-typescript';
 import traverse from 'json-schema-traverse';

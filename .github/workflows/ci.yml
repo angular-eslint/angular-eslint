@@ -145,7 +145,7 @@ jobs:
       matrix:
         # Additionally supported node versions taken from:
         # https://gist.github.com/LayZeeDK/c822cc812f75bb07b7c55d07ba2719b3
-        node: ['^12.20.2', '^14.15.5']
+        node: ['^14.15.5']
     steps:
       - name: Set NX_RUN_GROUP based on the output of the create_nx_run_group job
         run: echo "NX_RUN_GROUP=${{ needs.create_nx_run_group.outputs.nx_run_group }}" >> $GITHUB_ENV
@@ -159,7 +159,7 @@ jobs:
         with:
           main-branch-name: master
 
-      - uses: actions/setup-node@v3
+      - uses: volta-cli/action@v1
         with:
           # The Node.js version to configure
           node-version: ${{ matrix.node }}

@@ -4,7 +4,7 @@ import {
   Selectors,
   SelectorUtils,
 } from '@angular-eslint/utils';
-import type { TSESTree } from '@typescript-eslint/experimental-utils';
+import type { TSESTree } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
 export const RULE_NAME = 'directive-selector';
