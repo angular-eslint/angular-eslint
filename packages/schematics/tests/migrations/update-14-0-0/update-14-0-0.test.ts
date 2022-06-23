@@ -14,13 +14,6 @@ describe('update-14-0-0', () => {
   let appTree: UnitTestTree;
   beforeEach(() => {
     appTree = new UnitTestTree(Tree.empty());
-  });
-
-  /**
-   * NOTE: @angular-eslint packages will be handled automatically by ng update packageGroup
-   * configured in the package.json
-   */
-  it('should update relevant @typescript-eslint and eslint dependencies', async () => {
     appTree.create(
       'package.json',
       JSON.stringify({
@@ -32,7 +25,13 @@ describe('update-14-0-0', () => {
         },
       }),
     );
+  });
 
+  /**
+   * NOTE: @angular-eslint packages will be handled automatically by ng update packageGroup
+   * configured in the package.json
+   */
+  it('should update relevant @typescript-eslint and eslint dependencies, including migrating from @typescript-eslint/experimental-utils to @typescript-eslint/utils', async () => {
     const tree = await migrationSchematicRunner
       .runSchematicAsync('update-14-0-0', {}, appTree)
       .toPromise();
@@ -41,8 +40,8 @@ describe('update-14-0-0', () => {
       Object {
         "devDependencies": Object {
           "@typescript-eslint/eslint-plugin": "^5.29.0",
-          "@typescript-eslint/experimental-utils": "^5.29.0",
           "@typescript-eslint/parser": "^5.29.0",
+          "@typescript-eslint/utils": "^5.29.0",
           "eslint": "^8.18.0",
         },
       }

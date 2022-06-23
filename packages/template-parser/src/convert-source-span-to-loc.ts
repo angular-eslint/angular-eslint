@@ -8,7 +8,7 @@ import {
   getHtmlTagDefinition,
   HtmlParser,
 } from '@angular-eslint/bundled-angular-compiler';
-import type { TSESLint, TSESTree } from '@typescript-eslint/experimental-utils';
+import type { TSESLint, TSESTree } from '@typescript-eslint/utils';
 
 export function convertNodeSourceSpanToLoc(
   sourceSpan: ParseSourceSpan,

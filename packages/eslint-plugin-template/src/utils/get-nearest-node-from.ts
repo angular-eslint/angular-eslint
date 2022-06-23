@@ -2,7 +2,7 @@ import type {
   AST,
   TmplAstNode,
 } from '@angular-eslint/bundled-angular-compiler';
-import type { TSESTree } from '@typescript-eslint/experimental-utils';
+import type { TSESTree } from '@typescript-eslint/utils';
 import { AST_NODE_TYPES } from '@typescript-eslint/types';
 
 type ASTOrNodeWithParent = (AST | TmplAstNode) & {

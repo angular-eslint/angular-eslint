@@ -3799,13 +3799,6 @@
     semver "^7.3.7"
     tsutils "^3.21.0"
 
-"@typescript-eslint/experimental-utils@5.28.0":
-  version "5.28.0"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/experimental-utils/-/experimental-utils-5.28.0.tgz#bdd4ad11c6f5803a193ed0b2220a7749de98e080"
-  integrity sha512-pPQ1Ng4qezQijXBBfYlogcOPnMs1q14l8C4fWJJ4PnFla4MA2b2oBfdkf02r1lNak2tpBVNJxvey9oWlPQWc4w==
-  dependencies:
-    "@typescript-eslint/utils" "5.28.0"
-
 "@typescript-eslint/parser@5.28.0":
   version "5.28.0"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/parser/-/parser-5.28.0.tgz#639b101cad2bfb7ae16e69710ac95c42bd4eae33"

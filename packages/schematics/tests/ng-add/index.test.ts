@@ -10,7 +10,7 @@ const packageJSON = require('../../package.json');
 
 const eslintVersion = packageJSON.devDependencies['eslint'];
 const typescriptESLintVersion =
-  packageJSON.devDependencies['@typescript-eslint/experimental-utils'];
+  packageJSON.devDependencies['@typescript-eslint/utils'];
 
 const schematicRunner = new SchematicTestRunner(
   '@angular-eslint/schematics',

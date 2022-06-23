@@ -61,7 +61,7 @@ function addAngularESLintPackages() {
      * @typescript-eslint packages
      */
     const typescriptESLintVersion =
-      packageJSON.devDependencies['@typescript-eslint/experimental-utils'];
+      packageJSON.devDependencies['@typescript-eslint/utils'];
     json.devDependencies['@typescript-eslint/eslint-plugin'] =
       typescriptESLintVersion;
     json.devDependencies['@typescript-eslint/parser'] = typescriptESLintVersion;

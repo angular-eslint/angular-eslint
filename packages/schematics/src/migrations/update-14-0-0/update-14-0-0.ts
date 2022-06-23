@@ -1,6 +1,11 @@
 import type { Rule } from '@angular-devkit/schematics';
 import { chain } from '@angular-devkit/schematics';
-import { updateJsonInTree, updateSchematicCollections } from '../../utils';
+import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
+import {
+  sortObjectByKeys,
+  updateJsonInTree,
+  updateSchematicCollections,
+} from '../../utils';
 import { updateDependencies } from '../utils/dependencies';
 
 const updatedTypeScriptESLintVersion = '5.29.0';
@@ -33,5 +38,23 @@ export default function migration(): Rule {
       }
       return updateSchematicCollections(json);
     }),
+    // Migrate from @typescript-eslint/experimental-utils package name to @typescript-eslint/utils
+    (host, context) =>
+      updateJsonInTree('package.json', (json) => {
+        const devDep =
+          json.devDependencies?.['@typescript-eslint/experimental-utils'];
+        if (!devDep) {
+          return json;
+        }
+
+        json.devDependencies['@typescript-eslint/utils'] = devDep;
+        delete json.devDependencies['@typescript-eslint/experimental-utils'];
+        json.devDependencies = sortObjectByKeys(json.devDependencies);
+
+        host.overwrite('package.json', JSON.stringify(json, null, 2));
+        context.addTask(new NodePackageInstallTask());
+
+        return json;
+      }),
   ]);
 }
