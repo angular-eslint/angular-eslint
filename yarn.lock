@@ -3773,22 +3773,22 @@
     http-errors "2.0.0"
     http-status-codes "2.2.0"
 
-"@verdaccio/file-locking@10.2.0":
-  version "10.2.0"
-  resolved "https://registry.yarnpkg.com/@verdaccio/file-locking/-/file-locking-10.2.0.tgz#d9f107a422d9e23e6719d5c48a4151a1dee715b4"
-  integrity sha512-2FR5Tq0xuFLgEIuMPhtdofUk02OiJrBk4bOrQRaIkuYNEqiC0QNzXIz1u8ys2Q++z48affjbJkc9WUnAZRYbJg==
+"@verdaccio/file-locking@10.3.0":
+  version "10.3.0"
+  resolved "https://registry.yarnpkg.com/@verdaccio/file-locking/-/file-locking-10.3.0.tgz#a4342665c549163817c267bfa451e32ed3009767"
+  integrity sha512-FE5D5H4wy/nhgR/d2J5e1Na9kScj2wMjlLPBHz7XF4XZAVSRdm45+kL3ZmrfA6b2HTADP/uH7H05/cnAYW8bhw==
   dependencies:
     lockfile "1.0.4"
 
-"@verdaccio/local-storage@10.2.1":
-  version "10.2.1"
-  resolved "https://registry.yarnpkg.com/@verdaccio/local-storage/-/local-storage-10.2.1.tgz#88fbc0e2742d45b22d38b22db922f2593e1ea974"
-  integrity sha512-0ff8TnHvhPu+HSZJvmm8Yb7VRGa/yf7vwpJMQngo2xYg++73CgnUP5hI65NJeKJyg8DX5E0YgCw6HoTbNxBxhg==
+"@verdaccio/local-storage@10.3.1":
+  version "10.3.1"
+  resolved "https://registry.yarnpkg.com/@verdaccio/local-storage/-/local-storage-10.3.1.tgz#8cbdc6390a0eb532577ae217729cb0a4e062f299"
+  integrity sha512-f3oArjXPOAwUAA2dsBhfL/rSouqJ2sfml8k97RtnBPKOzisb28bgyAQW0mqwQvN4MTK5S/2xudmobFpvJAIatg==
   dependencies:
     "@verdaccio/commons-api" "10.2.0"
-    "@verdaccio/file-locking" "10.2.0"
+    "@verdaccio/file-locking" "10.3.0"
     "@verdaccio/streams" "10.2.0"
-    async "3.2.3"
+    async "3.2.4"
     debug "4.3.4"
     lodash "4.17.21"
     lowdb "1.0.0"
@@ -4234,7 +4234,12 @@ astral-regex@^2.0.0:
   resolved "https://registry.yarnpkg.com/astral-regex/-/astral-regex-2.0.0.tgz#483143c567aeed4785759c0865786dc77d7d2e31"
   integrity sha512-Z7tMw1ytTXt5jqMcOP+OQteU1VuNK9Y02uuJtKQ1Sv69jXQKKg5cibLwGJow8yzZP+eAc18EmLGPal0bp36rvQ==
 
-async@3.2.3, async@^3.2.3:
+async@3.2.4:
+  version "3.2.4"
+  resolved "https://registry.yarnpkg.com/async/-/async-3.2.4.tgz#2d22e00f8cddeb5fde5dd33522b56d1cf569a81c"
+  integrity sha512-iAB+JbDEGXhyIUavoDl9WP/Jj106Kz9DEn1DPgYw5ruDn0e3Wgi3sKFm55sASdGBNOQB8F59d9qQ7deqrHA8wQ==
+
+async@^3.2.3:
   version "3.2.3"
   resolved "https://registry.yarnpkg.com/async/-/async-3.2.3.tgz#ac53dafd3f4720ee9e8a160628f18ea91df196c9"
   integrity sha512-spZRyzKL5l5BZQrr/6m/SqFdBN0q3OCI0f9rjfBzCMBIP4p75P620rR3gTmaksNOhmzgdxcaxdNfMy6anrbM0g==
@@ -5585,10 +5590,10 @@ dateformat@^3.0.0:
   resolved "https://registry.yarnpkg.com/dateformat/-/dateformat-3.0.3.tgz#a6e37499a4d9a9cf85ef5872044d62901c9889ae"
   integrity sha512-jyCETtSl3VMZMWeRo7iY1FL19ges1t55hMo5yaam4Jrsm5EPL89UQkoQRyiI+Yf4k8r2ZpdngkV8hr1lIdjb3Q==
 
-dayjs@1.11.2:
-  version "1.11.2"
-  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.11.2.tgz#fa0f5223ef0d6724b3d8327134890cfe3d72fbe5"
-  integrity sha512-F4LXf1OeU9hrSYRPTTj/6FbO4HTjPKXvEIC1P2kcnFurViINCVk3ZV0xAS3XVx9MkMsXbbqlK6hjseaYbgKEHw==
+dayjs@1.11.3:
+  version "1.11.3"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.11.3.tgz#4754eb694a624057b9ad2224b67b15d552589258"
+  integrity sha512-xxwlswWOlGhzgQ4TKzASQkUhqERI3egRNqgV4ScR8wlANA/A9tZ7miXa44vTTKEq5l7vWoL5G57bG3zA+Kow0A==
 
 debug@2.6.9:
   version "2.6.9"
@@ -8976,10 +8981,10 @@ lowdb@1.0.0:
     pify "^3.0.0"
     steno "^0.4.1"
 
-lru-cache@7.9.0:
-  version "7.9.0"
-  resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-7.9.0.tgz#29c2a989b6c10f32ceccc66ff44059e1490af3e1"
-  integrity sha512-lkcNMUKqdJk96TuIXUidxaPuEg5sJo/+ZyVE2BDFnuZGzwXem7d8582eG8vbu4todLfT14snP6iHriCHXXi5Rw==
+lru-cache@7.10.1, lru-cache@^7.4.4, lru-cache@^7.5.1, lru-cache@^7.7.1:
+  version "7.10.1"
+  resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-7.10.1.tgz#db577f42a94c168f676b638d15da8fb073448cab"
+  integrity sha512-BQuhQxPuRl79J5zSXRP+uNzPOyZw2oFI9JLRQ80XswSvg21KMKNtQza9eF42rfI/3Z40RvzBdXgziEkudzjo8A==
 
 lru-cache@^6.0.0:
   version "6.0.0"
@@ -8992,11 +8997,6 @@ lru-cache@^7.3.1:
   version "7.3.1"
   resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-7.3.1.tgz#7702e80694ec2bf19865567a469f2b081fcf53f5"
   integrity sha512-nX1x4qUrKqwbIAhv4s9et4FIUVzNOpeY07bsjGUy8gwJrXH/wScImSQqXErmo/b2jZY2r0mohbLA9zVj7u1cNw==
-
-lru-cache@^7.4.4, lru-cache@^7.5.1, lru-cache@^7.7.1:
-  version "7.10.1"
-  resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-7.10.1.tgz#db577f42a94c168f676b638d15da8fb073448cab"
-  integrity sha512-BQuhQxPuRl79J5zSXRP+uNzPOyZw2oFI9JLRQ80XswSvg21KMKNtQza9eF42rfI/3Z40RvzBdXgziEkudzjo8A==
 
 lru-queue@^0.1.0:
   version "0.1.0"
@@ -9174,6 +9174,11 @@ marked@4.0.16:
   version "4.0.16"
   resolved "https://registry.yarnpkg.com/marked/-/marked-4.0.16.tgz#9ec18fc1a723032eb28666100344d9428cf7a264"
   integrity sha512-wahonIQ5Jnyatt2fn8KqF/nIqZM8mh3oRu2+l5EANGMhu6RFjiSG52QNE2eWzFMI94HqYSgN184NurgNG6CztA==
+
+marked@4.0.17:
+  version "4.0.17"
+  resolved "https://registry.yarnpkg.com/marked/-/marked-4.0.17.tgz#1186193d85bb7882159cdcfc57d1dfccaffb3fe9"
+  integrity sha512-Wfk0ATOK5iPxM4ptrORkFemqroz0ZDxp5MWfYA7H/F+wO17NRWV5Ypxi6p3g2Xmw2bKeiYOl6oVnLHKxBA0VhA==
 
 maxmin@^2.1.0:
   version "2.1.0"
@@ -9403,10 +9408,10 @@ minimatch@3.0.5:
   dependencies:
     brace-expansion "^1.1.7"
 
-minimatch@5.0.1:
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-5.0.1.tgz#fb9022f7528125187c92bd9e9b6366be1cf3415b"
-  integrity sha512-nLDxIFRyhDblz3qMuq+SoRZED4+miJ/G+tdDrjkkkRnjAsBexeGpgjLEQ0blJy7rHhR2b93rhQY4SvyWu9v03g==
+minimatch@5.1.0, minimatch@^5.0.1:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-5.1.0.tgz#1717b464f4971b144f6aabe8f2d0b8e4511e09c7"
+  integrity sha512-9TPBGGak4nHfGZsPBohm9AWg6NoT7QTCehS3BIJABslyZbzxfV78QM2Y6+i741OPZIafFAaiiEMh5OyIrJPgtg==
   dependencies:
     brace-expansion "^2.0.1"
 
@@ -9416,13 +9421,6 @@ minimatch@^3.0.4, minimatch@^3.1.2:
   integrity sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw==
   dependencies:
     brace-expansion "^1.1.7"
-
-minimatch@^5.0.1:
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-5.1.0.tgz#1717b464f4971b144f6aabe8f2d0b8e4511e09c7"
-  integrity sha512-9TPBGGak4nHfGZsPBohm9AWg6NoT7QTCehS3BIJABslyZbzxfV78QM2Y6+i741OPZIafFAaiiEMh5OyIrJPgtg==
-  dependencies:
-    brace-expansion "^2.0.1"
 
 minimist-options@4.1.0:
   version "4.1.0"
@@ -13107,35 +13105,35 @@ verdaccio-audit@10.2.2:
     https-proxy-agent "5.0.1"
     node-fetch "2.6.7"
 
-verdaccio-htpasswd@10.3.0:
-  version "10.3.0"
-  resolved "https://registry.yarnpkg.com/verdaccio-htpasswd/-/verdaccio-htpasswd-10.3.0.tgz#c54ee8fddcebfff14a9ca81e346365bf150eddf5"
-  integrity sha512-UbMF9kbqo2tvOrdbC3MryE6/iXy54XlqDKpFWUKS5MTjFhP9BdQNgyTjBCM/mubO3JJug2TcVdmu/si8G4891Q==
+verdaccio-htpasswd@10.5.0:
+  version "10.5.0"
+  resolved "https://registry.yarnpkg.com/verdaccio-htpasswd/-/verdaccio-htpasswd-10.5.0.tgz#de9ea2967856af765178b08485dc8e83f544a12c"
+  integrity sha512-olBsT3uy1TT2ZqmMCJUsMHrztJzoEpa8pxxvYrDZdWnEksl6mHV10lTeLbH9BUwbEheOeKkkdsERqUOs+if0jg==
   dependencies:
-    "@verdaccio/file-locking" "10.2.0"
+    "@verdaccio/file-locking" "10.3.0"
     apache-md5 "1.1.7"
     bcryptjs "2.4.3"
     http-errors "2.0.0"
     unix-crypt-td-js "1.1.4"
 
-verdaccio@5.11.0:
-  version "5.11.0"
-  resolved "https://registry.yarnpkg.com/verdaccio/-/verdaccio-5.11.0.tgz#02be4e0372c97a61a99fc1df96d6aef791dab5db"
-  integrity sha512-wKQ4dVBuUm+sHTakxlGPyOQSvJtpkzk7FTUKfGP92LV8AdQSyNflXomiP3KK7WfoG6Er18+aC+sDhosTs02l6g==
+verdaccio@5.13.1:
+  version "5.13.1"
+  resolved "https://registry.yarnpkg.com/verdaccio/-/verdaccio-5.13.1.tgz#37a0494bd6c15dfd5897927aeb18ebf5514abae3"
+  integrity sha512-UyLn/picuRovYgLrbCYwYaVNMrReB0VNhsTtmWtS4D19hNIOqbDuVWcGE0djr9Cnhkm/pLrjcF5dE4tAbO3gUQ==
   dependencies:
     "@verdaccio/commons-api" "10.2.0"
-    "@verdaccio/local-storage" "10.2.1"
+    "@verdaccio/local-storage" "10.3.1"
     "@verdaccio/readme" "10.3.4"
     "@verdaccio/streams" "10.2.0"
     "@verdaccio/ui-theme" "6.0.0-6-next.24"
     JSONStream "1.3.5"
-    async "3.2.3"
+    async "3.2.4"
     body-parser "1.20.0"
     clipanion "3.1.0"
     compression "1.7.4"
     cookies "0.8.0"
     cors "2.8.5"
-    dayjs "1.11.2"
+    dayjs "1.11.3"
     debug "^4.3.3"
     envinfo "7.8.1"
     eslint-import-resolver-node "0.3.6"
@@ -13148,12 +13146,12 @@ verdaccio@5.11.0:
     jsonwebtoken "8.5.1"
     kleur "4.1.4"
     lodash "4.17.21"
-    lru-cache "7.9.0"
+    lru-cache "7.10.1"
     lunr-mutable-indexes "2.3.2"
-    marked "4.0.16"
+    marked "4.0.17"
     memoizee "0.4.15"
     mime "3.0.0"
-    minimatch "5.0.1"
+    minimatch "5.1.0"
     mkdirp "1.0.4"
     mv "2.1.1"
     pino "6.14.0"
@@ -13164,7 +13162,7 @@ verdaccio@5.11.0:
     semver "7.3.7"
     validator "13.7.0"
     verdaccio-audit "10.2.2"
-    verdaccio-htpasswd "10.3.0"
+    verdaccio-htpasswd "10.5.0"
 
 verror@1.10.0:
   version "1.10.0"
