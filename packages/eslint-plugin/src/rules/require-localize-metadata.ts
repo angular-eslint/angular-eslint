@@ -1,5 +1,5 @@
-import { ASTUtils } from '@typescript-eslint/experimental-utils';
-import type { TSESTree } from '@typescript-eslint/experimental-utils';
+import { ASTUtils } from '@typescript-eslint/utils';
+import type { TSESTree } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
 type Options = [

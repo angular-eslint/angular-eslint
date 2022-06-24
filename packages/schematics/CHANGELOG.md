@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [14.0.0](https://github.com/angular-eslint/angular-eslint/compare/v13.5.0...v14.0.0) (2022-06-23)
+
+### Features
+
+- update dependency eslint to v8.18.0 ([#1061](https://github.com/angular-eslint/angular-eslint/issues/1061)) ([6130377](https://github.com/angular-eslint/angular-eslint/commit/6130377ca9363a5a510093609031d9943755c63e))
+- update typescript-eslint packages to v5.28.0 ([#1045](https://github.com/angular-eslint/angular-eslint/issues/1045)) ([9e8c340](https://github.com/angular-eslint/angular-eslint/commit/9e8c3406de716d1d5e7f45e06b06700af3861f65))
+- update typescript-eslint packages to v5.29.0 ([#1063](https://github.com/angular-eslint/angular-eslint/issues/1063)) ([02856cb](https://github.com/angular-eslint/angular-eslint/commit/02856cbc6116491eaa634a3cbdcd38d6bffda64c))
+
 # [13.5.0](https://github.com/angular-eslint/angular-eslint/compare/v13.4.0...v13.5.0) (2022-06-12)
 
 **Note:** Version bump only for package @angular-eslint/schematics

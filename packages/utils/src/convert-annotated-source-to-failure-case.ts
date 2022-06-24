@@ -1,4 +1,4 @@
-import type { TSESLint } from '@typescript-eslint/experimental-utils';
+import type { TSESLint } from '@typescript-eslint/utils';
 
 /**
  * When leveraging the convertAnnotatedSourceToFailureCase() utility, the

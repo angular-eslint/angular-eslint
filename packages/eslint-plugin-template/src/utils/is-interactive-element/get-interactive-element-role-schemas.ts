@@ -10,7 +10,7 @@ let interactiveElementRoleSchemas: ARIARoleRelationConcept[] | null = null;
 export function getInteractiveElementRoleSchemas(): ARIARoleRelationConcept[] {
   if (interactiveElementRoleSchemas === null) {
     const roleKeys = [...roles.keys()];
-    const elementRoleEntries = [...elementRoles];
+    const elementRoleEntries = [...elementRoles.entries()];
 
     // This set will contain all possible values for the `role` attribute,
     // e.g. `button`, `navigation` or `presentation`.

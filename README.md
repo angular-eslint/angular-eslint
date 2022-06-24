@@ -21,7 +21,7 @@
 
 <br>
 
-## Quick Start with Angular v12 and later
+## Quick Start
 
 1. Follow the latest **Getting Started** guide on https://angular.io/ in order to install the Angular CLI
 
@@ -45,46 +45,7 @@ You will also see that it added the following in your angular.json:
 
 ```json
   "cli": {
-    "defaultCollection": "@angular-eslint/schematics"
-  }
-```
-
-Read the section on [Using ESLint by default when generating new Projects within your Workspace](#using-eslint-by-default-when-generating-new-projects-within-your-workspace) to understand why this is useful.
-
-<br>
-
-## Quick Start with Angular before v12
-
-1. Follow the latest **Getting Started** guide on https://angular.io/ in order to install the Angular CLI
-
-2. Create a new Angular CLI workspace in the normal way, optionally using any of the supported command line arguments and following the interactive prompts:
-
-```sh
-ng new # --maybe --some --other --flags --here
-```
-
-3. **Change directory into your new workspace** and then use the Angular CLI to add `@angular-eslint/schematics`:
-
-```sh
-ng add @angular-eslint/schematics
-```
-
-4. Before v12, the Angular CLI shipped with a TSLint setup, so you should run the conversion schematic to automatically convert your new project from TSLint to ESLint:
-
-```sh
-ng g @angular-eslint/schematics:convert-tslint-to-eslint --remove-tslint-if-no-more-tslint-targets --ignore-existing-tslint-config
-```
-
-NOTES:
-
-- We set `--remove-tslint-if-no-more-tslint-targets` so that we remove TSLint and Codelyzer from the workspace automatically.
-- We set `--ignore-existing-tslint-config` so that we jump straight to the up to date recommended ESLint setup, without converting the previous Angular CLI TSLint setup, which is unnecessary for brand new projects.
-
-If you stick to those exact commands above you will also see the following in your angular.json:
-
-```json
-  "cli": {
-    "defaultCollection": "@angular-eslint/schematics"
+    "schematicCollections": ["@angular-eslint/schematics"]
   }
 ```
 
@@ -239,28 +200,28 @@ ng g @angular-eslint/schematics:app
 ng g @angular-eslint/schematics:lib
 ```
 
-Or, alternatively, if you don't want to have to remember to set that collection prefix in front of the `:` every time, you can set the default collection in your `angular.json` to be `@angular-eslint/schematics`.
+Or, alternatively, if you don't want to have to remember to set that collection prefix in front of the `:` every time, you can set the `schematicCollections` in your `angular.json` to start with `@angular-eslint/schematics`.
 
 You can either do that by hand by adjusting the JSON, or by running the following Angular CLI command:
 
 ```sh
-ng config cli.defaultCollection @angular-eslint/schematics
+ng config cli.schematicCollections "[\"@angular-eslint/schematics\"]"
 ```
 
 The final result in your `angular.json` will be something like this:
 
 ```json
   "cli": {
-    "defaultCollection": "@angular-eslint/schematics"
+    "schematicCollections": ["@angular-eslint/schematics"]
   }
 ```
 
 Now your generate commands can just be:
 
 ```sh
-# To generate a new Angular app in the workspace using ESLint (thanks to the defaultCollection set above)
+# To generate a new Angular app in the workspace using ESLint (thanks to the schematicCollections set above)
 ng g app
-# To generate a new Angular library in the workspace using ESLint (thanks to the defaultCollection set above)
+# To generate a new Angular library in the workspace using ESLint (thanks to the schematicCollections set above)
 ng g lib
 ```
 

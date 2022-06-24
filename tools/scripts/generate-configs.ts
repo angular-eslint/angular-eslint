@@ -1,4 +1,4 @@
-import type { TSESLint } from '@typescript-eslint/experimental-utils';
+import type { TSESLint } from '@typescript-eslint/utils';
 import chalk from 'chalk';
 import fs from 'fs';
 import path from 'path';

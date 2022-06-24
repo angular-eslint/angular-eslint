@@ -3,6 +3,37 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [14.0.0](https://github.com/angular-eslint/angular-eslint/compare/v13.5.0...v14.0.0) (2022-06-23)
+
+As always we recommend that you update your existing workspaces by using `ng update` as we provide some helpful schematics to help migrate your workspaces to the latest and greatest. Running the following will update Angular, the Angular CLI and angular-eslint together:
+
+```sh
+ng update @angular/core @angular/cli @angular-eslint/schematics
+```
+
+### BREAKING CHANGES
+
+This is a major version bump and comes with some breaking changes, one of which might possibly impact your ESLint configuration if you are targeting inline HTML templates with a very specific glob pattern because the virtual filename has changed (read on to learn more).
+
+- update Angular to v14
+
+  - All packages now require the use of Angular CLI >= 14.0.0 < 15.0.0
+
+- dropped support for Node 12 (in alignment with Angular's own version policy)
+
+- extracted inline HTML templates now contain the original Component filename in their processed virtual filename
+  - When ESLint runs on your Component files, if you are using the recommended configuration, it will invoke a processor we have set up to extract the inline HTML templates from your Component declarations. Behind the scenes we give these extracted templates virtual filenames ending in `.html` so that rules targeting HTML files can also target your inline templates.
+  - **Before:** In v13 the filename looked like this: `inline-template-${++i}.component.html`, where `i` was an incrementing integer (in case for example you had multiple Component declarations in the same `.ts` file.
+  - **Now**: In v14 the filename now looks like this `inline-template-${baseFilename}-${++i}.component.html`, where `i` has the same incrementing integer behavior as before, but we now include the base filename within the virtual filename.
+    - E.g. if you have a test file in `projects/foo/src/app/app.spec.ts` which declares a Component with an inline template, the virtual filename generated behind the scene for that template will be `inline-template-app.spec.ts-1.component.html`.
+    - This new behavior allows you to use ESLint overrides to apply different behavior to Component inline templates in different files.
+
+### Features
+
+- update eslint to `^8.18.0` (automatically migrated via `ng update`)
+- update typescript-eslint to `^5.29.0` (automatically migrated via `ng update`)
+- update deprecated `cli.defaultCollection` usage in `angular.json` to use `cli.schematicCollections` instead (automatically migrated via `ng update`)
+
 # [13.5.0](https://github.com/angular-eslint/angular-eslint/compare/v13.4.0...v13.5.0) (2022-06-12)
 
 ### Features

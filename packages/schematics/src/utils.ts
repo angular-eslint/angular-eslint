@@ -448,3 +448,18 @@ export function determineTargetProjectHasE2E(
 ): boolean {
   return !!getTargetsConfigFromProject(angularJSON.projects[projectName])?.e2e;
 }
+
+/**
+ * See `schematicCollections` docs here:
+ * https://github.com/angular/angular-cli/blob/8431b3f0769b5f95b9e13807a09293d820c4b017/docs/specifications/schematic-collections-config.md
+ */
+export function updateSchematicCollections(angularJson: Record<string, any>) {
+  angularJson.cli = angularJson.cli || {};
+  angularJson.cli.schematicCollections =
+    angularJson.cli.schematicCollections || [];
+  // The first matching schematic will be used, so we unshift rather than push
+  angularJson.cli.schematicCollections.unshift('@angular-eslint/schematics');
+  // Delete old defaultCollection property if applicable
+  delete angularJson.cli.defaultCollection;
+  return angularJson;
+}

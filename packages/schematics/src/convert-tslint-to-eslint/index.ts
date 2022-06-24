@@ -15,6 +15,7 @@ import {
   removeTSLintJSONForProject,
   setESLintProjectBasedOnProjectType,
   updateJsonInTree,
+  updateSchematicCollections,
 } from '../utils';
 import {
   convertTSLintDisableCommentsForProject,
@@ -114,14 +115,12 @@ E.g. npx ng g @angular-eslint/schematics:convert-tslint-to-eslint {{YOUR_PROJECT
           tree.delete(join(normalize(tree.root.path), 'tslint.json'));
           return chain([
             /**
-             * Update the default schematics collection to @angular-eslint so that future projects within
+             * Update the schematicCollections to prefer @angular-eslint so that future projects within
              * the same workspace will also use ESLint
              */
-            updateJsonInTree(getWorkspacePath(tree), (json) => {
-              json.cli = json.cli || {};
-              json.cli.defaultCollection = '@angular-eslint/schematics';
-              return json;
-            }),
+            updateJsonInTree(getWorkspacePath(tree), (json) =>
+              updateSchematicCollections(json),
+            ),
             uninstallTSLintAndCodelyzer(),
           ]);
         }
