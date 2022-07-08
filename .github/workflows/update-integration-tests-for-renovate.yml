@@ -5,7 +5,7 @@ name: Renovate Update Integration Tests
 
 on:
   pull_request:
-    branches: [master]
+    branches: [main]
     paths:
       - 'package.json'
 

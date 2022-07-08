@@ -7,7 +7,7 @@ name: Auto-close dependabot PRs targeting integration test fixtures
 
 on:
   pull_request:
-    branches: [master]
+    branches: [main]
     paths:
       - 'packages/integration-tests/fixtures/**'
 
