@@ -459,7 +459,7 @@ Here is a fully working (tested in VSCode and on the command line via `ng lint`)
 }
 ```
 
-We are setting the parser for `eslint-plugin-prettier` explicitly within our relevant override block so that it does not need to rely on inference. In this case we know it should always use its `angular` parser, because we are wiring it up to only run on angular HTML files within that override. (_it's assumed that all HTML files in the project are angular templates_)
+We are setting the parser for `eslint-plugin-prettier` explicitly within our relevant override block so that it does not need to rely on inference. In this case we know it should always use its `angular` parser, because we are wiring it up to only run on angular HTML files within that override (_it's assumed that all HTML files in the project are angular templates_).
 
 <br>
 
