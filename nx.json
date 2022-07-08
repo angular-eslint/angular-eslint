@@ -39,7 +39,7 @@
     }
   },
   "affected": {
-    "defaultBase": "master"
+    "defaultBase": "main"
   },
   "targetDefaults": {
     "build": {
