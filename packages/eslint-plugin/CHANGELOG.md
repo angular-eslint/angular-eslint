@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [14.0.1](https://github.com/angular-eslint/angular-eslint/compare/v14.0.0...v14.0.1) (2022-07-08)
+
+### Bug Fixes
+
+- remaining references to master (now main) ([#1083](https://github.com/angular-eslint/angular-eslint/issues/1083)) ([8d36232](https://github.com/angular-eslint/angular-eslint/commit/8d36232435e5e09f870fc42c40327cedd703749f))
+
 # [14.0.0](https://github.com/angular-eslint/angular-eslint/compare/v13.5.0...v14.0.0) (2022-06-23)
 
 ### Features

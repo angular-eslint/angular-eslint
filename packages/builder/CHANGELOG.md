@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [14.0.1](https://github.com/angular-eslint/angular-eslint/compare/v14.0.0...v14.0.1) (2022-07-08)
+
+### Bug Fixes
+
+- **builder:** update to latest @nrwl/devkit ([#1082](https://github.com/angular-eslint/angular-eslint/issues/1082)) ([cc00a21](https://github.com/angular-eslint/angular-eslint/commit/cc00a21d99e1e9e48431f066b2942473e99390ec))
+
 # [14.0.0](https://github.com/angular-eslint/angular-eslint/compare/v13.5.0...v14.0.0) (2022-06-23)
 
 **Note:** Version bump only for package @angular-eslint/builder
