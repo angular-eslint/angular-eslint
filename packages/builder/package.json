@@ -19,7 +19,7 @@
   ],
   "builders": "./builders.json",
   "dependencies": {
-    "@nrwl/devkit": "13.1.3"
+    "@nrwl/devkit": "^14.2.4"
   },
   "peerDependencies": {
     "eslint": "^7.0.0 || ^8.0.0",
