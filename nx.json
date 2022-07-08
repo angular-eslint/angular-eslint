@@ -38,27 +38,18 @@
       }
     }
   },
-  "targetDependencies": {
-    "build": [
-      {
-        "target": "build",
-        "projects": "dependencies"
-      }
-    ],
-    "typecheck": [
-      {
-        "target": "build",
-        "projects": "dependencies"
-      }
-    ],
-    "update-rule-docs": [
-      {
-        "target": "build",
-        "projects": "dependencies"
-      }
-    ]
-  },
   "affected": {
     "defaultBase": "main"
+  },
+  "targetDefaults": {
+    "build": {
+      "dependsOn": ["^build"]
+    },
+    "typecheck": {
+      "dependsOn": ["^build"]
+    },
+    "update-rule-docs": {
+      "dependsOn": ["^build"]
+    }
   }
 }
