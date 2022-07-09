@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [14.0.2](https://github.com/angular-eslint/angular-eslint/compare/v14.0.1...v14.0.2) (2022-07-09)
+
+### Bug Fixes
+
+- **builder:** add explicit dependency on nx ([#1088](https://github.com/angular-eslint/angular-eslint/issues/1088)) ([753a383](https://github.com/angular-eslint/angular-eslint/commit/753a3839a402c4a7f22f6de9ccfa84566c4b7572))
+
 ## [14.0.1](https://github.com/angular-eslint/angular-eslint/compare/v14.0.0...v14.0.1) (2022-07-08)
 
 ### Bug Fixes
