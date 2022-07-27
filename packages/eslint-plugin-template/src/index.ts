@@ -57,6 +57,9 @@ import noNegatedAsync, {
 import noPositiveTabindex, {
   RULE_NAME as noPositiveTabindexRuleName,
 } from './rules/no-positive-tabindex';
+import roleHasRequiredAriaProps, {
+  RULE_NAME as roleHasRequiredAriaRuleName,
+} from './rules/role-has-required-aria-props';
 import useTrackByFunction, {
   RULE_NAME as useTrackByFunctionRuleName,
 } from './rules/use-track-by-function';
@@ -94,6 +97,7 @@ export default {
     [noDuplicateAttributesRuleName]: noDuplicateAttributes,
     [noNegatedAsyncRuleName]: noNegatedAsync,
     [noPositiveTabindexRuleName]: noPositiveTabindex,
+    [roleHasRequiredAriaRuleName]: roleHasRequiredAriaProps,
     [useTrackByFunctionRuleName]: useTrackByFunction,
     [buttonHasTypeRuleName]: buttonHasType,
   },
