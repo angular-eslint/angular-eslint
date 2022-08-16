@@ -8,6 +8,7 @@ export const valid = [
     // It should work when click events are associated with key events.
     code: `
         <div (click)="onClick()" (keyup)="onKeyup()"></div>
+        <div (keyup)="onKeyup()" (click)="onClick()"></div>
         <div (click)="onClick()" (keyup)="onKeyup()" (handleSomething)="handleSomething()"></div>
       `,
   },

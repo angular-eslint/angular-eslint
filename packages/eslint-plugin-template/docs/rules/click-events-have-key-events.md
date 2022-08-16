@@ -360,6 +360,7 @@ The rule does not have any configuration options.
 
 ```html
 <div (click)="onClick()" (keyup)="onKeyup()"></div>
+<div (keyup)="onKeyup()" (click)="onClick()"></div>
 <div (click)="onClick()" (keyup)="onKeyup()" (handleSomething)="handleSomething()"></div>
 ```
 
