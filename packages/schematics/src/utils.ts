@@ -162,7 +162,7 @@ export function addESLintTargetToProject(
 
     // Default Angular CLI project at the root of the workspace
     if (existingProjectConfig.root === '') {
-      lintFilePatternsRoot = 'src';
+      lintFilePatternsRoot = existingProjectConfig.sourceRoot || 'src';
     } else {
       lintFilePatternsRoot = existingProjectConfig.root;
     }
