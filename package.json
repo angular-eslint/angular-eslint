@@ -86,7 +86,7 @@
     "prettier": "2.7.1",
     "rimraf": "3.0.2",
     "strip-ansi": "6.0.1",
-    "terser": "5.14.1",
+    "terser": "5.14.2",
     "tree-kill": "1.2.2",
     "ts-jest": "28.0.4",
     "ts-node": "10.9.1",
