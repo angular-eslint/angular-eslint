@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [14.0.3](https://github.com/angular-eslint/angular-eslint/compare/v14.0.2...v14.0.3) (2022-08-23)
+
+### Bug Fixes
+
+- **builder:** ensure package works with Angular 14.1.3 ([#1112](https://github.com/angular-eslint/angular-eslint/issues/1112)) ([b00ef2e](https://github.com/angular-eslint/angular-eslint/commit/b00ef2e0de8d3b541dfa963c4c1901bfa380c4b3))
+
 ## [14.0.2](https://github.com/angular-eslint/angular-eslint/compare/v14.0.1...v14.0.2) (2022-07-09)
 
 **Note:** Version bump only for package @angular-eslint/schematics
