@@ -80,7 +80,7 @@
     "json-schema-traverse": "1.0.0",
     "lerna": "5.1.4",
     "lint-staged": "13.0.2",
-    "microbundle": "0.15.0",
+    "microbundle": "0.15.1",
     "ncp": "2.0.0",
     "nx": "14.5.9",
     "prettier": "2.7.1",
