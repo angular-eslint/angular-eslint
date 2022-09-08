@@ -18,8 +18,9 @@
   ],
   "dependencies": {
     "@angular-eslint/bundled-angular-compiler": "14.0.3",
-    "@typescript-eslint/utils": "5.29.0",
-    "aria-query": "5.0.0",
+    "@typescript-eslint/type-utils": "5.36.2",
+    "@typescript-eslint/utils": "5.36.2",
+    "aria-query": "5.0.2",
     "axobject-query": "3.0.1"
   },
   "devDependencies": {

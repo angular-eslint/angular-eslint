@@ -1,4 +1,5 @@
 import { basename } from 'path';
+import { getDecorators } from '@typescript-eslint/type-utils';
 import ts from 'typescript';
 
 const rangeMap = new Map();
@@ -66,7 +67,7 @@ export function preprocessComponentFile(
 
     const classDeclarations = sourceFile.statements.filter((s) =>
       ts.isClassDeclaration(s),
-    );
+    ) as ts.ClassDeclaration[];
     if (!classDeclarations || !classDeclarations.length) {
       return noopResult;
     }
@@ -76,15 +77,18 @@ export function preprocessComponentFile(
      */
     const componentDecoratorNodes: ts.Decorator[] = [];
     for (const classDeclaration of classDeclarations) {
-      if (classDeclaration.decorators) {
-        for (const decorator of classDeclaration.decorators) {
-          if (
-            ts.isCallExpression(decorator.expression) &&
-            ts.isIdentifier(decorator.expression.expression) &&
-            decorator.expression.expression.text === 'Component'
-          ) {
-            componentDecoratorNodes.push(decorator);
-          }
+      // NOTE: Intentionally not using ts.getDecorators() as it did not exist prior to TS 4.8
+      const classDecorators = getDecorators(classDeclaration);
+      if (!classDecorators) {
+        continue;
+      }
+      for (const decorator of classDecorators) {
+        if (
+          ts.isCallExpression(decorator.expression) &&
+          ts.isIdentifier(decorator.expression.expression) &&
+          decorator.expression.expression.text === 'Component'
+        ) {
+          componentDecoratorNodes.push(decorator);
         }
       }
     }
