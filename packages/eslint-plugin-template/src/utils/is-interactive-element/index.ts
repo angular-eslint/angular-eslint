@@ -1,10 +1,14 @@
 import type { TmplAstElement } from '@angular-eslint/bundled-angular-compiler';
-import type { ARIARoleRelationConcept } from 'aria-query';
+import type { ARIARole, ARIARoleRelationConcept } from 'aria-query';
 import { attributesComparator } from '../attributes-comparator';
+import { getAttributeValue } from '../get-attribute-value';
 import { getDomElements } from '../get-dom-elements';
 import { getInteractiveElementAXObjectSchemas } from './get-interactive-element-ax-object-schemas';
 import { getInteractiveElementRoleSchemas } from './get-interactive-element-role-schemas';
-import { getNonInteractiveElementRoleSchemas } from './get-non-interactive-element-role-schemas';
+import {
+  getNonInteractiveElementRoleSchemas,
+  getNonInteractiveRoles,
+} from './get-non-interactive-element-role-schemas';
 
 function checkIsInteractiveElement(node: TmplAstElement): boolean {
   function elementSchemaMatcher({ attributes, name }: ARIARoleRelationConcept) {
@@ -28,6 +32,12 @@ function checkIsInteractiveElement(node: TmplAstElement): boolean {
   return getInteractiveElementAXObjectSchemas().some(elementSchemaMatcher);
 }
 
+function checkIsNonInteractiveRole(node: TmplAstElement): boolean {
+  return getNonInteractiveRoles().has(
+    getAttributeValue(node, 'role') as ARIARole,
+  );
+}
+
 /**
  * Returns boolean indicating whether the given element is
  * interactive on the DOM or not. Usually used when an element
@@ -36,4 +46,8 @@ function checkIsInteractiveElement(node: TmplAstElement): boolean {
  */
 export function isInteractiveElement(node: TmplAstElement): boolean {
   return getDomElements().has(node.name) && checkIsInteractiveElement(node);
+}
+
+export function isNonInteractiveRole(node: TmplAstElement): boolean {
+  return checkIsNonInteractiveRole(node);
 }

@@ -35,6 +35,9 @@ import cyclomaticComplexity, {
 } from './rules/cyclomatic-complexity';
 import eqeqeq, { RULE_NAME as eqeqeqRuleName } from './rules/eqeqeq';
 import i18n, { RULE_NAME as i18nRuleName } from './rules/i18n';
+import interactiveSupportsFocus, {
+  RULE_NAME as interactiveSupportsFocusRuleName,
+} from './rules/interactive-supports-focus';
 import mouseEventsHaveKeyEvents, {
   RULE_NAME as mouseEventsHaveKeyEventsRuleName,
 } from './rules/mouse-events-have-key-events';
@@ -86,6 +89,7 @@ export default {
     [cyclomaticComplexityRuleName]: cyclomaticComplexity,
     [eqeqeqRuleName]: eqeqeq,
     [i18nRuleName]: i18n,
+    [interactiveSupportsFocusRuleName]: interactiveSupportsFocus,
     [mouseEventsHaveKeyEventsRuleName]: mouseEventsHaveKeyEvents,
     [noAnyRuleName]: noAny,
     [noAutofocusRuleName]: noAutofocus,
