@@ -190,33 +190,6 @@ The rule does not have any configuration options.
 #### ❌ Invalid Code
 
 ```html
-<div (click)="onClick()"></div>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-```
-
-<br>
-
----
-
-<br>
-
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/template/interactive-supports-focus": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
-#### ❌ Invalid Code
-
-```html
 <span (click)="onClick()">Submit</span>
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ```

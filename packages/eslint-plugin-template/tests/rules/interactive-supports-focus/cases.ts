@@ -167,7 +167,8 @@ export const invalid = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail not hidden from screen reader',
+    description:
+      'should fail not hidden from screen reader with bound aria-hidden attribute',
     annotatedSource: `
       <div [attr.aria-hidden]="false" (click)="onClick()"></div>
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -176,7 +177,7 @@ export const invalid = [
   }),
   // aria-disabled="false"
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail not hidden from screen reader',
+    description: 'should fail aria-disabled is false',
     annotatedSource: `
       <div role="button" aria-disabled="false" (click)="onClick()"></div>
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -184,7 +185,7 @@ export const invalid = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail not hidden from screen reader',
+    description: 'should fail aria-disabled is false with bound attribute',
     annotatedSource: `
       <div [attr.aria-disabled]="false" (click)="onClick()"></div>
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -207,21 +208,14 @@ export const invalid = [
   convertAnnotatedSourceToFailureCase({
     description: 'should fail non-interactive element does not support focus',
     annotatedSource: `
-      <div (click)="onClick()"></div>
-      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    `,
-    messageId,
-  }),
-  convertAnnotatedSourceToFailureCase({
-    description: 'should fail non-interactive element does not support focus',
-    annotatedSource: `
       <span (click)="onClick()">Submit</span>
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     `,
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail non-interactive element does not support focus',
+    description:
+      'should fail non-interactive element with aria-label does not support focus',
     annotatedSource: `
       <div (click)="onClick()" [attr.aria-label]="clickableThing"></div>
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -245,7 +239,8 @@ export const invalid = [
 
   // area and a are not interactive without href
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail non-interactive element does not support focus',
+    description:
+      'should fail non-interactive element does not support focus, area should have href',
     annotatedSource: `
       <area (click)="onClick()" class="foo">
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -253,7 +248,8 @@ export const invalid = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail non-interactive element does not support focus',
+    description:
+      'should fail non-interactive element does not support focus, anchor should have href',
     annotatedSource: `
       <a (click)="onClick()">Click me</a>
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
