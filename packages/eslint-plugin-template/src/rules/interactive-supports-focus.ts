@@ -40,10 +40,6 @@ export default createESLintRule<Options, MessageIds>({
           return;
         }
 
-        const tabIndex = [...node.attributes, ...node.inputs].find(
-          (attr) => attr.name === 'tabindex',
-        );
-
         const interactiveOutput = node.outputs.find(
           (output: { name: string }) =>
             output.name === 'click' ||
@@ -63,6 +59,10 @@ export default createESLintRule<Options, MessageIds>({
           // For example, a click screen overlay to close a dialog.
           return;
         }
+
+        const tabIndex = [...node.attributes, ...node.inputs].find(
+          (attr) => attr.name === 'tabindex',
+        );
 
         if (
           interactiveOutput &&
