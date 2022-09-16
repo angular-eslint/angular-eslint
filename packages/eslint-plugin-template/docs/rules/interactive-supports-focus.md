@@ -555,6 +555,34 @@ The rule does not have any configuration options.
 #### ✅ Valid Code
 
 ```html
+<input disabled type="text" (click)="onClick()">
+<button disabled (click)="onClick()" class="foo">Foo</button>
+<select disabled (click)="onClick()" class="foo"></select>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/interactive-supports-focus": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
 <area href="#" (click)="onClick()" class="foo"/>
 <area (click)="onClick()" tabindex=0 class="foo"/>
 ```

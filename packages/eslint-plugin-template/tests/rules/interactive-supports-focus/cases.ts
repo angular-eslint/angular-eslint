@@ -63,6 +63,15 @@ export const valid = [
     `,
   },
 
+  // disabled
+  {
+    code: `
+      <input disabled type="text" (click)="onClick()">
+      <button disabled (click)="onClick()" class="foo">Foo</button>
+      <select disabled (click)="onClick()" class="foo"></select>
+    `,
+  },
+
   // area without href needs tabindex for focus
   {
     code: `
