@@ -7,34 +7,6 @@
     "eslint-plugin": "packages/eslint-plugin",
     "eslint-plugin-template": "packages/eslint-plugin-template",
     "integration-tests": "packages/integration-tests",
-    "integration-tests-suite-1": {
-      "$schema": "../../node_modules/nx/schemas/project-schema.json",
-      "root": "packages/integration-tests/suites/1",
-      "type": "library",
-      "targets": {
-        "integration-test": {
-          "executor": "@nrwl/workspace:run-commands",
-          "options": {
-            "cwd": "packages/integration-tests",
-            "parallel": false,
-            "commands": [
-              "[ \"{args.withRegistry}\" = \"true\" ] && npx nx spawn-and-populate-local-registry integration-tests || true",
-              "npx jest tests/v1123-multi-project-manual-config.test.ts"
-            ]
-          }
-        }
-      },
-      "implicitDependencies": [
-        "integration-tests",
-        "builder",
-        "bundled-angular-compiler",
-        "eslint-plugin",
-        "eslint-plugin-template",
-        "schematics",
-        "template-parser",
-        "utils"
-      ]
-    },
     "integration-tests-suite-2": {
       "$schema": "../../node_modules/nx/schemas/project-schema.json",
       "root": "packages/integration-tests/suites/2",

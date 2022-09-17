@@ -40,10 +40,10 @@ jobs:
           fetch-depth: 0
 
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
-        uses: nrwl/nx-set-shas@v2
+        uses: nrwl/nx-set-shas@v3
 
       - name: Install node and npm based on the volta config in our package.json
-        uses: volta-cli/action@v1
+        uses: volta-cli/action@v3
 
       - name: Get yarn cache directory path and node version for cache key and NX_CLOUD_ENV_NAME
         id: yarn-cache-dir-path
@@ -112,7 +112,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Install node and npm based on the volta config in our package.json
-        uses: volta-cli/action@v1
+        uses: volta-cli/action@v3
 
       - name: Get yarn cache directory path and node version for cache key
         id: yarn-cache-dir-path
@@ -153,9 +153,9 @@ jobs:
           fetch-depth: 0
 
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
-        uses: nrwl/nx-set-shas@v2
+        uses: nrwl/nx-set-shas@v3
 
-      - uses: volta-cli/action@v1
+      - uses: volta-cli/action@v3
         with:
           # The Node.js version to configure
           node-version: ${{ matrix.node }}
@@ -209,7 +209,7 @@ jobs:
       - run: git fetch --prune --unshallow
 
       - name: Install node and npm based on the volta config in our package.json
-        uses: volta-cli/action@v1
+        uses: volta-cli/action@v3
 
       - name: Get yarn cache directory path and node version for cache key
         id: yarn-cache-dir-path
