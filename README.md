@@ -402,19 +402,21 @@ Prettier is an awesome code formatter which can be used entirely independently o
 
 Some folks, however, like to apply prettier by using it inside of ESLint, using `eslint-plugin-prettier`. If this applies to you then you will want to read this section on how to apply it correctly for HTML templates. Make sure you read and fully understand the information above on the importance of `"overrides"` before reading this section.
 
-When using `eslint-plugin-prettier`, in order to get the full range of scenarios working, namely:
+If you choose to use `eslint-plugin-prettier`, **please ensure that you are using version 4.1.0 or later**, and apply the following configuration to ESLint and prettier:
 
-- ESLint + prettier together should work on Components with external templates
-- ESLint + prettier together should work on the external template HTML files themselves
-- ESLint + prettier together should work on Components with inline templates
+**.prettierrc**
 
-We need to use **two different overrides for HTML**: one which applies `@angular-eslint/template` rules, one which applies `prettier`.
-
-> Do not apply `@angular-eslint/template` rules and `prettier` within the same override block.
-
-The reason for this is down to the internals of the special ESLint processor for inline Component templates mentioned in the overrides section above and the hidden files it generates behind the scenes. Those files have names which match this pattern `*inline-template-*.component.html` and so we need to get `eslint-plugin-prettier` to ignore those files, otherwise it will get confused about them not existing directly in your project.
-
-Here is a fully working (tested in VSCode and on the command line via `ng lint`) example:
+```jsonc
+// This ensures that prettier applies its own Angular parser to all HTML files in our project
+{
+  "overrides": [
+    {
+      "files": "*.html",
+      "parser": "angular"
+    }
+  ]
+}
+```
 
 **.eslintrc.json**
 
@@ -432,31 +434,27 @@ Here is a fully working (tested in VSCode and on the command line via `ng lint`)
       "extends": [
         "plugin:@angular-eslint/recommended",
         "plugin:@angular-eslint/template/process-inline-templates",
-        "plugin:prettier/recommended"
+        "plugin:prettier/recommended" // <--- here we inherit from the recommended setup from eslint-plugin-prettier for TS
       ],
       "rules": {}
     },
-    // NOTE: WE ARE NOT APPLYING PRETTIER IN THIS OVERRIDE, ONLY @ANGULAR-ESLINT/TEMPLATE
     {
       "files": ["*.html"],
-      "extends": ["plugin:@angular-eslint/template/recommended"],
+      "extends": [
+        "plugin:@angular-eslint/template/recommended",
+        "plugin:prettier/recommended" // <--- here we inherit from the recommended setup from eslint-plugin-prettier for HTML
+      ],
       "rules": {}
-    },
-    // NOTE: WE ARE NOT APPLYING @ANGULAR-ESLINT/TEMPLATE IN THIS OVERRIDE, ONLY PRETTIER
-    {
-      "files": ["*.html"],
-      "excludedFiles": ["*inline-template-*.component.html"],
-      "extends": ["plugin:prettier/recommended"],
-      "rules": {
-        // NOTE: WE ARE OVERRIDING THE DEFAULT CONFIG TO ALWAYS SET THE PARSER TO ANGULAR (SEE BELOW)
-        "prettier/prettier": ["error", { "parser": "angular" }]
-      }
     }
   ]
 }
 ```
 
-We are setting the parser for `eslint-plugin-prettier` explicitly within our relevant override block so that it does not need to rely on inference. In this case we know it should always use its `angular` parser, because we are wiring it up to only run on angular HTML files within that override (_it's assumed that all HTML files in the project are angular templates_).
+With this setup, you have covered the following scenarios:
+
+- ESLint + prettier together work on Components with external templates (and all other source TS files)
+- ESLint + prettier together work on the external template HTML files themselves
+- ESLint + prettier together work on Components with inline templates
 
 <br>
 
