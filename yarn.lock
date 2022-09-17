@@ -91,10 +91,10 @@
     uuid "8.3.2"
     yargs "17.5.1"
 
-"@angular/compiler@14.2.1":
-  version "14.2.1"
-  resolved "https://registry.yarnpkg.com/@angular/compiler/-/compiler-14.2.1.tgz#6d11031ec08c815605d7aa19589f447c58a01f81"
-  integrity sha512-MvyAYun6D8+/wRxbDswTMidYahveEnZan95LSM5dLk26CAGAeSx6VR5EAftVPo1NChLpcboVBz+tn9PsjhtP1A==
+"@angular/compiler@14.2.2":
+  version "14.2.2"
+  resolved "https://registry.yarnpkg.com/@angular/compiler/-/compiler-14.2.2.tgz#fd5fb3d50e17452edcbd47b6715f4ea40dd01241"
+  integrity sha512-r6673fINahrESOk1lJgXFDO3cH3gTDJJrj1++yYfrgRSqGMzASECy3XTevCjIvw9SycIkU/P+NiE/W/WAlP5vg==
   dependencies:
     tslib "^2.3.0"
 
