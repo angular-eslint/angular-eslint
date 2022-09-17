@@ -55,6 +55,9 @@ jobs:
           # Revert renovate's changes to package.json and yarn.lock so that it is a clean migrate from the status quo
           git checkout HEAD~1 -- package.json yarn.lock
 
+          # Update the version of nx packages specified in the builder package
+          npx ts-node --project ./tsconfig.tools.json ./tools/scripts/update-builder-nx-deps.ts
+
           yarn --ignore-scripts
 
           npx nx migrate @nrwl/workspace@$NX_VERSION
