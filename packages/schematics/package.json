@@ -43,7 +43,7 @@
     "@types/tmp": "0.2.3",
     "@typescript-eslint/utils": "5.37.0",
     "eslint": "8.23.1",
-    "tslint-to-eslint-config": "2.4.0"
+    "tslint-to-eslint-config": "2.13.3"
   },
   "peerDependencies": {
     "@angular/cli": ">= 14.0.0 < 15.0.0"
