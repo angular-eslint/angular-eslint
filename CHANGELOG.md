@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [14.1.1](https://github.com/angular-eslint/angular-eslint/compare/v14.1.0...v14.1.1) (2022-09-18)
+
+### Bug Fixes
+
+- **eslint-plugin-template:** [click-events-have-key-events]: handle additional outputs ([#1101](https://github.com/angular-eslint/angular-eslint/issues/1101)) ([c608cdb](https://github.com/angular-eslint/angular-eslint/commit/c608cdbfabb81cfbf542a3c846711853cfcbbfbd))
+- **eslint-plugin:** [sort-ngmodule-metadata-arrays]: add intl support ([#1099](https://github.com/angular-eslint/angular-eslint/issues/1099)) ([30d133b](https://github.com/angular-eslint/angular-eslint/commit/30d133bd232c1c9587b2af92d471c919ab02bb4d))
+
 # [14.1.0](https://github.com/angular-eslint/angular-eslint/compare/v14.0.4...v14.1.0) (2022-09-18)
 
 ### Features
