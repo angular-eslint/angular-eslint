@@ -52,14 +52,14 @@ export const valid = [
   // interactive elements
   {
     code: `
-      <input type="text" (click)="onClick()">
-      <input (click)="onClick()">
+      <input type="text" (keyup)="onKeyUp()">
+      <input (keydown)="onKeydown()">
       <input (click)="onClick()" role="combobox">
       <button (click)="onClick()" class="foo">Foo</button>
       <option (click)="onClick()" class="foo">Food</option>
       <select (click)="onClick()" class="foo"></select>
       <summary (click)="onClick()">Foo</summary>
-      <textarea (click)="onClick()" class="foo"></textarea>
+      <textarea (keypress)="onKeypress()" class="foo"></textarea>
     `,
   },
 
@@ -253,6 +253,17 @@ export const invalid = [
     annotatedSource: `
       <a (click)="onClick()">Click me</a>
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    messageId,
+  }),
+
+  // non-interactive element with keyup, keydown, keypress interaction handlers
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail non-interactive element with key event does not support focus',
+    annotatedSource: `
+      <div (keyup)="onKeyUp()" (keydown)="onKeyDown()" (keypress)="onKeyPress()">Cannot be focused</div>
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     `,
     messageId,
   }),

@@ -302,6 +302,33 @@ The rule does not have any configuration options.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/interactive-supports-focus": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div (keyup)="onKeyUp()" (keydown)="onKeyDown()" (keypress)="onKeyPress()">Cannot be focused</div>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
 </details>
 
 <br>
@@ -495,14 +522,14 @@ The rule does not have any configuration options.
 #### ✅ Valid Code
 
 ```html
-<input type="text" (click)="onClick()">
-<input (click)="onClick()">
+<input type="text" (keyup)="onKeyUp()">
+<input (keydown)="onKeydown()">
 <input (click)="onClick()" role="combobox">
 <button (click)="onClick()" class="foo">Foo</button>
 <option (click)="onClick()" class="foo">Food</option>
 <select (click)="onClick()" class="foo"></select>
 <summary (click)="onClick()">Foo</summary>
-<textarea (click)="onClick()" class="foo"></textarea>
+<textarea (keypress)="onKeypress()" class="foo"></textarea>
 ```
 
 <br>
