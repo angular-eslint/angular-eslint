@@ -15,6 +15,9 @@ import accessibilityLabelFor, {
 import accessibilityLabelHasAssociatedControl, {
   RULE_NAME as accessibilityLabelHasAssociatedControlRuleName,
 } from './rules/accessibility-label-has-associated-control';
+import accessibilityRoleHasRequiredAria, {
+  RULE_NAME as accessibilityRoleHasRequiredAriaRuleName,
+} from './rules/accessibility-role-has-required-aria';
 import accessibilityTableScope, {
   RULE_NAME as accessibilityTableScopeRuleName,
 } from './rules/accessibility-table-scope';
@@ -57,9 +60,6 @@ import noNegatedAsync, {
 import noPositiveTabindex, {
   RULE_NAME as noPositiveTabindexRuleName,
 } from './rules/no-positive-tabindex';
-import roleHasRequiredAriaProps, {
-  RULE_NAME as roleHasRequiredAriaRuleName,
-} from './rules/role-has-required-aria-props';
 import useTrackByFunction, {
   RULE_NAME as useTrackByFunctionRuleName,
 } from './rules/use-track-by-function';
@@ -81,6 +81,8 @@ export default {
     [accessibilityLabelForRuleName]: accessibilityLabelFor,
     [accessibilityLabelHasAssociatedControlRuleName]:
       accessibilityLabelHasAssociatedControl,
+    [accessibilityRoleHasRequiredAriaRuleName]:
+      accessibilityRoleHasRequiredAria,
     [accessibilityTableScopeRuleName]: accessibilityTableScope,
     [accessibilityValidAriaRuleName]: accessibilityValidAria,
     [bananaInBoxRuleName]: bananaInBox,
@@ -97,7 +99,6 @@ export default {
     [noDuplicateAttributesRuleName]: noDuplicateAttributes,
     [noNegatedAsyncRuleName]: noNegatedAsync,
     [noPositiveTabindexRuleName]: noPositiveTabindex,
-    [roleHasRequiredAriaRuleName]: roleHasRequiredAriaProps,
     [useTrackByFunctionRuleName]: useTrackByFunction,
     [buttonHasTypeRuleName]: buttonHasType,
   },

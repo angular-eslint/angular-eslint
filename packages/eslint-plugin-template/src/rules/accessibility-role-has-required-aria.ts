@@ -14,7 +14,7 @@ import { isSemanticRoleElement } from '../utils/is-semantic-role-element';
 
 type Options = [];
 export type MessageIds = 'roleHasRequiredAria' | 'suggestRemoveRole';
-export const RULE_NAME = 'role-has-required-aria-props';
+export const RULE_NAME = 'accessibility-role-has-required-aria';
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,

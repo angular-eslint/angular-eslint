@@ -1,5 +1,5 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/utils';
-import type { MessageIds } from '../../../src/rules/role-has-required-aria-props';
+import type { MessageIds } from '../../../src/rules/accessibility-role-has-required-aria';
 
 const messageId: MessageIds = 'roleHasRequiredAria';
 const suggestRemoveRole: MessageIds = 'suggestRemoveRole';

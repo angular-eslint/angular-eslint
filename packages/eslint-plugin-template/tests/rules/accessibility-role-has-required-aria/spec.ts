@@ -1,7 +1,7 @@
 import { RuleTester } from '@angular-eslint/utils';
 import rule, {
   RULE_NAME,
-} from '../../../src/rules/role-has-required-aria-props';
+} from '../../../src/rules/accessibility-role-has-required-aria';
 import { invalid, valid } from './cases';
 
 const ruleTester = new RuleTester({
