@@ -24,7 +24,19 @@ Ensures ASC alphabetical order for `NgModule` metadata arrays for easy visual sc
 
 ## Rule Options
 
-The rule does not have any configuration options.
+The rule accepts an options object with the following properties:
+
+```ts
+interface Options {
+  /**
+   * A string with a BCP 47 language tag.
+   *
+   * Default: `"en-US"`
+   */
+  locale?: string;
+}
+
+```
 
 <br>
 
@@ -279,6 +291,39 @@ class Test {}
 class Test {}
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/sort-ngmodule-metadata-arrays": [
+      "error",
+      {
+        "locale": "cs-CZ"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@NgModule({
+  imports: [chModule, dModule]
+                      ~~~~~~~
+})
+class Test {}
+```
+
 </details>
 
 <br>
@@ -514,6 +559,41 @@ class Test {}
       deps: [TOKEN_Z, ClassX, ClassA, TOKEN_A],
     },
   ],
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/sort-ngmodule-metadata-arrays": [
+      "error",
+      {
+        "locale": "cs-CZ"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  providers: [
+    DatepickerProvider,
+    ChipsProvider,
+  ]
 })
 class Test {}
 ```
