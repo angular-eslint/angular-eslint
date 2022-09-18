@@ -12,7 +12,6 @@ import {
   createESLintRule,
   getTemplateParserServices,
 } from '../utils/create-eslint-rule';
-import { isOnSameLocation } from '../utils/is-on-same-location';
 
 export const enum OrderType {
   TemplateReferenceVariable = 'TEMPLATE_REFERENCE',
@@ -79,7 +78,8 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'layout',
     docs: {
-      description: 'Ensures that HTML attributes and Angular bindings are sorted based on an expected order',
+      description:
+        'Ensures that HTML attributes and Angular bindings are sorted based on an expected order',
       recommended: false,
     },
     fixable: 'code',
@@ -105,8 +105,7 @@ export default createESLintRule<Options, MessageIds>({
       },
     ],
     messages: {
-      attributesOrder:
-        'The element's attributes/bindings did not match the expected order: expected {{expected}} instead of {{actual}}',
+      attributesOrder: `The element's attributes/bindings did not match the expected order: expected {{expected}} instead of {{actual}}`,
     },
   },
   defaultOptions: [DEFAULT_OPTIONS],
@@ -323,6 +322,16 @@ function normalizeInputsOutputs(
 
 function isTmplAstTemplate(node: TmplAstNode): node is TmplAstTemplate {
   return node instanceof TmplAstTemplate;
+}
+
+function isOnSameLocation(
+  input: TmplAstBoundAttribute,
+  output: TmplAstBoundEvent,
+) {
+  return (
+    input.sourceSpan.start === output.sourceSpan.start &&
+    input.sourceSpan.end === output.sourceSpan.end
+  );
 }
 
 function getMessageName(expected: ExtendedAttribute): string {
