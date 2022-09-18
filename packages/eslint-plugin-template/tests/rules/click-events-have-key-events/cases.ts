@@ -6,7 +6,11 @@ const messageId: MessageIds = 'clickEventsHaveKeyEvents';
 export const valid = [
   {
     // It should work when click events are associated with key events.
-    code: '<div (click)="onClick()" (keyup)="onKeyup()"></div>',
+    code: `
+        <div (click)="onClick()" (keyup)="onKeyup()"></div>
+        <div (keyup)="onKeyup()" (click)="onClick()"></div>
+        <div (click)="onClick()" (keyup)="onKeyup()" (handleSomething)="handleSomething()"></div>
+      `,
   },
   {
     // It should work when click events are associated with key pseudo events.
@@ -56,6 +60,15 @@ export const invalid = [
         <div (click)="onClick()"></div>
         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail when click is not accompanied with key events and there are additional outputs',
+    annotatedSource: `
+      <div (click)="onClick()" (handleSomething)="handleSomething()"></div>
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
