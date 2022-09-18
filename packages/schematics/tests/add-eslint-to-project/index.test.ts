@@ -302,4 +302,144 @@ describe('add-eslint-to-project', () => {
       }
     `);
   });
+
+  describe('custom root project sourceRoot', () => {
+    let tree2: UnitTestTree;
+
+    beforeEach(() => {
+      tree2 = new UnitTestTree(Tree.empty());
+      tree2.create('package.json', JSON.stringify({}));
+      tree2.create(
+        'angular.json',
+        JSON.stringify({
+          $schema: './node_modules/@angular/cli/lib/config/schema.json',
+          version: 1,
+          newProjectRoot: 'projects',
+          projects: {
+            [rootProjectName]: {
+              projectType: 'application',
+              schematics: {},
+              root: '',
+              sourceRoot: 'custom-source-root',
+              prefix: 'app',
+              architect: {
+                build: {},
+                serve: {},
+                'extract-i18n': {},
+                test: {},
+                lint: {},
+              },
+            },
+            [legacyProjectName]: {
+              projectType: 'application',
+              schematics: {},
+              root: `projects/${legacyProjectName}`,
+              sourceRoot: `projects/${legacyProjectName}/src`,
+              prefix: 'app',
+              architect: {
+                build: {},
+                serve: {},
+                'extract-i18n': {},
+                test: {},
+                lint: {},
+                e2e: {},
+              },
+            },
+            [otherProjectName]: {
+              projectType: 'application',
+              schematics: {},
+              root: `projects/${otherProjectName}`,
+              sourceRoot: `projects/${otherProjectName}/src`,
+              prefix: 'app',
+              architect: {
+                build: {},
+                serve: {},
+                'extract-i18n': {},
+                test: {},
+                lint: {},
+              },
+            },
+          },
+        }),
+      );
+    });
+
+    it('should correctly add ESLint to the Angular CLI root project even when it has a custom sourceRoot', async () => {
+      const options = {
+        project: rootProjectName,
+      };
+
+      await schematicRunner
+        .runSchematicAsync('add-eslint-to-project', options, tree2)
+        .toPromise();
+
+      expect(
+        readJsonInTree(tree2, 'angular.json').projects[rootProjectName]
+          .architect.lint,
+      ).toMatchInlineSnapshot(`
+        Object {
+          "builder": "@angular-eslint/builder:lint",
+          "options": Object {
+            "lintFilePatterns": Array [
+              "custom-source-root/**/*.ts",
+              "custom-source-root/**/*.html",
+            ],
+          },
+        }
+      `);
+
+      expect(readJsonInTree(tree2, '.eslintrc.json')).toMatchInlineSnapshot(`
+        Object {
+          "ignorePatterns": Array [
+            "projects/**/*",
+          ],
+          "overrides": Array [
+            Object {
+              "extends": Array [
+                "plugin:@angular-eslint/recommended",
+                "plugin:@angular-eslint/template/process-inline-templates",
+              ],
+              "files": Array [
+                "*.ts",
+              ],
+              "parserOptions": Object {
+                "createDefaultProgram": true,
+                "project": Array [
+                  "tsconfig.json",
+                ],
+              },
+              "rules": Object {
+                "@angular-eslint/component-selector": Array [
+                  "error",
+                  Object {
+                    "prefix": "app",
+                    "style": "kebab-case",
+                    "type": "element",
+                  },
+                ],
+                "@angular-eslint/directive-selector": Array [
+                  "error",
+                  Object {
+                    "prefix": "app",
+                    "style": "camelCase",
+                    "type": "attribute",
+                  },
+                ],
+              },
+            },
+            Object {
+              "extends": Array [
+                "plugin:@angular-eslint/template/recommended",
+              ],
+              "files": Array [
+                "*.html",
+              ],
+              "rules": Object {},
+            },
+          ],
+          "root": true,
+        }
+      `);
+    });
+  });
 });

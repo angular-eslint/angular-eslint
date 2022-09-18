@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [14.1.0](https://github.com/angular-eslint/angular-eslint/compare/v14.0.4...v14.1.0) (2022-09-18)
+
+**Note:** Version bump only for package @angular-eslint/builder
+
+## [14.0.4](https://github.com/angular-eslint/angular-eslint/compare/v14.0.3...v14.0.4) (2022-09-08)
+
+### Bug Fixes
+
+- support TS 4.8 with Angular 14.2, update dependencies ([#1123](https://github.com/angular-eslint/angular-eslint/issues/1123)) ([a780b59](https://github.com/angular-eslint/angular-eslint/commit/a780b592b42a61f149ae3d1d0f5c55808cb755df))
+
+## [14.0.3](https://github.com/angular-eslint/angular-eslint/compare/v14.0.2...v14.0.3) (2022-08-23)
+
+### Bug Fixes
+
+- **builder:** ensure package works with Angular 14.1.3 ([#1112](https://github.com/angular-eslint/angular-eslint/issues/1112)) ([b00ef2e](https://github.com/angular-eslint/angular-eslint/commit/b00ef2e0de8d3b541dfa963c4c1901bfa380c4b3))
+
 ## [14.0.2](https://github.com/angular-eslint/angular-eslint/compare/v14.0.1...v14.0.2) (2022-07-09)
 
 ### Bug Fixes

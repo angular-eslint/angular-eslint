@@ -39,10 +39,10 @@ describe('update-14-0-0', () => {
     expect(packageJSON).toMatchInlineSnapshot(`
       Object {
         "devDependencies": Object {
-          "@typescript-eslint/eslint-plugin": "^5.29.0",
-          "@typescript-eslint/parser": "^5.29.0",
-          "@typescript-eslint/utils": "^5.29.0",
-          "eslint": "^8.18.0",
+          "@typescript-eslint/eslint-plugin": "^5.36.2",
+          "@typescript-eslint/parser": "^5.36.2",
+          "@typescript-eslint/utils": "^5.36.2",
+          "eslint": "^8.23.0",
         },
       }
     `);

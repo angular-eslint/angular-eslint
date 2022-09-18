@@ -163,7 +163,7 @@ export function convertTSLintDisableCommentsForProject(
 
     // Default Angular CLI project at the root of the workspace
     if (existingProjectConfig.root === '') {
-      pathRoot = 'src';
+      pathRoot = existingProjectConfig.sourceRoot || 'src';
     } else {
       pathRoot = existingProjectConfig.root;
     }
