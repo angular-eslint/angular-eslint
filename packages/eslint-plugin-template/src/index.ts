@@ -9,6 +9,9 @@ import accessibilityAltText, {
 import accessibilityElementsContent, {
   RULE_NAME as accessibilityElementsContentRuleName,
 } from './rules/accessibility-elements-content';
+import accessibilityInteractiveSupportsFocus, {
+  RULE_NAME as accessibilityInteractiveSupportsFocusRuleName,
+} from './rules/accessibility-interactive-supports-focus';
 import accessibilityLabelFor, {
   RULE_NAME as accessibilityLabelForRuleName,
 } from './rules/accessibility-label-for';
@@ -35,9 +38,6 @@ import cyclomaticComplexity, {
 } from './rules/cyclomatic-complexity';
 import eqeqeq, { RULE_NAME as eqeqeqRuleName } from './rules/eqeqeq';
 import i18n, { RULE_NAME as i18nRuleName } from './rules/i18n';
-import interactiveSupportsFocus, {
-  RULE_NAME as interactiveSupportsFocusRuleName,
-} from './rules/interactive-supports-focus';
 import mouseEventsHaveKeyEvents, {
   RULE_NAME as mouseEventsHaveKeyEventsRuleName,
 } from './rules/mouse-events-have-key-events';
@@ -78,6 +78,8 @@ export default {
   rules: {
     [accessibilityAltTextRuleName]: accessibilityAltText,
     [accessibilityElementsContentRuleName]: accessibilityElementsContent,
+    [accessibilityInteractiveSupportsFocusRuleName]:
+      accessibilityInteractiveSupportsFocus,
     [accessibilityLabelForRuleName]: accessibilityLabelFor,
     [accessibilityLabelHasAssociatedControlRuleName]:
       accessibilityLabelHasAssociatedControl,
@@ -89,7 +91,6 @@ export default {
     [cyclomaticComplexityRuleName]: cyclomaticComplexity,
     [eqeqeqRuleName]: eqeqeq,
     [i18nRuleName]: i18n,
-    [interactiveSupportsFocusRuleName]: interactiveSupportsFocus,
     [mouseEventsHaveKeyEventsRuleName]: mouseEventsHaveKeyEvents,
     [noAnyRuleName]: noAny,
     [noAutofocusRuleName]: noAutofocus,

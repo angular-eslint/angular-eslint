@@ -14,7 +14,7 @@ import { isPresentationRole } from '../utils/is-presentation-role';
 
 type Options = [];
 export type MessageIds = 'interactiveSupportsFocus';
-export const RULE_NAME = 'interactive-supports-focus';
+export const RULE_NAME = 'accessibility-interactive-supports-focus';
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,

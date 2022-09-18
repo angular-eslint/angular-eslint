@@ -1,5 +1,5 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/utils';
-import type { MessageIds } from '../../../src/rules/interactive-supports-focus';
+import type { MessageIds } from '../../../src/rules/accessibility-interactive-supports-focus';
 
 const messageId: MessageIds = 'interactiveSupportsFocus';
 
