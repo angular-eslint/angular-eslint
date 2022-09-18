@@ -79,7 +79,7 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'layout',
     docs: {
-      description: 'Ensures that html attributes are sorted correctly',
+      description: 'Ensures that HTML attributes and Angular bindings are sorted based on an expected order',
       recommended: false,
     },
     fixable: 'code',
