@@ -3,6 +3,46 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [14.1.1](https://github.com/angular-eslint/angular-eslint/compare/v14.1.0...v14.1.1) (2022-09-18)
+
+### Bug Fixes
+
+- **eslint-plugin-template:** [click-events-have-key-events]: handle additional outputs ([#1101](https://github.com/angular-eslint/angular-eslint/issues/1101)) ([c608cdb](https://github.com/angular-eslint/angular-eslint/commit/c608cdbfabb81cfbf542a3c846711853cfcbbfbd))
+- **eslint-plugin:** [sort-ngmodule-metadata-arrays]: add intl support ([#1099](https://github.com/angular-eslint/angular-eslint/issues/1099)) ([30d133b](https://github.com/angular-eslint/angular-eslint/commit/30d133bd232c1c9587b2af92d471c919ab02bb4d))
+
+# [14.1.0](https://github.com/angular-eslint/angular-eslint/compare/v14.0.4...v14.1.0) (2022-09-18)
+
+### Features
+
+- update dependency eslint to v8.23.1 ([#1137](https://github.com/angular-eslint/angular-eslint/issues/1137)) ([9c9f28b](https://github.com/angular-eslint/angular-eslint/commit/9c9f28b48300ea4893bc0021cb48404acb75ee1b))
+- update typescript-eslint packages to v5.37.0 ([#1138](https://github.com/angular-eslint/angular-eslint/issues/1138)) ([96435a8](https://github.com/angular-eslint/angular-eslint/commit/96435a881f40ca9a124c8f44009a6f656f31e1f2))
+
+## [14.0.4](https://github.com/angular-eslint/angular-eslint/compare/v14.0.3...v14.0.4) (2022-09-08)
+
+### Bug Fixes
+
+- **schematics:** prefer sourceRoot if available for root project ([#1114](https://github.com/angular-eslint/angular-eslint/issues/1114)) ([36c62c3](https://github.com/angular-eslint/angular-eslint/commit/36c62c34098b4cf5b841e577038257b2110bf60a))
+- support TS 4.8 with Angular 14.2, update dependencies ([#1123](https://github.com/angular-eslint/angular-eslint/issues/1123)) ([a780b59](https://github.com/angular-eslint/angular-eslint/commit/a780b592b42a61f149ae3d1d0f5c55808cb755df))
+
+## [14.0.3](https://github.com/angular-eslint/angular-eslint/compare/v14.0.2...v14.0.3) (2022-08-23)
+
+### Bug Fixes
+
+- **builder:** ensure package works with Angular 14.1.3 ([#1112](https://github.com/angular-eslint/angular-eslint/issues/1112)) ([b00ef2e](https://github.com/angular-eslint/angular-eslint/commit/b00ef2e0de8d3b541dfa963c4c1901bfa380c4b3))
+
+## [14.0.2](https://github.com/angular-eslint/angular-eslint/compare/v14.0.1...v14.0.2) (2022-07-09)
+
+### Bug Fixes
+
+- **builder:** add explicit dependency on nx ([#1088](https://github.com/angular-eslint/angular-eslint/issues/1088)) ([753a383](https://github.com/angular-eslint/angular-eslint/commit/753a3839a402c4a7f22f6de9ccfa84566c4b7572))
+
+## [14.0.1](https://github.com/angular-eslint/angular-eslint/compare/v14.0.0...v14.0.1) (2022-07-08)
+
+### Bug Fixes
+
+- **builder:** update to latest @nrwl/devkit ([#1082](https://github.com/angular-eslint/angular-eslint/issues/1082)) ([cc00a21](https://github.com/angular-eslint/angular-eslint/commit/cc00a21d99e1e9e48431f066b2942473e99390ec))
+- remaining references to master (now main) ([#1083](https://github.com/angular-eslint/angular-eslint/issues/1083)) ([8d36232](https://github.com/angular-eslint/angular-eslint/commit/8d36232435e5e09f870fc42c40327cedd703749f))
+
 # [14.0.0](https://github.com/angular-eslint/angular-eslint/compare/v13.5.0...v14.0.0) (2022-06-23)
 
 As always we recommend that you update your existing workspaces by using `ng update` as we provide some helpful schematics to help migrate your workspaces to the latest and greatest. Running the following will update Angular, the Angular CLI and angular-eslint together:

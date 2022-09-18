@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [14.1.1](https://github.com/angular-eslint/angular-eslint/compare/v14.1.0...v14.1.1) (2022-09-18)
+
+**Note:** Version bump only for package @angular-eslint/template-parser
+
+# [14.1.0](https://github.com/angular-eslint/angular-eslint/compare/v14.0.4...v14.1.0) (2022-09-18)
+
+**Note:** Version bump only for package @angular-eslint/template-parser
+
+## [14.0.4](https://github.com/angular-eslint/angular-eslint/compare/v14.0.3...v14.0.4) (2022-09-08)
+
+**Note:** Version bump only for package @angular-eslint/template-parser
+
+## [14.0.3](https://github.com/angular-eslint/angular-eslint/compare/v14.0.2...v14.0.3) (2022-08-23)
+
+**Note:** Version bump only for package @angular-eslint/template-parser
+
+## [14.0.2](https://github.com/angular-eslint/angular-eslint/compare/v14.0.1...v14.0.2) (2022-07-09)
+
+**Note:** Version bump only for package @angular-eslint/template-parser
+
+## [14.0.1](https://github.com/angular-eslint/angular-eslint/compare/v14.0.0...v14.0.1) (2022-07-08)
+
+**Note:** Version bump only for package @angular-eslint/template-parser
+
 # [14.0.0](https://github.com/angular-eslint/angular-eslint/compare/v13.5.0...v14.0.0) (2022-06-23)
 
 **Note:** Version bump only for package @angular-eslint/template-parser

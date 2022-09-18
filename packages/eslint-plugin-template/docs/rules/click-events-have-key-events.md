@@ -82,6 +82,33 @@ The rule does not have any configuration options.
 #### ❌ Invalid Code
 
 ```html
+<div (click)="onClick()" (handleSomething)="handleSomething()"></div>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/click-events-have-key-events": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
 <header (click)="onClick()"></header>
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ```
@@ -333,6 +360,8 @@ The rule does not have any configuration options.
 
 ```html
 <div (click)="onClick()" (keyup)="onKeyup()"></div>
+<div (keyup)="onKeyup()" (click)="onClick()"></div>
+<div (click)="onClick()" (keyup)="onKeyup()" (handleSomething)="handleSomething()"></div>
 ```
 
 <br>

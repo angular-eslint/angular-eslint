@@ -5,7 +5,7 @@ name: Renovate Update Integration Tests
 
 on:
   pull_request:
-    branches: [master]
+    branches: [main]
     paths:
       - 'package.json'
 
@@ -33,6 +33,8 @@ jobs:
           declare -a packages=(
             "eslint"
             "@typescript-eslint/parser"
+            "@angular/cli"
+            "@schematics/angular"
           )
 
           for package in "${packages[@]}"

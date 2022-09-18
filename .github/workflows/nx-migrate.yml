@@ -8,7 +8,7 @@ name: Nx Migrate
 
 on:
   pull_request:
-    branches: [master]
+    branches: [main]
     paths:
       - 'package.json'
 
@@ -31,9 +31,7 @@ jobs:
           persist-credentials: false
 
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
-        uses: nrwl/nx-set-shas@v2
-        with:
-          main-branch-name: master
+        uses: nrwl/nx-set-shas@v3
 
       - name: Check if @nrwl/workspace was changed as part of the latest commit on the PR
         id: nrwl-workspace-package-check
@@ -60,6 +58,9 @@ jobs:
           yarn --ignore-scripts
 
           npx nx migrate @nrwl/workspace@$NX_VERSION
+
+          # Update the version of nx packages specified in the builder package
+          NX_VERSION=$NX_VERSION npx ts-node --project ./tsconfig.tools.json ./tools/scripts/update-builder-nx-deps.ts
 
           # Sometimes Nx can require config formatting changes after a migrate command
           yarn --ignore-scripts

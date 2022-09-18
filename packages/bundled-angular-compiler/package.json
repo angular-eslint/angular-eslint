@@ -1,6 +1,6 @@
 {
   "name": "@angular-eslint/bundled-angular-compiler",
-  "version": "14.0.0",
+  "version": "14.1.1",
   "description": "A CJS bundled version of @angular/compiler",
   "license": "MIT",
   "main": "dist/index.js",

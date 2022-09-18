@@ -47,8 +47,9 @@ export default createESLintRule<Options, MessageIds>({
           hasKeyEvent = false;
 
         for (const output of node.outputs) {
-          hasClick = output.name === 'click';
+          hasClick = hasClick || output.name === 'click';
           hasKeyEvent =
+            hasKeyEvent ||
             output.name.startsWith('keyup') ||
             output.name.startsWith('keydown') ||
             output.name.startsWith('keypress');
