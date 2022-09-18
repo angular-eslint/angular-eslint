@@ -106,7 +106,7 @@ export default createESLintRule<Options, MessageIds>({
     ],
     messages: {
       attributesOrder:
-        'Attributes order is incorrect, expected {{expected}} instead of {{actual}}',
+        'The element's attributes/bindings did not match the expected order: expected {{expected}} instead of {{actual}}',
     },
   },
   defaultOptions: [DEFAULT_OPTIONS],
