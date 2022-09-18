@@ -9,6 +9,7 @@ import {
   isInteractiveElement,
   isNonInteractiveRole,
 } from '../utils/is-interactive-element';
+import { isContentEditable } from '../utils/is-content-editable';
 import { isDisabledElement } from '../utils/is-disabled-element';
 import { isPresentationRole } from '../utils/is-presentation-role';
 
@@ -68,7 +69,8 @@ export default createESLintRule<Options, MessageIds>({
           interactiveOutput &&
           !tabIndex &&
           !isInteractiveElement(node) &&
-          !isNonInteractiveRole(node)
+          !isNonInteractiveRole(node) &&
+          !isContentEditable(node)
         ) {
           const parserServices = getTemplateParserServices(context);
           const loc = parserServices.convertNodeSourceSpanToLoc(

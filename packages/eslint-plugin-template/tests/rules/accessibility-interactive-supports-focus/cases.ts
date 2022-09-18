@@ -154,6 +154,15 @@ export const valid = [
       <div role="textbox" tabindex="0" (click)="onClick()"></div>
     `,
   },
+
+  // elements with contenteditable enabled are interactive by default
+  {
+    code: `
+      <div contenteditable="true" (keyup)="onKeyUp()">Edit this text</div>
+      <div [attr.contenteditable]="true" (keydown)="onKeyDown()">Edit this text</div>
+      <div contenteditable (keypress)="onKeyPress()">Edit this too!</div>
+    `,
+  },
 ];
 
 export const invalid = [
@@ -264,6 +273,17 @@ export const invalid = [
     annotatedSource: `
       <div (keyup)="onKeyUp()" (keydown)="onKeyDown()" (keypress)="onKeyPress()">Cannot be focused</div>
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    messageId,
+  }),
+
+  // contenteditable="false"
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail non-interactive element with contenteditable disabled does not support focus',
+    annotatedSource: `
+      <div [attr.contenteditable]="false" (keyup)="onKeyUp()">Cannot be focused</div>
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     `,
     messageId,
   }),
