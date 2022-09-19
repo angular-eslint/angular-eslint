@@ -502,7 +502,7 @@ export const invalid = [
         <input [name]="foo" class="css-static" name="bar" [class]="dynamic">
                ~~~~~~~~~~~~                    ^^^^^^^^^^
       `,
-    options: [{ ignore: 'class' }],
+    options: [{ ignore: ['class'] }],
     messages: [
       {
         char: '~',

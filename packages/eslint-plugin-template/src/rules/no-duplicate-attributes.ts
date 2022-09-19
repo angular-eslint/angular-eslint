@@ -13,7 +13,7 @@ import { getOriginalAttributeName } from '../utils/get-original-attribute-name';
 type Options = [
   {
     readonly allowTwoWayDataBinding?: boolean;
-    readonly ignore?: string | readonly string[];
+    readonly ignore?: readonly string[];
   },
 ];
 export type MessageIds = 'noDuplicateAttributes' | 'suggestRemoveAttribute';
@@ -43,7 +43,9 @@ export default createESLintRule<Options, MessageIds>({
             description: `Whether or not two-way data binding is allowed as an exception to the rule.`,
           },
           ignore: {
-            oneOf: [{ type: 'string' }, { type: 'array' }],
+            type: 'array',
+            items: { type: 'string' },
+            uniqueItems: true,
             default: DEFAULT_OPTIONS.ignore,
             description: `Input or output properties for which duplicate presence is allowed as an exception to the rule.`,
           },
@@ -81,19 +83,11 @@ export default createESLintRule<Options, MessageIds>({
           ...duplicateOutputs,
         ] as const;
 
-        const effectiveIgnore =
-          ignore === undefined
-            ? []
-            : typeof ignore === 'string'
-            ? [ignore]
-            : ignore;
         const filteredDuplicates =
-          effectiveIgnore.length > 0
+          ignore && ignore.length > 0
             ? allDuplicates.filter(
                 (duplicate) =>
-                  !effectiveIgnore.includes(
-                    getOriginalAttributeName(duplicate),
-                  ),
+                  !ignore.includes(getOriginalAttributeName(duplicate)),
               )
             : allDuplicates;
 
