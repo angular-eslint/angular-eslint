@@ -73,6 +73,18 @@ export const valid = [
   })
   class Test {}
   `,
+  {
+    code: `
+      @Component({
+        providers: [
+          DatepickerProvider,
+          ChipsProvider,
+        ]
+      })
+      class Test {}
+    `,
+    options: [{ locale: 'cs-CZ' }],
+  },
 ];
 
 export const invalid = [
@@ -276,5 +288,26 @@ export const invalid = [
     })
     class Test {}
     `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if order does not correspond to specificied locale order',
+    annotatedSource: `
+    @NgModule({
+      imports: [chModule, dModule]
+                          ~~~~~~~
+    })
+    class Test {}
+    `,
+    annotatedOutput: `
+    @NgModule({
+      imports: [dModule, chModule]
+                          ~~~~~~~
+    })
+    class Test {}
+    `,
+    messageId,
+    options: [{ locale: 'cs-CZ' }],
+    data: { locale: 'cs-CZ' },
   }),
 ];

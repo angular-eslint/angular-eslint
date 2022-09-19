@@ -8,8 +8,8 @@ import {
 } from '../../utils';
 import { updateDependencies } from '../utils/dependencies';
 
-const updatedTypeScriptESLintVersion = '5.29.0';
-const updatedESLintVersion = '8.18.0';
+const updatedTypeScriptESLintVersion = '5.36.2';
+const updatedESLintVersion = '8.23.0';
 
 export default function migration(): Rule {
   return chain([

@@ -3,9 +3,14 @@ import type { TSESTree } from '@typescript-eslint/utils';
 import { ASTUtils as TSESLintASTUtils } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
-type Options = [];
+type Options = [
+  {
+    readonly locale: string;
+  },
+];
 export type MessageIds = 'sortNgmoduleMetadataArrays';
 export const RULE_NAME = 'sort-ngmodule-metadata-arrays';
+const DEFAULT_LOCALE = 'en-US';
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
@@ -17,14 +22,30 @@ export default createESLintRule<Options, MessageIds>({
       recommended: false,
     },
     fixable: 'code',
-    schema: [],
+    schema: [
+      {
+        type: 'object',
+        properties: {
+          locale: {
+            type: 'string',
+            description: 'A string with a BCP 47 language tag.',
+            default: DEFAULT_LOCALE,
+          },
+        },
+        additionalProperties: false,
+      },
+    ],
     messages: {
       sortNgmoduleMetadataArrays:
         '`NgModule` metadata arrays should be sorted in ASC alphabetical order',
     },
   },
-  defaultOptions: [],
-  create(context) {
+  defaultOptions: [
+    {
+      locale: DEFAULT_LOCALE,
+    },
+  ],
+  create(context, [{ locale }]) {
     return {
       [`${Selectors.MODULE_CLASS_DECORATOR} Property[key.name!="deps"] > ArrayExpression`]({
         elements,
@@ -33,7 +54,7 @@ export default createESLintRule<Options, MessageIds>({
           .filter(TSESLintASTUtils.isIdentifier)
           .map((current, index, list) => [current, list[index + 1]])
           .find(([current, next]) => {
-            return next && current.name.localeCompare(next.name) === 1;
+            return next && current.name.localeCompare(next.name, locale) === 1;
           });
 
         if (!unorderedNodes) return;
