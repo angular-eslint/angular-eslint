@@ -1,4 +1,6 @@
-import type { ExecutorContext } from '@nrwl/devkit';
+import { Architect } from '@angular-devkit/architect';
+import { TestingArchitectHost } from '@angular-devkit/architect/testing';
+import { json, logging, schema } from '@angular-devkit/core';
 import type { ESLint } from 'eslint';
 import { resolve } from 'path';
 import type { Schema } from './schema';
@@ -49,7 +51,6 @@ jest.mock('./utils/eslint-utils', () => {
     ),
   };
 });
-import lintExecutor from './lint.impl';
 
 function createValidRunBuilderOptions(
   additionalOptions: Partial<Schema> = {},
@@ -86,30 +87,42 @@ function setupMocks() {
   console.info = jest.fn();
 }
 
-describe('Linter Builder', () => {
-  let mockContext: ExecutorContext;
+const loggerSpy = jest.fn();
 
+async function runBuilder(options: Schema) {
+  const registry = new json.schema.CoreSchemaRegistry();
+  registry.addPostTransform(schema.transforms.addUndefinedDefaults);
+
+  const testArchitectHost = new TestingArchitectHost(
+    resolve('/root'),
+    resolve('/root'),
+  );
+  const builderName = '@angular-eslint/builder:lint';
+
+  /**
+   * Require in the implementation from src so that we don't need
+   * to run a build before tests run and it is dynamic enough
+   * to come after jest does its mocking
+   */
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const { default: builderImplementation } = require('./lint.impl');
+  testArchitectHost.addBuilder(builderName, builderImplementation);
+
+  const architect = new Architect(testArchitectHost, registry);
+  const logger = new logging.Logger('');
+  logger.subscribe(loggerSpy);
+
+  const run = await architect.scheduleBuilder(builderName, options, {
+    logger,
+  });
+
+  return run.result;
+}
+
+describe('Linter Builder', () => {
   beforeEach(() => {
     MockESLint.version = VALID_ESLINT_VERSION;
     mockReports = [{ results: [], messages: [], usedDeprecatedRules: [] }];
-    const projectName = 'proj';
-    mockContext = {
-      projectName,
-      root: '/root',
-      cwd: '/root',
-      workspace: {
-        npmScope: '',
-        version: 2,
-        projects: {
-          [projectName]: {
-            root: `apps/${projectName}`,
-            sourceRoot: `apps/${projectName}/src`,
-            targets: {},
-          },
-        },
-      },
-      isVerbose: false,
-    };
   });
 
   afterAll(() => {
@@ -119,7 +132,7 @@ describe('Linter Builder', () => {
   it('should throw if the eslint version is not supported', async () => {
     MockESLint.version = '1.6';
     setupMocks();
-    const result = lintExecutor(createValidRunBuilderOptions(), mockContext);
+    const result = runBuilder(createValidRunBuilderOptions());
     await expect(result).rejects.toThrow(
       /ESLint must be version 7.6 or higher/,
     );
@@ -127,13 +140,13 @@ describe('Linter Builder', () => {
 
   it('should not throw if the eslint version is supported', async () => {
     setupMocks();
-    const result = lintExecutor(createValidRunBuilderOptions(), mockContext);
+    const result = runBuilder(createValidRunBuilderOptions());
     await expect(result).resolves.not.toThrow();
   });
 
   it('should invoke the linter with the options that were passed to the builder', async () => {
     setupMocks();
-    await lintExecutor(
+    await runBuilder(
       createValidRunBuilderOptions({
         lintFilePatterns: [],
         eslintConfig: './.eslintrc',
@@ -153,7 +166,6 @@ describe('Linter Builder', () => {
         rulesdir: [],
         resolvePluginsRelativeTo: null,
       }),
-      mockContext,
     );
     expect(mockLint).toHaveBeenCalledWith(
       resolve('/root'),
@@ -183,35 +195,31 @@ describe('Linter Builder', () => {
   it('should throw if no reports generated', async () => {
     mockReports = [];
     setupMocks();
-    const result = lintExecutor(
-      createValidRunBuilderOptions({
-        lintFilePatterns: ['includedFile1'],
-      }),
-      mockContext,
-    );
-    await expect(result).rejects.toThrow(
-      /Invalid lint configuration. Nothing to lint./,
-    );
+    await expect(
+      runBuilder(
+        createValidRunBuilderOptions({
+          lintFilePatterns: ['includedFile1'],
+        }),
+      ),
+    ).rejects.toThrow(/Invalid lint configuration. Nothing to lint./);
   });
 
   it('should create a new instance of the formatter with the selected user option', async () => {
     setupMocks();
-    await lintExecutor(
+    await runBuilder(
       createValidRunBuilderOptions({
         eslintConfig: './.eslintrc',
         lintFilePatterns: ['includedFile1'],
         format: 'json',
       }),
-      mockContext,
     );
     expect(mockLoadFormatter).toHaveBeenCalledWith('json');
-    await lintExecutor(
+    await runBuilder(
       createValidRunBuilderOptions({
         eslintConfig: './.eslintrc',
         lintFilePatterns: ['includedFile1'],
         format: 'html',
       }),
-      mockContext,
     );
     expect(mockLoadFormatter).toHaveBeenCalledWith('html');
   });
@@ -250,13 +258,12 @@ describe('Linter Builder', () => {
       },
     ];
     setupMocks();
-    await lintExecutor(
+    await runBuilder(
       createValidRunBuilderOptions({
         eslintConfig: './.eslintrc',
         lintFilePatterns: ['includedFile1', 'includedFile2'],
         format: 'checkstyle',
       }),
-      mockContext,
     );
     expect(mockLoadFormatter).toHaveBeenCalledWith('checkstyle');
     expect(mockFormatter.format).toHaveBeenCalledWith([
@@ -295,14 +302,13 @@ describe('Linter Builder', () => {
 
   it('should pass all the reports to the fix engine, even if --fix is false', async () => {
     setupMocks();
-    await lintExecutor(
+    await runBuilder(
       createValidRunBuilderOptions({
         eslintConfig: './.eslintrc',
         lintFilePatterns: ['includedFile1'],
         format: 'json',
         fix: false,
       }),
-      mockContext,
     );
     expect(mockOutputFixes).toHaveBeenCalled();
   });
@@ -326,14 +332,13 @@ describe('Linter Builder', () => {
         },
       ];
       setupMocks();
-      await lintExecutor(
+      await runBuilder(
         createValidRunBuilderOptions({
           eslintConfig: './.eslintrc',
           lintFilePatterns: ['includedFile1'],
           format: 'json',
           silent: false,
         }),
-        mockContext,
       );
       expect(console.error).toHaveBeenCalledWith(
         'Lint errors found in the listed files.\n',
@@ -360,14 +365,13 @@ describe('Linter Builder', () => {
         },
       ];
       setupMocks();
-      await lintExecutor(
+      await runBuilder(
         createValidRunBuilderOptions({
           eslintConfig: './.eslintrc',
           lintFilePatterns: ['includedFile1'],
           format: 'json',
           silent: false,
         }),
-        mockContext,
       );
       expect(console.error).not.toHaveBeenCalledWith(
         'Lint errors found in the listed files.\n',
@@ -395,7 +399,7 @@ describe('Linter Builder', () => {
         },
       ];
       setupMocks();
-      await lintExecutor(
+      await runBuilder(
         createValidRunBuilderOptions({
           eslintConfig: './.eslintrc',
           lintFilePatterns: ['includedFile1'],
@@ -403,7 +407,6 @@ describe('Linter Builder', () => {
           maxWarnings: 1,
           silent: true,
         }),
-        mockContext,
       );
       expect(console.error).not.toHaveBeenCalledWith(
         'Lint errors found in the listed files.\n',
@@ -438,7 +441,7 @@ describe('Linter Builder', () => {
         },
       ];
       setupMocks();
-      await lintExecutor(
+      await runBuilder(
         createValidRunBuilderOptions({
           eslintConfig: './.eslintrc',
           lintFilePatterns: ['includedFile1'],
@@ -446,7 +449,6 @@ describe('Linter Builder', () => {
           quiet: true,
           silent: false,
         }),
-        mockContext,
       );
       expect(console.info).not.toHaveBeenCalledWith('Mock warning message\n');
       expect(console.error).not.toHaveBeenCalledWith(
@@ -477,14 +479,13 @@ describe('Linter Builder', () => {
       },
     ];
     setupMocks();
-    const output = await lintExecutor(
+    const output = await runBuilder(
       createValidRunBuilderOptions({
         eslintConfig: './.eslintrc',
         lintFilePatterns: ['includedFile1'],
         format: 'json',
         silent: true,
       }),
-      mockContext,
     );
     expect(output.success).toBeTruthy();
   });
@@ -507,7 +508,7 @@ describe('Linter Builder', () => {
       },
     ];
     setupMocks();
-    const output = await lintExecutor(
+    const output = await runBuilder(
       createValidRunBuilderOptions({
         eslintConfig: './.eslintrc',
         lintFilePatterns: ['includedFile1'],
@@ -515,7 +516,6 @@ describe('Linter Builder', () => {
         silent: true,
         force: true,
       }),
-      mockContext,
     );
     expect(output.success).toBeTruthy();
   });
@@ -538,7 +538,7 @@ describe('Linter Builder', () => {
       },
     ];
     setupMocks();
-    const output = await lintExecutor(
+    const output = await runBuilder(
       createValidRunBuilderOptions({
         eslintConfig: './.eslintrc',
         lintFilePatterns: ['includedFile1'],
@@ -546,7 +546,6 @@ describe('Linter Builder', () => {
         silent: true,
         force: false,
       }),
-      mockContext,
     );
     expect(output.success).toBeFalsy();
   });
@@ -569,14 +568,13 @@ describe('Linter Builder', () => {
       },
     ];
     setupMocks();
-    const output = await lintExecutor(
+    const output = await runBuilder(
       createValidRunBuilderOptions({
         eslintConfig: './.eslintrc',
         lintFilePatterns: ['includedFile1'],
         format: 'json',
         maxWarnings: 5,
       }),
-      mockContext,
     );
     expect(output.success).toBeFalsy();
   });
@@ -592,7 +590,7 @@ describe('Linter Builder', () => {
       },
     ];
     setupMocks();
-    await lintExecutor(
+    await runBuilder(
       createValidRunBuilderOptions({
         eslintConfig: './.eslintrc',
         lintFilePatterns: ['includedFile1'],
@@ -600,7 +598,6 @@ describe('Linter Builder', () => {
         quiet: true,
         maxWarnings: 0,
       }),
-      mockContext,
     );
     expect(console.error).toHaveBeenCalledWith(
       'Found 1 warnings, which exceeds your configured limit (0). Either increase your maxWarnings limit or fix some of the lint warnings.',
@@ -625,7 +622,7 @@ describe('Linter Builder', () => {
       },
     ];
     setupMocks();
-    await lintExecutor(
+    await runBuilder(
       createValidRunBuilderOptions({
         eslintConfig: './.eslintrc.json',
         lintFilePatterns: ['includedFile1'],
@@ -634,7 +631,6 @@ describe('Linter Builder', () => {
         force: false,
         outputFile: 'a/b/c/outputFile1',
       }),
-      mockContext,
     );
     expect(mockCreateDirectory).toHaveBeenCalledWith('/root/a/b/c');
     expect(fs.writeFileSync).toHaveBeenCalledWith(
@@ -646,7 +642,7 @@ describe('Linter Builder', () => {
   it('should not attempt to write the lint results to the output file, if not specified', async () => {
     setupMocks();
     jest.spyOn(fs, 'writeFileSync').mockImplementation();
-    await lintExecutor(
+    await runBuilder(
       createValidRunBuilderOptions({
         eslintConfig: './.eslintrc.json',
         lintFilePatterns: ['includedFile1'],
@@ -654,7 +650,6 @@ describe('Linter Builder', () => {
         silent: true,
         force: false,
       }),
-      mockContext,
     );
     expect(fs.writeFileSync).not.toHaveBeenCalled();
   });

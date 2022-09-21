@@ -3093,7 +3093,7 @@
   dependencies:
     nx "14.7.5"
 
-"@nrwl/devkit@14.7.5", "@nrwl/devkit@^14.7.5":
+"@nrwl/devkit@14.7.5":
   version "14.7.5"
   resolved "https://registry.yarnpkg.com/@nrwl/devkit/-/devkit-14.7.5.tgz#18e476b2050ca00fe8fcb34f2d988e94dc2b9d4b"
   integrity sha512-r0G5xhC48O8YPw+9jRVLxpXM7DadBWtS4pH1GeAAKgqlZloSpT4pZpHTqXH0z2h9S1EHcdtpSlRqzTe+PBUaRQ==
@@ -9972,7 +9972,7 @@ nx@14.6.5, "nx@>=14.6.1 < 16":
     yargs "^17.4.0"
     yargs-parser "21.0.1"
 
-nx@14.7.5, nx@^14.7.5:
+nx@14.7.5:
   version "14.7.5"
   resolved "https://registry.yarnpkg.com/nx/-/nx-14.7.5.tgz#29b24560ebbd29c68b316ee52be90c9b9c2be12d"
   integrity sha512-hp8TYk/t15MJVXQCafSduriZqoxR2zvw5mDHqg32Mjt2jFEFKaPWtaO5l/qKj+rlLE8cPYTeGL5qAS9WZkAWtg==
