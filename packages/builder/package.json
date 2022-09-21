@@ -18,10 +18,6 @@
     "builders.json"
   ],
   "builders": "./builders.json",
-  "dependencies": {
-    "@nrwl/devkit": "^14.7.5",
-    "nx": "^14.7.5"
-  },
   "peerDependencies": {
     "eslint": "^7.0.0 || ^8.0.0",
     "typescript": "*"
