@@ -15,6 +15,9 @@ import accessibilityLabelFor, {
 import accessibilityLabelHasAssociatedControl, {
   RULE_NAME as accessibilityLabelHasAssociatedControlRuleName,
 } from './rules/accessibility-label-has-associated-control';
+import accessibilityRoleHasRequiredAria, {
+  RULE_NAME as accessibilityRoleHasRequiredAriaRuleName,
+} from './rules/accessibility-role-has-required-aria';
 import accessibilityTableScope, {
   RULE_NAME as accessibilityTableScopeRuleName,
 } from './rules/accessibility-table-scope';
@@ -78,6 +81,8 @@ export default {
     [accessibilityLabelForRuleName]: accessibilityLabelFor,
     [accessibilityLabelHasAssociatedControlRuleName]:
       accessibilityLabelHasAssociatedControl,
+    [accessibilityRoleHasRequiredAriaRuleName]:
+      accessibilityRoleHasRequiredAria,
     [accessibilityTableScopeRuleName]: accessibilityTableScope,
     [accessibilityValidAriaRuleName]: accessibilityValidAria,
     [bananaInBoxRuleName]: bananaInBox,
