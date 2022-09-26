@@ -35,6 +35,12 @@ interface Options {
    * Default: `true`
    */
   allowTwoWayDataBinding?: boolean;
+  /**
+   * Input or output properties for which duplicate presence is allowed as an exception to the rule.
+   *
+   * Default: `[]`
+   */
+  ignore?: string[];
 }
 
 ```
@@ -344,6 +350,38 @@ interface Options {
 ```html
 <input [(ngModel)]="model" (ngModelChange)="modelChanged()">
        ~~~~~~~~~~~~~~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-duplicate-attributes": [
+      "error",
+      {
+        "ignore": [
+          "class"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<input [name]="foo" class="css-static" name="bar" [class]="dynamic">
+       ~~~~~~~~~~~~                    ~~~~~~~~~~
 ```
 
 </details>
