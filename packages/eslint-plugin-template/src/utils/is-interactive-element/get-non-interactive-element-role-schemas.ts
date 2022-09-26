@@ -2,17 +2,35 @@ import type { ARIARoleDefintionKey, ARIARoleRelationConcept } from 'aria-query';
 import { elementRoles, roles } from 'aria-query';
 
 let nonInteractiveElementRoleSchemas: ARIARoleRelationConcept[] | null = null;
+let nonInteractiveRoles: Set<ARIARoleDefintionKey> | null = null;
 
-// This function follows the lazy initialization pattern.
-// Since this is a top-level module (it will be included via `require`), we do not need to
-// initialize the `nonInteractiveElementRoleSchemas` until the function is called
-// for the first time, so we will not take up the memory.
+// These functions follow the lazy initialization pattern.
+// Since this is a top-level module (it will be included via `require`),
+// we do not need to initialize the `nonInteractiveElementRoleSchemas` or
+// `nonInteractiveRoles` until the functions are called for the first time,
+// so we will not take up the memory.
 export function getNonInteractiveElementRoleSchemas(): ARIARoleRelationConcept[] {
   if (nonInteractiveElementRoleSchemas === null) {
-    const roleKeys = [...roles.keys()];
     const elementRoleEntries = [...elementRoles.entries()];
 
-    const nonInteractiveRoles = new Set<ARIARoleDefintionKey>(
+    nonInteractiveElementRoleSchemas = elementRoleEntries.reduce<
+      ARIARoleRelationConcept[]
+    >((accumulator, [elementSchema, roleSet]) => {
+      return accumulator.concat(
+        [...roleSet].every((role) => getNonInteractiveRoles().has(role))
+          ? elementSchema
+          : [],
+      );
+    }, []);
+  }
+
+  return nonInteractiveElementRoleSchemas;
+}
+
+export function getNonInteractiveRoles(): Set<ARIARoleDefintionKey> {
+  if (nonInteractiveRoles === null) {
+    const roleKeys = [...roles.keys()];
+    nonInteractiveRoles = new Set<ARIARoleDefintionKey>(
       roleKeys
         .filter((name) => {
           const role = roles.get(name);
@@ -31,17 +49,7 @@ export function getNonInteractiveElementRoleSchemas(): ARIARoleRelationConcept[]
           'progressbar',
         ),
     );
-
-    nonInteractiveElementRoleSchemas = elementRoleEntries.reduce<
-      ARIARoleRelationConcept[]
-    >((accumulator, [elementSchema, roleSet]) => {
-      return accumulator.concat(
-        [...roleSet].every((role) => nonInteractiveRoles.has(role))
-          ? elementSchema
-          : [],
-      );
-    }, []);
   }
 
-  return nonInteractiveElementRoleSchemas;
+  return nonInteractiveRoles;
 }

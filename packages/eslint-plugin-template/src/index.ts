@@ -9,6 +9,9 @@ import accessibilityAltText, {
 import accessibilityElementsContent, {
   RULE_NAME as accessibilityElementsContentRuleName,
 } from './rules/accessibility-elements-content';
+import accessibilityInteractiveSupportsFocus, {
+  RULE_NAME as accessibilityInteractiveSupportsFocusRuleName,
+} from './rules/accessibility-interactive-supports-focus';
 import accessibilityLabelFor, {
   RULE_NAME as accessibilityLabelForRuleName,
 } from './rules/accessibility-label-for';
@@ -78,6 +81,8 @@ export default {
   rules: {
     [accessibilityAltTextRuleName]: accessibilityAltText,
     [accessibilityElementsContentRuleName]: accessibilityElementsContent,
+    [accessibilityInteractiveSupportsFocusRuleName]:
+      accessibilityInteractiveSupportsFocus,
     [accessibilityLabelForRuleName]: accessibilityLabelFor,
     [accessibilityLabelHasAssociatedControlRuleName]:
       accessibilityLabelHasAssociatedControl,
