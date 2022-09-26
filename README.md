@@ -406,13 +406,14 @@ If you choose to use `eslint-plugin-prettier`, **please ensure that you are usin
 
 **.prettierrc**
 
-```jsonc
-// This ensures that prettier applies its own Angular parser to all HTML files in our project
+```json
 {
   "overrides": [
     {
       "files": "*.html",
-      "parser": "angular"
+      "options": {
+        "parser": "angular"
+      }
     }
   ]
 }

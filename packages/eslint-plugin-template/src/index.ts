@@ -9,12 +9,18 @@ import accessibilityAltText, {
 import accessibilityElementsContent, {
   RULE_NAME as accessibilityElementsContentRuleName,
 } from './rules/accessibility-elements-content';
+import accessibilityInteractiveSupportsFocus, {
+  RULE_NAME as accessibilityInteractiveSupportsFocusRuleName,
+} from './rules/accessibility-interactive-supports-focus';
 import accessibilityLabelFor, {
   RULE_NAME as accessibilityLabelForRuleName,
 } from './rules/accessibility-label-for';
 import accessibilityLabelHasAssociatedControl, {
   RULE_NAME as accessibilityLabelHasAssociatedControlRuleName,
 } from './rules/accessibility-label-has-associated-control';
+import accessibilityRoleHasRequiredAria, {
+  RULE_NAME as accessibilityRoleHasRequiredAriaRuleName,
+} from './rules/accessibility-role-has-required-aria';
 import accessibilityTableScope, {
   RULE_NAME as accessibilityTableScopeRuleName,
 } from './rules/accessibility-table-scope';
@@ -75,9 +81,13 @@ export default {
   rules: {
     [accessibilityAltTextRuleName]: accessibilityAltText,
     [accessibilityElementsContentRuleName]: accessibilityElementsContent,
+    [accessibilityInteractiveSupportsFocusRuleName]:
+      accessibilityInteractiveSupportsFocus,
     [accessibilityLabelForRuleName]: accessibilityLabelFor,
     [accessibilityLabelHasAssociatedControlRuleName]:
       accessibilityLabelHasAssociatedControl,
+    [accessibilityRoleHasRequiredAriaRuleName]:
+      accessibilityRoleHasRequiredAria,
     [accessibilityTableScopeRuleName]: accessibilityTableScope,
     [accessibilityValidAriaRuleName]: accessibilityValidAria,
     [bananaInBoxRuleName]: bananaInBox,

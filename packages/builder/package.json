@@ -1,6 +1,6 @@
 {
   "name": "@angular-eslint/builder",
-  "version": "14.1.1",
+  "version": "14.1.2",
   "description": "Angular CLI builder for ESLint",
   "license": "MIT",
   "main": "dist/index.js",
@@ -18,10 +18,6 @@
     "builders.json"
   ],
   "builders": "./builders.json",
-  "dependencies": {
-    "@nrwl/devkit": "^14.7.5",
-    "nx": "^14.7.5"
-  },
   "peerDependencies": {
     "eslint": "^7.0.0 || ^8.0.0",
     "typescript": "*"

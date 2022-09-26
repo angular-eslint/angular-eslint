@@ -59,9 +59,6 @@ jobs:
 
           npx nx migrate @nrwl/workspace@$NX_VERSION
 
-          # Update the version of nx packages specified in the builder package
-          NX_VERSION=$NX_VERSION npx ts-node --project ./tsconfig.tools.json ./tools/scripts/update-builder-nx-deps.ts
-
           # Sometimes Nx can require config formatting changes after a migrate command
           yarn --ignore-scripts
           npx nx format

@@ -20,11 +20,11 @@
         "https://github.com/typescript-eslint/typescript-eslint"
       ],
       "groupName": "typescript-eslint packages",
-      "semanticCommitType": "feat"
+      "semanticCommitType": "fix"
     },
     {
-      "matchPackageNames": ["eslint"],
-      "semanticCommitType": "feat"
+      "matchPackageNames": ["eslint", "@angular/compiler"],
+      "semanticCommitType": "fix"
     }
   ]
 }

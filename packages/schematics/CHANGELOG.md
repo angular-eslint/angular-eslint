@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [14.1.2](https://github.com/angular-eslint/angular-eslint/compare/v14.1.1...v14.1.2) (2022-09-21)
+
+**Note:** Version bump only for package @angular-eslint/schematics
+
 ## [14.1.1](https://github.com/angular-eslint/angular-eslint/compare/v14.1.0...v14.1.1) (2022-09-18)
 
 **Note:** Version bump only for package @angular-eslint/schematics
