@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@angular-eslint/bundled-angular-compiler": "14.1.2",
-    "@typescript-eslint/utils": "5.37.0"
+    "@typescript-eslint/utils": "5.38.0"
   },
   "gitHead": "e2006e5e9c99e5a943d1a999e0efa5247d29ec24"
 }
