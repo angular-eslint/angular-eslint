@@ -10,10 +10,18 @@ import {
 } from '../utils/create-eslint-rule';
 import { getOriginalAttributeName } from '../utils/get-original-attribute-name';
 
-type Options = [{ readonly allowTwoWayDataBinding?: boolean }];
+type Options = [
+  {
+    readonly allowTwoWayDataBinding?: boolean;
+    readonly ignore?: readonly string[];
+  },
+];
 export type MessageIds = 'noDuplicateAttributes' | 'suggestRemoveAttribute';
 export const RULE_NAME = 'no-duplicate-attributes';
-const DEFAULT_OPTIONS: Options[number] = { allowTwoWayDataBinding: true };
+const DEFAULT_OPTIONS: Options[number] = {
+  allowTwoWayDataBinding: true,
+  ignore: [],
+};
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
@@ -34,6 +42,13 @@ export default createESLintRule<Options, MessageIds>({
             default: DEFAULT_OPTIONS.allowTwoWayDataBinding,
             description: `Whether or not two-way data binding is allowed as an exception to the rule.`,
           },
+          ignore: {
+            type: 'array',
+            items: { type: 'string' },
+            uniqueItems: true,
+            default: DEFAULT_OPTIONS.ignore,
+            description: `Input or output properties for which duplicate presence is allowed as an exception to the rule.`,
+          },
         },
         additionalProperties: false,
       },
@@ -44,7 +59,7 @@ export default createESLintRule<Options, MessageIds>({
     },
   },
   defaultOptions: [DEFAULT_OPTIONS],
-  create(context, [{ allowTwoWayDataBinding }]) {
+  create(context, [{ allowTwoWayDataBinding, ignore }]) {
     const parserServices = getTemplateParserServices(context);
 
     return {
@@ -68,7 +83,15 @@ export default createESLintRule<Options, MessageIds>({
           ...duplicateOutputs,
         ] as const;
 
-        allDuplicates.forEach((duplicate) => {
+        const filteredDuplicates =
+          ignore && ignore.length > 0
+            ? allDuplicates.filter(
+                (duplicate) =>
+                  !ignore.includes(getOriginalAttributeName(duplicate)),
+              )
+            : allDuplicates;
+
+        filteredDuplicates.forEach((duplicate) => {
           const loc = parserServices.convertNodeSourceSpanToLoc(
             duplicate.sourceSpan,
           );

@@ -496,4 +496,44 @@ export const invalid = [
       },
     ],
   }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should not report ignored properties',
+    annotatedSource: `
+        <input [name]="foo" class="css-static" name="bar" [class]="dynamic">
+               ~~~~~~~~~~~~                    ^^^^^^^^^^
+      `,
+    options: [{ ignore: ['class'] }],
+    messages: [
+      {
+        char: '~',
+        messageId,
+        data: { attributeName: 'name' },
+        suggestions: [
+          {
+            messageId: suggestRemoveAttribute,
+            output: `
+        <input class="css-static" name="bar" [class]="dynamic">
+                                               
+      `,
+            data: { attributeName: 'name' },
+          },
+        ],
+      },
+      {
+        char: '^',
+        messageId,
+        data: { attributeName: 'name' },
+        suggestions: [
+          {
+            messageId: suggestRemoveAttribute,
+            output: `
+        <input [name]="foo" class="css-static" [class]="dynamic">
+                                               
+      `,
+            data: { attributeName: 'name' },
+          },
+        ],
+      },
+    ],
+  }),
 ];
