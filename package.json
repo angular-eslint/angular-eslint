@@ -72,7 +72,7 @@
     "env-cmd": "10.1.0",
     "eslint": "8.24.0",
     "eslint-config-prettier": "8.5.0",
-    "execa": "5.1.1",
+    "execa": "6.1.0",
     "husky": "8.0.1",
     "jest": "28.1.3",
     "jest-environment-jsdom": "29.0.3",
