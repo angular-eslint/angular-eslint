@@ -63,6 +63,9 @@ import noDistractingElements, {
 import noDuplicateAttributes, {
   RULE_NAME as noDuplicateAttributesRuleName,
 } from './rules/no-duplicate-attributes';
+import noInlineStyles, {
+  RULE_NAME as noInlineStylesRuleName,
+} from './rules/no-inline-styles';
 import noNegatedAsync, {
   RULE_NAME as noNegatedAsyncRuleName,
 } from './rules/no-negated-async';
@@ -107,6 +110,7 @@ export default {
     [noCallExpressionRuleName]: noCallExpression,
     [noDistractingElementsRuleName]: noDistractingElements,
     [noDuplicateAttributesRuleName]: noDuplicateAttributes,
+    [noInlineStylesRuleName]: noInlineStyles,
     [noNegatedAsyncRuleName]: noNegatedAsync,
     [noPositiveTabindexRuleName]: noPositiveTabindex,
     [useTrackByFunctionRuleName]: useTrackByFunction,
