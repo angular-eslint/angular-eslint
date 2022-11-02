@@ -26,6 +26,9 @@ import directiveClassSuffix, {
 import directiveSelector, {
   RULE_NAME as directiveSelectorRuleName,
 } from './rules/directive-selector';
+import inputNotEventEmitter, {
+  RULE_NAME as inputNotEventEmitterRuleName,
+} from './rules/input-not-event-emitter';
 import noAttributeDecorator, {
   RULE_NAME as noAttributeDecoratorRuleName,
 } from './rules/no-attribute-decorator';
@@ -119,6 +122,7 @@ export default {
     [contextualLifecycleRuleName]: contextualLifecycle,
     [directiveClassSuffixRuleName]: directiveClassSuffix,
     [directiveSelectorRuleName]: directiveSelector,
+    [inputNotEventEmitterRuleName]: inputNotEventEmitter,
     [noAttributeDecoratorRuleName]: noAttributeDecorator,
     [noConflictingLifecycleRuleName]: noConflictingLifecycle,
     [noForwardRefRuleName]: noForwardRef,
