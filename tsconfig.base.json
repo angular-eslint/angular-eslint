@@ -22,6 +22,7 @@
       "@angular-eslint/bundled-angular-compiler": [
         "packages/bundled-angular-compiler/src/index.ts"
       ],
+      "@angular-eslint/nx-plugin": ["packages/nx-plugin/src/index.ts"],
       "@angular-eslint/utils": ["packages/utils/src/index.ts"]
     }
   }
