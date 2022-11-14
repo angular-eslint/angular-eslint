@@ -79,7 +79,7 @@
     "jest-preset-angular": "12.2.2",
     "json-schema-to-typescript": "11.0.2",
     "json-schema-traverse": "1.0.0",
-    "lerna": "5.5.2",
+    "lerna": "6.0.3",
     "lint-staged": "13.0.3",
     "microbundle": "0.15.1",
     "ncp": "2.0.0",
