@@ -13,16 +13,10 @@
       "type": "library",
       "targets": {
         "integration-test": {
-          "executor": "nx:run-commands",
+          "executor": "@angular-eslint/nx-plugin:integration-test-suite",
           "options": {
             "cwd": "packages/integration-tests",
-            "parallel": false,
-            "commands": [
-              "[ \"{args.withRegistry}\" = \"true\" ] && npx nx spawn-and-populate-local-registry integration-tests || true",
-              {
-                "command": "[ \"{args.withRegistry}\" = \"true\" ] && echo \"\" || echo \"\" && npx jest tests/v13-new-workspace.test.ts"
-              }
-            ]
+            "testFilePath": "tests/v13-new-workspace.test.ts"
           }
         }
       },
@@ -43,16 +37,11 @@
       "type": "library",
       "targets": {
         "integration-test": {
-          "executor": "nx:run-commands",
+          "executor": "@angular-eslint/nx-plugin:integration-test-suite",
           "options": {
             "cwd": "packages/integration-tests",
             "parallel": false,
-            "commands": [
-              "[ \"{args.withRegistry}\" = \"true\" ] && npx nx spawn-and-populate-local-registry integration-tests || true",
-              {
-                "command": "[ \"{args.withRegistry}\" = \"true\" ] && echo \"\" || echo \"\" && npx jest tests/v1123-multi-project-yarn-auto-convert.test.ts"
-              }
-            ]
+            "testFilePath": "tests/v1123-multi-project-yarn-auto-convert.test.ts"
           }
         }
       },
@@ -73,16 +62,10 @@
       "type": "library",
       "targets": {
         "integration-test": {
-          "executor": "nx:run-commands",
+          "executor": "@angular-eslint/nx-plugin:integration-test-suite",
           "options": {
             "cwd": "packages/integration-tests",
-            "parallel": false,
-            "commands": [
-              "[ \"{args.withRegistry}\" = \"true\" ] && npx nx spawn-and-populate-local-registry integration-tests || true",
-              {
-                "command": "[ \"{args.withRegistry}\" = \"true\" ] && echo \"\" || echo \"\" && npx jest tests/v1123-single-project-yarn-auto-convert.test.ts"
-              }
-            ]
+            "testFilePath": "tests/v1123-single-project-yarn-auto-convert.test.ts"
           }
         }
       },
@@ -103,16 +86,10 @@
       "type": "library",
       "targets": {
         "integration-test": {
-          "executor": "nx:run-commands",
+          "executor": "@angular-eslint/nx-plugin:integration-test-suite",
           "options": {
             "cwd": "packages/integration-tests",
-            "parallel": false,
-            "commands": [
-              "[ \"{args.withRegistry}\" = \"true\" ] && npx nx spawn-and-populate-local-registry integration-tests || true",
-              {
-                "command": "[ \"{args.withRegistry}\" = \"true\" ] && echo \"\" || echo \"\" && npx jest tests/v1123-strict-multi-project-auto-convert.test.ts"
-              }
-            ]
+            "testFilePath": "tests/v1123-strict-multi-project-auto-convert.test.ts"
           }
         }
       },
@@ -133,16 +110,10 @@
       "type": "library",
       "targets": {
         "integration-test": {
-          "executor": "nx:run-commands",
+          "executor": "@angular-eslint/nx-plugin:integration-test-suite",
           "options": {
             "cwd": "packages/integration-tests",
-            "parallel": false,
-            "commands": [
-              "[ \"{args.withRegistry}\" = \"true\" ] && npx nx spawn-and-populate-local-registry integration-tests || true",
-              {
-                "command": "[ \"{args.withRegistry}\" = \"true\" ] && echo \"\" || echo \"\" && npx jest tests/v13-new-workspace-create-application-false-ng-add-then-project.test.ts"
-              }
-            ]
+            "testFilePath": "tests/v13-new-workspace-create-application-false-ng-add-then-project.test.ts"
           }
         }
       },
@@ -163,16 +134,10 @@
       "type": "library",
       "targets": {
         "integration-test": {
-          "executor": "nx:run-commands",
+          "executor": "@angular-eslint/nx-plugin:integration-test-suite",
           "options": {
             "cwd": "packages/integration-tests",
-            "parallel": false,
-            "commands": [
-              "[ \"{args.withRegistry}\" = \"true\" ] && npx nx spawn-and-populate-local-registry integration-tests || true",
-              {
-                "command": "[ \"{args.withRegistry}\" = \"true\" ] && echo \"\" || echo \"\" && npx jest tests/v13-new-workspace-create-application-false-project-then-ng-add.test.ts"
-              }
-            ]
+            "testFilePath": "tests/v13-new-workspace-create-application-false-project-then-ng-add.test.ts"
           }
         }
       },
@@ -187,6 +152,7 @@
         "utils"
       ]
     },
+    "nx-plugin": "packages/nx-plugin",
     "schematics": "packages/schematics",
     "template-parser": "packages/template-parser",
     "utils": "packages/utils"
