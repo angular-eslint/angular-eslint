@@ -21,7 +21,7 @@
     "@typescript-eslint/type-utils": "5.38.1",
     "@typescript-eslint/utils": "5.38.1",
     "aria-query": "5.0.2",
-    "axobject-query": "3.0.1"
+    "axobject-query": "3.1.1"
   },
   "devDependencies": {
     "@angular-eslint/utils": "14.1.2",
