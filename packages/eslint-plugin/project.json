@@ -1,10 +1,11 @@
 {
+  "name": "eslint-plugin",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "type": "library",
   "targets": {
     "build": {
       "executor": "@nrwl/workspace:run-commands",
-      "outputs": ["packages/eslint-plugin/dist"],
+      "outputs": ["{projectRoot}/dist"],
       "options": {
         "cwd": "packages/eslint-plugin",
         "parallel": false,
@@ -17,7 +18,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/packages/eslint-plugin"],
+      "outputs": ["{workspaceRoot}/coverage/packages/eslint-plugin"],
       "options": {
         "jestConfig": "packages/eslint-plugin/jest.config.ts",
         "passWithNoTests": false
@@ -56,7 +57,7 @@
     },
     "update-rule-docs": {
       "executor": "@nrwl/workspace:run-commands",
-      "outputs": ["packages/eslint-plugin/docs"],
+      "outputs": ["{projectRoot}/docs"],
       "options": {
         "parallel": false,
         "commands": [
@@ -65,5 +66,10 @@
       }
     }
   },
-  "implicitDependencies": ["bundled-angular-compiler"]
+  "implicitDependencies": ["bundled-angular-compiler"],
+  "namedInputs": {
+    "projectSpecificFiles": [
+      "{workspaceRoot}/tools/scripts/generate-rule-docs.ts"
+    ]
+  }
 }

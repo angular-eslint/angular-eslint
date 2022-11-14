@@ -1,10 +1,11 @@
 {
+  "name": "schematics",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "type": "library",
   "targets": {
     "build": {
       "executor": "@nrwl/workspace:run-commands",
-      "outputs": ["packages/schematics/dist"],
+      "outputs": ["{projectRoot}/dist"],
       "options": {
         "cwd": "packages/schematics",
         "parallel": false,
@@ -32,7 +33,7 @@
         }
       ],
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/packages/schematics"],
+      "outputs": ["{workspaceRoot}/coverage/packages/schematics"],
       "options": {
         "jestConfig": "packages/schematics/jest.config.ts",
         "passWithNoTests": false

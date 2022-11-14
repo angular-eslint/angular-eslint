@@ -1,18 +1,6 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "npmScope": "angular-eslint",
-  "implicitDependencies": {
-    "package.json": {
-      "dependencies": "*",
-      "devDependencies": "*"
-    },
-    ".eslintrc.json": "*",
-    ".github/workflows/ci.yml": "*",
-    "tools/scripts/generate-rule-docs.ts": [
-      "eslint-plugin",
-      "eslint-plugin-template"
-    ]
-  },
   "workspaceLayout": {
     "libsDir": "packages"
   },
@@ -43,13 +31,28 @@
   },
   "targetDefaults": {
     "build": {
-      "dependsOn": ["^build"]
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
     },
     "typecheck": {
       "dependsOn": ["^build"]
     },
     "update-rule-docs": {
       "dependsOn": ["^build"]
+    },
+    "test": {
+      "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"]
     }
+  },
+  "namedInputs": {
+    "default": ["{projectRoot}/**/*", "sharedGlobals", "projectSpecificFiles"],
+    "sharedGlobals": ["{workspaceRoot}/.github/workflows/ci.yml"],
+    "production": [
+      "default",
+      "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
+      "!{projectRoot}/tsconfig.spec.json",
+      "!{projectRoot}/jest.config.[jt]s"
+    ],
+    "projectSpecificFiles": []
   }
 }
