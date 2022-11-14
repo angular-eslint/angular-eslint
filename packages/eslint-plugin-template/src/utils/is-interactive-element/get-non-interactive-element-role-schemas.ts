@@ -1,8 +1,11 @@
-import type { ARIARoleDefintionKey, ARIARoleRelationConcept } from 'aria-query';
+import type {
+  ARIARoleDefinitionKey,
+  ARIARoleRelationConcept,
+} from 'aria-query';
 import { elementRoles, roles } from 'aria-query';
 
 let nonInteractiveElementRoleSchemas: ARIARoleRelationConcept[] | null = null;
-let nonInteractiveRoles: Set<ARIARoleDefintionKey> | null = null;
+let nonInteractiveRoles: Set<ARIARoleDefinitionKey> | null = null;
 
 // These functions follow the lazy initialization pattern.
 // Since this is a top-level module (it will be included via `require`),
@@ -27,10 +30,10 @@ export function getNonInteractiveElementRoleSchemas(): ARIARoleRelationConcept[]
   return nonInteractiveElementRoleSchemas;
 }
 
-export function getNonInteractiveRoles(): Set<ARIARoleDefintionKey> {
+export function getNonInteractiveRoles(): Set<ARIARoleDefinitionKey> {
   if (nonInteractiveRoles === null) {
     const roleKeys = [...roles.keys()];
-    nonInteractiveRoles = new Set<ARIARoleDefintionKey>(
+    nonInteractiveRoles = new Set<ARIARoleDefinitionKey>(
       roleKeys
         .filter((name) => {
           const role = roles.get(name);

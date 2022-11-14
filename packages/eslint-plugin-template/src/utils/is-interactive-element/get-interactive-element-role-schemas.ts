@@ -1,4 +1,7 @@
-import type { ARIARoleDefintionKey, ARIARoleRelationConcept } from 'aria-query';
+import type {
+  ARIARoleDefinitionKey,
+  ARIARoleRelationConcept,
+} from 'aria-query';
 import { elementRoles, roles } from 'aria-query';
 
 let interactiveElementRoleSchemas: ARIARoleRelationConcept[] | null = null;
@@ -14,9 +17,9 @@ export function getInteractiveElementRoleSchemas(): ARIARoleRelationConcept[] {
 
     // This set will contain all possible values for the `role` attribute,
     // e.g. `button`, `navigation` or `presentation`.
-    const interactiveRoles = new Set<ARIARoleDefintionKey>(
+    const interactiveRoles = new Set<ARIARoleDefinitionKey>(
       roleKeys
-        .filter((name: ARIARoleDefintionKey) => {
+        .filter((name: ARIARoleDefinitionKey) => {
           const role = roles.get(name);
           return (
             role &&
