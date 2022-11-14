@@ -1,10 +1,11 @@
 {
+  "name": "builder",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "type": "library",
   "targets": {
     "build": {
-      "executor": "@nrwl/workspace:run-commands",
-      "outputs": ["packages/builder/dist"],
+      "executor": "nx:run-commands",
+      "outputs": ["{projectRoot}/dist"],
       "options": {
         "cwd": "packages/builder",
         "parallel": false,
@@ -18,14 +19,14 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/packages/builder"],
+      "outputs": ["{workspaceRoot}/coverage/packages/builder"],
       "options": {
         "jestConfig": "packages/builder/jest.config.ts",
         "passWithNoTests": true
       }
     },
     "clean": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "cwd": "packages/builder",
         "parallel": false,
@@ -33,7 +34,7 @@
       }
     },
     "typecheck": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "cwd": "packages/builder",
         "parallel": false,

@@ -1,10 +1,11 @@
 {
+  "name": "eslint-plugin-template",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "type": "library",
   "targets": {
     "build": {
-      "executor": "@nrwl/workspace:run-commands",
-      "outputs": ["packages/eslint-plugin-template/dist"],
+      "executor": "nx:run-commands",
+      "outputs": ["{projectRoot}/dist"],
       "options": {
         "cwd": "packages/eslint-plugin-template",
         "parallel": false,
@@ -23,14 +24,14 @@
         }
       ],
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/packages/eslint-plugin-template"],
+      "outputs": ["{workspaceRoot}/coverage/packages/eslint-plugin-template"],
       "options": {
         "jestConfig": "packages/eslint-plugin-template/jest.config.ts",
         "passWithNoTests": false
       }
     },
     "clean": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "cwd": "packages/eslint-plugin-template",
         "parallel": false,
@@ -38,7 +39,7 @@
       }
     },
     "typecheck": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "cwd": "packages/eslint-plugin-template",
         "parallel": false,
@@ -52,7 +53,7 @@
           "target": "update-rule-docs"
         }
       ],
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "parallel": false,
         "commands": [
@@ -61,8 +62,8 @@
       }
     },
     "update-rule-docs": {
-      "executor": "@nrwl/workspace:run-commands",
-      "outputs": ["packages/eslint-plugin-template/docs"],
+      "executor": "nx:run-commands",
+      "outputs": ["{projectRoot}/docs"],
       "options": {
         "parallel": false,
         "commands": [
@@ -71,5 +72,10 @@
       }
     }
   },
-  "implicitDependencies": ["template-parser", "bundled-angular-compiler"]
+  "implicitDependencies": ["template-parser", "bundled-angular-compiler"],
+  "namedInputs": {
+    "projectSpecificFiles": [
+      "{workspaceRoot}/tools/scripts/generate-rule-docs.ts"
+    ]
+  }
 }
