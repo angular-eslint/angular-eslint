@@ -53,7 +53,7 @@
   "devDependencies": {
     "@actions/core": "1.9.1",
     "@actions/github": "5.1.0",
-    "@angular/cli": "14.2.3",
+    "@angular/cli": "14.2.9",
     "@angular/compiler": "14.2.3",
     "@commitlint/cli": "17.1.2",
     "@commitlint/config-conventional": "17.1.0",
@@ -61,7 +61,7 @@
     "@nrwl/jest": "14.7.17",
     "@nrwl/nx-cloud": "14.6.2",
     "@nrwl/workspace": "14.7.17",
-    "@schematics/angular": "14.2.3",
+    "@schematics/angular": "14.2.9",
     "@types/eslint": "8.4.6",
     "@types/eslint-scope": "3.7.4",
     "@types/jest": "28.1.8",
