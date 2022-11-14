@@ -59,7 +59,7 @@
     "@commitlint/config-conventional": "17.1.0",
     "@nrwl/devkit": "14.7.17",
     "@nrwl/jest": "14.7.17",
-    "@nrwl/nx-cloud": "14.6.2",
+    "@nrwl/nx-cloud": "14.7.0",
     "@nrwl/workspace": "14.7.17",
     "@schematics/angular": "14.2.9",
     "@types/eslint": "8.4.6",
