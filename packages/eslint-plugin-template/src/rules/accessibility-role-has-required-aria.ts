@@ -2,7 +2,7 @@ import type {
   TmplAstTextAttribute,
   TmplAstElement,
 } from '@angular-eslint/bundled-angular-compiler';
-import type { ARIARoleDefintionKey } from 'aria-query';
+import type { ARIARoleDefinitionKey } from 'aria-query';
 import { roles } from 'aria-query';
 import {
   createESLintRule,
@@ -48,7 +48,7 @@ export default createESLintRule<Options, MessageIds>({
         const { attributes, inputs, name: element } = node.parent;
         const props = [...attributes, ...inputs];
 
-        const roleDef = roles.get(role as ARIARoleDefintionKey);
+        const roleDef = roles.get(role as ARIARoleDefinitionKey);
 
         const requiredProps = Object.keys(roleDef?.requiredProps || {});
         if (!requiredProps.length) return;
