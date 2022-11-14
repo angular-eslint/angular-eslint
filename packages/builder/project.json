@@ -4,7 +4,7 @@
   "type": "library",
   "targets": {
     "build": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "outputs": ["{projectRoot}/dist"],
       "options": {
         "cwd": "packages/builder",
@@ -26,7 +26,7 @@
       }
     },
     "clean": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "cwd": "packages/builder",
         "parallel": false,
@@ -34,7 +34,7 @@
       }
     },
     "typecheck": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "cwd": "packages/builder",
         "parallel": false,
