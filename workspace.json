@@ -20,8 +20,7 @@
             "commands": [
               "[ \"{args.withRegistry}\" = \"true\" ] && npx nx spawn-and-populate-local-registry integration-tests || true",
               {
-                "command": "npx jest tests/v13-new-workspace.test.ts",
-                "forwardAllArgs": false
+                "command": "[ \"{args.withRegistry}\" = \"true\" ] && echo \"\" || echo \"\" && npx jest tests/v13-new-workspace.test.ts"
               }
             ]
           }
@@ -51,8 +50,7 @@
             "commands": [
               "[ \"{args.withRegistry}\" = \"true\" ] && npx nx spawn-and-populate-local-registry integration-tests || true",
               {
-                "command": "npx jest tests/v1123-multi-project-yarn-auto-convert.test.ts",
-                "forwardAllArgs": false
+                "command": "[ \"{args.withRegistry}\" = \"true\" ] && echo \"\" || echo \"\" && npx jest tests/v1123-multi-project-yarn-auto-convert.test.ts"
               }
             ]
           }
@@ -82,8 +80,7 @@
             "commands": [
               "[ \"{args.withRegistry}\" = \"true\" ] && npx nx spawn-and-populate-local-registry integration-tests || true",
               {
-                "command": "npx jest tests/v1123-single-project-yarn-auto-convert.test.ts",
-                "forwardAllArgs": false
+                "command": "[ \"{args.withRegistry}\" = \"true\" ] && echo \"\" || echo \"\" && npx jest tests/v1123-single-project-yarn-auto-convert.test.ts"
               }
             ]
           }
@@ -113,8 +110,7 @@
             "commands": [
               "[ \"{args.withRegistry}\" = \"true\" ] && npx nx spawn-and-populate-local-registry integration-tests || true",
               {
-                "command": "npx jest tests/v1123-strict-multi-project-auto-convert.test.ts",
-                "forwardAllArgs": false
+                "command": "[ \"{args.withRegistry}\" = \"true\" ] && echo \"\" || echo \"\" && npx jest tests/v1123-strict-multi-project-auto-convert.test.ts"
               }
             ]
           }
@@ -144,8 +140,7 @@
             "commands": [
               "[ \"{args.withRegistry}\" = \"true\" ] && npx nx spawn-and-populate-local-registry integration-tests || true",
               {
-                "command": "npx jest tests/v13-new-workspace-create-application-false-ng-add-then-project.test.ts",
-                "forwardAllArgs": false
+                "command": "[ \"{args.withRegistry}\" = \"true\" ] && echo \"\" || echo \"\" && npx jest tests/v13-new-workspace-create-application-false-ng-add-then-project.test.ts"
               }
             ]
           }
@@ -175,8 +170,7 @@
             "commands": [
               "[ \"{args.withRegistry}\" = \"true\" ] && npx nx spawn-and-populate-local-registry integration-tests || true",
               {
-                "command": "npx jest tests/v13-new-workspace-create-application-false-project-then-ng-add.test.ts",
-                "forwardAllArgs": false
+                "command": "[ \"{args.withRegistry}\" = \"true\" ] && echo \"\" || echo \"\" && npx jest tests/v13-new-workspace-create-application-false-project-then-ng-add.test.ts"
               }
             ]
           }
