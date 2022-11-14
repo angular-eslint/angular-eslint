@@ -3087,17 +3087,27 @@
   dependencies:
     nx "14.6.5"
 
-"@nrwl/cli@14.7.17":
-  version "14.7.17"
-  resolved "https://registry.yarnpkg.com/@nrwl/cli/-/cli-14.7.17.tgz#eb7eda69a8934eaf1145b8b70737d8b2f81f3424"
-  integrity sha512-ovzGpWnTrmFXX5TEV2VzBUz8oPLoPkqtGKpdvlHvnd0UADQUpmNxoSY7mzHclDLRMyb6MWnVKqlJiypTG/p9iw==
+"@nrwl/cli@14.8.6":
+  version "14.8.6"
+  resolved "https://registry.yarnpkg.com/@nrwl/cli/-/cli-14.8.6.tgz#56fcfae492a159efe978b7d51dd51f8a18cda0af"
+  integrity sha512-R4udxekMd4jhoRPEksJu+224DocOIrAqenFo0D2R36epE5FaCnZQX7xg+b3TjRbdS10e426i4D9LuXdQmP5jJg==
   dependencies:
-    nx "14.7.17"
+    nx "14.8.6"
 
 "@nrwl/devkit@14.7.17":
   version "14.7.17"
   resolved "https://registry.yarnpkg.com/@nrwl/devkit/-/devkit-14.7.17.tgz#0dd914d0596e793264cd117c77bb1a3a0d9de2f2"
   integrity sha512-flTV8BuC7oacWGHseoKsyOAYmWsMSP6iYGRjrCaV0MyRbDkNy0P07elXXFUW01er+l7x/awZYQR9/n/eNyqfXA==
+  dependencies:
+    "@phenomnomnominal/tsquery" "4.1.1"
+    ejs "^3.1.7"
+    ignore "^5.0.4"
+    tslib "^2.3.0"
+
+"@nrwl/devkit@14.8.6":
+  version "14.8.6"
+  resolved "https://registry.yarnpkg.com/@nrwl/devkit/-/devkit-14.8.6.tgz#8a811c760e39e272a95799a640c740d0e185055d"
+  integrity sha512-+3KqohOKeUuyS176jrwY0yeB3E2IFQ3jMkS0KizzsHGsZWdZbQ2WQ46hZ0/bvRh9Efl8CAg6n4fUWR0BXUePMA==
   dependencies:
     "@phenomnomnominal/tsquery" "4.1.1"
     ejs "^3.1.7"
@@ -3122,15 +3132,33 @@
     resolve.exports "1.1.0"
     tslib "^2.3.0"
 
-"@nrwl/linter@14.7.17":
-  version "14.7.17"
-  resolved "https://registry.yarnpkg.com/@nrwl/linter/-/linter-14.7.17.tgz#79ba3e0596e58df3f918f8f8baae1c79dcdc3a0b"
-  integrity sha512-xDkZmXKmYPJCNm5/Yib30TcCLL288H34mTTXC62ZUsCstSMhmgTK4N6WUINx5hmloxlVOIFwgedZgAo95sXrbg==
+"@nrwl/jest@14.8.6":
+  version "14.8.6"
+  resolved "https://registry.yarnpkg.com/@nrwl/jest/-/jest-14.8.6.tgz#50ac6b5739ff7f148c1523ff51a7f8842fc65c0b"
+  integrity sha512-v+y833GGKVPc2RAd1odUGAzMdBUuKN6ZbbI8seAT+eI/2qQDvab51zOlf66/8zUv7Kr4yrkDYl0slf24GklTvQ==
   dependencies:
-    "@nrwl/devkit" "14.7.17"
-    "@nrwl/jest" "14.7.17"
+    "@jest/reporters" "28.1.1"
+    "@jest/test-result" "28.1.1"
+    "@nrwl/devkit" "14.8.6"
     "@phenomnomnominal/tsquery" "4.1.1"
-    nx "14.7.17"
+    chalk "4.1.0"
+    dotenv "~10.0.0"
+    identity-obj-proxy "3.0.0"
+    jest-config "28.1.1"
+    jest-resolve "28.1.1"
+    jest-util "28.1.1"
+    resolve.exports "1.1.0"
+    tslib "^2.3.0"
+
+"@nrwl/linter@14.8.6":
+  version "14.8.6"
+  resolved "https://registry.yarnpkg.com/@nrwl/linter/-/linter-14.8.6.tgz#677d3e99a014d73e633de4ebdb62051a1c9cb09e"
+  integrity sha512-Usqh17Q+BiZpownyMOC5TrDFkSSRazjTXmTFqUoLkfGI07qF8i7DB1hrqedE32mNv9V0N6LS3FaAb4plFPgPxA==
+  dependencies:
+    "@nrwl/devkit" "14.8.6"
+    "@nrwl/jest" "14.8.6"
+    "@phenomnomnominal/tsquery" "4.1.1"
+    nx "14.8.6"
     tmp "~0.2.1"
     tslib "^2.3.0"
 
@@ -3155,21 +3183,21 @@
   dependencies:
     nx "14.6.5"
 
-"@nrwl/tao@14.7.17":
-  version "14.7.17"
-  resolved "https://registry.yarnpkg.com/@nrwl/tao/-/tao-14.7.17.tgz#30e671d86526e9513d3d0dbb28c72d87b0d3f846"
-  integrity sha512-35IPDtv4hdkmDvLuQ/Q5AaDACgsznpmj3+/SitL1U/vYpFUcAPUrPznL3QK4TuvL3IeCLwYaYO0NCZotDEQi4g==
+"@nrwl/tao@14.8.6":
+  version "14.8.6"
+  resolved "https://registry.yarnpkg.com/@nrwl/tao/-/tao-14.8.6.tgz#5055af46942744fae0b88beedbf2ad016ab53b2b"
+  integrity sha512-CByqrsfSJeonOd7TLAHP8bRYNWgDksxA7j+yncSzgQnFLEbZdJGG/AqqIovx8g6g2v0JS+nRgGC+w5UPf04UrQ==
   dependencies:
-    nx "14.7.17"
+    nx "14.8.6"
 
-"@nrwl/workspace@14.7.17":
-  version "14.7.17"
-  resolved "https://registry.yarnpkg.com/@nrwl/workspace/-/workspace-14.7.17.tgz#d5028053db9e4e226f84f14850156aa6cd431400"
-  integrity sha512-YjbaSalsbroyBTEMHnFlqtqlbiq1yvj9frJgPRc3w9lRfWiutwU9+71knBse3dcXkpbnhvVfk3QXGYKJ3O26Qg==
+"@nrwl/workspace@14.8.6":
+  version "14.8.6"
+  resolved "https://registry.yarnpkg.com/@nrwl/workspace/-/workspace-14.8.6.tgz#0a23319376a5c7d50626f8029bafe538be8f8547"
+  integrity sha512-a0qUpy2LhnH1SIgMhiuu1JVqiGOKF+Lku/0HZv3WSEUEhn5+fpLgdQDbLbZVACMtjsGL9eNrR9rD4rRm+lth+Q==
   dependencies:
-    "@nrwl/devkit" "14.7.17"
-    "@nrwl/jest" "14.7.17"
-    "@nrwl/linter" "14.7.17"
+    "@nrwl/devkit" "14.8.6"
+    "@nrwl/jest" "14.8.6"
+    "@nrwl/linter" "14.8.6"
     "@parcel/watcher" "2.0.4"
     chalk "4.1.0"
     chokidar "^3.5.1"
@@ -3184,7 +3212,7 @@
     ignore "^5.0.4"
     minimatch "3.0.5"
     npm-run-path "^4.0.1"
-    nx "14.7.17"
+    nx "14.8.6"
     open "^8.4.0"
     rxjs "^6.5.4"
     semver "7.3.4"
@@ -4380,6 +4408,15 @@ axios@^0.21.1:
   integrity sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==
   dependencies:
     follow-redirects "^1.14.0"
+
+axios@^1.0.0:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-1.1.3.tgz#8274250dada2edf53814ed7db644b9c2866c1e35"
+  integrity sha512-00tXVRwKx/FZr/IDVFt4C+f9FYairX517WoGCL6dpOntqLkZofjhu43F/Xl44UOpqa+9sLFDrG/XAnFsUYgkDA==
+  dependencies:
+    follow-redirects "^1.15.0"
+    form-data "^4.0.0"
+    proxy-from-env "^1.1.0"
 
 axobject-query@3.0.1:
   version "3.0.1"
@@ -6700,6 +6737,11 @@ follow-redirects@^1.14.0:
   version "1.14.8"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.8.tgz#016996fb9a11a100566398b1c6839337d7bfa8fc"
   integrity sha512-1x0S9UVJHsQprFcEC/qnNzBLcIxsjAV905f/UkQxbclCsoTWlacCNOpQa/anodLl2uaEKFhfWOvM2Qg77+15zA==
+
+follow-redirects@^1.15.0:
+  version "1.15.2"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.2.tgz#b460864144ba63f2681096f274c4e57026da2c13"
+  integrity sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==
 
 forever-agent@~0.6.1:
   version "0.6.1"
@@ -9975,17 +10017,18 @@ nx@14.6.5, "nx@>=14.6.1 < 16":
     yargs "^17.4.0"
     yargs-parser "21.0.1"
 
-nx@14.7.17:
-  version "14.7.17"
-  resolved "https://registry.yarnpkg.com/nx/-/nx-14.7.17.tgz#54a78b6fa9b36caa31981ca5f0c87b740e0ebdf6"
-  integrity sha512-LLXdz4xeR54Lqw9t3XtOJsBtlwtSexrlIwhWc42GKlv4MHrBOnTp99jTQ/hdP9TpGCU7tvShRQ4ildZJapgRSg==
+nx@14.8.6:
+  version "14.8.6"
+  resolved "https://registry.yarnpkg.com/nx/-/nx-14.8.6.tgz#50bdfde1638478c60d9646d1d23e984a09801d38"
+  integrity sha512-QLU3sip/g3JdNO8n5Nw2esN+0G26Jsy3u1LlrB9Giu4zf/+KsfN8CcXMbEVqOnPR1FkCS52xliaq7IBQfvvMQA==
   dependencies:
-    "@nrwl/cli" "14.7.17"
-    "@nrwl/tao" "14.7.17"
+    "@nrwl/cli" "14.8.6"
+    "@nrwl/tao" "14.8.6"
     "@parcel/watcher" "2.0.4"
     "@yarnpkg/lockfile" "^1.1.0"
     "@yarnpkg/parsers" "^3.0.0-rc.18"
     "@zkochan/js-yaml" "0.0.6"
+    axios "^1.0.0"
     chalk "4.1.0"
     chokidar "^3.5.1"
     cli-cursor "3.1.0"
@@ -11024,6 +11067,11 @@ proxy-addr@~2.0.7:
   dependencies:
     forwarded "0.2.0"
     ipaddr.js "1.9.1"
+
+proxy-from-env@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/proxy-from-env/-/proxy-from-env-1.1.0.tgz#e102f16ca355424865755d2c9e8ea4f24d58c3e2"
+  integrity sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==
 
 psl@^1.1.24, psl@^1.1.33:
   version "1.8.0"
