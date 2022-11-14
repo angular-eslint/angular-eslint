@@ -41,7 +41,7 @@
   },
   "devDependencies": {
     "@types/tmp": "0.2.3",
-    "@typescript-eslint/utils": "5.38.1",
+    "@typescript-eslint/utils": "5.43.0",
     "eslint": "8.27.0",
     "tslint-to-eslint-config": "2.4.0"
   },
