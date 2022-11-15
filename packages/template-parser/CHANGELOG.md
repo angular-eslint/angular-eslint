@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [14.2.0](https://github.com/angular-eslint/angular-eslint/compare/v14.1.2...v14.2.0) (2022-11-15)
+
+### Bug Fixes
+
+- update dependency eslint-scope to v7 ([#1156](https://github.com/angular-eslint/angular-eslint/issues/1156)) ([05bd9e6](https://github.com/angular-eslint/angular-eslint/commit/05bd9e65f1db3488edb4a359d70307884822ffad))
+
 ## [14.1.2](https://github.com/angular-eslint/angular-eslint/compare/v14.1.1...v14.1.2) (2022-09-21)
 
 **Note:** Version bump only for package @angular-eslint/template-parser
