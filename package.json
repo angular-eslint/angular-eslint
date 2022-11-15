@@ -6,7 +6,8 @@
     "yarn": "1.22.19"
   },
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "!packages/nx-plugin"
   ],
   "contributors": [
     "James Henry <angular-eslint@jameshenry.email>"
