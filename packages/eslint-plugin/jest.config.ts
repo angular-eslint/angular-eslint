@@ -11,11 +11,8 @@ export default {
   },
   testEnvironment: 'node',
   transform: {
-    '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
+    '^.+\\.tsx?$': 'ts-jest',
   },
-  transformIgnorePatterns: ['node_modules/(?!.*\\.mjs$)'],
-  testMatch: null,
-  testRegex: ['./tests/.+\\.test\\.ts$', './tests/.+/spec\\.ts$'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   coverageDirectory: '../../coverage/packages/eslint-plugin',
   coverageReporters: ['text-summary', 'lcov'],

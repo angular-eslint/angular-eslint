@@ -11,11 +11,8 @@ export default {
   },
   testEnvironment: 'node',
   transform: {
-    '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
+    '^.+\\.tsx?$': 'ts-jest',
   },
-  transformIgnorePatterns: ['node_modules/(?!.*\\.mjs$)'],
-  testMatch: null,
-  testRegex: ['./tests/.+\\.test\\.ts$'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   coverageDirectory: '../../coverage/packages/template-parser',
   coverageReporters: ['text-summary', 'lcov'],

@@ -6,8 +6,7 @@
     "yarn": "1.22.19"
   },
   "workspaces": [
-    "packages/*",
-    "!packages/nx-plugin"
+    "packages/!(nx-plugin)*"
   ],
   "contributors": [
     "James Henry <angular-eslint@jameshenry.email>"
@@ -82,8 +81,6 @@
     "execa": "5.1.1",
     "husky": "8.0.2",
     "jest": "28.1.1",
-    "jest-environment-jsdom": "28.1.1",
-    "jest-preset-angular": "12.2.2",
     "json-schema-to-typescript": "11.0.2",
     "json-schema-traverse": "1.0.0",
     "jsonc-eslint-parser": "^2.1.0",
