@@ -30,7 +30,7 @@ interface Options {
   /**
    * Default: `["aria-label","innerHtml","innerHTML","innerText","outerHTML","title"]`
    */
-  allowlist?: string[];
+  allowList?: string[];
 }
 
 ```
@@ -137,7 +137,7 @@ interface Options {
     "@angular-eslint/template/accessibility-elements-content": [
       "error",
       {
-        "allowlist": [
+        "allowList": [
           "aria-labelledby"
         ]
       }
@@ -214,7 +214,7 @@ interface Options {
     "@angular-eslint/template/accessibility-elements-content": [
       "error",
       {
-        "allowlist": [
+        "allowList": [
           "appTooltipLabel",
           "ariaLabel"
         ]

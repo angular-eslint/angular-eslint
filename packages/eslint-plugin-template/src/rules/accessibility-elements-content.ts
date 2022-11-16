@@ -7,7 +7,7 @@ import { isHiddenFromScreenReader } from '../utils/is-hidden-from-screen-reader'
 
 type Options = [
   {
-    readonly allowlist?: readonly string[];
+    readonly allowList?: readonly string[];
   },
 ];
 export type MessageIds = 'accessibilityElementsContent';
@@ -21,7 +21,7 @@ const DEFAULT_SAFELIST_ATTRIBUTES: readonly string[] = [
   'title',
 ];
 const DEFAULT_OPTIONS: Options[0] = {
-  allowlist: DEFAULT_SAFELIST_ATTRIBUTES,
+  allowList: DEFAULT_SAFELIST_ATTRIBUTES,
 };
 
 export default createESLintRule<Options, MessageIds>({
@@ -37,7 +37,7 @@ export default createESLintRule<Options, MessageIds>({
       {
         additionalProperties: false,
         properties: {
-          allowlist: {
+          allowList: {
             items: { type: 'string' },
             type: 'array',
             uniqueItems: true,
@@ -51,7 +51,7 @@ export default createESLintRule<Options, MessageIds>({
     },
   },
   defaultOptions: [DEFAULT_OPTIONS],
-  create(context, [{ allowlist }]) {
+  create(context, [{ allowList }]) {
     const parserServices = getTemplateParserServices(context);
 
     return {
@@ -63,7 +63,7 @@ export default createESLintRule<Options, MessageIds>({
         const { attributes, inputs, name: element, sourceSpan } = node;
         const safelistAttributes: ReadonlySet<string> = new Set([
           ...DEFAULT_SAFELIST_ATTRIBUTES,
-          ...(allowlist ?? []),
+          ...(allowList ?? []),
         ]);
         const hasAttributeSafelisted = [...attributes, ...inputs]
           .map(({ name }) => name)

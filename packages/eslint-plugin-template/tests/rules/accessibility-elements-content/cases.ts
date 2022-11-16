@@ -28,7 +28,7 @@ export const valid = [
     `,
     options: [
       {
-        allowlist: ['appTooltipLabel', 'ariaLabel'],
+        allowList: ['appTooltipLabel', 'ariaLabel'],
       },
     ],
   },
@@ -65,12 +65,12 @@ export const invalid = [
   convertAnnotatedSourceToFailureCase({
     messageId,
     description:
-      'should fail if attribute/input/directive is not configured in allowlist',
+      'should fail if attribute/input/directive is not configured in allowList',
     annotatedSource: `
         <button [ariaLabelledBy]="label"></button>
         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       `,
-    options: [{ allowlist: ['aria-labelledby'] }],
+    options: [{ allowList: ['aria-labelledby'] }],
     data: { element: 'button' },
   }),
 ];
