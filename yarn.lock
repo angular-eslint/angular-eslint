@@ -3047,17 +3047,6 @@
   dependencies:
     nx "15.1.0"
 
-"@nrwl/devkit@15.0.13", "@nrwl/devkit@>=14.8.6 < 16":
-  version "15.0.13"
-  resolved "https://registry.yarnpkg.com/@nrwl/devkit/-/devkit-15.0.13.tgz#3943e6967cf93cb3115b04a4dc48494a5453e645"
-  integrity sha512-/8k7wbBRFf2UC+T4F+vWMy3bfSGi+uK6RwXk53moLq3nxehXaQhRiCqasC6VJFUw3zK6luu2T7xkPUlA9K9l4w==
-  dependencies:
-    "@phenomnomnominal/tsquery" "4.1.1"
-    ejs "^3.1.7"
-    ignore "^5.0.4"
-    semver "7.3.4"
-    tslib "^2.3.0"
-
 "@nrwl/devkit@15.1.0":
   version "15.1.0"
   resolved "https://registry.yarnpkg.com/@nrwl/devkit/-/devkit-15.1.0.tgz#885494a3c1efd0c02d142e91f2f29611053860e6"
@@ -3069,22 +3058,15 @@
     semver "7.3.4"
     tslib "^2.3.0"
 
-"@nrwl/jest@15.0.13":
+"@nrwl/devkit@>=14.8.6 < 16":
   version "15.0.13"
-  resolved "https://registry.yarnpkg.com/@nrwl/jest/-/jest-15.0.13.tgz#60ad2fc5c936116532b25e3eaa5d3e488bcb64fb"
-  integrity sha512-env+EO+uvyw85dL7tPwR6VFe0CLGcn82EAaxFwY83XUmdM9n92OR2XY0RecoDzo6uL2kRFb8x++Jy3OVLmqVYA==
+  resolved "https://registry.yarnpkg.com/@nrwl/devkit/-/devkit-15.0.13.tgz#3943e6967cf93cb3115b04a4dc48494a5453e645"
+  integrity sha512-/8k7wbBRFf2UC+T4F+vWMy3bfSGi+uK6RwXk53moLq3nxehXaQhRiCqasC6VJFUw3zK6luu2T7xkPUlA9K9l4w==
   dependencies:
-    "@jest/reporters" "28.1.1"
-    "@jest/test-result" "28.1.1"
-    "@nrwl/devkit" "15.0.13"
     "@phenomnomnominal/tsquery" "4.1.1"
-    chalk "4.1.0"
-    dotenv "~10.0.0"
-    identity-obj-proxy "3.0.0"
-    jest-config "28.1.1"
-    jest-resolve "28.1.1"
-    jest-util "28.1.1"
-    resolve.exports "1.1.0"
+    ejs "^3.1.7"
+    ignore "^5.0.4"
+    semver "7.3.4"
     tslib "^2.3.0"
 
 "@nrwl/jest@15.1.0":
