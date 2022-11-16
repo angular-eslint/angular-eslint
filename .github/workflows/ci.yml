@@ -65,7 +65,7 @@ jobs:
       - name: Install dependencies (skipping postinstall)
         # We use --ignore-scripts to skip automatic postinstall and give us more control over distributing build tasks
         run: |
-          yarn --ignore-engines --frozen-lockfile --prefer-offline --ignore-scripts
+          yarn --ignore-engines --ignore-scripts
           yarn check-clean-workspace-after-install
 
       - name: Check code formatting (not distributable)
@@ -130,7 +130,7 @@ jobs:
 
       - name: Install dependencies (skipping postinstall)
         # We use --ignore-scripts to skip automatic postinstall and give us more control to distribute tasks
-        run: yarn --ignore-engines --frozen-lockfile --prefer-offline --ignore-scripts
+        run: yarn --ignore-engines --ignore-scripts
 
       - name: Start Nx Agent ${{ matrix.agent }}
         run: npx nx-cloud start-agent
