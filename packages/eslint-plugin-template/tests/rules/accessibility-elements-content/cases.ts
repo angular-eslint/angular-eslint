@@ -4,19 +4,34 @@ import type { MessageIds } from '../../../src/rules/accessibility-elements-conte
 const messageId: MessageIds = 'accessibilityElementsContent';
 
 export const valid = [
-  '<h1>Heading Content!</h1>',
-  '<h2><app-content></app-content></h2>',
-  '<h3 [innerHtml]="dangerouslySetHTML"></h3>',
-  '<h4 [innerText]="text"></h4>',
-  '<a>Anchor Content!</a>',
-  '<a><app-content></app-content></a>',
-  '<a [innerHTML]="dangerouslySetHTML"></a>',
-  '<a [innerText]="text"></a>',
-  '<a [outerHTML]="text"></a>',
-  '<a aria-hidden></a>',
-  '<button [attr.aria-hidden]="true"></button>',
-  '<h5 [attr.aria-label]="text"></h5>',
-  '<h6 title="text"></h6>',
+  `
+    <h1>Heading Content!</h1>
+    <h2><app-content></app-content></h2>
+    <h3 [innerHtml]="dangerouslySetHTML"></h3>
+    <h4 [innerText]="text"></h4>
+    <a>Anchor Content!</a>
+    <a><app-content></app-content></a>
+    <a [innerHTML]="dangerouslySetHTML"></a>
+    <a [innerText]="text"></a>
+    <a [outerHTML]="text"></a>
+    <a aria-hidden></a>
+    <button [attr.aria-hidden]="true"></button>
+    <h5 [attr.aria-label]="text"></h5>
+    <h6 title="text"></h6>
+  `,
+  {
+    code: `
+      <button appTooltipLabel="directive adds aria-label"></button>
+      <button [appTooltipLabel]="label"></button>
+      <h1 ariaLabel="Important Content"></h1>
+      <a [ariaLabel]="label"></a>
+    `,
+    options: [
+      {
+        allowList: ['appTooltipLabel', 'ariaLabel'],
+      },
+    ],
+  },
 ];
 
 export const invalid = [
@@ -45,6 +60,17 @@ export const invalid = [
         ~~~~~~~~~~~~~~~~~
       `,
     messageId,
+    data: { element: 'button' },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail if attribute/input/directive is not configured in allowList',
+    annotatedSource: `
+        <button [ariaLabelledBy]="label"></button>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    options: [{ allowList: ['aria-labelledby'] }],
     data: { element: 'button' },
   }),
 ];

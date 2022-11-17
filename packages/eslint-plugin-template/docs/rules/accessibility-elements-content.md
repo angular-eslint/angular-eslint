@@ -23,7 +23,17 @@ Ensures that the heading, anchor and button elements have content in it
 
 ## Rule Options
 
-The rule does not have any configuration options.
+The rule accepts an options object with the following properties:
+
+```ts
+interface Options {
+  /**
+   * Default: `["aria-label","innerHtml","innerHTML","innerText","outerHTML","title"]`
+   */
+  allowList?: string[];
+}
+
+```
 
 <br>
 
@@ -113,6 +123,38 @@ The rule does not have any configuration options.
 ~~~~~~~~~~~~~~~~~
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/accessibility-elements-content": [
+      "error",
+      {
+        "allowList": [
+          "aria-labelledby"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<button [ariaLabelledBy]="label"></button>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
 </details>
 
 <br>
@@ -144,292 +186,18 @@ The rule does not have any configuration options.
 
 ```html
 <h1>Heading Content!</h1>
-```
-
-<br>
-
----
-
-<br>
-
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/template/accessibility-elements-content": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
-#### ✅ Valid Code
-
-```html
 <h2><app-content></app-content></h2>
-```
-
-<br>
-
----
-
-<br>
-
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/template/accessibility-elements-content": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
-#### ✅ Valid Code
-
-```html
 <h3 [innerHtml]="dangerouslySetHTML"></h3>
-```
-
-<br>
-
----
-
-<br>
-
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/template/accessibility-elements-content": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
-#### ✅ Valid Code
-
-```html
 <h4 [innerText]="text"></h4>
-```
-
-<br>
-
----
-
-<br>
-
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/template/accessibility-elements-content": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
-#### ✅ Valid Code
-
-```html
 <a>Anchor Content!</a>
-```
-
-<br>
-
----
-
-<br>
-
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/template/accessibility-elements-content": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
-#### ✅ Valid Code
-
-```html
 <a><app-content></app-content></a>
-```
-
-<br>
-
----
-
-<br>
-
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/template/accessibility-elements-content": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
-#### ✅ Valid Code
-
-```html
 <a [innerHTML]="dangerouslySetHTML"></a>
-```
-
-<br>
-
----
-
-<br>
-
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/template/accessibility-elements-content": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
-#### ✅ Valid Code
-
-```html
 <a [innerText]="text"></a>
-```
-
-<br>
-
----
-
-<br>
-
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/template/accessibility-elements-content": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
-#### ✅ Valid Code
-
-```html
 <a [outerHTML]="text"></a>
-```
-
-<br>
-
----
-
-<br>
-
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/template/accessibility-elements-content": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
-#### ✅ Valid Code
-
-```html
 <a aria-hidden></a>
-```
-
-<br>
-
----
-
-<br>
-
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/template/accessibility-elements-content": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
-#### ✅ Valid Code
-
-```html
 <button [attr.aria-hidden]="true"></button>
-```
-
-<br>
-
----
-
-<br>
-
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/template/accessibility-elements-content": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
-#### ✅ Valid Code
-
-```html
 <h5 [attr.aria-label]="text"></h5>
+<h6 title="text"></h6>
 ```
 
 <br>
@@ -438,13 +206,19 @@ The rule does not have any configuration options.
 
 <br>
 
-#### Default Config
+#### Custom Config
 
 ```json
 {
   "rules": {
     "@angular-eslint/template/accessibility-elements-content": [
-      "error"
+      "error",
+      {
+        "allowList": [
+          "appTooltipLabel",
+          "ariaLabel"
+        ]
+      }
     ]
   }
 }
@@ -455,7 +229,10 @@ The rule does not have any configuration options.
 #### ✅ Valid Code
 
 ```html
-<h6 title="text"></h6>
+<button appTooltipLabel="directive adds aria-label"></button>
+<button [appTooltipLabel]="label"></button>
+<h1 ariaLabel="Important Content"></h1>
+<a [ariaLabel]="label"></a>
 ```
 
 </details>

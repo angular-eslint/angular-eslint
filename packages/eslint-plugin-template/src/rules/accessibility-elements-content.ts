@@ -5,17 +5,24 @@ import {
 } from '../utils/create-eslint-rule';
 import { isHiddenFromScreenReader } from '../utils/is-hidden-from-screen-reader';
 
-type Options = [];
+type Options = [
+  {
+    readonly allowList?: readonly string[];
+  },
+];
 export type MessageIds = 'accessibilityElementsContent';
 export const RULE_NAME = 'accessibility-elements-content';
-const safelistAttributes: ReadonlySet<string> = new Set([
+const DEFAULT_SAFELIST_ATTRIBUTES: readonly string[] = [
   'aria-label',
   'innerHtml',
   'innerHTML',
   'innerText',
   'outerHTML',
   'title',
-]);
+];
+const DEFAULT_OPTIONS: Options[0] = {
+  allowList: DEFAULT_SAFELIST_ATTRIBUTES,
+};
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
@@ -26,13 +33,25 @@ export default createESLintRule<Options, MessageIds>({
         'Ensures that the heading, anchor and button elements have content in it',
       recommended: false,
     },
-    schema: [],
+    schema: [
+      {
+        additionalProperties: false,
+        properties: {
+          allowList: {
+            items: { type: 'string' },
+            type: 'array',
+            uniqueItems: true,
+          },
+        },
+        type: 'object',
+      },
+    ],
     messages: {
       accessibilityElementsContent: '<{{element}}> should have content',
     },
   },
-  defaultOptions: [],
-  create(context) {
+  defaultOptions: [DEFAULT_OPTIONS],
+  create(context, [{ allowList }]) {
     const parserServices = getTemplateParserServices(context);
 
     return {
@@ -42,6 +61,10 @@ export default createESLintRule<Options, MessageIds>({
         if (isHiddenFromScreenReader(node)) return;
 
         const { attributes, inputs, name: element, sourceSpan } = node;
+        const safelistAttributes: ReadonlySet<string> = new Set([
+          ...DEFAULT_SAFELIST_ATTRIBUTES,
+          ...(allowList ?? []),
+        ]);
         const hasAttributeSafelisted = [...attributes, ...inputs]
           .map(({ name }) => name)
           .some((inputName) => safelistAttributes.has(inputName));
