@@ -55,13 +55,21 @@ export default createESLintRule<Options, MessageIds>({
   create(context, [{ allowedNames = [] }]) {
     let selectors: ReadonlySet<string> = new Set();
     const ariaAttributeKeys = getAriaAttributeKeys();
+    let selectorDirectiveName: string;
 
     return {
       [Selectors.COMPONENT_OR_DIRECTIVE_SELECTOR_LITERAL](
         node: TSESTree.Literal | TSESTree.TemplateElement,
       ) {
+        const nodeRawText = ASTUtils.getRawText(node);
+        const bracketMatchResults = nodeRawText.match(/\[(.*?)\]/);
+
+        if (bracketMatchResults) {
+          selectorDirectiveName = bracketMatchResults[1];
+        }
+
         selectors = new Set(
-          withoutBracketsAndWhitespaces(ASTUtils.getRawText(node)).split(','),
+          withoutBracketsAndWhitespaces(nodeRawText).split(','),
         );
       },
       [Selectors.INPUT_ALIAS](
@@ -85,6 +93,7 @@ export default createESLintRule<Options, MessageIds>({
         );
 
         if (
+          aliasName === selectorDirectiveName ||
           allowedNames.includes(aliasName) ||
           (ariaAttributeKeys.has(aliasName) &&
             propertyName === kebabToCamelCase(aliasName))
