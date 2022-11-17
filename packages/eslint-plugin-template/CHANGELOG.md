@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [14.3.0](https://github.com/angular-eslint/angular-eslint/compare/v14.2.0...v14.3.0) (2022-11-17)
+
+### Features
+
+- **eslint-plugin-template:** [accessibility-elements-content] add allowList option ([#1201](https://github.com/angular-eslint/angular-eslint/issues/1201)) ([3877f43](https://github.com/angular-eslint/angular-eslint/commit/3877f4350213d934dc3eac440a2dc6168aeef558))
+- **eslint-plugin-template:** [no-inline-styles] add rule ([#1162](https://github.com/angular-eslint/angular-eslint/issues/1162)) ([7e1aadf](https://github.com/angular-eslint/angular-eslint/commit/7e1aadf47913124c09a000e231748c3ea981750b))
+
 # [14.2.0](https://github.com/angular-eslint/angular-eslint/compare/v14.1.2...v14.2.0) (2022-11-15)
 
 ### Bug Fixes
