@@ -93,7 +93,6 @@ export default createESLintRule<Options, MessageIds>({
         );
 
         if (
-          aliasName === selectorDirectiveName ||
           allowedNames.includes(aliasName) ||
           (ariaAttributeKeys.has(aliasName) &&
             propertyName === kebabToCamelCase(aliasName))
@@ -107,7 +106,14 @@ export default createESLintRule<Options, MessageIds>({
             messageId: 'noInputRename',
             fix: (fixer) => fixer.remove(node),
           });
-        } else if (!isAliasNameAllowed(selectors, propertyName, aliasName)) {
+        } else if (
+          !isAliasNameAllowed(
+            selectors,
+            propertyName,
+            aliasName,
+            selectorDirectiveName,
+          )
+        ) {
           context.report({
             node,
             messageId: 'noInputRename',
@@ -156,7 +162,14 @@ export default createESLintRule<Options, MessageIds>({
                 ASTUtils.getReplacementText(node, propertyName),
               ),
           });
-        } else if (!isAliasNameAllowed(selectors, propertyName, aliasName)) {
+        } else if (
+          !isAliasNameAllowed(
+            selectors,
+            propertyName,
+            aliasName,
+            selectorDirectiveName,
+          )
+        ) {
           context.report({
             node,
             messageId: 'noInputRename',
@@ -191,10 +204,12 @@ function isAliasNameAllowed(
   selectors: ReadonlySet<string>,
   propertyName: string,
   aliasName: string,
+  selectorDirectiveName: string,
 ): boolean {
   return [...selectors].some((selector) => {
     return (
       selector === aliasName ||
+      selectorDirectiveName === aliasName ||
       composedName(selector, propertyName) === aliasName
     );
   });
