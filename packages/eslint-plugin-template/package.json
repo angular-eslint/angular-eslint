@@ -28,7 +28,7 @@
     "@types/aria-query": "5.0.1"
   },
   "peerDependencies": {
-    "eslint": "^7.0.0 || ^8.0.0",
+    "eslint": "^7.20.0 || ^8.0.0",
     "typescript": "*"
   },
   "gitHead": "e2006e5e9c99e5a943d1a999e0efa5247d29ec24"

@@ -3,7 +3,7 @@
   "version": "14.3.0",
   "private": true,
   "peerDependencies": {
-    "eslint": "^7.0.0 || ^8.0.0",
+    "eslint": "^7.20.0 || ^8.0.0",
     "typescript": "*"
   },
   "devDependencies": {

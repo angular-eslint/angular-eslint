@@ -72,6 +72,12 @@ For an understanding of Angular CLI version support prior to v12, please see [./
 
 <br>
 
+## Supported ESLint Versions
+
+See the specified peerDependency in any of our packages, such as the `eslint-plugin`: https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/package.json
+
+<br>
+
 ## Usage with Nx Monorepos
 
 Nx leans on some, _but not all_ of the packages from this project.
