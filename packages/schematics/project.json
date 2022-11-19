@@ -12,7 +12,7 @@
         "commands": [
           "npx ncp ../../node_modules/@schematics/angular/application/schema.json src/application/schema.json",
           "npx ncp ../../node_modules/@schematics/angular/library/schema.json src/library/schema.json",
-          "npx rimraf ./dist",
+          "npx ts-node --project ../../tsconfig.tools.json ../../tools/scripts/enhance-angular-schemas.ts",
           "npx tsc -p tsconfig.build.json",
           "npx ncp src/collection.json dist/collection.json",
           "npx ncp src/migrations.json dist/migrations.json",

@@ -60,7 +60,10 @@
         "message": "Which stylesheet format would you like to use?",
         "type": "list",
         "items": [
-          { "value": "css", "label": "CSS" },
+          {
+            "value": "css",
+            "label": "CSS"
+          },
           {
             "value": "scss",
             "label": "SCSS   [ https://sass-lang.com/documentation/syntax#scss                ]"
@@ -102,6 +105,11 @@
       "description": "Creates an application with stricter bundle budgets settings.",
       "type": "boolean",
       "default": true
+    },
+    "setParserOptionsProject": {
+      "type": "boolean",
+      "description": "Whether or not to configure the ESLint `parserOptions.project` option. We do not do this by default for lint performance reasons.",
+      "default": false
     }
   },
   "required": ["name"]

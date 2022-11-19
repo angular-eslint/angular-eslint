@@ -5,33 +5,39 @@ import { chain, externalSchematic } from '@angular-devkit/schematics';
  * The applicable json file is copied from node_modules as a prebuiid step to ensure
  * they stay in sync.
  */
-import type { Schema } from '@schematics/angular/library/schema';
+import type { Schema as AngularSchema } from '@schematics/angular/library/schema';
 import {
   addESLintTargetToProject,
   createESLintConfigForProject,
   removeTSLintJSONForProject,
 } from '../utils';
 
+interface Schema extends AngularSchema {
+  setParserOptionsProject?: boolean;
+}
+
 function eslintRelatedChanges(options: Schema) {
-  /**
-   * The types coming from the @schematics/angular schema seem to be wrong, if name isn't
-   * provided the interactive CLI prompt will throw
-   */
-  const projectName = options.name as string;
   return chain([
     // Update the lint builder and config in angular.json
-    addESLintTargetToProject(projectName, 'lint'),
+    addESLintTargetToProject(options.name, 'lint'),
     // Create the ESLint config file for the project
-    createESLintConfigForProject(projectName),
+    createESLintConfigForProject(
+      options.name,
+      options.setParserOptionsProject ?? false,
+    ),
     // Delete the TSLint config file for the project
-    removeTSLintJSONForProject(projectName),
+    removeTSLintJSONForProject(options.name),
   ]);
 }
 
 export default function (options: Schema): Rule {
   return (host: Tree, context: SchematicContext) => {
+    // Remove angular-eslint specific options before passing to the Angular schematic
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { setParserOptionsProject, ...angularOptions } = options;
+
     return chain([
-      externalSchematic('@schematics/angular', 'library', options),
+      externalSchematic('@schematics/angular', 'library', angularOptions),
       eslintRelatedChanges(options),
     ])(host, context);
   };

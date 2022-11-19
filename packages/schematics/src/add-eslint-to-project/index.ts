@@ -8,6 +8,7 @@ import {
 
 interface Schema {
   project?: string;
+  setParserOptionsProject?: boolean;
 }
 
 export default function addESLintToProject(schema: Schema): Rule {
@@ -27,7 +28,10 @@ E.g. npx ng g @angular-eslint/schematics:add-eslint-to-project {{YOUR_PROJECT_NA
       // Set the lint builder and config in angular.json
       addESLintTargetToProject(projectName, 'lint'),
       // Create the ESLint config file for the project
-      createESLintConfigForProject(projectName),
+      createESLintConfigForProject(
+        projectName,
+        schema.setParserOptionsProject ?? false,
+      ),
     ]);
   };
 }

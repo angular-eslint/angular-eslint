@@ -32,18 +32,14 @@ Object {
   "overrides": Array [
     Object {
       "extends": Array [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
         "plugin:@angular-eslint/recommended",
         "plugin:@angular-eslint/template/process-inline-templates",
       ],
       "files": Array [
         "*.ts",
       ],
-      "parserOptions": Object {
-        "createDefaultProgram": true,
-        "project": Array [
-          "tsconfig.json",
-        ],
-      },
       "rules": Object {},
     },
     Object {
@@ -71,13 +67,6 @@ Object {
       "files": Array [
         "*.ts",
       ],
-      "parserOptions": Object {
-        "createDefaultProgram": true,
-        "project": Array [
-          "projects/app-project/tsconfig.app.json",
-          "projects/app-project/tsconfig.spec.json",
-        ],
-      },
       "rules": Object {
         "@angular-eslint/component-selector": Array [
           "error",

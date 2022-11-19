@@ -63,7 +63,7 @@ describe('library', () => {
 
   it('should change the lint target to use the @angular-eslint builder', async () => {
     const tree = await schematicRunner
-      .runSchematicAsync('application', { name: 'bar' }, appTree)
+      .runSchematicAsync('library', { name: 'bar' }, appTree)
       .toPromise();
 
     expect(readJsonInTree(tree, 'angular.json').projects.bar.architect.lint)
@@ -83,8 +83,68 @@ describe('library', () => {
   it('should add the ESLint config for the project and delete the TSLint config', async () => {
     const tree = await schematicRunner
       .runSchematicAsync(
-        'application',
-        { name: 'bar', prefix: 'something-else-custom' },
+        'library',
+        {
+          name: 'bar',
+          prefix: 'something-else-custom',
+        },
+        appTree,
+      )
+      .toPromise();
+
+    expect(tree.exists('projects/bar/tslint.json')).toBe(false);
+    expect(tree.read('projects/bar/.eslintrc.json')?.toString())
+      .toMatchInlineSnapshot(`
+      "{
+        \\"extends\\": \\"../../.eslintrc.json\\",
+        \\"ignorePatterns\\": [
+          \\"!**/*\\"
+        ],
+        \\"overrides\\": [
+          {
+            \\"files\\": [
+              \\"*.ts\\"
+            ],
+            \\"rules\\": {
+              \\"@angular-eslint/directive-selector\\": [
+                \\"error\\",
+                {
+                  \\"type\\": \\"attribute\\",
+                  \\"prefix\\": \\"something-else-custom\\",
+                  \\"style\\": \\"camelCase\\"
+                }
+              ],
+              \\"@angular-eslint/component-selector\\": [
+                \\"error\\",
+                {
+                  \\"type\\": \\"element\\",
+                  \\"prefix\\": \\"something-else-custom\\",
+                  \\"style\\": \\"kebab-case\\"
+                }
+              ]
+            }
+          },
+          {
+            \\"files\\": [
+              \\"*.html\\"
+            ],
+            \\"rules\\": {}
+          }
+        ]
+      }
+      "
+    `);
+  });
+
+  it('should add the ESLint config for the project and delete the TSLint config (--setParserOptionsProject=true)', async () => {
+    const tree = await schematicRunner
+      .runSchematicAsync(
+        'library',
+        {
+          name: 'bar',
+          prefix: 'something-else-custom',
+          setParserOptionsProject: true,
+        },
         appTree,
       )
       .toPromise();
@@ -104,10 +164,8 @@ describe('library', () => {
             ],
             \\"parserOptions\\": {
               \\"project\\": [
-                \\"projects/bar/tsconfig.app.json\\",
-                \\"projects/bar/tsconfig.spec.json\\"
-              ],
-              \\"createDefaultProgram\\": true
+                \\"projects/bar/tsconfig.(lib|spec).json\\"
+              ]
             },
             \\"rules\\": {
               \\"@angular-eslint/directive-selector\\": [

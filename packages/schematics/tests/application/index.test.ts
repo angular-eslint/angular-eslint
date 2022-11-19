@@ -84,7 +84,67 @@ describe('application', () => {
     const tree = await schematicRunner
       .runSchematicAsync(
         'application',
-        { name: 'foo', prefix: 'something-custom' },
+        {
+          name: 'foo',
+          prefix: 'something-custom',
+        },
+        appTree,
+      )
+      .toPromise();
+
+    expect(tree.exists('projects/foo/tslint.json')).toBe(false);
+    expect(tree.read('projects/foo/.eslintrc.json')?.toString())
+      .toMatchInlineSnapshot(`
+      "{
+        \\"extends\\": \\"../../.eslintrc.json\\",
+        \\"ignorePatterns\\": [
+          \\"!**/*\\"
+        ],
+        \\"overrides\\": [
+          {
+            \\"files\\": [
+              \\"*.ts\\"
+            ],
+            \\"rules\\": {
+              \\"@angular-eslint/directive-selector\\": [
+                \\"error\\",
+                {
+                  \\"type\\": \\"attribute\\",
+                  \\"prefix\\": \\"something-custom\\",
+                  \\"style\\": \\"camelCase\\"
+                }
+              ],
+              \\"@angular-eslint/component-selector\\": [
+                \\"error\\",
+                {
+                  \\"type\\": \\"element\\",
+                  \\"prefix\\": \\"something-custom\\",
+                  \\"style\\": \\"kebab-case\\"
+                }
+              ]
+            }
+          },
+          {
+            \\"files\\": [
+              \\"*.html\\"
+            ],
+            \\"rules\\": {}
+          }
+        ]
+      }
+      "
+    `);
+  });
+
+  it('should add the ESLint config for the project and delete the TSLint config (--setParserOptionsProject=true)', async () => {
+    const tree = await schematicRunner
+      .runSchematicAsync(
+        'application',
+        {
+          name: 'foo',
+          prefix: 'something-custom',
+          setParserOptionsProject: true,
+        },
         appTree,
       )
       .toPromise();
@@ -104,10 +164,8 @@ describe('application', () => {
             ],
             \\"parserOptions\\": {
               \\"project\\": [
-                \\"projects/foo/tsconfig.app.json\\",
-                \\"projects/foo/tsconfig.spec.json\\"
-              ],
-              \\"createDefaultProgram\\": true
+                \\"projects/foo/tsconfig.(app|spec).json\\"
+              ]
             },
             \\"rules\\": {
               \\"@angular-eslint/directive-selector\\": [

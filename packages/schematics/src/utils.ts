@@ -231,10 +231,7 @@ export function setESLintProjectBasedOnProjectType(
 ) {
   let project;
   if (projectType === 'application') {
-    project = [
-      `${projectRoot}/tsconfig.app.json`,
-      `${projectRoot}/tsconfig.spec.json`,
-    ];
+    project = [`${projectRoot}/tsconfig.(app|spec).json`];
 
     if (hasE2e) {
       project.push(`${projectRoot}/e2e/tsconfig.json`);
@@ -242,19 +239,13 @@ export function setESLintProjectBasedOnProjectType(
   }
   // Libraries don't have an e2e directory
   if (projectType === 'library') {
-    project = [
-      `${projectRoot}/tsconfig.lib.json`,
-      `${projectRoot}/tsconfig.spec.json`,
-    ];
+    project = [`${projectRoot}/tsconfig.(lib|spec).json`];
   }
   return project;
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export function createRootESLintConfig(
-  prefix: string | null,
-  hasE2e?: boolean,
-) {
+export function createRootESLintConfig(prefix: string | null) {
   let codeRules;
   if (prefix) {
     codeRules = {
@@ -277,13 +268,9 @@ export function createRootESLintConfig(
     overrides: [
       {
         files: ['*.ts'],
-        parserOptions: {
-          project: hasE2e
-            ? ['tsconfig.json', 'e2e/tsconfig.json']
-            : ['tsconfig.json'],
-          createDefaultProgram: true,
-        },
         extends: [
+          'eslint:recommended',
+          'plugin:@typescript-eslint/recommended',
           'plugin:@angular-eslint/recommended',
           'plugin:@angular-eslint/template/process-inline-templates',
         ],
@@ -304,6 +291,7 @@ function createProjectESLintConfig(
   projectRoot: string,
   projectType: ProjectType,
   prefix: string,
+  setParserOptionsProject: boolean,
   hasE2e: boolean,
 ) {
   return {
@@ -312,14 +300,17 @@ function createProjectESLintConfig(
     overrides: [
       {
         files: ['*.ts'],
-        parserOptions: {
-          project: setESLintProjectBasedOnProjectType(
-            projectRoot,
-            projectType,
-            hasE2e,
-          ),
-          createDefaultProgram: true,
-        },
+        ...(setParserOptionsProject
+          ? {
+              parserOptions: {
+                project: setESLintProjectBasedOnProjectType(
+                  projectRoot,
+                  projectType,
+                  hasE2e,
+                ),
+              },
+            }
+          : null),
         rules: {
           '@angular-eslint/directive-selector': [
             'error',
@@ -340,7 +331,10 @@ function createProjectESLintConfig(
   };
 }
 
-export function createESLintConfigForProject(projectName: string): Rule {
+export function createESLintConfigForProject(
+  projectName: string,
+  setParserOptionsProject: boolean,
+): Rule {
   return (tree: Tree) => {
     const angularJSON = readJsonInTree(tree, 'angular.json');
     const {
@@ -370,6 +364,7 @@ export function createESLintConfigForProject(projectName: string): Rule {
           projectRoot,
           projectType,
           prefix,
+          setParserOptionsProject,
           hasE2e,
         ),
       ),
@@ -392,7 +387,6 @@ function createRootESLintConfigFile(projectName: string): Rule {
   return (tree) => {
     const angularJSON = readJsonInTree(tree, getWorkspacePath(tree));
     let lintPrefix: string | null = null;
-    const hasE2e = determineTargetProjectHasE2E(angularJSON, projectName);
 
     if (angularJSON.projects?.[projectName]) {
       const { prefix } = angularJSON.projects[projectName];
@@ -400,7 +394,7 @@ function createRootESLintConfigFile(projectName: string): Rule {
     }
 
     return updateJsonInTree('.eslintrc.json', () =>
-      createRootESLintConfig(lintPrefix, hasE2e),
+      createRootESLintConfig(lintPrefix),
     );
   };
 }
