@@ -81,8 +81,7 @@ Object {
       "parserOptions": Object {
         "createDefaultProgram": true,
         "project": Array [
-          "projects/another-app/tsconfig.app.json",
-          "projects/another-app/tsconfig.spec.json",
+          "projects/another-app/tsconfig.(app|spec).json",
           "projects/another-app/e2e/tsconfig.json",
         ],
       },
@@ -141,8 +140,7 @@ Object {
       "parserOptions": Object {
         "createDefaultProgram": true,
         "project": Array [
-          "projects/another-lib/tsconfig.lib.json",
-          "projects/another-lib/tsconfig.spec.json",
+          "projects/another-lib/tsconfig.(lib|spec).json",
         ],
       },
       "rules": Object {

@@ -42,11 +42,39 @@ export default createBuilder(
       ? resolve(workspaceRoot, options.eslintConfig)
       : undefined;
 
-    const lintResults: ESLint.LintResult[] = await lint(
-      workspaceRoot,
-      eslintConfigPath,
-      options,
-    );
+    let lintResults: ESLint.LintResult[] = [];
+
+    try {
+      lintResults = await lint(workspaceRoot, eslintConfigPath, options);
+    } catch (err) {
+      if (
+        err instanceof Error &&
+        err.message.includes(
+          'You must therefore provide a value for the "parserOptions.project" property for @typescript-eslint/parser',
+        )
+      ) {
+        let eslintConfigPathForError = `for ${projectName}`;
+
+        const projectMetadata = await context.getProjectMetadata(projectName);
+        if (projectMetadata) {
+          eslintConfigPathForError = `\`${projectMetadata.root}/.eslintrc.json\``;
+        }
+
+        console.error(`
+    Error: You have attempted to use a lint rule which requires the full TypeScript type-checker to be available, but you do not have \`parserOptions.project\` configured to point at your project tsconfig.json files in the relevant TypeScript file "overrides" block of your ESLint config ${
+      eslintConfigPath || eslintConfigPathForError
+    }
+    
+    For full guidance on how to resolve this issue, please see https://github.com/angular-eslint/angular-eslint/blob/main/docs/RULES_REQUIRING_TYPE_INFORMATION.md
+    `);
+
+        return {
+          success: false,
+        };
+      }
+      // If some unexpected error, rethrow
+      throw err;
+    }
 
     if (lintResults.length === 0) {
       throw new Error('Invalid lint configuration. Nothing to lint.');

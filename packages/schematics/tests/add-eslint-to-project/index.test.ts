@@ -108,18 +108,14 @@ describe('add-eslint-to-project', () => {
         "overrides": Array [
           Object {
             "extends": Array [
+              "eslint:recommended",
+              "plugin:@typescript-eslint/recommended",
               "plugin:@angular-eslint/recommended",
               "plugin:@angular-eslint/template/process-inline-templates",
             ],
             "files": Array [
               "*.ts",
             ],
-            "parserOptions": Object {
-              "createDefaultProgram": true,
-              "project": Array [
-                "tsconfig.json",
-              ],
-            },
             "rules": Object {
               "@angular-eslint/component-selector": Array [
                 "error",
@@ -154,7 +150,7 @@ describe('add-eslint-to-project', () => {
     `);
   });
 
-  it('should add ESLint to the legacy Angular CLI projects which are generated with e2e after the workspace is', async () => {
+  it('should add ESLint to the legacy Angular CLI projects which are generated with e2e after the workspace already exists', async () => {
     const options = {
       project: legacyProjectName,
     };
@@ -191,14 +187,6 @@ describe('add-eslint-to-project', () => {
             "files": Array [
               "*.ts",
             ],
-            "parserOptions": Object {
-              "createDefaultProgram": true,
-              "project": Array [
-                "projects/legacy-project/tsconfig.app.json",
-                "projects/legacy-project/tsconfig.spec.json",
-                "projects/legacy-project/e2e/tsconfig.json",
-              ],
-            },
             "rules": Object {
               "@angular-eslint/component-selector": Array [
                 "error",
@@ -229,7 +217,7 @@ describe('add-eslint-to-project', () => {
     `);
   });
 
-  it('should add ESLint to the any other Angular CLI projects which are generated after the workspace is', async () => {
+  it('should add ESLint to the any other Angular CLI projects which are generated after the workspace already exists', async () => {
     const options = {
       project: otherProjectName,
     };
@@ -266,13 +254,6 @@ describe('add-eslint-to-project', () => {
             "files": Array [
               "*.ts",
             ],
-            "parserOptions": Object {
-              "createDefaultProgram": true,
-              "project": Array [
-                "projects/other-project/tsconfig.app.json",
-                "projects/other-project/tsconfig.spec.json",
-              ],
-            },
             "rules": Object {
               "@angular-eslint/component-selector": Array [
                 "error",
@@ -301,6 +282,155 @@ describe('add-eslint-to-project', () => {
         ],
       }
     `);
+  });
+
+  describe('--setParserOptionsProject=true', () => {
+    it('should add ESLint to the legacy Angular CLI projects which are generated with e2e after the workspace already exists', async () => {
+      const options = {
+        project: legacyProjectName,
+        setParserOptionsProject: true,
+      };
+
+      await schematicRunner
+        .runSchematicAsync('add-eslint-to-project', options, appTree)
+        .toPromise();
+
+      const projectConfig = readJsonInTree(appTree, 'angular.json').projects[
+        legacyProjectName
+      ];
+
+      expect(projectConfig.architect.lint).toMatchInlineSnapshot(`
+        Object {
+          "builder": "@angular-eslint/builder:lint",
+          "options": Object {
+            "lintFilePatterns": Array [
+              "projects/legacy-project/**/*.ts",
+              "projects/legacy-project/**/*.html",
+            ],
+          },
+        }
+      `);
+
+      expect(readJsonInTree(appTree, `${projectConfig.root}/.eslintrc.json`))
+        .toMatchInlineSnapshot(`
+        Object {
+          "extends": "../../.eslintrc.json",
+          "ignorePatterns": Array [
+            "!**/*",
+          ],
+          "overrides": Array [
+            Object {
+              "files": Array [
+                "*.ts",
+              ],
+              "parserOptions": Object {
+                "project": Array [
+                  "projects/legacy-project/tsconfig.(app|spec).json",
+                  "projects/legacy-project/e2e/tsconfig.json",
+                ],
+              },
+              "rules": Object {
+                "@angular-eslint/component-selector": Array [
+                  "error",
+                  Object {
+                    "prefix": "app",
+                    "style": "kebab-case",
+                    "type": "element",
+                  },
+                ],
+                "@angular-eslint/directive-selector": Array [
+                  "error",
+                  Object {
+                    "prefix": "app",
+                    "style": "camelCase",
+                    "type": "attribute",
+                  },
+                ],
+              },
+            },
+            Object {
+              "files": Array [
+                "*.html",
+              ],
+              "rules": Object {},
+            },
+          ],
+        }
+      `);
+    });
+
+    it('should add ESLint to the any other Angular CLI projects which are generated after the workspace already exists', async () => {
+      const options = {
+        project: otherProjectName,
+        setParserOptionsProject: true,
+      };
+
+      await schematicRunner
+        .runSchematicAsync('add-eslint-to-project', options, appTree)
+        .toPromise();
+
+      const projectConfig = readJsonInTree(appTree, 'angular.json').projects[
+        otherProjectName
+      ];
+
+      expect(projectConfig.architect.lint).toMatchInlineSnapshot(`
+        Object {
+          "builder": "@angular-eslint/builder:lint",
+          "options": Object {
+            "lintFilePatterns": Array [
+              "projects/other-project/**/*.ts",
+              "projects/other-project/**/*.html",
+            ],
+          },
+        }
+      `);
+
+      expect(readJsonInTree(appTree, `${projectConfig.root}/.eslintrc.json`))
+        .toMatchInlineSnapshot(`
+        Object {
+          "extends": "../../.eslintrc.json",
+          "ignorePatterns": Array [
+            "!**/*",
+          ],
+          "overrides": Array [
+            Object {
+              "files": Array [
+                "*.ts",
+              ],
+              "parserOptions": Object {
+                "project": Array [
+                  "projects/other-project/tsconfig.(app|spec).json",
+                ],
+              },
+              "rules": Object {
+                "@angular-eslint/component-selector": Array [
+                  "error",
+                  Object {
+                    "prefix": "app",
+                    "style": "kebab-case",
+                    "type": "element",
+                  },
+                ],
+                "@angular-eslint/directive-selector": Array [
+                  "error",
+                  Object {
+                    "prefix": "app",
+                    "style": "camelCase",
+                    "type": "attribute",
+                  },
+                ],
+              },
+            },
+            Object {
+              "files": Array [
+                "*.html",
+              ],
+              "rules": Object {},
+            },
+          ],
+        }
+      `);
+    });
   });
 
   describe('custom root project sourceRoot', () => {
@@ -396,18 +526,14 @@ describe('add-eslint-to-project', () => {
           "overrides": Array [
             Object {
               "extends": Array [
+                "eslint:recommended",
+                "plugin:@typescript-eslint/recommended",
                 "plugin:@angular-eslint/recommended",
                 "plugin:@angular-eslint/template/process-inline-templates",
               ],
               "files": Array [
                 "*.ts",
               ],
-              "parserOptions": Object {
-                "createDefaultProgram": true,
-                "project": Array [
-                  "tsconfig.json",
-                ],
-              },
               "rules": Object {
                 "@angular-eslint/component-selector": Array [
                   "error",
