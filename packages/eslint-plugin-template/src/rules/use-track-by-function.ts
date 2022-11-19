@@ -3,10 +3,8 @@ import type {
   TmplAstTextAttribute,
 } from '@angular-eslint/bundled-angular-compiler';
 import { TmplAstBoundAttribute } from '@angular-eslint/bundled-angular-compiler';
-import {
-  createESLintRule,
-  getTemplateParserServices,
-} from '../utils/create-eslint-rule';
+import { getTemplateParserServices } from '@angular-eslint/utils';
+import { createESLintRule } from '../utils/create-eslint-rule';
 
 type Options = [];
 export type MessageIds = 'useTrackByFunction';

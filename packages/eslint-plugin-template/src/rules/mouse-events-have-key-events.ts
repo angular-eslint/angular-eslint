@@ -1,9 +1,7 @@
 import type { TmplAstElement } from '@angular-eslint/bundled-angular-compiler';
+import { getTemplateParserServices } from '@angular-eslint/utils';
 import type { TSESLint } from '@typescript-eslint/utils';
-import {
-  createESLintRule,
-  getTemplateParserServices,
-} from '../utils/create-eslint-rule';
+import { createESLintRule } from '../utils/create-eslint-rule';
 import { getDomElements } from '../utils/get-dom-elements';
 import { toPattern } from '../utils/to-pattern';
 
