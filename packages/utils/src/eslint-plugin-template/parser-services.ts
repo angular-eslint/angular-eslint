@@ -4,7 +4,7 @@ import type {
 } from '@angular-eslint/bundled-angular-compiler';
 import type { TSESLint, TSESTree } from '@typescript-eslint/utils';
 
-export interface ParserServices {
+export interface TemplateParserServices {
   convertNodeSourceSpanToLoc: (
     sourceSpan: ParseSourceSpan,
   ) => TSESTree.SourceLocation;
@@ -16,7 +16,7 @@ export interface ParserServices {
 
 export function getTemplateParserServices(
   context: Readonly<TSESLint.RuleContext<string, readonly unknown[]>>,
-): ParserServices {
+): TemplateParserServices {
   ensureTemplateParser(context);
   return context.parserServices as unknown as ParserServices;
 }

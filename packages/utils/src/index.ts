@@ -19,7 +19,7 @@ export * as RuleFixes from './eslint-plugin/rule-fixes';
 export * as Selectors from './eslint-plugin/selectors';
 export * as SelectorUtils from './eslint-plugin/selector-utils';
 
-export type { ParserServices } from './eslint-plugin-template/parser-services';
+export type { TemplateParserServices } from './eslint-plugin-template/parser-services';
 export {
   ensureTemplateParser,
   getTemplateParserServices,
