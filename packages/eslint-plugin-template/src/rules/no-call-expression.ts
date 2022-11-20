@@ -1,10 +1,14 @@
-import type { Call } from '@angular-eslint/bundled-angular-compiler';
+import type { AST, Call } from '@angular-eslint/bundled-angular-compiler';
 import { TmplAstBoundEvent } from '@angular-eslint/bundled-angular-compiler';
 import { ensureTemplateParser } from '@angular-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import { getNearestNodeFrom } from '../utils/get-nearest-node-from';
 
-type Options = [];
+type Options = [
+  {
+    readonly allowList?: readonly string[];
+  },
+];
 export type MessageIds = 'noCallExpression';
 export const RULE_NAME = 'no-call-expression';
 
@@ -17,13 +21,25 @@ export default createESLintRule<Options, MessageIds>({
         'Disallows calling expressions in templates, except for output handlers',
       recommended: false,
     },
-    schema: [],
+    schema: [
+      {
+        additionalProperties: false,
+        properties: {
+          allowList: {
+            items: { type: 'string' },
+            type: 'array',
+            uniqueItems: true,
+          },
+        },
+        type: 'object',
+      },
+    ],
     messages: {
       noCallExpression: 'Avoid calling expressions in templates',
     },
   },
-  defaultOptions: [],
-  create(context) {
+  defaultOptions: [{ allowList: [] }],
+  create(context, [{ allowList }]) {
     ensureTemplateParser(context);
     const sourceCode = context.getSourceCode();
 
@@ -34,6 +50,15 @@ export default createESLintRule<Options, MessageIds>({
         );
 
         if (isChildOfBoundEvent) return;
+
+        if (
+          allowList &&
+          allowList.length &&
+          isASTWithName(node.receiver) &&
+          allowList.indexOf(node.receiver.name) > -1
+        ) {
+          return;
+        }
 
         const {
           sourceSpan: { start, end },
@@ -52,4 +77,10 @@ export default createESLintRule<Options, MessageIds>({
 
 function isBoundEvent(node: unknown): node is TmplAstBoundEvent {
   return node instanceof TmplAstBoundEvent;
+}
+
+function isASTWithName(
+  ast: AST & { name?: string },
+): ast is AST & { name: string } {
+  return !!ast.name;
 }

@@ -23,7 +23,17 @@ Disallows calling expressions in templates, except for output handlers
 
 ## Rule Options
 
-The rule does not have any configuration options.
+The rule accepts an options object with the following properties:
+
+```ts
+interface Options {
+  /**
+   * Default: `[]`
+   */
+  allowList?: string[];
+}
+
+```
 
 <br>
 
@@ -389,6 +399,39 @@ The rule does not have any configuration options.
 
 ```html
 <form [formGroup]="form" (ngSubmit)="id ? save() : edit()"></form>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-call-expression": [
+      "error",
+      {
+        "allowList": [
+          "nested",
+          "getHref"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+{{ obj?.nested() }} {{ obj!.nested() }}
+<a [href]="getHref()">info</a>
 ```
 
 </details>
