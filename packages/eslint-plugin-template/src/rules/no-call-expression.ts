@@ -1,9 +1,7 @@
 import type { Call } from '@angular-eslint/bundled-angular-compiler';
 import { TmplAstBoundEvent } from '@angular-eslint/bundled-angular-compiler';
-import {
-  createESLintRule,
-  ensureTemplateParser,
-} from '../utils/create-eslint-rule';
+import { ensureTemplateParser } from '@angular-eslint/utils';
+import { createESLintRule } from '../utils/create-eslint-rule';
 import { getNearestNodeFrom } from '../utils/get-nearest-node-from';
 
 type Options = [];

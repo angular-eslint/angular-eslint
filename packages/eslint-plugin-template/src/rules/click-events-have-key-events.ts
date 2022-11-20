@@ -1,8 +1,6 @@
 import type { TmplAstElement } from '@angular-eslint/bundled-angular-compiler';
-import {
-  createESLintRule,
-  getTemplateParserServices,
-} from '../utils/create-eslint-rule';
+import { getTemplateParserServices } from '@angular-eslint/utils';
+import { createESLintRule } from '../utils/create-eslint-rule';
 import { getDomElements } from '../utils/get-dom-elements';
 import { isHiddenFromScreenReader } from '../utils/is-hidden-from-screen-reader';
 import { isInteractiveElement } from '../utils/is-interactive-element';

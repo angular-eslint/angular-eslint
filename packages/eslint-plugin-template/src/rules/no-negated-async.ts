@@ -2,10 +2,8 @@ import type {
   BindingPipe,
   PrefixNot,
 } from '@angular-eslint/bundled-angular-compiler';
-import {
-  createESLintRule,
-  ensureTemplateParser,
-} from '../utils/create-eslint-rule';
+import { ensureTemplateParser } from '@angular-eslint/utils';
+import { createESLintRule } from '../utils/create-eslint-rule';
 
 type Options = [];
 export type MessageIds =
