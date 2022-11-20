@@ -55,13 +55,21 @@ export default createESLintRule<Options, MessageIds>({
   create(context, [{ allowedNames = [] }]) {
     let selectors: ReadonlySet<string> = new Set();
     const ariaAttributeKeys = getAriaAttributeKeys();
+    let selectorDirectiveName: string;
 
     return {
       [Selectors.COMPONENT_OR_DIRECTIVE_SELECTOR_LITERAL](
         node: TSESTree.Literal | TSESTree.TemplateElement,
       ) {
+        const nodeRawText = ASTUtils.getRawText(node);
+        const bracketMatchResults = nodeRawText.match(/\[(.*?)\]/);
+
+        if (bracketMatchResults) {
+          selectorDirectiveName = bracketMatchResults[1];
+        }
+
         selectors = new Set(
-          withoutBracketsAndWhitespaces(ASTUtils.getRawText(node)).split(','),
+          withoutBracketsAndWhitespaces(nodeRawText).split(','),
         );
       },
       [Selectors.INPUT_ALIAS](
@@ -98,7 +106,14 @@ export default createESLintRule<Options, MessageIds>({
             messageId: 'noInputRename',
             fix: (fixer) => fixer.remove(node),
           });
-        } else if (!isAliasNameAllowed(selectors, propertyName, aliasName)) {
+        } else if (
+          !isAliasNameAllowed(
+            selectors,
+            propertyName,
+            aliasName,
+            selectorDirectiveName,
+          )
+        ) {
           context.report({
             node,
             messageId: 'noInputRename',
@@ -147,7 +162,14 @@ export default createESLintRule<Options, MessageIds>({
                 ASTUtils.getReplacementText(node, propertyName),
               ),
           });
-        } else if (!isAliasNameAllowed(selectors, propertyName, aliasName)) {
+        } else if (
+          !isAliasNameAllowed(
+            selectors,
+            propertyName,
+            aliasName,
+            selectorDirectiveName,
+          )
+        ) {
           context.report({
             node,
             messageId: 'noInputRename',
@@ -182,10 +204,12 @@ function isAliasNameAllowed(
   selectors: ReadonlySet<string>,
   propertyName: string,
   aliasName: string,
+  selectorDirectiveName: string,
 ): boolean {
   return [...selectors].some((selector) => {
     return (
       selector === aliasName ||
+      selectorDirectiveName === aliasName ||
       composedName(selector, propertyName) === aliasName
     );
   });

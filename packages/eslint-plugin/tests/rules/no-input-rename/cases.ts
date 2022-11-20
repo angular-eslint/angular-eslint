@@ -146,6 +146,22 @@ export const valid = [
       @Input('fooMyColor') myColor: string;
     }
   `,
+  `
+    @Directive({
+      selector: 'img[fooDirective]'
+    })
+    class Test {
+      @Input foo: Foo;
+    }
+  `,
+  `
+    @Directive({
+      selector: 'img[fooDirective]'
+    })
+    class Test {
+      @Input('fooDirective') foo: Foo;
+    }
+  `,
 ];
 
 export const invalid = [
@@ -442,6 +458,37 @@ export const invalid = [
       @Injectable()
       class Test {
         @Input() ${propertyName} = this.getInput();
+               
+      }
+    `,
+    })),
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if input property alias does not match the directive name when applied to an element in the selector',
+    annotatedSource: `
+      @Directive({
+        selector: 'img[fooDirective]',
+      })
+      class Test {
+        @Input('notFooDirective') foo: Foo;
+               ~~~~~~~~~~~~~~~~~
+      }
+    `,
+    messageId,
+    suggestions: (
+      [
+        [suggestRemoveAliasName, 'foo'],
+        [suggestReplaceOriginalNameWithAliasName, 'notFooDirective'],
+      ] as const
+    ).map(([messageId, propertyName]) => ({
+      messageId,
+      output: `
+      @Directive({
+        selector: 'img[fooDirective]',
+      })
+      class Test {
+        @Input() ${propertyName}: Foo;
                
       }
     `,

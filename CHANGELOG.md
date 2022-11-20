@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [14.3.1](https://github.com/angular-eslint/angular-eslint/compare/v14.3.0...v14.3.1) (2022-11-20)
+
+### Bug Fixes
+
+- **no-input-rename:** allow input aliases that match the directive name applied to an element ([#1207](https://github.com/angular-eslint/angular-eslint/issues/1207)) ([aff3344](https://github.com/angular-eslint/angular-eslint/commit/aff33442e0c35440827f144916e07d180965d0e9))
+- update dependency eslint to v8.28.0 ([#1210](https://github.com/angular-eslint/angular-eslint/issues/1210)) ([c671e74](https://github.com/angular-eslint/angular-eslint/commit/c671e7484d4dad81c345d176cfedf01d45b5f820))
+
 # [14.3.0](https://github.com/angular-eslint/angular-eslint/compare/v14.2.0...v14.3.0) (2022-11-17)
 
 ### Bug Fixes
