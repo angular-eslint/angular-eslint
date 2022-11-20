@@ -5,7 +5,28 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [15.0.0](https://github.com/angular-eslint/angular-eslint/compare/v15.0.0-alpha.5...v15.0.0) (2022-11-20)
 
-**Note:** Version bump only for package @angular-eslint/angular-eslint
+As always we recommend that you update your existing workspaces by using `ng update` as we provide some helpful schematics to help migrate your workspaces to the latest and greatest. Running the following will update Angular, the Angular CLI and angular-eslint together:
+
+```sh
+ng update @angular/core @angular/cli @angular-eslint/schematics
+```
+
+### Bug Fixes
+
+- **schematics:** ensure scoped project names have correct eslint extends ([7b3f736](https://github.com/angular-eslint/angular-eslint/commit/7b3f73670e2935faf7c8fc961d7f8fa50a91208e))
+
+### Features
+
+- bump minimum supported eslint version to 7.20.0 ([56ad69f](https://github.com/angular-eslint/angular-eslint/commit/56ad69f92e5b5789f01d19d0c65e46f4573d9493)), closes [#662](https://github.com/angular-eslint/angular-eslint/issues/662)
+- **eslint-plugin:** remove no-conflicting-lifecycle from recommended config ([19dd177](https://github.com/angular-eslint/angular-eslint/commit/19dd177137ceec8b7ab021246a26095f01f25366)), closes [#502](https://github.com/angular-eslint/angular-eslint/issues/502)
+- fast linting by default, set eslint and typescript-eslint recommended ([#1212](https://github.com/angular-eslint/angular-eslint/issues/1212)) ([1a53ef9](https://github.com/angular-eslint/angular-eslint/commit/1a53ef985fc1ce6dc7b5e9a797c78b46c48a10ac)), closes [#1174](https://github.com/angular-eslint/angular-eslint/issues/1174)
+- **schematics:** ng update migration to preserve v14 parserOptions.project for existing workspaces ([1d45914](https://github.com/angular-eslint/angular-eslint/commit/1d45914097a57bf7fdfc5acc9fab0a66cc01898c))
+
+### BREAKING CHANGES
+
+- Your installed version of ESLint must be version 7.20.0 or later (naturally we recommend the latest v8 of ESLint if possible)
+- **eslint-plugin:** no-conflicting-lifecycle is no longer included as part of the recommended config and if you wish to continue using it you will need to enable it yourself in your eslint config rules
+- New projects will not include `parserOptions.project` configuration in `.eslintrc.json` files by default, see the new guide here [./docs/RULES_REQUIRING_TYPE_INFORMATION.md](./docs/RULES_REQUIRING_TYPE_INFORMATION.md)
 
 # [14.4.0](https://github.com/angular-eslint/angular-eslint/compare/v14.3.1...v14.4.0) (2022-11-20)
 
