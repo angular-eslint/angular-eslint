@@ -96,7 +96,7 @@ E.g. npx ng g @angular-eslint/schematics:convert-tslint-to-eslint {{YOUR_PROJECT
         : schema.ignoreExistingTslintConfig
         ? chain([
             // Create the latest recommended ESLint config file for the project
-            createESLintConfigForProject(projectName),
+            createESLintConfigForProject(projectName, true),
             // Delete the TSLint config file for the project
             removeTSLintJSONForProject(projectName),
           ])

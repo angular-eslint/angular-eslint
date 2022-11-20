@@ -138,19 +138,14 @@ describe('ng-add', () => {
           "overrides": Array [
             Object {
               "extends": Array [
+                "eslint:recommended",
+                "plugin:@typescript-eslint/recommended",
                 "plugin:@angular-eslint/recommended",
                 "plugin:@angular-eslint/template/process-inline-templates",
               ],
               "files": Array [
                 "*.ts",
               ],
-              "parserOptions": Object {
-                "createDefaultProgram": true,
-                "project": Array [
-                  "tsconfig.json",
-                  "e2e/tsconfig.json",
-                ],
-              },
               "rules": Object {
                 "@angular-eslint/component-selector": Array [
                   "error",
@@ -273,18 +268,14 @@ describe('ng-add', () => {
           "overrides": Array [
             Object {
               "extends": Array [
+                "eslint:recommended",
+                "plugin:@typescript-eslint/recommended",
                 "plugin:@angular-eslint/recommended",
                 "plugin:@angular-eslint/template/process-inline-templates",
               ],
               "files": Array [
                 "*.ts",
               ],
-              "parserOptions": Object {
-                "createDefaultProgram": true,
-                "project": Array [
-                  "tsconfig.json",
-                ],
-              },
               "rules": Object {},
             },
             Object {
@@ -408,18 +399,14 @@ describe('ng-add', () => {
           "overrides": Array [
             Object {
               "extends": Array [
+                "eslint:recommended",
+                "plugin:@typescript-eslint/recommended",
                 "plugin:@angular-eslint/recommended",
                 "plugin:@angular-eslint/template/process-inline-templates",
               ],
               "files": Array [
                 "*.ts",
               ],
-              "parserOptions": Object {
-                "createDefaultProgram": true,
-                "project": Array [
-                  "tsconfig.json",
-                ],
-              },
               "rules": Object {
                 "@angular-eslint/component-selector": Array [
                   "error",

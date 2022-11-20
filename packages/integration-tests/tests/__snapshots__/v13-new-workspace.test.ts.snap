@@ -2,26 +2,26 @@
 
 exports[`v13-new-workspace it should pass linting after creating a new workspace from scratch using @angular-eslint 2`] = `
 Object {
-  "@angular-devkit/build-angular": "^14.2.10",
+  "@angular-devkit/build-angular": "^15.0.0",
   "@angular-eslint/builder": "9999.0.1-local-integration-tests",
   "@angular-eslint/eslint-plugin": "9999.0.1-local-integration-tests",
   "@angular-eslint/eslint-plugin-template": "9999.0.1-local-integration-tests",
   "@angular-eslint/schematics": "9999.0.1-local-integration-tests",
   "@angular-eslint/template-parser": "9999.0.1-local-integration-tests",
-  "@angular/cli": "~14.2.10",
-  "@angular/compiler-cli": "^14.2.0",
-  "@types/jasmine": "~4.0.0",
+  "@angular/cli": "~15.0.0",
+  "@angular/compiler-cli": "^15.0.0",
+  "@types/jasmine": "~4.3.0",
   "@typescript-eslint/eslint-plugin": "5.43.0",
   "@typescript-eslint/parser": "5.43.0",
   "eslint": "^8.28.0",
-  "jasmine-core": "~4.3.0",
+  "jasmine-core": "~4.5.0",
   "karma": "~6.4.0",
   "karma-chrome-launcher": "~3.1.0",
   "karma-coverage": "~2.2.0",
   "karma-jasmine": "~5.1.0",
   "karma-jasmine-html-reporter": "~2.0.0",
-  "ng-packagr": "^14.2.0",
-  "typescript": "~4.7.2",
+  "ng-packagr": "^15.0.0",
+  "typescript": "~4.8.2",
 }
 `;
 
@@ -33,18 +33,14 @@ Object {
   "overrides": Array [
     Object {
       "extends": Array [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
         "plugin:@angular-eslint/recommended",
         "plugin:@angular-eslint/template/process-inline-templates",
       ],
       "files": Array [
         "*.ts",
       ],
-      "parserOptions": Object {
-        "createDefaultProgram": true,
-        "project": Array [
-          "tsconfig.json",
-        ],
-      },
       "rules": Object {
         "@angular-eslint/component-selector": Array [
           "error",
@@ -101,13 +97,6 @@ Object {
       "files": Array [
         "*.ts",
       ],
-      "parserOptions": Object {
-        "createDefaultProgram": true,
-        "project": Array [
-          "projects/another-app/tsconfig.app.json",
-          "projects/another-app/tsconfig.spec.json",
-        ],
-      },
       "rules": Object {
         "@angular-eslint/component-selector": Array [
           "error",
@@ -160,13 +149,6 @@ Object {
       "files": Array [
         "*.ts",
       ],
-      "parserOptions": Object {
-        "createDefaultProgram": true,
-        "project": Array [
-          "projects/another-lib/tsconfig.lib.json",
-          "projects/another-lib/tsconfig.spec.json",
-        ],
-      },
       "rules": Object {
         "@angular-eslint/component-selector": Array [
           "error",
@@ -222,8 +204,8 @@ All files pass linting.
 
 Linting \\"another-lib\\"...
 
-__ROOT__/v13-new-workspace/projects/another-lib/src/lib/another-lib.component.ts
-  17:3  error  Lifecycle methods should not be empty  @angular-eslint/no-empty-lifecycle-method
+__ROOT__/v13-new-workspace/projects/another-lib/src/lib/another-lib.service.ts
+  8:17  error  Unexpected empty constructor  @typescript-eslint/no-empty-function
 
 ✖ 1 problem (1 error, 0 warnings)
 "

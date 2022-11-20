@@ -1,9 +1,9 @@
 {
   "name": "@angular-eslint/integration-tests",
-  "version": "14.4.0",
+  "version": "15.0.0-alpha.5",
   "private": true,
   "peerDependencies": {
-    "eslint": "^7.0.0 || ^8.0.0",
+    "eslint": "^7.20.0 || ^8.0.0",
     "typescript": "*"
   },
   "devDependencies": {

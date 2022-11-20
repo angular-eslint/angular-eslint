@@ -99,9 +99,7 @@ function applyESLintConfigIfSingleProjectWithNoExistingTSLint() {
     const projectNames = Object.keys(angularJson.projects);
     if (projectNames.length === 0) {
       return chain([
-        updateJsonInTree('.eslintrc.json', () =>
-          createRootESLintConfig(null, false),
-        ),
+        updateJsonInTree('.eslintrc.json', () => createRootESLintConfig(null)),
         updateJsonInTree('angular.json', (json) =>
           updateSchematicCollections(json),
         ),

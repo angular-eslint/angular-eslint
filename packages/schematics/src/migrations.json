@@ -30,6 +30,11 @@
       "version": "14.0.0-alpha.0",
       "description": "Updates @angular-eslint to v14",
       "factory": "./migrations/update-14-0-0/update-14-0-0"
+    },
+    "update-15-0-0": {
+      "version": "15.0.0-alpha.1",
+      "description": "Updates @angular-eslint to v15",
+      "factory": "./migrations/update-15-0-0/update-15-0-0"
     }
   }
 }

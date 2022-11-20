@@ -25,7 +25,7 @@ export default createESLintRule<Options, MessageIds>({
     docs: {
       description:
         'Ensures that directives not implement conflicting lifecycle interfaces.',
-      recommended: 'error',
+      recommended: false,
     },
     schema: [],
     messages: {
