@@ -18,7 +18,7 @@ export function getTemplateParserServices(
   context: Readonly<TSESLint.RuleContext<string, readonly unknown[]>>,
 ): TemplateParserServices {
   ensureTemplateParser(context);
-  return context.parserServices as unknown as ParserServices;
+  return context.parserServices as unknown as TemplateParserServices;
 }
 
 /**
