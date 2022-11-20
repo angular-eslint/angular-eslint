@@ -287,7 +287,6 @@ export function createRootESLintConfig(prefix: string | null) {
 }
 
 function createProjectESLintConfig(
-  rootPath: string,
   projectRoot: string,
   projectType: ProjectType,
   prefix: string,
@@ -295,7 +294,7 @@ function createProjectESLintConfig(
   hasE2e: boolean,
 ) {
   return {
-    extends: `${offsetFromRoot(rootPath)}.eslintrc.json`,
+    extends: `${offsetFromRoot(projectRoot)}.eslintrc.json`,
     ignorePatterns: ['!**/*'],
     overrides: [
       {
@@ -360,7 +359,6 @@ export function createESLintConfigForProject(
         : createRootESLintConfigFile(projectName),
       updateJsonInTree(join(normalize(projectRoot), '.eslintrc.json'), () =>
         createProjectESLintConfig(
-          tree.root.path,
           projectRoot,
           projectType,
           prefix,

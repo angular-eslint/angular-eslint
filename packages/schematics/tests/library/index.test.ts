@@ -197,4 +197,59 @@ describe('library', () => {
       "
     `);
   });
+
+  it('should add an appropriate ESLint config extends for a project with a scope in its name', async () => {
+    const tree = await schematicRunner
+      .runSchematicAsync(
+        'library',
+        {
+          name: '@foo/bar',
+        },
+        appTree,
+      )
+      .toPromise();
+
+    expect(tree.exists('projects/foo/bar/tslint.json')).toBe(false);
+    expect(tree.read('projects/foo/bar/.eslintrc.json')?.toString())
+      .toMatchInlineSnapshot(`
+      "{
+        \\"extends\\": \\"../../../.eslintrc.json\\",
+        \\"ignorePatterns\\": [
+          \\"!**/*\\"
+        ],
+        \\"overrides\\": [
+          {
+            \\"files\\": [
+              \\"*.ts\\"
+            ],
+            \\"rules\\": {
+              \\"@angular-eslint/directive-selector\\": [
+                \\"error\\",
+                {
+                  \\"type\\": \\"attribute\\",
+                  \\"prefix\\": \\"lib\\",
+                  \\"style\\": \\"camelCase\\"
+                }
+              ],
+              \\"@angular-eslint/component-selector\\": [
+                \\"error\\",
+                {
+                  \\"type\\": \\"element\\",
+                  \\"prefix\\": \\"lib\\",
+                  \\"style\\": \\"kebab-case\\"
+                }
+              ]
+            }
+          },
+          {
+            \\"files\\": [
+              \\"*.html\\"
+            ],
+            \\"rules\\": {}
+          }
+        ]
+      }
+      "
+    `);
+  });
 });
