@@ -457,3 +457,18 @@ export function updateSchematicCollections(angularJson: Record<string, any>) {
   delete angularJson.cli.defaultCollection;
   return angularJson;
 }
+
+export function updateSchematicDefaults(
+  angularJson: Record<string, any>,
+  schematicFullName: string,
+  defaultValues: Record<string, unknown>,
+) {
+  angularJson.schematics = angularJson.schematics || {};
+  angularJson.schematics[schematicFullName] =
+    angularJson.schematics[schematicFullName] || {};
+  angularJson.schematics[schematicFullName] = {
+    ...angularJson.schematics[schematicFullName],
+    ...defaultValues,
+  };
+  return angularJson;
+}
