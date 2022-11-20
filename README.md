@@ -104,11 +104,13 @@ Please follow the links below for the packages you care about.
 
 - [`@angular-eslint/eslint-plugin`](./packages/eslint-plugin) - An ESLint-specific plugin that contains rules which are specific to Angular projects. It can be combined with any other ESLint plugins in the normal way.
 
-- [`@angular-eslint/template-parser`](./packages/template-parser/) - An ESLint-specific parser which leverages the `@angular/compiler` to allow for custom ESLint rules to be written which assert things about your Angular templates.
-
 - [`@angular-eslint/eslint-plugin-template`](./packages/eslint-plugin-template/) - An ESLint-specific plugin which, when used in conjunction with `@angular-eslint/template-parser`, allows for Angular template-specific linting rules to run.
 
 - [`@angular-eslint/schematics`](./packages/schematics/) - Schematics which are used to add and update configuration files which are relevant for running ESLint on an Angular workspace.
+
+- [`@angular-eslint/template-parser`](./packages/template-parser/) - An ESLint-specific parser which leverages the `@angular/compiler` to allow for custom ESLint rules to be written which assert things about your Angular templates.
+
+- [`@angular-eslint/utils`](./packages/utils/) - Utilities which are helpful when writing and testing custom ESLint rules for Angular workspaces.
 
 <br>
 
@@ -127,6 +129,14 @@ The latest version under the `canary` tag **(latest commit to main)** is:
 <a href="https://www.npmjs.com/package/@angular-eslint/schematics"><img src="https://img.shields.io/npm/v/@angular-eslint/schematics/canary.svg?style=flat-square" alt="NPM Version" /></a>
 
 (Note: The only exception to the automated publishes described above is when we are in the final phases of creating the next major version of the libraries - e.g. going from `1.x.x` to `2.x.x`. During these periods, we manually publish `canary` releases until we are happy with the release and promote it to `latest`.)
+
+<br>
+
+## Philosophy on lint rules which enforce code formatting concerns
+
+Please see here for our philosophy on using a linter to enforce code formatting concerns: [./docs/FORMATTING_RULES.md](./docs/FORMATTING_RULES.md)
+
+TL;DR - We will not be maintaining code formatting rules in this project, but you are very welcome to create them yourself using our tooling.
 
 <br>
 
@@ -201,9 +211,9 @@ You can always invoke them directly by specifying the collection name as part of
 
 ```sh
 # To generate a new Angular app in the workspace using ESLint
-ng g @angular-eslint/schematics:app
+ng g @angular-eslint/schematics:application
 # To generate a new Angular library in the workspace using ESLint
-ng g @angular-eslint/schematics:lib
+ng g @angular-eslint/schematics:library
 ```
 
 Or, alternatively, if you don't want to have to remember to set that collection prefix in front of the `:` every time, you can set the `schematicCollections` in your `angular.json` to start with `@angular-eslint/schematics`.
@@ -306,18 +316,13 @@ Let's take a look at full (but minimal), manual example of a config file (**alth
 ```jsonc
 {
   "root": true,
+  "ignorePatterns": ["projects/**/*"],
   "overrides": [
     {
       "files": ["*.ts"],
-      "parserOptions": {
-        "project": [
-          "tsconfig.app.json",
-          "tsconfig.spec.json",
-          "e2e/tsconfig.json"
-        ],
-        "createDefaultProgram": true
-      },
       "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
         "plugin:@angular-eslint/recommended",
         // This is required if you use inline templates in Components
         "plugin:@angular-eslint/template/process-inline-templates"
@@ -371,20 +376,11 @@ If for some reason you wanted to not include any of the premade recommended conf
 ```jsonc
 {
   "root": true,
+  "ignorePatterns": ["projects/**/*"],
   "overrides": [
     {
       "files": ["*.ts"],
       "parser": "@typescript-eslint/parser",
-      "parserOptions": {
-        "ecmaVersion": 2020,
-        "sourceType": "module",
-        "project": [
-          "tsconfig.app.json",
-          "tsconfig.spec.json",
-          "e2e/tsconfig.json"
-        ],
-        "createDefaultProgram": true
-      },
       "plugins": ["@typescript-eslint", "@angular-eslint"],
       "rules": {}
     },
@@ -434,11 +430,9 @@ If you choose to use `eslint-plugin-prettier`, **please ensure that you are usin
   "overrides": [
     {
       "files": ["*.ts"],
-      "parserOptions": {
-        "project": ["tsconfig.json", "e2e/tsconfig.json"],
-        "createDefaultProgram": true
-      },
       "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
         "plugin:@angular-eslint/recommended",
         "plugin:@angular-eslint/template/process-inline-templates",
         "plugin:prettier/recommended" // <--- here we inherit from the recommended setup from eslint-plugin-prettier for TS
@@ -521,109 +515,9 @@ On the other...
 
 TSLint was more in the latter camp - it was purpose built for linting TypeScript source code (note, _not_ HTML), and so it was (depending on the codebase) faster and more efficient at doing it - but it was hugely lacking in community support, features, plugins, rules etc...
 
-Ok, so now we know which side of this particular trade-off we are on. That's an important start.
+As of v15, we generate the fastest possible lint config for you out of the box (rather than the most _flexible_ lint config), but it is possible that you will need to leverage rules which require type information, and this requires extra consideration.
 
-### ESLint configs and performance
-
-Given the increased complexity around configuration, it is possible to end up with non-performant setups if we are not careful.
-
-The first thing is to understand that if you are majorly deviating from the configs that this tooling generates for you automatically, you are greatly increasing the risk of you running into those issues.
-
-The most important piece of ESLint configuration with regards to performance is the `parserOptions.project` option.
-
-It is what informs `typescript-eslint` what tsconfigs should be used to create TypeScript `Program`s behind the scenes as the lint process runs. Without this, it would not be possible to leverage rules which take advantage of type information, we could only lint based on raw syntax.
-
-If `parserOptions.project` has been configured, by default `typescript-eslint` will take this as a sign that you only want to lint files that are captured within the scope of the TypeScript `Program`s which are created. For example, let's say you have a `tsconfig.json` that contains the following:
-
-```jsonc
-{
-  // ...more config
-  "include" [
-    "src/**/*.ts"
-  ]
-}
-```
-
-If you provide that file as a reference for `typescript-eslint`, it will conclude that you only want to lint `.ts` files within `src/`. If you attempt to lint a file outside of this pattern, it will error. Seems reasonable, right?
-
-Unfortunately, for us in the context of the Angular CLI, we have an added complication. The Angular CLI generates one or more files which are not included in _any_ tsconfig scopes (such as `environment.prod.ts`).
-
-To prevent this causing errors for users, we therefore enable the `createDefaultProgram` option for `typescript-eslint` when we generate your config (it's `false` by default). This flag tells `typescript-eslint` not to error in the case in finds a file not in a `Program`, and instead create a whole new Program to encapsulate that file and then carry on.
-
-This is not ideal, but it works. However, can you see what we've now exposed ourselves to by enabling this?
-
-Now if we run linting - _any_ files which are included in the lint run (e.g. by the glob patterns in the builder config in `angular.json`) will be linted, and if they are not in scope of an existing tsconfig a whole new Program will be created for each one of them.
-
-Having patterns which do not makes sense together (files to lint vs provided tsconfigs) is usually how seriously non-performant setups can originate from your config. For small projects creating Programs takes a matter of seconds, for large projects, it can take far longer (depending on the circumstances).
-
-Here are some steps you can take if you're linting process feels "unreasonably" slow:
-
-- Run the process with debug information from `typescript-eslint` enabled:
-
-```sh
-DEBUG=typescript-eslint:* ng lint
-```
-
-- Full explanation of this command:
-  - `ng lint` is being invoked as normal (you would run the full command above in the same way you run `ng lint` normally in whatever terminal you use), but we are also setting an environment variable called `DEBUG`, and giving it a value of `typescript-eslint:*`.
-  - `DEBUG` is a relatively common environment variable because it is supported by some common logging/debugging libraries as a way to toggle how verbose the overall output is at runtime.
-  - The value of `typescript-eslint:*` will get picked up by the logger within the `typescript-eslint` library and cause it to log very verbosely to the standard output of your terminal as it executes.
-
-You will now see a ton of logs which were not visible before. The two most common issues to look out for are:
-
-- If you see a lot of logs saying that particular files are not being found in existing `Program`s (the scenario we described above) and default `Program`s have to be created
-- If you see files included for a project that should not be
-
-If you are still having problems after you have done some digging into these, feel free to open and issue to discuss it further, providing as much context as possible (including the logs from the command above).
-
-<br>
-
----
-
-<br>
-
-The **ultimate fallback solution** to performance problems caused by the `Program` issues described above is to stop piggybacking on your existing tsconfig files (such as `tsconfig.app.json`, `tsconfig.spec.json` etc), and instead create a laser-focused, dedicated tsconfig file for your ESLint use-case:
-
-- Create a new tsconfig file at the root of the project within the workspace (e.g. a clear name might be `tsconfig.eslint.json`)
-- Set the contents of `tsconfig.eslint.json` to:
-  - extend from any root/base tsconfig you may have which sets important `compilerOptions`
-  - directly include files you care about for linting purposes
-
-For example, it may look like:
-
-**tsconfig.eslint.json**
-
-```jsonc
-{
-  "extends": "./tsconfig.json",
-  "include": [
-    // adjust "includes" to what makes sense for you and your project
-    "src/**/*.ts",
-    "e2e/**/*.ts"
-  ]
-}
-```
-
-- Update your project's .eslintrc.json to use the new tsconfig file instead of its existing setting.
-
-For example, the diff might look something like this:
-
-```diff
-  "parserOptions": {
-    "project": [
--     "tsconfig.app.json",
--     "tsconfig.spec.json",
--     "e2e/tsconfig.json"
-+     "tsconfig.eslint.json"
-    ],
--   "createDefaultProgram": true
-+   "createDefaultProgram": false
-  },
-```
-
-As you can see, we are also setting `"createDefaultProgram"` to `false` because in this scenario we have full control over what files will be included in the `Program` created behind the scenes for our lint run and we should never need that potentially expensive auto-fallback again. (NOTE: You can also just remove the `"createDefaultProgram"` setting altogether because its default value is `false`).
-
-If you are not sure what `"createDefaultProgram"` does, please reread the section above on ESLint Configs and Performance.
+Please read this dedicated guide to fully understand lint performance and how it is impacted by rules requiring type information: [./docs/RULES_REQUIRING_TYPE_INFORMATION.md](./docs/RULES_REQUIRING_TYPE_INFORMATION.md)
 
 <br>
 
