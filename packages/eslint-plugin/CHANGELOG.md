@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [15.0.0](https://github.com/angular-eslint/angular-eslint/compare/v15.0.0-alpha.5...v15.0.0) (2022-11-20)
+
+**Note:** Version bump only for package @angular-eslint/eslint-plugin
+
 # [14.4.0](https://github.com/angular-eslint/angular-eslint/compare/v14.3.1...v14.4.0) (2022-11-20)
 
 **Note:** Version bump only for package @angular-eslint/eslint-plugin
