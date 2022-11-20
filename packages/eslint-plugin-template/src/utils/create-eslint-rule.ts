@@ -4,9 +4,7 @@ import { ESLintUtils } from '@typescript-eslint/utils';
  * We need to patch the RuleCreator in order to preserve the defaultOptions
  * to use as part of documentation generation.
  */
-const patchedRuleCreator: typeof ESLintUtils.RuleCreator = (
-  urlCreator,
-) => {
+const patchedRuleCreator: typeof ESLintUtils.RuleCreator = (urlCreator) => {
   return function createRule({ name, meta, defaultOptions, create }) {
     return {
       meta: Object.assign(Object.assign({}, meta), {
