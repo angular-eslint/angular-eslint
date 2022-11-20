@@ -18,13 +18,13 @@
   ],
   "dependencies": {
     "@angular-eslint/bundled-angular-compiler": "14.3.1",
+    "@angular-eslint/utils": "14.3.1",
     "@typescript-eslint/type-utils": "5.43.0",
     "@typescript-eslint/utils": "5.43.0",
     "aria-query": "5.1.3",
     "axobject-query": "3.1.1"
   },
   "devDependencies": {
-    "@angular-eslint/utils": "14.3.1",
     "@types/aria-query": "5.0.1"
   },
   "peerDependencies": {

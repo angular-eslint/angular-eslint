@@ -6,10 +6,8 @@ import {
   ASTWithSource,
   LiteralPrimitive,
 } from '@angular-eslint/bundled-angular-compiler';
-import {
-  createESLintRule,
-  getTemplateParserServices,
-} from '../utils/create-eslint-rule';
+import { getTemplateParserServices } from '@angular-eslint/utils';
+import { createESLintRule } from '../utils/create-eslint-rule';
 
 export const RULE_NAME = 'button-has-type';
 export const INVALID_TYPE_DATA_KEY = 'type';

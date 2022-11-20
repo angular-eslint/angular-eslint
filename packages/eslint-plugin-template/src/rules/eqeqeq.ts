@@ -3,11 +3,9 @@ import {
   ASTWithSource,
   LiteralPrimitive,
 } from '@angular-eslint/bundled-angular-compiler';
+import { ensureTemplateParser } from '@angular-eslint/utils';
 import type { TSESLint } from '@typescript-eslint/utils';
-import {
-  createESLintRule,
-  ensureTemplateParser,
-} from '../utils/create-eslint-rule';
+import { createESLintRule } from '../utils/create-eslint-rule';
 import { getNearestNodeFrom } from '../utils/get-nearest-node-from';
 
 type Options = [{ readonly allowNullOrUndefined?: boolean }];

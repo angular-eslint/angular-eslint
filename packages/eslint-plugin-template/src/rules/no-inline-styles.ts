@@ -2,10 +2,8 @@ import type {
   ParseSourceSpan,
   TmplAstElement,
 } from '@angular-eslint/bundled-angular-compiler';
-import {
-  createESLintRule,
-  getTemplateParserServices,
-} from '../utils/create-eslint-rule';
+import { getTemplateParserServices } from '@angular-eslint/utils';
+import { createESLintRule } from '../utils/create-eslint-rule';
 
 type Options = [
   {

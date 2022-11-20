@@ -12,11 +12,9 @@ import {
   TmplAstElement,
 } from '@angular-eslint/bundled-angular-compiler';
 import type { Message } from '@angular-eslint/bundled-angular-compiler';
+import { getTemplateParserServices } from '@angular-eslint/utils';
 import type { TSESLint, TSESTree } from '@typescript-eslint/utils';
-import {
-  createESLintRule,
-  getTemplateParserServices,
-} from '../utils/create-eslint-rule';
+import { createESLintRule } from '../utils/create-eslint-rule';
 import { getNearestNodeFrom } from '../utils/get-nearest-node-from';
 
 // source: https://github.com/yury-dymov/js-regex-pl/blob/ff10757b2a98ad0bf0f62acebad085bab3748fc4/src/index.js#L7
