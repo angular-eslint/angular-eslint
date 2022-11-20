@@ -1,6 +1,6 @@
 {
   "name": "@angular-eslint/template-parser",
-  "version": "14.3.1",
+  "version": "14.4.0",
   "description": "Angular Template parser for ESLint",
   "license": "MIT",
   "main": "dist/index.js",
@@ -17,7 +17,7 @@
     "LICENSE"
   ],
   "dependencies": {
-    "@angular-eslint/bundled-angular-compiler": "14.3.1",
+    "@angular-eslint/bundled-angular-compiler": "14.4.0",
     "eslint-scope": "^7.0.0"
   },
   "peerDependencies": {

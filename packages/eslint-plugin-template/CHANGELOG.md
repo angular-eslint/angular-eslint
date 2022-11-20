@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [14.4.0](https://github.com/angular-eslint/angular-eslint/compare/v14.3.1...v14.4.0) (2022-11-20)
+
+### Features
+
+- **utils:** export template parser services ([#1211](https://github.com/angular-eslint/angular-eslint/issues/1211)) ([34a62d2](https://github.com/angular-eslint/angular-eslint/commit/34a62d25f02716eb0d55f095ce732876a4f7590b))
+
 ## [14.3.1](https://github.com/angular-eslint/angular-eslint/compare/v14.3.0...v14.3.1) (2022-11-20)
 
 **Note:** Version bump only for package @angular-eslint/eslint-plugin-template
