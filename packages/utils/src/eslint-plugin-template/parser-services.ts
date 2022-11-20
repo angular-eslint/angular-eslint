@@ -29,9 +29,9 @@ export function ensureTemplateParser(
   context: Readonly<TSESLint.RuleContext<string, readonly unknown[]>>,
 ): void {
   if (
-    !(context.parserServices as unknown as ParserServices)
+    !(context.parserServices as unknown as TemplateParserServices)
       ?.convertNodeSourceSpanToLoc ||
-    !(context.parserServices as unknown as ParserServices)
+    !(context.parserServices as unknown as TemplateParserServices)
       ?.convertElementSourceSpanToLoc
   ) {
     /**
