@@ -51,14 +51,7 @@ export default createESLintRule<Options, MessageIds>({
 
         if (isChildOfBoundEvent) return;
 
-        if (
-          allowList &&
-          allowList.length &&
-          isASTWithName(node.receiver) &&
-          allowList.indexOf(node.receiver.name) > -1
-        ) {
-          return;
-        }
+        if (isCallNameInAllowList(node.receiver, allowList)) return;
 
         const {
           sourceSpan: { start, end },
@@ -83,4 +76,16 @@ function isASTWithName(
   ast: AST & { name?: string },
 ): ast is AST & { name: string } {
   return !!ast.name;
+}
+
+function isCallNameInAllowList(
+  ast: AST & { name?: string },
+  allowList?: readonly string[],
+): boolean | undefined {
+  return (
+    allowList &&
+    allowList.length > 0 &&
+    isASTWithName(ast) &&
+    allowList.indexOf(ast.name) > -1
+  );
 }
