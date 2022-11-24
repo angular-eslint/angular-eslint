@@ -33,6 +33,7 @@ const testDirs = readdirSync(testDirsDir);
         meta: { deprecated, replacedBy, type, fixable, schema, hasSuggestions },
         defaultOptions,
       },
+      docsExtension,
       ruleFilePath,
       testCasesFilePath,
     } = ruleData;
@@ -125,7 +126,18 @@ ${
   hasSuggestions
     ? '- 💡 Provides suggestions on how to fix issues (https://eslint.org/docs/developer-guide/working-with-rules#providing-suggestions)'
     : ''
-}
+}${
+      docsExtension?.rationale
+        ? `
+
+<br>
+
+## Rationale
+
+${docsExtension.rationale}
+`
+        : ''
+    }
 
 <br>
 
@@ -211,6 +223,10 @@ interface RuleData {
   ruleConfig: TSESLint.RuleModule<string, []> & {
     defaultOptions?: Record<string, unknown>[];
   };
+  // Rules can optionally export extended documentation content (outside of ESLint's concept of "docs")
+  docsExtension?: {
+    rationale?: string;
+  };
   valid: ExtractedTestCase[];
   invalid: ExtractedTestCase[];
 }
@@ -230,10 +246,15 @@ async function generateAllRuleData(): Promise<AllRuleData> {
   // For rule sources we just import/execute the rule source file
   for (const ruleFile of ruleFiles) {
     const ruleFilePath = join(rulesDir, ruleFile.replace('.ts', ''));
-    const { default: ruleConfig, RULE_NAME } = await import(ruleFilePath);
+    const {
+      default: ruleConfig,
+      RULE_NAME,
+      RULE_DOCS_EXTENSION,
+    } = await import(ruleFilePath);
     ruleData[RULE_NAME] = {
       ruleConfig,
       ruleFilePath: ruleFilePath + '.ts',
+      docsExtension: RULE_DOCS_EXTENSION,
     } as RuleData;
   }
 
