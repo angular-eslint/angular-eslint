@@ -1,10 +1,11 @@
 {
+  "name": "template-parser",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "type": "library",
   "targets": {
     "build": {
-      "executor": "@nrwl/workspace:run-commands",
-      "outputs": ["packages/template-parser/dist"],
+      "executor": "nx:run-commands",
+      "outputs": ["{projectRoot}/dist"],
       "options": {
         "cwd": "packages/template-parser",
         "parallel": false,
@@ -16,14 +17,14 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/packages/template-parser"],
+      "outputs": ["{workspaceRoot}/coverage/packages/template-parser"],
       "options": {
         "jestConfig": "packages/template-parser/jest.config.ts",
         "passWithNoTests": false
       }
     },
     "clean": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "cwd": "packages/template-parser",
         "parallel": false,
@@ -31,7 +32,7 @@
       }
     },
     "typecheck": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "cwd": "packages/template-parser",
         "parallel": false,

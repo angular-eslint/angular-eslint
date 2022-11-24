@@ -1,9 +1,10 @@
 {
+  "name": "integration-tests",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "type": "library",
   "targets": {
     "clean": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "cwd": "packages/integration-tests",
         "parallel": false,
@@ -11,7 +12,7 @@
       }
     },
     "typecheck": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "cwd": "packages/integration-tests",
         "parallel": false,
@@ -19,7 +20,7 @@
       }
     },
     "kill-existing-verdaccio": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "cwd": "packages/integration-tests",
         "parallel": false,
@@ -27,7 +28,7 @@
       }
     },
     "reset-verdaccio-storage": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "cwd": "packages/integration-tests",
         "parallel": false,
@@ -49,7 +50,7 @@
           "projects": "self"
         }
       ],
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "cwd": "packages/integration-tests",
         "commands": [

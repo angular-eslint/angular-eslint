@@ -3,6 +3,56 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [15.1.0](https://github.com/angular-eslint/angular-eslint/compare/v15.0.0...v15.1.0) (2022-11-24)
+
+### Bug Fixes
+
+- **eslint-plugin-template:** [accessibility-valid-aria] use Number() to parse numeric values ([#1218](https://github.com/angular-eslint/angular-eslint/issues/1218)) ([6fe40d6](https://github.com/angular-eslint/angular-eslint/commit/6fe40d672197532176686f1c5c8ab080713334bf))
+- **eslint-plugin-template:** [i18n] allow more attributes by default ([#1220](https://github.com/angular-eslint/angular-eslint/issues/1220)) ([4232b1c](https://github.com/angular-eslint/angular-eslint/commit/4232b1c1892189623ead2ccd68fcb6d179186e92))
+- update typescript-eslint packages to v5.44.0 ([#1222](https://github.com/angular-eslint/angular-eslint/issues/1222)) ([5750e3a](https://github.com/angular-eslint/angular-eslint/commit/5750e3af9c7d9b91f5f4cd2fb524625b215bf4b0))
+
+### Features
+
+- **eslint-plugin-template:** [no-call-expression] add allowList option ([#1217](https://github.com/angular-eslint/angular-eslint/issues/1217)) ([a69c809](https://github.com/angular-eslint/angular-eslint/commit/a69c809cd31f142d2f5aff1c34afeb6e4a607a9c))
+
+# [15.0.0](https://github.com/angular-eslint/angular-eslint/compare/v15.0.0-alpha.5...v15.0.0) (2022-11-20)
+
+**Note:** Version bump only for package @angular-eslint/eslint-plugin-template
+
+# [14.4.0](https://github.com/angular-eslint/angular-eslint/compare/v14.3.1...v14.4.0) (2022-11-20)
+
+### Features
+
+- **utils:** export template parser services ([#1211](https://github.com/angular-eslint/angular-eslint/issues/1211)) ([34a62d2](https://github.com/angular-eslint/angular-eslint/commit/34a62d25f02716eb0d55f095ce732876a4f7590b))
+
+## [14.3.1](https://github.com/angular-eslint/angular-eslint/compare/v14.3.0...v14.3.1) (2022-11-20)
+
+**Note:** Version bump only for package @angular-eslint/eslint-plugin-template
+
+# [14.3.0](https://github.com/angular-eslint/angular-eslint/compare/v14.2.0...v14.3.0) (2022-11-17)
+
+### Features
+
+- **eslint-plugin-template:** [accessibility-elements-content] add allowList option ([#1201](https://github.com/angular-eslint/angular-eslint/issues/1201)) ([3877f43](https://github.com/angular-eslint/angular-eslint/commit/3877f4350213d934dc3eac440a2dc6168aeef558))
+- **eslint-plugin-template:** [no-inline-styles] add rule ([#1162](https://github.com/angular-eslint/angular-eslint/issues/1162)) ([7e1aadf](https://github.com/angular-eslint/angular-eslint/commit/7e1aadf47913124c09a000e231748c3ea981750b))
+
+# [14.2.0](https://github.com/angular-eslint/angular-eslint/compare/v14.1.2...v14.2.0) (2022-11-15)
+
+### Bug Fixes
+
+- update dependency aria-query to v5.1.3 ([#1183](https://github.com/angular-eslint/angular-eslint/issues/1183)) ([7c5b299](https://github.com/angular-eslint/angular-eslint/commit/7c5b2993dc9fcc235b869bab63d28766637b3147))
+- update dependency axobject-query to v3.1.1 ([#1184](https://github.com/angular-eslint/angular-eslint/issues/1184)) ([dcfd43d](https://github.com/angular-eslint/angular-eslint/commit/dcfd43dfc9ffb4acbe127911ae8e9b1de6210839))
+- update typescript-eslint packages to v5.38.1 ([#1152](https://github.com/angular-eslint/angular-eslint/issues/1152)) ([8f6d0ef](https://github.com/angular-eslint/angular-eslint/commit/8f6d0ef1048eac4113cb3efe53ed466b50aff056))
+- update typescript-eslint packages to v5.43.0 ([#1190](https://github.com/angular-eslint/angular-eslint/issues/1190)) ([2a4716a](https://github.com/angular-eslint/angular-eslint/commit/2a4716abd83230c2fe4c3ba377fc4fbe527d7b12))
+
+### Features
+
+- **eslint-plugin-template:** [accessibility-interactive-supports-focus] add rule ([#1134](https://github.com/angular-eslint/angular-eslint/issues/1134)) ([d99d8c1](https://github.com/angular-eslint/angular-eslint/commit/d99d8c1c23ece85c5ee37c3515912e90a335be46))
+- **eslint-plugin-template:** [accessibility-role-has-required-aria] add rule ([#1100](https://github.com/angular-eslint/angular-eslint/issues/1100)) ([f684df0](https://github.com/angular-eslint/angular-eslint/commit/f684df040ebdf96b695f07f2e3fa6bfe2310c20e))
+- **eslint-plugin-template:** [attributes-order] add rule with fixer ([#1066](https://github.com/angular-eslint/angular-eslint/issues/1066)) ([4c789c7](https://github.com/angular-eslint/angular-eslint/commit/4c789c7546c7306c1a010f78fac4582b0c6efdc0))
+- **eslint-plugin-template:** [no-duplicate-attributes] Add option to ignore properties ([#1104](https://github.com/angular-eslint/angular-eslint/issues/1104)) ([018d390](https://github.com/angular-eslint/angular-eslint/commit/018d3906c2569df7dda01fd205e1138aec3f1d0c))
+- update typescript-eslint packages to v5.38.0 ([#1140](https://github.com/angular-eslint/angular-eslint/issues/1140)) ([85b4b47](https://github.com/angular-eslint/angular-eslint/commit/85b4b47acea84ae8f633f348805e22aea36de113))
+
 ## [14.1.2](https://github.com/angular-eslint/angular-eslint/compare/v14.1.1...v14.1.2) (2022-09-21)
 
 **Note:** Version bump only for package @angular-eslint/eslint-plugin-template

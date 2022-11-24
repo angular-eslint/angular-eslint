@@ -11,6 +11,17 @@ export const valid = [
   '<form [formGroup]="form" (ngSubmit)="form.valid || save()"></form>',
   '<form [formGroup]="form" (ngSubmit)="form.valid && save()"></form>',
   '<form [formGroup]="form" (ngSubmit)="id ? save() : edit()"></form>',
+  {
+    code: `
+      {{ obj?.nested() }} {{ obj!.nested() }}
+      <a [href]="getHref()">info</a>
+    `,
+    options: [
+      {
+        allowList: ['nested', 'getHref'],
+      },
+    ],
+  },
 ];
 
 export const invalid = [

@@ -7,11 +7,9 @@ import type {
   TmplAstNode,
 } from '@angular-eslint/bundled-angular-compiler';
 import { TmplAstTemplate } from '@angular-eslint/bundled-angular-compiler';
+import { getTemplateParserServices } from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/utils';
-import {
-  createESLintRule,
-  getTemplateParserServices,
-} from '../utils/create-eslint-rule';
+import { createESLintRule } from '../utils/create-eslint-rule';
 
 export const enum OrderType {
   TemplateReferenceVariable = 'TEMPLATE_REFERENCE',

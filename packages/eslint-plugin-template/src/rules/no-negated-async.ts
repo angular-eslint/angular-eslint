@@ -2,10 +2,8 @@ import type {
   BindingPipe,
   PrefixNot,
 } from '@angular-eslint/bundled-angular-compiler';
-import {
-  createESLintRule,
-  ensureTemplateParser,
-} from '../utils/create-eslint-rule';
+import { ensureTemplateParser } from '@angular-eslint/utils';
+import { createESLintRule } from '../utils/create-eslint-rule';
 
 type Options = [];
 export type MessageIds =
@@ -66,6 +64,10 @@ export default createESLintRule<Options, MessageIds>({
     };
   },
 });
+
+export const RULE_DOCS_EXTENSION = {
+  rationale: `Angular's async pipes emit null initially, prior to the observable emitting any values, or the promise resolving. This can cause negations, like *ngIf="!(myConditional | async)" to thrash the layout and cause expensive side-effects like firing off XHR requests for a component which should not be shown.`,
+};
 
 function getSuggestionsSchema() {
   return [

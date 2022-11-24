@@ -1,17 +1,18 @@
 {
+  "name": "schematics",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "type": "library",
   "targets": {
     "build": {
-      "executor": "@nrwl/workspace:run-commands",
-      "outputs": ["packages/schematics/dist"],
+      "executor": "nx:run-commands",
+      "outputs": ["{projectRoot}/dist"],
       "options": {
         "cwd": "packages/schematics",
         "parallel": false,
         "commands": [
           "npx ncp ../../node_modules/@schematics/angular/application/schema.json src/application/schema.json",
           "npx ncp ../../node_modules/@schematics/angular/library/schema.json src/library/schema.json",
-          "npx rimraf ./dist",
+          "npx ts-node --project ../../tsconfig.tools.json ../../tools/scripts/enhance-angular-schemas.ts",
           "npx tsc -p tsconfig.build.json",
           "npx ncp src/collection.json dist/collection.json",
           "npx ncp src/migrations.json dist/migrations.json",
@@ -32,14 +33,14 @@
         }
       ],
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/packages/schematics"],
+      "outputs": ["{workspaceRoot}/coverage/packages/schematics"],
       "options": {
         "jestConfig": "packages/schematics/jest.config.ts",
         "passWithNoTests": false
       }
     },
     "clean": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "cwd": "packages/schematics",
         "parallel": false,
@@ -47,7 +48,7 @@
       }
     },
     "typecheck": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "cwd": "packages/schematics",
         "parallel": false,

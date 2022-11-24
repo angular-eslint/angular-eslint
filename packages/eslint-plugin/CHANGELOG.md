@@ -3,6 +3,42 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [15.1.0](https://github.com/angular-eslint/angular-eslint/compare/v15.0.0...v15.1.0) (2022-11-24)
+
+### Bug Fixes
+
+- **eslint-plugin:** [no-input-rename] do not report on directive composition API ([#1231](https://github.com/angular-eslint/angular-eslint/issues/1231)) ([119fba7](https://github.com/angular-eslint/angular-eslint/commit/119fba7142845f53ccbbad106f5b572b0d13bc9e))
+- update typescript-eslint packages to v5.44.0 ([#1222](https://github.com/angular-eslint/angular-eslint/issues/1222)) ([5750e3a](https://github.com/angular-eslint/angular-eslint/commit/5750e3af9c7d9b91f5f4cd2fb524625b215bf4b0))
+
+# [15.0.0](https://github.com/angular-eslint/angular-eslint/compare/v15.0.0-alpha.5...v15.0.0) (2022-11-20)
+
+**Note:** Version bump only for package @angular-eslint/eslint-plugin
+
+# [14.4.0](https://github.com/angular-eslint/angular-eslint/compare/v14.3.1...v14.4.0) (2022-11-20)
+
+**Note:** Version bump only for package @angular-eslint/eslint-plugin
+
+## [14.3.1](https://github.com/angular-eslint/angular-eslint/compare/v14.3.0...v14.3.1) (2022-11-20)
+
+### Bug Fixes
+
+- **no-input-rename:** allow input aliases that match the directive name applied to an element ([#1207](https://github.com/angular-eslint/angular-eslint/issues/1207)) ([aff3344](https://github.com/angular-eslint/angular-eslint/commit/aff33442e0c35440827f144916e07d180965d0e9))
+
+# [14.3.0](https://github.com/angular-eslint/angular-eslint/compare/v14.2.0...v14.3.0) (2022-11-17)
+
+**Note:** Version bump only for package @angular-eslint/eslint-plugin
+
+# [14.2.0](https://github.com/angular-eslint/angular-eslint/compare/v14.1.2...v14.2.0) (2022-11-15)
+
+### Bug Fixes
+
+- update typescript-eslint packages to v5.38.1 ([#1152](https://github.com/angular-eslint/angular-eslint/issues/1152)) ([8f6d0ef](https://github.com/angular-eslint/angular-eslint/commit/8f6d0ef1048eac4113cb3efe53ed466b50aff056))
+- update typescript-eslint packages to v5.43.0 ([#1190](https://github.com/angular-eslint/angular-eslint/issues/1190)) ([2a4716a](https://github.com/angular-eslint/angular-eslint/commit/2a4716abd83230c2fe4c3ba377fc4fbe527d7b12))
+
+### Features
+
+- update typescript-eslint packages to v5.38.0 ([#1140](https://github.com/angular-eslint/angular-eslint/issues/1140)) ([85b4b47](https://github.com/angular-eslint/angular-eslint/commit/85b4b47acea84ae8f633f348805e22aea36de113))
+
 ## [14.1.2](https://github.com/angular-eslint/angular-eslint/compare/v14.1.1...v14.1.2) (2022-09-21)
 
 **Note:** Version bump only for package @angular-eslint/eslint-plugin

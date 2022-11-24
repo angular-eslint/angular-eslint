@@ -19,5 +19,12 @@
       }
     ],
     "@typescript-eslint/array-type": "error"
-  }
+  },
+  "overrides": [
+    {
+      "files": "*.json",
+      "parser": "jsonc-eslint-parser",
+      "rules": {}
+    }
+  ]
 }

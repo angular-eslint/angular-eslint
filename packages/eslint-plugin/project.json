@@ -1,10 +1,11 @@
 {
+  "name": "eslint-plugin",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "type": "library",
   "targets": {
     "build": {
-      "executor": "@nrwl/workspace:run-commands",
-      "outputs": ["packages/eslint-plugin/dist"],
+      "executor": "nx:run-commands",
+      "outputs": ["{projectRoot}/dist"],
       "options": {
         "cwd": "packages/eslint-plugin",
         "parallel": false,
@@ -17,14 +18,14 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/packages/eslint-plugin"],
+      "outputs": ["{workspaceRoot}/coverage/packages/eslint-plugin"],
       "options": {
         "jestConfig": "packages/eslint-plugin/jest.config.ts",
         "passWithNoTests": false
       }
     },
     "clean": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "cwd": "packages/eslint-plugin",
         "parallel": false,
@@ -32,7 +33,7 @@
       }
     },
     "typecheck": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "cwd": "packages/eslint-plugin",
         "parallel": false,
@@ -46,7 +47,7 @@
           "target": "update-rule-docs"
         }
       ],
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "parallel": false,
         "commands": [
@@ -55,8 +56,8 @@
       }
     },
     "update-rule-docs": {
-      "executor": "@nrwl/workspace:run-commands",
-      "outputs": ["packages/eslint-plugin/docs"],
+      "executor": "nx:run-commands",
+      "outputs": ["{projectRoot}/docs"],
       "options": {
         "parallel": false,
         "commands": [
@@ -65,5 +66,10 @@
       }
     }
   },
-  "implicitDependencies": ["bundled-angular-compiler"]
+  "implicitDependencies": ["bundled-angular-compiler"],
+  "namedInputs": {
+    "projectSpecificFiles": [
+      "{workspaceRoot}/tools/scripts/generate-rule-docs.ts"
+    ]
+  }
 }

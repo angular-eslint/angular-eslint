@@ -11,10 +11,8 @@ import {
   Lexer,
   Parser,
 } from '@angular-eslint/bundled-angular-compiler';
-import {
-  createESLintRule,
-  ensureTemplateParser,
-} from '../utils/create-eslint-rule';
+import { ensureTemplateParser } from '@angular-eslint/utils';
+import { createESLintRule } from '../utils/create-eslint-rule';
 
 type Options = [{ maxComplexity: number }];
 export type MessageIds = 'conditionalComplexity';

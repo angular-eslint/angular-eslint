@@ -4,10 +4,8 @@ import type {
   TmplAstElement,
   TmplAstTextAttribute,
 } from '@angular-eslint/bundled-angular-compiler';
-import {
-  createESLintRule,
-  getTemplateParserServices,
-} from '../utils/create-eslint-rule';
+import { getTemplateParserServices } from '@angular-eslint/utils';
+import { createESLintRule } from '../utils/create-eslint-rule';
 import { getOriginalAttributeName } from '../utils/get-original-attribute-name';
 
 type Options = [

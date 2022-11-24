@@ -342,6 +342,32 @@ The rule does not have any configuration options.
 #### ✅ Valid Code
 
 ```html
+<table aria-rowcount="-1"></table>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/accessibility-valid-aria": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
 <div aria-relevant="additions">additions</div>
 ```
 
@@ -394,7 +420,33 @@ The rule does not have any configuration options.
 #### ✅ Valid Code
 
 ```html
-<div role="slider" [aria-valuemin]="1"></div>
+<div role="slider" [attr.aria-valuemin]="1"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/accessibility-valid-aria": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div role="slider" aria-valuemin="1"></div>
 ```
 
 <br>

@@ -365,6 +365,38 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Directive({
+  selector: 'img[fooDirective]',
+})
+class Test {
+  @Input('notFooDirective') foo: Foo;
+         ~~~~~~~~~~~~~~~~~
+}
+```
+
 </details>
 
 <br>
@@ -597,6 +629,105 @@ class Test {}
 ```ts
 @Directive({
   inputs: [func(), 'a'],
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  selector: 'qx-menuitem',
+  hostDirectives: [{
+    directive: CdkMenuItem,
+    inputs: ['cdkMenuItemDisabled: disabled'],
+  }]
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  selector: 'qx-menuitem',
+  'hostDirectives': [{
+    directive: CdkMenuItem,
+    inputs: ['cdkMenuItemDisabled: disabled'],
+  }]
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  selector: 'qx-menuitem',
+  ['hostDirectives']: [{
+    directive: CdkMenuItem,
+    inputs: ['cdkMenuItemDisabled: disabled'],
+  }]
 })
 class Test {}
 ```
@@ -884,6 +1015,68 @@ class Test {
 })
 class Test {
   @Input('fooMyColor') myColor: string;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: 'img[fooDirective]'
+})
+class Test {
+  @Input foo: Foo;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: 'img[fooDirective]'
+})
+class Test {
+  @Input('fooDirective') foo: Foo;
 }
 ```
 

@@ -55,13 +55,21 @@ export default createESLintRule<Options, MessageIds>({
   create(context, [{ allowedNames = [] }]) {
     let selectors: ReadonlySet<string> = new Set();
     const ariaAttributeKeys = getAriaAttributeKeys();
+    let selectorDirectiveName: string;
 
     return {
       [Selectors.COMPONENT_OR_DIRECTIVE_SELECTOR_LITERAL](
         node: TSESTree.Literal | TSESTree.TemplateElement,
       ) {
+        const nodeRawText = ASTUtils.getRawText(node);
+        const bracketMatchResults = nodeRawText.match(/\[(.*?)\]/);
+
+        if (bracketMatchResults) {
+          selectorDirectiveName = bracketMatchResults[1];
+        }
+
         selectors = new Set(
-          withoutBracketsAndWhitespaces(ASTUtils.getRawText(node)).split(','),
+          withoutBracketsAndWhitespaces(nodeRawText).split(','),
         );
       },
       [Selectors.INPUT_ALIAS](
@@ -98,7 +106,14 @@ export default createESLintRule<Options, MessageIds>({
             messageId: 'noInputRename',
             fix: (fixer) => fixer.remove(node),
           });
-        } else if (!isAliasNameAllowed(selectors, propertyName, aliasName)) {
+        } else if (
+          !isAliasNameAllowed(
+            selectors,
+            propertyName,
+            aliasName,
+            selectorDirectiveName,
+          )
+        ) {
           context.report({
             node,
             messageId: 'noInputRename',
@@ -124,6 +139,28 @@ export default createESLintRule<Options, MessageIds>({
       [Selectors.INPUTS_METADATA_PROPERTY_LITERAL](
         node: TSESTree.Literal | TSESTree.TemplateElement,
       ) {
+        const ancestorMaybeHostDirectiveAPI =
+          node.parent?.parent?.parent?.parent?.parent;
+        if (
+          ancestorMaybeHostDirectiveAPI &&
+          ASTUtils.isProperty(ancestorMaybeHostDirectiveAPI)
+        ) {
+          /**
+           * Angular v15 introduced the directive composition API: https://angular.io/guide/directive-composition-api
+           * Renaming host directive inputs using this API is not a bad practice and should not be reported
+           */
+          const hostDirectiveAPIPropertyName = 'hostDirectives';
+          if (
+            (ASTUtils.isLiteral(ancestorMaybeHostDirectiveAPI.key) &&
+              ancestorMaybeHostDirectiveAPI.key.value ===
+                hostDirectiveAPIPropertyName) ||
+            (TSESLintASTUtils.isIdentifier(ancestorMaybeHostDirectiveAPI.key) &&
+              ancestorMaybeHostDirectiveAPI.key.name ===
+                hostDirectiveAPIPropertyName)
+          ) {
+            return;
+          }
+        }
         const [propertyName, aliasName] = withoutBracketsAndWhitespaces(
           ASTUtils.getRawText(node),
         ).split(':');
@@ -147,7 +184,14 @@ export default createESLintRule<Options, MessageIds>({
                 ASTUtils.getReplacementText(node, propertyName),
               ),
           });
-        } else if (!isAliasNameAllowed(selectors, propertyName, aliasName)) {
+        } else if (
+          !isAliasNameAllowed(
+            selectors,
+            propertyName,
+            aliasName,
+            selectorDirectiveName,
+          )
+        ) {
           context.report({
             node,
             messageId: 'noInputRename',
@@ -182,10 +226,12 @@ function isAliasNameAllowed(
   selectors: ReadonlySet<string>,
   propertyName: string,
   aliasName: string,
+  selectorDirectiveName: string,
 ): boolean {
   return [...selectors].some((selector) => {
     return (
       selector === aliasName ||
+      selectorDirectiveName === aliasName ||
       composedName(selector, propertyName) === aliasName
     );
   });

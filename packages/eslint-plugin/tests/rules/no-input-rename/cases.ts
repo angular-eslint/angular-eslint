@@ -50,6 +50,41 @@ export const valid = [
     })
     class Test {}
   `,
+  /**
+   * Renaming inputs when using the directive composition API is not a bad practice
+   * https://angular.io/guide/directive-composition-api
+   * https://www.youtube.com/watch?v=EJJwyyjsRGs
+   */
+  `
+    @Component({
+      selector: 'qx-menuitem',
+      hostDirectives: [{
+        directive: CdkMenuItem,
+        inputs: ['cdkMenuItemDisabled: disabled'],
+      }]
+    })
+    class Test {}
+  `,
+  `
+    @Component({
+      selector: 'qx-menuitem',
+      'hostDirectives': [{
+        directive: CdkMenuItem,
+        inputs: ['cdkMenuItemDisabled: disabled'],
+      }]
+    })
+    class Test {}
+  `,
+  `
+    @Component({
+      selector: 'qx-menuitem',
+      ['hostDirectives']: [{
+        directive: CdkMenuItem,
+        inputs: ['cdkMenuItemDisabled: disabled'],
+      }]
+    })
+    class Test {}
+  `,
   `
     @Component({})
     class Test {
@@ -144,6 +179,22 @@ export const valid = [
     })
     class Test {
       @Input('fooMyColor') myColor: string;
+    }
+  `,
+  `
+    @Directive({
+      selector: 'img[fooDirective]'
+    })
+    class Test {
+      @Input foo: Foo;
+    }
+  `,
+  `
+    @Directive({
+      selector: 'img[fooDirective]'
+    })
+    class Test {
+      @Input('fooDirective') foo: Foo;
     }
   `,
 ];
@@ -442,6 +493,37 @@ export const invalid = [
       @Injectable()
       class Test {
         @Input() ${propertyName} = this.getInput();
+               
+      }
+    `,
+    })),
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if input property alias does not match the directive name when applied to an element in the selector',
+    annotatedSource: `
+      @Directive({
+        selector: 'img[fooDirective]',
+      })
+      class Test {
+        @Input('notFooDirective') foo: Foo;
+               ~~~~~~~~~~~~~~~~~
+      }
+    `,
+    messageId,
+    suggestions: (
+      [
+        [suggestRemoveAliasName, 'foo'],
+        [suggestReplaceOriginalNameWithAliasName, 'notFooDirective'],
+      ] as const
+    ).map(([messageId, propertyName]) => ({
+      messageId,
+      output: `
+      @Directive({
+        selector: 'img[fooDirective]',
+      })
+      class Test {
+        @Input() ${propertyName}: Foo;
                
       }
     `,

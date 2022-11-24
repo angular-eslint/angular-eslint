@@ -18,3 +18,9 @@ export * as ASTUtils from './eslint-plugin/ast-utils';
 export * as RuleFixes from './eslint-plugin/rule-fixes';
 export * as Selectors from './eslint-plugin/selectors';
 export * as SelectorUtils from './eslint-plugin/selector-utils';
+
+export type { TemplateParserServices } from './eslint-plugin-template/parser-services';
+export {
+  ensureTemplateParser,
+  getTemplateParserServices,
+} from './eslint-plugin-template/parser-services';
