@@ -11,14 +11,14 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description: 'Prefer to not declare `@Input` as an `EventEmitter`',
+      description: 'Prefer to not declare `@Input` with an `EventEmitter`',
       recommended: false,
     },
     hasSuggestions: true,
     schema: [],
     messages: {
       inputNotEventEmitter:
-        'Prefer to not declare `@Input` as an `EventEmitter`',
+        'Prefer to not declare `@Input` with an `EventEmitter`',
       suggestChangeInputToOutput: 'Change `@Input` to `@Output`',
     },
   },
