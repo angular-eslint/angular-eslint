@@ -656,6 +656,105 @@ class Test {}
 #### ✅ Valid Code
 
 ```ts
+@Component({
+  selector: 'qx-menuitem',
+  hostDirectives: [{
+    directive: CdkMenuItem,
+    inputs: ['cdkMenuItemDisabled: disabled'],
+  }]
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  selector: 'qx-menuitem',
+  'hostDirectives': [{
+    directive: CdkMenuItem,
+    inputs: ['cdkMenuItemDisabled: disabled'],
+  }]
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  selector: 'qx-menuitem',
+  ['hostDirectives']: [{
+    directive: CdkMenuItem,
+    inputs: ['cdkMenuItemDisabled: disabled'],
+  }]
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
 @Component({})
 class Test {
   @Input() set setter(setter: string) {}

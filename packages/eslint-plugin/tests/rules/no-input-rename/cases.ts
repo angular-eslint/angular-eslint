@@ -50,6 +50,41 @@ export const valid = [
     })
     class Test {}
   `,
+  /**
+   * Renaming inputs when using the directive composition API is not a bad practice
+   * https://angular.io/guide/directive-composition-api
+   * https://www.youtube.com/watch?v=EJJwyyjsRGs
+   */
+  `
+    @Component({
+      selector: 'qx-menuitem',
+      hostDirectives: [{
+        directive: CdkMenuItem,
+        inputs: ['cdkMenuItemDisabled: disabled'],
+      }]
+    })
+    class Test {}
+  `,
+  `
+    @Component({
+      selector: 'qx-menuitem',
+      'hostDirectives': [{
+        directive: CdkMenuItem,
+        inputs: ['cdkMenuItemDisabled: disabled'],
+      }]
+    })
+    class Test {}
+  `,
+  `
+    @Component({
+      selector: 'qx-menuitem',
+      ['hostDirectives']: [{
+        directive: CdkMenuItem,
+        inputs: ['cdkMenuItemDisabled: disabled'],
+      }]
+    })
+    class Test {}
+  `,
   `
     @Component({})
     class Test {
