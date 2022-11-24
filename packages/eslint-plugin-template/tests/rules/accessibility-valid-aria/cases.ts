@@ -14,9 +14,11 @@ export const valid = [
   '<div aria-haspopup="menu">aria-haspopup</div>',
   '<div [attr.aria-pressed]="undefined">aria-pressed</div>',
   '<input [attr.aria-rowcount]="2">',
+  '<table aria-rowcount="-1"></table>',
   '<div aria-relevant="additions">additions</div>',
   '<div aria-checked="false">checked</div>',
-  '<div role="slider" [aria-valuemin]="1"></div>',
+  '<div role="slider" [attr.aria-valuemin]="1"></div>',
+  '<div role="slider" aria-valuemin="1"></div>',
   '<div aria-="text">Text</div>',
   `
       <input

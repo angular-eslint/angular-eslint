@@ -134,7 +134,7 @@ function isInteger(value: unknown): boolean {
 function isNumeric(value: unknown): boolean {
   return (
     !Number.isNaN(Number.parseFloat(value as string)) &&
-    Number.isFinite(value as number)
+    Number.isFinite(Number(value))
   );
 }
 
