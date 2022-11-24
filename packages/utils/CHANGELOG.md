@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [15.1.0](https://github.com/angular-eslint/angular-eslint/compare/v15.0.0...v15.1.0) (2022-11-24)
+
+### Bug Fixes
+
+- update typescript-eslint packages to v5.44.0 ([#1222](https://github.com/angular-eslint/angular-eslint/issues/1222)) ([5750e3a](https://github.com/angular-eslint/angular-eslint/commit/5750e3af9c7d9b91f5f4cd2fb524625b215bf4b0))
+
 # [15.0.0](https://github.com/angular-eslint/angular-eslint/compare/v15.0.0-alpha.5...v15.0.0) (2022-11-20)
 
 **Note:** Version bump only for package @angular-eslint/utils

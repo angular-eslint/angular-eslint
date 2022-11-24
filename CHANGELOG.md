@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [15.1.0](https://github.com/angular-eslint/angular-eslint/compare/v15.0.0...v15.1.0) (2022-11-24)
+
+### Bug Fixes
+
+- **eslint-plugin-template:** [accessibility-valid-aria] use Number() to parse numeric values ([#1218](https://github.com/angular-eslint/angular-eslint/issues/1218)) ([6fe40d6](https://github.com/angular-eslint/angular-eslint/commit/6fe40d672197532176686f1c5c8ab080713334bf))
+- **eslint-plugin-template:** [i18n] allow more attributes by default ([#1220](https://github.com/angular-eslint/angular-eslint/issues/1220)) ([4232b1c](https://github.com/angular-eslint/angular-eslint/commit/4232b1c1892189623ead2ccd68fcb6d179186e92))
+- **eslint-plugin:** [no-input-rename] do not report on directive composition API ([#1231](https://github.com/angular-eslint/angular-eslint/issues/1231)) ([119fba7](https://github.com/angular-eslint/angular-eslint/commit/119fba7142845f53ccbbad106f5b572b0d13bc9e))
+- update dependency @angular/compiler to v15.0.1 ([#1223](https://github.com/angular-eslint/angular-eslint/issues/1223)) ([7b7bd76](https://github.com/angular-eslint/angular-eslint/commit/7b7bd769f0239e43c7c53e714196e02b80453916))
+- update typescript-eslint packages to v5.44.0 ([#1222](https://github.com/angular-eslint/angular-eslint/issues/1222)) ([5750e3a](https://github.com/angular-eslint/angular-eslint/commit/5750e3af9c7d9b91f5f4cd2fb524625b215bf4b0))
+
+### Features
+
+- **eslint-plugin-template:** [no-call-expression] add allowList option ([#1217](https://github.com/angular-eslint/angular-eslint/issues/1217)) ([a69c809](https://github.com/angular-eslint/angular-eslint/commit/a69c809cd31f142d2f5aff1c34afeb6e4a607a9c))
+
 # [15.0.0](https://github.com/angular-eslint/angular-eslint/compare/v15.0.0-alpha.5...v15.0.0) (2022-11-20)
 
 As always we recommend that you update your existing workspaces by using `ng update` as we provide some helpful schematics to help migrate your workspaces to the latest and greatest. Running the following will update Angular, the Angular CLI and angular-eslint together:
