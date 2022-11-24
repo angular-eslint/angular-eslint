@@ -68,6 +68,7 @@ type Options = [
     readonly ignoreAttributes?: readonly string[];
     readonly ignoreTags?: readonly string[];
     readonly requireDescription?: boolean;
+    readonly requireMeaning?: boolean;
   },
 ];
 export type MessageIds =
@@ -77,7 +78,8 @@ export type MessageIds =
   | 'i18nCustomIdOnElement'
   | 'i18nDuplicateCustomId'
   | 'suggestAddI18nAttribute'
-  | 'i18nMissingDescription';
+  | 'i18nMissingDescription'
+  | 'i18nMissingMeaning';
 type StronglyTypedElement = Omit<TmplAstElement, 'i18n'> & {
   i18n: Message;
   parent?: AST;
@@ -168,6 +170,10 @@ export default createESLintRule<Options, MessageIds>({
             type: 'boolean',
             default: DEFAULT_OPTIONS.requireDescription,
           },
+          requireMeaning: {
+            type: 'boolean',
+            default: DEFAULT_OPTIONS.requireMeaning,
+          },
         },
         additionalProperties: false,
       },
@@ -180,6 +186,7 @@ export default createESLintRule<Options, MessageIds>({
       i18nDuplicateCustomId: `Duplicate custom ID "@@{{customId}}". See more at ${STYLE_GUIDE_LINK_UNIQUE_CUSTOM_IDS}`,
       suggestAddI18nAttribute: 'Add the `i18n` attribute',
       i18nMissingDescription: `Missing i18n description on element. See more at ${STYLE_GUIDE_LINK_METADATA_FOR_TRANSLATION}`,
+      i18nMissingMeaning: `Missing i18n meaning on element. See more at ${STYLE_GUIDE_LINK_METADATA_FOR_TRANSLATION}`,
     },
   },
   defaultOptions: [DEFAULT_OPTIONS],
@@ -195,6 +202,7 @@ export default createESLintRule<Options, MessageIds>({
         ignoreAttributes,
         ignoreTags,
         requireDescription,
+        requireMeaning,
       },
     ],
   ) {
@@ -211,7 +219,7 @@ export default createESLintRule<Options, MessageIds>({
     const collectedCustomIds = new Map<string, readonly ParseSourceSpan[]>();
 
     function handleElement({
-      i18n: { description, customId },
+      i18n: { description, meaning, customId },
       name,
       parent,
       sourceSpan,
@@ -237,6 +245,13 @@ export default createESLintRule<Options, MessageIds>({
       if (requireDescription && isEmpty(description)) {
         context.report({
           messageId: 'i18nMissingDescription',
+          loc,
+        });
+      }
+
+      if (requireMeaning && isEmpty(meaning)) {
+        context.report({
+          messageId: 'i18nMissingMeaning',
           loc,
         });
       }
@@ -353,12 +368,15 @@ export default createESLintRule<Options, MessageIds>({
     }
 
     return {
-      ...((checkId || requireDescription) && {
+      ...((checkId || requireDescription || requireMeaning) && {
         'Element$1[i18n]'(node: StronglyTypedElement) {
           handleElement(node);
         },
       }),
-      ...((checkAttributes || checkId || requireDescription) && {
+      ...((checkAttributes ||
+        checkId ||
+        requireDescription ||
+        requireMeaning) && {
         [`Element$1 > TextAttribute[value=${PL_PATTERN}]`](
           node: StronglyTypedTextAttribute,
         ) {
