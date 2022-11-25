@@ -67,7 +67,10 @@ export default createESLintRule<Options, MessageIds>({
       TaggedTemplateExpression(
         taggedTemplateExpression: TSESTree.TaggedTemplateExpression,
       ) {
-        if (ASTUtils.isIdentifier(taggedTemplateExpression.tag)) {
+        if (
+          (requireDescription || requireMeaning) &&
+          ASTUtils.isIdentifier(taggedTemplateExpression.tag)
+        ) {
           const identifierName = taggedTemplateExpression.tag.name;
           const templateElement = taggedTemplateExpression.quasi.quasis[0];
 
