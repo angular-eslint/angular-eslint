@@ -28,6 +28,7 @@ The rule accepts an options object with the following properties:
 ```ts
 interface Options {
   requireDescription?: boolean;
+  requireMeaning?: boolean;
 }
 
 ```
@@ -250,6 +251,128 @@ const localizedText = $localize`:@@custom_id:Hello i18n!`;
 ```ts
 const localizedText = $localize`:site header|@@custom_id:Hello i18n!`;
                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/require-localize-metadata": [
+      "error",
+      {
+        "requireMeaning": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+const localizedText = $localize`Hello i18n!`;
+                               ~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/require-localize-metadata": [
+      "error",
+      {
+        "requireDescription": true,
+        "requireMeaning": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+const localizedText = $localize`:An introduction header for this sample:Hello i18n!`;
+                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/require-localize-metadata": [
+      "error",
+      {
+        "requireMeaning": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+const localizedText = $localize`:|An introduction header for this sample:Hello i18n!`;
+                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/require-localize-metadata": [
+      "error",
+      {
+        "requireDescription": true,
+        "requireMeaning": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+const localizedText = $localize`:Hello i18n!`;
+                               ~~~~~~~~~~~~~~
 ```
 
 </details>
@@ -510,6 +633,65 @@ someFunction($localize\`:An introduction header for this sample:Hello i18n!\`);
 
 ```ts
 const localizedText = \`Hello i18n!\`;
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/require-localize-metadata": [
+      "error",
+      {
+        "requireMeaning": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+const localizedText = $localize\`:site header|:Hello i18n!\`;
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/require-localize-metadata": [
+      "error",
+      {
+        "requireDescription": true,
+        "requireMeaning": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+const localizedText = $localize\`:site header|An introduction header for this sample:Hello i18n!\`;
 ```
 
 </details>
