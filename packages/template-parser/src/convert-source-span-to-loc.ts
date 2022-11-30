@@ -33,7 +33,7 @@ export function convertElementSourceSpanToLoc(
     // We explicitly throw an exception since this function should not be used
     // with non-element nodes, e.g. `TextAttribute` or `MethodDefinition`, etc.
     throw new Error(
-      'convertElementSourceSpanToLoc is intented to be used only with elements.',
+      'convertElementSourceSpanToLoc is intended to be used only with elements.',
     );
   }
 
