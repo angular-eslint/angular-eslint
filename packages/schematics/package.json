@@ -42,7 +42,7 @@
   "devDependencies": {
     "@types/tmp": "0.2.3",
     "@typescript-eslint/utils": "5.44.0",
-    "eslint": "8.28.0",
+    "eslint": "8.29.0",
     "tslint-to-eslint-config": "2.4.0"
   },
   "peerDependencies": {
