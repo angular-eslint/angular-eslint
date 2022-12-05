@@ -35,18 +35,18 @@
     "@jridgewell/gen-mapping" "^0.1.0"
     "@jridgewell/trace-mapping" "^0.3.9"
 
-"@angular-devkit/architect@0.1500.1":
-  version "0.1500.1"
-  resolved "https://registry.yarnpkg.com/@angular-devkit/architect/-/architect-0.1500.1.tgz#29f4009cf3c4c0b1b17f1607b8b604e2a901eeb6"
-  integrity sha512-HoGMdUB9z1brPq3f0m3la6N0ODBarH5LjZN+5KyIMdXgJJN5y+gs2H6yCPQfJT56fqtp/cckxOYcLAFTf45Tcg==
+"@angular-devkit/architect@0.1500.2":
+  version "0.1500.2"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/architect/-/architect-0.1500.2.tgz#a71ee275bda196a8a50c1029d551c718a4fb6438"
+  integrity sha512-gprTEy6vD57yJCd6JqRaFZ/pfmXuEDHlH7mOVBcBdTGuuE1VJkiNJ69E9gw552L7wwVEsF0D6lVYTFHVDkMDmA==
   dependencies:
-    "@angular-devkit/core" "15.0.1"
+    "@angular-devkit/core" "15.0.2"
     rxjs "6.6.7"
 
-"@angular-devkit/core@15.0.1":
-  version "15.0.1"
-  resolved "https://registry.yarnpkg.com/@angular-devkit/core/-/core-15.0.1.tgz#e69bea69d38f3b3c0332c42c724b591d553c8be0"
-  integrity sha512-Q8sF561Wf53ufdrKWvsqebbD5EjJpdHaPjg5nAHYwPtwD1ciG7oL55cQFs0LYqy9Ux6k34NimodhH3QgXYYPFQ==
+"@angular-devkit/core@15.0.2":
+  version "15.0.2"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/core/-/core-15.0.2.tgz#47a822ab2cde0afc7fdd4ca101f3fe5353f05358"
+  integrity sha512-XkdNKyeYvnCq0zWuEda163muUV38ifNyK6EjrbhI5pQWNg7myxtDmLenjtpXLGLZwjxqsart2l/uoYsk1xQCmQ==
   dependencies:
     ajv "8.11.0"
     ajv-formats "2.1.1"
@@ -54,26 +54,26 @@
     rxjs "6.6.7"
     source-map "0.7.4"
 
-"@angular-devkit/schematics@15.0.1":
-  version "15.0.1"
-  resolved "https://registry.yarnpkg.com/@angular-devkit/schematics/-/schematics-15.0.1.tgz#e7d94566bdb4f3e87242d3c4c94c153b1c8c1324"
-  integrity sha512-DS9t+xl1lOphYkdz17FwRO0LUs5IYBpyqr3O8SqrXESOhVUXlbcEhVtVeQiYxfeQZVRPWVR64Tf6E6ELXcGLYw==
+"@angular-devkit/schematics@15.0.2":
+  version "15.0.2"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/schematics/-/schematics-15.0.2.tgz#5177dab4382eeebe84f4768c3368799ef99cef48"
+  integrity sha512-FqimOzQCwRGmz/NPPiK6QpAxI+qpy8rYQRlWRWSOfQgjb+cl4rD2isllalYvzO+5mmb88fwJ7bj9cP2X5khpcg==
   dependencies:
-    "@angular-devkit/core" "15.0.1"
+    "@angular-devkit/core" "15.0.2"
     jsonc-parser "3.2.0"
     magic-string "0.26.7"
     ora "5.4.1"
     rxjs "6.6.7"
 
-"@angular/cli@15.0.1":
-  version "15.0.1"
-  resolved "https://registry.yarnpkg.com/@angular/cli/-/cli-15.0.1.tgz#3ba9bab608ac13ef3df4404632dea857d031846c"
-  integrity sha512-ntwJxtzGuHl07eb56x8WM6tQ3YhBKCP61o8WoHBrOBEFNm9rEV9C2webMIWYVFAa0iG1pmDq6U5Qc7WFPM9rtg==
+"@angular/cli@15.0.2":
+  version "15.0.2"
+  resolved "https://registry.yarnpkg.com/@angular/cli/-/cli-15.0.2.tgz#8a23f65a187feaa168f97ddd961cb2c5a95a5ebc"
+  integrity sha512-SRPCYiK5A+U0V173EUZNYHtOvFtxefH9hfie2+XcJX9B/7VxqIkyRYXOUUyWtC7yzbxWNJ1+WG5X4S5C2LrTEw==
   dependencies:
-    "@angular-devkit/architect" "0.1500.1"
-    "@angular-devkit/core" "15.0.1"
-    "@angular-devkit/schematics" "15.0.1"
-    "@schematics/angular" "15.0.1"
+    "@angular-devkit/architect" "0.1500.2"
+    "@angular-devkit/core" "15.0.2"
+    "@angular-devkit/schematics" "15.0.2"
+    "@schematics/angular" "15.0.2"
     "@yarnpkg/lockfile" "1.1.0"
     ansi-colors "4.1.3"
     ini "3.0.1"
@@ -3567,13 +3567,13 @@
     estree-walker "^2.0.1"
     picomatch "^2.2.2"
 
-"@schematics/angular@15.0.1":
-  version "15.0.1"
-  resolved "https://registry.yarnpkg.com/@schematics/angular/-/angular-15.0.1.tgz#db1b904990d0bbe80f997adb402e63fa6df091a4"
-  integrity sha512-UGiQ4IwdLWdQwlWVgbAM5B6G4VdzVOn0yS1PkOtTt0hvAkszriu7uyaH2Qh8aFSTvNAIg/l7/6grI/UGj8iDaw==
+"@schematics/angular@15.0.2":
+  version "15.0.2"
+  resolved "https://registry.yarnpkg.com/@schematics/angular/-/angular-15.0.2.tgz#ef805066356390cf8697d95cf1a8092b95dc35ce"
+  integrity sha512-h5vTcOkJD0s+BMHRI87fVyKB+A/YqFolR7fhmhETTq2NwRg2oR0HTf7DbjVxPBwhvI5XzUV1MBPb30xXR2UG0w==
   dependencies:
-    "@angular-devkit/core" "15.0.1"
-    "@angular-devkit/schematics" "15.0.1"
+    "@angular-devkit/core" "15.0.2"
+    "@angular-devkit/schematics" "15.0.2"
     jsonc-parser "3.2.0"
 
 "@sinclair/typebox@^0.23.3":
