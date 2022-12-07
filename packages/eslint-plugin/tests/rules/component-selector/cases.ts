@@ -312,9 +312,9 @@ export const invalid = [
         })
         class Test {}
       `,
-    messageId: messageIdStyleFailure,
+    messageId: messageIdStyleAndPrefixFailure,
     options: [{ type: 'element', prefix: 'app', style: 'kebab-case' }],
-    data: { style: 'kebab-case' },
+    data: { style: 'kebab-case', prefix: '"app"' },
   }),
   convertAnnotatedSourceToFailureCase({
     description: `it should fail if a selector uses kebab-case style, but no dash`,
@@ -399,7 +399,7 @@ export const invalid = [
     options: [{ type: 'element', prefix: ['app'], style: 'camelCase' }],
   }),
   convertAnnotatedSourceToFailureCase({
-    description: `it should fail if a selector is not kebab-cased and is not prefixed by a valid option`,
+    description: `it should fail if a selector is not prefixed by a valid option with the correct case`,
     annotatedSource: `
       @Component({
         selector: 'root'
@@ -410,5 +410,18 @@ export const invalid = [
     messageId: messageIdStyleAndPrefixFailure,
     options: [{ type: 'element', prefix: ['app', 'toh'], style: 'kebab-case' }],
     data: { style: 'kebab-case', prefix: '"app" or "toh"' },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: `it should fail if a selector uses kebab-case with an invalid prefix style`,
+    annotatedSource: `
+      @Component({
+        selector: 'sgggg-bar'
+                  ~~~~~~~~~~~
+      })
+      class Test {}
+      `,
+    messageId: messageIdPrefixFailure,
+    options: [{ type: 'element', prefix: 'sg', style: 'kebab-case' }],
+    data: { prefix: '"sg"' },
   }),
 ];

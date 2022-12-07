@@ -522,6 +522,41 @@ class Test {}
 class Test {}
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/component-selector": [
+      "error",
+      {
+        "type": "element",
+        "prefix": "sg",
+        "style": "kebab-case"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({
+  selector: 'sgggg-bar'
+            ~~~~~~~~~~~
+})
+class Test {}
+```
+
 </details>
 
 <br>
