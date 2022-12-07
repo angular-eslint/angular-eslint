@@ -8,6 +8,7 @@ const i18nCustomIdOnElement: MessageIds = 'i18nCustomIdOnElement';
 const i18nDuplicateCustomId: MessageIds = 'i18nDuplicateCustomId';
 const suggestAddI18nAttribute: MessageIds = 'suggestAddI18nAttribute';
 const i18nMissingDescription: MessageIds = 'i18nMissingDescription';
+const i18nMissingMeaning: MessageIds = 'i18nMissingMeaning';
 
 export const valid = [
   `
@@ -204,6 +205,26 @@ export const valid = [
       <span i18n="@@custom-id">Some text to translate</span>
     `,
     options: [{ checkDuplicateId: false }],
+  },
+  {
+    code: `
+      <h1 i18n="site header|An introduction header for this sample">Hello i18n!</h1>
+    `,
+    options: [
+      { checkId: false, requireDescription: true, requireMeaning: true },
+    ],
+  },
+  {
+    code: `
+      <h1 i18n="site header|">Hello i18n!</h1>
+    `,
+    options: [{ checkId: false, requireMeaning: true }],
+  },
+  {
+    code: `
+      <h1 i18n="site header|@@custom-id">Hello i18n!</h1>
+    `,
+    options: [{ requireMeaning: true }],
   },
 ];
 
@@ -550,5 +571,48 @@ export const invalid = [
     `,
     messageId: i18nMissingDescription,
     options: [{ requireDescription: true, checkId: false }],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail if i18n meaning is missing',
+    annotatedSource: `
+      <h1 i18n>Hello</h1>
+      ~~~~~~~~~~~~~~~~~~~
+    `,
+    messageId: i18nMissingMeaning,
+    options: [{ checkId: false, requireMeaning: true }],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if i18n meaning is missing, despite a description being provided',
+    annotatedSource: `
+      <h1 i18n="An introduction header for this sample">Hello</h1>
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    messageId: i18nMissingMeaning,
+    options: [
+      { checkId: false, requireDescription: true, requireMeaning: true },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if i18n meaning is missing, despite a description and ID being provided',
+    annotatedSource: `
+      <h1 i18n="An introduction header for this sample@@custom-id">Hello</h1>
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    messageId: i18nMissingMeaning,
+    options: [{ requireDescription: true, requireMeaning: true }],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if i18n meaning is empty, despite a description being provided',
+    annotatedSource: `
+      <h1 i18n="|An introduction header for this sample">Hello</h1>
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    messageId: i18nMissingMeaning,
+    options: [
+      { checkId: false, requireDescription: true, requireMeaning: true },
+    ],
   }),
 ];
