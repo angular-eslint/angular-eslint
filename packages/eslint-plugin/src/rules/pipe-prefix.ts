@@ -70,8 +70,8 @@ export default createESLintRule<Options, MessageIds>({
         const allowPrefixesExpression = prefixes.join('|');
         const prefixValidator = SelectorUtils.SelectorValidator.prefix(
           allowPrefixesExpression,
-          'camelCase',
         );
+        const styleValidator = SelectorUtils.SelectorValidator.camelCase;
 
         let nameValue;
 
@@ -88,7 +88,7 @@ export default createESLintRule<Options, MessageIds>({
           return;
         }
 
-        if (!prefixValidator.apply(this, [nameValue])) {
+        if (!prefixValidator.apply(this, [nameValue]) || !styleValidator) {
           context.report({
             node: nameSelector,
             messageId: 'pipePrefix',

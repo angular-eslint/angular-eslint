@@ -52,26 +52,13 @@ export const SelectorValidator = {
     return /^[a-z0-9-]+-[a-z0-9-]+$/.test(selector);
   },
 
-  prefix(
-    prefix: string,
-    selectorStyle: SelectorStyle,
-  ): (selector: string) => boolean {
+  prefix(prefix: string): (selector: string) => boolean {
     const regex = new RegExp(`^\\[?(${prefix})`);
 
     return (selector) => {
-      if (!prefix) return true;
+      if (prefix && !regex.test(selector)) return false;
 
-      if (!regex.test(selector)) return false;
-
-      const suffix = selector.replace(regex, '');
-
-      if (selectorStyle === OPTION_STYLE_CAMEL_CASE) {
-        return !suffix || suffix[0] === suffix[0].toUpperCase();
-      } else if (selectorStyle === OPTION_STYLE_KEBAB_CASE) {
-        return !suffix || suffix[0] === '-';
-      }
-
-      throw Error('Invalid selector style!');
+      return true;
     };
   },
 };
@@ -117,6 +104,22 @@ export const reportStyleError = (
     messageId: 'styleFailure',
     data: {
       style,
+    },
+  });
+};
+
+export const reportStyleAndPrefixError = (
+  node: TSESTree.Node,
+  style: SelectorStyleOption,
+  prefix: string | readonly string[],
+  context: Readonly<TSESLint.RuleContext<string, readonly unknown[]>>,
+): void => {
+  context.report({
+    node,
+    messageId: 'styleAndPrefixFailure',
+    data: {
+      style,
+      prefix: toHumanReadableText(arrayify(prefix)),
     },
   });
 };
@@ -201,9 +204,7 @@ export const checkSelector = (
   const validSelectors = getValidSelectors(listSelectors, types);
 
   const hasExpectedPrefix = validSelectors.some((selector) =>
-    prefixOption.some((prefix) =>
-      SelectorValidator.prefix(prefix, styleOption)(selector),
-    ),
+    prefixOption.some((prefix) => SelectorValidator.prefix(prefix)(selector)),
   );
 
   const hasExpectedStyle = validSelectors.some((selector) =>

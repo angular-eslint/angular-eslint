@@ -3,6 +3,7 @@ import type { MessageIds } from '../../../src/rules/component-selector';
 
 const messageIdPrefixFailure: MessageIds = 'prefixFailure';
 const messageIdStyleFailure: MessageIds = 'styleFailure';
+const messageIdStyleAndPrefixFailure: MessageIds = 'styleAndPrefixFailure';
 const messageIdTypeFailure: MessageIds = 'typeFailure';
 const messageIdShadowDomEncapsulatedStyleFailure: MessageIds =
   'shadowDomEncapsulatedStyleFailure';
@@ -223,6 +224,15 @@ export const valid = [
       },
     ],
   },
+  {
+    code: `
+      @Component({
+        selector: 'singleword'
+      })
+      class Test {}
+      `,
+    options: [{ type: 'element', style: 'kebab-case' }],
+  },
 ];
 
 export const invalid = [
@@ -387,5 +397,18 @@ export const invalid = [
       `,
     messageId: messageIdShadowDomEncapsulatedStyleFailure,
     options: [{ type: 'element', prefix: ['app'], style: 'camelCase' }],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: `it should fail if a selector is not kebab-cased and is not prefixed by a valid option`,
+    annotatedSource: `
+      @Component({
+        selector: 'root'
+                  ~~~~~~
+      })
+      class Test {}
+      `,
+    messageId: messageIdStyleAndPrefixFailure,
+    options: [{ type: 'element', prefix: ['app', 'toh'], style: 'kebab-case' }],
+    data: { style: 'kebab-case', prefix: '"app" or "toh"' },
   }),
 ];
