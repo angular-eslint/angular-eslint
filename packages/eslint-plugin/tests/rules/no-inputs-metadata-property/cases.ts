@@ -45,6 +45,11 @@ export const valid = [
     })
     class Test {}
   `,
+  /**
+   * Using inputs when using the directive composition API is not a bad practice
+   * https://angular.io/guide/directive-composition-api
+   * https://www.youtube.com/watch?v=EJJwyyjsRGs
+   */
   `
    @Component({
      selector: 'qx-menuitem',
