@@ -75,6 +75,9 @@ import noPositiveTabindex, {
 import useTrackByFunction, {
   RULE_NAME as useTrackByFunctionRuleName,
 } from './rules/use-track-by-function';
+import noInterpolationInAttributes, {
+  RULE_NAME as noInterpolationInAttributesRuleName,
+} from './rules/no-interpolation-in-attributes';
 
 export default {
   configs: {
@@ -114,5 +117,6 @@ export default {
     [noNegatedAsyncRuleName]: noNegatedAsync,
     [noPositiveTabindexRuleName]: noPositiveTabindex,
     [useTrackByFunctionRuleName]: useTrackByFunction,
+    [noInterpolationInAttributesRuleName]: noInterpolationInAttributes,
   },
 };
