@@ -124,15 +124,17 @@ export default createESLintRule<SelectorUtils.Options, MessageIds>({
         if (!hasExpectedSelector.hasExpectedType) {
           SelectorUtils.reportTypeError(rawSelectors, type, context);
         } else if (!hasExpectedSelector.hasExpectedStyle) {
-          if (!hasExpectedSelector.hasExpectedPrefix) {
-            SelectorUtils.reportStyleAndPrefixError(
-              rawSelectors,
-              style,
-              prefix,
-              context,
-            );
-          } else if (style === overrideStyle) {
-            SelectorUtils.reportStyleError(rawSelectors, style, context);
+          if (style === overrideStyle) {
+            if (!hasExpectedSelector.hasExpectedPrefix) {
+              SelectorUtils.reportStyleAndPrefixError(
+                rawSelectors,
+                style,
+                prefix,
+                context,
+              );
+            } else {
+              SelectorUtils.reportStyleError(rawSelectors, style, context);
+            }
           } else {
             context.report({
               node: rawSelectors,
