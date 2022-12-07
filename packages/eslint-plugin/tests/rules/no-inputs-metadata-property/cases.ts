@@ -45,6 +45,36 @@ export const valid = [
     })
     class Test {}
   `,
+  `
+   @Component({
+     selector: 'qx-menuitem',
+     hostDirectives: [{
+       directive: CdkMenuItem,
+       inputs: ['cdkMenuItemDisabled: disabled'],
+     }]
+   })
+   class Test {}
+ `,
+  `
+   @Component({
+     selector: 'qx-menuitem',
+     'hostDirectives': [{
+       directive: CdkMenuItem,
+       inputs: ['cdkMenuItemDisabled: disabled'],
+     }]
+   })
+   class Test {}
+ `,
+  `
+   @Component({
+     selector: 'qx-menuitem',
+     ['hostDirectives']: [{
+       directive: CdkMenuItem,
+       inputs: ['cdkMenuItemDisabled: disabled'],
+     }]
+   })
+   class Test {}
+ `,
 ];
 
 export const invalid = [

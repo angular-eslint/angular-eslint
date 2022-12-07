@@ -489,6 +489,105 @@ class Test {}
 class Test {}
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-inputs-metadata-property": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  selector: 'qx-menuitem',
+  hostDirectives: [{
+    directive: CdkMenuItem,
+    inputs: ['cdkMenuItemDisabled: disabled'],
+  }]
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-inputs-metadata-property": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  selector: 'qx-menuitem',
+  'hostDirectives': [{
+    directive: CdkMenuItem,
+    inputs: ['cdkMenuItemDisabled: disabled'],
+  }]
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-inputs-metadata-property": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  selector: 'qx-menuitem',
+  ['hostDirectives']: [{
+    directive: CdkMenuItem,
+    inputs: ['cdkMenuItemDisabled: disabled'],
+  }]
+})
+class Test {}
+```
+
 </details>
 
 <br>

@@ -1,5 +1,6 @@
-import { Selectors } from '@angular-eslint/utils';
+import { ASTUtils, Selectors } from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/utils';
+import { ASTUtils as TSESLintASTUtils } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
 type Options = [];
@@ -29,6 +30,26 @@ export default createESLintRule<Options, MessageIds>({
       } ${Selectors.metadataProperty(METADATA_PROPERTY_NAME)}`](
         node: TSESTree.Property,
       ) {
+        const ancestorMayBeHostDirectiveAPI = node.parent?.parent?.parent;
+
+        if (
+          ancestorMayBeHostDirectiveAPI &&
+          ASTUtils.isProperty(ancestorMayBeHostDirectiveAPI)
+        ) {
+          const hostDirectiveAPIPropertyName = 'hostDirectives';
+
+          if (
+            (ASTUtils.isLiteral(ancestorMayBeHostDirectiveAPI.key) &&
+              ancestorMayBeHostDirectiveAPI.key.value ===
+                hostDirectiveAPIPropertyName) ||
+            (TSESLintASTUtils.isIdentifier(ancestorMayBeHostDirectiveAPI.key) &&
+              ancestorMayBeHostDirectiveAPI.key.name ===
+                hostDirectiveAPIPropertyName)
+          ) {
+            return;
+          }
+        }
+
         context.report({
           node,
           messageId: 'noInputsMetadataProperty',
