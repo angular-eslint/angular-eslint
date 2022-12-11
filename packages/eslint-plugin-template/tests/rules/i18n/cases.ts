@@ -158,6 +158,11 @@ export const valid = [
       <li>ItemB</li>
       <li>ItemC</li>
     </ul>
+     <ng-template i18n="@@asd">
+      <div>ItemA</div>
+      <div>ItemB</div>
+      <div>ItemC</div>
+    </ng-template>
   `,
   {
     code: `
@@ -226,11 +231,42 @@ export const valid = [
     `,
     options: [{ requireMeaning: true }],
   },
+  {
+    code: `
+      <ng-template>Let's ignore "ng-template"</ng-template>
+    `,
+    options: [{ ignoreTags: ['ng-template'] }],
+  },
+  // https://github.com/angular-eslint/angular-eslint/issues/701
+  `
+    <ng-template
+      [ngIf]="userGroups?.length > 0"
+      [ngIfElse]="noTeamsTmpl"
+      i18n="@@cu-user-list__no-matching-users-groups"
+    >
+      No people or teams matched your search
+    </ng-template>
+    <ng-template i18n="@@cu-user-list__no-matching-users" #noTeamsTmpl>
+      No people matched your search
+    </ng-template>
+  `,
+  `
+    <ng-template i18n="@@test">
+      Text{{ Bound }}
+    </ng-template>
+  `,
+  `
+    <ng-template i18n="@@icu">
+      Updated: {minutes, plural, =0 {just now} =1 {one minute ago} other
+      {{{minutes}} minutes ago by {gender, select, male {male} female {female} other
+      {other}}}}
+    </ng-template>
+  `,
 ];
 
 export const invalid = [
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if `i18n-*` attribute is missing',
+    description: 'should fail if `i18n-*` attribute is missing on `Element`',
     annotatedSource: `
       <div tooltip="This requires translation"></div>
            ~~~~~~~
@@ -330,7 +366,7 @@ export const invalid = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'should fail if `i18n-{{attribute}}` attribute is missing a custom ID',
+      'should fail if `Element` `i18n-{{attribute}}` attribute contains an empty custom ID',
     annotatedSource: `
       <div tooltip="This requires translation" i18n-tooltip></div>
            ~~~~~~~
@@ -339,7 +375,7 @@ export const invalid = [
     data: { attributeName: 'tooltip' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if `i18n` attribute is missing a custom ID',
+    description: 'should fail if `Element` is missing a custom ID',
     annotatedSource: `
       <div>
         <span i18n label="label is ignored in 'ignoreAttributes'">
@@ -475,6 +511,9 @@ export const invalid = [
           </span>
                 %
         </div>
+        <ng-template i18n="@@template">
+          <div>test{{binding}}</div>
+        </ng-template>
       </div>
     `,
     options: [{ ignoreAttributes: ['span[label]'] }],
@@ -517,6 +556,9 @@ export const invalid = [
           </span>
                 
         </div>
+        <ng-template i18n="@@template">
+          <div>test{{binding}}</div>
+        </ng-template>
       </div>
     `,
   }),
@@ -614,5 +656,120 @@ export const invalid = [
     options: [
       { checkId: false, requireDescription: true, requireMeaning: true },
     ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if `i18n` attribute is missing on `Template` containing `Text`',
+    annotatedSource: `
+      <ng-template>No people or teams matched your search</ng-template>
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    messageId: i18nAttributeOnIcuOrText,
+    annotatedOutput: `
+      <ng-template i18n>No people or teams matched your search</ng-template>
+                   
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if `i18n` attribute is missing on `Template` containing `ICU`',
+    annotatedSource: `
+      { value, plural, =0 {<ng-template>No elements</ng-template>} =1 {111} }
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    messageId: i18nAttributeOnIcuOrText,
+    options: [{ checkAttributes: false }],
+    annotatedOutput: `
+      <ng-container i18n>{ value, plural, =0 {<ng-template>No elements</ng-template>} =1 {111} }</ng-container>
+      
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if `i18n` attribute is missing on `Template` containing text',
+    annotatedSource: `
+      <div>
+        <ng-template>Some text&nbsp;t@ tr1nslate</ng-template>
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      </div>
+    `,
+    messageId: i18nAttributeOnIcuOrText,
+    options: [{ checkId: false }],
+    annotatedOutput: `
+      <div>
+        <ng-template i18n>Some text&nbsp;t@ tr1nslate</ng-template>
+                     
+      </div>
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if `i18n-*` attribute is missing with nested `Template`',
+    annotatedSource: `
+      <ng-template>Lorem ipsum <ng-template i18n="@@dolor">dolor</ng-template> sit amet.</ng-template>
+                   ~~~~~~~~~~~~                                                ^^^^^^^^^
+    `,
+    messages: [
+      {
+        char: '~',
+        messageId: i18nAttributeOnIcuOrText,
+        suggestions: [
+          {
+            messageId: suggestAddI18nAttribute,
+            output: `
+      <ng-template i18n>Lorem ipsum <ng-template i18n="@@dolor">dolor</ng-template> sit amet.</ng-template>
+                                                                               
+    `,
+          },
+        ],
+      },
+      {
+        char: '^',
+        messageId: i18nAttributeOnIcuOrText,
+        suggestions: [
+          {
+            messageId: suggestAddI18nAttribute,
+            output: `
+      <ng-template i18n>Lorem ipsum <ng-template i18n="@@dolor">dolor</ng-template> sit amet.</ng-template>
+                                                                               
+    `,
+          },
+        ],
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail if `Template` is missing a custom ID',
+    annotatedSource: `
+      <ng-template i18n>
+      ~
+        The author is {gender, select, male {male} female {female} other {other}}
+      </ng-template>
+                   ~
+    `,
+    messageId: i18nCustomIdOnElement,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if the same i18n custom ID is present in `Element` and `Template`',
+    annotatedSource: `
+      <h3 i18n="@@myId">Hello</h3>
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      <ng-template i18n="@@myId">Good bye</ng-template>
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `,
+    messages: [
+      {
+        char: '~',
+        messageId: i18nDuplicateCustomId,
+        data: { customId: 'myId' },
+      },
+      {
+        char: '^',
+        messageId: i18nDuplicateCustomId,
+        data: { customId: 'myId' },
+      },
+    ],
+    options: [{ ignoreTags: [] }],
   }),
 ];
