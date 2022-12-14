@@ -33,7 +33,10 @@ export class RuleTester extends TSESLint.RuleTester {
     });
 
     if (options.parserOptions?.project) {
-      this.filename = path.join(getFixturesRootDir(), 'file.ts');
+      this.filename = path.join(
+        options.parserOptions?.tsconfigRootDir ?? getFixturesRootDir(),
+        'file.ts',
+      );
     }
 
     // make sure that the parser doesn't hold onto file handles between tests
