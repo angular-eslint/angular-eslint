@@ -1,6 +1,6 @@
 {
   "name": "nx-plugin",
-  "root": "packages/nx-plugin",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/nx-plugin/src",
   "projectType": "library",
   "targets": {
