@@ -9,6 +9,9 @@ import {
 } from '../utils/local-registry-process';
 import { requireUncached } from '../utils/require-uncached';
 import { runLint } from '../utils/run-lint';
+import { normalizeVersionsOfPackagesWeDoNotControl } from '../utils/snapshot-serializers';
+
+expect.addSnapshotSerializer(normalizeVersionsOfPackagesWeDoNotControl);
 
 const fixtureDirectory = 'v13-new-workspace';
 
@@ -33,8 +36,12 @@ describe(fixtureDirectory, () => {
       `"Cannot find module '../fixtures/v13-new-workspace/tslint.json' from 'tests/v13-new-workspace.test.ts'"`,
     );
     expect(
-      requireUncached('../fixtures/v13-new-workspace/package.json')
-        .devDependencies,
+      JSON.stringify(
+        requireUncached('../fixtures/v13-new-workspace/package.json')
+          .devDependencies,
+        null,
+        2,
+      ),
     ).toMatchSnapshot();
 
     // Root project
