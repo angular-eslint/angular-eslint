@@ -11,10 +11,10 @@ const tslintToEslintConfigVersion =
   require('../../package.json').devDependencies['tslint-to-eslint-config'];
 
 type TslintToEslintConfigLibrary = {
-  createESLintConfiguration: typeof TslintToEslintConfig['createESLintConfiguration'];
-  findReportedConfiguration: typeof TslintToEslintConfig['findReportedConfiguration'];
-  joinConfigConversionResults: typeof TslintToEslintConfig['joinConfigConversionResults'];
-  convertFileComments: typeof TslintToEslintConfig['convertFileComments'];
+  createESLintConfiguration: (typeof TslintToEslintConfig)['createESLintConfiguration'];
+  findReportedConfiguration: (typeof TslintToEslintConfig)['findReportedConfiguration'];
+  joinConfigConversionResults: (typeof TslintToEslintConfig)['joinConfigConversionResults'];
+  convertFileComments: (typeof TslintToEslintConfig)['convertFileComments'];
 };
 
 let tslintToEslintConfigLibrary: TslintToEslintConfigLibrary;
