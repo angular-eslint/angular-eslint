@@ -81,7 +81,7 @@
     "eslint": "8.29.0",
     "eslint-config-prettier": "8.5.0",
     "execa": "5.1.1",
-    "husky": "8.0.2",
+    "husky": "8.0.3",
     "jest": "28.1.1",
     "json-schema-to-typescript": "11.0.2",
     "json-schema-traverse": "1.0.0",
