@@ -33,8 +33,6 @@ jobs:
           declare -a packages=(
             "eslint"
             "@typescript-eslint/parser"
-            "@angular/cli"
-            "@schematics/angular"
           )
 
           for package in "${packages[@]}"
