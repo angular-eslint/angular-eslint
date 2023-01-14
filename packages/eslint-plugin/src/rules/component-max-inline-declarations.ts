@@ -93,7 +93,7 @@ export default createESLintRule<Options, MessageIds>({
         if (!ASTUtils.isArrayExpression(value)) return;
 
         const lineCount = value.elements.reduce(
-          (lines, element) => lines + getLinesCount(element),
+          (lines, element) => lines + (element ? getLinesCount(element) : 0),
           0,
         );
 
