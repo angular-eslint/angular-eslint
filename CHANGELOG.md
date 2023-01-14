@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [15.2.0](https://github.com/angular-eslint/angular-eslint/compare/v15.1.0...v15.2.0) (2023-01-14)
+
+### Bug Fixes
+
+- **eslint-plugin:** [component-selector] enhance check for prefix and kebab-case ([#1250](https://github.com/angular-eslint/angular-eslint/issues/1250)) ([16827e4](https://github.com/angular-eslint/angular-eslint/commit/16827e4cfb203de588a4a0b7adf0eadc56542b38))
+- **eslint-plugin:** [no-inputs-metadata-property] do not report on directive composition API ([#1248](https://github.com/angular-eslint/angular-eslint/issues/1248)) ([539cf9f](https://github.com/angular-eslint/angular-eslint/commit/539cf9f0cd33eae888cd27087ec9c22379161c93))
+- update dependency @angular/compiler to v15.0.2 ([#1245](https://github.com/angular-eslint/angular-eslint/issues/1245)) ([061601f](https://github.com/angular-eslint/angular-eslint/commit/061601fea0c5592592c9e27b0aaeb4a0eadf1419))
+- update dependency @angular/compiler to v15.1.0 ([#1252](https://github.com/angular-eslint/angular-eslint/issues/1252)) ([4295c59](https://github.com/angular-eslint/angular-eslint/commit/4295c595c452a48d56caa4571b6964e87ea60fc1))
+- update dependency eslint to v8.29.0 ([#1246](https://github.com/angular-eslint/angular-eslint/issues/1246)) ([10c14d2](https://github.com/angular-eslint/angular-eslint/commit/10c14d2e1aaf8185258969226e006a32b3731219))
+- update dependency eslint to v8.31.0 ([#1262](https://github.com/angular-eslint/angular-eslint/issues/1262)) ([db89c85](https://github.com/angular-eslint/angular-eslint/commit/db89c85956b583c3f865c8ca8bcd4622b1c2925a))
+- update dependency ignore to v5.2.1 ([#1237](https://github.com/angular-eslint/angular-eslint/issues/1237)) ([609e06b](https://github.com/angular-eslint/angular-eslint/commit/609e06b9258c284729a2ff6515e27b3bc9b433a8))
+- update dependency ignore to v5.2.4 ([#1263](https://github.com/angular-eslint/angular-eslint/issues/1263)) ([a220e0c](https://github.com/angular-eslint/angular-eslint/commit/a220e0ce051d8b07157e5559a891810a414d7e66))
+- update typescript-eslint packages to v5.45.1 ([#1239](https://github.com/angular-eslint/angular-eslint/issues/1239)) ([abb7f79](https://github.com/angular-eslint/angular-eslint/commit/abb7f794b685a57ce696db9624a2ce66f81c6b4b))
+- update typescript-eslint packages to v5.48.1 ([#1255](https://github.com/angular-eslint/angular-eslint/issues/1255)) ([11151d1](https://github.com/angular-eslint/angular-eslint/commit/11151d17dc82d04276169e3c898e2aa7f11136b1))
+- **utils:** use test case filename when specified ([#1259](https://github.com/angular-eslint/angular-eslint/issues/1259)) ([37bfd14](https://github.com/angular-eslint/angular-eslint/commit/37bfd14cfa14e213c13bad5fe87c057487bac6c3))
+- **utils:** use tsconfigRootDir as root dir when specified ([#1260](https://github.com/angular-eslint/angular-eslint/issues/1260)) ([19fe26c](https://github.com/angular-eslint/angular-eslint/commit/19fe26cbad8047567f939e7a6f8b910b42439f54))
+
+### Features
+
+- **eslint-plugin-template:** [i18n] option to require i18n metadata meaning ([#1234](https://github.com/angular-eslint/angular-eslint/issues/1234)) ([4ef0290](https://github.com/angular-eslint/angular-eslint/commit/4ef02902f5216ee8a6fab1faf1798ac559341ffc))
+- **eslint-plugin-template:** [no-interpolation-in-attributes] new rule added ([#1242](https://github.com/angular-eslint/angular-eslint/issues/1242)) ([977cb3a](https://github.com/angular-eslint/angular-eslint/commit/977cb3ad623c4d70a0e83b04c0cbe409edf88515))
+- **eslint-plugin:** [require-localize-metadata] option to require meaning ([#1235](https://github.com/angular-eslint/angular-eslint/issues/1235)) ([b870123](https://github.com/angular-eslint/angular-eslint/commit/b8701230c14798705be7624af9a03e73792c6f2c))
+
 # [15.1.0](https://github.com/angular-eslint/angular-eslint/compare/v15.0.0...v15.1.0) (2022-11-24)
 
 ### Bug Fixes

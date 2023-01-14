@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [15.2.0](https://github.com/angular-eslint/angular-eslint/compare/v15.1.0...v15.2.0) (2023-01-14)
+
+### Bug Fixes
+
+- **eslint-plugin:** [component-selector] enhance check for prefix and kebab-case ([#1250](https://github.com/angular-eslint/angular-eslint/issues/1250)) ([16827e4](https://github.com/angular-eslint/angular-eslint/commit/16827e4cfb203de588a4a0b7adf0eadc56542b38))
+- **eslint-plugin:** [no-inputs-metadata-property] do not report on directive composition API ([#1248](https://github.com/angular-eslint/angular-eslint/issues/1248)) ([539cf9f](https://github.com/angular-eslint/angular-eslint/commit/539cf9f0cd33eae888cd27087ec9c22379161c93))
+- update typescript-eslint packages to v5.45.1 ([#1239](https://github.com/angular-eslint/angular-eslint/issues/1239)) ([abb7f79](https://github.com/angular-eslint/angular-eslint/commit/abb7f794b685a57ce696db9624a2ce66f81c6b4b))
+- update typescript-eslint packages to v5.48.1 ([#1255](https://github.com/angular-eslint/angular-eslint/issues/1255)) ([11151d1](https://github.com/angular-eslint/angular-eslint/commit/11151d17dc82d04276169e3c898e2aa7f11136b1))
+
+### Features
+
+- **eslint-plugin:** [require-localize-metadata] option to require meaning ([#1235](https://github.com/angular-eslint/angular-eslint/issues/1235)) ([b870123](https://github.com/angular-eslint/angular-eslint/commit/b8701230c14798705be7624af9a03e73792c6f2c))
+
 # [15.1.0](https://github.com/angular-eslint/angular-eslint/compare/v15.0.0...v15.1.0) (2022-11-24)
 
 ### Bug Fixes
