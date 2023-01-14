@@ -14,6 +14,7 @@ export const RULE_NAME = 'component-selector';
 export type MessageIds =
   | 'prefixFailure'
   | 'styleFailure'
+  | 'styleAndPrefixFailure'
   | 'typeFailure'
   | 'shadowDomEncapsulatedStyleFailure';
 const STYLE_GUIDE_PREFIX_LINK =
@@ -68,6 +69,7 @@ export default createESLintRule<SelectorUtils.Options, MessageIds>({
     messages: {
       prefixFailure: `The selector should start with one of these prefixes: {{prefix}} (${STYLE_GUIDE_PREFIX_LINK})`,
       styleFailure: `The selector should be {{style}} (${STYLE_GUIDE_STYLE_LINK})`,
+      styleAndPrefixFailure: `The selector should be {{style}} and start with one of these prefixes: {{prefix}} (${STYLE_GUIDE_STYLE_LINK} and ${STYLE_GUIDE_PREFIX_LINK})`,
       typeFailure: `The selector should be used as an {{type}} (${STYLE_GUIDE_TYPE_LINK})`,
       shadowDomEncapsulatedStyleFailure: `The selector of a ShadowDom-encapsulated component should be \`${ASTUtils.OPTION_STYLE_KEBAB_CASE}\` (${SHADOW_DOM_ENCAPSULATED_STYLE_LINK})`,
     },
@@ -123,7 +125,16 @@ export default createESLintRule<SelectorUtils.Options, MessageIds>({
           SelectorUtils.reportTypeError(rawSelectors, type, context);
         } else if (!hasExpectedSelector.hasExpectedStyle) {
           if (style === overrideStyle) {
-            SelectorUtils.reportStyleError(rawSelectors, style, context);
+            if (!hasExpectedSelector.hasExpectedPrefix) {
+              SelectorUtils.reportStyleAndPrefixError(
+                rawSelectors,
+                style,
+                prefix,
+                context,
+              );
+            } else {
+              SelectorUtils.reportStyleError(rawSelectors, style, context);
+            }
           } else {
             context.report({
               node: rawSelectors,
