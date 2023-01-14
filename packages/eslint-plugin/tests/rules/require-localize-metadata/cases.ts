@@ -1,7 +1,9 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/utils';
 import type { MessageIds } from '../../../src/rules/require-localize-metadata';
 
-const messageId: MessageIds = 'requireLocalizeMetadata';
+const messageIdRequireLocalizeDescription: MessageIds =
+  'requireLocalizeDescription';
+const messageIdRequireLocalizeMeaning: MessageIds = 'requireLocalizeMeaning';
 
 export const valid = [
   `const localizedText = $localize\`Hello i18n!\`;`,
@@ -40,6 +42,14 @@ export const valid = [
     code: `const localizedText = \`Hello i18n!\`;`,
     options: [{ requireDescription: true }],
   },
+  {
+    code: `const localizedText = $localize\`:site header|:Hello i18n!\`;`,
+    options: [{ requireMeaning: true }],
+  },
+  {
+    code: `const localizedText = $localize\`:site header|An introduction header for this sample:Hello i18n!\`;`,
+    options: [{ requireDescription: true, requireMeaning: true }],
+  },
 ];
 
 export const invalid = [
@@ -50,7 +60,7 @@ export const invalid = [
       const localizedText = $localize\`Hello i18n!\`;
                                      ~~~~~~~~~~~~~
     `,
-    messageId,
+    messageId: messageIdRequireLocalizeDescription,
     options: [{ requireDescription: true }],
   }),
   convertAnnotatedSourceToFailureCase({
@@ -63,7 +73,7 @@ export const invalid = [
       localizedTexts.helloI18n = $localize\`Hello i18n!\`;
                                           ~~~~~~~~~~~~~
     `,
-    messageId,
+    messageId: messageIdRequireLocalizeDescription,
     options: [{ requireDescription: true }],
   }),
   convertAnnotatedSourceToFailureCase({
@@ -73,7 +83,7 @@ export const invalid = [
       return $localize\`Hello i18n!\`;
                       ~~~~~~~~~~~~~
     `,
-    messageId,
+    messageId: messageIdRequireLocalizeDescription,
     options: [{ requireDescription: true }],
   }),
   convertAnnotatedSourceToFailureCase({
@@ -83,37 +93,83 @@ export const invalid = [
       someFunction($localize\`Hello i18n!\`);
                             ~~~~~~~~~~~~~
     `,
-    messageId,
+    messageId: messageIdRequireLocalizeDescription,
     options: [{ requireDescription: true }],
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'it should fail if no $localize description is provided when required for variable declarations, despite a $localize meaning being provided',
+      'it should fail if no $localize description is provided when required for variable declarations, despite a meaning being provided',
     annotatedSource: `
       const localizedText = $localize\`:site header|:Hello i18n!\`;
                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~
     `,
-    messageId,
+    messageId: messageIdRequireLocalizeDescription,
     options: [{ requireDescription: true }],
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'it should fail if no $localize description is provided when required for variable declarations, despite a $localize ID being provided',
+      'it should fail if no $localize description is provided when required for variable declarations, despite a ID being provided',
     annotatedSource: `
       const localizedText = $localize\`:@@custom_id:Hello i18n!\`;
                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~
     `,
-    messageId,
+    messageId: messageIdRequireLocalizeDescription,
     options: [{ requireDescription: true }],
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'it should fail if no $localize description is provided when required for variable declarations, despite a $localize meaning and ID being provided',
+      'it should fail if no $localize description is provided when required for variable declarations, despite a meaning and ID being provided',
     annotatedSource: `
       const localizedText = $localize\`:site header|@@custom_id:Hello i18n!\`;
                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     `,
-    messageId,
+    messageId: messageIdRequireLocalizeDescription,
     options: [{ requireDescription: true }],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'it should fail if no $localize meaning is provided',
+    annotatedSource: `
+      const localizedText = $localize\`Hello i18n!\`;
+                                     ~~~~~~~~~~~~~
+    `,
+    messageId: messageIdRequireLocalizeMeaning,
+    options: [{ requireMeaning: true }],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'it should fail if no $localize meaning is provided despite a description being provided',
+    annotatedSource: `
+      const localizedText = $localize\`:An introduction header for this sample:Hello i18n!\`;
+                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    messageId: messageIdRequireLocalizeMeaning,
+    options: [{ requireDescription: true, requireMeaning: true }],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'it should fail if the $localize meaning is empty',
+    annotatedSource: `
+      const localizedText = $localize\`:|An introduction header for this sample:Hello i18n!\`;
+                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    messageId: messageIdRequireLocalizeMeaning,
+    options: [{ requireMeaning: true }],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'it should fail if no $localize metadata is provided',
+    annotatedSource: `
+      const localizedText = $localize\`:Hello i18n!\`;
+                                     ~~~~~~~~~~~~~~
+    `,
+    messages: [
+      {
+        char: '~',
+        messageId: messageIdRequireLocalizeDescription,
+      },
+      {
+        char: '~',
+        messageId: messageIdRequireLocalizeMeaning,
+      },
+    ],
+    options: [{ requireDescription: true, requireMeaning: true }],
   }),
 ];
