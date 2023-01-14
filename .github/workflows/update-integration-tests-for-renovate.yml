@@ -37,8 +37,8 @@ jobs:
 
           for package in "${packages[@]}"
           do
-            # It's important we have the leading (escaped) " here so we know it is the start of the package name
-            git diff HEAD~1 -G"\"$package" --exit-code package.json && echo "$package unchanged" || echo "::set-output name=was-changed::true"
+            # It's important we have the leading and trailing (escaped) " here so we know it is an exact match of the package name
+            git diff HEAD~1 -G"\"$package\"" --exit-code package.json && echo "$package unchanged" || echo "::set-output name=was-changed::true"
           done
 
       - name: Update integration tests if any relevant package was changed and commit the updated snapshots
