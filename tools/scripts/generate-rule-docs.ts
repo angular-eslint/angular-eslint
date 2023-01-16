@@ -409,7 +409,7 @@ function standardizeSpecialUnderlineChar(str: string): string {
           .split('')
           .map((char) =>
             SPECIAL_UNDERLINE_CHARS.includes(
-              char as typeof SPECIAL_UNDERLINE_CHARS[number],
+              char as (typeof SPECIAL_UNDERLINE_CHARS)[number],
             )
               ? '~'
               : char,

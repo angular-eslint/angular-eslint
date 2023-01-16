@@ -7,7 +7,7 @@ const VALID_PARSERS = [
 ] as const;
 
 type RuleTesterConfig = Omit<TSESLint.RuleTesterConfig, 'parser'> & {
-  parser: typeof VALID_PARSERS[number];
+  parser: (typeof VALID_PARSERS)[number];
 };
 
 function getFixturesRootDir() {
@@ -16,8 +16,8 @@ function getFixturesRootDir() {
 
 function isValidParser(
   parser?: string,
-): parser is typeof VALID_PARSERS[number] {
-  return VALID_PARSERS.includes(parser as typeof VALID_PARSERS[number]);
+): parser is (typeof VALID_PARSERS)[number] {
+  return VALID_PARSERS.includes(parser as (typeof VALID_PARSERS)[number]);
 }
 
 export class RuleTester extends TSESLint.RuleTester {
