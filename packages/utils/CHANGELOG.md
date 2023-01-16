@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [15.2.0](https://github.com/angular-eslint/angular-eslint/compare/v15.1.0...v15.2.0) (2023-01-14)
+
+### Bug Fixes
+
+- **eslint-plugin:** [component-selector] enhance check for prefix and kebab-case ([#1250](https://github.com/angular-eslint/angular-eslint/issues/1250)) ([16827e4](https://github.com/angular-eslint/angular-eslint/commit/16827e4cfb203de588a4a0b7adf0eadc56542b38))
+- update typescript-eslint packages to v5.45.1 ([#1239](https://github.com/angular-eslint/angular-eslint/issues/1239)) ([abb7f79](https://github.com/angular-eslint/angular-eslint/commit/abb7f794b685a57ce696db9624a2ce66f81c6b4b))
+- update typescript-eslint packages to v5.48.1 ([#1255](https://github.com/angular-eslint/angular-eslint/issues/1255)) ([11151d1](https://github.com/angular-eslint/angular-eslint/commit/11151d17dc82d04276169e3c898e2aa7f11136b1))
+- **utils:** use test case filename when specified ([#1259](https://github.com/angular-eslint/angular-eslint/issues/1259)) ([37bfd14](https://github.com/angular-eslint/angular-eslint/commit/37bfd14cfa14e213c13bad5fe87c057487bac6c3))
+- **utils:** use tsconfigRootDir as root dir when specified ([#1260](https://github.com/angular-eslint/angular-eslint/issues/1260)) ([19fe26c](https://github.com/angular-eslint/angular-eslint/commit/19fe26cbad8047567f939e7a6f8b910b42439f54))
+
 # [15.1.0](https://github.com/angular-eslint/angular-eslint/compare/v15.0.0...v15.1.0) (2022-11-24)
 
 ### Bug Fixes

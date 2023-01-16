@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [15.2.0](https://github.com/angular-eslint/angular-eslint/compare/v15.1.0...v15.2.0) (2023-01-14)
+
+### Bug Fixes
+
+- update typescript-eslint packages to v5.45.1 ([#1239](https://github.com/angular-eslint/angular-eslint/issues/1239)) ([abb7f79](https://github.com/angular-eslint/angular-eslint/commit/abb7f794b685a57ce696db9624a2ce66f81c6b4b))
+- update typescript-eslint packages to v5.48.1 ([#1255](https://github.com/angular-eslint/angular-eslint/issues/1255)) ([11151d1](https://github.com/angular-eslint/angular-eslint/commit/11151d17dc82d04276169e3c898e2aa7f11136b1))
+
+### Features
+
+- **eslint-plugin-template:** [i18n] option to require i18n metadata meaning ([#1234](https://github.com/angular-eslint/angular-eslint/issues/1234)) ([4ef0290](https://github.com/angular-eslint/angular-eslint/commit/4ef02902f5216ee8a6fab1faf1798ac559341ffc))
+- **eslint-plugin-template:** [no-interpolation-in-attributes] new rule added ([#1242](https://github.com/angular-eslint/angular-eslint/issues/1242)) ([977cb3a](https://github.com/angular-eslint/angular-eslint/commit/977cb3ad623c4d70a0e83b04c0cbe409edf88515))
+
 # [15.1.0](https://github.com/angular-eslint/angular-eslint/compare/v15.0.0...v15.1.0) (2022-11-24)
 
 ### Bug Fixes

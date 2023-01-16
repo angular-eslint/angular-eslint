@@ -52,10 +52,7 @@ export const SelectorValidator = {
     return /^[a-z0-9-]+-[a-z0-9-]+$/.test(selector);
   },
 
-  prefix(
-    prefix: string,
-    selectorStyle: SelectorStyle,
-  ): (selector: string) => boolean {
+  prefix(prefix: string, selectorStyle: string): (selector: string) => boolean {
     const regex = new RegExp(`^\\[?(${prefix})`);
 
     return (selector) => {
@@ -117,6 +114,22 @@ export const reportStyleError = (
     messageId: 'styleFailure',
     data: {
       style,
+    },
+  });
+};
+
+export const reportStyleAndPrefixError = (
+  node: TSESTree.Node,
+  style: SelectorStyleOption,
+  prefix: string | readonly string[],
+  context: Readonly<TSESLint.RuleContext<string, readonly unknown[]>>,
+): void => {
+  context.report({
+    node,
+    messageId: 'styleAndPrefixFailure',
+    data: {
+      style,
+      prefix: toHumanReadableText(arrayify(prefix)),
     },
   });
 };

@@ -3,6 +3,7 @@ import type { MessageIds } from '../../../src/rules/component-selector';
 
 const messageIdPrefixFailure: MessageIds = 'prefixFailure';
 const messageIdStyleFailure: MessageIds = 'styleFailure';
+const messageIdStyleAndPrefixFailure: MessageIds = 'styleAndPrefixFailure';
 const messageIdTypeFailure: MessageIds = 'typeFailure';
 const messageIdShadowDomEncapsulatedStyleFailure: MessageIds =
   'shadowDomEncapsulatedStyleFailure';
@@ -223,6 +224,15 @@ export const valid = [
       },
     ],
   },
+  {
+    code: `
+      @Component({
+        selector: 'singleword'
+      })
+      class Test {}
+      `,
+    options: [{ type: 'element', style: 'kebab-case' }],
+  },
 ];
 
 export const invalid = [
@@ -302,9 +312,9 @@ export const invalid = [
         })
         class Test {}
       `,
-    messageId: messageIdStyleFailure,
+    messageId: messageIdStyleAndPrefixFailure,
     options: [{ type: 'element', prefix: 'app', style: 'kebab-case' }],
-    data: { style: 'kebab-case' },
+    data: { style: 'kebab-case', prefix: '"app"' },
   }),
   convertAnnotatedSourceToFailureCase({
     description: `it should fail if a selector uses kebab-case style, but no dash`,
@@ -387,5 +397,31 @@ export const invalid = [
       `,
     messageId: messageIdShadowDomEncapsulatedStyleFailure,
     options: [{ type: 'element', prefix: ['app'], style: 'camelCase' }],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: `it should fail if a selector is not prefixed by a valid option with the correct case`,
+    annotatedSource: `
+      @Component({
+        selector: 'root'
+                  ~~~~~~
+      })
+      class Test {}
+      `,
+    messageId: messageIdStyleAndPrefixFailure,
+    options: [{ type: 'element', prefix: ['app', 'toh'], style: 'kebab-case' }],
+    data: { style: 'kebab-case', prefix: '"app" or "toh"' },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: `it should fail if a selector uses kebab-case with an invalid prefix style`,
+    annotatedSource: `
+      @Component({
+        selector: 'sgggg-bar'
+                  ~~~~~~~~~~~
+      })
+      class Test {}
+      `,
+    messageId: messageIdPrefixFailure,
+    options: [{ type: 'element', prefix: 'sg', style: 'kebab-case' }],
+    data: { prefix: '"sg"' },
   }),
 ];

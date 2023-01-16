@@ -33,7 +33,10 @@ export class RuleTester extends TSESLint.RuleTester {
     });
 
     if (options.parserOptions?.project) {
-      this.filename = path.join(getFixturesRootDir(), 'file.ts');
+      this.filename = path.join(
+        options.parserOptions?.tsconfigRootDir ?? getFixturesRootDir(),
+        'file.ts',
+      );
     }
 
     // make sure that the parser doesn't hold onto file handles between tests
@@ -66,10 +69,9 @@ export class RuleTester extends TSESLint.RuleTester {
         if (typeof test !== 'string' && isValidParser(test.parser)) {
           throw Error(errorMessage);
         }
-        return {
-          ...(typeof test === 'string' ? { code: test } : test),
-          filename: this.filename,
-        };
+        return typeof test === 'string'
+          ? { code: test, filename: this.filename }
+          : { ...test, filename: test.filename ?? this.filename };
       }),
       invalid: invalid.map((test) => {
         if (isValidParser(test.parser)) {
@@ -77,7 +79,7 @@ export class RuleTester extends TSESLint.RuleTester {
         }
         return {
           ...test,
-          filename: this.filename,
+          filename: test.filename ?? this.filename,
         };
       }),
     };

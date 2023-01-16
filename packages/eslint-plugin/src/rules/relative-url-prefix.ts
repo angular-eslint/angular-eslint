@@ -41,6 +41,9 @@ export default createESLintRule<Options, MessageIds>({
         if (!ASTUtils.isArrayExpression(value)) return;
 
         value.elements.filter(isUrlInvalid).forEach((element) => {
+          if (!element) {
+            return;
+          }
           context.report({
             node: element,
             messageId: 'relativeUrlPrefix',
@@ -52,8 +55,11 @@ export default createESLintRule<Options, MessageIds>({
 });
 
 function isUrlInvalid(
-  node: TSESTree.Property['value'] | TSESTree.SpreadElement,
+  node: TSESTree.Property['value'] | TSESTree.SpreadElement | null,
 ) {
+  if (!node) {
+    return false;
+  }
   return (
     !ASTUtils.isStringLiteral(node) ||
     !RELATIVE_URL_PREFIX_MATCHER.test(node.value)

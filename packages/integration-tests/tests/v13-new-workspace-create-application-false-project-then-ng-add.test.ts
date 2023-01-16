@@ -9,6 +9,9 @@ import {
 } from '../utils/local-registry-process';
 import { requireUncached } from '../utils/require-uncached';
 import { runLint } from '../utils/run-lint';
+import { normalizeVersionsOfPackagesWeDoNotControl } from '../utils/snapshot-serializers';
+
+expect.addSnapshotSerializer(normalizeVersionsOfPackagesWeDoNotControl);
 
 const fixtureDirectory =
   'v13-new-workspace-create-application-false-project-then-ng-add';
@@ -33,9 +36,13 @@ describe(fixtureDirectory, () => {
       `"Cannot find module '../fixtures/v13-new-workspace-create-application-false-project-then-ng-add/tslint.json' from 'tests/v13-new-workspace-create-application-false-project-then-ng-add.test.ts'"`,
     );
     expect(
-      requireUncached(
-        '../fixtures/v13-new-workspace-create-application-false-project-then-ng-add/package.json',
-      ).devDependencies,
+      JSON.stringify(
+        requireUncached(
+          '../fixtures/v13-new-workspace-create-application-false-project-then-ng-add/package.json',
+        ).devDependencies,
+        null,
+        2,
+      ),
     ).toMatchSnapshot();
 
     // Root eslint config

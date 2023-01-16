@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [15.2.0](https://github.com/angular-eslint/angular-eslint/compare/v15.1.0...v15.2.0) (2023-01-14)
+
+### Features
+
+- **eslint-plugin-template:** [no-interpolation-in-attributes] new rule added ([#1242](https://github.com/angular-eslint/angular-eslint/issues/1242)) ([977cb3a](https://github.com/angular-eslint/angular-eslint/commit/977cb3ad623c4d70a0e83b04c0cbe409edf88515))
+
 # [15.1.0](https://github.com/angular-eslint/angular-eslint/compare/v15.0.0...v15.1.0) (2022-11-24)
 
 **Note:** Version bump only for package @angular-eslint/template-parser
