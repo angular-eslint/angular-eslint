@@ -6,10 +6,13 @@ import type {
   TmplAstIcu,
   TmplAstText,
   TmplAstTextAttribute,
+  I18nMeta,
+  TmplAstNode,
 } from '@angular-eslint/bundled-angular-compiler';
 import {
   TmplAstBoundText,
   TmplAstElement,
+  TmplAstTemplate,
 } from '@angular-eslint/bundled-angular-compiler';
 import type { Message } from '@angular-eslint/bundled-angular-compiler';
 import { getTemplateParserServices } from '@angular-eslint/utils';
@@ -80,10 +83,12 @@ export type MessageIds =
   | 'suggestAddI18nAttribute'
   | 'i18nMissingDescription'
   | 'i18nMissingMeaning';
-type StronglyTypedElement = Omit<TmplAstElement, 'i18n'> & {
-  i18n: Message;
+type StronglyTypedI18n<T extends TmplAstNode> = Omit<T, 'i18n'> & {
+  i18n: I18nMeta;
   parent?: AST;
 };
+type StronglyTypedElement = StronglyTypedI18n<TmplAstElement>;
+type StronglyTypedTemplate = StronglyTypedI18n<TmplAstTemplate>;
 type StronglyTypedTextAttribute = Omit<TmplAstTextAttribute, 'i18n'> & {
   i18n?: Message;
   parent: TmplAstElement;
@@ -218,20 +223,25 @@ export default createESLintRule<Options, MessageIds>({
     const allowedTags: ReadonlySet<string> = new Set(ignoreTags);
     const collectedCustomIds = new Map<string, readonly ParseSourceSpan[]>();
 
-    function handleElement({
-      i18n: { description, meaning, customId },
-      name,
-      parent,
-      sourceSpan,
-    }: StronglyTypedElement) {
-      if (allowedTags.has(name) || isElementWithI18n(parent)) {
+    function handleElementOrTemplate(
+      node: StronglyTypedElement | StronglyTypedTemplate,
+    ) {
+      const { i18n, parent, sourceSpan } = node;
+
+      if (
+        isTagAllowed(allowedTags, node) ||
+        isElementWithI18n(parent) ||
+        isTemplateWithI18n(parent)
+      ) {
         return;
       }
 
       const loc = parserServices.convertNodeSourceSpanToLoc(sourceSpan);
 
+      const customId = getI18nCustomId(i18n);
+
       if (checkId) {
-        if (isEmpty(customId)) {
+        if (!customId) {
           context.report({
             messageId: 'i18nCustomIdOnElement',
             loc,
@@ -242,14 +252,14 @@ export default createESLintRule<Options, MessageIds>({
         }
       }
 
-      if (requireDescription && isEmpty(description)) {
+      if (requireDescription && !i18n.description) {
         context.report({
           messageId: 'i18nMissingDescription',
           loc,
         });
       }
 
-      if (requireMeaning && isEmpty(meaning)) {
+      if (requireMeaning && !i18n.meaning) {
         context.report({
           messageId: 'i18nMissingMeaning',
           loc,
@@ -329,7 +339,8 @@ export default createESLintRule<Options, MessageIds>({
       if (
         (isBoundText(node) &&
           isBoundTextAllowed(allowedBoundTextPattern, node)) ||
-        (isElement(parent) && (parent.i18n || allowedTags.has(parent.name)))
+        ((isElement(parent) || isTemplate(parent)) &&
+          (parent.i18n || isTagAllowed(allowedTags, parent)))
       ) {
         return;
       }
@@ -340,7 +351,9 @@ export default createESLintRule<Options, MessageIds>({
       context.report({
         messageId: 'i18nAttributeOnIcuOrText',
         loc,
-        ...(parent?.children?.filter(isElement).length
+        ...(parent?.children?.filter(
+          (child) => isElement(child) || isTemplate(child),
+        ).length
           ? { suggest: [{ messageId: 'suggestAddI18nAttribute', fix }] }
           : { fix }),
       });
@@ -369,8 +382,10 @@ export default createESLintRule<Options, MessageIds>({
 
     return {
       ...((checkId || requireDescription || requireMeaning) && {
-        'Element$1[i18n]'(node: StronglyTypedElement) {
-          handleElement(node);
+        ':matches(Element$1, Template[tagName="ng-template"])[i18n]'(
+          node: StronglyTypedElement | StronglyTypedTemplate,
+        ) {
+          handleElementOrTemplate(node);
         },
       }),
       ...((checkAttributes ||
@@ -401,10 +416,10 @@ function getFixForIcuOrTextWithParent(
   sourceCode: Readonly<TSESLint.SourceCode>,
   fixer: TSESLint.RuleFixer,
   { start }: TSESTree.SourceLocation,
-  elementName: string,
+  tagName: string,
 ): TSESLint.RuleFix {
   const startIndex = sourceCode.getIndexFromLoc(start);
-  const insertIndex = startIndex + elementName.length + 1;
+  const insertIndex = startIndex + tagName.length + 1;
   return fixer.insertTextAfterRange([insertIndex, insertIndex], ' i18n');
 }
 
@@ -431,23 +446,24 @@ function getFixForIcuOrText(
   loc: TSESTree.SourceLocation,
   parent?: AST,
 ) {
-  if (!isElement(parent)) {
+  if (!isElement(parent) && !isTemplate(parent)) {
     return getFixForIcuOrTextWithoutParent(sourceCode, fixer, loc);
   }
 
-  if (getNearestNodeFrom(parent, isElementWithI18n)) {
+  if (getNearestNodeFrom(parent, isElementOrTemplateWithI18n)) {
+    return [];
+  }
+
+  const tagName = getTagName(parent);
+
+  if (!tagName) {
     return [];
   }
 
   const parentLoc = parserServices.convertNodeSourceSpanToLoc(
     parent.sourceSpan,
   );
-  return getFixForIcuOrTextWithParent(
-    sourceCode,
-    fixer,
-    parentLoc,
-    parent.name,
-  );
+  return getFixForIcuOrTextWithParent(sourceCode, fixer, parentLoc, tagName);
 }
 
 function isBoundText(ast: unknown): ast is TmplAstBoundText {
@@ -505,4 +521,40 @@ function isBoundTextAllowed(
 ) {
   const text = strings.join('').trim();
   return !PL_PATTERN.test(text) || allowedBoundTextPattern.test(text);
+}
+
+function isTemplate(ast: unknown): ast is TmplAstTemplate {
+  return ast instanceof TmplAstTemplate;
+}
+
+function isTemplateWithI18n(ast: unknown): ast is StronglyTypedTemplate {
+  return Boolean(isTemplate(ast) && ast.i18n);
+}
+
+function isElementOrTemplateWithI18n(
+  ast: unknown,
+): ast is StronglyTypedElement | StronglyTypedTemplate {
+  return isElementWithI18n(ast) || isTemplateWithI18n(ast);
+}
+
+function getTagName(node: unknown) {
+  if (isElement(node)) {
+    return node.name;
+  }
+
+  if (isTemplate(node)) {
+    return node.tagName;
+  }
+
+  return null;
+}
+
+function isTagAllowed(allowedTags: ReadonlySet<string>, node: unknown) {
+  const tagName = getTagName(node);
+  return Boolean(tagName && allowedTags.has(tagName));
+}
+
+// `customId` could be `undefined` in case of non-`Message`.
+function getI18nCustomId(i18n: I18nMeta): string | undefined {
+  return (i18n as Message).customId;
 }
