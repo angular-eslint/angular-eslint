@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Auto-close the PR
-      uses: roots/issue-closer@v1.1
+      uses: roots/issue-closer@v1.2
       env:
         ACTIONS_STEP_DEBUG: true
       with:
