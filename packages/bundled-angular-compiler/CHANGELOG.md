@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [15.2.1](https://github.com/angular-eslint/angular-eslint/compare/v15.2.0...v15.2.1) (2023-02-10)
+
+### Bug Fixes
+
+- **eslint-plugin-template:** [i18n] handle ng-template properly ([#1257](https://github.com/angular-eslint/angular-eslint/issues/1257)) ([7b0877d](https://github.com/angular-eslint/angular-eslint/commit/7b0877dbaceefb60f933895034bad06e995b867e))
+
 # [15.2.0](https://github.com/angular-eslint/angular-eslint/compare/v15.1.0...v15.2.0) (2023-01-14)
 
 **Note:** Version bump only for package @angular-eslint/bundled-angular-compiler
