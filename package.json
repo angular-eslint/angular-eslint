@@ -87,7 +87,7 @@
     "json-schema-traverse": "1.0.0",
     "jsonc-eslint-parser": "^2.1.0",
     "lerna": "6.4.1",
-    "lint-staged": "13.1.0",
+    "lint-staged": "13.1.1",
     "microbundle": "0.15.1",
     "ncp": "2.0.0",
     "nx": "15.5.2",
