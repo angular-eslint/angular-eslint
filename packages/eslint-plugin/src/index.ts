@@ -80,6 +80,9 @@ import preferOutputReadonly, {
 import relativeUrlPrefix, {
   RULE_NAME as relativeUrlPrefixRuleName,
 } from './rules/relative-url-prefix';
+import sortImportsMetadata, {
+  RULE_NAME as sortImportsMetadataRuleName,
+} from './rules/sort-imports-metadata';
 import sortNgmoduleMetadataArrays, {
   RULE_NAME as sortNgmoduleMetadataArraysName,
 } from './rules/sort-ngmodule-metadata-arrays';
@@ -138,6 +141,7 @@ export default {
       preferOnPushComponentChangeDetection,
     [preferOutputReadonlyRuleName]: preferOutputReadonly,
     [relativeUrlPrefixRuleName]: relativeUrlPrefix,
+    [sortImportsMetadataRuleName]: sortImportsMetadata,
     [sortNgmoduleMetadataArraysName]: sortNgmoduleMetadataArrays,
     [useComponentSelectorRuleName]: useComponentSelector,
     [useComponentViewEncapsulationRuleName]: useComponentViewEncapsulation,
