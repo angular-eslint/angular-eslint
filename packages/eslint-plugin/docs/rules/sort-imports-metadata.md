@@ -141,6 +141,46 @@ export class TestDirective { }
 export class TestPipe { }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/sort-imports-metadata": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({
+  standalone: true,
+  selector: 'test-component',
+  imports: [
+    aModule,
+    ~~~~~~~
+    bModule,
+    ~~~~~~~
+    dModule,
+    ~~~~~~~
+    cModule
+    ~~~~~~~
+  ],
+})
+export class TestComponent { }
+```
+
 </details>
 
 <br>
@@ -239,6 +279,42 @@ export class TestDirective { }
   imports: [aModule, bModule, cModule, dModule],
 })
 export class TestPipe { }
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/sort-imports-metadata": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  standalone: true,
+  selector: 'test-component',
+  imports: [
+    aModule,
+    bModule,
+    cModule,
+    dModule
+  ],
+})
+export class TestComponent { }
 ```
 
 </details>
