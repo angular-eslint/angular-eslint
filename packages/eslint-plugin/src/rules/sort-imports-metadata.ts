@@ -1,6 +1,6 @@
 import { Selectors } from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/utils';
-// import { ASTUtils as TSESLintASTUtils } from '@typescript-eslint/utils';
+import { ASTUtils as TSESLintASTUtils } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
 type Options = [
@@ -45,28 +45,63 @@ export default createESLintRule<Options, MessageIds>({
       locale: DEFAULT_LOCALE,
     },
   ],
-  create(context /* [{ locale }] */) {
+  create(context, [{ locale }]) {
     const selectors = [
-      `${Selectors.COMPONENT_CLASS_DECORATOR} Property[key.name!="deps"] > ArrayExpression`,
-      `${Selectors.MODULE_CLASS_DECORATOR} Property[key.name!="deps"] > ArrayExpression`,
+      `${Selectors.COMPONENT_OR_DIRECTIVE_CLASS_DECORATOR} Property[key.name="imports"] > ArrayExpression`,
+      `${Selectors.MODULE_CLASS_DECORATOR} Property[key.name="imports"] > ArrayExpression`,
+      `${Selectors.PIPE_CLASS_DECORATOR} Property[key.name="imports"] > ArrayExpression`,
     ].join(',');
 
     return {
       [selectors]({ elements }: TSESTree.ArrayExpression) {
-        // TODO: Add logic to determine if imports are sorted
-        // const imports = elements.filter(TSESLintASTUtils.isIdentifier);
-        // imports.sort((importA, importB) => importA.name.localeCompare(importB.name, locale));
+        const imports = elements.filter(TSESLintASTUtils.isIdentifier);
+
+        if (importsAreSorted(imports, locale)) {
+          return;
+        }
+
+        imports.sort((importA, importB) =>
+          importA.name.localeCompare(importB.name, locale),
+        );
+
+        let sortedImportsString = imports
+          .map((importEntry) => importEntry.name)
+          .toString();
+        sortedImportsString = sortedImportsString.replace(/,/g, ', ');
+
+        const nodeForFixer = elements[0].parent as TSESTree.Node;
 
         context.report({
           messageId: 'sortImportsMetadata',
-          // TODO: Determine which node(s) to report on
           loc: {
             start: elements[0].loc.start,
             end: elements[elements.length - 1].loc.end,
           },
-          // TODO: Add auto-fix logic
+          fix: (fixer) =>
+            fixer.replaceText(nodeForFixer, `[${sortedImportsString}]`),
         });
       },
     };
   },
 });
+
+function importsAreSorted(
+  imports: TSESTree.Identifier[],
+  locale: string,
+): boolean {
+  const importNames = imports.map((importEntry) => importEntry.name);
+  let secondIndex;
+
+  for (let firstIndex = 0; firstIndex < importNames.length; firstIndex++) {
+    secondIndex = firstIndex + 1;
+
+    if (
+      importNames[firstIndex].localeCompare(importNames[secondIndex], locale) >
+      0
+    ) {
+      return false;
+    }
+  }
+
+  return true;
+}

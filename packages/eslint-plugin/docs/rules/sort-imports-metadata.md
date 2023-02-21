@@ -77,6 +77,70 @@ interface Options {
 export class TestComponent { }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/sort-imports-metadata": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Directive({
+  standalone: true,
+  selector: 'test-directive',
+  imports: [aModule, bModule, dModule, cModule],
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+})
+export class TestDirective { }
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/sort-imports-metadata": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Pipe({
+  standalone: true,
+  selector: 'test-pipe',
+  imports: [aModule, bModule, dModule, cModule],
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+})
+export class TestPipe { }
+```
+
 </details>
 
 <br>
@@ -107,7 +171,74 @@ export class TestComponent { }
 #### ✅ Valid Code
 
 ```ts
+@Component({
+  standalone: true,
+  selector: 'test-component',
+  imports: [aModule, bModule, cModule, dModule],
+})
+export class TestComponent { }
+```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/sort-imports-metadata": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  standalone: true,
+  selector: 'test-directive',
+  imports: [aModule, bModule, cModule, dModule],
+})
+export class TestDirective { }
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/sort-imports-metadata": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Pipe({
+  standalone: true,
+  selector: 'test-pipe',
+  imports: [aModule, bModule, cModule, dModule],
+})
+export class TestPipe { }
 ```
 
 </details>
