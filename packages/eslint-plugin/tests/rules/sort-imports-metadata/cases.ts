@@ -28,6 +28,19 @@ export const valid = [
   })
   export class TestPipe { }
   `,
+  `
+  @Component({
+    standalone: true,
+    selector: 'test-component',
+    imports: [
+      aModule,
+      bModule,
+      cModule,
+      dModule
+    ],
+  })
+  export class TestComponent { }
+  `,
 ];
 
 export const invalid = [
@@ -98,6 +111,36 @@ export const invalid = [
                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     })
     export class TestPipe { }
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if `imports`, listed by line, for a standalone component is not sorted ASC',
+    annotatedSource: `
+    @Component({
+      standalone: true,
+      selector: 'test-component',
+      imports: [
+        aModule,
+        ~~~~~~~
+        bModule,
+        ~~~~~~~
+        dModule,
+        ~~~~~~~
+        cModule
+        ~~~~~~~
+      ],
+    })
+    export class TestComponent { }
+    `,
+    messageId,
+    annotatedOutput: `
+    @Component({
+      standalone: true,
+      selector: 'test-component',
+      imports: [aModule, bModule, cModule, dModule],
+    })
+    export class TestComponent { }
     `,
   }),
 ];
