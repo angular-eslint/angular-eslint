@@ -74,6 +74,9 @@ import noEmptyLifecycleMethod, {
 import preferOnPushComponentChangeDetection, {
   RULE_NAME as preferOnPushComponentChangeDetectionRuleName,
 } from './rules/prefer-on-push-component-change-detection';
+import preferStandaloneComponent, {
+  RULE_NAME as preferStandaloneComponentRuleName,
+} from './rules/prefer-standalone-component';
 import preferOutputReadonly, {
   RULE_NAME as preferOutputReadonlyRuleName,
 } from './rules/prefer-output-readonly';
@@ -136,6 +139,7 @@ export default {
     [noEmptyLifecycleMethodRuleName]: noEmptyLifecycleMethod,
     [preferOnPushComponentChangeDetectionRuleName]:
       preferOnPushComponentChangeDetection,
+    [preferStandaloneComponentRuleName]: preferStandaloneComponent,
     [preferOutputReadonlyRuleName]: preferOutputReadonly,
     [relativeUrlPrefixRuleName]: relativeUrlPrefix,
     [sortNgmoduleMetadataArraysName]: sortNgmoduleMetadataArrays,
