@@ -101,6 +101,9 @@ import usePipeTransformInterface, {
 import pipePrefix, {
   RULE_NAME as pipePrefixRuleName,
 } from './rules/pipe-prefix';
+import sortLifecycleMethods, {
+  RULE_NAME as sortLifecycleMethodsRuleName,
+} from './rules/sort-lifecycle-methods';
 
 export default {
   configs: {
@@ -145,5 +148,6 @@ export default {
     [useLifecycleInterfaceRuleName]: useLifecycleInterface,
     [usePipeTransformInterfaceRuleName]: usePipeTransformInterface,
     [pipePrefixRuleName]: pipePrefix,
+    [sortLifecycleMethodsRuleName]: sortLifecycleMethods,
   },
 };
