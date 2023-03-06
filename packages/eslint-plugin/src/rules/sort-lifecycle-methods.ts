@@ -4,7 +4,9 @@ import { createESLintRule } from '../utils/create-eslint-rule';
 import type { AngularLifecycleMethods } from '@angular-eslint/utils/dist/eslint-plugin/ast-utils';
 
 type Options = [];
-export type MessageIds = 'sortLifecycleMethods';
+export type MessageIds =
+  | 'lifecycleMethodsNotSorted'
+  | 'nonLifecycleMethodBeforeLifecycleMethod';
 export const RULE_NAME = 'sort-lifecycle-methods';
 
 export default createESLintRule<Options, MessageIds>({
@@ -18,7 +20,9 @@ export default createESLintRule<Options, MessageIds>({
     },
     schema: [],
     messages: {
-      sortLifecycleMethods: `Lifecycle Methods are not declared in chronological order`,
+      lifecycleMethodsNotSorted: `Lifecycle Methods are not declared in chronological order`,
+      nonLifecycleMethodBeforeLifecycleMethod:
+        'Non-Lifecycle method is declared before a Lifecycle Method',
     },
   },
   defaultOptions: [],
@@ -38,17 +42,33 @@ export default createESLintRule<Options, MessageIds>({
         ASTUtils.angularLifecycleMethodsOrdered.indexOf(methodName2)
       );
     };
+
+    const isLifecycleMethod = (method: TSESTree.MethodDefinition) => {
+      const methodName = ASTUtils.getMethodName(
+        method,
+      ) as AngularLifecycleMethods;
+      return ASTUtils.angularLifecycleMethodsOrdered.includes(methodName);
+    };
+
     return {
       [Selectors.COMPONENT_CLASS_DECORATOR](node: TSESTree.Decorator) {
         const classDeclaration = node.parent as TSESTree.ClassDeclaration;
         const declaredMethods = ASTUtils.getDeclaredMethods(classDeclaration);
-        const declaredLifeCycleMethods = declaredMethods.filter((method) => {
-          const methodName = ASTUtils.getMethodName(
-            method,
-          ) as AngularLifecycleMethods;
-          return ASTUtils.angularLifecycleMethodsOrdered.includes(methodName);
-        });
 
+        for (let i = 1; i < declaredMethods.length; ++i) {
+          const previous = declaredMethods[i - 1];
+          const current = declaredMethods[i];
+          if (!isLifecycleMethod(previous) && isLifecycleMethod(current)) {
+            context.report({
+              node: previous.key,
+              messageId: 'nonLifecycleMethodBeforeLifecycleMethod',
+            });
+          }
+        }
+
+        const declaredLifeCycleMethods = declaredMethods.filter((method) =>
+          isLifecycleMethod(method),
+        );
         for (let i = 1; i < declaredLifeCycleMethods.length; ++i) {
           if (
             isBefore(
@@ -58,7 +78,7 @@ export default createESLintRule<Options, MessageIds>({
           ) {
             context.report({
               node: declaredLifeCycleMethods[i].key,
-              messageId: 'sortLifecycleMethods',
+              messageId: 'lifecycleMethodsNotSorted',
             });
           }
         }

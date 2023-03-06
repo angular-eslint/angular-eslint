@@ -5,7 +5,10 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/utils';
 import type { MessageIds } from '../../../src/rules/sort-lifecycle-methods';
 
-const messageId: MessageIds = 'sortLifecycleMethods';
+const lifecycleMethodsNotSorted: MessageIds = 'lifecycleMethodsNotSorted';
+
+const nonLifecycleMethodBeforeLifecycleMethod: MessageIds =
+  'nonLifecycleMethodBeforeLifecycleMethod';
 export const valid = [
   `
     @Component()
@@ -13,12 +16,12 @@ export const valid = [
       ngOnChanges(): void {}
       ngOnInit(): void {}
       ngDoCheck(): void {}
-      doSomething(): void {}
       ngAfterContentInit(): void {}
       ngAfterContentChecked(): void {}
       ngAfterViewInit(): void {}
       ngAfterViewChecked(): void {}
       ngOnDestroy(): void {}
+      doSomething(): void {}
     }
 
     @Component()
@@ -33,12 +36,12 @@ export const valid = [
 
     @Component()
     class Test {
-      doSomething(): void {}
       ngDoCheck(): void {}
       ngAfterContentInit(): void {}
-      doSomethingElse(): void {}
       ngAfterContentChecked(): void {}
       ngAfterViewChecked(): void {}
+      doSomething(): void {}
+      doSomethingElse(): void {}
       doSomethingElseAgain(): void {}
     }
 
@@ -64,14 +67,14 @@ export const invalid = [
         ~~~~~~~~~~~
         ngDoCheck(): void {}
         ngAfterContentInit(): void {}
-        doSomething(): void {}
         ngAfterContentChecked(): void {}
         ngAfterViewInit(): void {}
         ngAfterViewChecked(): void {}
         ngOnDestroy(): void {}
+        doSomething(): void {}
       }
       `,
-    messageId,
+    messageId: lifecycleMethodsNotSorted,
   }),
   convertAnnotatedSourceToFailureCase({
     description: 'ngAfterViewChecked() is declared after ngOnDestroy()',
@@ -79,16 +82,16 @@ export const invalid = [
       @Component()
       class Test {
         ngOnChanges(): void {}
-        doSomething(): void {}
         ngOnInit(): void {}
         ngAfterContentInit(): void {}
         ngAfterContentChecked(): void {}
         ngOnDestroy(): void {}
         ngAfterViewChecked(): void {}
         ~~~~~~~~~~~~~~~~~~
+        doSomething(): void {}
       }
       `,
-    messageId,
+    messageId: lifecycleMethodsNotSorted,
   }),
   convertAnnotatedSourceToFailureCase({
     description: 'ngOnDestroy() is declared after ngAfterContentInit()',
@@ -98,14 +101,14 @@ export const invalid = [
         ngDoCheck(): void {}
         ngAfterContentInit(): void {}
         ngOnDestroy(): void {}
-        doSomething(): void {}
         ngAfterContentChecked(): void {}
         ~~~~~~~~~~~~~~~~~~~~~
         ngAfterViewChecked(): void {}
+        doSomething(): void {}
         doSomethingElse(): void {}
       }
       `,
-    messageId,
+    messageId: lifecycleMethodsNotSorted,
   }),
   convertAnnotatedSourceToFailureCase({
     description: 'ngOnChanges() is declared after ngOnInit()',
@@ -117,6 +120,38 @@ export const invalid = [
         ~~~~~~~~~~~
        }
       `,
-    messageId,
+    messageId: lifecycleMethodsNotSorted,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'doSomething() is declared before ngOnInit()',
+    annotatedSource: `
+      @Component()
+      class Test {
+        doSomething(): void {}
+        ~~~~~~~~~~~
+        ngOnInit(): void {}
+       }
+      `,
+    messageId: nonLifecycleMethodBeforeLifecycleMethod,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'doSomething() is declared before ngDoCheck()',
+    annotatedSource: `
+      @Component()
+      class Test {
+        ngOnChanges(): void {}
+        ngOnInit(): void {}
+        doSomething(): void {}
+        ~~~~~~~~~~~
+        ngDoCheck(): void {}
+        ngAfterContentInit(): void {}
+        ngAfterContentChecked(): void {}
+        ngAfterViewInit(): void {}
+        ngAfterViewChecked(): void {}
+        ngOnDestroy(): void {}
+        doSomethingElse(): void {}
+      }
+      `,
+    messageId: nonLifecycleMethodBeforeLifecycleMethod,
   }),
 ];
