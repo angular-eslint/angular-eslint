@@ -16,7 +16,7 @@ export default createESLintRule<Options, MessageIds>({
     docs: {
       description:
         'Ensures that lifecycle methods are declared in chronological order',
-      recommended: 'warn',
+      recommended: false,
     },
     schema: [],
     messages: {
