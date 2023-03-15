@@ -71,6 +71,9 @@ import useTrackByFunction, {
   RULE_NAME as useTrackByFunctionRuleName,
 } from './rules/use-track-by-function';
 import validAria, { RULE_NAME as validAriaRuleName } from './rules/valid-aria';
+import selfClosingTags, {
+  RULE_NAME as selfClosingTagsRuleName,
+} from './rules/self-closing-tags';
 
 export = {
   configs: {
@@ -107,5 +110,6 @@ export = {
     [tableScopeRuleName]: tableScope,
     [useTrackByFunctionRuleName]: useTrackByFunction,
     [validAriaRuleName]: validAria,
+    [selfClosingTagsRuleName]: selfClosingTags,
   },
 };
