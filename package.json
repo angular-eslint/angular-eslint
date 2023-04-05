@@ -60,7 +60,7 @@
     "@nrwl/devkit": "15.5.2",
     "@nrwl/jest": "15.5.2",
     "@nrwl/js": "15.5.2",
-    "@nrwl/nx-cloud": "15.0.3",
+    "@nrwl/nx-cloud": "15.3.5",
     "@nrwl/nx-plugin": "15.5.2",
     "@nrwl/workspace": "15.5.2",
     "@schematics/angular": "15.2.5",
