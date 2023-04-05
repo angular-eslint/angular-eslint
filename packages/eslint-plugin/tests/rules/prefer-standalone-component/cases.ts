@@ -11,6 +11,22 @@ export const valid = [
     })
     class Test {}
   `,
+  `
+    @Component({
+      standalone: true,
+      selector: 'test-selector'
+    })
+    class Test {}
+  `,
+  `
+    @Component({
+      selector: 'test-selector',
+      standalone: true,
+      template: '<div></div>',
+      styleUrls: ['./test.css']
+    })
+    class Test {}
+  `,
 ];
 
 export const invalid = [
@@ -51,6 +67,98 @@ export const invalid = [
         
         class Test {}
       `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail when a component has the standalone property set to false in a decorator with multiple properties',
+    annotatedSource: `
+        @Component({
+        ~~~~~~~~~~~~
+        standalone: false,
+        ~~~~~~~~~~~~~~~~~~
+        template: '<div></div>'
+        ~~~~~~~~~~~~~~~~~~~~~~~
+        })
+        ~~
+        class Test {}
+`,
+    messageId,
+    suggestions: [
+      {
+        messageId: suggestAddStandalone,
+        output: `
+        @Component({
+        
+        standalone: true,
+        
+        template: '<div></div>'
+        
+        })
+        
+        class Test {}
+`,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail when a component has no standalone property in a decorator with one property',
+    annotatedSource: `
+        @Component({
+        ~~~~~~~~~~~~
+        template: '<div></div>'
+        ~~~~~~~~~~~~~~~~~~~~~~~
+        })
+        ~~
+        class Test {}
+`,
+    messageId,
+    suggestions: [
+      {
+        messageId: suggestAddStandalone,
+        output: `
+        @Component({
+        
+        standalone: true,template: '<div></div>'
+        
+        })
+        
+        class Test {}
+`,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail when a component has no standalone property in a decorator with multiple properties',
+    annotatedSource: `
+        @Component({
+        ~~~~~~~~~~~~
+        selector: 'my-selector',
+        ~~~~~~~~~~~~~~~~~~~~~~~
+        template: '<div></div>'
+        ~~~~~~~~~~~~~~~~~~~~~~~
+        })
+        ~~
+        class Test {}
+`,
+    messageId,
+    suggestions: [
+      {
+        messageId: suggestAddStandalone,
+        output: `
+        @Component({
+        
+        standalone: true,selector: 'my-selector',
+        
+        template: '<div></div>'
+        
+        })
+        
+        class Test {}
+`,
       },
     ],
   }),

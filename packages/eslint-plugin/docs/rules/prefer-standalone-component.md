@@ -17,7 +17,7 @@
 
 Ensures component's `standalone` metadata is set to `true`
 
-- Type: suggestion
+- Type: problem
 
 - 💡 Provides suggestions on how to fix issues (https://eslint.org/docs/developer-guide/working-with-rules#providing-suggestions)
 
@@ -90,6 +90,106 @@ class Test {}
 class Test {}
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-standalone-component": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({
+~~~~~~~~~~~~
+standalone: false,
+~~~~~~~~~~~~~~~~~~
+template: '<div></div>'
+~~~~~~~~~~~~~~~~~~~~~~~
+})
+~~
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-standalone-component": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({
+~~~~~~~~~~~~
+template: '<div></div>'
+~~~~~~~~~~~~~~~~~~~~~~~
+})
+~~
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-standalone-component": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({
+~~~~~~~~~~~~
+selector: 'my-selector',
+~~~~~~~~~~~~~~~~~~~~~~~
+template: '<div></div>'
+~~~~~~~~~~~~~~~~~~~~~~~
+})
+~~
+class Test {}
+```
+
 </details>
 
 <br>
@@ -122,6 +222,68 @@ class Test {}
 ```ts
 @Component({
   standalone: true,
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-standalone-component": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  standalone: true,
+  selector: 'test-selector'
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-standalone-component": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  selector: 'test-selector',
+  standalone: true,
+  template: '<div></div>',
+  styleUrls: ['./test.css']
 })
 class Test {}
 ```

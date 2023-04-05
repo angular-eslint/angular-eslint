@@ -18,13 +18,13 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description: `Ensures component's \`${METADATA_PROPERTY_NAME}\` metadata is set to \`${IS_STANDALONE}\``,
+      description: `Ensures component \`${METADATA_PROPERTY_NAME}\` property is set to \`${IS_STANDALONE}\` in the component decorator`,
       recommended: false,
     },
-    hasSuggestions: true,
+    fixable: 'code',
     schema: [],
     messages: {
-      preferStandaloneComponent: `The component's \`${METADATA_PROPERTY_NAME}\` value should be set to \`${IS_STANDALONE}\``,
+      preferStandaloneComponent: `The component \`${METADATA_PROPERTY_NAME}\` property should be set to \`${IS_STANDALONE}\``,
       suggestAddStandalone: `Add \`${METADATA_PROPERTY_NAME}: ${IS_STANDALONE}\` in your component decorator`,
     },
   },
