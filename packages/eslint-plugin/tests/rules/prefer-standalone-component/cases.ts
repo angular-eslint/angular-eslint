@@ -2,7 +2,6 @@ import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/utils';
 import type { MessageIds } from '../../../src/rules/prefer-standalone-component';
 
 const messageId: MessageIds = 'preferStandaloneComponent';
-const suggestAddStandalone: MessageIds = 'suggestAddStandalone';
 
 export const valid = [
   `
@@ -39,16 +38,11 @@ export const invalid = [
         class Test {}
       `,
     messageId,
-    suggestions: [
-      {
-        messageId: suggestAddStandalone,
-        output: `
+    annotatedOutput: `
         @Component({standalone: true})
         
         class Test {}
       `,
-      },
-    ],
   }),
   convertAnnotatedSourceToFailureCase({
     description:
@@ -59,16 +53,11 @@ export const invalid = [
         class Test {}
       `,
     messageId,
-    suggestions: [
-      {
-        messageId: suggestAddStandalone,
-        output: `
+    annotatedOutput: `
         @Component({ standalone: true })
         
         class Test {}
       `,
-      },
-    ],
   }),
   convertAnnotatedSourceToFailureCase({
     description:
@@ -85,10 +74,7 @@ export const invalid = [
         class Test {}
 `,
     messageId,
-    suggestions: [
-      {
-        messageId: suggestAddStandalone,
-        output: `
+    annotatedOutput: `
         @Component({
         
         standalone: true,
@@ -99,8 +85,6 @@ export const invalid = [
         
         class Test {}
 `,
-      },
-    ],
   }),
   convertAnnotatedSourceToFailureCase({
     description:
@@ -115,10 +99,7 @@ export const invalid = [
         class Test {}
 `,
     messageId,
-    suggestions: [
-      {
-        messageId: suggestAddStandalone,
-        output: `
+    annotatedOutput: `
         @Component({
         
         standalone: true,template: '<div></div>'
@@ -127,8 +108,6 @@ export const invalid = [
         
         class Test {}
 `,
-      },
-    ],
   }),
   convertAnnotatedSourceToFailureCase({
     description:
@@ -145,10 +124,7 @@ export const invalid = [
         class Test {}
 `,
     messageId,
-    suggestions: [
-      {
-        messageId: suggestAddStandalone,
-        output: `
+    annotatedOutput: `
         @Component({
         
         standalone: true,selector: 'my-selector',
@@ -159,7 +135,5 @@ export const invalid = [
         
         class Test {}
 `,
-      },
-    ],
   }),
 ];

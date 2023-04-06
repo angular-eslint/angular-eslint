@@ -15,11 +15,10 @@
 
 # `@angular-eslint/prefer-standalone-component`
 
-Ensures component's `standalone` metadata is set to `true`
+Ensures component `standalone` property is set to `true` in the component decorator
 
-- Type: problem
-
-- 💡 Provides suggestions on how to fix issues (https://eslint.org/docs/developer-guide/working-with-rules#providing-suggestions)
+- Type: suggestion
+- 🔧 Supports autofix (`--fix`)
 
 <br>
 
