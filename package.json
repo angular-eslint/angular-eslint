@@ -67,7 +67,7 @@
     "@swc-node/register": "^1.4.2",
     "@swc/cli": "~0.1.55",
     "@swc/core": "^1.2.173",
-    "@swc/helpers": "~0.4.11",
+    "@swc/helpers": "~0.5.0",
     "@types/eslint": "8.21.0",
     "@types/eslint-scope": "3.7.4",
     "@types/jest": "28.1.1",
