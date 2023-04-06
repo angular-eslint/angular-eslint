@@ -79,7 +79,7 @@
     "cz-conventional-changelog": "3.3.0",
     "env-cmd": "10.1.0",
     "eslint": "8.34.0",
-    "eslint-config-prettier": "8.6.0",
+    "eslint-config-prettier": "8.8.0",
     "execa": "5.1.1",
     "husky": "8.0.3",
     "jest": "28.1.1",
