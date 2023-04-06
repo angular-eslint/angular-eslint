@@ -1,5 +1,5 @@
 import { RuleTester } from '@angular-eslint/utils';
-import rule, { RULE_NAME } from '../../../src/rules/self-closing-tags';
+import rule, { RULE_NAME } from '../../../src/rules/prefer-self-closing-tags';
 import { invalid, valid } from './cases';
 
 const ruleTester = new RuleTester({

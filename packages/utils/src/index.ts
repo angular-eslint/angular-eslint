@@ -24,4 +24,3 @@ export {
   ensureTemplateParser,
   getTemplateParserServices,
 } from './eslint-plugin-template/parser-services';
-export { NATIVE_ELEMENTS } from './eslint-plugin-template/native-elements';

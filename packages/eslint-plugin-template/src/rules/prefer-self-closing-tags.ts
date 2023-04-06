@@ -2,14 +2,12 @@ import type {
   TmplAstElement,
   TmplAstText,
 } from '@angular-eslint/bundled-angular-compiler';
-import {
-  getTemplateParserServices,
-  NATIVE_ELEMENTS,
-} from '@angular-eslint/utils';
+import { getTemplateParserServices } from '@angular-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
+import { getDomElements } from '../utils/get-dom-elements';
 
-export const MESSAGE_ID = 'selfClosingTags';
-export const RULE_NAME = 'self-closing-tags';
+export const MESSAGE_ID = 'preferSelfClosingTags';
+export const RULE_NAME = 'prefer-self-closing-tags';
 
 export default createESLintRule<[], typeof MESSAGE_ID>({
   name: RULE_NAME,
@@ -38,7 +36,7 @@ export default createESLintRule<[], typeof MESSAGE_ID>({
         startSourceSpan,
         endSourceSpan,
       }: TmplAstElement) {
-        const isNative = NATIVE_ELEMENTS.includes(name);
+        const isNative = getDomElements().has(name);
         const noContent =
           !children.length ||
           children.every((node) => {

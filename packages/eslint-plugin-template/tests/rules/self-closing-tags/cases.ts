@@ -1,5 +1,5 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/utils';
-import { MESSAGE_ID as messageId } from '../../../src/rules/self-closing-tags';
+import { MESSAGE_ID as messageId } from '../../../src/rules/prefer-self-closing-tags';
 
 export const valid = [
   '<my-component type="text" [name]="foo">With some content</my-component>',
@@ -11,6 +11,7 @@ export const valid = [
       [items]="items" />
   `,
   '<img />',
+  '<div></div>',
 ];
 
 export const invalid = [
