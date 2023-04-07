@@ -209,7 +209,7 @@ const updateRulesList = (rules: RuleDetails[], markdown: string): string => {
  */
 const createRuleDetails = (
   codelyzerRules: CodelyzerRule[],
-  rules: typeof src['rules'] | typeof templateSrc['rules'],
+  rules: (typeof src)['rules'] | (typeof templateSrc)['rules'],
   currentPrs: PRDetails[],
   isTemplateRules: boolean,
 ): RuleDetails[] => {

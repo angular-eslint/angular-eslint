@@ -22,7 +22,7 @@ export const SPECIAL_UNDERLINE_CHARS = [
 
 type MultipleErrorOptions<TMessageIds extends string> = BaseErrorOptions & {
   readonly messages: readonly (Message<TMessageIds> & {
-    readonly char: typeof SPECIAL_UNDERLINE_CHARS[number];
+    readonly char: (typeof SPECIAL_UNDERLINE_CHARS)[number];
   })[];
 };
 

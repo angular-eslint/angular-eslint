@@ -69,13 +69,17 @@ export default createESLintRule<Options, MessageIds>({
           .toString();
         sortedImportsString = sortedImportsString.replace(/,/g, ', ');
 
-        const nodeForFixer = elements[0].parent as TSESTree.Node;
+        const firstOriginalElement = elements[0] as TSESTree.Expression;
+        const lastOriginalElement = elements[
+          elements.length - 1
+        ] as TSESTree.Expression;
+        const nodeForFixer = firstOriginalElement.parent as TSESTree.Node;
 
         context.report({
           messageId: 'sortImportsMetadata',
           loc: {
-            start: elements[0].loc.start,
-            end: elements[elements.length - 1].loc.end,
+            start: firstOriginalElement.loc.start,
+            end: lastOriginalElement.loc.end,
           },
           fix: (fixer) =>
             fixer.replaceText(nodeForFixer, `[${sortedImportsString}]`),

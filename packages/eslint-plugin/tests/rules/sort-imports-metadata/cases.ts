@@ -143,4 +143,42 @@ export const invalid = [
     export class TestComponent { }
     `,
   }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if `imports`, listed by line, for a standalone component is not sorted ASC',
+    annotatedSource: `
+    @Component({
+      standalone: true,
+      selector: 'test-component',
+      imports: [
+        // Line comment above aModule
+        aModule, // Line comment next to aModule
+        ~~~~~~~
+        bModule,
+        /* Block comment above dModule */
+        ~~~~~~~
+        dModule, /* Block comment next to dModule */
+        ~~~~~~~
+        /**
+         * Block comment above cModule
+         **/
+        cModule
+        ~~~~~~~
+        /**
+         * Block comment below cModule
+         **/
+      ],
+    })
+    export class TestComponent { }
+    `,
+    messageId,
+    annotatedOutput: `
+    @Component({
+      standalone: true,
+      selector: 'test-component',
+      imports: [aModule, bModule, cModule, dModule],
+    })
+    export class TestComponent { }
+    `,
+  }),
 ];
