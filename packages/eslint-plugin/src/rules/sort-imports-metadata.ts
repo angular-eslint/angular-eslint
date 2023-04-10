@@ -71,11 +71,15 @@ export default createESLintRule<Options, MessageIds>({
         const lastOriginalElement = elements[
           elements.length - 1
         ] as TSESTree.Expression;
+        const nodeForFixer = firstOriginalElement.parent as TSESTree.Node;
         // TODO: The following does not work for imports lists that are a single line
         const whitespacePrefix = ' '.repeat(
           firstOriginalElement.loc.start.column,
         );
         const sourceCode = context.getSourceCode();
+
+        // TODO: Can we break this piece out into a function? We need context.getSourceCode, which returns a type SourceCode and can only be used when importing from '@typescript-eslint/utils/dist/ts-eslint' (seems wrong)
+        // For each import entry, get all related comments, stringify them, and group them with the import entry
         const importEntriesWithComments: ImportEntryWithComments[] = [];
 
         for (let i = 0; i < imports.length; i++) {
@@ -129,37 +133,15 @@ export default createESLintRule<Options, MessageIds>({
           importEntriesWithComments.push(importEntryWithComments);
         }
 
+        // Sort the imports
         importEntriesWithComments.sort((importA, importB) =>
           importA.importName.localeCompare(importB.importName, locale),
         );
 
-        let sortedImportsString = '[\n';
-
-        for (const importEntry of importEntriesWithComments) {
-          if (importEntry.commentsBefore) {
-            sortedImportsString += `${importEntry.commentsBefore}`;
-          }
-
-          sortedImportsString += `${whitespacePrefix}${importEntry.importName},`;
-
-          if (importEntry.commentsSameLine) {
-            sortedImportsString += ` ${importEntry.commentsSameLine}`;
-          } else {
-            sortedImportsString += '\n';
-          }
-
-          if (importEntry.commentsAfter) {
-            sortedImportsString += `${importEntry.commentsAfter}`;
-          }
-        }
-
-        const nodeForFixer = firstOriginalElement.parent as TSESTree.Node;
-
-        const whitespacePrefixForClosingBracket = ' '.repeat(
-          nodeForFixer.parent?.loc.start.column as number,
-        );
-
-        sortedImportsString += `${whitespacePrefixForClosingBracket}]`;
+        const sortedImportsWithCommentsString = `[\n${getSortedImportsWithCommentsAsString(
+          importEntriesWithComments,
+          whitespacePrefix,
+        )}${' '.repeat(nodeForFixer.parent?.loc.start.column as number)}]`;
 
         context.report({
           messageId: 'sortImportsMetadata',
@@ -167,12 +149,40 @@ export default createESLintRule<Options, MessageIds>({
             start: firstOriginalElement.loc.start,
             end: lastOriginalElement.loc.end,
           },
-          fix: (fixer) => fixer.replaceText(nodeForFixer, sortedImportsString),
+          fix: (fixer) =>
+            fixer.replaceText(nodeForFixer, sortedImportsWithCommentsString),
         });
       },
     };
   },
 });
+
+function getSortedImportsWithCommentsAsString(
+  sortedImportEntriesWithComments: ImportEntryWithComments[],
+  whitespacePrefix: string,
+): string {
+  let sortedImportsWithCommentsString = '';
+
+  for (const importEntry of sortedImportEntriesWithComments) {
+    if (importEntry.commentsBefore) {
+      sortedImportsWithCommentsString += `${importEntry.commentsBefore}`;
+    }
+
+    sortedImportsWithCommentsString += `${whitespacePrefix}${importEntry.importName},`;
+
+    if (importEntry.commentsSameLine) {
+      sortedImportsWithCommentsString += ` ${importEntry.commentsSameLine}`;
+    } else {
+      sortedImportsWithCommentsString += '\n';
+    }
+
+    if (importEntry.commentsAfter) {
+      sortedImportsWithCommentsString += `${importEntry.commentsAfter}`;
+    }
+  }
+
+  return sortedImportsWithCommentsString;
+}
 
 function getCommentsAsString(
   comments: TSESTree.Comment[],
