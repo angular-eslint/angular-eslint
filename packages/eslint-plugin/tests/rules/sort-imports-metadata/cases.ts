@@ -180,4 +180,49 @@ export const invalid = [
     export class TestComponent { }
     `,
   }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if `imports`, listed by line with comments before and after the list, for a standalone component is not sorted ASC',
+    annotatedSource: `
+    @Component({
+      standalone: true,
+      selector: 'test-component',
+      imports:
+      // Line comment above list
+      /* Block comment above list */
+      [
+        aModule,
+        ~~~~~~~
+        bModule,
+        ~~~~~~~
+        dModule,
+        ~~~~~~~
+        cModule
+        ~~~~~~~
+      ],
+      // Line comment below list
+      /* Block comment below list */
+    })
+    export class TestComponent { }
+    `,
+    messageId,
+    annotatedOutput: `
+    @Component({
+      standalone: true,
+      selector: 'test-component',
+      imports:
+      // Line comment above list
+      /* Block comment above list */
+      [
+        aModule,
+        bModule,
+        cModule,
+        dModule,
+      ],
+      // Line comment below list
+      /* Block comment below list */
+    })
+    export class TestComponent { }
+    `,
+  }),
 ];
