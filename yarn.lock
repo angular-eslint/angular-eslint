@@ -8659,10 +8659,10 @@ json-parse-even-better-errors@^3.0.0:
   resolved "https://registry.yarnpkg.com/json-parse-even-better-errors/-/json-parse-even-better-errors-3.0.0.tgz#2cb2ee33069a78870a0c7e3da560026b89669cf7"
   integrity sha512-iZbGHafX/59r39gPwVPRBGw0QQKnA7tte5pSMrhWOW7swGsVvVTjmfyAV9pNqk8YGT7tRCdxRu8uzcgZwoDooA==
 
-json-schema-to-typescript@11.0.5:
-  version "11.0.5"
-  resolved "https://registry.yarnpkg.com/json-schema-to-typescript/-/json-schema-to-typescript-11.0.5.tgz#04020422b7970e1c3b2ee8b601548e8751e1cd03"
-  integrity sha512-ZNlvngzlPzjYYECbR+uJ9aUWo25Gw/VuwUytvcuKiwc6NaiZhMyf7qBsxZE2eixmj8AoQEQJhSRG7btln0sUDw==
+json-schema-to-typescript@12.0.0:
+  version "12.0.0"
+  resolved "https://registry.yarnpkg.com/json-schema-to-typescript/-/json-schema-to-typescript-12.0.0.tgz#62ec4e9632f1d672fd3b4d81cf0d74f6df29bc23"
+  integrity sha512-Uk/BDIAo8vqepPBhM86UhNMHgCv7JulicNj/BgnQPHE1fGCoej0UTtcEYzXU/uk6lSvbZCf7pccW+dnNMrr5rg==
   dependencies:
     "@bcherny/json-schema-ref-parser" "10.0.5-fork"
     "@types/json-schema" "^7.0.11"
