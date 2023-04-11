@@ -44,21 +44,6 @@ export const valid = [
 ];
 
 export const invalid = [
-  // TODO: This test fails for two reason:
-  // First error is the whitespace prefix (see TODO in rule code):
-  // -         aModule,
-  // -         bModule,
-  // -         cModule,
-  // -         dModule,
-  // +                 aModule,
-  // +                 bModule,
-  // +                 cModule,
-  // +                 dModule,
-  //
-  // Second error is that the fix receives additional characters at the end of the array:
-  //   dModule,
-  // ],·················
-  // })
   convertAnnotatedSourceToFailureCase({
     description:
       'should fail if `imports` for a standalone component is not sorted ASC',
@@ -82,6 +67,7 @@ export const invalid = [
         cModule,
         dModule,
       ],
+                
     })
     export class TestComponent { }
     `,

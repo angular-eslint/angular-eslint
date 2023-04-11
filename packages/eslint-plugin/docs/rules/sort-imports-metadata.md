@@ -100,45 +100,21 @@ export class TestComponent { }
 #### ❌ Invalid Code
 
 ```ts
-@Directive({
+@Component({
   standalone: true,
-  selector: 'test-directive',
-  imports: [aModule, bModule, dModule, cModule],
-            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  selector: 'test-component',
+  imports: [
+    aModule,
+    ~~~~~~~
+    bModule,
+    ~~~~~~~
+    dModule,
+    ~~~~~~~
+    cModule
+    ~~~~~~~
+  ],
 })
-export class TestDirective { }
-```
-
-<br>
-
----
-
-<br>
-
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/sort-imports-metadata": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
-#### ❌ Invalid Code
-
-```ts
-@Pipe({
-  standalone: true,
-  selector: 'test-pipe',
-  imports: [aModule, bModule, dModule, cModule],
-            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-})
-export class TestPipe { }
+export class TestComponent { }
 ```
 
 <br>
@@ -168,6 +144,61 @@ export class TestPipe { }
   standalone: true,
   selector: 'test-component',
   imports: [
+    // Line comment above aModule
+    // Another line comment above aModule
+    aModule, // Line comment next to aModule
+    ~~~~~~~
+    bModule,
+    /* Block comment above dModule */
+    ~~~~~~~
+    dModule, /* Block comment next to dModule */
+    ~~~~~~~
+    /**
+     * Block comment above cModule
+     **/
+    // Line comment above cModule
+    /* Another block comment above cModule */
+    cModule
+    ~~~~~~~
+    /**
+     * Block comment below cModule
+     **/
+    // Another line comment below cModule
+  ],
+})
+export class TestComponent { }
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/sort-imports-metadata": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({
+  standalone: true,
+  selector: 'test-component',
+  imports:
+  // Line comment above list
+  /* Block comment above list */
+  [
     aModule,
     ~~~~~~~
     bModule,
@@ -177,6 +208,8 @@ export class TestPipe { }
     cModule
     ~~~~~~~
   ],
+  // Line comment below list
+  /* Block comment below list */
 })
 export class TestComponent { }
 ```

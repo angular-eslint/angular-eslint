@@ -72,13 +72,19 @@ export default createESLintRule<Options, MessageIds>({
           elements.length - 1
         ] as TSESTree.Expression;
         const nodeForFixer = firstOriginalElement.parent as TSESTree.Node;
-        // TODO: The following does not work for imports lists that are a single line
-        const whitespacePrefix = ' '.repeat(
-          firstOriginalElement.loc.start.column,
-        );
-        const sourceCode = context.getSourceCode();
 
-        // TODO: Can we break this piece out into a function? We need context.getSourceCode, which returns a type SourceCode and can only be used when importing from '@typescript-eslint/utils/dist/ts-eslint' (seems wrong)
+        // IMPORTANT NOTE: Although we want to delegate formatting to the user's formatter of choice, this rule will perform basic formatting to ensure some presentability (especially around block comments)
+
+        // If all of the imports are on one line, indent the output 2 columns ahead of the `imports` keyword
+        // Else, indent the output to match the indentation of the first import
+        const whitespacePrefix = elements.every(
+          (element) =>
+            element?.loc.start.line === firstOriginalElement.loc.start.line,
+        )
+          ? ' '.repeat((nodeForFixer.parent?.loc.start.column as number) + 2)
+          : ' '.repeat(firstOriginalElement.loc.start.column);
+        const sourceCode = context.getSourceCode();
+        // TODO: Can we break this piece out into a function? We need `context.getSourceCode`, which returns a type SourceCode and can only be used when importing from '@typescript-eslint/utils/dist/ts-eslint' and that seems wrong...
         // For each import entry, get all related comments, stringify them, and group them with the import entry
         const importEntriesWithComments: ImportEntryWithComments[] = [];
 
