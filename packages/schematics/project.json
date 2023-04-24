@@ -28,11 +28,11 @@
     "test": {
       "dependsOn": [
         {
-          "projects": "dependencies",
+          "projects": "{dependencies}",
           "target": "build"
         }
       ],
-      "executor": "@nrwl/jest:jest",
+      "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/packages/schematics"],
       "options": {
         "jestConfig": "packages/schematics/jest.config.ts",

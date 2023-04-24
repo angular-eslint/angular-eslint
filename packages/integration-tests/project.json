@@ -39,15 +39,15 @@
       "dependsOn": [
         {
           "target": "build",
-          "projects": "dependencies"
+          "projects": "{dependencies}"
         },
         {
           "target": "kill-existing-verdaccio",
-          "projects": "self"
+          "projects": "{self}"
         },
         {
           "target": "reset-verdaccio-storage",
-          "projects": "self"
+          "projects": "{self}"
         }
       ],
       "executor": "nx:run-commands",

@@ -16,7 +16,7 @@
       }
     },
     "test": {
-      "executor": "@nrwl/jest:jest",
+      "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/packages/template-parser"],
       "options": {
         "jestConfig": "packages/template-parser/jest.config.ts",

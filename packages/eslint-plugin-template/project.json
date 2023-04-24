@@ -19,11 +19,11 @@
     "test": {
       "dependsOn": [
         {
-          "projects": "dependencies",
+          "projects": "{dependencies}",
           "target": "build"
         }
       ],
-      "executor": "@nrwl/jest:jest",
+      "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/packages/eslint-plugin-template"],
       "options": {
         "jestConfig": "packages/eslint-plugin-template/jest.config.ts",
@@ -49,7 +49,7 @@
     "check-rule-docs": {
       "dependsOn": [
         {
-          "projects": "self",
+          "projects": "{self}",
           "target": "update-rule-docs"
         }
       ],

@@ -17,7 +17,7 @@
       }
     },
     "test": {
-      "executor": "@nrwl/jest:jest",
+      "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/packages/eslint-plugin"],
       "options": {
         "jestConfig": "packages/eslint-plugin/jest.config.ts",
@@ -43,7 +43,7 @@
     "check-rule-docs": {
       "dependsOn": [
         {
-          "projects": "self",
+          "projects": "{self}",
           "target": "update-rule-docs"
         }
       ],
