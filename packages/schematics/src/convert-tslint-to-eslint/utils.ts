@@ -76,7 +76,9 @@ export function ensureESLintPluginsAreInstalled(
         !json.devDependencies[pluginName] &&
         !json.dependencies?.[pluginName]
       ) {
-        json.devDependencies[pluginName] = 'latest';
+        json.devDependencies[pluginName] =
+          // Hard code eslint-plugin-jsdoc version for now so that breaking rule change does not apply
+          pluginName === 'eslint-plugin-jsdoc' ? '41.1.2' : 'latest';
         pluginsToInstall.push(pluginName);
       }
     }
