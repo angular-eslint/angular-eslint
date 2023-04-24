@@ -1,0 +1,25 @@
+{
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "name": "integration-tests-suite-5",
+  "root": "packages/integration-tests/suites/5",
+  "type": "library",
+  "targets": {
+    "integration-test": {
+      "executor": "@angular-eslint/nx-plugin:integration-test-suite",
+      "options": {
+        "cwd": "packages/integration-tests",
+        "testFilePath": "tests/v13-new-workspace-create-application-false-ng-add-then-project.test.ts"
+      }
+    }
+  },
+  "implicitDependencies": [
+    "integration-tests",
+    "builder",
+    "bundled-angular-compiler",
+    "eslint-plugin",
+    "eslint-plugin-template",
+    "schematics",
+    "template-parser",
+    "utils"
+  ]
+}
