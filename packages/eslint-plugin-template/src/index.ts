@@ -79,7 +79,7 @@ import noInterpolationInAttributes, {
   RULE_NAME as noInterpolationInAttributesRuleName,
 } from './rules/no-interpolation-in-attributes';
 
-export default {
+export = {
   configs: {
     all,
     base,

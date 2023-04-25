@@ -2,7 +2,7 @@
   "name": "@angular-eslint/angular-eslint",
   "private": true,
   "volta": {
-    "node": "16.20.0",
+    "node": "18.16.0",
     "yarn": "1.22.19"
   },
   "workspaces": [
@@ -53,8 +53,8 @@
   "devDependencies": {
     "@actions/core": "1.10.0",
     "@actions/github": "5.1.1",
-    "@angular/cli": "15.2.5",
-    "@angular/compiler": "15.2.8",
+    "@angular/cli": "16.0.0-rc.1",
+    "@angular/compiler": "16.0.0-rc.2",
     "@commitlint/cli": "17.5.1",
     "@commitlint/config-conventional": "17.4.4",
     "@nx/devkit": "16.0.0-beta.6",
@@ -62,7 +62,10 @@
     "@nx/js": "16.0.0-beta.6",
     "@nx/plugin": "16.0.0-beta.6",
     "@nx/workspace": "16.0.0-beta.6",
-    "@schematics/angular": "15.2.5",
+    "@rollup/plugin-commonjs": "^24.1.0",
+    "@rollup/plugin-node-resolve": "^15.0.2",
+    "@rollup/plugin-typescript": "^11.1.0",
+    "@schematics/angular": "16.0.0-rc.1",
     "@swc-node/register": "^1.4.2",
     "@swc/cli": "0.1.62",
     "@swc/core": "^1.2.173",
@@ -87,18 +90,18 @@
     "jsonc-eslint-parser": "^2.1.0",
     "lerna": "6.6.1",
     "lint-staged": "13.2.0",
-    "microbundle": "0.15.1",
     "ncp": "2.0.0",
     "nx": "16.0.0-beta.6",
     "nx-cloud": "16.0.2",
     "prettier": "2.8.7",
     "rimraf": "5.0.0",
+    "rollup": "^3.21.0",
     "strip-ansi": "6.0.1",
     "terser": "5.16.8",
     "tree-kill": "1.2.2",
     "tslib": "^2.4.1",
     "ts-jest": "29.1.0",
     "ts-node": "10.9.1",
-    "typescript": "4.9.5"
+    "typescript": "5.0.4"
   }
 }

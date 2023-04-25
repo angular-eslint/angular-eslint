@@ -102,7 +102,7 @@ import pipePrefix, {
   RULE_NAME as pipePrefixRuleName,
 } from './rules/pipe-prefix';
 
-export default {
+export = {
   configs: {
     all,
     base,

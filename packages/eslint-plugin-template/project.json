@@ -11,7 +11,7 @@
         "parallel": false,
         "commands": [
           "npx rimraf ./dist",
-          "npx microbundle --tsconfig tsconfig.build.json --no-sourcemap --target=node --compress --format=cjs",
+          "npx tsc --project tsconfig.build.json",
           "npx ncp ./src/configs ./dist/configs"
         ]
       }

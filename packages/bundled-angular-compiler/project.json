@@ -9,10 +9,7 @@
       "options": {
         "cwd": "packages/bundled-angular-compiler",
         "parallel": false,
-        "commands": [
-          "npx rimraf ./dist",
-          "npx microbundle --tsconfig tsconfig.build.json --no-sourcemap --target=node --format=cjs"
-        ]
+        "commands": ["npx rimraf ./dist", "npx rollup -c"]
       }
     },
     "clean": {

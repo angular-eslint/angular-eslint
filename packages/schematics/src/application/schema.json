@@ -106,6 +106,12 @@
       "type": "boolean",
       "default": true
     },
+    "standalone": {
+      "description": "Creates an application based upon the standalone API, without NgModules.",
+      "type": "boolean",
+      "default": false,
+      "x-user-analytics": "ep.ng_standalone"
+    },
     "setParserOptionsProject": {
       "type": "boolean",
       "description": "Whether or not to configure the ESLint `parserOptions.project` option. We do not do this by default for lint performance reasons.",

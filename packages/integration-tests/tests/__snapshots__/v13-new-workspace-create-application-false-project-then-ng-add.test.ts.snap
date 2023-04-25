@@ -2,25 +2,25 @@
 
 exports[`v13-new-workspace-create-application-false-project-then-ng-add it should pass linting when ng-add is run before adding a project 2`] = `
 {
-  "@angular-devkit/build-angular": "^15.X.X",
+  "@angular-devkit/build-angular": "^16.0.0-rc.1",
   "@angular-eslint/builder": "9999.0.1-local-integration-tests",
   "@angular-eslint/eslint-plugin": "9999.0.1-local-integration-tests",
   "@angular-eslint/eslint-plugin-template": "9999.0.1-local-integration-tests",
   "@angular-eslint/schematics": "9999.0.1-local-integration-tests",
   "@angular-eslint/template-parser": "9999.0.1-local-integration-tests",
-  "@angular/cli": "~15.X.X",
-  "@angular/compiler-cli": "^15.X.X",
+  "@angular/cli": "~16.0.0-rc.1",
+  "@angular/compiler-cli": "^16.0.0-next.0",
   "@types/jasmine": "~4.3.0",
   "@typescript-eslint/eslint-plugin": "5.51.0",
   "@typescript-eslint/parser": "5.51.0",
   "eslint": "^8.34.0",
-  "jasmine-core": "~4.5.0",
+  "jasmine-core": "~4.6.0",
   "karma": "~6.4.0",
   "karma-chrome-launcher": "~3.1.0",
   "karma-coverage": "~2.2.0",
   "karma-jasmine": "~5.1.0",
   "karma-jasmine-html-reporter": "~2.0.0",
-  "typescript": "~4.X.X"
+  "typescript": "~5.X.X"
 }
 `;
 
