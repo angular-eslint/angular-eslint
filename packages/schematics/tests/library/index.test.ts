@@ -80,7 +80,7 @@ describe('library', () => {
     `);
   });
 
-  it('should add the ESLint config for the project and delete the TSLint config', async () => {
+  it('should add the ESLint config for the project', async () => {
     const tree = await schematicRunner
       .runSchematicAsync(
         'library',
@@ -136,7 +136,7 @@ describe('library', () => {
     `);
   });
 
-  it('should add the ESLint config for the project and delete the TSLint config (--setParserOptionsProject=true)', async () => {
+  it('should add the ESLint config for the project (--setParserOptionsProject=true)', async () => {
     const tree = await schematicRunner
       .runSchematicAsync(
         'library',

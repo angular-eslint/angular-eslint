@@ -8,7 +8,7 @@
       "executor": "@angular-eslint/nx-plugin:integration-test-suite",
       "options": {
         "cwd": "packages/integration-tests",
-        "testFilePath": "tests/v1123-multi-project-yarn-auto-convert.test.ts"
+        "testFilePath": "tests/v13-new-workspace-create-application-false-ng-add-then-project.test.ts"
       }
     }
   },

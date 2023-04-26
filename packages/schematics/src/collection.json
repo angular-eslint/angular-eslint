@@ -15,7 +15,8 @@
     "convert-tslint-to-eslint": {
       "factory": "./convert-tslint-to-eslint",
       "schema": "./convert-tslint-to-eslint/schema.json",
-      "description": "Convert the given project's TSLint setup to an equivalent ESLint one"
+      "description": "Convert the given project's TSLint setup to an equivalent ESLint one",
+      "hidden": true
     },
     "application": {
       "aliases": ["app"],

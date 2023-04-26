@@ -9,7 +9,6 @@ import type { Schema as AngularSchema } from '@schematics/angular/library/schema
 import {
   addESLintTargetToProject,
   createESLintConfigForProject,
-  removeTSLintJSONForProject,
 } from '../utils';
 
 interface Schema extends AngularSchema {
@@ -25,8 +24,6 @@ function eslintRelatedChanges(options: Schema) {
       options.name,
       options.setParserOptionsProject ?? false,
     ),
-    // Delete the TSLint config file for the project
-    removeTSLintJSONForProject(options.name),
   ]);
 }
 

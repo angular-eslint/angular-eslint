@@ -14,7 +14,6 @@ This worked for simple scenarios but it was not possible to support all the opti
 Instead, simply:
 - Run \`ng new\` (without \`--collection\`) and create your Angular CLI workspace with whatever options you prefer.
 - Change directory to your new workspace and run \`ng add @angular-eslint/schematics\` to add all relevant ESLint packages.
-- Run \`ng g @angular-eslint/schematics:convert-tslint-to-eslint --remove-tslint-if-no-more-tslint-targets --ignore-existing-tslint-config\` to automatically convert your new project from TSLint to ESLint.
 `.trim(),
     );
   };
