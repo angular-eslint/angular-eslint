@@ -1,8 +1,7 @@
-import type * as ESLintLibrary from 'eslint';
-import { join } from 'path';
+import type { ESLint } from 'eslint';
 import type { Schema } from '../schema';
 
-export async function loadESLint(): Promise<typeof ESLintLibrary> {
+export async function loadESLint() {
   let eslint;
   try {
     eslint = await import('eslint');
@@ -13,11 +12,10 @@ export async function loadESLint(): Promise<typeof ESLintLibrary> {
 }
 
 export async function lint(
-  workspaceRoot: string,
   eslintConfigPath: string | undefined,
   options: Schema,
-): Promise<ESLintLibrary.ESLint.LintResult[]> {
-  const projectESLint = await loadESLint();
+): Promise<ESLint.LintResult[]> {
+  const projectESLint: { ESLint: typeof ESLint } = await loadESLint();
 
   const eslint = new projectESLint.ESLint({
     /**
@@ -39,12 +37,14 @@ export async function lint(
      *
      * We don't want ESLint to throw an error if a user has only just created
      * a project and therefore doesn't necessarily have matching files, for example.
+     *
+     * Also, the angular generator creates a lint pattern for `html` files, but there may
+     * not be any html files in the project, so keeping it true would break linting every time
      */
     errorOnUnmatchedPattern: false,
+    reportUnusedDisableDirectives:
+      options.reportUnusedDisableDirectives || undefined,
   });
 
-  return await eslint.lintFiles(
-    // lintFilePatterns are defined relative to the root of the Angular-CLI workspace
-    options.lintFilePatterns.map((p) => join(workspaceRoot, p)),
-  );
+  return await eslint.lintFiles(options.lintFilePatterns);
 }

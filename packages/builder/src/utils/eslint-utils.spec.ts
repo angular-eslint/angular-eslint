@@ -20,7 +20,7 @@ describe('eslint-utils', () => {
   });
 
   it('should create the ESLint instance with the proper parameters', async () => {
-    await lint('/root', './.eslintrc.json', {
+    await lint('./.eslintrc.json', {
       fix: true,
       cache: true,
       cacheLocation: '/root/cache',
@@ -42,7 +42,7 @@ describe('eslint-utils', () => {
   });
 
   it('should create the ESLint instance with the proper parameters', async () => {
-    await lint('/root', undefined, {
+    await lint(undefined, {
       fix: true,
       cache: true,
       cacheLocation: '/root/cache',
@@ -65,7 +65,7 @@ describe('eslint-utils', () => {
 
   describe('noEslintrc', () => {
     it('should create the ESLint instance with "useEslintrc" set to false', async () => {
-      await lint('/root', undefined, {
+      await lint(undefined, {
         fix: true,
         cache: true,
         cacheLocation: '/root/cache',
@@ -89,7 +89,7 @@ describe('eslint-utils', () => {
   describe('rulesdir', () => {
     it('should create the ESLint instance with "rulePaths" set to the given value for rulesdir', async () => {
       const extraRuleDirectories = ['./some-rules', '../some-more-rules'];
-      await lint('/root', undefined, {
+      await lint(undefined, {
         fix: true,
         cache: true,
         cacheLocation: '/root/cache',
@@ -113,7 +113,7 @@ describe('eslint-utils', () => {
 
   describe('resolvePluginsRelativeTo', () => {
     it('should create the ESLint instance with "resolvePluginsRelativeTo" set to the given value for resolvePluginsRelativeTo', async () => {
-      await lint('/root', undefined, {
+      await lint(undefined, {
         fix: true,
         cache: true,
         cacheLocation: '/root/cache',
@@ -132,6 +132,31 @@ describe('eslint-utils', () => {
         errorOnUnmatchedPattern: false,
         rulePaths: [],
         resolvePluginsRelativeTo: './some-path',
+      });
+    });
+  });
+
+  describe('reportUnusedDisableDirectives', () => {
+    it('should create the ESLint instance with "reportUnusedDisableDirectives" set to the given value for reportUnusedDisableDirectives', async () => {
+      await lint(undefined, {
+        fix: true,
+        cache: true,
+        cacheLocation: '/root/cache',
+        cacheStrategy: 'content',
+        reportUnusedDisableDirectives: 'warn',
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+      }).catch(() => {});
+
+      expect(ESLint).toHaveBeenCalledWith({
+        fix: true,
+        cache: true,
+        cacheLocation: '/root/cache',
+        cacheStrategy: 'content',
+        ignorePath: undefined,
+        useEslintrc: true,
+        errorOnUnmatchedPattern: false,
+        rulePaths: [],
+        reportUnusedDisableDirectives: 'warn',
       });
     });
   });
