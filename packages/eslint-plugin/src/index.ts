@@ -1,13 +1,6 @@
 import all from './configs/all.json';
-import base from './configs/base.json';
 import recommended from './configs/recommended.json';
-import recommendedExtra from './configs/recommended--extra.json';
-import ngCliCompat from './configs/ng-cli-compat.json';
-import ngCliCompatFormattingAddOn from './configs/ng-cli-compat--formatting-add-on.json';
 
-import contextualDecorator, {
-  RULE_NAME as contextualDecoratorRuleName,
-} from './rules/contextual-decorator';
 import componentClassSuffix, {
   RULE_NAME as componentClassSuffixRuleName,
 } from './rules/component-class-suffix';
@@ -17,6 +10,9 @@ import componentMaxInlineDeclarations, {
 import componentSelector, {
   RULE_NAME as componentSelectorRuleName,
 } from './rules/component-selector';
+import contextualDecorator, {
+  RULE_NAME as contextualDecoratorRuleName,
+} from './rules/contextual-decorator';
 import contextualLifecycle, {
   RULE_NAME as contextualLifecycleRuleName,
 } from './rules/contextual-lifecycle';
@@ -32,6 +28,9 @@ import noAttributeDecorator, {
 import noConflictingLifecycle, {
   RULE_NAME as noConflictingLifecycleRuleName,
 } from './rules/no-conflicting-lifecycle';
+import noEmptyLifecycleMethod, {
+  RULE_NAME as noEmptyLifecycleMethodRuleName,
+} from './rules/no-empty-lifecycle-method';
 import noForwardRef, {
   RULE_NAME as noForwardRefRuleName,
 } from './rules/no-forward-ref';
@@ -68,9 +67,9 @@ import noPipeImpure, {
 import noQueriesMetadataProperty, {
   RULE_NAME as noQueriesMetadataPropertyRuleName,
 } from './rules/no-queries-metadata-property';
-import noEmptyLifecycleMethod, {
-  RULE_NAME as noEmptyLifecycleMethodRuleName,
-} from './rules/no-empty-lifecycle-method';
+import pipePrefix, {
+  RULE_NAME as pipePrefixRuleName,
+} from './rules/pipe-prefix';
 import preferOnPushComponentChangeDetection, {
   RULE_NAME as preferOnPushComponentChangeDetectionRuleName,
 } from './rules/prefer-on-push-component-change-detection';
@@ -98,18 +97,11 @@ import useLifecycleInterface, {
 import usePipeTransformInterface, {
   RULE_NAME as usePipeTransformInterfaceRuleName,
 } from './rules/use-pipe-transform-interface';
-import pipePrefix, {
-  RULE_NAME as pipePrefixRuleName,
-} from './rules/pipe-prefix';
 
 export = {
   configs: {
     all,
-    base,
     recommended,
-    ['recommended--extra']: recommendedExtra,
-    ['ng-cli-compat']: ngCliCompat,
-    ['ng-cli-compat--formatting-add-on']: ngCliCompatFormattingAddOn,
   },
   rules: {
     [contextualDecoratorRuleName]: contextualDecorator,
