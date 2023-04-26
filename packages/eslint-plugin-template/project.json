@@ -19,7 +19,7 @@
     "test": {
       "dependsOn": [
         {
-          "projects": "{dependencies}",
+          "projects": "{self}",
           "target": "build"
         }
       ],

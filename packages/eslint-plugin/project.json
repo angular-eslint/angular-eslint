@@ -17,6 +17,12 @@
       }
     },
     "test": {
+      "dependsOn": [
+        {
+          "projects": "{self}",
+          "target": "build"
+        }
+      ],
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/packages/eslint-plugin"],
       "options": {
