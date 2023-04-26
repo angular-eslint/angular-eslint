@@ -1,28 +1,27 @@
-import type { BuilderOutput } from '@angular-devkit/architect';
-import { convertNxExecutor } from '@nx/devkit';
+import type { BuilderContext, BuilderOutput } from '@angular-devkit/architect';
+import { createBuilder } from '@angular-devkit/architect';
 import type { ESLint } from 'eslint';
-import { mkdirSync, writeFileSync } from 'fs';
+import { writeFileSync } from 'fs';
 import { dirname, join, resolve } from 'path';
 import type { Schema } from './schema';
+import { createDirectory } from './utils/create-directory';
 import { lint, loadESLint } from './utils/eslint-utils';
 
-export default convertNxExecutor(
-  async (options: Schema, context): Promise<BuilderOutput> => {
-    const systemRoot = context.root;
+export default createBuilder(
+  async (options: Schema, context: BuilderContext): Promise<BuilderOutput> => {
+    const workspaceRoot = context.workspaceRoot;
+    process.chdir(workspaceRoot);
 
-    // eslint resolves files relative to the current working directory.
-    // We want these paths to always be resolved relative to the workspace
-    // root to be able to run the lint executor from any subfolder.
-    process.chdir(systemRoot);
-
-    const projectName = context.projectName || '<???>';
+    const projectName = context.target?.project || '<???>';
     const printInfo = options.format && !options.silent;
+    const reportOnlyErrors = options.quiet;
+    const maxWarnings = options.maxWarnings;
 
     if (printInfo) {
       console.info(`\nLinting ${JSON.stringify(projectName)}...`);
     }
 
-    const projectESLint: { ESLint: typeof ESLint } = await loadESLint();
+    const projectESLint = await loadESLint();
     const version = projectESLint.ESLint?.version?.split('.');
     if (
       !version ||
@@ -37,20 +36,16 @@ export default convertNxExecutor(
 
     /**
      * We want users to have the option of not specifying the config path, and let
-     * eslint automatically resolve the `.eslintrc.json` files in each folder.
+     * eslint automatically resolve the `.eslintrc` files in each folder.
      */
     const eslintConfigPath = options.eslintConfig
-      ? resolve(systemRoot, options.eslintConfig)
+      ? resolve(workspaceRoot, options.eslintConfig)
       : undefined;
-
-    options.cacheLocation = options.cacheLocation
-      ? join(options.cacheLocation, projectName)
-      : null;
 
     let lintResults: ESLint.LintResult[] = [];
 
     try {
-      lintResults = await lint(eslintConfigPath, options);
+      lintResults = await lint(workspaceRoot, eslintConfigPath, options);
     } catch (err) {
       if (
         err instanceof Error &&
@@ -59,18 +54,19 @@ export default convertNxExecutor(
         )
       ) {
         let eslintConfigPathForError = `for ${projectName}`;
-        if (context.projectsConfigurations?.projects?.[projectName]?.root) {
-          const { root } = context.projectsConfigurations.projects[projectName];
-          eslintConfigPathForError = `\`${root}/.eslintrc.json\``;
+
+        const projectMetadata = await context.getProjectMetadata(projectName);
+        if (projectMetadata) {
+          eslintConfigPathForError = `\`${projectMetadata.root}/.eslintrc.json\``;
         }
 
         console.error(`
-Error: You have attempted to use a lint rule which requires the full TypeScript type-checker to be available, but you do not have \`parserOptions.project\` configured to point at your project tsconfig.json files in the relevant TypeScript file "overrides" block of your project ESLint config ${
-          eslintConfigPath || eslintConfigPathForError
-        }
-
-For full guidance on how to resolve this issue, please see https://github.com/angular-eslint/angular-eslint/blob/main/docs/RULES_REQUIRING_TYPE_INFORMATION.md
-`);
+    Error: You have attempted to use a lint rule which requires the full TypeScript type-checker to be available, but you do not have \`parserOptions.project\` configured to point at your project tsconfig.json files in the relevant TypeScript file "overrides" block of your ESLint config ${
+      eslintConfigPath || eslintConfigPathForError
+    }
+    
+    For full guidance on how to resolve this issue, please see https://github.com/angular-eslint/angular-eslint/blob/main/docs/RULES_REQUIRING_TYPE_INFORMATION.md
+    `);
 
         return {
           success: false,
@@ -81,37 +77,16 @@ For full guidance on how to resolve this issue, please see https://github.com/an
     }
 
     if (lintResults.length === 0) {
-      const ignoredPatterns = (
-        await Promise.all(
-          options.lintFilePatterns.map(async (pattern) =>
-            (await eslint.isPathIgnored(pattern)) ? pattern : null,
-          ),
-        )
-      )
-        .filter((pattern) => !!pattern)
-        .map((pattern) => `- '${pattern}'`);
-      if (ignoredPatterns.length) {
-        throw new Error(
-          `All files matching the following patterns are ignored:\n${ignoredPatterns.join(
-            '\n',
-          )}\n\nPlease check your '.eslintignore' file.`,
-        );
-      }
-      throw new Error(
-        'Invalid lint configuration. Nothing to lint. Please check your lint target pattern(s).',
-      );
+      throw new Error('Invalid lint configuration. Nothing to lint.');
     }
-
-    // output fixes to disk, if applicable based on the options
-    await projectESLint.ESLint.outputFixes(lintResults);
 
     const formatter = await eslint.loadFormatter(options.format);
 
     let totalErrors = 0;
     let totalWarnings = 0;
 
-    const reportOnlyErrors = options.quiet;
-    const maxWarnings = options.maxWarnings;
+    // output fixes to disk, if applicable based on the options
+    await projectESLint.ESLint.outputFixes(lintResults);
 
     /**
      * Depending on user configuration we may not want to report on all the
@@ -153,8 +128,8 @@ For full guidance on how to resolve this issue, please see https://github.com/an
     const formattedResults = await formatter.format(finalLintResults);
 
     if (options.outputFile) {
-      const pathToOutputFile = join(context.root, options.outputFile);
-      mkdirSync(dirname(pathToOutputFile), { recursive: true });
+      const pathToOutputFile = join(context.workspaceRoot, options.outputFile);
+      createDirectory(dirname(pathToOutputFile));
       writeFileSync(pathToOutputFile, formattedResults);
     } else {
       console.info(formattedResults);

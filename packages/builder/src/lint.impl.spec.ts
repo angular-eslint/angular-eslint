@@ -9,7 +9,11 @@ import type { Schema } from './schema';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const fs = require('fs');
 jest.spyOn(fs, 'writeFileSync').mockImplementation();
-jest.spyOn(fs, 'mkdirSync').mockImplementation();
+
+const mockCreateDirectory = jest.fn();
+jest.mock('./utils/create-directory', () => ({
+  createDirectory: mockCreateDirectory,
+}));
 
 const mockFormatter = {
   format: jest
@@ -31,7 +35,6 @@ class MockESLint {
   static version = VALID_ESLINT_VERSION;
   static outputFixes = mockOutputFixes;
   loadFormatter = mockLoadFormatter;
-  isPathIgnored = jest.fn().mockReturnValue(false);
 }
 
 let mockReports: unknown[] = [
@@ -70,7 +73,6 @@ function createValidRunBuilderOptions(
     noEslintrc: false,
     rulesdir: [],
     resolvePluginsRelativeTo: null,
-    reportUnusedDisableDirectives: null,
     ...additionalOptions,
   };
 }
@@ -165,26 +167,29 @@ describe('Linter Builder', () => {
         resolvePluginsRelativeTo: null,
       }),
     );
-    expect(mockLint).toHaveBeenCalledWith(resolve('/root/.eslintrc'), {
-      lintFilePatterns: [],
-      eslintConfig: './.eslintrc',
-      exclude: ['excludedFile1'],
-      fix: true,
-      quiet: false,
-      cache: true,
-      cacheLocation: 'cacheLocation1/<???>',
-      cacheStrategy: 'content',
-      format: 'stylish',
-      force: false,
-      silent: false,
-      maxWarnings: -1,
-      outputFile: null,
-      ignorePath: null,
-      noEslintrc: false,
-      rulesdir: [],
-      resolvePluginsRelativeTo: null,
-      reportUnusedDisableDirectives: null,
-    });
+    expect(mockLint).toHaveBeenCalledWith(
+      resolve('/root'),
+      resolve('/root/.eslintrc'),
+      {
+        lintFilePatterns: [],
+        eslintConfig: './.eslintrc',
+        exclude: ['excludedFile1'],
+        fix: true,
+        quiet: false,
+        cache: true,
+        cacheLocation: 'cacheLocation1',
+        cacheStrategy: 'content',
+        format: 'stylish',
+        force: false,
+        silent: false,
+        maxWarnings: -1,
+        outputFile: null,
+        ignorePath: null,
+        noEslintrc: false,
+        rulesdir: [],
+        resolvePluginsRelativeTo: null,
+      },
+    );
   });
 
   it('should throw if no reports generated', async () => {
@@ -627,9 +632,7 @@ describe('Linter Builder', () => {
         outputFile: 'a/b/c/outputFile1',
       }),
     );
-    expect(fs.mkdirSync).toHaveBeenCalledWith('/root/a/b/c', {
-      recursive: true,
-    });
+    expect(mockCreateDirectory).toHaveBeenCalledWith('/root/a/b/c');
     expect(fs.writeFileSync).toHaveBeenCalledWith(
       '/root/a/b/c/outputFile1',
       mockFormatter.format(mockReports),
