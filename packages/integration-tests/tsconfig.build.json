@@ -4,6 +4,7 @@
     "composite": true,
     "outDir": "./dist",
     "rootDir": ".",
+    "baseUrl": ".",
     "resolveJsonModule": true
   },
   "include": ["tests"]

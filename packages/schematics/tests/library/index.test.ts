@@ -49,9 +49,7 @@ describe('library', () => {
 
     expect(spy).not.toHaveBeenCalled();
 
-    await schematicRunner
-      .runSchematicAsync('library', options, appTree)
-      .toPromise();
+    await schematicRunner.runSchematic('library', options, appTree);
 
     expect(spy).toHaveBeenCalledTimes(1);
     expect(spy).toHaveBeenCalledWith(
@@ -62,9 +60,11 @@ describe('library', () => {
   });
 
   it('should change the lint target to use the @angular-eslint builder', async () => {
-    const tree = await schematicRunner
-      .runSchematicAsync('library', { name: 'bar' }, appTree)
-      .toPromise();
+    const tree = await schematicRunner.runSchematic(
+      'library',
+      { name: 'bar' },
+      appTree,
+    );
 
     expect(readJsonInTree(tree, 'angular.json').projects.bar.architect.lint)
       .toMatchInlineSnapshot(`
@@ -81,16 +81,14 @@ describe('library', () => {
   });
 
   it('should add the ESLint config for the project', async () => {
-    const tree = await schematicRunner
-      .runSchematicAsync(
-        'library',
-        {
-          name: 'bar',
-          prefix: 'something-else-custom',
-        },
-        appTree,
-      )
-      .toPromise();
+    const tree = await schematicRunner.runSchematic(
+      'library',
+      {
+        name: 'bar',
+        prefix: 'something-else-custom',
+      },
+      appTree,
+    );
 
     expect(tree.exists('projects/bar/tslint.json')).toBe(false);
     expect(tree.read('projects/bar/.eslintrc.json')?.toString())
@@ -137,17 +135,15 @@ describe('library', () => {
   });
 
   it('should add the ESLint config for the project (--setParserOptionsProject=true)', async () => {
-    const tree = await schematicRunner
-      .runSchematicAsync(
-        'library',
-        {
-          name: 'bar',
-          prefix: 'something-else-custom',
-          setParserOptionsProject: true,
-        },
-        appTree,
-      )
-      .toPromise();
+    const tree = await schematicRunner.runSchematic(
+      'library',
+      {
+        name: 'bar',
+        prefix: 'something-else-custom',
+        setParserOptionsProject: true,
+      },
+      appTree,
+    );
 
     expect(tree.exists('projects/bar/tslint.json')).toBe(false);
     expect(tree.read('projects/bar/.eslintrc.json')?.toString())
@@ -199,15 +195,13 @@ describe('library', () => {
   });
 
   it('should add an appropriate ESLint config extends for a project with a scope in its name', async () => {
-    const tree = await schematicRunner
-      .runSchematicAsync(
-        'library',
-        {
-          name: '@foo/bar',
-        },
-        appTree,
-      )
-      .toPromise();
+    const tree = await schematicRunner.runSchematic(
+      'library',
+      {
+        name: '@foo/bar',
+      },
+      appTree,
+    );
 
     expect(tree.exists('projects/foo/bar/tslint.json')).toBe(false);
     expect(tree.read('projects/foo/bar/.eslintrc.json')?.toString())

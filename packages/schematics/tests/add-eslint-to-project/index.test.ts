@@ -81,9 +81,11 @@ describe('add-eslint-to-project', () => {
       project: rootProjectName,
     };
 
-    await schematicRunner
-      .runSchematicAsync('add-eslint-to-project', options, appTree)
-      .toPromise();
+    await schematicRunner.runSchematic(
+      'add-eslint-to-project',
+      options,
+      appTree,
+    );
 
     expect(
       readJsonInTree(appTree, 'angular.json').projects[rootProjectName]
@@ -155,9 +157,11 @@ describe('add-eslint-to-project', () => {
       project: legacyProjectName,
     };
 
-    await schematicRunner
-      .runSchematicAsync('add-eslint-to-project', options, appTree)
-      .toPromise();
+    await schematicRunner.runSchematic(
+      'add-eslint-to-project',
+      options,
+      appTree,
+    );
 
     const projectConfig = readJsonInTree(appTree, 'angular.json').projects[
       legacyProjectName
@@ -222,9 +226,11 @@ describe('add-eslint-to-project', () => {
       project: otherProjectName,
     };
 
-    await schematicRunner
-      .runSchematicAsync('add-eslint-to-project', options, appTree)
-      .toPromise();
+    await schematicRunner.runSchematic(
+      'add-eslint-to-project',
+      options,
+      appTree,
+    );
 
     const projectConfig = readJsonInTree(appTree, 'angular.json').projects[
       otherProjectName
@@ -291,9 +297,11 @@ describe('add-eslint-to-project', () => {
         setParserOptionsProject: true,
       };
 
-      await schematicRunner
-        .runSchematicAsync('add-eslint-to-project', options, appTree)
-        .toPromise();
+      await schematicRunner.runSchematic(
+        'add-eslint-to-project',
+        options,
+        appTree,
+      );
 
       const projectConfig = readJsonInTree(appTree, 'angular.json').projects[
         legacyProjectName
@@ -365,9 +373,11 @@ describe('add-eslint-to-project', () => {
         setParserOptionsProject: true,
       };
 
-      await schematicRunner
-        .runSchematicAsync('add-eslint-to-project', options, appTree)
-        .toPromise();
+      await schematicRunner.runSchematic(
+        'add-eslint-to-project',
+        options,
+        appTree,
+      );
 
       const projectConfig = readJsonInTree(appTree, 'angular.json').projects[
         otherProjectName
@@ -499,9 +509,11 @@ describe('add-eslint-to-project', () => {
         project: rootProjectName,
       };
 
-      await schematicRunner
-        .runSchematicAsync('add-eslint-to-project', options, tree2)
-        .toPromise();
+      await schematicRunner.runSchematic(
+        'add-eslint-to-project',
+        options,
+        tree2,
+      );
 
       expect(
         readJsonInTree(tree2, 'angular.json').projects[rootProjectName]
