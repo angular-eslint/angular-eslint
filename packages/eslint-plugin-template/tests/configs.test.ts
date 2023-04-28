@@ -80,4 +80,24 @@ describe('configs', () => {
       ).toBe(true);
     });
   });
+
+  describe('accessibility', () => {
+    it('should only contain valid rules', () => {
+      expect(
+        Object.keys(eslintPluginTemplate.configs.accessibility.rules)
+          .filter((ruleName) =>
+            ruleName.startsWith(ESLINT_PLUGIN_TEMPLATE_PREFIX),
+          )
+          .every((ruleName) =>
+            Boolean(
+              eslintPluginTemplate.rules[
+                ruleName.slice(
+                  ESLINT_PLUGIN_TEMPLATE_PREFIX.length,
+                ) as keyof typeof eslintPluginTemplate.rules
+              ],
+            ),
+          ),
+      ).toBe(true);
+    });
+  });
 });

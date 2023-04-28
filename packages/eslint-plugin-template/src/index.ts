@@ -2,6 +2,7 @@ import all from './configs/all.json';
 import base from './configs/base.json';
 import processInlineTemplates from './configs/process-inline-templates.json';
 import recommended from './configs/recommended.json';
+import accessibility from './configs/accessibility.json';
 import processors from './processors';
 import accessibilityAltText, {
   RULE_NAME as accessibilityAltTextRuleName,
@@ -85,6 +86,7 @@ export default {
     base,
     recommended,
     'process-inline-templates': processInlineTemplates,
+    accessibility,
   },
   processors,
   rules: {
