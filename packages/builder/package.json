@@ -17,6 +17,10 @@
     "LICENSE",
     "builders.json"
   ],
+  "dependencies": {
+    "@nx/devkit": "16.0.0",
+    "nx": "16.0.0"
+  },
   "builders": "./builders.json",
   "peerDependencies": {
     "eslint": "^7.20.0 || ^8.0.0",
