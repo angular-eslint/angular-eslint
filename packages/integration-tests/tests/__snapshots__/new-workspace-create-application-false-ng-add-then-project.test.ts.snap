@@ -2,7 +2,7 @@
 
 exports[`new-workspace-create-application-false-ng-add-then-project it should pass linting when adding a project before running ng-add 2`] = `
 {
-  "@angular-devkit/build-angular": "^16.0.0-rc.1",
+  "@angular-devkit/build-angular": "^16.0.0-rc.4",
   "@angular-eslint/builder": "9999.0.1-local-integration-tests",
   "@angular-eslint/eslint-plugin": "9999.0.1-local-integration-tests",
   "@angular-eslint/eslint-plugin-template": "9999.0.1-local-integration-tests",
