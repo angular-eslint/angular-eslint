@@ -1,10 +1,14 @@
 import type { BuilderOutput } from '@angular-devkit/architect';
-import { convertNxExecutor } from '@nx/devkit';
+import {
+  convertNxExecutor,
+  joinPathFragments,
+  workspaceRoot,
+} from '@nx/devkit';
 import type { ESLint } from 'eslint';
-import { mkdirSync, writeFileSync } from 'fs';
+import { existsSync, mkdirSync, writeFileSync } from 'fs';
 import { dirname, join, resolve } from 'path';
 import type { Schema } from './schema';
-import { lint, loadESLint } from './utils/eslint-utils';
+import { resolveAndInstantiateESLint } from './utils/eslint-utils';
 
 export default convertNxExecutor(
   async (options: Schema, context): Promise<BuilderOutput> => {
@@ -22,19 +26,6 @@ export default convertNxExecutor(
       console.info(`\nLinting ${JSON.stringify(projectName)}...`);
     }
 
-    const projectESLint: { ESLint: typeof ESLint } = await loadESLint();
-    const version = projectESLint.ESLint?.version?.split('.');
-    if (
-      !version ||
-      version.length < 2 ||
-      Number(version[0]) < 7 ||
-      (Number(version[0]) === 7 && Number(version[1]) < 6)
-    ) {
-      throw new Error('ESLint must be version 7.6 or higher.');
-    }
-
-    const eslint = new projectESLint.ESLint({});
-
     /**
      * We want users to have the option of not specifying the config path, and let
      * eslint automatically resolve the `.eslintrc.json` files in each folder.
@@ -47,10 +38,34 @@ export default convertNxExecutor(
       ? join(options.cacheLocation, projectName)
       : null;
 
+    /**
+     * Until ESLint v9 is released and the new so called flat config is the default
+     * we only want to support it if the user has explicitly opted into it by converting
+     * their root ESLint config to use eslint.config.js
+     */
+    const useFlatConfig = existsSync(
+      joinPathFragments(workspaceRoot, 'eslint.config.js'),
+    );
+    const { eslint, ESLint } = await resolveAndInstantiateESLint(
+      eslintConfigPath,
+      options,
+      useFlatConfig,
+    );
+
+    const version = ESLint?.version?.split('.');
+    if (
+      !version ||
+      version.length < 2 ||
+      Number(version[0]) < 7 ||
+      (Number(version[0]) === 7 && Number(version[1]) < 6)
+    ) {
+      throw new Error('ESLint must be version 7.6 or higher.');
+    }
+
     let lintResults: ESLint.LintResult[] = [];
 
     try {
-      lintResults = await lint(eslintConfigPath, options);
+      lintResults = await eslint.lintFiles(options.lintFilePatterns);
     } catch (err) {
       if (
         err instanceof Error &&
@@ -103,7 +118,7 @@ For full guidance on how to resolve this issue, please see https://github.com/an
     }
 
     // output fixes to disk, if applicable based on the options
-    await projectESLint.ESLint.outputFixes(lintResults);
+    await ESLint.outputFixes(lintResults);
 
     const formatter = await eslint.loadFormatter(options.format);
 

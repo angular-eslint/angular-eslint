@@ -27,25 +27,28 @@ const mockOutputFixes = jest.fn();
 
 const VALID_ESLINT_VERSION = '7.6';
 
+let mockReports: unknown[] = [
+  { results: [], messages: [], usedDeprecatedRules: [] },
+];
+
 class MockESLint {
   static version = VALID_ESLINT_VERSION;
   static outputFixes = mockOutputFixes;
   loadFormatter = mockLoadFormatter;
   isPathIgnored = jest.fn().mockReturnValue(false);
+  lintFiles = jest.fn().mockImplementation(() => mockReports);
 }
 
-let mockReports: unknown[] = [
-  { results: [], messages: [], usedDeprecatedRules: [] },
-];
-const mockLint = jest.fn().mockImplementation(() => mockReports);
+const mockResolveAndInstantiateESLint = jest.fn().mockReturnValue(
+  Promise.resolve({
+    ESLint: MockESLint,
+    eslint: new MockESLint(),
+  }),
+);
+
 jest.mock('./utils/eslint-utils', () => {
   return {
-    lint: mockLint,
-    loadESLint: jest.fn().mockReturnValue(
-      Promise.resolve({
-        ESLint: MockESLint,
-      }),
-    ),
+    resolveAndInstantiateESLint: mockResolveAndInstantiateESLint,
   };
 });
 
@@ -142,7 +145,7 @@ describe('Linter Builder', () => {
     await expect(result).resolves.not.toThrow();
   });
 
-  it('should invoke the linter with the options that were passed to the builder', async () => {
+  it('should resolve and instantiate ESLint with the options that were passed to the builder', async () => {
     setupMocks();
     await runBuilder(
       createValidRunBuilderOptions({
@@ -165,26 +168,69 @@ describe('Linter Builder', () => {
         resolvePluginsRelativeTo: null,
       }),
     );
-    expect(mockLint).toHaveBeenCalledWith(resolve('/root/.eslintrc'), {
-      lintFilePatterns: [],
-      eslintConfig: './.eslintrc',
-      exclude: ['excludedFile1'],
-      fix: true,
-      quiet: false,
-      cache: true,
-      cacheLocation: 'cacheLocation1/<???>',
-      cacheStrategy: 'content',
-      format: 'stylish',
-      force: false,
-      silent: false,
-      maxWarnings: -1,
-      outputFile: null,
-      ignorePath: null,
-      noEslintrc: false,
-      rulesdir: [],
-      resolvePluginsRelativeTo: null,
-      reportUnusedDisableDirectives: null,
+    expect(mockResolveAndInstantiateESLint).toHaveBeenCalledTimes(1);
+    expect(mockResolveAndInstantiateESLint).toHaveBeenCalledWith(
+      resolve('/root/.eslintrc'),
+      {
+        lintFilePatterns: [],
+        eslintConfig: './.eslintrc',
+        exclude: ['excludedFile1'],
+        fix: true,
+        quiet: false,
+        cache: true,
+        cacheLocation: 'cacheLocation1/<???>',
+        cacheStrategy: 'content',
+        format: 'stylish',
+        force: false,
+        silent: false,
+        maxWarnings: -1,
+        outputFile: null,
+        ignorePath: null,
+        noEslintrc: false,
+        rulesdir: [],
+        resolvePluginsRelativeTo: null,
+        reportUnusedDisableDirectives: null,
+      },
+      false,
+    );
+  });
+
+  it('should resolve and instantiate ESLint with useFlatConfig=true if the root config is eslint.config.js', async () => {
+    setupMocks();
+
+    jest.spyOn(fs, 'existsSync').mockImplementation((path: any) => {
+      if (path.endsWith('/eslint.config.js')) {
+        return true;
+      }
+      return false;
     });
+
+    await runBuilder(createValidRunBuilderOptions({}));
+    expect(mockResolveAndInstantiateESLint).toHaveBeenCalledTimes(1);
+    expect(mockResolveAndInstantiateESLint).toHaveBeenCalledWith(
+      undefined,
+      {
+        lintFilePatterns: [],
+        eslintConfig: null,
+        exclude: ['excludedFile1'],
+        fix: true,
+        quiet: false,
+        cache: true,
+        cacheLocation: 'cacheLocation1/<???>',
+        cacheStrategy: 'content',
+        format: 'stylish',
+        force: false,
+        silent: false,
+        maxWarnings: -1,
+        outputFile: null,
+        ignorePath: null,
+        noEslintrc: false,
+        rulesdir: [],
+        resolvePluginsRelativeTo: null,
+        reportUnusedDisableDirectives: null,
+      },
+      true, // useFlatConfig
+    );
   });
 
   it('should throw if no reports generated', async () => {
