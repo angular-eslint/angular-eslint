@@ -3,9 +3,6 @@ import all from './configs/all.json';
 import processInlineTemplates from './configs/process-inline-templates.json';
 import recommended from './configs/recommended.json';
 import processors from './processors';
-import accessibilityLabelFor, {
-  RULE_NAME as accessibilityLabelForRuleName,
-} from './rules/accessibility-label-for';
 import altText, { RULE_NAME as altTextRuleName } from './rules/alt-text';
 import attributesOrder, {
   RULE_NAME as attributesOrderRuleName,
@@ -84,7 +81,6 @@ export = {
   },
   processors,
   rules: {
-    [accessibilityLabelForRuleName]: accessibilityLabelFor,
     [altTextRuleName]: altText,
     [attributesOrderRuleName]: attributesOrder,
     [bananaInBoxRuleName]: bananaInBox,

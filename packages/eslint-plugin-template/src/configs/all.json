@@ -2,7 +2,6 @@
   "parser": "@angular-eslint/template-parser",
   "plugins": ["@angular-eslint/template"],
   "rules": {
-    "@angular-eslint/template/accessibility-label-for": "error",
     "@angular-eslint/template/alt-text": "error",
     "@angular-eslint/template/attributes-order": "error",
     "@angular-eslint/template/banana-in-box": "error",
