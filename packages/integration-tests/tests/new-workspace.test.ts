@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
+import { setWorkspaceRoot } from 'nx/src/utils/workspace-root';
 import path from 'path';
 import {
   FIXTURES_DIR,
@@ -22,7 +22,14 @@ describe(fixtureDirectory, () => {
     process.chdir(FIXTURES_DIR);
     await runNgNew(fixtureDirectory);
 
-    process.chdir(path.join(FIXTURES_DIR, fixtureDirectory));
+    process.env.NX_DAEMON = 'false';
+    process.env.NX_CACHE_PROJECT_GRAPH = 'false';
+
+    const workspaceRoot = path.join(FIXTURES_DIR, fixtureDirectory);
+    process.chdir(workspaceRoot);
+    process.env.NX_WORKSPACE_ROOT_PATH = workspaceRoot;
+    setWorkspaceRoot(workspaceRoot);
+
     await runNgAdd();
     await runNgGenerate(['app', 'another-app', '--interactive=false']);
     await runNgGenerate(['lib', 'another-lib', '--interactive=false']);

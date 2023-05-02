@@ -2,7 +2,7 @@
 
 exports[`new-workspace-create-application-false-project-then-ng-add it should pass linting when ng-add is run before adding a project 2`] = `
 {
-  "@angular-devkit/build-angular": "^16.0.0-rc.1",
+  "@angular-devkit/build-angular": "^16.0.0-rc.4",
   "@angular-eslint/builder": "9999.0.1-local-integration-tests",
   "@angular-eslint/eslint-plugin": "9999.0.1-local-integration-tests",
   "@angular-eslint/eslint-plugin-template": "9999.0.1-local-integration-tests",
@@ -62,6 +62,7 @@ Object {
     Object {
       "extends": Array [
         "plugin:@angular-eslint/template/recommended",
+        "plugin:@angular-eslint/template/accessibility",
       ],
       "files": Array [
         "*.html",
