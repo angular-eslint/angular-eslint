@@ -1,0 +1,22 @@
+diff --git a/node_modules/nx/src/adapter/ngcli-adapter.js b/node_modules/nx/src/adapter/ngcli-adapter.js
+index cae21ed..09d6c3c 100644
+--- a/node_modules/nx/src/adapter/ngcli-adapter.js
++++ b/node_modules/nx/src/adapter/ngcli-adapter.js
+@@ -199,7 +199,7 @@ class NxScopedHost extends core_1.virtualFs.ScopedHost {
+         this.root = root;
+     }
+     read(path) {
+-        if (path === 'angular.json' || path === '/angular.json') {
++        if ((path === 'angular.json' || path === '/angular.json') && (0, angular_json_1.isAngularPluginInstalled)()) {
+             return this.readMergedWorkspaceConfiguration().pipe((0, operators_1.map)((r) => Buffer.from(JSON.stringify((0, angular_json_1.toOldFormat)(r)))));
+         }
+         else {
+@@ -351,7 +351,7 @@ class NxScopeHostUsedForWrappedSchematics extends NxScopedHost {
+         this.host = host;
+     }
+     read(path) {
+-        if (path == 'angular.json' || path == '/angular.json') {
++        if ((path === 'angular.json' || path === '/angular.json') && (0, angular_json_1.isAngularPluginInstalled)()) {
+             const projectJsonConfig = (0, angular_json_1.toOldFormat)({
+                 projects: Object.fromEntries((0, project_configuration_1.getProjects)(this.host)),
+             });

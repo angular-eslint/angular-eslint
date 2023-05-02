@@ -1,14 +1,13 @@
 {
-  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "name": "integration-tests-suite-2",
-  "root": "packages/integration-tests/suites/2",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "type": "library",
   "targets": {
     "integration-test": {
       "executor": "@angular-eslint/nx-plugin:integration-test-suite",
       "options": {
         "cwd": "packages/integration-tests",
-        "testFilePath": "tests/v13-new-workspace-create-application-false-ng-add-then-project.test.ts"
+        "testFilePath": "tests/new-workspace-create-application-false-ng-add-then-project.test.ts"
       }
     }
   },

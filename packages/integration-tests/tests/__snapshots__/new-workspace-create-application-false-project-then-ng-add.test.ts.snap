@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`v13-new-workspace it should pass linting after creating a new workspace from scratch using @angular-eslint 2`] = `
+exports[`new-workspace-create-application-false-project-then-ng-add it should pass linting when ng-add is run before adding a project 2`] = `
 {
   "@angular-devkit/build-angular": "^16.0.0-rc.1",
   "@angular-eslint/builder": "9999.0.1-local-integration-tests",
@@ -20,12 +20,11 @@ exports[`v13-new-workspace it should pass linting after creating a new workspace
   "karma-coverage": "~2.2.0",
   "karma-jasmine": "~5.1.0",
   "karma-jasmine-html-reporter": "~2.0.0",
-  "ng-packagr": "^16.0.0-next.0",
   "typescript": "~5.X.X"
 }
 `;
 
-exports[`v13-new-workspace it should pass linting after creating a new workspace from scratch using @angular-eslint 3`] = `
+exports[`new-workspace-create-application-false-project-then-ng-add it should pass linting when ng-add is run before adding a project 3`] = `
 Object {
   "ignorePatterns": Array [
     "projects/**/*",
@@ -74,19 +73,7 @@ Object {
 }
 `;
 
-exports[`v13-new-workspace it should pass linting after creating a new workspace from scratch using @angular-eslint 4`] = `
-Object {
-  "builder": "@angular-eslint/builder:lint",
-  "options": Object {
-    "lintFilePatterns": Array [
-      "src/**/*.ts",
-      "src/**/*.html",
-    ],
-  },
-}
-`;
-
-exports[`v13-new-workspace it should pass linting after creating a new workspace from scratch using @angular-eslint 6`] = `
+exports[`new-workspace-create-application-false-project-then-ng-add it should pass linting when ng-add is run before adding a project 5`] = `
 Object {
   "extends": "../../.eslintrc.json",
   "ignorePatterns": Array [
@@ -126,87 +113,22 @@ Object {
 }
 `;
 
-exports[`v13-new-workspace it should pass linting after creating a new workspace from scratch using @angular-eslint 7`] = `
+exports[`new-workspace-create-application-false-project-then-ng-add it should pass linting when ng-add is run before adding a project 6`] = `
 Object {
   "builder": "@angular-eslint/builder:lint",
   "options": Object {
     "lintFilePatterns": Array [
-      "projects/another-app/**/*.ts",
-      "projects/another-app/**/*.html",
+      "projects/app-project/**/*.ts",
+      "projects/app-project/**/*.html",
     ],
   },
 }
 `;
 
-exports[`v13-new-workspace it should pass linting after creating a new workspace from scratch using @angular-eslint 9`] = `
-Object {
-  "extends": "../../.eslintrc.json",
-  "ignorePatterns": Array [
-    "!**/*",
-  ],
-  "overrides": Array [
-    Object {
-      "files": Array [
-        "*.ts",
-      ],
-      "rules": Object {
-        "@angular-eslint/component-selector": Array [
-          "error",
-          Object {
-            "prefix": "lib",
-            "style": "kebab-case",
-            "type": "element",
-          },
-        ],
-        "@angular-eslint/directive-selector": Array [
-          "error",
-          Object {
-            "prefix": "lib",
-            "style": "camelCase",
-            "type": "attribute",
-          },
-        ],
-      },
-    },
-    Object {
-      "files": Array [
-        "*.html",
-      ],
-      "rules": Object {},
-    },
-  ],
-}
-`;
-
-exports[`v13-new-workspace it should pass linting after creating a new workspace from scratch using @angular-eslint 10`] = `
-Object {
-  "builder": "@angular-eslint/builder:lint",
-  "options": Object {
-    "lintFilePatterns": Array [
-      "projects/another-lib/**/*.ts",
-      "projects/another-lib/**/*.html",
-    ],
-  },
-}
-`;
-
-exports[`v13-new-workspace it should pass linting after creating a new workspace from scratch using @angular-eslint 11`] = `
+exports[`new-workspace-create-application-false-project-then-ng-add it should pass linting when ng-add is run before adding a project 7`] = `
 "
-Linting \\"v13-new-workspace\\"...
+Linting \\"app-project\\"...
 
 All files pass linting.
-
-
-Linting \\"another-app\\"...
-
-All files pass linting.
-
-
-Linting \\"another-lib\\"...
-
-__ROOT__/v13-new-workspace/projects/another-lib/src/lib/another-lib.service.ts
-  8:17  error  Unexpected empty constructor  @typescript-eslint/no-empty-function
-
-✖ 1 problem (1 error, 0 warnings)
 "
 `;

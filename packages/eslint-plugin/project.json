@@ -19,7 +19,6 @@
     "test": {
       "dependsOn": [
         {
-          "projects": "{self}",
           "target": "build"
         }
       ],
@@ -49,7 +48,6 @@
     "check-rule-docs": {
       "dependsOn": [
         {
-          "projects": "{self}",
           "target": "update-rule-docs"
         }
       ],

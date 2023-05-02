@@ -41,24 +41,6 @@ describe('application', () => {
     );
   });
 
-  it('should pass all the given options directly to the @schematics/angular schematic', async () => {
-    const spy = jest.spyOn(angularDevkitSchematics, 'externalSchematic');
-    const options = {
-      name: 'foo',
-    };
-
-    expect(spy).not.toHaveBeenCalled();
-
-    await schematicRunner.runSchematic('application', options, appTree);
-
-    expect(spy).toHaveBeenCalledTimes(1);
-    expect(spy).toHaveBeenCalledWith(
-      '@schematics/angular',
-      'application',
-      expect.objectContaining(options),
-    );
-  });
-
   it('should change the lint target to use the @angular-eslint builder', async () => {
     const tree = await schematicRunner.runSchematic(
       'application',
