@@ -17,12 +17,6 @@ function containsRule(config: Config, ruleName: string): boolean {
 }
 
 describe('configs', () => {
-  describe('base', () => {
-    it('exists', () => {
-      expect(eslintPluginTemplate.configs.base).toBeDefined();
-    });
-  });
-
   describe('all', () => {
     it('should contain all of the rules from the plugin', () => {
       expect(
@@ -65,6 +59,39 @@ describe('configs', () => {
     it('should only contain valid rules', () => {
       expect(
         Object.keys(eslintPluginTemplate.configs.recommended.rules)
+          .filter((ruleName) =>
+            ruleName.startsWith(ESLINT_PLUGIN_TEMPLATE_PREFIX),
+          )
+          .every((ruleName) =>
+            Boolean(
+              eslintPluginTemplate.rules[
+                ruleName.slice(
+                  ESLINT_PLUGIN_TEMPLATE_PREFIX.length,
+                ) as keyof typeof eslintPluginTemplate.rules
+              ],
+            ),
+          ),
+      ).toBe(true);
+    });
+  });
+
+  describe('accessibility', () => {
+    it('should contain the rules related to accessibility', () => {
+      expect(
+        Object.entries(eslintPluginTemplate.rules)
+          .filter(
+            (entry) =>
+              !!entry[1].meta.docs?.description.startsWith('[Accessibility]'),
+          )
+          .every((entry) =>
+            containsRule(eslintPluginTemplate.configs.accessibility, entry[0]),
+          ),
+      ).toBe(true);
+    });
+
+    it('should only contain valid rules', () => {
+      expect(
+        Object.keys(eslintPluginTemplate.configs.accessibility.rules)
           .filter((ruleName) =>
             ruleName.startsWith(ESLINT_PLUGIN_TEMPLATE_PREFIX),
           )

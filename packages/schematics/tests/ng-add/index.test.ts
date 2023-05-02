@@ -176,6 +176,7 @@ describe('ng-add', () => {
             Object {
               "extends": Array [
                 "plugin:@angular-eslint/template/recommended",
+                "plugin:@angular-eslint/template/accessibility",
               ],
               "files": Array [
                 "*.html",
@@ -297,6 +298,7 @@ describe('ng-add', () => {
             Object {
               "extends": Array [
                 "plugin:@angular-eslint/template/recommended",
+                "plugin:@angular-eslint/template/accessibility",
               ],
               "files": Array [
                 "*.html",
@@ -453,6 +455,7 @@ describe('ng-add', () => {
             Object {
               "extends": Array [
                 "plugin:@angular-eslint/template/recommended",
+                "plugin:@angular-eslint/template/accessibility",
               ],
               "files": Array [
                 "*.html",

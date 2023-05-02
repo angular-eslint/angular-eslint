@@ -303,7 +303,10 @@ Let's take a look at full (but minimal), manual example of a config file (**alth
     },
     {
       "files": ["*.html"],
-      "extends": ["plugin:@angular-eslint/template/recommended"],
+      "extends": [
+        "plugin:@angular-eslint/template/recommended",
+        "plugin:@angular-eslint/template/accessibility"
+      ],
       "rules": {
         /**
          * Any template/HTML related rules you wish to use/reconfigure over and above the

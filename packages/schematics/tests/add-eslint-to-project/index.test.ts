@@ -140,6 +140,7 @@ describe('add-eslint-to-project', () => {
           Object {
             "extends": Array [
               "plugin:@angular-eslint/template/recommended",
+              "plugin:@angular-eslint/template/accessibility",
             ],
             "files": Array [
               "*.html",
@@ -568,6 +569,7 @@ describe('add-eslint-to-project', () => {
             Object {
               "extends": Array [
                 "plugin:@angular-eslint/template/recommended",
+                "plugin:@angular-eslint/template/accessibility",
               ],
               "files": Array [
                 "*.html",

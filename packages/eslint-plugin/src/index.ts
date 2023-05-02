@@ -104,15 +104,16 @@ export = {
     recommended,
   },
   rules: {
-    [contextualDecoratorRuleName]: contextualDecorator,
     [componentClassSuffixRuleName]: componentClassSuffix,
     [componentMaxInlineDeclarationsRuleName]: componentMaxInlineDeclarations,
     [componentSelectorRuleName]: componentSelector,
+    [contextualDecoratorRuleName]: contextualDecorator,
     [contextualLifecycleRuleName]: contextualLifecycle,
     [directiveClassSuffixRuleName]: directiveClassSuffix,
     [directiveSelectorRuleName]: directiveSelector,
     [noAttributeDecoratorRuleName]: noAttributeDecorator,
     [noConflictingLifecycleRuleName]: noConflictingLifecycle,
+    [noEmptyLifecycleMethodRuleName]: noEmptyLifecycleMethod,
     [noForwardRefRuleName]: noForwardRef,
     [noHostMetadataPropertyRuleName]: noHostMetadataProperty,
     [noInputPrefixRuleName]: noInputPrefix,
@@ -125,7 +126,7 @@ export = {
     [noOutputsMetadataPropertyRuleName]: noOutputsMetadataProperty,
     [noPipeImpureRuleName]: noPipeImpure,
     [noQueriesMetadataPropertyRuleName]: noQueriesMetadataProperty,
-    [noEmptyLifecycleMethodRuleName]: noEmptyLifecycleMethod,
+    [pipePrefixRuleName]: pipePrefix,
     [preferOnPushComponentChangeDetectionRuleName]:
       preferOnPushComponentChangeDetection,
     [preferOutputReadonlyRuleName]: preferOutputReadonly,
@@ -136,6 +137,5 @@ export = {
     [useInjectableProvidedInRuleName]: useInjectableProvidedIn,
     [useLifecycleInterfaceRuleName]: useLifecycleInterface,
     [usePipeTransformInterfaceRuleName]: usePipeTransformInterface,
-    [pipePrefixRuleName]: pipePrefix,
   },
 };

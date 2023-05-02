@@ -8,8 +8,8 @@ import { getDomElements } from '../utils/get-dom-elements';
 import { toPattern } from '../utils/to-pattern';
 
 type Options = [];
-export type MessageIds = 'noAutofocus';
-export const RULE_NAME = 'no-autofocus';
+export type MessageIds = 'tableScope';
+export const RULE_NAME = 'table-scope';
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
@@ -17,30 +17,31 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description:
-        '[Accessibility] Ensures that the `autofocus` attribute is not used',
+        '[Accessibility] Ensures that the `scope` attribute is only used on the `<th>` element',
       recommended: false,
     },
     fixable: 'code',
     schema: [],
     messages: {
-      noAutofocus:
-        'The `autofocus` attribute should not be used, as it reduces usability and accessibility for users',
+      tableScope: 'The `scope` attribute should only be on the `<th>` element',
     },
   },
   defaultOptions: [],
   create(context) {
     const parserServices = getTemplateParserServices(context);
-    const elementNamePattern = toPattern([...getDomElements()]);
+    const domElementsPattern = toPattern(
+      [...getDomElements()].filter((domElement) => domElement !== 'th'),
+    );
 
     return {
-      [`Element$1[name=${elementNamePattern}] > :matches(BoundAttribute, TextAttribute)[name="autofocus"]`]({
+      [`Element$1[name=${domElementsPattern}] > :matches(BoundAttribute, TextAttribute)[name='scope']`]({
         sourceSpan,
       }: TmplAstBoundAttribute | TmplAstTextAttribute) {
         const loc = parserServices.convertNodeSourceSpanToLoc(sourceSpan);
 
         context.report({
           loc,
-          messageId: 'noAutofocus',
+          messageId: 'tableScope',
           fix: (fixer) =>
             fixer.removeRange([
               sourceSpan.start.offset - 1,
