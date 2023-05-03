@@ -66,7 +66,6 @@ jobs:
         # We use --ignore-scripts to skip automatic postinstall and give us more control over distributing build tasks
         run: |
           yarn --ignore-engines --frozen-lockfile --prefer-offline --ignore-scripts
-          npx patch-package --patches-dir=tools/patches
           yarn check-clean-workspace-after-install
 
       - name: Check code formatting (not distributable)
@@ -133,7 +132,6 @@ jobs:
         # We use --ignore-scripts to skip automatic postinstall and give us more control to distribute tasks
         run: |
           yarn --ignore-engines --frozen-lockfile --prefer-offline --ignore-scripts
-          npx patch-package --patches-dir=tools/patches
 
       - name: Start Nx Agent ${{ matrix.agent }}
         run: npx nx-cloud start-agent
@@ -185,7 +183,6 @@ jobs:
         # We use --ignore-scripts to skip automatic postinstall and give us more control to distribute tasks
         run: |
           yarn --ignore-engines --frozen-lockfile --prefer-offline --ignore-scripts
-          npx patch-package --patches-dir=tools/patches
 
       - name: Run build targets on Node ${{ matrix.node }} (not distributable)
         env:
@@ -240,7 +237,6 @@ jobs:
         # We use --ignore-scripts to skip automatic postinstall and give us more control to distribute tasks
         run: |
           yarn --ignore-engines --frozen-lockfile --prefer-offline --ignore-scripts
-          npx patch-package --patches-dir=tools/patches
 
       - name: Run build ahead of publishing
         # We cannot distribute this because the agents have already been stopped by this point
