@@ -17,6 +17,7 @@
           "npx ncp src/collection.json dist/collection.json",
           "npx ncp src/migrations.json dist/migrations.json",
           "npx ncp src/ng-add/schema.json dist/ng-add/schema.json",
+          "npx ncp src/convert-tslint-to-eslint/schema.json dist/convert-tslint-to-eslint/schema.json",
           "npx ncp src/application/schema.json dist/application/schema.json",
           "npx ncp src/library/schema.json dist/library/schema.json",
           "npx ncp src/workspace/schema.json dist/workspace/schema.json",
