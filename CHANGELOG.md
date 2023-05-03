@@ -5,9 +5,27 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [16.0.0](https://github.com/angular-eslint/angular-eslint/compare/v16.0.0-alpha.1...v16.0.0) (2023-05-03)
 
+As always we recommend that you update your existing workspaces by using `ng update` as we provide some helpful schematics to help migrate your workspaces to the latest and greatest. Running the following will update Angular, the Angular CLI and angular-eslint together:
+
+```sh
+ng update @angular/core @angular/cli @angular-eslint/schematics
+```
+
 ### Features
 
-- update to Angular 16 stable ([9b0138d](https://github.com/angular-eslint/angular-eslint/commit/9b0138dd4d63279479a65bda88e7c137de5bf2ab))
+- **eslint-plugin-template:** All accessibility rules are now grouped together and exposed via a new `@angular-eslint/template/accessibility` config. See the main README.md for an example of it in action. Our schematics will explicitly add it for you in new configs, but you are free to remove it if you wish (also note the BREAKING CHANGE regarding accessibility rule names below)
+- **builder:** support `reportUnusedDisableDirectives` option
+- **builder:** respect using `eslint.config.js` (a.k.a Flat Config) if it is already present. Our schematics will only be updated to generate Flat Config once it is the default way of configuring ESLint later in the year.
+- bump `eslint` and all `@typescript-eslint` packages to the latest (handled for you automatically by our `ng update` schematic)
+
+### BREAKING CHANGES
+
+- As always, the major version primarily communicates the alignment with Angular's major version. Only Angular 16 is supported by angular-eslint 16.
+- Your Node version must now be 16.13.0 or higher. Node 14 support has been dropped in alignment with Angular 16, as Node 14 is EOL.
+- **eslint-plugin:** The legacy `ng-cli-compat` and `ng-cli-compat--formatting` configs have been removed. See the updated guide on migrating from TSLint for more information: [./docs/MIGRATING_FROM_TSLINT.md](./docs/MIGRATING_FROM_TSLINT.md)
+- **schematics:** The legacy `convert-tslint-to-eslint` schematic has been removed. See the updated guide on migrating from TSLint for more information: [./docs/MIGRATING_FROM_TSLINT.md](./docs/MIGRATING_FROM_TSLINT.md)
+- **eslint-plugin-template:** The deprecated `accessibility-label-for` rule has been removed. `label-has-associated-control` should be used instead. An automated migration was provided when `label-has-associated-control` was first added, so hopefully this should not impact too many folks.
+- **eslint-plugin-template:** Previously some, but not all, accessibility related rules had a prefix of `accessibility-` in their name. This is inconsistent with all other rules which do not attempt to communicate _why_ they exist in their names. Therefore that naming prefix has been removed from all rules for consistency. The accessibility related rules can easily be identified from the new `@angular-eslint/template/accessibility` shared config. See the main README.md for an example of it in action.
 
 ## [15.2.1](https://github.com/angular-eslint/angular-eslint/compare/v15.2.0...v15.2.1) (2023-02-10)
 
