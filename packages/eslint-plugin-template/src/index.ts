@@ -1,32 +1,9 @@
+import accessibility from './configs/accessibility.json';
 import all from './configs/all.json';
-import base from './configs/base.json';
 import processInlineTemplates from './configs/process-inline-templates.json';
 import recommended from './configs/recommended.json';
 import processors from './processors';
-import accessibilityAltText, {
-  RULE_NAME as accessibilityAltTextRuleName,
-} from './rules/accessibility-alt-text';
-import accessibilityElementsContent, {
-  RULE_NAME as accessibilityElementsContentRuleName,
-} from './rules/accessibility-elements-content';
-import accessibilityInteractiveSupportsFocus, {
-  RULE_NAME as accessibilityInteractiveSupportsFocusRuleName,
-} from './rules/accessibility-interactive-supports-focus';
-import accessibilityLabelFor, {
-  RULE_NAME as accessibilityLabelForRuleName,
-} from './rules/accessibility-label-for';
-import accessibilityLabelHasAssociatedControl, {
-  RULE_NAME as accessibilityLabelHasAssociatedControlRuleName,
-} from './rules/accessibility-label-has-associated-control';
-import accessibilityRoleHasRequiredAria, {
-  RULE_NAME as accessibilityRoleHasRequiredAriaRuleName,
-} from './rules/accessibility-role-has-required-aria';
-import accessibilityTableScope, {
-  RULE_NAME as accessibilityTableScopeRuleName,
-} from './rules/accessibility-table-scope';
-import accessibilityValidAria, {
-  RULE_NAME as accessibilityValidAriaRuleName,
-} from './rules/accessibility-valid-aria';
+import altText, { RULE_NAME as altTextRuleName } from './rules/alt-text';
 import attributesOrder, {
   RULE_NAME as attributesOrderRuleName,
 } from './rules/attributes-order';
@@ -45,8 +22,17 @@ import conditionalComplexity, {
 import cyclomaticComplexity, {
   RULE_NAME as cyclomaticComplexityRuleName,
 } from './rules/cyclomatic-complexity';
+import elementsContent, {
+  RULE_NAME as elementsContentRuleName,
+} from './rules/elements-content';
 import eqeqeq, { RULE_NAME as eqeqeqRuleName } from './rules/eqeqeq';
 import i18n, { RULE_NAME as i18nRuleName } from './rules/i18n';
+import interactiveSupportsFocus, {
+  RULE_NAME as interactiveSupportsFocusRuleName,
+} from './rules/interactive-supports-focus';
+import labelHasAssociatedControl, {
+  RULE_NAME as labelHasAssociatedControlRuleName,
+} from './rules/label-has-associated-control';
 import mouseEventsHaveKeyEvents, {
   RULE_NAME as mouseEventsHaveKeyEventsRuleName,
 } from './rules/mouse-events-have-key-events';
@@ -66,47 +52,47 @@ import noDuplicateAttributes, {
 import noInlineStyles, {
   RULE_NAME as noInlineStylesRuleName,
 } from './rules/no-inline-styles';
+import noInterpolationInAttributes, {
+  RULE_NAME as noInterpolationInAttributesRuleName,
+} from './rules/no-interpolation-in-attributes';
 import noNegatedAsync, {
   RULE_NAME as noNegatedAsyncRuleName,
 } from './rules/no-negated-async';
 import noPositiveTabindex, {
   RULE_NAME as noPositiveTabindexRuleName,
 } from './rules/no-positive-tabindex';
+import roleHasRequiredAria, {
+  RULE_NAME as roleHasRequiredAriaRuleName,
+} from './rules/role-has-required-aria';
+import tableScope, {
+  RULE_NAME as tableScopeRuleName,
+} from './rules/table-scope';
 import useTrackByFunction, {
   RULE_NAME as useTrackByFunctionRuleName,
 } from './rules/use-track-by-function';
-import noInterpolationInAttributes, {
-  RULE_NAME as noInterpolationInAttributesRuleName,
-} from './rules/no-interpolation-in-attributes';
+import validAria, { RULE_NAME as validAriaRuleName } from './rules/valid-aria';
 
-export default {
+export = {
   configs: {
     all,
-    base,
     recommended,
+    accessibility,
     'process-inline-templates': processInlineTemplates,
   },
   processors,
   rules: {
-    [accessibilityAltTextRuleName]: accessibilityAltText,
-    [accessibilityElementsContentRuleName]: accessibilityElementsContent,
-    [accessibilityInteractiveSupportsFocusRuleName]:
-      accessibilityInteractiveSupportsFocus,
-    [accessibilityLabelForRuleName]: accessibilityLabelFor,
-    [accessibilityLabelHasAssociatedControlRuleName]:
-      accessibilityLabelHasAssociatedControl,
-    [accessibilityRoleHasRequiredAriaRuleName]:
-      accessibilityRoleHasRequiredAria,
-    [accessibilityTableScopeRuleName]: accessibilityTableScope,
-    [accessibilityValidAriaRuleName]: accessibilityValidAria,
+    [altTextRuleName]: altText,
     [attributesOrderRuleName]: attributesOrder,
     [bananaInBoxRuleName]: bananaInBox,
     [buttonHasTypeRuleName]: buttonHasType,
-    [conditionalComplexityRuleName]: conditionalComplexity,
     [clickEventsHaveKeyEventsRuleName]: clickEventsHaveKeyEvents,
+    [conditionalComplexityRuleName]: conditionalComplexity,
     [cyclomaticComplexityRuleName]: cyclomaticComplexity,
+    [elementsContentRuleName]: elementsContent,
     [eqeqeqRuleName]: eqeqeq,
     [i18nRuleName]: i18n,
+    [interactiveSupportsFocusRuleName]: interactiveSupportsFocus,
+    [labelHasAssociatedControlRuleName]: labelHasAssociatedControl,
     [mouseEventsHaveKeyEventsRuleName]: mouseEventsHaveKeyEvents,
     [noAnyRuleName]: noAny,
     [noAutofocusRuleName]: noAutofocus,
@@ -114,9 +100,12 @@ export default {
     [noDistractingElementsRuleName]: noDistractingElements,
     [noDuplicateAttributesRuleName]: noDuplicateAttributes,
     [noInlineStylesRuleName]: noInlineStyles,
+    [noInterpolationInAttributesRuleName]: noInterpolationInAttributes,
     [noNegatedAsyncRuleName]: noNegatedAsync,
     [noPositiveTabindexRuleName]: noPositiveTabindex,
+    [roleHasRequiredAriaRuleName]: roleHasRequiredAria,
+    [tableScopeRuleName]: tableScope,
     [useTrackByFunctionRuleName]: useTrackByFunction,
-    [noInterpolationInAttributesRuleName]: noInterpolationInAttributes,
+    [validAriaRuleName]: validAria,
   },
 };

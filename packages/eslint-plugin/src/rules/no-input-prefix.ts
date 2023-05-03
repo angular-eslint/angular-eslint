@@ -40,14 +40,76 @@ export default createESLintRule<Options, MessageIds>({
   },
   defaultOptions: [{ prefixes: [] }],
   create(context, [{ prefixes }]) {
-    const selectors = [
-      Selectors.INPUTS_METADATA_PROPERTY_LITERAL,
-      Selectors.INPUT_ALIAS,
-      Selectors.INPUT_PROPERTY_OR_SETTER,
-    ].join(',');
-
     return {
-      [selectors](
+      [Selectors.INPUT_PROPERTY_OR_SETTER](
+        node: TSESTree.Identifier | TSESTree.Literal | TSESTree.TemplateElement,
+      ) {
+        const rawPropertyName = ASTUtils.getRawText(node);
+        const hasDisallowedPrefix = prefixes.some((prefix) =>
+          isDisallowedPrefix(prefix, rawPropertyName),
+        );
+
+        // Direct violation on the property name
+        if (hasDisallowedPrefix) {
+          context.report({
+            node,
+            messageId: 'noInputPrefix',
+            data: {
+              prefixes: toHumanReadableText(prefixes),
+            },
+          });
+        }
+
+        // Check if decorator alias has a violation
+        let aliasProperty: TSESTree.Node | undefined;
+        if (!node.parent) {
+          return;
+        }
+        const inputDecorator = ASTUtils.getDecorator(
+          node.parent as any,
+          'Input',
+        );
+
+        if (
+          inputDecorator &&
+          ASTUtils.isCallExpression(inputDecorator.expression)
+        ) {
+          // Angular 16+ alias property syntax
+          aliasProperty = ASTUtils.getDecoratorPropertyValue(
+            inputDecorator,
+            'alias',
+          );
+          let aliasValue = '';
+          let aliasArg: TSESTree.Node | undefined;
+          if (aliasProperty) {
+            aliasValue = ASTUtils.getRawText(aliasProperty);
+          } else if (
+            inputDecorator.expression.arguments.length > 0 &&
+            (ASTUtils.isLiteral(inputDecorator.expression.arguments[0]) ||
+              ASTUtils.isTemplateLiteral(
+                inputDecorator.expression.arguments[0],
+              ))
+          ) {
+            aliasArg = inputDecorator.expression.arguments[0];
+            aliasValue = ASTUtils.getRawText(aliasArg);
+          }
+          const hasDisallowedPrefix = prefixes.some((prefix) =>
+            isDisallowedPrefix(prefix, aliasValue),
+          );
+          if (!hasDisallowedPrefix) {
+            return;
+          }
+
+          return context.report({
+            node: aliasProperty || aliasArg || node,
+            messageId: 'noInputPrefix',
+            data: {
+              prefixes: toHumanReadableText(prefixes),
+            },
+          });
+        }
+      },
+      [Selectors.INPUTS_METADATA_PROPERTY_LITERAL](
         node: TSESTree.Identifier | TSESTree.Literal | TSESTree.TemplateElement,
       ) {
         const [propertyName, aliasName] = ASTUtils.getRawText(node)
@@ -76,8 +138,8 @@ export default createESLintRule<Options, MessageIds>({
 function isDisallowedPrefix(
   prefix: string,
   propertyName: string,
-  aliasName: string,
+  aliasName = '',
 ): boolean {
-  const prefixPattern = RegExp(`^${prefix}(([^a-z])|(?=$))`);
+  const prefixPattern = new RegExp(`^${prefix}(([^a-z])|(?=$))`);
   return prefixPattern.test(propertyName) || prefixPattern.test(aliasName);
 }

@@ -1,14 +1,13 @@
 {
-  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "name": "integration-tests-suite-3",
-  "root": "packages/integration-tests/suites/3",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "type": "library",
   "targets": {
     "integration-test": {
       "executor": "@angular-eslint/nx-plugin:integration-test-suite",
       "options": {
         "cwd": "packages/integration-tests",
-        "testFilePath": "tests/v1123-single-project-yarn-auto-convert.test.ts"
+        "testFilePath": "tests/new-workspace-create-application-false-project-then-ng-add.test.ts"
       }
     }
   },

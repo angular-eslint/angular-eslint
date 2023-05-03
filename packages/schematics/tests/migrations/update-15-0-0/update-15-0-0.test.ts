@@ -32,9 +32,11 @@ describe('update-15-0-0', () => {
    * configured in the package.json
    */
   it('should update relevant @typescript-eslint and eslint dependencies', async () => {
-    const tree = await migrationSchematicRunner
-      .runSchematicAsync('update-15-0-0', {}, appTree)
-      .toPromise();
+    const tree = await migrationSchematicRunner.runSchematic(
+      'update-15-0-0',
+      {},
+      appTree,
+    );
     const packageJSON = JSON.parse(tree.readContent('/package.json'));
     expect(packageJSON).toMatchInlineSnapshot(`
       Object {
@@ -52,9 +54,11 @@ describe('update-15-0-0', () => {
     const treeWithValueToMigrate = new UnitTestTree(Tree.empty());
     treeWithValueToMigrate.create('angular.json', JSON.stringify({}));
 
-    const migratedTree = await migrationSchematicRunner
-      .runSchematicAsync('update-15-0-0', {}, treeWithValueToMigrate)
-      .toPromise();
+    const migratedTree = await migrationSchematicRunner.runSchematic(
+      'update-15-0-0',
+      {},
+      treeWithValueToMigrate,
+    );
     expect(JSON.parse(migratedTree.readContent('/angular.json')))
       .toMatchInlineSnapshot(`
       Object {

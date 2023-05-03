@@ -25,7 +25,7 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description: `Ensures that the mouse events \`${MouseEvents.MouseOut}\` and \`${MouseEvents.MouseOver}\` are accompanied by \`${KeyEvents.Focus}\` and \`${KeyEvents.Blur}\` events respectively. Coding for the keyboard is important for users with physical disabilities who cannot use a mouse, AT compatibility, and screenreader users. See more at ${STYLE_GUIDE_LINK}`,
+      description: `[Accessibility] Ensures that the mouse events \`${MouseEvents.MouseOut}\` and \`${MouseEvents.MouseOver}\` are accompanied by \`${KeyEvents.Focus}\` and \`${KeyEvents.Blur}\` events respectively. Coding for the keyboard is important for users with physical disabilities who cannot use a mouse, AT compatibility, and screenreader users. See more at ${STYLE_GUIDE_LINK}`,
       recommended: false,
     },
     schema: [],

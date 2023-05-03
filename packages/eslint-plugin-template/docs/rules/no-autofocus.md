@@ -15,7 +15,7 @@
 
 # `@angular-eslint/template/no-autofocus`
 
-Ensures that the `autofocus` attribute is not used
+[Accessibility] Ensures that the `autofocus` attribute is not used
 
 - Type: suggestion
 - 🔧 Supports autofix (`--fix`)

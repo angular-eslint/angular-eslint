@@ -70,9 +70,11 @@ describe('update-2-0-0', () => {
   );
 
   it('should update relevant @angular-eslint and @typescript-eslint packages', async () => {
-    const tree = await migrationSchematicRunner
-      .runSchematicAsync('update-2-0-0', {}, appTree)
-      .toPromise();
+    const tree = await migrationSchematicRunner.runSchematic(
+      'update-2-0-0',
+      {},
+      appTree,
+    );
     const packageJSON = JSON.parse(tree.readContent('/package.json'));
     expect(packageJSON).toMatchInlineSnapshot(`
       Object {
@@ -89,9 +91,11 @@ describe('update-2-0-0', () => {
   });
 
   it('should remove any explicit usage of the @angular-eslint/use-pipe-decorator rule', async () => {
-    const tree = await migrationSchematicRunner
-      .runSchematicAsync('update-2-0-0', {}, appTree)
-      .toPromise();
+    const tree = await migrationSchematicRunner.runSchematic(
+      'update-2-0-0',
+      {},
+      appTree,
+    );
 
     const rootESLint = JSON.parse(tree.readContent('.eslintrc.json'));
     expect(rootESLint).toMatchInlineSnapshot(`

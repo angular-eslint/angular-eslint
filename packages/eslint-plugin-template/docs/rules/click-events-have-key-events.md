@@ -15,7 +15,7 @@
 
 # `@angular-eslint/template/click-events-have-key-events`
 
-Ensures that the click event is accompanied with at least one key event keyup, keydown or keypress.
+[Accessibility] Ensures that the click event is accompanied with at least one key event keyup, keydown or keypress.
 
 - Type: suggestion
 

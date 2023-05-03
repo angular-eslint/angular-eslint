@@ -197,6 +197,15 @@ export const valid = [
       @Input('fooDirective') foo: Foo;
     }
   `,
+  // Angular 16+ required inputs should not create false positives: https://github.com/angular-eslint/angular-eslint/issues/1355
+  `
+    @Component({
+      selector: 'foo'
+    })
+    class Test {
+      @Input({ required: true }) name: string;
+    }
+  `,
 ];
 
 export const invalid = [
@@ -336,6 +345,25 @@ export const invalid = [
       class Test {
         @Input() change = (this.subject$ as Subject<{blur: boolean}>).pipe();
                ~~~~~~~~
+      }
+    `,
+  }),
+  // Angular 16+ alias metadata property: https://github.com/angular-eslint/angular-eslint/issues/1355
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail if input property is aliased (using metadata)',
+    annotatedSource: `
+      @Directive()
+      class Test {
+        @Input({ alias: 'change' }) change = (this.subject$ as Subject<{blur: boolean}>).pipe();
+                        ~~~~~~~~
+      }
+    `,
+    messageId,
+    annotatedOutput: `
+      @Directive()
+      class Test {
+        @Input({  }) change = (this.subject$ as Subject<{blur: boolean}>).pipe();
+                        
       }
     `,
   }),

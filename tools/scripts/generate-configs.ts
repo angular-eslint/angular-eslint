@@ -113,24 +113,11 @@ function writeConfig(config: LinterConfig, filePath: string): void {
 
 console.log();
 console.log(
-  '------------------------------------------------ eslint-plugin/base.json ------------------------------------------------',
-);
-
-const baseConfig: LinterConfig = {
-  parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint', '@angular-eslint'],
-};
-writeConfig(
-  baseConfig,
-  path.resolve(__dirname, '../../packages/eslint-plugin/src/configs/base.json'),
-);
-
-console.log();
-console.log(
   '------------------------------------------------ eslint-plugin/all.json ------------------------------------------------',
 );
 const allConfig: LinterConfig = {
-  extends: './configs/base.json',
+  parser: '@typescript-eslint/parser',
+  plugins: ['@angular-eslint'],
   rules: {
     ...eslintPluginRuleEntries.reduce<LinterConfigRules>(
       (config, entry) =>
@@ -153,7 +140,8 @@ console.log(
 );
 
 const recommendedConfig: LinterConfig = {
-  extends: './configs/base.json',
+  parser: '@typescript-eslint/parser',
+  plugins: ['@angular-eslint'],
   rules: {
     ...eslintPluginRuleEntries
       .filter((entry) => !!entry[1].meta.docs?.recommended)
@@ -177,98 +165,11 @@ writeConfig(
 
 console.log();
 console.log(
-  '------------------------------ eslint-plugin/recommended--extra.json ------------------------------',
-);
-
-/**
- * Additional recommended typescript rules which come from plugins other than the ones provided
- * by @angular-eslint
- */
-const recommendedExtraConfig: LinterConfig = {
-  extends: './configs/base.json',
-  rules: {
-    // ORIGINAL tslint.json -> "import-blacklist": [true, "rxjs/Rx"],
-    'no-restricted-imports': [
-      'error',
-      {
-        paths: [
-          {
-            name: 'rxjs/Rx',
-            message: "Please import directly from 'rxjs' instead",
-          },
-        ],
-      },
-    ],
-
-    // ORIGINAL tslint.json -> "member-ordering": [true, { "order": ["static-field", "instance-field", "static-method", "instance-method"] } ],
-    '@typescript-eslint/member-ordering': [
-      'error',
-      {
-        default: [
-          'static-field',
-          'instance-field',
-          'static-method',
-          'instance-method',
-        ],
-      },
-    ],
-
-    // ORIGINAL tslint.json -> "no-console": [true, "debug", "info", "time", "timeEnd", "trace"],
-    'no-restricted-syntax': [
-      'error',
-      {
-        selector:
-          'CallExpression[callee.object.name="console"][callee.property.name=/^(debug|info|time|timeEnd|trace)$/]',
-        message: 'Unexpected property on console object was called',
-      },
-    ],
-
-    // ORIGINAL tslint.json -> "no-inferrable-types": [true, "ignore-params"],
-    '@typescript-eslint/no-inferrable-types': [
-      'error',
-      {
-        ignoreParameters: true,
-      },
-    ],
-
-    // ORIGINAL tslint.json -> "no-non-null-assertion": true,
-    '@typescript-eslint/no-non-null-assertion': 'error',
-
-    // ORIGINAL tslint.json -> "no-switch-case-fall-through": true,
-    'no-fallthrough': 'error',
-  },
-};
-writeConfig(
-  recommendedExtraConfig,
-  path.resolve(
-    __dirname,
-    '../../packages/eslint-plugin/src/configs/recommended--extra.json',
-  ),
-);
-
-console.log();
-console.log(
-  '------------------------------------------------ eslint-plugin-template/base.json ------------------------------------------------',
-);
-
-const baseTemplateConfig: LinterConfig = {
-  parser: '@angular-eslint/template-parser',
-  plugins: ['@angular-eslint/template'],
-};
-writeConfig(
-  baseTemplateConfig,
-  path.resolve(
-    __dirname,
-    '../../packages/eslint-plugin-template/src/configs/base.json',
-  ),
-);
-
-console.log();
-console.log(
   '------------------------------------------------ eslint-plugin-template/all.json ------------------------------------------------',
 );
 const allTemplateConfig: LinterConfig = {
-  extends: './configs/base.json',
+  parser: '@angular-eslint/template-parser',
+  plugins: ['@angular-eslint/template'],
   rules: eslintPluginTemplateRuleEntries.reduce<LinterConfigRules>(
     (config, entry) =>
       reducer('@angular-eslint/template/', config, entry, {
@@ -292,7 +193,8 @@ console.log(
 );
 
 const recommendedTemplateConfig: LinterConfig = {
-  extends: './configs/base.json',
+  parser: '@angular-eslint/template-parser',
+  plugins: ['@angular-eslint/template'],
   rules: eslintPluginTemplateRuleEntries
     .filter((entry) => !!entry[1].meta.docs?.recommended)
     .reduce<LinterConfigRules>(
@@ -309,5 +211,36 @@ writeConfig(
   path.resolve(
     __dirname,
     '../../packages/eslint-plugin-template/src/configs/recommended.json',
+  ),
+);
+
+console.log();
+console.log(
+  '------------------------------ eslint-plugin-template/accessibility.json ------------------------------',
+);
+
+const accessibilityTemplateConfig: LinterConfig = {
+  parser: '@angular-eslint/template-parser',
+  plugins: ['@angular-eslint/template'],
+  rules: eslintPluginTemplateRuleEntries
+    .filter(
+      (entry) =>
+        !!entry[1].meta.docs?.description.startsWith('[Accessibility]'),
+    )
+    .reduce<LinterConfigRules>(
+      (config, entry) =>
+        reducer('@angular-eslint/template/', config, entry, {
+          filterDeprecated: false,
+          errorLevel: 'error',
+          filterRequiresTypeChecking: 'exclude',
+        }),
+      {},
+    ),
+};
+writeConfig(
+  accessibilityTemplateConfig,
+  path.resolve(
+    __dirname,
+    '../../packages/eslint-plugin-template/src/configs/accessibility.json',
   ),
 );

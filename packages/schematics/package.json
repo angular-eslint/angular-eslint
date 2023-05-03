@@ -1,6 +1,6 @@
 {
   "name": "@angular-eslint/schematics",
-  "version": "15.2.1",
+  "version": "16.0.0-alpha.1",
   "description": "Angular Schematics for angular-eslint",
   "license": "MIT",
   "main": "dist/index.js",
@@ -33,20 +33,21 @@
     "save": "devDependencies"
   },
   "dependencies": {
-    "@angular-eslint/eslint-plugin": "15.2.1",
-    "@angular-eslint/eslint-plugin-template": "15.2.1",
+    "@angular-eslint/eslint-plugin": "16.0.0-alpha.1",
+    "@angular-eslint/eslint-plugin-template": "16.0.0-alpha.1",
+    "@nx/devkit": "16.0.2",
     "ignore": "5.2.4",
+    "nx": "16.0.2",
     "strip-json-comments": "3.1.1",
     "tmp": "0.2.1"
   },
   "devDependencies": {
     "@types/tmp": "0.2.3",
-    "@typescript-eslint/utils": "5.51.0",
-    "eslint": "8.34.0",
-    "tslint-to-eslint-config": "2.4.0"
+    "@typescript-eslint/utils": "5.59.2",
+    "eslint": "8.39.0"
   },
   "peerDependencies": {
-    "@angular/cli": ">= 15.0.0 < 16.0.0"
+    "@angular/cli": ">= 16.0.0 < 17.0.0"
   },
   "gitHead": "e2006e5e9c99e5a943d1a999e0efa5247d29ec24"
 }

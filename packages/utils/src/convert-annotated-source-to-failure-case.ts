@@ -32,6 +32,7 @@ type BaseErrorOptions = {
   readonly options?: readonly unknown[];
   readonly annotatedOutput?: string;
   readonly filename?: string;
+  readonly only?: boolean;
 };
 
 type Message<TMessageIds extends string> = {
@@ -125,6 +126,7 @@ export function convertAnnotatedSourceToFailureCase<TMessageIds extends string>(
     filename: errorOptions.filename,
     options: errorOptions.options ?? [],
     errors,
+    only: errorOptions.only ?? false,
     output: errorOptions.annotatedOutput
       ? parseInvalidSource(errorOptions.annotatedOutput).source
       : null,
