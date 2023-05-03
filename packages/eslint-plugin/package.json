@@ -18,7 +18,7 @@
   ],
   "dependencies": {
     "@angular-eslint/utils": "16.0.0-alpha.0",
-    "@typescript-eslint/utils": "5.51.0"
+    "@typescript-eslint/utils": "5.59.2"
   },
   "peerDependencies": {
     "eslint": "^7.20.0 || ^8.0.0",
