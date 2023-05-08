@@ -19,7 +19,7 @@
   ],
   "dependencies": {
     "@nx/devkit": "16.0.2",
-    "nx": "16.0.2"
+    "nx": "16.1.2"
   },
   "builders": "./builders.json",
   "peerDependencies": {
