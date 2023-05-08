@@ -10,7 +10,6 @@
     "@nrwl/devkit",
     "@nrwl/jest",
     "@nrwl/tao",
-    "@nx/devkit",
     "@nx/jest",
     "@nx/tao",
     "@types/jest",

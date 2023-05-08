@@ -35,7 +35,7 @@
   "dependencies": {
     "@angular-eslint/eslint-plugin": "16.0.1",
     "@angular-eslint/eslint-plugin-template": "16.0.1",
-    "@nx/devkit": "16.0.2",
+    "@nx/devkit": "16.1.2",
     "ignore": "5.2.4",
     "nx": "16.1.2",
     "strip-json-comments": "3.1.1",
