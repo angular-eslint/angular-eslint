@@ -1,5 +1,5 @@
 import { Selectors } from '@angular-eslint/utils';
-import type { TSESTree } from '@typescript-eslint/utils';
+import type { TSESLint, TSESTree } from '@typescript-eslint/utils';
 import { ASTUtils as TSESLintASTUtils } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
@@ -83,61 +83,13 @@ export default createESLintRule<Options, MessageIds>({
         )
           ? ' '.repeat((nodeForFixer.parent?.loc.start.column as number) + 2)
           : ' '.repeat(firstOriginalElement.loc.start.column);
-        const sourceCode = context.getSourceCode();
-        // TODO: Can we break this piece out into a function? We need `context.getSourceCode`, which returns a type SourceCode and can only be used when importing from '@typescript-eslint/utils/dist/ts-eslint' and that seems wrong...
+
         // For each import entry, get all related comments, stringify them, and group them with the import entry
-        const importEntriesWithComments: ImportEntryWithComments[] = [];
-
-        for (let i = 0; i < imports.length; i++) {
-          const importEntry = imports[i];
-
-          // Handle comments above the import entry
-          let commentsBeforeImport = sourceCode.getCommentsBefore(importEntry);
-          const previousImportEntry = imports[i - 1];
-
-          if (previousImportEntry) {
-            commentsBeforeImport = commentsBeforeImport.filter(
-              (comment) =>
-                comment.loc.start.line !== previousImportEntry.loc.start.line,
-            );
-          }
-
-          const commentsBeforeString = getCommentsAsString(
-            commentsBeforeImport,
-            whitespacePrefix,
-          );
-
-          // Handle comments on the same line as the import entry
-          // Same-line comments appear in the next import entry's `getCommentsBefore`
-          let commentsSameLineString = '';
-          const nextImportEntry = imports[i + 1];
-
-          if (nextImportEntry) {
-            commentsSameLineString = getCommentsAsString(
-              sourceCode
-                .getCommentsBefore(nextImportEntry)
-                .filter(
-                  (comment) =>
-                    comment.loc.start.line === importEntry.loc.start.line,
-                ),
-            );
-          }
-
-          // Handle comments after the import entry
-          const commentsAfterString = getCommentsAsString(
-            sourceCode.getCommentsAfter(importEntry),
-            whitespacePrefix,
-          );
-
-          const importEntryWithComments: ImportEntryWithComments = {
-            commentsBefore: commentsBeforeString,
-            commentsSameLine: commentsSameLineString,
-            commentsAfter: commentsAfterString,
-            importName: importEntry.name,
-          };
-
-          importEntriesWithComments.push(importEntryWithComments);
-        }
+        const importEntriesWithComments = getImportEntriesWithComments(
+          imports,
+          context,
+          whitespacePrefix,
+        );
 
         // Sort the imports
         importEntriesWithComments.sort((importA, importB) =>
@@ -162,6 +114,67 @@ export default createESLintRule<Options, MessageIds>({
     };
   },
 });
+
+function getImportEntriesWithComments(
+  imports: TSESTree.Identifier[],
+  context: Readonly<TSESLint.RuleContext<string, readonly unknown[]>>,
+  whitespacePrefix: string,
+): ImportEntryWithComments[] {
+  const sourceCode = context.getSourceCode();
+  const importEntriesWithComments: ImportEntryWithComments[] = [];
+
+  for (let i = 0; i < imports.length; i++) {
+    const importEntry = imports[i];
+
+    // Handle comments above the import entry
+    let commentsBeforeImport = sourceCode.getCommentsBefore(importEntry);
+    const previousImportEntry = imports[i - 1];
+
+    if (previousImportEntry) {
+      commentsBeforeImport = commentsBeforeImport.filter(
+        (comment) =>
+          comment.loc.start.line !== previousImportEntry.loc.start.line,
+      );
+    }
+
+    const commentsBeforeString = getCommentsAsString(
+      commentsBeforeImport,
+      whitespacePrefix,
+    );
+
+    // Handle comments on the same line as the import entry
+    // Same-line comments appear in the next import entry's `getCommentsBefore`
+    let commentsSameLineString = '';
+    const nextImportEntry = imports[i + 1];
+
+    if (nextImportEntry) {
+      commentsSameLineString = getCommentsAsString(
+        sourceCode
+          .getCommentsBefore(nextImportEntry)
+          .filter(
+            (comment) => comment.loc.start.line === importEntry.loc.start.line,
+          ),
+      );
+    }
+
+    // Handle comments after the import entry
+    const commentsAfterString = getCommentsAsString(
+      sourceCode.getCommentsAfter(importEntry),
+      whitespacePrefix,
+    );
+
+    const importEntryWithComments: ImportEntryWithComments = {
+      commentsBefore: commentsBeforeString,
+      commentsSameLine: commentsSameLineString,
+      commentsAfter: commentsAfterString,
+      importName: importEntry.name,
+    };
+
+    importEntriesWithComments.push(importEntryWithComments);
+  }
+
+  return importEntriesWithComments;
+}
 
 function getSortedImportsWithCommentsAsString(
   sortedImportEntriesWithComments: ImportEntryWithComments[],
