@@ -214,6 +214,111 @@ export class TestComponent { }
 export class TestComponent { }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/sort-imports-metadata": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@NgModule({
+  imports: [aModule, bModule, DModule, cModule]
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/sort-imports-metadata": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@NgModule({
+  bootstrap,
+  declarations: declarations,
+  providers: providers(),
+  schemas: [],
+  [imports]: [
+    aModule,
+    ~~~~~~~
+    bModule,
+    ~~~~~~~
+    DModule,
+    ~~~~~~~
+    cModule,
+    ~~~~~~~
+  ],
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/sort-imports-metadata": [
+      "error",
+      {
+        "locale": "cs-CZ"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@NgModule({
+  imports: [chModule, dModule]
+            ~~~~~~~~~~~~~~~~~
+})
+class Test {}
+```
+
 </details>
 
 <br>
@@ -348,6 +453,171 @@ export class TestPipe { }
   ],
 })
 export class TestComponent { }
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/sort-imports-metadata": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/sort-imports-metadata": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@NgModule()
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/sort-imports-metadata": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@NgModule({})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/sort-imports-metadata": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+const options = {};
+@NgModule(options)
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/sort-imports-metadata": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@NgModule({
+  bootstrap: [
+    AppModule1,
+    AppModule2,
+    AppModule3,
+  ],
+  'declarations': [
+    AComponent,
+    bDirective,
+    cPipe,
+    DComponent,
+    VariableComponent,
+  ],
+  ['imports']: [
+    _foo,
+    AModule,
+    bModule,
+    cModule,
+    DModule,
+  ],
+  [`providers`]: [
+    AProvider,
+    {
+      provide: 'myprovider',
+      useClass: MyProvider,
+    },
+    bProvider,
+    cProvider,
+    DProvider,
+  ],
+})
+class Test {}
 ```
 
 </details>
