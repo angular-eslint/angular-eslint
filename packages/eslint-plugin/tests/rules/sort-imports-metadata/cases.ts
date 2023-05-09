@@ -41,6 +41,55 @@ export const valid = [
   })
   export class TestComponent { }
   `,
+  // The following test cases are copied from sort-ngmodule-metadata-arrays
+  `class Test {}`,
+  `
+  @NgModule()
+  class Test {}
+  `,
+  `
+  @NgModule({})
+  class Test {}
+  `,
+  `
+  const options = {};
+  @NgModule(options)
+  class Test {}
+  `,
+  `
+  @NgModule({
+    bootstrap: [
+      AppModule1,
+      AppModule2,
+      AppModule3,
+    ],
+    'declarations': [
+      AComponent,
+      bDirective,
+      cPipe,
+      DComponent,
+      VariableComponent,
+    ],
+    ['imports']: [
+      _foo,
+      AModule,
+      bModule,
+      cModule,
+      DModule,
+    ],
+    [\`providers\`]: [
+      AProvider,
+      {
+        provide: 'myprovider',
+        useClass: MyProvider,
+      },
+      bProvider,
+      cProvider,
+      DProvider,
+    ],
+  })
+  class Test {}
+  `,
 ];
 
 export const invalid = [
@@ -210,5 +259,92 @@ export const invalid = [
     })
     export class TestComponent { }
     `,
+  }),
+  // The following test cases are copied from sort-ngmodule-metadata-arrays
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail if `imports` metadata arrays is not sorted ASC',
+    annotatedSource: `
+    @NgModule({
+      imports: [aModule, bModule, DModule, cModule]
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    })
+    class Test {}
+    `,
+    messageId,
+    annotatedOutput: `
+    @NgModule({
+      imports: [
+        aModule,
+        bModule,
+        cModule,
+        DModule,
+      ]
+                
+    })
+    class Test {}
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if a computed property has unordered metadata array',
+    annotatedSource: `
+    @NgModule({
+      bootstrap,
+      declarations: declarations,
+      providers: providers(),
+      schemas: [],
+      [imports]: [
+        aModule,
+        ~~~~~~~
+        bModule,
+        ~~~~~~~
+        DModule,
+        ~~~~~~~
+        cModule,
+        ~~~~~~~
+      ],
+    })
+    class Test {}
+    `,
+    messageId,
+    annotatedOutput: `
+    @NgModule({
+      bootstrap,
+      declarations: declarations,
+      providers: providers(),
+      schemas: [],
+      [imports]: [
+        aModule,
+        bModule,
+        cModule,
+        DModule,
+      ],
+    })
+    class Test {}
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if order does not correspond to specified locale order',
+    annotatedSource: `
+    @NgModule({
+      imports: [chModule, dModule]
+                ~~~~~~~~~~~~~~~~~
+    })
+    class Test {}
+    `,
+    annotatedOutput: `
+    @NgModule({
+      imports: [
+        dModule,
+        chModule,
+      ]
+                
+    })
+    class Test {}
+    `,
+    messageId,
+    options: [{ locale: 'cs-CZ' }],
+    data: { locale: 'cs-CZ' },
   }),
 ];
