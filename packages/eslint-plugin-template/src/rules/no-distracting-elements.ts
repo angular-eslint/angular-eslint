@@ -11,7 +11,8 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description: 'Enforces that no distracting elements are used',
+      description:
+        '[Accessibility] Enforces that no distracting elements are used',
       recommended: false,
     },
     fixable: 'code',

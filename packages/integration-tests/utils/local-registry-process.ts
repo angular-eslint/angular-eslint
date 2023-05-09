@@ -211,26 +211,3 @@ export async function runNgGenerate(
 
   return await subprocess;
 }
-
-export async function runConvertTSLintToESLint(
-  additionalArgs?: string[],
-): Promise<execa.ExecaChildProcess<string>> {
-  if (process.env.npm_config_registry?.indexOf('http://localhost') === -1) {
-    throw Error(`
-      ------------------
-      💣 ERROR 💣 => $NPM_REGISTRY does not look like a local registry'
-      ------------------
-    `);
-  }
-
-  let args = ['ng', 'g', `@angular-eslint/schematics:convert-tslint-to-eslint`];
-  if (additionalArgs) {
-    args = [...args, ...additionalArgs];
-  }
-
-  const subprocess = execa('npx', args);
-  subprocess.stdout!.pipe(process.stdout);
-  subprocess.stderr!.pipe(process.stderr);
-
-  return await subprocess;
-}

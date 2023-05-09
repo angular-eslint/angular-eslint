@@ -6,7 +6,7 @@
     "declaration": false,
     "declarationMap": false,
     "esModuleInterop": true,
-    "module": "es2015",
+    "module": "CommonJS",
     "moduleResolution": "node",
     "noImplicitReturns": true,
     "noUnusedLocals": true,
@@ -15,7 +15,6 @@
     "sourceMap": false,
     "strict": true,
     "target": "es2017",
-    "baseUrl": ".",
     "lib": ["es2017"],
     "skipLibCheck": true,
     "paths": {

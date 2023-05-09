@@ -11,12 +11,12 @@
         "parallel": false,
         "commands": [
           "npx rimraf ./dist",
-          "microbundle --tsconfig tsconfig.build.json --no-sourcemap --target=node --compress --format=cjs"
+          "npx tsc --project tsconfig.build.json"
         ]
       }
     },
     "test": {
-      "executor": "@nrwl/jest:jest",
+      "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/packages/template-parser"],
       "options": {
         "jestConfig": "packages/template-parser/jest.config.ts",

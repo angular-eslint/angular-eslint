@@ -33,9 +33,11 @@ describe('update-13-0-0', () => {
       }),
     );
 
-    const tree = await migrationSchematicRunner
-      .runSchematicAsync('update-13-0-0', {}, appTree)
-      .toPromise();
+    const tree = await migrationSchematicRunner.runSchematic(
+      'update-13-0-0',
+      {},
+      appTree,
+    );
     const packageJSON = JSON.parse(tree.readContent('/package.json'));
     expect(packageJSON).toMatchInlineSnapshot(`
       Object {
@@ -63,9 +65,11 @@ describe('update-13-0-0', () => {
       }),
     );
 
-    const tree = await migrationSchematicRunner
-      .runSchematicAsync('update-13-0-0', {}, appTree)
-      .toPromise();
+    const tree = await migrationSchematicRunner.runSchematic(
+      'update-13-0-0',
+      {},
+      appTree,
+    );
     const packageJSON = JSON.parse(tree.readContent('/package.json'));
     expect(packageJSON).toMatchInlineSnapshot(`
       Object {

@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [16.0.1](https://github.com/angular-eslint/angular-eslint/compare/v16.0.0...v16.0.1) (2023-05-03)
+
+### Bug Fixes
+
+- **schematics:** ensure placeholder schema for convert-tslint-to-eslint is copied to dist ([3c6f377](https://github.com/angular-eslint/angular-eslint/commit/3c6f3775fa305a6826584bc11fe3df5f45d07136))
+
+# [16.0.0](https://github.com/angular-eslint/angular-eslint/compare/v16.0.0-alpha.1...v16.0.0) (2023-05-03)
+
+### Features
+
+- update to Angular 16 stable ([9b0138d](https://github.com/angular-eslint/angular-eslint/commit/9b0138dd4d63279479a65bda88e7c137de5bf2ab))
+
 ## [15.2.1](https://github.com/angular-eslint/angular-eslint/compare/v15.2.0...v15.2.1) (2023-02-10)
 
 ### Bug Fixes
