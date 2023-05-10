@@ -1,5 +1,6 @@
 {
-  "extends": "./configs/base.json",
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@angular-eslint"],
   "rules": {
     "@angular-eslint/component-class-suffix": "error",
     "@angular-eslint/contextual-lifecycle": "error",

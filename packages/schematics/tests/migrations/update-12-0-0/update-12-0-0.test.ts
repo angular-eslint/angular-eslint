@@ -105,9 +105,11 @@ describe('update-12-0-0', () => {
   });
 
   it('should update relevant @angular-eslint, @typescript-eslint and eslint dependencies', async () => {
-    const tree = await migrationSchematicRunner
-      .runSchematicAsync('update-12-0-0', {}, appTree)
-      .toPromise();
+    const tree = await migrationSchematicRunner.runSchematic(
+      'update-12-0-0',
+      {},
+      appTree,
+    );
     const packageJSON = JSON.parse(tree.readContent('/package.json'));
     expect(packageJSON).toMatchInlineSnapshot(`
       Object {
@@ -126,9 +128,11 @@ describe('update-12-0-0', () => {
   });
 
   it('should migrate from accessibility-label-for to accessibility-label-has-associated-control', async () => {
-    const tree = await migrationSchematicRunner
-      .runSchematicAsync('update-12-0-0', {}, appTree)
-      .toPromise();
+    const tree = await migrationSchematicRunner.runSchematic(
+      'update-12-0-0',
+      {},
+      appTree,
+    );
     const rootESLint = JSON.parse(tree.readContent('.eslintrc.json'));
     expect(rootESLint).toMatchInlineSnapshot(`
       Object {
@@ -213,9 +217,11 @@ describe('update-12-0-0', () => {
   });
 
   it('should add eqeqeq', async () => {
-    const tree = await migrationSchematicRunner
-      .runSchematicAsync('update-12-0-0', {}, appTree)
-      .toPromise();
+    const tree = await migrationSchematicRunner.runSchematic(
+      'update-12-0-0',
+      {},
+      appTree,
+    );
     const rootESLint = JSON.parse(tree.readContent('.eslintrc.json'));
     expect(rootESLint).toMatchInlineSnapshot(`
       Object {

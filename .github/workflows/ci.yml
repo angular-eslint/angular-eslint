@@ -144,7 +144,7 @@ jobs:
       matrix:
         # Additionally supported node versions taken from:
         # https://gist.github.com/LayZeeDK/c822cc812f75bb07b7c55d07ba2719b3
-        node: ['^14.15.5']
+        node: ['^16.13.0']
     steps:
       - name: Set NX_RUN_GROUP based on the output of the create_nx_run_group job
         run: echo "NX_RUN_GROUP=${{ needs.create_nx_run_group.outputs.nx_run_group }}" >> $GITHUB_ENV

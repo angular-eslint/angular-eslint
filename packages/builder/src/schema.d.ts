@@ -17,6 +17,7 @@ export interface Schema extends JsonObject {
   noEslintrc: boolean;
   rulesdir: string[];
   resolvePluginsRelativeTo: string | null;
+  reportUnusedDisableDirectives: Linter.RuleLevel | null;
 }
 
 type Formatter =

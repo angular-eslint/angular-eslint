@@ -11,13 +11,18 @@
         "parallel": false,
         "commands": [
           "npx rimraf ./dist",
-          "npx microbundle --tsconfig tsconfig.build.json --no-sourcemap --target=node --compress --format=cjs",
+          "npx tsc --project tsconfig.build.json",
           "npx ncp ./src/configs ./dist/configs"
         ]
       }
     },
     "test": {
-      "executor": "@nrwl/jest:jest",
+      "dependsOn": [
+        {
+          "target": "build"
+        }
+      ],
+      "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/packages/eslint-plugin"],
       "options": {
         "jestConfig": "packages/eslint-plugin/jest.config.ts",
@@ -43,7 +48,6 @@
     "check-rule-docs": {
       "dependsOn": [
         {
-          "projects": "self",
           "target": "update-rule-docs"
         }
       ],
