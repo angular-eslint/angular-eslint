@@ -61,7 +61,7 @@
     "@nx/js": "16.2.1",
     "@nx/plugin": "16.2.1",
     "@nx/workspace": "16.2.1",
-    "@rollup/plugin-commonjs": "^24.1.0",
+    "@rollup/plugin-commonjs": "^25.0.0",
     "@rollup/plugin-node-resolve": "^15.0.2",
     "@rollup/plugin-typescript": "^11.1.0",
     "@schematics/angular": "16.0.3",
