@@ -35,15 +35,15 @@
   "dependencies": {
     "@angular-eslint/eslint-plugin": "16.0.2",
     "@angular-eslint/eslint-plugin-template": "16.0.2",
-    "@nx/devkit": "16.2.1",
+    "@nx/devkit": "16.2.2",
     "ignore": "5.2.4",
-    "nx": "16.2.1",
+    "nx": "16.2.2",
     "strip-json-comments": "3.1.1",
     "tmp": "0.2.1"
   },
   "devDependencies": {
     "@types/tmp": "0.2.3",
-    "@typescript-eslint/utils": "5.59.2",
+    "@typescript-eslint/utils": "5.59.7",
     "eslint": "8.40.0"
   },
   "peerDependencies": {
