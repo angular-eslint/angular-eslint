@@ -145,6 +145,14 @@ function isString(value: unknown): value is string {
   return typeof value == 'string';
 }
 
+function isMixed(value: unknown): value is 'mixed' {
+  return isString(value) && value === 'mixed';
+}
+
+function isTristate(value: unknown): boolean {
+  return isMixed(value) || isBooleanLike(value) || isNil(value);
+}
+
 function isValidAriaPropertyValue(
   { allowundefined, type, values }: ARIAPropertyDefinition,
   attributeValue: boolean | number | string,
@@ -155,7 +163,7 @@ function isValidAriaPropertyValue(
     case 'boolean':
       return isBooleanLike(attributeValue);
     case 'tristate':
-      return isBooleanLike(attributeValue) || isNil(attributeValue);
+      return isTristate(attributeValue);
     case 'id':
     case 'idlist':
       return true;
