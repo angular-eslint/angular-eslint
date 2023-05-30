@@ -16,16 +16,20 @@ interface Plugin {
   name: string;
   file: string;
   rules: RulesList;
+  withAccessibility: boolean;
 }
 
 const emojiKey = {
   recommended: { emoji: ':white_check_mark:', desc: 'recommended' },
   fixable: { emoji: ':wrench:', desc: 'fixable' },
   hasSuggestions: { emoji: ':bulb:', desc: 'has suggestions' },
+  accessibility: {
+    emoji: ':accessibility:',
+    desc: 'included in accessibility preset',
+  },
 } as const;
 
 const emojiWithDesc = (key: keyof typeof emojiKey): string =>
-  // `[${emojiKey[key].emoji}](a "${emojiKey[key].desc}")`;
   emojiKey[key].emoji;
 
 const keyListItem = (key: keyof typeof emojiKey): string =>
@@ -41,13 +45,17 @@ const createRuleLink = ([name, rule]: RuleItem, plugin: Plugin): string => {
   return `[\`${fullRuleName}\`](${rule?.meta?.docs?.url})`;
 };
 
-const ruleKey = [
-  '**Key**',
-  '',
-  keyListItem('recommended'),
-  keyListItem('fixable'),
-  keyListItem('hasSuggestions'),
-].join('\n');
+const ruleKey = (withAccessibility: boolean) =>
+  [
+    '**Key**',
+    '',
+    keyListItem('recommended'),
+    keyListItem('fixable'),
+    keyListItem('hasSuggestions'),
+    withAccessibility ? keyListItem('accessibility') : undefined,
+  ]
+    .filter(Boolean)
+    .join('\n');
 
 type DataFn = (ruleItem: RuleItem, plugin: Plugin) => string;
 
@@ -79,6 +87,15 @@ const columns: Column[] = [
   },
 ];
 
+const accessibilityColumn: Column = {
+  header: emojiWithDesc('accessibility'),
+  dataFn: ([, rule]: RuleItem) =>
+    returnEmojiIfTrue(
+      'accessibility',
+      !!rule.meta.docs?.description.startsWith('[Accessibility]'),
+    ),
+};
+
 const columnsDeprecated: Column[] = [
   {
     header: 'Rule',
@@ -100,7 +117,11 @@ const buildRow = (ruleItem: RuleItem, plugin: Plugin, columnsSet: Column[]) =>
   columnsSet.map((col) => col.dataFn(ruleItem, plugin)).join(' | ');
 
 const buildRulesTable = (rules: RulesList = [], plugin: Plugin): string => {
-  const columnSet = rules[0][1].meta.deprecated ? columnsDeprecated : columns;
+  const columnSet = rules[0][1].meta.deprecated
+    ? columnsDeprecated
+    : plugin.withAccessibility
+    ? columns.concat(accessibilityColumn)
+    : columns;
   return [
     '| ' + columnSet.map((col) => col.header).join(' | ') + ' |',
     '| ' + columnSet.map(() => '---').join(' | ') + ' |',
@@ -119,7 +140,7 @@ const buildRulesSection = (
     '',
     `### ${categoryName}`,
     '',
-    rules[0][1].meta.deprecated ? '' : ruleKey,
+    rules[0][1].meta.deprecated ? '' : ruleKey(plugin.withAccessibility),
     '',
     '<!-- prettier-ignore-start -->',
     buildRulesTable(rules, plugin),
@@ -213,11 +234,13 @@ const pluginList: Plugin[] = [
     rules: getRuleEntries(eslintPlugin.rules),
     name: '@angular-eslint',
     file: '../../packages/eslint-plugin/README.md',
+    withAccessibility: false,
   },
   {
     rules: getRuleEntries(eslintPluginTemplate.rules),
     name: '@angular-eslint/template',
     file: '../../packages/eslint-plugin-template/README.md',
+    withAccessibility: true,
   },
 ];
 
