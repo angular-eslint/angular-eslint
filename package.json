@@ -34,6 +34,7 @@
     "typecheck": "nx run-many --target=typecheck --all --parallel",
     "exec-tool": "ts-node --transpile-only --project tsconfig.tools.json tools/scripts/exec-tool.ts",
     "update-configs": "ts-node --transpile-only --project tsconfig.tools.json tools/scripts/generate-configs.ts",
+    "list-rules": "ts-node --transpile-only --project tsconfig.tools.json tools/scripts/generate-rule-table.ts",
     "check-rule-docs": "nx run-many --target=check-rule-docs --all --parallel",
     "update-rule-docs": "nx run-many --target=update-rule-docs --all --parallel",
     "prepare": "husky install"
