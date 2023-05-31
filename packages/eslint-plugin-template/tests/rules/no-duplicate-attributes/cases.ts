@@ -16,6 +16,10 @@ export const valid = [
   '<button [class.disabled]="!enabled" [disabled]="!enabled"></button>',
   '<button [@.disabled]="!enabled" [.disabled]="!enabled"></button>',
   '<div [style.width]="col.width + \'px\'" [width]="col.width"></div>',
+  // It should allow the combination of the "map binding" and "static value" for class attribute
+  '<div class="foo" name="bar" [class]="dynamic"></div>',
+  // It should allow the combination of the "map binding" and "static value" for style attribute
+  '<div style="color: blue" [style]="styleExpression"></div>',
 ];
 
 export const invalid = [
@@ -499,10 +503,10 @@ export const invalid = [
   convertAnnotatedSourceToFailureCase({
     description: 'should not report ignored properties',
     annotatedSource: `
-        <input [name]="foo" class="css-static" name="bar" [class]="dynamic">
-               ~~~~~~~~~~~~                    ^^^^^^^^^^
+        <input [name]="foo" placeholder="foo..." name="bar" [placeholder]="dynamic">
+               ~~~~~~~~~~~~                      ^^^^^^^^^^     
       `,
-    options: [{ ignore: ['class'] }],
+    options: [{ ignore: ['placeholder'] }],
     messages: [
       {
         char: '~',
@@ -512,8 +516,8 @@ export const invalid = [
           {
             messageId: suggestRemoveAttribute,
             output: `
-        <input class="css-static" name="bar" [class]="dynamic">
-                                               
+        <input placeholder="foo..." name="bar" [placeholder]="dynamic">
+                                                      
       `,
             data: { attributeName: 'name' },
           },
@@ -527,10 +531,88 @@ export const invalid = [
           {
             messageId: suggestRemoveAttribute,
             output: `
-        <input [name]="foo" class="css-static" [class]="dynamic">
-                                               
+        <input [name]="foo" placeholder="foo..." [placeholder]="dynamic">
+                                                      
       `,
             data: { attributeName: 'name' },
+          },
+        ],
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should report duplicate static binding for class attribute',
+    annotatedSource: `
+        <input class="foo" class="bar" [class]="dynamic">
+               ~~~~~~~~~~~ ^^^^^^^^^^^     
+      `,
+    messages: [
+      {
+        char: '~',
+        messageId,
+        data: { attributeName: 'class' },
+        suggestions: [
+          {
+            messageId: suggestRemoveAttribute,
+            output: `
+        <input class="bar" [class]="dynamic">
+                                
+      `,
+            data: { attributeName: 'class' },
+          },
+        ],
+      },
+      {
+        char: '^',
+        messageId,
+        data: { attributeName: 'class' },
+        suggestions: [
+          {
+            messageId: suggestRemoveAttribute,
+            output: `
+        <input class="foo" [class]="dynamic">
+                                
+      `,
+            data: { attributeName: 'class' },
+          },
+        ],
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should report duplicate static binding for style attribute',
+    annotatedSource: `
+        <input style="color: blue" [style]="styleExpression" style="width:50px">
+               ~~~~~~~~~~~~~~~~~~~                           ^^^^^^^^^^^^^^^^^^
+      `,
+    messages: [
+      {
+        char: '~',
+        messageId,
+        data: { attributeName: 'style' },
+        suggestions: [
+          {
+            messageId: suggestRemoveAttribute,
+            output: `
+        <input [style]="styleExpression" style="width:50px">
+                                                             
+      `,
+            data: { attributeName: 'style' },
+          },
+        ],
+      },
+      {
+        char: '^',
+        messageId,
+        data: { attributeName: 'style' },
+        suggestions: [
+          {
+            messageId: suggestRemoveAttribute,
+            output: `
+        <input style="color: blue" [style]="styleExpression">
+                                                             
+      `,
+            data: { attributeName: 'style' },
           },
         ],
       },

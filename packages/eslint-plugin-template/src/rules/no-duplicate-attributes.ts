@@ -62,10 +62,52 @@ export default createESLintRule<Options, MessageIds>({
 
     return {
       Element$1({ inputs, outputs, attributes }: TmplAstElement) {
-        const duplicateInputsAndAttributes = findDuplicates([
-          ...inputs,
-          ...attributes,
-        ]);
+        // According to the Angular documentation (https://angular.io/guide/style-precedence#style-precedence)
+        // Angular merges both attributes which means their combined use is valid
+        const mapAndStaticBindingAttributesAllowed = ['class', 'style'];
+
+        let duplicateInputsAndAttributes: (
+          | TmplAstBoundEvent
+          | TmplAstBoundAttribute
+          | TmplAstTextAttribute
+        )[];
+
+        const inputsIgnored = inputs.filter((input) =>
+          mapAndStaticBindingAttributesAllowed.includes(
+            getOriginalAttributeName(input),
+          ),
+        );
+
+        if (inputsIgnored?.length > 0) {
+          const attributesIgnored = attributes.filter((attr) =>
+            mapAndStaticBindingAttributesAllowed.includes(
+              getOriginalAttributeName(attr),
+            ),
+          );
+          const inputsNotIgnored = inputs.filter(
+            (input) => !inputsIgnored.includes(input),
+          );
+          const attributesNotIgnored = attributes.filter(
+            (attr) => !attributesIgnored.includes(attr),
+          );
+          const ignoreDuplicated = [
+            ...findDuplicates(inputsIgnored),
+            ...findDuplicates(attributesIgnored),
+          ];
+          const notIgnoredDuplicates = [
+            ...findDuplicates(inputsNotIgnored),
+            ...findDuplicates(attributesNotIgnored),
+          ];
+          duplicateInputsAndAttributes = [
+            ...ignoreDuplicated,
+            ...notIgnoredDuplicates,
+          ];
+        } else {
+          duplicateInputsAndAttributes = Array.from(
+            findDuplicates([...inputs, ...attributes]),
+          );
+        }
+
         const filteredOutputs = allowTwoWayDataBinding
           ? outputs.filter((output) => {
               return !inputs.some(

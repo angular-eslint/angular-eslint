@@ -367,7 +367,7 @@ interface Options {
       "error",
       {
         "ignore": [
-          "class"
+          "placeholder"
         ]
       }
     ]
@@ -380,8 +380,62 @@ interface Options {
 #### ❌ Invalid Code
 
 ```html
-<input [name]="foo" class="css-static" name="bar" [class]="dynamic">
-       ~~~~~~~~~~~~                    ~~~~~~~~~~
+<input [name]="foo" placeholder="foo..." name="bar" [placeholder]="dynamic">
+       ~~~~~~~~~~~~                      ~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-duplicate-attributes": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<input class="foo" class="bar" [class]="dynamic">
+       ~~~~~~~~~~~ ~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-duplicate-attributes": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<input style="color: blue" [style]="styleExpression" style="width:50px">
+       ~~~~~~~~~~~~~~~~~~~                           ~~~~~~~~~~~~~~~~~~
 ```
 
 </details>
@@ -675,6 +729,58 @@ interface Options {
 
 ```html
 <div [style.width]="col.width + 'px'" [width]="col.width"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-duplicate-attributes": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div class="foo" name="bar" [class]="dynamic"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-duplicate-attributes": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div style="color: blue" [style]="styleExpression"></div>
 ```
 
 </details>
