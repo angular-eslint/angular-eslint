@@ -17,7 +17,7 @@
 
 Ensures that self-closing tags are used for elements with a closing tag but no content.
 
-- Type: suggestion
+- Type: layout
 - 🔧 Supports autofix (`--fix`)
 
 <br>
@@ -230,6 +230,32 @@ The rule does not have any configuration options.
 
 ```html
 <img />
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-self-closing-tags": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div></div>
 ```
 
 </details>

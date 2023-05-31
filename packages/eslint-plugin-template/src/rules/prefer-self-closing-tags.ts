@@ -12,7 +12,7 @@ export const RULE_NAME = 'prefer-self-closing-tags';
 export default createESLintRule<[], typeof MESSAGE_ID>({
   name: RULE_NAME,
   meta: {
-    type: 'suggestion',
+    type: 'layout',
     docs: {
       description:
         'Ensures that self-closing tags are used for elements with a closing tag but no content.',
