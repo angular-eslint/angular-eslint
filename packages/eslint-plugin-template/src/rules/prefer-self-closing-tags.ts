@@ -36,7 +36,11 @@ export default createESLintRule<[], typeof MESSAGE_ID>({
         startSourceSpan,
         endSourceSpan,
       }: TmplAstElement) {
-        const isNative = getDomElements().has(name);
+        // Ignore native elements.
+        if (getDomElements().has(name)) {
+          return;
+        }
+
         const noContent =
           !children.length ||
           children.every((node) => {
@@ -53,7 +57,7 @@ export default createESLintRule<[], typeof MESSAGE_ID>({
           (startSourceSpan.start.offset === endSourceSpan.start.offset &&
             startSourceSpan.end.offset === endSourceSpan.end.offset);
 
-        if (isNative || !noContent || noCloseTag) {
+        if (!noContent || noCloseTag) {
           return;
         }
 
