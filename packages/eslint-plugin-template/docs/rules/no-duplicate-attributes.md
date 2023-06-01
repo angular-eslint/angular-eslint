@@ -36,6 +36,10 @@ interface Options {
    */
   allowTwoWayDataBinding?: boolean;
   /**
+   * Whether or not angular style precedence is allowed as an exception to the rule.
+   */
+  allowAngularStylePrecedenceDuplicates?: boolean;
+  /**
    * Input or output properties for which duplicate presence is allowed as an exception to the rule.
    *
    * Default: `[]`
@@ -367,7 +371,7 @@ interface Options {
       "error",
       {
         "ignore": [
-          "placeholder"
+          "class"
         ]
       }
     ]
@@ -380,8 +384,8 @@ interface Options {
 #### ❌ Invalid Code
 
 ```html
-<input [name]="foo" placeholder="foo..." name="bar" [placeholder]="dynamic">
-       ~~~~~~~~~~~~                      ~~~~~~~~~~
+<input [name]="foo" class="css-static" name="bar" [class]="dynamic">
+       ~~~~~~~~~~~~                    ~~~~~~~~~~
 ```
 
 <br>
@@ -390,13 +394,16 @@ interface Options {
 
 <br>
 
-#### Default Config
+#### Custom Config
 
 ```json
 {
   "rules": {
     "@angular-eslint/template/no-duplicate-attributes": [
-      "error"
+      "error",
+      {
+        "allowAngularStylePrecedenceDuplicates": true
+      }
     ]
   }
 }
@@ -417,13 +424,16 @@ interface Options {
 
 <br>
 
-#### Default Config
+#### Custom Config
 
 ```json
 {
   "rules": {
     "@angular-eslint/template/no-duplicate-attributes": [
-      "error"
+      "error",
+      {
+        "allowAngularStylePrecedenceDuplicates": true
+      }
     ]
   }
 }
@@ -737,13 +747,16 @@ interface Options {
 
 <br>
 
-#### Default Config
+#### Custom Config
 
 ```json
 {
   "rules": {
     "@angular-eslint/template/no-duplicate-attributes": [
-      "error"
+      "error",
+      {
+        "allowAngularStylePrecedenceDuplicates": true
+      }
     ]
   }
 }
@@ -763,13 +776,16 @@ interface Options {
 
 <br>
 
-#### Default Config
+#### Custom Config
 
 ```json
 {
   "rules": {
     "@angular-eslint/template/no-duplicate-attributes": [
-      "error"
+      "error",
+      {
+        "allowAngularStylePrecedenceDuplicates": true
+      }
     ]
   }
 }

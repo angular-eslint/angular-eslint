@@ -16,10 +16,18 @@ export const valid = [
   '<button [class.disabled]="!enabled" [disabled]="!enabled"></button>',
   '<button [@.disabled]="!enabled" [.disabled]="!enabled"></button>',
   '<div [style.width]="col.width + \'px\'" [width]="col.width"></div>',
-  // It should allow the combination of the "map binding" and "static value" for class attribute
-  '<div class="foo" name="bar" [class]="dynamic"></div>',
-  // It should allow the combination of the "map binding" and "static value" for style attribute
-  '<div style="color: blue" [style]="styleExpression"></div>',
+  {
+    code: `
+      <div class="foo" name="bar" [class]="dynamic"></div>
+    `,
+    options: [{ allowAngularStylePrecedenceDuplicates: true }],
+  },
+  {
+    code: `
+      <div style="color: blue" [style]="styleExpression"></div>
+    `,
+    options: [{ allowAngularStylePrecedenceDuplicates: true }],
+  },
 ];
 
 export const invalid = [
@@ -503,10 +511,10 @@ export const invalid = [
   convertAnnotatedSourceToFailureCase({
     description: 'should not report ignored properties',
     annotatedSource: `
-        <input [name]="foo" placeholder="foo..." name="bar" [placeholder]="dynamic">
-               ~~~~~~~~~~~~                      ^^^^^^^^^^     
+        <input [name]="foo" class="css-static" name="bar" [class]="dynamic">
+               ~~~~~~~~~~~~                    ^^^^^^^^^^
       `,
-    options: [{ ignore: ['placeholder'] }],
+    options: [{ ignore: ['class'] }],
     messages: [
       {
         char: '~',
@@ -516,8 +524,8 @@ export const invalid = [
           {
             messageId: suggestRemoveAttribute,
             output: `
-        <input placeholder="foo..." name="bar" [placeholder]="dynamic">
-                                                      
+        <input class="css-static" name="bar" [class]="dynamic">
+                                               
       `,
             data: { attributeName: 'name' },
           },
@@ -531,8 +539,8 @@ export const invalid = [
           {
             messageId: suggestRemoveAttribute,
             output: `
-        <input [name]="foo" placeholder="foo..." [placeholder]="dynamic">
-                                                      
+        <input [name]="foo" class="css-static" [class]="dynamic">
+                                               
       `,
             data: { attributeName: 'name' },
           },
@@ -546,6 +554,7 @@ export const invalid = [
         <input class="foo" class="bar" [class]="dynamic">
                ~~~~~~~~~~~ ^^^^^^^^^^^     
       `,
+    options: [{ allowAngularStylePrecedenceDuplicates: true }],
     messages: [
       {
         char: '~',
@@ -585,6 +594,7 @@ export const invalid = [
         <input style="color: blue" [style]="styleExpression" style="width:50px">
                ~~~~~~~~~~~~~~~~~~~                           ^^^^^^^^^^^^^^^^^^
       `,
+    options: [{ allowAngularStylePrecedenceDuplicates: true }],
     messages: [
       {
         char: '~',
