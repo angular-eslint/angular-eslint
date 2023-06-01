@@ -61,6 +61,9 @@ import noNegatedAsync, {
 import noPositiveTabindex, {
   RULE_NAME as noPositiveTabindexRuleName,
 } from './rules/no-positive-tabindex';
+import preferSelfClosingTags, {
+  RULE_NAME as preferSelfClosingTagsRuleName,
+} from './rules/prefer-self-closing-tags';
 import roleHasRequiredAria, {
   RULE_NAME as roleHasRequiredAriaRuleName,
 } from './rules/role-has-required-aria';
@@ -71,9 +74,6 @@ import useTrackByFunction, {
   RULE_NAME as useTrackByFunctionRuleName,
 } from './rules/use-track-by-function';
 import validAria, { RULE_NAME as validAriaRuleName } from './rules/valid-aria';
-import preferSelfClosingTags, {
-  RULE_NAME as preferSelfClosingTagsRuleName,
-} from './rules/prefer-self-closing-tags';
 
 export = {
   configs: {
@@ -106,10 +106,10 @@ export = {
     [noInterpolationInAttributesRuleName]: noInterpolationInAttributes,
     [noNegatedAsyncRuleName]: noNegatedAsync,
     [noPositiveTabindexRuleName]: noPositiveTabindex,
+    [preferSelfClosingTagsRuleName]: preferSelfClosingTags,
     [roleHasRequiredAriaRuleName]: roleHasRequiredAria,
     [tableScopeRuleName]: tableScope,
     [useTrackByFunctionRuleName]: useTrackByFunction,
     [validAriaRuleName]: validAria,
-    [preferSelfClosingTagsRuleName]: preferSelfClosingTags,
   },
 };
