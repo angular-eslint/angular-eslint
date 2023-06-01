@@ -33,6 +33,8 @@ export const valid = [
     `,
   '<app-custom aria-x="text">Text</app-custom>',
   '<app-test aria-expanded="notABoolean"></app-test>',
+  '<div aria-checked="mixed">checked</div>',
+  '<div aria-pressed="mixed">checked</div>',
 ];
 
 export const invalid = [
