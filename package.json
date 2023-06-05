@@ -57,7 +57,7 @@
     "@commitlint/config-conventional": "17.6.5",
     "@nx/devkit": "16.3.2",
     "@nx/eslint-plugin": "16.3.2",
-    "@nx/jest": "16.2.2",
+    "@nx/jest": "16.3.2",
     "@nx/js": "16.3.2",
     "@nx/plugin": "16.3.2",
     "@nx/workspace": "16.3.2",
