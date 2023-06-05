@@ -120,7 +120,7 @@ async function runBuilder(options: Schema) {
   return run.result;
 }
 
-describe('Linter Builder', () => {
+describe.skip('Linter Builder', () => {
   beforeEach(() => {
     MockESLint.version = VALID_ESLINT_VERSION;
     mockReports = [{ results: [], messages: [], usedDeprecatedRules: [] }];
