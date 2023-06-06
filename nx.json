@@ -1,6 +1,5 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
-  "npmScope": "angular-eslint",
   "workspaceLayout": {
     "libsDir": "packages"
   },
@@ -18,16 +17,9 @@
           "check-rule-docs",
           "update-rule-docs",
           "typecheck"
-        ],
-        "runtimeCacheInputs": ["node --version"],
-        "canTrackAnalytics": false,
-        "showUsageWarnings": true,
-        "parallel": 1
+        ]
       }
     }
-  },
-  "affected": {
-    "defaultBase": "main"
   },
   "targetDefaults": {
     "build": {
@@ -47,7 +39,21 @@
   },
   "namedInputs": {
     "default": ["{projectRoot}/**/*", "sharedGlobals", "projectSpecificFiles"],
-    "sharedGlobals": ["{workspaceRoot}/.github/workflows/ci.yml"],
+    "sharedGlobals": [
+      "{workspaceRoot}/.github/workflows/ci.yml",
+      {
+        "runtime": "node -e 'console.log(`${process.platform}-${process.arch}`)'"
+      },
+      {
+        "runtime": "node --version"
+      },
+      {
+        "runtime": "npm --version"
+      },
+      {
+        "runtime": "yarn --version"
+      }
+    ],
     "production": [
       "default",
       "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",

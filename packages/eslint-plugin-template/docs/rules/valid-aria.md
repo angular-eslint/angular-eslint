@@ -561,6 +561,58 @@ The rule does not have any configuration options.
 <app-test aria-expanded="notABoolean"></app-test>
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/valid-aria": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div aria-checked="mixed">checked</div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/valid-aria": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div aria-pressed="mixed">checked</div>
+```
+
 </details>
 
 <br>
