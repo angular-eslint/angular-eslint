@@ -11,6 +11,7 @@
     "@angular-eslint/template/cyclomatic-complexity": "error",
     "@angular-eslint/template/elements-content": "error",
     "@angular-eslint/template/eqeqeq": "error",
+    "@angular-eslint/template/headings-consecutive-order": "error",
     "@angular-eslint/template/i18n": "error",
     "@angular-eslint/template/interactive-supports-focus": "error",
     "@angular-eslint/template/label-has-associated-control": "error",

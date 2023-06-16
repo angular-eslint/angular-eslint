@@ -26,6 +26,9 @@ import elementsContent, {
   RULE_NAME as elementsContentRuleName,
 } from './rules/elements-content';
 import eqeqeq, { RULE_NAME as eqeqeqRuleName } from './rules/eqeqeq';
+import headingsConsecutiveOrder, {
+  RULE_NAME as headingsConsecutiveOrderRuleName,
+} from './rules/headings-consecutive-order';
 import i18n, { RULE_NAME as i18nRuleName } from './rules/i18n';
 import interactiveSupportsFocus, {
   RULE_NAME as interactiveSupportsFocusRuleName,
@@ -93,6 +96,7 @@ export = {
     [cyclomaticComplexityRuleName]: cyclomaticComplexity,
     [elementsContentRuleName]: elementsContent,
     [eqeqeqRuleName]: eqeqeq,
+    [headingsConsecutiveOrderRuleName]: headingsConsecutiveOrder,
     [i18nRuleName]: i18n,
     [interactiveSupportsFocusRuleName]: interactiveSupportsFocus,
     [labelHasAssociatedControlRuleName]: labelHasAssociatedControl,
