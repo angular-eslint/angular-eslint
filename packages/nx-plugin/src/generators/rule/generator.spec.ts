@@ -13,10 +13,18 @@ describe('rule generator', () => {
 
   it('should successfully generate a new rule for package eslint-plugin', async () => {
     const options: RuleGeneratorSchema = {
-      name: 'my-new-rule',
+      ruleName: 'my-new-rule',
       packageName: 'eslint-plugin',
     };
+    const packageIndexPath = 'packages/eslint-plugin/src/index.ts';
+    const mockIndex = `
+      \nexport = {
+        configs: {},
+        rules: {},
+      };
+    `;
 
+    tree.write(packageIndexPath, mockIndex);
     await ruleGenerator(tree, options);
 
     expect(
@@ -28,14 +36,35 @@ describe('rule generator', () => {
     expect(
       tree.exists(`packages/eslint-plugin/tests/rules/my-new-rule/spec.ts`),
     ).toBeTruthy();
+
+    const packageIndexContents = tree
+      .read(packageIndexPath)
+      ?.toString() as string;
+
+    expect(
+      packageIndexContents.includes(
+        `import myNewRule, { RULE_NAME as myNewRuleRuleName } from './rules/my-new-rule';`,
+      ),
+    ).toBeTruthy();
+    expect(
+      packageIndexContents.includes(`[myNewRuleRuleName]: myNewRule`),
+    ).toBeTruthy();
   });
 
   it('should successfully generate a new rule for package eslint-plugin-template', async () => {
     const options: RuleGeneratorSchema = {
-      name: 'my-new-rule',
+      ruleName: 'my-new-rule',
       packageName: 'eslint-plugin-template',
     };
+    const packageIndexPath = 'packages/eslint-plugin-template/src/index.ts';
+    const mockIndex = `
+      \nexport = {
+        configs: {},
+        rules: {},
+      };
+    `;
 
+    tree.write(packageIndexPath, mockIndex);
     await ruleGenerator(tree, options);
 
     expect(
@@ -50,6 +79,19 @@ describe('rule generator', () => {
       tree.exists(
         `packages/eslint-plugin-template/tests/rules/my-new-rule/spec.ts`,
       ),
+    ).toBeTruthy();
+
+    const packageIndexContents = tree
+      .read(packageIndexPath)
+      ?.toString() as string;
+
+    expect(
+      packageIndexContents.includes(
+        `import myNewRule, { RULE_NAME as myNewRuleRuleName } from './rules/my-new-rule';`,
+      ),
+    ).toBeTruthy();
+    expect(
+      packageIndexContents.includes(`[myNewRuleRuleName]: myNewRule`),
     ).toBeTruthy();
   });
 });

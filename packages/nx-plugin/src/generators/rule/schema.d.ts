@@ -1,4 +1,4 @@
 export interface RuleGeneratorSchema {
-  name: string;
+  ruleName: string;
   packageName: string;
 }

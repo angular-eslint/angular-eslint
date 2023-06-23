@@ -4,7 +4,7 @@
   "title": "Create a new lint rule",
   "type": "object",
   "properties": {
-    "name": {
+    "ruleName": {
       "type": "string",
       "description": "Rule name: use kebab case format, e.g. 'my-new-lint-rule'",
       "$default": {
@@ -27,5 +27,5 @@
       }
     }
   },
-  "required": ["name", "packageName"]
+  "required": ["ruleName", "packageName"]
 }

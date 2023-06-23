@@ -1,5 +1,5 @@
 import { RuleTester } from '@angular-eslint/utils';
-import rule, { RULE_NAME } from '../../../src/rules/<%= name %>';
+import rule, { RULE_NAME } from '../../../src/rules/<%= ruleName %>';
 import { invalid, valid } from './cases';
 
 const ruleTester = new RuleTester({
