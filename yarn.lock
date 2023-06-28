@@ -89,10 +89,10 @@
     symbol-observable "4.0.0"
     yargs "17.7.2"
 
-"@angular/compiler@16.0.3":
-  version "16.0.3"
-  resolved "https://registry.yarnpkg.com/@angular/compiler/-/compiler-16.0.3.tgz#9fefdcf66b6e0439eaec4485f8b80f3f3b4fab2e"
-  integrity sha512-LF/AS0bFXQ+qn6a8Ogx5nNHTYxf+OUYLXQYWECrKCJ4HSsouKDmQ/k8UPlh0gWt9NqQ4SPp9mNpzQhQ4Hq+rXw==
+"@angular/compiler@16.1.2":
+  version "16.1.2"
+  resolved "https://registry.yarnpkg.com/@angular/compiler/-/compiler-16.1.2.tgz#1214430a0bfbe32116ef28f43fcec6cde50f08b8"
+  integrity sha512-uLUyesolGL8sEb03GfwSFbtTa++XPQyabAUi53Nz5jzRhFzxCa6cO7w4DCxp7yzQM+8jiPKAuw9bQDNv1eYR7A==
   dependencies:
     tslib "^2.3.0"
 
