@@ -2,7 +2,7 @@
   "name": "@angular-eslint/angular-eslint",
   "private": true,
   "volta": {
-    "node": "18.16.0",
+    "node": "18.16.1",
     "yarn": "1.22.19"
   },
   "workspaces": [
@@ -72,7 +72,7 @@
     "@types/eslint": "8.40.0",
     "@types/eslint-scope": "3.7.4",
     "@types/jest": "29.4.4",
-    "@types/node": "18.16.16",
+    "@types/node": "18.16.19",
     "@types/prettier": "2.7.3",
     "@typescript-eslint/eslint-plugin": "5.59.8",
     "@typescript-eslint/parser": "5.59.8",
