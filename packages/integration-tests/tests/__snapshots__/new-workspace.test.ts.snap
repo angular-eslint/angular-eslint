@@ -19,7 +19,7 @@ exports[`new-workspace it should pass linting after creating a new workspace fro
   "karma-chrome-launcher": "~3.2.0",
   "karma-coverage": "~2.2.0",
   "karma-jasmine": "~5.1.0",
-  "karma-jasmine-html-reporter": "~2.0.0",
+  "karma-jasmine-html-reporter": "~2.1.0",
   "ng-packagr": "^16.X.X",
   "typescript": "~5.X.X"
 }
