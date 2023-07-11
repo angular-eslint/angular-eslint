@@ -6,7 +6,10 @@ import type {
   TmplAstTextAttribute,
   TmplAstNode,
 } from '@angular-eslint/bundled-angular-compiler';
-import { TmplAstTemplate } from '@angular-eslint/bundled-angular-compiler';
+import {
+  ParseSourceSpan,
+  TmplAstTemplate,
+} from '@angular-eslint/bundled-angular-compiler';
 import { getTemplateParserServices } from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
@@ -227,7 +230,10 @@ function byOrder(order: readonly OrderType[], alphabetical: boolean) {
       getOrderIndex(one, order) - getOrderIndex(other, order);
 
     if (alphabetical && orderComparison === 0) {
-      return one.name > other.name ? 1 : -1;
+      return (one.keySpan?.details ?? one.name) >
+        (other.keySpan?.details ?? other.name)
+        ? 1
+        : -1;
     }
 
     return orderComparison;
@@ -280,9 +286,36 @@ function toTemplateReferenceVariableOrderType(reference: TmplAstReference) {
 function extractTemplateAttrs(
   node: ExtendedTmplAstElement,
 ): (ExtendedTmplAstBoundAttribute | ExtendedTmplAstTextAttribute)[] {
-  return isTmplAstTemplate(node.parent)
-    ? node.parent.templateAttrs.map(toStructuralDirectiveOrderType)
-    : [];
+  if (!isTmplAstTemplate(node.parent)) {
+    return [];
+  }
+
+  /*
+   * There may be multiple "attributes" for a structural directive even though
+   * there is only a single HTML attribute:
+   * e.g. `<ng-container *ngFor="let foo of bar"></ng-container>`
+   * will parsed as two attributes (`ngFor` and `ngForOf`)
+   */
+
+  const attrs = node.parent.templateAttrs.map(toStructuralDirectiveOrderType);
+
+  // Pick up on any subsequent `let` bindings, e.g. `index as i`
+  let sourceEnd = attrs[attrs.length - 1].sourceSpan.end;
+  node.parent.variables.forEach((v) => {
+    if (
+      v.sourceSpan.start.offset <= sourceEnd.offset &&
+      sourceEnd.offset < v.sourceSpan.end.offset
+    ) {
+      sourceEnd = v.sourceSpan.end;
+    }
+  });
+
+  return [
+    {
+      ...attrs[0],
+      sourceSpan: new ParseSourceSpan(attrs[0].sourceSpan.start, sourceEnd),
+    } as ExtendedTmplAstBoundAttribute | ExtendedTmplAstTextAttribute,
+  ];
 }
 
 function normalizeInputsOutputs(
@@ -333,19 +366,20 @@ function isOnSameLocation(
 }
 
 function getMessageName(expected: ExtendedAttribute): string {
+  const fullName = expected.keySpan?.details ?? expected.name;
   switch (expected.orderType) {
     case OrderType.StructuralDirective:
-      return `*${expected.name}`;
+      return `*${fullName}`;
     case OrderType.TemplateReferenceVariable:
-      return `#${expected.name}`;
+      return `#${fullName}`;
     case OrderType.InputBinding:
-      return `[${expected.name}]`;
+      return `[${fullName}]`;
     case OrderType.OutputBinding:
-      return `(${expected.name})`;
+      return `(${fullName})`;
     case OrderType.TwoWayBinding:
-      return `[(${expected.name})]`;
+      return `[(${fullName})]`;
     default:
-      return expected.name;
+      return fullName;
   }
 }
 
