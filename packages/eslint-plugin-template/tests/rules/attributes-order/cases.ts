@@ -1,6 +1,8 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/utils';
-import type { MessageIds } from '../../../src/rules/attributes-order';
-import { OrderType } from '../../../src/rules/attributes-order';
+import {
+  OrderType,
+  type MessageIds,
+} from '../../../src/rules/attributes-order';
 
 const messageId: MessageIds = 'attributesOrder';
 
@@ -14,6 +16,27 @@ export const valid = [
 ];
 
 export const invalid = [
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description: 'should work for simple attributes',
+    annotatedSource: `
+      <li><input type="text" id="input"></li>
+                 ~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    options: [
+      {
+        alphabetical: true,
+      },
+    ],
+    data: {
+      expected: '`id`, `type`',
+      actual: '`type`, `id`',
+    },
+    annotatedOutput: `
+      <li><input id="input" type="text"></li>
+                 
+    `,
+  }),
   convertAnnotatedSourceToFailureCase({
     messageId,
     description: 'should fail if structural directive is not first',
@@ -193,6 +216,87 @@ export const invalid = [
         
         (output)="handleOutput($event)">
         
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description: 'should work for ngFor',
+    annotatedSource: `
+      <ng-container (click)="bar = []" id="issue" *ngFor="let foo of bar"></ng-container>
+                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    data: {
+      expected: '`*ngFor`, `id`, `(click)`',
+      actual: '`(click)`, `id`, `*ngFor`',
+    },
+    annotatedOutput: `
+      <ng-container *ngFor="let foo of bar" id="issue" (click)="bar = []"></ng-container>
+                    
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description: 'should work for ngFor with let',
+    annotatedSource: `
+      <ng-container (click)="bar = []" id="issue" *ngFor="let foo of bar; index as i; first as isFirst"></ng-container>
+                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    data: {
+      expected: '`*ngFor`, `id`, `(click)`',
+      actual: '`(click)`, `id`, `*ngFor`',
+    },
+    annotatedOutput: `
+      <ng-container *ngFor="let foo of bar; index as i; first as isFirst" id="issue" (click)="bar = []"></ng-container>
+                    
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description: 'should work for ngIf as',
+    annotatedSource: `
+      <div id="id" *ngIf="bar as foo"></div>
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    data: {
+      expected: '`*ngIf`, `id`',
+      actual: '`id`, `*ngIf`',
+    },
+    annotatedOutput: `
+      <div *ngIf="bar as foo" id="id"></div>
+           
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description: 'should work for ngIfThenElse',
+    annotatedSource: `
+      <div id="id" *ngIf="condition then foo else bar"></div>
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    data: {
+      expected: '`*ngIf`, `id`',
+      actual: '`id`, `*ngIf`',
+    },
+    annotatedOutput: `
+      <div *ngIf="condition then foo else bar" id="id"></div>
+           
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description: 'should work for dotted attributes',
+    annotatedSource: `
+      <div [disabled]="disabled" [class.disabled]="disabled"></div>
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    options: [{ alphabetical: true }],
+    data: {
+      expected: '`[class.disabled]`, `[disabled]`',
+      actual: '`[disabled]`, `[class.disabled]`',
+    },
+    annotatedOutput: `
+      <div [class.disabled]="disabled" [disabled]="disabled"></div>
+           
     `,
   }),
 ];
