@@ -52,7 +52,7 @@
     "@actions/core": "1.10.0",
     "@actions/github": "5.1.1",
     "@angular/cli": "16.1.3",
-    "@angular/compiler": "16.1.2",
+    "@angular/compiler": "16.1.4",
     "@commitlint/cli": "17.6.6",
     "@commitlint/config-conventional": "17.6.6",
     "@nx/devkit": "16.5.1",
