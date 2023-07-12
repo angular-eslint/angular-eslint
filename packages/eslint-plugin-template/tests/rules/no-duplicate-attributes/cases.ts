@@ -20,13 +20,13 @@ export const valid = [
     code: `
       <div class="foo" name="bar" [class]="dynamic"></div>
     `,
-    options: [{ allowAngularStylePrecedenceDuplicates: true }],
+    options: [{ allowStylePrecedenceDuplicates: true }],
   },
   {
     code: `
       <div style="color: blue" [style]="styleExpression"></div>
     `,
-    options: [{ allowAngularStylePrecedenceDuplicates: true }],
+    options: [{ allowStylePrecedenceDuplicates: true }],
   },
 ];
 
@@ -554,7 +554,7 @@ export const invalid = [
         <input class="foo" class="bar" [class]="dynamic">
                ~~~~~~~~~~~ ^^^^^^^^^^^     
       `,
-    options: [{ allowAngularStylePrecedenceDuplicates: true }],
+    options: [{ allowStylePrecedenceDuplicates: true }],
     messages: [
       {
         char: '~',
@@ -594,7 +594,7 @@ export const invalid = [
         <input style="color: blue" [style]="styleExpression" style="width:50px">
                ~~~~~~~~~~~~~~~~~~~                           ^^^^^^^^^^^^^^^^^^
       `,
-    options: [{ allowAngularStylePrecedenceDuplicates: true }],
+    options: [{ allowStylePrecedenceDuplicates: true }],
     messages: [
       {
         char: '~',

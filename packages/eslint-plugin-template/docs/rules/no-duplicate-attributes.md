@@ -402,7 +402,7 @@ interface Options {
     "@angular-eslint/template/no-duplicate-attributes": [
       "error",
       {
-        "allowAngularStylePrecedenceDuplicates": true
+        "allowStylePrecedenceDuplicates": true
       }
     ]
   }
@@ -432,7 +432,7 @@ interface Options {
     "@angular-eslint/template/no-duplicate-attributes": [
       "error",
       {
-        "allowAngularStylePrecedenceDuplicates": true
+        "allowStylePrecedenceDuplicates": true
       }
     ]
   }
@@ -755,7 +755,7 @@ interface Options {
     "@angular-eslint/template/no-duplicate-attributes": [
       "error",
       {
-        "allowAngularStylePrecedenceDuplicates": true
+        "allowStylePrecedenceDuplicates": true
       }
     ]
   }
@@ -784,7 +784,7 @@ interface Options {
     "@angular-eslint/template/no-duplicate-attributes": [
       "error",
       {
-        "allowAngularStylePrecedenceDuplicates": true
+        "allowStylePrecedenceDuplicates": true
       }
     ]
   }
