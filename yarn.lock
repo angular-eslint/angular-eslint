@@ -40,18 +40,18 @@
     "@jridgewell/gen-mapping" "^0.3.0"
     "@jridgewell/trace-mapping" "^0.3.9"
 
-"@angular-devkit/architect@0.1601.3":
-  version "0.1601.3"
-  resolved "https://registry.yarnpkg.com/@angular-devkit/architect/-/architect-0.1601.3.tgz#73c3bbe14507fc398e0ce65e040b322de42b7ed2"
-  integrity sha512-HvW51cCEoIYe2mYqcmnm2RZiMMFbFn7iIdsjbCJe7etFhcG+Y3hGDZMh4IFSiQiss+pwPSYOvQY2zwGrndMgLw==
+"@angular-devkit/architect@0.1601.4":
+  version "0.1601.4"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/architect/-/architect-0.1601.4.tgz#9fc88461cb65e28508067d93acc1aba69ca7a9ec"
+  integrity sha512-OOSbNlDy+Q3jY0oFHaq8kkna9HYI1zaS8IHeCIDP6T/ZIAVad4+HqXAL4SKQrKJikkoBQv1Z/eaDBL5XPFK9Bw==
   dependencies:
-    "@angular-devkit/core" "16.1.3"
+    "@angular-devkit/core" "16.1.4"
     rxjs "7.8.1"
 
-"@angular-devkit/core@16.1.3":
-  version "16.1.3"
-  resolved "https://registry.yarnpkg.com/@angular-devkit/core/-/core-16.1.3.tgz#51bceb2d3472b0458ab197ddfae3c2138120b86f"
-  integrity sha512-cFhNdJHumNMZGD3NYxOtNuMGRQXeDnKbwvK+IJmKAttXt8na6EvURR/ZxZOI7rl/YRVX+vcNSdtXz3hE6g+Isw==
+"@angular-devkit/core@16.1.4":
+  version "16.1.4"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/core/-/core-16.1.4.tgz#033ff3ab4d024ee3d8f4c6f809eed10d716ad0ab"
+  integrity sha512-WCAzNi9LxpFIi2WVPaJQd2kHPqCnCexWzUZN05ltJuBGCQL1O+LgRHGwnQ4WZoqmrF5tcWt2a3GFtJ3DgMc1hw==
   dependencies:
     ajv "8.12.0"
     ajv-formats "2.1.1"
@@ -59,26 +59,26 @@
     rxjs "7.8.1"
     source-map "0.7.4"
 
-"@angular-devkit/schematics@16.1.3":
-  version "16.1.3"
-  resolved "https://registry.yarnpkg.com/@angular-devkit/schematics/-/schematics-16.1.3.tgz#150f1531d3b7932698c0f1bd0cba59dbc9b54c82"
-  integrity sha512-hWEuQnfQOgcSs4YX6iF4QR/34ROeSPaMi7lQOYg33hStg+pnk/JDdIU0f2nrIIz3t0jqAj+5VXVLBJvOCd84vg==
+"@angular-devkit/schematics@16.1.4":
+  version "16.1.4"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/schematics/-/schematics-16.1.4.tgz#91d4d82ee273dd7f24c17b9c7fbbfff11d7cab63"
+  integrity sha512-yjRgwHAfFaeuimgbQtjwSUyXzEHpMSdTRb2zg+TOp6skoGvHOG8xXFJ7DjBkSMeAQdFF0fkxhPS9YmlxqNc+7A==
   dependencies:
-    "@angular-devkit/core" "16.1.3"
+    "@angular-devkit/core" "16.1.4"
     jsonc-parser "3.2.0"
     magic-string "0.30.0"
     ora "5.4.1"
     rxjs "7.8.1"
 
-"@angular/cli@16.1.3":
-  version "16.1.3"
-  resolved "https://registry.yarnpkg.com/@angular/cli/-/cli-16.1.3.tgz#b8e0f3e7f8becc71b3029c2c73ef252e3ebc043e"
-  integrity sha512-D0gU12z/N2oJ+s6pggAnWYrTUZ+2duGb3Y5oUyClsubz7JWpAwHjSZpb8exPUrgYhr+qIEMGO685y1JazJQ2tA==
+"@angular/cli@16.1.4":
+  version "16.1.4"
+  resolved "https://registry.yarnpkg.com/@angular/cli/-/cli-16.1.4.tgz#b32de345b6fdb4e975f957b0f9cbcafdcf184f8a"
+  integrity sha512-coSOLVLpOCOD5q9K9EAFFMrTES+HtdJiLy/iI9kdKNCKWUJpm8/svZ3JZOej3vPxYEp0AokXNOwORQnX21/qZQ==
   dependencies:
-    "@angular-devkit/architect" "0.1601.3"
-    "@angular-devkit/core" "16.1.3"
-    "@angular-devkit/schematics" "16.1.3"
-    "@schematics/angular" "16.1.3"
+    "@angular-devkit/architect" "0.1601.4"
+    "@angular-devkit/core" "16.1.4"
+    "@angular-devkit/schematics" "16.1.4"
+    "@schematics/angular" "16.1.4"
     "@yarnpkg/lockfile" "1.1.0"
     ansi-colors "4.1.3"
     ini "4.1.1"
@@ -2382,13 +2382,13 @@
     estree-walker "^2.0.2"
     picomatch "^2.3.1"
 
-"@schematics/angular@16.1.3":
-  version "16.1.3"
-  resolved "https://registry.yarnpkg.com/@schematics/angular/-/angular-16.1.3.tgz#1a1e2a2f7c6593d87da018fc1ee5849b12ca5954"
-  integrity sha512-bNSxCLf6f+/dsQ1k3PhcZhrC/qgJSCpM6h3m6ATpjR+tYW/v7WR1OyE5r3DQmDe7NJSazBvpbrRtg8xjRsMzvw==
+"@schematics/angular@16.1.4":
+  version "16.1.4"
+  resolved "https://registry.yarnpkg.com/@schematics/angular/-/angular-16.1.4.tgz#e99a8b7e1b1b9db107727d0e26a05dc190eefeea"
+  integrity sha512-XfoeL+aBVIR/DzgVKGVhHW/TGQnqWvngyJVuCwXEVWzNfjxHYFkchXa78OItpAvTEr6/Y0Me9FQVAGVA4mMUyg==
   dependencies:
-    "@angular-devkit/core" "16.1.3"
-    "@angular-devkit/schematics" "16.1.3"
+    "@angular-devkit/core" "16.1.4"
+    "@angular-devkit/schematics" "16.1.4"
     jsonc-parser "3.2.0"
 
 "@sigstore/protobuf-specs@^0.1.0":
