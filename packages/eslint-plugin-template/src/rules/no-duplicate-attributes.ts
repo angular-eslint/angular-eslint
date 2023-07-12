@@ -45,7 +45,7 @@ export default createESLintRule<Options, MessageIds>({
           allowAngularStylePrecedenceDuplicates: {
             type: 'boolean',
             default: DEFAULT_OPTIONS.allowAngularStylePrecedenceDuplicates,
-            description: `Whether or not angular style precedence is allowed as an exception to the rule.`,
+            description: `Whether or not angular style precedence is allowed as an exception to the rule. See https://angular.io/guide/style-precedence#style-precedence`,
           },
           ignore: {
             type: 'array',
