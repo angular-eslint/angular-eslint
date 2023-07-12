@@ -11,7 +11,7 @@ import { getOriginalAttributeName } from '../utils/get-original-attribute-name';
 type Options = [
   {
     readonly allowTwoWayDataBinding?: boolean;
-    readonly allowAngularStylePrecedenceDuplicates?: boolean;
+    readonly allowStylePrecedenceDuplicates?: boolean;
     readonly ignore?: readonly string[];
   },
 ];
@@ -19,7 +19,7 @@ export type MessageIds = 'noDuplicateAttributes' | 'suggestRemoveAttribute';
 export const RULE_NAME = 'no-duplicate-attributes';
 const DEFAULT_OPTIONS: Options[number] = {
   allowTwoWayDataBinding: true,
-  allowAngularStylePrecedenceDuplicates: false,
+  allowStylePrecedenceDuplicates: false,
   ignore: [],
 };
 
@@ -42,10 +42,10 @@ export default createESLintRule<Options, MessageIds>({
             default: DEFAULT_OPTIONS.allowTwoWayDataBinding,
             description: `Whether or not two-way data binding is allowed as an exception to the rule.`,
           },
-          allowAngularStylePrecedenceDuplicates: {
+          allowStylePrecedenceDuplicates: {
             type: 'boolean',
-            default: DEFAULT_OPTIONS.allowAngularStylePrecedenceDuplicates,
-            description: `Whether or not angular style precedence is allowed as an exception to the rule. See https://angular.io/guide/style-precedence#style-precedence`,
+            default: DEFAULT_OPTIONS.allowStylePrecedenceDuplicates,
+            description: `Whether or not Angular style precedence is allowed as an exception to the rule. See https://angular.io/guide/style-precedence#style-precedence`,
           },
           ignore: {
             type: 'array',
@@ -66,14 +66,14 @@ export default createESLintRule<Options, MessageIds>({
   defaultOptions: [DEFAULT_OPTIONS],
   create(
     context,
-    [{ allowTwoWayDataBinding, allowAngularStylePrecedenceDuplicates, ignore }],
+    [{ allowTwoWayDataBinding, allowStylePrecedenceDuplicates, ignore }],
   ) {
     const parserServices = getTemplateParserServices(context);
 
     return {
       Element$1({ inputs, outputs, attributes }: TmplAstElement) {
         // According to the Angular documentation (https://angular.io/guide/style-precedence#style-precedence)
-        // Angular merges both attributes which means their combined use is valid
+        // Angular merges both attributes which means their combined use can be seen as valid
         const angularStylePrecedenceDuplicatesAllowed = ['class', 'style'];
 
         let duplicateInputsAndAttributes = findDuplicates([
@@ -81,7 +81,7 @@ export default createESLintRule<Options, MessageIds>({
           ...attributes,
         ]);
 
-        if (allowAngularStylePrecedenceDuplicates) {
+        if (allowStylePrecedenceDuplicates) {
           const inputsIgnored = inputs.filter((input) =>
             angularStylePrecedenceDuplicatesAllowed.includes(
               getOriginalAttributeName(input),

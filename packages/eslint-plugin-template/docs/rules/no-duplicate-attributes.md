@@ -36,9 +36,9 @@ interface Options {
    */
   allowTwoWayDataBinding?: boolean;
   /**
-   * Whether or not angular style precedence is allowed as an exception to the rule.
+   * Whether or not Angular style precedence is allowed as an exception to the rule. See https://angular.io/guide/style-precedence#style-precedence
    */
-  allowAngularStylePrecedenceDuplicates?: boolean;
+  allowStylePrecedenceDuplicates?: boolean;
   /**
    * Input or output properties for which duplicate presence is allowed as an exception to the rule.
    *
