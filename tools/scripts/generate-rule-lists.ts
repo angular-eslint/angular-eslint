@@ -1,6 +1,6 @@
-import fs from 'node:fs';
-import path from 'node:path';
-import prettier from 'prettier';
+import { readFileSync, writeFileSync } from 'node:fs';
+import { join, resolve } from 'node:path';
+import { format } from 'prettier';
 
 import eslintPlugin from '../../packages/eslint-plugin/src';
 import eslintPluginTemplate from '../../packages/eslint-plugin-template/src';
@@ -17,6 +17,17 @@ interface Plugin {
   file: string;
   rules: RulesList;
   withAccessibility: boolean;
+}
+
+/** Check that plugin name is correct before going forward */
+
+const plugin = process.argv[2];
+
+if (plugin !== 'eslint-plugin-template' && plugin !== 'eslint-plugin') {
+  console.error(
+    `\nError: the first argument to the script must be "eslint-plugin-template" or "eslint-plugin"`,
+  );
+  process.exit(1);
 }
 
 const emojiKey = {
@@ -184,8 +195,8 @@ const getRulesByType = (
 ) => rules.filter(([, rule]) => rule.meta.type === type);
 
 const updateFile = (plugin: Plugin): void => {
-  const filePath = path.resolve(__dirname, plugin.file);
-  let readme = fs.readFileSync(filePath, 'utf8');
+  const filePath = resolve(__dirname, plugin.file);
+  let readme = readFileSync(filePath, 'utf8');
 
   const deprecated = plugin.rules.filter(([, rule]) => rule.meta.deprecated);
   const notDeprecated = plugin.rules.filter(
@@ -221,9 +232,9 @@ const updateFile = (plugin: Plugin): void => {
     plugin,
   );
 
-  readme = prettier.format(readme, { parser: 'markdown' });
+  readme = format(readme, { parser: 'markdown' });
 
-  fs.writeFileSync(filePath, readme, 'utf8');
+  writeFileSync(filePath, readme, 'utf8');
 };
 
 const getRuleEntries = (rules: Record<string, RuleModule>) =>
@@ -233,17 +244,21 @@ const pluginList: Plugin[] = [
   {
     rules: getRuleEntries(eslintPlugin.rules),
     name: '@angular-eslint',
-    file: '../../packages/eslint-plugin/README.md',
+    file: join(__dirname, '../../packages/eslint-plugin/README.md'),
     withAccessibility: false,
   },
   {
     rules: getRuleEntries(eslintPluginTemplate.rules),
     name: '@angular-eslint/template',
-    file: '../../packages/eslint-plugin-template/README.md',
+    file: join(__dirname, '../../packages/eslint-plugin-template/README.md'),
     withAccessibility: true,
   },
 ];
 
-pluginList.forEach((plugin) => {
-  updateFile(plugin);
-});
+(function main() {
+  if (plugin === 'eslint-plugin') {
+    updateFile(pluginList[0]);
+  } else if (plugin === 'eslint-plugin-template') {
+    updateFile(pluginList[1]);
+  }
+})();

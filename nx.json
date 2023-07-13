@@ -16,6 +16,8 @@
           "integration-test",
           "check-rule-docs",
           "update-rule-docs",
+          "check-rule-lists",
+          "update-rule-lists",
           "typecheck"
         ]
       }
