@@ -82,6 +82,7 @@
 | Rule | Description | :white_check_mark: | :wrench: | :bulb: | :accessibility: |
 | --- | --- | --- | --- | --- | --- |
 | [`attributes-order`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/attributes-order.md) | Ensures that HTML attributes and Angular bindings are sorted based on an expected order |  | :wrench: |  |  |
+| [`prefer-self-closing-tags`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/prefer-self-closing-tags.md) | Ensures that self-closing tags are used for elements with a closing tag but no content. |  | :wrench: |  |  |
 <!-- prettier-ignore-end -->
 
 <!-- end layout rule list -->
