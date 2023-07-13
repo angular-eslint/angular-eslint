@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "Rule",
+  "title": "Create a new lint rule",
+  "type": "object",
+  "properties": {
+    "ruleName": {
+      "type": "string",
+      "description": "Rule name: use kebab case format, e.g. 'my-new-lint-rule'",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "What is the name for the lint rule?"
+    },
+    "packageName": {
+      "type": "string",
+      "description": "Package for the new lint rule; eslint-plugin or eslint-plugin-template",
+      "$default": {
+        "$source": "argv",
+        "index": 1
+      },
+      "x-prompt": {
+        "message": "Package",
+        "type": "list",
+        "items": ["eslint-plugin", "eslint-plugin-template"]
+      }
+    }
+  },
+  "required": ["ruleName", "packageName"]
+}

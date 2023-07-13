@@ -1,0 +1,12 @@
+import { RuleTester } from '@angular-eslint/utils';
+import rule, { RULE_NAME } from '../../../src/rules/<%= ruleName %>';
+import { invalid, valid } from './cases';
+
+const ruleTester = new RuleTester({
+  parser: '<%= packageName === 'eslint-plugin' ? '@typescript-eslint/parser' : '@angular-eslint/template-parser' %>',
+});
+
+ruleTester.run(RULE_NAME, rule, {
+  valid,
+  invalid,
+});
