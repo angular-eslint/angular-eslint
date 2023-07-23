@@ -144,7 +144,6 @@ export = {
     [useInjectableProvidedInRuleName]: useInjectableProvidedIn,
     [useLifecycleInterfaceRuleName]: useLifecycleInterface,
     [usePipeTransformInterfaceRuleName]: usePipeTransformInterface,
-    [pipePrefixRuleName]: pipePrefix,
     [sortLifecycleMethodsRuleName]: sortLifecycleMethods,
   },
 };
