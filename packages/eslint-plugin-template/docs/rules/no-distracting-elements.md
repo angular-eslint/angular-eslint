@@ -15,7 +15,7 @@
 
 # `@angular-eslint/template/no-distracting-elements`
 
-Enforces that no distracting elements are used
+[Accessibility] Enforces that no distracting elements are used
 
 - Type: suggestion
 - 🔧 Supports autofix (`--fix`)

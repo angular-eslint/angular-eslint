@@ -44,9 +44,11 @@ describe('update-4-0-0', () => {
   });
 
   it('should update relevant @angular-eslint dependencies', async () => {
-    const tree = await migrationSchematicRunner
-      .runSchematicAsync('update-4-0-0', {}, appTree)
-      .toPromise();
+    const tree = await migrationSchematicRunner.runSchematic(
+      'update-4-0-0',
+      {},
+      appTree,
+    );
     const packageJSON = JSON.parse(tree.readContent('/package.json'));
     expect(packageJSON).toMatchInlineSnapshot(`
       Object {

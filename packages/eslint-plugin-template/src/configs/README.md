@@ -2,6 +2,16 @@
 
 These configs exist for your convenience. They contain configuration intended to save you time and effort when configuring your project by disabling rules known to conflict with this repository, or cause issues in Angular codebases.
 
+## `accessibility`
+
+These are all the rules within `@angular-eslint/eslint-plugin-template` which deal with things impacting the accessibility of your Angular apps.
+
+The rules are based on a number of best practice recommendations and resources including:
+
+- [W3C - Web Accessibility Initiative (WAI)](https://www.w3.org/WAI/)
+- [Mozilla Developer Network - Accessibility](https://developer.mozilla.org/en-US/docs/Web/Accessibility)
+- [Google Chrome - Audit Rules](https://github.com/GoogleChrome/accessibility-developer-tools/wiki/Audit-Rules)
+
 ## `recommended`
 
 The recommended set is an **_opinionated_** set of rules that we think you should use because:

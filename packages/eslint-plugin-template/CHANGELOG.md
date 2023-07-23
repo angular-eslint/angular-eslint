@@ -3,6 +3,40 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [16.1.0](https://github.com/angular-eslint/angular-eslint/compare/v16.0.3...v16.1.0) (2023-07-12)
+
+### Bug Fixes
+
+- **eslint-plugin-template:** [attributes-order] fixes for structural directives and "dotted" names ([#1448](https://github.com/angular-eslint/angular-eslint/issues/1448)) ([90c0e91](https://github.com/angular-eslint/angular-eslint/commit/90c0e916654297b29cabf8289b1811ed307018ab))
+- **eslint-plugin:** [valid-aria] tristate "mixed" value not handled ([#1398](https://github.com/angular-eslint/angular-eslint/issues/1398)) ([e7c762a](https://github.com/angular-eslint/angular-eslint/commit/e7c762a33177fd915f5c3c9cb3a36292ba126e61))
+- update dependency aria-query to v5.3.0 ([#1441](https://github.com/angular-eslint/angular-eslint/issues/1441)) ([4b3a9dd](https://github.com/angular-eslint/angular-eslint/commit/4b3a9dd3e1b9b4ce868b7c9810fa53e834f0acf6))
+- update typescript-eslint packages to v5.59.8 ([#1393](https://github.com/angular-eslint/angular-eslint/issues/1393)) ([5b0e87e](https://github.com/angular-eslint/angular-eslint/commit/5b0e87e47756685e2b71fb29d4657cbe715496b6))
+- update typescript-eslint packages to v5.59.9 ([#1420](https://github.com/angular-eslint/angular-eslint/issues/1420)) ([fdd817f](https://github.com/angular-eslint/angular-eslint/commit/fdd817f706031826c921013f750331b3342053ed))
+- update typescript-eslint packages to v5.62.0 ([#1444](https://github.com/angular-eslint/angular-eslint/issues/1444)) ([4affbf4](https://github.com/angular-eslint/angular-eslint/commit/4affbf421f92528b5616c2b3cd60373b136374c7))
+
+### Features
+
+- **eslint-plugin-template:** [no-duplicate-attributes] add allowStylePrecedenceDuplicates option ([#1407](https://github.com/angular-eslint/angular-eslint/issues/1407)) ([6f69af8](https://github.com/angular-eslint/angular-eslint/commit/6f69af8fd39b130f15453c46b1a9688360566c8b))
+- **eslint-plugin-template:** [self-closing-tags] add rule ([#1322](https://github.com/angular-eslint/angular-eslint/issues/1322)) ([6d26c59](https://github.com/angular-eslint/angular-eslint/commit/6d26c590e4b15e0b28a6ff7467560537e2b9b92d))
+
+## [16.0.3](https://github.com/angular-eslint/angular-eslint/compare/v16.0.2...v16.0.3) (2023-05-29)
+
+### Bug Fixes
+
+- update typescript-eslint packages to v5.59.7 ([#1392](https://github.com/angular-eslint/angular-eslint/issues/1392)) ([cf40e34](https://github.com/angular-eslint/angular-eslint/commit/cf40e349943ec8acf97515dec344099a24f9c2c5))
+
+## [16.0.2](https://github.com/angular-eslint/angular-eslint/compare/v16.0.1...v16.0.2) (2023-05-17)
+
+**Note:** Version bump only for package @angular-eslint/eslint-plugin-template
+
+## [16.0.1](https://github.com/angular-eslint/angular-eslint/compare/v16.0.0...v16.0.1) (2023-05-03)
+
+**Note:** Version bump only for package @angular-eslint/eslint-plugin-template
+
+# [16.0.0](https://github.com/angular-eslint/angular-eslint/compare/v16.0.0-alpha.1...v16.0.0) (2023-05-03)
+
+**Note:** Version bump only for package @angular-eslint/eslint-plugin-template
+
 ## [15.2.1](https://github.com/angular-eslint/angular-eslint/compare/v15.2.0...v15.2.1) (2023-02-10)
 
 ### Bug Fixes

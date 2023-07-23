@@ -2,43 +2,28 @@
 
 These configs exist for your convenience. They contain configuration intended to save you time and effort when configuring your project by disabling rules known to conflict with this repository, or cause issues in Angular codebases.
 
-## `ng-cli-compat` and `ng-cli-compat--formatting-add-on`
+## `all`
 
-If you have used the `convert-tslint-to-eslint` schematic, you might have noticed that it generated a config which extend from `ng-cli-compat` and `ng-cli-compat--formatting-add-on`.
-
-As you might infer from the names, these configs exist to most closely match what the Angular CLI used to configure for TSLint and help us reduce a lot of the boilerplate config as part of the TSLint -> ESLint conversion.
-
-You are free to remove them or customize them in any way you wish. Over time, we will encourage people more and more to move towards the `recommended` config instead, because this will not be static, it will evolve as recommendations from the Angular Team and community do.
-
-Note: The equivalent TSLint config from the Angular CLI = both `ng-cli-compat` + `ng-cli-compat--formatting-add-on`.
-
-The reason for separating out the formatting related rules is that we fundamentally believe you should not use a linter for formatting concerns (you should use a dedicated code formatting tool like Prettier instead), and having them in a separate config that is extended from makes it super easy to remove if you choose to.
+Quite simply, this enables all the possible rules from `@angular-eslint/eslint-plugin`. It is unlikely this will be applicable in real-world projects, but some folks find this useful to have as a reference.
 
 ## `recommended`
 
-The recommended set is an **_opinionated_** set of rules that we think you should use because:
+The recommended set is an **_opinionated_** set of Angular-specific rules that we think you should use because:
 
-1. They help you adhere to TypeScript and Angular best practices.
+1. They help you adhere to Angular best practices.
 2. They help catch probable issue vectors in your code.
 
-That being said, it is not the only way to use `@typescript-eslint/eslint-plugin` and `@angular-eslint/eslint-plugin`, nor is it the way that will necessarily work 100% for your project/company. It has been built based off of three main things:
+That being said, it is not the only way to use `@angular-eslint/eslint-plugin`, nor is it the way that will necessarily work 100% for your project/company. It has been built based off of two main things:
 
-1. TypeScript best practices collected and collated from places like:
-   - [TypeScript repo](https://github.com/Microsoft/TypeScript).
-   - [TypeScript documentation](https://www.typescriptlang.org/docs/home.html).
-   - The style used by many OSS TypeScript projects.
-2. Angular best practices collected and collated from places like:
+1. Angular best practices collected and collated from places like:
    - [Angular repo](https://github.com/angular/angular).
    - [Angular documentation](https://angular.io).
    - Advice from the Angular Team at Google.
-3. The combined state of community contributed rulesets at the time of creation.
+2. The combined state of community contributed rulesets at the time of creation.
 
-We will not add new rules to the recommended set unless we release a major package version (i.e. it is seen as a breaking change).
+It is strongly encouraged to combine the recommended Angular rules with the recommended configs from `typescript-eslint` (https://typescript-eslint.io/linting/configs/#recommended-configurations), and this is what our schematics will generate for you automatically.
 
-NOTE: The recommended config contains config for ESLint core rules, as well as two different plugins:
-
-- `@typescript-eslint/eslint-plugin`
-- `@angular-eslint/eslint-plugin`
+We will not change/add new rules to the recommended set unless we release a major package version (i.e. it is seen as a breaking change).
 
 ### Altering the recommended set to suit your project
 

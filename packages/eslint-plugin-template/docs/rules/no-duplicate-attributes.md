@@ -36,6 +36,10 @@ interface Options {
    */
   allowTwoWayDataBinding?: boolean;
   /**
+   * Whether or not Angular style precedence is allowed as an exception to the rule. See https://angular.io/guide/style-precedence#style-precedence
+   */
+  allowStylePrecedenceDuplicates?: boolean;
+  /**
    * Input or output properties for which duplicate presence is allowed as an exception to the rule.
    *
    * Default: `[]`
@@ -384,6 +388,66 @@ interface Options {
        ~~~~~~~~~~~~                    ~~~~~~~~~~
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-duplicate-attributes": [
+      "error",
+      {
+        "allowStylePrecedenceDuplicates": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<input class="foo" class="bar" [class]="dynamic">
+       ~~~~~~~~~~~ ~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-duplicate-attributes": [
+      "error",
+      {
+        "allowStylePrecedenceDuplicates": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<input style="color: blue" [style]="styleExpression" style="width:50px">
+       ~~~~~~~~~~~~~~~~~~~                           ~~~~~~~~~~~~~~~~~~
+```
+
 </details>
 
 <br>
@@ -675,6 +739,64 @@ interface Options {
 
 ```html
 <div [style.width]="col.width + 'px'" [width]="col.width"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-duplicate-attributes": [
+      "error",
+      {
+        "allowStylePrecedenceDuplicates": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div class="foo" name="bar" [class]="dynamic"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-duplicate-attributes": [
+      "error",
+      {
+        "allowStylePrecedenceDuplicates": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div style="color: blue" [style]="styleExpression"></div>
 ```
 
 </details>

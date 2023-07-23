@@ -1,6 +1,6 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/utils';
-import type { MessageIds } from 'packages/eslint-plugin-template/src/rules/button-has-type';
-import { INVALID_TYPE_DATA_KEY } from 'packages/eslint-plugin-template/src/rules/button-has-type';
+import type { MessageIds } from '../../../src/rules/button-has-type';
+import { INVALID_TYPE_DATA_KEY } from '../../../src/rules/button-has-type';
 
 const missingType: MessageIds = 'missingType';
 const invalidType: MessageIds = 'invalidType';

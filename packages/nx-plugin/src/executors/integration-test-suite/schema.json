@@ -1,7 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
   "version": 2,
-  "cli": "nx",
   "title": "IntegrationTestSuite executor",
   "description": "",
   "type": "object",

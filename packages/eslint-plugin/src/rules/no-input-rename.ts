@@ -87,6 +87,16 @@ export default createESLintRule<Options, MessageIds>({
           return;
         }
 
+        let isAliasMetadataProperty = false;
+
+        if (node.parent && ASTUtils.isProperty(node.parent)) {
+          if (ASTUtils.getRawText(node.parent.key) !== 'alias') {
+            // We're within an Input decorator metadata object, but it is not the alias property
+            return;
+          }
+          isAliasMetadataProperty = true;
+        }
+
         const aliasName = ASTUtils.getRawText(node);
         const propertyName = ASTUtils.getRawText(
           propertyOrMethodDefinition.key,
@@ -104,7 +114,12 @@ export default createESLintRule<Options, MessageIds>({
           context.report({
             node,
             messageId: 'noInputRename',
-            fix: (fixer) => fixer.remove(node),
+            fix: (fixer) => {
+              if (node.parent && isAliasMetadataProperty) {
+                return fixer.remove(node.parent);
+              }
+              return fixer.remove(node);
+            },
           });
         } else if (
           !isAliasNameAllowed(
@@ -120,7 +135,12 @@ export default createESLintRule<Options, MessageIds>({
             suggest: [
               {
                 messageId: 'suggestRemoveAliasName',
-                fix: (fixer) => fixer.remove(node),
+                fix: (fixer) => {
+                  if (node.parent && isAliasMetadataProperty) {
+                    return fixer.remove(node.parent);
+                  }
+                  return fixer.remove(node);
+                },
               },
               {
                 messageId: 'suggestReplaceOriginalNameWithAliasName',
