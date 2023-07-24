@@ -1,3 +1,3 @@
-(Famous last words but...) just a temporary solution to not having multiple projects point at a single root and therefore unblock nx 14 upgrade.
+# Integration test suites
 
-TODO: refactor integration test suites setup so that this is no longer needed.
+We are leveraging multiple Nx projects here to allow us to parallelize and distribute different subsections of the integration tests to allow for maximum speed/time efficiency.

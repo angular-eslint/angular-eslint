@@ -316,10 +316,80 @@ class Test {
 #### ❌ Invalid Code
 
 ```ts
+@Component()
+class Test {
+  @Custom() @Input({ required: true, alias: `on` }) _on = getInput();
+                                            ~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-prefix": [
+      "error",
+      {
+        "prefixes": [
+          "on"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
 @Directive()
 class Test {
   @Input('onPrefix') _on = (this.subject$ as Subject<{on: boolean}>).pipe();
          ~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-prefix": [
+      "error",
+      {
+        "prefixes": [
+          "on"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Directive()
+class Test {
+  @Input({ alias: 'onPrefix', required: true }) _on = (this.subject$ as Subject<{on: boolean}>).pipe();
+                  ~~~~~~~~~~
 }
 ```
 
@@ -631,9 +701,77 @@ class Test {
 #### ✅ Valid Code
 
 ```ts
+@Directive()
+class Test {
+  @Input({ alias: \`one\` }) ontype = new EventEmitter<{ bar: string, on: boolean }>();
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-prefix": [
+      "error",
+      {
+        "prefixes": [
+          "on"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
 @Component()
 class Test {
   @Input('oneProp') common = new EventEmitter<ComplextOn>();
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-prefix": [
+      "error",
+      {
+        "prefixes": [
+          "on"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component()
+class Test {
+  @Input({ alias: 'oneProp' }) common = new EventEmitter<ComplextOn>();
 }
 ```
 

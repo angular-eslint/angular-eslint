@@ -53,11 +53,31 @@ export const valid = [
     `,
     options: [{ prefixes: ['on'] }],
   },
+  // Angular 16+ alias metadata property: https://github.com/angular-eslint/angular-eslint/issues/1355
+  {
+    code: `
+      @Directive()
+      class Test {
+        @Input({ alias: \`one\` }) ontype = new EventEmitter<{ bar: string, on: boolean }>();
+      }
+    `,
+    options: [{ prefixes: ['on'] }],
+  },
   {
     code: `
       @Component()
       class Test {
         @Input('oneProp') common = new EventEmitter<ComplextOn>();
+      }
+    `,
+    options: [{ prefixes: ['on'] }],
+  },
+  // Angular 16+ alias metadata property: https://github.com/angular-eslint/angular-eslint/issues/1355
+  {
+    code: `
+      @Component()
+      class Test {
+        @Input({ alias: 'oneProp' }) common = new EventEmitter<ComplextOn>();
       }
     `,
     options: [{ prefixes: ['on'] }],
@@ -157,12 +177,12 @@ export const invalid = [
     description:
       'should fail if `inputs` metadata property is computed `Literal` and named "onTest" in `@Component`',
     annotatedSource: `
-      @Component({
-        ['inputs']: ['onTest: test', ...onArray],
-                     ~~~~~~~~~~~~~~
-      })
-      class Test {}
-    `,
+        @Component({
+          ['inputs']: ['onTest: test', ...onArray],
+                       ~~~~~~~~~~~~~~
+        })
+        class Test {}
+      `,
     messageId,
     options: [{ prefixes: ['on'] }],
     data: { prefixes: '"on"' },
@@ -171,12 +191,12 @@ export const invalid = [
     description:
       'should fail if `inputs` metadata property is computed `TemplateLiteral` and named "onTest" in `@Directive`',
     annotatedSource: `
-      @Directive({
-        [\`inputs\`]: ['onTest: test', ...onArray],
-                     ~~~~~~~~~~~~~~
-      })
-      class Test {}
-    `,
+        @Directive({
+          [\`inputs\`]: ['onTest: test', ...onArray],
+                       ~~~~~~~~~~~~~~
+        })
+        class Test {}
+      `,
     messageId,
     options: [{ prefixes: ['on'] }],
     data: { prefixes: '"on"' },
@@ -184,12 +204,12 @@ export const invalid = [
   convertAnnotatedSourceToFailureCase({
     description: 'should fail if input property is named "on" in `@Component`',
     annotatedSource: `
-      @Component()
-      class Test {
-        @Input() on: EventEmitter<any> = new EventEmitter<{}>();
-                 ~~
-      }
-    `,
+        @Component()
+        class Test {
+          @Input() on: EventEmitter<any> = new EventEmitter<{}>();
+                   ~~
+        }
+      `,
     messageId,
     options: [{ prefixes: ['on'] }],
     data: { prefixes: '"on"' },
@@ -198,12 +218,12 @@ export const invalid = [
     description:
       'should fail if input property is named with "\'on\'" prefix in `@Directive`',
     annotatedSource: `
-      @Directive()
-      class Test {
-        @Input() @Custom('on') 'onPrefix' = new EventEmitter<void>();
-                               ~~~~~~~~~~
-      }
-    `,
+        @Directive()
+        class Test {
+          @Input() @Custom('on') 'onPrefix' = new EventEmitter<void>();
+                                 ~~~~~~~~~~
+        }
+      `,
     messageId,
     options: [{ prefixes: ['on'] }],
     data: { prefixes: '"on"' },
@@ -212,12 +232,27 @@ export const invalid = [
     description:
       'should fail if input property is aliased as "`on`" in `@Component`',
     annotatedSource: `
-      @Component()
-      class Test {
-        @Custom() @Input(\`on\`) _on = getInput();
-                         ~~~~
-      }
-    `,
+        @Component()
+        class Test {
+          @Custom() @Input(\`on\`) _on = getInput();
+                           ~~~~
+        }
+      `,
+    messageId,
+    options: [{ prefixes: ['on'] }],
+    data: { prefixes: '"on"' },
+  }),
+  // Angular 16+ alias metadata property: https://github.com/angular-eslint/angular-eslint/issues/1355
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if input property is aliased (using metadata) as "`on`" in `@Component`',
+    annotatedSource: `
+        @Component()
+        class Test {
+          @Custom() @Input({ required: true, alias: \`on\` }) _on = getInput();
+                                                    ~~~~
+        }
+      `,
     messageId,
     options: [{ prefixes: ['on'] }],
     data: { prefixes: '"on"' },
@@ -226,12 +261,27 @@ export const invalid = [
     description:
       'should fail if input property is aliased with "on" prefix in `@Directive`',
     annotatedSource: `
-      @Directive()
-      class Test {
-        @Input('onPrefix') _on = (this.subject$ as Subject<{on: boolean}>).pipe();
-               ~~~~~~~~~~
-      }
-    `,
+        @Directive()
+        class Test {
+          @Input('onPrefix') _on = (this.subject$ as Subject<{on: boolean}>).pipe();
+                 ~~~~~~~~~~
+        }
+      `,
+    messageId,
+    options: [{ prefixes: ['on'] }],
+    data: { prefixes: '"on"' },
+  }),
+  // Angular 16+ alias metadata property: https://github.com/angular-eslint/angular-eslint/issues/1355
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if input property is aliased (using metadata) with "on" prefix in `@Directive`',
+    annotatedSource: `
+        @Directive()
+        class Test {
+          @Input({ alias: 'onPrefix', required: true }) _on = (this.subject$ as Subject<{on: boolean}>).pipe();
+                          ~~~~~~~~~~
+        }
+      `,
     messageId,
     options: [{ prefixes: ['on'] }],
     data: { prefixes: '"on"' },
@@ -240,12 +290,12 @@ export const invalid = [
     description:
       'should fail if input setter is named with "on" prefix in `@Component`',
     annotatedSource: `
-      @Component()
-      class Test {
-        @Input('setter') set 'on-setter'() {}
-                             ~~~~~~~~~~~
-      }
-    `,
+        @Component()
+        class Test {
+          @Input('setter') set 'on-setter'() {}
+                               ~~~~~~~~~~~
+        }
+      `,
     messageId,
     options: [{ prefixes: ['on'] }],
     data: { prefixes: '"on"' },
@@ -254,12 +304,12 @@ export const invalid = [
     description:
       'should fail if input setter is aliased with "on" prefix in `@Directive`',
     annotatedSource: `
-      @Directive()
-      class Test {
-        @Input(\`${'onSetter'}\`) set setter() {}
-               ~~~~~~~~~~
-      }
-    `,
+        @Directive()
+        class Test {
+          @Input(\`${'onSetter'}\`) set setter() {}
+                 ~~~~~~~~~~
+        }
+      `,
     messageId,
     options: [{ prefixes: ['on'] }],
     data: { prefixes: '"on"' },
@@ -268,12 +318,12 @@ export const invalid = [
     description:
       'should fail if input property is named with prefix "on" and aliased as "on" without `@Component` or `@Directive`',
     annotatedSource: `
-      @Injectable()
-      class Test {
-        @Input('on') isPrefix = this.getInput();
-               ~~~~  ^^^^^^^^
-      }
-    `,
+        @Injectable()
+        class Test {
+          @Input('on') isPrefix = this.getInput();
+                 ~~~~  ^^^^^^^^
+        }
+      `,
     messages: [
       { char: '~', messageId, data: { prefixes: '"on", "is" or "should"' } },
       { char: '^', messageId, data: { prefixes: '"on", "is" or "should"' } },

@@ -16,6 +16,18 @@ export const valid = [
   '<button [class.disabled]="!enabled" [disabled]="!enabled"></button>',
   '<button [@.disabled]="!enabled" [.disabled]="!enabled"></button>',
   '<div [style.width]="col.width + \'px\'" [width]="col.width"></div>',
+  {
+    code: `
+      <div class="foo" name="bar" [class]="dynamic"></div>
+    `,
+    options: [{ allowStylePrecedenceDuplicates: true }],
+  },
+  {
+    code: `
+      <div style="color: blue" [style]="styleExpression"></div>
+    `,
+    options: [{ allowStylePrecedenceDuplicates: true }],
+  },
 ];
 
 export const invalid = [
@@ -531,6 +543,86 @@ export const invalid = [
                                                
       `,
             data: { attributeName: 'name' },
+          },
+        ],
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should report duplicate static binding for class attribute',
+    annotatedSource: `
+        <input class="foo" class="bar" [class]="dynamic">
+               ~~~~~~~~~~~ ^^^^^^^^^^^     
+      `,
+    options: [{ allowStylePrecedenceDuplicates: true }],
+    messages: [
+      {
+        char: '~',
+        messageId,
+        data: { attributeName: 'class' },
+        suggestions: [
+          {
+            messageId: suggestRemoveAttribute,
+            output: `
+        <input class="bar" [class]="dynamic">
+                                
+      `,
+            data: { attributeName: 'class' },
+          },
+        ],
+      },
+      {
+        char: '^',
+        messageId,
+        data: { attributeName: 'class' },
+        suggestions: [
+          {
+            messageId: suggestRemoveAttribute,
+            output: `
+        <input class="foo" [class]="dynamic">
+                                
+      `,
+            data: { attributeName: 'class' },
+          },
+        ],
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should report duplicate static binding for style attribute',
+    annotatedSource: `
+        <input style="color: blue" [style]="styleExpression" style="width:50px">
+               ~~~~~~~~~~~~~~~~~~~                           ^^^^^^^^^^^^^^^^^^
+      `,
+    options: [{ allowStylePrecedenceDuplicates: true }],
+    messages: [
+      {
+        char: '~',
+        messageId,
+        data: { attributeName: 'style' },
+        suggestions: [
+          {
+            messageId: suggestRemoveAttribute,
+            output: `
+        <input [style]="styleExpression" style="width:50px">
+                                                             
+      `,
+            data: { attributeName: 'style' },
+          },
+        ],
+      },
+      {
+        char: '^',
+        messageId,
+        data: { attributeName: 'style' },
+        suggestions: [
+          {
+            messageId: suggestRemoveAttribute,
+            output: `
+        <input style="color: blue" [style]="styleExpression">
+                                                             
+      `,
+            data: { attributeName: 'style' },
           },
         ],
       },

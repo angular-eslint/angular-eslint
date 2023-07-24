@@ -1,0 +1,12 @@
+import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/utils';
+import type { MessageIds } from '../../../src/rules/<%= ruleName %>';
+
+const messageId: MessageIds = '<%= ruleName.replace(/-./g, c => c[1].toUpperCase()) %>';
+
+export const valid = [
+  // TODO: Add valid cases
+];
+
+export const invalid = [
+  // TODO: Add invalid cases
+];

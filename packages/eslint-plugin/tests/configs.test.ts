@@ -17,23 +17,9 @@ function containsRule(config: Config, ruleName: string): boolean {
 }
 
 describe('configs', () => {
-  describe('base', () => {
+  describe('recommended', () => {
     it('exists', () => {
-      expect(eslintPlugin.configs.base).toBeDefined();
-    });
-  });
-
-  describe('ng-cli-compat', () => {
-    it('exists', () => {
-      expect(eslintPlugin.configs['ng-cli-compat']).toBeDefined();
-    });
-  });
-
-  describe('ng-cli-compat--formatting-add-on', () => {
-    it('exists', () => {
-      expect(
-        eslintPlugin.configs['ng-cli-compat--formatting-add-on'],
-      ).toBeDefined();
+      expect(eslintPlugin.configs['recommended']).toBeDefined();
     });
   });
 

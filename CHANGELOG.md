@@ -3,6 +3,75 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [16.1.0](https://github.com/angular-eslint/angular-eslint/compare/v16.0.3...v16.1.0) (2023-07-12)
+
+### Bug Fixes
+
+- **eslint-plugin-template:** [attributes-order] fixes for structural directives and "dotted" names ([#1448](https://github.com/angular-eslint/angular-eslint/issues/1448)) ([90c0e91](https://github.com/angular-eslint/angular-eslint/commit/90c0e916654297b29cabf8289b1811ed307018ab))
+- **eslint-plugin:** [valid-aria] tristate "mixed" value not handled ([#1398](https://github.com/angular-eslint/angular-eslint/issues/1398)) ([e7c762a](https://github.com/angular-eslint/angular-eslint/commit/e7c762a33177fd915f5c3c9cb3a36292ba126e61))
+- update dependency @angular/compiler to v16.1.2 ([#1411](https://github.com/angular-eslint/angular-eslint/issues/1411)) ([cd1622e](https://github.com/angular-eslint/angular-eslint/commit/cd1622e725b0771584878e5ad18a41e02ea78671))
+- update dependency @angular/compiler to v16.1.4 ([#1439](https://github.com/angular-eslint/angular-eslint/issues/1439)) ([a239094](https://github.com/angular-eslint/angular-eslint/commit/a239094777927046a6c5822611c5e63ebeb314db))
+- update dependency aria-query to v5.3.0 ([#1441](https://github.com/angular-eslint/angular-eslint/issues/1441)) ([4b3a9dd](https://github.com/angular-eslint/angular-eslint/commit/4b3a9dd3e1b9b4ce868b7c9810fa53e834f0acf6))
+- update dependency eslint to v8.41.0 ([#1394](https://github.com/angular-eslint/angular-eslint/issues/1394)) ([02b34fb](https://github.com/angular-eslint/angular-eslint/commit/02b34fb2dd953c6956e4111d3e1c56016e71169a))
+- update dependency eslint to v8.44.0 ([#1415](https://github.com/angular-eslint/angular-eslint/issues/1415)) ([8735f7b](https://github.com/angular-eslint/angular-eslint/commit/8735f7b0e0ceef55b89f593e0d21becbff456c49))
+- update nrwl monorepo to v16.5.1 ([#1443](https://github.com/angular-eslint/angular-eslint/issues/1443)) ([15bff48](https://github.com/angular-eslint/angular-eslint/commit/15bff489485d91a936867193e7c7bba3fb9e3a76))
+- update typescript-eslint packages to v5.59.8 ([#1393](https://github.com/angular-eslint/angular-eslint/issues/1393)) ([5b0e87e](https://github.com/angular-eslint/angular-eslint/commit/5b0e87e47756685e2b71fb29d4657cbe715496b6))
+- update typescript-eslint packages to v5.59.9 ([#1420](https://github.com/angular-eslint/angular-eslint/issues/1420)) ([fdd817f](https://github.com/angular-eslint/angular-eslint/commit/fdd817f706031826c921013f750331b3342053ed))
+- update typescript-eslint packages to v5.62.0 ([#1444](https://github.com/angular-eslint/angular-eslint/issues/1444)) ([4affbf4](https://github.com/angular-eslint/angular-eslint/commit/4affbf421f92528b5616c2b3cd60373b136374c7))
+
+### Features
+
+- **eslint-plugin-template:** [no-duplicate-attributes] add allowStylePrecedenceDuplicates option ([#1407](https://github.com/angular-eslint/angular-eslint/issues/1407)) ([6f69af8](https://github.com/angular-eslint/angular-eslint/commit/6f69af8fd39b130f15453c46b1a9688360566c8b))
+- **eslint-plugin-template:** [self-closing-tags] add rule ([#1322](https://github.com/angular-eslint/angular-eslint/issues/1322)) ([6d26c59](https://github.com/angular-eslint/angular-eslint/commit/6d26c590e4b15e0b28a6ff7467560537e2b9b92d))
+- **eslint-plugin:** add prefer-standalone-component rule ([#1317](https://github.com/angular-eslint/angular-eslint/issues/1317)) ([94e4d4e](https://github.com/angular-eslint/angular-eslint/commit/94e4d4e88f91d262baed21c42a52ad0c823970fa))
+
+## [16.0.3](https://github.com/angular-eslint/angular-eslint/compare/v16.0.2...v16.0.3) (2023-05-29)
+
+### Bug Fixes
+
+- update dependency @angular/compiler to v16.0.3 ([#1378](https://github.com/angular-eslint/angular-eslint/issues/1378)) ([1bc04bf](https://github.com/angular-eslint/angular-eslint/commit/1bc04bf887267d1d6956009f970fb5ee996c069a))
+- update dependency eslint-scope to v7.2.0 ([#1373](https://github.com/angular-eslint/angular-eslint/issues/1373)) ([ccbb170](https://github.com/angular-eslint/angular-eslint/commit/ccbb1707a28e65f791b2951830a54455de5dfc56))
+- update nrwl monorepo to v16.2.2 ([#1391](https://github.com/angular-eslint/angular-eslint/issues/1391)) ([9f140e6](https://github.com/angular-eslint/angular-eslint/commit/9f140e6dd6845f403ffeb3b2437bdbcd36fb7ec0))
+- update typescript-eslint packages to v5.59.7 ([#1392](https://github.com/angular-eslint/angular-eslint/issues/1392)) ([cf40e34](https://github.com/angular-eslint/angular-eslint/commit/cf40e349943ec8acf97515dec344099a24f9c2c5))
+
+## [16.0.2](https://github.com/angular-eslint/angular-eslint/compare/v16.0.1...v16.0.2) (2023-05-17)
+
+### Bug Fixes
+
+- update dependency eslint to v8.40.0 ([#1341](https://github.com/angular-eslint/angular-eslint/issues/1341)) ([44f4233](https://github.com/angular-eslint/angular-eslint/commit/44f4233962d6ae8846556af829d470dff038eed6))
+- update nrwl monorepo to v16.1.3 ([#1371](https://github.com/angular-eslint/angular-eslint/issues/1371)) ([323d2c9](https://github.com/angular-eslint/angular-eslint/commit/323d2c94d4b4f88159a7b9fc448118ad6437cc95))
+
+## [16.0.1](https://github.com/angular-eslint/angular-eslint/compare/v16.0.0...v16.0.1) (2023-05-03)
+
+### Bug Fixes
+
+- **schematics:** ensure placeholder schema for convert-tslint-to-eslint is copied to dist ([3c6f377](https://github.com/angular-eslint/angular-eslint/commit/3c6f3775fa305a6826584bc11fe3df5f45d07136))
+
+# [16.0.0](https://github.com/angular-eslint/angular-eslint/compare/v16.0.0-alpha.1...v16.0.0) (2023-05-03)
+
+As always we recommend that you update your existing workspaces by using `ng update` as we provide some helpful schematics to help migrate your workspaces to the latest and greatest. Running the following will update Angular, the Angular CLI and angular-eslint together:
+
+```sh
+ng update @angular/core @angular/cli @angular-eslint/schematics
+```
+
+### Features
+
+- **eslint-plugin-template:** All accessibility rules are now grouped together and exposed via a new `@angular-eslint/template/accessibility` config. See the main README.md for an example of it in action. Our schematics will explicitly add it for you in new configs, but you are free to remove it if you wish (also note the BREAKING CHANGE regarding accessibility rule names below)
+- **builder:** support `reportUnusedDisableDirectives` option
+- **builder:** respect using `eslint.config.js` (a.k.a Flat Config) if it is already present. Our schematics will only be updated to generate Flat Config once it is the default way of configuring ESLint later in the year.
+- bump `eslint` and all `@typescript-eslint` packages to the latest (handled for you automatically by our `ng update` schematic)
+
+### BREAKING CHANGES
+
+- As always, the major version primarily communicates the alignment with Angular's major version. Only Angular 16 is supported by angular-eslint 16.
+- Your Node version must now be 16.13.0 or higher. Node 14 support has been dropped in alignment with Angular 16, as Node 14 is EOL.
+- **eslint-plugin:** The legacy `base`, `recommended--extra`, `ng-cli-compat` and `ng-cli-compat--formatting` configs have been removed. See the updated guide on migrating from TSLint for more information: [./docs/MIGRATING_FROM_TSLINT.md](./docs/MIGRATING_FROM_TSLINT.md)
+- **eslint-plugin-template:** The legacy `base` config has been removed. See the updated guide on migrating from TSLint for more information: [./docs/MIGRATING_FROM_TSLINT.md](./docs/MIGRATING_FROM_TSLINT.md)
+- **schematics:** The legacy `convert-tslint-to-eslint` schematic has been removed. See the updated guide on migrating from TSLint for more information: [./docs/MIGRATING_FROM_TSLINT.md](./docs/MIGRATING_FROM_TSLINT.md)
+- **eslint-plugin-template:** The deprecated `accessibility-label-for` rule has been removed. `label-has-associated-control` should be used instead. An automated migration was provided when `label-has-associated-control` was first added, so hopefully this should not impact too many folks.
+- **eslint-plugin-template:** Previously some, but not all, accessibility related rules had a prefix of `accessibility-` in their name. This is inconsistent with all other rules which do not attempt to communicate _why_ they exist in their names. Therefore that naming prefix has been removed from all rules for consistency. The accessibility related rules can easily be identified from the new `@angular-eslint/template/accessibility` shared config. See the main README.md for an example of it in action.
+
 ## [15.2.1](https://github.com/angular-eslint/angular-eslint/compare/v15.2.0...v15.2.1) (2023-02-10)
 
 ### Bug Fixes

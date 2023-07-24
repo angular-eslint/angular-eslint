@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 VERSION=$1
-NPM_REGISTRY=`npm config get registry`
+NPM_REGISTRY=http://localhost:4872/
 
 echo
 
@@ -36,31 +36,31 @@ echo ""
 # Source: https://twitter.com/verdaccio_npm/status/1357798427283910660
 
 cd ./packages/builder
-npm publish --registry $NPM_REGISTRY --//localhost:4872/:_authToken fake
+npm publish --registry $NPM_REGISTRY --//localhost:4872/:_authToken=fake
 cd -
 
 cd ./packages/bundled-angular-compiler
-npm publish --registry $NPM_REGISTRY --//localhost:4872/:_authToken fake
+npm publish --registry $NPM_REGISTRY --//localhost:4872/:_authToken=fake
 cd -
 
 cd ./packages/eslint-plugin
-npm publish --registry $NPM_REGISTRY --//localhost:4872/:_authToken fake
+npm publish --registry $NPM_REGISTRY --//localhost:4872/:_authToken=fake
 cd -
 
 cd ./packages/eslint-plugin-template
-npm publish --registry $NPM_REGISTRY --//localhost:4872/:_authToken fake
+npm publish --registry $NPM_REGISTRY --//localhost:4872/:_authToken=fake
 cd -
 
 cd ./packages/schematics
-npm publish --registry $NPM_REGISTRY --//localhost:4872/:_authToken fake
+npm publish --registry $NPM_REGISTRY --//localhost:4872/:_authToken=fake
 cd -
 
 cd ./packages/template-parser
-npm publish --registry $NPM_REGISTRY --//localhost:4872/:_authToken fake
+npm publish --registry $NPM_REGISTRY --//localhost:4872/:_authToken=fake
 cd -
 
 cd ./packages/utils
-npm publish --registry $NPM_REGISTRY --//localhost:4872/:_authToken fake
+npm publish --registry $NPM_REGISTRY --//localhost:4872/:_authToken=fake
 cd -
 
 echo ""

@@ -257,6 +257,36 @@ class Test {
 #### ❌ Invalid Code
 
 ```ts
+@Directive()
+class Test {
+  @Input({ alias: 'change' }) change = (this.subject$ as Subject<{blur: boolean}>).pipe();
+                  ~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
 @Directive({
   selector: 'foo'
 })
@@ -1077,6 +1107,37 @@ class Test {
 })
 class Test {
   @Input('fooDirective') foo: Foo;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  selector: 'foo'
+})
+class Test {
+  @Input({ required: true }) name: string;
 }
 ```
 

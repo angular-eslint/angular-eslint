@@ -94,9 +94,11 @@ describe('update-3-0-0', () => {
   });
 
   it('should update relevant @angular-eslint dependencies', async () => {
-    const tree = await migrationSchematicRunner
-      .runSchematicAsync('update-3-0-0', {}, appTree)
-      .toPromise();
+    const tree = await migrationSchematicRunner.runSchematic(
+      'update-3-0-0',
+      {},
+      appTree,
+    );
     const packageJSON = JSON.parse(tree.readContent('/package.json'));
     expect(packageJSON).toMatchInlineSnapshot(`
       Object {
@@ -111,9 +113,11 @@ describe('update-3-0-0', () => {
   });
 
   it('should apply an extends for the new recommended--extra config wherever recommended is currently being extended', async () => {
-    const tree = await migrationSchematicRunner
-      .runSchematicAsync('update-3-0-0', {}, appTree)
-      .toPromise();
+    const tree = await migrationSchematicRunner.runSchematic(
+      'update-3-0-0',
+      {},
+      appTree,
+    );
 
     const rootESLint = JSON.parse(tree.readContent('.eslintrc.json'));
     expect(rootESLint).toMatchInlineSnapshot(`
@@ -180,9 +184,11 @@ describe('update-3-0-0', () => {
   });
 
   it('should remove any negative usage of the component-max-inline-declarations rule', async () => {
-    const tree = await migrationSchematicRunner
-      .runSchematicAsync('update-3-0-0', {}, appTree)
-      .toPromise();
+    const tree = await migrationSchematicRunner.runSchematic(
+      'update-3-0-0',
+      {},
+      appTree,
+    );
 
     const rootESLint = JSON.parse(tree.readContent('.eslintrc.json'));
     expect(rootESLint).toMatchInlineSnapshot(`

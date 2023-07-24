@@ -103,9 +103,10 @@ typings/
 
 # End of https://www.gitignore.io/api/node,visualstudiocode
 
-# microbundle
 dist
+
 .DS_Store
+
 .rpt2_cache
 .rts2_cache_cjs
 .rts2_cache_es
