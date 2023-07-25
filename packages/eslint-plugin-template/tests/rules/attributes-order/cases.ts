@@ -13,6 +13,10 @@ export const valid = [
   '<input *ngIf="flag" required>',
   `<input [(ngModel)]="model">`,
   '<input [(ngModel)]="model" (ngModelChange)="onChange($event)">',
+  '<ng-template></ng-template>',
+  '<ng-template #Template><div></div></ng-template>',
+  '<ng-template [ngIf]="condition" [ngIfThen]="If" [ngIfElse]="Else"><div></div></ng-template>',
+  '<ng-template #Template let-value><div></div></ng-template>',
 ];
 
 export const invalid = [
@@ -297,6 +301,23 @@ export const invalid = [
     annotatedOutput: `
       <div [class.disabled]="disabled" [disabled]="disabled"></div>
            
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description: 'should work with ng-template',
+    annotatedSource: `
+      <ng-template let-value #Template></ng-template>
+                   ~~~~~~~~~~~~~~~~~~~
+    `,
+    options: [{ alphabetical: true }],
+    data: {
+      expected: '`#Template`, `let-value`',
+      actual: '`let-value`, `#Template`',
+    },
+    annotatedOutput: `
+      <ng-template #Template let-value></ng-template>
+                   
     `,
   }),
 ];
