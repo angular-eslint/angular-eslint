@@ -302,9 +302,6 @@ function extractTemplateAttrs(
   if (isTmplAstTemplate(node)) {
     return node.templateAttrs.map(toStructuralDirectiveOrderType).concat(
       node.variables.map((x) => {
-        console.log(
-          new ParseSourceSpan(x.keySpan.start.moveBy(-4), x.keySpan.end),
-        );
         return {
           ...toAttributeBindingOrderType(x),
           // `let-` is excluded from the keySpan and name - add it back in
