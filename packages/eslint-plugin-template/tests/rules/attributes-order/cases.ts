@@ -320,4 +320,21 @@ export const invalid = [
                    
     `,
   }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description: 'should work with ng-template with multiple variable assignments',
+    annotatedSource: `
+      <ng-template let-value="something" let-anotherValue="else" #Template></ng-template>
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    options: [{ alphabetical: true }],
+    data: {
+      expected: '`#Template`, `let-anotherValue`, `let-value`',
+      actual: '`let-value`, `let-anotherValue`, `#Template`',
+    },
+    annotatedOutput: `
+      <ng-template #Template let-anotherValue="else" let-value="something"></ng-template>
+                   
+    `,
+  }),
 ];
