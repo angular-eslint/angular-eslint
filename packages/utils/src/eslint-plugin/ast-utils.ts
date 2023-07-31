@@ -91,6 +91,10 @@ export const angularLifecycleInterfaceKeys = objectKeys(
 );
 export const angularLifecycleMethodKeys = objectKeys(AngularLifecycleMethods);
 
+/**
+ * See lifecycle event sequence:
+ * https://angular.io/guide/lifecycle-hooks#lifecycle-event-sequence
+ */
 export const angularLifecycleMethodsOrdered = [
   AngularLifecycleMethods.ngOnChanges,
   AngularLifecycleMethods.ngOnInit,
@@ -101,6 +105,7 @@ export const angularLifecycleMethodsOrdered = [
   AngularLifecycleMethods.ngAfterViewChecked,
   AngularLifecycleMethods.ngOnDestroy,
 ];
+
 export const ANGULAR_CLASS_DECORATOR_LIFECYCLE_METHOD_MAPPER: ReadonlyMap<
   AngularClassDecoratorKeys,
   ReadonlySet<AngularLifecycleMethodKeys>
