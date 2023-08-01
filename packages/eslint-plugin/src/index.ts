@@ -138,12 +138,12 @@ export = {
     [preferStandaloneComponentRuleName]: preferStandaloneComponent,
     [preferOutputReadonlyRuleName]: preferOutputReadonly,
     [relativeUrlPrefixRuleName]: relativeUrlPrefix,
+    [sortLifecycleMethodsRuleName]: sortLifecycleMethods,
     [sortNgmoduleMetadataArraysName]: sortNgmoduleMetadataArrays,
     [useComponentSelectorRuleName]: useComponentSelector,
     [useComponentViewEncapsulationRuleName]: useComponentViewEncapsulation,
     [useInjectableProvidedInRuleName]: useInjectableProvidedIn,
     [useLifecycleInterfaceRuleName]: useLifecycleInterface,
     [usePipeTransformInterfaceRuleName]: usePipeTransformInterface,
-    [sortLifecycleMethodsRuleName]: sortLifecycleMethods,
   },
 };

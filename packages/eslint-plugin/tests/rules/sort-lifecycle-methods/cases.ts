@@ -1,14 +1,12 @@
-// import {convertAnnotatedSourceToFailureCase} from '@angular-eslint/utils';
-// import type {MessageIds} from '../../../src/rules/sort-lifecycle-methods';
-
-// const messageId: MessageIds = 'sortLifecycleMethods';
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/utils';
 import type { MessageIds } from '../../../src/rules/sort-lifecycle-methods';
 
+const lifecycleMethodBeforeConstructor: MessageIds =
+  'lifecycleMethodBeforeConstructor';
 const lifecycleMethodsNotSorted: MessageIds = 'lifecycleMethodsNotSorted';
-
 const nonLifecycleMethodBeforeLifecycleMethod: MessageIds =
   'nonLifecycleMethodBeforeLifecycleMethod';
+
 export const valid = [
   `
     @Component()
@@ -23,7 +21,8 @@ export const valid = [
       ngOnDestroy(): void {}
       doSomething(): void {}
     }
-
+  `,
+  `
     @Component()
     class Test {
       ngOnChanges(): void {}
@@ -33,7 +32,20 @@ export const valid = [
       ngAfterViewChecked(): void {}
       ngOnDestroy(): void {}
     }
-
+  `,
+  `
+    @Component()
+    class Test {
+      constructor() {}
+      ngOnChanges(): void {}
+      ngOnInit(): void {}
+      ngAfterContentInit(): void {}
+      ngAfterContentChecked(): void {}
+      ngAfterViewChecked(): void {}
+      ngOnDestroy(): void {}
+    }
+  `,
+  `
     @Component()
     class Test {
       ngDoCheck(): void {}
@@ -44,16 +56,17 @@ export const valid = [
       doSomethingElse(): void {}
       doSomethingElseAgain(): void {}
     }
-
+  `,
+  `
     @Component()
     class Test {
       ngOnInit(): void {}
     }
-
+  `,
+  `
     @Component()
-    class Test {
-    }
-    `,
+    class Test {}
+  `,
 ];
 
 export const invalid = [
@@ -153,5 +166,25 @@ export const invalid = [
       }
       `,
     messageId: nonLifecycleMethodBeforeLifecycleMethod,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'lifecycle hook is declared before constructor()',
+    annotatedSource: `
+      @Component()
+      class Test {
+        ngOnChanges(): void {}
+        ngOnInit(): void {}
+        ngDoCheck(): void {}
+        ngAfterContentInit(): void {}
+        ngAfterContentChecked(): void {}
+        ngAfterViewInit(): void {}
+        ngAfterViewChecked(): void {}
+        ngOnDestroy(): void {}
+        ~~~~~~~~~~~
+        constructor() {}
+        doSomethingElse(): void {}
+      }
+      `,
+    messageId: lifecycleMethodBeforeConstructor,
   }),
 ];

@@ -243,6 +243,45 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/sort-lifecycle-methods": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component()
+class Test {
+  ngOnChanges(): void {}
+  ngOnInit(): void {}
+  ngDoCheck(): void {}
+  ngAfterContentInit(): void {}
+  ngAfterContentChecked(): void {}
+  ngAfterViewInit(): void {}
+  ngAfterViewChecked(): void {}
+  ngOnDestroy(): void {}
+  ~~~~~~~~~~~
+  constructor() {}
+  doSomethingElse(): void {}
+}
+```
+
 </details>
 
 <br>
@@ -288,6 +327,17 @@ class Test {
 
 @Component()
 class Test {
+  ngOnChanges(): void {}
+  ngOnInit(): void {}
+  ngAfterContentInit(): void {}
+  ngAfterContentChecked(): void {}
+  ngAfterViewChecked(): void {}
+  ngOnDestroy(): void {}
+}
+
+@Component()
+class Test {
+  constructor() {}
   ngOnChanges(): void {}
   ngOnInit(): void {}
   ngAfterContentInit(): void {}

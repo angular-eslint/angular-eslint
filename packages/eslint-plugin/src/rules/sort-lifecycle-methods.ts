@@ -1,10 +1,10 @@
 import { ASTUtils, Selectors } from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
-import type { AngularLifecycleMethods } from '@angular-eslint/utils/dist/eslint-plugin/ast-utils';
 
 type Options = [];
 export type MessageIds =
+  | 'lifecycleMethodBeforeConstructor'
   | 'lifecycleMethodsNotSorted'
   | 'nonLifecycleMethodBeforeLifecycleMethod';
 export const RULE_NAME = 'sort-lifecycle-methods';
@@ -15,12 +15,13 @@ export default createESLintRule<Options, MessageIds>({
     type: 'problem',
     docs: {
       description:
-        'Ensures that lifecycle methods are declared in chronological order',
+        'Ensures that lifecycle methods are declared in order of execution',
       recommended: false,
     },
     schema: [],
     messages: {
-      lifecycleMethodsNotSorted: `Lifecycle Methods are not declared in chronological order`,
+      lifecycleMethodBeforeConstructor: `Lifecycle Method declared before constructor`,
+      lifecycleMethodsNotSorted: `Lifecycle Methods are not declared in order of execution`,
       nonLifecycleMethodBeforeLifecycleMethod:
         'Non-Lifecycle method is declared before a Lifecycle Method',
     },
@@ -31,51 +32,65 @@ export default createESLintRule<Options, MessageIds>({
       method1: TSESTree.MethodDefinition,
       method2: TSESTree.MethodDefinition,
     ) => {
-      const methodName1 = ASTUtils.getMethodName(
-        method1,
-      ) as AngularLifecycleMethods;
-      const methodName2 = ASTUtils.getMethodName(
-        method2,
-      ) as AngularLifecycleMethods;
-      return (
-        ASTUtils.angularLifecycleMethodsOrdered.indexOf(methodName1) <
-        ASTUtils.angularLifecycleMethodsOrdered.indexOf(methodName2)
+      const methodIndex1 = ASTUtils.angularLifecycleMethodsOrdered.indexOf(
+        ASTUtils.getMethodName(method1) as ASTUtils.AngularLifecycleMethods,
       );
-    };
+      const methodIndex2 = ASTUtils.angularLifecycleMethodsOrdered.indexOf(
+        ASTUtils.getMethodName(method2) as ASTUtils.AngularLifecycleMethods,
+      );
 
-    const isLifecycleMethod = (method: TSESTree.MethodDefinition) => {
-      const methodName = ASTUtils.getMethodName(
-        method,
-      ) as AngularLifecycleMethods;
-      return ASTUtils.angularLifecycleMethodsOrdered.includes(methodName);
+      return methodIndex1 < methodIndex2;
     };
 
     return {
       [Selectors.COMPONENT_CLASS_DECORATOR](node: TSESTree.Decorator) {
-        const classDeclaration = node.parent as TSESTree.ClassDeclaration;
-        const declaredMethods = ASTUtils.getDeclaredMethods(classDeclaration);
+        const declaredMethods = ASTUtils.getDeclaredMethods(
+          node.parent as TSESTree.ClassDeclaration,
+        );
 
+        // Check method not before lifecycle hook, except constructor
         for (let i = 1; i < declaredMethods.length; ++i) {
-          const previous = declaredMethods[i - 1];
-          const current = declaredMethods[i];
-          if (!isLifecycleMethod(previous) && isLifecycleMethod(current)) {
+          const previousMethod = declaredMethods[i - 1];
+          const currentMethod = declaredMethods[i];
+          const previousMethodName =
+            ASTUtils.getMethodName(previousMethod) ?? '';
+          const currentMethodName = ASTUtils.getMethodName(currentMethod) ?? '';
+
+          if (
+            !ASTUtils.isConstructor(previousMethod) &&
+            !ASTUtils.isAngularLifecycleMethod(previousMethodName) &&
+            ASTUtils.isAngularLifecycleMethod(currentMethodName)
+          ) {
             context.report({
-              node: previous.key,
+              node: previousMethod.key,
               messageId: 'nonLifecycleMethodBeforeLifecycleMethod',
+            });
+          } else if (
+            ASTUtils.isConstructor(currentMethod) &&
+            ASTUtils.isAngularLifecycleMethod(previousMethodName)
+          ) {
+            context.report({
+              node: previousMethod.key,
+              messageId: 'lifecycleMethodBeforeConstructor',
             });
           }
         }
 
-        const declaredLifeCycleMethods = declaredMethods.filter((method) =>
-          isLifecycleMethod(method),
+        const declaredLifeCycleMethods = declaredMethods.filter(
+          (method: TSESTree.MethodDefinition) =>
+            ASTUtils.isAngularLifecycleMethod(
+              ASTUtils.getMethodName(method) ?? '',
+            ),
         );
+
+        // check execution order
         for (let i = 1; i < declaredLifeCycleMethods.length; ++i) {
-          if (
-            isBefore(
-              declaredLifeCycleMethods[i],
-              declaredLifeCycleMethods[i - 1],
-            )
-          ) {
+          const before = isBefore(
+            declaredLifeCycleMethods[i],
+            declaredLifeCycleMethods[i - 1],
+          );
+
+          if (before) {
             context.report({
               node: declaredLifeCycleMethods[i].key,
               messageId: 'lifecycleMethodsNotSorted',
