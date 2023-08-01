@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [16.1.0](https://github.com/angular-eslint/angular-eslint/compare/v16.0.3...v16.1.0) (2023-07-12)
+
+### Bug Fixes
+
+- update typescript-eslint packages to v5.59.8 ([#1393](https://github.com/angular-eslint/angular-eslint/issues/1393)) ([5b0e87e](https://github.com/angular-eslint/angular-eslint/commit/5b0e87e47756685e2b71fb29d4657cbe715496b6))
+- update typescript-eslint packages to v5.59.9 ([#1420](https://github.com/angular-eslint/angular-eslint/issues/1420)) ([fdd817f](https://github.com/angular-eslint/angular-eslint/commit/fdd817f706031826c921013f750331b3342053ed))
+- update typescript-eslint packages to v5.62.0 ([#1444](https://github.com/angular-eslint/angular-eslint/issues/1444)) ([4affbf4](https://github.com/angular-eslint/angular-eslint/commit/4affbf421f92528b5616c2b3cd60373b136374c7))
+
+### Features
+
+- **eslint-plugin:** add prefer-standalone-component rule ([#1317](https://github.com/angular-eslint/angular-eslint/issues/1317)) ([94e4d4e](https://github.com/angular-eslint/angular-eslint/commit/94e4d4e88f91d262baed21c42a52ad0c823970fa))
+
 ## [16.0.3](https://github.com/angular-eslint/angular-eslint/compare/v16.0.2...v16.0.3) (2023-05-29)
 
 ### Bug Fixes
