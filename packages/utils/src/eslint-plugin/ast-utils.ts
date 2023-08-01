@@ -593,6 +593,10 @@ export function isArrayExpression(
   return node.type === AST_NODE_TYPES.ArrayExpression;
 }
 
+export function isConstructor(method: TSESTree.MethodDefinition): boolean {
+  return getMethodName(method) === 'constructor';
+}
+
 export function isProperty(node: TSESTree.Node): node is TSESTree.Property {
   return node.type === AST_NODE_TYPES.Property;
 }
