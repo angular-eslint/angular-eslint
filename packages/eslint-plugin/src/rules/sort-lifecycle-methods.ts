@@ -3,10 +3,7 @@ import type { TSESTree } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
 type Options = [];
-export type MessageIds =
-  | 'lifecycleMethodBeforeConstructor'
-  | 'lifecycleMethodsNotSorted'
-  | 'nonLifecycleMethodBeforeLifecycleMethod';
+export type MessageIds = 'lifecycleMethodsNotSorted';
 export const RULE_NAME = 'sort-lifecycle-methods';
 
 export default createESLintRule<Options, MessageIds>({
@@ -20,10 +17,7 @@ export default createESLintRule<Options, MessageIds>({
     },
     schema: [],
     messages: {
-      lifecycleMethodBeforeConstructor: `Lifecycle Method declared before constructor`,
       lifecycleMethodsNotSorted: `Lifecycle Methods are not declared in order of execution`,
-      nonLifecycleMethodBeforeLifecycleMethod:
-        'Non-Lifecycle method is declared before a Lifecycle Method',
     },
   },
   defaultOptions: [],
@@ -47,35 +41,6 @@ export default createESLintRule<Options, MessageIds>({
         const declaredMethods = ASTUtils.getDeclaredMethods(
           node.parent as TSESTree.ClassDeclaration,
         );
-
-        // Check method not before lifecycle hook, except constructor
-        for (let i = 1; i < declaredMethods.length; ++i) {
-          const previousMethod = declaredMethods[i - 1];
-          const currentMethod = declaredMethods[i];
-          const previousMethodName =
-            ASTUtils.getMethodName(previousMethod) ?? '';
-          const currentMethodName = ASTUtils.getMethodName(currentMethod) ?? '';
-
-          if (
-            !ASTUtils.isConstructor(previousMethod) &&
-            !ASTUtils.isAngularLifecycleMethod(previousMethodName) &&
-            ASTUtils.isAngularLifecycleMethod(currentMethodName)
-          ) {
-            context.report({
-              node: previousMethod.key,
-              messageId: 'nonLifecycleMethodBeforeLifecycleMethod',
-            });
-          } else if (
-            ASTUtils.isConstructor(currentMethod) &&
-            ASTUtils.isAngularLifecycleMethod(previousMethodName)
-          ) {
-            context.report({
-              node: previousMethod.key,
-              messageId: 'lifecycleMethodBeforeConstructor',
-            });
-          }
-        }
-
         const declaredLifeCycleMethods = declaredMethods.filter(
           (method: TSESTree.MethodDefinition) =>
             ASTUtils.isAngularLifecycleMethod(
@@ -83,7 +48,6 @@ export default createESLintRule<Options, MessageIds>({
             ),
         );
 
-        // check execution order
         for (let i = 1; i < declaredLifeCycleMethods.length; ++i) {
           const before = isBefore(
             declaredLifeCycleMethods[i],
