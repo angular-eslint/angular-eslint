@@ -61,6 +61,9 @@ import noNegatedAsync, {
 import noPositiveTabindex, {
   RULE_NAME as noPositiveTabindexRuleName,
 } from './rules/no-positive-tabindex';
+import noTargetBlank, {
+  RULE_NAME as noTargetBlankRuleName,
+} from './rules/no-target-blank';
 import preferSelfClosingTags, {
   RULE_NAME as preferSelfClosingTagsRuleName,
 } from './rules/prefer-self-closing-tags';
@@ -106,6 +109,7 @@ export = {
     [noInterpolationInAttributesRuleName]: noInterpolationInAttributes,
     [noNegatedAsyncRuleName]: noNegatedAsync,
     [noPositiveTabindexRuleName]: noPositiveTabindex,
+    [noTargetBlankRuleName]: noTargetBlank,
     [preferSelfClosingTagsRuleName]: preferSelfClosingTags,
     [roleHasRequiredAriaRuleName]: roleHasRequiredAria,
     [tableScopeRuleName]: tableScope,
