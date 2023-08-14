@@ -15,7 +15,7 @@
 
 # `@angular-eslint/sort-lifecycle-methods`
 
-Ensures that lifecycle methods are declared in chronological order
+Ensures that lifecycle methods are declared in order of execution
 
 - Type: problem
 
@@ -173,115 +173,6 @@ class Test {
  }
 ```
 
-<br>
-
----
-
-<br>
-
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/sort-lifecycle-methods": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
-#### ❌ Invalid Code
-
-```ts
-@Component()
-class Test {
-  doSomething(): void {}
-  ~~~~~~~~~~~
-  ngOnInit(): void {}
- }
-```
-
-<br>
-
----
-
-<br>
-
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/sort-lifecycle-methods": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
-#### ❌ Invalid Code
-
-```ts
-@Component()
-class Test {
-  ngOnChanges(): void {}
-  ngOnInit(): void {}
-  doSomething(): void {}
-  ~~~~~~~~~~~
-  ngDoCheck(): void {}
-  ngAfterContentInit(): void {}
-  ngAfterContentChecked(): void {}
-  ngAfterViewInit(): void {}
-  ngAfterViewChecked(): void {}
-  ngOnDestroy(): void {}
-  doSomethingElse(): void {}
-}
-```
-
-<br>
-
----
-
-<br>
-
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/sort-lifecycle-methods": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
-#### ❌ Invalid Code
-
-```ts
-@Component()
-class Test {
-  ngOnChanges(): void {}
-  ngOnInit(): void {}
-  ngDoCheck(): void {}
-  ngAfterContentInit(): void {}
-  ngAfterContentChecked(): void {}
-  ngAfterViewInit(): void {}
-  ngAfterViewChecked(): void {}
-  ngOnDestroy(): void {}
-  ~~~~~~~~~~~
-  constructor() {}
-  doSomethingElse(): void {}
-}
-```
-
 </details>
 
 <br>
@@ -324,7 +215,31 @@ class Test {
   ngOnDestroy(): void {}
   doSomething(): void {}
 }
+```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/sort-lifecycle-methods": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
 @Component()
 class Test {
   ngOnChanges(): void {}
@@ -334,10 +249,33 @@ class Test {
   ngAfterViewChecked(): void {}
   ngOnDestroy(): void {}
 }
+```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/sort-lifecycle-methods": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
 @Component()
 class Test {
-  constructor() {}
   ngOnChanges(): void {}
   ngOnInit(): void {}
   ngAfterContentInit(): void {}
@@ -345,7 +283,31 @@ class Test {
   ngAfterViewChecked(): void {}
   ngOnDestroy(): void {}
 }
+```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/sort-lifecycle-methods": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
 @Component()
 class Test {
   ngDoCheck(): void {}
@@ -356,15 +318,62 @@ class Test {
   doSomethingElse(): void {}
   doSomethingElseAgain(): void {}
 }
+```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/sort-lifecycle-methods": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
 @Component()
 class Test {
   ngOnInit(): void {}
 }
+```
 
-@Component()
-class Test {
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/sort-lifecycle-methods": [
+      "error"
+    ]
+  }
 }
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component()
+class Test {}
 ```
 
 </details>

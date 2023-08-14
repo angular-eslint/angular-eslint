@@ -1,11 +1,7 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/utils';
 import type { MessageIds } from '../../../src/rules/sort-lifecycle-methods';
 
-const lifecycleMethodBeforeConstructor: MessageIds =
-  'lifecycleMethodBeforeConstructor';
-const lifecycleMethodsNotSorted: MessageIds = 'lifecycleMethodsNotSorted';
-const nonLifecycleMethodBeforeLifecycleMethod: MessageIds =
-  'nonLifecycleMethodBeforeLifecycleMethod';
+const messageId: MessageIds = 'lifecycleMethodsNotSorted';
 
 export const valid = [
   `
@@ -36,7 +32,6 @@ export const valid = [
   `
     @Component()
     class Test {
-      constructor() {}
       ngOnChanges(): void {}
       ngOnInit(): void {}
       ngAfterContentInit(): void {}
@@ -87,7 +82,7 @@ export const invalid = [
         doSomething(): void {}
       }
       `,
-    messageId: lifecycleMethodsNotSorted,
+    messageId,
   }),
   convertAnnotatedSourceToFailureCase({
     description: 'ngAfterViewChecked() is declared after ngOnDestroy()',
@@ -104,7 +99,7 @@ export const invalid = [
         doSomething(): void {}
       }
       `,
-    messageId: lifecycleMethodsNotSorted,
+    messageId,
   }),
   convertAnnotatedSourceToFailureCase({
     description: 'ngOnDestroy() is declared after ngAfterContentInit()',
@@ -121,7 +116,7 @@ export const invalid = [
         doSomethingElse(): void {}
       }
       `,
-    messageId: lifecycleMethodsNotSorted,
+    messageId,
   }),
   convertAnnotatedSourceToFailureCase({
     description: 'ngOnChanges() is declared after ngOnInit()',
@@ -133,58 +128,6 @@ export const invalid = [
         ~~~~~~~~~~~
        }
       `,
-    messageId: lifecycleMethodsNotSorted,
-  }),
-  convertAnnotatedSourceToFailureCase({
-    description: 'doSomething() is declared before ngOnInit()',
-    annotatedSource: `
-      @Component()
-      class Test {
-        doSomething(): void {}
-        ~~~~~~~~~~~
-        ngOnInit(): void {}
-       }
-      `,
-    messageId: nonLifecycleMethodBeforeLifecycleMethod,
-  }),
-  convertAnnotatedSourceToFailureCase({
-    description: 'doSomething() is declared before ngDoCheck()',
-    annotatedSource: `
-      @Component()
-      class Test {
-        ngOnChanges(): void {}
-        ngOnInit(): void {}
-        doSomething(): void {}
-        ~~~~~~~~~~~
-        ngDoCheck(): void {}
-        ngAfterContentInit(): void {}
-        ngAfterContentChecked(): void {}
-        ngAfterViewInit(): void {}
-        ngAfterViewChecked(): void {}
-        ngOnDestroy(): void {}
-        doSomethingElse(): void {}
-      }
-      `,
-    messageId: nonLifecycleMethodBeforeLifecycleMethod,
-  }),
-  convertAnnotatedSourceToFailureCase({
-    description: 'lifecycle hook is declared before constructor()',
-    annotatedSource: `
-      @Component()
-      class Test {
-        ngOnChanges(): void {}
-        ngOnInit(): void {}
-        ngDoCheck(): void {}
-        ngAfterContentInit(): void {}
-        ngAfterContentChecked(): void {}
-        ngAfterViewInit(): void {}
-        ngAfterViewChecked(): void {}
-        ngOnDestroy(): void {}
-        ~~~~~~~~~~~
-        constructor() {}
-        doSomethingElse(): void {}
-      }
-      `,
-    messageId: lifecycleMethodBeforeConstructor,
+    messageId,
   }),
 ];
