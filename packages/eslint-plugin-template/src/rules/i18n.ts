@@ -112,13 +112,13 @@ const DEFAULT_OPTIONS: Options[number] = {
   ignoreAttributes: [...DEFAULT_ALLOWED_ATTRIBUTES],
 };
 const STYLE_GUIDE_LINK = 'https://angular.io/guide/i18n';
-const STYLE_GUIDE_LINK_ATTRIBUTES = `${STYLE_GUIDE_LINK}#mark-element-attributes-for-translations`;
-const STYLE_GUIDE_LINK_ICU = `${STYLE_GUIDE_LINK}#mark-plurals-and-alternates-for-translation`;
-const STYLE_GUIDE_LINK_TEXTS = `${STYLE_GUIDE_LINK}#mark-text-for-translations`;
-const STYLE_GUIDE_LINK_CUSTOM_IDS = `${STYLE_GUIDE_LINK}#manage-marked-text-with-custom-ids`;
-const STYLE_GUIDE_LINK_UNIQUE_CUSTOM_IDS = `${STYLE_GUIDE_LINK}#define-unique-custom-ids`;
 const STYLE_GUIDE_LINK_COMMON_PREPARE = `${STYLE_GUIDE_LINK}-common-prepare`;
+const STYLE_GUIDE_LINK_ATTRIBUTES = `${STYLE_GUIDE_LINK_COMMON_PREPARE}#mark-element-attributes-for-translations`;
+const STYLE_GUIDE_LINK_ICU = `${STYLE_GUIDE_LINK_COMMON_PREPARE}#icu-expressions`;
+const STYLE_GUIDE_LINK_TEXTS = `${STYLE_GUIDE_LINK_COMMON_PREPARE}#mark-text-in-component-template`;
 const STYLE_GUIDE_LINK_METADATA_FOR_TRANSLATION = `${STYLE_GUIDE_LINK_COMMON_PREPARE}#i18n-metadata-for-translation`;
+const STYLE_GUIDE_LINK_CUSTOM_IDS = `${STYLE_GUIDE_LINK}-optional-manage-marked-text`;
+const STYLE_GUIDE_LINK_UNIQUE_CUSTOM_IDS = `${STYLE_GUIDE_LINK_CUSTOM_IDS}#define-unique-custom-ids`;
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
