@@ -199,7 +199,7 @@ ${convertCodeExamplesToMarkdown(
     const outputFilePath = join(docsOutputDir, `${ruleName}.md`);
     writeFileSync(
       outputFilePath,
-      format(md, {
+      await format(md, {
         /**
          * NOTE: In the .prettierrc we set:
          * "embeddedLanguageFormatting": "off"
