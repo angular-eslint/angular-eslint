@@ -1828,12 +1828,12 @@
   dependencies:
     "@nx/linter" "16.5.1"
 
-"@nrwl/nx-cloud@16.0.5":
-  version "16.0.5"
-  resolved "https://registry.yarnpkg.com/@nrwl/nx-cloud/-/nx-cloud-16.0.5.tgz#c963480a71c4afa964fbbe9e4d6bbf222764e9cd"
-  integrity sha512-1p82ym8WE9ziejwgPslstn19iV/VkHfHfKr/5YOnfCHQS+NxUf92ogcYhHXtqWLblVZ9Zs4W4pkSXK4e04wCmQ==
+"@nrwl/nx-cloud@16.3.0":
+  version "16.3.0"
+  resolved "https://registry.yarnpkg.com/@nrwl/nx-cloud/-/nx-cloud-16.3.0.tgz#0f1d563200af5bb6ce51a8408d698774d5ccdbbd"
+  integrity sha512-nJrGsVufhY74KcP7kM7BqFOGAoO5OEF6+wfiM295DgmEG9c1yW+x5QiQaC42K9SWYn/eKQa1X7466ZA5lynXoQ==
   dependencies:
-    nx-cloud "16.0.5"
+    nx-cloud "16.3.0"
 
 "@nrwl/nx-plugin@16.5.1":
   version "16.5.1"
@@ -8093,12 +8093,12 @@ npmlog@^6.0.0, npmlog@^6.0.2:
     gauge "^4.0.3"
     set-blocking "^2.0.0"
 
-nx-cloud@16.0.5:
-  version "16.0.5"
-  resolved "https://registry.yarnpkg.com/nx-cloud/-/nx-cloud-16.0.5.tgz#fa0b0185d254405ec47fcbcdbbd8b12ff1add096"
-  integrity sha512-13P7r0aKikjBtmdZrNorwXzVPeVIV4MLEwqGY+DEG6doLBtI5KqEQk/d5B5l2dCF2BEi/LXEmLYCmf9gwbOJ+Q==
+nx-cloud@16.3.0:
+  version "16.3.0"
+  resolved "https://registry.yarnpkg.com/nx-cloud/-/nx-cloud-16.3.0.tgz#f916c0be1d7eb5d017d542fea349e09893502ee9"
+  integrity sha512-hmNgpeLO4v4WDSWa8YhwX+q+9ohIyY8iqxlWyIKixWzQH2XfRgYFjOLH4IDLGOlKa3hg7MB6+4+75cK9CfSmKw==
   dependencies:
-    "@nrwl/nx-cloud" "16.0.5"
+    "@nrwl/nx-cloud" "16.3.0"
     axios "1.1.3"
     chalk "^4.1.0"
     dotenv "~10.0.0"
