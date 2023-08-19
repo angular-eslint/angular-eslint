@@ -3,10 +3,8 @@ import chalk from 'chalk';
 import fs from 'fs';
 import path from 'path';
 import { format, resolveConfig } from 'prettier';
-import eslintPlugin from '../../packages/eslint-plugin/src';
 import eslintPluginTemplate from '../../packages/eslint-plugin-template/src';
-
-const prettierConfig = resolveConfig.sync(__dirname);
+import eslintPlugin from '../../packages/eslint-plugin/src';
 
 interface LinterConfigRules {
   [name: string]:
@@ -82,7 +80,10 @@ function reducer(
 
   const ruleName = `${ruleNamePrefix}${key}`;
   const recommendation = value.meta.docs?.recommended;
-  const usedSetting = settings.errorLevel
+  const usedSetting:
+    | TSESLint.Linter.RuleLevel
+    | TSESLint.Linter.RuleLevelAndOptions
+    | 'strict' = settings.errorLevel
     ? settings.errorLevel
     : !recommendation
     ? DEFAULT_RULE_SETTING
@@ -95,7 +96,9 @@ function reducer(
       ? chalk.red(usedSetting)
       : chalk.yellow(usedSetting),
   );
-  config[ruleName] = usedSetting;
+  if (usedSetting !== 'strict') {
+    config[ruleName] = usedSetting;
+  }
 
   return config;
 }
@@ -103,144 +106,152 @@ function reducer(
 /**
  * Helper function writes configuration.
  */
-function writeConfig(config: LinterConfig, filePath: string): void {
-  const configStr = format(JSON.stringify(config), {
+async function writeConfig(
+  config: LinterConfig,
+  filePath: string,
+): Promise<void> {
+  const configStr = await format(JSON.stringify(config), {
+    ...(await resolveConfig(__dirname)),
     parser: 'json',
-    ...prettierConfig,
   });
   fs.writeFileSync(filePath, configStr);
 }
 
-console.log();
-console.log(
-  '------------------------------------------------ eslint-plugin/all.json ------------------------------------------------',
-);
-const allConfig: LinterConfig = {
-  parser: '@typescript-eslint/parser',
-  plugins: ['@angular-eslint'],
-  rules: {
-    ...eslintPluginRuleEntries.reduce<LinterConfigRules>(
+(async function main() {
+  console.log();
+  console.log(
+    '------------------------------------------------ eslint-plugin/all.json ------------------------------------------------',
+  );
+  const allConfig: LinterConfig = {
+    parser: '@typescript-eslint/parser',
+    plugins: ['@angular-eslint'],
+    rules: {
+      ...eslintPluginRuleEntries.reduce<LinterConfigRules>(
+        (config, entry) =>
+          reducer('@angular-eslint/', config, entry, {
+            errorLevel: 'error',
+            filterDeprecated: true,
+          }),
+        {},
+      ),
+    },
+  };
+  writeConfig(
+    allConfig,
+    path.resolve(
+      __dirname,
+      '../../packages/eslint-plugin/src/configs/all.json',
+    ),
+  );
+
+  console.log();
+  console.log(
+    '------------------------------ eslint-plugin/recommended.json ------------------------------',
+  );
+
+  const recommendedConfig: LinterConfig = {
+    parser: '@typescript-eslint/parser',
+    plugins: ['@angular-eslint'],
+    rules: {
+      ...eslintPluginRuleEntries
+        .filter((entry) => !!entry[1].meta.docs?.recommended)
+        .reduce<LinterConfigRules>(
+          (config, entry) =>
+            reducer('@angular-eslint/', config, entry, {
+              filterDeprecated: false,
+              filterRequiresTypeChecking: 'exclude',
+            }),
+          {},
+        ),
+    },
+  };
+  writeConfig(
+    recommendedConfig,
+    path.resolve(
+      __dirname,
+      '../../packages/eslint-plugin/src/configs/recommended.json',
+    ),
+  );
+
+  console.log();
+  console.log(
+    '------------------------------------------------ eslint-plugin-template/all.json ------------------------------------------------',
+  );
+  const allTemplateConfig: LinterConfig = {
+    parser: '@angular-eslint/template-parser',
+    plugins: ['@angular-eslint/template'],
+    rules: eslintPluginTemplateRuleEntries.reduce<LinterConfigRules>(
       (config, entry) =>
-        reducer('@angular-eslint/', config, entry, {
+        reducer('@angular-eslint/template/', config, entry, {
           errorLevel: 'error',
-          filterDeprecated: true,
+          filterDeprecated: false,
         }),
       {},
     ),
-  },
-};
-writeConfig(
-  allConfig,
-  path.resolve(__dirname, '../../packages/eslint-plugin/src/configs/all.json'),
-);
+  };
+  writeConfig(
+    allTemplateConfig,
+    path.resolve(
+      __dirname,
+      '../../packages/eslint-plugin-template/src/configs/all.json',
+    ),
+  );
 
-console.log();
-console.log(
-  '------------------------------ eslint-plugin/recommended.json ------------------------------',
-);
+  console.log();
+  console.log(
+    '------------------------------ eslint-plugin-template/recommended.json ------------------------------',
+  );
 
-const recommendedConfig: LinterConfig = {
-  parser: '@typescript-eslint/parser',
-  plugins: ['@angular-eslint'],
-  rules: {
-    ...eslintPluginRuleEntries
+  const recommendedTemplateConfig: LinterConfig = {
+    parser: '@angular-eslint/template-parser',
+    plugins: ['@angular-eslint/template'],
+    rules: eslintPluginTemplateRuleEntries
       .filter((entry) => !!entry[1].meta.docs?.recommended)
       .reduce<LinterConfigRules>(
         (config, entry) =>
-          reducer('@angular-eslint/', config, entry, {
+          reducer('@angular-eslint/template/', config, entry, {
             filterDeprecated: false,
             filterRequiresTypeChecking: 'exclude',
           }),
         {},
       ),
-  },
-};
-writeConfig(
-  recommendedConfig,
-  path.resolve(
-    __dirname,
-    '../../packages/eslint-plugin/src/configs/recommended.json',
-  ),
-);
-
-console.log();
-console.log(
-  '------------------------------------------------ eslint-plugin-template/all.json ------------------------------------------------',
-);
-const allTemplateConfig: LinterConfig = {
-  parser: '@angular-eslint/template-parser',
-  plugins: ['@angular-eslint/template'],
-  rules: eslintPluginTemplateRuleEntries.reduce<LinterConfigRules>(
-    (config, entry) =>
-      reducer('@angular-eslint/template/', config, entry, {
-        errorLevel: 'error',
-        filterDeprecated: false,
-      }),
-    {},
-  ),
-};
-writeConfig(
-  allTemplateConfig,
-  path.resolve(
-    __dirname,
-    '../../packages/eslint-plugin-template/src/configs/all.json',
-  ),
-);
-
-console.log();
-console.log(
-  '------------------------------ eslint-plugin-template/recommended.json ------------------------------',
-);
-
-const recommendedTemplateConfig: LinterConfig = {
-  parser: '@angular-eslint/template-parser',
-  plugins: ['@angular-eslint/template'],
-  rules: eslintPluginTemplateRuleEntries
-    .filter((entry) => !!entry[1].meta.docs?.recommended)
-    .reduce<LinterConfigRules>(
-      (config, entry) =>
-        reducer('@angular-eslint/template/', config, entry, {
-          filterDeprecated: false,
-          filterRequiresTypeChecking: 'exclude',
-        }),
-      {},
+  };
+  writeConfig(
+    recommendedTemplateConfig,
+    path.resolve(
+      __dirname,
+      '../../packages/eslint-plugin-template/src/configs/recommended.json',
     ),
-};
-writeConfig(
-  recommendedTemplateConfig,
-  path.resolve(
-    __dirname,
-    '../../packages/eslint-plugin-template/src/configs/recommended.json',
-  ),
-);
+  );
 
-console.log();
-console.log(
-  '------------------------------ eslint-plugin-template/accessibility.json ------------------------------',
-);
+  console.log();
+  console.log(
+    '------------------------------ eslint-plugin-template/accessibility.json ------------------------------',
+  );
 
-const accessibilityTemplateConfig: LinterConfig = {
-  parser: '@angular-eslint/template-parser',
-  plugins: ['@angular-eslint/template'],
-  rules: eslintPluginTemplateRuleEntries
-    .filter(
-      (entry) =>
-        !!entry[1].meta.docs?.description.startsWith('[Accessibility]'),
-    )
-    .reduce<LinterConfigRules>(
-      (config, entry) =>
-        reducer('@angular-eslint/template/', config, entry, {
-          filterDeprecated: false,
-          errorLevel: 'error',
-          filterRequiresTypeChecking: 'exclude',
-        }),
-      {},
+  const accessibilityTemplateConfig: LinterConfig = {
+    parser: '@angular-eslint/template-parser',
+    plugins: ['@angular-eslint/template'],
+    rules: eslintPluginTemplateRuleEntries
+      .filter(
+        (entry) =>
+          !!entry[1].meta.docs?.description.startsWith('[Accessibility]'),
+      )
+      .reduce<LinterConfigRules>(
+        (config, entry) =>
+          reducer('@angular-eslint/template/', config, entry, {
+            filterDeprecated: false,
+            errorLevel: 'error',
+            filterRequiresTypeChecking: 'exclude',
+          }),
+        {},
+      ),
+  };
+  writeConfig(
+    accessibilityTemplateConfig,
+    path.resolve(
+      __dirname,
+      '../../packages/eslint-plugin-template/src/configs/accessibility.json',
     ),
-};
-writeConfig(
-  accessibilityTemplateConfig,
-  path.resolve(
-    __dirname,
-    '../../packages/eslint-plugin-template/src/configs/accessibility.json',
-  ),
-);
+  );
+})();
