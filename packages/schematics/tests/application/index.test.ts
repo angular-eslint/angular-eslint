@@ -16,7 +16,7 @@ jest.mock(
       ...jest.requireActual('@angular-devkit/schematics'),
       // For some reason TS (BUT only via ts-jest, not in VSCode) has an issue with this spread usage of requireActual(), so suppressing with any
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } as any),
+    }) as any,
 );
 
 const schematicRunner = new SchematicTestRunner(
