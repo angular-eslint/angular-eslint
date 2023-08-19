@@ -2342,9 +2342,9 @@
   integrity sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==
 
 "@rollup/plugin-commonjs@^25.0.0":
-  version "25.0.2"
-  resolved "https://registry.yarnpkg.com/@rollup/plugin-commonjs/-/plugin-commonjs-25.0.2.tgz#7ed37d00a12fc7fdd3aadba5fa0de52f2372bbbb"
-  integrity sha512-NGTwaJxIO0klMs+WSFFtBP7b9TdTJ3K76HZkewT8/+yHzMiUGVQgaPtLQxNVYIgT5F7lxkEyVID+yS3K7bhCow==
+  version "25.0.4"
+  resolved "https://registry.yarnpkg.com/@rollup/plugin-commonjs/-/plugin-commonjs-25.0.4.tgz#a7547a0c4ec3fa79818eb313e1de0023e548f4e6"
+  integrity sha512-L92Vz9WUZXDnlQQl3EwbypJR4+DM2EbsO+/KOcEkP4Mc6Ct453EeDB2uH9lgRwj4w5yflgNpq9pHOiY8aoUXBQ==
   dependencies:
     "@rollup/pluginutils" "^5.0.1"
     commondir "^1.0.1"
@@ -2374,9 +2374,9 @@
     resolve "^1.22.1"
 
 "@rollup/pluginutils@^5.0.1":
-  version "5.0.2"
-  resolved "https://registry.yarnpkg.com/@rollup/pluginutils/-/pluginutils-5.0.2.tgz#012b8f53c71e4f6f9cb317e311df1404f56e7a33"
-  integrity sha512-pTd9rIsP92h+B6wWwFbW8RkZv4hiR/xKsqre4SIuAOaOEQRxi0lqLke9k2/7WegC85GgUs9pjmOjCUi3In4vwA==
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/@rollup/pluginutils/-/pluginutils-5.0.3.tgz#183126d69aeb1cfa23401d5a71cb4b8c16c4a4e0"
+  integrity sha512-hfllNN4a80rwNQ9QCxhxuHCGHMAvabXqxNdaChUSSadMre7t4iEUI6fFAhBOn/eIYTgYVhBv7vCLsAJ4u3lf3g==
   dependencies:
     "@types/estree" "^1.0.0"
     estree-walker "^2.0.2"
