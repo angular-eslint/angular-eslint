@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [16.1.1](https://github.com/angular-eslint/angular-eslint/compare/v16.1.0...v16.1.1) (2023-08-20)
+
+### Bug Fixes
+
+- **eslint-plugin-template:** [attributes-order] Handle explicit ng-template usage ([#1465](https://github.com/angular-eslint/angular-eslint/issues/1465)) ([7d1f592](https://github.com/angular-eslint/angular-eslint/commit/7d1f5926fdad1adddc6f060d5bb3053562d0903f))
+- **eslint-plugin-template:** update links to Angular i18n docs ([#1476](https://github.com/angular-eslint/angular-eslint/issues/1476)) ([9633058](https://github.com/angular-eslint/angular-eslint/commit/9633058f014842b66e7ff9d81f90520ce7628a8a))
+- **eslint-plugin:** export require-localize-metadata rule ([#1469](https://github.com/angular-eslint/angular-eslint/issues/1469)) ([e3dc936](https://github.com/angular-eslint/angular-eslint/commit/e3dc9366a8f0c56c7637228e340d2b51c8297448))
+- update dependency eslint to v8.45.0 ([#1461](https://github.com/angular-eslint/angular-eslint/issues/1461)) ([9c95032](https://github.com/angular-eslint/angular-eslint/commit/9c95032b63fcc75a0c7777a62583885b8c8ad119))
+- update dependency eslint to v8.47.0 ([#1489](https://github.com/angular-eslint/angular-eslint/issues/1489)) ([047338a](https://github.com/angular-eslint/angular-eslint/commit/047338af94ff36c4fce69bb0c44b660d89c40377))
+- update dependency eslint-scope to v7.2.2 ([#1460](https://github.com/angular-eslint/angular-eslint/issues/1460)) ([0bb6dca](https://github.com/angular-eslint/angular-eslint/commit/0bb6dca5f96a80e56c7fdffc2fab310105e6f081))
+
 # [16.1.0](https://github.com/angular-eslint/angular-eslint/compare/v16.0.3...v16.1.0) (2023-07-12)
 
 ### Bug Fixes

@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [16.1.1](https://github.com/angular-eslint/angular-eslint/compare/v16.1.0...v16.1.1) (2023-08-20)
+
+### Bug Fixes
+
+- **eslint-plugin:** export require-localize-metadata rule ([#1469](https://github.com/angular-eslint/angular-eslint/issues/1469)) ([e3dc936](https://github.com/angular-eslint/angular-eslint/commit/e3dc9366a8f0c56c7637228e340d2b51c8297448))
+
 # [16.1.0](https://github.com/angular-eslint/angular-eslint/compare/v16.0.3...v16.1.0) (2023-07-12)
 
 ### Bug Fixes
