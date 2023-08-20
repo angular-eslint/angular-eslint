@@ -1,10 +1,11 @@
 import type {
-  TmplAstElement,
   TmplAstBoundAttribute,
   TmplAstBoundEvent,
+  TmplAstElement,
+  TmplAstNode,
   TmplAstReference,
   TmplAstTextAttribute,
-  TmplAstNode,
+  TmplAstVariable,
 } from '@angular-eslint/bundled-angular-compiler';
 import {
   ParseSourceSpan,
@@ -134,7 +135,11 @@ export default createESLintRule<Options, MessageIds>({
     }
 
     return {
-      Element$1(node: ExtendedTmplAstElement) {
+      ['Element$1, Template'](node: ExtendedTmplAstElement | TmplAstTemplate) {
+        if (isImplicitTemplate(node)) {
+          return;
+        }
+
         const { attributes, inputs, outputs, references } = node;
         const { extractedBananaBoxes, extractedInputs, extractedOutputs } =
           normalizeInputsOutputs(
@@ -244,7 +249,9 @@ function getOrderIndex(attr: ExtendedAttribute, order: readonly OrderType[]) {
   return order.indexOf(attr.orderType);
 }
 
-function toAttributeBindingOrderType(attribute: TmplAstTextAttribute) {
+function toAttributeBindingOrderType(
+  attribute: TmplAstTextAttribute | TmplAstVariable,
+) {
   return {
     ...attribute,
     orderType: OrderType.AttributeBinding,
@@ -283,10 +290,32 @@ function toTemplateReferenceVariableOrderType(reference: TmplAstReference) {
   } as ExtendedTmplAstReference;
 }
 
+function isImplicitTemplate(
+  node: TmplAstNode,
+): node is TmplAstTemplate & { tagName: null } {
+  return isTmplAstTemplate(node) && node.tagName !== 'ng-template';
+}
+
 function extractTemplateAttrs(
-  node: ExtendedTmplAstElement,
+  node: ExtendedTmplAstElement | TmplAstTemplate,
 ): (ExtendedTmplAstBoundAttribute | ExtendedTmplAstTextAttribute)[] {
-  if (!isTmplAstTemplate(node.parent)) {
+  if (isTmplAstTemplate(node)) {
+    return node.templateAttrs.map(toStructuralDirectiveOrderType).concat(
+      node.variables.map((x) => {
+        return {
+          ...toAttributeBindingOrderType(x),
+          // `let-` is excluded from the keySpan and name - add it back in
+          keySpan: new ParseSourceSpan(
+            x.keySpan.start.moveBy(-4),
+            x.keySpan.end,
+          ),
+          name: 'let-' + x.name,
+        } as ExtendedTmplAstTextAttribute;
+      }),
+    );
+  }
+
+  if (!isImplicitTemplate(node.parent)) {
     return [];
   }
 
