@@ -98,7 +98,8 @@ export default createESLintRule<Options, MessageIds>({
       [Selectors.OUTPUTS_METADATA_PROPERTY_LITERAL](
         node: TSESTree.Literal | TSESTree.TemplateElement,
       ) {
-        const ancestorMaybeHostDirectiveAPI = node.parent?.parent?.parent;
+        const ancestorMaybeHostDirectiveAPI =
+          node.parent?.parent?.parent?.parent?.parent;
         if (
           ancestorMaybeHostDirectiveAPI &&
           ASTUtils.isProperty(ancestorMaybeHostDirectiveAPI)
