@@ -108,6 +108,40 @@ export const valid = [
       @Output('foo') label: string;
     }
     `,
+  /**
+   * Renaming outputs when using the directive composition API is not a bad practice
+   * https://angular.io/guide/directive-composition-api
+   */
+  `
+    @Component({
+      selector: 'foo',
+      hostDirectives: [{
+        directive: CdkMenuItem,
+        outputs: ['cdkMenuItemTriggered: triggered'],
+      }]
+    })
+    class Test {}
+  `,
+  `
+    @Component({
+      selector: 'foo',
+      'hostDirectives': [{
+        directive: CdkMenuItem,
+        outputs: ['cdkMenuItemTriggered: triggered'],
+      }]
+    })
+    class Test {}
+  `,
+  `
+    @Component({
+      selector: 'foo',
+      ['hostDirectives']: [{
+        directive: CdkMenuItem,
+        outputs: ['cdkMenuItemTriggered: triggered'],
+      }]
+    })
+    class Test {}
+  `,
   `
     @Directive({
       selector: 'foo'
