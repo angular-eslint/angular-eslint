@@ -52,6 +52,22 @@ export const valid = [
         trackBy : trackByFn
       ">
     `,
+  {
+    options: [{ alias: ['ngForTrackByProperty'] }],
+    code: `
+        <div *ngFor="
+          let item of [1, 2, 3];
+          let i = index;
+          trackByProperty: 'id'
+        ">
+      `,
+  },
+  {
+    options: [{ alias: ['ngForTrackById'] }],
+    code: `
+      <div *ngFor="let photo of photos; trackById"></div>
+    `,
+  },
 ];
 
 export const invalid = [

@@ -23,7 +23,17 @@ Ensures trackBy function is used
 
 ## Rule Options
 
-The rule does not have any configuration options.
+The rule accepts an options object with the following properties:
+
+```ts
+interface Options {
+  /**
+   * Default: `[]`
+   */
+  alias?: string[];
+}
+
+```
 
 <br>
 
@@ -396,6 +406,72 @@ The rule does not have any configuration options.
   let i = index;
   trackBy : trackByFn
 ">
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/use-track-by-function": [
+      "error",
+      {
+        "alias": [
+          "ngForTrackByProperty"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div *ngFor="
+  let item of [1, 2, 3];
+  let i = index;
+  trackByProperty: 'id'
+">
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/use-track-by-function": [
+      "error",
+      {
+        "alias": [
+          "ngForTrackById"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div *ngFor="let photo of photos; trackById"></div>
 ```
 
 </details>
