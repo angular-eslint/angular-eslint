@@ -1,7 +1,7 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/utils';
 import {
-  OrderType,
   type MessageIds,
+  OrderType,
 } from '../../../src/rules/attributes-order';
 
 const messageId: MessageIds = 'attributesOrder';
@@ -336,6 +336,22 @@ export const invalid = [
     annotatedOutput: `
       <ng-template #Template let-anotherValue="else" let-value="something"></ng-template>
                    
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description: 'should work with implicit structural directive',
+    annotatedSource: `
+       <div test-attr *colDef="let element"></div>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    data: {
+      actual: '`test-attr`, `*colDef`',
+      expected: '`*colDef`, `test-attr`',
+    },
+    annotatedOutput: `
+       <div *colDef="let element" test-attr></div>
+            
     `,
   }),
 ];

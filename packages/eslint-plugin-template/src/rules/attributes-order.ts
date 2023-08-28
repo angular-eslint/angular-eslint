@@ -331,10 +331,7 @@ function extractTemplateAttrs(
   // Pick up on any subsequent `let` bindings, e.g. `index as i`
   let sourceEnd = attrs[attrs.length - 1].sourceSpan.end;
   node.parent.variables.forEach((v) => {
-    if (
-      v.sourceSpan.start.offset <= sourceEnd.offset &&
-      sourceEnd.offset < v.sourceSpan.end.offset
-    ) {
+    if (sourceEnd.offset < v.sourceSpan.end.offset) {
       sourceEnd = v.sourceSpan.end;
     }
   });
