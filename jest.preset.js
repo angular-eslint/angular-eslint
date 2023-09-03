@@ -13,4 +13,9 @@ module.exports = {
    * More info: https://jestjs.io/docs/upgrading-to-jest29#snapshot-format
    */
   snapshotFormat: { escapeString: true, printBasicPrototype: true },
+  /**
+   * Jest does not support Prettier v3 for inline snapshots so we need this workaround:
+   * https://github.com/jestjs/jest/issues/14305
+   */
+  prettierPath: require.resolve('prettier-v2-for-jest-inline-snapshots'),
 };

@@ -43,7 +43,7 @@ const KEYS: VisitorKeys = {
   BoundText: ['value'],
   Conditional: ['condition', 'trueExp', 'falseExp'],
   Element$1: ['children', 'inputs', 'outputs', 'attributes'],
-  Interpolation: ['expressions'],
+  Interpolation$1: ['expressions'],
   PrefixNot: ['expression'],
   Program: ['templateNodes'],
   PropertyRead: ['receiver'],

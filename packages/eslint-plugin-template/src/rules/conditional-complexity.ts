@@ -79,7 +79,7 @@ export default createESLintRule<Options, MessageIds>({
           data: { maxComplexity, totalComplexity },
         });
       },
-      Interpolation({ expressions }: Interpolation) {
+      Interpolation$1({ expressions }: Interpolation) {
         for (const expression of expressions) {
           const totalComplexity = getTotalComplexity(expression);
 
