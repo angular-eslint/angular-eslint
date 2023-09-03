@@ -555,8 +555,8 @@ The rule does not have any configuration options.
 <button (click)="onClick()" class="foo">Foo</button>
 <option (click)="onClick()" class="foo">Food</option>
 <select (click)="onClick()" class="foo"></select>
-<summary (click)="onClick()">Foo</summary>
-<textarea (keypress)="onKeypress()" class="foo"></textarea>
+<summary (click)="onClick()" aria-expanded>Foo</summary>
+<textarea (keypress)="onKeypress()" class="foo" aria-multiline></textarea>
 ```
 
 <br>
