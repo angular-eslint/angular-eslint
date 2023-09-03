@@ -19,7 +19,6 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description: `Ensures component \`${METADATA_PROPERTY_NAME}\` property is set to \`${IS_STANDALONE}\` in the component decorator`,
-      recommended: false,
     },
     fixable: 'code',
     schema: [],

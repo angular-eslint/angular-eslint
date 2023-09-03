@@ -13,7 +13,6 @@ export default createESLintRule<Options, MessageIds>({
     docs: {
       description:
         'Ensures that lifecycle methods are declared in order of execution',
-      recommended: false,
     },
     schema: [],
     messages: {

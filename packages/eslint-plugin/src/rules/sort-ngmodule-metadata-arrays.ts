@@ -19,7 +19,6 @@ export default createESLintRule<Options, MessageIds>({
     docs: {
       description:
         'Ensures ASC alphabetical order for `NgModule` metadata arrays for easy visual scanning',
-      recommended: false,
     },
     fixable: 'code',
     schema: [

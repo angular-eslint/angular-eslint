@@ -21,7 +21,6 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description: 'Enforce consistent prefix for pipes.',
-      recommended: false,
     },
     schema: [
       {
@@ -32,7 +31,6 @@ export default createESLintRule<Options, MessageIds>({
             items: {
               type: 'string',
             },
-            minimum: 1,
             uniqueItems: true,
           },
         },

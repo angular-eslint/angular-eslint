@@ -28,7 +28,6 @@ export default createESLintRule<[], MessageIds>({
     type: 'suggestion',
     docs: {
       description: 'Ensures that a button has a valid type specified',
-      recommended: false,
     },
     schema: [],
     messages: {

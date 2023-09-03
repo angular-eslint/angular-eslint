@@ -24,7 +24,6 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description: 'Disallows the use of inline styles in HTML templates',
-      recommended: false,
     },
     schema: [
       {

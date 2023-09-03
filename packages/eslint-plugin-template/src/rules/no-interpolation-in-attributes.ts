@@ -12,7 +12,6 @@ export default createESLintRule<Options, typeof MESSAGE_ID>({
     docs: {
       description:
         'Ensures that property-binding is used instead of interpolation in attributes.',
-      recommended: false,
     },
     schema: [],
     messages: {

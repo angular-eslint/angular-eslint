@@ -20,7 +20,6 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description: `Disallows using \`${VIEW_ENCAPSULATION_NONE}\``,
-      recommended: false,
     },
     hasSuggestions: true,
     schema: [],

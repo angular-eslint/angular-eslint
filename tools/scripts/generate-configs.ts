@@ -50,7 +50,7 @@ function reducer(
   config: LinterConfigRules,
   entry: [string, TSESLint.RuleModule<string, unknown[]>],
   settings: {
-    errorLevel?: 'error' | 'warn';
+    errorLevel?: 'error';
     filterDeprecated: boolean;
     filterRequiresTypeChecking?: 'include' | 'exclude';
   },
@@ -79,11 +79,10 @@ function reducer(
   }
 
   const ruleName = `${ruleNamePrefix}${key}`;
-  const recommendation = value.meta.docs?.recommended;
+  const recommendation = value.meta.docs?.recommended ? 'error' : undefined;
   const usedSetting:
     | TSESLint.Linter.RuleLevel
-    | TSESLint.Linter.RuleLevelAndOptions
-    | 'strict' = settings.errorLevel
+    | TSESLint.Linter.RuleLevelAndOptions = settings.errorLevel
     ? settings.errorLevel
     : !recommendation
     ? DEFAULT_RULE_SETTING
@@ -96,10 +95,8 @@ function reducer(
       ? chalk.red(usedSetting)
       : chalk.yellow(usedSetting),
   );
-  if (usedSetting !== 'strict') {
-    config[ruleName] = usedSetting;
-  }
 
+  config[ruleName] = usedSetting;
   return config;
 }
 
@@ -163,6 +160,11 @@ async function writeConfig(
             }),
           {},
         ),
+      /**
+       * Special case use-lifecycle-interface=warn for now to avoid breaking change.
+       * TODO: remove in v17
+       */
+      '@angular-eslint/use-lifecycle-interface': 'warn',
     },
   };
   writeConfig(

@@ -11,7 +11,6 @@ export default createESLintRule<Options, MessageIds>({
     type: 'problem',
     docs: {
       description: `The @Attribute decorator is used to obtain a single value for an attribute. This is a much less common use-case than getting a stream of values (using @Input), so often the @Attribute decorator is mistakenly used when @Input was what was intended. This rule disallows usage of @Attribute decorator altogether in order to prevent these mistakes.`,
-      recommended: false,
     },
     schema: [],
     messages: {

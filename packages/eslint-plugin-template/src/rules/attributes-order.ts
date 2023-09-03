@@ -82,7 +82,6 @@ export default createESLintRule<Options, MessageIds>({
     docs: {
       description:
         'Ensures that HTML attributes and Angular bindings are sorted based on an expected order',
-      recommended: false,
     },
     fixable: 'code',
     schema: [
@@ -96,9 +95,10 @@ export default createESLintRule<Options, MessageIds>({
           order: {
             type: 'array',
             items: {
-              enum: DEFAULT_OPTIONS.order,
+              type: 'string',
+              enum: DEFAULT_OPTIONS.order as string[],
             },
-            default: DEFAULT_OPTIONS.order,
+            default: DEFAULT_OPTIONS.order as string[],
             minItems: DEFAULT_OPTIONS.order.length,
             uniqueItems: true,
           },

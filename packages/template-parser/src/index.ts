@@ -28,7 +28,7 @@ interface Token extends TSESTree.BaseNode {
   value: string;
 }
 
-interface AST extends Node, Token {
+interface AST extends Node, Omit<Token, 'parent'> {
   comments: Token[];
   tokens: Token[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

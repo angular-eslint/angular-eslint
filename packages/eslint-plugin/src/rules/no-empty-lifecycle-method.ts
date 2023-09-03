@@ -20,7 +20,7 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description: 'Disallows declaring empty lifecycle methods',
-      recommended: 'error',
+      recommended: 'recommended',
     },
     hasSuggestions: true,
     schema: [],

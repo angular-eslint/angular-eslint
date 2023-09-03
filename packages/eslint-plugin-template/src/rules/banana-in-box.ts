@@ -15,7 +15,7 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description: 'Ensures that the two-way data binding syntax is correct',
-      recommended: 'error',
+      recommended: 'recommended',
     },
     fixable: 'code',
     schema: [],

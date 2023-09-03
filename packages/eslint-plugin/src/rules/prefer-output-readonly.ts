@@ -13,7 +13,6 @@ export default createESLintRule<Options, MessageIds>({
     docs: {
       description:
         'Prefer to declare `@Output` as `readonly` since they are not supposed to be reassigned',
-      recommended: false,
     },
     hasSuggestions: true,
     schema: [],
@@ -26,7 +25,7 @@ export default createESLintRule<Options, MessageIds>({
   defaultOptions: [],
   create(context) {
     return {
-      [`PropertyDefinition:not([readonly]) > ${Selectors.OUTPUT_DECORATOR}`]({
+      [`PropertyDefinition:not([readonly=true]) > ${Selectors.OUTPUT_DECORATOR}`]({
         parent: { key },
       }: TSESTree.Decorator & { parent: TSESTree.PropertyDefinition }) {
         context.report({

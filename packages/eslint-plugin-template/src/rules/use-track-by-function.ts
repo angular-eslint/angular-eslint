@@ -18,7 +18,6 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description: 'Ensures trackBy function is used',
-      recommended: false,
     },
     schema: [
       {

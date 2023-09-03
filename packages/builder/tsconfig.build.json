@@ -4,7 +4,8 @@
     "outDir": "./dist",
     "baseUrl": ".",
     "declaration": true,
-    "types": ["node"]
+    "types": ["node"],
+    "module": "NodeNext"
   },
   "exclude": ["**/*.spec.ts", "**/*_spec.ts"],
   "include": ["src"]

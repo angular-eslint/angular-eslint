@@ -21,7 +21,6 @@ export default createESLintRule<Options, MessageIds>({
     docs: {
       description:
         '[Accessibility] Ensures elements with ARIA roles have all required properties for that role.',
-      recommended: false,
     },
     hasSuggestions: true,
     schema: [],

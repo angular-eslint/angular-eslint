@@ -1,9 +1,9 @@
-import type { TmplAstElement } from '@angular-eslint/bundled-angular-compiler';
-import { getTemplateParserServices } from '@angular-eslint/utils';
 import type {
   TmplAstBoundAttribute,
+  TmplAstElement,
   TmplAstTextAttribute,
-} from '@angular/compiler';
+} from '@angular-eslint/bundled-angular-compiler';
+import { getTemplateParserServices } from '@angular-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
 type Options = [];
@@ -16,7 +16,6 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description: 'Ensures ngSrc is used instead of src for img elements',
-      recommended: false,
     },
     schema: [],
     messages: {

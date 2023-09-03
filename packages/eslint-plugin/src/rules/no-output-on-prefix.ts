@@ -13,7 +13,7 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description: `Ensures that output bindings, including aliases, are not named "on", nor prefixed with it. See more at ${STYLE_GUIDE_LINK}`,
-      recommended: 'error',
+      recommended: 'recommended',
     },
     schema: [],
     messages: {

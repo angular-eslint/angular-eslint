@@ -13,7 +13,6 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description: 'Disallows explicit calls to lifecycle methods',
-      recommended: false,
     },
     schema: [],
     messages: {
