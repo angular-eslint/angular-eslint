@@ -49,7 +49,7 @@ async function enhanceSchemaWithProperties(
 
   writeFileSync(
     schemaJsonPath,
-    format(updatedSchemaJson, {
+    await format(updatedSchemaJson, {
       ...(await resolveConfig(schemaJsonPath)),
       parser: 'json',
     }),

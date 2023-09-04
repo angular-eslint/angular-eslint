@@ -18,7 +18,7 @@ describe('parseForESLint()', () => {
           Object {
             "loc": Object {
               "end": Object {
-                "column": 10,
+                "column": 39,
                 "line": 2,
               },
               "start": Object {
@@ -28,7 +28,7 @@ describe('parseForESLint()', () => {
             },
             "range": Array [
               7,
-              11,
+              40,
             ],
             "type": "Block",
             "value": "eslint-disable-next-line",
@@ -36,7 +36,7 @@ describe('parseForESLint()', () => {
           Object {
             "loc": Object {
               "end": Object {
-                "column": 10,
+                "column": 33,
                 "line": 4,
               },
               "start": Object {
@@ -46,7 +46,7 @@ describe('parseForESLint()', () => {
             },
             "range": Array [
               74,
-              78,
+              101,
             ],
             "type": "Block",
             "value": "some other comment",

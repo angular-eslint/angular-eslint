@@ -98,6 +98,29 @@ export default createESLintRule<Options, MessageIds>({
       [Selectors.OUTPUTS_METADATA_PROPERTY_LITERAL](
         node: TSESTree.Literal | TSESTree.TemplateElement,
       ) {
+        const ancestorMaybeHostDirectiveAPI =
+          node.parent?.parent?.parent?.parent?.parent;
+        if (
+          ancestorMaybeHostDirectiveAPI &&
+          ASTUtils.isProperty(ancestorMaybeHostDirectiveAPI)
+        ) {
+          /**
+           * Angular v15 introduced the directive composition API: https://angular.io/guide/directive-composition-api
+           * Renaming host directive outputs using this API is not a bad practice and should not be reported
+           */
+          const hostDirectiveAPIPropertyName = 'hostDirectives';
+          if (
+            (ASTUtils.isLiteral(ancestorMaybeHostDirectiveAPI.key) &&
+              ancestorMaybeHostDirectiveAPI.key.value ===
+                hostDirectiveAPIPropertyName) ||
+            (TSESLintASTUtils.isIdentifier(ancestorMaybeHostDirectiveAPI.key) &&
+              ancestorMaybeHostDirectiveAPI.key.name ===
+                hostDirectiveAPIPropertyName)
+          ) {
+            return;
+          }
+        }
+
         const [propertyName, aliasName] = withoutBracketsAndWhitespaces(
           ASTUtils.getRawText(node),
         ).split(':');

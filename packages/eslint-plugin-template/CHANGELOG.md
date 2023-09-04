@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [16.1.2](https://github.com/angular-eslint/angular-eslint/compare/v16.1.1...v16.1.2) (2023-09-04)
+
+### Bug Fixes
+
+- update dependency @angular/compiler to v16.2.3 ([#1458](https://github.com/angular-eslint/angular-eslint/issues/1458)) ([2b895a8](https://github.com/angular-eslint/angular-eslint/commit/2b895a8b45dfc16a8d03e149c47ef1c47c414e2e))
+
+## [16.1.1](https://github.com/angular-eslint/angular-eslint/compare/v16.1.0...v16.1.1) (2023-08-20)
+
+### Bug Fixes
+
+- **eslint-plugin-template:** [attributes-order] Handle explicit ng-template usage ([#1465](https://github.com/angular-eslint/angular-eslint/issues/1465)) ([7d1f592](https://github.com/angular-eslint/angular-eslint/commit/7d1f5926fdad1adddc6f060d5bb3053562d0903f))
+- **eslint-plugin-template:** update links to Angular i18n docs ([#1476](https://github.com/angular-eslint/angular-eslint/issues/1476)) ([9633058](https://github.com/angular-eslint/angular-eslint/commit/9633058f014842b66e7ff9d81f90520ce7628a8a))
+
 # [16.1.0](https://github.com/angular-eslint/angular-eslint/compare/v16.0.3...v16.1.0) (2023-07-12)
 
 ### Bug Fixes
