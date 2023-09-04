@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [16.1.2](https://github.com/angular-eslint/angular-eslint/compare/v16.1.1...v16.1.2) (2023-09-04)
+
+### Bug Fixes
+
+- **angular-eslint:** ignore hostDirectives for no-output-rename and no-outputs-metadata-property ([#1466](https://github.com/angular-eslint/angular-eslint/issues/1466)) ([208bf25](https://github.com/angular-eslint/angular-eslint/commit/208bf25ec3662a1d6fdcaa32a27a9015ddf5e9ce))
+- update dependency @angular/compiler to v16.2.3 ([#1458](https://github.com/angular-eslint/angular-eslint/issues/1458)) ([2b895a8](https://github.com/angular-eslint/angular-eslint/commit/2b895a8b45dfc16a8d03e149c47ef1c47c414e2e))
+
 ## [16.1.1](https://github.com/angular-eslint/angular-eslint/compare/v16.1.0...v16.1.1) (2023-08-20)
 
 ### Bug Fixes
