@@ -87,7 +87,7 @@
     "json-schema-to-typescript": "13.1.1",
     "json-schema-traverse": "1.0.0",
     "jsonc-eslint-parser": "^2.1.0",
-    "lerna": "7.1.5",
+    "lerna": "7.2.0",
     "lint-staged": "14.0.1",
     "ncp": "2.0.0",
     "nx": "16.5.1",
