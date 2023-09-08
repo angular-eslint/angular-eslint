@@ -118,6 +118,37 @@ The rule does not have any configuration options.
 ~~~~~~~~~~~~~~~
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-self-closing-tags": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<my-component
+  type="text"
+  [name]="foo"
+  [items]="items"
+></my-component>
+ ~~~~~~~~~~~~~~~
+```
+
 </details>
 
 <br>
