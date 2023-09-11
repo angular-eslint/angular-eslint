@@ -354,4 +354,68 @@ export const invalid = [
             
     `,
   }),
+  // convertAnnotatedSourceToFailureCase({
+  //   messageId,
+  //   description: 'should work with aliased structural directive',
+  //   annotatedSource: `
+  //      <div test-attr *ngIf="sth.property as property "></div>
+  //           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  //   `,
+  //   data: {
+  //     actual: '`test-attr`, `*ngIf`',
+  //     expected: '`*ngIf`, `test-attr`',
+  //   },
+  //   annotatedOutput: `
+  //      <div *ngIf="sth.property as property " test-attr></div>
+  //
+  //   `,
+  // }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description: 'should work with multiple property structural directive',
+    annotatedSource: `
+       <div test-attr *transloco="let t; scope: 'scopeName'; read: 'components.my-component'"></div>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    data: {
+      actual: '`test-attr`, `*transloco`',
+      expected: '`*transloco`, `test-attr`',
+    },
+    annotatedOutput: `
+       <div *transloco="let t; scope: 'scopeName'; read: 'components.my-component'" test-attr></div>
+            
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description: 'should work with multiple property structural directive',
+    annotatedSource: `
+       <div test-attr *transloco="let t; read: component.prop || component.otherProp"></div>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    data: {
+      actual: '`test-attr`, `*transloco`',
+      expected: '`*transloco`, `test-attr`',
+    },
+    annotatedOutput: `
+       <div *transloco="let t; read: component.prop || component.otherProp" test-attr></div>
+            
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description: 'should work with ngFor structural directive',
+    annotatedSource: `
+       <div test-attr *ngFor="let x of array.xs; let i = index"></div>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    data: {
+      actual: '`test-attr`, `*ngFor`',
+      expected: '`*ngFor`, `test-attr`',
+    },
+    annotatedOutput: `
+       <div *ngFor="let x of array.xs; let i = index" test-attr></div>
+            
+    `,
+  }),
 ];
