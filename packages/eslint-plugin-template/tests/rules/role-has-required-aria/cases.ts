@@ -10,6 +10,8 @@ export const valid = [
   '<span role="heading" aria-level="5"></span>',
   '<span role="button"></span>',
   '<app-component [role]="ADMIN"></app-component>',
+  '<summary (click)="onClick()">Foo</summary>',
+  '<summary (click)="onClick()" aria-expanded="false">Bar</summary>',
 ];
 
 export const invalid = [
