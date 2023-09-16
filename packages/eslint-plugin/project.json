@@ -85,7 +85,7 @@
     },
     "update-rule-lists": {
       "executor": "nx:run-commands",
-      "outputs": ["{projectRoot}/docs"],
+      "outputs": ["{projectRoot}/README.md"],
       "options": {
         "parallel": false,
         "commands": [
