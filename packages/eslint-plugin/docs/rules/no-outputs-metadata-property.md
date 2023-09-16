@@ -489,6 +489,105 @@ class Test {}
 class Test {}
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-outputs-metadata-property": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  selector: 'foo',
+  hostDirectives: [{
+    directive: CdkMenuItem,
+    outputs: ['cdkMenuItemTriggered: triggered'],
+  }]
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-outputs-metadata-property": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  selector: 'foo',
+  'hostDirectives': [{
+    directive: CdkMenuItem,
+    outputs: ['cdkMenuItemTriggered: triggered'],
+  }]
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-outputs-metadata-property": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  selector: 'foo',
+  ['hostDirectives']: [{
+    directive: CdkMenuItem,
+    outputs: ['cdkMenuItemTriggered: triggered'],
+  }]
+})
+class Test {}
+```
+
 </details>
 
 <br>

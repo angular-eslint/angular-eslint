@@ -85,6 +85,9 @@ import relativeUrlPrefix, {
 import requireLocalizeMetadata, {
   RULE_NAME as requireLocalizeMetadataRuleName,
 } from './rules/require-localize-metadata';
+import sortLifecycleMethods, {
+  RULE_NAME as sortLifecycleMethodsRuleName,
+} from './rules/sort-lifecycle-methods';
 import sortNgmoduleMetadataArrays, {
   RULE_NAME as sortNgmoduleMetadataArraysName,
 } from './rules/sort-ngmodule-metadata-arrays';
@@ -135,10 +138,11 @@ export = {
     [pipePrefixRuleName]: pipePrefix,
     [preferOnPushComponentChangeDetectionRuleName]:
       preferOnPushComponentChangeDetection,
-    [preferOutputReadonlyRuleName]: preferOutputReadonly,
     [preferStandaloneComponentRuleName]: preferStandaloneComponent,
+    [preferOutputReadonlyRuleName]: preferOutputReadonly,
     [relativeUrlPrefixRuleName]: relativeUrlPrefix,
     [requireLocalizeMetadataRuleName]: requireLocalizeMetadata,
+    [sortLifecycleMethodsRuleName]: sortLifecycleMethods,
     [sortNgmoduleMetadataArraysName]: sortNgmoduleMetadataArrays,
     [useComponentSelectorRuleName]: useComponentSelector,
     [useComponentViewEncapsulationRuleName]: useComponentViewEncapsulation,

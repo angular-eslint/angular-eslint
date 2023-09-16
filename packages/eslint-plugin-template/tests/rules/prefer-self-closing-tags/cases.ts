@@ -61,4 +61,25 @@ export const invalid = [
     `,
     messageId,
   }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'it should fail if the opening and closing tag are on the same new line',
+    annotatedSource: `
+      <my-component
+        type="text"
+        [name]="foo"
+        [items]="items"
+      ></my-component>
+       ~~~~~~~~~~~~~~~
+    `,
+    annotatedOutput: `
+      <my-component
+        type="text"
+        [name]="foo"
+        [items]="items"
+      />
+       
+    `,
+    messageId,
+  }),
 ];

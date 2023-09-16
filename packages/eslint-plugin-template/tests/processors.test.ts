@@ -467,5 +467,47 @@ describe('extract-inline-html', () => {
         });
       });
     });
+
+    describe('messages from inline template HTML', () => {
+      it('should adjust message locations from the inline templates', () => {
+        const fileContent = `
+          @Component({
+            template: '<div ([ngModel])="value"></div>',
+          })
+          export class Component {
+            value = '';
+          }
+        `;
+        processors['extract-inline-html'].preprocess(
+          fileContent,
+          'test.component.ts',
+        );
+        const mockError = {
+          ruleId: 'banana-in-box',
+          severity: 2,
+          message: 'Invalid binding syntax. Use [(expr)] instead',
+          line: 1,
+          column: 28,
+          nodeType: 'Literal',
+          messageId: 'bananaInBox',
+          endLine: 1,
+          endColumn: 39,
+          fix: { range: [5, 16], text: '[(ngModel)]' },
+        };
+        const expectedMessage = {
+          ...mockError,
+          line: 3,
+          endLine: 3,
+          fix: { range: [52, 63], text: '[(ngModel)]' },
+        };
+
+        expect(
+          processors['extract-inline-html'].postprocess(
+            [[], [mockError]],
+            'test.component.ts',
+          ),
+        ).toEqual([expectedMessage]);
+      });
+    });
   });
 });

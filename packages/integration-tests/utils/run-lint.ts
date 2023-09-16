@@ -44,3 +44,16 @@ export async function runLint(directory: string): Promise<string | undefined> {
     return normalizeOutput(error.stdout || error);
   }
 }
+
+export async function runLintFix(directory: string): Promise<void> {
+  const subprocess = execa('npx', ['ng', 'lint', '--fix'], {
+    cwd: path.join(FIXTURES_DIR, directory),
+  });
+
+  /* eslint-disable @typescript-eslint/no-non-null-assertion */
+  subprocess.stdout!.pipe(process.stdout);
+  subprocess.stderr!.pipe(process.stderr);
+  /* eslint-enable @typescript-eslint/no-non-null-assertion */
+
+  await subprocess;
+}
