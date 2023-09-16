@@ -1,5 +1,5 @@
 import { readFileSync, writeFileSync } from 'node:fs';
-import { join, resolve } from 'node:path';
+import { resolve } from 'node:path';
 import { format } from 'prettier';
 
 import eslintPlugin from '../../packages/eslint-plugin/src';
@@ -11,23 +11,13 @@ type RuleModule =
 type RuleItem = [string, RuleModule];
 type RulesList = RuleItem[];
 type Column = { header: string; dataFn: DataFn };
+type KeyOfEmojiKey = keyof typeof emojiKey;
 
 interface Plugin {
   name: string;
-  file: string;
+  filePath: string;
   rules: RulesList;
   withAccessibility: boolean;
-}
-
-/** Check that plugin name is correct before going forward */
-
-const plugin = process.argv[2];
-
-if (plugin !== 'eslint-plugin-template' && plugin !== 'eslint-plugin') {
-  console.error(
-    `\nError: the first argument to the script must be "eslint-plugin-template" or "eslint-plugin"`,
-  );
-  process.exit(1);
 }
 
 const emojiKey = {
@@ -38,25 +28,22 @@ const emojiKey = {
     emoji: ':accessibility:',
     desc: 'included in accessibility preset',
   },
-} as const;
+} as const satisfies Record<string, { emoji: string; desc: string }>;
 
-const emojiWithDesc = (key: keyof typeof emojiKey): string =>
-  emojiKey[key].emoji;
+const emojiWithDesc = (key: KeyOfEmojiKey): string => emojiKey[key].emoji;
 
-const keyListItem = (key: keyof typeof emojiKey): string =>
+const keyListItem = (key: KeyOfEmojiKey): string =>
   `* ${emojiWithDesc(key)} = ${emojiKey[key].desc}`;
 
-const returnEmojiIfTrue = (
-  key: keyof typeof emojiKey,
-  value: boolean,
-): string => (value ? emojiWithDesc(key) : '');
+const returnEmojiIfTrue = (key: KeyOfEmojiKey, value: boolean): string =>
+  value ? emojiWithDesc(key) : '';
 
 const createRuleLink = ([name, rule]: RuleItem, plugin: Plugin): string => {
   const fullRuleName = plugin?.name ? `${name}` : name;
   return `[\`${fullRuleName}\`](${rule?.meta?.docs?.url})`;
 };
 
-const ruleKey = (withAccessibility: boolean) =>
+const ruleKey = (withAccessibility: boolean): string =>
   [
     '**Key**',
     '',
@@ -124,8 +111,11 @@ const columnsDeprecated: Column[] = [
   },
 ];
 
-const buildRow = (ruleItem: RuleItem, plugin: Plugin, columnsSet: Column[]) =>
-  columnsSet.map((col) => col.dataFn(ruleItem, plugin)).join(' | ');
+const buildRow = (
+  ruleItem: RuleItem,
+  plugin: Plugin,
+  columnsSet: Column[],
+): string => columnsSet.map((col) => col.dataFn(ruleItem, plugin)).join(' | ');
 
 const buildRulesTable = (rules: RulesList = [], plugin: Plugin): string => {
   const columnSet = rules[0][1].meta.deprecated
@@ -162,7 +152,7 @@ const buildRulesSection = (
 const updateRulesList = (
   listName: string,
   listId: string,
-  rules: RulesList = [],
+  rules: RulesList,
   markdown: string,
   plugin: Plugin,
 ): string => {
@@ -176,7 +166,7 @@ const updateRulesList = (
     throw new Error(`cannot find start or end of ${listName} list`);
   }
 
-  const content: string = rules?.length
+  const content: string = rules.length
     ? buildRulesSection(listName, rules, plugin)
     : '';
 
@@ -192,10 +182,10 @@ const updateRulesList = (
 const getRulesByType = (
   rules: RuleItem[],
   type: 'suggestion' | 'problem' | 'layout',
-) => rules.filter(([, rule]) => rule.meta.type === type);
+): RuleItem[] => rules.filter(([, rule]) => rule.meta.type === type);
 
 const updateFile = async (plugin: Plugin): Promise<void> => {
-  const filePath = resolve(__dirname, plugin.file);
+  const filePath = resolve(__dirname, plugin.filePath);
   let readme = readFileSync(filePath, 'utf8');
 
   const deprecated = plugin.rules.filter(([, rule]) => rule.meta.deprecated);
@@ -240,25 +230,32 @@ const updateFile = async (plugin: Plugin): Promise<void> => {
 const getRuleEntries = (rules: Record<string, RuleModule>) =>
   Object.entries(rules).sort((a, b) => a[0].localeCompare(b[0]));
 
-const pluginList: Plugin[] = [
-  {
-    rules: getRuleEntries(eslintPlugin.rules),
-    name: '@angular-eslint',
-    file: join(__dirname, '../../packages/eslint-plugin/README.md'),
-    withAccessibility: false,
-  },
-  {
-    rules: getRuleEntries(eslintPluginTemplate.rules),
-    name: '@angular-eslint/template',
-    file: join(__dirname, '../../packages/eslint-plugin-template/README.md'),
-    withAccessibility: true,
-  },
-];
+(async function main() {
+  /** Check that plugin name is correct before going forward */
+  const plugin = process.argv[2];
 
-(function main() {
+  if (plugin !== 'eslint-plugin-template' && plugin !== 'eslint-plugin') {
+    console.error(
+      `\nError: the first argument to the script must be "eslint-plugin-template" or "eslint-plugin"`,
+    );
+    process.exit(1);
+  }
+
   if (plugin === 'eslint-plugin') {
-    updateFile(pluginList[0]);
+    const pluginInfo: Plugin = {
+      rules: getRuleEntries(eslintPlugin.rules),
+      name: '@angular-eslint',
+      filePath: '../../packages/eslint-plugin/README.md',
+      withAccessibility: false,
+    };
+    await updateFile(pluginInfo);
   } else if (plugin === 'eslint-plugin-template') {
-    updateFile(pluginList[1]);
+    const pluginInfo: Plugin = {
+      rules: getRuleEntries(eslintPluginTemplate.rules),
+      name: '@angular-eslint/template',
+      filePath: '../../packages/eslint-plugin-template/README.md',
+      withAccessibility: true,
+    };
+    await updateFile(pluginInfo);
   }
 })();
