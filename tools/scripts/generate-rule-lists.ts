@@ -194,7 +194,7 @@ const getRulesByType = (
   type: 'suggestion' | 'problem' | 'layout',
 ) => rules.filter(([, rule]) => rule.meta.type === type);
 
-const updateFile = (plugin: Plugin): void => {
+const updateFile = async (plugin: Plugin): Promise<void> => {
   const filePath = resolve(__dirname, plugin.file);
   let readme = readFileSync(filePath, 'utf8');
 
@@ -232,7 +232,7 @@ const updateFile = (plugin: Plugin): void => {
     plugin,
   );
 
-  readme = format(readme, { parser: 'markdown' });
+  readme = await format(readme, { parser: 'markdown' });
 
   writeFileSync(filePath, readme, 'utf8');
 };
