@@ -35,7 +35,7 @@ jobs:
       - name: Set NX_RUN_GROUP based on the output of the create_nx_run_group job
         run: echo "NX_RUN_GROUP=${{ needs.create_nx_run_group.outputs.nx_run_group }}" >> $GITHUB_ENV
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -109,7 +109,7 @@ jobs:
       - name: Set NX_RUN_GROUP based on the output of the create_nx_run_group job
         run: echo "NX_RUN_GROUP=${{ needs.create_nx_run_group.outputs.nx_run_group }}" >> $GITHUB_ENV
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Install node and npm based on the volta config in our package.json
         uses: volta-cli/action@v4
@@ -149,7 +149,7 @@ jobs:
       - name: Set NX_RUN_GROUP based on the output of the create_nx_run_group job
         run: echo "NX_RUN_GROUP=${{ needs.create_nx_run_group.outputs.nx_run_group }}" >> $GITHUB_ENV
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -205,7 +205,7 @@ jobs:
       - name: Set NX_RUN_GROUP based on the output of the create_nx_run_group job
         run: echo "NX_RUN_GROUP=${{ needs.create_nx_run_group.outputs.nx_run_group }}" >> $GITHUB_ENV
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       # Fetch all history for all tags and branches in this job because lerna needs it
       - run: git fetch --prune --unshallow
