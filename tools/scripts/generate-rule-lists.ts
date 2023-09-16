@@ -39,7 +39,7 @@ const returnEmojiIfTrue = (key: KeyOfEmojiKey, value: boolean): string =>
   value ? emojiWithDesc(key) : '';
 
 const createRuleLink = ([name, rule]: RuleItem, plugin: Plugin): string => {
-  const fullRuleName = plugin?.name ? `${name}` : name;
+  const fullRuleName = plugin.name ? `${name}` : name;
   return `[\`${fullRuleName}\`](${rule?.meta?.docs?.url})`;
 };
 
@@ -124,10 +124,10 @@ const buildRulesTable = (rules: RulesList = [], plugin: Plugin): string => {
     ? columns.concat(accessibilityColumn)
     : columns;
   return [
-    '| ' + columnSet.map((col) => col.header).join(' | ') + ' |',
-    '| ' + columnSet.map(() => '---').join(' | ') + ' |',
+    `| ${columnSet.map((col) => col.header).join(' | ')} |`,
+    `| ${columnSet.map(() => '---').join(' | ')} |`,
     ...rules.map(
-      (item: RuleItem) => '| ' + buildRow(item, plugin, columnSet) + ' |',
+      (item: RuleItem) => `| ${buildRow(item, plugin, columnSet)} |`,
     ),
   ].join('\n');
 };
@@ -227,21 +227,12 @@ const updateFile = async (plugin: Plugin): Promise<void> => {
   writeFileSync(filePath, readme, 'utf8');
 };
 
-const getRuleEntries = (rules: Record<string, RuleModule>) =>
+const getRuleEntries = (rules: Record<string, RuleModule>): RulesList =>
   Object.entries(rules).sort((a, b) => a[0].localeCompare(b[0]));
 
 (async function main() {
-  /** Check that plugin name is correct before going forward */
-  const plugin = process.argv[2];
-
-  if (plugin !== 'eslint-plugin-template' && plugin !== 'eslint-plugin') {
-    console.error(
-      `\nError: the first argument to the script must be "eslint-plugin-template" or "eslint-plugin"`,
-    );
-    process.exit(1);
-  }
-
-  if (plugin === 'eslint-plugin') {
+  const pluginName = process.argv[2];
+  if (pluginName === 'eslint-plugin') {
     const pluginInfo: Plugin = {
       rules: getRuleEntries(eslintPlugin.rules),
       name: '@angular-eslint',
@@ -249,7 +240,7 @@ const getRuleEntries = (rules: Record<string, RuleModule>) =>
       withAccessibility: false,
     };
     await updateFile(pluginInfo);
-  } else if (plugin === 'eslint-plugin-template') {
+  } else if (pluginName === 'eslint-plugin-template') {
     const pluginInfo: Plugin = {
       rules: getRuleEntries(eslintPluginTemplate.rules),
       name: '@angular-eslint/template',
@@ -257,5 +248,10 @@ const getRuleEntries = (rules: Record<string, RuleModule>) =>
       withAccessibility: true,
     };
     await updateFile(pluginInfo);
+  } else {
+    console.error(
+      `\nError: the first argument to the script must be "eslint-plugin-template" or "eslint-plugin"`,
+    );
+    process.exit(1);
   }
 })();
