@@ -91,7 +91,7 @@
     "lint-staged": "14.0.1",
     "ncp": "2.0.0",
     "nx": "16.5.1",
-    "nx-cloud": "16.3.0",
+    "nx-cloud": "16.4.0",
     "prettier": "3.0.3",
     "prettier-v2-for-jest-inline-snapshots": "npm:prettier@^2",
     "rimraf": "5.0.1",
