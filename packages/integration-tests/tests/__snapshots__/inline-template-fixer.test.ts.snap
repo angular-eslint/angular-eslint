@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`inline-template-fixer should generate the expected inline template fixer result 1`] = `
+"
+import { Component } from '@angular/core';
+
+@Component({
+  template: \`
+    <div></div> <!-- no autofocus -->
+    {{ '' }} <!-- no-distracting-elements -->
+    <div></div> <!-- table-scope -->
+  \`
+})
+export class TestComponent {}
+"
+`;

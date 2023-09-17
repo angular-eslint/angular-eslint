@@ -61,13 +61,19 @@ export default createESLintRule<[], typeof MESSAGE_ID>({
           return;
         }
 
+        // HTML tags always have more than two characters
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const openingTagLastChar = startSourceSpan.toString().at(-2)!;
+        const hasOwnWhitespace = openingTagLastChar.trim() === '';
+        const closingTagPrefix = hasOwnWhitespace ? '' : ' ';
+
         context.report({
           loc: parserServices.convertNodeSourceSpanToLoc(endSourceSpan),
           messageId: MESSAGE_ID,
           fix: (fixer) =>
             fixer.replaceTextRange(
               [startSourceSpan.end.offset - 1, endSourceSpan.end.offset],
-              ' />',
+              closingTagPrefix + '/>',
             ),
         });
       },

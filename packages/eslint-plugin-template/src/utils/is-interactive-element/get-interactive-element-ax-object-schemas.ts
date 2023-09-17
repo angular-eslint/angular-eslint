@@ -32,7 +32,10 @@ export function getInteractiveElementAXObjectSchemas(): AXObjectSchema[] {
     >((accumulator, [elementSchema, AXObjectSet]) => {
       return accumulator.concat(
         [...AXObjectSet].every((role) => interactiveAXObjects.has(role))
-          ? elementSchema
+          ? // summary element should not have required attributes
+            elementSchema.name === 'summary'
+            ? { ...elementSchema, attributes: [] }
+            : elementSchema
           : [],
       );
     }, []);

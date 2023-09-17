@@ -257,7 +257,7 @@ export function postprocessComponentFile(
             message.endLine + rangeData.lineAndCharacter.start.line;
 
           if (message.fix) {
-            const startOffset = rangeData.range[0];
+            const startOffset = rangeData.range[0] + 1;
             message.fix.range = [
               startOffset + message.fix.range[0],
               startOffset + message.fix.range[1],
