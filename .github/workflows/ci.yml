@@ -71,19 +71,17 @@ jobs:
       - name: Check code formatting (not distributable)
         run: NX_CLOUD_DISTRIBUTED_EXECUTION=false yarn format-check
 
-      # - name: Run parallel distributed tasks for build, typecheck, check-rule-docs, lint and test targets
-      #   uses: jameshenry/parallel-bash-commands@v1
-      #   with:
-      #     # Note that the typecheck target *also* typechecks tests and tools,
-      #     # whereas the build only checks src files
-      #     cmd1: yarn typecheck
-      #     cmd2: yarn build
-      #     cmd3: yarn check-rule-docs
-      #     cmd4: yarn lint
-      #     cmd5: yarn test --codeCoverage
-
-      - name: Run check-rule-lists
-        run: yarn check-rule-lists
+      - name: Run parallel distributed tasks for build, typecheck, check-rule-docs, lint and test targets
+        uses: jameshenry/parallel-bash-commands@v1
+        with:
+          # Note that the typecheck target *also* typechecks tests and tools,
+          # whereas the build only checks src files
+          cmd1: yarn typecheck
+          cmd2: yarn build
+          cmd3: yarn check-rule-docs
+          cmd4: yarn check-rule-lists
+          cmd5: yarn lint
+          cmd6: yarn test --codeCoverage
 
       - run: git diff packages/eslint-plugin/README.md
         if: always
