@@ -83,11 +83,6 @@ jobs:
           cmd5: yarn lint
           cmd6: yarn test --codeCoverage
 
-      - run: git diff packages/eslint-plugin/README.md
-        if: always
-      - run: git diff packages/eslint-plugin-template/README.md
-        if: always
-
       - name: Run distributed integration tests with independent local registries
         run: npx nx run-many --target=integration-test --all --withRegistry
 
