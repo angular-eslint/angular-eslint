@@ -16,6 +16,8 @@
           "integration-test",
           "check-rule-docs",
           "update-rule-docs",
+          "check-rule-lists",
+          "update-rule-lists",
           "typecheck"
         ]
       }
@@ -30,6 +32,9 @@
       "dependsOn": ["^build"]
     },
     "update-rule-docs": {
+      "dependsOn": ["^build"]
+    },
+    "update-rule-lists": {
       "dependsOn": ["^build"]
     },
     "test": {

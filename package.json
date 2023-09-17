@@ -36,6 +36,8 @@
     "update-configs": "ts-node --transpile-only --project tsconfig.tools.json tools/scripts/generate-configs.ts",
     "check-rule-docs": "nx run-many -t check-rule-docs",
     "update-rule-docs": "nx run-many -t update-rule-docs",
+    "check-rule-lists": "nx run-many -t check-rule-lists",
+    "update-rule-lists": "nx run-many -t update-rule-lists",
     "prepare": "husky install"
   },
   "config": {
