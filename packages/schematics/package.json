@@ -44,7 +44,7 @@
   "devDependencies": {
     "@types/tmp": "0.2.4",
     "@typescript-eslint/utils": "5.62.0",
-    "eslint": "8.47.0"
+    "eslint": "8.49.0"
   },
   "peerDependencies": {
     "@angular/cli": ">= 16.0.0 < 17.0.0"
