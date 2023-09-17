@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [16.2.0](https://github.com/angular-eslint/angular-eslint/compare/v16.1.2...v16.2.0) (2023-09-17)
+
+### Bug Fixes
+
+- **eslint-plugin:** [use-component-selector] applies to template literals ([#1468](https://github.com/angular-eslint/angular-eslint/issues/1468)) ([cbe60d3](https://github.com/angular-eslint/angular-eslint/commit/cbe60d3acd0dafe4256c56fa0147e377ef5e6471))
+
+### Features
+
+- **eslint-plugin:** [sort-lifecycle-methods] add rule ([#1320](https://github.com/angular-eslint/angular-eslint/issues/1320)) ([47f7975](https://github.com/angular-eslint/angular-eslint/commit/47f7975aefb18e81aac5919f6586054d65b84f6f))
+
 ## [16.1.2](https://github.com/angular-eslint/angular-eslint/compare/v16.1.1...v16.1.2) (2023-09-04)
 
 ### Bug Fixes
