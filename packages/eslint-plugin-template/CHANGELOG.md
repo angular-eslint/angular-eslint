@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [16.2.0](https://github.com/angular-eslint/angular-eslint/compare/v16.1.2...v16.2.0) (2023-09-17)
+
+### Bug Fixes
+
+- **eslint-plugin-template:** [prefer-self-closing-tags] improve code style of fixer result ([#1520](https://github.com/angular-eslint/angular-eslint/issues/1520)) ([6a86f19](https://github.com/angular-eslint/angular-eslint/commit/6a86f1903dc91cc8c46b910b22c89c66cae7e416))
+- **eslint-plugin-template:** fix fixer of inline templates ([#1472](https://github.com/angular-eslint/angular-eslint/issues/1472)) ([470e12b](https://github.com/angular-eslint/angular-eslint/commit/470e12b5b482857735e2140e3524a5726d4fc6a8))
+- update dependency axobject-query to v3.2.1 ([#1524](https://github.com/angular-eslint/angular-eslint/issues/1524)) ([bb171d4](https://github.com/angular-eslint/angular-eslint/commit/bb171d489a099af8109464e8efeb08273d8a1dbd))
+
+### Features
+
+- **eslint-plugin-template:** [prefer-ngsrc] add rule ([#1477](https://github.com/angular-eslint/angular-eslint/issues/1477)) ([0cfbc80](https://github.com/angular-eslint/angular-eslint/commit/0cfbc8096185a3851ca30d2f48cd939f027b1774))
+
 ## [16.1.2](https://github.com/angular-eslint/angular-eslint/compare/v16.1.1...v16.1.2) (2023-09-04)
 
 ### Bug Fixes
