@@ -79,6 +79,42 @@ interface Options {
 
 <br>
 
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/use-track-by-function": [
+      "error",
+      {
+        "alias": [
+          "ngForTrackByProperty"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<ul>
+  <li *ngFor="let item of [1, 2, 3];">
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    {{ item }}
+  </li>
+</ul>
+```
+
+<br>
+
+---
+
+<br>
+
 #### Default Config
 
 ```json
@@ -86,6 +122,40 @@ interface Options {
   "rules": {
     "@angular-eslint/template/use-track-by-function": [
       "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<ng-template ngFor let-item [ngForOf]="[1, 2, 3]" let-i="index">
+                            ~~~~~~~~~~~~~~~~~~~~~
+  {{ item }}
+</ng-template>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/use-track-by-function": [
+      "error",
+      {
+        "alias": [
+          "ngForTrackByProperty"
+        ]
+      }
     ]
   }
 }
@@ -167,6 +237,48 @@ interface Options {
                             ~~~~~~~~~~~~~~~~~~~~~
   {{ item }}
 </ng-template>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/use-track-by-function": [
+      "error",
+      {
+        "alias": [
+          "ngForTrackByProperty"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div *ngFor="let item of [1, 2, 3]; trackBy: trackByFn">
+  {{ item }}
+</div>
+<div *ngFor="let item of [1, 2, 3]; trackByProperty: trackByFn">
+  {{ item }}
+</div>
+<ul>
+  <li *ngFor="let item of [1, 2, 3];">
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    {{ item }}
+  </li>
+</ul>
 ```
 
 </details>
@@ -472,6 +584,39 @@ interface Options {
 
 ```html
 <div *ngFor="let photo of photos; trackById"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/use-track-by-function": [
+      "error",
+      {
+        "alias": [
+          "ngForTrackByProperty"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<ng-template ngFor let-item [ngForOf]="[1, 2, 3]" let-i="index" [ngForTrackByProperty]="trackByFn">
+  {{ item }}
+</ng-template>
 ```
 
 </details>
