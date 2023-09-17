@@ -97,7 +97,8 @@
   "implicitDependencies": ["template-parser", "bundled-angular-compiler"],
   "namedInputs": {
     "projectSpecificFiles": [
-      "{workspaceRoot}/tools/scripts/generate-rule-docs.ts"
+      "{workspaceRoot}/tools/scripts/generate-rule-docs.ts",
+      "{workspaceRoot}/tools/scripts/generate-rule-lists.ts"
     ]
   }
 }

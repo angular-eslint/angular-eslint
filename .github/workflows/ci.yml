@@ -85,6 +85,11 @@ jobs:
       - name: Run check-rule-lists
         run: yarn check-rule-lists
 
+      - run: git diff packages/eslint-plugin/README.md
+        if: always
+      - run: git diff packages/eslint-plugin-template/README.md
+        if: always
+
       - name: Run distributed integration tests with independent local registries
         run: npx nx run-many --target=integration-test --all --withRegistry
 
