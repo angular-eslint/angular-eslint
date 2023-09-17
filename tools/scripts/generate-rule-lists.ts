@@ -1,9 +1,9 @@
-import { readFileSync, writeFileSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
+import { writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
-import { format } from 'prettier';
-
-import eslintPlugin from '../../packages/eslint-plugin/src';
+import { format, resolveConfig } from 'prettier';
 import eslintPluginTemplate from '../../packages/eslint-plugin-template/src';
+import eslintPlugin from '../../packages/eslint-plugin/src';
 
 type RuleModule =
   | (typeof eslintPlugin.rules)[keyof typeof eslintPlugin.rules]
@@ -186,7 +186,8 @@ const getRulesByType = (
 
 const updateFile = async (plugin: Plugin): Promise<void> => {
   const filePath = resolve(__dirname, plugin.filePath);
-  let readme = readFileSync(filePath, 'utf8');
+  const oldReadme = readFileSync(filePath, 'utf8');
+  let readme = oldReadme;
 
   const deprecated = plugin.rules.filter(([, rule]) => rule.meta.deprecated);
   const notDeprecated = plugin.rules.filter(
@@ -222,9 +223,24 @@ const updateFile = async (plugin: Plugin): Promise<void> => {
     plugin,
   );
 
-  readme = await format(readme, { parser: 'markdown' });
+  readme = await format(readme, {
+    ...(await resolveConfig(filePath)),
+    parser: 'markdown',
+  });
 
-  writeFileSync(filePath, readme, 'utf8');
+  if (readme === oldReadme) {
+    console.log(`\n✅ Rule list of ${plugin.name} is already up-to-date.`);
+  } else {
+    try {
+      await writeFile(filePath, readme);
+      console.log(`\n✨ Updated rule list for ${plugin.name}!`);
+    } catch (err) {
+      console.error(
+        `❌ Error while writing updated readme file for ${plugin.name}`,
+      );
+      console.error(err);
+    }
+  }
 };
 
 const getRuleEntries = (rules: Record<string, RuleModule>): RulesList =>
