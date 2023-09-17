@@ -7,6 +7,6 @@
     "typescript": "*"
   },
   "devDependencies": {
-    "verdaccio": "5.20.1"
+    "verdaccio": "5.26.2"
   }
 }
