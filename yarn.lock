@@ -2687,10 +2687,10 @@
     "@tufjs/canonical-json" "1.0.0"
     minimatch "^9.0.0"
 
-"@types/aria-query@5.0.1":
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/@types/aria-query/-/aria-query-5.0.1.tgz#3286741fb8f1e1580ac28784add4c7a1d49bdfbc"
-  integrity sha512-XTIieEY+gvJ39ChLcB4If5zHtPxt3Syj5rgZR+e1ctpmK8NjPf0zFqsz4JpLJT0xla9GFDKjy8Cpu331nrmE1Q==
+"@types/aria-query@5.0.2":
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/@types/aria-query/-/aria-query-5.0.2.tgz#6f1225829d89794fd9f891989c9ce667422d7f64"
+  integrity sha512-PHKZuMN+K5qgKIWhBodXzQslTo5P+K/6LqeKXS6O/4liIDdZqaX5RXrCK++LAw+y/nptN48YmUMFiQHRSWYwtQ==
 
 "@types/babel__core@^7.1.14":
   version "7.20.1"
