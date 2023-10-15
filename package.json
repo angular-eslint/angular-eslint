@@ -96,7 +96,7 @@
     "nx-cloud": "16.4.0",
     "prettier": "3.0.3",
     "prettier-v2-for-jest-inline-snapshots": "npm:prettier@^2",
-    "rimraf": "5.0.1",
+    "rimraf": "5.0.5",
     "rollup": "^3.21.0",
     "strip-ansi": "6.0.1",
     "terser": "5.21.0",
