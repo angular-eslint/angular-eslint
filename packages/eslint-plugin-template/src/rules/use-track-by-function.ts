@@ -1,14 +1,16 @@
 import type {
   TmplAstTemplate,
   TmplAstTextAttribute,
+  TmplAstBoundAttribute,
 } from '@angular-eslint/bundled-angular-compiler';
-import { TmplAstBoundAttribute } from '@angular-eslint/bundled-angular-compiler';
 import { getTemplateParserServices } from '@angular-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
-type Options = [];
+type Options = [{ readonly alias: readonly string[] }];
 export type MessageIds = 'useTrackByFunction';
 export const RULE_NAME = 'use-track-by-function';
+
+const DEFAULT_ALIAS = [] as const;
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
@@ -18,13 +20,27 @@ export default createESLintRule<Options, MessageIds>({
       description: 'Ensures trackBy function is used',
       recommended: false,
     },
-    schema: [],
+    schema: [
+      {
+        type: 'object',
+        properties: {
+          alias: {
+            type: 'array',
+            items: {
+              type: 'string',
+            },
+          },
+        },
+        additionalProperties: false,
+      },
+    ],
     messages: {
       useTrackByFunction: 'Missing trackBy function in ngFor directive',
     },
   },
-  defaultOptions: [],
-  create(context) {
+  defaultOptions: [{ alias: DEFAULT_ALIAS }],
+  create(context, [{ alias }]) {
+    const isNgForTrackBy = isNgForTrackByFactory(alias);
     const parserServices = getTemplateParserServices(context);
 
     return {
@@ -72,11 +88,10 @@ export default createESLintRule<Options, MessageIds>({
   },
 });
 
-function isNgForTrackBy(
-  attribute: TmplAstBoundAttribute | TmplAstTextAttribute,
-): attribute is TmplAstBoundAttribute & { name: 'ngForTrackBy' } {
-  return (
-    attribute instanceof TmplAstBoundAttribute &&
-    attribute.name === 'ngForTrackBy'
-  );
+const DEFAULT_NG_FOR_TRACK_BY_ATTRIBUTE_NAME = 'ngForTrackBy';
+
+function isNgForTrackByFactory(alias: readonly string[]) {
+  const names = [...alias, DEFAULT_NG_FOR_TRACK_BY_ATTRIBUTE_NAME];
+  return (attribute: TmplAstBoundAttribute | TmplAstTextAttribute) =>
+    names.includes(attribute.name);
 }
