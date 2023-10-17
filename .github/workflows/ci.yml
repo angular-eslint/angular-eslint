@@ -68,6 +68,9 @@ jobs:
           yarn --ignore-engines --frozen-lockfile --prefer-offline --ignore-scripts
           yarn check-clean-workspace-after-install
 
+      - name: Start the Nx Cloud CI run
+        run: yarn nx-cloud start-ci-run
+
       - name: Check code formatting (not distributable)
         run: NX_CLOUD_DISTRIBUTED_EXECUTION=false yarn format-check
 
