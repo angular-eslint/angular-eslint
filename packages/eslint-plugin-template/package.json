@@ -25,7 +25,7 @@
     "axobject-query": "3.2.1"
   },
   "devDependencies": {
-    "@types/aria-query": "5.0.2"
+    "@types/aria-query": "5.0.3"
   },
   "peerDependencies": {
     "eslint": "^7.20.0 || ^8.0.0",
