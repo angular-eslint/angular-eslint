@@ -354,22 +354,22 @@ export const invalid = [
             
     `,
   }),
-  // convertAnnotatedSourceToFailureCase({
-  //   messageId,
-  //   description: 'should work with aliased structural directive',
-  //   annotatedSource: `
-  //      <div test-attr *ngIf="sth.property as property "></div>
-  //           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  //   `,
-  //   data: {
-  //     actual: '`test-attr`, `*ngIf`',
-  //     expected: '`*ngIf`, `test-attr`',
-  //   },
-  //   annotatedOutput: `
-  //      <div *ngIf="sth.property as property " test-attr></div>
-  //
-  //   `,
-  // }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description: 'should work with aliased structural directive',
+    annotatedSource: `
+       <div test-attr *ngIf="sth.property as property"></div>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    data: {
+      actual: '`test-attr`, `*ngIf`',
+      expected: '`*ngIf`, `test-attr`',
+    },
+    annotatedOutput: `
+       <div *ngIf="sth.property as property" test-attr></div>
+            
+    `,
+  }),
   convertAnnotatedSourceToFailureCase({
     messageId,
     description: 'should work with multiple property structural directive',
