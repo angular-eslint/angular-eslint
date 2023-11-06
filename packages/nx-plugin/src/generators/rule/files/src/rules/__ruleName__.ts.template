@@ -1,0 +1,26 @@
+import { createESLintRule } from '../utils/create-eslint-rule';
+
+type Options = [];
+export type MessageIds = '<%= ruleName.replace(/-./g, c => c[1].toUpperCase()) %>';
+export const RULE_NAME = '<%= ruleName %>';
+
+export default createESLintRule<Options, MessageIds>({
+  name: RULE_NAME,
+  // TODO: Complete metadata, fixing any type errors
+  meta: {
+    type: '',
+    docs: {
+      description: '',
+      recommended: '',
+    },
+    // fixable: '', TODO: Is it fixable?
+    schema: [],
+    messages: {
+      <%= ruleName.replace(/-./g, c => c[1].toUpperCase()) %>: '',
+    }
+  },
+  defaultOptions: [],
+  create(context) {
+    // TODO: return RuleListener
+  },
+});

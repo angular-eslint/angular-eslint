@@ -4,9 +4,24 @@ import type { MessageIds } from '../../../src/rules/use-component-selector';
 const messageId: MessageIds = 'useComponentSelector';
 
 export const valid = [
+  // It should succeed with single quotes
   `
     @Component({
       selector: 'sg-bar-foo'
+    })
+    class Test {}
+`,
+  // It should succeed with double quotes
+  `
+  @Component({
+    selector: "sg-bar-foo"
+  })
+  class Test {}
+`,
+  // It should succeed with template literals
+  `
+    @Component({
+      selector: \`sg-bar-foo\`
     })
     class Test {}
 `,

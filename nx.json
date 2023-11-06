@@ -16,6 +16,8 @@
           "integration-test",
           "check-rule-docs",
           "update-rule-docs",
+          "check-rule-lists",
+          "update-rule-lists",
           "typecheck"
         ]
       }
@@ -30,6 +32,9 @@
       "dependsOn": ["^build"]
     },
     "update-rule-docs": {
+      "dependsOn": ["^build"]
+    },
+    "update-rule-lists": {
       "dependsOn": ["^build"]
     },
     "test": {
@@ -58,7 +63,8 @@
       "default",
       "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
       "!{projectRoot}/tsconfig.spec.json",
-      "!{projectRoot}/jest.config.[jt]s"
+      "!{projectRoot}/jest.config.[jt]s",
+      "!{projectRoot}/src/test-setup.[jt]s"
     ],
     "projectSpecificFiles": []
   }

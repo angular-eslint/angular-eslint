@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [16.2.0](https://github.com/angular-eslint/angular-eslint/compare/v16.1.2...v16.2.0) (2023-09-17)
+
+**Note:** Version bump only for package @angular-eslint/bundled-angular-compiler
+
+## [16.1.2](https://github.com/angular-eslint/angular-eslint/compare/v16.1.1...v16.1.2) (2023-09-04)
+
+**Note:** Version bump only for package @angular-eslint/bundled-angular-compiler
+
+## [16.1.1](https://github.com/angular-eslint/angular-eslint/compare/v16.1.0...v16.1.1) (2023-08-20)
+
+**Note:** Version bump only for package @angular-eslint/bundled-angular-compiler
+
+# [16.1.0](https://github.com/angular-eslint/angular-eslint/compare/v16.0.3...v16.1.0) (2023-07-12)
+
+**Note:** Version bump only for package @angular-eslint/bundled-angular-compiler
+
 ## [16.0.3](https://github.com/angular-eslint/angular-eslint/compare/v16.0.2...v16.0.3) (2023-05-29)
 
 **Note:** Version bump only for package @angular-eslint/bundled-angular-compiler

@@ -25,7 +25,7 @@ export default createESLintRule<Options, typeof MESSAGE_ID>({
     const sourceCode = context.getSourceCode();
 
     return {
-      ['BoundAttribute Interpolation'](interpolation: Interpolation) {
+      ['BoundAttribute Interpolation$1'](interpolation: Interpolation) {
         const {
           sourceSpan: { start, end },
         } = interpolation;

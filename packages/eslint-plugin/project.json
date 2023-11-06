@@ -68,12 +68,37 @@
           "npx ts-node --project ./tsconfig.tools.json ./tools/scripts/generate-rule-docs.ts eslint-plugin"
         ]
       }
+    },
+    "check-rule-lists": {
+      "dependsOn": [
+        {
+          "target": "update-rule-lists"
+        }
+      ],
+      "executor": "nx:run-commands",
+      "options": {
+        "parallel": false,
+        "commands": [
+          "git diff --quiet --exit-code packages/eslint-plugin/README.md || (echo \"\n-------\n\nCHECK RULE LISTS ERROR: You have uncommitted changes to the generated rule lists.\n\nYou should run `yarn update-rule-lists` and commit the result.\n\n-------\n\" && exit 1)"
+        ]
+      }
+    },
+    "update-rule-lists": {
+      "executor": "nx:run-commands",
+      "outputs": ["{projectRoot}/README.md"],
+      "options": {
+        "parallel": false,
+        "commands": [
+          "npx ts-node --project ./tsconfig.tools.json ./tools/scripts/generate-rule-lists.ts eslint-plugin"
+        ]
+      }
     }
   },
   "implicitDependencies": ["bundled-angular-compiler"],
   "namedInputs": {
     "projectSpecificFiles": [
-      "{workspaceRoot}/tools/scripts/generate-rule-docs.ts"
+      "{workspaceRoot}/tools/scripts/generate-rule-docs.ts",
+      "{workspaceRoot}/tools/scripts/generate-rule-lists.ts"
     ]
   }
 }

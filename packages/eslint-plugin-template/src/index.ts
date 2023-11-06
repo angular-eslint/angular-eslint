@@ -61,6 +61,9 @@ import noNegatedAsync, {
 import noPositiveTabindex, {
   RULE_NAME as noPositiveTabindexRuleName,
 } from './rules/no-positive-tabindex';
+import preferNgsrc, {
+  RULE_NAME as preferNgsrcRuleName,
+} from './rules/prefer-ngsrc';
 import preferSelfClosingTags, {
   RULE_NAME as preferSelfClosingTagsRuleName,
 } from './rules/prefer-self-closing-tags';
@@ -107,6 +110,7 @@ export = {
     [noNegatedAsyncRuleName]: noNegatedAsync,
     [noPositiveTabindexRuleName]: noPositiveTabindex,
     [preferSelfClosingTagsRuleName]: preferSelfClosingTags,
+    [preferNgsrcRuleName]: preferNgsrc,
     [roleHasRequiredAriaRuleName]: roleHasRequiredAria,
     [tableScopeRuleName]: tableScope,
     [useTrackByFunctionRuleName]: useTrackByFunction,

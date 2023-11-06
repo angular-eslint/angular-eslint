@@ -73,15 +73,21 @@ import pipePrefix, {
 import preferOnPushComponentChangeDetection, {
   RULE_NAME as preferOnPushComponentChangeDetectionRuleName,
 } from './rules/prefer-on-push-component-change-detection';
-import preferStandaloneComponent, {
-  RULE_NAME as preferStandaloneComponentRuleName,
-} from './rules/prefer-standalone-component';
 import preferOutputReadonly, {
   RULE_NAME as preferOutputReadonlyRuleName,
 } from './rules/prefer-output-readonly';
+import preferStandaloneComponent, {
+  RULE_NAME as preferStandaloneComponentRuleName,
+} from './rules/prefer-standalone-component';
 import relativeUrlPrefix, {
   RULE_NAME as relativeUrlPrefixRuleName,
 } from './rules/relative-url-prefix';
+import requireLocalizeMetadata, {
+  RULE_NAME as requireLocalizeMetadataRuleName,
+} from './rules/require-localize-metadata';
+import sortLifecycleMethods, {
+  RULE_NAME as sortLifecycleMethodsRuleName,
+} from './rules/sort-lifecycle-methods';
 import sortNgmoduleMetadataArrays, {
   RULE_NAME as sortNgmoduleMetadataArraysName,
 } from './rules/sort-ngmodule-metadata-arrays';
@@ -135,6 +141,8 @@ export = {
     [preferStandaloneComponentRuleName]: preferStandaloneComponent,
     [preferOutputReadonlyRuleName]: preferOutputReadonly,
     [relativeUrlPrefixRuleName]: relativeUrlPrefix,
+    [requireLocalizeMetadataRuleName]: requireLocalizeMetadata,
+    [sortLifecycleMethodsRuleName]: sortLifecycleMethods,
     [sortNgmoduleMetadataArraysName]: sortNgmoduleMetadataArrays,
     [useComponentSelectorRuleName]: useComponentSelector,
     [useComponentViewEncapsulationRuleName]: useComponentViewEncapsulation,

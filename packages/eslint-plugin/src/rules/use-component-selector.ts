@@ -27,8 +27,8 @@ export default createESLintRule<Options, MessageIds>({
 
         if (
           selector &&
-          ASTUtils.isStringLiteral(selector) &&
-          selector.value.length
+          ((ASTUtils.isStringLiteral(selector) && selector.value.length) ||
+            ASTUtils.isTemplateLiteral(selector))
         ) {
           return;
         }

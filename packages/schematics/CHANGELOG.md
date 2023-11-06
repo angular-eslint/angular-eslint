@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [16.2.0](https://github.com/angular-eslint/angular-eslint/compare/v16.1.2...v16.2.0) (2023-09-17)
+
+### Bug Fixes
+
+- update dependency eslint to v8.49.0 ([#1511](https://github.com/angular-eslint/angular-eslint/issues/1511)) ([abeb9f5](https://github.com/angular-eslint/angular-eslint/commit/abeb9f5b0c8d751689ec28bb10799ad27177b085))
+
+## [16.1.2](https://github.com/angular-eslint/angular-eslint/compare/v16.1.1...v16.1.2) (2023-09-04)
+
+**Note:** Version bump only for package @angular-eslint/schematics
+
+## [16.1.1](https://github.com/angular-eslint/angular-eslint/compare/v16.1.0...v16.1.1) (2023-08-20)
+
+### Bug Fixes
+
+- update dependency eslint to v8.45.0 ([#1461](https://github.com/angular-eslint/angular-eslint/issues/1461)) ([9c95032](https://github.com/angular-eslint/angular-eslint/commit/9c95032b63fcc75a0c7777a62583885b8c8ad119))
+- update dependency eslint to v8.47.0 ([#1489](https://github.com/angular-eslint/angular-eslint/issues/1489)) ([047338a](https://github.com/angular-eslint/angular-eslint/commit/047338af94ff36c4fce69bb0c44b660d89c40377))
+
+# [16.1.0](https://github.com/angular-eslint/angular-eslint/compare/v16.0.3...v16.1.0) (2023-07-12)
+
+### Bug Fixes
+
+- update dependency eslint to v8.41.0 ([#1394](https://github.com/angular-eslint/angular-eslint/issues/1394)) ([02b34fb](https://github.com/angular-eslint/angular-eslint/commit/02b34fb2dd953c6956e4111d3e1c56016e71169a))
+- update dependency eslint to v8.44.0 ([#1415](https://github.com/angular-eslint/angular-eslint/issues/1415)) ([8735f7b](https://github.com/angular-eslint/angular-eslint/commit/8735f7b0e0ceef55b89f593e0d21becbff456c49))
+- update nrwl monorepo to v16.5.1 ([#1443](https://github.com/angular-eslint/angular-eslint/issues/1443)) ([15bff48](https://github.com/angular-eslint/angular-eslint/commit/15bff489485d91a936867193e7c7bba3fb9e3a76))
+- update typescript-eslint packages to v5.59.8 ([#1393](https://github.com/angular-eslint/angular-eslint/issues/1393)) ([5b0e87e](https://github.com/angular-eslint/angular-eslint/commit/5b0e87e47756685e2b71fb29d4657cbe715496b6))
+- update typescript-eslint packages to v5.59.9 ([#1420](https://github.com/angular-eslint/angular-eslint/issues/1420)) ([fdd817f](https://github.com/angular-eslint/angular-eslint/commit/fdd817f706031826c921013f750331b3342053ed))
+- update typescript-eslint packages to v5.62.0 ([#1444](https://github.com/angular-eslint/angular-eslint/issues/1444)) ([4affbf4](https://github.com/angular-eslint/angular-eslint/commit/4affbf421f92528b5616c2b3cd60373b136374c7))
+
 ## [16.0.3](https://github.com/angular-eslint/angular-eslint/compare/v16.0.2...v16.0.3) (2023-05-29)
 
 ### Bug Fixes

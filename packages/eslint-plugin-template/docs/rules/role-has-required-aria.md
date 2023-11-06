@@ -198,6 +198,58 @@ The rule does not have any configuration options.
 <app-component [role]="ADMIN"></app-component>
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/role-has-required-aria": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<summary (click)="onClick()">Foo</summary>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/role-has-required-aria": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<summary (click)="onClick()" aria-expanded="false">Bar</summary>
+```
+
 </details>
 
 <br>

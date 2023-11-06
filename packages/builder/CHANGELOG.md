@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [16.2.0](https://github.com/angular-eslint/angular-eslint/compare/v16.1.2...v16.2.0) (2023-09-17)
+
+**Note:** Version bump only for package @angular-eslint/builder
+
+## [16.1.2](https://github.com/angular-eslint/angular-eslint/compare/v16.1.1...v16.1.2) (2023-09-04)
+
+**Note:** Version bump only for package @angular-eslint/builder
+
+## [16.1.1](https://github.com/angular-eslint/angular-eslint/compare/v16.1.0...v16.1.1) (2023-08-20)
+
+**Note:** Version bump only for package @angular-eslint/builder
+
+# [16.1.0](https://github.com/angular-eslint/angular-eslint/compare/v16.0.3...v16.1.0) (2023-07-12)
+
+### Bug Fixes
+
+- update nrwl monorepo to v16.5.1 ([#1443](https://github.com/angular-eslint/angular-eslint/issues/1443)) ([15bff48](https://github.com/angular-eslint/angular-eslint/commit/15bff489485d91a936867193e7c7bba3fb9e3a76))
+
 ## [16.0.3](https://github.com/angular-eslint/angular-eslint/compare/v16.0.2...v16.0.3) (2023-05-29)
 
 ### Bug Fixes
