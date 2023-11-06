@@ -2,8 +2,16 @@ import { Architect } from '@angular-devkit/architect';
 import { TestingArchitectHost } from '@angular-devkit/architect/testing';
 import { json, logging, schema } from '@angular-devkit/core';
 import type { ESLint } from 'eslint';
-import { resolve } from 'path';
+import { mkdtempSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import type { Schema } from './schema';
+
+// Add a placeholder file for the native workspace context within nx implementation details otherwise it will hang in CI
+const testWorkspaceRoot = mkdtempSync(join(tmpdir(), 'workspace'));
+writeFileSync(join(testWorkspaceRoot, 'package.json'), '{}', {
+  encoding: 'utf-8',
+});
 
 // If we use esm here we get `TypeError: Cannot redefine property: writeFileSync`
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -80,39 +88,35 @@ function createValidRunBuilderOptions(
   };
 }
 
-const loggerSpy = jest.fn();
+const registry = new json.schema.CoreSchemaRegistry();
+registry.addPostTransform(schema.transforms.addUndefinedDefaults);
+
+const testArchitectHost = new TestingArchitectHost(
+  testWorkspaceRoot,
+  testWorkspaceRoot,
+);
+const builderName = '@angular-eslint/builder:lint';
+
+/**
+ * Require in the implementation from src so that we don't need
+ * to run a build before tests run and it is dynamic enough
+ * to come after jest does its mocking
+ */
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { default: builderImplementation } = require('./lint.impl');
+testArchitectHost.addBuilder(builderName, builderImplementation);
+
+const architect = new Architect(testArchitectHost, registry);
 
 async function runBuilder(options: Schema) {
-  const registry = new json.schema.CoreSchemaRegistry();
-  registry.addPostTransform(schema.transforms.addUndefinedDefaults);
-
-  const testArchitectHost = new TestingArchitectHost(
-    resolve('/root'),
-    resolve('/root'),
-  );
-  const builderName = '@angular-eslint/builder:lint';
-
-  /**
-   * Require in the implementation from src so that we don't need
-   * to run a build before tests run and it is dynamic enough
-   * to come after jest does its mocking
-   */
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const { default: builderImplementation } = require('./lint.impl');
-  testArchitectHost.addBuilder(builderName, builderImplementation);
-
-  const architect = new Architect(testArchitectHost, registry);
   const logger = new logging.Logger('');
-  logger.subscribe(loggerSpy);
-
   const run = await architect.scheduleBuilder(builderName, options, {
     logger,
   });
-
   return run.result;
 }
 
-xdescribe('Linter Builder', () => {
+describe('Linter Builder', () => {
   beforeEach(() => {
     MockESLint.version = VALID_ESLINT_VERSION;
     mockReports = [{ results: [], messages: [], usedDeprecatedRules: [] }];
@@ -166,7 +170,7 @@ xdescribe('Linter Builder', () => {
     );
     expect(mockResolveAndInstantiateESLint).toHaveBeenCalledTimes(1);
     expect(mockResolveAndInstantiateESLint).toHaveBeenCalledWith(
-      resolve('/root/.eslintrc'),
+      join(testWorkspaceRoot, '.eslintrc'),
       {
         lintFilePatterns: [],
         eslintConfig: './.eslintrc',
@@ -653,11 +657,14 @@ xdescribe('Linter Builder', () => {
         outputFile: 'a/b/c/outputFile1',
       }),
     );
-    expect(fs.mkdirSync).toHaveBeenCalledWith('/root/a/b/c', {
-      recursive: true,
-    });
+    expect(fs.mkdirSync).toHaveBeenCalledWith(
+      join(testWorkspaceRoot, 'a/b/c'),
+      {
+        recursive: true,
+      },
+    );
     expect(fs.writeFileSync).toHaveBeenCalledWith(
-      '/root/a/b/c/outputFile1',
+      join(testWorkspaceRoot, 'a/b/c/outputFile1'),
       mockFormatter.format(mockReports),
     );
   });
