@@ -1,12 +1,12 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import { setWorkspaceRoot, workspaceRoot } from 'nx/src/utils/workspace-root';
 import {
   FIXTURES_DIR,
   LONG_TIMEOUT_MS,
   runNgAdd,
   runNgNew,
 } from '../utils/local-registry-process';
-import path from 'path';
-import { setWorkspaceRoot, workspaceRoot } from 'nx/src/utils/workspace-root';
-import fs from 'fs';
 import { runLintFix } from '../utils/run-lint';
 
 const fixtureDirectory = 'inline-template-fixer';

@@ -35,9 +35,9 @@
   "dependencies": {
     "@angular-eslint/eslint-plugin": "16.2.0",
     "@angular-eslint/eslint-plugin-template": "16.2.0",
-    "@nx/devkit": "16.5.1",
+    "@nx/devkit": "17.0.3",
     "ignore": "5.2.4",
-    "nx": "16.5.1",
+    "nx": "17.0.3",
     "strip-json-comments": "3.1.1",
     "tmp": "0.2.1"
   },
@@ -47,7 +47,7 @@
     "eslint": "8.51.0"
   },
   "peerDependencies": {
-    "@angular/cli": ">= 16.0.0 < 17.0.0"
+    "@angular/cli": ">= 17.0.0-rc.2 < 18.0.0"
   },
   "gitHead": "e2006e5e9c99e5a943d1a999e0efa5247d29ec24"
 }

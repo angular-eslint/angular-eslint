@@ -134,7 +134,7 @@ export const valid = [
       </div>
       <div tooltip="This requires translation" i18n-tooltip></div>
       <div>
-        <ng-container>Some text&nbsp;t@ tr1nslate</ng-container>
+        <ng-container>Some text&nbsp;t&#64; tr1nslate</ng-container>
       </div>
       <div>
         <span>-{{data_from_backend}}</span>
@@ -315,15 +315,15 @@ export const invalid = [
       'should fail if `i18n` attribute is missing on element containing text',
     annotatedSource: `
       <div>
-        <ng-container>Some text&nbsp;t@ tr1nslate</ng-container>
-                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        <ng-container>Some text&nbsp;t&#64; tr1nslate</ng-container>
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       </div>
     `,
     messageId: i18nAttributeOnIcuOrText,
     options: [{ checkId: false }],
     annotatedOutput: `
       <div>
-        <ng-container i18n>Some text&nbsp;t@ tr1nslate</ng-container>
+        <ng-container i18n>Some text&nbsp;t&#64; tr1nslate</ng-container>
                       
       </div>
     `,
@@ -689,15 +689,15 @@ export const invalid = [
       'should fail if `i18n` attribute is missing on `Template` containing text',
     annotatedSource: `
       <div>
-        <ng-template>Some text&nbsp;t@ tr1nslate</ng-template>
-                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        <ng-template>Some text&nbsp;t&#64; tr1nslate</ng-template>
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       </div>
     `,
     messageId: i18nAttributeOnIcuOrText,
     options: [{ checkId: false }],
     annotatedOutput: `
       <div>
-        <ng-template i18n>Some text&nbsp;t@ tr1nslate</ng-template>
+        <ng-template i18n>Some text&nbsp;t&#64; tr1nslate</ng-template>
                      
       </div>
     `,
