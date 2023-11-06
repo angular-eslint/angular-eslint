@@ -17,7 +17,6 @@ export default createESLintRule<Options, MessageIds>({
     docs: {
       description:
         '[Accessibility] Enforces alternate text for elements which require the alt, aria-label, aria-labelledby attributes.',
-      recommended: false,
     },
     schema: [],
     messages: {

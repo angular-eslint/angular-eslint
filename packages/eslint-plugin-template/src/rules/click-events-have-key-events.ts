@@ -17,7 +17,6 @@ export default createESLintRule<Options, MessageIds>({
     docs: {
       description:
         '[Accessibility] Ensures that the click event is accompanied with at least one key event keyup, keydown or keypress.',
-      recommended: false,
     },
     schema: [],
     messages: {

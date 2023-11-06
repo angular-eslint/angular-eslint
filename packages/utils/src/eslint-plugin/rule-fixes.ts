@@ -106,9 +106,10 @@ export function getImplementsSchemaFixer(
     | TSESTree.Identifier;
   readonly implementsTextReplace: string;
 } {
-  const [implementsNodeReplace, implementsTextReplace] = classImplements
-    ? [getLast(classImplements), `, ${interfaceName}`]
-    : [id as TSESTree.Identifier, ` implements ${interfaceName}`];
+  const [implementsNodeReplace, implementsTextReplace] =
+    Array.isArray(classImplements) && classImplements.length > 0
+      ? [getLast(classImplements), `, ${interfaceName}`]
+      : [id as TSESTree.Identifier, ` implements ${interfaceName}`];
 
   return { implementsNodeReplace, implementsTextReplace } as const;
 }

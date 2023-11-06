@@ -22,7 +22,6 @@ export default createESLintRule<Options, MessageIds>({
     docs: {
       description:
         '[Accessibility] Ensures that elements with interactive handlers like `(click)` are focusable.',
-      recommended: false,
     },
     schema: [],
     messages: {

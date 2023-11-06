@@ -3,7 +3,8 @@
   "compilerOptions": {
     "outDir": "./dist",
     "declaration": true,
-    "baseUrl": "."
+    "baseUrl": ".",
+    "moduleResolution": "node"
   },
   "include": ["src"]
 }

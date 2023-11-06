@@ -19,7 +19,7 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description: 'Ensures that async pipe results are not negated',
-      recommended: 'error',
+      recommended: 'recommended',
     },
     hasSuggestions: true,
     schema: [],

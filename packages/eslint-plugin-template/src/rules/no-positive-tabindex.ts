@@ -18,7 +18,6 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description: 'Ensures that the `tabindex` attribute is not positive',
-      recommended: false,
     },
     hasSuggestions: true,
     schema: [],

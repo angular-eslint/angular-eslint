@@ -20,7 +20,6 @@ export default createESLintRule<SelectorUtils.Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description: `Directive selectors should follow given naming rules. See more at ${STYLE_GUIDE_STYLE_TYPE_LINK} and ${STYLE_GUIDE_PREFIX_LINK}.`,
-      recommended: false,
     },
     schema: [
       {
@@ -32,6 +31,7 @@ export default createESLintRule<SelectorUtils.Options, MessageIds>({
               {
                 type: 'array',
                 items: {
+                  type: 'string',
                   enum: [
                     SelectorUtils.OPTION_TYPE_ELEMENT,
                     SelectorUtils.OPTION_TYPE_ATTRIBUTE,

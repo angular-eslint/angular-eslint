@@ -3,6 +3,7 @@
   "compilerOptions": {
     "outDir": "./dist",
     "baseUrl": ".",
+    "module": "NodeNext",
     "paths": {
       "@angular-eslint/eslint-plugin": ["../../eslint-plugin/dist/index.js"],
       "@angular-eslint/eslint-plugin-template": [

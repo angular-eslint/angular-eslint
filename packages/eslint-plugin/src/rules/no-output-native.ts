@@ -17,7 +17,7 @@ export default createESLintRule<Options, MessageIds>({
     docs: {
       description:
         'Ensures that output bindings, including aliases, are not named as standard DOM events',
-      recommended: 'error',
+      recommended: 'recommended',
     },
     schema: [],
     messages: {

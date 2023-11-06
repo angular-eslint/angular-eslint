@@ -16,7 +16,6 @@ export default createESLintRule<[], typeof MESSAGE_ID>({
     docs: {
       description:
         'Ensures that self-closing tags are used for elements with a closing tag but no content.',
-      recommended: false,
     },
     fixable: 'code',
     schema: [],

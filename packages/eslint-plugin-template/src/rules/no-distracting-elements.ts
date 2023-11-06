@@ -13,7 +13,6 @@ export default createESLintRule<Options, MessageIds>({
     docs: {
       description:
         '[Accessibility] Enforces that no distracting elements are used',
-      recommended: false,
     },
     fixable: 'code',
     schema: [],

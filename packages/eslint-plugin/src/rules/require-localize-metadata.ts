@@ -38,7 +38,6 @@ export default createESLintRule<Options, MessageIds>({
     docs: {
       description:
         'Ensures that $localize tagged messages contain helpful metadata to aid with translations.',
-      recommended: false,
     },
     schema: [
       {

@@ -81,11 +81,7 @@ jobs:
           cmd3: yarn check-rule-docs
           cmd4: yarn check-rule-lists
           cmd5: yarn lint
-          cmd6: yarn test --codeCoverage --exclude builder
-
-      - run: yarn nx test builder --runInBand --maxWorkers=1
-        env:
-          NX_CLOUD_DISTRIBUTED_EXECUTION: false
+          cmd6: yarn test --codeCoverage
 
       - name: Run distributed integration tests with independent local registries
         run: yarn nx run-many --target=integration-test --all --withRegistry
@@ -199,12 +195,12 @@ jobs:
         env:
           # We cannot distribute these because the agents are set up to run the primary node version, not this alternative we are testing
           NX_CLOUD_DISTRIBUTED_EXECUTION: false
-        run: yarn test --exclude builder
+        run: yarn test
 
   publish_canary_version:
     name: Publish the latest code as a canary version
     runs-on: ubuntu-latest
-    needs: [create_nx_run_group, primary, unit_tests_on_other_node_versions]
+    needs: [create_nx_run_group, primary]
     if: github.ref == 'refs/heads/main'
     steps:
       - name: Set NX_RUN_GROUP based on the output of the create_nx_run_group job

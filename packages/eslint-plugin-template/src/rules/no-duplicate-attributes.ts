@@ -30,7 +30,6 @@ export default createESLintRule<Options, MessageIds>({
     docs: {
       description:
         'Ensures that there are no duplicate input properties or output event listeners',
-      recommended: false,
     },
     hasSuggestions: true,
     schema: [
@@ -51,7 +50,7 @@ export default createESLintRule<Options, MessageIds>({
             type: 'array',
             items: { type: 'string' },
             uniqueItems: true,
-            default: DEFAULT_OPTIONS.ignore,
+            default: DEFAULT_OPTIONS.ignore as string[] | undefined,
             description: `Input or output properties for which duplicate presence is allowed as an exception to the rule.`,
           },
         },

@@ -131,7 +131,6 @@ export default createESLintRule<Options, MessageIds>({
         'texts. ' +
         'Can also check for texts without i18n attribute, elements that do not ' +
         'use custom ID (@@) feature and duplicate custom IDs',
-      recommended: false,
     },
     fixable: 'code',
     hasSuggestions: true,

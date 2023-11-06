@@ -19,7 +19,7 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description: 'Requires `===` and `!==` in place of `==` and `!=`',
-      recommended: 'error',
+      recommended: 'recommended',
     },
     hasSuggestions: true,
     fixable: 'code',

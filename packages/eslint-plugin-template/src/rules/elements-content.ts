@@ -29,7 +29,6 @@ export default createESLintRule<Options, MessageIds>({
     docs: {
       description:
         '[Accessibility] Ensures that the heading, anchor and button elements have content in it',
-      recommended: false,
     },
     schema: [
       {

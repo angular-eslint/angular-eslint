@@ -18,7 +18,6 @@ export default createESLintRule<Options, MessageIds>({
     docs: {
       description:
         '[Accessibility] Ensures that the `autofocus` attribute is not used',
-      recommended: false,
     },
     fixable: 'code',
     schema: [],
