@@ -22,7 +22,7 @@
     "@typescript-eslint/type-utils": "5.62.0",
     "@typescript-eslint/utils": "5.62.0",
     "aria-query": "5.3.0",
-    "axobject-query": "3.2.1"
+    "axobject-query": "4.0.0"
   },
   "devDependencies": {
     "@types/aria-query": "5.0.3"
