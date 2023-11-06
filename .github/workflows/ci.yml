@@ -81,10 +81,14 @@ jobs:
           cmd3: yarn check-rule-docs
           cmd4: yarn check-rule-lists
           cmd5: yarn lint
-          cmd6: yarn test --codeCoverage
+          cmd6: yarn test --codeCoverage --exclude builder
+
+      - run: yarn nx test builder --runInBand --maxWorkers=1
+        env:
+          NX_CLOUD_DISTRIBUTED_EXECUTION: false
 
       - name: Run distributed integration tests with independent local registries
-        run: npx nx run-many --target=integration-test --all --withRegistry
+        run: yarn nx run-many --target=integration-test --all --withRegistry
 
       - name: Publish code coverage report
         uses: codecov/codecov-action@v3
@@ -96,7 +100,7 @@ jobs:
       - name: Stop all running agents for this CI run
         # It's important that we always run this step, otherwise in the case of any failures in preceding non-Nx steps, the agents will keep running and waste billable minutes
         if: ${{ always() }}
-        run: npx nx-cloud stop-all-agents
+        run: yarn nx-cloud stop-all-agents
 
   agents:
     name: Nx Distributed CI Agents
@@ -135,7 +139,7 @@ jobs:
           yarn --ignore-engines --frozen-lockfile --prefer-offline --ignore-scripts
 
       - name: Start Nx Agent ${{ matrix.agent }}
-        run: npx nx-cloud start-agent
+        run: yarn nx-cloud start-agent
 
   unit_tests_on_other_node_versions:
     name: Unit tests on other supported Node versions
@@ -145,7 +149,7 @@ jobs:
       matrix:
         # Additionally supported node versions taken from:
         # https://gist.github.com/LayZeeDK/c822cc812f75bb07b7c55d07ba2719b3
-        node: ['^16.13.0']
+        node: ['^18.13.0']
     steps:
       - name: Set NX_RUN_GROUP based on the output of the create_nx_run_group job
         run: echo "NX_RUN_GROUP=${{ needs.create_nx_run_group.outputs.nx_run_group }}" >> $GITHUB_ENV
@@ -195,7 +199,7 @@ jobs:
         env:
           # We cannot distribute these because the agents are set up to run the primary node version, not this alternative we are testing
           NX_CLOUD_DISTRIBUTED_EXECUTION: false
-        run: yarn test
+        run: yarn test --exclude builder
 
   publish_canary_version:
     name: Publish the latest code as a canary version
@@ -245,6 +249,6 @@ jobs:
         run: NX_CLOUD_DISTRIBUTED_EXECUTION=false yarn build
 
       - name: Publish all packages to npm
-        run: npx lerna publish --loglevel=verbose --canary --exact --force-publish --yes
+        run: yarn lerna publish --loglevel=verbose --canary --exact --force-publish --yes
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
