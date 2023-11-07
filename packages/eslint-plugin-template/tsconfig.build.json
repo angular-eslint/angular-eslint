@@ -4,8 +4,8 @@
     "outDir": "./dist",
     "resolveJsonModule": true,
     "module": "NodeNext",
-    "declaration": true,
-    "baseUrl": "."
+    "baseUrl": ".",
+    "declaration": false
   },
   "include": ["src"]
 }
