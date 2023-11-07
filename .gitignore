@@ -114,3 +114,5 @@ dist
 .rts2*
 
 tmp
+
+.nx/cache
