@@ -2982,10 +2982,10 @@
   resolved "https://registry.yarnpkg.com/@types/stack-utils/-/stack-utils-2.0.1.tgz#20f18294f797f2209b5f65c8e3b5c8e8261d127c"
   integrity sha512-Hl219/BT5fLAaz6NDkSuhzasy49dwQS/DSdu4MdggFB8zcXv7vflBI3xp7FEmkmdDkBUI2bPUNeMttp2knYdxw==
 
-"@types/tmp@0.2.5":
-  version "0.2.5"
-  resolved "https://registry.yarnpkg.com/@types/tmp/-/tmp-0.2.5.tgz#0f3a71d0a94cbd5de45b0aa641575dd503e43ed4"
-  integrity sha512-KodRrjqWrk/3VyzfR4aeXkf2n5Ssg+bvVUhXlvHVffLiIHriLlrO3vYobB+Kvnr9DkNzMiyWHT3G6hT/xX0ryQ==
+"@types/tmp@0.2.6":
+  version "0.2.6"
+  resolved "https://registry.yarnpkg.com/@types/tmp/-/tmp-0.2.6.tgz#d785ee90c52d7cc020e249c948c36f7b32d1e217"
+  integrity sha512-chhaNf2oKHlRkDGt+tiKE2Z5aJ6qalm7Z9rlLdBwmOiAAf09YQvvoLXjWK4HWPF1xU/fqvMgfNfpVoBscA/tKA==
 
 "@types/yargs-parser@*":
   version "21.0.0"
