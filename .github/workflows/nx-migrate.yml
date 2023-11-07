@@ -31,7 +31,7 @@ jobs:
           persist-credentials: false
 
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
-        uses: nrwl/nx-set-shas@v3
+        uses: nrwl/nx-set-shas@v4
 
       - name: Check if @nx/workspace was changed as part of the latest commit on the PR
         id: nrwl-workspace-package-check
