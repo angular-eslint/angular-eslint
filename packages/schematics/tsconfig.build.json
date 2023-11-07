@@ -2,6 +2,7 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "./dist",
+    "declaration": true,
     "baseUrl": ".",
     "paths": {
       "@angular-eslint/eslint-plugin": ["../../eslint-plugin/dist/index.js"],
