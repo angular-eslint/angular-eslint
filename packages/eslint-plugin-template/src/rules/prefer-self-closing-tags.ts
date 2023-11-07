@@ -1,11 +1,12 @@
 import type {
+  TmplAstContent,
   TmplAstElement,
+  TmplAstTemplate,
   TmplAstText,
 } from '@angular-eslint/bundled-angular-compiler';
 import { getTemplateParserServices } from '@angular-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import { getDomElements } from '../utils/get-dom-elements';
-import type { TmplAstContent, TmplAstTemplate } from '@angular/compiler';
 
 export const MESSAGE_ID = 'preferSelfClosingTags';
 export const RULE_NAME = 'prefer-self-closing-tags';

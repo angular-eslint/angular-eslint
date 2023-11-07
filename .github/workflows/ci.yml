@@ -221,7 +221,7 @@ jobs:
           echo "::set-output name=node_version::$(node --version)"
 
       - name: Apply version resolved by volta to standard Node action make authenticated npm publish easier
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ steps.yarn-cache-dir-path.outputs.node_version }}
           registry-url: https://registry.npmjs.org/

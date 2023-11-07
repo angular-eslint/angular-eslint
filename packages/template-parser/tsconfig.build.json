@@ -3,7 +3,8 @@
   "compilerOptions": {
     "outDir": "./dist",
     "baseUrl": ".",
-    "module": "NodeNext"
+    "module": "NodeNext",
+    "declaration": true
   },
   "include": ["src"]
 }
