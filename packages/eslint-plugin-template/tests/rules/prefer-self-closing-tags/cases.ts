@@ -12,6 +12,10 @@ export const valid = [
   `,
   '<img />',
   '<div></div>',
+  '<ng-template/>',
+  '<ng-template>Content</ng-template>',
+  '<ng-content/>',
+  '<ng-content select="my-selector" />',
 ];
 
 export const invalid = [
@@ -79,6 +83,71 @@ export const invalid = [
         [items]="items"
       />
        
+    `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'it should fail on ng-template elements',
+    annotatedSource: `
+      <ng-template></ng-template>
+                   ~~~~~~~~~~~~~~
+    `,
+    annotatedOutput: `
+      <ng-template />
+                   
+    `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'it should fail on ng-template elements with white spaces',
+    annotatedSource: `
+      <ng-template> </ng-template>
+                    ~~~~~~~~~~~~~~
+    `,
+    annotatedOutput: `
+      <ng-template />
+                    
+    `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'it should fail on ng-content elements',
+    annotatedSource: `
+      <ng-content></ng-content>
+                  ~~~~~~~~~~~~~
+    `,
+    annotatedOutput: `
+      <ng-content />
+                  
+    `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'it should fail on ng-content elements with selector',
+    annotatedSource: `
+      <ng-content
+        selector="my-selector"
+      ></ng-content>
+       ~~~~~~~~~~~~~
+    `,
+    annotatedOutput: `
+      <ng-content
+        selector="my-selector"
+      />
+       
+    `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'it should fail on ng-content elements with a line break',
+    annotatedSource: `
+      <ng-content>
+      </ng-content>
+      ~~~~~~~~~~~~~
+    `,
+    annotatedOutput: `
+      <ng-content />
+      
     `,
     messageId,
   }),
