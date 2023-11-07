@@ -22,10 +22,10 @@
     "@typescript-eslint/type-utils": "6.10.0",
     "@typescript-eslint/utils": "6.10.0",
     "aria-query": "5.3.0",
-    "axobject-query": "3.2.1"
+    "axobject-query": "4.0.0"
   },
   "devDependencies": {
-    "@types/aria-query": "5.0.3"
+    "@types/aria-query": "5.0.4"
   },
   "peerDependencies": {
     "eslint": "^7.20.0 || ^8.0.0",
