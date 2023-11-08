@@ -4,6 +4,7 @@
     "outDir": "./dist",
     "declaration": true,
     "baseUrl": ".",
+    "module": "NodeNext",
     "paths": {
       "@angular-eslint/eslint-plugin": ["../../eslint-plugin/dist/index.js"],
       "@angular-eslint/eslint-plugin-template": [

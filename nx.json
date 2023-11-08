@@ -1,45 +1,44 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
-  "workspaceLayout": {
-    "libsDir": "packages"
-  },
-  "tasksRunnerOptions": {
-    "default": {
-      "runner": "nx-cloud",
-      "options": {
-        "accessToken": "Y2MxNmI0YWItNDdhYS00ZWUxLTliZjMtODkzYjZkYTE4YjgxfHJlYWQtd3JpdGU=",
-        "cacheableOperations": [
-          "build",
-          "test",
-          "lint",
-          "e2e",
-          "integration-test",
-          "check-rule-docs",
-          "update-rule-docs",
-          "check-rule-lists",
-          "update-rule-lists",
-          "typecheck"
-        ]
-      }
-    }
-  },
+  "nxCloudAccessToken": "Y2MxNmI0YWItNDdhYS00ZWUxLTliZjMtODkzYjZkYTE4YjgxfHJlYWQtd3JpdGU=",
   "targetDefaults": {
     "build": {
       "dependsOn": ["^build"],
-      "inputs": ["production", "^production"]
+      "inputs": ["production", "^production"],
+      "cache": true
     },
     "typecheck": {
-      "dependsOn": ["^build"]
+      "dependsOn": ["^build"],
+      "cache": true
     },
     "update-rule-docs": {
-      "dependsOn": ["^build"]
+      "dependsOn": ["^build"],
+      "cache": true
     },
     "update-rule-lists": {
-      "dependsOn": ["^build"]
+      "dependsOn": ["^build"],
+      "cache": true
     },
     "test": {
       "dependsOn": ["^build"],
-      "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"]
+      "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"],
+      "cache": true
+    },
+    "lint": {
+      "cache": true
+    },
+    "e2e": {
+      "cache": true
+    },
+    "integration-test": {
+      "dependsOn": ["^build"],
+      "cache": true
+    },
+    "check-rule-docs": {
+      "cache": true
+    },
+    "check-rule-lists": {
+      "cache": true
     }
   },
   "namedInputs": {

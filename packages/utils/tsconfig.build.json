@@ -2,7 +2,7 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "module": "commonjs",
+    "module": "NodeNext",
     "declaration": true,
     "paths": {
       "@angular-eslint/bundled-angular-compiler": [

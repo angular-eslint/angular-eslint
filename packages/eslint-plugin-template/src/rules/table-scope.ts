@@ -18,7 +18,6 @@ export default createESLintRule<Options, MessageIds>({
     docs: {
       description:
         '[Accessibility] Ensures that the `scope` attribute is only used on the `<th>` element',
-      recommended: false,
     },
     fixable: 'code',
     schema: [],

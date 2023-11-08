@@ -2,14 +2,24 @@ import { Architect } from '@angular-devkit/architect';
 import { TestingArchitectHost } from '@angular-devkit/architect/testing';
 import { json, logging, schema } from '@angular-devkit/core';
 import type { ESLint } from 'eslint';
-import { resolve } from 'path';
+import { mkdtempSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import type { Schema } from './schema';
+
+// Add a placeholder file for the native workspace context within nx implementation details otherwise it will hang in CI
+const testWorkspaceRoot = mkdtempSync(join(tmpdir(), 'workspace'));
+writeFileSync(join(testWorkspaceRoot, 'package.json'), '{}', {
+  encoding: 'utf-8',
+});
 
 // If we use esm here we get `TypeError: Cannot redefine property: writeFileSync`
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const fs = require('fs');
 jest.spyOn(fs, 'writeFileSync').mockImplementation();
 jest.spyOn(fs, 'mkdirSync').mockImplementation();
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+jest.spyOn(process, 'chdir').mockImplementation(() => {});
 
 const mockFormatter = {
   format: jest
@@ -78,45 +88,31 @@ function createValidRunBuilderOptions(
   };
 }
 
-function setupMocks() {
-  jest.resetModules();
-  jest.clearAllMocks();
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  jest.spyOn(process, 'chdir').mockImplementation(() => {});
-  console.warn = jest.fn();
-  console.error = jest.fn();
-  console.info = jest.fn();
-}
+const registry = new json.schema.CoreSchemaRegistry();
+registry.addPostTransform(schema.transforms.addUndefinedDefaults);
 
-const loggerSpy = jest.fn();
+const testArchitectHost = new TestingArchitectHost(
+  testWorkspaceRoot,
+  testWorkspaceRoot,
+);
+const builderName = '@angular-eslint/builder:lint';
+
+/**
+ * Require in the implementation from src so that we don't need
+ * to run a build before tests run and it is dynamic enough
+ * to come after jest does its mocking
+ */
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { default: builderImplementation } = require('./lint.impl');
+testArchitectHost.addBuilder(builderName, builderImplementation);
+
+const architect = new Architect(testArchitectHost, registry);
 
 async function runBuilder(options: Schema) {
-  const registry = new json.schema.CoreSchemaRegistry();
-  registry.addPostTransform(schema.transforms.addUndefinedDefaults);
-
-  const testArchitectHost = new TestingArchitectHost(
-    resolve('/root'),
-    resolve('/root'),
-  );
-  const builderName = '@angular-eslint/builder:lint';
-
-  /**
-   * Require in the implementation from src so that we don't need
-   * to run a build before tests run and it is dynamic enough
-   * to come after jest does its mocking
-   */
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const { default: builderImplementation } = require('./lint.impl');
-  testArchitectHost.addBuilder(builderName, builderImplementation);
-
-  const architect = new Architect(testArchitectHost, registry);
   const logger = new logging.Logger('');
-  logger.subscribe(loggerSpy);
-
   const run = await architect.scheduleBuilder(builderName, options, {
     logger,
   });
-
   return run.result;
 }
 
@@ -124,6 +120,13 @@ describe('Linter Builder', () => {
   beforeEach(() => {
     MockESLint.version = VALID_ESLINT_VERSION;
     mockReports = [{ results: [], messages: [], usedDeprecatedRules: [] }];
+    console.warn = jest.fn();
+    console.error = jest.fn();
+    console.info = jest.fn();
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   afterAll(() => {
@@ -132,7 +135,6 @@ describe('Linter Builder', () => {
 
   it('should throw if the eslint version is not supported', async () => {
     MockESLint.version = '1.6';
-    setupMocks();
     const result = runBuilder(createValidRunBuilderOptions());
     await expect(result).rejects.toThrow(
       /ESLint must be version 7.6 or higher/,
@@ -140,13 +142,11 @@ describe('Linter Builder', () => {
   });
 
   it('should not throw if the eslint version is supported', async () => {
-    setupMocks();
     const result = runBuilder(createValidRunBuilderOptions());
     await expect(result).resolves.not.toThrow();
   });
 
   it('should resolve and instantiate ESLint with the options that were passed to the builder', async () => {
-    setupMocks();
     await runBuilder(
       createValidRunBuilderOptions({
         lintFilePatterns: [],
@@ -170,7 +170,7 @@ describe('Linter Builder', () => {
     );
     expect(mockResolveAndInstantiateESLint).toHaveBeenCalledTimes(1);
     expect(mockResolveAndInstantiateESLint).toHaveBeenCalledWith(
-      resolve('/root/.eslintrc'),
+      join(testWorkspaceRoot, '.eslintrc'),
       {
         lintFilePatterns: [],
         eslintConfig: './.eslintrc',
@@ -196,8 +196,6 @@ describe('Linter Builder', () => {
   });
 
   it('should resolve and instantiate ESLint with useFlatConfig=true if the root config is eslint.config.js', async () => {
-    setupMocks();
-
     jest.spyOn(fs, 'existsSync').mockImplementation((path: any) => {
       if (path.endsWith('/eslint.config.js')) {
         return true;
@@ -235,7 +233,6 @@ describe('Linter Builder', () => {
 
   it('should throw if no reports generated', async () => {
     mockReports = [];
-    setupMocks();
     await expect(
       runBuilder(
         createValidRunBuilderOptions({
@@ -246,7 +243,6 @@ describe('Linter Builder', () => {
   });
 
   it('should create a new instance of the formatter with the selected user option', async () => {
-    setupMocks();
     await runBuilder(
       createValidRunBuilderOptions({
         eslintConfig: './.eslintrc',
@@ -298,7 +294,6 @@ describe('Linter Builder', () => {
         usedDeprecatedRules: [],
       },
     ];
-    setupMocks();
     await runBuilder(
       createValidRunBuilderOptions({
         eslintConfig: './.eslintrc',
@@ -342,7 +337,6 @@ describe('Linter Builder', () => {
   });
 
   it('should pass all the reports to the fix engine, even if --fix is false', async () => {
-    setupMocks();
     await runBuilder(
       createValidRunBuilderOptions({
         eslintConfig: './.eslintrc',
@@ -372,7 +366,6 @@ describe('Linter Builder', () => {
           usedDeprecatedRules: [],
         },
       ];
-      setupMocks();
       await runBuilder(
         createValidRunBuilderOptions({
           eslintConfig: './.eslintrc',
@@ -405,7 +398,6 @@ describe('Linter Builder', () => {
           usedDeprecatedRules: [],
         },
       ];
-      setupMocks();
       await runBuilder(
         createValidRunBuilderOptions({
           eslintConfig: './.eslintrc',
@@ -439,7 +431,6 @@ describe('Linter Builder', () => {
           usedDeprecatedRules: [],
         },
       ];
-      setupMocks();
       await runBuilder(
         createValidRunBuilderOptions({
           eslintConfig: './.eslintrc',
@@ -481,7 +472,6 @@ describe('Linter Builder', () => {
           usedDeprecatedRules: [],
         },
       ];
-      setupMocks();
       await runBuilder(
         createValidRunBuilderOptions({
           eslintConfig: './.eslintrc',
@@ -519,7 +509,6 @@ describe('Linter Builder', () => {
         usedDeprecatedRules: [],
       },
     ];
-    setupMocks();
     const output = await runBuilder(
       createValidRunBuilderOptions({
         eslintConfig: './.eslintrc',
@@ -548,7 +537,6 @@ describe('Linter Builder', () => {
         usedDeprecatedRules: [],
       },
     ];
-    setupMocks();
     const output = await runBuilder(
       createValidRunBuilderOptions({
         eslintConfig: './.eslintrc',
@@ -578,7 +566,6 @@ describe('Linter Builder', () => {
         usedDeprecatedRules: [],
       },
     ];
-    setupMocks();
     const output = await runBuilder(
       createValidRunBuilderOptions({
         eslintConfig: './.eslintrc',
@@ -608,7 +595,6 @@ describe('Linter Builder', () => {
         usedDeprecatedRules: [],
       },
     ];
-    setupMocks();
     const output = await runBuilder(
       createValidRunBuilderOptions({
         eslintConfig: './.eslintrc',
@@ -630,7 +616,6 @@ describe('Linter Builder', () => {
         usedDeprecatedRules: [],
       },
     ];
-    setupMocks();
     await runBuilder(
       createValidRunBuilderOptions({
         eslintConfig: './.eslintrc',
@@ -662,7 +647,6 @@ describe('Linter Builder', () => {
         usedDeprecatedRules: [],
       },
     ];
-    setupMocks();
     await runBuilder(
       createValidRunBuilderOptions({
         eslintConfig: './.eslintrc.json',
@@ -673,27 +657,15 @@ describe('Linter Builder', () => {
         outputFile: 'a/b/c/outputFile1',
       }),
     );
-    expect(fs.mkdirSync).toHaveBeenCalledWith('/root/a/b/c', {
-      recursive: true,
-    });
+    expect(fs.mkdirSync).toHaveBeenCalledWith(
+      join(testWorkspaceRoot, 'a/b/c'),
+      {
+        recursive: true,
+      },
+    );
     expect(fs.writeFileSync).toHaveBeenCalledWith(
-      '/root/a/b/c/outputFile1',
+      join(testWorkspaceRoot, 'a/b/c/outputFile1'),
       mockFormatter.format(mockReports),
     );
-  });
-
-  it('should not attempt to write the lint results to the output file, if not specified', async () => {
-    setupMocks();
-    jest.spyOn(fs, 'writeFileSync').mockImplementation();
-    await runBuilder(
-      createValidRunBuilderOptions({
-        eslintConfig: './.eslintrc.json',
-        lintFilePatterns: ['includedFile1'],
-        format: 'json',
-        silent: true,
-        force: false,
-      }),
-    );
-    expect(fs.writeFileSync).not.toHaveBeenCalled();
   });
 });

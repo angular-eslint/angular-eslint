@@ -250,7 +250,8 @@ async function generateAllRuleData(): Promise<AllRuleData> {
       default: ruleConfig,
       RULE_NAME,
       RULE_DOCS_EXTENSION,
-    } = await import(ruleFilePath);
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+    } = require(ruleFilePath);
     ruleData[RULE_NAME] = {
       ruleConfig,
       ruleFilePath: ruleFilePath + '.ts',

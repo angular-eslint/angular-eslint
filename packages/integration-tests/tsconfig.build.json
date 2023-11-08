@@ -5,7 +5,8 @@
     "outDir": "./dist",
     "rootDir": ".",
     "baseUrl": ".",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "module": "NodeNext"
   },
   "include": ["tests"]
 }

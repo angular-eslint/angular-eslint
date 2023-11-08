@@ -1,5 +1,5 @@
+import path from 'node:path';
 import { setWorkspaceRoot } from 'nx/src/utils/workspace-root';
-import path from 'path';
 import {
   FIXTURES_DIR,
   LONG_TIMEOUT_MS,

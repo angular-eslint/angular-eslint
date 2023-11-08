@@ -18,7 +18,8 @@
         "argsIgnorePattern": "_"
       }
     ],
-    "@typescript-eslint/array-type": "error"
+    "@typescript-eslint/array-type": "error",
+    "@typescript-eslint/no-explicit-any": "warn"
   },
   "overrides": [
     {

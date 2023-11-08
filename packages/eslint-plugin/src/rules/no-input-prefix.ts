@@ -17,7 +17,6 @@ export default createESLintRule<Options, MessageIds>({
     docs: {
       description:
         'Ensures that input bindings, including aliases, are not named or prefixed by the configured disallowed prefixes',
-      recommended: false,
     },
     schema: [
       {

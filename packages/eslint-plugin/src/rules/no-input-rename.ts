@@ -24,7 +24,7 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description: 'Ensures that input bindings are not aliased',
-      recommended: 'error',
+      recommended: 'recommended',
     },
     fixable: 'code',
     hasSuggestions: true,

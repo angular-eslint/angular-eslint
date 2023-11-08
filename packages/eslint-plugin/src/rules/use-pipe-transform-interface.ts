@@ -13,7 +13,7 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description: `Ensures that \`Pipes\` implement \`${PIPE_TRANSFORM}\` interface`,
-      recommended: 'error',
+      recommended: 'recommended',
     },
     fixable: 'code',
     schema: [],
