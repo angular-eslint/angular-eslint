@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [16.3.0](https://github.com/angular-eslint/angular-eslint/compare/v16.2.0...v16.3.0) (2023-11-08)
+
+### Bug Fixes
+
+- generate type declarations for published packages ([#1586](https://github.com/angular-eslint/angular-eslint/issues/1586)) ([ba5740b](https://github.com/angular-eslint/angular-eslint/commit/ba5740bc76c994d1fe35be7c1c7fee3ced647aff))
+- update dependency @angular/compiler to v16.2.12 ([#1571](https://github.com/angular-eslint/angular-eslint/issues/1571)) ([1e0704f](https://github.com/angular-eslint/angular-eslint/commit/1e0704f995138badeb32f80709a783420c3873be))
+- update dependency @angular/compiler to v16.2.9 ([#1535](https://github.com/angular-eslint/angular-eslint/issues/1535)) ([4532eec](https://github.com/angular-eslint/angular-eslint/commit/4532eecfa05abc984d7cd5d727ab89e540d85276))
+- update dependency axobject-query to v4 ([#1581](https://github.com/angular-eslint/angular-eslint/issues/1581)) ([0b6cd1a](https://github.com/angular-eslint/angular-eslint/commit/0b6cd1a2f05e4407e7422e337cc45234dd1d6209))
+- update dependency eslint to v8.50.0 ([#1538](https://github.com/angular-eslint/angular-eslint/issues/1538)) ([edfb9f7](https://github.com/angular-eslint/angular-eslint/commit/edfb9f76cde41a955fbe0a7ca40ec64b18303a62))
+- update dependency eslint to v8.51.0 ([#1556](https://github.com/angular-eslint/angular-eslint/issues/1556)) ([dca9e5f](https://github.com/angular-eslint/angular-eslint/commit/dca9e5fd8293517f3a3ab667df2260e58e128d87))
+- update to @angular/cli v16.2.10 ([#1593](https://github.com/angular-eslint/angular-eslint/issues/1593)) ([a49fc81](https://github.com/angular-eslint/angular-eslint/commit/a49fc81b7e21bd2f6500041e7b6a639b6240d8a3))
+
+### Features
+
+- **eslint-plugin-template:** allow `alias` option in [use-track-by-function] ([#1497](https://github.com/angular-eslint/angular-eslint/issues/1497)) ([354d394](https://github.com/angular-eslint/angular-eslint/commit/354d394d2ea866b4f21cbbad84d84b2e102066f5))
+
 # [16.2.0](https://github.com/angular-eslint/angular-eslint/compare/v16.1.2...v16.2.0) (2023-09-17)
 
 ### Bug Fixes
