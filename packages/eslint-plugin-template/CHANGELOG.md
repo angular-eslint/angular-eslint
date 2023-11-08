@@ -13,8 +13,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 - **eslint-plugin-template:** [prefer-self-closing-tags] consider ng-content and ng-template elements ([#1573](https://github.com/angular-eslint/angular-eslint/issues/1573)) ([8e97d20](https://github.com/angular-eslint/angular-eslint/commit/8e97d20752669c2afa7b2ae456d16a96aabd8a80))
 
-# [17.0.0-alpha.0](https://github.com/angular-eslint/angular-eslint/compare/v16.2.0...v17.0.0-alpha.0) (2023-11-06)
-
 ## [16.3.1](https://github.com/angular-eslint/angular-eslint/compare/v16.3.0...v16.3.1) (2023-11-08)
 
 **Note:** Version bump only for package @angular-eslint/eslint-plugin-template

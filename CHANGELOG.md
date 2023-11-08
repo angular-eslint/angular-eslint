@@ -5,6 +5,12 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [17.0.0](https://github.com/angular-eslint/angular-eslint/compare/v16.3.1...v17.0.0) (2023-11-08)
 
+As always we recommend that you update your existing workspaces by using `ng update` as we provide some helpful schematics to help migrate your workspaces to the latest and greatest. Running the following will update Angular, the Angular CLI and angular-eslint together:
+
+```sh
+ng update @angular/core @angular/cli @angular-eslint/schematics
+```
+
 ### Bug Fixes
 
 - no declarations for eslint plugins ([2498238](https://github.com/angular-eslint/angular-eslint/commit/2498238ac64caaa539ac9d165157c6c4c937e747))
@@ -13,7 +19,11 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 - **eslint-plugin-template:** [prefer-self-closing-tags] consider ng-content and ng-template elements ([#1573](https://github.com/angular-eslint/angular-eslint/issues/1573)) ([8e97d20](https://github.com/angular-eslint/angular-eslint/commit/8e97d20752669c2afa7b2ae456d16a96aabd8a80))
 
-# [17.0.0-alpha.0](https://github.com/angular-eslint/angular-eslint/compare/v16.2.0...v17.0.0-alpha.0) (2023-11-06)
+### BREAKING CHANGES
+
+- As always, the major version primarily communicates the alignment with Angular's major version. Only Angular 17 is supported by angular-eslint 17.
+- Your Node version must now be 18.13.0 or higher. Node 16 support has been dropped in alignment with Angular 17, as Node 16 is EOL.
+- typescript-eslint v6 is now used by angular-eslint, and we will migrate existing workspaces when you use `ng update`. You may notice that some rule reports or configs have changed as a result, and we will not be able to automatically migrate all differences. Please see the typescript-eslint blog post about v6 for full information about the changes: https://typescript-eslint.io/blog/announcing-typescript-eslint-v6
 
 ## [16.3.1](https://github.com/angular-eslint/angular-eslint/compare/v16.3.0...v16.3.1) (2023-11-08)
 
