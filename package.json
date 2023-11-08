@@ -74,7 +74,7 @@
     "@types/eslint": "8.44.7",
     "@types/eslint-scope": "3.7.7",
     "@types/jest": "29.4.4",
-    "@types/node": "18.18.5",
+    "@types/node": "20.9.0",
     "@types/prettier": "2.7.3",
     "@typescript-eslint/eslint-plugin": "6.10.0",
     "@typescript-eslint/parser": "6.10.0",
