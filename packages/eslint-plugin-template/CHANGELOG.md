@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [16.3.1](https://github.com/angular-eslint/angular-eslint/compare/v16.3.0...v16.3.1) (2023-11-08)
+
+**Note:** Version bump only for package @angular-eslint/eslint-plugin-template
+
+# [16.3.0](https://github.com/angular-eslint/angular-eslint/compare/v16.2.0...v16.3.0) (2023-11-08)
+
+### Bug Fixes
+
+- generate type declarations for published packages ([#1586](https://github.com/angular-eslint/angular-eslint/issues/1586)) ([ba5740b](https://github.com/angular-eslint/angular-eslint/commit/ba5740bc76c994d1fe35be7c1c7fee3ced647aff))
+- update dependency axobject-query to v4 ([#1581](https://github.com/angular-eslint/angular-eslint/issues/1581)) ([0b6cd1a](https://github.com/angular-eslint/angular-eslint/commit/0b6cd1a2f05e4407e7422e337cc45234dd1d6209))
+
+### Features
+
+- **eslint-plugin-template:** allow `alias` option in [use-track-by-function] ([#1497](https://github.com/angular-eslint/angular-eslint/issues/1497)) ([354d394](https://github.com/angular-eslint/angular-eslint/commit/354d394d2ea866b4f21cbbad84d84b2e102066f5))
+
 # [16.2.0](https://github.com/angular-eslint/angular-eslint/compare/v16.1.2...v16.2.0) (2023-09-17)
 
 ### Bug Fixes

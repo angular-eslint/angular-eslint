@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [16.3.1](https://github.com/angular-eslint/angular-eslint/compare/v16.3.0...v16.3.1) (2023-11-08)
+
+**Note:** Version bump only for package @angular-eslint/template-parser
+
+# [16.3.0](https://github.com/angular-eslint/angular-eslint/compare/v16.2.0...v16.3.0) (2023-11-08)
+
+### Bug Fixes
+
+- generate type declarations for published packages ([#1586](https://github.com/angular-eslint/angular-eslint/issues/1586)) ([ba5740b](https://github.com/angular-eslint/angular-eslint/commit/ba5740bc76c994d1fe35be7c1c7fee3ced647aff))
+
 # [16.2.0](https://github.com/angular-eslint/angular-eslint/compare/v16.1.2...v16.2.0) (2023-09-17)
 
 **Note:** Version bump only for package @angular-eslint/template-parser
