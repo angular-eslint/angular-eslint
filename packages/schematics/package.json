@@ -47,7 +47,7 @@
     "eslint": "8.53.0"
   },
   "peerDependencies": {
-    "@angular/cli": ">= 17.0.0-rc.3 < 18.0.0"
+    "@angular/cli": ">= 17.0.0-rc.5 < 18.0.0"
   },
   "gitHead": "e2006e5e9c99e5a943d1a999e0efa5247d29ec24"
 }
