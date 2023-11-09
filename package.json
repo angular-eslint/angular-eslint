@@ -59,7 +59,7 @@
     "@commitlint/config-conventional": "18.1.0",
     "@nx/devkit": "17.1.1",
     "@nx/eslint-plugin": "17.1.1",
-    "@nx/jest": "17.0.3",
+    "@nx/jest": "17.1.1",
     "@nx/js": "17.1.1",
     "@nx/plugin": "17.1.1",
     "@nx/workspace": "17.1.1",
