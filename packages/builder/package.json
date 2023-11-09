@@ -18,8 +18,8 @@
     "builders.json"
   ],
   "dependencies": {
-    "@nx/devkit": "17.0.3",
-    "nx": "17.0.3"
+    "@nx/devkit": "17.1.1",
+    "nx": "17.1.1"
   },
   "builders": "./builders.json",
   "peerDependencies": {
