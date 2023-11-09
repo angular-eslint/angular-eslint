@@ -1,13 +1,12 @@
-import type {
-  BindingPipe,
-  PrefixNot,
-} from '@angular-eslint/bundled-angular-compiler';
+import type { BindingPipe } from '@angular-eslint/bundled-angular-compiler';
+import { PrefixNot } from '@angular-eslint/bundled-angular-compiler';
 import { ensureTemplateParser } from '@angular-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
 type Options = [];
 export type MessageIds =
   | 'noNegatedAsync'
+  | 'noNegatedValueForAsync'
   | 'suggestFalseComparison'
   | 'suggestNullComparison'
   | 'suggestUndefinedComparison';
@@ -18,7 +17,8 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description: 'Ensures that async pipe results are not negated',
+      description:
+        'Ensures that async pipe results, as well as values used with the async pipe, are not negated',
       recommended: 'recommended',
     },
     hasSuggestions: true,
@@ -26,6 +26,8 @@ export default createESLintRule<Options, MessageIds>({
     messages: {
       noNegatedAsync:
         'Async pipe results should not be negated. Use `(observable | async) === false`, `(observable | async) === null`, or `(observable | async) === undefined` to check its value instead',
+      noNegatedValueForAsync:
+        'Values used with the async pipe should not be negated.',
       suggestFalseComparison: 'Compare with `false`',
       suggestNullComparison: 'Compare with `null`',
       suggestUndefinedComparison: 'Compare with `undefined`',
@@ -37,6 +39,17 @@ export default createESLintRule<Options, MessageIds>({
     const sourceCode = context.getSourceCode();
 
     return {
+      'BindingPipe[name="async"]'(bindingPipe: BindingPipe) {
+        if (bindingPipe.exp instanceof PrefixNot) {
+          context.report({
+            messageId: 'noNegatedValueForAsync',
+            loc: {
+              start: sourceCode.getLocFromIndex(bindingPipe.sourceSpan.start),
+              end: sourceCode.getLocFromIndex(bindingPipe.sourceSpan.end),
+            },
+          });
+        }
+      },
       ':not(PrefixNot) > PrefixNot > BindingPipe[name="async"]'({
         parent: {
           sourceSpan: { end, start },

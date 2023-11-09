@@ -15,7 +15,7 @@
 
 # `@angular-eslint/template/no-negated-async`
 
-Ensures that async pipe results are not negated
+Ensures that async pipe results, as well as values used with the async pipe, are not negated
 
 - Type: suggestion
 
@@ -146,6 +146,33 @@ The rule does not have any configuration options.
 ```html
 {{ nullable ?? !(obsVar | async) }}
                ~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-negated-async": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<button [disabled]="!buttonDisabled$ | async">Click me!</button>
+                    ~~~~~~~~~~~~~~~~~~~~~~~~
 ```
 
 </details>
