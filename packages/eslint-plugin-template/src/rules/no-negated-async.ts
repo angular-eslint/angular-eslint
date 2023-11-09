@@ -9,7 +9,8 @@ export type MessageIds =
   | 'noNegatedValueForAsync'
   | 'suggestFalseComparison'
   | 'suggestNullComparison'
-  | 'suggestUndefinedComparison';
+  | 'suggestUndefinedComparison'
+  | 'suggestUsingNonNegatedValue';
 export const RULE_NAME = 'no-negated-async';
 
 export default createESLintRule<Options, MessageIds>({
@@ -31,6 +32,7 @@ export default createESLintRule<Options, MessageIds>({
       suggestFalseComparison: 'Compare with `false`',
       suggestNullComparison: 'Compare with `null`',
       suggestUndefinedComparison: 'Compare with `undefined`',
+      suggestUsingNonNegatedValue: 'Use non-negated value',
     },
   },
   defaultOptions: [],
@@ -41,12 +43,21 @@ export default createESLintRule<Options, MessageIds>({
     return {
       'BindingPipe[name="async"]'(bindingPipe: BindingPipe) {
         if (bindingPipe.exp instanceof PrefixNot) {
+          const sourceSpanStart = bindingPipe.sourceSpan.start;
+
           context.report({
             messageId: 'noNegatedValueForAsync',
             loc: {
               start: sourceCode.getLocFromIndex(bindingPipe.sourceSpan.start),
               end: sourceCode.getLocFromIndex(bindingPipe.sourceSpan.end),
             },
+            suggest: [
+              {
+                messageId: 'suggestUsingNonNegatedValue',
+                fix: (fixer) =>
+                  fixer.removeRange([sourceSpanStart, sourceSpanStart + 1]),
+              },
+            ],
           });
         }
       },

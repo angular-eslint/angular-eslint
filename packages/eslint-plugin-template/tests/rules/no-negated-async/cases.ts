@@ -6,6 +6,7 @@ const noNegatedValueForAsyncMessageId: MessageIds = 'noNegatedValueForAsync';
 const suggestFalseComparison: MessageIds = 'suggestFalseComparison';
 const suggestNullComparison: MessageIds = 'suggestNullComparison';
 const suggestUndefinedComparison: MessageIds = 'suggestUndefinedComparison';
+const suggestUsingNonNegatedValue: MessageIds = 'suggestUsingNonNegatedValue';
 
 export const valid = [
   // it should succeed if async pipe is not negated
@@ -156,9 +157,18 @@ export const invalid = [
   convertAnnotatedSourceToFailureCase({
     description: 'it should fail if async pipe is used with a negated value',
     annotatedSource: `
-      <button [disabled]="!buttonDisabled$ | async">Click me!</button>
-                          ~~~~~~~~~~~~~~~~~~~~~~~~
-    `,
+        <button [disabled]="!buttonDisabled$ | async">Click me!</button>
+                            ~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
     messageId: noNegatedValueForAsyncMessageId,
+    suggestions: [
+      {
+        messageId: suggestUsingNonNegatedValue,
+        output: `
+        <button [disabled]="buttonDisabled$ | async">Click me!</button>
+                            
+      `,
+      },
+    ],
   }),
 ];
