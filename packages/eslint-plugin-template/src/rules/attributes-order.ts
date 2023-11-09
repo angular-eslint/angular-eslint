@@ -235,10 +235,16 @@ function byOrder(order: readonly OrderType[], alphabetical: boolean) {
       getOrderIndex(one, order) - getOrderIndex(other, order);
 
     if (alphabetical && orderComparison === 0) {
-      return (one.keySpan?.details ?? one.name) >
-        (other.keySpan?.details ?? other.name)
-        ? 1
-        : -1;
+      const oneName = one.keySpan?.details ?? one.name;
+      const oneNormalised = oneName.replace(/^i18n-/, '');
+      const otherName = other.keySpan?.details ?? other.name;
+      const otherNormalised = otherName.replace(/^i18n-/, '');
+
+      if (oneNormalised === otherNormalised) {
+        return /^i18n-/.test(oneName) ? 1 : -1;
+      }
+
+      return oneNormalised > otherNormalised ? 1 : -1;
     }
 
     return orderComparison;
@@ -328,23 +334,28 @@ function extractTemplateAttrs(
 
   const attrs = node.parent.templateAttrs.map(toStructuralDirectiveOrderType);
 
-  // Pick up on any subsequent `let` bindings, e.g. `index as i`
-  let sourceEnd = attrs[attrs.length - 1].sourceSpan.end;
-  node.parent.variables.forEach((v) => {
-    if (
-      v.sourceSpan.start.offset <= sourceEnd.offset &&
-      sourceEnd.offset < v.sourceSpan.end.offset
-    ) {
-      sourceEnd = v.sourceSpan.end;
+  let keyEnd = attrs[0].keySpan?.end;
+  if (keyEnd?.getContext(0, 0)?.after === '=') {
+    keyEnd = keyEnd.moveBy(1);
+    const apos = keyEnd.getContext(0, 0)?.after;
+    if (apos === "'" || apos === '"') {
+      do {
+        keyEnd = keyEnd.moveBy(1);
+      } while (keyEnd.getContext(0, 0)?.after !== apos);
+    } else {
+      while (!/[\s>]/.test(keyEnd.getContext(0, 0)?.after ?? '')) {
+        keyEnd = keyEnd.moveBy(1);
+      }
     }
-  });
+    return [
+      {
+        ...attrs[0],
+        sourceSpan: new ParseSourceSpan(attrs[0].sourceSpan.start, keyEnd),
+      } as ExtendedTmplAstBoundAttribute | ExtendedTmplAstTextAttribute,
+    ];
+  }
 
-  return [
-    {
-      ...attrs[0],
-      sourceSpan: new ParseSourceSpan(attrs[0].sourceSpan.start, sourceEnd),
-    } as ExtendedTmplAstBoundAttribute | ExtendedTmplAstTextAttribute,
-  ];
+  return [attrs[0]];
 }
 
 function normalizeInputsOutputs(

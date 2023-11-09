@@ -17,6 +17,7 @@ export const valid = [
   '<ng-template #Template><div></div></ng-template>',
   '<ng-template [ngIf]="condition" [ngIfThen]="If" [ngIfElse]="Else"><div></div></ng-template>',
   '<ng-template #Template let-value><div></div></ng-template>',
+  '<div i18n test1="test1" i18n-test1="@@TEST1" test2="test2" i18n-test2="@@TEST2"></div>',
 ];
 
 export const invalid = [
@@ -336,6 +337,66 @@ export const invalid = [
     annotatedOutput: `
       <ng-template #Template let-anotherValue="else" let-value="something"></ng-template>
                    
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description: 'should work with structural directive and single let',
+    annotatedSource: `
+      <td mat-cell *matCellDef="let element"></td>
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    options: [{ alphabetical: true }],
+    data: {
+      expected: '`*matCellDef`, `mat-cell`',
+      actual: '`mat-cell`, `*matCellDef`',
+    },
+    annotatedOutput: `
+      <td *matCellDef="let element" mat-cell></td>
+          
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should work with structural directive and single let spread over lines',
+    annotatedSource: `
+      <td mat-cell *matCellDef="
+          ~~~~~~~~~~~~~~~~~~~~~~
+        let element
+        ~~~~~~~~~~~
+      "></td>
+      ~
+    `,
+    options: [{ alphabetical: true }],
+    data: {
+      expected: '`*matCellDef`, `mat-cell`',
+      actual: '`mat-cell`, `*matCellDef`',
+    },
+    annotatedOutput: `
+      <td *matCellDef="
+          
+        let element
+        
+      " mat-cell></td>
+      
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description: 'should work with structural directive with as',
+    annotatedSource: `
+      <div class="abc" *ngIf="sth.property as property "></div>
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    options: [{ alphabetical: true }],
+    data: {
+      expected: '`*ngIf`, `class`',
+      actual: '`class`, `*ngIf`',
+    },
+    annotatedOutput: `
+      <div *ngIf="sth.property as property " class="abc"></div>
+           
     `,
   }),
 ];
