@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [17.0.1](https://github.com/angular-eslint/angular-eslint/compare/v17.0.0...v17.0.1) (2023-11-09)
+
+**Note:** Version bump only for package @angular-eslint/bundled-angular-compiler
+
 # [17.0.0](https://github.com/angular-eslint/angular-eslint/compare/v16.3.1...v17.0.0) (2023-11-08)
 
 **Note:** Version bump only for package @angular-eslint/bundled-angular-compiler

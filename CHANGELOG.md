@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [17.0.1](https://github.com/angular-eslint/angular-eslint/compare/v17.0.0...v17.0.1) (2023-11-09)
+
+### Bug Fixes
+
+- **parser:** do not error on [@defer](https://github.com/defer) usage in Angular 17 ([#1604](https://github.com/angular-eslint/angular-eslint/issues/1604)) ([df5419f](https://github.com/angular-eslint/angular-eslint/commit/df5419faf10dcf2ecd8e70a19349a1ca9859fb2b))
+- update dependency @angular/compiler to v17.0.1 ([#1601](https://github.com/angular-eslint/angular-eslint/issues/1601)) ([237a969](https://github.com/angular-eslint/angular-eslint/commit/237a96905d586a25c7b51c03253ef7d8ab932959))
+
 # [17.0.0](https://github.com/angular-eslint/angular-eslint/compare/v16.3.1...v17.0.0) (2023-11-08)
 
 As always we recommend that you update your existing workspaces by using `ng update` as we provide some helpful schematics to help migrate your workspaces to the latest and greatest. Running the following will update Angular, the Angular CLI and angular-eslint together:

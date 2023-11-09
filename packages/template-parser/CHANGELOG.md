@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [17.0.1](https://github.com/angular-eslint/angular-eslint/compare/v17.0.0...v17.0.1) (2023-11-09)
+
+### Bug Fixes
+
+- **parser:** do not error on [@defer](https://github.com/defer) usage in Angular 17 ([#1604](https://github.com/angular-eslint/angular-eslint/issues/1604)) ([df5419f](https://github.com/angular-eslint/angular-eslint/commit/df5419faf10dcf2ecd8e70a19349a1ca9859fb2b))
+
 # [17.0.0](https://github.com/angular-eslint/angular-eslint/compare/v16.3.1...v17.0.0) (2023-11-08)
 
 **Note:** Version bump only for package @angular-eslint/template-parser
