@@ -49,6 +49,10 @@ const KEYS: VisitorKeys = {
   PropertyRead: ['receiver'],
   Template: ['templateAttrs', 'children', 'inputs'],
   BindingPipe: ['exp'],
+  DeferredBlock: ['children'],
+  DeferredBlockLoading: ['children'],
+  DeferredBlockError: ['children'],
+  DeferredBlockPlaceholder: ['children'],
 };
 
 function fallbackKeysFilter(this: Node, key: string) {
