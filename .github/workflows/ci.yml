@@ -83,8 +83,8 @@ jobs:
           cmd5: yarn lint
           cmd6: yarn test --codeCoverage
 
-      - name: Run distributed integration tests with independent local registries
-        run: yarn nx run-many --target=integration-test --all --withRegistry
+      - name: Run distributed integration tests with independent local registries (max 1 per agent for improved throughput)
+        run: yarn nx run-many --target=integration-test --withRegistry --parallel=1
 
       - name: Publish code coverage report
         uses: codecov/codecov-action@v3
@@ -244,7 +244,10 @@ jobs:
         # but it should not matter because this should be a full cloud cache hit
         run: NX_CLOUD_DISTRIBUTED_EXECUTION=false yarn build
 
-      - name: Publish all packages to npm
-        run: yarn lerna publish --loglevel=verbose --canary --exact --force-publish --yes
+      - name: Figure out and apply the next canary version
+        run: yarn ts-node --project ./tsconfig.tools.json ./tools/scripts/apply-canary-version.ts
+
+      - name: Publish all packages to npm with the canary tag
+        run: yarn nx release publish --tag canary
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

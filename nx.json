@@ -1,6 +1,13 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "nxCloudAccessToken": "Y2MxNmI0YWItNDdhYS00ZWUxLTliZjMtODkzYjZkYTE4YjgxfHJlYWQtd3JpdGU=",
+  "release": {
+    "groups": {
+      "npm": {
+        "projects": ["*", "!nx-plugin", "!integration-tests*"]
+      }
+    }
+  },
   "targetDefaults": {
     "build": {
       "dependsOn": ["^build"],
@@ -19,15 +26,7 @@
       "dependsOn": ["^build"],
       "cache": true
     },
-    "test": {
-      "dependsOn": ["^build"],
-      "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"],
-      "cache": true
-    },
     "lint": {
-      "cache": true
-    },
-    "e2e": {
       "cache": true
     },
     "integration-test": {
@@ -39,6 +38,20 @@
     },
     "check-rule-lists": {
       "cache": true
+    },
+    "@nx/jest:jest": {
+      "dependsOn": ["^build"],
+      "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"],
+      "cache": true,
+      "options": {
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
     }
   },
   "namedInputs": {

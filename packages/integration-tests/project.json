@@ -37,16 +37,9 @@
     },
     "spawn-and-populate-local-registry": {
       "dependsOn": [
-        {
-          "target": "build",
-          "dependencies": true
-        },
-        {
-          "target": "kill-existing-verdaccio"
-        },
-        {
-          "target": "reset-verdaccio-storage"
-        }
+        "^build",
+        "kill-existing-verdaccio",
+        "reset-verdaccio-storage"
       ],
       "executor": "nx:run-commands",
       "options": {
