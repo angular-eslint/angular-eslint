@@ -16,8 +16,6 @@ if [[ ! $NPM_REGISTRY == http://localhost* ]]; then
   exit 1;
 fi
 
-npm adduser --registry=$NPM_REGISTRY
-
 echo "Publishing to npm registry $NPM_REGISTRY"
 
 echo ""
