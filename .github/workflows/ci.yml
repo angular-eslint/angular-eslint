@@ -250,4 +250,5 @@ jobs:
       - name: Publish all packages to npm with the canary tag
         run: yarn nx release publish --tag canary
         env:
+          NX_CLOUD_DISTRIBUTED_EXECUTION: false
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
