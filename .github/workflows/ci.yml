@@ -244,7 +244,10 @@ jobs:
         # but it should not matter because this should be a full cloud cache hit
         run: NX_CLOUD_DISTRIBUTED_EXECUTION=false yarn build
 
-      - name: Publish all packages to npm
-        run: yarn lerna publish --loglevel=verbose --canary --exact --force-publish --yes
+      - name: Figure out and apply the next canary version
+        run: yarn ts-node --project ./tsconfig.tools.json ./tools/scripts/apply-canary-version.ts
+
+      - name: Publish all packages to npm with the canary tag
+        run: yarn nx release publish --tag canary
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
