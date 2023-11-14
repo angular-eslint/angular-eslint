@@ -30,6 +30,7 @@
       "cache": true
     },
     "integration-test": {
+      "dependsOn": ["^build"],
       "cache": true
     },
     "check-rule-docs": {
