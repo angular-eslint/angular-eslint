@@ -44,12 +44,13 @@ export default createESLintRule<Options, MessageIds>({
       'BindingPipe[name="async"]'(bindingPipe: BindingPipe) {
         if (bindingPipe.exp instanceof PrefixNot) {
           const sourceSpanStart = bindingPipe.sourceSpan.start;
+          const sourceSpanEnd = bindingPipe.sourceSpan.end;
 
           context.report({
             messageId: 'noNegatedValueForAsync',
             loc: {
-              start: sourceCode.getLocFromIndex(bindingPipe.sourceSpan.start),
-              end: sourceCode.getLocFromIndex(bindingPipe.sourceSpan.end),
+              start: sourceCode.getLocFromIndex(sourceSpanStart),
+              end: sourceCode.getLocFromIndex(sourceSpanEnd),
             },
             suggest: [
               {
