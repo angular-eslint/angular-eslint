@@ -11,7 +11,9 @@
             "specifierSource": "conventional-commits"
           }
         },
-        "changelog": {}
+        "changelog": {
+          "createRelease": "github"
+        }
       }
     }
   },
