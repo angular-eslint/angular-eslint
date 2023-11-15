@@ -10,11 +10,18 @@
             "currentVersionResolver": "git-tag",
             "specifierSource": "conventional-commits"
           }
-        },
-        "changelog": {
-          "createRelease": "github"
         }
       }
+    },
+    "changelog": {
+      "git": {
+        "commit": true,
+        "tag": true
+      },
+      "workspaceChangelog": {
+        "createRelease": "github"
+      },
+      "projectChangelogs": {}
     }
   },
   "targetDefaults": {
