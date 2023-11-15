@@ -3,7 +3,7 @@
   "private": true,
   "volta": {
     "node": "20.9.0",
-    "yarn": "1.22.19"
+    "yarn": "1.22.21"
   },
   "workspaces": [
     "packages/!(nx-plugin)*"
