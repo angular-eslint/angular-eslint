@@ -1,3 +1,7 @@
+## 17.1.0
+
+This was a version bump only for eslint-plugin to align it with other projects, there were no code changes.
+
 # Change Log
 
 All notable changes to this project will be documented in this file.

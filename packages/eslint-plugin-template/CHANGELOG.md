@@ -1,3 +1,21 @@
+## 17.1.0
+
+### 🚀 Features
+
+- **eslint-plugin-template:** [no-negated-async] values used with the async pipe are not negated
+
+- **eslint-plugin-template:** [prefer-control-flow] add rule
+
+### 🩹 Fixes
+
+- **eslint-plugin-template:** [attributes-order] fixes for structural directives and i18n ordering
+
+### ❤️ Thank You
+
+- Adrian Baran
+- Daniel Kimmich
+- Phil McCloghry-Laing
+
 # Change Log
 
 All notable changes to this project will be documented in this file.

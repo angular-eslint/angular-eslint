@@ -1,3 +1,23 @@
+## 17.1.0
+
+### 🚀 Features
+
+- **eslint-plugin-template:** [no-negated-async] values used with the async pipe are not negated ([#1606](https://github.com/angular-eslint/angular-eslint/pull/1606))
+- **eslint-plugin-template:** [prefer-control-flow] add rule ([#1600](https://github.com/angular-eslint/angular-eslint/pull/1600))
+
+### 🩹 Fixes
+
+- update nrwl monorepo to v17.1.2 ([#1617](https://github.com/angular-eslint/angular-eslint/pull/1617))
+- update dependency @angular/compiler to v17.0.2 ([#1607](https://github.com/angular-eslint/angular-eslint/pull/1607))
+- update typescript-eslint packages to v6.11.0 ([#1612](https://github.com/angular-eslint/angular-eslint/pull/1612))
+- **eslint-plugin-template:** [attributes-order] fixes for structural directives and i18n ordering ([#1602](https://github.com/angular-eslint/angular-eslint/pull/1602))
+
+### ❤️ Thank You
+
+- Adrian Baran @abaran30
+- Daniel Kimmich @json-derulo
+- Phil McCloghry-Laing @pmccloghrylaing
+
 # Change Log
 
 All notable changes to this project will be documented in this file.
