@@ -89,7 +89,7 @@
     "json-schema-traverse": "1.0.0",
     "jsonc-eslint-parser": "^2.1.0",
     "lerna": "7.4.2",
-    "lint-staged": "15.0.2",
+    "lint-staged": "15.1.0",
     "ncp": "2.0.0",
     "nx": "17.1.2",
     "prettier": "3.0.3",
