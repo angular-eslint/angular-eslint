@@ -4,6 +4,7 @@
   "release": {
     "groups": {
       "npm": {
+        "releaseTagPattern": "v{version}",
         "projects": ["*", "!nx-plugin", "!e2e*"],
         "version": {
           "generatorOptions": {
