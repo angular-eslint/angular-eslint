@@ -384,7 +384,8 @@ export const invalid = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should work with structural directive with as and trailing whitespace',
+    description:
+      'should work with structural directive with as and trailing whitespace',
     annotatedSource: `
       <div class="abc" *ngIf="sth.property as property "></div>
            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
