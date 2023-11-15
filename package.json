@@ -20,7 +20,7 @@
     "build": "nx run-many -t build",
     "test": "nx run-many -t test",
     "e2e": "nx e2e e2e",
-    "update-e2e-tests": "nx e2e e2e --updateSnapshots",
+    "update-e2e-snapshots": "nx e2e e2e --updateSnapshots",
     "check-clean-workspace-after-install": "git diff --quiet --exit-code",
     "clean": "nx reset && lerna clean && nx run-many -t clean",
     "cz": "git-cz",
