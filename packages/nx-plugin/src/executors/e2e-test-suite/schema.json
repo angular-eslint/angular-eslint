@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "version": 2,
+  "title": "E2ETestSuite executor",
+  "description": "",
+  "type": "object",
+  "properties": {
+    "cwd": {
+      "type": "string",
+      "description": "Current working directory of the commands"
+    },
+    "testFilePath": {
+      "type": "string",
+      "description": "The path to the relevant test file, relative to the workspace root"
+    },
+    "updateSnapshots": {
+      "type": "boolean",
+      "description": "Whether to update jest snapshots",
+      "default": false
+    }
+  },
+  "required": ["cwd", "testFilePath"]
+}

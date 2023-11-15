@@ -1,0 +1,15 @@
+{
+  "name": "e2e-suite-3",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "type": "library",
+  "targets": {
+    "e2e-suite": {
+      "executor": "@angular-eslint/nx-plugin:e2e-test-suite",
+      "options": {
+        "cwd": "e2e",
+        "testFilePath": "src/new-workspace-create-application-false-project-then-ng-add.test.ts"
+      }
+    }
+  },
+  "implicitDependencies": ["*"]
+}

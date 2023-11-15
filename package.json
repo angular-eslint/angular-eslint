@@ -19,14 +19,13 @@
   "scripts": {
     "build": "nx run-many -t build",
     "test": "nx run-many -t test",
-    "integration-tests": "nx clean integration-tests && nx spawn-and-populate-local-registry integration-tests && nx run-many -t integration-test",
-    "update-integration-tests": "yarn integration-tests --updateSnapshots",
+    "e2e": "nx e2e e2e",
+    "update-e2e-tests": "nx e2e e2e --updateSnapshots",
     "check-clean-workspace-after-install": "git diff --quiet --exit-code",
     "clean": "nx reset && lerna clean && nx run-many -t clean",
     "cz": "git-cz",
     "postinstall": "tools/scripts/postinstall.sh",
-    "check-clean-integration-test-fixtures": "tools/scripts/check-clean-integration-test-fixtures.sh",
-    "pre-commit": "yarn lint-staged && yarn check-clean-integration-test-fixtures",
+    "pre-commit": "yarn lint-staged",
     "pre-push": "yarn format-check",
     "format": "node node_modules/prettier/bin/prettier.cjs --write \"./**/*.{ts,js,json,md}\"",
     "format-check": "node node_modules/prettier/bin/prettier.cjs --check \"./**/*.{ts,js,json,md}\"",
@@ -103,6 +102,7 @@
     "ts-jest": "29.1.0",
     "ts-node": "10.9.1",
     "tslib": "^2.4.1",
-    "typescript": "5.2.2"
+    "typescript": "5.2.2",
+    "verdaccio": "5.20.1"
   }
 }

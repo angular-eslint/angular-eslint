@@ -278,7 +278,7 @@ function parseForESLint(
     };
   }
 
-  // TODO: Stop suppressing parse errors by default in v14
+  // TODO: Stop suppressing parse errors by default in v18
   const suppressParseErrors = options.suppressParseErrors ?? true;
 
   if (!suppressParseErrors && angularCompilerResult.errors?.length) {
