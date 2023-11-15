@@ -24,6 +24,7 @@
     "@angular-eslint/template/no-interpolation-in-attributes": "error",
     "@angular-eslint/template/no-negated-async": "error",
     "@angular-eslint/template/no-positive-tabindex": "error",
+    "@angular-eslint/template/prefer-control-flow": "error",
     "@angular-eslint/template/prefer-ngsrc": "error",
     "@angular-eslint/template/prefer-self-closing-tags": "error",
     "@angular-eslint/template/role-has-required-aria": "error",

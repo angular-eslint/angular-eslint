@@ -64,6 +64,9 @@ import noPositiveTabindex, {
 import preferNgsrc, {
   RULE_NAME as preferNgsrcRuleName,
 } from './rules/prefer-ngsrc';
+import preferControlFlow, {
+  RULE_NAME as preferControlFlowRuleName,
+} from './rules/prefer-control-flow';
 import preferSelfClosingTags, {
   RULE_NAME as preferSelfClosingTagsRuleName,
 } from './rules/prefer-self-closing-tags';
@@ -109,6 +112,7 @@ export = {
     [noInterpolationInAttributesRuleName]: noInterpolationInAttributes,
     [noNegatedAsyncRuleName]: noNegatedAsync,
     [noPositiveTabindexRuleName]: noPositiveTabindex,
+    [preferControlFlowRuleName]: preferControlFlow,
     [preferSelfClosingTagsRuleName]: preferSelfClosingTags,
     [preferNgsrcRuleName]: preferNgsrc,
     [roleHasRequiredAriaRuleName]: roleHasRequiredAria,
