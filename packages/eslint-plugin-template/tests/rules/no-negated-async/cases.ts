@@ -2,9 +2,11 @@ import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/utils';
 import type { MessageIds } from '../../../src/rules/no-negated-async';
 
 const messageId: MessageIds = 'noNegatedAsync';
+const noNegatedValueForAsyncMessageId: MessageIds = 'noNegatedValueForAsync';
 const suggestFalseComparison: MessageIds = 'suggestFalseComparison';
 const suggestNullComparison: MessageIds = 'suggestNullComparison';
 const suggestUndefinedComparison: MessageIds = 'suggestUndefinedComparison';
+const suggestUsingNonNegatedValue: MessageIds = 'suggestUsingNonNegatedValue';
 
 export const valid = [
   // it should succeed if async pipe is not negated
@@ -148,6 +150,23 @@ export const invalid = [
         output: `
         {{ nullable ?? (obsVar | async) === undefined }}
                        
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'it should fail if async pipe is used with a negated value',
+    annotatedSource: `
+        <button [disabled]="!buttonDisabled$ | async">Click me!</button>
+                            ~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId: noNegatedValueForAsyncMessageId,
+    suggestions: [
+      {
+        messageId: suggestUsingNonNegatedValue,
+        output: `
+        <button [disabled]="buttonDisabled$ | async">Click me!</button>
+                            
       `,
       },
     ],
