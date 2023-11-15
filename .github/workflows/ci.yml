@@ -38,6 +38,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          fetch-tags: true
 
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         uses: nrwl/nx-set-shas@v4
@@ -111,6 +112,8 @@ jobs:
         run: echo "NX_RUN_GROUP=${{ needs.create_nx_run_group.outputs.nx_run_group }}" >> $GITHUB_ENV
 
       - uses: actions/checkout@v4
+        with:
+          fetch-tags: true
 
       - name: Install node and npm based on the volta config in our package.json
         uses: volta-cli/action@v4
