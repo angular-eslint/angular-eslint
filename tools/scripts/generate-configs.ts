@@ -162,7 +162,7 @@ async function writeConfig(
         ),
       /**
        * Special case use-lifecycle-interface=warn for now to avoid breaking change.
-       * TODO: remove in v17
+       * TODO: remove in v18
        */
       '@angular-eslint/use-lifecycle-interface': 'warn',
     },

@@ -5,8 +5,6 @@
 **/.github
 **/node_modules
 
-packages/integration-tests/fixtures
-
 tmp
 
 # Copied directly and kept in sync with schemas in node_modules

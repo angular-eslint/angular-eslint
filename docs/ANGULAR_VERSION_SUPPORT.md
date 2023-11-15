@@ -17,7 +17,7 @@ Therefore, as an example (because these versions may or may not exist yet when y
 
 In order to support the above major version alignment to make things MUCH simpler from now on, in `@angular-eslint` we jumped from major version `4` to `12` (i.e. major versions 5-11 do not exist). This makes the version alignment prior to v12 a little harder to follow by comparison, but the following section outlines what you should be using together if you cannot move to Angular v12 yet for whatever reason.
 
-For `@angular-eslint` versions prior to v12 and greater than v2 (`>= 2 < 12`), we supported Angular CLI `11.2.0` up until, **but not including**, `12.0.0`. This is also captured by our integration-tests package.
+For `@angular-eslint` versions prior to v12 and greater than v2 (`>= 2 < 12`), we supported Angular CLI `11.2.0` up until, **but not including**, `12.0.0`.
 
 For v1.x.x of these packages we supported Angular from `10.1.0` to `11.1.0`.
 

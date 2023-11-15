@@ -4,7 +4,7 @@
   "release": {
     "groups": {
       "npm": {
-        "projects": ["*", "!nx-plugin", "!integration-tests*"]
+        "projects": ["*", "!nx-plugin", "!e2e*"]
       }
     }
   },
@@ -29,7 +29,11 @@
     "lint": {
       "cache": true
     },
-    "integration-test": {
+    "e2e": {
+      "dependsOn": ["^build"],
+      "cache": true
+    },
+    "e2e-suite": {
       "dependsOn": ["^build"],
       "cache": true
     },
