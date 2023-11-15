@@ -85,8 +85,8 @@ function reducer(
     | TSESLint.Linter.RuleLevelAndOptions = settings.errorLevel
     ? settings.errorLevel
     : !recommendation
-    ? DEFAULT_RULE_SETTING
-    : recommendation;
+      ? DEFAULT_RULE_SETTING
+      : recommendation;
 
   console.log(
     `${chalk.dim(ruleNamePrefix)}${key.padEnd(MAX_RULE_NAME_LENGTH)}`,
