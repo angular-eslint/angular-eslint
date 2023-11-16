@@ -40,7 +40,9 @@ jobs:
           fetch-depth: 0
           fetch-tags: true
       
-      - run: git fetch --prune --unshallow --tags
+      - run: git describe --tags
+      - run: git fetch --prune --tags
+      - run: git describe --tags
       - run: git log -n 7
 
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
