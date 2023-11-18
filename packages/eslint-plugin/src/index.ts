@@ -79,6 +79,9 @@ import preferOnPushComponentChangeDetection, {
 import preferOutputReadonly, {
   RULE_NAME as preferOutputReadonlyRuleName,
 } from './rules/prefer-output-readonly';
+import preferStandalone, {
+  RULE_NAME as preferStandaloneRuleName,
+} from './rules/prefer-standalone';
 import preferStandaloneComponent, {
   RULE_NAME as preferStandaloneComponentRuleName,
 } from './rules/prefer-standalone-component';
@@ -142,6 +145,7 @@ export = {
     [pipePrefixRuleName]: pipePrefix,
     [preferOnPushComponentChangeDetectionRuleName]:
       preferOnPushComponentChangeDetection,
+    [preferStandaloneRuleName]: preferStandalone,
     [preferStandaloneComponentRuleName]: preferStandaloneComponent,
     [preferOutputReadonlyRuleName]: preferOutputReadonly,
     [relativeUrlPrefixRuleName]: relativeUrlPrefix,
