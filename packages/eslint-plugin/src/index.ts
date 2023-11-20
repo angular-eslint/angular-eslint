@@ -70,6 +70,9 @@ import noPipeImpure, {
 import noQueriesMetadataProperty, {
   RULE_NAME as noQueriesMetadataPropertyRuleName,
 } from './rules/no-queries-metadata-property';
+import noSingleStylesArray, {
+  RULE_NAME as noSingleStylesArrayRuleName,
+} from './rules/no-single-styles-array';
 import pipePrefix, {
   RULE_NAME as pipePrefixRuleName,
 } from './rules/pipe-prefix';
@@ -139,6 +142,7 @@ export = {
     [noOutputsMetadataPropertyRuleName]: noOutputsMetadataProperty,
     [noPipeImpureRuleName]: noPipeImpure,
     [noQueriesMetadataPropertyRuleName]: noQueriesMetadataProperty,
+    [noSingleStylesArrayRuleName]: noSingleStylesArray,
     [pipePrefixRuleName]: pipePrefix,
     [preferOnPushComponentChangeDetectionRuleName]:
       preferOnPushComponentChangeDetection,
