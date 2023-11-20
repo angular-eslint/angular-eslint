@@ -89,12 +89,15 @@ export default createESLintRule<Options, MessageIds>({
       [`${Selectors.COMPONENT_CLASS_DECORATOR} Property[key.name='styles']`]({
         value,
       }: TSESTree.Property) {
-        if (!ASTUtils.isArrayExpression(value)) return;
-
-        const lineCount = value.elements.reduce(
-          (lines, element) => lines + (element ? getLinesCount(element) : 0),
-          0,
-        );
+        let lineCount: number;
+        if (!ASTUtils.isArrayExpression(value)) {
+          lineCount = getLinesCount(value);
+        } else {
+          lineCount = value.elements.reduce(
+            (lines, element) => lines + (element ? getLinesCount(element) : 0),
+            0,
+          );
+        }
 
         if (lineCount <= styles) return;
 
