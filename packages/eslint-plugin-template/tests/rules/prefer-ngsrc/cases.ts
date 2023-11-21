@@ -8,6 +8,7 @@ export const valid = [
   '<img ngSrc="http://localhost">',
   "<img [ngSrc]=\"'http://localhost'>",
   '<img [ngSrc]="value">',
+  '<img src="data:image/jpeg;base64">',
 ];
 
 export const invalid = [
@@ -56,6 +57,8 @@ export const invalid = [
                                   %%%%%%%%%%%%%
         <img [src]="otherValue" [ngSrc]="value">
              ¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶
+        <img src="data:image/png;base64" [ngSrc]="otherValue">
+             ¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
       </ng-template>
       `,
     messages: [
@@ -85,6 +88,10 @@ export const invalid = [
       },
       {
         char: '¶',
+        messageId: invalidDoubleSource,
+      },
+      {
+        char: '¨',
         messageId: invalidDoubleSource,
       },
     ],

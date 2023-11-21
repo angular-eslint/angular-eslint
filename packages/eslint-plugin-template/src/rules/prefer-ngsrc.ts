@@ -1,8 +1,8 @@
 import type {
   TmplAstBoundAttribute,
   TmplAstElement,
-  TmplAstTextAttribute,
 } from '@angular-eslint/bundled-angular-compiler';
+import { TmplAstTextAttribute } from '@angular-eslint/bundled-angular-compiler';
 import { getTemplateParserServices } from '@angular-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
@@ -34,7 +34,10 @@ export default createESLintRule<Options, MessageIds>({
         const ngSrcAttribute = hasNgSrcAttribute(element);
         const srcAttribute = hasNormalSrcAttribute(element);
 
-        if (!srcAttribute) {
+        if (
+          !srcAttribute ||
+          (!ngSrcAttribute && isSrcBase64Image(srcAttribute))
+        ) {
           return;
         }
 
@@ -65,4 +68,16 @@ function hasNormalSrcAttribute({
   attributes,
 }: TmplAstElement): TmplAstTextAttribute | TmplAstBoundAttribute | undefined {
   return [...inputs, ...attributes].find(({ name }) => name === 'src');
+}
+
+// Adheres to angular's assertion that ngSrc value is not a data URL.
+// https://github.com/angular/angular/blob/17.0.3/packages/common/src/directives/ng_optimized_image/ng_optimized_image.ts#L585
+function isSrcBase64Image(
+  attribute: TmplAstTextAttribute | TmplAstBoundAttribute,
+) {
+  if (attribute instanceof TmplAstTextAttribute) {
+    return attribute.value.trim().startsWith('data:');
+  }
+
+  return false;
 }
