@@ -70,6 +70,8 @@ function hasNormalSrcAttribute({
   return [...inputs, ...attributes].find(({ name }) => name === 'src');
 }
 
+// Adheres to angular's assertion that ngSrc value is not a data URL.
+// https://github.com/angular/angular/blob/17.0.3/packages/common/src/directives/ng_optimized_image/ng_optimized_image.ts#L585
 function isSrcBase64Image(
   attribute: TmplAstTextAttribute | TmplAstBoundAttribute,
 ) {
