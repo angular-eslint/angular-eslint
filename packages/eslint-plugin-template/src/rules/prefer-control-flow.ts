@@ -22,16 +22,10 @@ export default createESLintRule<[], typeof MESSAGE_ID>({
     const parserServices = getTemplateParserServices(context);
 
     return {
-      'BoundAttribute[name=/^ngFor|ngIf|ngSwitch$/]'({
+      'BoundAttribute[name=/^(ngForOf|ngIf|ngSwitch)$/]'({
         sourceSpan,
         name,
       }: TmplAstBoundAttribute) {
-        // For these names, the parent ngIf or ngFor already throws an error
-        const redundantNames = ['ngIfElse', 'ngIfThen', 'ngForTrackBy'];
-        if (redundantNames.includes(name)) {
-          return;
-        }
-
         const loc = parserServices.convertNodeSourceSpanToLoc(sourceSpan);
         context.report({
           messageId: MESSAGE_ID,

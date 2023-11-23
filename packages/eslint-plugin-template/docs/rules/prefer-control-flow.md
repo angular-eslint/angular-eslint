@@ -447,6 +447,32 @@ The rule does not have any configuration options.
   }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-control-flow": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<form [ngFormOptions]="{ updateOn: 'blur' }"></form>
+```
+
 </details>
 
 <br>
