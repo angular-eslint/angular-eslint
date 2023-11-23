@@ -28,6 +28,7 @@ export const valid = [
       Default case.
     }
   }`,
+  `<form [ngFormOptions]="{ updateOn: 'blur' }"></form>`,
 ];
 
 export const invalid = [
