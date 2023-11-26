@@ -23,7 +23,7 @@
 
 ## Quick Start
 
-1. Follow the latest **Getting Started** guide on https://angular.io/ in order to install the Angular CLI
+1. Follow the latest **Local Setup** guide to install the Anguar CLI on [angular.dev](https://angular.dev/tools/cli/setup-local#install-the-angular-cli).
 
 2. Create a new Angular CLI workspace in the normal way, optionally using any of the supported command line arguments and following the interactive prompts:
 
