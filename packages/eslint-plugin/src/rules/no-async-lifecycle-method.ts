@@ -1,4 +1,4 @@
-import { ASTUtils, toPattern } from '@angular-eslint/utils';
+import { ASTUtils, Selectors, toPattern } from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
@@ -20,12 +20,22 @@ export default createESLintRule<Options, MessageIds>({
   },
   defaultOptions: [],
   create(context) {
+    const angularDecoratorsPattern = toPattern([
+      'Component',
+      'Directive',
+      'Injectable',
+      'NgModule',
+      'Pipe',
+    ]);
+
     const angularLifecycleMethodsPattern = toPattern([
       ...ASTUtils.ANGULAR_LIFECYCLE_METHODS,
     ]);
 
     return {
-      [`ClassBody > MethodDefinition[key.name=${angularLifecycleMethodsPattern}]`](
+      [`${Selectors.decoratorDefinition(
+        angularDecoratorsPattern,
+      )} > ClassBody > MethodDefinition[key.name=${angularLifecycleMethodsPattern}]`](
         node: TSESTree.MethodDefinition,
       ): void {
         if (node.value.async === true) {
