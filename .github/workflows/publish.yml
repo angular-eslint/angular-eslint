@@ -16,6 +16,8 @@ jobs:
   publish:
     name: Publish to npm
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write # needed for provenance data generation
     steps:
       - name: Checkout
         uses: actions/checkout@v4
