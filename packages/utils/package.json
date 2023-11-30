@@ -4,6 +4,11 @@
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/angular-eslint/angular-eslint.git",
+    "directory": "packages/utils"
+  },
   "files": [
     "dist",
     "package.json",
