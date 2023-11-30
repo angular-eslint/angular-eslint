@@ -1,3 +1,23 @@
+## 17.1.1
+
+### 🩹 Fixes
+
+- update nrwl monorepo to v17.1.3 ([#1632](https://github.com/angular-eslint/angular-eslint/pull/1632))
+- update typescript-eslint packages to v6.12.0 ([#1631](https://github.com/angular-eslint/angular-eslint/pull/1631))
+- update dependency ignore to v5.3.0 ([#1622](https://github.com/angular-eslint/angular-eslint/pull/1622))
+- update dependency eslint to v8.54.0 ([#1625](https://github.com/angular-eslint/angular-eslint/pull/1625))
+- update typescript-eslint packages to v6.13.0 ([#1644](https://github.com/angular-eslint/angular-eslint/pull/1644))
+- update typescript-eslint packages to v6.13.1 ([#1649](https://github.com/angular-eslint/angular-eslint/pull/1649))
+- **eslint-plugin:** fix max inline declarations rule for styles string ([#1630](https://github.com/angular-eslint/angular-eslint/pull/1630))
+- **eslint-plugin-template:** [prefer-ngsrc] Do not prefer ngsrc for base64-encoded strings ([#1628](https://github.com/angular-eslint/angular-eslint/pull/1628))
+- **eslint-plugin-template:** [prefer-control-flow] prevent error when… ([#1634](https://github.com/angular-eslint/angular-eslint/pull/1634))
+
+### ❤️ Thank You
+
+- Christian Svensson
+- Daniel Kimmich @json-derulo
+- Luis Estevez @estevezluis
+
 ## 17.1.0
 
 ### 🚀 Features

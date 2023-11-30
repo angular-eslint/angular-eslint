@@ -1,3 +1,25 @@
+## 17.1.1
+
+### 🩹 Fixes
+
+- update nrwl monorepo to v17.1.3
+
+- update typescript-eslint packages to v6.12.0
+
+- update dependency ignore to v5.3.0
+
+- update dependency eslint to v8.54.0
+
+- update typescript-eslint packages to v6.13.0
+
+- update typescript-eslint packages to v6.13.1
+
+### ❤️ Thank You
+
+- Christian Svensson
+- Daniel Kimmich
+- Luis Estevez
+
 ## 17.1.0
 
 This was a version bump only for bundled-angular-compiler to align it with other projects, there were no code changes.

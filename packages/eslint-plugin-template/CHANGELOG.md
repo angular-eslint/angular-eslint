@@ -1,3 +1,29 @@
+## 17.1.1
+
+### 🩹 Fixes
+
+- update nrwl monorepo to v17.1.3
+
+- update typescript-eslint packages to v6.12.0
+
+- update dependency ignore to v5.3.0
+
+- update dependency eslint to v8.54.0
+
+- update typescript-eslint packages to v6.13.0
+
+- update typescript-eslint packages to v6.13.1
+
+- **eslint-plugin-template:** [prefer-ngsrc] Do not prefer ngsrc for base64-encoded strings
+
+- **eslint-plugin-template:** [prefer-control-flow] prevent error when…
+
+### ❤️ Thank You
+
+- Christian Svensson
+- Daniel Kimmich
+- Luis Estevez
+
 ## 17.1.0
 
 ### 🚀 Features
