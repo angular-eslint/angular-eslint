@@ -24,22 +24,7 @@
         "jestConfig": "packages/builder/jest.config.ts"
       }
     },
-    "clean": {
-      "executor": "nx:run-commands",
-      "options": {
-        "cwd": "packages/builder",
-        "parallel": false,
-        "commands": ["npx rimraf ./dist"]
-      }
-    },
-    "typecheck": {
-      "executor": "nx:run-commands",
-      "options": {
-        "cwd": "packages/builder",
-        "parallel": false,
-        "commands": ["npx tsc -p tsconfig.json --noEmit"]
-      }
-    }
+    "typecheck": {}
   },
   "implicitDependencies": []
 }

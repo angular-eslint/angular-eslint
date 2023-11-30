@@ -4,7 +4,6 @@
   "release": {
     "groups": {
       "npm": {
-        "releaseTagPattern": "v{version}",
         "projects": ["*", "!nx-plugin", "!e2e*"],
         "version": {
           "generatorOptions": {
@@ -22,7 +21,7 @@
       "workspaceChangelog": {
         "createRelease": "github"
       },
-      "projectChangelogs": {}
+      "projectChangelogs": true
     }
   },
   "targetDefaults": {
@@ -33,7 +32,12 @@
     },
     "typecheck": {
       "dependsOn": ["^build"],
-      "cache": true
+      "cache": true,
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx tsc --noEmit -p tsconfig.json",
+        "cwd": "{projectRoot}"
+      }
     },
     "update-rule-docs": {
       "dependsOn": ["^build"],
