@@ -12,22 +12,7 @@
         "commands": ["npx rimraf ./dist", "tsc -p tsconfig.build.json"]
       }
     },
-    "clean": {
-      "executor": "nx:run-commands",
-      "options": {
-        "cwd": "packages/utils",
-        "parallel": false,
-        "commands": ["npx rimraf ./dist"]
-      }
-    },
-    "typecheck": {
-      "executor": "nx:run-commands",
-      "options": {
-        "cwd": "packages/utils",
-        "parallel": false,
-        "commands": ["npx tsc -p tsconfig.json --noEmit"]
-      }
-    }
+    "typecheck": {}
   },
   "implicitDependencies": ["bundled-angular-compiler"]
 }

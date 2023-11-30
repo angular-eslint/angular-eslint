@@ -25,7 +25,7 @@ jobs:
         id: set_nx_run_group
         run: |
           NX_RUN_GROUP="$GITHUB_RUN_ID--$(uuidgen)"
-          echo "::set-output name=nx_run_group::$NX_RUN_GROUP"
+          echo "nx_run_group=$NX_RUN_GROUP" >> $GITHUB_OUTPUT
 
   primary:
     name: Primary
@@ -48,8 +48,8 @@ jobs:
       - name: Get yarn cache directory path and node version for cache key and NX_CLOUD_ENV_NAME
         id: yarn-cache-dir-path
         run: |
-          echo "::set-output name=dir::$(yarn cache dir)"
-          echo "::set-output name=node_version::$(node --version)"
+          echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+          echo "node_version=$(node --version)" >> $GITHUB_OUTPUT
 
           # Added the - at the end to function as a separator to improve readability in the PR comment from the Nx cloud app
           echo "NX_CLOUD_ENV_NAME=Node $(node --version) -" >> $GITHUB_ENV
@@ -120,8 +120,8 @@ jobs:
       - name: Get yarn cache directory path and node version for cache key
         id: yarn-cache-dir-path
         run: |
-          echo "::set-output name=dir::$(yarn cache dir)"
-          echo "::set-output name=node_version::$(node --version)"
+          echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+          echo "node_version=$(node --version)" >> $GITHUB_OUTPUT
 
       - uses: actions/cache@v3
         id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
@@ -167,8 +167,8 @@ jobs:
       - name: Get yarn cache directory path and node version for cache key and NX_CLOUD_ENV_NAME
         id: yarn-cache-dir-path
         run: |
-          echo "::set-output name=dir::$(yarn cache dir)"
-          echo "::set-output name=node_version::$(node --version)"
+          echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+          echo "node_version=$(node --version)" >> $GITHUB_OUTPUT
 
           # Added the - at the end to function as a separator to improve readability in the PR comment from the Nx cloud app
           # NOTE: We are intentionally not using matrix.node here because that does not contain the full semver value
@@ -218,8 +218,8 @@ jobs:
       - name: Get yarn cache directory path and node version for cache key
         id: yarn-cache-dir-path
         run: |
-          echo "::set-output name=dir::$(yarn cache dir)"
-          echo "::set-output name=node_version::$(node --version)"
+          echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+          echo "node_version=$(node --version)" >> $GITHUB_OUTPUT
 
       - name: Apply version resolved by volta to standard Node action make authenticated npm publish easier
         uses: actions/setup-node@v4

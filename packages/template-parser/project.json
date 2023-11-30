@@ -23,22 +23,7 @@
         "passWithNoTests": false
       }
     },
-    "clean": {
-      "executor": "nx:run-commands",
-      "options": {
-        "cwd": "packages/template-parser",
-        "parallel": false,
-        "commands": ["npx rimraf ./dist"]
-      }
-    },
-    "typecheck": {
-      "executor": "nx:run-commands",
-      "options": {
-        "cwd": "packages/template-parser",
-        "parallel": false,
-        "commands": ["npx tsc -p tsconfig.json --noEmit"]
-      }
-    }
+    "typecheck": {}
   },
   "implicitDependencies": []
 }

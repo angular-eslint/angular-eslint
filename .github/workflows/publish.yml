@@ -1,0 +1,62 @@
+name: publish
+
+on:
+  # Run manually using the GitHub UI
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to publish'
+        required: false
+        default: ''
+  # ...or whenever a GitHub release gets created
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    name: Publish to npm
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # include tags
+
+      - name: Install node and npm based on the volta config in our package.json
+        uses: volta-cli/action@v4
+
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: |
+          echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+          echo "node_version=$(node --version)" >> $GITHUB_OUTPUT
+        shell: bash
+  
+      - uses: actions/cache@v3
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ steps.yarn-cache-dir-path.outputs.node_version }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ steps.yarn-cache-dir-path.outputs.node_version }}-yarn-
+  
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+        shell: bash
+        env:
+          YARN_CACHE_FOLDER: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+
+      - name: Prepare packages for publishing
+        run: yarn build
+
+      - name: Apply updated version to packages
+        run: |
+          # Use the version from the workflow input if it's set, otherwise use the tag name from the release
+          VERSION=${{ github.event.inputs.version || github.ref_name }}
+          yarn nx release version $VERSION
+
+      - name: Publish packages to npm
+        run: yarn nx release publish --registry https://registry.npmjs.org
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true

@@ -39,22 +39,7 @@
         "passWithNoTests": false
       }
     },
-    "clean": {
-      "executor": "nx:run-commands",
-      "options": {
-        "cwd": "packages/schematics",
-        "parallel": false,
-        "commands": ["npx rimraf ./dist"]
-      }
-    },
-    "typecheck": {
-      "executor": "nx:run-commands",
-      "options": {
-        "cwd": "packages/schematics",
-        "parallel": false,
-        "commands": ["npx tsc -p tsconfig.json --noEmit"]
-      }
-    }
+    "typecheck": {}
   },
   "implicitDependencies": []
 }
