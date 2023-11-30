@@ -181,6 +181,42 @@ class Test {}
 
 ```ts
 @Component({
+  styles: `
+          ~
+    div {
+      display: block;
+      height: 40px;
+    }
+  `
+  ~
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/component-max-inline-declarations": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({
   styles: [
           ~
     `
@@ -429,6 +465,35 @@ class Test {}
 ```ts
 @Component({
   styles: ['div { display: none; }']
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/component-max-inline-declarations": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  styles: 'div { display: none; }'
 })
 class Test {}
 ```

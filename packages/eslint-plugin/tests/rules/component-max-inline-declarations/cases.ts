@@ -18,6 +18,13 @@ export const valid = [
     })
     class Test {}
     `,
+  // should succeed if the number of the styles lines does not exceeds the default lines limit with a string value
+  `
+    @Component({
+      styles: 'div { display: none; }'
+    })
+    class Test {}
+    `,
   // should succeed if the number of the animations lines does not exceeds the default lines limit
   `
     @Component({
@@ -92,6 +99,25 @@ export const invalid = [
             }
           \`
         ]
+        ~
+      })
+      class Test {}
+      `,
+    messageId,
+    data: { lineCount: 4, max: 3, propertyType: 'styles' },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if the number of the styles lines exceeds the default lines limit with a string value',
+    annotatedSource: `
+      @Component({
+        styles: \`
+                ~
+          div {
+            display: block;
+            height: 40px;
+          }
+        \`
         ~
       })
       class Test {}
