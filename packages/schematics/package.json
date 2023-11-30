@@ -43,7 +43,7 @@
   },
   "devDependencies": {
     "@types/tmp": "0.2.6",
-    "@typescript-eslint/utils": "6.13.0",
+    "@typescript-eslint/utils": "6.13.1",
     "eslint": "8.54.0"
   },
   "peerDependencies": {
