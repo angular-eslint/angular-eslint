@@ -202,6 +202,8 @@ jobs:
   publish_canary_version:
     name: Publish the latest code as a canary version
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write # needed for provenance data generation
     needs: [create_nx_run_group, primary]
     if: github.ref == 'refs/heads/main'
     steps:
@@ -254,3 +256,4 @@ jobs:
         env:
           NX_CLOUD_DISTRIBUTED_EXECUTION: false
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true
