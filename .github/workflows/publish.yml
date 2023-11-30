@@ -31,6 +31,12 @@ jobs:
           echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
           echo "node_version=$(node --version)" >> $GITHUB_OUTPUT
         shell: bash
+
+      - name: Apply version resolved by volta to standard Node action make authenticated npm publish easier
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ steps.yarn-cache-dir-path.outputs.node_version }}
+          registry-url: https://registry.npmjs.org/
   
       - uses: actions/cache@v3
         id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
