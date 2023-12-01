@@ -1,16 +1,17 @@
-custom-linux-medium-plus-js:
-  resourceClass: 'docker_linux_amd64/medium+'
-  env:
-    NX_CLOUD_ACCESS_TOKEN: '{{secrets.NX_CLOUD_ACCESS_TOKEN}}'
-  init-steps:
-    - name: checkout repo
-      uses: 'nrwl/nx-cloud-workflows/main/workflow-steps/checkout/main.yaml'
-    - name: node_modules cache
-      uses: 'nrwl/nx-cloud-workflows/main/workflow-steps/cache/main.yaml'
-      env:
-        KEY: 'yarn.lock'
-        PATHS: 'node_modules'
-        BASE_BRANCH: 'main'
-        SKIP_POSTINSTALL: 'true'
-    - name: NPM Install
-      uses: 'nrwl/nx-cloud-workflows/main/workflow-steps/install-node-modules/main.yaml'
+launch-templates:
+  custom-linux-medium-plus-js:
+    resourceClass: 'docker_linux_amd64/medium+'
+    env:
+      NX_CLOUD_ACCESS_TOKEN: '{{secrets.NX_CLOUD_ACCESS_TOKEN}}'
+    init-steps:
+      - name: checkout repo
+        uses: 'nrwl/nx-cloud-workflows/main/workflow-steps/checkout/main.yaml'
+      - name: node_modules cache
+        uses: 'nrwl/nx-cloud-workflows/main/workflow-steps/cache/main.yaml'
+        env:
+          KEY: 'yarn.lock'
+          PATHS: 'node_modules'
+          BASE_BRANCH: 'main'
+          SKIP_POSTINSTALL: 'true'
+      - name: NPM Install
+        uses: 'nrwl/nx-cloud-workflows/main/workflow-steps/install-node-modules/main.yaml'
