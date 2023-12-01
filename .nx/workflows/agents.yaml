@@ -12,6 +12,7 @@ launch-templates:
           KEY: 'yarn.lock'
           PATHS: 'node_modules'
           BASE_BRANCH: 'main'
-          SKIP_POSTINSTALL: 'true'
       - name: NPM Install
         uses: 'nrwl/nx-cloud-workflows/main/workflow-steps/install-node-modules/main.yaml'
+        env:
+          SKIP_POSTINSTALL: 'true'
