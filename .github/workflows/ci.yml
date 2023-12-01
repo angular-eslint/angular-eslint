@@ -29,9 +29,6 @@ jobs:
       - name: Install node and npm based on the volta config in our package.json
         uses: volta-cli/action@v4
 
-      - name: Start Nx Cloud CI Run
-        run: npx nx-cloud start-ci-run --distributes-on="6 custom-linux-medium-plus-js" --stop-agents-after="e2e-suite"
-
       - name: Get yarn cache directory path and node version for cache key and NX_CI_EXECUTION_ENV
         id: yarn-cache-dir-path
         run: |
@@ -40,6 +37,9 @@ jobs:
 
           # Added the - at the end to function as a separator to improve readability in the PR comment from the Nx cloud app
           echo "NX_CI_EXECUTION_ENV=Node $(node --version) -" >> $GITHUB_ENV
+
+      - name: Start Nx Cloud CI Run
+        run: npx nx-cloud start-ci-run --distributes-on="6 custom-linux-medium-plus-js" --stop-agents-after="e2e-suite"
 
       - uses: actions/cache@v3
         id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
