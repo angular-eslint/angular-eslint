@@ -11,30 +11,14 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  NX_CLOUD_DISTRIBUTED_EXECUTION: true
   NX_VERBOSE_LOGGING: false
+  NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
 
 jobs:
-  create_nx_run_group:
-    name: Create NX_RUN_GROUP
-    runs-on: ubuntu-latest
-    outputs:
-      nx_run_group: ${{ steps.set_nx_run_group.outputs.nx_run_group }}
-    steps:
-      - name: Set NX_RUN_GROUP based on $GITHUB_RUN_ID and a uuid
-        id: set_nx_run_group
-        run: |
-          NX_RUN_GROUP="$GITHUB_RUN_ID--$(uuidgen)"
-          echo "nx_run_group=$NX_RUN_GROUP" >> $GITHUB_OUTPUT
-
   primary:
     name: Primary
-    needs: [create_nx_run_group]
     runs-on: ubuntu-latest
     steps:
-      - name: Set NX_RUN_GROUP based on the output of the create_nx_run_group job
-        run: echo "NX_RUN_GROUP=${{ needs.create_nx_run_group.outputs.nx_run_group }}" >> $GITHUB_ENV
-
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0 # we need the tags to be available
@@ -44,6 +28,9 @@ jobs:
 
       - name: Install node and npm based on the volta config in our package.json
         uses: volta-cli/action@v4
+
+      - name: Start Nx Cloud CI Run
+        run: npx nx-cloud start-ci-run --distributes-on="6 linux-medium-plus-js" --stop-agents-after="e2e-suite"
 
       - name: Get yarn cache directory path and node version for cache key and NX_CLOUD_ENV_NAME
         id: yarn-cache-dir-path
@@ -98,50 +85,8 @@ jobs:
         if: ${{ always() }}
         run: yarn nx-cloud stop-all-agents
 
-  agents:
-    name: Nx Distributed CI Agents
-    needs: [create_nx_run_group]
-    runs-on: ubuntu-latest
-    timeout-minutes: 60
-    strategy:
-      matrix:
-        agent: [1, 2, 3, 4, 5, 6]
-    steps:
-      - name: Set NX_RUN_GROUP based on the output of the create_nx_run_group job
-        run: echo "NX_RUN_GROUP=${{ needs.create_nx_run_group.outputs.nx_run_group }}" >> $GITHUB_ENV
-
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0 # we need the tags to be available
-
-      - name: Install node and npm based on the volta config in our package.json
-        uses: volta-cli/action@v4
-
-      - name: Get yarn cache directory path and node version for cache key
-        id: yarn-cache-dir-path
-        run: |
-          echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
-          echo "node_version=$(node --version)" >> $GITHUB_OUTPUT
-
-      - uses: actions/cache@v3
-        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-node-${{ steps.yarn-cache-dir-path.outputs.node_version }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-node-${{ steps.yarn-cache-dir-path.outputs.node_version }}-yarn-
-
-      - name: Install dependencies (skipping postinstall)
-        # We use --ignore-scripts to skip automatic postinstall and give us more control to distribute tasks
-        run: |
-          yarn --ignore-engines --frozen-lockfile --prefer-offline --ignore-scripts
-
-      - name: Start Nx Agent ${{ matrix.agent }}
-        run: yarn nx-cloud start-agent
-
   unit_tests_on_other_node_versions:
     name: Unit tests on other supported Node versions
-    needs: [create_nx_run_group]
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -149,9 +94,6 @@ jobs:
         # https://gist.github.com/LayZeeDK/c822cc812f75bb07b7c55d07ba2719b3
         node: ['^18.13.0']
     steps:
-      - name: Set NX_RUN_GROUP based on the output of the create_nx_run_group job
-        run: echo "NX_RUN_GROUP=${{ needs.create_nx_run_group.outputs.nx_run_group }}" >> $GITHUB_ENV
-
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0 # we need the tags to be available
@@ -204,12 +146,9 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       id-token: write # needed for provenance data generation
-    needs: [create_nx_run_group, primary]
+    needs: [primary]
     if: github.ref == 'refs/heads/main'
     steps:
-      - name: Set NX_RUN_GROUP based on the output of the create_nx_run_group job
-        run: echo "NX_RUN_GROUP=${{ needs.create_nx_run_group.outputs.nx_run_group }}" >> $GITHUB_ENV
-
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0 # we need the tags to be available

@@ -1,6 +1,7 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
-  "nxCloudAccessToken": "Y2MxNmI0YWItNDdhYS00ZWUxLTliZjMtODkzYjZkYTE4YjgxfHJlYWQtd3JpdGU=",
+  "nxCloudAccessToken": "YjE2NTdlYzMtNTRkMy00YzhmLWE5NTAtN2E2MTU5OTRkYTg4fHJlYWQ=",
+  "nxCloudUrl": "https://staging.nx.app",
   "release": {
     "groups": {
       "npm": {
