@@ -30,7 +30,7 @@ jobs:
         uses: volta-cli/action@v4
 
       - name: Start Nx Cloud CI Run
-        run: npx nx-cloud start-ci-run --distributes-on="6 linux-medium-plus-js" --stop-agents-after="e2e-suite"
+        run: npx nx-cloud start-ci-run --distributes-on="6 custom-linux-medium-plus-js" --stop-agents-after="e2e-suite"
 
       - name: Get yarn cache directory path and node version for cache key and NX_CLOUD_ENV_NAME
         id: yarn-cache-dir-path

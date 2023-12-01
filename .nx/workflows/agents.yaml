@@ -1,4 +1,4 @@
-linux-medium-plus-js:
+custom-linux-medium-plus-js:
   resourceClass: 'docker_linux_amd64/medium+'
   env:
     NX_CLOUD_ACCESS_TOKEN: '{{secrets.NX_CLOUD_ACCESS_TOKEN}}'
