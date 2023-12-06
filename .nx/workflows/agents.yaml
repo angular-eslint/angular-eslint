@@ -7,7 +7,15 @@ launch-templates:
       NX_CLOUD_DEBUG_URLS: 'true'
     init-steps:
       - name: checkout repo
-        uses: 'nrwl/nx-cloud-workflows/main/workflow-steps/checkout/main.yaml'
+        script: |
+          git config --global --add safe.directory /home/workflows/workspace
+          git init .
+          git remote add origin $GIT_REPOSITORY_URL
+          # Expensive, can be optimized further even in the "fetch all" case
+          git fetch --all --tags
+          git checkout --progress --force -B $NX_BRANCH $NX_COMMIT_REF
+      # - name: checkout repo
+      #   uses: 'nrwl/nx-cloud-workflows/main/workflow-steps/checkout/main.yaml'
       - name: node_modules cache
         uses: 'nrwl/nx-cloud-workflows/main/workflow-steps/cache/main.yaml'
         env:
