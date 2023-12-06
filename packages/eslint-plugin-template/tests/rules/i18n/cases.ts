@@ -219,6 +219,9 @@ export const valid = [
       { checkId: false, requireDescription: true, requireMeaning: true },
     ],
   },
+  `
+    <ng-template i18n="@@foo"><p *ngIf="condition">Text</p></ng-template>
+  `,
   {
     code: `
       <h1 i18n="site header|">Hello i18n!</h1>
@@ -848,6 +851,14 @@ export const invalid = [
         The author is {gender, select, male {male} female {female} other {other}}
       </ng-template>
                    ~
+    `,
+    messageId: i18nCustomIdOnElement,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail if a structural directive is missing a custom ID',
+    annotatedSource: `
+      <p *ngIf="condition" i18n>Text</p>
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     `,
     messageId: i18nCustomIdOnElement,
   }),
