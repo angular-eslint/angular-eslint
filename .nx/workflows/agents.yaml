@@ -12,7 +12,7 @@ launch-templates:
           git init .
           git remote add origin $GIT_REPOSITORY_URL
           # Expensive, can be optimized further even in the "fetch all" case
-          git fetch --all --tags origin +$NX_COMMIT_SHA:$NX_COMMIT_REF
+          git fetch --depth=9999 --tags origin +$NX_COMMIT_SHA:$NX_COMMIT_REF
           git checkout --progress --force -B $NX_BRANCH $NX_COMMIT_REF
       # - name: checkout repo
       #   uses: 'nrwl/nx-cloud-workflows/main/workflow-steps/checkout/main.yaml'
