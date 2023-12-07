@@ -54,6 +54,8 @@ jobs:
       - name: Check code formatting (not distributable)
         run: NX_CLOUD_DISTRIBUTED_EXECUTION=false yarn format-check
 
+      - run: sleep 120
+
       # - name: Run parallel distributed tasks for build, typecheck, check-rule-docs, lint and test targets
       #   uses: jameshenry/parallel-bash-commands@v1
       #   with:
