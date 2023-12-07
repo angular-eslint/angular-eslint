@@ -54,18 +54,16 @@ jobs:
       - name: Check code formatting (not distributable)
         run: NX_CLOUD_DISTRIBUTED_EXECUTION=false yarn format-check
 
-      # - name: Run parallel distributed tasks for build, typecheck, check-rule-docs, lint and test targets
-      #   uses: jameshenry/parallel-bash-commands@v1
-      #   with:
-      #     # Note that the typecheck target *also* typechecks tests and tools,
-      #     # whereas the build only checks src files
-      #     cmd1: yarn typecheck
-      #     cmd2: yarn build
-      #     cmd3: yarn check-rule-docs
-      #     cmd4: yarn check-rule-lists
-      #     cmd5: yarn test --codeCoverage
-
-      - run: yarn nx run-many -t build,check-rule-docs,check-rule-lists,test
+      - name: Run parallel distributed tasks for build, typecheck, check-rule-docs, lint and test targets
+        uses: jameshenry/parallel-bash-commands@v1
+        with:
+           # Note that the typecheck target *also* typechecks tests and tools,
+           # whereas the build only checks src files
+          cmd1: yarn typecheck
+          cmd2: yarn build
+          cmd3: yarn check-rule-docs
+          cmd4: yarn check-rule-lists
+          cmd5: yarn test --codeCoverage
 
       - name: Run distributed e2e test suites with independent local registries (max 1 per agent via parallel=1)
         run: yarn nx run-many -t e2e-suite --parallel 1
