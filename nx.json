@@ -3,7 +3,7 @@
   "nxCloudAccessToken": "YjE2NTdlYzMtNTRkMy00YzhmLWE5NTAtN2E2MTU5OTRkYTg4fHJlYWQ=",
   "nxCloudUrl": "https://staging.nx.app",
   "release": {
-    "projects": ["*", "!nx-plugin", "!e2e*"],
+    "projects": ["*", "!e2e*", "!nx-plugin"],
     "version": {
       "generatorOptions": {
         "currentVersionResolver": "git-tag",
