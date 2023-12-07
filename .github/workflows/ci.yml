@@ -65,9 +65,7 @@ jobs:
       #     cmd4: yarn check-rule-lists
       #     cmd5: yarn test --codeCoverage
 
-      - run: yarn nx run-many -t typecheck
-      - run: yarn nx run-many -t check-rule-docs check-rule-lists
-      - run: yarn nx run-many -t build,test
+      - run: yarn nx run-many -t build,check-rule-docs,check-rule-lists,test
 
       - name: Run distributed e2e test suites with independent local registries (max 1 per agent via parallel=1)
         run: yarn nx run-many -t e2e-suite --parallel 1
