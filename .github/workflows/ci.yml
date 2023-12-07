@@ -21,11 +21,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0 # we need the tags to be available
-
-      - name: Derive appropriate SHAs for base and head for `nx affected` commands
-        uses: nrwl/nx-set-shas@v4
 
       - name: Install node and npm based on the volta config in our package.json
         uses: volta-cli/action@v4
@@ -95,11 +90,6 @@ jobs:
         node: ['^18.13.0']
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0 # we need the tags to be available
-
-      - name: Derive appropriate SHAs for base and head for `nx affected` commands
-        uses: nrwl/nx-set-shas@v4
 
       - uses: volta-cli/action@v4
         with:
