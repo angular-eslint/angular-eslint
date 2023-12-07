@@ -96,7 +96,7 @@
     "rimraf": "5.0.5",
     "rollup": "^4.0.0",
     "strip-ansi": "6.0.1",
-    "terser": "5.24.0",
+    "terser": "5.26.0",
     "tree-kill": "1.2.2",
     "ts-jest": "29.1.0",
     "ts-node": "10.9.1",
