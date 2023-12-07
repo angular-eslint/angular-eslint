@@ -9,7 +9,6 @@ launch-templates:
       - name: checkout repo
         uses: 'nrwl/nx-cloud-workflows/JamesHenry-patch-1/workflow-steps/checkout/main.yaml'
         env:
-          # delete me
           GIT_CHECKOUT_DEPTH: 0
       - name: node_modules cache
         uses: 'nrwl/nx-cloud-workflows/main/workflow-steps/cache/main.yaml'
