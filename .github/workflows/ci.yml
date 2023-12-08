@@ -35,7 +35,7 @@ jobs:
           echo "NX_CI_EXECUTION_ENV=Node $(node --version) -" >> $GITHUB_ENV
 
       - name: Start Nx Cloud CI Run
-        run: npx nx-cloud start-ci-run --distributes-on="6 custom-linux-medium-plus-js"
+        run: npx nx-cloud start-ci-run --distributes-on="6 custom-linux-medium-plus-js" --stop-agents-after="e2e-suite"
 
       - uses: actions/cache@v3
         id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
@@ -57,13 +57,14 @@ jobs:
       - name: Run parallel distributed tasks for build, typecheck, check-rule-docs, lint and test targets
         uses: jameshenry/parallel-bash-commands@v1
         with:
-           # Note that the typecheck target *also* typechecks tests and tools,
-           # whereas the build only checks src files
+          # Note that the typecheck target *also* typechecks tests and tools,
+          # whereas the build only checks src files
           cmd1: yarn typecheck
           cmd2: yarn build
           cmd3: yarn check-rule-docs
           cmd4: yarn check-rule-lists
-          cmd5: yarn test --codeCoverage
+          cmd5: yarn lint
+          cmd6: yarn test --codeCoverage
 
       - name: Run distributed e2e test suites with independent local registries (max 1 per agent via parallel=1)
         run: yarn nx run-many -t e2e-suite --parallel 1
@@ -132,6 +133,7 @@ jobs:
         run: yarn test
 
       - name: Complete Nx Cloud Run Group
+        if: ${{ always() }}
         run: npx nx-cloud complete-run-group
 
   publish_canary_version:
