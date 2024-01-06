@@ -49,10 +49,11 @@ const KEYS: VisitorKeys = {
   PropertyRead: ['receiver'],
   Template: ['templateAttrs', 'children', 'inputs'],
   BindingPipe: ['exp'],
-  DeferredBlock: ['children'],
+  DeferredBlock: ['children', 'placeholder', 'loading', 'error'],
   DeferredBlockLoading: ['children'],
   DeferredBlockError: ['children'],
   DeferredBlockPlaceholder: ['children'],
+  ForLoopBlock: ['children', 'empty'],
 };
 
 function fallbackKeysFilter(this: Node, key: string) {
@@ -99,6 +100,9 @@ function preprocessNode(node: Node) {
 
   for (i = 0; i < keys.length; ++i) {
     const child = node[keys[i]];
+    if (child == null) {
+      continue;
+    }
     const isArr = Array.isArray(child);
     if (child.type !== undefined) {
       // Angular sometimes uses a prop called type already

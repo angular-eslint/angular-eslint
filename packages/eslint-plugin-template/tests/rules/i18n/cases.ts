@@ -262,6 +262,108 @@ export const valid = [
       {other}}}}
     </ng-template>
   `,
+  // Verify that the i18n rule works with control flow syntax: https://github.com/angular-eslint/angular-eslint/issues/1640
+  `
+    <div i18n="@@foo">
+        @if (a > b) {
+          <span>{{a}} is greater than {{b}}</span>
+        } @else if (b > a) {
+          <span>{{a}} is less than {{b}}</span>
+        } @else {
+          <span>{{a}} is equal to {{b}}</span>
+        }
+    </div>
+  `,
+  `
+    <ng-template i18n="@@foo">
+        @if (a > b) {
+          <span>{{a}} is greater than {{b}}</span>
+        } @else if (b > a) {
+          <span>{{a}} is less than {{b}}</span>
+        } @else {
+          <span>{{a}} is equal to {{b}}</span>
+        }
+    </ng-template>
+  `,
+  `
+    <div i18n="@@foo">
+        @for (item of items; track item.id) {
+          <span>{{ item.name }}</span>
+        } @empty {
+          <span>There are no items.</span>
+        }
+    </div>
+  `,
+  `
+    <ng-template i18n="@@foo">
+        @for (item of items; track item.id) {
+          <span>Item: {{ item.name }}</span>
+        } @empty {
+          <span>There are no items.</span>
+        }
+    </ng-template>
+  `,
+  `
+    <div i18n="@@foo">
+        @switch (condition) {
+          @case (caseA) {
+            <span>Case A.</span>
+          }
+          @case (caseB) {
+            <span>Case B.</span>
+          }
+          @default {
+            <span>Default case.</span>
+          }
+        }
+    </div>
+  `,
+  `
+    <ng-template i18n="@@foo">
+        @switch (condition) {
+          @case (caseA) {
+            <span>Case A.</span>
+          }
+          @case (caseB) {
+            <span>Case B.</span>
+          }
+          @default {
+            <span>Default case.</span>
+          }
+        }
+    </ng-template>
+  `,
+  `
+    <div i18n="@@foo">
+        @defer {
+          <p>Large component:</p> <large-component />
+        } @loading {
+          <p>Loading...</p>
+        } @error {
+          <p>Error</p>
+        } @placeholder (minimum 500ms) {
+          <p>Placeholder content</p>
+        }
+    </div>
+  `,
+  `
+    <ng-template i18n="@@foo">
+        @defer {
+          <p>Large component:</p> <large-component />
+        } @loading {
+          <p>Loading...</p>
+        } @error {
+          <p>Error</p>
+        } @placeholder (minimum 500ms) {
+          <p>Placeholder content</p>
+        }
+    </ng-template>
+  `,
+  `
+    <ng-container i18n="@@foo">
+      Foo @if (bar) { Bar <a>Bam</a> } 
+    </ng-container>
+  `,
 ];
 
 export const invalid = [
@@ -771,5 +873,193 @@ export const invalid = [
       },
     ],
     options: [{ ignoreTags: [] }],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'no i18n attribute for element inside @if',
+    annotatedSource: `
+        <div>
+          @if (a > b) {
+            <span>{{a}} is greater than {{b}}</span>
+                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+          } @else if (b > a) {
+            <span>{{a}} is less than {{b}}</span>
+                  ^^^^^^^^^^^^^^^^^^^^^^^^
+          } @else {
+            <span>{{a}} is equal to {{b}}</span>
+                  #######################
+          }
+        </div>
+    `,
+    messages: [
+      {
+        char: '~',
+        messageId: i18nAttributeOnIcuOrText,
+      },
+      {
+        char: '^',
+        messageId: i18nAttributeOnIcuOrText,
+      },
+      {
+        char: '#',
+        messageId: i18nAttributeOnIcuOrText,
+      },
+    ],
+    annotatedOutput: `
+        <div>
+          @if (a > b) {
+            <span i18n>{{a}} is greater than {{b}}</span>
+                                             
+          } @else if (b > a) {
+            <span i18n>{{a}} is less than {{b}}</span>
+                                          
+          } @else {
+            <span i18n>{{a}} is equal to {{b}}</span>
+                  
+          }
+        </div>
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'no i18n attribute for element inside @for',
+    annotatedSource: `
+        <div>
+          @for (item of items; track item.id) {
+            <span>Item: {{ item.name }}</span>
+                  ~~~~~~~~~~~~~~~~~~~~~
+          } @empty {
+             <span>There are no items.</span>
+                   ^^^^^^^^^^^^^^^^^^^
+          }
+        </div>
+    `,
+    messages: [
+      {
+        char: '~',
+        messageId: i18nAttributeOnIcuOrText,
+      },
+      {
+        char: '^',
+        messageId: i18nAttributeOnIcuOrText,
+      },
+    ],
+    annotatedOutput: `
+        <div>
+          @for (item of items; track item.id) {
+            <span i18n>Item: {{ item.name }}</span>
+                                       
+          } @empty {
+             <span i18n>There are no items.</span>
+                   
+          }
+        </div>
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'no i18n attribute for element inside @switch',
+    annotatedSource: `
+        <div>
+          @switch (condition) {
+            @case (caseA) {
+              <span>Case A.</span>
+                    ~~~~~~~
+            }
+            @case (caseB) {
+              <span>Case B.</span>
+                    ^^^^^^^
+            }
+            @default {
+              <span>Default case.</span>
+                    #############
+            }
+          }
+        </div>
+    `,
+    messages: [
+      {
+        char: '~',
+        messageId: i18nAttributeOnIcuOrText,
+      },
+      {
+        char: '^',
+        messageId: i18nAttributeOnIcuOrText,
+      },
+      {
+        char: '#',
+        messageId: i18nAttributeOnIcuOrText,
+      },
+    ],
+    annotatedOutput: `
+        <div>
+          @switch (condition) {
+            @case (caseA) {
+              <span i18n>Case A.</span>
+                           
+            }
+            @case (caseB) {
+              <span i18n>Case B.</span>
+                           
+            }
+            @default {
+              <span i18n>Default case.</span>
+                    
+            }
+          }
+        </div>
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'no i18n attribute for element inside @defer',
+    annotatedSource: `
+        <div>
+          @defer {
+            <p>Large component:</p> <large-component />
+               ~~~~~~~~~~~~~~~~
+          } @loading {
+            <p>Loading...</p>
+               ^^^^^^^^^^
+          } @error {
+            <p>Error</p>
+               #####
+          } @placeholder (minimum 500ms) {
+            <p>Placeholder content</p>
+               %%%%%%%%%%%%%%%%%%%
+          }
+        </div>
+    `,
+    messages: [
+      {
+        char: '~',
+        messageId: i18nAttributeOnIcuOrText,
+      },
+      {
+        char: '^',
+        messageId: i18nAttributeOnIcuOrText,
+      },
+      {
+        char: '#',
+        messageId: i18nAttributeOnIcuOrText,
+      },
+      {
+        char: '%',
+        messageId: i18nAttributeOnIcuOrText,
+      },
+    ],
+    annotatedOutput: `
+        <div>
+          @defer {
+            <p i18n>Large component:</p> <large-component />
+                               
+          } @loading {
+            <p i18n>Loading...</p>
+                         
+          } @error {
+            <p i18n>Error</p>
+                    
+          } @placeholder (minimum 500ms) {
+            <p i18n>Placeholder content</p>
+               
+          }
+        </div>
+    `,
   }),
 ];

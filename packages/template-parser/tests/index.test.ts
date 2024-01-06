@@ -575,7 +575,7 @@ describe('parseForESLint()', () => {
             <calendar-cmp />
           } @error {
             <p>Failed to load the calendar</p>
-          }        
+          }
       `,
           { filePath: './foo.html' },
         ).ast,
@@ -631,7 +631,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -659,7 +659,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -687,7 +687,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -735,7 +735,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -763,7 +763,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -791,7 +791,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -840,7 +840,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                             "url": "./foo.html",
                           },
@@ -868,7 +868,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                             "url": "./foo.html",
                           },
@@ -896,7 +896,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                             "url": "./foo.html",
                           },
@@ -931,7 +931,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -959,7 +959,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -987,7 +987,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -1033,7 +1033,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -1061,7 +1061,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -1089,7 +1089,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -1120,7 +1120,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -1148,7 +1148,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -1176,7 +1176,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -1220,7 +1220,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -1248,7 +1248,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -1276,7 +1276,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -1316,7 +1316,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -1344,7 +1344,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -1372,7 +1372,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -1416,7 +1416,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -1444,7 +1444,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -1472,7 +1472,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -1503,7 +1503,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -1531,7 +1531,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -1559,7 +1559,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -1592,7 +1592,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -1620,7 +1620,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -1648,7 +1648,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -1679,7 +1679,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -1707,7 +1707,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -1735,7 +1735,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -1770,7 +1770,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -1798,7 +1798,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -1826,7 +1826,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -1895,7 +1895,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -1923,7 +1923,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -1951,7 +1951,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -1999,7 +1999,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -2027,7 +2027,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -2055,7 +2055,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -2093,7 +2093,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -2121,7 +2121,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -2149,7 +2149,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -2195,7 +2195,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -2223,7 +2223,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -2251,7 +2251,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -2282,7 +2282,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -2310,7 +2310,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -2338,7 +2338,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -2382,7 +2382,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -2410,7 +2410,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -2438,7 +2438,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -2478,7 +2478,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -2506,7 +2506,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -2534,7 +2534,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -2578,7 +2578,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -2606,7 +2606,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -2634,7 +2634,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -2665,7 +2665,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -2693,7 +2693,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -2721,7 +2721,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -2732,6 +2732,16 @@ describe('parseForESLint()', () => {
               "placeholder": DeferredBlockPlaceholder {
                 "children": Array [
                   Text$3 {
+                    "loc": Object {
+                      "end": Object {
+                        "column": 12,
+                        "line": 8,
+                      },
+                      "start": Object {
+                        "column": 12,
+                        "line": 8,
+                      },
+                    },
                     "sourceSpan": ParseSourceSpan {
                       "details": null,
                       "end": ParseLocation {
@@ -2755,7 +2765,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                           "url": "./foo.html",
                         },
@@ -2783,7 +2793,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                           "url": "./foo.html",
                         },
@@ -2811,7 +2821,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                           "url": "./foo.html",
                         },
@@ -2819,6 +2829,7 @@ describe('parseForESLint()', () => {
                         "offset": 192,
                       },
                     },
+                    "type": "Text$3",
                     "value": "
                     ",
                   },
@@ -2826,6 +2837,16 @@ describe('parseForESLint()', () => {
                     "attributes": Array [],
                     "children": Array [
                       Text$3 {
+                        "loc": Object {
+                          "end": Object {
+                            "column": 34,
+                            "line": 8,
+                          },
+                          "start": Object {
+                            "column": 15,
+                            "line": 8,
+                          },
+                        },
                         "sourceSpan": ParseSourceSpan {
                           "details": null,
                           "end": ParseLocation {
@@ -2849,7 +2870,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                               "url": "./foo.html",
                             },
@@ -2877,7 +2898,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                               "url": "./foo.html",
                             },
@@ -2905,7 +2926,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                               "url": "./foo.html",
                             },
@@ -2913,6 +2934,7 @@ describe('parseForESLint()', () => {
                             "offset": 195,
                           },
                         },
+                        "type": "Text$3",
                         "value": "Placeholder content",
                       },
                     ],
@@ -2939,7 +2961,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                           "url": "./foo.html",
                         },
@@ -2967,7 +2989,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                           "url": "./foo.html",
                         },
@@ -2995,7 +3017,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                           "url": "./foo.html",
                         },
@@ -3005,6 +3027,16 @@ describe('parseForESLint()', () => {
                     },
                     "i18n": undefined,
                     "inputs": Array [],
+                    "loc": Object {
+                      "end": Object {
+                        "column": 38,
+                        "line": 8,
+                      },
+                      "start": Object {
+                        "column": 12,
+                        "line": 8,
+                      },
+                    },
                     "name": "p",
                     "outputs": Array [],
                     "references": Array [],
@@ -3031,7 +3063,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                           "url": "./foo.html",
                         },
@@ -3059,7 +3091,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                           "url": "./foo.html",
                         },
@@ -3087,7 +3119,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                           "url": "./foo.html",
                         },
@@ -3118,7 +3150,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                           "url": "./foo.html",
                         },
@@ -3146,7 +3178,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                           "url": "./foo.html",
                         },
@@ -3174,7 +3206,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                           "url": "./foo.html",
                         },
@@ -3182,8 +3214,19 @@ describe('parseForESLint()', () => {
                         "offset": 192,
                       },
                     },
+                    "type": "Element$1",
                   },
                   Text$3 {
+                    "loc": Object {
+                      "end": Object {
+                        "column": 10,
+                        "line": 9,
+                      },
+                      "start": Object {
+                        "column": 10,
+                        "line": 9,
+                      },
+                    },
                     "sourceSpan": ParseSourceSpan {
                       "details": null,
                       "end": ParseLocation {
@@ -3207,7 +3250,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                           "url": "./foo.html",
                         },
@@ -3235,7 +3278,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                           "url": "./foo.html",
                         },
@@ -3263,7 +3306,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                           "url": "./foo.html",
                         },
@@ -3271,6 +3314,7 @@ describe('parseForESLint()', () => {
                         "offset": 229,
                       },
                     },
+                    "type": "Text$3",
                     "value": "
                   ",
                   },
@@ -3298,7 +3342,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                       "url": "./foo.html",
                     },
@@ -3326,7 +3370,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                       "url": "./foo.html",
                     },
@@ -3354,7 +3398,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                       "url": "./foo.html",
                     },
@@ -3363,6 +3407,16 @@ describe('parseForESLint()', () => {
                   },
                 },
                 "i18n": undefined,
+                "loc": Object {
+                  "end": Object {
+                    "column": 11,
+                    "line": 9,
+                  },
+                  "start": Object {
+                    "column": 12,
+                    "line": 7,
+                  },
+                },
                 "minimumTime": 500,
                 "nameSpan": ParseSourceSpan {
                   "details": null,
@@ -3387,7 +3441,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                       "url": "./foo.html",
                     },
@@ -3415,7 +3469,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                       "url": "./foo.html",
                     },
@@ -3443,7 +3497,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                       "url": "./foo.html",
                     },
@@ -3474,7 +3528,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                       "url": "./foo.html",
                     },
@@ -3502,7 +3556,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                       "url": "./foo.html",
                     },
@@ -3530,7 +3584,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                       "url": "./foo.html",
                     },
@@ -3561,7 +3615,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                       "url": "./foo.html",
                     },
@@ -3589,7 +3643,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                       "url": "./foo.html",
                     },
@@ -3617,7 +3671,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                       "url": "./foo.html",
                     },
@@ -3625,6 +3679,7 @@ describe('parseForESLint()', () => {
                     "offset": 149,
                   },
                 },
+                "type": "DeferredBlockPlaceholder",
               },
               "prefetchTriggers": Object {},
               "sourceSpan": ParseSourceSpan {
@@ -3650,7 +3705,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -3678,7 +3733,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -3706,7 +3761,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -3737,7 +3792,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -3765,7 +3820,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -3793,7 +3848,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -3826,7 +3881,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -3854,7 +3909,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -3882,7 +3937,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -3914,7 +3969,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -3942,7 +3997,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -3970,7 +4025,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -4001,7 +4056,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -4029,7 +4084,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -4057,7 +4112,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -4105,7 +4160,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -4133,7 +4188,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -4161,7 +4216,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -4199,7 +4254,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -4227,7 +4282,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -4255,7 +4310,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -4301,7 +4356,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -4329,7 +4384,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -4357,7 +4412,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -4388,7 +4443,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -4416,7 +4471,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -4444,7 +4499,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -4488,7 +4543,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -4516,7 +4571,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -4544,7 +4599,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -4582,7 +4637,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -4610,7 +4665,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -4638,7 +4693,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -4652,6 +4707,16 @@ describe('parseForESLint()', () => {
                 "afterTime": 100,
                 "children": Array [
                   Text$3 {
+                    "loc": Object {
+                      "end": Object {
+                        "column": 12,
+                        "line": 13,
+                      },
+                      "start": Object {
+                        "column": 12,
+                        "line": 13,
+                      },
+                    },
                     "sourceSpan": ParseSourceSpan {
                       "details": null,
                       "end": ParseLocation {
@@ -4675,7 +4740,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                           "url": "./foo.html",
                         },
@@ -4703,7 +4768,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                           "url": "./foo.html",
                         },
@@ -4731,7 +4796,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                           "url": "./foo.html",
                         },
@@ -4739,6 +4804,7 @@ describe('parseForESLint()', () => {
                         "offset": 343,
                       },
                     },
+                    "type": "Text$3",
                     "value": "
                     ",
                   },
@@ -4769,7 +4835,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                               "url": "./foo.html",
                             },
@@ -4797,7 +4863,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                               "url": "./foo.html",
                             },
@@ -4825,12 +4891,22 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                               "url": "./foo.html",
                             },
                             "line": 12,
                             "offset": 348,
+                          },
+                        },
+                        "loc": Object {
+                          "end": Object {
+                            "column": 33,
+                            "line": 13,
+                          },
+                          "start": Object {
+                            "column": 17,
+                            "line": 13,
                           },
                         },
                         "name": "alt",
@@ -4857,7 +4933,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                               "url": "./foo.html",
                             },
@@ -4885,7 +4961,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                               "url": "./foo.html",
                             },
@@ -4913,7 +4989,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                               "url": "./foo.html",
                             },
@@ -4921,6 +4997,7 @@ describe('parseForESLint()', () => {
                             "offset": 348,
                           },
                         },
+                        "type": "TextAttribute",
                         "value": "loading...",
                         "valueSpan": ParseSourceSpan {
                           "details": null,
@@ -4945,7 +5022,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                               "url": "./foo.html",
                             },
@@ -4973,7 +5050,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                               "url": "./foo.html",
                             },
@@ -5001,7 +5078,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                               "url": "./foo.html",
                             },
@@ -5035,7 +5112,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                               "url": "./foo.html",
                             },
@@ -5063,7 +5140,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                               "url": "./foo.html",
                             },
@@ -5091,12 +5168,22 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                               "url": "./foo.html",
                             },
                             "line": 12,
                             "offset": 365,
+                          },
+                        },
+                        "loc": Object {
+                          "end": Object {
+                            "column": 51,
+                            "line": 13,
+                          },
+                          "start": Object {
+                            "column": 34,
+                            "line": 13,
                           },
                         },
                         "name": "src",
@@ -5123,7 +5210,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                               "url": "./foo.html",
                             },
@@ -5151,7 +5238,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                               "url": "./foo.html",
                             },
@@ -5179,7 +5266,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                               "url": "./foo.html",
                             },
@@ -5187,6 +5274,7 @@ describe('parseForESLint()', () => {
                             "offset": 365,
                           },
                         },
+                        "type": "TextAttribute",
                         "value": "loading.gif",
                         "valueSpan": ParseSourceSpan {
                           "details": null,
@@ -5211,7 +5299,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                               "url": "./foo.html",
                             },
@@ -5239,7 +5327,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                               "url": "./foo.html",
                             },
@@ -5267,7 +5355,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                               "url": "./foo.html",
                             },
@@ -5301,7 +5389,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                           "url": "./foo.html",
                         },
@@ -5329,7 +5417,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                           "url": "./foo.html",
                         },
@@ -5357,7 +5445,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                           "url": "./foo.html",
                         },
@@ -5367,6 +5455,16 @@ describe('parseForESLint()', () => {
                     },
                     "i18n": undefined,
                     "inputs": Array [],
+                    "loc": Object {
+                      "end": Object {
+                        "column": 54,
+                        "line": 13,
+                      },
+                      "start": Object {
+                        "column": 12,
+                        "line": 13,
+                      },
+                    },
                     "name": "img",
                     "outputs": Array [],
                     "references": Array [],
@@ -5393,7 +5491,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                           "url": "./foo.html",
                         },
@@ -5421,7 +5519,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                           "url": "./foo.html",
                         },
@@ -5449,7 +5547,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                           "url": "./foo.html",
                         },
@@ -5480,7 +5578,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                           "url": "./foo.html",
                         },
@@ -5508,7 +5606,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                           "url": "./foo.html",
                         },
@@ -5536,7 +5634,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                           "url": "./foo.html",
                         },
@@ -5544,8 +5642,19 @@ describe('parseForESLint()', () => {
                         "offset": 343,
                       },
                     },
+                    "type": "Element$1",
                   },
                   Text$3 {
+                    "loc": Object {
+                      "end": Object {
+                        "column": 10,
+                        "line": 14,
+                      },
+                      "start": Object {
+                        "column": 10,
+                        "line": 14,
+                      },
+                    },
                     "sourceSpan": ParseSourceSpan {
                       "details": null,
                       "end": ParseLocation {
@@ -5569,7 +5678,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                           "url": "./foo.html",
                         },
@@ -5597,7 +5706,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                           "url": "./foo.html",
                         },
@@ -5625,7 +5734,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                           "url": "./foo.html",
                         },
@@ -5633,6 +5742,7 @@ describe('parseForESLint()', () => {
                         "offset": 396,
                       },
                     },
+                    "type": "Text$3",
                     "value": "
                   ",
                   },
@@ -5660,7 +5770,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                       "url": "./foo.html",
                     },
@@ -5688,7 +5798,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                       "url": "./foo.html",
                     },
@@ -5716,7 +5826,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                       "url": "./foo.html",
                     },
@@ -5725,6 +5835,16 @@ describe('parseForESLint()', () => {
                   },
                 },
                 "i18n": undefined,
+                "loc": Object {
+                  "end": Object {
+                    "column": 11,
+                    "line": 14,
+                  },
+                  "start": Object {
+                    "column": 12,
+                    "line": 12,
+                  },
+                },
                 "minimumTime": 1000,
                 "nameSpan": ParseSourceSpan {
                   "details": null,
@@ -5749,7 +5869,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                       "url": "./foo.html",
                     },
@@ -5777,7 +5897,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                       "url": "./foo.html",
                     },
@@ -5805,7 +5925,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                       "url": "./foo.html",
                     },
@@ -5836,7 +5956,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                       "url": "./foo.html",
                     },
@@ -5864,7 +5984,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                       "url": "./foo.html",
                     },
@@ -5892,7 +6012,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                       "url": "./foo.html",
                     },
@@ -5923,7 +6043,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                       "url": "./foo.html",
                     },
@@ -5951,7 +6071,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                       "url": "./foo.html",
                     },
@@ -5979,7 +6099,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                       "url": "./foo.html",
                     },
@@ -5987,6 +6107,7 @@ describe('parseForESLint()', () => {
                     "offset": 294,
                   },
                 },
+                "type": "DeferredBlockLoading",
               },
               "loc": Object {
                 "end": Object {
@@ -6021,7 +6142,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -6049,7 +6170,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -6077,7 +6198,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -6108,7 +6229,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -6136,7 +6257,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -6164,7 +6285,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -6197,7 +6318,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -6225,7 +6346,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -6253,7 +6374,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -6284,7 +6405,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -6312,7 +6433,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -6340,7 +6461,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -6387,7 +6508,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -6415,7 +6536,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -6443,7 +6564,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -6481,7 +6602,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -6509,7 +6630,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -6537,7 +6658,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -6583,7 +6704,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -6611,7 +6732,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -6639,7 +6760,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -6670,7 +6791,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -6698,7 +6819,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -6726,7 +6847,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -6770,7 +6891,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -6798,7 +6919,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -6826,7 +6947,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                         "url": "./foo.html",
                       },
@@ -6864,7 +6985,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -6892,7 +7013,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -6920,7 +7041,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -6931,6 +7052,16 @@ describe('parseForESLint()', () => {
               "error": DeferredBlockError {
                 "children": Array [
                   Text$3 {
+                    "loc": Object {
+                      "end": Object {
+                        "column": 12,
+                        "line": 18,
+                      },
+                      "start": Object {
+                        "column": 12,
+                        "line": 18,
+                      },
+                    },
                     "sourceSpan": ParseSourceSpan {
                       "details": null,
                       "end": ParseLocation {
@@ -6954,7 +7085,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                           "url": "./foo.html",
                         },
@@ -6982,7 +7113,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                           "url": "./foo.html",
                         },
@@ -7010,7 +7141,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                           "url": "./foo.html",
                         },
@@ -7018,6 +7149,7 @@ describe('parseForESLint()', () => {
                         "offset": 479,
                       },
                     },
+                    "type": "Text$3",
                     "value": "
                     ",
                   },
@@ -7025,6 +7157,16 @@ describe('parseForESLint()', () => {
                     "attributes": Array [],
                     "children": Array [
                       Text$3 {
+                        "loc": Object {
+                          "end": Object {
+                            "column": 42,
+                            "line": 18,
+                          },
+                          "start": Object {
+                            "column": 15,
+                            "line": 18,
+                          },
+                        },
                         "sourceSpan": ParseSourceSpan {
                           "details": null,
                           "end": ParseLocation {
@@ -7048,7 +7190,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                               "url": "./foo.html",
                             },
@@ -7076,7 +7218,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                               "url": "./foo.html",
                             },
@@ -7104,7 +7246,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                               "url": "./foo.html",
                             },
@@ -7112,6 +7254,7 @@ describe('parseForESLint()', () => {
                             "offset": 482,
                           },
                         },
+                        "type": "Text$3",
                         "value": "Failed to load the calendar",
                       },
                     ],
@@ -7138,7 +7281,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                           "url": "./foo.html",
                         },
@@ -7166,7 +7309,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                           "url": "./foo.html",
                         },
@@ -7194,7 +7337,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                           "url": "./foo.html",
                         },
@@ -7204,6 +7347,16 @@ describe('parseForESLint()', () => {
                     },
                     "i18n": undefined,
                     "inputs": Array [],
+                    "loc": Object {
+                      "end": Object {
+                        "column": 46,
+                        "line": 18,
+                      },
+                      "start": Object {
+                        "column": 12,
+                        "line": 18,
+                      },
+                    },
                     "name": "p",
                     "outputs": Array [],
                     "references": Array [],
@@ -7230,7 +7383,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                           "url": "./foo.html",
                         },
@@ -7258,7 +7411,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                           "url": "./foo.html",
                         },
@@ -7286,7 +7439,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                           "url": "./foo.html",
                         },
@@ -7317,7 +7470,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                           "url": "./foo.html",
                         },
@@ -7345,7 +7498,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                           "url": "./foo.html",
                         },
@@ -7373,7 +7526,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                           "url": "./foo.html",
                         },
@@ -7381,8 +7534,19 @@ describe('parseForESLint()', () => {
                         "offset": 479,
                       },
                     },
+                    "type": "Element$1",
                   },
                   Text$3 {
+                    "loc": Object {
+                      "end": Object {
+                        "column": 10,
+                        "line": 19,
+                      },
+                      "start": Object {
+                        "column": 10,
+                        "line": 19,
+                      },
+                    },
                     "sourceSpan": ParseSourceSpan {
                       "details": null,
                       "end": ParseLocation {
@@ -7406,7 +7570,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                           "url": "./foo.html",
                         },
@@ -7434,7 +7598,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                           "url": "./foo.html",
                         },
@@ -7462,7 +7626,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                           "url": "./foo.html",
                         },
@@ -7470,6 +7634,7 @@ describe('parseForESLint()', () => {
                         "offset": 524,
                       },
                     },
+                    "type": "Text$3",
                     "value": "
                   ",
                   },
@@ -7497,7 +7662,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                       "url": "./foo.html",
                     },
@@ -7525,7 +7690,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                       "url": "./foo.html",
                     },
@@ -7553,7 +7718,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                       "url": "./foo.html",
                     },
@@ -7562,6 +7727,16 @@ describe('parseForESLint()', () => {
                   },
                 },
                 "i18n": undefined,
+                "loc": Object {
+                  "end": Object {
+                    "column": 11,
+                    "line": 19,
+                  },
+                  "start": Object {
+                    "column": 12,
+                    "line": 17,
+                  },
+                },
                 "nameSpan": ParseSourceSpan {
                   "details": null,
                   "end": ParseLocation {
@@ -7585,7 +7760,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                       "url": "./foo.html",
                     },
@@ -7613,7 +7788,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                       "url": "./foo.html",
                     },
@@ -7641,7 +7816,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                       "url": "./foo.html",
                     },
@@ -7672,7 +7847,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                       "url": "./foo.html",
                     },
@@ -7700,7 +7875,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                       "url": "./foo.html",
                     },
@@ -7728,7 +7903,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                       "url": "./foo.html",
                     },
@@ -7759,7 +7934,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                       "url": "./foo.html",
                     },
@@ -7787,7 +7962,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                       "url": "./foo.html",
                     },
@@ -7815,7 +7990,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                       "url": "./foo.html",
                     },
@@ -7823,6 +7998,7 @@ describe('parseForESLint()', () => {
                     "offset": 458,
                   },
                 },
+                "type": "DeferredBlockError",
               },
               "i18n": undefined,
               "loading": null,
@@ -7859,7 +8035,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -7887,7 +8063,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -7915,7 +8091,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -7946,7 +8122,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -7974,7 +8150,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -8002,7 +8178,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -8035,7 +8211,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -8063,7 +8239,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -8091,7 +8267,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -8122,7 +8298,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -8150,7 +8326,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -8178,7 +8354,7 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
               ",
                     "url": "./foo.html",
                   },
@@ -8210,7 +8386,6372 @@ describe('parseForESLint()', () => {
                     <calendar-cmp />
                   } @error {
                     <p>Failed to load the calendar</p>
-                  }        
+                  }
+              ",
+        }
+      `);
+    });
+  });
+
+  describe('@if', () => {
+    it('should support the different variants of @if', () => {
+      expect(
+        parseForESLint(
+          `
+          @if (a > b) {
+            {{a}} is greater than {{b}}
+          } @else if (b > a) {
+            {{a}} is less than {{b}}
+          } @else {
+            {{a}} is equal to {{b}}
+          }
+      `,
+          { filePath: './foo.html' },
+        ).ast,
+      ).toMatchInlineSnapshot(`
+        Object {
+          "comments": Array [],
+          "loc": Object {
+            "end": Object {
+              "column": 11,
+              "line": 8,
+            },
+            "start": Object {
+              "column": 10,
+              "line": 2,
+            },
+          },
+          "range": Array [
+            11,
+            200,
+          ],
+          "templateNodes": Array [
+            Text$3 {
+              "loc": Object {
+                "end": Object {
+                  "column": 10,
+                  "line": 2,
+                },
+                "start": Object {
+                  "column": 10,
+                  "line": 2,
+                },
+              },
+              "sourceSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 11,
+                },
+                "fullStart": ParseLocation {
+                  "col": 0,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 0,
+                  "offset": 0,
+                },
+                "start": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 11,
+                },
+              },
+              "type": "Text$3",
+              "value": "
+                  ",
+            },
+            IfBlock {
+              "branches": Array [
+                IfBlockBranch {
+                  "children": Array [
+                    BoundText {
+                      "i18n": undefined,
+                      "loc": Object {
+                        "end": Object {
+                          "column": 10,
+                          "line": 4,
+                        },
+                        "start": Object {
+                          "column": 12,
+                          "line": 3,
+                        },
+                      },
+                      "sourceSpan": ParseSourceSpan {
+                        "details": null,
+                        "end": ParseLocation {
+                          "col": 10,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 3,
+                          "offset": 75,
+                        },
+                        "fullStart": ParseLocation {
+                          "col": 23,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 1,
+                          "offset": 24,
+                        },
+                        "start": ParseLocation {
+                          "col": 12,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 2,
+                          "offset": 37,
+                        },
+                      },
+                      "type": "BoundText",
+                      "value": ASTWithSource {
+                        "ast": Interpolation$1 {
+                          "expressions": Array [
+                            PropertyRead {
+                              "loc": Object {
+                                "end": Object {
+                                  "column": undefined,
+                                  "line": NaN,
+                                },
+                                "start": Object {
+                                  "column": undefined,
+                                  "line": NaN,
+                                },
+                              },
+                              "name": "a",
+                              "nameSpan": AbsoluteSourceSpan {
+                                "end": 40,
+                                "start": 39,
+                              },
+                              "receiver": ImplicitReceiver {
+                                "loc": Object {
+                                  "end": Object {
+                                    "column": undefined,
+                                    "line": NaN,
+                                  },
+                                  "start": Object {
+                                    "column": undefined,
+                                    "line": NaN,
+                                  },
+                                },
+                                "sourceSpan": AbsoluteSourceSpan {
+                                  "end": 39,
+                                  "start": 39,
+                                },
+                                "span": ParseSpan {
+                                  "end": 15,
+                                  "start": 15,
+                                },
+                                "type": "ImplicitReceiver",
+                              },
+                              "sourceSpan": AbsoluteSourceSpan {
+                                "end": 40,
+                                "start": 39,
+                              },
+                              "span": ParseSpan {
+                                "end": 16,
+                                "start": 15,
+                              },
+                              "type": "PropertyRead",
+                            },
+                            PropertyRead {
+                              "loc": Object {
+                                "end": Object {
+                                  "column": undefined,
+                                  "line": NaN,
+                                },
+                                "start": Object {
+                                  "column": undefined,
+                                  "line": NaN,
+                                },
+                              },
+                              "name": "b",
+                              "nameSpan": AbsoluteSourceSpan {
+                                "end": 62,
+                                "start": 61,
+                              },
+                              "receiver": ImplicitReceiver {
+                                "loc": Object {
+                                  "end": Object {
+                                    "column": undefined,
+                                    "line": NaN,
+                                  },
+                                  "start": Object {
+                                    "column": undefined,
+                                    "line": NaN,
+                                  },
+                                },
+                                "sourceSpan": AbsoluteSourceSpan {
+                                  "end": 61,
+                                  "start": 61,
+                                },
+                                "span": ParseSpan {
+                                  "end": 37,
+                                  "start": 37,
+                                },
+                                "type": "ImplicitReceiver",
+                              },
+                              "sourceSpan": AbsoluteSourceSpan {
+                                "end": 62,
+                                "start": 61,
+                              },
+                              "span": ParseSpan {
+                                "end": 38,
+                                "start": 37,
+                              },
+                              "type": "PropertyRead",
+                            },
+                          ],
+                          "loc": Object {
+                            "end": Object {
+                              "column": undefined,
+                              "line": NaN,
+                            },
+                            "start": Object {
+                              "column": undefined,
+                              "line": NaN,
+                            },
+                          },
+                          "sourceSpan": AbsoluteSourceSpan {
+                            "end": 75,
+                            "start": 24,
+                          },
+                          "span": ParseSpan {
+                            "end": 51,
+                            "start": 0,
+                          },
+                          "strings": Array [
+                            "
+                    ",
+                            " is greater than ",
+                            "
+                  ",
+                          ],
+                          "type": "Interpolation$1",
+                        },
+                        "errors": Array [],
+                        "loc": Object {
+                          "end": Object {
+                            "column": undefined,
+                            "line": NaN,
+                          },
+                          "start": Object {
+                            "column": undefined,
+                            "line": NaN,
+                          },
+                        },
+                        "location": "./foo.html@2:12",
+                        "source": "
+                    {{a}} is greater than {{b}}
+                  ",
+                        "sourceSpan": AbsoluteSourceSpan {
+                          "end": 75,
+                          "start": 24,
+                        },
+                        "span": ParseSpan {
+                          "end": 51,
+                          "start": 0,
+                        },
+                        "type": "ASTWithSource",
+                      },
+                    },
+                  ],
+                  "endSourceSpan": ParseSourceSpan {
+                    "details": null,
+                    "end": ParseLocation {
+                      "col": 11,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 3,
+                      "offset": 76,
+                    },
+                    "fullStart": ParseLocation {
+                      "col": 10,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 3,
+                      "offset": 75,
+                    },
+                    "start": ParseLocation {
+                      "col": 10,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 3,
+                      "offset": 75,
+                    },
+                  },
+                  "expression": ASTWithSource {
+                    "ast": Binary {
+                      "left": PropertyRead {
+                        "name": "a",
+                        "nameSpan": AbsoluteSourceSpan {
+                          "end": 17,
+                          "start": 16,
+                        },
+                        "receiver": ImplicitReceiver {
+                          "sourceSpan": AbsoluteSourceSpan {
+                            "end": 16,
+                            "start": 16,
+                          },
+                          "span": ParseSpan {
+                            "end": 0,
+                            "start": 0,
+                          },
+                        },
+                        "sourceSpan": AbsoluteSourceSpan {
+                          "end": 17,
+                          "start": 16,
+                        },
+                        "span": ParseSpan {
+                          "end": 1,
+                          "start": 0,
+                        },
+                      },
+                      "operation": ">",
+                      "right": PropertyRead {
+                        "name": "b",
+                        "nameSpan": AbsoluteSourceSpan {
+                          "end": 21,
+                          "start": 20,
+                        },
+                        "receiver": ImplicitReceiver {
+                          "sourceSpan": AbsoluteSourceSpan {
+                            "end": 20,
+                            "start": 19,
+                          },
+                          "span": ParseSpan {
+                            "end": 4,
+                            "start": 3,
+                          },
+                        },
+                        "sourceSpan": AbsoluteSourceSpan {
+                          "end": 21,
+                          "start": 20,
+                        },
+                        "span": ParseSpan {
+                          "end": 5,
+                          "start": 4,
+                        },
+                      },
+                      "sourceSpan": AbsoluteSourceSpan {
+                        "end": 21,
+                        "start": 16,
+                      },
+                      "span": ParseSpan {
+                        "end": 5,
+                        "start": 0,
+                      },
+                    },
+                    "errors": Array [],
+                    "location": "./foo.html@1:15",
+                    "source": "a > b",
+                    "sourceSpan": AbsoluteSourceSpan {
+                      "end": 21,
+                      "start": 16,
+                    },
+                    "span": ParseSpan {
+                      "end": 5,
+                      "start": 0,
+                    },
+                  },
+                  "expressionAlias": null,
+                  "i18n": undefined,
+                  "loc": Object {
+                    "end": Object {
+                      "column": 11,
+                      "line": 4,
+                    },
+                    "start": Object {
+                      "column": 10,
+                      "line": 2,
+                    },
+                  },
+                  "nameSpan": ParseSourceSpan {
+                    "details": null,
+                    "end": ParseLocation {
+                      "col": 14,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 15,
+                    },
+                    "fullStart": ParseLocation {
+                      "col": 10,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 11,
+                    },
+                    "start": ParseLocation {
+                      "col": 10,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 11,
+                    },
+                  },
+                  "sourceSpan": ParseSourceSpan {
+                    "details": null,
+                    "end": ParseLocation {
+                      "col": 11,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 3,
+                      "offset": 76,
+                    },
+                    "fullStart": ParseLocation {
+                      "col": 10,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 11,
+                    },
+                    "start": ParseLocation {
+                      "col": 10,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 11,
+                    },
+                  },
+                  "startSourceSpan": ParseSourceSpan {
+                    "details": null,
+                    "end": ParseLocation {
+                      "col": 23,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 24,
+                    },
+                    "fullStart": ParseLocation {
+                      "col": 10,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 11,
+                    },
+                    "start": ParseLocation {
+                      "col": 10,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 11,
+                    },
+                  },
+                  "type": "IfBlockBranch",
+                },
+                IfBlockBranch {
+                  "children": Array [
+                    BoundText {
+                      "i18n": undefined,
+                      "loc": Object {
+                        "end": Object {
+                          "column": 10,
+                          "line": 6,
+                        },
+                        "start": Object {
+                          "column": 12,
+                          "line": 5,
+                        },
+                      },
+                      "sourceSpan": ParseSourceSpan {
+                        "details": null,
+                        "end": ParseLocation {
+                          "col": 10,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 5,
+                          "offset": 143,
+                        },
+                        "fullStart": ParseLocation {
+                          "col": 30,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 3,
+                          "offset": 95,
+                        },
+                        "start": ParseLocation {
+                          "col": 12,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 4,
+                          "offset": 108,
+                        },
+                      },
+                      "type": "BoundText",
+                      "value": ASTWithSource {
+                        "ast": Interpolation$1 {
+                          "expressions": Array [
+                            PropertyRead {
+                              "loc": Object {
+                                "end": Object {
+                                  "column": undefined,
+                                  "line": NaN,
+                                },
+                                "start": Object {
+                                  "column": undefined,
+                                  "line": NaN,
+                                },
+                              },
+                              "name": "a",
+                              "nameSpan": AbsoluteSourceSpan {
+                                "end": 111,
+                                "start": 110,
+                              },
+                              "receiver": ImplicitReceiver {
+                                "loc": Object {
+                                  "end": Object {
+                                    "column": undefined,
+                                    "line": NaN,
+                                  },
+                                  "start": Object {
+                                    "column": undefined,
+                                    "line": NaN,
+                                  },
+                                },
+                                "sourceSpan": AbsoluteSourceSpan {
+                                  "end": 110,
+                                  "start": 110,
+                                },
+                                "span": ParseSpan {
+                                  "end": 15,
+                                  "start": 15,
+                                },
+                                "type": "ImplicitReceiver",
+                              },
+                              "sourceSpan": AbsoluteSourceSpan {
+                                "end": 111,
+                                "start": 110,
+                              },
+                              "span": ParseSpan {
+                                "end": 16,
+                                "start": 15,
+                              },
+                              "type": "PropertyRead",
+                            },
+                            PropertyRead {
+                              "loc": Object {
+                                "end": Object {
+                                  "column": undefined,
+                                  "line": NaN,
+                                },
+                                "start": Object {
+                                  "column": undefined,
+                                  "line": NaN,
+                                },
+                              },
+                              "name": "b",
+                              "nameSpan": AbsoluteSourceSpan {
+                                "end": 130,
+                                "start": 129,
+                              },
+                              "receiver": ImplicitReceiver {
+                                "loc": Object {
+                                  "end": Object {
+                                    "column": undefined,
+                                    "line": NaN,
+                                  },
+                                  "start": Object {
+                                    "column": undefined,
+                                    "line": NaN,
+                                  },
+                                },
+                                "sourceSpan": AbsoluteSourceSpan {
+                                  "end": 129,
+                                  "start": 129,
+                                },
+                                "span": ParseSpan {
+                                  "end": 34,
+                                  "start": 34,
+                                },
+                                "type": "ImplicitReceiver",
+                              },
+                              "sourceSpan": AbsoluteSourceSpan {
+                                "end": 130,
+                                "start": 129,
+                              },
+                              "span": ParseSpan {
+                                "end": 35,
+                                "start": 34,
+                              },
+                              "type": "PropertyRead",
+                            },
+                          ],
+                          "loc": Object {
+                            "end": Object {
+                              "column": undefined,
+                              "line": NaN,
+                            },
+                            "start": Object {
+                              "column": undefined,
+                              "line": NaN,
+                            },
+                          },
+                          "sourceSpan": AbsoluteSourceSpan {
+                            "end": 143,
+                            "start": 95,
+                          },
+                          "span": ParseSpan {
+                            "end": 48,
+                            "start": 0,
+                          },
+                          "strings": Array [
+                            "
+                    ",
+                            " is less than ",
+                            "
+                  ",
+                          ],
+                          "type": "Interpolation$1",
+                        },
+                        "errors": Array [],
+                        "loc": Object {
+                          "end": Object {
+                            "column": undefined,
+                            "line": NaN,
+                          },
+                          "start": Object {
+                            "column": undefined,
+                            "line": NaN,
+                          },
+                        },
+                        "location": "./foo.html@4:12",
+                        "source": "
+                    {{a}} is less than {{b}}
+                  ",
+                        "sourceSpan": AbsoluteSourceSpan {
+                          "end": 143,
+                          "start": 95,
+                        },
+                        "span": ParseSpan {
+                          "end": 48,
+                          "start": 0,
+                        },
+                        "type": "ASTWithSource",
+                      },
+                    },
+                  ],
+                  "endSourceSpan": ParseSourceSpan {
+                    "details": null,
+                    "end": ParseLocation {
+                      "col": 11,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 5,
+                      "offset": 144,
+                    },
+                    "fullStart": ParseLocation {
+                      "col": 10,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 5,
+                      "offset": 143,
+                    },
+                    "start": ParseLocation {
+                      "col": 10,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 5,
+                      "offset": 143,
+                    },
+                  },
+                  "expression": ASTWithSource {
+                    "ast": Binary {
+                      "left": PropertyRead {
+                        "name": "b",
+                        "nameSpan": AbsoluteSourceSpan {
+                          "end": 88,
+                          "start": 87,
+                        },
+                        "receiver": ImplicitReceiver {
+                          "sourceSpan": AbsoluteSourceSpan {
+                            "end": 87,
+                            "start": 87,
+                          },
+                          "span": ParseSpan {
+                            "end": 0,
+                            "start": 0,
+                          },
+                        },
+                        "sourceSpan": AbsoluteSourceSpan {
+                          "end": 88,
+                          "start": 87,
+                        },
+                        "span": ParseSpan {
+                          "end": 1,
+                          "start": 0,
+                        },
+                      },
+                      "operation": ">",
+                      "right": PropertyRead {
+                        "name": "a",
+                        "nameSpan": AbsoluteSourceSpan {
+                          "end": 92,
+                          "start": 91,
+                        },
+                        "receiver": ImplicitReceiver {
+                          "sourceSpan": AbsoluteSourceSpan {
+                            "end": 91,
+                            "start": 90,
+                          },
+                          "span": ParseSpan {
+                            "end": 4,
+                            "start": 3,
+                          },
+                        },
+                        "sourceSpan": AbsoluteSourceSpan {
+                          "end": 92,
+                          "start": 91,
+                        },
+                        "span": ParseSpan {
+                          "end": 5,
+                          "start": 4,
+                        },
+                      },
+                      "sourceSpan": AbsoluteSourceSpan {
+                        "end": 92,
+                        "start": 87,
+                      },
+                      "span": ParseSpan {
+                        "end": 5,
+                        "start": 0,
+                      },
+                    },
+                    "errors": Array [],
+                    "location": "./foo.html@3:22",
+                    "source": "b > a",
+                    "sourceSpan": AbsoluteSourceSpan {
+                      "end": 92,
+                      "start": 87,
+                    },
+                    "span": ParseSpan {
+                      "end": 5,
+                      "start": 0,
+                    },
+                  },
+                  "expressionAlias": null,
+                  "i18n": undefined,
+                  "loc": Object {
+                    "end": Object {
+                      "column": 11,
+                      "line": 6,
+                    },
+                    "start": Object {
+                      "column": 12,
+                      "line": 4,
+                    },
+                  },
+                  "nameSpan": ParseSourceSpan {
+                    "details": null,
+                    "end": ParseLocation {
+                      "col": 21,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 3,
+                      "offset": 86,
+                    },
+                    "fullStart": ParseLocation {
+                      "col": 12,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 3,
+                      "offset": 77,
+                    },
+                    "start": ParseLocation {
+                      "col": 12,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 3,
+                      "offset": 77,
+                    },
+                  },
+                  "sourceSpan": ParseSourceSpan {
+                    "details": null,
+                    "end": ParseLocation {
+                      "col": 11,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 5,
+                      "offset": 144,
+                    },
+                    "fullStart": ParseLocation {
+                      "col": 12,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 3,
+                      "offset": 77,
+                    },
+                    "start": ParseLocation {
+                      "col": 12,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 3,
+                      "offset": 77,
+                    },
+                  },
+                  "startSourceSpan": ParseSourceSpan {
+                    "details": null,
+                    "end": ParseLocation {
+                      "col": 30,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 3,
+                      "offset": 95,
+                    },
+                    "fullStart": ParseLocation {
+                      "col": 12,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 3,
+                      "offset": 77,
+                    },
+                    "start": ParseLocation {
+                      "col": 12,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 3,
+                      "offset": 77,
+                    },
+                  },
+                  "type": "IfBlockBranch",
+                },
+                IfBlockBranch {
+                  "children": Array [
+                    BoundText {
+                      "i18n": undefined,
+                      "loc": Object {
+                        "end": Object {
+                          "column": 10,
+                          "line": 8,
+                        },
+                        "start": Object {
+                          "column": 12,
+                          "line": 7,
+                        },
+                      },
+                      "sourceSpan": ParseSourceSpan {
+                        "details": null,
+                        "end": ParseLocation {
+                          "col": 10,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 7,
+                          "offset": 199,
+                        },
+                        "fullStart": ParseLocation {
+                          "col": 19,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 5,
+                          "offset": 152,
+                        },
+                        "start": ParseLocation {
+                          "col": 12,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 6,
+                          "offset": 165,
+                        },
+                      },
+                      "type": "BoundText",
+                      "value": ASTWithSource {
+                        "ast": Interpolation$1 {
+                          "expressions": Array [
+                            PropertyRead {
+                              "loc": Object {
+                                "end": Object {
+                                  "column": undefined,
+                                  "line": NaN,
+                                },
+                                "start": Object {
+                                  "column": undefined,
+                                  "line": NaN,
+                                },
+                              },
+                              "name": "a",
+                              "nameSpan": AbsoluteSourceSpan {
+                                "end": 168,
+                                "start": 167,
+                              },
+                              "receiver": ImplicitReceiver {
+                                "loc": Object {
+                                  "end": Object {
+                                    "column": undefined,
+                                    "line": NaN,
+                                  },
+                                  "start": Object {
+                                    "column": undefined,
+                                    "line": NaN,
+                                  },
+                                },
+                                "sourceSpan": AbsoluteSourceSpan {
+                                  "end": 167,
+                                  "start": 167,
+                                },
+                                "span": ParseSpan {
+                                  "end": 15,
+                                  "start": 15,
+                                },
+                                "type": "ImplicitReceiver",
+                              },
+                              "sourceSpan": AbsoluteSourceSpan {
+                                "end": 168,
+                                "start": 167,
+                              },
+                              "span": ParseSpan {
+                                "end": 16,
+                                "start": 15,
+                              },
+                              "type": "PropertyRead",
+                            },
+                            PropertyRead {
+                              "loc": Object {
+                                "end": Object {
+                                  "column": undefined,
+                                  "line": NaN,
+                                },
+                                "start": Object {
+                                  "column": undefined,
+                                  "line": NaN,
+                                },
+                              },
+                              "name": "b",
+                              "nameSpan": AbsoluteSourceSpan {
+                                "end": 186,
+                                "start": 185,
+                              },
+                              "receiver": ImplicitReceiver {
+                                "loc": Object {
+                                  "end": Object {
+                                    "column": undefined,
+                                    "line": NaN,
+                                  },
+                                  "start": Object {
+                                    "column": undefined,
+                                    "line": NaN,
+                                  },
+                                },
+                                "sourceSpan": AbsoluteSourceSpan {
+                                  "end": 185,
+                                  "start": 185,
+                                },
+                                "span": ParseSpan {
+                                  "end": 33,
+                                  "start": 33,
+                                },
+                                "type": "ImplicitReceiver",
+                              },
+                              "sourceSpan": AbsoluteSourceSpan {
+                                "end": 186,
+                                "start": 185,
+                              },
+                              "span": ParseSpan {
+                                "end": 34,
+                                "start": 33,
+                              },
+                              "type": "PropertyRead",
+                            },
+                          ],
+                          "loc": Object {
+                            "end": Object {
+                              "column": undefined,
+                              "line": NaN,
+                            },
+                            "start": Object {
+                              "column": undefined,
+                              "line": NaN,
+                            },
+                          },
+                          "sourceSpan": AbsoluteSourceSpan {
+                            "end": 199,
+                            "start": 152,
+                          },
+                          "span": ParseSpan {
+                            "end": 47,
+                            "start": 0,
+                          },
+                          "strings": Array [
+                            "
+                    ",
+                            " is equal to ",
+                            "
+                  ",
+                          ],
+                          "type": "Interpolation$1",
+                        },
+                        "errors": Array [],
+                        "loc": Object {
+                          "end": Object {
+                            "column": undefined,
+                            "line": NaN,
+                          },
+                          "start": Object {
+                            "column": undefined,
+                            "line": NaN,
+                          },
+                        },
+                        "location": "./foo.html@6:12",
+                        "source": "
+                    {{a}} is equal to {{b}}
+                  ",
+                        "sourceSpan": AbsoluteSourceSpan {
+                          "end": 199,
+                          "start": 152,
+                        },
+                        "span": ParseSpan {
+                          "end": 47,
+                          "start": 0,
+                        },
+                        "type": "ASTWithSource",
+                      },
+                    },
+                  ],
+                  "endSourceSpan": ParseSourceSpan {
+                    "details": null,
+                    "end": ParseLocation {
+                      "col": 11,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 7,
+                      "offset": 200,
+                    },
+                    "fullStart": ParseLocation {
+                      "col": 10,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 7,
+                      "offset": 199,
+                    },
+                    "start": ParseLocation {
+                      "col": 10,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 7,
+                      "offset": 199,
+                    },
+                  },
+                  "expression": null,
+                  "expressionAlias": null,
+                  "i18n": undefined,
+                  "loc": Object {
+                    "end": Object {
+                      "column": 11,
+                      "line": 8,
+                    },
+                    "start": Object {
+                      "column": 12,
+                      "line": 6,
+                    },
+                  },
+                  "nameSpan": ParseSourceSpan {
+                    "details": null,
+                    "end": ParseLocation {
+                      "col": 18,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 5,
+                      "offset": 151,
+                    },
+                    "fullStart": ParseLocation {
+                      "col": 12,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 5,
+                      "offset": 145,
+                    },
+                    "start": ParseLocation {
+                      "col": 12,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 5,
+                      "offset": 145,
+                    },
+                  },
+                  "sourceSpan": ParseSourceSpan {
+                    "details": null,
+                    "end": ParseLocation {
+                      "col": 11,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 7,
+                      "offset": 200,
+                    },
+                    "fullStart": ParseLocation {
+                      "col": 12,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 5,
+                      "offset": 145,
+                    },
+                    "start": ParseLocation {
+                      "col": 12,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 5,
+                      "offset": 145,
+                    },
+                  },
+                  "startSourceSpan": ParseSourceSpan {
+                    "details": null,
+                    "end": ParseLocation {
+                      "col": 19,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 5,
+                      "offset": 152,
+                    },
+                    "fullStart": ParseLocation {
+                      "col": 12,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 5,
+                      "offset": 145,
+                    },
+                    "start": ParseLocation {
+                      "col": 12,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 5,
+                      "offset": 145,
+                    },
+                  },
+                  "type": "IfBlockBranch",
+                },
+              ],
+              "endSourceSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 11,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 7,
+                  "offset": 200,
+                },
+                "fullStart": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 7,
+                  "offset": 199,
+                },
+                "start": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 7,
+                  "offset": 199,
+                },
+              },
+              "loc": Object {
+                "end": Object {
+                  "column": 11,
+                  "line": 8,
+                },
+                "start": Object {
+                  "column": 10,
+                  "line": 2,
+                },
+              },
+              "nameSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 14,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 15,
+                },
+                "fullStart": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 11,
+                },
+                "start": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 11,
+                },
+              },
+              "sourceSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 11,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 7,
+                  "offset": 200,
+                },
+                "fullStart": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 11,
+                },
+                "start": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 11,
+                },
+              },
+              "startSourceSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 23,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 24,
+                },
+                "fullStart": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 11,
+                },
+                "start": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 11,
+                },
+              },
+              "type": "IfBlock",
+            },
+          ],
+          "tokens": Array [],
+          "type": "Program",
+          "value": "
+                  @if (a > b) {
+                    {{a}} is greater than {{b}}
+                  } @else if (b > a) {
+                    {{a}} is less than {{b}}
+                  } @else {
+                    {{a}} is equal to {{b}}
+                  }
+              ",
+        }
+      `);
+    });
+  });
+
+  describe('@for', () => {
+    it('should support the different variants of @for', () => {
+      expect(
+        parseForESLint(
+          `
+          @for (item of items; track item.id) {
+            {{ item.name }}
+          } @empty {
+             There are no items.
+          }
+      `,
+          { filePath: './foo.html' },
+        ).ast,
+      ).toMatchInlineSnapshot(`
+        Object {
+          "comments": Array [],
+          "loc": Object {
+            "end": Object {
+              "column": 11,
+              "line": 6,
+            },
+            "start": Object {
+              "column": 10,
+              "line": 2,
+            },
+          },
+          "range": Array [
+            11,
+            142,
+          ],
+          "templateNodes": Array [
+            Text$3 {
+              "loc": Object {
+                "end": Object {
+                  "column": 10,
+                  "line": 2,
+                },
+                "start": Object {
+                  "column": 10,
+                  "line": 2,
+                },
+              },
+              "sourceSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 11,
+                },
+                "fullStart": ParseLocation {
+                  "col": 0,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 0,
+                  "offset": 0,
+                },
+                "start": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 11,
+                },
+              },
+              "type": "Text$3",
+              "value": "
+                  ",
+            },
+            ForLoopBlock {
+              "children": Array [
+                BoundText {
+                  "i18n": undefined,
+                  "loc": Object {
+                    "end": Object {
+                      "column": 10,
+                      "line": 4,
+                    },
+                    "start": Object {
+                      "column": 12,
+                      "line": 3,
+                    },
+                  },
+                  "sourceSpan": ParseSourceSpan {
+                    "details": null,
+                    "end": ParseLocation {
+                      "col": 10,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 3,
+                      "offset": 87,
+                    },
+                    "fullStart": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                    "start": ParseLocation {
+                      "col": 12,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 2,
+                      "offset": 61,
+                    },
+                  },
+                  "type": "BoundText",
+                  "value": ASTWithSource {
+                    "ast": Interpolation$1 {
+                      "expressions": Array [
+                        PropertyRead {
+                          "loc": Object {
+                            "end": Object {
+                              "column": undefined,
+                              "line": NaN,
+                            },
+                            "start": Object {
+                              "column": undefined,
+                              "line": NaN,
+                            },
+                          },
+                          "name": "name",
+                          "nameSpan": AbsoluteSourceSpan {
+                            "end": 73,
+                            "start": 69,
+                          },
+                          "receiver": PropertyRead {
+                            "loc": Object {
+                              "end": Object {
+                                "column": undefined,
+                                "line": NaN,
+                              },
+                              "start": Object {
+                                "column": undefined,
+                                "line": NaN,
+                              },
+                            },
+                            "name": "item",
+                            "nameSpan": AbsoluteSourceSpan {
+                              "end": 68,
+                              "start": 64,
+                            },
+                            "receiver": ImplicitReceiver {
+                              "loc": Object {
+                                "end": Object {
+                                  "column": undefined,
+                                  "line": NaN,
+                                },
+                                "start": Object {
+                                  "column": undefined,
+                                  "line": NaN,
+                                },
+                              },
+                              "sourceSpan": AbsoluteSourceSpan {
+                                "end": 64,
+                                "start": 64,
+                              },
+                              "span": ParseSpan {
+                                "end": 16,
+                                "start": 16,
+                              },
+                              "type": "ImplicitReceiver",
+                            },
+                            "sourceSpan": AbsoluteSourceSpan {
+                              "end": 68,
+                              "start": 64,
+                            },
+                            "span": ParseSpan {
+                              "end": 20,
+                              "start": 16,
+                            },
+                            "type": "PropertyRead",
+                          },
+                          "sourceSpan": AbsoluteSourceSpan {
+                            "end": 73,
+                            "start": 64,
+                          },
+                          "span": ParseSpan {
+                            "end": 25,
+                            "start": 16,
+                          },
+                          "type": "PropertyRead",
+                        },
+                      ],
+                      "loc": Object {
+                        "end": Object {
+                          "column": undefined,
+                          "line": NaN,
+                        },
+                        "start": Object {
+                          "column": undefined,
+                          "line": NaN,
+                        },
+                      },
+                      "sourceSpan": AbsoluteSourceSpan {
+                        "end": 87,
+                        "start": 48,
+                      },
+                      "span": ParseSpan {
+                        "end": 39,
+                        "start": 0,
+                      },
+                      "strings": Array [
+                        "
+                    ",
+                        "
+                  ",
+                      ],
+                      "type": "Interpolation$1",
+                    },
+                    "errors": Array [],
+                    "loc": Object {
+                      "end": Object {
+                        "column": undefined,
+                        "line": NaN,
+                      },
+                      "start": Object {
+                        "column": undefined,
+                        "line": NaN,
+                      },
+                    },
+                    "location": "./foo.html@2:12",
+                    "source": "
+                    {{ item.name }}
+                  ",
+                    "sourceSpan": AbsoluteSourceSpan {
+                      "end": 87,
+                      "start": 48,
+                    },
+                    "span": ParseSpan {
+                      "end": 39,
+                      "start": 0,
+                    },
+                    "type": "ASTWithSource",
+                  },
+                },
+              ],
+              "contextVariables": Object {
+                "$count": Variable {
+                  "keySpan": ParseSourceSpan {
+                    "details": null,
+                    "end": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                    "fullStart": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                    "start": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                  },
+                  "name": "$count",
+                  "sourceSpan": ParseSourceSpan {
+                    "details": null,
+                    "end": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                    "fullStart": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                    "start": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                  },
+                  "value": "$count",
+                  "valueSpan": undefined,
+                },
+                "$even": Variable {
+                  "keySpan": ParseSourceSpan {
+                    "details": null,
+                    "end": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                    "fullStart": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                    "start": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                  },
+                  "name": "$even",
+                  "sourceSpan": ParseSourceSpan {
+                    "details": null,
+                    "end": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                    "fullStart": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                    "start": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                  },
+                  "value": "$even",
+                  "valueSpan": undefined,
+                },
+                "$first": Variable {
+                  "keySpan": ParseSourceSpan {
+                    "details": null,
+                    "end": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                    "fullStart": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                    "start": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                  },
+                  "name": "$first",
+                  "sourceSpan": ParseSourceSpan {
+                    "details": null,
+                    "end": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                    "fullStart": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                    "start": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                  },
+                  "value": "$first",
+                  "valueSpan": undefined,
+                },
+                "$index": Variable {
+                  "keySpan": ParseSourceSpan {
+                    "details": null,
+                    "end": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                    "fullStart": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                    "start": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                  },
+                  "name": "$index",
+                  "sourceSpan": ParseSourceSpan {
+                    "details": null,
+                    "end": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                    "fullStart": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                    "start": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                  },
+                  "value": "$index",
+                  "valueSpan": undefined,
+                },
+                "$last": Variable {
+                  "keySpan": ParseSourceSpan {
+                    "details": null,
+                    "end": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                    "fullStart": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                    "start": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                  },
+                  "name": "$last",
+                  "sourceSpan": ParseSourceSpan {
+                    "details": null,
+                    "end": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                    "fullStart": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                    "start": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                  },
+                  "value": "$last",
+                  "valueSpan": undefined,
+                },
+                "$odd": Variable {
+                  "keySpan": ParseSourceSpan {
+                    "details": null,
+                    "end": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                    "fullStart": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                    "start": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                  },
+                  "name": "$odd",
+                  "sourceSpan": ParseSourceSpan {
+                    "details": null,
+                    "end": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                    "fullStart": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                    "start": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                  },
+                  "value": "$odd",
+                  "valueSpan": undefined,
+                },
+              },
+              "empty": ForLoopBlockEmpty {
+                "children": Array [
+                  Text$3 {
+                    "loc": Object {
+                      "end": Object {
+                        "column": 10,
+                        "line": 6,
+                      },
+                      "start": Object {
+                        "column": 13,
+                        "line": 5,
+                      },
+                    },
+                    "sourceSpan": ParseSourceSpan {
+                      "details": null,
+                      "end": ParseLocation {
+                        "col": 10,
+                        "file": ParseSourceFile {
+                          "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                          "url": "./foo.html",
+                        },
+                        "line": 5,
+                        "offset": 141,
+                      },
+                      "fullStart": ParseLocation {
+                        "col": 20,
+                        "file": ParseSourceFile {
+                          "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                          "url": "./foo.html",
+                        },
+                        "line": 3,
+                        "offset": 97,
+                      },
+                      "start": ParseLocation {
+                        "col": 13,
+                        "file": ParseSourceFile {
+                          "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                          "url": "./foo.html",
+                        },
+                        "line": 4,
+                        "offset": 111,
+                      },
+                    },
+                    "type": "Text$3",
+                    "value": "
+                     There are no items.
+                  ",
+                  },
+                ],
+                "endSourceSpan": ParseSourceSpan {
+                  "details": null,
+                  "end": ParseLocation {
+                    "col": 11,
+                    "file": ParseSourceFile {
+                      "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                      "url": "./foo.html",
+                    },
+                    "line": 5,
+                    "offset": 142,
+                  },
+                  "fullStart": ParseLocation {
+                    "col": 10,
+                    "file": ParseSourceFile {
+                      "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                      "url": "./foo.html",
+                    },
+                    "line": 5,
+                    "offset": 141,
+                  },
+                  "start": ParseLocation {
+                    "col": 10,
+                    "file": ParseSourceFile {
+                      "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                      "url": "./foo.html",
+                    },
+                    "line": 5,
+                    "offset": 141,
+                  },
+                },
+                "i18n": undefined,
+                "loc": Object {
+                  "end": Object {
+                    "column": 11,
+                    "line": 6,
+                  },
+                  "start": Object {
+                    "column": 12,
+                    "line": 4,
+                  },
+                },
+                "nameSpan": ParseSourceSpan {
+                  "details": null,
+                  "end": ParseLocation {
+                    "col": 19,
+                    "file": ParseSourceFile {
+                      "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                      "url": "./foo.html",
+                    },
+                    "line": 3,
+                    "offset": 96,
+                  },
+                  "fullStart": ParseLocation {
+                    "col": 12,
+                    "file": ParseSourceFile {
+                      "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                      "url": "./foo.html",
+                    },
+                    "line": 3,
+                    "offset": 89,
+                  },
+                  "start": ParseLocation {
+                    "col": 12,
+                    "file": ParseSourceFile {
+                      "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                      "url": "./foo.html",
+                    },
+                    "line": 3,
+                    "offset": 89,
+                  },
+                },
+                "sourceSpan": ParseSourceSpan {
+                  "details": null,
+                  "end": ParseLocation {
+                    "col": 11,
+                    "file": ParseSourceFile {
+                      "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                      "url": "./foo.html",
+                    },
+                    "line": 5,
+                    "offset": 142,
+                  },
+                  "fullStart": ParseLocation {
+                    "col": 12,
+                    "file": ParseSourceFile {
+                      "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                      "url": "./foo.html",
+                    },
+                    "line": 3,
+                    "offset": 89,
+                  },
+                  "start": ParseLocation {
+                    "col": 12,
+                    "file": ParseSourceFile {
+                      "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                      "url": "./foo.html",
+                    },
+                    "line": 3,
+                    "offset": 89,
+                  },
+                },
+                "startSourceSpan": ParseSourceSpan {
+                  "details": null,
+                  "end": ParseLocation {
+                    "col": 20,
+                    "file": ParseSourceFile {
+                      "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                      "url": "./foo.html",
+                    },
+                    "line": 3,
+                    "offset": 97,
+                  },
+                  "fullStart": ParseLocation {
+                    "col": 12,
+                    "file": ParseSourceFile {
+                      "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                      "url": "./foo.html",
+                    },
+                    "line": 3,
+                    "offset": 89,
+                  },
+                  "start": ParseLocation {
+                    "col": 12,
+                    "file": ParseSourceFile {
+                      "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                      "url": "./foo.html",
+                    },
+                    "line": 3,
+                    "offset": 89,
+                  },
+                },
+                "type": "ForLoopBlockEmpty",
+              },
+              "endSourceSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 11,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 5,
+                  "offset": 142,
+                },
+                "fullStart": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 5,
+                  "offset": 141,
+                },
+                "start": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 5,
+                  "offset": 141,
+                },
+              },
+              "expression": ASTWithSource {
+                "ast": PropertyRead {
+                  "name": "items",
+                  "nameSpan": AbsoluteSourceSpan {
+                    "end": 30,
+                    "start": 25,
+                  },
+                  "receiver": ImplicitReceiver {
+                    "sourceSpan": AbsoluteSourceSpan {
+                      "end": 25,
+                      "start": 25,
+                    },
+                    "span": ParseSpan {
+                      "end": 0,
+                      "start": 0,
+                    },
+                  },
+                  "sourceSpan": AbsoluteSourceSpan {
+                    "end": 30,
+                    "start": 25,
+                  },
+                  "span": ParseSpan {
+                    "end": 5,
+                    "start": 0,
+                  },
+                },
+                "errors": Array [],
+                "location": "./foo.html@1:16",
+                "source": "items",
+                "sourceSpan": AbsoluteSourceSpan {
+                  "end": 30,
+                  "start": 25,
+                },
+                "span": ParseSpan {
+                  "end": 5,
+                  "start": 0,
+                },
+              },
+              "i18n": undefined,
+              "item": Variable {
+                "keySpan": ParseSourceSpan {
+                  "details": null,
+                  "end": ParseLocation {
+                    "col": 29,
+                    "file": ParseSourceFile {
+                      "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                      "url": "./foo.html",
+                    },
+                    "line": 1,
+                    "offset": 30,
+                  },
+                  "fullStart": ParseLocation {
+                    "col": 16,
+                    "file": ParseSourceFile {
+                      "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                      "url": "./foo.html",
+                    },
+                    "line": 1,
+                    "offset": 17,
+                  },
+                  "start": ParseLocation {
+                    "col": 16,
+                    "file": ParseSourceFile {
+                      "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                      "url": "./foo.html",
+                    },
+                    "line": 1,
+                    "offset": 17,
+                  },
+                },
+                "name": "item",
+                "sourceSpan": ParseSourceSpan {
+                  "details": null,
+                  "end": ParseLocation {
+                    "col": 29,
+                    "file": ParseSourceFile {
+                      "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                      "url": "./foo.html",
+                    },
+                    "line": 1,
+                    "offset": 30,
+                  },
+                  "fullStart": ParseLocation {
+                    "col": 16,
+                    "file": ParseSourceFile {
+                      "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                      "url": "./foo.html",
+                    },
+                    "line": 1,
+                    "offset": 17,
+                  },
+                  "start": ParseLocation {
+                    "col": 16,
+                    "file": ParseSourceFile {
+                      "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                      "url": "./foo.html",
+                    },
+                    "line": 1,
+                    "offset": 17,
+                  },
+                },
+                "value": "$implicit",
+                "valueSpan": undefined,
+              },
+              "loc": Object {
+                "end": Object {
+                  "column": 11,
+                  "line": 6,
+                },
+                "start": Object {
+                  "column": 10,
+                  "line": 2,
+                },
+              },
+              "mainBlockSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 11,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 3,
+                  "offset": 88,
+                },
+                "fullStart": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 11,
+                },
+                "start": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 11,
+                },
+              },
+              "nameSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 15,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 16,
+                },
+                "fullStart": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 11,
+                },
+                "start": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 11,
+                },
+              },
+              "sourceSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 11,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 5,
+                  "offset": 142,
+                },
+                "fullStart": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 11,
+                },
+                "start": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 11,
+                },
+              },
+              "startSourceSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 47,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 48,
+                },
+                "fullStart": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 11,
+                },
+                "start": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 11,
+                },
+              },
+              "trackBy": ASTWithSource {
+                "ast": PropertyRead {
+                  "name": "id",
+                  "nameSpan": AbsoluteSourceSpan {
+                    "end": 45,
+                    "start": 43,
+                  },
+                  "receiver": PropertyRead {
+                    "name": "item",
+                    "nameSpan": AbsoluteSourceSpan {
+                      "end": 42,
+                      "start": 38,
+                    },
+                    "receiver": ImplicitReceiver {
+                      "sourceSpan": AbsoluteSourceSpan {
+                        "end": 38,
+                        "start": 38,
+                      },
+                      "span": ParseSpan {
+                        "end": 0,
+                        "start": 0,
+                      },
+                    },
+                    "sourceSpan": AbsoluteSourceSpan {
+                      "end": 42,
+                      "start": 38,
+                    },
+                    "span": ParseSpan {
+                      "end": 4,
+                      "start": 0,
+                    },
+                  },
+                  "sourceSpan": AbsoluteSourceSpan {
+                    "end": 45,
+                    "start": 38,
+                  },
+                  "span": ParseSpan {
+                    "end": 7,
+                    "start": 0,
+                  },
+                },
+                "errors": Array [],
+                "location": "./foo.html@1:31",
+                "source": "item.id",
+                "sourceSpan": AbsoluteSourceSpan {
+                  "end": 45,
+                  "start": 38,
+                },
+                "span": ParseSpan {
+                  "end": 7,
+                  "start": 0,
+                },
+              },
+              "trackKeywordSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 36,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 37,
+                },
+                "fullStart": ParseLocation {
+                  "col": 31,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 32,
+                },
+                "start": ParseLocation {
+                  "col": 31,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 32,
+                },
+              },
+              "type": "ForLoopBlock",
+            },
+          ],
+          "tokens": Array [],
+          "type": "Program",
+          "value": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+        }
+      `);
+    });
+  });
+
+  describe('@switch', () => {
+    it('should support the different variants of @switch', () => {
+      expect(
+        parseForESLint(
+          `
+          @switch (condition) {
+            @case (caseA) {
+              <span>Case A.</span>
+            }
+            @case (caseB) {
+              <span>Case B.</span>
+            }
+            @default {
+              <span>Default case.</span>
+            }
+          }
+      `,
+          { filePath: './foo.html' },
+        ).ast,
+      ).toMatchInlineSnapshot(`
+        Object {
+          "comments": Array [],
+          "loc": Object {
+            "end": Object {
+              "column": 6,
+              "line": 13,
+            },
+            "start": Object {
+              "column": 10,
+              "line": 2,
+            },
+          },
+          "range": Array [
+            11,
+            283,
+          ],
+          "templateNodes": Array [
+            Text$3 {
+              "loc": Object {
+                "end": Object {
+                  "column": 10,
+                  "line": 2,
+                },
+                "start": Object {
+                  "column": 10,
+                  "line": 2,
+                },
+              },
+              "sourceSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 11,
+                },
+                "fullStart": ParseLocation {
+                  "col": 0,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 0,
+                  "offset": 0,
+                },
+                "start": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 11,
+                },
+              },
+              "type": "Text$3",
+              "value": "
+                  ",
+            },
+            SwitchBlock {
+              "cases": Array [
+                SwitchBlockCase {
+                  "children": Array [
+                    Text$3 {
+                      "loc": Object {
+                        "end": Object {
+                          "column": 14,
+                          "line": 4,
+                        },
+                        "start": Object {
+                          "column": 14,
+                          "line": 4,
+                        },
+                      },
+                      "sourceSpan": ParseSourceSpan {
+                        "details": null,
+                        "end": ParseLocation {
+                          "col": 14,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 3,
+                          "offset": 75,
+                        },
+                        "fullStart": ParseLocation {
+                          "col": 27,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 2,
+                          "offset": 60,
+                        },
+                        "start": ParseLocation {
+                          "col": 14,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 3,
+                          "offset": 75,
+                        },
+                      },
+                      "type": "Text$3",
+                      "value": "
+                      ",
+                    },
+                    Element$1 {
+                      "attributes": Array [],
+                      "children": Array [
+                        Text$3 {
+                          "loc": Object {
+                            "end": Object {
+                              "column": 27,
+                              "line": 4,
+                            },
+                            "start": Object {
+                              "column": 20,
+                              "line": 4,
+                            },
+                          },
+                          "sourceSpan": ParseSourceSpan {
+                            "details": null,
+                            "end": ParseLocation {
+                              "col": 27,
+                              "file": ParseSourceFile {
+                                "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                                "url": "./foo.html",
+                              },
+                              "line": 3,
+                              "offset": 88,
+                            },
+                            "fullStart": ParseLocation {
+                              "col": 20,
+                              "file": ParseSourceFile {
+                                "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                                "url": "./foo.html",
+                              },
+                              "line": 3,
+                              "offset": 81,
+                            },
+                            "start": ParseLocation {
+                              "col": 20,
+                              "file": ParseSourceFile {
+                                "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                                "url": "./foo.html",
+                              },
+                              "line": 3,
+                              "offset": 81,
+                            },
+                          },
+                          "type": "Text$3",
+                          "value": "Case A.",
+                        },
+                      ],
+                      "endSourceSpan": ParseSourceSpan {
+                        "details": null,
+                        "end": ParseLocation {
+                          "col": 34,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 3,
+                          "offset": 95,
+                        },
+                        "fullStart": ParseLocation {
+                          "col": 27,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 3,
+                          "offset": 88,
+                        },
+                        "start": ParseLocation {
+                          "col": 27,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 3,
+                          "offset": 88,
+                        },
+                      },
+                      "i18n": undefined,
+                      "inputs": Array [],
+                      "loc": Object {
+                        "end": Object {
+                          "column": 34,
+                          "line": 4,
+                        },
+                        "start": Object {
+                          "column": 14,
+                          "line": 4,
+                        },
+                      },
+                      "name": "span",
+                      "outputs": Array [],
+                      "references": Array [],
+                      "sourceSpan": ParseSourceSpan {
+                        "details": null,
+                        "end": ParseLocation {
+                          "col": 34,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 3,
+                          "offset": 95,
+                        },
+                        "fullStart": ParseLocation {
+                          "col": 14,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 3,
+                          "offset": 75,
+                        },
+                        "start": ParseLocation {
+                          "col": 14,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 3,
+                          "offset": 75,
+                        },
+                      },
+                      "startSourceSpan": ParseSourceSpan {
+                        "details": null,
+                        "end": ParseLocation {
+                          "col": 20,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 3,
+                          "offset": 81,
+                        },
+                        "fullStart": ParseLocation {
+                          "col": 14,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 3,
+                          "offset": 75,
+                        },
+                        "start": ParseLocation {
+                          "col": 14,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 3,
+                          "offset": 75,
+                        },
+                      },
+                      "type": "Element$1",
+                    },
+                    Text$3 {
+                      "loc": Object {
+                        "end": Object {
+                          "column": 12,
+                          "line": 5,
+                        },
+                        "start": Object {
+                          "column": 12,
+                          "line": 5,
+                        },
+                      },
+                      "sourceSpan": ParseSourceSpan {
+                        "details": null,
+                        "end": ParseLocation {
+                          "col": 12,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 4,
+                          "offset": 108,
+                        },
+                        "fullStart": ParseLocation {
+                          "col": 34,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 3,
+                          "offset": 95,
+                        },
+                        "start": ParseLocation {
+                          "col": 12,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 4,
+                          "offset": 108,
+                        },
+                      },
+                      "type": "Text$3",
+                      "value": "
+                    ",
+                    },
+                  ],
+                  "endSourceSpan": ParseSourceSpan {
+                    "details": null,
+                    "end": ParseLocation {
+                      "col": 13,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 4,
+                      "offset": 109,
+                    },
+                    "fullStart": ParseLocation {
+                      "col": 12,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 4,
+                      "offset": 108,
+                    },
+                    "start": ParseLocation {
+                      "col": 12,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 4,
+                      "offset": 108,
+                    },
+                  },
+                  "expression": ASTWithSource {
+                    "ast": PropertyRead {
+                      "name": "caseA",
+                      "nameSpan": AbsoluteSourceSpan {
+                        "end": 57,
+                        "start": 52,
+                      },
+                      "receiver": ImplicitReceiver {
+                        "sourceSpan": AbsoluteSourceSpan {
+                          "end": 52,
+                          "start": 52,
+                        },
+                        "span": ParseSpan {
+                          "end": 0,
+                          "start": 0,
+                        },
+                      },
+                      "sourceSpan": AbsoluteSourceSpan {
+                        "end": 57,
+                        "start": 52,
+                      },
+                      "span": ParseSpan {
+                        "end": 5,
+                        "start": 0,
+                      },
+                    },
+                    "errors": Array [],
+                    "location": "./foo.html@2:19",
+                    "source": "caseA",
+                    "sourceSpan": AbsoluteSourceSpan {
+                      "end": 57,
+                      "start": 52,
+                    },
+                    "span": ParseSpan {
+                      "end": 5,
+                      "start": 0,
+                    },
+                  },
+                  "i18n": undefined,
+                  "loc": Object {
+                    "end": Object {
+                      "column": 13,
+                      "line": 5,
+                    },
+                    "start": Object {
+                      "column": 12,
+                      "line": 3,
+                    },
+                  },
+                  "nameSpan": ParseSourceSpan {
+                    "details": null,
+                    "end": ParseLocation {
+                      "col": 18,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 2,
+                      "offset": 51,
+                    },
+                    "fullStart": ParseLocation {
+                      "col": 12,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 2,
+                      "offset": 45,
+                    },
+                    "start": ParseLocation {
+                      "col": 12,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 2,
+                      "offset": 45,
+                    },
+                  },
+                  "sourceSpan": ParseSourceSpan {
+                    "details": null,
+                    "end": ParseLocation {
+                      "col": 13,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 4,
+                      "offset": 109,
+                    },
+                    "fullStart": ParseLocation {
+                      "col": 12,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 2,
+                      "offset": 45,
+                    },
+                    "start": ParseLocation {
+                      "col": 12,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 2,
+                      "offset": 45,
+                    },
+                  },
+                  "startSourceSpan": ParseSourceSpan {
+                    "details": null,
+                    "end": ParseLocation {
+                      "col": 27,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 2,
+                      "offset": 60,
+                    },
+                    "fullStart": ParseLocation {
+                      "col": 12,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 2,
+                      "offset": 45,
+                    },
+                    "start": ParseLocation {
+                      "col": 12,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 2,
+                      "offset": 45,
+                    },
+                  },
+                  "type": "SwitchBlockCase",
+                },
+                SwitchBlockCase {
+                  "children": Array [
+                    Text$3 {
+                      "loc": Object {
+                        "end": Object {
+                          "column": 14,
+                          "line": 7,
+                        },
+                        "start": Object {
+                          "column": 14,
+                          "line": 7,
+                        },
+                      },
+                      "sourceSpan": ParseSourceSpan {
+                        "details": null,
+                        "end": ParseLocation {
+                          "col": 14,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 6,
+                          "offset": 152,
+                        },
+                        "fullStart": ParseLocation {
+                          "col": 27,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 5,
+                          "offset": 137,
+                        },
+                        "start": ParseLocation {
+                          "col": 14,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 6,
+                          "offset": 152,
+                        },
+                      },
+                      "type": "Text$3",
+                      "value": "
+                      ",
+                    },
+                    Element$1 {
+                      "attributes": Array [],
+                      "children": Array [
+                        Text$3 {
+                          "loc": Object {
+                            "end": Object {
+                              "column": 27,
+                              "line": 7,
+                            },
+                            "start": Object {
+                              "column": 20,
+                              "line": 7,
+                            },
+                          },
+                          "sourceSpan": ParseSourceSpan {
+                            "details": null,
+                            "end": ParseLocation {
+                              "col": 27,
+                              "file": ParseSourceFile {
+                                "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                                "url": "./foo.html",
+                              },
+                              "line": 6,
+                              "offset": 165,
+                            },
+                            "fullStart": ParseLocation {
+                              "col": 20,
+                              "file": ParseSourceFile {
+                                "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                                "url": "./foo.html",
+                              },
+                              "line": 6,
+                              "offset": 158,
+                            },
+                            "start": ParseLocation {
+                              "col": 20,
+                              "file": ParseSourceFile {
+                                "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                                "url": "./foo.html",
+                              },
+                              "line": 6,
+                              "offset": 158,
+                            },
+                          },
+                          "type": "Text$3",
+                          "value": "Case B.",
+                        },
+                      ],
+                      "endSourceSpan": ParseSourceSpan {
+                        "details": null,
+                        "end": ParseLocation {
+                          "col": 34,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 6,
+                          "offset": 172,
+                        },
+                        "fullStart": ParseLocation {
+                          "col": 27,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 6,
+                          "offset": 165,
+                        },
+                        "start": ParseLocation {
+                          "col": 27,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 6,
+                          "offset": 165,
+                        },
+                      },
+                      "i18n": undefined,
+                      "inputs": Array [],
+                      "loc": Object {
+                        "end": Object {
+                          "column": 34,
+                          "line": 7,
+                        },
+                        "start": Object {
+                          "column": 14,
+                          "line": 7,
+                        },
+                      },
+                      "name": "span",
+                      "outputs": Array [],
+                      "references": Array [],
+                      "sourceSpan": ParseSourceSpan {
+                        "details": null,
+                        "end": ParseLocation {
+                          "col": 34,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 6,
+                          "offset": 172,
+                        },
+                        "fullStart": ParseLocation {
+                          "col": 14,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 6,
+                          "offset": 152,
+                        },
+                        "start": ParseLocation {
+                          "col": 14,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 6,
+                          "offset": 152,
+                        },
+                      },
+                      "startSourceSpan": ParseSourceSpan {
+                        "details": null,
+                        "end": ParseLocation {
+                          "col": 20,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 6,
+                          "offset": 158,
+                        },
+                        "fullStart": ParseLocation {
+                          "col": 14,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 6,
+                          "offset": 152,
+                        },
+                        "start": ParseLocation {
+                          "col": 14,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 6,
+                          "offset": 152,
+                        },
+                      },
+                      "type": "Element$1",
+                    },
+                    Text$3 {
+                      "loc": Object {
+                        "end": Object {
+                          "column": 12,
+                          "line": 8,
+                        },
+                        "start": Object {
+                          "column": 12,
+                          "line": 8,
+                        },
+                      },
+                      "sourceSpan": ParseSourceSpan {
+                        "details": null,
+                        "end": ParseLocation {
+                          "col": 12,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 7,
+                          "offset": 185,
+                        },
+                        "fullStart": ParseLocation {
+                          "col": 34,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 6,
+                          "offset": 172,
+                        },
+                        "start": ParseLocation {
+                          "col": 12,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 7,
+                          "offset": 185,
+                        },
+                      },
+                      "type": "Text$3",
+                      "value": "
+                    ",
+                    },
+                  ],
+                  "endSourceSpan": ParseSourceSpan {
+                    "details": null,
+                    "end": ParseLocation {
+                      "col": 13,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 7,
+                      "offset": 186,
+                    },
+                    "fullStart": ParseLocation {
+                      "col": 12,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 7,
+                      "offset": 185,
+                    },
+                    "start": ParseLocation {
+                      "col": 12,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 7,
+                      "offset": 185,
+                    },
+                  },
+                  "expression": ASTWithSource {
+                    "ast": PropertyRead {
+                      "name": "caseB",
+                      "nameSpan": AbsoluteSourceSpan {
+                        "end": 134,
+                        "start": 129,
+                      },
+                      "receiver": ImplicitReceiver {
+                        "sourceSpan": AbsoluteSourceSpan {
+                          "end": 129,
+                          "start": 129,
+                        },
+                        "span": ParseSpan {
+                          "end": 0,
+                          "start": 0,
+                        },
+                      },
+                      "sourceSpan": AbsoluteSourceSpan {
+                        "end": 134,
+                        "start": 129,
+                      },
+                      "span": ParseSpan {
+                        "end": 5,
+                        "start": 0,
+                      },
+                    },
+                    "errors": Array [],
+                    "location": "./foo.html@5:19",
+                    "source": "caseB",
+                    "sourceSpan": AbsoluteSourceSpan {
+                      "end": 134,
+                      "start": 129,
+                    },
+                    "span": ParseSpan {
+                      "end": 5,
+                      "start": 0,
+                    },
+                  },
+                  "i18n": undefined,
+                  "loc": Object {
+                    "end": Object {
+                      "column": 13,
+                      "line": 8,
+                    },
+                    "start": Object {
+                      "column": 12,
+                      "line": 6,
+                    },
+                  },
+                  "nameSpan": ParseSourceSpan {
+                    "details": null,
+                    "end": ParseLocation {
+                      "col": 18,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 5,
+                      "offset": 128,
+                    },
+                    "fullStart": ParseLocation {
+                      "col": 12,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 5,
+                      "offset": 122,
+                    },
+                    "start": ParseLocation {
+                      "col": 12,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 5,
+                      "offset": 122,
+                    },
+                  },
+                  "sourceSpan": ParseSourceSpan {
+                    "details": null,
+                    "end": ParseLocation {
+                      "col": 13,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 7,
+                      "offset": 186,
+                    },
+                    "fullStart": ParseLocation {
+                      "col": 12,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 5,
+                      "offset": 122,
+                    },
+                    "start": ParseLocation {
+                      "col": 12,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 5,
+                      "offset": 122,
+                    },
+                  },
+                  "startSourceSpan": ParseSourceSpan {
+                    "details": null,
+                    "end": ParseLocation {
+                      "col": 27,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 5,
+                      "offset": 137,
+                    },
+                    "fullStart": ParseLocation {
+                      "col": 12,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 5,
+                      "offset": 122,
+                    },
+                    "start": ParseLocation {
+                      "col": 12,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 5,
+                      "offset": 122,
+                    },
+                  },
+                  "type": "SwitchBlockCase",
+                },
+                SwitchBlockCase {
+                  "children": Array [
+                    Text$3 {
+                      "loc": Object {
+                        "end": Object {
+                          "column": 14,
+                          "line": 10,
+                        },
+                        "start": Object {
+                          "column": 14,
+                          "line": 10,
+                        },
+                      },
+                      "sourceSpan": ParseSourceSpan {
+                        "details": null,
+                        "end": ParseLocation {
+                          "col": 14,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 9,
+                          "offset": 224,
+                        },
+                        "fullStart": ParseLocation {
+                          "col": 22,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 8,
+                          "offset": 209,
+                        },
+                        "start": ParseLocation {
+                          "col": 14,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 9,
+                          "offset": 224,
+                        },
+                      },
+                      "type": "Text$3",
+                      "value": "
+                      ",
+                    },
+                    Element$1 {
+                      "attributes": Array [],
+                      "children": Array [
+                        Text$3 {
+                          "loc": Object {
+                            "end": Object {
+                              "column": 33,
+                              "line": 10,
+                            },
+                            "start": Object {
+                              "column": 20,
+                              "line": 10,
+                            },
+                          },
+                          "sourceSpan": ParseSourceSpan {
+                            "details": null,
+                            "end": ParseLocation {
+                              "col": 33,
+                              "file": ParseSourceFile {
+                                "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                                "url": "./foo.html",
+                              },
+                              "line": 9,
+                              "offset": 243,
+                            },
+                            "fullStart": ParseLocation {
+                              "col": 20,
+                              "file": ParseSourceFile {
+                                "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                                "url": "./foo.html",
+                              },
+                              "line": 9,
+                              "offset": 230,
+                            },
+                            "start": ParseLocation {
+                              "col": 20,
+                              "file": ParseSourceFile {
+                                "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                                "url": "./foo.html",
+                              },
+                              "line": 9,
+                              "offset": 230,
+                            },
+                          },
+                          "type": "Text$3",
+                          "value": "Default case.",
+                        },
+                      ],
+                      "endSourceSpan": ParseSourceSpan {
+                        "details": null,
+                        "end": ParseLocation {
+                          "col": 40,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 9,
+                          "offset": 250,
+                        },
+                        "fullStart": ParseLocation {
+                          "col": 33,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 9,
+                          "offset": 243,
+                        },
+                        "start": ParseLocation {
+                          "col": 33,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 9,
+                          "offset": 243,
+                        },
+                      },
+                      "i18n": undefined,
+                      "inputs": Array [],
+                      "loc": Object {
+                        "end": Object {
+                          "column": 40,
+                          "line": 10,
+                        },
+                        "start": Object {
+                          "column": 14,
+                          "line": 10,
+                        },
+                      },
+                      "name": "span",
+                      "outputs": Array [],
+                      "references": Array [],
+                      "sourceSpan": ParseSourceSpan {
+                        "details": null,
+                        "end": ParseLocation {
+                          "col": 40,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 9,
+                          "offset": 250,
+                        },
+                        "fullStart": ParseLocation {
+                          "col": 14,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 9,
+                          "offset": 224,
+                        },
+                        "start": ParseLocation {
+                          "col": 14,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 9,
+                          "offset": 224,
+                        },
+                      },
+                      "startSourceSpan": ParseSourceSpan {
+                        "details": null,
+                        "end": ParseLocation {
+                          "col": 20,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 9,
+                          "offset": 230,
+                        },
+                        "fullStart": ParseLocation {
+                          "col": 14,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 9,
+                          "offset": 224,
+                        },
+                        "start": ParseLocation {
+                          "col": 14,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 9,
+                          "offset": 224,
+                        },
+                      },
+                      "type": "Element$1",
+                    },
+                    Text$3 {
+                      "loc": Object {
+                        "end": Object {
+                          "column": 12,
+                          "line": 11,
+                        },
+                        "start": Object {
+                          "column": 12,
+                          "line": 11,
+                        },
+                      },
+                      "sourceSpan": ParseSourceSpan {
+                        "details": null,
+                        "end": ParseLocation {
+                          "col": 12,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 10,
+                          "offset": 263,
+                        },
+                        "fullStart": ParseLocation {
+                          "col": 40,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 9,
+                          "offset": 250,
+                        },
+                        "start": ParseLocation {
+                          "col": 12,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 10,
+                          "offset": 263,
+                        },
+                      },
+                      "type": "Text$3",
+                      "value": "
+                    ",
+                    },
+                  ],
+                  "endSourceSpan": ParseSourceSpan {
+                    "details": null,
+                    "end": ParseLocation {
+                      "col": 13,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 10,
+                      "offset": 264,
+                    },
+                    "fullStart": ParseLocation {
+                      "col": 12,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 10,
+                      "offset": 263,
+                    },
+                    "start": ParseLocation {
+                      "col": 12,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 10,
+                      "offset": 263,
+                    },
+                  },
+                  "expression": null,
+                  "i18n": undefined,
+                  "loc": Object {
+                    "end": Object {
+                      "column": 13,
+                      "line": 11,
+                    },
+                    "start": Object {
+                      "column": 12,
+                      "line": 9,
+                    },
+                  },
+                  "nameSpan": ParseSourceSpan {
+                    "details": null,
+                    "end": ParseLocation {
+                      "col": 21,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 8,
+                      "offset": 208,
+                    },
+                    "fullStart": ParseLocation {
+                      "col": 12,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 8,
+                      "offset": 199,
+                    },
+                    "start": ParseLocation {
+                      "col": 12,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 8,
+                      "offset": 199,
+                    },
+                  },
+                  "sourceSpan": ParseSourceSpan {
+                    "details": null,
+                    "end": ParseLocation {
+                      "col": 13,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 10,
+                      "offset": 264,
+                    },
+                    "fullStart": ParseLocation {
+                      "col": 12,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 8,
+                      "offset": 199,
+                    },
+                    "start": ParseLocation {
+                      "col": 12,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 8,
+                      "offset": 199,
+                    },
+                  },
+                  "startSourceSpan": ParseSourceSpan {
+                    "details": null,
+                    "end": ParseLocation {
+                      "col": 22,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 8,
+                      "offset": 209,
+                    },
+                    "fullStart": ParseLocation {
+                      "col": 12,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 8,
+                      "offset": 199,
+                    },
+                    "start": ParseLocation {
+                      "col": 12,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 8,
+                      "offset": 199,
+                    },
+                  },
+                  "type": "SwitchBlockCase",
+                },
+              ],
+              "endSourceSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 11,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 11,
+                  "offset": 276,
+                },
+                "fullStart": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 11,
+                  "offset": 275,
+                },
+                "start": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 11,
+                  "offset": 275,
+                },
+              },
+              "expression": ASTWithSource {
+                "ast": PropertyRead {
+                  "name": "condition",
+                  "nameSpan": AbsoluteSourceSpan {
+                    "end": 29,
+                    "start": 20,
+                  },
+                  "receiver": ImplicitReceiver {
+                    "sourceSpan": AbsoluteSourceSpan {
+                      "end": 20,
+                      "start": 20,
+                    },
+                    "span": ParseSpan {
+                      "end": 0,
+                      "start": 0,
+                    },
+                  },
+                  "sourceSpan": AbsoluteSourceSpan {
+                    "end": 29,
+                    "start": 20,
+                  },
+                  "span": ParseSpan {
+                    "end": 9,
+                    "start": 0,
+                  },
+                },
+                "errors": Array [],
+                "location": "./foo.html@1:19",
+                "source": "condition",
+                "sourceSpan": AbsoluteSourceSpan {
+                  "end": 29,
+                  "start": 20,
+                },
+                "span": ParseSpan {
+                  "end": 9,
+                  "start": 0,
+                },
+              },
+              "loc": Object {
+                "end": Object {
+                  "column": 11,
+                  "line": 12,
+                },
+                "start": Object {
+                  "column": 10,
+                  "line": 2,
+                },
+              },
+              "nameSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 18,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 19,
+                },
+                "fullStart": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 11,
+                },
+                "start": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 11,
+                },
+              },
+              "sourceSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 11,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 11,
+                  "offset": 276,
+                },
+                "fullStart": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 11,
+                },
+                "start": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 11,
+                },
+              },
+              "startSourceSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 31,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 32,
+                },
+                "fullStart": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 11,
+                },
+                "start": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 11,
+                },
+              },
+              "type": "SwitchBlock",
+              "unknownBlocks": Array [],
+            },
+            Text$3 {
+              "loc": Object {
+                "end": Object {
+                  "column": 6,
+                  "line": 13,
+                },
+                "start": Object {
+                  "column": 6,
+                  "line": 13,
+                },
+              },
+              "sourceSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 6,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 12,
+                  "offset": 283,
+                },
+                "fullStart": ParseLocation {
+                  "col": 11,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 11,
+                  "offset": 276,
+                },
+                "start": ParseLocation {
+                  "col": 6,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 12,
+                  "offset": 283,
+                },
+              },
+              "type": "Text$3",
+              "value": "
+              ",
+            },
+          ],
+          "tokens": Array [],
+          "type": "Program",
+          "value": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
               ",
         }
       `);

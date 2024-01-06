@@ -222,10 +222,29 @@ export default createESLintRule<Options, MessageIds>({
     const allowedTags: ReadonlySet<string> = new Set(ignoreTags);
     const collectedCustomIds = new Map<string, readonly ParseSourceSpan[]>();
 
+    function getNextElementOrTemplateParent(
+      node: StronglyTypedBoundTextOrIcuOrText,
+    ): (AST & { children: readonly AST[] }) | undefined;
+    function getNextElementOrTemplateParent(
+      node: StronglyTypedI18n<TmplAstNode>,
+    ): AST | undefined;
+    function getNextElementOrTemplateParent(
+      node: StronglyTypedI18n<TmplAstNode> | StronglyTypedBoundTextOrIcuOrText,
+    ): AST | undefined {
+      const parent = node.parent;
+      if (parent && !isElement(parent) && !isTemplate(parent)) {
+        return getNextElementOrTemplateParent(
+          parent as unknown as StronglyTypedI18n<TmplAstNode>,
+        );
+      }
+      return parent;
+    }
+
     function handleElementOrTemplate(
       node: StronglyTypedElement | StronglyTypedTemplate,
     ) {
-      const { i18n, parent, sourceSpan } = node;
+      const { i18n, sourceSpan } = node;
+      const parent = getNextElementOrTemplateParent(node);
 
       if (
         isTagAllowed(allowedTags, node) ||
@@ -333,7 +352,8 @@ export default createESLintRule<Options, MessageIds>({
     function handleBoundTextOrIcuOrText(
       node: StronglyTypedBoundTextOrIcuOrText,
     ) {
-      const { parent, sourceSpan } = node;
+      const { sourceSpan } = node;
+      const parent = getNextElementOrTemplateParent(node);
 
       if (
         (isBoundText(node) &&
