@@ -22,6 +22,14 @@ export const OUTPUT_DECORATOR = 'Decorator[expression.callee.name="Output"]';
 
 export const LITERAL_OR_TEMPLATE_ELEMENT = ':matches(Literal, TemplateElement)';
 
+export function decoratorDefinition(decoratorName: RegExp): string;
+export function decoratorDefinition<TDecoratorName extends string>(
+  decoratorName: TDecoratorName,
+): `ClassDeclaration:has(Decorator[expression.callee.name=${TDecoratorName}])`;
+export function decoratorDefinition(decoratorName: RegExp | string): string {
+  return `ClassDeclaration:has(Decorator[expression.callee.name=${decoratorName}])`;
+}
+
 export function metadataProperty(key: RegExp): string;
 export function metadataProperty<TKey extends string>(
   key: TKey,

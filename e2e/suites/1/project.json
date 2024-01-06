@@ -1,7 +1,7 @@
 {
   "name": "e2e-suite-1",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "type": "library",
+  "projectType": "application",
   "targets": {
     "e2e-suite": {
       "executor": "@angular-eslint/nx-plugin:e2e-test-suite",
