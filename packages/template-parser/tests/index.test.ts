@@ -1381,6 +1381,7 @@ describe('parseForESLint()', () => {
                 },
               },
               "error": null,
+              "i18n": undefined,
               "loading": null,
               "loc": Object {
                 "end": Object {
@@ -2542,6 +2543,7 @@ describe('parseForESLint()', () => {
                 },
               },
               "error": null,
+              "i18n": undefined,
               "loading": null,
               "loc": Object {
                 "end": Object {
@@ -3404,6 +3406,7 @@ describe('parseForESLint()', () => {
                     "offset": 229,
                   },
                 },
+                "i18n": undefined,
                 "loc": Object {
                   "end": Object {
                     "column": 11,
@@ -4699,6 +4702,7 @@ describe('parseForESLint()', () => {
                 },
               },
               "error": null,
+              "i18n": undefined,
               "loading": DeferredBlockLoading {
                 "afterTime": 100,
                 "children": Array [
@@ -5830,6 +5834,7 @@ describe('parseForESLint()', () => {
                     "offset": 396,
                   },
                 },
+                "i18n": undefined,
                 "loc": Object {
                   "end": Object {
                     "column": 11,
@@ -7721,6 +7726,7 @@ describe('parseForESLint()', () => {
                     "offset": 524,
                   },
                 },
+                "i18n": undefined,
                 "loc": Object {
                   "end": Object {
                     "column": 11,
@@ -7994,6 +8000,7 @@ describe('parseForESLint()', () => {
                 },
                 "type": "DeferredBlockError",
               },
+              "i18n": undefined,
               "loading": null,
               "loc": Object {
                 "end": Object {
@@ -8840,6 +8847,7 @@ describe('parseForESLint()', () => {
                     },
                   },
                   "expressionAlias": null,
+                  "i18n": undefined,
                   "loc": Object {
                     "end": Object {
                       "column": 11,
@@ -9364,6 +9372,7 @@ describe('parseForESLint()', () => {
                     },
                   },
                   "expressionAlias": null,
+                  "i18n": undefined,
                   "loc": Object {
                     "end": Object {
                       "column": 11,
@@ -9815,6 +9824,7 @@ describe('parseForESLint()', () => {
                   },
                   "expression": null,
                   "expressionAlias": null,
+                  "i18n": undefined,
                   "loc": Object {
                     "end": Object {
                       "column": 11,
@@ -11245,6 +11255,7 @@ describe('parseForESLint()', () => {
                     "offset": 141,
                   },
                 },
+                "i18n": undefined,
                 "loc": Object {
                   "end": Object {
                     "column": 11,
@@ -11487,6 +11498,7 @@ describe('parseForESLint()', () => {
                   "start": 0,
                 },
               },
+              "i18n": undefined,
               "item": Variable {
                 "keySpan": ParseSourceSpan {
                   "details": null,
@@ -12596,6 +12608,7 @@ describe('parseForESLint()', () => {
                       "start": 0,
                     },
                   },
+                  "i18n": undefined,
                   "loc": Object {
                     "end": Object {
                       "column": 13,
@@ -13374,6 +13387,7 @@ describe('parseForESLint()', () => {
                       "start": 0,
                     },
                   },
+                  "i18n": undefined,
                   "loc": Object {
                     "end": Object {
                       "column": 13,
@@ -14115,6 +14129,7 @@ describe('parseForESLint()', () => {
                     },
                   },
                   "expression": null,
+                  "i18n": undefined,
                   "loc": Object {
                     "end": Object {
                       "column": 13,
