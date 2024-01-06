@@ -2,15 +2,11 @@
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "nxCloudAccessToken": "Y2MxNmI0YWItNDdhYS00ZWUxLTliZjMtODkzYjZkYTE4YjgxfHJlYWQtd3JpdGU=",
   "release": {
-    "groups": {
-      "npm": {
-        "projects": ["*", "!nx-plugin", "!e2e*"],
-        "version": {
-          "generatorOptions": {
-            "currentVersionResolver": "git-tag",
-            "specifierSource": "conventional-commits"
-          }
-        }
+    "projects": ["*", "!e2e*", "!nx-plugin"],
+    "version": {
+      "generatorOptions": {
+        "currentVersionResolver": "git-tag",
+        "specifierSource": "conventional-commits"
       }
     },
     "changelog": {
