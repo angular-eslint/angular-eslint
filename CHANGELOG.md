@@ -1,3 +1,22 @@
+## 17.2.0 (2024-01-06)
+
+### 🚀 Features
+
+- **eslint-plugin:** [no-async-lifecycle-method] add rule ([#1643](https://github.com/angular-eslint/angular-eslint/pull/1643))
+
+### 🩹 Fixes
+
+- update dependency eslint to v8.56.0 ([#1657](https://github.com/angular-eslint/angular-eslint/pull/1657))
+- update typescript-eslint packages to v6.18.0 ([#1682](https://github.com/angular-eslint/angular-eslint/pull/1682))
+- update dependency @angular/compiler to v17.0.8 ([#1618](https://github.com/angular-eslint/angular-eslint/pull/1618))
+- update dependency eslint-scope to v8 ([#1683](https://github.com/angular-eslint/angular-eslint/pull/1683))
+- **eslint-plugin-template:** fix control flow syntax with i18n rule ([#1656](https://github.com/angular-eslint/angular-eslint/pull/1656))
+
+### ❤️ Thank You
+
+- Matt Lewis @mattlewis92
+- Steven Chim @chimurai
+
 ## 17.1.1
 
 ### 🩹 Fixes
