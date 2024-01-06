@@ -1381,6 +1381,7 @@ describe('parseForESLint()', () => {
                 },
               },
               "error": null,
+              "i18n": undefined,
               "loading": null,
               "loc": Object {
                 "end": Object {
@@ -2542,6 +2543,7 @@ describe('parseForESLint()', () => {
                 },
               },
               "error": null,
+              "i18n": undefined,
               "loading": null,
               "loc": Object {
                 "end": Object {
@@ -3360,6 +3362,7 @@ describe('parseForESLint()', () => {
                     "offset": 229,
                   },
                 },
+                "i18n": undefined,
                 "minimumTime": 500,
                 "nameSpan": ParseSourceSpan {
                   "details": null,
@@ -4644,6 +4647,7 @@ describe('parseForESLint()', () => {
                 },
               },
               "error": null,
+              "i18n": undefined,
               "loading": DeferredBlockLoading {
                 "afterTime": 100,
                 "children": Array [
@@ -5720,6 +5724,7 @@ describe('parseForESLint()', () => {
                     "offset": 396,
                   },
                 },
+                "i18n": undefined,
                 "minimumTime": 1000,
                 "nameSpan": ParseSourceSpan {
                   "details": null,
@@ -7556,6 +7561,7 @@ describe('parseForESLint()', () => {
                     "offset": 524,
                   },
                 },
+                "i18n": undefined,
                 "nameSpan": ParseSourceSpan {
                   "details": null,
                   "end": ParseLocation {
@@ -7818,6 +7824,7 @@ describe('parseForESLint()', () => {
                   },
                 },
               },
+              "i18n": undefined,
               "loading": null,
               "loc": Object {
                 "end": Object {
