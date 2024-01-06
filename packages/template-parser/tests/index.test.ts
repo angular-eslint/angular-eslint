@@ -1567,7 +1567,9 @@ describe('parseForESLint()', () => {
                 },
               },
               "placeholder": null,
-              "prefetchTriggers": Object {},
+              "prefetchTriggers": Object {
+                "type": "Object",
+              },
               "sourceSpan": ParseSourceSpan {
                 "details": null,
                 "end": ParseLocation {
@@ -1743,7 +1745,18 @@ describe('parseForESLint()', () => {
                 },
               },
               "triggers": Object {
+                "type": "Object",
                 "when": BoundDeferredTrigger {
+                  "loc": Object {
+                    "end": Object {
+                      "column": 28,
+                      "line": 2,
+                    },
+                    "start": Object {
+                      "column": 18,
+                      "line": 2,
+                    },
+                  },
                   "nameSpan": null,
                   "prefetchSpan": null,
                   "sourceSpan": ParseSourceSpan {
@@ -1833,14 +1846,35 @@ describe('parseForESLint()', () => {
                       "offset": 19,
                     },
                   },
+                  "type": "BoundDeferredTrigger",
                   "value": ASTWithSource {
                     "ast": PropertyRead {
+                      "loc": Object {
+                        "end": Object {
+                          "column": undefined,
+                          "line": NaN,
+                        },
+                        "start": Object {
+                          "column": undefined,
+                          "line": NaN,
+                        },
+                      },
                       "name": "title",
                       "nameSpan": AbsoluteSourceSpan {
                         "end": 29,
                         "start": 24,
                       },
                       "receiver": ImplicitReceiver {
+                        "loc": Object {
+                          "end": Object {
+                            "column": undefined,
+                            "line": NaN,
+                          },
+                          "start": Object {
+                            "column": undefined,
+                            "line": NaN,
+                          },
+                        },
                         "sourceSpan": AbsoluteSourceSpan {
                           "end": 24,
                           "start": 24,
@@ -1849,6 +1883,7 @@ describe('parseForESLint()', () => {
                           "end": 0,
                           "start": 0,
                         },
+                        "type": "ImplicitReceiver",
                       },
                       "sourceSpan": AbsoluteSourceSpan {
                         "end": 29,
@@ -1858,8 +1893,19 @@ describe('parseForESLint()', () => {
                         "end": 5,
                         "start": 0,
                       },
+                      "type": "PropertyRead",
                     },
                     "errors": Array [],
+                    "loc": Object {
+                      "end": Object {
+                        "column": undefined,
+                        "line": NaN,
+                      },
+                      "start": Object {
+                        "column": undefined,
+                        "line": NaN,
+                      },
+                    },
                     "location": "./foo.html@1:18",
                     "source": "title",
                     "sourceSpan": AbsoluteSourceSpan {
@@ -1870,6 +1916,7 @@ describe('parseForESLint()', () => {
                       "end": 5,
                       "start": 0,
                     },
+                    "type": "ASTWithSource",
                   },
                   "whenOrOnSourceSpan": ParseSourceSpan {
                     "details": null,
@@ -2730,6 +2777,16 @@ describe('parseForESLint()', () => {
               "placeholder": DeferredBlockPlaceholder {
                 "children": Array [
                   Text$3 {
+                    "loc": Object {
+                      "end": Object {
+                        "column": 12,
+                        "line": 8,
+                      },
+                      "start": Object {
+                        "column": 12,
+                        "line": 8,
+                      },
+                    },
                     "sourceSpan": ParseSourceSpan {
                       "details": null,
                       "end": ParseLocation {
@@ -2817,6 +2874,7 @@ describe('parseForESLint()', () => {
                         "offset": 192,
                       },
                     },
+                    "type": "Text$3",
                     "value": "
                     ",
                   },
@@ -2824,6 +2882,16 @@ describe('parseForESLint()', () => {
                     "attributes": Array [],
                     "children": Array [
                       Text$3 {
+                        "loc": Object {
+                          "end": Object {
+                            "column": 34,
+                            "line": 8,
+                          },
+                          "start": Object {
+                            "column": 15,
+                            "line": 8,
+                          },
+                        },
                         "sourceSpan": ParseSourceSpan {
                           "details": null,
                           "end": ParseLocation {
@@ -2911,6 +2979,7 @@ describe('parseForESLint()', () => {
                             "offset": 195,
                           },
                         },
+                        "type": "Text$3",
                         "value": "Placeholder content",
                       },
                     ],
@@ -3003,6 +3072,16 @@ describe('parseForESLint()', () => {
                     },
                     "i18n": undefined,
                     "inputs": Array [],
+                    "loc": Object {
+                      "end": Object {
+                        "column": 38,
+                        "line": 8,
+                      },
+                      "start": Object {
+                        "column": 12,
+                        "line": 8,
+                      },
+                    },
                     "name": "p",
                     "outputs": Array [],
                     "references": Array [],
@@ -3180,8 +3259,19 @@ describe('parseForESLint()', () => {
                         "offset": 192,
                       },
                     },
+                    "type": "Element$1",
                   },
                   Text$3 {
+                    "loc": Object {
+                      "end": Object {
+                        "column": 10,
+                        "line": 9,
+                      },
+                      "start": Object {
+                        "column": 10,
+                        "line": 9,
+                      },
+                    },
                     "sourceSpan": ParseSourceSpan {
                       "details": null,
                       "end": ParseLocation {
@@ -3269,6 +3359,7 @@ describe('parseForESLint()', () => {
                         "offset": 229,
                       },
                     },
+                    "type": "Text$3",
                     "value": "
                   ",
                   },
@@ -3358,6 +3449,16 @@ describe('parseForESLint()', () => {
                     },
                     "line": 8,
                     "offset": 229,
+                  },
+                },
+                "loc": Object {
+                  "end": Object {
+                    "column": 11,
+                    "line": 9,
+                  },
+                  "start": Object {
+                    "column": 12,
+                    "line": 7,
                   },
                 },
                 "minimumTime": 500,
@@ -3622,8 +3723,11 @@ describe('parseForESLint()', () => {
                     "offset": 149,
                   },
                 },
+                "type": "DeferredBlockPlaceholder",
               },
-              "prefetchTriggers": Object {},
+              "prefetchTriggers": Object {
+                "type": "Object",
+              },
               "sourceSpan": ParseSourceSpan {
                 "details": null,
                 "end": ParseLocation {
@@ -4063,6 +4167,7 @@ describe('parseForESLint()', () => {
                     },
                   },
                 },
+                "type": "Object",
               },
               "type": "DeferredBlock",
             },
@@ -4648,6 +4753,16 @@ describe('parseForESLint()', () => {
                 "afterTime": 100,
                 "children": Array [
                   Text$3 {
+                    "loc": Object {
+                      "end": Object {
+                        "column": 12,
+                        "line": 13,
+                      },
+                      "start": Object {
+                        "column": 12,
+                        "line": 13,
+                      },
+                    },
                     "sourceSpan": ParseSourceSpan {
                       "details": null,
                       "end": ParseLocation {
@@ -4735,6 +4850,7 @@ describe('parseForESLint()', () => {
                         "offset": 343,
                       },
                     },
+                    "type": "Text$3",
                     "value": "
                     ",
                   },
@@ -4829,6 +4945,16 @@ describe('parseForESLint()', () => {
                             "offset": 348,
                           },
                         },
+                        "loc": Object {
+                          "end": Object {
+                            "column": 33,
+                            "line": 13,
+                          },
+                          "start": Object {
+                            "column": 17,
+                            "line": 13,
+                          },
+                        },
                         "name": "alt",
                         "sourceSpan": ParseSourceSpan {
                           "details": null,
@@ -4917,6 +5043,7 @@ describe('parseForESLint()', () => {
                             "offset": 348,
                           },
                         },
+                        "type": "TextAttribute",
                         "value": "loading...",
                         "valueSpan": ParseSourceSpan {
                           "details": null,
@@ -5095,6 +5222,16 @@ describe('parseForESLint()', () => {
                             "offset": 365,
                           },
                         },
+                        "loc": Object {
+                          "end": Object {
+                            "column": 51,
+                            "line": 13,
+                          },
+                          "start": Object {
+                            "column": 34,
+                            "line": 13,
+                          },
+                        },
                         "name": "src",
                         "sourceSpan": ParseSourceSpan {
                           "details": null,
@@ -5183,6 +5320,7 @@ describe('parseForESLint()', () => {
                             "offset": 365,
                           },
                         },
+                        "type": "TextAttribute",
                         "value": "loading.gif",
                         "valueSpan": ParseSourceSpan {
                           "details": null,
@@ -5363,6 +5501,16 @@ describe('parseForESLint()', () => {
                     },
                     "i18n": undefined,
                     "inputs": Array [],
+                    "loc": Object {
+                      "end": Object {
+                        "column": 54,
+                        "line": 13,
+                      },
+                      "start": Object {
+                        "column": 12,
+                        "line": 13,
+                      },
+                    },
                     "name": "img",
                     "outputs": Array [],
                     "references": Array [],
@@ -5540,8 +5688,19 @@ describe('parseForESLint()', () => {
                         "offset": 343,
                       },
                     },
+                    "type": "Element$1",
                   },
                   Text$3 {
+                    "loc": Object {
+                      "end": Object {
+                        "column": 10,
+                        "line": 14,
+                      },
+                      "start": Object {
+                        "column": 10,
+                        "line": 14,
+                      },
+                    },
                     "sourceSpan": ParseSourceSpan {
                       "details": null,
                       "end": ParseLocation {
@@ -5629,6 +5788,7 @@ describe('parseForESLint()', () => {
                         "offset": 396,
                       },
                     },
+                    "type": "Text$3",
                     "value": "
                   ",
                   },
@@ -5718,6 +5878,16 @@ describe('parseForESLint()', () => {
                     },
                     "line": 13,
                     "offset": 396,
+                  },
+                },
+                "loc": Object {
+                  "end": Object {
+                    "column": 11,
+                    "line": 14,
+                  },
+                  "start": Object {
+                    "column": 12,
+                    "line": 12,
                   },
                 },
                 "minimumTime": 1000,
@@ -5982,6 +6152,7 @@ describe('parseForESLint()', () => {
                     "offset": 294,
                   },
                 },
+                "type": "DeferredBlockLoading",
               },
               "loc": Object {
                 "end": Object {
@@ -6168,7 +6339,9 @@ describe('parseForESLint()', () => {
                 },
               },
               "placeholder": null,
-              "prefetchTriggers": Object {},
+              "prefetchTriggers": Object {
+                "type": "Object",
+              },
               "sourceSpan": ParseSourceSpan {
                 "details": null,
                 "end": ParseLocation {
@@ -6343,7 +6516,9 @@ describe('parseForESLint()', () => {
                   "offset": 241,
                 },
               },
-              "triggers": Object {},
+              "triggers": Object {
+                "type": "Object",
+              },
               "type": "DeferredBlock",
             },
             DeferredBlock {
@@ -6926,6 +7101,16 @@ describe('parseForESLint()', () => {
               "error": DeferredBlockError {
                 "children": Array [
                   Text$3 {
+                    "loc": Object {
+                      "end": Object {
+                        "column": 12,
+                        "line": 18,
+                      },
+                      "start": Object {
+                        "column": 12,
+                        "line": 18,
+                      },
+                    },
                     "sourceSpan": ParseSourceSpan {
                       "details": null,
                       "end": ParseLocation {
@@ -7013,6 +7198,7 @@ describe('parseForESLint()', () => {
                         "offset": 479,
                       },
                     },
+                    "type": "Text$3",
                     "value": "
                     ",
                   },
@@ -7020,6 +7206,16 @@ describe('parseForESLint()', () => {
                     "attributes": Array [],
                     "children": Array [
                       Text$3 {
+                        "loc": Object {
+                          "end": Object {
+                            "column": 42,
+                            "line": 18,
+                          },
+                          "start": Object {
+                            "column": 15,
+                            "line": 18,
+                          },
+                        },
                         "sourceSpan": ParseSourceSpan {
                           "details": null,
                           "end": ParseLocation {
@@ -7107,6 +7303,7 @@ describe('parseForESLint()', () => {
                             "offset": 482,
                           },
                         },
+                        "type": "Text$3",
                         "value": "Failed to load the calendar",
                       },
                     ],
@@ -7199,6 +7396,16 @@ describe('parseForESLint()', () => {
                     },
                     "i18n": undefined,
                     "inputs": Array [],
+                    "loc": Object {
+                      "end": Object {
+                        "column": 46,
+                        "line": 18,
+                      },
+                      "start": Object {
+                        "column": 12,
+                        "line": 18,
+                      },
+                    },
                     "name": "p",
                     "outputs": Array [],
                     "references": Array [],
@@ -7376,8 +7583,19 @@ describe('parseForESLint()', () => {
                         "offset": 479,
                       },
                     },
+                    "type": "Element$1",
                   },
                   Text$3 {
+                    "loc": Object {
+                      "end": Object {
+                        "column": 10,
+                        "line": 19,
+                      },
+                      "start": Object {
+                        "column": 10,
+                        "line": 19,
+                      },
+                    },
                     "sourceSpan": ParseSourceSpan {
                       "details": null,
                       "end": ParseLocation {
@@ -7465,6 +7683,7 @@ describe('parseForESLint()', () => {
                         "offset": 524,
                       },
                     },
+                    "type": "Text$3",
                     "value": "
                   ",
                   },
@@ -7554,6 +7773,16 @@ describe('parseForESLint()', () => {
                     },
                     "line": 18,
                     "offset": 524,
+                  },
+                },
+                "loc": Object {
+                  "end": Object {
+                    "column": 11,
+                    "line": 19,
+                  },
+                  "start": Object {
+                    "column": 12,
+                    "line": 17,
                   },
                 },
                 "nameSpan": ParseSourceSpan {
@@ -7817,6 +8046,7 @@ describe('parseForESLint()', () => {
                     "offset": 458,
                   },
                 },
+                "type": "DeferredBlockError",
               },
               "loading": null,
               "loc": Object {
@@ -8004,7 +8234,9 @@ describe('parseForESLint()', () => {
                 },
               },
               "placeholder": null,
-              "prefetchTriggers": Object {},
+              "prefetchTriggers": Object {
+                "type": "Object",
+              },
               "sourceSpan": ParseSourceSpan {
                 "details": null,
                 "end": ParseLocation {
@@ -8179,7 +8411,9 @@ describe('parseForESLint()', () => {
                   "offset": 408,
                 },
               },
-              "triggers": Object {},
+              "triggers": Object {
+                "type": "Object",
+              },
               "type": "DeferredBlock",
             },
           ],
