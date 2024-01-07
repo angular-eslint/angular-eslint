@@ -49,11 +49,25 @@ const KEYS: VisitorKeys = {
   PropertyRead: ['receiver'],
   Template: ['templateAttrs', 'children', 'inputs'],
   BindingPipe: ['exp'],
-  DeferredBlock: ['children', 'placeholder', 'loading', 'error'],
+  DeferredBlock: [
+    'children',
+    'placeholder',
+    'loading',
+    'error',
+    'triggers',
+    'prefetchTriggers',
+  ],
   DeferredBlockLoading: ['children'],
   DeferredBlockError: ['children'],
   DeferredBlockPlaceholder: ['children'],
-  ForLoopBlock: ['children', 'empty'],
+  Object: ['when'],
+  BoundDeferredTrigger: ['value'],
+  IfBlock: ['branches'],
+  IfBlockBranch: ['children', 'expression'],
+  SwitchBlock: ['cases', 'expression'],
+  SwitchBlockCase: ['children', 'expression'],
+  ForLoopBlock: ['children', 'empty', 'expression', 'trackBy'],
+  ForLoopBlockEmpty: ['children'],
 };
 
 function fallbackKeysFilter(this: Node, key: string) {
