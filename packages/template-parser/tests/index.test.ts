@@ -1381,7 +1381,6 @@ describe('parseForESLint()', () => {
                 },
               },
               "error": null,
-              "i18n": undefined,
               "loading": null,
               "loc": Object {
                 "end": Object {
@@ -2590,7 +2589,6 @@ describe('parseForESLint()', () => {
                 },
               },
               "error": null,
-              "i18n": undefined,
               "loading": null,
               "loc": Object {
                 "end": Object {
@@ -3453,7 +3451,6 @@ describe('parseForESLint()', () => {
                     "offset": 229,
                   },
                 },
-                "i18n": undefined,
                 "loc": Object {
                   "end": Object {
                     "column": 11,
@@ -4752,7 +4749,6 @@ describe('parseForESLint()', () => {
                 },
               },
               "error": null,
-              "i18n": undefined,
               "loading": DeferredBlockLoading {
                 "afterTime": 100,
                 "children": Array [
@@ -5884,7 +5880,6 @@ describe('parseForESLint()', () => {
                     "offset": 396,
                   },
                 },
-                "i18n": undefined,
                 "loc": Object {
                   "end": Object {
                     "column": 11,
@@ -7780,7 +7775,6 @@ describe('parseForESLint()', () => {
                     "offset": 524,
                   },
                 },
-                "i18n": undefined,
                 "loc": Object {
                   "end": Object {
                     "column": 11,
@@ -8054,7 +8048,6 @@ describe('parseForESLint()', () => {
                 },
                 "type": "DeferredBlockError",
               },
-              "i18n": undefined,
               "loading": null,
               "loc": Object {
                 "end": Object {
@@ -8833,12 +8826,32 @@ describe('parseForESLint()', () => {
                   "expression": ASTWithSource {
                     "ast": Binary {
                       "left": PropertyRead {
+                        "loc": Object {
+                          "end": Object {
+                            "column": undefined,
+                            "line": NaN,
+                          },
+                          "start": Object {
+                            "column": undefined,
+                            "line": NaN,
+                          },
+                        },
                         "name": "a",
                         "nameSpan": AbsoluteSourceSpan {
                           "end": 17,
                           "start": 16,
                         },
                         "receiver": ImplicitReceiver {
+                          "loc": Object {
+                            "end": Object {
+                              "column": undefined,
+                              "line": NaN,
+                            },
+                            "start": Object {
+                              "column": undefined,
+                              "line": NaN,
+                            },
+                          },
                           "sourceSpan": AbsoluteSourceSpan {
                             "end": 16,
                             "start": 16,
@@ -8847,6 +8860,7 @@ describe('parseForESLint()', () => {
                             "end": 0,
                             "start": 0,
                           },
+                          "type": "ImplicitReceiver",
                         },
                         "sourceSpan": AbsoluteSourceSpan {
                           "end": 17,
@@ -8856,15 +8870,46 @@ describe('parseForESLint()', () => {
                           "end": 1,
                           "start": 0,
                         },
+                        "type": "PropertyRead",
+                      },
+                      "loc": Object {
+                        "end": Object {
+                          "column": undefined,
+                          "line": NaN,
+                        },
+                        "start": Object {
+                          "column": undefined,
+                          "line": NaN,
+                        },
                       },
                       "operation": ">",
                       "right": PropertyRead {
+                        "loc": Object {
+                          "end": Object {
+                            "column": undefined,
+                            "line": NaN,
+                          },
+                          "start": Object {
+                            "column": undefined,
+                            "line": NaN,
+                          },
+                        },
                         "name": "b",
                         "nameSpan": AbsoluteSourceSpan {
                           "end": 21,
                           "start": 20,
                         },
                         "receiver": ImplicitReceiver {
+                          "loc": Object {
+                            "end": Object {
+                              "column": undefined,
+                              "line": NaN,
+                            },
+                            "start": Object {
+                              "column": undefined,
+                              "line": NaN,
+                            },
+                          },
                           "sourceSpan": AbsoluteSourceSpan {
                             "end": 20,
                             "start": 19,
@@ -8873,6 +8918,7 @@ describe('parseForESLint()', () => {
                             "end": 4,
                             "start": 3,
                           },
+                          "type": "ImplicitReceiver",
                         },
                         "sourceSpan": AbsoluteSourceSpan {
                           "end": 21,
@@ -8882,6 +8928,7 @@ describe('parseForESLint()', () => {
                           "end": 5,
                           "start": 4,
                         },
+                        "type": "PropertyRead",
                       },
                       "sourceSpan": AbsoluteSourceSpan {
                         "end": 21,
@@ -8891,8 +8938,19 @@ describe('parseForESLint()', () => {
                         "end": 5,
                         "start": 0,
                       },
+                      "type": "Binary",
                     },
                     "errors": Array [],
+                    "loc": Object {
+                      "end": Object {
+                        "column": undefined,
+                        "line": NaN,
+                      },
+                      "start": Object {
+                        "column": undefined,
+                        "line": NaN,
+                      },
+                    },
                     "location": "./foo.html@1:15",
                     "source": "a > b",
                     "sourceSpan": AbsoluteSourceSpan {
@@ -8903,9 +8961,9 @@ describe('parseForESLint()', () => {
                       "end": 5,
                       "start": 0,
                     },
+                    "type": "ASTWithSource",
                   },
                   "expressionAlias": null,
-                  "i18n": undefined,
                   "loc": Object {
                     "end": Object {
                       "column": 11,
@@ -9358,12 +9416,32 @@ describe('parseForESLint()', () => {
                   "expression": ASTWithSource {
                     "ast": Binary {
                       "left": PropertyRead {
+                        "loc": Object {
+                          "end": Object {
+                            "column": undefined,
+                            "line": NaN,
+                          },
+                          "start": Object {
+                            "column": undefined,
+                            "line": NaN,
+                          },
+                        },
                         "name": "b",
                         "nameSpan": AbsoluteSourceSpan {
                           "end": 88,
                           "start": 87,
                         },
                         "receiver": ImplicitReceiver {
+                          "loc": Object {
+                            "end": Object {
+                              "column": undefined,
+                              "line": NaN,
+                            },
+                            "start": Object {
+                              "column": undefined,
+                              "line": NaN,
+                            },
+                          },
                           "sourceSpan": AbsoluteSourceSpan {
                             "end": 87,
                             "start": 87,
@@ -9372,6 +9450,7 @@ describe('parseForESLint()', () => {
                             "end": 0,
                             "start": 0,
                           },
+                          "type": "ImplicitReceiver",
                         },
                         "sourceSpan": AbsoluteSourceSpan {
                           "end": 88,
@@ -9381,15 +9460,46 @@ describe('parseForESLint()', () => {
                           "end": 1,
                           "start": 0,
                         },
+                        "type": "PropertyRead",
+                      },
+                      "loc": Object {
+                        "end": Object {
+                          "column": undefined,
+                          "line": NaN,
+                        },
+                        "start": Object {
+                          "column": undefined,
+                          "line": NaN,
+                        },
                       },
                       "operation": ">",
                       "right": PropertyRead {
+                        "loc": Object {
+                          "end": Object {
+                            "column": undefined,
+                            "line": NaN,
+                          },
+                          "start": Object {
+                            "column": undefined,
+                            "line": NaN,
+                          },
+                        },
                         "name": "a",
                         "nameSpan": AbsoluteSourceSpan {
                           "end": 92,
                           "start": 91,
                         },
                         "receiver": ImplicitReceiver {
+                          "loc": Object {
+                            "end": Object {
+                              "column": undefined,
+                              "line": NaN,
+                            },
+                            "start": Object {
+                              "column": undefined,
+                              "line": NaN,
+                            },
+                          },
                           "sourceSpan": AbsoluteSourceSpan {
                             "end": 91,
                             "start": 90,
@@ -9398,6 +9508,7 @@ describe('parseForESLint()', () => {
                             "end": 4,
                             "start": 3,
                           },
+                          "type": "ImplicitReceiver",
                         },
                         "sourceSpan": AbsoluteSourceSpan {
                           "end": 92,
@@ -9407,6 +9518,7 @@ describe('parseForESLint()', () => {
                           "end": 5,
                           "start": 4,
                         },
+                        "type": "PropertyRead",
                       },
                       "sourceSpan": AbsoluteSourceSpan {
                         "end": 92,
@@ -9416,8 +9528,19 @@ describe('parseForESLint()', () => {
                         "end": 5,
                         "start": 0,
                       },
+                      "type": "Binary",
                     },
                     "errors": Array [],
+                    "loc": Object {
+                      "end": Object {
+                        "column": undefined,
+                        "line": NaN,
+                      },
+                      "start": Object {
+                        "column": undefined,
+                        "line": NaN,
+                      },
+                    },
                     "location": "./foo.html@3:22",
                     "source": "b > a",
                     "sourceSpan": AbsoluteSourceSpan {
@@ -9428,9 +9551,9 @@ describe('parseForESLint()', () => {
                       "end": 5,
                       "start": 0,
                     },
+                    "type": "ASTWithSource",
                   },
                   "expressionAlias": null,
-                  "i18n": undefined,
                   "loc": Object {
                     "end": Object {
                       "column": 11,
@@ -9882,7 +10005,6 @@ describe('parseForESLint()', () => {
                   },
                   "expression": null,
                   "expressionAlias": null,
-                  "i18n": undefined,
                   "loc": Object {
                     "end": Object {
                       "column": 11,
@@ -11313,7 +11435,6 @@ describe('parseForESLint()', () => {
                     "offset": 141,
                   },
                 },
-                "i18n": undefined,
                 "loc": Object {
                   "end": Object {
                     "column": 11,
@@ -11520,12 +11641,32 @@ describe('parseForESLint()', () => {
               },
               "expression": ASTWithSource {
                 "ast": PropertyRead {
+                  "loc": Object {
+                    "end": Object {
+                      "column": undefined,
+                      "line": NaN,
+                    },
+                    "start": Object {
+                      "column": undefined,
+                      "line": NaN,
+                    },
+                  },
                   "name": "items",
                   "nameSpan": AbsoluteSourceSpan {
                     "end": 30,
                     "start": 25,
                   },
                   "receiver": ImplicitReceiver {
+                    "loc": Object {
+                      "end": Object {
+                        "column": undefined,
+                        "line": NaN,
+                      },
+                      "start": Object {
+                        "column": undefined,
+                        "line": NaN,
+                      },
+                    },
                     "sourceSpan": AbsoluteSourceSpan {
                       "end": 25,
                       "start": 25,
@@ -11534,6 +11675,7 @@ describe('parseForESLint()', () => {
                       "end": 0,
                       "start": 0,
                     },
+                    "type": "ImplicitReceiver",
                   },
                   "sourceSpan": AbsoluteSourceSpan {
                     "end": 30,
@@ -11543,8 +11685,19 @@ describe('parseForESLint()', () => {
                     "end": 5,
                     "start": 0,
                   },
+                  "type": "PropertyRead",
                 },
                 "errors": Array [],
+                "loc": Object {
+                  "end": Object {
+                    "column": undefined,
+                    "line": NaN,
+                  },
+                  "start": Object {
+                    "column": undefined,
+                    "line": NaN,
+                  },
+                },
                 "location": "./foo.html@1:16",
                 "source": "items",
                 "sourceSpan": AbsoluteSourceSpan {
@@ -11555,8 +11708,8 @@ describe('parseForESLint()', () => {
                   "end": 5,
                   "start": 0,
                 },
+                "type": "ASTWithSource",
               },
-              "i18n": undefined,
               "item": Variable {
                 "keySpan": ParseSourceSpan {
                   "details": null,
@@ -11862,18 +12015,48 @@ describe('parseForESLint()', () => {
               },
               "trackBy": ASTWithSource {
                 "ast": PropertyRead {
+                  "loc": Object {
+                    "end": Object {
+                      "column": undefined,
+                      "line": NaN,
+                    },
+                    "start": Object {
+                      "column": undefined,
+                      "line": NaN,
+                    },
+                  },
                   "name": "id",
                   "nameSpan": AbsoluteSourceSpan {
                     "end": 45,
                     "start": 43,
                   },
                   "receiver": PropertyRead {
+                    "loc": Object {
+                      "end": Object {
+                        "column": undefined,
+                        "line": NaN,
+                      },
+                      "start": Object {
+                        "column": undefined,
+                        "line": NaN,
+                      },
+                    },
                     "name": "item",
                     "nameSpan": AbsoluteSourceSpan {
                       "end": 42,
                       "start": 38,
                     },
                     "receiver": ImplicitReceiver {
+                      "loc": Object {
+                        "end": Object {
+                          "column": undefined,
+                          "line": NaN,
+                        },
+                        "start": Object {
+                          "column": undefined,
+                          "line": NaN,
+                        },
+                      },
                       "sourceSpan": AbsoluteSourceSpan {
                         "end": 38,
                         "start": 38,
@@ -11882,6 +12065,7 @@ describe('parseForESLint()', () => {
                         "end": 0,
                         "start": 0,
                       },
+                      "type": "ImplicitReceiver",
                     },
                     "sourceSpan": AbsoluteSourceSpan {
                       "end": 42,
@@ -11891,6 +12075,7 @@ describe('parseForESLint()', () => {
                       "end": 4,
                       "start": 0,
                     },
+                    "type": "PropertyRead",
                   },
                   "sourceSpan": AbsoluteSourceSpan {
                     "end": 45,
@@ -11900,8 +12085,19 @@ describe('parseForESLint()', () => {
                     "end": 7,
                     "start": 0,
                   },
+                  "type": "PropertyRead",
                 },
                 "errors": Array [],
+                "loc": Object {
+                  "end": Object {
+                    "column": undefined,
+                    "line": NaN,
+                  },
+                  "start": Object {
+                    "column": undefined,
+                    "line": NaN,
+                  },
+                },
                 "location": "./foo.html@1:31",
                 "source": "item.id",
                 "sourceSpan": AbsoluteSourceSpan {
@@ -11912,6 +12108,7 @@ describe('parseForESLint()', () => {
                   "end": 7,
                   "start": 0,
                 },
+                "type": "ASTWithSource",
               },
               "trackKeywordSpan": ParseSourceSpan {
                 "details": null,
@@ -12630,12 +12827,32 @@ describe('parseForESLint()', () => {
                   },
                   "expression": ASTWithSource {
                     "ast": PropertyRead {
+                      "loc": Object {
+                        "end": Object {
+                          "column": undefined,
+                          "line": NaN,
+                        },
+                        "start": Object {
+                          "column": undefined,
+                          "line": NaN,
+                        },
+                      },
                       "name": "caseA",
                       "nameSpan": AbsoluteSourceSpan {
                         "end": 57,
                         "start": 52,
                       },
                       "receiver": ImplicitReceiver {
+                        "loc": Object {
+                          "end": Object {
+                            "column": undefined,
+                            "line": NaN,
+                          },
+                          "start": Object {
+                            "column": undefined,
+                            "line": NaN,
+                          },
+                        },
                         "sourceSpan": AbsoluteSourceSpan {
                           "end": 52,
                           "start": 52,
@@ -12644,6 +12861,7 @@ describe('parseForESLint()', () => {
                           "end": 0,
                           "start": 0,
                         },
+                        "type": "ImplicitReceiver",
                       },
                       "sourceSpan": AbsoluteSourceSpan {
                         "end": 57,
@@ -12653,8 +12871,19 @@ describe('parseForESLint()', () => {
                         "end": 5,
                         "start": 0,
                       },
+                      "type": "PropertyRead",
                     },
                     "errors": Array [],
+                    "loc": Object {
+                      "end": Object {
+                        "column": undefined,
+                        "line": NaN,
+                      },
+                      "start": Object {
+                        "column": undefined,
+                        "line": NaN,
+                      },
+                    },
                     "location": "./foo.html@2:19",
                     "source": "caseA",
                     "sourceSpan": AbsoluteSourceSpan {
@@ -12665,8 +12894,8 @@ describe('parseForESLint()', () => {
                       "end": 5,
                       "start": 0,
                     },
+                    "type": "ASTWithSource",
                   },
-                  "i18n": undefined,
                   "loc": Object {
                     "end": Object {
                       "column": 13,
@@ -13409,12 +13638,32 @@ describe('parseForESLint()', () => {
                   },
                   "expression": ASTWithSource {
                     "ast": PropertyRead {
+                      "loc": Object {
+                        "end": Object {
+                          "column": undefined,
+                          "line": NaN,
+                        },
+                        "start": Object {
+                          "column": undefined,
+                          "line": NaN,
+                        },
+                      },
                       "name": "caseB",
                       "nameSpan": AbsoluteSourceSpan {
                         "end": 134,
                         "start": 129,
                       },
                       "receiver": ImplicitReceiver {
+                        "loc": Object {
+                          "end": Object {
+                            "column": undefined,
+                            "line": NaN,
+                          },
+                          "start": Object {
+                            "column": undefined,
+                            "line": NaN,
+                          },
+                        },
                         "sourceSpan": AbsoluteSourceSpan {
                           "end": 129,
                           "start": 129,
@@ -13423,6 +13672,7 @@ describe('parseForESLint()', () => {
                           "end": 0,
                           "start": 0,
                         },
+                        "type": "ImplicitReceiver",
                       },
                       "sourceSpan": AbsoluteSourceSpan {
                         "end": 134,
@@ -13432,8 +13682,19 @@ describe('parseForESLint()', () => {
                         "end": 5,
                         "start": 0,
                       },
+                      "type": "PropertyRead",
                     },
                     "errors": Array [],
+                    "loc": Object {
+                      "end": Object {
+                        "column": undefined,
+                        "line": NaN,
+                      },
+                      "start": Object {
+                        "column": undefined,
+                        "line": NaN,
+                      },
+                    },
                     "location": "./foo.html@5:19",
                     "source": "caseB",
                     "sourceSpan": AbsoluteSourceSpan {
@@ -13444,8 +13705,8 @@ describe('parseForESLint()', () => {
                       "end": 5,
                       "start": 0,
                     },
+                    "type": "ASTWithSource",
                   },
-                  "i18n": undefined,
                   "loc": Object {
                     "end": Object {
                       "column": 13,
@@ -14187,7 +14448,6 @@ describe('parseForESLint()', () => {
                     },
                   },
                   "expression": null,
-                  "i18n": undefined,
                   "loc": Object {
                     "end": Object {
                       "column": 13,
@@ -14467,12 +14727,32 @@ describe('parseForESLint()', () => {
               },
               "expression": ASTWithSource {
                 "ast": PropertyRead {
+                  "loc": Object {
+                    "end": Object {
+                      "column": undefined,
+                      "line": NaN,
+                    },
+                    "start": Object {
+                      "column": undefined,
+                      "line": NaN,
+                    },
+                  },
                   "name": "condition",
                   "nameSpan": AbsoluteSourceSpan {
                     "end": 29,
                     "start": 20,
                   },
                   "receiver": ImplicitReceiver {
+                    "loc": Object {
+                      "end": Object {
+                        "column": undefined,
+                        "line": NaN,
+                      },
+                      "start": Object {
+                        "column": undefined,
+                        "line": NaN,
+                      },
+                    },
                     "sourceSpan": AbsoluteSourceSpan {
                       "end": 20,
                       "start": 20,
@@ -14481,6 +14761,7 @@ describe('parseForESLint()', () => {
                       "end": 0,
                       "start": 0,
                     },
+                    "type": "ImplicitReceiver",
                   },
                   "sourceSpan": AbsoluteSourceSpan {
                     "end": 29,
@@ -14490,8 +14771,19 @@ describe('parseForESLint()', () => {
                     "end": 9,
                     "start": 0,
                   },
+                  "type": "PropertyRead",
                 },
                 "errors": Array [],
+                "loc": Object {
+                  "end": Object {
+                    "column": undefined,
+                    "line": NaN,
+                  },
+                  "start": Object {
+                    "column": undefined,
+                    "line": NaN,
+                  },
+                },
                 "location": "./foo.html@1:19",
                 "source": "condition",
                 "sourceSpan": AbsoluteSourceSpan {
@@ -14502,6 +14794,7 @@ describe('parseForESLint()', () => {
                   "end": 9,
                   "start": 0,
                 },
+                "type": "ASTWithSource",
               },
               "loc": Object {
                 "end": Object {
