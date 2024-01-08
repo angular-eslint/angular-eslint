@@ -232,7 +232,7 @@ export default createESLintRule<Options, MessageIds>({
       node: StronglyTypedI18n<TmplAstNode> | StronglyTypedBoundTextOrIcuOrText,
     ): AST | undefined {
       const parent = node.parent;
-      if (parent && !isElement(parent) && !isTemplate(parent)) {
+      if (parent && !isElement(parent) && !isNgTemplate(parent)) {
         return getNextElementOrTemplateParent(
           parent as unknown as StronglyTypedI18n<TmplAstNode>,
         );
@@ -249,7 +249,7 @@ export default createESLintRule<Options, MessageIds>({
       if (
         isTagAllowed(allowedTags, node) ||
         isElementWithI18n(parent) ||
-        isTemplateWithI18n(parent)
+        isNgTemplateWithI18n(parent)
       ) {
         return;
       }
@@ -358,7 +358,7 @@ export default createESLintRule<Options, MessageIds>({
       if (
         (isBoundText(node) &&
           isBoundTextAllowed(allowedBoundTextPattern, node)) ||
-        ((isElement(parent) || isTemplate(parent)) &&
+        ((isElement(parent) || isNgTemplate(parent)) &&
           (parent.i18n || isTagAllowed(allowedTags, parent)))
       ) {
         return;
@@ -371,7 +371,7 @@ export default createESLintRule<Options, MessageIds>({
         messageId: 'i18nAttributeOnIcuOrText',
         loc,
         ...(parent?.children?.filter(
-          (child) => isElement(child) || isTemplate(child),
+          (child) => isElement(child) || isNgTemplate(child),
         ).length
           ? { suggest: [{ messageId: 'suggestAddI18nAttribute', fix }] }
           : { fix }),
@@ -465,11 +465,11 @@ function getFixForIcuOrText(
   loc: TSESTree.SourceLocation,
   parent?: AST,
 ) {
-  if (!isElement(parent) && !isTemplate(parent)) {
+  if (!isElement(parent) && !isNgTemplate(parent)) {
     return getFixForIcuOrTextWithoutParent(sourceCode, fixer, loc);
   }
 
-  if (getNearestNodeFrom(parent, isElementOrTemplateWithI18n)) {
+  if (getNearestNodeFrom(parent, isElementOrNgTemplateWithI18n)) {
     return [];
   }
 
@@ -542,18 +542,18 @@ function isBoundTextAllowed(
   return !PL_PATTERN.test(text) || allowedBoundTextPattern.test(text);
 }
 
-function isTemplate(ast: unknown): ast is TmplAstTemplate {
-  return ast instanceof TmplAstTemplate;
+function isNgTemplate(ast: unknown): ast is TmplAstTemplate {
+  return ast instanceof TmplAstTemplate && ast.tagName === 'ng-template';
 }
 
-function isTemplateWithI18n(ast: unknown): ast is StronglyTypedTemplate {
-  return Boolean(isTemplate(ast) && ast.i18n);
+function isNgTemplateWithI18n(ast: unknown): ast is StronglyTypedTemplate {
+  return Boolean(isNgTemplate(ast) && ast.i18n);
 }
 
-function isElementOrTemplateWithI18n(
+function isElementOrNgTemplateWithI18n(
   ast: unknown,
 ): ast is StronglyTypedElement | StronglyTypedTemplate {
-  return isElementWithI18n(ast) || isTemplateWithI18n(ast);
+  return isElementWithI18n(ast) || isNgTemplateWithI18n(ast);
 }
 
 function getTagName(node: unknown) {
@@ -561,7 +561,7 @@ function getTagName(node: unknown) {
     return node.name;
   }
 
-  if (isTemplate(node)) {
+  if (isNgTemplate(node)) {
     return node.tagName;
   }
 
