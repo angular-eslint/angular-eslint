@@ -22,6 +22,9 @@ import directiveClassSuffix, {
 import directiveSelector, {
   RULE_NAME as directiveSelectorRuleName,
 } from './rules/directive-selector';
+import noAsyncLifecycleMethod, {
+  RULE_NAME as noAsyncLifecycleMethodRuleName,
+} from './rules/no-async-lifecycle-method';
 import noAttributeDecorator, {
   RULE_NAME as noAttributeDecoratorRuleName,
 } from './rules/no-attribute-decorator';
@@ -120,6 +123,7 @@ export = {
     [contextualLifecycleRuleName]: contextualLifecycle,
     [directiveClassSuffixRuleName]: directiveClassSuffix,
     [directiveSelectorRuleName]: directiveSelector,
+    [noAsyncLifecycleMethodRuleName]: noAsyncLifecycleMethod,
     [noAttributeDecoratorRuleName]: noAttributeDecorator,
     [noConflictingLifecycleRuleName]: noConflictingLifecycle,
     [noEmptyLifecycleMethodRuleName]: noEmptyLifecycleMethod,

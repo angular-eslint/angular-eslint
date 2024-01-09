@@ -22,6 +22,39 @@ export const valid = [
       },
     ],
   },
+  `
+  @if (condition) {
+    <div></div>
+  } @else if (otherCondition) {
+    <div></div>
+  } @else {
+    <div></div>
+  }`,
+  `
+  @switch (condition) { 
+    @case(value) {
+      <div></div>
+    } 
+    @default {
+      <div></div>
+    } 
+  }`,
+  `
+  @for (item of list; track item.id)) {
+    <div></div>
+  } @empty {
+    <div></div>
+  }`,
+  `
+  @defer (on viewport(ref); prefetch on viewport(ref)) {
+    <div></div>
+  } @error {
+    <div></div>
+  } @loading {
+    <div></div>
+  } @placeholder {
+    <div></div>
+  }`,
 ];
 
 export const invalid = [
@@ -94,6 +127,95 @@ export const invalid = [
       { char: '^', messageId },
       { char: '#', messageId },
       { char: '%', messageId },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail for calls in @if',
+    annotatedSource: `
+    @if (foo()) {
+         ~~~~~
+      <div [id]="foo()"></div>
+                 ^^^^^
+    } @else if (foo()) {
+                #####
+      <div [id]="foo()"></div>
+                 %%%%%
+    } @else {
+      <div [id]="foo()"></div>
+                 ¶¶¶¶¶
+    }`,
+    messages: [
+      { char: '~', messageId },
+      { char: '^', messageId },
+      { char: '#', messageId },
+      { char: '%', messageId },
+      { char: '¶', messageId },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail for calls in @switch',
+    annotatedSource: `
+    @switch (foo()) {
+             ~~~~~
+      @case(foo()) {
+            ^^^^^
+        <div [id]="foo()"></div>
+                   #####
+      } 
+      @default {
+        <div [id]="foo()"></div>
+                   %%%%%
+      } 
+    }`,
+    messages: [
+      { char: '~', messageId },
+      { char: '^', messageId },
+      { char: '#', messageId },
+      { char: '%', messageId },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail for calls in @for',
+    annotatedSource: `
+    @for (item of getFooList(); track item.getId()) {
+                  ~~~~~~~~~~~~        ^^^^^^^^^^^^
+      <div [id]="foo()"></div>
+                 #####
+    } @empty {
+      <div [id]="foo()"></div>
+                 %%%%%
+    }`,
+    messages: [
+      { char: '~', messageId },
+      { char: '^', messageId },
+      { char: '#', messageId },
+      { char: '%', messageId },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail for calls in @defer',
+    annotatedSource: `
+    @defer (when foo(); prefetch when foo()) {
+                 ~~~~~                ^^^^^
+      <div [id]="foo()"></div>
+                 #####
+    } @error {
+      <div [id]="foo()"></div>
+                 %%%%%
+    } @loading {
+      <div [id]="foo()"></div>
+                 ¶¶¶¶¶
+    } @placeholder {
+      <div [id]="foo()"></div>
+                 *****
+    }`,
+    messages: [
+      { char: '~', messageId },
+      { char: '^', messageId },
+      { char: '#', messageId },
+      { char: '%', messageId },
+      { char: '¶', messageId },
+      { char: '*', messageId },
     ],
   }),
 ];

@@ -212,6 +212,152 @@ interface Options {
            ~~~~~~~~~~~~~~~~~~~~~
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-call-expression": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@if (foo()) {
+     ~~~~~
+  <div [id]="foo()"></div>
+             ~~~~~
+} @else if (foo()) {
+            ~~~~~
+  <div [id]="foo()"></div>
+             ~~~~~
+} @else {
+  <div [id]="foo()"></div>
+             ~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-call-expression": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@switch (foo()) {
+         ~~~~~
+  @case(foo()) {
+        ~~~~~
+    <div [id]="foo()"></div>
+               ~~~~~
+  }
+  @default {
+    <div [id]="foo()"></div>
+               ~~~~~
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-call-expression": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of getFooList(); track item.getId()) {
+              ~~~~~~~~~~~~        ~~~~~~~~~~~~
+  <div [id]="foo()"></div>
+             ~~~~~
+} @empty {
+  <div [id]="foo()"></div>
+             ~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-call-expression": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@defer (when foo(); prefetch when foo()) {
+             ~~~~~                ~~~~~
+  <div [id]="foo()"></div>
+             ~~~~~
+} @error {
+  <div [id]="foo()"></div>
+             ~~~~~
+} @loading {
+  <div [id]="foo()"></div>
+             ~~~~~
+} @placeholder {
+  <div [id]="foo()"></div>
+             ~~~~~
+}
+```
+
 </details>
 
 <br>
@@ -432,6 +578,135 @@ interface Options {
 ```html
 {{ obj?.nested() }} {{ obj!.nested() }}
 <a [href]="getHref()">info</a>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-call-expression": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+@if (condition) {
+  <div></div>
+} @else if (otherCondition) {
+  <div></div>
+} @else {
+  <div></div>
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-call-expression": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+@switch (condition) {
+  @case(value) {
+    <div></div>
+  }
+  @default {
+    <div></div>
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-call-expression": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+@for (item of list; track item.id)) {
+  <div></div>
+} @empty {
+  <div></div>
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-call-expression": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+@defer (on viewport(ref); prefetch on viewport(ref)) {
+  <div></div>
+} @error {
+  <div></div>
+} @loading {
+  <div></div>
+} @placeholder {
+  <div></div>
+}
 ```
 
 </details>

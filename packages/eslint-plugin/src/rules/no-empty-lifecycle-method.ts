@@ -32,12 +32,23 @@ export default createESLintRule<Options, MessageIds>({
   defaultOptions: [],
   create(context) {
     const sourceCode = context.getSourceCode();
+
+    const angularDecoratorsPattern = toPattern([
+      'Component',
+      'Directive',
+      'Injectable',
+      'NgModule',
+      'Pipe',
+    ]);
+
     const angularLifecycleMethodsPattern = toPattern([
       ...ASTUtils.ANGULAR_LIFECYCLE_METHODS,
     ]);
 
     return {
-      [`ClassDeclaration:has(Decorator[expression.callee.name=/^(Component|Directive|Injectable|NgModule|Pipe)$/]) > ClassBody > ${Selectors.methodDefinition(
+      [`${Selectors.decoratorDefinition(
+        angularDecoratorsPattern,
+      )} > ClassBody > ${Selectors.methodDefinition(
         angularLifecycleMethodsPattern,
       )}[value.body.body.length=0]`](
         node: TSESTree.MethodDefinition & {
