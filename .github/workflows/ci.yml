@@ -51,9 +51,6 @@ jobs:
           yarn --ignore-engines --frozen-lockfile --prefer-offline --ignore-scripts
           yarn check-clean-workspace-after-install
 
-      - name: Check code formatting (not distributable)
-        run: NX_CLOUD_DISTRIBUTED_EXECUTION=false yarn format-check
-
       - name: Run parallel distributed tasks for build, typecheck, check-rule-docs, lint and test targets
         uses: jameshenry/parallel-bash-commands@v1
         with:
@@ -64,6 +61,7 @@ jobs:
           cmd3: yarn nx run-many -t test --codeCoverage
           # Run distributed e2e test suites with independent local registries (max 1 per agent via parallel=1)
           cmd4: yarn nx run-many -t e2e-suite --parallel 1
+          cmd5: yarn format-check
 
       - name: Publish code coverage report
         uses: codecov/codecov-action@v3
@@ -71,11 +69,6 @@ jobs:
           files: coverage/packages/**/lcov.info
           flags: unittest
           name: codecov
-
-      - name: Stop all running agents for this CI run
-        # It's important that we always run this step, otherwise in the case of any failures in preceding non-Nx steps, the agents will keep running and waste billable minutes
-        if: ${{ always() }}
-        run: yarn nx-cloud stop-all-agents
 
   unit_tests_on_other_node_versions:
     name: Unit tests on other supported Node versions
@@ -127,10 +120,6 @@ jobs:
           # We cannot distribute these because the agents are set up to run the primary node version, not this alternative we are testing
           NX_CLOUD_DISTRIBUTED_EXECUTION: false
         run: yarn test
-
-      - name: Complete Nx Cloud Run Group
-        if: ${{ always() }}
-        run: npx nx-cloud complete-run-group
 
   publish_canary_version:
     name: Publish the latest code as a canary version
