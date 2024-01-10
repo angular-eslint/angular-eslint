@@ -1,13 +1,9 @@
 launch-templates:
   custom-linux-medium-plus-js:
     resourceClass: 'docker_linux_amd64/medium+'
-    env:
-      NX_CLOUD_ACCESS_TOKEN: '{{secrets.NX_CLOUD_ACCESS_TOKEN}}'
-      NX_VERBOSE_LOGGING: 'true'
-      NX_CLOUD_DEBUG_URLS: 'true'
     init-steps:
       - name: checkout repo
-        uses: 'nrwl/nx-cloud-workflows/JamesHenry-patch-1/workflow-steps/checkout/main.yaml'
+        uses: 'nrwl/nx-cloud-workflows/main/workflow-steps/checkout/main.yaml'
         env:
           GIT_FETCH_TAGS: 'true'
       - name: node_modules cache
