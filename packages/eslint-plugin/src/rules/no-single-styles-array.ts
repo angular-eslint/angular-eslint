@@ -45,9 +45,20 @@ export default createESLintRule<Options, MessageIds>({
           messageId: 'noSingleStylesArray',
           fix: (fixer) => {
             const [el] = node.elements;
-            // TODO: Do we need the fix to apply for template strings?
-            if (!el || !ASTUtils.isStringLiteral(el)) return [];
-            return [fixer.replaceText(node, `'${el.value}'`)];
+            if (el) {
+              if (ASTUtils.isStringLiteral(el)) {
+                return [fixer.replaceText(node, el.raw)];
+              }
+              if (ASTUtils.isTemplateLiteral(el)) {
+                return [
+                  fixer.replaceText(
+                    node,
+                    `${context.getSourceCode().getText(el)}`,
+                  ),
+                ];
+              }
+            }
+            return [];
           },
         });
       },
@@ -59,9 +70,20 @@ export default createESLintRule<Options, MessageIds>({
           node,
           messageId: 'noSingleStyleUrl',
           fix: (fixer) => {
-            // TODO: Do we need to fix for using template strings?
-            if (!el || !ASTUtils.isStringLiteral(el)) return [];
-            return [fixer.replaceText(node, `styleUrl: '${el.value}'`)];
+            if (el) {
+              if (ASTUtils.isStringLiteral(el)) {
+                return [fixer.replaceText(node, `styleUrl: ${el.raw}`)];
+              }
+              if (ASTUtils.isTemplateLiteral(el)) {
+                return [
+                  fixer.replaceText(
+                    node,
+                    `styleUrl: ${context.getSourceCode().getText(el)}`,
+                  ),
+                ];
+              }
+            }
+            return [];
           },
         });
       },

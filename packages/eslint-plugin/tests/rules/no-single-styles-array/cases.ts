@@ -42,6 +42,12 @@ export const valid = [
   `,
   `
     @Component({
+      styleUrl: \`./test.component.css\`,
+    })
+    class Test {}
+  `,
+  `
+    @Component({
       styleUrls: [
         '../shared.css',
         \`./test.component.css\`
@@ -66,114 +72,179 @@ export const valid = [
 
 export const invalid = [
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail when a component has a single style array value',
+    description: `should fail when a component has a single style array value`,
     annotatedSource: `
-      @Component({
-        styles: [':host { display: block; }']
-                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      })
-      class Test {}
+    @Component({
+      styles: [':host { display: block; }']
+              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    })
+    class Test {}
+  `,
+    messageId: stylesMessageId,
+    annotatedOutput: `
+    @Component({
+      styles: ':host { display: block; }'
+              
+    })
+    class Test {}
+  `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: `should fail when a component has a single styles array value with multiple decorator properties`,
+    annotatedSource: `
+    @Component({
+      standalone: true,
+      imports: [MatButtonModule],
+      styles: [':host { display: block; }'],
+              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      providers: []
+    })
+    class Test {}
+  `,
+    messageId: stylesMessageId,
+    annotatedOutput: `
+    @Component({
+      standalone: true,
+      imports: [MatButtonModule],
+      styles: ':host { display: block; }',
+              
+      providers: []
+    })
+    class Test {}
+  `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: `should fail when a component has a single styleUrls array value`,
+    annotatedSource: `
+    @Component({
+      styleUrls: ['./test.component.css']
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    })
+    class Test {}
+  `,
+    messageId: urlMessageId,
+    annotatedOutput: `
+    @Component({
+      styleUrl: './test.component.css'
+      
+    })
+    class Test {}
+  `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: `should fail when a component has a single styleUrls array value with multiple decorator properties`,
+    annotatedSource: `
+    @Component({
+      standalone: true,
+      imports: [MatButtonModule],
+      styleUrls: ['./test.component.css'],
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      providers: []
+    })
+    class Test {}
+  `,
+    messageId: urlMessageId,
+    annotatedOutput: `
+    @Component({
+      standalone: true,
+      imports: [MatButtonModule],
+      styleUrl: './test.component.css',
+      
+      providers: []
+    })
+    class Test {}
+  `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: `should keep template strings when fixing`,
+    annotatedSource: `
+    const type = 'block';
+    @Component({
+      styles: [\`:host\\t{ display: \${type}; }\`]
+              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    })
+    class Test {}
     `,
     messageId: stylesMessageId,
     annotatedOutput: `
-      @Component({
-        styles: ':host { display: block; }'
-                
-      })
-      class Test {}
+    const type = 'block';
+    @Component({
+      styles: \`:host\\t{ display: \${type}; }\`
+              
+    })
+    class Test {}
     `,
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail when a component has a single styles array value with multiple decorator properties',
+    description: `should keep escaped characters when fixing`,
     annotatedSource: `
-      @Component({
-        standalone: true,
-        imports: [MatButtonModule],
-        styles: [':host { display: block; }'],
-                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        providers: []
-      })
-      class Test {}
+    @Component({
+      styles: [':host\\t{ display: block; }']
+              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    })
+    class Test {}
     `,
     messageId: stylesMessageId,
     annotatedOutput: `
-      @Component({
-        standalone: true,
-        imports: [MatButtonModule],
-        styles: ':host { display: block; }',
-                
-        providers: []
-      })
-      class Test {}
+    @Component({
+      styles: ':host\\t{ display: block; }'
+              
+    })
+    class Test {}
     `,
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail when a component has a single styleUrls array value',
+    description: `should keep single quotes when fixing`,
     annotatedSource: `
-      @Component({
-        styleUrls: ['./test.component.css']
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      })
-      class Test {}
-    `,
-    messageId: urlMessageId,
-    annotatedOutput: `
-      @Component({
-        styleUrl: './test.component.css'
-        
-      })
-      class Test {}
-    `,
-  }),
-  convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail when a component has a single styleUrls array value with multiple decorator properties',
-    annotatedSource: `
-      @Component({
-        standalone: true,
-        imports: [MatButtonModule],
-        styleUrls: ['./test.component.css'],
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        providers: []
-      })
-      class Test {}
-    `,
-    messageId: urlMessageId,
-    annotatedOutput: `
-      @Component({
-        standalone: true,
-        imports: [MatButtonModule],
-        styleUrl: './test.component.css',
-        
-        providers: []
-      })
-      class Test {}
-    `,
-  }),
-  convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail when a component has a single style template string array value',
-    annotatedSource: `
-      @Component({
-        styles: [\`:host { display: block; }\`]
-                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      })
-      class Test {}
+    @Component({
+      styles: [':host{ display: block; }']
+              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    })
+    class Test {}
     `,
     messageId: stylesMessageId,
+    annotatedOutput: `
+    @Component({
+      styles: ':host{ display: block; }'
+              
+    })
+    class Test {}
+    `,
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail when a component has a single styleUrls template string array value',
+    description: `should keep double quotes when fixing`,
     annotatedSource: `
-      @Component({
-        styleUrls: [\`./test.component.css\`]
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      })
-      class Test {}
+    @Component({
+      styles: [":host{ display: block; }"]
+              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    })
+    class Test {}
     `,
-    messageId: urlMessageId,
+    messageId: stylesMessageId,
+    annotatedOutput: `
+    @Component({
+      styles: ":host{ display: block; }"
+              
+    })
+    class Test {}
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: `should keep backtick quotes when fixing`,
+    annotatedSource: `
+    @Component({
+      styles: [\`:host{ display: block; }\`]
+              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    })
+    class Test {}
+    `,
+    messageId: stylesMessageId,
+    annotatedOutput: `
+    @Component({
+      styles: \`:host{ display: block; }\`
+              
+    })
+    class Test {}
+    `,
   }),
 ];
