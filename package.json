@@ -85,7 +85,7 @@
     "execa": "5.1.1",
     "husky": "8.0.3",
     "jest": "29.4.3",
-    "json-schema-to-typescript": "13.1.1",
+    "json-schema-to-typescript": "13.1.2",
     "json-schema-traverse": "1.0.0",
     "jsonc-eslint-parser": "^2.1.0",
     "lint-staged": "15.2.0",
