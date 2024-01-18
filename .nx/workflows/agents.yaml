@@ -1,6 +1,7 @@
 launch-templates:
   custom-linux-medium-plus-js:
     resourceClass: 'docker_linux_amd64/medium+'
+    image: 'ubuntu22.04-node20.9-v1'
     init-steps:
       - name: checkout repo
         uses: 'nrwl/nx-cloud-workflows/main/workflow-steps/checkout/main.yaml'
