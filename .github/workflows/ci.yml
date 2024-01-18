@@ -11,6 +11,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
+  NX_BRANCH: ${{ github.event.pull_request.number || github.ref_name }}
   NX_VERBOSE_LOGGING: false
   NX_CLOUD_DEBUG_URLS: false
   NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
@@ -125,6 +126,10 @@ jobs:
           # We cannot distribute these because the agents are set up to run the primary node version, not this alternative we are testing
           NX_CLOUD_DISTRIBUTED_EXECUTION: false
         run: yarn test
+
+      - run: yarn nx-cloud complete-ci-run
+        # It's important that we always run this step, otherwise in the case of any failures in preceding non-Nx steps, the agents will keep running and waste billable minutes
+        if: ${{ always() }}
 
   publish_canary_version:
     name: Publish the latest code as a canary version
