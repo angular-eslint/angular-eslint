@@ -11,48 +11,31 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  NX_CLOUD_DISTRIBUTED_EXECUTION: true
   NX_VERBOSE_LOGGING: false
+  NX_CLOUD_DEBUG_URLS: false
+  NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
 
 jobs:
-  create_nx_run_group:
-    name: Create NX_RUN_GROUP
-    runs-on: ubuntu-latest
-    outputs:
-      nx_run_group: ${{ steps.set_nx_run_group.outputs.nx_run_group }}
-    steps:
-      - name: Set NX_RUN_GROUP based on $GITHUB_RUN_ID and a uuid
-        id: set_nx_run_group
-        run: |
-          NX_RUN_GROUP="$GITHUB_RUN_ID--$(uuidgen)"
-          echo "nx_run_group=$NX_RUN_GROUP" >> $GITHUB_OUTPUT
-
   primary:
     name: Primary
-    needs: [create_nx_run_group]
     runs-on: ubuntu-latest
     steps:
-      - name: Set NX_RUN_GROUP based on the output of the create_nx_run_group job
-        run: echo "NX_RUN_GROUP=${{ needs.create_nx_run_group.outputs.nx_run_group }}" >> $GITHUB_ENV
-
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0 # we need the tags to be available
-
-      - name: Derive appropriate SHAs for base and head for `nx affected` commands
-        uses: nrwl/nx-set-shas@v4
 
       - name: Install node and npm based on the volta config in our package.json
         uses: volta-cli/action@v4
 
-      - name: Get yarn cache directory path and node version for cache key and NX_CLOUD_ENV_NAME
+      - name: Get yarn cache directory path and node version for cache key and NX_CI_EXECUTION_ENV
         id: yarn-cache-dir-path
         run: |
           echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
           echo "node_version=$(node --version)" >> $GITHUB_OUTPUT
 
           # Added the - at the end to function as a separator to improve readability in the PR comment from the Nx cloud app
-          echo "NX_CLOUD_ENV_NAME=Node $(node --version) -" >> $GITHUB_ENV
+          echo "NX_CI_EXECUTION_ENV=Node $(node --version) -" >> $GITHUB_ENV
+
+      - name: Start Nx Cloud CI Run
+        run: npx nx-cloud start-ci-run --distributes-on="6 custom-linux-medium-plus-js" --stop-agents-after="e2e-suite"
 
       - uses: actions/cache@v3
         id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
@@ -68,23 +51,17 @@ jobs:
           yarn --ignore-engines --frozen-lockfile --prefer-offline --ignore-scripts
           yarn check-clean-workspace-after-install
 
-      - name: Check code formatting (not distributable)
-        run: NX_CLOUD_DISTRIBUTED_EXECUTION=false yarn format-check
-
       - name: Run parallel distributed tasks for build, typecheck, check-rule-docs, lint and test targets
         uses: jameshenry/parallel-bash-commands@v1
         with:
           # Note that the typecheck target *also* typechecks tests and tools,
           # whereas the build only checks src files
-          cmd1: yarn typecheck
-          cmd2: yarn build
-          cmd3: yarn check-rule-docs
-          cmd4: yarn check-rule-lists
-          cmd5: yarn lint
-          cmd6: yarn test --codeCoverage
-
-      - name: Run distributed e2e test suites with independent local registries (max 1 per agent via parallel=1)
-        run: yarn nx run-many -t e2e-suite --parallel 1
+          cmd1: yarn nx run-many -t build,typecheck,check-rule-docs,lint
+          cmd2: yarn lint
+          cmd3: yarn nx run-many -t test --codeCoverage
+          # Run distributed e2e test suites with independent local registries (max 1 per agent via parallel=1)
+          cmd4: yarn nx run-many -t e2e-suite --parallel 1
+          cmd5: yarn format-check
 
       - name: Publish code coverage report
         uses: codecov/codecov-action@v3
@@ -98,50 +75,8 @@ jobs:
         if: ${{ always() }}
         run: yarn nx-cloud stop-all-agents
 
-  agents:
-    name: Nx Distributed CI Agents
-    needs: [create_nx_run_group]
-    runs-on: ubuntu-latest
-    timeout-minutes: 60
-    strategy:
-      matrix:
-        agent: [1, 2, 3, 4, 5, 6]
-    steps:
-      - name: Set NX_RUN_GROUP based on the output of the create_nx_run_group job
-        run: echo "NX_RUN_GROUP=${{ needs.create_nx_run_group.outputs.nx_run_group }}" >> $GITHUB_ENV
-
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0 # we need the tags to be available
-
-      - name: Install node and npm based on the volta config in our package.json
-        uses: volta-cli/action@v4
-
-      - name: Get yarn cache directory path and node version for cache key
-        id: yarn-cache-dir-path
-        run: |
-          echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
-          echo "node_version=$(node --version)" >> $GITHUB_OUTPUT
-
-      - uses: actions/cache@v3
-        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-node-${{ steps.yarn-cache-dir-path.outputs.node_version }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-node-${{ steps.yarn-cache-dir-path.outputs.node_version }}-yarn-
-
-      - name: Install dependencies (skipping postinstall)
-        # We use --ignore-scripts to skip automatic postinstall and give us more control to distribute tasks
-        run: |
-          yarn --ignore-engines --frozen-lockfile --prefer-offline --ignore-scripts
-
-      - name: Start Nx Agent ${{ matrix.agent }}
-        run: yarn nx-cloud start-agent
-
   unit_tests_on_other_node_versions:
     name: Unit tests on other supported Node versions
-    needs: [create_nx_run_group]
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -149,22 +84,14 @@ jobs:
         # https://gist.github.com/LayZeeDK/c822cc812f75bb07b7c55d07ba2719b3
         node: ['^18.13.0']
     steps:
-      - name: Set NX_RUN_GROUP based on the output of the create_nx_run_group job
-        run: echo "NX_RUN_GROUP=${{ needs.create_nx_run_group.outputs.nx_run_group }}" >> $GITHUB_ENV
-
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0 # we need the tags to be available
-
-      - name: Derive appropriate SHAs for base and head for `nx affected` commands
-        uses: nrwl/nx-set-shas@v4
 
       - uses: volta-cli/action@v4
         with:
           # The Node.js version to configure
           node-version: ${{ matrix.node }}
 
-      - name: Get yarn cache directory path and node version for cache key and NX_CLOUD_ENV_NAME
+      - name: Get yarn cache directory path and node version for cache key and NX_CI_EXECUTION_ENV
         id: yarn-cache-dir-path
         run: |
           echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
@@ -172,7 +99,7 @@ jobs:
 
           # Added the - at the end to function as a separator to improve readability in the PR comment from the Nx cloud app
           # NOTE: We are intentionally not using matrix.node here because that does not contain the full semver value
-          echo "NX_CLOUD_ENV_NAME=Node $(node --version) -" >> $GITHUB_ENV
+          echo "NX_CI_EXECUTION_ENV=Node $(node --version) -" >> $GITHUB_ENV
 
       - uses: actions/cache@v3
         id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
@@ -204,12 +131,9 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       id-token: write # needed for provenance data generation
-    needs: [create_nx_run_group, primary]
+    needs: [primary]
     if: github.ref == 'refs/heads/main'
     steps:
-      - name: Set NX_RUN_GROUP based on the output of the create_nx_run_group job
-        run: echo "NX_RUN_GROUP=${{ needs.create_nx_run_group.outputs.nx_run_group }}" >> $GITHUB_ENV
-
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0 # we need the tags to be available

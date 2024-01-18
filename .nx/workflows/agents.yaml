@@ -1,0 +1,19 @@
+launch-templates:
+  custom-linux-medium-plus-js:
+    resourceClass: 'docker_linux_amd64/medium+'
+    image: 'ubuntu22.04-node20.9-v1'
+    init-steps:
+      - name: checkout repo
+        uses: 'nrwl/nx-cloud-workflows/main/workflow-steps/checkout/main.yaml'
+        env:
+          GIT_FETCH_TAGS: 'true'
+      - name: node_modules cache
+        uses: 'nrwl/nx-cloud-workflows/main/workflow-steps/cache/main.yaml'
+        env:
+          KEY: 'yarn.lock'
+          PATHS: 'node_modules'
+          BASE_BRANCH: 'main'
+      - name: NPM Install
+        uses: 'nrwl/nx-cloud-workflows/main/workflow-steps/install-node-modules/main.yaml'
+        env:
+          SKIP_POSTINSTALL: 'true'

@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
-  "nxCloudAccessToken": "Y2MxNmI0YWItNDdhYS00ZWUxLTliZjMtODkzYjZkYTE4YjgxfHJlYWQtd3JpdGU=",
+  "nxCloudAccessToken": "NzNkMDZiM2MtMzVlOS00YzVlLWE1MGQtNWZlYzI3MjRkOTRmfHJlYWQ=",
   "release": {
     "projects": ["*", "!e2e*", "!nx-plugin"],
     "version": {
