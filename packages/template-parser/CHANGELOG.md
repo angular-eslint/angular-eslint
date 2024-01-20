@@ -1,3 +1,20 @@
+## 17.2.1 (2024-01-20)
+
+### 🩹 Fixes
+
+- update typescript-eslint packages to v6.18.1
+
+- update typescript-eslint packages to v6.19.0
+
+- update dependency @angular/compiler to v17.1.0
+
+- **eslint-plugin-template:** [no-call-expression] False negative with the new control flow syntax
+
+### ❤️ Thank You
+
+- Adam Reisinger
+- Matt Lewis
+
 ## 17.2.0 (2024-01-06)
 
 ### 🩹 Fixes

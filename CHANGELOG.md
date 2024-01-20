@@ -1,3 +1,18 @@
+## 17.2.1 (2024-01-20)
+
+### 🩹 Fixes
+
+- update typescript-eslint packages to v6.18.1 ([#1685](https://github.com/angular-eslint/angular-eslint/pull/1685))
+- update typescript-eslint packages to v6.19.0 ([#1703](https://github.com/angular-eslint/angular-eslint/pull/1703))
+- update dependency @angular/compiler to v17.1.0 ([#1689](https://github.com/angular-eslint/angular-eslint/pull/1689))
+- **eslint-plugin-template:** [no-call-expression] False negative with the new control flow syntax ([#1677](https://github.com/angular-eslint/angular-eslint/pull/1677))
+- **eslint-plugin-template:** handle i18n tags on structural direcives ([#1662](https://github.com/angular-eslint/angular-eslint/pull/1662))
+
+### ❤️ Thank You
+
+- Adam Reisinger @Res42
+- Matt Lewis @mattlewis92
+
 ## 17.2.0 (2024-01-06)
 
 ### 🚀 Features
