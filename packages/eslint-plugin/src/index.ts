@@ -10,6 +10,9 @@ import componentMaxInlineDeclarations, {
 import componentSelector, {
   RULE_NAME as componentSelectorRuleName,
 } from './rules/component-selector';
+import consistentComponentStyles, {
+  RULE_NAME as consistentComponentStylesRuleName,
+} from './rules/consistent-component-styles';
 import contextualDecorator, {
   RULE_NAME as contextualDecoratorRuleName,
 } from './rules/contextual-decorator';
@@ -70,9 +73,6 @@ import noPipeImpure, {
 import noQueriesMetadataProperty, {
   RULE_NAME as noQueriesMetadataPropertyRuleName,
 } from './rules/no-queries-metadata-property';
-import noSingleStylesArray, {
-  RULE_NAME as noSingleStylesArrayRuleName,
-} from './rules/no-single-styles-array';
 import pipePrefix, {
   RULE_NAME as pipePrefixRuleName,
 } from './rules/pipe-prefix';
@@ -122,6 +122,7 @@ export = {
     [componentClassSuffixRuleName]: componentClassSuffix,
     [componentMaxInlineDeclarationsRuleName]: componentMaxInlineDeclarations,
     [componentSelectorRuleName]: componentSelector,
+    [consistentComponentStylesRuleName]: consistentComponentStyles,
     [contextualDecoratorRuleName]: contextualDecorator,
     [contextualLifecycleRuleName]: contextualLifecycle,
     [directiveClassSuffixRuleName]: directiveClassSuffix,
@@ -142,7 +143,6 @@ export = {
     [noOutputsMetadataPropertyRuleName]: noOutputsMetadataProperty,
     [noPipeImpureRuleName]: noPipeImpure,
     [noQueriesMetadataPropertyRuleName]: noQueriesMetadataProperty,
-    [noSingleStylesArrayRuleName]: noSingleStylesArray,
     [pipePrefixRuleName]: pipePrefix,
     [preferOnPushComponentChangeDetectionRuleName]:
       preferOnPushComponentChangeDetection,

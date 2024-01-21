@@ -3,8 +3,12 @@ import type { TSESTree } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
 type Options = [];
-export type MessageIds = 'noSingleStylesArray' | 'noSingleStyleUrl';
-export const RULE_NAME = 'no-single-styles-array';
+export type MessageIds =
+  | 'useStylesArray'
+  | 'useStylesString'
+  | 'useStyleUrl'
+  | 'useStyleUrls';
+export const RULE_NAME = 'consistent-component-styles';
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
@@ -17,10 +21,13 @@ export default createESLintRule<Options, MessageIds>({
     fixable: 'code',
     schema: [],
     messages: {
-      noSingleStyleUrl:
-        'Use `styleUrl` over `styleUrls` for a single stylesheet',
-      noSingleStylesArray:
-        'Use a `string` over `[string]` for the `styles` property',
+      useStyleUrl:
+        'Use `styleUrl` instead of `styleUrls` for a single stylesheet',
+      useStyleUrls: 'Use `styleUrls` instead of `styleUrl`',
+      useStylesArray:
+        'Use a `string[]` instead of a `string` for the `styles` property',
+      useStylesString:
+        'Use a `string` instead of a `string[]` for the `styles` property',
     },
   },
   defaultOptions: [],
@@ -42,7 +49,7 @@ export default createESLintRule<Options, MessageIds>({
       [singleStylesArrayExpression](node: TSESTree.ArrayExpression) {
         context.report({
           node,
-          messageId: 'noSingleStylesArray',
+          messageId: 'useStylesString',
           fix: (fixer) => {
             const [el] = node.elements;
             if (el) {
@@ -68,7 +75,7 @@ export default createESLintRule<Options, MessageIds>({
 
         context.report({
           node,
-          messageId: 'noSingleStyleUrl',
+          messageId: 'useStyleUrl',
           fix: (fixer) => {
             if (el) {
               if (ASTUtils.isStringLiteral(el)) {

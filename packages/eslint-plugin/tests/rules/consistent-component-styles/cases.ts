@@ -1,8 +1,8 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/utils';
-import type { MessageIds } from '../../../src/rules/no-single-styles-array';
+import type { MessageIds } from '../../../src/rules/consistent-component-styles';
 
-const stylesMessageId: MessageIds = 'noSingleStylesArray';
-const urlMessageId: MessageIds = 'noSingleStyleUrl';
+const messageIdUseStylesString: MessageIds = 'useStylesString';
+const messageIdUseStyleUrl: MessageIds = 'useStyleUrl';
 
 export const valid = [
   `
@@ -80,7 +80,7 @@ export const invalid = [
     })
     class Test {}
   `,
-    messageId: stylesMessageId,
+    messageId: messageIdUseStylesString,
     annotatedOutput: `
     @Component({
       styles: ':host { display: block; }'
@@ -101,7 +101,7 @@ export const invalid = [
     })
     class Test {}
   `,
-    messageId: stylesMessageId,
+    messageId: messageIdUseStylesString,
     annotatedOutput: `
     @Component({
       standalone: true,
@@ -122,7 +122,7 @@ export const invalid = [
     })
     class Test {}
   `,
-    messageId: urlMessageId,
+    messageId: messageIdUseStyleUrl,
     annotatedOutput: `
     @Component({
       styleUrl: './test.component.css'
@@ -143,7 +143,7 @@ export const invalid = [
     })
     class Test {}
   `,
-    messageId: urlMessageId,
+    messageId: messageIdUseStyleUrl,
     annotatedOutput: `
     @Component({
       standalone: true,
@@ -165,7 +165,7 @@ export const invalid = [
     })
     class Test {}
     `,
-    messageId: stylesMessageId,
+    messageId: messageIdUseStylesString,
     annotatedOutput: `
     const type = 'block';
     @Component({
@@ -184,7 +184,7 @@ export const invalid = [
     })
     class Test {}
     `,
-    messageId: stylesMessageId,
+    messageId: messageIdUseStylesString,
     annotatedOutput: `
     @Component({
       styles: ':host\\t{ display: block; }'
@@ -202,7 +202,7 @@ export const invalid = [
     })
     class Test {}
     `,
-    messageId: stylesMessageId,
+    messageId: messageIdUseStylesString,
     annotatedOutput: `
     @Component({
       styles: ':host{ display: block; }'
@@ -220,7 +220,7 @@ export const invalid = [
     })
     class Test {}
     `,
-    messageId: stylesMessageId,
+    messageId: messageIdUseStylesString,
     annotatedOutput: `
     @Component({
       styles: ":host{ display: block; }"
@@ -238,7 +238,7 @@ export const invalid = [
     })
     class Test {}
     `,
-    messageId: stylesMessageId,
+    messageId: messageIdUseStylesString,
     annotatedOutput: `
     @Component({
       styles: \`:host{ display: block; }\`

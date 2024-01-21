@@ -1,5 +1,7 @@
 import { RuleTester } from '@angular-eslint/utils';
-import rule, { RULE_NAME } from '../../../src/rules/no-single-styles-array';
+import rule, {
+  RULE_NAME,
+} from '../../../src/rules/consistent-component-styles';
 import { invalid, valid } from './cases';
 
 const ruleTester = new RuleTester({
