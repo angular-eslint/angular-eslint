@@ -58,11 +58,11 @@ jobs:
           # Note that the typecheck target *also* typechecks tests and tools,
           # whereas the build only checks src files
           cmd1: yarn nx run-many -t build,typecheck,check-rule-docs,lint
-          cmd2: yarn lint
-          cmd3: yarn nx run-many -t test --codeCoverage
+          cmd2: yarn nx run-many -t test --codeCoverage
+          cmd3: yarn nx-cloud record -- yarn lint
+          cmd4: yarn nx-cloud record -- yarn format-check
           # Run distributed e2e test suites with independent local registries (max 1 per agent via parallel=1)
-          cmd4: yarn nx run-many -t e2e-suite --parallel 1
-          cmd5: yarn format-check
+          cmd5: yarn nx run-many -t e2e-suite --parallel 1
 
       - name: Publish code coverage report
         uses: codecov/codecov-action@v3
