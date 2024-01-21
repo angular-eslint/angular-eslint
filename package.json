@@ -101,7 +101,7 @@
     "ts-jest": "29.1.0",
     "ts-node": "10.9.2",
     "tslib": "^2.4.1",
-    "typescript": "5.2.2",
+    "typescript": "5.3.3",
     "verdaccio": "5.29.0"
   }
 }
