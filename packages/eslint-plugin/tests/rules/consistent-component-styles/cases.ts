@@ -425,6 +425,24 @@ export const invalid = [
     class Test {}
     `,
   }),
+  convertAnnotatedSourceToFailureCase({
+    description: `should keep backtick quotes when fixing styleUrls array to styleUrl string`,
+    annotatedSource: `
+    @Component({
+      styleUrls: [\`./test.component.css\`]
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    })
+    class Test {}
+    `,
+    messageId: messageIdUseStyleUrl,
+    annotatedOutput: `
+    @Component({
+      styleUrl: \`./test.component.css\`
+      
+    })
+    class Test {}
+    `,
+  }),
   // String
   convertAnnotatedSourceToFailureCase({
     description: `should fail when a component has a single style array value when string is preferred`,

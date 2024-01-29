@@ -57,18 +57,12 @@ export default createESLintRule<Options, MessageIds>({
             node,
             messageId: 'useStylesArray',
             fix: (fixer) => {
-              if (ASTUtils.isStringLiteral(node)) {
-                return [fixer.replaceText(node, `[${node.raw}]`)];
-              }
-              if (ASTUtils.isTemplateLiteral(node)) {
-                return [
-                  fixer.replaceText(
-                    node,
-                    `[${context.getSourceCode().getText(node)}]`,
-                  ),
-                ];
-              }
-              return [];
+              return fixer.replaceText(
+                node,
+                ASTUtils.isStringLiteral(node)
+                  ? `[${node.raw}]`
+                  : `[${context.getSourceCode().getText(node)}]`,
+              );
             },
           });
         },
@@ -78,22 +72,14 @@ export default createESLintRule<Options, MessageIds>({
             node,
             messageId: 'useStyleUrls',
             fix: (fixer) => {
-              if (ASTUtils.isStringLiteral(node.value)) {
-                return [
-                  fixer.replaceText(node, `styleUrls: [${node.value.raw}]`),
-                ];
-              }
-              if (ASTUtils.isTemplateLiteral(node.value)) {
-                return [
-                  fixer.replaceText(
-                    node,
-                    `styleUrls: [${context
+              return fixer.replaceText(
+                node,
+                ASTUtils.isStringLiteral(node.value)
+                  ? `styleUrls: [${node.value.raw}]`
+                  : `styleUrls: [${context
                       .getSourceCode()
                       .getText(node.value)}]`,
-                  ),
-                ];
-              }
-              return [];
+              );
             },
           });
         },
@@ -109,50 +95,36 @@ export default createESLintRule<Options, MessageIds>({
 
       return {
         [singleStylesArrayExpression](node: TSESTree.ArrayExpression) {
+          // The selector ensures the element is not null.
+          const el = node.elements[0]!;
+
           context.report({
             node,
             messageId: 'useStylesString',
             fix: (fixer) => {
-              const [el] = node.elements;
-              if (el) {
-                if (ASTUtils.isStringLiteral(el)) {
-                  return [fixer.replaceText(node, el.raw)];
-                }
-                if (ASTUtils.isTemplateLiteral(el)) {
-                  return [
-                    fixer.replaceText(
-                      node,
-                      context.getSourceCode().getText(el),
-                    ),
-                  ];
-                }
-              }
-              return [];
+              return fixer.replaceText(
+                node,
+                ASTUtils.isStringLiteral(el)
+                  ? el.raw
+                  : context.getSourceCode().getText(el),
+              );
             },
           });
         },
         [singleStyleUrlsProperty](node: TSESTree.Property) {
-          if (!ASTUtils.isArrayExpression(node.value)) return;
-          const [el] = node.value.elements;
+          // The selector ensures the value is an array with a single non-null element.
+          const el = (node.value as TSESTree.ArrayExpression).elements[0]!;
 
           context.report({
             node,
             messageId: 'useStyleUrl',
             fix: (fixer) => {
-              if (el) {
-                if (ASTUtils.isStringLiteral(el)) {
-                  return [fixer.replaceText(node, `styleUrl: ${el.raw}`)];
-                }
-                if (ASTUtils.isTemplateLiteral(el)) {
-                  return [
-                    fixer.replaceText(
-                      node,
-                      `styleUrl: ${context.getSourceCode().getText(el)}`,
-                    ),
-                  ];
-                }
-              }
-              return [];
+              return fixer.replaceText(
+                node,
+                ASTUtils.isStringLiteral(el)
+                  ? `styleUrl: ${el.raw}`
+                  : `styleUrl: ${context.getSourceCode().getText(el)}`,
+              );
             },
           });
         },
