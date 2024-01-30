@@ -74,23 +74,14 @@ export default createESLintRule<Options, MessageIds>({
           data,
           ...(isStringNonNumericValue(left) || isStringNonNumericValue(right)
             ? {
-                fix: (fixer) =>
-                  getFix({ node, left, right, start, end, sourceCode, fixer }),
+                fix: (fixer) => getFix({ node, right, end, sourceCode, fixer }),
               }
             : {
                 suggest: [
                   {
                     messageId: 'suggestStrictEquality',
                     fix: (fixer) =>
-                      getFix({
-                        node,
-                        left,
-                        right,
-                        start,
-                        end,
-                        sourceCode,
-                        fixer,
-                      }),
+                      getFix({ node, right, end, sourceCode, fixer }),
                     data,
                   },
                 ],
@@ -107,17 +98,13 @@ function getSpanLength({ span: { start, end } }: AST): number {
 
 const getFix = ({
   node,
-  left,
   right,
-  start,
   end,
   sourceCode,
   fixer,
 }: {
   node: Binary;
-  left: AST;
   right: AST;
-  start: number;
   end: number;
   sourceCode: Readonly<TSESLint.SourceCode>;
   fixer: TSESLint.RuleFixer;
@@ -142,7 +129,7 @@ const getFix = ({
   }
 
   return fixer.insertTextAfterRange(
-    [start + getSpanLength(left) + 1, endRange - eqOffset],
+    [endRange - eqOffset, endRange - eqOffset],
     '=',
   );
 };
