@@ -321,6 +321,36 @@ class Test {}
 
 <br>
 
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/consistent-component-styles": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({
+  styleUrls: [`./test.component.css`]
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
 #### Custom Config
 
 ```json
