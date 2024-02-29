@@ -126,7 +126,8 @@ export default createESLintRule<Options, MessageIds>({
             },
             end: {
               line: loc.end.line,
-              column: loc.end.column + 1,
+              column:
+                loc.end.column + (isValuelessStructuralDirective(attr) ? 0 : 1),
             },
           };
         default:
@@ -423,6 +424,29 @@ function getMessageName(expected: ExtendedAttribute): string {
   }
 }
 
+function isValuelessStructuralDirective(attr: ExtendedAttribute): boolean {
+  if (attr.orderType !== OrderType.StructuralDirective || !attr.keySpan) {
+    return false;
+  }
+
+  const attrSpan = attr.sourceSpan;
+  const keySpan = attr.keySpan;
+
+  /**
+   * A valueless structural directive will have the same span as its key.
+   * TextAttribute[value=''] is not always a reliable selector, because
+   * a *structuralDirective with `let var = something` will have value = ''
+   */
+  return (
+    attrSpan.start.offset === keySpan.start.offset &&
+    attrSpan.start.line === keySpan.start.line &&
+    attrSpan.start.col === keySpan.start.col &&
+    attrSpan.end.offset === keySpan.end.offset &&
+    attrSpan.end.line === keySpan.end.line &&
+    attrSpan.end.col === keySpan.end.col
+  );
+}
+
 function getStartPos(expected: ExtendedAttribute): number {
   switch (expected.orderType) {
     case OrderType.StructuralDirective:
@@ -435,7 +459,10 @@ function getStartPos(expected: ExtendedAttribute): number {
 function getEndPos(expected: ExtendedAttribute): number {
   switch (expected.orderType) {
     case OrderType.StructuralDirective:
-      return expected.sourceSpan.end.offset + 1;
+      return (
+        expected.sourceSpan.end.offset +
+        (isValuelessStructuralDirective(expected) ? 0 : 1)
+      );
     default:
       return expected.sourceSpan.end.offset;
   }
