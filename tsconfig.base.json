@@ -3,7 +3,7 @@
     "allowSyntheticDefaultImports": true,
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
-    "declaration": false,
+    "declaration": true,
     "declarationMap": false,
     "esModuleInterop": true,
     "module": "CommonJS",
