@@ -1985,26 +1985,12 @@
   dependencies:
     "@nx/eslint-plugin" "18.1.1"
 
-"@nrwl/jest@18.0.8":
-  version "18.0.8"
-  resolved "https://registry.yarnpkg.com/@nrwl/jest/-/jest-18.0.8.tgz#bfe99f932305c52aacd45c6b432c7ab69367e11d"
-  integrity sha512-kOYx295kItv0rdNOO7+a4CvTVXvi82wp3qNDmqpYGckcFQCvgTXrMKITok67vOQlN4Iip3KL/4bqBzwR0uUuzA==
-  dependencies:
-    "@nx/jest" "18.0.8"
-
 "@nrwl/jest@18.1.1":
   version "18.1.1"
   resolved "https://registry.yarnpkg.com/@nrwl/jest/-/jest-18.1.1.tgz#ac805be6f183912b3e7584acebe6627619921313"
   integrity sha512-dg7ePk4lujBFxFqjKdJn0IiqCaoHvOu2xChZVXfYHi+ZgCy9PL11LAVCNYxtkGmy6jgiTvFEgMa2Jaem1SEjjw==
   dependencies:
     "@nx/jest" "18.1.1"
-
-"@nrwl/js@18.0.8":
-  version "18.0.8"
-  resolved "https://registry.yarnpkg.com/@nrwl/js/-/js-18.0.8.tgz#ee6006c8a15c6d5b8b37534806f50489d3a0cf4b"
-  integrity sha512-5VWvJD7zWFFEVfVFpKj5NQQVn9YBiNALIcHtq1A6/GEe/SrWGjTwyeK+5uVSYegTR8BXX2SpBaE53bOunWuTrQ==
-  dependencies:
-    "@nx/js" "18.0.8"
 
 "@nrwl/js@18.1.1":
   version "18.1.1"
@@ -2035,13 +2021,6 @@
   dependencies:
     nx "18.1.1"
     tslib "^2.3.0"
-
-"@nrwl/workspace@18.0.8":
-  version "18.0.8"
-  resolved "https://registry.yarnpkg.com/@nrwl/workspace/-/workspace-18.0.8.tgz#86938241ac3e949d38b0b96dddda9e868ca77ac9"
-  integrity sha512-K1Fhfa1OqdhlZ46nPOFka9EBGt5bChLSIeJDs/JVZHyIlmGWeIQMy78oE2DPhrpW+ZowVxwVPdFgilESdfriQQ==
-  dependencies:
-    "@nx/workspace" "18.0.8"
 
 "@nrwl/workspace@18.1.1":
   version "18.1.1"
@@ -2106,26 +2085,6 @@
     tslib "^2.3.0"
     typescript "~5.3.2"
 
-"@nx/jest@18.0.8":
-  version "18.0.8"
-  resolved "https://registry.yarnpkg.com/@nx/jest/-/jest-18.0.8.tgz#da838792af673b85fa9e275bd11d7ec8ed5dbdbd"
-  integrity sha512-OE+1iB8b3z/kgdgkenXvlreBgPoe6A0b+OoN/0LmfKKC5jddTUISLTgb96L8G76XPTwFEcGPRm1BcdxAxS0M3g==
-  dependencies:
-    "@jest/reporters" "^29.4.1"
-    "@jest/test-result" "^29.4.1"
-    "@nrwl/jest" "18.0.8"
-    "@nx/devkit" "18.0.8"
-    "@nx/js" "18.0.8"
-    "@phenomnomnominal/tsquery" "~5.0.1"
-    chalk "^4.1.0"
-    identity-obj-proxy "3.0.0"
-    jest-config "^29.4.1"
-    jest-resolve "^29.4.1"
-    jest-util "^29.4.1"
-    minimatch "9.0.3"
-    resolve.exports "1.1.0"
-    tslib "^2.3.0"
-
 "@nx/jest@18.1.1":
   version "18.1.1"
   resolved "https://registry.yarnpkg.com/@nx/jest/-/jest-18.1.1.tgz#9f8c1a32efdeb8125de699bd45d95f55e451bc7c"
@@ -2146,42 +2105,6 @@
     resolve.exports "1.1.0"
     tslib "^2.3.0"
     yargs-parser "21.1.1"
-
-"@nx/js@18.0.8":
-  version "18.0.8"
-  resolved "https://registry.yarnpkg.com/@nx/js/-/js-18.0.8.tgz#f512227f721b36b790cf4dd7137035c91b3fcedd"
-  integrity sha512-buBHn0xUTF30Ifm6uFABltX0qwDxrxbmfTngPqs8BxFj9btYrlRz2XqtoAST/4L9AYheuY4tnwXZQvBkRh6rrw==
-  dependencies:
-    "@babel/core" "^7.23.2"
-    "@babel/plugin-proposal-decorators" "^7.22.7"
-    "@babel/plugin-transform-class-properties" "^7.22.5"
-    "@babel/plugin-transform-runtime" "^7.23.2"
-    "@babel/preset-env" "^7.23.2"
-    "@babel/preset-typescript" "^7.22.5"
-    "@babel/runtime" "^7.22.6"
-    "@nrwl/js" "18.0.8"
-    "@nx/devkit" "18.0.8"
-    "@nx/workspace" "18.0.8"
-    "@phenomnomnominal/tsquery" "~5.0.1"
-    babel-plugin-const-enum "^1.0.1"
-    babel-plugin-macros "^2.8.0"
-    babel-plugin-transform-typescript-metadata "^0.3.1"
-    chalk "^4.1.0"
-    columnify "^1.6.0"
-    detect-port "^1.5.1"
-    fast-glob "3.2.7"
-    fs-extra "^11.1.0"
-    ignore "^5.0.4"
-    js-tokens "^4.0.0"
-    minimatch "9.0.3"
-    npm-package-arg "11.0.1"
-    npm-run-path "^4.0.1"
-    ora "5.3.0"
-    semver "^7.5.3"
-    source-map-support "0.5.19"
-    ts-node "10.9.1"
-    tsconfig-paths "^4.1.2"
-    tslib "^2.3.0"
 
 "@nx/js@18.1.1":
   version "18.1.1"
@@ -2339,19 +2262,6 @@
     "@phenomnomnominal/tsquery" "~5.0.1"
     fs-extra "^11.1.0"
     tslib "^2.3.0"
-
-"@nx/workspace@18.0.8":
-  version "18.0.8"
-  resolved "https://registry.yarnpkg.com/@nx/workspace/-/workspace-18.0.8.tgz#5d4b473365ad2f3df77214ba75872765208c6ede"
-  integrity sha512-y4s+PUgCWKd8tyvTjM0M05usIbPvl5wcTmoU9R4UriPAmNYzttvKYjweNcPJKsqdng1iwx7eECY1SmiOVRaTag==
-  dependencies:
-    "@nrwl/workspace" "18.0.8"
-    "@nx/devkit" "18.0.8"
-    chalk "^4.1.0"
-    enquirer "~2.3.6"
-    nx "18.0.8"
-    tslib "^2.3.0"
-    yargs-parser "21.1.1"
 
 "@nx/workspace@18.1.1":
   version "18.1.1"

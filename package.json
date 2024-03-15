@@ -58,7 +58,7 @@
     "@commitlint/config-conventional": "19.1.0",
     "@nx/devkit": "18.1.1",
     "@nx/eslint-plugin": "18.1.1",
-    "@nx/jest": "18.0.8",
+    "@nx/jest": "18.1.1",
     "@nx/js": "18.1.1",
     "@nx/plugin": "18.1.1",
     "@nx/workspace": "18.1.1",
