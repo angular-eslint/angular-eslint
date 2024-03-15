@@ -36,6 +36,23 @@ export const invalid = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
+      'it should fail if the operation (surrounded by additional whitespace) is not strict within interpolation',
+    annotatedSource: `
+        {{ 'null' ==  test }}
+           ~~~~~~~~~~~~~~~
+      `,
+    messageId,
+    data: {
+      actualOperation: '==',
+      expectedOperation: '===',
+    },
+    annotatedOutput: `
+        {{ 'null' ===  test }}
+           ~~~~~~~~~~~~~~~~
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
       'it should fail if the operation is not strict within attribute directive',
     annotatedSource: `
         <div [attr.disabled]="test != 'undefined' && null == '3'"></div>
@@ -50,6 +67,41 @@ export const invalid = [
     annotatedOutput: `
         <div [attr.disabled]="test !== 'undefined' && null == '3'"></div>
                               ~~~~~~~~~~~~~~~~~~~~
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'it should fail if the operation (surrounded by additional whitespace) is not strict within attribute directive',
+    annotatedSource: `
+        <div [attr.disabled]="test !=  'undefined' && null == '3'"></div>
+                              ~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId,
+    data: {
+      actualOperation: '!=',
+      expectedOperation: '!==',
+    },
+    options: [{ allowNullOrUndefined: true }],
+    annotatedOutput: `
+        <div [attr.disabled]="test !==  'undefined' && null == '3'"></div>
+                              ~~~~~~~~~~~~~~~~~~~~~
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'it should fail if the operation is not strict within attribute directive with nested ternary',
+    annotatedSource: `
+      <div [prop]="condition1 === 'value1' ? true : (condition2 != 'value2' ? true : false)}"></div>
+                                                     ~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId,
+    data: {
+      actualOperation: '!=',
+      expectedOperation: '!==',
+    },
+    annotatedOutput: `
+      <div [prop]="condition1 === 'value1' ? true : (condition2 !== 'value2' ? true : false)}"></div>
+                                                     ~~~~~~~~~~~~~~~~~~~~~~~
       `,
   }),
   convertAnnotatedSourceToFailureCase({
@@ -147,6 +199,32 @@ export const invalid = [
         messageId: suggestStrictEquality,
         output: `
         {{ c > d ? a !== b : 'hey!' }}
+                   
+      `,
+        data: {
+          actualOperation: '!=',
+          expectedOperation: '!==',
+        },
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'it should fail if the operation (surrounded by additional whitespace) is not strict within conditional (trueExp)',
+    annotatedSource: `
+        {{ c > d ? a   !=     b : 'hey!' }}
+                   ~~~~~~~~~~~~
+      `,
+    messageId,
+    data: {
+      actualOperation: '!=',
+      expectedOperation: '!==',
+    },
+    suggestions: [
+      {
+        messageId: suggestStrictEquality,
+        output: `
+        {{ c > d ? a   !==     b : 'hey!' }}
                    
       `,
         data: {
