@@ -65,7 +65,7 @@ jobs:
           cmd5: yarn nx run-many -t e2e-suite --parallel 1
 
       - name: Publish code coverage report
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
           files: coverage/packages/**/lcov.info
           flags: unittest
