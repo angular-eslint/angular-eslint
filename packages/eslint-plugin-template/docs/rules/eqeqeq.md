@@ -75,6 +75,33 @@ interface Options {
 
 <br>
 
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/eqeqeq": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+{{ 'null' ==  test }}
+   ~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
 #### Custom Config
 
 ```json
@@ -97,6 +124,63 @@ interface Options {
 ```html
 <div [attr.disabled]="test != 'undefined' && null == '3'"></div>
                       ~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/eqeqeq": [
+      "error",
+      {
+        "allowNullOrUndefined": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [attr.disabled]="test !=  'undefined' && null == '3'"></div>
+                      ~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/eqeqeq": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [prop]="condition1 === 'value1' ? true : (condition2 != 'value2' ? true : false)}"></div>
+                                               ~~~~~~~~~~~~~~~~~~~~~~
 ```
 
 <br>
@@ -205,6 +289,33 @@ interface Options {
 ```html
 {{ c > d ? a != b : 'hey!' }}
            ~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/eqeqeq": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+{{ c > d ? a   !=     b : 'hey!' }}
+           ~~~~~~~~~~~~
 ```
 
 <br>

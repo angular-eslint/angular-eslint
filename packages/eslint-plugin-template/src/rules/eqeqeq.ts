@@ -2,6 +2,7 @@ import type { AST, Binary } from '@angular-eslint/bundled-angular-compiler';
 import {
   ASTWithSource,
   LiteralPrimitive,
+  Interpolation,
 } from '@angular-eslint/bundled-angular-compiler';
 import { ensureTemplateParser } from '@angular-eslint/utils';
 import type { TSESLint } from '@typescript-eslint/utils';
@@ -73,15 +74,14 @@ export default createESLintRule<Options, MessageIds>({
           data,
           ...(isStringNonNumericValue(left) || isStringNonNumericValue(right)
             ? {
-                fix: (fixer) =>
-                  getFix({ node, left, right, start, end, fixer }),
+                fix: (fixer) => getFix({ node, right, end, sourceCode, fixer }),
               }
             : {
                 suggest: [
                   {
                     messageId: 'suggestStrictEquality',
                     fix: (fixer) =>
-                      getFix({ node, left, right, start, end, fixer }),
+                      getFix({ node, right, end, sourceCode, fixer }),
                     data,
                   },
                 ],
@@ -98,28 +98,45 @@ function getSpanLength({ span: { start, end } }: AST): number {
 
 const getFix = ({
   node,
-  left,
   right,
-  start,
   end,
+  sourceCode,
   fixer,
 }: {
   node: Binary;
-  left: AST;
   right: AST;
-  start: number;
   end: number;
+  sourceCode: Readonly<TSESLint.SourceCode>;
   fixer: TSESLint.RuleFixer;
 }): TSESLint.RuleFix | null => {
-  const { source } = getNearestNodeFrom(node, isASTWithSource) ?? {};
+  const { source, ast } = getNearestNodeFrom(
+    node,
+    isASTWithSource,
+  ) as ASTWithSource & { ast: unknown };
 
   if (!source) return null;
 
+  let startOffet = 0;
+  while (!isInterpolation(ast) && isLeadingTriviaChar(source[startOffet])) {
+    startOffet++;
+  }
+
+  const endRange = end - startOffet - getSpanLength(right) - 1;
+  let eqOffset = 0;
+
+  while (sourceCode.text[endRange - eqOffset] !== '=') {
+    eqOffset++;
+  }
+
   return fixer.insertTextAfterRange(
-    [start + getSpanLength(left) + 1, end - getSpanLength(right) - 1],
+    [endRange - eqOffset, endRange - eqOffset],
     '=',
   );
 };
+
+function isLeadingTriviaChar(char: string) {
+  return char === '\n' || char === ' ';
+}
 
 function isASTWithSource(node: unknown): node is ASTWithSource {
   return node instanceof ASTWithSource;
@@ -127,6 +144,10 @@ function isASTWithSource(node: unknown): node is ASTWithSource {
 
 function isLiteralPrimitive(node: unknown): node is LiteralPrimitive {
   return node instanceof LiteralPrimitive;
+}
+
+function isInterpolation(node: unknown): node is Interpolation {
+  return node instanceof Interpolation;
 }
 
 function isNumeric(value: unknown): value is number | string {

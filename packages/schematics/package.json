@@ -35,16 +35,16 @@
   "dependencies": {
     "@angular-eslint/eslint-plugin": "17.2.1",
     "@angular-eslint/eslint-plugin-template": "17.2.1",
-    "@nx/devkit": "17.2.8",
-    "ignore": "5.3.0",
-    "nx": "17.2.8",
+    "@nx/devkit": "^17.2.8 || ^18.0.0",
+    "ignore": "5.3.1",
+    "nx": "^17.2.8 || ^18.0.0",
     "strip-json-comments": "3.1.1",
-    "tmp": "0.2.1"
+    "tmp": "0.2.3"
   },
   "devDependencies": {
     "@types/tmp": "0.2.6",
-    "@typescript-eslint/utils": "6.19.0",
-    "eslint": "8.56.0"
+    "@typescript-eslint/utils": "7.2.0",
+    "eslint": "8.57.0"
   },
   "peerDependencies": {
     "@angular/cli": ">= 17.0.0 < 18.0.0"
