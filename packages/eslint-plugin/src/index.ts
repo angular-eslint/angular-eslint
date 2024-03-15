@@ -10,6 +10,9 @@ import componentMaxInlineDeclarations, {
 import componentSelector, {
   RULE_NAME as componentSelectorRuleName,
 } from './rules/component-selector';
+import consistentComponentStyles, {
+  RULE_NAME as consistentComponentStylesRuleName,
+} from './rules/consistent-component-styles';
 import contextualDecorator, {
   RULE_NAME as contextualDecoratorRuleName,
 } from './rules/contextual-decorator';
@@ -119,6 +122,7 @@ export = {
     [componentClassSuffixRuleName]: componentClassSuffix,
     [componentMaxInlineDeclarationsRuleName]: componentMaxInlineDeclarations,
     [componentSelectorRuleName]: componentSelector,
+    [consistentComponentStylesRuleName]: consistentComponentStyles,
     [contextualDecoratorRuleName]: contextualDecorator,
     [contextualLifecycleRuleName]: contextualLifecycle,
     [directiveClassSuffixRuleName]: directiveClassSuffix,
