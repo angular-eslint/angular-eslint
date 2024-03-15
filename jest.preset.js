@@ -18,4 +18,5 @@ module.exports = {
    * https://github.com/jestjs/jest/issues/14305
    */
   prettierPath: require.resolve('prettier-v2-for-jest-inline-snapshots'),
+  maxWorkers: 1,
 };
