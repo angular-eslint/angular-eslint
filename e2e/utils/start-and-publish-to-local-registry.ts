@@ -30,6 +30,7 @@ export default async () => {
       env: process.env,
       stdio: 'inherit',
       maxBuffer: 1024 * 1024 * 10,
+      cwd: workspaceRoot,
     });
 
   execNx(['release', 'version', E2E_VERSION]);
