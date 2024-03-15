@@ -17,7 +17,7 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description:
-        'Ensures component `styles`/`styleUrl` with `string` is used over `styles`/`styleUrls` when there is only a single string in the array',
+        'Ensures consistent usage of `styles`/`styleUrls`/`styleUrl` within Component metadata',
     },
     fixable: 'code',
     schema: [
