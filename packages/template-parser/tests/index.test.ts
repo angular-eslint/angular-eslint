@@ -11726,7 +11726,7 @@ describe('parseForESLint()', () => {
                 "keySpan": ParseSourceSpan {
                   "details": null,
                   "end": ParseLocation {
-                    "col": 29,
+                    "col": 20,
                     "file": ParseSourceFile {
                       "content": "
                   @for (item of items; track item.id) {
@@ -11738,7 +11738,7 @@ describe('parseForESLint()', () => {
                       "url": "./foo.html",
                     },
                     "line": 1,
-                    "offset": 30,
+                    "offset": 21,
                   },
                   "fullStart": ParseLocation {
                     "col": 16,
@@ -11775,7 +11775,7 @@ describe('parseForESLint()', () => {
                 "sourceSpan": ParseSourceSpan {
                   "details": null,
                   "end": ParseLocation {
-                    "col": 29,
+                    "col": 20,
                     "file": ParseSourceFile {
                       "content": "
                   @for (item of items; track item.id) {
@@ -11787,7 +11787,7 @@ describe('parseForESLint()', () => {
                       "url": "./foo.html",
                     },
                     "line": 1,
-                    "offset": 30,
+                    "offset": 21,
                   },
                   "fullStart": ParseLocation {
                     "col": 16,
