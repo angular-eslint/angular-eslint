@@ -15,6 +15,12 @@
 
 # `@angular-eslint/prefer-standalone-component`
 
+## ⚠️ THIS RULE IS DEPRECATED
+
+Please use `@angular-eslint/prefer-standalone` instead.
+
+---
+
 Ensures component `standalone` property is set to `true` in the component decorator
 
 - Type: suggestion

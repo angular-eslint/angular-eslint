@@ -4,7 +4,7 @@ import { json, logging, schema } from '@angular-devkit/core';
 import type { ESLint } from 'eslint';
 import { mkdtempSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { join, sep } from 'node:path';
 import type { Schema } from './schema';
 
 // Add a placeholder file for the native workspace context within nx implementation details otherwise it will hang in CI
@@ -178,7 +178,7 @@ describe('Linter Builder', () => {
         fix: true,
         quiet: false,
         cache: true,
-        cacheLocation: 'cacheLocation1/<???>',
+        cacheLocation: `cacheLocation1${sep}<???>`,
         cacheStrategy: 'content',
         format: 'stylish',
         force: false,
@@ -214,7 +214,7 @@ describe('Linter Builder', () => {
         fix: true,
         quiet: false,
         cache: true,
-        cacheLocation: 'cacheLocation1/<???>',
+        cacheLocation: `cacheLocation1${sep}<???>`,
         cacheStrategy: 'content',
         format: 'stylish',
         force: false,
