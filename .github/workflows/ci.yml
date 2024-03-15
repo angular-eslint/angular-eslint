@@ -36,7 +36,7 @@ jobs:
           echo "NX_CI_EXECUTION_ENV=Node $(node --version) -" >> $GITHUB_ENV
 
       - name: Start Nx Cloud CI Run
-        run: npx nx-cloud start-ci-run --distributes-on="6 custom-linux-medium-plus-js" --stop-agents-after="e2e-suite"
+        run: npx nx-cloud start-ci-run --distributes-on="6 custom-linux-medium-plus-js"
 
       - uses: actions/cache@v4
         id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
