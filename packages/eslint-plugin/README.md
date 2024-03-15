@@ -64,7 +64,7 @@
 | [`pipe-prefix`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/pipe-prefix.md) | Enforce consistent prefix for pipes. |  |  |  |
 | [`prefer-on-push-component-change-detection`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/prefer-on-push-component-change-detection.md) | Ensures component's `changeDetection` is set to `ChangeDetectionStrategy.OnPush` |  |  | :bulb: |
 | [`prefer-output-readonly`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/prefer-output-readonly.md) | Prefer to declare `@Output` as `readonly` since they are not supposed to be reassigned |  |  | :bulb: |
-| [`prefer-standalone-component`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/prefer-standalone-component.md) | Ensures component `standalone` property is set to `true` in the component decorator |  | :wrench: |  |
+| [`prefer-standalone`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/prefer-standalone.md) | Ensures component, directive and pipe `standalone` property is set to `true` in the component decorator |  | :wrench: |  |
 | [`relative-url-prefix`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/relative-url-prefix.md) | The ./ and ../ prefix is standard syntax for relative URLs; don't depend on Angular's current ability to do without that prefix. See more at https://angular.io/styleguide#style-05-04 |  |  |  |
 | [`require-localize-metadata`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/require-localize-metadata.md) | Ensures that $localize tagged messages contain helpful metadata to aid with translations. |  |  |  |
 | [`sort-ngmodule-metadata-arrays`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/sort-ngmodule-metadata-arrays.md) | Ensures ASC alphabetical order for `NgModule` metadata arrays for easy visual scanning |  | :wrench: |  |
@@ -82,5 +82,13 @@
 <!-- end layout rule list -->
 
 <!-- begin deprecated rule list -->
+
+### Deprecated
+
+<!-- prettier-ignore-start -->
+| Rule | Replaced by |
+| --- | --- |
+| [`prefer-standalone-component`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/prefer-standalone-component.md) | [`prefer-standalone`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/prefer-standalone-component.md) |
+<!-- prettier-ignore-end -->
 
 <!-- end deprecated rule list -->

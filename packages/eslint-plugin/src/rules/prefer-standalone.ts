@@ -8,8 +8,9 @@ import type { TSESTree } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
 type Options = [];
-export type MessageIds = 'preferStandaloneComponent';
-export const RULE_NAME = 'prefer-standalone-component';
+type DecoratorTypes = 'component' | 'directive' | 'pipe';
+export type MessageIds = 'preferStandalone';
+export const RULE_NAME = 'prefer-standalone';
 const METADATA_PROPERTY_NAME = 'standalone';
 const IS_STANDALONE = 'true';
 
@@ -18,20 +19,18 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description: `Ensures component \`${METADATA_PROPERTY_NAME}\` property is set to \`${IS_STANDALONE}\` in the component decorator`,
+      description: `Ensures component, directive and pipe \`${METADATA_PROPERTY_NAME}\` property is set to \`${IS_STANDALONE}\` in the component decorator`,
     },
-    deprecated: true,
-    replacedBy: ['prefer-standalone'],
     fixable: 'code',
     schema: [],
     messages: {
-      preferStandaloneComponent: `The component \`${METADATA_PROPERTY_NAME}\` property should be set to \`${IS_STANDALONE}\``,
+      preferStandalone: `The {{type}} \`${METADATA_PROPERTY_NAME}\` property should be set to \`${IS_STANDALONE}\``,
     },
   },
   defaultOptions: [],
   create(context) {
-    return {
-      [Selectors.COMPONENT_CLASS_DECORATOR](node: TSESTree.Decorator) {
+    const standaloneRuleFactory =
+      (type: DecoratorTypes) => (node: TSESTree.Decorator) => {
         const standalone = ASTUtils.getDecoratorPropertyValue(
           node,
           METADATA_PROPERTY_NAME,
@@ -47,7 +46,8 @@ export default createESLintRule<Options, MessageIds>({
 
         context.report({
           node: nodeToReport(node),
-          messageId: 'preferStandaloneComponent',
+          messageId: 'preferStandalone',
+          data: { type },
           fix: (fixer) => {
             if (
               standalone &&
@@ -68,7 +68,12 @@ export default createESLintRule<Options, MessageIds>({
             ].filter(isNotNullOrUndefined);
           },
         });
-      },
+      };
+
+    return {
+      [Selectors.COMPONENT_CLASS_DECORATOR]: standaloneRuleFactory('component'),
+      [Selectors.DIRECTIVE_CLASS_DECORATOR]: standaloneRuleFactory('directive'),
+      [Selectors.PIPE_CLASS_DECORATOR]: standaloneRuleFactory('pipe'),
     };
   },
 });
