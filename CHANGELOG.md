@@ -1,3 +1,29 @@
+## 17.3.0 (2024-03-15)
+
+### 🚀 Features
+
+- **eslint-plugin:** add consistent-component-styles rule ([#1710](https://github.com/angular-eslint/angular-eslint/pull/1710))
+- **eslint-plugin:** add prefer-standalone rule for checking all components, directives and pipes ([#1627](https://github.com/angular-eslint/angular-eslint/pull/1627))
+
+### 🩹 Fixes
+
+- update dependency tmp to v0.2.3 ([#1734](https://github.com/angular-eslint/angular-eslint/pull/1734))
+- migrate to nx 18 ([#1732](https://github.com/angular-eslint/angular-eslint/pull/1732))
+- update dependency ignore to v5.3.1 ([#1733](https://github.com/angular-eslint/angular-eslint/pull/1733))
+- update dependency eslint to v8.57.0 ([#1739](https://github.com/angular-eslint/angular-eslint/pull/1739))
+- update typescript-eslint packages to v7 (major) ([#1742](https://github.com/angular-eslint/angular-eslint/pull/1742))
+- update dependency @angular/compiler to v17.3.0 ([#1713](https://github.com/angular-eslint/angular-eslint/pull/1713))
+- output declaration files in all packages ([#1724](https://github.com/angular-eslint/angular-eslint/pull/1724))
+- **eslint-plugin-template:** [eqeqeq] calculate offset to find true absolute source span ([#1709](https://github.com/angular-eslint/angular-eslint/pull/1709))
+
+### ❤️ Thank You
+
+- Christian Svensson
+- Dave @reduckted
+- James Henry @JamesHenry
+- Joey Jacobs @joeyj
+- Luis Estevez @estevezluis
+
 ## 17.2.1 (2024-01-20)
 
 ### 🩹 Fixes
