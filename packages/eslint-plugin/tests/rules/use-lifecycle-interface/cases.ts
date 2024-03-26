@@ -58,6 +58,14 @@ export const invalid = [
       interfaceName: ASTUtils.AngularLifecycleInterfaces.OnInit,
       methodName: ASTUtils.AngularLifecycleMethods.ngOnInit,
     },
+    annotatedOutput: `
+        @Component()
+        class Test implements OnInit {
+          ngOnInit() {
+          
+          }
+        }
+      `,
   }),
   convertAnnotatedSourceToFailureCase({
     description:
@@ -77,6 +85,16 @@ export const invalid = [
       interfaceName: ASTUtils.AngularLifecycleInterfaces.OnDestroy,
       methodName: ASTUtils.AngularLifecycleMethods.ngOnDestroy,
     },
+    annotatedOutput: `
+        @Directive()
+        class Test extends Component implements OnInit, OnDestroy {
+          ngOnInit() {}
+
+          ngOnDestroy() {
+          
+          }
+        }
+      `,
   }),
   convertAnnotatedSourceToFailureCase({
     description:
@@ -120,6 +138,19 @@ export const invalid = [
         },
       },
     ],
+    annotatedOutput: `
+        @Injectable()
+        class Test implements DoBootstrap {
+          ngDoBootstrap() {}
+                       
+
+          ngOnInit() {}
+                  
+
+          ngOnDestroy() {}
+          
+        }
+      `,
   }),
   convertAnnotatedSourceToFailureCase({
     description:
@@ -139,5 +170,15 @@ export const invalid = [
       interfaceName: ASTUtils.AngularLifecycleInterfaces.OnDestroy,
       methodName: ASTUtils.AngularLifecycleMethods.ngOnDestroy,
     },
+    annotatedOutput: `
+        @NgModule()
+        class Test extends Component implements ng.OnInit, OnDestroy {
+          ngOnInit() {}
+
+          ngOnDestroy() {
+          
+          }
+        }
+      `,
   }),
 ];

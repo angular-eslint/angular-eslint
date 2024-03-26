@@ -1,4 +1,9 @@
-import { ASTUtils, toPattern } from '@angular-eslint/utils';
+import {
+  ASTUtils,
+  toPattern,
+  RuleFixes,
+  isNotNullOrUndefined,
+} from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
@@ -18,6 +23,7 @@ export default createESLintRule<Options, MessageIds>({
     messages: {
       useLifecycleInterface: `Lifecycle interface '{{interfaceName}}' should be implemented for method '{{methodName}}'. (${STYLE_GUIDE_LINK})`,
     },
+    fixable: 'code',
   },
   defaultOptions: [],
   create(context) {
@@ -50,6 +56,16 @@ export default createESLintRule<Options, MessageIds>({
           node: key,
           messageId: 'useLifecycleInterface',
           data: { interfaceName, methodName },
+          fix: (fixer) => {
+            const { implementsNodeReplace, implementsTextReplace } =
+              RuleFixes.getImplementsSchemaFixer(parent, interfaceName);
+            return [
+              fixer.insertTextAfter(
+                implementsNodeReplace,
+                implementsTextReplace,
+              ),
+            ].filter(isNotNullOrUndefined);
+          },
         });
       },
     };
