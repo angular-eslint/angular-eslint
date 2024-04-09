@@ -88,7 +88,7 @@
 <!-- prettier-ignore-start -->
 | Rule | Replaced by |
 | --- | --- |
-| [`prefer-standalone-component`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/prefer-standalone-component.md) | [`prefer-standalone`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/prefer-standalone-component.md) |
+| [`prefer-standalone-component`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/prefer-standalone-component.md) | [`prefer-standalone`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/prefer-standalone.md) |
 <!-- prettier-ignore-end -->
 
 <!-- end deprecated rule list -->
