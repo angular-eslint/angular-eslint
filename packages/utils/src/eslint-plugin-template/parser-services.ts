@@ -14,11 +14,25 @@ export interface TemplateParserServices {
   ) => TSESTree.SourceLocation;
 }
 
+/**
+ * Retrieves the parser services from the eslint version 8 and higher, given ESLint rule context.
+ * @param {Readonly<TSESLint.RuleContext<string, readonly unknown[]>>} context - The ESLint rule context
+ * @return {TemplateParserServices} The parser services retrieved from the context
+ */
+function getParserServices(
+  context: Readonly<TSESLint.RuleContext<string, readonly unknown[]>>,
+): TemplateParserServices {
+  // disabled deprecation warning
+  const ctx = context as any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  return (ctx.parserServices ??
+    ctx.sourceCode?.parserServices) as unknown as TemplateParserServices;
+}
+
 export function getTemplateParserServices(
   context: Readonly<TSESLint.RuleContext<string, readonly unknown[]>>,
 ): TemplateParserServices {
   ensureTemplateParser(context);
-  return context.parserServices as unknown as TemplateParserServices;
+  return getParserServices(context);
 }
 
 /**
@@ -28,11 +42,10 @@ export function getTemplateParserServices(
 export function ensureTemplateParser(
   context: Readonly<TSESLint.RuleContext<string, readonly unknown[]>>,
 ): void {
+  const parserServices: TemplateParserServices = getParserServices(context);
   if (
-    !(context.parserServices as unknown as TemplateParserServices)
-      ?.convertNodeSourceSpanToLoc ||
-    !(context.parserServices as unknown as TemplateParserServices)
-      ?.convertElementSourceSpanToLoc
+    !parserServices?.convertNodeSourceSpanToLoc ||
+    !parserServices?.convertElementSourceSpanToLoc
   ) {
     /**
      * The user needs to have configured "parser" in their eslint config and set it
