@@ -58,6 +58,13 @@ export const valid = [
       },
     ],
   },
+  {
+    code: `
+      <input type="radio" id="id"/>
+      <label for="id"></label>
+      `,
+    options: [{ checkIds: true }],
+  },
 ];
 
 export const invalid = [
@@ -68,6 +75,17 @@ export const invalid = [
         <label>Label</label>
         ~~~~~~~~~~~~~~~~~~~~
       `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail if a label does a "for" attribute with a non matching id and ids are checked',
+    annotatedSource: `
+        <label for="id">Label</label>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        <input id="otherId" />
+      `,
+    options: [{ checkIds: true }],
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
