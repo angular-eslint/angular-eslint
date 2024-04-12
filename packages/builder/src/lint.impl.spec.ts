@@ -95,8 +95,8 @@ describe('Linter Builder', () => {
     const projectName = 'proj';
     mockContext = {
       projectName,
-      root: '/root',
-      cwd: '/root',
+      root: resolve('/root'),
+      cwd: resolve('/root'),
       workspace: {
         npmScope: '',
         version: 2,
@@ -636,9 +636,9 @@ describe('Linter Builder', () => {
       }),
       mockContext,
     );
-    expect(mockCreateDirectory).toHaveBeenCalledWith('/root/a/b/c');
+    expect(mockCreateDirectory).toHaveBeenCalledWith(resolve('/root/a/b/c'));
     expect(fs.writeFileSync).toHaveBeenCalledWith(
-      '/root/a/b/c/outputFile1',
+      resolve('/root/a/b/c/outputFile1'),
       mockFormatter.format(mockReports),
     );
   });
