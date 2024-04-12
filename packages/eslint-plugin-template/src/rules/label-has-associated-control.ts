@@ -1,4 +1,7 @@
-import type { AST, TmplAstElement } from '@angular-eslint/bundled-angular-compiler';
+import type {
+  AST,
+  TmplAstElement,
+} from '@angular-eslint/bundled-angular-compiler';
 import { getTemplateParserServices } from '@angular-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import { isChildNodeOf } from '../utils/is-child-node-of';
@@ -78,7 +81,7 @@ export default createESLintRule<Options, MessageIds>({
     },
   },
   defaultOptions: [DEFAULT_OPTIONS],
-  create(context, [{ controlComponents, labelComponents }]) {
+  create(context, [{ checkIds, controlComponents, labelComponents }]) {
     const parserServices = getTemplateParserServices(context);
     const allControlComponents: ReadonlySet<string> = new Set([
       ...DEFAULT_CONTROL_COMPONENTS,
@@ -88,8 +91,6 @@ export default createESLintRule<Options, MessageIds>({
       ...DEFAULT_LABEL_COMPONENTS,
       ...(labelComponents ?? []),
     ] as const;
-    const labelSelectors = allLabelComponents.map(({ selector }) => selector);
-    const labelComponentsPattern = toPattern(labelSelectors);
     let inputItems: TmplAstElement[] = [];
     let labelItems: TmplAstElement[] = [];
 
@@ -136,7 +137,7 @@ export default createESLintRule<Options, MessageIds>({
 
           context.report({
             loc,
-            messageId: 'accessibilityLabelHasAssociatedControl',
+            messageId: 'labelHasAssociatedControl',
           });
         }
 
@@ -169,4 +170,8 @@ function hasControlComponentWithId(
       );
     }),
   );
+}
+
+function filterUndefined<T>(value: T | undefined | null): value is T {
+  return value !== undefined && value !== null;
 }
