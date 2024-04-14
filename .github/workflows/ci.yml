@@ -52,12 +52,12 @@ jobs:
           yarn --ignore-engines --frozen-lockfile --prefer-offline --ignore-scripts
           yarn check-clean-workspace-after-install
 
-      - name: Run parallel distributed tasks for build, typecheck, check-rule-docs, lint and test targets
+      - name: Run parallel distributed tasks for build, typecheck, check-rule-docs, check-rule-lists, lint and test targets
         uses: jameshenry/parallel-bash-commands@v1
         with:
           # Note that the typecheck target *also* typechecks tests and tools,
           # whereas the build only checks src files
-          cmd1: npx nx run-many -t build,typecheck,check-rule-docs,lint
+          cmd1: npx nx run-many -t build,typecheck,check-rule-docs,lint,check-rule-lists
           cmd2: npx nx run-many -t test --codeCoverage
           cmd3: npx nx-cloud record -- yarn lint
           cmd4: npx nx-cloud record -- yarn format-check

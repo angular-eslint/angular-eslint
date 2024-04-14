@@ -14,8 +14,8 @@
     "pretty": true,
     "sourceMap": false,
     "strict": true,
-    "target": "es2017",
-    "lib": ["es2017"],
+    "target": "ES2022",
+    "lib": ["ES2022"],
     "skipLibCheck": true,
     "paths": {
       "@angular-eslint/bundled-angular-compiler": [

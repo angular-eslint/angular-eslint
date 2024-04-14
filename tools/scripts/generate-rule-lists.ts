@@ -105,7 +105,7 @@ const columnsDeprecated: Column[] = [
     dataFn: ([name, rule]: RuleItem, plugin: Plugin) =>
       (rule.meta.replacedBy || [])
         .map((replacer) =>
-          createRuleLink([name, rule], plugin).replace(name, replacer),
+          createRuleLink([name, rule], plugin).replaceAll(name, replacer),
         )
         .join(', '),
   },
@@ -121,8 +121,8 @@ const buildRulesTable = (rules: RulesList = [], plugin: Plugin): string => {
   const columnSet = rules[0][1].meta.deprecated
     ? columnsDeprecated
     : plugin.withAccessibility
-      ? columns.concat(accessibilityColumn)
-      : columns;
+    ? columns.concat(accessibilityColumn)
+    : columns;
   return [
     `| ${columnSet.map((col) => col.header).join(' | ')} |`,
     `| ${columnSet.map(() => '---').join(' | ')} |`,
