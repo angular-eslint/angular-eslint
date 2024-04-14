@@ -38,7 +38,9 @@ const testDirs = readdirSync(testDirsDir);
       testCasesFilePath,
     } = ruleData;
 
-    const docs = ruleData.ruleConfig.meta.docs as TSESLint.RuleMetaDataDocs;
+    const docs = ruleData.ruleConfig.meta.docs as TSESLint.RuleMetaDataDocs<
+      unknown[]
+    >;
     const { description } = docs;
 
     let schemaAsInterface = '';
