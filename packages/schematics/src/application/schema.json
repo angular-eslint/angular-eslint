@@ -61,19 +61,19 @@
         "items": [
           {
             "value": "css",
-            "label": "CSS"
+            "label": "CSS             [ https://developer.mozilla.org/docs/Web/CSS                     ]"
           },
           {
             "value": "scss",
-            "label": "SCSS   [ https://sass-lang.com/documentation/syntax#scss                ]"
+            "label": "Sass (SCSS)     [ https://sass-lang.com/documentation/syntax#scss                ]"
           },
           {
             "value": "sass",
-            "label": "Sass   [ https://sass-lang.com/documentation/syntax#the-indented-syntax ]"
+            "label": "Sass (Indented) [ https://sass-lang.com/documentation/syntax#the-indented-syntax ]"
           },
           {
             "value": "less",
-            "label": "Less   [ http://lesscss.org                                             ]"
+            "label": "Less            [ http://lesscss.org                                             ]"
           }
         ]
       },
