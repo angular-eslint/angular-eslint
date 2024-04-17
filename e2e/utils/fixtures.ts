@@ -54,7 +54,7 @@ export class Fixture {
     return parseJson<T>(content);
   }
 
-  createFile(f: string, content: string = ''): void {
+  createFile(f: string, content = ''): void {
     writeFileSync(joinPathFragments(this.root, f), content);
   }
 }

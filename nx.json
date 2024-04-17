@@ -4,16 +4,9 @@
   "release": {
     "projects": ["*", "!e2e*", "!nx-plugin"],
     "version": {
-      "generatorOptions": {
-        "currentVersionResolver": "git-tag",
-        "specifierSource": "conventional-commits"
-      }
+      "conventionalCommits": true
     },
     "changelog": {
-      "git": {
-        "commit": true,
-        "tag": true
-      },
       "workspaceChangelog": {
         "createRelease": "github"
       },
@@ -44,6 +37,14 @@
       "cache": true
     },
     "lint": {
+      "inputs": [
+        "default",
+        "{workspaceRoot}/.eslintrc.json",
+        "{workspaceRoot}/.eslintignore"
+      ],
+      "options": {
+        "ignore-path": "../../.eslintignore"
+      },
       "cache": true
     },
     "e2e": {
@@ -100,5 +101,6 @@
       "!{projectRoot}/src/test-setup.[jt]s"
     ],
     "projectSpecificFiles": []
-  }
+  },
+  "plugins": ["@nx/eslint/plugin"]
 }
