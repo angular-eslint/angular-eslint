@@ -28,7 +28,7 @@
     "pre-push": "yarn format-check",
     "format": "node node_modules/prettier/bin/prettier.cjs --write \"./**/*.{ts,js,json,md}\"",
     "format-check": "node node_modules/prettier/bin/prettier.cjs --check \"./**/*.{ts,js,json,md}\"",
-    "lint": "eslint . --ext .js,.ts",
+    "lint": "nx run-many -t lint",
     "typecheck": "nx run-many -t typecheck",
     "release": "ts-node --transpile-only tools/scripts/release.ts",
     "exec-tool": "ts-node --transpile-only --project tsconfig.tools.json tools/scripts/exec-tool.ts",

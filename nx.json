@@ -42,6 +42,9 @@
         "{workspaceRoot}/.eslintrc.json",
         "{workspaceRoot}/.eslintignore"
       ],
+      "options": {
+        "ignore-path": "../../.eslintignore"
+      },
       "cache": true
     },
     "e2e": {
@@ -98,5 +101,6 @@
       "!{projectRoot}/src/test-setup.[jt]s"
     ],
     "projectSpecificFiles": []
-  }
+  },
+  "plugins": ["@nx/eslint/plugin"]
 }
