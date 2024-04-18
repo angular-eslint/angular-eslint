@@ -115,6 +115,9 @@ import useLifecycleInterface, {
 import usePipeTransformInterface, {
   RULE_NAME as usePipeTransformInterfaceRuleName,
 } from './rules/use-pipe-transform-interface';
+import noDuplicatesInMetadataArrays, {
+  RULE_NAME as noDuplicatesInMetadataArraysRuleName,
+} from './rules/no-duplicates-in-metadata-arrays';
 
 export = {
   configs: {
@@ -133,6 +136,7 @@ export = {
     [noAsyncLifecycleMethodRuleName]: noAsyncLifecycleMethod,
     [noAttributeDecoratorRuleName]: noAttributeDecorator,
     [noConflictingLifecycleRuleName]: noConflictingLifecycle,
+    [noDuplicatesInMetadataArraysRuleName]: noDuplicatesInMetadataArrays,
     [noEmptyLifecycleMethodRuleName]: noEmptyLifecycleMethod,
     [noForwardRefRuleName]: noForwardRef,
     [noHostMetadataPropertyRuleName]: noHostMetadataProperty,
