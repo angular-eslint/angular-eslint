@@ -14,7 +14,7 @@ module.exports = {
     resolve(),
     commonjs(),
     typescript({
-      tsconfig: './tsconfig.json',
+      tsconfig: './tsconfig.lib.json',
     }),
   ],
 };

@@ -12,6 +12,7 @@
   },
   "files": [
     "dist",
+    "!**/*.tsbuildinfo",
     "package.json",
     "README.md",
     "LICENSE"

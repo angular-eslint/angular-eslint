@@ -11,8 +11,7 @@
         "parallel": false,
         "commands": ["npx rimraf ./dist", "npx rollup -c"]
       }
-    },
-    "typecheck": {}
+    }
   },
   "implicitDependencies": []
 }

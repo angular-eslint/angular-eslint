@@ -4,18 +4,9 @@
   "type": "library",
   "targets": {
     "build": {
-      "executor": "nx:run-commands",
+      "dependsOn": ["compile"],
       "outputs": ["{projectRoot}/dist"],
-      "options": {
-        "cwd": "packages/builder",
-        "parallel": false,
-        "commands": [
-          "npx rimraf ./dist",
-          "npx tsc --project tsconfig.build.json",
-          "terser ./dist/index.js --output=./dist/index.js",
-          "ncp src/schema.json dist/schema.json"
-        ]
-      }
+      "command": "ncp {projectRoot}/src/schema.json {projectRoot}/dist/schema.json"
     },
     "test": {
       "executor": "@nx/jest:jest",
@@ -23,8 +14,7 @@
       "options": {
         "jestConfig": "packages/builder/jest.config.ts"
       }
-    },
-    "typecheck": {}
+    }
   },
   "implicitDependencies": []
 }

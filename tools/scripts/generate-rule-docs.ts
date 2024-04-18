@@ -1,8 +1,8 @@
 import type { TSESLint } from '@typescript-eslint/utils';
-import { readdirSync, readFileSync, writeFileSync } from 'fs';
 import { compile } from 'json-schema-to-typescript';
 import traverse from 'json-schema-traverse';
-import { join, relative } from 'path';
+import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { join, relative } from 'node:path';
 import { format, resolveConfig } from 'prettier';
 import ts from 'typescript';
 import { SPECIAL_UNDERLINE_CHARS } from '../../packages/utils/src/convert-annotated-source-to-failure-case';

@@ -1,10 +1,20 @@
 {
-  "extends": "./tsconfig.json",
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "../../dist/out-tsc",
-    "module": "commonjs",
-    "types": ["jest", "node"],
-    "sourceMap": true
+    "outDir": "../../dist/out-tsc/schematics",
+    "types": ["jest", "node"]
   },
-  "include": ["**/*.test.ts", "**/*.d.ts"]
+  "include": [
+    "**/*.test.ts",
+    "**/*_test.ts",
+    "**/*.test.tsx",
+    "**/*.test.js",
+    "**/*.test.jsx",
+    "**/*.d.ts"
+  ],
+  "references": [
+    {
+      "path": "./tsconfig.lib.json"
+    }
+  ]
 }

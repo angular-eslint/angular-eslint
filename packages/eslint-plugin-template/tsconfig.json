@@ -1,5 +1,17 @@
 {
-  "extends": "./tsconfig.build.json",
-  "include": ["src", "tests"],
-  "exclude": ["jest.config.ts"]
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "../../dist/out-tsc/eslint-plugin-template",
+    "resolveJsonModule": true,
+    "isolatedModules": false
+  },
+  "include": ["**/*.ts", "**/*.json"],
+  "references": [
+    {
+      "path": "./tsconfig.lib.json"
+    },
+    {
+      "path": "./tsconfig.spec.json"
+    }
+  ]
 }

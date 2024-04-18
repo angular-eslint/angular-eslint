@@ -1,4 +1,12 @@
 {
-  "extends": "./tsconfig.build.json",
-  "include": ["src", "tests"]
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "../../dist/out-tsc/utils"
+  },
+  "include": ["src/**/*"],
+  "references": [
+    {
+      "path": "./tsconfig.lib.json"
+    }
+  ]
 }

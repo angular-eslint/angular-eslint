@@ -1,9 +1,8 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "../../dist/out-tsc/eslint-plugin-template",
-    "types": ["jest", "node"],
-    "resolveJsonModule": true
+    "outDir": "../../dist/out-tsc/utils",
+    "types": ["jest", "node"]
   },
   "include": [
     "**/*.spec.ts",

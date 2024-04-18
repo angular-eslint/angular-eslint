@@ -1,0 +1,17 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "isolatedModules": false,
+    "verbatimModuleSyntax": false,
+    "module": "es2015",
+    "moduleResolution": "Bundler",
+    "rootDir": "src",
+    "outDir": "dist",
+    "emitDeclarationOnly": false,
+    "tsBuildInfoFile": "dist/tsconfig.lib.tsbuildinfo",
+    "esModuleInterop": true,
+    "declaration": true
+  },
+  "exclude": ["**/*.spec.ts"],
+  "include": ["src/**/*"]
+}
