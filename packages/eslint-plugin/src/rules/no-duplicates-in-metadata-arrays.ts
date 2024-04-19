@@ -3,18 +3,9 @@ import { createESLintRule } from '../utils/create-eslint-rule';
 import type { TSESTree } from '@typescript-eslint/utils';
 import { ASTUtils as TSESLintASTUtils } from '@typescript-eslint/utils';
 
-type Options = [
-  {
-    readonly declarations?: boolean;
-    readonly exports?: boolean;
-    readonly imports?: boolean;
-    readonly providers?: boolean;
-  },
-];
+type Options = [];
 export type MessageIds = 'noDuplicatesInMetadataArrays';
 export const RULE_NAME = 'no-duplicates-in-metadata-arrays';
-
-const DEFAULT_OPTIONS: Options[0] = { imports: true };
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
@@ -23,49 +14,48 @@ export default createESLintRule<Options, MessageIds>({
     docs: {
       description:
         'Ensures that metadata arrays do not contain duplicate entries.',
-      recommended: 'recommended',
     },
-    fixable: 'code',
-    schema: [
-      {
-        type: 'object',
-        properties: {
-          imports: {
-            type: 'boolean',
-            default: DEFAULT_OPTIONS.imports,
-          },
-        },
-      },
-    ],
+    schema: [],
     messages: {
       noDuplicatesInMetadataArrays: 'Entry is duplicated in metadata array',
     },
   },
-  defaultOptions: [DEFAULT_OPTIONS],
-  create(context, [{ imports }]) {
-    // TODO: How do we want the rule to be configured? By decorator? By metadata array?
-    // TODO: For now, configured by metadata array
-    const metadataArraysToCheckForNgModule = new Set();
+  defaultOptions: [],
+  create(context) {
+    // https://angular.io/api/core/NgModule
+    const ngModuleMetadataArrays = new Set([
+      'providers',
+      'declarations',
+      'imports',
+      'exports',
+    ]);
 
-    if (imports) {
-      metadataArraysToCheckForNgModule.add('imports');
-    }
+    // https://angular.io/api/core/Component
+    const componentMetadataArrays = new Set(['imports']);
+
+    // https://angular.io/api/core/Directive
+    const directiveMetadataArrays = new Set(['providers']);
+
+    const selectors = [
+      `${Selectors.MODULE_CLASS_DECORATOR} Property[key.name=${toPattern([
+        ...ngModuleMetadataArrays,
+      ])}] > ArrayExpression`,
+      `${Selectors.COMPONENT_CLASS_DECORATOR} Property[key.name=${toPattern([
+        ...componentMetadataArrays,
+      ])}] > ArrayExpression`,
+      `${Selectors.DIRECTIVE_CLASS_DECORATOR} Property[key.name=${toPattern([
+        ...directiveMetadataArrays,
+      ])}] > ArrayExpression`,
+    ].join(',');
 
     return {
-      [`${Selectors.MODULE_CLASS_DECORATOR} Property[key.name=${toPattern([
-        ...metadataArraysToCheckForNgModule,
-      ])}] > ArrayExpression`]({ elements }: TSESTree.ArrayExpression) {
-        if (!imports) {
-          return;
-        } else {
-          getDuplicateItems(elements).forEach((duplicateImport) => {
-            context.report({
-              node: duplicateImport,
-              messageId: 'noDuplicatesInMetadataArrays',
-              // TODO: Add fixer to remove duplicates
-            });
+      [selectors]({ elements }: TSESTree.ArrayExpression) {
+        getDuplicateItems(elements).forEach((duplicateImport) => {
+          context.report({
+            node: duplicateImport,
+            messageId: 'noDuplicatesInMetadataArrays',
           });
-        }
+        });
       },
     };
   },
