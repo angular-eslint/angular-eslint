@@ -22,29 +22,21 @@ export default createESLintRule<Options, MessageIds>({
   },
   defaultOptions: [],
   create(context) {
-    // https://angular.io/api/core/NgModule
-    const ngModuleMetadataArrays = new Set([
-      'providers',
-      'declarations',
-      'imports',
-      'exports',
-    ]);
-
-    // https://angular.io/api/core/Component
-    const componentMetadataArrays = new Set(['imports']);
-
-    // https://angular.io/api/core/Directive
-    const directiveMetadataArrays = new Set(['providers']);
-
     const selectors = [
+      // https://angular.io/api/core/NgModule
       `${Selectors.MODULE_CLASS_DECORATOR} Property[key.name=${toPattern([
-        ...ngModuleMetadataArrays,
+        'providers',
+        'declarations',
+        'imports',
+        'exports',
       ])}] > ArrayExpression`,
+      // https://angular.io/api/core/Component
       `${Selectors.COMPONENT_CLASS_DECORATOR} Property[key.name=${toPattern([
-        ...componentMetadataArrays,
+        'imports',
       ])}] > ArrayExpression`,
+      // https://angular.io/api/core/Directive
       `${Selectors.DIRECTIVE_CLASS_DECORATOR} Property[key.name=${toPattern([
-        ...directiveMetadataArrays,
+        'providers',
       ])}] > ArrayExpression`,
     ].join(',');
 
