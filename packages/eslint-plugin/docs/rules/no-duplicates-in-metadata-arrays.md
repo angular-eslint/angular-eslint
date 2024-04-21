@@ -241,7 +241,9 @@ class Test {}
     ImportB,
     ImportA,
     ~~~~~~~
-    ImportB
+    ImportB,
+    ~~~~~~~
+    ImportA
     ~~~~~~~
   ]
 })
