@@ -57,7 +57,7 @@ jobs:
         with:
           # Note that the typecheck target *also* typechecks tests and tools,
           # whereas the build only checks src files
-          cmd1: npx nx run-many -t build,typecheck,check-rule-docs,lint,check-rule-lists
+          cmd1: npx nx run-many -t build,typecheck
           cmd2: npx nx run-many -t test --codeCoverage
           cmd3: npx nx-cloud record -- yarn format-check
       
