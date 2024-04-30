@@ -52,8 +52,8 @@ jobs:
           yarn --ignore-engines --frozen-lockfile --prefer-offline --ignore-scripts
           yarn check-clean-workspace-after-install
         
-      - run: nx run-many -t check-rule-docs
-      - run: nx run-many -t check-rule-lists
+      - run: npx nx run-many -t check-rule-docs
+      - run: npx nx run-many -t check-rule-lists
 
       - name: Run parallel distributed tasks for build, typecheck, check-rule-docs, check-rule-lists, lint and test targets
         uses: jameshenry/parallel-bash-commands@v1
