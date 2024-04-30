@@ -4,7 +4,7 @@
   "projectType": "application",
   "targets": {
     "e2e-suite": {
-      "executor": "@angular-eslint/nx-plugin:e2e-test-suite",
+      "executor": "./packages/nx-plugin:e2e-test-suite",
       "options": {
         "cwd": "e2e",
         "testFilePath": "src/new-workspace-create-application-false-project-then-ng-add.test.ts"

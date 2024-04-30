@@ -27,9 +27,6 @@
     "sourceMap": false,
     "strict": true,
     "target": "es2022",
-    "verbatimModuleSyntax": false,
-    "paths": {
-      "@angular-eslint/nx-plugin": ["packages/nx-plugin"]
-    }
+    "verbatimModuleSyntax": false
   }
 }
