@@ -15,6 +15,10 @@
 
 # `@angular-eslint/sort-ngmodule-metadata-arrays`
 
+## ⚠️ THIS RULE IS DEPRECATED
+
+---
+
 Ensures ASC alphabetical order for `NgModule` metadata arrays for easy visual scanning
 
 - Type: suggestion

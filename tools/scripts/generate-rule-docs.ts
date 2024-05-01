@@ -111,14 +111,18 @@ const testDirs = readdirSync(testDirsDir);
 
 ${
   deprecated
-    ? `## ⚠️ THIS RULE IS DEPRECATED\n\nPlease use ${(replacedBy || [])
-        .map(
-          (r: string) =>
-            `\`@angular-eslint/${
-              plugin === 'eslint-plugin-template' ? 'template/' : ''
-            }${r}\``,
-        )
-        .join(', ')} instead.\n\n---\n\n`
+    ? `## ⚠️ THIS RULE IS DEPRECATED\n\n${
+        replacedBy
+          ? `Please use ${(replacedBy || [])
+              .map(
+                (r: string) =>
+                  `\`@angular-eslint/${
+                    plugin === 'eslint-plugin-template' ? 'template/' : ''
+                  }${r}\``,
+              )
+              .join(', ')} instead.`
+          : ''
+      }\n\n---\n\n`
     : ''
 }${description}
 
