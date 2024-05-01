@@ -1,0 +1,20 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist",
+    "emitDeclarationOnly": false,
+    "tsBuildInfoFile": "dist/tsconfig.lib.tsbuildinfo",
+    "resolveJsonModule": true
+  },
+  "exclude": ["**/*.spec.ts"],
+  "include": ["src/**/*.ts", "src/**/*.json"],
+  "references": [
+    {
+      "path": "../utils/tsconfig.lib.json"
+    },
+    {
+      "path": "../bundled-angular-compiler/tsconfig.lib.json"
+    }
+  ]
+}

@@ -15,7 +15,7 @@ import { getTemplateParserServices } from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
-export const enum OrderType {
+export enum OrderType {
   TemplateReferenceVariable = 'TEMPLATE_REFERENCE',
   StructuralDirective = 'STRUCTURAL_DIRECTIVE',
   AttributeBinding = 'ATTRIBUTE_BINDING',

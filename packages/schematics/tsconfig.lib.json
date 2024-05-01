@@ -1,0 +1,20 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist",
+    "emitDeclarationOnly": false,
+    "tsBuildInfoFile": "dist/tsconfig.lib.tsbuildinfo",
+    "resolveJsonModule": true
+  },
+  "exclude": ["**/*.test.ts"],
+  "include": ["src/**/*"],
+  "references": [
+    {
+      "path": "../eslint-plugin-template/tsconfig.lib.json"
+    },
+    {
+      "path": "../eslint-plugin/tsconfig.lib.json"
+    }
+  ]
+}

@@ -12,11 +12,13 @@
   },
   "files": [
     "dist",
+    "!**/*.tsbuildinfo",
     "package.json",
     "README.md",
     "LICENSE"
   ],
   "dependencies": {
+    "@angular-eslint/bundled-angular-compiler": "17.3.0",
     "@angular-eslint/utils": "17.3.0",
     "@typescript-eslint/utils": "7.7.0"
   },

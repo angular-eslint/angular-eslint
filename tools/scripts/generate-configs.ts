@@ -1,7 +1,7 @@
 import type { TSESLint } from '@typescript-eslint/utils';
 import chalk from 'chalk';
-import fs from 'fs';
-import path from 'path';
+import fs from 'node:fs';
+import path from 'node:path';
 import { format, resolveConfig } from 'prettier';
 import eslintPluginTemplate from '../../packages/eslint-plugin-template/src';
 import eslintPlugin from '../../packages/eslint-plugin/src';
@@ -127,7 +127,7 @@ async function writeConfig(
         (config, entry) =>
           reducer('@angular-eslint/', config, entry, {
             errorLevel: 'error',
-            filterDeprecated: true,
+            filterDeprecated: false,
           }),
         {},
       ),
