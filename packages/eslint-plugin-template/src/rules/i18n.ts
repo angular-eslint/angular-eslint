@@ -63,6 +63,7 @@ const DEFAULT_ALLOWED_ATTRIBUTES: ReadonlySet<string> = new Set([
 
 type Options = [
   {
+    readonly allowMarkupInContent?: boolean;
     readonly boundTextAllowedPattern?: string;
     readonly checkAttributes?: boolean;
     readonly checkDuplicateId?: boolean;
@@ -82,7 +83,8 @@ export type MessageIds =
   | 'i18nDuplicateCustomId'
   | 'suggestAddI18nAttribute'
   | 'i18nMissingDescription'
-  | 'i18nMissingMeaning';
+  | 'i18nMissingMeaning'
+  | 'i18nMarkupInContent';
 type StronglyTypedI18n<T extends TmplAstNode> = Omit<T, 'i18n'> & {
   i18n: I18nMeta;
   parent?: AST;
@@ -105,6 +107,7 @@ type StronglyTypedBoundTextOrIcuOrText = (
 };
 export const RULE_NAME = 'i18n';
 const DEFAULT_OPTIONS: Options[number] = {
+  allowMarkupInContent: true,
   checkAttributes: true,
   checkId: true,
   checkDuplicateId: true,
@@ -138,6 +141,10 @@ export default createESLintRule<Options, MessageIds>({
       {
         type: 'object',
         properties: {
+          allowMarkupInContent: {
+            type: 'boolean',
+            default: DEFAULT_OPTIONS.allowMarkupInContent,
+          },
           boundTextAllowedPattern: {
             type: 'string',
           },
@@ -191,6 +198,8 @@ export default createESLintRule<Options, MessageIds>({
       suggestAddI18nAttribute: 'Add the `i18n` attribute',
       i18nMissingDescription: `Missing i18n description on element. See more at ${STYLE_GUIDE_LINK_METADATA_FOR_TRANSLATION}`,
       i18nMissingMeaning: `Missing i18n meaning on element. See more at ${STYLE_GUIDE_LINK_METADATA_FOR_TRANSLATION}`,
+      i18nMarkupInContent:
+        'Avoid HTML markup in an element with an i18n attribute.',
     },
   },
   defaultOptions: [DEFAULT_OPTIONS],
@@ -198,6 +207,7 @@ export default createESLintRule<Options, MessageIds>({
     context,
     [
       {
+        allowMarkupInContent,
         boundTextAllowedPattern,
         checkAttributes,
         checkId,
@@ -211,7 +221,7 @@ export default createESLintRule<Options, MessageIds>({
     ],
   ) {
     const parserServices = getTemplateParserServices(context);
-    const sourceCode = context.getSourceCode();
+    const sourceCode = context.sourceCode;
     const allowedBoundTextPattern = boundTextAllowedPattern
       ? new RegExp(boundTextAllowedPattern)
       : DEFAULT_ALLOWED_BOUND_TEXT_PATTERN;
@@ -246,15 +256,22 @@ export default createESLintRule<Options, MessageIds>({
       const { i18n, sourceSpan } = node;
       const parent = getNextElementOrTemplateParent(node);
 
-      if (
-        isTagAllowed(allowedTags, node) ||
-        isElementWithI18n(parent) ||
-        isNgTemplateWithI18n(parent)
-      ) {
+      if (isTagAllowed(allowedTags, node)) {
         return;
       }
 
       const loc = parserServices.convertNodeSourceSpanToLoc(sourceSpan);
+
+      if (isElementWithI18n(parent) || isNgTemplateWithI18n(parent)) {
+        if (allowMarkupInContent) {
+          return;
+        }
+        context.report({
+          messageId: 'i18nMarkupInContent',
+          loc,
+        });
+        return;
+      }
 
       const customId = getI18nCustomId(i18n);
 
@@ -400,10 +417,13 @@ export default createESLintRule<Options, MessageIds>({
     }
 
     return {
-      ...((checkId || requireDescription || requireMeaning) && {
-        ':matches(Element$1, Template[tagName="ng-template"])[i18n]'(
-          node: StronglyTypedElement | StronglyTypedTemplate,
-        ) {
+      ...((!allowMarkupInContent ||
+        checkId ||
+        requireDescription ||
+        requireMeaning) && {
+        [`:matches(Element$1, Template[tagName="ng-template"])${
+          allowMarkupInContent ? '[i18n]' : ''
+        }`](node: StronglyTypedElement | StronglyTypedTemplate) {
           handleElementOrTemplate(node);
         },
       }),

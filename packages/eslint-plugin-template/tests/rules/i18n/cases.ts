@@ -9,6 +9,7 @@ const i18nDuplicateCustomId: MessageIds = 'i18nDuplicateCustomId';
 const suggestAddI18nAttribute: MessageIds = 'suggestAddI18nAttribute';
 const i18nMissingDescription: MessageIds = 'i18nMissingDescription';
 const i18nMissingMeaning: MessageIds = 'i18nMissingMeaning';
+const i18nMarkupInContent: MessageIds = 'i18nMarkupInContent';
 
 export const valid = [
   `
@@ -97,6 +98,11 @@ export const valid = [
     <ng-template #errorMessage>
       {{ error.title }}
     </ng-template>
+  `,
+  `
+    <ng-container i18n="@@description">
+      { value, plural, =0 {No elements} =1 {111} }
+    </ng-container>
   `,
   `
     <ng-container i18n="@@description">
@@ -239,6 +245,39 @@ export const valid = [
       <ng-template>Let's ignore "ng-template"</ng-template>
     `,
     options: [{ ignoreTags: ['ng-template'] }],
+  },
+  {
+    code: `
+      <div i18n>
+        Text to translate{{ Bound }}
+      </div>
+    `,
+    options: [{ allowMarkupInContent: false, checkId: false }],
+  },
+  {
+    code: `
+      <ng-template i18n>
+        Text to translate{{ Bound }}
+      </ng-template>
+    `,
+    options: [{ allowMarkupInContent: false, checkId: false }],
+  },
+  {
+    code: `
+      <div i18n>
+        { value, plural, =0 {No elements} =1 {111} }
+      </div>
+    `,
+    options: [{ allowMarkupInContent: false, checkId: false }],
+  },
+  {
+    code: `
+      <div i18n>
+        { value, plural, =0 {<div>No elements</div>} =1 {111} }
+      </div>
+    `,
+    // ideally this would flag the markup inside the ICU, but it's not possible to detect that
+    options: [{ allowMarkupInContent: false, checkId: false }],
   },
   // https://github.com/angular-eslint/angular-eslint/issues/701
   `
@@ -402,17 +441,29 @@ export const invalid = [
     `,
   }),
   convertAnnotatedSourceToFailureCase({
+    description: 'should fail if `i18n` attribute is missing on ICU',
+    annotatedSource: `
+      { value, plural, =0 {No elements} =1 {111} }
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    messageId: i18nAttributeOnIcuOrText,
+    annotatedOutput: `
+      <ng-container i18n>{ value, plural, =0 {No elements} =1 {111} }</ng-container>
+      
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
     description:
       'should fail if `i18n` attribute is missing on element containing ICU',
     annotatedSource: `
-      { value, plural, =0 {<div>No elements</div>} =1 {111} }
-      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      <div>{ value, plural, =0 {No elements} =1 {111} }</div>
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     `,
     messageId: i18nAttributeOnIcuOrText,
     options: [{ checkAttributes: false }],
     annotatedOutput: `
-      <ng-container i18n>{ value, plural, =0 {<div>No elements</div>} =1 {111} }</ng-container>
-      
+      <div i18n>{ value, plural, =0 {No elements} =1 {111} }</div>
+           
     `,
   }),
   convertAnnotatedSourceToFailureCase({
@@ -779,14 +830,14 @@ export const invalid = [
     description:
       'should fail if `i18n` attribute is missing on `Template` containing `ICU`',
     annotatedSource: `
-      { value, plural, =0 {<ng-template>No elements</ng-template>} =1 {111} }
-      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      <ng-template>{ value, plural, =0 {No elements} =1 {111} }</ng-template>
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     `,
     messageId: i18nAttributeOnIcuOrText,
     options: [{ checkAttributes: false }],
     annotatedOutput: `
-      <ng-container i18n>{ value, plural, =0 {<ng-template>No elements</ng-template>} =1 {111} }</ng-container>
-      
+      <ng-template i18n>{ value, plural, =0 {No elements} =1 {111} }</ng-template>
+                   
     `,
   }),
   convertAnnotatedSourceToFailureCase({
@@ -1072,5 +1123,47 @@ export const invalid = [
           }
         </div>
     `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if `i18n` attribute is on element containing markup',
+    annotatedSource: `
+      <div i18n>
+        Text to translate
+        <foo></foo>
+        ~~~~~~~~~~~
+      </div>
+    `,
+    messageId: i18nMarkupInContent,
+    options: [{ allowMarkupInContent: false, checkId: false }],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if `i18n` attribute is on `Template` containing markup',
+    annotatedSource: `
+      <ng-template i18n>
+        Text to translate
+        <foo></foo>
+        ~~~~~~~~~~~
+      </ng-template>
+    `,
+    messageId: i18nMarkupInContent,
+    options: [{ allowMarkupInContent: false, checkId: false }],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if `i18n` attribute is on element containing markup, even if it also has `i18n` attribute',
+    annotatedSource: `
+    <div i18n>
+      <div i18n>
+      ~~~~~~~~~~
+        Text to translate
+        ~~~~~~~~~~~~~~~~~
+      </div>
+      ~~~~~~
+    </div>
+    `,
+    messageId: i18nMarkupInContent,
+    options: [{ allowMarkupInContent: false, checkId: false }],
   }),
 ];
