@@ -54,7 +54,7 @@
     "@actions/github": "6.0.0",
     "@angular/cli": "17.3.4",
     "@angular/compiler": "17.3.4",
-    "@commitlint/cli": "19.2.2",
+    "@commitlint/cli": "19.3.0",
     "@commitlint/config-conventional": "19.2.2",
     "@nx/devkit": "19.0.0-beta.8",
     "@nx/eslint": "19.0.0-beta.8",
