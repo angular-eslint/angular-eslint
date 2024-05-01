@@ -1,10 +1,9 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "module": "NodeNext"
+    "outDir": "../../dist/out-tsc/nx-plugin"
   },
-  "files": [],
-  "include": [],
+  "include": ["src/**/*"],
   "references": [
     {
       "path": "./tsconfig.lib.json"

@@ -1,9 +1,7 @@
 {
-  "extends": "./tsconfig.json",
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "../../dist/out-tsc",
-    "module": "commonjs",
-    "moduleResolution": "node",
+    "outDir": "../../dist/out-tsc/builder",
     "types": ["jest", "node"]
   },
   "include": [
@@ -13,5 +11,10 @@
     "**/*.spec.js",
     "**/*.spec.jsx",
     "**/*.d.ts"
+  ],
+  "references": [
+    {
+      "path": "./tsconfig.lib.json"
+    }
   ]
 }

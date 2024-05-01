@@ -16,6 +16,7 @@ export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
   meta: {
     type: 'suggestion',
+    deprecated: true,
     docs: {
       description:
         'Ensures ASC alphabetical order for `NgModule` metadata arrays for easy visual scanning',

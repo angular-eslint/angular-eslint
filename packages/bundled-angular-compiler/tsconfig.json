@@ -1,4 +1,12 @@
 {
-  "extends": "./tsconfig.build.json",
-  "include": ["src"]
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "../../dist/out-tsc/bundled-angular-compiler"
+  },
+  "include": ["src/**/*"],
+  "references": [
+    {
+      "path": "./tsconfig.lib.json"
+    }
+  ]
 }

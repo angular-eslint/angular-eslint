@@ -1,8 +1,18 @@
 {
-  "extends": "../tsconfig.tools.json",
+  "extends": "../tsconfig.base.json",
   "compilerOptions": {
-    "baseUrl": ".",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext"
-  }
+    "outDir": "../dist/out-tsc/tools",
+    "resolveJsonModule": true
+  },
+  "references": [
+    {
+      "path": "../packages/utils/tsconfig.lib.json"
+    },
+    {
+      "path": "../packages/eslint-plugin/tsconfig.lib.json"
+    },
+    {
+      "path": "../packages/eslint-plugin-template/tsconfig.lib.json"
+    }
+  ]
 }
