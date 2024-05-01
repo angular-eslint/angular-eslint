@@ -59,7 +59,7 @@
     "@nx/devkit": "19.0.0-canary.20240430-458f2cc",
     "@nx/eslint": "19.0.0-canary.20240430-458f2cc",
     "@nx/eslint-plugin": "19.0.0-canary.20240430-458f2cc",
-    "@nx/jest": "19.0.0-beta.8",
+    "@nx/jest": "19.0.0-canary.20240430-458f2cc",
     "@nx/js": "19.0.0-canary.20240430-458f2cc",
     "@nx/plugin": "19.0.0-canary.20240430-458f2cc",
     "@nx/workspace": "19.0.0-canary.20240430-458f2cc",
