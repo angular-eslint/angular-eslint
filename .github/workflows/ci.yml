@@ -71,6 +71,7 @@ jobs:
           files: coverage/packages/**/lcov.info
           flags: unittest
           name: codecov
+          token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Stop all running agents for this CI run
         # It's important that we always run this step, otherwise in the case of any failures in preceding non-Nx steps, the agents will keep running and waste billable minutes
