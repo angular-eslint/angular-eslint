@@ -2085,12 +2085,19 @@
   dependencies:
     "@nx/devkit" "19.0.0-beta.8"
 
-"@nrwl/eslint-plugin-nx@19.0.0-beta.8":
-  version "19.0.0-beta.8"
-  resolved "https://registry.yarnpkg.com/@nrwl/eslint-plugin-nx/-/eslint-plugin-nx-19.0.0-beta.8.tgz#f093335373a11bbae8f9c84bad90a844988193e5"
-  integrity sha512-ZI7Hq8p0mK+PnfHqucOiPhYCvXt+OGx8AIFTS6kXHbKL9oB883kaM6tkyQhciVTugYpPLG/XWxZud0Qn6ZDryA==
+"@nrwl/devkit@19.0.0-canary.20240430-458f2cc":
+  version "19.0.0-canary.20240430-458f2cc"
+  resolved "https://registry.yarnpkg.com/@nrwl/devkit/-/devkit-19.0.0-canary.20240430-458f2cc.tgz#68082de491e920a4eed09b4bb15e838e33666b4e"
+  integrity sha512-QJSKI0Cpdcgf9OIZDXf7F/nMG4H0lZMRd96o7d1MJj6zrFrp0+Ytn/Cd4JGtgKgtyEgyMg+pitOeLNyy43gzVQ==
   dependencies:
-    "@nx/eslint-plugin" "19.0.0-beta.8"
+    "@nx/devkit" "19.0.0-canary.20240430-458f2cc"
+
+"@nrwl/eslint-plugin-nx@19.0.0-canary.20240430-458f2cc":
+  version "19.0.0-canary.20240430-458f2cc"
+  resolved "https://registry.yarnpkg.com/@nrwl/eslint-plugin-nx/-/eslint-plugin-nx-19.0.0-canary.20240430-458f2cc.tgz#907f236e3925debc23ad4703daa734bb879d8caf"
+  integrity sha512-hMWKXojQTjzRTNabNzjLynyzgpnUO1OXBRWDtzSXBe/v6XGT2RC19prgpb+iEtJsSJ+7As8IXpO3dZiCd/SZ2g==
+  dependencies:
+    "@nx/eslint-plugin" "19.0.0-canary.20240430-458f2cc"
 
 "@nrwl/jest@19.0.0-beta.8":
   version "19.0.0-beta.8"
@@ -2099,6 +2106,13 @@
   dependencies:
     "@nx/jest" "19.0.0-beta.8"
 
+"@nrwl/jest@19.0.0-canary.20240430-458f2cc":
+  version "19.0.0-canary.20240430-458f2cc"
+  resolved "https://registry.yarnpkg.com/@nrwl/jest/-/jest-19.0.0-canary.20240430-458f2cc.tgz#0e1ae662614ede524d9b4cce4080a038a416187d"
+  integrity sha512-LhQWsbnqK2A6IOe3WQktgbA6CdCbDmBeXTa09a2h4plovoS0cpm0UrNt5yPys/0e1D1Hr5tQmIRGe2bkZYEc/g==
+  dependencies:
+    "@nx/jest" "19.0.0-canary.20240430-458f2cc"
+
 "@nrwl/js@19.0.0-beta.8":
   version "19.0.0-beta.8"
   resolved "https://registry.yarnpkg.com/@nrwl/js/-/js-19.0.0-beta.8.tgz#88804a30fec4f0ce4d3fabdd2f04f505e897b17f"
@@ -2106,12 +2120,19 @@
   dependencies:
     "@nx/js" "19.0.0-beta.8"
 
-"@nrwl/nx-plugin@19.0.0-beta.8":
-  version "19.0.0-beta.8"
-  resolved "https://registry.yarnpkg.com/@nrwl/nx-plugin/-/nx-plugin-19.0.0-beta.8.tgz#6976e84b4740484031d46cb5b30d256315766d87"
-  integrity sha512-iCve9Zlkw+xEJ9KSg4lnbP3VMrrgDKnhe0V0n4gF96w4Q7pEsOF+mZUeAn2zFhEXfTGIecka6w4PAvbxNE8B1Q==
+"@nrwl/js@19.0.0-canary.20240430-458f2cc":
+  version "19.0.0-canary.20240430-458f2cc"
+  resolved "https://registry.yarnpkg.com/@nrwl/js/-/js-19.0.0-canary.20240430-458f2cc.tgz#12cfa64c17c03732456b973e72cf4d465b331756"
+  integrity sha512-kjKIMYIOK1l/mztDlZkVY8c7nHWV21AQlVhdS0BZD3taXA/ruyQ77DuogLDUswowslXAhuQmXMpJk+2hQNkpKw==
   dependencies:
-    "@nx/plugin" "19.0.0-beta.8"
+    "@nx/js" "19.0.0-canary.20240430-458f2cc"
+
+"@nrwl/nx-plugin@19.0.0-canary.20240430-458f2cc":
+  version "19.0.0-canary.20240430-458f2cc"
+  resolved "https://registry.yarnpkg.com/@nrwl/nx-plugin/-/nx-plugin-19.0.0-canary.20240430-458f2cc.tgz#7def6aa6639408ac0de92e49eed6fe83b2b1f2e3"
+  integrity sha512-7UrCH6qdHiSdb/QlMi4EeDmKz+Ea3a0mH5MpSwYwPmGrbW9dVMmsuhcwEF6FlTEs2BwT/rkR3C5MGWmAwBCE2w==
+  dependencies:
+    "@nx/plugin" "19.0.0-canary.20240430-458f2cc"
 
 "@nrwl/tao@18.0.8":
   version "18.0.8"
@@ -2129,12 +2150,27 @@
     nx "19.0.0-beta.8"
     tslib "^2.3.0"
 
+"@nrwl/tao@19.0.0-canary.20240430-458f2cc":
+  version "19.0.0-canary.20240430-458f2cc"
+  resolved "https://registry.yarnpkg.com/@nrwl/tao/-/tao-19.0.0-canary.20240430-458f2cc.tgz#a34f5bea243966042ad7b4f93249588b2591e6a8"
+  integrity sha512-FhCRDrUouqklk97GpaYvS2ey2HseZZfYQGDILxoDMnlOoUvilIvENSBYntQVivZLAOADVzgP9kfhHE8jozcoww==
+  dependencies:
+    nx "19.0.0-canary.20240430-458f2cc"
+    tslib "^2.3.0"
+
 "@nrwl/workspace@19.0.0-beta.8":
   version "19.0.0-beta.8"
   resolved "https://registry.yarnpkg.com/@nrwl/workspace/-/workspace-19.0.0-beta.8.tgz#b6fb4d9848cfb8f363c581e770899e68ec99b645"
   integrity sha512-lAEA+YzENF6dosGcLihMPi/TAEgOGpoFRipy/VCWVXWj+xL2aGLA4KaTZgyc6uyVR/2vG8JkkJ1FSg+DtDEuzw==
   dependencies:
     "@nx/workspace" "19.0.0-beta.8"
+
+"@nrwl/workspace@19.0.0-canary.20240430-458f2cc":
+  version "19.0.0-canary.20240430-458f2cc"
+  resolved "https://registry.yarnpkg.com/@nrwl/workspace/-/workspace-19.0.0-canary.20240430-458f2cc.tgz#1318482acf7c3768c38e0a311ec1217e4918ccab"
+  integrity sha512-sBchE7DX6p/gWmqX+6eTSgNc5fEEixVMhG5LGgtPZfVRrVXkzrXXLLbgsgDTen9HKurkkTtDLcKrzvaoSPo0AQ==
+  dependencies:
+    "@nx/workspace" "19.0.0-canary.20240430-458f2cc"
 
 "@nx/devkit@18.0.8", "@nx/devkit@^17.2.8 || ^18.0.0":
   version "18.0.8"
@@ -2165,14 +2201,29 @@
     tslib "^2.3.0"
     yargs-parser "21.1.1"
 
-"@nx/eslint-plugin@19.0.0-beta.8":
-  version "19.0.0-beta.8"
-  resolved "https://registry.yarnpkg.com/@nx/eslint-plugin/-/eslint-plugin-19.0.0-beta.8.tgz#27d19039f40726ccca520d95e43158f36b57a3d5"
-  integrity sha512-IrpzRG3M5SzpTJjPpx2nDJA1UYlA+h/LmuxNDUNjaeNG2MPatKyrTu0C3xH9Vd4Hr1pYjfqkpxBh1tMIE/MnYw==
+"@nx/devkit@19.0.0-canary.20240430-458f2cc":
+  version "19.0.0-canary.20240430-458f2cc"
+  resolved "https://registry.yarnpkg.com/@nx/devkit/-/devkit-19.0.0-canary.20240430-458f2cc.tgz#0a1c3679b2e09b1bfca8211efae86b46b50b4e1b"
+  integrity sha512-WISnvD4PapOON2v7Ou62PN+oGpQxTiGhPbyzlEC50R0uokKRi9exQ4QsD6YvjPGA+GlpqIAiXkfgpqZ7aKLfRw==
   dependencies:
-    "@nrwl/eslint-plugin-nx" "19.0.0-beta.8"
-    "@nx/devkit" "19.0.0-beta.8"
-    "@nx/js" "19.0.0-beta.8"
+    "@nrwl/devkit" "19.0.0-canary.20240430-458f2cc"
+    ejs "^3.1.7"
+    enquirer "~2.3.6"
+    ignore "^5.0.4"
+    minimatch "9.0.3"
+    semver "^7.5.3"
+    tmp "~0.2.1"
+    tslib "^2.3.0"
+    yargs-parser "21.1.1"
+
+"@nx/eslint-plugin@19.0.0-canary.20240430-458f2cc":
+  version "19.0.0-canary.20240430-458f2cc"
+  resolved "https://registry.yarnpkg.com/@nx/eslint-plugin/-/eslint-plugin-19.0.0-canary.20240430-458f2cc.tgz#a76960ce17068c4089a487cec11021d9ff1cac80"
+  integrity sha512-ITEPA+cZkkXPVs/BSU1eqxyTh0cjtp8WbgAJTFy3r1NUb5c95zXP8MEzGPXP998zc51n2OXwJ5THzehmBbhhrw==
+  dependencies:
+    "@nrwl/eslint-plugin-nx" "19.0.0-canary.20240430-458f2cc"
+    "@nx/devkit" "19.0.0-canary.20240430-458f2cc"
+    "@nx/js" "19.0.0-canary.20240430-458f2cc"
     "@typescript-eslint/type-utils" "^7.3.0"
     "@typescript-eslint/utils" "^7.3.0"
     chalk "^4.1.0"
@@ -2181,14 +2232,14 @@
     semver "^7.5.3"
     tslib "^2.3.0"
 
-"@nx/eslint@19.0.0-beta.8":
-  version "19.0.0-beta.8"
-  resolved "https://registry.yarnpkg.com/@nx/eslint/-/eslint-19.0.0-beta.8.tgz#95801617b84a9e6a6bcd161d4e4affa530fb6c4b"
-  integrity sha512-MPM/zauTE7uvi5RZA5rOZQnd56niX4ez3maoo43IpJLYq9zq8LY0Q8ZBkLMVdlwvv1NT8CXqhxZHysT6Wg85XA==
+"@nx/eslint@19.0.0-canary.20240430-458f2cc":
+  version "19.0.0-canary.20240430-458f2cc"
+  resolved "https://registry.yarnpkg.com/@nx/eslint/-/eslint-19.0.0-canary.20240430-458f2cc.tgz#052253519756746db9f8fef895d6d9031caf3bfb"
+  integrity sha512-2254MVWCI0FZi4WQxbytaUD9PKbZuU9Drm6U1WX+4husjc3DYTs/7h8hBb5QKaXTIuUTbusei+/LQDgKw66u/g==
   dependencies:
-    "@nx/devkit" "19.0.0-beta.8"
-    "@nx/js" "19.0.0-beta.8"
-    "@nx/linter" "19.0.0-beta.8"
+    "@nx/devkit" "19.0.0-canary.20240430-458f2cc"
+    "@nx/js" "19.0.0-canary.20240430-458f2cc"
+    "@nx/linter" "19.0.0-canary.20240430-458f2cc"
     eslint "^8.0.0"
     tslib "^2.3.0"
     typescript "~5.4.2"
@@ -2203,6 +2254,27 @@
     "@nrwl/jest" "19.0.0-beta.8"
     "@nx/devkit" "19.0.0-beta.8"
     "@nx/js" "19.0.0-beta.8"
+    "@phenomnomnominal/tsquery" "~5.0.1"
+    chalk "^4.1.0"
+    identity-obj-proxy "3.0.0"
+    jest-config "^29.4.1"
+    jest-resolve "^29.4.1"
+    jest-util "^29.4.1"
+    minimatch "9.0.3"
+    resolve.exports "1.1.0"
+    tslib "^2.3.0"
+    yargs-parser "21.1.1"
+
+"@nx/jest@19.0.0-canary.20240430-458f2cc":
+  version "19.0.0-canary.20240430-458f2cc"
+  resolved "https://registry.yarnpkg.com/@nx/jest/-/jest-19.0.0-canary.20240430-458f2cc.tgz#eff520b2964c170913f0d1863bd1575ec4b5c11a"
+  integrity sha512-PJpQCP5TDg8asbvOUSjYdni1zn24zSVO1BjCGlnM9LYSAlKGjeNvV1IUmQfiZgVWoD5jaXkIsHODuLRy+TxiRw==
+  dependencies:
+    "@jest/reporters" "^29.4.1"
+    "@jest/test-result" "^29.4.1"
+    "@nrwl/jest" "19.0.0-canary.20240430-458f2cc"
+    "@nx/devkit" "19.0.0-canary.20240430-458f2cc"
+    "@nx/js" "19.0.0-canary.20240430-458f2cc"
     "@phenomnomnominal/tsquery" "~5.0.1"
     chalk "^4.1.0"
     identity-obj-proxy "3.0.0"
@@ -2250,12 +2322,48 @@
     tsconfig-paths "^4.1.2"
     tslib "^2.3.0"
 
-"@nx/linter@19.0.0-beta.8":
-  version "19.0.0-beta.8"
-  resolved "https://registry.yarnpkg.com/@nx/linter/-/linter-19.0.0-beta.8.tgz#c06846b849428854aa73786192d32d5a8bf51370"
-  integrity sha512-srMejwlGcYZV/WetC44ARJyMdE7MbA2OEF/C5TMtDuTbGF83riIV/l2Uxwl5N0FlfWtwGHHumDXN9iSFH0q8uA==
+"@nx/js@19.0.0-canary.20240430-458f2cc":
+  version "19.0.0-canary.20240430-458f2cc"
+  resolved "https://registry.yarnpkg.com/@nx/js/-/js-19.0.0-canary.20240430-458f2cc.tgz#5fd1e88f5c37d04d5aa35c5074f3f2ab138e3d72"
+  integrity sha512-lfyEDZCVlBydFCGNqsJGChrliqtW5TxEq+TbWQQujlTNfsczi9X1FDsHlp3NxeVjFG96s8gp9aTBQEth7hFOpg==
   dependencies:
-    "@nx/eslint" "19.0.0-beta.8"
+    "@babel/core" "^7.23.2"
+    "@babel/plugin-proposal-decorators" "^7.22.7"
+    "@babel/plugin-transform-class-properties" "^7.22.5"
+    "@babel/plugin-transform-runtime" "^7.23.2"
+    "@babel/preset-env" "^7.23.2"
+    "@babel/preset-typescript" "^7.22.5"
+    "@babel/runtime" "^7.22.6"
+    "@nrwl/js" "19.0.0-canary.20240430-458f2cc"
+    "@nx/devkit" "19.0.0-canary.20240430-458f2cc"
+    "@nx/workspace" "19.0.0-canary.20240430-458f2cc"
+    "@phenomnomnominal/tsquery" "~5.0.1"
+    babel-plugin-const-enum "^1.0.1"
+    babel-plugin-macros "^2.8.0"
+    babel-plugin-transform-typescript-metadata "^0.3.1"
+    chalk "^4.1.0"
+    columnify "^1.6.0"
+    detect-port "^1.5.1"
+    fast-glob "3.2.7"
+    fs-extra "^11.1.0"
+    ignore "^5.0.4"
+    js-tokens "^4.0.0"
+    minimatch "9.0.3"
+    npm-package-arg "11.0.1"
+    npm-run-path "^4.0.1"
+    ora "5.3.0"
+    semver "^7.5.3"
+    source-map-support "0.5.19"
+    ts-node "10.9.1"
+    tsconfig-paths "^4.1.2"
+    tslib "^2.3.0"
+
+"@nx/linter@19.0.0-canary.20240430-458f2cc":
+  version "19.0.0-canary.20240430-458f2cc"
+  resolved "https://registry.yarnpkg.com/@nx/linter/-/linter-19.0.0-canary.20240430-458f2cc.tgz#eee1d03f05dde147dd87d09227122270ad927b47"
+  integrity sha512-xsxeHnxpQS20lZj5wLdQv5MyrovSe/NOber/7FBiV7eBAHgMQEvEPP3t+pH4Q9QEgGmbsaWJxKeRILpod4YcoA==
+  dependencies:
+    "@nx/eslint" "19.0.0-canary.20240430-458f2cc"
 
 "@nx/nx-darwin-arm64@18.0.8":
   version "18.0.8"
@@ -2267,6 +2375,11 @@
   resolved "https://registry.yarnpkg.com/@nx/nx-darwin-arm64/-/nx-darwin-arm64-19.0.0-beta.8.tgz#74919cadc18b61ed9008dcf2c56a756e97201356"
   integrity sha512-s9q8dKibTWLTZZVVsxTs94hXNkfgKeOq/v6Xz4Q/vXp4K+RHQPziDZ9oYSsm8pfF80wwlMu78DCJZLR99x22aA==
 
+"@nx/nx-darwin-arm64@19.0.0-canary.20240430-458f2cc":
+  version "19.0.0-canary.20240430-458f2cc"
+  resolved "https://registry.yarnpkg.com/@nx/nx-darwin-arm64/-/nx-darwin-arm64-19.0.0-canary.20240430-458f2cc.tgz#6e14d6a46bc85652240cdce8ac81c0492c73bf43"
+  integrity sha512-D1XeWop3MyI41pA9bWapdJeoCh8UMysCYDK7VJFTFbgqNefTYxFHf6wWjjDolSeTvwAwsUNFwh8qOddKeA50xw==
+
 "@nx/nx-darwin-x64@18.0.8":
   version "18.0.8"
   resolved "https://registry.yarnpkg.com/@nx/nx-darwin-x64/-/nx-darwin-x64-18.0.8.tgz#df8d5ea87565afbf86dfe46bd1ea646ed5721e62"
@@ -2276,6 +2389,11 @@
   version "19.0.0-beta.8"
   resolved "https://registry.yarnpkg.com/@nx/nx-darwin-x64/-/nx-darwin-x64-19.0.0-beta.8.tgz#9bba5683c842d21c9b20445e758beb7e7a6d1b10"
   integrity sha512-JEOJ86Q9rJf/UVI+mTuOvmWzWuZ3s4H4unfJCpFrsJDRn+P1xldEMLDWaqwOuXOKkIyv/ZH8czKqGMr1z0Yevw==
+
+"@nx/nx-darwin-x64@19.0.0-canary.20240430-458f2cc":
+  version "19.0.0-canary.20240430-458f2cc"
+  resolved "https://registry.yarnpkg.com/@nx/nx-darwin-x64/-/nx-darwin-x64-19.0.0-canary.20240430-458f2cc.tgz#3f25f1151d58405eb64e5cf1b58552c059681c0e"
+  integrity sha512-W/xlHOA0zrzaVxFW9Hn/kct0wdjjw+BYB3UjMLTzNKosqxERjA1qxaTkuoPu+u1WT5JIA97e3aC2Qz/f7+yqsA==
 
 "@nx/nx-freebsd-x64@18.0.8":
   version "18.0.8"
@@ -2287,6 +2405,11 @@
   resolved "https://registry.yarnpkg.com/@nx/nx-freebsd-x64/-/nx-freebsd-x64-19.0.0-beta.8.tgz#c5684d24b084b08b7d2a829f295e9af72715da49"
   integrity sha512-w8OXsK4tdRHPQMU2nLOaLUXSaoGKQZQeasvVe2tRc7ZFLZpXVTRwv6CMLuhmrD3ath0GfE3CWVl7JLKXBL47FQ==
 
+"@nx/nx-freebsd-x64@19.0.0-canary.20240430-458f2cc":
+  version "19.0.0-canary.20240430-458f2cc"
+  resolved "https://registry.yarnpkg.com/@nx/nx-freebsd-x64/-/nx-freebsd-x64-19.0.0-canary.20240430-458f2cc.tgz#16dd7db13bb06c211d0ca72a7548f4f0a170f03b"
+  integrity sha512-62Fh4zmngsu8kFQLJf+t7cjZdYM5Bg3y/+KlklhQA5+Z1760njUH3gI0MBNnDo5OcQ9ld8zr3X1T+IvUSpiCqw==
+
 "@nx/nx-linux-arm-gnueabihf@18.0.8":
   version "18.0.8"
   resolved "https://registry.yarnpkg.com/@nx/nx-linux-arm-gnueabihf/-/nx-linux-arm-gnueabihf-18.0.8.tgz#b7aeffb7c10ca6f4169ae01179bd14891097bddd"
@@ -2296,6 +2419,11 @@
   version "19.0.0-beta.8"
   resolved "https://registry.yarnpkg.com/@nx/nx-linux-arm-gnueabihf/-/nx-linux-arm-gnueabihf-19.0.0-beta.8.tgz#5abd35a5aa2daa59bd2059222ee66fb014468a73"
   integrity sha512-5agEQtktr64LzCZBY/9kgnG3fEigWOYOOvLNmh+8v1qSraFiX8+xc0LDIlmr00bAoi4Yq9h2YD05quJLpiMu1g==
+
+"@nx/nx-linux-arm-gnueabihf@19.0.0-canary.20240430-458f2cc":
+  version "19.0.0-canary.20240430-458f2cc"
+  resolved "https://registry.yarnpkg.com/@nx/nx-linux-arm-gnueabihf/-/nx-linux-arm-gnueabihf-19.0.0-canary.20240430-458f2cc.tgz#f7a1f20892b2f56b5b53ed8b15fdc0c7ea0ac029"
+  integrity sha512-P8DyK3hYC4LmBUna5qDbiMEzB/WsDFgzuFyKda9OYpEixsoy9XA1QNeWvrESBYzsiueiCykbJxp95Ln9w7HWtA==
 
 "@nx/nx-linux-arm64-gnu@18.0.8":
   version "18.0.8"
@@ -2307,6 +2435,11 @@
   resolved "https://registry.yarnpkg.com/@nx/nx-linux-arm64-gnu/-/nx-linux-arm64-gnu-19.0.0-beta.8.tgz#02b70c3c0013a41119af85dc0a02393204fff5ff"
   integrity sha512-the6iIHEuI0CXc4afGxDjBQU1W9P3WP5gnBr5pydC3ozjigIl9z4i4Lek0gcjUiOb493/A5YFM/exIK+0eIXbg==
 
+"@nx/nx-linux-arm64-gnu@19.0.0-canary.20240430-458f2cc":
+  version "19.0.0-canary.20240430-458f2cc"
+  resolved "https://registry.yarnpkg.com/@nx/nx-linux-arm64-gnu/-/nx-linux-arm64-gnu-19.0.0-canary.20240430-458f2cc.tgz#62801266edd7472dccc0cd7aded4e7fc4d00117f"
+  integrity sha512-IHBIyfKsdtb0xuvd2QFqkHT668u4FzcfSakLOZIxp1s1gEnSEuzGDQXAGQZh5oLkBK573YTd6s/ZPG1tGKPQYA==
+
 "@nx/nx-linux-arm64-musl@18.0.8":
   version "18.0.8"
   resolved "https://registry.yarnpkg.com/@nx/nx-linux-arm64-musl/-/nx-linux-arm64-musl-18.0.8.tgz#725258e5c15c1f9f788bab0af30a56e29beb85d1"
@@ -2316,6 +2449,11 @@
   version "19.0.0-beta.8"
   resolved "https://registry.yarnpkg.com/@nx/nx-linux-arm64-musl/-/nx-linux-arm64-musl-19.0.0-beta.8.tgz#2bda0df84e908a27e357d2f57ab0f1e85ac96c2d"
   integrity sha512-BNPtmAUaBwAHZuOzT/0KrsPdESb5kG6LglvlwG42yDM+shCyZGWlzvl/vlG28sOgLdT+wVbR95WzdFdtnCktQg==
+
+"@nx/nx-linux-arm64-musl@19.0.0-canary.20240430-458f2cc":
+  version "19.0.0-canary.20240430-458f2cc"
+  resolved "https://registry.yarnpkg.com/@nx/nx-linux-arm64-musl/-/nx-linux-arm64-musl-19.0.0-canary.20240430-458f2cc.tgz#b9c98c81c657c000384e6f38f32a568c4a03813c"
+  integrity sha512-QVWzJHByMCL57qToaRqQy00YZ+n9EN4UrLXthV+GdkFiFtGbfw+szu0Ml5HnsYj1pNk9TrfsO6OaicHgrg7Usg==
 
 "@nx/nx-linux-x64-gnu@18.0.8":
   version "18.0.8"
@@ -2327,6 +2465,11 @@
   resolved "https://registry.yarnpkg.com/@nx/nx-linux-x64-gnu/-/nx-linux-x64-gnu-19.0.0-beta.8.tgz#04eba3733ed203a3063db0f7851431b51aee7d91"
   integrity sha512-IOrIrVWUsvN5hZINZJbTcI2KjAyM4ro1/FLOpFp7RpL/uJszrLJuFo1eOImiOjqWpr3iR5lDt1S0wtsLMs003A==
 
+"@nx/nx-linux-x64-gnu@19.0.0-canary.20240430-458f2cc":
+  version "19.0.0-canary.20240430-458f2cc"
+  resolved "https://registry.yarnpkg.com/@nx/nx-linux-x64-gnu/-/nx-linux-x64-gnu-19.0.0-canary.20240430-458f2cc.tgz#8a0175ac035b707bd91599a06b226772b1ca2bbe"
+  integrity sha512-/NB4DuLy2AYLyZtQE2NuFPRzIM1x7fvVx6dpST756KkCcQUtC+A7jmCr8Y8uIG7KsC93zA4lmQnC1kz0Y3KsvA==
+
 "@nx/nx-linux-x64-musl@18.0.8":
   version "18.0.8"
   resolved "https://registry.yarnpkg.com/@nx/nx-linux-x64-musl/-/nx-linux-x64-musl-18.0.8.tgz#53bfaf2432d1a8988995136e45d22b278927b003"
@@ -2336,6 +2479,11 @@
   version "19.0.0-beta.8"
   resolved "https://registry.yarnpkg.com/@nx/nx-linux-x64-musl/-/nx-linux-x64-musl-19.0.0-beta.8.tgz#a38e0afccff217921c68b24b337edc7fff152dd6"
   integrity sha512-accL6xwIrJQLHphOqzvT9VlH9Gsr8cCoyJJpXhpYGBHWIkpLDM2GcB/0Z+qEFrzlDEi36yCqBbc5HahLvJ+Geg==
+
+"@nx/nx-linux-x64-musl@19.0.0-canary.20240430-458f2cc":
+  version "19.0.0-canary.20240430-458f2cc"
+  resolved "https://registry.yarnpkg.com/@nx/nx-linux-x64-musl/-/nx-linux-x64-musl-19.0.0-canary.20240430-458f2cc.tgz#34f1411d5f7dacfb4ec84de195269bfc58eb078c"
+  integrity sha512-6WewFUE9xximrJ/KRnjwQFZp5whOHE+wXlVQU2KGKChGqbiRsnj4YWvdq9KIK/clNnLIxpvIOcNo3aHQsSSBUQ==
 
 "@nx/nx-win32-arm64-msvc@18.0.8":
   version "18.0.8"
@@ -2347,6 +2495,11 @@
   resolved "https://registry.yarnpkg.com/@nx/nx-win32-arm64-msvc/-/nx-win32-arm64-msvc-19.0.0-beta.8.tgz#f7c4999728da3a473386c54b11773cec1119acbc"
   integrity sha512-fhhGlzzThh7BIq5tVHFEHL11pfOzTJXqU7q9EYkro88qwQIKynkTthtU+8vuQzBVjldbpDpgIFUwecTQXrbnfQ==
 
+"@nx/nx-win32-arm64-msvc@19.0.0-canary.20240430-458f2cc":
+  version "19.0.0-canary.20240430-458f2cc"
+  resolved "https://registry.yarnpkg.com/@nx/nx-win32-arm64-msvc/-/nx-win32-arm64-msvc-19.0.0-canary.20240430-458f2cc.tgz#b16ebd91d24a871c499338f809a8214e3b2fcbbb"
+  integrity sha512-uY7HeHtLQi82qrEDXTRRd36bcUl35A7eJH/KMba0v8uRAf53gIEmn14n+OPxJIXfkuzZJBvM+BU/7PXiOHLRnw==
+
 "@nx/nx-win32-x64-msvc@18.0.8":
   version "18.0.8"
   resolved "https://registry.yarnpkg.com/@nx/nx-win32-x64-msvc/-/nx-win32-x64-msvc-18.0.8.tgz#fe1ae3d1b1eec2ef4291a700500cc96bbfb81cec"
@@ -2357,16 +2510,21 @@
   resolved "https://registry.yarnpkg.com/@nx/nx-win32-x64-msvc/-/nx-win32-x64-msvc-19.0.0-beta.8.tgz#db4f96e7b5a5f89b2acd72eb48d3aa52c0ba4c36"
   integrity sha512-4DndNYohpWE0fhIUVLm91cZ3HQPN1utH7c1i2/5A3Osg1zoXk/fUM4GtxQOVqmgwuMaRGXtUTGC+LLnrPG2hUg==
 
-"@nx/plugin@19.0.0-beta.8":
-  version "19.0.0-beta.8"
-  resolved "https://registry.yarnpkg.com/@nx/plugin/-/plugin-19.0.0-beta.8.tgz#18694bbc61ef962726879db0c8d59a99a49694da"
-  integrity sha512-ljv1cgDwE4xRLxdvBET+LapSMKaZnWLEIyn24C32xaHSAPDMI2ARKqjb7IjA81hmjmXCbq6bDD5OAXKP2fdzAA==
+"@nx/nx-win32-x64-msvc@19.0.0-canary.20240430-458f2cc":
+  version "19.0.0-canary.20240430-458f2cc"
+  resolved "https://registry.yarnpkg.com/@nx/nx-win32-x64-msvc/-/nx-win32-x64-msvc-19.0.0-canary.20240430-458f2cc.tgz#1b4e4482533dac188a25647fbcb8402cb865d482"
+  integrity sha512-N3NpinEau0upoODSJ8F/p+bjvTRLnMVYQ4waPCfAEeKUlc6EP+Q4O9zqHI/dDD/MVIybwQO+WurPoqhMsYz/pQ==
+
+"@nx/plugin@19.0.0-canary.20240430-458f2cc":
+  version "19.0.0-canary.20240430-458f2cc"
+  resolved "https://registry.yarnpkg.com/@nx/plugin/-/plugin-19.0.0-canary.20240430-458f2cc.tgz#294da3a4cf2c0dbe3da8dc4ccfa99fa0c42fc842"
+  integrity sha512-YeCag+fa7pycJziqivH+xO8DbFs4ERF1erXzshewQm+Z2EUSEfFtSohlrSx3cJcqdMfu8Tf3oPYREaj4BspwOQ==
   dependencies:
-    "@nrwl/nx-plugin" "19.0.0-beta.8"
-    "@nx/devkit" "19.0.0-beta.8"
-    "@nx/eslint" "19.0.0-beta.8"
-    "@nx/jest" "19.0.0-beta.8"
-    "@nx/js" "19.0.0-beta.8"
+    "@nrwl/nx-plugin" "19.0.0-canary.20240430-458f2cc"
+    "@nx/devkit" "19.0.0-canary.20240430-458f2cc"
+    "@nx/eslint" "19.0.0-canary.20240430-458f2cc"
+    "@nx/jest" "19.0.0-canary.20240430-458f2cc"
+    "@nx/js" "19.0.0-canary.20240430-458f2cc"
     "@phenomnomnominal/tsquery" "~5.0.1"
     fs-extra "^11.1.0"
     tslib "^2.3.0"
@@ -2381,6 +2539,19 @@
     chalk "^4.1.0"
     enquirer "~2.3.6"
     nx "19.0.0-beta.8"
+    tslib "^2.3.0"
+    yargs-parser "21.1.1"
+
+"@nx/workspace@19.0.0-canary.20240430-458f2cc":
+  version "19.0.0-canary.20240430-458f2cc"
+  resolved "https://registry.yarnpkg.com/@nx/workspace/-/workspace-19.0.0-canary.20240430-458f2cc.tgz#30ea7ed5408e718aabdaa37be3cb6bcc435a42db"
+  integrity sha512-XyMpFpotH6kirj9ApSoHFPnySpT5TDnrlemh0Kc61FvDdAuchBbkFZJT0j/485grE6+Eu3OvRmIOuZwjpg39Dg==
+  dependencies:
+    "@nrwl/workspace" "19.0.0-canary.20240430-458f2cc"
+    "@nx/devkit" "19.0.0-canary.20240430-458f2cc"
+    chalk "^4.1.0"
+    enquirer "~2.3.6"
+    nx "19.0.0-canary.20240430-458f2cc"
     tslib "^2.3.0"
     yargs-parser "21.1.1"
 
@@ -7921,6 +8092,57 @@ nx@19.0.0-beta.8:
     "@nx/nx-linux-x64-musl" "19.0.0-beta.8"
     "@nx/nx-win32-arm64-msvc" "19.0.0-beta.8"
     "@nx/nx-win32-x64-msvc" "19.0.0-beta.8"
+
+nx@19.0.0-canary.20240430-458f2cc:
+  version "19.0.0-canary.20240430-458f2cc"
+  resolved "https://registry.yarnpkg.com/nx/-/nx-19.0.0-canary.20240430-458f2cc.tgz#04719e20b82c21df8824a2371a7fd1cfbbbc5b3e"
+  integrity sha512-RVqJReX42wV/2JUr/X9OVut+hwZnYjLFKjVaKUFszS1/2OyAiDtbQIO2UJa8qNRtpyg72qPsY04mAwOfMnoUtA==
+  dependencies:
+    "@nrwl/tao" "19.0.0-canary.20240430-458f2cc"
+    "@yarnpkg/lockfile" "^1.1.0"
+    "@yarnpkg/parsers" "3.0.0-rc.46"
+    "@zkochan/js-yaml" "0.0.6"
+    axios "^1.6.0"
+    chalk "^4.1.0"
+    cli-cursor "3.1.0"
+    cli-spinners "2.6.1"
+    cliui "^8.0.1"
+    dotenv "~16.3.1"
+    dotenv-expand "~10.0.0"
+    enquirer "~2.3.6"
+    figures "3.2.0"
+    flat "^5.0.2"
+    fs-extra "^11.1.0"
+    ignore "^5.0.4"
+    jest-diff "^29.4.1"
+    js-yaml "4.1.0"
+    jsonc-parser "3.2.0"
+    lines-and-columns "~2.0.3"
+    minimatch "9.0.3"
+    node-machine-id "1.1.12"
+    npm-run-path "^4.0.1"
+    open "^8.4.0"
+    ora "5.3.0"
+    semver "^7.5.3"
+    string-width "^4.2.3"
+    strong-log-transformer "^2.1.0"
+    tar-stream "~2.2.0"
+    tmp "~0.2.1"
+    tsconfig-paths "^4.1.2"
+    tslib "^2.3.0"
+    yargs "^17.6.2"
+    yargs-parser "21.1.1"
+  optionalDependencies:
+    "@nx/nx-darwin-arm64" "19.0.0-canary.20240430-458f2cc"
+    "@nx/nx-darwin-x64" "19.0.0-canary.20240430-458f2cc"
+    "@nx/nx-freebsd-x64" "19.0.0-canary.20240430-458f2cc"
+    "@nx/nx-linux-arm-gnueabihf" "19.0.0-canary.20240430-458f2cc"
+    "@nx/nx-linux-arm64-gnu" "19.0.0-canary.20240430-458f2cc"
+    "@nx/nx-linux-arm64-musl" "19.0.0-canary.20240430-458f2cc"
+    "@nx/nx-linux-x64-gnu" "19.0.0-canary.20240430-458f2cc"
+    "@nx/nx-linux-x64-musl" "19.0.0-canary.20240430-458f2cc"
+    "@nx/nx-win32-arm64-msvc" "19.0.0-canary.20240430-458f2cc"
+    "@nx/nx-win32-x64-msvc" "19.0.0-canary.20240430-458f2cc"
 
 object-assign@^4, object-assign@^4.0.1:
   version "4.1.1"
