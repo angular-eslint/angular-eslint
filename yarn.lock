@@ -9613,9 +9613,9 @@ tsscmp@1.0.6:
   integrity sha512-LxhtAkPDTkVCMQjt2h6eBVY28KCjikZqZfMcC15YBeNjkgUpdCfBu5HoiOTDu86v6smE8yOjyEktJ8hlbANHQA==
 
 tsx@^4.7.3:
-  version "4.8.2"
-  resolved "https://registry.yarnpkg.com/tsx/-/tsx-4.8.2.tgz#0897b1ef4b5aca4b2bc6803e5058a2b2633fce4f"
-  integrity sha512-hmmzS4U4mdy1Cnzpl/NQiPUC2k34EcNSTZYVJThYKhdqTwuBeF+4cG9KUK/PFQ7KHaAaYwqlb7QfmsE2nuj+WA==
+  version "4.9.0"
+  resolved "https://registry.yarnpkg.com/tsx/-/tsx-4.9.0.tgz#08d7ea58df19d87416d26cce8caf93d0c3619852"
+  integrity sha512-UY0UUhDPL6MkqkZU4xTEjEBOLfV+RIt4xeeJ1qwK73xai4/zveG+X6+tieILa7rjtegUW2LE4p7fw7gAoLuytA==
   dependencies:
     esbuild "~0.20.2"
     get-tsconfig "^4.7.3"
