@@ -1,3 +1,25 @@
+## 17.4.0 (2024-05-07)
+
+### 🚀 Features
+
+- **eslint-plugin:** [no-duplicates-in-metadata-arrays] new rule ([#1779](https://github.com/angular-eslint/angular-eslint/pull/1779))
+
+### 🩹 Fixes
+
+- update dependency @angular/compiler to v17.3.4 ([#1750](https://github.com/angular-eslint/angular-eslint/pull/1750))
+- update dependency eslint-scope to v8.0.1 ([#1762](https://github.com/angular-eslint/angular-eslint/pull/1762))
+- update dependency @angular/compiler to v17.3.6 ([#1775](https://github.com/angular-eslint/angular-eslint/pull/1775))
+- update typescript-eslint packages to v7.8.0 ([#1786](https://github.com/angular-eslint/angular-eslint/pull/1786))
+- **eslint-plugin:** [sort-ngmodule-metadata-arrays] deprecate rule ([#1781](https://github.com/angular-eslint/angular-eslint/pull/1781))
+- **eslint-plugin-template:** [attributes-order] calculate valueless structural directive start/end positions correctly ([#1726](https://github.com/angular-eslint/angular-eslint/pull/1726))
+- **schematics:** update schema.json with latest from Angular ([a5adbfc](https://github.com/angular-eslint/angular-eslint/commit/a5adbfc))
+
+### ❤️ Thank You
+
+- “JamesHenry” @JamesHenry
+- Adrian Baran @abaran30
+- Brad Kovach @bradkovach
+
 ## 17.3.0 (2024-03-15)
 
 ### 🚀 Features

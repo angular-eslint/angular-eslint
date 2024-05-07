@@ -1,3 +1,25 @@
+## 17.4.0 (2024-05-07)
+
+### 🩹 Fixes
+
+- update dependency @angular/compiler to v17.3.4
+
+- update dependency eslint-scope to v8.0.1
+
+- update typescript-eslint packages to v7.6.0
+
+- update typescript-eslint packages to v7.7.0
+
+- update dependency @angular/compiler to v17.3.6
+
+- update typescript-eslint packages to v7.8.0
+
+### ❤️ Thank You
+
+- “JamesHenry”
+- Adrian Baran
+- Brad Kovach
+
 ## 17.3.0 (2024-03-15)
 
 ### 🩹 Fixes
