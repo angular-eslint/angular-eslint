@@ -7906,7 +7906,7 @@ npmlog@^6.0.0:
     gauge "^4.0.3"
     set-blocking "^2.0.0"
 
-nx@19.0.3, "nx@^17.2.8 || ^18.0.0 || ^19.0.0", "nx@^17.2.8 || ^18.0.0|| ^19.0.0":
+nx@19.0.3, "nx@^17.2.8 || ^18.0.0 || ^19.0.0":
   version "19.0.3"
   resolved "https://registry.yarnpkg.com/nx/-/nx-19.0.3.tgz#184ba380e852e65d4f2a754938bf19d63074d0c6"
   integrity sha512-FJ+HhKHecKvc027iA4fjWGEv2DjKj4f4UrXpDEEKUoiOiip7dKXWmZPVGkmgZC+nCD4Nbw5WvkuXGFkEf5D/SA==
