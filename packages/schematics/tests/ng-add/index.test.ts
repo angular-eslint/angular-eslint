@@ -188,6 +188,26 @@ describe('ng-add', () => {
         }
       `);
     });
+
+    it('should create a root .gitignore file if one does not already exist', async () => {
+      expect(workspaceTree.exists('/.gitignore')).toBe(false);
+      const tree = await schematicRunner.runSchematic(
+        'ng-add',
+        {},
+        workspaceTree,
+      );
+      expect(tree.read('/.gitignore')?.toString()).toMatchSnapshot();
+    });
+
+    it('should update an existing root .gitignore file if one exists', async () => {
+      workspaceTree.create('.gitignore', 'node_modules\ndist\n');
+      const tree = await schematicRunner.runSchematic(
+        'ng-add',
+        {},
+        workspaceTree,
+      );
+      expect(tree.read('/.gitignore')?.toString()).toMatchSnapshot();
+    });
   });
 
   describe('workspace created with `--create-application=false` - no existings projects', () => {
