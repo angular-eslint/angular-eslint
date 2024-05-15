@@ -102,6 +102,6 @@
     "tslib": "^2.4.1",
     "tsx": "^4.7.3",
     "typescript": "5.4.5",
-    "verdaccio": "5.30.3"
+    "verdaccio": "5.31.0"
   }
 }
