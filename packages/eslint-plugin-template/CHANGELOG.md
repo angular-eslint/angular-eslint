@@ -1,3 +1,13 @@
+## 17.4.1 (2024-05-15)
+
+### 🩹 Fixes
+
+- update dependency @angular/compiler to v17.3.8
+
+### ❤️ Thank You
+
+- James Henry
+
 ## 17.4.0 (2024-05-07)
 
 ### 🩹 Fixes

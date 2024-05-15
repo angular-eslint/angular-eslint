@@ -1,3 +1,14 @@
+## 17.4.1 (2024-05-15)
+
+### 🩹 Fixes
+
+- update dependency @angular/compiler to v17.3.8 ([#1797](https://github.com/angular-eslint/angular-eslint/pull/1797))
+- **schematics:** ignore nx cache ([#1816](https://github.com/angular-eslint/angular-eslint/pull/1816))
+
+### ❤️ Thank You
+
+- James Henry @JamesHenry
+
 ## 17.4.0 (2024-05-07)
 
 ### 🚀 Features
