@@ -148,6 +148,23 @@ export default function (): Rule {
     return chain([
       addAngularESLintPackages(),
       applyESLintConfigIfSingleProjectWithNoExistingTSLint(),
+      () => {
+        const additionalGitignoreEntries = `.nx/cache
+.nx/workspace-data
+`;
+        if (!host.exists('.gitignore')) {
+          host.create('.gitignore', additionalGitignoreEntries);
+          return;
+        }
+        const gitIgnore = host.read('.gitignore')?.toString();
+        if (gitIgnore?.includes('.nx')) {
+          return;
+        }
+        host.overwrite(
+          '.gitignore',
+          `${gitIgnore}\n${additionalGitignoreEntries}`,
+        );
+      },
     ])(host, context);
   };
 }
