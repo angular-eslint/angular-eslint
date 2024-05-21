@@ -126,7 +126,7 @@ export default createESLintRule<Options, MessageIds>({
           const aliasProperty = firstArg.properties.find(
             (property) =>
               ASTUtils.isProperty(property) &&
-              ASTUtils.getRawText(property.key) === 'alias'
+              ASTUtils.getRawText(property.key) === 'alias',
           );
 
           if (!aliasProperty) {
