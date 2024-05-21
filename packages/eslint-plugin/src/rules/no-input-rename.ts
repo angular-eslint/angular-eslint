@@ -110,6 +110,30 @@ export default createESLintRule<Options, MessageIds>({
           return;
         }
 
+        const inputCallExpression = ASTUtils.getNearestNodeFrom(
+          node,
+          ASTUtils.isCallExpression,
+        );
+
+        if (
+          inputCallExpression &&
+          TSESLintASTUtils.isIdentifier(inputCallExpression.callee) &&
+          inputCallExpression.callee.name === 'Input' &&
+          ASTUtils.isObjectExpression(inputCallExpression.arguments?.[0])
+        ) {
+          const [firstArg] = inputCallExpression.arguments;
+
+          const aliasProperty = firstArg.properties.find(
+            (property) =>
+              ASTUtils.isProperty(property) &&
+              ASTUtils.getRawText(property.key) === 'alias',
+          );
+
+          if (!aliasProperty) {
+            return;
+          }
+        }
+
         if (aliasName === propertyName) {
           context.report({
             node,
