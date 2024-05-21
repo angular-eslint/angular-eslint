@@ -1,0 +1,37 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compileOnSave": false,
+  "files": [],
+  "references": [
+    {
+      "path": "./packages/bundled-angular-compiler"
+    },
+    {
+      "path": "./packages/eslint-plugin-template"
+    },
+    {
+      "path": "./packages/template-parser"
+    },
+    {
+      "path": "./packages/eslint-plugin"
+    },
+    {
+      "path": "./packages/schematics"
+    },
+    {
+      "path": "./packages/nx-plugin"
+    },
+    {
+      "path": "./packages/builder"
+    },
+    {
+      "path": "./packages/utils"
+    },
+    {
+      "path": "./e2e"
+    },
+    {
+      "path": "./tools"
+    }
+  ]
+}

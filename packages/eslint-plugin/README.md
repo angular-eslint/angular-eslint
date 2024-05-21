@@ -43,10 +43,12 @@
 | [`component-class-suffix`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/component-class-suffix.md) | Classes decorated with @Component must have suffix "Component" (or custom) in their name. See more at https://angular.io/styleguide#style-02-03 | :white_check_mark: |  |  |
 | [`component-max-inline-declarations`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/component-max-inline-declarations.md) | Enforces a maximum number of lines in inline template, styles and animations. See more at https://angular.io/guide/styleguide#style-05-04 |  |  |  |
 | [`component-selector`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/component-selector.md) | Component selectors should follow given naming rules. See more at https://angular.io/guide/styleguide#style-02-07, https://angular.io/guide/styleguide#style-05-02 and https://angular.io/guide/styleguide#style-05-03. |  |  |  |
+| [`consistent-component-styles`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/consistent-component-styles.md) | Ensures consistent usage of `styles`/`styleUrls`/`styleUrl` within Component metadata |  | :wrench: |  |
 | [`contextual-decorator`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/contextual-decorator.md) | Ensures that classes use contextual decorators in its body |  |  |  |
 | [`directive-class-suffix`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/directive-class-suffix.md) | Classes decorated with @Directive must have suffix "Directive" (or custom) in their name. See more at https://angular.io/styleguide#style-02-03 | :white_check_mark: |  |  |
 | [`directive-selector`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/directive-selector.md) | Directive selectors should follow given naming rules. See more at https://angular.io/guide/styleguide#style-02-06 and https://angular.io/guide/styleguide#style-02-08. |  |  |  |
 | [`no-conflicting-lifecycle`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/no-conflicting-lifecycle.md) | Ensures that directives not implement conflicting lifecycle interfaces. |  |  |  |
+| [`no-duplicates-in-metadata-arrays`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/no-duplicates-in-metadata-arrays.md) | Ensures that metadata arrays do not contain duplicate entries. |  |  |  |
 | [`no-empty-lifecycle-method`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/no-empty-lifecycle-method.md) | Disallows declaring empty lifecycle methods | :white_check_mark: |  | :bulb: |
 | [`no-forward-ref`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/no-forward-ref.md) | Disallows usage of `forwardRef` references for DI |  |  |  |
 | [`no-host-metadata-property`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/no-host-metadata-property.md) | Disallows usage of the `host` metadata property. See more at https://angular.io/styleguide#style-06-03 | :white_check_mark: |  |  |
@@ -63,10 +65,9 @@
 | [`pipe-prefix`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/pipe-prefix.md) | Enforce consistent prefix for pipes. |  |  |  |
 | [`prefer-on-push-component-change-detection`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/prefer-on-push-component-change-detection.md) | Ensures component's `changeDetection` is set to `ChangeDetectionStrategy.OnPush` |  |  | :bulb: |
 | [`prefer-output-readonly`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/prefer-output-readonly.md) | Prefer to declare `@Output` as `readonly` since they are not supposed to be reassigned |  |  | :bulb: |
-| [`prefer-standalone-component`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/prefer-standalone-component.md) | Ensures component `standalone` property is set to `true` in the component decorator |  | :wrench: |  |
+| [`prefer-standalone`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/prefer-standalone.md) | Ensures component, directive and pipe `standalone` property is set to `true` in the component decorator |  | :wrench: |  |
 | [`relative-url-prefix`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/relative-url-prefix.md) | The ./ and ../ prefix is standard syntax for relative URLs; don't depend on Angular's current ability to do without that prefix. See more at https://angular.io/styleguide#style-05-04 |  |  |  |
 | [`require-localize-metadata`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/require-localize-metadata.md) | Ensures that $localize tagged messages contain helpful metadata to aid with translations. |  |  |  |
-| [`sort-ngmodule-metadata-arrays`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/sort-ngmodule-metadata-arrays.md) | Ensures ASC alphabetical order for `NgModule` metadata arrays for easy visual scanning |  | :wrench: |  |
 | [`use-component-selector`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/use-component-selector.md) | Component selector must be declared |  |  |  |
 | [`use-component-view-encapsulation`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/use-component-view-encapsulation.md) | Disallows using `ViewEncapsulation.None` |  |  | :bulb: |
 | [`use-injectable-provided-in`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/use-injectable-provided-in.md) | Using the `providedIn` property makes `Injectables` tree-shakable |  |  | :bulb: |
@@ -81,5 +82,14 @@
 <!-- end layout rule list -->
 
 <!-- begin deprecated rule list -->
+
+### Deprecated
+
+<!-- prettier-ignore-start -->
+| Rule | Replaced by |
+| --- | --- |
+| [`prefer-standalone-component`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/prefer-standalone-component.md) | [`prefer-standalone`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/prefer-standalone.md) |
+| [`sort-ngmodule-metadata-arrays`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/sort-ngmodule-metadata-arrays.md) |  |
+<!-- prettier-ignore-end -->
 
 <!-- end deprecated rule list -->

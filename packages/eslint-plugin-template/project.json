@@ -4,24 +4,12 @@
   "type": "library",
   "targets": {
     "build": {
-      "executor": "nx:run-commands",
+      "dependsOn": ["compile"],
       "outputs": ["{projectRoot}/dist"],
-      "options": {
-        "cwd": "packages/eslint-plugin-template",
-        "parallel": false,
-        "commands": [
-          "npx rimraf ./dist",
-          "npx tsc --project tsconfig.build.json",
-          "npx ncp ./src/configs ./dist/configs"
-        ]
-      }
+      "command": "ncp {projectRoot}/src/configs {projectRoot}/dist/configs"
     },
     "test": {
-      "dependsOn": [
-        {
-          "target": "build"
-        }
-      ],
+      "dependsOn": ["^build"],
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/packages/eslint-plugin-template"],
       "options": {
@@ -29,54 +17,21 @@
         "passWithNoTests": false
       }
     },
-    "typecheck": {},
     "check-rule-docs": {
-      "dependsOn": [
-        {
-          "target": "update-rule-docs"
-        }
-      ],
-      "executor": "nx:run-commands",
-      "options": {
-        "parallel": false,
-        "commands": [
-          "git diff --quiet --exit-code packages/eslint-plugin-template/docs || (echo \"\n-------\n\nCHECK RULE DOCS ERROR: You have uncommitted changes to the generated rule docs.\n\nYou should run `yarn update-rule-docs` and commit the result.\n\n-------\n\" && exit 1)"
-        ]
-      }
+      "dependsOn": ["update-rule-docs"],
+      "command": "git diff --quiet --exit-code packages/eslint-plugin-template/docs || (echo \"\n-------\n\nCHECK RULE DOCS ERROR: You have uncommitted changes to the generated rule docs.\n\nYou should run `yarn update-rule-docs` and commit the result.\n\n-------\n\" && exit 1)"
     },
     "update-rule-docs": {
-      "executor": "nx:run-commands",
       "outputs": ["{projectRoot}/docs"],
-      "options": {
-        "parallel": false,
-        "commands": [
-          "npx ts-node --project ./tsconfig.tools.json ./tools/scripts/generate-rule-docs.ts eslint-plugin-template"
-        ]
-      }
+      "command": "npx tsx ./tools/scripts/generate-rule-docs.ts eslint-plugin-template"
     },
     "check-rule-lists": {
-      "dependsOn": [
-        {
-          "target": "update-rule-lists"
-        }
-      ],
-      "executor": "nx:run-commands",
-      "options": {
-        "parallel": false,
-        "commands": [
-          "git diff --quiet --exit-code packages/eslint-plugin-template/README.md || (echo \"\n-------\n\nCHECK RULE LISTS ERROR: You have uncommitted changes to the generated rule lists.\n\nYou should run `yarn update-rule-lists` and commit the result.\n\n-------\n\" && exit 1)"
-        ]
-      }
+      "dependsOn": ["update-rule-lists"],
+      "command": "git diff --quiet --exit-code packages/eslint-plugin-template/README.md || (echo \"\n-------\n\nCHECK RULE LISTS ERROR: You have uncommitted changes to the generated rule lists.\n\nYou should run `yarn update-rule-lists` and commit the result.\n\n-------\n\" && exit 1)"
     },
     "update-rule-lists": {
-      "executor": "nx:run-commands",
       "outputs": ["{projectRoot}/README.md"],
-      "options": {
-        "parallel": false,
-        "commands": [
-          "npx ts-node --project ./tsconfig.tools.json ./tools/scripts/generate-rule-lists.ts eslint-plugin-template"
-        ]
-      }
+      "command": "npx tsx ./tools/scripts/generate-rule-lists.ts eslint-plugin-template"
     }
   },
   "implicitDependencies": ["template-parser", "bundled-angular-compiler"],

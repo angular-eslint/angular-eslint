@@ -20,6 +20,8 @@ export default createESLintRule<Options, MessageIds>({
     docs: {
       description: `Ensures component \`${METADATA_PROPERTY_NAME}\` property is set to \`${IS_STANDALONE}\` in the component decorator`,
     },
+    deprecated: true,
+    replacedBy: ['prefer-standalone'],
     fixable: 'code',
     schema: [],
     messages: {

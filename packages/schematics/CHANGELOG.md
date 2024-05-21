@@ -1,3 +1,65 @@
+## 17.4.1 (2024-05-15)
+
+### 🩹 Fixes
+
+- update dependency @angular/compiler to v17.3.8
+
+- **schematics:** ignore nx cache
+
+### ❤️ Thank You
+
+- James Henry
+
+## 17.4.0 (2024-05-07)
+
+### 🩹 Fixes
+
+- update dependency @angular/compiler to v17.3.4
+
+- update dependency eslint-scope to v8.0.1
+
+- update typescript-eslint packages to v7.6.0
+
+- update typescript-eslint packages to v7.7.0
+
+- update dependency @angular/compiler to v17.3.6
+
+- update typescript-eslint packages to v7.8.0
+
+- **schematics:** update schema.json with latest from Angular
+
+### ❤️ Thank You
+
+- “JamesHenry”
+- Adrian Baran
+- Brad Kovach
+
+## 17.3.0 (2024-03-15)
+
+### 🩹 Fixes
+
+- update dependency tmp to v0.2.3
+
+- migrate to nx 18
+
+- update dependency ignore to v5.3.1
+
+- update dependency eslint to v8.57.0
+
+- update typescript-eslint packages to v7 (major)
+
+- update dependency @angular/compiler to v17.3.0
+
+- output declaration files in all packages
+
+### ❤️ Thank You
+
+- Christian Svensson
+- Dave
+- James Henry
+- Joey Jacobs
+- Luis Estevez
+
 ## 17.2.1 (2024-01-20)
 
 ### 🩹 Fixes

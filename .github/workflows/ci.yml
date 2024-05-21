@@ -52,24 +52,26 @@ jobs:
           yarn --ignore-engines --frozen-lockfile --prefer-offline --ignore-scripts
           yarn check-clean-workspace-after-install
 
-      - name: Run parallel distributed tasks for build, typecheck, check-rule-docs, lint and test targets
+      - name: Run parallel distributed tasks for build, typecheck, check-rule-docs, check-rule-lists, lint and test targets
         uses: jameshenry/parallel-bash-commands@v1
         with:
           # Note that the typecheck target *also* typechecks tests and tools,
           # whereas the build only checks src files
-          cmd1: yarn nx run-many -t build,typecheck,check-rule-docs,lint
-          cmd2: yarn nx run-many -t test --codeCoverage
-          cmd3: yarn nx-cloud record -- yarn lint
-          cmd4: yarn nx-cloud record -- yarn format-check
-          # Run distributed e2e test suites with independent local registries (max 1 per agent via parallel=1)
-          cmd5: yarn nx run-many -t e2e-suite --parallel 1
+          cmd1: npx nx run-many -t build,typecheck,check-rule-docs,lint,check-rule-lists
+          cmd2: npx nx run-many -t test --codeCoverage
+          cmd3: npx nx-cloud record -- yarn format-check
+      
+      # Run distributed e2e test suites with independent local registries (max 1 per agent via parallel=1)
+      - name: Run e2e test suites
+        run: npx nx run-many -t e2e-suite --parallel 1
 
       - name: Publish code coverage report
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
           files: coverage/packages/**/lcov.info
           flags: unittest
           name: codecov
+          token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Stop all running agents for this CI run
         # It's important that we always run this step, otherwise in the case of any failures in preceding non-Nx steps, the agents will keep running and waste billable minutes
@@ -177,7 +179,7 @@ jobs:
         run: NX_CLOUD_DISTRIBUTED_EXECUTION=false yarn build
 
       - name: Figure out and apply the next canary version
-        run: yarn ts-node --project ./tsconfig.tools.json ./tools/scripts/apply-canary-version.ts
+        run: yarn tsx ./tools/scripts/apply-canary-version.ts
 
       - name: Publish all packages to npm with the canary tag
         # NOTE: this needs to be npx, rather than yarn, to make sure the authenticated npm registry is used

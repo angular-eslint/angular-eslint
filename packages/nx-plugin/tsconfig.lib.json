@@ -1,11 +1,12 @@
 {
-  "extends": "./tsconfig.json",
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "../../dist/out-tsc",
-    "declaration": true,
-    "types": ["node"],
-    "baseUrl": "."
+    "rootDir": "src",
+    "outDir": "dist",
+    "emitDeclarationOnly": false,
+    "tsBuildInfoFile": "../../dist/tsconfig.lib.tsbuildinfo",
+    "resolveJsonModule": true
   },
-  "include": ["**/*.ts"],
-  "exclude": ["jest.config.ts", "**/*.spec.ts", "**/*.test.ts"]
+  "exclude": ["**/*.spec.ts"],
+  "include": ["src/**/*"]
 }

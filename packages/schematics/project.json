@@ -12,8 +12,8 @@
         "commands": [
           "npx ncp ../../node_modules/@schematics/angular/application/schema.json src/application/schema.json",
           "npx ncp ../../node_modules/@schematics/angular/library/schema.json src/library/schema.json",
-          "npx ts-node --project ../../tsconfig.tools.json ../../tools/scripts/enhance-angular-schemas.ts",
-          "npx tsc -p tsconfig.build.json",
+          "npx tsx ../../tools/scripts/enhance-angular-schemas.ts",
+          "npx tsc -b tsconfig.lib.json --pretty --verbose",
           "npx ncp src/collection.json dist/collection.json",
           "npx ncp src/migrations.json dist/migrations.json",
           "npx ncp src/ng-add/schema.json dist/ng-add/schema.json",
@@ -26,20 +26,14 @@
       }
     },
     "test": {
-      "dependsOn": [
-        {
-          "target": "build",
-          "dependencies": true
-        }
-      ],
+      "dependsOn": ["^build"],
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/packages/schematics"],
       "options": {
         "jestConfig": "packages/schematics/jest.config.ts",
         "passWithNoTests": false
       }
-    },
-    "typecheck": {}
+    }
   },
   "implicitDependencies": []
 }

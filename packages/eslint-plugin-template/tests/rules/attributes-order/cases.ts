@@ -400,4 +400,70 @@ export const invalid = [
            
     `,
   }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description: `should work with valueless structural directive at beginning`,
+    annotatedSource: `
+      <div *structuralDirective class="abc"></div>
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    options: [
+      {
+        alphabetical: true,
+        order: [
+          OrderType.AttributeBinding,
+          OrderType.TemplateReferenceVariable,
+          OrderType.InputBinding,
+          OrderType.OutputBinding,
+          OrderType.TwoWayBinding,
+          OrderType.StructuralDirective,
+        ],
+      },
+    ],
+    data: {
+      expected: '`class`, `*structuralDirective`',
+      actual: '`*structuralDirective`, `class`',
+    },
+    annotatedOutput: `
+      <div class="abc" *structuralDirective></div>
+           
+    `,
+  }),
+
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should work with valueless structural directive with no value in middle',
+    annotatedSource: `
+      <div title="abc" *structuralDirective abbr="abc"></div>
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    options: [{ alphabetical: true }],
+    data: {
+      expected: '`*structuralDirective`, `abbr`, `title`',
+      actual: '`title`, `*structuralDirective`, `abbr`',
+    },
+    annotatedOutput: `
+      <div *structuralDirective abbr="abc" title="abc"></div>
+           
+    `,
+  }),
+
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should work with valueless structural directive with no value at end',
+    annotatedSource: `
+      <div class="abc" *structuralDirective></div>
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    data: {
+      expected: '`*structuralDirective`, `class`',
+      actual: '`class`, `*structuralDirective`',
+    },
+    annotatedOutput: `
+      <div *structuralDirective class="abc"></div>
+           
+    `,
+  }),
 ];

@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ng-add standard workspace layout - single existing project should create a root .gitignore file if one does not already exist 1`] = `
+".nx/cache
+.nx/workspace-data
+"
+`;
+
+exports[`ng-add standard workspace layout - single existing project should update an existing root .gitignore file if one exists 1`] = `
+"node_modules
+dist
+
+.nx/cache
+.nx/workspace-data
+"
+`;

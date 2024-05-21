@@ -1,8 +1,15 @@
 {
-  "extends": "./tsconfig.build.json",
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "types": ["jest"]
+    "outDir": "../../dist/out-tsc/builder"
   },
-  "include": ["src", "tests"],
-  "exclude": ["jest.config.ts"]
+  "include": ["src/**/*"],
+  "references": [
+    {
+      "path": "./tsconfig.lib.json"
+    },
+    {
+      "path": "./tsconfig.spec.json"
+    }
+  ]
 }

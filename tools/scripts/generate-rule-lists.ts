@@ -105,7 +105,7 @@ const columnsDeprecated: Column[] = [
     dataFn: ([name, rule]: RuleItem, plugin: Plugin) =>
       (rule.meta.replacedBy || [])
         .map((replacer) =>
-          createRuleLink([name, rule], plugin).replace(name, replacer),
+          createRuleLink([name, rule], plugin).replaceAll(name, replacer),
         )
         .join(', '),
   },

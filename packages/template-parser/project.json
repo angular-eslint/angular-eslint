@@ -3,18 +3,6 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "type": "library",
   "targets": {
-    "build": {
-      "executor": "nx:run-commands",
-      "outputs": ["{projectRoot}/dist"],
-      "options": {
-        "cwd": "packages/template-parser",
-        "parallel": false,
-        "commands": [
-          "npx rimraf ./dist",
-          "npx tsc --project tsconfig.build.json"
-        ]
-      }
-    },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/packages/template-parser"],
@@ -22,8 +10,7 @@
         "jestConfig": "packages/template-parser/jest.config.ts",
         "passWithNoTests": false
       }
-    },
-    "typecheck": {}
+    }
   },
   "implicitDependencies": []
 }

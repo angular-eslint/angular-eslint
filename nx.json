@@ -1,19 +1,46 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "nxCloudAccessToken": "NzNkMDZiM2MtMzVlOS00YzVlLWE1MGQtNWZlYzI3MjRkOTRmfHJlYWQ=",
+  "plugins": [
+    "@nx/eslint/plugin",
+    {
+      "plugin": "@nx/js/typescript",
+      "include": [
+        "packages/builder/**",
+        "packages/eslint-plugin-template/**",
+        "packages/eslint-plugin/**"
+      ],
+      "options": {
+        "build": {
+          "targetName": "compile"
+        }
+      }
+    },
+    {
+      "plugin": "@nx/js/typescript",
+      "exclude": [
+        "*",
+        "packages/builder/**",
+        "packages/bundled-angular-compiler/**",
+        "packages/eslint-plugin-template/**",
+        "packages/eslint-plugin/**",
+        "packages/nx-plugin/**",
+        "packages/schematics/**"
+      ],
+      "options": {
+        "build": {
+          "targetName": "build",
+          "configName": "tsconfig.lib.json"
+        }
+      }
+    }
+  ],
   "release": {
     "projects": ["*", "!e2e*", "!nx-plugin"],
     "version": {
-      "generatorOptions": {
-        "currentVersionResolver": "git-tag",
-        "specifierSource": "conventional-commits"
-      }
+      "conventionalCommits": true
     },
     "changelog": {
-      "git": {
-        "commit": true,
-        "tag": true
-      },
       "workspaceChangelog": {
         "createRelease": "github"
       },
@@ -26,15 +53,6 @@
       "inputs": ["production", "^production"],
       "cache": true
     },
-    "typecheck": {
-      "dependsOn": ["^build"],
-      "cache": true,
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "npx tsc --noEmit -p tsconfig.json",
-        "cwd": "{projectRoot}"
-      }
-    },
     "update-rule-docs": {
       "dependsOn": ["^build"],
       "cache": true
@@ -44,6 +62,14 @@
       "cache": true
     },
     "lint": {
+      "inputs": [
+        "default",
+        "{workspaceRoot}/.eslintrc.json",
+        "{workspaceRoot}/.eslintignore"
+      ],
+      "options": {
+        "ignore-path": "../../.eslintignore"
+      },
       "cache": true
     },
     "e2e": {

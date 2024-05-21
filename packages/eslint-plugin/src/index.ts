@@ -10,6 +10,9 @@ import componentMaxInlineDeclarations, {
 import componentSelector, {
   RULE_NAME as componentSelectorRuleName,
 } from './rules/component-selector';
+import consistentComponentStyles, {
+  RULE_NAME as consistentComponentStylesRuleName,
+} from './rules/consistent-component-styles';
 import contextualDecorator, {
   RULE_NAME as contextualDecoratorRuleName,
 } from './rules/contextual-decorator';
@@ -79,6 +82,9 @@ import preferOnPushComponentChangeDetection, {
 import preferOutputReadonly, {
   RULE_NAME as preferOutputReadonlyRuleName,
 } from './rules/prefer-output-readonly';
+import preferStandalone, {
+  RULE_NAME as preferStandaloneRuleName,
+} from './rules/prefer-standalone';
 import preferStandaloneComponent, {
   RULE_NAME as preferStandaloneComponentRuleName,
 } from './rules/prefer-standalone-component';
@@ -109,6 +115,9 @@ import useLifecycleInterface, {
 import usePipeTransformInterface, {
   RULE_NAME as usePipeTransformInterfaceRuleName,
 } from './rules/use-pipe-transform-interface';
+import noDuplicatesInMetadataArrays, {
+  RULE_NAME as noDuplicatesInMetadataArraysRuleName,
+} from './rules/no-duplicates-in-metadata-arrays';
 
 export = {
   configs: {
@@ -119,6 +128,7 @@ export = {
     [componentClassSuffixRuleName]: componentClassSuffix,
     [componentMaxInlineDeclarationsRuleName]: componentMaxInlineDeclarations,
     [componentSelectorRuleName]: componentSelector,
+    [consistentComponentStylesRuleName]: consistentComponentStyles,
     [contextualDecoratorRuleName]: contextualDecorator,
     [contextualLifecycleRuleName]: contextualLifecycle,
     [directiveClassSuffixRuleName]: directiveClassSuffix,
@@ -126,6 +136,7 @@ export = {
     [noAsyncLifecycleMethodRuleName]: noAsyncLifecycleMethod,
     [noAttributeDecoratorRuleName]: noAttributeDecorator,
     [noConflictingLifecycleRuleName]: noConflictingLifecycle,
+    [noDuplicatesInMetadataArraysRuleName]: noDuplicatesInMetadataArrays,
     [noEmptyLifecycleMethodRuleName]: noEmptyLifecycleMethod,
     [noForwardRefRuleName]: noForwardRef,
     [noHostMetadataPropertyRuleName]: noHostMetadataProperty,
@@ -142,6 +153,7 @@ export = {
     [pipePrefixRuleName]: pipePrefix,
     [preferOnPushComponentChangeDetectionRuleName]:
       preferOnPushComponentChangeDetection,
+    [preferStandaloneRuleName]: preferStandalone,
     [preferStandaloneComponentRuleName]: preferStandaloneComponent,
     [preferOutputReadonlyRuleName]: preferOutputReadonly,
     [relativeUrlPrefixRuleName]: relativeUrlPrefix,

@@ -1,3 +1,62 @@
+## 17.4.1 (2024-05-15)
+
+### 🩹 Fixes
+
+- update dependency @angular/compiler to v17.3.8 ([#1797](https://github.com/angular-eslint/angular-eslint/pull/1797))
+- **schematics:** ignore nx cache ([#1816](https://github.com/angular-eslint/angular-eslint/pull/1816))
+
+### ❤️ Thank You
+
+- James Henry @JamesHenry
+
+## 17.4.0 (2024-05-07)
+
+### 🚀 Features
+
+- **eslint-plugin:** [no-duplicates-in-metadata-arrays] new rule ([#1779](https://github.com/angular-eslint/angular-eslint/pull/1779))
+
+### 🩹 Fixes
+
+- update dependency @angular/compiler to v17.3.4 ([#1750](https://github.com/angular-eslint/angular-eslint/pull/1750))
+- update dependency eslint-scope to v8.0.1 ([#1762](https://github.com/angular-eslint/angular-eslint/pull/1762))
+- update dependency @angular/compiler to v17.3.6 ([#1775](https://github.com/angular-eslint/angular-eslint/pull/1775))
+- update typescript-eslint packages to v7.8.0 ([#1786](https://github.com/angular-eslint/angular-eslint/pull/1786))
+- **eslint-plugin:** [sort-ngmodule-metadata-arrays] deprecate rule ([#1781](https://github.com/angular-eslint/angular-eslint/pull/1781))
+- **eslint-plugin-template:** [attributes-order] calculate valueless structural directive start/end positions correctly ([#1726](https://github.com/angular-eslint/angular-eslint/pull/1726))
+- **schematics:** update schema.json with latest from Angular ([a5adbfc](https://github.com/angular-eslint/angular-eslint/commit/a5adbfc))
+
+### ❤️ Thank You
+
+- “JamesHenry” @JamesHenry
+- Adrian Baran @abaran30
+- Brad Kovach @bradkovach
+
+## 17.3.0 (2024-03-15)
+
+### 🚀 Features
+
+- **eslint-plugin:** add consistent-component-styles rule ([#1710](https://github.com/angular-eslint/angular-eslint/pull/1710))
+- **eslint-plugin:** add prefer-standalone rule for checking all components, directives and pipes ([#1627](https://github.com/angular-eslint/angular-eslint/pull/1627))
+
+### 🩹 Fixes
+
+- update dependency tmp to v0.2.3 ([#1734](https://github.com/angular-eslint/angular-eslint/pull/1734))
+- migrate to nx 18 ([#1732](https://github.com/angular-eslint/angular-eslint/pull/1732))
+- update dependency ignore to v5.3.1 ([#1733](https://github.com/angular-eslint/angular-eslint/pull/1733))
+- update dependency eslint to v8.57.0 ([#1739](https://github.com/angular-eslint/angular-eslint/pull/1739))
+- update typescript-eslint packages to v7 (major) ([#1742](https://github.com/angular-eslint/angular-eslint/pull/1742))
+- update dependency @angular/compiler to v17.3.0 ([#1713](https://github.com/angular-eslint/angular-eslint/pull/1713))
+- output declaration files in all packages ([#1724](https://github.com/angular-eslint/angular-eslint/pull/1724))
+- **eslint-plugin-template:** [eqeqeq] calculate offset to find true absolute source span ([#1709](https://github.com/angular-eslint/angular-eslint/pull/1709))
+
+### ❤️ Thank You
+
+- Christian Svensson
+- Dave @reduckted
+- James Henry @JamesHenry
+- Joey Jacobs @joeyj
+- Luis Estevez @estevezluis
+
 ## 17.2.1 (2024-01-20)
 
 ### 🩹 Fixes
