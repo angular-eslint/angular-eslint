@@ -456,14 +456,14 @@ export const invalid = [
     description:
       'should fail if `i18n` attribute is missing on element containing ICU',
     annotatedSource: `
-      <div>{ value, plural, =0 {No elements} =1 {111} }</div>
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      { value, plural, =0 {<div>No elements</div>} =1 {111} }
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     `,
     messageId: i18nAttributeOnIcuOrText,
     options: [{ checkAttributes: false }],
     annotatedOutput: `
-      <div i18n>{ value, plural, =0 {No elements} =1 {111} }</div>
-           
+      <ng-container i18n>{ value, plural, =0 {<div>No elements</div>} =1 {111} }</ng-container>
+      
     `,
   }),
   convertAnnotatedSourceToFailureCase({
@@ -830,14 +830,14 @@ export const invalid = [
     description:
       'should fail if `i18n` attribute is missing on `Template` containing `ICU`',
     annotatedSource: `
-      <ng-template>{ value, plural, =0 {No elements} =1 {111} }</ng-template>
-                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      { value, plural, =0 {<ng-template>No elements</ng-template>} =1 {111} }
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     `,
     messageId: i18nAttributeOnIcuOrText,
     options: [{ checkAttributes: false }],
     annotatedOutput: `
-      <ng-template i18n>{ value, plural, =0 {No elements} =1 {111} }</ng-template>
-                   
+      <ng-container i18n>{ value, plural, =0 {<ng-template>No elements</ng-template>} =1 {111} }</ng-container>
+      
     `,
   }),
   convertAnnotatedSourceToFailureCase({
