@@ -2091,26 +2091,12 @@
   dependencies:
     "@nx/eslint-plugin" "19.0.4"
 
-"@nrwl/jest@19.0.3":
-  version "19.0.3"
-  resolved "https://registry.yarnpkg.com/@nrwl/jest/-/jest-19.0.3.tgz#725258d87396c31abd611dc93f4dccd71654e180"
-  integrity sha512-9XzfAjHKidqcVLlxGVk4dxeIk8ZukGGRtYmkEaWGZpGURQhQyMpUSGwjAGhZNM6jD0s4Ci0vfPbc+Q6Tza1ZxQ==
-  dependencies:
-    "@nx/jest" "19.0.3"
-
 "@nrwl/jest@19.0.4":
   version "19.0.4"
   resolved "https://registry.yarnpkg.com/@nrwl/jest/-/jest-19.0.4.tgz#f50e0f727086ddbb9f96c4073b6011513752448c"
   integrity sha512-47nASzd1lwP3/vBX2wp8xb0s+tZCSxmLf3jN+NUDNm/nxCf6/pUS5SdWJHABbioG8myrqKGaCOW5/4NCdlQD+Q==
   dependencies:
     "@nx/jest" "19.0.4"
-
-"@nrwl/js@19.0.3":
-  version "19.0.3"
-  resolved "https://registry.yarnpkg.com/@nrwl/js/-/js-19.0.3.tgz#08eb149775c413af4b6312c5a8986f6e9a2c4ccf"
-  integrity sha512-/BORFIqcq4+VRO7uTyXRPrAjpxNFfALpzBNItUc4L8T5eiPxsuHWt21UYfxrdxtAI+dc3HyC6Qh05mRwsGBkDQ==
-  dependencies:
-    "@nx/js" "19.0.3"
 
 "@nrwl/js@19.0.4":
   version "19.0.4"
@@ -2141,13 +2127,6 @@
   dependencies:
     nx "19.0.4"
     tslib "^2.3.0"
-
-"@nrwl/workspace@19.0.3":
-  version "19.0.3"
-  resolved "https://registry.yarnpkg.com/@nrwl/workspace/-/workspace-19.0.3.tgz#3195b224a80bff412de5554bf60b48ec82181e11"
-  integrity sha512-k7DLPSBiqxxk8d3e5HLt3JKFyDCuncxnjRumnp3Fa8z4i1qRenOHsB65gWdTxgvpT5+46G79I3f+RLlM7U8CAg==
-  dependencies:
-    "@nx/workspace" "19.0.3"
 
 "@nrwl/workspace@19.0.4":
   version "19.0.4"
@@ -2214,27 +2193,6 @@
     tslib "^2.3.0"
     typescript "~5.4.2"
 
-"@nx/jest@19.0.3":
-  version "19.0.3"
-  resolved "https://registry.yarnpkg.com/@nx/jest/-/jest-19.0.3.tgz#fdcd44a848360d28b39fefa2148d1c2c962679eb"
-  integrity sha512-X8yla4Rff22H3j8HbVBFsq45nRZ3o4MIeLWBZymyuB+td0oyRUYw/uCqbKqZXVzo/exmXlPffwkMvM063Z501g==
-  dependencies:
-    "@jest/reporters" "^29.4.1"
-    "@jest/test-result" "^29.4.1"
-    "@nrwl/jest" "19.0.3"
-    "@nx/devkit" "19.0.3"
-    "@nx/js" "19.0.3"
-    "@phenomnomnominal/tsquery" "~5.0.1"
-    chalk "^4.1.0"
-    identity-obj-proxy "3.0.0"
-    jest-config "^29.4.1"
-    jest-resolve "^29.4.1"
-    jest-util "^29.4.1"
-    minimatch "9.0.3"
-    resolve.exports "1.1.0"
-    tslib "^2.3.0"
-    yargs-parser "21.1.1"
-
 "@nx/jest@19.0.4":
   version "19.0.4"
   resolved "https://registry.yarnpkg.com/@nx/jest/-/jest-19.0.4.tgz#e69a95db531a0211588b0df70c93f2f77b0ac88c"
@@ -2255,41 +2213,6 @@
     resolve.exports "1.1.0"
     tslib "^2.3.0"
     yargs-parser "21.1.1"
-
-"@nx/js@19.0.3":
-  version "19.0.3"
-  resolved "https://registry.yarnpkg.com/@nx/js/-/js-19.0.3.tgz#7fdd161f5e789987d76a8875bbba26477c49d99f"
-  integrity sha512-kSvoVRGzN/WIjbZykcRb3TFmXJNFN8DiWL2hMRX+aqXb7wK2vIDnA6LwwJkpYZdp20wZ39ftmENVhs0m4gBizA==
-  dependencies:
-    "@babel/core" "^7.23.2"
-    "@babel/plugin-proposal-decorators" "^7.22.7"
-    "@babel/plugin-transform-class-properties" "^7.22.5"
-    "@babel/plugin-transform-runtime" "^7.23.2"
-    "@babel/preset-env" "^7.23.2"
-    "@babel/preset-typescript" "^7.22.5"
-    "@babel/runtime" "^7.22.6"
-    "@nrwl/js" "19.0.3"
-    "@nx/devkit" "19.0.3"
-    "@nx/workspace" "19.0.3"
-    babel-plugin-const-enum "^1.0.1"
-    babel-plugin-macros "^2.8.0"
-    babel-plugin-transform-typescript-metadata "^0.3.1"
-    chalk "^4.1.0"
-    columnify "^1.6.0"
-    detect-port "^1.5.1"
-    fast-glob "3.2.7"
-    fs-extra "^11.1.0"
-    ignore "^5.0.4"
-    js-tokens "^4.0.0"
-    minimatch "9.0.3"
-    npm-package-arg "11.0.1"
-    npm-run-path "^4.0.1"
-    ora "5.3.0"
-    semver "^7.5.3"
-    source-map-support "0.5.19"
-    ts-node "10.9.1"
-    tsconfig-paths "^4.1.2"
-    tslib "^2.3.0"
 
 "@nx/js@19.0.4":
   version "19.0.4"
@@ -2445,19 +2368,6 @@
     "@nx/js" "19.0.4"
     fs-extra "^11.1.0"
     tslib "^2.3.0"
-
-"@nx/workspace@19.0.3":
-  version "19.0.3"
-  resolved "https://registry.yarnpkg.com/@nx/workspace/-/workspace-19.0.3.tgz#93ba832345aa6a652f9e43e4aa80d154f24b7166"
-  integrity sha512-k/rURzdqch5LK5Bsv5MmeeN9LSPzFk8Jw8WpTKNi7yg3Pzkt8Ud5he9yHNexG6KrkaWJr/NXePpzI+2Ml9upmw==
-  dependencies:
-    "@nrwl/workspace" "19.0.3"
-    "@nx/devkit" "19.0.3"
-    chalk "^4.1.0"
-    enquirer "~2.3.6"
-    nx "19.0.3"
-    tslib "^2.3.0"
-    yargs-parser "21.1.1"
 
 "@nx/workspace@19.0.4":
   version "19.0.4"
