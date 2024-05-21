@@ -1141,6 +1141,37 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  selector: 'foo'
+})
+class Test {
+  @Input({ transform: (val) => val ?? '', required: true }) foo!: string;
+}
+```
+
 </details>
 
 <br>

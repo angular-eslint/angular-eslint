@@ -51,6 +51,7 @@ jobs:
         run: |
           yarn --ignore-engines --frozen-lockfile --prefer-offline --ignore-scripts
           yarn check-clean-workspace-after-install
+          npx jest --clearCache
 
       - name: Run parallel distributed tasks for build, typecheck, check-rule-docs, check-rule-lists, lint and test targets
         uses: jameshenry/parallel-bash-commands@v1
