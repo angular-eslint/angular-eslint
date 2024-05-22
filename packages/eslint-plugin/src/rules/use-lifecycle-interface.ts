@@ -60,6 +60,12 @@ export default createESLintRule<Options, MessageIds>({
             const { implementsNodeReplace, implementsTextReplace } =
               RuleFixes.getImplementsSchemaFixer(parent, interfaceName);
             return [
+              RuleFixes.getImportAddFix({
+                fixer,
+                importName: interfaceName,
+                moduleName: '@angular/core',
+                node: parent,
+              }),
               fixer.insertTextAfter(
                 implementsNodeReplace,
                 implementsTextReplace,

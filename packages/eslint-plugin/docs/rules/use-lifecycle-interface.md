@@ -87,14 +87,16 @@ class Test {
 #### ❌ Invalid Code
 
 ```ts
-@Directive()
-class Test extends Component implements OnInit {
-  ngOnInit() {}
+import { OnInit } from '@angular/core';
 
-  ngOnDestroy() {
-  ~~~~~~~~~~~
-  }
-}
+        @Directive()
+        class Test extends Component implements OnInit {
+          ngOnInit() {}
+
+          ngOnDestroy() {
+          ~~~~~~~~~~~
+          }
+        }
 ```
 
 <br>
