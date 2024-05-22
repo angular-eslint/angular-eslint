@@ -58,11 +58,21 @@ export const invalid = [
       interfaceName: ASTUtils.AngularLifecycleInterfaces.OnInit,
       methodName: ASTUtils.AngularLifecycleMethods.ngOnInit,
     },
+    annotatedOutput: `import { OnInit } from '@angular/core';
+
+        @Component()
+        class Test implements OnInit {
+          ngOnInit() {
+          
+          }
+        }
+      `,
   }),
   convertAnnotatedSourceToFailureCase({
     description:
       'it should fail if one of the lifecycle methods is declared without implementing its interface',
-    annotatedSource: `
+    annotatedSource: `import { OnInit } from '@angular/core';
+
         @Directive()
         class Test extends Component implements OnInit {
           ngOnInit() {}
@@ -77,6 +87,17 @@ export const invalid = [
       interfaceName: ASTUtils.AngularLifecycleInterfaces.OnDestroy,
       methodName: ASTUtils.AngularLifecycleMethods.ngOnDestroy,
     },
+    annotatedOutput: `import { OnInit, OnDestroy } from '@angular/core';
+
+        @Directive()
+        class Test extends Component implements OnInit, OnDestroy {
+          ngOnInit() {}
+
+          ngOnDestroy() {
+          
+          }
+        }
+      `,
   }),
   convertAnnotatedSourceToFailureCase({
     description:
@@ -120,6 +141,21 @@ export const invalid = [
         },
       },
     ],
+    // NOTE: Only one case will be auto-fixed in the output because RuleTester executes once: https://github.com/eslint/eslint/issues/11187
+    annotatedOutput: `import { DoBootstrap } from '@angular/core';
+
+        @Injectable()
+        class Test implements DoBootstrap {
+          ngDoBootstrap() {}
+                       
+
+          ngOnInit() {}
+                  
+
+          ngOnDestroy() {}
+          
+        }
+      `,
   }),
   convertAnnotatedSourceToFailureCase({
     description:
@@ -139,5 +175,16 @@ export const invalid = [
       interfaceName: ASTUtils.AngularLifecycleInterfaces.OnDestroy,
       methodName: ASTUtils.AngularLifecycleMethods.ngOnDestroy,
     },
+    annotatedOutput: `import { OnDestroy } from '@angular/core';
+
+        @NgModule()
+        class Test extends Component implements ng.OnInit, OnDestroy {
+          ngOnInit() {}
+
+          ngOnDestroy() {
+          
+          }
+        }
+      `,
   }),
 ];

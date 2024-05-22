@@ -17,3 +17,5 @@ launch-templates:
         uses: 'nrwl/nx-cloud-workflows/main/workflow-steps/install-node-modules/main.yaml'
         env:
           SKIP_POSTINSTALL: 'true'
+      - name: Clear Jest Cache
+        script: 'npx jest --clearCache'

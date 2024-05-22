@@ -206,6 +206,14 @@ export const valid = [
       @Input({ required: true }) name: string;
     }
   `,
+  `
+    @Component({
+      selector: 'foo'
+    })
+    class Test {
+      @Input({ transform: (val) => val ?? '', required: true }) foo!: string;
+    }
+  `,
 ];
 
 export const invalid = [

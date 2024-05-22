@@ -18,6 +18,7 @@
 Ensures that classes implement lifecycle interfaces corresponding to the declared lifecycle methods. See more at https://angular.io/styleguide#style-09-01
 
 - Type: suggestion
+- 🔧 Supports autofix (`--fix`)
 
 <br>
 
@@ -86,14 +87,16 @@ class Test {
 #### ❌ Invalid Code
 
 ```ts
-@Directive()
-class Test extends Component implements OnInit {
-  ngOnInit() {}
+import { OnInit } from '@angular/core';
 
-  ngOnDestroy() {
-  ~~~~~~~~~~~
-  }
-}
+        @Directive()
+        class Test extends Component implements OnInit {
+          ngOnInit() {}
+
+          ngOnDestroy() {
+          ~~~~~~~~~~~
+          }
+        }
 ```
 
 <br>

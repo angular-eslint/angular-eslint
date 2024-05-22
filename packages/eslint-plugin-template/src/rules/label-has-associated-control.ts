@@ -1,4 +1,7 @@
-import type { TmplAstElement } from '@angular-eslint/bundled-angular-compiler';
+import type {
+  AST,
+  TmplAstElement,
+} from '@angular-eslint/bundled-angular-compiler';
 import { getTemplateParserServices } from '@angular-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import { isChildNodeOf } from '../utils/is-child-node-of';
@@ -11,6 +14,7 @@ type Options = [
   {
     readonly controlComponents?: readonly string[];
     readonly labelComponents?: readonly LabelComponent[];
+    readonly checkIds?: boolean;
   },
 ];
 export type MessageIds = 'labelHasAssociatedControl';
@@ -29,6 +33,7 @@ const DEFAULT_LABEL_COMPONENTS: readonly LabelComponent[] = [
 const DEFAULT_OPTIONS: Options[0] = {
   controlComponents: DEFAULT_CONTROL_COMPONENTS,
   labelComponents: DEFAULT_LABEL_COMPONENTS,
+  checkIds: false,
 };
 
 export default createESLintRule<Options, MessageIds>({
@@ -43,6 +48,7 @@ export default createESLintRule<Options, MessageIds>({
       {
         additionalProperties: false,
         properties: {
+          checkIds: { type: 'boolean' },
           controlComponents: {
             items: { type: 'string' },
             type: 'array',
@@ -75,7 +81,7 @@ export default createESLintRule<Options, MessageIds>({
     },
   },
   defaultOptions: [DEFAULT_OPTIONS],
-  create(context, [{ controlComponents, labelComponents }]) {
+  create(context, [{ checkIds, controlComponents, labelComponents }]) {
     const parserServices = getTemplateParserServices(context);
     const allControlComponents: ReadonlySet<string> = new Set([
       ...DEFAULT_CONTROL_COMPONENTS,
@@ -85,34 +91,58 @@ export default createESLintRule<Options, MessageIds>({
       ...DEFAULT_LABEL_COMPONENTS,
       ...(labelComponents ?? []),
     ] as const;
-    const labelSelectors = allLabelComponents.map(({ selector }) => selector);
-    const labelComponentsPattern = toPattern(labelSelectors);
+    let inputItems: TmplAstElement[] = [];
+    let labelItems: TmplAstElement[] = [];
 
     return {
-      [`Element$1[name=${labelComponentsPattern}]`](node: TmplAstElement) {
+      [`Element$1`](node: TmplAstElement) {
+        if (allControlComponents.has(node.name)) {
+          inputItems.push(node);
+        }
         const element = allLabelComponents.find(
           ({ selector }) => selector === node.name,
         );
+        if (element) {
+          labelItems.push(node);
+        }
+      },
 
-        if (!element) return;
+      onCodePathEnd() {
+        for (const node of labelItems) {
+          const element = allLabelComponents.find(
+            ({ selector }) => selector === node.name,
+          );
 
-        const attributesInputs: ReadonlySet<string> = new Set(
-          [...node.attributes, ...node.inputs].map(({ name }) => name),
-        );
-        const hasInput = element.inputs?.some((input) =>
-          attributesInputs.has(input),
-        );
+          if (!element) continue;
+          const attributesInputs: ReadonlyMap<string, string | AST> = new Map(
+            [...node.attributes, ...node.inputs].map(({ name, value }) => [
+              name,
+              value,
+            ]),
+          );
+          const inputValues = (
+            element.inputs?.map((input) => attributesInputs.get(input)) ?? []
+          ).filter(filterUndefined);
+          let hasFor = inputValues.length > 0;
+          if (hasFor && checkIds) {
+            const value = inputValues[0];
+            hasFor = hasControlComponentWithId(inputItems, value);
+          }
+          if (hasFor || hasControlComponentIn(allControlComponents, node)) {
+            continue;
+          }
+          const loc = parserServices.convertNodeSourceSpanToLoc(
+            node.sourceSpan,
+          );
 
-        if (hasInput || hasControlComponentIn(allControlComponents, node)) {
-          return;
+          context.report({
+            loc,
+            messageId: 'labelHasAssociatedControl',
+          });
         }
 
-        const loc = parserServices.convertNodeSourceSpanToLoc(node.sourceSpan);
-
-        context.report({
-          loc,
-          messageId: 'labelHasAssociatedControl',
-        });
+        inputItems = [];
+        labelItems = [];
       },
     };
   },
@@ -129,6 +159,19 @@ function hasControlComponentIn(
   );
 }
 
-function toPattern(value: readonly unknown[]): RegExp {
-  return RegExp(`^(${value.join('|')})$`);
+function hasControlComponentWithId(
+  controlComponents: TmplAstElement[],
+  id: string | AST,
+) {
+  return Boolean(
+    [...controlComponents].some((node) => {
+      return !![...node.attributes, ...node.inputs].find(
+        (input) => input.name === 'id' && input.value === id,
+      );
+    }),
+  );
+}
+
+function filterUndefined<T>(value: T | undefined | null): value is T {
+  return value !== undefined && value !== null;
 }
