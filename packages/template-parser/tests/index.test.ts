@@ -10722,311 +10722,8 @@ describe('parseForESLint()', () => {
                   },
                 },
               ],
-              "contextVariables": Object {
-                "$count": Variable {
-                  "keySpan": ParseSourceSpan {
-                    "details": null,
-                    "end": ParseLocation {
-                      "col": 47,
-                      "file": ParseSourceFile {
-                        "content": "
-                  @for (item of items; track item.id) {
-                    {{ item.name }}
-                  } @empty {
-                     There are no items.
-                  }
-              ",
-                        "url": "./foo.html",
-                      },
-                      "line": 1,
-                      "offset": 48,
-                    },
-                    "fullStart": ParseLocation {
-                      "col": 47,
-                      "file": ParseSourceFile {
-                        "content": "
-                  @for (item of items; track item.id) {
-                    {{ item.name }}
-                  } @empty {
-                     There are no items.
-                  }
-              ",
-                        "url": "./foo.html",
-                      },
-                      "line": 1,
-                      "offset": 48,
-                    },
-                    "start": ParseLocation {
-                      "col": 47,
-                      "file": ParseSourceFile {
-                        "content": "
-                  @for (item of items; track item.id) {
-                    {{ item.name }}
-                  } @empty {
-                     There are no items.
-                  }
-              ",
-                        "url": "./foo.html",
-                      },
-                      "line": 1,
-                      "offset": 48,
-                    },
-                  },
-                  "name": "$count",
-                  "sourceSpan": ParseSourceSpan {
-                    "details": null,
-                    "end": ParseLocation {
-                      "col": 47,
-                      "file": ParseSourceFile {
-                        "content": "
-                  @for (item of items; track item.id) {
-                    {{ item.name }}
-                  } @empty {
-                     There are no items.
-                  }
-              ",
-                        "url": "./foo.html",
-                      },
-                      "line": 1,
-                      "offset": 48,
-                    },
-                    "fullStart": ParseLocation {
-                      "col": 47,
-                      "file": ParseSourceFile {
-                        "content": "
-                  @for (item of items; track item.id) {
-                    {{ item.name }}
-                  } @empty {
-                     There are no items.
-                  }
-              ",
-                        "url": "./foo.html",
-                      },
-                      "line": 1,
-                      "offset": 48,
-                    },
-                    "start": ParseLocation {
-                      "col": 47,
-                      "file": ParseSourceFile {
-                        "content": "
-                  @for (item of items; track item.id) {
-                    {{ item.name }}
-                  } @empty {
-                     There are no items.
-                  }
-              ",
-                        "url": "./foo.html",
-                      },
-                      "line": 1,
-                      "offset": 48,
-                    },
-                  },
-                  "value": "$count",
-                  "valueSpan": undefined,
-                },
-                "$even": Variable {
-                  "keySpan": ParseSourceSpan {
-                    "details": null,
-                    "end": ParseLocation {
-                      "col": 47,
-                      "file": ParseSourceFile {
-                        "content": "
-                  @for (item of items; track item.id) {
-                    {{ item.name }}
-                  } @empty {
-                     There are no items.
-                  }
-              ",
-                        "url": "./foo.html",
-                      },
-                      "line": 1,
-                      "offset": 48,
-                    },
-                    "fullStart": ParseLocation {
-                      "col": 47,
-                      "file": ParseSourceFile {
-                        "content": "
-                  @for (item of items; track item.id) {
-                    {{ item.name }}
-                  } @empty {
-                     There are no items.
-                  }
-              ",
-                        "url": "./foo.html",
-                      },
-                      "line": 1,
-                      "offset": 48,
-                    },
-                    "start": ParseLocation {
-                      "col": 47,
-                      "file": ParseSourceFile {
-                        "content": "
-                  @for (item of items; track item.id) {
-                    {{ item.name }}
-                  } @empty {
-                     There are no items.
-                  }
-              ",
-                        "url": "./foo.html",
-                      },
-                      "line": 1,
-                      "offset": 48,
-                    },
-                  },
-                  "name": "$even",
-                  "sourceSpan": ParseSourceSpan {
-                    "details": null,
-                    "end": ParseLocation {
-                      "col": 47,
-                      "file": ParseSourceFile {
-                        "content": "
-                  @for (item of items; track item.id) {
-                    {{ item.name }}
-                  } @empty {
-                     There are no items.
-                  }
-              ",
-                        "url": "./foo.html",
-                      },
-                      "line": 1,
-                      "offset": 48,
-                    },
-                    "fullStart": ParseLocation {
-                      "col": 47,
-                      "file": ParseSourceFile {
-                        "content": "
-                  @for (item of items; track item.id) {
-                    {{ item.name }}
-                  } @empty {
-                     There are no items.
-                  }
-              ",
-                        "url": "./foo.html",
-                      },
-                      "line": 1,
-                      "offset": 48,
-                    },
-                    "start": ParseLocation {
-                      "col": 47,
-                      "file": ParseSourceFile {
-                        "content": "
-                  @for (item of items; track item.id) {
-                    {{ item.name }}
-                  } @empty {
-                     There are no items.
-                  }
-              ",
-                        "url": "./foo.html",
-                      },
-                      "line": 1,
-                      "offset": 48,
-                    },
-                  },
-                  "value": "$even",
-                  "valueSpan": undefined,
-                },
-                "$first": Variable {
-                  "keySpan": ParseSourceSpan {
-                    "details": null,
-                    "end": ParseLocation {
-                      "col": 47,
-                      "file": ParseSourceFile {
-                        "content": "
-                  @for (item of items; track item.id) {
-                    {{ item.name }}
-                  } @empty {
-                     There are no items.
-                  }
-              ",
-                        "url": "./foo.html",
-                      },
-                      "line": 1,
-                      "offset": 48,
-                    },
-                    "fullStart": ParseLocation {
-                      "col": 47,
-                      "file": ParseSourceFile {
-                        "content": "
-                  @for (item of items; track item.id) {
-                    {{ item.name }}
-                  } @empty {
-                     There are no items.
-                  }
-              ",
-                        "url": "./foo.html",
-                      },
-                      "line": 1,
-                      "offset": 48,
-                    },
-                    "start": ParseLocation {
-                      "col": 47,
-                      "file": ParseSourceFile {
-                        "content": "
-                  @for (item of items; track item.id) {
-                    {{ item.name }}
-                  } @empty {
-                     There are no items.
-                  }
-              ",
-                        "url": "./foo.html",
-                      },
-                      "line": 1,
-                      "offset": 48,
-                    },
-                  },
-                  "name": "$first",
-                  "sourceSpan": ParseSourceSpan {
-                    "details": null,
-                    "end": ParseLocation {
-                      "col": 47,
-                      "file": ParseSourceFile {
-                        "content": "
-                  @for (item of items; track item.id) {
-                    {{ item.name }}
-                  } @empty {
-                     There are no items.
-                  }
-              ",
-                        "url": "./foo.html",
-                      },
-                      "line": 1,
-                      "offset": 48,
-                    },
-                    "fullStart": ParseLocation {
-                      "col": 47,
-                      "file": ParseSourceFile {
-                        "content": "
-                  @for (item of items; track item.id) {
-                    {{ item.name }}
-                  } @empty {
-                     There are no items.
-                  }
-              ",
-                        "url": "./foo.html",
-                      },
-                      "line": 1,
-                      "offset": 48,
-                    },
-                    "start": ParseLocation {
-                      "col": 47,
-                      "file": ParseSourceFile {
-                        "content": "
-                  @for (item of items; track item.id) {
-                    {{ item.name }}
-                  } @empty {
-                     There are no items.
-                  }
-              ",
-                        "url": "./foo.html",
-                      },
-                      "line": 1,
-                      "offset": 48,
-                    },
-                  },
-                  "value": "$first",
-                  "valueSpan": undefined,
-                },
-                "$index": Variable {
+              "contextVariables": Array [
+                Variable {
                   "keySpan": ParseSourceSpan {
                     "details": null,
                     "end": ParseLocation {
@@ -11127,7 +10824,108 @@ describe('parseForESLint()', () => {
                   "value": "$index",
                   "valueSpan": undefined,
                 },
-                "$last": Variable {
+                Variable {
+                  "keySpan": ParseSourceSpan {
+                    "details": null,
+                    "end": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                    "fullStart": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                    "start": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                  },
+                  "name": "$first",
+                  "sourceSpan": ParseSourceSpan {
+                    "details": null,
+                    "end": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                    "fullStart": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                    "start": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                  },
+                  "value": "$first",
+                  "valueSpan": undefined,
+                },
+                Variable {
                   "keySpan": ParseSourceSpan {
                     "details": null,
                     "end": ParseLocation {
@@ -11228,7 +11026,108 @@ describe('parseForESLint()', () => {
                   "value": "$last",
                   "valueSpan": undefined,
                 },
-                "$odd": Variable {
+                Variable {
+                  "keySpan": ParseSourceSpan {
+                    "details": null,
+                    "end": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                    "fullStart": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                    "start": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                  },
+                  "name": "$even",
+                  "sourceSpan": ParseSourceSpan {
+                    "details": null,
+                    "end": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                    "fullStart": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                    "start": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                  },
+                  "value": "$even",
+                  "valueSpan": undefined,
+                },
+                Variable {
                   "keySpan": ParseSourceSpan {
                     "details": null,
                     "end": ParseLocation {
@@ -11329,7 +11228,108 @@ describe('parseForESLint()', () => {
                   "value": "$odd",
                   "valueSpan": undefined,
                 },
-              },
+                Variable {
+                  "keySpan": ParseSourceSpan {
+                    "details": null,
+                    "end": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                    "fullStart": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                    "start": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                  },
+                  "name": "$count",
+                  "sourceSpan": ParseSourceSpan {
+                    "details": null,
+                    "end": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                    "fullStart": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                    "start": ParseLocation {
+                      "col": 47,
+                      "file": ParseSourceFile {
+                        "content": "
+                  @for (item of items; track item.id) {
+                    {{ item.name }}
+                  } @empty {
+                     There are no items.
+                  }
+              ",
+                        "url": "./foo.html",
+                      },
+                      "line": 1,
+                      "offset": 48,
+                    },
+                  },
+                  "value": "$count",
+                  "valueSpan": undefined,
+                },
+              ],
               "empty": ForLoopBlockEmpty {
                 "children": Array [
                   Text$3 {
