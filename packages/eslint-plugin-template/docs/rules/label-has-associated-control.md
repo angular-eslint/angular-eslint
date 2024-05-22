@@ -27,6 +27,7 @@ The rule accepts an options object with the following properties:
 
 ```ts
 interface Options {
+  checkIds?: boolean;
   /**
    * Default: `["input","meter","output","progress","select","textarea"]`
    */
@@ -74,6 +75,37 @@ interface Options {
 ```html
 <label>Label</label>
 ~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/label-has-associated-control": [
+      "error",
+      {
+        "checkIds": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<label for="id">Label</label>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<input id="otherId" />
 ```
 
 <br>
@@ -251,6 +283,36 @@ interface Options {
     <app-input></app-input>
   </span>
 </app-label>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/label-has-associated-control": [
+      "error",
+      {
+        "checkIds": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<input type="radio" id="id"/>
+<label for="id"></label>
 ```
 
 </details>
