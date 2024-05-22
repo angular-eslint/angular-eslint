@@ -85,8 +85,8 @@ jobs:
     strategy:
       matrix:
         # Additionally supported node versions taken from:
-        # https://gist.github.com/LayZeeDK/c822cc812f75bb07b7c55d07ba2719b3
-        node: ['^18.13.0']
+        # https://angular.dev/reference/versions
+        node: ['^18.19.1']
     steps:
       - uses: actions/checkout@v4
 

@@ -18,7 +18,7 @@ export function getTemplateParserServices(
   context: Readonly<TSESLint.RuleContext<string, readonly unknown[]>>,
 ): TemplateParserServices {
   ensureTemplateParser(context);
-  return context.parserServices as unknown as TemplateParserServices;
+  return context.sourceCode.parserServices as unknown as TemplateParserServices;
 }
 
 /**
@@ -28,11 +28,12 @@ export function getTemplateParserServices(
 export function ensureTemplateParser(
   context: Readonly<TSESLint.RuleContext<string, readonly unknown[]>>,
 ): void {
+  const parserServices = context.sourceCode
+    .parserServices as unknown as TemplateParserServices;
+
   if (
-    !(context.parserServices as unknown as TemplateParserServices)
-      ?.convertNodeSourceSpanToLoc ||
-    !(context.parserServices as unknown as TemplateParserServices)
-      ?.convertElementSourceSpanToLoc
+    !parserServices?.convertNodeSourceSpanToLoc ||
+    !parserServices?.convertElementSourceSpanToLoc
   ) {
     /**
      * The user needs to have configured "parser" in their eslint config and set it

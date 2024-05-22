@@ -40,7 +40,7 @@ export default createESLintRule<Options, MessageIds>({
   defaultOptions: [{ allowList: [] }],
   create(context, [{ allowList }]) {
     ensureTemplateParser(context);
-    const sourceCode = context.getSourceCode();
+    const sourceCode = context.sourceCode;
 
     return {
       'Call[receiver.name!="$any"]'(node: Call) {

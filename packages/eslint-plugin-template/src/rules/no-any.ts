@@ -29,7 +29,7 @@ export default createESLintRule<Options, MessageIds>({
   defaultOptions: [],
   create(context) {
     ensureTemplateParser(context);
-    const sourceCode = context.getSourceCode();
+    const sourceCode = context.sourceCode;
 
     return {
       [`Call[receiver.name="${ANY_TYPE_CAST_FUNCTION_NAME}"]`]({

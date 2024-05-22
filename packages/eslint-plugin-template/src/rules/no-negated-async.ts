@@ -38,7 +38,7 @@ export default createESLintRule<Options, MessageIds>({
   defaultOptions: [],
   create(context) {
     ensureTemplateParser(context);
-    const sourceCode = context.getSourceCode();
+    const sourceCode = context.sourceCode;
 
     return {
       'BindingPipe[name="async"]'(bindingPipe: BindingPipe) {
