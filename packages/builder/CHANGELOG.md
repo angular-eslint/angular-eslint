@@ -1,3 +1,18 @@
+## 17.5.0 (2024-05-22)
+
+### 🩹 Fixes
+
+- update dependency @angular/compiler to v17.3.9
+
+- update typescript-eslint packages to v7.10.0
+
+### ❤️ Thank You
+
+- Auke Bruinsma
+- Jonathan Kolberg
+- m-akinc
+- Mateusz
+
 ## 17.4.1 (2024-05-15)
 
 ### 🩹 Fixes

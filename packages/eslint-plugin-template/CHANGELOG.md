@@ -1,3 +1,24 @@
+## 17.5.0 (2024-05-22)
+
+### 🚀 Features
+
+- **eslint-plugin-template:** [i18n] add allowMarkupInContent option
+
+### 🩹 Fixes
+
+- update dependency @angular/compiler to v17.3.9
+
+- update typescript-eslint packages to v7.10.0
+
+- **eslint-plugin-template:** [label-has-associated-control] check id's in the for attribute of a label for existence
+
+### ❤️ Thank You
+
+- Auke Bruinsma
+- Jonathan Kolberg
+- m-akinc
+- Mateusz
+
 ## 17.4.1 (2024-05-15)
 
 ### 🩹 Fixes

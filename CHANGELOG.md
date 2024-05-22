@@ -1,3 +1,24 @@
+## 17.5.0 (2024-05-22)
+
+### 🚀 Features
+
+- **eslint-plugin:** [use-lifecycle-interface] add fixer for the rule ([#1691](https://github.com/angular-eslint/angular-eslint/pull/1691))
+- **eslint-plugin-template:** [i18n] add allowMarkupInContent option ([#1795](https://github.com/angular-eslint/angular-eslint/pull/1795))
+
+### 🩹 Fixes
+
+- update dependency @angular/compiler to v17.3.9 ([#1821](https://github.com/angular-eslint/angular-eslint/pull/1821))
+- update typescript-eslint packages to v7.10.0 ([#1822](https://github.com/angular-eslint/angular-eslint/pull/1822))
+- **eslint-plugin:** [no-input-rename] incorrectly triggers on input transforms ([#1809](https://github.com/angular-eslint/angular-eslint/pull/1809))
+- **eslint-plugin-template:** [label-has-associated-control] check id's in the for attribute of a label for existence ([#1761](https://github.com/angular-eslint/angular-eslint/pull/1761))
+
+### ❤️ Thank You
+
+- Auke Bruinsma
+- Jonathan Kolberg @bulldog98
+- m-akinc @m-akinc
+- Mateusz
+
 ## 17.4.1 (2024-05-15)
 
 ### 🩹 Fixes

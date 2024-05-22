@@ -1,3 +1,24 @@
+## 17.5.0 (2024-05-22)
+
+### 🚀 Features
+
+- **eslint-plugin:** [use-lifecycle-interface] add fixer for the rule
+
+### 🩹 Fixes
+
+- update dependency @angular/compiler to v17.3.9
+
+- update typescript-eslint packages to v7.10.0
+
+- **eslint-plugin:** [no-input-rename] incorrectly triggers on input transforms
+
+### ❤️ Thank You
+
+- Auke Bruinsma
+- Jonathan Kolberg
+- m-akinc
+- Mateusz
+
 ## 17.4.1 (2024-05-15)
 
 ### 🩹 Fixes
