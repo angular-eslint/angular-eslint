@@ -5,7 +5,7 @@ import { createESLintRule } from '../utils/create-eslint-rule';
 type Options = [];
 export type MessageIds = 'noOutputOnPrefix';
 export const RULE_NAME = 'no-output-on-prefix';
-const STYLE_GUIDE_LINK = 'https://angular.io/guide/styleguide#style-05-16';
+const STYLE_GUIDE_LINK = 'https://angular.dev/style-guide#style-05-16';
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,

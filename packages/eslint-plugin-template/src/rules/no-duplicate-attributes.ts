@@ -44,7 +44,7 @@ export default createESLintRule<Options, MessageIds>({
           allowStylePrecedenceDuplicates: {
             type: 'boolean',
             default: DEFAULT_OPTIONS.allowStylePrecedenceDuplicates,
-            description: `Whether or not Angular style precedence is allowed as an exception to the rule. See https://angular.io/guide/style-precedence#style-precedence`,
+            description: `Whether or not Angular style precedence is allowed as an exception to the rule. See https://angular.dev/guide/templates/class-binding#styling-precedence`,
           },
           ignore: {
             type: 'array',
@@ -71,7 +71,7 @@ export default createESLintRule<Options, MessageIds>({
 
     return {
       Element$1({ inputs, outputs, attributes }: TmplAstElement) {
-        // According to the Angular documentation (https://angular.io/guide/style-precedence#style-precedence)
+        // According to the Angular documentation (https://angular.dev/guide/templates/class-binding#styling-precedence)
         // Angular merges both attributes which means their combined use can be seen as valid
         const angularStylePrecedenceDuplicatesAllowed = ['class', 'style'];
 

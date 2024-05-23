@@ -14,7 +14,7 @@ export type MessageIds =
   | 'suggestRemoveAliasName'
   | 'suggestReplaceOriginalNameWithAliasName';
 export const RULE_NAME = 'no-output-rename';
-const STYLE_GUIDE_LINK = 'https://angular.io/guide/styleguide#style-05-13';
+const STYLE_GUIDE_LINK = 'https://angular.dev/style-guide#style-05-13';
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
@@ -105,7 +105,7 @@ export default createESLintRule<Options, MessageIds>({
           ASTUtils.isProperty(ancestorMaybeHostDirectiveAPI)
         ) {
           /**
-           * Angular v15 introduced the directive composition API: https://angular.io/guide/directive-composition-api
+           * Angular v15 introduced the directive composition API: https://angular.dev/guide/directives/directive-composition-api
            * Renaming host directive outputs using this API is not a bad practice and should not be reported
            */
           const hostDirectiveAPIPropertyName = 'hostDirectives';

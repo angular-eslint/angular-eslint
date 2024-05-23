@@ -22,7 +22,7 @@ const VALID_LOCALIZED_STRING_WITH_MEANING = new RegExp(
   /:([\w\s]+\|)(.*)?(@@.*)?:.+/,
 );
 
-const STYLE_GUIDE_LINK = 'https://angular.io/guide/i18n';
+const STYLE_GUIDE_LINK = 'https://angular.dev/guide/i18n';
 const STYLE_GUIDE_LINK_COMMON_PREPARE = `${STYLE_GUIDE_LINK}-common-prepare`;
 const STYLE_GUIDE_LINK_METADATA_FOR_TRANSLATION = `${STYLE_GUIDE_LINK_COMMON_PREPARE}#i18n-metadata-for-translation`;
 

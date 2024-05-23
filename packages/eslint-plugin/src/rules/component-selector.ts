@@ -18,10 +18,10 @@ export type MessageIds =
   | 'typeFailure'
   | 'shadowDomEncapsulatedStyleFailure';
 const STYLE_GUIDE_PREFIX_LINK =
-  'https://angular.io/guide/styleguide#style-02-07';
+  'https://angular.dev/style-guide#style-02-07';
 const STYLE_GUIDE_STYLE_LINK =
-  'https://angular.io/guide/styleguide#style-05-02';
-const STYLE_GUIDE_TYPE_LINK = 'https://angular.io/guide/styleguide#style-05-03';
+  'https://angular.dev/style-guide#style-05-02';
+const STYLE_GUIDE_TYPE_LINK = 'https://angular.dev/style-guide#style-05-03';
 const SHADOW_DOM_ENCAPSULATED_STYLE_LINK =
   'https://github.com/angular-eslint/angular-eslint/issues/534';
 

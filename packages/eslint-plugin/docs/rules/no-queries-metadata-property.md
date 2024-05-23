@@ -15,7 +15,7 @@
 
 # `@angular-eslint/no-queries-metadata-property`
 
-Disallows usage of the `queries` metadata property. See more at https://angular.io/styleguide#style-05-12.
+Disallows usage of the `queries` metadata property. See more at https://angular.dev/style-guide#style-05-12.
 
 - Type: suggestion
 
