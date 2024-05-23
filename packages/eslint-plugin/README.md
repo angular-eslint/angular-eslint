@@ -51,7 +51,6 @@
 | [`no-duplicates-in-metadata-arrays`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/no-duplicates-in-metadata-arrays.md) | Ensures that metadata arrays do not contain duplicate entries. |  |  |  |
 | [`no-empty-lifecycle-method`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/no-empty-lifecycle-method.md) | Disallows declaring empty lifecycle methods | :white_check_mark: |  | :bulb: |
 | [`no-forward-ref`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/no-forward-ref.md) | Disallows usage of `forwardRef` references for DI |  |  |  |
-| [`no-host-metadata-property`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/no-host-metadata-property.md) | Disallows usage of the `host` metadata property. See more at https://angular.io/styleguide#style-06-03 | :white_check_mark: |  |  |
 | [`no-input-prefix`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/no-input-prefix.md) | Ensures that input bindings, including aliases, are not named or prefixed by the configured disallowed prefixes |  |  |  |
 | [`no-input-rename`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/no-input-rename.md) | Ensures that input bindings are not aliased | :white_check_mark: | :wrench: | :bulb: |
 | [`no-inputs-metadata-property`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/no-inputs-metadata-property.md) | Disallows usage of the `inputs` metadata property. See more at https://angular.io/styleguide#style-05-12 | :white_check_mark: |  |  |
@@ -88,6 +87,7 @@
 <!-- prettier-ignore-start -->
 | Rule | Replaced by |
 | --- | --- |
+| [`no-host-metadata-property`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/no-host-metadata-property.md) |  |
 | [`prefer-standalone-component`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/prefer-standalone-component.md) | [`prefer-standalone`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/prefer-standalone.md) |
 | [`sort-ngmodule-metadata-arrays`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/sort-ngmodule-metadata-arrays.md) |  |
 <!-- prettier-ignore-end -->
