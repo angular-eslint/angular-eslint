@@ -33,7 +33,8 @@ export default async () => {
       cwd: workspaceRoot,
     });
 
-  execNx(['release', 'version', E2E_VERSION]);
+  // Do not stage the changed package.json files
+  execNx(['release', 'version', E2E_VERSION, '--stage-changes=false']);
 
   // startLocalRegistry automatically configures the registry to point at the local registry
   execNx(['release', 'publish', '--tag', 'e2e']);

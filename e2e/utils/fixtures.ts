@@ -23,7 +23,7 @@ export async function recreateFixturesDir(): Promise<void> {
 }
 
 export class Fixture {
-  constructor(private root: string) {}
+  constructor(public root: string) {}
 
   directoryExists(filePath: string): boolean {
     try {

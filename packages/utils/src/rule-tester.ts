@@ -1,4 +1,5 @@
-import { TSESLint } from '@typescript-eslint/utils';
+import { RuleTester as TSESLintRuleTester } from '@typescript-eslint/rule-tester';
+import type { TSESLint } from '@typescript-eslint/utils';
 import * as path from 'path';
 
 const VALID_PARSERS = [
@@ -20,7 +21,7 @@ function isValidParser(
   return VALID_PARSERS.includes(parser as (typeof VALID_PARSERS)[number]);
 }
 
-export class RuleTester extends TSESLint.RuleTester {
+export class RuleTester extends TSESLintRuleTester {
   private filename?: string = '';
 
   // as of eslint 6 you have to provide an absolute path to the parser
