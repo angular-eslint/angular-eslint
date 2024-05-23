@@ -14,9 +14,9 @@ export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
   meta: {
     type: 'suggestion',
+    deprecated: true,
     docs: {
-      description: `Disallows usage of the \`${METADATA_PROPERTY_NAME}\` metadata property. See more at ${STYLE_GUIDE_LINK}`,
-      recommended: 'recommended',
+      description: `Disallows usage of the \`${METADATA_PROPERTY_NAME}\` metadata property. NOTE: This used to be recommended by the Angular Team, but now they recommend the exact opposite: https://github.com/angular/angular/issues/54284`,
     },
     schema: [
       {
@@ -31,7 +31,7 @@ export default createESLintRule<Options, MessageIds>({
       },
     ],
     messages: {
-      noHostMetadataProperty: `Use @${ASTUtils.AngularInnerClassDecorators.HostBinding} or @${ASTUtils.AngularInnerClassDecorators.HostListener} rather than the \`${METADATA_PROPERTY_NAME}\` metadata property (${STYLE_GUIDE_LINK})`,
+      noHostMetadataProperty: `Use @${ASTUtils.AngularInnerClassDecorators.HostBinding} or @${ASTUtils.AngularInnerClassDecorators.HostListener} rather than the \`${METADATA_PROPERTY_NAME}\` metadata property`,
     },
   },
   defaultOptions: [DEFAULT_OPTIONS],
