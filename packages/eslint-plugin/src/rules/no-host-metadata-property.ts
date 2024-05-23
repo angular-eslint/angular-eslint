@@ -8,7 +8,6 @@ export type MessageIds = 'noHostMetadataProperty';
 export const RULE_NAME = 'no-host-metadata-property';
 const DEFAULT_OPTIONS: Options[0] = { allowStatic: false };
 const METADATA_PROPERTY_NAME = 'host';
-const STYLE_GUIDE_LINK = 'https://angular.io/styleguide#style-06-03';
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
