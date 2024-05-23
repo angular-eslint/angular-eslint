@@ -1,6 +1,6 @@
 {
   "name": "@angular-eslint/eslint-plugin",
-  "version": "17.5.0",
+  "version": "17.5.1",
   "description": "ESLint plugin for Angular applications, following angular.io/styleguide",
   "license": "MIT",
   "main": "dist/index.js",
@@ -18,8 +18,8 @@
     "LICENSE"
   ],
   "dependencies": {
-    "@angular-eslint/bundled-angular-compiler": "17.5.0",
-    "@angular-eslint/utils": "17.5.0",
+    "@angular-eslint/bundled-angular-compiler": "17.5.1",
+    "@angular-eslint/utils": "17.5.1",
     "@typescript-eslint/utils": "7.10.0"
   },
   "peerDependencies": {
