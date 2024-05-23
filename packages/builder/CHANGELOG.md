@@ -1,3 +1,9 @@
+## 17.5.1 (2024-05-23)
+
+### 🩹 Fixes
+
+- update dependency @angular/compiler to v17.3.10
+
 ## 17.5.0 (2024-05-22)
 
 ### 🩹 Fixes
