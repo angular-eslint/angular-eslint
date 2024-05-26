@@ -9,8 +9,7 @@ import { createESLintRule } from '../utils/create-eslint-rule';
 
 export const RULE_NAME = 'directive-selector';
 export type MessageIds = 'prefixFailure' | 'styleFailure' | 'typeFailure';
-const STYLE_GUIDE_PREFIX_LINK =
-  'https://angular.dev/style-guide#style-02-08';
+const STYLE_GUIDE_PREFIX_LINK = 'https://angular.dev/style-guide#style-02-08';
 const STYLE_GUIDE_STYLE_TYPE_LINK =
   'https://angular.dev/style-guide#style-02-06';
 
