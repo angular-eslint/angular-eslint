@@ -1,5 +1,5 @@
 export * from './convert-annotated-source-to-failure-case';
-export * from './rules-tester';
+export * from './rule-tester';
 
 export {
   toHumanReadableText,

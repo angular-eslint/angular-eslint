@@ -117,6 +117,7 @@ jobs:
         # We use --ignore-scripts to skip automatic postinstall and give us more control to distribute tasks
         run: |
           yarn --ignore-engines --frozen-lockfile --prefer-offline --ignore-scripts
+          yarn patch-package --patch-dir ./tools/patches
 
       - name: Run build targets on Node ${{ matrix.node }} (not distributable)
         env:

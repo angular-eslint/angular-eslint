@@ -9,7 +9,11 @@
       "options": {
         "cwd": "packages/bundled-angular-compiler",
         "parallel": false,
-        "commands": ["npx rimraf ./dist", "npx rollup -c"]
+        "commands": [
+          "npx rimraf ./dist",
+          "npx rimraf ./.rollup.cache",
+          "npx rollup -c"
+        ]
       }
     }
   },

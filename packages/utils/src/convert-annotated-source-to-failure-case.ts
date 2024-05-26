@@ -31,6 +31,7 @@ type BaseErrorOptions = {
   readonly annotatedSource: string;
   readonly options?: readonly unknown[];
   readonly annotatedOutput?: string;
+  readonly annotatedOutputs?: readonly string[];
   readonly filename?: string;
   readonly only?: boolean;
 };
@@ -82,6 +83,12 @@ export function convertAnnotatedSourceToFailureCase<TMessageIds extends string>(
     | SingleErrorOptions<TMessageIds>
     | MultipleErrorOptions<TMessageIds>,
 ): TSESLint.InvalidTestCase<TMessageIds, readonly unknown[]> {
+  if (errorOptions.annotatedOutput && errorOptions.annotatedOutputs) {
+    throw new Error(
+      'Only one of `annotatedOutput` and `annotatedOutputs` should be provided',
+    );
+  }
+
   const messages: MultipleErrorOptions<TMessageIds>['messages'] =
     'messageId' in errorOptions
       ? [{ ...errorOptions, char: '~' }]
@@ -127,9 +134,11 @@ export function convertAnnotatedSourceToFailureCase<TMessageIds extends string>(
     options: errorOptions.options ?? [],
     errors,
     only: errorOptions.only ?? false,
-    output: errorOptions.annotatedOutput
-      ? parseInvalidSource(errorOptions.annotatedOutput).source
-      : null,
+    output: errorOptions.annotatedOutputs
+      ? errorOptions.annotatedOutputs.map((s) => parseInvalidSource(s).source)
+      : errorOptions.annotatedOutput
+        ? parseInvalidSource(errorOptions.annotatedOutput).source
+        : null,
   };
 }
 

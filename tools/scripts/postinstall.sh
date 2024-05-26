@@ -7,6 +7,9 @@ if [ -n "$SKIP_POSTINSTALL" ]; then
   exit 0
 fi
 
+# Apply patches
+yarn patch-package --patch-dir ./tools/patches
+
 # Build all the packages ready for use
 yarn build
 

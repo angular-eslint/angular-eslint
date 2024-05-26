@@ -20,7 +20,7 @@
   "dependencies": {
     "@angular-eslint/bundled-angular-compiler": "17.5.1",
     "@angular-eslint/utils": "17.5.1",
-    "@typescript-eslint/utils": "7.10.0"
+    "@typescript-eslint/utils": "8.0.0-alpha.16"
   },
   "peerDependencies": {
     "eslint": "^8.57.0 || ^9.0.0",

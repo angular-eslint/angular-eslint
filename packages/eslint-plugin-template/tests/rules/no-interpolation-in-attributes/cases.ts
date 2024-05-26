@@ -19,10 +19,6 @@ export const invalid = [
                                  ~~~~~~~~~
       `,
     messageId,
-    annotatedOutput: `
-        <input type="text" name="{{ foo }}">
-                                 ~~~~~~~~~
-      `,
   }),
   convertAnnotatedSourceToFailureCase({
     description:
@@ -32,9 +28,5 @@ export const invalid = [
                                  ~~~~~~~~~~~~
       `,
     messageId,
-    annotatedOutput: `
-        <input type="text" name="{{ foo }}bar">
-                                 ~~~~~~~~~~~~
-      `,
   }),
 ];

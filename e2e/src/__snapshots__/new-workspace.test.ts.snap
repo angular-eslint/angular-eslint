@@ -11,9 +11,9 @@ exports[`new-workspace it should pass linting after creating a new workspace fro
   "@angular/cli": "^18.X.X",
   "@angular/compiler-cli": "^18.X.X",
   "@types/jasmine": "~5.1.0",
-  "@typescript-eslint/eslint-plugin": "7.10.0",
-  "@typescript-eslint/parser": "7.10.0",
-  "eslint": "^8.57.0",
+  "@typescript-eslint/eslint-plugin": "8.0.0-alpha.16",
+  "@typescript-eslint/parser": "8.0.0-alpha.16",
+  "eslint": "^9.3.0",
   "jasmine-core": "~5.1.0",
   "karma": "~6.4.0",
   "karma-chrome-launcher": "~3.2.0",
@@ -195,6 +195,49 @@ Object {
 `;
 
 exports[`new-workspace it should pass linting after creating a new workspace from scratch using @angular-eslint 8`] = `
+"
+Linting \\"new-workspace\\"...
+
+All files pass linting.
+
+
+Linting \\"another-app\\"...
+
+All files pass linting.
+
+
+Linting \\"another-lib\\"...
+
+All files pass linting.
+"
+`;
+
+exports[`new-workspace it should pass linting when adding a project before running ng-add -> with eslint v8 and typescript-eslint v7 1`] = `
+{
+  "@angular-devkit/build-angular": "^18.X.X",
+  "@angular-eslint/builder": "0.0.0-e2e",
+  "@angular-eslint/eslint-plugin": "0.0.0-e2e",
+  "@angular-eslint/eslint-plugin-template": "0.0.0-e2e",
+  "@angular-eslint/schematics": "0.0.0-e2e",
+  "@angular-eslint/template-parser": "0.0.0-e2e",
+  "@angular/cli": "^18.X.X",
+  "@angular/compiler-cli": "^18.X.X",
+  "@types/jasmine": "~5.1.0",
+  "@typescript-eslint/eslint-plugin": "^7.10.0",
+  "@typescript-eslint/parser": "^7.10.0",
+  "eslint": "^8.57.0",
+  "jasmine-core": "~5.1.0",
+  "karma": "~6.4.0",
+  "karma-chrome-launcher": "~3.2.0",
+  "karma-coverage": "~2.2.0",
+  "karma-jasmine": "~5.1.0",
+  "karma-jasmine-html-reporter": "~2.1.0",
+  "ng-packagr": "^18.X.X",
+  "typescript": "~5.X.X"
+}
+`;
+
+exports[`new-workspace it should pass linting when adding a project before running ng-add -> with eslint v8 and typescript-eslint v7 2`] = `
 "
 Linting \\"new-workspace\\"...
 
