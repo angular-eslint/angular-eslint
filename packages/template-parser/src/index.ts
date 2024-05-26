@@ -319,3 +319,12 @@ export { parseForESLint };
 export function parse(code: string, options: ParserOptions): AST {
   return parseForESLint(code, options).ast;
 }
+
+// NOTE - we cannot migrate this to an import statement because it will make TSC copy the package.json to the dist folder
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+export const version: string = require('../package.json').version;
+
+export const meta = {
+  name: 'angular-eslint/template-parser',
+  version,
+};

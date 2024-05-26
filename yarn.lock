@@ -9323,6 +9323,15 @@ type@^2.7.2:
   resolved "https://registry.yarnpkg.com/type/-/type-2.7.2.tgz#2376a15a3a28b1efa0f5350dcf72d24df6ef98d0"
   integrity sha512-dzlvlNlt6AXU7EBSfpAscydQ7gXB+pPGsPnfJnZpiNJBDj7IaJzQlBZYGdEi4R9HmPdBv2XmWJ6YUtoTa7lmCw==
 
+typescript-eslint@8.0.0-alpha.16:
+  version "8.0.0-alpha.16"
+  resolved "https://registry.yarnpkg.com/typescript-eslint/-/typescript-eslint-8.0.0-alpha.16.tgz#e4a70c41ede2bb208df4ecf19eebe6b923b54bff"
+  integrity sha512-hseQjFKLOZXuBjGgEoYWKD+EL1yd2nVvqL9TLq8RELE1ZGkha15WS98GfwpREZkak+CuTPNsRHHNxeXUesQ/DA==
+  dependencies:
+    "@typescript-eslint/eslint-plugin" "8.0.0-alpha.16"
+    "@typescript-eslint/parser" "8.0.0-alpha.16"
+    "@typescript-eslint/utils" "8.0.0-alpha.16"
+
 typescript@5.4.5, typescript@~5.4.2:
   version "5.4.5"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.4.5.tgz#42ccef2c571fdbd0f6718b1d1f5e6e5ef006f611"

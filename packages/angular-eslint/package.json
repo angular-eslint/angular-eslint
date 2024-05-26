@@ -1,31 +1,29 @@
 {
-  "name": "@angular-eslint/builder",
+  "name": "angular-eslint",
   "version": "18.0.0-alpha.3",
-  "description": "Angular CLI builder for ESLint",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/angular-eslint/angular-eslint.git",
-    "directory": "packages/builder"
+    "directory": "packages/angular-eslint"
   },
   "files": [
     "dist",
     "!**/*.tsbuildinfo",
     "package.json",
     "README.md",
-    "LICENSE",
-    "builders.json"
+    "LICENSE"
   ],
-  "dependencies": {
-    "@nx/devkit": "^19.0.6",
-    "nx": "^19.0.6"
-  },
-  "builders": "./builders.json",
   "peerDependencies": {
     "eslint": "^8.57.0 || ^9.0.0",
     "typescript": "*"
   },
-  "gitHead": "e2006e5e9c99e5a943d1a999e0efa5247d29ec24"
+  "dependencies": {
+    "@angular-eslint/eslint-plugin": "18.0.0-alpha.3",
+    "@angular-eslint/eslint-plugin-template": "18.0.0-alpha.3",
+    "@angular-eslint/template-parser": "18.0.0-alpha.3",
+    "typescript-eslint": "8.0.0-alpha.16"
+  }
 }
