@@ -65,7 +65,7 @@ describe('new-workspace-create-application-false-project-then-ng-add', () => {
   it('it should pass linting when adding a project before running ng-add -> with eslint v8 and typescript-eslint v7', async () => {
     // Downgrade eslint to v8 and typescript-eslint to v7
     execSync(
-      'npm install eslint@8 @typescript-eslint/{eslint-plugin,parser}@7 --force',
+      'npm install eslint@8 @typescript-eslint/eslint-plugin@7 @typescript-eslint/parser@7 --force',
       {
         stdio: 'inherit',
         cwd: fixture.root,
