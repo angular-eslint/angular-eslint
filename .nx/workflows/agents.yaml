@@ -17,5 +17,7 @@ launch-templates:
         uses: 'nrwl/nx-cloud-workflows/main/workflow-steps/install-node-modules/main.yaml'
         env:
           SKIP_POSTINSTALL: 'true'
+      - name: Apply patches
+        script: 'yarn patch-package --patch-dir ./tools/patches'
       - name: Clear Jest Cache
         script: 'npx jest --clearCache'
