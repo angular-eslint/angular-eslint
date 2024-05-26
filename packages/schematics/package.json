@@ -1,6 +1,6 @@
 {
   "name": "@angular-eslint/schematics",
-  "version": "18.0.0-alpha.3",
+  "version": "18.0.0-alpha.5",
   "description": "Angular Schematics for angular-eslint",
   "license": "MIT",
   "main": "dist/index.js",
@@ -34,8 +34,8 @@
     "save": "devDependencies"
   },
   "dependencies": {
-    "@angular-eslint/eslint-plugin": "18.0.0-alpha.3",
-    "@angular-eslint/eslint-plugin-template": "18.0.0-alpha.3",
+    "@angular-eslint/eslint-plugin": "18.0.0-alpha.5",
+    "@angular-eslint/eslint-plugin-template": "18.0.0-alpha.5",
     "@nx/devkit": "^19.0.6",
     "ignore": "5.3.1",
     "nx": "^19.0.6",
