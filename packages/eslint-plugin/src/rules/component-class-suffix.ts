@@ -13,7 +13,7 @@ type Options = [
 ];
 export type MessageIds = 'componentClassSuffix';
 export const RULE_NAME = 'component-class-suffix';
-const STYLE_GUIDE_LINK = 'https://angular.io/styleguide#style-02-03';
+const STYLE_GUIDE_LINK = 'https://angular.dev/style-guide#style-02-03';
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,

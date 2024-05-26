@@ -15,7 +15,7 @@
 
 # `@angular-eslint/directive-class-suffix`
 
-Classes decorated with @Directive must have suffix "Directive" (or custom) in their name. See more at https://angular.io/styleguide#style-02-03
+Classes decorated with @Directive must have suffix "Directive" (or custom) in their name. See more at https://angular.dev/style-guide#style-02-03
 
 - Type: suggestion
 

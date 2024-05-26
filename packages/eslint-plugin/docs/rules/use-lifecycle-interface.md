@@ -15,7 +15,7 @@
 
 # `@angular-eslint/use-lifecycle-interface`
 
-Ensures that classes implement lifecycle interfaces corresponding to the declared lifecycle methods. See more at https://angular.io/styleguide#style-09-01
+Ensures that classes implement lifecycle interfaces corresponding to the declared lifecycle methods. See more at https://angular.dev/style-guide#style-09-01
 
 - Type: suggestion
 - 🔧 Supports autofix (`--fix`)

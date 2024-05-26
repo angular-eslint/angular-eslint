@@ -15,7 +15,7 @@
 
 # `@angular-eslint/no-output-on-prefix`
 
-Ensures that output bindings, including aliases, are not named "on", nor prefixed with it. See more at https://angular.io/guide/styleguide#style-05-16
+Ensures that output bindings, including aliases, are not named "on", nor prefixed with it. See more at https://angular.dev/style-guide#style-05-16
 
 - Type: suggestion
 

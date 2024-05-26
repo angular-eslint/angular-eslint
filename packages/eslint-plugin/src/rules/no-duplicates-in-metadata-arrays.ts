@@ -23,18 +23,18 @@ export default createESLintRule<Options, MessageIds>({
   defaultOptions: [],
   create(context) {
     const selectors = [
-      // https://angular.io/api/core/NgModule
+      // https://angular.dev/api/core/NgModule
       `${Selectors.MODULE_CLASS_DECORATOR} Property[key.name=${toPattern([
         'providers',
         'declarations',
         'imports',
         'exports',
       ])}] > ArrayExpression`,
-      // https://angular.io/api/core/Component
+      // https://angular.dev/api/core/Component
       `${Selectors.COMPONENT_CLASS_DECORATOR} Property[key.name=${toPattern([
         'imports',
       ])}] > ArrayExpression`,
-      // https://angular.io/api/core/Directive
+      // https://angular.dev/api/core/Directive
       `${Selectors.DIRECTIVE_CLASS_DECORATOR} Property[key.name=${toPattern([
         'providers',
       ])}] > ArrayExpression`,

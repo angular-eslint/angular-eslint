@@ -15,7 +15,7 @@
 
 # `@angular-eslint/component-max-inline-declarations`
 
-Enforces a maximum number of lines in inline template, styles and animations. See more at https://angular.io/guide/styleguide#style-05-04
+Enforces a maximum number of lines in inline template, styles and animations. See more at https://angular.dev/style-guide#style-05-04
 
 - Type: suggestion
 

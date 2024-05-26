@@ -1,7 +1,7 @@
 {
   "name": "@angular-eslint/eslint-plugin",
   "version": "17.5.1",
-  "description": "ESLint plugin for Angular applications, following angular.io/styleguide",
+  "description": "ESLint plugin for Angular applications, following angular.dev/style-guide",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

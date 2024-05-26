@@ -7,7 +7,7 @@ type Options = [];
 export type MessageIds = 'noInputsMetadataProperty';
 export const RULE_NAME = 'no-inputs-metadata-property';
 const METADATA_PROPERTY_NAME = 'inputs';
-const STYLE_GUIDE_LINK = 'https://angular.io/styleguide#style-05-12';
+const STYLE_GUIDE_LINK = 'https://angular.dev/style-guide#style-05-12';
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
@@ -31,7 +31,7 @@ export default createESLintRule<Options, MessageIds>({
         node: TSESTree.Property,
       ) {
         /**
-         * Angular v15 introduced the directive composition API: https://angular.io/guide/directive-composition-api
+         * Angular v15 introduced the directive composition API: https://angular.dev/guide/directives/directive-composition-api
          * Using host directive inputs using this API is not a bad practice and should not be reported
          */
         const ancestorMayBeHostDirectiveAPI = node.parent?.parent?.parent;
