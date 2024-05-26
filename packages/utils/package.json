@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@angular-eslint/bundled-angular-compiler": "17.5.1",
+    "@typescript-eslint/rule-tester": "8.0.0-alpha.16",
     "@typescript-eslint/utils": "8.0.0-alpha.16"
   },
   "gitHead": "e2006e5e9c99e5a943d1a999e0efa5247d29ec24"
