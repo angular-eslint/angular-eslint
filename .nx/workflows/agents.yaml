@@ -9,10 +9,10 @@ launch-templates:
           GIT_FETCH_TAGS: 'true'
       - name: node_modules cache
         uses: 'nrwl/nx-cloud-workflows/main/workflow-steps/cache/main.yaml'
-        env:
-          KEY: 'yarn.lock'
-          PATHS: 'node_modules'
-          BASE_BRANCH: 'main'
+        inputs:
+          key: 'yarn.lock'
+          paths: 'node_modules'
+          baseBranch: 'main'
       - name: NPM Install
         uses: 'nrwl/nx-cloud-workflows/main/workflow-steps/install-node-modules/main.yaml'
         env:
