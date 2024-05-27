@@ -8,8 +8,8 @@ import { wrapAngularDevkitSchematic } from '@nx/devkit/ngcli-adapter';
  */
 import type { Schema as AngularSchema } from '@schematics/angular/library/schema';
 import {
-  addESLintTargetToProject__NX,
-  createESLintConfigForProject__NX,
+  addESLintTargetToProject,
+  createESLintConfigForProject,
 } from '../utils';
 
 interface Schema extends AngularSchema {
@@ -29,9 +29,9 @@ export default convertNxGenerator(async (tree: Tree, options: Schema) => {
   await libraryGenerator(tree, angularOptions);
 
   // Update the lint builder and config in angular.json
-  addESLintTargetToProject__NX(tree, options.name, 'lint');
+  addESLintTargetToProject(tree, options.name, 'lint');
 
-  createESLintConfigForProject__NX(
+  createESLintConfigForProject(
     tree,
     options.name,
     options.setParserOptionsProject ?? false,

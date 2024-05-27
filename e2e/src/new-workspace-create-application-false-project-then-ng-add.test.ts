@@ -34,6 +34,24 @@ describe('new-workspace-create-application-false-project-then-ng-add', () => {
 
     fixture = new Fixture(workspaceRoot);
 
+    // Pin eslint v8 to temporarily preserve existing behavior
+    const packageJson = JSON.parse(fixture.readFile('package.json'));
+    fixture.writeFile(
+      'package.json',
+      JSON.stringify(
+        {
+          ...packageJson,
+          devDependencies: {
+            ...packageJson.devDependencies,
+            // Intentionally random older version of eslint, should end up as 8.57.0 in the final package.json snapshot
+            eslint: '8.0.0',
+          },
+        },
+        null,
+        2,
+      ),
+    );
+
     await runNgGenerate(['app', 'app-project', '--interactive=false']);
     await runNgAdd();
   });

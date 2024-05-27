@@ -31,7 +31,7 @@
     ]
   },
   "ng-add": {
-    "save": "devDependencies"
+    "save": false
   },
   "dependencies": {
     "@angular-eslint/eslint-plugin": "18.0.0-alpha.8",

@@ -1,9 +1,9 @@
 import type { Tree } from '@nx/devkit';
 import { convertNxGenerator } from '@nx/devkit';
 import {
-  addESLintTargetToProject__NX,
-  createESLintConfigForProject__NX,
-  determineTargetProjectName__NX,
+  addESLintTargetToProject,
+  createESLintConfigForProject,
+  determineTargetProjectName,
 } from '../utils';
 
 interface Schema {
@@ -12,7 +12,7 @@ interface Schema {
 }
 
 export default convertNxGenerator(async (tree: Tree, options: Schema) => {
-  const projectName = determineTargetProjectName__NX(tree, options.project);
+  const projectName = determineTargetProjectName(tree, options.project);
   if (!projectName) {
     throw new Error(
       '\n' +
@@ -25,9 +25,9 @@ E.g. npx ng g @angular-eslint/schematics:add-eslint-to-project {{YOUR_PROJECT_NA
   }
 
   // Update the lint builder and config in angular.json
-  addESLintTargetToProject__NX(tree, projectName, 'lint');
+  addESLintTargetToProject(tree, projectName, 'lint');
 
-  createESLintConfigForProject__NX(
+  createESLintConfigForProject(
     tree,
     projectName,
     options.setParserOptionsProject ?? false,

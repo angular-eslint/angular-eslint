@@ -36,7 +36,7 @@
     }
   ],
   "release": {
-    "projects": ["*", "!e2e*", "!nx-plugin"],
+    "projects": ["packages/*", "!nx-plugin"],
     "version": {
       "conventionalCommits": true
     },

@@ -34,7 +34,7 @@ describe('inline-template-fixer', () => {
   it('should generate the expected inline template fixer result', async () => {
     const testFilePath = 'src/test.component.ts';
 
-    fixture.createFile(
+    fixture.writeFile(
       testFilePath,
       `
 import { Component } from '@angular/core';

@@ -1,6 +1,7 @@
 {
   "name": "@angular-eslint/angular-eslint",
   "private": true,
+  "description": "The tooling which enables ESLint to work with Angular projects",
   "volta": {
     "node": "20.13.1",
     "yarn": "1.22.22"
