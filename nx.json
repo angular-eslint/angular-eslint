@@ -61,6 +61,9 @@
       "dependsOn": ["^build"],
       "cache": true
     },
+    "update-rule-configs": {
+      "cache": true
+    },
     "lint": {
       "inputs": [
         "default",
@@ -84,6 +87,9 @@
       "cache": true
     },
     "check-rule-lists": {
+      "cache": true
+    },
+    "check-rule-configs": {
       "cache": true
     },
     "@nx/jest:jest": {
