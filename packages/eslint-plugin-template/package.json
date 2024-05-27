@@ -25,6 +25,7 @@
     "axobject-query": "4.0.0"
   },
   "devDependencies": {
+    "@angular-eslint/test-utils": "18.0.0-alpha.5",
     "@types/aria-query": "5.0.4"
   },
   "peerDependencies": {
