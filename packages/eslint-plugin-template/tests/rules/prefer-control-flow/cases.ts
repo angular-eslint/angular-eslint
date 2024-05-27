@@ -1,5 +1,5 @@
 import { MESSAGE_ID as messageId } from '../../../src/rules/prefer-control-flow';
-import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/utils';
+import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
 
 export const valid = [
   `@if (condition) {

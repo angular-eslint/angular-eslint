@@ -1,4 +1,4 @@
-import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/utils';
+import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
 import type { MessageIds } from '../../../src/rules/label-has-associated-control';
 
 const messageId: MessageIds = 'labelHasAssociatedControl';

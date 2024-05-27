@@ -1,4 +1,4 @@
-import { RuleTester } from '@angular-eslint/utils';
+import { RuleTester } from '@angular-eslint/test-utils';
 import rule, {
   RULE_NAME,
 } from '../../../src/rules/use-component-view-encapsulation';

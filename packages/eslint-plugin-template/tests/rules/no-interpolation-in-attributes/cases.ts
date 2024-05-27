@@ -1,4 +1,4 @@
-import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/utils';
+import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
 import { MESSAGE_ID } from '../../../src/rules/no-interpolation-in-attributes';
 
 const messageId = MESSAGE_ID;

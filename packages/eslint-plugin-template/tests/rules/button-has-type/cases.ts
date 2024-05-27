@@ -1,4 +1,4 @@
-import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/utils';
+import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
 import type { MessageIds } from '../../../src/rules/button-has-type';
 import { INVALID_TYPE_DATA_KEY } from '../../../src/rules/button-has-type';
 

@@ -1,4 +1,4 @@
-import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/utils';
+import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
 import type { MessageIds } from '../../../src/rules/no-duplicates-in-metadata-arrays';
 
 const messageId: MessageIds = 'noDuplicatesInMetadataArrays';

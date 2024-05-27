@@ -1,7 +1,5 @@
-import {
-  ASTUtils,
-  convertAnnotatedSourceToFailureCase,
-} from '@angular-eslint/utils';
+import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
+import { ASTUtils } from '@angular-eslint/utils';
 import type { MessageIds } from '../../../src/rules/use-lifecycle-interface';
 
 const messageId: MessageIds = 'useLifecycleInterface';
