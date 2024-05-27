@@ -1,4 +1,3 @@
-import { SPECIAL_UNDERLINE_CHARS } from '@angular-eslint/test-utils';
 import type { TSESLint } from '@typescript-eslint/utils';
 import { compile } from 'json-schema-to-typescript';
 import traverse from 'json-schema-traverse';
@@ -6,6 +5,9 @@ import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { format, resolveConfig } from 'prettier';
 import ts from 'typescript';
+
+// Import directly from source for this utility script
+import { SPECIAL_UNDERLINE_CHARS } from '../../packages/test-utils/src/convert-annotated-source-to-failure-case';
 
 const plugin = process.argv[2];
 

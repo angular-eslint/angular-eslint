@@ -1,10 +1,12 @@
-import eslintPlugin from '@angular-eslint/eslint-plugin';
-import eslintPluginTemplate from '@angular-eslint/eslint-plugin-template';
 import type { TSESLint } from '@typescript-eslint/utils';
 import chalk from 'chalk';
 import fs from 'node:fs';
 import path from 'node:path';
 import { format, resolveConfig } from 'prettier';
+
+// Import directly from source to ensure the latest rules are included
+import eslintPluginTemplate from '../../packages/eslint-plugin-template/src';
+import eslintPlugin from '../../packages/eslint-plugin/src';
 
 interface LinterConfigRules {
   [name: string]:
