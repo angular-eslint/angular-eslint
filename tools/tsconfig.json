@@ -9,6 +9,9 @@
       "path": "../packages/utils/tsconfig.lib.json"
     },
     {
+      "path": "../packages/test-utils/tsconfig.lib.json"
+    },
+    {
       "path": "../packages/eslint-plugin/tsconfig.lib.json"
     },
     {
