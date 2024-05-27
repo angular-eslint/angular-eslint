@@ -1,6 +1,6 @@
 {
   "name": "angular-eslint",
-  "version": "18.0.0-alpha.6",
+  "version": "18.0.0-alpha.8",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -18,12 +18,14 @@
   ],
   "peerDependencies": {
     "eslint": "^8.57.0 || ^9.0.0",
-    "typescript": "*"
+    "typescript": "*",
+    "typescript-eslint": "^8.0.0-alpha.17"
   },
   "dependencies": {
-    "@angular-eslint/eslint-plugin": "18.0.0-alpha.6",
-    "@angular-eslint/eslint-plugin-template": "18.0.0-alpha.6",
-    "@angular-eslint/template-parser": "18.0.0-alpha.6",
-    "typescript-eslint": "8.0.0-alpha.16"
+    "@angular-eslint/builder": "18.0.0-alpha.8",
+    "@angular-eslint/eslint-plugin": "18.0.0-alpha.8",
+    "@angular-eslint/eslint-plugin-template": "18.0.0-alpha.8",
+    "@angular-eslint/schematics": "18.0.0-alpha.8",
+    "@angular-eslint/template-parser": "18.0.0-alpha.8"
   }
 }

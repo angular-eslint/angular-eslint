@@ -76,7 +76,7 @@
     "@types/jest": "29.4.4",
     "@types/node": "20.12.12",
     "@types/prettier": "2.7.3",
-    "@typescript-eslint/rule-tester": "8.0.0-alpha.16",
+    "@typescript-eslint/rule-tester": "8.0.0-alpha.17",
     "commitizen": "4.3.0",
     "cz-conventional-changelog": "3.3.0",
     "env-cmd": "10.1.0",
@@ -102,7 +102,7 @@
     "tslib": "^2.4.1",
     "tsx": "^4.7.3",
     "typescript": "5.4.5",
-    "typescript-eslint": "8.0.0-alpha.16",
+    "typescript-eslint": "8.0.0-alpha.17",
     "verdaccio": "5.31.0"
   }
 }
