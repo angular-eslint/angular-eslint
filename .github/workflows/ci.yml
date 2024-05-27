@@ -53,12 +53,12 @@ jobs:
           yarn check-clean-workspace-after-install
           npx jest --clearCache
 
-      - name: Run parallel distributed tasks for build, typecheck, check-rule-docs, check-rule-lists, lint and test targets
+      - name: Run parallel distributed tasks for build, typecheck, check-rule-docs, check-rule-lists, check-rule-configs, lint and test targets
         uses: jameshenry/parallel-bash-commands@v1
         with:
           # Note that the typecheck target *also* typechecks tests and tools,
           # whereas the build only checks src files
-          cmd1: npx nx run-many -t build,typecheck,check-rule-docs,lint,check-rule-lists
+          cmd1: npx nx run-many -t build,typecheck,check-rule-docs,lint,check-rule-lists,check-rule-configs
           cmd2: npx nx run-many -t test --codeCoverage
           cmd3: npx nx-cloud record -- yarn format-check
       

@@ -32,7 +32,6 @@
     "typecheck": "nx run-many -t typecheck",
     "typecheck-workspace": "tsc -b --pretty --verbose",
     "release": "tsx tools/scripts/release.ts",
-    "update-configs": "nx build utils && tsx tools/scripts/generate-configs.ts",
     "check-rule-docs": "nx run-many -t check-rule-docs",
     "update-rule-docs": "nx run-many -t update-rule-docs",
     "check-rule-lists": "nx run-many -t check-rule-lists",
@@ -76,6 +75,7 @@
     "@types/jest": "29.4.4",
     "@types/node": "20.12.12",
     "@types/prettier": "2.7.3",
+    "@types/semver": "^7.5.8",
     "@typescript-eslint/rule-tester": "8.0.0-alpha.17",
     "commitizen": "4.3.0",
     "cz-conventional-changelog": "3.3.0",
@@ -96,6 +96,7 @@
     "prettier-v2-for-jest-inline-snapshots": "npm:prettier@^2",
     "rimraf": "5.0.7",
     "rollup": "^4.0.0",
+    "semver": "^7.6.2",
     "strip-ansi": "6.0.1",
     "tree-kill": "1.2.2",
     "ts-jest": "29.1.0",
@@ -104,5 +105,25 @@
     "typescript": "5.4.5",
     "typescript-eslint": "8.0.0-alpha.17",
     "verdaccio": "5.31.0"
+  },
+  "nx": {
+    "targets": {
+      "check-rule-configs": {
+        "dependsOn": [
+          "update-rule-configs"
+        ],
+        "command": "git diff --quiet --exit-code -- packages/angular-eslint/src/configs packages/eslint-plugin/src/configs packages/eslint-plugin-template/src/configs || (echo \"\n-------\n\nCHECK RULE CONFIGS ERROR: You have uncommitted changes to the generated rule configs.\n\nYou should run `yarn update-rule-configs` and commit the result.\n\n-------\n\" && exit 1)"
+      },
+      "update-rule-configs": {
+        "dependsOn": [
+          "utils:build"
+        ],
+        "outputs": [
+          "{projectRoot}/configs"
+        ],
+        "command": "tsx tools/scripts/generate-configs.ts"
+      }
+    },
+    "includedScripts": []
   }
 }

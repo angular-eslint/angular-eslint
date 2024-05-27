@@ -4,6 +4,9 @@
   "files": [],
   "references": [
     {
+      "path": "./packages/angular-eslint"
+    },
+    {
       "path": "./packages/bundled-angular-compiler"
     },
     {
@@ -23,6 +26,9 @@
     },
     {
       "path": "./packages/builder"
+    },
+    {
+      "path": "./packages/test-utils"
     },
     {
       "path": "./packages/utils"
