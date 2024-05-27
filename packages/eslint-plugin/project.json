@@ -22,6 +22,7 @@
       "command": "git diff --quiet --exit-code packages/eslint-plugin/docs || (echo \"\n-------\n\nCHECK RULE DOCS ERROR: You have uncommitted changes to the generated rule docs.\n\nYou should run `yarn update-rule-docs` and commit the result.\n\n-------\n\" && exit 1)"
     },
     "update-rule-docs": {
+      "dependsOn": ["^build"],
       "outputs": ["{projectRoot}/docs"],
       "command": "npx tsx ./tools/scripts/generate-rule-docs.ts eslint-plugin"
     },
