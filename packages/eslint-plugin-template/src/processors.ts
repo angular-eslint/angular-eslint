@@ -1,5 +1,4 @@
 import { basename } from 'path';
-import { getDecorators } from '@typescript-eslint/type-utils';
 import ts from 'typescript';
 
 const rangeMap = new Map();
@@ -77,8 +76,7 @@ export function preprocessComponentFile(
      */
     const componentDecoratorNodes: ts.Decorator[] = [];
     for (const classDeclaration of classDeclarations) {
-      // NOTE: Intentionally not using ts.getDecorators() as it did not exist prior to TS 4.8
-      const classDecorators = getDecorators(classDeclaration);
+      const classDecorators = ts.getDecorators(classDeclaration);
       if (!classDecorators) {
         continue;
       }
