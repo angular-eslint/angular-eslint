@@ -1,10 +1,10 @@
+import eslintPlugin from '@angular-eslint/eslint-plugin';
+import eslintPluginTemplate from '@angular-eslint/eslint-plugin-template';
 import type { TSESLint } from '@typescript-eslint/utils';
 import chalk from 'chalk';
 import fs from 'node:fs';
 import path from 'node:path';
 import { format, resolveConfig } from 'prettier';
-import eslintPluginTemplate from '../../packages/eslint-plugin-template/src';
-import eslintPlugin from '../../packages/eslint-plugin/src';
 
 interface LinterConfigRules {
   [name: string]:
@@ -12,7 +12,7 @@ interface LinterConfigRules {
     | TSESLint.Linter.RuleLevelAndOptions;
 }
 
-interface LinterConfig extends TSESLint.Linter.Config {
+interface LinterConfig extends TSESLint.ClassicConfig.Config {
   extends?: string | string[];
   plugins?: string[];
 }
@@ -48,7 +48,14 @@ const eslintPluginTemplateRuleEntries = Object.entries(
 function reducer(
   ruleNamePrefix: '@angular-eslint/' | '@angular-eslint/template/',
   config: LinterConfigRules,
-  entry: [string, TSESLint.RuleModule<string, unknown[]>],
+  entry: [
+    string,
+    TSESLint.RuleModule<
+      string,
+      unknown[],
+      { recommended?: string; requiresTypeChecking?: boolean }
+    >,
+  ],
   settings: {
     errorLevel?: 'error';
     filterDeprecated: boolean;
