@@ -1,6 +1,6 @@
 {
   "name": "angular-eslint",
-  "version": "18.0.0-alpha.5",
+  "version": "18.0.0-alpha.6",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -21,9 +21,9 @@
     "typescript": "*"
   },
   "dependencies": {
-    "@angular-eslint/eslint-plugin": "18.0.0-alpha.5",
-    "@angular-eslint/eslint-plugin-template": "18.0.0-alpha.5",
-    "@angular-eslint/template-parser": "18.0.0-alpha.5",
+    "@angular-eslint/eslint-plugin": "18.0.0-alpha.6",
+    "@angular-eslint/eslint-plugin-template": "18.0.0-alpha.6",
+    "@angular-eslint/template-parser": "18.0.0-alpha.6",
     "typescript-eslint": "8.0.0-alpha.16"
   }
 }
