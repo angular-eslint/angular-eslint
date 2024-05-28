@@ -1,5 +1,5 @@
-import type { Tree } from '@nx/devkit';
-import { convertNxGenerator } from '@nx/devkit';
+import type { Tree } from '../devkit-imports';
+import { convertNxGenerator } from '../devkit-imports';
 import {
   addESLintTargetToProject__NX,
   createESLintConfigForProject__NX,

@@ -8,15 +8,15 @@ import type { Path } from '@angular-devkit/core';
 import { join, normalize } from '@angular-devkit/core';
 import type { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { callRule, chain } from '@angular-devkit/schematics';
-import type { Tree as NxTree, ProjectConfiguration } from '@nx/devkit';
+import type { Ignore } from 'ignore';
+import ignore from 'ignore';
+import stripJsonComments from 'strip-json-comments';
+import type { Tree as NxTree, ProjectConfiguration } from './devkit-imports';
 import {
   offsetFromRoot as offsetFromRoot__NX,
   readJson,
   writeJson,
-} from '@nx/devkit';
-import type { Ignore } from 'ignore';
-import ignore from 'ignore';
-import stripJsonComments from 'strip-json-comments';
+} from './devkit-imports';
 
 const DEFAULT_PREFIX = 'app';
 
