@@ -1,19 +1,19 @@
 import type { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { chain, schematic } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
-import semver from 'semver';
 import {
   createRootESLintConfig,
   createStringifiedRootESLintConfig,
   getTargetsConfigFromProject,
   readJsonInTree,
+  shouldUseFlatConfig,
   sortObjectByKeys,
   updateJsonInTree,
   updateSchematicCollections,
 } from '../utils';
 
 export const FIXED_ESLINT_V8_VERSION = '8.57.0';
-export const FIXED_TYPESCRIPT_ESLINT_V7_VERSION = '7.10.0';
+export const FIXED_TYPESCRIPT_ESLINT_V7_VERSION = '7.11.0';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const packageJSON = require('../../package.json');
@@ -194,17 +194,7 @@ export default function (): Rule {
       'utf-8',
     );
     const json = JSON.parse(workspacePackageJSON);
-
-    /**
-     * Until eslint v9, typescript-eslint v8 and flat config stabilize completely, allow the user to set a previous version of eslint
-     * as a signal for what kind of config and dependencies to set up.
-     */
-    json.devDependencies = json.devDependencies || {};
-
-    const existingESLintVersion = json.devDependencies['eslint'];
-    const useFlatConfig = !(
-      existingESLintVersion && semver.major(existingESLintVersion) < 9
-    );
+    const useFlatConfig = shouldUseFlatConfig(host, json);
 
     return chain([
       addAngularESLintPackages(json, useFlatConfig),

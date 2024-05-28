@@ -1,5 +1,5 @@
-import type { Tree } from '@nx/devkit';
-import { convertNxGenerator } from '@nx/devkit';
+import type { Tree } from '../devkit-imports';
+import { convertNxGenerator } from '../devkit-imports';
 import {
   addESLintTargetToProject,
   createESLintConfigForProject,
@@ -24,12 +24,13 @@ E.g. npx ng g @angular-eslint/schematics:add-eslint-to-project {{YOUR_PROJECT_NA
     );
   }
 
-  // Update the lint builder and config in angular.json
-  addESLintTargetToProject(tree, projectName, 'lint');
-
+  // Create the config file first so that we can check for its existence when setting the target
   createESLintConfigForProject(
     tree,
     projectName,
     options.setParserOptionsProject ?? false,
   );
+
+  // Update the lint builder and config in angular.json
+  addESLintTargetToProject(tree, projectName, 'lint');
 });

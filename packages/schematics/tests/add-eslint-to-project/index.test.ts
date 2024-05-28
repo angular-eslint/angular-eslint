@@ -756,6 +756,7 @@ describe('add-eslint-to-project', () => {
       Object {
         "builder": "@angular-eslint/builder:lint",
         "options": Object {
+          "eslintConfig": "projects/legacy-project/eslint.config.js",
           "lintFilePatterns": Array [
             "projects/legacy-project/**/*.ts",
             "projects/legacy-project/**/*.html",
@@ -821,6 +822,7 @@ describe('add-eslint-to-project', () => {
       Object {
         "builder": "@angular-eslint/builder:lint",
         "options": Object {
+          "eslintConfig": "projects/other-project/eslint.config.js",
           "lintFilePatterns": Array [
             "projects/other-project/**/*.ts",
             "projects/other-project/**/*.html",
@@ -888,6 +890,7 @@ describe('add-eslint-to-project', () => {
         Object {
           "builder": "@angular-eslint/builder:lint",
           "options": Object {
+            "eslintConfig": "projects/legacy-project/eslint.config.js",
             "lintFilePatterns": Array [
               "projects/legacy-project/**/*.ts",
               "projects/legacy-project/**/*.html",
@@ -960,6 +963,7 @@ describe('add-eslint-to-project', () => {
         Object {
           "builder": "@angular-eslint/builder:lint",
           "options": Object {
+            "eslintConfig": "projects/other-project/eslint.config.js",
             "lintFilePatterns": Array [
               "projects/other-project/**/*.ts",
               "projects/other-project/**/*.html",

@@ -268,6 +268,7 @@ describe('application', () => {
       Object {
         "builder": "@angular-eslint/builder:lint",
         "options": Object {
+          "eslintConfig": "projects/foo/eslint.config.js",
           "lintFilePatterns": Array [
             "projects/foo/**/*.ts",
             "projects/foo/**/*.html",

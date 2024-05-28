@@ -2,12 +2,12 @@ import type { Path } from '@angular-devkit/core';
 import { join, normalize } from '@angular-devkit/core';
 import type { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { callRule } from '@angular-devkit/schematics';
-import type { Tree as NxTree, ProjectConfiguration } from '@nx/devkit';
-import { offsetFromRoot, readJson, writeJson } from '@nx/devkit';
 import type { Ignore } from 'ignore';
 import ignore from 'ignore';
 import semver from 'semver';
 import stripJsonComments from 'strip-json-comments';
+import type { Tree as NxTree, ProjectConfiguration } from './devkit-imports';
+import { offsetFromRoot, readJson, writeJson } from './devkit-imports';
 
 const DEFAULT_PREFIX = 'app';
 
@@ -118,8 +118,18 @@ export function addESLintTargetToProject(
         `${lintFilePatternsRoot}/**/*.ts`,
         `${lintFilePatternsRoot}/**/*.html`,
       ],
-    },
+    } as Record<string, unknown>,
   };
+
+  let eslintConfig;
+  if (existingProjectConfig.root !== '') {
+    const flatConfigPath = join(existingProjectConfig.root, 'eslint.config.js');
+    if (tree.exists(flatConfigPath)) {
+      eslintConfig = flatConfigPath;
+    }
+  }
+
+  eslintTargetConfig.options.eslintConfig = eslintConfig;
 
   existingProjectConfig.architect = existingProjectConfig.architect || {};
   existingProjectConfig.architect[targetName] = eslintTargetConfig;
@@ -388,33 +398,9 @@ export function createESLintConfigForProject(
 
   const hasE2e = !!targets?.e2e;
 
-  /**
-   * In order to support both flat config and eslintrc we need to dynamically figure out
-   * what the user should be using based on:
-   * - their existing files
-   * - their eslint version
-   */
-  let useFlatConfig = true;
+  const useFlatConfig = shouldUseFlatConfig(tree);
   const alreadyHasRootFlatConfig = tree.exists('eslint.config.js');
   const alreadyHasRootESLintRC = tree.exists('.eslintrc.json');
-
-  if (alreadyHasRootFlatConfig) {
-    useFlatConfig = true;
-  } else if (alreadyHasRootESLintRC) {
-    useFlatConfig = false;
-  } else {
-    // If no existing config file, check if they are using at least eslint 9 (when flat config became the default)
-    let eslintVersion: string | undefined;
-    try {
-      eslintVersion = JSON.parse(tree.read('package.json', 'utf-8')!)
-        .devDependencies?.['eslint'];
-      // eslint-disable-next-line no-empty
-    } catch {}
-    if (eslintVersion) {
-      const v = semver.minVersion(eslintVersion)!;
-      useFlatConfig = semver.gte(v.raw, '9.0.0');
-    }
-  }
 
   /**
    * If the root is an empty string it must be the initial project created at the
@@ -533,4 +519,43 @@ export function updateSchematicDefaults(
     ...defaultValues,
   };
   return angularJson;
+}
+
+/**
+ * In order to support both flat config and eslintrc we need to dynamically figure out
+ * what the user should be using based on:
+ * - their existing files
+ * - their eslint version
+ */
+export function shouldUseFlatConfig(
+  tree: NxTree | Tree,
+  existingJson?: Record<string, unknown>,
+): boolean {
+  let useFlatConfig = true;
+  try {
+    const alreadyHasRootFlatConfig = tree.exists('eslint.config.js');
+    const alreadyHasRootESLintRC = tree.exists('.eslintrc.json');
+
+    if (alreadyHasRootFlatConfig) {
+      useFlatConfig = true;
+    } else if (alreadyHasRootESLintRC) {
+      useFlatConfig = false;
+    } else {
+      const json =
+        existingJson ??
+        JSON.parse(tree.read('package.json')!.toString('utf-8'));
+      json.devDependencies = json.devDependencies || {};
+      const existingESLintVersion = json.devDependencies['eslint'];
+      if (existingESLintVersion) {
+        const v = semver.minVersion(existingESLintVersion);
+        if (v) {
+          useFlatConfig = semver.gte(v.raw, '9.0.0');
+        }
+      }
+    }
+
+    return useFlatConfig;
+  } catch {
+    return useFlatConfig;
+  }
 }

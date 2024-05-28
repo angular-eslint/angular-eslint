@@ -268,6 +268,7 @@ describe('library', () => {
       Object {
         "builder": "@angular-eslint/builder:lint",
         "options": Object {
+          "eslintConfig": "projects/bar/eslint.config.js",
           "lintFilePatterns": Array [
             "projects/bar/**/*.ts",
             "projects/bar/**/*.html",

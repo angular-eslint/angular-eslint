@@ -1,12 +1,14 @@
-import type { Tree } from '@nx/devkit';
-import { convertNxGenerator } from '@nx/devkit';
-import { wrapAngularDevkitSchematic } from '@nx/devkit/ngcli-adapter';
 /**
  * We are able to use the full, unaltered Schema directly from @schematics/angular
  * The applicable json file is copied from node_modules as a prebuiid step to ensure
  * they stay in sync.
  */
 import type { Schema as AngularSchema } from '@schematics/angular/library/schema';
+import type { Tree } from '../devkit-imports';
+import {
+  convertNxGenerator,
+  wrapAngularDevkitSchematic,
+} from '../devkit-imports';
 import {
   addESLintTargetToProject,
   createESLintConfigForProject,
@@ -28,12 +30,13 @@ export default convertNxGenerator(async (tree: Tree, options: Schema) => {
 
   await libraryGenerator(tree, angularOptions);
 
-  // Update the lint builder and config in angular.json
-  addESLintTargetToProject(tree, options.name, 'lint');
-
+  // Create the config file first so that we can check for its existence when setting the target
   createESLintConfigForProject(
     tree,
     options.name,
     options.setParserOptionsProject ?? false,
   );
+
+  // Update the lint builder and config in angular.json
+  addESLintTargetToProject(tree, options.name, 'lint');
 });

@@ -1,6 +1,6 @@
 {
   "name": "angular-eslint",
-  "version": "18.0.0-alpha.8",
+  "version": "18.0.0-alpha.14",
   "description": "The tooling which enables ESLint to work with Angular projects",
   "license": "MIT",
   "main": "dist/index.js",
@@ -20,13 +20,13 @@
   "peerDependencies": {
     "eslint": "^8.57.0 || ^9.0.0",
     "typescript": "*",
-    "typescript-eslint": "^8.0.0-alpha.17"
+    "typescript-eslint": "^8.0.0-alpha.20"
   },
   "dependencies": {
-    "@angular-eslint/builder": "18.0.0-alpha.8",
-    "@angular-eslint/eslint-plugin": "18.0.0-alpha.8",
-    "@angular-eslint/eslint-plugin-template": "18.0.0-alpha.8",
-    "@angular-eslint/schematics": "18.0.0-alpha.8",
-    "@angular-eslint/template-parser": "18.0.0-alpha.8"
+    "@angular-eslint/builder": "18.0.0-alpha.14",
+    "@angular-eslint/eslint-plugin": "18.0.0-alpha.14",
+    "@angular-eslint/eslint-plugin-template": "18.0.0-alpha.14",
+    "@angular-eslint/schematics": "18.0.0-alpha.14",
+    "@angular-eslint/template-parser": "18.0.0-alpha.14"
   }
 }
