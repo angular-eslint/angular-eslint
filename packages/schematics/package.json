@@ -44,7 +44,7 @@
   },
   "devDependencies": {
     "@types/tmp": "0.2.6",
-    "@typescript-eslint/utils": "7.10.0",
+    "@typescript-eslint/utils": "7.11.0",
     "eslint": "8.57.0"
   },
   "peerDependencies": {
