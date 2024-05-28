@@ -12,10 +12,10 @@ import { normalizeVersionsOfPackagesWeDoNotControl } from '../utils/snapshot-ser
 
 expect.addSnapshotSerializer(normalizeVersionsOfPackagesWeDoNotControl);
 
-const fixtureDirectory = 'new-workspace';
+const fixtureDirectory = 'eslint-8--new-workspace';
 let fixture: Fixture;
 
-describe('new-workspace', () => {
+describe('eslint-8--new-workspace', () => {
   jest.setTimeout(LONG_TIMEOUT_MS);
 
   beforeAll(async () => {
@@ -32,36 +32,58 @@ describe('new-workspace', () => {
 
     fixture = new Fixture(workspaceRoot);
 
+    // Pin eslint v8 to temporarily preserve existing behavior
+    const packageJson = JSON.parse(fixture.readFile('package.json'));
+    fixture.writeFile(
+      'package.json',
+      JSON.stringify(
+        {
+          ...packageJson,
+          devDependencies: {
+            ...packageJson.devDependencies,
+            // Intentionally random older version of eslint, should end up as 8.57.0 in the final package.json snapshot
+            eslint: '^8.0.4',
+          },
+        },
+        null,
+        2,
+      ),
+    );
+
     await runNgAdd();
     await runNgGenerate(['app', 'another-app', '--interactive=false']);
     await runNgGenerate(['lib', 'another-lib', '--interactive=false']);
   });
 
-  it('should pass linting after creating a new workspace from scratch using @angular-eslint', async () => {
+  it('should pass linting after creating a new workspace from scratch using angular-eslint', async () => {
     // TSLint configs and dependencies should not be present
     expect(fixture.fileExists('tslint.json')).toBe(false);
+
+    // It should contain eslint v8.57.0 and @typescript-eslint/ v7 packages, as well as the latest @angular-eslint/ packages
     expect(
       JSON.stringify(fixture.readJson('package.json').devDependencies, null, 2),
     ).toMatchSnapshot();
 
-    // Root eslint config should be eslint.config.js, not eslintrc
-    expect(fixture.readFile('eslint.config.js')).toMatchSnapshot();
-    expect(fixture.fileExists('.eslintrc.json')).toBe(false);
+    // Root eslint config should be eslintrc, not eslint.config.js
+    expect(fixture.readFile('.eslintrc.json')).toMatchSnapshot();
+    expect(fixture.fileExists('eslint.config.js')).toBe(false);
 
+    // It should not contain the eslintConfig option, it is not needed for eslintrc files
     expect(
-      fixture.readJson('angular.json').projects['new-workspace'].architect.lint,
+      fixture.readJson('angular.json').projects['eslint-8--new-workspace']
+        .architect.lint,
     ).toMatchSnapshot();
 
     // Additional project ("another-app")
     expect(fixture.fileExists('projects/another-app/tslint.json')).toBe(false);
     expect(
-      fixture.readFile('projects/another-app/eslint.config.js'),
+      fixture.readFile('projects/another-app/.eslintrc.json'),
     ).toMatchSnapshot();
-    expect(fixture.fileExists('projects/another-app/.eslintrc.json')).toBe(
+    expect(fixture.fileExists('projects/another-app/eslint.config.js')).toBe(
       false,
     );
 
-    // It should contain the eslintConfig option set to the project level eslint.config.js file
+    // It should not contain the eslintConfig option, it is not needed for eslintrc files
     expect(
       fixture.readJson('angular.json').projects['another-app'].architect.lint,
     ).toMatchSnapshot();
@@ -69,13 +91,13 @@ describe('new-workspace', () => {
     // Additional library project ("another-lib")
     expect(fixture.fileExists('projects/another-lib/tslint.json')).toBe(false);
     expect(
-      fixture.readFile('projects/another-lib/eslint.config.js'),
+      fixture.readFile('projects/another-lib/.eslintrc.json'),
     ).toMatchSnapshot();
-    expect(fixture.fileExists('projects/another-lib/.eslintrc.json')).toBe(
+    expect(fixture.fileExists('projects/another-lib/eslint.config.js')).toBe(
       false,
     );
 
-    // It should contain the eslintConfig option set to the project level eslint.config.js file
+    // It should not contain the eslintConfig option, it is not needed for eslintrc files
     expect(
       fixture.readJson('angular.json').projects['another-lib'].architect.lint,
     ).toMatchSnapshot();

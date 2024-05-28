@@ -1,4 +1,3 @@
-import { execSync } from 'node:child_process';
 import path from 'node:path';
 import { setWorkspaceRoot } from 'nx/src/utils/workspace-root';
 import { FIXTURES_DIR, Fixture } from '../utils/fixtures';
@@ -34,64 +33,35 @@ describe('new-workspace-create-application-false-ng-add-then-project', () => {
 
     fixture = new Fixture(workspaceRoot);
 
-    // Pin eslint v8 to temporarily preserve existing behavior
-    const packageJson = JSON.parse(fixture.readFile('package.json'));
-    fixture.writeFile(
-      'package.json',
-      JSON.stringify(
-        {
-          ...packageJson,
-          devDependencies: {
-            ...packageJson.devDependencies,
-            // Intentionally random older version of eslint, should end up as 8.57.0 in the final package.json snapshot
-            eslint: '8.0.0',
-          },
-        },
-        null,
-        2,
-      ),
-    );
-
     await runNgAdd();
     await runNgGenerate(['app', 'app-project', '--interactive=false']);
   });
 
-  it('it should pass linting when adding a project before running ng-add', async () => {
+  it('should pass linting when running ng-add before creating any projects', async () => {
     // TSLint configs and dependencies should not be present
     expect(fixture.fileExists('tslint.json')).toBe(false);
+
+    // It should contain eslint v9 and typescript-eslint v8, as well as the angular-eslint package instead of @angular-eslint/ packages
     expect(
       JSON.stringify(fixture.readJson('package.json').devDependencies, null, 2),
     ).toMatchSnapshot();
 
-    // Root eslint config
-    expect(fixture.readFile('.eslintrc.json')).toMatchSnapshot();
+    // Root eslint config should be eslint.config.js, not eslintrc
+    expect(fixture.readFile('eslint.config.js')).toMatchSnapshot();
+    expect(fixture.fileExists('.eslintrc.json')).toBe(false);
 
     // App project ("app-project")
     expect(fixture.fileExists('projects/app-project/tslint.json')).toBe(false);
     expect(
-      fixture.readFile('projects/app-project/.eslintrc.json'),
+      fixture.readFile('projects/app-project/eslint.config.js'),
     ).toMatchSnapshot();
-
-    expect(
-      fixture.readJson('angular.json').projects['app-project'].architect.lint,
-    ).toMatchSnapshot();
-
-    const lintOutput = await runLint(fixtureDirectory);
-    expect(lintOutput).toMatchSnapshot();
-  });
-
-  it('it should pass linting when adding a project before running ng-add -> with eslint v8 and typescript-eslint v7', async () => {
-    // Downgrade eslint to v8 and typescript-eslint to v7
-    execSync(
-      'npm install eslint@8 @typescript-eslint/eslint-plugin@7 @typescript-eslint/parser@7 --force',
-      {
-        stdio: 'inherit',
-        cwd: fixture.root,
-      },
+    expect(fixture.fileExists('projects/app-project/.eslintrc.json')).toBe(
+      false,
     );
 
+    // It should contain the eslintConfig option set to the project level eslint.config.js file
     expect(
-      JSON.stringify(fixture.readJson('package.json').devDependencies, null, 2),
+      fixture.readJson('angular.json').projects['app-project'].architect.lint,
     ).toMatchSnapshot();
 
     const lintOutput = await runLint(fixtureDirectory);

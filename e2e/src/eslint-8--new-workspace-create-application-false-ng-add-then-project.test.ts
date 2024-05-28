@@ -13,10 +13,10 @@ import { normalizeVersionsOfPackagesWeDoNotControl } from '../utils/snapshot-ser
 expect.addSnapshotSerializer(normalizeVersionsOfPackagesWeDoNotControl);
 
 const fixtureDirectory =
-  'new-workspace-create-application-false-project-then-ng-add';
+  'eslint-8--new-workspace-create-application-false-ng-add-then-project';
 let fixture: Fixture;
 
-describe('new-workspace-create-application-false-project-then-ng-add', () => {
+describe('eslint-8--new-workspace-create-application-false-ng-add-then-project', () => {
   jest.setTimeout(LONG_TIMEOUT_MS);
 
   beforeAll(async () => {
@@ -33,33 +33,51 @@ describe('new-workspace-create-application-false-project-then-ng-add', () => {
 
     fixture = new Fixture(workspaceRoot);
 
-    await runNgGenerate(['app', 'app-project', '--interactive=false']);
+    // Pin eslint v8 before running ng-add
+    const packageJson = JSON.parse(fixture.readFile('package.json'));
+    fixture.writeFile(
+      'package.json',
+      JSON.stringify(
+        {
+          ...packageJson,
+          devDependencies: {
+            ...packageJson.devDependencies,
+            // Intentionally random older version of eslint, should end up as 8.57.0 in the final package.json snapshot
+            eslint: '8',
+          },
+        },
+        null,
+        2,
+      ),
+    );
+
     await runNgAdd();
+    await runNgGenerate(['app', 'app-project', '--interactive=false']);
   });
 
-  it('should pass linting when adding a project before running ng-add', async () => {
+  it('should pass linting when running ng-add before creating any projects', async () => {
     // TSLint configs and dependencies should not be present
     expect(fixture.fileExists('tslint.json')).toBe(false);
 
-    // It should contain eslint v9 and typescript-eslint v8, as well as the angular-eslint package instead of @angular-eslint/ packages
+    // It should contain eslint v8.57.0 and @typescript-eslint/ v7 packages, as well as the latest @angular-eslint/ packages
     expect(
       JSON.stringify(fixture.readJson('package.json').devDependencies, null, 2),
     ).toMatchSnapshot();
 
-    // Root eslint config should be eslint.config.js, not eslintrc
-    expect(fixture.readFile('eslint.config.js')).toMatchSnapshot();
-    expect(fixture.fileExists('.eslintrc.json')).toBe(false);
+    // Root eslint config should be eslintrc, not eslint.config.js
+    expect(fixture.readFile('.eslintrc.json')).toMatchSnapshot();
+    expect(fixture.fileExists('eslint.config.js')).toBe(false);
 
     // App project ("app-project")
     expect(fixture.fileExists('projects/app-project/tslint.json')).toBe(false);
     expect(
-      fixture.readFile('projects/app-project/eslint.config.js'),
+      fixture.readFile('projects/app-project/.eslintrc.json'),
     ).toMatchSnapshot();
-    expect(fixture.fileExists('projects/app-project/.eslintrc.json')).toBe(
+    expect(fixture.fileExists('projects/app-project/eslint.config.js')).toBe(
       false,
     );
 
-    // It should contain the eslintConfig option set to the project level eslint.config.js file
+    // It should not contain the eslintConfig option, it is not needed for eslintrc files
     expect(
       fixture.readJson('angular.json').projects['app-project'].architect.lint,
     ).toMatchSnapshot();

@@ -1,0 +1,120 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`eslint-8--new-workspace-create-application-false-ng-add-then-project should pass linting when running ng-add before creating any projects 1`] = `
+{
+  "@angular-devkit/build-angular": "^18.X.X",
+  "@angular-eslint/builder": "0.0.0-e2e",
+  "@angular-eslint/eslint-plugin": "0.0.0-e2e",
+  "@angular-eslint/eslint-plugin-template": "0.0.0-e2e",
+  "@angular-eslint/schematics": "0.0.0-e2e",
+  "@angular-eslint/template-parser": "0.0.0-e2e",
+  "@angular/cli": "^18.X.X",
+  "@angular/compiler-cli": "^18.X.X",
+  "@types/jasmine": "~5.1.0",
+  "@typescript-eslint/eslint-plugin": "7.11.0",
+  "@typescript-eslint/parser": "7.11.0",
+  "eslint": "8.57.0",
+  "jasmine-core": "~5.1.0",
+  "karma": "~6.4.0",
+  "karma-chrome-launcher": "~3.2.0",
+  "karma-coverage": "~2.2.0",
+  "karma-jasmine": "~5.1.0",
+  "karma-jasmine-html-reporter": "~2.1.0",
+  "typescript": "~5.X.X"
+}
+`;
+
+exports[`eslint-8--new-workspace-create-application-false-ng-add-then-project should pass linting when running ng-add before creating any projects 2`] = `
+"{
+  \\"root\\": true,
+  \\"ignorePatterns\\": [
+    \\"projects/**/*\\"
+  ],
+  \\"overrides\\": [
+    {
+      \\"files\\": [
+        \\"*.ts\\"
+      ],
+      \\"extends\\": [
+        \\"eslint:recommended\\",
+        \\"plugin:@typescript-eslint/recommended\\",
+        \\"plugin:@angular-eslint/recommended\\",
+        \\"plugin:@angular-eslint/template/process-inline-templates\\"
+      ],
+      \\"rules\\": {}
+    },
+    {
+      \\"files\\": [
+        \\"*.html\\"
+      ],
+      \\"extends\\": [
+        \\"plugin:@angular-eslint/template/recommended\\",
+        \\"plugin:@angular-eslint/template/accessibility\\"
+      ],
+      \\"rules\\": {}
+    }
+  ]
+}
+"
+`;
+
+exports[`eslint-8--new-workspace-create-application-false-ng-add-then-project should pass linting when running ng-add before creating any projects 3`] = `
+"{
+  \\"extends\\": \\"../../.eslintrc.json\\",
+  \\"ignorePatterns\\": [
+    \\"!**/*\\"
+  ],
+  \\"overrides\\": [
+    {
+      \\"files\\": [
+        \\"*.ts\\"
+      ],
+      \\"rules\\": {
+        \\"@angular-eslint/directive-selector\\": [
+          \\"error\\",
+          {
+            \\"type\\": \\"attribute\\",
+            \\"prefix\\": \\"app\\",
+            \\"style\\": \\"camelCase\\"
+          }
+        ],
+        \\"@angular-eslint/component-selector\\": [
+          \\"error\\",
+          {
+            \\"type\\": \\"element\\",
+            \\"prefix\\": \\"app\\",
+            \\"style\\": \\"kebab-case\\"
+          }
+        ]
+      }
+    },
+    {
+      \\"files\\": [
+        \\"*.html\\"
+      ],
+      \\"rules\\": {}
+    }
+  ]
+}
+"
+`;
+
+exports[`eslint-8--new-workspace-create-application-false-ng-add-then-project should pass linting when running ng-add before creating any projects 4`] = `
+Object {
+  "builder": "@angular-eslint/builder:lint",
+  "options": Object {
+    "lintFilePatterns": Array [
+      "projects/app-project/**/*.ts",
+      "projects/app-project/**/*.html",
+    ],
+  },
+}
+`;
+
+exports[`eslint-8--new-workspace-create-application-false-ng-add-then-project should pass linting when running ng-add before creating any projects 5`] = `
+"
+Linting \\"app-project\\"...
+
+All files pass linting.
+"
+`;

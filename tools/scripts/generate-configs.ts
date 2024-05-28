@@ -248,7 +248,9 @@ async function tsPluginRecommended() {
       ),
     /**
      * Special case use-lifecycle-interface=warn for now to avoid breaking change.
-     * TODO: remove in v18
+     *
+     * TODO: look into bringing back the controls for error vs warn in recommended
+     * configs during v18 releases now that we can influence the types in RuleCreator.
      */
     '@angular-eslint/use-lifecycle-interface': 'warn',
   };

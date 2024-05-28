@@ -1,0 +1,15 @@
+{
+  "name": "e2e-suite-8",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "targets": {
+    "e2e-suite": {
+      "executor": "./packages/nx-plugin:e2e-test-suite",
+      "options": {
+        "cwd": "e2e",
+        "testFilePath": "src/eslint-8--inline-template-fixer.test.ts"
+      }
+    }
+  },
+  "implicitDependencies": ["packages/*"]
+}
