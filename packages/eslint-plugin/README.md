@@ -1,5 +1,7 @@
 # @angular-eslint/eslint-plugin
 
+Please see https://github.com/angular-eslint/angular-eslint for full usage instructions and guidance.
+
 ## Premade configs
 
 - [Premade configs](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/src/configs)

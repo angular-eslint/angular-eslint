@@ -85,7 +85,7 @@ Nx leans on some, _but not all_ of the packages from this project.
 Specifically:
 
 - It does not use the builder to execute ESLint
-- It does not use the schematics to generate files and config, and is responsible for configuring ESLint via `.eslintrc.json` files in a way that makes sense for Nx workspaces.
+- It does not use the schematics to generate files and config, and is responsible for configuring ESLint via `.eslintrc.json` or `eslint.config.js` files in a way that makes sense for Nx workspaces.
 
 **We strongly recommend that you do not try and hand-craft setups with angular-eslint and Nx**. It is easy to get things wrong.
 
@@ -100,17 +100,21 @@ Issues specific to Nx's support of Angular + ESLint should be filed on the Nx re
 
 Please follow the links below for the packages you care about.
 
-- [`@angular-eslint/builder`](./packages/builder/) - An Angular CLI Builder which is used to execute ESLint on your Angular projects using standard commands such as `ng lint`
+- [`angular-eslint`](./packages/angular-eslint/README.md) - This is the core package that exposes most of the other packages below for the common use case of using `angular-eslint` with Angular CLI workspaces. It exposes all the tooling you need to work with ESLint v9 and `typescript-eslint` v8 with flat config in v18 of `angular-eslint` onwards. For versions of `angular-eslint` older than v18, or workspaces still using ESLint v8 and `typescript-eslint` v7 or the legacy eslintrc config format, you will use a combination of the packages below directly.
 
-- [`@angular-eslint/eslint-plugin`](./packages/eslint-plugin) - An ESLint-specific plugin that contains rules which are specific to Angular projects. It can be combined with any other ESLint plugins in the normal way.
+- [`@angular-eslint/builder`](./packages/builder/README.md) - An Angular CLI Builder which is used to execute ESLint on your Angular projects using standard commands such as `ng lint`
 
-- [`@angular-eslint/eslint-plugin-template`](./packages/eslint-plugin-template/) - An ESLint-specific plugin which, when used in conjunction with `@angular-eslint/template-parser`, allows for Angular template-specific linting rules to run.
+- [`@angular-eslint/eslint-plugin`](./packages/eslint-plugin/README.md) - An ESLint-specific plugin that contains rules which are specific to Angular projects. It can be combined with any other ESLint plugins in the normal way.
 
-- [`@angular-eslint/schematics`](./packages/schematics/) - Schematics which are used to add and update configuration files which are relevant for running ESLint on an Angular workspace.
+- [`@angular-eslint/eslint-plugin-template`](./packages/eslint-plugin-template/README.md) - An ESLint-specific plugin which, when used in conjunction with `@angular-eslint/template-parser`, allows for Angular template-specific linting rules to run.
 
-- [`@angular-eslint/template-parser`](./packages/template-parser/) - An ESLint-specific parser which leverages the `@angular/compiler` to allow for custom ESLint rules to be written which assert things about your Angular templates.
+- [`@angular-eslint/schematics`](./packages/schematics/README.md) - Schematics which are used to add and update configuration files which are relevant for running ESLint on an Angular workspace.
 
-- [`@angular-eslint/utils`](./packages/utils/) - Utilities which are helpful when writing and testing custom ESLint rules for Angular workspaces.
+- [`@angular-eslint/template-parser`](./packages/template-parser/README.md) - An ESLint-specific parser which leverages the `@angular/compiler` to allow for custom ESLint rules to be written which assert things about your Angular templates.
+
+- [`@angular-eslint/test-utils`](./packages/test-utils/README.md) - Utilities which are helpful when testing custom ESLint rules for Angular workspaces.
+
+- [`@angular-eslint/utils`](./packages/utils/README.md) - Utilities which are helpful when writing custom ESLint rules for Angular workspaces.
 
 <br>
 
