@@ -1,3 +1,9 @@
+## 17.5.2 (2024-05-28)
+
+### 🩹 Fixes
+
+- update typescript-eslint packages to v7.11.0 ([#1846](https://github.com/angular-eslint/angular-eslint/pull/1846))
+
 ## 17.5.1 (2024-05-23)
 
 ### 🩹 Fixes
