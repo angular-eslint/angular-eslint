@@ -246,22 +246,6 @@ export function createRootESLintConfig(prefix: string | null) {
 export function createStringifiedRootESLintConfig(
   prefix: string | null,
 ): string {
-  let codeRules;
-  if (prefix) {
-    codeRules = {
-      '@angular-eslint/directive-selector': [
-        'error',
-        { type: 'attribute', prefix, style: 'camelCase' },
-      ],
-      '@angular-eslint/component-selector': [
-        'error',
-        { type: 'element', prefix, style: 'kebab-case' },
-      ],
-    };
-  } else {
-    codeRules = {};
-  }
-
   return `// @ts-check
 const eslint = require("@eslint/js");
 const tseslint = require("typescript-eslint");
@@ -277,7 +261,28 @@ module.exports = tseslint.config(
       ...angular.configs.tsRecommended,
     ],
     processor: angular.processInlineTemplates,
-    rules: ${JSON.stringify(codeRules, null, 2)},
+    rules: ${
+      prefix
+        ? `{
+      "@angular-eslint/directive-selector": [
+        "error",
+        {
+          type: "attribute",
+          prefix: "${prefix}",
+          style: "camelCase",
+        },
+      ],
+      "@angular-eslint/component-selector": [
+        "error",
+        {
+          type: "element",
+          prefix: "${prefix}",
+          style: "kebab-case",
+        },
+      ],
+    }`
+        : '{}'
+    },
   },
   {
     files: ["**/*.html"],
