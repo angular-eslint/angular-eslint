@@ -1,3 +1,9 @@
+## 17.5.2 (2024-05-28)
+
+### 🩹 Fixes
+
+- update typescript-eslint packages to v7.11.0
+
 ## 17.5.1 (2024-05-23)
 
 ### 🩹 Fixes
