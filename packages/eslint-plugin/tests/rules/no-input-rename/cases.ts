@@ -1,4 +1,4 @@
-import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/utils';
+import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
 import type { MessageIds } from '../../../src/rules/no-input-rename';
 
 const messageId: MessageIds = 'noInputRename';
@@ -52,7 +52,7 @@ export const valid = [
   `,
   /**
    * Renaming inputs when using the directive composition API is not a bad practice
-   * https://angular.io/guide/directive-composition-api
+   * https://angular.dev/guide/directives/directive-composition-api
    * https://www.youtube.com/watch?v=EJJwyyjsRGs
    */
   `

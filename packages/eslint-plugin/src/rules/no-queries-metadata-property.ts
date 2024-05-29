@@ -7,7 +7,7 @@ export type MessageIds = 'noQueriesMetadataProperty';
 export const RULE_NAME = 'no-queries-metadata-property';
 
 const METADATA_PROPERTY_NAME = 'queries';
-const STYLE_GUIDE_LINK = 'https://angular.io/styleguide#style-05-12';
+const STYLE_GUIDE_LINK = 'https://angular.dev/style-guide#style-05-12';
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,

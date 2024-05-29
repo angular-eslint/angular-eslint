@@ -1,5 +1,7 @@
 # Rules requiring type information
 
+**NOTE: This guide only applies to legacy eslintrc config files. If you are using flat config you should leverage the new Project Service from typescript-eslint, it is much simpler and more performant. See https://typescript-eslint.io/blog/announcing-typescript-eslint-v8-beta/#project-service**
+
 ESLint is powerful linter by itself, able to work on the syntax of your source files and assert things about based on the rules you configure. It gets even more powerful, however, when TypeScript type-checker is layered on top of it when analyzing TypeScript files, which is something that `@typescript-eslint` allows us to do.
 
 By default, angular-eslint sets up your ESLint configs with performance in mind - we want your linting to run as fast as possible. Because creating the necessary so called TypeScript `Program`s required to create the type-checker behind the scenes is relatively expensive compared to pure syntax analysis, you should only configure the `parserOptions.project` option in your project's `.eslintrc.json` when you need to use rules requiring type information.

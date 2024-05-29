@@ -1,22 +1,13 @@
-/**
- * Some utils taken from various parts of Nx:
- * https://github.com/nrwl/nx
- *
- * Thanks, Nrwl folks!
- */
 import type { Path } from '@angular-devkit/core';
 import { join, normalize } from '@angular-devkit/core';
 import type { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
-import { callRule, chain } from '@angular-devkit/schematics';
+import { callRule } from '@angular-devkit/schematics';
 import type { Ignore } from 'ignore';
 import ignore from 'ignore';
+import semver from 'semver';
 import stripJsonComments from 'strip-json-comments';
 import type { Tree as NxTree, ProjectConfiguration } from './devkit-imports';
-import {
-  offsetFromRoot as offsetFromRoot__NX,
-  readJson,
-  writeJson,
-} from './devkit-imports';
+import { offsetFromRoot, readJson, writeJson } from './devkit-imports';
 
 const DEFAULT_PREFIX = 'app';
 
@@ -67,12 +58,6 @@ export function updateJsonInTree<T = any, O = T>(
   };
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-function getWorkspacePath(host: Tree) {
-  const possibleFiles = ['/workspace.json', '/angular.json', '/.angular.json'];
-  return possibleFiles.filter((path) => host.exists(path))[0];
-}
-
 type TargetsConfig = Record<string, { builder: string; options: unknown }>;
 
 export function getTargetsConfigFromProject(
@@ -91,31 +76,8 @@ export function getTargetsConfigFromProject(
   return null;
 }
 
-function offsetFromRoot(fullPathToSourceDir: string): string {
-  const parts = normalize(fullPathToSourceDir).split('/');
-  let offset = '';
-  for (let i = 0; i < parts.length; ++i) {
-    offset += '../';
-  }
-  return offset;
-}
-
 function serializeJson(json: unknown): string {
   return `${JSON.stringify(json, null, 2)}\n`;
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function updateWorkspaceInTree<T = any, O = T>(
-  callback: (json: T, context: SchematicContext, host: Tree) => O,
-): Rule {
-  return (host: Tree, context: SchematicContext): Tree => {
-    const path = getWorkspacePath(host);
-    host.overwrite(
-      path,
-      serializeJson(callback(readJsonInTree(host, path), context, host)),
-    );
-    return host;
-  };
 }
 
 function readProjectConfiguration(tree: NxTree, projectName: string) {
@@ -133,7 +95,7 @@ function updateProjectConfiguration(
   writeJson(tree, 'angular.json', angularJSON);
 }
 
-export function addESLintTargetToProject__NX(
+export function addESLintTargetToProject(
   tree: NxTree,
   projectName: string,
   targetName: 'eslint' | 'lint',
@@ -156,45 +118,23 @@ export function addESLintTargetToProject__NX(
         `${lintFilePatternsRoot}/**/*.ts`,
         `${lintFilePatternsRoot}/**/*.html`,
       ],
-    },
+    } as Record<string, unknown>,
   };
+
+  let eslintConfig;
+  if (existingProjectConfig.root !== '') {
+    const flatConfigPath = join(existingProjectConfig.root, 'eslint.config.js');
+    if (tree.exists(flatConfigPath)) {
+      eslintConfig = flatConfigPath;
+    }
+  }
+
+  eslintTargetConfig.options.eslintConfig = eslintConfig;
 
   existingProjectConfig.architect = existingProjectConfig.architect || {};
   existingProjectConfig.architect[targetName] = eslintTargetConfig;
 
   updateProjectConfiguration(tree, projectName, existingProjectConfig);
-}
-
-export function addESLintTargetToProject(
-  projectName: string,
-  targetName: 'eslint' | 'lint',
-): Rule {
-  return updateWorkspaceInTree((workspaceJson) => {
-    const existingProjectConfig = workspaceJson.projects[projectName];
-
-    let lintFilePatternsRoot = '';
-
-    // Default Angular CLI project at the root of the workspace
-    if (existingProjectConfig.root === '') {
-      lintFilePatternsRoot = existingProjectConfig.sourceRoot || 'src';
-    } else {
-      lintFilePatternsRoot = existingProjectConfig.root;
-    }
-
-    const eslintTargetConfig = {
-      builder: '@angular-eslint/builder:lint',
-      options: {
-        lintFilePatterns: [
-          `${lintFilePatternsRoot}/**/*.ts`,
-          `${lintFilePatternsRoot}/**/*.html`,
-        ],
-      },
-    };
-
-    existingProjectConfig.architect[targetName] = eslintTargetConfig;
-
-    return workspaceJson;
-  });
 }
 
 /**
@@ -302,6 +242,60 @@ export function createRootESLintConfig(prefix: string | null) {
   };
 }
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export function createStringifiedRootESLintConfig(
+  prefix: string | null,
+): string {
+  return `// @ts-check
+const eslint = require("@eslint/js");
+const tseslint = require("typescript-eslint");
+const angular = require("angular-eslint");
+  
+module.exports = tseslint.config(
+  {
+    files: ["**/*.ts"],
+    extends: [
+      eslint.configs.recommended,
+      ...tseslint.configs.recommended,
+      ...tseslint.configs.stylistic,
+      ...angular.configs.tsRecommended,
+    ],
+    processor: angular.processInlineTemplates,
+    rules: ${
+      prefix
+        ? `{
+      "@angular-eslint/directive-selector": [
+        "error",
+        {
+          type: "attribute",
+          prefix: "${prefix}",
+          style: "camelCase",
+        },
+      ],
+      "@angular-eslint/component-selector": [
+        "error",
+        {
+          type: "element",
+          prefix: "${prefix}",
+          style: "kebab-case",
+        },
+      ],
+    }`
+        : '{}'
+    },
+  },
+  {
+    files: ["**/*.html"],
+    extends: [
+      ...angular.configs.templateRecommended,
+      ...angular.configs.templateAccessibility,
+    ],
+    rules: {},
+  }
+);
+`;
+}
+
 function createProjectESLintConfig(
   projectRoot: string,
   projectType: ProjectType,
@@ -346,51 +340,58 @@ function createProjectESLintConfig(
   };
 }
 
-function createProjectESLintConfig__NX(
+function createStringifiedProjectESLintConfig(
   projectRoot: string,
   projectType: ProjectType,
   prefix: string,
   setParserOptionsProject: boolean,
   hasE2e: boolean,
 ) {
-  return {
-    extends: `${offsetFromRoot__NX(projectRoot)}.eslintrc.json`,
-    ignorePatterns: ['!**/*'],
-    overrides: [
-      {
-        files: ['*.ts'],
-        ...(setParserOptionsProject
-          ? {
-              parserOptions: {
-                project: setESLintProjectBasedOnProjectType(
-                  projectRoot,
-                  projectType,
-                  hasE2e,
-                ),
-              },
-            }
-          : null),
-        rules: {
-          '@angular-eslint/directive-selector': [
-            'error',
-            { type: 'attribute', prefix, style: 'camelCase' },
-          ],
-          '@angular-eslint/component-selector': [
-            'error',
-            { type: 'element', prefix, style: 'kebab-case' },
-          ],
-        },
-      },
+  return `// @ts-check
+const tseslint = require("typescript-eslint");
+const rootConfig = require("${offsetFromRoot(projectRoot)}eslint.config.js");
 
-      {
-        files: ['*.html'],
-        rules: {},
+module.exports = tseslint.config(
+  ...rootConfig,
+  {
+    files: ["**/*.ts"],${
+      setParserOptionsProject
+        ? `
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
       },
-    ],
-  };
+    },`
+        : ''
+    }
+    rules: {
+      "@angular-eslint/directive-selector": [
+        "error",
+        {
+          type: "attribute",
+          prefix: "${prefix}",
+          style: "camelCase",
+        },
+      ],
+      "@angular-eslint/component-selector": [
+        "error",
+        {
+          type: "element",
+          prefix: "${prefix}",
+          style: "kebab-case",
+        },
+      ],
+    },
+  },
+  {
+    files: ["**/*.html"],
+    rules: {},
+  }
+);
+`;
 }
 
-export function createESLintConfigForProject__NX(
+export function createESLintConfigForProject(
   tree: NxTree,
   projectName: string,
   setParserOptionsProject: boolean,
@@ -402,89 +403,64 @@ export function createESLintConfigForProject__NX(
 
   const hasE2e = !!targets?.e2e;
 
+  const useFlatConfig = shouldUseFlatConfig(tree);
+  const alreadyHasRootFlatConfig = tree.exists('eslint.config.js');
+  const alreadyHasRootESLintRC = tree.exists('.eslintrc.json');
+
   /**
    * If the root is an empty string it must be the initial project created at the
    * root by the Angular CLI's workspace schematic
    */
   if (projectRoot === '') {
-    return createRootESLintConfigFile__NX(tree, prefix || DEFAULT_PREFIX);
-  }
-
-  // If, for whatever reason, the root .eslintrc.json doesn't exist yet, create it
-  if (!tree.exists('.eslintrc.json')) {
-    createRootESLintConfigFile__NX(tree, prefix || DEFAULT_PREFIX);
-  }
-
-  writeJson(
-    tree,
-    join(normalize(projectRoot), '.eslintrc.json'),
-    createProjectESLintConfig__NX(
-      projectRoot,
-      projectType || 'library',
+    return createRootESLintConfigFile(
+      tree,
       prefix || DEFAULT_PREFIX,
-      setParserOptionsProject,
-      hasE2e,
-    ),
-  );
-}
-
-export function createESLintConfigForProject(
-  projectName: string,
-  setParserOptionsProject: boolean,
-): Rule {
-  return (tree: Tree) => {
-    const angularJSON = readJsonInTree(tree, 'angular.json');
-    const {
-      root: projectRoot,
-      projectType,
-      prefix,
-    } = angularJSON.projects[projectName];
-
-    const hasE2e = determineTargetProjectHasE2E(angularJSON, projectName);
-
-    /**
-     * If the root is an empty string it must be the initial project created at the
-     * root by the Angular CLI's workspace schematic
-     */
-    if (projectRoot === '') {
-      return createRootESLintConfigFile(projectName);
-    }
-
-    return chain([
-      // If, for whatever reason, the root .eslintrc.json doesn't exist yet, create it
-      tree.exists('.eslintrc.json')
-        ? () => undefined
-        : createRootESLintConfigFile(projectName),
-      updateJsonInTree(join(normalize(projectRoot), '.eslintrc.json'), () =>
-        createProjectESLintConfig(
-          projectRoot,
-          projectType,
-          prefix,
-          setParserOptionsProject,
-          hasE2e,
-        ),
-      ),
-    ]);
-  };
-}
-
-function createRootESLintConfigFile(projectName: string): Rule {
-  return (tree) => {
-    const angularJSON = readJsonInTree(tree, getWorkspacePath(tree));
-    let lintPrefix: string | null = null;
-
-    if (angularJSON.projects?.[projectName]) {
-      const { prefix } = angularJSON.projects[projectName];
-      lintPrefix = prefix;
-    }
-
-    return updateJsonInTree('.eslintrc.json', () =>
-      createRootESLintConfig(lintPrefix),
+      useFlatConfig,
     );
-  };
+  }
+
+  // If, for whatever reason, the root eslint.config.js/.eslintrc.json doesn't exist yet, create it
+  if (!alreadyHasRootESLintRC && !alreadyHasRootFlatConfig) {
+    createRootESLintConfigFile(tree, prefix || DEFAULT_PREFIX, useFlatConfig);
+  }
+
+  if (useFlatConfig) {
+    tree.write(
+      join(normalize(projectRoot), 'eslint.config.js'),
+      createStringifiedProjectESLintConfig(
+        projectRoot,
+        projectType || 'library',
+        prefix || DEFAULT_PREFIX,
+        setParserOptionsProject,
+        hasE2e,
+      ),
+    );
+  } else {
+    writeJson(
+      tree,
+      join(normalize(projectRoot), '.eslintrc.json'),
+      createProjectESLintConfig(
+        projectRoot,
+        projectType || 'library',
+        prefix || DEFAULT_PREFIX,
+        setParserOptionsProject,
+        hasE2e,
+      ),
+    );
+  }
 }
 
-function createRootESLintConfigFile__NX(tree: NxTree, prefix: string) {
+function createRootESLintConfigFile(
+  tree: NxTree,
+  prefix: string,
+  useFlatConfig: boolean,
+) {
+  if (useFlatConfig) {
+    return tree.write(
+      'eslint.config.js',
+      createStringifiedRootESLintConfig(prefix),
+    );
+  }
   return writeJson(tree, '.eslintrc.json', createRootESLintConfig(prefix));
 }
 
@@ -505,7 +481,7 @@ export function sortObjectByKeys(
  * To make certain schematic usage conversion more ergonomic, if the user does not specify a project
  * and only has a single project in their angular.json we will just go ahead and use that one.
  */
-export function determineTargetProjectName__NX(
+export function determineTargetProjectName(
   tree: NxTree,
   maybeProject?: string,
 ): string | null {
@@ -518,37 +494,6 @@ export function determineTargetProjectName__NX(
     return projects[0];
   }
   return null;
-}
-
-/**
- * To make certain schematic usage conversion more ergonomic, if the user does not specify a project
- * and only has a single project in their angular.json we will just go ahead and use that one.
- */
-export function determineTargetProjectName(
-  tree: Tree,
-  maybeProject?: string,
-): string | null {
-  if (maybeProject) {
-    return maybeProject;
-  }
-  const workspaceJson = readJsonInTree(tree, getWorkspacePath(tree));
-  const projects = Object.keys(workspaceJson.projects);
-  if (projects.length === 1) {
-    return projects[0];
-  }
-  return null;
-}
-
-/**
- * Checking if the target project has e2e setup
- * Method will check if angular project architect has e2e configuration to determine if e2e setup
- */
-function determineTargetProjectHasE2E(
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-  angularJSON: any,
-  projectName: string,
-): boolean {
-  return !!getTargetsConfigFromProject(angularJSON.projects[projectName])?.e2e;
 }
 
 /**
@@ -579,4 +524,43 @@ export function updateSchematicDefaults(
     ...defaultValues,
   };
   return angularJson;
+}
+
+/**
+ * In order to support both flat config and eslintrc we need to dynamically figure out
+ * what the user should be using based on:
+ * - their existing files
+ * - their eslint version
+ */
+export function shouldUseFlatConfig(
+  tree: NxTree | Tree,
+  existingJson?: Record<string, unknown>,
+): boolean {
+  let useFlatConfig = true;
+  try {
+    const alreadyHasRootFlatConfig = tree.exists('eslint.config.js');
+    const alreadyHasRootESLintRC = tree.exists('.eslintrc.json');
+
+    if (alreadyHasRootFlatConfig) {
+      useFlatConfig = true;
+    } else if (alreadyHasRootESLintRC) {
+      useFlatConfig = false;
+    } else {
+      const json =
+        existingJson ??
+        JSON.parse(tree.read('package.json')!.toString('utf-8'));
+      json.devDependencies = json.devDependencies || {};
+      const existingESLintVersion = json.devDependencies['eslint'];
+      if (existingESLintVersion) {
+        const v = semver.minVersion(existingESLintVersion);
+        if (v) {
+          useFlatConfig = semver.gte(v.raw, '9.0.0');
+        }
+      }
+    }
+
+    return useFlatConfig;
+  } catch {
+    return useFlatConfig;
+  }
 }

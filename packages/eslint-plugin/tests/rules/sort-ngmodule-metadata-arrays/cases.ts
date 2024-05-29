@@ -1,4 +1,4 @@
-import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/utils';
+import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
 import type { MessageIds } from '../../../src/rules/sort-ngmodule-metadata-arrays';
 
 const messageId: MessageIds = 'sortNgmoduleMetadataArrays';
@@ -177,7 +177,9 @@ export const invalid = [
     class Test {}
     `,
     messageId,
-    annotatedOutput: `
+    // These are the result of each pass of the auto-fixer, with the final entry being the ultimate result the user sees
+    annotatedOutputs: [
+      `
     @NgModule({
       [\`bootstrap\`]: [
         AppModule2,
@@ -188,6 +190,18 @@ export const invalid = [
     })
     class Test {}
     `,
+      `
+    @NgModule({
+      [\`bootstrap\`]: [
+        AppModule1,
+        AppModule2,
+        AppModule3,
+        
+      ]
+    })
+    class Test {}
+    `,
+    ],
   }),
   convertAnnotatedSourceToFailureCase({
     description: 'should fail if `schemas` metadata arrays is not sorted ASC',

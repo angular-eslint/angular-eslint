@@ -15,7 +15,11 @@
 
 # `@angular-eslint/no-host-metadata-property`
 
-Disallows usage of the `host` metadata property. See more at https://angular.io/styleguide#style-06-03
+## ⚠️ THIS RULE IS DEPRECATED
+
+---
+
+Disallows usage of the `host` metadata property. NOTE: This used to be recommended by the Angular Team, but now they recommend the exact opposite: https://github.com/angular/angular/issues/54284
 
 - Type: suggestion
 

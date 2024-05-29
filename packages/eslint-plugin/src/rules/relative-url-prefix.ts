@@ -6,7 +6,7 @@ type Options = [];
 export type MessageIds = 'relativeUrlPrefix';
 export const RULE_NAME = 'relative-url-prefix';
 
-const STYLE_GUIDE_LINK = 'https://angular.io/styleguide#style-05-04';
+const STYLE_GUIDE_LINK = 'https://angular.dev/style-guide#style-05-04';
 const RELATIVE_URL_PREFIX_MATCHER = /^\.\.?\/.+/;
 
 export default createESLintRule<Options, MessageIds>({

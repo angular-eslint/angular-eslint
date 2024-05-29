@@ -43,7 +43,7 @@ export async function ruleGenerator(tree: Tree, options: RuleGeneratorSchema) {
       `\nSkeleton for new rule generated successfully. See TODO comments for areas to complete.`,
     );
     logger.log(
-      `Don't forget to run \`update-configs\` and \`update-rule-docs\` after implementing the rule and its tests!`,
+      `Don't forget to run \`update-rule-configs\` and \`update-rule-docs\` after implementing the rule and its tests!`,
     );
   };
 }

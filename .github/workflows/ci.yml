@@ -53,12 +53,12 @@ jobs:
           yarn check-clean-workspace-after-install
           npx jest --clearCache
 
-      - name: Run parallel distributed tasks for build, typecheck, check-rule-docs, check-rule-lists, lint and test targets
+      - name: Run parallel distributed tasks for build, typecheck, check-rule-docs, check-rule-lists, check-rule-configs, lint and test targets
         uses: jameshenry/parallel-bash-commands@v1
         with:
           # Note that the typecheck target *also* typechecks tests and tools,
           # whereas the build only checks src files
-          cmd1: npx nx run-many -t build,typecheck,check-rule-docs,lint,check-rule-lists
+          cmd1: npx nx run-many -t build,typecheck,check-rule-docs,lint,check-rule-lists,check-rule-configs
           cmd2: npx nx run-many -t test --codeCoverage
           cmd3: npx nx-cloud record -- yarn format-check
       
@@ -85,8 +85,8 @@ jobs:
     strategy:
       matrix:
         # Additionally supported node versions taken from:
-        # https://gist.github.com/LayZeeDK/c822cc812f75bb07b7c55d07ba2719b3
-        node: ['^18.13.0']
+        # https://angular.dev/reference/versions
+        node: ['^18.19.1']
     steps:
       - uses: actions/checkout@v4
 
@@ -117,6 +117,7 @@ jobs:
         # We use --ignore-scripts to skip automatic postinstall and give us more control to distribute tasks
         run: |
           yarn --ignore-engines --frozen-lockfile --prefer-offline --ignore-scripts
+          yarn patch-package --patch-dir ./tools/patches
 
       - name: Run build targets on Node ${{ matrix.node }} (not distributable)
         env:

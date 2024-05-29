@@ -1,5 +1,9 @@
 import { ESLintUtils } from '@typescript-eslint/utils';
 
+export interface RuleDocs {
+  recommended?: string;
+}
+
 /**
  * We need to patch the RuleCreator in order to preserve the defaultOptions
  * to use as part of documentation generation.
@@ -26,7 +30,7 @@ const patchedRuleCreator: typeof ESLintUtils.RuleCreator = (urlCreator) => {
 
 patchedRuleCreator.withoutDocs = ESLintUtils.RuleCreator.withoutDocs;
 
-export const createESLintRule = patchedRuleCreator(
+export const createESLintRule = patchedRuleCreator<RuleDocs>(
   (ruleName) =>
     `https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/${ruleName}.md`,
 );

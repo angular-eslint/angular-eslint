@@ -176,7 +176,7 @@ export default createESLintRule<Options, MessageIds>({
 
         if (errorRange) {
           const [startIndex, endIndex] = errorRange;
-          const sourceCode = context.getSourceCode();
+          const sourceCode = context.sourceCode;
 
           const { start } = getLocation(sortedAttributes[startIndex]);
           const { end } = getLocation(sortedAttributes[endIndex]);

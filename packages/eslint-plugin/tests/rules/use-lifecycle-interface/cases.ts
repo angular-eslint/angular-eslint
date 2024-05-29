@@ -1,7 +1,5 @@
-import {
-  ASTUtils,
-  convertAnnotatedSourceToFailureCase,
-} from '@angular-eslint/utils';
+import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
+import { ASTUtils } from '@angular-eslint/utils';
 import type { MessageIds } from '../../../src/rules/use-lifecycle-interface';
 
 const messageId: MessageIds = 'useLifecycleInterface';
@@ -141,8 +139,9 @@ export const invalid = [
         },
       },
     ],
-    // NOTE: Only one case will be auto-fixed in the output because RuleTester executes once: https://github.com/eslint/eslint/issues/11187
-    annotatedOutput: `import { DoBootstrap } from '@angular/core';
+    // These are the result of each pass of the auto-fixer, with the final entry being the ultimate result the user sees
+    annotatedOutputs: [
+      `import { DoBootstrap } from '@angular/core';
 
         @Injectable()
         class Test implements DoBootstrap {
@@ -156,6 +155,35 @@ export const invalid = [
           
         }
       `,
+      `import { DoBootstrap, OnInit } from '@angular/core';
+
+        @Injectable()
+        class Test implements DoBootstrap, OnInit {
+          ngDoBootstrap() {}
+                       
+
+          ngOnInit() {}
+                  
+
+          ngOnDestroy() {}
+          
+        }
+      `,
+      `import { DoBootstrap, OnInit, OnDestroy } from '@angular/core';
+
+        @Injectable()
+        class Test implements DoBootstrap, OnInit, OnDestroy {
+          ngDoBootstrap() {}
+                       
+
+          ngOnInit() {}
+                  
+
+          ngOnDestroy() {}
+          
+        }
+      `,
+    ],
   }),
   convertAnnotatedSourceToFailureCase({
     description:

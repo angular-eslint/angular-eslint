@@ -114,7 +114,7 @@ const DEFAULT_OPTIONS: Options[number] = {
   checkText: true,
   ignoreAttributes: [...DEFAULT_ALLOWED_ATTRIBUTES],
 };
-const STYLE_GUIDE_LINK = 'https://angular.io/guide/i18n';
+const STYLE_GUIDE_LINK = 'https://angular.dev/guide/i18n';
 const STYLE_GUIDE_LINK_COMMON_PREPARE = `${STYLE_GUIDE_LINK}-common-prepare`;
 const STYLE_GUIDE_LINK_ATTRIBUTES = `${STYLE_GUIDE_LINK_COMMON_PREPARE}#mark-element-attributes-for-translations`;
 const STYLE_GUIDE_LINK_ICU = `${STYLE_GUIDE_LINK_COMMON_PREPARE}#icu-expressions`;

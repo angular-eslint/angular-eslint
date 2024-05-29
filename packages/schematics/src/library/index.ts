@@ -10,8 +10,8 @@ import {
   wrapAngularDevkitSchematic,
 } from '../devkit-imports';
 import {
-  addESLintTargetToProject__NX,
-  createESLintConfigForProject__NX,
+  addESLintTargetToProject,
+  createESLintConfigForProject,
 } from '../utils';
 
 interface Schema extends AngularSchema {
@@ -30,12 +30,13 @@ export default convertNxGenerator(async (tree: Tree, options: Schema) => {
 
   await libraryGenerator(tree, angularOptions);
 
-  // Update the lint builder and config in angular.json
-  addESLintTargetToProject__NX(tree, options.name, 'lint');
-
-  createESLintConfigForProject__NX(
+  // Create the config file first so that we can check for its existence when setting the target
+  createESLintConfigForProject(
     tree,
     options.name,
     options.setParserOptionsProject ?? false,
   );
+
+  // Update the lint builder and config in angular.json
+  addESLintTargetToProject(tree, options.name, 'lint');
 });

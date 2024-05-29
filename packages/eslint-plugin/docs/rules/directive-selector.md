@@ -15,7 +15,7 @@
 
 # `@angular-eslint/directive-selector`
 
-Directive selectors should follow given naming rules. See more at https://angular.io/guide/styleguide#style-02-06 and https://angular.io/guide/styleguide#style-02-08.
+Directive selectors should follow given naming rules. See more at https://angular.dev/style-guide#style-02-06 and https://angular.dev/style-guide#style-02-08.
 
 - Type: suggestion
 

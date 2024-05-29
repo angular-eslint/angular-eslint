@@ -31,7 +31,7 @@ export default createESLintRule<Options, MessageIds>({
   },
   defaultOptions: [],
   create(context) {
-    const sourceCode = context.getSourceCode();
+    const sourceCode = context.sourceCode;
 
     const angularDecoratorsPattern = toPattern([
       'Component',

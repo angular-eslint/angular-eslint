@@ -11,7 +11,7 @@ type Options = [
 ];
 export type MessageIds = 'componentMaxInlineDeclarations';
 export const RULE_NAME = 'component-max-inline-declarations';
-const STYLE_GUIDE_LINK = 'https://angular.io/guide/styleguide#style-05-04';
+const STYLE_GUIDE_LINK = 'https://angular.dev/style-guide#style-05-04';
 const NEW_LINE_REGEXP = /\r\n|\r|\n/;
 const DEFAULT_TEMPLATE_LIMIT = 3;
 const DEFAULT_STYLES_LIMIT = 3;

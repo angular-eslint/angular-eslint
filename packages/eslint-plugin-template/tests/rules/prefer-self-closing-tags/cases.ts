@@ -1,4 +1,4 @@
-import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/utils';
+import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
 import { MESSAGE_ID as messageId } from '../../../src/rules/prefer-self-closing-tags';
 
 export const valid = [

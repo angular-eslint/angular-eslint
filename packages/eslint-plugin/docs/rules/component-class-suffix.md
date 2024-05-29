@@ -15,7 +15,7 @@
 
 # `@angular-eslint/component-class-suffix`
 
-Classes decorated with @Component must have suffix "Component" (or custom) in their name. See more at https://angular.io/styleguide#style-02-03
+Classes decorated with @Component must have suffix "Component" (or custom) in their name. See more at https://angular.dev/style-guide#style-02-03
 
 - Type: suggestion
 

@@ -46,7 +46,7 @@ export default createESLintRule<Options, MessageIds>({
   defaultOptions: [DEFAULT_OPTIONS],
   create(context, [{ allowNullOrUndefined }]) {
     ensureTemplateParser(context);
-    const sourceCode = context.getSourceCode();
+    const sourceCode = context.sourceCode;
 
     return {
       'Binary[operation=/^(==|!=)$/]'(node: Binary) {

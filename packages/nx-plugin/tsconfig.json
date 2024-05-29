@@ -3,7 +3,6 @@
   "compilerOptions": {
     "outDir": "../../dist/out-tsc/nx-plugin"
   },
-  "include": ["src/**/*"],
   "references": [
     {
       "path": "./tsconfig.lib.json"

@@ -5,8 +5,14 @@ async function resolveESLintClass(
   useFlatConfig = false,
 ): Promise<typeof ESLint> {
   try {
+    // In eslint 8.57.0 (the final v8 version), a dedicated API was added for resolving the correct ESLint class.
+    const eslint = await import('eslint');
+    if (typeof (eslint as any).loadESLint === 'function') {
+      return await (eslint as any).loadESLint({ useFlatConfig });
+    }
+    // If that API is not available (an older version of v8), we need to use the old way of resolving the ESLint class.
     if (!useFlatConfig) {
-      return (await import('eslint')).ESLint;
+      return eslint.ESLint;
     }
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     const { FlatESLint } = require('eslint/use-at-your-own-risk');
@@ -49,8 +55,6 @@ export async function resolveAndInstantiateESLint(
      * not be any html files in the project, so keeping it true would break linting every time
      */
     errorOnUnmatchedPattern: false,
-    reportUnusedDisableDirectives:
-      options.reportUnusedDisableDirectives || undefined,
   };
 
   if (useFlatConfig) {
@@ -69,6 +73,11 @@ export async function resolveAndInstantiateESLint(
         'For Flat Config, ESLint removed `ignorePath` and so it is not supported as an option. See https://eslint.org/docs/latest/use/configure/configuration-files-new',
       );
     }
+    if (options.reportUnusedDisableDirectives) {
+      throw new Error(
+        'For Flat Config, ESLint removed `reportedUnusedDisableDirectives` and so it is not supported as an option. See https://eslint.org/docs/latest/use/configure/configuration-files-new',
+      );
+    }
   } else {
     eslintOptions.rulePaths = options.rulesdir || [];
     eslintOptions.resolvePluginsRelativeTo =
@@ -79,6 +88,8 @@ export async function resolveAndInstantiateESLint(
      * merge the provided config with others it finds automatically.
      */
     eslintOptions.useEslintrc = !options.noEslintrc;
+    eslintOptions.reportUnusedDisableDirectives =
+      options.reportUnusedDisableDirectives || undefined;
   }
 
   const eslint = new ESLint(eslintOptions);

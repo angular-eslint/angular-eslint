@@ -58,8 +58,8 @@ function tryToFindTheVoidNodeThatMatchesTheSourceSpan(
   // The `TemplateParser` used `HtmlParser`, because `HtmlParser` still sets the end span
   // for void elements.
   const { rootNodes } = getHtmlParser().parse(
-    context.getSourceCode().getText(),
-    context.getFilename(),
+    context.sourceCode.getText(),
+    context.filename,
   );
 
   return lookupTheVoidNode(rootNodes, node.sourceSpan);

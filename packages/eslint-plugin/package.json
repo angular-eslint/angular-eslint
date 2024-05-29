@@ -1,7 +1,7 @@
 {
   "name": "@angular-eslint/eslint-plugin",
-  "version": "17.5.2",
-  "description": "ESLint plugin for Angular applications, following angular.io/styleguide",
+  "version": "18.0.0-alpha.16",
+  "description": "ESLint plugin for Angular applications, following https://angular.dev/style-guide",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -18,12 +18,15 @@
     "LICENSE"
   ],
   "dependencies": {
-    "@angular-eslint/bundled-angular-compiler": "17.5.2",
-    "@angular-eslint/utils": "17.5.2",
-    "@typescript-eslint/utils": "7.11.0"
+    "@angular-eslint/bundled-angular-compiler": "18.0.0-alpha.16",
+    "@angular-eslint/utils": "18.0.0-alpha.16",
+    "@typescript-eslint/utils": "8.0.0-alpha.20"
+  },
+  "devDependencies": {
+    "@angular-eslint/test-utils": "18.0.0-alpha.16"
   },
   "peerDependencies": {
-    "eslint": "^7.20.0 || ^8.0.0",
+    "eslint": "^8.57.0 || ^9.0.0",
     "typescript": "*"
   },
   "gitHead": "e2006e5e9c99e5a943d1a999e0efa5247d29ec24"

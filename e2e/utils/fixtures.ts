@@ -23,7 +23,7 @@ export async function recreateFixturesDir(): Promise<void> {
 }
 
 export class Fixture {
-  constructor(private root: string) {}
+  constructor(public root: string) {}
 
   directoryExists(filePath: string): boolean {
     try {
@@ -54,7 +54,7 @@ export class Fixture {
     return parseJson<T>(content);
   }
 
-  createFile(f: string, content = ''): void {
+  writeFile(f: string, content = ''): void {
     writeFileSync(joinPathFragments(this.root, f), content);
   }
 }

@@ -1,4 +1,4 @@
-import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/utils';
+import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
 import type { MessageIds } from '../../../src/rules/no-outputs-metadata-property';
 
 const messageId: MessageIds = 'noOutputsMetadataProperty';
@@ -47,7 +47,7 @@ export const valid = [
     `,
   /**
    * Renaming outputs when using the directive composition API is not a bad practice
-   * https://angular.io/guide/directive-composition-api
+   * https://angular.dev/guide/directives/directive-composition-api
    */
   `
     @Component({

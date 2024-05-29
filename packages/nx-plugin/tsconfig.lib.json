@@ -7,6 +7,6 @@
     "tsBuildInfoFile": "../../dist/tsconfig.lib.tsbuildinfo",
     "resolveJsonModule": true
   },
-  "exclude": ["**/*.spec.ts"],
+  "exclude": ["src/**/*.spec.ts"],
   "include": ["src/**/*"]
 }

@@ -1,8 +1,7 @@
 {
   "extends": "../tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "../dist/out-tsc",
-    "module": "NodeNext",
+    "outDir": "../dist/out-tsc/e2e",
     "types": ["jest", "node"]
   },
   "include": [

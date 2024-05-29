@@ -2,6 +2,8 @@ import { readFileSync } from 'node:fs';
 import { writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { format, resolveConfig } from 'prettier';
+
+// Import directly from source to ensure the latest rules are included
 import eslintPluginTemplate from '../../packages/eslint-plugin-template/src';
 import eslintPlugin from '../../packages/eslint-plugin/src';
 

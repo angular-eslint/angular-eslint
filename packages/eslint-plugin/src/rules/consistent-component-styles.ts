@@ -61,7 +61,7 @@ export default createESLintRule<Options, MessageIds>({
                 node,
                 ASTUtils.isStringLiteral(node)
                   ? `[${node.raw}]`
-                  : `[${context.getSourceCode().getText(node)}]`,
+                  : `[${context.sourceCode.getText(node)}]`,
               );
             },
           });
@@ -106,7 +106,7 @@ export default createESLintRule<Options, MessageIds>({
                 node,
                 ASTUtils.isStringLiteral(el)
                   ? el.raw
-                  : context.getSourceCode().getText(el),
+                  : context.sourceCode.getText(el),
               );
             },
           });
@@ -123,7 +123,7 @@ export default createESLintRule<Options, MessageIds>({
                 node,
                 ASTUtils.isStringLiteral(el)
                   ? `styleUrl: ${el.raw}`
-                  : `styleUrl: ${context.getSourceCode().getText(el)}`,
+                  : `styleUrl: ${context.sourceCode.getText(el)}`,
               );
             },
           });

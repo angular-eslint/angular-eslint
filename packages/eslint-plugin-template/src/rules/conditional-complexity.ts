@@ -48,7 +48,7 @@ export default createESLintRule<Options, MessageIds>({
   defaultOptions: [{ maxComplexity: DEFAULT_MAX_COMPLEXITY }],
   create(context, [{ maxComplexity }]) {
     ensureTemplateParser(context);
-    const sourceCode = context.getSourceCode();
+    const sourceCode = context.sourceCode;
 
     return {
       BoundAttribute(node: TmplAstBoundAttribute & { value: ASTWithSource }) {

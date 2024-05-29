@@ -1,6 +1,7 @@
 {
   "name": "@angular-eslint/angular-eslint",
   "private": true,
+  "description": "The tooling which enables ESLint to work with Angular projects",
   "volta": {
     "node": "20.13.1",
     "yarn": "1.22.22"
@@ -32,7 +33,6 @@
     "typecheck": "nx run-many -t typecheck",
     "typecheck-workspace": "tsc -b --pretty --verbose",
     "release": "tsx tools/scripts/release.ts",
-    "update-configs": "nx build utils && tsx tools/scripts/generate-configs.ts",
     "check-rule-docs": "nx run-many -t check-rule-docs",
     "update-rule-docs": "nx run-many -t update-rule-docs",
     "check-rule-lists": "nx run-many -t check-rule-lists",
@@ -52,21 +52,21 @@
   "devDependencies": {
     "@actions/core": "1.10.1",
     "@actions/github": "6.0.0",
-    "@angular/cli": "17.3.8",
-    "@angular/compiler": "17.3.10",
+    "@angular/cli": "18.0.0",
+    "@angular/compiler": "18.0.0",
     "@commitlint/cli": "19.3.0",
     "@commitlint/config-conventional": "19.2.2",
-    "@nx/devkit": "19.0.6",
-    "@nx/eslint": "19.0.6",
-    "@nx/eslint-plugin": "19.0.6",
-    "@nx/jest": "19.0.6",
-    "@nx/js": "19.0.6",
-    "@nx/plugin": "19.0.6",
-    "@nx/workspace": "19.0.6",
+    "@nx/devkit": "19.1.0",
+    "@nx/eslint": "19.1.0",
+    "@nx/eslint-plugin": "19.1.0",
+    "@nx/jest": "19.1.0",
+    "@nx/js": "19.1.0",
+    "@nx/plugin": "19.1.0",
+    "@nx/workspace": "19.1.0",
     "@rollup/plugin-commonjs": "^25.0.0",
     "@rollup/plugin-node-resolve": "^15.0.2",
     "@rollup/plugin-typescript": "^11.1.0",
-    "@schematics/angular": "17.3.8",
+    "@schematics/angular": "18.0.0",
     "@swc-node/register": "1.9.1",
     "@swc/cli": "0.3.12",
     "@swc/core": "1.5.7",
@@ -76,12 +76,12 @@
     "@types/jest": "29.4.4",
     "@types/node": "20.12.12",
     "@types/prettier": "2.7.3",
-    "@typescript-eslint/eslint-plugin": "7.11.0",
-    "@typescript-eslint/parser": "7.11.0",
+    "@types/semver": "^7.5.8",
+    "@typescript-eslint/rule-tester": "8.0.0-alpha.20",
     "commitizen": "4.3.0",
     "cz-conventional-changelog": "3.3.0",
     "env-cmd": "10.1.0",
-    "eslint": "8.57.0",
+    "eslint": "9.3.0",
     "eslint-config-prettier": "9.1.0",
     "execa": "5.1.1",
     "husky": "9.0.11",
@@ -91,17 +91,40 @@
     "jsonc-eslint-parser": "^2.1.0",
     "lint-staged": "15.2.5",
     "ncp": "2.0.0",
-    "nx": "19.0.6",
+    "nx": "19.1.0",
+    "patch-package": "^8.0.0",
     "prettier": "3.1.1",
     "prettier-v2-for-jest-inline-snapshots": "npm:prettier@^2",
     "rimraf": "5.0.7",
     "rollup": "^4.0.0",
+    "semver": "^7.6.2",
     "strip-ansi": "6.0.1",
     "tree-kill": "1.2.2",
     "ts-jest": "29.1.0",
     "tslib": "^2.4.1",
     "tsx": "^4.7.3",
     "typescript": "5.4.5",
+    "typescript-eslint": "8.0.0-alpha.20",
     "verdaccio": "5.31.0"
+  },
+  "nx": {
+    "targets": {
+      "check-rule-configs": {
+        "dependsOn": [
+          "update-rule-configs"
+        ],
+        "command": "git diff --quiet --exit-code -- packages/angular-eslint/src/configs packages/eslint-plugin/src/configs packages/eslint-plugin-template/src/configs || (echo \"\n-------\n\nCHECK RULE CONFIGS ERROR: You have uncommitted changes to the generated rule configs.\n\nYou should run `yarn update-rule-configs` and commit the result.\n\n-------\n\" && exit 1)"
+      },
+      "update-rule-configs": {
+        "dependsOn": [
+          "utils:build"
+        ],
+        "outputs": [
+          "{projectRoot}/configs"
+        ],
+        "command": "tsx tools/scripts/generate-configs.ts"
+      }
+    },
+    "includedScripts": []
   }
 }

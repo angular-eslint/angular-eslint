@@ -93,7 +93,7 @@ export const angularLifecycleMethodKeys = objectKeys(AngularLifecycleMethods);
 
 /**
  * See lifecycle event sequence:
- * https://angular.io/guide/lifecycle-hooks#lifecycle-event-sequence
+ * https://angular.dev/guide/components/lifecycle
  */
 export const angularLifecycleMethodsOrdered = [
   AngularLifecycleMethods.ngOnChanges,

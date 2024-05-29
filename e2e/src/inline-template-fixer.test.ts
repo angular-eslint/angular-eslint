@@ -34,7 +34,7 @@ describe('inline-template-fixer', () => {
   it('should generate the expected inline template fixer result', async () => {
     const testFilePath = 'src/test.component.ts';
 
-    fixture.createFile(
+    fixture.writeFile(
       testFilePath,
       `
 import { Component } from '@angular/core';
@@ -53,5 +53,10 @@ export class TestComponent {}
     await runLintFix(fixtureDirectory);
 
     expect(fixture.readFile(testFilePath)).toMatchSnapshot();
+
+    // It should contain eslint v9 and typescript-eslint v8, as well as the angular-eslint package instead of @angular-eslint/ packages
+    expect(
+      JSON.stringify(fixture.readJson('package.json').devDependencies, null, 2),
+    ).toMatchSnapshot();
   });
 });

@@ -23,7 +23,7 @@ That being said, it is not the only way to use `@angular-eslint/eslint-plugin-te
 
 1. Angular best practices collected and collated from places like:
    - [Angular repo](https://github.com/angular/angular).
-   - [Angular documentation](https://angular.io).
+   - [Angular documentation](https://angular.dev).
    - Advice from the Angular Team at Google.
 2. The combined state of community contributed rulesets at the time of creation.
 
