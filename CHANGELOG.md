@@ -1,3 +1,79 @@
+# 18.0.0 (2024-05-29)
+
+As always we recommend that you update your existing workspaces by using `ng update` as we provide some helpful schematics to help migrate your workspaces to the latest and greatest. Running the following will update Angular, the Angular CLI and angular-eslint together:
+
+```sh
+ng update @angular/core @angular/cli @angular-eslint/schematics
+```
+
+**NOTE: There will not be any migration of your setup to ESLint v9 or flat configs for existing workspaces in v18.**
+
+The ESLint team are working on auto-migrate tooling which we will leverage in an opt-in conversion generator once it is ready in a v18 minor release and consider full auto-migration in v19 in six months (aligned with Angular major release schedule as always).
+
+If you want to manually migrate your workspace to use ESLint v9, `typescript-eslint` v8, and flat config you are welcome to and it should be fully supported in v18.
+
+> **If you are going to attempt this, we strongly recommended creating a fresh Angular v18 workspace and adding angular-eslint to it per the instructions below and then copying the dependencies and configs that it applies into your existing workspace**
+
+Here is an example of what the new flat config with `angular-eslint` v18, `typescript-eslint` v8, and ESLint v9 looks like:
+
+![image](https://github.com/angular-eslint/angular-eslint/assets/900523/3f25ad48-ba00-4950-a5d3-546376a1a9f7)
+
+---
+
+## Adding to New Angular Workspaces in v18
+
+There is a decision to be made when adding to new Angular v18 workspaces.
+
+Just as before, if you want to add `angular-eslint` to a workspace with no existing lint setup, you leverage `ng add` with the `@angular-eslint/schematics` package.
+
+The difference is in v18, you have the option of using either:
+
+- the latest version of ESLint v9, with the latest default so called "flat config" (`eslint.config.js`) alongside the latest prerelease of `typescript-eslint` v8 (https://typescript-eslint.io/blog/announcing-typescript-eslint-v8-beta)
+  **OR**
+- the final stable version of ESLint v8, with the legacy so called "eslintrc" config (`.eslintrc.json`) and the latest stable version of `typescript-eslint` v7
+
+**The ESLint v9 option is the default scenario if you simply run `ng add` with no other changes.** If you want to signal to `angular-eslint` that you instead want to go with the ESLint v8 option, simply add an `eslint` v8 (the exact version does not matter, it just needs to be less than 9) `devDependency` in your package.json before running the `ng add`. That's it - you don't even need to install the `eslint` package, it just needs to be listed there.
+
+E.g.
+![image](https://github.com/angular-eslint/angular-eslint/assets/900523/128681fc-9149-45b3-a4da-dfe55dbf8a76)
+
+Here are example "after" root `package.json` files from the two scenarios:
+
+**1. No `eslint` devDependency specified before running `ng add`**, use the default ESLint v9 setup. This will use the new `angular-eslint` and `typescript-eslint` core packages, so you will see much fewer individual devDependencies added:
+
+![image](https://github.com/angular-eslint/angular-eslint/assets/900523/54e62bd9-ddc5-407a-92f8-03de2819ac9b)
+
+**2. `eslint` v8 devDependency is specified before running `ng-add`**. Use ESlint `8.57.0` and the traditional `@typescript-eslint/` and `@angular-eslint/` packages.
+
+![image](https://github.com/angular-eslint/angular-eslint/assets/900523/548aa968-3459-46c4-8a11-5769a5d55f7a)
+
+---
+
+### 🚀 Features
+
+- ⚠️ update to Angular v18, drop support for Angular v17 ([#1830](https://github.com/angular-eslint/angular-eslint/pull/1830))
+- ⚠️ deprecate no-host-metadata-property rule and remove from recommended config of `@angular-eslint/eslint-plugin` ([#1830](https://github.com/angular-eslint/angular-eslint/pull/1830))
+- ⚠️ drop support for ESLint v7 ([#1830](https://github.com/angular-eslint/angular-eslint/pull/1830))
+- ⚠️ migrate test related utils out of `@angular-eslint/utils` into new `@angular-eslint/test-utils` package ([#1830](https://github.com/angular-eslint/angular-eslint/pull/1830))
+- add support for ESLint v9 (maintaining support for the final version of ESLint v8 - `8.57.0`). ([#1830](https://github.com/angular-eslint/angular-eslint/pull/1830))
+- add the new `angular-eslint` core package for use in ESLint v9 workspaces ([#1830](https://github.com/angular-eslint/angular-eslint/pull/1830))
+- generate new configs as the new default flat config with ESLint v9 and `typescript-eslint` v8 prereleases ([#1830](https://github.com/angular-eslint/angular-eslint/pull/1830))
+
+### 🩹 Fixes
+
+- update links from angular.io to angular.dev ([#1830](https://github.com/angular-eslint/angular-eslint/pull/1830))
+
+#### ⚠️ Breaking Changes
+
+- ⚠️ update to Angular v18, drop support for Angular v17 ([#1830](https://github.com/angular-eslint/angular-eslint/pull/1830))
+- ⚠️ deprecate no-host-metadata-property rule and remove from recommended config of `@angular-eslint/eslint-plugin` ([#1830](https://github.com/angular-eslint/angular-eslint/pull/1830))
+- ⚠️ drop support for ESLint v7 ([#1830](https://github.com/angular-eslint/angular-eslint/pull/1830))
+- ⚠️ migrate test related utils out of `@angular-eslint/utils` into new `@angular-eslint/test-utils` package ([#1830](https://github.com/angular-eslint/angular-eslint/pull/1830))
+
+### ❤️ Thank You
+
+- James Henry @JamesHenry
+
 ## 17.5.2 (2024-05-28)
 
 ### 🩹 Fixes
