@@ -17,12 +17,10 @@
     "LICENSE"
   ],
   "peerDependencies": {
+    "@typescript-eslint/rule-tester": "^7.11.0 || ^8.0.0-alpha.20",
+    "@typescript-eslint/utils": "^7.11.0 || ^8.0.0-alpha.20",
     "eslint": "^8.57.0 || ^9.0.0",
     "typescript": "*"
-  },
-  "dependencies": {
-    "@typescript-eslint/rule-tester": "8.0.0-alpha.20",
-    "@typescript-eslint/utils": "8.0.0-alpha.20"
   },
   "publishConfig": {
     "access": "public"
