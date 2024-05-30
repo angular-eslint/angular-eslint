@@ -19,13 +19,13 @@
   ],
   "dependencies": {
     "@angular-eslint/bundled-angular-compiler": "18.0.0",
-    "@angular-eslint/utils": "18.0.0",
-    "@typescript-eslint/utils": "8.0.0-alpha.20"
+    "@angular-eslint/utils": "18.0.0"
   },
   "devDependencies": {
     "@angular-eslint/test-utils": "18.0.0"
   },
   "peerDependencies": {
+    "@typescript-eslint/utils": "^7.11.0 || ^8.0.0-alpha.20",
     "eslint": "^8.57.0 || ^9.0.0",
     "typescript": "*"
   },
