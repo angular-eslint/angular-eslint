@@ -22,10 +22,10 @@
     "@nx/devkit": "^19.0.6",
     "nx": "^19.0.6"
   },
-  "builders": "./builders.json",
   "peerDependencies": {
     "eslint": "^8.57.0 || ^9.0.0",
     "typescript": "*"
   },
+  "builders": "./builders.json",
   "gitHead": "e2006e5e9c99e5a943d1a999e0efa5247d29ec24"
 }
