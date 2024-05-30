@@ -1,3 +1,15 @@
+## 18.0.1 (2024-05-30)
+
+### 🩹 Fixes
+
+- move typescript-eslint packages to peerDeps, consistently allow v7 and v8 ([#1856](https://github.com/angular-eslint/angular-eslint/pull/1856))
+
+As part of the v18 release, support for typescript-eslint v8 prereleases was added. For authors of custom rules that consume the `@angular-eslint/utils` or new `@angular-eslint/test-utils` packages, the initial way this was set up with dependencies could cause type conflicts between v7 and v8. To resolve this the `@angular-eslint/*` packages now depend on `@typescript-eslint/*` packages via a peerDependency which permits both v7 and v8 prereleases.
+
+### ❤️ Thank You
+
+- James Henry @JamesHenry
+
 # 18.0.0 (2024-05-29)
 
 As always we recommend that you update your existing workspaces by using `ng update` as we provide some helpful schematics to help migrate your workspaces to the latest and greatest. Running the following will update Angular, the Angular CLI and angular-eslint together:

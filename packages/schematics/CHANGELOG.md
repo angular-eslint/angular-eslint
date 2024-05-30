@@ -1,3 +1,7 @@
+## 18.0.1 (2024-05-30)
+
+This was a version bump only for schematics to align it with other projects, there were no code changes.
+
 # 18.0.0 (2024-05-29)
 
 ### 🚀 Features
