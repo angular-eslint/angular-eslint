@@ -30,6 +30,11 @@ export default createESLintRule<[], typeof MESSAGE_ID>({
   create(context) {
     const parserServices = getTemplateParserServices(context);
 
+    // angular 18 doesnt support self closing tags in index.html
+    if (context.physicalFilename.endsWith('src/index.html')) {
+      // If it is, return an empty object to skip this rule
+      return {};
+    }
     return {
       'Element$1, Template, Content'(
         node: TmplAstElement | TmplAstTemplate | TmplAstContent,
