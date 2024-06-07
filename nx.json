@@ -2,7 +2,10 @@
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "nxCloudAccessToken": "NzNkMDZiM2MtMzVlOS00YzVlLWE1MGQtNWZlYzI3MjRkOTRmfHJlYWQ=",
   "plugins": [
-    "@nx/eslint/plugin",
+    {
+      "plugin": "@nx/eslint/plugin",
+      "options": {}
+    },
     {
       "plugin": "@nx/js/typescript",
       "include": [
