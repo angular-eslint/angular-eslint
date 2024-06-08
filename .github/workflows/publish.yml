@@ -14,6 +14,8 @@ on:
 
 jobs:
   publish:
+    # prevents this action from running on forks
+    if: github.repository == 'angular-eslint/angular-eslint'
     name: Publish to npm
     runs-on: ubuntu-latest
     permissions:
