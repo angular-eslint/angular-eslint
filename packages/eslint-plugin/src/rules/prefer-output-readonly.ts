@@ -28,17 +28,26 @@ export default createESLintRule<Options, MessageIds>({
       [`PropertyDefinition:not([readonly=true]) > ${Selectors.OUTPUT_DECORATOR}`]({
         parent: { key },
       }: TSESTree.Decorator & { parent: TSESTree.PropertyDefinition }) {
-        context.report({
-          node: key,
-          messageId: 'preferOutputReadonly',
-          suggest: [
-            {
-              messageId: 'suggestAddReadonlyModifier',
-              fix: (fixer) => fixer.insertTextBefore(key, 'readonly '),
-            },
-          ],
-        });
+        report(key);
+      },
+      [`PropertyDefinition:not([readonly=true]):matches([typeAnnotation.typeAnnotation.typeName.name=OutputEmitterRef], [value.callee.name=output])`]({
+        key,
+      }: TSESTree.PropertyDefinition) {
+        report(key);
       },
     };
+
+    function report(key: TSESTree.Node) {
+      context.report({
+        node: key,
+        messageId: 'preferOutputReadonly',
+        suggest: [
+          {
+            messageId: 'suggestAddReadonlyModifier',
+            fix: (fixer) => fixer.insertTextBefore(key, 'readonly '),
+          },
+        ],
+      });
+    }
   },
 });
