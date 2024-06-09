@@ -141,7 +141,8 @@ jobs:
     permissions:
       id-token: write # needed for provenance data generation
     needs: [primary]
-    if: github.ref == 'refs/heads/main'
+    # prevents this action from running on forks
+    if: (github.repository == 'angular-eslint/angular-eslint') && (github.ref == 'refs/heads/main')
     steps:
       - uses: actions/checkout@v4
         with:
