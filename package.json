@@ -89,7 +89,7 @@
     "json-schema-to-typescript": "14.0.5",
     "json-schema-traverse": "1.0.0",
     "jsonc-eslint-parser": "^2.1.0",
-    "lint-staged": "15.2.5",
+    "lint-staged": "15.2.7",
     "ncp": "2.0.0",
     "nx": "19.2.1",
     "patch-package": "^8.0.0",
