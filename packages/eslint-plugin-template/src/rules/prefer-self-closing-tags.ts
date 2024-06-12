@@ -96,18 +96,20 @@ export default createESLintRule<[], typeof MESSAGE_ID>({
       const { sourceSpan } = node;
       const ngContentCloseTag = '</ng-content>';
       if (sourceSpan.toString().includes(ngContentCloseTag)) {
-        // content nodes can only contain whitespaces
-        const content =
-          sourceSpan
-            .toString()
-            .match(/>(\s*)</m)
-            ?.at(1) ?? '';
+        const whiteSpaceContent = sourceSpan
+          .toString()
+          .match(/>(\s*)</m)
+          ?.at(1);
+        const hasContent = typeof whiteSpaceContent === 'undefined';
+        if (hasContent) {
+          return;
+        }
         const openingTagLastChar =
           // This is more than the minimum length of a ng-content element
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           sourceSpan
             .toString()
-            .at(-2 - ngContentCloseTag.length - content.length)!;
+            .at(-2 - ngContentCloseTag.length - whiteSpaceContent.length)!;
         const closingTagPrefix = getClosingTagPrefix(openingTagLastChar);
 
         context.report({
@@ -129,7 +131,7 @@ export default createESLintRule<[], typeof MESSAGE_ID>({
               [
                 sourceSpan.end.offset -
                   ngContentCloseTag.length -
-                  content.length -
+                  whiteSpaceContent.length -
                   1,
                 sourceSpan.end.offset,
               ],
