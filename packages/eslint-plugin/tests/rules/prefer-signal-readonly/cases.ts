@@ -78,6 +78,16 @@ export const valid = [
     `,
   `
     class Test {
+      readonly testSignal = signal(true);
+    }
+    `,
+  `
+    class Test {
+      readonly testSignal = toSignal(source);
+    }
+    `,
+  `
+    class Test {
       readonly testSignal = viewChild('test');
     }
     `,
@@ -342,6 +352,48 @@ export const invalid = [
         output: `
     class Test {
       readonly testSignal = model.required();
+      
+    }
+    `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail when a signal is not readonly',
+    annotatedSource: `
+    class Test {
+      testSignal = signal(42);
+      ~~~~~~~~~~
+    }
+    `,
+    messageId,
+    suggestions: [
+      {
+        messageId: suggestAddReadonlyModifier,
+        output: `
+    class Test {
+      readonly testSignal = signal(42);
+      
+    }
+    `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail when a toSignal is not readonly',
+    annotatedSource: `
+    class Test {
+      testSignal = toSignal(source);
+      ~~~~~~~~~~
+    }
+    `,
+    messageId,
+    suggestions: [
+      {
+        messageId: suggestAddReadonlyModifier,
+        output: `
+    class Test {
+      readonly testSignal = toSignal(source);
       
     }
     `,
