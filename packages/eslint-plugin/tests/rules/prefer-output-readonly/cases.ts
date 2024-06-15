@@ -45,6 +45,16 @@ export const valid = [
       readonly testEmitter = output<string>();
     }
     `,
+  `
+    class Test {
+      readonly testEmitter: OutputRef<string>;
+    }
+    `,
+  `
+    class Test {
+      readonly testEmitter = outputFromObservable(testObservable);
+    }
+    `,
 ];
 
 export const invalid = [
@@ -57,6 +67,7 @@ export const invalid = [
         }
       `,
     messageId,
+    data: { type: '@Output' },
     suggestions: [
       {
         messageId: suggestAddReadonlyModifier,
@@ -78,6 +89,7 @@ export const invalid = [
         }
       `,
     messageId,
+    data: { type: 'OutputEmitterRef' },
     suggestions: [
       {
         messageId: suggestAddReadonlyModifier,
@@ -99,6 +111,7 @@ export const invalid = [
         }
       `,
     messageId,
+    data: { type: 'OutputEmitterRef' },
     suggestions: [
       {
         messageId: suggestAddReadonlyModifier,
@@ -120,12 +133,57 @@ export const invalid = [
         }
       `,
     messageId,
+    data: { type: 'OutputEmitterRef' },
     suggestions: [
       {
         messageId: suggestAddReadonlyModifier,
         output: `
         class Test {
           readonly testEmitter = output<string>();
+          
+        }
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail when an OutputRef is not readonly',
+    annotatedSource: `
+        class Test {
+          testEmitter: OutputRef<string>;
+          ~~~~~~~~~~~
+        }
+      `,
+    messageId,
+    data: { type: 'OutputRef' },
+    suggestions: [
+      {
+        messageId: suggestAddReadonlyModifier,
+        output: `
+        class Test {
+          readonly testEmitter: OutputRef<string>;
+          
+        }
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail when an outputFromObservable() is not readonly',
+    annotatedSource: `
+        class Test {
+          testEmitter = outputFromObservable(testObservable);
+          ~~~~~~~~~~~
+        }
+      `,
+    messageId,
+    data: { type: 'OutputRef' },
+    suggestions: [
+      {
+        messageId: suggestAddReadonlyModifier,
+        output: `
+        class Test {
+          readonly testEmitter = outputFromObservable(testObservable);
           
         }
       `,

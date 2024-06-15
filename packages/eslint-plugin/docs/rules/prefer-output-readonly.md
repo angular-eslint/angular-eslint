@@ -15,7 +15,7 @@
 
 # `@angular-eslint/prefer-output-readonly`
 
-Prefer to declare `@Output` as `readonly` since they are not supposed to be reassigned
+Prefer to declare `@Output`, `OutputEmitterRef` and `OutputRef` as `readonly` since they are not supposed to be reassigned
 
 - Type: suggestion
 
@@ -146,6 +146,64 @@ class Test {
 ```ts
 class Test {
   testEmitter = output<string>();
+  ~~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-output-readonly": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+class Test {
+  testEmitter: OutputRef<string>;
+  ~~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-output-readonly": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+class Test {
+  testEmitter = outputFromObservable(testObservable);
   ~~~~~~~~~~~
 }
 ```
@@ -378,6 +436,62 @@ class Test {
 ```ts
 class Test {
   readonly testEmitter = output<string>();
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-output-readonly": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+class Test {
+  readonly testEmitter: OutputRef<string>;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-output-readonly": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+class Test {
+  readonly testEmitter = outputFromObservable(testObservable);
 }
 ```
 
