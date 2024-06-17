@@ -553,6 +553,8 @@ The rule does not have any configuration options.
 
 #### ✅ Valid Code
 
+**Filename: src/index.html**
+
 ```html
 <app-root></app-root>
 ```
