@@ -531,6 +531,32 @@ The rule does not have any configuration options.
 <ng-content select="my-selector" />
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-self-closing-tags": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<app-root></app-root>
+```
+
 </details>
 
 <br>
