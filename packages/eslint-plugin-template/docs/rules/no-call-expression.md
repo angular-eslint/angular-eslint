@@ -31,6 +31,8 @@ interface Options {
    * Default: `[]`
    */
   allowList?: string[];
+  allowPrefix?: string;
+  allowSuffix?: string;
 }
 
 ```
@@ -564,7 +566,9 @@ interface Options {
         "allowList": [
           "nested",
           "getHref"
-        ]
+        ],
+        "allowPrefix": "$",
+        "allowSuffix": "$"
       }
     ]
   }
@@ -578,6 +582,7 @@ interface Options {
 ```html
 {{ obj?.nested() }} {{ obj!.nested() }}
 <a [href]="getHref()">info</a>
+{{ $validWithPrefix() }} {{ validWithSuffix$() }}
 ```
 
 <br>
