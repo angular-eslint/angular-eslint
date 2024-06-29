@@ -4,17 +4,17 @@ launch-templates:
     image: 'ubuntu22.04-node20.11-v7'
     init-steps:
       - name: checkout repo
-        uses: 'nrwl/nx-cloud-workflows/v3.6/workflow-steps/checkout/main.yaml'
+        uses: 'nrwl/nx-cloud-workflows/v4/workflow-steps/checkout/main.yaml'
         env:
           GIT_FETCH_TAGS: 'true'
       - name: node_modules cache
-        uses: 'nrwl/nx-cloud-workflows/v3.6/workflow-steps/cache/main.yaml'
+        uses: 'nrwl/nx-cloud-workflows/v4/workflow-steps/cache/main.yaml'
         inputs:
           key: 'yarn.lock'
           paths: 'node_modules'
           baseBranch: 'main'
       - name: NPM Install
-        uses: 'nrwl/nx-cloud-workflows/v3.6/workflow-steps/install-node-modules/main.yaml'
+        uses: 'nrwl/nx-cloud-workflows/v4/workflow-steps/install-node-modules/main.yaml'
         env:
           SKIP_POSTINSTALL: 'true'
       - name: Apply patches
