@@ -36,7 +36,7 @@ jobs:
           echo "NX_CI_EXECUTION_ENV=Node $(node --version) -" >> $GITHUB_ENV
 
       - name: Start Nx Cloud CI Run
-        run: npx nx-cloud start-ci-run --distributes-on="6 custom-linux-medium-plus-js" --stop-agents-after="e2e-suite"
+        run: npx nx-cloud start-ci-run --distribute-on="6 custom-linux-medium-plus-js" --stop-agents-after="e2e-suite"
 
       - uses: actions/cache@v4
         id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
@@ -61,7 +61,7 @@ jobs:
           cmd1: npx nx run-many -t build,typecheck,check-rule-docs,lint,check-rule-lists,check-rule-configs
           cmd2: npx nx run-many -t test --codeCoverage
           cmd3: npx nx-cloud record -- yarn format-check
-      
+
       # Run distributed e2e test suites with independent local registries (max 1 per agent via parallel=1)
       - name: Run e2e test suites
         run: npx nx run-many -t e2e-suite --parallel 1
