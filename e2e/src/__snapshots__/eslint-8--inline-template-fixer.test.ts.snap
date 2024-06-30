@@ -17,14 +17,14 @@ export class TestComponent {}
 
 exports[`eslint-8--inline-template-fixer should generate the expected inline template fixer result 2`] = `
 "{
-  \\"@angular-devkit/build-angular\\": \\"^18.0.0\\",
+  \\"@angular-devkit/build-angular\\": \\"^18.X.X\\",
   \\"@angular-eslint/builder\\": \\"0.0.0-e2e\\",
   \\"@angular-eslint/eslint-plugin\\": \\"0.0.0-e2e\\",
   \\"@angular-eslint/eslint-plugin-template\\": \\"0.0.0-e2e\\",
   \\"@angular-eslint/schematics\\": \\"0.0.0-e2e\\",
   \\"@angular-eslint/template-parser\\": \\"0.0.0-e2e\\",
-  \\"@angular/cli\\": \\"^18.0.0\\",
-  \\"@angular/compiler-cli\\": \\"^18.0.0\\",
+  \\"@angular/cli\\": \\"^18.X.X\\",
+  \\"@angular/compiler-cli\\": \\"^18.X.X\\",
   \\"@types/jasmine\\": \\"~5.1.0\\",
   \\"@typescript-eslint/eslint-plugin\\": \\"7.11.0\\",
   \\"@typescript-eslint/parser\\": \\"7.11.0\\",
