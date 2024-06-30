@@ -1344,35 +1344,6 @@ class Test {
 #### ✅ Valid Code
 
 ```ts
-@Injectable()
-class Test {
-  ngOnDestroy() { console.log('OnDestroy'); }
-}
-```
-
-<br>
-
----
-
-<br>
-
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/contextual-lifecycle": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
-#### ✅ Valid Code
-
-```ts
 @NgModule()
 class Test {
   ngDoBootstrap() {}
