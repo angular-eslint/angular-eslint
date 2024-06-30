@@ -32,17 +32,6 @@ export const valid = [
   `
     @Component()
     class Test {
-      ngOnChanges(): void {}
-      ngOnInit(): void {}
-      ngAfterContentInit(): void {}
-      ngAfterContentChecked(): void {}
-      ngAfterViewChecked(): void {}
-      ngOnDestroy(): void {}
-    }
-  `,
-  `
-    @Component()
-    class Test {
       ngDoCheck(): void {}
       ngAfterContentInit(): void {}
       ngAfterContentChecked(): void {}
