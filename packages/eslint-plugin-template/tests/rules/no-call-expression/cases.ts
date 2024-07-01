@@ -15,10 +15,13 @@ export const valid = [
     code: `
       {{ obj?.nested() }} {{ obj!.nested() }}
       <a [href]="getHref()">info</a>
+      {{ $validWithPrefix() }} {{ validWithSuffix$() }}
     `,
     options: [
       {
         allowList: ['nested', 'getHref'],
+        allowPrefix: '$',
+        allowSuffix: '$',
       },
     ],
   },
