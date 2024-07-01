@@ -1,3 +1,19 @@
+## 18.1.0 (2024-07-01)
+
+### 🩹 Fixes
+
+- update typescript-eslint packages to v8.0.0-alpha.37
+
+- **test-utils:** use configured RuleTester.afterAll over global
+
+### ❤️ Thank You
+
+- Christian Svensson
+- Daniel Kimmich
+- Dave
+- Martijn van der Meij
+- Maximilian Main
+
 ## 18.0.1 (2024-05-30)
 
 ### 🩹 Fixes

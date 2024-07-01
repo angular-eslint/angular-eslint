@@ -1,3 +1,30 @@
+## 18.1.0 (2024-07-01)
+
+### 🚀 Features
+
+- **eslint-plugin:** [prefer-output-readonly] support output() function ([#1876](https://github.com/angular-eslint/angular-eslint/pull/1876))
+- **eslint-plugin:** [no-call-expression] add allowPrefix and allowSuffix ([#1897](https://github.com/angular-eslint/angular-eslint/pull/1897))
+
+### 🩹 Fixes
+
+- update dependency @angular/compiler to v18.0.2 ([#1852](https://github.com/angular-eslint/angular-eslint/pull/1852))
+- update dependency eslint to v9.5.0 ([#1886](https://github.com/angular-eslint/angular-eslint/pull/1886))
+- update dependency eslint to v9.6.0 ([#1900](https://github.com/angular-eslint/angular-eslint/pull/1900))
+- update dependency @angular/compiler to v18.0.5 ([#1893](https://github.com/angular-eslint/angular-eslint/pull/1893))
+- update nrwl monorepo to v19.3.2 ([#1902](https://github.com/angular-eslint/angular-eslint/pull/1902))
+- update typescript-eslint packages to v8.0.0-alpha.38 ([#1904](https://github.com/angular-eslint/angular-eslint/pull/1904))
+- **eslint-plugin-template:** [prefer-self-closing-tags] always ignore index.html files ([#1865](https://github.com/angular-eslint/angular-eslint/pull/1865))
+- **eslint-plugin-template:** [prefer-self-closing-tags] support ng-content with fallback content ([#1880](https://github.com/angular-eslint/angular-eslint/pull/1880))
+- **test-utils:** use configured RuleTester.afterAll over global ([#1878](https://github.com/angular-eslint/angular-eslint/pull/1878))
+
+### ❤️ Thank You
+
+- Christian Svensson
+- Daniel Kimmich @json-derulo
+- Dave @reduckted
+- Martijn van der Meij
+- Maximilian Main @MaximilianMain
+
 ## 18.0.1 (2024-05-30)
 
 ### 🩹 Fixes
