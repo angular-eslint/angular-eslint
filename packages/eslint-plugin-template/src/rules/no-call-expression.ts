@@ -32,7 +32,7 @@ export default createESLintRule<Options, MessageIds>({
             uniqueItems: true,
           },
           allowPrefix: { type: 'string' },
-          allowSuffix: { type: 'string' }
+          allowSuffix: { type: 'string' },
         },
         type: 'object',
       },
@@ -41,8 +41,10 @@ export default createESLintRule<Options, MessageIds>({
       noCallExpression: 'Avoid calling expressions in templates',
     },
   },
-  defaultOptions: [{ allowList: [], allowPrefix: undefined, allowSuffix: undefined }],
-  create(context, [{ allowList,  allowPrefix, allowSuffix}]) {
+  defaultOptions: [
+    { allowList: [], allowPrefix: undefined, allowSuffix: undefined },
+  ],
+  create(context, [{ allowList, allowPrefix, allowSuffix }]) {
     ensureTemplateParser(context);
     const sourceCode = context.sourceCode;
 
@@ -52,13 +54,28 @@ export default createESLintRule<Options, MessageIds>({
           getNearestNodeFrom(node, isBoundEvent),
         );
 
-        if (isChildOfBoundEvent) return;
+        if (
+          isChildOfBoundEvent ||
+          isCallNameInAllowList(node.receiver, allowList)
+        ) {
+          return;
+        }
 
-        if (isCallNameInAllowList(node.receiver, allowList)) return;
+        if (
+          allowPrefix &&
+          isASTWithName(node.receiver) &&
+          node.receiver.name.startsWith(allowPrefix)
+        ) {
+          return;
+        }
 
-        if (allowPrefix && isASTWithName(node.receiver) && node.receiver.name.startsWith(allowPrefix)) return;
-
-        if (allowSuffix && isASTWithName(node.receiver) && node.receiver.name.endsWith(allowSuffix)) return;
+        if (
+          allowSuffix &&
+          isASTWithName(node.receiver) &&
+          node.receiver.name.endsWith(allowSuffix)
+        ) {
+          return;
+        }
 
         const {
           sourceSpan: { start, end },
