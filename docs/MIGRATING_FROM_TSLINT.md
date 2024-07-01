@@ -237,7 +237,7 @@ If you would like to recreate the `ng-cli-compat` and `ng-cli-compat--formatting
 
 **ng-cli-compat**
 
-```jsonc
+```json
 {
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint", "@angular-eslint"],
@@ -431,7 +431,7 @@ If you would like to recreate the `ng-cli-compat` and `ng-cli-compat--formatting
 
 **ng-cli-compat--formatting-add-on**
 
-```jsonc
+```json
 {
   "plugins": ["eslint-plugin-jsdoc"],
   "rules": {

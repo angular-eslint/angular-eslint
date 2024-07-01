@@ -45,7 +45,7 @@
     "strip-json-comments": "3.1.1"
   },
   "devDependencies": {
-    "@typescript-eslint/utils": "8.0.0-alpha.20",
+    "@typescript-eslint/utils": "8.0.0-alpha.37",
     "eslint": "9.6.0"
   },
   "peerDependencies": {

@@ -638,10 +638,10 @@ The rule does not have any configuration options.
 
 ```html
 <a (click)="onClick()" tabindex="0">Click me</a>
-<a (click)="onClick()" [attr.tabindex]="0">Click me</a>',
-<a (click)="onClick()" tabindex="bad">Click me</a>',
-<a (click)="onClick()" [attr.tabindex]="undefined"}>Click me</a>',
-<a (click)="onClick()" [attr.tabindex]="dynamicTabindex">Click me</a>',
+<a (click)="onClick()" [attr.tabindex]="0">Click me</a>
+<a (click)="onClick()" tabindex="bad">Click me</a>
+<a (click)="onClick()" [attr.tabindex]="undefined"}>Click me</a>
+<a (click)="onClick()" [attr.tabindex]="dynamicTabindex">Click me</a>
 ```
 
 <br>
