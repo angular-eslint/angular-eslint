@@ -84,6 +84,7 @@ Let's take a look at full (but minimal), manual example of a config file (**alth
 
 **.eslintrc.json**
 
+<!-- prettier-ignore -->
 ```jsonc
 {
   "root": true,
@@ -145,6 +146,7 @@ Our premade configs handle the `parser` and `plugins` options for you behind the
 
 If for some reason you wanted to not include any of the premade recommended configs, or you wanted to significantly customize your setup, a fully manual example with the right parsers and plugins wired up (but no actual rules activated) would look like this:
 
+<!-- prettier-ignore -->
 ```jsonc
 {
   "root": true,
@@ -195,6 +197,7 @@ If you choose to use `eslint-plugin-prettier`, **please ensure that you are usin
 
 **.eslintrc.json**
 
+<!-- prettier-ignore -->
 ```jsonc
 {
   "root": true,
