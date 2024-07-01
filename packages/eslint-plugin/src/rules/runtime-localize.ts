@@ -16,7 +16,7 @@ export default createESLintRule<Options, MessageIds>({
     },
     schema: [],
     messages: {
-      runtimeLocalize: `$localize is called before translations are loaded`,
+      runtimeLocalize: `$localize could be called before translations are loaded`,
     },
   },
   defaultOptions: [],
