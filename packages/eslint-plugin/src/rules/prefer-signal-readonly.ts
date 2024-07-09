@@ -2,7 +2,11 @@ import { AST_NODE_TYPES } from '@typescript-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
-type Options = [];
+type Options = [
+  {
+    signalCreationFunctions: string[];
+  },
+];
 export type MessageIds = 'preferSignalReadonly' | 'suggestAddReadonlyModifier';
 export const RULE_NAME = 'prefer-signal-readonly';
 const KNOWN_SIGNAL_TYPES: ReadonlySet<string> = new Set([
@@ -32,15 +36,32 @@ export default createESLintRule<Options, MessageIds>({
         'Prefer to declare `Signal` properties as `readonly` since they are not supposed to be reassigned',
     },
     hasSuggestions: true,
-    schema: [],
+    schema: [
+      {
+        type: 'object',
+        properties: {
+          signalCreationFunctions: {
+            type: 'array',
+            items: {
+              type: 'string',
+            },
+          },
+        },
+        additionalProperties: false,
+      },
+    ],
     messages: {
       preferSignalReadonly:
         'Prefer to declare `Signal` properties as `readonly` since they are not supposed to be reassigned',
       suggestAddReadonlyModifier: 'Add `readonly` modifier',
     },
   },
-  defaultOptions: [],
-  create(context) {
+  defaultOptions: [
+    {
+      signalCreationFunctions: [],
+    },
+  ],
+  create(context, [{ signalCreationFunctions = [] }]) {
     return {
       [`PropertyDefinition:not([readonly=true])`](
         node: TSESTree.PropertyDefinition,
@@ -80,7 +101,8 @@ export default createESLintRule<Options, MessageIds>({
             }
             if (
               callee.type === AST_NODE_TYPES.Identifier &&
-              KNOWN_SIGNAL_CREATION_FUNCTIONS.has(callee.name)
+              (KNOWN_SIGNAL_CREATION_FUNCTIONS.has(callee.name) ||
+                signalCreationFunctions.includes(callee.name))
             ) {
               report();
             }

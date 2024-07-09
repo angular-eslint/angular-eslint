@@ -25,7 +25,17 @@ Prefer to declare `Signal` properties as `readonly` since they are not supposed 
 
 ## Rule Options
 
-The rule does not have any configuration options.
+The rule accepts an options object with the following properties:
+
+```ts
+interface Options {
+  /**
+   * Default: `[]`
+   */
+  signalCreationFunctions?: string[];
+}
+
+```
 
 <br>
 
@@ -523,6 +533,40 @@ class Test {
 ```ts
 class Test {
   testSignal = viewChildren('test');
+  ~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-signal-readonly": [
+      "error",
+      {
+        "signalCreationFunctions": [
+          "createSignal"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+class Test {
+  testSignal = createSignal('test');
   ~~~~~~~~~~
 }
 ```
@@ -1064,6 +1108,67 @@ class Test {
 ```ts
 class Test {
   readonly testSignal = viewChildren('test');
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-signal-readonly": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+class Test {
+  testSignal = createSignal('test');
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-signal-readonly": [
+      "error",
+      {
+        "signalCreationFunctions": [
+          "createSignal"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+class Test {
+  readonly testSignal = createSignal('test');
 }
 ```
 

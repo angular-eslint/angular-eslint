@@ -101,6 +101,19 @@ export const valid = [
       readonly testSignal = viewChildren('test');
     }
     `,
+  `
+    class Test {
+      testSignal = createSignal('test');
+    }
+    `,
+  {
+    code: `
+      class Test {
+        readonly testSignal = createSignal('test');
+      }
+      `,
+    options: [{ signalCreationFunctions: ['createSignal'] }],
+  },
 ];
 
 export const invalid = [
@@ -457,6 +470,29 @@ export const invalid = [
         output: `
     class Test {
       readonly testSignal = viewChildren('test');
+      
+    }
+    `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail when a Signal assigned from a user-specified function is not readonly',
+    annotatedSource: `
+    class Test {
+      testSignal = createSignal('test');
+      ~~~~~~~~~~
+    }
+    `,
+    options: [{ signalCreationFunctions: ['createSignal'] }],
+    messageId,
+    suggestions: [
+      {
+        messageId: suggestAddReadonlyModifier,
+        output: `
+    class Test {
+      readonly testSignal = createSignal('test');
       
     }
     `,
