@@ -16,6 +16,8 @@ export const valid = [
   '<ng-template>Content</ng-template>',
   '<ng-content/>',
   '<ng-content select="my-selector" />',
+  `<ng-content>Fallback content</ng-content>`,
+  { code: '<app-root></app-root>', filename: 'src/index.html' },
 ];
 
 export const invalid = [

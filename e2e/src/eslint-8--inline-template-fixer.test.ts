@@ -7,6 +7,9 @@ import {
   runNgNew,
 } from '../utils/local-registry-process';
 import { runLintFix } from '../utils/run-lint';
+import { normalizeVersionsOfPackagesWeDoNotControl } from '../utils/snapshot-serializers';
+
+expect.addSnapshotSerializer(normalizeVersionsOfPackagesWeDoNotControl);
 
 const fixtureDirectory = 'eslint-8--inline-template-fixer';
 let fixture: Fixture;

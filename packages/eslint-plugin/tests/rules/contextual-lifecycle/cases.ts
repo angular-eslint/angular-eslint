@@ -106,12 +106,6 @@ export const valid = [
     }
     `,
   `
-    @Injectable()
-    class Test {
-      ngOnDestroy() { console.log('OnDestroy'); }
-    }
-    `,
-  `
     @NgModule()
     class Test {
       ngDoBootstrap() {}

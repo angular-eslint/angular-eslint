@@ -42,6 +42,7 @@ export class RuleTester extends TSESLintRuleTester {
 
     // make sure that the parser doesn't hold onto file handles between tests
     // on linux (i.e. our CI env), there can be very a limited number of watch handles available
+    const afterAll = RuleTester.afterAll ?? globalThis.afterAll;
     afterAll(() => {
       try {
         // instead of creating a hard dependency, just use a soft require

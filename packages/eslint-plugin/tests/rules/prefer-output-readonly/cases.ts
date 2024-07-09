@@ -15,6 +15,46 @@ export const valid = [
       @Output() readonly testEmitter = new EventEmitter<string>();
     }
     `,
+  `
+    class Test {
+      testEmitter: NotOutputEmitterRef<string>;
+    }
+    `,
+  `
+    class Test {
+      readonly testEmitter: OutputEmitterRef<string>;
+    }
+    `,
+  `
+    class Test {
+      testEmitter = notOutput();
+    }
+    `,
+  `
+    class Test {
+      readonly testEmitter = output();
+    }
+    `,
+  `
+    class Test {
+      testEmitter = notOutput<string>();
+    }
+    `,
+  `
+    class Test {
+      readonly testEmitter = output<string>();
+    }
+    `,
+  `
+    class Test {
+      readonly testEmitter: OutputRef<string>;
+    }
+    `,
+  `
+    class Test {
+      readonly testEmitter = outputFromObservable(testObservable);
+    }
+    `,
 ];
 
 export const invalid = [
@@ -27,6 +67,7 @@ export const invalid = [
         }
       `,
     messageId,
+    data: { type: '@Output' },
     suggestions: [
       {
         messageId: suggestAddReadonlyModifier,
@@ -34,6 +75,116 @@ export const invalid = [
         class Test {
           @Output() readonly testEmitter = new EventEmitter<string>();
                     
+        }
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail when an OutputEmitterRef is not readonly',
+    annotatedSource: `
+        class Test {
+          testEmitter: OutputEmitterRef<string>;
+          ~~~~~~~~~~~
+        }
+      `,
+    messageId,
+    data: { type: 'OutputEmitterRef' },
+    suggestions: [
+      {
+        messageId: suggestAddReadonlyModifier,
+        output: `
+        class Test {
+          readonly testEmitter: OutputEmitterRef<string>;
+          
+        }
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail when an output() is not readonly',
+    annotatedSource: `
+        class Test {
+          testEmitter = output();
+          ~~~~~~~~~~~
+        }
+      `,
+    messageId,
+    data: { type: 'OutputEmitterRef' },
+    suggestions: [
+      {
+        messageId: suggestAddReadonlyModifier,
+        output: `
+        class Test {
+          readonly testEmitter = output();
+          
+        }
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail when an output<T>() is not readonly',
+    annotatedSource: `
+        class Test {
+          testEmitter = output<string>();
+          ~~~~~~~~~~~
+        }
+      `,
+    messageId,
+    data: { type: 'OutputEmitterRef' },
+    suggestions: [
+      {
+        messageId: suggestAddReadonlyModifier,
+        output: `
+        class Test {
+          readonly testEmitter = output<string>();
+          
+        }
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail when an OutputRef is not readonly',
+    annotatedSource: `
+        class Test {
+          testEmitter: OutputRef<string>;
+          ~~~~~~~~~~~
+        }
+      `,
+    messageId,
+    data: { type: 'OutputRef' },
+    suggestions: [
+      {
+        messageId: suggestAddReadonlyModifier,
+        output: `
+        class Test {
+          readonly testEmitter: OutputRef<string>;
+          
+        }
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail when an outputFromObservable() is not readonly',
+    annotatedSource: `
+        class Test {
+          testEmitter = outputFromObservable(testObservable);
+          ~~~~~~~~~~~
+        }
+      `,
+    messageId,
+    data: { type: 'OutputRef' },
+    suggestions: [
+      {
+        messageId: suggestAddReadonlyModifier,
+        output: `
+        class Test {
+          readonly testEmitter = outputFromObservable(testObservable);
+          
         }
       `,
       },

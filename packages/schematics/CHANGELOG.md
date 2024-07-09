@@ -1,3 +1,25 @@
+## 18.1.0 (2024-07-01)
+
+### 🩹 Fixes
+
+- update dependency eslint to v9.4.0
+
+- update dependency eslint to v9.5.0
+
+- update dependency eslint to v9.6.0
+
+- update typescript-eslint packages to v8.0.0-alpha.37
+
+- update typescript-eslint packages to v8.0.0-alpha.38
+
+### ❤️ Thank You
+
+- Christian Svensson
+- Daniel Kimmich
+- Dave
+- Martijn van der Meij
+- Maximilian Main
+
 ## 18.0.1 (2024-05-30)
 
 This was a version bump only for schematics to align it with other projects, there were no code changes.

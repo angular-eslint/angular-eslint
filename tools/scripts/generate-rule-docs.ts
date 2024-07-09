@@ -244,6 +244,7 @@ type AllRuleData = {
 interface ExtractedTestCase {
   code: string;
   options?: unknown[];
+  filename?: string;
 }
 
 async function generateAllRuleData(): Promise<AllRuleData> {
@@ -324,6 +325,13 @@ async function generateAllRuleData(): Promise<AllRuleData> {
               ) {
                 newExtractedTestCase.options =
                   convertArrayLiteralExpressionToCode(prop.initializer);
+              }
+              if (
+                ts.isPropertyAssignment(prop) &&
+                prop.name.getText() === 'filename' &&
+                ts.isStringLiteral(prop.initializer)
+              ) {
+                newExtractedTestCase.filename = prop.initializer.text;
               }
             });
           }
@@ -440,9 +448,9 @@ function convertCodeExamplesToMarkdown(
   ruleName: string,
 ): string {
   return codeExamples
-    .map(({ code, options }, i) => {
+    .map((extractedTestCase: ExtractedTestCase, i) => {
       let formattedCode = removeLeadingAndTrailingEmptyLinesFromCodeExample(
-        removeLeadingIndentationFromCodeExample(code),
+        removeLeadingIndentationFromCodeExample(extractedTestCase.code),
       );
       if (kind === 'invalid') {
         formattedCode = standardizeSpecialUnderlineChar(formattedCode);
@@ -450,8 +458,8 @@ function convertCodeExamplesToMarkdown(
 
       const exampleRuleConfig: unknown[] = ['error'];
       // Not all unit tests have options configured
-      if (options) {
-        exampleRuleConfig.push(options[0]);
+      if (extractedTestCase.options) {
+        exampleRuleConfig.push(extractedTestCase.options[0]);
       }
       const formattedConfig = JSON.stringify(
         {
@@ -465,7 +473,7 @@ function convertCodeExamplesToMarkdown(
 
       return `<br>
 
-#### ${options ? 'Custom' : 'Default'} Config
+#### ${extractedTestCase.options ? 'Custom' : 'Default'} Config
 
 \`\`\`json
 ${formattedConfig}
@@ -474,6 +482,12 @@ ${formattedConfig}
 <br>
 
 #### ${kind === 'invalid' ? '❌ Invalid' : '✅ Valid'} Code
+
+${
+  extractedTestCase.filename
+    ? `**Filename: ${extractedTestCase.filename}**`
+    : ''
+}
 
 \`\`\`${highligher}
 ${formattedCode}
