@@ -29,6 +29,7 @@ The rule accepts an options object with the following properties:
 
 ```ts
 interface Options {
+  useTypeChecking?: boolean;
   /**
    * Default: `[]`
    */
@@ -569,6 +570,40 @@ class Test {
   testSignal = createSignal('test');
   ~~~~~~~~~~
 }
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-signal-readonly": [
+      "error",
+      {
+        "useTypeChecking": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+class Test {
+  testSignal = createSignal();
+  ~~~~~~~~~~
+}
+declare function createSignal(): Signal<boolean>;
+interface Signal<T> {}
 ```
 
 </details>
@@ -1169,6 +1204,105 @@ class Test {
 ```ts
 class Test {
   readonly testSignal = createSignal('test');
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-signal-readonly": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+class Test {
+  testSignal = createSignal();
+}
+function createSignal(): Signal<boolean> {
+  return signal(true);
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-signal-readonly": [
+      "error",
+      {
+        "useTypeChecking": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+class Test {
+  readonly testSignal = createSignal();
+}
+function createSignal(): Signal<boolean> {
+  return signal(true);
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-signal-readonly": [
+      "error",
+      {
+        "useTypeChecking": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+class Test {
+  testNotSignal = createNotSignal();
+}
+function createNotSignal(): NotSignal<boolean> {
+  return true;
 }
 ```
 

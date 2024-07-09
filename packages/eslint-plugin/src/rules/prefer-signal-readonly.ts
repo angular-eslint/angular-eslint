@@ -1,14 +1,22 @@
-import { AST_NODE_TYPES } from '@typescript-eslint/utils';
-import type { TSESTree } from '@typescript-eslint/utils';
+import { AST_NODE_TYPES, ESLintUtils } from '@typescript-eslint/utils';
+import type {
+  ParserServicesWithTypeInformation,
+  TSESTree,
+} from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
 type Options = [
   {
+    useTypeChecking: boolean;
     signalCreationFunctions: string[];
   },
 ];
-export type MessageIds = 'preferSignalReadonly' | 'suggestAddReadonlyModifier';
-export const RULE_NAME = 'prefer-signal-readonly';
+
+const DEFAULT_OPTIONS: Options[number] = {
+  useTypeChecking: false,
+  signalCreationFunctions: [],
+};
+
 const KNOWN_SIGNAL_TYPES: ReadonlySet<string> = new Set([
   'InputSignal',
   'ModelSignal',
@@ -27,6 +35,9 @@ const KNOWN_SIGNAL_CREATION_FUNCTIONS: ReadonlySet<string> = new Set([
   'viewChildren',
 ]);
 
+export type MessageIds = 'preferSignalReadonly' | 'suggestAddReadonlyModifier';
+export const RULE_NAME = 'prefer-signal-readonly';
+
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
   meta: {
@@ -40,6 +51,10 @@ export default createESLintRule<Options, MessageIds>({
       {
         type: 'object',
         properties: {
+          useTypeChecking: {
+            type: 'boolean',
+            default: DEFAULT_OPTIONS.useTypeChecking,
+          },
           signalCreationFunctions: {
             type: 'array',
             items: {
@@ -58,10 +73,21 @@ export default createESLintRule<Options, MessageIds>({
   },
   defaultOptions: [
     {
+      useTypeChecking: false,
       signalCreationFunctions: [],
     },
   ],
-  create(context, [{ signalCreationFunctions = [] }]) {
+  create(
+    context,
+    [
+      {
+        signalCreationFunctions = DEFAULT_OPTIONS.signalCreationFunctions,
+        useTypeChecking = DEFAULT_OPTIONS.useTypeChecking,
+      },
+    ],
+  ) {
+    let services: ParserServicesWithTypeInformation | undefined;
+
     return {
       [`PropertyDefinition:not([readonly=true])`](
         node: TSESTree.PropertyDefinition,
@@ -83,9 +109,9 @@ export default createESLintRule<Options, MessageIds>({
             }
           }
         } else {
-          // There is no type annotation, so use
-          // the value assigned to the property to
-          // determine whether it would be a signal.
+          // There is no type annotation, so try to
+          // use the value assigned to the property
+          // to determine whether it would be a signal.
           if (node.value?.type === AST_NODE_TYPES.CallExpression) {
             let callee: TSESTree.Node = node.value.callee;
             // Some signal-creating functions have a `.required`
@@ -104,6 +130,18 @@ export default createESLintRule<Options, MessageIds>({
               (KNOWN_SIGNAL_CREATION_FUNCTIONS.has(callee.name) ||
                 signalCreationFunctions.includes(callee.name))
             ) {
+              report();
+              return;
+            }
+          }
+
+          if (useTypeChecking && node.value) {
+            services ??= ESLintUtils.getParserServices(context);
+            const name = services
+              .getTypeAtLocation(node.value)
+              .getSymbol()?.name;
+
+            if (name !== undefined && KNOWN_SIGNAL_TYPES.has(name)) {
               report();
             }
           }

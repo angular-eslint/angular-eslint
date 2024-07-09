@@ -114,6 +114,36 @@ export const valid = [
       `,
     options: [{ signalCreationFunctions: ['createSignal'] }],
   },
+  `
+    class Test {
+      testSignal = createSignal();
+    }
+    function createSignal(): Signal<boolean> {
+      return signal(true);
+    }
+    `,
+  {
+    code: `
+      class Test {
+        readonly testSignal = createSignal();
+      }
+      function createSignal(): Signal<boolean> {
+        return signal(true);
+      }
+      `,
+    options: [{ useTypeChecking: true }],
+  },
+  {
+    code: `
+      class Test {
+        testNotSignal = createNotSignal();
+      }
+      function createNotSignal(): NotSignal<boolean> {
+        return true;
+      }
+      `,
+    options: [{ useTypeChecking: true }],
+  },
 ];
 
 export const invalid = [
@@ -495,6 +525,33 @@ export const invalid = [
       readonly testSignal = createSignal('test');
       
     }
+    `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail when a Signal calculated with type-checking is not readonly',
+    annotatedSource: `
+    class Test {
+      testSignal = createSignal();
+      ~~~~~~~~~~
+    }
+    declare function createSignal(): Signal<boolean>;
+    interface Signal<T> {}
+    `,
+    options: [{ useTypeChecking: true }],
+    messageId,
+    suggestions: [
+      {
+        messageId: suggestAddReadonlyModifier,
+        output: `
+    class Test {
+      readonly testSignal = createSignal();
+      
+    }
+    declare function createSignal(): Signal<boolean>;
+    interface Signal<T> {}
     `,
       },
     ],
