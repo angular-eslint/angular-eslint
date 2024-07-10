@@ -4,11 +4,13 @@ import type {
   TSESTree,
 } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
+import { Selectors } from '@angular-eslint/utils';
 
 type Options = [
   {
     typesToReplace: string[];
     preferReadonly: boolean;
+    preferInputSignal: boolean;
     useTypeChecking: boolean;
     signalCreationFunctions: string[];
   },
@@ -17,6 +19,7 @@ type Options = [
 const DEFAULT_OPTIONS: Options[number] = {
   typesToReplace: ['BehaviorSubject'],
   preferReadonly: true,
+  preferInputSignal: true,
   useTypeChecking: false,
   signalCreationFunctions: [],
 };
@@ -40,8 +43,9 @@ const KNOWN_SIGNAL_CREATION_FUNCTIONS: ReadonlySet<string> = new Set([
 ]);
 
 export type MessageIds =
-  | 'preferSignal'
+  | 'preferInputSignal'
   | 'preferReadonly'
+  | 'preferSignal'
   | 'suggestAddReadonlyModifier';
 export const RULE_NAME = 'prefer-signals';
 
@@ -50,7 +54,8 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description: 'Prefer to use `Signal` instead of `BehaviorSubject`',
+      description:
+        'Prefer to use signals instead of `BehaviorSubject`, `@Input()` and other decorators',
     },
     hasSuggestions: true,
     schema: [
@@ -65,6 +70,10 @@ export default createESLintRule<Options, MessageIds>({
           preferReadonly: {
             type: 'boolean',
             default: DEFAULT_OPTIONS.preferReadonly,
+          },
+          preferInputSignal: {
+            type: 'boolean',
+            default: DEFAULT_OPTIONS.preferInputSignal,
           },
           useTypeChecking: {
             type: 'boolean',
@@ -81,6 +90,8 @@ export default createESLintRule<Options, MessageIds>({
     ],
     messages: {
       preferSignal: 'Prefer to use `Signal` instead of {{type}}',
+      preferInputSignal:
+        'Prefer to use `InputSignal` type instead of `@Input()` decorator',
       preferReadonly:
         'Prefer to declare `Signal` properties as `readonly` since they are not supposed to be reassigned',
       suggestAddReadonlyModifier: 'Add `readonly` modifier',
@@ -93,6 +104,7 @@ export default createESLintRule<Options, MessageIds>({
       {
         typesToReplace = DEFAULT_OPTIONS.typesToReplace,
         preferReadonly = DEFAULT_OPTIONS.preferReadonly,
+        preferInputSignal = DEFAULT_OPTIONS.preferInputSignal,
         signalCreationFunctions = DEFAULT_OPTIONS.signalCreationFunctions,
         useTypeChecking = DEFAULT_OPTIONS.useTypeChecking,
       },
@@ -189,6 +201,15 @@ export default createESLintRule<Options, MessageIds>({
             ],
           });
         }
+      };
+    }
+
+    if (preferInputSignal) {
+      listener[Selectors.INPUT_DECORATOR] = (node) => {
+        context.report({
+          node,
+          messageId: 'preferInputSignal',
+        });
       };
     }
 

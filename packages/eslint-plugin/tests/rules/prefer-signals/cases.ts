@@ -3,6 +3,7 @@ import type { MessageIds } from '../../../src/rules/prefer-signals';
 
 const messageIdPreferSignal: MessageIds = 'preferSignal';
 const messageIdPreferReadonly: MessageIds = 'preferReadonly';
+const messageIdPreferInputSignal: MessageIds = 'preferInputSignal';
 const suggestAddReadonlyModifier: MessageIds = 'suggestAddReadonlyModifier';
 
 export const valid = [
@@ -181,6 +182,22 @@ export const valid = [
       }
       `,
     options: [{ useTypeChecking: true }],
+  },
+
+  // preferInputSignal
+  `
+    class Test {
+      readonly value = input();
+    }
+    `,
+  {
+    code: `
+      class Test {
+        @Input()
+        readonly value = 1;
+      }
+      `,
+    options: [{ preferInputSignal: false }],
   },
 ];
 
@@ -621,5 +638,18 @@ export const invalid = [
     `,
       },
     ],
+  }),
+
+  // preferInputSignal
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail when @Input() is used',
+    annotatedSource: `
+    class Test {
+      @Input()
+      ~~~~~~~~
+      value = 1;
+    }
+    `,
+    messageId: messageIdPreferInputSignal,
   }),
 ];
