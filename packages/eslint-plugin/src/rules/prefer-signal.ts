@@ -8,6 +8,7 @@ import { createESLintRule } from '../utils/create-eslint-rule';
 type Options = [
   {
     typesToReplace: string[];
+    preferReadonly: boolean;
     useTypeChecking: boolean;
     signalCreationFunctions: string[];
   },
@@ -15,6 +16,7 @@ type Options = [
 
 const DEFAULT_OPTIONS: Options[number] = {
   typesToReplace: ['BehaviorSubject'],
+  preferReadonly: true,
   useTypeChecking: false,
   signalCreationFunctions: [],
 };
@@ -60,6 +62,10 @@ export default createESLintRule<Options, MessageIds>({
             items: { type: 'string' },
             default: DEFAULT_OPTIONS.typesToReplace,
           },
+          preferReadonly: {
+            type: 'boolean',
+            default: DEFAULT_OPTIONS.preferReadonly,
+          },
           useTypeChecking: {
             type: 'boolean',
             default: DEFAULT_OPTIONS.useTypeChecking,
@@ -86,17 +92,38 @@ export default createESLintRule<Options, MessageIds>({
     [
       {
         typesToReplace = DEFAULT_OPTIONS.typesToReplace,
+        preferReadonly = DEFAULT_OPTIONS.preferReadonly,
         signalCreationFunctions = DEFAULT_OPTIONS.signalCreationFunctions,
         useTypeChecking = DEFAULT_OPTIONS.useTypeChecking,
       },
     ],
   ) {
     let services: ParserServicesWithTypeInformation | undefined;
+    let listener: ESLintUtils.RuleListener;
 
-    return {
-      [`PropertyDefinition:not([readonly=true])`](
+    listener = {};
+
+    if (typesToReplace.length > 0) {
+      listener.NewExpression = (node) => {
+        if (
+          node.callee.type === AST_NODE_TYPES.Identifier &&
+          typesToReplace.includes(node.callee.name)
+        ) {
+          context.report({
+            node: node.callee,
+            messageId: 'preferSignal',
+            data: { type: node.callee.name },
+          });
+        }
+      };
+    }
+
+    if (preferReadonly) {
+      listener[`PropertyDefinition:not([readonly=true])`] = (
         node: TSESTree.PropertyDefinition,
-      ) {
+      ) => {
+        let shouldBeReadonly = false;
+
         if (node.typeAnnotation) {
           // Use the type annotation to determine
           // whether the property is a signal.
@@ -110,7 +137,7 @@ export default createESLintRule<Options, MessageIds>({
               type.typeName.type === AST_NODE_TYPES.Identifier &&
               KNOWN_SIGNAL_TYPES.has(type.typeName.name)
             ) {
-              reportReadOnly();
+              shouldBeReadonly = true;
             }
           }
         } else {
@@ -135,24 +162,22 @@ export default createESLintRule<Options, MessageIds>({
               (KNOWN_SIGNAL_CREATION_FUNCTIONS.has(callee.name) ||
                 signalCreationFunctions.includes(callee.name))
             ) {
-              reportReadOnly();
-              return;
+              shouldBeReadonly = true;
             }
           }
 
-          if (useTypeChecking && node.value) {
+          if (!shouldBeReadonly && useTypeChecking && node.value) {
             services ??= ESLintUtils.getParserServices(context);
             const name = services
               .getTypeAtLocation(node.value)
               .getSymbol()?.name;
 
-            if (name !== undefined && KNOWN_SIGNAL_TYPES.has(name)) {
-              reportReadOnly();
-            }
+            shouldBeReadonly =
+              name !== undefined && KNOWN_SIGNAL_TYPES.has(name);
           }
         }
 
-        function reportReadOnly() {
+        if (shouldBeReadonly) {
           context.report({
             node: node.key,
             messageId: 'preferReadonly',
@@ -164,24 +189,9 @@ export default createESLintRule<Options, MessageIds>({
             ],
           });
         }
-      },
-      // Don't bother checking `NewExpression` nodes if we don't need to.
-      ...(typesToReplace.length > 0
-        ? {
-            NewExpression(node) {
-              if (
-                node.callee.type === AST_NODE_TYPES.Identifier &&
-                typesToReplace.includes(node.callee.name)
-              ) {
-                context.report({
-                  node: node.callee,
-                  messageId: 'preferSignal',
-                  data: { type: node.callee.name },
-                });
-              }
-            },
-          }
-        : {}),
-    };
+      };
+    }
+
+    return listener;
   },
 });

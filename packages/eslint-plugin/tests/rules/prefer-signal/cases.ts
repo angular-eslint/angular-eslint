@@ -139,6 +139,14 @@ export const valid = [
   {
     code: `
       class Test {
+        testSignal = signal('test');
+      }
+      `,
+    options: [{ preferReadonly: false }],
+  },
+  {
+    code: `
+      class Test {
         readonly testSignal = createSignal('test');
       }
       `,

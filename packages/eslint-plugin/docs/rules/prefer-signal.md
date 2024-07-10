@@ -33,6 +33,10 @@ interface Options {
    * Default: `["BehaviorSubject"]`
    */
   typesToReplace?: string[];
+  /**
+   * Default: `true`
+   */
+  preferReadonly?: boolean;
   useTypeChecking?: boolean;
   /**
    * Default: `[]`
@@ -1359,6 +1363,37 @@ class Test {
 ```ts
 class Test {
   testSignal = createSignal('test');
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-signal": [
+      "error",
+      {
+        "preferReadonly": false
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+class Test {
+  testSignal = signal('test');
 }
 ```
 
