@@ -43,7 +43,7 @@ export type MessageIds =
   | 'preferSignal'
   | 'preferReadonly'
   | 'suggestAddReadonlyModifier';
-export const RULE_NAME = 'prefer-signal';
+export const RULE_NAME = 'prefer-signals';
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,

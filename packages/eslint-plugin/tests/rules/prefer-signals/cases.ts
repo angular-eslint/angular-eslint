@@ -1,5 +1,5 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { MessageIds } from '../../../src/rules/prefer-signal';
+import type { MessageIds } from '../../../src/rules/prefer-signals';
 
 const messageIdPreferSignal: MessageIds = 'preferSignal';
 const messageIdPreferReadonly: MessageIds = 'preferReadonly';
