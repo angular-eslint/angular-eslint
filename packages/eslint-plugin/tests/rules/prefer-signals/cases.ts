@@ -4,6 +4,7 @@ import type { MessageIds } from '../../../src/rules/prefer-signals';
 const messageIdPreferSignal: MessageIds = 'preferSignal';
 const messageIdPreferReadonly: MessageIds = 'preferReadonly';
 const messageIdPreferInputSignal: MessageIds = 'preferInputSignal';
+const messageIdPreferQuerySignal: MessageIds = 'preferQuerySignal';
 const suggestAddReadonlyModifier: MessageIds = 'suggestAddReadonlyModifier';
 
 export const valid = [
@@ -198,6 +199,64 @@ export const valid = [
       }
       `,
     options: [{ preferInputSignal: false }],
+  },
+
+  // preferQuerySignal
+  `
+    class Test {
+      readonly query = viewChild('test');
+    }
+    `,
+  {
+    code: `
+      class Test {
+        @ViewChild('test')
+        value: Widget;
+      }
+      `,
+    options: [{ preferQuerySignal: false }],
+  },
+  `
+    class Test {
+      readonly query = viewChildren('test');
+    }
+    `,
+  {
+    code: `
+      class Test {
+        @ViewChildren('test')
+        value: QueryList<Widget>;
+      }
+      `,
+    options: [{ preferQuerySignal: false }],
+  },
+  `
+    class Test {
+      readonly query = contentChild('test');
+    }
+    `,
+  {
+    code: `
+      class Test {
+        @ContentChild('test')
+        value: Widget;
+      }
+      `,
+    options: [{ preferQuerySignal: false }],
+  },
+  `
+    class Test {
+      readonly query = contentChildren('test');
+    }
+    `,
+  {
+    code: `
+      class Test {
+        @ContentChildren('test')
+        value: QueryList<Widget>;
+      }
+      `,
+    options: [{ preferQuerySignal: false }],
   },
 ];
 
@@ -651,5 +710,55 @@ export const invalid = [
     }
     `,
     messageId: messageIdPreferInputSignal,
+  }),
+
+  // preferQuerySignal
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail when @ViewChild() is used',
+    annotatedSource: `
+    class Test {
+      @ViewChild('test')
+      ~~~~~~~~~~~~~~~~~~
+      value: Widget;
+    }
+    `,
+    messageId: messageIdPreferQuerySignal,
+    data: { function: 'viewChild', decorator: 'ViewChild' },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail when @ViewChildren() is used',
+    annotatedSource: `
+    class Test {
+      @ViewChildren('test')
+      ~~~~~~~~~~~~~~~~~~~~~
+      value: QueryList<Widget>;
+    }
+    `,
+    messageId: messageIdPreferQuerySignal,
+    data: { function: 'viewChildren', decorator: 'ViewChildren' },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail when @ContentChild() is used',
+    annotatedSource: `
+    class Test {
+      @ContentChild('test')
+      ~~~~~~~~~~~~~~~~~~~~~
+      value: Widget;
+    }
+    `,
+    messageId: messageIdPreferQuerySignal,
+    data: { function: 'contentChild', decorator: 'ContentChild' },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail when @ContentChildren() is used',
+    annotatedSource: `
+    class Test {
+      @ContentChildren('test')
+      ~~~~~~~~~~~~~~~~~~~~~~~~
+      value: QueryList<Widget>;
+    }
+    `,
+    messageId: messageIdPreferQuerySignal,
+    data: { function: 'contentChildren', decorator: 'ContentChildren' },
   }),
 ];

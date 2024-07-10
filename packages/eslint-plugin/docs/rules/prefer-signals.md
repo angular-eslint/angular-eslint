@@ -15,7 +15,7 @@
 
 # `@angular-eslint/prefer-signals`
 
-Prefer to use signals instead of `BehaviorSubject`, `@Input()` and other decorators
+Prefer to use signals instead of `BehaviorSubject`, `@Input()`, `@ViewChild()` and other query decorators
 
 - Type: suggestion
 
@@ -41,6 +41,10 @@ interface Options {
    * Default: `true`
    */
   preferInputSignal?: boolean;
+  /**
+   * Default: `true`
+   */
+  preferQuerySignal?: boolean;
   useTypeChecking?: boolean;
   /**
    * Default: `[]`
@@ -709,6 +713,126 @@ class Test {
   @Input()
   ~~~~~~~~
   value = 1;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+class Test {
+  @ViewChild('test')
+  ~~~~~~~~~~~~~~~~~~
+  value: Widget;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+class Test {
+  @ViewChildren('test')
+  ~~~~~~~~~~~~~~~~~~~~~
+  value: QueryList<Widget>;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+class Test {
+  @ContentChild('test')
+  ~~~~~~~~~~~~~~~~~~~~~
+  value: Widget;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+class Test {
+  @ContentChildren('test')
+  ~~~~~~~~~~~~~~~~~~~~~~~~
+  value: QueryList<Widget>;
 }
 ```
 
@@ -1620,6 +1744,246 @@ class Test {
 class Test {
   @Input()
   readonly value = 1;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+class Test {
+  readonly query = viewChild('test');
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-signals": [
+      "error",
+      {
+        "preferQuerySignal": false
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+class Test {
+  @ViewChild('test')
+  value: Widget;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+class Test {
+  readonly query = viewChildren('test');
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-signals": [
+      "error",
+      {
+        "preferQuerySignal": false
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+class Test {
+  @ViewChildren('test')
+  value: QueryList<Widget>;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+class Test {
+  readonly query = contentChild('test');
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-signals": [
+      "error",
+      {
+        "preferQuerySignal": false
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+class Test {
+  @ContentChild('test')
+  value: Widget;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+class Test {
+  readonly query = contentChildren('test');
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-signals": [
+      "error",
+      {
+        "preferQuerySignal": false
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+class Test {
+  @ContentChildren('test')
+  value: QueryList<Widget>;
 }
 ```
 

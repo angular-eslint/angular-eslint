@@ -11,6 +11,7 @@ type Options = [
     typesToReplace: string[];
     preferReadonly: boolean;
     preferInputSignal: boolean;
+    preferQuerySignal: boolean;
     useTypeChecking: boolean;
     signalCreationFunctions: string[];
   },
@@ -20,6 +21,7 @@ const DEFAULT_OPTIONS: Options[number] = {
   typesToReplace: ['BehaviorSubject'],
   preferReadonly: true,
   preferInputSignal: true,
+  preferQuerySignal: true,
   useTypeChecking: false,
   signalCreationFunctions: [],
 };
@@ -44,6 +46,7 @@ const KNOWN_SIGNAL_CREATION_FUNCTIONS: ReadonlySet<string> = new Set([
 
 export type MessageIds =
   | 'preferInputSignal'
+  | 'preferQuerySignal'
   | 'preferReadonly'
   | 'preferSignal'
   | 'suggestAddReadonlyModifier';
@@ -55,7 +58,7 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description:
-        'Prefer to use signals instead of `BehaviorSubject`, `@Input()` and other decorators',
+        'Prefer to use signals instead of `BehaviorSubject`, `@Input()`, `@ViewChild()` and other query decorators',
     },
     hasSuggestions: true,
     schema: [
@@ -75,6 +78,10 @@ export default createESLintRule<Options, MessageIds>({
             type: 'boolean',
             default: DEFAULT_OPTIONS.preferInputSignal,
           },
+          preferQuerySignal: {
+            type: 'boolean',
+            default: DEFAULT_OPTIONS.preferQuerySignal,
+          },
           useTypeChecking: {
             type: 'boolean',
             default: DEFAULT_OPTIONS.useTypeChecking,
@@ -92,6 +99,8 @@ export default createESLintRule<Options, MessageIds>({
       preferSignal: 'Prefer to use `Signal` instead of {{type}}',
       preferInputSignal:
         'Prefer to use `InputSignal` type instead of `@Input()` decorator',
+      preferQuerySignal:
+        'Prefer to use `{{function}}` function instead of `{{decorator}}` decorator',
       preferReadonly:
         'Prefer to declare `Signal` properties as `readonly` since they are not supposed to be reassigned',
       suggestAddReadonlyModifier: 'Add `readonly` modifier',
@@ -105,6 +114,7 @@ export default createESLintRule<Options, MessageIds>({
         typesToReplace = DEFAULT_OPTIONS.typesToReplace,
         preferReadonly = DEFAULT_OPTIONS.preferReadonly,
         preferInputSignal = DEFAULT_OPTIONS.preferInputSignal,
+        preferQuerySignal = DEFAULT_OPTIONS.preferQuerySignal,
         signalCreationFunctions = DEFAULT_OPTIONS.signalCreationFunctions,
         useTypeChecking = DEFAULT_OPTIONS.useTypeChecking,
       },
@@ -209,6 +219,25 @@ export default createESLintRule<Options, MessageIds>({
         context.report({
           node,
           messageId: 'preferInputSignal',
+        });
+      };
+    }
+
+    if (preferQuerySignal) {
+      listener[
+        'Decorator[expression.callee.name=/^(ContentChild|ContentChildren|ViewChild|ViewChildren)$/]'
+      ] = (node: TSESTree.Decorator) => {
+        const decorator = (
+          (node.expression as TSESTree.CallExpression)
+            .callee as TSESTree.Identifier
+        ).name;
+        context.report({
+          node,
+          messageId: 'preferQuerySignal',
+          data: {
+            function: decorator.slice(0, 1).toLowerCase() + decorator.slice(1),
+            decorator,
+          },
         });
       };
     }
