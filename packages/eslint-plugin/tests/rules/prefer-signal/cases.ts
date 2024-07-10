@@ -1,10 +1,40 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { MessageIds } from '../../../src/rules/prefer-signal-readonly';
+import type { MessageIds } from '../../../src/rules/prefer-signal';
 
-const messageId: MessageIds = 'preferSignalReadonly';
+const messageIdPreferSignal: MessageIds = 'preferSignal';
+const messageIdPreferReadonly: MessageIds = 'preferReadonly';
 const suggestAddReadonlyModifier: MessageIds = 'suggestAddReadonlyModifier';
 
 export const valid = [
+  // preferSignal
+  `
+    class Test {
+      testSubject = new Subject();
+    }
+    `,
+  `
+    class Test {
+      testSubject = new ReplaySubject(1);
+    }
+    `,
+  {
+    code: `
+      class Test {
+        noTypesToReplace = new BehaviorSubject();
+      }
+      `,
+    options: [{ typesToReplace: [] }],
+  },
+  {
+    code: `
+      class Test {
+        customTypesToReplace = new BehaviorSubject();
+      }
+      `,
+    options: [{ typesToReplace: ['CustomType'] }],
+  },
+
+  // preferReadonly
   `
     class Test {
       testValue = test();
@@ -147,6 +177,34 @@ export const valid = [
 ];
 
 export const invalid = [
+  // preferSignal
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail when a BehaviorSubject is created and the default types to replace are used',
+    annotatedSource: `
+    class Test {
+      testSubject = new BehaviorSubject(1);
+                        ~~~~~~~~~~~~~~~
+    }
+    `,
+    messageId: messageIdPreferSignal,
+    data: { type: 'BehaviorSubject' },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail when a custom type is created and the type is specified as a type to replace',
+    annotatedSource: `
+    class Test {
+      testType = new SecondType(2);
+                     ~~~~~~~~~~
+    }
+    `,
+    messageId: messageIdPreferSignal,
+    data: { type: 'SecondType' },
+    options: [{ typesToReplace: ['FirstType', 'SecondType'] }],
+  }),
+
+  // preferReadonly
   convertAnnotatedSourceToFailureCase({
     description: 'should fail when a Signal is not readonly',
     annotatedSource: `
@@ -155,7 +213,7 @@ export const invalid = [
           ~~~~~~~~~~
         }
       `,
-    messageId,
+    messageId: messageIdPreferReadonly,
     suggestions: [
       {
         messageId: suggestAddReadonlyModifier,
@@ -176,7 +234,7 @@ export const invalid = [
           ~~~~~~~~~~
         }
       `,
-    messageId,
+    messageId: messageIdPreferReadonly,
     suggestions: [
       {
         messageId: suggestAddReadonlyModifier,
@@ -198,7 +256,7 @@ export const invalid = [
           ~~~~~~~~~~
         }
       `,
-    messageId,
+    messageId: messageIdPreferReadonly,
     suggestions: [
       {
         messageId: suggestAddReadonlyModifier,
@@ -220,7 +278,7 @@ export const invalid = [
           ~~~~~~~~~~
         }
       `,
-    messageId,
+    messageId: messageIdPreferReadonly,
     suggestions: [
       {
         messageId: suggestAddReadonlyModifier,
@@ -241,7 +299,7 @@ export const invalid = [
           ~~~~~~~~~~
         }
       `,
-    messageId,
+    messageId: messageIdPreferReadonly,
     suggestions: [
       {
         messageId: suggestAddReadonlyModifier,
@@ -262,7 +320,7 @@ export const invalid = [
           ~~~~~~~~~~
         }
       `,
-    messageId,
+    messageId: messageIdPreferReadonly,
     suggestions: [
       {
         messageId: suggestAddReadonlyModifier,
@@ -283,7 +341,7 @@ export const invalid = [
           ~~~~~~~~~~
         }
       `,
-    messageId,
+    messageId: messageIdPreferReadonly,
     suggestions: [
       {
         messageId: suggestAddReadonlyModifier,
@@ -304,7 +362,7 @@ export const invalid = [
         ~~~~~~~~~~
       }
       `,
-    messageId,
+    messageId: messageIdPreferReadonly,
     suggestions: [
       {
         messageId: suggestAddReadonlyModifier,
@@ -325,7 +383,7 @@ export const invalid = [
       ~~~~~~~~~~
     }
     `,
-    messageId,
+    messageId: messageIdPreferReadonly,
     suggestions: [
       {
         messageId: suggestAddReadonlyModifier,
@@ -346,7 +404,7 @@ export const invalid = [
       ~~~~~~~~~~
     }
     `,
-    messageId,
+    messageId: messageIdPreferReadonly,
     suggestions: [
       {
         messageId: suggestAddReadonlyModifier,
@@ -367,7 +425,7 @@ export const invalid = [
       ~~~~~~~~~~
     }
     `,
-    messageId,
+    messageId: messageIdPreferReadonly,
     suggestions: [
       {
         messageId: suggestAddReadonlyModifier,
@@ -388,7 +446,7 @@ export const invalid = [
       ~~~~~~~~~~
     }
     `,
-    messageId,
+    messageId: messageIdPreferReadonly,
     suggestions: [
       {
         messageId: suggestAddReadonlyModifier,
@@ -409,7 +467,7 @@ export const invalid = [
       ~~~~~~~~~~
     }
     `,
-    messageId,
+    messageId: messageIdPreferReadonly,
     suggestions: [
       {
         messageId: suggestAddReadonlyModifier,
@@ -430,7 +488,7 @@ export const invalid = [
       ~~~~~~~~~~
     }
     `,
-    messageId,
+    messageId: messageIdPreferReadonly,
     suggestions: [
       {
         messageId: suggestAddReadonlyModifier,
@@ -451,7 +509,7 @@ export const invalid = [
       ~~~~~~~~~~
     }
     `,
-    messageId,
+    messageId: messageIdPreferReadonly,
     suggestions: [
       {
         messageId: suggestAddReadonlyModifier,
@@ -472,7 +530,7 @@ export const invalid = [
       ~~~~~~~~~~
     }
     `,
-    messageId,
+    messageId: messageIdPreferReadonly,
     suggestions: [
       {
         messageId: suggestAddReadonlyModifier,
@@ -493,7 +551,7 @@ export const invalid = [
       ~~~~~~~~~~
     }
     `,
-    messageId,
+    messageId: messageIdPreferReadonly,
     suggestions: [
       {
         messageId: suggestAddReadonlyModifier,
@@ -516,7 +574,7 @@ export const invalid = [
     }
     `,
     options: [{ signalCreationFunctions: ['createSignal'] }],
-    messageId,
+    messageId: messageIdPreferReadonly,
     suggestions: [
       {
         messageId: suggestAddReadonlyModifier,
@@ -541,7 +599,7 @@ export const invalid = [
     interface Signal<T> {}
     `,
     options: [{ useTypeChecking: true }],
-    messageId,
+    messageId: messageIdPreferReadonly,
     suggestions: [
       {
         messageId: suggestAddReadonlyModifier,
