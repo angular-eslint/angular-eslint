@@ -271,6 +271,9 @@ export function postprocessComponentFile(
 
 export default {
   'extract-inline-html': {
+    meta: {
+      name: 'extract-inline-html',
+    },
     preprocess: preprocessComponentFile,
     postprocess: postprocessComponentFile,
     supportsAutofix: true,
