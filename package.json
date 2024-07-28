@@ -103,7 +103,7 @@
     "ts-jest": "29.1.0",
     "tslib": "^2.4.1",
     "tsx": "^4.7.3",
-    "typescript": "5.4.5",
+    "typescript": "5.5.4",
     "typescript-eslint": "8.0.0-alpha.38",
     "verdaccio": "5.31.1"
   },
