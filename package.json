@@ -71,7 +71,7 @@
     "@swc/cli": "0.4.0",
     "@swc/core": "1.7.3",
     "@swc/helpers": "0.5.12",
-    "@types/eslint": "8.56.10",
+    "@types/eslint": "8.56.11",
     "@types/eslint-scope": "3.7.7",
     "@types/jest": "29.4.4",
     "@types/node": "20.14.13",
