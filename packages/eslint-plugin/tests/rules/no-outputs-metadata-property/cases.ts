@@ -1,9 +1,16 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { MessageIds } from '../../../src/rules/no-outputs-metadata-property';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type {
+  MessageIds,
+  Options,
+} from '../../../src/rules/no-outputs-metadata-property';
 
 const messageId: MessageIds = 'noOutputsMetadataProperty';
 
-export const valid = [
+export const valid: readonly (string | ValidTestCase<Options>)[] = [
   `class Test {}`,
   `
     @Component()
@@ -81,7 +88,7 @@ export const valid = [
   `,
 ];
 
-export const invalid = [
+export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     description:
       'should fail if `outputs` metadata property is used in `@Component`',

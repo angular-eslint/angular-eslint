@@ -37,7 +37,7 @@
     "update-rule-docs": "nx run-many -t update-rule-docs",
     "check-rule-lists": "nx run-many -t check-rule-lists",
     "update-rule-lists": "nx run-many -t update-rule-lists",
-    "prepare": "husky install"
+    "prepare": "husky"
   },
   "config": {
     "commitizen": {
@@ -77,11 +77,11 @@
     "@types/node": "20.14.13",
     "@types/prettier": "3.0.0",
     "@types/semver": "^7.5.8",
-    "@typescript-eslint/rule-tester": "8.0.0-alpha.38",
+    "@typescript-eslint/rule-tester": "8.0.0",
     "commitizen": "4.3.0",
     "cz-conventional-changelog": "3.3.0",
     "env-cmd": "10.1.0",
-    "eslint": "9.6.0",
+    "eslint": "9.8.0",
     "eslint-config-prettier": "9.1.0",
     "execa": "5.1.1",
     "husky": "9.1.4",
@@ -104,7 +104,7 @@
     "tslib": "^2.4.1",
     "tsx": "^4.7.3",
     "typescript": "5.5.4",
-    "typescript-eslint": "8.0.0-alpha.38",
+    "typescript-eslint": "8.0.0",
     "verdaccio": "5.32.0"
   },
   "nx": {

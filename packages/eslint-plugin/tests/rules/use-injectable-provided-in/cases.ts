@@ -1,10 +1,17 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { MessageIds } from '../../../src/rules/use-injectable-provided-in';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type {
+  MessageIds,
+  Options,
+} from '../../../src/rules/use-injectable-provided-in';
 
 const messageId: MessageIds = 'useInjectableProvidedIn';
 const suggestInjector: MessageIds = 'suggestInjector';
 
-export const valid = [
+export const valid: readonly (string | ValidTestCase<Options>)[] = [
   `class Test {}`,
   `
     const options = {};
@@ -59,7 +66,7 @@ export const valid = [
   `,
 ];
 
-export const invalid = [
+export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     description: 'should fail if `@Injectable` has no arguments',
     annotatedSource: `

@@ -6,7 +6,7 @@ import { TmplAstTextAttribute } from '@angular-eslint/bundled-angular-compiler';
 import { getTemplateParserServices } from '@angular-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
-type Options = [];
+export type Options = [];
 export type MessageIds = 'missingAttribute' | 'invalidDoubleSource';
 export const RULE_NAME = 'prefer-ngsrc';
 

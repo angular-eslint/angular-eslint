@@ -1,9 +1,13 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { MessageIds } from '../../../src/rules/table-scope';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type { MessageIds, Options } from '../../../src/rules/table-scope';
 
 const messageId: MessageIds = 'tableScope';
 
-export const valid = [
+export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '<th></th>',
   '<th scope="col"></th>',
   `<th [scope]="'col'"></th>`,
@@ -14,7 +18,7 @@ export const valid = [
   '<app-row [scope]="row"></app-row>',
 ];
 
-export const invalid = [
+export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     description: 'should fail if `scope` attribute is not on `th` element',
     annotatedSource: `

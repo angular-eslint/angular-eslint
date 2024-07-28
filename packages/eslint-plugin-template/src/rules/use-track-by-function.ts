@@ -6,7 +6,7 @@ import type {
 import { getTemplateParserServices } from '@angular-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
-type Options = [{ readonly alias: readonly string[] }];
+export type Options = [{ readonly alias: readonly string[] }];
 export type MessageIds = 'useTrackByFunction';
 export const RULE_NAME = 'use-track-by-function';
 

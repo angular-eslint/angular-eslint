@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`rule generator should successfully generate a new rule for package eslint-plugin 1`] = `
+"import { createESLintRule } from '../utils/create-eslint-rule';
+
+export type Options = [];
+export type MessageIds = 'myNewRule';
+export const RULE_NAME = 'my-new-rule';
+
+export default createESLintRule<Options, MessageIds>({
+  name: RULE_NAME,
+  // TODO: Complete metadata, fixing any type errors
+  meta: {
+    type: '',
+    docs: {
+      description: '',
+      recommended: '',
+    },
+    // fixable: '', TODO: Is it fixable?
+    schema: [],
+    messages: {
+      myNewRule: '',
+    }
+  },
+  defaultOptions: [],
+  create(context) {
+    // TODO: return RuleListener
+  },
+});
+"
+`;
+
+exports[`rule generator should successfully generate a new rule for package eslint-plugin 2`] = `
+"import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
+import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
+import type { MessageIds, Options } from '../../../src/rules/my-new-rule';
+
+const messageId: MessageIds = 'myNewRule';
+
+export const valid: readonly (string | ValidTestCase<Options>)[] = [
+  // TODO: Add valid cases
+];
+
+export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
+  // TODO: Add invalid cases
+];
+"
+`;
+
+exports[`rule generator should successfully generate a new rule for package eslint-plugin 3`] = `
+"import { RuleTester } from '@angular-eslint/test-utils';
+import rule, { RULE_NAME } from '../../../src/rules/my-new-rule';
+import { invalid, valid } from './cases';
+
+const ruleTester = new RuleTester();
+
+ruleTester.run(RULE_NAME, rule, {
+  valid,
+  invalid,
+});
+"
+`;

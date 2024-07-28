@@ -1,10 +1,14 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { MessageIds } from '../../../src/rules/eqeqeq';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type { MessageIds, Options } from '../../../src/rules/eqeqeq';
 
 const messageId: MessageIds = 'eqeqeq';
 const suggestStrictEquality: MessageIds = 'suggestStrictEquality';
 
-export const valid = [
+export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '{{ a === 1 }}',
   `<div [class.testing]="b === false">`,
   '<div *ngIf="c === test">',
@@ -16,7 +20,7 @@ export const valid = [
   },
 ];
 
-export const invalid = [
+export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     description:
       'it should fail if the operation is not strict within interpolation',

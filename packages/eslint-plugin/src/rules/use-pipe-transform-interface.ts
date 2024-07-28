@@ -2,7 +2,7 @@ import { RuleFixes, isNotNullOrUndefined } from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
-type Options = [];
+export type Options = [];
 export type MessageIds = 'usePipeTransformInterface';
 export const RULE_NAME = 'use-pipe-transform-interface';
 const PIPE_TRANSFORM = 'PipeTransform';

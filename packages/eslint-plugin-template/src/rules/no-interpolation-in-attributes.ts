@@ -1,11 +1,11 @@
 import type { Interpolation } from '@angular-eslint/bundled-angular-compiler';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
-type Options = [];
-export const MESSAGE_ID = 'noInterpolationInAttributes';
+export type Options = [];
+export type MessageIds = 'noInterpolationInAttributes';
 export const RULE_NAME = 'no-interpolation-in-attributes';
 
-export default createESLintRule<Options, typeof MESSAGE_ID>({
+export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
   meta: {
     type: 'suggestion',
@@ -15,7 +15,7 @@ export default createESLintRule<Options, typeof MESSAGE_ID>({
     },
     schema: [],
     messages: {
-      [MESSAGE_ID]:
+      noInterpolationInAttributes:
         'Use property binding [attribute]="value" instead of interpolation {{ value }} for an attribute.',
     },
   },
@@ -34,7 +34,7 @@ export default createESLintRule<Options, typeof MESSAGE_ID>({
             start: sourceCode.getLocFromIndex(start),
             end: sourceCode.getLocFromIndex(end),
           },
-          messageId: MESSAGE_ID,
+          messageId: 'noInterpolationInAttributes',
         });
       },
     };

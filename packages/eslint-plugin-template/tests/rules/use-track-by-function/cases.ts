@@ -1,9 +1,16 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { MessageIds } from '../../../src/rules/use-track-by-function';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type {
+  MessageIds,
+  Options,
+} from '../../../src/rules/use-track-by-function';
 
 const messageId: MessageIds = 'useTrackByFunction';
 
-export const valid = [
+export const valid: readonly (string | ValidTestCase<Options>)[] = [
   `
       <div *ngFor="let item of [1, 2, 3]; trackBy: trackByFn">
         {{ item }}
@@ -78,7 +85,7 @@ export const valid = [
   },
 ];
 
-export const invalid = [
+export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     description: 'should fail when trackBy function is not present',
     annotatedSource: `

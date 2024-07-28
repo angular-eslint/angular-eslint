@@ -1,12 +1,17 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
 import {
-  OrderType,
   type MessageIds,
+  type Options,
+  OrderType,
 } from '../../../src/rules/attributes-order';
 
 const messageId: MessageIds = 'attributesOrder';
 
-export const valid = [
+export const valid: readonly (string | ValidTestCase<Options>)[] = [
   `<input class="card" [value]="foo" (valueChange)="handleValueChange($event)">`,
   `<input *ngIf="flag" #inputRef id="input" class="className" [binding]="true" [(ngModel)]="model" (output)="handleOutput($event)">`,
   `<input *ngIf="flag" (output)="handleOutput($event)">`,
@@ -20,7 +25,7 @@ export const valid = [
   '<div i18n test1="test1" i18n-test1="@@TEST1" test2="test2" i18n-test2="@@TEST2"></div>',
 ];
 
-export const invalid = [
+export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     messageId,
     description: 'should work for simple attributes',
@@ -32,7 +37,7 @@ export const invalid = [
       {
         alphabetical: true,
       },
-    ],
+    ] as Options,
     data: {
       expected: '`id`, `type`',
       actual: '`type`, `id`',
@@ -129,6 +134,7 @@ export const invalid = [
     `,
     options: [
       {
+        alphabetical: false,
         order: [
           OrderType.TemplateReferenceVariable,
           OrderType.AttributeBinding,
@@ -294,7 +300,7 @@ export const invalid = [
       <div [disabled]="disabled" [class.disabled]="disabled"></div>
            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     `,
-    options: [{ alphabetical: true }],
+    options: [{ alphabetical: true }] as Options,
     data: {
       expected: '`[class.disabled]`, `[disabled]`',
       actual: '`[disabled]`, `[class.disabled]`',
@@ -311,7 +317,7 @@ export const invalid = [
       <ng-template let-value #Template></ng-template>
                    ~~~~~~~~~~~~~~~~~~~
     `,
-    options: [{ alphabetical: true }],
+    options: [{ alphabetical: true }] as Options,
     data: {
       expected: '`#Template`, `let-value`',
       actual: '`let-value`, `#Template`',
@@ -329,7 +335,7 @@ export const invalid = [
       <ng-template let-value="something" let-anotherValue="else" #Template></ng-template>
                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     `,
-    options: [{ alphabetical: true }],
+    options: [{ alphabetical: true }] as Options,
     data: {
       expected: '`#Template`, `let-anotherValue`, `let-value`',
       actual: '`let-value`, `let-anotherValue`, `#Template`',
@@ -346,7 +352,7 @@ export const invalid = [
       <td mat-cell *matCellDef="let element"></td>
           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     `,
-    options: [{ alphabetical: true }],
+    options: [{ alphabetical: true }] as Options,
     data: {
       expected: '`*matCellDef`, `mat-cell`',
       actual: '`mat-cell`, `*matCellDef`',
@@ -368,7 +374,7 @@ export const invalid = [
       "></td>
       ~
     `,
-    options: [{ alphabetical: true }],
+    options: [{ alphabetical: true }] as Options,
     data: {
       expected: '`*matCellDef`, `mat-cell`',
       actual: '`mat-cell`, `*matCellDef`',
@@ -390,7 +396,7 @@ export const invalid = [
       <div class="abc" *ngIf="sth.property as property "></div>
            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     `,
-    options: [{ alphabetical: true }],
+    options: [{ alphabetical: true }] as Options,
     data: {
       expected: '`*ngIf`, `class`',
       actual: '`class`, `*ngIf`',
@@ -438,7 +444,7 @@ export const invalid = [
       <div title="abc" *structuralDirective abbr="abc"></div>
            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     `,
-    options: [{ alphabetical: true }],
+    options: [{ alphabetical: true }] as Options,
     data: {
       expected: '`*structuralDirective`, `abbr`, `title`',
       actual: '`title`, `*structuralDirective`, `abbr`',

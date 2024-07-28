@@ -1,16 +1,23 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { MessageIds } from '../../../src/rules/mouse-events-have-key-events';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type {
+  MessageIds,
+  Options,
+} from '../../../src/rules/mouse-events-have-key-events';
 
 const messageId: MessageIds = 'mouseEventsHaveKeyEvents';
 
-export const valid = [
+export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '<app-test (mouseover)="onMouseOver()"></app-test>',
   '<app-test (mouseout)="onMouseOut()"></app-test>',
   '<div (mouseover)="onMouseOver()" (focus)="onFocus()"></div>',
   '<div (mouseout)="onMouseOut()" (blur)="onBlur()"></div>',
 ];
 
-export const invalid = [
+export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     description: 'should fail if `mouseover` is not accompanied by `focus`',
     annotatedSource: `

@@ -1,5 +1,9 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { MessageIds } from '../../../src/rules/no-negated-async';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type { MessageIds, Options } from '../../../src/rules/no-negated-async';
 
 const messageId: MessageIds = 'noNegatedAsync';
 const noNegatedValueForAsyncMessageId: MessageIds = 'noNegatedValueForAsync';
@@ -8,7 +12,7 @@ const suggestNullComparison: MessageIds = 'suggestNullComparison';
 const suggestUndefinedComparison: MessageIds = 'suggestUndefinedComparison';
 const suggestUsingNonNegatedValue: MessageIds = 'suggestUsingNonNegatedValue';
 
-export const valid = [
+export const valid: readonly (string | ValidTestCase<Options>)[] = [
   // it should succeed if async pipe is not negated
   `{{ (foo | async) }}`,
   // it should succeed if async pipe is not the last pipe in the negated chain
@@ -23,7 +27,7 @@ export const valid = [
   `<div [class.mx-4]="!!(foo | async)"></div>`,
 ];
 
-export const invalid = [
+export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     description: 'it should fail if async pipe is negated',
     /**

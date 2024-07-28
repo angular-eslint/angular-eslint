@@ -22,7 +22,7 @@ exports[`inline-template-fixer should generate the expected inline template fixe
   "@angular/compiler-cli": "^18.X.X",
   "@types/jasmine": "~5.1.0",
   "angular-eslint": "0.0.0-e2e",
-  "eslint": "^9.6.0",
+  "eslint": "^9.8.0",
   "jasmine-core": "~5.1.0",
   "karma": "~6.4.0",
   "karma-chrome-launcher": "~3.2.0",
@@ -30,6 +30,6 @@ exports[`inline-template-fixer should generate the expected inline template fixe
   "karma-jasmine": "~5.1.0",
   "karma-jasmine-html-reporter": "~2.1.0",
   "typescript": "~5.X.X",
-  "typescript-eslint": "8.0.0-alpha.38"
+  "typescript-eslint": "8.0.0"
 }
 `;

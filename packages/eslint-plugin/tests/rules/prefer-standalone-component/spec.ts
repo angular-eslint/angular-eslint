@@ -4,9 +4,7 @@ import rule, {
 } from '../../../src/rules/prefer-standalone-component';
 import { invalid, valid } from './cases';
 
-const ruleTester = new RuleTester({
-  parser: '@typescript-eslint/parser',
-});
+const ruleTester = new RuleTester();
 
 ruleTester.run(RULE_NAME, rule, {
   valid,

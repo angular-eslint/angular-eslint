@@ -1,9 +1,16 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { MessageIds } from '../../../src/rules/interactive-supports-focus';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type {
+  MessageIds,
+  Options,
+} from '../../../src/rules/interactive-supports-focus';
 
 const messageId: MessageIds = 'interactiveSupportsFocus';
 
-export const valid = [
+export const valid: readonly (string | ValidTestCase<Options>)[] = [
   // no interactive outputs
   { code: '<div></div>' },
 
@@ -165,7 +172,7 @@ export const valid = [
   },
 ];
 
-export const invalid = [
+export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   // aria-hidden="false"
   convertAnnotatedSourceToFailureCase({
     description: 'should fail not hidden from screen reader',
