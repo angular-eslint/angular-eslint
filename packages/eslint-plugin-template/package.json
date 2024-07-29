@@ -21,7 +21,7 @@
     "@angular-eslint/bundled-angular-compiler": "18.1.0",
     "@angular-eslint/utils": "18.1.0",
     "aria-query": "5.3.0",
-    "axobject-query": "4.0.0"
+    "axobject-query": "4.1.0"
   },
   "devDependencies": {
     "@angular-eslint/test-utils": "18.1.0",
