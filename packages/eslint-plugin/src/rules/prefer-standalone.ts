@@ -44,6 +44,10 @@ export default createESLintRule<Options, MessageIds>({
           return;
         }
 
+        if (!ASTUtils.getDecoratorArgument(node)) {
+          return;
+        }
+
         context.report({
           node: nodeToReport(node),
           messageId: 'preferStandalone',

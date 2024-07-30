@@ -48,6 +48,10 @@ export const valid = [
     class Test {}
   `,
   `
+    @Directive()
+    abstract class Test {}
+  `,
+  `
     @Pipe({
       standalone: true,
     })
