@@ -94,6 +94,9 @@ import relativeUrlPrefix, {
 import requireLocalizeMetadata, {
   RULE_NAME as requireLocalizeMetadataRuleName,
 } from './rules/require-localize-metadata';
+import runtimeLocalize, {
+  RULE_NAME as runtimeLocalizeRuleName,
+} from './rules/runtime-localize';
 import sortLifecycleMethods, {
   RULE_NAME as sortLifecycleMethodsRuleName,
 } from './rules/sort-lifecycle-methods';
@@ -158,6 +161,7 @@ export = {
     [preferOutputReadonlyRuleName]: preferOutputReadonly,
     [relativeUrlPrefixRuleName]: relativeUrlPrefix,
     [requireLocalizeMetadataRuleName]: requireLocalizeMetadata,
+    [runtimeLocalizeRuleName]: runtimeLocalize,
     [sortLifecycleMethodsRuleName]: sortLifecycleMethods,
     [sortNgmoduleMetadataArraysName]: sortNgmoduleMetadataArrays,
     [useComponentSelectorRuleName]: useComponentSelector,

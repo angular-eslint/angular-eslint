@@ -48,6 +48,7 @@ export default (
       '@angular-eslint/prefer-standalone-component': 'error',
       '@angular-eslint/relative-url-prefix': 'error',
       '@angular-eslint/require-localize-metadata': 'error',
+      '@angular-eslint/runtime-localize': 'error',
       '@angular-eslint/sort-lifecycle-methods': 'error',
       '@angular-eslint/sort-ngmodule-metadata-arrays': 'error',
       '@angular-eslint/use-component-selector': 'error',
