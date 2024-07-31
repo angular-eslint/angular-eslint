@@ -1,9 +1,16 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { MessageIds } from '../../../src/rules/contextual-decorator';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type {
+  MessageIds,
+  Options,
+} from '../../../src/rules/contextual-decorator';
 
 const messageId: MessageIds = 'contextualDecorator';
 
-export const valid = [
+export const valid: readonly (string | ValidTestCase<Options>)[] = [
   // `@Component()`.
   {
     // It should succeed if getter accessor is decorated with @Input() decorator.
@@ -834,7 +841,7 @@ export const valid = [
   },
 ];
 
-export const invalid = [
+export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   // `@Injectable()`.
   convertAnnotatedSourceToFailureCase({
     messageId,

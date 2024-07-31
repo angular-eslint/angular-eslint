@@ -1,11 +1,18 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { MessageIds } from '../../../src/rules/require-localize-metadata';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type {
+  MessageIds,
+  Options,
+} from '../../../src/rules/require-localize-metadata';
 
 const messageIdRequireLocalizeDescription: MessageIds =
   'requireLocalizeDescription';
 const messageIdRequireLocalizeMeaning: MessageIds = 'requireLocalizeMeaning';
 
-export const valid = [
+export const valid: readonly (string | ValidTestCase<Options>)[] = [
   `const localizedText = $localize\`Hello i18n!\`;`,
   `const localizedText = $localize\`:site header|:Hello i18n!\`;`,
   `const localizedText = $localize\`:@@custom_id:Hello i18n!\`;`,
@@ -52,7 +59,7 @@ export const valid = [
   },
 ];
 
-export const invalid = [
+export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     description:
       'it should fail if no $localize description is provided when required for variable declarations',

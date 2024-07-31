@@ -1,9 +1,16 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { MessageIds } from '../../../src/rules/click-events-have-key-events';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type {
+  MessageIds,
+  Options,
+} from '../../../src/rules/click-events-have-key-events';
 
 const messageId: MessageIds = 'clickEventsHaveKeyEvents';
 
-export const valid = [
+export const valid: readonly (string | ValidTestCase<Options>)[] = [
   {
     // It should work when click events are associated with key events.
     code: `
@@ -52,7 +59,7 @@ export const valid = [
   },
 ];
 
-export const invalid = [
+export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     messageId,
     description: 'should fail when click is not accompanied with key events',

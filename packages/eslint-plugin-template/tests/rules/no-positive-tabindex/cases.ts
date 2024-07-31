@@ -1,10 +1,17 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { MessageIds } from '../../../src/rules/no-positive-tabindex';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type {
+  MessageIds,
+  Options,
+} from '../../../src/rules/no-positive-tabindex';
 
 const messageId: MessageIds = 'noPositiveTabindex';
 const suggestNonNegativeTabindex: MessageIds = 'suggestNonNegativeTabindex';
 
-export const valid = [
+export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '<span></span>',
   '<span id="2"></span>',
   '<span tabindex></span>',
@@ -18,7 +25,7 @@ export const valid = [
   '<app-test [tabindex]="1"></app-test>',
 ];
 
-export const invalid = [
+export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     description: 'should fail if `tabindex` attribute is positive',
     annotatedSource: `

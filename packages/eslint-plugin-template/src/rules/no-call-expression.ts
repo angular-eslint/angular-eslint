@@ -4,7 +4,7 @@ import { ensureTemplateParser } from '@angular-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import { getNearestNodeFrom } from '../utils/get-nearest-node-from';
 
-type Options = [
+export type Options = [
   {
     readonly allowList?: readonly string[];
     readonly allowPrefix?: string;

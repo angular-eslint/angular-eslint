@@ -1,9 +1,13 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { MessageIds } from '../../../src/rules/no-input-prefix';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type { MessageIds, Options } from '../../../src/rules/no-input-prefix';
 
 const messageId: MessageIds = 'noInputPrefix';
 
-export const valid = [
+export const valid: readonly (string | ValidTestCase<Options>)[] = [
   {
     code: `class Test {}`,
     options: [{ prefixes: ['on'] }],
@@ -143,7 +147,7 @@ export const valid = [
   `,
 ];
 
-export const invalid = [
+export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     description:
       'should fail if `inputs` metadata property is named "on" in `@Component`',

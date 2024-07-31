@@ -19,7 +19,7 @@
   ],
   "dependencies": {
     "@angular-eslint/bundled-angular-compiler": "18.1.0",
-    "eslint-scope": "^8.0.0"
+    "eslint-scope": "^8.0.2"
   },
   "peerDependencies": {
     "eslint": "^8.57.0 || ^9.0.0",

@@ -1,9 +1,16 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { MessageIds } from '../../../src/rules/cyclomatic-complexity';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type {
+  MessageIds,
+  Options,
+} from '../../../src/rules/cyclomatic-complexity';
 
 const messageId: MessageIds = 'cyclomaticComplexity';
 
-export const valid = [
+export const valid: readonly (string | ValidTestCase<Options>)[] = [
   {
     code: `
         <div *ngIf="a === '1'">
@@ -39,7 +46,7 @@ export const valid = [
   },
 ];
 
-export const invalid = [
+export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     description:
       'it should fail if the cyclomatic complexity is higher than the maximum defined',

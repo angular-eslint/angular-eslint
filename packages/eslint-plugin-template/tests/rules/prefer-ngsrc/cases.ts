@@ -1,17 +1,21 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { MessageIds } from '../../../src/rules/prefer-ngsrc';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type { MessageIds, Options } from '../../../src/rules/prefer-ngsrc';
 
 const missingAttribute: MessageIds = 'missingAttribute';
 const invalidDoubleSource: MessageIds = 'invalidDoubleSource';
 
-export const valid = [
+export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '<img ngSrc="http://localhost">',
   "<img [ngSrc]=\"'http://localhost'>",
   '<img [ngSrc]="value">',
   '<img src="data:image/jpeg;base64">',
 ];
 
-export const invalid = [
+export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     description: 'should fail image when using src over ngsrc',
     annotatedSource: `

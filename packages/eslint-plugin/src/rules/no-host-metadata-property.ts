@@ -3,7 +3,7 @@ import type { TSESTree } from '@typescript-eslint/utils';
 import { ASTUtils as TSESLintASTUtils } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
-type Options = [{ readonly allowStatic?: boolean }];
+export type Options = [{ readonly allowStatic?: boolean }];
 export type MessageIds = 'noHostMetadataProperty';
 export const RULE_NAME = 'no-host-metadata-property';
 const DEFAULT_OPTIONS: Options[0] = { allowStatic: false };

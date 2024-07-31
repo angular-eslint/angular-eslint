@@ -1,9 +1,16 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { MessageIds } from '../../../src/rules/component-max-inline-declarations';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type {
+  MessageIds,
+  Options,
+} from '../../../src/rules/component-max-inline-declarations';
 
 const messageId: MessageIds = 'componentMaxInlineDeclarations';
 
-export const valid = [
+export const valid: readonly (string | ValidTestCase<Options>)[] = [
   // should succeed if the number of the template lines does not exceeds the default lines limit
   `
     @Component({
@@ -51,7 +58,7 @@ export const valid = [
     `,
 ];
 
-export const invalid = [
+export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     description:
       'should fail if the number of the template lines exceeds the default lines limit',

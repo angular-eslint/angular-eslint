@@ -6,7 +6,7 @@ import {
 import type { TSESTree } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
-type Options = [];
+export type Options = [];
 export type MessageIds = 'noOutputNative';
 export const RULE_NAME = 'no-output-native';
 

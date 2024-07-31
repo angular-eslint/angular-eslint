@@ -1,5 +1,9 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { MessageIds } from '../../../src/rules/i18n';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type { MessageIds, Options } from '../../../src/rules/i18n';
 
 const i18nAttribute: MessageIds = 'i18nAttribute';
 const i18nAttributeOnIcuOrText: MessageIds = 'i18nAttributeOnIcuOrText';
@@ -11,7 +15,7 @@ const i18nMissingDescription: MessageIds = 'i18nMissingDescription';
 const i18nMissingMeaning: MessageIds = 'i18nMissingMeaning';
 const i18nMarkupInContent: MessageIds = 'i18nMarkupInContent';
 
-export const valid = [
+export const valid: readonly (string | ValidTestCase<Options>)[] = [
   `
     <div>
       <span i18n="@@custom-id">Some text to translate</span>
@@ -408,7 +412,7 @@ export const valid = [
   `,
 ];
 
-export const invalid = [
+export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     description: 'should fail if `i18n-*` attribute is missing on `Element`',
     annotatedSource: `

@@ -1,7 +1,16 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import { MESSAGE_ID as messageId } from '../../../src/rules/prefer-self-closing-tags';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type {
+  MessageIds,
+  Options,
+} from '../../../src/rules/prefer-self-closing-tags';
 
-export const valid = [
+const messageId: MessageIds = 'preferSelfClosingTags';
+
+export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '<my-component type="text" [name]="foo">With some content</my-component>',
   '<my-component />',
   `
@@ -20,7 +29,7 @@ export const valid = [
   { code: '<app-root></app-root>', filename: 'src/index.html' },
 ];
 
-export const invalid = [
+export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     description:
       'it should fail if an element has a closing tag but no content',
