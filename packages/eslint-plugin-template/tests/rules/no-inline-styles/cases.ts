@@ -1,9 +1,13 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { MessageIds } from '../../../src/rules/no-inline-styles';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type { MessageIds, Options } from '../../../src/rules/no-inline-styles';
 
 const messageId: MessageIds = 'noInlineStyles';
 
-export const valid = [
+export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '<img alt="Foo eating a sandwich.">',
   '<img src="foo" [attr.alt]="altText">',
   `<img src="foo" [attr.alt]="'Alt Text'">`,
@@ -33,7 +37,7 @@ export const valid = [
   },
 ];
 
-export const invalid = [
+export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     messageId,
     description: 'should fail element when style attribute exist',

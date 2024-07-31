@@ -1,12 +1,19 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { MessageIds } from '../../../src/rules/consistent-component-styles';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type {
+  MessageIds,
+  Options,
+} from '../../../src/rules/consistent-component-styles';
 
 const messageIdUseStylesArray: MessageIds = 'useStylesArray';
 const messageIdUseStyleUrls: MessageIds = 'useStyleUrls';
 const messageIdUseStylesString: MessageIds = 'useStylesString';
 const messageIdUseStyleUrl: MessageIds = 'useStyleUrl';
 
-export const valid = [
+export const valid: readonly (string | ValidTestCase<Options>)[] = [
   // Default.
   `
     @Component({
@@ -247,7 +254,7 @@ export const valid = [
   },
 ];
 
-export const invalid = [
+export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   // Default
   convertAnnotatedSourceToFailureCase({
     description: `should fail when a component has a single style array value`,

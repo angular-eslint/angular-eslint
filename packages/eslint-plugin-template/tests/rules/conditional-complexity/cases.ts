@@ -1,9 +1,16 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { MessageIds } from '../../../src/rules/conditional-complexity';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type {
+  MessageIds,
+  Options,
+} from '../../../src/rules/conditional-complexity';
 
 const messageId: MessageIds = 'conditionalComplexity';
 
-export const valid = [
+export const valid: readonly (string | ValidTestCase<Options>)[] = [
   `
     <div *ngIf="a === '1' || b === '2' && c.d !== e">Content</div>
     <div *ngIf="isValid; then thenTemplateRef; else elseTemplateRef">Content</div>
@@ -25,7 +32,7 @@ export const valid = [
   },
 ];
 
-export const invalid = [
+export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     messageId,
     description:

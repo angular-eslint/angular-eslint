@@ -2,7 +2,7 @@ import { ASTUtils } from '@typescript-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
-type Options = [
+export type Options = [
   {
     readonly requireDescription?: boolean;
     readonly requireMeaning?: boolean;

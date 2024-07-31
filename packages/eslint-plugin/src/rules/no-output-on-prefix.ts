@@ -2,7 +2,7 @@ import { ASTUtils, Selectors } from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
-type Options = [];
+export type Options = [];
 export type MessageIds = 'noOutputOnPrefix';
 export const RULE_NAME = 'no-output-on-prefix';
 const STYLE_GUIDE_LINK = 'https://angular.dev/style-guide#style-05-16';

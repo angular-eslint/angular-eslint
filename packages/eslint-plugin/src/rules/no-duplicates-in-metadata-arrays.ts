@@ -3,7 +3,7 @@ import { createESLintRule } from '../utils/create-eslint-rule';
 import type { TSESTree } from '@typescript-eslint/utils';
 import { ASTUtils as TSESLintASTUtils } from '@typescript-eslint/utils';
 
-type Options = [];
+export type Options = [];
 export type MessageIds = 'noDuplicatesInMetadataArrays';
 export const RULE_NAME = 'no-duplicates-in-metadata-arrays';
 

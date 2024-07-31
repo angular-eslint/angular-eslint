@@ -4,9 +4,7 @@ import rule, {
 } from '../../../src/rules/sort-ngmodule-metadata-arrays';
 import { invalid, valid } from './cases';
 
-const ruleTester = new RuleTester({
-  parser: '@typescript-eslint/parser',
-});
+const ruleTester = new RuleTester();
 
 ruleTester.run(RULE_NAME, rule, {
   valid,

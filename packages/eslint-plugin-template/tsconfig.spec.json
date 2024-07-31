@@ -11,7 +11,8 @@
     "**/*.spec.tsx",
     "**/*.spec.js",
     "**/*.spec.jsx",
-    "**/*.d.ts"
+    "**/*.d.ts",
+    "tests/rules/**/*.ts"
   ],
   "references": [
     {

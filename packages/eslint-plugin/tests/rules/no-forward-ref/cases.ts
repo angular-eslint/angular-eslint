@@ -1,9 +1,13 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { MessageIds } from '../../../src/rules/no-forward-ref';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type { MessageIds, Options } from '../../../src/rules/no-forward-ref';
 
 const messageId: MessageIds = 'noForwardRef';
 
-export const valid = [
+export const valid: readonly (string | ValidTestCase<Options>)[] = [
   `
     @Component({
       selector: 'test',
@@ -19,7 +23,7 @@ export const valid = [
  `,
 ];
 
-export const invalid = [
+export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     description: 'should fail if forwardRef is called in constructor',
     annotatedSource: `

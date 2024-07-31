@@ -2,7 +2,7 @@ import { Selectors } from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
-type Options = [];
+export type Options = [];
 export type MessageIds = 'preferOutputReadonly' | 'suggestAddReadonlyModifier';
 export const RULE_NAME = 'prefer-output-readonly';
 

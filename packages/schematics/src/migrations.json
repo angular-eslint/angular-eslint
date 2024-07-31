@@ -48,8 +48,13 @@
     },
     "update-17-3-0": {
       "version": "17.2.2-alpha.0",
-      "description": "Updates @angular-eslint to v1.3",
+      "description": "Updates @angular-eslint to v17.3",
       "factory": "./migrations/update-17-3-0/update-17-3-0"
+    },
+    "update-18-2-0": {
+      "version": "18.1.1-alpha.0",
+      "description": "Updates @angular-eslint to v18.2",
+      "factory": "./migrations/update-18-2-0/update-18-2-0"
     }
   }
 }

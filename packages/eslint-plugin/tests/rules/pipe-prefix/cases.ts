@@ -1,9 +1,13 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { MessageIds } from '../../../src/rules/pipe-prefix';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type { MessageIds, Options } from '../../../src/rules/pipe-prefix';
 
 const messageId: MessageIds = 'pipePrefix';
 
-export const valid = [
+export const valid: readonly (string | ValidTestCase<Options>)[] = [
   {
     // should not fail when @Pipe not invoked
     code: `
@@ -95,7 +99,7 @@ export const valid = [
   },
 ];
 
-export const invalid = [
+export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     description: 'should fail when Pipe has no prefix ng',
     annotatedSource: `

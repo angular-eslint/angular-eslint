@@ -8,7 +8,7 @@ import { getTemplateParserServices } from '@angular-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import { getOriginalAttributeName } from '../utils/get-original-attribute-name';
 
-type Options = [
+export type Options = [
   {
     readonly allowTwoWayDataBinding?: boolean;
     readonly allowStylePrecedenceDuplicates?: boolean;

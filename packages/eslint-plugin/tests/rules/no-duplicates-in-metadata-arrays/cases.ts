@@ -1,9 +1,16 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { MessageIds } from '../../../src/rules/no-duplicates-in-metadata-arrays';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type {
+  MessageIds,
+  Options,
+} from '../../../src/rules/no-duplicates-in-metadata-arrays';
 
 const messageId: MessageIds = 'noDuplicatesInMetadataArrays';
 
-export const valid = [
+export const valid: readonly (string | ValidTestCase<Options>)[] = [
   `
     @NgModule({
       providers: [ProviderA, ProviderB, ProviderC],
@@ -27,7 +34,7 @@ export const valid = [
   `,
 ];
 
-export const invalid = [
+export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     description: 'Fails when there are duplicate providers in NgModule',
     annotatedSource: `

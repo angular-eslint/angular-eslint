@@ -5,7 +5,7 @@ import type {
 import { getTemplateParserServices } from '@angular-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
-type Options = [
+export type Options = [
   {
     readonly allowNgStyle?: boolean;
     readonly allowBindToStyle?: boolean;

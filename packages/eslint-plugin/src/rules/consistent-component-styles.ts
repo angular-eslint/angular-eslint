@@ -3,7 +3,7 @@ import type { TSESTree } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
 type Mode = 'array' | 'string';
-type Options = [mode: Mode];
+export type Options = [mode: Mode];
 export type MessageIds =
   | 'useStylesArray'
   | 'useStylesString'

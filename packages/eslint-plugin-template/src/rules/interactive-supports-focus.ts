@@ -11,7 +11,7 @@ import { isContentEditable } from '../utils/is-content-editable';
 import { isDisabledElement } from '../utils/is-disabled-element';
 import { isPresentationRole } from '../utils/is-presentation-role';
 
-type Options = [];
+export type Options = [];
 export type MessageIds = 'interactiveSupportsFocus';
 export const RULE_NAME = 'interactive-supports-focus';
 

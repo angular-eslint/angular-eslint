@@ -1,9 +1,16 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { MessageIds } from '../../../src/rules/sort-ngmodule-metadata-arrays';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type {
+  MessageIds,
+  Options,
+} from '../../../src/rules/sort-ngmodule-metadata-arrays';
 
 const messageId: MessageIds = 'sortNgmoduleMetadataArrays';
 
-export const valid = [
+export const valid: readonly (string | ValidTestCase<Options>)[] = [
   `class Test {}`,
   `
   @NgModule()
@@ -87,7 +94,7 @@ export const valid = [
   },
 ];
 
-export const invalid = [
+export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     description: 'should fail if `imports` metadata arrays is not sorted ASC',
     annotatedSource: `
