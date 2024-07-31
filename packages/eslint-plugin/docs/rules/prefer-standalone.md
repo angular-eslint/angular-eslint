@@ -712,6 +712,33 @@ class Test {}
 #### ✅ Valid Code
 
 ```ts
+@Directive()
+abstract class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-standalone": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
 @Pipe({
   standalone: true,
 })
