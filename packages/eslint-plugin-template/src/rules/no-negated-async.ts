@@ -3,7 +3,7 @@ import { PrefixNot } from '@angular-eslint/bundled-angular-compiler';
 import { ensureTemplateParser } from '@angular-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
-type Options = [];
+export type Options = [];
 export type MessageIds =
   | 'noNegatedAsync'
   | 'noNegatedValueForAsync'

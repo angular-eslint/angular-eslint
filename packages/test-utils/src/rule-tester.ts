@@ -1,3 +1,7 @@
+import type {
+  RunTests,
+  RuleTesterConfig,
+} from '@typescript-eslint/rule-tester';
 import { RuleTester as TSESLintRuleTester } from '@typescript-eslint/rule-tester';
 import type { TSESLint } from '@typescript-eslint/utils';
 import * as path from 'path';
@@ -7,68 +11,52 @@ const VALID_PARSERS = [
   '@typescript-eslint/parser',
 ] as const;
 
-type RuleTesterConfig = Omit<TSESLint.RuleTesterConfig, 'parser'> & {
-  parser: (typeof VALID_PARSERS)[number];
-};
-
 function getFixturesRootDir() {
   return path.join(process.cwd(), 'tests/fixtures/');
 }
 
 function isValidParser(
-  parser?: string,
-): parser is (typeof VALID_PARSERS)[number] {
-  return VALID_PARSERS.includes(parser as (typeof VALID_PARSERS)[number]);
+  parser: Readonly<TSESLint.Parser.LooseParserModule>,
+): boolean {
+  if (parser === require('@angular-eslint/template-parser')) {
+    return true;
+  }
+  if (parser === require('@typescript-eslint/parser')) {
+    return true;
+  }
+  return false;
 }
 
 export class RuleTester extends TSESLintRuleTester {
   private filename?: string = '';
 
-  // as of eslint 6 you have to provide an absolute path to the parser
-  // but that's not as clean to type, this saves us trying to manually enforce
-  // that contributors require.resolve everything
-  constructor(options: RuleTesterConfig) {
-    super({
-      ...options,
-      parser: require.resolve(options.parser),
-    });
+  constructor(options?: RuleTesterConfig) {
+    super(options);
 
-    if (options.parserOptions?.project) {
+    if (options?.languageOptions?.parserOptions?.project) {
       this.filename = path.join(
-        options.parserOptions?.tsconfigRootDir ?? getFixturesRootDir(),
+        options?.languageOptions.parserOptions.tsconfigRootDir ??
+          getFixturesRootDir(),
         'file.ts',
       );
     }
-
-    // make sure that the parser doesn't hold onto file handles between tests
-    // on linux (i.e. our CI env), there can be very a limited number of watch handles available
-    const afterAll = RuleTester.afterAll ?? globalThis.afterAll;
-    afterAll(() => {
-      try {
-        // instead of creating a hard dependency, just use a soft require
-        // a bit weird, but if they're using this tooling, it'll be installed
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
-        require(options.parser).clearCaches();
-      } catch {
-        // ignored
-      }
-    });
   }
 
-  // as of eslint 6 you have to provide an absolute path to the parser
-  // If you don't do that at the test level, the test will fail somewhat cryptically...
-  // This is a lot more explicit
-  override run<TMessageIds extends string, TOptions extends readonly unknown[]>(
-    name: string,
-    rule: TSESLint.RuleModule<TMessageIds, TOptions>,
-    { valid, invalid }: TSESLint.RunTests<TMessageIds, TOptions>,
+  override run<MessageIds extends string, Options extends readonly unknown[]>(
+    ruleName: string,
+    rule: TSESLint.RuleModule<MessageIds, Options>,
+    { valid, invalid }: RunTests<MessageIds, Options>,
   ): void {
     const errorMessage = `Do not set the parser at the test level unless you want to use a parser other than ${VALID_PARSERS.join(
       ', ',
     )}`;
     const parsedTests = {
       valid: valid.map((test) => {
-        if (typeof test !== 'string' && isValidParser(test.parser)) {
+        if (
+          typeof test !== 'string' &&
+          test.languageOptions?.parser &&
+          !isValidParser(test.languageOptions.parser)
+        ) {
           throw Error(errorMessage);
         }
         return typeof test === 'string'
@@ -76,7 +64,10 @@ export class RuleTester extends TSESLintRuleTester {
           : { ...test, filename: test.filename ?? this.filename };
       }),
       invalid: invalid.map((test) => {
-        if (isValidParser(test.parser)) {
+        if (
+          test.languageOptions?.parser &&
+          !isValidParser(test.languageOptions.parser)
+        ) {
           throw Error(errorMessage);
         }
         return {
@@ -86,6 +77,6 @@ export class RuleTester extends TSESLintRuleTester {
       }),
     };
 
-    super.run(name, rule, parsedTests);
+    super.run(ruleName, rule, parsedTests);
   }
 }

@@ -2,7 +2,7 @@ import { ASTUtils, RuleFixes, Selectors } from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
-type Options = [{ readonly ignoreClassNamePattern?: string }];
+export type Options = [{ readonly ignoreClassNamePattern?: string }];
 export type MessageIds = 'useInjectableProvidedIn' | 'suggestInjector';
 export const RULE_NAME = 'use-injectable-provided-in';
 const METADATA_PROPERTY_NAME = 'providedIn';

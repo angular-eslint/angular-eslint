@@ -1,10 +1,14 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { MessageIds } from '../../../src/rules/no-pipe-impure';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type { MessageIds, Options } from '../../../src/rules/no-pipe-impure';
 
 const messageId: MessageIds = 'noPipeImpure';
 const suggestRemovePipeImpure: MessageIds = 'suggestRemovePipeImpure';
 
-export const valid = [
+export const valid: readonly (string | ValidTestCase<Options>)[] = [
   `class Test {}`,
   `
     @Pipe()
@@ -75,7 +79,7 @@ export const valid = [
   `,
 ];
 
-export const invalid = [
+export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     description: 'should fail if `pure` property is set to `false`',
     annotatedSource: `

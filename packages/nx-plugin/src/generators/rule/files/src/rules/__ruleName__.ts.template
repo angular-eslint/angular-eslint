@@ -1,6 +1,6 @@
 import { createESLintRule } from '../utils/create-eslint-rule';
 
-type Options = [];
+export type Options = [];
 export type MessageIds = '<%= ruleName.replace(/-./g, c => c[1].toUpperCase()) %>';
 export const RULE_NAME = '<%= ruleName %>';
 

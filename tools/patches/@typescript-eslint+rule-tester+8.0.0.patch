@@ -1,14 +1,14 @@
 diff --git a/node_modules/@typescript-eslint/rule-tester/dist/RuleTester.js b/node_modules/@typescript-eslint/rule-tester/dist/RuleTester.js
-index 801021d..743d870 100644
+index 309e444..4f15668 100644
 --- a/node_modules/@typescript-eslint/rule-tester/dist/RuleTester.js
 +++ b/node_modules/@typescript-eslint/rule-tester/dist/RuleTester.js
-@@ -596,7 +596,8 @@ class RuleTester extends TestFramework_1.TestFramework {
+@@ -661,7 +661,8 @@ class RuleTester extends TestFramework_1.TestFramework {
                              (0, node_assert_1.default)(false, `Invalid messageId '${error.messageId}'. Expected one of ${friendlyIDList}.`);
                          }
                          node_assert_1.default.strictEqual(message.messageId, error.messageId, `messageId '${message.messageId}' does not match expected messageId '${error.messageId}'.`);
 -                        const unsubstitutedPlaceholders = getUnsubstitutedMessagePlaceholders(message.message, rule.meta.messages[message.messageId], error.data);
 +                        const unsubstitutedPlaceholders = getUnsubstitutedMessagePlaceholders(message.message, rule.meta.messages[message.messageId], error.data)
-+                            .filter(name => name !== 'value');
++                          .filter(name => name !== 'value');
                          node_assert_1.default.ok(unsubstitutedPlaceholders.length === 0, `The reported message has ${unsubstitutedPlaceholders.length > 1 ? `unsubstituted placeholders: ${unsubstitutedPlaceholders.map(name => `'${name}'`).join(', ')}` : `an unsubstituted placeholder '${unsubstitutedPlaceholders[0]}'`}. Please provide the missing ${unsubstitutedPlaceholders.length > 1 ? 'values' : 'value'} via the 'data' property in the context.report() call.`);
                          if ((0, hasOwnProperty_1.hasOwnProperty)(error, 'data')) {
                              /*

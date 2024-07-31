@@ -1,11 +1,15 @@
 import { RuleTester } from '@angular-eslint/test-utils';
 import rule, { RULE_NAME } from '../../../src/rules/<%= ruleName %>';
 import { invalid, valid } from './cases';
-
+<% if (packageName === 'eslint-plugin') { %>
+const ruleTester = new RuleTester();
+<% } else { %>
 const ruleTester = new RuleTester({
-  parser: '<%= packageName === 'eslint-plugin' ? '@typescript-eslint/parser' : '@angular-eslint/template-parser' %>',
+  languageOptions: {
+    parser: require('@angular-eslint/template-parser'),
+  },
 });
-
+<% } %>
 ruleTester.run(RULE_NAME, rule, {
   valid,
   invalid,

@@ -8,7 +8,7 @@ import { createESLintRule } from '../utils/create-eslint-rule';
 import { getDomElements } from '../utils/get-dom-elements';
 import { toPattern } from '../utils/to-pattern';
 
-type Options = [];
+export type Options = [];
 export type MessageIds = 'noPositiveTabindex' | 'suggestNonNegativeTabindex';
 export const RULE_NAME = 'no-positive-tabindex';
 

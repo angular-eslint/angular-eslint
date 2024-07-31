@@ -1,10 +1,17 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { MessageIds } from '../../../src/rules/role-has-required-aria';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type {
+  MessageIds,
+  Options,
+} from '../../../src/rules/role-has-required-aria';
 
 const messageId: MessageIds = 'roleHasRequiredAria';
 const suggestRemoveRole: MessageIds = 'suggestRemoveRole';
 
-export const valid = [
+export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '<span role="checkbox" aria-checked="false"></span>',
   '<input type="checkbox" role="switch">',
   '<span role="heading" aria-level="5"></span>',
@@ -14,7 +21,7 @@ export const valid = [
   '<summary (click)="onClick()" aria-expanded="false">Bar</summary>',
 ];
 
-export const invalid = [
+export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     description: 'should fail if role does not have required aria properties',
     annotatedSource: `

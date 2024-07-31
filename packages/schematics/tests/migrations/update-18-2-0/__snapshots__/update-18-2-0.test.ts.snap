@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`update-18-2-0 should not update typescript-eslint and eslint dependencies if the project is not already on v8 prereleases of typescript-eslint 1`] = `
+Object {
+  "devDependencies": Object {
+    "@typescript-eslint/eslint-plugin": "^7",
+    "@typescript-eslint/parser": "^7",
+    "@typescript-eslint/utils": "^7",
+    "eslint": "^8.28.0",
+  },
+}
+`;
+
+exports[`update-18-2-0 should update typescript-eslint and eslint dependencies if the project is already on v8 prereleases of typescript-eslint 1`] = `
+Object {
+  "devDependencies": Object {
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "@typescript-eslint/rule-tester": "^8.0.0",
+    "@typescript-eslint/type-utils": "^8.0.0",
+    "@typescript-eslint/utils": "^8.0.0",
+    "eslint": "^9.8.0",
+    "typescript-eslint": "^8.0.0",
+  },
+}
+`;

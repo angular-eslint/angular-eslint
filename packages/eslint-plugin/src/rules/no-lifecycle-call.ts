@@ -3,7 +3,7 @@ import type { TSESTree } from '@typescript-eslint/utils';
 import { ASTUtils as TSESLintASTUtils } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
-type Options = [];
+export type Options = [];
 export type MessageIds = 'noLifecycleCall';
 export const RULE_NAME = 'no-lifecycle-call';
 

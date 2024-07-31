@@ -1,11 +1,15 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { MessageIds } from '../../../src/rules/button-has-type';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type { MessageIds, Options } from '../../../src/rules/button-has-type';
 import { INVALID_TYPE_DATA_KEY } from '../../../src/rules/button-has-type';
 
 const missingType: MessageIds = 'missingType';
 const invalidType: MessageIds = 'invalidType';
 
-export const valid = [
+export const valid: readonly (string | ValidTestCase<Options>)[] = [
   `<button [attr.type]="'button'"></button>`,
   `<button [attr.type]="'submit'"></button>`,
   `<button [attr.type]="'reset'"></button>`,
@@ -18,7 +22,7 @@ export const valid = [
   `<button [disabled]="true" [attr.type]="'button'"></button>`,
 ];
 
-export const invalid = [
+export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     description: 'should fail if button has no attributes',
     annotatedSource: `

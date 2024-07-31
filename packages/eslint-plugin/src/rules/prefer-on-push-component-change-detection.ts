@@ -1,29 +1,18 @@
 import {
   ASTUtils,
-  RuleFixes,
   isNotNullOrUndefined,
+  RuleFixes,
   Selectors,
 } from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
-type Options = [];
+export type Options = [];
 export type MessageIds =
   | 'preferOnPushComponentChangeDetection'
   | 'suggestAddChangeDetectionOnPush';
-type StronglyTypedDecorator = TSESTree.Decorator & {
-  parent: TSESTree.ClassDeclaration;
-};
-type StronglyTypedProperty = TSESTree.Property & {
-  parent: TSESTree.CallExpression & {
-    parent: TSESTree.ObjectExpression & {
-      parent: TSESTree.Decorator & {
-        parent: TSESTree.ClassDeclaration;
-      };
-    };
-  };
-};
 export const RULE_NAME = 'prefer-on-push-component-change-detection';
+
 const METADATA_PROPERTY_NAME = 'changeDetection';
 const STRATEGY_ON_PUSH = 'ChangeDetectionStrategy.OnPush';
 
@@ -56,7 +45,7 @@ export default createESLintRule<Options, MessageIds>({
     ].join(',');
 
     return {
-      [selectors](node: StronglyTypedDecorator | StronglyTypedProperty) {
+      [selectors](node: TSESTree.Decorator | TSESTree.Property) {
         context.report({
           node: nodeToReport(node),
           messageId: 'preferOnPushComponentChangeDetection',
@@ -70,7 +59,7 @@ export default createESLintRule<Options, MessageIds>({
                       fixer,
                       importName: 'ChangeDetectionStrategy',
                       moduleName: '@angular/core',
-                      node: node.parent.parent.parent.parent,
+                      node: node.parent.parent.parent!.parent!,
                     }),
                     ASTUtils.isMemberExpression(node.value)
                       ? fixer.replaceText(node.value.property, 'OnPush')

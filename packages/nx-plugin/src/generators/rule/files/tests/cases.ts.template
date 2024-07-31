@@ -1,12 +1,13 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { MessageIds } from '../../../src/rules/<%= ruleName %>';
+import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
+import type { MessageIds, Options } from '../../../src/rules/<%= ruleName %>';
 
 const messageId: MessageIds = '<%= ruleName.replace(/-./g, c => c[1].toUpperCase()) %>';
 
-export const valid = [
+export const valid: readonly (string | ValidTestCase<Options>)[] = [
   // TODO: Add valid cases
 ];
 
-export const invalid = [
+export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   // TODO: Add invalid cases
 ];

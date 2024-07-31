@@ -1,7 +1,16 @@
-import { MESSAGE_ID as messageId } from '../../../src/rules/prefer-control-flow';
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type {
+  MessageIds,
+  Options,
+} from '../../../src/rules/prefer-control-flow';
 
-export const valid = [
+const messageId: MessageIds = 'preferControlFlow';
+
+export const valid: readonly (string | ValidTestCase<Options>)[] = [
   `@if (condition) {
      Condition is truthy
   }`,
@@ -31,7 +40,7 @@ export const valid = [
   `<form [ngFormOptions]="{ updateOn: 'blur' }"></form>`,
 ];
 
-export const invalid = [
+export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     description: 'should fail when *ngIf is used',
     annotatedSource: `

@@ -5,7 +5,7 @@ import { createESLintRule } from '../utils/create-eslint-rule';
 import { getDomElements } from '../utils/get-dom-elements';
 import { toPattern } from '../utils/to-pattern';
 
-type Options = [];
+export type Options = [];
 export type MessageIds = 'mouseEventsHaveKeyEvents';
 export const RULE_NAME = 'mouse-events-have-key-events';
 const STYLE_GUIDE_LINK = 'https://www.w3.org/WAI/WCAG21/Understanding/keyboard';

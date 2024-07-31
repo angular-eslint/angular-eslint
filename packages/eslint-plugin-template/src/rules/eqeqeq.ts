@@ -9,7 +9,7 @@ import type { TSESLint } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import { getNearestNodeFrom } from '../utils/get-nearest-node-from';
 
-type Options = [{ readonly allowNullOrUndefined?: boolean }];
+export type Options = [{ readonly allowNullOrUndefined?: boolean }];
 export type MessageIds = 'eqeqeq' | 'suggestStrictEquality';
 export const RULE_NAME = 'eqeqeq';
 const DEFAULT_OPTIONS: Options[0] = { allowNullOrUndefined: false };
