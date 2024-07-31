@@ -4,7 +4,7 @@
 
 - update typescript-eslint to v8 stable, eslint v9.8.0 ([#1956](https://github.com/angular-eslint/angular-eslint/pull/1956))
 
-Run `ng update @angular-eslint/schematics` to automatically update your v8 prerelease dependencies of typescript-eslint to v8.0.0, as well as ESLint to v9.8.0
+Run `ng update @angular-eslint/schematics` to automatically update your v8 prerelease dependencies of typescript-eslint to v8.0.0, as well as ESLint to v9.8.0 (if you are still using typescript-eslint v7 and ESLint v8 you will be unaffected by this migration).
 
 ### 🩹 Fixes
 
