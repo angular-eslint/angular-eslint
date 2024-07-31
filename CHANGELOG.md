@@ -1,3 +1,27 @@
+## 18.2.0 (2024-07-31)
+
+### 🚀 Features
+
+- update typescript-eslint to v8 stable, eslint v9.8.0 ([#1956](https://github.com/angular-eslint/angular-eslint/pull/1956))
+
+Run `ng update @angular-eslint/schematics` to automatically update your v8 prerelease dependencies of typescript-eslint to v8.0.0, as well as ESLint to v9.8.0
+
+### 🩹 Fixes
+
+- update dependency axobject-query to v4.1.0 ([#1936](https://github.com/angular-eslint/angular-eslint/pull/1936))
+- update dependency semver to v7.6.3 ([#1933](https://github.com/angular-eslint/angular-eslint/pull/1933))
+- update dependency eslint-scope to v8.0.2 ([#1932](https://github.com/angular-eslint/angular-eslint/pull/1932))
+- update dependency @angular/compiler to v18.1.3 ([#1954](https://github.com/angular-eslint/angular-eslint/pull/1954))
+- update nrwl monorepo to v19.5.4 ([#1950](https://github.com/angular-eslint/angular-eslint/pull/1950))
+- **eslint-plugin:** [prefer-standalone] ignore empty Directive decorators ([#1949](https://github.com/angular-eslint/angular-eslint/pull/1949))
+- **eslint-plugin-template:** add meta to preprocessor to resolve eslint cache error ([#1924](https://github.com/angular-eslint/angular-eslint/pull/1924))
+
+### ❤️ Thank You
+
+- James Henry @JamesHenry
+- kwiateusz @kwiateusz
+- Paweł Maniecki @P4
+
 ## 18.1.0 (2024-07-01)
 
 ### 🚀 Features
