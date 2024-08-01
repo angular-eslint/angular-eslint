@@ -59,7 +59,7 @@
     "@nx/devkit": "19.5.5",
     "@nx/eslint": "19.5.5",
     "@nx/eslint-plugin": "19.5.5",
-    "@nx/jest": "19.5.4",
+    "@nx/jest": "19.5.5",
     "@nx/js": "19.5.5",
     "@nx/plugin": "19.5.5",
     "@nx/workspace": "19.5.5",
