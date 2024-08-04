@@ -11,9 +11,14 @@ import { isContentEditable } from '../utils/is-content-editable';
 import { isDisabledElement } from '../utils/is-disabled-element';
 import { isPresentationRole } from '../utils/is-presentation-role';
 
-export type Options = [];
+export type Options = [
+  {
+    readonly allowList?: readonly string[];
+  },
+];
 export type MessageIds = 'interactiveSupportsFocus';
 export const RULE_NAME = 'interactive-supports-focus';
+const DEFAULT_ALLOW_LIST = ['form'];
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
@@ -23,14 +28,26 @@ export default createESLintRule<Options, MessageIds>({
       description:
         '[Accessibility] Ensures that elements with interactive handlers like `(click)` are focusable.',
     },
-    schema: [],
+    schema: [
+      {
+        additionalProperties: false,
+        properties: {
+          allowList: {
+            items: { type: 'string' },
+            type: 'array',
+            uniqueItems: true,
+          },
+        },
+        type: 'object',
+      },
+    ],
     messages: {
       interactiveSupportsFocus:
         'Elements with interaction handlers must be focusable.',
     },
   },
-  defaultOptions: [],
-  create(context) {
+  defaultOptions: [{ allowList: DEFAULT_ALLOW_LIST }],
+  create(context, [{ allowList }]) {
     return {
       Element$1(node: TmplAstElement) {
         const elementType = node.name;
@@ -45,6 +62,8 @@ export default createESLintRule<Options, MessageIds>({
             output.name.startsWith('keydown') ||
             output.name.startsWith('keypress'),
         );
+
+        if (isElementInAllowList(elementType, allowList)) return;
 
         if (
           !interactiveOutput ||
@@ -83,3 +102,12 @@ export default createESLintRule<Options, MessageIds>({
     };
   },
 });
+
+function isElementInAllowList(
+  elementType: string,
+  allowList?: readonly string[],
+): boolean | undefined {
+  return (
+    allowList && allowList.length > 0 && allowList.indexOf(elementType) > -1
+  );
+}

@@ -13,6 +13,7 @@ export default {
     ],
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
+  coverageProvider: 'v8',
   coverageDirectory: '../../coverage/packages/eslint-plugin-template',
   coverageReporters: ['text-summary', 'lcov'],
 };
