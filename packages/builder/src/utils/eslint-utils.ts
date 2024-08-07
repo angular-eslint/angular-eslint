@@ -30,10 +30,12 @@ export async function resolveAndInstantiateESLint(
   if (
     useFlatConfig &&
     eslintConfigPath &&
-    !eslintConfigPath?.endsWith('eslint.config.js')
+    !eslintConfigPath?.endsWith('eslint.config.js') &&
+    !eslintConfigPath?.endsWith('eslint.config.mjs') &&
+    !eslintConfigPath?.endsWith('eslint.config.cjs')
   ) {
     throw new Error(
-      'When using the new Flat Config with ESLint, all configs must be named eslint.config.js and .eslintrc files may not be used. See https://eslint.org/docs/latest/use/configure/configuration-files-new',
+      'When using the new Flat Config with ESLint, all configs must be named eslint.config.(js|mjs|cjs) and .eslintrc files may not be used. See https://eslint.org/docs/latest/use/configure/configuration-files-new',
     );
   }
   const ESLint = await resolveESLintClass(useFlatConfig);

@@ -41,10 +41,14 @@ export default convertNxExecutor(
     /**
      * Until ESLint v9 is released and the new so called flat config is the default
      * we only want to support it if the user has explicitly opted into it by converting
-     * their root ESLint config to use eslint.config.js
+     * their root ESLint config to use eslint.config.(js|mjs|cjs).
      */
     const useFlatConfig = existsSync(
       joinPathFragments(workspaceRoot, 'eslint.config.js'),
+    ) || existsSync(
+      joinPathFragments(workspaceRoot, 'eslint.config.mjs'),
+    ) || existsSync(
+      joinPathFragments(workspaceRoot, 'eslint.config.cjs'),
     );
     const { eslint, ESLint } = await resolveAndInstantiateESLint(
       eslintConfigPath,

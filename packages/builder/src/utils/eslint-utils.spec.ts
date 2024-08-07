@@ -147,12 +147,18 @@ describe('eslint-utils', () => {
   });
 
   describe('ESLint Flat Config', () => {
-    it('should throw if a non eslint.config.js file is used with ESLint Flat Config', async () => {
+    it('should throw if an .eslintrc.json file is used with ESLint Flat Config', async () => {
       await expect(
         resolveAndInstantiateESLint('./.eslintrc.json', {} as any, true),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"When using the new Flat Config with ESLint, all configs must be named eslint.config.js and .eslintrc files may not be used. See https://eslint.org/docs/latest/use/configure/configuration-files-new"`,
+        `"When using the new Flat Config with ESLint, all configs must be named eslint.config.(js|mjs|cjs) and .eslintrc files may not be used. See https://eslint.org/docs/latest/use/configure/configuration-files-new"`,
       );
+    });
+
+    it('should not throw if an eslint.config.mjs file is used with ESLint Flat Config', async () => {
+      await expect(
+        resolveAndInstantiateESLint('./eslint.config.mjs', {} as any, true),
+      ).resolves.not.toThrow();
     });
 
     it('should throw if invalid options are used with ESLint Flat Config', async () => {

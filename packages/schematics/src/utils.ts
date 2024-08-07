@@ -404,7 +404,7 @@ export function createESLintConfigForProject(
   const hasE2e = !!targets?.e2e;
 
   const useFlatConfig = shouldUseFlatConfig(tree);
-  const alreadyHasRootFlatConfig = tree.exists('eslint.config.js');
+  const alreadyHasRootFlatConfig = tree.exists('eslint.config.js') || tree.exists('eslint.config.mjs') || tree.exists('eslint.config.cjs');
   const alreadyHasRootESLintRC = tree.exists('.eslintrc.json');
 
   /**
@@ -538,7 +538,7 @@ export function shouldUseFlatConfig(
 ): boolean {
   let useFlatConfig = true;
   try {
-    const alreadyHasRootFlatConfig = tree.exists('eslint.config.js');
+    const alreadyHasRootFlatConfig = tree.exists('eslint.config.js') || tree.exists('eslint.config.mjs') || tree.exists('eslint.config.cjs');
     const alreadyHasRootESLintRC = tree.exists('.eslintrc.json');
 
     if (alreadyHasRootFlatConfig) {
