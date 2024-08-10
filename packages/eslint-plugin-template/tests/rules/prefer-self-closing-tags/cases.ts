@@ -26,6 +26,11 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '<ng-content/>',
   '<ng-content select="my-selector" />',
   `<ng-content>Fallback content</ng-content>`,
+  `<ng-content
+     select="content"
+   >
+    <p>Fallback content</p>
+  </ng-content>`,
   { code: '<app-root></app-root>', filename: 'src/index.html' },
 ];
 
