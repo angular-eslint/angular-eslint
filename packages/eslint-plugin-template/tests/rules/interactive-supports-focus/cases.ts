@@ -166,6 +166,11 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     `,
   },
 
+  // custom element, only HTML DOM elements are validated
+  {
+    code: `<test-component (keydown)="onKeyDown()"></test-component>`,
+  },
+
   // allowList: by default the form element is allowed to support click and key event bubbling
   {
     code: `<form (keydown)="onKeyDown()"></form>`,

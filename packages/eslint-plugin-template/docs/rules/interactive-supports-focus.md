@@ -913,6 +913,32 @@ interface Options {
 #### ✅ Valid Code
 
 ```html
+<test-component (keydown)="onKeyDown()"></test-component>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/interactive-supports-focus": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
 <form (keydown)="onKeyDown()"></form>
 ```
 
