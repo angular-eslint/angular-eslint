@@ -99,7 +99,7 @@ export default createESLintRule<Options, MessageIds>({
       if (sourceSpan.toString().includes(ngContentCloseTag)) {
         const whiteSpaceContent = sourceSpan
           .toString()
-          .match(/>(\s*)</m)
+          .match(/<ng-content[^>]*>(\s*)<\/ng-content>/m)
           ?.at(1);
         const hasContent = typeof whiteSpaceContent === 'undefined';
         if (hasContent) {
