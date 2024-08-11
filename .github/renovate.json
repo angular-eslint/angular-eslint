@@ -27,5 +27,6 @@
       "matchPackageNames": ["eslint", "@angular/compiler"],
       "semanticCommitType": "fix"
     }
-  ]
+  ],
+  "rebaseWhen": "conflicted"
 }
