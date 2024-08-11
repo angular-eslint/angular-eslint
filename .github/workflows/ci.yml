@@ -23,48 +23,44 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install node and npm based on the volta config in our package.json
-        uses: volta-cli/action@v4
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          run_install: false
 
-      - name: Get yarn cache directory path and node version for cache key and NX_CI_EXECUTION_ENV
-        id: yarn-cache-dir-path
-        run: |
-          echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
-          echo "node_version=$(node --version)" >> $GITHUB_OUTPUT
+      - name: Install Node.js per package.json
+        uses: actions/setup-node@v4
+        with:
+          # Use the volta.node property as the source of truth
+          node-version-file: 'package.json'
+          cache: 'pnpm'
 
-          # Added the - at the end to function as a separator to improve readability in the PR comment from the Nx cloud app
-          echo "NX_CI_EXECUTION_ENV=Node $(node --version) -" >> $GITHUB_ENV
+      - name: Set the node version in NX_CI_EXECUTION_ENV
+        # Added the - at the end to function as a separator to improve readability in the PR comment from the Nx cloud app
+        run: echo "NX_CI_EXECUTION_ENV=Node $(node --version) -" >> $GITHUB_ENV
 
       - name: Start Nx Cloud CI Run
-        run: npx nx-cloud start-ci-run --distribute-on="6 custom-linux-medium-plus-js" --stop-agents-after="e2e-suite"
-
-      - uses: actions/cache@v4
-        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-node-${{ steps.yarn-cache-dir-path.outputs.node_version }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-node-${{ steps.yarn-cache-dir-path.outputs.node_version }}-yarn-
+        run: pnpm dlx nx-cloud start-ci-run --distribute-on="6 custom-linux-medium-plus-js" --stop-agents-after="e2e-suite"
 
       - name: Install dependencies (skipping postinstall)
         # We use --ignore-scripts to skip automatic postinstall and give us more control over distributing build tasks
         run: |
-          yarn --ignore-engines --frozen-lockfile --prefer-offline --ignore-scripts
-          yarn check-clean-workspace-after-install
-          npx jest --clearCache
+          pnpm install --frozen-lockfile --prefer-offline --ignore-scripts
+          pnpm patch-package --patch-dir ./tools/patches
+          pnpm check-clean-workspace-after-install
 
       - name: Run parallel distributed tasks for build, typecheck, check-rule-docs, check-rule-lists, check-rule-configs, lint and test targets
         uses: jameshenry/parallel-bash-commands@v1
         with:
           # Note that the typecheck target *also* typechecks tests and tools,
           # whereas the build only checks src files
-          cmd1: npx nx run-many -t build,typecheck,check-rule-docs,lint,check-rule-lists,check-rule-configs
-          cmd2: npx nx run-many -t test --codeCoverage
-          cmd3: npx nx-cloud record -- yarn format-check
+          cmd1: pnpm nx run-many -t build,typecheck,check-rule-docs,lint,check-rule-lists,check-rule-configs
+          cmd2: pnpm nx run-many -t test --codeCoverage
+          cmd3: pnpm nx-cloud record -- pnpm format-check
 
       # Run distributed e2e test suites with independent local registries (max 1 per agent via parallel=1)
       - name: Run e2e test suites
-        run: npx nx run-many -t e2e-suite --parallel 1
+        run: pnpm nx run-many -t e2e-suite --parallel 1
 
       - name: Publish code coverage report
         uses: codecov/codecov-action@v4
@@ -77,7 +73,7 @@ jobs:
       - name: Stop all running agents for this CI run
         # It's important that we always run this step, otherwise in the case of any failures in preceding non-Nx steps, the agents will keep running and waste billable minutes
         if: ${{ always() }}
-        run: yarn nx-cloud stop-all-agents
+        run: pnpm nx-cloud stop-all-agents
 
   unit_tests_on_other_node_versions:
     name: Unit tests on other supported Node versions
@@ -90,48 +86,40 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: volta-cli/action@v4
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
         with:
-          # The Node.js version to configure
+          run_install: false
+
+      - name: Install Node.js ${{ matrix.node }}
+        uses: actions/setup-node@v4
+        with:
           node-version: ${{ matrix.node }}
+          cache: 'pnpm'
 
-      - name: Get yarn cache directory path and node version for cache key and NX_CI_EXECUTION_ENV
-        id: yarn-cache-dir-path
-        run: |
-          echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
-          echo "node_version=$(node --version)" >> $GITHUB_OUTPUT
-
-          # Added the - at the end to function as a separator to improve readability in the PR comment from the Nx cloud app
-          # NOTE: We are intentionally not using matrix.node here because that does not contain the full semver value
-          echo "NX_CI_EXECUTION_ENV=Node $(node --version) -" >> $GITHUB_ENV
-
-      - uses: actions/cache@v4
-        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-node-${{ steps.yarn-cache-dir-path.outputs.node_version }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-node-${{ steps.yarn-cache-dir-path.outputs.node_version }}-yarn-
+      - name: Set the node version in NX_CI_EXECUTION_ENV
+        # Added the - at the end to function as a separator to improve readability in the PR comment from the Nx cloud app
+        run: echo "NX_CI_EXECUTION_ENV=Node $(node --version) -" >> $GITHUB_ENV
 
       - name: Install dependencies (skipping postinstall)
-        # We use --ignore-scripts to skip automatic postinstall and give us more control to distribute tasks
+        # We use --ignore-scripts to skip automatic postinstall and give us more control over distributing build tasks
         run: |
-          yarn --ignore-engines --frozen-lockfile --prefer-offline --ignore-scripts
-          yarn patch-package --patch-dir ./tools/patches
+          pnpm install --frozen-lockfile --prefer-offline --ignore-scripts
+          pnpm patch-package --patch-dir ./tools/patches
 
       - name: Run build targets on Node ${{ matrix.node }} (not distributable)
         env:
           # We cannot distribute these because the agents are set up to run the primary node version, not this alternative we are testing
           NX_CLOUD_DISTRIBUTED_EXECUTION: false
-        run: yarn build
+        run: pnpm build
 
       - name: Run test targets on Node ${{ matrix.node }} (not distributable)
         env:
           # We cannot distribute these because the agents are set up to run the primary node version, not this alternative we are testing
           NX_CLOUD_DISTRIBUTED_EXECUTION: false
-        run: yarn test
+        run: pnpm test
 
-      - run: yarn nx-cloud complete-ci-run
+      - run: pnpm nx-cloud complete-ci-run
         # It's important that we always run this step, otherwise in the case of any failures in preceding non-Nx steps, the agents will keep running and waste billable minutes
         if: ${{ always() }}
 
@@ -148,44 +136,33 @@ jobs:
         with:
           fetch-depth: 0 # we need the tags to be available
 
-      - name: Install node and npm based on the volta config in our package.json
-        uses: volta-cli/action@v4
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          run_install: false
 
-      - name: Get yarn cache directory path and node version for cache key
-        id: yarn-cache-dir-path
-        run: |
-          echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
-          echo "node_version=$(node --version)" >> $GITHUB_OUTPUT
-
-      - name: Apply version resolved by volta to standard Node action make authenticated npm publish easier
+      - name: Install Node.js per package.json
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ steps.yarn-cache-dir-path.outputs.node_version }}
+          # Use the volta.node property as the source of truth
+          node-version-file: 'package.json'
+          cache: 'pnpm'
           registry-url: https://registry.npmjs.org/
 
-      - uses: actions/cache@v4
-        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-node-${{ steps.yarn-cache-dir-path.outputs.node_version }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-node-${{ steps.yarn-cache-dir-path.outputs.node_version }}-yarn-
-
-      - name: Install dependencies (skipping postinstall)
-        # We use --ignore-scripts to skip automatic postinstall and give us more control to distribute tasks
+      - name: Install dependencies
+        env:
+          # We cannot distribute this because the agents have already been stopped by this point
+          # but it should not matter because this should be a full cloud cache hit
+          NX_CLOUD_DISTRIBUTED_EXECUTION: false
         run: |
-          yarn --ignore-engines --frozen-lockfile --prefer-offline --ignore-scripts
-
-      - name: Run build ahead of publishing
-        # We cannot distribute this because the agents have already been stopped by this point
-        # but it should not matter because this should be a full cloud cache hit
-        run: NX_CLOUD_DISTRIBUTED_EXECUTION=false yarn build
+          pnpm install --frozen-lockfile --prefer-offline
+          pnpm patch-package --patch-dir ./tools/patches
 
       - name: Figure out and apply the next canary version
-        run: yarn tsx ./tools/scripts/apply-canary-version.ts
+        run: pnpm tsx ./tools/scripts/apply-canary-version.ts
 
       - name: Publish all packages to npm with the canary tag
-        # NOTE: this needs to be npx, rather than yarn, to make sure the authenticated npm registry is used
+        # NOTE: this needs to be npx, rather than pnpm, to make sure the authenticated npm registry is used
         run: npx nx release publish --tag canary
         env:
           NX_CLOUD_DISTRIBUTED_EXECUTION: false

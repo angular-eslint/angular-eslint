@@ -65,6 +65,7 @@
       "cache": true
     },
     "update-rule-configs": {
+      "dependsOn": ["^build"],
       "cache": true
     },
     "lint": {
@@ -124,7 +125,7 @@
         "runtime": "npm --version"
       },
       {
-        "runtime": "yarn --version"
+        "runtime": "pnpm --version"
       }
     ],
     "production": [
