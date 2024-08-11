@@ -19,8 +19,8 @@
     "builders.json"
   ],
   "dependencies": {
-    "@nx/devkit": "^19.0.6",
-    "nx": "^19.0.6"
+    "@nx/devkit": ">= 19.5.4 < 20.0.0",
+    "nx": ">= 19.5.4 < 20.0.0"
   },
   "peerDependencies": {
     "eslint": "^8.57.0 || ^9.0.0",
