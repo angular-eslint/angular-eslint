@@ -74,7 +74,7 @@
     "@types/eslint": "8.56.11",
     "@types/eslint-scope": "3.7.7",
     "@types/jest": "29.4.4",
-    "@types/node": "20.14.13",
+    "@types/node": "20.14.15",
     "@types/prettier": "3.0.0",
     "@types/semver": "^7.5.8",
     "@typescript-eslint/rule-tester": "8.0.0",
