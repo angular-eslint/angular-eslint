@@ -38,7 +38,7 @@
   "dependencies": {
     "@angular-eslint/eslint-plugin": "18.2.0",
     "@angular-eslint/eslint-plugin-template": "18.2.0",
-    "@nx/devkit": "^19.0.6",
+    "@nx/devkit": ">= 19.5.4 < 20.0.0",
     "ignore": "5.3.1",
     "nx": "^19.0.6",
     "semver": "7.6.3",
