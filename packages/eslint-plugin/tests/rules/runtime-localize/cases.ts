@@ -1,9 +1,13 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { MessageIds } from '../../../src/rules/runtime-localize';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type { MessageIds, Options } from '../../../src/rules/runtime-localize';
 
 const messageId: MessageIds = 'runtimeLocalize';
 
-export const valid = [
+export const valid: readonly (string | ValidTestCase<Options>)[]  = [
   `
     function test() { return $localize\`foo\`; }
   `,
@@ -43,7 +47,7 @@ export const valid = [
   `,
 ];
 
-export const invalid = [
+export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     description: 'should fail when $localize is assigned at the file-level',
     annotatedSource: `

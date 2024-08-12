@@ -2,7 +2,7 @@ import { ASTUtils, AST_NODE_TYPES } from '@typescript-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
-type Options = [];
+export type Options = [];
 export type MessageIds = 'runtimeLocalize';
 export const RULE_NAME = 'runtime-localize';
 
