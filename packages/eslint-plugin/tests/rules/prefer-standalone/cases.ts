@@ -52,6 +52,10 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     class Test {}
   `,
   `
+    @Directive()
+    abstract class Test {}
+  `,
+  `
     @Pipe({
       standalone: true,
     })

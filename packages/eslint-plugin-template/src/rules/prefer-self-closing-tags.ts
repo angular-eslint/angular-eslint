@@ -32,7 +32,7 @@ export default createESLintRule<Options, MessageIds>({
     const parserServices = getTemplateParserServices(context);
 
     // angular 18 doesnt support self closing tags in index.html
-    if (context.physicalFilename.endsWith('src/index.html')) {
+    if (/src[\\/]index\.html$/.test(context.physicalFilename)) {
       // If it is, return an empty object to skip this rule
       return {};
     }
@@ -99,7 +99,7 @@ export default createESLintRule<Options, MessageIds>({
       if (sourceSpan.toString().includes(ngContentCloseTag)) {
         const whiteSpaceContent = sourceSpan
           .toString()
-          .match(/>(\s*)</m)
+          .match(/<ng-content[^>]*>(\s*)<\/ng-content>/m)
           ?.at(1);
         const hasContent = typeof whiteSpaceContent === 'undefined';
         if (hasContent) {

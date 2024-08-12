@@ -1,3 +1,13 @@
+## 18.2.0 (2024-07-31)
+
+### 🚀 Features
+
+- update typescript-eslint to v8 stable, eslint v9.8.0
+
+### ❤️ Thank You
+
+- James Henry
+
 ## 18.1.0 (2024-07-01)
 
 ### 🩹 Fixes

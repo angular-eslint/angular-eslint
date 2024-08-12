@@ -1,3 +1,20 @@
+## 18.2.0 (2024-07-31)
+
+### 🚀 Features
+
+- update typescript-eslint to v8 stable, eslint v9.8.0
+
+### 🩹 Fixes
+
+- update dependency axobject-query to v4.1.0
+
+- **eslint-plugin-template:** add meta to preprocessor to resolve eslint cache error
+
+### ❤️ Thank You
+
+- James Henry
+- kwiateusz
+
 ## 18.1.0 (2024-07-01)
 
 ### 🚀 Features
