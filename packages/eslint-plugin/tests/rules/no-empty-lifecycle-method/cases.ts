@@ -1,10 +1,17 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { MessageIds } from '../../../src/rules/no-empty-lifecycle-method';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type {
+  MessageIds,
+  Options,
+} from '../../../src/rules/no-empty-lifecycle-method';
 
 const messageId: MessageIds = 'noEmptyLifecycleMethod';
 const suggestRemoveLifecycleMethod: MessageIds = 'suggestRemoveLifecycleMethod';
 
-export const valid = [
+export const valid: readonly (string | ValidTestCase<Options>)[] = [
   `
     @Component()
     class Test {
@@ -71,7 +78,7 @@ export const valid = [
     }
   `,
 ];
-export const invalid = [
+export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     description: 'should fail if `ngAfterContentChecked()` method is empty',
     annotatedSource: `

@@ -10,7 +10,7 @@ type LabelComponent = {
   readonly inputs?: readonly string[];
   readonly selector: string;
 };
-type Options = [
+export type Options = [
   {
     readonly controlComponents?: readonly string[];
     readonly labelComponents?: readonly LabelComponent[];

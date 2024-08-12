@@ -6,7 +6,7 @@ import {
 import type { TSESTree } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
-type Options = [{ readonly suffixes: readonly string[] }];
+export type Options = [{ readonly suffixes: readonly string[] }];
 export type MessageIds = 'directiveClassSuffix';
 export const RULE_NAME = 'directive-class-suffix';
 const STYLE_GUIDE_LINK = 'https://angular.dev/style-guide#style-02-03';

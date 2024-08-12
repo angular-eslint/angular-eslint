@@ -7,7 +7,7 @@ import {
 import type { TSESTree } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
-type Options = [];
+export type Options = [];
 export type MessageIds = 'preferStandaloneComponent';
 export const RULE_NAME = 'prefer-standalone-component';
 const METADATA_PROPERTY_NAME = 'standalone';

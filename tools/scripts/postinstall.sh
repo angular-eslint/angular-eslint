@@ -8,10 +8,10 @@ if [ -n "$SKIP_POSTINSTALL" ]; then
 fi
 
 # Apply patches
-yarn patch-package --patch-dir ./tools/patches
+pnpm patch-package --patch-dir ./tools/patches
 
 # Build all the packages ready for use
-yarn build
+pnpm build
 
 # Check for a clean workspace after install and build
-yarn check-clean-workspace-after-install
+pnpm check-clean-workspace-after-install

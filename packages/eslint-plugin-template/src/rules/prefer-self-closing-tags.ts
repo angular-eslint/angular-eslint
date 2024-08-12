@@ -8,10 +8,11 @@ import { getTemplateParserServices } from '@angular-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import { getDomElements } from '../utils/get-dom-elements';
 
-export const MESSAGE_ID = 'preferSelfClosingTags';
+export type Options = [];
+export type MessageIds = 'preferSelfClosingTags';
 export const RULE_NAME = 'prefer-self-closing-tags';
 
-export default createESLintRule<[], typeof MESSAGE_ID>({
+export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
   meta: {
     type: 'layout',
@@ -22,7 +23,7 @@ export default createESLintRule<[], typeof MESSAGE_ID>({
     fixable: 'code',
     schema: [],
     messages: {
-      [MESSAGE_ID]:
+      preferSelfClosingTags:
         'Use self-closing tags for elements with a closing tag but no content.',
     },
   },
@@ -31,7 +32,7 @@ export default createESLintRule<[], typeof MESSAGE_ID>({
     const parserServices = getTemplateParserServices(context);
 
     // angular 18 doesnt support self closing tags in index.html
-    if (context.physicalFilename.endsWith('src/index.html')) {
+    if (/src[\\/]index\.html$/.test(context.physicalFilename)) {
       // If it is, return an empty object to skip this rule
       return {};
     }
@@ -83,7 +84,7 @@ export default createESLintRule<[], typeof MESSAGE_ID>({
 
       context.report({
         loc: parserServices.convertNodeSourceSpanToLoc(endSourceSpan),
-        messageId: MESSAGE_ID,
+        messageId: 'preferSelfClosingTags',
         fix: (fixer) =>
           fixer.replaceTextRange(
             [startSourceSpan.end.offset - 1, endSourceSpan.end.offset],
@@ -98,7 +99,7 @@ export default createESLintRule<[], typeof MESSAGE_ID>({
       if (sourceSpan.toString().includes(ngContentCloseTag)) {
         const whiteSpaceContent = sourceSpan
           .toString()
-          .match(/>(\s*)</m)
+          .match(/<ng-content[^>]*>(\s*)<\/ng-content>/m)
           ?.at(1);
         const hasContent = typeof whiteSpaceContent === 'undefined';
         if (hasContent) {
@@ -125,7 +126,7 @@ export default createESLintRule<[], typeof MESSAGE_ID>({
               column: sourceSpan.end.col,
             },
           },
-          messageId: MESSAGE_ID,
+          messageId: 'preferSelfClosingTags',
           fix: (fixer) =>
             fixer.replaceTextRange(
               [

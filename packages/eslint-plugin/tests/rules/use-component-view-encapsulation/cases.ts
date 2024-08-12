@@ -1,11 +1,18 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { MessageIds } from '../../../src/rules/use-component-view-encapsulation';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type {
+  MessageIds,
+  Options,
+} from '../../../src/rules/use-component-view-encapsulation';
 
 const messageId: MessageIds = 'useComponentViewEncapsulation';
 const suggestRemoveViewEncapsulationNone: MessageIds =
   'suggestRemoveViewEncapsulationNone';
 
-export const valid = [
+export const valid: readonly (string | ValidTestCase<Options>)[] = [
   `
     @Component({
       encapsulation: ViewEncapsulation.Emulated,
@@ -80,7 +87,7 @@ export const valid = [
   `,
 ];
 
-export const invalid = [
+export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     description:
       'should fail if `encapsulation` metadata property is set to `ViewEncapsulation.None`',

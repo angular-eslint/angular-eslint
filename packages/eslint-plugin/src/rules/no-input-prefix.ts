@@ -6,7 +6,7 @@ import {
 import type { TSESTree } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
-type Options = [{ readonly prefixes: readonly string[] }];
+export type Options = [{ readonly prefixes: readonly string[] }];
 export type MessageIds = 'noInputPrefix';
 export const RULE_NAME = 'no-input-prefix';
 

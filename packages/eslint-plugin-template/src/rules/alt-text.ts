@@ -6,7 +6,7 @@ import { getTemplateParserServices } from '@angular-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import { getAttributeValue } from '../utils/get-attribute-value';
 
-type Options = [];
+export type Options = [];
 export type MessageIds = 'altText';
 export const RULE_NAME = 'alt-text';
 

@@ -7,7 +7,7 @@ import {
 import { ensureTemplateParser } from '@angular-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
-type Options = [];
+export type Options = [];
 export type MessageIds = 'noAny' | 'suggestRemoveAny';
 export const RULE_NAME = 'no-any';
 const ANY_TYPE_CAST_FUNCTION_NAME = '$any';

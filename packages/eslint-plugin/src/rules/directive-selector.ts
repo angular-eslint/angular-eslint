@@ -7,13 +7,15 @@ import {
 import type { TSESTree } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
-export const RULE_NAME = 'directive-selector';
+export type Options = SelectorUtils.Options;
 export type MessageIds = 'prefixFailure' | 'styleFailure' | 'typeFailure';
+export const RULE_NAME = 'directive-selector';
+
 const STYLE_GUIDE_PREFIX_LINK = 'https://angular.dev/style-guide#style-02-08';
 const STYLE_GUIDE_STYLE_TYPE_LINK =
   'https://angular.dev/style-guide#style-02-06';
 
-export default createESLintRule<SelectorUtils.Options, MessageIds>({
+export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
   meta: {
     type: 'suggestion',

@@ -10,7 +10,7 @@ launch-templates:
       - name: node_modules cache
         uses: 'nrwl/nx-cloud-workflows/v4/workflow-steps/cache/main.yaml'
         inputs:
-          key: 'yarn.lock'
+          key: 'pnpm-lock.yaml'
           paths: 'node_modules'
           baseBranch: 'main'
       - name: NPM Install
@@ -18,6 +18,4 @@ launch-templates:
         env:
           SKIP_POSTINSTALL: 'true'
       - name: Apply patches
-        script: 'yarn patch-package --patch-dir ./tools/patches'
-      - name: Clear Jest Cache
-        script: 'npx jest --clearCache'
+        script: 'pnpm patch-package --patch-dir ./tools/patches'

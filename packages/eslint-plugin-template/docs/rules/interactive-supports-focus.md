@@ -23,7 +23,17 @@
 
 ## Rule Options
 
-The rule does not have any configuration options.
+The rule accepts an options object with the following properties:
+
+```ts
+interface Options {
+  /**
+   * Default: `["form"]`
+   */
+  allowList?: string[];
+}
+
+```
 
 <br>
 
@@ -356,6 +366,36 @@ The rule does not have any configuration options.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/interactive-supports-focus": [
+      "error",
+      {
+        "allowList": []
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<form (keydown)="onKeyDown()"></form>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
 </details>
 
 <br>
@@ -638,6 +678,7 @@ The rule does not have any configuration options.
 
 ```html
 <a (click)="onClick()" tabindex="0">Click me</a>
+<a (click)="onClick()" tabindex={{0}}>Click me</a>
 <a (click)="onClick()" [attr.tabindex]="0">Click me</a>
 <a (click)="onClick()" tabindex="bad">Click me</a>
 <a (click)="onClick()" [attr.tabindex]="undefined"}>Click me</a>
@@ -696,33 +737,6 @@ The rule does not have any configuration options.
 <a (click)="onClick()" href="http://x.y.z">x.y.z</a>
 <a role="link" (click)="onClick()" href="http://x.y.z">x.y.z</a>
 <a (click)="onClick()" href="javascript:void(0);">Click ALL the things!</a>
-```
-
-<br>
-
----
-
-<br>
-
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/template/interactive-supports-focus": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
-#### ✅ Valid Code
-
-```html
-<a (click)="onClick()" tabindex="0">x.y.z</a>
-<a (click)="onClick()" tabindex={0}>x.y.z</a>
 ```
 
 <br>
@@ -874,6 +888,91 @@ The rule does not have any configuration options.
 <div contenteditable="true" (keyup)="onKeyUp()">Edit this text</div>
 <div [attr.contenteditable]="true" (keydown)="onKeyDown()">Edit this text</div>
 <div contenteditable (keypress)="onKeyPress()">Edit this too!</div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/interactive-supports-focus": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<test-component (keydown)="onKeyDown()"></test-component>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/interactive-supports-focus": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<form (keydown)="onKeyDown()"></form>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/interactive-supports-focus": [
+      "error",
+      {
+        "allowList": [
+          "form",
+          "section"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<form (keydown)="onKeyDown()"></form>
+<section (keydown)="onKeyDown()"></section>
 ```
 
 </details>

@@ -1216,7 +1216,8 @@ class Test {}
       "error",
       {
         "type": "element",
-        "style": "kebab-case"
+        "style": "kebab-case",
+        "prefix": ""
       }
     ]
   }

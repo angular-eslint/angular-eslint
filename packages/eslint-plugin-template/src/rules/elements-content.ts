@@ -3,7 +3,7 @@ import { getTemplateParserServices } from '@angular-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import { isHiddenFromScreenReader } from '../utils/is-hidden-from-screen-reader';
 
-type Options = [
+export type Options = [
   {
     readonly allowList?: readonly string[];
   },

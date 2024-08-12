@@ -2,7 +2,7 @@ import type { TmplAstElement } from '@angular-eslint/bundled-angular-compiler';
 import { getTemplateParserServices } from '@angular-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
-type Options = [];
+export type Options = [];
 export type MessageIds = 'noDistractingElements';
 export const RULE_NAME = 'no-distracting-elements';
 

@@ -1,9 +1,13 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { MessageIds } from '../../../src/rules/alt-text';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type { MessageIds, Options } from '../../../src/rules/alt-text';
 
 const messageId: MessageIds = 'altText';
 
-export const valid = [
+export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '<img src="foo" alt="Foo eating a sandwich.">',
   '<img src="foo" [attr.alt]="altText">',
   `<img src="foo" [attr.alt]="'Alt Text'">`,
@@ -21,7 +25,7 @@ export const valid = [
   '<input type="image" aria-labelledby="id1">',
 ];
 
-export const invalid = [
+export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     messageId,
     description: 'should fail image does not have alt text',

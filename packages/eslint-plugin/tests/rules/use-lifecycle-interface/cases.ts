@@ -1,10 +1,17 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
 import { ASTUtils } from '@angular-eslint/utils';
-import type { MessageIds } from '../../../src/rules/use-lifecycle-interface';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type {
+  MessageIds,
+  Options,
+} from '../../../src/rules/use-lifecycle-interface';
 
 const messageId: MessageIds = 'useLifecycleInterface';
 
-export const valid = [
+export const valid: readonly (string | ValidTestCase<Options>)[] = [
   `
     class Test implements OnInit {
       ngOnInit() {}
@@ -39,7 +46,7 @@ export const valid = [
   'class Test {}',
 ];
 
-export const invalid = [
+export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     description:
       'it should fail if lifecycle method is declared without implementing its interface',

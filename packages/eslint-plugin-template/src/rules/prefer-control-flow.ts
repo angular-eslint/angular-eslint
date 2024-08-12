@@ -1,11 +1,12 @@
-import { createESLintRule } from '../utils/create-eslint-rule';
-import { getTemplateParserServices } from '@angular-eslint/utils';
 import type { TmplAstBoundAttribute } from '@angular-eslint/bundled-angular-compiler';
+import { getTemplateParserServices } from '@angular-eslint/utils';
+import { createESLintRule } from '../utils/create-eslint-rule';
 
-export const MESSAGE_ID = 'preferControlFlow';
+export type Options = [];
+export type MessageIds = 'preferControlFlow';
 export const RULE_NAME = 'prefer-control-flow';
 
-export default createESLintRule<[], typeof MESSAGE_ID>({
+export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
   meta: {
     type: 'suggestion',
@@ -14,7 +15,8 @@ export default createESLintRule<[], typeof MESSAGE_ID>({
     },
     schema: [],
     messages: {
-      [MESSAGE_ID]: 'Use built-in control flow instead of directive {{name}}.',
+      preferControlFlow:
+        'Use built-in control flow instead of directive {{name}}.',
     },
   },
   defaultOptions: [],
@@ -28,7 +30,7 @@ export default createESLintRule<[], typeof MESSAGE_ID>({
       }: TmplAstBoundAttribute) {
         const loc = parserServices.convertNodeSourceSpanToLoc(sourceSpan);
         context.report({
-          messageId: MESSAGE_ID,
+          messageId: 'preferControlFlow',
           loc,
           data: { name },
         });

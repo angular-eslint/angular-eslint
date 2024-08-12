@@ -1,10 +1,17 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { MessageIds } from '../../../src/rules/prefer-output-readonly';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type {
+  MessageIds,
+  Options,
+} from '../../../src/rules/prefer-output-readonly';
 
 const messageId: MessageIds = 'preferOutputReadonly';
 const suggestAddReadonlyModifier: MessageIds = 'suggestAddReadonlyModifier';
 
-export const valid = [
+export const valid: readonly (string | ValidTestCase<Options>)[] = [
   `
     class Test {
       testEmitter = new EventEmitter<string>();
@@ -57,7 +64,7 @@ export const valid = [
     `,
 ];
 
-export const invalid = [
+export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     description: 'should fail when an @Output is not readonly',
     annotatedSource: `

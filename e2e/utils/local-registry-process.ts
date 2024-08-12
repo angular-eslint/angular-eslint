@@ -29,17 +29,12 @@ export async function runNpmInstall(): Promise<
   return await runCommandOnLocalRegistry('npm', ['install']);
 }
 
-export async function runYarnInstall(): Promise<
-  execa.ExecaChildProcess<string>
-> {
-  return await runCommandOnLocalRegistry('yarn', ['install']);
-}
-
 export async function runNgAdd(): Promise<execa.ExecaChildProcess<string>> {
   return await runCommandOnLocalRegistry('npx', [
     'ng',
     'add',
     `@angular-eslint/schematics@${E2E_VERSION}`,
+    `--skip-confirmation`,
   ]);
 }
 

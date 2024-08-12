@@ -109,16 +109,13 @@ interface Options {
 
 <br>
 
-#### Custom Config
+#### Default Config
 
 ```json
 {
   "rules": {
     "@angular-eslint/template/attributes-order": [
-      "error",
-      {
-        "alphabetical": true
-      }
+      "error"
     ]
   }
 }
@@ -282,6 +279,7 @@ interface Options {
     "@angular-eslint/template/attributes-order": [
       "error",
       {
+        "alphabetical": false,
         "order": []
       }
     ]
@@ -483,16 +481,13 @@ interface Options {
 
 <br>
 
-#### Custom Config
+#### Default Config
 
 ```json
 {
   "rules": {
     "@angular-eslint/template/attributes-order": [
-      "error",
-      {
-        "alphabetical": true
-      }
+      "error"
     ]
   }
 }
@@ -513,16 +508,13 @@ interface Options {
 
 <br>
 
-#### Custom Config
+#### Default Config
 
 ```json
 {
   "rules": {
     "@angular-eslint/template/attributes-order": [
-      "error",
-      {
-        "alphabetical": true
-      }
+      "error"
     ]
   }
 }
@@ -543,16 +535,13 @@ interface Options {
 
 <br>
 
-#### Custom Config
+#### Default Config
 
 ```json
 {
   "rules": {
     "@angular-eslint/template/attributes-order": [
-      "error",
-      {
-        "alphabetical": true
-      }
+      "error"
     ]
   }
 }
@@ -573,16 +562,13 @@ interface Options {
 
 <br>
 
-#### Custom Config
+#### Default Config
 
 ```json
 {
   "rules": {
     "@angular-eslint/template/attributes-order": [
-      "error",
-      {
-        "alphabetical": true
-      }
+      "error"
     ]
   }
 }
@@ -603,16 +589,13 @@ interface Options {
 
 <br>
 
-#### Custom Config
+#### Default Config
 
 ```json
 {
   "rules": {
     "@angular-eslint/template/attributes-order": [
-      "error",
-      {
-        "alphabetical": true
-      }
+      "error"
     ]
   }
 }
@@ -637,16 +620,13 @@ interface Options {
 
 <br>
 
-#### Custom Config
+#### Default Config
 
 ```json
 {
   "rules": {
     "@angular-eslint/template/attributes-order": [
-      "error",
-      {
-        "alphabetical": true
-      }
+      "error"
     ]
   }
 }
@@ -698,16 +678,13 @@ interface Options {
 
 <br>
 
-#### Custom Config
+#### Default Config
 
 ```json
 {
   "rules": {
     "@angular-eslint/template/attributes-order": [
-      "error",
-      {
-        "alphabetical": true
-      }
+      "error"
     ]
   }
 }

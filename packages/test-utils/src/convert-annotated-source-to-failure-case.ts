@@ -1,4 +1,8 @@
-import type { TSESLint } from '@typescript-eslint/utils';
+import type {
+  InvalidTestCase,
+  SuggestionOutput,
+  TestCaseError,
+} from '@typescript-eslint/rule-tester';
 
 /**
  * When leveraging the convertAnnotatedSourceToFailureCase() utility, the
@@ -20,16 +24,19 @@ export const SPECIAL_UNDERLINE_CHARS = [
   '@',
 ] as const;
 
-type MultipleErrorOptions<TMessageIds extends string> = BaseErrorOptions & {
+type MultipleErrorOptions<
+  TMessageIds extends string,
+  Options extends readonly unknown[],
+> = BaseErrorOptions<Options> & {
   readonly messages: readonly (Message<TMessageIds> & {
     readonly char: (typeof SPECIAL_UNDERLINE_CHARS)[number];
   })[];
 };
 
-type BaseErrorOptions = {
+type BaseErrorOptions<Options> = {
   readonly description: string;
   readonly annotatedSource: string;
-  readonly options?: readonly unknown[];
+  readonly options?: Options;
   readonly annotatedOutput?: string;
   readonly annotatedOutputs?: readonly string[];
   readonly filename?: string;
@@ -39,11 +46,13 @@ type BaseErrorOptions = {
 type Message<TMessageIds extends string> = {
   readonly messageId: TMessageIds;
   readonly data?: Record<string, unknown>;
-  readonly suggestions?: TSESLint.SuggestionOutput<TMessageIds>[];
+  readonly suggestions?: SuggestionOutput<TMessageIds>[];
 };
 
-type SingleErrorOptions<TMessageIds extends string> = BaseErrorOptions &
-  Message<TMessageIds>;
+type SingleErrorOptions<
+  TMessageIds extends string,
+  Options extends readonly unknown[],
+> = BaseErrorOptions<Options> & Message<TMessageIds>;
 
 /**
  * convertAnnotatedSourceToFailureCase() provides an ergonomic way to easily write
@@ -72,29 +81,38 @@ type SingleErrorOptions<TMessageIds extends string> = BaseErrorOptions &
  *  }),
  * ```
  */
-export function convertAnnotatedSourceToFailureCase<TMessageIds extends string>(
-  errorOptions: SingleErrorOptions<TMessageIds>,
-): TSESLint.InvalidTestCase<TMessageIds, readonly unknown[]>;
-export function convertAnnotatedSourceToFailureCase<TMessageIds extends string>(
-  errorOptions: MultipleErrorOptions<TMessageIds>,
-): TSESLint.InvalidTestCase<TMessageIds, readonly unknown[]>;
-export function convertAnnotatedSourceToFailureCase<TMessageIds extends string>(
+export function convertAnnotatedSourceToFailureCase<
+  TMessageIds extends string,
+  Options extends readonly unknown[],
+>(
+  errorOptions: SingleErrorOptions<TMessageIds, Options>,
+): InvalidTestCase<TMessageIds, Options>;
+export function convertAnnotatedSourceToFailureCase<
+  TMessageIds extends string,
+  Options extends readonly unknown[],
+>(
+  errorOptions: MultipleErrorOptions<TMessageIds, Options>,
+): InvalidTestCase<TMessageIds, Options>;
+export function convertAnnotatedSourceToFailureCase<
+  TMessageIds extends string,
+  Options extends readonly unknown[],
+>(
   errorOptions:
-    | SingleErrorOptions<TMessageIds>
-    | MultipleErrorOptions<TMessageIds>,
-): TSESLint.InvalidTestCase<TMessageIds, readonly unknown[]> {
+    | SingleErrorOptions<TMessageIds, Options>
+    | MultipleErrorOptions<TMessageIds, Options>,
+): InvalidTestCase<TMessageIds, Options> {
   if (errorOptions.annotatedOutput && errorOptions.annotatedOutputs) {
     throw new Error(
       'Only one of `annotatedOutput` and `annotatedOutputs` should be provided',
     );
   }
 
-  const messages: MultipleErrorOptions<TMessageIds>['messages'] =
+  const messages: MultipleErrorOptions<TMessageIds, Options>['messages'] =
     'messageId' in errorOptions
       ? [{ ...errorOptions, char: '~' }]
       : errorOptions.messages;
   let parsedSource = '';
-  const errors: TSESLint.TestCaseError<TMessageIds>[] = messages.map(
+  const errors: TestCaseError<TMessageIds>[] = messages.map(
     ({ char: currentValueChar, data, messageId, suggestions }) => {
       const otherChars = messages
         .map(({ char }) => char)
@@ -131,7 +149,7 @@ export function convertAnnotatedSourceToFailureCase<TMessageIds extends string>(
     name: errorOptions.description,
     code: parsedSource,
     filename: errorOptions.filename,
-    options: errorOptions.options ?? [],
+    options: errorOptions.options ?? ([] as any),
     errors,
     only: errorOptions.only ?? false,
     output: errorOptions.annotatedOutputs

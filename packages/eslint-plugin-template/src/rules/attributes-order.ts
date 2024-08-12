@@ -24,7 +24,7 @@ export enum OrderType {
   TwoWayBinding = 'TWO_WAY_BINDING',
 }
 
-type Options = [
+export type Options = [
   {
     readonly alphabetical: boolean;
     readonly order: readonly OrderType[];
