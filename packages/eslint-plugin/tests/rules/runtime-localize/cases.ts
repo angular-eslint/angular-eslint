@@ -5,7 +5,7 @@ import type {
 } from '@typescript-eslint/rule-tester';
 import type { MessageIds, Options } from '../../../src/rules/runtime-localize';
 
-const messageId: MessageIds = 'runtimeLocalize';
+const messageId: MessageIds = 'runtimeLocalizezzz';
 
 export const valid: readonly (string | ValidTestCase<Options>)[] = [
   `
