@@ -50,14 +50,14 @@ jobs:
           # Checkout the PR branch using the github CLI
           gh pr checkout ${{ github.event.pull_request.number }}
 
-          yarn --ignore-scripts
-          yarn build
+          pnpm install --ignore-scripts
+          pnpm build
 
           # Update the e2e test snapshots
-          yarn update-e2e-snapshots --skip-nx-cache
+          pnpm update-e2e-snapshots --skip-nx-cache
 
           # Ensure all the changed files are formatted appropriately
-          yarn format
+          pnpm format
 
           # Commit all snapshot changes to the PR (see note on not being able to use secrets.GITHUB_TOKEN for this)
           git config --global user.email "james@henry.sc"
