@@ -42,11 +42,13 @@ jobs:
           done
 
       - uses: pnpm/action-setup@v4
+        if: ${{ steps.relevant-packages-check.outputs.was-changed == 'true' }}
         name: Install pnpm
         with:
           run_install: false
 
       - name: Install Node.js per package.json
+        if: ${{ steps.relevant-packages-check.outputs.was-changed == 'true' }}
         uses: actions/setup-node@v4
         with:
           # Use the volta.node property as the source of truth
