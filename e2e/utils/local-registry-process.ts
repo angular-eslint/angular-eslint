@@ -34,6 +34,7 @@ export async function runNgAdd(): Promise<execa.ExecaChildProcess<string>> {
     'ng',
     'add',
     `@angular-eslint/schematics@${E2E_VERSION}`,
+    `--skip-confirmation`,
   ]);
 }
 
