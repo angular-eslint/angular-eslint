@@ -27,6 +27,18 @@ jobs:
           # To ensure we can push from a different user (and therefore cause actions to rerun)
           persist-credentials: false
 
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          run_install: false
+
+      - name: Install Node.js per package.json
+        uses: actions/setup-node@v4
+        with:
+          # Use the volta.node property as the source of truth
+          node-version-file: 'package.json'
+          cache: 'pnpm'
+
       - name: Check if any relevant package was changed as part of the latest commit by renovate bot on the PR
         id: relevant-packages-check
         run: |
