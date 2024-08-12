@@ -54,11 +54,11 @@ export default createESLintRule<Options, MessageIds>({
             fix: (fixer) => {
               return ASTUtils.isProperty(node)
                 ? fixer.replaceText(node.value, `'${injector}'`)
-                : RuleFixes.getDecoratorPropertyAddFix(
+                : (RuleFixes.getDecoratorPropertyAddFix(
                     node,
                     fixer,
                     `${METADATA_PROPERTY_NAME}: '${injector}'`,
-                  ) ?? [];
+                  ) ?? []);
             },
             data: { injector },
           })),
