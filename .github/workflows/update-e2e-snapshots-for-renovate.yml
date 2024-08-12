@@ -32,7 +32,7 @@ jobs:
         run: |
           declare -a packages=(
             "eslint"
-            "@typescript-eslint/parser"
+            "@typescript-eslint/rule-tester"
           )
 
           for package in "${packages[@]}"
