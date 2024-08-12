@@ -1,9 +1,16 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { MessageIds } from '../../../src/rules/use-component-selector';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type {
+  MessageIds,
+  Options,
+} from '../../../src/rules/use-component-selector';
 
 const messageId: MessageIds = 'useComponentSelector';
 
-export const valid = [
+export const valid: readonly (string | ValidTestCase<Options>)[] = [
   // It should succeed with single quotes
   `
     @Component({
@@ -27,7 +34,7 @@ export const valid = [
 `,
 ];
 
-export const invalid = [
+export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     description: 'it should fail when selector is not given in @Component',
     annotatedSource: `

@@ -8,10 +8,11 @@ import { getTemplateParserServices } from '@angular-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import { getDomElements } from '../utils/get-dom-elements';
 
-export const MESSAGE_ID = 'preferSelfClosingTags';
+export type Options = [];
+export type MessageIds = 'preferSelfClosingTags';
 export const RULE_NAME = 'prefer-self-closing-tags';
 
-export default createESLintRule<[], typeof MESSAGE_ID>({
+export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
   meta: {
     type: 'layout',
@@ -22,7 +23,7 @@ export default createESLintRule<[], typeof MESSAGE_ID>({
     fixable: 'code',
     schema: [],
     messages: {
-      [MESSAGE_ID]:
+      preferSelfClosingTags:
         'Use self-closing tags for elements with a closing tag but no content.',
     },
   },
@@ -31,7 +32,7 @@ export default createESLintRule<[], typeof MESSAGE_ID>({
     const parserServices = getTemplateParserServices(context);
 
     // angular 18 doesnt support self closing tags in index.html
-    if (context.physicalFilename.endsWith('src/index.html')) {
+    if (/src[\\/]index\.html$/.test(context.physicalFilename)) {
       // If it is, return an empty object to skip this rule
       return {};
     }
@@ -83,7 +84,7 @@ export default createESLintRule<[], typeof MESSAGE_ID>({
 
       context.report({
         loc: parserServices.convertNodeSourceSpanToLoc(endSourceSpan),
-        messageId: MESSAGE_ID,
+        messageId: 'preferSelfClosingTags',
         fix: (fixer) =>
           fixer.replaceTextRange(
             [startSourceSpan.end.offset - 1, endSourceSpan.end.offset],
@@ -96,18 +97,20 @@ export default createESLintRule<[], typeof MESSAGE_ID>({
       const { sourceSpan } = node;
       const ngContentCloseTag = '</ng-content>';
       if (sourceSpan.toString().includes(ngContentCloseTag)) {
-        // content nodes can only contain whitespaces
-        const content =
-          sourceSpan
-            .toString()
-            .match(/>(\s*)</m)
-            ?.at(1) ?? '';
+        const whiteSpaceContent = sourceSpan
+          .toString()
+          .match(/<ng-content[^>]*>(\s*)<\/ng-content>/m)
+          ?.at(1);
+        const hasContent = typeof whiteSpaceContent === 'undefined';
+        if (hasContent) {
+          return;
+        }
         const openingTagLastChar =
           // This is more than the minimum length of a ng-content element
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           sourceSpan
             .toString()
-            .at(-2 - ngContentCloseTag.length - content.length)!;
+            .at(-2 - ngContentCloseTag.length - whiteSpaceContent.length)!;
         const closingTagPrefix = getClosingTagPrefix(openingTagLastChar);
 
         context.report({
@@ -123,13 +126,13 @@ export default createESLintRule<[], typeof MESSAGE_ID>({
               column: sourceSpan.end.col,
             },
           },
-          messageId: MESSAGE_ID,
+          messageId: 'preferSelfClosingTags',
           fix: (fixer) =>
             fixer.replaceTextRange(
               [
                 sourceSpan.end.offset -
                   ngContentCloseTag.length -
-                  content.length -
+                  whiteSpaceContent.length -
                   1,
                 sourceSpan.end.offset,
               ],

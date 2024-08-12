@@ -694,7 +694,7 @@ describe('add-eslint-to-project', () => {
         const eslint = require(\\"@eslint/js\\");
         const tseslint = require(\\"typescript-eslint\\");
         const angular = require(\\"angular-eslint\\");
-          
+
         module.exports = tseslint.config(
           {
             files: [\\"**/*.ts\\"],
@@ -770,7 +770,7 @@ describe('add-eslint-to-project', () => {
       "// @ts-check
       const tseslint = require(\\"typescript-eslint\\");
       const rootConfig = require(\\"../../eslint.config.js\\");
-      
+
       module.exports = tseslint.config(
         ...rootConfig,
         {
@@ -836,7 +836,7 @@ describe('add-eslint-to-project', () => {
       "// @ts-check
       const tseslint = require(\\"typescript-eslint\\");
       const rootConfig = require(\\"../../eslint.config.js\\");
-      
+
       module.exports = tseslint.config(
         ...rootConfig,
         {
@@ -905,7 +905,7 @@ describe('add-eslint-to-project', () => {
         "// @ts-check
         const tseslint = require(\\"typescript-eslint\\");
         const rootConfig = require(\\"../../eslint.config.js\\");
-        
+
         module.exports = tseslint.config(
           ...rootConfig,
           {
@@ -978,7 +978,7 @@ describe('add-eslint-to-project', () => {
         "// @ts-check
         const tseslint = require(\\"typescript-eslint\\");
         const rootConfig = require(\\"../../eslint.config.js\\");
-        
+
         module.exports = tseslint.config(
           ...rootConfig,
           {
@@ -1110,7 +1110,7 @@ describe('add-eslint-to-project', () => {
         const eslint = require(\\"@eslint/js\\");
         const tseslint = require(\\"typescript-eslint\\");
         const angular = require(\\"angular-eslint\\");
-          
+
         module.exports = tseslint.config(
           {
             files: [\\"**/*.ts\\"],

@@ -1,11 +1,15 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { MessageIds } from '../../../src/rules/valid-aria';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type { MessageIds, Options } from '../../../src/rules/valid-aria';
 
 const accessibilityValidAria: MessageIds = 'validAria';
 const accessibilityValidAriaValue: MessageIds = 'validAriaValue';
 const suggestRemoveInvalidAria: MessageIds = 'suggestRemoveInvalidAria';
 
-export const valid = [
+export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '<input aria-labelledby="Text">',
   '<div ariaselected="0"></div>',
   '<textarea [attr.aria-readonly]="readonly"></textarea>',
@@ -37,7 +41,7 @@ export const valid = [
   '<div aria-pressed="mixed">checked</div>',
 ];
 
-export const invalid = [
+export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     description: 'should fail if the attribute is an invalid ARIA attribute',
     annotatedSource: `

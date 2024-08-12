@@ -276,40 +276,6 @@ class Test {
 ```ts
 @Component()
 class Test {
-  ngOnChanges(): void {}
-  ngOnInit(): void {}
-  ngAfterContentInit(): void {}
-  ngAfterContentChecked(): void {}
-  ngAfterViewChecked(): void {}
-  ngOnDestroy(): void {}
-}
-```
-
-<br>
-
----
-
-<br>
-
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/sort-lifecycle-methods": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
-#### ✅ Valid Code
-
-```ts
-@Component()
-class Test {
   ngDoCheck(): void {}
   ngAfterContentInit(): void {}
   ngAfterContentChecked(): void {}

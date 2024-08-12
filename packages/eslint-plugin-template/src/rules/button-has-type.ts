@@ -9,9 +9,11 @@ import {
 import { getTemplateParserServices } from '@angular-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
-export const RULE_NAME = 'button-has-type';
-export const INVALID_TYPE_DATA_KEY = 'type';
+export type Options = [];
 export type MessageIds = 'invalidType' | 'missingType';
+export const RULE_NAME = 'button-has-type';
+
+export const INVALID_TYPE_DATA_KEY = 'type';
 
 interface InvalidButtonTypeInfo {
   readonly value: string;
@@ -22,7 +24,7 @@ interface InvalidButtonTypeInfo {
 const VALID_BUTTON_TYPES: readonly string[] = ['button', 'submit', 'reset'];
 const TYPE_ATTRIBUTE_NAME = 'type';
 
-export default createESLintRule<[], MessageIds>({
+export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
   meta: {
     type: 'suggestion',

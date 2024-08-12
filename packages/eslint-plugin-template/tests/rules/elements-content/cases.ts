@@ -1,9 +1,13 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { MessageIds } from '../../../src/rules/elements-content';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type { MessageIds, Options } from '../../../src/rules/elements-content';
 
 const messageId: MessageIds = 'elementsContent';
 
-export const valid = [
+export const valid: readonly (string | ValidTestCase<Options>)[] = [
   `
     <h1>Heading Content!</h1>
     <h2><app-content></app-content></h2>
@@ -34,7 +38,7 @@ export const valid = [
   },
 ];
 
-export const invalid = [
+export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     description: 'should fail with no content in heading tag',
     annotatedSource: `

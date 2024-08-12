@@ -8,22 +8,24 @@ import type { TSESTree } from '@typescript-eslint/utils';
 import { ASTUtils as TSESLintASTUtils } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
-const VIEW_ENCAPSULATION_SHADOW_DOM = 'ShadowDom';
-const VIEW_ENCAPSULATION = 'ViewEncapsulation';
-export const RULE_NAME = 'component-selector';
+export type Options = SelectorUtils.Options;
 export type MessageIds =
   | 'prefixFailure'
   | 'styleFailure'
   | 'styleAndPrefixFailure'
   | 'typeFailure'
   | 'shadowDomEncapsulatedStyleFailure';
+export const RULE_NAME = 'component-selector';
+
+const VIEW_ENCAPSULATION_SHADOW_DOM = 'ShadowDom';
+const VIEW_ENCAPSULATION = 'ViewEncapsulation';
 const STYLE_GUIDE_PREFIX_LINK = 'https://angular.dev/style-guide#style-02-07';
 const STYLE_GUIDE_STYLE_LINK = 'https://angular.dev/style-guide#style-05-02';
 const STYLE_GUIDE_TYPE_LINK = 'https://angular.dev/style-guide#style-05-03';
 const SHADOW_DOM_ENCAPSULATED_STYLE_LINK =
   'https://github.com/angular-eslint/angular-eslint/issues/534';
 
-export default createESLintRule<SelectorUtils.Options, MessageIds>({
+export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
   meta: {
     type: 'suggestion',

@@ -1,9 +1,16 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { MessageIds } from '../../../src/rules/no-call-expression';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type {
+  MessageIds,
+  Options,
+} from '../../../src/rules/no-call-expression';
 
 const messageId: MessageIds = 'noCallExpression';
 
-export const valid = [
+export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '{{ info }}',
   '<button type="button" (click)="handleClick()">Click Here</button>',
   '{{ $any(info) }}',
@@ -15,10 +22,13 @@ export const valid = [
     code: `
       {{ obj?.nested() }} {{ obj!.nested() }}
       <a [href]="getHref()">info</a>
+      {{ $validWithPrefix() }} {{ validWithSuffix$() }}
     `,
     options: [
       {
         allowList: ['nested', 'getHref'],
+        allowPrefix: '$',
+        allowSuffix: '$',
       },
     ],
   },
@@ -57,7 +67,7 @@ export const valid = [
   }`,
 ];
 
-export const invalid = [
+export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     description: 'should fail for `FunctionCall` within `Interpolation`',
     annotatedSource: `

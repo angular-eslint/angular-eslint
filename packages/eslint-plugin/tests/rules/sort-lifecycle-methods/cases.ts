@@ -1,9 +1,16 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { MessageIds } from '../../../src/rules/sort-lifecycle-methods';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type {
+  MessageIds,
+  Options,
+} from '../../../src/rules/sort-lifecycle-methods';
 
 const messageId: MessageIds = 'lifecycleMethodsNotSorted';
 
-export const valid = [
+export const valid: readonly (string | ValidTestCase<Options>)[] = [
   `
     @Component()
     class Test {
@@ -16,17 +23,6 @@ export const valid = [
       ngAfterViewChecked(): void {}
       ngOnDestroy(): void {}
       doSomething(): void {}
-    }
-  `,
-  `
-    @Component()
-    class Test {
-      ngOnChanges(): void {}
-      ngOnInit(): void {}
-      ngAfterContentInit(): void {}
-      ngAfterContentChecked(): void {}
-      ngAfterViewChecked(): void {}
-      ngOnDestroy(): void {}
     }
   `,
   `
@@ -64,7 +60,7 @@ export const valid = [
   `,
 ];
 
-export const invalid = [
+export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     description: 'ngOnChanges() is declared after ngOnInit()',
     annotatedSource: `

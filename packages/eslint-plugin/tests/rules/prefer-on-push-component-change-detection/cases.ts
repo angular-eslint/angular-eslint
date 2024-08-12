@@ -1,11 +1,18 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { MessageIds } from '../../../src/rules/prefer-on-push-component-change-detection';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type {
+  MessageIds,
+  Options,
+} from '../../../src/rules/prefer-on-push-component-change-detection';
 
 const messageId: MessageIds = 'preferOnPushComponentChangeDetection';
 const suggestAddChangeDetectionOnPush: MessageIds =
   'suggestAddChangeDetectionOnPush';
 
-export const valid = [
+export const valid: readonly (string | ValidTestCase<Options>)[] = [
   `class Test {}`,
   `
   const options = {};
@@ -55,7 +62,7 @@ export const valid = [
   `,
 ];
 
-export const invalid = [
+export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     description: 'should fail if `@Component` has no arguments',
     annotatedSource: `

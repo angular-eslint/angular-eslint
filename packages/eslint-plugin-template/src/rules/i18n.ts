@@ -61,7 +61,7 @@ const DEFAULT_ALLOWED_ATTRIBUTES: ReadonlySet<string> = new Set([
   'xmlns',
 ]);
 
-type Options = [
+export type Options = [
   {
     readonly allowMarkupInContent?: boolean;
     readonly boundTextAllowedPattern?: string;

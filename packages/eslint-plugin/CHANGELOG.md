@@ -1,3 +1,36 @@
+## 18.2.0 (2024-07-31)
+
+### 🚀 Features
+
+- update typescript-eslint to v8 stable, eslint v9.8.0
+
+### 🩹 Fixes
+
+- **eslint-plugin:** [prefer-standalone] ignore empty Directive decorators
+
+### ❤️ Thank You
+
+- James Henry
+- Paweł Maniecki
+
+## 18.1.0 (2024-07-01)
+
+### 🚀 Features
+
+- **eslint-plugin:** [prefer-output-readonly] support output() function
+
+### 🩹 Fixes
+
+- update typescript-eslint packages to v8.0.0-alpha.37
+
+### ❤️ Thank You
+
+- Christian Svensson
+- Daniel Kimmich
+- Dave
+- Martijn van der Meij
+- Maximilian Main
+
 ## 18.0.1 (2024-05-30)
 
 ### 🩹 Fixes

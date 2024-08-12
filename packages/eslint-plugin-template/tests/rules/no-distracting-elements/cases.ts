@@ -1,11 +1,20 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { MessageIds } from '../../../src/rules/no-distracting-elements';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type {
+  MessageIds,
+  Options,
+} from '../../../src/rules/no-distracting-elements';
 
 const messageId: MessageIds = 'noDistractingElements';
 
-export const valid = ['<div>Valid</div>'];
+export const valid: readonly (string | ValidTestCase<Options>)[] = [
+  '<div>Valid</div>',
+];
 
-export const invalid = [
+export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     messageId,
     description: 'should fail if `marquee` is used',

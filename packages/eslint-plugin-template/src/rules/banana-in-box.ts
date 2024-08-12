@@ -2,7 +2,7 @@ import type { TmplAstBoundEvent } from '@angular-eslint/bundled-angular-compiler
 import { getTemplateParserServices } from '@angular-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
-type Options = [];
+export type Options = [];
 export type MessageIds = 'bananaInBox';
 export const RULE_NAME = 'banana-in-box';
 const INVALID_PATTERN = /\[(.*)\]/;

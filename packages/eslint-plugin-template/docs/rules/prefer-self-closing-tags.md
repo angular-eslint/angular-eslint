@@ -553,6 +553,62 @@ The rule does not have any configuration options.
 
 #### ✅ Valid Code
 
+```html
+<ng-content>Fallback content</ng-content>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-self-closing-tags": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<ng-content
+     select="content"
+   >
+    <p>Fallback content</p>
+  </ng-content>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-self-closing-tags": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 **Filename: src/index.html**
 
 ```html

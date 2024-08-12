@@ -1,3 +1,54 @@
+## 18.2.0 (2024-07-31)
+
+### 🚀 Features
+
+- update typescript-eslint to v8 stable, eslint v9.8.0 ([#1956](https://github.com/angular-eslint/angular-eslint/pull/1956))
+
+Run `ng update @angular-eslint/schematics` to automatically update your v8 prerelease dependencies of typescript-eslint to v8.0.0, as well as ESLint to v9.8.0 (if you are still using typescript-eslint v7 and ESLint v8 you will be unaffected by this migration).
+
+### 🩹 Fixes
+
+- update dependency axobject-query to v4.1.0 ([#1936](https://github.com/angular-eslint/angular-eslint/pull/1936))
+- update dependency semver to v7.6.3 ([#1933](https://github.com/angular-eslint/angular-eslint/pull/1933))
+- update dependency eslint-scope to v8.0.2 ([#1932](https://github.com/angular-eslint/angular-eslint/pull/1932))
+- update dependency @angular/compiler to v18.1.3 ([#1954](https://github.com/angular-eslint/angular-eslint/pull/1954))
+- update nrwl monorepo to v19.5.4 ([#1950](https://github.com/angular-eslint/angular-eslint/pull/1950))
+- **eslint-plugin:** [prefer-standalone] ignore empty Directive decorators ([#1949](https://github.com/angular-eslint/angular-eslint/pull/1949))
+- **eslint-plugin-template:** add meta to preprocessor to resolve eslint cache error ([#1924](https://github.com/angular-eslint/angular-eslint/pull/1924))
+
+### ❤️ Thank You
+
+- James Henry @JamesHenry
+- kwiateusz @kwiateusz
+- Paweł Maniecki @P4
+
+## 18.1.0 (2024-07-01)
+
+### 🚀 Features
+
+- **eslint-plugin:** [prefer-output-readonly] support output() function ([#1876](https://github.com/angular-eslint/angular-eslint/pull/1876))
+- **eslint-plugin:** [no-call-expression] add allowPrefix and allowSuffix ([#1897](https://github.com/angular-eslint/angular-eslint/pull/1897))
+
+### 🩹 Fixes
+
+- update dependency @angular/compiler to v18.0.2 ([#1852](https://github.com/angular-eslint/angular-eslint/pull/1852))
+- update dependency eslint to v9.5.0 ([#1886](https://github.com/angular-eslint/angular-eslint/pull/1886))
+- update dependency eslint to v9.6.0 ([#1900](https://github.com/angular-eslint/angular-eslint/pull/1900))
+- update dependency @angular/compiler to v18.0.5 ([#1893](https://github.com/angular-eslint/angular-eslint/pull/1893))
+- update nrwl monorepo to v19.3.2 ([#1902](https://github.com/angular-eslint/angular-eslint/pull/1902))
+- update typescript-eslint packages to v8.0.0-alpha.38 ([#1904](https://github.com/angular-eslint/angular-eslint/pull/1904))
+- **eslint-plugin-template:** [prefer-self-closing-tags] always ignore index.html files ([#1865](https://github.com/angular-eslint/angular-eslint/pull/1865))
+- **eslint-plugin-template:** [prefer-self-closing-tags] support ng-content with fallback content ([#1880](https://github.com/angular-eslint/angular-eslint/pull/1880))
+- **test-utils:** use configured RuleTester.afterAll over global ([#1878](https://github.com/angular-eslint/angular-eslint/pull/1878))
+
+### ❤️ Thank You
+
+- Christian Svensson
+- Daniel Kimmich @json-derulo
+- Dave @reduckted
+- Martijn van der Meij
+- Maximilian Main @MaximilianMain
+
 ## 18.0.1 (2024-05-30)
 
 ### 🩹 Fixes

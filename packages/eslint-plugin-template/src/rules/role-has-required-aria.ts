@@ -10,7 +10,7 @@ import { getDomElements } from '../utils/get-dom-elements';
 import { toPattern } from '../utils/to-pattern';
 import { isSemanticRoleElement } from '../utils/is-semantic-role-element';
 
-type Options = [];
+export type Options = [];
 export type MessageIds = 'roleHasRequiredAria' | 'suggestRemoveRole';
 export const RULE_NAME = 'role-has-required-aria';
 

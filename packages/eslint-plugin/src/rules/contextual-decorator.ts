@@ -2,7 +2,7 @@ import { ASTUtils } from '@angular-eslint/utils';
 import type { TSESLint, TSESTree } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
-type Options = [];
+export type Options = [];
 export type MessageIds = 'contextualDecorator';
 export const RULE_NAME = 'contextual-decorator';
 

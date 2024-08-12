@@ -1,3 +1,42 @@
+## 18.2.0 (2024-07-31)
+
+### 🚀 Features
+
+- update typescript-eslint to v8 stable, eslint v9.8.0
+
+### 🩹 Fixes
+
+- update dependency axobject-query to v4.1.0
+
+- **eslint-plugin-template:** add meta to preprocessor to resolve eslint cache error
+
+### ❤️ Thank You
+
+- James Henry
+- kwiateusz
+
+## 18.1.0 (2024-07-01)
+
+### 🚀 Features
+
+- **eslint-plugin:** [no-call-expression] add allowPrefix and allowSuffix
+
+### 🩹 Fixes
+
+- update typescript-eslint packages to v8.0.0-alpha.37
+
+- **eslint-plugin-template:** [prefer-self-closing-tags] always ignore index.html files
+
+- **eslint-plugin-template:** [prefer-self-closing-tags] support ng-content with fallback content
+
+### ❤️ Thank You
+
+- Christian Svensson
+- Daniel Kimmich
+- Dave
+- Martijn van der Meij
+- Maximilian Main
+
 ## 18.0.1 (2024-05-30)
 
 ### 🩹 Fixes

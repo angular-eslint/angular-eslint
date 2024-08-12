@@ -32,7 +32,7 @@ jobs:
         run: |
           declare -a packages=(
             "eslint"
-            "@typescript-eslint/parser"
+            "@typescript-eslint/rule-tester"
           )
 
           for package in "${packages[@]}"
@@ -40,6 +40,19 @@ jobs:
             # It's important we have the leading and trailing (escaped) " here so we know it is an exact match of the package name
             git diff HEAD~1 -G"\"$package\"" --exit-code package.json && echo "$package unchanged" || echo "::set-output name=was-changed::true"
           done
+
+      - uses: pnpm/action-setup@v4
+        if: ${{ steps.relevant-packages-check.outputs.was-changed == 'true' }}
+        name: Install pnpm
+        with:
+          run_install: false
+
+      - name: Install Node.js per package.json
+        if: ${{ steps.relevant-packages-check.outputs.was-changed == 'true' }}
+        uses: actions/setup-node@v4
+        with:
+          # Use the volta.node property as the source of truth
+          node-version-file: 'package.json'
 
       - name: Update e2e snapshots if any relevant package was changed and commit the updated snapshots
         if: ${{ steps.relevant-packages-check.outputs.was-changed == 'true' }}
@@ -50,14 +63,14 @@ jobs:
           # Checkout the PR branch using the github CLI
           gh pr checkout ${{ github.event.pull_request.number }}
 
-          yarn --ignore-scripts
-          yarn build
+          pnpm install --ignore-scripts
+          pnpm build
 
           # Update the e2e test snapshots
-          yarn update-e2e-snapshots --skip-nx-cache
+          pnpm update-e2e-snapshots --skip-nx-cache
 
           # Ensure all the changed files are formatted appropriately
-          yarn format
+          pnpm format
 
           # Commit all snapshot changes to the PR (see note on not being able to use secrets.GITHUB_TOKEN for this)
           git config --global user.email "james@henry.sc"

@@ -19,7 +19,7 @@
     },
     "check-rule-docs": {
       "dependsOn": ["update-rule-docs"],
-      "command": "git diff --quiet --exit-code packages/eslint-plugin-template/docs || (echo \"\n-------\n\nCHECK RULE DOCS ERROR: You have uncommitted changes to the generated rule docs.\n\nYou should run `yarn update-rule-docs` and commit the result.\n\n-------\n\" && exit 1)"
+      "command": "git diff --quiet --exit-code packages/eslint-plugin-template/docs || (echo \"\n-------\n\nCHECK RULE DOCS ERROR: You have uncommitted changes to the generated rule docs.\n\nYou should run `pnpm update-rule-docs` and commit the result.\n\n-------\n\" && exit 1)"
     },
     "update-rule-docs": {
       "outputs": ["{projectRoot}/docs"],
@@ -27,7 +27,7 @@
     },
     "check-rule-lists": {
       "dependsOn": ["update-rule-lists"],
-      "command": "git diff --quiet --exit-code packages/eslint-plugin-template/README.md || (echo \"\n-------\n\nCHECK RULE LISTS ERROR: You have uncommitted changes to the generated rule lists.\n\nYou should run `yarn update-rule-lists` and commit the result.\n\n-------\n\" && exit 1)"
+      "command": "git diff --quiet --exit-code packages/eslint-plugin-template/README.md || (echo \"\n-------\n\nCHECK RULE LISTS ERROR: You have uncommitted changes to the generated rule lists.\n\nYou should run `pnpm update-rule-lists` and commit the result.\n\n-------\n\" && exit 1)"
     },
     "update-rule-lists": {
       "outputs": ["{projectRoot}/README.md"],

@@ -12,7 +12,7 @@ By default, angular-eslint sets up your ESLint configs with performance in mind 
 
 Let's take an example of an ESLint config that angular-eslint might generate for you out of the box (in v15 onwards) for single app workspace/the root project in a multi-project workspace:
 
-```jsonc {% fileName=".eslintrc.json" %}
+```json {% fileName=".eslintrc.json" %}
 {
   "root": true,
   "ignorePatterns": ["projects/**/*"],
@@ -57,6 +57,7 @@ Here we do _not_ have `parserOptions.project`, which is appropriate because we a
 
 If we now come in and add a rule which does require type information, for example `@typescript-eslint/await-thenable`, our config will look as follows:
 
+<!-- prettier-ignore -->
 ```jsonc {% fileName=".eslintrc.json" %}
 {
   "root": true,
@@ -116,6 +117,7 @@ Linting...
 
 The solution is to update our config once more, this time to set `parserOptions.project` to appropriately point at our various tsconfig.json files which belong to our project:
 
+<!-- prettier-ignore -->
 ```jsonc {% fileName=".eslintrc.json" %}
 {
   "root": true,
@@ -169,7 +171,7 @@ And that's it! Now any rules requiring type information will run correctly when 
 
 Let's take an example of an ESLint config that angular-eslint might generate for you out of the box (in v15 onwards) for a library project called `my-library`:
 
-```jsonc {% fileName="projects/my-library/.eslintrc.json" %}
+```json {% fileName="projects/my-library/.eslintrc.json" %}
 {
   "extends": "../../.eslintrc.json",
   "ignorePatterns": ["!**/*"],
@@ -207,6 +209,7 @@ Here we do _not_ have `parserOptions.project`, which is appropriate because we a
 
 If we now come in and add a rule which does require type information, for example `@typescript-eslint/await-thenable`, our config will look as follows:
 
+<!-- prettier-ignore -->
 ```jsonc {% fileName="projects/my-library/.eslintrc.json" %}
 {
   "extends": "../../.eslintrc.json",
@@ -259,6 +262,7 @@ Linting "my-library"...
 
 The solution is to update our config once more, this time to set `parserOptions.project` to appropriately point at our various tsconfig.json files which belong to our project:
 
+<!-- prettier-ignore -->
 ```jsonc {% fileName="projects/my-library/.eslintrc.json" %}
 {
   "extends": "../../.eslintrc.json",
@@ -315,6 +319,7 @@ ng g @angular-eslint/schematics:library {PROJECT_NAME_HERE} --set-parser-options
 
 If you don't want to have to remember to pass `--set-parser-options-project` each time, then you can set it to true by default in your schematic defaults in your `angular.json` file:
 
+<!-- prettier-ignore -->
 ```jsonc
 {
   // ... more angular.json config here ...
@@ -338,6 +343,7 @@ The first thing is to understand that if you are majorly deviating from the conf
 
 If `parserOptions.project` has been configured, by default `typescript-eslint` will take this as a sign that you only want to lint files that are captured within the scope of the TypeScript `Program`s which are created. For example, let's say you have a `tsconfig.json` that contains the following:
 
+<!-- prettier-ignore -->
 ```jsonc
 {
   // ...more config
@@ -396,6 +402,7 @@ For example, it may look like:
 
 **tsconfig.eslint.json**
 
+<!-- prettier-ignore -->
 ```jsonc
 {
   "extends": "./tsconfig.json",

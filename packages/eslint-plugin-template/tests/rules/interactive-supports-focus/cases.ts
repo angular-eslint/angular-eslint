@@ -1,9 +1,16 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { MessageIds } from '../../../src/rules/interactive-supports-focus';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type {
+  MessageIds,
+  Options,
+} from '../../../src/rules/interactive-supports-focus';
 
 const messageId: MessageIds = 'interactiveSupportsFocus';
 
-export const valid = [
+export const valid: readonly (string | ValidTestCase<Options>)[] = [
   // no interactive outputs
   { code: '<div></div>' },
 
@@ -84,10 +91,11 @@ export const valid = [
   {
     code: `
       <a (click)="onClick()" tabindex="0">Click me</a>
-      <a (click)="onClick()" [attr.tabindex]="0">Click me</a>',
-      <a (click)="onClick()" tabindex="bad">Click me</a>',
-      <a (click)="onClick()" [attr.tabindex]="undefined"}>Click me</a>',
-      <a (click)="onClick()" [attr.tabindex]="dynamicTabindex">Click me</a>',
+      <a (click)="onClick()" tabindex={{0}}>Click me</a>
+      <a (click)="onClick()" [attr.tabindex]="0">Click me</a>
+      <a (click)="onClick()" tabindex="bad">Click me</a>
+      <a (click)="onClick()" [attr.tabindex]="undefined"}>Click me</a>
+      <a (click)="onClick()" [attr.tabindex]="dynamicTabindex">Click me</a>
     `,
   },
 
@@ -101,13 +109,7 @@ export const valid = [
       <a (click)="onClick()" href="javascript:void(0);">Click ALL the things!</a>
     `,
   },
-  // click and tabindex (focusable but generally not recommended)
-  {
-    code: `
-      <a (click)="onClick()" tabindex="0">x.y.z</a>
-      <a (click)="onClick()" tabindex={0}>x.y.z</a>
-    `,
-  },
+
   // routerLink
   {
     code: `
@@ -163,9 +165,32 @@ export const valid = [
       <div contenteditable (keypress)="onKeyPress()">Edit this too!</div>
     `,
   },
+
+  // custom element, only HTML DOM elements are validated
+  {
+    code: `<test-component (keydown)="onKeyDown()"></test-component>`,
+  },
+
+  // allowList: by default the form element is allowed to support click and key event bubbling
+  {
+    code: `<form (keydown)="onKeyDown()"></form>`,
+  },
+
+  // allowList: allow click and key event bubbling on additional elements
+  {
+    code: `
+      <form (keydown)="onKeyDown()"></form>
+      <section (keydown)="onKeyDown()"></section>
+    `,
+    options: [
+      {
+        allowList: ['form', 'section'],
+      },
+    ],
+  },
 ];
 
-export const invalid = [
+export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   // aria-hidden="false"
   convertAnnotatedSourceToFailureCase({
     description: 'should fail not hidden from screen reader',
@@ -285,6 +310,22 @@ export const invalid = [
       <div [attr.contenteditable]="false" (keyup)="onKeyUp()">Cannot be focused</div>
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     `,
+    messageId,
+  }),
+
+  // allowList empty
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'allowList as an empty array allows only HTML elements that can directly receive focus',
+    annotatedSource: `
+      <form (keydown)="onKeyDown()"></form>
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    options: [
+      {
+        allowList: [],
+      },
+    ],
     messageId,
   }),
 ];
