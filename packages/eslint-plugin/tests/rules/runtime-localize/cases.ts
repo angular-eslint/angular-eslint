@@ -7,7 +7,7 @@ import type { MessageIds, Options } from '../../../src/rules/runtime-localize';
 
 const messageId: MessageIds = 'runtimeLocalize';
 
-export const valid: readonly (string | ValidTestCase<Options>)[]  = [
+export const valid: readonly (string | ValidTestCase<Options>)[] = [
   `
     function test() { return $localize\`foo\`; }
   `,
