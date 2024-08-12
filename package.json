@@ -73,7 +73,7 @@
     "@types/jest": "29.4.4",
     "@types/node": "20.14.15",
     "@types/semver": "^7.5.8",
-    "@typescript-eslint/rule-tester": "8.0.0",
+    "@typescript-eslint/rule-tester": "8.0.1",
     "commitizen": "4.3.0",
     "cz-conventional-changelog": "3.3.0",
     "env-cmd": "10.1.0",
@@ -100,7 +100,7 @@
     "tslib": "^2.4.1",
     "tsx": "^4.7.3",
     "typescript": "5.5.4",
-    "typescript-eslint": "8.0.0",
+    "typescript-eslint": "8.0.1",
     "verdaccio": "5.32.1"
   },
   "pnpm": {
