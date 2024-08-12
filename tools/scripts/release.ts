@@ -27,7 +27,7 @@ import yargs from 'yargs';
       .parseAsync();
 
     // Prepare the packages for publishing
-    execSync('yarn build', {
+    execSync('pnpm build', {
       stdio: 'inherit',
       maxBuffer: 1024 * 1000000,
     });

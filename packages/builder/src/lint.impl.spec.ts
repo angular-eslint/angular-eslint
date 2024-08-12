@@ -1,10 +1,12 @@
 import { Architect } from '@angular-devkit/architect';
 import { TestingArchitectHost } from '@angular-devkit/architect/testing';
 import { json, logging, schema } from '@angular-devkit/core';
+import { workspaceRoot } from '@nx/devkit';
 import type { ESLint } from 'eslint';
 import { mkdtempSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, sep } from 'node:path';
+import { setWorkspaceRoot } from 'nx/src/utils/workspace-root';
 import type { Schema } from './schema';
 
 // Add a placeholder file for the native workspace context within nx implementation details otherwise it will hang in CI
@@ -84,6 +86,7 @@ function createValidRunBuilderOptions(
     rulesdir: [],
     resolvePluginsRelativeTo: null,
     reportUnusedDisableDirectives: null,
+    useEslintrc: null,
     ...additionalOptions,
   };
 }
@@ -117,6 +120,11 @@ async function runBuilder(options: Schema) {
 }
 
 describe('Linter Builder', () => {
+  const previousWorkspaceRoot = workspaceRoot;
+  beforeAll(() => {
+    setWorkspaceRoot(testWorkspaceRoot);
+  });
+
   beforeEach(() => {
     MockESLint.version = VALID_ESLINT_VERSION;
     mockReports = [{ results: [], messages: [], usedDeprecatedRules: [] }];
@@ -131,6 +139,7 @@ describe('Linter Builder', () => {
 
   afterAll(() => {
     jest.restoreAllMocks();
+    setWorkspaceRoot(previousWorkspaceRoot);
   });
 
   it('should throw if the eslint version is not supported', async () => {
@@ -183,6 +192,7 @@ describe('Linter Builder', () => {
         format: 'stylish',
         force: false,
         silent: false,
+        useEslintrc: null,
         maxWarnings: -1,
         outputFile: null,
         ignorePath: null,
@@ -219,6 +229,7 @@ describe('Linter Builder', () => {
         format: 'stylish',
         force: false,
         silent: false,
+        useEslintrc: null,
         maxWarnings: -1,
         outputFile: null,
         ignorePath: null,
