@@ -138,8 +138,8 @@ importers:
         specifier: ^8.0.0
         version: 8.0.0
       prettier:
-        specifier: 3.3.2
-        version: 3.3.2
+        specifier: 3.3.3
+        version: 3.3.3
       prettier-v2-for-jest-inline-snapshots:
         specifier: npm:prettier@^2
         version: /prettier@2.8.8
@@ -8196,7 +8196,7 @@ packages:
       minimist: 1.2.8
       mkdirp: 3.0.1
       node-fetch: 3.3.2
-      prettier: 3.3.2
+      prettier: 3.3.3
     dev: true
 
   /json-schema-traverse@0.4.1:
@@ -9620,8 +9620,8 @@ packages:
     hasBin: true
     dev: true
 
-  /prettier@3.3.2:
-    resolution: {integrity: sha512-rAVeHYMcv8ATV5d508CFdn+8/pHPpXeIid1DdrPwXnaAdH7cqjVbpJaT5eq4yRAFU/lsbwYwSF/n5iNrdJHPQA==}
+  /prettier@3.3.3:
+    resolution: {integrity: sha512-i2tDNA0O5IrMO757lfrdQZCc2jPNDVntV0m/+4whiDfWaTKfMNgR7Qz0NAeGz/nRqF4m5/6CLzbP4/liHt12Ew==}
     engines: {node: '>=14'}
     hasBin: true
     dev: true
