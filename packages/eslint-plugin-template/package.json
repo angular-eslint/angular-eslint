@@ -26,7 +26,6 @@
   "devDependencies": {
     "@angular-eslint/template-parser": "18.3.0",
     "@angular-eslint/test-utils": "18.3.0",
-    "@angular-eslint/utils": "18.2.0",
     "@types/aria-query": "5.0.4"
   },
   "peerDependencies": {
