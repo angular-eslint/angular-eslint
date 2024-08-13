@@ -11,12 +11,6 @@ import { callRule, chain } from '@angular-devkit/schematics';
 import type { Ignore } from 'ignore';
 import ignore from 'ignore';
 import stripJsonComments from 'strip-json-comments';
-import type { Tree as NxTree, ProjectConfiguration } from './devkit-imports';
-import {
-  offsetFromRoot as offsetFromRoot__NX,
-  readJson,
-  writeJson,
-} from './devkit-imports';
 
 const DEFAULT_PREFIX = 'app';
 
@@ -109,60 +103,13 @@ function updateWorkspaceInTree<T = any, O = T>(
   callback: (json: T, context: SchematicContext, host: Tree) => O,
 ): Rule {
   return (host: Tree, context: SchematicContext): Tree => {
-    const path = getWorkspacePath(host);
+    const path = 'angular.json';
     host.overwrite(
       path,
       serializeJson(callback(readJsonInTree(host, path), context, host)),
     );
     return host;
   };
-}
-
-function readProjectConfiguration(tree: NxTree, projectName: string) {
-  const angularJSON = readJson(tree, 'angular.json');
-  return angularJSON.projects[projectName];
-}
-
-function updateProjectConfiguration(
-  tree: NxTree,
-  projectName: string,
-  projectConfig: ProjectConfiguration,
-) {
-  const angularJSON = readJson(tree, 'angular.json');
-  angularJSON.projects[projectName] = projectConfig;
-  writeJson(tree, 'angular.json', angularJSON);
-}
-
-export function addESLintTargetToProject__NX(
-  tree: NxTree,
-  projectName: string,
-  targetName: 'eslint' | 'lint',
-) {
-  const existingProjectConfig = readProjectConfiguration(tree, projectName);
-
-  let lintFilePatternsRoot = '';
-
-  // Default Angular CLI project at the root of the workspace
-  if (existingProjectConfig.root === '') {
-    lintFilePatternsRoot = existingProjectConfig.sourceRoot || 'src';
-  } else {
-    lintFilePatternsRoot = existingProjectConfig.root;
-  }
-
-  const eslintTargetConfig = {
-    builder: '@angular-eslint/builder:lint',
-    options: {
-      lintFilePatterns: [
-        `${lintFilePatternsRoot}/**/*.ts`,
-        `${lintFilePatternsRoot}/**/*.html`,
-      ],
-    },
-  };
-
-  existingProjectConfig.architect = existingProjectConfig.architect || {};
-  existingProjectConfig.architect[targetName] = eslintTargetConfig;
-
-  updateProjectConfiguration(tree, projectName, existingProjectConfig);
 }
 
 export function addESLintTargetToProject(
@@ -191,6 +138,7 @@ export function addESLintTargetToProject(
       },
     };
 
+    existingProjectConfig.architect = existingProjectConfig.architect || {};
     existingProjectConfig.architect[targetName] = eslintTargetConfig;
 
     return workspaceJson;
@@ -346,88 +294,6 @@ function createProjectESLintConfig(
   };
 }
 
-function createProjectESLintConfig__NX(
-  projectRoot: string,
-  projectType: ProjectType,
-  prefix: string,
-  setParserOptionsProject: boolean,
-  hasE2e: boolean,
-) {
-  return {
-    extends: `${offsetFromRoot__NX(projectRoot)}.eslintrc.json`,
-    ignorePatterns: ['!**/*'],
-    overrides: [
-      {
-        files: ['*.ts'],
-        ...(setParserOptionsProject
-          ? {
-              parserOptions: {
-                project: setESLintProjectBasedOnProjectType(
-                  projectRoot,
-                  projectType,
-                  hasE2e,
-                ),
-              },
-            }
-          : null),
-        rules: {
-          '@angular-eslint/directive-selector': [
-            'error',
-            { type: 'attribute', prefix, style: 'camelCase' },
-          ],
-          '@angular-eslint/component-selector': [
-            'error',
-            { type: 'element', prefix, style: 'kebab-case' },
-          ],
-        },
-      },
-
-      {
-        files: ['*.html'],
-        rules: {},
-      },
-    ],
-  };
-}
-
-export function createESLintConfigForProject__NX(
-  tree: NxTree,
-  projectName: string,
-  setParserOptionsProject: boolean,
-) {
-  const existingProjectConfig = readProjectConfiguration(tree, projectName);
-  const targets =
-    existingProjectConfig.architect || existingProjectConfig.targets;
-  const { root: projectRoot, projectType, prefix } = existingProjectConfig;
-
-  const hasE2e = !!targets?.e2e;
-
-  /**
-   * If the root is an empty string it must be the initial project created at the
-   * root by the Angular CLI's workspace schematic
-   */
-  if (projectRoot === '') {
-    return createRootESLintConfigFile__NX(tree, prefix || DEFAULT_PREFIX);
-  }
-
-  // If, for whatever reason, the root .eslintrc.json doesn't exist yet, create it
-  if (!tree.exists('.eslintrc.json')) {
-    createRootESLintConfigFile__NX(tree, prefix || DEFAULT_PREFIX);
-  }
-
-  writeJson(
-    tree,
-    join(normalize(projectRoot), '.eslintrc.json'),
-    createProjectESLintConfig__NX(
-      projectRoot,
-      projectType || 'library',
-      prefix || DEFAULT_PREFIX,
-      setParserOptionsProject,
-      hasE2e,
-    ),
-  );
-}
-
 export function createESLintConfigForProject(
   projectName: string,
   setParserOptionsProject: boolean,
@@ -471,7 +337,7 @@ export function createESLintConfigForProject(
 function createRootESLintConfigFile(projectName: string): Rule {
   return (tree) => {
     const angularJSON = readJsonInTree(tree, getWorkspacePath(tree));
-    let lintPrefix: string | null = null;
+    let lintPrefix = DEFAULT_PREFIX;
 
     if (angularJSON.projects?.[projectName]) {
       const { prefix } = angularJSON.projects[projectName];
@@ -482,10 +348,6 @@ function createRootESLintConfigFile(projectName: string): Rule {
       createRootESLintConfig(lintPrefix),
     );
   };
-}
-
-function createRootESLintConfigFile__NX(tree: NxTree, prefix: string) {
-  return writeJson(tree, '.eslintrc.json', createRootESLintConfig(prefix));
 }
 
 export function sortObjectByKeys(
@@ -505,25 +367,6 @@ export function sortObjectByKeys(
  * To make certain schematic usage conversion more ergonomic, if the user does not specify a project
  * and only has a single project in their angular.json we will just go ahead and use that one.
  */
-export function determineTargetProjectName__NX(
-  tree: NxTree,
-  maybeProject?: string,
-): string | null {
-  if (maybeProject) {
-    return maybeProject;
-  }
-  const workspaceJson = readJson(tree, 'angular.json');
-  const projects = Object.keys(workspaceJson.projects);
-  if (projects.length === 1) {
-    return projects[0];
-  }
-  return null;
-}
-
-/**
- * To make certain schematic usage conversion more ergonomic, if the user does not specify a project
- * and only has a single project in their angular.json we will just go ahead and use that one.
- */
 export function determineTargetProjectName(
   tree: Tree,
   maybeProject?: string,
@@ -531,7 +374,7 @@ export function determineTargetProjectName(
   if (maybeProject) {
     return maybeProject;
   }
-  const workspaceJson = readJsonInTree(tree, getWorkspacePath(tree));
+  const workspaceJson = readJsonInTree(tree, 'angular.json');
   const projects = Object.keys(workspaceJson.projects);
   if (projects.length === 1) {
     return projects[0];
