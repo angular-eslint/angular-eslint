@@ -48,7 +48,9 @@ function updateRelevantDependencies(host: Tree, context: SchematicContext) {
   })(host, context);
 }
 
-function addRecommendedExtraExtendsWhereApplicable(config: Linter.Config) {
+function addRecommendedExtraExtendsWhereApplicable(
+  config: Linter.LegacyConfig,
+) {
   // Convert extends to array if applicable
   if (
     typeof config.extends === 'string' &&
@@ -110,7 +112,7 @@ function removeNegativeValuesFromComponentMaxInlineDeclarations(
 function updateComponentMaxInlineDeclarationsSchema({
   overrides,
   rules,
-}: Linter.Config) {
+}: Linter.LegacyConfig) {
   removeNegativeValuesFromComponentMaxInlineDeclarations(
     rules?.['@angular-eslint/component-max-inline-declarations'],
   );
