@@ -21,7 +21,10 @@ function migrateToAccessibilityLabelHasAssociatedControlSchema(
   };
 }
 
-function migrateFromAccessibilityLabelFor({ overrides, rules }: Linter.Config) {
+function migrateFromAccessibilityLabelFor({
+  overrides,
+  rules,
+}: Linter.LegacyConfig) {
   migrateToAccessibilityLabelHasAssociatedControlSchema(
     rules?.['@angular-eslint/template/accessibility-label-for'],
   );

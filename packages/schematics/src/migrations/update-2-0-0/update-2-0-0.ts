@@ -63,7 +63,10 @@ function updateRelevantDependencies(host: Tree, context: SchematicContext) {
   })(host, context);
 }
 
-function removeRuleFromESLintConfig(ruleName: string, config: Linter.Config) {
+function removeRuleFromESLintConfig(
+  ruleName: string,
+  config: Linter.LegacyConfig,
+) {
   if (config.rules && config.rules[ruleName]) {
     delete config.rules[ruleName];
   }

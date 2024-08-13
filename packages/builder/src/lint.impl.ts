@@ -1,25 +1,20 @@
-import type { BuilderOutput } from '@angular-devkit/architect';
-import {
-  convertNxExecutor,
-  joinPathFragments,
-  workspaceRoot,
-} from '@nx/devkit';
+import { createBuilder, type BuilderOutput } from '@angular-devkit/architect';
 import type { ESLint } from 'eslint';
 import { existsSync, mkdirSync, writeFileSync } from 'fs';
 import { dirname, join, resolve } from 'path';
 import type { Schema } from './schema';
 import { resolveAndInstantiateESLint } from './utils/eslint-utils';
 
-export default convertNxExecutor(
+export default createBuilder(
   async (options: Schema, context): Promise<BuilderOutput> => {
-    const systemRoot = context.root;
+    const systemRoot = context.workspaceRoot;
 
     // eslint resolves files relative to the current working directory.
     // We want these paths to always be resolved relative to the workspace
     // root to be able to run the lint executor from any subfolder.
     process.chdir(systemRoot);
 
-    const projectName = context.projectName || '<???>';
+    const projectName = context.target?.project ?? '<???>';
     const printInfo = options.format && !options.silent;
 
     if (printInfo) {
@@ -43,9 +38,7 @@ export default convertNxExecutor(
      * we only want to support it if the user has explicitly opted into it by converting
      * their root ESLint config to use eslint.config.js
      */
-    const useFlatConfig = existsSync(
-      joinPathFragments(workspaceRoot, 'eslint.config.js'),
-    );
+    const useFlatConfig = existsSync(join(systemRoot, 'eslint.config.js'));
     const { eslint, ESLint } = await resolveAndInstantiateESLint(
       eslintConfigPath,
       options,
@@ -74,8 +67,9 @@ export default convertNxExecutor(
         )
       ) {
         let eslintConfigPathForError = `for ${projectName}`;
-        if (context.projectsConfigurations?.projects?.[projectName]?.root) {
-          const { root } = context.projectsConfigurations.projects[projectName];
+        const projectMetadata = await context.getProjectMetadata(projectName);
+        if (projectMetadata?.root) {
+          const { root } = projectMetadata;
           eslintConfigPathForError = `\`${root}/.eslintrc.json\``;
         }
 
@@ -168,7 +162,7 @@ For full guidance on how to resolve this issue, please see https://github.com/an
     const formattedResults = await formatter.format(finalLintResults);
 
     if (options.outputFile) {
-      const pathToOutputFile = join(context.root, options.outputFile);
+      const pathToOutputFile = join(systemRoot, options.outputFile);
       mkdirSync(dirname(pathToOutputFile), { recursive: true });
       writeFileSync(pathToOutputFile, formattedResults);
     } else {
