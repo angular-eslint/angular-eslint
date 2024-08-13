@@ -105,7 +105,9 @@
   },
   "pnpm": {
     "overrides": {
-      "@typescript-eslint/parser": "$typescript-eslint"
+      "@typescript-eslint/parser": "$typescript-eslint",
+      "@typescript-eslint/rule-tester": "$typescript-eslint",
+      "@typescript-eslint/utils": "$typescript-eslint"
     }
   },
   "nx": {
