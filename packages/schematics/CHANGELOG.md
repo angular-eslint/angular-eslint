@@ -1,3 +1,21 @@
+## 18.3.0 (2024-08-13)
+
+### 🩹 Fixes
+
+- ensure consistent nx dependency versions
+
+- update dependency eslint to v9.9.0
+
+- update dependency ignore to v5.3.2
+
+- update typescript-eslint packages to v8.0.1
+
+- update typescript-eslint packages to v8.1.0
+
+### ❤️ Thank You
+
+- James Henry
+
 ## 18.2.0 (2024-07-31)
 
 ### 🚀 Features

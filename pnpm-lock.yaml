@@ -182,19 +182,19 @@ importers:
   packages/angular-eslint:
     dependencies:
       '@angular-eslint/builder':
-        specifier: 18.2.0
+        specifier: 18.3.0
         version: link:../builder
       '@angular-eslint/eslint-plugin':
-        specifier: 18.2.0
+        specifier: 18.3.0
         version: link:../eslint-plugin
       '@angular-eslint/eslint-plugin-template':
-        specifier: 18.2.0
+        specifier: 18.3.0
         version: link:../eslint-plugin-template
       '@angular-eslint/schematics':
-        specifier: 18.2.0
+        specifier: 18.3.0
         version: link:../schematics
       '@angular-eslint/template-parser':
-        specifier: 18.2.0
+        specifier: 18.3.0
         version: link:../template-parser
       eslint:
         specifier: ^8.57.0 || ^9.0.0
@@ -227,10 +227,10 @@ importers:
   packages/eslint-plugin:
     dependencies:
       '@angular-eslint/bundled-angular-compiler':
-        specifier: 18.2.0
+        specifier: 18.3.0
         version: link:../bundled-angular-compiler
       '@angular-eslint/utils':
-        specifier: 18.2.0
+        specifier: 18.3.0
         version: link:../utils
       '@typescript-eslint/utils':
         specifier: 8.1.0
@@ -243,16 +243,16 @@ importers:
         version: 5.5.4
     devDependencies:
       '@angular-eslint/test-utils':
-        specifier: 18.2.0
+        specifier: 18.3.0
         version: link:../test-utils
 
   packages/eslint-plugin-template:
     dependencies:
       '@angular-eslint/bundled-angular-compiler':
-        specifier: 18.2.0
+        specifier: 18.3.0
         version: link:../bundled-angular-compiler
       '@angular-eslint/utils':
-        specifier: 18.2.0
+        specifier: 18.3.0
         version: link:../utils
       '@typescript-eslint/utils':
         specifier: 8.1.0
@@ -271,10 +271,10 @@ importers:
         version: 5.5.4
     devDependencies:
       '@angular-eslint/template-parser':
-        specifier: 18.2.0
+        specifier: 18.3.0
         version: link:../template-parser
       '@angular-eslint/test-utils':
-        specifier: 18.2.0
+        specifier: 18.3.0
         version: link:../test-utils
       '@types/aria-query':
         specifier: 5.0.4
@@ -291,10 +291,10 @@ importers:
         specifier: '>= 18.0.0 < 19.0.0'
         version: 18.1.4
       '@angular-eslint/eslint-plugin':
-        specifier: 18.2.0
+        specifier: 18.3.0
         version: link:../eslint-plugin
       '@angular-eslint/eslint-plugin-template':
-        specifier: 18.2.0
+        specifier: 18.3.0
         version: link:../eslint-plugin-template
       ignore:
         specifier: 5.3.2
@@ -316,7 +316,7 @@ importers:
   packages/template-parser:
     dependencies:
       '@angular-eslint/bundled-angular-compiler':
-        specifier: 18.2.0
+        specifier: 18.3.0
         version: link:../bundled-angular-compiler
       eslint:
         specifier: ^8.57.0 || ^9.0.0
@@ -346,7 +346,7 @@ importers:
   packages/utils:
     dependencies:
       '@angular-eslint/bundled-angular-compiler':
-        specifier: 18.2.0
+        specifier: 18.3.0
         version: link:../bundled-angular-compiler
       '@typescript-eslint/utils':
         specifier: 8.1.0
