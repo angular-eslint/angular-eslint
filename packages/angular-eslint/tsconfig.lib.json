@@ -10,13 +10,28 @@
   "include": ["src/**/*"],
   "references": [
     {
-      "path": "../eslint-plugin/tsconfig.lib.json"
+      "path": "../schematics/tsconfig.lib.json"
+    },
+    {
+      "path": "../template-parser/tsconfig.lib.json"
     },
     {
       "path": "../eslint-plugin-template/tsconfig.lib.json"
     },
     {
-      "path": "../template-parser/tsconfig.lib.json"
+      "path": "../utils/tsconfig.lib.json"
+    },
+    {
+      "path": "../test-utils/tsconfig.lib.json"
+    },
+    {
+      "path": "../bundled-angular-compiler/tsconfig.lib.json"
+    },
+    {
+      "path": "../eslint-plugin/tsconfig.lib.json"
+    },
+    {
+      "path": "../builder/tsconfig.lib.json"
     }
   ]
 }
