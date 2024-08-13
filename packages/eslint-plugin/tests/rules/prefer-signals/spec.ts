@@ -4,10 +4,11 @@ import rule, { RULE_NAME } from '../../../src/rules/prefer-signals';
 import { invalid, valid } from './cases';
 
 const ruleTester = new RuleTester({
-  parser: '@typescript-eslint/parser',
-  parserOptions: {
-    project: 'tsconfig.spec.json',
-    tsconfigRootDir: path.join(__dirname, 'project'),
+  languageOptions: {
+    parserOptions: {
+      projectService: true,
+      tsconfigRootDir: path.join(__dirname, 'project'),
+    },
   },
 });
 
