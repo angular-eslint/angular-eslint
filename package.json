@@ -90,7 +90,6 @@
     "lint-staged": "15.2.9",
     "ncp": "2.0.0",
     "nx": "19.6.0-beta.4",
-    "patch-package": "^8.0.0",
     "prettier": "3.3.3",
     "prettier-v2-for-jest-inline-snapshots": "npm:prettier@^2",
     "rimraf": "5.0.10",
@@ -111,6 +110,9 @@
       "@typescript-eslint/parser": "$typescript-eslint",
       "@typescript-eslint/rule-tester": "$typescript-eslint",
       "@typescript-eslint/utils": "$typescript-eslint"
+    },
+    "patchedDependencies": {
+      "@typescript-eslint/rule-tester@8.1.0": "tools/patches/@typescript-eslint__rule-tester@8.1.0.patch"
     }
   },
   "nx": {

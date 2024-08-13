@@ -159,16 +159,8 @@ For full guidance on how to resolve this issue, please see https://github.com/an
      * log (even when no results) because different formatters handled the
      * "no results" case differently.
      */
-    const formattedResults = await formatter.format(
-      finalLintResults,
-      // TODO: check what versions of eslint have this function, the types show it but it errored at runtime
-      typeof eslint.getRulesMetaForResults === 'function'
-        ? {
-            cwd: systemRoot,
-            rulesMeta: eslint.getRulesMetaForResults(finalLintResults),
-          }
-        : ({} as ESLint.LintResultData),
-    );
+    // @ts-expect-error - TODO: investigate this new rules meta argument to this function in ESLint v9
+    const formattedResults = await formatter.format(finalLintResults);
 
     if (options.outputFile) {
       const pathToOutputFile = join(systemRoot, options.outputFile);

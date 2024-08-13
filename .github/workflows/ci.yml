@@ -47,7 +47,6 @@ jobs:
         # We use --ignore-scripts to skip automatic postinstall and give us more control over distributing build tasks
         run: |
           pnpm install --frozen-lockfile --prefer-offline --ignore-scripts
-          pnpm patch-package --patch-dir ./tools/patches
           pnpm check-clean-workspace-after-install
 
       - name: Run parallel distributed tasks for build, typecheck, check-rule-docs, check-rule-lists, check-rule-configs, lint and test targets
@@ -107,7 +106,6 @@ jobs:
         # We use --ignore-scripts to skip automatic postinstall and give us more control over distributing build tasks
         run: |
           pnpm install --frozen-lockfile --prefer-offline --ignore-scripts
-          pnpm patch-package --patch-dir ./tools/patches
 
       - name: Run build targets on Node ${{ matrix.node }} (not distributable)
         env:
@@ -158,7 +156,6 @@ jobs:
           NX_CLOUD_DISTRIBUTED_EXECUTION: false
         run: |
           pnpm install --frozen-lockfile --prefer-offline
-          pnpm patch-package --patch-dir ./tools/patches
 
       - name: Figure out and apply the next canary version
         run: pnpm tsx ./tools/scripts/apply-canary-version.ts
