@@ -79,16 +79,17 @@ export async function resolveAndInstantiateESLint(
       );
     }
   } else {
-    eslintOptions.rulePaths = options.rulesdir || [];
-    eslintOptions.resolvePluginsRelativeTo =
+    (eslintOptions as ESLint.LegacyOptions).rulePaths = options.rulesdir || [];
+    (eslintOptions as ESLint.LegacyOptions).resolvePluginsRelativeTo =
       options.resolvePluginsRelativeTo || undefined;
-    eslintOptions.ignorePath = options.ignorePath || undefined;
+    (eslintOptions as ESLint.LegacyOptions).ignorePath =
+      options.ignorePath || undefined;
     /**
      * If "noEslintrc" is set to `true` (and therefore here "useEslintrc" will be `false`), then ESLint will not
      * merge the provided config with others it finds automatically.
      */
-    eslintOptions.useEslintrc = !options.noEslintrc;
-    eslintOptions.reportUnusedDisableDirectives =
+    (eslintOptions as ESLint.LegacyOptions).useEslintrc = !options.noEslintrc;
+    (eslintOptions as ESLint.LegacyOptions).reportUnusedDisableDirectives =
       options.reportUnusedDisableDirectives || undefined;
   }
 
