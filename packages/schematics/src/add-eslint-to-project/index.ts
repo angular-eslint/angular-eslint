@@ -1,5 +1,5 @@
-import type { Tree } from '../devkit-imports';
-import { convertNxGenerator } from '../devkit-imports';
+import type { Rule, Tree } from '@angular-devkit/schematics';
+import { chain } from '@angular-devkit/schematics';
 import {
   addESLintTargetToProject,
   createESLintConfigForProject,
@@ -11,26 +11,27 @@ interface Schema {
   setParserOptionsProject?: boolean;
 }
 
-export default convertNxGenerator(async (tree: Tree, options: Schema) => {
-  const projectName = determineTargetProjectName(tree, options.project);
-  if (!projectName) {
-    throw new Error(
-      '\n' +
-        `
+export default function addESLintToProject(schema: Schema): Rule {
+  return (tree: Tree) => {
+    const projectName = determineTargetProjectName(tree, schema.project);
+    if (!projectName) {
+      throw new Error(
+        '\n' +
+          `
 Error: You must specify a project to add ESLint to because you have multiple projects in your angular.json
 
 E.g. npx ng g @angular-eslint/schematics:add-eslint-to-project {{YOUR_PROJECT_NAME_GOES_HERE}}
-      `.trim(),
-    );
-  }
-
-  // Create the config file first so that we can check for its existence when setting the target
-  createESLintConfigForProject(
-    tree,
-    projectName,
-    options.setParserOptionsProject ?? false,
-  );
-
-  // Update the lint builder and config in angular.json
-  addESLintTargetToProject(tree, projectName, 'lint');
-});
+        `.trim(),
+      );
+    }
+    return chain([
+      // Create the ESLint config file for the project
+      createESLintConfigForProject(
+        projectName,
+        schema.setParserOptionsProject ?? false,
+      ),
+      // Set the lint builder and config in angular.json
+      addESLintTargetToProject(projectName, 'lint'),
+    ]);
+  };
+}
