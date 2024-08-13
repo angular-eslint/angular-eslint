@@ -121,9 +121,7 @@ export default createESLintRule<Options, MessageIds>({
     ],
   ) {
     let services: ParserServicesWithTypeInformation | undefined;
-    let listener: ESLintUtils.RuleListener;
-
-    listener = {};
+    const listener: ESLintUtils.RuleListener = {};
 
     if (typesToReplace.length > 0) {
       listener.NewExpression = (node) => {
