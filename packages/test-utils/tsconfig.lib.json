@@ -8,5 +8,12 @@
   },
   "exclude": ["**/*.spec.ts"],
   "include": ["src/**/*"],
-  "references": []
+  "references": [
+    {
+      "path": "../bundled-angular-compiler/tsconfig.lib.json"
+    },
+    {
+      "path": "../template-parser/tsconfig.lib.json"
+    }
+  ]
 }

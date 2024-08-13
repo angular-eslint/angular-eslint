@@ -15,7 +15,6 @@ env:
   NX_VERBOSE_LOGGING: false
   NX_CLOUD_DEBUG_URLS: false
   NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
-  NX_ENABLE_SYNC_GENERATORS: true
 
 jobs:
   primary:
