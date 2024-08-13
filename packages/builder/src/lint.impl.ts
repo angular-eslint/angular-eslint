@@ -159,7 +159,10 @@ For full guidance on how to resolve this issue, please see https://github.com/an
      * log (even when no results) because different formatters handled the
      * "no results" case differently.
      */
-    const formattedResults = await formatter.format(finalLintResults);
+    const formattedResults = await formatter.format(finalLintResults, {
+      cwd: systemRoot,
+      rulesMeta: eslint.getRulesMetaForResults(finalLintResults),
+    });
 
     if (options.outputFile) {
       const pathToOutputFile = join(systemRoot, options.outputFile);
