@@ -8,6 +8,18 @@
   "include": ["**/*.ts", "**/*.json"],
   "references": [
     {
+      "path": "../utils"
+    },
+    {
+      "path": "../test-utils"
+    },
+    {
+      "path": "../bundled-angular-compiler"
+    },
+    {
+      "path": "../template-parser"
+    },
+    {
       "path": "./tsconfig.lib.json"
     },
     {

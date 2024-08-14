@@ -159,6 +159,7 @@ For full guidance on how to resolve this issue, please see https://github.com/an
      * log (even when no results) because different formatters handled the
      * "no results" case differently.
      */
+    // @ts-expect-error - TODO: investigate this new rules meta argument to this function in ESLint v9
     const formattedResults = await formatter.format(finalLintResults);
 
     if (options.outputFile) {

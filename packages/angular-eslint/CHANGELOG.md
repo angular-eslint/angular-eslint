@@ -1,3 +1,13 @@
+## 18.3.0 (2024-08-13)
+
+### 🚀 Features
+
+- **eslint-plugin:** new rule runtime-localize
+
+### ❤️ Thank You
+
+- m-akinc
+
 ## 18.2.0 (2024-07-31)
 
 ### 🚀 Features

@@ -1,3 +1,13 @@
+## 18.3.0 (2024-08-13)
+
+### 🩹 Fixes
+
+- ensure consistent nx dependency versions
+
+### ❤️ Thank You
+
+- James Henry
+
 ## 18.2.0 (2024-07-31)
 
 This was a version bump only for builder to align it with other projects, there were no code changes.

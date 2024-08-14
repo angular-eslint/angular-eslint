@@ -1,0 +1,24 @@
+diff --git a/dist/RuleTester.js b/dist/RuleTester.js
+index 309e4444aac618a415eaf60c85454d07c12fd87a..76f01c53ce410b858d373edbc7dc63e89ea4ad45 100644
+--- a/dist/RuleTester.js
++++ b/dist/RuleTester.js
+@@ -661,7 +661,8 @@ class RuleTester extends TestFramework_1.TestFramework {
+                             (0, node_assert_1.default)(false, `Invalid messageId '${error.messageId}'. Expected one of ${friendlyIDList}.`);
+                         }
+                         node_assert_1.default.strictEqual(message.messageId, error.messageId, `messageId '${message.messageId}' does not match expected messageId '${error.messageId}'.`);
+-                        const unsubstitutedPlaceholders = getUnsubstitutedMessagePlaceholders(message.message, rule.meta.messages[message.messageId], error.data);
++                        const unsubstitutedPlaceholders = getUnsubstitutedMessagePlaceholders(message.message, rule.meta.messages[message.messageId], error.data)
++                            .filter(name => name !== 'value');
+                         node_assert_1.default.ok(unsubstitutedPlaceholders.length === 0, `The reported message has ${unsubstitutedPlaceholders.length > 1 ? `unsubstituted placeholders: ${unsubstitutedPlaceholders.map(name => `'${name}'`).join(', ')}` : `an unsubstituted placeholder '${unsubstitutedPlaceholders[0]}'`}. Please provide the missing ${unsubstitutedPlaceholders.length > 1 ? 'values' : 'value'} via the 'data' property in the context.report() call.`);
+                         if ((0, hasOwnProperty_1.hasOwnProperty)(error, 'data')) {
+                             /*
+@@ -734,7 +735,8 @@ class RuleTester extends TestFramework_1.TestFramework {
+                                         node_assert_1.default.ok(ruleHasMetaMessages, `${suggestionPrefix} Test can not use 'messageId' if rule under test doesn't define 'meta.messages'.`);
+                                         node_assert_1.default.ok((0, hasOwnProperty_1.hasOwnProperty)(rule.meta.messages, expectedSuggestion.messageId), `${suggestionPrefix} Test has invalid messageId '${expectedSuggestion.messageId}', the rule under test allows only one of ${friendlyIDList}.`);
+                                         node_assert_1.default.strictEqual(actualSuggestion.messageId, expectedSuggestion.messageId, `${suggestionPrefix} messageId should be '${expectedSuggestion.messageId}' but got '${actualSuggestion.messageId}' instead.`);
+-                                        const unsubstitutedPlaceholders = getUnsubstitutedMessagePlaceholders(actualSuggestion.desc, rule.meta.messages[expectedSuggestion.messageId], expectedSuggestion.data);
++                                        const unsubstitutedPlaceholders = getUnsubstitutedMessagePlaceholders(actualSuggestion.desc, rule.meta.messages[expectedSuggestion.messageId], expectedSuggestion.data)
++                                            .filter(name => name !== 'value');
+                                         node_assert_1.default.ok(unsubstitutedPlaceholders.length === 0, `The message of the suggestion has ${unsubstitutedPlaceholders.length > 1 ? `unsubstituted placeholders: ${unsubstitutedPlaceholders.map(name => `'${name}'`).join(', ')}` : `an unsubstituted placeholder '${unsubstitutedPlaceholders[0]}'`}. Please provide the missing ${unsubstitutedPlaceholders.length > 1 ? 'values' : 'value'} via the 'data' property for the suggestion in the context.report() call.`);
+                                         if ((0, hasOwnProperty_1.hasOwnProperty)(expectedSuggestion, 'data')) {
+                                             const unformattedMetaMessage = rule.meta.messages[expectedSuggestion.messageId];
