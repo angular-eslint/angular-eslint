@@ -33,7 +33,10 @@ export class RuleTester extends TSESLintRuleTester {
   constructor(options?: RuleTesterConfig) {
     super(options);
 
-    if (options?.languageOptions?.parserOptions?.project) {
+    if (
+      options?.languageOptions?.parserOptions?.project ||
+      options?.languageOptions?.parserOptions?.projectService
+    ) {
       this.filename = path.join(
         options?.languageOptions.parserOptions.tsconfigRootDir ??
           getFixturesRootDir(),
