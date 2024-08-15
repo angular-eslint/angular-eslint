@@ -43,7 +43,6 @@ jobs:
         with:
           # Use the volta.node property as the source of truth
           node-version-file: 'package.json'
-          cache: 'pnpm'
 
       - name: Check if @nx/workspace was changed as part of the latest commit on the PR
         id: nrwl-workspace-package-check
