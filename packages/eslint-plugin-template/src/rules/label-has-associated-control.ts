@@ -88,8 +88,8 @@ export default createESLintRule<Options, MessageIds>({
       ...(controlComponents ?? []),
     ]);
     const allLabelComponents = [
-      ...DEFAULT_LABEL_COMPONENTS,
       ...(labelComponents ?? []),
+      ...DEFAULT_LABEL_COMPONENTS,
     ] as const;
     let inputItems: TmplAstElement[] = [];
     let labelItems: TmplAstElement[] = [];
