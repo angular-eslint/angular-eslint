@@ -55,7 +55,7 @@ jobs:
           # whereas the build only checks src files
           cmd1: pnpm nx run-many -t build,typecheck,check-rule-docs,lint,check-rule-lists,check-rule-configs
           cmd2: pnpm nx run-many -t test --codeCoverage
-          cmd3: pnpm nx-cloud record -- pnpm format-check
+          cmd3: pnpm nx-cloud record -- pnpm --recursive=false format-check
           cmd4: pnpm nx-cloud record -- pnpm nx sync:check
 
       # Run distributed e2e test suites with independent local registries (max 1 per agent via parallel=1)
