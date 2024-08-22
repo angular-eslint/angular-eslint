@@ -393,6 +393,62 @@ interface Options {
 
 <br>
 
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-call-expression": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+{{ foo()() }}
+   ~~~~~~~
+   ~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-call-expression": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+{{ foo().bar() }}
+   ~~~~~~~~~~~
+   ~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
 #### Custom Config
 
 ```json
