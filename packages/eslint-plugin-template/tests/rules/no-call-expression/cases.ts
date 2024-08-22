@@ -241,32 +241,30 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       { char: '#', messageId },
     ],
   }),
-  extendError(
-    convertAnnotatedSourceToFailureCase({
-      description: 'should fail multiple times for nested calls',
-      annotatedSource: `
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail multiple times for nested calls',
+    annotatedSource: `
     {{ foo()() }}
-       ^^^^^~~
+       ~~~~~~~
+       ^^^^^
     `,
-      messages: [
-        { char: '~', messageId },
-        { char: '^', messageId },
-      ],
-    }),
-  ),
-  extendError(
-    convertAnnotatedSourceToFailureCase({
-      description: 'should fail multiple times for chained calls',
-      annotatedSource: `
+    messages: [
+      { char: '~', messageId },
+      { char: '^', messageId },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail multiple times for chained calls',
+    annotatedSource: `
     {{ foo().bar() }}
-       ^^^^^~~~~~~
+       ~~~~~~~~~~~
+       ^^^^^
     `,
-      messages: [
-        { char: '~', messageId },
-        { char: '^', messageId },
-      ],
-    }),
-  ),
+    messages: [
+      { char: '~', messageId },
+      { char: '^', messageId },
+    ],
+  }),
   convertAnnotatedSourceToFailureCase({
     description: 'should fail for nested call not in allowList',
     annotatedSource: `
@@ -277,12 +275,3 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messages: [{ char: '~', messageId }],
   }),
 ];
-
-// convertAnnotatedSourceToFailureCase unfortunately cannot handle multiple errors starting/ending at the same position;
-// manually adjust the outer error (~) to start at the same column as the inner error (^)
-function extendError<T extends InvalidTestCase<MessageIds, Options>>(
-  testCase: T,
-): T {
-  (testCase.errors[0] as any).column = testCase.errors[1].column;
-  return testCase;
-}
