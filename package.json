@@ -21,7 +21,7 @@
     "update-e2e-snapshots": "nx e2e e2e --updateSnapshot",
     "check-clean-workspace-after-install": "git diff --quiet --exit-code",
     "cz": "git-cz",
-    "postinstall": "tools/scripts/postinstall.sh",
+    "postinstall": "node tools/scripts/postinstall.js",
     "pre-commit": "pnpm lint-staged",
     "pre-push": "pnpm format-check",
     "format": "node node_modules/prettier/bin/prettier.cjs --write \"./**/*.{ts,js,json,md}\"",
