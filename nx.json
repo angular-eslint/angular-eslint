@@ -43,7 +43,7 @@
     "version": {
       "conventionalCommits": true,
       "generatorOptions": {
-        "installArgs": ["--link-workspace-packages"]
+        "installArgs": "--link-workspace-packages"
       }
     },
     "changelog": {
