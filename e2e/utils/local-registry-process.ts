@@ -16,6 +16,9 @@ async function runCommandOnLocalRegistry(
       ------------------
     `);
   }
+  console.log(
+    `\n[e2e debug output] Running command: ${command} ${args.join(' ')}\n`,
+  );
 
   const subprocess = execa(command, args);
   subprocess.stdout!.pipe(process.stdout);
