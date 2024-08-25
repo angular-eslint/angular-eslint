@@ -219,35 +219,31 @@ function parseInvalidSource(
 
   let col = 0;
   let line = 0;
-  let sourceLine = 0;
-  let isAnnotationLine = false;
   let lastCol = 0;
   let lastLine = 0;
   let startPosition: SourcePosition | undefined;
-  for (const currentChar of source) {
+
+  for (const currentChar of replacedSource) {
     if (currentChar === '\n') {
-      if (isAnnotationLine) isAnnotationLine = false;
-      else sourceLine = line;
       col = 0;
       line++;
+
       continue;
     }
 
     col++;
 
-    if (otherChars.includes(currentChar)) isAnnotationLine = true;
     if (currentChar !== specialChar) continue;
-    isAnnotationLine = true;
 
     if (!startPosition) {
       startPosition = {
         character: col - 1,
-        line: sourceLine,
+        line: line - 1,
       };
     }
 
     lastCol = col;
-    lastLine = sourceLine;
+    lastLine = line - 1;
   }
 
   const endPosition: SourcePosition = {

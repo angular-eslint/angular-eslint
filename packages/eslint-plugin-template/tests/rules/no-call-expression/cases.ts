@@ -71,8 +71,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     description: 'should fail for `FunctionCall` within `Interpolation`',
     annotatedSource: `
-        <div>{{ getInfo() }}</div>
-                ~~~~~~~~~
+        <div>{{ getInfo()() }}</div>
+                ~~~~~~~~~~~
       `,
     messageId,
   }),
@@ -96,8 +96,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     description:
       'should fail for `FunctionCall`, `MethodCall` and `SafeMethodCall` within `Binary`',
     annotatedSource: `
-        <a [href]="id && createUrl() && test($any)">info</a>
-                         ~~~~~~~~~~~    ^^^^^^^^^^
+        <a [href]="id && createUrl() && test()($any)">info</a>
+                         ~~~~~~~~~~~    ^^^^^^^^^^^^
         {{ id || obj?.nested1() }}
                  ##############
       `,
@@ -113,8 +113,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     annotatedSource: `
         <a [href]="id ? a?.createUrl() : editUrl(3)">info</a>
                         ~~~~~~~~~~~~~~   ^^^^^^^^^^
-        {{ 1 === 2 ? 3 : obj?.nested1() }}
-                         ##############
+        {{ 1 === 2 ? 3 : obj?.nested1()() }}
+                         ################
       `,
     messages: [
       { char: '~', messageId },
@@ -127,8 +127,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     annotatedSource: `
         {{ obj?.nested1() }} {{ obj!.nested1() }}
            ~~~~~~~~~~~~~~       ^^^^^^^^^^^^^^
-        <button [type]="obj!.$any(b)!.getType()">info</button>
-                        #######################
+        <button [type]="obj!.$any(b)!.getType()()">info</button>
+                        #########################
         <a [href]="obj.propertyA?.href()">info</a>
                    %%%%%%%%%%%%%%%%%%%%%
       `,
@@ -227,51 +227,5 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       { char: '¶', messageId },
       { char: '*', messageId },
     ],
-  }),
-
-  convertAnnotatedSourceToFailureCase({
-    description: 'should fail for calls in arguments',
-    annotatedSource: `
-    {{ foo(bar(), baz()) }}
-       ~~~~^^^^^~~#####~
-    `,
-    messages: [
-      { char: '~', messageId },
-      { char: '^', messageId },
-      { char: '#', messageId },
-    ],
-  }),
-  convertAnnotatedSourceToFailureCase({
-    description: 'should fail multiple times for nested calls',
-    annotatedSource: `
-    {{ foo()() }}
-       ~~~~~~~
-       ^^^^^
-    `,
-    messages: [
-      { char: '~', messageId },
-      { char: '^', messageId },
-    ],
-  }),
-  convertAnnotatedSourceToFailureCase({
-    description: 'should fail multiple times for chained calls',
-    annotatedSource: `
-    {{ foo().bar() }}
-       ~~~~~~~~~~~
-       ^^^^^
-    `,
-    messages: [
-      { char: '~', messageId },
-      { char: '^', messageId },
-    ],
-  }),
-  convertAnnotatedSourceToFailureCase({
-    description: 'should fail for nested call not in allowList',
-    annotatedSource: `
-    {{ notOk().ok() }}
-       ~~~~~~~
-    `,
-    options: [{ allowList: ['ok'] }],
-    messages: [{ char: '~', messageId }],
   }),
 ];
