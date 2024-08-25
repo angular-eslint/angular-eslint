@@ -66,7 +66,8 @@ jobs:
           # Revert renovate's changes to package.json and pnpm-lock.yaml so that it is a clean migrate from the status quo
           git checkout HEAD~1 -- package.json pnpm-lock.yaml
 
-          pnpm install --ignore-scripts
+          # We need to expect lock file changes to be applicable
+          pnpm install --ignore-scripts --frozen-lockfile=false
 
           pnpm nx migrate @nx/workspace@$NX_VERSION
 

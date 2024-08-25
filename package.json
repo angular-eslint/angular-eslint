@@ -56,7 +56,7 @@
     "@nx/devkit": "19.6.2",
     "@nx/eslint": "19.6.2",
     "@nx/eslint-plugin": "19.6.2",
-    "@nx/jest": "19.6.0-beta.5",
+    "@nx/jest": "19.6.2",
     "@nx/js": "19.6.2",
     "@nx/plugin": "19.6.2",
     "@nx/workspace": "19.6.2",
@@ -125,7 +125,7 @@
       },
       "update-rule-configs": {
         "dependsOn": [
-          "utils:build"
+          "^build"
         ],
         "outputs": [
           "{projectRoot}/configs"

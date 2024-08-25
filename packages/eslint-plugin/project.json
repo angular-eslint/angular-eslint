@@ -30,6 +30,7 @@
       "command": "git diff --quiet --exit-code packages/eslint-plugin/README.md || (echo \"\n-------\n\nCHECK RULE LISTS ERROR: You have uncommitted changes to the generated rule lists.\n\nYou should run `pnpm update-rule-lists` and commit the result.\n\n-------\n\" && exit 1)"
     },
     "update-rule-lists": {
+      "dependsOn": ["^build"],
       "outputs": ["{projectRoot}/README.md"],
       "command": "npx tsx ./tools/scripts/generate-rule-lists.ts eslint-plugin"
     }

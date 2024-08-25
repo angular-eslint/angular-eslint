@@ -10,14 +10,9 @@
   "exclude": ["**/*.spec.ts"],
   "include": ["src/**/*.ts", "src/**/*.json"],
   "references": [
-    {
-      "path": "../utils/tsconfig.lib.json"
-    },
-    {
-      "path": "../test-utils/tsconfig.lib.json"
-    },
-    {
-      "path": "../bundled-angular-compiler/tsconfig.lib.json"
-    }
+    { "path": "../utils/tsconfig.lib.json" },
+    { "path": "../template-parser/tsconfig.lib.json" },
+    { "path": "../test-utils/tsconfig.lib.json" },
+    { "path": "../bundled-angular-compiler/tsconfig.lib.json" }
   ]
 }

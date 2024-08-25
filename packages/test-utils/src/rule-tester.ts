@@ -18,11 +18,19 @@ function getFixturesRootDir() {
 function isValidParser(
   parser: Readonly<TSESLint.Parser.LooseParserModule>,
 ): boolean {
-  if (parser === require('@angular-eslint/template-parser')) {
-    return true;
+  try {
+    if (parser === require('@angular-eslint/template-parser')) {
+      return true;
+    }
+  } catch {
+    /* empty */
   }
-  if (parser === require('@typescript-eslint/parser')) {
-    return true;
+  try {
+    if (parser === require('@typescript-eslint/parser')) {
+      return true;
+    }
+  } catch {
+    /* empty */
   }
   return false;
 }

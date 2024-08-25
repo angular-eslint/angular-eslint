@@ -17,10 +17,20 @@
     "LICENSE"
   ],
   "peerDependencies": {
+    "@angular-eslint/template-parser": "18.3.0",
+    "@typescript-eslint/parser": "^7.11.0 || ^8.0.0",
     "@typescript-eslint/rule-tester": "^7.11.0 || ^8.0.0",
     "@typescript-eslint/utils": "^7.11.0 || ^8.0.0",
     "eslint": "^8.57.0 || ^9.0.0",
     "typescript": "*"
+  },
+  "peerDependenciesMeta": {
+    "@angular-eslint/template-parser": {
+      "optional": true
+    },
+    "@typescript-eslint/parser": {
+      "optional": true
+    }
   },
   "publishConfig": {
     "access": "public"
