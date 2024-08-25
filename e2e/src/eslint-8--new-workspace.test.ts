@@ -3,6 +3,7 @@ import { setWorkspaceRoot } from 'nx/src/utils/workspace-root';
 import { FIXTURES_DIR, Fixture } from '../utils/fixtures';
 import {
   LONG_TIMEOUT_MS,
+  runCommandOnLocalRegistry,
   runNgAdd,
   runNgGenerate,
   runNgNew,
@@ -51,6 +52,10 @@ describe('eslint-8--new-workspace', () => {
     );
 
     await runNgAdd();
+    await runCommandOnLocalRegistry('npm', [
+      'ls',
+      '@angular-eslint/schematics',
+    ]);
     await runNgGenerate(['app', 'another-app', '--interactive=false']);
     await runNgGenerate(['lib', 'another-lib', '--interactive=false']);
   });
