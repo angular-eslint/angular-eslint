@@ -67,8 +67,8 @@ interface Options {
 #### ❌ Invalid Code
 
 ```html
-<div>{{ getInfo() }}</div>
-        ~~~~~~~~~
+<div>{{ getInfo()() }}</div>
+        ~~~~~~~~~~~
 ```
 
 <br>
@@ -148,8 +148,8 @@ interface Options {
 #### ❌ Invalid Code
 
 ```html
-<a [href]="id && createUrl() && test($any)">info</a>
-                 ~~~~~~~~~~~    ~~~~~~~~~~
+<a [href]="id && createUrl() && test()($any)">info</a>
+                 ~~~~~~~~~~~    ~~~~~~~~~~~~
 {{ id || obj?.nested1() }}
          ~~~~~~~~~~~~~~
 ```
@@ -179,8 +179,8 @@ interface Options {
 ```html
 <a [href]="id ? a?.createUrl() : editUrl(3)">info</a>
                 ~~~~~~~~~~~~~~   ~~~~~~~~~~
-{{ 1 === 2 ? 3 : obj?.nested1() }}
-                 ~~~~~~~~~~~~~~
+{{ 1 === 2 ? 3 : obj?.nested1()() }}
+                 ~~~~~~~~~~~~~~~~
 ```
 
 <br>
@@ -208,8 +208,8 @@ interface Options {
 ```html
 {{ obj?.nested1() }} {{ obj!.nested1() }}
    ~~~~~~~~~~~~~~       ~~~~~~~~~~~~~~
-<button [type]="obj!.$any(b)!.getType()">info</button>
-                ~~~~~~~~~~~~~~~~~~~~~~~
+<button [type]="obj!.$any(b)!.getType()()">info</button>
+                ~~~~~~~~~~~~~~~~~~~~~~~~~
 <a [href]="obj.propertyA?.href()">info</a>
            ~~~~~~~~~~~~~~~~~~~~~
 ```
@@ -358,121 +358,6 @@ interface Options {
   <div [id]="foo()"></div>
              ~~~~~
 }
-```
-
-<br>
-
----
-
-<br>
-
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/template/no-call-expression": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
-#### ❌ Invalid Code
-
-```html
-{{ foo(bar(), baz()) }}
-   ~~~~~~~~~~~~~~~~~
-```
-
-<br>
-
----
-
-<br>
-
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/template/no-call-expression": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
-#### ❌ Invalid Code
-
-```html
-{{ foo()() }}
-   ~~~~~~~
-   ~~~~~
-```
-
-<br>
-
----
-
-<br>
-
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/template/no-call-expression": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
-#### ❌ Invalid Code
-
-```html
-{{ foo().bar() }}
-   ~~~~~~~~~~~
-   ~~~~~
-```
-
-<br>
-
----
-
-<br>
-
-#### Custom Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/template/no-call-expression": [
-      "error",
-      {
-        "allowList": [
-          "ok"
-        ]
-      }
-    ]
-  }
-}
-```
-
-<br>
-
-#### ❌ Invalid Code
-
-```html
-{{ notOk().ok() }}
-   ~~~~~~~
 ```
 
 </details>
