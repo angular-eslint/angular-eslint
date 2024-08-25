@@ -48,6 +48,11 @@ jobs:
           pnpm install --frozen-lockfile --prefer-offline --ignore-scripts
           pnpm check-clean-workspace-after-install
 
+      - name: Formatting and config file checks
+        run: |
+          pnpm nx-cloud record -- pnpm format-check
+          pnpm nx-cloud record -- pnpm nx sync:check
+
       - name: Run parallel distributed tasks for build, typecheck, check-rule-docs, check-rule-lists, check-rule-configs, lint and test targets
         uses: jameshenry/parallel-bash-commands@v1
         with:
@@ -55,8 +60,6 @@ jobs:
           # whereas the build only checks src files
           cmd1: pnpm nx run-many -t build,typecheck,check-rule-docs,lint,check-rule-lists,check-rule-configs
           cmd2: pnpm nx run-many -t test --codeCoverage
-          cmd3: pnpm nx-cloud record -- pnpm format-check
-          cmd4: pnpm nx-cloud record -- pnpm nx sync:check
 
       # Run distributed e2e test suites with independent local registries (max 1 per agent via parallel=1)
       - name: Run e2e test suites
