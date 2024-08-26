@@ -3,11 +3,11 @@
 exports[`eslint-8--new-workspace should pass linting after creating a new workspace from scratch using angular-eslint 1`] = `
 {
   "@angular-devkit/build-angular": "^18.X.X",
-  "@angular-eslint/builder": "18.3.0",
-  "@angular-eslint/eslint-plugin": "18.3.0",
-  "@angular-eslint/eslint-plugin-template": "18.3.0",
-  "@angular-eslint/schematics": "18.3.0",
-  "@angular-eslint/template-parser": "18.3.0",
+  "@angular-eslint/builder": "0.0.0-e2e",
+  "@angular-eslint/eslint-plugin": "0.0.0-e2e",
+  "@angular-eslint/eslint-plugin-template": "0.0.0-e2e",
+  "@angular-eslint/schematics": "0.0.0-e2e",
+  "@angular-eslint/template-parser": "0.0.0-e2e",
   "@angular/cli": "^18.X.X",
   "@angular/compiler-cli": "^18.X.X",
   "@types/jasmine": "~5.1.0",

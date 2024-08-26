@@ -41,10 +41,7 @@
   "release": {
     "projects": ["packages/*", "!nx-plugin"],
     "version": {
-      "conventionalCommits": true,
-      "generatorOptions": {
-        "installArgs": "--link-workspace-packages"
-      }
+      "conventionalCommits": true
     },
     "changelog": {
       "workspaceChangelog": {
