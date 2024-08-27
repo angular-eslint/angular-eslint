@@ -69,15 +69,15 @@ jobs:
           # We need to expect lock file changes to be applicable
           pnpm install --ignore-scripts --frozen-lockfile=false
 
-          pnpm nx migrate @nx/workspace@$NX_VERSION
+          pnpm nx migrate $NX_VERSION
 
           # Sometimes Nx can require config formatting changes after a migrate command
-          pnpm install --ignore-scripts
+          # We need to expect lock file changes to be applicable
+          pnpm install --ignore-scripts --frozen-lockfile=false
           pnpm nx format
 
           # migrations.json may or may not exist after running nx migrate
           if [ -f migrations.json ]; then
-            # This will also invoke pnpm automatically
             pnpm nx migrate --run-migrations=migrations.json
 
             # After we have run its migrations, we no longer need the migrations.json file
@@ -93,5 +93,5 @@ jobs:
           git remote set-url origin https://x-access-token:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git
 
           git add --all
-          git commit -m "chore: run nx migrate for @nx/workspace v$NX_VERSION"
+          git commit -m "chore: run nx migrate for nx v$NX_VERSION"
           git push
