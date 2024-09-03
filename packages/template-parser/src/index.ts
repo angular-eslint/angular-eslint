@@ -70,6 +70,7 @@ const KEYS: VisitorKeys = {
   SwitchBlockCase: ['children', 'expression'],
   ForLoopBlock: ['children', 'empty', 'expression', 'trackBy'],
   ForLoopBlockEmpty: ['children'],
+  Content: ['children'],
 };
 
 function fallbackKeysFilter(this: Node, key: string) {

@@ -15397,4 +15397,23 @@ describe('parseForESLint()', () => {
       `);
     });
   });
+
+  describe('ng-content', () => {
+    it('should support fallback content', () => {
+      expect(
+        parseForESLint(
+          `
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        `,
+          {
+            filePath: './foo.html',
+          },
+        ).ast,
+      ).toMatchSnapshot();
+    });
+  });
 });

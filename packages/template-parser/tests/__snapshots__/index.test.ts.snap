@@ -1,0 +1,1128 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`parseForESLint() ng-content should support fallback content 1`] = `
+Object {
+  "comments": Array [],
+  "loc": Object {
+    "end": Object {
+      "column": 8,
+      "line": 7,
+    },
+    "start": Object {
+      "column": 10,
+      "line": 2,
+    },
+  },
+  "range": Array [
+    11,
+    129,
+  ],
+  "templateNodes": Array [
+    Text$3 {
+      "loc": Object {
+        "end": Object {
+          "column": 10,
+          "line": 2,
+        },
+        "start": Object {
+          "column": 10,
+          "line": 2,
+        },
+      },
+      "sourceSpan": ParseSourceSpan {
+        "details": null,
+        "end": ParseLocation {
+          "col": 10,
+          "file": ParseSourceFile {
+            "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+            "url": "./foo.html",
+          },
+          "line": 1,
+          "offset": 11,
+        },
+        "fullStart": ParseLocation {
+          "col": 0,
+          "file": ParseSourceFile {
+            "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+            "url": "./foo.html",
+          },
+          "line": 0,
+          "offset": 0,
+        },
+        "start": ParseLocation {
+          "col": 10,
+          "file": ParseSourceFile {
+            "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+            "url": "./foo.html",
+          },
+          "line": 1,
+          "offset": 11,
+        },
+      },
+      "type": "Text$3",
+      "value": "
+          ",
+    },
+    Content {
+      "attributes": Array [],
+      "children": Array [
+        Text$3 {
+          "loc": Object {
+            "end": Object {
+              "column": 13,
+              "line": 3,
+            },
+            "start": Object {
+              "column": 13,
+              "line": 3,
+            },
+          },
+          "sourceSpan": ParseSourceSpan {
+            "details": null,
+            "end": ParseLocation {
+              "col": 13,
+              "file": ParseSourceFile {
+                "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+                "url": "./foo.html",
+              },
+              "line": 2,
+              "offset": 37,
+            },
+            "fullStart": ParseLocation {
+              "col": 22,
+              "file": ParseSourceFile {
+                "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+                "url": "./foo.html",
+              },
+              "line": 1,
+              "offset": 23,
+            },
+            "start": ParseLocation {
+              "col": 13,
+              "file": ParseSourceFile {
+                "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+                "url": "./foo.html",
+              },
+              "line": 2,
+              "offset": 37,
+            },
+          },
+          "type": "Text$3",
+          "value": "
+             ",
+        },
+        IfBlock {
+          "branches": Array [
+            IfBlockBranch {
+              "children": Array [
+                Text$3 {
+                  "loc": Object {
+                    "end": Object {
+                      "column": 15,
+                      "line": 4,
+                    },
+                    "start": Object {
+                      "column": 15,
+                      "line": 4,
+                    },
+                  },
+                  "sourceSpan": ParseSourceSpan {
+                    "details": null,
+                    "end": ParseLocation {
+                      "col": 15,
+                      "file": ParseSourceFile {
+                        "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+                        "url": "./foo.html",
+                      },
+                      "line": 3,
+                      "offset": 64,
+                    },
+                    "fullStart": ParseLocation {
+                      "col": 24,
+                      "file": ParseSourceFile {
+                        "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+                        "url": "./foo.html",
+                      },
+                      "line": 2,
+                      "offset": 48,
+                    },
+                    "start": ParseLocation {
+                      "col": 15,
+                      "file": ParseSourceFile {
+                        "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+                        "url": "./foo.html",
+                      },
+                      "line": 3,
+                      "offset": 64,
+                    },
+                  },
+                  "type": "Text$3",
+                  "value": "
+               ",
+                },
+                Element$1 {
+                  "attributes": Array [],
+                  "children": Array [
+                    Text$3 {
+                      "loc": Object {
+                        "end": Object {
+                          "column": 26,
+                          "line": 4,
+                        },
+                        "start": Object {
+                          "column": 20,
+                          "line": 4,
+                        },
+                      },
+                      "sourceSpan": ParseSourceSpan {
+                        "details": null,
+                        "end": ParseLocation {
+                          "col": 26,
+                          "file": ParseSourceFile {
+                            "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+                            "url": "./foo.html",
+                          },
+                          "line": 3,
+                          "offset": 75,
+                        },
+                        "fullStart": ParseLocation {
+                          "col": 20,
+                          "file": ParseSourceFile {
+                            "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+                            "url": "./foo.html",
+                          },
+                          "line": 3,
+                          "offset": 69,
+                        },
+                        "start": ParseLocation {
+                          "col": 20,
+                          "file": ParseSourceFile {
+                            "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+                            "url": "./foo.html",
+                          },
+                          "line": 3,
+                          "offset": 69,
+                        },
+                      },
+                      "type": "Text$3",
+                      "value": "Hello!",
+                    },
+                  ],
+                  "endSourceSpan": ParseSourceSpan {
+                    "details": null,
+                    "end": ParseLocation {
+                      "col": 32,
+                      "file": ParseSourceFile {
+                        "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+                        "url": "./foo.html",
+                      },
+                      "line": 3,
+                      "offset": 81,
+                    },
+                    "fullStart": ParseLocation {
+                      "col": 26,
+                      "file": ParseSourceFile {
+                        "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+                        "url": "./foo.html",
+                      },
+                      "line": 3,
+                      "offset": 75,
+                    },
+                    "start": ParseLocation {
+                      "col": 26,
+                      "file": ParseSourceFile {
+                        "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+                        "url": "./foo.html",
+                      },
+                      "line": 3,
+                      "offset": 75,
+                    },
+                  },
+                  "i18n": undefined,
+                  "inputs": Array [],
+                  "loc": Object {
+                    "end": Object {
+                      "column": 32,
+                      "line": 4,
+                    },
+                    "start": Object {
+                      "column": 15,
+                      "line": 4,
+                    },
+                  },
+                  "name": "div",
+                  "outputs": Array [],
+                  "references": Array [],
+                  "sourceSpan": ParseSourceSpan {
+                    "details": null,
+                    "end": ParseLocation {
+                      "col": 32,
+                      "file": ParseSourceFile {
+                        "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+                        "url": "./foo.html",
+                      },
+                      "line": 3,
+                      "offset": 81,
+                    },
+                    "fullStart": ParseLocation {
+                      "col": 15,
+                      "file": ParseSourceFile {
+                        "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+                        "url": "./foo.html",
+                      },
+                      "line": 3,
+                      "offset": 64,
+                    },
+                    "start": ParseLocation {
+                      "col": 15,
+                      "file": ParseSourceFile {
+                        "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+                        "url": "./foo.html",
+                      },
+                      "line": 3,
+                      "offset": 64,
+                    },
+                  },
+                  "startSourceSpan": ParseSourceSpan {
+                    "details": null,
+                    "end": ParseLocation {
+                      "col": 20,
+                      "file": ParseSourceFile {
+                        "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+                        "url": "./foo.html",
+                      },
+                      "line": 3,
+                      "offset": 69,
+                    },
+                    "fullStart": ParseLocation {
+                      "col": 15,
+                      "file": ParseSourceFile {
+                        "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+                        "url": "./foo.html",
+                      },
+                      "line": 3,
+                      "offset": 64,
+                    },
+                    "start": ParseLocation {
+                      "col": 15,
+                      "file": ParseSourceFile {
+                        "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+                        "url": "./foo.html",
+                      },
+                      "line": 3,
+                      "offset": 64,
+                    },
+                  },
+                  "type": "Element$1",
+                },
+                Text$3 {
+                  "loc": Object {
+                    "end": Object {
+                      "column": 13,
+                      "line": 5,
+                    },
+                    "start": Object {
+                      "column": 13,
+                      "line": 5,
+                    },
+                  },
+                  "sourceSpan": ParseSourceSpan {
+                    "details": null,
+                    "end": ParseLocation {
+                      "col": 13,
+                      "file": ParseSourceFile {
+                        "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+                        "url": "./foo.html",
+                      },
+                      "line": 4,
+                      "offset": 95,
+                    },
+                    "fullStart": ParseLocation {
+                      "col": 32,
+                      "file": ParseSourceFile {
+                        "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+                        "url": "./foo.html",
+                      },
+                      "line": 3,
+                      "offset": 81,
+                    },
+                    "start": ParseLocation {
+                      "col": 13,
+                      "file": ParseSourceFile {
+                        "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+                        "url": "./foo.html",
+                      },
+                      "line": 4,
+                      "offset": 95,
+                    },
+                  },
+                  "type": "Text$3",
+                  "value": "
+             ",
+                },
+              ],
+              "endSourceSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 14,
+                  "file": ParseSourceFile {
+                    "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+                    "url": "./foo.html",
+                  },
+                  "line": 4,
+                  "offset": 96,
+                },
+                "fullStart": ParseLocation {
+                  "col": 13,
+                  "file": ParseSourceFile {
+                    "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+                    "url": "./foo.html",
+                  },
+                  "line": 4,
+                  "offset": 95,
+                },
+                "start": ParseLocation {
+                  "col": 13,
+                  "file": ParseSourceFile {
+                    "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+                    "url": "./foo.html",
+                  },
+                  "line": 4,
+                  "offset": 95,
+                },
+              },
+              "expression": ASTWithSource {
+                "ast": PropertyRead {
+                  "loc": Object {
+                    "end": Object {
+                      "column": undefined,
+                      "line": NaN,
+                    },
+                    "start": Object {
+                      "column": undefined,
+                      "line": NaN,
+                    },
+                  },
+                  "name": "foo",
+                  "nameSpan": AbsoluteSourceSpan {
+                    "end": 45,
+                    "start": 42,
+                  },
+                  "receiver": ImplicitReceiver {
+                    "loc": Object {
+                      "end": Object {
+                        "column": undefined,
+                        "line": NaN,
+                      },
+                      "start": Object {
+                        "column": undefined,
+                        "line": NaN,
+                      },
+                    },
+                    "sourceSpan": AbsoluteSourceSpan {
+                      "end": 42,
+                      "start": 42,
+                    },
+                    "span": ParseSpan {
+                      "end": 0,
+                      "start": 0,
+                    },
+                    "type": "ImplicitReceiver",
+                  },
+                  "sourceSpan": AbsoluteSourceSpan {
+                    "end": 45,
+                    "start": 42,
+                  },
+                  "span": ParseSpan {
+                    "end": 3,
+                    "start": 0,
+                  },
+                  "type": "PropertyRead",
+                },
+                "errors": Array [],
+                "loc": Object {
+                  "end": Object {
+                    "column": undefined,
+                    "line": NaN,
+                  },
+                  "start": Object {
+                    "column": undefined,
+                    "line": NaN,
+                  },
+                },
+                "location": "./foo.html@2:18",
+                "source": "foo",
+                "sourceSpan": AbsoluteSourceSpan {
+                  "end": 45,
+                  "start": 42,
+                },
+                "span": ParseSpan {
+                  "end": 3,
+                  "start": 0,
+                },
+                "type": "ASTWithSource",
+              },
+              "expressionAlias": null,
+              "i18n": undefined,
+              "loc": Object {
+                "end": Object {
+                  "column": 14,
+                  "line": 5,
+                },
+                "start": Object {
+                  "column": 13,
+                  "line": 3,
+                },
+              },
+              "nameSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 17,
+                  "file": ParseSourceFile {
+                    "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+                    "url": "./foo.html",
+                  },
+                  "line": 2,
+                  "offset": 41,
+                },
+                "fullStart": ParseLocation {
+                  "col": 13,
+                  "file": ParseSourceFile {
+                    "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+                    "url": "./foo.html",
+                  },
+                  "line": 2,
+                  "offset": 37,
+                },
+                "start": ParseLocation {
+                  "col": 13,
+                  "file": ParseSourceFile {
+                    "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+                    "url": "./foo.html",
+                  },
+                  "line": 2,
+                  "offset": 37,
+                },
+              },
+              "sourceSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 14,
+                  "file": ParseSourceFile {
+                    "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+                    "url": "./foo.html",
+                  },
+                  "line": 4,
+                  "offset": 96,
+                },
+                "fullStart": ParseLocation {
+                  "col": 13,
+                  "file": ParseSourceFile {
+                    "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+                    "url": "./foo.html",
+                  },
+                  "line": 2,
+                  "offset": 37,
+                },
+                "start": ParseLocation {
+                  "col": 13,
+                  "file": ParseSourceFile {
+                    "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+                    "url": "./foo.html",
+                  },
+                  "line": 2,
+                  "offset": 37,
+                },
+              },
+              "startSourceSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 24,
+                  "file": ParseSourceFile {
+                    "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+                    "url": "./foo.html",
+                  },
+                  "line": 2,
+                  "offset": 48,
+                },
+                "fullStart": ParseLocation {
+                  "col": 13,
+                  "file": ParseSourceFile {
+                    "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+                    "url": "./foo.html",
+                  },
+                  "line": 2,
+                  "offset": 37,
+                },
+                "start": ParseLocation {
+                  "col": 13,
+                  "file": ParseSourceFile {
+                    "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+                    "url": "./foo.html",
+                  },
+                  "line": 2,
+                  "offset": 37,
+                },
+              },
+              "type": "IfBlockBranch",
+            },
+          ],
+          "endSourceSpan": ParseSourceSpan {
+            "details": null,
+            "end": ParseLocation {
+              "col": 14,
+              "file": ParseSourceFile {
+                "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+                "url": "./foo.html",
+              },
+              "line": 4,
+              "offset": 96,
+            },
+            "fullStart": ParseLocation {
+              "col": 13,
+              "file": ParseSourceFile {
+                "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+                "url": "./foo.html",
+              },
+              "line": 4,
+              "offset": 95,
+            },
+            "start": ParseLocation {
+              "col": 13,
+              "file": ParseSourceFile {
+                "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+                "url": "./foo.html",
+              },
+              "line": 4,
+              "offset": 95,
+            },
+          },
+          "loc": Object {
+            "end": Object {
+              "column": 14,
+              "line": 5,
+            },
+            "start": Object {
+              "column": 13,
+              "line": 3,
+            },
+          },
+          "nameSpan": ParseSourceSpan {
+            "details": null,
+            "end": ParseLocation {
+              "col": 17,
+              "file": ParseSourceFile {
+                "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+                "url": "./foo.html",
+              },
+              "line": 2,
+              "offset": 41,
+            },
+            "fullStart": ParseLocation {
+              "col": 13,
+              "file": ParseSourceFile {
+                "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+                "url": "./foo.html",
+              },
+              "line": 2,
+              "offset": 37,
+            },
+            "start": ParseLocation {
+              "col": 13,
+              "file": ParseSourceFile {
+                "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+                "url": "./foo.html",
+              },
+              "line": 2,
+              "offset": 37,
+            },
+          },
+          "sourceSpan": ParseSourceSpan {
+            "details": null,
+            "end": ParseLocation {
+              "col": 14,
+              "file": ParseSourceFile {
+                "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+                "url": "./foo.html",
+              },
+              "line": 4,
+              "offset": 96,
+            },
+            "fullStart": ParseLocation {
+              "col": 13,
+              "file": ParseSourceFile {
+                "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+                "url": "./foo.html",
+              },
+              "line": 2,
+              "offset": 37,
+            },
+            "start": ParseLocation {
+              "col": 13,
+              "file": ParseSourceFile {
+                "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+                "url": "./foo.html",
+              },
+              "line": 2,
+              "offset": 37,
+            },
+          },
+          "startSourceSpan": ParseSourceSpan {
+            "details": null,
+            "end": ParseLocation {
+              "col": 24,
+              "file": ParseSourceFile {
+                "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+                "url": "./foo.html",
+              },
+              "line": 2,
+              "offset": 48,
+            },
+            "fullStart": ParseLocation {
+              "col": 13,
+              "file": ParseSourceFile {
+                "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+                "url": "./foo.html",
+              },
+              "line": 2,
+              "offset": 37,
+            },
+            "start": ParseLocation {
+              "col": 13,
+              "file": ParseSourceFile {
+                "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+                "url": "./foo.html",
+              },
+              "line": 2,
+              "offset": 37,
+            },
+          },
+          "type": "IfBlock",
+        },
+      ],
+      "i18n": undefined,
+      "loc": Object {
+        "end": Object {
+          "column": 23,
+          "line": 6,
+        },
+        "start": Object {
+          "column": 10,
+          "line": 2,
+        },
+      },
+      "name": "ng-content",
+      "selector": "*",
+      "sourceSpan": ParseSourceSpan {
+        "details": null,
+        "end": ParseLocation {
+          "col": 23,
+          "file": ParseSourceFile {
+            "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+            "url": "./foo.html",
+          },
+          "line": 5,
+          "offset": 120,
+        },
+        "fullStart": ParseLocation {
+          "col": 10,
+          "file": ParseSourceFile {
+            "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+            "url": "./foo.html",
+          },
+          "line": 1,
+          "offset": 11,
+        },
+        "start": ParseLocation {
+          "col": 10,
+          "file": ParseSourceFile {
+            "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+            "url": "./foo.html",
+          },
+          "line": 1,
+          "offset": 11,
+        },
+      },
+      "type": "Content",
+    },
+    Text$3 {
+      "loc": Object {
+        "end": Object {
+          "column": 8,
+          "line": 7,
+        },
+        "start": Object {
+          "column": 8,
+          "line": 7,
+        },
+      },
+      "sourceSpan": ParseSourceSpan {
+        "details": null,
+        "end": ParseLocation {
+          "col": 8,
+          "file": ParseSourceFile {
+            "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+            "url": "./foo.html",
+          },
+          "line": 6,
+          "offset": 129,
+        },
+        "fullStart": ParseLocation {
+          "col": 23,
+          "file": ParseSourceFile {
+            "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+            "url": "./foo.html",
+          },
+          "line": 5,
+          "offset": 120,
+        },
+        "start": ParseLocation {
+          "col": 8,
+          "file": ParseSourceFile {
+            "content": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+            "url": "./foo.html",
+          },
+          "line": 6,
+          "offset": 129,
+        },
+      },
+      "type": "Text$3",
+      "value": "
+        ",
+    },
+  ],
+  "tokens": Array [],
+  "type": "Program",
+  "value": "
+          <ng-content>
+             @if (foo) {
+               <div>Hello!</div>
+             }
+          </ng-content>
+        ",
+}
+`;
