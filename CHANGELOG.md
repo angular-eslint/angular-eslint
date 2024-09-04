@@ -1,3 +1,13 @@
+## 17.5.3 (2024-09-04)
+
+### 🩹 Fixes
+
+- switch to using angular-devkit directly for schematics and builder ([013e52e8](https://github.com/angular-eslint/angular-eslint/commit/013e52e8))
+
+### ❤️ Thank You
+
+- James Henry @JamesHenry
+
 ## 17.5.2 (2024-05-28)
 
 ### 🩹 Fixes
