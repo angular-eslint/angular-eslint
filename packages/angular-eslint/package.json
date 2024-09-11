@@ -23,10 +23,10 @@
     "typescript-eslint": "^8.0.0"
   },
   "dependencies": {
-    "@angular-eslint/builder": "18.3.0",
-    "@angular-eslint/eslint-plugin": "18.3.0",
-    "@angular-eslint/eslint-plugin-template": "18.3.0",
-    "@angular-eslint/schematics": "18.3.0",
-    "@angular-eslint/template-parser": "18.3.0"
+    "@angular-eslint/builder": "workspace:*",
+    "@angular-eslint/eslint-plugin": "workspace:*",
+    "@angular-eslint/eslint-plugin-template": "workspace:*",
+    "@angular-eslint/schematics": "workspace:*",
+    "@angular-eslint/template-parser": "workspace:*"
   }
 }

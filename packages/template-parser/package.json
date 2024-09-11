@@ -18,7 +18,7 @@
     "LICENSE"
   ],
   "dependencies": {
-    "@angular-eslint/bundled-angular-compiler": "18.3.0",
+    "@angular-eslint/bundled-angular-compiler": "workspace:*",
     "eslint-scope": "^8.0.2"
   },
   "peerDependencies": {
