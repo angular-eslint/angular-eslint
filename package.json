@@ -50,7 +50,7 @@
     "@actions/core": "1.10.1",
     "@actions/github": "6.0.0",
     "@angular/cli": "18.1.4",
-    "@angular/compiler": "18.2.1",
+    "@angular/compiler": "18.2.4",
     "@commitlint/cli": "19.4.0",
     "@commitlint/config-conventional": "19.2.2",
     "@nx/devkit": "19.7.2",
