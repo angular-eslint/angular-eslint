@@ -1,6 +1,6 @@
 {
   "name": "@angular-eslint/eslint-plugin",
-  "version": "18.3.0",
+  "version": "18.3.1",
   "description": "ESLint plugin for Angular applications, following https://angular.dev/style-guide",
   "license": "MIT",
   "main": "dist/index.js",

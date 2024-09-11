@@ -1,6 +1,6 @@
 {
   "name": "@angular-eslint/eslint-plugin-template",
-  "version": "18.3.0",
+  "version": "18.3.1",
   "description": "ESLint plugin for Angular Templates",
   "license": "MIT",
   "main": "dist/index.js",
