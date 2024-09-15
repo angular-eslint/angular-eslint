@@ -1,3 +1,41 @@
+## 18.3.1 (2024-09-11)
+
+### 🩹 Fixes
+
+- update dependency eslint to v9.9.1 ([#2008](https://github.com/angular-eslint/angular-eslint/pull/2008))
+- update dependency @angular/compiler to v18.2.1 ([#2006](https://github.com/angular-eslint/angular-eslint/pull/2006))
+- update typescript-eslint packages to v8.2.0 ([#2001](https://github.com/angular-eslint/angular-eslint/pull/2001))
+- **template-parser:** visit receiver of Call expression ([#2015](https://github.com/angular-eslint/angular-eslint/pull/2015))
+
+### ❤️ Thank You
+
+- James Henry @JamesHenry
+- Paweł Maniecki @P4
+
+## 18.3.0 (2024-08-13)
+
+### 🚀 Features
+
+- **eslint-plugin:** new rule runtime-localize ([#1898](https://github.com/angular-eslint/angular-eslint/pull/1898))
+
+### 🩹 Fixes
+
+- update dependency eslint to v9.9.0 ([#1976](https://github.com/angular-eslint/angular-eslint/pull/1976))
+- update dependency @angular/compiler to v18.1.4 ([#1973](https://github.com/angular-eslint/angular-eslint/pull/1973))
+- update dependency ignore to v5.3.2 ([#1979](https://github.com/angular-eslint/angular-eslint/pull/1979))
+- update typescript-eslint packages to v8.1.0 ([#1982](https://github.com/angular-eslint/angular-eslint/pull/1982))
+- **eslint-plugin-template:** [interactive-supports-focus] allowList with form as default option to support event bubbling ([#1922](https://github.com/angular-eslint/angular-eslint/pull/1922))
+- **eslint-plugin-template:** [prefer-self-closing-tags] fix ng-content with rich default content ([#1971](https://github.com/angular-eslint/angular-eslint/pull/1971))
+- **prefer-self-closing-tags:** handle both forward and backward slash ([#1967](https://github.com/angular-eslint/angular-eslint/pull/1967))
+
+### ❤️ Thank You
+
+- Daniel Kimmich @json-derulo
+- James Henry @JamesHenry
+- m-akinc @m-akinc
+- Sandi Barr @sandikbarr
+- Simon
+
 ## 18.2.0 (2024-07-31)
 
 ### 🚀 Features

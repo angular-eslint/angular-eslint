@@ -1,3 +1,11 @@
+## 18.3.1 (2024-09-11)
+
+This was a version bump only for utils to align it with other projects, there were no code changes.
+
+## 18.3.0 (2024-08-13)
+
+This was a version bump only for utils to align it with other projects, there were no code changes.
+
 ## 18.2.0 (2024-07-31)
 
 ### 🚀 Features

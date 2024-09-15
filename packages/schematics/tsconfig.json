@@ -6,6 +6,24 @@
   "include": ["src/**/*"],
   "references": [
     {
+      "path": "../template-parser"
+    },
+    {
+      "path": "../eslint-plugin-template"
+    },
+    {
+      "path": "../utils"
+    },
+    {
+      "path": "../test-utils"
+    },
+    {
+      "path": "../bundled-angular-compiler"
+    },
+    {
+      "path": "../eslint-plugin"
+    },
+    {
       "path": "./tsconfig.lib.json"
     },
     {

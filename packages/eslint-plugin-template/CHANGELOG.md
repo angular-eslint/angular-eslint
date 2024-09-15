@@ -1,3 +1,34 @@
+## 18.3.1 (2024-09-11)
+
+### 🩹 Fixes
+
+- **template-parser:** visit receiver of Call expression
+
+- **template-parser:** visit receiver of Call expression"
+
+- **template-parser:** visit receiver of Call expression
+
+### ❤️ Thank You
+
+- James Henry
+- Paweł Maniecki
+
+## 18.3.0 (2024-08-13)
+
+### 🩹 Fixes
+
+- **eslint-plugin-template:** [interactive-supports-focus] allowList with form as default option to support event bubbling
+
+- **eslint-plugin-template:** [prefer-self-closing-tags] fix ng-content with rich default content
+
+- **prefer-self-closing-tags:** handle both forward and backward slash
+
+### ❤️ Thank You
+
+- Daniel Kimmich
+- Sandi Barr
+- Simon
+
 ## 18.2.0 (2024-07-31)
 
 ### 🚀 Features
