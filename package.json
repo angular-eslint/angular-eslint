@@ -71,7 +71,7 @@
     "@types/eslint": "9.6.1",
     "@types/eslint-scope": "3.7.7",
     "@types/jest": "29.5.12",
-    "@types/node": "20.16.1",
+    "@types/node": "20.16.5",
     "@types/semver": "^7.5.8",
     "@types/yargs": "^17.0.33",
     "@typescript-eslint/rule-tester": "8.2.0",
