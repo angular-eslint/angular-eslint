@@ -1,4 +1,5 @@
 let nativeEventNames: ReadonlySet<string> | null = null;
+
 /**
  * Check MDN events page for details https://developer.mozilla.org/en-US/docs/Web/Events
  *
@@ -14,6 +15,7 @@ let nativeEventNames: ReadonlySet<string> | null = null;
  * @link https://developer.mozilla.org/en-US/docs/Web/API/SpeechRecognition
  * @link https://developer.mozilla.org/en-US/docs/Web/API/SVGAnimationElement
  * @link https://developer.mozilla.org/en-US/docs/Web/API/SVGElement
+ * @link https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices
  */
 export function getNativeEventNames(): ReadonlySet<string> {
   return (
@@ -56,6 +58,7 @@ export function getNativeEventNames(): ReadonlySet<string> {
       'cut',
       'dataavailable',
       'dblclick',
+      'devicechange',
       'devicemotion',
       'deviceorientation',
       'deviceorientationabsolute',
