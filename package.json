@@ -112,7 +112,7 @@
       "@typescript-eslint/utils": "$typescript-eslint"
     },
     "patchedDependencies": {
-      "@typescript-eslint/rule-tester@8.2.0": "tools/patches/@typescript-eslint__rule-tester@8.2.0.patch"
+      "@typescript-eslint/rule-tester@8.5.0": "tools/patches/@typescript-eslint__rule-tester@8.5.0.patch"
     }
   },
   "nx": {
