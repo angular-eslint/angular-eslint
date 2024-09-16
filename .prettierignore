@@ -13,3 +13,5 @@ packages/schematics/src/workspace/schema.json
 
 /.nx/cache
 /.nx/workspace-data
+
+pnpm-lock.yaml
