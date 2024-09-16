@@ -8,7 +8,7 @@ exports[`new-workspace should pass linting after creating a new workspace from s
   "@types/jasmine": "~5.1.0",
   "angular-eslint": "0.0.0-e2e",
   "eslint": "^9.9.1",
-  "jasmine-core": "~5.1.0",
+  "jasmine-core": "~5.2.0",
   "karma": "~6.4.0",
   "karma-chrome-launcher": "~3.2.0",
   "karma-coverage": "~2.2.0",
