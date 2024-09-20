@@ -102,7 +102,7 @@
     "tsx": "^4.7.3",
     "typescript": "5.5.4",
     "typescript-eslint": "8.5.0",
-    "verdaccio": "5.32.2",
+    "verdaccio": "6.0.0",
     "yargs": "17.7.2"
   },
   "pnpm": {
