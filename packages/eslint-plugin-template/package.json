@@ -20,7 +20,7 @@
   "dependencies": {
     "@angular-eslint/bundled-angular-compiler": "workspace:*",
     "@angular-eslint/utils": "workspace:*",
-    "aria-query": "5.3.1",
+    "aria-query": "5.3.2",
     "axobject-query": "4.1.0"
   },
   "devDependencies": {
