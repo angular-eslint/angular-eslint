@@ -76,7 +76,7 @@
     "@types/yargs": "^17.0.33",
     "@typescript-eslint/rule-tester": "8.5.0",
     "chalk": "4.1.2",
-    "commitizen": "4.3.0",
+    "commitizen": "4.3.1",
     "cz-conventional-changelog": "3.3.0",
     "env-cmd": "10.1.0",
     "eslint": "9.9.1",
