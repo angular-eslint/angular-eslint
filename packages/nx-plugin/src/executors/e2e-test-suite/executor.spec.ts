@@ -19,12 +19,18 @@ const options: E2ETestSuiteExecutorSchema = {
 const mockContext: ExecutorContext = {
   root: '/',
   isVerbose: false,
-  workspace: {
+  cwd: process.cwd(),
+  projectName: 'proj',
+  nxJsonConfiguration: {},
+  projectsConfigurations: {
     version: 2,
     projects: {},
   },
-  cwd: process.cwd(),
-  projectName: 'proj',
+  projectGraph: {
+    nodes: {},
+    externalNodes: {},
+    dependencies: {},
+  },
 };
 
 describe('E2ETestSuite Executor', () => {
