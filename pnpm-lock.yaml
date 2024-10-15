@@ -269,8 +269,8 @@ importers:
         specifier: 8.5.0
         version: 8.5.0(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4)
       aria-query:
-        specifier: 5.3.1
-        version: 5.3.1
+        specifier: 5.3.2
+        version: 5.3.2
       axobject-query:
         specifier: 4.1.0
         version: 4.1.0
@@ -2511,8 +2511,8 @@ packages:
   argparse@2.0.1:
     resolution: {integrity: sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==}
 
-  aria-query@5.3.1:
-    resolution: {integrity: sha512-Z/ZeOgVl7bcSYZ/u/rh0fOpvEpq//LZmdbkXyc7syVzjPAhfOa9ebsdTSjEBDU4vs5nC98Kfduj1uFo0qyET3g==}
+  aria-query@5.3.2:
+    resolution: {integrity: sha512-COROpnaoap1E2F000S62r6A60uHZnmlvomhfyT2DlTcrY1OrBKn2UhH7qn5wTC9zMvD0AY7csdPSNwKP+7WiQw==}
     engines: {node: '>= 0.4'}
 
   array-flatten@1.1.1:
@@ -8717,7 +8717,7 @@ snapshots:
 
   argparse@2.0.1: {}
 
-  aria-query@5.3.1: {}
+  aria-query@5.3.2: {}
 
   array-flatten@1.1.1: {}
 
