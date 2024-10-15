@@ -66,7 +66,7 @@
     "@schematics/angular": "18.2.4",
     "@swc-node/register": "1.10.9",
     "@swc/cli": "0.4.0",
-    "@swc/core": "1.7.26",
+    "@swc/core": "1.7.36",
     "@swc/helpers": "0.5.13",
     "@types/eslint": "9.6.1",
     "@types/eslint-scope": "3.7.7",
