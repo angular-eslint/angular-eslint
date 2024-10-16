@@ -64,9 +64,11 @@ describe('eslint-8--new-workspace-create-application-false-ng-add-then-project',
       JSON.stringify(fixture.readJson('package.json').devDependencies, null, 2),
     ).toMatchSnapshot();
 
-    // Root eslint config should be eslintrc, not eslint.config.js
+    // Root eslint config should be eslintrc, not a flat config
     expect(fixture.readFile('.eslintrc.json')).toMatchSnapshot();
     expect(fixture.fileExists('eslint.config.js')).toBe(false);
+    expect(fixture.fileExists('eslint.config.cjs')).toBe(false);
+    expect(fixture.fileExists('eslint.config.mjs')).toBe(false);
 
     // App project ("app-project")
     expect(fixture.fileExists('projects/app-project/tslint.json')).toBe(false);
@@ -74,6 +76,12 @@ describe('eslint-8--new-workspace-create-application-false-ng-add-then-project',
       fixture.readFile('projects/app-project/.eslintrc.json'),
     ).toMatchSnapshot();
     expect(fixture.fileExists('projects/app-project/eslint.config.js')).toBe(
+      false,
+    );
+    expect(fixture.fileExists('projects/app-project/eslint.config.cjs')).toBe(
+      false,
+    );
+    expect(fixture.fileExists('projects/app-project/eslint.config.mjs')).toBe(
       false,
     );
 

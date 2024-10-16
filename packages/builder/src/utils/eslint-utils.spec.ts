@@ -147,11 +147,29 @@ describe('eslint-utils', () => {
   });
 
   describe('ESLint Flat Config', () => {
-    it('should throw if a non eslint.config.js file is used with ESLint Flat Config', async () => {
+    it('should not throw if an eslint.config.js file is used with ESLint Flat Config', async () => {
+      await expect(
+        resolveAndInstantiateESLint('./eslint.config.js', {} as any, true),
+      ).resolves.not.toThrow();
+    });
+
+    it('should not throw if an eslint.config.mjs file is used with ESLint Flat Config', async () => {
+      await expect(
+        resolveAndInstantiateESLint('./eslint.config.mjs', {} as any, true),
+      ).resolves.not.toThrow();
+    });
+
+    it('should not throw if an eslint.config.cjs file is used with ESLint Flat Config', async () => {
+      await expect(
+        resolveAndInstantiateESLint('./eslint.config.cjs', {} as any, true),
+      ).resolves.not.toThrow();
+    });
+
+    it('should throw if an eslintrc file is used with ESLint Flat Config', async () => {
       await expect(
         resolveAndInstantiateESLint('./.eslintrc.json', {} as any, true),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"When using the new Flat Config with ESLint, all configs must be named eslint.config.js and .eslintrc files may not be used. See https://eslint.org/docs/latest/use/configure/configuration-files-new"`,
+        `"When using the new Flat Config with ESLint, all configs must be named eslint.config.js or eslint.config.mjs or eslint.config.cjs, and .eslintrc files may not be used. See https://eslint.org/docs/latest/use/configure/configuration-files"`,
       );
     });
 

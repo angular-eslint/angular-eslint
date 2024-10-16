@@ -3,7 +3,10 @@ import type { ESLint } from 'eslint';
 import { existsSync, mkdirSync, writeFileSync } from 'fs';
 import { dirname, join, resolve } from 'path';
 import type { Schema } from './schema';
-import { resolveAndInstantiateESLint } from './utils/eslint-utils';
+import {
+  resolveAndInstantiateESLint,
+  supportedFlatConfigNames,
+} from './utils/eslint-utils';
 
 export default createBuilder(
   async (options: Schema, context): Promise<BuilderOutput> => {
@@ -36,9 +39,11 @@ export default createBuilder(
     /**
      * Until ESLint v9 is released and the new so called flat config is the default
      * we only want to support it if the user has explicitly opted into it by converting
-     * their root ESLint config to use eslint.config.js
+     * their root ESLint config to use a supported flat config file name.
      */
-    const useFlatConfig = existsSync(join(systemRoot, 'eslint.config.js'));
+    const useFlatConfig = supportedFlatConfigNames.some((name) =>
+      existsSync(join(systemRoot, name)),
+    );
     const { eslint, ESLint } = await resolveAndInstantiateESLint(
       eslintConfigPath,
       options,

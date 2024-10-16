@@ -125,6 +125,7 @@
       },
       "update-rule-configs": {
         "dependsOn": [
+          "utils:build",
           "^build"
         ],
         "outputs": [

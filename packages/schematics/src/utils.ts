@@ -9,6 +9,12 @@ import stripJsonComments from 'strip-json-comments';
 
 const DEFAULT_PREFIX = 'app';
 
+export const supportedFlatConfigNames = [
+  'eslint.config.js',
+  'eslint.config.mjs',
+  'eslint.config.cjs',
+];
+
 /**
  * This method is specifically for reading JSON files in a Tree
  * @param host The host tree
@@ -417,7 +423,9 @@ export function createESLintConfigForProject(
 
     const hasE2e = determineTargetProjectHasE2E(angularJSON, projectName);
     const useFlatConfig = shouldUseFlatConfig(tree);
-    const alreadyHasRootFlatConfig = tree.exists('eslint.config.js');
+    const alreadyHasRootFlatConfig = supportedFlatConfigNames.some((name) =>
+      tree.exists(name),
+    );
     const alreadyHasRootESLintRC = tree.exists('.eslintrc.json');
 
     /**
@@ -575,7 +583,9 @@ export function shouldUseFlatConfig(
 ): boolean {
   let useFlatConfig = true;
   try {
-    const alreadyHasRootFlatConfig = tree.exists('eslint.config.js');
+    const alreadyHasRootFlatConfig = supportedFlatConfigNames.some((name) =>
+      tree.exists(name),
+    );
     const alreadyHasRootESLintRC = tree.exists('.eslintrc.json');
 
     if (alreadyHasRootFlatConfig) {

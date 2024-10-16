@@ -69,9 +69,11 @@ describe('eslint-8--new-workspace', () => {
       JSON.stringify(fixture.readJson('package.json').devDependencies, null, 2),
     ).toMatchSnapshot();
 
-    // Root eslint config should be eslintrc, not eslint.config.js
+    // Root eslint config should be eslintrc, not a flat config
     expect(fixture.readFile('.eslintrc.json')).toMatchSnapshot();
     expect(fixture.fileExists('eslint.config.js')).toBe(false);
+    expect(fixture.fileExists('eslint.config.cjs')).toBe(false);
+    expect(fixture.fileExists('eslint.config.mjs')).toBe(false);
 
     // It should not contain the eslintConfig option, it is not needed for eslintrc files
     expect(
@@ -85,6 +87,12 @@ describe('eslint-8--new-workspace', () => {
       fixture.readFile('projects/another-app/.eslintrc.json'),
     ).toMatchSnapshot();
     expect(fixture.fileExists('projects/another-app/eslint.config.js')).toBe(
+      false,
+    );
+    expect(fixture.fileExists('projects/another-app/eslint.config.cjs')).toBe(
+      false,
+    );
+    expect(fixture.fileExists('projects/another-app/eslint.config.mjs')).toBe(
       false,
     );
 
