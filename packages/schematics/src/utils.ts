@@ -9,6 +9,12 @@ import stripJsonComments from 'strip-json-comments';
 
 const DEFAULT_PREFIX = 'app';
 
+export const supportedFlatConfigNames = [
+  'eslint.config.js',
+  'eslint.config.mjs',
+  'eslint.config.cjs',
+];
+
 /**
  * This method is specifically for reading JSON files in a Tree
  * @param host The host tree
@@ -117,7 +123,13 @@ export function addESLintTargetToProject(
       lintFilePatternsRoot = existingProjectConfig.root;
     }
 
-    const eslintTargetConfig = {
+    const eslintTargetConfig: {
+      builder: string;
+      options: {
+        lintFilePatterns: string[];
+        eslintConfig?: string;
+      };
+    } = {
       builder: '@angular-eslint/builder:lint',
       options: {
         lintFilePatterns: [
@@ -129,20 +141,30 @@ export function addESLintTargetToProject(
 
     let eslintConfig;
     if (existingProjectConfig.root !== '') {
-      const flatConfigPath = join(
-        existingProjectConfig.root,
-        'eslint.config.js',
-      );
-      if (tree.exists(flatConfigPath)) {
-        eslintConfig = flatConfigPath;
+      if (shouldUseFlatConfig(tree)) {
+        const rootConfigPath = resolveRootESLintConfigPath(tree);
+        if (!rootConfigPath || !rootConfigPath.endsWith('js')) {
+          throw new Error(
+            'Root ESLint config must be a JavaScript file (.js,.mjs,.cjs) when using Flat Config',
+          );
+        }
+        const { ext } = determineNewProjectESLintConfigContentAndExtension(
+          tree,
+          rootConfigPath,
+          existingProjectConfig.root,
+        );
+        const flatConfigPath = join(
+          existingProjectConfig.root,
+          `eslint.config.${ext}`,
+        );
+        if (tree.exists(flatConfigPath)) {
+          eslintConfig = flatConfigPath;
+        }
       }
     }
 
-    // TODO: fix
-    (eslintTargetConfig.options as any).eslintConfig = eslintConfig;
-
+    eslintTargetConfig.options.eslintConfig = eslintConfig;
     existingProjectConfig.architect = existingProjectConfig.architect || {};
-
     existingProjectConfig.architect[targetName] = eslintTargetConfig;
 
     return workspaceJson;
@@ -257,13 +279,14 @@ export function createRootESLintConfig(prefix: string | null) {
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function createStringifiedRootESLintConfig(
   prefix: string | null,
+  isESM: boolean,
 ): string {
   return `// @ts-check
-const eslint = require("@eslint/js");
-const tseslint = require("typescript-eslint");
-const angular = require("angular-eslint");
+${isESM ? 'import eslint from "@eslint/js";' : 'const eslint = require("@eslint/js");'}
+${isESM ? 'import tseslint from "typescript-eslint";' : 'const tseslint = require("typescript-eslint");'}
+${isESM ? 'import angular from "angular-eslint";' : 'const angular = require("angular-eslint");'}
 
-module.exports = tseslint.config(
+${isESM ? 'export default' : 'module.exports ='} tseslint.config(
   {
     files: ["**/*.ts"],
     extends: [
@@ -358,12 +381,15 @@ function createStringifiedProjectESLintConfig(
   prefix: string,
   setParserOptionsProject: boolean,
   hasE2e: boolean,
+  isESM: boolean,
+  rootConfigPath: string,
 ) {
+  const relativeRootConfigPath = offsetFromRoot(projectRoot) + rootConfigPath;
   return `// @ts-check
-const tseslint = require("typescript-eslint");
-const rootConfig = require("${offsetFromRoot(projectRoot)}eslint.config.js");
+${isESM ? 'import tseslint from "typescript-eslint";' : 'const tseslint = require("typescript-eslint");'}
+${isESM ? `import rootConfig from "${relativeRootConfigPath}";` : `const rootConfig = require("${relativeRootConfigPath}");`}
 
-module.exports = tseslint.config(
+${isESM ? 'export default' : 'module.exports ='} tseslint.config(
   ...rootConfig,
   {
     files: ["**/*.ts"],${
@@ -417,7 +443,9 @@ export function createESLintConfigForProject(
 
     const hasE2e = determineTargetProjectHasE2E(angularJSON, projectName);
     const useFlatConfig = shouldUseFlatConfig(tree);
-    const alreadyHasRootFlatConfig = tree.exists('eslint.config.js');
+    const alreadyHasRootFlatConfig = supportedFlatConfigNames.some((name) =>
+      tree.exists(name),
+    );
     const alreadyHasRootESLintRC = tree.exists('.eslintrc.json');
 
     /**
@@ -441,18 +469,28 @@ export function createESLintConfigForProject(
     }
 
     if (useFlatConfig) {
-      rules.push((tree: Tree) =>
-        tree.create(
-          join(normalize(projectRoot), 'eslint.config.js'),
+      const rootConfigPath =
+        resolveRootESLintConfigPath(tree) ?? 'eslint.config.js';
+      rules.push((tree: Tree) => {
+        const { isESM, ext } =
+          determineNewProjectESLintConfigContentAndExtension(
+            tree,
+            rootConfigPath,
+            projectRoot,
+          );
+        return tree.create(
+          join(normalize(projectRoot), `eslint.config.${ext}`),
           createStringifiedProjectESLintConfig(
             projectRoot,
             projectType || 'library',
             prefix || DEFAULT_PREFIX,
             setParserOptionsProject,
             hasE2e,
+            isESM,
+            rootConfigPath,
           ),
-        ),
-      );
+        );
+      });
     } else {
       rules.push(
         updateJsonInTree(join(normalize(projectRoot), '.eslintrc.json'), () =>
@@ -477,9 +515,12 @@ function createRootESLintConfigFile(
 ): Rule {
   return (tree) => {
     if (useFlatConfig) {
+      // If the root package.json uses type: module, generate ESM content
+      const packageJson = readJsonInTree(tree, 'package.json');
+      const isESM = packageJson.type === 'module';
       return tree.create(
         'eslint.config.js',
-        createStringifiedRootESLintConfig(prefix),
+        createStringifiedRootESLintConfig(prefix, isESM),
       );
     }
 
@@ -575,7 +616,9 @@ export function shouldUseFlatConfig(
 ): boolean {
   let useFlatConfig = true;
   try {
-    const alreadyHasRootFlatConfig = tree.exists('eslint.config.js');
+    const alreadyHasRootFlatConfig = supportedFlatConfigNames.some((name) =>
+      tree.exists(name),
+    );
     const alreadyHasRootESLintRC = tree.exists('.eslintrc.json');
 
     if (alreadyHasRootFlatConfig) {
@@ -599,5 +642,65 @@ export function shouldUseFlatConfig(
     return useFlatConfig;
   } catch {
     return useFlatConfig;
+  }
+}
+
+export function resolveRootESLintConfigPath(tree: Tree): string | null {
+  if (tree.exists('.eslintrc.json')) {
+    return '.eslintrc.json';
+  }
+  if (tree.exists('eslint.config.js')) {
+    return 'eslint.config.js';
+  }
+  if (tree.exists('eslint.config.mjs')) {
+    return 'eslint.config.mjs';
+  }
+  if (tree.exists('eslint.config.cjs')) {
+    return 'eslint.config.cjs';
+  }
+  return null;
+}
+
+export function determineNewProjectESLintConfigContentAndExtension(
+  tree: Tree,
+  rootConfigPath: string,
+  projectRoot: string,
+): {
+  isESM: boolean;
+  ext: string;
+} {
+  try {
+    /**
+     * The decision on exactly what config format an extension to use is based on the format
+     * used in the root config, and the project's local package.json type (if any).
+     */
+    const isRootESM = rootConfigPath.endsWith('.cjs')
+      ? false
+      : rootConfigPath.endsWith('.mjs') ||
+        readJsonInTree(tree, 'package.json').type === 'module';
+    const projectPackageJsonPath = join(normalize(projectRoot), 'package.json');
+    let isESM = isRootESM;
+    let ext = 'js';
+
+    if (tree.exists(projectPackageJsonPath)) {
+      const projectPackageJson = readJsonInTree(tree, projectPackageJsonPath);
+      const isProjectESM = projectPackageJson.type === 'module';
+      if (isRootESM && !isProjectESM) {
+        ext = 'mjs';
+        isESM = true;
+      } else if (!isRootESM && isProjectESM) {
+        ext = 'cjs';
+      }
+    }
+
+    return {
+      isESM,
+      ext,
+    };
+  } catch {
+    return {
+      isESM: false,
+      ext: 'js',
+    };
   }
 }

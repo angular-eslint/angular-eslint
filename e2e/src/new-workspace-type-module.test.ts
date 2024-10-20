@@ -3,7 +3,6 @@ import { setWorkspaceRoot } from 'nx/src/utils/workspace-root';
 import { FIXTURES_DIR, Fixture } from '../utils/fixtures';
 import {
   LONG_TIMEOUT_MS,
-  runCommandOnLocalRegistry,
   runNgAdd,
   runNgGenerate,
   runNgNew,
@@ -13,10 +12,10 @@ import { normalizeVersionsOfPackagesWeDoNotControl } from '../utils/snapshot-ser
 
 expect.addSnapshotSerializer(normalizeVersionsOfPackagesWeDoNotControl);
 
-const fixtureDirectory = 'eslint-8--new-workspace';
+const fixtureDirectory = 'new-workspace-type-module';
 let fixture: Fixture;
 
-describe('eslint-8--new-workspace', () => {
+describe('new-workspace-type-module', () => {
   jest.setTimeout(LONG_TIMEOUT_MS);
 
   beforeAll(async () => {
@@ -33,84 +32,67 @@ describe('eslint-8--new-workspace', () => {
 
     fixture = new Fixture(workspaceRoot);
 
-    // Pin eslint v8 to temporarily preserve existing behavior
-    const packageJson = JSON.parse(fixture.readFile('package.json'));
-    fixture.writeFile(
-      'package.json',
-      JSON.stringify(
-        {
-          ...packageJson,
-          devDependencies: {
-            ...packageJson.devDependencies,
-            // Intentionally random older version of eslint, should end up as 8.57.0 in the final package.json snapshot
-            eslint: '^8.0.4',
-          },
-        },
-        null,
-        2,
-      ),
-    );
+    // Set root package.json to use type: module
+    fixture.writeJson('package.json', {
+      ...fixture.readJson('package.json'),
+      type: 'module',
+    });
 
     await runNgAdd();
-    await runCommandOnLocalRegistry('npm', [
-      'ls',
-      '@angular-eslint/schematics',
-    ]);
     await runNgGenerate(['app', 'another-app', '--interactive=false']);
     await runNgGenerate(['lib', 'another-lib', '--interactive=false']);
   });
 
-  it('should pass linting after creating a new workspace from scratch using angular-eslint', async () => {
+  it('should pass linting after creating a new workspace from scratch using @angular-eslint', async () => {
     // TSLint configs and dependencies should not be present
     expect(fixture.fileExists('tslint.json')).toBe(false);
-
-    // It should contain eslint v8.57.0 and @typescript-eslint/ v7 packages, as well as the latest @angular-eslint/ packages
     expect(
       JSON.stringify(fixture.readJson('package.json').devDependencies, null, 2),
     ).toMatchSnapshot();
 
-    // Root eslint config should be eslintrc, not a flat config
-    expect(fixture.readFile('.eslintrc.json')).toMatchSnapshot();
-    expect(fixture.fileExists('eslint.config.js')).toBe(false);
-    expect(fixture.fileExists('eslint.config.cjs')).toBe(false);
-    expect(fixture.fileExists('eslint.config.mjs')).toBe(false);
+    // Root eslint config should be eslint.config.js, not eslintrc, AND contain ESM (because of type: module)
+    expect(fixture.readFile('eslint.config.js')).toMatchSnapshot();
+    expect(fixture.fileExists('.eslintrc.json')).toBe(false);
 
-    // It should not contain the eslintConfig option, it is not needed for eslintrc files
     expect(
-      fixture.readJson('angular.json').projects['eslint-8--new-workspace']
+      fixture.readJson('angular.json').projects['new-workspace-type-module']
         .architect.lint,
     ).toMatchSnapshot();
 
     // Additional project ("another-app")
     expect(fixture.fileExists('projects/another-app/tslint.json')).toBe(false);
+
+    /**
+     * The project config should contain ESM, because the root config contains ESM, and it should use a plain .js
+     * extension because there is no project package.json to influence the extension.
+     */
     expect(
-      fixture.readFile('projects/another-app/.eslintrc.json'),
+      fixture.readFile('projects/another-app/eslint.config.js'),
     ).toMatchSnapshot();
-    expect(fixture.fileExists('projects/another-app/eslint.config.js')).toBe(
-      false,
-    );
-    expect(fixture.fileExists('projects/another-app/eslint.config.cjs')).toBe(
-      false,
-    );
-    expect(fixture.fileExists('projects/another-app/eslint.config.mjs')).toBe(
+    expect(fixture.fileExists('projects/another-app/.eslintrc.json')).toBe(
       false,
     );
 
-    // It should not contain the eslintConfig option, it is not needed for eslintrc files
+    // It should contain the eslintConfig option set to the project level eslint.config.js file
     expect(
       fixture.readJson('angular.json').projects['another-app'].architect.lint,
     ).toMatchSnapshot();
 
     // Additional library project ("another-lib")
     expect(fixture.fileExists('projects/another-lib/tslint.json')).toBe(false);
+
+    /**
+     * The project config should contain ESM, because the root config contains ESM, but because in this case it has its
+     * own project package.json which does not have type: module set, it should use a .mjs extension.
+     */
     expect(
-      fixture.readFile('projects/another-lib/.eslintrc.json'),
+      fixture.readFile('projects/another-lib/eslint.config.mjs'),
     ).toMatchSnapshot();
-    expect(fixture.fileExists('projects/another-lib/eslint.config.js')).toBe(
+    expect(fixture.fileExists('projects/another-lib/.eslintrc.json')).toBe(
       false,
     );
 
-    // It should not contain the eslintConfig option, it is not needed for eslintrc files
+    // It should contain the eslintConfig option set to the project level eslint.config.mjs file
     expect(
       fixture.readJson('angular.json').projects['another-lib'].architect.lint,
     ).toMatchSnapshot();
