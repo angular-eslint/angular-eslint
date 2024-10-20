@@ -1,4 +1,9 @@
-import { joinPathFragments, parseJson, workspaceRoot } from '@nx/devkit';
+import {
+  joinPathFragments,
+  parseJson,
+  workspaceRoot,
+  writeJsonFile,
+} from '@nx/devkit';
 import {
   existsSync,
   mkdirSync,
@@ -56,5 +61,9 @@ export class Fixture {
 
   writeFile(f: string, content = ''): void {
     writeFileSync(joinPathFragments(this.root, f), content);
+  }
+
+  writeJson(f: string, content: object): void {
+    writeJsonFile(joinPathFragments(this.root, f), content);
   }
 }
