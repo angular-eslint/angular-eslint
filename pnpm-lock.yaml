@@ -25,8 +25,8 @@ importers:
         specifier: 6.0.0
         version: 6.0.0
       '@angular/cli':
-        specifier: 18.2.4
-        version: 18.2.4
+        specifier: 18.2.9
+        version: 18.2.9
       '@angular/compiler':
         specifier: 18.2.8
         version: 18.2.8
@@ -67,8 +67,8 @@ importers:
         specifier: ^12.0.0
         version: 12.1.1(rollup@4.24.0)(tslib@2.7.0)(typescript@5.5.4)
       '@schematics/angular':
-        specifier: 18.2.4
-        version: 18.2.4
+        specifier: 18.2.9
+        version: 18.2.9
       '@swc-node/register':
         specifier: 1.10.9
         version: 1.10.9(@swc/core@1.7.36(@swc/helpers@0.5.13))(@swc/types@0.1.13)(typescript@5.5.4)
@@ -400,8 +400,8 @@ packages:
     resolution: {integrity: sha512-Ch1ZwRh1N/vcCKHm4ErLcgZly3tlwdLUDGBaAIlhE3YFGq543Swv6a5IcDw0veD6iGFceJAmbrp+z5hmzI8p5A==}
     engines: {node: ^18.19.1 || ^20.11.1 || >=22.0.0, npm: ^6.11.0 || ^7.5.6 || >=8.0.0, yarn: '>= 1.13.0'}
 
-  '@angular-devkit/architect@0.1802.4':
-    resolution: {integrity: sha512-VH7AwGng1zuWPTJoH1IgHYeNhqZIgzlwDx39JPmArZAW/WZHDILWB7ipbTNw0R4U4VncrXJqDmMVex7NdHP6sg==}
+  '@angular-devkit/architect@0.1802.9':
+    resolution: {integrity: sha512-fubJf4WC/t3ITy+tyjI4/CKKwUP4XJTmV+Y0nyPcrkcthVyUcIpZB74NlUOvg6WECiPQuIc+CtoAaA9X5+RQ5Q==}
     engines: {node: ^18.19.1 || ^20.11.1 || >=22.0.0, npm: ^6.11.0 || ^7.5.6 || >=8.0.0, yarn: '>= 1.13.0'}
 
   '@angular-devkit/core@18.1.4':
@@ -413,8 +413,8 @@ packages:
       chokidar:
         optional: true
 
-  '@angular-devkit/core@18.2.4':
-    resolution: {integrity: sha512-svlgZ0vbLrfNJAQE5WePAutcYIyA7C0OfzKSTMsfV2X1I+1blYDaZIu/ocnHqofMHu6ZqdSaaU/p/rieqU8fcA==}
+  '@angular-devkit/core@18.2.9':
+    resolution: {integrity: sha512-bsVt//5E0ua7FZfO0dCF/qGGY6KQD34/bNGyRu5B6HedimpdU2/0PGDptksU5v3yKEc9gNw0xC6mT0UsY/R9pA==}
     engines: {node: ^18.19.1 || ^20.11.1 || >=22.0.0, npm: ^6.11.0 || ^7.5.6 || >=8.0.0, yarn: '>= 1.13.0'}
     peerDependencies:
       chokidar: ^3.5.2
@@ -426,12 +426,12 @@ packages:
     resolution: {integrity: sha512-0ekArCeYqJngCKWZ9I+RtNObP/33zGkzWdJOmCB6nj9/ZevALZ6F4RDkHp0TqDYhOt+A2muI29ZK/cILmKA+sA==}
     engines: {node: ^18.19.1 || ^20.11.1 || >=22.0.0, npm: ^6.11.0 || ^7.5.6 || >=8.0.0, yarn: '>= 1.13.0'}
 
-  '@angular-devkit/schematics@18.2.4':
-    resolution: {integrity: sha512-s2WdUhyLlKj5kOjb6vrvJg9/31KvgyRJGjy7PnzS43tpwF9MLuM3AYhuJsXHPhx+i0nyWn/Jnd8ZLjMzXljSxg==}
+  '@angular-devkit/schematics@18.2.9':
+    resolution: {integrity: sha512-aIY5/IomDOINGCtFYi77uo0acDpdQNNCighfBBUGEBNMQ1eE3oGNGpLAH/qWeuxJndgmxrdKsvws9DdT46kLig==}
     engines: {node: ^18.19.1 || ^20.11.1 || >=22.0.0, npm: ^6.11.0 || ^7.5.6 || >=8.0.0, yarn: '>= 1.13.0'}
 
-  '@angular/cli@18.2.4':
-    resolution: {integrity: sha512-n+Y2xlgcpTZ+MZmycf2b3ceVvANDJFkDEodobVtyG63WvGOhkZ3aGhT7sHguKpAQwJLicSf8zF2z+v1Yi0DvRw==}
+  '@angular/cli@18.2.9':
+    resolution: {integrity: sha512-ejTIqwvPABwK7MtVmI2qWbEaMhhbHNsq0NPzl1hwLtkrLbjdDrEVv0Wy+gN0xqrT9NyCPl4AmNLz/xuYTzgU5g==}
     engines: {node: ^18.19.1 || ^20.11.1 || >=22.0.0, npm: ^6.11.0 || ^7.5.6 || >=8.0.0, yarn: '>= 1.13.0'}
     hasBin: true
 
@@ -1383,10 +1383,6 @@ packages:
     resolution: {integrity: sha512-gsAKIOWBm2Q87CDfs9fEo7wJT3fwWIJfnDGMn9Qy74gBnNFOACDNfhUzovubbJjWnKLGBln7/NcSmZwj5DuEXg==}
     engines: {node: '>=18'}
 
-  '@inquirer/core@9.0.10':
-    resolution: {integrity: sha512-TdESOKSVwf6+YWDz8GhS6nKscwzkIyakEzCLJ5Vh6O3Co2ClhCJ0A4MG909MUWfaWdpJm7DE45ii51/2Kat9tA==}
-    engines: {node: '>=18'}
-
   '@inquirer/core@9.1.0':
     resolution: {integrity: sha512-RZVfH//2ytTjmaBIzeKT1zefcQZzuruwkpTwwbe/i2jTl4o9M+iML5ChULzz6iw1Ok8iUBBsRCjY2IEbD8Ft4w==}
     engines: {node: '>=18'}
@@ -1429,10 +1425,6 @@ packages:
 
   '@inquirer/select@2.4.7':
     resolution: {integrity: sha512-JH7XqPEkBpNWp3gPCqWqY8ECbyMoFcCZANlL6pV9hf59qK6dGmkOlx1ydyhY+KZ0c5X74+W6Mtp+nm2QX0/MAQ==}
-    engines: {node: '>=18'}
-
-  '@inquirer/type@1.5.2':
-    resolution: {integrity: sha512-w9qFkumYDCNyDZmNQjf/n6qQuvQ4dMC3BJesY4oF+yr0CxR5vxujflAVeIcS6U336uzi9GM0kAfZlLrZ9UTkpA==}
     engines: {node: '>=18'}
 
   '@inquirer/type@1.5.3':
@@ -1935,8 +1927,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@schematics/angular@18.2.4':
-    resolution: {integrity: sha512-GxrPv4eOPrjMKoAVhch9eprW8H/DFhBy5Zgp7CgGui9NprYkkubxw/yyo11WfR5CFZ/q5AfsjV76dPCkhLwLmA==}
+  '@schematics/angular@18.2.9':
+    resolution: {integrity: sha512-LlMHZQ6f8zrqSK24OBXi4u2MTNHNu9ZN6JXpbElq0bz/9QkUR2zy+Kk2wLpPxCwXYTZby7/xgHiTzXvG+zTdhw==}
     engines: {node: ^18.19.1 || ^20.11.1 || >=22.0.0, npm: ^6.11.0 || ^7.5.6 || >=8.0.0, yarn: '>= 1.13.0'}
 
   '@sigstore/bundle@2.3.2':
@@ -5842,9 +5834,9 @@ snapshots:
     transitivePeerDependencies:
       - chokidar
 
-  '@angular-devkit/architect@0.1802.4':
+  '@angular-devkit/architect@0.1802.9':
     dependencies:
-      '@angular-devkit/core': 18.2.4
+      '@angular-devkit/core': 18.2.9
       rxjs: 7.8.1
     transitivePeerDependencies:
       - chokidar
@@ -5858,7 +5850,7 @@ snapshots:
       rxjs: 7.8.1
       source-map: 0.7.4
 
-  '@angular-devkit/core@18.2.4':
+  '@angular-devkit/core@18.2.9':
     dependencies:
       ajv: 8.17.1
       ajv-formats: 3.0.1(ajv@8.17.1)
@@ -5877,9 +5869,9 @@ snapshots:
     transitivePeerDependencies:
       - chokidar
 
-  '@angular-devkit/schematics@18.2.4':
+  '@angular-devkit/schematics@18.2.9':
     dependencies:
-      '@angular-devkit/core': 18.2.4
+      '@angular-devkit/core': 18.2.9
       jsonc-parser: 3.3.1
       magic-string: 0.30.11
       ora: 5.4.1
@@ -5887,14 +5879,14 @@ snapshots:
     transitivePeerDependencies:
       - chokidar
 
-  '@angular/cli@18.2.4':
+  '@angular/cli@18.2.9':
     dependencies:
-      '@angular-devkit/architect': 0.1802.4
-      '@angular-devkit/core': 18.2.4
-      '@angular-devkit/schematics': 18.2.4
+      '@angular-devkit/architect': 0.1802.9
+      '@angular-devkit/core': 18.2.9
+      '@angular-devkit/schematics': 18.2.9
       '@inquirer/prompts': 5.3.8
       '@listr2/prompt-adapter-inquirer': 2.0.15(@inquirer/prompts@5.3.8)
-      '@schematics/angular': 18.2.4
+      '@schematics/angular': 18.2.9
       '@yarnpkg/lockfile': 1.1.0
       ini: 4.1.3
       jsonc-parser: 3.3.1
@@ -7069,32 +7061,16 @@ snapshots:
 
   '@inquirer/checkbox@2.4.7':
     dependencies:
-      '@inquirer/core': 9.0.10
+      '@inquirer/core': 9.1.0
       '@inquirer/figures': 1.0.5
-      '@inquirer/type': 1.5.2
+      '@inquirer/type': 1.5.3
       ansi-escapes: 4.3.2
       yoctocolors-cjs: 2.1.2
 
   '@inquirer/confirm@3.1.22':
     dependencies:
-      '@inquirer/core': 9.0.10
-      '@inquirer/type': 1.5.2
-
-  '@inquirer/core@9.0.10':
-    dependencies:
-      '@inquirer/figures': 1.0.5
-      '@inquirer/type': 1.5.2
-      '@types/mute-stream': 0.0.4
-      '@types/node': 22.5.5
-      '@types/wrap-ansi': 3.0.0
-      ansi-escapes: 4.3.2
-      cli-spinners: 2.9.2
-      cli-width: 4.1.0
-      mute-stream: 1.0.0
-      signal-exit: 4.1.0
-      strip-ansi: 6.0.1
-      wrap-ansi: 6.2.0
-      yoctocolors-cjs: 2.1.2
+      '@inquirer/core': 9.1.0
+      '@inquirer/type': 1.5.3
 
   '@inquirer/core@9.1.0':
     dependencies:
@@ -7114,22 +7090,22 @@ snapshots:
 
   '@inquirer/editor@2.1.22':
     dependencies:
-      '@inquirer/core': 9.0.10
-      '@inquirer/type': 1.5.2
+      '@inquirer/core': 9.1.0
+      '@inquirer/type': 1.5.3
       external-editor: 3.1.0
 
   '@inquirer/expand@2.1.22':
     dependencies:
-      '@inquirer/core': 9.0.10
-      '@inquirer/type': 1.5.2
+      '@inquirer/core': 9.1.0
+      '@inquirer/type': 1.5.3
       yoctocolors-cjs: 2.1.2
 
   '@inquirer/figures@1.0.5': {}
 
   '@inquirer/input@2.2.9':
     dependencies:
-      '@inquirer/core': 9.0.10
-      '@inquirer/type': 1.5.2
+      '@inquirer/core': 9.1.0
+      '@inquirer/type': 1.5.3
 
   '@inquirer/number@1.1.0':
     dependencies:
@@ -7138,8 +7114,8 @@ snapshots:
 
   '@inquirer/password@2.1.22':
     dependencies:
-      '@inquirer/core': 9.0.10
-      '@inquirer/type': 1.5.2
+      '@inquirer/core': 9.1.0
+      '@inquirer/type': 1.5.3
       ansi-escapes: 4.3.2
 
   '@inquirer/prompts@5.3.8':
@@ -7157,8 +7133,8 @@ snapshots:
 
   '@inquirer/rawlist@2.2.4':
     dependencies:
-      '@inquirer/core': 9.0.10
-      '@inquirer/type': 1.5.2
+      '@inquirer/core': 9.1.0
+      '@inquirer/type': 1.5.3
       yoctocolors-cjs: 2.1.2
 
   '@inquirer/search@1.1.0':
@@ -7170,15 +7146,11 @@ snapshots:
 
   '@inquirer/select@2.4.7':
     dependencies:
-      '@inquirer/core': 9.0.10
+      '@inquirer/core': 9.1.0
       '@inquirer/figures': 1.0.5
-      '@inquirer/type': 1.5.2
+      '@inquirer/type': 1.5.3
       ansi-escapes: 4.3.2
       yoctocolors-cjs: 2.1.2
-
-  '@inquirer/type@1.5.2':
-    dependencies:
-      mute-stream: 1.0.0
 
   '@inquirer/type@1.5.3':
     dependencies:
@@ -7392,7 +7364,7 @@ snapshots:
   '@listr2/prompt-adapter-inquirer@2.0.15(@inquirer/prompts@5.3.8)':
     dependencies:
       '@inquirer/prompts': 5.3.8
-      '@inquirer/type': 1.5.2
+      '@inquirer/type': 1.5.3
 
   '@mole-inc/bin-wrapper@8.0.1':
     dependencies:
@@ -7927,10 +7899,10 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.24.0':
     optional: true
 
-  '@schematics/angular@18.2.4':
+  '@schematics/angular@18.2.9':
     dependencies:
-      '@angular-devkit/core': 18.2.4
-      '@angular-devkit/schematics': 18.2.4
+      '@angular-devkit/core': 18.2.9
+      '@angular-devkit/schematics': 18.2.9
       jsonc-parser: 3.3.1
     transitivePeerDependencies:
       - chokidar
