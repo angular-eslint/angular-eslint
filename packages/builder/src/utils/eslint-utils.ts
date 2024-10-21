@@ -95,6 +95,8 @@ export async function resolveAndInstantiateESLint(
         overrideConfigFile = undefined;
       }
       eslintOptions.overrideConfigFile = overrideConfigFile;
+    } else {
+      eslintOptions.overrideConfigFile = eslintConfigPath;
     }
   } else {
     eslintOptions.overrideConfigFile = eslintConfigPath;
