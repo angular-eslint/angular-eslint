@@ -24,10 +24,6 @@ export default createBuilder(
       console.info(`\nLinting ${JSON.stringify(projectName)}...`);
     }
 
-    /**
-     * We want users to have the option of not specifying the config path, and let
-     * eslint automatically resolve the `.eslintrc.json` files in each folder.
-     */
     const eslintConfigPath = options.eslintConfig
       ? resolve(systemRoot, options.eslintConfig)
       : undefined;
@@ -75,7 +71,8 @@ export default createBuilder(
         const projectMetadata = await context.getProjectMetadata(projectName);
         if (projectMetadata?.root) {
           const { root } = projectMetadata;
-          eslintConfigPathForError = `\`${root}/.eslintrc.json\``;
+          eslintConfigPathForError =
+            resolveESLintConfigPath(root as string) ?? '';
         }
 
         console.error(`
@@ -202,3 +199,23 @@ For full guidance on how to resolve this issue, please see https://github.com/an
     };
   },
 );
+
+function resolveESLintConfigPath(projectRoot: string): string | null {
+  const rcPath = join(projectRoot, '.eslintrc.json');
+  if (existsSync(rcPath)) {
+    return rcPath;
+  }
+  const jsPath = join(projectRoot, 'eslint.config.js');
+  if (existsSync(jsPath)) {
+    return jsPath;
+  }
+  const mjsPath = join(projectRoot, 'eslint.config.mjs');
+  if (existsSync(mjsPath)) {
+    return mjsPath;
+  }
+  const cjsPath = join(projectRoot, 'eslint.config.cjs');
+  if (existsSync(cjsPath)) {
+    return cjsPath;
+  }
+  return null;
+}
