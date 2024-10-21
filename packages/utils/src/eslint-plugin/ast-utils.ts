@@ -250,7 +250,10 @@ export function getImportDeclarationSpecifier(
       (importClause): importClause is TSESTree.ImportSpecifier => {
         return (
           isImportSpecifier(importClause) &&
-          importClause.imported.name === importName
+          ((ASTUtils.isIdentifier(importClause.imported) &&
+            importClause.imported.name === importName) ||
+            (isStringLiteral(importClause.imported) &&
+              importClause.imported.value === importName))
         );
       },
     );
@@ -488,7 +491,10 @@ export function isImportedFrom(
       importDeclaration.specifiers.some(
         (specifier) =>
           isImportSpecifier(specifier) &&
-          specifier.imported.name === identifier.name &&
+          ((ASTUtils.isIdentifier(specifier.imported) &&
+            specifier.imported.name === identifier.name) ||
+            (isStringLiteral(specifier.imported) &&
+              specifier.imported.value === identifier.name)) &&
           specifier.local.name === identifier.name,
       ),
     ),

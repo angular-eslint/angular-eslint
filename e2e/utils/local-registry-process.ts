@@ -5,7 +5,7 @@ import { E2E_VERSION } from './start-and-publish-to-local-registry';
 // Used to ensure all the time-consuming setup steps for fixtures do not cause jest to time out
 export const LONG_TIMEOUT_MS = 600000; // 10 mins
 
-async function runCommandOnLocalRegistry(
+export async function runCommandOnLocalRegistry(
   command: string,
   args: string[],
 ): Promise<execa.ExecaChildProcess<string>> {
@@ -16,6 +16,9 @@ async function runCommandOnLocalRegistry(
       ------------------
     `);
   }
+  console.log(
+    `\n[e2e debug output] Running command: ${command} ${args.join(' ')}\n`,
+  );
 
   const subprocess = execa(command, args);
   subprocess.stdout!.pipe(process.stdout);

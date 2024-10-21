@@ -1,3 +1,17 @@
+## 18.3.1 (2024-09-11)
+
+### 🩹 Fixes
+
+- update dependency eslint to v9.9.1 ([#2008](https://github.com/angular-eslint/angular-eslint/pull/2008))
+- update dependency @angular/compiler to v18.2.1 ([#2006](https://github.com/angular-eslint/angular-eslint/pull/2006))
+- update typescript-eslint packages to v8.2.0 ([#2001](https://github.com/angular-eslint/angular-eslint/pull/2001))
+- **template-parser:** visit receiver of Call expression ([#2015](https://github.com/angular-eslint/angular-eslint/pull/2015))
+
+### ❤️ Thank You
+
+- James Henry @JamesHenry
+- Paweł Maniecki @P4
+
 ## 18.3.0 (2024-08-13)
 
 ### 🚀 Features

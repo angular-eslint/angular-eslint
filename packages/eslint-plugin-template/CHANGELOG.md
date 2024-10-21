@@ -1,3 +1,18 @@
+## 18.3.1 (2024-09-11)
+
+### 🩹 Fixes
+
+- **template-parser:** visit receiver of Call expression
+
+- **template-parser:** visit receiver of Call expression"
+
+- **template-parser:** visit receiver of Call expression
+
+### ❤️ Thank You
+
+- James Henry
+- Paweł Maniecki
+
 ## 18.3.0 (2024-08-13)
 
 ### 🩹 Fixes
