@@ -14,6 +14,7 @@ env:
   NX_BRANCH: ${{ github.event.pull_request.number || github.ref_name }}
   NX_VERBOSE_LOGGING: true
   NX_CLOUD_DEBUG_URLS: true
+  NX_NATIVE_LOGGING: nx::native::db
   NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
 
 jobs:
@@ -40,7 +41,7 @@ jobs:
         run: echo "NX_CI_EXECUTION_ENV=Node $(node --version) -" >> $GITHUB_ENV
 
       - name: Start Nx Cloud CI Run
-        run: pnpm dlx nx-cloud start-ci-run --distribute-on="6 custom-linux-medium-plus-js" --with-env-vars="NX_VERBOSE_LOGGING" --stop-agents-after="e2e-suite"
+        run: pnpm dlx nx-cloud start-ci-run --distribute-on="6 custom-linux-medium-plus-js" --with-env-vars="NX_VERBOSE_LOGGING,NX_NATIVE_LOGGING" --stop-agents-after="e2e-suite"
 
       - name: Install dependencies (skipping postinstall)
         # We use --ignore-scripts to skip automatic postinstall and give us more control over distributing build tasks
