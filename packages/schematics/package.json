@@ -44,7 +44,7 @@
   },
   "devDependencies": {
     "@typescript-eslint/utils": "8.10.0",
-    "eslint": "9.9.1"
+    "eslint": "9.13.0"
   },
   "peerDependencies": {
     "@angular-devkit/core": ">= 18.0.0 < 19.0.0",

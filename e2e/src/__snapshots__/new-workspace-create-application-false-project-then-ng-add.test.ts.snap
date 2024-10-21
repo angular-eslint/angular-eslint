@@ -7,7 +7,7 @@ exports[`new-workspace-create-application-false-project-then-ng-add should pass 
   "@angular/compiler-cli": "^18.X.X",
   "@types/jasmine": "~5.1.0",
   "angular-eslint": "0.0.0-e2e",
-  "eslint": "^9.9.1",
+  "eslint": "^9.13.0",
   "jasmine-core": "~5.2.0",
   "karma": "~6.4.0",
   "karma-chrome-launcher": "~3.2.0",

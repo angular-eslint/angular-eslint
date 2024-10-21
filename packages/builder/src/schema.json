@@ -91,7 +91,12 @@
     },
     "noEslintrc": {
       "type": "boolean",
-      "description": "The equivalent of the `--no-eslintrc` flag on the ESLint CLI, it is false by default",
+      "description": "NOTE: eslintrc config only. The equivalent of the `--no-eslintrc` flag on the ESLint CLI, it is false by default",
+      "default": false
+    },
+    "noConfigLookup": {
+      "type": "boolean",
+      "description": "NOTE: flat config only. The equivalent of the `--no-config-lookup` flag on the ESLint CLI, it is false by default",
       "default": false
     },
     "rulesdir": {
