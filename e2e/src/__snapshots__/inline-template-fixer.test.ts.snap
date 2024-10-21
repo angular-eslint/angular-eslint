@@ -30,6 +30,6 @@ exports[`inline-template-fixer should generate the expected inline template fixe
   "karma-jasmine": "~5.1.0",
   "karma-jasmine-html-reporter": "~2.1.0",
   "typescript": "~5.X.X",
-  "typescript-eslint": "8.5.0"
+  "typescript-eslint": "8.10.0"
 }
 `;

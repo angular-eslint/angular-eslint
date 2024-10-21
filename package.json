@@ -74,7 +74,9 @@
     "@types/node": "20.16.13",
     "@types/semver": "^7.5.8",
     "@types/yargs": "^17.0.33",
-    "@typescript-eslint/rule-tester": "8.5.0",
+    "@typescript-eslint/rule-tester": "8.10.0",
+    "@typescript-eslint/types": "8.10.0",
+    "@typescript-eslint/utils": "8.10.0",
     "chalk": "4.1.2",
     "commitizen": "4.3.1",
     "cz-conventional-changelog": "3.3.0",
@@ -101,7 +103,7 @@
     "tslib": "^2.4.1",
     "tsx": "^4.7.3",
     "typescript": "5.5.4",
-    "typescript-eslint": "8.5.0",
+    "typescript-eslint": "8.10.0",
     "verdaccio": "6.0.0",
     "yargs": "17.7.2"
   },
@@ -112,7 +114,7 @@
       "@typescript-eslint/utils": "$typescript-eslint"
     },
     "patchedDependencies": {
-      "@typescript-eslint/rule-tester@8.5.0": "tools/patches/@typescript-eslint__rule-tester@8.5.0.patch"
+      "@typescript-eslint/rule-tester": "tools/patches/@typescript-eslint__rule-tester.patch"
     }
   },
   "nx": {
