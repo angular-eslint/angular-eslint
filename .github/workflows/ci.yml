@@ -14,7 +14,7 @@ env:
   NX_BRANCH: ${{ github.event.pull_request.number || github.ref_name }}
   NX_VERBOSE_LOGGING: true
   NX_CLOUD_DEBUG_URLS: true
-  NX_NATIVE_LOGGING: nx::native::db
+  NX_NATIVE_LOGGING: nx::native::cache,nx::native::db
   NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
 
 jobs:
