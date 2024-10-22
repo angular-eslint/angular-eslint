@@ -56,8 +56,6 @@ jobs:
 
       - name: Run parallel distributed tasks for build, typecheck, check-rule-docs, check-rule-lists, check-rule-configs, lint and test targets
         uses: jameshenry/parallel-bash-commands@v1
-        env:
-          NX_NATIVE_LOGGING: 'nx::native::db'
         with:
           # Note that the typecheck target *also* typechecks tests and tools,
           # whereas the build only checks src files
