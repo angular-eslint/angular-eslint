@@ -20,6 +20,7 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
       [items]="items" />
   `,
   '<img />',
+  '<slot></slot>',
   '<div></div>',
   '<ng-template/>',
   '<ng-template>Content</ng-template>',
