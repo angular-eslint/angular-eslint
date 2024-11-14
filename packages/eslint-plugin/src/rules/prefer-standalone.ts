@@ -37,9 +37,8 @@ export default createESLintRule<Options, MessageIds>({
         );
 
         if (
-          standalone &&
-          ASTUtils.isLiteral(standalone) &&
-          standalone.value === true
+          !standalone ||
+          (ASTUtils.isLiteral(standalone) && standalone.value === true)
         ) {
           return;
         }
