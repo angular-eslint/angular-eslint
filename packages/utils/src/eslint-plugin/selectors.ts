@@ -22,6 +22,8 @@ export const OUTPUT_DECORATOR = 'Decorator[expression.callee.name="Output"]';
 
 export const LITERAL_OR_TEMPLATE_ELEMENT = ':matches(Literal, TemplateElement)';
 
+export const ALIAS_PROPERTY_VALUE = `ObjectExpression > Property[key.name='alias'] ${LITERAL_OR_TEMPLATE_ELEMENT}`;
+
 export function decoratorDefinition(decoratorName: RegExp): string;
 export function decoratorDefinition<TDecoratorName extends string>(
   decoratorName: TDecoratorName,
@@ -68,6 +70,9 @@ export const OUTPUTS_METADATA_PROPERTY_LITERAL = `${COMPONENT_OR_DIRECTIVE_CLASS
   'outputs',
 )} > ArrayExpression ${LITERAL_OR_TEMPLATE_ELEMENT}`;
 
-export const OUTPUT_ALIAS = `:matches(PropertyDefinition, MethodDefinition[kind='get']) ${OUTPUT_DECORATOR} ${LITERAL_OR_TEMPLATE_ELEMENT}`;
+export const OUTPUT_ALIAS = [
+  `:matches(PropertyDefinition, MethodDefinition[kind='get']) ${OUTPUT_DECORATOR} ${LITERAL_OR_TEMPLATE_ELEMENT}`,
+  `PropertyDefinition > CallExpression[callee.name='output'] > ${ALIAS_PROPERTY_VALUE}`,
+].join(',');
 
 export const OUTPUT_PROPERTY_OR_GETTER = `:matches(PropertyDefinition, MethodDefinition[kind='get'])[computed=false]:has(${OUTPUT_DECORATOR}) > :matches(Identifier, Literal)`;
