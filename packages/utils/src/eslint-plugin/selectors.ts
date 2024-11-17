@@ -81,4 +81,7 @@ export const OUTPUT_ALIAS = [
   `PropertyDefinition > CallExpression[callee.name='output'] > ${ALIAS_PROPERTY_VALUE}`,
 ].join(',');
 
-export const OUTPUT_PROPERTY_OR_GETTER = `:matches(PropertyDefinition, MethodDefinition[kind='get'])[computed=false]:has(${OUTPUT_DECORATOR}) > :matches(Identifier, Literal)`;
+export const OUTPUT_PROPERTY_OR_GETTER = [
+  `:matches(PropertyDefinition, MethodDefinition[kind='get'])[computed=false]:has(${OUTPUT_DECORATOR}) > :matches(Identifier, Literal)`,
+  `PropertyDefinition[computed=false]:has(CallExpression[callee.name='output']) > :matches(Identifier, Literal)`,
+].join(',');

@@ -206,10 +206,70 @@ class Test {
 #### ❌ Invalid Code
 
 ```ts
+@Component()
+class Test {
+  on = output();
+  ~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-output-on-prefix": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
 @Directive()
 class Test {
   @Output() @Custom('on') 'onPrefix' = new EventEmitter<void>();
                           ~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-output-on-prefix": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Directive()
+class Test {
+  'onPrefix' = output();
+  ~~~~~~~~~~
 }
 ```
 
@@ -266,10 +326,70 @@ class Test {
 #### ❌ Invalid Code
 
 ```ts
+@Component()
+class Test {
+  _on = output({ alias: `on` });
+                        ~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-output-on-prefix": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
 @Directive()
 class Test {
   @Output('onPrefix') _on = (this.subject$ as Subject<{on: boolean}>).pipe();
           ~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-output-on-prefix": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Directive()
+class Test {
+  _on = output({ alias: 'onPrefix' });
+                        ~~~~~~~~~~
 }
 ```
 
@@ -330,6 +450,36 @@ class Test {
 class Test {
   @Output('on') onPrefix = this.getOutput();
           ~~~~  ~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-output-on-prefix": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Injectable()
+class Test {
+  onPrefix = output({ alias: 'on' });
+  ~~~~~~~~                   ~~~~
 }
 ```
 
@@ -476,9 +626,67 @@ class Test {
 #### ✅ Valid Code
 
 ```ts
+@Directive()
+class Test {
+  buttonChange = output<'on'>();
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-output-on-prefix": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
 @Component()
 class Test {
   @Output() On = new EventEmitter<{ on: onType }>();
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-output-on-prefix": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component()
+class Test {
+  On = output<{ on: onType }>();
 }
 ```
 
@@ -534,6 +742,35 @@ class Test {
 #### ✅ Valid Code
 
 ```ts
+@Directive()
+class Test {
+  ontype = output<{ bar: string, on: boolean }>({ alias: `one` });
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-output-on-prefix": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
 @Component()
 class Test {
   @Output('oneProp') common = new EventEmitter<ComplextOn>();
@@ -563,9 +800,67 @@ class Test {
 #### ✅ Valid Code
 
 ```ts
+@Component()
+class Test {
+  common = output<ComplextOn>({ alias: 'oneProp' });
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-output-on-prefix": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
 @Directive()
 class Test<On> {
   @Output() ON = new EventEmitter<On>();
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-output-on-prefix": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive()
+class Test<On> {
+  ON = output<On>();
 }
 ```
 
@@ -622,11 +917,72 @@ class Test {
 #### ✅ Valid Code
 
 ```ts
+const on = 'on';
+@Component()
+class Test {
+  touchMove = output<{ action: 'on' | 'off' }>({ alias: on });
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-output-on-prefix": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
 const test = 'on';
 const on = 'on';
 @Directive()
 class Test {
   @Output(test) [on]: EventEmitter<OnTest>;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-output-on-prefix": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+const test = 'on';
+const on = 'on';
+@Directive()
+class Test {
+  [on] = output<OnTest>({ alias: test });
 }
 ```
 
