@@ -1,3 +1,10 @@
+## 18.4.1 (2024-11-18)
+
+### 🩹 Fixes
+
+- update dependency ignore to v6 ([#2047](https://github.com/angular-eslint/angular-eslint/pull/2047))
+- update dependency @angular/compiler to v18.2.12 ([#2090](https://github.com/angular-eslint/angular-eslint/pull/2090))
+
 ## 18.4.0 (2024-10-21)
 
 ### 🚀 Features
