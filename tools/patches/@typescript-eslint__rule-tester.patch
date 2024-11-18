@@ -1,5 +1,5 @@
 diff --git a/dist/RuleTester.js b/dist/RuleTester.js
-index ebccea5c3f90103a05be0a434071617bb0767b72..b7e1f150ba2d5bd21b619ac196c2948ee540a9bd 100644
+index 63827e40b8eed944625e4d6e8e327150047483d7..8caa99715b7335ef521c0546b94d6c465c35e7c0 100644
 --- a/dist/RuleTester.js
 +++ b/dist/RuleTester.js
 @@ -123,7 +123,7 @@ function getUnsubstitutedMessagePlaceholders(message, raw, data = {}) {
@@ -10,8 +10,8 @@ index ebccea5c3f90103a05be0a434071617bb0767b72..b7e1f150ba2d5bd21b619ac196c2948e
 +    return unsubstituted.filter(name => known.includes(name) && !provided.includes(name)).filter(name => name !== 'value');
  }
  class RuleTester extends TestFramework_1.TestFramework {
-     #linter;
-@@ -183,7 +183,7 @@ class RuleTester extends TestFramework_1.TestFramework {
+     #lintersByBasePath;
+@@ -203,7 +203,7 @@ class RuleTester extends TestFramework_1.TestFramework {
              throw new TypeError('RuleTester.setDefaultConfig: config must be an object');
          }
          // Make sure the rules object exists since it is assumed to exist later
@@ -20,7 +20,16 @@ index ebccea5c3f90103a05be0a434071617bb0767b72..b7e1f150ba2d5bd21b619ac196c2948e
          // @ts-expect-error -- no index signature
          config);
      }
-@@ -694,7 +694,7 @@ class RuleTester extends TestFramework_1.TestFramework {
+@@ -435,7 +435,7 @@ class RuleTester extends TestFramework_1.TestFramework {
+                         constructor[getTestMethod(invalid)]((0, validationHelpers_1.sanitize)(name), () => {
+                             try {
+                                 this.#runHook(invalid, 'before');
+-                                this.#testInvalidTemplate(ruleName, rule, 
++                                this.#testInvalidTemplate(ruleName, rule,
+                                 // no need to pass no infer type parameter down to private methods
+                                 invalid, seenInvalidTestCases);
+                             }
+@@ -717,7 +717,7 @@ class RuleTester extends TestFramework_1.TestFramework {
                      if ((0, hasOwnProperty_1.hasOwnProperty)(error, 'message')) {
                          node_assert_1.default.ok(!(0, hasOwnProperty_1.hasOwnProperty)(error, 'messageId'), "Error should not specify both 'message' and a 'messageId'.");
                          node_assert_1.default.ok(!(0, hasOwnProperty_1.hasOwnProperty)(error, 'data'), "Error should not specify both 'data' and 'message'.");
@@ -29,7 +38,7 @@ index ebccea5c3f90103a05be0a434071617bb0767b72..b7e1f150ba2d5bd21b619ac196c2948e
                          // @ts-expect-error -- we purposely don't define `message` on our types as the current standard is `messageId`
                          error.message);
                      }
-@@ -750,7 +750,7 @@ class RuleTester extends TestFramework_1.TestFramework {
+@@ -773,7 +773,7 @@ class RuleTester extends TestFramework_1.TestFramework {
                          else if (hasSuggestions) {
                              node_assert_1.default.ok(expectsSuggestions, `Error should have no suggestions on error with message: "${message.message}"`);
                              if (typeof error.suggestions === 'number') {
