@@ -60,6 +60,7 @@ const mockResolveAndInstantiateESLint = jest.fn().mockReturnValue(
 
 jest.mock('./utils/eslint-utils', () => {
   return {
+    ...jest.requireActual('./utils/eslint-utils'),
     resolveAndInstantiateESLint: mockResolveAndInstantiateESLint,
   };
 });
@@ -87,6 +88,7 @@ function createValidRunBuilderOptions(
     resolvePluginsRelativeTo: null,
     reportUnusedDisableDirectives: null,
     useEslintrc: null,
+    noConfigLookup: null,
     ...additionalOptions,
   };
 }
@@ -173,6 +175,7 @@ describe('Linter Builder', () => {
         outputFile: null,
         ignorePath: null,
         noEslintrc: false,
+        noConfigLookup: null,
         rulesdir: [],
         resolvePluginsRelativeTo: null,
       }),
@@ -197,6 +200,7 @@ describe('Linter Builder', () => {
         outputFile: null,
         ignorePath: null,
         noEslintrc: false,
+        noConfigLookup: null,
         rulesdir: [],
         resolvePluginsRelativeTo: null,
         reportUnusedDisableDirectives: null,
@@ -234,6 +238,83 @@ describe('Linter Builder', () => {
         outputFile: null,
         ignorePath: null,
         noEslintrc: false,
+        noConfigLookup: null,
+        rulesdir: [],
+        resolvePluginsRelativeTo: null,
+        reportUnusedDisableDirectives: null,
+      },
+      true, // useFlatConfig
+    );
+  });
+
+  it('should resolve and instantiate ESLint with useFlatConfig=true if the root config is eslint.config.mjs', async () => {
+    jest.spyOn(fs, 'existsSync').mockImplementation((path: any) => {
+      if (path.endsWith('/eslint.config.mjs')) {
+        return true;
+      }
+      return false;
+    });
+
+    await runBuilder(createValidRunBuilderOptions({}));
+    expect(mockResolveAndInstantiateESLint).toHaveBeenCalledTimes(1);
+    expect(mockResolveAndInstantiateESLint).toHaveBeenCalledWith(
+      undefined,
+      {
+        lintFilePatterns: [],
+        eslintConfig: null,
+        exclude: ['excludedFile1'],
+        fix: true,
+        quiet: false,
+        cache: true,
+        cacheLocation: `cacheLocation1${sep}<???>`,
+        cacheStrategy: 'content',
+        format: 'stylish',
+        force: false,
+        silent: false,
+        useEslintrc: null,
+        maxWarnings: -1,
+        outputFile: null,
+        ignorePath: null,
+        noEslintrc: false,
+        noConfigLookup: null,
+        rulesdir: [],
+        resolvePluginsRelativeTo: null,
+        reportUnusedDisableDirectives: null,
+      },
+      true, // useFlatConfig
+    );
+  });
+
+  it('should resolve and instantiate ESLint with useFlatConfig=true if the root config is eslint.config.cjs', async () => {
+    jest.spyOn(fs, 'existsSync').mockImplementation((path: any) => {
+      if (path.endsWith('/eslint.config.cjs')) {
+        return true;
+      }
+      return false;
+    });
+
+    await runBuilder(createValidRunBuilderOptions({}));
+    expect(mockResolveAndInstantiateESLint).toHaveBeenCalledTimes(1);
+    expect(mockResolveAndInstantiateESLint).toHaveBeenCalledWith(
+      undefined,
+      {
+        lintFilePatterns: [],
+        eslintConfig: null,
+        exclude: ['excludedFile1'],
+        fix: true,
+        quiet: false,
+        cache: true,
+        cacheLocation: `cacheLocation1${sep}<???>`,
+        cacheStrategy: 'content',
+        format: 'stylish',
+        force: false,
+        silent: false,
+        useEslintrc: null,
+        maxWarnings: -1,
+        outputFile: null,
+        ignorePath: null,
+        noEslintrc: false,
+        noConfigLookup: null,
         rulesdir: [],
         resolvePluginsRelativeTo: null,
         reportUnusedDisableDirectives: null,

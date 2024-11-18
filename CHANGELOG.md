@@ -1,3 +1,25 @@
+## 18.4.0 (2024-10-21)
+
+### 🚀 Features
+
+- support ESM configs and .cjs and .mjs extensions ([#2068](https://github.com/angular-eslint/angular-eslint/pull/2068))
+
+### 🩹 Fixes
+
+- update dependency aria-query to v5.3.2 ([#2053](https://github.com/angular-eslint/angular-eslint/pull/2053))
+- update dependency @angular/compiler to v18.2.8 ([#2049](https://github.com/angular-eslint/angular-eslint/pull/2049))
+- update dependency eslint-scope to v8.1.0 ([#2075](https://github.com/angular-eslint/angular-eslint/pull/2075))
+- update typescript-eslint packages to v8.10.0 ([#2046](https://github.com/angular-eslint/angular-eslint/pull/2046))
+- update dependency eslint to v9.13.0, support noConfigLookup ([#2045](https://github.com/angular-eslint/angular-eslint/pull/2045))
+- **eslint-plugin:** update list of native events ([#1881](https://github.com/angular-eslint/angular-eslint/pull/1881))
+- **template-parser:** traverse ng-content fallback content ([#2031](https://github.com/angular-eslint/angular-eslint/pull/2031))
+
+### ❤️ Thank You
+
+- Dementii K @demkalkov
+- James Henry @JamesHenry
+- Matt Lewis @mattlewis92
+
 ## 18.3.1 (2024-09-11)
 
 ### 🩹 Fixes

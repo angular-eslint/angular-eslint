@@ -1,3 +1,14 @@
+## 18.4.0 (2024-10-21)
+
+### 🩹 Fixes
+
+- update typescript-eslint packages to v8.10.0 ([#2046](https://github.com/angular-eslint/angular-eslint/pull/2046))
+- **eslint-plugin:** update list of native events ([#1881](https://github.com/angular-eslint/angular-eslint/pull/1881))
+
+### ❤️ Thank You
+
+- Dementii K @demkalkov
+
 ## 18.3.1 (2024-09-11)
 
 This was a version bump only for utils to align it with other projects, there were no code changes.

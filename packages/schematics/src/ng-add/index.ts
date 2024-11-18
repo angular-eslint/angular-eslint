@@ -135,9 +135,12 @@ function applyESLintConfigIfSingleProjectWithNoExistingTSLint(
       return chain([
         useFlatConfig
           ? (host) => {
+              // If the root package.json uses type: module, generate ESM content
+              const packageJson = readJsonInTree(host, 'package.json');
+              const isESM = packageJson.type === 'module';
               host.create(
                 'eslint.config.js',
-                createStringifiedRootESLintConfig(null),
+                createStringifiedRootESLintConfig(null, isESM),
               );
               return host;
             }

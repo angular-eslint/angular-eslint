@@ -1,3 +1,13 @@
+## 18.4.0 (2024-10-21)
+
+### 🩹 Fixes
+
+- **template-parser:** traverse ng-content fallback content ([#2031](https://github.com/angular-eslint/angular-eslint/pull/2031))
+
+### ❤️ Thank You
+
+- Matt Lewis @mattlewis92
+
 ## 18.3.1 (2024-09-11)
 
 ### 🩹 Fixes

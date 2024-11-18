@@ -1,6 +1,6 @@
 {
   "name": "@angular-eslint/eslint-plugin-template",
-  "version": "18.3.1",
+  "version": "18.4.0",
   "description": "ESLint plugin for Angular Templates",
   "license": "MIT",
   "main": "dist/index.js",
@@ -20,7 +20,7 @@
   "dependencies": {
     "@angular-eslint/bundled-angular-compiler": "workspace:*",
     "@angular-eslint/utils": "workspace:*",
-    "aria-query": "5.3.1",
+    "aria-query": "5.3.2",
     "axobject-query": "4.1.0"
   },
   "devDependencies": {
@@ -29,6 +29,7 @@
     "@types/aria-query": "5.0.4"
   },
   "peerDependencies": {
+    "@typescript-eslint/types": "^7.11.0 || ^8.0.0",
     "@typescript-eslint/utils": "^7.11.0 || ^8.0.0",
     "eslint": "^8.57.0 || ^9.0.0",
     "typescript": "*"

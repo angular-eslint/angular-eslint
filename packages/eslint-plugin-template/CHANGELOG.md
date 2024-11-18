@@ -1,3 +1,11 @@
+## 18.4.0 (2024-10-21)
+
+### 🩹 Fixes
+
+- update typescript-eslint packages to v8.10.0 ([#2046](https://github.com/angular-eslint/angular-eslint/pull/2046))
+- update dependency aria-query to v5.3.2 ([#2053](https://github.com/angular-eslint/angular-eslint/pull/2053))
+- update dependency aria-query to v5.3.1 ([#2043](https://github.com/angular-eslint/angular-eslint/pull/2043))
+
 ## 18.3.1 (2024-09-11)
 
 ### 🩹 Fixes

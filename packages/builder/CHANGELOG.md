@@ -1,3 +1,17 @@
+## 18.4.0 (2024-10-21)
+
+### 🚀 Features
+
+- support ESM configs and .cjs and .mjs extensions ([#2068](https://github.com/angular-eslint/angular-eslint/pull/2068))
+
+### 🩹 Fixes
+
+- update dependency eslint to v9.13.0, support noConfigLookup ([#2045](https://github.com/angular-eslint/angular-eslint/pull/2045))
+
+### ❤️ Thank You
+
+- James Henry @JamesHenry
+
 ## 18.3.1 (2024-09-11)
 
 This was a version bump only for builder to align it with other projects, there were no code changes.
