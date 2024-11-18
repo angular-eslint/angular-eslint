@@ -76,7 +76,6 @@
     "@typescript-eslint/utils": "8.10.0",
     "chalk": "4.1.2",
     "cz-conventional-changelog": "3.3.0",
-    "env-cmd": "10.1.0",
     "eslint": "9.13.0",
     "eslint-config-prettier": "9.1.0",
     "execa": "5.1.1",
