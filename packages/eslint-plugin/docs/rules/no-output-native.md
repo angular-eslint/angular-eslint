@@ -207,10 +207,70 @@ class Test {
 #### ❌ Invalid Code
 
 ```ts
+@Component()
+class Test {
+  change = output();
+  ~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-output-native": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
 @Directive()
 class Test {
   @Output() @Custom('change') 'change' = new EventEmitter<void>();
                               ~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-output-native": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Directive()
+class Test {
+  'change' = output();
+  ~~~~~~~~
 }
 ```
 
@@ -267,10 +327,70 @@ class Test {
 #### ❌ Invalid Code
 
 ```ts
+@Component()
+class Test {
+  _change = output({ alias: `change` });
+                            ~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-output-native": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
 @Directive()
 class Test {
   @Output('change') _change = (this.subject$ as Subject<{blur: boolean}>).pipe();
           ~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-output-native": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Directive()
+class Test {
+  _change = output({ alias: 'change' });
+                            ~~~~~~~~
 }
 ```
 
@@ -331,6 +451,36 @@ class Test {
 class Test {
   @Output('click') blur = this.getOutput();
           ~~~~~~~  ~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-output-native": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Injectable()
+class Test {
+  blur = output({ alias: 'click' });
+  ~~~~                   ~~~~~~~
 }
 ```
 
@@ -477,9 +627,67 @@ class Test {
 #### ✅ Valid Code
 
 ```ts
+@Directive()
+class Test {
+  buttonChange = output<'change'>();
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-output-native": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
 @Component()
 class Test {
   @Output() Drag = new EventEmitter<{ click: string }>();
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-output-native": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component()
+class Test {
+  Drag = output<{ click: string }>();
 }
 ```
 
@@ -535,6 +743,35 @@ class Test {
 #### ✅ Valid Code
 
 ```ts
+@Directive()
+class Test {
+  changeText = output<{ bar: string, blur: string }>({ alias: `changelower` });
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-output-native": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
 @Component()
 class Test {
   @Output('buttonChange') changelower = new EventEmitter<ComplextObject>();
@@ -564,9 +801,67 @@ class Test {
 #### ✅ Valid Code
 
 ```ts
+@Component()
+class Test {
+  changelower = new output<ComplextObject>({ alias: 'buttonChange' });
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-output-native": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
 @Directive()
 class Test<SVGScroll> {
   @Output() SVgZoom = new EventEmitter<SVGScroll>();
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-output-native": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive()
+class Test<SVGScroll> {
+   SVgZoom = output<SVGScroll>();
 }
 ```
 
@@ -623,11 +918,72 @@ class Test {
 #### ✅ Valid Code
 
 ```ts
+const change = 'change';
+@Component()
+class Test {
+  touchMove = output<{ action: 'click' | 'close' }>({ alias: change });
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-output-native": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
 const blur = 'blur';
 const click = 'click';
 @Directive()
 class Test {
   @Output(blur) [click]: EventEmitter<Blur>;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-output-native": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+const blur = 'blur';
+const click = 'click';
+@Directive()
+class Test {
+  [click] = output<Blur>({ alias: blur });
 }
 ```
 
