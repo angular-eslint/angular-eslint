@@ -1,12 +1,11 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import execa from 'execa';
 import path from 'node:path';
+import { stripVTControlCharacters } from 'node:util';
 import { FIXTURES_DIR } from './fixtures';
 
-import stripAnsi = require('strip-ansi');
-
 function normalizeOutput(value: unknown): string {
-  const ansiRemoved = stripAnsi(String(value));
+  const ansiRemoved = stripVTControlCharacters(String(value));
   return (
     ansiRemoved
       .replace(
@@ -16,7 +15,7 @@ function normalizeOutput(value: unknown): string {
       /**
        * This one is ridiculous...
        *
-       * No matter what I try (including the use of `strip-ansi`), I do not seem to be
+       * No matter what I try (including the use of `stripVTControlCharacters`), I do not seem to be
        * able to stop the inclusion of this extra `m` any other way (it is presumably
        * coming from an ANSI code becuase of its initial appearance in CI as [27m).
        * It happens locally and CI... but only exactly once.
