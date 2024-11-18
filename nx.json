@@ -84,10 +84,12 @@
     },
     "e2e": {
       "dependsOn": ["^build"],
+      "inputs": ["default", "{workspaceRoot}/e2e/utils/**/*"],
       "cache": true
     },
     "e2e-suite": {
       "dependsOn": ["^build"],
+      "inputs": ["default", "{workspaceRoot}/e2e/utils/**/*.ts"],
       "cache": true
     },
     "check-rule-docs": {
