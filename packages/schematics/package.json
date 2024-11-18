@@ -1,6 +1,6 @@
 {
   "name": "@angular-eslint/schematics",
-  "version": "18.3.1",
+  "version": "18.4.0",
   "description": "Angular Schematics for angular-eslint",
   "license": "MIT",
   "main": "dist/index.js",
@@ -38,13 +38,13 @@
   "dependencies": {
     "@angular-eslint/eslint-plugin": "workspace:*",
     "@angular-eslint/eslint-plugin-template": "workspace:*",
-    "ignore": "5.3.2",
+    "ignore": "6.0.2",
     "semver": "7.6.3",
     "strip-json-comments": "3.1.1"
   },
   "devDependencies": {
-    "@typescript-eslint/utils": "8.10.0",
-    "eslint": "9.9.1"
+    "@typescript-eslint/utils": "8.15.0",
+    "eslint": "9.15.0"
   },
   "peerDependencies": {
     "@angular-devkit/core": ">= 18.0.0 < 19.0.0",

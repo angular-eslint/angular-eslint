@@ -45,7 +45,6 @@ export async function resolveAndInstantiateESLint(
   const ESLint = await resolveESLintClass(useFlatConfig);
 
   const eslintOptions: ESLint.Options = {
-    overrideConfigFile: eslintConfigPath,
     fix: !!options.fix,
     cache: !!options.cache,
     cacheLocation: options.cacheLocation || undefined,
@@ -84,7 +83,23 @@ export async function resolveAndInstantiateESLint(
         'For Flat Config, ESLint removed `reportedUnusedDisableDirectives` and so it is not supported as an option. See https://eslint.org/docs/latest/use/configure/configuration-files-new',
       );
     }
+
+    /**
+     * Adapted from https://github.com/eslint/eslint/blob/50f03a119e6827c03b1d6c86d3aa1f4820b609e8/lib/cli.js#L144
+     */
+    if (typeof options.noConfigLookup !== 'undefined') {
+      const configLookup = !options.noConfigLookup;
+      let overrideConfigFile: string | undefined | boolean =
+        typeof eslintConfigPath === 'string' ? eslintConfigPath : !configLookup;
+      if (overrideConfigFile === false) {
+        overrideConfigFile = undefined;
+      }
+      eslintOptions.overrideConfigFile = overrideConfigFile;
+    } else {
+      eslintOptions.overrideConfigFile = eslintConfigPath;
+    }
   } else {
+    eslintOptions.overrideConfigFile = eslintConfigPath;
     (eslintOptions as ESLint.LegacyOptions).rulePaths = options.rulesdir || [];
     (eslintOptions as ESLint.LegacyOptions).resolvePluginsRelativeTo =
       options.resolvePluginsRelativeTo || undefined;
