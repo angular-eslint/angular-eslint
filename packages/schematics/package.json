@@ -47,8 +47,8 @@
     "eslint": "9.15.0"
   },
   "peerDependencies": {
-    "@angular-devkit/core": ">= 18.0.0 < 19.0.0",
-    "@angular-devkit/schematics": ">= 18.0.0 < 19.0.0"
+    "@angular-devkit/core": "19.0.0-rc.3",
+    "@angular-devkit/schematics": "19.0.0-rc.3"
   },
   "gitHead": "e2006e5e9c99e5a943d1a999e0efa5247d29ec24"
 }
