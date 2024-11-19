@@ -33,6 +33,7 @@
     "update-rule-docs": "nx run-many -t update-rule-docs",
     "check-rule-lists": "nx run-many -t check-rule-lists",
     "update-rule-lists": "nx run-many -t update-rule-lists",
+    "update-rule-configs": "nx run-many -t update-rule-configs",
     "prepare": "husky"
   },
   "config": {
@@ -117,7 +118,7 @@
         "dependsOn": [
           "update-rule-configs"
         ],
-        "command": "git diff --quiet --exit-code -- packages/angular-eslint/src/configs packages/eslint-plugin/src/configs packages/eslint-plugin-template/src/configs || (echo \"\n-------\n\nCHECK RULE CONFIGS ERROR: You have uncommitted changes to the generated rule configs.\n\nYou should run `pnpm update-rule-configs` and commit the result.\n\n-------\n\" && exit 1)"
+        "command": "git diff --quiet --exit-code -- packages/angular-eslint/src/configs packages/eslint-plugin/src/configs packages/eslint-plugin-template/src/configs || (echo \"\n-------\n\nCHECK RULE CONFIGS ERROR: You have uncommitted changes to the generated rule configs.\n\nYou should run 'pnpm update-rule-configs' and commit the result.\n\n-------\n\" && exit 1)"
       },
       "update-rule-configs": {
         "dependsOn": [
