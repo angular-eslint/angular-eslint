@@ -3,7 +3,7 @@
   "private": true,
   "description": "The tooling which enables ESLint to work with Angular projects",
   "volta": {
-    "node": "20.18.0"
+    "node": "22.11.0"
   },
   "packageManager": "pnpm@9.12.2",
   "contributors": [
@@ -68,7 +68,7 @@
     "@types/eslint": "9.6.1",
     "@types/eslint-scope": "3.7.7",
     "@types/jest": "29.5.12",
-    "@types/node": "20.17.6",
+    "@types/node": "22.9.0",
     "@types/semver": "^7.5.8",
     "@types/yargs": "^17.0.33",
     "@typescript-eslint/rule-tester": "8.15.0",
