@@ -85,9 +85,6 @@ import preferOutputReadonly, {
 import preferStandalone, {
   RULE_NAME as preferStandaloneRuleName,
 } from './rules/prefer-standalone';
-import preferStandaloneComponent, {
-  RULE_NAME as preferStandaloneComponentRuleName,
-} from './rules/prefer-standalone-component';
 import relativeUrlPrefix, {
   RULE_NAME as relativeUrlPrefixRuleName,
 } from './rules/relative-url-prefix';
@@ -157,7 +154,6 @@ export = {
     [preferOnPushComponentChangeDetectionRuleName]:
       preferOnPushComponentChangeDetection,
     [preferStandaloneRuleName]: preferStandalone,
-    [preferStandaloneComponentRuleName]: preferStandaloneComponent,
     [preferOutputReadonlyRuleName]: preferOutputReadonly,
     [relativeUrlPrefixRuleName]: relativeUrlPrefix,
     [requireLocalizeMetadataRuleName]: requireLocalizeMetadata,
