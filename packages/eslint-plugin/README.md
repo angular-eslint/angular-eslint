@@ -91,7 +91,6 @@ Please see https://github.com/angular-eslint/angular-eslint for full usage instr
 | Rule | Replaced by |
 | --- | --- |
 | [`no-host-metadata-property`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/no-host-metadata-property.md) |  |
-| [`sort-ngmodule-metadata-arrays`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/sort-ngmodule-metadata-arrays.md) |  |
 <!-- prettier-ignore-end -->
 
 <!-- end deprecated rule list -->

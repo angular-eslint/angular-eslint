@@ -49,7 +49,6 @@ export default (
       '@angular-eslint/require-localize-metadata': 'error',
       '@angular-eslint/runtime-localize': 'error',
       '@angular-eslint/sort-lifecycle-methods': 'error',
-      '@angular-eslint/sort-ngmodule-metadata-arrays': 'error',
       '@angular-eslint/use-component-selector': 'error',
       '@angular-eslint/use-component-view-encapsulation': 'error',
       '@angular-eslint/use-injectable-provided-in': 'error',
