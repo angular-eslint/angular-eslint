@@ -1289,6 +1289,7 @@ describe('parseForESLint()', () => {
                   ",
                 },
               ],
+              "definedHydrateTriggers": Array [],
               "definedPrefetchTriggers": Array [],
               "definedTriggers": Array [
                 "when",
@@ -1381,6 +1382,7 @@ describe('parseForESLint()', () => {
                 },
               },
               "error": null,
+              "hydrateTriggers": Object {},
               "i18n": undefined,
               "loading": null,
               "loc": Object {
@@ -1748,6 +1750,7 @@ describe('parseForESLint()', () => {
               "triggers": Object {
                 "type": "Object",
                 "when": BoundDeferredTrigger {
+                  "hydrateSpan": null,
                   "loc": Object {
                     "end": Object {
                       "column": 28,
@@ -2498,6 +2501,7 @@ describe('parseForESLint()', () => {
                   ",
                 },
               ],
+              "definedHydrateTriggers": Array [],
               "definedPrefetchTriggers": Array [],
               "definedTriggers": Array [
                 "immediate",
@@ -2590,6 +2594,7 @@ describe('parseForESLint()', () => {
                 },
               },
               "error": null,
+              "hydrateTriggers": Object {},
               "i18n": undefined,
               "loading": null,
               "loc": Object {
@@ -3907,6 +3912,7 @@ describe('parseForESLint()', () => {
               },
               "triggers": Object {
                 "immediate": ImmediateDeferredTrigger {
+                  "hydrateSpan": null,
                   "nameSpan": ParseSourceSpan {
                     "details": null,
                     "end": ParseLocation {
@@ -4662,6 +4668,7 @@ describe('parseForESLint()', () => {
                   ",
                 },
               ],
+              "definedHydrateTriggers": Array [],
               "definedPrefetchTriggers": Array [],
               "definedTriggers": Array [],
               "endSourceSpan": ParseSourceSpan {
@@ -4752,6 +4759,7 @@ describe('parseForESLint()', () => {
                 },
               },
               "error": null,
+              "hydrateTriggers": Object {},
               "i18n": undefined,
               "loading": DeferredBlockLoading {
                 "afterTime": 100,
@@ -7014,6 +7022,7 @@ describe('parseForESLint()', () => {
                   ",
                 },
               ],
+              "definedHydrateTriggers": Array [],
               "definedPrefetchTriggers": Array [],
               "definedTriggers": Array [],
               "endSourceSpan": ParseSourceSpan {
@@ -8054,6 +8063,7 @@ describe('parseForESLint()', () => {
                 },
                 "type": "DeferredBlockError",
               },
+              "hydrateTriggers": Object {},
               "i18n": undefined,
               "loading": null,
               "loc": Object {
