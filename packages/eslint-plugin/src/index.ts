@@ -97,9 +97,6 @@ import runtimeLocalize, {
 import sortLifecycleMethods, {
   RULE_NAME as sortLifecycleMethodsRuleName,
 } from './rules/sort-lifecycle-methods';
-import sortNgmoduleMetadataArrays, {
-  RULE_NAME as sortNgmoduleMetadataArraysName,
-} from './rules/sort-ngmodule-metadata-arrays';
 import useComponentSelector, {
   RULE_NAME as useComponentSelectorRuleName,
 } from './rules/use-component-selector';
@@ -159,7 +156,6 @@ export = {
     [requireLocalizeMetadataRuleName]: requireLocalizeMetadata,
     [runtimeLocalizeRuleName]: runtimeLocalize,
     [sortLifecycleMethodsRuleName]: sortLifecycleMethods,
-    [sortNgmoduleMetadataArraysName]: sortNgmoduleMetadataArrays,
     [useComponentSelectorRuleName]: useComponentSelector,
     [useComponentViewEncapsulationRuleName]: useComponentViewEncapsulation,
     [useInjectableProvidedInRuleName]: useInjectableProvidedIn,
