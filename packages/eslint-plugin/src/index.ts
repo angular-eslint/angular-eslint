@@ -40,9 +40,6 @@ import noEmptyLifecycleMethod, {
 import noForwardRef, {
   RULE_NAME as noForwardRefRuleName,
 } from './rules/no-forward-ref';
-import noHostMetadataProperty, {
-  RULE_NAME as noHostMetadataPropertyRuleName,
-} from './rules/no-host-metadata-property';
 import noInputPrefix, {
   RULE_NAME as noInputPrefixRuleName,
 } from './rules/no-input-prefix';
@@ -139,7 +136,6 @@ export = {
     [noDuplicatesInMetadataArraysRuleName]: noDuplicatesInMetadataArrays,
     [noEmptyLifecycleMethodRuleName]: noEmptyLifecycleMethod,
     [noForwardRefRuleName]: noForwardRef,
-    [noHostMetadataPropertyRuleName]: noHostMetadataProperty,
     [noInputPrefixRuleName]: noInputPrefix,
     [noInputRenameRuleName]: noInputRename,
     [noInputsMetadataPropertyRuleName]: noInputsMetadataProperty,

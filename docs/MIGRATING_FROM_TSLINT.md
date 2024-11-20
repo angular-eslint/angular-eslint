@@ -142,7 +142,7 @@ If you see a rule below that has **no status** against it, then please feel free
 | [`directive-class-suffix`]       |    @angular-eslint/directive-class-suffix    | :white_check_mark: |
 | [`directive-selector`]           |      @angular-eslint/directive-selector      | :white_check_mark: |
 | [`import-destructuring-spacing`] |          N/A, see explanation above          | :no_good:          |
-| [`no-host-metadata-property`]    |  @angular-eslint/no-host-metadata-property   | :white_check_mark: |
+| [`no-host-metadata-property`]    |          N/A, see explanation above          | :no_good:          |
 | [`no-inputs-metadata-property`]  | @angular-eslint/no-inputs-metadata-property  | :white_check_mark: |
 | [`no-outputs-metadata-property`] | @angular-eslint/no-outputs-metadata-property | :white_check_mark: |
 | [`no-queries-metadata-property`] | @angular-eslint/no-queries-metadata-property | :white_check_mark: |
