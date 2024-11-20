@@ -218,10 +218,10 @@ importers:
         version: 5.5.4
     devDependencies:
       '@angular-devkit/architect':
-        specifier: '>= 0.1800.0 < 0.2000.0'
+        specifier: '>= 0.1900.0 < 0.2000.0'
         version: 0.1900.0
       '@angular-devkit/core':
-        specifier: '>= 18.0.0 < 20.0.0'
+        specifier: '>= 19.0.0 < 20.0.0'
         version: 19.0.0
 
   packages/bundled-angular-compiler: {}
@@ -290,10 +290,10 @@ importers:
   packages/schematics:
     dependencies:
       '@angular-devkit/core':
-        specifier: '>= 18.0.0 < 20.0.0'
+        specifier: '>= 19.0.0 < 20.0.0'
         version: 19.0.0
       '@angular-devkit/schematics':
-        specifier: '>= 18.0.0 < 20.0.0'
+        specifier: '>= 19.0.0 < 20.0.0'
         version: 19.0.0
       '@angular-eslint/eslint-plugin':
         specifier: workspace:*
