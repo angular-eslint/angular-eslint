@@ -19,8 +19,8 @@
     "builders.json"
   ],
   "devDependencies": {
-    "@angular-devkit/architect": "0.1900.0-rc.3",
-    "@angular-devkit/core": "19.0.0-rc.3"
+    "@angular-devkit/architect": ">= 0.1900.0 < 0.2000.0",
+    "@angular-devkit/core": ">= 19.0.0 < 20.0.0"
   },
   "peerDependencies": {
     "eslint": "^8.57.0 || ^9.0.0",
