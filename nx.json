@@ -10,6 +10,7 @@
       "plugin": "@nx/js/typescript",
       "include": [
         "packages/builder/**",
+        "packages/bundled-angular-compiler/**",
         "packages/eslint-plugin-template/**",
         "packages/eslint-plugin/**"
       ],
@@ -24,7 +25,6 @@
       "exclude": [
         "*",
         "packages/builder/**",
-        "packages/bundled-angular-compiler/**",
         "packages/eslint-plugin-template/**",
         "packages/eslint-plugin/**",
         "packages/nx-plugin/**",
@@ -55,7 +55,12 @@
   },
   "targetDefaults": {
     "build": {
-      "dependsOn": ["^build"],
+      "dependsOn": ["^build", "^compile"],
+      "inputs": ["production", "^production"],
+      "cache": true
+    },
+    "compile": {
+      "dependsOn": ["^build", "^compile"],
       "inputs": ["production", "^production"],
       "cache": true
     },

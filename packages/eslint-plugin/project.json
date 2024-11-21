@@ -4,12 +4,12 @@
   "type": "library",
   "targets": {
     "build": {
-      "dependsOn": ["compile"],
+      "dependsOn": ["^build", "^compile", "compile"],
       "outputs": ["{projectRoot}/dist"],
       "command": "ncp {projectRoot}/src/configs {projectRoot}/dist/configs"
     },
     "test": {
-      "dependsOn": ["^build"],
+      "dependsOn": ["^build", "^compile"],
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/packages/eslint-plugin"],
       "options": {
