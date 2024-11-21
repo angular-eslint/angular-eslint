@@ -85,12 +85,4 @@ Please see https://github.com/angular-eslint/angular-eslint for full usage instr
 
 <!-- begin deprecated rule list -->
 
-### Deprecated
-
-<!-- prettier-ignore-start -->
-| Rule | Replaced by |
-| --- | --- |
-| [`no-host-metadata-property`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/no-host-metadata-property.md) |  |
-<!-- prettier-ignore-end -->
-
 <!-- end deprecated rule list -->
