@@ -7,7 +7,8 @@
     "moduleResolution": "Bundler",
     "rootDir": "src",
     "outDir": "dist",
-    "emitDeclarationOnly": false,
+    // Bundled by esbuild
+    "emitDeclarationOnly": true,
     "tsBuildInfoFile": "dist/tsconfig.lib.tsbuildinfo",
     "esModuleInterop": true,
     "declaration": true

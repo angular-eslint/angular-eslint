@@ -5,14 +5,13 @@
   "targets": {
     "build": {
       "executor": "nx:run-commands",
+      "dependsOn": ["^build", "^compile", "compile"],
       "outputs": ["{projectRoot}/dist"],
       "options": {
         "cwd": "packages/bundled-angular-compiler",
         "parallel": false,
         "commands": [
-          "npx rimraf ./dist",
-          "npx rimraf ./.rollup.cache",
-          "npx rollup -c"
+          "npx esbuild ./src/index.ts --bundle --outfile=./dist/index.js --platform=node --keep-names"
         ]
       }
     }
