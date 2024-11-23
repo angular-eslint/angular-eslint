@@ -3,27 +3,11 @@ import type {
   TSESTree,
 } from '@typescript-eslint/utils';
 import { AST_NODE_TYPES } from '@typescript-eslint/utils';
-import type ts from 'typescript';
-
-export function getSymbol(
-  node: TSESTree.Identifier,
-  services: ParserServicesWithTypeInformation,
-): ts.Signature | ts.Symbol | undefined {
-  if (
-    node.parent?.type === AST_NODE_TYPES.AssignmentPattern ||
-    node.parent?.type === AST_NODE_TYPES.Property
-  ) {
-    return services
-      .getTypeAtLocation(node.parent.parent)
-      .getProperty(node.name);
-  }
-
-  return services.getSymbolAtLocation(node);
-}
+import ts from 'typescript';
+import * as tsutils from 'ts-api-utils';
 
 export type CallLikeNode =
   | TSESTree.CallExpression
-  | TSESTree.JSXOpeningElement
   | TSESTree.NewExpression
   | TSESTree.TaggedTemplateExpression;
 
@@ -40,6 +24,23 @@ export function getCallLikeNode(node: TSESTree.Node): CallLikeNode | undefined {
   return isNodeCalleeOfParent(callee) ? callee : undefined;
 }
 
+export function getSymbol(
+  node: TSESTree.Identifier,
+  services: ParserServicesWithTypeInformation,
+  checker: ts.TypeChecker,
+): ts.Symbol | undefined {
+  const callLikeNode = getCallLikeNode(node);
+  if (callLikeNode) {
+    return getCallLikeNodeSymbol(callLikeNode, services, checker);
+  } else if (node.parent.type === AST_NODE_TYPES.Property) {
+    return services
+      .getTypeAtLocation(node.parent.parent)
+      .getProperty(node.name);
+  } else {
+    return services.getSymbolAtLocation(node);
+  }
+}
+
 export function isNodeCalleeOfParent(
   node: TSESTree.Node,
 ): node is CallLikeNode {
@@ -50,9 +51,6 @@ export function isNodeCalleeOfParent(
 
     case AST_NODE_TYPES.TaggedTemplateExpression:
       return node.parent.tag === node;
-
-    case AST_NODE_TYPES.JSXOpeningElement:
-      return node.parent.name === node;
 
     default:
       return false;
@@ -66,24 +64,22 @@ export function hasJsDocTag(
   return !!symbol?.getJsDocTags().find((tag) => tag.name === tagName);
 }
 
-export function getCallLikeNodeSignature(
-  callLikeNode: CallLikeNode,
+export function getCallLikeNodeSymbol(
+  node: CallLikeNode,
   services: ParserServicesWithTypeInformation,
   checker: ts.TypeChecker,
-): ts.Signature | undefined {
-  const tsNode = services.esTreeNodeToTSNodeMap.get(callLikeNode.parent);
-
-  return checker.getResolvedSignature(tsNode as ts.CallLikeExpression);
+): ts.Symbol | undefined {
+  const symbol = services.getSymbolAtLocation(node);
+  return symbol !== undefined &&
+    tsutils.isSymbolFlagSet(symbol, ts.SymbolFlags.Alias)
+    ? checker.getAliasedSymbol(symbol)
+    : symbol;
 }
 
 export function isDeclaration(node: TSESTree.Identifier): boolean {
   const { parent } = node;
 
   switch (parent.type) {
-    case AST_NODE_TYPES.ArrayPattern:
-      return parent.elements.includes(node as TSESTree.Identifier);
-
-    case AST_NODE_TYPES.ClassExpression:
     case AST_NODE_TYPES.ClassDeclaration:
     case AST_NODE_TYPES.VariableDeclarator:
     case AST_NODE_TYPES.TSEnumMember:
@@ -100,15 +96,8 @@ export function isDeclaration(node: TSESTree.Identifier): boolean {
       );
 
     case AST_NODE_TYPES.AssignmentPattern:
-      return (
-        parent.left === node &&
-        !(
-          parent.parent.type === AST_NODE_TYPES.Property &&
-          parent.parent.shorthand
-        )
-      );
+      return parent.left === node;
 
-    case AST_NODE_TYPES.ArrowFunctionExpression:
     case AST_NODE_TYPES.FunctionDeclaration:
     case AST_NODE_TYPES.FunctionExpression:
     case AST_NODE_TYPES.TSDeclareFunction:
