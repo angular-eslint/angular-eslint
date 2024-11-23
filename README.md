@@ -8,9 +8,9 @@
 
 <p align="center">
     <a href="https://actions-badge.atrox.dev/angular-eslint/angular-eslint/goto?ref=main"><img alt="Build Status" src="https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fangular-eslint%2Fangular-eslint%2Fbadge%3Fref%3Dmain&style=flat-square" /></a>
-    <a href="https://www.npmjs.com/package/@angular-eslint/eslint-plugin"><img src="https://img.shields.io/npm/v/@angular-eslint/eslint-plugin/latest.svg?style=flat-square" alt="NPM Version" /></a>
-    <a href="https://github.com/angular-eslint/angular-eslint/blob/main/LICENSE"><img src="https://img.shields.io/npm/l/@angular-eslint/eslint-plugin.svg?style=flat-square" alt="GitHub license" /></a>
-    <a href="https://www.npmjs.com/package/@angular-eslint/eslint-plugin"><img src="https://img.shields.io/npm/dm/@angular-eslint/eslint-plugin.svg?style=flat-square" alt="NPM Downloads" /></a>
+    <a href="https://www.npmjs.com/package/angular-eslint"><img src="https://img.shields.io/npm/v/angular-eslint/latest.svg?style=flat-square" alt="NPM Version" /></a>
+    <a href="https://github.com/angular-eslint/angular-eslint/blob/main/LICENSE"><img src="https://img.shields.io/npm/l/angular-eslint.svg?style=flat-square" alt="GitHub license" /></a>
+    <a href="https://www.npmjs.com/package/angular-eslint"><img src="https://img.shields.io/npm/dm/@angular-eslint/eslint-plugin.svg?style=flat-square" alt="NPM Downloads" /></a>
     <a href="https://codecov.io/gh/angular-eslint/angular-eslint"><img alt="Codecov" src="https://img.shields.io/codecov/c/github/angular-eslint/angular-eslint.svg?style=flat-square"></a>
     <a href="http://commitizen.github.io/cz-cli/"><img src="https://img.shields.io/badge/commitizen-friendly-brightgreen.svg?style=flat-square" alt="Commitizen friendly" /></a>
 </p>
@@ -50,10 +50,10 @@
 ng new # --maybe --some --other --flags --here
 ```
 
-3. **Change directory into your new workspace** and then use the Angular CLI to add `@angular-eslint/schematics`.
+3. **Change directory into your new workspace** and then use the Angular CLI to add `angular-eslint`.
 
 ```sh
-ng add @angular-eslint/schematics
+ng add angular-eslint
 ```
 
 ...and that's it!
@@ -64,7 +64,7 @@ You will also see that it added the following in your angular.json:
 
 ```json
   "cli": {
-    "schematicCollections": ["@angular-eslint/schematics"]
+    "schematicCollections": ["angular-eslint"]
   }
 ```
 
@@ -74,13 +74,13 @@ Read the section on [Using ESLint by default when generating new Projects within
 
 ## Supported Angular CLI Versions
 
-As of v12, we aligned the major version of `@angular-eslint` with Angular (and Angular CLI).
+As of v12, we aligned the major version of the `@angular-eslint/` packages with Angular (and Angular CLI).
 
 Therefore, as an example (because these versions may or may not exist yet when you read this):
 
-- `@angular-eslint` packages at `16.x.x` and `@angular/cli@16.x.x` are compatible
-- `@angular-eslint` packages at `17.x.x` and `@angular/cli@17.x.x` are compatible
-- `@angular-eslint` packages at `18.x.x` and `@angular/cli@18.x.x` are compatible
+- `@angular-eslint/` packages at `16.x.x` and `@angular/cli@16.x.x` are compatible
+- `@angular-eslint/` packages at `17.x.x` and `@angular/cli@17.x.x` are compatible
+- `@angular-eslint/` packages at `18.x.x` and `@angular/cli@18.x.x` are compatible
 - ...and so on...
 
 > NOTE: the exact minor and patch versions of each library represented here by `x`'s do not need to match each other, just the first (major) number
@@ -145,11 +145,11 @@ We publish a canary release on every successful merge to the `main` branch, so *
 
 The latest version under the `latest` tag is:
 
-<a href="https://www.npmjs.com/package/@angular-eslint/schematics"><img src="https://img.shields.io/npm/v/@angular-eslint/schematics/latest.svg?style=flat-square" alt="NPM Version" /></a>
+<a href="https://www.npmjs.com/package/angular-eslint"><img src="https://img.shields.io/npm/v/angular-eslint/latest.svg?style=flat-square" alt="NPM Version" /></a>
 
 The latest version under the `canary` tag **(latest commit to the `main` branch)** is:
 
-<a href="https://www.npmjs.com/package/@angular-eslint/schematics"><img src="https://img.shields.io/npm/v/@angular-eslint/schematics/canary.svg?style=flat-square" alt="NPM Version" /></a>
+<a href="https://www.npmjs.com/package/angular-eslint"><img src="https://img.shields.io/npm/v/angular-eslint/canary.svg?style=flat-square" alt="NPM Version" /></a>
 
 (Note: The only exception to the automated publishes described above is when we are in the final phases of creating the next major version of the libraries - e.g. going from `1.x.x` to `2.x.x`. During these periods, we manually publish pre-releases until we are happy with it and promote it to `latest`.)
 
@@ -162,7 +162,7 @@ The latest version under the `canary` tag **(latest commit to the `main` branch)
 If you want to add ESLint configuration (either a `eslint.config.js` file for flat config, or a `.eslintrc.json` file for eslintrc (`angular-eslint` will figure this out for you automatically) and an applicable `"lint"` target in your `angular.json`) to an existing Angular CLI project which does not yet have a linter set up, you can invoke the following schematic:
 
 ```sh
-ng g @angular-eslint/schematics:add-eslint-to-project {{YOUR_PROJECT_NAME_GOES_HERE}}
+ng g angular-eslint:add-eslint-to-project {{YOUR_PROJECT_NAME_GOES_HERE}}
 ```
 
 > If you only have a single project in your Angular CLI workspace, the project name argument is optional
@@ -171,32 +171,32 @@ ng g @angular-eslint/schematics:add-eslint-to-project {{YOUR_PROJECT_NAME_GOES_H
 
 ## Using ESLint by default when generating new Projects within your Workspace
 
-Regardless of whether or not you added `@angular-eslint` to a brand new workspace, or you added it in order to convert a project within an existing workspace, it is likely that _from now on_ you want any subsequent projects that you generate in your workspace to also use ESLint.
+Regardless of whether or not you added `angular-eslint` to a brand new workspace, or you added it in order to convert a project within an existing workspace, it is likely that _from now on_ you want any subsequent projects that you generate in your workspace to also use ESLint.
 
-In order to achieve this, `@angular-eslint` provides a set of custom generator schematics which sit on top of the default ones that the Angular CLI provides. They provide all the standard Angular CLI options, but just handle adding ESLint related configuration for you in each case.
+In order to achieve this, `angular-eslint` provides a set of custom generator schematics which sit on top of the default ones that the Angular CLI provides. They provide all the standard Angular CLI options, but just handle adding ESLint related configuration for you in each case.
 
 You can always invoke them directly by specifying the collection name as part of the generate command:
 
 ```sh
 # To generate a new Angular app in the workspace using ESLint
-ng g @angular-eslint/schematics:application
+ng g angular-eslint:application
 # To generate a new Angular library in the workspace using ESLint
-ng g @angular-eslint/schematics:library
+ng g angular-eslint:library
 ```
 
-Or, alternatively, if you don't want to have to remember to set that collection prefix in front of the `:` every time, you can set the `schematicCollections` in your `angular.json` to start with `@angular-eslint/schematics`.
+Or, alternatively, if you don't want to have to remember to set that collection prefix in front of the `:` every time, you can set the `schematicCollections` in your `angular.json` to start with `angular-eslint`.
 
 You can either do that by hand by adjusting the JSON, or by running the following Angular CLI command:
 
 ```sh
-ng config cli.schematicCollections "[\"@angular-eslint/schematics\"]"
+ng config cli.schematicCollections "[\"angular-eslint\"]"
 ```
 
 The final result in your `angular.json` will be something like this:
 
 ```json
   "cli": {
-    "schematicCollections": ["@angular-eslint/schematics"]
+    "schematicCollections": ["angular-eslint"]
   }
 ```
 
