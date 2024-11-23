@@ -209,10 +209,70 @@ class Test {
 #### ❌ Invalid Code
 
 ```ts
+@Component()
+class Test {
+  _change = output({ alias: `change` });
+                            ~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-output-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
 @Directive()
 class Test {
   @Output('change') change = (this.subject$ as Subject<{blur: boolean}>).pipe();
           ~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-output-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Directive()
+class Test {
+  change = output({ alias: 'change' });
+                           ~~~~~~~~
 }
 ```
 
@@ -271,12 +331,76 @@ class Test {
 #### ❌ Invalid Code
 
 ```ts
+@Directive({
+  selector: 'foo'
+})
+class Test {
+  colors = output({ alias: 'fooColor' });
+                           ~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-output-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
 @Component({
   'selector': 'foo'
 })
 class Test {
   @Output('foocolor') color: string;
           ~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-output-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({
+  'selector': 'foo'
+})
+class Test {
+  color = output({ alias: 'foocolor' });
+                          ~~~~~~~~~~
 }
 ```
 
@@ -312,6 +436,169 @@ class Test {}
 class Test {
   @Output('kebab-case') blur = this.getOutput();
           ~~~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-output-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Directive({
+  selector: 'kebab-case',
+})
+class Test {}
+
+@Injectable()
+class Test {
+  blur = output({ alias: 'kebab-case' });
+                         ~~~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-output-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({
+  'selector': 'foo'
+})
+class Test {
+  color = output({ alias: 'test', after: 'it' });
+                          ~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-output-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({
+  'selector': 'foo'
+})
+class Test {
+  color = output({ before: 'it', alias: 'test', });
+                                        ~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-output-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({
+  'selector': 'foo'
+})
+class Test {
+  color = output({ before: 'it', alias: 'test' });
+                                        ~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-output-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({
+  'selector': 'foo'
+})
+class Test {
+  color = output({ before: 'it', alias: 'test', after: 'it' });
+                                        ~~~~~~
 }
 ```
 
@@ -432,6 +719,35 @@ class Test {
 @Directive()
 class Test {
   @Output() buttonChange = new EventEmitter<'change'>();
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-output-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive()
+class Test {
+  buttonChange = output<'change'>();
 }
 ```
 
@@ -633,11 +949,72 @@ class Test {
 #### ✅ Valid Code
 
 ```ts
+const change = 'change';
+@Component()
+class Test {
+  touchMove = output<{ action: 'click' | 'close' }>({ alias: change });
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-output-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
 const blur = 'blur';
 const click = 'click';
 @Directive()
 class Test {
   @Output(blur) [click]: EventEmitter<Blur>;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-output-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+const blur = 'blur';
+const click = 'click';
+@Directive()
+class Test {
+  [click] = output({ alias: blur });
 }
 ```
 
@@ -696,10 +1073,72 @@ class Test {
 
 ```ts
 @Component({
+  selector: 'foo[bar]'
+})
+class Test {
+  bar = output();
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-output-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
   selector: '[foo], test',
 })
 class Test {
   @Output('foo') label: string;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-output-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  selector: '[foo], test',
+})
+class Test {
+  label = output({ alias: 'foo' });
 }
 ```
 
@@ -830,6 +1269,37 @@ class Test {}
 })
 class Test {
   @Output('fooMyColor') myColor: string;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-output-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: 'foo'
+})
+class Test {
+  myColor = output({ alias: 'fooMyColor' });
 }
 ```
 

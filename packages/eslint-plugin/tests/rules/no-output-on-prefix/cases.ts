@@ -31,9 +31,21 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     }
     `,
   `
+    @Directive()
+    class Test {
+      buttonChange = output<'on'>();
+    }
+    `,
+  `
     @Component()
     class Test {
       @Output() On = new EventEmitter<{ on: onType }>();
+    }
+    `,
+  `
+    @Component()
+    class Test {
+      On = output<{ on: onType }>();
     }
     `,
   `
@@ -43,15 +55,33 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     }
     `,
   `
+    @Directive()
+    class Test {
+      ontype = output<{ bar: string, on: boolean }>({ alias: \`one\` });
+    }
+    `,
+  `
     @Component()
     class Test {
       @Output('oneProp') common = new EventEmitter<ComplextOn>();
     }
     `,
   `
+    @Component()
+    class Test {
+      common = output<ComplextOn>({ alias: 'oneProp' });
+    }
+    `,
+  `
     @Directive()
     class Test<On> {
       @Output() ON = new EventEmitter<On>();
+    }
+    `,
+  `
+    @Directive()
+    class Test<On> {
+      ON = output<On>();
     }
     `,
   `
@@ -62,11 +92,26 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     }
     `,
   `
+    const on = 'on';
+    @Component()
+    class Test {
+      touchMove = output<{ action: 'on' | 'off' }>({ alias: on });
+    }
+    `,
+  `
     const test = 'on';
     const on = 'on';
     @Directive()
     class Test {
       @Output(test) [on]: EventEmitter<OnTest>;
+    }
+    `,
+  `
+    const test = 'on';
+    const on = 'on';
+    @Directive()
+    class Test {
+      [on] = output<OnTest>({ alias: test });
     }
     `,
   `
@@ -151,7 +196,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if output property is named "on" in `@Component`',
+    description:
+      'should fail if output decorator property is named "on" in `@Component`',
     annotatedSource: `
         @Component()
         class Test {
@@ -163,7 +209,19 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'should fail if output property is named with "\'on\'" prefix in `@Directive`',
+      'should fail if output function property is named "on" in `@Component`',
+    annotatedSource: `
+        @Component()
+        class Test {
+          on = output();
+          ~~
+        }
+      `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if output decorator property is named with "\'on\'" prefix in `@Directive`',
     annotatedSource: `
         @Directive()
         class Test {
@@ -175,7 +233,19 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'should fail if output property is aliased as "`on`" in `@Component`',
+      'should fail if output function property is named with "\'on\'" prefix in `@Directive`',
+    annotatedSource: `
+        @Directive()
+        class Test {
+          'onPrefix' = output();
+          ~~~~~~~~~~
+        }
+      `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if output decorator property is aliased as "`on`" in `@Component`',
     annotatedSource: `
         @Component()
         class Test {
@@ -187,7 +257,19 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'should fail if output property is aliased with "on" prefix in `@Directive`',
+      'should fail if output function property is aliased as "`on`" in `@Component`',
+    annotatedSource: `
+        @Component()
+        class Test {
+          _on = output({ alias: \`on\` });
+                                ~~~~
+        }
+      `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if output decorator property is aliased with "on" prefix in `@Directive`',
     annotatedSource: `
         @Directive()
         class Test {
@@ -199,7 +281,19 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'should fail if output getter is named with "on" prefix in `@Component`',
+      'should fail if output function property is aliased with "on" prefix in `@Directive`',
+    annotatedSource: `
+        @Directive()
+        class Test {
+          _on = output({ alias: 'onPrefix' });
+                                ~~~~~~~~~~
+        }
+      `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if output decorator getter is named with "on" prefix in `@Component`',
     annotatedSource: `
         @Component()
         class Test {
@@ -211,7 +305,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'should fail if output getter is aliased with "on" prefix in `@Directive`',
+      'should fail if output decorator getter is aliased with "on" prefix in `@Directive`',
     annotatedSource: `
         @Directive()
         class Test {
@@ -223,12 +317,27 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'should fail if output property is named with prefix "on" and aliased as "on" without `@Component` or `@Directive`',
+      'should fail if output decorator property is named with prefix "on" and aliased as "on" without `@Component` or `@Directive`',
     annotatedSource: `
         @Injectable()
         class Test {
           @Output('on') onPrefix = this.getOutput();
                   ~~~~  ^^^^^^^^
+        }
+      `,
+    messages: [
+      { char: '~', messageId },
+      { char: '^', messageId },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if output function property is named with prefix "on" and aliased as "on" without `@Component` or `@Directive`',
+    annotatedSource: `
+        @Injectable()
+        class Test {
+          onPrefix = output({ alias: 'on' });
+          ~~~~~~~~                   ^^^^
         }
       `,
     messages: [

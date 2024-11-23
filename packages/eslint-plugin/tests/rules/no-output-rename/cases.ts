@@ -31,6 +31,12 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     }
     `,
   `
+    @Directive()
+    class Test {
+      buttonChange = output<'change'>();
+    }
+    `,
+  `
     @Component({
       outputs,
     })
@@ -68,6 +74,13 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     }
     `,
   `
+    const change = 'change';
+    @Component()
+    class Test {
+      touchMove = output<{ action: 'click' | 'close' }>({ alias: change });
+    }
+    `,
+  `
     const blur = 'blur';
     const click = 'click';
     @Directive()
@@ -76,11 +89,27 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     }
     `,
   `
+    const blur = 'blur';
+    const click = 'click';
+    @Directive()
+    class Test {
+      [click] = output({ alias: blur });
+    }
+    `,
+  `
     @Component({
       selector: 'foo[bar]'
     })
     class Test {
       @Output() bar: string;
+    }
+    `,
+  `
+    @Component({
+      selector: 'foo[bar]'
+    })
+    class Test {
+      bar = output();
     }
     `,
   `
@@ -110,6 +139,14 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     })
     class Test {
       @Output('foo') label: string;
+    }
+    `,
+  `
+    @Component({
+      selector: '[foo], test',
+    })
+    class Test {
+      label = output({ alias: 'foo' });
     }
     `,
   /**
@@ -152,6 +189,14 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     })
     class Test {
       @Output('fooMyColor') myColor: string;
+    }
+    `,
+  `
+    @Directive({
+      selector: 'foo'
+    })
+    class Test {
+      myColor = output({ alias: 'fooMyColor' });
     }
     `,
 ];
@@ -252,7 +297,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       `,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if output property is aliased with backticks',
+    description:
+      'should fail if output decorator property is aliased with backticks',
     annotatedSource: `
         @Component()
         class Test {
@@ -278,7 +324,34 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     })),
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if output property is aliased',
+    description:
+      'should fail if output function property is aliased with backticks',
+    annotatedSource: `
+        @Component()
+        class Test {
+          _change = output({ alias: \`change\` });
+                                    ~~~~~~~~
+        }
+      `,
+    messageId,
+    suggestions: (
+      [
+        [suggestRemoveAliasName, '_change'],
+        [suggestReplaceOriginalNameWithAliasName, 'change'],
+      ] as const
+    ).map(([messageId, propertyName]) => ({
+      messageId,
+      output: `
+        @Component()
+        class Test {
+          ${propertyName} = output();
+                                    
+        }
+      `,
+    })),
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail if output decorator property is aliased',
     annotatedSource: `
         @Directive()
         class Test {
@@ -291,12 +364,30 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         @Directive()
         class Test {
           @Output() change = (this.subject$ as Subject<{blur: boolean}>).pipe();
-                  ~~~~~~~~
+                  
         }
       `,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if output getter is aliased',
+    description: 'should fail if output function property is aliased',
+    annotatedSource: `
+        @Directive()
+        class Test {
+          change = output({ alias: 'change' });
+                                   ~~~~~~~~
+        }
+      `,
+    messageId,
+    annotatedOutput: `
+        @Directive()
+        class Test {
+          change = output();
+                                   
+        }
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail if output decorator getter is aliased',
     annotatedSource: `
         @Component()
         class Test {
@@ -326,7 +417,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     })),
   }),
   convertAnnotatedSourceToFailureCase({
-    description: `should fail if output alias is prefixed by directive's selector, but the suffix does not match the property name`,
+    description: `should fail if output decorator alias is prefixed by directive's selector, but the suffix does not match the property name`,
     annotatedSource: `
         @Directive({
           selector: 'foo'
@@ -356,8 +447,38 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     })),
   }),
   convertAnnotatedSourceToFailureCase({
+    description: `should fail if output function alias is prefixed by directive's selector, but the suffix does not match the property name`,
+    annotatedSource: `
+        @Directive({
+          selector: 'foo'
+        })
+        class Test {
+          colors = output({ alias: 'fooColor' });
+                                   ~~~~~~~~~~
+        }
+      `,
+    messageId,
+    suggestions: (
+      [
+        [suggestRemoveAliasName, 'colors'],
+        [suggestReplaceOriginalNameWithAliasName, 'fooColor'],
+      ] as const
+    ).map(([messageId, propertyName]) => ({
+      messageId,
+      output: `
+        @Directive({
+          selector: 'foo'
+        })
+        class Test {
+          ${propertyName} = output();
+                                   
+        }
+      `,
+    })),
+  }),
+  convertAnnotatedSourceToFailureCase({
     description:
-      'should fail if output alias is not strictly equal to the selector plus the property name in `camelCase` form',
+      'should fail if output decorator alias is not strictly equal to the selector plus the property name in `camelCase` form',
     annotatedSource: `
         @Component({
           'selector': 'foo'
@@ -388,7 +509,38 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'should fail if output property is aliased without `@Component` or `@Directive` decorator',
+      'should fail if output function alias is not strictly equal to the selector plus the property name in `camelCase` form',
+    annotatedSource: `
+        @Component({
+          'selector': 'foo'
+        })
+        class Test {
+          color = output({ alias: 'foocolor' });
+                                  ~~~~~~~~~~
+        }
+      `,
+    messageId,
+    suggestions: (
+      [
+        [suggestRemoveAliasName, 'color'],
+        [suggestReplaceOriginalNameWithAliasName, 'foocolor'],
+      ] as const
+    ).map(([messageId, propertyName]) => ({
+      messageId,
+      output: `
+        @Component({
+          'selector': 'foo'
+        })
+        class Test {
+          ${propertyName} = output();
+                                  
+        }
+      `,
+    })),
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if output decorator property is aliased without `@Component` or `@Directive` decorator',
     annotatedSource: `
         @Directive({
           selector: 'kebab-case',
@@ -419,6 +571,167 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         class Test {
           @Output() ${propertyName} = this.getOutput();
                   
+        }
+      `,
+    })),
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if output function property is aliased without `@Component` or `@Directive` decorator',
+    annotatedSource: `
+        @Directive({
+          selector: 'kebab-case',
+        })
+        class Test {}
+
+        @Injectable()
+        class Test {
+          blur = output({ alias: 'kebab-case' });
+                                 ~~~~~~~~~~~~
+        }
+      `,
+    messageId,
+    suggestions: (
+      [
+        [suggestRemoveAliasName, 'blur'],
+        [suggestReplaceOriginalNameWithAliasName, "'kebab-case'"],
+      ] as const
+    ).map(([messageId, propertyName]) => ({
+      messageId,
+      output: `
+        @Directive({
+          selector: 'kebab-case',
+        })
+        class Test {}
+
+        @Injectable()
+        class Test {
+          ${propertyName} = output();
+                                 
+        }
+      `,
+    })),
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if output function property is aliased and alias has properties after it',
+    annotatedSource: `
+        @Component({
+          'selector': 'foo'
+        })
+        class Test {
+          color = output({ alias: 'test', after: 'it' });
+                                  ~~~~~~
+        }
+      `,
+    messageId,
+    suggestions: (
+      [
+        [suggestRemoveAliasName, 'color'],
+        [suggestReplaceOriginalNameWithAliasName, 'test'],
+      ] as const
+    ).map(([messageId, propertyName]) => ({
+      messageId,
+      output: `
+        @Component({
+          'selector': 'foo'
+        })
+        class Test {
+          ${propertyName} = output({ after: 'it' });
+                                  
+        }
+      `,
+    })),
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if output function property is aliased and alias has properties before it with trailing comma',
+    annotatedSource: `
+        @Component({
+          'selector': 'foo'
+        })
+        class Test {
+          color = output({ before: 'it', alias: 'test', });
+                                                ~~~~~~
+        }
+      `,
+    messageId,
+    suggestions: (
+      [
+        [suggestRemoveAliasName, 'color'],
+        [suggestReplaceOriginalNameWithAliasName, 'test'],
+      ] as const
+    ).map(([messageId, propertyName]) => ({
+      messageId,
+      output: `
+        @Component({
+          'selector': 'foo'
+        })
+        class Test {
+          ${propertyName} = output({ before: 'it', });
+                                                
+        }
+      `,
+    })),
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if output function property is aliased and alias has properties before it without trailing comma',
+    annotatedSource: `
+        @Component({
+          'selector': 'foo'
+        })
+        class Test {
+          color = output({ before: 'it', alias: 'test' });
+                                                ~~~~~~
+        }
+      `,
+    messageId,
+    suggestions: (
+      [
+        [suggestRemoveAliasName, 'color'],
+        [suggestReplaceOriginalNameWithAliasName, 'test'],
+      ] as const
+    ).map(([messageId, propertyName]) => ({
+      messageId,
+      output: `
+        @Component({
+          'selector': 'foo'
+        })
+        class Test {
+          ${propertyName} = output({ before: 'it' });
+                                                
+        }
+      `,
+    })),
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if output function property is aliased and alias has properties before and after it',
+    annotatedSource: `
+        @Component({
+          'selector': 'foo'
+        })
+        class Test {
+          color = output({ before: 'it', alias: 'test', after: 'it' });
+                                                ~~~~~~
+        }
+      `,
+    messageId,
+    suggestions: (
+      [
+        [suggestRemoveAliasName, 'color'],
+        [suggestReplaceOriginalNameWithAliasName, 'test'],
+      ] as const
+    ).map(([messageId, propertyName]) => ({
+      messageId,
+      output: `
+        @Component({
+          'selector': 'foo'
+        })
+        class Test {
+          ${propertyName} = output({ before: 'it', after: 'it' });
+                                                
         }
       `,
     })),
