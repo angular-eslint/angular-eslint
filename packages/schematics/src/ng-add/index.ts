@@ -163,7 +163,10 @@ function applyESLintConfigIfSingleProjectWithNoExistingTSLint(
               createRootESLintConfig(null),
             ),
         updateJsonInTree('angular.json', (json) =>
-          updateSchematicCollections(json),
+          updateSchematicCollections(
+            json,
+            useFlatConfig ? 'angular-eslint' : '@angular-eslint/schematics',
+          ),
         ),
       ]);
     }
@@ -200,7 +203,10 @@ Please see https://github.com/angular-eslint/angular-eslint for more information
     return chain([
       schematic('add-eslint-to-project', {}),
       updateJsonInTree('angular.json', (json) =>
-        updateSchematicCollections(json),
+        updateSchematicCollections(
+          json,
+          useFlatConfig ? 'angular-eslint' : '@angular-eslint/schematics',
+        ),
       ),
     ]);
   };
