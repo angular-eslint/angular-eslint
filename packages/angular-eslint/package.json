@@ -28,5 +28,24 @@
     "@angular-eslint/eslint-plugin-template": "workspace:*",
     "@angular-eslint/schematics": "workspace:*",
     "@angular-eslint/template-parser": "workspace:*"
-  }
+  },
+  "ng-update": {
+    "packageGroupName": "angular-eslint",
+    "migrations": "@angular-eslint/schematics/dist/migrations.json",
+    "packageGroup": [
+      "@angular-eslint/builder",
+      "@angular-eslint/bundled-angular-compiler",
+      "@angular-eslint/eslint-plugin",
+      "@angular-eslint/eslint-plugin-template",
+      "@angular-eslint/schematics",
+      "@angular-eslint/template-parser",
+      "@angular-eslint/test-utils",
+      "@angular-eslint/utils",
+      "angular-eslint"
+    ]
+  },
+  "ng-add": {
+    "save": "devDependencies"
+  },
+  "schematics": "@angular-eslint/schematics/dist/collection.json"
 }
