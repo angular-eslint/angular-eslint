@@ -168,6 +168,37 @@ class Test extends Component implements ng.OnInit {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/use-lifecycle-interface": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@NgModule()
+class Test extends Component {
+  ngOnInit() {
+  ~~~~~~~~
+  }
+}
+```
+
 </details>
 
 <br>

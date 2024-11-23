@@ -10,7 +10,7 @@ import {
   isImportDefaultSpecifier,
   isObjectExpression,
 } from './ast-utils';
-import { getLast } from '../utils';
+import { getLast, isNotNullOrUndefined } from '../utils';
 
 export function getImportAddFix({
   compatibleWithTypeOnlyImport = false,
@@ -98,7 +98,7 @@ export function getImportRemoveFix(
 }
 
 export function getImplementsSchemaFixer(
-  { id, implements: classImplements }: TSESTree.ClassDeclaration,
+  { id, superClass, implements: classImplements }: TSESTree.ClassDeclaration,
   interfaceName: string,
 ): {
   readonly implementsNodeReplace:
@@ -109,7 +109,12 @@ export function getImplementsSchemaFixer(
   const [implementsNodeReplace, implementsTextReplace] =
     Array.isArray(classImplements) && classImplements.length > 0
       ? [getLast(classImplements), `, ${interfaceName}`]
-      : [id as TSESTree.Identifier, ` implements ${interfaceName}`];
+      : [
+          (isNotNullOrUndefined(superClass)
+            ? superClass
+            : id) as TSESTree.Identifier,
+          ` implements ${interfaceName}`,
+        ];
 
   return { implementsNodeReplace, implementsTextReplace } as const;
 }
