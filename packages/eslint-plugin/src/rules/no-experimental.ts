@@ -1,8 +1,6 @@
 import { createESLintRule } from '../utils/create-eslint-rule';
 import { getParserServices } from '@typescript-eslint/utils/eslint-utils';
 import {
-  getCallLikeNode,
-  getCallLikeNodeSignature,
   getSymbol,
   hasJsDocTag,
   isDeclaration,
@@ -36,12 +34,8 @@ export default createESLintRule<Options, MessageIds>({
           return;
         }
 
-        const callLikeNode = getCallLikeNode(node);
-        const signatureOrSymbol = callLikeNode
-          ? getCallLikeNodeSignature(callLikeNode, services, checker)
-          : getSymbol(node, services);
-
-        if (!hasJsDocTag(signatureOrSymbol, 'experimental')) {
+        const symbol = getSymbol(node, services, checker);
+        if (!hasJsDocTag(symbol, 'experimental')) {
           return;
         }
 
