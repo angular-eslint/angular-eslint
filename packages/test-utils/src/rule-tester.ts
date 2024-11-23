@@ -46,7 +46,7 @@ export class RuleTester extends TSESLintRuleTester {
       options?.languageOptions?.parserOptions?.projectService
     ) {
       this.filename = path.join(
-        options?.languageOptions.parserOptions.tsconfigRootDir ??
+        options?.languageOptions?.parserOptions?.tsconfigRootDir ??
           getFixturesRootDir(),
         'file.ts',
       );

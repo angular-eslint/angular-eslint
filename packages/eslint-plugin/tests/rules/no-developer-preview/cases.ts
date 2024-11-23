@@ -28,5 +28,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
                     ~~~~
 `,
     messageId,
+    data: {
+      name: 'Test',
+    },
   }),
 ];
