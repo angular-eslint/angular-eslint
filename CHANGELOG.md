@@ -1,3 +1,18 @@
+## 18.4.2 (2024-11-23)
+
+### 🩹 Fixes
+
+- update dependency eslint-scope to v8.2.0 ([#2106](https://github.com/angular-eslint/angular-eslint/pull/2106))
+- **angular-eslint:** allow using angular-eslint with ng add and ng update ([#2134](https://github.com/angular-eslint/angular-eslint/pull/2134))
+- **eslint-plugin:** handle `output()` and `input()` functions in various rules ([#2098](https://github.com/angular-eslint/angular-eslint/pull/2098))
+- **eslint-plugin:** fix placement of lifecycle interface for subclasses ([#1965](https://github.com/angular-eslint/angular-eslint/pull/1965))
+
+### ❤️ Thank You
+
+- Aleksandr Martirosyan
+- Dave @reduckted
+- James Henry @JamesHenry
+
 ## 18.4.1 (2024-11-18)
 
 ### 🩹 Fixes

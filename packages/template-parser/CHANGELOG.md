@@ -1,3 +1,7 @@
+## 18.4.2 (2024-11-23)
+
+This was a version bump only for template-parser to align it with other projects, there were no code changes.
+
 ## 18.4.1 (2024-11-18)
 
 This was a version bump only for template-parser to align it with other projects, there were no code changes.

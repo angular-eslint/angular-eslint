@@ -1,3 +1,13 @@
+## 18.4.2 (2024-11-23)
+
+### 🩹 Fixes
+
+- **angular-eslint:** allow using angular-eslint with ng add and ng update ([#2134](https://github.com/angular-eslint/angular-eslint/pull/2134))
+
+### ❤️ Thank You
+
+- James Henry @JamesHenry
+
 ## 18.4.1 (2024-11-18)
 
 This was a version bump only for angular-eslint to align it with other projects, there were no code changes.
