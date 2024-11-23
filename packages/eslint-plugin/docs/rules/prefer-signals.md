@@ -837,70 +837,6 @@ class Test {
 
 <br>
 
-#### Custom Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/prefer-signals": [
-      "error",
-      {
-        "typesToReplace": []
-      }
-    ]
-  }
-}
-```
-
-<br>
-
-#### ✅ Valid Code
-
-```ts
-class Test {
-  noTypesToReplace = new BehaviorSubject();
-}
-```
-
-<br>
-
----
-
-<br>
-
-#### Custom Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/prefer-signals": [
-      "error",
-      {
-        "typesToReplace": [
-          "CustomType"
-        ]
-      }
-    ]
-  }
-}
-```
-
-<br>
-
-#### ✅ Valid Code
-
-```ts
-class Test {
-  customTypesToReplace = new BehaviorSubject();
-}
-```
-
-<br>
-
----
-
-<br>
-
 #### Default Config
 
 ```json
@@ -1470,7 +1406,7 @@ class Test {
     "@angular-eslint/prefer-signals": [
       "error",
       {
-        "preferReadonly": false
+        "preferReadonlySignalProperties": false
       }
     ]
   }
@@ -1661,7 +1597,7 @@ class Test {
     "@angular-eslint/prefer-signals": [
       "error",
       {
-        "preferInputSignal": false
+        "preferInputSignals": false
       }
     ]
   }
@@ -1721,7 +1657,7 @@ class Test {
     "@angular-eslint/prefer-signals": [
       "error",
       {
-        "preferQuerySignal": false
+        "preferQuerySignals": false
       }
     ]
   }
@@ -1781,7 +1717,7 @@ class Test {
     "@angular-eslint/prefer-signals": [
       "error",
       {
-        "preferQuerySignal": false
+        "preferQuerySignals": false
       }
     ]
   }
@@ -1841,7 +1777,7 @@ class Test {
     "@angular-eslint/prefer-signals": [
       "error",
       {
-        "preferQuerySignal": false
+        "preferQuerySignals": false
       }
     ]
   }
@@ -1901,7 +1837,7 @@ class Test {
     "@angular-eslint/prefer-signals": [
       "error",
       {
-        "preferQuerySignal": false
+        "preferQuerySignals": false
       }
     ]
   }
