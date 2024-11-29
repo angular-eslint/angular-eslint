@@ -29,7 +29,9 @@
     "@angular-eslint/eslint-plugin": "workspace:*",
     "@angular-eslint/eslint-plugin-template": "workspace:*",
     "@angular-eslint/schematics": "workspace:*",
-    "@angular-eslint/template-parser": "workspace:*"
+    "@angular-eslint/template-parser": "workspace:*",
+    "@typescript-eslint/types": "^8.0.0",
+    "@typescript-eslint/utils": "^8.0.0"
   },
   "ng-update": {
     "packageGroupName": "angular-eslint",
