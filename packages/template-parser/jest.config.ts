@@ -1,6 +1,3 @@
-/* eslint-disable */
-'use strict';
-
 export default {
   displayName: 'template-parser',
   preset: '../../jest.preset.js',
