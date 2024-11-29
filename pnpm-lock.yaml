@@ -217,8 +217,8 @@ importers:
   packages/builder:
     dependencies:
       '@angular-devkit/architect':
-        specifier: '>= 0.1800.0 < 0.1900.0'
-        version: 0.1801.4
+        specifier: '>= 0.1800.0 < 0.1900.3'
+        version: 0.1802.12
       '@angular-devkit/core':
         specifier: '>= 18.0.0 < 19.0.0'
         version: 18.1.4
@@ -379,10 +379,6 @@ packages:
   '@ampproject/remapping@2.3.0':
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==}
     engines: {node: '>=6.0.0'}
-
-  '@angular-devkit/architect@0.1801.4':
-    resolution: {integrity: sha512-Ch1ZwRh1N/vcCKHm4ErLcgZly3tlwdLUDGBaAIlhE3YFGq543Swv6a5IcDw0veD6iGFceJAmbrp+z5hmzI8p5A==}
-    engines: {node: ^18.19.1 || ^20.11.1 || >=22.0.0, npm: ^6.11.0 || ^7.5.6 || >=8.0.0, yarn: '>= 1.13.0'}
 
   '@angular-devkit/architect@0.1802.12':
     resolution: {integrity: sha512-bepVb2/GtJppYKaeW8yTGE6egmoWZ7zagFDsmBdbF+BYp+HmeoPsclARcdryBPVq68zedyTRdvhWSUTbw1AYuw==}
@@ -5800,13 +5796,6 @@ snapshots:
     dependencies:
       '@jridgewell/gen-mapping': 0.3.5
       '@jridgewell/trace-mapping': 0.3.25
-
-  '@angular-devkit/architect@0.1801.4':
-    dependencies:
-      '@angular-devkit/core': 18.1.4
-      rxjs: 7.8.1
-    transitivePeerDependencies:
-      - chokidar
 
   '@angular-devkit/architect@0.1802.12':
     dependencies:
