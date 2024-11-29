@@ -204,6 +204,12 @@ importers:
       '@angular-eslint/template-parser':
         specifier: workspace:*
         version: link:../template-parser
+      '@typescript-eslint/types':
+        specifier: ^8.0.0
+        version: 8.16.0
+      '@typescript-eslint/utils':
+        specifier: 8.16.0
+        version: 8.16.0(eslint@9.15.0(jiti@1.21.6))(typescript@5.5.4)
       eslint:
         specifier: ^8.57.0 || ^9.0.0
         version: 9.15.0(jiti@1.21.6)
