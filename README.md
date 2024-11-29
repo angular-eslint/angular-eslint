@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="angular-eslint-logo" src="https://user-images.githubusercontent.com/900523/101620109-0e5e1f00-3a0c-11eb-8c40-b1d9a8bb3c4c.png" width="128" height="128" />
+  <img alt="angular-eslint-logo" src="https://github.com/user-attachments/assets/c3aff624-4afe-4510-b5eb-c93090e37ebc" width="128" height="128" />
 </p>
 
 <h1 align="center">Angular ESLint</h1>
