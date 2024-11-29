@@ -1,9 +1,4 @@
-import {
-  ASTUtils,
-  RuleFixes,
-  isNotNullOrUndefined,
-  Selectors,
-} from '@angular-eslint/utils';
+import { ASTUtils, Selectors } from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
@@ -11,21 +6,19 @@ export type Options = [];
 type DecoratorTypes = 'component' | 'directive' | 'pipe';
 export type MessageIds = 'preferStandalone';
 export const RULE_NAME = 'prefer-standalone';
-const METADATA_PROPERTY_NAME = 'standalone';
-const IS_STANDALONE = 'true';
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
   meta: {
     type: 'suggestion',
     docs: {
-      description: `Ensures component, directive and pipe \`${METADATA_PROPERTY_NAME}\` property is set to \`${IS_STANDALONE}\` in the component decorator`,
+      description: `Ensures Components, Directives and Pipes do not opt out of standalone`,
       recommended: 'recommended',
     },
     fixable: 'code',
     schema: [],
     messages: {
-      preferStandalone: `The {{type}} \`${METADATA_PROPERTY_NAME}\` property should be set to \`${IS_STANDALONE}\``,
+      preferStandalone: `Components, Directives and Pipes should not opt out of standalone`,
     },
   },
   defaultOptions: [],
@@ -34,9 +27,10 @@ export default createESLintRule<Options, MessageIds>({
       (type: DecoratorTypes) => (node: TSESTree.Decorator) => {
         const standalone = ASTUtils.getDecoratorPropertyValue(
           node,
-          METADATA_PROPERTY_NAME,
+          'standalone',
         );
 
+        // Leave the standalone property alone if it was set to true or not present
         if (
           !standalone ||
           (ASTUtils.isLiteral(standalone) && standalone.value === true)
@@ -53,23 +47,17 @@ export default createESLintRule<Options, MessageIds>({
           messageId: 'preferStandalone',
           data: { type },
           fix: (fixer) => {
-            if (
-              standalone &&
-              ASTUtils.isLiteral(standalone) &&
-              standalone.value !== true
-            ) {
-              return [fixer.replaceText(standalone, IS_STANDALONE)].filter(
-                isNotNullOrUndefined,
-              );
+            // Remove the standalone property altogether if it was set to false
+            const tokenAfter = context.sourceCode.getTokenAfter(
+              standalone.parent,
+            );
+            // Remove the trailing comma, if present
+            const removeStart = standalone.parent.range[0];
+            let removeEnd = standalone.parent.range[1];
+            if (tokenAfter && tokenAfter.value === ',') {
+              removeEnd = tokenAfter.range[1];
             }
-
-            return [
-              RuleFixes.getDecoratorPropertyAddFix(
-                node,
-                fixer,
-                `${METADATA_PROPERTY_NAME}: ${IS_STANDALONE}`,
-              ),
-            ].filter(isNotNullOrUndefined);
+            return fixer.removeRange([removeStart, removeEnd]);
           },
         });
       };

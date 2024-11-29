@@ -142,7 +142,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
     data: { type: 'component' },
     annotatedOutput: `
-        @Component({ standalone: true })
+        @Component({  })
         
         class Test {}
       `,
@@ -166,7 +166,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     annotatedOutput: `
         @Component({
         
-        standalone: true,
+        
         
         template: '<div></div>'
         
@@ -186,7 +186,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
     data: { type: 'directive' },
     annotatedOutput: `
-        @Directive({ standalone: true })
+        @Directive({  })
         
         class Test {}
       `,
@@ -210,7 +210,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     annotatedOutput: `
       @Directive({
       
-        standalone: true,
+        
         
         selector: 'x-selector'
         
@@ -230,7 +230,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
     data: { type: 'pipe' },
     annotatedOutput: `
-        @Pipe({ standalone: true })
+        @Pipe({  })
         
         class Test {}
       `,
@@ -254,7 +254,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     annotatedOutput: `
         @Pipe({
         
-          standalone: true,
+          
           
           name: 'pipe-name'
           
