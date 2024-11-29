@@ -25,11 +25,6 @@
         "jestConfig": "e2e/jest.config.ts",
         "runInBand": true
       }
-    },
-    "lint": {
-      "options": {
-        "ignore-path": "../.eslintignore"
-      }
     }
   }
 }

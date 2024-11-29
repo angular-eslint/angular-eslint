@@ -1,6 +1,3 @@
-/* eslint-disable */
-'use strict';
-
 export default {
   displayName: 'schematics',
   preset: '../../jest.preset.js',

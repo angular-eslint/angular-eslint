@@ -75,11 +75,8 @@
       "inputs": [
         "default",
         "{workspaceRoot}/.eslintrc.json",
-        "{workspaceRoot}/.eslintignore"
+        "{workspaceRoot}/eslint.config.js"
       ],
-      "options": {
-        "ignore-path": "../../.eslintignore"
-      },
       "cache": true
     },
     "e2e": {
@@ -138,7 +135,8 @@
       "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
       "!{projectRoot}/tsconfig.spec.json",
       "!{projectRoot}/jest.config.[jt]s",
-      "!{projectRoot}/src/test-setup.[jt]s"
+      "!{projectRoot}/src/test-setup.[jt]s",
+      "!{projectRoot}/eslint.config.js"
     ],
     "projectSpecificFiles": []
   },

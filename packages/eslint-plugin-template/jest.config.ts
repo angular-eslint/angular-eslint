@@ -1,6 +1,3 @@
-/* eslint-disable */
-'use strict';
-
 export default {
   displayName: 'eslint-plugin-template',
   preset: '../../jest.preset.js',

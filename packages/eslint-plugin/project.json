@@ -2,6 +2,13 @@
   "name": "eslint-plugin",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "type": "library",
+  "implicitDependencies": ["bundled-angular-compiler"],
+  "namedInputs": {
+    "projectSpecificFiles": [
+      "{workspaceRoot}/tools/scripts/generate-rule-docs.ts",
+      "{workspaceRoot}/tools/scripts/generate-rule-lists.ts"
+    ]
+  },
   "targets": {
     "build": {
       "dependsOn": ["compile"],
@@ -34,12 +41,5 @@
       "outputs": ["{projectRoot}/README.md"],
       "command": "npx tsx ./tools/scripts/generate-rule-lists.ts eslint-plugin"
     }
-  },
-  "implicitDependencies": ["bundled-angular-compiler"],
-  "namedInputs": {
-    "projectSpecificFiles": [
-      "{workspaceRoot}/tools/scripts/generate-rule-docs.ts",
-      "{workspaceRoot}/tools/scripts/generate-rule-lists.ts"
-    ]
   }
 }
