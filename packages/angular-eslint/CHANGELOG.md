@@ -1,3 +1,13 @@
+## 18.4.3 (2024-11-29)
+
+### 🩹 Fixes
+
+- yarn pnp issues ([#2143](https://github.com/angular-eslint/angular-eslint/pull/2143))
+
+### ❤️ Thank You
+
+- James Henry @JamesHenry
+
 ## 18.4.2 (2024-11-23)
 
 ### 🩹 Fixes
