@@ -1,6 +1,6 @@
 {
   "name": "angular-eslint",
-  "version": "18.4.3",
+  "version": "19.0.0",
   "description": "The tooling which enables ESLint to work with Angular projects",
   "license": "MIT",
   "main": "dist/index.js",

@@ -1,3 +1,13 @@
+# 19.0.0 (2024-11-29)
+
+### 🚀 Features
+
+- **eslint-plugin:** new rule prefer-signals ([#1872](https://github.com/angular-eslint/angular-eslint/pull/1872))
+
+### ❤️ Thank You
+
+- Dave @reduckted
+
 ## 18.4.3 (2024-11-29)
 
 This was a version bump only for test-utils to align it with other projects, there were no code changes.

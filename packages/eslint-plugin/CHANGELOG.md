@@ -1,3 +1,29 @@
+# 19.0.0 (2024-11-29)
+
+### 🚀 Features
+
+- ⚠️ **eslint-plugin:** promote prefer-standalone to recommended ([8dfdc4f4](https://github.com/angular-eslint/angular-eslint/commit/8dfdc4f4))
+- **eslint-plugin:** new rule prefer-signals ([#1872](https://github.com/angular-eslint/angular-eslint/pull/1872))
+- ⚠️ **eslint-plugin:** remove deprecated no-host-metadata-property rule ([#2113](https://github.com/angular-eslint/angular-eslint/pull/2113))
+- ⚠️ **eslint-plugin:** remove deprecated sort-ngmodule-metadata-arrays rule ([#2114](https://github.com/angular-eslint/angular-eslint/pull/2114))
+- ⚠️ **eslint-plugin:** prefer-standalone recognizes that standalone is the default ([#2096](https://github.com/angular-eslint/angular-eslint/pull/2096))
+- ⚠️ **eslint-plugin:** remove deprecated prefer-standalone-component rule ([#2112](https://github.com/angular-eslint/angular-eslint/pull/2112))
+
+### ⚠️ Breaking Changes
+
+- ⚠️ **eslint-plugin:** promote prefer-standalone to recommended ([8dfdc4f4](https://github.com/angular-eslint/angular-eslint/commit/8dfdc4f4))
+- ⚠️ **eslint-plugin:** remove deprecated no-host-metadata-property rule ([#2113](https://github.com/angular-eslint/angular-eslint/pull/2113))
+- ⚠️ **eslint-plugin:** remove deprecated sort-ngmodule-metadata-arrays rule ([#2114](https://github.com/angular-eslint/angular-eslint/pull/2114))
+- ⚠️ **eslint-plugin:** prefer-standalone recognizes that standalone is the default ([#2096](https://github.com/angular-eslint/angular-eslint/pull/2096))
+- ⚠️ **eslint-plugin:** remove deprecated prefer-standalone-component rule ([#2112](https://github.com/angular-eslint/angular-eslint/pull/2112))
+
+### ❤️ Thank You
+
+- Daniel Kimmich @json-derulo
+- Dave @reduckted
+- James Henry @JamesHenry
+- JamesHenry @JamesHenry
+
 ## 18.4.3 (2024-11-29)
 
 This was a version bump only for eslint-plugin to align it with other projects, there were no code changes.

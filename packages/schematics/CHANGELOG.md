@@ -1,3 +1,15 @@
+# 19.0.0 (2024-11-29)
+
+### 🚀 Features
+
+- allow referencing angular-eslint as the schematics collection ([2be3107b](https://github.com/angular-eslint/angular-eslint/commit/2be3107b))
+- update angular packages to the stable v19 ([#2120](https://github.com/angular-eslint/angular-eslint/pull/2120))
+
+### ❤️ Thank You
+
+- JamesHenry @JamesHenry
+- Leosvel Pérez Espinosa @leosvelperez
+
 ## 18.4.3 (2024-11-29)
 
 ### 🩹 Fixes

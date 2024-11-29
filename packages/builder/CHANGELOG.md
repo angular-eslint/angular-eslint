@@ -1,3 +1,13 @@
+# 19.0.0 (2024-11-29)
+
+### 🚀 Features
+
+- update angular packages to the stable v19 ([#2120](https://github.com/angular-eslint/angular-eslint/pull/2120))
+
+### ❤️ Thank You
+
+- Leosvel Pérez Espinosa @leosvelperez
+
 ## 18.4.3 (2024-11-29)
 
 ### 🩹 Fixes
