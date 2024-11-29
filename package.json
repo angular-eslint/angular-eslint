@@ -46,7 +46,7 @@
     ]
   },
   "devDependencies": {
-    "@angular/cli": "18.2.12",
+    "@angular/cli": "19.0.2",
     "@angular/compiler": "18.2.12",
     "@commitlint/cli": "19.6.0",
     "@commitlint/config-conventional": "19.6.0",
@@ -60,7 +60,7 @@
     "@rollup/plugin-commonjs": "^28.0.0",
     "@rollup/plugin-node-resolve": "^15.0.2",
     "@rollup/plugin-typescript": "^12.0.0",
-    "@schematics/angular": "18.2.12",
+    "@schematics/angular": "19.0.2",
     "@swc-node/register": "1.10.9",
     "@swc/cli": "0.5.1",
     "@swc/core": "1.9.3",
