@@ -15,7 +15,7 @@
 
 # `@angular-eslint/prefer-standalone`
 
-Ensures component, directive and pipe `standalone` property is set to `true` in the component decorator
+Ensures Components, Directives and Pipes do not opt out of standalone
 
 - Type: suggestion
 - 🔧 Supports autofix (`--fix`)
