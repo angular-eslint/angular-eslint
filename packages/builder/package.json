@@ -18,7 +18,7 @@
     "LICENSE",
     "builders.json"
   ],
-  "devDependencies": {
+  "dependencies": {
     "@angular-devkit/architect": ">= 0.1800.0 < 0.1900.0",
     "@angular-devkit/core": ">= 18.0.0 < 19.0.0"
   },

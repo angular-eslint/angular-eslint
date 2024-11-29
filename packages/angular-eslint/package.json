@@ -23,6 +23,8 @@
     "typescript-eslint": "^8.0.0"
   },
   "dependencies": {
+    "@angular-devkit/core": ">= 18.0.0 < 19.0.0",
+    "@angular-devkit/schematics": ">= 18.0.0 < 19.0.0",
     "@angular-eslint/builder": "workspace:*",
     "@angular-eslint/eslint-plugin": "workspace:*",
     "@angular-eslint/eslint-plugin-template": "workspace:*",

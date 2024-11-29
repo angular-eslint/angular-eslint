@@ -36,6 +36,8 @@
     "save": "devDependencies"
   },
   "dependencies": {
+    "@angular-devkit/core": ">= 18.0.0 < 19.0.0",
+    "@angular-devkit/schematics": ">= 18.0.0 < 19.0.0",
     "@angular-eslint/eslint-plugin": "workspace:*",
     "@angular-eslint/eslint-plugin-template": "workspace:*",
     "ignore": "6.0.2",
@@ -45,10 +47,6 @@
   "devDependencies": {
     "@typescript-eslint/utils": "8.15.0",
     "eslint": "9.15.0"
-  },
-  "peerDependencies": {
-    "@angular-devkit/core": ">= 18.0.0 < 19.0.0",
-    "@angular-devkit/schematics": ">= 18.0.0 < 19.0.0"
   },
   "gitHead": "e2006e5e9c99e5a943d1a999e0efa5247d29ec24"
 }
