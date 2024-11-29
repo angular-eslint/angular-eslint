@@ -121,6 +121,12 @@ import usePipeTransformInterface, {
 import noDuplicatesInMetadataArrays, {
   RULE_NAME as noDuplicatesInMetadataArraysRuleName,
 } from './rules/no-duplicates-in-metadata-arrays';
+import noExperimental, {
+  RULE_NAME as noExperimentalRuleName,
+} from './rules/no-experimental';
+import noDeveloperPreview, {
+  RULE_NAME as noDeveloperPreviewRuleName,
+} from './rules/no-developer-preview';
 
 export = {
   configs: {
@@ -169,5 +175,7 @@ export = {
     [useInjectableProvidedInRuleName]: useInjectableProvidedIn,
     [useLifecycleInterfaceRuleName]: useLifecycleInterface,
     [usePipeTransformInterfaceRuleName]: usePipeTransformInterface,
+    [noExperimentalRuleName]: noExperimental,
+    [noDeveloperPreviewRuleName]: noDeveloperPreview,
   },
 };
