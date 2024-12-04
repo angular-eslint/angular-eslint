@@ -37,6 +37,19 @@ enum AngularPropertyAccessorDecorators {
   ViewChildren = 'ViewChildren',
 }
 
+export enum AngularSignalFunctions {
+  input = 'input',
+  model = 'model',
+  output = 'output',
+  viewChild = 'viewChild',
+  viewChildren = 'viewChildren',
+  contentChild = 'contentChild',
+  contentChildren = 'contentChildren',
+  inject = 'inject',
+  signal = 'signal',
+  computed = 'computed',
+}
+
 export const AngularInnerClassDecorators = {
   ...AngularConstructorParameterDecorators,
   ...AngularMethodDecorators,
@@ -81,7 +94,20 @@ export type AngularInnerClassDecoratorKeys = Exclude<
 export type AngularLifecycleInterfaceKeys =
   keyof typeof AngularLifecycleInterfaces;
 export type AngularLifecycleMethodKeys = keyof typeof AngularLifecycleMethods;
+export type AngularSignalFunctionKeys = keyof typeof AngularSignalFunctions;
 
+export const angularSignalFunctionsOrdered = [
+  AngularSignalFunctions.input,
+  AngularSignalFunctions.model,
+  AngularSignalFunctions.output,
+  AngularSignalFunctions.viewChild,
+  AngularSignalFunctions.viewChildren,
+  AngularSignalFunctions.contentChild,
+  AngularSignalFunctions.contentChildren,
+  AngularSignalFunctions.inject,
+  AngularSignalFunctions.signal,
+  AngularSignalFunctions.computed,
+];
 export const angularClassDecoratorKeys = objectKeys(AngularClassDecorators);
 export const angularInnerClassDecoratorKeys = objectKeys(
   AngularInnerClassDecorators,
@@ -90,6 +116,7 @@ export const angularLifecycleInterfaceKeys = objectKeys(
   AngularLifecycleInterfaces,
 );
 export const angularLifecycleMethodKeys = objectKeys(AngularLifecycleMethods);
+export const angularSignalFunctionKeys = objectKeys(AngularSignalFunctions);
 
 /**
  * See lifecycle event sequence:
@@ -394,6 +421,9 @@ export const ANGULAR_LIFECYCLE_INTERFACES: ReadonlySet<AngularLifecycleInterface
 export const ANGULAR_LIFECYCLE_METHODS: ReadonlySet<AngularLifecycleMethodKeys> =
   new Set(angularLifecycleMethodKeys);
 
+export const ANGULAR_SIGNAL_FUNCTIONS: ReadonlySet<AngularSignalFunctionKeys> =
+  new Set(angularSignalFunctionKeys);
+
 export const isAngularLifecycleInterface = (
   value: string,
 ): value is AngularLifecycleInterfaceKeys =>
@@ -403,6 +433,11 @@ export const isAngularLifecycleMethod = (
   value: string,
 ): value is AngularLifecycleMethodKeys =>
   ANGULAR_LIFECYCLE_METHODS.has(value as AngularLifecycleMethodKeys);
+
+export const isAngularSignalFunction = (
+  value: string,
+): value is AngularSignalFunctionKeys =>
+  ANGULAR_SIGNAL_FUNCTIONS.has(value as AngularSignalFunctionKeys);
 
 export const isAngularClassDecorator = (
   value: string,
@@ -464,6 +499,12 @@ export const getDeclaredMethods = ({
   return body.filter(isMethodDefinition);
 };
 
+export const getDeclaredProperties = ({
+  body: { body },
+}: TSESTree.ClassDeclaration): readonly TSESTree.PropertyDefinition[] => {
+  return body.filter(isPropertyDefinition);
+};
+
 export const getMethodName = ({
   computed,
   key,
@@ -473,6 +514,27 @@ export const getMethodName = ({
   }
 
   return ASTUtils.isIdentifier(key) && !computed ? key.name : undefined;
+};
+
+export const getPropertySignalName = (
+  propertyDefinition: TSESTree.PropertyDefinition,
+): string | undefined => {
+  const expression = propertyDefinition.value as TSESTree.Node;
+  if (ASTUtils.isIdentifier(expression)) return expression.name;
+
+  if (!isCallExpression(expression)) {
+    return undefined;
+  }
+
+  if (isMemberExpression(expression.callee)) {
+    return ASTUtils.isIdentifier(expression.callee.object)
+      ? expression.callee.object.name
+      : undefined;
+  }
+
+  return ASTUtils.isIdentifier(expression.callee)
+    ? expression.callee.name
+    : undefined;
 };
 
 export const getLifecycleInterfaceByMethodName = (
