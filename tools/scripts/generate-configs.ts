@@ -1,6 +1,6 @@
 import type { TSESLint } from '@typescript-eslint/utils';
 import chalk from 'chalk';
-import fs from 'node:fs';
+import fs, { readdirSync } from 'node:fs';
 import path from 'node:path';
 import { format, resolveConfig } from 'prettier';
 
@@ -33,6 +33,10 @@ const MAX_RULE_NAME_LENGTH =
     : eslintPluginTemplateMaxRuleNameLength;
 
 const DEFAULT_RULE_SETTING = 'warn';
+
+// Ensure all rules are exported by the plugins
+ensureAllRulesAreExportedByPlugin('eslint-plugin');
+ensureAllRulesAreExportedByPlugin('eslint-plugin-template');
 
 const eslintPluginRuleEntries = Object.entries(eslintPlugin.rules).sort(
   (a, b) => a[0].localeCompare(b[0]),
@@ -455,4 +459,32 @@ export default (
       '../../packages/angular-eslint/src/configs/template-accessibility.ts',
     ),
   );
+}
+
+function ensureAllRulesAreExportedByPlugin(
+  pluginName: 'eslint-plugin' | 'eslint-plugin-template',
+) {
+  readdirSync(
+    path.resolve(__dirname, `../../packages/${pluginName}/src/rules`),
+  ).forEach((rule) => {
+    const ruleName = rule.replace('.ts', '');
+    if (
+      pluginName === 'eslint-plugin' &&
+      !eslintPlugin.rules[ruleName as keyof typeof eslintPlugin.rules]
+    ) {
+      throw new Error(
+        `Rule ${ruleName} is not exported by packages/eslint-plugin/src/index.ts`,
+      );
+    }
+    if (
+      pluginName === 'eslint-plugin-template' &&
+      !eslintPluginTemplate.rules[
+        ruleName as keyof typeof eslintPluginTemplate.rules
+      ]
+    ) {
+      throw new Error(
+        `Rule ${ruleName} is not exported by packages/eslint-plugin-template/src/index.ts`,
+      );
+    }
+  });
 }

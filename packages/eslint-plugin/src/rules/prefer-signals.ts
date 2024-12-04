@@ -56,7 +56,6 @@ export default createESLintRule<Options, MessageIds>({
     docs: {
       description:
         'Use readonly signals instead of `@Input()`, `@ViewChild()` and other legacy decorators',
-      recommended: 'recommended',
     },
     hasSuggestions: true,
     schema: [
