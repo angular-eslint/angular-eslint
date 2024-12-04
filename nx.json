@@ -68,6 +68,8 @@
       "dependsOn": ["^build"],
       "inputs": [
         "default",
+        "{workspaceRoot}/packages/eslint-plugin/src/rules/**/*.ts",
+        "{workspaceRoot}/packages/eslint-plugin-template/src/rules/**/*.ts",
         "{workspaceRoot}/tools/scripts/generate-rule-docs.ts"
       ],
       "cache": true
@@ -76,6 +78,8 @@
       "dependsOn": ["^build"],
       "inputs": [
         "default",
+        "{workspaceRoot}/packages/eslint-plugin/src/rules/**/*.ts",
+        "{workspaceRoot}/packages/eslint-plugin-template/src/rules/**/*.ts",
         "{workspaceRoot}/tools/scripts/generate-rule-lists.ts"
       ],
       "cache": true
@@ -84,6 +88,8 @@
       "dependsOn": ["^build"],
       "inputs": [
         "default",
+        "{workspaceRoot}/packages/eslint-plugin/src/rules/**/*.ts",
+        "{workspaceRoot}/packages/eslint-plugin-template/src/rules/**/*.ts",
         "{workspaceRoot}/tools/scripts/generate-rule-configs.ts"
       ],
       "cache": true
