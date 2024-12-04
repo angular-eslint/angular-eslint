@@ -34,13 +34,6 @@ const MAX_RULE_NAME_LENGTH =
 
 const DEFAULT_RULE_SETTING = 'warn';
 
-const allRulesInEslintPlugin = readdirSync(
-  path.resolve(__dirname, '../../packages/eslint-plugin/src/rules'),
-).map((rule) => rule.replace('.ts', ''));
-const allRulesInEslintPluginTemplate = readdirSync(
-  path.resolve(__dirname, '../../packages/eslint-plugin-template/src/rules'),
-).map((rule) => rule.replace('.ts', ''));
-
 // Ensure all rules are exported by the plugins
 ensureAllRulesAreExportedByPlugin('eslint-plugin');
 ensureAllRulesAreExportedByPlugin('eslint-plugin-template');
