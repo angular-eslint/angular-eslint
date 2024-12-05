@@ -12,7 +12,7 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'problem',
     docs: {
-      description: 'Ensures that signals are declared in order of execution',
+      description: 'Ensures that signal functions are in a specific order',
     },
     schema: [
       {
@@ -31,7 +31,7 @@ export default createESLintRule<Options, MessageIds>({
       },
     ],
     messages: {
-      signalsNotSorted: `signals are not declared in order of execution`,
+      signalsNotSorted: `signal functions are not in a valid order`,
     },
   },
   defaultOptions: [{ order: ASTUtils.angularSignalFunctionsOrdered }],

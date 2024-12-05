@@ -15,7 +15,7 @@
 
 # `@angular-eslint/sort-signals`
 
-Ensures that signals are declared in order of execution
+Ensures that signal functions are in a specific order
 
 - Type: problem
 
