@@ -227,10 +227,130 @@ class Test {
 #### ❌ Invalid Code
 
 ```ts
+@Component()
+class Test {
+  _change = input(1, { alias: `change` });
+                              ~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component()
+class Test {
+  _change = input.required<number>({ alias: `change` });
+                                            ~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
 @Directive()
 class Test {
   @Input('change') change = (this.subject$ as Subject<{blur: boolean}>).pipe();
          ~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Directive()
+class Test {
+  change = input(1, { alias: 'change' });
+                             ~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Directive()
+class Test {
+  change = input.required<number>({ alias: 'change' });
+                                           ~~~~~~~~
 }
 ```
 
@@ -319,6 +439,70 @@ class Test {
 #### ❌ Invalid Code
 
 ```ts
+@Directive({
+  selector: 'foo'
+})
+class Test {
+  ariaBusy = input(1, { alias: 'aria-invalid' });
+                               ~~~~~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Directive({
+  selector: 'foo'
+})
+class Test {
+  ariaBusy = input.required<number>({ alias: 'aria-invalid' });
+                                             ~~~~~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
 @Component({
   selector: 'foo'
 })
@@ -351,12 +535,140 @@ class Test {
 #### ❌ Invalid Code
 
 ```ts
+@Component({
+  selector: 'foo'
+})
+class Test {
+  colors = input(1, { alias: 'fooColor' });
+                             ~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({
+  selector: 'foo'
+})
+class Test {
+  colors = input.required<number>({ alias: 'fooColor' });
+                                           ~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
 @Directive({
   'selector': 'foo'
 })
 class Test {
   @Input('foocolor') color: string;
          ~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Directive({
+  'selector': 'foo'
+})
+class Test {
+  color = input(1, { alias: 'foocolor' });
+                            ~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Directive({
+  'selector': 'foo'
+})
+class Test {
+  color = input.required<number>({ alias: 'foocolor' });
+                                          ~~~~~~~~~~
 }
 ```
 
@@ -418,12 +730,402 @@ class Test {
 #### ❌ Invalid Code
 
 ```ts
+@Component({
+  selector: 'click',
+})
+class Test {}
+
+@Injectable()
+class Test {
+  blur = input(1, { alias: 'click' });
+                           ~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({
+  selector: 'click',
+})
+class Test {}
+
+@Injectable()
+class Test {
+  blur = input.required<number>({ alias: 'click' });
+                                         ~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
 @Directive({
   selector: 'img[fooDirective]',
 })
 class Test {
   @Input('notFooDirective') foo: Foo;
          ~~~~~~~~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Directive({
+  selector: 'img[fooDirective]',
+})
+class Test {
+  foo = input({ alias: 'notFooDirective' });
+                       ~~~~~~~~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Directive({
+  selector: 'img[fooDirective]',
+})
+class Test {
+  foo = input.required<number>({ alias: 'notFooDirective' });
+                                        ~~~~~~~~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({
+  'selector': 'foo'
+})
+class Test {
+  color = input(1, { alias: 'test', after: 'it' });
+                            ~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({
+  'selector': 'foo'
+})
+class Test {
+  color = input.required<number>({ alias: 'test', after: 'it' });
+                                          ~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({
+  'selector': 'foo'
+})
+class Test {
+  color = input(1, { before: 'it', alias: 'test', });
+                                          ~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({
+  'selector': 'foo'
+})
+class Test {
+  color = input.required<number>({ before: 'it', alias: 'test', });
+                                                        ~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({
+  'selector': 'foo'
+})
+class Test {
+  color = input(1, { before: 'it', alias: 'test' });
+                                          ~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({
+  'selector': 'foo'
+})
+class Test {
+  color = input.required<number>({ before: 'it', alias: 'test' });
+                                                        ~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({
+  'selector': 'foo'
+})
+class Test {
+  color = input(1, { before: 'it', alias: 'test', after: 'it' });
+                                          ~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({
+  'selector': 'foo'
+})
+class Test {
+  color = input.required<number>({ before: 'it', alias: 'test', after: 'it' });
+                                                        ~~~~~~
 }
 ```
 
@@ -544,6 +1246,64 @@ class Test {
 @Directive()
 class Test {
   @Input() buttonChange = new EventEmitter<'change'>();
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive()
+class Test {
+  buttonChange = input(1);
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive()
+class Test {
+  buttonChange = input.required<number>();
 }
 ```
 
@@ -824,6 +1584,8 @@ class Test {
 })
 class Test {
   @Input('aria-wrong') set setter(setter: string) {}
+  func = input(1, { alias: 'aria-wrong' });
+  required = input.required<number>({ alias: 'aria-wrong' });
 }
 ```
 
@@ -880,11 +1642,133 @@ class Test {
 #### ✅ Valid Code
 
 ```ts
+const change = 'change';
+@Component()
+class Test {
+  touchMove = input(1, { alias: change });
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+const change = 'change';
+@Component()
+class Test {
+  touchMove = input.required<number>({ alias: change });
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
 const blur = 'blur';
 const click = 'click';
 @Directive()
 class Test {
   @Input(blur) [click]: EventEmitter<Blur>;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+const blur = 'blur';
+const click = 'click';
+@Directive()
+class Test {
+  [click] = input(1, { alias: blur });
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+const blur = 'blur';
+const click = 'click';
+@Directive()
+class Test {
+  [click] = input.required<number>({ alias: blur });
 }
 ```
 
@@ -943,10 +1827,134 @@ class Test {
 
 ```ts
 @Component({
+  selector: 'foo[bar]'
+})
+class Test {
+  bar = input(1);
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  selector: 'foo[bar]'
+})
+class Test {
+  bar = input.required<number>();
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
   selector: '[foo], test',
 })
 class Test {
   @Input('foo') label: string;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  selector: '[foo], test',
+})
+class Test {
+  label = input(1, { alias: 'foo' });
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  selector: '[foo], test',
+})
+class Test {
+  label = input.required<number>(1, { alias: 'foo' });
 }
 ```
 
@@ -978,6 +1986,68 @@ class Test {
 })
 class Test {
   @Input('aria-label') ariaLabel: string;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: 'foo'
+})
+class Test {
+  ariaLabel = input(1, { alias: 'aria-label' });
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: 'foo'
+})
+class Test {
+  ariaLabel = input.required<number>('aria-label');
 }
 ```
 
@@ -1072,6 +2142,68 @@ class Test {
 
 ```ts
 @Directive({
+  selector: 'foo'
+})
+class Test {
+  myColor = input(1, { alias: 'fooMyColor' });
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: 'foo'
+})
+class Test {
+  myColor = input.required<number>('fooMyColor');
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
   selector: 'img[fooDirective]'
 })
 class Test {
@@ -1106,7 +2238,131 @@ class Test {
   selector: 'img[fooDirective]'
 })
 class Test {
+  foo = input(1);
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: 'img[fooDirective]'
+})
+class Test {
+  foo = input.required<number>();
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: 'img[fooDirective]'
+})
+class Test {
   @Input('fooDirective') foo: Foo;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: 'img[fooDirective]'
+})
+class Test {
+  foo = input(1, { alias: 'fooDirective' });
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: 'img[fooDirective]'
+})
+class Test {
+  foo = input.required<number>({ alias: 'fooDirective' });
 }
 ```
 
@@ -1169,6 +2425,37 @@ class Test {
 })
 class Test {
   @Input({ transform: (val) => val ?? '', required: true }) foo!: string;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  selector: 'foo'
+})
+class Test {
+  foo = input.required<string>({ transform: (val) => val ?? '' });
 }
 ```
 

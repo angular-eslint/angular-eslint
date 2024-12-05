@@ -222,4 +222,30 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         }
       `,
   }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'it should fail if a lifecycle method is declared without implementing its interface and the fixer should add the interface in the correct place',
+    annotatedSource: `
+        @NgModule()
+        class Test extends Component {
+          ngOnInit() {
+          ~~~~~~~~
+          }
+        }
+      `,
+    messageId,
+    data: {
+      interfaceName: ASTUtils.AngularLifecycleInterfaces.OnInit,
+      methodName: ASTUtils.AngularLifecycleMethods.ngOnInit,
+    },
+    annotatedOutput: `import { OnInit } from '@angular/core';
+
+        @NgModule()
+        class Test extends Component implements OnInit {
+          ngOnInit() {
+          
+          }
+        }
+      `,
+  }),
 ];

@@ -4,7 +4,7 @@
   "type": "library",
   "targets": {
     "build": {
-      "dependsOn": ["compile"],
+      "dependsOn": ["^build", "^compile", "compile"],
       "outputs": ["{projectRoot}/dist"],
       "command": "ncp {projectRoot}/src/schema.json {projectRoot}/dist/schema.json"
     },

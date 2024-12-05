@@ -27,6 +27,12 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
       @Output() buttonChange = new EventEmitter<'change'>();
     }
     `,
+  `
+    @Directive()
+    class Test {
+      buttonChange = output<'change'>();
+    }
+    `,
   // https://github.com/angular-eslint/angular-eslint/issues/523
   `
     @Component()
@@ -36,9 +42,23 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     `,
   // https://github.com/angular-eslint/angular-eslint/issues/523
   `
+    @Component()
+    class Test {
+      Drag = output<{ click: string }>();
+    }
+    `,
+  // https://github.com/angular-eslint/angular-eslint/issues/523
+  `
     @Directive()
     class Test {
       @Output(\`changelower\`) changeText = new EventEmitter<{ bar: string, blur: string }>();
+    }
+    `,
+  // https://github.com/angular-eslint/angular-eslint/issues/523
+  `
+    @Directive()
+    class Test {
+      changeText = output<{ bar: string, blur: string }>({ alias: \`changelower\` });
     }
     `,
   `
@@ -48,9 +68,21 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     }
     `,
   `
+    @Component()
+    class Test {
+      changelower = new output<ComplextObject>({ alias: 'buttonChange' });
+    }
+    `,
+  `
     @Directive()
     class Test<SVGScroll> {
       @Output() SVgZoom = new EventEmitter<SVGScroll>();
+    }
+    `,
+  `
+    @Directive()
+    class Test<SVGScroll> {
+       SVgZoom = output<SVGScroll>();
     }
     `,
   `
@@ -61,11 +93,26 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     }
     `,
   `
+    const change = 'change';
+    @Component()
+    class Test {
+      touchMove = output<{ action: 'click' | 'close' }>({ alias: change });
+    }
+    `,
+  `
     const blur = 'blur';
     const click = 'click';
     @Directive()
     class Test {
       @Output(blur) [click]: EventEmitter<Blur>;
+    }
+    `,
+  `
+    const blur = 'blur';
+    const click = 'click';
+    @Directive()
+    class Test {
+      [click] = output<Blur>({ alias: blur });
     }
     `,
   `
@@ -152,7 +199,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'should fail if output property is named "change" in `@Component`',
+      'should fail if output directive property is named "change" in `@Component`',
     annotatedSource: `
         @Component()
         class Test {
@@ -164,7 +211,19 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'should fail if output property is named "\'change\'" in `@Directive`',
+      'should fail if output function property is named "change" in `@Component`',
+    annotatedSource: `
+        @Component()
+        class Test {
+          change = output();
+          ~~~~~~
+        }
+      `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if output directive property is named "\'change\'" in `@Directive`',
     annotatedSource: `
         @Directive()
         class Test {
@@ -176,7 +235,19 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'should fail if output property is aliased as "`change`" in `@Component`',
+      'should fail if output function property is named "\'change\'" in `@Directive`',
+    annotatedSource: `
+        @Directive()
+        class Test {
+          'change' = output();
+          ~~~~~~~~
+        }
+      `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if output directive property is aliased as "`change`" in `@Component`',
     annotatedSource: `
         @Component()
         class Test {
@@ -187,8 +258,21 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
+    only: true,
     description:
-      'should fail if output property is aliased as "change" in `@Directive`',
+      'should fail if output function property is aliased as "`change`" in `@Component`',
+    annotatedSource: `
+        @Component()
+        class Test {
+          _change = output({ alias: \`change\` });
+                                    ~~~~~~~~
+        }
+      `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if output directive property is aliased as "change" in `@Directive`',
     annotatedSource: `
         @Directive()
         class Test {
@@ -200,7 +284,19 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'should fail if output getter is named "\'cut\'" in `@Component`',
+      'should fail if output function property is aliased as "change" in `@Directive`',
+    annotatedSource: `
+        @Directive()
+        class Test {
+          _change = output({ alias: 'change' });
+                                    ~~~~~~~~
+        }
+      `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if output directive getter is named "\'cut\'" in `@Component`',
     annotatedSource: `
         @Component()
         class Test {
@@ -212,7 +308,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'should fail if output getter is aliased as "devicechange" in `@Directive`',
+      'should fail if output directive getter is aliased as "devicechange" in `@Directive`',
     annotatedSource: `
         @Directive()
         class Test {
@@ -224,12 +320,27 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'should fail if output property is named "blur" and aliased as "click" without `@Component` or `@Directive`',
+      'should fail if output directive property is named "blur" and aliased as "click" without `@Component` or `@Directive`',
     annotatedSource: `
         @Injectable()
         class Test {
           @Output('click') blur = this.getOutput();
                   ~~~~~~~  ^^^^
+        }
+      `,
+    messages: [
+      { char: '~', messageId },
+      { char: '^', messageId },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if output function property is named "blur" and aliased as "click" without `@Component` or `@Directive`',
+    annotatedSource: `
+        @Injectable()
+        class Test {
+          blur = output({ alias: 'click' });
+          ~~~~                   ^^^^^^^
         }
       `,
     messages: [

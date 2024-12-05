@@ -1,7 +1,13 @@
 import type { TSESLint } from '@typescript-eslint/utils';
 import { compile } from 'json-schema-to-typescript';
 import traverse from 'json-schema-traverse';
-import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
+import {
+  mkdirSync,
+  readdirSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from 'node:fs';
 import { join, relative } from 'node:path';
 import { format, resolveConfig } from 'prettier';
 import ts from 'typescript';
@@ -28,6 +34,11 @@ const testDirs = readdirSync(testDirsDir);
 
 (async function main() {
   const allRuleData = await generateAllRuleData();
+  // Delete existing docs to ensure that any deleted ones do not get left behind
+  try {
+    rmSync(docsOutputDir, { recursive: true, force: true });
+  } catch {}
+  mkdirSync(docsOutputDir, { recursive: true });
 
   for (const [ruleName, ruleData] of Object.entries(allRuleData)) {
     const {

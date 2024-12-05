@@ -10,6 +10,7 @@
       "plugin": "@nx/js/typescript",
       "include": [
         "packages/builder/**",
+        "packages/bundled-angular-compiler/**",
         "packages/eslint-plugin-template/**",
         "packages/eslint-plugin/**"
       ],
@@ -24,7 +25,6 @@
       "exclude": [
         "*",
         "packages/builder/**",
-        "packages/bundled-angular-compiler/**",
         "packages/eslint-plugin-template/**",
         "packages/eslint-plugin/**",
         "packages/nx-plugin/**",
@@ -55,31 +55,51 @@
   },
   "targetDefaults": {
     "build": {
-      "dependsOn": ["^build"],
+      "dependsOn": ["^build", "^compile"],
+      "inputs": ["production", "^production"],
+      "cache": true
+    },
+    "compile": {
+      "dependsOn": ["^build", "^compile"],
       "inputs": ["production", "^production"],
       "cache": true
     },
     "update-rule-docs": {
       "dependsOn": ["^build"],
+      "inputs": [
+        "default",
+        "{workspaceRoot}/packages/eslint-plugin/src/**/*.ts",
+        "{workspaceRoot}/packages/eslint-plugin-template/src/**/*.ts",
+        "{workspaceRoot}/tools/scripts/generate-rule-docs.ts"
+      ],
       "cache": true
     },
     "update-rule-lists": {
       "dependsOn": ["^build"],
+      "inputs": [
+        "default",
+        "{workspaceRoot}/packages/eslint-plugin/src/**/*.ts",
+        "{workspaceRoot}/packages/eslint-plugin-template/src/**/*.ts",
+        "{workspaceRoot}/tools/scripts/generate-rule-lists.ts"
+      ],
       "cache": true
     },
     "update-rule-configs": {
       "dependsOn": ["^build"],
+      "inputs": [
+        "default",
+        "{workspaceRoot}/packages/eslint-plugin/src/**/*.ts",
+        "{workspaceRoot}/packages/eslint-plugin-template/src/**/*.ts",
+        "{workspaceRoot}/tools/scripts/generate-rule-configs.ts"
+      ],
       "cache": true
     },
     "lint": {
       "inputs": [
         "default",
         "{workspaceRoot}/.eslintrc.json",
-        "{workspaceRoot}/.eslintignore"
+        "{workspaceRoot}/eslint.config.js"
       ],
-      "options": {
-        "ignore-path": "../../.eslintignore"
-      },
       "cache": true
     },
     "e2e": {
@@ -138,7 +158,8 @@
       "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
       "!{projectRoot}/tsconfig.spec.json",
       "!{projectRoot}/jest.config.[jt]s",
-      "!{projectRoot}/src/test-setup.[jt]s"
+      "!{projectRoot}/src/test-setup.[jt]s",
+      "!{projectRoot}/eslint.config.js"
     ],
     "projectSpecificFiles": []
   },

@@ -66,7 +66,7 @@ jobs:
         run: pnpm nx run-many -t e2e-suite --parallel 1
 
       - name: Publish code coverage report
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         with:
           files: coverage/packages/**/lcov.info
           flags: unittest
@@ -85,7 +85,7 @@ jobs:
       matrix:
         # Additionally supported node versions taken from:
         # https://angular.dev/reference/versions
-        node: ['^18.19.1']
+        node: ['^18.19.1', '^22.0.0']
     steps:
       - uses: actions/checkout@v4
 
@@ -163,8 +163,7 @@ jobs:
         run: pnpm tsx ./tools/scripts/apply-canary-version.ts
 
       - name: Publish all packages to npm with the canary tag
-        # NOTE: this needs to be npx, rather than pnpm, to make sure the authenticated npm registry is used
-        run: npx nx release publish --tag canary
+        run: pnpm nx release publish --tag canary
         env:
           NX_CLOUD_DISTRIBUTED_EXECUTION: false
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

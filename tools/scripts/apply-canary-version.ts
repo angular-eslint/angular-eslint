@@ -4,7 +4,6 @@ import semver from 'semver';
 
 // We are either releasing a canary version of the latest major version, or one for the next major.
 const overrideMajorVersion = process.env.OVERRIDE_MAJOR_VERSION;
-
 const preid = 'alpha';
 
 let distTag = 'canary';
@@ -12,7 +11,7 @@ if (overrideMajorVersion) {
   console.log(
     `Overriding canary major version base to v${overrideMajorVersion}`,
   );
-  distTag = `rc-v${overrideMajorVersion}`;
+  distTag = `prerelease-v${overrideMajorVersion}`;
 }
 
 (async function main() {

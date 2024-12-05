@@ -29,7 +29,7 @@ Are you opening an issue because the rule you're trying to use is not found?
 **Description and reproduction of the issue**
 
 <!--
-Please consider creating an isolated reproduction repo to make it easy for the volunteer maintainers debug your issue.
+Please consider creating an isolated reproduction repo or (even easier) fork this ready to use StackBlitz template in your browser (https://stackblitz.com/edit/angular-eslint-repros?file=eslint.config.js&view=editor) and paste the update link below:
 -->
 
 ```JSON

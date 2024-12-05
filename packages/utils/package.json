@@ -1,6 +1,6 @@
 {
   "name": "@angular-eslint/utils",
-  "version": "18.4.0",
+  "version": "19.0.0",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

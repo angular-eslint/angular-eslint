@@ -2,14 +2,21 @@
   "name": "eslint-plugin",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "type": "library",
+  "implicitDependencies": ["bundled-angular-compiler"],
+  "namedInputs": {
+    "projectSpecificFiles": [
+      "{workspaceRoot}/tools/scripts/generate-rule-docs.ts",
+      "{workspaceRoot}/tools/scripts/generate-rule-lists.ts"
+    ]
+  },
   "targets": {
     "build": {
-      "dependsOn": ["compile"],
+      "dependsOn": ["^build", "^compile", "compile"],
       "outputs": ["{projectRoot}/dist"],
       "command": "ncp {projectRoot}/src/configs {projectRoot}/dist/configs"
     },
     "test": {
-      "dependsOn": ["^build"],
+      "dependsOn": ["^build", "^compile"],
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/packages/eslint-plugin"],
       "options": {
@@ -19,7 +26,7 @@
     },
     "check-rule-docs": {
       "dependsOn": ["update-rule-docs"],
-      "command": "git diff --quiet --exit-code packages/eslint-plugin/docs || (echo \"\n-------\n\nCHECK RULE DOCS ERROR: You have uncommitted changes to the generated rule docs.\n\nYou should run `pnpm update-rule-docs` and commit the result.\n\n-------\n\" && exit 1)"
+      "command": "git diff --quiet --exit-code packages/eslint-plugin/docs || (echo \"\n-------\n\nCHECK RULE DOCS ERROR: You have uncommitted changes to the generated rule docs.\n\nYou should run 'pnpm update-rule-docs' and commit the result.\n\n-------\n\" && exit 1)"
     },
     "update-rule-docs": {
       "outputs": ["{projectRoot}/docs"],
@@ -27,19 +34,12 @@
     },
     "check-rule-lists": {
       "dependsOn": ["update-rule-lists"],
-      "command": "git diff --quiet --exit-code packages/eslint-plugin/README.md || (echo \"\n-------\n\nCHECK RULE LISTS ERROR: You have uncommitted changes to the generated rule lists.\n\nYou should run `pnpm update-rule-lists` and commit the result.\n\n-------\n\" && exit 1)"
+      "command": "git diff --quiet --exit-code packages/eslint-plugin/README.md || (echo \"\n-------\n\nCHECK RULE LISTS ERROR: You have uncommitted changes to the generated rule lists.\n\nYou should run 'pnpm update-rule-lists' and commit the result.\n\n-------\n\" && exit 1)"
     },
     "update-rule-lists": {
       "dependsOn": ["^build"],
       "outputs": ["{projectRoot}/README.md"],
       "command": "npx tsx ./tools/scripts/generate-rule-lists.ts eslint-plugin"
     }
-  },
-  "implicitDependencies": ["bundled-angular-compiler"],
-  "namedInputs": {
-    "projectSpecificFiles": [
-      "{workspaceRoot}/tools/scripts/generate-rule-docs.ts",
-      "{workspaceRoot}/tools/scripts/generate-rule-lists.ts"
-    ]
   }
 }

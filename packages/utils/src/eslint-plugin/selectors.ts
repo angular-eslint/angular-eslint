@@ -22,6 +22,8 @@ export const OUTPUT_DECORATOR = 'Decorator[expression.callee.name="Output"]';
 
 export const LITERAL_OR_TEMPLATE_ELEMENT = ':matches(Literal, TemplateElement)';
 
+export const ALIAS_PROPERTY_VALUE = `ObjectExpression > Property[key.name='alias'] ${LITERAL_OR_TEMPLATE_ELEMENT}`;
+
 export function decoratorDefinition(decoratorName: RegExp): string;
 export function decoratorDefinition<TDecoratorName extends string>(
   decoratorName: TDecoratorName,
@@ -60,7 +62,13 @@ export const INPUTS_METADATA_PROPERTY_LITERAL = `${COMPONENT_OR_DIRECTIVE_CLASS_
   'inputs',
 )} > ArrayExpression ${LITERAL_OR_TEMPLATE_ELEMENT}`;
 
-export const INPUT_ALIAS = `:matches(PropertyDefinition, MethodDefinition[kind='set']) ${INPUT_DECORATOR} ${LITERAL_OR_TEMPLATE_ELEMENT}`;
+export const INPUT_ALIAS = [
+  `:matches(PropertyDefinition, MethodDefinition[kind='set']) ${INPUT_DECORATOR} > CallExpression > Literal`,
+  `:matches(PropertyDefinition, MethodDefinition[kind='set']) ${INPUT_DECORATOR} > CallExpression > TemplateLiteral > TemplateElement`,
+  `:matches(PropertyDefinition, MethodDefinition[kind='set']) ${INPUT_DECORATOR} > CallExpression > ${ALIAS_PROPERTY_VALUE}`,
+  `PropertyDefinition > CallExpression[callee.name='input'] > ${ALIAS_PROPERTY_VALUE}`,
+  `PropertyDefinition > CallExpression:has(MemberExpression[object.name='input'][property.name='required']) > ${ALIAS_PROPERTY_VALUE}`,
+].join(',');
 
 export const INPUT_PROPERTY_OR_SETTER = `:matches(PropertyDefinition, MethodDefinition[kind='set'])[computed=false]:has(${INPUT_DECORATOR}) > :matches(Identifier, Literal)`;
 
@@ -68,6 +76,12 @@ export const OUTPUTS_METADATA_PROPERTY_LITERAL = `${COMPONENT_OR_DIRECTIVE_CLASS
   'outputs',
 )} > ArrayExpression ${LITERAL_OR_TEMPLATE_ELEMENT}`;
 
-export const OUTPUT_ALIAS = `:matches(PropertyDefinition, MethodDefinition[kind='get']) ${OUTPUT_DECORATOR} ${LITERAL_OR_TEMPLATE_ELEMENT}`;
+export const OUTPUT_ALIAS = [
+  `:matches(PropertyDefinition, MethodDefinition[kind='get']) ${OUTPUT_DECORATOR} ${LITERAL_OR_TEMPLATE_ELEMENT}`,
+  `PropertyDefinition > CallExpression[callee.name='output'] > ${ALIAS_PROPERTY_VALUE}`,
+].join(',');
 
-export const OUTPUT_PROPERTY_OR_GETTER = `:matches(PropertyDefinition, MethodDefinition[kind='get'])[computed=false]:has(${OUTPUT_DECORATOR}) > :matches(Identifier, Literal)`;
+export const OUTPUT_PROPERTY_OR_GETTER = [
+  `:matches(PropertyDefinition, MethodDefinition[kind='get'])[computed=false]:has(${OUTPUT_DECORATOR}) > :matches(Identifier, Literal)`,
+  `PropertyDefinition[computed=false]:has(CallExpression[callee.name='output']) > :matches(Identifier, Literal)`,
+].join(',');

@@ -40,6 +40,21 @@ function addAngularESLintPackages(
 
     if (useFlatConfig) {
       applyDevDependenciesForFlatConfig(json);
+
+      // Check if yarn PnP is used https://yarnpkg.com/advanced/pnpapi#processversionspnp and install extra explicit packages to make it happy
+      if (process.versions.pnp) {
+        // An explicit reference to the builder is needed for running `ng lint` in PnP
+        json.devDependencies['@angular-eslint/builder'] = packageJSON.version;
+        // The linting cannot complete without these explicitly in the root package.json in PnP
+        json.devDependencies['@eslint/js'] =
+          `^${packageJSON.devDependencies['eslint']}`;
+        const typescriptESLintVersion =
+          packageJSON.devDependencies['@typescript-eslint/utils'];
+        json.devDependencies['@typescript-eslint/types'] =
+          typescriptESLintVersion;
+        json.devDependencies['@typescript-eslint/utils'] =
+          typescriptESLintVersion;
+      }
     } else {
       applyDevDependenciesForESLintRC(json);
     }
@@ -148,7 +163,10 @@ function applyESLintConfigIfSingleProjectWithNoExistingTSLint(
               createRootESLintConfig(null),
             ),
         updateJsonInTree('angular.json', (json) =>
-          updateSchematicCollections(json),
+          updateSchematicCollections(
+            json,
+            useFlatConfig ? 'angular-eslint' : '@angular-eslint/schematics',
+          ),
         ),
       ]);
     }
@@ -185,7 +203,10 @@ Please see https://github.com/angular-eslint/angular-eslint for more information
     return chain([
       schematic('add-eslint-to-project', {}),
       updateJsonInTree('angular.json', (json) =>
-        updateSchematicCollections(json),
+        updateSchematicCollections(
+          json,
+          useFlatConfig ? 'angular-eslint' : '@angular-eslint/schematics',
+        ),
       ),
     ]);
   };

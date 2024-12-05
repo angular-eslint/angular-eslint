@@ -66,11 +66,57 @@ export default createESLintRule<Options, MessageIds>({
           propertyOrMethodDefinition.key,
         );
 
+        // The alias is either a string in the `@Output()` decorator function,
+        // or a string on an `alias` property that is in an object expression
+        // that is in the `output()` function. If it's the latter, then we want
+        // to remove that whole property rather than just the string literal.
+        const stringToRemove: TSESTree.Node = ASTUtils.isTemplateElement(node)
+          ? node.parent
+          : node;
+        let rangeToRemove: Readonly<TSESTree.Range> = stringToRemove.range;
+
+        if (ASTUtils.isProperty(stringToRemove.parent)) {
+          const property = stringToRemove.parent;
+          rangeToRemove = property.range;
+
+          if (ASTUtils.isObjectExpression(property.parent)) {
+            const objectExpression = property.parent;
+            if (objectExpression.properties.length === 1) {
+              // The property is the only property in the
+              // object, so we can remove the whole object.
+              rangeToRemove = objectExpression.range;
+            } else {
+              // There are other properties in the object, so we
+              // can only remove the property. How we remove it
+              // will depend on where the property is in the object.
+              const propertyIndex =
+                objectExpression.properties.indexOf(property);
+              if (propertyIndex < objectExpression.properties.length - 1) {
+                // The property is not the last one, so we can
+                // remove everything up to the next property
+                // which will remove the comma after it.
+                rangeToRemove = [
+                  property.range[0],
+                  objectExpression.properties[propertyIndex + 1].range[0],
+                ];
+              } else {
+                // The property is the last one. If the object has a
+                // trailing comma, then we want to keep the trailing comma.
+                // The simplest way to do that is to remove the property
+                // and the comma that precedes it.
+                const tokenBefore = context.sourceCode.getTokenBefore(property);
+                if (tokenBefore && TSESLintASTUtils.isCommaToken(tokenBefore)) {
+                  rangeToRemove = [tokenBefore.range[0], rangeToRemove[1]];
+                }
+              }
+            }
+          }
+        }
         if (aliasName === propertyName) {
           context.report({
             node,
             messageId: 'noOutputRename',
-            fix: (fixer) => fixer.remove(node),
+            fix: (fixer) => fixer.removeRange(rangeToRemove),
           });
         } else if (!isAliasNameAllowed(selectors, propertyName, aliasName)) {
           context.report({
@@ -79,12 +125,12 @@ export default createESLintRule<Options, MessageIds>({
             suggest: [
               {
                 messageId: 'suggestRemoveAliasName',
-                fix: (fixer) => fixer.remove(node),
+                fix: (fixer) => fixer.removeRange(rangeToRemove),
               },
               {
                 messageId: 'suggestReplaceOriginalNameWithAliasName',
                 fix: (fixer) => [
-                  fixer.remove(node),
+                  fixer.removeRange(rangeToRemove),
                   fixer.replaceText(
                     propertyOrMethodDefinition.key,
                     aliasName.includes('-') ? `'${aliasName}'` : aliasName,

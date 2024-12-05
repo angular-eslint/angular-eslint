@@ -1,6 +1,6 @@
 {
   "name": "@angular-eslint/builder",
-  "version": "18.4.0",
+  "version": "19.0.0",
   "description": "Angular CLI builder for ESLint",
   "license": "MIT",
   "main": "dist/index.js",
@@ -18,9 +18,9 @@
     "LICENSE",
     "builders.json"
   ],
-  "devDependencies": {
-    "@angular-devkit/architect": ">= 0.1800.0 < 0.1900.0",
-    "@angular-devkit/core": ">= 18.0.0 < 19.0.0"
+  "dependencies": {
+    "@angular-devkit/architect": ">= 0.1900.0 < 0.2000.0",
+    "@angular-devkit/core": ">= 19.0.0 < 20.0.0"
   },
   "peerDependencies": {
     "eslint": "^8.57.0 || ^9.0.0",

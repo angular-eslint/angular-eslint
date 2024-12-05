@@ -40,9 +40,6 @@ import noEmptyLifecycleMethod, {
 import noForwardRef, {
   RULE_NAME as noForwardRefRuleName,
 } from './rules/no-forward-ref';
-import noHostMetadataProperty, {
-  RULE_NAME as noHostMetadataPropertyRuleName,
-} from './rules/no-host-metadata-property';
 import noInputPrefix, {
   RULE_NAME as noInputPrefixRuleName,
 } from './rules/no-input-prefix';
@@ -82,12 +79,12 @@ import preferOnPushComponentChangeDetection, {
 import preferOutputReadonly, {
   RULE_NAME as preferOutputReadonlyRuleName,
 } from './rules/prefer-output-readonly';
+import preferSignals, {
+  RULE_NAME as preferSignalsRuleName,
+} from './rules/prefer-signals';
 import preferStandalone, {
   RULE_NAME as preferStandaloneRuleName,
 } from './rules/prefer-standalone';
-import preferStandaloneComponent, {
-  RULE_NAME as preferStandaloneComponentRuleName,
-} from './rules/prefer-standalone-component';
 import relativeUrlPrefix, {
   RULE_NAME as relativeUrlPrefixRuleName,
 } from './rules/relative-url-prefix';
@@ -100,9 +97,6 @@ import runtimeLocalize, {
 import sortLifecycleMethods, {
   RULE_NAME as sortLifecycleMethodsRuleName,
 } from './rules/sort-lifecycle-methods';
-import sortNgmoduleMetadataArrays, {
-  RULE_NAME as sortNgmoduleMetadataArraysName,
-} from './rules/sort-ngmodule-metadata-arrays';
 import useComponentSelector, {
   RULE_NAME as useComponentSelectorRuleName,
 } from './rules/use-component-selector';
@@ -142,7 +136,6 @@ export = {
     [noDuplicatesInMetadataArraysRuleName]: noDuplicatesInMetadataArrays,
     [noEmptyLifecycleMethodRuleName]: noEmptyLifecycleMethod,
     [noForwardRefRuleName]: noForwardRef,
-    [noHostMetadataPropertyRuleName]: noHostMetadataProperty,
     [noInputPrefixRuleName]: noInputPrefix,
     [noInputRenameRuleName]: noInputRename,
     [noInputsMetadataPropertyRuleName]: noInputsMetadataProperty,
@@ -156,14 +149,13 @@ export = {
     [pipePrefixRuleName]: pipePrefix,
     [preferOnPushComponentChangeDetectionRuleName]:
       preferOnPushComponentChangeDetection,
+    [preferSignalsRuleName]: preferSignals,
     [preferStandaloneRuleName]: preferStandalone,
-    [preferStandaloneComponentRuleName]: preferStandaloneComponent,
     [preferOutputReadonlyRuleName]: preferOutputReadonly,
     [relativeUrlPrefixRuleName]: relativeUrlPrefix,
     [requireLocalizeMetadataRuleName]: requireLocalizeMetadata,
     [runtimeLocalizeRuleName]: runtimeLocalize,
     [sortLifecycleMethodsRuleName]: sortLifecycleMethods,
-    [sortNgmoduleMetadataArraysName]: sortNgmoduleMetadataArrays,
     [useComponentSelectorRuleName]: useComponentSelector,
     [useComponentViewEncapsulationRuleName]: useComponentViewEncapsulation,
     [useInjectableProvidedInRuleName]: useInjectableProvidedIn,

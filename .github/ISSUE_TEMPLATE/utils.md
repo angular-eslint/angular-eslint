@@ -25,7 +25,7 @@ If you have a problem with a specific lint rule, please back out and select the 
 **Description and reproduction of the issue**
 
 <!--
-Please consider creating an isolated reproduction repo to make it easy for the volunteer maintainers debug your issue.
+Please consider creating an isolated reproduction repo or (even easier) fork this ready to use StackBlitz template in your browser (https://stackblitz.com/edit/angular-eslint-repros?file=eslint.config.js&view=editor) and paste the update link below:
 -->
 
 **Versions**

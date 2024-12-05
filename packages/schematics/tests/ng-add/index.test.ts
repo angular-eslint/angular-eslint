@@ -585,7 +585,7 @@ describe('ng-add', () => {
         const angularJson = JSON.parse(tree.readContent('/angular.json'));
         expect(angularJson.cli.schematicCollections).toMatchInlineSnapshot(`
           Array [
-            "@angular-eslint/schematics",
+            "angular-eslint",
           ]
         `);
       });
@@ -721,7 +721,7 @@ describe('ng-add', () => {
         const angularJson = JSON.parse(tree.readContent('/angular.json'));
         expect(angularJson.cli.schematicCollections).toMatchInlineSnapshot(`
           Array [
-            "@angular-eslint/schematics",
+            "angular-eslint",
           ]
         `);
       });
@@ -858,7 +858,7 @@ describe('ng-add', () => {
         const angularJson = JSON.parse(tree.readContent('/angular.json'));
         expect(angularJson.cli.schematicCollections).toMatchInlineSnapshot(`
           Array [
-            "@angular-eslint/schematics",
+            "angular-eslint",
           ]
         `);
       });

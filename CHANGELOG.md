@@ -1,3 +1,88 @@
+# 19.0.0 (2024-11-29)
+
+As always we recommend that you update your existing workspaces by using `ng update` as we provide some helpful schematics to help migrate your workspaces to the latest and greatest.
+
+However, please note that the `angular-eslint` package itself now supports being referenced as the schematics collection, so...
+
+**IF YOU ARE ALREADY USING `angular-eslint` and ESLint v9 and flat config** you can now do the following:
+
+```sh
+ng update @angular/core @angular/cli angular-eslint
+```
+
+(Note: If you encounter any issues with this, you may need to update to the latest v18 release of `angular-eslint` first)
+
+**IF YOU ARE STILL USING `@angular-eslint/schematics` and ESLint v8 and `.eslintrc.json` configs** you can still do the following:
+
+```sh
+ng update @angular/core @angular/cli @angular-eslint/schematics
+```
+
+**NOTE: There will not be any migration of your setup to ESLint v9 or flat configs for existing ESLint v8 workspaces while migrating to angular-eslint v19.**
+
+We will explore landing an opt in migration schematic in a minor release after `19.0.0`.
+
+### 🚀 Features
+
+- update angular packages to the stable v19 ([#2120](https://github.com/angular-eslint/angular-eslint/pull/2120))
+- allow referencing angular-eslint as the schematics collection ([2be3107b](https://github.com/angular-eslint/angular-eslint/commit/2be3107b))
+- ⚠️ **eslint-plugin:** remove deprecated prefer-standalone-component rule ([#2112](https://github.com/angular-eslint/angular-eslint/pull/2112))
+- ⚠️ **eslint-plugin:** prefer-standalone recognizes that standalone is the default ([#2096](https://github.com/angular-eslint/angular-eslint/pull/2096))
+- ⚠️ **eslint-plugin:** remove deprecated sort-ngmodule-metadata-arrays rule ([#2114](https://github.com/angular-eslint/angular-eslint/pull/2114))
+- ⚠️ **eslint-plugin:** remove deprecated no-host-metadata-property rule ([#2113](https://github.com/angular-eslint/angular-eslint/pull/2113))
+- **eslint-plugin:** new rule prefer-signals ([#1872](https://github.com/angular-eslint/angular-eslint/pull/1872))
+- ⚠️ **eslint-plugin:** promote prefer-standalone to recommended ([8dfdc4f4](https://github.com/angular-eslint/angular-eslint/commit/8dfdc4f4))
+
+### ⚠️ Breaking Changes
+
+- ⚠️ **eslint-plugin:** promote prefer-standalone to recommended ([8dfdc4f4](https://github.com/angular-eslint/angular-eslint/commit/8dfdc4f4))
+- ⚠️ **eslint-plugin:** remove deprecated no-host-metadata-property rule ([#2113](https://github.com/angular-eslint/angular-eslint/pull/2113))
+- ⚠️ **eslint-plugin:** remove deprecated sort-ngmodule-metadata-arrays rule ([#2114](https://github.com/angular-eslint/angular-eslint/pull/2114))
+- ⚠️ **eslint-plugin:** prefer-standalone recognizes that standalone is the default ([#2096](https://github.com/angular-eslint/angular-eslint/pull/2096))
+- ⚠️ **eslint-plugin:** remove deprecated prefer-standalone-component rule ([#2112](https://github.com/angular-eslint/angular-eslint/pull/2112))
+
+### ❤️ Thank You
+
+- Daniel Kimmich @json-derulo
+- Dave @reduckted
+- James Henry @JamesHenry
+- JamesHenry @JamesHenry
+- Leosvel Pérez Espinosa @leosvelperez
+
+## 18.4.3 (2024-11-29)
+
+### 🩹 Fixes
+
+- yarn pnp issues ([#2143](https://github.com/angular-eslint/angular-eslint/pull/2143))
+- update dependency @angular/compiler to v18.2.13 ([#2139](https://github.com/angular-eslint/angular-eslint/pull/2139))
+- update typescript-eslint packages to v8.16.0 ([#2135](https://github.com/angular-eslint/angular-eslint/pull/2135))
+
+### ❤️ Thank You
+
+- James Henry @JamesHenry
+
+## 18.4.2 (2024-11-23)
+
+### 🩹 Fixes
+
+- update dependency eslint-scope to v8.2.0 ([#2106](https://github.com/angular-eslint/angular-eslint/pull/2106))
+- **angular-eslint:** allow using angular-eslint with ng add and ng update ([#2134](https://github.com/angular-eslint/angular-eslint/pull/2134))
+- **eslint-plugin:** handle `output()` and `input()` functions in various rules ([#2098](https://github.com/angular-eslint/angular-eslint/pull/2098))
+- **eslint-plugin:** fix placement of lifecycle interface for subclasses ([#1965](https://github.com/angular-eslint/angular-eslint/pull/1965))
+
+### ❤️ Thank You
+
+- Aleksandr Martirosyan
+- Dave @reduckted
+- James Henry @JamesHenry
+
+## 18.4.1 (2024-11-18)
+
+### 🩹 Fixes
+
+- update dependency ignore to v6 ([#2047](https://github.com/angular-eslint/angular-eslint/pull/2047))
+- update dependency @angular/compiler to v18.2.12 ([#2090](https://github.com/angular-eslint/angular-eslint/pull/2090))
+
 ## 18.4.0 (2024-10-21)
 
 ### 🚀 Features

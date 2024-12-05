@@ -3,9 +3,9 @@
   "private": true,
   "description": "The tooling which enables ESLint to work with Angular projects",
   "volta": {
-    "node": "20.18.0"
+    "node": "20.18.1"
   },
-  "packageManager": "pnpm@9.12.2",
+  "packageManager": "pnpm@9.14.4",
   "contributors": [
     "James Henry <angular-eslint@jameshenry.email>"
   ],
@@ -33,6 +33,7 @@
     "update-rule-docs": "nx run-many -t update-rule-docs",
     "check-rule-lists": "nx run-many -t check-rule-lists",
     "update-rule-lists": "nx run-many -t update-rule-lists",
+    "update-rule-configs": "nx run-many -t update-rule-configs",
     "prepare": "husky"
   },
   "config": {
@@ -46,36 +47,35 @@
     ]
   },
   "devDependencies": {
-    "@angular/cli": "18.2.12",
-    "@angular/compiler": "18.2.12",
-    "@commitlint/cli": "19.5.0",
-    "@commitlint/config-conventional": "19.5.0",
-    "@nx/devkit": "20.1.2",
-    "@nx/eslint": "20.1.2",
-    "@nx/eslint-plugin": "20.1.2",
-    "@nx/jest": "20.1.2",
-    "@nx/js": "20.1.2",
-    "@nx/plugin": "20.1.2",
-    "@nx/workspace": "20.1.2",
-    "@rollup/plugin-commonjs": "^28.0.0",
-    "@rollup/plugin-node-resolve": "^15.0.2",
-    "@rollup/plugin-typescript": "^12.0.0",
-    "@schematics/angular": "18.2.12",
+    "@angular/cli": "19.0.3",
+    "@angular/compiler": "19.0.1",
+    "@commitlint/cli": "19.6.0",
+    "@commitlint/config-conventional": "19.6.0",
+    "@nx/devkit": "20.1.4",
+    "@nx/esbuild": "20.1.4",
+    "@nx/eslint": "20.1.4",
+    "@nx/eslint-plugin": "20.1.4",
+    "@nx/jest": "20.1.4",
+    "@nx/js": "20.1.4",
+    "@nx/plugin": "20.1.4",
+    "@nx/workspace": "20.1.4",
+    "@schematics/angular": "19.0.3",
     "@swc-node/register": "1.10.9",
-    "@swc/cli": "0.5.0",
-    "@swc/core": "1.9.2",
+    "@swc/cli": "0.5.1",
+    "@swc/core": "1.9.3",
     "@swc/helpers": "0.5.15",
     "@types/eslint": "9.6.1",
     "@types/eslint-scope": "3.7.7",
     "@types/jest": "29.5.12",
-    "@types/node": "20.17.6",
+    "@types/node": "20.17.9",
     "@types/semver": "^7.5.8",
     "@types/yargs": "^17.0.33",
-    "@typescript-eslint/rule-tester": "8.15.0",
-    "@typescript-eslint/types": "8.15.0",
-    "@typescript-eslint/utils": "8.15.0",
+    "@typescript-eslint/rule-tester": "8.16.0",
+    "@typescript-eslint/types": "8.16.0",
+    "@typescript-eslint/utils": "8.16.0",
     "chalk": "4.1.2",
     "cz-conventional-changelog": "3.3.0",
+    "esbuild": "^0.24.0",
     "eslint": "9.15.0",
     "eslint-config-prettier": "9.1.0",
     "execa": "5.1.1",
@@ -86,18 +86,17 @@
     "jsonc-eslint-parser": "^2.1.0",
     "lint-staged": "15.2.10",
     "ncp": "2.0.0",
-    "nx": "20.1.2",
-    "prettier": "3.3.3",
+    "nx": "20.1.4",
+    "prettier": "3.4.2",
     "prettier-v2-for-jest-inline-snapshots": "npm:prettier@^2",
     "rimraf": "5.0.10",
-    "rollup": "^4.0.0",
     "semver": "^7.6.2",
     "tree-kill": "1.2.2",
     "ts-jest": "29.2.4",
     "tslib": "^2.4.1",
     "tsx": "^4.7.3",
-    "typescript": "5.5.4",
-    "typescript-eslint": "8.15.0",
+    "typescript": "5.6.3",
+    "typescript-eslint": "8.16.0",
     "verdaccio": "6.0.2",
     "yargs": "17.7.2"
   },
@@ -117,7 +116,7 @@
         "dependsOn": [
           "update-rule-configs"
         ],
-        "command": "git diff --quiet --exit-code -- packages/angular-eslint/src/configs packages/eslint-plugin/src/configs packages/eslint-plugin-template/src/configs || (echo \"\n-------\n\nCHECK RULE CONFIGS ERROR: You have uncommitted changes to the generated rule configs.\n\nYou should run `pnpm update-rule-configs` and commit the result.\n\n-------\n\" && exit 1)"
+        "command": "git diff --quiet --exit-code -- packages/angular-eslint/src/configs packages/eslint-plugin/src/configs packages/eslint-plugin-template/src/configs || (echo \"\n-------\n\nCHECK RULE CONFIGS ERROR: You have uncommitted changes to the generated rule configs.\n\nYou should run 'pnpm update-rule-configs' and commit the result.\n\n-------\n\" && exit 1)"
       },
       "update-rule-configs": {
         "dependsOn": [
@@ -131,5 +130,6 @@
       }
     },
     "includedScripts": []
-  }
+  },
+  "dependencies": {}
 }

@@ -1,3 +1,36 @@
+# 19.0.0 (2024-11-29)
+
+### 🚀 Features
+
+- allow referencing angular-eslint as the schematics collection ([2be3107b](https://github.com/angular-eslint/angular-eslint/commit/2be3107b))
+- update angular packages to the stable v19 ([#2120](https://github.com/angular-eslint/angular-eslint/pull/2120))
+
+### ❤️ Thank You
+
+- JamesHenry @JamesHenry
+- Leosvel Pérez Espinosa @leosvelperez
+
+## 18.4.3 (2024-11-29)
+
+### 🩹 Fixes
+
+- update typescript-eslint packages to v8.16.0 ([#2135](https://github.com/angular-eslint/angular-eslint/pull/2135))
+- yarn pnp issues ([#2143](https://github.com/angular-eslint/angular-eslint/pull/2143))
+
+### ❤️ Thank You
+
+- James Henry @JamesHenry
+
+## 18.4.2 (2024-11-23)
+
+This was a version bump only for schematics to align it with other projects, there were no code changes.
+
+## 18.4.1 (2024-11-18)
+
+### 🩹 Fixes
+
+- update dependency ignore to v6 ([#2047](https://github.com/angular-eslint/angular-eslint/pull/2047))
+
 ## 18.4.0 (2024-10-21)
 
 ### 🚀 Features

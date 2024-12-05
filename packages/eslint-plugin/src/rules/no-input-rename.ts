@@ -87,16 +87,6 @@ export default createESLintRule<Options, MessageIds>({
           return;
         }
 
-        let isAliasMetadataProperty = false;
-
-        if (node.parent && ASTUtils.isProperty(node.parent)) {
-          if (ASTUtils.getRawText(node.parent.key) !== 'alias') {
-            // We're within an Input decorator metadata object, but it is not the alias property
-            return;
-          }
-          isAliasMetadataProperty = true;
-        }
-
         const aliasName = ASTUtils.getRawText(node);
         const propertyName = ASTUtils.getRawText(
           propertyOrMethodDefinition.key,
@@ -110,27 +100,61 @@ export default createESLintRule<Options, MessageIds>({
           return;
         }
 
-        const inputCallExpression = ASTUtils.getNearestNodeFrom(
-          node,
-          ASTUtils.isCallExpression,
-        );
+        // The alias is either a string in the `@Input()` decorator function,
+        // or a string on an `alias` property that is in an object expression
+        // that is in the `@Input()` decorator or the `input()` function or the
+        // `input.required()` function. If it's on the `alias` property, then we
+        // want to remove that whole property rather than just the string literal.
+        const stringToRemove: TSESTree.Node = ASTUtils.isTemplateElement(node)
+          ? node.parent
+          : node;
+        let rangeToRemove: Readonly<TSESTree.Range> = stringToRemove.range;
 
-        if (
-          inputCallExpression &&
-          TSESLintASTUtils.isIdentifier(inputCallExpression.callee) &&
-          inputCallExpression.callee.name === 'Input' &&
-          ASTUtils.isObjectExpression(inputCallExpression.arguments?.[0])
-        ) {
-          const [firstArg] = inputCallExpression.arguments;
+        if (ASTUtils.isProperty(stringToRemove.parent)) {
+          const property = stringToRemove.parent;
+          rangeToRemove = property.range;
 
-          const aliasProperty = firstArg.properties.find(
-            (property) =>
-              ASTUtils.isProperty(property) &&
-              ASTUtils.getRawText(property.key) === 'alias',
-          );
+          if (ASTUtils.isObjectExpression(property.parent)) {
+            const objectExpression = property.parent;
+            if (objectExpression.properties.length === 1) {
+              // The property is the only property in the
+              // object, so we can remove the whole object.
+              rangeToRemove = objectExpression.range;
 
-          if (!aliasProperty) {
-            return;
+              // If the object is in an `input()` function, then
+              // the object will be the second argument. The first
+              // argument will be the default value. We need to
+              // remove the comma after the default value.
+              const tokenBefore =
+                context.sourceCode.getTokenBefore(objectExpression);
+              if (tokenBefore && TSESLintASTUtils.isCommaToken(tokenBefore)) {
+                rangeToRemove = [tokenBefore.range[0], rangeToRemove[1]];
+              }
+            } else {
+              // There are other properties in the object, so we
+              // can only remove the property. How we remove it
+              // will depend on where the property is in the object.
+              const propertyIndex =
+                objectExpression.properties.indexOf(property);
+              if (propertyIndex < objectExpression.properties.length - 1) {
+                // The property is not the last one, so we can
+                // remove everything up to the next property
+                // which will remove the comma after it.
+                rangeToRemove = [
+                  property.range[0],
+                  objectExpression.properties[propertyIndex + 1].range[0],
+                ];
+              } else {
+                // The property is the last one. If the object has a
+                // trailing comma, then we want to keep the trailing comma.
+                // The simplest way to do that is to remove the property
+                // and the comma that precedes it.
+                const tokenBefore = context.sourceCode.getTokenBefore(property);
+                if (tokenBefore && TSESLintASTUtils.isCommaToken(tokenBefore)) {
+                  rangeToRemove = [tokenBefore.range[0], rangeToRemove[1]];
+                }
+              }
+            }
           }
         }
 
@@ -138,12 +162,7 @@ export default createESLintRule<Options, MessageIds>({
           context.report({
             node,
             messageId: 'noInputRename',
-            fix: (fixer) => {
-              if (node.parent && isAliasMetadataProperty) {
-                return fixer.remove(node.parent);
-              }
-              return fixer.remove(node);
-            },
+            fix: (fixer) => fixer.removeRange(rangeToRemove),
           });
         } else if (
           !isAliasNameAllowed(
@@ -159,17 +178,12 @@ export default createESLintRule<Options, MessageIds>({
             suggest: [
               {
                 messageId: 'suggestRemoveAliasName',
-                fix: (fixer) => {
-                  if (node.parent && isAliasMetadataProperty) {
-                    return fixer.remove(node.parent);
-                  }
-                  return fixer.remove(node);
-                },
+                fix: (fixer) => fixer.removeRange(rangeToRemove),
               },
               {
                 messageId: 'suggestReplaceOriginalNameWithAliasName',
                 fix: (fixer) => [
-                  fixer.remove(node),
+                  fixer.removeRange(rangeToRemove),
                   fixer.replaceText(
                     propertyOrMethodDefinition.key,
                     aliasName.includes('-') ? `'${aliasName}'` : aliasName,

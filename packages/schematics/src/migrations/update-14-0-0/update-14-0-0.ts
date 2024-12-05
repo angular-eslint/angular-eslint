@@ -36,7 +36,7 @@ export default function migration(): Rule {
       if (json.cli?.defaultCollection !== '@angular-eslint/schematics') {
         return json;
       }
-      return updateSchematicCollections(json);
+      return updateSchematicCollections(json, '@angular-eslint/schematics');
     }),
     // Migrate from @typescript-eslint/experimental-utils package name to @typescript-eslint/utils
     (host, context) =>

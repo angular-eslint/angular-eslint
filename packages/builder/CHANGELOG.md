@@ -1,3 +1,31 @@
+# 19.0.0 (2024-11-29)
+
+### 🚀 Features
+
+- update angular packages to the stable v19 ([#2120](https://github.com/angular-eslint/angular-eslint/pull/2120))
+
+### ❤️ Thank You
+
+- Leosvel Pérez Espinosa @leosvelperez
+
+## 18.4.3 (2024-11-29)
+
+### 🩹 Fixes
+
+- yarn pnp issues ([#2143](https://github.com/angular-eslint/angular-eslint/pull/2143))
+
+### ❤️ Thank You
+
+- James Henry @JamesHenry
+
+## 18.4.2 (2024-11-23)
+
+This was a version bump only for builder to align it with other projects, there were no code changes.
+
+## 18.4.1 (2024-11-18)
+
+This was a version bump only for builder to align it with other projects, there were no code changes.
+
 ## 18.4.0 (2024-10-21)
 
 ### 🚀 Features

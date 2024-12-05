@@ -75,7 +75,12 @@ jobs:
           git config --global user.name "JamesHenry"
           git remote set-url origin https://x-access-token:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git
 
-          # Add everything that changed after the formatting
-          git add --all
-          git commit -m "chore: update formatting"
-          git push
+          # Check if there are any changes to commit after formatting
+          if git diff --quiet; then
+            echo "No formatting changes detected"
+          else
+            # Add everything that changed after the formatting
+            git add --all
+            git commit -m "chore: update formatting"
+            git push
+          fi
