@@ -87,7 +87,7 @@
     "lint-staged": "15.2.10",
     "ncp": "2.0.0",
     "nx": "20.1.4",
-    "prettier": "3.4.1",
+    "prettier": "3.4.2",
     "prettier-v2-for-jest-inline-snapshots": "npm:prettier@^2",
     "rimraf": "5.0.10",
     "semver": "^7.6.2",
