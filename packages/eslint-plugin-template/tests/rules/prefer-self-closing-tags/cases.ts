@@ -20,6 +20,8 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
       [items]="items" />
   `,
   '<img />',
+  // These elements cannot be self-closing
+  '<slot></slot><math></math><rb></rb><svg></svg><template></template>',
   '<div></div>',
   '<ng-template/>',
   '<ng-template>Content</ng-template>',
