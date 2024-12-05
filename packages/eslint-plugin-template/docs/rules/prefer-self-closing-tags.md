@@ -424,6 +424,32 @@ The rule does not have any configuration options.
 #### ✅ Valid Code
 
 ```html
+<slot></slot><math></math><rb></rb><svg></svg><template></template>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-self-closing-tags": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
 <div></div>
 ```
 
