@@ -1,3 +1,18 @@
+## 19.0.1 (2024-12-06)
+
+### 🩹 Fixes
+
+- update dependency @angular/compiler to v19.0.3 ([#2159](https://github.com/angular-eslint/angular-eslint/pull/2159))
+- update dependency eslint to v9.16.0 ([#2148](https://github.com/angular-eslint/angular-eslint/pull/2148))
+- update typescript-eslint packages to v8.17.0 ([#2153](https://github.com/angular-eslint/angular-eslint/pull/2153))
+- **eslint-plugin:** add prefer-signals rule to exported config ([#2150](https://github.com/angular-eslint/angular-eslint/pull/2150))
+- **eslint-plugin-template:** prevent the slot tag from being self-closing ([#2088](https://github.com/angular-eslint/angular-eslint/pull/2088))
+
+### ❤️ Thank You
+
+- Joan Llenas @joanllenas
+- Quentin Deroubaix @quentinderoubaix
+
 # 19.0.0 (2024-11-29)
 
 As always we recommend that you update your existing workspaces by using `ng update` as we provide some helpful schematics to help migrate your workspaces to the latest and greatest.

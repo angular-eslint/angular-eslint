@@ -1,3 +1,13 @@
+## 19.0.1 (2024-12-06)
+
+### 🩹 Fixes
+
+- **eslint-plugin:** adding prefer-signals rule to exported config ([#2150](https://github.com/angular-eslint/angular-eslint/pull/2150))
+
+### ❤️ Thank You
+
+- Quentin Deroubaix @quentinderoubaix
+
 # 19.0.0 (2024-11-29)
 
 ### 🚀 Features

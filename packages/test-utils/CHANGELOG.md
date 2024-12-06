@@ -1,3 +1,7 @@
+## 19.0.1 (2024-12-06)
+
+This was a version bump only for test-utils to align it with other projects, there were no code changes.
+
 # 19.0.0 (2024-11-29)
 
 ### 🚀 Features

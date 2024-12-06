@@ -1,3 +1,13 @@
+## 19.0.1 (2024-12-06)
+
+### 🩹 Fixes
+
+- **eslint-plugin-template:** prevent the slot tag from being self-closing ([#2088](https://github.com/angular-eslint/angular-eslint/pull/2088))
+
+### ❤️ Thank You
+
+- Joan Llenas @joanllenas
+
 # 19.0.0 (2024-11-29)
 
 This was a version bump only for eslint-plugin-template to align it with other projects, there were no code changes.
