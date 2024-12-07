@@ -28,31 +28,23 @@ Are you opening an issue because the rule you're trying to use is not found?
 
 **Description and reproduction of the issue**
 
-<!--
-Please consider creating an isolated reproduction repo or (even easier) fork this ready to use StackBlitz template in your browser (https://stackblitz.com/edit/angular-eslint-repros?file=eslint.config.js&view=editor) and paste the update link below:
--->
+Issues with configuration and rules should be easily reproducible on StackBlitz.
 
-```JSON
-{
-  "rules": {
-    "@angular-eslint/template/<rule>": ["<setting>"]
-  }
-}
-```
+Please fork this StackBlitz and your updated link below:
 
-```HTML
-// your repro code case
-```
+FORK THIS: https://stackblitz.com/edit/angular-eslint-repros?file=eslint.config.js&view=editor
+
+YOUR LINK HERE: ...
 
 **Versions**
 
-| package                                   | version |
-| ----------------------------------        | ------- |
-| `@angular-eslint/eslint-plugin-template`  | `X.Y.Z` |
-| `@angular-eslint/template-parser`         | `X.Y.Z` |
-| `@typescript-eslint/parser`               | `X.Y.Z` |
-| `ESLint`                                  | `X.Y.Z` |
-| `node`                                    | `X.Y.Z` |
+| package                                  | version |
+| ---------------------------------------- | ------- |
+| `@angular-eslint/eslint-plugin-template` | `X.Y.Z` |
+| `@angular-eslint/template-parser`        | `X.Y.Z` |
+| `@typescript-eslint/parser`              | `X.Y.Z` |
+| `ESLint`                                 | `X.Y.Z` |
+| `node`                                   | `X.Y.Z` |
 
 ```sh
 # Please run `npx ng version` in your project and paste the full output here:
