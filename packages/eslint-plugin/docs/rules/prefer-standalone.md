@@ -57,7 +57,7 @@ The rule does not have any configuration options.
 
 ```ts
 @Component({ standalone: false })
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+             ~~~~~~~~~~~~~~~~~
 class Test {}
 ```
 
@@ -85,13 +85,10 @@ class Test {}
 
 ```ts
 @Component({
-~~~~~~~~~~~~
-standalone: false,
-~~~~~~~~~~~~~~~~~~
-template: '<div></div>'
-~~~~~~~~~~~~~~~~~~~~~~~
+  standalone: false,
+  ~~~~~~~~~~~~~~~~~
+  template: '<div></div>'
 })
-~~
 class Test {}
 ```
 
@@ -119,7 +116,7 @@ class Test {}
 
 ```ts
 @Directive({ standalone: false })
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+             ~~~~~~~~~~~~~~~~~
 class Test {}
 ```
 
@@ -147,13 +144,10 @@ class Test {}
 
 ```ts
 @Directive({
-~~~~~~~~~~~~
   standalone: false,
-  ~~~~~~~~~~~~~~~~~~
+  ~~~~~~~~~~~~~~~~~
   selector: 'x-selector'
-  ~~~~~~~~~~~~~~~~~~~~~~
 })
-~~
 class Test {}
 ```
 
@@ -181,7 +175,7 @@ class Test {}
 
 ```ts
 @Pipe({ standalone: false })
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        ~~~~~~~~~~~~~~~~~
 class Test {}
 ```
 
@@ -209,13 +203,10 @@ class Test {}
 
 ```ts
 @Pipe({
-~~~~~~~
   standalone: false,
-  ~~~~~~~~~~~~~~~~~~
-  name: 'pipe-name'
   ~~~~~~~~~~~~~~~~~
+  name: 'pipe-name'
 })
-~~
 class Test {}
 ```
 
