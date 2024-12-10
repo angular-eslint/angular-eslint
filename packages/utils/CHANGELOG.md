@@ -1,3 +1,7 @@
+## 19.0.2 (2024-12-10)
+
+This was a version bump only for utils to align it with other projects, there were no code changes.
+
 ## 19.0.1 (2024-12-06)
 
 This was a version bump only for utils to align it with other projects, there were no code changes.

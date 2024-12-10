@@ -1,3 +1,13 @@
+## 19.0.2 (2024-12-10)
+
+### 🩹 Fixes
+
+- **eslint-plugin:** [prefer-standalone] error range should only include property and value ([#2172](https://github.com/angular-eslint/angular-eslint/pull/2172))
+
+### ❤️ Thank You
+
+- James Henry @JamesHenry
+
 ## 19.0.1 (2024-12-06)
 
 ### 🩹 Fixes
