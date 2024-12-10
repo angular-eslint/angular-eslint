@@ -41,9 +41,8 @@ export default createESLintRule<Options, MessageIds>({
         if (!ASTUtils.getDecoratorArgument(node)) {
           return;
         }
-
         context.report({
-          node: nodeToReport(node),
+          node: standalone.parent,
           messageId: 'preferStandalone',
           data: { type },
           fix: (fixer) => {
@@ -69,13 +68,3 @@ export default createESLintRule<Options, MessageIds>({
     };
   },
 });
-
-function nodeToReport(node: TSESTree.Node) {
-  if (!ASTUtils.isProperty(node)) {
-    return node;
-  }
-
-  return ASTUtils.isMemberExpression(node.value)
-    ? node.value.property
-    : node.value;
-}
