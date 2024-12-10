@@ -136,14 +136,14 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       'should fail when a component has the standalone property set to false in the decorator',
     annotatedSource: `
         @Component({ standalone: false })
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     ~~~~~~~~~~~~~~~~~
         class Test {}
       `,
     messageId,
     data: { type: 'component' },
     annotatedOutput: `
         @Component({  })
-        
+                     
         class Test {}
       `,
   }),
@@ -152,26 +152,20 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       'should fail when a component has the standalone property set to false in a decorator with multiple properties',
     annotatedSource: `
         @Component({
-        ~~~~~~~~~~~~
-        standalone: false,
-        ~~~~~~~~~~~~~~~~~~
-        template: '<div></div>'
-        ~~~~~~~~~~~~~~~~~~~~~~~
+          standalone: false,
+          ~~~~~~~~~~~~~~~~~
+          template: '<div></div>'
         })
-        ~~
         class Test {}
 `,
     messageId,
     data: { type: 'component' },
     annotatedOutput: `
         @Component({
-        
-        
-        
-        template: '<div></div>'
-        
+          
+          
+          template: '<div></div>'
         })
-        
         class Test {}
 `,
   }),
@@ -180,14 +174,14 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       'should fail when a directive has the standalone property set to false in the decorator',
     annotatedSource: `
         @Directive({ standalone: false })
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     ~~~~~~~~~~~~~~~~~
         class Test {}
       `,
     messageId,
     data: { type: 'directive' },
     annotatedOutput: `
         @Directive({  })
-        
+                     
         class Test {}
       `,
   }),
@@ -196,26 +190,20 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       'should fail when a directive has the standalone property set to false in a decorator with multiple properties',
     annotatedSource: `
       @Directive({
-      ~~~~~~~~~~~~
         standalone: false,
-        ~~~~~~~~~~~~~~~~~~
+        ~~~~~~~~~~~~~~~~~
         selector: 'x-selector'
-        ~~~~~~~~~~~~~~~~~~~~~~
       })
-      ~~
       class Test {}
 `,
     messageId,
     data: { type: 'directive' },
     annotatedOutput: `
       @Directive({
-      
         
         
         selector: 'x-selector'
-        
       })
-      
       class Test {}
 `,
   }),
@@ -224,14 +212,14 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       'should fail when a pipe has the standalone property set to false in the decorator',
     annotatedSource: `
         @Pipe({ standalone: false })
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                ~~~~~~~~~~~~~~~~~
         class Test {}
       `,
     messageId,
     data: { type: 'pipe' },
     annotatedOutput: `
         @Pipe({  })
-        
+                
         class Test {}
       `,
   }),
@@ -240,26 +228,20 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       'should fail when a pipe has the standalone property set to false in a decorator with multiple properties',
     annotatedSource: `
         @Pipe({
-        ~~~~~~~
           standalone: false,
-          ~~~~~~~~~~~~~~~~~~
-          name: 'pipe-name'
           ~~~~~~~~~~~~~~~~~
+          name: 'pipe-name'
         })
-        ~~
         class Test {}
 `,
     messageId,
     data: { type: 'pipe' },
     annotatedOutput: `
         @Pipe({
-        
           
           
           name: 'pipe-name'
-          
         })
-        
         class Test {}
 `,
   }),
