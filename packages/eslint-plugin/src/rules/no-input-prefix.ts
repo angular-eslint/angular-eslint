@@ -3,7 +3,7 @@ import {
   Selectors,
   toHumanReadableText,
 } from '@angular-eslint/utils';
-import type { TSESTree } from '@typescript-eslint/utils';
+import { TSESTree } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
 export type Options = [{ readonly prefixes: readonly string[] }];
@@ -44,6 +44,20 @@ export default createESLintRule<Options, MessageIds>({
         node: TSESTree.Identifier | TSESTree.Literal | TSESTree.TemplateElement,
       ) {
         const rawPropertyName = ASTUtils.getRawText(node);
+
+        // The child that matched was just a literal initializer of a property definition
+        if (node.parent?.type === TSESTree.AST_NODE_TYPES.PropertyDefinition) {
+          const initializingValue = node.parent.value;
+          if (
+            initializingValue?.type === TSESTree.AST_NODE_TYPES.Literal &&
+            rawPropertyName === ASTUtils.getRawText(initializingValue) &&
+            node.range[0] === initializingValue.range[0] &&
+            node.range[1] === initializingValue.range[1]
+          ) {
+            return;
+          }
+        }
+
         const hasDisallowedPrefix = prefixes.some((prefix) =>
           isDisallowedPrefix(prefix, rawPropertyName),
         );

@@ -116,6 +116,15 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     `,
     options: [{ prefixes: ['on'] }],
   },
+  {
+    code: `
+      @Component()
+      class Test {
+        @Input() notOn: string = 'on';
+      }
+    `,
+    options: [{ prefixes: ['on'] }],
+  },
   `
     @Component({
       selector: 'foo',
@@ -222,7 +231,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     description:
       'should fail if input property is named with "\'on\'" prefix in `@Directive`',
     annotatedSource: `
-        @Directive()
+        @Directive() 
         class Test {
           @Input() @Custom('on') 'onPrefix' = new EventEmitter<void>();
                                  ~~~~~~~~~~
@@ -333,5 +342,33 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       { char: '^', messageId, data: { prefixes: '"on", "is" or "should"' } },
     ],
     options: [{ prefixes: ['on', 'is', 'should'] }],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if input property is named with prefix "on", but not if it is initialized with value "on" in `@Component`',
+    annotatedSource: `
+      @Component()
+      class Test {
+        @Input() on: string = 'on';
+                 ~~
+      }
+    `,
+    messageId,
+    options: [{ prefixes: ['on'] }],
+    data: { prefixes: '"on"' },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if input property is aliased with prefix "on", but not if it is initialized with value "on" in `@Component`',
+    annotatedSource: `
+        @Injectable()
+        class Test {
+          @Input('on') isPrefix = \`on\`;
+                 ~~~~  
+        }
+      `,
+    messageId,
+    options: [{ prefixes: ['on'] }],
+    data: { prefixes: '"on"' },
   }),
 ];
