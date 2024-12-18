@@ -6,21 +6,57 @@ export type Options = [
   {
     readonly requireDescription?: boolean;
     readonly requireMeaning?: boolean;
+    readonly requireCustomId?: boolean;
+    readonly requireDefaultValue?: boolean;
+    readonly boundTextAllowedPattern?: string;
   },
 ];
 
 const DEFAULT_OPTIONS: Options[number] = {
   requireDescription: false,
   requireMeaning: false,
+  requireCustomId: false,
+  requireDefaultValue: false,
 };
 
-const VALID_LOCALIZED_STRING_WITH_DESCRIPTION = new RegExp(
-  /:(.*\|)?([\w\s]+){1}(@@.*)?:.+/,
-);
+export interface I18NMetadata {
+  meaning: boolean;
+  description: boolean;
+  customKey: boolean;
+  defaultValue: boolean;
+}
 
-const VALID_LOCALIZED_STRING_WITH_MEANING = new RegExp(
-  /:([\w\s]+\|)(.*)?(@@.*)?:.+/,
-);
+const validate = (
+  input: string,
+  typeToValidate: string,
+  boundTextAllowedPattern?: string,
+): boolean => {
+  const regex =
+    /^(?::(?:(?<meaning>[^|]+)\|)?(?<description>[^@:]*)?(?:@@(?<customId>[^:]*))?(?::(?<defaultValue>.*))?)$/;
+
+  const match = regex.exec(input.trim());
+
+  let result = false;
+  if (/^(:[^:].[^|:@]*)$/.test(input) === false) {
+    if (
+      typeToValidate === 'defaultValue' &&
+      !input.includes(':') &&
+      !input.includes('|') &&
+      !input.includes('@@')
+    ) {
+      // Input is plain text without special markers
+      result = true;
+    } else if (match && match.groups) {
+      if (typeToValidate === 'customId' && boundTextAllowedPattern) {
+        const boundTextAllowedRegex = new RegExp(boundTextAllowedPattern);
+        return boundTextAllowedRegex.test(match.groups[typeToValidate]);
+      } else {
+        result = !!match.groups[typeToValidate];
+      }
+    }
+  }
+  return result;
+};
 
 const STYLE_GUIDE_LINK = 'https://angular.dev/guide/i18n';
 const STYLE_GUIDE_LINK_COMMON_PREPARE = `${STYLE_GUIDE_LINK}-common-prepare`;
@@ -28,7 +64,10 @@ const STYLE_GUIDE_LINK_METADATA_FOR_TRANSLATION = `${STYLE_GUIDE_LINK_COMMON_PRE
 
 export type MessageIds =
   | 'requireLocalizeDescription'
-  | 'requireLocalizeMeaning';
+  | 'requireLocalizeMeaning'
+  | 'requireLocalizeCustomId'
+  | 'requireLocalizeDefaultValue'
+  | 'requireLocalizeAllowedCustomIdPattern';
 export const RULE_NAME = 'require-localize-metadata';
 
 export default createESLintRule<Options, MessageIds>({
@@ -51,6 +90,17 @@ export default createESLintRule<Options, MessageIds>({
             type: 'boolean',
             default: DEFAULT_OPTIONS.requireMeaning,
           },
+          requireCustomId: {
+            type: 'boolean',
+            default: DEFAULT_OPTIONS.requireCustomId,
+          },
+          requireDefaultValue: {
+            type: 'boolean',
+            default: DEFAULT_OPTIONS.requireDefaultValue,
+          },
+          boundTextAllowedPattern: {
+            type: 'string',
+          },
         },
         additionalProperties: false,
       },
@@ -58,16 +108,33 @@ export default createESLintRule<Options, MessageIds>({
     messages: {
       requireLocalizeDescription: `$localize tagged messages should contain a description. See more at ${STYLE_GUIDE_LINK_METADATA_FOR_TRANSLATION}`,
       requireLocalizeMeaning: `$localize tagged messages should contain a meaning. See more at ${STYLE_GUIDE_LINK_METADATA_FOR_TRANSLATION}`,
+      requireLocalizeCustomId: `$localize tagged messages should contain a custom id. See more at ${STYLE_GUIDE_LINK_METADATA_FOR_TRANSLATION}`,
+      requireLocalizeDefaultValue: `$localize tagged messages should contain a default value. See more at ${STYLE_GUIDE_LINK_METADATA_FOR_TRANSLATION}`,
+      requireLocalizeAllowedCustomIdPattern: `$localize tagged messages should contain a custom id following this pattern - "{{allowedPattern}}". See more at ${STYLE_GUIDE_LINK_METADATA_FOR_TRANSLATION}`,
     },
   },
   defaultOptions: [DEFAULT_OPTIONS],
-  create(context, [{ requireDescription, requireMeaning }]) {
+  create(
+    context,
+    [
+      {
+        requireDescription,
+        requireMeaning,
+        requireCustomId,
+        requireDefaultValue,
+        boundTextAllowedPattern,
+      },
+    ],
+  ) {
     return {
       TaggedTemplateExpression(
         taggedTemplateExpression: TSESTree.TaggedTemplateExpression,
       ) {
         if (
-          (requireDescription || requireMeaning) &&
+          (requireDescription ||
+            requireMeaning ||
+            requireCustomId ||
+            requireDefaultValue) &&
           ASTUtils.isIdentifier(taggedTemplateExpression.tag)
         ) {
           const identifierName = taggedTemplateExpression.tag.name;
@@ -77,10 +144,18 @@ export default createESLintRule<Options, MessageIds>({
             const templateElementRawValue = templateElement.value.raw;
 
             if (
+              requireMeaning &&
+              !validate(templateElementRawValue, 'meaning')
+            ) {
+              context.report({
+                loc: templateElement.loc,
+                messageId: 'requireLocalizeMeaning',
+              });
+            }
+
+            if (
               requireDescription &&
-              !VALID_LOCALIZED_STRING_WITH_DESCRIPTION.test(
-                templateElementRawValue,
-              )
+              !validate(templateElementRawValue, 'description')
             ) {
               context.report({
                 loc: templateElement.loc,
@@ -89,12 +164,40 @@ export default createESLintRule<Options, MessageIds>({
             }
 
             if (
-              requireMeaning &&
-              !VALID_LOCALIZED_STRING_WITH_MEANING.test(templateElementRawValue)
+              requireCustomId &&
+              !validate(templateElementRawValue, 'customId')
             ) {
               context.report({
                 loc: templateElement.loc,
-                messageId: 'requireLocalizeMeaning',
+                messageId: 'requireLocalizeCustomId',
+              });
+            }
+
+            if (
+              requireCustomId &&
+              boundTextAllowedPattern &&
+              !validate(
+                templateElementRawValue,
+                'customId',
+                boundTextAllowedPattern,
+              )
+            ) {
+              context.report({
+                loc: templateElement.loc,
+                messageId: 'requireLocalizeAllowedCustomIdPattern',
+                data: {
+                  allowedPattern: boundTextAllowedPattern,
+                },
+              });
+            }
+
+            if (
+              requireDefaultValue &&
+              !validate(templateElementRawValue, 'defaultValue')
+            ) {
+              context.report({
+                loc: templateElement.loc,
+                messageId: 'requireLocalizeDefaultValue',
               });
             }
           }
