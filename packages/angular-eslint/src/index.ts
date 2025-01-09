@@ -5,8 +5,10 @@ import type { TSESLint } from '@typescript-eslint/utils';
 import { parser } from 'typescript-eslint';
 
 import templateAccessibilityConfig from './configs/template-accessibility';
+import templateBaseConfig from './configs/template-base';
 import templateAllConfig from './configs/template-all';
 import templateRecommendedConfig from './configs/template-recommended';
+import tsBaseConfig from './configs/ts-base';
 import tsAllConfig from './configs/ts-all';
 import tsRecommendedConfig from './configs/ts-recommended';
 
@@ -48,8 +50,10 @@ const templatePlugin: TSESLint.FlatConfig.Plugin = templatePluginBase as Omit<
 >;
 
 const configs = {
+  tsBase: tsBaseConfig(tsPlugin, parser),
   tsAll: tsAllConfig(tsPlugin, parser),
   tsRecommended: tsRecommendedConfig(tsPlugin, parser),
+  templateBase: templateBaseConfig(templatePlugin, templateParser),
   templateAll: templateAllConfig(templatePlugin, templateParser),
   templateRecommended: templateRecommendedConfig(
     templatePlugin,
@@ -72,6 +76,7 @@ both CJS and ESM in very natural ways.
 */
 export default {
   configs,
+  tsParser: parser,
   tsPlugin,
   templateParser,
   templatePlugin,
@@ -79,8 +84,9 @@ export default {
 };
 export {
   configs,
+  tsParser: parser,
+  tsPlugin,
   templateParser,
   templatePlugin,
-  tsPlugin,
   processInlineTemplates,
 };
