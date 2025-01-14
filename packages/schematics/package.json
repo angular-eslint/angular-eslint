@@ -40,7 +40,7 @@
     "@angular-devkit/schematics": ">= 19.0.0 < 20.0.0",
     "@angular-eslint/eslint-plugin": "workspace:*",
     "@angular-eslint/eslint-plugin-template": "workspace:*",
-    "ignore": "6.0.2",
+    "ignore": "7.0.3",
     "semver": "7.6.3",
     "strip-json-comments": "3.1.1"
   },
