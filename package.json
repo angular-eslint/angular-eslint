@@ -55,7 +55,7 @@
     "@nx/esbuild": "20.3.1",
     "@nx/eslint": "20.3.1",
     "@nx/eslint-plugin": "20.3.1",
-    "@nx/jest": "20.2.0",
+    "@nx/jest": "20.3.1",
     "@nx/js": "20.3.1",
     "@nx/plugin": "20.3.1",
     "@nx/workspace": "20.3.1",
