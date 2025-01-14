@@ -410,6 +410,76 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
       Foo @if (bar) { Bar <a>Bam</a> } 
     </ng-container>
   `,
+  // https://github.com/angular-eslint/angular-eslint/issues/997
+  `
+    <input type="file" id="movie" name="movie" accept="video/*" />
+    <input type="file" id="poster" name="poster" accept="image/png, image/jpeg">
+  `,
+  `
+    <mat-dialog-actions align="end">
+      <button mat-button mat-dialog-close i18n="@@foo">Cancel</button>
+      <button mat-button [mat-dialog-close]="true" cdkFocusInitial i18n="@@bar">Install</button>
+    </mat-dialog-actions>
+  `,
+  `
+    <mat-form-field appearance="outline">
+      <mat-label i18n="@@foo">Fill form field</mat-label>
+      <input matInput placeholder="Placeholder" i18n-placeholder="@@bar">
+      <mat-hint i18n=@@baz>Hint</mat-hint>
+    </mat-form-field>
+  `,
+  `
+    <mat-form-field [hideRequiredMarker]="hideRequired()" floatLabel="always">
+      <input matInput placeholder="Simple placeholder" i18n-placeholder="@@foo" required />
+    </mat-form-field>
+  `,
+  `
+    <button mat-raised-button #tooltip="matTooltip"
+            matTooltip="Info about the action"
+            i18n-matTooltip="@@baz"
+            matTooltipPosition="right"
+            matTooltipHideDelay="100000"
+            aria-label="Button that displays a tooltip that hides when scrolled out of the container"
+            i18n-aria-label="@@foo"
+            i18n="@@bar"
+            class="example-button">
+      Action
+    </button>
+  `,
+  `
+    <img
+      ngSrc="cat.jpg"
+      ngSrcset="100w, 200w, 300w"
+      sizes="50vw"
+      loading="eager"
+      disableOptimizedSrcset
+      fill
+      priority
+      placeholder
+      [placeholderConfig]="{blur: false}"
+      [loaderParams]="{roundedCorners: true}"
+    >
+  `,
+  `
+    <mat-select [formControl]="panelColor"
+                panelClass="example-panel">
+      <mat-option value="red" i18n="@@foo">Red</mat-option>
+      <mat-option value="green" i18n="@@bar">Green</mat-option>
+      <mat-option value="blue" i18n="@@baz">Blue</mat-option>
+    </mat-select>
+  `,
+  `
+    <head>
+      <link
+        rel="apple-touch-icon"
+        sizes="114x114"
+        href="apple-icon-114.png"
+        type="image/png" />
+    </head>
+  `,
+  `
+    <meta http-equiv="refresh" content="3;url=https://www.mozilla.org" />
+  `,
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
@@ -1169,5 +1239,28 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     `,
     messageId: i18nMarkupInContent,
     options: [{ allowMarkupInContent: false, checkId: false }],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail for mat-icon with aria-label',
+    annotatedSource: `
+      <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="home"></mat-icon>
+                                    ~~~~~~~~~~                     ^^^^^^^^
+    `,
+    messages: [
+      {
+        char: '~',
+        messageId: i18nAttribute,
+        data: { attributeName: 'aria-label' },
+      },
+      {
+        char: '^',
+        messageId: i18nAttribute,
+        data: { attributeName: 'fontIcon' },
+      },
+    ],
+    annotatedOutput: `
+      <mat-icon aria-hidden="false" aria-label="Example home icon" i18n-aria-label fontIcon="home" i18n-fontIcon></mat-icon>
+                                                                   
+    `,
   }),
 ];
