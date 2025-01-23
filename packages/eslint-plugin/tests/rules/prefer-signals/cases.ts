@@ -61,6 +61,11 @@ export const valid = [
     `,
   `
     class Test {
+      readonly testSignal = linkedSignal(() => source);
+    }
+    `,
+  `
+    class Test {
       readonly testSignal = contentChild('test');
     }
     `,
@@ -323,6 +328,22 @@ export const invalid = [
     annotatedOutput: `
       class Test {
         readonly testSignal = computed(() => 0);
+        
+      }
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail when a linkedSignal is not readonly',
+    annotatedSource: `
+      class Test {
+        testSignal = linkedSignal(() => source);
+        ~~~~~~~~~~
+      }
+      `,
+    messageId: messageIdPreferReadonlySignalProperties,
+    annotatedOutput: `
+      class Test {
+        readonly testSignal = linkedSignal(() => source);
         
       }
       `,
