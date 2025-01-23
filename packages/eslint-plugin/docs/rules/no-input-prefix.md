@@ -465,6 +465,76 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-prefix": [
+      "error",
+      {
+        "prefixes": [
+          "on"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component()
+class Test {
+  @Input() on: string = 'on';
+           ~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-prefix": [
+      "error",
+      {
+        "prefixes": [
+          "on"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Injectable()
+class Test {
+  @Input('on') isPrefix = `on`;
+         ~~~~
+}
+```
+
 </details>
 
 <br>
@@ -877,6 +947,40 @@ const on = 'on';
 @Directive()
 class Test {
   @Input(test) [on]: EventEmitter<OnTest>;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-prefix": [
+      "error",
+      {
+        "prefixes": [
+          "on"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component()
+class Test {
+  @Input() notOn: string = 'on';
 }
 ```
 
