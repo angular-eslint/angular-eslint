@@ -45,8 +45,7 @@ const KNOWN_SIGNAL_CREATION_FUNCTIONS: ReadonlySet<string> = new Set([
 export type MessageIds =
   | 'preferInputSignals'
   | 'preferQuerySignals'
-  | 'preferReadonlySignalProperties'
-  | 'suggestAddReadonlyModifier';
+  | 'preferReadonlySignalProperties';
 export const RULE_NAME = 'prefer-signals';
 
 export default createESLintRule<Options, MessageIds>({
@@ -57,7 +56,7 @@ export default createESLintRule<Options, MessageIds>({
       description:
         'Use readonly signals instead of `@Input()`, `@ViewChild()` and other legacy decorators',
     },
-    hasSuggestions: true,
+    fixable: 'code',
     schema: [
       {
         type: 'object',
@@ -94,7 +93,6 @@ export default createESLintRule<Options, MessageIds>({
         'Use the `{{function}}` function instead of the `{{decorator}}` decorator',
       preferReadonlySignalProperties:
         'Properties declared using signals should be marked as `readonly` since they should not be reassigned',
-      suggestAddReadonlyModifier: 'Add `readonly` modifier',
     },
   },
   defaultOptions: [{ ...DEFAULT_OPTIONS }],
@@ -176,12 +174,7 @@ export default createESLintRule<Options, MessageIds>({
           context.report({
             node: node.key,
             messageId: 'preferReadonlySignalProperties',
-            suggest: [
-              {
-                messageId: 'suggestAddReadonlyModifier',
-                fix: (fixer) => fixer.insertTextBefore(node.key, 'readonly '),
-              },
-            ],
+            fix: (fixer) => fixer.insertTextBefore(node.key, 'readonly '),
           });
         }
       };

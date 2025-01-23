@@ -11,6 +11,7 @@ function normalizeVersionOfPackage(str: string, pkg: string) {
 
 const dependenciesToNormalize = [
   '@angular-devkit/build-angular',
+  '@angular/build',
   '@angular/cli',
   '@angular/compiler-cli',
   'ng-packagr',

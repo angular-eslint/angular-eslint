@@ -6,9 +6,6 @@
   "include": ["src/**/*"],
   "references": [
     {
-      "path": "../bundled-angular-compiler"
-    },
-    {
       "path": "../template-parser"
     },
     {

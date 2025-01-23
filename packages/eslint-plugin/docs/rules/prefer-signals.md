@@ -18,8 +18,7 @@
 Use readonly signals instead of `@Input()`, `@ViewChild()` and other legacy decorators
 
 - Type: suggestion
-
-- 💡 Provides suggestions on how to fix issues (https://eslint.org/docs/developer-guide/working-with-rules#providing-suggestions)
+- 🔧 Supports autofix (`--fix`)
 
 <br>
 
