@@ -6,22 +6,13 @@
   "include": ["src/**/*"],
   "references": [
     {
-      "path": "../schematics"
-    },
-    {
       "path": "../template-parser"
     },
     {
+      "path": "../schematics"
+    },
+    {
       "path": "../eslint-plugin-template"
-    },
-    {
-      "path": "../utils"
-    },
-    {
-      "path": "../test-utils"
-    },
-    {
-      "path": "../bundled-angular-compiler"
     },
     {
       "path": "../eslint-plugin"
