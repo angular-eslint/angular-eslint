@@ -35,6 +35,7 @@ const KNOWN_SIGNAL_CREATION_FUNCTIONS: ReadonlySet<string> = new Set([
   'contentChild',
   'contentChildren',
   'input',
+  'linkedSignal',
   'model',
   'signal',
   'toSignal',
