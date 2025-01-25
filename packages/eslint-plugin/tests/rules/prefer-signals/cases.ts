@@ -102,6 +102,11 @@ export const valid = [
     `,
   `
     class Test {
+      readonly testSignal = signal(true).asReadonly();
+    }
+    `,
+  `
+    class Test {
       readonly testSignal = toSignal(source);
     }
     `,
@@ -472,6 +477,22 @@ export const invalid = [
     annotatedOutput: `
       class Test {
         readonly testSignal = signal(42);
+        
+      }
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail when a signal.asReadonly() is not readonly',
+    annotatedSource: `
+      class Test {
+        testSignal = signal(42).asReadonly();
+        ~~~~~~~~~~
+      }
+      `,
+    messageId: messageIdPreferReadonlySignalProperties,
+    annotatedOutput: `
+      class Test {
+        readonly testSignal = signal(42).asReadonly();
         
       }
       `,
