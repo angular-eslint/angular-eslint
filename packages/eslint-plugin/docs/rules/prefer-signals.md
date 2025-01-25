@@ -486,6 +486,35 @@ class Test {
 
 ```ts
 class Test {
+  testSignal = signal(42).asReadonly();
+  ~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+class Test {
   testSignal = toSignal(source);
   ~~~~~~~~~~
 }
@@ -1305,6 +1334,34 @@ class Test {
 ```ts
 class Test {
   readonly testSignal = signal(true);
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+class Test {
+  readonly testSignal = signal(true).asReadonly();
 }
 ```
 
