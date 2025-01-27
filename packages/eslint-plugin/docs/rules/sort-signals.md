@@ -30,7 +30,7 @@ interface Options {
   /**
    * The order of the signal types
    *
-   * Default: `["input","model","output","viewChild","viewChildren","contentChild","contentChildren","inject","signal","computed"]`
+   * Default: `["inject","input","output","model","viewChild","viewChildren","contentChild","contentChildren","signal","computed"]`
    */
   order?: string[];
 }

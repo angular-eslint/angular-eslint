@@ -1,9 +1,10 @@
 import type { TSESTree } from '@typescript-eslint/utils';
 import {
-  ASTUtils,
   AST_NODE_TYPES,
   AST_TOKEN_TYPES,
+  ASTUtils,
 } from '@typescript-eslint/utils';
+
 import { getLast, isNotNullOrUndefined, objectKeys } from '../utils';
 
 export enum AngularClassDecorators {
@@ -97,14 +98,14 @@ export type AngularLifecycleMethodKeys = keyof typeof AngularLifecycleMethods;
 export type AngularSignalFunctionKeys = keyof typeof AngularSignalFunctions;
 
 export const angularSignalFunctionsOrdered = [
+  AngularSignalFunctions.inject,
   AngularSignalFunctions.input,
-  AngularSignalFunctions.model,
   AngularSignalFunctions.output,
+  AngularSignalFunctions.model,
   AngularSignalFunctions.viewChild,
   AngularSignalFunctions.viewChildren,
   AngularSignalFunctions.contentChild,
   AngularSignalFunctions.contentChildren,
-  AngularSignalFunctions.inject,
   AngularSignalFunctions.signal,
   AngularSignalFunctions.computed,
 ];
