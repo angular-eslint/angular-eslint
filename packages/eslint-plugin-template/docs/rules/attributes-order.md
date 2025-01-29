@@ -579,6 +579,35 @@ interface Options {
 #### ❌ Invalid Code
 
 ```html
+<svg>
+  <ng-template let-value #Template></ng-template>
+               ~~~~~~~~~~~~~~~~~~~
+</svg>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/attributes-order": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
 <td mat-cell *matCellDef="let element"></td>
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ```
@@ -1017,6 +1046,32 @@ interface Options {
 
 ```html
 <div i18n test1="test1" i18n-test1="@@TEST1" test2="test2" i18n-test2="@@TEST2"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/attributes-order": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<svg><ng-template #Template let-value><line x1="1" x2="2" y1="3" y2="4"></line></ng-template></svg>
 ```
 
 </details>
