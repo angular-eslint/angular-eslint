@@ -442,13 +442,19 @@ export function getPropertyDefinitionName({
   );
 }
 
+export const getDecoratorProperties = (
+  decorator: TSESTree.Decorator,
+): TSESTree.Property[] => {
+  return getDecoratorArgument(decorator)?.properties.filter(isProperty) ?? [];
+};
+
 export const getDecoratorProperty = (
   decorator: TSESTree.Decorator,
   name: string,
 ): TSESTree.Property | undefined => {
-  return getDecoratorArgument(decorator)
-    ?.properties.filter(isProperty)
-    .find(({ key }) => ASTUtils.isIdentifier(key) && key.name === name);
+  return getDecoratorProperties(decorator).find(
+    ({ key }) => ASTUtils.isIdentifier(key) && key.name === name,
+  );
 };
 
 export const getDecoratorPropertyValue = (
