@@ -1,5 +1,5 @@
+import { ASTUtils, Selectors } from '@angular-eslint/utils';
 import { TSESLint, TSESTree } from '@typescript-eslint/utils';
-import { AST_NODE_TYPES } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
 export type Options = [
@@ -78,90 +78,97 @@ export default createESLintRule<Options, MessageIds>({
     context: Readonly<TSESLint.RuleContext<MessageIds, Options>>,
     [orderConfig]: Readonly<Options>,
   ) {
-    return {
-      Decorator(node: TSESTree.Decorator) {
+    function checkContext(
+      node: TSESTree.Decorator,
+      decoratorName: string,
+    ): void {
+      const expectedOrder = orderConfig[decoratorName];
+      if (!expectedOrder) {
+        return;
+      }
+
+      const argument = ASTUtils.getDecoratorArgument(node);
+      if (!argument) {
+        return;
+      }
+
+      const properties = ASTUtils.getDecoratorProperties(node);
+      if (properties.length <= 1) {
+        return;
+      }
+
+      const firstConfiguredIndex = properties.findIndex(({ key }) =>
+        expectedOrder.includes((key as TSESTree.Identifier).name),
+      );
+      const lastNonConfiguredIndex = properties.findIndex(
+        ({ key }) => !expectedOrder.includes((key as TSESTree.Identifier).name),
+      );
+
+      if (
+        firstConfiguredIndex !== -1 &&
+        lastNonConfiguredIndex !== -1 &&
+        lastNonConfiguredIndex < firstConfiguredIndex
+      ) {
+        reportAndFix(
+          context,
+          properties[lastNonConfiguredIndex],
+          decoratorName,
+          properties,
+          expectedOrder,
+          argument,
+        );
+        return;
+      }
+
+      const configuredProperties = properties.filter(({ key }) =>
+        expectedOrder.includes((key as TSESTree.Identifier).name),
+      );
+
+      if (configuredProperties.length) {
+        const actualConfiguredOrder = configuredProperties.map(
+          ({ key }) => (key as TSESTree.Identifier).name,
+        );
+        const expectedConfiguredOrder = expectedOrder.filter((key: string) =>
+          actualConfiguredOrder.includes(key),
+        );
+
         if (
-          node.expression.type !== AST_NODE_TYPES.CallExpression ||
-          node.expression.callee.type !== AST_NODE_TYPES.Identifier
+          actualConfiguredOrder.length &&
+          JSON.stringify(actualConfiguredOrder) !==
+            JSON.stringify(expectedConfiguredOrder)
         ) {
-          return;
-        }
+          const firstOutOfOrderIndex = actualConfiguredOrder.findIndex(
+            (key, index) => key !== expectedConfiguredOrder[index],
+          );
+          const outOfOrderProperty = configuredProperties[firstOutOfOrderIndex];
 
-        const decoratorName = node.expression.callee.name;
-        const expectedOrder = orderConfig[decoratorName];
-
-        if (!expectedOrder || !node.expression.arguments.length) {
-          return;
-        }
-
-        const argument = node.expression.arguments[0];
-        if (argument.type !== AST_NODE_TYPES.ObjectExpression) {
-          return;
-        }
-
-        const properties = argument.properties.filter(
-          (property): property is TSESTree.Property =>
-            property.type === AST_NODE_TYPES.Property &&
-            property.key.type === AST_NODE_TYPES.Identifier,
-        );
-
-        const firstConfiguredIndex = properties.findIndex((prop) =>
-          expectedOrder.includes((prop.key as TSESTree.Identifier).name),
-        );
-        const lastNonConfiguredIndex = properties.findIndex(
-          (prop) =>
-            !expectedOrder.includes((prop.key as TSESTree.Identifier).name),
-        );
-
-        if (
-          firstConfiguredIndex !== -1 &&
-          lastNonConfiguredIndex !== -1 &&
-          lastNonConfiguredIndex < firstConfiguredIndex
-        ) {
           reportAndFix(
             context,
-            properties[lastNonConfiguredIndex],
+            outOfOrderProperty,
             decoratorName,
             properties,
             expectedOrder,
             argument,
           );
-          return;
         }
+      }
+    }
 
-        const configuredProperties = properties.filter((prop) =>
-          expectedOrder.includes((prop.key as TSESTree.Identifier).name),
-        );
-
-        if (configuredProperties.length) {
-          const actualConfiguredOrder = configuredProperties.map(
-            (prop) => (prop.key as TSESTree.Identifier).name,
-          );
-          const expectedConfiguredOrder = expectedOrder.filter((key: string) =>
-            actualConfiguredOrder.includes(key),
-          );
-
-          if (
-            actualConfiguredOrder.length &&
-            JSON.stringify(actualConfiguredOrder) !==
-              JSON.stringify(expectedConfiguredOrder)
-          ) {
-            const firstOutOfOrderIndex = actualConfiguredOrder.findIndex(
-              (key, index) => key !== expectedConfiguredOrder[index],
-            );
-            const outOfOrderProperty =
-              configuredProperties[firstOutOfOrderIndex];
-
-            reportAndFix(
-              context,
-              outOfOrderProperty,
-              decoratorName,
-              properties,
-              expectedOrder,
-              argument,
-            );
-          }
-        }
+    return {
+      [Selectors.COMPONENT_CLASS_DECORATOR](node: TSESTree.Decorator) {
+        checkContext(node, ASTUtils.AngularClassDecorators.Component);
+      },
+      [Selectors.DIRECTIVE_CLASS_DECORATOR](node: TSESTree.Decorator) {
+        checkContext(node, ASTUtils.AngularClassDecorators.Directive);
+      },
+      [Selectors.INJECTABLE_CLASS_DECORATOR](node: TSESTree.Decorator) {
+        checkContext(node, ASTUtils.AngularClassDecorators.Injectable);
+      },
+      [Selectors.MODULE_CLASS_DECORATOR](node: TSESTree.Decorator) {
+        checkContext(node, ASTUtils.AngularClassDecorators.NgModule);
+      },
+      [Selectors.PIPE_CLASS_DECORATOR](node: TSESTree.Decorator) {
+        checkContext(node, ASTUtils.AngularClassDecorators.Pipe);
       },
     };
   },
@@ -176,7 +183,7 @@ function reportAndFix(
   objectExpression: TSESTree.Expression,
 ): void {
   const presentProperties = properties.map(
-    (prop) => (prop.key as TSESTree.Identifier).name,
+    ({ key }) => (key as TSESTree.Identifier).name,
   );
   const expectedConfiguredOrder = expectedOrder.filter((key: string) =>
     presentProperties.includes(key),
@@ -190,25 +197,20 @@ function reportAndFix(
       expectedOrder: expectedConfiguredOrder.join(', '),
     },
     fix(fixer) {
-      const sourceCode = context.getSourceCode();
+      const sourceCode = context.sourceCode;
       const nonConfiguredProperties = properties.filter(
-        (prop) =>
-          !expectedOrder.includes((prop.key as TSESTree.Identifier).name),
+        ({ key }) => !expectedOrder.includes((key as TSESTree.Identifier).name),
       );
 
       const newProperties = [
         ...expectedOrder
-          .filter((key: string) =>
-            properties.some(
-              (prop) => (prop.key as TSESTree.Identifier).name === key,
+          .map((expectedOrderKey: string) =>
+            properties.find(
+              ({ key }) =>
+                (key as TSESTree.Identifier).name === expectedOrderKey,
             ),
           )
-          .map(
-            (key: string) =>
-              properties.find(
-                (prop) => (prop.key as TSESTree.Identifier).name === key,
-              )!,
-          )
+          .filter((prop): prop is TSESTree.Property => !!prop)
           .map((prop) => sourceCode.getText(prop)),
         ...nonConfiguredProperties.map((prop) => sourceCode.getText(prop)),
       ];
