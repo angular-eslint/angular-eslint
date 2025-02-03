@@ -29,7 +29,7 @@ The rule accepts an options object with the following properties:
 ```ts
 interface Options {
   /**
-   * Default: `["selector","imports","standalone","templateUrl","styleUrl","encapsulation","changeDetection"]`
+   * Default: `["selector","imports","standalone","templateUrl","template","styleUrl","styleUrls","styles","encapsulation","changeDetection"]`
    */
   Component?: string[];
   /**
