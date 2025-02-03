@@ -49,6 +49,7 @@ export default (
       '@angular-eslint/require-lifecycle-on-prototype': 'error',
       '@angular-eslint/require-localize-metadata': 'error',
       '@angular-eslint/runtime-localize': 'error',
+      '@angular-eslint/sort-keys-in-type-decorator': 'error',
       '@angular-eslint/sort-lifecycle-methods': 'error',
       '@angular-eslint/use-component-selector': 'error',
       '@angular-eslint/use-component-view-encapsulation': 'error',
