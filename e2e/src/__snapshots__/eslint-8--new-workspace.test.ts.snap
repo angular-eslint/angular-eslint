@@ -8,7 +8,6 @@ exports[`eslint-8--new-workspace should pass linting after creating a new worksp
   "@angular-eslint/eslint-plugin-template": "0.0.0-e2e",
   "@angular-eslint/schematics": "0.0.0-e2e",
   "@angular-eslint/template-parser": "0.0.0-e2e",
-  "@angular/build": "^19.X.X",
   "@angular/cli": "^19.X.X",
   "@angular/compiler-cli": "^19.X.X",
   "@types/jasmine": "~5.1.0",
