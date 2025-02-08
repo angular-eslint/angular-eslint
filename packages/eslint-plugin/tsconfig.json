@@ -6,11 +6,20 @@
   },
   "include": ["**/*.ts", "**/*.json"],
   "references": [
-    { "path": "../utils" },
-    { "path": "../template-parser" },
-    { "path": "../test-utils" },
-    { "path": "../bundled-angular-compiler" },
-    { "path": "./tsconfig.lib.json" },
-    { "path": "./tsconfig.spec.json" }
+    {
+      "path": "../utils"
+    },
+    {
+      "path": "../bundled-angular-compiler"
+    },
+    {
+      "path": "../test-utils"
+    },
+    {
+      "path": "./tsconfig.lib.json"
+    },
+    {
+      "path": "./tsconfig.spec.json"
+    }
   ]
 }

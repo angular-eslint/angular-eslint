@@ -2,8 +2,8 @@ import type {
   TmplAstContent,
   TmplAstElement,
   TmplAstTemplate,
-  TmplAstText,
 } from '@angular-eslint/bundled-angular-compiler';
+import { TmplAstText } from '@angular-eslint/bundled-angular-compiler';
 import { getTemplateParserServices } from '@angular-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import { getDomElements } from '../utils/get-dom-elements';
@@ -60,12 +60,17 @@ export default createESLintRule<Options, MessageIds>({
       const noContent =
         !children.length ||
         children.every((node) => {
-          const text = (node as TmplAstText).value;
-
-          // If the node has no value, or only whitespace,
-          // we can consider it empty.
+          // If the node is only whitespace, we can consider it empty.
+          // We need to look at the text from the source code, rather
+          // than the `TmplAstText.value` property. The `value` property
+          // contains the HTML-decoded value, so if the raw text contains
+          // `&nbsp;`, that is decoded to a space, but we don't want to
+          // treat that as empty text.
           return (
-            typeof text === 'string' && text.replace(/\n/g, '').trim() === ''
+            node instanceof TmplAstText &&
+            context.sourceCode.text
+              .slice(node.sourceSpan.start.offset, node.sourceSpan.end.offset)
+              .trim() === ''
           );
         });
       const noCloseTag =

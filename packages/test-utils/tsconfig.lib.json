@@ -10,9 +10,6 @@
   "include": ["src/**/*"],
   "references": [
     {
-      "path": "../bundled-angular-compiler/tsconfig.lib.json"
-    },
-    {
       "path": "../template-parser/tsconfig.lib.json"
     }
   ]

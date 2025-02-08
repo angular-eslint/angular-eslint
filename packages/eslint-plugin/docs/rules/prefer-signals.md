@@ -18,8 +18,7 @@
 Use readonly signals instead of `@Input()`, `@ViewChild()` and other legacy decorators
 
 - Type: suggestion
-
-- 💡 Provides suggestions on how to fix issues (https://eslint.org/docs/developer-guide/working-with-rules#providing-suggestions)
+- 🔧 Supports autofix (`--fix`)
 
 <br>
 
@@ -198,6 +197,35 @@ class Test {
 ```ts
 class Test {
   testSignal = computed(() => 0);
+  ~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+class Test {
+  testSignal = linkedSignal(() => source);
   ~~~~~~~~~~
 }
 ```
@@ -430,6 +458,35 @@ class Test {
 ```ts
 class Test {
   testSignal = signal(42);
+  ~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+class Test {
+  testSignal = signal(42).asReadonly();
   ~~~~~~~~~~
 }
 ```
@@ -1079,6 +1136,34 @@ class Test {
 
 ```ts
 class Test {
+  readonly testSignal = linkedSignal(() => source);
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+class Test {
   readonly testSignal = contentChild('test');
 }
 ```
@@ -1249,6 +1334,34 @@ class Test {
 ```ts
 class Test {
   readonly testSignal = signal(true);
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+class Test {
+  readonly testSignal = signal(true).asReadonly();
 }
 ```
 
