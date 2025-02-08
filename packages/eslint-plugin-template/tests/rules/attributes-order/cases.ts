@@ -23,6 +23,7 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '<ng-template [ngIf]="condition" [ngIfThen]="If" [ngIfElse]="Else"><div></div></ng-template>',
   '<ng-template #Template let-value><div></div></ng-template>',
   '<div i18n test1="test1" i18n-test1="@@TEST1" test2="test2" i18n-test2="@@TEST2"></div>',
+  '<svg><ng-template #Template let-value><line x1="1" x2="2" y1="3" y2="4"></line></ng-template></svg>',
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
@@ -343,6 +344,27 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     annotatedOutput: `
       <ng-template #Template let-anotherValue="else" let-value="something"></ng-template>
                    
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description: 'should work with ng-template in svg',
+    annotatedSource: `
+      <svg>
+        <ng-template let-value #Template></ng-template>
+                     ~~~~~~~~~~~~~~~~~~~
+      </svg>
+    `,
+    options: [{ alphabetical: true }] as Options,
+    data: {
+      expected: '`#Template`, `let-value`',
+      actual: '`let-value`, `#Template`',
+    },
+    annotatedOutput: `
+      <svg>
+        <ng-template #Template let-value></ng-template>
+                     
+      </svg>
     `,
   }),
   convertAnnotatedSourceToFailureCase({
