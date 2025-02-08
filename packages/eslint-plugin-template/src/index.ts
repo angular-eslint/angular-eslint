@@ -70,6 +70,9 @@ import preferControlFlow, {
 import preferSelfClosingTags, {
   RULE_NAME as preferSelfClosingTagsRuleName,
 } from './rules/prefer-self-closing-tags';
+import preferStaticStringProperties, {
+  RULE_NAME as preferStaticStringPropertiesRuleName,
+} from './rules/prefer-static-string-properties';
 import roleHasRequiredAria, {
   RULE_NAME as roleHasRequiredAriaRuleName,
 } from './rules/role-has-required-aria';
@@ -114,6 +117,7 @@ export = {
     [noPositiveTabindexRuleName]: noPositiveTabindex,
     [preferControlFlowRuleName]: preferControlFlow,
     [preferSelfClosingTagsRuleName]: preferSelfClosingTags,
+    [preferStaticStringPropertiesRuleName]: preferStaticStringProperties,
     [preferNgsrcRuleName]: preferNgsrc,
     [roleHasRequiredAriaRuleName]: roleHasRequiredAria,
     [tableScopeRuleName]: tableScope,
