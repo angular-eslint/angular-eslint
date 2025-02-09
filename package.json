@@ -34,6 +34,7 @@
     "check-rule-lists": "nx run-many -t check-rule-lists",
     "update-rule-lists": "nx run-many -t update-rule-lists",
     "update-rule-configs": "nx run-many -t update-rule-configs",
+    "update-native-event-names": "nx run utils:update-native-event-names",
     "prepare": "husky"
   },
   "config": {
