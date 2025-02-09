@@ -1,3 +1,29 @@
+## 19.1.0 (2025-02-09)
+
+### 🚀 Features
+
+- **eslint-plugin:** prefer-signals read-only suggestion is now a fix ([#2175](https://github.com/angular-eslint/angular-eslint/pull/2175))
+- **eslint-plugin:** prefer-signals now checks .asReadonly() calls ([#2218](https://github.com/angular-eslint/angular-eslint/pull/2218))
+- **eslint-plugin-template:** add rule prefer-static-string-properties ([#2228](https://github.com/angular-eslint/angular-eslint/pull/2228))
+
+### 🩹 Fixes
+
+- update dependency ignore to v7 ([#2200](https://github.com/angular-eslint/angular-eslint/pull/2200))
+- update dependency @angular/compiler to v19.1.5 ([#2226](https://github.com/angular-eslint/angular-eslint/pull/2226))
+- update dependency semver to v7.7.1 ([#2225](https://github.com/angular-eslint/angular-eslint/pull/2225))
+- update typescript-eslint packages to v8.23.0 ([#2212](https://github.com/angular-eslint/angular-eslint/pull/2212))
+- update dependency eslint to v9.20.0 ([#2217](https://github.com/angular-eslint/angular-eslint/pull/2217))
+- **eslint-plugin:** [prefer-signals] support linkedSignal ([#2213](https://github.com/angular-eslint/angular-eslint/pull/2213))
+- **eslint-plugin:** [no-input-prefix] false positive on input initializer value ([#2184](https://github.com/angular-eslint/angular-eslint/pull/2184))
+- **eslint-plugin-template:** [prefer-self-closing-tags] do not remove HTML-encoded whitespace ([#2229](https://github.com/angular-eslint/angular-eslint/pull/2229))
+- **eslint-plugin-template:** [attribute-order] check for ng-template within svg ([#2223](https://github.com/angular-eslint/angular-eslint/pull/2223))
+
+### ❤️ Thank You
+
+- Cédric Exbrayat @cexbrayat
+- Dave @reduckted
+- Lucas Neto Moreira
+
 ## 19.0.2 (2024-12-10)
 
 ### 🩹 Fixes

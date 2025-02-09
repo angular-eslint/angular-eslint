@@ -1,3 +1,21 @@
+## 19.1.0 (2025-02-09)
+
+### 🚀 Features
+
+- **eslint-plugin:** prefer-signals now checks .asReadonly() calls ([#2218](https://github.com/angular-eslint/angular-eslint/pull/2218))
+- **eslint-plugin:** prefer-signals read-only suggestion is now a fix ([#2175](https://github.com/angular-eslint/angular-eslint/pull/2175))
+
+### 🩹 Fixes
+
+- **eslint-plugin:** [no-input-prefix] false positive on input initializer value ([#2184](https://github.com/angular-eslint/angular-eslint/pull/2184))
+- **eslint-plugin:** [prefer-signals] support linkedSignal ([#2213](https://github.com/angular-eslint/angular-eslint/pull/2213))
+
+### ❤️ Thank You
+
+- Cédric Exbrayat @cexbrayat
+- Dave @reduckted
+- Lucas Neto Moreira
+
 ## 19.0.2 (2024-12-10)
 
 ### 🩹 Fixes
