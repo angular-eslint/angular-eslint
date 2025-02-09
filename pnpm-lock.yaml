@@ -139,8 +139,8 @@ importers:
         specifier: 20.3.3
         version: 20.3.3(@swc-node/register@1.10.9(@swc/core@1.10.15(@swc/helpers@0.5.15))(@swc/types@0.1.17)(typescript@5.7.3))(@swc/core@1.10.15(@swc/helpers@0.5.15))
       prettier:
-        specifier: 3.4.2
-        version: 3.4.2
+        specifier: 3.5.0
+        version: 3.5.0
       prettier-v2-for-jest-inline-snapshots:
         specifier: npm:prettier@^2
         version: prettier@2.8.8
@@ -4967,8 +4967,8 @@ packages:
     engines: {node: '>=10.13.0'}
     hasBin: true
 
-  prettier@3.4.2:
-    resolution: {integrity: sha512-e9MewbtFo+Fevyuxn/4rrcDAaq0IYxPGLvObpQjiZBMAzB9IGmzlnG9RZy3FFas+eBMu2vA0CszMeduow5dIuQ==}
+  prettier@3.5.0:
+    resolution: {integrity: sha512-quyMrVt6svPS7CjQ9gKb3GLEX/rl3BCL2oa/QkNcXv4YNVBC9olt3s+H7ukto06q7B1Qz46PbrKLO34PR6vXcA==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -10752,7 +10752,7 @@ snapshots:
       js-yaml: 4.1.0
       lodash: 4.17.21
       minimist: 1.2.8
-      prettier: 3.4.2
+      prettier: 3.5.0
       tinyglobby: 0.2.10
 
   json-schema-traverse@0.4.1: {}
@@ -11534,7 +11534,7 @@ snapshots:
 
   prettier@2.8.8: {}
 
-  prettier@3.4.2: {}
+  prettier@3.5.0: {}
 
   pretty-format@29.7.0:
     dependencies:
