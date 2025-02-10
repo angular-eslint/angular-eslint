@@ -64,9 +64,7 @@ export function preprocessComponentFile(
       /* setParentNodes */ true,
     );
 
-    const classDeclarations = sourceFile.statements.filter((s) =>
-      ts.isClassDeclaration(s),
-    ) as ts.ClassDeclaration[];
+    const classDeclarations = getClassDeclarationFromSourceFile(sourceFile);
     if (!classDeclarations || !classDeclarations.length) {
       return noopResult;
     }
@@ -196,6 +194,78 @@ export function preprocessComponentFile(
       filename,
     );
     return noopResult;
+  }
+}
+
+function getClassDeclarationFromSourceFile(
+  sourceFile: ts.SourceFile,
+): ts.ClassDeclaration[] {
+  const classDeclarations: ts.ClassDeclaration[] = [];
+
+  visit(sourceFile);
+
+  return classDeclarations;
+
+  function visit(node: ts.Node) {
+    if (ts.isClassDeclaration(node)) {
+      classDeclarations.push(node);
+      return;
+    }
+
+    // Class declarations are usually at the top-level, but there are
+    // some situations where they might be nested, such as in test files.
+    // If the node could have a class declaration somewhere in its
+    // descendant nodes, then we will recurse down into each child node.
+
+    // Keywords, tokens and trivia all come before `FirstNode`. They won't
+    // contain child nodes anyway, but we can skip them to save some time.
+    if (
+      node.kind < ts.SyntaxKind.FirstNode &&
+      node.kind > ts.SyntaxKind.FirstJSDocNode
+    ) {
+      return;
+    }
+
+    // Some names, parameters and signatures can be skipped.
+    if (
+      node.kind >= ts.SyntaxKind.QualifiedName &&
+      node.kind <= ts.SyntaxKind.MethodSignature
+    ) {
+      return;
+    }
+
+    // Type nodes can be skipped.
+    if (
+      node.kind >= ts.SyntaxKind.TypeReference &&
+      node.kind <= ts.SyntaxKind.ImportType
+    ) {
+      return;
+    }
+
+    // JSX nodes won't contain class declarations
+    // that have Angular templates.
+    if (
+      node.kind >= ts.SyntaxKind.JsxElement &&
+      node.kind <= ts.SyntaxKind.JsxNamespacedName
+    ) {
+      return;
+    }
+
+    // Some specific kinds of nodes can be skipped.
+    switch (node.kind) {
+      case ts.SyntaxKind.CallSignature:
+      case ts.SyntaxKind.ConstructSignature:
+      case ts.SyntaxKind.IndexSignature:
+      case ts.SyntaxKind.EnumDeclaration:
+      case ts.SyntaxKind.ImportEqualsDeclaration:
+      case ts.SyntaxKind.ImportDeclaration:
+      case ts.SyntaxKind.ImportClause:
+        return;
+    }
+
+    // For everything else, we'll play it safe
+    // and recurse down into the child nodes.
+    ts.forEachChild(node, visit);
   }
 }
 
