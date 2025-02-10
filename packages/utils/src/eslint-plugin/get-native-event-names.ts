@@ -3,7 +3,7 @@ let nativeEventNames: ReadonlySet<string> | null = null;
 /**
  * Check MDN events page for details https://developer.mozilla.org/en-US/docs/Web/Events
  *
- * Event names sourced from https://github.com/mdn/browser-compat-data/tree/bc05e9810a212762be9d0521a313b45d4a352305/api
+ * Event names sourced from @mdn/browser-compat-data@5.6.37
  */
 export function getNativeEventNames(): ReadonlySet<string> {
   return (
