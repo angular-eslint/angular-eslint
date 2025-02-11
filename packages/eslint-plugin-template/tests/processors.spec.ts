@@ -465,6 +465,22 @@ describe('extract-inline-html', () => {
               class ParenthesizedComponent {}
             });
           });
+
+          // The following statements test the early-exiting
+          // logic in the processor when it walks the
+          // syntax tree to find class declarations.
+
+          type A = number;
+
+          let b: string[] = [1, 2, 3];
+
+          enum C {
+            D = 1,
+          }
+
+          interface E {
+            f: string;
+          }
         `;
         expect(
           processors['extract-inline-html'].preprocess(

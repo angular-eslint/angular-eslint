@@ -219,43 +219,26 @@ function getClassDeclarationFromSourceFile(
 
     // Keywords, tokens and trivia all come before `FirstNode`. They won't
     // contain child nodes anyway, but we can skip them to save some time.
+    // Likewise, we can skip nodes that are part of JSDoc comments.
     if (
-      node.kind < ts.SyntaxKind.FirstNode &&
+      node.kind < ts.SyntaxKind.FirstNode ||
       node.kind > ts.SyntaxKind.FirstJSDocNode
-    ) {
-      return;
-    }
-
-    // Some names, parameters and signatures can be skipped.
-    if (
-      node.kind >= ts.SyntaxKind.QualifiedName &&
-      node.kind <= ts.SyntaxKind.MethodSignature
     ) {
       return;
     }
 
     // Type nodes can be skipped.
     if (
-      node.kind >= ts.SyntaxKind.TypeReference &&
+      node.kind >= ts.SyntaxKind.TypePredicate &&
       node.kind <= ts.SyntaxKind.ImportType
     ) {
       return;
     }
 
-    // JSX nodes won't contain class declarations
-    // that have Angular templates.
-    if (
-      node.kind >= ts.SyntaxKind.JsxElement &&
-      node.kind <= ts.SyntaxKind.JsxNamespacedName
-    ) {
-      return;
-    }
-
-    // Some specific kinds of nodes can be skipped.
+    // Some specific kinds of nodes can be skipped because
+    // we know that they cannot contain class declarations.
     switch (node.kind) {
-      case ts.SyntaxKind.CallSignature:
-      case ts.SyntaxKind.ConstructSignature:
-      case ts.SyntaxKind.IndexSignature:
+      case ts.SyntaxKind.InterfaceDeclaration:
       case ts.SyntaxKind.EnumDeclaration:
       case ts.SyntaxKind.ImportEqualsDeclaration:
       case ts.SyntaxKind.ImportDeclaration:
