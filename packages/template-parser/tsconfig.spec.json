@@ -2,7 +2,8 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "../../dist/out-tsc/schematics",
-    "types": ["jest", "node"]
+    "types": ["jest", "node"],
+    "sourceMap": true
   },
   "include": [
     "**/*.test.ts",
