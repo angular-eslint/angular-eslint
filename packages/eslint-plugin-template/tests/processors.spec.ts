@@ -431,6 +431,82 @@ describe('extract-inline-html', () => {
         ]);
       });
     });
+
+    describe('components within blocks', () => {
+      it(`should support extracting inline templates from components that are not at the top-level`, () => {
+        const input = `
+          import { Component } from '@angular/core';
+
+          describe('nested', () => {
+            describe('arrow', () => {
+              @Component({
+                selector: 'app-a',
+                template: '<h1>Arrow</h1>',
+                styleUrls: ['./a.component.scss']
+              })
+              class ArrowComponent {}
+            });
+
+            describe('function', function () {
+              @Component({
+                selector: 'app-b',
+                template: '<h1>Function</h1>',
+                styleUrls: ['./b.component.scss']
+              })
+              class FunctionComponent {}
+            });
+
+            (() => {
+              @Component({
+                selector: 'app-b',
+                template: '<h1>Parenthesized</h1>',
+                styleUrls: ['./b.component.scss']
+              })
+              class ParenthesizedComponent {}
+            });
+          });
+
+          // The following statements test the early-exiting
+          // logic in the processor when it walks the
+          // syntax tree to find class declarations.
+
+          type A = number;
+
+          let b: string[] = [1, 2, 3];
+
+          enum C {
+            D = 1,
+          }
+
+          interface E {
+            f: string;
+          }
+        `;
+        expect(
+          processors['extract-inline-html'].preprocess(
+            input,
+            'multiple-in-blocks.spec.ts',
+          ),
+        ).toEqual([
+          input,
+          {
+            filename:
+              'inline-template-multiple-in-blocks.spec.ts-1.component.html',
+            text: '<h1>Arrow</h1>',
+          },
+          {
+            filename:
+              'inline-template-multiple-in-blocks.spec.ts-2.component.html',
+            text: '<h1>Function</h1>',
+          },
+          {
+            filename:
+              'inline-template-multiple-in-blocks.spec.ts-3.component.html',
+            text: '<h1>Parenthesized</h1>',
+          },
+        ]);
+      });
+    });
   });
 
   describe('postprocess()', () => {
