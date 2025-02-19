@@ -22,8 +22,8 @@ importers:
         specifier: 19.1.6
         version: 19.1.6(@types/node@20.17.17)
       '@angular/compiler':
-        specifier: 19.1.5
-        version: 19.1.5
+        specifier: 19.1.7
+        version: 19.1.7
       '@commitlint/cli':
         specifier: 19.7.1
         version: 19.7.1(@types/node@20.17.17)(typescript@5.7.3)
@@ -432,11 +432,11 @@ packages:
     engines: {node: ^18.19.1 || ^20.11.1 || >=22.0.0, npm: ^6.11.0 || ^7.5.6 || >=8.0.0, yarn: '>= 1.13.0'}
     hasBin: true
 
-  '@angular/compiler@19.1.5':
-    resolution: {integrity: sha512-8dhticSq98qZanbPBqLACykR08eHbh9WyXG4VJB7Ru9465DjOd6sRM3gmGDNvNlohh30S4xJzPhVrzYXmIyqiA==}
+  '@angular/compiler@19.1.7':
+    resolution: {integrity: sha512-Q3eqqIhMEzrnmFJtUO0K+WPpCfP/JTl9lJXZKe0zgNPdRFUufjSUcPHGzd7OjN2gPpiAvS1yBvENvqs+g/MejQ==}
     engines: {node: ^18.19.1 || ^20.11.1 || >=22.0.0}
     peerDependencies:
-      '@angular/core': 19.1.5
+      '@angular/core': 19.1.7
     peerDependenciesMeta:
       '@angular/core':
         optional: true
@@ -6096,7 +6096,7 @@ snapshots:
       - chokidar
       - supports-color
 
-  '@angular/compiler@19.1.5':
+  '@angular/compiler@19.1.7':
     dependencies:
       tslib: 2.8.1
 
