@@ -30,7 +30,11 @@ export default createESLintRule<Options, MessageIds>({
     const parserServices = getTemplateParserServices(context);
 
     return {
-      BoundAttribute({ name, sourceSpan, value }: TmplAstBoundAttribute) {
+      ['BoundAttribute.inputs']({
+        name,
+        sourceSpan,
+        value,
+      }: TmplAstBoundAttribute) {
         if (
           value instanceof ASTWithSource &&
           value.ast instanceof LiteralPrimitive &&
