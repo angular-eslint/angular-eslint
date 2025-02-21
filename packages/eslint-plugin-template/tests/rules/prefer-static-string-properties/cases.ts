@@ -17,6 +17,7 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '<my-component [name]="null"/>',
   '<my-component [name]="undefined"/>',
   '<my-component name="foo"/>',
+  `<my-component *name="'foo'"/>`,
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
