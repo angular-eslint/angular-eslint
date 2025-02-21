@@ -58,7 +58,7 @@ const validate = (
   return result;
 };
 
-const STYLE_GUIDE_LINK = 'https://angular.dev/guide/i18n';
+const STYLE_GUIDE_LINK = 'https://angular.dev/guide/i18n/prepare';
 const STYLE_GUIDE_LINK_COMMON_PREPARE = `${STYLE_GUIDE_LINK}-common-prepare`;
 const STYLE_GUIDE_LINK_METADATA_FOR_TRANSLATION = `${STYLE_GUIDE_LINK_COMMON_PREPARE}#i18n-metadata-for-translation`;
 
@@ -98,7 +98,7 @@ export default createESLintRule<Options, MessageIds>({
             type: 'boolean',
             default: DEFAULT_OPTIONS.requireDefaultValue,
           },
-          boundTextAllowedPattern: {
+          requireCustomIdMatchingPattern: {
             type: 'string',
           },
         },
