@@ -35,6 +35,7 @@ const KNOWN_SIGNAL_CREATION_FUNCTIONS: ReadonlySet<string> = new Set([
   'contentChild',
   'contentChildren',
   'input',
+  'linkedSignal',
   'model',
   'signal',
   'toSignal',
@@ -137,8 +138,24 @@ export default createESLintRule<Options, MessageIds>({
           // There is no type annotation, so try to
           // use the value assigned to the property
           // to determine whether it would be a signal.
-          if (node.value?.type === AST_NODE_TYPES.CallExpression) {
-            let callee: TSESTree.Node = node.value.callee;
+          let value = node.value;
+          if (value?.type === AST_NODE_TYPES.CallExpression) {
+            const callee = value.callee;
+            // A `WritableSignal` can be turned into a `Signal` using
+            // the `.asReadonly()` method. If that method is being,
+            // called, then we need to look at the object that the method
+            // is called on to determine if it's being called on a `Signal`.
+            if (callee.type === AST_NODE_TYPES.MemberExpression) {
+              if (
+                callee.property.type === AST_NODE_TYPES.Identifier &&
+                callee.property.name === 'asReadonly'
+              ) {
+                value = callee.object;
+              }
+            }
+          }
+          if (value?.type === AST_NODE_TYPES.CallExpression) {
+            let callee: TSESTree.Node = value.callee;
             // Some signal-creating functions have a `.required`
             // member. For example, `input.required()`.
             if (callee.type === AST_NODE_TYPES.MemberExpression) {

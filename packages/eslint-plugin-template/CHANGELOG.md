@@ -1,3 +1,18 @@
+## 19.1.0 (2025-02-09)
+
+### 🚀 Features
+
+- **eslint-plugin-template:** add rule prefer-static-string-properties ([#2228](https://github.com/angular-eslint/angular-eslint/pull/2228))
+
+### 🩹 Fixes
+
+- **eslint-plugin-template:** [attribute-order] check for ng-template within svg ([#2223](https://github.com/angular-eslint/angular-eslint/pull/2223))
+- **eslint-plugin-template:** [prefer-self-closing-tags] do not remove HTML-encoded whitespace ([#2229](https://github.com/angular-eslint/angular-eslint/pull/2229))
+
+### ❤️ Thank You
+
+- Dave @reduckted
+
 ## 19.0.2 (2024-12-10)
 
 This was a version bump only for eslint-plugin-template to align it with other projects, there were no code changes.

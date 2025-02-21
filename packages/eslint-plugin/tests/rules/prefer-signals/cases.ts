@@ -61,6 +61,11 @@ export const valid = [
     `,
   `
     class Test {
+      readonly testSignal = linkedSignal(() => source);
+    }
+    `,
+  `
+    class Test {
       readonly testSignal = contentChild('test');
     }
     `,
@@ -93,6 +98,11 @@ export const valid = [
   `
     class Test {
       readonly testSignal = signal(true);
+    }
+    `,
+  `
+    class Test {
+      readonly testSignal = signal(true).asReadonly();
     }
     `,
   `
@@ -328,6 +338,22 @@ export const invalid = [
       `,
   }),
   convertAnnotatedSourceToFailureCase({
+    description: 'should fail when a linkedSignal is not readonly',
+    annotatedSource: `
+      class Test {
+        testSignal = linkedSignal(() => source);
+        ~~~~~~~~~~
+      }
+      `,
+    messageId: messageIdPreferReadonlySignalProperties,
+    annotatedOutput: `
+      class Test {
+        readonly testSignal = linkedSignal(() => source);
+        
+      }
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
     description: 'should fail when a contentChild is not readonly',
     annotatedSource: `
       class Test {
@@ -451,6 +477,22 @@ export const invalid = [
     annotatedOutput: `
       class Test {
         readonly testSignal = signal(42);
+        
+      }
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail when a signal.asReadonly() is not readonly',
+    annotatedSource: `
+      class Test {
+        testSignal = signal(42).asReadonly();
+        ~~~~~~~~~~
+      }
+      `,
+    messageId: messageIdPreferReadonlySignalProperties,
+    annotatedOutput: `
+      class Test {
+        readonly testSignal = signal(42).asReadonly();
         
       }
       `,

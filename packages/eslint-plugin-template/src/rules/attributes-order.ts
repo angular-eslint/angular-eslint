@@ -300,7 +300,10 @@ function toTemplateReferenceVariableOrderType(reference: TmplAstReference) {
 function isImplicitTemplate(
   node: TmplAstNode,
 ): node is TmplAstTemplate & { tagName: null } {
-  return isTmplAstTemplate(node) && node.tagName !== 'ng-template';
+  return (
+    isTmplAstTemplate(node) &&
+    (node.tagName === null || !/^(:svg:)?ng-template$/.test(node.tagName))
+  );
 }
 
 function extractTemplateAttrs(
