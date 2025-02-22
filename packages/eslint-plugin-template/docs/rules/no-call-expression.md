@@ -794,7 +794,7 @@ interface Options {
 #### ✅ Valid Code
 
 ```html
-@for (item of list; track item.id)) {
+@for (item of list; track item.id) {
   <div></div>
 } @empty {
   <div></div>

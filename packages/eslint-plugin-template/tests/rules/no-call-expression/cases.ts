@@ -50,7 +50,7 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     } 
   }`,
   `
-  @for (item of list; track item.id)) {
+  @for (item of list; track item.id) {
     <div></div>
   } @empty {
     <div></div>

@@ -182,7 +182,7 @@ interface Options {
 #### ❌ Invalid Code
 
 ```html
-<div [prop]="condition1 === 'value1' ? true : (condition2 != 'value2' ? true : false)}"></div>
+<div [prop]="condition1 === 'value1' ? true : (condition2 != 'value2' ? true : false)"></div>
                                                ~~~~~~~~~~~~~~~~~~~~~~
 ```
 
