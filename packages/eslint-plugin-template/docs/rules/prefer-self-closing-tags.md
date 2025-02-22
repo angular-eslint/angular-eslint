@@ -690,7 +690,7 @@ The rule does not have any configuration options.
 #### ✅ Valid Code
 
 ```html
-<my-component>  <!-- not empty -->  </ng-container>
+<my-component>  <!-- not empty -->  </my-component>
 ```
 
 </details>
