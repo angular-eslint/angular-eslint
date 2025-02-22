@@ -40,6 +40,9 @@ interface Options {
    * Default: `true`
    */
   preferQuerySignals?: boolean;
+  /**
+   * Default: `false`
+   */
   useTypeChecking?: boolean;
   /**
    * Default: `[]`

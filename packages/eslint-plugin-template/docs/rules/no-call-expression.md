@@ -31,7 +31,13 @@ interface Options {
    * Default: `[]`
    */
   allowList?: string[];
+  /**
+   * Default: `undefined`
+   */
   allowPrefix?: string;
+  /**
+   * Default: `undefined`
+   */
   allowSuffix?: string;
 }
 
