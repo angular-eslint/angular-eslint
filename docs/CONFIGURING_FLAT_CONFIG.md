@@ -23,11 +23,11 @@ The thing is: **ESLint understands neither of these things out of the box.**
 
 Fortunately, however, ESLint has clearly defined points of extensibility that we can leverage to make this all work.
 
-> For detailed information about ESLint plugins, parsers etc please review the official ESLint eslintrc config documentation: https://eslint.org/docs/latest/use/configure/
+> For detailed information about ESLint plugins, parsers etc. please review the official ESLint eslintrc config documentation: https://eslint.org/docs/latest/use/configure/
 
 **The key principle of our configuration required for Angular projects is that we need to run different blocks of configuration for different file types/extensions**. In other words, we don't want the same rules to apply on TypeScript files that we do on HTML/inline-templates.
 
-Therefore, our flat config will contain two entries, one for TS, one for HTML. We could provide these two entries directly in an exported array, but `typescript-eslint` provides and awesome typed utility function which makes writing our flat configs a lot nicer, so we will instead require the function and pass in multiple objects for our configuration.
+Therefore, our flat config will contain two entries, one for TS, one for HTML. We could provide these two entries directly in an exported array, but `typescript-eslint` provides an awesome typed utility function which makes writing our flat configs a lot nicer, so we will instead require the function and pass in multiple objects for our configuration.
 
 **Workspace root level eslint.config.js**
 
