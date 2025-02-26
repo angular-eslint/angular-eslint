@@ -35,7 +35,7 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   </ng-content>`,
   { code: '<app-root></app-root>', filename: 'src/index.html' },
   '<ng-container>&nbsp;</ng-container>',
-  '<my-component>  <!-- not empty -->  </ng-container>',
+  '<my-component>  <!-- not empty -->  </my-component>',
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [

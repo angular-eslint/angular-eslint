@@ -3,7 +3,6 @@ import type {
   TmplAstElement,
   TmplAstTemplate,
 } from '@angular-eslint/bundled-angular-compiler';
-import { TmplAstText } from '@angular-eslint/bundled-angular-compiler';
 import { getTemplateParserServices } from '@angular-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import { getDomElements } from '../utils/get-dom-elements';
@@ -31,7 +30,7 @@ export default createESLintRule<Options, MessageIds>({
   create(context) {
     const parserServices = getTemplateParserServices(context);
 
-    // angular 18 doesnt support self closing tags in index.html
+    // angular 18 doesn't support self closing tags in index.html
     if (/src[\\/]index\.html$/.test(context.physicalFilename)) {
       // If it is, return an empty object to skip this rule
       return {};
@@ -55,30 +54,37 @@ export default createESLintRule<Options, MessageIds>({
     function processElementOrTemplateNode(
       node: TmplAstElement | TmplAstTemplate,
     ) {
-      const { children, startSourceSpan, endSourceSpan } = node;
+      const { startSourceSpan, endSourceSpan } = node;
 
-      const noContent =
-        !children.length ||
-        children.every((node) => {
-          // If the node is only whitespace, we can consider it empty.
-          // We need to look at the text from the source code, rather
-          // than the `TmplAstText.value` property. The `value` property
-          // contains the HTML-decoded value, so if the raw text contains
-          // `&nbsp;`, that is decoded to a space, but we don't want to
-          // treat that as empty text.
-          return (
-            node instanceof TmplAstText &&
-            context.sourceCode.text
-              .slice(node.sourceSpan.start.offset, node.sourceSpan.end.offset)
-              .trim() === ''
-          );
-        });
-      const noCloseTag =
+      if (
         !endSourceSpan ||
         (startSourceSpan.start.offset === endSourceSpan.start.offset &&
-          startSourceSpan.end.offset === endSourceSpan.end.offset);
+          startSourceSpan.end.offset === endSourceSpan.end.offset)
+      ) {
+        // No close tag.
+        return;
+      }
 
-      if (!noContent || noCloseTag) {
+      // If the element only contains whitespace, we can consider it
+      // empty. We cannot use the children to reliably determine whether
+      // the element only contains whitespace because the template
+      // parser will HTML-decoded the text. For example, if the raw
+      // content contains `&nbsp;`, that is decoded to a space, but
+      // we need to treat that as content that should be kept.
+      //
+      // Likewise, if the node only contains comments, those comments
+      // will not appear in the syntax tree, which results in the
+      // content appearing empty.
+      //
+      // So instead of using the syntax tree, we'll look at the
+      // source code and get the text that appears between the
+      // start element and the end element.
+      if (
+        context.sourceCode.text
+          .slice(startSourceSpan.end.offset, endSourceSpan.start.offset)
+          .trim() !== ''
+      ) {
+        // The element has content.
         return;
       }
 
