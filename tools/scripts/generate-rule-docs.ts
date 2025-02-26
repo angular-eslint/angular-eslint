@@ -67,20 +67,25 @@ const testDirs = readdirSync(testDirsDir);
         cb: (...data) => {
           const [schemaNode, , , , , , keyIndex] = data;
 
-          let defaultValue = null;
+          let defaultValue = undefined;
+          let hasDefaultValue = false;
 
           if (typeof schemaNode.default !== 'undefined') {
             defaultValue = schemaNode.default;
+            hasDefaultValue = true;
           } else if (defaultOptions?.length) {
             for (const defaultOption of defaultOptions) {
-              const defaultValueForNode = defaultOption[keyIndex as string];
-              if (defaultValueForNode) {
-                defaultValue = defaultValueForNode;
+              if (
+                typeof defaultOption === 'object' &&
+                (keyIndex as string) in defaultOption
+              ) {
+                defaultValue = defaultOption[keyIndex as string];
+                hasDefaultValue = true;
               }
             }
           }
 
-          if (defaultValue) {
+          if (hasDefaultValue) {
             if (schemaNode.description) {
               schemaNode.description += '\n\n';
             } else {

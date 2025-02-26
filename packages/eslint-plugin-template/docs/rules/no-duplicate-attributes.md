@@ -37,6 +37,8 @@ interface Options {
   allowTwoWayDataBinding?: boolean;
   /**
    * Whether or not Angular style precedence is allowed as an exception to the rule. See https://angular.dev/guide/templates/class-binding#styling-precedence
+   *
+   * Default: `false`
    */
   allowStylePrecedenceDuplicates?: boolean;
   /**

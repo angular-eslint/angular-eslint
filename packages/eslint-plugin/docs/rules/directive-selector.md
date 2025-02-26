@@ -27,8 +27,17 @@ The rule accepts an options object with the following properties:
 
 ```ts
 interface Options {
+  /**
+   * Default: `""`
+   */
   type?: string | ("element" | "attribute")[];
+  /**
+   * Default: `""`
+   */
   prefix?: string | unknown[];
+  /**
+   * Default: `""`
+   */
   style?: "camelCase" | "kebab-case";
 }
 
