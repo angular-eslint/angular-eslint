@@ -35,7 +35,12 @@ export default createESLintRule<Options, MessageIds>({
         sourceSpan,
         value,
       }: TmplAstBoundAttribute) {
+        const isStructuralDirective = sourceSpan
+          .toString()
+          .trimStart()
+          .startsWith('*');
         if (
+          !isStructuralDirective &&
           value instanceof ASTWithSource &&
           value.ast instanceof LiteralPrimitive &&
           typeof value.ast.value === 'string'
@@ -46,6 +51,7 @@ export default createESLintRule<Options, MessageIds>({
           // quotes when we convert it to a property assignment.
           const quote = value.source?.trimStart().at(0) === '"' ? "'" : '"';
           const literal = value.ast.value;
+
           context.report({
             loc: parserServices.convertNodeSourceSpanToLoc(sourceSpan),
             messageId: 'preferStaticStringProperties',

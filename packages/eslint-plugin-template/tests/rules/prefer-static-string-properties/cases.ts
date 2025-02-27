@@ -18,6 +18,8 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '<my-component [name]="undefined"/>',
   '<my-component name="foo"/>',
   `<my-component *name="'foo'"/>`,
+  `<input *ngSwitchCase="'foo'" />`,
+  `<ng-container *ngIf="'foo'" />`,
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
