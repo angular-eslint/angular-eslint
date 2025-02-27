@@ -305,10 +305,28 @@ The rule does not have any configuration options.
 
 <br>
 
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-static-string-properties": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
 #### ✅ Valid Code
 
 ```html
-<my-component name="foo"/>
+<input *ngSwitchCase="'foo'" />
 ```
 
 <br>
@@ -331,27 +349,11 @@ The rule does not have any configuration options.
 
 <br>
 
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/template/prefer-static-string-properties": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
 #### ✅ Valid Code
 
 ```html
-<ng-container *ngSwitchCase="'foo'"/>
+<ng-container *ngIf="'foo'" />
 ```
-
-<br>
 
 </details>
 
