@@ -88,6 +88,9 @@ import preferStandalone, {
 import relativeUrlPrefix, {
   RULE_NAME as relativeUrlPrefixRuleName,
 } from './rules/relative-url-prefix';
+import requireLifecycleOnPrototype, {
+  RULE_NAME as requireLifecycleOnPrototypeRuleName,
+} from './rules/require-lifecycle-on-prototype';
 import requireLocalizeMetadata, {
   RULE_NAME as requireLocalizeMetadataRuleName,
 } from './rules/require-localize-metadata';
@@ -153,6 +156,7 @@ export = {
     [preferStandaloneRuleName]: preferStandalone,
     [preferOutputReadonlyRuleName]: preferOutputReadonly,
     [relativeUrlPrefixRuleName]: relativeUrlPrefix,
+    [requireLifecycleOnPrototypeRuleName]: requireLifecycleOnPrototype,
     [requireLocalizeMetadataRuleName]: requireLocalizeMetadata,
     [runtimeLocalizeRuleName]: runtimeLocalize,
     [sortLifecycleMethodsRuleName]: sortLifecycleMethods,
