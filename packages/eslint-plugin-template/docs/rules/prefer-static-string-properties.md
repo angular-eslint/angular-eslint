@@ -378,7 +378,7 @@ The rule does not have any configuration options.
 #### ✅ Valid Code
 
 ```html
-<my-component [style.color]="'var(--tui-background-accent-2-pressed)'" />
+<my-component [style.color]="'foo'" />
 ```
 
 <br>
