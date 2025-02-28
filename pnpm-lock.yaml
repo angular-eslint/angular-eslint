@@ -30,6 +30,9 @@ importers:
       '@commitlint/config-conventional':
         specifier: 19.7.1
         version: 19.7.1
+      '@mdn/browser-compat-data':
+        specifier: 5.6.37
+        version: 5.6.37
       '@nx/devkit':
         specifier: 20.3.3
         version: 20.3.3(nx@20.3.3(@swc-node/register@1.10.9(@swc/core@1.11.1(@swc/helpers@0.5.15))(@swc/types@0.1.18)(typescript@5.7.3))(@swc/core@1.11.1(@swc/helpers@0.5.15)))
@@ -1599,6 +1602,9 @@ packages:
     engines: {node: '>=18.0.0'}
     peerDependencies:
       '@inquirer/prompts': '>= 3 < 8'
+
+  '@mdn/browser-compat-data@5.6.37':
+    resolution: {integrity: sha512-rzlUUSgxSc4mjfNDzVXg7vxjacefyoM/LkvbAL5MLgEDL7CMa/Fu+rASR1v2JqiZtDcPBBbQxnk0BqgOKQfAPQ==}
 
   '@napi-rs/nice-android-arm-eabi@1.0.1':
     resolution: {integrity: sha512-5qpvOu5IGwDo7MEKVqqyAxF90I6aLj4n07OzpARdgDRfz8UbBztTByBp0RC59r3J1Ij8uzYi6jI7r5Lws7nn6w==}
@@ -7366,6 +7372,8 @@ snapshots:
     dependencies:
       '@inquirer/prompts': 7.2.1(@types/node@20.17.17)
       '@inquirer/type': 1.5.5
+
+  '@mdn/browser-compat-data@5.6.37': {}
 
   '@napi-rs/nice-android-arm-eabi@1.0.1':
     optional: true
