@@ -10,7 +10,7 @@ const invalidDoubleSource: MessageIds = 'invalidDoubleSource';
 
 export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '<img ngSrc="http://localhost">',
-  "<img [ngSrc]=\"'http://localhost'>",
+  '<img [ngSrc]="\'http://localhost\'">',
   '<img [ngSrc]="value">',
   '<img src="data:image/jpeg;base64">',
 ];

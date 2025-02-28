@@ -495,6 +495,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       <p>Lorem ipsum <em i18n="@@dolor">dolor</em> sit amet.</p>
          ~~~~~~~~~~~~                              ^^^^^^^^^
     `,
+    languageOptions: { parserOptions: { suppressParseErrors: true } },
     messages: [
       {
         char: '~',
@@ -869,6 +870,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       <ng-template>Lorem ipsum <ng-template i18n="@@dolor">dolor</ng-template> sit amet.</ng-template>
                    ~~~~~~~~~~~~                                                ^^^^^^^^^
     `,
+    languageOptions: { parserOptions: { suppressParseErrors: true } },
     messages: [
       {
         char: '~',
@@ -1169,5 +1171,6 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     `,
     messageId: i18nMarkupInContent,
     options: [{ allowMarkupInContent: false, checkId: false }],
+    languageOptions: { parserOptions: { suppressParseErrors: true } },
   }),
 ];
