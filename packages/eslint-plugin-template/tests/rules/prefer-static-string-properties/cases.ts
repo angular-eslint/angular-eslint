@@ -22,6 +22,7 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   `<ng-container *ngIf="'foo'" />`,
   `<my-component [style.color]="'foo'" />`,
   `<my-component [attr.aria-label]="'foo'" />`,
+  `<my-component [class.foo]="'foo'" />`,
   `<my-component [@fade]="'foo'" />`,
 ];
 

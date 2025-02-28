@@ -430,6 +430,32 @@ The rule does not have any configuration options.
 #### ✅ Valid Code
 
 ```html
+<my-component [class.foo]="'foo'" />
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-static-string-properties": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
 <my-component [@fade]="'foo'" />
 ```
 
