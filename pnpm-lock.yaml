@@ -11,7 +11,7 @@ overrides:
 
 patchedDependencies:
   '@typescript-eslint/rule-tester':
-    hash: 5of34inynujuq2pxgvttl34roe
+    hash: 0395d56159bca55b94596b2ce1a79005dd964f4b648c29e0c04c6dfcb85e13cf
     path: tools/patches/@typescript-eslint__rule-tester.patch
 
 importers:
@@ -92,7 +92,7 @@ importers:
         version: 17.0.33
       '@typescript-eslint/rule-tester':
         specifier: 8.25.0
-        version: 8.25.0(patch_hash=5of34inynujuq2pxgvttl34roe)(eslint@9.21.0(jiti@2.4.2))(typescript@5.7.3)
+        version: 8.25.0(patch_hash=0395d56159bca55b94596b2ce1a79005dd964f4b648c29e0c04c6dfcb85e13cf)(eslint@9.21.0(jiti@2.4.2))(typescript@5.7.3)
       '@typescript-eslint/types':
         specifier: 8.25.0
         version: 8.25.0
@@ -351,7 +351,7 @@ importers:
         version: 8.25.0(eslint@9.15.0(jiti@2.4.2))(typescript@5.5.4)
       '@typescript-eslint/rule-tester':
         specifier: 8.25.0
-        version: 8.25.0(patch_hash=5of34inynujuq2pxgvttl34roe)(eslint@9.15.0(jiti@2.4.2))(typescript@5.5.4)
+        version: 8.25.0(patch_hash=0395d56159bca55b94596b2ce1a79005dd964f4b648c29e0c04c6dfcb85e13cf)(eslint@9.15.0(jiti@2.4.2))(typescript@5.5.4)
       '@typescript-eslint/utils':
         specifier: 8.25.0
         version: 8.25.0(eslint@9.15.0(jiti@2.4.2))(typescript@5.5.4)
@@ -8137,7 +8137,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/rule-tester@8.25.0(patch_hash=5of34inynujuq2pxgvttl34roe)(eslint@9.15.0(jiti@2.4.2))(typescript@5.5.4)':
+  '@typescript-eslint/rule-tester@8.25.0(patch_hash=0395d56159bca55b94596b2ce1a79005dd964f4b648c29e0c04c6dfcb85e13cf)(eslint@9.15.0(jiti@2.4.2))(typescript@5.5.4)':
     dependencies:
       '@typescript-eslint/typescript-estree': 8.25.0(typescript@5.5.4)
       '@typescript-eslint/utils': 8.25.0(eslint@9.15.0(jiti@2.4.2))(typescript@5.5.4)
@@ -8150,7 +8150,7 @@ snapshots:
       - supports-color
       - typescript
 
-  '@typescript-eslint/rule-tester@8.25.0(patch_hash=5of34inynujuq2pxgvttl34roe)(eslint@9.21.0(jiti@2.4.2))(typescript@5.7.3)':
+  '@typescript-eslint/rule-tester@8.25.0(patch_hash=0395d56159bca55b94596b2ce1a79005dd964f4b648c29e0c04c6dfcb85e13cf)(eslint@9.21.0(jiti@2.4.2))(typescript@5.7.3)':
     dependencies:
       '@typescript-eslint/typescript-estree': 8.25.0(typescript@5.7.3)
       '@typescript-eslint/utils': 8.25.0(eslint@9.21.0(jiti@2.4.2))(typescript@5.7.3)
