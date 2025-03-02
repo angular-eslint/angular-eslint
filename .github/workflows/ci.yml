@@ -35,9 +35,8 @@ jobs:
           node-version-file: 'package.json'
           cache: 'pnpm'
 
-      - name: Set the node version in NX_CI_EXECUTION_ENV
-        # Added the - at the end to function as a separator to improve readability in the PR comment from the Nx cloud app
-        run: echo "NX_CI_EXECUTION_ENV=Node $(node --version) -" >> $GITHUB_ENV
+      - name: Set the resolved node version in NX_CI_EXECUTION_ENV
+        run: echo "NX_CI_EXECUTION_ENV=Node $(node --version)" >> $GITHUB_ENV
 
       - name: Start Nx Cloud CI Run
         run: pnpm dlx nx-cloud start-ci-run --distribute-on="6 custom-linux-medium-plus-js" --stop-agents-after="e2e-suite"
@@ -100,9 +99,8 @@ jobs:
           node-version: ${{ matrix.node }}
           cache: 'pnpm'
 
-      - name: Set the node version in NX_CI_EXECUTION_ENV
-        # Added the - at the end to function as a separator to improve readability in the PR comment from the Nx cloud app
-        run: echo "NX_CI_EXECUTION_ENV=Node $(node --version) -" >> $GITHUB_ENV
+      - name: Set the resolved node version in NX_CI_EXECUTION_ENV
+        run: echo "NX_CI_EXECUTION_ENV=Node $(node --version)" >> $GITHUB_ENV
 
       - name: Install dependencies (skipping postinstall)
         # We use --ignore-scripts to skip automatic postinstall and give us more control over distributing build tasks
