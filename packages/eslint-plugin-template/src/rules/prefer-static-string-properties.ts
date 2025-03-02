@@ -33,14 +33,17 @@ export default createESLintRule<Options, MessageIds>({
       ['BoundAttribute.inputs']({
         name,
         sourceSpan,
+        keySpan,
         value,
       }: TmplAstBoundAttribute) {
-        const isStructuralDirective = sourceSpan
-          .toString()
-          .trimStart()
-          .startsWith('*');
+        // Exclude @xxx (Animation) and xx.color
+        // When attribute start with "*", keySpan details is null so *ngSwitchCase is excluded
+        const isBindingProperty =
+          keySpan?.details &&
+          !keySpan.details.includes('@') &&
+          !keySpan.details.includes('.');
         if (
-          !isStructuralDirective &&
+          isBindingProperty &&
           value instanceof ASTWithSource &&
           value.ast instanceof LiteralPrimitive &&
           typeof value.ast.value === 'string'

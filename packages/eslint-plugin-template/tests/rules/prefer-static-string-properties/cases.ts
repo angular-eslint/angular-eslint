@@ -20,6 +20,10 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   `<my-component *name="'foo'"/>`,
   `<input *ngSwitchCase="'foo'" />`,
   `<ng-container *ngIf="'foo'" />`,
+  `<my-component [style.color]="'foo'" />`,
+  `<my-component [attr.aria-label]="'foo'" />`,
+  `<my-component [class.foo]="'foo'" />`,
+  `<my-component [@fade]="'foo'" />`,
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
