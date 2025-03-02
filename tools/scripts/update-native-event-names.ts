@@ -1,10 +1,10 @@
+import bcd from '@mdn/browser-compat-data';
 import { writeFileSync } from 'node:fs';
 import path from 'node:path';
-import chalk from 'chalk';
-import bcd from '@mdn/browser-compat-data';
+import pc from 'picocolors';
 
 run().catch((ex) => {
-  console.error(chalk.red(ex));
+  console.error(pc.red(ex));
   process.exit(1);
 });
 
@@ -15,7 +15,7 @@ async function run(): Promise<void> {
     '../../packages/utils/src/eslint-plugin/get-native-event-names.ts',
   );
 
-  process.stdout.write(chalk.cyan(`Updating ${path.basename(fileName)}...\n`));
+  process.stdout.write(pc.cyan(`Updating ${path.basename(fileName)}...\n`));
 
   writeFileSync(
     fileName,
@@ -46,13 +46,13 @@ export function getNativeEventNames(): ReadonlySet<string> {
 `.trimStart(),
   );
 
-  process.stdout.write(chalk.green('Event names updated successfully.\n'));
+  process.stdout.write(pc.green('Event names updated successfully.\n'));
 }
 
 function getEventNamesFromBrowserCompatData(): string[] {
   const eventNames = new Set<string>();
 
-  process.stdout.write(chalk.cyan(`Finding native event names...\n`));
+  process.stdout.write(pc.cyan(`Finding native event names...\n`));
 
   for (const name of Object.keys(bcd.api).sort((a, b) => a.localeCompare(b))) {
     if (
@@ -69,7 +69,7 @@ function getEventNamesFromBrowserCompatData(): string[] {
         if (match) {
           if (!hasEvents) {
             hasEvents = true;
-            process.stdout.write(`  ${chalk.yellow.dim(name)}\n`);
+            process.stdout.write(`  ${pc.yellow(pc.dim(name))}\n`);
           }
 
           const eventName = match[1];
@@ -83,7 +83,7 @@ function getEventNamesFromBrowserCompatData(): string[] {
               : undefined;
 
           process.stdout.write(
-            `    ${chalk.white(eventName)}${statusType !== undefined ? ` ${chalk.gray(`(${statusType})`)}` : ''}\n`,
+            `    ${pc.white(eventName)}${statusType !== undefined ? ` ${pc.gray(`(${statusType})`)}` : ''}\n`,
           );
         }
       }
