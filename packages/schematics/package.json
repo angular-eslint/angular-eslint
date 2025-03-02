@@ -46,7 +46,7 @@
   },
   "devDependencies": {
     "@typescript-eslint/utils": "8.24.0",
-    "eslint": "9.20.0"
+    "eslint": "9.21.0"
   },
   "gitHead": "e2006e5e9c99e5a943d1a999e0efa5247d29ec24"
 }
