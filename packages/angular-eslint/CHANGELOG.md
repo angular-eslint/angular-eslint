@@ -1,3 +1,17 @@
+## 19.2.0 (2025-03-02)
+
+### 🚀 Features
+
+- **eslint-plugin:** add rule require-lifecycle-on-prototype ([#2259](https://github.com/angular-eslint/angular-eslint/pull/2259))
+
+### 🩹 Fixes
+
+- **eslint-plugin-template:** find inline templates on components in blocks ([#2238](https://github.com/angular-eslint/angular-eslint/pull/2238))
+
+### ❤️ Thank You
+
+- Dave @reduckted
+
 ## 19.1.0 (2025-02-09)
 
 ### 🚀 Features

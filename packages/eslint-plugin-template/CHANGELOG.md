@@ -1,3 +1,19 @@
+## 19.2.0 (2025-03-02)
+
+### 🩹 Fixes
+
+- **prefer-static-string-properties:** exclude special attributes ([#2273](https://github.com/angular-eslint/angular-eslint/pull/2273))
+- **prefer-static-string-properties:** resolve bug with directives ([#2271](https://github.com/angular-eslint/angular-eslint/pull/2271))
+- **eslint-plugin-template:** find inline templates on components in blocks ([#2238](https://github.com/angular-eslint/angular-eslint/pull/2238))
+- **eslint-plugin-template:** [prefer-static-string-properties] do not check structural directives ([#2253](https://github.com/angular-eslint/angular-eslint/pull/2253))
+- **eslint-plugin-template:** [prefer-self-closing-tags] allow nested ng-content ([#2257](https://github.com/angular-eslint/angular-eslint/pull/2257))
+- **eslint-plugin-template:** [prefer-self-closing-tags] do not treat comments as whitespace ([#2256](https://github.com/angular-eslint/angular-eslint/pull/2256))
+
+### ❤️ Thank You
+
+- Dave @reduckted
+- Marie Briand @mbriand-lucca
+
 ## 19.1.0 (2025-02-09)
 
 ### 🚀 Features

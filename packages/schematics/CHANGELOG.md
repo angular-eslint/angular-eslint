@@ -1,3 +1,16 @@
+## 19.2.0 (2025-03-02)
+
+### 🩹 Fixes
+
+- update typescript-eslint packages to v8.25.0 ([#2263](https://github.com/angular-eslint/angular-eslint/pull/2263))
+- update dependency eslint to v9.21.0 ([#2243](https://github.com/angular-eslint/angular-eslint/pull/2243))
+- **eslint-plugin-template:** find inline templates on components in blocks ([#2238](https://github.com/angular-eslint/angular-eslint/pull/2238))
+- update typescript-eslint packages to v8.24.0 ([#2240](https://github.com/angular-eslint/angular-eslint/pull/2240))
+
+### ❤️ Thank You
+
+- Dave @reduckted
+
 ## 19.1.0 (2025-02-09)
 
 ### 🩹 Fixes

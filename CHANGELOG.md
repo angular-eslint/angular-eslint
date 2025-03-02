@@ -1,3 +1,27 @@
+## 19.2.0 (2025-03-02)
+
+### 🚀 Features
+
+- **eslint-plugin:** add rule require-lifecycle-on-prototype ([#2259](https://github.com/angular-eslint/angular-eslint/pull/2259))
+
+### 🩹 Fixes
+
+- update dependency @angular/compiler to v19.2.0 ([#2268](https://github.com/angular-eslint/angular-eslint/pull/2268))
+- update dependency eslint to v9.21.0 ([#2243](https://github.com/angular-eslint/angular-eslint/pull/2243))
+- update typescript-eslint packages to v8.25.0 ([#2263](https://github.com/angular-eslint/angular-eslint/pull/2263))
+- **eslint-plugin:** [no-output-native] update native event names ([#2236](https://github.com/angular-eslint/angular-eslint/pull/2236))
+- **eslint-plugin-template:** [prefer-self-closing-tags] do not treat comments as whitespace ([#2256](https://github.com/angular-eslint/angular-eslint/pull/2256))
+- **eslint-plugin-template:** [prefer-self-closing-tags] allow nested ng-content ([#2257](https://github.com/angular-eslint/angular-eslint/pull/2257))
+- **eslint-plugin-template:** [prefer-static-string-properties] do not check structural directives ([#2253](https://github.com/angular-eslint/angular-eslint/pull/2253))
+- **eslint-plugin-template:** find inline templates on components in blocks ([#2238](https://github.com/angular-eslint/angular-eslint/pull/2238))
+- **prefer-static-string-properties:** resolve bug with directives ([#2271](https://github.com/angular-eslint/angular-eslint/pull/2271))
+- **prefer-static-string-properties:** exclude special attributes ([#2273](https://github.com/angular-eslint/angular-eslint/pull/2273))
+
+### ❤️ Thank You
+
+- Dave @reduckted
+- Marie Briand @mbriand-lucca
+
 ## 19.1.0 (2025-02-09)
 
 ### 🚀 Features

@@ -1,3 +1,13 @@
+## 19.2.0 (2025-03-02)
+
+### 🩹 Fixes
+
+- **eslint-plugin-template:** find inline templates on components in blocks ([#2238](https://github.com/angular-eslint/angular-eslint/pull/2238))
+
+### ❤️ Thank You
+
+- Dave @reduckted
+
 ## 19.1.0 (2025-02-09)
 
 This was a version bump only for template-parser to align it with other projects, there were no code changes.
