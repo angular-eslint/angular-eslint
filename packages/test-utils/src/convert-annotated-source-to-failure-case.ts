@@ -2,6 +2,7 @@ import type {
   InvalidTestCase,
   SuggestionOutput,
   TestCaseError,
+  ValidTestCase,
 } from '@typescript-eslint/rule-tester';
 
 /**
@@ -28,6 +29,7 @@ type MultipleErrorOptions<
   TMessageIds extends string,
   Options extends readonly unknown[],
 > = BaseErrorOptions<Options> & {
+  readonly languageOptions?: TestLanguageOptions;
   readonly messages: readonly (Message<TMessageIds> & {
     readonly char: (typeof SPECIAL_UNDERLINE_CHARS)[number];
   })[];
@@ -52,7 +54,12 @@ type Message<TMessageIds extends string> = {
 type SingleErrorOptions<
   TMessageIds extends string,
   Options extends readonly unknown[],
-> = BaseErrorOptions<Options> & Message<TMessageIds>;
+> = BaseErrorOptions<Options> &
+  Message<TMessageIds> & {
+    readonly languageOptions?: TestLanguageOptions;
+  };
+
+type TestLanguageOptions = ValidTestCase<[]>['languageOptions'];
 
 /**
  * convertAnnotatedSourceToFailureCase() provides an ergonomic way to easily write
@@ -150,6 +157,7 @@ export function convertAnnotatedSourceToFailureCase<
     code: parsedSource,
     filename: errorOptions.filename,
     options: errorOptions.options ?? ([] as any),
+    languageOptions: errorOptions.languageOptions,
     errors,
     only: errorOptions.only ?? false,
     output: errorOptions.annotatedOutputs
