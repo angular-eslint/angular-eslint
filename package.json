@@ -89,7 +89,7 @@
     "ncp": "2.0.0",
     "nx": "20.4.6",
     "picocolors": "1.1.1",
-    "prettier": "3.5.2",
+    "prettier": "3.5.3",
     "prettier-v2-for-jest-inline-snapshots": "npm:prettier@^2",
     "rimraf": "5.0.10",
     "semver": "^7.6.2",
