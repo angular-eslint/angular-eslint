@@ -15,14 +15,19 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '<my-component />',
   `
     <my-component
+      *ngIf="condition"
       type="text"
       [name]="foo"
       [items]="items" />
   `,
   '<img />',
+  '<img src="foo" *ngIf="condition" />',
   // These elements cannot be self-closing
   '<slot></slot><math></math><rb></rb><svg></svg><template></template>',
   '<div></div>',
+  '<div *ngIf="condition"></div>',
+  '<th scope="col"></th>',
+  '<th *ngIf="condition" scope="col"></th>',
   '<ng-template/>',
   '<ng-template>Content</ng-template>',
   '<ng-content/>',
@@ -63,12 +68,12 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     description:
       'it should fail if an element with attributes has a closing tag but no content',
     annotatedSource: `
-      <my-component type="text" [name]="foo"></my-component>
-                                             ~~~~~~~~~~~~~~~
+      <my-component *ngIf="condition" type="text" [name]="foo"></my-component>
+                                                               ~~~~~~~~~~~~~~~
     `,
     annotatedOutput: `
-      <my-component type="text" [name]="foo" />
-                                             
+      <my-component *ngIf="condition" type="text" [name]="foo" />
+                                                               
     `,
     messageId,
   }),
