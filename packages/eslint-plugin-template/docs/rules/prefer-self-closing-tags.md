@@ -83,8 +83,8 @@ The rule does not have any configuration options.
 #### ❌ Invalid Code
 
 ```html
-<my-component type="text" [name]="foo"></my-component>
-                                       ~~~~~~~~~~~~~~~
+<my-component *ngIf="condition" type="text" [name]="foo"></my-component>
+                                                         ~~~~~~~~~~~~~~~
 ```
 
 <br>
@@ -398,6 +398,7 @@ The rule does not have any configuration options.
 
 ```html
 <my-component
+  *ngIf="condition"
   type="text"
   [name]="foo"
   [items]="items" />
@@ -452,6 +453,32 @@ The rule does not have any configuration options.
 #### ✅ Valid Code
 
 ```html
+<img src="foo" *ngIf="condition" />
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-self-closing-tags": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
 <slot></slot><math></math><rb></rb><svg></svg><template></template>
 ```
 
@@ -479,6 +506,84 @@ The rule does not have any configuration options.
 
 ```html
 <div></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-self-closing-tags": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div *ngIf="condition"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-self-closing-tags": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<th scope="col"></th>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-self-closing-tags": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<th *ngIf="condition" scope="col"></th>
 ```
 
 <br>
