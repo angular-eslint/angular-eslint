@@ -1,3 +1,17 @@
+## 19.2.1 (2025-03-08)
+
+### 🩹 Fixes
+
+- update dependency @angular/compiler to v19.2.1 ([#2288](https://github.com/angular-eslint/angular-eslint/pull/2288))
+- update dependency eslint-scope to v8.3.0 ([#2296](https://github.com/angular-eslint/angular-eslint/pull/2296))
+- update typescript-eslint packages to v8.26.0 ([#2282](https://github.com/angular-eslint/angular-eslint/pull/2282))
+- update dependency eslint to v9.22.0 ([#2294](https://github.com/angular-eslint/angular-eslint/pull/2294))
+- **eslint-plugin-template:** [prefer-self-closing-tags] resolve wrong reports when structural directive + no content + no self-closing ([#2287](https://github.com/angular-eslint/angular-eslint/pull/2287))
+
+### ❤️ Thank You
+
+- Guillaume DROUARD
+
 ## 19.2.0 (2025-03-02)
 
 ### 🚀 Features

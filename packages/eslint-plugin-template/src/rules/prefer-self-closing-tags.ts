@@ -1,7 +1,8 @@
-import type {
-  TmplAstContent,
-  TmplAstElement,
-  TmplAstTemplate,
+import {
+  TmplAstText,
+  type TmplAstContent,
+  type TmplAstElement,
+  type TmplAstTemplate,
 } from '@angular-eslint/bundled-angular-compiler';
 import { getTemplateParserServices } from '@angular-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
@@ -54,7 +55,7 @@ export default createESLintRule<Options, MessageIds>({
     function processElementOrTemplateNode(
       node: TmplAstElement | TmplAstTemplate,
     ) {
-      const { startSourceSpan, endSourceSpan } = node;
+      const { children, startSourceSpan, endSourceSpan } = node;
 
       if (
         !endSourceSpan ||
@@ -65,25 +66,39 @@ export default createESLintRule<Options, MessageIds>({
         return;
       }
 
+      const someChildNodesHaveContent = children.some((node) => {
+        // If the node is only whitespace, we can consider it empty.
+        //
+        // We need to look at the text from the source code, rather
+        // than the `TmplAstText.value` property. The `value` property
+        // contains the HTML-decoded value, so if the raw text contains
+        // `&nbsp;`, that is decoded to a space, but we don't want to
+        // treat that as empty text.
+        return (
+          !(node instanceof TmplAstText) ||
+          context.sourceCode.text
+            .slice(node.sourceSpan.start.offset, node.sourceSpan.end.offset)
+            .trim() !== ''
+        );
+      });
+
       // If the element only contains whitespace, we can consider it
-      // empty. We cannot use the children to reliably determine whether
-      // the element only contains whitespace because the template
-      // parser will HTML-decoded the text. For example, if the raw
-      // content contains `&nbsp;`, that is decoded to a space, but
-      // we need to treat that as content that should be kept.
+      // empty.
       //
-      // Likewise, if the node only contains comments, those comments
+      // If the node only contains comments, those comments
       // will not appear in the syntax tree, which results in the
       // content appearing empty.
       //
       // So instead of using the syntax tree, we'll look at the
       // source code and get the text that appears between the
       // start element and the end element.
-      if (
+
+      const nodeHasContent =
         context.sourceCode.text
           .slice(startSourceSpan.end.offset, endSourceSpan.start.offset)
-          .trim() !== ''
-      ) {
+          .trim() !== '';
+
+      if (nodeHasContent || someChildNodesHaveContent) {
         // The element has content.
         return;
       }

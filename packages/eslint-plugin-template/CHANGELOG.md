@@ -1,3 +1,13 @@
+## 19.2.1 (2025-03-08)
+
+### 🩹 Fixes
+
+- **eslint-plugin-template:** [prefer-self-closing-tags] resolve wrong reports when structural directive + no content + no self-closing ([#2287](https://github.com/angular-eslint/angular-eslint/pull/2287))
+
+### ❤️ Thank You
+
+- Guillaume DROUARD
+
 ## 19.2.0 (2025-03-02)
 
 ### 🩹 Fixes
