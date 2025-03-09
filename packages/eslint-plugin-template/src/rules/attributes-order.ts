@@ -1,4 +1,5 @@
 import type {
+  Attribute,
   TmplAstBoundAttribute,
   TmplAstBoundEvent,
   TmplAstElement,
@@ -8,6 +9,8 @@ import type {
   TmplAstVariable,
 } from '@angular-eslint/bundled-angular-compiler';
 import {
+  Element,
+  HtmlParser,
   ParseSourceSpan,
   TmplAstTemplate,
 } from '@angular-eslint/bundled-angular-compiler';
@@ -52,11 +55,15 @@ type ExtendedTmplAstTextAttribute = TmplAstTextAttribute &
 type ExtendedTmplAstReference = TmplAstReference &
   HasOrderType<OrderType.TemplateReferenceVariable>;
 type ExtendedTmplAstElement = TmplAstElement & HasTemplateParent;
-type ExtendedAttribute =
-  | ExtendedTmplAstBoundAttribute
-  | ExtendedTmplAstBoundEvent
-  | ExtendedTmplAstTextAttribute
-  | ExtendedTmplAstReference;
+
+interface SortableAttribute {
+  readonly name: string;
+  readonly sourceSpan: ParseSourceSpan;
+  readonly keySpan: ParseSourceSpan | undefined;
+  readonly orderType: OrderType;
+  readonly fromHtmlParser?: boolean;
+  readonly isI18nForAttribute?: boolean;
+}
 
 export type MessageIds = 'attributesOrder';
 export const RULE_NAME = 'attributes-order';
@@ -114,25 +121,12 @@ export default createESLintRule<Options, MessageIds>({
   create(context, [{ alphabetical, order }]) {
     const parserServices = getTemplateParserServices(context);
 
-    function getLocation(attr: ExtendedAttribute): TSESTree.SourceLocation {
-      const loc = parserServices.convertNodeSourceSpanToLoc(attr.sourceSpan);
-
-      switch (attr.orderType) {
-        case OrderType.StructuralDirective:
-          return {
-            start: {
-              line: loc.start.line,
-              column: loc.start.column - 1,
-            },
-            end: {
-              line: loc.end.line,
-              column:
-                loc.end.column + (isValuelessStructuralDirective(attr) ? 0 : 1),
-            },
-          };
-        default:
-          return loc;
-      }
+    function getLocation(attr: SortableAttribute): TSESTree.SourceLocation {
+      return adjustLocation(
+        parserServices.convertNodeSourceSpanToLoc(attr.sourceSpan),
+        'location',
+        attr,
+      );
     }
 
     return {
@@ -140,21 +134,7 @@ export default createESLintRule<Options, MessageIds>({
         if (isImplicitTemplate(node)) {
           return;
         }
-
-        const { attributes, inputs, outputs, references } = node;
-        const { extractedBananaBoxes, extractedInputs, extractedOutputs } =
-          normalizeInputsOutputs(
-            inputs.map(toInputBindingOrderType),
-            outputs.map(toOutputBindingOrderType),
-          );
-        const allAttributes = [
-          ...extractTemplateAttrs(node),
-          ...attributes.map(toAttributeBindingOrderType),
-          ...references.map(toTemplateReferenceVariableOrderType),
-          ...extractedBananaBoxes,
-          ...extractedInputs,
-          ...extractedOutputs,
-        ] as const;
+        const allAttributes = getAllAttributes(node, context.filename);
 
         if (allAttributes.length < 2) {
           return;
@@ -224,14 +204,14 @@ export default createESLintRule<Options, MessageIds>({
   },
 });
 
-function byLocation(one: ExtendedAttribute, other: ExtendedAttribute) {
+function byLocation(one: SortableAttribute, other: SortableAttribute) {
   return one.sourceSpan.start.line === other.sourceSpan.start.line
     ? one.sourceSpan.start.col - other.sourceSpan.start.col
     : one.sourceSpan.start.line - other.sourceSpan.start.line;
 }
 
 function byOrder(order: readonly OrderType[], alphabetical: boolean) {
-  return function (one: ExtendedAttribute, other: ExtendedAttribute) {
+  return function (one: SortableAttribute, other: SortableAttribute) {
     const orderComparison =
       getOrderIndex(one, order) - getOrderIndex(other, order);
 
@@ -252,8 +232,51 @@ function byOrder(order: readonly OrderType[], alphabetical: boolean) {
   };
 }
 
-function getOrderIndex(attr: ExtendedAttribute, order: readonly OrderType[]) {
+function getOrderIndex(attr: SortableAttribute, order: readonly OrderType[]) {
   return order.indexOf(attr.orderType);
+}
+
+function getAllAttributes(
+  node: ExtendedTmplAstElement | TmplAstTemplate,
+  filename: string,
+): SortableAttribute[] {
+  // If there are any i18n attributes (either associated with the
+  // element itself, or with any attribute or input), then we need
+  // to use the HTML parser to get the attributes because the i18n
+  // metadata does not contain the spans of the i18n attributes.
+  if (node.i18n) {
+    return getAttributesFromHtmlParser(node, filename, node.inputs);
+  }
+  const { attributes, inputs, outputs, references } = node;
+  const extendedInputs: ExtendedTmplAstBoundAttribute[] = [];
+  for (const input of inputs) {
+    if (input.i18n) {
+      return getAttributesFromHtmlParser(node, filename, node.inputs);
+    }
+    extendedInputs.push(toInputBindingOrderType(input));
+  }
+
+  const attributeBindings: ExtendedTmplAstTextAttribute[] = [];
+  for (const attribute of attributes) {
+    if (attribute.i18n) {
+      return getAttributesFromHtmlParser(node, filename, node.inputs);
+    }
+    attributeBindings.push(toAttributeBindingOrderType(attribute));
+  }
+
+  const { extractedBananaBoxes, extractedInputs, extractedOutputs } =
+    normalizeInputsOutputs(
+      extendedInputs,
+      outputs.map(toOutputBindingOrderType),
+    );
+  return [
+    ...extractTemplateAttrs(node),
+    ...attributeBindings,
+    ...references.map(toTemplateReferenceVariableOrderType),
+    ...extractedBananaBoxes,
+    ...extractedInputs,
+    ...extractedOutputs,
+  ];
 }
 
 function toAttributeBindingOrderType(
@@ -409,7 +432,7 @@ function isOnSameLocation(
   );
 }
 
-function getMessageName(expected: ExtendedAttribute): string {
+function getMessageName(expected: SortableAttribute): string {
   const fullName = expected.keySpan?.details ?? expected.name;
   switch (expected.orderType) {
     case OrderType.StructuralDirective:
@@ -417,7 +440,7 @@ function getMessageName(expected: ExtendedAttribute): string {
     case OrderType.TemplateReferenceVariable:
       return `#${fullName}`;
     case OrderType.InputBinding:
-      return `[${fullName}]`;
+      return expected.isI18nForAttribute ? fullName : `[${fullName}]`;
     case OrderType.OutputBinding:
       return `(${fullName})`;
     case OrderType.TwoWayBinding:
@@ -427,7 +450,7 @@ function getMessageName(expected: ExtendedAttribute): string {
   }
 }
 
-function isValuelessStructuralDirective(attr: ExtendedAttribute): boolean {
+function isValuelessStructuralDirective(attr: SortableAttribute): boolean {
   if (attr.orderType !== OrderType.StructuralDirective || !attr.keySpan) {
     return false;
   }
@@ -450,23 +473,156 @@ function isValuelessStructuralDirective(attr: ExtendedAttribute): boolean {
   );
 }
 
-function getStartPos(expected: ExtendedAttribute): number {
-  switch (expected.orderType) {
-    case OrderType.StructuralDirective:
-      return expected.sourceSpan.start.offset - 1;
-    default:
-      return expected.sourceSpan.start.offset;
-  }
+function getStartPos(expected: SortableAttribute): number {
+  return adjustLocation(expected.sourceSpan.start.offset, 'start', expected);
 }
 
-function getEndPos(expected: ExtendedAttribute): number {
-  switch (expected.orderType) {
-    case OrderType.StructuralDirective:
-      return (
-        expected.sourceSpan.end.offset +
-        (isValuelessStructuralDirective(expected) ? 0 : 1)
-      );
-    default:
-      return expected.sourceSpan.end.offset;
+function getEndPos(expected: SortableAttribute): number {
+  return adjustLocation(expected.sourceSpan.end.offset, 'end', expected);
+}
+
+function adjustLocation(
+  loc: TSESTree.SourceLocation,
+  kind: 'location',
+  attr: SortableAttribute,
+): TSESTree.SourceLocation;
+function adjustLocation(
+  offset: number,
+  kind: 'start' | 'end',
+  attr: SortableAttribute,
+): number;
+function adjustLocation(
+  locOrOffset: TSESTree.SourceLocation | number,
+  kind: 'location' | 'start' | 'end',
+  attr: SortableAttribute,
+): TSESTree.SourceLocation | number {
+  // Spans for structural directives created from the
+  // template parser will exclude the leading "*", so
+  // we need to move the start back to include it.
+  if (
+    !attr.fromHtmlParser &&
+    attr.orderType === OrderType.StructuralDirective
+  ) {
+    if (typeof locOrOffset === 'number') {
+      if (kind === 'start') {
+        return locOrOffset - 1;
+      } else {
+        return locOrOffset + (isValuelessStructuralDirective(attr) ? 0 : 1);
+      }
+    } else {
+      return {
+        start: {
+          line: locOrOffset.start.line,
+          column: locOrOffset.start.column - 1,
+        },
+        end: {
+          line: locOrOffset.end.line,
+          column:
+            locOrOffset.end.column +
+            (isValuelessStructuralDirective(attr) ? 0 : 1),
+        },
+      };
+    }
   }
+  return locOrOffset;
+}
+
+function getAttributesFromHtmlParser(
+  node: ExtendedTmplAstElement | TmplAstTemplate,
+  filename: string,
+  inputs: TmplAstBoundAttribute[],
+): SortableAttribute[] {
+  // The template AST does not include the spans for i18n attributes.
+  // To get their spans, we can re-parse just the element as HTML.
+  // We only need the spans of the attributes, so take only the
+  // start element and the end element (if there is one) so that
+  // we don't waste time parsing the element's content.
+  let html = node.startSourceSpan.toString();
+  if (node.endSourceSpan) {
+    html += node.endSourceSpan.toString();
+  }
+  const parser = new HtmlParser();
+  const tree = parser.parse(html, filename, { preserveLineEndings: true });
+  const element = tree.rootNodes.find((n) => n instanceof Element);
+  if (element) {
+    return element.attrs.map((attribute) => ({
+      ...getHtmlAttributeNameAndOrderType(attribute, inputs),
+      fromHtmlParser: true,
+      // The HTML element was at the start of the string which means the
+      // offset of each element will be relative to the start of the element.
+      // To get the offset of the attribute in the template, we need to
+      // move each span forward by the offset of the span in the template.
+      sourceSpan: new ParseSourceSpan(
+        node.startSourceSpan.start.moveBy(attribute.sourceSpan.start.offset),
+        node.startSourceSpan.start.moveBy(attribute.sourceSpan.end.offset),
+      ),
+      keySpan: attribute.keySpan
+        ? new ParseSourceSpan(
+            node.startSourceSpan.start.moveBy(attribute.keySpan.start.offset),
+            node.startSourceSpan.start.moveBy(attribute.keySpan.end.offset),
+          )
+        : undefined,
+    }));
+  }
+  return [];
+}
+
+function getHtmlAttributeNameAndOrderType(
+  attr: Attribute,
+  inputs: TmplAstBoundAttribute[],
+): Pick<SortableAttribute, 'name' | 'orderType' | 'isI18nForAttribute'> {
+  if (attr.name.startsWith('#')) {
+    return {
+      name: attr.name.slice(1),
+      orderType: OrderType.TemplateReferenceVariable,
+    };
+  }
+
+  if (attr.name.startsWith('*')) {
+    return {
+      name: attr.name.slice(1),
+      orderType: OrderType.StructuralDirective,
+    };
+  }
+
+  if (attr.name.startsWith('[(') && attr.name.endsWith(')]')) {
+    return {
+      name: attr.name.slice(2, -2),
+      orderType: OrderType.TwoWayBinding,
+    };
+  }
+
+  if (attr.name.startsWith('[') && attr.name.endsWith(']')) {
+    return {
+      name: attr.name.slice(1, -1),
+      orderType: OrderType.InputBinding,
+    };
+  }
+
+  if (attr.name.startsWith('(') && attr.name.endsWith(')')) {
+    return {
+      name: attr.name.slice(1, -1),
+      orderType: OrderType.OutputBinding,
+    };
+  }
+
+  const isI18nForAttribute = attr.name.startsWith('i18n-');
+  let orderType = OrderType.AttributeBinding;
+
+  // If the attribute is an i18n attribute, and it is associated with
+  // an input binding, then treat it as an input binding for ordering,
+  // even though it is a regular attribute. This will keep the i18n
+  // attribute immediately after its corresponding input binding.
+  if (inputs.length > 0 && isI18nForAttribute) {
+    const correspondingName = attr.name.slice(5);
+    if (inputs.some((input) => input.name === correspondingName)) {
+      orderType = OrderType.InputBinding;
+    }
+  }
+
+  return {
+    name: attr.name,
+    orderType,
+    isI18nForAttribute,
+  };
 }
