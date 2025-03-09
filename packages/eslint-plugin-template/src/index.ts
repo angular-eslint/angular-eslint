@@ -73,6 +73,9 @@ import preferSelfClosingTags, {
 import preferStaticStringProperties, {
   RULE_NAME as preferStaticStringPropertiesRuleName,
 } from './rules/prefer-static-string-properties';
+import preferTemplateLiteral, {
+  RULE_NAME as preferTemplateLiteralRuleName,
+} from './rules/prefer-template-literal';
 import roleHasRequiredAria, {
   RULE_NAME as roleHasRequiredAriaRuleName,
 } from './rules/role-has-required-aria';
@@ -119,6 +122,7 @@ export = {
     [preferSelfClosingTagsRuleName]: preferSelfClosingTags,
     [preferStaticStringPropertiesRuleName]: preferStaticStringProperties,
     [preferNgsrcRuleName]: preferNgsrc,
+    [preferTemplateLiteralRuleName]: preferTemplateLiteral,
     [roleHasRequiredAriaRuleName]: roleHasRequiredAria,
     [tableScopeRuleName]: tableScope,
     [useTrackByFunctionRuleName]: useTrackByFunction,
