@@ -71,6 +71,7 @@ const KEYS: VisitorKeys = {
   ForLoopBlock: ['children', 'empty', 'expression', 'trackBy'],
   ForLoopBlockEmpty: ['children'],
   Content: ['children'],
+  LetDeclaration$1: ['value'],
 };
 
 function fallbackKeysFilter(this: Node, key: string) {
