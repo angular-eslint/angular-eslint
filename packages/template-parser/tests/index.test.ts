@@ -10445,6 +10445,954 @@ describe('parseForESLint()', () => {
     });
   });
 
+  describe('@let', () => {
+    it('should support @let', () => {
+      expect(
+        parseForESLint(
+          `
+          @let a = 1;
+          @let b = a + 1;
+          @let c = foo();
+      `,
+          { filePath: './foo.html' },
+        ).ast,
+      ).toMatchInlineSnapshot(`
+        Object {
+          "comments": Array [],
+          "loc": Object {
+            "end": Object {
+              "column": 6,
+              "line": 5,
+            },
+            "start": Object {
+              "column": 10,
+              "line": 2,
+            },
+          },
+          "range": Array [
+            11,
+            81,
+          ],
+          "templateNodes": Array [
+            Text$3 {
+              "loc": Object {
+                "end": Object {
+                  "column": 10,
+                  "line": 2,
+                },
+                "start": Object {
+                  "column": 10,
+                  "line": 2,
+                },
+              },
+              "sourceSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 11,
+                },
+                "fullStart": ParseLocation {
+                  "col": 0,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 0,
+                  "offset": 0,
+                },
+                "start": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 11,
+                },
+              },
+              "type": "Text$3",
+              "value": "
+                  ",
+            },
+            LetDeclaration$1 {
+              "loc": Object {
+                "end": Object {
+                  "column": 20,
+                  "line": 2,
+                },
+                "start": Object {
+                  "column": 10,
+                  "line": 2,
+                },
+              },
+              "name": "a",
+              "nameSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 16,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 17,
+                },
+                "fullStart": ParseLocation {
+                  "col": 15,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 16,
+                },
+                "start": ParseLocation {
+                  "col": 15,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 16,
+                },
+              },
+              "sourceSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 20,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 21,
+                },
+                "fullStart": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 11,
+                },
+                "start": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 11,
+                },
+              },
+              "type": "LetDeclaration$1",
+              "value": ASTWithSource {
+                "ast": LiteralPrimitive {
+                  "loc": Object {
+                    "end": Object {
+                      "column": undefined,
+                      "line": NaN,
+                    },
+                    "start": Object {
+                      "column": undefined,
+                      "line": NaN,
+                    },
+                  },
+                  "sourceSpan": AbsoluteSourceSpan {
+                    "end": 21,
+                    "start": 20,
+                  },
+                  "span": ParseSpan {
+                    "end": 1,
+                    "start": 0,
+                  },
+                  "type": "LiteralPrimitive",
+                  "value": 1,
+                },
+                "errors": Array [],
+                "loc": Object {
+                  "end": Object {
+                    "column": undefined,
+                    "line": NaN,
+                  },
+                  "start": Object {
+                    "column": undefined,
+                    "line": NaN,
+                  },
+                },
+                "location": "./foo.html@1:19",
+                "source": "1",
+                "sourceSpan": AbsoluteSourceSpan {
+                  "end": 21,
+                  "start": 20,
+                },
+                "span": ParseSpan {
+                  "end": 1,
+                  "start": 0,
+                },
+                "type": "ASTWithSource",
+              },
+              "valueSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 20,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 21,
+                },
+                "fullStart": ParseLocation {
+                  "col": 19,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 20,
+                },
+                "start": ParseLocation {
+                  "col": 19,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 20,
+                },
+              },
+            },
+            Text$3 {
+              "loc": Object {
+                "end": Object {
+                  "column": 10,
+                  "line": 3,
+                },
+                "start": Object {
+                  "column": 10,
+                  "line": 3,
+                },
+              },
+              "sourceSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 2,
+                  "offset": 33,
+                },
+                "fullStart": ParseLocation {
+                  "col": 21,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 22,
+                },
+                "start": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 2,
+                  "offset": 33,
+                },
+              },
+              "type": "Text$3",
+              "value": "
+                  ",
+            },
+            LetDeclaration$1 {
+              "loc": Object {
+                "end": Object {
+                  "column": 24,
+                  "line": 3,
+                },
+                "start": Object {
+                  "column": 10,
+                  "line": 3,
+                },
+              },
+              "name": "b",
+              "nameSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 16,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 2,
+                  "offset": 39,
+                },
+                "fullStart": ParseLocation {
+                  "col": 15,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 2,
+                  "offset": 38,
+                },
+                "start": ParseLocation {
+                  "col": 15,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 2,
+                  "offset": 38,
+                },
+              },
+              "sourceSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 24,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 2,
+                  "offset": 47,
+                },
+                "fullStart": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 2,
+                  "offset": 33,
+                },
+                "start": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 2,
+                  "offset": 33,
+                },
+              },
+              "type": "LetDeclaration$1",
+              "value": ASTWithSource {
+                "ast": Binary {
+                  "left": PropertyRead {
+                    "loc": Object {
+                      "end": Object {
+                        "column": undefined,
+                        "line": NaN,
+                      },
+                      "start": Object {
+                        "column": undefined,
+                        "line": NaN,
+                      },
+                    },
+                    "name": "a",
+                    "nameSpan": AbsoluteSourceSpan {
+                      "end": 43,
+                      "start": 42,
+                    },
+                    "receiver": ImplicitReceiver {
+                      "loc": Object {
+                        "end": Object {
+                          "column": undefined,
+                          "line": NaN,
+                        },
+                        "start": Object {
+                          "column": undefined,
+                          "line": NaN,
+                        },
+                      },
+                      "sourceSpan": AbsoluteSourceSpan {
+                        "end": 42,
+                        "start": 42,
+                      },
+                      "span": ParseSpan {
+                        "end": 0,
+                        "start": 0,
+                      },
+                      "type": "ImplicitReceiver",
+                    },
+                    "sourceSpan": AbsoluteSourceSpan {
+                      "end": 43,
+                      "start": 42,
+                    },
+                    "span": ParseSpan {
+                      "end": 1,
+                      "start": 0,
+                    },
+                    "type": "PropertyRead",
+                  },
+                  "loc": Object {
+                    "end": Object {
+                      "column": undefined,
+                      "line": NaN,
+                    },
+                    "start": Object {
+                      "column": undefined,
+                      "line": NaN,
+                    },
+                  },
+                  "operation": "+",
+                  "right": LiteralPrimitive {
+                    "loc": Object {
+                      "end": Object {
+                        "column": undefined,
+                        "line": NaN,
+                      },
+                      "start": Object {
+                        "column": undefined,
+                        "line": NaN,
+                      },
+                    },
+                    "sourceSpan": AbsoluteSourceSpan {
+                      "end": 47,
+                      "start": 46,
+                    },
+                    "span": ParseSpan {
+                      "end": 5,
+                      "start": 4,
+                    },
+                    "type": "LiteralPrimitive",
+                    "value": 1,
+                  },
+                  "sourceSpan": AbsoluteSourceSpan {
+                    "end": 47,
+                    "start": 42,
+                  },
+                  "span": ParseSpan {
+                    "end": 5,
+                    "start": 0,
+                  },
+                  "type": "Binary",
+                },
+                "errors": Array [],
+                "loc": Object {
+                  "end": Object {
+                    "column": undefined,
+                    "line": NaN,
+                  },
+                  "start": Object {
+                    "column": undefined,
+                    "line": NaN,
+                  },
+                },
+                "location": "./foo.html@2:19",
+                "source": "a + 1",
+                "sourceSpan": AbsoluteSourceSpan {
+                  "end": 47,
+                  "start": 42,
+                },
+                "span": ParseSpan {
+                  "end": 5,
+                  "start": 0,
+                },
+                "type": "ASTWithSource",
+              },
+              "valueSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 24,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 2,
+                  "offset": 47,
+                },
+                "fullStart": ParseLocation {
+                  "col": 19,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 2,
+                  "offset": 42,
+                },
+                "start": ParseLocation {
+                  "col": 19,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 2,
+                  "offset": 42,
+                },
+              },
+            },
+            Text$3 {
+              "loc": Object {
+                "end": Object {
+                  "column": 10,
+                  "line": 4,
+                },
+                "start": Object {
+                  "column": 10,
+                  "line": 4,
+                },
+              },
+              "sourceSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 3,
+                  "offset": 59,
+                },
+                "fullStart": ParseLocation {
+                  "col": 25,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 2,
+                  "offset": 48,
+                },
+                "start": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 3,
+                  "offset": 59,
+                },
+              },
+              "type": "Text$3",
+              "value": "
+                  ",
+            },
+            LetDeclaration$1 {
+              "loc": Object {
+                "end": Object {
+                  "column": 24,
+                  "line": 4,
+                },
+                "start": Object {
+                  "column": 10,
+                  "line": 4,
+                },
+              },
+              "name": "c",
+              "nameSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 16,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 3,
+                  "offset": 65,
+                },
+                "fullStart": ParseLocation {
+                  "col": 15,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 3,
+                  "offset": 64,
+                },
+                "start": ParseLocation {
+                  "col": 15,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 3,
+                  "offset": 64,
+                },
+              },
+              "sourceSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 24,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 3,
+                  "offset": 73,
+                },
+                "fullStart": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 3,
+                  "offset": 59,
+                },
+                "start": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 3,
+                  "offset": 59,
+                },
+              },
+              "type": "LetDeclaration$1",
+              "value": ASTWithSource {
+                "ast": Call {
+                  "args": Array [],
+                  "argumentSpan": AbsoluteSourceSpan {
+                    "end": 72,
+                    "start": 72,
+                  },
+                  "loc": Object {
+                    "end": Object {
+                      "column": undefined,
+                      "line": NaN,
+                    },
+                    "start": Object {
+                      "column": undefined,
+                      "line": NaN,
+                    },
+                  },
+                  "receiver": PropertyRead {
+                    "loc": Object {
+                      "end": Object {
+                        "column": undefined,
+                        "line": NaN,
+                      },
+                      "start": Object {
+                        "column": undefined,
+                        "line": NaN,
+                      },
+                    },
+                    "name": "foo",
+                    "nameSpan": AbsoluteSourceSpan {
+                      "end": 71,
+                      "start": 68,
+                    },
+                    "receiver": ImplicitReceiver {
+                      "loc": Object {
+                        "end": Object {
+                          "column": undefined,
+                          "line": NaN,
+                        },
+                        "start": Object {
+                          "column": undefined,
+                          "line": NaN,
+                        },
+                      },
+                      "sourceSpan": AbsoluteSourceSpan {
+                        "end": 68,
+                        "start": 68,
+                      },
+                      "span": ParseSpan {
+                        "end": 0,
+                        "start": 0,
+                      },
+                      "type": "ImplicitReceiver",
+                    },
+                    "sourceSpan": AbsoluteSourceSpan {
+                      "end": 71,
+                      "start": 68,
+                    },
+                    "span": ParseSpan {
+                      "end": 3,
+                      "start": 0,
+                    },
+                    "type": "PropertyRead",
+                  },
+                  "sourceSpan": AbsoluteSourceSpan {
+                    "end": 73,
+                    "start": 68,
+                  },
+                  "span": ParseSpan {
+                    "end": 5,
+                    "start": 0,
+                  },
+                  "type": "Call",
+                },
+                "errors": Array [],
+                "loc": Object {
+                  "end": Object {
+                    "column": undefined,
+                    "line": NaN,
+                  },
+                  "start": Object {
+                    "column": undefined,
+                    "line": NaN,
+                  },
+                },
+                "location": "./foo.html@3:19",
+                "source": "foo()",
+                "sourceSpan": AbsoluteSourceSpan {
+                  "end": 73,
+                  "start": 68,
+                },
+                "span": ParseSpan {
+                  "end": 5,
+                  "start": 0,
+                },
+                "type": "ASTWithSource",
+              },
+              "valueSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 24,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 3,
+                  "offset": 73,
+                },
+                "fullStart": ParseLocation {
+                  "col": 19,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 3,
+                  "offset": 68,
+                },
+                "start": ParseLocation {
+                  "col": 19,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 3,
+                  "offset": 68,
+                },
+              },
+            },
+            Text$3 {
+              "loc": Object {
+                "end": Object {
+                  "column": 6,
+                  "line": 5,
+                },
+                "start": Object {
+                  "column": 6,
+                  "line": 5,
+                },
+              },
+              "sourceSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 6,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 4,
+                  "offset": 81,
+                },
+                "fullStart": ParseLocation {
+                  "col": 25,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 3,
+                  "offset": 74,
+                },
+                "start": ParseLocation {
+                  "col": 6,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 4,
+                  "offset": 81,
+                },
+              },
+              "type": "Text$3",
+              "value": "
+              ",
+            },
+          ],
+          "tokens": Array [],
+          "type": "Program",
+          "value": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+        }
+      `);
+    });
+  });
+
   describe('@for', () => {
     it('should support the different variants of @for', () => {
       expect(
