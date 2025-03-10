@@ -42,6 +42,7 @@ export default (
       '@angular-eslint/template/prefer-ngsrc': 'error',
       '@angular-eslint/template/prefer-self-closing-tags': 'error',
       '@angular-eslint/template/prefer-static-string-properties': 'error',
+      '@angular-eslint/template/prefer-template-literal': 'error',
       '@angular-eslint/template/role-has-required-aria': 'error',
       '@angular-eslint/template/table-scope': 'error',
       '@angular-eslint/template/use-track-by-function': 'error',
