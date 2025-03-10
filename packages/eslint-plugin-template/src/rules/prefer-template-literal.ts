@@ -74,7 +74,7 @@ export default createESLintRule<Options, MessageIds>({
             const fixes = new Array<RuleFix>();
 
             // Fix the left side
-            fixes.push(...getLeftSideFixs(fixer, left));
+            fixes.push(...getLeftSideFixes(fixer, left));
 
             // Remove the `+` sign
             fixes.push(
@@ -82,7 +82,7 @@ export default createESLintRule<Options, MessageIds>({
             );
 
             // Fix the right side
-            fixes.push(...getRightSideFixs(fixer, right));
+            fixes.push(...getRightSideFixes(fixer, right));
 
             return fixes;
           },
@@ -92,7 +92,7 @@ export default createESLintRule<Options, MessageIds>({
   },
 });
 
-function getLeftSideFixs(fixer: RuleFixer, left: AST): readonly RuleFix[] {
+function getLeftSideFixes(fixer: RuleFixer, left: AST): readonly RuleFix[] {
   const { start, end } = left.sourceSpan;
 
   if (left instanceof TemplateLiteral) {
@@ -110,7 +110,7 @@ function getLeftSideFixs(fixer: RuleFixer, left: AST): readonly RuleFix[] {
   }
 }
 
-function getRightSideFixs(fixer: RuleFixer, right: AST): readonly RuleFix[] {
+function getRightSideFixes(fixer: RuleFixer, right: AST): readonly RuleFix[] {
   const { start, end } = right.sourceSpan;
 
   if (right instanceof TemplateLiteral) {
