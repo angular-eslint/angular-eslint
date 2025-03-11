@@ -15,7 +15,7 @@ import {
   TmplAstTemplate,
 } from '@angular-eslint/bundled-angular-compiler';
 import { getTemplateParserServices } from '@angular-eslint/utils';
-import type { TSESTree } from '@typescript-eslint/utils';
+import type { TSESTree, TSESLint } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
 export enum OrderType {
@@ -63,6 +63,7 @@ interface SortableAttribute {
   readonly orderType: OrderType;
   readonly fromHtmlParser?: boolean;
   readonly isI18nForAttribute?: boolean;
+  readonly isBracketed?: boolean;
 }
 
 export type MessageIds = 'attributesOrder';
@@ -134,7 +135,11 @@ export default createESLintRule<Options, MessageIds>({
         if (isImplicitTemplate(node)) {
           return;
         }
-        const allAttributes = getAllAttributes(node, context.filename);
+        const allAttributes = getAllAttributes(
+          node,
+          context.filename,
+          context.sourceCode,
+        );
 
         if (allAttributes.length < 2) {
           return;
@@ -239,6 +244,7 @@ function getOrderIndex(attr: SortableAttribute, order: readonly OrderType[]) {
 function getAllAttributes(
   node: ExtendedTmplAstElement | TmplAstTemplate,
   filename: string,
+  sourceCode: Readonly<TSESLint.SourceCode>,
 ): SortableAttribute[] {
   // If there are any i18n attributes (either associated with the
   // element itself, or with any attribute or input), then we need
@@ -249,14 +255,26 @@ function getAllAttributes(
   }
   const { attributes, inputs, outputs, references } = node;
   const extendedInputs: ExtendedTmplAstBoundAttribute[] = [];
+  const attributeBindings: ExtendedTmplAstTextAttribute[] = [];
+
   for (const input of inputs) {
     if (input.i18n) {
       return getAttributesFromHtmlParser(node, filename, node.inputs);
     }
-    extendedInputs.push(toInputBindingOrderType(input));
+
+    // Some attributes are parsed as inputs by the Angular template parser,
+    // but they don't have square brackets. We don't want those attributes
+    // to be classified as inputs because they look like regular attributes.
+    // The name of the input will never include the square brackets, so we
+    // need to look at the source. Unfortunately, the key span also doesn't
+    // include the square brackets, so the source span is what we need to use.
+    if (sourceCode.text.at(input.sourceSpan.start.offset) === '[') {
+      extendedInputs.push(toInputBindingOrderType(input));
+    } else {
+      attributeBindings.push(toAttributeBindingOrderType(input));
+    }
   }
 
-  const attributeBindings: ExtendedTmplAstTextAttribute[] = [];
   for (const attribute of attributes) {
     if (attribute.i18n) {
       return getAttributesFromHtmlParser(node, filename, node.inputs);
@@ -280,7 +298,7 @@ function getAllAttributes(
 }
 
 function toAttributeBindingOrderType(
-  attribute: TmplAstTextAttribute | TmplAstVariable,
+  attribute: TmplAstTextAttribute | TmplAstVariable | TmplAstBoundAttribute,
 ) {
   return {
     ...attribute,
