@@ -100,7 +100,7 @@ function getLeftSideFixes(fixer: RuleFixer, left: AST): readonly RuleFix[] {
     return [fixer.removeRange([end - 1, end])];
   } else if (isStringLiteralPrimitive(left)) {
     // Transform left side to template literal
-    return [fixer.replaceTextRange([start, end], `\`${left.value}`)];
+    return [fixer.replaceTextRange([start, end], `\`${left.value.replaceAll('`', '\\`')}`)];
   } else {
     // Transform left side to template literal
     return [
@@ -118,7 +118,7 @@ function getRightSideFixes(fixer: RuleFixer, right: AST): readonly RuleFix[] {
     return [fixer.removeRange([start, start + 1])];
   } else if (isStringLiteralPrimitive(right)) {
     // Transform right side to template literal
-    return [fixer.replaceTextRange([start, end], `${right.value}\``)];
+    return [fixer.replaceTextRange([start, end], `${right.value.replaceAll('`', '\\`')}\``)];
   } else {
     // Transform right side to template literal
     return [

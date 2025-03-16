@@ -15,10 +15,13 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '{{ 42 + 42 }}',
   '{{ value + value2 }}',
   '{{ value() + value2() }}',
-  "{{ 'text' | pipe }}",
+  "{{ 'simple-quote' | pipe }}",
+  '{{ "double-quote" }}"',
+  '{{ `backquote` }}',
   '@if (`prefix-${value}-suffix`) {}',
   '@defer (when `prefix-${value}-suffix`) {}',
   '<h1>{{ `prefix-${value}-suffix` }}</h1>',
+  '<my-component class="prefix-{{value}}-suffix"></my-component>',
   '<my-component [class]="`prefix-${value}-suffix`"></my-component>',
   '<my-component *directive="`prefix-${value}-suffix` | pipe" />',
 ];
@@ -185,11 +188,11 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     description:
       'should fail concatenation (left: static string, right: template)',
     annotatedSource: `
-        {{ 'prefix-' + \`prefix-\${value}-suffix\` }}
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        {{ 'pre\`fix-' + \`'pre\\\`fix"-\${value}-"suf\\\`fix'\` }}
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       `,
     annotatedOutput: `
-        {{ \`prefix-prefix-\${value}-suffix\` }}
+        {{ \`pre\\\`fix-'pre\\\`fix"-\${value}-"suf\\\`fix'\` }}
            
       `,
   }),
@@ -289,11 +292,11 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     description:
       'should fail concatenation (left: template, right: static string)',
     annotatedSource: `
-        {{ \`prefix-\${value}-suffix\` + '-suffix' }}
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        {{ \`'pre\\\`fix"-\${value}-"suf\\\`fix'\` + '-suf\`fix' }}
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       `,
     annotatedOutput: `
-        {{ \`prefix-\${value}-suffix-suffix\` }}
+        {{ \`'pre\\\`fix"-\${value}-"suf\\\`fix'-suf\\\`fix\` }}
            
       `,
   }),
