@@ -6,7 +6,7 @@ import {
 } from '@angular-eslint/bundled-angular-compiler';
 import { ensureTemplateParser } from '@angular-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
-import { isStringLiteralPrimitive } from '../utils/literal-primitive';
+import { getLiteralPrimitiveStringValue, isLiteralPrimitive, isStringLiteralPrimitive } from '../utils/literal-primitive';
 import { RuleFix, RuleFixer } from '@typescript-eslint/utils/ts-eslint';
 
 const messageId = 'preferTemplateLiteral';
@@ -53,6 +53,18 @@ export default createESLintRule<Options, MessageIds>({
           sourceSpan: { start, end },
         } = node;
 
+        function getQuote(): '"' | "'" | '`' {
+          const leftValue = sourceCode.text.at(left.sourceSpan.start);
+          if (leftValue === "'" || leftValue === '"') {
+            return leftValue;
+          }
+          const rightValue = sourceCode.text.at(right.sourceSpan.start);
+          if (rightValue === "'" || rightValue === '"') {
+            return rightValue;
+          }
+          return '`';
+        }
+
         context.report({
           loc: {
             start: sourceCode.getLocFromIndex(start),
@@ -60,14 +72,16 @@ export default createESLintRule<Options, MessageIds>({
           },
           messageId,
           fix: (fixer) => {
-            // If both sides are literals, we can just remove the `+` sign and concatenate them
+
+            // If both sides are literals, we remove the `+` sign, escape if necessary and concatenate them
             if (
               left instanceof LiteralPrimitive &&
               right instanceof LiteralPrimitive
             ) {
+              const quote = getQuote();
               return fixer.replaceTextRange(
                 [start, end],
-                `'${left.value}${right.value}'`,
+                `${quote}${getLiteralPrimitiveStringValue(left, quote)}${getLiteralPrimitiveStringValue(right, quote)}${quote}`,
               );
             }
 
@@ -98,9 +112,9 @@ function getLeftSideFixes(fixer: RuleFixer, left: AST): readonly RuleFix[] {
   if (left instanceof TemplateLiteral) {
     // Remove the end ` sign from the left side
     return [fixer.removeRange([end - 1, end])];
-  } else if (isStringLiteralPrimitive(left)) {
+  } else if (isLiteralPrimitive(left)) {
     // Transform left side to template literal
-    return [fixer.replaceTextRange([start, end], `\`${left.value.replaceAll('`', '\\`')}`)];
+    return [fixer.replaceTextRange([start, end], `\`${getLiteralPrimitiveStringValue(left, '`')}`)];
   } else {
     // Transform left side to template literal
     return [
@@ -116,9 +130,9 @@ function getRightSideFixes(fixer: RuleFixer, right: AST): readonly RuleFix[] {
   if (right instanceof TemplateLiteral) {
     // Remove the start ` sign from the right side
     return [fixer.removeRange([start, start + 1])];
-  } else if (isStringLiteralPrimitive(right)) {
-    // Transform right side to template literal
-    return [fixer.replaceTextRange([start, end], `${right.value.replaceAll('`', '\\`')}\``)];
+  } else if (isLiteralPrimitive(right)) {
+    // Transform right side to template literal if it's a string
+    return [fixer.replaceTextRange([start, end], `${getLiteralPrimitiveStringValue(right, '`')}\``)];
   } else {
     // Transform right side to template literal
     return [
