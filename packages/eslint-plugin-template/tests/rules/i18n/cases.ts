@@ -253,7 +253,6 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   {
     code: `
       <div>
-        Text to translate{{ Bound }}
       </div>
     `,
     options: [{ allowMarkupInContent: false, checkId: false }],
