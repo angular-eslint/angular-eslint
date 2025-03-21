@@ -41,10 +41,8 @@
   "release": {
     "projects": ["packages/*", "!nx-plugin"],
     "version": {
-      "conventionalCommits": true,
-      "generatorOptions": {
-        "preserveLocalDependencyProtocols": true
-      }
+      "useLegacyVersioning": false,
+      "conventionalCommits": true
     },
     "changelog": {
       "workspaceChangelog": {
