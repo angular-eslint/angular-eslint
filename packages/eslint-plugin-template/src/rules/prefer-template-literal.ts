@@ -6,7 +6,11 @@ import {
 } from '@angular-eslint/bundled-angular-compiler';
 import { ensureTemplateParser } from '@angular-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
-import { getLiteralPrimitiveStringValue, isLiteralPrimitive, isStringLiteralPrimitive } from '../utils/literal-primitive';
+import {
+  getLiteralPrimitiveStringValue,
+  isLiteralPrimitive,
+  isStringLiteralPrimitive,
+} from '../utils/literal-primitive';
 import { RuleFix, RuleFixer } from '@typescript-eslint/utils/ts-eslint';
 
 const messageId = 'preferTemplateLiteral';
@@ -72,7 +76,6 @@ export default createESLintRule<Options, MessageIds>({
           },
           messageId,
           fix: (fixer) => {
-
             // If both sides are literals, we remove the `+` sign, escape if necessary and concatenate them
             if (
               left instanceof LiteralPrimitive &&
@@ -114,7 +117,12 @@ function getLeftSideFixes(fixer: RuleFixer, left: AST): readonly RuleFix[] {
     return [fixer.removeRange([end - 1, end])];
   } else if (isLiteralPrimitive(left)) {
     // Transform left side to template literal
-    return [fixer.replaceTextRange([start, end], `\`${getLiteralPrimitiveStringValue(left, '`')}`)];
+    return [
+      fixer.replaceTextRange(
+        [start, end],
+        `\`${getLiteralPrimitiveStringValue(left, '`')}`,
+      ),
+    ];
   } else {
     // Transform left side to template literal
     return [
@@ -132,7 +140,12 @@ function getRightSideFixes(fixer: RuleFixer, right: AST): readonly RuleFix[] {
     return [fixer.removeRange([start, start + 1])];
   } else if (isLiteralPrimitive(right)) {
     // Transform right side to template literal if it's a string
-    return [fixer.replaceTextRange([start, end], `${getLiteralPrimitiveStringValue(right, '`')}\``)];
+    return [
+      fixer.replaceTextRange(
+        [start, end],
+        `${getLiteralPrimitiveStringValue(right, '`')}\``,
+      ),
+    ];
   } else {
     // Transform right side to template literal
     return [

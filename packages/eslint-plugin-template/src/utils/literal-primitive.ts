@@ -13,6 +13,11 @@ export function isStringLiteralPrimitive(
   return isLiteralPrimitive(node) && typeof node.value === 'string';
 }
 
-export function getLiteralPrimitiveStringValue(node: LiteralPrimitive, quote: "'" | '"' | '`'): string {
-  return typeof node.value === 'string' ? `${node.value.replaceAll(quote, `\\${quote}`)}` : String(node.value);
+export function getLiteralPrimitiveStringValue(
+  node: LiteralPrimitive,
+  quote: "'" | '"' | '`',
+): string {
+  return typeof node.value === 'string'
+    ? `${node.value.replaceAll(quote, `\\${quote}`)}`
+    : String(node.value);
 }
