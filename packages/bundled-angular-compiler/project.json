@@ -22,6 +22,5 @@
         "{projectRoot}/dist/tsconfig.lib.tsbuildinfo"
       ]
     }
-  },
-  "implicitDependencies": []
+  }
 }

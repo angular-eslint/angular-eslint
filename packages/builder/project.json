@@ -15,6 +15,5 @@
         "jestConfig": "packages/builder/jest.config.ts"
       }
     }
-  },
-  "implicitDependencies": []
+  }
 }
