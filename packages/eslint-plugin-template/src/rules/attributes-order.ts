@@ -131,7 +131,7 @@ export default createESLintRule<Options, MessageIds>({
     }
 
     return {
-      ['Element$1, Template'](node: ExtendedTmplAstElement | TmplAstTemplate) {
+      ['Element, Template'](node: ExtendedTmplAstElement | TmplAstTemplate) {
         if (isImplicitTemplate(node)) {
           return;
         }
