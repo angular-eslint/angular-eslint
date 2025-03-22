@@ -5,7 +5,7 @@ import { workspaceRoot } from '@nx/devkit';
 import type { ESLint } from 'eslint';
 import { mkdtempSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { join, sep } from 'node:path';
+import { basename, join, sep } from 'node:path';
 import { setWorkspaceRoot } from 'nx/src/utils/workspace-root';
 import type { Schema } from './schema';
 
@@ -211,7 +211,7 @@ describe('Linter Builder', () => {
 
   it('should resolve and instantiate ESLint with useFlatConfig=true if the root config is eslint.config.js', async () => {
     jest.spyOn(fs, 'existsSync').mockImplementation((path: any) => {
-      if (path.endsWith('/eslint.config.js')) {
+      if (basename(path) === 'eslint.config.js') {
         return true;
       }
       return false;
@@ -249,7 +249,7 @@ describe('Linter Builder', () => {
 
   it('should resolve and instantiate ESLint with useFlatConfig=true if the root config is eslint.config.mjs', async () => {
     jest.spyOn(fs, 'existsSync').mockImplementation((path: any) => {
-      if (path.endsWith('/eslint.config.mjs')) {
+      if (basename(path) === 'eslint.config.js') {
         return true;
       }
       return false;
@@ -287,7 +287,7 @@ describe('Linter Builder', () => {
 
   it('should resolve and instantiate ESLint with useFlatConfig=true if the root config is eslint.config.cjs', async () => {
     jest.spyOn(fs, 'existsSync').mockImplementation((path: any) => {
-      if (path.endsWith('/eslint.config.cjs')) {
+      if (basename(path) === 'eslint.config.js') {
         return true;
       }
       return false;
