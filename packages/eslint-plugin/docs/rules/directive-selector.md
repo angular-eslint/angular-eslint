@@ -630,7 +630,7 @@ class Test {}
 
 ```ts
 @Directive({
-  selector: \`[app-foo-bar]\`
+  selector: `[app-foo-bar]`
 })
 class Test {}
 ```
@@ -780,9 +780,9 @@ class Test {}
 
 ```ts
 @Directive({
-  selector: \`
+  selector: `
     [app-foo-bar]
-  \`
+  `
 })
 class Test {}
 ```
@@ -820,10 +820,10 @@ class Test {}
 
 ```ts
 @Directive({
-  selector: \`
+  selector: `
     [app-foo-bar],
     [app-bar-foo]
-  \`
+  `
 })
 class Test {}
 ```

@@ -446,6 +446,36 @@ class Test {
 #### ❌ Invalid Code
 
 ```ts
+@Directive()
+class Test {
+  @Output(`onGetter`) get getter() {}
+          ~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-output-on-prefix": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
 @Injectable()
 class Test {
   @Output('on') onPrefix = this.getOutput();
@@ -984,6 +1014,96 @@ const on = 'on';
 class Test {
   [on] = output<OnTest>({ alias: test });
 }
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-output-on-prefix": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  selector: 'foo',
+  'outputs': [`test: foo`]
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-output-on-prefix": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: 'foo',
+  ['outputs']: [`test: foo`]
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-output-on-prefix": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  'selector': 'foo',
+  [`outputs`]: [`test: foo`]
+})
+class Test {}
 ```
 
 <br>
