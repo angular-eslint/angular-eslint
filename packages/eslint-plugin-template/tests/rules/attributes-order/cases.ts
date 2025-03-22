@@ -63,6 +63,22 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
       },
     ],
   },
+  {
+    code: '<div alpha="a" beta="{{ b }}" (gamma)="g()" [delta]="d"></div>',
+    options: [
+      {
+        alphabetical: true,
+        order: [
+          OrderType.AttributeBinding,
+          OrderType.OutputBinding,
+          OrderType.InputBinding,
+          OrderType.StructuralDirective,
+          OrderType.TemplateReferenceVariable,
+          OrderType.TwoWayBinding,
+        ],
+      },
+    ],
+  },
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
@@ -620,6 +636,36 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     annotatedOutput: `
       <ng-template #template i18n="@@a:b" let-foo>The value is {{ foo }}.</ng-template>
                    
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should treat attribute with dynamic value as an attribute binding',
+    annotatedSource: `
+      <div alpha="a" (gamma)="g()" beta="{{ b }}" [delta]="d"></div>
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    options: [
+      {
+        alphabetical: true,
+        order: [
+          OrderType.AttributeBinding,
+          OrderType.OutputBinding,
+          OrderType.InputBinding,
+          OrderType.StructuralDirective,
+          OrderType.TemplateReferenceVariable,
+          OrderType.TwoWayBinding,
+        ],
+      },
+    ],
+    data: {
+      expected: '`beta`, `(gamma)`',
+      actual: '`(gamma)`, `beta`',
+    },
+    annotatedOutput: `
+      <div alpha="a" beta="{{ b }}" (gamma)="g()" [delta]="d"></div>
+                     
     `,
   }),
 ];
