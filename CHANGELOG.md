@@ -1,3 +1,26 @@
+## 19.3.0 (2025-03-22)
+
+### 🚀 Features
+
+- use @angular/compiler 19.2.3 and rename some AST nodes to match ([#2320](https://github.com/angular-eslint/angular-eslint/pull/2320))
+- **eslint-plugin-template:** [button-has-type] add option to ignore missing type ([#2326](https://github.com/angular-eslint/angular-eslint/pull/2326))
+- **eslint-plugin-template:** add rule prefer-contextual-for-variables ([#2311](https://github.com/angular-eslint/angular-eslint/pull/2311))
+- **template-parser:** visit @let child nodes ([#2312](https://github.com/angular-eslint/angular-eslint/pull/2312))
+
+### 🩹 Fixes
+
+- update typescript-eslint packages to v8.26.1 ([#2313](https://github.com/angular-eslint/angular-eslint/pull/2313))
+- update typescript-eslint packages to v8.27.0 ([#2328](https://github.com/angular-eslint/angular-eslint/pull/2328))
+- update dependency eslint to v9.23.0 ([#2331](https://github.com/angular-eslint/angular-eslint/pull/2331))
+- **eslint-plugin-template:** [i18n] Avoid exception in i18n rule with allowMarkupInContent=false ([#2327](https://github.com/angular-eslint/angular-eslint/pull/2327))
+- **eslint-plugin-template:** [attributes-order] order i18n attributes ([#2307](https://github.com/angular-eslint/angular-eslint/pull/2307))
+- **eslint-plugin-template:** [attributes-order] treat inputs without square brackets as attributes ([#2316](https://github.com/angular-eslint/angular-eslint/pull/2316))
+
+### ❤️ Thank You
+
+- Dave @reduckted
+- m-akinc @m-akinc
+
 ## 19.2.1 (2025-03-08)
 
 ### 🩹 Fixes
