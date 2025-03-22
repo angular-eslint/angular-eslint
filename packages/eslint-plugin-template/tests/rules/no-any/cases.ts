@@ -34,6 +34,9 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
       {{ obj.$any()['test'] }}
     `,
   `
+      {{ test()['value'] }}
+    `,
+  `
       <a [href]="$test()">Click here</a>
     `,
   `
