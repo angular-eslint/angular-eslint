@@ -64,6 +64,9 @@ import noPositiveTabindex, {
 import preferNgsrc, {
   RULE_NAME as preferNgsrcRuleName,
 } from './rules/prefer-ngsrc';
+import preferContextualForVariables, {
+  RULE_NAME as preferContextualForVariablesRuleName,
+} from './rules/prefer-contextual-for-variables';
 import preferControlFlow, {
   RULE_NAME as preferControlFlowRuleName,
 } from './rules/prefer-control-flow';
@@ -115,6 +118,7 @@ export = {
     [noInterpolationInAttributesRuleName]: noInterpolationInAttributes,
     [noNegatedAsyncRuleName]: noNegatedAsync,
     [noPositiveTabindexRuleName]: noPositiveTabindex,
+    [preferContextualForVariablesRuleName]: preferContextualForVariables,
     [preferControlFlowRuleName]: preferControlFlow,
     [preferSelfClosingTagsRuleName]: preferSelfClosingTags,
     [preferStaticStringPropertiesRuleName]: preferStaticStringProperties,

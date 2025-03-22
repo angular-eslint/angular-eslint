@@ -1,6 +1,6 @@
 {
   "name": "@angular-eslint/utils",
-  "version": "19.2.1",
+  "version": "19.3.0",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -23,6 +23,21 @@
   },
   "dependencies": {
     "@angular-eslint/bundled-angular-compiler": "workspace:*"
+  },
+  "nx": {
+    "namedInputs": {
+      "projectSpecificFiles": [
+        "{workspaceRoot}/tools/scripts/update-native-event-names.ts"
+      ]
+    },
+    "targets": {
+      "update-native-event-names": {
+        "outputs": [
+          "{projectRoot}/src/eslint-plugin/get-native-event-names"
+        ],
+        "command": "npx tsx ./tools/scripts/update-native-event-names.ts"
+      }
+    }
   },
   "gitHead": "e2006e5e9c99e5a943d1a999e0efa5247d29ec24"
 }

@@ -95,7 +95,7 @@ export default createESLintRule<Options, MessageIds>({
     let labelItems: TmplAstElement[] = [];
 
     return {
-      [`Element$1`](node: TmplAstElement) {
+      [`Element`](node: TmplAstElement) {
         if (allControlComponents.has(node.name)) {
           inputItems.push(node);
         }

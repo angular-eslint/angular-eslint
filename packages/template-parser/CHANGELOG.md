@@ -1,3 +1,14 @@
+## 19.3.0 (2025-03-22)
+
+### 🚀 Features
+
+- use @angular/compiler 19.2.3 and rename some AST nodes to match ([#2320](https://github.com/angular-eslint/angular-eslint/pull/2320))
+- **template-parser:** visit @let child nodes ([#2312](https://github.com/angular-eslint/angular-eslint/pull/2312))
+
+### ❤️ Thank You
+
+- Dave @reduckted
+
 ## 19.2.1 (2025-03-08)
 
 This was a version bump only for template-parser to align it with other projects, there were no code changes.

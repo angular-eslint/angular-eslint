@@ -18,7 +18,7 @@ Object {
     129,
   ],
   "templateNodes": Array [
-    Text$3 {
+    Text {
       "loc": Object {
         "end": Object {
           "column": 10,
@@ -77,14 +77,14 @@ Object {
           "offset": 11,
         },
       },
-      "type": "Text$3",
+      "type": "Text",
       "value": "
           ",
     },
     Content {
       "attributes": Array [],
       "children": Array [
-        Text$3 {
+        Text {
           "loc": Object {
             "end": Object {
               "column": 13,
@@ -143,7 +143,7 @@ Object {
               "offset": 37,
             },
           },
-          "type": "Text$3",
+          "type": "Text",
           "value": "
              ",
         },
@@ -151,7 +151,7 @@ Object {
           "branches": Array [
             IfBlockBranch {
               "children": Array [
-                Text$3 {
+                Text {
                   "loc": Object {
                     "end": Object {
                       "column": 15,
@@ -210,14 +210,14 @@ Object {
                       "offset": 64,
                     },
                   },
-                  "type": "Text$3",
+                  "type": "Text",
                   "value": "
                ",
                 },
-                Element$1 {
+                Element {
                   "attributes": Array [],
                   "children": Array [
-                    Text$3 {
+                    Text {
                       "loc": Object {
                         "end": Object {
                           "column": 26,
@@ -276,7 +276,7 @@ Object {
                           "offset": 69,
                         },
                       },
-                      "type": "Text$3",
+                      "type": "Text",
                       "value": "Hello!",
                     },
                   ],
@@ -439,9 +439,9 @@ Object {
                       "offset": 64,
                     },
                   },
-                  "type": "Element$1",
+                  "type": "Element",
                 },
-                Text$3 {
+                Text {
                   "loc": Object {
                     "end": Object {
                       "column": 13,
@@ -500,7 +500,7 @@ Object {
                       "offset": 95,
                     },
                   },
-                  "type": "Text$3",
+                  "type": "Text",
                   "value": "
              ",
                 },
@@ -1051,7 +1051,7 @@ Object {
       },
       "type": "Content",
     },
-    Text$3 {
+    Text {
       "loc": Object {
         "end": Object {
           "column": 8,
@@ -1110,7 +1110,7 @@ Object {
           "offset": 129,
         },
       },
-      "type": "Text$3",
+      "type": "Text",
       "value": "
         ",
     },
