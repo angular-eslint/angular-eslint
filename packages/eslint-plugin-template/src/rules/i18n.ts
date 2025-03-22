@@ -595,5 +595,5 @@ function isTagAllowed(allowedTags: ReadonlySet<string>, node: unknown) {
 
 // `customId` could be `undefined` in case of non-`Message`.
 function getI18nCustomId(i18n: I18nMeta): string | undefined {
-  return (i18n as Message).customId;
+  return (i18n as Message)?.customId;
 }
