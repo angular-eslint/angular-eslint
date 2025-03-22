@@ -1,3 +1,13 @@
+## 19.3.0 (2025-03-22)
+
+### 🚀 Features
+
+- **eslint-plugin-template:** add rule prefer-contextual-for-variables ([#2311](https://github.com/angular-eslint/angular-eslint/pull/2311))
+
+### ❤️ Thank You
+
+- Dave @reduckted
+
 ## 19.2.1 (2025-03-08)
 
 This was a version bump only for angular-eslint to align it with other projects, there were no code changes.
