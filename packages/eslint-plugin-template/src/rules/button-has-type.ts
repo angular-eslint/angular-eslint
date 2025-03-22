@@ -9,10 +9,16 @@ import {
 import { getTemplateParserServices } from '@angular-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
-export type Options = [];
+export type Options = [
+  {
+    readonly ignoreWithDirectives?: string[];
+  },
+];
 export type MessageIds = 'invalidType' | 'missingType';
 export const RULE_NAME = 'button-has-type';
-
+const DEFAULT_OPTIONS: Options[number] = {
+  ignoreWithDirectives: [],
+};
 export const INVALID_TYPE_DATA_KEY = 'type';
 
 interface InvalidButtonTypeInfo {
@@ -31,23 +37,42 @@ export default createESLintRule<Options, MessageIds>({
     docs: {
       description: 'Ensures that a button has a valid type specified',
     },
-    schema: [],
+    schema: [
+      {
+        type: 'object',
+        properties: {
+          ignoreWithDirectives: {
+            type: 'array',
+            items: { type: 'string' },
+            uniqueItems: true,
+            default: DEFAULT_OPTIONS.ignoreWithDirectives as
+              | string[]
+              | undefined,
+          },
+        },
+        additionalProperties: false,
+      },
+    ],
     messages: {
       missingType: 'Type for <button> is missing',
       invalidType: `"{{${INVALID_TYPE_DATA_KEY}}}" can not be used as a type for <button>`,
     },
   },
-  defaultOptions: [],
-  create(context) {
+  defaultOptions: [{}],
+  create(context, [{ ignoreWithDirectives }]) {
     const parserServices = getTemplateParserServices(context);
 
     return {
       [`Element$1[name=button]`](element: TmplAstElement) {
         if (!isTypeAttributePresentInElement(element)) {
-          context.report({
-            loc: parserServices.convertNodeSourceSpanToLoc(element.sourceSpan),
-            messageId: 'missingType',
-          });
+          if (!isIgnored(ignoreWithDirectives, element)) {
+            context.report({
+              loc: parserServices.convertNodeSourceSpanToLoc(
+                element.sourceSpan,
+              ),
+              messageId: 'missingType',
+            });
+          }
         }
 
         const invalidTypeInfo = getInvalidButtonTypeIfPresent(element);
@@ -74,6 +99,26 @@ function isTypeAttributePresentInElement({
   return [...inputs, ...attributes].some(
     ({ name }) => name === TYPE_ATTRIBUTE_NAME,
   );
+}
+
+function isIgnored(
+  ignoreWithDirectives: string[] | undefined,
+  { inputs, attributes }: TmplAstElement,
+) {
+  if (ignoreWithDirectives && ignoreWithDirectives.length > 0) {
+    for (const input of inputs) {
+      if (ignoreWithDirectives.includes(input.name)) {
+        return true;
+      }
+    }
+    for (const attribute of attributes) {
+      if (ignoreWithDirectives.includes(attribute.name)) {
+        return true;
+      }
+    }
+  }
+
+  return false;
 }
 
 function getInvalidButtonTypeIfPresent(
