@@ -128,21 +128,21 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   `
     @Component({
       selector: 'foo',
-      'inputs': [\`test: ${'foo'}\`]
+      'inputs': [\`test: foo\`]
     })
     class Test {}
   `,
   `
     @Directive({
       selector: 'foo',
-      ['inputs']: [\`test: ${'foo'}\`]
+      ['inputs']: [\`test: foo\`]
     })
     class Test {}
   `,
   `
     @Component({
       selector: 'foo',
-      [\`inputs\`]: [\`test: ${'foo'}\`]
+      [\`inputs\`]: [\`test: foo\`]
     })
     class Test {}
   `,
@@ -319,7 +319,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     annotatedSource: `
         @Directive()
         class Test {
-          @Input(\`${'onSetter'}\`) set setter() {}
+          @Input(\`onSetter\`) set setter() {}
                  ~~~~~~~~~~
         }
       `,

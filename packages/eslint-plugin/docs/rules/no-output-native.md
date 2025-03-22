@@ -447,6 +447,36 @@ class Test {
 #### ❌ Invalid Code
 
 ```ts
+@Directive()
+class Test {
+  @Output(`devicechange`) get getter() {}
+          ~~~~~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-output-native": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
 @Injectable()
 class Test {
   @Output('click') blur = this.getOutput();
@@ -985,6 +1015,96 @@ const click = 'click';
 class Test {
   [click] = output<Blur>({ alias: blur });
 }
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-output-native": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  selector: 'foo',
+  'outputs': [`test: foo`]
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-output-native": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: 'foo',
+  ['outputs']: [`test: foo`]
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-output-native": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  'selector': 'foo',
+  [`outputs`]: [`test: foo`]
+})
+class Test {}
 ```
 
 <br>

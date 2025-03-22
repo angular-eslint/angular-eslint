@@ -390,6 +390,43 @@ class Test {
 
 <br>
 
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error",
+      {
+        "allowedNames": [
+          "allowedName"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component()
+class Test {
+  @Input(`devicechange`) set setter(setter: string) {}
+         ~~~~~~~~~~~~~~
+
+  @Input('allowedName') test: string;
+}
+```
+
+<br>
+
+---
+
+<br>
+
 #### Default Config
 
 ```json
@@ -1863,6 +1900,96 @@ class Test {
 class Test {
   bar = input.required<number>();
 }
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  'selector': 'foo',
+  'inputs': [`test: foo`]
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  'selector': 'foo',
+  ['inputs']: [`test: foo`]
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  'selector': 'foo',
+  [`inputs`]: [`test: foo`]
+})
+class Test {}
 ```
 
 <br>
