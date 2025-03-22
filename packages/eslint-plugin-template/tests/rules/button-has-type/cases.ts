@@ -20,6 +20,14 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   `<button (click)="onClick()" type="button"></button>`,
   `<button [class.primary]="true" [attr.type]="'submit'"></button>`,
   `<button [disabled]="true" [attr.type]="'button'"></button>`,
+  {
+    code: `<button myButton></button>`,
+    options: [{ ignoreWithDirectives: ['myButton'] }],
+  },
+  {
+    code: `<button [myButton]></button>`,
+    options: [{ ignoreWithDirectives: ['myButton'] }],
+  },
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
@@ -56,6 +64,29 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       <button [attr.type]="'whatever'"></button>
               ~~~~~~~~~~~~~~~~~~~~~~~~
     `,
+    messageId: invalidType,
+    data: {
+      [INVALID_TYPE_DATA_KEY]: 'whatever',
+    },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if button has no type attribute, and ignoreWithDirectives option specifies directives, but none of the directives are present',
+    annotatedSource: `
+      <button myDirective></button>
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    options: [{ ignoreWithDirectives: ['myButton', 'uiButton'] }],
+    messageId: missingType,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if button has invalid attribute type, and ignoreWithDirectives option specifies directives and element has one of them',
+    annotatedSource: `
+      <button myButton type="whatever"></button>
+                       ~~~~~~~~~~~~~~~
+    `,
+    options: [{ ignoreWithDirectives: ['myButton'] }],
     messageId: invalidType,
     data: {
       [INVALID_TYPE_DATA_KEY]: 'whatever',
