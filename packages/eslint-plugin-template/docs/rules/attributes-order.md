@@ -812,13 +812,16 @@ interface Options {
 
 <br>
 
-#### Default Config
+#### Custom Config
 
 ```json
 {
   "rules": {
     "@angular-eslint/template/attributes-order": [
-      "error"
+      "error",
+      {
+        "alphabetical": true
+      }
     ]
   }
 }
@@ -839,13 +842,16 @@ interface Options {
 
 <br>
 
-#### Default Config
+#### Custom Config
 
 ```json
 {
   "rules": {
     "@angular-eslint/template/attributes-order": [
-      "error"
+      "error",
+      {
+        "alphabetical": true
+      }
     ]
   }
 }
@@ -866,13 +872,16 @@ interface Options {
 
 <br>
 
-#### Default Config
+#### Custom Config
 
 ```json
 {
   "rules": {
     "@angular-eslint/template/attributes-order": [
-      "error"
+      "error",
+      {
+        "alphabetical": true
+      }
     ]
   }
 }
@@ -893,13 +902,16 @@ interface Options {
 
 <br>
 
-#### Default Config
+#### Custom Config
 
 ```json
 {
   "rules": {
     "@angular-eslint/template/attributes-order": [
-      "error"
+      "error",
+      {
+        "alphabetical": true
+      }
     ]
   }
 }
@@ -920,13 +932,16 @@ interface Options {
 
 <br>
 
-#### Default Config
+#### Custom Config
 
 ```json
 {
   "rules": {
     "@angular-eslint/template/attributes-order": [
-      "error"
+      "error",
+      {
+        "alphabetical": true
+      }
     ]
   }
 }
@@ -1457,7 +1472,14 @@ interface Options {
       "error",
       {
         "alphabetical": true,
-        "order": []
+        "order": [
+          "STRUCTURAL_DIRECTIVE",
+          "TEMPLATE_REFERENCE",
+          "ATTRIBUTE_BINDING",
+          "INPUT_BINDING",
+          "TWO_WAY_BINDING",
+          "OUTPUT_BINDING"
+        ]
       }
     ]
   }
@@ -1487,7 +1509,14 @@ interface Options {
       "error",
       {
         "alphabetical": true,
-        "order": []
+        "order": [
+          "STRUCTURAL_DIRECTIVE",
+          "TEMPLATE_REFERENCE",
+          "ATTRIBUTE_BINDING",
+          "INPUT_BINDING",
+          "TWO_WAY_BINDING",
+          "OUTPUT_BINDING"
+        ]
       }
     ]
   }
