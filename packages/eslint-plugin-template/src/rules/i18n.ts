@@ -421,7 +421,7 @@ export default createESLintRule<Options, MessageIds>({
         checkId ||
         requireDescription ||
         requireMeaning) && {
-        [`:matches(Element$1, Template[tagName="ng-template"])${
+        [`:matches(Element, Template[tagName="ng-template"])${
           allowMarkupInContent ? '[i18n]' : ''
         }`](node: StronglyTypedElement | StronglyTypedTemplate) {
           handleElementOrTemplate(node);
@@ -431,14 +431,14 @@ export default createESLintRule<Options, MessageIds>({
         checkId ||
         requireDescription ||
         requireMeaning) && {
-        [`Element$1 > TextAttribute[value=${PL_PATTERN}]`](
+        [`Element > TextAttribute[value=${PL_PATTERN}]`](
           node: StronglyTypedTextAttribute,
         ) {
           handleTextAttribute(node);
         },
       }),
       ...(checkText && {
-        [`BoundText, Icu$1, Text$3[value=${PL_PATTERN}]`](
+        [`BoundText, Icu, Text[value=${PL_PATTERN}]`](
           node: StronglyTypedBoundTextOrIcuOrText,
         ) {
           handleBoundTextOrIcuOrText(node);

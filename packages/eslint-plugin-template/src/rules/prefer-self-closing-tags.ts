@@ -37,7 +37,7 @@ export default createESLintRule<Options, MessageIds>({
       return {};
     }
     return {
-      'Element$1, Template, Content'(
+      'Element, Template, Content'(
         node: TmplAstElement | TmplAstTemplate | TmplAstContent,
       ) {
         if (isContentNode(node)) {

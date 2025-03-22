@@ -67,7 +67,7 @@ describe('parseForESLint()', () => {
           106,
         ],
         "templateNodes": Array [
-          Text$3 {
+          Text {
             "loc": Object {
               "end": Object {
                 "column": 6,
@@ -120,11 +120,11 @@ describe('parseForESLint()', () => {
                 "offset": 7,
               },
             },
-            "type": "Text$3",
+            "type": "Text",
             "value": "
             ",
           },
-          Text$3 {
+          Text {
             "loc": Object {
               "end": Object {
                 "column": 6,
@@ -177,14 +177,14 @@ describe('parseForESLint()', () => {
                 "offset": 47,
               },
             },
-            "type": "Text$3",
+            "type": "Text",
             "value": "
             ",
           },
-          Element$1 {
+          Element {
             "attributes": Array [],
             "children": Array [
-              Text$3 {
+              Text {
                 "loc": Object {
                   "end": Object {
                     "column": 20,
@@ -237,7 +237,7 @@ describe('parseForESLint()', () => {
                     "offset": 52,
                   },
                 },
-                "type": "Text$3",
+                "type": "Text",
                 "value": "some node",
               },
             ],
@@ -382,9 +382,9 @@ describe('parseForESLint()', () => {
                 "offset": 47,
               },
             },
-            "type": "Element$1",
+            "type": "Element",
           },
-          Text$3 {
+          Text {
             "loc": Object {
               "end": Object {
                 "column": 6,
@@ -437,11 +437,11 @@ describe('parseForESLint()', () => {
                 "offset": 74,
               },
             },
-            "type": "Text$3",
+            "type": "Text",
             "value": "
             ",
           },
-          Text$3 {
+          Text {
             "loc": Object {
               "end": Object {
                 "column": 4,
@@ -494,7 +494,7 @@ describe('parseForESLint()', () => {
                 "offset": 106,
               },
             },
-            "type": "Text$3",
+            "type": "Text",
             "value": "
           ",
           },
@@ -597,7 +597,7 @@ describe('parseForESLint()', () => {
             525,
           ],
           "templateNodes": Array [
-            Text$3 {
+            Text {
               "loc": Object {
                 "end": Object {
                   "column": 10,
@@ -695,13 +695,13 @@ describe('parseForESLint()', () => {
                   "offset": 11,
                 },
               },
-              "type": "Text$3",
+              "type": "Text",
               "value": "
                   ",
             },
             DeferredBlock {
               "children": Array [
-                Text$3 {
+                Text {
                   "loc": Object {
                     "end": Object {
                       "column": 12,
@@ -799,14 +799,14 @@ describe('parseForESLint()', () => {
                       "offset": 45,
                     },
                   },
-                  "type": "Text$3",
+                  "type": "Text",
                   "value": "
                     ",
                 },
-                Element$1 {
+                Element {
                   "attributes": Array [],
                   "children": Array [
-                    Text$3 {
+                    Text {
                       "loc": Object {
                         "end": Object {
                           "column": 22,
@@ -904,7 +904,7 @@ describe('parseForESLint()', () => {
                           "offset": 50,
                         },
                       },
-                      "type": "Text$3",
+                      "type": "Text",
                       "value": "Hello",
                     },
                   ],
@@ -1184,9 +1184,9 @@ describe('parseForESLint()', () => {
                       "offset": 45,
                     },
                   },
-                  "type": "Element$1",
+                  "type": "Element",
                 },
-                Text$3 {
+                Text {
                   "loc": Object {
                     "end": Object {
                       "column": 10,
@@ -1284,7 +1284,7 @@ describe('parseForESLint()', () => {
                       "offset": 72,
                     },
                   },
-                  "type": "Text$3",
+                  "type": "Text",
                   "value": "
                   ",
                 },
@@ -2015,7 +2015,7 @@ describe('parseForESLint()', () => {
             },
             DeferredBlock {
               "children": Array [
-                Text$3 {
+                Text {
                   "loc": Object {
                     "end": Object {
                       "column": 12,
@@ -2113,11 +2113,11 @@ describe('parseForESLint()', () => {
                       "offset": 120,
                     },
                   },
-                  "type": "Text$3",
+                  "type": "Text",
                   "value": "
                     ",
                 },
-                Element$1 {
+                Element {
                   "attributes": Array [],
                   "children": Array [],
                   "endSourceSpan": ParseSourceSpan {
@@ -2396,9 +2396,9 @@ describe('parseForESLint()', () => {
                       "offset": 120,
                     },
                   },
-                  "type": "Element$1",
+                  "type": "Element",
                 },
-                Text$3 {
+                Text {
                   "loc": Object {
                     "end": Object {
                       "column": 10,
@@ -2496,7 +2496,7 @@ describe('parseForESLint()', () => {
                       "offset": 147,
                     },
                   },
-                  "type": "Text$3",
+                  "type": "Text",
                   "value": "
                   ",
                 },
@@ -2783,7 +2783,7 @@ describe('parseForESLint()', () => {
               },
               "placeholder": DeferredBlockPlaceholder {
                 "children": Array [
-                  Text$3 {
+                  Text {
                     "loc": Object {
                       "end": Object {
                         "column": 12,
@@ -2881,14 +2881,14 @@ describe('parseForESLint()', () => {
                         "offset": 192,
                       },
                     },
-                    "type": "Text$3",
+                    "type": "Text",
                     "value": "
                     ",
                   },
-                  Element$1 {
+                  Element {
                     "attributes": Array [],
                     "children": Array [
-                      Text$3 {
+                      Text {
                         "loc": Object {
                           "end": Object {
                             "column": 34,
@@ -2986,7 +2986,7 @@ describe('parseForESLint()', () => {
                             "offset": 195,
                           },
                         },
-                        "type": "Text$3",
+                        "type": "Text",
                         "value": "Placeholder content",
                       },
                     ],
@@ -3266,9 +3266,9 @@ describe('parseForESLint()', () => {
                         "offset": 192,
                       },
                     },
-                    "type": "Element$1",
+                    "type": "Element",
                   },
-                  Text$3 {
+                  Text {
                     "loc": Object {
                       "end": Object {
                         "column": 10,
@@ -3366,7 +3366,7 @@ describe('parseForESLint()', () => {
                         "offset": 229,
                       },
                     },
-                    "type": "Text$3",
+                    "type": "Text",
                     "value": "
                   ",
                   },
@@ -4182,7 +4182,7 @@ describe('parseForESLint()', () => {
             },
             DeferredBlock {
               "children": Array [
-                Text$3 {
+                Text {
                   "loc": Object {
                     "end": Object {
                       "column": 12,
@@ -4280,11 +4280,11 @@ describe('parseForESLint()', () => {
                       "offset": 262,
                     },
                   },
-                  "type": "Text$3",
+                  "type": "Text",
                   "value": "
                     ",
                 },
-                Element$1 {
+                Element {
                   "attributes": Array [],
                   "children": Array [],
                   "endSourceSpan": ParseSourceSpan {
@@ -4563,9 +4563,9 @@ describe('parseForESLint()', () => {
                       "offset": 262,
                     },
                   },
-                  "type": "Element$1",
+                  "type": "Element",
                 },
-                Text$3 {
+                Text {
                   "loc": Object {
                     "end": Object {
                       "column": 10,
@@ -4663,7 +4663,7 @@ describe('parseForESLint()', () => {
                       "offset": 292,
                     },
                   },
-                  "type": "Text$3",
+                  "type": "Text",
                   "value": "
                   ",
                 },
@@ -4764,7 +4764,7 @@ describe('parseForESLint()', () => {
               "loading": DeferredBlockLoading {
                 "afterTime": 100,
                 "children": Array [
-                  Text$3 {
+                  Text {
                     "loc": Object {
                       "end": Object {
                         "column": 12,
@@ -4862,11 +4862,11 @@ describe('parseForESLint()', () => {
                         "offset": 343,
                       },
                     },
-                    "type": "Text$3",
+                    "type": "Text",
                     "value": "
                     ",
                   },
-                  Element$1 {
+                  Element {
                     "attributes": Array [
                       TextAttribute {
                         "i18n": undefined,
@@ -5700,9 +5700,9 @@ describe('parseForESLint()', () => {
                         "offset": 343,
                       },
                     },
-                    "type": "Element$1",
+                    "type": "Element",
                   },
-                  Text$3 {
+                  Text {
                     "loc": Object {
                       "end": Object {
                         "column": 10,
@@ -5800,7 +5800,7 @@ describe('parseForESLint()', () => {
                         "offset": 396,
                       },
                     },
-                    "type": "Text$3",
+                    "type": "Text",
                     "value": "
                   ",
                   },
@@ -6536,7 +6536,7 @@ describe('parseForESLint()', () => {
             },
             DeferredBlock {
               "children": Array [
-                Text$3 {
+                Text {
                   "loc": Object {
                     "end": Object {
                       "column": 12,
@@ -6634,11 +6634,11 @@ describe('parseForESLint()', () => {
                       "offset": 429,
                     },
                   },
-                  "type": "Text$3",
+                  "type": "Text",
                   "value": "
                     ",
                 },
-                Element$1 {
+                Element {
                   "attributes": Array [],
                   "children": Array [],
                   "endSourceSpan": ParseSourceSpan {
@@ -6917,9 +6917,9 @@ describe('parseForESLint()', () => {
                       "offset": 429,
                     },
                   },
-                  "type": "Element$1",
+                  "type": "Element",
                 },
-                Text$3 {
+                Text {
                   "loc": Object {
                     "end": Object {
                       "column": 10,
@@ -7017,7 +7017,7 @@ describe('parseForESLint()', () => {
                       "offset": 456,
                     },
                   },
-                  "type": "Text$3",
+                  "type": "Text",
                   "value": "
                   ",
                 },
@@ -7114,7 +7114,7 @@ describe('parseForESLint()', () => {
               },
               "error": DeferredBlockError {
                 "children": Array [
-                  Text$3 {
+                  Text {
                     "loc": Object {
                       "end": Object {
                         "column": 12,
@@ -7212,14 +7212,14 @@ describe('parseForESLint()', () => {
                         "offset": 479,
                       },
                     },
-                    "type": "Text$3",
+                    "type": "Text",
                     "value": "
                     ",
                   },
-                  Element$1 {
+                  Element {
                     "attributes": Array [],
                     "children": Array [
-                      Text$3 {
+                      Text {
                         "loc": Object {
                           "end": Object {
                             "column": 42,
@@ -7317,7 +7317,7 @@ describe('parseForESLint()', () => {
                             "offset": 482,
                           },
                         },
-                        "type": "Text$3",
+                        "type": "Text",
                         "value": "Failed to load the calendar",
                       },
                     ],
@@ -7597,9 +7597,9 @@ describe('parseForESLint()', () => {
                         "offset": 479,
                       },
                     },
-                    "type": "Element$1",
+                    "type": "Element",
                   },
-                  Text$3 {
+                  Text {
                     "loc": Object {
                       "end": Object {
                         "column": 10,
@@ -7697,7 +7697,7 @@ describe('parseForESLint()', () => {
                         "offset": 524,
                       },
                     },
-                    "type": "Text$3",
+                    "type": "Text",
                     "value": "
                   ",
                   },
@@ -8494,7 +8494,7 @@ describe('parseForESLint()', () => {
             200,
           ],
           "templateNodes": Array [
-            Text$3 {
+            Text {
               "loc": Object {
                 "end": Object {
                   "column": 10,
@@ -8559,7 +8559,7 @@ describe('parseForESLint()', () => {
                   "offset": 11,
                 },
               },
-              "type": "Text$3",
+              "type": "Text",
               "value": "
                   ",
             },
@@ -8635,7 +8635,7 @@ describe('parseForESLint()', () => {
                       },
                       "type": "BoundText",
                       "value": ASTWithSource {
-                        "ast": Interpolation$1 {
+                        "ast": Interpolation {
                           "expressions": Array [
                             PropertyRead {
                               "loc": Object {
@@ -8757,7 +8757,7 @@ describe('parseForESLint()', () => {
                             "
                   ",
                           ],
-                          "type": "Interpolation$1",
+                          "type": "Interpolation",
                         },
                         "errors": Array [],
                         "loc": Object {
@@ -9226,7 +9226,7 @@ describe('parseForESLint()', () => {
                       },
                       "type": "BoundText",
                       "value": ASTWithSource {
-                        "ast": Interpolation$1 {
+                        "ast": Interpolation {
                           "expressions": Array [
                             PropertyRead {
                               "loc": Object {
@@ -9348,7 +9348,7 @@ describe('parseForESLint()', () => {
                             "
                   ",
                           ],
-                          "type": "Interpolation$1",
+                          "type": "Interpolation",
                         },
                         "errors": Array [],
                         "loc": Object {
@@ -9817,7 +9817,7 @@ describe('parseForESLint()', () => {
                       },
                       "type": "BoundText",
                       "value": ASTWithSource {
-                        "ast": Interpolation$1 {
+                        "ast": Interpolation {
                           "expressions": Array [
                             PropertyRead {
                               "loc": Object {
@@ -9939,7 +9939,7 @@ describe('parseForESLint()', () => {
                             "
                   ",
                           ],
-                          "type": "Interpolation$1",
+                          "type": "Interpolation",
                         },
                         "errors": Array [],
                         "loc": Object {
@@ -10474,7 +10474,7 @@ describe('parseForESLint()', () => {
             81,
           ],
           "templateNodes": Array [
-            Text$3 {
+            Text {
               "loc": Object {
                 "end": Object {
                   "column": 10,
@@ -10527,11 +10527,11 @@ describe('parseForESLint()', () => {
                   "offset": 11,
                 },
               },
-              "type": "Text$3",
+              "type": "Text",
               "value": "
                   ",
             },
-            LetDeclaration$1 {
+            LetDeclaration {
               "loc": Object {
                 "end": Object {
                   "column": 20,
@@ -10627,7 +10627,7 @@ describe('parseForESLint()', () => {
                   "offset": 11,
                 },
               },
-              "type": "LetDeclaration$1",
+              "type": "LetDeclaration",
               "value": ASTWithSource {
                 "ast": LiteralPrimitive {
                   "loc": Object {
@@ -10717,7 +10717,7 @@ describe('parseForESLint()', () => {
                 },
               },
             },
-            Text$3 {
+            Text {
               "loc": Object {
                 "end": Object {
                   "column": 10,
@@ -10770,11 +10770,11 @@ describe('parseForESLint()', () => {
                   "offset": 33,
                 },
               },
-              "type": "Text$3",
+              "type": "Text",
               "value": "
                   ",
             },
-            LetDeclaration$1 {
+            LetDeclaration {
               "loc": Object {
                 "end": Object {
                   "column": 24,
@@ -10870,7 +10870,7 @@ describe('parseForESLint()', () => {
                   "offset": 33,
                 },
               },
-              "type": "LetDeclaration$1",
+              "type": "LetDeclaration",
               "value": ASTWithSource {
                 "ast": Binary {
                   "left": PropertyRead {
@@ -11029,7 +11029,7 @@ describe('parseForESLint()', () => {
                 },
               },
             },
-            Text$3 {
+            Text {
               "loc": Object {
                 "end": Object {
                   "column": 10,
@@ -11082,11 +11082,11 @@ describe('parseForESLint()', () => {
                   "offset": 59,
                 },
               },
-              "type": "Text$3",
+              "type": "Text",
               "value": "
                   ",
             },
-            LetDeclaration$1 {
+            LetDeclaration {
               "loc": Object {
                 "end": Object {
                   "column": 24,
@@ -11182,7 +11182,7 @@ describe('parseForESLint()', () => {
                   "offset": 59,
                 },
               },
-              "type": "LetDeclaration$1",
+              "type": "LetDeclaration",
               "value": ASTWithSource {
                 "ast": Call {
                   "args": Array [],
@@ -11323,7 +11323,7 @@ describe('parseForESLint()', () => {
                 },
               },
             },
-            Text$3 {
+            Text {
               "loc": Object {
                 "end": Object {
                   "column": 6,
@@ -11376,7 +11376,7 @@ describe('parseForESLint()', () => {
                   "offset": 81,
                 },
               },
-              "type": "Text$3",
+              "type": "Text",
               "value": "
               ",
             },
@@ -11424,7 +11424,7 @@ describe('parseForESLint()', () => {
             142,
           ],
           "templateNodes": Array [
-            Text$3 {
+            Text {
               "loc": Object {
                 "end": Object {
                   "column": 10,
@@ -11483,7 +11483,7 @@ describe('parseForESLint()', () => {
                   "offset": 11,
                 },
               },
-              "type": "Text$3",
+              "type": "Text",
               "value": "
                   ",
             },
@@ -11551,7 +11551,7 @@ describe('parseForESLint()', () => {
                   },
                   "type": "BoundText",
                   "value": ASTWithSource {
-                    "ast": Interpolation$1 {
+                    "ast": Interpolation {
                       "expressions": Array [
                         PropertyRead {
                           "loc": Object {
@@ -11651,7 +11651,7 @@ describe('parseForESLint()', () => {
                         "
                   ",
                       ],
-                      "type": "Interpolation$1",
+                      "type": "Interpolation",
                     },
                     "errors": Array [],
                     "loc": Object {
@@ -12290,7 +12290,7 @@ describe('parseForESLint()', () => {
               ],
               "empty": ForLoopBlockEmpty {
                 "children": Array [
-                  Text$3 {
+                  Text {
                     "loc": Object {
                       "end": Object {
                         "column": 10,
@@ -12349,7 +12349,7 @@ describe('parseForESLint()', () => {
                         "offset": 111,
                       },
                     },
-                    "type": "Text$3",
+                    "type": "Text",
                     "value": "
                      There are no items.
                   ",
@@ -13182,7 +13182,7 @@ describe('parseForESLint()', () => {
             283,
           ],
           "templateNodes": Array [
-            Text$3 {
+            Text {
               "loc": Object {
                 "end": Object {
                   "column": 10,
@@ -13259,7 +13259,7 @@ describe('parseForESLint()', () => {
                   "offset": 11,
                 },
               },
-              "type": "Text$3",
+              "type": "Text",
               "value": "
                   ",
             },
@@ -13267,7 +13267,7 @@ describe('parseForESLint()', () => {
               "cases": Array [
                 SwitchBlockCase {
                   "children": Array [
-                    Text$3 {
+                    Text {
                       "loc": Object {
                         "end": Object {
                           "column": 14,
@@ -13344,14 +13344,14 @@ describe('parseForESLint()', () => {
                           "offset": 75,
                         },
                       },
-                      "type": "Text$3",
+                      "type": "Text",
                       "value": "
                       ",
                     },
-                    Element$1 {
+                    Element {
                       "attributes": Array [],
                       "children": Array [
-                        Text$3 {
+                        Text {
                           "loc": Object {
                             "end": Object {
                               "column": 27,
@@ -13428,7 +13428,7 @@ describe('parseForESLint()', () => {
                               "offset": 81,
                             },
                           },
-                          "type": "Text$3",
+                          "type": "Text",
                           "value": "Case A.",
                         },
                       ],
@@ -13645,9 +13645,9 @@ describe('parseForESLint()', () => {
                           "offset": 75,
                         },
                       },
-                      "type": "Element$1",
+                      "type": "Element",
                     },
-                    Text$3 {
+                    Text {
                       "loc": Object {
                         "end": Object {
                           "column": 12,
@@ -13724,7 +13724,7 @@ describe('parseForESLint()', () => {
                           "offset": 108,
                         },
                       },
-                      "type": "Text$3",
+                      "type": "Text",
                       "value": "
                     ",
                     },
@@ -14079,7 +14079,7 @@ describe('parseForESLint()', () => {
                 },
                 SwitchBlockCase {
                   "children": Array [
-                    Text$3 {
+                    Text {
                       "loc": Object {
                         "end": Object {
                           "column": 14,
@@ -14156,14 +14156,14 @@ describe('parseForESLint()', () => {
                           "offset": 152,
                         },
                       },
-                      "type": "Text$3",
+                      "type": "Text",
                       "value": "
                       ",
                     },
-                    Element$1 {
+                    Element {
                       "attributes": Array [],
                       "children": Array [
-                        Text$3 {
+                        Text {
                           "loc": Object {
                             "end": Object {
                               "column": 27,
@@ -14240,7 +14240,7 @@ describe('parseForESLint()', () => {
                               "offset": 158,
                             },
                           },
-                          "type": "Text$3",
+                          "type": "Text",
                           "value": "Case B.",
                         },
                       ],
@@ -14457,9 +14457,9 @@ describe('parseForESLint()', () => {
                           "offset": 152,
                         },
                       },
-                      "type": "Element$1",
+                      "type": "Element",
                     },
-                    Text$3 {
+                    Text {
                       "loc": Object {
                         "end": Object {
                           "column": 12,
@@ -14536,7 +14536,7 @@ describe('parseForESLint()', () => {
                           "offset": 185,
                         },
                       },
-                      "type": "Text$3",
+                      "type": "Text",
                       "value": "
                     ",
                     },
@@ -14891,7 +14891,7 @@ describe('parseForESLint()', () => {
                 },
                 SwitchBlockCase {
                   "children": Array [
-                    Text$3 {
+                    Text {
                       "loc": Object {
                         "end": Object {
                           "column": 14,
@@ -14968,14 +14968,14 @@ describe('parseForESLint()', () => {
                           "offset": 224,
                         },
                       },
-                      "type": "Text$3",
+                      "type": "Text",
                       "value": "
                       ",
                     },
-                    Element$1 {
+                    Element {
                       "attributes": Array [],
                       "children": Array [
-                        Text$3 {
+                        Text {
                           "loc": Object {
                             "end": Object {
                               "column": 33,
@@ -15052,7 +15052,7 @@ describe('parseForESLint()', () => {
                               "offset": 230,
                             },
                           },
-                          "type": "Text$3",
+                          "type": "Text",
                           "value": "Default case.",
                         },
                       ],
@@ -15269,9 +15269,9 @@ describe('parseForESLint()', () => {
                           "offset": 224,
                         },
                       },
-                      "type": "Element$1",
+                      "type": "Element",
                     },
-                    Text$3 {
+                    Text {
                       "loc": Object {
                         "end": Object {
                           "column": 12,
@@ -15348,7 +15348,7 @@ describe('parseForESLint()', () => {
                           "offset": 263,
                         },
                       },
-                      "type": "Text$3",
+                      "type": "Text",
                       "value": "
                     ",
                     },
@@ -15980,7 +15980,7 @@ describe('parseForESLint()', () => {
               "type": "SwitchBlock",
               "unknownBlocks": Array [],
             },
-            Text$3 {
+            Text {
               "loc": Object {
                 "end": Object {
                   "column": 6,
@@ -16057,7 +16057,7 @@ describe('parseForESLint()', () => {
                   "offset": 283,
                 },
               },
-              "type": "Text$3",
+              "type": "Text",
               "value": "
               ",
             },
@@ -16149,7 +16149,7 @@ describe('parseForESLint()', () => {
               },
               "type": "BoundText",
               "value": ASTWithSource {
-                "ast": Interpolation$1 {
+                "ast": Interpolation {
                   "expressions": Array [
                     Call {
                       "args": Array [],
@@ -16321,7 +16321,7 @@ describe('parseForESLint()', () => {
                     " ",
                     "",
                   ],
-                  "type": "Interpolation$1",
+                  "type": "Interpolation",
                 },
                 "errors": Array [],
                 "loc": Object {
