@@ -494,6 +494,32 @@ The rule does not have any configuration options.
 #### ✅ Valid Code
 
 ```html
+{{ test()['value'] }}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-any": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
 <a [href]="$test()">Click here</a>
 ```
 
