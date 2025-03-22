@@ -44,8 +44,8 @@ const KEYS: VisitorKeys = {
   Call: ['receiver', 'args'],
   SafeCall: ['receiver', 'args'],
   Conditional: ['condition', 'trueExp', 'falseExp'],
-  Element$1: ['children', 'inputs', 'outputs', 'attributes'],
-  Interpolation$1: ['expressions'],
+  Element: ['children', 'inputs', 'outputs', 'attributes'],
+  Interpolation: ['expressions'],
   PrefixNot: ['expression'],
   Program: ['templateNodes'],
   PropertyRead: ['receiver'],
@@ -71,6 +71,7 @@ const KEYS: VisitorKeys = {
   ForLoopBlock: ['children', 'empty', 'expression', 'trackBy'],
   ForLoopBlockEmpty: ['children'],
   Content: ['children'],
+  LetDeclaration: ['value'],
 };
 
 function fallbackKeysFilter(this: Node, key: string) {
@@ -131,7 +132,7 @@ function preprocessNode(node: Node) {
 
     if (isArr) {
       for (j = 0; j < child.length; ++j) {
-        const c = child[j];
+        const c = child[j] as any;
         if (c.type !== undefined) {
           // Angular sometimes uses a prop called type already
           c.__originalType = c.type;

@@ -945,9 +945,9 @@ class Test {}
 
 ```ts
 @Component({
-  styles: \`
+  styles: `
     :host { display: block; }
-  \`,
+  `,
 })
 class Test {}
 ```
@@ -980,9 +980,9 @@ class Test {}
   selector: 'my-test',
   standalone: true,
   imports: [CommonModule],
-  styles: \`
+  styles: `
     :host { display: block; }
-  \`,
+  `,
   providers: [FooService]
 })
 class Test {}
@@ -1015,7 +1015,7 @@ class Test {}
 @Component({
   styles: [
     ':host { display: block; }',
-    \`.foo { color: red; }\`
+    `.foo { color: red; }`
   ],
 })
 class Test {}
@@ -1046,7 +1046,7 @@ class Test {}
 
 ```ts
 @Component({
-  styleUrl: \`./test.component.css\`,
+  styleUrl: `./test.component.css`,
 })
 class Test {}
 ```
@@ -1078,7 +1078,7 @@ class Test {}
 @Component({
   styleUrls: [
     '../shared.css',
-    \`./test.component.css\`
+    `./test.component.css`
   ],
 })
 class Test {}
@@ -1114,7 +1114,7 @@ class Test {}
   imports: [CommonModule],
   styleUrls: [
     '../shared.css',
-    \`./test.component.css\`
+    `./test.component.css`
   ],
   providers: [FooService]
 })
@@ -1177,9 +1177,9 @@ class Test {}
 ```ts
 @Component({
   styles: [
-    \`
+    `
       :host { display: block; }
-    \`
+    `
   ],
 })
 class Test {}
@@ -1214,9 +1214,9 @@ class Test {}
   standalone: true,
   imports: [CommonModule],
   styles: [
-    \`
+    `
       :host { display: block; }
-    \`
+    `
   ],
   providers: [FooService]
 })
@@ -1250,7 +1250,7 @@ class Test {}
 @Component({
   styles: [
     ':host { display: block; }',
-    \`.foo { color: red; }\`
+    `.foo { color: red; }`
   ],
 })
 class Test {}
@@ -1281,7 +1281,7 @@ class Test {}
 
 ```ts
 @Component({
-  styleUrls: [\`./test.component.css\`],
+  styleUrls: [`./test.component.css`],
 })
 class Test {}
 ```
@@ -1313,7 +1313,7 @@ class Test {}
 @Component({
   styleUrls: [
     '../shared.css',
-    \`./test.component.css\`
+    `./test.component.css`
   ],
 })
 class Test {}
@@ -1349,7 +1349,7 @@ class Test {}
   imports: [CommonModule],
   styleUrls: [
     '../shared.css',
-    \`./test.component.css\`
+    `./test.component.css`
   ],
   providers: [FooService]
 })

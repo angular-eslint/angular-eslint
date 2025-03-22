@@ -20,10 +20,65 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '<input [(ngModel)]="model" (ngModelChange)="onChange($event)">',
   '<ng-template></ng-template>',
   '<ng-template #Template><div></div></ng-template>',
+  '<ng-template #Template i18n="@@test"><div>a</div></ng-template>',
   '<ng-template [ngIf]="condition" [ngIfThen]="If" [ngIfElse]="Else"><div></div></ng-template>',
+  '<ng-template i18n="@@test" [ngIf]="condition" [ngIfThen]="If" [ngIfElse]="Else"><div></div></ng-template>',
   '<ng-template #Template let-value><div></div></ng-template>',
-  '<div i18n test1="test1" i18n-test1="@@TEST1" test2="test2" i18n-test2="@@TEST2"></div>',
+  '<ng-template #Template let-value i18n="@@test">c</ng-template>',
+  '<div test1="test1" test2="test2"></div>',
+  '<div i18n="@@test" test1="test1" test2="test2"></div>',
+  '<div i18n="@@test" test1="test1" i18n-test1="@@TEST1" test2="test2" i18n-test2="@@TEST2"></div>',
+  '<div test1="test1" i18n-test1="@@TEST1" test2="test2" i18n-test2="@@TEST2"></div>',
+  '<div beta="" [alpha]="" i18n-alpha="a" [gamma]="" i18n-gamma="g"></div>',
   '<svg><ng-template #Template let-value><line x1="1" x2="2" y1="3" y2="4"></line></ng-template></svg>',
+  {
+    code: '<div alpha="a" beta="b" gamma="g"></div>',
+    options: [
+      {
+        alphabetical: true,
+        order: [
+          OrderType.StructuralDirective,
+          OrderType.TemplateReferenceVariable,
+          OrderType.AttributeBinding,
+          OrderType.InputBinding,
+          OrderType.TwoWayBinding,
+          OrderType.OutputBinding,
+        ],
+      },
+    ],
+  },
+  {
+    code: '<div alpha="a" i18n-alpha="a18n" beta="b" i18n-beta="b18n" gamma="g" i18n-gamma="g18n"></div>',
+    options: [
+      {
+        alphabetical: true,
+        order: [
+          OrderType.StructuralDirective,
+          OrderType.TemplateReferenceVariable,
+          OrderType.AttributeBinding,
+          OrderType.InputBinding,
+          OrderType.TwoWayBinding,
+          OrderType.OutputBinding,
+        ],
+      },
+    ],
+  },
+  {
+    code: '<div alpha="a" beta="{{ b }}" (gamma)="g()" [delta]="d"></div>',
+    options: [
+      {
+        alphabetical: true,
+        order: [
+          OrderType.AttributeBinding,
+          OrderType.OutputBinding,
+          OrderType.InputBinding,
+          OrderType.StructuralDirective,
+          OrderType.TemplateReferenceVariable,
+          OrderType.TwoWayBinding,
+        ],
+      },
+    ],
+  },
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
@@ -457,7 +512,6 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
            
     `,
   }),
-
   convertAnnotatedSourceToFailureCase({
     messageId,
     description:
@@ -476,7 +530,6 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
            
     `,
   }),
-
   convertAnnotatedSourceToFailureCase({
     messageId,
     description:
@@ -492,6 +545,127 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     annotatedOutput: `
       <div *structuralDirective class="abc"></div>
            
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should order i18n attributes for other attributes after their corresponding attribute',
+    annotatedSource: `
+      <div i18n-alpha="a1" beta="b" alpha="a" i18n-beta="b1"></div>
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    options: [{ alphabetical: true }] as Options,
+    data: {
+      expected: '`alpha`, `i18n-alpha`, `beta`',
+      actual: '`i18n-alpha`, `beta`, `alpha`',
+    },
+    annotatedOutput: `
+      <div alpha="a" i18n-alpha="a1" beta="b" i18n-beta="b1"></div>
+           
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should order i18n attribute for element alphabetically with other attributes',
+    annotatedSource: `
+      <div i18n="i" beta="b" alpha="a" pi="p">x</div>
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    options: [{ alphabetical: true }] as Options,
+    data: {
+      expected: '`alpha`, `beta`, `i18n`',
+      actual: '`i18n`, `beta`, `alpha`',
+    },
+    annotatedOutput: `
+      <div alpha="a" beta="b" i18n="i" pi="p">x</div>
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should order i18n attributes along with all other types of attributes',
+    annotatedSource: `
+      <div #alpha *ngIf="true" (epsilon)="e" beta="b" [gamma]="'g'" i18n-beta="b18" [(delta)]="d" pi="p"></div>
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    options: [{ alphabetical: true }] as Options,
+    data: {
+      expected:
+        '`*ngIf`, `#alpha`, `beta`, `i18n-beta`, `pi`, `[gamma]`, `[(delta)]`, `(epsilon)`',
+      actual:
+        '`#alpha`, `*ngIf`, `(epsilon)`, `beta`, `[gamma]`, `i18n-beta`, `[(delta)]`, `pi`',
+    },
+    annotatedOutput: `
+      <div *ngIf="true" #alpha beta="b" i18n-beta="b18" pi="p" [gamma]="'g'" [(delta)]="d" (epsilon)="e"></div>
+           
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should order i18n attribute for input after the corresponding input',
+    annotatedSource: `
+      <div [beta]="'b'" alpha="a" [gamma]="g" i18n-alpha="a18" i18n-beta="b18"></div>
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    options: [{ alphabetical: true }] as Options,
+    data: {
+      expected: '`alpha`, `i18n-alpha`, `[beta]`, `i18n-beta`, `[gamma]`',
+      actual: '`[beta]`, `alpha`, `[gamma]`, `i18n-alpha`, `i18n-beta`',
+    },
+    annotatedOutput: `
+      <div alpha="a" i18n-alpha="a18" [beta]="'b'" i18n-beta="b18" [gamma]="g"></div>
+           
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description: 'should order i18n in template correctly',
+    annotatedSource: `
+      <ng-template i18n="@@a:b" let-foo #template>The value is {{ foo }}.</ng-template>
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    options: [{ alphabetical: true }] as Options,
+    data: {
+      expected: '`#template`, `i18n`, `let-foo`',
+      actual: '`i18n`, `let-foo`, `#template`',
+    },
+    annotatedOutput: `
+      <ng-template #template i18n="@@a:b" let-foo>The value is {{ foo }}.</ng-template>
+                   
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should treat attribute with dynamic value as an attribute binding',
+    annotatedSource: `
+      <div alpha="a" (gamma)="g()" beta="{{ b }}" [delta]="d"></div>
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    options: [
+      {
+        alphabetical: true,
+        order: [
+          OrderType.AttributeBinding,
+          OrderType.OutputBinding,
+          OrderType.InputBinding,
+          OrderType.StructuralDirective,
+          OrderType.TemplateReferenceVariable,
+          OrderType.TwoWayBinding,
+        ],
+      },
+    ],
+    data: {
+      expected: '`beta`, `(gamma)`',
+      actual: '`(gamma)`, `beta`',
+    },
+    annotatedOutput: `
+      <div alpha="a" beta="{{ b }}" (gamma)="g()" [delta]="d"></div>
+                     
     `,
   }),
 ];

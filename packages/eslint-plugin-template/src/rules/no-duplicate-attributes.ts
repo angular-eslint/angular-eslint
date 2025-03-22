@@ -70,7 +70,7 @@ export default createESLintRule<Options, MessageIds>({
     const parserServices = getTemplateParserServices(context);
 
     return {
-      Element$1({ inputs, outputs, attributes }: TmplAstElement) {
+      Element({ inputs, outputs, attributes }: TmplAstElement) {
         // According to the Angular documentation (https://angular.dev/guide/templates/class-binding#styling-precedence)
         // Angular merges both attributes which means their combined use can be seen as valid
         const angularStylePrecedenceDuplicatesAllowed = ['class', 'style'];

@@ -421,7 +421,7 @@ export default createESLintRule<Options, MessageIds>({
         checkId ||
         requireDescription ||
         requireMeaning) && {
-        [`:matches(Element$1, Template[tagName="ng-template"])${
+        [`:matches(Element, Template[tagName="ng-template"])${
           allowMarkupInContent ? '[i18n]' : ''
         }`](node: StronglyTypedElement | StronglyTypedTemplate) {
           handleElementOrTemplate(node);
@@ -431,14 +431,14 @@ export default createESLintRule<Options, MessageIds>({
         checkId ||
         requireDescription ||
         requireMeaning) && {
-        [`Element$1 > TextAttribute[value=${PL_PATTERN}]`](
+        [`Element > TextAttribute[value=${PL_PATTERN}]`](
           node: StronglyTypedTextAttribute,
         ) {
           handleTextAttribute(node);
         },
       }),
       ...(checkText && {
-        [`BoundText, Icu$1, Text$3[value=${PL_PATTERN}]`](
+        [`BoundText, Icu, Text[value=${PL_PATTERN}]`](
           node: StronglyTypedBoundTextOrIcuOrText,
         ) {
           handleBoundTextOrIcuOrText(node);
@@ -595,5 +595,5 @@ function isTagAllowed(allowedTags: ReadonlySet<string>, node: unknown) {
 
 // `customId` could be `undefined` in case of non-`Message`.
 function getI18nCustomId(i18n: I18nMeta): string | undefined {
-  return (i18n as Message).customId;
+  return (i18n as Message)?.customId;
 }

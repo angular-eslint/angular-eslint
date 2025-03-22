@@ -299,6 +299,38 @@ class Test {
 #### ❌ Invalid Code
 
 ```ts
+@Component()
+class Test {
+  @Output(`devicechange`) get getter() {}
+          ~~~~~~~~~~~~~~
+
+  @Output() test: string;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-output-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
 @Directive({
   selector: 'foo'
 })
@@ -1078,6 +1110,96 @@ class Test {
 class Test {
   bar = output();
 }
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-output-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  'selector': 'foo',
+  'outputs': [`test: foo`]
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-output-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  'selector': 'foo',
+  ['outputs']: [`test: foo`]
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-output-rename": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  'selector': 'foo',
+  [`outputs`]: [`test: foo`]
+})
+class Test {}
 ```
 
 <br>

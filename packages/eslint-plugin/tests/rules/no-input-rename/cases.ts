@@ -192,21 +192,21 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   `
     @Directive({
       'selector': 'foo',
-      'inputs': [\`test: ${'foo'}\`]
+      'inputs': [\`test: foo\`]
     })
     class Test {}
   `,
   `
     @Component({
       'selector': 'foo',
-      ['inputs']: [\`test: ${'foo'}\`]
+      ['inputs']: [\`test: foo\`]
     })
     class Test {}
   `,
   `
     @Directive({
       'selector': 'foo',
-      [\`inputs\`]: [\`test: ${'foo'}\`]
+      [\`inputs\`]: [\`test: foo\`]
     })
     class Test {}
   `,
@@ -624,7 +624,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     annotatedSource: `
       @Component()
       class Test {
-        @Input(\`${'devicechange'}\`) set setter(setter: string) {}
+        @Input(\`devicechange\`) set setter(setter: string) {}
                ~~~~~~~~~~~~~~
 
         @Input('allowedName') test: string;
