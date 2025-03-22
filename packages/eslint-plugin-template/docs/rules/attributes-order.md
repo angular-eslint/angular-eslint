@@ -112,13 +112,16 @@ interface Options {
 
 <br>
 
-#### Default Config
+#### Custom Config
 
 ```json
 {
   "rules": {
     "@angular-eslint/template/attributes-order": [
-      "error"
+      "error",
+      {
+        "alphabetical": true
+      }
     ]
   }
 }
@@ -283,7 +286,14 @@ interface Options {
       "error",
       {
         "alphabetical": false,
-        "order": []
+        "order": [
+          "TEMPLATE_REFERENCE",
+          "ATTRIBUTE_BINDING",
+          "STRUCTURAL_DIRECTIVE",
+          "INPUT_BINDING",
+          "OUTPUT_BINDING",
+          "TWO_WAY_BINDING"
+        ]
       }
     ]
   }
@@ -314,7 +324,14 @@ interface Options {
       "error",
       {
         "alphabetical": true,
-        "order": []
+        "order": [
+          "TEMPLATE_REFERENCE",
+          "STRUCTURAL_DIRECTIVE",
+          "ATTRIBUTE_BINDING",
+          "INPUT_BINDING",
+          "OUTPUT_BINDING",
+          "TWO_WAY_BINDING"
+        ]
       }
     ]
   }
@@ -484,13 +501,16 @@ interface Options {
 
 <br>
 
-#### Default Config
+#### Custom Config
 
 ```json
 {
   "rules": {
     "@angular-eslint/template/attributes-order": [
-      "error"
+      "error",
+      {
+        "alphabetical": true
+      }
     ]
   }
 }
@@ -511,13 +531,16 @@ interface Options {
 
 <br>
 
-#### Default Config
+#### Custom Config
 
 ```json
 {
   "rules": {
     "@angular-eslint/template/attributes-order": [
-      "error"
+      "error",
+      {
+        "alphabetical": true
+      }
     ]
   }
 }
@@ -538,13 +561,16 @@ interface Options {
 
 <br>
 
-#### Default Config
+#### Custom Config
 
 ```json
 {
   "rules": {
     "@angular-eslint/template/attributes-order": [
-      "error"
+      "error",
+      {
+        "alphabetical": true
+      }
     ]
   }
 }
@@ -565,13 +591,16 @@ interface Options {
 
 <br>
 
-#### Default Config
+#### Custom Config
 
 ```json
 {
   "rules": {
     "@angular-eslint/template/attributes-order": [
-      "error"
+      "error",
+      {
+        "alphabetical": true
+      }
     ]
   }
 }
@@ -594,13 +623,16 @@ interface Options {
 
 <br>
 
-#### Default Config
+#### Custom Config
 
 ```json
 {
   "rules": {
     "@angular-eslint/template/attributes-order": [
-      "error"
+      "error",
+      {
+        "alphabetical": true
+      }
     ]
   }
 }
@@ -621,13 +653,16 @@ interface Options {
 
 <br>
 
-#### Default Config
+#### Custom Config
 
 ```json
 {
   "rules": {
     "@angular-eslint/template/attributes-order": [
-      "error"
+      "error",
+      {
+        "alphabetical": true
+      }
     ]
   }
 }
@@ -652,13 +687,16 @@ interface Options {
 
 <br>
 
-#### Default Config
+#### Custom Config
 
 ```json
 {
   "rules": {
     "@angular-eslint/template/attributes-order": [
-      "error"
+      "error",
+      {
+        "alphabetical": true
+      }
     ]
   }
 }
@@ -688,7 +726,14 @@ interface Options {
       "error",
       {
         "alphabetical": true,
-        "order": []
+        "order": [
+          "ATTRIBUTE_BINDING",
+          "TEMPLATE_REFERENCE",
+          "INPUT_BINDING",
+          "OUTPUT_BINDING",
+          "TWO_WAY_BINDING",
+          "STRUCTURAL_DIRECTIVE"
+        ]
       }
     ]
   }
@@ -710,13 +755,16 @@ interface Options {
 
 <br>
 
-#### Default Config
+#### Custom Config
 
 ```json
 {
   "rules": {
     "@angular-eslint/template/attributes-order": [
-      "error"
+      "error",
+      {
+        "alphabetical": true
+      }
     ]
   }
 }

@@ -1,13 +1,11 @@
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
 import type { TSESLint } from '@typescript-eslint/utils';
 import { compile } from 'json-schema-to-typescript';
 import traverse from 'json-schema-traverse';
-import {
-  mkdirSync,
-  readdirSync,
-  readFileSync,
-  rmSync,
-  writeFileSync,
-} from 'node:fs';
+import { mkdirSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { format, resolveConfig } from 'prettier';
 import ts from 'typescript';
@@ -269,12 +267,9 @@ async function generateAllRuleData(): Promise<AllRuleData> {
   // For rule sources we just import/execute the rule source file
   for (const ruleFile of ruleFiles) {
     const ruleFilePath = join(rulesDir, ruleFile.replace('.ts', ''));
-    const {
-      default: ruleConfig,
-      RULE_NAME,
-      RULE_DOCS_EXTENSION,
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-    } = require(ruleFilePath);
+    const { default: ruleConfig, RULE_NAME, RULE_DOCS_EXTENSION } = require(
+      ruleFilePath,
+    );
     ruleData[RULE_NAME] = {
       ruleConfig,
       ruleFilePath: ruleFilePath + '.ts',
@@ -283,135 +278,55 @@ async function generateAllRuleData(): Promise<AllRuleData> {
   }
 
   /**
-   * For tests we want to preserve the annotated sources, so we do NOT want
-   * to execute the file and instead need to parse it using the ts compiler.
+   * For tests we want to preserve the annotated sources. We can preserve that while
+   * importing the test source by setting an environment variable. This allows parameterized
+   * tests to be used, which we wouldn't be able to use if we just parsed the TypeScript.
    */
-  for (const testDir of testDirs) {
-    const testDirPath = join(testDirsDir, testDir);
-    const casesFilePath = join(testDirPath, 'cases.ts');
-    const testCasesContents = readFileSync(casesFilePath, 'utf-8');
-    const casesSourceFile = ts.createSourceFile(
-      casesFilePath,
-      testCasesContents,
-      ts.ScriptTarget.Latest,
-      true,
-    );
+  process.env.GENERATING_RULE_DOCS = '1';
+  try {
+    for (const testDir of testDirs) {
+      const testDirPath = join(testDirsDir, testDir);
+      const casesFilePath = join(testDirPath, 'cases.ts');
+      const { valid, invalid } = require(casesFilePath) as {
+        valid: (string | ValidTestCase<[]>)[];
+        invalid: InvalidTestCase<'', []>[];
+      };
 
-    const extractedValid: ExtractedTestCase[] = [];
-    const extractedInvalid: ExtractedTestCase[] = [];
+      const extractedValid: ExtractedTestCase[] = valid
+        .map((test) =>
+          typeof test === 'string'
+            ? { code: test }
+            : {
+                code: test.code,
+                options:
+                  test.options && test.options.length > 0
+                    ? [...test.options]
+                    : undefined,
+                filename: test.filename,
+              },
+        )
+        .filter((test) => test.code);
 
-    const extractNodes = (node: ts.Node) => {
-      if (
-        ts.isVariableDeclaration(node) &&
-        node.name.getText() === 'valid' &&
-        node.initializer &&
-        ts.isArrayLiteralExpression(node.initializer)
-      ) {
-        node.initializer.elements.forEach((el) => {
-          const newExtractedTestCase: ExtractedTestCase = {
-            code: '',
-          };
+      const extractedInvalid: ExtractedTestCase[] = invalid
+        .map((test) => ({
+          code: test.code,
+          options:
+            test.options && test.options.length > 0
+              ? [...test.options]
+              : undefined,
+          filename: test.filename,
+        }))
+        .filter((test) => test.code);
 
-          if (ts.isStringLiteralLike(el)) {
-            newExtractedTestCase.code = el.text;
-          }
-
-          if (ts.isObjectLiteralExpression(el)) {
-            el.properties.forEach((prop) => {
-              if (
-                ts.isPropertyAssignment(prop) &&
-                prop.name.getText() === 'code'
-              ) {
-                if (ts.isNoSubstitutionTemplateLiteral(prop.initializer)) {
-                  newExtractedTestCase.code =
-                    prop.initializer.rawText || prop.initializer.text;
-                }
-                if (ts.isTemplateExpression(prop.initializer)) {
-                  newExtractedTestCase.code = prop.initializer.getText();
-                }
-                if (ts.isStringLiteral(prop.initializer)) {
-                  newExtractedTestCase.code = prop.initializer.text;
-                }
-              }
-
-              if (
-                ts.isPropertyAssignment(prop) &&
-                prop.name.getText() === 'options' &&
-                ts.isArrayLiteralExpression(prop.initializer)
-              ) {
-                newExtractedTestCase.options =
-                  convertArrayLiteralExpressionToCode(prop.initializer);
-              }
-              if (
-                ts.isPropertyAssignment(prop) &&
-                prop.name.getText() === 'filename' &&
-                ts.isStringLiteral(prop.initializer)
-              ) {
-                newExtractedTestCase.filename = prop.initializer.text;
-              }
-            });
-          }
-
-          if (newExtractedTestCase.code) {
-            extractedValid.push(newExtractedTestCase);
-          }
-        });
-      }
-
-      if (
-        ts.isVariableDeclaration(node) &&
-        node.name.getText() === 'invalid' &&
-        node.initializer &&
-        ts.isArrayLiteralExpression(node.initializer)
-      ) {
-        node.initializer.elements.forEach((el) => {
-          if (
-            ts.isCallExpression(el) &&
-            el.expression.getText() === 'convertAnnotatedSourceToFailureCase'
-          ) {
-            const newExtractedTestCase: ExtractedTestCase = {
-              code: '',
-            };
-
-            const config = el.arguments[0] as ts.ObjectLiteralExpression;
-            config.properties.forEach((prop) => {
-              if (
-                ts.isPropertyAssignment(prop) &&
-                prop.name.getText() === 'annotatedSource' &&
-                ts.isNoSubstitutionTemplateLiteral(prop.initializer)
-              ) {
-                newExtractedTestCase.code = prop.initializer.text;
-              }
-
-              if (
-                ts.isPropertyAssignment(prop) &&
-                prop.name.getText() === 'options' &&
-                ts.isArrayLiteralExpression(prop.initializer)
-              ) {
-                newExtractedTestCase.options =
-                  convertArrayLiteralExpressionToCode(prop.initializer);
-              }
-            });
-
-            if (newExtractedTestCase.code) {
-              extractedInvalid.push(newExtractedTestCase);
-            }
-          }
-        });
-      }
-
-      ts.forEachChild(node, extractNodes);
-    };
-
-    // Extract valid and invalid cases as strings
-    extractNodes(casesSourceFile);
-
-    ruleData[testDir] = {
-      ...ruleData[testDir],
-      testCasesFilePath: casesFilePath,
-      valid: extractedValid,
-      invalid: extractedInvalid,
-    };
+      ruleData[testDir] = {
+        ...ruleData[testDir],
+        testCasesFilePath: casesFilePath,
+        valid: extractedValid,
+        invalid: extractedInvalid,
+      };
+    }
+  } finally {
+    delete process.env.GENERATING_RULE_DOCS;
   }
 
   return ruleData;
