@@ -75,6 +75,534 @@ interface Options {
 
 <br>
 
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id; let index = $index) {}
+                                        ~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id; let foo = $index) {}
+                                        ~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id; let count = $count) {}
+                                        ~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id; let foo = $count) {}
+                                        ~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id; let first = $first) {}
+                                        ~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id; let foo = $first) {}
+                                        ~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id; let last = $last) {}
+                                        ~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id; let foo = $last) {}
+                                        ~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id; let even = $even) {}
+                                        ~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id; let foo = $even) {}
+                                        ~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id; let odd = $odd) {}
+                                        ~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id; let foo = $odd) {}
+                                        ~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error",
+      {
+        "allowedAliases": {
+          "$index": [
+            "foo"
+          ]
+        }
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id; let bar = $index) {}
+                                        ~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error",
+      {
+        "allowedAliases": {
+          "$count": [
+            "foo"
+          ]
+        }
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id; let bar = $count) {}
+                                        ~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error",
+      {
+        "allowedAliases": {
+          "$first": [
+            "foo"
+          ]
+        }
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id; let bar = $first) {}
+                                        ~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error",
+      {
+        "allowedAliases": {
+          "$last": [
+            "foo"
+          ]
+        }
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id; let bar = $last) {}
+                                        ~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error",
+      {
+        "allowedAliases": {
+          "$even": [
+            "foo"
+          ]
+        }
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id; let bar = $even) {}
+                                        ~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error",
+      {
+        "allowedAliases": {
+          "$odd": [
+            "foo"
+          ]
+        }
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id; let bar = $odd) {}
+                                        ~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
 #### Custom Config
 
 ```json
@@ -298,11 +826,1914 @@ interface Options {
 #### ❌ Invalid Code
 
 ```html
+@for (item of items; track item.id; let foo = $index) {
+                                        ~~~~~~~~~~~~
+  {{ foo }}
+  {{ foo + 1 }}
+  <my-component [value]="foo"/>
+  <div [attr.title]="foo"></div>
+  @if (foo) {}
+  @switch (foo) {}
+  @let bar = foo + 1;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id; let foo = $count) {
+                                        ~~~~~~~~~~~~
+  {{ foo }}
+  {{ foo + 1 }}
+  <my-component [value]="foo"/>
+  <div [attr.title]="foo"></div>
+  @if (foo) {}
+  @switch (foo) {}
+  @let bar = foo + 1;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id; let foo = $first) {
+                                        ~~~~~~~~~~~~
+  {{ foo }}
+  {{ foo + 1 }}
+  <my-component [value]="foo"/>
+  <div [attr.title]="foo"></div>
+  @if (foo) {}
+  @switch (foo) {}
+  @let bar = foo + 1;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id; let foo = $last) {
+                                        ~~~~~~~~~~~
+  {{ foo }}
+  {{ foo + 1 }}
+  <my-component [value]="foo"/>
+  <div [attr.title]="foo"></div>
+  @if (foo) {}
+  @switch (foo) {}
+  @let bar = foo + 1;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id; let foo = $even) {
+                                        ~~~~~~~~~~~
+  {{ foo }}
+  {{ foo + 1 }}
+  <my-component [value]="foo"/>
+  <div [attr.title]="foo"></div>
+  @if (foo) {}
+  @switch (foo) {}
+  @let bar = foo + 1;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id; let foo = $odd) {
+                                        ~~~~~~~~~~
+  {{ foo }}
+  {{ foo + 1 }}
+  <my-component [value]="foo"/>
+  <div [attr.title]="foo"></div>
+  @if (foo) {}
+  @switch (foo) {}
+  @let bar = foo + 1;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  {{ $index + 1 }} of {{ items.length }}
+                         ~~~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items(); track item.id) {
+  {{ $index + 1 }} of {{ items().length }}
+                         ~~~~~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  @if ($index === 0) {
+       ~~~~~~~~~~~~
+    first item
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  @if ($index == 0) {
+       ~~~~~~~~~~~
+    first item
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  @if (0 === $index) {
+       ~~~~~~~~~~~~
+    first item
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  @if (0 == $index) {
+       ~~~~~~~~~~~
+    first item
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  @if ($index > 0) {
+       ~~~~~~~~~~
+    not first item
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  @if ($index !== 0) {
+       ~~~~~~~~~~~~
+    not first item
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  @if ($index != 0) {
+       ~~~~~~~~~~~
+    not first item
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  @if (0 < $index) {
+       ~~~~~~~~~~
+    not first item
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  @if (0 !== $index) {
+       ~~~~~~~~~~~~
+    not first item
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  @if (0 != $index) {
+       ~~~~~~~~~~~
+    not first item
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  @if ($index + 1 === $count) {
+       ~~~~~~~~~~~~~~~~~~~~~
+    last item
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  @if ($index + 1 == $count) {
+       ~~~~~~~~~~~~~~~~~~~~
+    last item
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  @if ($index === $count - 1) {
+       ~~~~~~~~~~~~~~~~~~~~~
+    last item
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  @if ($index == $count - 1) {
+       ~~~~~~~~~~~~~~~~~~~~
+    last item
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  @if ($count === $index + 1) {
+       ~~~~~~~~~~~~~~~~~~~~~
+    last item
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  @if ($count == $index + 1) {
+       ~~~~~~~~~~~~~~~~~~~~
+    last item
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  @if ($count - 1 === $index) {
+       ~~~~~~~~~~~~~~~~~~~~~
+    last item
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  @if ($count - 1 == $index) {
+       ~~~~~~~~~~~~~~~~~~~~
+    last item
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  @if ($index + 1 < $count) {
+       ~~~~~~~~~~~~~~~~~~~
+    not last item
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  @if ($index + 1 !== $count) {
+       ~~~~~~~~~~~~~~~~~~~~~
+    not last item
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  @if ($index < $count - 1) {
+       ~~~~~~~~~~~~~~~~~~~
+    not last item
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  @if ($index !== $count - 1) {
+       ~~~~~~~~~~~~~~~~~~~~~
+    not last item
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  @if ($count > $index + 1) {
+       ~~~~~~~~~~~~~~~~~~~
+    not last item
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  @if ($count !== $index + 1) {
+       ~~~~~~~~~~~~~~~~~~~~~
+    not last item
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  @if ($count - 1 > $index) {
+       ~~~~~~~~~~~~~~~~~~~
+    not last item
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  @if ($count - 1 !== $index) {
+       ~~~~~~~~~~~~~~~~~~~~~
+    not last item
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  @if (!($index % 2)) {
+       ~~~~~~~~~~~~~
+    is even
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  @if ($index % 2 === 0) {
+       ~~~~~~~~~~~~~~~~
+    is even
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  @if ($index % 2 == 0) {
+       ~~~~~~~~~~~~~~~
+    is even
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  @if ($index % 2 !== 1) {
+       ~~~~~~~~~~~~~~~~
+    is even
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  @if ($index % 2 != 1) {
+       ~~~~~~~~~~~~~~~
+    is even
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  @if ($index % 2 < 1) {
+       ~~~~~~~~~~~~~~
+    is even
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  @if (0 === $index % 2) {
+       ~~~~~~~~~~~~~~~~
+    is even
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  @if (0 == $index % 2) {
+       ~~~~~~~~~~~~~~~
+    is even
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  @if (1 !== $index % 2) {
+       ~~~~~~~~~~~~~~~~
+    is even
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  @if (1 !== $index % 2) {
+       ~~~~~~~~~~~~~~~~
+    is even
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  @if (1 > $index % 2) {
+       ~~~~~~~~~~~~~~
+    is even
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  @if (!$odd) {
+       ~~~~~
+    is even
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  @if ($index % 2 === 1) {
+       ~~~~~~~~~~~~~~~~
+    is odd
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  @if ($index % 2 == 1) {
+       ~~~~~~~~~~~~~~~
+    is odd
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  @if ($index % 2 !== 0) {
+       ~~~~~~~~~~~~~~~~
+    is odd
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  @if ($index % 2 != 0) {
+       ~~~~~~~~~~~~~~~
+    is odd
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  @if ($index % 2 > 0) {
+       ~~~~~~~~~~~~~~
+    is odd
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  @if (1 === $index % 2) {
+       ~~~~~~~~~~~~~~~~
+    is odd
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  @if (1 == $index % 2) {
+       ~~~~~~~~~~~~~~~
+    is odd
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  @if (0 !== $index % 2) {
+       ~~~~~~~~~~~~~~~~
+    is odd
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  @if (0 != $index % 2) {
+       ~~~~~~~~~~~~~~~
+    is odd
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  @if (0 < $index % 2) {
+       ~~~~~~~~~~~~~~
+    is odd
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  @if (!$even) {
+       ~~~~~~
+    is odd
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
 @for (item of items; track item.id) {
   @if (!!($index % 2)) {
         ~~~~~~~~~~~~~
     is odd
   }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  {{ foo && $index % 2 }}
+            ~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  {{ $index % 2 && foo }}
+     ~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  {{ $index % 2 ? 1 : 2 }}
+     ~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (item of items; track item.id) {
+  @if ($index % 2) {}
+       ~~~~~~~~~~
 }
 ```
 
@@ -400,6 +2831,720 @@ interface Options {
 
 ```html
 @for (item of items; track $index) {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error",
+      {
+        "allowedAliases": {
+          "$index": [
+            "alpha",
+            "beta",
+            "gamma"
+          ]
+        }
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+@for (item of items; track item.id; let beta = $index) {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error",
+      {
+        "allowedAliases": {
+          "$count": [
+            "alpha",
+            "beta",
+            "gamma"
+          ]
+        }
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+@for (item of items; track item.id; let beta = $count) {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error",
+      {
+        "allowedAliases": {
+          "$first": [
+            "alpha",
+            "beta",
+            "gamma"
+          ]
+        }
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+@for (item of items; track item.id; let beta = $first) {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error",
+      {
+        "allowedAliases": {
+          "$last": [
+            "alpha",
+            "beta",
+            "gamma"
+          ]
+        }
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+@for (item of items; track item.id; let beta = $last) {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error",
+      {
+        "allowedAliases": {
+          "$even": [
+            "alpha",
+            "beta",
+            "gamma"
+          ]
+        }
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+@for (item of items; track item.id; let beta = $even) {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error",
+      {
+        "allowedAliases": {
+          "$odd": [
+            "alpha",
+            "beta",
+            "gamma"
+          ]
+        }
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+@for (item of items; track item.id; let beta = $odd) {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+@for (a of outer; track a.id; let outerVar = $index) {
+  @for (b of inner; track b.id) {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+@for (a of outer; track a.id; let outerVar = $count) {
+  @for (b of inner; track b.id) {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+@for (a of outer; track a.id; let outerVar = $first) {
+  @for (b of inner; track b.id) {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+@for (a of outer; track a.id; let outerVar = $last) {
+  @for (b of inner; track b.id) {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+@for (a of outer; track a.id; let outerVar = $even) {
+  @for (b of inner; track b.id) {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+@for (a of outer; track a.id; let outerVar = $odd) {
+  @for (b of inner; track b.id) {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+@for (a of outer; track a.id) {
+  @for (b of inner; track b.id; let innerVar = $index) {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+@for (a of outer; track a.id) {
+  @for (b of inner; track b.id; let innerVar = $count) {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+@for (a of outer; track a.id) {
+  @for (b of inner; track b.id; let innerVar = $first) {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+@for (a of outer; track a.id) {
+  @for (b of inner; track b.id; let innerVar = $last) {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+@for (a of outer; track a.id) {
+  @for (b of inner; track b.id; let innerVar = $even) {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+@for (a of outer; track a.id) {
+  @for (b of inner; track b.id; let innerVar = $odd) {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+@for (a of outer; track a.id; let outerVar = $index) {
+  @for (b of inner; track b.id; let innerVar = $index) {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+@for (a of outer; track a.id; let outerVar = $count) {
+  @for (b of inner; track b.id; let innerVar = $count) {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+@for (a of outer; track a.id; let outerVar = $first) {
+  @for (b of inner; track b.id; let innerVar = $first) {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+@for (a of outer; track a.id; let outerVar = $last) {
+  @for (b of inner; track b.id; let innerVar = $last) {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+@for (a of outer; track a.id; let outerVar = $even) {
+  @for (b of inner; track b.id; let innerVar = $even) {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+@for (a of outer; track a.id; let outerVar = $odd) {
+  @for (b of inner; track b.id; let innerVar = $odd) {}
+}
 ```
 
 <br>
