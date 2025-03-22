@@ -63,186 +63,6 @@ class Test {
 }
 ```
 
-<br>
-
----
-
-<br>
-
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/prefer-output-emitter-ref": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
-#### ❌ Invalid Code
-
-```ts
-@Component()
-class Test {
-  change = output();
-  ~~~~~~
-}
-```
-
-<br>
-
----
-
-<br>
-
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/prefer-output-emitter-ref": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
-#### ❌ Invalid Code
-
-```ts
-@Directive()
-class Test {
-  change = output();
-  ~~~~~~
-}
-```
-
-<br>
-
----
-
-<br>
-
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/prefer-output-emitter-ref": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
-#### ❌ Invalid Code
-
-```ts
-@Component()
-class Test {
-  change = output<string>();
-  ~~~~~~
-}
-```
-
-<br>
-
----
-
-<br>
-
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/prefer-output-emitter-ref": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
-#### ❌ Invalid Code
-
-```ts
-@Directive()
-class Test {
-  change = output<string>();
-  ~~~~~~
-}
-```
-
-<br>
-
----
-
-<br>
-
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/prefer-output-emitter-ref": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
-#### ❌ Invalid Code
-
-```ts
-@Component()
-class Test {
-  change: OutputEmitterRef<string>;
-  ~~~~~~
-}
-```
-
-<br>
-
----
-
-<br>
-
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/prefer-output-emitter-ref": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
-#### ❌ Invalid Code
-
-```ts
-@Directive()
-class Test {
-  change: OutputEmitterRef<string>;
-  ~~~~~~
-}
-```
-
 </details>
 
 <br>
@@ -273,7 +93,6 @@ class Test {
 #### ✅ Valid Code
 
 ```ts
-@Component()
 class Test {
   change = outputValue();
 }
@@ -302,7 +121,6 @@ class Test {
 #### ✅ Valid Code
 
 ```ts
-@Component()
 class Test {
   change = new EventEmitter();
 }
@@ -331,7 +149,6 @@ class Test {
 #### ✅ Valid Code
 
 ```ts
-@Component()
 class Test {
   readonly change = output();
 }
@@ -360,96 +177,8 @@ class Test {
 #### ✅ Valid Code
 
 ```ts
-@Directive()
-class Test {
-  readonly change = output();
-}
-```
-
-<br>
-
----
-
-<br>
-
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/prefer-output-emitter-ref": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
-#### ✅ Valid Code
-
-```ts
-@Component()
 class Test {
   readonly change = output<string>();
-}
-```
-
-<br>
-
----
-
-<br>
-
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/prefer-output-emitter-ref": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
-#### ✅ Valid Code
-
-```ts
-@Directive()
-class Test {
-  readonly change = output<string>();
-}
-```
-
-<br>
-
----
-
-<br>
-
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/prefer-output-emitter-ref": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
-#### ✅ Valid Code
-
-```ts
-class Test {
-  // This is allowed because it is not in a component or directive.
-  change = output();
 }
 ```
 
