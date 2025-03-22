@@ -161,5 +161,7 @@
     ],
     "projectSpecificFiles": []
   },
-  "bust": 1
+  "bust": 1,
+  "useInferencePlugins": false,
+  "useLegacyCache": true
 }
