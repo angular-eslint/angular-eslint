@@ -25,6 +25,7 @@
       "exclude": [
         "*",
         "packages/builder/**",
+        "packages/bundled-angular-compiler/**",
         "packages/eslint-plugin-template/**",
         "packages/eslint-plugin/**",
         "packages/nx-plugin/**",
