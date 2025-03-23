@@ -15,10 +15,9 @@
 
 # `@angular-eslint/prefer-output-emitter-ref`
 
-Use readonly `OutputEmitterRef` instead of `@Output()`
+Use `OutputEmitterRef` instead of `@Output()`
 
 - Type: suggestion
-- 🔧 Supports autofix (`--fix`)
 
 <br>
 

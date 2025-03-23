@@ -11,9 +11,8 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description: 'Use readonly `OutputEmitterRef` instead of `@Output()`',
+      description: 'Use `OutputEmitterRef` instead of `@Output()`',
     },
-    fixable: 'code',
     schema: [],
     messages: {
       preferOutputEmitterRef:
