@@ -326,6 +326,33 @@ The rule does not have any configuration options.
 #### ❌ Invalid Code
 
 ```html
+@let letValue = value() + '-suffix';
+                ~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-template-literal": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
 {{ 'prefix-' + 42 }}
    ~~~~~~~~~~~~~~
 ```
@@ -1730,6 +1757,32 @@ The rule does not have any configuration options.
 
 ```html
 @defer (when `prefix-${value}-suffix`) {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-template-literal": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+@let letValue = `prefix-${value}-suffix`
 ```
 
 <br>
