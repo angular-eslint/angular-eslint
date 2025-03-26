@@ -1,4 +1,4 @@
-import { ASTUtils, Selectors } from '@angular-eslint/utils';
+import { ASTUtils, CommentUtils, Selectors } from '@angular-eslint/utils';
 import { TSESLint, TSESTree } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
@@ -112,13 +112,12 @@ export default createESLintRule<Options, MessageIds>({
         lastNonConfiguredIndex !== -1 &&
         lastNonConfiguredIndex < firstConfiguredIndex
       ) {
-        reportAndFix(
+        createInvalidSortRuleForDecorator(
           context,
-          properties[lastNonConfiguredIndex],
           decoratorName,
-          properties,
           expectedOrder,
-          argument,
+          properties,
+          properties[lastNonConfiguredIndex],
         );
         return;
       }
@@ -145,13 +144,12 @@ export default createESLintRule<Options, MessageIds>({
           );
           const outOfOrderProperty = configuredProperties[firstOutOfOrderIndex];
 
-          reportAndFix(
+          createInvalidSortRuleForDecorator(
             context,
-            outOfOrderProperty,
             decoratorName,
-            properties,
             expectedOrder,
-            argument,
+            properties,
+            outOfOrderProperty,
           );
         }
       }
@@ -177,54 +175,81 @@ export default createESLintRule<Options, MessageIds>({
   },
 });
 
+function createInvalidSortRuleForDecorator(
+  context: Readonly<TSESLint.RuleContext<MessageIds, Options>>,
+  decoratorName: string,
+  expectedOrder: string[],
+  properties: TSESTree.Property[],
+  node: TSESTree.Property,
+): void {
+  const presentProps = properties.map(
+    (prop) => (prop.key as TSESTree.Identifier).name,
+  );
+
+  const relevantExpectedOrder = expectedOrder.filter((propName) =>
+    presentProps.includes(propName),
+  );
+
+  const data = {
+    decorator: decoratorName,
+    expectedOrder: relevantExpectedOrder.join(', '),
+  };
+
+  reportAndFix(
+    context,
+    node,
+    'incorrectOrder',
+    data,
+    properties,
+    expectedOrder,
+    node.parent as TSESTree.Expression,
+  );
+}
+
 function reportAndFix(
   context: Readonly<TSESLint.RuleContext<MessageIds, Options>>,
   node: TSESTree.Property,
-  decoratorName: string,
+  messageId: MessageIds,
+  data: { decorator: string; expectedOrder: string },
   properties: TSESTree.Property[],
   expectedOrder: string[],
   objectExpression: TSESTree.Expression,
 ): void {
-  const presentProperties = properties.map(
-    ({ key }) => (key as TSESTree.Identifier).name,
-  );
-  const expectedConfiguredOrder = expectedOrder.filter((key: string) =>
-    presentProperties.includes(key),
-  );
+  const sourceCode = context.sourceCode;
 
   context.report({
     node,
-    messageId: 'incorrectOrder',
-    data: {
-      decorator: decoratorName,
-      expectedOrder: expectedConfiguredOrder.join(', '),
-    },
+    messageId,
+    data,
     fix(fixer) {
-      const sourceCode = context.sourceCode;
-      const nonConfiguredProperties = properties.filter(
-        ({ key }) => !expectedOrder.includes((key as TSESTree.Identifier).name),
+      const indentation = CommentUtils.getObjectIndentation(
+        sourceCode,
+        objectExpression,
       );
 
-      const newProperties = [
-        ...expectedOrder
-          .map((expectedOrderKey: string) =>
-            properties.find(
-              ({ key }) =>
-                (key as TSESTree.Identifier).name === expectedOrderKey,
-            ),
-          )
-          .filter((prop): prop is TSESTree.Property => !!prop)
-          .map((prop) => sourceCode.getText(prop)),
-        ...nonConfiguredProperties.map((prop) => sourceCode.getText(prop)),
-      ];
+      const propNames = properties.map(
+        (p) => (p.key as TSESTree.Identifier).name,
+      );
+      const filteredOrder = expectedOrder.filter((name) =>
+        propNames.includes(name),
+      );
 
-      const objectExpressionText = sourceCode.getText(objectExpression);
-      const lines = objectExpressionText.split('\n');
-      const indentation = lines[1] ? lines[1].match(/^\s*/)?.[0] || '' : '';
+      const propInfoMap = CommentUtils.extractPropertyComments(
+        sourceCode,
+        properties,
+        objectExpression,
+        indentation,
+      );
+
+      const sortedText = CommentUtils.buildSortedPropertiesWithComments(
+        filteredOrder,
+        propInfoMap,
+        indentation,
+      );
 
       return fixer.replaceText(
         objectExpression,
-        `{\n${indentation}${newProperties.join(`,\n${indentation}`)}\n${indentation.slice(2)}}`,
+        `{\n${sortedText}\n${indentation.slice(0, -2)}}`,
       );
     },
   });

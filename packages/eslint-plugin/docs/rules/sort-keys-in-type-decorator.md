@@ -302,6 +302,183 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/sort-keys-in-type-decorator": [
+      "error",
+      {
+        "Component": [
+          "selector",
+          "styleUrl"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({
+  styleUrl: './app.component.css', // Inline comment for styleUrl
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  selector: 'app-root' // Inline comment for selector
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/sort-keys-in-type-decorator": [
+      "error",
+      {
+        "Component": [
+          "selector",
+          "styleUrl"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({
+  // Comment above styleUrl
+  styleUrl: './app.component.css',
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  // Comment above selector
+  selector: 'app-root'
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/sort-keys-in-type-decorator": [
+      "error",
+      {
+        "Component": [
+          "selector",
+          "styleUrl"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({
+  /* This is a multi-line comment
+     above styleUrl property */
+  styleUrl: './app.component.css',
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  /* This is a multi-line comment
+     above selector property */
+  selector: 'app-root'
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/sort-keys-in-type-decorator": [
+      "error",
+      {
+        "Component": [
+          "selector",
+          "imports",
+          "standalone",
+          "templateUrl",
+          "styleUrl",
+          "encapsulation",
+          "changeDetection"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({
+  // Comment above changeDetection
+  changeDetection: ChangeDetectionStrategy.OnPush, // Inline comment for changeDetection
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  /* Multi-line comment
+     above selector */
+  selector: 'app-root', /* Inline multi-line comment after selector */
+  // Comment above imports
+  imports: [
+    // Comment inside imports array
+    CommonModule, // Comment after CommonModule
+    FormsModule /* Comment after FormsModule */
+  ],
+  /* Comment above standalone */
+  standalone: true, // Comment after standalone
+  // Comment above templateUrl
+  templateUrl: './app.component.html',
+  /* Multi-line comment
+     above styleUrl */
+  styleUrl: './app.component.css',
+  // Comment above encapsulation
+  encapsulation: ViewEncapsulation.None /* Inline comment for encapsulation */
+})
+class Test {}
+```
+
 </details>
 
 <br>
@@ -626,6 +803,110 @@ class Test {}
 ```ts
 @NgModule({
   declarations: [AppComponent],
+  exports: [AppComponent]
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/sort-keys-in-type-decorator": [
+      "error",
+      {
+        "Component": [
+          "selector",
+          "imports",
+          "standalone",
+          "templateUrl",
+          "styleUrl",
+          "encapsulation",
+          "changeDetection"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  // Comment above selector
+  selector: 'app-root', // Inline comment for selector
+  /* Multi-line comment
+     above imports */
+  imports: [
+    CommonModule,
+    FormsModule
+  ], // Inline comment after imports
+  standalone: true,
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css',
+  // Comment above encapsulation
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/sort-keys-in-type-decorator": [
+      "error",
+      {
+        "NgModule": [
+          "declarations",
+          "imports",
+          "exports",
+          "providers",
+          "bootstrap"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@NgModule({
+  // Leading comment for declarations
+  declarations: [
+    /* Component list comment */
+    AppComponent,
+    HeaderComponent
+  ],
+  imports: [
+    CommonModule, // Common module comment
+    RouterModule /* Router module comment */
+  ],
+  /* Multi-line export comment
+     with multiple lines
+     before the property */
   exports: [AppComponent]
 })
 class Test {}
