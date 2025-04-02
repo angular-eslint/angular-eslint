@@ -49,6 +49,9 @@ import noDistractingElements, {
 import noDuplicateAttributes, {
   RULE_NAME as noDuplicateAttributesRuleName,
 } from './rules/no-duplicate-attributes';
+import noEmptyControlFlow, {
+  RULE_NAME as noEmptyControlFlowRuleName,
+} from './rules/no-empty-control-flow';
 import noInlineStyles, {
   RULE_NAME as noInlineStylesRuleName,
 } from './rules/no-inline-styles';
@@ -123,17 +126,18 @@ export = {
     [noCallExpressionRuleName]: noCallExpression,
     [noDistractingElementsRuleName]: noDistractingElements,
     [noDuplicateAttributesRuleName]: noDuplicateAttributes,
-    [noNestedTagsRuleName]: noNestedTags,
+    [noEmptyControlFlowRuleName]: noEmptyControlFlow,
     [noInlineStylesRuleName]: noInlineStyles,
     [noInterpolationInAttributesRuleName]: noInterpolationInAttributes,
     [noNegatedAsyncRuleName]: noNegatedAsync,
+    [noNestedTagsRuleName]: noNestedTags,
     [noPositiveTabindexRuleName]: noPositiveTabindex,
     [preferAtEmptyRuleName]: preferAtEmpty,
     [preferContextualForVariablesRuleName]: preferContextualForVariables,
     [preferControlFlowRuleName]: preferControlFlow,
+    [preferNgsrcRuleName]: preferNgsrc,
     [preferSelfClosingTagsRuleName]: preferSelfClosingTags,
     [preferStaticStringPropertiesRuleName]: preferStaticStringProperties,
-    [preferNgsrcRuleName]: preferNgsrc,
     [preferTemplateLiteralRuleName]: preferTemplateLiteral,
     [roleHasRequiredAriaRuleName]: roleHasRequiredAria,
     [tableScopeRuleName]: tableScope,
