@@ -87,10 +87,16 @@ export default createESLintRule<Options, MessageIds>({
       ...DEFAULT_CONTROL_COMPONENTS,
       ...(controlComponents ?? []),
     ]);
-    const allLabelComponents = [
-      ...DEFAULT_LABEL_COMPONENTS,
-      ...(labelComponents ?? []),
-    ] as const;
+
+    const labelMap = new Map(
+      DEFAULT_LABEL_COMPONENTS.map(comp => [comp.selector, comp])
+    );    
+    // Add custom components, overriding defaults with same selector
+    if (labelComponents) {
+      labelComponents.forEach(comp => labelMap.set(comp.selector, comp));
+    }
+    
+    const allLabelComponents = Array.from(labelMap.values());
     let inputItems: TmplAstElement[] = [];
     let labelItems: TmplAstElement[] = [];
 

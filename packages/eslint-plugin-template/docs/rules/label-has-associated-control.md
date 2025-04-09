@@ -203,6 +203,48 @@ interface Options {
       "error",
       {
         "controlComponents": [
+          "my-custom-control"
+        ],
+        "labelComponents": [
+          {
+            "inputs": [
+              "for",
+              "htmlFor",
+              "myCustomFor"
+            ],
+            "selector": "label"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<label [myCustomFor]="customId">Label</label>
+<my-custom-control [id]="customId"></my-custom-control>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/label-has-associated-control": [
+      "error",
+      {
+        "controlComponents": [
           "app-input"
         ],
         "labelComponents": [
