@@ -38,6 +38,7 @@ export default (
       '@angular-eslint/template/no-interpolation-in-attributes': 'error',
       '@angular-eslint/template/no-negated-async': 'error',
       '@angular-eslint/template/no-positive-tabindex': 'error',
+      '@angular-eslint/template/prefer-at-empty': 'error',
       '@angular-eslint/template/prefer-contextual-for-variables': 'error',
       '@angular-eslint/template/prefer-control-flow': 'error',
       '@angular-eslint/template/prefer-ngsrc': 'error',
