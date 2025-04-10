@@ -171,9 +171,9 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     description:
       'should fail if an element has no key events, and ignoreWithDirectives option specifies directives, but none of the directives are present',
     annotatedSource: `
-      <div (click)="onClick()" myDirective></div>
-      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      <div myDirective (click)="onClick()"></div>
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     `,
-    options: [{ ignoreWithDirectives: ['myDirective1', 'myDirective2'] }],
+    options: [{ ignoreWithDirectives: ['testDirective', 'otherDirective'] }],
   }),
 ];
