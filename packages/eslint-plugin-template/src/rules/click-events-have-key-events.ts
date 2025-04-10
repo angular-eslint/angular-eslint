@@ -6,9 +6,16 @@ import { isHiddenFromScreenReader } from '../utils/is-hidden-from-screen-reader'
 import { isInteractiveElement } from '../utils/is-interactive-element';
 import { isPresentationRole } from '../utils/is-presentation-role';
 
-export type Options = [];
+export type Options = [
+  {
+    readonly ignoreWithDirectives?: string[];
+  },
+];
 export type MessageIds = 'clickEventsHaveKeyEvents';
 export const RULE_NAME = 'click-events-have-key-events';
+const DEFAULT_OPTIONS: Options[number] = {
+  ignoreWithDirectives: [],
+};
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
@@ -18,14 +25,29 @@ export default createESLintRule<Options, MessageIds>({
       description:
         '[Accessibility] Ensures that the click event is accompanied with at least one key event keyup, keydown or keypress.',
     },
-    schema: [],
+    schema: [
+      {
+        type: 'object',
+        properties: {
+          ignoreWithDirectives: {
+            type: 'array',
+            items: { type: 'string' },
+            uniqueItems: true,
+            default: DEFAULT_OPTIONS.ignoreWithDirectives as
+              | string[]
+              | undefined,
+          },
+        },
+        additionalProperties: false,
+      }
+    ],
     messages: {
       clickEventsHaveKeyEvents:
         'click must be accompanied by either keyup, keydown or keypress event for accessibility.',
     },
   },
-  defaultOptions: [],
-  create(context) {
+  defaultOptions: [DEFAULT_OPTIONS],
+  create(context, [{ ignoreWithDirectives }]) {
     return {
       Element(node: TmplAstElement) {
         if (!getDomElements().has(node.name)) {
@@ -33,6 +55,7 @@ export default createESLintRule<Options, MessageIds>({
         }
 
         if (
+          isIgnored(ignoreWithDirectives, node) ||
           isPresentationRole(node) ||
           isHiddenFromScreenReader(node) ||
           isInteractiveElement(node)
@@ -67,3 +90,23 @@ export default createESLintRule<Options, MessageIds>({
     };
   },
 });
+
+function isIgnored(
+  ignoreWithDirectives: string[] | undefined,
+  { inputs, attributes }: TmplAstElement,
+) {
+  if (ignoreWithDirectives && ignoreWithDirectives.length > 0) {
+    for (const input of inputs) {
+      if (ignoreWithDirectives.includes(input.name)) {
+        return true;
+      }
+    }
+    for (const attribute of attributes) {
+      if (ignoreWithDirectives.includes(attribute.name)) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+}

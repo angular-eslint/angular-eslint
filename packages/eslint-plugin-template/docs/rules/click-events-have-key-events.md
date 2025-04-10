@@ -23,9 +23,17 @@
 
 ## Rule Options
 
-The rule does not have any configuration options.
+The rule accepts an options object with the following properties:
 
-<br>
+```ts
+interface Options {
+  /**
+   * Default: `[]`
+   */
+  ignoreWithDirectives?: string[];
+}
+
+```
 
 ## Usage Examples
 
@@ -337,6 +345,36 @@ The rule does not have any configuration options.
 
 <br>
 
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/click-events-have-key-events": [
+      "error",
+      {
+        "ignoreWithDirectives": [
+          "myDirective"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div (click)="onClick()"></div>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
 <details>
 <summary>✅ - Toggle examples of <strong>correct</strong> code for this rule</summary>
 
@@ -504,6 +542,64 @@ The rule does not have any configuration options.
 <a href="#" (click)="onClick()"></a>
 <a [attr.href]="href" class="anchor" (click)="onClick()"></a>
 <a [routerLink]="'route'" (click)="onClick()"></a>
+```
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/click-events-have-key-events": [
+      "error",
+      {
+        "ignoreWithDirectives": [
+          "myDirective"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<cui-button myDirective (click)="onClick()"></cui-button>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/click-events-have-key-events": [
+      "error",
+      {
+        "ignoreWithDirectives": [
+          "myDirective"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<cui-button [myDirective] (click)="onClick()"></cui-button>
 ```
 
 </details>
