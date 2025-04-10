@@ -39,7 +39,7 @@ export default createESLintRule<Options, MessageIds>({
           },
         },
         additionalProperties: false,
-      }
+      },
     ],
     messages: {
       clickEventsHaveKeyEvents:

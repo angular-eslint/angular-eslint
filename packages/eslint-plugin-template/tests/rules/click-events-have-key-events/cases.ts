@@ -64,7 +64,7 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   {
     code: `<div [myDirective] (click)="onClick()"></div>`,
     options: [{ ignoreWithDirectives: ['myDirective'] }],
-  }
+  },
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
@@ -175,5 +175,5 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     `,
     options: [{ ignoreWithDirectives: ['myDirective1', 'myDirective2'] }],
-  })
+  }),
 ];
