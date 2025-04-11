@@ -144,7 +144,9 @@ export function preprocessComponentFile(
       }
 
       if (ts.isTemplateExpression(templatePropertyInitializer)) {
-        templateText = templatePropertyInitializer.getText();
+        // The text includes the opening and closing
+        // backtick, so trim the first and last characters.
+        templateText = templatePropertyInitializer.getText().slice(1, -1);
       }
 
       if (ts.isStringLiteral(templatePropertyInitializer)) {
@@ -321,6 +323,9 @@ export function postprocessComponentFile(
           message.endLine += rangeData.lineAndCharacter.start.line;
 
           if (message.fix) {
+            // The range defines the range of the value that initializes
+            // the `template` property, which includes the opening and
+            // closing quotes. Add one to move past the opening quote.
             const startOffset = rangeData.range[0] + 1;
             message.fix.range = [
               startOffset + message.fix.range[0],
