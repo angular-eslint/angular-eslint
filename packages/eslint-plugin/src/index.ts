@@ -79,6 +79,9 @@ import pipePrefix, {
 import preferOnPushComponentChangeDetection, {
   RULE_NAME as preferOnPushComponentChangeDetectionRuleName,
 } from './rules/prefer-on-push-component-change-detection';
+import preferOutputEmitterRef, {
+  RULE_NAME as preferOutputEmitterRefRuleName,
+} from './rules/prefer-output-emitter-ref';
 import preferOutputReadonly, {
   RULE_NAME as preferOutputReadonlyRuleName,
 } from './rules/prefer-output-readonly';
@@ -158,6 +161,8 @@ export = {
     [preferOutputReadonlyRuleName]: preferOutputReadonly,
     [preferSignalsRuleName]: preferSignals,
     [preferStandaloneRuleName]: preferStandalone,
+    [preferOutputEmitterRefRuleName]: preferOutputEmitterRef,
+    [preferOutputReadonlyRuleName]: preferOutputReadonly,
     [relativeUrlPrefixRuleName]: relativeUrlPrefix,
     [requireLifecycleOnPrototypeRuleName]: requireLifecycleOnPrototype,
     [requireLocalizeMetadataRuleName]: requireLocalizeMetadata,
