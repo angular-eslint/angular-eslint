@@ -140,6 +140,27 @@ describe('extract-inline-html', () => {
           },
         ]);
       });
+
+      it(`should exclude the backticks from the template literal with interpolations`, () => {
+        const input = `
+          @Component({
+            template: \`hello \${name}\`,
+          })
+          export class ExampleComponent {}
+          `;
+        expect(
+          processors['extract-inline-html'].preprocess(
+            input,
+            'test.component.ts',
+          ),
+        ).toEqual([
+          input,
+          {
+            filename: `inline-template-test.component.ts-1.component.html`,
+            text: 'hello ${name}',
+          },
+        ]);
+      });
     });
 
     describe('components with inline templates', () => {
