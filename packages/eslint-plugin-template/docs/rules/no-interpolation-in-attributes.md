@@ -23,7 +23,26 @@ Ensures that property-binding is used instead of interpolation in attributes.
 
 ## Rule Options
 
-The rule does not have any configuration options.
+The rule accepts an options object with the following properties:
+
+````ts
+interface Options {
+  /**
+   * When `true`, only attribute values that are entirely interpolations will fail, whereas values with interpolations that form part of larger strings will be allowed.
+   *
+   * For example, when set to `true` the following code will not fail for the `alt` attribute but will still fail for the `src` attribute:
+   *
+   * ```html
+   * <img alt="Poke user {{ username }}" src="{{ pokeSrc }}" />
+   * ```
+   *
+   *
+   * Default: `false`
+   */
+  allowSubstringInterpolation?: boolean;
+}
+
+````
 
 <br>
 
@@ -84,6 +103,66 @@ The rule does not have any configuration options.
 ```html
 <input type="text" name="{{ foo }}bar">
                          ~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-interpolation-in-attributes": [
+      "error",
+      {
+        "allowSubstringInterpolation": false
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<input type="text" name="{{ foo }}bar">
+                         ~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-interpolation-in-attributes": [
+      "error",
+      {
+        "allowSubstringInterpolation": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<img alt="{{username}} is online" src="{{src}}">
+                                       ~~~~~~~
 ```
 
 </details>
@@ -221,6 +300,35 @@ The rule does not have any configuration options.
 
 ```html
 <div>{{ content }}</div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-interpolation-in-attributes": [
+      "error",
+      {
+        "allowSubstringInterpolation": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<img class="icon icon--{{size}}" alt="{{username}} is online" src="online.png">
 ```
 
 </details>
