@@ -161,6 +161,5 @@
       "!{projectRoot}/eslint.config.js"
     ],
     "projectSpecificFiles": []
-  },
-  "bust": 1
+  }
 }
