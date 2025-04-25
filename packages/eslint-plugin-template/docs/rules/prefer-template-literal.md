@@ -15,7 +15,7 @@
 
 # `@angular-eslint/template/prefer-template-literal`
 
-Ensure that template literals are used instead of concatenating strings or expressions
+Ensure that template literals are used instead of concatenating strings or expressions.
 
 - Type: suggestion
 - 🔧 Supports autofix (`--fix`)

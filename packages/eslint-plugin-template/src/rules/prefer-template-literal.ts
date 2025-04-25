@@ -25,7 +25,7 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description:
-        'Ensure that template literals are used instead of concatenating strings or expressions',
+        'Ensure that template literals are used instead of concatenating strings or expressions.',
     },
     fixable: 'code',
     schema: [],
