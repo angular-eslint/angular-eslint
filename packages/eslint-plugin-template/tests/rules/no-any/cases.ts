@@ -19,6 +19,24 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
       {{ obj?.x?.y!.z!.$any() }}
     `,
   `
+      {{ obj[read][$any] }}
+    `,
+  `
+      {{ $any['test'] }}
+    `,
+  `
+      {{ obj['test'].$any }}
+    `,
+  `
+      {{ obj['test'].$any() }}
+    `,
+  `
+      {{ obj.$any()['test'] }}
+    `,
+  `
+      {{ test()['value'] }}
+    `,
+  `
       <a [href]="$test()">Click here</a>
     `,
   `
@@ -80,6 +98,78 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         output: `
         <a [href]="getHref()">Click here</a>
                    
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'it should fail with call expression and square bracket notation in property binding',
+    annotatedSource: `
+        <div *ngIf="$any(attributeList)['NPSScore']">Content</div>
+                    ~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId,
+    suggestions: [
+      {
+        messageId: suggestRemoveAny,
+        output: `
+        <div *ngIf="attributeList['NPSScore']">Content</div>
+                    
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'it should fail with call expression and square bracket notation in interpolation',
+    annotatedSource: `
+        <div>{{ $any(attributeList)['NPSScore'] }}</div>
+                ~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId,
+    suggestions: [
+      {
+        messageId: suggestRemoveAny,
+        output: `
+        <div>{{ attributeList['NPSScore'] }}</div>
+                
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'it should fail with call expression, square bracket notation and this in interpolation',
+    annotatedSource: `
+        <div>{{ this.$any(attributeList)['NPSScore'] }}</div>
+                ~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId,
+    suggestions: [
+      {
+        messageId: suggestRemoveAny,
+        output: `
+        <div>{{ this.attributeList['NPSScore'] }}</div>
+                
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'it should fail with call expression and square bracket notation in interpolation with multiple nested reads',
+    annotatedSource: `
+        <div>{{ $any(attributeList)['NPSScore']['another'] }}</div>
+                ~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId,
+    suggestions: [
+      {
+        messageId: suggestRemoveAny,
+        output: `
+        <div>{{ attributeList['NPSScore']['another'] }}</div>
+                
       `,
       },
     ],
