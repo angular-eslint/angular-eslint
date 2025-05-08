@@ -158,7 +158,6 @@ export = {
     [pipePrefixRuleName]: pipePrefix,
     [preferOnPushComponentChangeDetectionRuleName]:
       preferOnPushComponentChangeDetection,
-    [preferOutputReadonlyRuleName]: preferOutputReadonly,
     [preferSignalsRuleName]: preferSignals,
     [preferStandaloneRuleName]: preferStandalone,
     [preferOutputEmitterRefRuleName]: preferOutputEmitterRef,
