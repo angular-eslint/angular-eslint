@@ -1,3 +1,28 @@
+## 19.4.0 (2025-05-08)
+
+### 🚀 Features
+
+- **eslint-plugin:** add rule prefer-output-emitter-ref ([#2324](https://github.com/angular-eslint/angular-eslint/pull/2324))
+- **eslint-plugin-template:** [no-interpolation-in-attributes] add allowSubstringInterpolation option ([#2373](https://github.com/angular-eslint/angular-eslint/pull/2373))
+- **eslint-plugin-template:** Add `prefer-template-literal` rule ([#2308](https://github.com/angular-eslint/angular-eslint/pull/2308))
+
+### 🩹 Fixes
+
+- update dependency @angular/compiler to v19.2.10 ([#2394](https://github.com/angular-eslint/angular-eslint/pull/2394))
+- update dependency ignore to v7.0.4 ([#2396](https://github.com/angular-eslint/angular-eslint/pull/2396))
+- update typescript-eslint packages to v8.32.0 ([#2399](https://github.com/angular-eslint/angular-eslint/pull/2399))
+- update dependency eslint to v9.26.0 ([#2409](https://github.com/angular-eslint/angular-eslint/pull/2409))
+- **eslint-plugin-template:** [no-any] handle key reads ([#1701](https://github.com/angular-eslint/angular-eslint/pull/1701), [#2335](https://github.com/angular-eslint/angular-eslint/pull/2335))
+- **eslint-plugin-template:** correct column adjustment for inline template message locations ([#2358](https://github.com/angular-eslint/angular-eslint/pull/2358))
+- **eslint-plugin-template:** remove backticks from inline template with interpolation ([#2368](https://github.com/angular-eslint/angular-eslint/pull/2368))
+
+### ❤️ Thank You
+
+- daiscog @daiscog
+- Dave @reduckted
+- Evgeny Stepanovych @undsoft
+- Guillaume DROUARD
+
 ## 19.3.0 (2025-03-22)
 
 ### 🚀 Features

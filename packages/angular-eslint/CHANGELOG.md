@@ -1,3 +1,15 @@
+## 19.4.0 (2025-05-08)
+
+### 🚀 Features
+
+- **eslint-plugin-template:** Add `prefer-template-literal` rule ([#2308](https://github.com/angular-eslint/angular-eslint/pull/2308))
+- **eslint-plugin:** add rule prefer-output-emitter-ref ([#2324](https://github.com/angular-eslint/angular-eslint/pull/2324))
+
+### ❤️ Thank You
+
+- Dave @reduckted
+- Guillaume DROUARD
+
 ## 19.3.0 (2025-03-22)
 
 ### 🚀 Features
