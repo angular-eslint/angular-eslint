@@ -42,7 +42,6 @@
   "release": {
     "projects": ["packages/*", "!nx-plugin"],
     "version": {
-      "useLegacyVersioning": false,
       "conventionalCommits": true
     },
     "changelog": {
