@@ -171,7 +171,7 @@ If you choose to use `eslint-plugin-prettier`, **please ensure that you are usin
 }
 ```
 
-**eslint.config.js**
+Project level **eslint.config.js**
 
 ```js
 // @ts-check
