@@ -34,6 +34,9 @@ import noAttributeDecorator, {
 import noConflictingLifecycle, {
   RULE_NAME as noConflictingLifecycleRuleName,
 } from './rules/no-conflicting-lifecycle';
+import noDuplicatesInMetadataArrays, {
+  RULE_NAME as noDuplicatesInMetadataArraysRuleName,
+} from './rules/no-duplicates-in-metadata-arrays';
 import noEmptyLifecycleMethod, {
   RULE_NAME as noEmptyLifecycleMethodRuleName,
 } from './rules/no-empty-lifecycle-method';
@@ -100,6 +103,9 @@ import requireLocalizeMetadata, {
 import runtimeLocalize, {
   RULE_NAME as runtimeLocalizeRuleName,
 } from './rules/runtime-localize';
+import sortKeysInTypeDecorator, {
+  RULE_NAME as sortKeysInTypeDecoratorRuleName,
+} from './rules/sort-keys-in-type-decorator';
 import sortLifecycleMethods, {
   RULE_NAME as sortLifecycleMethodsRuleName,
 } from './rules/sort-lifecycle-methods';
@@ -118,9 +124,6 @@ import useLifecycleInterface, {
 import usePipeTransformInterface, {
   RULE_NAME as usePipeTransformInterfaceRuleName,
 } from './rules/use-pipe-transform-interface';
-import noDuplicatesInMetadataArrays, {
-  RULE_NAME as noDuplicatesInMetadataArraysRuleName,
-} from './rules/no-duplicates-in-metadata-arrays';
 
 export = {
   configs: {
@@ -163,6 +166,7 @@ export = {
     [requireLifecycleOnPrototypeRuleName]: requireLifecycleOnPrototype,
     [requireLocalizeMetadataRuleName]: requireLocalizeMetadata,
     [runtimeLocalizeRuleName]: runtimeLocalize,
+    [sortKeysInTypeDecoratorRuleName]: sortKeysInTypeDecorator,
     [sortLifecycleMethodsRuleName]: sortLifecycleMethods,
     [useComponentSelectorRuleName]: useComponentSelector,
     [useComponentViewEncapsulationRuleName]: useComponentViewEncapsulation,
