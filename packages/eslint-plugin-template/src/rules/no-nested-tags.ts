@@ -15,7 +15,7 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'problem',
     docs: {
-      description: 'Prevents nesting of <p> and <a>.',
+      description: 'Denies nesting of <p> and <a> tags.',
     },
     schema: [],
     messages: {

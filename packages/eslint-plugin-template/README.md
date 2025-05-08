@@ -23,6 +23,7 @@ Please see https://github.com/angular-eslint/angular-eslint for full usage instr
 | Rule | Description | :white_check_mark: | :wrench: | :bulb: | :accessibility: |
 | --- | --- | --- | --- | --- | --- |
 | [`no-duplicate-attributes`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/no-duplicate-attributes.md) | Ensures that there are no duplicate input properties or output event listeners |  |  | :bulb: |  |
+| [`no-nested-tags`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/no-nested-tags.md) | Denies nesting of <p> and <a> tags. |  |  |  |  |
 <!-- prettier-ignore-end -->
 
 <!-- end problems rule list -->
