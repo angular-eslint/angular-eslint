@@ -67,7 +67,7 @@
     "@swc/core": "1.11.21",
     "@swc/helpers": "0.5.17",
     "@types/eslint": "9.6.1",
-    "@types/eslint-scope": "3.7.7",
+    "@types/eslint-scope": "8.3.0",
     "@types/jest": "29.5.14",
     "@types/node": "20.17.45",
     "@types/semver": "^7.5.8",

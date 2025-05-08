@@ -76,8 +76,8 @@ importers:
         specifier: 9.6.1
         version: 9.6.1
       '@types/eslint-scope':
-        specifier: 3.7.7
-        version: 3.7.7
+        specifier: 8.3.0
+        version: 8.3.0
       '@types/jest':
         specifier: 29.5.14
         version: 29.5.14
@@ -2116,8 +2116,8 @@ packages:
   '@types/conventional-commits-parser@5.0.1':
     resolution: {integrity: sha512-7uz5EHdzz2TqoMfV7ee61Egf5y6NkcO4FB/1iCCQnbeiI1F3xzv3vK5dBCXUCLQgGYS+mUeigK1iKQzvED+QnQ==}
 
-  '@types/eslint-scope@3.7.7':
-    resolution: {integrity: sha512-MzMFlSLBqNF2gcHWO0G1vP/YQyfvrxZ0bF+u7mzUdZ1/xK4A4sru+nraZz5i3iEIk1l1uyicaDVTB4QbbEkAYg==}
+  '@types/eslint-scope@8.3.0':
+    resolution: {integrity: sha512-FaY/QEfIyGJzJdkObuvtaROKv7A0zArw+be0tgXfWd1s1/AqPzEbyf7eyK0Pg0YezUpKrSwK4kgBn/kjzQOjtQ==}
 
   '@types/eslint@9.6.1':
     resolution: {integrity: sha512-FXx2pKgId/WyYo2jXw63kk7/+TY7u7AziEJxJAnSFzHlqTAS3Ync6SvgYAN/k4/PQpnnVuzoMuVnByKK2qp0ag==}
@@ -7933,7 +7933,7 @@ snapshots:
     dependencies:
       '@types/node': 20.17.45
 
-  '@types/eslint-scope@3.7.7':
+  '@types/eslint-scope@8.3.0':
     dependencies:
       '@types/eslint': 9.6.1
       '@types/estree': 1.0.6
