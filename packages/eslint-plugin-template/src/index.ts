@@ -58,6 +58,9 @@ import noInterpolationInAttributes, {
 import noNegatedAsync, {
   RULE_NAME as noNegatedAsyncRuleName,
 } from './rules/no-negated-async';
+import noNestedTags, {
+  RULE_NAME as noNestedTagsRuleName,
+} from './rules/no-nested-tags';
 import noPositiveTabindex, {
   RULE_NAME as noPositiveTabindexRuleName,
 } from './rules/no-positive-tabindex';
@@ -117,6 +120,7 @@ export = {
     [noCallExpressionRuleName]: noCallExpression,
     [noDistractingElementsRuleName]: noDistractingElements,
     [noDuplicateAttributesRuleName]: noDuplicateAttributes,
+    [noNestedTagsRuleName]: noNestedTags,
     [noInlineStylesRuleName]: noInlineStyles,
     [noInterpolationInAttributesRuleName]: noInterpolationInAttributes,
     [noNegatedAsyncRuleName]: noNegatedAsync,
