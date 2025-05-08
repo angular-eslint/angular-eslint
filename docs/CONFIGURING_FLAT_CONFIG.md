@@ -193,24 +193,6 @@ module.exports = tseslint.config([
     files: ['**/*.ts'],
     extends: [prettierRecommended], // here we inherit from the recommended setup from eslint-plugin-prettier for TS
     rules: {
-      '@angular-eslint/directive-selector': [
-        'error',
-        {
-          type: 'attribute',
-          prefix: 'lib', // different to our root config, which was "app"
-          style: 'camelCase',
-        },
-      ],
-      '@angular-eslint/component-selector': [
-        'error',
-        {
-          type: 'element',
-          prefix: 'lib', // different to our root config, which was "app"
-          style: 'kebab-case',
-        },
-      ],
-    },
-  },
   {
     // Any project level overrides or additional rules for HTML files can go here
     // (we don't need to extend from any angular-eslint configs because
