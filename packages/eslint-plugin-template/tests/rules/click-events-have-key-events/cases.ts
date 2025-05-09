@@ -57,6 +57,14 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
         <a [routerLink]="'route'" (click)="onClick()"></a>
       `,
   },
+  {
+    code: `<div myDirective (click)="onClick()"></div>`,
+    options: [{ ignoreWithDirectives: ['myDirective'] }],
+  },
+  {
+    code: `<div [myDirective] (click)="onClick()"></div>`,
+    options: [{ ignoreWithDirectives: ['myDirective'] }],
+  },
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
@@ -157,5 +165,15 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       <div (click)="onClick()" [attr.hidden]="hidden"></div>
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail if an element has no key events, and ignoreWithDirectives option specifies directives, but none of the directives are present',
+    annotatedSource: `
+      <div myDirective (click)="onClick()"></div>
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    options: [{ ignoreWithDirectives: ['testDirective', 'otherDirective'] }],
   }),
 ];
