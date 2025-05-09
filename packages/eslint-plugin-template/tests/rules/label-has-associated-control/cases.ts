@@ -23,6 +23,18 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     `,
   {
     code: `
+      <label [myCustomFor]="customId">Label</label>
+      <my-custom-control [id]="customId"></my-custom-control>
+    `,
+    options: [
+      {
+        controlComponents: ['my-custom-control'],
+        labelComponents: [{ inputs: ['for', 'htmlFor', 'myCustomFor'], selector: 'label' }],
+      },
+    ],
+  },
+  {
+    code: `
       <app-label id="name"></app-label>
       <app-label id="{{name}}"></app-label>
       <app-label [id]="name"></app-label>
