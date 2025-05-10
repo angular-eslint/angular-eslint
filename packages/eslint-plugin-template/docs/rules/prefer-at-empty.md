@@ -15,7 +15,7 @@
 
 # `@angular-eslint/template/prefer-at-empty`
 
-Prefer using `@empty` with `@for` loops instead of a separate `@if` or `@else` block.
+Prefer using `@empty` with `@for` loops instead of a separate `@if` or `@else` block to reduce code and make it easier to read.
 
 - Type: suggestion
 - 🔧 Supports autofix (`--fix`)

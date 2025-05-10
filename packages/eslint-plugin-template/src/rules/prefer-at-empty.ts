@@ -27,7 +27,7 @@ export default createESLintRule<Options, MessageIds>({
     fixable: 'code',
     docs: {
       description:
-        'Prefer using `@empty` with `@for` loops instead of a separate `@if` or `@else` block.',
+        'Prefer using `@empty` with `@for` loops instead of a separate `@if` or `@else` block to reduce code and make it easier to read.',
     },
     schema: [],
     messages: {
