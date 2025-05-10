@@ -144,7 +144,9 @@ export function preprocessComponentFile(
       }
 
       if (ts.isTemplateExpression(templatePropertyInitializer)) {
-        templateText = templatePropertyInitializer.getText();
+        // The text includes the opening and closing
+        // backtick, so trim the first and last characters.
+        templateText = templatePropertyInitializer.getText().slice(1, -1);
       }
 
       if (ts.isStringLiteral(templatePropertyInitializer)) {
@@ -302,12 +304,28 @@ export function postprocessComponentFile(
         }
 
         return messagesFromInlineTemplateHTML.map((message) => {
-          message.line = message.line + rangeData.lineAndCharacter.start.line;
+          // The first line of the inline template starts at the column after
+          // the opening quote in the TypeScript file, so we need to adjust
+          // the message's column by that amount when the message starts on
+          // the first line. The character we recorded was the quote's column,
+          // so add one to get the column where the actual string starts.
+          if (message.line === 1) {
+            message.column += rangeData.lineAndCharacter.start.character + 1;
+          }
 
-          message.endLine =
-            message.endLine + rangeData.lineAndCharacter.start.line;
+          // The same thing applies to the end column
+          // if it also ends on the first line.
+          if (message.endLine === 1) {
+            message.endColumn += rangeData.lineAndCharacter.start.character + 1;
+          }
+
+          message.line += rangeData.lineAndCharacter.start.line;
+          message.endLine += rangeData.lineAndCharacter.start.line;
 
           if (message.fix) {
+            // The range defines the range of the value that initializes
+            // the `template` property, which includes the opening and
+            // closing quotes. Add one to move past the opening quote.
             const startOffset = rangeData.range[0] + 1;
             message.fix.range = [
               startOffset + message.fix.range[0],

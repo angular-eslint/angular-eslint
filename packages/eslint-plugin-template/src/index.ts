@@ -58,6 +58,9 @@ import noInterpolationInAttributes, {
 import noNegatedAsync, {
   RULE_NAME as noNegatedAsyncRuleName,
 } from './rules/no-negated-async';
+import noNestedTags, {
+  RULE_NAME as noNestedTagsRuleName,
+} from './rules/no-nested-tags';
 import noPositiveTabindex, {
   RULE_NAME as noPositiveTabindexRuleName,
 } from './rules/no-positive-tabindex';
@@ -79,6 +82,9 @@ import preferSelfClosingTags, {
 import preferStaticStringProperties, {
   RULE_NAME as preferStaticStringPropertiesRuleName,
 } from './rules/prefer-static-string-properties';
+import preferTemplateLiteral, {
+  RULE_NAME as preferTemplateLiteralRuleName,
+} from './rules/prefer-template-literal';
 import roleHasRequiredAria, {
   RULE_NAME as roleHasRequiredAriaRuleName,
 } from './rules/role-has-required-aria';
@@ -117,6 +123,7 @@ export = {
     [noCallExpressionRuleName]: noCallExpression,
     [noDistractingElementsRuleName]: noDistractingElements,
     [noDuplicateAttributesRuleName]: noDuplicateAttributes,
+    [noNestedTagsRuleName]: noNestedTags,
     [noInlineStylesRuleName]: noInlineStyles,
     [noInterpolationInAttributesRuleName]: noInterpolationInAttributes,
     [noNegatedAsyncRuleName]: noNegatedAsync,
@@ -127,6 +134,7 @@ export = {
     [preferSelfClosingTagsRuleName]: preferSelfClosingTags,
     [preferStaticStringPropertiesRuleName]: preferStaticStringProperties,
     [preferNgsrcRuleName]: preferNgsrc,
+    [preferTemplateLiteralRuleName]: preferTemplateLiteral,
     [roleHasRequiredAriaRuleName]: roleHasRequiredAria,
     [tableScopeRuleName]: tableScope,
     [useTrackByFunctionRuleName]: useTrackByFunction,

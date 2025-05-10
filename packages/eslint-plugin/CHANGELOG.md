@@ -1,3 +1,13 @@
+## 19.4.0 (2025-05-08)
+
+### 🚀 Features
+
+- **eslint-plugin:** add rule prefer-output-emitter-ref ([#2324](https://github.com/angular-eslint/angular-eslint/pull/2324))
+
+### ❤️ Thank You
+
+- Dave @reduckted
+
 ## 19.3.0 (2025-03-22)
 
 This was a version bump only for eslint-plugin to align it with other projects, there were no code changes.

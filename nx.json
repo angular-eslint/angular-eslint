@@ -42,7 +42,6 @@
   "release": {
     "projects": ["packages/*", "!nx-plugin"],
     "version": {
-      "useLegacyVersioning": false,
       "conventionalCommits": true
     },
     "changelog": {
@@ -161,6 +160,5 @@
       "!{projectRoot}/eslint.config.js"
     ],
     "projectSpecificFiles": []
-  },
-  "bust": 1
+  }
 }
