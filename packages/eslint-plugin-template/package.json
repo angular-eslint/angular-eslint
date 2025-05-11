@@ -19,12 +19,12 @@
   ],
   "dependencies": {
     "@angular-eslint/bundled-angular-compiler": "workspace:*",
+    "@angular-eslint/template-parser": "workspace:*",
     "@angular-eslint/utils": "workspace:*",
     "aria-query": "5.3.2",
     "axobject-query": "4.1.0"
   },
   "devDependencies": {
-    "@angular-eslint/template-parser": "workspace:*",
     "@angular-eslint/test-utils": "workspace:*",
     "@types/aria-query": "5.0.4"
   },
