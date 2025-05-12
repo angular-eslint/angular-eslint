@@ -266,6 +266,32 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
            
       `,
   }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail concatenation (left: simple quote, right: ternary in parentheses)',
+    annotatedSource: `
+        {{ 'prefix-' + (condition ? 'true' : 'false') }}
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    annotatedOutput: `
+        {{ \`prefix-\${condition ? 'true' : 'false'}\` }}
+           
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail concatenation (left: simple quote, right: pipe in parentheses)',
+    annotatedSource: `
+        {{ 'prefix-' + ('value' | pipe) }}
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    annotatedOutput: `
+        {{ \`prefix-\${'value' | pipe}\` }}
+           
+      `,
+  }),
 
   // Left : double quote
   convertAnnotatedSourceToFailureCase({
@@ -356,6 +382,32 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
            
       `,
   }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail concatenation (left: double quote, right: ternary in parentheses)',
+    annotatedSource: `
+        {{ 'prefix-' + (condition ? 'true' : 'false') }}
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    annotatedOutput: `
+        {{ \`prefix-\${condition ? 'true' : 'false'}\` }}
+           
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail concatenation (left: double quote, right: pipe in parentheses)',
+    annotatedSource: `
+        {{ 'prefix-' + ('value' | pipe) }}
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    annotatedOutput: `
+        {{ \`prefix-\${'value' | pipe}\` }}
+           
+      `,
+  }),
 
   // Left : template
   convertAnnotatedSourceToFailureCase({
@@ -440,6 +492,32 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       `,
     annotatedOutput: `
         {{ \`prefix-\${value}-suffix\${[42]}\` }}
+           
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail concatenation (left: template, right: ternary in parentheses)',
+    annotatedSource: `
+        {{ \`prefix-\${value}-suffix\` + (condition ? 'true' : 'false') }}
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    annotatedOutput: `
+        {{ \`prefix-\${value}-suffix\${condition ? 'true' : 'false'}\` }}
+           
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail concatenation (left: template, right: pipe in parentheses)',
+    annotatedSource: `
+        {{ \`prefix-\${value}-suffix\` + ('value' | pipe) }}
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    annotatedOutput: `
+        {{ \`prefix-\${value}-suffix\${'value' | pipe}\` }}
            
       `,
   }),
@@ -546,6 +624,32 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
            
       `,
   }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail concatenation (left: ternary in parentheses, right: simple quote)',
+    annotatedSource: `
+        {{ (condition ? 'true' : 'false') + '-suffix' }}
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    annotatedOutput: `
+        {{ \`\${condition ? 'true' : 'false'}-suffix\` }}
+           
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail concatenation (left: pipe in parentheses, right: simple quote)',
+    annotatedSource: `
+        {{ ('value' | pipe) + '-suffix' }}
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    annotatedOutput: `
+        {{ \`\${'value' | pipe}-suffix\` }}
+           
+      `,
+  }),
 
   // Right : double quote
   convertAnnotatedSourceToFailureCase({
@@ -649,6 +753,32 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
            
       `,
   }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail concatenation (left: ternary in parentheses, right: double quote)',
+    annotatedSource: `
+        {{ (condition ? 'true' : 'false') + "-suffix" }}
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    annotatedOutput: `
+        {{ \`\${condition ? 'true' : 'false'}-suffix\` }}
+           
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail concatenation (left: pipe in parentheses, right: double quote)',
+    annotatedSource: `
+        {{ ('value' | pipe) + "-suffix" }}
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    annotatedOutput: `
+        {{ \`\${'value' | pipe}-suffix\` }}
+           
+      `,
+  }),
 
   // Right : template
   convertAnnotatedSourceToFailureCase({
@@ -733,6 +863,32 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       `,
     annotatedOutput: `
         {{ \`\${[42]}prefix-\${value}-suffix\` }}
+           
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail concatenation (left: ternary in parentheses, right: template)',
+    annotatedSource: `
+        {{ (condition ? 'true' : 'false') + \`prefix-\${value}-suffix\` }}
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    annotatedOutput: `
+        {{ \`\${condition ? 'true' : 'false'}prefix-\${value}-suffix\` }}
+           
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail concatenation (left: pipe in parentheses, right: template)',
+    annotatedSource: `
+        {{ ('value' | pipe) + \`prefix-\${value}-suffix\` }}
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    annotatedOutput: `
+        {{ \`\${'value' | pipe}prefix-\${value}-suffix\` }}
            
       `,
   }),

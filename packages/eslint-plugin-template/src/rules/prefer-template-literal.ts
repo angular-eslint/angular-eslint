@@ -69,6 +69,13 @@ export default createESLintRule<Options, MessageIds>({
           return '`';
         }
 
+        function hasParentheses(node: AST): boolean {
+          const { start, end } = node.sourceSpan;
+          const text = sourceCode.text.slice(start - 1, end + 1);
+
+          return text.startsWith('(') && text.endsWith(')');
+        }
+
         context.report({
           loc: {
             start: sourceCode.getLocFromIndex(start),
@@ -88,18 +95,68 @@ export default createESLintRule<Options, MessageIds>({
               );
             }
 
-            const fixes = new Array<RuleFix>();
+            const fixes = Array<RuleFix>();
+
+            const leftHasParentheses = hasParentheses(left);
+            const rightHasParentheses = hasParentheses(right);
+
+            // Remove the left first parenthesis if it exists
+            if (leftHasParentheses) {
+              fixes.push(
+                fixer.removeRange([
+                  left.sourceSpan.start - 1,
+                  left.sourceSpan.start,
+                ]),
+              );
+            }
 
             // Fix the left side
             fixes.push(...getLeftSideFixes(fixer, left));
 
+            // Remove the left last parenthesis if it exists
+            if (leftHasParentheses) {
+              fixes.push(
+                fixer.removeRange([
+                  left.sourceSpan.end,
+                  left.sourceSpan.end + 1,
+                ]),
+              );
+            }
+
             // Remove the `+` sign
             fixes.push(
-              fixer.removeRange([left.sourceSpan.end, right.sourceSpan.start]),
+              fixer.removeRange([
+                leftHasParentheses
+                  ? left.sourceSpan.end + 1
+                  : left.sourceSpan.end,
+                rightHasParentheses
+                  ? right.sourceSpan.start - 1
+                  : right.sourceSpan.start,
+              ]),
             );
+
+            // Remove the right first parenthesis if it exists
+            if (rightHasParentheses) {
+              fixes.push(
+                fixer.removeRange([
+                  right.sourceSpan.start - 1,
+                  right.sourceSpan.start,
+                ]),
+              );
+            }
 
             // Fix the right side
             fixes.push(...getRightSideFixes(fixer, right));
+
+            // Remove the right last parenthesis if it exists
+            if (rightHasParentheses) {
+              fixes.push(
+                fixer.removeRange([
+                  right.sourceSpan.end,
+                  right.sourceSpan.end + 1,
+                ]),
+              );
+            }
 
             return fixes;
           },
@@ -115,7 +172,9 @@ function getLeftSideFixes(fixer: RuleFixer, left: AST): readonly RuleFix[] {
   if (left instanceof TemplateLiteral) {
     // Remove the end ` sign from the left side
     return [fixer.removeRange([end - 1, end])];
-  } else if (isLiteralPrimitive(left)) {
+  }
+
+  if (isLiteralPrimitive(left)) {
     // Transform left side to template literal
     return [
       fixer.replaceTextRange(
@@ -123,13 +182,13 @@ function getLeftSideFixes(fixer: RuleFixer, left: AST): readonly RuleFix[] {
         `\`${getLiteralPrimitiveStringValue(left, '`')}`,
       ),
     ];
-  } else {
-    // Transform left side to template literal
-    return [
-      fixer.insertTextBeforeRange([start, end], '`${'),
-      fixer.insertTextAfterRange([start, end], '}'),
-    ];
   }
+
+  // Transform left side to template literal
+  return [
+    fixer.insertTextBeforeRange([start, end], '`${'),
+    fixer.insertTextAfterRange([start, end], '}'),
+  ];
 }
 
 function getRightSideFixes(fixer: RuleFixer, right: AST): readonly RuleFix[] {
@@ -138,7 +197,9 @@ function getRightSideFixes(fixer: RuleFixer, right: AST): readonly RuleFix[] {
   if (right instanceof TemplateLiteral) {
     // Remove the start ` sign from the right side
     return [fixer.removeRange([start, start + 1])];
-  } else if (isLiteralPrimitive(right)) {
+  }
+
+  if (isLiteralPrimitive(right)) {
     // Transform right side to template literal if it's a string
     return [
       fixer.replaceTextRange(
@@ -146,11 +207,11 @@ function getRightSideFixes(fixer: RuleFixer, right: AST): readonly RuleFix[] {
         `${getLiteralPrimitiveStringValue(right, '`')}\``,
       ),
     ];
-  } else {
-    // Transform right side to template literal
-    return [
-      fixer.insertTextBeforeRange([start, end], '${'),
-      fixer.insertTextAfterRange([start, end], '}`'),
-    ];
   }
+
+  // Transform right side to template literal
+  return [
+    fixer.insertTextBeforeRange([start, end], '${'),
+    fixer.insertTextAfterRange([start, end], '}`'),
+  ];
 }
