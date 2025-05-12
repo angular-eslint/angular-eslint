@@ -63,7 +63,7 @@
     "@nx/workspace": "21.0.3",
     "@schematics/angular": "19.2.11",
     "@swc-node/register": "1.10.10",
-    "@swc/cli": "0.7.5",
+    "@swc/cli": "0.7.7",
     "@swc/core": "1.11.24",
     "@swc/helpers": "0.5.17",
     "@types/eslint": "9.6.1",

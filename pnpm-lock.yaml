@@ -64,8 +64,8 @@ importers:
         specifier: 1.10.10
         version: 1.10.10(@swc/core@1.11.24(@swc/helpers@0.5.17))(@swc/types@0.1.21)(typescript@5.8.3)
       '@swc/cli':
-        specifier: 0.7.5
-        version: 0.7.5(@swc/core@1.11.24(@swc/helpers@0.5.17))
+        specifier: 0.7.7
+        version: 0.7.7(@swc/core@1.11.24(@swc/helpers@0.5.17))
       '@swc/core':
         specifier: 1.11.24
         version: 1.11.24(@swc/helpers@0.5.17)
@@ -1983,8 +1983,8 @@ packages:
   '@swc-node/sourcemap-support@0.5.1':
     resolution: {integrity: sha512-JxIvIo/Hrpv0JCHSyRpetAdQ6lB27oFYhv0PKCNf1g2gUXOjpeR1exrXccRxLMuAV5WAmGFBwRnNOJqN38+qtg==}
 
-  '@swc/cli@0.7.5':
-    resolution: {integrity: sha512-RlUYAxOhsecBB7qFVdDXhXXW3GDVxXpJx90q8Tlj+KuJVUPXViI7tNAvu54u3hbIZAL3LtrQKZHBWF6O5cXxZQ==}
+  '@swc/cli@0.7.7':
+    resolution: {integrity: sha512-j4yYm9bx3pxWofaJKX1BFwj/3ngUDynN4UIQ2Xd2h0h/7Gt7zkReBTpDN7g5S13mgAYxacaTHTOUsz18097E8w==}
     engines: {node: '>= 16.14.0'}
     hasBin: true
     peerDependencies:
@@ -7879,7 +7879,7 @@ snapshots:
       source-map-support: 0.5.21
       tslib: 2.8.1
 
-  '@swc/cli@0.7.5(@swc/core@1.11.24(@swc/helpers@0.5.17))':
+  '@swc/cli@0.7.7(@swc/core@1.11.24(@swc/helpers@0.5.17))':
     dependencies:
       '@swc/core': 1.11.24(@swc/helpers@0.5.17)
       '@swc/counter': 0.1.3
@@ -9475,7 +9475,7 @@ snapshots:
 
   ext-list@2.2.2:
     dependencies:
-      mime-db: 1.53.0
+      mime-db: 1.54.0
 
   ext-name@5.0.0:
     dependencies:
