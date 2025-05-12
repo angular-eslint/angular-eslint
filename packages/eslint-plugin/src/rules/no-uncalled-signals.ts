@@ -25,7 +25,7 @@ export default createESLintRule<Options, MessageIds>({
       description:
         "Warns user about unintentionally doing logic on the signal, rather than the signal's value",
     },
-    hasSuggestions: true,
+    hasSuggestions: false,
     schema: [],
     messages: {
       noUncalledSignals:
