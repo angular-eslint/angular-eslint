@@ -31,8 +31,8 @@ importers:
         specifier: 19.8.1
         version: 19.8.1
       '@mdn/browser-compat-data':
-        specifier: 6.0.13
-        version: 6.0.13
+        specifier: 6.0.14
+        version: 6.0.14
       '@nx/devkit':
         specifier: 21.0.3
         version: 21.0.3(nx@21.0.3(@swc-node/register@1.10.10(@swc/core@1.11.24(@swc/helpers@0.5.17))(@swc/types@0.1.21)(typescript@5.8.3))(@swc/core@1.11.24(@swc/helpers@0.5.17)))
@@ -1581,8 +1581,8 @@ packages:
     peerDependencies:
       '@inquirer/prompts': '>= 3 < 8'
 
-  '@mdn/browser-compat-data@6.0.13':
-    resolution: {integrity: sha512-RSYYaex/5lC4mim5pMTKHxfSpWf7Oc4r8Vk4exFVvt/KzIj7GacXAiYu5WfGnIWrBaa0KaSPda7oanQiFwjbeg==}
+  '@mdn/browser-compat-data@6.0.14':
+    resolution: {integrity: sha512-WyNFl0UDRo/gUgp6bwvW/N0zv2DDQlmJB6G9svGBi9VSTXSww2IJj1PKwhlcXVQSD0B2fzL9bIFyCMJl4A1aLA==}
 
   '@modelcontextprotocol/sdk@1.11.0':
     resolution: {integrity: sha512-k/1pb70eD638anoi0e8wUGAlbMJXyvdV4p62Ko+EZ7eBe1xMx8Uhak1R5DgfoofsK5IBBnRwsYGTaLZl+6/+RQ==}
@@ -7372,7 +7372,7 @@ snapshots:
       '@inquirer/prompts': 7.3.2(@types/node@20.17.46)
       '@inquirer/type': 1.5.5
 
-  '@mdn/browser-compat-data@6.0.13': {}
+  '@mdn/browser-compat-data@6.0.14': {}
 
   '@modelcontextprotocol/sdk@1.11.0':
     dependencies:
