@@ -5,17 +5,11 @@ import {
   TSESTree,
 } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
+import { KNOWN_SIGNAL_TYPES } from '../utils/signals';
 
 export type Options = [];
-export type MessageIds = 'noUncalledSignals';
+export type MessageIds = 'noUncalledSignals' | 'suggestCallSignal';
 export const RULE_NAME = 'no-uncalled-signals';
-
-const KNOWN_SIGNAL_TYPES: ReadonlySet<string> = new Set([
-  'InputSignal',
-  'ModelSignal',
-  'Signal',
-  'WritableSignal',
-]);
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
@@ -25,11 +19,12 @@ export default createESLintRule<Options, MessageIds>({
       description:
         "Warns user about unintentionally doing logic on the signal, rather than the signal's value",
     },
-    hasSuggestions: false,
+    hasSuggestions: true,
     schema: [],
     messages: {
       noUncalledSignals:
         'Doing logic operations on signals will give unexpected results, you probably want to invoke the signal to get its value',
+      suggestCallSignal: 'Call this signal to get its value.',
     },
   },
   defaultOptions: [],
@@ -38,7 +33,9 @@ export default createESLintRule<Options, MessageIds>({
       ESLintUtils.getParserServices(context);
 
     return {
-      '*.test[type=Identifier], *.test Identifier'(node: TSESTree.Identifier) {
+      '*.test[type=Identifier],*.test Identifier,[type=LogicalExpression] Identifier'(
+        node: TSESTree.Identifier,
+      ) {
         if (node.parent.type === AST_NODE_TYPES.CallExpression) {
           return;
         }
@@ -50,6 +47,12 @@ export default createESLintRule<Options, MessageIds>({
           context.report({
             node,
             messageId: 'noUncalledSignals',
+            suggest: [
+              {
+                messageId: 'suggestCallSignal',
+                fix: (fixer) => fixer.replaceText(node, `${node.name}()`),
+              },
+            ],
           });
         }
       },
