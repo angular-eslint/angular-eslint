@@ -5,6 +5,7 @@ import type {
 } from '@typescript-eslint/utils';
 import { AST_NODE_TYPES, ESLintUtils } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
+import { KNOWN_SIGNAL_TYPES } from '../utils/signals';
 
 type Options = [
   {
@@ -24,12 +25,6 @@ const DEFAULT_OPTIONS: Options[number] = {
   additionalSignalCreationFunctions: [],
 };
 
-const KNOWN_SIGNAL_TYPES: ReadonlySet<string> = new Set([
-  'InputSignal',
-  'ModelSignal',
-  'Signal',
-  'WritableSignal',
-]);
 const KNOWN_SIGNAL_CREATION_FUNCTIONS: ReadonlySet<string> = new Set([
   'computed',
   'contentChild',
