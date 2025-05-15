@@ -6,9 +6,7 @@ export type Options = [
   {
     readonly requireDescription?: boolean;
     readonly requireMeaning?: boolean;
-    readonly requireCustomId?: boolean;
-    readonly requireDefaultValue?: boolean;
-    readonly boundTextAllowedPattern?: string;
+    readonly requireCustomId?: boolean | string;
   },
 ];
 
@@ -16,58 +14,16 @@ const DEFAULT_OPTIONS: Options[number] = {
   requireDescription: false,
   requireMeaning: false,
   requireCustomId: false,
-  requireDefaultValue: false,
 };
 
-export interface I18NMetadata {
-  meaning: boolean;
-  description: boolean;
-  customKey: boolean;
-  defaultValue: boolean;
-}
-
-const validate = (
-  input: string,
-  typeToValidate: string,
-  boundTextAllowedPattern?: string,
-): boolean => {
-  const regex =
-    /^(?::(?:(?<meaning>[^|]+)\|)?(?<description>[^@:]*)?(?:@@(?<customId>[^:]*))?(?::(?<defaultValue>.*))?)$/;
-
-  const match = regex.exec(input.trim());
-
-  let result = false;
-  if (/^(:[^:].[^|:@]*)$/.test(input) === false) {
-    if (
-      typeToValidate === 'defaultValue' &&
-      !input.includes(':') &&
-      !input.includes('|') &&
-      !input.includes('@@')
-    ) {
-      // Input is plain text without special markers
-      result = true;
-    } else if (match && match.groups) {
-      if (typeToValidate === 'customId' && boundTextAllowedPattern) {
-        const boundTextAllowedRegex = new RegExp(boundTextAllowedPattern);
-        return boundTextAllowedRegex.test(match.groups[typeToValidate]);
-      } else {
-        result = !!match.groups[typeToValidate];
-      }
-    }
-  }
-  return result;
-};
-
-const STYLE_GUIDE_LINK = 'https://angular.dev/guide/i18n/prepare';
-const STYLE_GUIDE_LINK_COMMON_PREPARE = `${STYLE_GUIDE_LINK}-common-prepare`;
-const STYLE_GUIDE_LINK_METADATA_FOR_TRANSLATION = `${STYLE_GUIDE_LINK_COMMON_PREPARE}#i18n-metadata-for-translation`;
+const STYLE_GUIDE_LINK = 'https://angular.dev/guide/i18n';
+const STYLE_GUIDE_LINK_PREPARE = `${STYLE_GUIDE_LINK}/prepare`;
+const STYLE_GUIDE_LINK_METADATA_FOR_TRANSLATION = `${STYLE_GUIDE_LINK_PREPARE}#i18n-metadata-for-translation`;
 
 export type MessageIds =
   | 'requireLocalizeDescription'
   | 'requireLocalizeMeaning'
-  | 'requireLocalizeCustomId'
-  | 'requireLocalizeDefaultValue'
-  | 'requireLocalizeAllowedCustomIdPattern';
+  | 'requireLocalizeCustomId';
 export const RULE_NAME = 'require-localize-metadata';
 
 export default createESLintRule<Options, MessageIds>({
@@ -91,15 +47,8 @@ export default createESLintRule<Options, MessageIds>({
             default: DEFAULT_OPTIONS.requireMeaning,
           },
           requireCustomId: {
-            type: 'boolean',
+            oneOf: [{ type: 'boolean' }, { type: 'string' }],
             default: DEFAULT_OPTIONS.requireCustomId,
-          },
-          requireDefaultValue: {
-            type: 'boolean',
-            default: DEFAULT_OPTIONS.requireDefaultValue,
-          },
-          requireCustomIdMatchingPattern: {
-            type: 'string',
           },
         },
         additionalProperties: false,
@@ -108,45 +57,33 @@ export default createESLintRule<Options, MessageIds>({
     messages: {
       requireLocalizeDescription: `$localize tagged messages should contain a description. See more at ${STYLE_GUIDE_LINK_METADATA_FOR_TRANSLATION}`,
       requireLocalizeMeaning: `$localize tagged messages should contain a meaning. See more at ${STYLE_GUIDE_LINK_METADATA_FOR_TRANSLATION}`,
-      requireLocalizeCustomId: `$localize tagged messages should contain a custom id. See more at ${STYLE_GUIDE_LINK_METADATA_FOR_TRANSLATION}`,
-      requireLocalizeDefaultValue: `$localize tagged messages should contain a default value. See more at ${STYLE_GUIDE_LINK_METADATA_FOR_TRANSLATION}`,
-      requireLocalizeAllowedCustomIdPattern: `$localize tagged messages should contain a custom id following this pattern - "{{allowedPattern}}". See more at ${STYLE_GUIDE_LINK_METADATA_FOR_TRANSLATION}`,
+      requireLocalizeCustomId: `$localize tagged messages should contain a custom id{{patternMessage}}. See more at ${STYLE_GUIDE_LINK_METADATA_FOR_TRANSLATION}`,
     },
   },
   defaultOptions: [DEFAULT_OPTIONS],
-  create(
-    context,
-    [
-      {
-        requireDescription,
-        requireMeaning,
-        requireCustomId,
-        requireDefaultValue,
-        boundTextAllowedPattern,
-      },
-    ],
-  ) {
+  create(context, [{ requireDescription, requireMeaning, requireCustomId }]) {
     return {
       TaggedTemplateExpression(
         taggedTemplateExpression: TSESTree.TaggedTemplateExpression,
       ) {
         if (
-          (requireDescription ||
-            requireMeaning ||
-            requireCustomId ||
-            requireDefaultValue) &&
+          (requireDescription || requireMeaning || requireCustomId) &&
           ASTUtils.isIdentifier(taggedTemplateExpression.tag)
         ) {
           const identifierName = taggedTemplateExpression.tag.name;
           const templateElement = taggedTemplateExpression.quasi.quasis[0];
 
           if (identifierName === '$localize' && !!templateElement) {
-            const templateElementRawValue = templateElement.value.raw;
+            const metadata = parseMetadata(templateElement.value.raw.trim());
 
-            if (
-              requireMeaning &&
-              !validate(templateElementRawValue, 'meaning')
-            ) {
+            if (requireDescription && !metadata.description) {
+              context.report({
+                loc: templateElement.loc,
+                messageId: 'requireLocalizeDescription',
+              });
+            }
+
+            if (requireMeaning && !metadata.meaning) {
               context.report({
                 loc: templateElement.loc,
                 messageId: 'requireLocalizeMeaning',
@@ -154,50 +91,23 @@ export default createESLintRule<Options, MessageIds>({
             }
 
             if (
-              requireDescription &&
-              !validate(templateElementRawValue, 'description')
-            ) {
-              context.report({
-                loc: templateElement.loc,
-                messageId: 'requireLocalizeDescription',
-              });
-            }
-
-            if (
               requireCustomId &&
-              !validate(templateElementRawValue, 'customId')
-            ) {
-              context.report({
-                loc: templateElement.loc,
-                messageId: 'requireLocalizeCustomId',
-              });
-            }
-
-            if (
-              requireCustomId &&
-              boundTextAllowedPattern &&
-              !validate(
-                templateElementRawValue,
-                'customId',
-                boundTextAllowedPattern,
+              !(
+                metadata.customId &&
+                (typeof requireCustomId === 'string'
+                  ? RegExp(requireCustomId).test(metadata.customId)
+                  : true)
               )
             ) {
               context.report({
                 loc: templateElement.loc,
-                messageId: 'requireLocalizeAllowedCustomIdPattern',
+                messageId: 'requireLocalizeCustomId',
                 data: {
-                  allowedPattern: boundTextAllowedPattern,
+                  patternMessage:
+                    typeof requireCustomId === 'string'
+                      ? ` matching the pattern /${requireCustomId}/`
+                      : '',
                 },
-              });
-            }
-
-            if (
-              requireDefaultValue &&
-              !validate(templateElementRawValue, 'defaultValue')
-            ) {
-              context.report({
-                loc: templateElement.loc,
-                messageId: 'requireLocalizeDefaultValue',
               });
             }
           }
@@ -206,3 +116,42 @@ export default createESLintRule<Options, MessageIds>({
     };
   },
 });
+
+// see https://github.com/angular/angular/blob/main/packages/localize/src/utils/src/messages.ts#L247
+const BLOCK_MARKER = ':';
+const MEANING_SEPARATOR = '|';
+const ID_SEPARATOR = '@@';
+function parseMetadata(rawText: string): {
+  rawText: string;
+  meaning: string | undefined;
+  description: string | undefined;
+  customId: string | undefined;
+} {
+  const output = {
+    rawText,
+    meaning: undefined,
+    description: undefined,
+    customId: undefined,
+  };
+  if (rawText.charAt(0) !== BLOCK_MARKER) {
+    return output;
+  }
+  const endOfTheBlock = rawText.lastIndexOf(BLOCK_MARKER);
+  if (endOfTheBlock === -1) {
+    return output;
+  }
+  const text = rawText.slice(1, endOfTheBlock);
+  const [meaningAndDesc, customId] = text.split(ID_SEPARATOR, 2);
+  let [meaning, description]: (string | undefined)[] = meaningAndDesc.split(
+    MEANING_SEPARATOR,
+    2,
+  );
+  if (description === undefined) {
+    description = meaning;
+    meaning = undefined;
+  }
+  if (description === '') {
+    description = undefined;
+  }
+  return { rawText, meaning, description, customId };
+}

@@ -8,15 +8,10 @@ import type {
   Options,
 } from '../../../src/rules/require-localize-metadata';
 
-const messageIdRequireLocalizeMeaning: MessageIds = 'requireLocalizeMeaning';
 const messageIdRequireLocalizeDescription: MessageIds =
   'requireLocalizeDescription';
+const messageIdRequireLocalizeMeaning: MessageIds = 'requireLocalizeMeaning';
 const messageIdRequireLocalizeCustomId: MessageIds = 'requireLocalizeCustomId';
-const messageIdRequireLocalizeDefaultValue: MessageIds =
-  'requireLocalizeDefaultValue';
-const messsageIdRequireLocalizeAllowedCustomIdPattern: MessageIds =
-  'requireLocalizeAllowedCustomIdPattern';
-
 export const valid: readonly (string | ValidTestCase<Options>)[] = [
   `const localizedText = $localize\`Hello i18n!\`;`,
   `const localizedText = $localize\`:site header|:Hello i18n!\`;`,
@@ -62,37 +57,13 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     code: `const localizedText = $localize\`:site header|An introduction header for this sample:Hello i18n!\`;`,
     options: [{ requireDescription: true, requireMeaning: true }],
   },
-  `const localizedText = $localize\`:site header|An introduction header for this sample@@custom_id:Hello i18n!\`;`,
-  `const localizedText = $localize\`:An introduction header for this sample@@custom_id:Hello i18n!\`;`,
-  `const localizedText = $localize\`::Hello i18n!\`;`,
   {
-    code: `const localizedText = $localize\`::Hello i18n!\`;`,
-    options: [{ requireDefaultValue: true }],
-  },
-  `const localizedText = $localize\`:@@:Hello i18n!\`;`,
-  {
-    code: `const localizedText = $localize\`:@@:Hello i18n!\`;`,
-    options: [{ requireDefaultValue: true }],
-  },
-  `const localizedText = $localize\`:@@:\`;`,
-  `const localizedText = $localize\`:@@custom_id:\`;`,
-  {
-    code: `const localizedText = $localize\`:@@custom_id:\`;`,
+    code: `const localizedText = \`@@some.custom.id:Hello i18n!\`;`,
     options: [{ requireCustomId: true }],
   },
   {
-    code: `const localizedText = $localize\`:@@custom_id:\`;`,
-    options: [{ requireCustomId: true, boundTextAllowedPattern: 'custom_id' }],
-  },
-  {
-    code: `const localizedText = $localize\`:@@lib.component.tag.attribute.name:Hello i18n!\`;`,
-    options: [
-      {
-        requireCustomId: true,
-        boundTextAllowedPattern:
-          '^(?<lib>.[^\\.]*)\\.(?<component>.[^\\.]*)\\.(?<tag>.[^\\.]*)\\.(?<attribute>.[^\\.]*)?\\.(?<name>.[^\\.]*).$',
-      },
-    ],
+    code: `const localizedText = \`@@some.custom.id:Hello i18n!\`;`,
+    options: [{ requireCustomId: '^some.*id$' }],
   },
 ];
 
@@ -207,258 +178,64 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messages: [
       {
         char: '~',
-        messageId: messageIdRequireLocalizeMeaning,
+        messageId: messageIdRequireLocalizeDescription,
       },
       {
         char: '~',
-        messageId: messageIdRequireLocalizeDescription,
+        messageId: messageIdRequireLocalizeMeaning,
       },
     ],
     options: [{ requireDescription: true, requireMeaning: true }],
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'it should fail if no $localize meaning is provided',
+    description: 'it should fail if the $localize metadata is not provided',
     annotatedSource: `
       const localizedText = $localize\`Hello i18n!\`;
                                      ~~~~~~~~~~~~~
     `,
-    messages: [
-      {
-        char: '~',
-        messageId: messageIdRequireLocalizeMeaning,
-      },
-      {
-        char: '~',
-        messageId: messageIdRequireLocalizeDescription,
-      },
-      {
-        char: '~',
-        messageId: messageIdRequireLocalizeCustomId,
-      },
-    ],
-    options: [
-      { requireMeaning: true, requireDescription: true, requireCustomId: true },
-    ],
+    messageId: messageIdRequireLocalizeCustomId,
+    data: {
+      patternMessage: '',
+    },
+    options: [{ requireCustomId: true }],
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'it should fail if no $localize meaning is provided despite a description being provided',
+      'it should fail if the $localize custom_id has wrong delimiter',
     annotatedSource: `
-      const localizedText = $localize\`:An introduction header for this sample:Hello i18n!\`;
-                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      const localizedText = $localize\`:@some.custom.id:Hello i18n!\`;
+                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     `,
-    messages: [
-      {
-        char: '~',
-        messageId: messageIdRequireLocalizeMeaning,
-      },
-      {
-        char: '~',
-        messageId: messageIdRequireLocalizeCustomId,
-      },
-    ],
-    options: [
-      { requireMeaning: true, requireDescription: true, requireCustomId: true },
-    ],
-  }),
-  convertAnnotatedSourceToFailureCase({
-    description: 'it should fail if the $localize meaning is empty',
-    annotatedSource: `
-      const localizedText = $localize\`:|An introduction header for this sample:Hello i18n!\`;
-                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    `,
-    messages: [
-      {
-        char: '~',
-        messageId: messageIdRequireLocalizeMeaning,
-      },
-      {
-        char: '~',
-        messageId: messageIdRequireLocalizeCustomId,
-      },
-    ],
-    options: [
-      { requireMeaning: true, requireDescription: true, requireCustomId: true },
-    ],
-  }),
-  convertAnnotatedSourceToFailureCase({
-    description: 'it should fail if no $localize metadata is provided',
-    annotatedSource: `
-      const localizedText = $localize\`:Hello i18n!\`;
-                                     ~~~~~~~~~~~~~~
-    `,
-    messages: [
-      {
-        char: '~',
-        messageId: messageIdRequireLocalizeMeaning,
-      },
-      {
-        char: '~',
-        messageId: messageIdRequireLocalizeDescription,
-      },
-      {
-        char: '~',
-        messageId: messageIdRequireLocalizeCustomId,
-      },
-    ],
-    options: [
-      { requireMeaning: true, requireDescription: true, requireCustomId: true },
-    ],
-  }),
-  convertAnnotatedSourceToFailureCase({
-    description: 'it should fail if no $localize meaning is provided',
-    annotatedSource: `
-      const localizedText = $localize\`Hello i18n!\`;
-                                     ~~~~~~~~~~~~~
-    `,
-    messages: [
-      {
-        char: '~',
-        messageId: messageIdRequireLocalizeMeaning,
-      },
-      {
-        char: '~',
-        messageId: messageIdRequireLocalizeDescription,
-      },
-      {
-        char: '~',
-        messageId: messageIdRequireLocalizeCustomId,
-      },
-    ],
-    options: [
-      {
-        requireMeaning: true,
-        requireDescription: true,
-        requireCustomId: true,
-        requireDefaultValue: true,
-      },
-    ],
+    messageId: messageIdRequireLocalizeCustomId,
+    data: {
+      patternMessage: '',
+    },
+    options: [{ requireCustomId: true }],
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'it should fail if no $localize meaning is provided despite a description being provided',
+      "it should fail if the $localize metadata doesn't contain custom_id",
     annotatedSource: `
-      const localizedText = $localize\`:An introduction header for this sample:Hello i18n!\`;
-                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    `,
-    messages: [
-      {
-        char: '~',
-        messageId: messageIdRequireLocalizeMeaning,
-      },
-      {
-        char: '~',
-        messageId: messageIdRequireLocalizeCustomId,
-      },
-    ],
-    options: [
-      {
-        requireMeaning: true,
-        requireDescription: true,
-        requireCustomId: true,
-        requireDefaultValue: true,
-      },
-    ],
-  }),
-  convertAnnotatedSourceToFailureCase({
-    description: 'it should fail if the $localize meaning is empty',
-    annotatedSource: `
-      const localizedText = $localize\`:|An introduction header for this sample:Hello i18n!\`;
-                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    `,
-    messages: [
-      {
-        char: '~',
-        messageId: messageIdRequireLocalizeMeaning,
-      },
-      {
-        char: '~',
-        messageId: messageIdRequireLocalizeCustomId,
-      },
-    ],
-    options: [
-      {
-        requireMeaning: true,
-        requireDescription: true,
-        requireCustomId: true,
-        requireDefaultValue: true,
-      },
-    ],
-  }),
-  convertAnnotatedSourceToFailureCase({
-    description: 'it should fail if no $localize metadata is provided',
-    annotatedSource: `
-      const localizedText = $localize\`:Hello i18n!\`;
-                                     ~~~~~~~~~~~~~~
-    `,
-    messages: [
-      {
-        char: '~',
-        messageId: messageIdRequireLocalizeMeaning,
-      },
-      {
-        char: '~',
-        messageId: messageIdRequireLocalizeDescription,
-      },
-      {
-        char: '~',
-        messageId: messageIdRequireLocalizeCustomId,
-      },
-      {
-        char: '~',
-        messageId: messageIdRequireLocalizeDefaultValue,
-      },
-    ],
-    options: [
-      {
-        requireMeaning: true,
-        requireDescription: true,
-        requireCustomId: true,
-        requireDefaultValue: true,
-      },
-    ],
-  }),
-  convertAnnotatedSourceToFailureCase({
-    description:
-      'it should fail if custom id is not following the allowed pattern - noCustomId',
-    annotatedSource: `
-      const localizedText = $localize\`:@@customId:Hello i18n!\`;
-                                     ~~~~~~~~~~~~~~~~~~~~~~~~~
-    `,
-    messages: [
-      {
-        char: '~',
-        messageId: messsageIdRequireLocalizeAllowedCustomIdPattern,
-        data: {
-          allowedPattern: 'noCustomId',
-        },
-      },
-    ],
-    options: [{ requireCustomId: true, boundTextAllowedPattern: 'noCustomId' }],
-  }),
-  convertAnnotatedSourceToFailureCase({
-    description:
-      'it should fail if custom id is not following the allowed pattern - <lib>.<component>',
-    annotatedSource: `
-      const localizedText = $localize\`:@@lib.component.tag:Hello i18n!\`;
+      const localizedText = $localize\`:meaning|description:Hello i18n!\`;
                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     `,
-    messages: [
-      {
-        char: '~',
-        messageId: messsageIdRequireLocalizeAllowedCustomIdPattern,
-        data: {
-          allowedPattern:
-            '^(?<lib>.[^\\.]*)\\.(?<component>.[^\\.]*)\\.(?<tag>.[^\\.]*)\\.(?<attribute>.[^\\.]*)?\\.(?<name>.[^\\.]*).$',
-        },
-      },
-    ],
-    options: [
-      {
-        requireCustomId: true,
-        boundTextAllowedPattern:
-          '^(?<lib>.[^\\.]*)\\.(?<component>.[^\\.]*)\\.(?<tag>.[^\\.]*)\\.(?<attribute>.[^\\.]*)?\\.(?<name>.[^\\.]*).$',
-      },
-    ],
+    messageId: messageIdRequireLocalizeCustomId,
+    data: {
+      patternMessage: '',
+    },
+    options: [{ requireCustomId: true }],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      "it should fail if the $localize custom_id doesn't match the pattern",
+    annotatedSource: `
+      const localizedText = $localize\`:@@some.custom.id:Hello i18n!\`;
+                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    messageId: messageIdRequireLocalizeCustomId,
+    data: {
+      patternMessage: ' matching the pattern /^some.wrong.pattern$/',
+    },
+    options: [{ requireCustomId: '^some.wrong.pattern$' }],
   }),
 ];
