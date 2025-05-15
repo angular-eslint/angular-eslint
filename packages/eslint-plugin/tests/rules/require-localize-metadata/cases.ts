@@ -58,11 +58,11 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     options: [{ requireDescription: true, requireMeaning: true }],
   },
   {
-    code: `const localizedText = \`@@some.custom.id:Hello i18n!\`;`,
+    code: `const localizedText = $localize\`@@some.custom.id:Hello i18n!\`;`,
     options: [{ requireCustomId: true }],
   },
   {
-    code: `const localizedText = \`@@some.custom.id:Hello i18n!\`;`,
+    code: `const localizedText = $localize\`@@some.custom.id:Hello i18n!\`;`,
     options: [{ requireCustomId: '^some.*id$' }],
   },
 ];
