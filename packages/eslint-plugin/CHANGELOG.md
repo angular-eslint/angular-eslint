@@ -1,3 +1,35 @@
+## 19.4.0 (2025-05-08)
+
+### 🚀 Features
+
+- **eslint-plugin:** add rule prefer-output-emitter-ref ([#2324](https://github.com/angular-eslint/angular-eslint/pull/2324))
+
+### ❤️ Thank You
+
+- Dave @reduckted
+
+## 19.3.0 (2025-03-22)
+
+This was a version bump only for eslint-plugin to align it with other projects, there were no code changes.
+
+## 19.2.1 (2025-03-08)
+
+This was a version bump only for eslint-plugin to align it with other projects, there were no code changes.
+
+## 19.2.0 (2025-03-02)
+
+### 🚀 Features
+
+- **eslint-plugin:** add rule require-lifecycle-on-prototype ([#2259](https://github.com/angular-eslint/angular-eslint/pull/2259))
+
+### 🩹 Fixes
+
+- **eslint-plugin-template:** find inline templates on components in blocks ([#2238](https://github.com/angular-eslint/angular-eslint/pull/2238))
+
+### ❤️ Thank You
+
+- Dave @reduckted
+
 ## 19.1.0 (2025-02-09)
 
 ### 🚀 Features

@@ -49,7 +49,7 @@ export default createESLintRule<Options, MessageIds>({
   defaultOptions: [{ allowList: DEFAULT_ALLOW_LIST }],
   create(context, [{ allowList }]) {
     return {
-      Element$1(node: TmplAstElement) {
+      Element(node: TmplAstElement) {
         const elementType = node.name;
         if (!getDomElements().has(elementType)) {
           return;

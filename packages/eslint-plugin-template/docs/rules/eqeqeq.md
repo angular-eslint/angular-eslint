@@ -30,6 +30,9 @@ The rule accepts an options object with the following properties:
 
 ```ts
 interface Options {
+  /**
+   * Default: `false`
+   */
   allowNullOrUndefined?: boolean;
 }
 

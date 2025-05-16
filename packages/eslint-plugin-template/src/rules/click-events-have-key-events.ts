@@ -27,7 +27,7 @@ export default createESLintRule<Options, MessageIds>({
   defaultOptions: [],
   create(context) {
     return {
-      Element$1(node: TmplAstElement) {
+      Element(node: TmplAstElement) {
         if (!getDomElements().has(node.name)) {
           return;
         }

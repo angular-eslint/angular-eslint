@@ -1,9 +1,9 @@
-import type {
-  TmplAstContent,
-  TmplAstElement,
-  TmplAstTemplate,
+import {
+  TmplAstText,
+  type TmplAstContent,
+  type TmplAstElement,
+  type TmplAstTemplate,
 } from '@angular-eslint/bundled-angular-compiler';
-import { TmplAstText } from '@angular-eslint/bundled-angular-compiler';
 import { getTemplateParserServices } from '@angular-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import { getDomElements } from '../utils/get-dom-elements';
@@ -31,13 +31,13 @@ export default createESLintRule<Options, MessageIds>({
   create(context) {
     const parserServices = getTemplateParserServices(context);
 
-    // angular 18 doesnt support self closing tags in index.html
+    // angular 18 doesn't support self closing tags in index.html
     if (/src[\\/]index\.html$/.test(context.physicalFilename)) {
       // If it is, return an empty object to skip this rule
       return {};
     }
     return {
-      'Element$1, Template, Content'(
+      'Element, Template, Content'(
         node: TmplAstElement | TmplAstTemplate | TmplAstContent,
       ) {
         if (isContentNode(node)) {
@@ -57,28 +57,49 @@ export default createESLintRule<Options, MessageIds>({
     ) {
       const { children, startSourceSpan, endSourceSpan } = node;
 
-      const noContent =
-        !children.length ||
-        children.every((node) => {
-          // If the node is only whitespace, we can consider it empty.
-          // We need to look at the text from the source code, rather
-          // than the `TmplAstText.value` property. The `value` property
-          // contains the HTML-decoded value, so if the raw text contains
-          // `&nbsp;`, that is decoded to a space, but we don't want to
-          // treat that as empty text.
-          return (
-            node instanceof TmplAstText &&
-            context.sourceCode.text
-              .slice(node.sourceSpan.start.offset, node.sourceSpan.end.offset)
-              .trim() === ''
-          );
-        });
-      const noCloseTag =
+      if (
         !endSourceSpan ||
         (startSourceSpan.start.offset === endSourceSpan.start.offset &&
-          startSourceSpan.end.offset === endSourceSpan.end.offset);
+          startSourceSpan.end.offset === endSourceSpan.end.offset)
+      ) {
+        // No close tag.
+        return;
+      }
 
-      if (!noContent || noCloseTag) {
+      const someChildNodesHaveContent = children.some((node) => {
+        // If the node is only whitespace, we can consider it empty.
+        //
+        // We need to look at the text from the source code, rather
+        // than the `TmplAstText.value` property. The `value` property
+        // contains the HTML-decoded value, so if the raw text contains
+        // `&nbsp;`, that is decoded to a space, but we don't want to
+        // treat that as empty text.
+        return (
+          !(node instanceof TmplAstText) ||
+          context.sourceCode.text
+            .slice(node.sourceSpan.start.offset, node.sourceSpan.end.offset)
+            .trim() !== ''
+        );
+      });
+
+      // If the element only contains whitespace, we can consider it
+      // empty.
+      //
+      // If the node only contains comments, those comments
+      // will not appear in the syntax tree, which results in the
+      // content appearing empty.
+      //
+      // So instead of using the syntax tree, we'll look at the
+      // source code and get the text that appears between the
+      // start element and the end element.
+
+      const nodeHasContent =
+        context.sourceCode.text
+          .slice(startSourceSpan.end.offset, endSourceSpan.start.offset)
+          .trim() !== '';
+
+      if (nodeHasContent || someChildNodesHaveContent) {
+        // The element has content.
         return;
       }
 
@@ -101,26 +122,32 @@ export default createESLintRule<Options, MessageIds>({
     function processContentNode(node: TmplAstContent) {
       const { sourceSpan } = node;
       const ngContentCloseTag = '</ng-content>';
-      if (sourceSpan.toString().includes(ngContentCloseTag)) {
-        const whiteSpaceContent = sourceSpan
-          .toString()
-          .match(/<ng-content[^>]*>(\s*)<\/ng-content>/m)
-          ?.at(1);
-        const hasContent = typeof whiteSpaceContent === 'undefined';
-        if (hasContent) {
-          return;
+      const source = sourceSpan.toString();
+      if (source.endsWith(ngContentCloseTag)) {
+        // Content nodes don't have information about `startSourceSpan`
+        // and `endSourceSpan`, so we need to calculate where the inner
+        // HTML is ourselves. We know that the source ends with
+        // "</ng-content>", so we know where inner HTML ends.
+        // We just need to find where the inner HTML starts.
+        const startOfInnerHTML = findStartOfNgContentInnerHTML(source);
+        // If the start of the inner HTML is also where the close tag starts,
+        // then there is no inner HTML and we can avoid slicing the string.
+        if (startOfInnerHTML < source.length - ngContentCloseTag.length) {
+          if (
+            source.slice(startOfInnerHTML, -ngContentCloseTag.length).trim()
+              .length > 0
+          ) {
+            return;
+          }
         }
-        const openingTagLastChar =
-          // This is more than the minimum length of a ng-content element
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          sourceSpan
-            .toString()
-            .at(-2 - ngContentCloseTag.length - whiteSpaceContent.length)!;
+        // The source will always have at least "<ng-content"
+        // before the inner HTML, so two characters before
+        // the inner HTML will always be a valid index.
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const openingTagLastChar = source.at(startOfInnerHTML - 2)!;
         const closingTagPrefix = getClosingTagPrefix(openingTagLastChar);
 
         context.report({
-          // content nodes don't have information about startSourceSpan and endSourceSpan,
-          // so we need to calculate it by our own
           loc: {
             start: {
               line: sourceSpan.end.line + 1,
@@ -135,10 +162,7 @@ export default createESLintRule<Options, MessageIds>({
           fix: (fixer) =>
             fixer.replaceTextRange(
               [
-                sourceSpan.end.offset -
-                  ngContentCloseTag.length -
-                  whiteSpaceContent.length -
-                  1,
+                sourceSpan.start.offset + startOfInnerHTML - 1,
                 sourceSpan.end.offset,
               ],
               closingTagPrefix + '/>',
@@ -153,6 +177,32 @@ function isContentNode(
   node: TmplAstElement | TmplAstTemplate | TmplAstContent,
 ): node is TmplAstContent {
   return 'name' in node && node.name === 'ng-content';
+}
+
+function findStartOfNgContentInnerHTML(html: string): number {
+  let quote: string | undefined;
+
+  // The HTML will always start with at least "<ng-content",
+  // so we can skip over that part and start at index 11.
+  for (let i = 11; i < html.length; i++) {
+    const char = html.at(i);
+    if (quote !== undefined) {
+      if (quote === char) {
+        quote = undefined;
+      }
+    } else {
+      switch (char) {
+        case '>':
+          return i + 1;
+        case '"':
+        case "'":
+          quote = char;
+          break;
+      }
+    }
+  }
+
+  return html.length;
 }
 
 function getClosingTagPrefix(openingTagLastChar: string): string {

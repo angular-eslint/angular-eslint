@@ -232,7 +232,7 @@ Please see here for our philosophy on using a linter to enforce code formatting 
 
 ## Linting with the VSCode extension for ESLint
 
-**We strongly recommend using v3 of the vscode-eslint extension.** At the time of writing (May 2024), this is in prerelease. You can enable it by opening up the extension profile page within VSCode and clicking on the "switch to prerelease" button (if your currently installed version is older than v3).
+**We strongly recommend using v3 (or later) of the vscode-eslint extension.**. You can enable it by opening up the [extension profile page within VSCode](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint).
 
 The extension will now be smart enough to pick up from your configuration files what files you care about linting (from both flat configs and eslintrc (as long as you follow the guidance of using overrides outline in this repo)).
 

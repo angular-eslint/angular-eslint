@@ -140,6 +140,27 @@ describe('extract-inline-html', () => {
           },
         ]);
       });
+
+      it(`should exclude the backticks from the template literal with interpolations`, () => {
+        const input = `
+          @Component({
+            template: \`hello \${name}\`,
+          })
+          export class ExampleComponent {}
+          `;
+        expect(
+          processors['extract-inline-html'].preprocess(
+            input,
+            'test.component.ts',
+          ),
+        ).toEqual([
+          input,
+          {
+            filename: `inline-template-test.component.ts-1.component.html`,
+            text: 'hello ${name}',
+          },
+        ]);
+      });
     });
 
     describe('components with inline templates', () => {
@@ -431,6 +452,82 @@ describe('extract-inline-html', () => {
         ]);
       });
     });
+
+    describe('components within blocks', () => {
+      it(`should support extracting inline templates from components that are not at the top-level`, () => {
+        const input = `
+          import { Component } from '@angular/core';
+
+          describe('nested', () => {
+            describe('arrow', () => {
+              @Component({
+                selector: 'app-a',
+                template: '<h1>Arrow</h1>',
+                styleUrls: ['./a.component.scss']
+              })
+              class ArrowComponent {}
+            });
+
+            describe('function', function () {
+              @Component({
+                selector: 'app-b',
+                template: '<h1>Function</h1>',
+                styleUrls: ['./b.component.scss']
+              })
+              class FunctionComponent {}
+            });
+
+            (() => {
+              @Component({
+                selector: 'app-b',
+                template: '<h1>Parenthesized</h1>',
+                styleUrls: ['./b.component.scss']
+              })
+              class ParenthesizedComponent {}
+            });
+          });
+
+          // The following statements test the early-exiting
+          // logic in the processor when it walks the
+          // syntax tree to find class declarations.
+
+          type A = number;
+
+          let b: string[] = [1, 2, 3];
+
+          enum C {
+            D = 1,
+          }
+
+          interface E {
+            f: string;
+          }
+        `;
+        expect(
+          processors['extract-inline-html'].preprocess(
+            input,
+            'multiple-in-blocks.spec.ts',
+          ),
+        ).toEqual([
+          input,
+          {
+            filename:
+              'inline-template-multiple-in-blocks.spec.ts-1.component.html',
+            text: '<h1>Arrow</h1>',
+          },
+          {
+            filename:
+              'inline-template-multiple-in-blocks.spec.ts-2.component.html',
+            text: '<h1>Function</h1>',
+          },
+          {
+            filename:
+              'inline-template-multiple-in-blocks.spec.ts-3.component.html',
+            text: '<h1>Parenthesized</h1>',
+          },
+        ]);
+      });
+    });
   });
 
   describe('postprocess()', () => {
@@ -469,7 +566,7 @@ describe('extract-inline-html', () => {
     });
 
     describe('messages from inline template HTML', () => {
-      it('should adjust message locations from the inline templates', () => {
+      it('should adjust message locations on the first line from the inline templates', () => {
         const fileContent = `
           @Component({
             template: '<div ([ngModel])="value"></div>',
@@ -487,18 +584,104 @@ describe('extract-inline-html', () => {
           severity: 2,
           message: 'Invalid binding syntax. Use [(expr)] instead',
           line: 1,
-          column: 28,
+          column: 6,
           nodeType: 'Literal',
           messageId: 'bananaInBox',
           endLine: 1,
-          endColumn: 39,
-          fix: { range: [5, 16], text: '[(ngModel)]' },
+          endColumn: 17,
+          fix: { range: [6, 17], text: '[(ngModel)]' },
         };
         const expectedMessage = {
           ...mockError,
           line: 3,
+          column: 29,
           endLine: 3,
-          fix: { range: [52, 63], text: '[(ngModel)]' },
+          endColumn: 40,
+          fix: { range: [53, 64], text: '[(ngModel)]' },
+        };
+
+        expect(
+          processors['extract-inline-html'].postprocess(
+            [[], [mockError]],
+            'test.component.ts',
+          ),
+        ).toEqual([expectedMessage]);
+      });
+
+      it('should not adjust the columns for locations after the first line', () => {
+        const fileContent = `
+          @Component({
+            template: \`
+              <div ([ngModel])="value"></div>
+            \`,
+          })
+          export class Component {
+            value = '';
+          }
+        `;
+        processors['extract-inline-html'].preprocess(
+          fileContent,
+          'test.component.ts',
+        );
+        const mockError = {
+          ruleId: 'banana-in-box',
+          severity: 2,
+          message: 'Invalid binding syntax. Use [(expr)] instead',
+          line: 2,
+          column: 20,
+          nodeType: 'Literal',
+          messageId: 'bananaInBox',
+          endLine: 2,
+          endColumn: 31,
+          fix: { range: [21, 32], text: '[(ngModel)]' },
+        };
+        const expectedMessage = {
+          ...mockError,
+          line: 4,
+          endLine: 4,
+          fix: { range: [68, 79], text: '[(ngModel)]' },
+        };
+
+        expect(
+          processors['extract-inline-html'].postprocess(
+            [[], [mockError]],
+            'test.component.ts',
+          ),
+        ).toEqual([expectedMessage]);
+      });
+
+      it('should adjust the start column but not the end column when the message location starts on the first line and ends on the second', () => {
+        const fileContent = `
+          @Component({
+            template: \`<div>Hello
+            World</div>\`,
+          })
+          export class Component {
+            value = '';
+          }
+        `;
+        processors['extract-inline-html'].preprocess(
+          fileContent,
+          'test.component.ts',
+        );
+        const mockError = {
+          ruleId: 'test',
+          severity: 2,
+          message: 'test',
+          line: 1,
+          column: 6,
+          nodeType: 'test',
+          messageId: 'test',
+          endLine: 2,
+          endColumn: 17,
+          fix: { range: [6, 28], text: '' },
+        };
+        const expectedMessage = {
+          ...mockError,
+          line: 3,
+          column: 29,
+          endLine: 4,
+          fix: { range: [53, 75], text: '' },
         };
 
         expect(

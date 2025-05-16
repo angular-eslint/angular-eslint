@@ -23,11 +23,11 @@ The thing is: **ESLint understands neither of these things out of the box.**
 
 Fortunately, however, ESLint has clearly defined points of extensibility that we can leverage to make this all work.
 
-> For detailed information about ESLint plugins, parsers etc please review the official ESLint eslintrc config documentation: https://eslint.org/docs/latest/use/configure/
+> For detailed information about ESLint plugins, parsers etc. please review the official ESLint eslintrc config documentation: https://eslint.org/docs/latest/use/configure/
 
 **The key principle of our configuration required for Angular projects is that we need to run different blocks of configuration for different file types/extensions**. In other words, we don't want the same rules to apply on TypeScript files that we do on HTML/inline-templates.
 
-Therefore, our flat config will contain two entries, one for TS, one for HTML. We could provide these two entries directly in an exported array, but `typescript-eslint` provides and awesome typed utility function which makes writing our flat configs a lot nicer, so we will instead require the function and pass in multiple objects for our configuration.
+Therefore, our flat config will contain two entries, one for TS, one for HTML. We could provide these two entries directly in an exported array, but `typescript-eslint` provides an awesome typed utility function which makes writing our flat configs a lot nicer, so we will instead require the function and pass in multiple objects for our configuration.
 
 **Workspace root level eslint.config.js**
 
@@ -147,6 +147,68 @@ module.exports = tseslint.config(
 ```
 
 By setting up our config in this way, we have complete control over what rules etc apply to what file types and our separate concerns remain clearer and easier to maintain. The schematics provided by angular-eslint will already configure your project in this way.
+
+## Notes for `eslint-plugin-prettier` users
+
+Prettier is an awesome code formatter which can be used entirely independently of linting.
+
+Some folks, however, like to apply prettier by using it inside of ESLint, using `eslint-plugin-prettier`. If this applies to you then you will want to read this section on how to apply it correctly for HTML templates. Make sure you read and fully understand the information above on the importance of `"overrides"` before reading this section.
+
+If you choose to use `eslint-plugin-prettier`, **please ensure that you are using version 5.1.0 or later**, and apply the following configuration to ESLint and prettier:
+
+**.prettierrc**
+
+```json
+{
+  "overrides": [
+    {
+      "files": "*.html",
+      "options": {
+        "parser": "angular"
+      }
+    }
+  ]
+}
+```
+
+Project level **eslint.config.js**
+
+```js
+// @ts-check
+
+// Allows us to use the typed utility for our config
+const tseslint = require('typescript-eslint');
+const prettierRecommended = require('eslint-plugin-prettier/recommended');
+
+// Require our workspace root level config and extend from it
+const rootConfig = require('../../eslint.config.js');
+
+module.exports = tseslint.config([
+  // Apply the root config first
+  ...rootConfig,
+  {
+    // Any project level overrides or additional rules for TypeScript files can go here
+    // (we don't need to extend from any typescript-eslint or angular-eslint configs because
+    // we already applied the rootConfig above which has them)
+    files: ['**/*.ts'],
+    extends: [prettierRecommended], // here we inherit from the recommended setup from eslint-plugin-prettier for TS
+    rules: {
+  {
+    // Any project level overrides or additional rules for HTML files can go here
+    // (we don't need to extend from any angular-eslint configs because
+    // we already applied the rootConfig above which has them)
+    files: ['**/*.html'],
+    extends: [prettierRecommended], // here we inherit from the recommended setup from eslint-plugin-prettier for HTML
+    rules: {},
+  },
+]);
+```
+
+With this setup, you have covered the following scenarios:
+
+- ESLint + prettier together work on Components with external templates (and all other source TS files)
+- ESLint + prettier together work on the external template HTML files themselves
+- ESLint + prettier together work on Components with inline templates
 
 ## Premade configs provided by this project
 

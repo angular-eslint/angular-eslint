@@ -357,7 +357,7 @@ class Test {}
 
 ```ts
 @Pipe({
-  name: \`ngBarFoo\`
+  name: `ngBarFoo`
 })
 class Test {}
 ```

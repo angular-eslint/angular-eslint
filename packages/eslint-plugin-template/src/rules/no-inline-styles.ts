@@ -51,7 +51,7 @@ export default createESLintRule<Options, MessageIds>({
     const parserServices = getTemplateParserServices(context);
 
     return {
-      Element$1(node: TmplAstElement) {
+      Element(node: TmplAstElement) {
         let isInvalid = false;
 
         if (!allowNgStyle && !allowBindToStyle) {

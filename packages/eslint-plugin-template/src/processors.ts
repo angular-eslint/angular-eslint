@@ -64,9 +64,7 @@ export function preprocessComponentFile(
       /* setParentNodes */ true,
     );
 
-    const classDeclarations = sourceFile.statements.filter((s) =>
-      ts.isClassDeclaration(s),
-    ) as ts.ClassDeclaration[];
+    const classDeclarations = getClassDeclarationFromSourceFile(sourceFile);
     if (!classDeclarations || !classDeclarations.length) {
       return noopResult;
     }
@@ -146,7 +144,9 @@ export function preprocessComponentFile(
       }
 
       if (ts.isTemplateExpression(templatePropertyInitializer)) {
-        templateText = templatePropertyInitializer.getText();
+        // The text includes the opening and closing
+        // backtick, so trim the first and last characters.
+        templateText = templatePropertyInitializer.getText().slice(1, -1);
       }
 
       if (ts.isStringLiteral(templatePropertyInitializer)) {
@@ -196,6 +196,61 @@ export function preprocessComponentFile(
       filename,
     );
     return noopResult;
+  }
+}
+
+function getClassDeclarationFromSourceFile(
+  sourceFile: ts.SourceFile,
+): ts.ClassDeclaration[] {
+  const classDeclarations: ts.ClassDeclaration[] = [];
+
+  visit(sourceFile);
+
+  return classDeclarations;
+
+  function visit(node: ts.Node) {
+    if (ts.isClassDeclaration(node)) {
+      classDeclarations.push(node);
+      return;
+    }
+
+    // Class declarations are usually at the top-level, but there are
+    // some situations where they might be nested, such as in test files.
+    // If the node could have a class declaration somewhere in its
+    // descendant nodes, then we will recurse down into each child node.
+
+    // Keywords, tokens and trivia all come before `FirstNode`. They won't
+    // contain child nodes anyway, but we can skip them to save some time.
+    // Likewise, we can skip nodes that are part of JSDoc comments.
+    if (
+      node.kind < ts.SyntaxKind.FirstNode ||
+      node.kind > ts.SyntaxKind.FirstJSDocNode
+    ) {
+      return;
+    }
+
+    // Type nodes can be skipped.
+    if (
+      node.kind >= ts.SyntaxKind.TypePredicate &&
+      node.kind <= ts.SyntaxKind.ImportType
+    ) {
+      return;
+    }
+
+    // Some specific kinds of nodes can be skipped because
+    // we know that they cannot contain class declarations.
+    switch (node.kind) {
+      case ts.SyntaxKind.InterfaceDeclaration:
+      case ts.SyntaxKind.EnumDeclaration:
+      case ts.SyntaxKind.ImportEqualsDeclaration:
+      case ts.SyntaxKind.ImportDeclaration:
+      case ts.SyntaxKind.ImportClause:
+        return;
+    }
+
+    // For everything else, we'll play it safe
+    // and recurse down into the child nodes.
+    ts.forEachChild(node, visit);
   }
 }
 
@@ -249,12 +304,28 @@ export function postprocessComponentFile(
         }
 
         return messagesFromInlineTemplateHTML.map((message) => {
-          message.line = message.line + rangeData.lineAndCharacter.start.line;
+          // The first line of the inline template starts at the column after
+          // the opening quote in the TypeScript file, so we need to adjust
+          // the message's column by that amount when the message starts on
+          // the first line. The character we recorded was the quote's column,
+          // so add one to get the column where the actual string starts.
+          if (message.line === 1) {
+            message.column += rangeData.lineAndCharacter.start.character + 1;
+          }
 
-          message.endLine =
-            message.endLine + rangeData.lineAndCharacter.start.line;
+          // The same thing applies to the end column
+          // if it also ends on the first line.
+          if (message.endLine === 1) {
+            message.endColumn += rangeData.lineAndCharacter.start.character + 1;
+          }
+
+          message.line += rangeData.lineAndCharacter.start.line;
+          message.endLine += rangeData.lineAndCharacter.start.line;
 
           if (message.fix) {
+            // The range defines the range of the value that initializes
+            // the `template` property, which includes the opening and
+            // closing quotes. Add one to move past the opening quote.
             const startOffset = rangeData.range[0] + 1;
             message.fix.range = [
               startOffset + message.fix.range[0],

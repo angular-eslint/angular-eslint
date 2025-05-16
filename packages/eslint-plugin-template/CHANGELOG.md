@@ -1,3 +1,68 @@
+## 19.4.0 (2025-05-08)
+
+### 🚀 Features
+
+- **eslint-plugin-template:** Add `prefer-template-literal` rule ([#2308](https://github.com/angular-eslint/angular-eslint/pull/2308))
+- **eslint-plugin-template:** [no-interpolation-in-attributes] add allowSubstringInterpolation option ([#2373](https://github.com/angular-eslint/angular-eslint/pull/2373))
+
+### 🩹 Fixes
+
+- **eslint-plugin-template:** remove backticks from inline template with interpolation ([#2368](https://github.com/angular-eslint/angular-eslint/pull/2368))
+- **eslint-plugin-template:** correct column adjustment for inline template message locations ([#2358](https://github.com/angular-eslint/angular-eslint/pull/2358))
+- **eslint-plugin-template:** [no-any] handle key reads ([#1701](https://github.com/angular-eslint/angular-eslint/pull/1701), [#2335](https://github.com/angular-eslint/angular-eslint/pull/2335))
+
+### ❤️ Thank You
+
+- daiscog @daiscog
+- Dave @reduckted
+- Evgeny Stepanovych @undsoft
+- Guillaume DROUARD
+
+## 19.3.0 (2025-03-22)
+
+### 🚀 Features
+
+- use @angular/compiler 19.2.3 and rename some AST nodes to match ([#2320](https://github.com/angular-eslint/angular-eslint/pull/2320))
+- **eslint-plugin-template:** add rule prefer-contextual-for-variables ([#2311](https://github.com/angular-eslint/angular-eslint/pull/2311))
+- **eslint-plugin-template:** [button-has-type] add option to ignore missing type ([#2326](https://github.com/angular-eslint/angular-eslint/pull/2326))
+
+### 🩹 Fixes
+
+- **eslint-plugin-template:** [attributes-order] treat inputs without square brackets as attributes ([#2316](https://github.com/angular-eslint/angular-eslint/pull/2316))
+- **eslint-plugin-template:** [attributes-order] order i18n attributes ([#2307](https://github.com/angular-eslint/angular-eslint/pull/2307))
+- **eslint-plugin-template:** [i18n] Avoid exception in i18n rule with allowMarkupInContent=false ([#2327](https://github.com/angular-eslint/angular-eslint/pull/2327))
+
+### ❤️ Thank You
+
+- Dave @reduckted
+- m-akinc @m-akinc
+
+## 19.2.1 (2025-03-08)
+
+### 🩹 Fixes
+
+- **eslint-plugin-template:** [prefer-self-closing-tags] resolve wrong reports when structural directive + no content + no self-closing ([#2287](https://github.com/angular-eslint/angular-eslint/pull/2287))
+
+### ❤️ Thank You
+
+- Guillaume DROUARD
+
+## 19.2.0 (2025-03-02)
+
+### 🩹 Fixes
+
+- **prefer-static-string-properties:** exclude special attributes ([#2273](https://github.com/angular-eslint/angular-eslint/pull/2273))
+- **prefer-static-string-properties:** resolve bug with directives ([#2271](https://github.com/angular-eslint/angular-eslint/pull/2271))
+- **eslint-plugin-template:** find inline templates on components in blocks ([#2238](https://github.com/angular-eslint/angular-eslint/pull/2238))
+- **eslint-plugin-template:** [prefer-static-string-properties] do not check structural directives ([#2253](https://github.com/angular-eslint/angular-eslint/pull/2253))
+- **eslint-plugin-template:** [prefer-self-closing-tags] allow nested ng-content ([#2257](https://github.com/angular-eslint/angular-eslint/pull/2257))
+- **eslint-plugin-template:** [prefer-self-closing-tags] do not treat comments as whitespace ([#2256](https://github.com/angular-eslint/angular-eslint/pull/2256))
+
+### ❤️ Thank You
+
+- Dave @reduckted
+- Marie Briand @mbriand-lucca
+
 ## 19.1.0 (2025-02-09)
 
 ### 🚀 Features

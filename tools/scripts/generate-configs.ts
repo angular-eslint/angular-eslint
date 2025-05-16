@@ -1,7 +1,7 @@
 import type { TSESLint } from '@typescript-eslint/utils';
-import chalk from 'chalk';
 import fs, { readdirSync } from 'node:fs';
 import path from 'node:path';
+import pc from 'picocolors';
 import { format, resolveConfig } from 'prettier';
 
 // Import directly from source to ensure the latest rules are included
@@ -102,11 +102,9 @@ function reducer(
       : recommendation;
 
   console.log(
-    `${chalk.dim(ruleNamePrefix)}${key.padEnd(MAX_RULE_NAME_LENGTH)}`,
+    `${pc.dim(ruleNamePrefix)}${key.padEnd(MAX_RULE_NAME_LENGTH)}`,
     '=',
-    usedSetting === 'error'
-      ? chalk.red(usedSetting)
-      : chalk.yellow(usedSetting),
+    usedSetting === 'error' ? pc.red(usedSetting) : pc.yellow(usedSetting),
   );
 
   config[ruleName] = usedSetting;

@@ -27,7 +27,13 @@ The rule accepts an options object with the following properties:
 
 ```ts
 interface Options {
+  /**
+   * Default: `false`
+   */
   requireDescription?: boolean;
+  /**
+   * Default: `false`
+   */
   requireMeaning?: boolean;
 }
 
@@ -512,8 +518,8 @@ const localizedText = $localize`:site header|@@custom_id:Hello i18n!`;
 #### ✅ Valid Code
 
 ```ts
-let localizedText = $localize\`:An introduction header for this sample:Hello i18n!\`;
-localizedText = $localize\`:An introduction header for this sample modified:Hello i18n modified!\`;
+let localizedText = $localize`:An introduction header for this sample:Hello i18n!`;
+localizedText = $localize`:An introduction header for this sample modified:Hello i18n modified!`;
 ```
 
 <br>
@@ -543,9 +549,9 @@ localizedText = $localize\`:An introduction header for this sample modified:Hell
 
 ```ts
 const localizedTexts = {
-  helloI18n: $localize\`:An introduction header for this sample:Hello i18n!\`
+  helloI18n: $localize`:An introduction header for this sample:Hello i18n!`
 };
-localizedTexts.helloI18n = $localize\`:An introduction header for this sample modified:Hello i18n modified!\`;
+localizedTexts.helloI18n = $localize`:An introduction header for this sample modified:Hello i18n modified!`;
 ```
 
 <br>
@@ -574,7 +580,7 @@ localizedTexts.helloI18n = $localize\`:An introduction header for this sample mo
 #### ✅ Valid Code
 
 ```ts
-return $localize\`:An introduction header for this sample:Hello i18n!\`;
+return $localize`:An introduction header for this sample:Hello i18n!`;
 ```
 
 <br>
@@ -603,7 +609,7 @@ return $localize\`:An introduction header for this sample:Hello i18n!\`;
 #### ✅ Valid Code
 
 ```ts
-someFunction($localize\`:An introduction header for this sample:Hello i18n!\`);
+someFunction($localize`:An introduction header for this sample:Hello i18n!`);
 ```
 
 <br>
@@ -632,7 +638,7 @@ someFunction($localize\`:An introduction header for this sample:Hello i18n!\`);
 #### ✅ Valid Code
 
 ```ts
-const localizedText = \`Hello i18n!\`;
+const localizedText = `Hello i18n!`;
 ```
 
 <br>
@@ -661,7 +667,7 @@ const localizedText = \`Hello i18n!\`;
 #### ✅ Valid Code
 
 ```ts
-const localizedText = $localize\`:site header|:Hello i18n!\`;
+const localizedText = $localize`:site header|:Hello i18n!`;
 ```
 
 <br>
@@ -691,7 +697,7 @@ const localizedText = $localize\`:site header|:Hello i18n!\`;
 #### ✅ Valid Code
 
 ```ts
-const localizedText = $localize\`:site header|An introduction header for this sample:Hello i18n!\`;
+const localizedText = $localize`:site header|An introduction header for this sample:Hello i18n!`;
 ```
 
 </details>

@@ -443,6 +443,41 @@ class Test {
       "error",
       {
         "prefixes": [
+          "on"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Directive()
+class Test {
+  @Input(`onSetter`) set setter() {}
+         ~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-prefix": [
+      "error",
+      {
+        "prefixes": [
           "on",
           "is",
           "should"
@@ -602,7 +637,7 @@ class Test {}
 
 ```ts
 @Page({
-  inputs: ['on', onChange, \`onLine\`, 'on: on2', 'offline: on', ...onCheck, onInput()],
+  inputs: ['on', onChange, `onLine`, 'on: on2', 'offline: on', ...onCheck, onInput()],
 })
 class Test {}
 ```
@@ -739,7 +774,7 @@ class Test {
 ```ts
 @Directive()
 class Test {
-  @Input(\`one\`) ontype = new EventEmitter<{ bar: string, on: boolean }>();
+  @Input(`one`) ontype = new EventEmitter<{ bar: string, on: boolean }>();
 }
 ```
 
@@ -773,7 +808,7 @@ class Test {
 ```ts
 @Directive()
 class Test {
-  @Input({ alias: \`one\` }) ontype = new EventEmitter<{ bar: string, on: boolean }>();
+  @Input({ alias: `one` }) ontype = new EventEmitter<{ bar: string, on: boolean }>();
 }
 ```
 
@@ -982,6 +1017,96 @@ class Test {
 class Test {
   @Input() notOn: string = 'on';
 }
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-prefix": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  selector: 'foo',
+  'inputs': [`test: foo`]
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-prefix": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: 'foo',
+  ['inputs']: [`test: foo`]
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-prefix": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  selector: 'foo',
+  [`inputs`]: [`test: foo`]
+})
+class Test {}
 ```
 
 <br>

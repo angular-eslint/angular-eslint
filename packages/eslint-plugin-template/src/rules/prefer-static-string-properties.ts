@@ -30,8 +30,20 @@ export default createESLintRule<Options, MessageIds>({
     const parserServices = getTemplateParserServices(context);
 
     return {
-      BoundAttribute({ name, sourceSpan, value }: TmplAstBoundAttribute) {
+      ['BoundAttribute.inputs']({
+        name,
+        sourceSpan,
+        keySpan,
+        value,
+      }: TmplAstBoundAttribute) {
+        // Exclude @xxx (Animation) and xx.color
+        // When attribute start with "*", keySpan details is null so *ngSwitchCase is excluded
+        const isBindingProperty =
+          keySpan?.details &&
+          !keySpan.details.includes('@') &&
+          !keySpan.details.includes('.');
         if (
+          isBindingProperty &&
           value instanceof ASTWithSource &&
           value.ast instanceof LiteralPrimitive &&
           typeof value.ast.value === 'string'
@@ -42,6 +54,7 @@ export default createESLintRule<Options, MessageIds>({
           // quotes when we convert it to a property assignment.
           const quote = value.source?.trimStart().at(0) === '"' ? "'" : '"';
           const literal = value.ast.value;
+
           context.report({
             loc: parserServices.convertNodeSourceSpanToLoc(sourceSpan),
             messageId: 'preferStaticStringProperties',

@@ -36,7 +36,7 @@ export default createESLintRule<Options, MessageIds>({
     const elementNamePattern = toPattern([...getDomElements()]);
 
     return {
-      [`Element$1[name=${elementNamePattern}] > TextAttribute[name='role']`](
+      [`Element[name=${elementNamePattern}] > TextAttribute[name='role']`](
         node: TmplAstTextAttribute & {
           parent: TmplAstElement;
         },

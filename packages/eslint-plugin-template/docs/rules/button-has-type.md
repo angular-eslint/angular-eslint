@@ -23,7 +23,17 @@ Ensures that a button has a valid type specified
 
 ## Rule Options
 
-The rule does not have any configuration options.
+The rule accepts an options object with the following properties:
+
+```ts
+interface Options {
+  /**
+   * Default: `[]`
+   */
+  ignoreWithDirectives?: string[];
+}
+
+```
 
 <br>
 
@@ -138,6 +148,71 @@ The rule does not have any configuration options.
 ```html
 <button [attr.type]="'whatever'"></button>
         ~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/button-has-type": [
+      "error",
+      {
+        "ignoreWithDirectives": [
+          "myButton",
+          "uiButton"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<button myDirective></button>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/button-has-type": [
+      "error",
+      {
+        "ignoreWithDirectives": [
+          "myButton"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<button myButton type="whatever"></button>
+                 ~~~~~~~~~~~~~~~
 ```
 
 </details>
@@ -405,6 +480,68 @@ The rule does not have any configuration options.
 
 ```html
 <button [disabled]="true" [attr.type]="'button'"></button>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/button-has-type": [
+      "error",
+      {
+        "ignoreWithDirectives": [
+          "myButton"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<button myButton></button>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/button-has-type": [
+      "error",
+      {
+        "ignoreWithDirectives": [
+          "myButton"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<button [myButton]></button>
 ```
 
 </details>

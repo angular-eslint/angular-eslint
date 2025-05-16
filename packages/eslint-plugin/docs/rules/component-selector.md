@@ -28,8 +28,17 @@ The rule accepts an options object with the following properties:
 
 ```ts
 interface Options {
+  /**
+   * Default: `""`
+   */
   type?: string | ("element" | "attribute")[];
+  /**
+   * Default: `""`
+   */
   prefix?: string | unknown[];
+  /**
+   * Default: `""`
+   */
   style?: "camelCase" | "kebab-case";
 }
 
@@ -955,7 +964,7 @@ class Test {}
 
 ```ts
 @Component({
-  selector: \`[appFooBar]\`
+  selector: `[appFooBar]`
 })
 class Test {}
 ```
@@ -995,9 +1004,9 @@ class Test {}
 
 ```ts
 @Component({
-  selector: \`
+  selector: `
     [appFooBar]
-  \`
+  `
 })
 class Test {}
 ```
@@ -1037,10 +1046,10 @@ class Test {}
 
 ```ts
 @Component({
-  selector: \`
+  selector: `
     [appFooBar],
     [appBarFoo]
-  \`
+  `
 })
 class Test {}
 ```
@@ -1080,7 +1089,7 @@ class Test {}
 
 ```ts
 @Component({
-  selector: \`button[appFooBar]\`
+  selector: `button[appFooBar]`
 })
 class Test {}
 ```
@@ -1118,7 +1127,7 @@ class Test {}
 
 ```ts
 @Component({
-  selector: \`app-foo-bar\`,
+  selector: `app-foo-bar`,
   encapsulation: ViewEncapsulation.ShadowDom
 })
 class Test {}
@@ -1157,7 +1166,7 @@ class Test {}
 
 ```ts
 @Component({
-  selector: \`app-foo-bar\`,
+  selector: `app-foo-bar`,
   encapsulation: ViewEncapsulation.ShadowDom
 })
 class Test {}

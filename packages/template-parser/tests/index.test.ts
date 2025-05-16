@@ -67,7 +67,7 @@ describe('parseForESLint()', () => {
           106,
         ],
         "templateNodes": Array [
-          Text$3 {
+          Text {
             "loc": Object {
               "end": Object {
                 "column": 6,
@@ -120,11 +120,11 @@ describe('parseForESLint()', () => {
                 "offset": 7,
               },
             },
-            "type": "Text$3",
+            "type": "Text",
             "value": "
             ",
           },
-          Text$3 {
+          Text {
             "loc": Object {
               "end": Object {
                 "column": 6,
@@ -177,14 +177,14 @@ describe('parseForESLint()', () => {
                 "offset": 47,
               },
             },
-            "type": "Text$3",
+            "type": "Text",
             "value": "
             ",
           },
-          Element$1 {
+          Element {
             "attributes": Array [],
             "children": Array [
-              Text$3 {
+              Text {
                 "loc": Object {
                   "end": Object {
                     "column": 20,
@@ -237,7 +237,7 @@ describe('parseForESLint()', () => {
                     "offset": 52,
                   },
                 },
-                "type": "Text$3",
+                "type": "Text",
                 "value": "some node",
               },
             ],
@@ -382,9 +382,9 @@ describe('parseForESLint()', () => {
                 "offset": 47,
               },
             },
-            "type": "Element$1",
+            "type": "Element",
           },
-          Text$3 {
+          Text {
             "loc": Object {
               "end": Object {
                 "column": 6,
@@ -437,11 +437,11 @@ describe('parseForESLint()', () => {
                 "offset": 74,
               },
             },
-            "type": "Text$3",
+            "type": "Text",
             "value": "
             ",
           },
-          Text$3 {
+          Text {
             "loc": Object {
               "end": Object {
                 "column": 4,
@@ -494,7 +494,7 @@ describe('parseForESLint()', () => {
                 "offset": 106,
               },
             },
-            "type": "Text$3",
+            "type": "Text",
             "value": "
           ",
           },
@@ -597,7 +597,7 @@ describe('parseForESLint()', () => {
             525,
           ],
           "templateNodes": Array [
-            Text$3 {
+            Text {
               "loc": Object {
                 "end": Object {
                   "column": 10,
@@ -695,13 +695,13 @@ describe('parseForESLint()', () => {
                   "offset": 11,
                 },
               },
-              "type": "Text$3",
+              "type": "Text",
               "value": "
                   ",
             },
             DeferredBlock {
               "children": Array [
-                Text$3 {
+                Text {
                   "loc": Object {
                     "end": Object {
                       "column": 12,
@@ -799,14 +799,14 @@ describe('parseForESLint()', () => {
                       "offset": 45,
                     },
                   },
-                  "type": "Text$3",
+                  "type": "Text",
                   "value": "
                     ",
                 },
-                Element$1 {
+                Element {
                   "attributes": Array [],
                   "children": Array [
-                    Text$3 {
+                    Text {
                       "loc": Object {
                         "end": Object {
                           "column": 22,
@@ -904,7 +904,7 @@ describe('parseForESLint()', () => {
                           "offset": 50,
                         },
                       },
-                      "type": "Text$3",
+                      "type": "Text",
                       "value": "Hello",
                     },
                   ],
@@ -1184,9 +1184,9 @@ describe('parseForESLint()', () => {
                       "offset": 45,
                     },
                   },
-                  "type": "Element$1",
+                  "type": "Element",
                 },
-                Text$3 {
+                Text {
                   "loc": Object {
                     "end": Object {
                       "column": 10,
@@ -1284,7 +1284,7 @@ describe('parseForESLint()', () => {
                       "offset": 72,
                     },
                   },
-                  "type": "Text$3",
+                  "type": "Text",
                   "value": "
                   ",
                 },
@@ -2015,7 +2015,7 @@ describe('parseForESLint()', () => {
             },
             DeferredBlock {
               "children": Array [
-                Text$3 {
+                Text {
                   "loc": Object {
                     "end": Object {
                       "column": 12,
@@ -2113,11 +2113,11 @@ describe('parseForESLint()', () => {
                       "offset": 120,
                     },
                   },
-                  "type": "Text$3",
+                  "type": "Text",
                   "value": "
                     ",
                 },
-                Element$1 {
+                Element {
                   "attributes": Array [],
                   "children": Array [],
                   "endSourceSpan": ParseSourceSpan {
@@ -2396,9 +2396,9 @@ describe('parseForESLint()', () => {
                       "offset": 120,
                     },
                   },
-                  "type": "Element$1",
+                  "type": "Element",
                 },
-                Text$3 {
+                Text {
                   "loc": Object {
                     "end": Object {
                       "column": 10,
@@ -2496,7 +2496,7 @@ describe('parseForESLint()', () => {
                       "offset": 147,
                     },
                   },
-                  "type": "Text$3",
+                  "type": "Text",
                   "value": "
                   ",
                 },
@@ -2783,7 +2783,7 @@ describe('parseForESLint()', () => {
               },
               "placeholder": DeferredBlockPlaceholder {
                 "children": Array [
-                  Text$3 {
+                  Text {
                     "loc": Object {
                       "end": Object {
                         "column": 12,
@@ -2881,14 +2881,14 @@ describe('parseForESLint()', () => {
                         "offset": 192,
                       },
                     },
-                    "type": "Text$3",
+                    "type": "Text",
                     "value": "
                     ",
                   },
-                  Element$1 {
+                  Element {
                     "attributes": Array [],
                     "children": Array [
-                      Text$3 {
+                      Text {
                         "loc": Object {
                           "end": Object {
                             "column": 34,
@@ -2986,7 +2986,7 @@ describe('parseForESLint()', () => {
                             "offset": 195,
                           },
                         },
-                        "type": "Text$3",
+                        "type": "Text",
                         "value": "Placeholder content",
                       },
                     ],
@@ -3266,9 +3266,9 @@ describe('parseForESLint()', () => {
                         "offset": 192,
                       },
                     },
-                    "type": "Element$1",
+                    "type": "Element",
                   },
-                  Text$3 {
+                  Text {
                     "loc": Object {
                       "end": Object {
                         "column": 10,
@@ -3366,7 +3366,7 @@ describe('parseForESLint()', () => {
                         "offset": 229,
                       },
                     },
-                    "type": "Text$3",
+                    "type": "Text",
                     "value": "
                   ",
                   },
@@ -4182,7 +4182,7 @@ describe('parseForESLint()', () => {
             },
             DeferredBlock {
               "children": Array [
-                Text$3 {
+                Text {
                   "loc": Object {
                     "end": Object {
                       "column": 12,
@@ -4280,11 +4280,11 @@ describe('parseForESLint()', () => {
                       "offset": 262,
                     },
                   },
-                  "type": "Text$3",
+                  "type": "Text",
                   "value": "
                     ",
                 },
-                Element$1 {
+                Element {
                   "attributes": Array [],
                   "children": Array [],
                   "endSourceSpan": ParseSourceSpan {
@@ -4563,9 +4563,9 @@ describe('parseForESLint()', () => {
                       "offset": 262,
                     },
                   },
-                  "type": "Element$1",
+                  "type": "Element",
                 },
-                Text$3 {
+                Text {
                   "loc": Object {
                     "end": Object {
                       "column": 10,
@@ -4663,7 +4663,7 @@ describe('parseForESLint()', () => {
                       "offset": 292,
                     },
                   },
-                  "type": "Text$3",
+                  "type": "Text",
                   "value": "
                   ",
                 },
@@ -4764,7 +4764,7 @@ describe('parseForESLint()', () => {
               "loading": DeferredBlockLoading {
                 "afterTime": 100,
                 "children": Array [
-                  Text$3 {
+                  Text {
                     "loc": Object {
                       "end": Object {
                         "column": 12,
@@ -4862,11 +4862,11 @@ describe('parseForESLint()', () => {
                         "offset": 343,
                       },
                     },
-                    "type": "Text$3",
+                    "type": "Text",
                     "value": "
                     ",
                   },
-                  Element$1 {
+                  Element {
                     "attributes": Array [
                       TextAttribute {
                         "i18n": undefined,
@@ -5700,9 +5700,9 @@ describe('parseForESLint()', () => {
                         "offset": 343,
                       },
                     },
-                    "type": "Element$1",
+                    "type": "Element",
                   },
-                  Text$3 {
+                  Text {
                     "loc": Object {
                       "end": Object {
                         "column": 10,
@@ -5800,7 +5800,7 @@ describe('parseForESLint()', () => {
                         "offset": 396,
                       },
                     },
-                    "type": "Text$3",
+                    "type": "Text",
                     "value": "
                   ",
                   },
@@ -6536,7 +6536,7 @@ describe('parseForESLint()', () => {
             },
             DeferredBlock {
               "children": Array [
-                Text$3 {
+                Text {
                   "loc": Object {
                     "end": Object {
                       "column": 12,
@@ -6634,11 +6634,11 @@ describe('parseForESLint()', () => {
                       "offset": 429,
                     },
                   },
-                  "type": "Text$3",
+                  "type": "Text",
                   "value": "
                     ",
                 },
-                Element$1 {
+                Element {
                   "attributes": Array [],
                   "children": Array [],
                   "endSourceSpan": ParseSourceSpan {
@@ -6917,9 +6917,9 @@ describe('parseForESLint()', () => {
                       "offset": 429,
                     },
                   },
-                  "type": "Element$1",
+                  "type": "Element",
                 },
-                Text$3 {
+                Text {
                   "loc": Object {
                     "end": Object {
                       "column": 10,
@@ -7017,7 +7017,7 @@ describe('parseForESLint()', () => {
                       "offset": 456,
                     },
                   },
-                  "type": "Text$3",
+                  "type": "Text",
                   "value": "
                   ",
                 },
@@ -7114,7 +7114,7 @@ describe('parseForESLint()', () => {
               },
               "error": DeferredBlockError {
                 "children": Array [
-                  Text$3 {
+                  Text {
                     "loc": Object {
                       "end": Object {
                         "column": 12,
@@ -7212,14 +7212,14 @@ describe('parseForESLint()', () => {
                         "offset": 479,
                       },
                     },
-                    "type": "Text$3",
+                    "type": "Text",
                     "value": "
                     ",
                   },
-                  Element$1 {
+                  Element {
                     "attributes": Array [],
                     "children": Array [
-                      Text$3 {
+                      Text {
                         "loc": Object {
                           "end": Object {
                             "column": 42,
@@ -7317,7 +7317,7 @@ describe('parseForESLint()', () => {
                             "offset": 482,
                           },
                         },
-                        "type": "Text$3",
+                        "type": "Text",
                         "value": "Failed to load the calendar",
                       },
                     ],
@@ -7597,9 +7597,9 @@ describe('parseForESLint()', () => {
                         "offset": 479,
                       },
                     },
-                    "type": "Element$1",
+                    "type": "Element",
                   },
-                  Text$3 {
+                  Text {
                     "loc": Object {
                       "end": Object {
                         "column": 10,
@@ -7697,7 +7697,7 @@ describe('parseForESLint()', () => {
                         "offset": 524,
                       },
                     },
-                    "type": "Text$3",
+                    "type": "Text",
                     "value": "
                   ",
                   },
@@ -8494,7 +8494,7 @@ describe('parseForESLint()', () => {
             200,
           ],
           "templateNodes": Array [
-            Text$3 {
+            Text {
               "loc": Object {
                 "end": Object {
                   "column": 10,
@@ -8559,7 +8559,7 @@ describe('parseForESLint()', () => {
                   "offset": 11,
                 },
               },
-              "type": "Text$3",
+              "type": "Text",
               "value": "
                   ",
             },
@@ -8635,7 +8635,7 @@ describe('parseForESLint()', () => {
                       },
                       "type": "BoundText",
                       "value": ASTWithSource {
-                        "ast": Interpolation$1 {
+                        "ast": Interpolation {
                           "expressions": Array [
                             PropertyRead {
                               "loc": Object {
@@ -8757,7 +8757,7 @@ describe('parseForESLint()', () => {
                             "
                   ",
                           ],
-                          "type": "Interpolation$1",
+                          "type": "Interpolation",
                         },
                         "errors": Array [],
                         "loc": Object {
@@ -9226,7 +9226,7 @@ describe('parseForESLint()', () => {
                       },
                       "type": "BoundText",
                       "value": ASTWithSource {
-                        "ast": Interpolation$1 {
+                        "ast": Interpolation {
                           "expressions": Array [
                             PropertyRead {
                               "loc": Object {
@@ -9348,7 +9348,7 @@ describe('parseForESLint()', () => {
                             "
                   ",
                           ],
-                          "type": "Interpolation$1",
+                          "type": "Interpolation",
                         },
                         "errors": Array [],
                         "loc": Object {
@@ -9817,7 +9817,7 @@ describe('parseForESLint()', () => {
                       },
                       "type": "BoundText",
                       "value": ASTWithSource {
-                        "ast": Interpolation$1 {
+                        "ast": Interpolation {
                           "expressions": Array [
                             PropertyRead {
                               "loc": Object {
@@ -9939,7 +9939,7 @@ describe('parseForESLint()', () => {
                             "
                   ",
                           ],
-                          "type": "Interpolation$1",
+                          "type": "Interpolation",
                         },
                         "errors": Array [],
                         "loc": Object {
@@ -10445,6 +10445,954 @@ describe('parseForESLint()', () => {
     });
   });
 
+  describe('@let', () => {
+    it('should support @let', () => {
+      expect(
+        parseForESLint(
+          `
+          @let a = 1;
+          @let b = a + 1;
+          @let c = foo();
+      `,
+          { filePath: './foo.html' },
+        ).ast,
+      ).toMatchInlineSnapshot(`
+        Object {
+          "comments": Array [],
+          "loc": Object {
+            "end": Object {
+              "column": 6,
+              "line": 5,
+            },
+            "start": Object {
+              "column": 10,
+              "line": 2,
+            },
+          },
+          "range": Array [
+            11,
+            81,
+          ],
+          "templateNodes": Array [
+            Text {
+              "loc": Object {
+                "end": Object {
+                  "column": 10,
+                  "line": 2,
+                },
+                "start": Object {
+                  "column": 10,
+                  "line": 2,
+                },
+              },
+              "sourceSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 11,
+                },
+                "fullStart": ParseLocation {
+                  "col": 0,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 0,
+                  "offset": 0,
+                },
+                "start": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 11,
+                },
+              },
+              "type": "Text",
+              "value": "
+                  ",
+            },
+            LetDeclaration {
+              "loc": Object {
+                "end": Object {
+                  "column": 20,
+                  "line": 2,
+                },
+                "start": Object {
+                  "column": 10,
+                  "line": 2,
+                },
+              },
+              "name": "a",
+              "nameSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 16,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 17,
+                },
+                "fullStart": ParseLocation {
+                  "col": 15,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 16,
+                },
+                "start": ParseLocation {
+                  "col": 15,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 16,
+                },
+              },
+              "sourceSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 20,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 21,
+                },
+                "fullStart": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 11,
+                },
+                "start": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 11,
+                },
+              },
+              "type": "LetDeclaration",
+              "value": ASTWithSource {
+                "ast": LiteralPrimitive {
+                  "loc": Object {
+                    "end": Object {
+                      "column": undefined,
+                      "line": NaN,
+                    },
+                    "start": Object {
+                      "column": undefined,
+                      "line": NaN,
+                    },
+                  },
+                  "sourceSpan": AbsoluteSourceSpan {
+                    "end": 21,
+                    "start": 20,
+                  },
+                  "span": ParseSpan {
+                    "end": 1,
+                    "start": 0,
+                  },
+                  "type": "LiteralPrimitive",
+                  "value": 1,
+                },
+                "errors": Array [],
+                "loc": Object {
+                  "end": Object {
+                    "column": undefined,
+                    "line": NaN,
+                  },
+                  "start": Object {
+                    "column": undefined,
+                    "line": NaN,
+                  },
+                },
+                "location": "./foo.html@1:19",
+                "source": "1",
+                "sourceSpan": AbsoluteSourceSpan {
+                  "end": 21,
+                  "start": 20,
+                },
+                "span": ParseSpan {
+                  "end": 1,
+                  "start": 0,
+                },
+                "type": "ASTWithSource",
+              },
+              "valueSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 20,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 21,
+                },
+                "fullStart": ParseLocation {
+                  "col": 19,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 20,
+                },
+                "start": ParseLocation {
+                  "col": 19,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 20,
+                },
+              },
+            },
+            Text {
+              "loc": Object {
+                "end": Object {
+                  "column": 10,
+                  "line": 3,
+                },
+                "start": Object {
+                  "column": 10,
+                  "line": 3,
+                },
+              },
+              "sourceSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 2,
+                  "offset": 33,
+                },
+                "fullStart": ParseLocation {
+                  "col": 21,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 22,
+                },
+                "start": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 2,
+                  "offset": 33,
+                },
+              },
+              "type": "Text",
+              "value": "
+                  ",
+            },
+            LetDeclaration {
+              "loc": Object {
+                "end": Object {
+                  "column": 24,
+                  "line": 3,
+                },
+                "start": Object {
+                  "column": 10,
+                  "line": 3,
+                },
+              },
+              "name": "b",
+              "nameSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 16,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 2,
+                  "offset": 39,
+                },
+                "fullStart": ParseLocation {
+                  "col": 15,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 2,
+                  "offset": 38,
+                },
+                "start": ParseLocation {
+                  "col": 15,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 2,
+                  "offset": 38,
+                },
+              },
+              "sourceSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 24,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 2,
+                  "offset": 47,
+                },
+                "fullStart": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 2,
+                  "offset": 33,
+                },
+                "start": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 2,
+                  "offset": 33,
+                },
+              },
+              "type": "LetDeclaration",
+              "value": ASTWithSource {
+                "ast": Binary {
+                  "left": PropertyRead {
+                    "loc": Object {
+                      "end": Object {
+                        "column": undefined,
+                        "line": NaN,
+                      },
+                      "start": Object {
+                        "column": undefined,
+                        "line": NaN,
+                      },
+                    },
+                    "name": "a",
+                    "nameSpan": AbsoluteSourceSpan {
+                      "end": 43,
+                      "start": 42,
+                    },
+                    "receiver": ImplicitReceiver {
+                      "loc": Object {
+                        "end": Object {
+                          "column": undefined,
+                          "line": NaN,
+                        },
+                        "start": Object {
+                          "column": undefined,
+                          "line": NaN,
+                        },
+                      },
+                      "sourceSpan": AbsoluteSourceSpan {
+                        "end": 42,
+                        "start": 42,
+                      },
+                      "span": ParseSpan {
+                        "end": 0,
+                        "start": 0,
+                      },
+                      "type": "ImplicitReceiver",
+                    },
+                    "sourceSpan": AbsoluteSourceSpan {
+                      "end": 43,
+                      "start": 42,
+                    },
+                    "span": ParseSpan {
+                      "end": 1,
+                      "start": 0,
+                    },
+                    "type": "PropertyRead",
+                  },
+                  "loc": Object {
+                    "end": Object {
+                      "column": undefined,
+                      "line": NaN,
+                    },
+                    "start": Object {
+                      "column": undefined,
+                      "line": NaN,
+                    },
+                  },
+                  "operation": "+",
+                  "right": LiteralPrimitive {
+                    "loc": Object {
+                      "end": Object {
+                        "column": undefined,
+                        "line": NaN,
+                      },
+                      "start": Object {
+                        "column": undefined,
+                        "line": NaN,
+                      },
+                    },
+                    "sourceSpan": AbsoluteSourceSpan {
+                      "end": 47,
+                      "start": 46,
+                    },
+                    "span": ParseSpan {
+                      "end": 5,
+                      "start": 4,
+                    },
+                    "type": "LiteralPrimitive",
+                    "value": 1,
+                  },
+                  "sourceSpan": AbsoluteSourceSpan {
+                    "end": 47,
+                    "start": 42,
+                  },
+                  "span": ParseSpan {
+                    "end": 5,
+                    "start": 0,
+                  },
+                  "type": "Binary",
+                },
+                "errors": Array [],
+                "loc": Object {
+                  "end": Object {
+                    "column": undefined,
+                    "line": NaN,
+                  },
+                  "start": Object {
+                    "column": undefined,
+                    "line": NaN,
+                  },
+                },
+                "location": "./foo.html@2:19",
+                "source": "a + 1",
+                "sourceSpan": AbsoluteSourceSpan {
+                  "end": 47,
+                  "start": 42,
+                },
+                "span": ParseSpan {
+                  "end": 5,
+                  "start": 0,
+                },
+                "type": "ASTWithSource",
+              },
+              "valueSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 24,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 2,
+                  "offset": 47,
+                },
+                "fullStart": ParseLocation {
+                  "col": 19,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 2,
+                  "offset": 42,
+                },
+                "start": ParseLocation {
+                  "col": 19,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 2,
+                  "offset": 42,
+                },
+              },
+            },
+            Text {
+              "loc": Object {
+                "end": Object {
+                  "column": 10,
+                  "line": 4,
+                },
+                "start": Object {
+                  "column": 10,
+                  "line": 4,
+                },
+              },
+              "sourceSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 3,
+                  "offset": 59,
+                },
+                "fullStart": ParseLocation {
+                  "col": 25,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 2,
+                  "offset": 48,
+                },
+                "start": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 3,
+                  "offset": 59,
+                },
+              },
+              "type": "Text",
+              "value": "
+                  ",
+            },
+            LetDeclaration {
+              "loc": Object {
+                "end": Object {
+                  "column": 24,
+                  "line": 4,
+                },
+                "start": Object {
+                  "column": 10,
+                  "line": 4,
+                },
+              },
+              "name": "c",
+              "nameSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 16,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 3,
+                  "offset": 65,
+                },
+                "fullStart": ParseLocation {
+                  "col": 15,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 3,
+                  "offset": 64,
+                },
+                "start": ParseLocation {
+                  "col": 15,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 3,
+                  "offset": 64,
+                },
+              },
+              "sourceSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 24,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 3,
+                  "offset": 73,
+                },
+                "fullStart": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 3,
+                  "offset": 59,
+                },
+                "start": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 3,
+                  "offset": 59,
+                },
+              },
+              "type": "LetDeclaration",
+              "value": ASTWithSource {
+                "ast": Call {
+                  "args": Array [],
+                  "argumentSpan": AbsoluteSourceSpan {
+                    "end": 72,
+                    "start": 72,
+                  },
+                  "loc": Object {
+                    "end": Object {
+                      "column": undefined,
+                      "line": NaN,
+                    },
+                    "start": Object {
+                      "column": undefined,
+                      "line": NaN,
+                    },
+                  },
+                  "receiver": PropertyRead {
+                    "loc": Object {
+                      "end": Object {
+                        "column": undefined,
+                        "line": NaN,
+                      },
+                      "start": Object {
+                        "column": undefined,
+                        "line": NaN,
+                      },
+                    },
+                    "name": "foo",
+                    "nameSpan": AbsoluteSourceSpan {
+                      "end": 71,
+                      "start": 68,
+                    },
+                    "receiver": ImplicitReceiver {
+                      "loc": Object {
+                        "end": Object {
+                          "column": undefined,
+                          "line": NaN,
+                        },
+                        "start": Object {
+                          "column": undefined,
+                          "line": NaN,
+                        },
+                      },
+                      "sourceSpan": AbsoluteSourceSpan {
+                        "end": 68,
+                        "start": 68,
+                      },
+                      "span": ParseSpan {
+                        "end": 0,
+                        "start": 0,
+                      },
+                      "type": "ImplicitReceiver",
+                    },
+                    "sourceSpan": AbsoluteSourceSpan {
+                      "end": 71,
+                      "start": 68,
+                    },
+                    "span": ParseSpan {
+                      "end": 3,
+                      "start": 0,
+                    },
+                    "type": "PropertyRead",
+                  },
+                  "sourceSpan": AbsoluteSourceSpan {
+                    "end": 73,
+                    "start": 68,
+                  },
+                  "span": ParseSpan {
+                    "end": 5,
+                    "start": 0,
+                  },
+                  "type": "Call",
+                },
+                "errors": Array [],
+                "loc": Object {
+                  "end": Object {
+                    "column": undefined,
+                    "line": NaN,
+                  },
+                  "start": Object {
+                    "column": undefined,
+                    "line": NaN,
+                  },
+                },
+                "location": "./foo.html@3:19",
+                "source": "foo()",
+                "sourceSpan": AbsoluteSourceSpan {
+                  "end": 73,
+                  "start": 68,
+                },
+                "span": ParseSpan {
+                  "end": 5,
+                  "start": 0,
+                },
+                "type": "ASTWithSource",
+              },
+              "valueSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 24,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 3,
+                  "offset": 73,
+                },
+                "fullStart": ParseLocation {
+                  "col": 19,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 3,
+                  "offset": 68,
+                },
+                "start": ParseLocation {
+                  "col": 19,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 3,
+                  "offset": 68,
+                },
+              },
+            },
+            Text {
+              "loc": Object {
+                "end": Object {
+                  "column": 6,
+                  "line": 5,
+                },
+                "start": Object {
+                  "column": 6,
+                  "line": 5,
+                },
+              },
+              "sourceSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 6,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 4,
+                  "offset": 81,
+                },
+                "fullStart": ParseLocation {
+                  "col": 25,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 3,
+                  "offset": 74,
+                },
+                "start": ParseLocation {
+                  "col": 6,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 4,
+                  "offset": 81,
+                },
+              },
+              "type": "Text",
+              "value": "
+              ",
+            },
+          ],
+          "tokens": Array [],
+          "type": "Program",
+          "value": "
+                  @let a = 1;
+                  @let b = a + 1;
+                  @let c = foo();
+              ",
+        }
+      `);
+    });
+  });
+
   describe('@for', () => {
     it('should support the different variants of @for', () => {
       expect(
@@ -10476,7 +11424,7 @@ describe('parseForESLint()', () => {
             142,
           ],
           "templateNodes": Array [
-            Text$3 {
+            Text {
               "loc": Object {
                 "end": Object {
                   "column": 10,
@@ -10535,7 +11483,7 @@ describe('parseForESLint()', () => {
                   "offset": 11,
                 },
               },
-              "type": "Text$3",
+              "type": "Text",
               "value": "
                   ",
             },
@@ -10603,7 +11551,7 @@ describe('parseForESLint()', () => {
                   },
                   "type": "BoundText",
                   "value": ASTWithSource {
-                    "ast": Interpolation$1 {
+                    "ast": Interpolation {
                       "expressions": Array [
                         PropertyRead {
                           "loc": Object {
@@ -10703,7 +11651,7 @@ describe('parseForESLint()', () => {
                         "
                   ",
                       ],
-                      "type": "Interpolation$1",
+                      "type": "Interpolation",
                     },
                     "errors": Array [],
                     "loc": Object {
@@ -11342,7 +12290,7 @@ describe('parseForESLint()', () => {
               ],
               "empty": ForLoopBlockEmpty {
                 "children": Array [
-                  Text$3 {
+                  Text {
                     "loc": Object {
                       "end": Object {
                         "column": 10,
@@ -11401,7 +12349,7 @@ describe('parseForESLint()', () => {
                         "offset": 111,
                       },
                     },
-                    "type": "Text$3",
+                    "type": "Text",
                     "value": "
                      There are no items.
                   ",
@@ -12234,7 +13182,7 @@ describe('parseForESLint()', () => {
             283,
           ],
           "templateNodes": Array [
-            Text$3 {
+            Text {
               "loc": Object {
                 "end": Object {
                   "column": 10,
@@ -12311,7 +13259,7 @@ describe('parseForESLint()', () => {
                   "offset": 11,
                 },
               },
-              "type": "Text$3",
+              "type": "Text",
               "value": "
                   ",
             },
@@ -12319,7 +13267,7 @@ describe('parseForESLint()', () => {
               "cases": Array [
                 SwitchBlockCase {
                   "children": Array [
-                    Text$3 {
+                    Text {
                       "loc": Object {
                         "end": Object {
                           "column": 14,
@@ -12396,14 +13344,14 @@ describe('parseForESLint()', () => {
                           "offset": 75,
                         },
                       },
-                      "type": "Text$3",
+                      "type": "Text",
                       "value": "
                       ",
                     },
-                    Element$1 {
+                    Element {
                       "attributes": Array [],
                       "children": Array [
-                        Text$3 {
+                        Text {
                           "loc": Object {
                             "end": Object {
                               "column": 27,
@@ -12480,7 +13428,7 @@ describe('parseForESLint()', () => {
                               "offset": 81,
                             },
                           },
-                          "type": "Text$3",
+                          "type": "Text",
                           "value": "Case A.",
                         },
                       ],
@@ -12697,9 +13645,9 @@ describe('parseForESLint()', () => {
                           "offset": 75,
                         },
                       },
-                      "type": "Element$1",
+                      "type": "Element",
                     },
-                    Text$3 {
+                    Text {
                       "loc": Object {
                         "end": Object {
                           "column": 12,
@@ -12776,7 +13724,7 @@ describe('parseForESLint()', () => {
                           "offset": 108,
                         },
                       },
-                      "type": "Text$3",
+                      "type": "Text",
                       "value": "
                     ",
                     },
@@ -13131,7 +14079,7 @@ describe('parseForESLint()', () => {
                 },
                 SwitchBlockCase {
                   "children": Array [
-                    Text$3 {
+                    Text {
                       "loc": Object {
                         "end": Object {
                           "column": 14,
@@ -13208,14 +14156,14 @@ describe('parseForESLint()', () => {
                           "offset": 152,
                         },
                       },
-                      "type": "Text$3",
+                      "type": "Text",
                       "value": "
                       ",
                     },
-                    Element$1 {
+                    Element {
                       "attributes": Array [],
                       "children": Array [
-                        Text$3 {
+                        Text {
                           "loc": Object {
                             "end": Object {
                               "column": 27,
@@ -13292,7 +14240,7 @@ describe('parseForESLint()', () => {
                               "offset": 158,
                             },
                           },
-                          "type": "Text$3",
+                          "type": "Text",
                           "value": "Case B.",
                         },
                       ],
@@ -13509,9 +14457,9 @@ describe('parseForESLint()', () => {
                           "offset": 152,
                         },
                       },
-                      "type": "Element$1",
+                      "type": "Element",
                     },
-                    Text$3 {
+                    Text {
                       "loc": Object {
                         "end": Object {
                           "column": 12,
@@ -13588,7 +14536,7 @@ describe('parseForESLint()', () => {
                           "offset": 185,
                         },
                       },
-                      "type": "Text$3",
+                      "type": "Text",
                       "value": "
                     ",
                     },
@@ -13943,7 +14891,7 @@ describe('parseForESLint()', () => {
                 },
                 SwitchBlockCase {
                   "children": Array [
-                    Text$3 {
+                    Text {
                       "loc": Object {
                         "end": Object {
                           "column": 14,
@@ -14020,14 +14968,14 @@ describe('parseForESLint()', () => {
                           "offset": 224,
                         },
                       },
-                      "type": "Text$3",
+                      "type": "Text",
                       "value": "
                       ",
                     },
-                    Element$1 {
+                    Element {
                       "attributes": Array [],
                       "children": Array [
-                        Text$3 {
+                        Text {
                           "loc": Object {
                             "end": Object {
                               "column": 33,
@@ -14104,7 +15052,7 @@ describe('parseForESLint()', () => {
                               "offset": 230,
                             },
                           },
-                          "type": "Text$3",
+                          "type": "Text",
                           "value": "Default case.",
                         },
                       ],
@@ -14321,9 +15269,9 @@ describe('parseForESLint()', () => {
                           "offset": 224,
                         },
                       },
-                      "type": "Element$1",
+                      "type": "Element",
                     },
-                    Text$3 {
+                    Text {
                       "loc": Object {
                         "end": Object {
                           "column": 12,
@@ -14400,7 +15348,7 @@ describe('parseForESLint()', () => {
                           "offset": 263,
                         },
                       },
-                      "type": "Text$3",
+                      "type": "Text",
                       "value": "
                     ",
                     },
@@ -15032,7 +15980,7 @@ describe('parseForESLint()', () => {
               "type": "SwitchBlock",
               "unknownBlocks": Array [],
             },
-            Text$3 {
+            Text {
               "loc": Object {
                 "end": Object {
                   "column": 6,
@@ -15109,7 +16057,7 @@ describe('parseForESLint()', () => {
                   "offset": 283,
                 },
               },
-              "type": "Text$3",
+              "type": "Text",
               "value": "
               ",
             },
@@ -15201,7 +16149,7 @@ describe('parseForESLint()', () => {
               },
               "type": "BoundText",
               "value": ASTWithSource {
-                "ast": Interpolation$1 {
+                "ast": Interpolation {
                   "expressions": Array [
                     Call {
                       "args": Array [],
@@ -15373,7 +16321,7 @@ describe('parseForESLint()', () => {
                     " ",
                     "",
                   ],
-                  "type": "Interpolation$1",
+                  "type": "Interpolation",
                 },
                 "errors": Array [],
                 "loc": Object {

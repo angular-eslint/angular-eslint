@@ -27,8 +27,17 @@ The rule accepts an options object with the following properties:
 
 ```ts
 interface Options {
+  /**
+   * Default: `""`
+   */
   type?: string | ("element" | "attribute")[];
+  /**
+   * Default: `""`
+   */
   prefix?: string | unknown[];
+  /**
+   * Default: `""`
+   */
   style?: "camelCase" | "kebab-case";
 }
 
@@ -621,7 +630,7 @@ class Test {}
 
 ```ts
 @Directive({
-  selector: \`[app-foo-bar]\`
+  selector: `[app-foo-bar]`
 })
 class Test {}
 ```
@@ -771,9 +780,9 @@ class Test {}
 
 ```ts
 @Directive({
-  selector: \`
+  selector: `
     [app-foo-bar]
-  \`
+  `
 })
 class Test {}
 ```
@@ -811,10 +820,10 @@ class Test {}
 
 ```ts
 @Directive({
-  selector: \`
+  selector: `
     [app-foo-bar],
     [app-bar-foo]
-  \`
+  `
 })
 class Test {}
 ```

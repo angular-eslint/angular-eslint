@@ -1,3 +1,89 @@
+## 19.4.0 (2025-05-08)
+
+### 🚀 Features
+
+- **eslint-plugin:** add rule prefer-output-emitter-ref ([#2324](https://github.com/angular-eslint/angular-eslint/pull/2324))
+- **eslint-plugin-template:** [no-interpolation-in-attributes] add allowSubstringInterpolation option ([#2373](https://github.com/angular-eslint/angular-eslint/pull/2373))
+- **eslint-plugin-template:** Add `prefer-template-literal` rule ([#2308](https://github.com/angular-eslint/angular-eslint/pull/2308))
+
+### 🩹 Fixes
+
+- update dependency @angular/compiler to v19.2.10 ([#2394](https://github.com/angular-eslint/angular-eslint/pull/2394))
+- update dependency ignore to v7.0.4 ([#2396](https://github.com/angular-eslint/angular-eslint/pull/2396))
+- update typescript-eslint packages to v8.32.0 ([#2399](https://github.com/angular-eslint/angular-eslint/pull/2399))
+- update dependency eslint to v9.26.0 ([#2409](https://github.com/angular-eslint/angular-eslint/pull/2409))
+- **eslint-plugin-template:** [no-any] handle key reads ([#1701](https://github.com/angular-eslint/angular-eslint/pull/1701), [#2335](https://github.com/angular-eslint/angular-eslint/pull/2335))
+- **eslint-plugin-template:** correct column adjustment for inline template message locations ([#2358](https://github.com/angular-eslint/angular-eslint/pull/2358))
+- **eslint-plugin-template:** remove backticks from inline template with interpolation ([#2368](https://github.com/angular-eslint/angular-eslint/pull/2368))
+
+### ❤️ Thank You
+
+- daiscog @daiscog
+- Dave @reduckted
+- Evgeny Stepanovych @undsoft
+- Guillaume DROUARD
+
+## 19.3.0 (2025-03-22)
+
+### 🚀 Features
+
+- use @angular/compiler 19.2.3 and rename some AST nodes to match ([#2320](https://github.com/angular-eslint/angular-eslint/pull/2320))
+- **eslint-plugin-template:** [button-has-type] add option to ignore missing type ([#2326](https://github.com/angular-eslint/angular-eslint/pull/2326))
+- **eslint-plugin-template:** add rule prefer-contextual-for-variables ([#2311](https://github.com/angular-eslint/angular-eslint/pull/2311))
+- **template-parser:** visit @let child nodes ([#2312](https://github.com/angular-eslint/angular-eslint/pull/2312))
+
+### 🩹 Fixes
+
+- update typescript-eslint packages to v8.26.1 ([#2313](https://github.com/angular-eslint/angular-eslint/pull/2313))
+- update typescript-eslint packages to v8.27.0 ([#2328](https://github.com/angular-eslint/angular-eslint/pull/2328))
+- update dependency eslint to v9.23.0 ([#2331](https://github.com/angular-eslint/angular-eslint/pull/2331))
+- **eslint-plugin-template:** [i18n] Avoid exception in i18n rule with allowMarkupInContent=false ([#2327](https://github.com/angular-eslint/angular-eslint/pull/2327))
+- **eslint-plugin-template:** [attributes-order] order i18n attributes ([#2307](https://github.com/angular-eslint/angular-eslint/pull/2307))
+- **eslint-plugin-template:** [attributes-order] treat inputs without square brackets as attributes ([#2316](https://github.com/angular-eslint/angular-eslint/pull/2316))
+
+### ❤️ Thank You
+
+- Dave @reduckted
+- m-akinc @m-akinc
+
+## 19.2.1 (2025-03-08)
+
+### 🩹 Fixes
+
+- update dependency @angular/compiler to v19.2.1 ([#2288](https://github.com/angular-eslint/angular-eslint/pull/2288))
+- update dependency eslint-scope to v8.3.0 ([#2296](https://github.com/angular-eslint/angular-eslint/pull/2296))
+- update typescript-eslint packages to v8.26.0 ([#2282](https://github.com/angular-eslint/angular-eslint/pull/2282))
+- update dependency eslint to v9.22.0 ([#2294](https://github.com/angular-eslint/angular-eslint/pull/2294))
+- **eslint-plugin-template:** [prefer-self-closing-tags] resolve wrong reports when structural directive + no content + no self-closing ([#2287](https://github.com/angular-eslint/angular-eslint/pull/2287))
+
+### ❤️ Thank You
+
+- Guillaume DROUARD
+
+## 19.2.0 (2025-03-02)
+
+### 🚀 Features
+
+- **eslint-plugin:** add rule require-lifecycle-on-prototype ([#2259](https://github.com/angular-eslint/angular-eslint/pull/2259))
+
+### 🩹 Fixes
+
+- update dependency @angular/compiler to v19.2.0 ([#2268](https://github.com/angular-eslint/angular-eslint/pull/2268))
+- update dependency eslint to v9.21.0 ([#2243](https://github.com/angular-eslint/angular-eslint/pull/2243))
+- update typescript-eslint packages to v8.25.0 ([#2263](https://github.com/angular-eslint/angular-eslint/pull/2263))
+- **eslint-plugin:** [no-output-native] update native event names ([#2236](https://github.com/angular-eslint/angular-eslint/pull/2236))
+- **eslint-plugin-template:** [prefer-self-closing-tags] do not treat comments as whitespace ([#2256](https://github.com/angular-eslint/angular-eslint/pull/2256))
+- **eslint-plugin-template:** [prefer-self-closing-tags] allow nested ng-content ([#2257](https://github.com/angular-eslint/angular-eslint/pull/2257))
+- **eslint-plugin-template:** [prefer-static-string-properties] do not check structural directives ([#2253](https://github.com/angular-eslint/angular-eslint/pull/2253))
+- **eslint-plugin-template:** find inline templates on components in blocks ([#2238](https://github.com/angular-eslint/angular-eslint/pull/2238))
+- **prefer-static-string-properties:** resolve bug with directives ([#2271](https://github.com/angular-eslint/angular-eslint/pull/2271))
+- **prefer-static-string-properties:** exclude special attributes ([#2273](https://github.com/angular-eslint/angular-eslint/pull/2273))
+
+### ❤️ Thank You
+
+- Dave @reduckted
+- Marie Briand @mbriand-lucca
+
 ## 19.1.0 (2025-02-09)
 
 ### 🚀 Features

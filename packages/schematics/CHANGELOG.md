@@ -1,3 +1,45 @@
+## 19.4.0 (2025-05-08)
+
+### 🩹 Fixes
+
+- update dependency eslint to v9.26.0 ([#2409](https://github.com/angular-eslint/angular-eslint/pull/2409))
+- update typescript-eslint packages to v8.32.0 ([#2399](https://github.com/angular-eslint/angular-eslint/pull/2399))
+- update dependency ignore to v7.0.4 ([#2396](https://github.com/angular-eslint/angular-eslint/pull/2396))
+- update typescript-eslint packages to v8.31.0 ([#2386](https://github.com/angular-eslint/angular-eslint/pull/2386))
+- update dependency eslint to v9.25.1 ([#2385](https://github.com/angular-eslint/angular-eslint/pull/2385))
+- update dependency eslint to v9.25.0 ([#2382](https://github.com/angular-eslint/angular-eslint/pull/2382))
+- update typescript-eslint packages to v8.30.1 ([#2374](https://github.com/angular-eslint/angular-eslint/pull/2374))
+- update typescript-eslint packages to v8.29.1 ([#2339](https://github.com/angular-eslint/angular-eslint/pull/2339))
+- update dependency eslint to v9.24.0 ([#2353](https://github.com/angular-eslint/angular-eslint/pull/2353))
+
+## 19.3.0 (2025-03-22)
+
+### 🩹 Fixes
+
+- update dependency eslint to v9.23.0 ([#2331](https://github.com/angular-eslint/angular-eslint/pull/2331))
+- update typescript-eslint packages to v8.27.0 ([#2328](https://github.com/angular-eslint/angular-eslint/pull/2328))
+- update typescript-eslint packages to v8.26.1 ([#2313](https://github.com/angular-eslint/angular-eslint/pull/2313))
+
+## 19.2.1 (2025-03-08)
+
+### 🩹 Fixes
+
+- update dependency eslint to v9.22.0 ([#2294](https://github.com/angular-eslint/angular-eslint/pull/2294))
+- update typescript-eslint packages to v8.26.0 ([#2282](https://github.com/angular-eslint/angular-eslint/pull/2282))
+
+## 19.2.0 (2025-03-02)
+
+### 🩹 Fixes
+
+- update typescript-eslint packages to v8.25.0 ([#2263](https://github.com/angular-eslint/angular-eslint/pull/2263))
+- update dependency eslint to v9.21.0 ([#2243](https://github.com/angular-eslint/angular-eslint/pull/2243))
+- **eslint-plugin-template:** find inline templates on components in blocks ([#2238](https://github.com/angular-eslint/angular-eslint/pull/2238))
+- update typescript-eslint packages to v8.24.0 ([#2240](https://github.com/angular-eslint/angular-eslint/pull/2240))
+
+### ❤️ Thank You
+
+- Dave @reduckted
+
 ## 19.1.0 (2025-02-09)
 
 ### 🩹 Fixes

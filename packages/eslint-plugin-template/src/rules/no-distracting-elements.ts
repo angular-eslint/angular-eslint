@@ -26,7 +26,7 @@ export default createESLintRule<Options, MessageIds>({
     const parserServices = getTemplateParserServices(context);
 
     return {
-      'Element$1[name=/^(blink|marquee)$/]'({
+      'Element[name=/^(blink|marquee)$/]'({
         name: element,
         sourceSpan,
       }: TmplAstElement) {

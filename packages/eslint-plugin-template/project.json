@@ -2,7 +2,6 @@
   "name": "eslint-plugin-template",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "type": "library",
-  "implicitDependencies": ["template-parser", "bundled-angular-compiler"],
   "namedInputs": {
     "projectSpecificFiles": [
       "{workspaceRoot}/tools/scripts/generate-rule-docs.ts",

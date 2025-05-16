@@ -25,6 +25,7 @@
       "exclude": [
         "*",
         "packages/builder/**",
+        "packages/bundled-angular-compiler/**",
         "packages/eslint-plugin-template/**",
         "packages/eslint-plugin/**",
         "packages/nx-plugin/**",
@@ -41,10 +42,7 @@
   "release": {
     "projects": ["packages/*", "!nx-plugin"],
     "version": {
-      "conventionalCommits": true,
-      "generatorOptions": {
-        "preserveLocalDependencyProtocols": true
-      }
+      "conventionalCommits": true
     },
     "changelog": {
       "workspaceChangelog": {
@@ -162,6 +160,5 @@
       "!{projectRoot}/eslint.config.js"
     ],
     "projectSpecificFiles": []
-  },
-  "bust": 1
+  }
 }

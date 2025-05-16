@@ -15,27 +15,39 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '<my-component />',
   `
     <my-component
+      *ngIf="condition"
       type="text"
       [name]="foo"
       [items]="items" />
   `,
   '<img />',
+  '<img src="foo" *ngIf="condition" />',
   // These elements cannot be self-closing
   '<slot></slot><math></math><rb></rb><svg></svg><template></template>',
   '<div></div>',
+  '<div *ngIf="condition"></div>',
+  '<th scope="col"></th>',
+  '<th *ngIf="condition" scope="col"></th>',
   '<ng-template/>',
   '<ng-template>Content</ng-template>',
   '<ng-content/>',
   '<ng-content select="my-selector" />',
   `<ng-content>Fallback content</ng-content>`,
+  `<ng-content>&nbsp;</ng-content>`,
+  `<ng-content> <!-- comment --> </ng-content>`,
   `<ng-content
      select="content"
    >
     <p>Fallback content</p>
   </ng-content>`,
+  `<ng-content select="[slot='icon-only']">
+    <ng-content select="[slot=text]" />
+  </ng-content>`,
+  `<ng-content select="[slot='foo>bar']" />`,
+  `<ng-content select="[slot='foo>bar']">Fallback</ng-content>`,
   { code: '<app-root></app-root>', filename: 'src/index.html' },
   '<ng-container>&nbsp;</ng-container>',
-  '<my-component>  <!-- not empty -->  </ng-container>',
+  '<my-component>  <!-- not empty -->  </my-component>',
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
@@ -56,12 +68,12 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     description:
       'it should fail if an element with attributes has a closing tag but no content',
     annotatedSource: `
-      <my-component type="text" [name]="foo"></my-component>
-                                             ~~~~~~~~~~~~~~~
+      <my-component *ngIf="condition" type="text" [name]="foo"></my-component>
+                                                               ~~~~~~~~~~~~~~~
     `,
     annotatedOutput: `
-      <my-component type="text" [name]="foo" />
-                                             
+      <my-component *ngIf="condition" type="text" [name]="foo" />
+                                                               
     `,
     messageId,
   }),
@@ -167,6 +179,20 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     `,
     annotatedOutput: `
       <ng-content />
+      
+    `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'it should fail on ng-content elements with no content and > in the selector',
+    annotatedSource: `
+      <ng-content select="foo>bar">
+      </ng-content>
+      ~~~~~~~~~~~~~
+    `,
+    annotatedOutput: `
+      <ng-content select="foo>bar" />
       
     `,
     messageId,
