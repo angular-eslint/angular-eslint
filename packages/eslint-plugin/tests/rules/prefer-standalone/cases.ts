@@ -141,11 +141,16 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       `,
     messageId,
     data: { type: 'component' },
-    annotatedOutput: `
+    suggestions: [
+      {
+        messageId: 'removeStandaloneFalse',
+        output: `
         @Component({  })
                      
         class Test {}
       `,
+      },
+    ],
   }),
   convertAnnotatedSourceToFailureCase({
     description:
@@ -160,7 +165,10 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
 `,
     messageId,
     data: { type: 'component' },
-    annotatedOutput: `
+    suggestions: [
+      {
+        messageId: 'removeStandaloneFalse',
+        output: `
         @Component({
           
           
@@ -168,6 +176,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         })
         class Test {}
 `,
+      },
+    ],
   }),
   convertAnnotatedSourceToFailureCase({
     description:
@@ -179,11 +189,16 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       `,
     messageId,
     data: { type: 'directive' },
-    annotatedOutput: `
+    suggestions: [
+      {
+        messageId: 'removeStandaloneFalse',
+        output: `
         @Directive({  })
                      
         class Test {}
       `,
+      },
+    ],
   }),
   convertAnnotatedSourceToFailureCase({
     description:
@@ -198,7 +213,10 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
 `,
     messageId,
     data: { type: 'directive' },
-    annotatedOutput: `
+    suggestions: [
+      {
+        messageId: 'removeStandaloneFalse',
+        output: `
       @Directive({
         
         
@@ -206,6 +224,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       })
       class Test {}
 `,
+      },
+    ],
   }),
   convertAnnotatedSourceToFailureCase({
     description:
@@ -217,11 +237,16 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       `,
     messageId,
     data: { type: 'pipe' },
-    annotatedOutput: `
+    suggestions: [
+      {
+        messageId: 'removeStandaloneFalse',
+        output: `
         @Pipe({  })
                 
         class Test {}
       `,
+      },
+    ],
   }),
   convertAnnotatedSourceToFailureCase({
     description:
@@ -236,7 +261,10 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
 `,
     messageId,
     data: { type: 'pipe' },
-    annotatedOutput: `
+    suggestions: [
+      {
+        messageId: 'removeStandaloneFalse',
+        output: `
         @Pipe({
           
           
@@ -244,5 +272,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         })
         class Test {}
 `,
+      },
+    ],
   }),
 ];
