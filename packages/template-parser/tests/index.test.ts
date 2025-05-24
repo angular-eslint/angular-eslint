@@ -241,6 +241,7 @@ describe('parseForESLint()', () => {
                 "value": "some node",
               },
             ],
+            "directives": Array [],
             "endSourceSpan": ParseSourceSpan {
               "details": null,
               "end": ParseLocation {
@@ -908,6 +909,7 @@ describe('parseForESLint()', () => {
                       "value": "Hello",
                     },
                   ],
+                  "directives": Array [],
                   "endSourceSpan": ParseSourceSpan {
                     "details": null,
                     "end": ParseLocation {
@@ -2120,6 +2122,7 @@ describe('parseForESLint()', () => {
                 Element {
                   "attributes": Array [],
                   "children": Array [],
+                  "directives": Array [],
                   "endSourceSpan": ParseSourceSpan {
                     "details": null,
                     "end": ParseLocation {
@@ -2990,6 +2993,7 @@ describe('parseForESLint()', () => {
                         "value": "Placeholder content",
                       },
                     ],
+                    "directives": Array [],
                     "endSourceSpan": ParseSourceSpan {
                       "details": null,
                       "end": ParseLocation {
@@ -4287,6 +4291,7 @@ describe('parseForESLint()', () => {
                 Element {
                   "attributes": Array [],
                   "children": Array [],
+                  "directives": Array [],
                   "endSourceSpan": ParseSourceSpan {
                     "details": null,
                     "end": ParseLocation {
@@ -5424,6 +5429,7 @@ describe('parseForESLint()', () => {
                       },
                     ],
                     "children": Array [],
+                    "directives": Array [],
                     "endSourceSpan": ParseSourceSpan {
                       "details": null,
                       "end": ParseLocation {
@@ -6641,6 +6647,7 @@ describe('parseForESLint()', () => {
                 Element {
                   "attributes": Array [],
                   "children": Array [],
+                  "directives": Array [],
                   "endSourceSpan": ParseSourceSpan {
                     "details": null,
                     "end": ParseLocation {
@@ -7321,6 +7328,7 @@ describe('parseForESLint()', () => {
                         "value": "Failed to load the calendar",
                       },
                     ],
+                    "directives": Array [],
                     "endSourceSpan": ParseSourceSpan {
                       "details": null,
                       "end": ParseLocation {
@@ -13432,6 +13440,7 @@ describe('parseForESLint()', () => {
                           "value": "Case A.",
                         },
                       ],
+                      "directives": Array [],
                       "endSourceSpan": ParseSourceSpan {
                         "details": null,
                         "end": ParseLocation {
@@ -14244,6 +14253,7 @@ describe('parseForESLint()', () => {
                           "value": "Case B.",
                         },
                       ],
+                      "directives": Array [],
                       "endSourceSpan": ParseSourceSpan {
                         "details": null,
                         "end": ParseLocation {
@@ -15056,6 +15066,7 @@ describe('parseForESLint()', () => {
                           "value": "Default case.",
                         },
                       ],
+                      "directives": Array [],
                       "endSourceSpan": ParseSourceSpan {
                         "details": null,
                         "end": ParseLocation {

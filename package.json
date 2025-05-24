@@ -3,7 +3,7 @@
   "private": true,
   "description": "The tooling which enables ESLint to work with Angular projects",
   "volta": {
-    "node": "20.19.2"
+    "node": "22.16.0"
   },
   "packageManager": "pnpm@10.11.0",
   "contributors": [
@@ -48,8 +48,8 @@
     ]
   },
   "devDependencies": {
-    "@angular/cli": "19.2.13",
-    "@angular/compiler": "19.2.13",
+    "@angular/cli": "20.0.0-rc.3",
+    "@angular/compiler": "20.0.0-rc.2",
     "@commitlint/cli": "19.8.1",
     "@commitlint/config-conventional": "19.8.1",
     "@mdn/browser-compat-data": "6.0.17",
@@ -61,7 +61,7 @@
     "@nx/js": "21.1.2",
     "@nx/plugin": "21.1.2",
     "@nx/workspace": "21.1.2",
-    "@schematics/angular": "19.2.13",
+    "@schematics/angular": "20.0.0-rc.3",
     "@swc-node/register": "1.10.10",
     "@swc/cli": "0.7.7",
     "@swc/core": "1.11.29",
