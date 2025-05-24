@@ -5,16 +5,11 @@ import type {
 } from '@angular-eslint/bundled-angular-compiler';
 import { parseTemplate } from '@angular-eslint/bundled-angular-compiler';
 import type { TSESTree } from '@typescript-eslint/types';
-import {
-  Scope as ScopeClass,
-  ScopeManager as ScopeManagerClass,
-} from 'eslint-scope';
+import { Scope, ScopeManager } from 'eslint-scope';
 import {
   convertElementSourceSpanToLoc,
   convertNodeSourceSpanToLoc,
 } from './convert-source-span-to-loc';
-
-type ScopeManager = InstanceType<typeof ScopeManagerClass>;
 
 type NodeOrTokenType = any;
 
@@ -255,7 +250,7 @@ function parseForESLint(
   options: ParserOptions,
 ): {
   ast: AST;
-  scopeManager: ScopeManager;
+  scopeManager: InstanceType<typeof ScopeManager>;
   visitorKeys: VisitorKeys;
   services: {
     convertElementSourceSpanToLoc: typeof convertElementSourceSpanToLoc;
@@ -286,9 +281,8 @@ function parseForESLint(
     value: code,
   };
 
-  const scopeManager = new ScopeManagerClass({});
-
-  new ScopeClass(scopeManager, 'module', null, ast, false);
+  const scopeManager = new ScopeManager({});
+  new Scope(scopeManager, 'module', null, ast, false);
 
   preprocessNode(ast);
 
