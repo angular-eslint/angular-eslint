@@ -95,7 +95,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     description:
       'it should fail if the operation is not strict within attribute directive with nested ternary',
     annotatedSource: `
-      <div [prop]="condition1 === 'value1' ? true : (condition2 != 'value2' ? true : false)}"></div>
+      <div [prop]="condition1 === 'value1' ? true : (condition2 != 'value2' ? true : false)"></div>
                                                      ~~~~~~~~~~~~~~~~~~~~~~
       `,
     messageId,
@@ -104,7 +104,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       expectedOperation: '!==',
     },
     annotatedOutput: `
-      <div [prop]="condition1 === 'value1' ? true : (condition2 !== 'value2' ? true : false)}"></div>
+      <div [prop]="condition1 === 'value1' ? true : (condition2 !== 'value2' ? true : false)"></div>
                                                      ~~~~~~~~~~~~~~~~~~~~~~~
       `,
   }),
