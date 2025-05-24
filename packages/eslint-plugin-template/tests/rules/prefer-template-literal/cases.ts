@@ -20,7 +20,7 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '{{ `backquote` }}',
   '@if (`prefix-${value}-suffix`) {}',
   '@defer (when `prefix-${value}-suffix`) {}',
-  '@let letValue = `prefix-${value}-suffix`',
+  '@let letValue = `prefix-${value}-suffix`;',
   '<h1>{{ `prefix-${value}-suffix` }}</h1>',
   '<my-component class="prefix-{{value}}-suffix"></my-component>',
   '<my-component [class]="`prefix-${value}-suffix`"></my-component>',
