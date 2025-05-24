@@ -13,15 +13,13 @@ export type Options = [
 ];
 export type MessageIds = 'componentClassSuffix';
 export const RULE_NAME = 'component-class-suffix';
-const STYLE_GUIDE_LINK = 'https://angular.dev/style-guide#style-02-03';
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
   meta: {
     type: 'suggestion',
     docs: {
-      description: `Classes decorated with @Component must have suffix "Component" (or custom) in their name. See more at ${STYLE_GUIDE_LINK}`,
-      recommended: 'recommended',
+      description: `Classes decorated with @Component must have suffix "Component" (or custom) in their name. Note: As of v20, this is no longer recommended by the Angular Team.`,
     },
     schema: [
       {
@@ -38,7 +36,7 @@ export default createESLintRule<Options, MessageIds>({
       },
     ],
     messages: {
-      componentClassSuffix: `Component class names should end with one of these suffixes: {{suffixes}} (${STYLE_GUIDE_LINK})`,
+      componentClassSuffix: `Component class names should end with one of these suffixes: {{suffixes}}`,
     },
   },
   defaultOptions: [
