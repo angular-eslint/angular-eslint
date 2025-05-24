@@ -20,7 +20,7 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '{{ `backquote` }}',
   '@if (`prefix-${value}-suffix`) {}',
   '@defer (when `prefix-${value}-suffix`) {}',
-  '@let letValue = `prefix-${value}-suffix`',
+  '@let letValue = `prefix-${value}-suffix`;',
   // From https://github.com/angular-eslint/angular-eslint/pull/2466 description
   "@let bugWithQuote = `${`'`}`",
   '<h1>{{ `prefix-${value}-suffix` }}</h1>',
