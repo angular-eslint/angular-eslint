@@ -2160,7 +2160,7 @@ The rule does not have any configuration options.
 #### ✅ Valid Code
 
 ```html
-@let letValue = `prefix-${value}-suffix`
+@let letValue = `prefix-${value}-suffix`;
 ```
 
 <br>
