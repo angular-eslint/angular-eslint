@@ -44,6 +44,34 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
       `,
     options: [{ maxComplexity: 5 }],
   },
+  {
+    code: `
+        @if (condition) {
+          <div>Content</div>
+        } @else {
+          <div>Other</div>
+        }
+      `,
+    options: [{ maxComplexity: 1 }],
+  },
+  {
+    code: `
+        @for (item of items; track item.id) {
+          {{ item }}
+        }
+      `,
+    options: [{ maxComplexity: 1 }],
+  },
+  {
+    code: `
+        @switch (value) {
+          @case ('a') { <span>A</span> }
+          @case ('b') { <span>B</span> }
+          @default { <span>Default</span> }
+        }
+      `,
+    options: [{ maxComplexity: 3 }],
+  },
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
@@ -124,4 +152,23 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     ],
     options: [{ maxComplexity: 6 }],
   }),
+  {
+    code: `
+        @if (cond) {
+          @for (item of items; track item.id) {
+            @switch (item) {
+              @case ('a') {}
+              @default {}
+            }
+          }
+        }
+      `,
+    options: [{ maxComplexity: 3 }],
+    errors: [
+      {
+        messageId,
+        data: { maxComplexity: 3, totalComplexity: 4 },
+      },
+    ],
+  },
 ];
