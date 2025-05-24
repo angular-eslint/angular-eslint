@@ -80,7 +80,7 @@ export async function resolveAndInstantiateESLint(
     }
     if (options.reportUnusedDisableDirectives) {
       throw new Error(
-        'For Flat Config, ESLint removed `reportedUnusedDisableDirectives` and so it is not supported as an option. See https://eslint.org/docs/latest/use/configure/configuration-files-new',
+        'For Flat Config, ESLint removed `reportUnusedDisableDirectives` and so it is not supported as an option. See https://eslint.org/docs/latest/use/configure/configuration-files-new',
       );
     }
 
