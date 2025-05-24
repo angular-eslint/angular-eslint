@@ -164,7 +164,7 @@ The rule does not have any configuration options.
 #### ✅ Valid Code
 
 ```html
-<img [ngSrc]="'http://localhost'>
+<img [ngSrc]="'http://localhost'">
 ```
 
 <br>
