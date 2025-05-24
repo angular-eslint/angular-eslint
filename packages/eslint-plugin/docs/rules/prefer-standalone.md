@@ -15,10 +15,11 @@
 
 # `@angular-eslint/prefer-standalone`
 
-Ensures Components, Directives and Pipes do not opt out of standalone
+Ensures Components, Directives and Pipes do not opt out of standalone.
 
 - Type: suggestion
-- 🔧 Supports autofix (`--fix`)
+
+- 💡 Provides suggestions on how to fix issues (https://eslint.org/docs/developer-guide/working-with-rules#providing-suggestions)
 
 <br>
 
