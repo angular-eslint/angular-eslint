@@ -84,7 +84,7 @@ jobs:
       matrix:
         # Additionally supported node versions taken from:
         # https://angular.dev/reference/versions
-        node: ['^18.19.1', '^22.0.0']
+        node: ['^20.19.0', '^24.0.0']
     steps:
       - uses: actions/checkout@v4
 
