@@ -192,7 +192,8 @@ module.exports = tseslint.config([
     // we already applied the rootConfig above which has them)
     files: ['**/*.ts'],
     extends: [prettierRecommended], // here we inherit from the recommended setup from eslint-plugin-prettier for TS
-    rules: {
+    rules: {},
+  },
   {
     // Any project level overrides or additional rules for HTML files can go here
     // (we don't need to extend from any angular-eslint configs because
