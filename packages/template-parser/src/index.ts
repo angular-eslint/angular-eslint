@@ -5,11 +5,16 @@ import type {
 } from '@angular-eslint/bundled-angular-compiler';
 import { parseTemplate } from '@angular-eslint/bundled-angular-compiler';
 import type { TSESTree } from '@typescript-eslint/types';
-import { Scope, ScopeManager } from 'eslint-scope';
+import {
+  Scope as ScopeClass,
+  ScopeManager as ScopeManagerClass,
+} from 'eslint-scope';
 import {
   convertElementSourceSpanToLoc,
   convertNodeSourceSpanToLoc,
 } from './convert-source-span-to-loc';
+
+type ScopeManager = InstanceType<typeof ScopeManagerClass>;
 
 type NodeOrTokenType = any;
 
@@ -281,11 +286,9 @@ function parseForESLint(
     value: code,
   };
 
-  // @ts-expect-error The types for ScopeManager seem to be wrong, it requires a configuration object or it will throw at runtime
-  const scopeManager = new ScopeManager({});
+  const scopeManager = new ScopeManagerClass({});
 
-  // @ts-expect-error Create a global scope for the ScopeManager, the types for Scope also seem to be wrong
-  new Scope(scopeManager, 'module', null, ast, false);
+  new ScopeClass(scopeManager, 'module', null, ast, false);
 
   preprocessNode(ast);
 
