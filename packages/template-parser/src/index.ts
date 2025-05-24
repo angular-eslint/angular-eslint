@@ -250,7 +250,7 @@ function parseForESLint(
   options: ParserOptions,
 ): {
   ast: AST;
-  scopeManager: ScopeManager;
+  scopeManager: InstanceType<typeof ScopeManager>;
   visitorKeys: VisitorKeys;
   services: {
     convertElementSourceSpanToLoc: typeof convertElementSourceSpanToLoc;
@@ -281,10 +281,7 @@ function parseForESLint(
     value: code,
   };
 
-  // @ts-expect-error The types for ScopeManager seem to be wrong, it requires a configuration object or it will throw at runtime
   const scopeManager = new ScopeManager({});
-
-  // @ts-expect-error Create a global scope for the ScopeManager, the types for Scope also seem to be wrong
   new Scope(scopeManager, 'module', null, ast, false);
 
   preprocessNode(ast);
