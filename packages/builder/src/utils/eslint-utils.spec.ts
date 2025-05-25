@@ -29,7 +29,6 @@ describe('eslint-utils', () => {
       useEslintrc: true,
       errorOnUnmatchedPattern: false,
       rulePaths: [],
-      stats: false,
     });
   });
 
