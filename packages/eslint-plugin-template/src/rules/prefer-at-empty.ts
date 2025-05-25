@@ -263,6 +263,14 @@ export default createESLintRule<Options, MessageIds>({
                     ],
                     empty,
                   );
+
+                  // Remove the closing brace from the end of the `@else` block.
+                  if (info.node.endSourceSpan) {
+                    yield fixer.removeRange([
+                      info.node.endSourceSpan.start.offset,
+                      info.node.endSourceSpan.end.offset,
+                    ]);
+                  }
                 } else {
                   // There isn't an existing `@empty` block, so we can create
                   // one. We don't need to include a closing brace, because

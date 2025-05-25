@@ -1022,6 +1022,37 @@ The rule does not have any configuration options.
 #### ❌ Invalid Code
 
 ```html
+@if (items.length === 0) {
+~~~~
+  Empty
+} @else {
+  @for (item of items; track $index) {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-at-empty": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
 @if (items.length > 0) {
 ~~~~
   <!-- before -->
