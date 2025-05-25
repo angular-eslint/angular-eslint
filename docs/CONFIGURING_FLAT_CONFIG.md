@@ -31,7 +31,7 @@ Therefore, our flat config will contain two entries, one for TS, one for HTML. W
 
 ## Configuring ESLint for Inline Templates
 
-One of the most powerful features of angular-eslint is its ability to lint **inline templates** within your Angular components. This is made possible through ESLint's processor API, which allows us to extract inline template content from your TypeScript component files and apply HTML template rules to them.
+One of the features of angular-eslint is its ability to lint **inline templates** within your Angular components. This is made possible through ESLint's processor API, which allows us to extract inline template content from your TypeScript component files and apply HTML template rules to them.
 
 ### How it works
 
