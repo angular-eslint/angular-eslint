@@ -603,4 +603,33 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       class Test {}
     `,
   }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should preserve unconfigured properties like providers when sorting',
+    annotatedSource: `
+      @Component({
+        selector: 'my-app',
+        templateUrl: './app.component.html',
+        changeDetection: ChangeDetectionStrategy.OnPush,
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        imports: [NgClass],
+        providers: [MyService, myProvider]
+      })
+      class Test {}
+    `,
+    messageId: 'incorrectOrder',
+    data: {
+      decorator: 'Component',
+      expectedOrder: 'selector, imports, templateUrl, changeDetection',
+    },
+    annotatedOutput: `
+      @Component({
+        selector: 'my-app',
+        imports: [NgClass],
+        templateUrl: './app.component.html',
+        changeDetection: ChangeDetectionStrategy.OnPush,
+        providers: [MyService, myProvider]
+      })
+      class Test {}
+    `,
+  }),
 ];

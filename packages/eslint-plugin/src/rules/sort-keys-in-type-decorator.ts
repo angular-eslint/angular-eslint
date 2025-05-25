@@ -230,9 +230,13 @@ function reportAndFix(
       const propNames = properties.map(
         (p) => (p.key as TSESTree.Identifier).name,
       );
-      const filteredOrder = expectedOrder.filter((name) =>
+      const configuredProps = expectedOrder.filter((name) =>
         propNames.includes(name),
       );
+      const unconfiguredProps = propNames.filter((name) =>
+        !expectedOrder.includes(name),
+      );
+      const filteredOrder = [...configuredProps, ...unconfiguredProps];
 
       const propInfoMap = CommentUtils.extractPropertyComments(
         sourceCode,
