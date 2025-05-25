@@ -16,7 +16,6 @@ writeFileSync(join(testWorkspaceRoot, 'package.json'), '{}', {
 });
 
 // If we use esm here we get `TypeError: Cannot redefine property: writeFileSync`
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const fs = require('fs');
 jest.spyOn(fs, 'writeFileSync').mockImplementation();
 jest.spyOn(fs, 'mkdirSync').mockImplementation();
@@ -108,7 +107,6 @@ const builderName = '@angular-eslint/builder:lint';
  * to run a build before tests run and it is dynamic enough
  * to come after jest does its mocking
  */
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { default: builderImplementation } = require('./lint.impl');
 testArchitectHost.addBuilder(builderName, builderImplementation);
 

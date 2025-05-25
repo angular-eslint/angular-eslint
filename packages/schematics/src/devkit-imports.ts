@@ -14,7 +14,6 @@ process.env.NX_PROJECT_GRAPH_CACHE_DIRECTORY = join(
   '.nx-cache',
 );
 
-/* eslint-disable no-restricted-imports */
 export {
   convertNxGenerator,
   offsetFromRoot,
@@ -23,4 +22,3 @@ export {
 } from '@nx/devkit';
 export type { ProjectConfiguration, Tree } from '@nx/devkit';
 export { wrapAngularDevkitSchematic } from '@nx/devkit/ngcli-adapter';
-/* eslint-enable no-restricted-imports */

@@ -13,6 +13,9 @@ export const supportedFlatConfigNames = [
   'eslint.config.js',
   'eslint.config.mjs',
   'eslint.config.cjs',
+  'eslint.config.ts',
+  'eslint.config.mts',
+  'eslint.config.cts',
 ];
 
 /**
@@ -143,9 +146,12 @@ export function addESLintTargetToProject(
     if (existingProjectConfig.root !== '') {
       if (shouldUseFlatConfig(tree)) {
         const rootConfigPath = resolveRootESLintConfigPath(tree);
-        if (!rootConfigPath || !rootConfigPath.endsWith('js')) {
+        if (
+          !rootConfigPath ||
+          (!rootConfigPath.endsWith('js') && !rootConfigPath.endsWith('ts'))
+        ) {
           throw new Error(
-            'Root ESLint config must be a JavaScript file (.js,.mjs,.cjs) when using Flat Config',
+            'Root ESLint config must be a JavaScript/TypeScript file (.js,.mjs,.cjs,.ts,.mts,.cts) when using Flat Config',
           );
         }
         const { ext } = determineNewProjectESLintConfigContentAndExtension(
@@ -211,7 +217,6 @@ export function visitNotIgnoredFiles(
 
 type ProjectType = 'application' | 'library';
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 function setESLintProjectBasedOnProjectType(
   projectRoot: string,
   projectType: ProjectType,
@@ -232,7 +237,6 @@ function setESLintProjectBasedOnProjectType(
   return project;
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function createRootESLintConfig(prefix: string | null) {
   let codeRules;
   if (prefix) {
@@ -276,7 +280,6 @@ export function createRootESLintConfig(prefix: string | null) {
   };
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function createStringifiedRootESLintConfig(
   prefix: string | null,
   isESM: boolean,
@@ -567,7 +570,7 @@ export function determineTargetProjectName(
  * Method will check if angular project architect has e2e configuration to determine if e2e setup
  */
 function determineTargetProjectHasE2E(
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   angularJSON: any,
   projectName: string,
 ): boolean {
@@ -660,6 +663,15 @@ export function resolveRootESLintConfigPath(tree: Tree): string | null {
   }
   if (tree.exists('eslint.config.cjs')) {
     return 'eslint.config.cjs';
+  }
+  if (tree.exists('eslint.config.ts')) {
+    return 'eslint.config.ts';
+  }
+  if (tree.exists('eslint.config.mts')) {
+    return 'eslint.config.mts';
+  }
+  if (tree.exists('eslint.config.cts')) {
+    return 'eslint.config.cts';
   }
   return null;
 }
