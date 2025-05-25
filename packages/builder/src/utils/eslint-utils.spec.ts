@@ -24,10 +24,12 @@ describe('eslint-utils', () => {
       cache: true,
       cacheLocation: '/root/cache',
       cacheStrategy: 'content',
+      stats: false,
       ignorePath: undefined,
       useEslintrc: true,
       errorOnUnmatchedPattern: false,
       rulePaths: [],
+      stats: false,
     });
   });
 
@@ -45,6 +47,7 @@ describe('eslint-utils', () => {
       cache: true,
       cacheLocation: '/root/cache',
       cacheStrategy: 'content',
+      stats: false,
       ignorePath: undefined,
       useEslintrc: true,
       errorOnUnmatchedPattern: false,
@@ -209,6 +212,30 @@ describe('eslint-utils', () => {
       ).rejects.toThrowErrorMatchingInlineSnapshot(
         `"For Flat Config, ESLint removed \`ignorePath\` and so it is not supported as an option. See https://eslint.org/docs/latest/use/configure/configuration-files-new"`,
       );
+    });
+  });
+
+  describe('stats option', () => {
+    it('should create the ESLint instance with "stats" set to true when using flat config', async () => {
+      await resolveAndInstantiateESLint(
+        './eslint.config.js',
+        { stats: true } as any,
+        true,
+      );
+
+      expect(ESLint).toHaveBeenCalledWith(
+        expect.objectContaining({ stats: true }),
+      );
+    });
+
+    it('should throw when "stats" is used with eslintrc config', async () => {
+      await expect(
+        resolveAndInstantiateESLint(
+          './.eslintrc.json',
+          { stats: true } as any,
+          false,
+        ),
+      ).rejects.toThrow('The --stats option requires ESLint Flat Config');
     });
   });
 });

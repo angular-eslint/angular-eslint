@@ -14,6 +14,7 @@ export interface Schema extends JsonObject {
   eslintConfig: string | null;
   ignorePath: string | null;
   outputFile: string | null;
+  stats: boolean;
   noEslintrc: boolean;
   rulesdir: string[];
   resolvePluginsRelativeTo: string | null;

@@ -83,6 +83,7 @@ function createValidRunBuilderOptions(
     silent: false,
     ignorePath: null,
     outputFile: null,
+    stats: false,
     noEslintrc: false,
     rulesdir: [],
     resolvePluginsRelativeTo: null,
@@ -171,6 +172,7 @@ describe('Linter Builder', () => {
         format: 'stylish',
         force: false,
         silent: false,
+        stats: false,
         maxWarnings: -1,
         outputFile: null,
         ignorePath: null,
@@ -195,6 +197,7 @@ describe('Linter Builder', () => {
         format: 'stylish',
         force: false,
         silent: false,
+        stats: false,
         useEslintrc: null,
         maxWarnings: -1,
         outputFile: null,
@@ -233,6 +236,7 @@ describe('Linter Builder', () => {
         format: 'stylish',
         force: false,
         silent: false,
+        stats: false,
         useEslintrc: null,
         maxWarnings: -1,
         outputFile: null,
@@ -271,6 +275,7 @@ describe('Linter Builder', () => {
         format: 'stylish',
         force: false,
         silent: false,
+        stats: false,
         useEslintrc: null,
         maxWarnings: -1,
         outputFile: null,
@@ -309,6 +314,7 @@ describe('Linter Builder', () => {
         format: 'stylish',
         force: false,
         silent: false,
+        stats: false,
         useEslintrc: null,
         maxWarnings: -1,
         outputFile: null,
@@ -758,6 +764,23 @@ describe('Linter Builder', () => {
     expect(fs.writeFileSync).toHaveBeenCalledWith(
       join(testWorkspaceRoot, 'a/b/c/outputFile1'),
       mockFormatter.format(mockReports),
+    );
+  });
+
+  it('should pass stats option to resolveAndInstantiateESLint', async () => {
+    await runBuilder(
+      createValidRunBuilderOptions({
+        eslintConfig: './eslint.config.js',
+        lintFilePatterns: ['includedFile1'],
+        stats: true,
+        format: 'json',
+      }),
+    );
+
+    expect(mockResolveAndInstantiateESLint).toHaveBeenCalledWith(
+      undefined,
+      expect.objectContaining({ stats: true }),
+      true,
     );
   });
 });
