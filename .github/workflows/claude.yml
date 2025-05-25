@@ -36,66 +36,65 @@ jobs:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           max_turns: 15
           timeout_minutes: 20
-          allowed_tools: [
+          allowed_tools:
             # File manipulation tools
-            "Edit",
-            "Read", 
-            "Write",
-            "Glob",
-            "Grep",
-            "LS",
-            "MultiEdit",
+            - "Edit"
+            - "Read"
+            - "Write"
+            - "Glob"
+            - "Grep"
+            - "LS"
+            - "MultiEdit"
             
             # Package management
-            "Bash(pnpm install)",
-            "Bash(pnpm --version)",
+            - "Bash(pnpm install)"
+            - "Bash(pnpm --version)"
             
             # Build commands
-            "Bash(pnpm build)",
-            "Bash(pnpm nx run-many -t build)",
+            - "Bash(pnpm build)"
+            - "Bash(pnpm nx run-many -t build)"
             
             # Testing commands
-            "Bash(pnpm test)",
-            "Bash(pnpm nx run-many -t test)",
-            "Bash(pnpm e2e)",
-            "Bash(pnpm update-e2e-snapshots)",
+            - "Bash(pnpm test)"
+            - "Bash(pnpm nx run-many -t test)"
+            - "Bash(pnpm e2e)"
+            - "Bash(pnpm update-e2e-snapshots)"
             
             # Linting and type checking
-            "Bash(pnpm lint)",
-            "Bash(pnpm nx run-many -t lint)",
-            "Bash(pnpm typecheck)",
-            "Bash(pnpm nx run-many -t typecheck)",
+            - "Bash(pnpm lint)"
+            - "Bash(pnpm nx run-many -t lint)"
+            - "Bash(pnpm typecheck)"
+            - "Bash(pnpm nx run-many -t typecheck)"
             
             # Formatting
-            "Bash(pnpm format)",
-            "Bash(pnpm format-check)",
-            "Bash(pnpm nx format)",
+            - "Bash(pnpm format)"
+            - "Bash(pnpm format-check)"
+            - "Bash(pnpm nx format)"
             
             # Rule management
-            "Bash(pnpm update-rule-docs)",
-            "Bash(pnpm check-rule-docs)",
-            "Bash(pnpm nx run-many -t update-rule-docs)",
-            "Bash(pnpm nx run-many -t check-rule-docs)",
-            "Bash(pnpm update-rule-lists)",
-            "Bash(pnpm check-rule-lists)",
-            "Bash(pnpm nx run-many -t update-rule-lists)",
-            "Bash(pnpm nx run-many -t check-rule-lists)",
-            "Bash(pnpm update-rule-configs)",
-            "Bash(pnpm check-rule-configs)",
-            "Bash(pnpm nx run-many -t update-rule-configs)",
-            "Bash(pnpm nx run-many -t check-rule-configs)",
+            - "Bash(pnpm update-rule-docs)"
+            - "Bash(pnpm check-rule-docs)"
+            - "Bash(pnpm nx run-many -t update-rule-docs)"
+            - "Bash(pnpm nx run-many -t check-rule-docs)"
+            - "Bash(pnpm update-rule-lists)"
+            - "Bash(pnpm check-rule-lists)"
+            - "Bash(pnpm nx run-many -t update-rule-lists)"
+            - "Bash(pnpm nx run-many -t check-rule-lists)"
+            - "Bash(pnpm update-rule-configs)"
+            - "Bash(pnpm check-rule-configs)"
+            - "Bash(pnpm nx run-many -t update-rule-configs)"
+            - "Bash(pnpm nx run-many -t check-rule-configs)"
             
             # Nx operations
-            "Bash(pnpm nx sync)",
-            "Bash(pnpm nx sync:check)",
+            - "Bash(pnpm nx sync)"
+            - "Bash(pnpm nx sync:check)"
             
             # Git operations
-            "Bash(git status)",
-            "Bash(git add .)",
-            "Bash(git commit -m)",
-            "Bash(git diff)",
-            "Bash(git log --oneline -10)",
+            - "Bash(git status)"
+            - "Bash(git add .)"
+            - "Bash(git commit -m)"
+            - "Bash(git diff)"
+            - "Bash(git log --oneline -10)"
             
             # Version checks
-            "Bash(node --version)"
-          ]
+            - "Bash(node --version)"
