@@ -50,6 +50,5 @@ jobs:
         uses: anthropics/claude-code-action@beta
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          max_turns: 15
           timeout_minutes: 20
           allowed_tools: "Edit,Read,Write,Glob,Grep,LS,MultiEdit,Bash(pnpm install),Bash(pnpm --version),Bash(pnpm build),Bash(pnpm nx run-many -t build),Bash(pnpm test),Bash(pnpm nx run-many -t test),Bash(pnpm e2e),Bash(pnpm update-e2e-snapshots),Bash(pnpm lint),Bash(pnpm nx run-many -t lint),Bash(pnpm typecheck),Bash(pnpm nx run-many -t typecheck),Bash(pnpm format),Bash(pnpm format-check),Bash(pnpm nx format),Bash(pnpm update-rule-docs),Bash(pnpm check-rule-docs),Bash(pnpm nx run-many -t update-rule-docs),Bash(pnpm nx run-many -t check-rule-docs),Bash(pnpm update-rule-lists),Bash(pnpm check-rule-lists),Bash(pnpm nx run-many -t update-rule-lists),Bash(pnpm nx run-many -t check-rule-lists),Bash(pnpm update-rule-configs),Bash(pnpm check-rule-configs),Bash(pnpm nx run-many -t update-rule-configs),Bash(pnpm nx run-many -t check-rule-configs),Bash(pnpm nx sync),Bash(pnpm nx sync:check),Bash(git status),Bash(git add .),Bash(git commit -m),Bash(git diff),Bash(git log --oneline -10),Bash(node --version)"
