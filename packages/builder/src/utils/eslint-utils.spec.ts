@@ -2,8 +2,13 @@ jest.mock('eslint', () => ({
   ESLint: jest.fn(),
 }));
 
+jest.mock('eslint/use-at-your-own-risk', () => ({
+  FlatESLint: jest.fn(),
+}));
+
 import { ESLint } from 'eslint';
 import { resolveAndInstantiateESLint } from './eslint-utils';
+import { FlatESLint } from 'eslint/use-at-your-own-risk';
 
 describe('eslint-utils', () => {
   beforeEach(() => {
@@ -24,9 +29,8 @@ describe('eslint-utils', () => {
       cache: true,
       cacheLocation: '/root/cache',
       cacheStrategy: 'content',
-      stats: false,
       ignorePath: undefined,
-      useEslintrc: true,
+      useEslintrc: false,
       errorOnUnmatchedPattern: false,
       rulePaths: [],
     });
@@ -46,7 +50,6 @@ describe('eslint-utils', () => {
       cache: true,
       cacheLocation: '/root/cache',
       cacheStrategy: 'content',
-      stats: false,
       ignorePath: undefined,
       useEslintrc: true,
       errorOnUnmatchedPattern: false,
@@ -218,13 +221,20 @@ describe('eslint-utils', () => {
     it('should create the ESLint instance with "stats" set to true when using flat config', async () => {
       await resolveAndInstantiateESLint(
         './eslint.config.js',
-        { stats: true } as any,
+        {
+          stats: true,
+        } as any,
         true,
       );
-
-      expect(ESLint).toHaveBeenCalledWith(
-        expect.objectContaining({ stats: true }),
-      );
+      expect(FlatESLint).toHaveBeenCalledWith({
+        cache: false,
+        cacheLocation: undefined,
+        cacheStrategy: undefined,
+        errorOnUnmatchedPattern: false,
+        fix: false,
+        overrideConfigFile: './eslint.config.js',
+        stats: true,
+      });
     });
 
     it('should throw when "stats" is used with eslintrc config', async () => {
