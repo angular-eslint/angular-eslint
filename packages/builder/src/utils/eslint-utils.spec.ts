@@ -7,8 +7,8 @@ jest.mock('eslint/use-at-your-own-risk', () => ({
 }));
 
 import { ESLint } from 'eslint';
-import { resolveAndInstantiateESLint } from './eslint-utils';
 import { FlatESLint } from 'eslint/use-at-your-own-risk';
+import { resolveAndInstantiateESLint } from './eslint-utils';
 
 describe('eslint-utils', () => {
   beforeEach(() => {
@@ -30,7 +30,7 @@ describe('eslint-utils', () => {
       cacheLocation: '/root/cache',
       cacheStrategy: 'content',
       ignorePath: undefined,
-      useEslintrc: false,
+      useEslintrc: true,
       errorOnUnmatchedPattern: false,
       rulePaths: [],
     });
