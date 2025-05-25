@@ -233,8 +233,8 @@ function reportAndFix(
       const configuredProps = expectedOrder.filter((name) =>
         propNames.includes(name),
       );
-      const unconfiguredProps = propNames.filter((name) =>
-        !expectedOrder.includes(name),
+      const unconfiguredProps = propNames.filter(
+        (name) => !expectedOrder.includes(name),
       );
       const filteredOrder = [...configuredProps, ...unconfiguredProps];
 

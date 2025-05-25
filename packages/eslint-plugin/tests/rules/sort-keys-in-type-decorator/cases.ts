@@ -604,32 +604,47 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     `,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should preserve unconfigured properties like providers when sorting',
+    description:
+      'should preserve unconfigured properties like providers when sorting',
     annotatedSource: `
       @Component({
-        selector: 'my-app',
+        styleUrl: './app.component.css',
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        selector: 'app-root',
         templateUrl: './app.component.html',
-        changeDetection: ChangeDetectionStrategy.OnPush,
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        imports: [NgClass],
         providers: [MyService, myProvider]
       })
-      class Test {}
+      class Test {
+      }
     `,
     messageId: 'incorrectOrder',
     data: {
       decorator: 'Component',
-      expectedOrder: 'selector, imports, templateUrl, changeDetection',
+      expectedOrder: 'selector, templateUrl, styleUrl',
     },
+    options: [
+      {
+        Component: [
+          'selector',
+          'imports',
+          'standalone',
+          'templateUrl',
+          'styleUrl',
+          'encapsulation',
+          'changeDetection',
+          // providers is intentionally not configured here to cover: https://github.com/angular-eslint/angular-eslint/issues/2455
+        ],
+      },
+    ],
     annotatedOutput: `
       @Component({
-        selector: 'my-app',
-        imports: [NgClass],
+        selector: 'app-root',
         templateUrl: './app.component.html',
-        changeDetection: ChangeDetectionStrategy.OnPush,
+        styleUrl: './app.component.css',
         providers: [MyService, myProvider]
       })
-      class Test {}
+      class Test {
+      }
     `,
   }),
 ];
