@@ -33,6 +33,9 @@ export async function resolveAndInstantiateESLint(
   options: Schema,
   useFlatConfig = false,
 ) {
+  if (options.stats && !useFlatConfig) {
+    throw new Error('The --stats option requires ESLint Flat Config');
+  }
   if (
     useFlatConfig &&
     eslintConfigPath &&
@@ -63,6 +66,7 @@ export async function resolveAndInstantiateESLint(
   };
 
   if (useFlatConfig) {
+    eslintOptions.stats = !!options.stats;
     if (typeof options.useEslintrc !== 'undefined') {
       throw new Error(
         'For Flat Config, the `useEslintrc` option is not applicable. See https://eslint.org/docs/latest/use/configure/configuration-files-new',
