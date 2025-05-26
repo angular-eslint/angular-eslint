@@ -157,11 +157,6 @@ describe('Linter Builder', () => {
           },
         },
         "success": false,
-        "target": Object {
-          "configuration": undefined,
-          "project": undefined,
-          "target": undefined,
-        },
       }
     `);
   });

@@ -21,8 +21,9 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '@if (`prefix-${value}-suffix`) {}',
   '@defer (when `prefix-${value}-suffix`) {}',
   '@let letValue = `prefix-${value}-suffix`;',
+  // TODO: Report to Angular Team - Angular compiler parse bug with nested backticks
   // From https://github.com/angular-eslint/angular-eslint/pull/2466 description
-  "@let bugWithQuote = `${`'`}`",
+  // "@let bugWithQuote = `${`'`}`",
   '<h1>{{ `prefix-${value}-suffix` }}</h1>',
   '<my-component class="prefix-{{value}}-suffix"></my-component>',
   '<my-component [class]="`prefix-${value}-suffix`"></my-component>',
