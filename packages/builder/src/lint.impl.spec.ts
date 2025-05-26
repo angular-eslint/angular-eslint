@@ -148,7 +148,7 @@ describe('Linter Builder', () => {
     const result = runBuilder(createValidRunBuilderOptions());
     await expect(result).resolves.toMatchInlineSnapshot(`
       Object {
-        "error": "Error: ESLint must be version 7.6 or higher.",
+        "error": "Error when running ESLint: ESLint must be version 7.6 or higher.",
         "info": Object {
           "builderName": "@angular-eslint/builder:lint",
           "description": "Testing only builder.",
@@ -350,7 +350,7 @@ describe('Linter Builder', () => {
       }),
     );
     expect(result.error).toMatchInlineSnapshot(
-      `"Error: Invalid lint configuration. Nothing to lint. Please check your lint target pattern(s)."`,
+      `"Error when running ESLint: Invalid lint configuration. Nothing to lint. Please check your lint target pattern(s)."`,
     );
   });
 
