@@ -58,7 +58,7 @@ The rule does not have any configuration options.
 @Injectable()
 class UserService {
   constructor(private http: HttpClient) {}
-              ~~~~~~~~~~~~~~~~~~~~~~~~~
+              ~~~~~~~~~~~~~~~~~~~~~~~~
 }
 ```
 
@@ -89,9 +89,9 @@ class UserService {
 class MyComponent {
   constructor(
     private userService: UserService,
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     private http: HttpClient
-    ~~~~~~~~~~~~~~~~~~~~~
+    ~~~~~~~~~~~~~~~~~~~~~~~~
   ) {}
 }
 ```
@@ -123,9 +123,9 @@ class MyComponent {
 class ConfigService {
   constructor(
     @Inject(CONFIG_TOKEN) private config: AppConfig,
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     @Optional() private logger?: LoggerService
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   ) {}
 }
 ```
@@ -190,7 +190,7 @@ class MyComponent extends BaseComponent {
 @Component({})
 class MyComponent {
   constructor(elementRef: ElementRef) {}
-              ~~~~~~~~~~~~~~~~~~~~~~~
+              ~~~~~~~~~~~~~~~~~~~~~~
 }
 ```
 
