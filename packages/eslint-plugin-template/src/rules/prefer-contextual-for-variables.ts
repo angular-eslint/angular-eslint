@@ -12,10 +12,11 @@ import {
   type TmplAstVariable,
 } from '@angular-eslint/bundled-angular-compiler';
 import { getTemplateParserServices } from '@angular-eslint/utils';
-import { createESLintRule } from '../utils/create-eslint-rule';
 import { TSESTree } from '@typescript-eslint/utils';
 import { SourceCode } from '@typescript-eslint/utils/ts-eslint';
 import { areEquivalentASTs } from '../utils/are-equivalent-asts';
+import { createESLintRule } from '../utils/create-eslint-rule';
+import { unwrapParenthesizedExpression } from '../utils/unwrap-parenthesized-expression';
 
 export type Options = [
   {
@@ -586,12 +587,13 @@ function isIndex(node: AST): boolean {
 }
 
 function isIndexPlusOne(node: AST): boolean {
-  if (node instanceof Binary) {
-    if (node.operation === '+') {
-      if (isIndex(node.left)) {
-        return isOne(node.right);
+  const unwrapped = unwrapParenthesizedExpression(node);
+  if (unwrapped instanceof Binary) {
+    if (unwrapped.operation === '+') {
+      if (isIndex(unwrapped.left)) {
+        return isOne(unwrapped.right);
       } else {
-        return isIndex(node.right) && isOne(node.left);
+        return isIndex(unwrapped.right) && isOne(unwrapped.left);
       }
     }
   }
@@ -600,11 +602,12 @@ function isIndexPlusOne(node: AST): boolean {
 }
 
 function isIndexModTwo(node: AST): boolean {
+  const unwrapped = unwrapParenthesizedExpression(node);
   return (
-    node instanceof Binary &&
-    node.operation === '%' &&
-    isIndex(node.left) &&
-    isTwo(node.right)
+    unwrapped instanceof Binary &&
+    unwrapped.operation === '%' &&
+    isIndex(unwrapped.left) &&
+    isTwo(unwrapped.right)
   );
 }
 
@@ -613,12 +616,13 @@ function isCount(node: AST): boolean {
 }
 
 function isCountMinusOne(node: AST): boolean {
-  if (node instanceof Binary) {
-    if (node.operation === '-') {
-      if (isCount(node.left)) {
-        return isOne(node.right);
+  const unwrapped = unwrapParenthesizedExpression(node);
+  if (unwrapped instanceof Binary) {
+    if (unwrapped.operation === '-') {
+      if (isCount(unwrapped.left)) {
+        return isOne(unwrapped.right);
       } else {
-        return isCount(node.right) && isOne(node.left);
+        return isCount(unwrapped.right) && isOne(unwrapped.left);
       }
     }
   }

@@ -13,6 +13,7 @@ import {
 } from '@angular-eslint/bundled-angular-compiler';
 import { ensureTemplateParser } from '@angular-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
+import { unwrapParenthesizedExpression } from '../utils/unwrap-parenthesized-expression';
 
 export type Options = [{ maxComplexity: number }];
 export type MessageIds = 'conditionalComplexity';
@@ -105,7 +106,8 @@ export default createESLintRule<Options, MessageIds>({
 });
 
 function extractPossibleBinaryOrConditionalFrom(node: AST): AST {
-  return node instanceof BindingPipe ? node.exp : node;
+  const unwrapped = unwrapParenthesizedExpression(node);
+  return unwrapped instanceof BindingPipe ? unwrapped.exp : unwrapped;
 }
 
 let parser: Parser | null = null;
@@ -130,11 +132,24 @@ function getTotalComplexity(ast: AST): number {
   let total = 1;
 
   if (possibleBinaryOrConditional instanceof Binary) {
-    if (possibleBinaryOrConditional.left instanceof Binary) {
+    const leftUnwrapped = unwrapParenthesizedExpression(
+      possibleBinaryOrConditional.left,
+    );
+    const rightUnwrapped = unwrapParenthesizedExpression(
+      possibleBinaryOrConditional.right,
+    );
+
+    if (
+      leftUnwrapped instanceof Binary ||
+      leftUnwrapped instanceof Conditional
+    ) {
       total += getTotalComplexity(possibleBinaryOrConditional.left);
     }
 
-    if (possibleBinaryOrConditional.right instanceof Binary) {
+    if (
+      rightUnwrapped instanceof Binary ||
+      rightUnwrapped instanceof Conditional
+    ) {
       total += getTotalComplexity(possibleBinaryOrConditional.right);
     }
   }
