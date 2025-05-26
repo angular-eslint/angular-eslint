@@ -81,8 +81,9 @@ function isValidObjectNode(node: TmplAstElement): boolean {
     hasAriaLabelAttribute = false;
 
   for (const attribute of node.attributes) {
-    hasTitleAttribute = attribute.name === 'title';
-    hasAriaLabelAttribute = isAriaLabel(attribute.name);
+    hasTitleAttribute = hasTitleAttribute || attribute.name === 'title';
+    hasAriaLabelAttribute =
+      hasAriaLabelAttribute || isAriaLabel(attribute.name);
   }
 
   // Note that we return "early" before looping through `element.inputs`.
@@ -96,8 +97,8 @@ function isValidObjectNode(node: TmplAstElement): boolean {
     hasAriaLabelBinding = false;
 
   for (const input of node.inputs) {
-    hasTitleBinding = input.name === 'title';
-    hasAriaLabelBinding = isAriaLabel(input.name);
+    hasTitleBinding = hasTitleBinding || input.name === 'title';
+    hasAriaLabelBinding = hasAriaLabelBinding || isAriaLabel(input.name);
   }
 
   if (hasTitleBinding || hasAriaLabelBinding) {
@@ -119,8 +120,9 @@ function isValidAreaNode(node: TmplAstElement): boolean {
     hasAriaLabelAttribute = false;
 
   for (const attribute of node.attributes) {
-    hasAltAttribute = isAlt(attribute.name);
-    hasAriaLabelAttribute = isAriaLabel(attribute.name);
+    hasAltAttribute = hasAltAttribute || isAlt(attribute.name);
+    hasAriaLabelAttribute =
+      hasAriaLabelAttribute || isAriaLabel(attribute.name);
   }
 
   // Note that we return "early" before looping through `element.inputs`.
@@ -134,8 +136,8 @@ function isValidAreaNode(node: TmplAstElement): boolean {
     hasAriaLabelBinding = false;
 
   for (const input of node.inputs) {
-    hasAltBinding = isAlt(input.name);
-    hasAriaLabelBinding = isAriaLabel(input.name);
+    hasAltBinding = hasAltBinding || isAlt(input.name);
+    hasAriaLabelBinding = hasAriaLabelBinding || isAriaLabel(input.name);
   }
 
   return hasAltBinding || hasAriaLabelBinding;

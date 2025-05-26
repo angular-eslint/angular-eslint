@@ -3,6 +3,13 @@
   "$id": "add-angular-eslint",
   "title": "Add angular-eslint to an existing workspace",
   "type": "object",
-  "properties": {},
+  "properties": {
+    "skipInstall": {
+      "type": "boolean",
+      "description": "Skip package installation after adding dependencies",
+      "default": false,
+      "alias": "skip-install"
+    }
+  },
   "required": []
 }

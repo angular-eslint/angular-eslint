@@ -132,6 +132,42 @@ interface Options {
 </div>
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/cyclomatic-complexity": [
+      "error",
+      {
+        "maxComplexity": 3
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@if (cond) {
+  @for (item of items; track item.id) {
+    @switch (item) {
+      @case ('a') {}
+      @default {}
+    }
+  }
+}
+```
+
 </details>
 
 <br>
@@ -239,6 +275,103 @@ interface Options {
     </div>
   </div>
 </div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/cyclomatic-complexity": [
+      "error",
+      {
+        "maxComplexity": 1
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+@if (condition) {
+  <div>Content</div>
+} @else {
+  <div>Other</div>
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/cyclomatic-complexity": [
+      "error",
+      {
+        "maxComplexity": 1
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+@for (item of items; track item.id) {
+  {{ item }}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/cyclomatic-complexity": [
+      "error",
+      {
+        "maxComplexity": 3
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+@switch (value) {
+  @case ('a') { <span>A</span> }
+  @case ('b') { <span>B</span> }
+  @default { <span>Default</span> }
+}
 ```
 
 </details>

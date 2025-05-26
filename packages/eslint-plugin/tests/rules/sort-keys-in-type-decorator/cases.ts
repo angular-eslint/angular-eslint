@@ -603,4 +603,48 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       class Test {}
     `,
   }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should preserve unconfigured properties like providers when sorting',
+    annotatedSource: `
+      @Component({
+        styleUrl: './app.component.css',
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        selector: 'app-root',
+        templateUrl: './app.component.html',
+        providers: [MyService, myProvider]
+      })
+      class Test {
+      }
+    `,
+    messageId: 'incorrectOrder',
+    data: {
+      decorator: 'Component',
+      expectedOrder: 'selector, templateUrl, styleUrl',
+    },
+    options: [
+      {
+        Component: [
+          'selector',
+          'imports',
+          'standalone',
+          'templateUrl',
+          'styleUrl',
+          'encapsulation',
+          'changeDetection',
+          // providers is intentionally not configured here to cover: https://github.com/angular-eslint/angular-eslint/issues/2455
+        ],
+      },
+    ],
+    annotatedOutput: `
+      @Component({
+        selector: 'app-root',
+        templateUrl: './app.component.html',
+        styleUrl: './app.component.css',
+        providers: [MyService, myProvider]
+      })
+      class Test {
+      }
+    `,
+  }),
 ];

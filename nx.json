@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
-  "nxCloudAccessToken": "NzNkMDZiM2MtMzVlOS00YzVlLWE1MGQtNWZlYzI3MjRkOTRmfHJlYWQ=",
+  "nxCloudId": "601e8ec60a30c421b31beed9",
   "plugins": [
     {
       "plugin": "@nx/eslint/plugin",

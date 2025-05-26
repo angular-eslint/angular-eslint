@@ -26,6 +26,11 @@
       "type": "string",
       "description": "File to write report to instead of the console."
     },
+    "stats": {
+      "type": "boolean",
+      "description": "Output performance statistics for ESLint rules",
+      "default": false
+    },
     "cacheStrategy": {
       "type": "string",
       "description": "Strategy to use for detecting changed files in the cache.",

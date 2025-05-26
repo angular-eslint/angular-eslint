@@ -479,6 +479,51 @@ class Test {}
 class Test {}
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/sort-keys-in-type-decorator": [
+      "error",
+      {
+        "Component": [
+          "selector",
+          "imports",
+          "standalone",
+          "templateUrl",
+          "styleUrl",
+          "encapsulation",
+          "changeDetection"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({
+  styleUrl: './app.component.css',
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  providers: [MyService, myProvider]
+})
+class Test {
+}
+```
+
 </details>
 
 <br>

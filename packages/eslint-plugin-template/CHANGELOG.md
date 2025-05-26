@@ -1,3 +1,24 @@
+## 19.5.0 (2025-05-25)
+
+### 🚀 Features
+
+- **eslint-plugin-template:** add rule prefer-at-empty ([#2352](https://github.com/angular-eslint/angular-eslint/pull/2352))
+- **eslint-plugin-template:** [no-nested-tags] add rule ([#2398](https://github.com/angular-eslint/angular-eslint/pull/2398))
+
+### 🩹 Fixes
+
+- **eslint-plugin-template:** [prefer-at-empty] remove closing brace from @if when no longer needed ([#2450](https://github.com/angular-eslint/angular-eslint/pull/2450))
+- **eslint-plugin-template:** [cyclomatic-complexity] handle new control flow syntax ([#2447](https://github.com/angular-eslint/angular-eslint/pull/2447))
+- **eslint-plugin-template:** [alt-text] ensure multiple attributes do not cause false negatives ([#2441](https://github.com/angular-eslint/angular-eslint/pull/2441))
+- **eslint-plugin-template:** [prefer-template-literal] handle parentheses in autofix ([#2418](https://github.com/angular-eslint/angular-eslint/pull/2418))
+
+### ❤️ Thank You
+
+- Alexander von Weiss @sod
+- Dave @reduckted
+- Guillaume DROUARD
+- James Henry @JamesHenry
+
 ## 19.4.0 (2025-05-08)
 
 ### 🚀 Features

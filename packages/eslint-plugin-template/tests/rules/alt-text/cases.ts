@@ -16,13 +16,19 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '<object aria-labelledby="id1">',
   '<object>Meaningful description</object>',
   '<object title="An object">',
+  '<object aria-label="foo" id="bar"></object>',
   '<area aria-label="foo" />',
   '<area aria-labelledby="id1" />',
   '<area alt="This is descriptive!" />',
+  '<area alt="desc" href="path">',
   '<input type="text">',
   '<input type="image" alt="This is descriptive!">',
   '<input type="image" aria-label="foo">',
   '<input type="image" aria-labelledby="id1">',
+  '<object [title]="title" [other]="val"></object>',
+  '<object [attr.aria-label]="desc" [custom]="x"></object>',
+  '<area [alt]="altText" [id]="itemId">',
+  '<area [attr.aria-label]="label" [prop]="p">',
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
