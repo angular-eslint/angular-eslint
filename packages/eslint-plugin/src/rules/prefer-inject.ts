@@ -14,7 +14,6 @@ export default createESLintRule<Options, MessageIds>({
     docs: {
       description:
         'Prefer using the inject() function over constructor parameter injection',
-      recommended: 'recommended',
     },
     schema: [],
     messages: {
@@ -105,7 +104,7 @@ export default createESLintRule<Options, MessageIds>({
           body[0].type === AST_NODE_TYPES.ExpressionStatement &&
           body[0].expression.type === AST_NODE_TYPES.CallExpression &&
           body[0].expression.callee.type === AST_NODE_TYPES.Super;
-        if (onlySuper && params.length === 0) {
+        if (onlySuper) {
           return;
         }
 
