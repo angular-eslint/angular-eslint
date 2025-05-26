@@ -10,6 +10,7 @@ import {
   getLiteralPrimitiveStringValue,
   isLiteralPrimitive,
   isStringLiteralPrimitive,
+  Quote,
 } from '../utils/literal-primitive';
 import { RuleFix, RuleFixer } from '@typescript-eslint/utils/ts-eslint';
 
@@ -60,7 +61,7 @@ export default createESLintRule<Options, MessageIds>({
         const parentIsTemplateLiteral =
           'parent' in node && node.parent instanceof TemplateLiteral;
 
-        function getQuote(): '"' | "'" | '`' | '' {
+        function getQuote(): Quote | '' {
           if (parentIsTemplateLiteral) {
             return '';
           }
@@ -80,6 +81,72 @@ export default createESLintRule<Options, MessageIds>({
           }
 
           return '`';
+        }
+
+        function getLeftSideFixes(
+          fixer: RuleFixer,
+          quote: Quote | '',
+        ): readonly RuleFix[] {
+          const { start, end } = left.sourceSpan;
+
+          if (left instanceof TemplateLiteral) {
+            // Remove the end ` sign from the left side
+            return [
+              fixer.replaceTextRange([start, start + 1], quote),
+              fixer.removeRange([end - 1, end]),
+            ];
+          }
+
+          if (isLiteralPrimitive(left)) {
+            // Transform left side to template literal
+            return [
+              fixer.replaceTextRange(
+                [start, end],
+                parentIsTemplateLiteral
+                  ? `${getLiteralPrimitiveStringValue(left, '`')}`
+                  : `${quote}${getLiteralPrimitiveStringValue(left, quote as Quote)}`,
+              ),
+            ];
+          }
+
+          // Transform left side to template literal
+          return [
+            fixer.insertTextBeforeRange([start, end], `${quote}\${`),
+            fixer.insertTextAfterRange([start, end], '}'),
+          ];
+        }
+
+        function getRightSideFixes(
+          fixer: RuleFixer,
+          quote: Quote | '',
+        ): readonly RuleFix[] {
+          const { start, end } = right.sourceSpan;
+
+          if (right instanceof TemplateLiteral) {
+            // Remove the start ` sign from the right side
+            return [
+              fixer.removeRange([start, start + 1]),
+              fixer.replaceTextRange([end - 1, end], quote),
+            ];
+          }
+
+          if (isLiteralPrimitive(right)) {
+            // Transform right side to template literal if it's a string
+            return [
+              fixer.replaceTextRange(
+                [start, end],
+                parentIsTemplateLiteral
+                  ? `${getLiteralPrimitiveStringValue(right, '`')}`
+                  : `${getLiteralPrimitiveStringValue(right, quote as Quote)}${quote}`,
+              ),
+            ];
+          }
+
+          // Transform right side to template literal
+          return [
+            fixer.insertTextBeforeRange([start, end], '${'),
+            fixer.insertTextAfterRange([start, end], `}${quote}`),
+          ];
         }
 
         function hasParentheses(node: AST): boolean {
@@ -120,7 +187,9 @@ export default createESLintRule<Options, MessageIds>({
               fixes.push(
                 fixer.replaceTextRange(
                   [start, end],
-                  `${quote}${getLiteralPrimitiveStringValue(left, quote)}${getLiteralPrimitiveStringValue(right, quote)}${quote}`,
+                  parentIsTemplateLiteral
+                    ? `${getLiteralPrimitiveStringValue(left, '`')}${getLiteralPrimitiveStringValue(right, '`')}`
+                    : `${quote}${getLiteralPrimitiveStringValue(left, quote as Quote)}${getLiteralPrimitiveStringValue(right, quote as Quote)}${quote}`,
                 ),
               );
             } else {
@@ -138,7 +207,7 @@ export default createESLintRule<Options, MessageIds>({
               }
 
               // Fix the left side
-              fixes.push(...getLeftSideFixes(fixer, left, quote));
+              fixes.push(...getLeftSideFixes(fixer, quote));
 
               // Remove the left last parenthesis if it exists
               if (leftHasParentheses) {
@@ -173,7 +242,7 @@ export default createESLintRule<Options, MessageIds>({
               }
 
               // Fix the right side
-              fixes.push(...getRightSideFixes(fixer, right, quote));
+              fixes.push(...getRightSideFixes(fixer, quote));
 
               // Remove the right last parenthesis if it exists
               if (rightHasParentheses) {
@@ -207,67 +276,3 @@ export default createESLintRule<Options, MessageIds>({
     };
   },
 });
-
-function getLeftSideFixes(
-  fixer: RuleFixer,
-  left: AST,
-  quote: "'" | '"' | '`' | '',
-): readonly RuleFix[] {
-  const { start, end } = left.sourceSpan;
-
-  if (left instanceof TemplateLiteral) {
-    // Remove the end ` sign from the left side
-    return [
-      fixer.replaceTextRange([start, start + 1], quote),
-      fixer.removeRange([end - 1, end]),
-    ];
-  }
-
-  if (isLiteralPrimitive(left)) {
-    // Transform left side to template literal
-    return [
-      fixer.replaceTextRange(
-        [start, end],
-        `${quote}${getLiteralPrimitiveStringValue(left, quote)}`,
-      ),
-    ];
-  }
-
-  // Transform left side to template literal
-  return [
-    fixer.insertTextBeforeRange([start, end], `${quote}\${`),
-    fixer.insertTextAfterRange([start, end], '}'),
-  ];
-}
-
-function getRightSideFixes(
-  fixer: RuleFixer,
-  right: AST,
-  quote: "'" | '"' | '`' | '',
-): readonly RuleFix[] {
-  const { start, end } = right.sourceSpan;
-
-  if (right instanceof TemplateLiteral) {
-    // Remove the start ` sign from the right side
-    return [
-      fixer.removeRange([start, start + 1]),
-      fixer.replaceTextRange([end - 1, end], quote),
-    ];
-  }
-
-  if (isLiteralPrimitive(right)) {
-    // Transform right side to template literal if it's a string
-    return [
-      fixer.replaceTextRange(
-        [start, end],
-        `${getLiteralPrimitiveStringValue(right, quote)}${quote}`,
-      ),
-    ];
-  }
-
-  // Transform right side to template literal
-  return [
-    fixer.insertTextBeforeRange([start, end], '${'),
-    fixer.insertTextAfterRange([start, end], `}${quote}`),
-  ];
-}

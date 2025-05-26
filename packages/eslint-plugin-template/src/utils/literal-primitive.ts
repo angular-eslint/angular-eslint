@@ -3,6 +3,8 @@ import {
   LiteralPrimitive,
 } from '@angular-eslint/bundled-angular-compiler';
 
+export type Quote = "'" | '"' | '`';
+
 export function isLiteralPrimitive(node: AST): node is LiteralPrimitive {
   return node instanceof LiteralPrimitive;
 }
@@ -15,9 +17,9 @@ export function isStringLiteralPrimitive(
 
 export function getLiteralPrimitiveStringValue(
   node: LiteralPrimitive,
-  quote: "'" | '"' | '`' | '',
+  quote: Quote,
 ): string {
   return typeof node.value === 'string'
-    ? `${quote !== '' ? node.value.replaceAll(quote, `\\${quote}`) : node.value}`
+    ? `${node.value.replaceAll(quote, `\\${quote}`)}`
     : String(node.value);
 }

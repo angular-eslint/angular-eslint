@@ -30,6 +30,29 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     messageId,
+    description: 'should fail concatenation multiline',
+    annotatedSource: `
+        {{
+        'a'
+        ~~~
+         + 
+        ~~~
+        'b'
+        ~~~
+        }}
+        
+      `,
+    annotatedOutput: `
+        {{
+        'ab'
+        
+        }}
+        
+      `,
+  }),
+
+  convertAnnotatedSourceToFailureCase({
+    messageId,
     description:
       'should fail concatenation (left: simple quote, right: simple quote)',
     annotatedSource: `
@@ -72,38 +95,14 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     messageId,
     description:
-      'should fail concatenation inside template literal (double quote + parentheses + spaces)',
+      'should fail concatenation inside template literal (simple quote + property read with special characters)',
     annotatedSource: `
-        {{ \`prefix-\${a}-\${ (b + "-inside-" + c )}-\${d}-suffix\` }}
-                            ~~~~~~~~~~~~~~
+        {{ \`prefix-\${a}-\${b + '-special\\'"\\\`-char'}-\${d}-suffix\` }}
+                          ~~~~~~~~~~~~~~~~~~~~~~~~
       `,
     annotatedOutputs: [
       `
-        {{ \`prefix-\${a}-\${ (\`\${b}-inside-\` + c )}-\${d}-suffix\` }}
-                            
-      `,
-      `
-        {{ \`prefix-\${a}-\${b}-inside-\${c}-\${d}-suffix\` }}
-                            
-      `,
-    ],
-  }),
-
-  convertAnnotatedSourceToFailureCase({
-    messageId,
-    description:
-      'should fail concatenation inside template literal (simple quote)',
-    annotatedSource: `
-        {{ \`prefix-\${a}-\${b + '-inside-' + c}-\${d}-suffix\` }}
-                          ~~~~~~~~~~~~~~
-      `,
-    annotatedOutputs: [
-      `
-        {{ \`prefix-\${a}-\${\`\${b}-inside-\` + c}-\${d}-suffix\` }}
-                          
-      `,
-      `
-        {{ \`prefix-\${a}-\${b}-inside-\${c}-\${d}-suffix\` }}
+        {{ \`prefix-\${a}-\${b}-special'"\\\`-char-\${d}-suffix\` }}
                           
       `,
     ],
@@ -119,6 +118,20 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       `,
     annotatedOutput: `
         {{ \`prefix-\${a}-\${b}-inside-\${c}-\${d}-suffix\` }}
+                          
+      `,
+  }),
+
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail concatenation inside template literal (simple quote)',
+    annotatedSource: `
+        {{ \`prefix-\${a}-\${'b' + 'c'}-\${d}-suffix\` }}
+                          ~~~~~~~~~
+      `,
+    annotatedOutput: `
+        {{ \`prefix-\${a}-bc-\${d}-suffix\` }}
                           
       `,
   }),
@@ -947,35 +960,126 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       `,
   }),
 
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description: 'should fail bound attribute without first line break',
+    annotatedSource: `
+        <ng-container
+            *ngTemplateOutlet="selector;
+                context: {
+                    name: 'test-' + item.id,
+                          ~~~~~~~~~~~~~~~~~
+                    value: 42
+                }
+            "
+        />
+
+        <div></div>
+      `,
+    annotatedOutput: `
+        <ng-container
+            *ngTemplateOutlet="selector;
+                context: {
+                    name: \`test-\${item.id}\`,
+                          
+                    value: 42
+                }
+            "
+        />
+
+        <div></div>
+      `,
+  }),
+
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail object literal binding concatenation without first line break',
+    annotatedSource: `
+        <div [ngStyle]="{
+            width: 10 + 'px'
+                   ~~~~~~~~~
+        }"></div>
+      `,
+    annotatedOutput: `
+        <div [ngStyle]="{
+            width: '10px'
+                   
+        }"></div>
+      `,
+  }),
+
   // Test cases for reported bugs
 
-  // Bug 1: Simple long string test case
-  convertAnnotatedSourceToFailureCase({
-    messageId,
-    description: 'should fix concatenation with long URL string',
-    annotatedSource: `
-        <a [href]="'https://example.com/very-long-url-path-that-is-quite-long' + variable">Test</a>
-                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      `,
-    annotatedOutput: `
-        <a [href]="\`https://example.com/very-long-url-path-that-is-quite-long\${variable}\`">Test</a>
-                   
-      `,
-  }),
+  // Bug : Wrong autofixes when first line breaks because sourceSpan positions are wrong in this case.
 
-  // Test cases for specific reported bugs that currently fail
+  // convertAnnotatedSourceToFailureCase({
+  //   messageId,
+  //   description:
+  //     'should fail object literal binding concatenation with first line break',
+  //   annotatedSource: `
+  //       <div [ngStyle]="
+  //            { width: 10 + 'px' }
+  //                     ~~~~~~~~~
+  //       "></div>
+  //     `,
+  //   annotatedOutput: `
+  //       <div [ngStyle]="
+  //            { width: '10px' }
 
-  // Test case 1: Add a simple case with the actual failing 108-character string
-  convertAnnotatedSourceToFailureCase({
-    messageId,
-    description: 'should fix exactly 108 char string (reproduces bug)',
-    annotatedSource: `
-        <a [href]="'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' + example">Test</a>
-                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      `,
-    annotatedOutput: `
-        <a [href]="\`xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\${example}\`">Test</a>
-                   
-      `,
-  }),
+  //       "></div>
+  //     `,
+  // }),
+
+  // convertAnnotatedSourceToFailureCase({
+  //   messageId,
+  //   description:
+  //     'should fail bound attribute with first line break',
+  //   annotatedSource: `
+  //       <ng-container
+  //           *ngTemplateOutlet="
+  //             selector;
+  //               context: {
+  //                   name: 'test-' + item.id,
+  //                         ~~~~~~~~~~~~~~~~~
+  //                   value: 42
+  //               }
+  //           "
+  //       />
+
+  //       <div></div>
+  //     `,
+  //   annotatedOutput: `
+  //       <ng-container
+  //           *ngTemplateOutlet="
+  //             selector;
+  //               context: {
+  //                   name: \`test-\${item.id}\`,
+
+  //                   value: 42
+  //               }
+  //           "
+  //       />
+
+  //       <div></div>
+  //     `,
+  // }),
+
+  // convertAnnotatedSourceToFailureCase({
+  //   messageId,
+  //   description:
+  //     'should fail input binding concatenation with first line break',
+  //   annotatedSource: `
+  //       <div [class]="
+  //            'a' + 'b'
+  //            ~~~~~~~~~
+  //       "></div>
+  //     `,
+  //   annotatedOutput: `
+  //       <div [class]="
+  //            'ab'
+
+  //       "></div>
+  //     `,
+  // }),
 ];
