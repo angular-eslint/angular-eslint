@@ -200,14 +200,13 @@ For full guidance on how to resolve this issue, please see https://github.com/an
         success: options.force || (totalErrors === 0 && !tooManyWarnings),
       };
     } catch (err) {
+      let errorMessage = 'Unknown error';
       if (err instanceof Error) {
-        console.error(`Error when running ESLint: ${err.message}`);
-      } else {
-        console.error(err);
+        errorMessage = `Error when running ESLint: ${err.message}`;
       }
       return {
         success: false,
-        error: String(err || 'Unknown error'),
+        error: String(errorMessage),
       };
     }
   },
