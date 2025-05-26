@@ -98,15 +98,14 @@ export default createESLintRule<Options, MessageIds>({
           return;
         }
 
-        // ignore constructors that only call super()
+        // ignore constructors that only call super() (no parameters to inject)
         const body = node.value.body?.body ?? [];
         const onlySuper =
-          params.length === 0 ||
-          (body.length === 1 &&
-            body[0].type === AST_NODE_TYPES.ExpressionStatement &&
-            body[0].expression.type === AST_NODE_TYPES.CallExpression &&
-            body[0].expression.callee.type === AST_NODE_TYPES.Super);
-        if (onlySuper) {
+          body.length === 1 &&
+          body[0].type === AST_NODE_TYPES.ExpressionStatement &&
+          body[0].expression.type === AST_NODE_TYPES.CallExpression &&
+          body[0].expression.callee.type === AST_NODE_TYPES.Super;
+        if (onlySuper && params.length === 0) {
           return;
         }
 

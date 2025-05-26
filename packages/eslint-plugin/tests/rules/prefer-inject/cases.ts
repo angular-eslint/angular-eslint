@@ -53,7 +53,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       @Injectable()
       class UserService {
         constructor(private http: HttpClient) {}
-                    ~~~~~~~~~~~~~~~~~~~~~~~~~
+                    ~~~~~~~~~~~~~~~~~~~~~~~~
       }
     `,
     messageId,
@@ -65,9 +65,9 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       class MyComponent {
         constructor(
           private userService: UserService,
-          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
           private http: HttpClient
-          ^^^^^^^^^^^^^^^^^^^^^
+          ^^^^^^^^^^^^^^^^^^^^^^^^
         ) {}
       }
     `,
@@ -83,9 +83,9 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       class ConfigService {
         constructor(
           @Inject(CONFIG_TOKEN) private config: AppConfig,
-          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
           @Optional() private logger?: LoggerService
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         ) {}
       }
     `,
@@ -115,7 +115,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       @Component({})
       class MyComponent {
         constructor(elementRef: ElementRef) {}
-                    ~~~~~~~~~~~~~~~~~~~~~~~
+                    ~~~~~~~~~~~~~~~~~~~~~~
       }
     `,
     messageId,
