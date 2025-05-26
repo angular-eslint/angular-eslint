@@ -72,6 +72,7 @@ const KEYS: VisitorKeys = {
   ForLoopBlockEmpty: ['children'],
   Content: ['children'],
   LetDeclaration: ['value'],
+  ParenthesizedExpression: ['expression'],
 };
 
 function fallbackKeysFilter(this: Node, key: string) {

@@ -40,6 +40,24 @@ export default createESLintRule<Options, MessageIds>({
     ensureTemplateParser(context);
     const sourceCode = context.sourceCode;
 
+    function reportNegatedAsync(prefixNotNode: PrefixNot) {
+      const { start, end } = prefixNotNode.sourceSpan;
+      context.report({
+        messageId: 'noNegatedAsync',
+        loc: {
+          start: sourceCode.getLocFromIndex(start),
+          end: sourceCode.getLocFromIndex(end),
+        },
+        suggest: getSuggestionsSchema().map(({ messageId, textToInsert }) => ({
+          messageId,
+          fix: (fixer) => [
+            fixer.removeRange([start, start + 1]),
+            fixer.insertTextAfterRange([end, end], textToInsert),
+          ],
+        })),
+      });
+    }
+
     return {
       'BindingPipe[name="async"]'(bindingPipe: BindingPipe) {
         if (bindingPipe.exp instanceof PrefixNot) {
@@ -63,28 +81,18 @@ export default createESLintRule<Options, MessageIds>({
         }
       },
       ':not(PrefixNot) > PrefixNot > BindingPipe[name="async"]'({
-        parent: {
-          sourceSpan: { end, start },
-        },
+        parent,
       }: BindingPipe & {
         parent: PrefixNot;
       }) {
-        context.report({
-          messageId: 'noNegatedAsync',
-          loc: {
-            start: sourceCode.getLocFromIndex(start),
-            end: sourceCode.getLocFromIndex(end),
-          },
-          suggest: getSuggestionsSchema().map(
-            ({ messageId, textToInsert }) => ({
-              messageId,
-              fix: (fixer) => [
-                fixer.removeRange([start, start + 1]),
-                fixer.insertTextAfterRange([end, end], textToInsert),
-              ],
-            }),
-          ),
-        });
+        reportNegatedAsync(parent);
+      },
+      ':not(PrefixNot) > PrefixNot > ParenthesizedExpression > BindingPipe[name="async"]'({
+        parent: { parent },
+      }: BindingPipe & {
+        parent: { parent: PrefixNot };
+      }) {
+        reportNegatedAsync(parent);
       },
     };
   },

@@ -1,17 +1,19 @@
 import {
   AST,
   LiteralPrimitive,
+  ParenthesizedExpression,
   TemplateLiteral,
   type Binary,
 } from '@angular-eslint/bundled-angular-compiler';
 import { ensureTemplateParser } from '@angular-eslint/utils';
+import { RuleFix, RuleFixer } from '@typescript-eslint/utils/ts-eslint';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import {
   getLiteralPrimitiveStringValue,
   isLiteralPrimitive,
   isStringLiteralPrimitive,
 } from '../utils/literal-primitive';
-import { RuleFix, RuleFixer } from '@typescript-eslint/utils/ts-eslint';
+import { unwrapParenthesizedExpression } from '../utils/unwrap-parenthesized-expression';
 
 const messageId = 'preferTemplateLiteral';
 
@@ -41,7 +43,10 @@ export default createESLintRule<Options, MessageIds>({
 
     return {
       'Binary[operation="+"]'(node: Binary) {
-        const { left, right } = node;
+        const originalLeft = node.left;
+        const originalRight = node.right;
+        const left = unwrapParenthesizedExpression(originalLeft);
+        const right = unwrapParenthesizedExpression(originalRight);
 
         const isLeftString =
           isStringLiteralPrimitive(left) || left instanceof TemplateLiteral;
@@ -69,13 +74,6 @@ export default createESLintRule<Options, MessageIds>({
           return '`';
         }
 
-        function hasParentheses(node: AST): boolean {
-          const { start, end } = node.sourceSpan;
-          const text = sourceCode.text.slice(start - 1, end + 1);
-
-          return text.startsWith('(') && text.endsWith(')');
-        }
-
         context.report({
           loc: {
             start: sourceCode.getLocFromIndex(start),
@@ -97,65 +95,35 @@ export default createESLintRule<Options, MessageIds>({
 
             const fixes = Array<RuleFix>();
 
-            const leftHasParentheses = hasParentheses(left);
-            const rightHasParentheses = hasParentheses(right);
-
-            // Remove the left first parenthesis if it exists
-            if (leftHasParentheses) {
+            // Fix the left side - handle parenthesized expressions specially
+            if (originalLeft instanceof ParenthesizedExpression) {
               fixes.push(
-                fixer.removeRange([
-                  left.sourceSpan.start - 1,
-                  left.sourceSpan.start,
-                ]),
+                ...getLeftSideFixesForParenthesized(fixer, left, originalLeft),
               );
+            } else {
+              fixes.push(...getLeftSideFixes(fixer, left));
             }
 
-            // Fix the left side
-            fixes.push(...getLeftSideFixes(fixer, left));
-
-            // Remove the left last parenthesis if it exists
-            if (leftHasParentheses) {
-              fixes.push(
-                fixer.removeRange([
-                  left.sourceSpan.end,
-                  left.sourceSpan.end + 1,
-                ]),
-              );
-            }
-
-            // Remove the `+` sign
+            // Remove the `+` sign (including surrounding whitespace)
             fixes.push(
               fixer.removeRange([
-                leftHasParentheses
-                  ? left.sourceSpan.end + 1
-                  : left.sourceSpan.end,
-                rightHasParentheses
-                  ? right.sourceSpan.start - 1
-                  : right.sourceSpan.start,
+                originalLeft.sourceSpan.end,
+                originalRight.sourceSpan.start,
               ]),
             );
 
-            // Remove the right first parenthesis if it exists
-            if (rightHasParentheses) {
+            // Fix the right side - handle parenthesized expressions specially
+            if (originalRight instanceof ParenthesizedExpression) {
+              // For parenthesized expressions, we want to replace the whole thing including parens
               fixes.push(
-                fixer.removeRange([
-                  right.sourceSpan.start - 1,
-                  right.sourceSpan.start,
-                ]),
+                ...getRightSideFixesForParenthesized(
+                  fixer,
+                  right,
+                  originalRight,
+                ),
               );
-            }
-
-            // Fix the right side
-            fixes.push(...getRightSideFixes(fixer, right));
-
-            // Remove the right last parenthesis if it exists
-            if (rightHasParentheses) {
-              fixes.push(
-                fixer.removeRange([
-                  right.sourceSpan.end,
-                  right.sourceSpan.end + 1,
-                ]),
-              );
+            } else {
+              fixes.push(...getRightSideFixes(fixer, right));
             }
 
             return fixes;
@@ -191,6 +159,42 @@ function getLeftSideFixes(fixer: RuleFixer, left: AST): readonly RuleFix[] {
   ];
 }
 
+function getLeftSideFixesForParenthesized(
+  fixer: RuleFixer,
+  innerExpression: AST,
+  parenthesizedExpression: ParenthesizedExpression,
+): readonly RuleFix[] {
+  const parenthesizedStart = parenthesizedExpression.sourceSpan.start;
+  const parenthesizedEnd = parenthesizedExpression.sourceSpan.end;
+  const innerStart = innerExpression.sourceSpan.start;
+  const innerEnd = innerExpression.sourceSpan.end;
+
+  if (innerExpression instanceof TemplateLiteral) {
+    // Remove the end ` sign from the inner expression and remove the parentheses
+    return [
+      fixer.removeRange([parenthesizedStart, innerStart]), // Remove opening paren
+      fixer.removeRange([innerEnd - 1, innerEnd]), // Remove closing backtick
+      fixer.removeRange([innerEnd, parenthesizedEnd]), // Remove closing paren
+    ];
+  }
+
+  if (isLiteralPrimitive(innerExpression)) {
+    // Transform to template literal and remove parentheses
+    return [
+      fixer.replaceTextRange(
+        [parenthesizedStart, parenthesizedEnd],
+        `\`${getLiteralPrimitiveStringValue(innerExpression, '`')}`,
+      ),
+    ];
+  }
+
+  // Transform parenthesized expression to template literal by removing parens and wrapping in ${}
+  return [
+    fixer.replaceTextRange([parenthesizedStart, innerStart], '`${'), // Replace opening paren with `${
+    fixer.replaceTextRange([innerEnd, parenthesizedEnd], '}'), // Replace closing paren with }
+  ];
+}
+
 function getRightSideFixes(fixer: RuleFixer, right: AST): readonly RuleFix[] {
   const { start, end } = right.sourceSpan;
 
@@ -213,5 +217,41 @@ function getRightSideFixes(fixer: RuleFixer, right: AST): readonly RuleFix[] {
   return [
     fixer.insertTextBeforeRange([start, end], '${'),
     fixer.insertTextAfterRange([start, end], '}`'),
+  ];
+}
+
+function getRightSideFixesForParenthesized(
+  fixer: RuleFixer,
+  innerExpression: AST,
+  parenthesizedExpression: ParenthesizedExpression,
+): readonly RuleFix[] {
+  const parenthesizedStart = parenthesizedExpression.sourceSpan.start;
+  const parenthesizedEnd = parenthesizedExpression.sourceSpan.end;
+  const innerStart = innerExpression.sourceSpan.start;
+  const innerEnd = innerExpression.sourceSpan.end;
+
+  if (innerExpression instanceof TemplateLiteral) {
+    // Remove the start ` sign from the inner expression and remove the parentheses
+    return [
+      fixer.removeRange([parenthesizedStart, innerStart]), // Remove opening paren
+      fixer.removeRange([innerStart, innerStart + 1]), // Remove opening backtick
+      fixer.removeRange([innerEnd, parenthesizedEnd]), // Remove closing paren
+    ];
+  }
+
+  if (isLiteralPrimitive(innerExpression)) {
+    // Transform to template literal and remove parentheses
+    return [
+      fixer.replaceTextRange(
+        [parenthesizedStart, parenthesizedEnd],
+        `${getLiteralPrimitiveStringValue(innerExpression, '`')}\``,
+      ),
+    ];
+  }
+
+  // Transform parenthesized expression to template literal by removing parens and wrapping in ${}
+  return [
+    fixer.replaceTextRange([parenthesizedStart, innerStart], '${'), // Replace opening paren with ${
+    fixer.replaceTextRange([innerEnd, parenthesizedEnd], '}`'), // Replace closing paren with }`
   ];
 }
