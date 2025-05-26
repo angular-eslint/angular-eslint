@@ -199,6 +199,46 @@ class Test extends Component {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/use-lifecycle-interface": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Directive()
+class FoobarBase implements OnDestroy {
+  ngOnDestroy(): void {
+    /* some base logic here */
+  }
+}
+
+@Component()
+class FoobarComponent extends FoobarBase {
+  ngOnDestroy(): void {
+  ~~~~~~~~~~~
+    super.ngOnDestroy();
+    /* some concrete logic here */
+  }
+}
+```
+
 </details>
 
 <br>
@@ -354,6 +394,122 @@ class Test extends Component implements ng.OnInit, ng.OnDestroy  {
 
 ```ts
 class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/use-lifecycle-interface": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive()
+class FoobarBase implements OnDestroy {
+  ngOnDestroy(): void {
+    /* some base logic here */
+  }
+}
+
+@Component()
+class FoobarComponent extends FoobarBase {
+  override ngOnDestroy(): void {
+    super.ngOnDestroy();
+    /* some concrete logic here */
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/use-lifecycle-interface": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+class BaseClass {
+  ngOnInit(): void {
+    /* base initialization */
+  }
+}
+
+@Component()
+class DerivedComponent extends BaseClass {
+  override ngOnInit(): void {
+    super.ngOnInit();
+    /* derived initialization */
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/use-lifecycle-interface": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive()
+class BaseDirective implements OnInit {
+  ngOnInit(): void {
+    /* base initialization */
+  }
+}
+
+@Component()
+class DerivedComponent extends BaseDirective {
+  override ngOnInit(): void {
+    super.ngOnInit();
+    /* derived initialization */
+  }
+}
 ```
 
 </details>

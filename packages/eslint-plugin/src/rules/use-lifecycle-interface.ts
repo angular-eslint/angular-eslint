@@ -32,13 +32,22 @@ export default createESLintRule<Options, MessageIds>({
     ]);
 
     return {
-      [`MethodDefinition[key.name=${angularLifecycleMethodsPattern}]`]({
-        key,
-        parent: { parent },
-      }: TSESTree.MethodDefinition & { parent: TSESTree.ClassBody } & {
-        parent: TSESTree.ClassDeclaration;
-      }) {
+      [`MethodDefinition[key.name=${angularLifecycleMethodsPattern}]`](
+        node: TSESTree.MethodDefinition & { parent: TSESTree.ClassBody } & {
+          parent: TSESTree.ClassDeclaration;
+        },
+      ) {
+        const {
+          key,
+          parent: { parent },
+        } = node;
+
         if (!ASTUtils.getAngularClassDecorator(parent)) return;
+
+        // Do not report the method if it has the override keyword because it implies the base class is responsible for the implementation
+        if (node.override) {
+          return;
+        }
 
         const declaredLifecycleInterfaces =
           ASTUtils.getDeclaredAngularLifecycleInterfaces(parent);
