@@ -143,17 +143,32 @@ describe('Linter Builder', () => {
     setWorkspaceRoot(previousWorkspaceRoot);
   });
 
-  it('should throw if the eslint version is not supported', async () => {
+  it('should fail if the eslint version is not supported', async () => {
     MockESLint.version = '1.6';
     const result = runBuilder(createValidRunBuilderOptions());
-    await expect(result).rejects.toThrow(
-      /ESLint must be version 7.6 or higher/,
-    );
+    await expect(result).resolves.toMatchInlineSnapshot(`
+      Object {
+        "error": "Error: ESLint must be version 7.6 or higher.",
+        "info": Object {
+          "builderName": "@angular-eslint/builder:lint",
+          "description": "Testing only builder.",
+          "optionSchema": Object {
+            "type": "object",
+          },
+        },
+        "success": false,
+        "target": Object {
+          "configuration": undefined,
+          "project": undefined,
+          "target": undefined,
+        },
+      }
+    `);
   });
 
-  it('should not throw if the eslint version is supported', async () => {
-    const result = runBuilder(createValidRunBuilderOptions());
-    await expect(result).resolves.not.toThrow();
+  it('should not fail if the eslint version is supported', async () => {
+    const result = await runBuilder(createValidRunBuilderOptions());
+    expect(result.error).toBeUndefined();
   });
 
   it('should resolve and instantiate ESLint with the options that were passed to the builder', async () => {
@@ -327,15 +342,16 @@ describe('Linter Builder', () => {
     );
   });
 
-  it('should throw if no reports generated', async () => {
+  it('should fail if no reports generated', async () => {
     mockReports = [];
-    await expect(
-      runBuilder(
-        createValidRunBuilderOptions({
-          lintFilePatterns: ['includedFile1'],
-        }),
-      ),
-    ).rejects.toThrow(/Invalid lint configuration. Nothing to lint./);
+    const result = await runBuilder(
+      createValidRunBuilderOptions({
+        lintFilePatterns: ['includedFile1'],
+      }),
+    );
+    expect(result.error).toMatchInlineSnapshot(
+      `"Error: Invalid lint configuration. Nothing to lint. Please check your lint target pattern(s)."`,
+    );
   });
 
   it('should create a new instance of the formatter with the selected user option', async () => {

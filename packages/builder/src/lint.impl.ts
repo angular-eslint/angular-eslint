@@ -207,6 +207,7 @@ For full guidance on how to resolve this issue, please see https://github.com/an
       }
       return {
         success: false,
+        error: String(err || 'Unknown error'),
       };
     }
   },
