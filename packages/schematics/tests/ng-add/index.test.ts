@@ -9,7 +9,6 @@ import {
   FIXED_TYPESCRIPT_ESLINT_V7_VERSION,
 } from '../../src/ng-add';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const packageJSON = require('../../package.json');
 
 const eslintVersion = packageJSON.devDependencies['eslint'];

@@ -18,18 +18,19 @@ pnpm nx run-many -t check-rule-lists # run pnpm nx run-many -t update-rule-lists
 pnpm nx run-many -t check-rule-configs # run pnpm nx run-many -t update-rule-configs and commit the result if this check fails
 ```
 
-Additionally, run tests and lints for any affected project. For example, changes to `eslint-plugin-template` require:
+When working on an individual rule, the preferred way to run tests is to target the specific spec file. For example, to run tests for the `prefer-standalone` rule within the `eslint-plugin` project, run:
 
 ```bash
-pnpm nx test eslint-plugin-template
-pnpm nx lint eslint-plugin-template
+NX_NO_CLOUD=true pnpm nx test eslint-plugin packages/eslint-plugin/tests/rules/prefer-standalone/spec.ts --runInBand
 ```
 
-Use `pnpm nx run-many -t test` to run all tests across all packages.
-Use `pnpm nx run-many -t lint` to run all linting across all packages.
-Use `pnpm nx run-many -t typecheck` to run TypeScript type checking across all packages.
+Once rule specific tests have passed, run commands for all projects:
 
-If there are memory issues with jest tests, try passing `--runInBand` to the test command.
+Use `pnpm nx run-many -t test --parallel 2` to run all tests across all packages.
+Use `pnpm nx run-many -t lint --parallel 2` to run all linting across all packages.
+Use `pnpm nx run-many -t typecheck --parallel 2` to run TypeScript type checking across all packages.
+
+If there are memory issues with jest tests, try passing `--runInBand` to the test command andor changing the number of parallel tests to 1.
 
 If you are updating e2e tests, you may need to update the snapshots. Run `pnpm update-e2e-snapshots` to update the snapshots and commit the resulting snapshot changes. NOTHING ELSE. There will be a diff on package.json files etc when doing this, but ONLY commit the snapshot changes.
 

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import execa from 'execa';
 import path from 'node:path';
 import { stripVTControlCharacters } from 'node:util';
@@ -27,7 +26,8 @@ export async function runLint(directory: string): Promise<string | undefined> {
 
     return normalizeOutput(stdout);
   } catch (error: any) {
-    return normalizeOutput(error.stdout || error);
+    const output = error.stdout ? error.stdout + '\n' + error.stderr : error;
+    return normalizeOutput(output);
   }
 }
 

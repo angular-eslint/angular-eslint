@@ -5,6 +5,9 @@ export const supportedFlatConfigNames = [
   'eslint.config.js',
   'eslint.config.mjs',
   'eslint.config.cjs',
+  'eslint.config.ts',
+  'eslint.config.mts',
+  'eslint.config.cts',
 ];
 
 async function resolveESLintClass(
@@ -20,7 +23,6 @@ async function resolveESLintClass(
     if (!useFlatConfig) {
       return eslint.ESLint;
     }
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const { FlatESLint } = require('eslint/use-at-your-own-risk');
     return FlatESLint;
   } catch {

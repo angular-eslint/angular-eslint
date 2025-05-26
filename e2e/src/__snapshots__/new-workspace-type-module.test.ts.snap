@@ -195,5 +195,7 @@ __ROOT__//new-workspace-type-module/projects/another-lib/src/lib/another-lib.ser
   8:17  error  Unexpected empty constructor  @typescript-eslint/no-empty-function
 
 ✖ 1 problem (1 error, 0 warnings)
+
+Lint errors found in the listed files.
 "
 `;
