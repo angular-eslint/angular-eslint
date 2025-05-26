@@ -137,6 +137,87 @@ The rule does not have any configuration options.
 #### ❌ Invalid Code
 
 ```html
+{{ `prefix-${a}-${ (b + "-inside-" + c )}-${d}-suffix` }}
+                    ~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-template-literal": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+{{ `prefix-${a}-${b + '-inside-' + c}-${d}-suffix` }}
+                  ~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-template-literal": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+{{ `prefix-${a}-${b + `-inside-${c}`}-${d}-suffix` }}
+                  ~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-template-literal": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
 {{ 'pre"fix-' + "-suf'fix" }}
    ~~~~~~~~~~~~~~~~~~~~~~~
 ```
