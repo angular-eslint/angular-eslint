@@ -24,6 +24,7 @@ export default (
       '@angular-eslint/no-output-on-prefix': 'error',
       '@angular-eslint/no-output-rename': 'error',
       '@angular-eslint/no-outputs-metadata-property': 'error',
+      '@angular-eslint/prefer-inject': 'error',
       '@angular-eslint/prefer-standalone': 'error',
       '@angular-eslint/use-pipe-transform-interface': 'error',
       '@angular-eslint/use-lifecycle-interface': 'warn',

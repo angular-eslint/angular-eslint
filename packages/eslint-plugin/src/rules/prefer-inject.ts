@@ -14,6 +14,7 @@ export default createESLintRule<Options, MessageIds>({
     docs: {
       description:
         'Prefer using the inject() function over constructor parameter injection',
+      recommended: 'recommended',
     },
     schema: [],
     messages: {
