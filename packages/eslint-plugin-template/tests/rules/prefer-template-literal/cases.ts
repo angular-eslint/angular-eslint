@@ -892,4 +892,54 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
            
       `,
   }),
+
+  // Test cases for reported bugs
+
+  // Bug 1: Simple long string test case
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description: 'should fix concatenation with long URL string',
+    annotatedSource: `
+        <a [href]="'https://example.com/very-long-url-path-that-is-quite-long' + variable">Test</a>
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    annotatedOutput: `
+        <a [href]="\`https://example.com/very-long-url-path-that-is-quite-long\${variable}\`">Test</a>
+                   
+      `,
+  }),
+
+  // Test cases for specific reported bugs that currently fail
+
+  // Test case 1: Add a simple case with the actual failing 108-character string
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description: 'should fix exactly 108 char string (reproduces bug)',
+    annotatedSource: `
+        <a [href]="'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' + example">Test</a>
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    annotatedOutput: `
+        <a [href]="\`xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\${example}\`">Test</a>
+                   
+      `,
+  }),
+
+  // Test case demonstrating multiple autofix passes for chained concatenations
+  // convertAnnotatedSourceToFailureCase({
+  //   messageId,
+  //   description:
+  //     'should handle chained concatenations of literals requiring multiple autofix passes',
+  //   annotatedSource: `
+  //       {{ 'first' + 'second' + 'third' }}
+  //          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  //     `,
+  //   annotatedOutputs: [
+  //     // TODO: this is where we should end up for this source, but what should the interim fixes be?
+  //     `
+  //       {{ 'firstsecondthird' }}
+
+  //     `,
+  //   ],
+  // }),
 ];
