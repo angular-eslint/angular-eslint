@@ -92,22 +92,10 @@ export default createESLintRule<Options, MessageIds>({
           parent: TSESTree.ClassBody & { parent: TSESTree.ClassDeclaration };
         },
       ) {
-        const params = (node.value as TSESTree.FunctionExpression).params;
+        const params = (node.value as TSESTree.FunctionExpression).params ?? [];
         if (params.length === 0) {
           return;
         }
-
-        // ignore constructors that only call super() (no parameters to inject)
-        const body = node.value.body?.body ?? [];
-        const onlySuper =
-          body.length === 1 &&
-          body[0].type === AST_NODE_TYPES.ExpressionStatement &&
-          body[0].expression.type === AST_NODE_TYPES.CallExpression &&
-          body[0].expression.callee.type === AST_NODE_TYPES.Super;
-        if (onlySuper) {
-          return;
-        }
-
         for (const param of params) {
           if (shouldReportParameter(param)) {
             context.report({ node: param, messageId: 'preferInject' });
