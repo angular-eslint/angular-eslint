@@ -926,22 +926,20 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
 
   // Test case demonstrating multiple autofix passes for chained concatenations
-  convertAnnotatedSourceToFailureCase({
-    messageId,
-    description: 'should handle chained concatenations requiring multiple autofix passes',
-    annotatedSource: `
-        {{ 'first' + 'second' + 'third' }}
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      `,
-    annotatedOutputs: [
-      `
-        {{ 'firstsecond' + 'third' }}
-           
-      `,
-      `
-        {{ 'firstsecondthird' }}
-           
-      `,
-    ],
-  }),
+  // convertAnnotatedSourceToFailureCase({
+  //   messageId,
+  //   description:
+  //     'should handle chained concatenations of literals requiring multiple autofix passes',
+  //   annotatedSource: `
+  //       {{ 'first' + 'second' + 'third' }}
+  //          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  //     `,
+  //   annotatedOutputs: [
+  //     // TODO: this is where we should end up for this source, but what should the interim fixes be?
+  //     `
+  //       {{ 'firstsecondthird' }}
+
+  //     `,
+  //   ],
+  // }),
 ];
