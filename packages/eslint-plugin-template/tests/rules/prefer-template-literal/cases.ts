@@ -895,7 +895,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
 
   // Test cases for reported bugs
 
-  // Bug 1: Simple long string test case  
+  // Bug 1: Simple long string test case
   convertAnnotatedSourceToFailureCase({
     messageId,
     description: 'should fix concatenation with long URL string',
@@ -925,4 +925,23 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       `,
   }),
 
+  // Test case demonstrating multiple autofix passes for chained concatenations
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description: 'should handle chained concatenations requiring multiple autofix passes',
+    annotatedSource: `
+        {{ 'first' + 'second' + 'third' }}
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    annotatedOutputs: [
+      `
+        {{ 'firstsecond' + 'third' }}
+           
+      `,
+      `
+        {{ 'firstsecondthird' }}
+           
+      `,
+    ],
+  }),
 ];
