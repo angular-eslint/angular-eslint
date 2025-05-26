@@ -1,10 +1,12 @@
 import {
   AST,
   LiteralPrimitive,
+  ParenthesizedExpression,
   TemplateLiteral,
   type Binary,
 } from '@angular-eslint/bundled-angular-compiler';
 import { ensureTemplateParser } from '@angular-eslint/utils';
+import { RuleFix, RuleFixer } from '@typescript-eslint/utils/ts-eslint';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import {
   getLiteralPrimitiveStringValue,
@@ -12,7 +14,7 @@ import {
   isStringLiteralPrimitive,
   Quote,
 } from '../utils/literal-primitive';
-import { RuleFix, RuleFixer } from '@typescript-eslint/utils/ts-eslint';
+import { unwrapParenthesizedExpression } from '../utils/unwrap-parenthesized-expression';
 
 const messageId = 'preferTemplateLiteral';
 
@@ -42,7 +44,10 @@ export default createESLintRule<Options, MessageIds>({
 
     return {
       'Binary[operation="+"]'(node: Binary) {
-        const { left, right } = node;
+        const originalLeft = node.left;
+        const originalRight = node.right;
+        const left = unwrapParenthesizedExpression(originalLeft);
+        const right = unwrapParenthesizedExpression(originalRight);
 
         const isLeftString =
           isStringLiteralPrimitive(left) || left instanceof TemplateLiteral;
@@ -66,6 +71,11 @@ export default createESLintRule<Options, MessageIds>({
             return '';
           }
 
+          // If either side is not a literal primitive, we need to use backticks for interpolation
+          if (!isLiteralPrimitive(left) || !isLiteralPrimitive(right)) {
+            return '`';
+          }
+
           if (
             left instanceof LiteralPrimitive &&
             right instanceof LiteralPrimitive
@@ -81,79 +91,6 @@ export default createESLintRule<Options, MessageIds>({
           }
 
           return '`';
-        }
-
-        function getLeftSideFixes(
-          fixer: RuleFixer,
-          quote: Quote | '',
-        ): readonly RuleFix[] {
-          const { start, end } = left.sourceSpan;
-
-          if (left instanceof TemplateLiteral) {
-            // Remove the end ` sign from the left side
-            return [
-              fixer.replaceTextRange([start, start + 1], quote),
-              fixer.removeRange([end - 1, end]),
-            ];
-          }
-
-          if (isLiteralPrimitive(left)) {
-            // Transform left side to template literal
-            return [
-              fixer.replaceTextRange(
-                [start, end],
-                parentIsTemplateLiteral
-                  ? `${getLiteralPrimitiveStringValue(left, '`')}`
-                  : `${quote}${getLiteralPrimitiveStringValue(left, quote as Quote)}`,
-              ),
-            ];
-          }
-
-          // Transform left side to template literal
-          return [
-            fixer.insertTextBeforeRange([start, end], `${quote}\${`),
-            fixer.insertTextAfterRange([start, end], '}'),
-          ];
-        }
-
-        function getRightSideFixes(
-          fixer: RuleFixer,
-          quote: Quote | '',
-        ): readonly RuleFix[] {
-          const { start, end } = right.sourceSpan;
-
-          if (right instanceof TemplateLiteral) {
-            // Remove the start ` sign from the right side
-            return [
-              fixer.removeRange([start, start + 1]),
-              fixer.replaceTextRange([end - 1, end], quote),
-            ];
-          }
-
-          if (isLiteralPrimitive(right)) {
-            // Transform right side to template literal if it's a string
-            return [
-              fixer.replaceTextRange(
-                [start, end],
-                parentIsTemplateLiteral
-                  ? `${getLiteralPrimitiveStringValue(right, '`')}`
-                  : `${getLiteralPrimitiveStringValue(right, quote as Quote)}${quote}`,
-              ),
-            ];
-          }
-
-          // Transform right side to template literal
-          return [
-            fixer.insertTextBeforeRange([start, end], '${'),
-            fixer.insertTextAfterRange([start, end], `}${quote}`),
-          ];
-        }
-
-        function hasParentheses(node: AST): boolean {
-          const { start, end } = node.sourceSpan;
-          const text = sourceCode.text.slice(start - 1, end + 1);
-
-          return text.startsWith('(') && text.endsWith(')');
         }
 
         context.report({
@@ -193,65 +130,36 @@ export default createESLintRule<Options, MessageIds>({
                 ),
               );
             } else {
-              const leftHasParentheses = hasParentheses(left);
-              const rightHasParentheses = hasParentheses(right);
-
-              // Remove the left first parenthesis if it exists
-              if (leftHasParentheses) {
+              // Fix the left side - handle parenthesized expressions specially
+              if (originalLeft instanceof ParenthesizedExpression) {
                 fixes.push(
-                  fixer.removeRange([
-                    left.sourceSpan.start - 1,
-                    left.sourceSpan.start,
-                  ]),
+                  ...getLeftSideFixesForParenthesized(fixer, left, originalLeft, quote),
                 );
+              } else {
+                fixes.push(...getLeftSideFixes(fixer, left, quote));
               }
 
-              // Fix the left side
-              fixes.push(...getLeftSideFixes(fixer, quote));
-
-              // Remove the left last parenthesis if it exists
-              if (leftHasParentheses) {
-                fixes.push(
-                  fixer.removeRange([
-                    left.sourceSpan.end,
-                    left.sourceSpan.end + 1,
-                  ]),
-                );
-              }
-
-              // Remove the `+` sign
+              // Remove the `+` sign (including surrounding whitespace)
               fixes.push(
                 fixer.removeRange([
-                  leftHasParentheses
-                    ? left.sourceSpan.end + 1
-                    : left.sourceSpan.end,
-                  rightHasParentheses
-                    ? right.sourceSpan.start - 1
-                    : right.sourceSpan.start,
+                  originalLeft.sourceSpan.end,
+                  originalRight.sourceSpan.start,
                 ]),
               );
 
-              // Remove the right first parenthesis if it exists
-              if (rightHasParentheses) {
+              // Fix the right side - handle parenthesized expressions specially
+              if (originalRight instanceof ParenthesizedExpression) {
+                // For parenthesized expressions, we want to replace the whole thing including parens
                 fixes.push(
-                  fixer.removeRange([
-                    right.sourceSpan.start - 1,
-                    right.sourceSpan.start,
-                  ]),
+                  ...getRightSideFixesForParenthesized(
+                    fixer,
+                    right,
+                    originalRight,
+                    quote,
+                  ),
                 );
-              }
-
-              // Fix the right side
-              fixes.push(...getRightSideFixes(fixer, quote));
-
-              // Remove the right last parenthesis if it exists
-              if (rightHasParentheses) {
-                fixes.push(
-                  fixer.removeRange([
-                    right.sourceSpan.end,
-                    right.sourceSpan.end + 1,
-                  ]),
-                );
+              } else {
+                fixes.push(...getRightSideFixes(fixer, right, quote));
               }
             }
 
@@ -276,3 +184,139 @@ export default createESLintRule<Options, MessageIds>({
     };
   },
 });
+
+function getLeftSideFixes(fixer: RuleFixer, left: AST, quote: Quote | ''): readonly RuleFix[] {
+  const { start, end } = left.sourceSpan;
+
+  if (left instanceof TemplateLiteral) {
+    // Remove the end ` sign from the left side
+    return [
+      fixer.replaceTextRange([start, start + 1], quote),
+      fixer.removeRange([end - 1, end]),
+    ];
+  }
+
+  if (isLiteralPrimitive(left)) {
+    // Transform left side to template literal
+    return [
+      fixer.replaceTextRange(
+        [start, end],
+        quote === ''
+          ? `${getLiteralPrimitiveStringValue(left, '`')}`
+          : `${quote}${getLiteralPrimitiveStringValue(left, quote as Quote)}`,
+      ),
+    ];
+  }
+
+  // Transform left side to template literal
+  return [
+    fixer.insertTextBeforeRange([start, end], `${quote}\${`),
+    fixer.insertTextAfterRange([start, end], '}'),
+  ];
+}
+
+function getLeftSideFixesForParenthesized(
+  fixer: RuleFixer,
+  innerExpression: AST,
+  parenthesizedExpression: ParenthesizedExpression,
+  quote: Quote | '',
+): readonly RuleFix[] {
+  const parenthesizedStart = parenthesizedExpression.sourceSpan.start;
+  const parenthesizedEnd = parenthesizedExpression.sourceSpan.end;
+  const innerStart = innerExpression.sourceSpan.start;
+  const innerEnd = innerExpression.sourceSpan.end;
+
+  if (innerExpression instanceof TemplateLiteral) {
+    // Remove the end ` sign from the inner expression and remove the parentheses
+    return [
+      fixer.replaceTextRange([parenthesizedStart, innerStart + 1], quote), // Replace opening paren and backtick with quote
+      fixer.removeRange([innerEnd - 1, parenthesizedEnd]), // Remove closing backtick and paren
+    ];
+  }
+
+  if (isLiteralPrimitive(innerExpression)) {
+    // Transform to template literal and remove parentheses
+    return [
+      fixer.replaceTextRange(
+        [parenthesizedStart, parenthesizedEnd],
+        quote === ''
+          ? `${getLiteralPrimitiveStringValue(innerExpression, '`')}`
+          : `${quote}${getLiteralPrimitiveStringValue(innerExpression, quote as Quote)}`,
+      ),
+    ];
+  }
+
+  // Transform parenthesized expression to template literal by removing parens and wrapping in ${}
+  return [
+    fixer.replaceTextRange([parenthesizedStart, innerStart], `${quote}\${`), // Replace opening paren with quote${
+    fixer.replaceTextRange([innerEnd, parenthesizedEnd], '}'), // Replace closing paren with }
+  ];
+}
+
+function getRightSideFixes(fixer: RuleFixer, right: AST, quote: Quote | ''): readonly RuleFix[] {
+  const { start, end } = right.sourceSpan;
+
+  if (right instanceof TemplateLiteral) {
+    // Remove the start ` sign from the right side
+    return [
+      fixer.removeRange([start, start + 1]),
+      fixer.replaceTextRange([end - 1, end], quote),
+    ];
+  }
+
+  if (isLiteralPrimitive(right)) {
+    // Transform right side to template literal if it's a string
+    return [
+      fixer.replaceTextRange(
+        [start, end],
+        quote === ''
+          ? `${getLiteralPrimitiveStringValue(right, '`')}`
+          : `${getLiteralPrimitiveStringValue(right, quote as Quote)}${quote}`,
+      ),
+    ];
+  }
+
+  // Transform right side to template literal
+  return [
+    fixer.insertTextBeforeRange([start, end], '${'),
+    fixer.insertTextAfterRange([start, end], `}${quote}`),
+  ];
+}
+
+function getRightSideFixesForParenthesized(
+  fixer: RuleFixer,
+  innerExpression: AST,
+  parenthesizedExpression: ParenthesizedExpression,
+  quote: Quote | '',
+): readonly RuleFix[] {
+  const parenthesizedStart = parenthesizedExpression.sourceSpan.start;
+  const parenthesizedEnd = parenthesizedExpression.sourceSpan.end;
+  const innerStart = innerExpression.sourceSpan.start;
+  const innerEnd = innerExpression.sourceSpan.end;
+
+  if (innerExpression instanceof TemplateLiteral) {
+    // Remove the start ` sign from the inner expression and remove the parentheses
+    return [
+      fixer.removeRange([parenthesizedStart, innerStart + 1]), // Remove opening paren and backtick
+      fixer.replaceTextRange([innerEnd - 1, parenthesizedEnd], quote), // Replace closing backtick and paren with quote
+    ];
+  }
+
+  if (isLiteralPrimitive(innerExpression)) {
+    // Transform to template literal and remove parentheses
+    return [
+      fixer.replaceTextRange(
+        [parenthesizedStart, parenthesizedEnd],
+        quote === ''
+          ? `${getLiteralPrimitiveStringValue(innerExpression, '`')}`
+          : `${getLiteralPrimitiveStringValue(innerExpression, quote as Quote)}${quote}`,
+      ),
+    ];
+  }
+
+  // Transform parenthesized expression to template literal by removing parens and wrapping in ${}
+  return [
+    fixer.replaceTextRange([parenthesizedStart, innerStart], '${'), // Replace opening paren with ${
+    fixer.replaceTextRange([innerEnd, parenthesizedEnd], `}${quote}`), // Replace closing paren with }quote
+  ];
+}
