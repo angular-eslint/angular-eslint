@@ -85,6 +85,9 @@ import preferOutputEmitterRef, {
 import preferOutputReadonly, {
   RULE_NAME as preferOutputReadonlyRuleName,
 } from './rules/prefer-output-readonly';
+import preferInject, {
+  RULE_NAME as preferInjectRuleName,
+} from './rules/prefer-inject';
 import preferSignals, {
   RULE_NAME as preferSignalsRuleName,
 } from './rules/prefer-signals';
@@ -160,6 +163,7 @@ export = {
       preferOnPushComponentChangeDetection,
     [preferSignalsRuleName]: preferSignals,
     [preferStandaloneRuleName]: preferStandalone,
+    [preferInjectRuleName]: preferInject,
     [preferOutputEmitterRefRuleName]: preferOutputEmitterRef,
     [preferOutputReadonlyRuleName]: preferOutputReadonly,
     [relativeUrlPrefixRuleName]: relativeUrlPrefix,
