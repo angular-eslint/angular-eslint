@@ -134,7 +134,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # we need the tags to be available
+          fetch-depth: 0 # we need the tags to be available but not the full tree
+          filter: "tree:0"
 
       - uses: pnpm/action-setup@v4
         name: Install pnpm
