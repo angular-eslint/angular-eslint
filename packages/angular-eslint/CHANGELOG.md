@@ -1,3 +1,13 @@
+## 19.6.0 (2025-05-27)
+
+### 🚀 Features
+
+- **eslint-plugin:** [prefer-inject] add new rule ([#2461](https://github.com/angular-eslint/angular-eslint/pull/2461))
+
+### ❤️ Thank You
+
+- James Henry @JamesHenry
+
 ## 19.5.0 (2025-05-25)
 
 ### 🚀 Features

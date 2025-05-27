@@ -1,3 +1,7 @@
+## 19.6.0 (2025-05-27)
+
+This was a version bump only for @angular-eslint/utils to align it with other projects, there were no code changes.
+
 ## 19.5.0 (2025-05-25)
 
 ### 🚀 Features
