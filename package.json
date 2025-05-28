@@ -48,8 +48,8 @@
     ]
   },
   "devDependencies": {
-    "@angular/cli": "20.0.0-rc.3",
-    "@angular/compiler": "20.0.0-rc.2",
+    "@angular/cli": "20.0.0",
+    "@angular/compiler": "20.0.0",
     "@commitlint/cli": "19.8.1",
     "@commitlint/config-conventional": "19.8.1",
     "@mdn/browser-compat-data": "6.0.19",
@@ -61,7 +61,7 @@
     "@nx/js": "21.1.2",
     "@nx/plugin": "21.1.2",
     "@nx/workspace": "21.1.2",
-    "@schematics/angular": "20.0.0-rc.3",
+    "@schematics/angular": "20.0.0",
     "@swc-node/register": "1.10.10",
     "@swc/cli": "0.7.7",
     "@swc/core": "1.11.29",

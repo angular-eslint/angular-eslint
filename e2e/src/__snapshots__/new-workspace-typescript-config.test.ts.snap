@@ -11,5 +11,5 @@ All files pass linting.
 exports[`new-workspace with TypeScript config should show an error when linting using a TypeScript config before the user installs jiti 1`] = `
 "
 Linting \\"new-workspace-typescript-config\\"...
-Error when running ESLint: You are using an outdated version of the 'jiti' library. Please update to the latest version of 'jiti' to ensure compatibility and access to the latest features."
+Error when running ESLint: The 'jiti' library is required for loading TypeScript configuration files. Make sure to install it."
 `;
