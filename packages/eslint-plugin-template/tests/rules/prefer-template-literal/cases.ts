@@ -25,6 +25,7 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '<my-component class="prefix-{{value}}-suffix"></my-component>',
   '<my-component [class]="`prefix-${value}-suffix`"></my-component>',
   '<my-component *directive="`prefix-${value}-suffix` | pipe" />',
+  '<div [ngStyle]="{ width: width + \'px\' }"></div>',
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
