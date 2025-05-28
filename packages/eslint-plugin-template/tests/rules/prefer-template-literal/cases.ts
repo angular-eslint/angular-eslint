@@ -25,7 +25,6 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '<my-component class="prefix-{{value}}-suffix"></my-component>',
   '<my-component [class]="`prefix-${value}-suffix`"></my-component>',
   '<my-component *directive="`prefix-${value}-suffix` | pipe" />',
-  '<div [ngStyle]="{ width: width + \'px\' }"></div>',
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
@@ -923,6 +922,18 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     annotatedOutput: `
         <a [href]="\`xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\${example}\`">Test</a>
                    
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description: 'should fix concatenation with long URL string',
+    annotatedSource: `
+        <div [ngStyle]="{ width: width + 'px' }"></div>
+                                 ~~~~~~~~~~~~
+      `,
+    annotatedOutput: `
+        <div [ngStyle]="{ width: \`\${width}px\` }"></div>
+                                 
       `,
   }),
 
