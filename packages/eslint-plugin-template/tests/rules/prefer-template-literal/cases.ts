@@ -72,6 +72,60 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     messageId,
     description:
+      'should fail concatenation inside template literal (double quote + parentheses + spaces)',
+    annotatedSource: `
+        {{ \`prefix-\${a}-\${ (b + "-inside-" + c )}-\${d}-suffix\` }}
+                            ~~~~~~~~~~~~~~
+      `,
+    annotatedOutputs: [
+      `
+        {{ \`prefix-\${a}-\${ (\`\${b}-inside-\` + c )}-\${d}-suffix\` }}
+                            
+      `,
+      `
+        {{ \`prefix-\${a}-\${b}-inside-\${c}-\${d}-suffix\` }}
+                            
+      `,
+    ],
+  }),
+
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail concatenation inside template literal (simple quote)',
+    annotatedSource: `
+        {{ \`prefix-\${a}-\${b + '-inside-' + c}-\${d}-suffix\` }}
+                          ~~~~~~~~~~~~~~
+      `,
+    annotatedOutputs: [
+      `
+        {{ \`prefix-\${a}-\${\`\${b}-inside-\` + c}-\${d}-suffix\` }}
+                          
+      `,
+      `
+        {{ \`prefix-\${a}-\${b}-inside-\${c}-\${d}-suffix\` }}
+                          
+      `,
+    ],
+  }),
+
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail concatenation inside template literal (right nested template literal)',
+    annotatedSource: `
+        {{ \`prefix-\${a}-\${b + \`-inside-\${c}\`}-\${d}-suffix\` }}
+                          ~~~~~~~~~~~~~~~~~~
+      `,
+    annotatedOutput: `
+        {{ \`prefix-\${a}-\${b}-inside-\${c}-\${d}-suffix\` }}
+                          
+      `,
+  }),
+
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
       'should fail concatenation (left: simple quote, right: double quote)',
     annotatedSource: `
         {{ 'pre"fix-' + "-suf'fix" }}
@@ -924,22 +978,4 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
                    
       `,
   }),
-
-  // Test case demonstrating multiple autofix passes for chained concatenations
-  // convertAnnotatedSourceToFailureCase({
-  //   messageId,
-  //   description:
-  //     'should handle chained concatenations of literals requiring multiple autofix passes',
-  //   annotatedSource: `
-  //       {{ 'first' + 'second' + 'third' }}
-  //          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  //     `,
-  //   annotatedOutputs: [
-  //     // TODO: this is where we should end up for this source, but what should the interim fixes be?
-  //     `
-  //       {{ 'firstsecondthird' }}
-
-  //     `,
-  //   ],
-  // }),
 ];

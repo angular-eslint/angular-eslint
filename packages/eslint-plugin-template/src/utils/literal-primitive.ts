@@ -15,9 +15,9 @@ export function isStringLiteralPrimitive(
 
 export function getLiteralPrimitiveStringValue(
   node: LiteralPrimitive,
-  quote: "'" | '"' | '`',
+  quote: "'" | '"' | '`' | '',
 ): string {
   return typeof node.value === 'string'
-    ? `${node.value.replaceAll(quote, `\\${quote}`)}`
+    ? `${quote !== '' ? node.value.replaceAll(quote, `\\${quote}`) : node.value}`
     : String(node.value);
 }
