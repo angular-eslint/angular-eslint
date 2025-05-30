@@ -1,3 +1,54 @@
+## 19.6.0 (2025-05-27)
+
+### 🩹 Fixes
+
+- respect existing eslint.config.ts, eslint.config.cts, eslint.config.mts files ([#2458](https://github.com/angular-eslint/angular-eslint/pull/2458))
+
+### ❤️ Thank You
+
+- James Henry @JamesHenry
+
+## 19.5.0 (2025-05-25)
+
+### 🚀 Features
+
+- **eslint-plugin-template:** add rule prefer-at-empty ([#2352](https://github.com/angular-eslint/angular-eslint/pull/2352))
+- **eslint-plugin-template:** [no-nested-tags] add rule ([#2398](https://github.com/angular-eslint/angular-eslint/pull/2398))
+
+### 🩹 Fixes
+
+- **eslint-plugin-template:** [prefer-at-empty] remove closing brace from @if when no longer needed ([#2450](https://github.com/angular-eslint/angular-eslint/pull/2450))
+- **eslint-plugin-template:** [cyclomatic-complexity] handle new control flow syntax ([#2447](https://github.com/angular-eslint/angular-eslint/pull/2447))
+- **eslint-plugin-template:** [alt-text] ensure multiple attributes do not cause false negatives ([#2441](https://github.com/angular-eslint/angular-eslint/pull/2441))
+- **eslint-plugin-template:** [prefer-template-literal] handle parentheses in autofix ([#2418](https://github.com/angular-eslint/angular-eslint/pull/2418))
+
+### ❤️ Thank You
+
+- Alexander von Weiss @sod
+- Dave @reduckted
+- Guillaume DROUARD
+- James Henry @JamesHenry
+
+## 19.4.0 (2025-05-08)
+
+### 🚀 Features
+
+- **eslint-plugin-template:** Add `prefer-template-literal` rule ([#2308](https://github.com/angular-eslint/angular-eslint/pull/2308))
+- **eslint-plugin-template:** [no-interpolation-in-attributes] add allowSubstringInterpolation option ([#2373](https://github.com/angular-eslint/angular-eslint/pull/2373))
+
+### 🩹 Fixes
+
+- **eslint-plugin-template:** remove backticks from inline template with interpolation ([#2368](https://github.com/angular-eslint/angular-eslint/pull/2368))
+- **eslint-plugin-template:** correct column adjustment for inline template message locations ([#2358](https://github.com/angular-eslint/angular-eslint/pull/2358))
+- **eslint-plugin-template:** [no-any] handle key reads ([#1701](https://github.com/angular-eslint/angular-eslint/pull/1701), [#2335](https://github.com/angular-eslint/angular-eslint/pull/2335))
+
+### ❤️ Thank You
+
+- daiscog @daiscog
+- Dave @reduckted
+- Evgeny Stepanovych @undsoft
+- Guillaume DROUARD
+
 ## 19.3.0 (2025-03-22)
 
 ### 🚀 Features

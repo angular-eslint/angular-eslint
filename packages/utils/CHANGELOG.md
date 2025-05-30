@@ -1,3 +1,21 @@
+## 19.6.0 (2025-05-27)
+
+This was a version bump only for @angular-eslint/utils to align it with other projects, there were no code changes.
+
+## 19.5.0 (2025-05-25)
+
+### 🚀 Features
+
+- **eslint-plugin:** introduce sort keys in type-decorator rule ([#2187](https://github.com/angular-eslint/angular-eslint/pull/2187))
+
+### ❤️ Thank You
+
+- Benjamin Schäublin
+
+## 19.4.0 (2025-05-08)
+
+This was a version bump only for @angular-eslint/utils to align it with other projects, there were no code changes.
+
 ## 19.3.0 (2025-03-22)
 
 This was a version bump only for @angular-eslint/utils to align it with other projects, there were no code changes.

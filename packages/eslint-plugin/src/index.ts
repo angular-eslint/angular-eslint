@@ -34,6 +34,9 @@ import noAttributeDecorator, {
 import noConflictingLifecycle, {
   RULE_NAME as noConflictingLifecycleRuleName,
 } from './rules/no-conflicting-lifecycle';
+import noDuplicatesInMetadataArrays, {
+  RULE_NAME as noDuplicatesInMetadataArraysRuleName,
+} from './rules/no-duplicates-in-metadata-arrays';
 import noEmptyLifecycleMethod, {
   RULE_NAME as noEmptyLifecycleMethodRuleName,
 } from './rules/no-empty-lifecycle-method';
@@ -82,6 +85,9 @@ import preferOutputEmitterRef, {
 import preferOutputReadonly, {
   RULE_NAME as preferOutputReadonlyRuleName,
 } from './rules/prefer-output-readonly';
+import preferInject, {
+  RULE_NAME as preferInjectRuleName,
+} from './rules/prefer-inject';
 import preferSignals, {
   RULE_NAME as preferSignalsRuleName,
 } from './rules/prefer-signals';
@@ -100,6 +106,9 @@ import requireLocalizeMetadata, {
 import runtimeLocalize, {
   RULE_NAME as runtimeLocalizeRuleName,
 } from './rules/runtime-localize';
+import sortKeysInTypeDecorator, {
+  RULE_NAME as sortKeysInTypeDecoratorRuleName,
+} from './rules/sort-keys-in-type-decorator';
 import sortLifecycleMethods, {
   RULE_NAME as sortLifecycleMethodsRuleName,
 } from './rules/sort-lifecycle-methods';
@@ -118,9 +127,6 @@ import useLifecycleInterface, {
 import usePipeTransformInterface, {
   RULE_NAME as usePipeTransformInterfaceRuleName,
 } from './rules/use-pipe-transform-interface';
-import noDuplicatesInMetadataArrays, {
-  RULE_NAME as noDuplicatesInMetadataArraysRuleName,
-} from './rules/no-duplicates-in-metadata-arrays';
 
 export = {
   configs: {
@@ -157,12 +163,14 @@ export = {
       preferOnPushComponentChangeDetection,
     [preferSignalsRuleName]: preferSignals,
     [preferStandaloneRuleName]: preferStandalone,
+    [preferInjectRuleName]: preferInject,
     [preferOutputEmitterRefRuleName]: preferOutputEmitterRef,
     [preferOutputReadonlyRuleName]: preferOutputReadonly,
     [relativeUrlPrefixRuleName]: relativeUrlPrefix,
     [requireLifecycleOnPrototypeRuleName]: requireLifecycleOnPrototype,
     [requireLocalizeMetadataRuleName]: requireLocalizeMetadata,
     [runtimeLocalizeRuleName]: runtimeLocalize,
+    [sortKeysInTypeDecoratorRuleName]: sortKeysInTypeDecorator,
     [sortLifecycleMethodsRuleName]: sortLifecycleMethods,
     [useComponentSelectorRuleName]: useComponentSelector,
     [useComponentViewEncapsulationRuleName]: useComponentViewEncapsulation,

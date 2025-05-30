@@ -409,6 +409,32 @@ The rule does not have any configuration options.
 #### ✅ Valid Code
 
 ```html
+<object aria-label="foo" id="bar"></object>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/alt-text": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
 <area aria-label="foo" />
 ```
 
@@ -462,6 +488,32 @@ The rule does not have any configuration options.
 
 ```html
 <area alt="This is descriptive!" />
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/alt-text": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<area alt="desc" href="path">
 ```
 
 <br>
@@ -566,6 +618,110 @@ The rule does not have any configuration options.
 
 ```html
 <input type="image" aria-labelledby="id1">
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/alt-text": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<object [title]="title" [other]="val"></object>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/alt-text": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<object [attr.aria-label]="desc" [custom]="x"></object>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/alt-text": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<area [alt]="altText" [id]="itemId">
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/alt-text": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<area [attr.aria-label]="label" [prop]="p">
 ```
 
 </details>

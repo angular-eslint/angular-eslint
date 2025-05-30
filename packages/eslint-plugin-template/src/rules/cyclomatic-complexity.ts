@@ -1,6 +1,11 @@
-import type {
+import {
+  Node,
   TmplAstBoundAttribute,
   TmplAstTextAttribute,
+  TmplAstIfBlock,
+  TmplAstForLoopBlock,
+  TmplAstSwitchBlockCase,
+  ParseSourceSpan,
 } from '@angular-eslint/bundled-angular-compiler';
 import { getTemplateParserServices } from '@angular-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
@@ -40,21 +45,39 @@ export default createESLintRule<Options, MessageIds>({
     let totalComplexity = 0;
     const parserServices = getTemplateParserServices(context);
 
+    function increment(node: { sourceSpan: ParseSourceSpan }): void {
+      totalComplexity += 1;
+
+      if (totalComplexity <= maxComplexity) return;
+
+      const loc = parserServices.convertNodeSourceSpanToLoc(node.sourceSpan);
+
+      context.report({
+        messageId: 'cyclomaticComplexity',
+        loc,
+        data: { maxComplexity, totalComplexity },
+      });
+    }
+
     return {
-      'BoundAttribute[name=/^(ngForOf|ngIf|ngSwitchCase)$/], TextAttribute[name="ngSwitchDefault"]'({
-        sourceSpan,
-      }: TmplAstBoundAttribute | TmplAstTextAttribute) {
-        totalComplexity += 1;
-
-        if (totalComplexity <= maxComplexity) return;
-
-        const loc = parserServices.convertNodeSourceSpanToLoc(sourceSpan);
-
-        context.report({
-          messageId: 'cyclomaticComplexity',
-          loc,
-          data: { maxComplexity, totalComplexity },
-        });
+      '*': (node: Node) => {
+        if (
+          node instanceof TmplAstBoundAttribute &&
+          /^(ngForOf|ngIf|ngSwitchCase)$/.test(node.name)
+        ) {
+          increment(node);
+        } else if (
+          node instanceof TmplAstTextAttribute &&
+          node.name === 'ngSwitchDefault'
+        ) {
+          increment(node);
+        } else if (
+          node instanceof TmplAstIfBlock ||
+          node instanceof TmplAstForLoopBlock ||
+          node instanceof TmplAstSwitchBlockCase
+        ) {
+          increment(node);
+        }
       },
     };
   },

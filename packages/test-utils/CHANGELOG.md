@@ -1,3 +1,15 @@
+## 19.6.0 (2025-05-27)
+
+This was a version bump only for @angular-eslint/test-utils to align it with other projects, there were no code changes.
+
+## 19.5.0 (2025-05-25)
+
+This was a version bump only for @angular-eslint/test-utils to align it with other projects, there were no code changes.
+
+## 19.4.0 (2025-05-08)
+
+This was a version bump only for @angular-eslint/test-utils to align it with other projects, there were no code changes.
+
 ## 19.3.0 (2025-03-22)
 
 This was a version bump only for @angular-eslint/test-utils to align it with other projects, there were no code changes.

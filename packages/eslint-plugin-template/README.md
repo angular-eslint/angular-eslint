@@ -23,6 +23,7 @@ Please see https://github.com/angular-eslint/angular-eslint for full usage instr
 | Rule | Description | :white_check_mark: | :wrench: | :bulb: | :accessibility: |
 | --- | --- | --- | --- | --- | --- |
 | [`no-duplicate-attributes`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/no-duplicate-attributes.md) | Ensures that there are no duplicate input properties or output event listeners |  |  | :bulb: |  |
+| [`no-nested-tags`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/no-nested-tags.md) | Denies nesting of <p> and <a> tags. |  |  |  |  |
 <!-- prettier-ignore-end -->
 
 <!-- end problems rule list -->
@@ -61,9 +62,11 @@ Please see https://github.com/angular-eslint/angular-eslint for full usage instr
 | [`no-interpolation-in-attributes`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/no-interpolation-in-attributes.md) | Ensures that property-binding is used instead of interpolation in attributes. |  |  |  |  |
 | [`no-negated-async`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/no-negated-async.md) | Ensures that async pipe results, as well as values used with the async pipe, are not negated | :white_check_mark: |  | :bulb: |  |
 | [`no-positive-tabindex`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/no-positive-tabindex.md) | Ensures that the `tabindex` attribute is not positive |  |  | :bulb: |  |
+| [`prefer-at-empty`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/prefer-at-empty.md) | Prefer using `@empty` with `@for` loops instead of a separate `@if` or `@else` block to reduce code and make it easier to read. |  | :wrench: |  |  |
 | [`prefer-contextual-for-variables`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/prefer-contextual-for-variables.md) | Ensures that contextual variables are used in @for blocks where possible instead of aliasing them. |  | :wrench: |  |  |
 | [`prefer-control-flow`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/prefer-control-flow.md) | Ensures that the built-in control flow is used. |  |  |  |  |
 | [`prefer-ngsrc`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/prefer-ngsrc.md) | Ensures ngSrc is used instead of src for img elements |  |  |  |  |
+| [`prefer-template-literal`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/prefer-template-literal.md) | Ensure that template literals are used instead of concatenating strings or expressions. |  | :wrench: |  |  |
 | [`role-has-required-aria`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/role-has-required-aria.md) | [Accessibility] Ensures elements with ARIA roles have all required properties for that role. |  |  | :bulb: | :accessibility: |
 | [`table-scope`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/table-scope.md) | [Accessibility] Ensures that the `scope` attribute is only used on the `<th>` element |  | :wrench: |  | :accessibility: |
 | [`use-track-by-function`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/use-track-by-function.md) | Ensures trackBy function is used |  |  |  |  |

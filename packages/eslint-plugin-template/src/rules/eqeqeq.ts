@@ -8,6 +8,10 @@ import { ensureTemplateParser } from '@angular-eslint/utils';
 import type { TSESLint } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import { getNearestNodeFrom } from '../utils/get-nearest-node-from';
+import {
+  isLiteralPrimitive,
+  isStringLiteralPrimitive,
+} from '../utils/literal-primitive';
 
 export type Options = [{ readonly allowNullOrUndefined?: boolean }];
 export type MessageIds = 'eqeqeq' | 'suggestStrictEquality';
@@ -142,10 +146,6 @@ function isASTWithSource(node: unknown): node is ASTWithSource {
   return node instanceof ASTWithSource;
 }
 
-function isLiteralPrimitive(node: unknown): node is LiteralPrimitive {
-  return node instanceof LiteralPrimitive;
-}
-
 function isInterpolation(node: unknown): node is Interpolation {
   return node instanceof Interpolation;
 }
@@ -157,16 +157,10 @@ function isNumeric(value: unknown): value is number | string {
   );
 }
 
-function isString(value: unknown): value is string {
-  return typeof value === 'string';
-}
-
 function isStringNonNumericValue(
   ast: AST,
 ): ast is LiteralPrimitive & { value: string } {
-  return (
-    isLiteralPrimitive(ast) && isString(ast.value) && !isNumeric(ast.value)
-  );
+  return isStringLiteralPrimitive(ast) && !isNumeric(ast.value);
 }
 
 function isNilValue(

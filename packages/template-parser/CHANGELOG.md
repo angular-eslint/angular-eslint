@@ -1,3 +1,21 @@
+## 19.6.0 (2025-05-27)
+
+### 🩹 Fixes
+
+- respect existing eslint.config.ts, eslint.config.cts, eslint.config.mts files ([#2458](https://github.com/angular-eslint/angular-eslint/pull/2458))
+
+### ❤️ Thank You
+
+- James Henry @JamesHenry
+
+## 19.5.0 (2025-05-25)
+
+This was a version bump only for template-parser to align it with other projects, there were no code changes.
+
+## 19.4.0 (2025-05-08)
+
+This was a version bump only for template-parser to align it with other projects, there were no code changes.
+
 ## 19.3.0 (2025-03-22)
 
 ### 🚀 Features
