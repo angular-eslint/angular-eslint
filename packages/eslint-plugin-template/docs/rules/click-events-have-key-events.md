@@ -35,6 +35,8 @@ interface Options {
 
 ```
 
+<br>
+
 ## Usage Examples
 
 > The following examples are generated automatically from the actual unit tests within the plugin, so you can be assured that their behavior is accurate based on the current commit.
@@ -337,15 +339,13 @@ interface Options {
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ```
 
-</details>
-
 <br>
 
 ---
 
 <br>
 
-#### Default Config
+#### Custom Config
 
 ```json
 {
@@ -354,7 +354,8 @@ interface Options {
       "error",
       {
         "ignoreWithDirectives": [
-          "myDirective"
+          "testDirective",
+          "otherDirective"
         ]
       }
     ]
@@ -367,13 +368,17 @@ interface Options {
 #### ❌ Invalid Code
 
 ```html
-<div (click)="onClick()"></div>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<div myDirective (click)="onClick()"></div>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ```
+
+</details>
 
 <br>
 
 ---
+
+<br>
 
 <details>
 <summary>✅ - Toggle examples of <strong>correct</strong> code for this rule</summary>
@@ -546,7 +551,11 @@ interface Options {
 
 <br>
 
-#### Default Config
+---
+
+<br>
+
+#### Custom Config
 
 ```json
 {
@@ -568,7 +577,7 @@ interface Options {
 #### ✅ Valid Code
 
 ```html
-<cui-button myDirective (click)="onClick()"></cui-button>
+<div myDirective (click)="onClick()"></div>
 ```
 
 <br>
@@ -577,7 +586,7 @@ interface Options {
 
 <br>
 
-#### Default Config
+#### Custom Config
 
 ```json
 {
@@ -599,7 +608,7 @@ interface Options {
 #### ✅ Valid Code
 
 ```html
-<cui-button [myDirective] (click)="onClick()"></cui-button>
+<div [myDirective] (click)="onClick()"></div>
 ```
 
 </details>
