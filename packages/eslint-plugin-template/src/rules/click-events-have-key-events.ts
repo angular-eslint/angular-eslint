@@ -3,8 +3,10 @@ import { getTemplateParserServices } from '@angular-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import { getDomElements } from '../utils/get-dom-elements';
 import { isHiddenFromScreenReader } from '../utils/is-hidden-from-screen-reader';
-import { isInteractiveElement } from '../utils/is-interactive-element';
+import { isInherentlyInteractiveElement } from '../utils/is-interactive-element';
 import { isPresentationRole } from '../utils/is-presentation-role';
+import { getAttributeValue } from '../utils/get-attribute-value';
+import { ARIARole } from 'aria-query';
 
 export type Options = [
   {
@@ -58,8 +60,15 @@ export default createESLintRule<Options, MessageIds>({
           isIgnored(ignoreWithDirectives, node) ||
           isPresentationRole(node) ||
           isHiddenFromScreenReader(node) ||
-          isInteractiveElement(node)
+          isInherentlyInteractiveElement(node)
         ) {
+          return;
+        }
+
+        // The final case that should be ignored is element which is not inherently interactive, but which has an interactive role.
+        // TODO: extend utils with this check (and make it include all interactive roles)
+        const role = getAttributeValue(node, 'role') as ARIARole;
+        if (role === 'button') {
           return;
         }
 
