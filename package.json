@@ -52,7 +52,7 @@
     "@angular/compiler": "19.2.14",
     "@commitlint/cli": "19.8.1",
     "@commitlint/config-conventional": "19.8.1",
-    "@mdn/browser-compat-data": "6.0.17",
+    "@mdn/browser-compat-data": "6.0.19",
     "@nx/devkit": "21.1.2",
     "@nx/esbuild": "21.1.2",
     "@nx/eslint": "21.1.2",
