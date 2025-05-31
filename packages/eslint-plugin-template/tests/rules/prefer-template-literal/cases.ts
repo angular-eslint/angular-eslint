@@ -924,6 +924,18 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
                    
       `,
   }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description: 'should fix concatenation with long URL string',
+    annotatedSource: `
+        <div [ngStyle]="{ width: width + 'px' }"></div>
+                                 ~~~~~~~~~~~~
+      `,
+    annotatedOutput: `
+        <div [ngStyle]="{ width: \`\${width}px\` }"></div>
+                                 
+      `,
+  }),
 
   // Test case demonstrating multiple autofix passes for chained concatenations
   // convertAnnotatedSourceToFailureCase({
