@@ -23,7 +23,17 @@
 
 ## Rule Options
 
-The rule does not have any configuration options.
+The rule accepts an options object with the following properties:
+
+```ts
+interface Options {
+  /**
+   * Default: `[]`
+   */
+  ignoreWithDirectives?: string[];
+}
+
+```
 
 <br>
 
@@ -329,6 +339,39 @@ The rule does not have any configuration options.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/click-events-have-key-events": [
+      "error",
+      {
+        "ignoreWithDirectives": [
+          "testDirective",
+          "otherDirective"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div myDirective (click)="onClick()"></div>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
 </details>
 
 <br>
@@ -504,6 +547,68 @@ The rule does not have any configuration options.
 <a href="#" (click)="onClick()"></a>
 <a [attr.href]="href" class="anchor" (click)="onClick()"></a>
 <a [routerLink]="'route'" (click)="onClick()"></a>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/click-events-have-key-events": [
+      "error",
+      {
+        "ignoreWithDirectives": [
+          "myDirective"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div myDirective (click)="onClick()"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/click-events-have-key-events": [
+      "error",
+      {
+        "ignoreWithDirectives": [
+          "myDirective"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div [myDirective] (click)="onClick()"></div>
 ```
 
 </details>
