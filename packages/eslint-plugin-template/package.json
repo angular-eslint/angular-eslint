@@ -24,11 +24,11 @@
     "axobject-query": "4.1.0"
   },
   "devDependencies": {
-    "@angular-eslint/template-parser": "workspace:*",
     "@angular-eslint/test-utils": "workspace:*",
     "@types/aria-query": "5.0.4"
   },
   "peerDependencies": {
+    "@angular-eslint/template-parser": "workspace:*",
     "@typescript-eslint/types": "^7.11.0 || ^8.0.0",
     "@typescript-eslint/utils": "^7.11.0 || ^8.0.0",
     "eslint": "^8.57.0 || ^9.0.0",
