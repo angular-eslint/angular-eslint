@@ -11,6 +11,7 @@ export type Options = [
 export type MessageIds = 'incorrectOrder';
 
 const DEFAULT_ORDER = {
+  // https://angular.dev/api/core/Component
   Component: [
     'selector',
     'imports',
@@ -20,12 +21,50 @@ const DEFAULT_ORDER = {
     'styleUrl',
     'styleUrls',
     'styles',
-    'encapsulation',
+    'providers',
     'changeDetection',
+    'encapsulation',
+    'viewProviders',
+    'host',
+    'hostDirectives',
+    'inputs',
+    'outputs',
+    'animations',
+    'schemas',
+    'exportAs',
+    'queries',
+    'preserveWhitespaces',
+    'jit',
+    // Deprecated properties according to https://angular.dev/api/core/Component
+    'moduleId',
+    'interpolation',
   ],
-  Directive: ['selector', 'standalone'],
-  NgModule: ['declarations', 'imports', 'exports', 'providers', 'bootstrap'],
-  Pipe: ['name', 'standalone'],
+  // https://angular.dev/api/core/Directive
+  Directive: [
+    'selector',
+    'standalone',
+    'providers',
+    'host',
+    'hostDirectives',
+    'inputs',
+    'outputs',
+    'exportAs',
+    'queries',
+    'jit',
+  ],
+  // https://angular.dev/api/core/NgModule
+  NgModule: [
+    'id', // rarely used but good to have first if set
+    'imports',
+    'declarations',
+    'providers',
+    'exports',
+    'bootstrap',
+    'schemas',
+    'jit',
+  ],
+  // https://angular.dev/api/core/Pipe
+  Pipe: ['name', 'standalone', 'pure'],
 };
 
 export const RULE_NAME = 'sort-keys-in-type-decorator';

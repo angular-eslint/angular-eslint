@@ -29,19 +29,19 @@ The rule accepts an options object with the following properties:
 ```ts
 interface Options {
   /**
-   * Default: `["selector","imports","standalone","templateUrl","template","styleUrl","styleUrls","styles","encapsulation","changeDetection"]`
+   * Default: `["selector","imports","standalone","templateUrl","template","styleUrl","styleUrls","styles","providers","changeDetection","encapsulation","viewProviders","host","hostDirectives","inputs","outputs","animations","schemas","exportAs","queries","preserveWhitespaces","jit","moduleId","interpolation"]`
    */
   Component?: string[];
   /**
-   * Default: `["selector","standalone"]`
+   * Default: `["selector","standalone","providers","host","hostDirectives","inputs","outputs","exportAs","queries","jit"]`
    */
   Directive?: string[];
   /**
-   * Default: `["declarations","imports","exports","providers","bootstrap"]`
+   * Default: `["id","imports","declarations","providers","exports","bootstrap","schemas","jit"]`
    */
   NgModule?: string[];
   /**
-   * Default: `["name","standalone"]`
+   * Default: `["name","standalone","pure"]`
    */
   Pipe?: string[];
 }
@@ -534,6 +534,163 @@ class Test {
 
 <details>
 <summary>✅ - Toggle examples of <strong>correct</strong> code for this rule</summary>
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/sort-keys-in-type-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  selector: 'app-test',
+  imports: [CommonModule],
+  standalone: true,
+  templateUrl: './test.component.html',
+  template: '<div>Test</div>',
+  styleUrl: './test.component.css',
+  styleUrls: ['./test.component.css'],
+  styles: ['div { color: red; }'],
+  providers: [TestService],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
+  viewProviders: [ViewService],
+  host: { '[class.test]': 'true' },
+  hostDirectives: [TestDirective],
+  inputs: ['value'],
+  outputs: ['change'],
+  animations: [trigger('test', [])],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  exportAs: 'appTest',
+  queries: { contentChild: new ContentChild('test') },
+  preserveWhitespaces: false,
+  jit: true,
+  moduleId: 'test-module',
+  interpolation: ['{{', '}}']
+})
+export class TestComponent {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/sort-keys-in-type-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: '[appTest]',
+  standalone: true,
+  providers: [TestService],
+  host: { '[class.test]': 'true' },
+  hostDirectives: [OtherDirective],
+  inputs: ['value'],
+  outputs: ['change'],
+  exportAs: 'appTest',
+  queries: { contentChild: new ContentChild('test') },
+  jit: true
+})
+export class TestDirective {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/sort-keys-in-type-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@NgModule({
+  id: 'test-module',
+  imports: [CommonModule],
+  declarations: [TestComponent],
+  providers: [TestService],
+  exports: [TestComponent],
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  jit: true
+})
+export class TestModule {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/sort-keys-in-type-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Pipe({
+  name: 'testPipe',
+  standalone: true,
+  pure: false
+})
+export class TestPipe {}
+```
+
+<br>
+
+---
 
 <br>
 
