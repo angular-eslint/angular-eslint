@@ -45,7 +45,16 @@ function checkIsNonInteractiveRole(node: TmplAstElement): boolean {
  * it's intention is to be interacted with on the DOM.
  */
 export function isInteractiveElement(node: TmplAstElement): boolean {
-  return getDomElements().has(node.name) && checkIsInteractiveElement(node);
+  const isDomElement = getDomElements().has(node.name);
+  if (!isDomElement) {
+    return false;
+  }
+  const role = getAttributeValue(node, 'role') as ARIARole;
+  // Any valid DOM element with a role of button is interactive
+  if (role === 'button') {
+    return true;
+  }
+  return checkIsInteractiveElement(node);
 }
 
 export function isNonInteractiveRole(node: TmplAstElement): boolean {
