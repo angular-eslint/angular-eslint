@@ -44,6 +44,56 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     }
     `,
   'class Test {}',
+  // Test case for override keyword - base class with interface
+  `
+    @Directive()
+    class FoobarBase implements OnDestroy {
+      ngOnDestroy(): void {
+        /* some base logic here */
+      }
+    }
+
+    @Component()
+    class FoobarComponent extends FoobarBase {
+      override ngOnDestroy(): void {
+        super.ngOnDestroy();
+        /* some concrete logic here */
+      }
+    }
+  `,
+  // Test case for override keyword - non-Angular base class
+  `
+    class BaseClass {
+      ngOnInit(): void {
+        /* base initialization */
+      }
+    }
+
+    @Component()
+    class DerivedComponent extends BaseClass {
+      override ngOnInit(): void {
+        super.ngOnInit();
+        /* derived initialization */
+      }
+    }
+  `,
+  // Test case for override keyword - Angular base class without interface
+  `
+    @Directive()
+    class BaseDirective implements OnInit {
+      ngOnInit(): void {
+        /* base initialization */
+      }
+    }
+
+    @Component()
+    class DerivedComponent extends BaseDirective {
+      override ngOnInit(): void {
+        super.ngOnInit();
+        /* derived initialization */
+      }
+    }
+  `,
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
@@ -244,6 +294,50 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         class Test extends Component implements OnInit {
           ngOnInit() {
           
+          }
+        }
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'it should fail if lifecycle method is declared without implementing its interface even when extending a base class (no override keyword)',
+    annotatedSource: `
+        @Directive()
+        class FoobarBase implements OnDestroy {
+          ngOnDestroy(): void {
+            /* some base logic here */
+          }
+        }
+
+        @Component()
+        class FoobarComponent extends FoobarBase {
+          ngOnDestroy(): void {
+          ~~~~~~~~~~~
+            super.ngOnDestroy();
+            /* some concrete logic here */
+          }
+        }
+      `,
+    messageId,
+    data: {
+      interfaceName: ASTUtils.AngularLifecycleInterfaces.OnDestroy,
+      methodName: ASTUtils.AngularLifecycleMethods.ngOnDestroy,
+    },
+    annotatedOutput: `import { OnDestroy } from '@angular/core';
+
+        @Directive()
+        class FoobarBase implements OnDestroy {
+          ngOnDestroy(): void {
+            /* some base logic here */
+          }
+        }
+
+        @Component()
+        class FoobarComponent extends FoobarBase implements OnDestroy {
+          ngOnDestroy(): void {
+          
+            super.ngOnDestroy();
+            /* some concrete logic here */
           }
         }
       `,

@@ -20,7 +20,6 @@ export function isSemanticRoleElement(
   elementAttributes: (TmplAstTextAttribute | TmplAstBoundAttribute)[],
 ): boolean {
   if (axElements === null || axRoles === null) {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const { AXObjectRoles, elementAXObjects } = require('axobject-query');
     axElements = elementAXObjects;
     axRoles = AXObjectRoles;

@@ -1,3 +1,19 @@
+## 19.6.0 (2025-05-27)
+
+### 🚀 Features
+
+- **eslint-plugin:** [prefer-inject] add new rule ([#2461](https://github.com/angular-eslint/angular-eslint/pull/2461))
+
+### 🩹 Fixes
+
+- respect existing eslint.config.ts, eslint.config.cts, eslint.config.mts files ([#2458](https://github.com/angular-eslint/angular-eslint/pull/2458))
+- **eslint-plugin:** [sort-keys-in-type-decorator] preserve unconfigured properties during autofix ([#2456](https://github.com/angular-eslint/angular-eslint/pull/2456))
+- **eslint-plugin:** [use-lifecycle-interface] do not report if the method uses override ([#2463](https://github.com/angular-eslint/angular-eslint/pull/2463))
+
+### ❤️ Thank You
+
+- James Henry @JamesHenry
+
 ## 19.5.0 (2025-05-25)
 
 ### 🚀 Features

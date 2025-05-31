@@ -9,7 +9,6 @@ import {
   FIXED_TYPESCRIPT_ESLINT_V7_VERSION,
 } from '../../src/ng-add';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const packageJSON = require('../../package.json');
 
 const eslintVersion = packageJSON.devDependencies['eslint'];
@@ -36,6 +35,7 @@ describe('ng-add', () => {
           },
         }),
       );
+      workspaceTree.create('package-lock.json', JSON.stringify({}));
     });
 
     describe('standard workspace layout - single existing project', () => {
@@ -490,6 +490,7 @@ describe('ng-add', () => {
     beforeEach(() => {
       workspaceTree = new UnitTestTree(Tree.empty());
       workspaceTree.create('package.json', JSON.stringify({}));
+      workspaceTree.create('package-lock.json', JSON.stringify({}));
     });
 
     describe('standard workspace layout - single existing project', () => {

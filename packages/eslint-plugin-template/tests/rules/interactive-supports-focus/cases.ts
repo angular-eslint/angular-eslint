@@ -227,7 +227,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
 
-  // interactive role, non interactive element
+  // interactive role on inherently non-interactive element without tabindex
   convertAnnotatedSourceToFailureCase({
     description:
       'should fail interactive role but element does not support focus',

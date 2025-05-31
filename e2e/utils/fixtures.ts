@@ -4,10 +4,12 @@ import {
   workspaceRoot,
   writeJsonFile,
 } from '@nx/devkit';
+import { execSync } from 'node:child_process';
 import {
   existsSync,
   mkdirSync,
   readFileSync,
+  rmSync,
   statSync,
   writeFileSync,
 } from 'node:fs';
@@ -65,5 +67,13 @@ export class Fixture {
 
   writeJson(f: string, content: object): void {
     writeJsonFile(joinPathFragments(this.root, f), content);
+  }
+
+  deleteFileOrDirectory(f: string): void {
+    rmSync(joinPathFragments(this.root, f), { recursive: true, force: true });
+  }
+
+  runCommand(command: string): void {
+    execSync(command, { cwd: this.root, maxBuffer: 1024 * 1024 * 10 });
   }
 }
