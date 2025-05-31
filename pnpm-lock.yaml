@@ -182,10 +182,10 @@ importers:
     dependencies:
       '@angular-devkit/core':
         specifier: '>= 19.0.0 < 20.0.0'
-        version: 19.2.13
+        version: 19.2.14
       '@angular-devkit/schematics':
         specifier: '>= 19.0.0 < 20.0.0'
-        version: 19.2.13
+        version: 19.2.14
       '@angular-eslint/builder':
         specifier: workspace:*
         version: link:../builder
@@ -221,10 +221,10 @@ importers:
     dependencies:
       '@angular-devkit/architect':
         specifier: '>= 0.1900.0 < 0.2000.0'
-        version: 0.1902.13
+        version: 0.1902.14
       '@angular-devkit/core':
         specifier: '>= 19.0.0 < 20.0.0'
-        version: 19.2.13
+        version: 19.2.14
       eslint:
         specifier: ^8.57.0 || ^9.0.0
         version: 9.27.0(jiti@2.4.2)
@@ -299,10 +299,10 @@ importers:
     dependencies:
       '@angular-devkit/core':
         specifier: '>= 19.0.0 < 20.0.0'
-        version: 19.2.13
+        version: 19.2.14
       '@angular-devkit/schematics':
         specifier: '>= 19.0.0 < 20.0.0'
-        version: 19.2.13
+        version: 19.2.14
       '@angular-eslint/eslint-plugin':
         specifier: workspace:*
         version: link:../eslint-plugin
@@ -310,8 +310,8 @@ importers:
         specifier: workspace:*
         version: link:../eslint-plugin-template
       ignore:
-        specifier: 7.0.4
-        version: 7.0.4
+        specifier: 7.0.5
+        version: 7.0.5
       semver:
         specifier: 7.7.2
         version: 7.7.2
@@ -383,22 +383,9 @@ packages:
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==}
     engines: {node: '>=6.0.0'}
 
-  '@angular-devkit/architect@0.1902.13':
-    resolution: {integrity: sha512-ZMj+PjK22Ph2U8usG6L7LqEfvWlbaOvmiWXSrEt9YiC9QJt6rsumCkOgUIsmHQtucm/lK+9CMtyYdwH2fYycjg==}
-    engines: {node: ^18.19.1 || ^20.11.1 || >=22.0.0, npm: ^6.11.0 || ^7.5.6 || >=8.0.0, yarn: '>= 1.13.0'}
-
   '@angular-devkit/architect@0.1902.14':
     resolution: {integrity: sha512-rgMkqOrxedzqLZ8w59T/0YrpWt7LDmGwt+ZhNHE7cn27jZ876yGC2Bhcn58YZh2+R03WEJ9q0ePblaBYz03SMw==}
     engines: {node: ^18.19.1 || ^20.11.1 || >=22.0.0, npm: ^6.11.0 || ^7.5.6 || >=8.0.0, yarn: '>= 1.13.0'}
-
-  '@angular-devkit/core@19.2.13':
-    resolution: {integrity: sha512-iq73hE5Uvms1w3uMUSk4i4NDXDMQ863VAifX8LOTadhG6U0xISjNJ11763egVCxQmaKmg7zbG4rda88wHJATzA==}
-    engines: {node: ^18.19.1 || ^20.11.1 || >=22.0.0, npm: ^6.11.0 || ^7.5.6 || >=8.0.0, yarn: '>= 1.13.0'}
-    peerDependencies:
-      chokidar: ^4.0.0
-    peerDependenciesMeta:
-      chokidar:
-        optional: true
 
   '@angular-devkit/core@19.2.14':
     resolution: {integrity: sha512-aaPEnRNIBoYT4XrrYcZlHadX8vFDTUR+4wUgcmr0cNDLeWzWtoPFeVq8TQD6kFDeqovSx/UVEblGgg/28WvHyg==}
@@ -408,10 +395,6 @@ packages:
     peerDependenciesMeta:
       chokidar:
         optional: true
-
-  '@angular-devkit/schematics@19.2.13':
-    resolution: {integrity: sha512-NhSPz3lI9njEo8eMUlZVGtlXl12UcNZv5lWTBZY/FGWUu6P5ciD/9iJINbc1jiaDH5E/DLEicUNuai0Q91X4Nw==}
-    engines: {node: ^18.19.1 || ^20.11.1 || >=22.0.0, npm: ^6.11.0 || ^7.5.6 || >=8.0.0, yarn: '>= 1.13.0'}
 
   '@angular-devkit/schematics@19.2.14':
     resolution: {integrity: sha512-s89/MWXHy8+GP/cRfFbSECIG3FQQQwNVv44OOmghPVgKQgQ+EoE/zygL2hqKYTUPoPaS/IhNXdXjSE5pS9yLeg==}
@@ -3757,8 +3740,8 @@ packages:
     resolution: {integrity: sha512-hsBTNUqQTDwkWtcdYI2i06Y/nUBEsNEDJKjWdigLvegy8kDuJAS8uRlpkkcQpyEXL0Z/pjDy5HBmMjRCJ2gq+g==}
     engines: {node: '>= 4'}
 
-  ignore@7.0.4:
-    resolution: {integrity: sha512-gJzzk+PQNznz8ysRrC0aOkBNVRBDtE1n53IqyqEf3PXrYwomFs5q4pGMizBMJF+ykh03insJ27hB8gSrD2Hn8A==}
+  ignore@7.0.5:
+    resolution: {integrity: sha512-Hs59xBNfUIunMFgWAbGX5cq6893IbWg4KnrjbYwX3tx0ztorVgTDA6B2sxf8ejHJ4wz8BqGUMYlnzNBer5NvGg==}
     engines: {node: '>= 4'}
 
   import-fresh@3.3.0:
@@ -5811,28 +5794,12 @@ snapshots:
       '@jridgewell/gen-mapping': 0.3.5
       '@jridgewell/trace-mapping': 0.3.25
 
-  '@angular-devkit/architect@0.1902.13':
-    dependencies:
-      '@angular-devkit/core': 19.2.13
-      rxjs: 7.8.1
-    transitivePeerDependencies:
-      - chokidar
-
   '@angular-devkit/architect@0.1902.14':
     dependencies:
       '@angular-devkit/core': 19.2.14
       rxjs: 7.8.1
     transitivePeerDependencies:
       - chokidar
-
-  '@angular-devkit/core@19.2.13':
-    dependencies:
-      ajv: 8.17.1
-      ajv-formats: 3.0.1(ajv@8.17.1)
-      jsonc-parser: 3.3.1
-      picomatch: 4.0.2
-      rxjs: 7.8.1
-      source-map: 0.7.4
 
   '@angular-devkit/core@19.2.14':
     dependencies:
@@ -5842,16 +5809,6 @@ snapshots:
       picomatch: 4.0.2
       rxjs: 7.8.1
       source-map: 0.7.4
-
-  '@angular-devkit/schematics@19.2.13':
-    dependencies:
-      '@angular-devkit/core': 19.2.13
-      jsonc-parser: 3.3.1
-      magic-string: 0.30.17
-      ora: 5.4.1
-      rxjs: 7.8.1
-    transitivePeerDependencies:
-      - chokidar
 
   '@angular-devkit/schematics@19.2.14':
     dependencies:
@@ -8055,7 +8012,7 @@ snapshots:
       '@typescript-eslint/visitor-keys': 8.33.0
       eslint: 9.27.0(jiti@2.4.2)
       graphemer: 1.4.0
-      ignore: 7.0.4
+      ignore: 7.0.5
       natural-compare: 1.4.0
       ts-api-utils: 2.1.0(typescript@5.8.3)
       typescript: 5.8.3
@@ -9888,7 +9845,7 @@ snapshots:
 
   ignore@5.3.2: {}
 
-  ignore@7.0.4: {}
+  ignore@7.0.5: {}
 
   import-fresh@3.3.0:
     dependencies:
