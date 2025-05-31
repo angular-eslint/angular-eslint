@@ -8,7 +8,76 @@ import type {
   Options,
 } from '../../../src/rules/sort-keys-in-type-decorator';
 
-export const valid: readonly ValidTestCase<Options>[] = [
+export const valid: readonly (string | ValidTestCase<Options>)[] = [
+  // All known Component properties in default order
+  `
+@Component({
+  selector: 'app-test',
+  imports: [CommonModule],
+  standalone: true,
+  templateUrl: './test.component.html',
+  template: '<div>Test</div>',
+  styleUrl: './test.component.css',
+  styleUrls: ['./test.component.css'],
+  styles: ['div { color: red; }'],
+  providers: [TestService],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
+  viewProviders: [ViewService],
+  host: { '[class.test]': 'true' },
+  hostDirectives: [TestDirective],
+  inputs: ['value'],
+  outputs: ['change'],
+  animations: [trigger('test', [])],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  exportAs: 'appTest',
+  queries: { contentChild: new ContentChild('test') },
+  preserveWhitespaces: false,
+  jit: true,
+  moduleId: 'test-module',
+  interpolation: ['{{', '}}']
+})
+export class TestComponent {}
+  `,
+  // All known Directive properties in default order
+  `
+@Directive({
+  selector: '[appTest]',
+  standalone: true,
+  providers: [TestService],
+  host: { '[class.test]': 'true' },
+  hostDirectives: [OtherDirective],
+  inputs: ['value'],
+  outputs: ['change'],
+  exportAs: 'appTest',
+  queries: { contentChild: new ContentChild('test') },
+  jit: true
+})
+export class TestDirective {}
+  `,
+  // All known NgModule properties in default order
+  `
+@NgModule({
+  id: 'test-module',
+  imports: [CommonModule],
+  declarations: [TestComponent],
+  providers: [TestService],
+  exports: [TestComponent],
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  jit: true
+})
+export class TestModule {}
+  `,
+  // All known Pipe properties in default order
+  `
+@Pipe({
+  name: 'testPipe',
+  standalone: true,
+  pure: false
+})
+export class TestPipe {}
+  `,
   {
     code: `
     @Type({
