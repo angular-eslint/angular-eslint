@@ -4,7 +4,7 @@ import { createESLintRule } from '../utils/create-eslint-rule';
 import { getDomElements } from '../utils/get-dom-elements';
 import { isHiddenFromScreenReader } from '../utils/is-hidden-from-screen-reader';
 import {
-  isInteractiveElement,
+  isInherentlyInteractiveElement,
   isNonInteractiveRole,
 } from '../utils/is-interactive-element';
 import { isContentEditable } from '../utils/is-content-editable';
@@ -84,7 +84,7 @@ export default createESLintRule<Options, MessageIds>({
         if (
           interactiveOutput &&
           !tabIndex &&
-          !isInteractiveElement(node) &&
+          !isInherentlyInteractiveElement(node) &&
           !isNonInteractiveRole(node) &&
           !isContentEditable(node)
         ) {

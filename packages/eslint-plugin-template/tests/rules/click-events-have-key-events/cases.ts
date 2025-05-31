@@ -55,6 +55,9 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
         <a href="#" (click)="onClick()"></a>
         <a [attr.href]="href" class="anchor" (click)="onClick()"></a>
         <a [routerLink]="'route'" (click)="onClick()"></a>
+        <div role="button" (click)="doSomething()"></div>
+        <span role="button" (click)="doSomething()"></span>
+        <p role="button" (click)="doSomething()"></p>
       `,
   },
   {

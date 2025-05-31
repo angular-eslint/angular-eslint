@@ -44,7 +44,7 @@ function checkIsNonInteractiveRole(node: TmplAstElement): boolean {
  * has a dynamic handler on it and we need to discern whether or not
  * it's intention is to be interacted with on the DOM.
  */
-export function isInteractiveElement(node: TmplAstElement): boolean {
+export function isInherentlyInteractiveElement(node: TmplAstElement): boolean {
   return getDomElements().has(node.name) && checkIsInteractiveElement(node);
 }
 
