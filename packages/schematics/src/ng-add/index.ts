@@ -55,6 +55,13 @@ function addAngularESLintPackages(
           typescriptESLintVersion;
         json.devDependencies['@typescript-eslint/utils'] =
           typescriptESLintVersion;
+      } else {
+        const isNpm = host.exists('package-lock.json');
+        if (!isNpm) {
+          // Prevent TS IDE errors in the eslint config file for non-npm installations by explicitly including @eslint/js (even though linting seems to still work without it)
+          json.devDependencies['@eslint/js'] =
+            `^${packageJSON.devDependencies['eslint']}`;
+        }
       }
     } else {
       applyDevDependenciesForESLintRC(json);
