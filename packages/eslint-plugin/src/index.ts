@@ -73,6 +73,9 @@ import noPipeImpure, {
 import noQueriesMetadataProperty, {
   RULE_NAME as noQueriesMetadataPropertyRuleName,
 } from './rules/no-queries-metadata-property';
+import noUncalledSignals, {
+  RULE_NAME as noUncalledSignalsRuleName,
+} from './rules/no-uncalled-signals';
 import pipePrefix, {
   RULE_NAME as pipePrefixRuleName,
 } from './rules/pipe-prefix';
@@ -152,6 +155,7 @@ export = {
     [noInputRenameRuleName]: noInputRename,
     [noInputsMetadataPropertyRuleName]: noInputsMetadataProperty,
     [noLifecycleCallRuleName]: noLifecycleCall,
+    [noUncalledSignalsRuleName]: noUncalledSignals,
     [noOutputNativeRuleName]: noOutputNative,
     [noOutputOnPrefixRuleName]: noOutputOnPrefix,
     [noOutputRenameRuleName]: noOutputRename,
