@@ -4,7 +4,7 @@ import yargs from 'yargs';
 
 (async () => {
   try {
-    const options = await yargs
+    const options = await yargs()
       .version(false)
       .option('version', {
         description:

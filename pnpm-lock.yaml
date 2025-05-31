@@ -261,6 +261,9 @@ importers:
       '@angular-eslint/bundled-angular-compiler':
         specifier: workspace:*
         version: link:../bundled-angular-compiler
+      '@angular-eslint/template-parser':
+        specifier: workspace:*
+        version: link:../template-parser
       '@angular-eslint/utils':
         specifier: workspace:*
         version: link:../utils
@@ -283,9 +286,6 @@ importers:
         specifier: '*'
         version: 5.8.3
     devDependencies:
-      '@angular-eslint/template-parser':
-        specifier: workspace:*
-        version: link:../template-parser
       '@angular-eslint/test-utils':
         specifier: workspace:*
         version: link:../test-utils
