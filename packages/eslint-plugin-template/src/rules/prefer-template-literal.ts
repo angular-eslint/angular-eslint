@@ -133,7 +133,12 @@ export default createESLintRule<Options, MessageIds>({
               // Fix the left side - handle parenthesized expressions specially
               if (originalLeft instanceof ParenthesizedExpression) {
                 fixes.push(
-                  ...getLeftSideFixesForParenthesized(fixer, left, originalLeft, quote),
+                  ...getLeftSideFixesForParenthesized(
+                    fixer,
+                    left,
+                    originalLeft,
+                    quote,
+                  ),
                 );
               } else {
                 fixes.push(...getLeftSideFixes(fixer, left, quote));
@@ -185,7 +190,11 @@ export default createESLintRule<Options, MessageIds>({
   },
 });
 
-function getLeftSideFixes(fixer: RuleFixer, left: AST, quote: Quote | ''): readonly RuleFix[] {
+function getLeftSideFixes(
+  fixer: RuleFixer,
+  left: AST,
+  quote: Quote | '',
+): readonly RuleFix[] {
   const { start, end } = left.sourceSpan;
 
   if (left instanceof TemplateLiteral) {
@@ -253,7 +262,11 @@ function getLeftSideFixesForParenthesized(
   ];
 }
 
-function getRightSideFixes(fixer: RuleFixer, right: AST, quote: Quote | ''): readonly RuleFix[] {
+function getRightSideFixes(
+  fixer: RuleFixer,
+  right: AST,
+  quote: Quote | '',
+): readonly RuleFix[] {
   const { start, end } = right.sourceSpan;
 
   if (right instanceof TemplateLiteral) {
