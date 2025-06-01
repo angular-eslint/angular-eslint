@@ -105,7 +105,7 @@ export default createESLintRule<Options, MessageIds>({
                 data: {
                   patternMessage:
                     typeof requireCustomId === 'string'
-                      ? ` matching the pattern /${requireCustomId}/`
+                      ? ` matching the pattern /${requireCustomId}/ on '${metadata.customId}'`
                       : '',
                 },
               });
