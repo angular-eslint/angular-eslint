@@ -35,6 +35,7 @@ describe('ng-add', () => {
           },
         }),
       );
+      workspaceTree.create('package-lock.json', JSON.stringify({}));
     });
 
     describe('standard workspace layout - single existing project', () => {
@@ -489,6 +490,7 @@ describe('ng-add', () => {
     beforeEach(() => {
       workspaceTree = new UnitTestTree(Tree.empty());
       workspaceTree.create('package.json', JSON.stringify({}));
+      workspaceTree.create('package-lock.json', JSON.stringify({}));
     });
 
     describe('standard workspace layout - single existing project', () => {

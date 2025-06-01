@@ -13,7 +13,7 @@ import {
   updateSchematicCollections,
 } from '../utils';
 
-export const FIXED_ESLINT_V8_VERSION = '8.57.0';
+export const FIXED_ESLINT_V8_VERSION = '8.57.1';
 export const FIXED_TYPESCRIPT_ESLINT_V7_VERSION = '7.11.0';
 
 const packageJSON = require('../../package.json');
@@ -55,6 +55,15 @@ function addAngularESLintPackages(
           typescriptESLintVersion;
         json.devDependencies['@typescript-eslint/utils'] =
           typescriptESLintVersion;
+      } else {
+        const isNpm = host.exists('package-lock.json');
+        if (!isNpm) {
+          // Prevent TS IDE errors in the eslint config file for non-npm installations by explicitly including @eslint/js (even though linting seems to still work without it)
+          json.devDependencies['@eslint/js'] =
+            `^${packageJSON.devDependencies['eslint']}`;
+          // Ensure @angular-eslint/builder is always resolvable in non-npm installations (https://github.com/angular-eslint/angular-eslint/issues/2241)
+          json.devDependencies['@angular-eslint/builder'] = packageJSON.version;
+        }
       }
     } else {
       applyDevDependenciesForESLintRC(json);

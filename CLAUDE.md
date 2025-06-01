@@ -21,7 +21,7 @@ pnpm nx run-many -t check-rule-configs # run pnpm nx run-many -t update-rule-con
 When working on an individual rule, the preferred way to run tests is to target the specific spec file. For example, to run tests for the `prefer-standalone` rule within the `eslint-plugin` project, run:
 
 ```bash
-NX_NO_CLOUD=true pnpm nx test eslint-plugin packages/eslint-plugin/tests/rules/prefer-standalone/spec.ts --runInBand
+pnpm nx test eslint-plugin packages/eslint-plugin/tests/rules/prefer-standalone/spec.ts --runInBand
 ```
 
 Once rule specific tests have passed, run commands for all projects:
