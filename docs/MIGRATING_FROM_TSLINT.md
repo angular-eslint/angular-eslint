@@ -42,7 +42,7 @@ If you just have a single project in your workspace you can just run:
 ng g @angular-eslint/schematics:convert-tslint-to-eslint
 ```
 
-If you have a `projects/` directory or similar in your workspace, you will have multiple entries in your `projects` configuration and you will need to chose which one you want to migrate using the `convert-tslint-to-eslint` schematic:
+If you have a `projects/` directory or similar in your workspace, you will have multiple entries in your `projects` configuration and you will need to choose which one you want to migrate using the `convert-tslint-to-eslint` schematic:
 
 ```sh
 ng g @angular-eslint/schematics:convert-tslint-to-eslint {{YOUR_PROJECT_NAME_GOES_HERE}}

@@ -2,7 +2,12 @@ jest.mock('eslint', () => ({
   ESLint: jest.fn(),
 }));
 
+jest.mock('eslint/use-at-your-own-risk', () => ({
+  FlatESLint: jest.fn(),
+}));
+
 import { ESLint } from 'eslint';
+import { FlatESLint } from 'eslint/use-at-your-own-risk';
 import { resolveAndInstantiateESLint } from './eslint-utils';
 
 describe('eslint-utils', () => {
@@ -165,11 +170,29 @@ describe('eslint-utils', () => {
       ).resolves.not.toThrow();
     });
 
+    it('should not throw if an eslint.config.ts file is used with ESLint Flat Config', async () => {
+      await expect(
+        resolveAndInstantiateESLint('./eslint.config.ts', {} as any, true),
+      ).resolves.not.toThrow();
+    });
+
+    it('should not throw if an eslint.config.mts file is used with ESLint Flat Config', async () => {
+      await expect(
+        resolveAndInstantiateESLint('./eslint.config.mts', {} as any, true),
+      ).resolves.not.toThrow();
+    });
+
+    it('should not throw if an eslint.config.cts file is used with ESLint Flat Config', async () => {
+      await expect(
+        resolveAndInstantiateESLint('./eslint.config.cts', {} as any, true),
+      ).resolves.not.toThrow();
+    });
+
     it('should throw if an eslintrc file is used with ESLint Flat Config', async () => {
       await expect(
         resolveAndInstantiateESLint('./.eslintrc.json', {} as any, true),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"When using the new Flat Config with ESLint, all configs must be named eslint.config.js or eslint.config.mjs or eslint.config.cjs, and .eslintrc files may not be used. See https://eslint.org/docs/latest/use/configure/configuration-files"`,
+        `"When using the new Flat Config with ESLint, all configs must be named eslint.config.js or eslint.config.mjs or eslint.config.cjs or eslint.config.ts or eslint.config.mts or eslint.config.cts, and .eslintrc files may not be used. See https://eslint.org/docs/latest/use/configure/configuration-files"`,
       );
     });
 
@@ -209,6 +232,37 @@ describe('eslint-utils', () => {
       ).rejects.toThrowErrorMatchingInlineSnapshot(
         `"For Flat Config, ESLint removed \`ignorePath\` and so it is not supported as an option. See https://eslint.org/docs/latest/use/configure/configuration-files-new"`,
       );
+    });
+  });
+
+  describe('stats option', () => {
+    it('should create the ESLint instance with "stats" set to true when using flat config', async () => {
+      await resolveAndInstantiateESLint(
+        './eslint.config.js',
+        {
+          stats: true,
+        } as any,
+        true,
+      );
+      expect(FlatESLint).toHaveBeenCalledWith({
+        cache: false,
+        cacheLocation: undefined,
+        cacheStrategy: undefined,
+        errorOnUnmatchedPattern: false,
+        fix: false,
+        overrideConfigFile: './eslint.config.js',
+        stats: true,
+      });
+    });
+
+    it('should throw when "stats" is used with eslintrc config', async () => {
+      await expect(
+        resolveAndInstantiateESLint(
+          './.eslintrc.json',
+          { stats: true } as any,
+          false,
+        ),
+      ).rejects.toThrow('The --stats option requires ESLint Flat Config');
     });
   });
 });

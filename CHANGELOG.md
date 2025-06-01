@@ -1,3 +1,49 @@
+## 19.6.0 (2025-05-27)
+
+### 🚀 Features
+
+- **eslint-plugin:** [prefer-inject] add new rule ([#2461](https://github.com/angular-eslint/angular-eslint/pull/2461))
+
+### 🩹 Fixes
+
+- respect existing eslint.config.ts, eslint.config.cts, eslint.config.mts files ([#2458](https://github.com/angular-eslint/angular-eslint/pull/2458))
+- **eslint-plugin:** [sort-keys-in-type-decorator] preserve unconfigured properties during autofix ([#2456](https://github.com/angular-eslint/angular-eslint/pull/2456))
+- **eslint-plugin:** [use-lifecycle-interface] do not report if the method uses override ([#2463](https://github.com/angular-eslint/angular-eslint/pull/2463))
+
+### ❤️ Thank You
+
+- James Henry @JamesHenry
+
+## 19.5.0 (2025-05-25)
+
+### 🚀 Features
+
+- **builder:** add stats option ([#2453](https://github.com/angular-eslint/angular-eslint/pull/2453))
+- **eslint-plugin:** introduce sort keys in type-decorator rule ([#2187](https://github.com/angular-eslint/angular-eslint/pull/2187))
+- **eslint-plugin-template:** [no-nested-tags] add rule ([#2398](https://github.com/angular-eslint/angular-eslint/pull/2398))
+- **eslint-plugin-template:** add rule prefer-at-empty ([#2352](https://github.com/angular-eslint/angular-eslint/pull/2352))
+- **schematics:** support --skip-install for ng-add ([#2451](https://github.com/angular-eslint/angular-eslint/pull/2451))
+
+### 🩹 Fixes
+
+- update dependency semver to v7.7.2 ([#2421](https://github.com/angular-eslint/angular-eslint/pull/2421))
+- update typescript-eslint packages to v8.32.1 ([#2422](https://github.com/angular-eslint/angular-eslint/pull/2422))
+- update dependency @angular/compiler to v19.2.13 ([#2438](https://github.com/angular-eslint/angular-eslint/pull/2438))
+- update dependency eslint to v9.27.0 ([#2431](https://github.com/angular-eslint/angular-eslint/pull/2431))
+- **builder:** correct option name in flat config error ([#2443](https://github.com/angular-eslint/angular-eslint/pull/2443))
+- **eslint-plugin-template:** [prefer-template-literal] handle parentheses in autofix ([#2418](https://github.com/angular-eslint/angular-eslint/pull/2418))
+- **eslint-plugin-template:** [alt-text] ensure multiple attributes do not cause false negatives ([#2441](https://github.com/angular-eslint/angular-eslint/pull/2441))
+- **eslint-plugin-template:** [cyclomatic-complexity] handle new control flow syntax ([#2447](https://github.com/angular-eslint/angular-eslint/pull/2447))
+- **eslint-plugin-template:** [prefer-at-empty] remove closing brace from @if when no longer needed ([#2450](https://github.com/angular-eslint/angular-eslint/pull/2450))
+
+### ❤️ Thank You
+
+- Alexander von Weiss @sod
+- Benjamin Schäublin
+- Dave @reduckted
+- Guillaume DROUARD
+- James Henry @JamesHenry
+
 ## 19.4.0 (2025-05-08)
 
 ### 🚀 Features

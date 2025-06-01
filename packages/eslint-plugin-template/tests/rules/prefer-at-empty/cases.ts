@@ -413,6 +413,26 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       
         Empty
       }
+      
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: `adds '@empty' block when '@for' block without '@empty' block is inside '@else' block`,
+    annotatedSource: `
+      @if (items.length === 0) {
+      ~~~~
+        Empty
+      } @else {
+        @for (item of items; track $index) {}
+      }
+    `,
+    messageId,
+    annotatedOutput: `
+      
+        @for (item of items; track $index) {} @empty {
+      
+        Empty
+      
       }
     `,
   }),

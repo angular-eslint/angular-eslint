@@ -73,6 +73,9 @@ import noPipeImpure, {
 import noQueriesMetadataProperty, {
   RULE_NAME as noQueriesMetadataPropertyRuleName,
 } from './rules/no-queries-metadata-property';
+import noUncalledSignals, {
+  RULE_NAME as noUncalledSignalsRuleName,
+} from './rules/no-uncalled-signals';
 import pipePrefix, {
   RULE_NAME as pipePrefixRuleName,
 } from './rules/pipe-prefix';
@@ -85,6 +88,9 @@ import preferOutputEmitterRef, {
 import preferOutputReadonly, {
   RULE_NAME as preferOutputReadonlyRuleName,
 } from './rules/prefer-output-readonly';
+import preferInject, {
+  RULE_NAME as preferInjectRuleName,
+} from './rules/prefer-inject';
 import preferSignals, {
   RULE_NAME as preferSignalsRuleName,
 } from './rules/prefer-signals';
@@ -149,6 +155,7 @@ export = {
     [noInputRenameRuleName]: noInputRename,
     [noInputsMetadataPropertyRuleName]: noInputsMetadataProperty,
     [noLifecycleCallRuleName]: noLifecycleCall,
+    [noUncalledSignalsRuleName]: noUncalledSignals,
     [noOutputNativeRuleName]: noOutputNative,
     [noOutputOnPrefixRuleName]: noOutputOnPrefix,
     [noOutputRenameRuleName]: noOutputRename,
@@ -160,6 +167,7 @@ export = {
       preferOnPushComponentChangeDetection,
     [preferSignalsRuleName]: preferSignals,
     [preferStandaloneRuleName]: preferStandalone,
+    [preferInjectRuleName]: preferInject,
     [preferOutputEmitterRefRuleName]: preferOutputEmitterRef,
     [preferOutputReadonlyRuleName]: preferOutputReadonly,
     [relativeUrlPrefixRuleName]: relativeUrlPrefix,

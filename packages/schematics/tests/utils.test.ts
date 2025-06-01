@@ -1,5 +1,8 @@
 import { UnitTestTree } from '@angular-devkit/schematics/testing';
-import { determineNewProjectESLintConfigContentAndExtension } from '../src/utils';
+import {
+  determineNewProjectESLintConfigContentAndExtension,
+  resolveRootESLintConfigPath,
+} from '../src/utils';
 import { Tree } from '@angular-devkit/schematics';
 import { join } from 'node:path';
 
@@ -146,5 +149,65 @@ describe('determineNewProjectESLintConfigContentAndExtension', () => {
       expect(result.isESM).toBe(false);
       expect(result.ext).toBe('cjs');
     });
+  });
+});
+
+describe('resolveRootESLintConfigPath', () => {
+  let tree: Tree;
+
+  beforeEach(() => {
+    tree = new UnitTestTree(Tree.empty());
+  });
+
+  it('should return .eslintrc.json if it exists', () => {
+    tree.create('.eslintrc.json', '{}');
+    expect(resolveRootESLintConfigPath(tree)).toBe('.eslintrc.json');
+  });
+
+  it('should return eslint.config.js if it exists and no .eslintrc.json', () => {
+    tree.create('eslint.config.js', '');
+    expect(resolveRootESLintConfigPath(tree)).toBe('eslint.config.js');
+  });
+
+  it('should return eslint.config.mjs if it exists and no previous configs', () => {
+    tree.create('eslint.config.mjs', '');
+    expect(resolveRootESLintConfigPath(tree)).toBe('eslint.config.mjs');
+  });
+
+  it('should return eslint.config.cjs if it exists and no previous configs', () => {
+    tree.create('eslint.config.cjs', '');
+    expect(resolveRootESLintConfigPath(tree)).toBe('eslint.config.cjs');
+  });
+
+  it('should return eslint.config.ts if it exists and no previous configs', () => {
+    tree.create('eslint.config.ts', '');
+    expect(resolveRootESLintConfigPath(tree)).toBe('eslint.config.ts');
+  });
+
+  it('should return eslint.config.mts if it exists and no previous configs', () => {
+    tree.create('eslint.config.mts', '');
+    expect(resolveRootESLintConfigPath(tree)).toBe('eslint.config.mts');
+  });
+
+  it('should return eslint.config.cts if it exists and no previous configs', () => {
+    tree.create('eslint.config.cts', '');
+    expect(resolveRootESLintConfigPath(tree)).toBe('eslint.config.cts');
+  });
+
+  it('should return null if no config file exists', () => {
+    expect(resolveRootESLintConfigPath(tree)).toBe(null);
+  });
+
+  it('should prioritize .eslintrc.json over flat config files', () => {
+    tree.create('.eslintrc.json', '{}');
+    tree.create('eslint.config.js', '');
+    tree.create('eslint.config.ts', '');
+    expect(resolveRootESLintConfigPath(tree)).toBe('.eslintrc.json');
+  });
+
+  it('should prioritize JS over TS flat config files', () => {
+    tree.create('eslint.config.js', '');
+    tree.create('eslint.config.ts', '');
+    expect(resolveRootESLintConfigPath(tree)).toBe('eslint.config.js');
   });
 });

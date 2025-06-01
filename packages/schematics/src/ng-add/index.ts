@@ -1,6 +1,7 @@
 import type { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { chain, schematic } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
+import type { Schema } from './schema';
 import {
   createRootESLintConfig,
   createStringifiedRootESLintConfig,
@@ -12,15 +13,15 @@ import {
   updateSchematicCollections,
 } from '../utils';
 
-export const FIXED_ESLINT_V8_VERSION = '8.57.0';
+export const FIXED_ESLINT_V8_VERSION = '8.57.1';
 export const FIXED_TYPESCRIPT_ESLINT_V7_VERSION = '7.11.0';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const packageJSON = require('../../package.json');
 
 function addAngularESLintPackages(
   json: Record<string, any>,
   useFlatConfig: boolean,
+  options: Schema,
 ) {
   return (host: Tree, context: SchematicContext) => {
     if (!host.exists('package.json')) {
@@ -54,6 +55,15 @@ function addAngularESLintPackages(
           typescriptESLintVersion;
         json.devDependencies['@typescript-eslint/utils'] =
           typescriptESLintVersion;
+      } else {
+        const isNpm = host.exists('package-lock.json');
+        if (!isNpm) {
+          // Prevent TS IDE errors in the eslint config file for non-npm installations by explicitly including @eslint/js (even though linting seems to still work without it)
+          json.devDependencies['@eslint/js'] =
+            `^${packageJSON.devDependencies['eslint']}`;
+          // Ensure @angular-eslint/builder is always resolvable in non-npm installations (https://github.com/angular-eslint/angular-eslint/issues/2241)
+          json.devDependencies['@angular-eslint/builder'] = packageJSON.version;
+        }
       }
     } else {
       applyDevDependenciesForESLintRC(json);
@@ -62,13 +72,21 @@ function addAngularESLintPackages(
     json.devDependencies = sortObjectByKeys(json.devDependencies);
     host.overwrite('package.json', JSON.stringify(json, null, 2));
 
-    context.addTask(new NodePackageInstallTask());
+    if (!options.skipInstall) {
+      context.addTask(new NodePackageInstallTask({ allowScripts: false }));
 
-    context.logger.info(`
+      context.logger.info(`
 All angular-eslint dependencies have been successfully installed 🎉
 
 Please see https://github.com/angular-eslint/angular-eslint for how to add ESLint configuration to your project.
 `);
+    } else {
+      context.logger.info(`
+All angular-eslint dependencies have been successfully added. Run your package manager install command to complete setup.
+
+Please see https://github.com/angular-eslint/angular-eslint for how to add ESLint configuration to your project.
+`);
+    }
 
     return host;
   };
@@ -212,7 +230,12 @@ Please see https://github.com/angular-eslint/angular-eslint for more information
   };
 }
 
-export default function (): Rule {
+/**
+ * Entry point for the ng-add schematic.
+ *
+ * @param options Configuration options passed to the schematic.
+ */
+export default function (options: Schema): Rule {
   return (host: Tree, context: SchematicContext) => {
     const workspacePackageJSON = (host.read('package.json') as Buffer).toString(
       'utf-8',
@@ -221,7 +244,7 @@ export default function (): Rule {
     const useFlatConfig = shouldUseFlatConfig(host, json);
 
     return chain([
-      addAngularESLintPackages(json, useFlatConfig),
+      addAngularESLintPackages(json, useFlatConfig, options),
       applyESLintConfigIfSingleProjectWithNoExistingTSLint(useFlatConfig),
     ])(host, context);
   };

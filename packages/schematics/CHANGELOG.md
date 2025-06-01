@@ -1,3 +1,29 @@
+## 19.6.0 (2025-05-27)
+
+### 🩹 Fixes
+
+- respect existing eslint.config.ts, eslint.config.cts, eslint.config.mts files ([#2458](https://github.com/angular-eslint/angular-eslint/pull/2458))
+
+### ❤️ Thank You
+
+- James Henry @JamesHenry
+
+## 19.5.0 (2025-05-25)
+
+### 🚀 Features
+
+- **schematics:** support --skip-install for ng-add ([#2451](https://github.com/angular-eslint/angular-eslint/pull/2451))
+
+### 🩹 Fixes
+
+- update dependency eslint to v9.27.0 ([#2431](https://github.com/angular-eslint/angular-eslint/pull/2431))
+- update typescript-eslint packages to v8.32.1 ([#2422](https://github.com/angular-eslint/angular-eslint/pull/2422))
+- update dependency semver to v7.7.2 ([#2421](https://github.com/angular-eslint/angular-eslint/pull/2421))
+
+### ❤️ Thank You
+
+- James Henry @JamesHenry
+
 ## 19.4.0 (2025-05-08)
 
 ### 🩹 Fixes

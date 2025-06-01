@@ -1,3 +1,27 @@
+## 19.6.0 (2025-05-27)
+
+### 🚀 Features
+
+- **eslint-plugin:** [prefer-inject] add new rule ([#2461](https://github.com/angular-eslint/angular-eslint/pull/2461))
+
+### ❤️ Thank You
+
+- James Henry @JamesHenry
+
+## 19.5.0 (2025-05-25)
+
+### 🚀 Features
+
+- **eslint-plugin-template:** add rule prefer-at-empty ([#2352](https://github.com/angular-eslint/angular-eslint/pull/2352))
+- **eslint-plugin:** introduce sort keys in type-decorator rule ([#2187](https://github.com/angular-eslint/angular-eslint/pull/2187))
+- **eslint-plugin-template:** [no-nested-tags] add rule ([#2398](https://github.com/angular-eslint/angular-eslint/pull/2398))
+
+### ❤️ Thank You
+
+- Alexander von Weiss @sod
+- Benjamin Schäublin
+- Dave @reduckted
+
 ## 19.4.0 (2025-05-08)
 
 ### 🚀 Features
