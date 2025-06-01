@@ -29,7 +29,9 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     options: [
       {
         controlComponents: ['my-custom-control'],
-        labelComponents: [{ inputs: ['for', 'htmlFor', 'myCustomFor'], selector: 'label' }],
+        labelComponents: [
+          { inputs: ['for', 'htmlFor', 'myCustomFor'], selector: 'label' },
+        ],
       },
     ],
   },
