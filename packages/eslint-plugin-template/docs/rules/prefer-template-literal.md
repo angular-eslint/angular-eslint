@@ -56,6 +56,39 @@ The rule does not have any configuration options.
 #### ❌ Invalid Code
 
 ```html
+{{
+'a'
+~~~
+ +
+~~~
+'b'
+~~~
+}}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-template-literal": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
 {{ 'pre"fix-' + '-suf\'fix' }}
    ~~~~~~~~~~~~~~~~~~~~~~~~
 ```
@@ -112,6 +145,87 @@ The rule does not have any configuration options.
 ```html
 {{ `prefix-${value}-suffix` + `-prefix2-${value2}-suffix2` }}
    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-template-literal": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+{{ `prefix-${a}-${b + '-special\'"\`-char'}-${d}-suffix` }}
+                  ~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-template-literal": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+{{ `prefix-${a}-${b + `-inside-${c}`}-${d}-suffix` }}
+                  ~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-template-literal": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+{{ `prefix-${a}-${'b' + 'c'}-${d}-suffix` }}
+                  ~~~~~~~~~
 ```
 
 <br>
@@ -1865,8 +1979,17 @@ The rule does not have any configuration options.
 #### ❌ Invalid Code
 
 ```html
-<a [href]="'https://example.com/very-long-url-path-that-is-quite-long' + variable">Test</a>
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<ng-container
+    *ngTemplateOutlet="selector;
+        context: {
+            name: 'test-' + item.id,
+                  ~~~~~~~~~~~~~~~~~
+            value: 42
+        }
+    "
+/>
+
+<div></div>
 ```
 
 <br>
@@ -1892,35 +2015,10 @@ The rule does not have any configuration options.
 #### ❌ Invalid Code
 
 ```html
-<a [href]="'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' + example">Test</a>
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-```
-
-<br>
-
----
-
-<br>
-
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/template/prefer-template-literal": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
-#### ❌ Invalid Code
-
-```html
-<div [ngStyle]="{ width: width + 'px' }"></div>
-                         ~~~~~~~~~~~~
+<div [ngStyle]="{
+    width: 10 + 'px'
+           ~~~~~~~~~
+}"></div>
 ```
 
 </details>
@@ -2188,6 +2286,32 @@ The rule does not have any configuration options.
 
 ```html
 @let letValue = `prefix-${value}-suffix`
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-template-literal": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+@let bugWithQuote = `${`'`}`
 ```
 
 <br>

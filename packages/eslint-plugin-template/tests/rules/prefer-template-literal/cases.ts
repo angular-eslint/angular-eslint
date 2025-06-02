@@ -21,6 +21,8 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '@if (`prefix-${value}-suffix`) {}',
   '@defer (when `prefix-${value}-suffix`) {}',
   '@let letValue = `prefix-${value}-suffix`',
+  // From https://github.com/angular-eslint/angular-eslint/pull/2466 description
+  "@let bugWithQuote = `${`'`}`",
   '<h1>{{ `prefix-${value}-suffix` }}</h1>',
   '<my-component class="prefix-{{value}}-suffix"></my-component>',
   '<my-component [class]="`prefix-${value}-suffix`"></my-component>',
@@ -28,6 +30,29 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description: 'should fail concatenation multiline',
+    annotatedSource: `
+        {{
+        'a'
+        ~~~
+         + 
+        ~~~
+        'b'
+        ~~~
+        }}
+        
+      `,
+    annotatedOutput: `
+        {{
+        'ab'
+        
+        }}
+        
+      `,
+  }),
+
   convertAnnotatedSourceToFailureCase({
     messageId,
     description:
@@ -66,6 +91,50 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     annotatedOutput: `
         {{ \`prefix-\${value}-suffix-prefix2-\${value2}-suffix2\` }}
            
+      `,
+  }),
+
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail concatenation inside template literal (simple quote + property read with special characters)',
+    annotatedSource: `
+        {{ \`prefix-\${a}-\${b + '-special\\'"\\\`-char'}-\${d}-suffix\` }}
+                          ~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    annotatedOutputs: [
+      `
+        {{ \`prefix-\${a}-\${b}-special'"\\\`-char-\${d}-suffix\` }}
+                          
+      `,
+    ],
+  }),
+
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail concatenation inside template literal (right nested template literal)',
+    annotatedSource: `
+        {{ \`prefix-\${a}-\${b + \`-inside-\${c}\`}-\${d}-suffix\` }}
+                          ~~~~~~~~~~~~~~~~~~
+      `,
+    annotatedOutput: `
+        {{ \`prefix-\${a}-\${b}-inside-\${c}-\${d}-suffix\` }}
+                          
+      `,
+  }),
+
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail concatenation inside template literal (simple quote)',
+    annotatedSource: `
+        {{ \`prefix-\${a}-\${'b' + 'c'}-\${d}-suffix\` }}
+                          ~~~~~~~~~
+      `,
+    annotatedOutput: `
+        {{ \`prefix-\${a}-bc-\${d}-suffix\` }}
+                          
       `,
   }),
 
@@ -893,65 +962,128 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       `,
   }),
 
-  // Test cases for reported bugs
-
-  // Bug 1: Simple long string test case
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fix concatenation with long URL string',
+    description: 'should fail bound attribute without first line break',
     annotatedSource: `
-        <a [href]="'https://example.com/very-long-url-path-that-is-quite-long' + variable">Test</a>
-                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        <ng-container
+            *ngTemplateOutlet="selector;
+                context: {
+                    name: 'test-' + item.id,
+                          ~~~~~~~~~~~~~~~~~
+                    value: 42
+                }
+            "
+        />
+
+        <div></div>
       `,
     annotatedOutput: `
-        <a [href]="\`https://example.com/very-long-url-path-that-is-quite-long\${variable}\`">Test</a>
+        <ng-container
+            *ngTemplateOutlet="selector;
+                context: {
+                    name: \`test-\${item.id}\`,
+                          
+                    value: 42
+                }
+            "
+        />
+
+        <div></div>
+      `,
+  }),
+
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail object literal binding concatenation without first line break',
+    annotatedSource: `
+        <div [ngStyle]="{
+            width: 10 + 'px'
+                   ~~~~~~~~~
+        }"></div>
+      `,
+    annotatedOutput: `
+        <div [ngStyle]="{
+            width: '10px'
                    
+        }"></div>
       `,
   }),
 
-  // Test cases for specific reported bugs that currently fail
+  // TODO: Fix the logic to address these issues
 
-  // Test case 1: Add a simple case with the actual failing 108-character string
-  convertAnnotatedSourceToFailureCase({
-    messageId,
-    description: 'should fix exactly 108 char string (reproduces bug)',
-    annotatedSource: `
-        <a [href]="'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' + example">Test</a>
-                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      `,
-    annotatedOutput: `
-        <a [href]="\`xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\${example}\`">Test</a>
-                   
-      `,
-  }),
-  convertAnnotatedSourceToFailureCase({
-    messageId,
-    description: 'should fix concatenation with long URL string',
-    annotatedSource: `
-        <div [ngStyle]="{ width: width + 'px' }"></div>
-                                 ~~~~~~~~~~~~
-      `,
-    annotatedOutput: `
-        <div [ngStyle]="{ width: \`\${width}px\` }"></div>
-                                 
-      `,
-  }),
+  // Test cases for reported bugs that have not yet been addressed
 
-  // Test case demonstrating multiple autofix passes for chained concatenations
+  // Bug : Wrong autofixes when first line breaks because sourceSpan positions are wrong in this case.
+
   // convertAnnotatedSourceToFailureCase({
   //   messageId,
   //   description:
-  //     'should handle chained concatenations of literals requiring multiple autofix passes',
+  //     'should fail object literal binding concatenation with first line break',
   //   annotatedSource: `
-  //       {{ 'first' + 'second' + 'third' }}
-  //          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  //       <div [ngStyle]="
+  //            { width: 10 + 'px' }
+  //                     ~~~~~~~~~
+  //       "></div>
   //     `,
-  //   annotatedOutputs: [
-  //     // TODO: this is where we should end up for this source, but what should the interim fixes be?
-  //     `
-  //       {{ 'firstsecondthird' }}
+  //   annotatedOutput: `
+  //       <div [ngStyle]="
+  //            { width: '10px' }
 
+  //       "></div>
   //     `,
-  //   ],
+  // }),
+
+  // convertAnnotatedSourceToFailureCase({
+  //   messageId,
+  //   description:
+  //     'should fail bound attribute with first line break',
+  //   annotatedSource: `
+  //       <ng-container
+  //           *ngTemplateOutlet="
+  //             selector;
+  //               context: {
+  //                   name: 'test-' + item.id,
+  //                         ~~~~~~~~~~~~~~~~~
+  //                   value: 42
+  //               }
+  //           "
+  //       />
+
+  //       <div></div>
+  //     `,
+  //   annotatedOutput: `
+  //       <ng-container
+  //           *ngTemplateOutlet="
+  //             selector;
+  //               context: {
+  //                   name: \`test-\${item.id}\`,
+
+  //                   value: 42
+  //               }
+  //           "
+  //       />
+
+  //       <div></div>
+  //     `,
+  // }),
+
+  // convertAnnotatedSourceToFailureCase({
+  //   messageId,
+  //   description:
+  //     'should fail input binding concatenation with first line break',
+  //   annotatedSource: `
+  //       <div [class]="
+  //            'a' + 'b'
+  //            ~~~~~~~~~
+  //       "></div>
+  //     `,
+  //   annotatedOutput: `
+  //       <div [class]="
+  //            'ab'
+
+  //       "></div>
+  //     `,
   // }),
 ];
