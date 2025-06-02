@@ -1,3 +1,23 @@
+## 19.7.0 (2025-06-02)
+
+### 🚀 Features
+
+- **eslint-plugin-template:** [click-events-have-key-events] Added ignoreWithDirectives option ([#2365](https://github.com/angular-eslint/angular-eslint/pull/2365))
+
+### 🩹 Fixes
+
+- **eslint-plugin-template:** [prefer-template-literal] handle nested and concatenations in template literal ([#2466](https://github.com/angular-eslint/angular-eslint/pull/2466))
+- **eslint-plugin-template:** [label-has-associated-control] labelComponents should override default label inputs ([#2360](https://github.com/angular-eslint/angular-eslint/pull/2360))
+- **eslint-plugin-template:** any valid DOM element with role button is interactive ([#2488](https://github.com/angular-eslint/angular-eslint/pull/2488))
+- **eslint-plugin-template:** set template-parser as peer dependency ([#2487](https://github.com/angular-eslint/angular-eslint/pull/2487))
+
+### ❤️ Thank You
+
+- Cullen Prestegard @cprestegard
+- Guillaume DROUARD
+- James Henry @JamesHenry
+- jelledijkstra97 @jelledijkstra97
+
 ## 19.6.0 (2025-05-27)
 
 ### 🩹 Fixes

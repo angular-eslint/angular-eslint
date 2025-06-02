@@ -1,3 +1,7 @@
+## 19.7.0 (2025-06-02)
+
+This was a version bump only for builder to align it with other projects, there were no code changes.
+
 ## 19.6.0 (2025-05-27)
 
 ### 🩹 Fixes

@@ -1,3 +1,16 @@
+## 19.7.0 (2025-06-02)
+
+### 🩹 Fixes
+
+- **schematics:** ensure @eslint/js and @angular-eslint/builder are always available in non-npm repos ([#2486](https://github.com/angular-eslint/angular-eslint/pull/2486))
+- update dependency eslint to v9.28.0 ([#2484](https://github.com/angular-eslint/angular-eslint/pull/2484))
+- update dependency ignore to v7.0.5 ([#2485](https://github.com/angular-eslint/angular-eslint/pull/2485))
+- update typescript-eslint packages to v8.33.0 ([#2465](https://github.com/angular-eslint/angular-eslint/pull/2465))
+
+### ❤️ Thank You
+
+- James Henry @JamesHenry
+
 ## 19.6.0 (2025-05-27)
 
 ### 🩹 Fixes

@@ -1,3 +1,20 @@
+## 19.7.0 (2025-06-02)
+
+### 🚀 Features
+
+- **eslint-plugin:** [require-localize-metadata] add requireCustomId option ([#2430](https://github.com/angular-eslint/angular-eslint/pull/2430))
+- **eslint-plugin:** add no-uncalled-signals rule ([#2383](https://github.com/angular-eslint/angular-eslint/pull/2383))
+
+### 🩹 Fixes
+
+- **eslint-plugin-template:** any valid DOM element with role button is interactive ([#2488](https://github.com/angular-eslint/angular-eslint/pull/2488))
+
+### ❤️ Thank You
+
+- Igor Dimitrijevic
+- James Henry @JamesHenry
+- Stephen Jackson
+
 ## 19.6.0 (2025-05-27)
 
 ### 🚀 Features

@@ -1,3 +1,32 @@
+## 19.7.0 (2025-06-02)
+
+### 🚀 Features
+
+- **eslint-plugin:** add no-uncalled-signals rule ([#2383](https://github.com/angular-eslint/angular-eslint/pull/2383))
+- **eslint-plugin:** [require-localize-metadata] add requireCustomId option ([#2430](https://github.com/angular-eslint/angular-eslint/pull/2430))
+- **eslint-plugin-template:** [click-events-have-key-events] Added ignoreWithDirectives option ([#2365](https://github.com/angular-eslint/angular-eslint/pull/2365))
+
+### 🩹 Fixes
+
+- update typescript-eslint packages to v8.33.0 ([#2465](https://github.com/angular-eslint/angular-eslint/pull/2465))
+- update dependency @angular/compiler to v19.2.14 ([#2477](https://github.com/angular-eslint/angular-eslint/pull/2477))
+- update dependency ignore to v7.0.5 ([#2485](https://github.com/angular-eslint/angular-eslint/pull/2485))
+- update dependency eslint to v9.28.0 ([#2484](https://github.com/angular-eslint/angular-eslint/pull/2484))
+- **eslint-plugin-template:** set template-parser as peer dependency ([#2487](https://github.com/angular-eslint/angular-eslint/pull/2487))
+- **eslint-plugin-template:** any valid DOM element with role button is interactive ([#2488](https://github.com/angular-eslint/angular-eslint/pull/2488))
+- **eslint-plugin-template:** [label-has-associated-control] labelComponents should override default label inputs ([#2360](https://github.com/angular-eslint/angular-eslint/pull/2360))
+- **eslint-plugin-template:** [prefer-template-literal] handle nested and concatenations in template literal ([#2466](https://github.com/angular-eslint/angular-eslint/pull/2466))
+- **schematics:** ensure @eslint/js and @angular-eslint/builder are always available in non-npm repos ([#2486](https://github.com/angular-eslint/angular-eslint/pull/2486))
+
+### ❤️ Thank You
+
+- Cullen Prestegard @cprestegard
+- Guillaume DROUARD
+- Igor Dimitrijevic
+- James Henry @JamesHenry
+- jelledijkstra97 @jelledijkstra97
+- Stephen Jackson
+
 ## 19.6.0 (2025-05-27)
 
 ### 🚀 Features

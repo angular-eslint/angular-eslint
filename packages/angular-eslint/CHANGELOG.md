@@ -1,3 +1,13 @@
+## 19.7.0 (2025-06-02)
+
+### 🚀 Features
+
+- **eslint-plugin:** add no-uncalled-signals rule ([#2383](https://github.com/angular-eslint/angular-eslint/pull/2383))
+
+### ❤️ Thank You
+
+- Stephen Jackson
+
 ## 19.6.0 (2025-05-27)
 
 ### 🚀 Features
