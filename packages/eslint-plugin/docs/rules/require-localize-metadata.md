@@ -35,6 +35,10 @@ interface Options {
    * Default: `false`
    */
   requireMeaning?: boolean;
+  /**
+   * Default: `false`
+   */
+  requireCustomId?: boolean | string;
 }
 
 ```
@@ -381,6 +385,126 @@ const localizedText = $localize`:Hello i18n!`;
                                ~~~~~~~~~~~~~~
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/require-localize-metadata": [
+      "error",
+      {
+        "requireCustomId": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+const localizedText = $localize`Hello i18n!`;
+                               ~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/require-localize-metadata": [
+      "error",
+      {
+        "requireCustomId": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+const localizedText = $localize`:@some.custom.id:Hello i18n!`;
+                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/require-localize-metadata": [
+      "error",
+      {
+        "requireCustomId": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+const localizedText = $localize`:meaning|description:Hello i18n!`;
+                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/require-localize-metadata": [
+      "error",
+      {
+        "requireCustomId": "^some.wrong.pattern$"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+const localizedText = $localize`:@@some.custom.id:Hello i18n!`;
+                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
 </details>
 
 <br>
@@ -698,6 +822,64 @@ const localizedText = $localize`:site header|:Hello i18n!`;
 
 ```ts
 const localizedText = $localize`:site header|An introduction header for this sample:Hello i18n!`;
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/require-localize-metadata": [
+      "error",
+      {
+        "requireCustomId": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+const localizedText = $localize`:@@some.custom.id:Hello i18n!`;
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/require-localize-metadata": [
+      "error",
+      {
+        "requireCustomId": "^some.*id$"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+const localizedText = $localize`:@@some.custom.id:Hello i18n!`;
 ```
 
 </details>

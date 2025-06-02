@@ -11,7 +11,7 @@ import type {
 const messageIdRequireLocalizeDescription: MessageIds =
   'requireLocalizeDescription';
 const messageIdRequireLocalizeMeaning: MessageIds = 'requireLocalizeMeaning';
-
+const messageIdRequireLocalizeCustomId: MessageIds = 'requireLocalizeCustomId';
 export const valid: readonly (string | ValidTestCase<Options>)[] = [
   `const localizedText = $localize\`Hello i18n!\`;`,
   `const localizedText = $localize\`:site header|:Hello i18n!\`;`,
@@ -56,6 +56,14 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   {
     code: `const localizedText = $localize\`:site header|An introduction header for this sample:Hello i18n!\`;`,
     options: [{ requireDescription: true, requireMeaning: true }],
+  },
+  {
+    code: `const localizedText = $localize\`:@@some.custom.id:Hello i18n!\`;`,
+    options: [{ requireCustomId: true }],
+  },
+  {
+    code: `const localizedText = $localize\`:@@some.custom.id:Hello i18n!\`;`,
+    options: [{ requireCustomId: '^some.*id$' }],
   },
 ];
 
@@ -178,5 +186,56 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       },
     ],
     options: [{ requireDescription: true, requireMeaning: true }],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'it should fail if the $localize metadata is not provided',
+    annotatedSource: `
+      const localizedText = $localize\`Hello i18n!\`;
+                                     ~~~~~~~~~~~~~
+    `,
+    messageId: messageIdRequireLocalizeCustomId,
+    data: {
+      patternMessage: '',
+    },
+    options: [{ requireCustomId: true }],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'it should fail if the $localize custom_id has wrong delimiter',
+    annotatedSource: `
+      const localizedText = $localize\`:@some.custom.id:Hello i18n!\`;
+                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    messageId: messageIdRequireLocalizeCustomId,
+    data: {
+      patternMessage: '',
+    },
+    options: [{ requireCustomId: true }],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      "it should fail if the $localize metadata doesn't contain custom_id",
+    annotatedSource: `
+      const localizedText = $localize\`:meaning|description:Hello i18n!\`;
+                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    messageId: messageIdRequireLocalizeCustomId,
+    data: {
+      patternMessage: '',
+    },
+    options: [{ requireCustomId: true }],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      "it should fail if the $localize custom_id doesn't match the pattern",
+    annotatedSource: `
+      const localizedText = $localize\`:@@some.custom.id:Hello i18n!\`;
+                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    messageId: messageIdRequireLocalizeCustomId,
+    data: {
+      patternMessage: ` matching the pattern /^some.wrong.pattern$/ on 'some.custom.id'`,
+    },
+    options: [{ requireCustomId: '^some.wrong.pattern$' }],
   }),
 ];
