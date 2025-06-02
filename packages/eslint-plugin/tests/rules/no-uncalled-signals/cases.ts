@@ -89,6 +89,44 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     declare function createSignal(): Signal<boolean>;
     interface Signal<T> {}
   `,
+  // Test cases for the reported bug - direct signal calls on member expressions
+  `
+    export class AppComponent {
+      readonly test = signal<boolean>(false);
+
+      constructor() {
+        effect(() => {
+          if (this.test()) {
+            console.log('Hey');
+          } else {
+            console.log('Hoo');
+          }
+        });
+      }
+    }
+    declare function signal<T>(value: T): Signal<T>;
+    declare function effect(fn: () => void): void;
+    interface Signal<T> {}
+  `,
+  `
+    export class AppComponent {
+      readonly test = signal<boolean>(false);
+
+      constructor() {
+        const t = this.test;
+        effect(() => {
+          if (t()) {
+            console.log('Hey');
+          } else {
+            console.log('Hoo');
+          }
+        });
+      }
+    }
+    declare function signal<T>(value: T): Signal<T>;
+    declare function effect(fn: () => void): void;
+    interface Signal<T> {}
+  `,
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [

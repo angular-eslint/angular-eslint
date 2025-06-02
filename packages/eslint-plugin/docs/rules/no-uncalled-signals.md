@@ -702,6 +702,89 @@ declare function createSignal(): Signal<boolean>;
 interface Signal<T> {}
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-uncalled-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+export class AppComponent {
+  readonly test = signal<boolean>(false);
+
+  constructor() {
+    effect(() => {
+      if (this.test()) {
+        console.log('Hey');
+      } else {
+        console.log('Hoo');
+      }
+    });
+  }
+}
+declare function signal<T>(value: T): Signal<T>;
+declare function effect(fn: () => void): void;
+interface Signal<T> {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-uncalled-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+export class AppComponent {
+  readonly test = signal<boolean>(false);
+
+  constructor() {
+    const t = this.test;
+    effect(() => {
+      if (t()) {
+        console.log('Hey');
+      } else {
+        console.log('Hoo');
+      }
+    });
+  }
+}
+declare function signal<T>(value: T): Signal<T>;
+declare function effect(fn: () => void): void;
+interface Signal<T> {}
+```
+
 </details>
 
 <br>

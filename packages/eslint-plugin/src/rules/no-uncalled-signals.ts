@@ -40,6 +40,15 @@ export default createESLintRule<Options, MessageIds>({
           return;
         }
 
+        // Check if this identifier is the property in a MemberExpression that's being called
+        if (
+          node.parent.type === AST_NODE_TYPES.MemberExpression &&
+          node.parent.property === node &&
+          node.parent.parent?.type === AST_NODE_TYPES.CallExpression
+        ) {
+          return;
+        }
+
         const type = services.getTypeAtLocation(node);
         const identifierType = type.getSymbol()?.name;
 
