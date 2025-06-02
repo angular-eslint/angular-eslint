@@ -21,6 +21,8 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '@if (`prefix-${value}-suffix`) {}',
   '@defer (when `prefix-${value}-suffix`) {}',
   '@let letValue = `prefix-${value}-suffix`',
+  // From https://github.com/angular-eslint/angular-eslint/pull/2466 description
+  "@let bugWithQuote = `${`'`}`",
   '<h1>{{ `prefix-${value}-suffix` }}</h1>',
   '<my-component class="prefix-{{value}}-suffix"></my-component>',
   '<my-component [class]="`prefix-${value}-suffix`"></my-component>',
@@ -1009,7 +1011,9 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       `,
   }),
 
-  // Test cases for reported bugs
+  // TODO: Fix the logic to address these issues
+
+  // Test cases for reported bugs that have not yet been addressed
 
   // Bug : Wrong autofixes when first line breaks because sourceSpan positions are wrong in this case.
 
