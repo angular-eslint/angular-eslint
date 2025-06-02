@@ -2311,6 +2311,32 @@ The rule does not have any configuration options.
 #### ✅ Valid Code
 
 ```html
+@let bugWithQuote = `${`'`}`
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-template-literal": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
 <h1>{{ `prefix-${value}-suffix` }}</h1>
 ```
 
