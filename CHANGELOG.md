@@ -1,3 +1,14 @@
+## 19.7.1 (2025-06-03)
+
+### 🩹 Fixes
+
+- update typescript-eslint packages to v8.33.1 ([#2496](https://github.com/angular-eslint/angular-eslint/pull/2496))
+- **eslint-plugin:** [no-uncalled-signals] handle direct signal calls in member expressions ([#2491](https://github.com/angular-eslint/angular-eslint/pull/2491))
+
+### ❤️ Thank You
+
+- James Henry @JamesHenry
+
 ## 19.7.0 (2025-06-02)
 
 ### 🚀 Features

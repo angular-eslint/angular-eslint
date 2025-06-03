@@ -1,3 +1,13 @@
+## 19.7.1 (2025-06-03)
+
+### 🩹 Fixes
+
+- **eslint-plugin:** [no-uncalled-signals] handle direct signal calls in member expressions ([#2491](https://github.com/angular-eslint/angular-eslint/pull/2491))
+
+### ❤️ Thank You
+
+- James Henry @JamesHenry
+
 ## 19.7.0 (2025-06-02)
 
 ### 🚀 Features
