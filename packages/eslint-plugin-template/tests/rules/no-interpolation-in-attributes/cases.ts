@@ -24,16 +24,21 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
-    description: 'it should fail if interpolation is used as attribute value',
+    description:
+      'it should fail and autofix if interpolation is used as attribute value',
     annotatedSource: `
         <input type="text" name="{{ foo }}">
                                  ~~~~~~~~~
       `,
     messageId,
+    annotatedOutput: `
+        <input type="text" [name]="foo">
+                                 
+      `,
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'it should fail if interpolation is used as part of attribute value',
+      'it should fail and not autofix if interpolation is used as part of attribute value',
     annotatedSource: `
         <input type="text" name="{{ foo }}bar">
                                  ~~~~~~~~~~~~
@@ -42,7 +47,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'it should fail when interpolation is used as part of attribute value and this is explicitly configured as disallowed',
+      'it should fail and not autofix when interpolation is used as part of attribute value and this is explicitly configured as disallowed',
     annotatedSource: `
         <input type="text" name="{{ foo }}bar">
                                  ~~~~~~~~~~~~
@@ -52,12 +57,16 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'it should fail if the entire value of an attribute is an interpolation when allowSubstringInterpolation is true',
+      'it should fail and autofix if the entire value of an attribute is an interpolation when allowSubstringInterpolation is true',
     annotatedSource: `
        <img alt="{{username}} is online" src="{{src}}">
                                               ~~~~~~~
       `,
     messageId,
     options: [{ allowSubstringInterpolation: true }],
+    annotatedOutput: `
+       <img alt="{{username}} is online" [src]="src">
+                                              
+      `,
   }),
 ];

@@ -39,6 +39,7 @@ export default createESLintRule<Options, MessageIds>({
       noInterpolationInAttributes:
         'Use property binding [attribute]="value" instead of interpolation {{ value }} for an attribute.',
     },
+    fixable: 'code',
   },
   defaultOptions: [{ allowSubstringInterpolation: false }],
   create(context, [{ allowSubstringInterpolation }]) {
@@ -46,12 +47,20 @@ export default createESLintRule<Options, MessageIds>({
 
     return {
       ['BoundAttribute Interpolation'](interpolation: Interpolation) {
-        if (
-          allowSubstringInterpolation &&
-          interpolation.strings.some((str) => str !== '')
-        ) {
+        const isFullInterpolation = !interpolation.strings.some(
+          (str) => str !== '',
+        );
+
+        if (allowSubstringInterpolation && !isFullInterpolation) {
           return;
         }
+
+        // 'parent' is an internal runtime property not declared in the type, hence the 'any' cast.
+        const boundAttribute = (interpolation as any).parent?.parent;
+        if (!boundAttribute) {
+          return;
+        }
+
         const {
           sourceSpan: { start, end },
         } = interpolation;
@@ -62,6 +71,25 @@ export default createESLintRule<Options, MessageIds>({
             end: sourceCode.getLocFromIndex(end),
           },
           messageId: 'noInterpolationInAttributes',
+          fix: isFullInterpolation
+            ? (fixer) => {
+                const attributeName = boundAttribute.name.trim();
+
+                const exprStart = boundAttribute.valueSpan.start.offset + 2; // +2 to remove '{{'
+                const exprEnd = boundAttribute.valueSpan.end.offset - 2; // -2 to remove '}}'
+                const expression = sourceCode.text
+                  .slice(exprStart, exprEnd)
+                  .trim();
+
+                return fixer.replaceTextRange(
+                  [
+                    boundAttribute.keySpan.start.offset,
+                    boundAttribute.valueSpan.end.offset,
+                  ],
+                  `[${attributeName}]="${expression}`, // Replace with property binding. Leave out the last quote since its automatically added.
+                );
+              }
+            : null,
         });
       },
     };
