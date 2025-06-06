@@ -55,6 +55,11 @@
       "version": "18.1.1-alpha.0",
       "description": "Updates @angular-eslint to v18.2",
       "factory": "./migrations/update-18-2-0/update-18-2-0"
+    },
+    "update-20-0-0": {
+      "version": "20.0.0-alpha.0",
+      "description": "Updates @angular-eslint to v20",
+      "factory": "./migrations/update-20-0-0/update-20-0-0"
     }
   }
 }
