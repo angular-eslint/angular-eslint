@@ -18,6 +18,7 @@
 Ensures that property-binding is used instead of interpolation in attributes.
 
 - Type: suggestion
+- 🔧 Supports autofix (`--fix`)
 
 <br>
 
