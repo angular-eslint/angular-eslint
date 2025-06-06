@@ -1,3 +1,13 @@
+## 19.8.0 (2025-06-06)
+
+### 🚀 Features
+
+- **eslint-plugin-template:** [no-interpolation-in-attributes] add fixer ([#2501](https://github.com/angular-eslint/angular-eslint/pull/2501))
+
+### ❤️ Thank You
+
+- Niklas Wolf
+
 ## 19.7.1 (2025-06-03)
 
 ### 🩹 Fixes
