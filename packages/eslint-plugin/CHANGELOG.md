@@ -1,3 +1,26 @@
+# 20.0.0 (2025-06-06)
+
+### 🚀 Features
+
+- ⚠️ **eslint-lint:** add prefer-inject to recommended ([c8367d3b](https://github.com/angular-eslint/angular-eslint/commit/c8367d3b))
+- ⚠️ **eslint-plugin:** remove (component|directive)-class-suffix from recommended ([c1022ee6](https://github.com/angular-eslint/angular-eslint/commit/c1022ee6))
+- ⚠️ **eslint-plugin:** switch prefer-standalone fix to suggestion, reference guide ([4583034f](https://github.com/angular-eslint/angular-eslint/commit/4583034f))
+
+### 🩹 Fixes
+
+- ⚠️ **eslint-plugin:** [sort-keys-in-type-decorator] default orders now include all known keys ([9183385d](https://github.com/angular-eslint/angular-eslint/commit/9183385d))
+
+### ⚠️ Breaking Changes
+
+- ⚠️ **eslint-plugin:** [sort-keys-in-type-decorator] default orders now include all known keys ([9183385d](https://github.com/angular-eslint/angular-eslint/commit/9183385d))
+- ⚠️ **eslint-lint:** add prefer-inject to recommended ([c8367d3b](https://github.com/angular-eslint/angular-eslint/commit/c8367d3b))
+- ⚠️ **eslint-plugin:** remove (component|directive)-class-suffix from recommended ([c1022ee6](https://github.com/angular-eslint/angular-eslint/commit/c1022ee6))
+- ⚠️ **eslint-plugin:** switch prefer-standalone fix to suggestion, reference guide ([4583034f](https://github.com/angular-eslint/angular-eslint/commit/4583034f))
+
+### ❤️ Thank You
+
+- JamesHenry @JamesHenry
+
 ## 19.8.0 (2025-06-06)
 
 This was a version bump only for eslint-plugin to align it with other projects, there were no code changes.

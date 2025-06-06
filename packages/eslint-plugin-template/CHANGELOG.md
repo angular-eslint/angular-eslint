@@ -1,3 +1,25 @@
+# 20.0.0 (2025-06-06)
+
+### 🚀 Features
+
+- ⚠️ switch to angular v20 ([e2b46ef4](https://github.com/angular-eslint/angular-eslint/commit/e2b46ef4))
+- ⚠️ **template-parser:** do not suppress parse errors by default ([#2255](https://github.com/angular-eslint/angular-eslint/pull/2255))
+
+### 🩹 Fixes
+
+- ⚠️ **eslint-plugin:** [sort-keys-in-type-decorator] default orders now include all known keys ([9183385d](https://github.com/angular-eslint/angular-eslint/commit/9183385d))
+
+### ⚠️ Breaking Changes
+
+- ⚠️ **eslint-plugin:** [sort-keys-in-type-decorator] default orders now include all known keys ([9183385d](https://github.com/angular-eslint/angular-eslint/commit/9183385d))
+- ⚠️ switch to angular v20 ([e2b46ef4](https://github.com/angular-eslint/angular-eslint/commit/e2b46ef4))
+- ⚠️ **template-parser:** do not suppress parse errors by default ([#2255](https://github.com/angular-eslint/angular-eslint/pull/2255))
+
+### ❤️ Thank You
+
+- Dave @reduckted
+- JamesHenry @JamesHenry
+
 ## 19.8.0 (2025-06-06)
 
 ### 🚀 Features

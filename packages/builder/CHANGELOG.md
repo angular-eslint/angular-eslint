@@ -1,3 +1,17 @@
+# 20.0.0 (2025-06-06)
+
+### 🚀 Features
+
+- ⚠️ switch to angular v20 ([e2b46ef4](https://github.com/angular-eslint/angular-eslint/commit/e2b46ef4))
+
+### ⚠️ Breaking Changes
+
+- ⚠️ switch to angular v20 ([e2b46ef4](https://github.com/angular-eslint/angular-eslint/commit/e2b46ef4))
+
+### ❤️ Thank You
+
+- JamesHenry @JamesHenry
+
 ## 19.8.0 (2025-06-06)
 
 This was a version bump only for builder to align it with other projects, there were no code changes.

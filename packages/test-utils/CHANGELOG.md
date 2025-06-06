@@ -1,3 +1,17 @@
+# 20.0.0 (2025-06-06)
+
+### 🚀 Features
+
+- ⚠️ **template-parser:** do not suppress parse errors by default ([#2255](https://github.com/angular-eslint/angular-eslint/pull/2255))
+
+### ⚠️ Breaking Changes
+
+- ⚠️ **template-parser:** do not suppress parse errors by default ([#2255](https://github.com/angular-eslint/angular-eslint/pull/2255))
+
+### ❤️ Thank You
+
+- Dave @reduckted
+
 ## 19.8.0 (2025-06-06)
 
 This was a version bump only for @angular-eslint/test-utils to align it with other projects, there were no code changes.

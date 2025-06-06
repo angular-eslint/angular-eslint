@@ -1,3 +1,37 @@
+# 20.0.0 (2025-06-06)
+
+As always we recommend that you update your existing workspaces by using `ng update` as we provide some helpful schematics to help migrate your workspaces to the latest and greatest. Running the following will update Angular, the Angular CLI and angular-eslint together:
+
+```sh
+ng update @angular/core @angular/cli angular-eslint
+```
+
+### 🚀 Features
+
+- ⚠️ switch to angular v20 ([e2b46ef4](https://github.com/angular-eslint/angular-eslint/commit/e2b46ef4))
+- ⚠️ **eslint-lint:** add prefer-inject to recommended ([c8367d3b](https://github.com/angular-eslint/angular-eslint/commit/c8367d3b))
+- ⚠️ **eslint-plugin:** switch prefer-standalone fix to suggestion, reference guide ([4583034f](https://github.com/angular-eslint/angular-eslint/commit/4583034f))
+- ⚠️ **eslint-plugin:** remove (component|directive)-class-suffix from recommended ([c1022ee6](https://github.com/angular-eslint/angular-eslint/commit/c1022ee6))
+- ⚠️ **template-parser:** do not suppress parse errors by default ([#2255](https://github.com/angular-eslint/angular-eslint/pull/2255))
+
+### 🩹 Fixes
+
+- ⚠️ **eslint-plugin:** [sort-keys-in-type-decorator] default orders now include all known keys ([9183385d](https://github.com/angular-eslint/angular-eslint/commit/9183385d))
+
+### ⚠️ Breaking Changes
+
+- ⚠️ **eslint-plugin:** [sort-keys-in-type-decorator] default orders now include all known keys ([9183385d](https://github.com/angular-eslint/angular-eslint/commit/9183385d))
+- ⚠️ switch to angular v20 ([e2b46ef4](https://github.com/angular-eslint/angular-eslint/commit/e2b46ef4))
+- ⚠️ **eslint-lint:** add prefer-inject to recommended ([c8367d3b](https://github.com/angular-eslint/angular-eslint/commit/c8367d3b))
+- ⚠️ **eslint-plugin:** remove (component|directive)-class-suffix from recommended ([c1022ee6](https://github.com/angular-eslint/angular-eslint/commit/c1022ee6))
+- ⚠️ **eslint-plugin:** switch prefer-standalone fix to suggestion, reference guide ([4583034f](https://github.com/angular-eslint/angular-eslint/commit/4583034f))
+- ⚠️ **template-parser:** do not suppress parse errors by default ([#2255](https://github.com/angular-eslint/angular-eslint/pull/2255))
+
+### ❤️ Thank You
+
+- Dave @reduckted
+- JamesHenry @JamesHenry
+
 ## 19.8.0 (2025-06-06)
 
 ### 🚀 Features

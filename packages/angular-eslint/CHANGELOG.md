@@ -1,3 +1,21 @@
+# 20.0.0 (2025-06-06)
+
+### 🚀 Features
+
+- ⚠️ switch to angular v20 ([e2b46ef4](https://github.com/angular-eslint/angular-eslint/commit/e2b46ef4))
+- ⚠️ **eslint-lint:** add prefer-inject to recommended ([c8367d3b](https://github.com/angular-eslint/angular-eslint/commit/c8367d3b))
+- ⚠️ **eslint-plugin:** remove (component|directive)-class-suffix from recommended ([c1022ee6](https://github.com/angular-eslint/angular-eslint/commit/c1022ee6))
+
+### ⚠️ Breaking Changes
+
+- ⚠️ switch to angular v20 ([e2b46ef4](https://github.com/angular-eslint/angular-eslint/commit/e2b46ef4))
+- ⚠️ **eslint-lint:** add prefer-inject to recommended ([c8367d3b](https://github.com/angular-eslint/angular-eslint/commit/c8367d3b))
+- ⚠️ **eslint-plugin:** remove (component|directive)-class-suffix from recommended ([c1022ee6](https://github.com/angular-eslint/angular-eslint/commit/c1022ee6))
+
+### ❤️ Thank You
+
+- JamesHenry @JamesHenry
+
 ## 19.8.0 (2025-06-06)
 
 This was a version bump only for angular-eslint to align it with other projects, there were no code changes.
