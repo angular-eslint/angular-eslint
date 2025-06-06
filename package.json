@@ -49,7 +49,7 @@
   },
   "devDependencies": {
     "@angular/cli": "20.0.0",
-    "@angular/compiler": "20.0.0",
+    "@angular/compiler": "20.0.2",
     "@commitlint/cli": "19.8.1",
     "@commitlint/config-conventional": "19.8.1",
     "@mdn/browser-compat-data": "6.0.20",
