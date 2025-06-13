@@ -1,7 +1,7 @@
 import { createESLintRule } from '../utils/create-eslint-rule';
 import { getParserServices } from '@typescript-eslint/utils/eslint-utils';
 import {
-  getSymbol,
+  getSymbols,
   hasJsDocTag,
   isDeclaration,
   isInsideExportOrImport,
@@ -34,8 +34,8 @@ export default createESLintRule<Options, MessageIds>({
           return;
         }
 
-        const symbol = getSymbol(node, services, checker);
-        if (!hasJsDocTag(symbol, 'experimental')) {
+        const symbols = getSymbols(node, services, checker);
+        if (!hasJsDocTag(symbols, 'experimental')) {
           return;
         }
 

@@ -1220,6 +1220,94 @@ const instance = new ExperimentalClass();
                      ~~~~~~~~~~~~~~~~~
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-experimental": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+import { experimentalConst } from './experimental';
+
+const myConst = experimentalConst;
+                ~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-experimental": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+import { experimentalConst } from './experimental';
+
+const myConst = { prop: experimentalConst };
+                        ~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-experimental": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+import { SomeInterface } from './experimental';
+
+const obj: SomeInterface = {};
+const { experimentalItem } = obj;
+        ~~~~~~~~~~~~~~~~
+```
+
 </details>
 
 <br>
@@ -1540,6 +1628,115 @@ declare function test(): void;
 ```ts
 /** @experimental */
 declare const test: () => void;
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-experimental": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+import { regularConst } from './experimental';
+const myConst = regularConst;
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-experimental": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+import { regularConst } from './experimental';
+const myConst = { prop: regularConst };
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-experimental": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+import { SomeInterface } from './experimental';
+const obj: SomeInterface = {};
+const { regularItem } = obj;
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-experimental": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+import { something } from './non-existing';
+const myVar = something;
 ```
 
 </details>
