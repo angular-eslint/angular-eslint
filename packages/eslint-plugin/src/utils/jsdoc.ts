@@ -24,21 +24,31 @@ export function getCallLikeNode(node: TSESTree.Node): CallLikeNode | undefined {
   return isNodeCalleeOfParent(callee) ? callee : undefined;
 }
 
-export function getSymbol(
+export function getSymbols(
   node: TSESTree.Identifier,
   services: ParserServicesWithTypeInformation,
   checker: ts.TypeChecker,
-): ts.Symbol | undefined {
+): (ts.Symbol | undefined)[] {
   const callLikeNode = getCallLikeNode(node);
   if (callLikeNode) {
-    return getCallLikeNodeSymbol(callLikeNode, services, checker);
+    return [getCallLikeNodeSymbol(callLikeNode, services, checker)];
   } else if (node.parent.type === AST_NODE_TYPES.Property) {
-    return services
+    const property = services
       .getTypeAtLocation(node.parent.parent)
       .getProperty(node.name);
-  } else {
-    return services.getSymbolAtLocation(node);
+    const propertySymbol = services.getSymbolAtLocation(node);
+    const valueSymbol = checker.getShorthandAssignmentValueSymbol(
+      propertySymbol?.valueDeclaration,
+    );
+    return [
+      ...getSymbolsInAliasesChain(propertySymbol, checker),
+      property,
+      propertySymbol,
+      valueSymbol,
+    ];
   }
+
+  return getSymbolsInAliasesChain(services.getSymbolAtLocation(node), checker);
 }
 
 export function isNodeCalleeOfParent(
@@ -58,10 +68,12 @@ export function isNodeCalleeOfParent(
 }
 
 export function hasJsDocTag(
-  symbol: ts.Signature | ts.Symbol | undefined,
+  symbols: (ts.Symbol | undefined)[],
   tagName: string,
 ): boolean {
-  return !!symbol?.getJsDocTags().find((tag) => tag.name === tagName);
+  return symbols.some((symbol) =>
+    symbol?.getJsDocTags().some((tag) => tag.name === tagName),
+  );
 }
 
 export function getCallLikeNodeSymbol(
@@ -87,13 +99,17 @@ export function isDeclaration(node: TSESTree.Identifier): boolean {
 
     case AST_NODE_TYPES.MethodDefinition:
     case AST_NODE_TYPES.PropertyDefinition:
+    case AST_NODE_TYPES.AccessorProperty:
       return parent.key === node;
 
     case AST_NODE_TYPES.Property:
-      return (
-        (parent.shorthand && parent.value === node) ||
-        parent.parent.type === AST_NODE_TYPES.ObjectExpression
-      );
+      if (parent.shorthand && parent.value === node) {
+        return parent.parent.type === AST_NODE_TYPES.ObjectPattern;
+      }
+      if (parent.value === node) {
+        return false;
+      }
+      return parent.parent.type === AST_NODE_TYPES.ObjectExpression;
 
     case AST_NODE_TYPES.AssignmentPattern:
       return parent.left === node;
@@ -122,16 +138,12 @@ export function isInsideExportOrImport(node: TSESTree.Node): boolean {
 
   while (true) {
     switch (current.type) {
-      case AST_NODE_TYPES.ExportAllDeclaration:
-      case AST_NODE_TYPES.ExportDefaultDeclaration:
       case AST_NODE_TYPES.ExportNamedDeclaration:
       case AST_NODE_TYPES.ImportDeclaration:
-      case AST_NODE_TYPES.ImportExpression:
         return true;
 
-      case AST_NODE_TYPES.ArrowFunctionExpression:
       case AST_NODE_TYPES.BlockStatement:
-      case AST_NODE_TYPES.ClassBody:
+      case AST_NODE_TYPES.ClassDeclaration:
       case AST_NODE_TYPES.TSInterfaceDeclaration:
       case AST_NODE_TYPES.FunctionDeclaration:
       case AST_NODE_TYPES.FunctionExpression:
@@ -144,4 +156,27 @@ export function isInsideExportOrImport(node: TSESTree.Node): boolean {
         current = current.parent;
     }
   }
+}
+
+function getSymbolsInAliasesChain(
+  symbol: ts.Symbol | undefined,
+  checker: ts.TypeChecker,
+): (ts.Symbol | undefined)[] {
+  const symbols = [symbol];
+  if (!symbol || !tsutils.isSymbolFlagSet(symbol, ts.SymbolFlags.Alias)) {
+    return symbols;
+  }
+  const targetSymbol = checker.getAliasedSymbol(symbol);
+  while (tsutils.isSymbolFlagSet(symbol, ts.SymbolFlags.Alias)) {
+    const immediateAliasedSymbol: ts.Symbol | undefined =
+      symbol.getDeclarations() && checker.getImmediateAliasedSymbol(symbol);
+    if (!immediateAliasedSymbol) {
+      break;
+    }
+    symbol = immediateAliasedSymbol;
+    if (symbol === targetSymbol) {
+      symbols.push(symbol);
+    }
+  }
+  return symbols;
 }

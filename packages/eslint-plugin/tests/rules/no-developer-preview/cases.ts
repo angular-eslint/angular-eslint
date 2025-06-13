@@ -71,6 +71,23 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   /** @developerPreview */
   declare const test: () => void;
   `,
+  `
+  import { regularConst } from './dev-preview';
+  const myConst = regularConst;
+  `,
+  `
+  import { regularConst } from './dev-preview';
+  const myConst = { prop: regularConst };
+  `,
+  `
+  import { SomeInterface } from './dev-preview';
+  const obj: SomeInterface = {};
+  const { regularItem } = obj;
+  `,
+  `
+  import { something } from './non-existing';
+  const myVar = something;
+  `,
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
@@ -612,6 +629,48 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
     data: {
       name: 'DeveloperPreviewClass',
+    },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail if a developer preview imported const is used',
+    annotatedSource: `
+      import { developerPreviewConst } from './dev-preview';
+
+      const myConst = developerPreviewConst;
+                      ~~~~~~~~~~~~~~~~~~~~~
+`,
+    messageId,
+    data: {
+      name: 'developerPreviewConst',
+    },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if a developer preview imported const is used in an object',
+    annotatedSource: `
+      import { developerPreviewConst } from './dev-preview';
+
+      const myConst = { prop: developerPreviewConst };
+                              ~~~~~~~~~~~~~~~~~~~~~
+`,
+    messageId,
+    data: {
+      name: 'developerPreviewConst',
+    },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if a developer preview object property is used in a destructuring',
+    annotatedSource: `
+      import { SomeInterface } from './dev-preview';
+
+      const obj: SomeInterface = {};
+      const { developerPreviewItem } = obj;
+              ~~~~~~~~~~~~~~~~~~~~
+`,
+    messageId,
+    data: {
+      name: 'developerPreviewItem',
     },
   }),
 ];

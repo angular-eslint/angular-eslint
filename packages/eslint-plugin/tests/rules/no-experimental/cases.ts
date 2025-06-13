@@ -68,6 +68,23 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   /** @experimental */
   declare const test: () => void;
   `,
+  `
+  import { regularConst } from './experimental';
+  const myConst = regularConst;
+  `,
+  `
+  import { regularConst } from './experimental';
+  const myConst = { prop: regularConst };
+  `,
+  `
+  import { SomeInterface } from './experimental';
+  const obj: SomeInterface = {};
+  const { regularItem } = obj;
+  `,
+  `
+  import { something } from './non-existing';
+  const myVar = something;
+  `,
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
@@ -608,7 +625,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if a experimental imported function is called',
+    description: 'should fail if an experimental imported function is called',
     annotatedSource: `
       import { experimentalFunction } from './experimental';
   
@@ -622,7 +639,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'should fail if a experimental imported aliased function is called',
+      'should fail if an experimental imported aliased function is called',
     annotatedSource: `
       import { experimentalFunction as alias } from './experimental';
   
@@ -645,6 +662,48 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
     data: {
       name: 'ExperimentalClass',
+    },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail if an experimental imported const is used',
+    annotatedSource: `
+      import { experimentalConst } from './experimental';
+
+      const myConst = experimentalConst;
+                      ~~~~~~~~~~~~~~~~~
+`,
+    messageId,
+    data: {
+      name: 'experimentalConst',
+    },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if a experimental imported const is used in an object',
+    annotatedSource: `
+      import { experimentalConst } from './experimental';
+
+      const myConst = { prop: experimentalConst };
+                              ~~~~~~~~~~~~~~~~~
+`,
+    messageId,
+    data: {
+      name: 'experimentalConst',
+    },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if an experimental object property is used in a destructuring',
+    annotatedSource: `
+      import { SomeInterface } from './experimental';
+
+      const obj: SomeInterface = {};
+      const { experimentalItem } = obj;
+              ~~~~~~~~~~~~~~~~
+`,
+    messageId,
+    data: {
+      name: 'experimentalItem',
     },
   }),
 ];

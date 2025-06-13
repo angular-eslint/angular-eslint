@@ -1130,6 +1130,94 @@ const instance = new DeveloperPreviewClass();
                      ~~~~~~~~~~~~~~~~~~~~~
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-developer-preview": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+import { developerPreviewConst } from './dev-preview';
+
+const myConst = developerPreviewConst;
+                ~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-developer-preview": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+import { developerPreviewConst } from './dev-preview';
+
+const myConst = { prop: developerPreviewConst };
+                        ~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-developer-preview": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+import { SomeInterface } from './dev-preview';
+
+const obj: SomeInterface = {};
+const { developerPreviewItem } = obj;
+        ~~~~~~~~~~~~~~~~~~~~
+```
+
 </details>
 
 <br>
@@ -1450,6 +1538,115 @@ declare function test(): void;
 ```ts
 /** @developerPreview */
 declare const test: () => void;
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-developer-preview": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+import { regularConst } from './dev-preview';
+const myConst = regularConst;
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-developer-preview": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+import { regularConst } from './dev-preview';
+const myConst = { prop: regularConst };
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-developer-preview": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+import { SomeInterface } from './dev-preview';
+const obj: SomeInterface = {};
+const { regularItem } = obj;
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-developer-preview": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+import { something } from './non-existing';
+const myVar = something;
 ```
 
 </details>

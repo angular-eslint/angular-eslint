@@ -248,6 +248,9 @@ importers:
       eslint:
         specifier: ^8.57.0 || ^9.0.0
         version: 9.28.0(jiti@2.4.2)
+      ts-api-utils:
+        specifier: ^2.1.0
+        version: 2.1.0(typescript@5.8.3)
       typescript:
         specifier: '*'
         version: 5.8.3
