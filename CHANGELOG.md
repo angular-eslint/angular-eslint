@@ -1,3 +1,19 @@
+## 20.1.0 (2025-06-16)
+
+### 🚀 Features
+
+- **eslint-plugin:** add rules to ban experimental and developer preview ([#2037](https://github.com/angular-eslint/angular-eslint/pull/2037))
+
+### 🩹 Fixes
+
+- update dependency @angular/compiler to v20.0.3 ([#2505](https://github.com/angular-eslint/angular-eslint/pull/2505))
+- update dependency eslint to v9.29.0 ([#2520](https://github.com/angular-eslint/angular-eslint/pull/2520))
+- update typescript-eslint packages to v8.34.0 ([#2511](https://github.com/angular-eslint/angular-eslint/pull/2511))
+
+### ❤️ Thank You
+
+- Daniel Kimmich @json-derulo
+
 # 20.0.0 (2025-06-06)
 
 As always we recommend that you update your existing workspaces by using `ng update` as we provide some helpful schematics to help migrate your workspaces to the latest and greatest. Running the following will update Angular, the Angular CLI and angular-eslint together:
