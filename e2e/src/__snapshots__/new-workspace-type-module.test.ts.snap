@@ -16,7 +16,7 @@ exports[`new-workspace-type-module should pass linting after creating a new work
   "karma-jasmine-html-reporter": "~2.1.0",
   "ng-packagr": "^20.X.X",
   "typescript": "~5.X.X",
-  "typescript-eslint": "8.33.1"
+  "typescript-eslint": "8.34.0"
 }
 `;
 
