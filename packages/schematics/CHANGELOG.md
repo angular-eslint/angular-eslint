@@ -1,3 +1,10 @@
+## 20.1.0 (2025-06-16)
+
+### 🩹 Fixes
+
+- update typescript-eslint packages to v8.34.0 ([#2511](https://github.com/angular-eslint/angular-eslint/pull/2511))
+- update dependency eslint to v9.29.0 ([#2520](https://github.com/angular-eslint/angular-eslint/pull/2520))
+
 # 20.0.0 (2025-06-06)
 
 ### 🚀 Features

@@ -1,3 +1,13 @@
+## 20.1.0 (2025-06-16)
+
+### 🚀 Features
+
+- **eslint-plugin:** add rules to ban experimental and developer preview ([#2037](https://github.com/angular-eslint/angular-eslint/pull/2037))
+
+### ❤️ Thank You
+
+- Daniel Kimmich @json-derulo
+
 # 20.0.0 (2025-06-06)
 
 ### 🚀 Features

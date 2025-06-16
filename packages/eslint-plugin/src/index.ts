@@ -130,6 +130,12 @@ import useLifecycleInterface, {
 import usePipeTransformInterface, {
   RULE_NAME as usePipeTransformInterfaceRuleName,
 } from './rules/use-pipe-transform-interface';
+import noExperimental, {
+  RULE_NAME as noExperimentalRuleName,
+} from './rules/no-experimental';
+import noDeveloperPreview, {
+  RULE_NAME as noDeveloperPreviewRuleName,
+} from './rules/no-developer-preview';
 
 export = {
   configs: {
@@ -181,5 +187,7 @@ export = {
     [useInjectableProvidedInRuleName]: useInjectableProvidedIn,
     [useLifecycleInterfaceRuleName]: useLifecycleInterface,
     [usePipeTransformInterfaceRuleName]: usePipeTransformInterface,
+    [noExperimentalRuleName]: noExperimental,
+    [noDeveloperPreviewRuleName]: noDeveloperPreview,
   },
 };
