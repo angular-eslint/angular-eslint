@@ -21,6 +21,12 @@ Ensures that a button has a valid type specified
 
 <br>
 
+## Rationale
+
+Buttons default to `type="submit"` when no type is specified. If placed inside a form, the button triggers a form submission on click. Enforcing the type attribute clarifies the code's intent and prevents unintended form submissions.
+
+<br>
+
 ## Rule Options
 
 The rule accepts an options object with the following properties:
