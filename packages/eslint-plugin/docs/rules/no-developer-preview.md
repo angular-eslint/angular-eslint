@@ -21,6 +21,12 @@ Disallow using code which is marked as developer preview
 
 <br>
 
+## Rationale
+
+Angular's [developer preview APIs](https://angular.dev/reference/releases#developer-preview) are fully functional and polished, but not yet covered by Angular's [breaking change policy](https://angular.dev/reference/releases#breaking-change-policy-and-update-paths). These APIs may change even in patch releases, making them risky for production applications.
+
+<br>
+
 ## Rule Options
 
 The rule does not have any configuration options.
