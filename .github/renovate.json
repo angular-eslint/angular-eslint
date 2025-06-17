@@ -1,6 +1,6 @@
 {
   "extends": [
-    "config:base",
+    "config:recommended",
     ":semanticCommits",
     ":semanticCommitScopeDisabled"
   ],
@@ -17,11 +17,11 @@
   ],
   "packageRules": [
     {
-      "matchSourceUrlPrefixes": [
-        "https://github.com/typescript-eslint/typescript-eslint"
-      ],
       "groupName": "typescript-eslint packages",
-      "semanticCommitType": "fix"
+      "semanticCommitType": "fix",
+      "matchSourceUrls": [
+        "https://github.com/typescript-eslint/typescript-eslint{/,}**"
+      ]
     },
     {
       "matchPackageNames": ["eslint", "@angular/compiler"],
