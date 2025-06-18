@@ -112,6 +112,33 @@ interface Options {
 
 <br>
 
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-interpolation-in-attributes": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<input type="text" attr.data-myExample="{{ foo }}">
+                                        ~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
 #### Custom Config
 
 ```json
