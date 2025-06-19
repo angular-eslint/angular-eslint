@@ -73,7 +73,11 @@ export default createESLintRule<Options, MessageIds>({
           messageId: 'noInterpolationInAttributes',
           fix: isFullInterpolation
             ? (fixer) => {
-                const attributeName = boundAttribute.name.trim();
+                const attrStart = boundAttribute.keySpan.start.offset;
+                const attrEnd = boundAttribute.keySpan.end.offset;
+                const attributeName = sourceCode.text
+                  .slice(attrStart, attrEnd)
+                  .trim();
 
                 const exprStart = boundAttribute.valueSpan.start.offset + 2; // +2 to remove '{{'
                 const exprEnd = boundAttribute.valueSpan.end.offset - 2; // -2 to remove '}}'
@@ -81,12 +85,12 @@ export default createESLintRule<Options, MessageIds>({
                   .slice(exprStart, exprEnd)
                   .trim();
 
+                const rangeStart = boundAttribute.sourceSpan.start.offset;
+                const rangeEnd = boundAttribute.sourceSpan.end.offset;
+                const replacement = `[${attributeName}]="${expression}"`;
                 return fixer.replaceTextRange(
-                  [
-                    boundAttribute.keySpan.start.offset,
-                    boundAttribute.valueSpan.end.offset,
-                  ],
-                  `[${attributeName}]="${expression}`, // Replace with property binding. Leave out the last quote since its automatically added.
+                  [rangeStart, rangeEnd],
+                  replacement,
                 );
               }
             : null,
