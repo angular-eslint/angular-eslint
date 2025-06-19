@@ -47,6 +47,19 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
+      'it should fail and autofix the full attribute if interpolation is used as attribute value',
+    annotatedSource: `
+        <input type="text" attr.data-myExample="{{ foo }}">
+                                                ~~~~~~~~~
+      `,
+    messageId,
+    annotatedOutput: `
+        <input type="text" [attr.data-myExample]="foo">
+                                                
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
       'it should fail and not autofix when interpolation is used as part of attribute value and this is explicitly configured as disallowed',
     annotatedSource: `
         <input type="text" name="{{ foo }}bar">
