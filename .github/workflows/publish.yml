@@ -52,7 +52,7 @@ jobs:
           pnpm nx release version $VERSION
 
       - name: Publish packages to npm
-        run: pnpm nx release publish --registry https://registry.npmjs.org
+        run: pnpm nx release publish --registry https://registry.npmjs.org --tag previous
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
