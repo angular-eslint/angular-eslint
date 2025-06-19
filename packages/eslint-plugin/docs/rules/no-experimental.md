@@ -21,6 +21,12 @@ Disallow using code which is marked as experimental
 
 <br>
 
+## Rationale
+
+Angular's [experimental APIs](https://angular.dev/reference/releases#experimental) are subject to significant changes or removal without notice and are not covered by Angular's [breaking change policy](https://angular.dev/reference/releases#breaking-change-policy-and-update-paths). These APIs may change even in patch releases, making them risky for production applications.
+
+<br>
+
 ## Rule Options
 
 The rule does not have any configuration options.

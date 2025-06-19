@@ -50,3 +50,7 @@ export default createESLintRule<Options, MessageIds>({
     };
   },
 });
+
+export const RULE_DOCS_EXTENSION = {
+  rationale: `Angular's [developer preview APIs](https://angular.dev/reference/releases#developer-preview) are fully functional and polished, but not yet covered by Angular's [breaking change policy](https://angular.dev/reference/releases#breaking-change-policy-and-update-paths). These APIs may change even in patch releases, making them risky for production applications.`,
+};
