@@ -1,3 +1,7 @@
+## 19.8.1 (2025-06-19)
+
+This was a version bump only for @angular-eslint/utils to align it with other projects, there were no code changes.
+
 ## 19.8.0 (2025-06-06)
 
 This was a version bump only for @angular-eslint/utils to align it with other projects, there were no code changes.
