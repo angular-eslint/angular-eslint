@@ -92,6 +92,11 @@ export default createESLintRule<Options, MessageIds>({
   },
 });
 
+export const RULE_DOCS_EXTENSION = {
+  rationale:
+    'Buttons default to `type="submit"` when no type is specified. If placed inside a form, the button triggers a form submission on click. Enforcing the type attribute clarifies the code\'s intent and prevents unintended form submissions.',
+};
+
 function isTypeAttributePresentInElement({
   inputs,
   attributes,
