@@ -1,3 +1,17 @@
+## 20.1.1 (2025-06-19)
+
+### 🩹 Fixes
+
+- update typescript-eslint packages to v8.34.1 ([#2522](https://github.com/angular-eslint/angular-eslint/pull/2522))
+- update dependency @angular/compiler to v20.0.4 ([#2532](https://github.com/angular-eslint/angular-eslint/pull/2532))
+- **eslint-plugin:** [no-output-on-prefix] update style guide link ([#2514](https://github.com/angular-eslint/angular-eslint/pull/2514))
+- **eslint-plugin-template:** [no-interpolation-in-attributes] use keySpan as attr. range and sourceSpan as replacement range ([#2531](https://github.com/angular-eslint/angular-eslint/pull/2531))
+
+### ❤️ Thank You
+
+- Niklas Wolf
+- Victor Santelé
+
 ## 20.1.0 (2025-06-16)
 
 ### 🚀 Features

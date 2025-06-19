@@ -1,3 +1,13 @@
+## 20.1.1 (2025-06-19)
+
+### 🩹 Fixes
+
+- **eslint-plugin-template:** [no-interpolation-in-attributes] use keySpan as attr. range and sourceSpan as replacement range ([#2531](https://github.com/angular-eslint/angular-eslint/pull/2531))
+
+### ❤️ Thank You
+
+- Niklas Wolf
+
 ## 20.1.0 (2025-06-16)
 
 This was a version bump only for eslint-plugin-template to align it with other projects, there were no code changes.

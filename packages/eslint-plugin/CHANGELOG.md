@@ -1,3 +1,13 @@
+## 20.1.1 (2025-06-19)
+
+### 🩹 Fixes
+
+- **eslint-plugin:** [no-output-on-prefix] update style guide link ([#2514](https://github.com/angular-eslint/angular-eslint/pull/2514))
+
+### ❤️ Thank You
+
+- Victor Santelé
+
 ## 20.1.0 (2025-06-16)
 
 ### 🚀 Features
