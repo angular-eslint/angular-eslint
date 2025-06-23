@@ -1080,7 +1080,6 @@ ng update @angular/core @angular/cli @angular-eslint/schematics
 This is a major version bump and comes with some breaking changes, one of which might possibly impact your ESLint configuration if you are targeting inline HTML templates with a very specific glob pattern because the virtual filename has changed (read on to learn more).
 
 - update Angular to v14
-
   - All packages now require the use of Angular CLI >= 14.0.0 < 15.0.0
 
 - dropped support for Node 12 (in alignment with Angular's own version policy)
@@ -1343,11 +1342,9 @@ npx ng update @angular/cli @angular/core @angular-eslint/schematics
 ### BREAKING CHANGES
 
 - update to angular v12 ([c80008d](https://github.com/angular-eslint/angular-eslint/commit/c80008df8f6b9d08daf3043dffc1be45f8cfbe81))
-
   - All packages now require the use of Angular CLI >= 12.0.0 < 13
 
 - **eslint-plugin-template:** no-negated-async no longer performs equality checks ([#399](https://github.com/angular-eslint/angular-eslint/issues/399))
-
   - You should add the new `@angular-eslint/template/eqeqeq` rule to your config if you want to continue with the same functionality around equality checks. This will be applied for you by `ng update` automatically.
 
 # [4.3.0](https://github.com/angular-eslint/angular-eslint/compare/v4.2.1...v4.3.0) (2021-05-12)
@@ -1393,7 +1390,6 @@ NOTE: For this release, there are no automated migrations to be run, other than 
 ### BREAKING CHANGES
 
 - Passing `--collection=@angular-eslint/schematics` to `ng new` is no longer supported:
-
   - If you attempt to do it you will get a clear error with instructions on what to do instead.
   - This means we have one consistent way to add `@angular-eslint` to a workspace - run `ng add @angular-eslint/schematics` - regardless of whether that workspace is brand new or has existed for a while.
 
@@ -1516,7 +1512,6 @@ npx ng update @angular-eslint/schematics
 - The `use-pipe-decorator` rule no longer exists for use
 
 - feat(template-parser): updated use of parseTemplate to improve loc data
-
   - Requires @angular/compiler 11.2.0 and above
 
 - feat(schematics): change way indent and quotes are handled by conversion schematics
