@@ -9,7 +9,6 @@ This guide shows you how to create custom ESLint plugins and rules that leverage
 - [Creating a TypeScript Rule](#creating-a-typescript-rule)
 - [Creating an HTML Template Rule](#creating-an-html-template-rule)
 - [Testing Your Rules](#testing-your-rules)
-- [Providing Configurations (Optional)](#providing-configurations-optional)
 - [Consuming Your Plugin](#consuming-your-plugin)
 - [Key Differences Between TypeScript and HTML Rules](#key-differences-between-typescript-and-html-rules)
 - [Best Practices](#best-practices)
@@ -141,9 +140,9 @@ export const rule = ESLintUtils.RuleCreator.withoutDocs<Options, MessageIds>({
 
 ## Creating an HTML Template Rule
 
-Let's create a rule that enforces the use of trackBy functions in ngFor loops.
+Let's create a simple demo rule that enforces all `div` elements have a `data-foo="bar"` attribute. This is purely for demonstration purposes.
 
-**`src/rules/require-trackby-function.ts`**
+**`src/rules/require-data-foo.ts`**
 
 ```typescript
 import type { TmplAstElement } from '@angular-eslint/bundled-angular-compiler';
@@ -151,8 +150,8 @@ import { getTemplateParserServices } from '@angular-eslint/utils';
 import { ESLintUtils } from '@typescript-eslint/utils';
 
 export type Options = [];
-export type MessageIds = 'requireTrackBy';
-export const RULE_NAME = 'require-trackby-function';
+export type MessageIds = 'requireDataFoo';
+export const RULE_NAME = 'require-data-foo';
 
 export const rule = ESLintUtils.RuleCreator.withoutDocs<Options, MessageIds>({
   name: RULE_NAME,
@@ -160,12 +159,12 @@ export const rule = ESLintUtils.RuleCreator.withoutDocs<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description:
-        'Require trackBy function in ngFor loops for better performance',
+        'Demo rule: require all div elements to have data-foo="bar" attribute',
     },
     schema: [],
     messages: {
-      requireTrackBy:
-        'Missing trackBy function in ngFor loop. Consider adding trackBy for better performance.',
+      requireDataFoo:
+        'All div elements must have data-foo="bar" attribute (demo rule)',
     },
   },
   defaultOptions: [],
@@ -173,29 +172,21 @@ export const rule = ESLintUtils.RuleCreator.withoutDocs<Options, MessageIds>({
     const parserServices = getTemplateParserServices(context);
 
     return {
-      // Selector for elements with *ngFor directive
-      'Element[inputs]'(node: TmplAstElement) {
-        const ngForInput = node.inputs.find(
-          (input) => input.name === 'ngForOf',
+      // Selector for div elements
+      'Element[name="div"]'(node: TmplAstElement) {
+        // Check if data-foo="bar" attribute is present
+        const hasDataFoo = node.attributes.some(
+          (attr) => attr.name === 'data-foo' && attr.value === 'bar',
         );
 
-        if (!ngForInput) {
-          return;
-        }
-
-        // Check if trackBy is present
-        const hasTrackBy = node.inputs.some(
-          (input) => input.name === 'ngForTrackBy',
-        );
-
-        if (!hasTrackBy) {
+        if (!hasDataFoo) {
           const loc = parserServices.convertNodeSourceSpanToLoc(
             node.sourceSpan,
           );
 
           context.report({
             loc,
-            messageId: 'requireTrackBy',
+            messageId: 'requireDataFoo',
           });
         }
       },
@@ -285,7 +276,7 @@ ruleTester.run(RULE_NAME, rule, {
 
 ### HTML Template Rule Tests
 
-**`tests/rules/require-trackby-function.spec.ts`**
+**`tests/rules/require-data-foo.spec.ts`**
 
 ```typescript
 import { RuleTester } from '@angular-eslint/test-utils';
@@ -293,39 +284,66 @@ import type {
   InvalidTestCase,
   ValidTestCase,
 } from '@typescript-eslint/rule-tester';
-import { rule, RULE_NAME } from '../../src/rules/require-trackby-function';
+import { rule, RULE_NAME } from '../../src/rules/require-data-foo';
 import type {
   MessageIds,
   Options,
-} from '../../src/rules/require-trackby-function';
+} from '../../src/rules/require-data-foo';
 
 const ruleTester = new RuleTester();
-const messageId: MessageIds = 'requireTrackBy';
+const messageId: MessageIds = 'requireDataFoo';
 
 const valid: readonly (string | ValidTestCase<Options>)[] = [
   `
-    <div *ngFor="let item of items; trackBy: trackByFn">
-      {{ item.name }}
-    </div>
+    <div data-foo="bar">Valid div</div>
   `,
   `
-    <ng-container *ngFor="let user of users; trackBy: trackByUserId">
-      <div>{{ user.name }}</div>
-    </ng-container>
-  `,
-  // Not an ngFor loop
-  `
-    <div *ngIf="condition">
-      Content
+    <div class="container" data-foo="bar">
+      <span>Content</span>
     </div>
+  `,
+  // Not a div element
+  `
+    <span>This is fine</span>
+  `,
+  `
+    <p>This is also fine</p>
   `,
 ];
 
 const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   {
     code: `
-      <div *ngFor="let item of items">
-        {{ item.name }}
+      <div>Missing data-foo attribute</div>
+    `,
+    errors: [
+      {
+        messageId,
+        line: 2,
+        column: 7,
+        endLine: 2,
+        endColumn: 12,
+      },
+    ],
+  },
+  {
+    code: `
+      <div data-foo="wrong">Wrong value</div>
+    `,
+    errors: [
+      {
+        messageId,
+        line: 2,
+        column: 7,
+        endLine: 2,
+        endColumn: 12,
+      },
+    ],
+  },
+  {
+    code: `
+      <div class="container">
+        <span>Content</span>
       </div>
     `,
     errors: [
@@ -334,23 +352,7 @@ const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         line: 2,
         column: 7,
         endLine: 2,
-        endColumn: 38,
-      },
-    ],
-  },
-  {
-    code: `
-      <ng-container *ngFor="let user of users">
-        <div>{{ user.name }}</div>
-      </ng-container>
-    `,
-    errors: [
-      {
-        messageId,
-        line: 2,
-        column: 7,
-        endLine: 2,
-        endColumn: 44,
+        endColumn: 12,
       },
     ],
   },
@@ -362,15 +364,17 @@ ruleTester.run(RULE_NAME, rule, {
 });
 ```
 
-## Providing Configurations (Optional)
+## Consuming Your Plugin
 
-While rules are the core requirement for any ESLint plugin, you can optionally provide predefined configurations to make it easier for users to adopt your plugin. This is completely optional - users can always configure your rules manually.
+### Plugin Structure
+
+Create your plugin's main export file:
 
 **`src/index.ts`**
 
 ```typescript
 import { rule as serviceClassSuffix, RULE_NAME as serviceClassSuffixRuleName } from './rules/service-class-suffix';
-import { rule as requireTrackbyFunction, RULE_NAME as requireTrackbyFunctionRuleName } from './rules/require-trackby-function';
+import { rule as requireDataFoo, RULE_NAME as requireDataFooRuleName } from './rules/require-data-foo';
 
 export = {
   configs: {
@@ -378,18 +382,16 @@ export = {
       plugins: ['your-plugin-name'],
       rules: {
         [`your-plugin-name/${serviceClassSuffixRuleName}`]: 'error',
-        [`your-plugin-name/${requireTrackbyFunctionRuleName}`]: 'warn',
+        [`your-plugin-name/${requireDataFooRuleName}`]: 'warn',
       },
     },
   },
   rules: {
     [serviceClassSuffixRuleName]: serviceClassSuffix,
-    [requireTrackbyFunctionRuleName]: requireTrackbyFunction,
+    [requireDataFooRuleName]: requireDataFoo,
   },
 };
 ```
-
-## Consuming Your Plugin
 
 ### Using in a Project
 
@@ -435,7 +437,7 @@ export default [
     },
     rules: {
       // Your custom template rules
-      'your-plugin/require-trackby-function': 'warn',
+      'your-plugin/require-data-foo': 'warn',
       // Angular ESLint template rules
       '@angular-eslint/template/banana-in-box': 'error',
     },
