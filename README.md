@@ -31,6 +31,7 @@
 - [Adding ESLint configuration to an existing Angular CLI project which _has no existing linter_](#adding-eslint-configuration-to-an-existing-angular-cli-project-which-has-no-existing-linter)
 - [Using ESLint by default when generating new Projects within your Workspace](#using-eslint-by-default-when-generating-new-projects-within-your-workspace)
 - [Configuring ESLint](#configuring-eslint)
+- [Writing Custom ESLint Rules](#writing-custom-eslint-rules)
 - [Philosophy on lint rules which enforce code formatting concerns](#philosophy-on-lint-rules-which-enforce-code-formatting-concerns)
 - [Linting with the VSCode extension for ESLint](#linting-with-the-vscode-extension-for-eslint)
 - [Usage without Angular CLI Builder and eslintrc style configs](#usage-without-angular-cli-builder-and-eslintrc-style-configs)
@@ -219,6 +220,22 @@ The legacy so called "eslintrc" style is now deprecated, but still fully support
 
 - flat configs (the default in ESLint v9, strongly recommended for new projects): [./docs/CONFIGURING_FLAT_CONFIG.md](./docs/CONFIGURING_FLAT_CONFIG.md)
 - eslintrc style configs (the default in ESLint v8, deprecated in ESLint v9 but still valid for existing projects): [./docs/CONFIGURING_ESLINTRC.md](./docs/CONFIGURING_ESLINTRC.md)
+
+<br>
+
+## Writing Custom ESLint Rules
+
+Want to create your own ESLint rules that work seamlessly with Angular projects? We've got you covered! Our `@angular-eslint/utils` and `@angular-eslint/test-utils` packages provide powerful utilities to help you build custom rules for both TypeScript and HTML templates.
+
+Check out our comprehensive guide: [./docs/writing-custom-plugins.md](./docs/writing-custom-plugins.md)
+
+This guide covers:
+
+- Creating TypeScript rules for Angular components, services, and other constructs
+- Creating HTML template rules for Angular templates
+- Testing your custom rules
+- Understanding the differences between TypeScript and HTML ASTs
+- Best practices and real-world examples
 
 <br>
 
