@@ -2,8 +2,6 @@
 
 This guide shows you how to create custom ESLint plugins and rules that leverage the powerful utilities provided by `@angular-eslint/utils` and `@angular-eslint/test-utils`.
 
-For comprehensive information about writing custom ESLint rules in general, see the [ESLint Custom Rules Guide](https://eslint.org/docs/latest/extend/custom-rules).
-
 ## Table of Contents
 
 - [Getting Started](#getting-started)
@@ -14,7 +12,6 @@ For comprehensive information about writing custom ESLint rules in general, see 
 - [Consuming Your Plugin](#consuming-your-plugin)
 - [Key Differences Between TypeScript and HTML Rules](#key-differences-between-typescript-and-html-rules)
 - [Best Practices](#best-practices)
-- [Real-World Examples](#real-world-examples)
 
 ## Getting Started
 
@@ -55,6 +52,8 @@ From `@angular-eslint/test-utils`:
 - `convertAnnotatedSourceToFailureCase`: Utility for test case generation
 
 For comprehensive information on writing custom rules with TypeScript ESLint utilities, see the [typescript-eslint custom rules guide](https://typescript-eslint.io/developers/custom-rules).
+
+For general information about writing ESLint custom rules, see the [official ESLint custom rules guide](https://eslint.org/docs/latest/extend/custom-rules).
 
 ## Creating a TypeScript Rule
 
@@ -142,7 +141,7 @@ export const rule = ESLintUtils.RuleCreator.withoutDocs<Options, MessageIds>({
 
 ## Creating an HTML Template Rule
 
-Let's create a simple rule that enforces a specific attribute on div elements.
+Let's create a simple rule that enforces a data attribute on div elements.
 
 **`src/rules/require-data-foo.ts`**
 
@@ -160,7 +159,7 @@ export const rule = ESLintUtils.RuleCreator.withoutDocs<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description: 'Require data-foo="bar" attribute on all div elements',
+      description: 'Require data-foo="bar" attribute on div elements',
     },
     schema: [],
     messages: {
@@ -172,9 +171,7 @@ export const rule = ESLintUtils.RuleCreator.withoutDocs<Options, MessageIds>({
     const parserServices = getTemplateParserServices(context);
 
     return {
-      // Selector for div elements
       'Element[name="div"]'(node: TmplAstElement) {
-        // Check if data-foo attribute is present with value "bar"
         const hasDataFoo = node.attributes.some(
           (attr) => attr.name === 'data-foo' && attr.value === 'bar',
         );
@@ -294,13 +291,13 @@ const valid: readonly (string | ValidTestCase<Options>)[] = [
     </div>
   `,
   `
-    <div data-foo="bar" class="example">
-      {{ item.name }}
+    <div class="container" data-foo="bar">
+      More content
     </div>
   `,
   // Not a div element
   `
-    <span>Content</span>
+    <span>No data-foo required</span>
   `,
 ];
 
@@ -333,7 +330,7 @@ const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         line: 2,
         column: 7,
         endLine: 2,
-        endColumn: 27,
+        endColumn: 29,
       },
     ],
   },
@@ -349,7 +346,7 @@ ruleTester.run(RULE_NAME, rule, {
 
 ### Plugin Structure
 
-Create your plugin's main export file. Note that exposing configs is optional - your plugin only needs to export rules:
+Create your plugin's main export file:
 
 **`src/index.ts`**
 
@@ -368,6 +365,7 @@ export = {
     [serviceClassSuffixRuleName]: serviceClassSuffix,
     [requireDataFooRuleName]: requireDataFoo,
   },
+  // Configs are optional - only include if you want to provide preset configurations
   configs: {
     recommended: {
       plugins: ['your-plugin-name'],
@@ -438,7 +436,6 @@ export default [
 
 - **Parser**: Use `@typescript-eslint/parser`
 - **AST**: Work with TypeScript AST nodes (`TSESTree`)
-- **Selectors**: Use `Selectors.COMPONENT_CLASS_DECORATOR`, `Selectors.INJECTABLE_CLASS_DECORATOR`, etc.
 - **Utilities**: Access `ASTUtils` for Angular-specific AST operations
 
 ### HTML Template Rules
@@ -446,7 +443,6 @@ export default [
 - **Parser**: Use `@angular-eslint/template-parser`
 - **AST**: Work with Angular template AST nodes (`TmplAstElement`, `TmplAstBoundText`, etc.) which come from the Angular compiler (wrapped by our template-parser)
 - **Parser Services**: Use `getTemplateParserServices(context)` for location mapping
-- **Selectors**: Use CSS-like selectors (`'Element[name="div"]'`, `'BoundText'`, etc.)
 
 For more details on configuring ESLint with different parsers, see [CONFIGURING_FLAT_CONFIG.md](./CONFIGURING_FLAT_CONFIG.md).
 
@@ -481,7 +477,7 @@ For more details on configuring ESLint with different parsers, see [CONFIGURING_
 - Use specific selectors to minimize AST traversal
 - Avoid expensive operations in rule callbacks
 - Consider caching when appropriate
-- For more information on profiling rule performance, see the [ESLint Rule Performance Guide](https://eslint.org/docs/latest/extend/custom-rules#profile-rule-performance)
+- For guidance on profiling rule performance, see the [ESLint performance profiling guide](https://eslint.org/docs/latest/extend/custom-rules#profile-rule-performance)
 
 ### 6. Documentation
 
@@ -489,13 +485,9 @@ For more details on configuring ESLint with different parsers, see [CONFIGURING_
 - Provide examples of valid and invalid code
 - Include configuration options
 
-## Real-World Examples
+For real-world examples and more advanced patterns, explore the rule implementations in the Angular ESLint codebase:
 
-For comprehensive, production-ready examples of custom ESLint rules using these utilities, see the rule implementations in this repository:
+- [TypeScript rules](https://github.com/angular-eslint/angular-eslint/tree/main/packages/eslint-plugin/src/rules)
+- [Template rules](https://github.com/angular-eslint/angular-eslint/tree/main/packages/eslint-plugin-template/src/rules)
 
-- **TypeScript rules**: [packages/eslint-plugin/src/rules/](../packages/eslint-plugin/src/rules/)
-- **Template rules**: [packages/eslint-plugin-template/src/rules/](../packages/eslint-plugin-template/src/rules/)
-
-These examples demonstrate advanced usage patterns, proper error handling, and comprehensive testing approaches that you can reference when building your own custom rules.
-
-This guide provides a comprehensive foundation for creating custom ESLint plugins that leverage the power of Angular ESLint's utilities. The basic examples show common patterns you can adapt for your specific needs.
+This guide provides a comprehensive foundation for creating custom ESLint plugins that leverage the power of Angular ESLint's utilities. The examples show basic patterns you can adapt for your specific needs.
