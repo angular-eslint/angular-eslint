@@ -53,7 +53,7 @@ From `@angular-eslint/test-utils`:
 
 For comprehensive information on writing custom rules with TypeScript ESLint utilities, see the [typescript-eslint custom rules guide](https://typescript-eslint.io/developers/custom-rules).
 
-For general ESLint rule development guidance, see the [official ESLint custom rules guide](https://eslint.org/docs/latest/extend/custom-rules).
+For general ESLint rule development concepts, see the [official ESLint guide on writing custom rules](https://eslint.org/docs/latest/extend/custom-rules).
 
 ## Creating a TypeScript Rule
 
@@ -139,12 +139,11 @@ export const rule = ESLintUtils.RuleCreator.withoutDocs<Options, MessageIds>({
 });
 ```
 
-
 ## Creating an HTML Template Rule
 
-Let's create a simple rule that enforces all `div` elements have a `data-foo="bar"` attribute.
+Let's create a simple rule that enforces all `div` elements have a `data-test-id` attribute for testing purposes.
 
-**`src/rules/require-data-foo.ts`**
+**`src/rules/require-div-test-id.ts`**
 
 ```typescript
 import type { TmplAstElement } from '@angular-eslint/bundled-angular-compiler';
@@ -152,19 +151,20 @@ import { getTemplateParserServices } from '@angular-eslint/utils';
 import { ESLintUtils } from '@typescript-eslint/utils';
 
 export type Options = [];
-export type MessageIds = 'requireDataFoo';
-export const RULE_NAME = 'require-data-foo';
+export type MessageIds = 'missingTestId';
+export const RULE_NAME = 'require-div-test-id';
 
 export const rule = ESLintUtils.RuleCreator.withoutDocs<Options, MessageIds>({
   name: RULE_NAME,
   meta: {
     type: 'suggestion',
     docs: {
-      description: 'Require data-foo="bar" attribute on div elements',
+      description: 'Require data-test-id attribute on div elements',
     },
     schema: [],
     messages: {
-      requireDataFoo: 'div elements must have data-foo="bar" attribute',
+      missingTestId:
+        'div elements should have a data-test-id attribute for testing',
     },
   },
   defaultOptions: [],
@@ -172,19 +172,20 @@ export const rule = ESLintUtils.RuleCreator.withoutDocs<Options, MessageIds>({
     const parserServices = getTemplateParserServices(context);
 
     return {
+      // Selector for div elements
       'Element[name="div"]'(node: TmplAstElement) {
-        const hasDataFoo = node.attributes.some(
-          (attr) => attr.name === 'data-foo' && attr.value === 'bar',
+        const hasTestId = node.attributes.some(
+          (attr) => attr.name === 'data-test-id',
         );
 
-        if (!hasDataFoo) {
+        if (!hasTestId) {
           const loc = parserServices.convertNodeSourceSpanToLoc(
             node.sourceSpan,
           );
 
           context.report({
             loc,
-            messageId: 'requireDataFoo',
+            messageId: 'missingTestId',
           });
         }
       },
@@ -206,10 +207,7 @@ import type {
   ValidTestCase,
 } from '@typescript-eslint/rule-tester';
 import { rule, RULE_NAME } from '../../src/rules/service-class-suffix';
-import type {
-  MessageIds,
-  Options,
-} from '../../src/rules/service-class-suffix';
+import type { MessageIds, Options } from '../../src/rules/service-class-suffix';
 
 const ruleTester = new RuleTester();
 const messageId: MessageIds = 'serviceSuffix';
@@ -274,7 +272,7 @@ ruleTester.run(RULE_NAME, rule, {
 
 ### HTML Template Rule Tests
 
-**`tests/rules/require-data-foo.spec.ts`**
+**`tests/rules/require-div-test-id.spec.ts`**
 
 ```typescript
 import { RuleTester } from '@angular-eslint/test-utils';
@@ -282,29 +280,26 @@ import type {
   InvalidTestCase,
   ValidTestCase,
 } from '@typescript-eslint/rule-tester';
-import { rule, RULE_NAME } from '../../src/rules/require-data-foo';
-import type {
-  MessageIds,
-  Options,
-} from '../../src/rules/require-data-foo';
+import { rule, RULE_NAME } from '../../src/rules/require-div-test-id';
+import type { MessageIds, Options } from '../../src/rules/require-div-test-id';
 
 const ruleTester = new RuleTester();
-const messageId: MessageIds = 'requireDataFoo';
+const messageId: MessageIds = 'missingTestId';
 
 const valid: readonly (string | ValidTestCase<Options>)[] = [
   `
-    <div data-foo="bar">
+    <div data-test-id="user-profile">
       Content
     </div>
   `,
   `
-    <div data-foo="bar" class="example">
-      More content
+    <div data-test-id="navigation-menu">
+      <span>Menu item</span>
     </div>
   `,
   // Not a div element
   `
-    <span>Content</span>
+    <span>Some text</span>
   `,
 ];
 
@@ -312,7 +307,7 @@ const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   {
     code: `
       <div>
-        Content
+        Content without test id
       </div>
     `,
     errors: [
@@ -327,8 +322,8 @@ const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   },
   {
     code: `
-      <div data-foo="wrong">
-        Content
+      <div class="container">
+        <span>Content</span>
       </div>
     `,
     errors: [
@@ -337,7 +332,7 @@ const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         line: 2,
         column: 7,
         endLine: 2,
-        endColumn: 28,
+        endColumn: 30,
       },
     ],
   },
@@ -353,30 +348,38 @@ ruleTester.run(RULE_NAME, rule, {
 
 ### Plugin Structure
 
-Create your plugin's main export file. The `rules` export is required, while `configs` is optional but recommended for providing preset configurations:
+Create your plugin's main export file:
 
 **`src/index.ts`**
 
 ```typescript
-import { rule as serviceClassSuffix, RULE_NAME as serviceClassSuffixRuleName } from './rules/service-class-suffix';
-import { rule as requireDataFoo, RULE_NAME as requireDataFooRuleName } from './rules/require-data-foo';
+import {
+  rule as serviceClassSuffix,
+  RULE_NAME as serviceClassSuffixRuleName,
+} from './rules/service-class-suffix';
+import {
+  rule as requireDivTestId,
+  RULE_NAME as requireDivTestIdRuleName,
+} from './rules/require-div-test-id';
 
 export = {
   rules: {
     [serviceClassSuffixRuleName]: serviceClassSuffix,
-    [requireDataFooRuleName]: requireDataFoo,
+    [requireDivTestIdRuleName]: requireDivTestId,
   },
   configs: {
     recommended: {
       plugins: ['your-plugin-name'],
       rules: {
         [`your-plugin-name/${serviceClassSuffixRuleName}`]: 'error',
-        [`your-plugin-name/${requireDataFooRuleName}`]: 'warn',
+        [`your-plugin-name/${requireDivTestIdRuleName}`]: 'warn',
       },
     },
   },
 };
 ```
+
+**Note**: Exposing configs is totally optional - you can just export the rules if you prefer users to configure them manually.
 
 ### Using in a Project
 
@@ -422,7 +425,7 @@ export default [
     },
     rules: {
       // Your custom template rules
-      'your-plugin/require-data-foo': 'warn',
+      'your-plugin/require-div-test-id': 'warn',
       // Angular ESLint template rules
       '@angular-eslint/template/banana-in-box': 'error',
     },
@@ -442,9 +445,9 @@ export default [
 ### HTML Template Rules
 
 - **Parser**: Use `@angular-eslint/template-parser`
-- **AST**: Work with Angular template AST nodes (`TmplAstElement`, `TmplAstBoundText`, etc.) that come from the Angular compiler (which our template-parser wraps)
+- **AST**: Work with Angular template AST nodes (`TmplAstElement`, `TmplAstBoundText`, etc.)
 - **Parser Services**: Use `getTemplateParserServices(context)` for location mapping
-- **Selectors**: Use CSS-like selectors (`'Element[name="div"]'`, `'BoundText'`, etc.)
+- **Selectors**: Use CSS-like selectors (`'Element[name="div"]'`, `'BoundText'`, etc.) - these ultimately come from the Angular compiler (which our template-parser wraps)
 
 For more details on configuring ESLint with different parsers, see [CONFIGURING_FLAT_CONFIG.md](./CONFIGURING_FLAT_CONFIG.md).
 
@@ -479,7 +482,7 @@ For more details on configuring ESLint with different parsers, see [CONFIGURING_
 - Use specific selectors to minimize AST traversal
 - Avoid expensive operations in rule callbacks
 - Consider caching when appropriate
-- For guidance on profiling rule performance, see the [ESLint rule performance guide](https://eslint.org/docs/latest/extend/custom-rules#profile-rule-performance)
+- For profiling rule performance, see the [official ESLint guide](https://eslint.org/docs/latest/extend/custom-rules#profile-rule-performance)
 
 ### 6. Documentation
 
@@ -489,11 +492,9 @@ For more details on configuring ESLint with different parsers, see [CONFIGURING_
 
 ## Real-World Examples
 
-For more complex real-world examples of Angular ESLint rules, explore the existing rule implementations in this repository:
+For comprehensive, production-ready examples of Angular ESLint rules, examine the two main plugins in this repository:
 
-- **TypeScript rules**: [`packages/eslint-plugin/src/rules/`](https://github.com/angular-eslint/angular-eslint/tree/main/packages/eslint-plugin/src/rules)
-- **Template rules**: [`packages/eslint-plugin-template/src/rules/`](https://github.com/angular-eslint/angular-eslint/tree/main/packages/eslint-plugin-template/src/rules)
+- **[@angular-eslint/eslint-plugin](../packages/eslint-plugin/src/rules/)**: Contains TypeScript rules for Angular components, services, directives, and other Angular constructs
+- **[@angular-eslint/eslint-plugin-template](../packages/eslint-plugin-template/src/rules/)**: Contains HTML template rules for Angular templates
 
-These production rules demonstrate advanced patterns, utilities usage, and best practices for building robust Angular ESLint rules.
-
-This guide provides a comprehensive foundation for creating custom ESLint plugins that leverage the power of Angular ESLint's utilities. The examples show fundamental patterns you can adapt for your specific needs.
+These plugins demonstrate advanced patterns, edge case handling, and best practices for rule development in real-world scenarios.
