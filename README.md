@@ -225,17 +225,17 @@ The legacy so called "eslintrc" style is now deprecated, but still fully support
 
 ## Writing Custom ESLint Rules
 
-Want to create your own ESLint rules that work seamlessly with Angular projects? We've got you covered! Our `@angular-eslint/utils` and `@angular-eslint/test-utils` packages provide powerful utilities to help you build custom rules for both TypeScript and HTML templates.
+Want to create your own ESLint rules that work seamlessly with Angular projects? We've got you covered! Our `@angular-eslint/utils` and `@angular-eslint/test-utils` packages provide utilities to help you build custom rules for both TypeScript and Angular HTML templates.
 
-Check out our comprehensive guide: [./docs/writing-custom-plugins.md](./docs/writing-custom-plugins.md)
+Check out our guide here: [./docs/WRITING_CUSTOM_RULES.md](./docs/WRITING_CUSTOM_RULES.md)
 
 This guide covers:
 
-- Creating TypeScript rules for Angular components, services, and other constructs
+- Creating TypeScript rules, such as those for Angular components, services, and other constructs
 - Creating HTML template rules for Angular templates
 - Testing your custom rules
 - Understanding the differences between TypeScript and HTML ASTs
-- Best practices and real-world examples
+- Best practices and examples
 
 <br>
 

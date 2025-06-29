@@ -1,6 +1,6 @@
-# Writing Custom ESLint Plugins with Angular ESLint
+# Writing custom ESLint rules with `angular-eslint` utils
 
-This guide shows you how to create custom ESLint plugins and rules that leverage the powerful utilities provided by `@angular-eslint/utils` and `@angular-eslint/test-utils`.
+This guide shows you how to create custom ESLint plugins and rules that leverage the utilities provided by `@angular-eslint/utils` and `@angular-eslint/test-utils`.
 
 ## Table of Contents
 
@@ -17,8 +17,8 @@ This guide shows you how to create custom ESLint plugins and rules that leverage
 
 ### Prerequisites
 
-- Node.js (version specified in angular-eslint's package.json)
-- Understanding of ESLint concepts (rules, parsers, plugins)
+- Node.js (version specified in this repo's `package.json`)
+- Understanding of ESLint concepts (rules, parsers, plugins), see https://eslint.org/docs
 - Basic knowledge of Angular and TypeScript
 
 ### Installation
@@ -31,7 +31,7 @@ npm install --save-dev @angular-eslint/utils @angular-eslint/test-utils @typescr
 
 ## Understanding the Architecture
 
-Angular ESLint provides a rich set of utilities for building custom rules:
+`angular-eslint` provides a rich set of utilities for building custom rules:
 
 - **`@angular-eslint/utils`**: Core utilities for AST manipulation, Angular-specific selectors, and template parsing
 - **`@angular-eslint/test-utils`**: Testing utilities with proper parser configuration
@@ -403,7 +403,7 @@ export default [
     rules: {
       // Your custom TypeScript rules
       'your-plugin/service-class-suffix': 'error',
-      // Angular ESLint rules
+      // angular-eslint rules
       '@angular-eslint/directive-selector': [
         'error',
         { type: 'attribute', prefix: 'app', style: 'camelCase' },
@@ -423,7 +423,7 @@ export default [
     rules: {
       // Your custom template rules
       'your-plugin/require-data-foo': 'warn',
-      // Angular ESLint template rules
+      // angular-eslint template rules
       '@angular-eslint/template/banana-in-box': 'error',
     },
   },
@@ -451,8 +451,7 @@ For more details on configuring ESLint with different parsers, see [CONFIGURING_
 ### 1. Rule Naming
 
 - Use descriptive, kebab-case names
-- Follow Angular ESLint naming conventions
-- Prefix with your plugin name to avoid conflicts
+- Follow `angular-eslint`/`typescript-eslint`/`eslint` naming conventions
 
 ### 2. Error Messages
 
@@ -485,9 +484,7 @@ For more details on configuring ESLint with different parsers, see [CONFIGURING_
 - Provide examples of valid and invalid code
 - Include configuration options
 
-For real-world examples and more advanced patterns, explore the rule implementations in the Angular ESLint codebase:
+For real-world examples and more advanced patterns, explore the rule implementations in the `angular-eslint` codebase:
 
 - [TypeScript rules](https://github.com/angular-eslint/angular-eslint/tree/main/packages/eslint-plugin/src/rules)
 - [Template rules](https://github.com/angular-eslint/angular-eslint/tree/main/packages/eslint-plugin-template/src/rules)
-
-This guide provides a comprehensive foundation for creating custom ESLint plugins that leverage the power of Angular ESLint's utilities. The examples show basic patterns you can adapt for your specific needs.
