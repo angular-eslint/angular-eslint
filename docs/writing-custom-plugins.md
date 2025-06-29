@@ -53,6 +53,8 @@ From `@angular-eslint/test-utils`:
 
 For comprehensive information on writing custom rules with TypeScript ESLint utilities, see the [typescript-eslint custom rules guide](https://typescript-eslint.io/developers/custom-rules).
 
+For general ESLint rule development guidance, see the [official ESLint custom rules guide](https://eslint.org/docs/latest/extend/custom-rules).
+
 ## Creating a TypeScript Rule
 
 Let's create a custom rule that enforces a naming convention for Angular services.
@@ -140,7 +142,7 @@ export const rule = ESLintUtils.RuleCreator.withoutDocs<Options, MessageIds>({
 
 ## Creating an HTML Template Rule
 
-Let's create a simple demo rule that enforces all `div` elements have a `data-foo="bar"` attribute. This is purely for demonstration purposes.
+Let's create a simple rule that enforces all `div` elements have a `data-foo="bar"` attribute.
 
 **`src/rules/require-data-foo.ts`**
 
@@ -158,13 +160,11 @@ export const rule = ESLintUtils.RuleCreator.withoutDocs<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description:
-        'Demo rule: require all div elements to have data-foo="bar" attribute',
+      description: 'Require data-foo="bar" attribute on div elements',
     },
     schema: [],
     messages: {
-      requireDataFoo:
-        'All div elements must have data-foo="bar" attribute (demo rule)',
+      requireDataFoo: 'div elements must have data-foo="bar" attribute',
     },
   },
   defaultOptions: [],
@@ -172,9 +172,7 @@ export const rule = ESLintUtils.RuleCreator.withoutDocs<Options, MessageIds>({
     const parserServices = getTemplateParserServices(context);
 
     return {
-      // Selector for div elements
       'Element[name="div"]'(node: TmplAstElement) {
-        // Check if data-foo="bar" attribute is present
         const hasDataFoo = node.attributes.some(
           (attr) => attr.name === 'data-foo' && attr.value === 'bar',
         );
@@ -295,55 +293,26 @@ const messageId: MessageIds = 'requireDataFoo';
 
 const valid: readonly (string | ValidTestCase<Options>)[] = [
   `
-    <div data-foo="bar">Valid div</div>
+    <div data-foo="bar">
+      Content
+    </div>
   `,
   `
-    <div class="container" data-foo="bar">
-      <span>Content</span>
+    <div data-foo="bar" class="example">
+      More content
     </div>
   `,
   // Not a div element
   `
-    <span>This is fine</span>
-  `,
-  `
-    <p>This is also fine</p>
+    <span>Content</span>
   `,
 ];
 
 const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   {
     code: `
-      <div>Missing data-foo attribute</div>
-    `,
-    errors: [
-      {
-        messageId,
-        line: 2,
-        column: 7,
-        endLine: 2,
-        endColumn: 12,
-      },
-    ],
-  },
-  {
-    code: `
-      <div data-foo="wrong">Wrong value</div>
-    `,
-    errors: [
-      {
-        messageId,
-        line: 2,
-        column: 7,
-        endLine: 2,
-        endColumn: 12,
-      },
-    ],
-  },
-  {
-    code: `
-      <div class="container">
-        <span>Content</span>
+      <div>
+        Content
       </div>
     `,
     errors: [
@@ -353,6 +322,22 @@ const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         column: 7,
         endLine: 2,
         endColumn: 12,
+      },
+    ],
+  },
+  {
+    code: `
+      <div data-foo="wrong">
+        Content
+      </div>
+    `,
+    errors: [
+      {
+        messageId,
+        line: 2,
+        column: 7,
+        endLine: 2,
+        endColumn: 28,
       },
     ],
   },
@@ -368,7 +353,7 @@ ruleTester.run(RULE_NAME, rule, {
 
 ### Plugin Structure
 
-Create your plugin's main export file:
+Create your plugin's main export file. The `rules` export is required, while `configs` is optional but recommended for providing preset configurations:
 
 **`src/index.ts`**
 
@@ -377,6 +362,10 @@ import { rule as serviceClassSuffix, RULE_NAME as serviceClassSuffixRuleName } f
 import { rule as requireDataFoo, RULE_NAME as requireDataFooRuleName } from './rules/require-data-foo';
 
 export = {
+  rules: {
+    [serviceClassSuffixRuleName]: serviceClassSuffix,
+    [requireDataFooRuleName]: requireDataFoo,
+  },
   configs: {
     recommended: {
       plugins: ['your-plugin-name'],
@@ -385,10 +374,6 @@ export = {
         [`your-plugin-name/${requireDataFooRuleName}`]: 'warn',
       },
     },
-  },
-  rules: {
-    [serviceClassSuffixRuleName]: serviceClassSuffix,
-    [requireDataFooRuleName]: requireDataFoo,
   },
 };
 ```
@@ -457,7 +442,7 @@ export default [
 ### HTML Template Rules
 
 - **Parser**: Use `@angular-eslint/template-parser`
-- **AST**: Work with Angular template AST nodes (`TmplAstElement`, `TmplAstBoundText`, etc.)
+- **AST**: Work with Angular template AST nodes (`TmplAstElement`, `TmplAstBoundText`, etc.) that come from the Angular compiler (which our template-parser wraps)
 - **Parser Services**: Use `getTemplateParserServices(context)` for location mapping
 - **Selectors**: Use CSS-like selectors (`'Element[name="div"]'`, `'BoundText'`, etc.)
 
@@ -494,6 +479,7 @@ For more details on configuring ESLint with different parsers, see [CONFIGURING_
 - Use specific selectors to minimize AST traversal
 - Avoid expensive operations in rule callbacks
 - Consider caching when appropriate
+- For guidance on profiling rule performance, see the [ESLint rule performance guide](https://eslint.org/docs/latest/extend/custom-rules#profile-rule-performance)
 
 ### 6. Documentation
 
@@ -501,61 +487,13 @@ For more details on configuring ESLint with different parsers, see [CONFIGURING_
 - Provide examples of valid and invalid code
 - Include configuration options
 
-## Advanced Examples
+## Real-World Examples
 
-### Using Angular-Specific Utilities
+For more complex real-world examples of Angular ESLint rules, explore the existing rule implementations in this repository:
 
-```typescript
-import { ASTUtils, Selectors } from '@angular-eslint/utils';
+- **TypeScript rules**: [`packages/eslint-plugin/src/rules/`](https://github.com/angular-eslint/angular-eslint/tree/main/packages/eslint-plugin/src/rules)
+- **Template rules**: [`packages/eslint-plugin-template/src/rules/`](https://github.com/angular-eslint/angular-eslint/tree/main/packages/eslint-plugin-template/src/rules)
 
-// Get decorator property value
-const selector = ASTUtils.getDecoratorPropertyValue(decoratorNode, 'selector');
+These production rules demonstrate advanced patterns, utilities usage, and best practices for building robust Angular ESLint rules.
 
-// Check if node is a specific type
-if (ASTUtils.isLiteral(node)) {
-  // Handle literal value
-}
-
-// Get decorator metadata
-const metadata = ASTUtils.getDecoratorArgument(decoratorNode);
-```
-
-### Template Rule with Complex Logic
-
-```typescript
-export const rule = ESLintUtils.RuleCreator.withoutDocs<Options, MessageIds>({
-  name: RULE_NAME,
-  meta: {
-    // ... meta configuration
-  },
-  defaultOptions: [],
-  create(context) {
-    const parserServices = getTemplateParserServices(context);
-
-    return {
-      'Element[name="button"]'(node: TmplAstElement) {
-        // Check for accessibility attributes
-        const hasType = node.attributes.some((attr) => attr.name === 'type');
-        const hasAriaLabel = node.attributes.some(
-          (attr) =>
-            attr.name === 'aria-label' || attr.name === 'aria-labelledby',
-        );
-
-        if (!hasType || !hasAriaLabel) {
-          const loc = parserServices.convertElementSourceSpanToLoc(
-            context,
-            node,
-          );
-
-          context.report({
-            loc,
-            messageId: 'missingAccessibility',
-          });
-        }
-      },
-    };
-  },
-});
-```
-
-This guide provides a comprehensive foundation for creating custom ESLint plugins that leverage the power of Angular ESLint's utilities. The examples show real-world patterns you can adapt for your specific needs.
+This guide provides a comprehensive foundation for creating custom ESLint plugins that leverage the power of Angular ESLint's utilities. The examples show fundamental patterns you can adapt for your specific needs.
