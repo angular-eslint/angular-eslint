@@ -9,6 +9,7 @@ This guide shows you how to create custom ESLint plugins and rules that leverage
 - [Creating a TypeScript Rule](#creating-a-typescript-rule)
 - [Creating an HTML Template Rule](#creating-an-html-template-rule)
 - [Testing Your Rules](#testing-your-rules)
+- [Providing Configurations (Optional)](#providing-configurations-optional)
 - [Consuming Your Plugin](#consuming-your-plugin)
 - [Key Differences Between TypeScript and HTML Rules](#key-differences-between-typescript-and-html-rules)
 - [Best Practices](#best-practices)
@@ -361,11 +362,9 @@ ruleTester.run(RULE_NAME, rule, {
 });
 ```
 
-## Consuming Your Plugin
+## Providing Configurations (Optional)
 
-### Plugin Structure
-
-Create your plugin's main export file:
+While rules are the core requirement for any ESLint plugin, you can optionally provide predefined configurations to make it easier for users to adopt your plugin. This is completely optional - users can always configure your rules manually.
 
 **`src/index.ts`**
 
@@ -389,6 +388,8 @@ export = {
   },
 };
 ```
+
+## Consuming Your Plugin
 
 ### Using in a Project
 
