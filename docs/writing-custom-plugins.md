@@ -35,7 +35,7 @@ Angular ESLint provides a rich set of utilities for building custom rules:
 
 - **`@angular-eslint/utils`**: Core utilities for AST manipulation, Angular-specific selectors, and template parsing
 - **`@angular-eslint/test-utils`**: Testing utilities with proper parser configuration
-- **`createESLintRule`**: Factory function for creating rules with proper TypeScript support
+- **`ESLintUtils.RuleCreator`**: Standard typescript-eslint rule creator utility
 
 ### Key Utilities Available
 
@@ -51,6 +51,8 @@ From `@angular-eslint/test-utils`:
 - `RuleTester`: Extended rule tester with Angular-specific configuration
 - `convertAnnotatedSourceToFailureCase`: Utility for test case generation
 
+For comprehensive information on writing custom rules with TypeScript ESLint utilities, see the [typescript-eslint custom rules guide](https://typescript-eslint.io/developers/custom-rules).
+
 ## Creating a TypeScript Rule
 
 Let's create a custom rule that enforces a naming convention for Angular services.
@@ -62,7 +64,7 @@ Let's create a custom rule that enforces a naming convention for Angular service
 ```typescript
 import { ASTUtils, Selectors } from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/utils';
-import { createESLintRule } from '../utils/create-eslint-rule';
+import { ESLintUtils } from '@typescript-eslint/utils';
 
 export type Options = [
   {
@@ -74,7 +76,7 @@ export type MessageIds = 'serviceSuffix';
 
 export const RULE_NAME = 'service-class-suffix';
 
-export default createESLintRule<Options, MessageIds>({
+export const rule = ESLintUtils.RuleCreator.withoutDocs<Options, MessageIds>({
   name: RULE_NAME,
   meta: {
     type: 'suggestion',
@@ -135,44 +137,6 @@ export default createESLintRule<Options, MessageIds>({
 });
 ```
 
-### Step 2: Create the Rule Utility
-
-**`src/utils/create-eslint-rule.ts`**
-
-```typescript
-import { ESLintUtils } from '@typescript-eslint/utils';
-
-export interface RuleDocs {
-  recommended?: string;
-}
-
-const patchedRuleCreator: typeof ESLintUtils.RuleCreator = (urlCreator) => {
-  return function createRule({ name, meta, defaultOptions, create }) {
-    return {
-      meta: Object.assign(Object.assign({}, meta), {
-        docs: Object.assign(Object.assign({}, meta.docs), {
-          url: urlCreator(name),
-        }),
-      }),
-      defaultOptions,
-      create(context) {
-        const optionsWithDefault = ESLintUtils.applyDefault(
-          defaultOptions,
-          context.options,
-        );
-        return create(context, optionsWithDefault);
-      },
-    };
-  };
-};
-
-patchedRuleCreator.withoutDocs = ESLintUtils.RuleCreator.withoutDocs;
-
-export const createESLintRule = patchedRuleCreator<RuleDocs>(
-  (ruleName) =>
-    `https://github.com/your-org/your-eslint-plugin/blob/main/docs/rules/${ruleName}.md`,
-);
-```
 
 ## Creating an HTML Template Rule
 
@@ -183,13 +147,13 @@ Let's create a rule that enforces the use of trackBy functions in ngFor loops.
 ```typescript
 import type { TmplAstElement } from '@angular-eslint/bundled-angular-compiler';
 import { getTemplateParserServices } from '@angular-eslint/utils';
-import { createESLintRule } from '../utils/create-eslint-rule';
+import { ESLintUtils } from '@typescript-eslint/utils';
 
 export type Options = [];
 export type MessageIds = 'requireTrackBy';
 export const RULE_NAME = 'require-trackby-function';
 
-export default createESLintRule<Options, MessageIds>({
+export const rule = ESLintUtils.RuleCreator.withoutDocs<Options, MessageIds>({
   name: RULE_NAME,
   meta: {
     type: 'suggestion',
@@ -211,7 +175,7 @@ export default createESLintRule<Options, MessageIds>({
       // Selector for elements with *ngFor directive
       'Element[inputs]'(node: TmplAstElement) {
         const ngForInput = node.inputs.find(
-          (input) => input.name === 'ngForOf' || input.name === 'ngFor',
+          (input) => input.name === 'ngForOf',
         );
 
         if (!ngForInput) {
@@ -243,36 +207,24 @@ export default createESLintRule<Options, MessageIds>({
 
 ### TypeScript Rule Tests
 
-**`tests/rules/service-class-suffix/spec.ts`**
+**`tests/rules/service-class-suffix.spec.ts`**
 
 ```typescript
 import { RuleTester } from '@angular-eslint/test-utils';
-import rule, { RULE_NAME } from '../../../src/rules/service-class-suffix';
-import { invalid, valid } from './cases';
-
-const ruleTester = new RuleTester();
-
-ruleTester.run(RULE_NAME, rule, {
-  valid,
-  invalid,
-});
-```
-
-**`tests/rules/service-class-suffix/cases.ts`**
-
-```typescript
 import type {
   InvalidTestCase,
   ValidTestCase,
 } from '@typescript-eslint/rule-tester';
+import { rule, RULE_NAME } from '../../src/rules/service-class-suffix';
 import type {
   MessageIds,
   Options,
-} from '../../../src/rules/service-class-suffix';
+} from '../../src/rules/service-class-suffix';
 
+const ruleTester = new RuleTester();
 const messageId: MessageIds = 'serviceSuffix';
 
-export const valid: readonly (string | ValidTestCase<Options>)[] = [
+const valid: readonly (string | ValidTestCase<Options>)[] = [
   `
     @Injectable()
     class UserService {}
@@ -290,7 +242,7 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   },
 ];
 
-export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
+const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   {
     code: `
       @Injectable()
@@ -323,18 +275,6 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     ],
   },
 ];
-```
-
-### HTML Template Rule Tests
-
-**`tests/rules/require-trackby-function/spec.ts`**
-
-```typescript
-import { RuleTester } from '@angular-eslint/test-utils';
-import rule, { RULE_NAME } from '../../../src/rules/require-trackby-function';
-import { invalid, valid } from './cases';
-
-const ruleTester = new RuleTester();
 
 ruleTester.run(RULE_NAME, rule, {
   valid,
@@ -342,21 +282,26 @@ ruleTester.run(RULE_NAME, rule, {
 });
 ```
 
-**`tests/rules/require-trackby-function/cases.ts`**
+### HTML Template Rule Tests
+
+**`tests/rules/require-trackby-function.spec.ts`**
 
 ```typescript
+import { RuleTester } from '@angular-eslint/test-utils';
 import type {
   InvalidTestCase,
   ValidTestCase,
 } from '@typescript-eslint/rule-tester';
+import { rule, RULE_NAME } from '../../src/rules/require-trackby-function';
 import type {
   MessageIds,
   Options,
-} from '../../../src/rules/require-trackby-function';
+} from '../../src/rules/require-trackby-function';
 
+const ruleTester = new RuleTester();
 const messageId: MessageIds = 'requireTrackBy';
 
-export const valid: readonly (string | ValidTestCase<Options>)[] = [
+const valid: readonly (string | ValidTestCase<Options>)[] = [
   `
     <div *ngFor="let item of items; trackBy: trackByFn">
       {{ item.name }}
@@ -375,7 +320,7 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   `,
 ];
 
-export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
+const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   {
     code: `
       <div *ngFor="let item of items">
@@ -409,6 +354,11 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     ],
   },
 ];
+
+ruleTester.run(RULE_NAME, rule, {
+  valid,
+  invalid,
+});
 ```
 
 ## Consuming Your Plugin
@@ -420,12 +370,8 @@ Create your plugin's main export file:
 **`src/index.ts`**
 
 ```typescript
-import serviceClassSuffix, {
-  RULE_NAME as serviceClassSuffixRuleName,
-} from './rules/service-class-suffix';
-import requireTrackbyFunction, {
-  RULE_NAME as requireTrackbyFunctionRuleName,
-} from './rules/require-trackby-function';
+import { rule as serviceClassSuffix, RULE_NAME as serviceClassSuffixRuleName } from './rules/service-class-suffix';
+import { rule as requireTrackbyFunction, RULE_NAME as requireTrackbyFunctionRuleName } from './rules/require-trackby-function';
 
 export = {
   configs: {
@@ -574,7 +520,7 @@ const metadata = ASTUtils.getDecoratorArgument(decoratorNode);
 ### Template Rule with Complex Logic
 
 ```typescript
-export default createESLintRule<Options, MessageIds>({
+export const rule = ESLintUtils.RuleCreator.withoutDocs<Options, MessageIds>({
   name: RULE_NAME,
   meta: {
     // ... meta configuration
@@ -592,7 +538,7 @@ export default createESLintRule<Options, MessageIds>({
             attr.name === 'aria-label' || attr.name === 'aria-labelledby',
         );
 
-        if (!hasType && !hasAriaLabel) {
+        if (!hasType || !hasAriaLabel) {
           const loc = parserServices.convertElementSourceSpanToLoc(
             context,
             node,
