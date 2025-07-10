@@ -60,6 +60,16 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     })
     class Test {}
     `,
+  // Should support backticks https://github.com/angular-eslint/angular-eslint/issues/2575
+  `
+    @Component({
+      templateUrl: \`../foobar.html\`,
+      styleUrls: [
+        \`.././foobar.css\`,
+      ]
+    })
+    class Test {}
+    `,
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
