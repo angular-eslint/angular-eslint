@@ -59,6 +59,9 @@ function isUrlInvalid(
   if (!node) {
     return false;
   }
+  if (ASTUtils.isTemplateLiteral(node)) {
+    return !RELATIVE_URL_PREFIX_MATCHER.test(node.quasis[0].value.raw);
+  }
   return (
     !ASTUtils.isStringLiteral(node) ||
     !RELATIVE_URL_PREFIX_MATCHER.test(node.value)
