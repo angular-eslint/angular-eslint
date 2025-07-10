@@ -309,6 +309,38 @@ class Test {}
 class Test {}
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/relative-url-prefix": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  templateUrl: `../foobar.html`,
+  styleUrls: [
+    `.././foobar.css`,
+  ]
+})
+class Test {}
+```
+
 </details>
 
 <br>
