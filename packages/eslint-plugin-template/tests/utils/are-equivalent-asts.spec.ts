@@ -1,32 +1,30 @@
-import { parseForESLint } from '@angular-eslint/template-parser';
-import { areEquivalentASTs } from '../../src/utils/are-equivalent-asts';
 import {
   ASTWithSource,
-  BindingPipe,
   Binary,
+  BindingPipe,
+  Call,
   Chain,
   Conditional,
   ImplicitReceiver,
   Interpolation,
   KeyedRead,
-  KeyedWrite,
   LiteralArray,
   LiteralMap,
   LiteralPrimitive,
+  NonNullAssert,
+  PrefixNot,
   PropertyRead,
+  SafeCall,
+  SafeKeyedRead,
+  SafePropertyRead,
   ThisReceiver,
   TmplAstBoundText,
   TmplAstElement,
-  Unary,
-  PrefixNot,
   TypeofExpression,
-  NonNullAssert,
-  PropertyWrite,
-  SafePropertyRead,
-  SafeKeyedRead,
-  Call,
-  SafeCall,
+  Unary,
 } from '@angular-eslint/bundled-angular-compiler';
+import { parseForESLint } from '@angular-eslint/template-parser';
+import { areEquivalentASTs } from '../../src/utils/are-equivalent-asts';
 
 describe('areEquivalentASTs', () => {
   describe('Unary', () => {
@@ -283,8 +281,8 @@ describe('areEquivalentASTs', () => {
 
     function compare(a: string, b: string): boolean {
       return areEquivalentASTs(
-        parseOutputHandler(a, KeyedWrite),
-        parseOutputHandler(b, KeyedWrite),
+        parseOutputHandler(a, Binary),
+        parseOutputHandler(b, Binary),
       );
     }
   });
@@ -575,8 +573,8 @@ describe('areEquivalentASTs', () => {
 
     function compare(a: string, b: string): boolean {
       return areEquivalentASTs(
-        parseOutputHandler(a, PropertyWrite),
-        parseOutputHandler(b, PropertyWrite),
+        parseOutputHandler(a, Binary),
+        parseOutputHandler(b, Binary),
       );
     }
   });

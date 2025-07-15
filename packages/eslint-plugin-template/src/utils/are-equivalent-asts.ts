@@ -9,14 +9,12 @@ import {
   ImplicitReceiver,
   Interpolation,
   KeyedRead,
-  KeyedWrite,
   LiteralArray,
   LiteralMap,
   LiteralPrimitive,
   NonNullAssert,
   PrefixNot,
   PropertyRead,
-  PropertyWrite,
   SafeCall,
   SafeKeyedRead,
   SafePropertyRead,
@@ -157,22 +155,6 @@ export function areEquivalentASTs(a: AST, b: AST): boolean {
 
   if (a instanceof Chain && b instanceof Chain) {
     return areEquivalentASTArrays(a.expressions, b.expressions);
-  }
-
-  if (a instanceof PropertyWrite && b instanceof PropertyWrite) {
-    return (
-      a.name === b.name &&
-      areEquivalentASTs(a.receiver, b.receiver) &&
-      areEquivalentASTs(a.value, b.value)
-    );
-  }
-
-  if (a instanceof KeyedWrite && b instanceof KeyedWrite) {
-    return (
-      areEquivalentASTs(a.key, b.key) &&
-      areEquivalentASTs(a.receiver, b.receiver) &&
-      areEquivalentASTs(a.value, b.value)
-    );
   }
 
   if (a instanceof TypeofExpression && b instanceof TypeofExpression) {

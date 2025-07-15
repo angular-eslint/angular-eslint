@@ -331,6 +331,7 @@ Object {
                   },
                   "i18n": undefined,
                   "inputs": Array [],
+                  "isSelfClosing": false,
                   "loc": Object {
                     "end": Object {
                       "column": 32,
@@ -1038,6 +1039,7 @@ Object {
         },
       },
       "i18n": undefined,
+      "isSelfClosing": false,
       "loc": Object {
         "end": Object {
           "column": 23,

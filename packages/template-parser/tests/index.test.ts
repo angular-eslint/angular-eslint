@@ -286,6 +286,7 @@ describe('parseForESLint()', () => {
             },
             "i18n": undefined,
             "inputs": Array [],
+            "isSelfClosing": false,
             "loc": Object {
               "end": Object {
                 "column": 26,
@@ -999,6 +1000,7 @@ describe('parseForESLint()', () => {
                   },
                   "i18n": undefined,
                   "inputs": Array [],
+                  "isSelfClosing": false,
                   "loc": Object {
                     "end": Object {
                       "column": 28,
@@ -2212,6 +2214,7 @@ describe('parseForESLint()', () => {
                   },
                   "i18n": undefined,
                   "inputs": Array [],
+                  "isSelfClosing": true,
                   "loc": Object {
                     "end": Object {
                       "column": 28,
@@ -3083,6 +3086,7 @@ describe('parseForESLint()', () => {
                     },
                     "i18n": undefined,
                     "inputs": Array [],
+                    "isSelfClosing": false,
                     "loc": Object {
                       "end": Object {
                         "column": 38,
@@ -4381,6 +4385,7 @@ describe('parseForESLint()', () => {
                   },
                   "i18n": undefined,
                   "inputs": Array [],
+                  "isSelfClosing": true,
                   "loc": Object {
                     "end": Object {
                       "column": 31,
@@ -5519,6 +5524,7 @@ describe('parseForESLint()', () => {
                     },
                     "i18n": undefined,
                     "inputs": Array [],
+                    "isSelfClosing": true,
                     "loc": Object {
                       "end": Object {
                         "column": 54,
@@ -6737,6 +6743,7 @@ describe('parseForESLint()', () => {
                   },
                   "i18n": undefined,
                   "inputs": Array [],
+                  "isSelfClosing": true,
                   "loc": Object {
                     "end": Object {
                       "column": 28,
@@ -7418,6 +7425,7 @@ describe('parseForESLint()', () => {
                     },
                     "i18n": undefined,
                     "inputs": Array [],
+                    "isSelfClosing": false,
                     "loc": Object {
                       "end": Object {
                         "column": 46,
@@ -13509,6 +13517,7 @@ describe('parseForESLint()', () => {
                       },
                       "i18n": undefined,
                       "inputs": Array [],
+                      "isSelfClosing": false,
                       "loc": Object {
                         "end": Object {
                           "column": 34,
@@ -14322,6 +14331,7 @@ describe('parseForESLint()', () => {
                       },
                       "i18n": undefined,
                       "inputs": Array [],
+                      "isSelfClosing": false,
                       "loc": Object {
                         "end": Object {
                           "column": 34,
@@ -15135,6 +15145,7 @@ describe('parseForESLint()', () => {
                       },
                       "i18n": undefined,
                       "inputs": Array [],
+                      "isSelfClosing": false,
                       "loc": Object {
                         "end": Object {
                           "column": 40,
@@ -16528,6 +16539,7 @@ describe('parseForESLint()', () => {
                     "right": PrefixNot {
                       "expression": ParenthesizedExpression {
                         "expression": BindingPipe {
+                          "__originalType": 0,
                           "args": Array [],
                           "exp": PropertyRead {
                             "loc": Object {

@@ -58,7 +58,7 @@ export default createESLintRule<Options, MessageIds>({
         }
 
         const possibleBinary = extractPossibleBinaryOrConditionalFrom(
-          getParser().parseBinding(node.value.source, '', 0).ast,
+          getParser().parseBinding(node.value.source, node.valueSpan!, 0).ast,
         );
         const totalComplexity = getTotalComplexity(possibleBinary);
 
