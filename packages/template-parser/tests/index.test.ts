@@ -286,6 +286,7 @@ describe('parseForESLint()', () => {
             },
             "i18n": undefined,
             "inputs": Array [],
+            "isSelfClosing": false,
             "loc": Object {
               "end": Object {
                 "column": 26,
@@ -999,6 +1000,7 @@ describe('parseForESLint()', () => {
                   },
                   "i18n": undefined,
                   "inputs": Array [],
+                  "isSelfClosing": false,
                   "loc": Object {
                     "end": Object {
                       "column": 28,
@@ -2212,6 +2214,7 @@ describe('parseForESLint()', () => {
                   },
                   "i18n": undefined,
                   "inputs": Array [],
+                  "isSelfClosing": true,
                   "loc": Object {
                     "end": Object {
                       "column": 28,
@@ -3083,6 +3086,7 @@ describe('parseForESLint()', () => {
                     },
                     "i18n": undefined,
                     "inputs": Array [],
+                    "isSelfClosing": false,
                     "loc": Object {
                       "end": Object {
                         "column": 38,
@@ -4381,6 +4385,7 @@ describe('parseForESLint()', () => {
                   },
                   "i18n": undefined,
                   "inputs": Array [],
+                  "isSelfClosing": true,
                   "loc": Object {
                     "end": Object {
                       "column": 31,
@@ -5519,6 +5524,7 @@ describe('parseForESLint()', () => {
                     },
                     "i18n": undefined,
                     "inputs": Array [],
+                    "isSelfClosing": true,
                     "loc": Object {
                       "end": Object {
                         "column": 54,
@@ -6737,6 +6743,7 @@ describe('parseForESLint()', () => {
                   },
                   "i18n": undefined,
                   "inputs": Array [],
+                  "isSelfClosing": true,
                   "loc": Object {
                     "end": Object {
                       "column": 28,
@@ -7418,6 +7425,7 @@ describe('parseForESLint()', () => {
                     },
                     "i18n": undefined,
                     "inputs": Array [],
+                    "isSelfClosing": false,
                     "loc": Object {
                       "end": Object {
                         "column": 46,
@@ -13509,6 +13517,7 @@ describe('parseForESLint()', () => {
                       },
                       "i18n": undefined,
                       "inputs": Array [],
+                      "isSelfClosing": false,
                       "loc": Object {
                         "end": Object {
                           "column": 34,
@@ -14322,6 +14331,7 @@ describe('parseForESLint()', () => {
                       },
                       "i18n": undefined,
                       "inputs": Array [],
+                      "isSelfClosing": false,
                       "loc": Object {
                         "end": Object {
                           "column": 34,
@@ -15135,6 +15145,7 @@ describe('parseForESLint()', () => {
                       },
                       "i18n": undefined,
                       "inputs": Array [],
+                      "isSelfClosing": false,
                       "loc": Object {
                         "end": Object {
                           "column": 40,
@@ -16528,6 +16539,7 @@ describe('parseForESLint()', () => {
                     "right": PrefixNot {
                       "expression": ParenthesizedExpression {
                         "expression": BindingPipe {
+                          "__originalType": 0,
                           "args": Array [],
                           "exp": PropertyRead {
                             "loc": Object {
@@ -16714,3 +16726,329 @@ describe('parseForESLint()', () => {
     `);
   });
 });
+expect(
+  parseForESLint(
+    `
+          {{ nullable ?? !(obsVar | async) }}
+        `,
+    {
+      filePath: './foo.html',
+    },
+  ).ast,
+).toMatchInlineSnapshot(`
+  Object {
+    "comments": Array [],
+    "loc": Object {
+      "end": Object {
+        "column": 8,
+        "line": 3,
+      },
+      "start": Object {
+        "column": 10,
+        "line": 2,
+      },
+    },
+    "range": Array [
+      11,
+      55,
+    ],
+    "templateNodes": Array [
+      BoundText {
+        "i18n": undefined,
+        "loc": Object {
+          "end": Object {
+            "column": 8,
+            "line": 3,
+          },
+          "start": Object {
+            "column": 10,
+            "line": 2,
+          },
+        },
+        "sourceSpan": ParseSourceSpan {
+          "details": null,
+          "end": ParseLocation {
+            "col": 8,
+            "file": ParseSourceFile {
+              "content": "
+            {{ nullable ?? !(obsVar | async) }}
+          ",
+              "url": "./foo.html",
+            },
+            "line": 2,
+            "offset": 55,
+          },
+          "fullStart": ParseLocation {
+            "col": 0,
+            "file": ParseSourceFile {
+              "content": "
+            {{ nullable ?? !(obsVar | async) }}
+          ",
+              "url": "./foo.html",
+            },
+            "line": 0,
+            "offset": 0,
+          },
+          "start": ParseLocation {
+            "col": 10,
+            "file": ParseSourceFile {
+              "content": "
+            {{ nullable ?? !(obsVar | async) }}
+          ",
+              "url": "./foo.html",
+            },
+            "line": 1,
+            "offset": 11,
+          },
+        },
+        "type": "BoundText",
+        "value": ASTWithSource {
+          "ast": Interpolation {
+            "expressions": Array [
+              Binary {
+                "left": PropertyRead {
+                  "loc": Object {
+                    "end": Object {
+                      "column": undefined,
+                      "line": NaN,
+                    },
+                    "start": Object {
+                      "column": undefined,
+                      "line": NaN,
+                    },
+                  },
+                  "name": "nullable",
+                  "nameSpan": AbsoluteSourceSpan {
+                    "end": 22,
+                    "start": 14,
+                  },
+                  "receiver": ImplicitReceiver {
+                    "loc": Object {
+                      "end": Object {
+                        "column": undefined,
+                        "line": NaN,
+                      },
+                      "start": Object {
+                        "column": undefined,
+                        "line": NaN,
+                      },
+                    },
+                    "sourceSpan": AbsoluteSourceSpan {
+                      "end": 14,
+                      "start": 14,
+                    },
+                    "span": ParseSpan {
+                      "end": 14,
+                      "start": 14,
+                    },
+                    "type": "ImplicitReceiver",
+                  },
+                  "sourceSpan": AbsoluteSourceSpan {
+                    "end": 22,
+                    "start": 14,
+                  },
+                  "span": ParseSpan {
+                    "end": 22,
+                    "start": 14,
+                  },
+                  "type": "PropertyRead",
+                },
+                "loc": Object {
+                  "end": Object {
+                    "column": undefined,
+                    "line": NaN,
+                  },
+                  "start": Object {
+                    "column": undefined,
+                    "line": NaN,
+                  },
+                },
+                "operation": "??",
+                "right": PrefixNot {
+                  "expression": ParenthesizedExpression {
+                    "expression": BindingPipe {
+                      "__originalType": 0,
+                      "args": Array [],
+                      "exp": PropertyRead {
+                        "loc": Object {
+                          "end": Object {
+                            "column": undefined,
+                            "line": NaN,
+                          },
+                          "start": Object {
+                            "column": undefined,
+                            "line": NaN,
+                          },
+                        },
+                        "name": "obsVar",
+                        "nameSpan": AbsoluteSourceSpan {
+                          "end": 34,
+                          "start": 28,
+                        },
+                        "receiver": ImplicitReceiver {
+                          "loc": Object {
+                            "end": Object {
+                              "column": undefined,
+                              "line": NaN,
+                            },
+                            "start": Object {
+                              "column": undefined,
+                              "line": NaN,
+                            },
+                          },
+                          "sourceSpan": AbsoluteSourceSpan {
+                            "end": 28,
+                            "start": 28,
+                          },
+                          "span": ParseSpan {
+                            "end": 28,
+                            "start": 28,
+                          },
+                          "type": "ImplicitReceiver",
+                        },
+                        "sourceSpan": AbsoluteSourceSpan {
+                          "end": 34,
+                          "start": 28,
+                        },
+                        "span": ParseSpan {
+                          "end": 34,
+                          "start": 28,
+                        },
+                        "type": "PropertyRead",
+                      },
+                      "loc": Object {
+                        "end": Object {
+                          "column": undefined,
+                          "line": NaN,
+                        },
+                        "start": Object {
+                          "column": undefined,
+                          "line": NaN,
+                        },
+                      },
+                      "name": "async",
+                      "nameSpan": AbsoluteSourceSpan {
+                        "end": 42,
+                        "start": 37,
+                      },
+                      "sourceSpan": AbsoluteSourceSpan {
+                        "end": 42,
+                        "start": 28,
+                      },
+                      "span": ParseSpan {
+                        "end": 42,
+                        "start": 28,
+                      },
+                      "type": "BindingPipe",
+                    },
+                    "loc": Object {
+                      "end": Object {
+                        "column": undefined,
+                        "line": NaN,
+                      },
+                      "start": Object {
+                        "column": undefined,
+                        "line": NaN,
+                      },
+                    },
+                    "sourceSpan": AbsoluteSourceSpan {
+                      "end": 43,
+                      "start": 27,
+                    },
+                    "span": ParseSpan {
+                      "end": 43,
+                      "start": 27,
+                    },
+                    "type": "ParenthesizedExpression",
+                  },
+                  "loc": Object {
+                    "end": Object {
+                      "column": undefined,
+                      "line": NaN,
+                    },
+                    "start": Object {
+                      "column": undefined,
+                      "line": NaN,
+                    },
+                  },
+                  "sourceSpan": AbsoluteSourceSpan {
+                    "end": 43,
+                    "start": 26,
+                  },
+                  "span": ParseSpan {
+                    "end": 43,
+                    "start": 26,
+                  },
+                  "type": "PrefixNot",
+                },
+                "sourceSpan": AbsoluteSourceSpan {
+                  "end": 43,
+                  "start": 14,
+                },
+                "span": ParseSpan {
+                  "end": 43,
+                  "start": 14,
+                },
+                "type": "Binary",
+              },
+            ],
+            "loc": Object {
+              "end": Object {
+                "column": undefined,
+                "line": NaN,
+              },
+              "start": Object {
+                "column": undefined,
+                "line": NaN,
+              },
+            },
+            "sourceSpan": AbsoluteSourceSpan {
+              "end": 55,
+              "start": 0,
+            },
+            "span": ParseSpan {
+              "end": 55,
+              "start": 0,
+            },
+            "strings": Array [
+              "
+            ",
+              "
+          ",
+            ],
+            "type": "Interpolation",
+          },
+          "errors": Array [],
+          "loc": Object {
+            "end": Object {
+              "column": undefined,
+              "line": NaN,
+            },
+            "start": Object {
+              "column": undefined,
+              "line": NaN,
+            },
+          },
+          "location": "./foo.html@1:10",
+          "source": "
+            {{ nullable ?? !(obsVar | async) }}
+          ",
+          "sourceSpan": AbsoluteSourceSpan {
+            "end": 55,
+            "start": 0,
+          },
+          "span": ParseSpan {
+            "end": 55,
+            "start": 0,
+          },
+          "type": "ASTWithSource",
+        },
+      },
+    ],
+    "tokens": Array [],
+    "type": "Program",
+    "value": "
+            {{ nullable ?? !(obsVar | async) }}
+          ",
+  }
+`);

@@ -9,7 +9,6 @@ import {
   ImplicitReceiver,
   Interpolation,
   KeyedRead,
-  KeyedWrite,
   LiteralArray,
   LiteralMap,
   LiteralPrimitive,
@@ -21,11 +20,11 @@ import {
   PrefixNot,
   TypeofExpression,
   NonNullAssert,
-  PropertyWrite,
   SafePropertyRead,
   SafeKeyedRead,
   Call,
   SafeCall,
+  AST,
 } from '@angular-eslint/bundled-angular-compiler';
 
 describe('areEquivalentASTs', () => {
@@ -283,8 +282,8 @@ describe('areEquivalentASTs', () => {
 
     function compare(a: string, b: string): boolean {
       return areEquivalentASTs(
-        parseOutputHandler(a, KeyedWrite),
-        parseOutputHandler(b, KeyedWrite),
+        parseOutputHandler(a, AST),
+        parseOutputHandler(b, AST),
       );
     }
   });
@@ -575,8 +574,8 @@ describe('areEquivalentASTs', () => {
 
     function compare(a: string, b: string): boolean {
       return areEquivalentASTs(
-        parseOutputHandler(a, PropertyWrite),
-        parseOutputHandler(b, PropertyWrite),
+        parseOutputHandler(a, AST),
+        parseOutputHandler(b, AST),
       );
     }
   });
