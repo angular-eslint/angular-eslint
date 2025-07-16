@@ -98,6 +98,7 @@ export default createESLintRule<Options, MessageIds>({
                 description: 'Aliases for $odd that are allowed to be used.',
               },
             },
+            additionalProperties: false,
           },
         },
         additionalProperties: false,
