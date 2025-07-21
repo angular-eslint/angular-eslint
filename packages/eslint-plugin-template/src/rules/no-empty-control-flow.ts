@@ -60,7 +60,7 @@ export default createESLintRule<Options, MessageIds>({
         }
       },
       SwitchBlock(node: TmplAstSwitchBlock) {
-        // If switch block is pointless without cases, so
+        // A switch block is pointless without cases, so
         // if there are no cases, don't bother checking
         // if there's non-whitespace characters within it.
         if (node.cases.length === 0) {
