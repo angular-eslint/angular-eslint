@@ -127,6 +127,16 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     declare function effect(fn: () => void): void;
     interface Signal<T> {}
   `,
+  // https://github.com/angular-eslint/angular-eslint/issues/2574
+  `
+    let a: Signal<string>;
+    let b: boolean;
+    let c = b && a.set('');
+
+    interface Signal<T> {
+      set(value: T): void;
+    }
+  `,
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [

@@ -785,6 +785,38 @@ declare function effect(fn: () => void): void;
 interface Signal<T> {}
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-uncalled-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+let a: Signal<string>;
+let b: boolean;
+let c = b && a.set('');
+
+interface Signal<T> {
+  set(value: T): void;
+}
+```
+
 </details>
 
 <br>
