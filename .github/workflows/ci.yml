@@ -32,10 +32,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           # Use the volta.node property as the source of truth
-          node-version-file: 'package.json'
+          node-version: 20.19.0
           cache: 'pnpm'
 
-      - uses: nrwl/nx-set-shas@v4.3.0
+      - uses: nrwl/nx-set-shas@v4
 
       - name: Set the resolved node version in NX_CI_EXECUTION_ENV
         run: echo "NX_CI_EXECUTION_ENV=Node $(node --version)" >> $GITHUB_ENV
