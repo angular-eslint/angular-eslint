@@ -35,7 +35,7 @@ jobs:
           node-version-file: 'package.json'
           cache: 'pnpm'
 
-      - uses: nrwl/nx-set-shas@v4
+      - uses: nrwl/nx-set-shas@v4.3.0
 
       - name: Set the resolved node version in NX_CI_EXECUTION_ENV
         run: echo "NX_CI_EXECUTION_ENV=Node $(node --version)" >> $GITHUB_ENV
