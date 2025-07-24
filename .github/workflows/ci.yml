@@ -32,7 +32,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           # Use the volta.node property as the source of truth
-          node-version: 20.19.0
+          node-version: 20.18.0
           cache: 'pnpm'
 
       - uses: nrwl/nx-set-shas@v4
