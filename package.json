@@ -5,7 +5,7 @@
   "volta": {
     "node": "22.18.0"
   },
-  "packageManager": "pnpm@10.13.1",
+  "packageManager": "pnpm@10.14.0",
   "contributors": [
     "James Henry <angular-eslint@jameshenry.email>"
   ],
