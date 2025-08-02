@@ -1,5 +1,6 @@
 jest.mock('eslint', () => ({
   ESLint: jest.fn(),
+  loadESLint: jest.fn(),
 }));
 
 jest.mock('eslint/use-at-your-own-risk', () => ({
@@ -9,6 +10,13 @@ jest.mock('eslint/use-at-your-own-risk', () => ({
 import { ESLint } from 'eslint';
 import { FlatESLint } from 'eslint/use-at-your-own-risk';
 import { resolveAndInstantiateESLint } from './eslint-utils';
+
+const { loadESLint } = require('eslint');
+
+// Mock the loadESLint function to return the appropriate class
+(loadESLint as jest.Mock).mockImplementation(({ useFlatConfig }: { useFlatConfig: boolean }) => {
+  return Promise.resolve(useFlatConfig ? FlatESLint : ESLint);
+});
 
 describe('eslint-utils', () => {
   beforeEach(() => {
