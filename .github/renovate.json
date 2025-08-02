@@ -5,12 +5,7 @@
     ":semanticCommitScopeDisabled"
   ],
   "ignoreDeps": [
-    "@nrwl/cli",
-    "@nrwl/devkit",
-    "@nrwl/jest",
-    "@nrwl/tao",
-    "@nx/jest",
-    "@nx/tao",
+    // Let nx mange jest dev dependencies
     "@types/jest",
     "jest",
     "ts-jest"
