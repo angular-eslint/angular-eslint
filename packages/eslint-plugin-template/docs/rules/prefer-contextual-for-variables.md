@@ -56,7 +56,6 @@ interface Options {
      * Aliases for $odd that are allowed to be used.
      */
     $odd?: string[];
-    [k: string]: unknown;
   };
 }
 
