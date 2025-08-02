@@ -40,10 +40,12 @@ export default createESLintRule<Options, MessageIds>({
           return;
         }
 
-        // Check if this identifier is the property in a MemberExpression that's being called
+        // Check if this identifier is the property or object in a MemberExpression that's being called.
+        // If the identifier is a signal and it's being called, then the signal's value is being read.
+        // If it's the object, then a method on the signal (most likely the `set` method) is being called.
         if (
           node.parent.type === AST_NODE_TYPES.MemberExpression &&
-          node.parent.property === node &&
+          (node.parent.object === node || node.parent.property === node) &&
           node.parent.parent?.type === AST_NODE_TYPES.CallExpression
         ) {
           return;
