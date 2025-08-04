@@ -1,8 +1,9 @@
 import type { AST, Call } from '@angular-eslint/bundled-angular-compiler';
-import { TmplAstBoundEvent } from '@angular-eslint/bundled-angular-compiler';
 import { ensureTemplateParser } from '@angular-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import { getNearestNodeFrom } from '../utils/get-nearest-node-from';
+import { isBoundEvent } from '../utils/is-bound-event';
+import { isASTWithName } from '../utils/is-ast-with-name';
 
 export type Options = [
   {
@@ -91,16 +92,6 @@ export default createESLintRule<Options, MessageIds>({
     };
   },
 });
-
-function isBoundEvent(node: unknown): node is TmplAstBoundEvent {
-  return node instanceof TmplAstBoundEvent;
-}
-
-function isASTWithName(
-  ast: AST & { name?: string },
-): ast is AST & { name: string } {
-  return !!ast.name;
-}
 
 function isCallNameInAllowList(
   ast: AST & { name?: string },
