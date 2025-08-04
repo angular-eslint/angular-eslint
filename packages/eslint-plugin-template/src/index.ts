@@ -43,6 +43,9 @@ import noAutofocus, {
 import noCallExpression, {
   RULE_NAME as noCallExpressionRuleName,
 } from './rules/no-call-expression';
+import noCaseTransformations, {
+  RULE_NAME as noCaseTransformationsRuleName,
+} from './rules/no-case-transformations';
 import noDistractingElements, {
   RULE_NAME as noDistractingElementsRuleName,
 } from './rules/no-distracting-elements';
@@ -124,6 +127,7 @@ export = {
     [noAnyRuleName]: noAny,
     [noAutofocusRuleName]: noAutofocus,
     [noCallExpressionRuleName]: noCallExpression,
+    [noCaseTransformationsRuleName]: noCaseTransformations,
     [noDistractingElementsRuleName]: noDistractingElements,
     [noDuplicateAttributesRuleName]: noDuplicateAttributes,
     [noEmptyControlFlowRuleName]: noEmptyControlFlow,
