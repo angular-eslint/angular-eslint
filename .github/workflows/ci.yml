@@ -21,7 +21,7 @@ jobs:
     name: Primary
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - uses: pnpm/action-setup@v4
         name: Install pnpm
@@ -86,7 +86,7 @@ jobs:
         # https://angular.dev/reference/versions
         node: ['^20.19.0', '^24.0.0']
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - uses: pnpm/action-setup@v4
         name: Install pnpm
@@ -132,7 +132,7 @@ jobs:
     # prevents this action from running on forks
     if: (github.repository == 'angular-eslint/angular-eslint') && (github.ref == 'refs/heads/main')
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0 # we need the tags to be available but not the full tree
           filter: "tree:0"
