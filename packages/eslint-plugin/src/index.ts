@@ -79,6 +79,9 @@ import noUncalledSignals, {
 import pipePrefix, {
   RULE_NAME as pipePrefixRuleName,
 } from './rules/pipe-prefix';
+import preferHostMetadataProperty, {
+  RULE_NAME as preferHostMetadataPropertyRuleName,
+} from './rules/prefer-host-metadata-property';
 import preferOnPushComponentChangeDetection, {
   RULE_NAME as preferOnPushComponentChangeDetectionRuleName,
 } from './rules/prefer-on-push-component-change-detection';
@@ -169,6 +172,7 @@ export = {
     [noPipeImpureRuleName]: noPipeImpure,
     [noQueriesMetadataPropertyRuleName]: noQueriesMetadataProperty,
     [pipePrefixRuleName]: pipePrefix,
+    [preferHostMetadataPropertyRuleName]: preferHostMetadataProperty,
     [preferOnPushComponentChangeDetectionRuleName]:
       preferOnPushComponentChangeDetection,
     [preferSignalsRuleName]: preferSignals,
