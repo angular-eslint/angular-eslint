@@ -76,8 +76,8 @@ importers:
         specifier: 9.6.1
         version: 9.6.1
       '@types/eslint-scope':
-        specifier: 8.3.1
-        version: 8.3.1
+        specifier: 8.3.2
+        version: 8.3.2
       '@types/jest':
         specifier: 29.5.14
         version: 29.5.14
@@ -2157,11 +2157,14 @@ packages:
   '@types/conventional-commits-parser@5.0.1':
     resolution: {integrity: sha512-7uz5EHdzz2TqoMfV7ee61Egf5y6NkcO4FB/1iCCQnbeiI1F3xzv3vK5dBCXUCLQgGYS+mUeigK1iKQzvED+QnQ==}
 
-  '@types/eslint-scope@8.3.1':
-    resolution: {integrity: sha512-TA1UHHt+kOdoEixpauJ+NKRkatun98fEz3qMecjLfahS4EzHcQFXxU2vIhWvygZmcTyEuoQf27Ld0LXfp04vkQ==}
+  '@types/eslint-scope@8.3.2':
+    resolution: {integrity: sha512-ygPtnKRQjbXB6LKQ+m6SLyZDMgFeQFVNCkjUK/HivS58Ce6JBjxpVzHbE1+RS6pC5fP4FQg4qh8lvVSm2oxYZw==}
 
   '@types/eslint@9.6.1':
     resolution: {integrity: sha512-FXx2pKgId/WyYo2jXw63kk7/+TY7u7AziEJxJAnSFzHlqTAS3Ync6SvgYAN/k4/PQpnnVuzoMuVnByKK2qp0ag==}
+
+  '@types/esrecurse@4.3.1':
+    resolution: {integrity: sha512-xJBAbDifo5hpffDBuHl0Y8ywswbiAp/Wi7Y/GtAgSlZyIABppyurxVueOPE8LUQOxdlgi6Zqce7uoEpqNTeiUw==}
 
   '@types/estree@1.0.6':
     resolution: {integrity: sha512-AYnb1nQyY49te+VRAVgmzfcgjYS91mY5P0TKUDCLEM+gNnA+3T6rWITXRLYCpahpqSQbN5cE+gHpnPyXjHWxcw==}
@@ -8106,15 +8109,19 @@ snapshots:
     dependencies:
       '@types/node': 22.17.0
 
-  '@types/eslint-scope@8.3.1':
+  '@types/eslint-scope@8.3.2':
     dependencies:
       '@types/eslint': 9.6.1
+      '@types/esrecurse': 4.3.1
       '@types/estree': 1.0.6
+      eslint-visitor-keys: 4.2.1
 
   '@types/eslint@9.6.1':
     dependencies:
       '@types/estree': 1.0.6
       '@types/json-schema': 7.0.15
+
+  '@types/esrecurse@4.3.1': {}
 
   '@types/estree@1.0.6': {}
 
