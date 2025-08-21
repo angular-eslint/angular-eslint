@@ -28,7 +28,7 @@ jobs:
       id-token: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0 # we need the tags to be available but not the full tree
           filter: "tree:0"

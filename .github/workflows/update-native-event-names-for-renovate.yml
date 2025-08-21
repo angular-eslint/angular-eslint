@@ -21,7 +21,7 @@ jobs:
     name: Update if required
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           # To allow us to perform the git diff we need the git history
           fetch-depth: 0
