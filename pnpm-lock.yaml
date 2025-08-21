@@ -31,8 +31,8 @@ importers:
         specifier: 19.8.1
         version: 19.8.1
       '@mdn/browser-compat-data':
-        specifier: 6.1.0
-        version: 6.1.0
+        specifier: 6.1.4
+        version: 6.1.4
       '@nx/devkit':
         specifier: 21.2.2
         version: 21.2.2(nx@21.2.2(@swc-node/register@1.10.10(@swc/core@1.13.3(@swc/helpers@0.5.17))(@swc/types@0.1.23)(typescript@5.8.3))(@swc/core@1.13.3(@swc/helpers@0.5.17)))
@@ -1622,8 +1622,8 @@ packages:
     peerDependencies:
       '@inquirer/prompts': '>= 3 < 8'
 
-  '@mdn/browser-compat-data@6.1.0':
-    resolution: {integrity: sha512-tm75vVEgLIVfU94ik/hAx043EyMICrMkIEiff/Bmr3MI2MjuddDOdBIlDK0GlINVZUHpXmgOFLnvnsgSsoZirg==}
+  '@mdn/browser-compat-data@6.1.4':
+    resolution: {integrity: sha512-g4WOGwx+cR4dQ5QsRzuJCUuMu/Vn+/vtRiOQ4TLtKQkQV37J3/HiVrU4PQYm/aJy1DbE83ONwcz5SjrwvRP9Ag==}
 
   '@napi-rs/nice-android-arm-eabi@1.0.1':
     resolution: {integrity: sha512-5qpvOu5IGwDo7MEKVqqyAxF90I6aLj4n07OzpARdgDRfz8UbBztTByBp0RC59r3J1Ij8uzYi6jI7r5Lws7nn6w==}
@@ -7477,7 +7477,7 @@ snapshots:
       '@inquirer/prompts': 7.5.1(@types/node@22.17.0)
       '@inquirer/type': 1.5.5
 
-  '@mdn/browser-compat-data@6.1.0': {}
+  '@mdn/browser-compat-data@6.1.4': {}
 
   '@napi-rs/nice-android-arm-eabi@1.0.1':
     optional: true
