@@ -1,3 +1,15 @@
+## 20.2.0 (2025-08-22)
+
+### 🩹 Fixes
+
+- **eslint-plugin:** [no-uncalled-signals] do not report signal sets within logical expressions ([#2581](https://github.com/angular-eslint/angular-eslint/pull/2581))
+- **eslint-plugin:** [relative-url-prefix] handle template literals ([#2576](https://github.com/angular-eslint/angular-eslint/pull/2576))
+
+### ❤️ Thank You
+
+- Dave @reduckted
+- James Henry @JamesHenry
+
 ## 20.1.1 (2025-06-19)
 
 ### 🩹 Fixes

@@ -1,3 +1,10 @@
+## 20.2.0 (2025-08-22)
+
+### 🩹 Fixes
+
+- update dependency @angular/compiler to v20.1.1 ([#2587](https://github.com/angular-eslint/angular-eslint/pull/2587))
+- update dependency @angular/compiler to v20.1.0 ([#2573](https://github.com/angular-eslint/angular-eslint/pull/2573))
+
 ## 20.1.1 (2025-06-19)
 
 This was a version bump only for template-parser to align it with other projects, there were no code changes.
