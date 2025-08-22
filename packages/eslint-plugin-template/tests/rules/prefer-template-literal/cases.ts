@@ -962,7 +962,6 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
            
       `,
   }),
-
   convertAnnotatedSourceToFailureCase({
     messageId,
     description: 'should fail bound attribute without first line break',
@@ -993,7 +992,6 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         <div></div>
       `,
   }),
-
   convertAnnotatedSourceToFailureCase({
     messageId,
     description:
@@ -1011,80 +1009,70 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         }"></div>
       `,
   }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail object literal binding concatenation with first line break',
+    annotatedSource: `
+        <div [ngStyle]="
+             { width: 10 + 'px' }
+                      ~~~~~~~~~
+        "></div>
+      `,
+    annotatedOutput: `
+        <div [ngStyle]="
+             { width: '10px' }
+                      
+        "></div>
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description: 'should fail bound attribute with first line break',
+    annotatedSource: `
+        <ng-container
+            *ngTemplateOutlet="
+              selector;
+                context: {
+                    name: 'test-' + item.id,
+                          ~~~~~~~~~~~~~~~~~
+                    value: 42
+                }
+            "
+        />
 
-  // TODO: Fix the logic to address these issues
+        <div></div>
+      `,
+    annotatedOutput: `
+        <ng-container
+            *ngTemplateOutlet="
+              selector;
+                context: {
+                    name: \`test-\${item.id}\`,
+                          
+                    value: 42
+                }
+            "
+        />
 
-  // Test cases for reported bugs that have not yet been addressed
-
-  // Bug : Wrong autofixes when first line breaks because sourceSpan positions are wrong in this case.
-
-  // convertAnnotatedSourceToFailureCase({
-  //   messageId,
-  //   description:
-  //     'should fail object literal binding concatenation with first line break',
-  //   annotatedSource: `
-  //       <div [ngStyle]="
-  //            { width: 10 + 'px' }
-  //                     ~~~~~~~~~
-  //       "></div>
-  //     `,
-  //   annotatedOutput: `
-  //       <div [ngStyle]="
-  //            { width: '10px' }
-
-  //       "></div>
-  //     `,
-  // }),
-
-  // convertAnnotatedSourceToFailureCase({
-  //   messageId,
-  //   description:
-  //     'should fail bound attribute with first line break',
-  //   annotatedSource: `
-  //       <ng-container
-  //           *ngTemplateOutlet="
-  //             selector;
-  //               context: {
-  //                   name: 'test-' + item.id,
-  //                         ~~~~~~~~~~~~~~~~~
-  //                   value: 42
-  //               }
-  //           "
-  //       />
-
-  //       <div></div>
-  //     `,
-  //   annotatedOutput: `
-  //       <ng-container
-  //           *ngTemplateOutlet="
-  //             selector;
-  //               context: {
-  //                   name: \`test-\${item.id}\`,
-
-  //                   value: 42
-  //               }
-  //           "
-  //       />
-
-  //       <div></div>
-  //     `,
-  // }),
-
-  // convertAnnotatedSourceToFailureCase({
-  //   messageId,
-  //   description:
-  //     'should fail input binding concatenation with first line break',
-  //   annotatedSource: `
-  //       <div [class]="
-  //            'a' + 'b'
-  //            ~~~~~~~~~
-  //       "></div>
-  //     `,
-  //   annotatedOutput: `
-  //       <div [class]="
-  //            'ab'
-
-  //       "></div>
-  //     `,
-  // }),
+        <div></div>
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail input binding concatenation with first line break',
+    annotatedSource: `
+        <div [class]="
+             'a' + 'b'
+             ~~~~~~~~~
+        "></div>
+      `,
+    annotatedOutput: `
+        <div [class]="
+             'ab'
+             
+        "></div>
+      `,
+  }),
 ];

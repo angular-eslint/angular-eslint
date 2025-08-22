@@ -2021,6 +2021,101 @@ The rule does not have any configuration options.
 }"></div>
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-template-literal": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [ngStyle]="
+     { width: 10 + 'px' }
+              ~~~~~~~~~
+"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-template-literal": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<ng-container
+    *ngTemplateOutlet="
+      selector;
+        context: {
+            name: 'test-' + item.id,
+                  ~~~~~~~~~~~~~~~~~
+            value: 42
+        }
+    "
+/>
+
+<div></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-template-literal": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [class]="
+     'a' + 'b'
+     ~~~~~~~~~
+"></div>
+```
+
 </details>
 
 <br>
