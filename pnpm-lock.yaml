@@ -94,8 +94,8 @@ importers:
         specifier: 8.40.0
         version: 8.40.0(patch_hash=0395d56159bca55b94596b2ce1a79005dd964f4b648c29e0c04c6dfcb85e13cf)(eslint@9.33.0(jiti@2.4.2))(typescript@5.9.2)
       '@typescript-eslint/types':
-        specifier: 8.40.0
-        version: 8.40.0
+        specifier: 8.41.0
+        version: 8.41.0
       '@typescript-eslint/utils':
         specifier: 8.40.0
         version: 8.40.0(eslint@9.33.0(jiti@2.4.2))(typescript@5.9.2)
@@ -203,16 +203,16 @@ importers:
         version: link:../template-parser
       '@typescript-eslint/types':
         specifier: ^8.0.0
-        version: 8.40.0
+        version: 8.41.0
       '@typescript-eslint/utils':
         specifier: 8.40.0
-        version: 8.40.0(eslint@9.33.0(jiti@2.4.2))(typescript@5.8.3)
+        version: 8.40.0(eslint@9.33.0(jiti@2.4.2))(typescript@5.9.2)
       eslint:
         specifier: ^8.57.0 || ^9.0.0
         version: 9.33.0(jiti@2.4.2)
       typescript:
         specifier: '*'
-        version: 5.8.3
+        version: 5.9.2
       typescript-eslint:
         specifier: ^8.0.0
         version: 8.33.1(eslint@9.33.0(jiti@2.4.2))(typescript@5.8.3)
@@ -250,10 +250,10 @@ importers:
         version: 9.28.0(jiti@2.4.2)
       ts-api-utils:
         specifier: ^2.1.0
-        version: 2.1.0(typescript@5.8.3)
+        version: 2.1.0(typescript@5.9.2)
       typescript:
         specifier: '*'
-        version: 5.8.3
+        version: 5.9.2
     devDependencies:
       '@angular-eslint/test-utils':
         specifier: workspace:*
@@ -2329,6 +2329,10 @@ packages:
 
   '@typescript-eslint/types@8.40.0':
     resolution: {integrity: sha512-ETdbFlgbAmXHyFPwqUIYrfc12ArvpBhEVgGAxVYSwli26dn8Ko+lIo4Su9vI9ykTZdJn+vJprs/0eZU0YMAEQg==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
+  '@typescript-eslint/types@8.41.0':
+    resolution: {integrity: sha512-9EwxsWdVqh42afLbHP90n2VdHaWU/oWgbH2P0CfcNfdKL7CuKpwMQGjwev56vWu9cSKU7FWSu6r9zck6CVfnag==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
   '@typescript-eslint/typescript-estree@8.33.1':
@@ -8280,7 +8284,7 @@ snapshots:
   '@typescript-eslint/project-service@8.33.1(typescript@5.8.3)':
     dependencies:
       '@typescript-eslint/tsconfig-utils': 8.36.0(typescript@5.8.3)
-      '@typescript-eslint/types': 8.40.0
+      '@typescript-eslint/types': 8.41.0
       debug: 4.4.1
       typescript: 5.8.3
     transitivePeerDependencies:
@@ -8289,7 +8293,7 @@ snapshots:
   '@typescript-eslint/project-service@8.35.1(typescript@5.9.2)':
     dependencies:
       '@typescript-eslint/tsconfig-utils': 8.36.0(typescript@5.9.2)
-      '@typescript-eslint/types': 8.40.0
+      '@typescript-eslint/types': 8.41.0
       debug: 4.4.1
       typescript: 5.9.2
     transitivePeerDependencies:
@@ -8298,7 +8302,7 @@ snapshots:
   '@typescript-eslint/project-service@8.40.0(typescript@5.8.3)':
     dependencies:
       '@typescript-eslint/tsconfig-utils': 8.40.0(typescript@5.8.3)
-      '@typescript-eslint/types': 8.40.0
+      '@typescript-eslint/types': 8.41.0
       debug: 4.4.1
       typescript: 5.8.3
     transitivePeerDependencies:
@@ -8307,7 +8311,7 @@ snapshots:
   '@typescript-eslint/project-service@8.40.0(typescript@5.9.2)':
     dependencies:
       '@typescript-eslint/tsconfig-utils': 8.40.0(typescript@5.9.2)
-      '@typescript-eslint/types': 8.40.0
+      '@typescript-eslint/types': 8.41.0
       debug: 4.4.1
       typescript: 5.9.2
     transitivePeerDependencies:
@@ -8414,6 +8418,8 @@ snapshots:
   '@typescript-eslint/types@8.35.1': {}
 
   '@typescript-eslint/types@8.40.0': {}
+
+  '@typescript-eslint/types@8.41.0': {}
 
   '@typescript-eslint/typescript-estree@8.33.1(typescript@5.8.3)':
     dependencies:
