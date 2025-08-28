@@ -21,6 +21,7 @@ export interface Schema extends JsonObject {
   reportUnusedDisableDirectives: Linter.RuleLevel | null;
   useEslintrc: boolean | null;
   noConfigLookup: boolean | null;
+  concurrency: 'auto' | 'off' | number | null;
 }
 
 type Formatter =

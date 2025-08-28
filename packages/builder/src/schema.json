@@ -120,6 +120,13 @@
       "type": "string",
       "enum": ["off", "warn", "error"],
       "description": "The equivalent of the `--report-unused-disable-directives` flag on the ESLint CLI."
+    },
+    "concurrency": {
+      "oneOf": [
+        { "type": "string", "enum": ["auto", "off"] },
+        { "type": "number" }
+      ],
+      "description": "The equivalent of the `--concurrency` flag on the ESLint CLI."
     }
   },
   "additionalProperties": false,

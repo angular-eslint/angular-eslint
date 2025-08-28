@@ -265,4 +265,79 @@ describe('eslint-utils', () => {
       ).rejects.toThrow('The --stats option requires ESLint Flat Config');
     });
   });
+
+  describe('concurrency option', () => {
+    it('should create the ESLint instance with "concurrency" set to off when option is off', async () => {
+      await resolveAndInstantiateESLint('./eslint.config.js', {
+        concurrency: 'off',
+      } as any);
+      expect(ESLint).toHaveBeenCalledWith(
+        expect.objectContaining({
+          concurrency: 'off',
+        }),
+      );
+    });
+
+    it('should create the ESLint instance with "concurrency" set to auto when option is auto', async () => {
+      await resolveAndInstantiateESLint('./eslint.config.js', {
+        concurrency: 'auto',
+      } as any);
+      expect(ESLint).toHaveBeenCalledWith(
+        expect.objectContaining({
+          concurrency: 'auto',
+        }),
+      );
+    });
+
+    it('should create the ESLint instance with "concurrency" set to number when option is positive number', async () => {
+      await resolveAndInstantiateESLint('./eslint.config.js', {
+        concurrency: 1,
+      } as any);
+      expect(ESLint).toHaveBeenCalledWith(
+        expect.objectContaining({
+          concurrency: 1,
+        }),
+      );
+    });
+
+    it('should reject invalid "concurrency" option', async () => {
+      await expect(
+        resolveAndInstantiateESLint('./eslint.config.js', {
+          concurrency: 'what?',
+        } as any),
+      ).rejects.toThrowErrorMatchingInlineSnapshot(
+        `"The --concurrency option must be auto, off or a positive integer"`,
+      );
+    });
+
+    it('should reject negative number for "concurrency" option', async () => {
+      await expect(
+        resolveAndInstantiateESLint('./eslint.config.js', {
+          concurrency: -1,
+        } as any),
+      ).rejects.toThrowErrorMatchingInlineSnapshot(
+        `"The --concurrency option must be auto, off or a positive integer"`,
+      );
+    });
+
+    it('should reject 0 for "concurrency" option', async () => {
+      await expect(
+        resolveAndInstantiateESLint('./eslint.config.js', {
+          concurrency: 0,
+        } as any),
+      ).rejects.toThrowErrorMatchingInlineSnapshot(
+        `"The --concurrency option must be auto, off or a positive integer"`,
+      );
+    });
+
+    it('should reject decimal number for "concurrency" option', async () => {
+      await expect(
+        resolveAndInstantiateESLint('./eslint.config.js', {
+          concurrency: 1.5,
+        } as any),
+      ).rejects.toThrowErrorMatchingInlineSnapshot(
+        `"The --concurrency option must be auto, off or a positive integer"`,
+      );
+    });
+  });
 });
