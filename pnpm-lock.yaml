@@ -86,7 +86,7 @@ importers:
         version: 22.18.0
       '@types/semver':
         specifier: ^7.5.8
-        version: 7.7.0
+        version: 7.7.1
       '@types/yargs':
         specifier: ^17.0.33
         version: 17.0.33
@@ -206,13 +206,13 @@ importers:
         version: 8.40.0
       '@typescript-eslint/utils':
         specifier: 8.40.0
-        version: 8.40.0(eslint@9.33.0(jiti@2.4.2))(typescript@5.8.3)
+        version: 8.40.0(eslint@9.34.0(jiti@2.4.2))(typescript@5.9.2)
       eslint:
         specifier: ^8.57.0 || ^9.0.0
-        version: 9.33.0(jiti@2.4.2)
+        version: 9.34.0(jiti@2.4.2)
       typescript:
         specifier: '*'
-        version: 5.8.3
+        version: 5.9.2
       typescript-eslint:
         specifier: ^8.0.0
         version: 8.33.1(eslint@9.33.0(jiti@2.4.2))(typescript@5.8.3)
@@ -250,10 +250,10 @@ importers:
         version: 9.28.0(jiti@2.4.2)
       ts-api-utils:
         specifier: ^2.1.0
-        version: 2.1.0(typescript@5.8.3)
+        version: 2.1.0(typescript@5.9.2)
       typescript:
         specifier: '*'
-        version: 5.8.3
+        version: 5.9.2
     devDependencies:
       '@angular-eslint/test-utils':
         specifier: workspace:*
@@ -2253,8 +2253,8 @@ packages:
   '@types/parse-json@4.0.2':
     resolution: {integrity: sha512-dISoDXWWQwUquiKsyZ4Ng+HX2KsPL7LyHKHQwgGFEA3IaKac4Obd+h2a/a6waisAoepJlBcx9paWqjA8/HVjCw==}
 
-  '@types/semver@7.7.0':
-    resolution: {integrity: sha512-k107IF4+Xr7UHjwDc7Cfd6PRQfbdkiRabXGRjo07b4WyPahFBZCZ1sE+BNxYIJPPg73UkfOsVOLwqVc/6ETrIA==}
+  '@types/semver@7.7.1':
+    resolution: {integrity: sha512-FmgJfu+MOcQ370SD0ev7EI8TlCAfKYU+B4m5T3yXc1CiRN94g/SZPtsCkk506aUDtlMnFZvasDwHHUcZUEaYuA==}
 
   '@types/stack-utils@2.0.3':
     resolution: {integrity: sha512-9aEbYZ3TbYMznPdcdr3SmIrLXwC/AKZXQeCf9Pgao5CKb8CyHuEX5jzWPTkvregvhRJHcpRO6BFoGW9ycaOkYw==}
@@ -8308,7 +8308,7 @@ snapshots:
 
   '@types/parse-json@4.0.2': {}
 
-  '@types/semver@7.7.0': {}
+  '@types/semver@7.7.1': {}
 
   '@types/stack-utils@2.0.3': {}
 
