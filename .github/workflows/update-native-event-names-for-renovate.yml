@@ -5,6 +5,8 @@
 name: Renovate Update Native Event Names
 
 on:
+  # NOTE: Never use pull_request_target here because that would populate secrets for forks
+  # Renovate creates branches directly on the main repo and acts like a trusted contributor
   pull_request:
     branches: [main]
     paths:
@@ -57,8 +59,8 @@ jobs:
       - name: Update native event names if @mdn/browser-compat-data was changed and commit the changes
         if: ${{ steps.relevant-packages-check.outputs.was-changed == 'true' }}
         env:
-          # We cannot use secrets.GITHUB_TOKEN for this because it is not permitted to kick off subsequent actions worfklow runs, so we use a PAT instead
-          GITHUB_TOKEN: ${{ secrets.JAMES_HENRY_GITHUB_TOKEN }}
+          # We cannot use secrets.GITHUB_TOKEN for this because it is not permitted to kick off subsequent actions worfklow runs, so we use a fine grained PAT instead
+          GITHUB_TOKEN: ${{ secrets.GH_FINE_GRAINED_PAT }}
         run: |
           # Checkout the PR branch using the github CLI
           gh pr checkout ${{ github.event.pull_request.number }}
