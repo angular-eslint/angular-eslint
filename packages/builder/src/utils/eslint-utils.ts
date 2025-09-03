@@ -30,6 +30,22 @@ async function resolveESLintClass(
   }
 }
 
+function validateConcurrency(concurrency: string | number) {
+  if (concurrency === 'auto' || concurrency === 'off') {
+    return;
+  }
+  if (
+    typeof concurrency === 'number' &&
+    Number.isInteger(concurrency) &&
+    concurrency > 0
+  ) {
+    return;
+  }
+  throw new Error(
+    'The --concurrency option must be auto, off or a positive integer',
+  );
+}
+
 export async function resolveAndInstantiateESLint(
   eslintConfigPath: string | undefined,
   options: Schema,
@@ -49,7 +65,9 @@ export async function resolveAndInstantiateESLint(
   }
   const ESLint = await resolveESLintClass(useFlatConfig);
 
-  const eslintOptions: ESLint.Options = {
+  const eslintOptions: ESLint.Options & {
+    concurrency?: 'auto' | 'off' | number;
+  } = {
     fix: !!options.fix,
     cache: !!options.cache,
     cacheLocation: options.cacheLocation || undefined,
@@ -66,6 +84,12 @@ export async function resolveAndInstantiateESLint(
      */
     errorOnUnmatchedPattern: false,
   };
+
+  const concurrency = options.concurrency;
+  if (concurrency != null) {
+    validateConcurrency(concurrency);
+    eslintOptions.concurrency = concurrency;
+  }
 
   if (useFlatConfig) {
     eslintOptions.stats = !!options.stats;
