@@ -251,6 +251,7 @@ Please see here for our philosophy on using a linter to enforce code formatting 
 
 **We strongly recommend using v3 (or later) of the vscode-eslint extension.**. You can enable it by opening up the [extension profile page within VSCode](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint).
 
+
 The extension will now be smart enough to pick up from your configuration files what files you care about linting (from both flat configs and eslintrc (as long as you follow the guidance of using overrides outline in this repo)).
 
 The only configuration option you need to care about is if you are using ESLint v9 and still using eslintrc configuration files (because flat config is the default in ESLint v9). In this case you need to set in your `.vscode/settings.json`:
