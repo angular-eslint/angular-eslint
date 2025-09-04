@@ -72,6 +72,10 @@ jobs:
           name: codecov
           token: ${{ secrets.CODECOV_TOKEN }}
 
+      - name: Fix CI
+        if: failure()
+        run: pnpm nx-cloud fix-ci
+
       - name: Stop all running agents for this CI run
         # It's important that we always run this step, otherwise in the case of any failures in preceding non-Nx steps, the agents will keep running and waste billable minutes
         if: ${{ always() }}
@@ -118,6 +122,10 @@ jobs:
           # We cannot distribute these because the agents are set up to run the primary node version, not this alternative we are testing
           NX_CLOUD_DISTRIBUTED_EXECUTION: false
         run: pnpm test
+
+      - name: Fix CI
+        if: failure()
+        run: pnpm nx-cloud fix-ci
 
       - run: pnpm nx-cloud complete-ci-run
         # It's important that we always run this step, otherwise in the case of any failures in preceding non-Nx steps, the agents will keep running and waste billable minutes

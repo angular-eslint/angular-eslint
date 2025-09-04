@@ -28,7 +28,7 @@ describe('eslint-utils', () => {
       fix: true,
       cache: true,
       cacheLocation: '/root/cache',
-      cacheStrategy: 'content',
+      cacheStrategy: 'contentsf',
       ignorePath: undefined,
       useEslintrc: true,
       errorOnUnmatchedPattern: false,
