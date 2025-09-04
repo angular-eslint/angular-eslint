@@ -33,6 +33,8 @@ describe('eslint-utils', () => {
       useEslintrc: true,
       errorOnUnmatchedPattern: false,
       rulePaths: [],
+      reportUnusedDisableDirectives: undefined,
+      resolvePluginsRelativeTo: undefined,
     });
   });
 
@@ -54,6 +56,8 @@ describe('eslint-utils', () => {
       useEslintrc: true,
       errorOnUnmatchedPattern: false,
       rulePaths: [],
+      reportUnusedDisableDirectives: undefined,
+      resolvePluginsRelativeTo: undefined,
     });
   });
 
@@ -71,10 +75,13 @@ describe('eslint-utils', () => {
         fix: true,
         cache: true,
         cacheLocation: '/root/cache',
+        cacheStrategy: undefined,
         ignorePath: undefined,
         useEslintrc: false,
         errorOnUnmatchedPattern: false,
         rulePaths: [],
+        reportUnusedDisableDirectives: undefined,
+        resolvePluginsRelativeTo: undefined,
       });
     });
   });
@@ -91,6 +98,7 @@ describe('eslint-utils', () => {
       } as any);
 
       expect(ESLint).toHaveBeenCalledWith({
+        overrideConfigFile: undefined,
         fix: true,
         cache: true,
         cacheLocation: '/root/cache',
@@ -99,6 +107,8 @@ describe('eslint-utils', () => {
         useEslintrc: true,
         errorOnUnmatchedPattern: false,
         rulePaths: extraRuleDirectories,
+        reportUnusedDisableDirectives: undefined,
+        resolvePluginsRelativeTo: undefined,
       });
     });
   });
@@ -114,6 +124,7 @@ describe('eslint-utils', () => {
       } as any);
 
       expect(ESLint).toHaveBeenCalledWith({
+        overrideConfigFile: undefined,
         fix: true,
         cache: true,
         cacheLocation: '/root/cache',
@@ -122,6 +133,7 @@ describe('eslint-utils', () => {
         useEslintrc: true,
         errorOnUnmatchedPattern: false,
         rulePaths: [],
+        reportUnusedDisableDirectives: undefined,
         resolvePluginsRelativeTo: './some-path',
       });
     });
@@ -138,6 +150,7 @@ describe('eslint-utils', () => {
       } as any);
 
       expect(ESLint).toHaveBeenCalledWith({
+        overrideConfigFile: undefined,
         fix: true,
         cache: true,
         cacheLocation: '/root/cache',
@@ -147,6 +160,7 @@ describe('eslint-utils', () => {
         errorOnUnmatchedPattern: false,
         rulePaths: [],
         reportUnusedDisableDirectives: 'warn',
+        resolvePluginsRelativeTo: undefined,
       });
     });
   });
