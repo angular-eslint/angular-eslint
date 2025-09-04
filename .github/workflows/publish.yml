@@ -32,7 +32,7 @@ jobs:
           run_install: false
 
       - name: Install Node.js per package.json
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           # Use the volta.node property as the source of truth
           node-version-file: 'package.json'
