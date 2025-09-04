@@ -18,6 +18,7 @@
     "@angular-eslint/template/no-any": "error",
     "@angular-eslint/template/no-autofocus": "error",
     "@angular-eslint/template/no-call-expression": "error",
+    "@angular-eslint/template/no-case-transformations": "error",
     "@angular-eslint/template/no-distracting-elements": "error",
     "@angular-eslint/template/no-duplicate-attributes": "error",
     "@angular-eslint/template/no-empty-control-flow": "error",
