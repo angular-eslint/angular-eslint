@@ -124,7 +124,7 @@ jobs:
         run: pnpm test
 
       - name: Fix CI
-        if: failure()
+        if: always()
         run: pnpm nx-cloud fix-ci
 
       - run: pnpm nx-cloud complete-ci-run
