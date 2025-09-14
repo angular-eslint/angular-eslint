@@ -2,14 +2,5 @@
   "name": "template-parser",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "type": "library",
-  "targets": {
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/packages/template-parser"],
-      "options": {
-        "jestConfig": "packages/template-parser/jest.config.ts",
-        "passWithNoTests": false
-      }
-    }
-  }
+  "targets": {}
 }

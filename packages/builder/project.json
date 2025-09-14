@@ -7,13 +7,6 @@
       "dependsOn": ["^build", "^compile", "compile"],
       "outputs": ["{projectRoot}/dist"],
       "command": "ncp {projectRoot}/src/schema.json {projectRoot}/dist/schema.json"
-    },
-    "test": {
-      "options": {
-        "env": {
-          "NODE_OPTIONS": "--experimental-vm-modules"
-        }
-      }
     }
   }
 }

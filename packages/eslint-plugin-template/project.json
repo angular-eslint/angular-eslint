@@ -14,15 +14,6 @@
       "outputs": ["{projectRoot}/dist"],
       "command": "ncp {projectRoot}/src/configs {projectRoot}/dist/configs"
     },
-    "test": {
-      "dependsOn": ["^build", "^compile"],
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/packages/eslint-plugin-template"],
-      "options": {
-        "jestConfig": "packages/eslint-plugin-template/jest.config.ts",
-        "passWithNoTests": false
-      }
-    },
     "check-rule-docs": {
       "dependsOn": ["update-rule-docs"],
       "command": "git diff --quiet --exit-code packages/eslint-plugin-template/docs || (echo \"\n-------\n\nCHECK RULE DOCS ERROR: You have uncommitted changes to the generated rule docs.\n\nYou should run `pnpm update-rule-docs` and commit the result.\n\n-------\n\" && exit 1)"
