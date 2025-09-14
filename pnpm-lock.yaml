@@ -167,7 +167,7 @@ importers:
         version: 2.8.1
       tsx:
         specifier: ^4.7.3
-        version: 4.20.4
+        version: 4.20.5
       typescript:
         specifier: 5.9.2
         version: 5.9.2
@@ -209,13 +209,13 @@ importers:
         version: 8.40.0
       '@typescript-eslint/utils':
         specifier: 8.43.0
-        version: 8.43.0(eslint@9.33.0(jiti@2.4.2))(typescript@5.8.3)
+        version: 8.43.0(eslint@9.35.0(jiti@2.4.2))(typescript@5.9.2)
       eslint:
         specifier: ^8.57.0 || ^9.0.0
-        version: 9.33.0(jiti@2.4.2)
+        version: 9.35.0(jiti@2.4.2)
       typescript:
         specifier: '*'
-        version: 5.8.3
+        version: 5.9.2
       typescript-eslint:
         specifier: ^8.0.0
         version: 8.33.1(eslint@9.33.0(jiti@2.4.2))(typescript@5.8.3)
@@ -253,10 +253,10 @@ importers:
         version: 9.28.0(jiti@2.4.2)
       ts-api-utils:
         specifier: ^2.1.0
-        version: 2.1.0(typescript@5.8.3)
+        version: 2.1.0(typescript@5.9.2)
       typescript:
         specifier: '*'
-        version: 5.8.3
+        version: 5.9.2
     devDependencies:
       '@angular-eslint/test-utils':
         specifier: workspace:*
@@ -6169,8 +6169,8 @@ packages:
   tslib@2.8.1:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
 
-  tsx@4.20.4:
-    resolution: {integrity: sha512-yyxBKfORQ7LuRt/BQKBXrpcq59ZvSW0XxwfjAt3w2/8PmdxaFzijtMhTawprSHhpzeM5BgU2hXHG3lklIERZXg==}
+  tsx@4.20.5:
+    resolution: {integrity: sha512-+wKjMNU9w/EaQayHXb7WA7ZaHY6hN8WgfvHNQ3t1PnU91/7O8TcTnIhCDYTZwnt8JsO9IBqZ30Ln1r7pPF52Aw==}
     engines: {node: '>=18.0.0'}
     hasBin: true
 
@@ -13763,7 +13763,7 @@ snapshots:
 
   tslib@2.8.1: {}
 
-  tsx@4.20.4:
+  tsx@4.20.5:
     dependencies:
       esbuild: 0.25.9
       get-tsconfig: 4.10.1
