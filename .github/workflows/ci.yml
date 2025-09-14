@@ -134,3 +134,33 @@ jobs:
       - run: pnpm nx-cloud complete-ci-run
         # It's important that we always run this step, otherwise in the case of any failures in preceding non-Nx steps, the agents will keep running and waste billable minutes
         if: ${{ always() }}
+
+  publish_pr_branch_to_pkg_pr_new:
+    name: Publish PR branch to pkg.pr.new
+    if: github.repository == 'angular-eslint/angular-eslint' && github.actor == 'JamesHenry' && github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    env:
+      NX_NO_CLOUD: true
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          run_install: false
+
+      - name: Install Node.js per package.json
+        uses: actions/setup-node@v5
+        with:
+          # Use the volta.node property as the source of truth
+          node-version-file: 'package.json'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --prefer-offline --ignore-scripts
+
+      - name: Build packages
+        run: pnpm build
+
+      - name: Publish PR branch to pkg.pr.new
+        run: pnpm exec pkg-pr-new publish --pnpm './packages/*'
