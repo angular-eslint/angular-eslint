@@ -248,10 +248,6 @@ jobs:
           # Check out the repo with a specific fine-grained PAT to allow pushing back to the repo
           token: ${{ secrets.GH_FINE_GRAINED_PAT }}
 
-      # Use specific npm version required for trusted publishing
-      - name: Use npm 11.5.2
-        run: npm install -g npm@11.5.2
-
       - uses: pnpm/action-setup@v4
         name: Install pnpm
         with:
@@ -263,6 +259,10 @@ jobs:
           # Use the volta.node property as the source of truth
           node-version-file: 'package.json'
           cache: 'pnpm'
+
+      # Use specific npm version required for trusted publishing
+      - name: Use npm 11.5.2
+        run: npm install -g npm@11.5.2
 
       - name: Install dependencies and build packages
         env:
