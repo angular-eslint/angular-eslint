@@ -56,7 +56,7 @@ import yargs from 'yargs';
     await releaseChangelog({
       versionData: projectsVersionData,
       version: workspaceVersion,
-      interactive: 'workspace',
+      interactive: process.env.CI ? undefined : 'workspace',
       dryRun: options.dryRun,
       verbose: options.verbose,
       firstRelease: options.firstRelease,
