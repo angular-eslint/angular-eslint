@@ -8,6 +8,7 @@
     // Let nx mange jest dev dependencies
     "@types/jest",
     "jest",
+    "jest-util",
     "ts-jest"
   ],
   "packageRules": [
