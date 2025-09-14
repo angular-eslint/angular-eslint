@@ -37,6 +37,11 @@
           "configName": "tsconfig.lib.json"
         }
       }
+    },
+    {
+      "plugin": "@nx/jest/plugin",
+      "include": ["packages/builder/**"],
+      "options": {}
     }
   ],
   "release": {
