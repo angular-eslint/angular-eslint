@@ -38,4 +38,4 @@ jobs:
         run: pnpm build
 
       - name: Publish PR branch to pkg.pr.new
-        run: pnpm exec pkg-pr-new publish --pnpm --compact --peerDeps './packages/*'
+        run: pnpm exec pkg-pr-new publish --pnpm --compact --peerDeps --no-template './packages/*'
