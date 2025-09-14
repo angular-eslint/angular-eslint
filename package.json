@@ -82,6 +82,7 @@
     "execa": "5.1.1",
     "husky": "9.1.7",
     "jest": "30.0.5",
+    "jest-util": "30.0.5",
     "json-schema-to-typescript": "15.0.4",
     "json-schema-traverse": "1.0.0",
     "jsonc-eslint-parser": "^2.1.0",
@@ -100,8 +101,7 @@
     "typescript": "5.9.2",
     "typescript-eslint": "8.43.0",
     "verdaccio": "6.1.6",
-    "yargs": "18.0.0",
-    "jest-util": "30.0.5"
+    "yargs": "18.0.0"
   },
   "pnpm": {
     "overrides": {
