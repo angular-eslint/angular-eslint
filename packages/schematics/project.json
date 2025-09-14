@@ -24,15 +24,6 @@
           "npx ncp src/add-eslint-to-project/schema.json dist/add-eslint-to-project/schema.json"
         ]
       }
-    },
-    "test": {
-      "dependsOn": ["^build"],
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/packages/schematics"],
-      "options": {
-        "jestConfig": "packages/schematics/jest.config.ts",
-        "passWithNoTests": false
-      }
     }
   }
 }

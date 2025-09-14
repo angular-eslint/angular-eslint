@@ -268,7 +268,7 @@ class TestDirective {}
 
 ```ts
 @Pipe({
-  selector: 'sg-test-pipe'
+  name: 'sg-test-pipe'
 })
 class TestPipe {}
 ```
