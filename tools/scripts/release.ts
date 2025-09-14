@@ -1,5 +1,5 @@
-import { execSync } from 'node:child_process';
-import { releaseChangelog, releaseVersion } from 'nx/src/command-line/release';
+import * as execa from 'execa';
+import { releaseChangelog, releasePublish, releaseVersion } from 'nx/release';
 import yargs from 'yargs';
 
 (async () => {
@@ -18,18 +18,29 @@ import yargs from 'yargs';
         type: 'boolean',
         default: true,
       })
+      .option('forceReleaseWithoutChanges', {
+        default: false,
+        description:
+          'Whether to do a release regardless of if there have been changes',
+        type: 'boolean',
+      })
       .option('verbose', {
+        default: false,
         description:
           'Whether or not to enable verbose logging, defaults to false',
         type: 'boolean',
+      })
+      .option('firstRelease', {
         default: false,
+        description:
+          'Whether or not one of more of the packages are being released for the first time',
+        type: 'boolean',
       })
       .parseAsync();
 
-    // Prepare the packages for publishing
-    execSync('pnpm build', {
+    // Ensure the packages are built for publishing
+    execa.sync('pnpm', ['build'], {
       stdio: 'inherit',
-      maxBuffer: 1024 * 1000000,
     });
 
     const { workspaceVersion, projectsVersionData } = await releaseVersion({
@@ -38,6 +49,7 @@ import yargs from 'yargs';
       stageChanges: true,
       dryRun: options.dryRun,
       verbose: options.verbose,
+      firstRelease: options.firstRelease,
     });
 
     // This will create a release on GitHub, which will act as a trigger for the publish.yml workflow
@@ -47,9 +59,63 @@ import yargs from 'yargs';
       interactive: 'workspace',
       dryRun: options.dryRun,
       verbose: options.verbose,
+      firstRelease: options.firstRelease,
     });
 
-    process.exit(0);
+    // An explicit null value here means that no changes were detected across any package
+    if (!options.forceReleaseWithoutChanges && workspaceVersion === null) {
+      console.log(
+        '⏭️ No changes detected across any package, skipping publish step altogether',
+      );
+      process.exit(0);
+    }
+
+    /**
+     * In order for the `npm publish --dry-run` to produce any kind of valuable output, we have to
+     * modify the package versions on disk to a unique version before running it, otherwise it will
+     * simply print `You cannot publish over the previously published versions: X.X.X`.
+     *
+     * Therefore we will leverage our apply-canary-version.mts script to do this for us in this case.
+     */
+    if (options.dryRun) {
+      console.log(
+        '⚠️ NOTE: Applying canary version to package.json files so that dry-run publishing produces useful output...',
+      );
+      execa.sync('pnpm', ['tsx', 'tools/scripts/apply-canary-version.ts']);
+      console.log(
+        '✅ Applied canary version to package.json files so that dry-run publishing produces useful output\n',
+      );
+    }
+
+    const publishProjectsResult = await releasePublish({
+      dryRun: options.dryRun,
+      firstRelease: options.firstRelease,
+      verbose: options.verbose,
+    });
+
+    // Revert all temporary changes
+    if (options.dryRun) {
+      console.log(
+        '⚠️ NOTE: Reverting temporary package.json changes related to dry-run publishing...',
+      );
+      execa.sync('git', [
+        'checkout',
+        'packages/**/package.json',
+        'package.json',
+        'pnpm-lock.yaml',
+      ]);
+      console.log(
+        '✅ Reverted temporary package.json changes related to dry-run publishing\n',
+      );
+    }
+
+    // eslint-disable-next-line no-process-exit
+    process.exit(
+      // If any of the individual project publish tasks returned a non-zero exit code, exit with code 1
+      Object.values(publishProjectsResult).some(({ code }) => code !== 0)
+        ? 1
+        : 0,
+    );
   } catch (err) {
     console.error(err);
     process.exit(1);
