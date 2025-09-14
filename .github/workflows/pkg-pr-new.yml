@@ -14,7 +14,7 @@ env:
 jobs:
   publish_pr_branch_to_pkg_pr_new:
     name: Publish PR branch to pkg.pr.new
-    if: github.repository == 'angular-eslint/angular-eslint' && github.actor == 'JamesHenry' && github.event.comment.body == '@pkg-pr-new publish'
+    # if: github.repository == 'angular-eslint/angular-eslint' && github.actor == 'JamesHenry' && github.event.comment.body == '@pkg-pr-new publish'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
