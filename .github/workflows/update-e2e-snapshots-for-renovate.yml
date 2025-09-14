@@ -15,6 +15,10 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
   cancel-in-progress: true
 
+# Minimal permissions by default
+permissions:
+  contents: read
+
 jobs:
   maybe_update_e2e_tests:
     # Only run if it was the renovate bot that triggered the workflow (otherwise we'll create a loop)

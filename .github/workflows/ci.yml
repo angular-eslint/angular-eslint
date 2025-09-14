@@ -16,6 +16,10 @@ env:
   NX_CLOUD_DEBUG_URLS: false
   NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
 
+# Minimal permissions by default
+permissions:
+  contents: read
+
 jobs:
   primary:
     name: Primary

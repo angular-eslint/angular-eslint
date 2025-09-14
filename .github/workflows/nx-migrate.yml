@@ -18,6 +18,10 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
   cancel-in-progress: true
 
+# Minimal permissions by default
+permissions:
+  contents: read
+
 jobs:
   maybe_nx_migrate:
     # Only run if it was the renovate bot that triggered the workflow (otherwise we'll create a loop)
