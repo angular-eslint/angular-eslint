@@ -97,7 +97,7 @@
     "tree-kill": "1.2.2",
     "ts-jest": "29.4.1",
     "tslib": "^2.4.1",
-    "tsx": "^4.7.3",
+    "tsx": "4.20.5",
     "typescript": "5.9.2",
     "typescript-eslint": "8.43.0",
     "verdaccio": "6.1.6",
