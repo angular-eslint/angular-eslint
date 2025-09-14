@@ -1,3 +1,21 @@
+## 20.3.0 (2025-09-14)
+
+### 🚀 Features
+
+- **builder:** add concurrency option ([#2636](https://github.com/angular-eslint/angular-eslint/pull/2636))
+
+### 🩹 Fixes
+
+- update dependency eslint to v9.34.0 ([#2630](https://github.com/angular-eslint/angular-eslint/pull/2630))
+- update dependency @angular/compiler to v20.2.3 ([#2640](https://github.com/angular-eslint/angular-eslint/pull/2640))
+- update dependency @angular/compiler to v20.2.4 ([#2645](https://github.com/angular-eslint/angular-eslint/pull/2645))
+- update dependency @angular/compiler to v20.3.0 ([#2653](https://github.com/angular-eslint/angular-eslint/pull/2653))
+- update dependency eslint to v9.35.0 ([#2652](https://github.com/angular-eslint/angular-eslint/pull/2652))
+
+### ❤️ Thank You
+
+- JB Nizet
+
 ## 20.2.0 (2025-08-22)
 
 ### 🚀 Features

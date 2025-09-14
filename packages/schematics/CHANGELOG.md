@@ -1,3 +1,10 @@
+## 20.3.0 (2025-09-14)
+
+### 🩹 Fixes
+
+- update dependency eslint to v9.35.0 ([#2652](https://github.com/angular-eslint/angular-eslint/pull/2652))
+- update dependency eslint to v9.34.0 ([#2630](https://github.com/angular-eslint/angular-eslint/pull/2630))
+
 ## 20.2.0 (2025-08-22)
 
 ### 🩹 Fixes

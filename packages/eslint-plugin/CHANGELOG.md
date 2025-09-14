@@ -1,3 +1,7 @@
+## 20.3.0 (2025-09-14)
+
+This was a version bump only for eslint-plugin to align it with other projects, there were no code changes.
+
 ## 20.2.0 (2025-08-22)
 
 ### 🩹 Fixes
