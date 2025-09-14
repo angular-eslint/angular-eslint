@@ -315,5 +315,3 @@ Make sure you are using valid HTML comments, i.e. `<!-- this syntax -->`, not th
 ## Migrating an Angular CLI project from Codelyzer and TSLint
 
 Please see here for the legacy information around converting from Codelyzer and TSLint prior to version 16: [./docs/MIGRATING_FROM_TSLINT.md](./docs/MIGRATING_FROM_TSLINT.md)
-
-<!-- delete me -->
