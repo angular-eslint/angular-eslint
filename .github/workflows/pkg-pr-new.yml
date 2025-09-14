@@ -1,8 +1,12 @@
 name: Publish PR branch to pkg.pr.new
 
 on:
-  pull_request_review_comment:
-    types: [created]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'PR number'
+        required: true
+        type: number
 
 # Minimal permissions by default
 permissions:
@@ -14,7 +18,7 @@ env:
 jobs:
   publish_pr_branch_to_pkg_pr_new:
     name: Publish PR branch to pkg.pr.new
-    # if: github.repository == 'angular-eslint/angular-eslint' && github.actor == 'JamesHenry' && github.event.comment.body == '@pkg-pr-new publish'
+    if: github.actor == 'JamesHenry'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
