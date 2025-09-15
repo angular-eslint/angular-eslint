@@ -8,12 +8,8 @@
 name: Publish PR branch to pkg.pr.new
 
 on:
-  workflow_dispatch:
-    inputs:
-      pr_number:
-        description: 'PR number'
-        required: true
-        type: number
+  pull_request_review:
+    types: [submitted]
 
 # Minimal permissions by default
 permissions:
@@ -27,13 +23,12 @@ env:
 jobs:
   publish_pr_branch_to_pkg_pr_new:
     name: Publish PR branch to pkg.pr.new
-    if: github.actor == 'JamesHenry'
+    if: github.actor == 'JamesHenry' && github.event.review.state == 'commented' && github.event.review.body == '@pkg-pr-new publish'
     runs-on: ubuntu-latest
     steps:
       # Check out the PR branch HEAD
       - uses: actions/checkout@v5
         with:
-          ref: refs/pull/${{ inputs.pr_number }}/head
           persist-credentials: false
 
       - uses: pnpm/action-setup@v4
