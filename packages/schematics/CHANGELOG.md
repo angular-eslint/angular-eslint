@@ -1,3 +1,22 @@
+## 20.3.0 (2025-09-14)
+
+### 🩹 Fixes
+
+- update dependency eslint to v9.35.0 ([#2652](https://github.com/angular-eslint/angular-eslint/pull/2652))
+- update dependency eslint to v9.34.0 ([#2630](https://github.com/angular-eslint/angular-eslint/pull/2630))
+
+## 20.2.0 (2025-08-22)
+
+### 🩹 Fixes
+
+- update typescript-eslint packages to v8.40.0 ([#2584](https://github.com/angular-eslint/angular-eslint/pull/2584))
+- update dependency eslint to v9.33.0 ([#2580](https://github.com/angular-eslint/angular-eslint/pull/2580))
+- update typescript-eslint packages to v8.36.0 ([#2566](https://github.com/angular-eslint/angular-eslint/pull/2566))
+- update dependency eslint to v9.30.1 ([#2558](https://github.com/angular-eslint/angular-eslint/pull/2558))
+- update typescript-eslint packages to v8.35.1 ([#2552](https://github.com/angular-eslint/angular-eslint/pull/2552))
+- update dependency eslint to v9.30.0 ([#2548](https://github.com/angular-eslint/angular-eslint/pull/2548))
+- update typescript-eslint packages to v8.35.0 ([#2541](https://github.com/angular-eslint/angular-eslint/pull/2541))
+
 ## 20.1.1 (2025-06-19)
 
 ### 🩹 Fixes

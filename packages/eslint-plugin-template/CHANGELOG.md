@@ -1,3 +1,23 @@
+## 20.3.0 (2025-09-14)
+
+This was a version bump only for eslint-plugin-template to align it with other projects, there were no code changes.
+
+## 20.2.0 (2025-08-22)
+
+### 🚀 Features
+
+- **eslint-plugin-template:** add rule no-empty-control-flow ([#2592](https://github.com/angular-eslint/angular-eslint/pull/2592))
+
+### 🩹 Fixes
+
+- **eslint-plugin-template:** [no-interpolation-in-attributes] disallow extra properties in options ([#2586](https://github.com/angular-eslint/angular-eslint/pull/2586))
+- update dependency @angular/compiler to v20.1.0 ([#2573](https://github.com/angular-eslint/angular-eslint/pull/2573))
+
+### ❤️ Thank You
+
+- Andrew Kazakov @andreww2012
+- Dave @reduckted
+
 ## 20.1.1 (2025-06-19)
 
 ### 🩹 Fixes

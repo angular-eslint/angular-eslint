@@ -89,6 +89,7 @@ function createValidRunBuilderOptions(
     reportUnusedDisableDirectives: null,
     useEslintrc: null,
     noConfigLookup: null,
+    concurrency: null,
     ...additionalOptions,
   };
 }
@@ -215,6 +216,7 @@ describe('Linter Builder', () => {
         rulesdir: [],
         resolvePluginsRelativeTo: null,
         reportUnusedDisableDirectives: null,
+        concurrency: null,
       },
       false,
     );
@@ -254,6 +256,7 @@ describe('Linter Builder', () => {
         rulesdir: [],
         resolvePluginsRelativeTo: null,
         reportUnusedDisableDirectives: null,
+        concurrency: null,
       },
       true, // useFlatConfig
     );
@@ -293,6 +296,7 @@ describe('Linter Builder', () => {
         rulesdir: [],
         resolvePluginsRelativeTo: null,
         reportUnusedDisableDirectives: null,
+        concurrency: null,
       },
       true, // useFlatConfig
     );
@@ -332,6 +336,7 @@ describe('Linter Builder', () => {
         rulesdir: [],
         resolvePluginsRelativeTo: null,
         reportUnusedDisableDirectives: null,
+        concurrency: null,
       },
       true, // useFlatConfig
     );
@@ -815,6 +820,7 @@ describe('Linter Builder', () => {
         rulesdir: [],
         resolvePluginsRelativeTo: null,
         reportUnusedDisableDirectives: null,
+        concurrency: null,
       },
       true, // useFlatConfig
     );

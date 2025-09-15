@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`rule generator should successfully generate a new rule for package eslint-plugin 1`] = `
 "import { createESLintRule } from '../utils/create-eslint-rule';
@@ -20,7 +20,7 @@ export default createESLintRule<Options, MessageIds>({
     schema: [],
     messages: {
       myNewRule: '',
-    }
+    },
   },
   defaultOptions: [],
   create(context) {
@@ -32,7 +32,10 @@ export default createESLintRule<Options, MessageIds>({
 
 exports[`rule generator should successfully generate a new rule for package eslint-plugin 2`] = `
 "import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
 import type { MessageIds, Options } from '../../../src/rules/my-new-rule';
 
 const messageId: MessageIds = 'myNewRule';

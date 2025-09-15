@@ -1,3 +1,43 @@
+## 20.3.0 (2025-09-14)
+
+### 🚀 Features
+
+- **builder:** add concurrency option ([#2636](https://github.com/angular-eslint/angular-eslint/pull/2636))
+
+### 🩹 Fixes
+
+- update dependency eslint to v9.34.0 ([#2630](https://github.com/angular-eslint/angular-eslint/pull/2630))
+- update dependency @angular/compiler to v20.2.3 ([#2640](https://github.com/angular-eslint/angular-eslint/pull/2640))
+- update dependency @angular/compiler to v20.2.4 ([#2645](https://github.com/angular-eslint/angular-eslint/pull/2645))
+- update dependency @angular/compiler to v20.3.0 ([#2653](https://github.com/angular-eslint/angular-eslint/pull/2653))
+- update dependency eslint to v9.35.0 ([#2652](https://github.com/angular-eslint/angular-eslint/pull/2652))
+
+### ❤️ Thank You
+
+- JB Nizet
+
+## 20.2.0 (2025-08-22)
+
+### 🚀 Features
+
+- **eslint-plugin-template:** add rule no-empty-control-flow ([#2592](https://github.com/angular-eslint/angular-eslint/pull/2592))
+
+### 🩹 Fixes
+
+- update dependency eslint-scope to v8.4.0 ([#2553](https://github.com/angular-eslint/))
+- update dependency eslint to v9.33.0 ([#2580](https://github.com/angular-eslint/angular-eslint/pull/2580))
+- update typescript-eslint packages to v8.40.0 ([#2584](https://github.com/angular-eslint/angular-eslint/pull/2584))
+- update dependency @angular/compiler to v20.2.1 ([#2622](https://github.com/angular-eslint/angular-eslint/pull/2622))
+- **eslint-plugin:** [relative-url-prefix] handle template literals ([#2576](https://github.com/angular-eslint/angular-eslint/pull/2576))
+- **eslint-plugin:** [no-uncalled-signals] do not report signal sets within logical expressions ([#2581](https://github.com/angular-eslint/angular-eslint/pull/2581))
+- **eslint-plugin-template:** [no-interpolation-in-attributes] disallow extra properties in options ([#2586](https://github.com/angular-eslint/angular-eslint/pull/2586))
+
+### ❤️ Thank You
+
+- Andrew Kazakov @andreww2012
+- Dave @reduckted
+- James Henry @JamesHenry
+
 ## 20.1.1 (2025-06-19)
 
 ### 🩹 Fixes
