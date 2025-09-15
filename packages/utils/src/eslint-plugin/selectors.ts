@@ -20,6 +20,9 @@ export const INPUT_DECORATOR = 'Decorator[expression.callee.name="Input"]';
 
 export const OUTPUT_DECORATOR = 'Decorator[expression.callee.name="Output"]';
 
+export const HOST_BINDING_OR_LISTENER_DECORATOR =
+  'Decorator[expression.callee.name=/^(HostBinding|HostListener)$/]';
+
 export const LITERAL_OR_TEMPLATE_ELEMENT = ':matches(Literal, TemplateElement)';
 
 export const ALIAS_PROPERTY_VALUE = `ObjectExpression > Property[key.name='alias'] ${LITERAL_OR_TEMPLATE_ELEMENT}`;
