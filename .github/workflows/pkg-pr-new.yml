@@ -7,6 +7,9 @@
 
 name: Publish PR branch to pkg.pr.new
 
+# Dynamically generate the display name for the GitHub UI based on the event type and inputs
+run-name: Publish PR branch to pkg.pr.new for PR ${{ github.event.pull_request.number }}
+
 on:
   pull_request_review:
     types: [submitted]
