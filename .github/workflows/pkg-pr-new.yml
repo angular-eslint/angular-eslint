@@ -29,6 +29,9 @@ jobs:
     if: github.actor == 'JamesHenry' && github.event.review.state == 'commented' && github.event.review.body == '@pkg-pr-new publish'
     runs-on: ubuntu-latest
     steps:
+      - name: Print pull request URL
+        run: echo "${{ github.event.pull_request.html_url }}"
+
       # Check out the PR branch HEAD
       - uses: actions/checkout@v5
         with:
