@@ -29,10 +29,13 @@ jobs:
     if: github.actor == 'JamesHenry' && github.event.review.state == 'commented' && github.event.review.body == '@pkg-pr-new publish'
     runs-on: ubuntu-latest
     steps:
+      - name: Print review comment SHA
+        run: echo "${{ github.event.review.commit_id }}"
+    
       - name: Print pull request URL
         run: echo "${{ github.event.pull_request.html_url }}"
 
-      # Check out the PR branch HEAD
+      # Check out the PR branch HEAD as a shallow clone
       - uses: actions/checkout@v5
         with:
           persist-credentials: false
@@ -49,6 +52,23 @@ jobs:
           node-version-file: 'package.json'
           # Disable caching given this workflow could be run on forks (security risk)
           package-manager-cache: false
+
+      - name: Check PR branch HEAD has not changed since review comment
+        uses: actions/github-script@v8
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const prNumber = ${{ github.event.pull_request.number }};
+            const response = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: prNumber,
+            });
+            const headSha = response.data.head.sha;
+            console.log(`The latest commit SHA on PR #${prNumber} is ${headSha}`);
+            if (headSha !== '${{ github.event.review.commit_id }}') {
+              throw new Error('PR branch HEAD has changed since the triggering review comment was made')
+            }
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --prefer-offline --ignore-scripts
