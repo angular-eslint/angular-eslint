@@ -684,6 +684,42 @@ The rule does not have any configuration options.
 #### ❌ Invalid Code
 
 ```html
+@if (a) {
+  1
+} @else {
+  2
+}
+@if (!a) {
+~~~~
+  3
+} @else {
+  4
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-at-else": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
 @if (a) {}
 
 @if (!a) {}
