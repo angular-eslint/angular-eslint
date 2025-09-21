@@ -76,29 +76,6 @@ export default createESLintRule<Options, MessageIds>({
             ],
             '@else {',
           );
-
-          if (currentElse && currentIf.endSourceSpan) {
-            // The current node has an `@else` block. Since the current
-            // `@if` block is the opposite of the previous `@if` block,
-            // the `@else` block would be rendered when the previous
-            // `@if` is also rendered. We can achieve the same result
-            // by putting the contents of the current `@else` block
-            // at the end of the previous `@if` block.
-            const elseContents = context.sourceCode.text.slice(
-              currentElse.startSourceSpan.end.offset,
-              currentElse.sourceSpan.end.offset - 1,
-            );
-
-            yield fixer.insertTextAfterRange(
-              toZeroLengthRange(previousIf.sourceSpan.end.offset - 1),
-              elseContents,
-            );
-
-            yield fixer.removeRange([
-              currentIf.endSourceSpan.end.offset,
-              currentElse.sourceSpan.end.offset,
-            ]);
-          }
         } else {
           // The previous `@if` block already has an `@else` block.
           // Since the current `@if` block is the opposite of the previous
@@ -117,6 +94,29 @@ export default createESLintRule<Options, MessageIds>({
           );
 
           yield fixer.removeRange(toRange(currentIf.sourceSpan));
+        }
+
+        if (currentElse && currentIf.endSourceSpan) {
+          // The current node has an `@else` block. Since the current
+          // `@if` block is the opposite of the previous `@if` block,
+          // the `@else` block would be rendered when the previous
+          // `@if` is also rendered. We can achieve the same result
+          // by putting the contents of the current `@else` block
+          // at the end of the previous `@if` block.
+          const elseContents = context.sourceCode.text.slice(
+            currentElse.startSourceSpan.end.offset,
+            currentElse.sourceSpan.end.offset - 1,
+          );
+
+          yield fixer.insertTextAfterRange(
+            toZeroLengthRange(previousIf.sourceSpan.end.offset - 1),
+            elseContents,
+          );
+
+          yield fixer.removeRange([
+            currentIf.endSourceSpan.end.offset,
+            currentElse.sourceSpan.end.offset,
+          ]);
         }
       };
     }

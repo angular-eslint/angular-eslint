@@ -172,6 +172,36 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     `,
   }),
   convertAnnotatedSourceToFailureCase({
+    description: `fails for second @if with @else that can be merged into existing @if with @else`,
+    annotatedSource: `
+      @if (a) {
+        1
+      } @else {
+        2
+      }
+      @if (!a) {
+      ~~~~
+        3
+      } @else {
+        4
+      }
+    `,
+    messageId,
+    annotatedOutput: `
+      @if (a) {
+        1
+      
+        4
+      } @else {
+        2
+      
+      
+        3
+      }
+      
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
     description: `fails for second @if when separated from the first @if by whitespace`,
     annotatedSource: `
       @if (a) {}
