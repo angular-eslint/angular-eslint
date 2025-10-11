@@ -2,11 +2,8 @@ import {
   AST,
   ASTWithSource,
   Binary,
-  LiteralPrimitive,
   Node,
-  ParseSourceSpan,
   PrefixNot,
-  PropertyRead,
   TmplAstForLoopBlock,
   TmplAstIfBlock,
   TmplAstIfBlockBranch,
@@ -15,6 +12,8 @@ import {
 import { getTemplateParserServices } from '@angular-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import { areEquivalentASTs } from '../utils/are-equivalent-asts';
+import { isLengthRead, isZero } from '../utils/ast-types';
+import { toRange } from '../utils/to-range';
 
 export type Options = [];
 export type MessageIds = 'preferAtEmpty';
@@ -611,18 +610,6 @@ function getEmptyTestCollection(node: AST): AST | undefined {
   }
 
   return undefined;
-}
-
-function isLengthRead(node: AST): node is PropertyRead {
-  return node instanceof PropertyRead && node.name === 'length';
-}
-
-function isZero(node: AST): boolean {
-  return node instanceof LiteralPrimitive && node.value === 0;
-}
-
-function toRange(span: ParseSourceSpan): [number, number] {
-  return [span.start.offset, span.end.offset];
 }
 
 interface ForNodeInfo {
