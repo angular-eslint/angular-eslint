@@ -48,7 +48,7 @@
     ]
   },
   "devDependencies": {
-    "@angular/cli": "20.3.1",
+    "@angular/cli": "20.3.4",
     "@angular/compiler": "20.3.0",
     "@commitlint/cli": "19.8.1",
     "@commitlint/config-conventional": "19.8.1",
@@ -61,7 +61,7 @@
     "@nx/js": "21.5.2",
     "@nx/plugin": "21.5.2",
     "@nx/workspace": "21.5.2",
-    "@schematics/angular": "20.3.1",
+    "@schematics/angular": "20.3.4",
     "@swc-node/register": "1.11.1",
     "@swc/cli": "0.7.8",
     "@swc/core": "1.13.5",
