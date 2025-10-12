@@ -1,3 +1,13 @@
+## 20.4.0 (2025-10-12)
+
+### 🚀 Features
+
+- **eslint-plugin-template:** add rule prefer-at-else ([#2613](https://github.com/angular-eslint/angular-eslint/pull/2613))
+
+### ❤️ Thank You
+
+- Dave @reduckted
+
 ## 20.3.0 (2025-09-14)
 
 This was a version bump only for eslint-plugin-template to align it with other projects, there were no code changes.

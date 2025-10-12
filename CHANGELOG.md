@@ -1,3 +1,19 @@
+## 20.4.0 (2025-10-12)
+
+### 🚀 Features
+
+- **eslint-plugin-template:** add rule prefer-at-else ([#2613](https://github.com/angular-eslint/angular-eslint/pull/2613))
+
+### 🩹 Fixes
+
+- update dependency @angular/compiler to v20.3.3 ([#2670](https://github.com/angular-eslint/angular-eslint/pull/2670))
+- update eslint to 9.37.0, typescript-eslint to 8.46.0 ([#2685](https://github.com/angular-eslint/angular-eslint/pull/2685))
+
+### ❤️ Thank You
+
+- Dave @reduckted
+- James Henry @JamesHenry
+
 ## 20.3.0 (2025-09-14)
 
 ### 🚀 Features

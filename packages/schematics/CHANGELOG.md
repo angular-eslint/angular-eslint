@@ -1,3 +1,13 @@
+## 20.4.0 (2025-10-12)
+
+### 🩹 Fixes
+
+- update eslint to 9.37.0, typescript-eslint to 8.46.0 ([#2685](https://github.com/angular-eslint/angular-eslint/pull/2685))
+
+### ❤️ Thank You
+
+- James Henry @JamesHenry
+
 ## 20.3.0 (2025-09-14)
 
 ### 🩹 Fixes
