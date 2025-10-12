@@ -131,7 +131,7 @@ importers:
         version: 1.0.0
       jsonc-eslint-parser:
         specifier: ^2.1.0
-        version: 2.4.0
+        version: 2.4.1
       lint-staged:
         specifier: 16.2.3
         version: 16.2.3
@@ -212,13 +212,13 @@ importers:
         version: 8.40.0
       '@typescript-eslint/utils':
         specifier: 8.43.0
-        version: 8.43.0(eslint@9.33.0(jiti@2.4.2))(typescript@5.8.3)
+        version: 8.43.0(eslint@9.35.0(jiti@2.4.2))(typescript@5.9.3)
       eslint:
         specifier: ^8.57.0 || ^9.0.0
-        version: 9.33.0(jiti@2.4.2)
+        version: 9.35.0(jiti@2.4.2)
       typescript:
         specifier: '*'
-        version: 5.8.3
+        version: 5.9.3
       typescript-eslint:
         specifier: ^8.0.0
         version: 8.33.1(eslint@9.33.0(jiti@2.4.2))(typescript@5.8.3)
@@ -256,10 +256,10 @@ importers:
         version: 9.28.0(jiti@2.4.2)
       ts-api-utils:
         specifier: ^2.1.0
-        version: 2.1.0(typescript@5.8.3)
+        version: 2.1.0(typescript@5.9.3)
       typescript:
         specifier: '*'
-        version: 5.8.3
+        version: 5.9.3
     devDependencies:
       '@angular-eslint/test-utils':
         specifier: workspace:*
@@ -4803,8 +4803,8 @@ packages:
     engines: {node: '>=6'}
     hasBin: true
 
-  jsonc-eslint-parser@2.4.0:
-    resolution: {integrity: sha512-WYDyuc/uFcGp6YtM2H0uKmUwieOuzeE/5YocFJLnLfclZ4inf3mRn8ZVy1s7Hxji7Jxm6Ss8gqpexD/GlKoGgg==}
+  jsonc-eslint-parser@2.4.1:
+    resolution: {integrity: sha512-uuPNLJkKN8NXAlZlQ6kmUF9qO+T6Kyd7oV4+/7yy8Jz6+MZNyhPq8EdLpdfnPVzUC8qSf1b4j1azKaGnFsjmsw==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
 
   jsonc-parser@3.2.0:
@@ -8677,7 +8677,7 @@ snapshots:
       chalk: 4.1.2
       confusing-browser-globals: 1.0.11
       globals: 15.12.0
-      jsonc-eslint-parser: 2.4.0
+      jsonc-eslint-parser: 2.4.1
       semver: 7.7.2
       tslib: 2.8.1
     optionalDependencies:
@@ -10941,8 +10941,8 @@ snapshots:
 
   espree@9.6.1:
     dependencies:
-      acorn: 8.14.0
-      acorn-jsx: 5.3.2(acorn@8.14.0)
+      acorn: 8.15.0
+      acorn-jsx: 5.3.2(acorn@8.15.0)
       eslint-visitor-keys: 3.4.3
 
   esprima@4.0.1: {}
@@ -12344,9 +12344,9 @@ snapshots:
 
   json5@2.2.3: {}
 
-  jsonc-eslint-parser@2.4.0:
+  jsonc-eslint-parser@2.4.1:
     dependencies:
-      acorn: 8.14.0
+      acorn: 8.15.0
       eslint-visitor-keys: 3.4.3
       espree: 9.6.1
       semver: 7.7.2
