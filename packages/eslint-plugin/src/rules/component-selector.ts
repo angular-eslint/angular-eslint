@@ -19,9 +19,8 @@ export const RULE_NAME = 'component-selector';
 
 const VIEW_ENCAPSULATION_SHADOW_DOM = 'ShadowDom';
 const VIEW_ENCAPSULATION = 'ViewEncapsulation';
-const STYLE_GUIDE_PREFIX_LINK = 'https://angular.dev/style-guide#style-02-07';
-const STYLE_GUIDE_STYLE_LINK = 'https://angular.dev/style-guide#style-05-02';
-const STYLE_GUIDE_TYPE_LINK = 'https://angular.dev/style-guide#style-05-03';
+const STYLE_GUIDE_LINK =
+  'https://angular.dev/style-guide#choosing-component-selectors';
 const SHADOW_DOM_ENCAPSULATED_STYLE_LINK =
   'https://github.com/angular-eslint/angular-eslint/issues/534';
 
@@ -30,8 +29,7 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description: `Component selectors should follow given naming rules. See more at ${STYLE_GUIDE_PREFIX_LINK}, ${STYLE_GUIDE_STYLE_LINK}
-      and ${STYLE_GUIDE_TYPE_LINK}.`,
+      description: `Component selectors should follow given naming rules. See more at ${STYLE_GUIDE_LINK}.`,
     },
     schema: [
       {
@@ -67,10 +65,10 @@ export default createESLintRule<Options, MessageIds>({
       },
     ],
     messages: {
-      prefixFailure: `The selector should start with one of these prefixes: {{prefix}} (${STYLE_GUIDE_PREFIX_LINK})`,
-      styleFailure: `The selector should be {{style}} (${STYLE_GUIDE_STYLE_LINK})`,
-      styleAndPrefixFailure: `The selector should be {{style}} and start with one of these prefixes: {{prefix}} (${STYLE_GUIDE_STYLE_LINK} and ${STYLE_GUIDE_PREFIX_LINK})`,
-      typeFailure: `The selector should be used as an {{type}} (${STYLE_GUIDE_TYPE_LINK})`,
+      prefixFailure: `The selector should start with one of these prefixes: {{prefix}} (${STYLE_GUIDE_LINK})`,
+      styleFailure: `The selector should be {{style}} (${STYLE_GUIDE_LINK})`,
+      styleAndPrefixFailure: `The selector should be {{style}} and start with one of these prefixes: {{prefix}} (${STYLE_GUIDE_LINK} and ${STYLE_GUIDE_LINK})`,
+      typeFailure: `The selector should be used as an {{type}} (${STYLE_GUIDE_LINK})`,
       shadowDomEncapsulatedStyleFailure: `The selector of a ShadowDom-encapsulated component should be \`${ASTUtils.OPTION_STYLE_KEBAB_CASE}\` (${SHADOW_DOM_ENCAPSULATED_STYLE_LINK})`,
     },
   },

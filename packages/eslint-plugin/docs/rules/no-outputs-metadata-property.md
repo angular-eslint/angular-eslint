@@ -15,7 +15,7 @@
 
 # `@angular-eslint/no-outputs-metadata-property`
 
-Disallows usage of the `outputs` metadata property. See more at https://angular.dev/style-guide#style-05-12
+Disallows usage of the `outputs` metadata property
 
 - Type: suggestion
 
