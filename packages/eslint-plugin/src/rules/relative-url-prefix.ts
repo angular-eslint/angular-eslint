@@ -6,7 +6,6 @@ export type Options = [];
 export type MessageIds = 'relativeUrlPrefix';
 export const RULE_NAME = 'relative-url-prefix';
 
-const STYLE_GUIDE_LINK = 'https://angular.dev/style-guide#style-05-04';
 const RELATIVE_URL_PREFIX_MATCHER = /^\.\.?\/.+/;
 
 export default createESLintRule<Options, MessageIds>({
@@ -14,11 +13,11 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description: `The ./ and ../ prefix is standard syntax for relative URLs; don't depend on Angular's current ability to do without that prefix. See more at ${STYLE_GUIDE_LINK}`,
+      description: `The ./ and ../ prefix is standard syntax for relative URLs; don't depend on Angular's current ability to do without that prefix.`,
     },
     schema: [],
     messages: {
-      relativeUrlPrefix: `The ./ and ../ prefix is standard syntax for relative URLs. (${STYLE_GUIDE_LINK})`,
+      relativeUrlPrefix: `The ./ and ../ prefix is standard syntax for relative URLs.`,
     },
   },
   defaultOptions: [],

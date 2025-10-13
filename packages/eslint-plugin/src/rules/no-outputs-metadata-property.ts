@@ -7,19 +7,18 @@ export type Options = [];
 export type MessageIds = 'noOutputsMetadataProperty';
 export const RULE_NAME = 'no-outputs-metadata-property';
 const METADATA_PROPERTY_NAME = 'outputs';
-const STYLE_GUIDE_LINK = 'https://angular.dev/style-guide#style-05-12';
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
   meta: {
     type: 'suggestion',
     docs: {
-      description: `Disallows usage of the \`${METADATA_PROPERTY_NAME}\` metadata property. See more at ${STYLE_GUIDE_LINK}`,
+      description: `Disallows usage of the \`${METADATA_PROPERTY_NAME}\` metadata property`,
       recommended: 'recommended',
     },
     schema: [],
     messages: {
-      noOutputsMetadataProperty: `Use \`@Output\` rather than the \`${METADATA_PROPERTY_NAME}\` metadata property (${STYLE_GUIDE_LINK})`,
+      noOutputsMetadataProperty: `Use \`@Output\` rather than the \`${METADATA_PROPERTY_NAME}\` metadata property`,
     },
   },
   defaultOptions: [],
