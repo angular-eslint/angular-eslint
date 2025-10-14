@@ -41,6 +41,7 @@ export default (
       '@angular-eslint/template/no-nested-tags': 'error',
       '@angular-eslint/template/no-positive-tabindex': 'error',
       '@angular-eslint/template/prefer-at-empty': 'error',
+      '@angular-eslint/template/prefer-built-in-pipes': 'error',
       '@angular-eslint/template/prefer-contextual-for-variables': 'error',
       '@angular-eslint/template/prefer-control-flow': 'error',
       '@angular-eslint/template/prefer-ngsrc': 'error',

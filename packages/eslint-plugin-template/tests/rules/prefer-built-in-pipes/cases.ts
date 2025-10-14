@@ -6,9 +6,9 @@ import type {
 import type {
   MessageIds,
   Options,
-} from '../../../src/rules/no-case-transformations';
+} from '../../../src/rules/prefer-built-in-pipes';
 
-const messageId: MessageIds = 'noCaseTransformations';
+const messageId: MessageIds = 'preferBuiltInPipes';
 
 export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '{{ name }}',
@@ -17,9 +17,11 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '<button (change)="onChange(value.toUpperCase())">Change</button>',
   '{{ name | lowercase }}',
   '{{ name | uppercase }}',
+  '{{ title | titlecase }}',
   '{{ getValue() }}',
   '{{ items.push(item) }}',
   '{{ text.includes("test") }}',
+  // custom disallow list does not include toLowerCase
   {
     code: '{{ name.toLowerCase() }}',
     options: [{ disallowList: ['toUpperCase'] }],
@@ -37,13 +39,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         {{ name.toLowerCase() }}
            ~~~~~~~~~~~~~~~~
       `,
-    messages: [
-      {
-        char: '~',
-        messageId,
-        data: { methodName: 'toLowerCase' },
-      },
-    ],
+    messages: [{ char: '~', messageId, data: { methodName: 'toLowerCase' } }],
   }),
   convertAnnotatedSourceToFailureCase({
     description: 'should fail when toUpperCase() is used in template',
@@ -51,13 +47,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         {{ title.toUpperCase() }}
            ~~~~~~~~~~~~~~~~~
       `,
-    messages: [
-      {
-        char: '~',
-        messageId,
-        data: { methodName: 'toUpperCase' },
-      },
-    ],
+    messages: [{ char: '~', messageId, data: { methodName: 'toUpperCase' } }],
   }),
   convertAnnotatedSourceToFailureCase({
     description: 'should fail when toLocaleLowerCase() is used in template',
@@ -66,11 +56,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
            ~~~~~~~~~~~~~~~~~~~~~~
       `,
     messages: [
-      {
-        char: '~',
-        messageId,
-        data: { methodName: 'toLocaleLowerCase' },
-      },
+      { char: '~', messageId, data: { methodName: 'toLocaleLowerCase' } },
     ],
   }),
   convertAnnotatedSourceToFailureCase({
@@ -80,42 +66,25 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
            ~~~~~~~~~~~~~~~~~~~~~~
       `,
     messages: [
-      {
-        char: '~',
-        messageId,
-        data: { methodName: 'toLocaleUpperCase' },
-      },
+      { char: '~', messageId, data: { methodName: 'toLocaleUpperCase' } },
     ],
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail when case transformation is used in property binding',
+    description: 'should fail when transformation is used in property binding',
     annotatedSource: `
         <div [title]="name.toLowerCase()">Content</div>
                       ~~~~~~~~~~~~~~~~
       `,
-    messages: [
-      {
-        char: '~',
-        messageId,
-        data: { methodName: 'toLowerCase' },
-      },
-    ],
+    messages: [{ char: '~', messageId, data: { methodName: 'toLowerCase' } }],
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'should fail when case transformation is used in attribute interpolation',
+      'should fail when transformation is used in attribute interpolation',
     annotatedSource: `
         <div title="{{ name.toUpperCase() }}">Content</div>
                        ~~~~~~~~~~~~~~~~
       `,
-    messages: [
-      {
-        char: '~',
-        messageId,
-        data: { methodName: 'toUpperCase' },
-      },
-    ],
+    messages: [{ char: '~', messageId, data: { methodName: 'toUpperCase' } }],
   }),
   convertAnnotatedSourceToFailureCase({
     description:
@@ -125,13 +94,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
                                      ~~~~~~~~~~~~~~~~
       `,
     options: [{ allowInOutputHandlers: false }],
-    messages: [
-      {
-        char: '~',
-        messageId,
-        data: { methodName: 'toLowerCase' },
-      },
-    ],
+    messages: [{ char: '~', messageId, data: { methodName: 'toLowerCase' } }],
   }),
   convertAnnotatedSourceToFailureCase({
     description: 'should respect custom disallowList',
@@ -140,11 +103,20 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
            ~~~~~~~~~~~~~~~~
       `,
     options: [{ disallowList: ['toUpperCase', 'toLowerCase'] }],
+    messages: [{ char: '~', messageId, data: { methodName: 'toUpperCase' } }],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail for ad hoc date method usage',
+    annotatedSource: `
+        {{ date.getFullYear() }}
+           ~~~~~~~~~~~~~~~~
+      `,
+    options: [{ disallowList: ['getFullYear'] }],
     messages: [
       {
         char: '~',
         messageId,
-        data: { methodName: 'toUpperCase' },
+        data: { methodName: 'getFullYear' },
       },
     ],
   }),

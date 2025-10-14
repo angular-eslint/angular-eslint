@@ -15,8 +15,6 @@ export type Options = [
     readonly allowInOutputHandlers?: boolean;
   },
 ];
-export type MessageIds = 'noCaseTransformations';
-export const RULE_NAME = 'no-case-transformations';
 
 const DEFAULT_DISALLOW_LIST = [
   'toLowerCase',
@@ -25,13 +23,16 @@ const DEFAULT_DISALLOW_LIST = [
   'toLocaleUpperCase',
 ] as const;
 
+export type MessageIds = 'preferBuiltInPipes';
+export const RULE_NAME = 'prefer-built-in-pipes';
+
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
   meta: {
     type: 'suggestion',
     docs: {
       description:
-        'Disallows the use of case transformation methods in Angular templates',
+        'Encourages the use of Angular built-in pipes (e.g. lowercase, uppercase, titlecase) instead of certain JavaScript methods in Angular templates.',
     },
     schema: [
       {
@@ -41,20 +42,21 @@ export default createESLintRule<Options, MessageIds>({
             items: { type: 'string' },
             type: 'array',
             uniqueItems: true,
-            description: 'List of case transformation methods to disallow',
+            description:
+              'Additional method names to disallow (defaults include common case/title casing helpers)',
           },
           allowInOutputHandlers: {
             type: 'boolean',
             description:
-              'Whether to allow case transformation methods in output event handlers',
+              'Whether to allow these method calls inside output event handlers',
           },
         },
         type: 'object',
       },
     ],
     messages: {
-      noCaseTransformations:
-        'Avoid using case transformation method "{{ methodName }}" in templates. Consider using Angular pipes like "uppercase" or "lowercase" instead.',
+      preferBuiltInPipes:
+        'Avoid using method "{{ methodName }}" in templates. Prefer the Angular built-in pipes instead (e.g. lowercase, uppercase, titlecase).',
     },
   },
   defaultOptions: [
@@ -70,7 +72,7 @@ export default createESLintRule<Options, MessageIds>({
 
     return {
       Call(node: Call) {
-        if (!isDisallowedCaseTransformation(node.receiver, methodsToDisallow)) {
+        if (!isDisallowedMethod(node.receiver, methodsToDisallow)) {
           return;
         }
 
@@ -93,7 +95,7 @@ export default createESLintRule<Options, MessageIds>({
             start: sourceCode.getLocFromIndex(start),
             end: sourceCode.getLocFromIndex(end),
           },
-          messageId: 'noCaseTransformations',
+          messageId: 'preferBuiltInPipes',
           data: {
             methodName,
           },
@@ -103,7 +105,7 @@ export default createESLintRule<Options, MessageIds>({
   },
 });
 
-function isDisallowedCaseTransformation(
+function isDisallowedMethod(
   ast: AST & { name?: string },
   disallowList: readonly string[],
 ): boolean {

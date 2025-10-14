@@ -1,5 +1,5 @@
 import { RuleTester } from '@angular-eslint/test-utils';
-import rule, { RULE_NAME } from '../../../src/rules/no-case-transformations';
+import rule, { RULE_NAME } from '../../../src/rules/prefer-built-in-pipes';
 import { invalid, valid } from './cases';
 
 const ruleTester = new RuleTester({
