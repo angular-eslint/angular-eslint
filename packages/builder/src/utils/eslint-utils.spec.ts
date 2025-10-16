@@ -33,6 +33,8 @@ describe('eslint-utils', () => {
       useEslintrc: true,
       errorOnUnmatchedPattern: false,
       rulePaths: [],
+      reportUnusedDisableDirectives: undefined,
+      resolvePluginsRelativeTo: undefined,
     });
   });
 
@@ -54,6 +56,8 @@ describe('eslint-utils', () => {
       useEslintrc: true,
       errorOnUnmatchedPattern: false,
       rulePaths: [],
+      reportUnusedDisableDirectives: undefined,
+      resolvePluginsRelativeTo: undefined,
     });
   });
 
@@ -71,10 +75,13 @@ describe('eslint-utils', () => {
         fix: true,
         cache: true,
         cacheLocation: '/root/cache',
+        cacheStrategy: undefined,
         ignorePath: undefined,
         useEslintrc: false,
         errorOnUnmatchedPattern: false,
         rulePaths: [],
+        reportUnusedDisableDirectives: undefined,
+        resolvePluginsRelativeTo: undefined,
       });
     });
   });
@@ -91,6 +98,7 @@ describe('eslint-utils', () => {
       } as any);
 
       expect(ESLint).toHaveBeenCalledWith({
+        overrideConfigFile: undefined,
         fix: true,
         cache: true,
         cacheLocation: '/root/cache',
@@ -99,6 +107,8 @@ describe('eslint-utils', () => {
         useEslintrc: true,
         errorOnUnmatchedPattern: false,
         rulePaths: extraRuleDirectories,
+        reportUnusedDisableDirectives: undefined,
+        resolvePluginsRelativeTo: undefined,
       });
     });
   });
@@ -114,6 +124,7 @@ describe('eslint-utils', () => {
       } as any);
 
       expect(ESLint).toHaveBeenCalledWith({
+        overrideConfigFile: undefined,
         fix: true,
         cache: true,
         cacheLocation: '/root/cache',
@@ -122,6 +133,7 @@ describe('eslint-utils', () => {
         useEslintrc: true,
         errorOnUnmatchedPattern: false,
         rulePaths: [],
+        reportUnusedDisableDirectives: undefined,
         resolvePluginsRelativeTo: './some-path',
       });
     });
@@ -138,6 +150,7 @@ describe('eslint-utils', () => {
       } as any);
 
       expect(ESLint).toHaveBeenCalledWith({
+        overrideConfigFile: undefined,
         fix: true,
         cache: true,
         cacheLocation: '/root/cache',
@@ -147,6 +160,7 @@ describe('eslint-utils', () => {
         errorOnUnmatchedPattern: false,
         rulePaths: [],
         reportUnusedDisableDirectives: 'warn',
+        resolvePluginsRelativeTo: undefined,
       });
     });
   });
@@ -263,6 +277,81 @@ describe('eslint-utils', () => {
           false,
         ),
       ).rejects.toThrow('The --stats option requires ESLint Flat Config');
+    });
+  });
+
+  describe('concurrency option', () => {
+    it('should create the ESLint instance with "concurrency" set to off when option is off', async () => {
+      await resolveAndInstantiateESLint('./eslint.config.js', {
+        concurrency: 'off',
+      } as any);
+      expect(ESLint).toHaveBeenCalledWith(
+        expect.objectContaining({
+          concurrency: 'off',
+        }),
+      );
+    });
+
+    it('should create the ESLint instance with "concurrency" set to auto when option is auto', async () => {
+      await resolveAndInstantiateESLint('./eslint.config.js', {
+        concurrency: 'auto',
+      } as any);
+      expect(ESLint).toHaveBeenCalledWith(
+        expect.objectContaining({
+          concurrency: 'auto',
+        }),
+      );
+    });
+
+    it('should create the ESLint instance with "concurrency" set to number when option is positive number', async () => {
+      await resolveAndInstantiateESLint('./eslint.config.js', {
+        concurrency: 1,
+      } as any);
+      expect(ESLint).toHaveBeenCalledWith(
+        expect.objectContaining({
+          concurrency: 1,
+        }),
+      );
+    });
+
+    it('should reject invalid "concurrency" option', async () => {
+      await expect(
+        resolveAndInstantiateESLint('./eslint.config.js', {
+          concurrency: 'what?',
+        } as any),
+      ).rejects.toThrowErrorMatchingInlineSnapshot(
+        `"The --concurrency option must be auto, off or a positive integer"`,
+      );
+    });
+
+    it('should reject negative number for "concurrency" option', async () => {
+      await expect(
+        resolveAndInstantiateESLint('./eslint.config.js', {
+          concurrency: -1,
+        } as any),
+      ).rejects.toThrowErrorMatchingInlineSnapshot(
+        `"The --concurrency option must be auto, off or a positive integer"`,
+      );
+    });
+
+    it('should reject 0 for "concurrency" option', async () => {
+      await expect(
+        resolveAndInstantiateESLint('./eslint.config.js', {
+          concurrency: 0,
+        } as any),
+      ).rejects.toThrowErrorMatchingInlineSnapshot(
+        `"The --concurrency option must be auto, off or a positive integer"`,
+      );
+    });
+
+    it('should reject decimal number for "concurrency" option', async () => {
+      await expect(
+        resolveAndInstantiateESLint('./eslint.config.js', {
+          concurrency: 1.5,
+        } as any),
+      ).rejects.toThrowErrorMatchingInlineSnapshot(
+        `"The --concurrency option must be auto, off or a positive integer"`,
+      );
     });
   });
 });

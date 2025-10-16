@@ -1,3 +1,27 @@
+## 20.4.0 (2025-10-12)
+
+### 🚀 Features
+
+- **eslint-plugin-template:** add rule prefer-at-else ([#2613](https://github.com/angular-eslint/angular-eslint/pull/2613))
+
+### ❤️ Thank You
+
+- Dave @reduckted
+
+## 20.3.0 (2025-09-14)
+
+This was a version bump only for angular-eslint to align it with other projects, there were no code changes.
+
+## 20.2.0 (2025-08-22)
+
+### 🚀 Features
+
+- **eslint-plugin-template:** add rule no-empty-control-flow ([#2592](https://github.com/angular-eslint/angular-eslint/pull/2592))
+
+### ❤️ Thank You
+
+- Dave @reduckted
+
 ## 20.1.1 (2025-06-19)
 
 This was a version bump only for angular-eslint to align it with other projects, there were no code changes.

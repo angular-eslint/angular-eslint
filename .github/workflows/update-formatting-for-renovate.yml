@@ -4,6 +4,8 @@
 name: Renovate Update Formatting
 
 on:
+  # NOTE: Never use pull_request_target here because that would populate secrets for forks
+  # Renovate creates branches directly on the main repo and acts like a trusted contributor
   pull_request:
     branches: [main]
     paths:
@@ -13,6 +15,10 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
   cancel-in-progress: true
 
+# Minimal permissions by default
+permissions:
+  contents: read
+
 jobs:
   maybe_update_formatting:
     # Only run if it was the renovate bot that triggered the workflow (otherwise we'll create a loop)
@@ -20,7 +26,7 @@ jobs:
     name: Update if required
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           # To allow us to perform the git diff we need the git history
           fetch-depth: 0
@@ -48,7 +54,7 @@ jobs:
 
       - name: Install Node.js per package.json
         if: ${{ steps.relevant-packages-check.outputs.was-changed == 'true' }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           # Use the volta.node property as the source of truth
           node-version-file: 'package.json'
@@ -56,8 +62,8 @@ jobs:
       - name: Update formatting if any relevant package was changed and commit the changes
         if: ${{ steps.relevant-packages-check.outputs.was-changed == 'true' }}
         env:
-          # We cannot use secrets.GITHUB_TOKEN for this because it is not permitted to kick off subsequent actions worfklow runs, so we use a PAT instead
-          GITHUB_TOKEN: ${{ secrets.JAMES_HENRY_GITHUB_TOKEN }}
+          # We cannot use secrets.GITHUB_TOKEN for this because it is not permitted to kick off subsequent actions worfklow runs, so we use a fine grained PAT instead
+          GITHUB_TOKEN: ${{ secrets.GH_FINE_GRAINED_PAT }}
         run: |
           # Checkout the PR branch using the github CLI
           gh pr checkout ${{ github.event.pull_request.number }}

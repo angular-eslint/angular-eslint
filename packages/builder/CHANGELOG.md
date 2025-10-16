@@ -1,3 +1,21 @@
+## 20.4.0 (2025-10-12)
+
+This was a version bump only for builder to align it with other projects, there were no code changes.
+
+## 20.3.0 (2025-09-14)
+
+### 🚀 Features
+
+- **builder:** add concurrency option ([#2636](https://github.com/angular-eslint/angular-eslint/pull/2636))
+
+### ❤️ Thank You
+
+- JB Nizet
+
+## 20.2.0 (2025-08-22)
+
+This was a version bump only for builder to align it with other projects, there were no code changes.
+
 ## 20.1.1 (2025-06-19)
 
 This was a version bump only for builder to align it with other projects, there were no code changes.

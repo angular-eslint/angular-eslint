@@ -73,6 +73,9 @@ import noPositiveTabindex, {
 import preferNgsrc, {
   RULE_NAME as preferNgsrcRuleName,
 } from './rules/prefer-ngsrc';
+import preferAtElse, {
+  RULE_NAME as preferAtElseRuleName,
+} from './rules/prefer-at-else';
 import preferAtEmpty, {
   RULE_NAME as preferAtEmptyRuleName,
 } from './rules/prefer-at-empty';
@@ -136,6 +139,7 @@ export = {
     [noNegatedAsyncRuleName]: noNegatedAsync,
     [noNestedTagsRuleName]: noNestedTags,
     [noPositiveTabindexRuleName]: noPositiveTabindex,
+    [preferAtElseRuleName]: preferAtElse,
     [preferAtEmptyRuleName]: preferAtEmpty,
     [preferContextualForVariablesRuleName]: preferContextualForVariables,
     [preferControlFlowRuleName]: preferControlFlow,

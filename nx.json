@@ -37,6 +37,11 @@
           "configName": "tsconfig.lib.json"
         }
       }
+    },
+    {
+      "plugin": "@nx/jest/plugin",
+      "exclude": ["e2e/**"],
+      "options": {}
     }
   ],
   "release": {
@@ -119,17 +124,11 @@
     "check-rule-configs": {
       "cache": true
     },
-    "@nx/jest:jest": {
-      "dependsOn": ["^build"],
-      "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"],
-      "cache": true,
+    "test": {
+      "dependsOn": ["^build", "^compile"],
       "options": {
-        "passWithNoTests": true
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "codeCoverage": true
+        "env": {
+          "NODE_OPTIONS": "--experimental-vm-modules"
         }
       }
     }

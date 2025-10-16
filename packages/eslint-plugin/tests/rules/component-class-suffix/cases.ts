@@ -26,7 +26,7 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
 `,
   `
     @Pipe({
-      selector: 'sg-test-pipe'
+      name: 'sg-test-pipe'
     })
     class TestPipe {}
 `,

@@ -1,6 +1,6 @@
 {
   "name": "@angular-eslint/schematics",
-  "version": "20.1.1",
+  "version": "20.4.0",
   "description": "Angular Schematics for angular-eslint",
   "license": "MIT",
   "main": "dist/index.js",
@@ -45,8 +45,8 @@
     "strip-json-comments": "3.1.1"
   },
   "devDependencies": {
-    "@typescript-eslint/utils": "8.36.0",
-    "eslint": "9.30.1"
+    "@typescript-eslint/utils": "8.46.0",
+    "eslint": "9.37.0"
   },
   "gitHead": "e2006e5e9c99e5a943d1a999e0efa5247d29ec24"
 }
