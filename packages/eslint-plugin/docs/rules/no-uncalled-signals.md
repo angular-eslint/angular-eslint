@@ -57,12 +57,9 @@ The rule does not have any configuration options.
 #### ❌ Invalid Code
 
 ```ts
-const aSignal = createSignal();
-if (aSignal) {
-    ~~~~~~~
-}
-declare function createSignal(): Signal<boolean>;
-interface Signal<T> {}
+let a: Signal<boolean>;
+let b = a ? 1 : 2;
+        ~
 ```
 
 <br>
@@ -88,12 +85,9 @@ interface Signal<T> {}
 #### ❌ Invalid Code
 
 ```ts
-const aSignal = createSignal(false);
-if (aSignal || true) {
-    ~~~~~~~
-}
-declare function createSignal(): Signal<boolean>;
-interface Signal<T> {}
+let a: Signal<boolean>;
+do {} while (a);
+             ~
 ```
 
 <br>
@@ -119,12 +113,9 @@ interface Signal<T> {}
 #### ❌ Invalid Code
 
 ```ts
-const aSignal = createSignal("hello");
-if (aSignal == "hello") {
-    ~~~~~~~
-}
-declare function createSignal(): Signal<boolean>;
-interface Signal<T> {}
+let a: Signal<boolean>;
+for (let i = 0; a; i++) { }
+                ~
 ```
 
 <br>
@@ -150,12 +141,9 @@ interface Signal<T> {}
 #### ❌ Invalid Code
 
 ```ts
-const aSignal = createSignal();
-if (false || (aSignal ?? true)) {
-              ~~~~~~~
-}
-declare function createSignal(): Signal<boolean>;
-interface Signal<T> {}
+let a: Signal<boolean>;
+if (a) { }
+    ~
 ```
 
 <br>
@@ -181,11 +169,12 @@ interface Signal<T> {}
 #### ❌ Invalid Code
 
 ```ts
-const aSignal = createSignal();
-const v = aSignal ? true : false;
-          ~~~~~~~
-declare function createSignal(): Signal<boolean>;
-interface Signal<T> {}
+let a: Signal<boolean>;
+switch (true) {
+  case a:
+       ~
+    break;
+}
 ```
 
 <br>
@@ -211,11 +200,9 @@ interface Signal<T> {}
 #### ❌ Invalid Code
 
 ```ts
-const aSignal = createSignal(false);
-const v = (aSignal || true) ? true : false;
-           ~~~~~~~
-declare function createSignal(): Signal<boolean>;
-interface Signal<T> {}
+let a: Signal<boolean>;
+while (a) {}
+       ~
 ```
 
 <br>
@@ -241,11 +228,9 @@ interface Signal<T> {}
 #### ❌ Invalid Code
 
 ```ts
-const aSignal = createSignal("hello");
-const v = (aSignal == "hello") ? true : false;
-           ~~~~~~~
-declare function createSignal(): Signal<boolean>;
-interface Signal<T> {}
+let a: Signal<boolean>;
+if (!a) { }
+     ~
 ```
 
 <br>
@@ -271,11 +256,9 @@ interface Signal<T> {}
 #### ❌ Invalid Code
 
 ```ts
-const aSignal = createSignal();
-const v = (false || (aSignal ?? true)) ? true : false;
-                     ~~~~~~~
-declare function createSignal(): Signal<boolean>;
-interface Signal<T> {}
+let a: Signal<number>;
+if (a === 1) { }
+    ~
 ```
 
 <br>
@@ -301,11 +284,9 @@ interface Signal<T> {}
 #### ❌ Invalid Code
 
 ```ts
-const aSignal = createSignal();
-const v = aSignal ?? true;
-          ~~~~~~~
-declare function createSignal(): Signal<boolean>;
-interface Signal<T> {}
+let a: Signal<number>;
+if (1 === a) { }
+          ~
 ```
 
 <br>
@@ -331,11 +312,205 @@ interface Signal<T> {}
 #### ❌ Invalid Code
 
 ```ts
-const aSignal = createSignal();
-const v = aSignal || true;
-          ~~~~~~~
-declare function createSignal(): Signal<boolean>;
-interface Signal<T> {}
+let a: Signal<number>;
+let b = a || 1;
+        ~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-uncalled-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+let a: Signal<number>;
+let b = 1 || a;
+             ~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-uncalled-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+let a: Signal<number>;
+let b = 1 || 2 || 3 || a || 4 || 5;
+                       ~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-uncalled-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+function getSignal(): Signal<number> { }
+if (getSignal()) { }
+    ~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-uncalled-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+let a: { b: { c: { d: { e: Signal<number>; } } } }
+if (a.b.c.d.e) { }
+    ~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-uncalled-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+let a: InputSignal<boolean>;
+if (a) { }
+    ~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-uncalled-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+let a: ModelSignal<boolean>;
+if (a) { }
+    ~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-uncalled-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+let a: WritableSignal<boolean>;
+if (a) { }
+    ~
 ```
 
 </details>
@@ -368,8 +543,172 @@ interface Signal<T> {}
 #### ✅ Valid Code
 
 ```ts
-const arbitraryVar = 1;
-if (arbitraryVar) {
+let a = 1;
+if (a) { }
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-uncalled-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+let a = true;
+if (!a) { }
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-uncalled-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+let a: Signal<boolean>;
+let b = a() ? 1 : 2;
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-uncalled-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+let a: Signal<boolean>;
+do {} while (a());
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-uncalled-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+let a: Signal<boolean>;
+for (let i = 0; a(); i++) { }
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-uncalled-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+let a: Signal<boolean>;
+if (a()) { }
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-uncalled-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+let a: Signal<boolean>;
+switch (true) {
+  case a():
+    break;
 }
 ```
 
@@ -396,11 +735,8 @@ if (arbitraryVar) {
 #### ✅ Valid Code
 
 ```ts
-const aSignal = createSignal();
-if (aSignal()) {
-}
-declare function createSignal(): Signal<boolean>;
-interface Signal<T> {}
+let a: Signal<boolean>;
+while (a()) { }
 ```
 
 <br>
@@ -426,11 +762,8 @@ interface Signal<T> {}
 #### ✅ Valid Code
 
 ```ts
-const aSignal = createSignal();
-if (aSignal() || true) {
-}
-declare function createSignal(): Signal<boolean>;
-interface Signal<T> {}
+let a: Signal<boolean>;
+if (!a()) { }
 ```
 
 <br>
@@ -456,11 +789,8 @@ interface Signal<T> {}
 #### ✅ Valid Code
 
 ```ts
-const aSignal = createSignal();
-if (aSignal() == "hello") {
-}
-declare function createSignal(): Signal<boolean>;
-interface Signal<T> {}
+let a: Signal<boolean>;
+if (a() || true) { }
 ```
 
 <br>
@@ -486,11 +816,8 @@ interface Signal<T> {}
 #### ✅ Valid Code
 
 ```ts
-const aSignal = createSignal();
-if (false || (aSignal() ?? true)) {
-}
-declare function createSignal(): Signal<boolean>;
-interface Signal<T> {}
+let a: Signal<boolean>;
+if (a() == "hello") { }
 ```
 
 <br>
@@ -516,12 +843,37 @@ interface Signal<T> {}
 #### ✅ Valid Code
 
 ```ts
-const aSignal = createSignal();
+let a: Signal<boolean>;
+if (false || (a() ?? true)) { }
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-uncalled-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+let a: Signal<boolean>;
 if (false) {
-  aSignal
+  a
 }
-declare function createSignal(): Signal<boolean>;
-interface Signal<T> {}
 ```
 
 <br>
@@ -547,11 +899,8 @@ interface Signal<T> {}
 #### ✅ Valid Code
 
 ```ts
-let aSignal: Signal | null = createSignal();
-if (aSignal) {
-}
-declare function createSignal(): Signal<boolean>;
-interface Signal<T> {}
+let a: Signal<boolean> | null;
+if (a) { }
 ```
 
 <br>
@@ -577,11 +926,8 @@ interface Signal<T> {}
 #### ✅ Valid Code
 
 ```ts
-let aSignal: Signal | undefined = createSignal();
-if (aSignal) {
-}
-declare function createSignal(): Signal<boolean>;
-interface Signal<T> {}
+let a: Signal<boolean> | undefined;
+if (a) { }
 ```
 
 <br>
@@ -607,11 +953,8 @@ interface Signal<T> {}
 #### ✅ Valid Code
 
 ```ts
-let aSignal: Signal | NonSignal = createSignal();
-if (aSignal) {
-}
-declare function createSignal(): Signal<boolean>;
-interface Signal<T> {}
+let a: Signal<boolean> | NonSignal;
+if (a) { }
 interface NonSignal {}
 ```
 
@@ -638,10 +981,8 @@ interface NonSignal {}
 #### ✅ Valid Code
 
 ```ts
-const aSignal = createSignal();
-const v = aSignal() ?? true;
-declare function createSignal(): Signal<boolean>;
-interface Signal<T> {}
+let a: Signal<boolean>;
+let b = a() ?? true;
 ```
 
 <br>
@@ -667,10 +1008,8 @@ interface Signal<T> {}
 #### ✅ Valid Code
 
 ```ts
-const aSignal = createSignal();
-const v = aSignal() || true;
-declare function createSignal(): Signal<boolean>;
-interface Signal<T> {}
+let a: Signal<boolean>;
+const b = a() || true;
 ```
 
 <br>
@@ -696,10 +1035,35 @@ interface Signal<T> {}
 #### ✅ Valid Code
 
 ```ts
-const aSignal = createSignal();
-const v = aSignal;
-declare function createSignal(): Signal<boolean>;
-interface Signal<T> {}
+let a: Signal<boolean>;
+let b = a;
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-uncalled-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+function getSignal(): Signal<boolean> {}
+if (getSignal()()) { }
 ```
 
 <br>
@@ -726,21 +1090,14 @@ interface Signal<T> {}
 
 ```ts
 export class AppComponent {
-  readonly test = signal<boolean>(false);
+  readonly test: Signal<boolean>;
 
   constructor() {
     effect(() => {
-      if (this.test()) {
-        console.log('Hey');
-      } else {
-        console.log('Hoo');
-      }
+      if (this.test()) { }
     });
   }
 }
-declare function signal<T>(value: T): Signal<T>;
-declare function effect(fn: () => void): void;
-interface Signal<T> {}
 ```
 
 <br>
@@ -767,22 +1124,15 @@ interface Signal<T> {}
 
 ```ts
 export class AppComponent {
-  readonly test = signal<boolean>(false);
+  readonly test: Signal<boolean>;
 
   constructor() {
     const t = this.test;
     effect(() => {
-      if (t()) {
-        console.log('Hey');
-      } else {
-        console.log('Hoo');
-      }
+      if (t()) { }
     });
   }
 }
-declare function signal<T>(value: T): Signal<T>;
-declare function effect(fn: () => void): void;
-interface Signal<T> {}
 ```
 
 <br>
@@ -808,12 +1158,91 @@ interface Signal<T> {}
 #### ✅ Valid Code
 
 ```ts
-let a: Signal<string>;
+let a: WritableSignal<string>;
 let b: boolean;
 let c = b && a.set('');
+```
 
-interface Signal<T> {
-  set(value: T): void;
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-uncalled-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+let a: { b: WritableSignal<boolean> };
+true && a.b.set(false);
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-uncalled-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+function a(b: WritableSignal<boolean> | InputSignal<boolean>) {
+  return 'set' in b || 'applyValueToInputSignal' in b[SIGNAL];
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-uncalled-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+function a(b: { c: WritableSignal<boolean> }) {
+  true && ((x) => b.c.set(x))(true);
 }
 ```
 

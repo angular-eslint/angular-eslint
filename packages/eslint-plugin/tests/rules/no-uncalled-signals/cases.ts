@@ -1,393 +1,514 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type {
-  InvalidTestCase,
-  ValidTestCase,
-} from '@typescript-eslint/rule-tester';
+import type { ValidTestCase } from '@typescript-eslint/rule-tester';
 import { MessageIds, Options } from '../../../src/rules/no-uncalled-signals';
 
 const messageId: MessageIds = 'noUncalledSignals';
 
 export const valid: readonly (string | ValidTestCase<Options>)[] = [
   `
-    const arbitraryVar = 1;
-    if (arbitraryVar) {
+    let a = 1;
+    if (a) { }
+  `,
+  `
+    let a = true;
+    if (!a) { }
+  `,
+  `
+    let a: Signal<boolean>;
+    let b = a() ? 1 : 2;
+  `,
+  `
+    let a: Signal<boolean>;
+    do {} while (a());
+  `,
+  `
+    let a: Signal<boolean>;
+    for (let i = 0; a(); i++) { }
+  `,
+  `
+    let a: Signal<boolean>;
+    if (a()) { }
+  `,
+  `
+    let a: Signal<boolean>;
+    switch (true) {
+      case a():
+        break;
     }
   `,
   `
-    const aSignal = createSignal();
-    if (aSignal()) {
-    }
-    declare function createSignal(): Signal<boolean>;
-    interface Signal<T> {}
+    let a: Signal<boolean>;
+    while (a()) { }
   `,
   `
-    const aSignal = createSignal();
-    if (aSignal() || true) {
-    }
-    declare function createSignal(): Signal<boolean>;
-    interface Signal<T> {}
+    let a: Signal<boolean>;
+    if (!a()) { }
   `,
   `
-    const aSignal = createSignal();
-    if (aSignal() == "hello") {
-    }
-    declare function createSignal(): Signal<boolean>;
-    interface Signal<T> {}
+    let a: Signal<boolean>;
+    if (a() || true) { }
   `,
   `
-    const aSignal = createSignal();
-    if (false || (aSignal() ?? true)) {
-    }
-    declare function createSignal(): Signal<boolean>;
-    interface Signal<T> {}
+    let a: Signal<boolean>;
+    if (a() == "hello") { }
   `,
   `
-    const aSignal = createSignal();
+    let a: Signal<boolean>;
+    if (false || (a() ?? true)) { }
+  `,
+  `
+    let a: Signal<boolean>;
     if (false) {
-      aSignal
+      a
     }
-    declare function createSignal(): Signal<boolean>;
-    interface Signal<T> {}
   `,
   `
-    let aSignal: Signal | null = createSignal();
-    if (aSignal) {
-    }
-    declare function createSignal(): Signal<boolean>;
-    interface Signal<T> {}
+    let a: Signal<boolean> | null;
+    if (a) { }
   `,
   `
-    let aSignal: Signal | undefined = createSignal();
-    if (aSignal) {
-    }
-    declare function createSignal(): Signal<boolean>;
-    interface Signal<T> {}
+    let a: Signal<boolean> | undefined;
+    if (a) { }
   `,
   `
-    let aSignal: Signal | NonSignal = createSignal();
-    if (aSignal) {
-    }
-    declare function createSignal(): Signal<boolean>;
-    interface Signal<T> {}
+    let a: Signal<boolean> | NonSignal;
+    if (a) { }
     interface NonSignal {}
   `,
   `
-    const aSignal = createSignal();
-    const v = aSignal() ?? true;
-    declare function createSignal(): Signal<boolean>;
-    interface Signal<T> {}
+    let a: Signal<boolean>;
+    let b = a() ?? true;
   `,
   `
-    const aSignal = createSignal();
-    const v = aSignal() || true;
-    declare function createSignal(): Signal<boolean>;
-    interface Signal<T> {}
+    let a: Signal<boolean>;
+    const b = a() || true;
   `,
   `
-    const aSignal = createSignal();
-    const v = aSignal;
-    declare function createSignal(): Signal<boolean>;
-    interface Signal<T> {}
+    let a: Signal<boolean>;
+    let b = a;
+  `,
+  `
+    function getSignal(): Signal<boolean> {}
+    if (getSignal()()) { }
   `,
   // Test cases for the reported bug - direct signal calls on member expressions
   `
     export class AppComponent {
-      readonly test = signal<boolean>(false);
+      readonly test: Signal<boolean>;
 
       constructor() {
         effect(() => {
-          if (this.test()) {
-            console.log('Hey');
-          } else {
-            console.log('Hoo');
-          }
+          if (this.test()) { }
         });
       }
     }
-    declare function signal<T>(value: T): Signal<T>;
-    declare function effect(fn: () => void): void;
-    interface Signal<T> {}
   `,
   `
     export class AppComponent {
-      readonly test = signal<boolean>(false);
+      readonly test: Signal<boolean>;
 
       constructor() {
         const t = this.test;
         effect(() => {
-          if (t()) {
-            console.log('Hey');
-          } else {
-            console.log('Hoo');
-          }
+          if (t()) { }
         });
       }
     }
-    declare function signal<T>(value: T): Signal<T>;
-    declare function effect(fn: () => void): void;
-    interface Signal<T> {}
   `,
   // https://github.com/angular-eslint/angular-eslint/issues/2574
   `
-    let a: Signal<string>;
+    let a: WritableSignal<string>;
     let b: boolean;
     let c = b && a.set('');
-
-    interface Signal<T> {
-      set(value: T): void;
+  `,
+  // https://github.com/angular-eslint/angular-eslint/issues/2691 (case 1)
+  `
+    let a: { b: WritableSignal<boolean> };
+    true && a.b.set(false);
+  `,
+  // https://github.com/angular-eslint/angular-eslint/issues/2691 (case 2)
+  `
+    function a(b: WritableSignal<boolean> | InputSignal<boolean>) {
+      return 'set' in b || 'applyValueToInputSignal' in b[SIGNAL];
     }
   `,
-];
+  // https://github.com/angular-eslint/angular-eslint/issues/2691 (case 3)
+  `
+    function a(b: { c: WritableSignal<boolean> }) {
+      true && ((x) => b.c.set(x))(true);
+    }
+  `,
+].map(appendTypes);
 
-export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
-  // If statements:
+// Note: Unlike other test case files, we let TypeScript infer the array
+// type here. If we specified a type for `invalid`, then we will get a
+// type mismatch when mapping the elements in the array to append the types.
+export const invalid = [
   convertAnnotatedSourceToFailureCase({
-    description:
-      '(If Statement) should fail if the signal is not invoked as the only expression',
+    description: 'conditional statement',
     annotatedSource: `
-        const aSignal = createSignal();
-        if (aSignal) {
-            ~~~~~~~
-        }
-        declare function createSignal(): Signal<boolean>;
-        interface Signal<T> {}
-    `,
+        let a: Signal<boolean>;
+        let b = a ? 1 : 2;
+                ~
+      `,
     messageId,
     suggestions: [
       {
         messageId: 'suggestCallSignal',
         output: `
-        const aSignal = createSignal();
-        if (aSignal()) {
+        let a: Signal<boolean>;
+        let b = a() ? 1 : 2;
+                
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'do while loop',
+    annotatedSource: `
+        let a: Signal<boolean>;
+        do {} while (a);
+                     ~
+      `,
+    messageId,
+    suggestions: [
+      {
+        messageId: 'suggestCallSignal',
+        output: `
+        let a: Signal<boolean>;
+        do {} while (a());
+                     
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'for statement',
+    annotatedSource: `
+        let a: Signal<boolean>;
+        for (let i = 0; a; i++) { }
+                        ~
+      `,
+    messageId,
+    suggestions: [
+      {
+        messageId: 'suggestCallSignal',
+        output: `
+        let a: Signal<boolean>;
+        for (let i = 0; a(); i++) { }
+                        
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'if statement',
+    annotatedSource: `
+        let a: Signal<boolean>;
+        if (a) { }
+            ~
+      `,
+    messageId,
+    suggestions: [
+      {
+        messageId: 'suggestCallSignal',
+        output: `
+        let a: Signal<boolean>;
+        if (a()) { }
             
-        }
-        declare function createSignal(): Signal<boolean>;
-        interface Signal<T> {}
-    `,
+      `,
       },
     ],
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      '(If Statement) should fail if the signal is not invoked as part of a logical expression',
+    description: 'switch case',
     annotatedSource: `
-        const aSignal = createSignal(false);
-        if (aSignal || true) {
-            ~~~~~~~
+        let a: Signal<boolean>;
+        switch (true) {
+          case a:
+               ~
+            break;
         }
-        declare function createSignal(): Signal<boolean>;
-        interface Signal<T> {}
-    `,
+      `,
     messageId,
     suggestions: [
       {
         messageId: 'suggestCallSignal',
         output: `
-        const aSignal = createSignal(false);
-        if (aSignal() || true) {
+        let a: Signal<boolean>;
+        switch (true) {
+          case a():
+               
+            break;
+        }
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'while loop',
+    annotatedSource: `
+        let a: Signal<boolean>;
+        while (a) {}
+               ~
+      `,
+    messageId,
+    suggestions: [
+      {
+        messageId: 'suggestCallSignal',
+        output: `
+        let a: Signal<boolean>;
+        while (a()) {}
+               
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'negated if statement',
+    annotatedSource: `
+        let a: Signal<boolean>;
+        if (!a) { }
+             ~
+      `,
+    messageId,
+    suggestions: [
+      {
+        messageId: 'suggestCallSignal',
+        output: `
+        let a: Signal<boolean>;
+        if (!a()) { }
+             
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'binary expression lhs',
+    annotatedSource: `
+        let a: Signal<number>;
+        if (a === 1) { }
+            ~
+      `,
+    messageId,
+    suggestions: [
+      {
+        messageId: 'suggestCallSignal',
+        output: `
+        let a: Signal<number>;
+        if (a() === 1) { }
             
-        }
-        declare function createSignal(): Signal<boolean>;
-        interface Signal<T> {}
-    `,
+      `,
       },
     ],
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      '(If Statement) should fail if a signal is not invoked as part of a comparison',
+    description: 'binary expression rhs',
     annotatedSource: `
-        const aSignal = createSignal("hello");
-        if (aSignal == "hello") {
-            ~~~~~~~
-        }
-        declare function createSignal(): Signal<boolean>;
-        interface Signal<T> {}
-    `,
+        let a: Signal<number>;
+        if (1 === a) { }
+                  ~
+      `,
     messageId,
     suggestions: [
       {
         messageId: 'suggestCallSignal',
         output: `
-        const aSignal = createSignal("hello");
-        if (aSignal() == "hello") {
+        let a: Signal<number>;
+        if (1 === a()) { }
+                  
+      `,
+      },
+    ],
+  }),
+
+  convertAnnotatedSourceToFailureCase({
+    description: 'logical expression lhs',
+    annotatedSource: `
+        let a: Signal<number>;
+        let b = a || 1;
+                ~
+      `,
+    messageId,
+    suggestions: [
+      {
+        messageId: 'suggestCallSignal',
+        output: `
+        let a: Signal<number>;
+        let b = a() || 1;
+                
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'logical expression rhs',
+    annotatedSource: `
+        let a: Signal<number>;
+        let b = 1 || a;
+                     ~
+      `,
+    messageId,
+    suggestions: [
+      {
+        messageId: 'suggestCallSignal',
+        output: `
+        let a: Signal<number>;
+        let b = 1 || a();
+                     
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'deep in logical expression',
+    annotatedSource: `
+        let a: Signal<number>;
+        let b = 1 || 2 || 3 || a || 4 || 5;
+                               ~
+      `,
+    messageId,
+    suggestions: [
+      {
+        messageId: 'suggestCallSignal',
+        output: `
+        let a: Signal<number>;
+        let b = 1 || 2 || 3 || a() || 4 || 5;
+                               
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'call expression that returns a signal',
+    annotatedSource: `
+        function getSignal(): Signal<number> { }
+        if (getSignal()) { }
+            ~~~~~~~~~~~
+      `,
+    messageId,
+    suggestions: [
+      {
+        messageId: 'suggestCallSignal',
+        output: `
+        function getSignal(): Signal<number> { }
+        if (getSignal()()) { }
             
-        }
-        declare function createSignal(): Signal<boolean>;
-        interface Signal<T> {}
-    `,
+      `,
       },
     ],
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      '(If Statement) should fail if the signal is not invoked deep in an expression',
+    description: 'deep member expression',
     annotatedSource: `
-        const aSignal = createSignal();
-        if (false || (aSignal ?? true)) {
-                      ~~~~~~~
-        }
-        declare function createSignal(): Signal<boolean>;
-        interface Signal<T> {}
-    `,
+        let a: { b: { c: { d: { e: Signal<number>; } } } }
+        if (a.b.c.d.e) { }
+            ~~~~~~~~~
+      `,
     messageId,
     suggestions: [
       {
         messageId: 'suggestCallSignal',
         output: `
-        const aSignal = createSignal();
-        if (false || (aSignal() ?? true)) {
-                      
-        }
-        declare function createSignal(): Signal<boolean>;
-        interface Signal<T> {}
-    `,
+        let a: { b: { c: { d: { e: Signal<number>; } } } }
+        if (a.b.c.d.e()) { }
+            
+      `,
       },
     ],
   }),
-  // Conditional Expressions
   convertAnnotatedSourceToFailureCase({
-    description:
-      '(conditional expression) should fail if the signal is not invoked as the only expression',
+    description: 'InputSignal',
     annotatedSource: `
-        const aSignal = createSignal();
-        const v = aSignal ? true : false;
-                  ~~~~~~~
-        declare function createSignal(): Signal<boolean>;
-        interface Signal<T> {}
-    `,
+        let a: InputSignal<boolean>;
+        if (a) { }
+            ~
+      `,
     messageId,
     suggestions: [
       {
         messageId: 'suggestCallSignal',
         output: `
-        const aSignal = createSignal();
-        const v = aSignal() ? true : false;
-                  
-        declare function createSignal(): Signal<boolean>;
-        interface Signal<T> {}
-    `,
+        let a: InputSignal<boolean>;
+        if (a()) { }
+            
+      `,
       },
     ],
   }),
+
   convertAnnotatedSourceToFailureCase({
-    description:
-      '(conditional expression) should fail if the signal is not invoked as part of a logical expression',
+    description: 'ModelSignal',
     annotatedSource: `
-        const aSignal = createSignal(false);
-        const v = (aSignal || true) ? true : false;
-                   ~~~~~~~
-        declare function createSignal(): Signal<boolean>;
-        interface Signal<T> {}
-    `,
+        let a: ModelSignal<boolean>;
+        if (a) { }
+            ~
+      `,
     messageId,
     suggestions: [
       {
         messageId: 'suggestCallSignal',
         output: `
-        const aSignal = createSignal(false);
-        const v = (aSignal() || true) ? true : false;
-                   
-        declare function createSignal(): Signal<boolean>;
-        interface Signal<T> {}
-    `,
+        let a: ModelSignal<boolean>;
+        if (a()) { }
+            
+      `,
       },
     ],
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      '(conditional expression) should fail if a signal is not invoked as part of a comparison',
+    description: 'WritableSignal',
     annotatedSource: `
-        const aSignal = createSignal("hello");
-        const v = (aSignal == "hello") ? true : false;
-                   ~~~~~~~
-        declare function createSignal(): Signal<boolean>;
-        interface Signal<T> {}
-    `,
+        let a: WritableSignal<boolean>;
+        if (a) { }
+            ~
+      `,
     messageId,
     suggestions: [
       {
         messageId: 'suggestCallSignal',
         output: `
-        const aSignal = createSignal("hello");
-        const v = (aSignal() == "hello") ? true : false;
-                   
-        declare function createSignal(): Signal<boolean>;
-        interface Signal<T> {}
-    `,
+        let a: WritableSignal<boolean>;
+        if (a()) { }
+            
+      `,
       },
     ],
   }),
-  convertAnnotatedSourceToFailureCase({
-    description:
-      '(conditional expression) should fail if the signal is not invoked deep in an expression',
-    annotatedSource: `
-        const aSignal = createSignal();
-        const v = (false || (aSignal ?? true)) ? true : false;
-                             ~~~~~~~
-        declare function createSignal(): Signal<boolean>;
-        interface Signal<T> {}
-    `,
-    messageId,
-    suggestions: [
-      {
-        messageId: 'suggestCallSignal',
-        output: `
-        const aSignal = createSignal();
-        const v = (false || (aSignal() ?? true)) ? true : false;
-                             
-        declare function createSignal(): Signal<boolean>;
-        interface Signal<T> {}
-    `,
-      },
-    ],
-  }),
-  convertAnnotatedSourceToFailureCase({
-    description:
-      '(null coalescing to variable) should fail if the signal is not invoked in an expression',
-    annotatedSource: `
-        const aSignal = createSignal();
-        const v = aSignal ?? true;
-                  ~~~~~~~
-        declare function createSignal(): Signal<boolean>;
-        interface Signal<T> {}
-    `,
-    messageId,
-    suggestions: [
-      {
-        messageId: 'suggestCallSignal',
-        output: `
-        const aSignal = createSignal();
-        const v = aSignal() ?? true;
-                  
-        declare function createSignal(): Signal<boolean>;
-        interface Signal<T> {}
-    `,
-      },
-    ],
-  }),
-  convertAnnotatedSourceToFailureCase({
-    description:
-      '(boolean OR to variable) should fail if the signal is not invoked in an expression',
-    annotatedSource: `
-        const aSignal = createSignal();
-        const v = aSignal || true;
-                  ~~~~~~~
-        declare function createSignal(): Signal<boolean>;
-        interface Signal<T> {}
-    `,
-    messageId,
-    suggestions: [
-      {
-        messageId: 'suggestCallSignal',
-        output: `
-        const aSignal = createSignal();
-        const v = aSignal() || true;
-                  
-        declare function createSignal(): Signal<boolean>;
-        interface Signal<T> {}
-    `,
-      },
-    ],
-  }),
-];
+].map((test) => ({
+  ...test,
+  code: appendTypes(test.code),
+  errors: test.errors.map((error) => ({
+    ...error,
+    suggestions: error.suggestions?.map((suggestion) => ({
+      ...suggestion,
+      output: appendTypes(suggestion.output),
+    })),
+  })),
+}));
+
+function appendTypes(code: string): string {
+  // Exclude the types from the generated docs because they
+  // are standard Angular types and only need to be defined
+  // so that the type symbols in the tests are correct.
+  if (process.env.GENERATING_RULE_DOCS === '1') {
+    return code;
+  }
+
+  const start = /\S/u.exec(code)?.index ?? 0;
+  const prefix = code.slice(0, start);
+
+  return (
+    code +
+    '\n' +
+    [
+      'interface Signal<T> { (): T; }',
+      'interface InputSignal<T> extends Signal<T> {}',
+      'interface ModelSignal<T> extends Signal<T> {}',
+      'interface WritableSignal<T> extends Signal<T> { set(value: T): void; }',
+      'declare function effect(fn: () => void): void;',
+    ]
+      .map((x) => prefix + x)
+      .join('\n')
+  );
+}
