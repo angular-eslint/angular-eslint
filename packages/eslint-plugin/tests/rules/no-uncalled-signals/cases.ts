@@ -1,5 +1,8 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { ValidTestCase } from '@typescript-eslint/rule-tester';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
 import { MessageIds, Options } from '../../../src/rules/no-uncalled-signals';
 
 const messageId: MessageIds = 'noUncalledSignals';
@@ -140,11 +143,8 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   `,
 ].map(appendTypes);
 
-// Note: Unlike other test case files, we let TypeScript infer the array
-// type here. If we specified a type for `invalid`, then we will get a
-// type mismatch when mapping the elements in the array to append the types.
-export const invalid = [
-  convertAnnotatedSourceToFailureCase({
+export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
     description: 'conditional statement',
     annotatedSource: `
         let a: Signal<boolean>;
@@ -163,7 +163,7 @@ export const invalid = [
       },
     ],
   }),
-  convertAnnotatedSourceToFailureCase({
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
     description: 'do while loop',
     annotatedSource: `
         let a: Signal<boolean>;
@@ -182,7 +182,7 @@ export const invalid = [
       },
     ],
   }),
-  convertAnnotatedSourceToFailureCase({
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
     description: 'for statement',
     annotatedSource: `
         let a: Signal<boolean>;
@@ -201,7 +201,7 @@ export const invalid = [
       },
     ],
   }),
-  convertAnnotatedSourceToFailureCase({
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
     description: 'if statement',
     annotatedSource: `
         let a: Signal<boolean>;
@@ -220,7 +220,7 @@ export const invalid = [
       },
     ],
   }),
-  convertAnnotatedSourceToFailureCase({
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
     description: 'switch case',
     annotatedSource: `
         let a: Signal<boolean>;
@@ -245,7 +245,7 @@ export const invalid = [
       },
     ],
   }),
-  convertAnnotatedSourceToFailureCase({
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
     description: 'while loop',
     annotatedSource: `
         let a: Signal<boolean>;
@@ -264,7 +264,7 @@ export const invalid = [
       },
     ],
   }),
-  convertAnnotatedSourceToFailureCase({
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
     description: 'negated if statement',
     annotatedSource: `
         let a: Signal<boolean>;
@@ -283,7 +283,7 @@ export const invalid = [
       },
     ],
   }),
-  convertAnnotatedSourceToFailureCase({
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
     description: 'binary expression lhs',
     annotatedSource: `
         let a: Signal<number>;
@@ -302,7 +302,7 @@ export const invalid = [
       },
     ],
   }),
-  convertAnnotatedSourceToFailureCase({
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
     description: 'binary expression rhs',
     annotatedSource: `
         let a: Signal<number>;
@@ -322,7 +322,7 @@ export const invalid = [
     ],
   }),
 
-  convertAnnotatedSourceToFailureCase({
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
     description: 'logical expression lhs',
     annotatedSource: `
         let a: Signal<number>;
@@ -341,7 +341,7 @@ export const invalid = [
       },
     ],
   }),
-  convertAnnotatedSourceToFailureCase({
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
     description: 'logical expression rhs',
     annotatedSource: `
         let a: Signal<number>;
@@ -360,7 +360,7 @@ export const invalid = [
       },
     ],
   }),
-  convertAnnotatedSourceToFailureCase({
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
     description: 'deep in logical expression',
     annotatedSource: `
         let a: Signal<number>;
@@ -379,7 +379,7 @@ export const invalid = [
       },
     ],
   }),
-  convertAnnotatedSourceToFailureCase({
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
     description: 'call expression that returns a signal',
     annotatedSource: `
         function getSignal(): Signal<number> { }
@@ -398,7 +398,7 @@ export const invalid = [
       },
     ],
   }),
-  convertAnnotatedSourceToFailureCase({
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
     description: 'deep member expression',
     annotatedSource: `
         let a: { b: { c: { d: { e: Signal<number>; } } } }
@@ -417,7 +417,7 @@ export const invalid = [
       },
     ],
   }),
-  convertAnnotatedSourceToFailureCase({
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
     description: 'InputSignal',
     annotatedSource: `
         let a: InputSignal<boolean>;
@@ -437,7 +437,7 @@ export const invalid = [
     ],
   }),
 
-  convertAnnotatedSourceToFailureCase({
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
     description: 'ModelSignal',
     annotatedSource: `
         let a: ModelSignal<boolean>;
@@ -456,7 +456,7 @@ export const invalid = [
       },
     ],
   }),
-  convertAnnotatedSourceToFailureCase({
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
     description: 'WritableSignal',
     annotatedSource: `
         let a: WritableSignal<boolean>;
