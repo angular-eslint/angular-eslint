@@ -679,6 +679,33 @@ for (let i = 0; a(); i++) { }
 
 ```ts
 let a: Signal<boolean>;
+for (;;) { } // Tests for loop without 'test' node.
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-uncalled-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+let a: Signal<boolean>;
 if (a()) { }
 ```
 
@@ -708,6 +735,8 @@ if (a()) { }
 let a: Signal<boolean>;
 switch (true) {
   case a():
+    break;
+  default: // Tests switch case without 'test' node.
     break;
 }
 ```

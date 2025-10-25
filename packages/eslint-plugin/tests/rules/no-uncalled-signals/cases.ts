@@ -30,12 +30,18 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   `,
   `
     let a: Signal<boolean>;
+    for (;;) { } // Tests for loop without 'test' node.
+  `,
+  `
+    let a: Signal<boolean>;
     if (a()) { }
   `,
   `
     let a: Signal<boolean>;
     switch (true) {
       case a():
+        break;
+      default: // Tests switch case without 'test' node.
         break;
     }
   `,
@@ -491,10 +497,12 @@ function appendTypes(code: string): string {
   // Exclude the types from the generated docs because they
   // are standard Angular types and only need to be defined
   // so that the type symbols in the tests are correct.
+  /* istanbul ignore next */
   if (process.env.GENERATING_RULE_DOCS === '1') {
     return code;
   }
 
+  /* istanbul ignore next */
   const start = /\S/u.exec(code)?.index ?? 0;
   const prefix = code.slice(0, start);
 
