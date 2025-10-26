@@ -1,21 +1,25 @@
-jest.mock('eslint', () => ({
-  ESLint: jest.fn(),
+import { vi, describe, it, expect, beforeEach } from 'vitest';
+
+const MockESLint = vi.fn(class MockESLint {});
+const MockFlatESLint = vi.fn(class MockFlatESLint {});
+
+vi.mock('eslint', () => ({
+  ESLint: MockESLint,
+  loadESLint: vi.fn().mockReturnValue(Promise.resolve(MockESLint)),
 }));
 
-jest.mock('eslint/use-at-your-own-risk', () => ({
-  FlatESLint: jest.fn(),
+vi.mock('eslint/use-at-your-own-risk', () => ({
+  FlatESLint: MockFlatESLint,
 }));
 
-import { ESLint } from 'eslint';
-import { FlatESLint } from 'eslint/use-at-your-own-risk';
 import { resolveAndInstantiateESLint } from './eslint-utils';
 
 describe('eslint-utils', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
-  it('should create the ESLint instance with the proper parameters', async () => {
+  it('should create the ESLint instance with the proper parameters t', async () => {
     await resolveAndInstantiateESLint('./.eslintrc.json', {
       fix: true,
       cache: true,
@@ -23,7 +27,7 @@ describe('eslint-utils', () => {
       cacheStrategy: 'content',
     } as any);
 
-    expect(ESLint).toHaveBeenCalledWith({
+    expect(MockESLint).toHaveBeenCalledWith({
       overrideConfigFile: './.eslintrc.json',
       fix: true,
       cache: true,
@@ -46,7 +50,7 @@ describe('eslint-utils', () => {
       cacheStrategy: 'content',
     } as any);
 
-    expect(ESLint).toHaveBeenCalledWith({
+    expect(MockESLint).toHaveBeenCalledWith({
       overrideConfigFile: undefined,
       fix: true,
       cache: true,
@@ -70,7 +74,7 @@ describe('eslint-utils', () => {
         noEslintrc: true,
       } as any);
 
-      expect(ESLint).toHaveBeenCalledWith({
+      expect(MockESLint).toHaveBeenCalledWith({
         overrideConfigFile: undefined,
         fix: true,
         cache: true,
@@ -97,7 +101,7 @@ describe('eslint-utils', () => {
         rulesdir: extraRuleDirectories,
       } as any);
 
-      expect(ESLint).toHaveBeenCalledWith({
+      expect(MockESLint).toHaveBeenCalledWith({
         overrideConfigFile: undefined,
         fix: true,
         cache: true,
@@ -123,7 +127,7 @@ describe('eslint-utils', () => {
         resolvePluginsRelativeTo: './some-path',
       } as any);
 
-      expect(ESLint).toHaveBeenCalledWith({
+      expect(MockESLint).toHaveBeenCalledWith({
         overrideConfigFile: undefined,
         fix: true,
         cache: true,
@@ -149,7 +153,7 @@ describe('eslint-utils', () => {
         reportUnusedDisableDirectives: 'warn',
       } as any);
 
-      expect(ESLint).toHaveBeenCalledWith({
+      expect(MockESLint).toHaveBeenCalledWith({
         overrideConfigFile: undefined,
         fix: true,
         cache: true,
@@ -206,7 +210,7 @@ describe('eslint-utils', () => {
       await expect(
         resolveAndInstantiateESLint('./.eslintrc.json', {} as any, true),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"When using the new Flat Config with ESLint, all configs must be named eslint.config.js or eslint.config.mjs or eslint.config.cjs or eslint.config.ts or eslint.config.mts or eslint.config.cts, and .eslintrc files may not be used. See https://eslint.org/docs/latest/use/configure/configuration-files"`,
+        `[Error: When using the new Flat Config with ESLint, all configs must be named eslint.config.js or eslint.config.mjs or eslint.config.cjs or eslint.config.ts or eslint.config.mts or eslint.config.cts, and .eslintrc files may not be used. See https://eslint.org/docs/latest/use/configure/configuration-files]`,
       );
     });
 
@@ -220,7 +224,7 @@ describe('eslint-utils', () => {
           true,
         ),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"For Flat Config, the \`useEslintrc\` option is not applicable. See https://eslint.org/docs/latest/use/configure/configuration-files-new"`,
+        `[Error: For Flat Config, the \`useEslintrc\` option is not applicable. See https://eslint.org/docs/latest/use/configure/configuration-files-new]`,
       );
 
       await expect(
@@ -232,7 +236,7 @@ describe('eslint-utils', () => {
           true,
         ),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"For Flat Config, ESLint removed \`resolvePluginsRelativeTo\` and so it is not supported as an option. See https://eslint.org/docs/latest/use/configure/configuration-files-new"`,
+        `[Error: For Flat Config, ESLint removed \`resolvePluginsRelativeTo\` and so it is not supported as an option. See https://eslint.org/docs/latest/use/configure/configuration-files-new]`,
       );
 
       await expect(
@@ -244,13 +248,19 @@ describe('eslint-utils', () => {
           true,
         ),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"For Flat Config, ESLint removed \`ignorePath\` and so it is not supported as an option. See https://eslint.org/docs/latest/use/configure/configuration-files-new"`,
+        `[Error: For Flat Config, ESLint removed \`ignorePath\` and so it is not supported as an option. See https://eslint.org/docs/latest/use/configure/configuration-files-new]`,
       );
     });
   });
 
   describe('stats option', () => {
     it('should create the ESLint instance with "stats" set to true when using flat config', async () => {
+      // Force eslint/use-at-your-own-risk to be used
+      vi.mock('eslint', () => ({
+        ESLint: MockESLint,
+        loadESLint: undefined,
+      }));
+
       await resolveAndInstantiateESLint(
         './eslint.config.js',
         {
@@ -258,7 +268,7 @@ describe('eslint-utils', () => {
         } as any,
         true,
       );
-      expect(FlatESLint).toHaveBeenCalledWith({
+      expect(MockFlatESLint).toHaveBeenCalledWith({
         cache: false,
         cacheLocation: undefined,
         cacheStrategy: undefined,
@@ -285,7 +295,7 @@ describe('eslint-utils', () => {
       await resolveAndInstantiateESLint('./eslint.config.js', {
         concurrency: 'off',
       } as any);
-      expect(ESLint).toHaveBeenCalledWith(
+      expect(MockESLint).toHaveBeenCalledWith(
         expect.objectContaining({
           concurrency: 'off',
         }),
@@ -296,7 +306,7 @@ describe('eslint-utils', () => {
       await resolveAndInstantiateESLint('./eslint.config.js', {
         concurrency: 'auto',
       } as any);
-      expect(ESLint).toHaveBeenCalledWith(
+      expect(MockESLint).toHaveBeenCalledWith(
         expect.objectContaining({
           concurrency: 'auto',
         }),
@@ -307,7 +317,7 @@ describe('eslint-utils', () => {
       await resolveAndInstantiateESLint('./eslint.config.js', {
         concurrency: 1,
       } as any);
-      expect(ESLint).toHaveBeenCalledWith(
+      expect(MockESLint).toHaveBeenCalledWith(
         expect.objectContaining({
           concurrency: 1,
         }),
@@ -320,7 +330,7 @@ describe('eslint-utils', () => {
           concurrency: 'what?',
         } as any),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"The --concurrency option must be auto, off or a positive integer"`,
+        `[Error: The --concurrency option must be auto, off or a positive integer]`,
       );
     });
 
@@ -330,7 +340,7 @@ describe('eslint-utils', () => {
           concurrency: -1,
         } as any),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"The --concurrency option must be auto, off or a positive integer"`,
+        `[Error: The --concurrency option must be auto, off or a positive integer]`,
       );
     });
 
@@ -340,7 +350,7 @@ describe('eslint-utils', () => {
           concurrency: 0,
         } as any),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"The --concurrency option must be auto, off or a positive integer"`,
+        `[Error: The --concurrency option must be auto, off or a positive integer]`,
       );
     });
 
@@ -350,7 +360,7 @@ describe('eslint-utils', () => {
           concurrency: 1.5,
         } as any),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"The --concurrency option must be auto, off or a positive integer"`,
+        `[Error: The --concurrency option must be auto, off or a positive integer]`,
       );
     });
   });

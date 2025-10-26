@@ -124,3 +124,6 @@ tmp
 .cursor/rules/nx-rules.mdc
 .github/instructions/nx.instructions.md
 .claude/settings.local.json
+
+vite.config.*.timestamp*
+vitest.config.*.timestamp*
