@@ -19,6 +19,7 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   `<input [(ngModel)]="model">`,
   '<input [(ngModel)]="model" (ngModelChange)="onChange($event)">',
   '<ng-template></ng-template>',
+  '<NG-TEMPLATE></NG-TEMPLATE>',
   '<ng-template #Template><div></div></ng-template>',
   '<ng-template #Template i18n="@@test"><div>a</div></ng-template>',
   '<ng-template [ngIf]="condition" [ngIfThen]="If" [ngIfElse]="Else"><div></div></ng-template>',

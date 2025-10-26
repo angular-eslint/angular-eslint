@@ -10,6 +10,7 @@ const messageId: MessageIds = 'noNestedTags';
 export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '<a></a>',
   '<a></a><a></a>',
+  '<A></A><A></A>',
   '<p></p>',
   '<p></p><p></p>',
 ];
@@ -17,12 +18,21 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail on nested a tag',
+    description: 'should fail on a nested tag',
     annotatedSource: `
         <a><a></a></a>
            ~~~~~~~
       `,
     data: { tag: 'a' },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description: 'should fail on nested uppercase tag',
+    annotatedSource: `
+        <a><A></A></a>
+           ~~~~~~~
+      `,
+    data: { tag: 'A' },
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,

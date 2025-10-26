@@ -25,6 +25,7 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   // These elements cannot be self-closing
   '<slot></slot><math></math><rb></rb><svg></svg><template></template>',
   '<div></div>',
+  '<DIV></DIV>',
   '<div *ngIf="condition"></div>',
   '<th scope="col"></th>',
   '<th *ngIf="condition" scope="col"></th>',
@@ -34,6 +35,7 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '<ng-content select="my-selector" />',
   `<ng-content>Fallback content</ng-content>`,
   `<ng-content>&nbsp;</ng-content>`,
+  `<NG-CONTENT>&nbsp;</NG-CONTENT>`,
   `<ng-content> <!-- comment --> </ng-content>`,
   `<ng-content
      select="content"

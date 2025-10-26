@@ -30,7 +30,7 @@ export default createESLintRule<Options, MessageIds>({
     const parserServices = getTemplateParserServices(context);
 
     return {
-      'Element[name=img]'(element: TmplAstElement) {
+      'Element[name=/^(img|IMG)$/]'(element: TmplAstElement) {
         const ngSrcAttribute = hasNgSrcAttribute(element);
         const srcAttribute = hasNormalSrcAttribute(element);
 

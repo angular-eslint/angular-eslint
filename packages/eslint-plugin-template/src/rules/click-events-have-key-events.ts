@@ -52,7 +52,7 @@ export default createESLintRule<Options, MessageIds>({
   create(context, [{ ignoreWithDirectives }]) {
     return {
       Element(node: TmplAstElement) {
-        if (!getDomElements().has(node.name)) {
+        if (!getDomElements().has(node.name.toLowerCase())) {
           return;
         }
 
