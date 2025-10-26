@@ -1,6 +1,10 @@
 import path from 'node:path';
 import { setWorkspaceRoot } from 'nx/src/utils/workspace-root';
-import { FIXTURES_DIR, Fixture } from '../utils/fixtures';
+import {
+  FIXTURES_DIR,
+  Fixture,
+  resetFixtureDirectory,
+} from '../utils/fixtures';
 import {
   LONG_TIMEOUT_MS,
   runCommandOnLocalRegistry,
@@ -20,7 +24,9 @@ describe('eslint-8--new-workspace', () => {
   jest.setTimeout(LONG_TIMEOUT_MS);
 
   beforeAll(async () => {
+    resetFixtureDirectory(fixtureDirectory);
     process.chdir(FIXTURES_DIR);
+
     await runNgNew(fixtureDirectory);
 
     process.env.NX_DAEMON = 'false';

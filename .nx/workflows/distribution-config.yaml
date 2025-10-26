@@ -1,0 +1,16 @@
+distribute-on:
+  default: 6 custom-linux-medium-plus-js
+assignment-rules:
+  - projects:
+      - e2e
+    targets:
+      - e2e-ci**
+    run-on:
+      - agent: custom-linux-medium-plus-js
+        parallelism: 1
+
+  - targets:
+      - '*'
+    run-on:
+      - agent: custom-linux-medium-plus-js
+        parallelism: 6

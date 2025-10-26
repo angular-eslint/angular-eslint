@@ -1,9 +1,4 @@
-import {
-  joinPathFragments,
-  parseJson,
-  workspaceRoot,
-  writeJsonFile,
-} from '@nx/devkit';
+import { joinPathFragments, parseJson, writeJsonFile } from '@nx/devkit';
 import { execSync } from 'node:child_process';
 import {
   existsSync,
@@ -13,29 +8,41 @@ import {
   statSync,
   writeFileSync,
 } from 'node:fs';
-import { rimraf } from 'rimraf';
+import { tmpdir } from 'node:os';
+
+const TMP_DIR = tmpdir();
 
 export const FIXTURES_DIR = joinPathFragments(
-  workspaceRoot,
-  'tmp',
-  'e2e-fixtures',
+  TMP_DIR,
+  'angular-eslint-e2e-fixtures',
 );
 
-export async function recreateFixturesDir(): Promise<void> {
-  // Remove any existing e2e fixtures on disk and recreate the location
-  if (existsSync(FIXTURES_DIR)) {
-    await rimraf(FIXTURES_DIR);
+export async function resetFixtureDirectory(
+  fixtureDirectory: string,
+): Promise<void> {
+  const fullFixtureDirectory = joinPathFragments(
+    FIXTURES_DIR,
+    fixtureDirectory,
+  );
+  // Remove any existing e2e fixture on disk and recreate the location
+  if (existsSync(fullFixtureDirectory)) {
+    console.log(`Removing existing fixture directory: ${fullFixtureDirectory}`);
+    rmSync(fullFixtureDirectory, { recursive: true, force: true });
   }
-  mkdirSync(FIXTURES_DIR, { recursive: true });
+  if (!existsSync(FIXTURES_DIR)) {
+    mkdirSync(FIXTURES_DIR, { recursive: true });
+  }
 }
 
 export class Fixture {
-  constructor(public root: string) {}
+  constructor(public root: string) {
+    console.log(`[e2e debug output] Creating fixture in ${this.root}`);
+  }
 
   directoryExists(filePath: string): boolean {
     try {
       return statSync(filePath).isDirectory();
-    } catch (err) {
+    } catch {
       return false;
     }
   }
@@ -43,7 +50,7 @@ export class Fixture {
   fileExists(filePath: string): boolean {
     try {
       return statSync(filePath).isFile();
-    } catch (err) {
+    } catch {
       return false;
     }
   }
