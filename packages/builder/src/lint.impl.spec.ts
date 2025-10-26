@@ -1,29 +1,46 @@
+import {
+  describe,
+  it,
+  expect,
+  beforeAll,
+  beforeEach,
+  afterEach,
+  afterAll,
+  vi,
+} from 'vitest';
 import { Architect } from '@angular-devkit/architect';
 import { TestingArchitectHost } from '@angular-devkit/architect/testing';
 import { json, logging, schema } from '@angular-devkit/core';
 import { workspaceRoot } from '@nx/devkit';
 import type { ESLint } from 'eslint';
-import { mkdtempSync, writeFileSync } from 'node:fs';
+import * as fs from 'node:fs';
 import { tmpdir } from 'node:os';
 import { basename, join, sep } from 'node:path';
 import { setWorkspaceRoot } from 'nx/src/utils/workspace-root';
 import type { Schema } from './schema';
 
 // Add a placeholder file for the native workspace context within nx implementation details otherwise it will hang in CI
-const testWorkspaceRoot = mkdtempSync(join(tmpdir(), 'workspace'));
-writeFileSync(join(testWorkspaceRoot, 'package.json'), '{}', {
+const testWorkspaceRoot = fs.mkdtempSync(join(tmpdir(), 'workspace'));
+fs.writeFileSync(join(testWorkspaceRoot, 'package.json'), '{}', {
   encoding: 'utf-8',
 });
 
-// If we use esm here we get `TypeError: Cannot redefine property: writeFileSync`
-const fs = require('fs');
-jest.spyOn(fs, 'writeFileSync').mockImplementation();
-jest.spyOn(fs, 'mkdirSync').mockImplementation();
-// eslint-disable-next-line @typescript-eslint/no-empty-function
-jest.spyOn(process, 'chdir').mockImplementation(() => {});
+// Mock fs methods - we need to do this after the initial file creation
+vi.mock('node:fs', async () => {
+  const actual = await vi.importActual<typeof import('node:fs')>('node:fs');
+  return {
+    ...actual,
+    writeFileSync: vi.fn(),
+    mkdirSync: vi.fn(),
+    existsSync: vi.fn(() => false),
+  };
+});
+
+// Mock process.chdir
+vi.spyOn(process, 'chdir').mockImplementation(() => undefined);
 
 const mockFormatter = {
-  format: jest
+  format: vi
     .fn()
     .mockImplementation((results: ESLint.LintResult[]): string =>
       results
@@ -33,8 +50,8 @@ const mockFormatter = {
         .join('\n'),
     ),
 };
-const mockLoadFormatter = jest.fn().mockReturnValue(mockFormatter);
-const mockOutputFixes = jest.fn();
+const mockLoadFormatter = vi.fn().mockReturnValue(mockFormatter);
+const mockOutputFixes = vi.fn();
 
 const VALID_ESLINT_VERSION = '7.6';
 
@@ -46,21 +63,22 @@ class MockESLint {
   static version = VALID_ESLINT_VERSION;
   static outputFixes = mockOutputFixes;
   loadFormatter = mockLoadFormatter;
-  isPathIgnored = jest.fn().mockReturnValue(false);
-  lintFiles = jest.fn().mockImplementation(() => mockReports);
+  isPathIgnored = vi.fn().mockReturnValue(false);
+  lintFiles = vi.fn().mockImplementation(() => mockReports);
 }
 
-const mockResolveAndInstantiateESLint = jest.fn().mockReturnValue(
+const mockResolveAndInstantiateESLint = vi.fn().mockReturnValue(
   Promise.resolve({
     ESLint: MockESLint,
     eslint: new MockESLint(),
   }),
 );
 
-jest.mock('./utils/eslint-utils', () => {
+vi.mock(import('./utils/eslint-utils.js'), async (importOriginal) => {
+  const { supportedFlatConfigNames } = await importOriginal();
   return {
-    ...jest.requireActual('./utils/eslint-utils'),
     resolveAndInstantiateESLint: mockResolveAndInstantiateESLint,
+    supportedFlatConfigNames,
   };
 });
 
@@ -103,13 +121,7 @@ const testArchitectHost = new TestingArchitectHost(
 );
 const builderName = '@angular-eslint/builder:lint';
 
-/**
- * Require in the implementation from src so that we don't need
- * to run a build before tests run and it is dynamic enough
- * to come after jest does its mocking
- */
-const { default: builderImplementation } = require('./lint.impl');
-testArchitectHost.addBuilder(builderName, builderImplementation);
+// Builder implementation will be loaded in beforeAll
 
 const architect = new Architect(testArchitectHost, registry);
 
@@ -123,24 +135,29 @@ async function runBuilder(options: Schema) {
 
 describe('Linter Builder', () => {
   const previousWorkspaceRoot = workspaceRoot;
-  beforeAll(() => {
+  beforeAll(async () => {
+    // Dynamically import the implementation after mocks are set up
+    // @ts-expect-error - This is valid
+    const module = await import('./lint.impl');
+    const builderImplementation = module.default;
+    testArchitectHost.addBuilder(builderName, builderImplementation);
     setWorkspaceRoot(testWorkspaceRoot);
   });
 
   beforeEach(() => {
     MockESLint.version = VALID_ESLINT_VERSION;
     mockReports = [{ results: [], messages: [], usedDeprecatedRules: [] }];
-    console.warn = jest.fn();
-    console.error = jest.fn();
-    console.info = jest.fn();
+    console.warn = vi.fn();
+    console.error = vi.fn();
+    console.info = vi.fn();
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   afterAll(() => {
-    jest.restoreAllMocks();
+    vi.restoreAllMocks();
     setWorkspaceRoot(previousWorkspaceRoot);
   });
 
@@ -148,12 +165,12 @@ describe('Linter Builder', () => {
     MockESLint.version = '1.6';
     const result = runBuilder(createValidRunBuilderOptions());
     await expect(result).resolves.toMatchInlineSnapshot(`
-      Object {
+      {
         "error": "Error when running ESLint: ESLint must be version 7.6 or higher.",
-        "info": Object {
+        "info": {
           "builderName": "@angular-eslint/builder:lint",
           "description": "Testing only builder.",
-          "optionSchema": Object {
+          "optionSchema": {
             "type": "object",
           },
         },
@@ -223,8 +240,9 @@ describe('Linter Builder', () => {
   });
 
   it('should resolve and instantiate ESLint with useFlatConfig=true if the root config is eslint.config.js', async () => {
-    jest.spyOn(fs, 'existsSync').mockImplementation((path: any) => {
-      if (basename(path) === 'eslint.config.js') {
+    vi.mocked(fs.existsSync).mockImplementation((path) => {
+      const pathStr = String(path);
+      if (basename(pathStr) === 'eslint.config.js') {
         return true;
       }
       return false;
@@ -263,8 +281,9 @@ describe('Linter Builder', () => {
   });
 
   it('should resolve and instantiate ESLint with useFlatConfig=true if the root config is eslint.config.mjs', async () => {
-    jest.spyOn(fs, 'existsSync').mockImplementation((path: any) => {
-      if (basename(path) === 'eslint.config.js') {
+    vi.mocked(fs.existsSync).mockImplementation((path) => {
+      const pathStr = String(path);
+      if (basename(pathStr) === 'eslint.config.js') {
         return true;
       }
       return false;
@@ -303,8 +322,9 @@ describe('Linter Builder', () => {
   });
 
   it('should resolve and instantiate ESLint with useFlatConfig=true if the root config is eslint.config.cjs', async () => {
-    jest.spyOn(fs, 'existsSync').mockImplementation((path: any) => {
-      if (basename(path) === 'eslint.config.js') {
+    vi.mocked(fs.existsSync).mockImplementation((path) => {
+      const pathStr = String(path);
+      if (basename(pathStr) === 'eslint.config.js') {
         return true;
       }
       return false;
@@ -782,8 +802,9 @@ describe('Linter Builder', () => {
   });
 
   it('should pass stats option to resolveAndInstantiateESLint', async () => {
-    jest.spyOn(fs, 'existsSync').mockImplementation((path: any) => {
-      if (basename(path) === 'eslint.config.js') {
+    vi.mocked(fs.existsSync).mockImplementation((path) => {
+      const pathStr = String(path);
+      if (basename(pathStr) === 'eslint.config.js') {
         return true;
       }
       return false;

@@ -40,8 +40,23 @@
     },
     {
       "plugin": "@nx/jest/plugin",
-      "exclude": ["e2e/**"],
+      "exclude": ["e2e/**", "packages/builder/**"],
       "options": {}
+    },
+    {
+      "plugin": "@nx/vite/plugin",
+      "include": ["packages/builder/**"],
+      "options": {
+        "buildTargetName": "build",
+        "testTargetName": "test",
+        "serveTargetName": "serve",
+        "devTargetName": "dev",
+        "previewTargetName": "preview",
+        "serveStaticTargetName": "serve-static",
+        "typecheckTargetName": "typecheck",
+        "buildDepsTargetName": "build-deps",
+        "watchDepsTargetName": "watch-deps"
+      }
     }
   ],
   "release": {
