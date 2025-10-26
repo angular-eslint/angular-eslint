@@ -87,6 +87,33 @@ The rule does not have any configuration options.
      ~~~~~~~~~~~~~~~~~~~~
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/table-scope": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<DIV [attr.scope]="scope"></DIV><P></P>
+     ~~~~~~~~~~~~~~~~~~~~
+```
+
 </details>
 
 <br>
