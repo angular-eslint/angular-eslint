@@ -62,6 +62,8 @@ The rule does not have any configuration options.
        ~~~~~~~~~~~~~~~~~~~~~~~~~~
   <img [src]="value">
        ~~~~~~~~~~~~~
+  <IMG [src]="value">
+       ~~~~~~~~~~~~~
 </ng-template>
 ```
 
@@ -191,6 +193,32 @@ The rule does not have any configuration options.
 
 ```html
 <img [ngSrc]="value">
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-ngsrc": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<IMG [ngSrc]="value">
 ```
 
 <br>

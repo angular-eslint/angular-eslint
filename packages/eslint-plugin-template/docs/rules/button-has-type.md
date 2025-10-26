@@ -98,6 +98,33 @@ interface Options {
 #### ❌ Invalid Code
 
 ```html
+<BUTTON></BUTTON>
+~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/button-has-type": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
 <button (click)="onClick()"></button>
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ```
@@ -330,6 +357,32 @@ interface Options {
 
 ```html
 <button type="button"></button>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/button-has-type": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<BUTTON type="button"></BUTTON>
 ```
 
 <br>

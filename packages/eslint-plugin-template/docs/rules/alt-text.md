@@ -113,6 +113,33 @@ The rule does not have any configuration options.
 #### ❌ Invalid Code
 
 ```html
+<OBJECT></OBJECT>
+~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/alt-text": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
 <area />
 ~~~~~~~~
 ```
@@ -227,6 +254,32 @@ The rule does not have any configuration options.
 #### ✅ Valid Code
 
 ```html
+<IMG src="foo" alt="Foo eating a sandwich.">
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/alt-text": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
 <img src="foo" [attr.alt]="altText">
 ```
 
@@ -306,6 +359,32 @@ The rule does not have any configuration options.
 
 ```html
 <object aria-label="foo">
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/alt-text": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<OBJECT aria-label="foo">
 ```
 
 <br>
@@ -461,6 +540,32 @@ The rule does not have any configuration options.
 #### ✅ Valid Code
 
 ```html
+<AREA aria-label="foo" />
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/alt-text": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
 <area aria-labelledby="id1" />
 ```
 
@@ -566,6 +671,32 @@ The rule does not have any configuration options.
 
 ```html
 <input type="image" alt="This is descriptive!">
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/alt-text": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<INPUT type="image" alt="This is descriptive!">
 ```
 
 <br>

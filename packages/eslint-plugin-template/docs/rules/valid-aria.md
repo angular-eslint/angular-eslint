@@ -88,6 +88,33 @@ The rule does not have any configuration options.
 #### ❌ Invalid Code
 
 ```html
+<INPUT [aria-labelby]="label">
+       ~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/valid-aria": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
 <div aria-expanded="notABoolean">notABoolean</div>
      ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 <div aria-haspopup="notAToken">notAToken</div>

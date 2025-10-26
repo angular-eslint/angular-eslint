@@ -531,6 +531,32 @@ The rule does not have any configuration options.
 #### ✅ Valid Code
 
 ```html
+<DIV></DIV>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-self-closing-tags": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
 <div *ngIf="condition"></div>
 ```
 
@@ -740,6 +766,32 @@ The rule does not have any configuration options.
 
 ```html
 <ng-content>&nbsp;</ng-content>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-self-closing-tags": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<NG-CONTENT>&nbsp;</NG-CONTENT>
 ```
 
 <br>

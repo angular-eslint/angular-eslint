@@ -1206,6 +1206,32 @@ interface Options {
 #### ✅ Valid Code
 
 ```html
+<NG-TEMPLATE></NG-TEMPLATE>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/attributes-order": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
 <ng-template #Template><div></div></ng-template>
 ```
 
