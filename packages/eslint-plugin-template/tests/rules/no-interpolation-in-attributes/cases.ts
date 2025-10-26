@@ -25,7 +25,7 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     description:
-      'it should fail and autofix if interpolation is used as attribute value',
+      'should fail and autofix if interpolation is used as attribute value',
     annotatedSource: `
         <input type="text" name="{{ foo }}">
                                  ~~~~~~~~~
@@ -38,7 +38,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'it should fail and not autofix if interpolation is used as part of attribute value',
+      'should fail and not autofix if interpolation is used as part of attribute value',
     annotatedSource: `
         <input type="text" name="{{ foo }}bar">
                                  ~~~~~~~~~~~~
@@ -47,7 +47,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'it should fail and autofix the full attribute if interpolation is used as attribute value',
+      'should fail and autofix the full attribute if interpolation is used as attribute value',
     annotatedSource: `
         <input type="text" attr.data-myExample="{{ foo }}">
                                                 ~~~~~~~~~
@@ -70,7 +70,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'it should fail and autofix if the entire value of an attribute is an interpolation when allowSubstringInterpolation is true',
+      'should fail and autofix if the entire value of an attribute is an interpolation when allowSubstringInterpolation is true',
     annotatedSource: `
        <img alt="{{username}} is online" src="{{src}}">
                                               ~~~~~~~

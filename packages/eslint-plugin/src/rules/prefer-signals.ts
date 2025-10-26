@@ -137,7 +137,7 @@ export default createESLintRule<Options, MessageIds>({
           if (value?.type === AST_NODE_TYPES.CallExpression) {
             const callee = value.callee;
             // A `WritableSignal` can be turned into a `Signal` using
-            // the `.asReadonly()` method. If that method is being,
+            // the `.asReadonly()` method. If that method is being
             // called, then we need to look at the object that the method
             // is called on to determine if it's being called on a `Signal`.
             if (callee.type === AST_NODE_TYPES.MemberExpression) {

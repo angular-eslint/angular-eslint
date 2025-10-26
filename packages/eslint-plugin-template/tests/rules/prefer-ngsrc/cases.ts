@@ -17,7 +17,7 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail image when using src over ngsrc',
+    description: 'should fail when an image is using src over ngsrc',
     annotatedSource: `
       <ng-template>
         <img src="http://localhost">
@@ -44,7 +44,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     ],
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail image when using both src and ngsrc',
+    description: 'should fail when an image is using both src and ngsrc',
     annotatedSource: `
       <ng-template>
         <img ngSrc="http://localhost" src="http://localhost">

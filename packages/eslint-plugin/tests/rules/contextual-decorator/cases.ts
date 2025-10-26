@@ -820,7 +820,7 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   },
   {
     // It should succeed if @Component and @Injectable decorators are present on the same file and
-    // the @Component contains a non allowed decorator for @Injectable.
+    // the @Component contains a non-allowed decorator for @Injectable.
     code: `
         @Injectable()
         class TestService {

@@ -196,7 +196,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     ],
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail with 2 banana in a box with the same name',
+    description: 'should fail with 2 banana-in-a-box with the same name',
     annotatedSource: `
         <input [(ngModel)]="model" [(ngModel)]="otherModel">
                ~~~~~~~~~~~~~~~~~~~ ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -275,7 +275,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     ],
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail with 3 duplications',
+    description: 'should fail with 3 duplicates',
     annotatedSource: `
         <input [name]="foo" [name]="bar" [name]="bam">
                ~~~~~~~~~~~~ ^^^^^^^^^^^^ ############

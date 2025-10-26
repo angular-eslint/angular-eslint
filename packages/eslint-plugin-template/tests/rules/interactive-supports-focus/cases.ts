@@ -193,7 +193,7 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   // aria-hidden="false"
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail not hidden from screen reader',
+    description: 'should fail when an interactive element with no focus is not hidden from screen reader',
     annotatedSource: `
       <div aria-hidden="false" (click)="onClick()"></div>
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -202,7 +202,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'should fail not hidden from screen reader with bound aria-hidden attribute',
+      'should fail when an interactive element with no focus is not hidden from screen reader with bound aria-hidden attribute',
     annotatedSource: `
       <div [attr.aria-hidden]="false" (click)="onClick()"></div>
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -211,7 +211,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   // aria-disabled="false"
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail aria-disabled is false',
+    description: 'should fail when aria-disabled is false',
     annotatedSource: `
       <div role="button" aria-disabled="false" (click)="onClick()"></div>
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -219,7 +219,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail aria-disabled is false with bound attribute',
+    description: 'should fail when bound aria-disabled is false',
     annotatedSource: `
       <div [attr.aria-disabled]="false" (click)="onClick()"></div>
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -230,7 +230,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   // interactive role on inherently non-interactive element without tabindex
   convertAnnotatedSourceToFailureCase({
     description:
-      'should fail interactive role but element does not support focus',
+      'should fail when an element has interactive role but element does not support focus',
     annotatedSource: `
       <div role="button" (click)="onClick()"></div>
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -240,7 +240,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
 
   // no role, non interactive element
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail non-interactive element does not support focus',
+    description: 'should fail when a non-interactive element does not support focus',
     annotatedSource: `
       <span (click)="onClick()">Submit</span>
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -249,7 +249,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'should fail non-interactive element with aria-label does not support focus',
+      'should fail when a non-interactive element with aria-label does not support focus',
     annotatedSource: `
       <div (click)="onClick()" [attr.aria-label]="clickableThing"></div>
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -260,7 +260,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   // invalid role, non interactive element
   convertAnnotatedSourceToFailureCase({
     description:
-      'should fail non-interactive element with invalid role does not support focus',
+      'should fail when a non-interactive element with invalid role does not support focus',
     annotatedSource: `
       <div (click)="onClick()" role="invalid"></div>
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -274,7 +274,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   // area and a are not interactive without href
   convertAnnotatedSourceToFailureCase({
     description:
-      'should fail non-interactive element does not support focus, area should have href',
+      'should fail when a non-interactive element does not support focus, area should have href',
     annotatedSource: `
       <area (click)="onClick()" class="foo">
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -283,7 +283,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'should fail non-interactive element does not support focus, anchor should have href',
+      'should fail when a non-interactive element does not support focus, anchor should have href',
     annotatedSource: `
       <a (click)="onClick()">Click me</a>
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -294,7 +294,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   // non-interactive element with keyup, keydown, keypress interaction handlers
   convertAnnotatedSourceToFailureCase({
     description:
-      'should fail non-interactive element with key event does not support focus',
+      'should fail when a non-interactive element with key event does not support focus',
     annotatedSource: `
       <div (keyup)="onKeyUp()" (keydown)="onKeyDown()" (keypress)="onKeyPress()">Cannot be focused</div>
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -305,7 +305,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   // contenteditable="false"
   convertAnnotatedSourceToFailureCase({
     description:
-      'should fail non-interactive element with contenteditable disabled does not support focus',
+      'should fail when a non-interactive element with contenteditable disabled does not support focus',
     annotatedSource: `
       <div [attr.contenteditable]="false" (keyup)="onKeyUp()">Cannot be focused</div>
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

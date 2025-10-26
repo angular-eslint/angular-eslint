@@ -15,7 +15,7 @@
 
 # `@angular-eslint/contextual-decorator`
 
-Ensures that classes use contextual decorators in its body
+Ensures that classes use contextual decorators in their body
 
 - Type: suggestion
 

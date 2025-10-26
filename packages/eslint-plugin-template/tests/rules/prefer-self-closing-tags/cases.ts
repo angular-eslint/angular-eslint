@@ -53,7 +53,7 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     description:
-      'it should fail if an element has a closing tag but no content',
+      'should fail if an element has a closing tag but no content',
     annotatedSource: `
       <my-component></my-component>
                     ~~~~~~~~~~~~~~~
@@ -66,7 +66,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'it should fail if an element with attributes has a closing tag but no content',
+      'should fail if an element with attributes has a closing tag but no content',
     annotatedSource: `
       <my-component *ngIf="condition" type="text" [name]="foo"></my-component>
                                                                ~~~~~~~~~~~~~~~
@@ -99,7 +99,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'it should fail if the opening and closing tag are on the same new line',
+      'should fail if the opening and closing tag are on the same new line',
     annotatedSource: `
       <my-component
         type="text"
@@ -119,7 +119,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'it should fail on ng-template elements',
+    description: 'should fail on ng-template elements',
     annotatedSource: `
       <ng-template></ng-template>
                    ~~~~~~~~~~~~~~
@@ -131,7 +131,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'it should fail on ng-template elements with white spaces',
+    description: 'should fail on ng-template elements with white spaces',
     annotatedSource: `
       <ng-template> </ng-template>
                     ~~~~~~~~~~~~~~
@@ -143,7 +143,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'it should fail on ng-content elements',
+    description: 'should fail on ng-content elements',
     annotatedSource: `
       <ng-content></ng-content>
                   ~~~~~~~~~~~~~
@@ -155,7 +155,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'it should fail on ng-content elements with selector',
+    description: 'should fail on ng-content elements with selector',
     annotatedSource: `
       <ng-content
         selector="my-selector"
@@ -171,7 +171,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'it should fail on ng-content elements with a line break',
+    description: 'should fail on ng-content elements with a line break',
     annotatedSource: `
       <ng-content>
       </ng-content>
@@ -185,7 +185,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'it should fail on ng-content elements with no content and > in the selector',
+      'should fail on ng-content elements with no content and > in the selector',
     annotatedSource: `
       <ng-content select="foo>bar">
       </ng-content>

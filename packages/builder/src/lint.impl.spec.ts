@@ -710,7 +710,7 @@ describe('Linter Builder', () => {
     expect(output.success).toBeFalsy();
   });
 
-  it('should be a failure if the the amount of warnings exceeds the maxWarnings option', async () => {
+  it('should be a failure if the amount of warnings exceeds the maxWarnings option', async () => {
     mockReports = [
       {
         errorCount: 0,

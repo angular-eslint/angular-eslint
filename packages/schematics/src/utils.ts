@@ -45,7 +45,7 @@ export function readJsonInTree<T = any>(host: Tree, path: string): T {
  * This method is specifically for updating JSON in a Tree
  * @param path Path of JSON file in the Tree
  * @param callback Manipulation of the JSON data
- * @returns A rule which updates a JSON file file in a Tree
+ * @returns A rule which updates a JSON file in a Tree
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function updateJsonInTree<T = any, O = T>(

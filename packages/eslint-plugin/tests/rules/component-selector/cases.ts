@@ -244,7 +244,7 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
-    description: `it should fail when component used without prefix`,
+    description: `should fail when component used without prefix`,
     annotatedSource: `
         @Component({
           selector: 'foo-bar'
@@ -257,7 +257,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { prefix: '"sg"' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: `it should fail if a selector is not prefixed by a valid option`,
+    description: `should fail if a selector is not prefixed by a valid option`,
     annotatedSource: `
         @Component({
           selector: 'app-foo-bar'
@@ -270,7 +270,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { prefix: '"sg"' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: `it should fail if a selector is not prefixed by any valid option`,
+    description: `should fail if a selector is not prefixed by any valid option`,
     annotatedSource: `
         @Component({
           selector: '[app-foo-bar]'
@@ -283,7 +283,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { prefix: '"cd" or "ng"' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: `it should fail if a complex selector is not prefixed by any valid option`,
+    description: `should fail if a complex selector is not prefixed by any valid option`,
     annotatedSource: `
         @Component({
           selector: 'app-foo-bar[baz].app'
@@ -298,7 +298,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { prefix: '"foo", "cd" or "ng"' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: `it should fail if a selector is not camelCased`,
+    description: `should fail if a selector is not camelCased`,
     annotatedSource: `
         @Component({
           selector: '[ng-bar-foo]'
@@ -311,7 +311,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { style: 'camelCase' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: `it should fail if a selector is not kebab-cased`,
+    description: `should fail if a selector is not kebab-cased`,
     annotatedSource: `
         @Component({
           selector: 'appFooBar'
@@ -324,7 +324,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { style: 'kebab-case', prefix: '"app"' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: `it should fail if a selector uses kebab-case style, but no dash`,
+    description: `should fail if a selector uses kebab-case style, but no dash`,
     annotatedSource: `
       @Component({
         selector: 'app'
@@ -337,7 +337,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { style: 'kebab-case' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: `it should fail if a selector is not used as an element`,
+    description: `should fail if a selector is not used as an element`,
     annotatedSource: `
       @Component({
         selector: '[appFooBar]'
@@ -350,7 +350,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { type: 'element' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: `it should fail if a selector is not used as an attribute`,
+    description: `should fail if a selector is not used as an attribute`,
     annotatedSource: `
       @Component({
         selector: \`app-foo-bar\`
@@ -365,7 +365,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { type: 'attribute' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: `it should fail if a selector is not used as an attribute`,
+    description: `should fail if a selector is not used as an attribute`,
     annotatedSource: `
       @Component({
         selector: 'appFooBar'
@@ -379,7 +379,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     // https://github.com/angular-eslint/angular-eslint/issues/534
-    description: `it should fail if a ShadowDom-encapsulated component's selector is not kebab-cased`,
+    description: `should fail if a ShadowDom-encapsulated component's selector is not kebab-cased`,
     annotatedSource: `
       @Component({
         encapsulation: ViewEncapsulation.ShadowDom,
@@ -393,7 +393,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     // https://github.com/angular-eslint/angular-eslint/issues/534
-    description: `it should fail if a ShadowDom-encapsulated component's selector doesn't contain hyphen`,
+    description: `should fail if a ShadowDom-encapsulated component's selector doesn't contain hyphen`,
     annotatedSource: `
       @Component({
         encapsulation: ViewEncapsulation.ShadowDom,
@@ -406,7 +406,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     options: [{ type: 'element', prefix: ['app'], style: 'camelCase' }],
   }),
   convertAnnotatedSourceToFailureCase({
-    description: `it should fail if a selector is not prefixed by a valid option with the correct case`,
+    description: `should fail if a selector is not prefixed by a valid option with the correct case`,
     annotatedSource: `
       @Component({
         selector: 'root'
@@ -419,7 +419,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { style: 'kebab-case', prefix: '"app" or "toh"' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: `it should fail if a selector uses kebab-case with an invalid prefix style`,
+    description: `should fail if a selector uses kebab-case with an invalid prefix style`,
     annotatedSource: `
       @Component({
         selector: 'sgggg-bar'
