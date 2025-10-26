@@ -47,6 +47,11 @@
       "@commitlint/config-conventional"
     ]
   },
+  "lint-staged": {
+    "*.{ts,js,json,md}": [
+      "node node_modules/prettier/bin/prettier.cjs --write"
+    ]
+  },
   "devDependencies": {
     "@angular/cli": "20.3.6",
     "@angular/compiler": "20.3.3",
