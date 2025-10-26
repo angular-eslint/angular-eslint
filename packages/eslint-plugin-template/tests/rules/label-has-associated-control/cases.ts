@@ -17,6 +17,7 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
       <input id="item-{{index}}" [(ngModel)]="item.name">
     </ng-container>
     <label for="id"></label>
+    <LABEL for="id"></LABEL>
     <label for="{{id}}"></label>
     <label [attr.for]="id"></label>
     <label [htmlFor]="id"></label>
@@ -99,12 +100,31 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
+    description: 'should fail if an uppercase label does not have a "for" attribute',
+    annotatedSource: `
+        <LABEL>Label</LABEL>
+        ~~~~~~~~~~~~~~~~~~~~
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
     description:
-      'should fail if a label does a "for" attribute with a non matching id and ids are checked',
+      'should fail if a label has the "for" attribute with a non matching id and ids are checked',
     annotatedSource: `
         <label for="id">Label</label>
         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         <input id="otherId" />
+      `,
+    options: [{ checkIds: true }],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail if an label has the "for" attribute with a non matching id',
+    annotatedSource: `
+        <LABEL for="id">Label</LABEL>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        <INPUT id="otherId" />
       `,
     options: [{ checkIds: true }],
   }),

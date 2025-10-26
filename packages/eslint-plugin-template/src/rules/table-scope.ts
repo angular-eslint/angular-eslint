@@ -28,9 +28,9 @@ export default createESLintRule<Options, MessageIds>({
   defaultOptions: [],
   create(context) {
     const parserServices = getTemplateParserServices(context);
-    const domElementsPattern = toPattern(
-      [...getDomElements()].filter((domElement) => domElement !== 'th'),
-    );
+    const domElements = [...getDomElements()].filter((domElement) => domElement !== 'th');
+    const uppercaseDomElements = domElements.map((element) => element.toUpperCase());
+    const domElementsPattern = toPattern([...domElements, ...uppercaseDomElements]);
 
     return {
       [`Element[name=${domElementsPattern}] > :matches(BoundAttribute, TextAttribute)[name='scope']`]({

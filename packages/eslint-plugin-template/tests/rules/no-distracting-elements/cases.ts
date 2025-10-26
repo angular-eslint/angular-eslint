@@ -30,6 +30,19 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
+    description: 'should fail if uppercase `marquee` is used',
+    annotatedSource: `
+        <MARQUEE></MARQUEE>{{ test }}
+        ~~~~~~~~~~~~~~~~~~~
+      `,
+    data: { element: 'MARQUEE' },
+    annotatedOutput: `
+        {{ test }}
+        
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
     description: 'should fail if `blink` is used',
     annotatedSource: `
         <div></div><blink></blink>

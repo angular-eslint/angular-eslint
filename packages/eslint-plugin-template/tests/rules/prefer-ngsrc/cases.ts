@@ -12,6 +12,7 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '<img ngSrc="http://localhost">',
   '<img [ngSrc]="\'http://localhost\'">',
   '<img [ngSrc]="value">',
+  '<IMG [ngSrc]="value">',
   '<img src="data:image/jpeg;base64">',
 ];
 
@@ -26,6 +27,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
              ^^^^^^^^^^^^^^^^^^^^^^^^^^
         <img [src]="value">
              #############
+        <IMG [src]="value">
+             @@@@@@@@@@@@@
       </ng-template>
       `,
     messages: [
@@ -39,6 +42,10 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       },
       {
         char: '#',
+        messageId: missingAttribute,
+      },
+      {
+        char: '@',
         messageId: missingAttribute,
       },
     ],

@@ -113,6 +113,30 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     ],
   }),
   convertAnnotatedSourceToFailureCase({
+    description: 'should fail if the attribute is an invalid ARIA attribute on an uppercase element',
+    annotatedSource: `
+        <INPUT [aria-labelby]="label">
+               ^^^^^^^^^^^^^^^^^^^^^^
+      `,
+    messages: [
+      {
+        char: '^',
+        messageId: accessibilityValidAria,
+        data: { attribute: 'aria-labelby' },
+        suggestions: [
+          {
+            messageId: suggestRemoveInvalidAria,
+            data: { attribute: 'aria-labelby' },
+            output: `
+        <INPUT>
+               
+      `,
+          },
+        ],
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
     description: 'should fail if the ARIA attribute has an invalid value',
     annotatedSource: `
         <div aria-expanded="notABoolean">notABoolean</div>

@@ -14,6 +14,7 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     <h3 [innerHtml]="dangerouslySetHTML"></h3>
     <h4 [innerText]="text"></h4>
     <a>Anchor Content!</a>
+    <A>Anchor Content!</A>
     <a><app-content></app-content></a>
     <a [innerHTML]="dangerouslySetHTML"></a>
     <a [innerText]="text"></a>
@@ -47,6 +48,15 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       `,
     messageId,
     data: { element: 'h1' },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail with no content in an uppercase heading tag',
+    annotatedSource: `
+        <H1 class="size-1"></H1>
+        ~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId,
+    data: { element: 'H1' },
   }),
   convertAnnotatedSourceToFailureCase({
     description: 'should fail with no content in anchor tag',

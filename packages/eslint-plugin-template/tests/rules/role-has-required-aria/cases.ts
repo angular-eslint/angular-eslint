@@ -44,4 +44,26 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       },
     ],
   }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail if role does not have required aria properties on an uppercase element',
+    annotatedSource: `
+        <DIV role="combobox"></DIV>
+             ~~~~~~~~~~~~~~~
+      `,
+    messageId,
+    data: {
+      element: 'DIV',
+      role: 'combobox',
+      missingProps: ['aria-controls', 'aria-expanded'].join(', '),
+    },
+    suggestions: [
+      {
+        messageId: suggestRemoveRole,
+        output: `
+        <DIV></DIV>
+             
+      `,
+      },
+    ],
+  }),
 ];

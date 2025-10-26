@@ -9,20 +9,24 @@ const messageId: MessageIds = 'altText';
 
 export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '<img src="foo" alt="Foo eating a sandwich.">',
+  '<IMG src="foo" alt="Foo eating a sandwich.">',
   '<img src="foo" [attr.alt]="altText">',
   `<img src="foo" [attr.alt]="'Alt Text'">`,
   '<img src="foo" alt="">',
   '<object aria-label="foo">',
+  '<OBJECT aria-label="foo">',
   '<object aria-labelledby="id1">',
   '<object>Meaningful description</object>',
   '<object title="An object">',
   '<object aria-label="foo" id="bar"></object>',
   '<area aria-label="foo" />',
+  '<AREA aria-label="foo" />',
   '<area aria-labelledby="id1" />',
   '<area alt="This is descriptive!" />',
   '<area alt="desc" href="path">',
   '<input type="text">',
   '<input type="image" alt="This is descriptive!">',
+  '<INPUT type="image" alt="This is descriptive!">',
   '<input type="image" aria-label="foo">',
   '<input type="image" aria-labelledby="id1">',
   '<object [title]="title" [other]="val"></object>',
@@ -53,6 +57,15 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         ~~~~~~~~~~~~~~~~~
       `,
     data: { element: 'object' },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description: 'should fail when an all-caps object does not have alt text or labels',
+    annotatedSource: `
+        <OBJECT></OBJECT>
+        ~~~~~~~~~~~~~~~~~
+      `,
+    data: { element: 'OBJECT' },
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
