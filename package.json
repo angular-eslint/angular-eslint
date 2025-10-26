@@ -76,7 +76,7 @@
     "@typescript-eslint/utils": "8.46.0",
     "cz-conventional-changelog": "3.3.0",
     "esbuild": "^0.25.10",
-    "eslint": "9.37.0",
+    "eslint": "9.38.0",
     "eslint-config-prettier": "10.1.5",
     "execa": "5.1.1",
     "husky": "9.1.7",
