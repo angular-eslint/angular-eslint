@@ -44,18 +44,19 @@
       "options": {}
     },
     {
+      "plugin": "@nx/jest/plugin",
+      "include": ["e2e/**/*"],
+      "options": {
+        "targetName": "e2e-local",
+        "ciTargetName": "e2e-ci"
+      }
+    },
+    {
       "plugin": "@nx/vite/plugin",
       "include": ["packages/builder/**"],
       "options": {
-        "buildTargetName": "build",
         "testTargetName": "test",
-        "serveTargetName": "serve",
-        "devTargetName": "dev",
-        "previewTargetName": "preview",
-        "serveStaticTargetName": "serve-static",
-        "typecheckTargetName": "typecheck",
-        "buildDepsTargetName": "build-deps",
-        "watchDepsTargetName": "watch-deps"
+        "typecheckTargetName": "typecheck"
       }
     }
   ],
@@ -121,14 +122,26 @@
       "cache": true
     },
     "e2e": {
-      "dependsOn": ["^build"],
-      "inputs": ["default", "{workspaceRoot}/e2e/utils/**/*"],
-      "cache": true
+      "cache": true,
+      "inputs": ["e2eInputs", "^production"]
     },
-    "e2e-suite": {
-      "dependsOn": ["^build"],
-      "inputs": ["default", "{workspaceRoot}/e2e/utils/**/*.ts"],
-      "cache": true
+    "e2e-local": {
+      "cache": true,
+      "inputs": ["e2eInputs", "^production"],
+      "dependsOn": ["e2e:populate-local-registry-storage", "e2e:local-registry"]
+    },
+    "e2e-ci": {
+      "inputs": ["e2eInputs", "^production"]
+    },
+    "e2e-ci--**/**": {
+      "inputs": ["e2eInputs", "^production"],
+      "dependsOn": [
+        "e2e:populate-local-registry-storage",
+        "e2e:local-registry"
+      ],
+      "options": {
+        "args": ["--forceExit"]
+      }
     },
     "check-rule-docs": {
       "cache": true
@@ -144,6 +157,11 @@
       "options": {
         "env": {
           "NODE_OPTIONS": "--experimental-vm-modules"
+        }
+      },
+      "configurations": {
+        "ci": {
+          "args": ["--coverage"]
         }
       }
     }
@@ -173,6 +191,13 @@
       "!{projectRoot}/src/test-setup.[jt]s",
       "!{projectRoot}/eslint.config.js"
     ],
-    "projectSpecificFiles": []
+    "projectSpecificFiles": [],
+    "e2eInputs": [
+      "default",
+      "{workspaceRoot}/jest.preset.js",
+      {
+        "env": "CI"
+      }
+    ]
   }
 }
