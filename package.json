@@ -57,7 +57,7 @@
     "@angular/compiler": "20.3.6",
     "@commitlint/cli": "20.1.0",
     "@commitlint/config-conventional": "20.0.0",
-    "@jest/types": "30.0.5",
+    "@jest/types": "30.2.0",
     "@mdn/browser-compat-data": "7.1.14",
     "@nx/devkit": "22.0.1",
     "@nx/esbuild": "22.0.1",
