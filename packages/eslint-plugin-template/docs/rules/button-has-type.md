@@ -382,32 +382,6 @@ interface Options {
 #### ✅ Valid Code
 
 ```html
-<BUTTON type="button"></BUTTON>
-```
-
-<br>
-
----
-
-<br>
-
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/template/button-has-type": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
-#### ✅ Valid Code
-
-```html
 <button type="submit"></button>
 ```
 
@@ -602,6 +576,10 @@ interface Options {
 ```html
 <button [myButton]></button>
 ```
+
+<br>
+
+---
 
 </details>
 

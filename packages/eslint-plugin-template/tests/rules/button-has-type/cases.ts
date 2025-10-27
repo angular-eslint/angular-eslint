@@ -14,7 +14,12 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   `<button [attr.type]="'submit'"></button>`,
   `<button [attr.type]="'reset'"></button>`,
   `<button type="button"></button>`,
-  `<BUTTON type="button"></BUTTON>`,
+  {
+    code: `<BUTTON type="button"></BUTTON>`,
+    settings: {
+      hideFromDocs: true,
+    },
+  },
   `<button type="submit"></button>`,
   `<button type="reset"></button>`,
   `<button class="primary" type="submit"></button>`,
