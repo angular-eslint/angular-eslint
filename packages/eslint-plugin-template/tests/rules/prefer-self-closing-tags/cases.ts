@@ -52,8 +52,7 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail if an element has a closing tag but no content',
+    description: 'should fail if an element has a closing tag but no content',
     annotatedSource: `
       <my-component></my-component>
                     ~~~~~~~~~~~~~~~

@@ -11,7 +11,8 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description: 'Ensures that classes use contextual decorators in their body',
+      description:
+        'Ensures that classes use contextual decorators in their body',
     },
     schema: [],
     messages: {

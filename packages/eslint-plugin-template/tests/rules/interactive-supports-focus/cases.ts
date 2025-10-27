@@ -193,7 +193,8 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   // aria-hidden="false"
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail when an interactive element with no focus is not hidden from screen reader',
+    description:
+      'should fail when an interactive element with no focus is not hidden from screen reader',
     annotatedSource: `
       <div aria-hidden="false" (click)="onClick()"></div>
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -240,7 +241,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
 
   // no role, non interactive element
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail when a non-interactive element does not support focus',
+    description:
+      'should fail when a non-interactive element does not support focus',
     annotatedSource: `
       <span (click)="onClick()">Submit</span>
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
