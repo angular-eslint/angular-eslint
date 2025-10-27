@@ -64,6 +64,10 @@ The rule does not have any configuration options.
        ~~~~~~~~~~~~~
   <img [attr.src]="value">
        ~~~~~~~~~~~~~~~~~~
+  <img [attr.src]="'http://localhost'">
+       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  <img [src]="'http://' + value">
+       ~~~~~~~~~~~~~~~~~~~~~~~~~
 </ng-template>
 ```
 
