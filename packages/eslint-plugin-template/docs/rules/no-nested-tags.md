@@ -224,32 +224,6 @@ The rule does not have any configuration options.
 #### ✅ Valid Code
 
 ```html
-<A></A><A></A>
-```
-
-<br>
-
----
-
-<br>
-
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/template/no-nested-tags": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
-#### ✅ Valid Code
-
-```html
 <p></p>
 ```
 
@@ -278,6 +252,10 @@ The rule does not have any configuration options.
 ```html
 <p></p><p></p>
 ```
+
+<br>
+
+---
 
 </details>
 

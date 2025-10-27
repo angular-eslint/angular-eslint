@@ -9,24 +9,44 @@ const messageId: MessageIds = 'altText';
 
 export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '<img src="foo" alt="Foo eating a sandwich.">',
-  '<IMG src="foo" alt="Foo eating a sandwich.">',
+  {
+    code: '<IMG src="foo" alt="Foo eating a sandwich.">',
+    settings: {
+      hideFromDocs: true,
+    },
+  },
   '<img src="foo" [attr.alt]="altText">',
   `<img src="foo" [attr.alt]="'Alt Text'">`,
   '<img src="foo" alt="">',
   '<object aria-label="foo">',
-  '<OBJECT aria-label="foo">',
+  {
+    code: '<OBJECT aria-label="foo">',
+    settings: {
+      hideFromDocs: true,
+    },
+  },
   '<object aria-labelledby="id1">',
   '<object>Meaningful description</object>',
   '<object title="An object">',
   '<object aria-label="foo" id="bar"></object>',
   '<area aria-label="foo" />',
-  '<AREA aria-label="foo" />',
+  {
+    code: '<AREA aria-label="foo" />',
+    settings: {
+      hideFromDocs: true,
+    },
+  },
   '<area aria-labelledby="id1" />',
   '<area alt="This is descriptive!" />',
   '<area alt="desc" href="path">',
   '<input type="text">',
   '<input type="image" alt="This is descriptive!">',
-  '<INPUT type="image" alt="This is descriptive!">',
+  {
+    code: '<INPUT type="image" alt="This is descriptive!">',
+    settings: {
+      hideFromDocs: true,
+    },
+  },
   '<input type="image" aria-label="foo">',
   '<input type="image" aria-labelledby="id1">',
   '<object [title]="title" [other]="val"></object>',

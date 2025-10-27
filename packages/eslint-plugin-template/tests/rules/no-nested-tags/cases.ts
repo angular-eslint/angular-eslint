@@ -10,7 +10,12 @@ const messageId: MessageIds = 'noNestedTags';
 export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '<a></a>',
   '<a></a><a></a>',
-  '<A></A><A></A>',
+  {
+    code: '<A></A><A></A>',
+    settings: {
+      hideFromDocs: true,
+    },
+  },
   '<p></p>',
   '<p></p><p></p>',
 ];

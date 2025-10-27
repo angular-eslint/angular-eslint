@@ -218,34 +218,12 @@ The rule does not have any configuration options.
 #### ✅ Valid Code
 
 ```html
-<IMG [ngSrc]="value">
+<img src="data:image/jpeg;base64">
 ```
 
 <br>
 
 ---
-
-<br>
-
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/template/prefer-ngsrc": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
-#### ✅ Valid Code
-
-```html
-<img src="data:image/jpeg;base64">
-```
 
 </details>
 

@@ -241,7 +241,6 @@ interface Options {
   <input id="item-{{index}}" [(ngModel)]="item.name">
 </ng-container>
 <label for="id"></label>
-<LABEL for="id"></LABEL>
 <label for="{{id}}"></label>
 <label [attr.for]="id"></label>
 <label [htmlFor]="id"></label>
@@ -418,6 +417,10 @@ interface Options {
 <input type="radio" id="id"/>
 <label for="id"></label>
 ```
+
+<br>
+
+---
 
 </details>
 

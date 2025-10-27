@@ -12,7 +12,12 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '<img ngSrc="http://localhost">',
   '<img [ngSrc]="\'http://localhost\'">',
   '<img [ngSrc]="value">',
-  '<IMG [ngSrc]="value">',
+  {
+    code: '<IMG [ngSrc]="value">',
+    settings: {
+      hideFromDocs: true,
+    },
+  },
   '<img src="data:image/jpeg;base64">',
 ];
 

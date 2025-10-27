@@ -17,11 +17,16 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
       <input id="item-{{index}}" [(ngModel)]="item.name">
     </ng-container>
     <label for="id"></label>
-    <LABEL for="id"></LABEL>
     <label for="{{id}}"></label>
     <label [attr.for]="id"></label>
     <label [htmlFor]="id"></label>
     `,
+  {
+    code: `<LABEL for="id"></LABEL>`,
+    settings: {
+      hideFromDocs: true,
+    },
+  },
   {
     code: `
       <label [myCustomFor]="customId">Label</label>

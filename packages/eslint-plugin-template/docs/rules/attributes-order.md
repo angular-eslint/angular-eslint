@@ -1206,32 +1206,6 @@ interface Options {
 #### ✅ Valid Code
 
 ```html
-<NG-TEMPLATE></NG-TEMPLATE>
-```
-
-<br>
-
----
-
-<br>
-
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/template/attributes-order": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
-#### ✅ Valid Code
-
-```html
 <ng-template #Template><div></div></ng-template>
 ```
 
@@ -1631,6 +1605,10 @@ interface Options {
 ```html
 <div alpha="a" beta="{{ b }}" (gamma)="g()" [delta]="d"></div>
 ```
+
+<br>
+
+---
 
 </details>
 
