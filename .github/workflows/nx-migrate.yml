@@ -58,7 +58,7 @@ jobs:
       - name: Run nx migrate if @nx/workspace changed and commit the results
         if: ${{ steps.nrwl-workspace-package-check.outputs.was-changed == 'true' }}
         env:
-          # We cannot use secrets.GITHUB_TOKEN for this because it is not permitted to kick off subsequent actions worfklow runs, so we use a fine grained PAT instead
+          # We cannot use secrets.GITHUB_TOKEN for this because it is not permitted to kick off subsequent actions workflow runs, so we use a fine-grained PAT instead
           GITHUB_TOKEN: ${{ secrets.GH_FINE_GRAINED_PAT }}
           # We don't want to run any of our postinstall logic when Nx is invoking install behind the scenes
           SKIP_POSTINSTALL: 'true'

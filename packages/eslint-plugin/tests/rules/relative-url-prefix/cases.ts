@@ -74,7 +74,7 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
-    description: 'it should fail if one of "styleUrls" is absolute',
+    description: 'should fail if one of "styleUrls" is absolute',
     annotatedSource: `
         @Component({
           styleUrls: ['./foo.css', 'bar.css', '../baz.scss', '../../test.css']
@@ -85,7 +85,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'it should fail if "templateUrl" is absolute',
+    description: 'should fail if "templateUrl" is absolute',
     annotatedSource: `
         @Component({
           templateUrl: 'foobar.html'

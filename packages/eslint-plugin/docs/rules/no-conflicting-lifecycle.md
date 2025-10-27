@@ -15,7 +15,7 @@
 
 # `@angular-eslint/no-conflicting-lifecycle`
 
-Ensures that directives not implement conflicting lifecycle interfaces.
+Ensures that directives do not implement conflicting lifecycle interfaces.
 
 - Type: suggestion
 

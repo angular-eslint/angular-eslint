@@ -679,7 +679,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'should fail if a experimental imported const is used in an object',
+      'should fail if an experimental imported const is used in an object',
     annotatedSource: `
       import { experimentalConst } from './experimental';
 

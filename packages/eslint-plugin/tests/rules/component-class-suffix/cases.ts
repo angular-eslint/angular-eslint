@@ -59,7 +59,7 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
-    description: 'it should fail when component class is with the wrong suffix',
+    description: 'should fail when component class is with the wrong suffix',
     annotatedSource: `
         @Component({
           selector: 'sg-foo-bar'
@@ -71,7 +71,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { suffixes: '"Component"' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: `it should fail when a different list of suffixes is set and doesn't match`,
+    description: `should fail when a different list of suffixes is set and doesn't match`,
     annotatedSource: `
         @Component({
           selector: 'sgBarFoo'
@@ -84,7 +84,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { suffixes: '"Component" or "View"' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: `it should fail when a different list of suffixes is set and doesn't match`,
+    description: `should fail when a different list of suffixes is set and doesn't match`,
     annotatedSource: `
         @Component({
           selector: 'sgBarFoo'
@@ -97,7 +97,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { suffixes: '"Component"' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: `it should fail when a different list of suffixes is set and doesn't match`,
+    description: `should fail when a different list of suffixes is set and doesn't match`,
     annotatedSource: `
         @Component({
           selector: 'sgBarFoo'

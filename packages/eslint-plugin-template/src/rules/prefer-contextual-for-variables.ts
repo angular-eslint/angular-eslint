@@ -239,13 +239,13 @@ export default createESLintRule<Options, MessageIds>({
         }
       },
       PropertyRead(node: PropertyRead) {
-        // Get the information for the inner-most for loop (which will be
+        // Get the information for the innermost for loop (which will be
         // the last one in the array) so that we can record the usage of
         // aliases and expressions using contextual variables that can be
-        // simplified. We only need the inner-most for loop because we
+        // simplified. We only need the innermost for loop because we
         // don't remove aliases when there are nested for loops (meaning
         // we don't need to record alias usage for the outer for loop), and
-        // any contextual variables will only reference the inner most loop.
+        // any contextual variables will only reference the innermost loop.
         const forLoop = forLoops.at(-1);
         if (!forLoop) {
           return;

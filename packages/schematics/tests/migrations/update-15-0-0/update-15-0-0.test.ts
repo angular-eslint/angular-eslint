@@ -50,7 +50,7 @@ describe('update-15-0-0', () => {
     `);
   });
 
-  it(`should update the default value of setParserOptionProject for the app and lib schematics in order to preserve the same behaviour as v14 for exsiting workspaces`, async () => {
+  it(`should update the default value of setParserOptionProject for the app and lib schematics in order to preserve the same behaviour as v14 for existing workspaces`, async () => {
     const treeWithValueToMigrate = new UnitTestTree(Tree.empty());
     treeWithValueToMigrate.create('angular.json', JSON.stringify({}));
 

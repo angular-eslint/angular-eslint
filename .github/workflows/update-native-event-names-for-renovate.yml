@@ -63,7 +63,7 @@ jobs:
       - name: Update native event names if @mdn/browser-compat-data was changed and commit the changes
         if: ${{ steps.relevant-packages-check.outputs.was-changed == 'true' }}
         env:
-          # We cannot use secrets.GITHUB_TOKEN for this because it is not permitted to kick off subsequent actions worfklow runs, so we use a fine grained PAT instead
+          # We cannot use secrets.GITHUB_TOKEN for this because it is not permitted to kick off subsequent actions workflow runs, so we use a fine-grained PAT instead
           GITHUB_TOKEN: ${{ secrets.GH_FINE_GRAINED_PAT }}
         run: |
           # Checkout the PR branch using the github CLI

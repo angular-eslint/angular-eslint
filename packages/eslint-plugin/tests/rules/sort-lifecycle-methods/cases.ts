@@ -115,7 +115,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'ngOnChanges() is declared after ngOnInit()',
+    description:
+      'ngOnChanges() is declared after ngOnInit() with only two lifecycle methods',
     annotatedSource: `
       @Component()
       class Test {

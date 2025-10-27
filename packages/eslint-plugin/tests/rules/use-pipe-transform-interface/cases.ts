@@ -57,7 +57,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'should fail if a `Pipe` implements a interface, but not the `PipeTransform`',
+      'should fail if a `Pipe` implements an interface, but not the `PipeTransform`',
     annotatedSource: `
         import { HttpClient } from '@angular/common/http';
         import type { PipeTransform } from '@angular/core';
