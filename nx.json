@@ -40,7 +40,11 @@
     },
     {
       "plugin": "@nx/jest/plugin",
-      "exclude": ["e2e/**", "packages/builder/**", "packages/template-parser/**"],
+      "exclude": [
+        "e2e/**",
+        "packages/builder/**",
+        "packages/template-parser/**"
+      ],
       "options": {}
     },
     {
@@ -131,15 +135,7 @@
       "dependsOn": ["e2e:populate-local-registry-storage", "e2e:local-registry"]
     },
     "e2e-ci": {
-      "inputs": ["e2eInputs", "^production"],
-      "dependsOn": [
-        {
-          "target": "e2e-ci--**/**",
-          "projects": "self",
-          "params": "forward",
-          "options": "forward"
-        }
-      ]
+      "inputs": ["e2eInputs", "^production"]
     },
     "e2e-ci--**/**": {
       "inputs": ["e2eInputs", "^production"],
@@ -149,6 +145,11 @@
       ],
       "options": {
         "args": ["--forceExit"]
+      },
+      "configurations": {
+        "updateSnapshot": {
+          "args": ["--updateSnapshot", "--forceExit"]
+        }
       }
     },
     "check-rule-docs": {
