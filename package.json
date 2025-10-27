@@ -18,7 +18,7 @@
     "build": "nx run-many -t build",
     "test": "nx run-many -t test",
     "e2e": "nx e2e e2e",
-    "update-e2e-snapshots-ci": "nx e2e-ci e2e --updateSnapshot",
+    "update-e2e-snapshots-ci": "nx e2e-ci e2e --configuration updateSnapshot",
     "check-clean-workspace-after-install": "git diff --quiet --exit-code",
     "postinstall": "node tools/scripts/postinstall.js",
     "pre-commit": "pnpm lint-staged",
