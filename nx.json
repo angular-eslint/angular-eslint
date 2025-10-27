@@ -131,7 +131,15 @@
       "dependsOn": ["e2e:populate-local-registry-storage", "e2e:local-registry"]
     },
     "e2e-ci": {
-      "inputs": ["e2eInputs", "^production"]
+      "inputs": ["e2eInputs", "^production"],
+      "dependsOn": [
+        {
+          "target": "e2e-ci--**/**",
+          "projects": "self",
+          "params": "forward",
+          "options": "forward"
+        }
+      ]
     },
     "e2e-ci--**/**": {
       "inputs": ["e2eInputs", "^production"],
