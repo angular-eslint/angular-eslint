@@ -1,0 +1,94 @@
+diff --git a/src/utils/plugins/atomizer-utils.d.ts b/src/utils/plugins/atomizer-utils.d.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..9b0e62b7b293898f5aa196abd654316d84b85f40
+--- /dev/null
++++ b/src/utils/plugins/atomizer-utils.d.ts
+@@ -0,0 +1,12 @@
++/**
++ * Helper that tries to derive the name of the CI group, based on the related target name.
++ *
++ * This will work well when the CI target name follows the documented naming convention or similar (for e.g `test-ci`, `e2e-ci`, `ny-e2e-ci`, etc).
++ *
++ * For example, `test-ci` => `TEST (CI)`,  `e2e-ci` => `E2E (CI)`,  `my-e2e-ci` => `MY E2E (CI)`
++ *
++ * @param ciTargetName name of the CI target
++ * @returns the derived group name or `${ciTargetName.toUpperCase()} (CI)` if cannot be derived automatically
++ */
++export declare function deriveGroupNameFromTarget(ciTargetName: string | undefined): string;
++//# sourceMappingURL=atomizer-utils.d.ts.map
+\ No newline at end of file
+diff --git a/src/utils/plugins/atomizer-utils.d.ts.map b/src/utils/plugins/atomizer-utils.d.ts.map
+new file mode 100644
+index 0000000000000000000000000000000000000000..3eb5087442beb073c7d1b9e44cf34a4a928c5e06
+--- /dev/null
++++ b/src/utils/plugins/atomizer-utils.d.ts.map
+@@ -0,0 +1 @@
++{"version":3,"file":"atomizer-utils.d.ts","sourceRoot":"","sources":["../../../../../../packages/nx/src/utils/plugins/atomizer-utils.ts"],"names":[],"mappings":"AAAA;;;;;;;;;GASG;AACH,wBAAgB,yBAAyB,CAAC,YAAY,EAAE,MAAM,GAAG,SAAS,UAYzE"}
+\ No newline at end of file
+diff --git a/src/utils/plugins/atomizer-utils.js b/src/utils/plugins/atomizer-utils.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..35012c6a64d8d0e0f1c1590c453cdc87c262c4ee
+--- /dev/null
++++ b/src/utils/plugins/atomizer-utils.js
+@@ -0,0 +1,23 @@
++"use strict";
++Object.defineProperty(exports, "__esModule", { value: true });
++exports.deriveGroupNameFromTarget = deriveGroupNameFromTarget;
++/**
++ * Helper that tries to derive the name of the CI group, based on the related target name.
++ *
++ * This will work well when the CI target name follows the documented naming convention or similar (for e.g `test-ci`, `e2e-ci`, `ny-e2e-ci`, etc).
++ *
++ * For example, `test-ci` => `TEST (CI)`,  `e2e-ci` => `E2E (CI)`,  `my-e2e-ci` => `MY E2E (CI)`
++ *
++ * @param ciTargetName name of the CI target
++ * @returns the derived group name or `${ciTargetName.toUpperCase()} (CI)` if cannot be derived automatically
++ */
++function deriveGroupNameFromTarget(ciTargetName) {
++    if (!ciTargetName) {
++        return null;
++    }
++    const parts = ciTargetName.split('-').map((v) => v.toUpperCase());
++    if (parts.length > 1) {
++        return `${parts.slice(0, -1).join(' ')} (${parts[parts.length - 1]})`;
++    }
++    return `${parts[0]} (CI)`; // default group name when there is a single segment
++}
+diff --git a/src/utils/plugins/index.d.ts b/src/utils/plugins/index.d.ts
+index 79981a49bd270d9b16e88e7f13238fff97263051..db664288fae9ded95af5d37f25fb8d3ab37df7a5 100644
+--- a/src/utils/plugins/index.d.ts
++++ b/src/utils/plugins/index.d.ts
+@@ -2,4 +2,5 @@ export { getInstalledPluginsAndCapabilities } from './installed-plugins';
+ export { getLocalWorkspacePlugins } from './local-plugins';
+ export { listPlugins, listAlsoAvailableCorePlugins, listPluginCapabilities, } from './output';
+ export { getPluginCapabilities } from './plugin-capabilities';
++export { deriveGroupNameFromTarget } from './atomizer-utils';
+ //# sourceMappingURL=index.d.ts.map
+\ No newline at end of file
+diff --git a/src/utils/plugins/index.d.ts.map b/src/utils/plugins/index.d.ts.map
+index 82ead82486f99eb0572dcde93d77fb35b67a2841..1e6f15c43dc2884fd853bc8468f0ee21f574c6cb 100644
+--- a/src/utils/plugins/index.d.ts.map
++++ b/src/utils/plugins/index.d.ts.map
+@@ -1 +1 @@
+-{"version":3,"file":"index.d.ts","sourceRoot":"","sources":["../../../../../../packages/nx/src/utils/plugins/index.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,kCAAkC,EAAE,MAAM,qBAAqB,CAAC;AACzE,OAAO,EAAE,wBAAwB,EAAE,MAAM,iBAAiB,CAAC;AAC3D,OAAO,EACL,WAAW,EACX,4BAA4B,EAC5B,sBAAsB,GACvB,MAAM,UAAU,CAAC;AAClB,OAAO,EAAE,qBAAqB,EAAE,MAAM,uBAAuB,CAAC"}
+\ No newline at end of file
++{"version":3,"file":"index.d.ts","sourceRoot":"","sources":["../../../../../../packages/nx/src/utils/plugins/index.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,kCAAkC,EAAE,MAAM,qBAAqB,CAAC;AACzE,OAAO,EAAE,wBAAwB,EAAE,MAAM,iBAAiB,CAAC;AAC3D,OAAO,EACL,WAAW,EACX,4BAA4B,EAC5B,sBAAsB,GACvB,MAAM,UAAU,CAAC;AAClB,OAAO,EAAE,qBAAqB,EAAE,MAAM,uBAAuB,CAAC;AAC9D,OAAO,EAAE,yBAAyB,EAAE,MAAM,kBAAkB,CAAC"}
+\ No newline at end of file
+diff --git a/src/utils/plugins/index.js b/src/utils/plugins/index.js
+index 1291f094169405d0efc1d822d75871fb15e8e220..c6909bf5b92328d03c8c9621f4f7726f0f8b8cb3 100644
+--- a/src/utils/plugins/index.js
++++ b/src/utils/plugins/index.js
+@@ -1,6 +1,6 @@
+ "use strict";
+ Object.defineProperty(exports, "__esModule", { value: true });
+-exports.getPluginCapabilities = exports.listPluginCapabilities = exports.listAlsoAvailableCorePlugins = exports.listPlugins = exports.getLocalWorkspacePlugins = exports.getInstalledPluginsAndCapabilities = void 0;
++exports.deriveGroupNameFromTarget = exports.getPluginCapabilities = exports.listPluginCapabilities = exports.listAlsoAvailableCorePlugins = exports.listPlugins = exports.getLocalWorkspacePlugins = exports.getInstalledPluginsAndCapabilities = void 0;
+ var installed_plugins_1 = require("./installed-plugins");
+ Object.defineProperty(exports, "getInstalledPluginsAndCapabilities", { enumerable: true, get: function () { return installed_plugins_1.getInstalledPluginsAndCapabilities; } });
+ var local_plugins_1 = require("./local-plugins");
+@@ -11,3 +11,5 @@ Object.defineProperty(exports, "listAlsoAvailableCorePlugins", { enumerable: tru
+ Object.defineProperty(exports, "listPluginCapabilities", { enumerable: true, get: function () { return output_1.listPluginCapabilities; } });
+ var plugin_capabilities_1 = require("./plugin-capabilities");
+ Object.defineProperty(exports, "getPluginCapabilities", { enumerable: true, get: function () { return plugin_capabilities_1.getPluginCapabilities; } });
++var atomizer_utils_1 = require("./atomizer-utils");
++Object.defineProperty(exports, "deriveGroupNameFromTarget", { enumerable: true, get: function () { return atomizer_utils_1.deriveGroupNameFromTarget; } });

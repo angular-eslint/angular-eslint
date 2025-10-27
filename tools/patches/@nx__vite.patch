@@ -1,0 +1,246 @@
+diff --git a/src/plugins/plugin.d.ts b/src/plugins/plugin.d.ts
+index df1bb425d2a68f3d8de030dd9058e1f4b850bc1d..f182f1937f2b142660d01803313be776058c71b4 100644
+--- a/src/plugins/plugin.d.ts
++++ b/src/plugins/plugin.d.ts
+@@ -12,6 +12,14 @@ export interface VitePluginOptions {
+     typecheckTargetName?: string;
+     watchDepsTargetName?: string;
+     buildDepsTargetName?: string;
++    /**
++     * Atomizer for vitest
++     */
++    ciTargetName?: string;
++    /**
++     * The name that should be used to group atomized tasks on CI
++     */
++    ciGroupName?: string;
+ }
+ /**
+  * @deprecated The 'createDependencies' function is now a no-op. This functionality is included in 'createNodesV2'.
+diff --git a/src/plugins/plugin.d.ts.map b/src/plugins/plugin.d.ts.map
+index f5ae92f375810daae05eec3b9a6d424626c20e60..801644e0bbea5e3cdfc8e8fa8fa457090a6d2917 100644
+--- a/src/plugins/plugin.d.ts.map
++++ b/src/plugins/plugin.d.ts.map
+@@ -1 +1 @@
+-{"version":3,"file":"plugin.d.ts","sourceRoot":"","sources":["../../../../../packages/vite/src/plugins/plugin.ts"],"names":[],"mappings":"AAAA,OAAO,EACL,kBAAkB,EAGlB,aAAa,EAQd,MAAM,YAAY,CAAC;AAkBpB,MAAM,WAAW,iBAAiB;IAChC,eAAe,CAAC,EAAE,MAAM,CAAC;IACzB,cAAc,CAAC,EAAE,MAAM,CAAC;IACxB;;OAEG;IACH,eAAe,CAAC,EAAE,MAAM,CAAC;IACzB,aAAa,CAAC,EAAE,MAAM,CAAC;IACvB,iBAAiB,CAAC,EAAE,MAAM,CAAC;IAC3B,qBAAqB,CAAC,EAAE,MAAM,CAAC;IAC/B,mBAAmB,CAAC,EAAE,MAAM,CAAC;IAC7B,mBAAmB,CAAC,EAAE,MAAM,CAAC;IAC7B,mBAAmB,CAAC,EAAE,MAAM,CAAC;CAC9B;AAiBD;;GAEG;AACH,eAAO,MAAM,kBAAkB,EAAE,kBAEhC,CAAC;AAIF,eAAO,MAAM,WAAW,EAAE,aAAa,CAAC,iBAAiB,CAuGxD,CAAC;AAEF,eAAO,MAAM,aAAa,kCAAc,CAAC"}
+\ No newline at end of file
++{"version":3,"file":"plugin.d.ts","sourceRoot":"","sources":["../../../../../packages/vite/src/plugins/plugin.ts"],"names":[],"mappings":"AAAA,OAAO,EACL,kBAAkB,EAGlB,aAAa,EASd,MAAM,YAAY,CAAC;AAkBpB,MAAM,WAAW,iBAAiB;IAChC,eAAe,CAAC,EAAE,MAAM,CAAC;IACzB,cAAc,CAAC,EAAE,MAAM,CAAC;IACxB;;OAEG;IACH,eAAe,CAAC,EAAE,MAAM,CAAC;IACzB,aAAa,CAAC,EAAE,MAAM,CAAC;IACvB,iBAAiB,CAAC,EAAE,MAAM,CAAC;IAC3B,qBAAqB,CAAC,EAAE,MAAM,CAAC;IAC/B,mBAAmB,CAAC,EAAE,MAAM,CAAC;IAC7B,mBAAmB,CAAC,EAAE,MAAM,CAAC;IAC7B,mBAAmB,CAAC,EAAE,MAAM,CAAC;IAE7B;;OAEG;IACH,YAAY,CAAC,EAAE,MAAM,CAAC;IACtB;;OAEG;IACH,WAAW,CAAC,EAAE,MAAM,CAAC;CACtB;AAiBD;;GAEG;AACH,eAAO,MAAM,kBAAkB,EAAE,kBAEhC,CAAC;AAIF,eAAO,MAAM,WAAW,EAAE,aAAa,CAAC,iBAAiB,CAuGxD,CAAC;AAEF,eAAO,MAAM,aAAa,kCAAc,CAAC"}
+\ No newline at end of file
+diff --git a/src/plugins/plugin.js b/src/plugins/plugin.js
+index d377d809a71142f67b4660a2de102f5654e3e411..adaabf5f970ae151cfe872163f47a189b5050ac7 100644
+--- a/src/plugins/plugin.js
++++ b/src/plugins/plugin.js
+@@ -2,20 +2,22 @@
+ Object.defineProperty(exports, "__esModule", { value: true });
+ exports.createNodesV2 = exports.createNodes = exports.createDependencies = void 0;
+ const devkit_1 = require("@nx/devkit");
+-const path_1 = require("path");
+-const get_named_inputs_1 = require("@nx/devkit/src/utils/get-named-inputs");
+-const fs_1 = require("fs");
+ const calculate_hash_for_create_nodes_1 = require("@nx/devkit/src/utils/calculate-hash-for-create-nodes");
+-const cache_directory_1 = require("nx/src/utils/cache-directory");
++const get_named_inputs_1 = require("@nx/devkit/src/utils/get-named-inputs");
+ const js_1 = require("@nx/js");
+-const executor_utils_1 = require("../utils/executor-utils");
++const util_1 = require("@nx/js/src/plugins/typescript/util");
++const ts_solution_setup_1 = require("@nx/js/src/utils/typescript/ts-solution-setup");
++const node_fs_1 = require("node:fs");
++const node_path_1 = require("node:path");
+ const file_hasher_1 = require("nx/src/hasher/file-hasher");
++const cache_directory_1 = require("nx/src/utils/cache-directory");
++const plugins_1 = require("nx/src/utils/plugins");
++const workspace_context_1 = require("nx/src/utils/workspace-context");
++const executor_utils_1 = require("../utils/executor-utils");
+ const picomatch = require("picomatch");
+-const ts_solution_setup_1 = require("@nx/js/src/utils/typescript/ts-solution-setup");
+-const util_1 = require("@nx/js/src/plugins/typescript/util");
+ const pmc = (0, devkit_1.getPackageManagerCommand)();
+ function readTargetsCache(cachePath) {
+-    return process.env.NX_CACHE_PROJECT_GRAPH !== 'false' && (0, fs_1.existsSync)(cachePath)
++    return process.env.NX_CACHE_PROJECT_GRAPH !== 'false' && (0, node_fs_1.existsSync)(cachePath)
+         ? (0, devkit_1.readJsonFile)(cachePath)
+         : {};
+ }
+@@ -35,11 +37,11 @@ exports.createNodes = [
+     async (configFilePaths, options, context) => {
+         const optionsHash = (0, file_hasher_1.hashObject)(options);
+         const normalizedOptions = normalizeOptions(options);
+-        const cachePath = (0, path_1.join)(cache_directory_1.workspaceDataDirectory, `vite-${optionsHash}.hash`);
++        const cachePath = (0, node_path_1.join)(cache_directory_1.workspaceDataDirectory, `vite-${optionsHash}.hash`);
+         const targetsCache = readTargetsCache(cachePath);
+         const isUsingTsSolutionSetup = (0, ts_solution_setup_1.isUsingTsSolutionSetup)();
+         const { roots: projectRoots, configFiles: validConfigFiles } = configFilePaths.reduce((acc, configFile) => {
+-            const potentialRoot = (0, path_1.dirname)(configFile);
++            const potentialRoot = (0, node_path_1.dirname)(configFile);
+             if (checkIfConfigFileShouldBeProject(potentialRoot, context)) {
+                 acc.roots.push(potentialRoot);
+                 acc.configFiles.push(configFile);
+@@ -53,9 +55,9 @@ exports.createNodes = [
+         const hashes = await (0, calculate_hash_for_create_nodes_1.calculateHashesForCreateNodes)(projectRoots, { ...normalizedOptions, isUsingTsSolutionSetup }, context, projectRoots.map((r) => [lockfile]));
+         try {
+             return await (0, devkit_1.createNodesFromFiles)(async (configFile, _, context, idx) => {
+-                const projectRoot = (0, path_1.dirname)(configFile);
++                const projectRoot = (0, node_path_1.dirname)(configFile);
+                 // Do not create a project if package.json and project.json isn't there.
+-                const siblingFiles = (0, fs_1.readdirSync)((0, path_1.join)(context.workspaceRoot, projectRoot));
++                const siblingFiles = (0, node_fs_1.readdirSync)((0, node_path_1.join)(context.workspaceRoot, projectRoot));
+                 const tsConfigFiles = siblingFiles.filter((p) => picomatch('tsconfig*{.json,.*.json}')(p)) ?? [];
+                 const hasReactRouterConfig = siblingFiles.some((configFile) => {
+                     const parts = configFile.split('.');
+@@ -109,12 +111,85 @@ async function buildViteTargets(configFilePath, projectRoot, options, tsConfigFi
+         configFile: absoluteConfigFilePath,
+         mode: 'development',
+     }, 'build');
++    let metadata;
+     const { buildOutputs, testOutputs, hasTest, isBuildable, hasServeConfig } = getOutputs(viteBuildConfig, projectRoot, context.workspaceRoot);
+     const namedInputs = (0, get_named_inputs_1.getNamedInputs)(projectRoot, context);
+     const targets = {};
+-    // if file is vitest.config or vite.config has definition for test, create target for test
++    // if file is vitest.config or vite.config has definition for test, create targets for test and/or atomized tests
+     if (configFilePath.includes('vitest.config') || hasTest) {
+         targets[options.testTargetName] = await testTarget(namedInputs, testOutputs, projectRoot);
++        if (options.ciTargetName) {
++            const groupName = options.ciGroupName ?? (0, plugins_1.deriveGroupNameFromTarget)(options.ciTargetName);
++            const targetGroup = [];
++            const dependsOn = [];
++            metadata = {
++                targetGroups: {
++                    [groupName]: targetGroup,
++                },
++            };
++            const testPaths = await getTestPaths(viteBuildConfig, projectRoot, context);
++            for (const testPath of testPaths) {
++                const relativePath = (0, devkit_1.normalizePath)((0, node_path_1.relative)((0, node_path_1.join)(context.workspaceRoot, projectRoot), testPath));
++                if (relativePath.includes('../')) {
++                    throw new Error('@nx/vite/plugin attempted to run tests outside of the project root. This is not supported and should not happen. Please open an issue at https://github.com/nrwl/nx/issues/new/choose with the following information:\n\n' +
++                        `\n\n${JSON.stringify({
++                            projectRoot,
++                            relativePath,
++                            testPaths,
++                            context,
++                        }, null, 2)}`);
++                }
++                const targetName = `${options.ciTargetName}--${testPath}`;
++                dependsOn.push(targetName);
++                targets[targetName] = {
++                    // It does not make sense to run atomized tests in watch mode as they are intended to be run in CI
++                    command: `vitest run ${relativePath}`,
++                    cache: targets[options.testTargetName].cache,
++                    inputs: targets[options.testTargetName].inputs,
++                    outputs: targets[options.testTargetName].outputs,
++                    options: {
++                        cwd: projectRoot,
++                        env: targets[options.testTargetName].options.env,
++                    },
++                    metadata: {
++                        technologies: ['vitest'],
++                        description: `Run Vitest Tests in ${relativePath}`,
++                        help: {
++                            command: `${pmc.exec} vitest --help`,
++                            example: {
++                                options: {
++                                    coverage: true,
++                                },
++                            },
++                        },
++                    },
++                };
++                targetGroup.push(targetName);
++            }
++            if (targetGroup.length > 0) {
++                targets[options.ciTargetName] = {
++                    executor: 'nx:noop',
++                    cache: true,
++                    inputs: targets[options.testTargetName].inputs,
++                    outputs: targets[options.testTargetName].outputs,
++                    dependsOn,
++                    metadata: {
++                        technologies: ['vitest'],
++                        description: 'Run Vitest Tests in CI',
++                        nonAtomizedTarget: options.testTargetName,
++                        help: {
++                            command: `${pmc.exec} vitest --help`,
++                            example: {
++                                options: {
++                                    coverage: true,
++                                },
++                            },
++                        },
++                    },
++                };
++                targetGroup.unshift(options.ciTargetName);
++            }
++        }
+     }
+     if (hasReactRouterConfig) {
+         // If we have a react-router config, we can skip the rest of the targets
+@@ -186,7 +261,6 @@ async function buildViteTargets(configFilePath, projectRoot, options, tsConfigFi
+         }
+     }
+     (0, util_1.addBuildAndWatchDepsTargets)(context.workspaceRoot, projectRoot, targets, options, pmc);
+-    const metadata = {};
+     return {
+         targets,
+         metadata,
+@@ -324,7 +398,7 @@ function getOutputs(viteBuildConfig, projectRoot, workspaceRoot) {
+     const buildOutputPath = normalizeOutputPath(build?.outDir, projectRoot, workspaceRoot, 'dist');
+     const isBuildable = build?.lib ||
+         build?.rollupOptions?.input ||
+-        (0, fs_1.existsSync)((0, path_1.join)(workspaceRoot, projectRoot, 'index.html'));
++        (0, node_fs_1.existsSync)((0, node_path_1.join)(workspaceRoot, projectRoot, 'index.html'));
+     const hasServeConfig = Boolean(server?.host || server?.port);
+     const reportsDirectoryPath = normalizeOutputPath(test?.coverage?.reportsDirectory, projectRoot, workspaceRoot, 'coverage');
+     return {
+@@ -345,15 +419,15 @@ function normalizeOutputPath(outputPath, projectRoot, workspaceRoot, path) {
+         }
+     }
+     else {
+-        if ((0, path_1.isAbsolute)(outputPath)) {
+-            return `{workspaceRoot}/${(0, path_1.relative)(workspaceRoot, outputPath)}`;
++        if ((0, node_path_1.isAbsolute)(outputPath)) {
++            return `{workspaceRoot}/${(0, node_path_1.relative)(workspaceRoot, outputPath)}`;
+         }
+         else {
+             if (outputPath.startsWith('..')) {
+-                return (0, path_1.join)('{workspaceRoot}', (0, path_1.join)(projectRoot, outputPath));
++                return (0, node_path_1.join)('{workspaceRoot}', (0, node_path_1.join)(projectRoot, outputPath));
+             }
+             else {
+-                return (0, path_1.join)('{projectRoot}', outputPath);
++                return (0, node_path_1.join)('{projectRoot}', outputPath);
+             }
+         }
+     }
+@@ -367,14 +441,31 @@ function normalizeOptions(options) {
+     options.testTargetName ??= 'test';
+     options.serveStaticTargetName ??= 'serve-static';
+     options.typecheckTargetName ??= 'typecheck';
++    options.ciTargetName ??= 'e2e-ci';
++    options.ciGroupName;
+     return options;
+ }
+ function checkIfConfigFileShouldBeProject(projectRoot, context) {
+     // Do not create a project if package.json and project.json isn't there.
+-    const siblingFiles = (0, fs_1.readdirSync)((0, path_1.join)(context.workspaceRoot, projectRoot));
++    const siblingFiles = (0, node_fs_1.readdirSync)((0, node_path_1.join)(context.workspaceRoot, projectRoot));
+     if (!siblingFiles.includes('package.json') &&
+         !siblingFiles.includes('project.json')) {
+         return false;
+     }
+     return true;
+ }
++async function getTestPaths(resolvedViteConfig, projectRoot, context) {
++    const include = await getVitestOption(resolvedViteConfig, 'include');
++    const exclude = await getVitestOption(resolvedViteConfig, 'include');
++    return await (0, workspace_context_1.globWithWorkspaceContext)(context.workspaceRoot, 
++    // Default patterns from https://vitest.dev/config/#include
++    (include || ['**/*.{test,spec}.?(c|m)[jt]s?(x)']).map((pattern) => (0, node_path_1.join)(projectRoot, pattern)), 
++    // Default patterns from https://vitest.dev/config/#exclude
++    (exclude || ['**/node_modules/**', '**/.{git,svn,hg,idea}/**']).map((pattern) => (0, node_path_1.join)(projectRoot, pattern)));
++}
++async function getVitestOption(resolvedViteConfig, optionName) {
++    if (resolvedViteConfig.test?.[optionName]) {
++        return resolvedViteConfig.test[optionName];
++    }
++    return undefined;
++}

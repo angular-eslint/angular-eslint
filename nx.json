@@ -48,10 +48,10 @@
       "options": {}
     },
     {
-      "plugin": "@nx/jest/plugin",
+      "plugin": "@nx/vite/plugin",
       "include": ["e2e/**/*"],
       "options": {
-        "targetName": "e2e-local",
+        "testTargetName": "e2e-local",
         "ciTargetName": "e2e-ci"
       }
     },
@@ -60,7 +60,8 @@
       "include": ["packages/builder/**", "packages/template-parser/**"],
       "options": {
         "testTargetName": "test",
-        "typecheckTargetName": "typecheck"
+        "typecheckTargetName": "typecheck",
+        "ciTargetName": ""
       }
     }
   ],
@@ -143,12 +144,9 @@
         "e2e:populate-local-registry-storage",
         "e2e:local-registry"
       ],
-      "options": {
-        "args": ["--forceExit"]
-      },
       "configurations": {
         "updateSnapshot": {
-          "args": ["--updateSnapshot", "--forceExit"]
+          "args": ["--update"]
         }
       }
     },

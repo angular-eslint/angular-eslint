@@ -121,7 +121,9 @@
       "@typescript-eslint/utils": "$typescript-eslint"
     },
     "patchedDependencies": {
-      "@typescript-eslint/rule-tester": "tools/patches/@typescript-eslint__rule-tester.patch"
+      "@nx/vite": "tools/patches/@nx__vite.patch",
+      "@typescript-eslint/rule-tester": "tools/patches/@typescript-eslint__rule-tester.patch",
+      "nx": "tools/patches/nx.patch"
     }
   },
   "nx": {
