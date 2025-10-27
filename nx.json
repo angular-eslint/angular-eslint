@@ -40,7 +40,7 @@
     },
     {
       "plugin": "@nx/jest/plugin",
-      "exclude": ["e2e/**", "packages/builder/**"],
+      "exclude": ["e2e/**", "packages/builder/**", "packages/template-parser/**"],
       "options": {}
     },
     {
@@ -53,7 +53,7 @@
     },
     {
       "plugin": "@nx/vite/plugin",
-      "include": ["packages/builder/**"],
+      "include": ["packages/builder/**", "packages/template-parser/**"],
       "options": {
         "testTargetName": "test",
         "typecheckTargetName": "typecheck"
