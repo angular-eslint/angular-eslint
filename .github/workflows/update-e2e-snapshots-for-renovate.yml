@@ -73,7 +73,7 @@ jobs:
           pnpm build
 
           # Update the e2e test snapshots
-          pnpm update-e2e-snapshots --skip-nx-cache
+          pnpm update-e2e-snapshots-ci --skip-nx-cache
 
           # Ensure all the changed files are formatted appropriately
           pnpm format
