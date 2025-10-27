@@ -11,28 +11,28 @@ import type {
 const messageId: MessageIds = 'componentMaxInlineDeclarations';
 
 export const valid: readonly (string | ValidTestCase<Options>)[] = [
-  // should succeed if the number of the template lines does not exceeds the default lines limit
+  // should succeed if the number of the template lines does not exceed the default lines limit
   `
     @Component({
       template: '<div>just one line template</div>'
     })
     class Test {}
     `,
-  // should succeed if the number of the styles lines does not exceeds the default lines limit
+  // should succeed if the number of the styles lines does not exceed the default lines limit
   `
     @Component({
       styles: ['div { display: none; }']
     })
     class Test {}
     `,
-  // should succeed if the number of the styles lines does not exceeds the default lines limit with a string value
+  // should succeed if the number of the styles lines does not exceed the default lines limit with a string value
   `
     @Component({
       styles: 'div { display: none; }'
     })
     class Test {}
     `,
-  // should succeed if the number of the animations lines does not exceeds the default lines limit
+  // should succeed if the number of the animations lines does not exceed the default lines limit
   `
     @Component({
       animations: [state('void', style({opacity: 0, transform: 'scale(1, 0)'}))]

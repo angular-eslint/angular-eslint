@@ -119,7 +119,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail if attribute is in wrong place',
+    description: 'should fail if attribute is in the wrong place',
     annotatedSource: `
       <input *ngIf="flag" class="className" #inputRef [binding]="true" [(ngModel)]="model" (output)="handleOutput($event)">
                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -135,7 +135,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail if input is in wrong place',
+    description: 'should fail if input is in the wrong place',
     annotatedSource: `
       <input *ngFor="inputs" [binding]="true" class="className" (output)="handleOutput($event)">
                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -151,7 +151,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail if two way binding is in wrong place',
+    description: 'should fail if two way binding is in the wrong place',
     annotatedSource: `
       <input *ngIf="flag" #inputRef class="className" [(ngModel)]="model" [binding]="true" (output)="handleOutput($event)">
                                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -167,7 +167,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail if output is in wrong place',
+    description: 'should fail if output is in the wrong place',
     annotatedSource: `
       <input *ngIf="flag" #inputRef class="className" (output)="handleOutput($event)" [binding]="true">
                                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -184,7 +184,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     messageId,
     description:
-      'should fail if structural directive is in wrong place with custom order',
+      'should fail if structural directive is in the wrong place with custom order',
     annotatedSource: `
       <input *ngIf="flag" class="className">
              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

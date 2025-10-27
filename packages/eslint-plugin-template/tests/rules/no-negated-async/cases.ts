@@ -29,7 +29,7 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
-    description: 'it should fail if async pipe is negated',
+    description: 'should fail if async pipe is negated',
     /**
      * Deliberately including some leading whitespace within the binding to assert
      * location correctness
@@ -65,7 +65,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'it should fail if async pipe is the last pipe in the negated chain',
+      'should fail if async pipe is the last pipe in the negated chain',
     annotatedSource: `
         {{ !(foo | somethingElse | async) }}
            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -96,7 +96,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     ],
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'it should fail if async pipe is negated using *ngIf',
+    description: 'should fail if async pipe is negated using *ngIf',
     annotatedSource: `
         <div *ngIf="!(a | async)"></div>
                     ~~~~~~~~~~~~
@@ -128,7 +128,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   // https://github.com/angular-eslint/angular-eslint/issues/280#issuecomment-760208638
   convertAnnotatedSourceToFailureCase({
-    description: 'it should fail if async pipe is negated within binary',
+    description: 'should fail if async pipe is negated within binary',
     annotatedSource: `
         {{ nullable ?? !(obsVar | async) }}
                        ~~~~~~~~~~~~~~~~~
@@ -159,7 +159,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     ],
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'it should fail if async pipe is used with a negated value',
+    description: 'should fail if async pipe is used with a negated value',
     annotatedSource: `
         <button [disabled]="!buttonDisabled$ | async">Click me!</button>
                             ~~~~~~~~~~~~~~~~~~~~~~~~

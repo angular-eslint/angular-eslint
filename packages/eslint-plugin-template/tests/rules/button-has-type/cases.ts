@@ -33,7 +33,7 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if button has no attributes',
+    description: 'should fail if a button has no attributes',
     annotatedSource: `
       <button></button>
       ~~~~~~~~~~~~~~~~~
@@ -49,7 +49,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId: missingType,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if button has attributes, but no type',
+    description: 'should fail if a button has attributes, but no type',
     annotatedSource: `
       <button (click)="onClick()"></button>
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -57,7 +57,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId: missingType,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if button has invalid attribute type',
+    description: 'should fail if a button has an invalid type attribute',
     annotatedSource: `
       <button type="whatever"></button>
               ~~~~~~~~~~~~~~~
@@ -68,7 +68,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if button has invalid bound attribute type',
+    description: 'should fail if a button has an invalid type bound attribute ',
     annotatedSource: `
       <button [attr.type]="'whatever'"></button>
               ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -80,7 +80,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'should fail if button has no type attribute, and ignoreWithDirectives option specifies directives, but none of the directives are present',
+      'should fail if a button has no type attribute, and ignoreWithDirectives option specifies directives, but none of the directives are present',
     annotatedSource: `
       <button myDirective></button>
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -90,7 +90,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'should fail if button has invalid attribute type, and ignoreWithDirectives option specifies directives and element has one of them',
+      'should fail if a button has an invalid type attribute, and ignoreWithDirectives option specifies directives and element has one of them',
     annotatedSource: `
       <button myButton type="whatever"></button>
                        ~~~~~~~~~~~~~~~

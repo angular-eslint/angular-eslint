@@ -33,7 +33,7 @@ jobs:
           run_install: false
 
       - name: Install Node.js per package.json
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
           # Use the volta.node property as the source of truth
           node-version-file: 'package.json'
@@ -43,7 +43,7 @@ jobs:
         run: echo "NX_CI_EXECUTION_ENV=Node $(node --version)" >> $GITHUB_ENV
 
       - name: Start Nx Cloud CI Run
-        run: pnpm dlx nx-cloud start-ci-run --distribute-on=".nx/workflows/distribution-config.yaml" --stop-agents-after="e2e-ci"
+        run: pnpm dlx nx-cloud start-ci-run --distribute-on=".nx/workflows/distribution-config.yaml" --auto-apply-fixes="*format*,*sync*" --stop-agents-after="e2e-ci"
 
       - name: Install dependencies (skipping postinstall)
         # We use --ignore-scripts to skip automatic postinstall and give us more control over distributing build tasks
@@ -101,7 +101,7 @@ jobs:
           run_install: false
 
       - name: Install Node.js ${{ matrix.node }}
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node }}
           cache: 'pnpm'

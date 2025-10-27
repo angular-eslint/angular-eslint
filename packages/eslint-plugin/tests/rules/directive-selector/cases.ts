@@ -185,7 +185,7 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
-    description: `it should fail if a selector is not prefixed by a valid option`,
+    description: `should fail if a selector is not prefixed by a valid option`,
     annotatedSource: `
         @Directive({
           selector: 'app-foo-bar'
@@ -198,7 +198,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { prefix: '"bar"' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: `it should fail if a selector is not prefixed by any valid option`,
+    description: `should fail if a selector is not prefixed by any valid option`,
     annotatedSource: `
         @Directive({
           selector: '[app-foo-bar]'
@@ -211,7 +211,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { prefix: '"cd" or "ng"' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: `it should fail if a complex selector is not prefixed by any valid option`,
+    description: `should fail if a complex selector is not prefixed by any valid option`,
     annotatedSource: `
         @Directive({
           selector: 'app-foo-bar[baz].app'
@@ -226,7 +226,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { prefix: '"foo", "cd" or "ng"' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: `it should fail if a selector is not camelCased`,
+    description: `should fail if a selector is not camelCased`,
     annotatedSource: `
         @Directive({
           selector: '[app-bar-foo]'
@@ -239,7 +239,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { style: 'camelCase' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: `it should fail if a selector is not kebab-cased`,
+    description: `should fail if a selector is not kebab-cased`,
     annotatedSource: `
         @Directive({
           selector: 'appFooBar'
@@ -252,7 +252,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { style: 'kebab-case' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: `it should fail if a selector uses kebab-case style, but no dash`,
+    description: `should fail if a selector uses kebab-case style, but no dash`,
     annotatedSource: `
         @Directive({
           selector: 'app'
@@ -265,7 +265,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { style: 'kebab-case' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: `it should fail if a selector is not used as an attribute`,
+    description: `should fail if a selector is not used as an attribute`,
     annotatedSource: `
         @Directive({
           selector: \`app-foo-bar\`
@@ -280,7 +280,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { type: 'attribute' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: `it should fail if a selector is not used as an element`,
+    description: `should fail if a selector is not used as an element`,
     annotatedSource: `
         @Directive({
           selector: '[appFooBar]'

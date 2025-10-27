@@ -15,7 +15,7 @@
 
 # `@angular-eslint/template/elements-content`
 
-[Accessibility] Ensures that the heading, anchor and button elements have content in it
+[Accessibility] Ensures that the heading, anchor and button elements have content in them
 
 - Type: suggestion
 

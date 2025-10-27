@@ -18,7 +18,7 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if `autofocus` attribute is present',
+    description: 'should fail if an `autofocus` attribute is present',
     annotatedSource: `
         <button autofocus>Click me!</button>
                 ~~~~~~~~~
@@ -30,7 +30,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       `,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if `autofocus` attribute binding is present',
+    description: 'should fail if an `autofocus` attribute binding is present',
     annotatedSource: `
         <input [attr.autofocus]="false">
                ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -42,7 +42,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       `,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if `autofocus` input binding is present',
+    description: 'should fail if an `autofocus` input binding is present',
     annotatedSource: `
         <app-test [autofocus]="true"></app-test>
         <select autofocus></select>

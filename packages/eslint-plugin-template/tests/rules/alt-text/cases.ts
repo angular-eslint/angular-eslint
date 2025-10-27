@@ -38,7 +38,7 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail image does not have alt text',
+    description: 'should fail when image does not have alt text',
     annotatedSource: `
         <ng-template>
           <div>
@@ -51,7 +51,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail when object does not have alt text or labels',
+    description: 'should fail when an object does not have alt text or labels',
     annotatedSource: `
         <object></object>
         ~~~~~~~~~~~~~~~~~
@@ -70,7 +70,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail when area does not have alt or label text',
+    description: 'should fail when an area does not have alt or label text',
     annotatedSource: `
         <area />
         ~~~~~~~~
@@ -80,7 +80,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     messageId,
     description:
-      'should fail when input element with type image attribute does not have alt or text image',
+      'should fail when an input element with type="image" attribute does not have alt or text image',
     annotatedSource: `
         <input type="image">
         ~~~~~~~~~~~~~~~~~~~~
@@ -90,7 +90,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     messageId,
     description:
-      'should fail when input element with type image binding does not have alt or text image',
+      'should fail when an input element with type="image" binding does not have alt or text image',
     annotatedSource: `
         <input [type]="'image'">
         ~~~~~~~~~~~~~~~~~~~~~~~~

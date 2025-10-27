@@ -28,7 +28,7 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description:
-        '[Accessibility] Ensures that the heading, anchor and button elements have content in it',
+        '[Accessibility] Ensures that the heading, anchor and button elements have content in them',
     },
     schema: [
       {

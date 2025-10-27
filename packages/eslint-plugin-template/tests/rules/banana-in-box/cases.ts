@@ -33,7 +33,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'it should fail if the parens and square brackets are reversed',
+      'it should fail if there are multiple cases where the parens and square brackets are reversed',
     annotatedSource: `
         <app-item ([bar])="bar" ([item])="item" [(test)]="test"></app-item>
                   ~~~~~~~~~~~~~ ^^^^^^^^^^^^^^^
