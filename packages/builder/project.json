@@ -11,6 +11,11 @@
     "test": {
       "options": {
         "args": "run"
+      },
+      "configurations": {
+        "ci": {
+          "args": ["run", "--coverage"]
+        }
       }
     }
   }
