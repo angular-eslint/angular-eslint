@@ -1,0 +1,122 @@
+import type { Config } from '@jest/types';
+import { exec, execSync } from 'node:child_process';
+
+// @ts-expect-error - no declaration file
+import { runLocalRelease } from '../scripts/populate-storage.js';
+
+declare global {
+  var e2eTeardown: () => void;
+}
+
+export default async function (globalConfig: Config.ConfigGlobals) {
+  try {
+    const isVerbose: boolean =
+      process.env.NX_VERBOSE_LOGGING === 'true' || !!globalConfig.verbose;
+
+    /**
+     * For e2e-ci and e2e-local we populate the verdaccio storage up front, but for other workflows we need
+     * to run the full local release process before running tests.
+     */
+    const prefixes = ['e2e-ci', 'e2e-local'];
+    const requiresLocalRelease = !prefixes.some((prefix) =>
+      process.env.NX_TASK_TARGET_TARGET?.startsWith(prefix),
+    );
+
+    const listenAddress = 'localhost';
+    const port = process.env.NX_LOCAL_REGISTRY_PORT ?? '4873';
+    const registry = `http://${listenAddress}:${port}`;
+    const authToken = 'secretVerdaccioToken';
+
+    while (true) {
+      await new Promise((resolve) => setTimeout(resolve, 250));
+      try {
+        await assertLocalRegistryIsRunning(registry);
+        break;
+      } catch {
+        console.log(`Waiting for Local registry to start on ${registry}...`);
+      }
+    }
+
+    process.env.npm_config_registry = registry;
+    execSync(
+      `npm config set //${listenAddress}:${port}/:_authToken "${authToken}" --ws=false`,
+      {
+        windowsHide: false,
+      },
+    );
+
+    // bun
+    process.env.BUN_CONFIG_REGISTRY = registry;
+    process.env.BUN_CONFIG_TOKEN = authToken;
+    // yarnv1
+    process.env.YARN_REGISTRY = registry;
+    // yarnv2
+    process.env.YARN_NPM_REGISTRY_SERVER = registry;
+    process.env.YARN_UNSAFE_HTTP_WHITELIST = listenAddress;
+
+    process.env.NX_SKIP_PROVENANCE_CHECK = 'true';
+
+    global.e2eTeardown = () => {
+      execSync(
+        `npm config delete //${listenAddress}:${port}/:_authToken --ws=false`,
+        {
+          windowsHide: false,
+        },
+      );
+    };
+
+    /**
+     * Set the published version based on what has previously been loaded into the
+     * verdaccio storage.
+     */
+    if (!requiresLocalRelease) {
+      const publishedVersion = await getPublishedVersion();
+      console.log(`Testing Published version: Nx ${publishedVersion}`);
+      if (publishedVersion) {
+        process.env.PUBLISHED_VERSION = publishedVersion;
+      }
+    }
+
+    if (requiresLocalRelease) {
+      console.log('Publishing packages to local registry');
+      const publishVersion = process.env.PUBLISHED_VERSION ?? '0.0.0-e2e';
+      // Always show full release logs on CI, they should only happen once via e2e-ci
+      await runLocalRelease(publishVersion, process.env.CI || isVerbose);
+    }
+  } catch (err) {
+    // Clean up registry if possible after setup related errors
+    if (typeof global.e2eTeardown === 'function') {
+      global.e2eTeardown();
+      console.log('Killed local registry process due to an error during setup');
+    }
+    throw err;
+  }
+}
+
+function getPublishedVersion(): Promise<string | undefined> {
+  execSync(`npm config get registry`, {
+    stdio: 'inherit',
+  });
+  return new Promise((resolve) => {
+    // Resolve the published version from verdaccio
+    exec(
+      'npm view angular-eslint@latest version',
+      {
+        windowsHide: false,
+      },
+      (error, stdout) => {
+        if (error) {
+          return resolve(undefined);
+        }
+        return resolve(stdout.trim());
+      },
+    );
+  });
+}
+
+async function assertLocalRegistryIsRunning(url: string | URL | Request) {
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+}

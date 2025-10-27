@@ -120,12 +120,12 @@ const getFix = ({
 
   if (!source) return null;
 
-  let startOffet = 0;
-  while (!isInterpolation(ast) && isLeadingTriviaChar(source[startOffet])) {
-    startOffet++;
+  let startOffset = 0;
+  while (!isInterpolation(ast) && isLeadingTriviaChar(source[startOffset])) {
+    startOffset++;
   }
 
-  const endRange = end - startOffet - getSpanLength(right) - 1;
+  const endRange = end - startOffset - getSpanLength(right) - 1;
   let eqOffset = 0;
 
   while (sourceCode.text[endRange - eqOffset] !== '=') {

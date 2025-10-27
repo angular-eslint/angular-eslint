@@ -83,34 +83,6 @@ class Test {}
 #### ❌ Invalid Code
 
 ```ts
-@Component()
-~~~~~~~~~~~~
-class Test {}
-```
-
-<br>
-
----
-
-<br>
-
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/use-component-selector": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
-#### ❌ Invalid Code
-
-```ts
 @Component({
 ~~~~~~~~~~~~
   selector: ''

@@ -499,7 +499,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'should fail if an developer preview const is used in an assignment pattern',
+      'should fail if a developer preview const is used in an assignment pattern',
     annotatedSource: `
       /** @developerPreview */
       const x = 1;

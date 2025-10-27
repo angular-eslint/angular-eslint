@@ -2,5 +2,16 @@
   "name": "template-parser",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "type": "library",
-  "targets": {}
+  "targets": {
+    "test": {
+      "options": {
+        "args": "run"
+      },
+      "configurations": {
+        "ci": {
+          "args": ["run", "--coverage"]
+        }
+      }
+    }
+  }
 }

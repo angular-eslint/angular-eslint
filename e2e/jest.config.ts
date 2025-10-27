@@ -6,6 +6,6 @@ export default {
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
   coverageDirectory: '../coverage/e2e',
-  globalSetup: './utils/start-and-publish-to-local-registry.ts',
-  globalTeardown: './utils/stop-local-registry.ts',
+  globalSetup: './utils/global-setup.ts',
+  globalTeardown: './utils/global-teardown.ts',
 };

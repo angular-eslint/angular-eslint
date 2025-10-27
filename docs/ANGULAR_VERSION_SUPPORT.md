@@ -29,4 +29,4 @@ The schematic will error if you try and run it when you still have a `tsconfig.b
 
 As usual, the Angular Team provided an automatic migration for these changes as part of `ng update`, so for most people this change wasn't an issue. If you updated manually (which is highly discouraged), then it is possible you did not apply this critical change and will therefore run into the error with the schematic.
 
-We recommend going back an running the automated migrations from `ng update`, or fixing things up manually as a last resort.
+We recommend going back and running the automated migrations from `ng update`, or fixing things up manually as a last resort.

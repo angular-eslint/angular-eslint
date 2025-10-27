@@ -162,7 +162,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'should fail if super.<lifecycle method>() is called in a incorrect context',
+      'should fail if super.<lifecycle method>() is called in an incorrect context',
     annotatedSource: `
         @Component({ template: '' })
         class Test extends ParentComponent {

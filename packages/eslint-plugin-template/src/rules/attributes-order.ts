@@ -374,7 +374,7 @@ function extractTemplateAttrs(
    * There may be multiple "attributes" for a structural directive even though
    * there is only a single HTML attribute:
    * e.g. `<ng-container *ngFor="let foo of bar"></ng-container>`
-   * will parsed as two attributes (`ngFor` and `ngForOf`)
+   * will be parsed as two attributes (`ngFor` and `ngForOf`)
    */
 
   const attrs = node.parent.templateAttrs.map(toStructuralDirectiveOrderType);

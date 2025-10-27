@@ -48,7 +48,7 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
-    description: `it should fail if implement DoCheck and OnChanges`,
+    description: `should fail if class implements both DoCheck and OnChanges`,
     annotatedSource: `
         class Test implements DoCheck, OnChanges, run {
                               ~~~~~~~  ^^^^^^^^^
@@ -68,7 +68,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     ],
   }),
   convertAnnotatedSourceToFailureCase({
-    description: `it should fail if implement DoCheck and OnChanges and contain the ngDoCheck and ngOnChanges methods`,
+    description: `should fail if class implements both DoCheck and OnChanges and contains the ngDoCheck and ngOnChanges methods`,
     annotatedSource: `
         class Test implements DoCheck, OnChanges {
                               ~~~~~~~  ^^^^^^^^^
@@ -98,7 +98,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     ],
   }),
   convertAnnotatedSourceToFailureCase({
-    description: `it should fail if the ngDoCheck and ngOnChanges methods exist`,
+    description: `should fail if the ngDoCheck and ngOnChanges methods exist`,
     annotatedSource: `
         class Test {
           ngDoCheck() {}

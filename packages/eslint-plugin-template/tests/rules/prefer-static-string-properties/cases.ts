@@ -28,7 +28,7 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
-    description: 'it should fail if literal string is bound to property',
+    description: 'should fail if literal string is bound to property',
     annotatedSource: `
       <my-component [name]="'foo'"/>
                     ~~~~~~~~~~~~~~
@@ -40,7 +40,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     `,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'it should remove whitespace around the value',
+    description: 'should remove whitespace around the value',
     annotatedSource: `
       <my-component [name]="   'foo'   "/>
                     ~~~~~~~~~~~~~~~~~~~~
@@ -52,7 +52,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     `,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'it should handle double-quoted string literal',
+    description: 'should handle double-quoted string literal',
     annotatedSource: `
       <my-component [name]=' "foo" '/>
                     ~~~~~~~~~~~~~~~~

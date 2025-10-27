@@ -1,3 +1,13 @@
+## 20.5.0 (2025-10-27)
+
+### 🚀 Features
+
+- **eslint-plugin:** add rule prefer-host-metadata-property ([#2615](https://github.com/angular-eslint/angular-eslint/pull/2615))
+
+### ❤️ Thank You
+
+- jase @jase88
+
 ## 20.4.0 (2025-10-12)
 
 This was a version bump only for @angular-eslint/utils to align it with other projects, there were no code changes.
