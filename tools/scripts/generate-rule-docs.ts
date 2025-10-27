@@ -259,6 +259,9 @@ interface ExtractedTestCase {
   code: string;
   options?: unknown[];
   filename?: string;
+  settings?: {
+    hideFromDocs?: boolean;
+  };
 }
 
 async function generateAllRuleData(): Promise<AllRuleData> {
@@ -298,6 +301,7 @@ async function generateAllRuleData(): Promise<AllRuleData> {
             ? { code: test }
             : {
                 code: test.code,
+                settings: test.settings,
                 options:
                   test.options && test.options.length > 0
                     ? [...test.options]
@@ -310,6 +314,7 @@ async function generateAllRuleData(): Promise<AllRuleData> {
       const extractedInvalid: ExtractedTestCase[] = invalid
         .map((test) => ({
           code: test.code,
+          settings: test.settings,
           options:
             test.options && test.options.length > 0
               ? [...test.options]
@@ -378,31 +383,34 @@ function convertCodeExamplesToMarkdown(
   highligher: 'html' | 'ts',
   ruleName: string,
 ): string {
-  return codeExamples
-    .map((extractedTestCase: ExtractedTestCase, i) => {
-      let formattedCode = removeLeadingAndTrailingEmptyLinesFromCodeExample(
-        removeLeadingIndentationFromCodeExample(extractedTestCase.code),
-      );
-      if (kind === 'invalid') {
-        formattedCode = standardizeSpecialUnderlineChar(formattedCode);
-      }
+  return (
+    codeExamples
+      // Remove any test cases that are marked with the `hideFromDocs` setting
+      .filter((extractedTestCase) => !extractedTestCase.settings?.hideFromDocs)
+      .map((extractedTestCase: ExtractedTestCase, i) => {
+        let formattedCode = removeLeadingAndTrailingEmptyLinesFromCodeExample(
+          removeLeadingIndentationFromCodeExample(extractedTestCase.code),
+        );
+        if (kind === 'invalid') {
+          formattedCode = standardizeSpecialUnderlineChar(formattedCode);
+        }
 
-      const exampleRuleConfig: unknown[] = ['error'];
-      // Not all unit tests have options configured
-      if (extractedTestCase.options) {
-        exampleRuleConfig.push(extractedTestCase.options[0]);
-      }
-      const formattedConfig = JSON.stringify(
-        {
-          rules: {
-            [ruleName]: exampleRuleConfig,
+        const exampleRuleConfig: unknown[] = ['error'];
+        // Not all unit tests have options configured
+        if (extractedTestCase.options) {
+          exampleRuleConfig.push(extractedTestCase.options[0]);
+        }
+        const formattedConfig = JSON.stringify(
+          {
+            rules: {
+              [ruleName]: exampleRuleConfig,
+            },
           },
-        },
-        null,
-        2,
-      );
+          null,
+          2,
+        );
 
-      return `<br>
+        return `<br>
 
 #### ${extractedTestCase.options ? 'Custom' : 'Default'} Config
 
@@ -432,8 +440,9 @@ ${
 ---`
 }
   `;
-    })
-    .join('\n');
+      })
+      .join('\n')
+  );
 }
 
 function removeLeadingAndTrailingEmptyLinesFromCodeExample(
