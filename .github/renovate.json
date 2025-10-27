@@ -9,6 +9,7 @@
   "minimumReleaseAge": "7 days",
   "ignoreDeps": [
     // Let nx mange jest dev dependencies
+    "@jest/types",
     "@types/jest",
     "jest",
     "jest-util",

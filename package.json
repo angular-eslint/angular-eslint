@@ -3,7 +3,7 @@
   "private": true,
   "description": "The tooling which enables ESLint to work with Angular projects",
   "volta": {
-    "node": "22.20.0"
+    "node": "22.21.0"
   },
   "packageManager": "pnpm@10.18.3",
   "contributors": [
@@ -18,7 +18,7 @@
     "build": "nx run-many -t build",
     "test": "nx run-many -t test",
     "e2e": "nx e2e e2e",
-    "update-e2e-snapshots": "nx e2e e2e --updateSnapshot",
+    "update-e2e-snapshots-ci": "nx e2e-ci e2e --updateSnapshot",
     "check-clean-workspace-after-install": "git diff --quiet --exit-code",
     "postinstall": "node tools/scripts/postinstall.js",
     "pre-commit": "pnpm lint-staged",
@@ -57,6 +57,7 @@
     "@angular/compiler": "20.3.6",
     "@commitlint/cli": "20.1.0",
     "@commitlint/config-conventional": "20.0.0",
+    "@jest/types": "30.0.5",
     "@mdn/browser-compat-data": "7.1.14",
     "@nx/devkit": "22.0.1",
     "@nx/esbuild": "22.0.1",
