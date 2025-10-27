@@ -21,8 +21,8 @@ permissions:
   contents: read
 
 jobs:
-  primary:
-    name: Primary
+  main:
+    name: Main
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -59,7 +59,13 @@ jobs:
       - name: Run parallel distributed tasks for build, typecheck, unit tests with coverage, check-rule-docs, check-rule-lists, check-rule-configs, lint targets, and atomized e2e tests
         # Note that the typecheck target *also* typechecks tests and tools,
         # whereas the build only checks src files
-        run: pnpm nx run-many -t build typecheck test:ci check-rule-docs lint check-rule-lists check-rule-configs e2e-ci
+        run: pnpm nx run-many -t build typecheck test check-rule-docs lint check-rule-lists check-rule-configs e2e-ci --configuration ci
+
+      - name: Collect coverage data from Nx Cloud cache
+        # Re-run the test:ci target directly on the main job to pull down the coverage outputs
+        run: pnpm nx run-many -t test --configuration ci
+        env:
+          NX_CLOUD_DISTRIBUTED_EXECUTION: false
 
       - name: Publish code coverage report
         uses: codecov/codecov-action@v5
