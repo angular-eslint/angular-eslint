@@ -53,7 +53,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     ],
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if `tabindex` attribute is positive on a uppercase element',
+    description:
+      'should fail if `tabindex` attribute is positive on a uppercase element',
     annotatedSource: `
         <DIV tabindex="5"></DIV>
                        ~

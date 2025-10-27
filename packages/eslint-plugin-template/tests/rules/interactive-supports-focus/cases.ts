@@ -248,7 +248,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail when non-interactive uppercase element does not support focus',
+    description:
+      'should fail when non-interactive uppercase element does not support focus',
     annotatedSource: `
       <SPAN (click)="onClick()">Submit</SPAN>
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

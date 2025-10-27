@@ -53,7 +53,10 @@ function hasAncestorOfSameType(node: TmplAstElementWithAncestor) {
   let parent = node.parent;
 
   while (parent) {
-    if (parent instanceof TmplAstElement && parent.name.toLowerCase() === node.name.toLowerCase()) {
+    if (
+      parent instanceof TmplAstElement &&
+      parent.name.toLowerCase() === node.name.toLowerCase()
+    ) {
       return true;
     }
 

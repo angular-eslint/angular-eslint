@@ -100,7 +100,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail if an uppercase label does not have a "for" attribute',
+    description:
+      'should fail if an uppercase label does not have a "for" attribute',
     annotatedSource: `
         <LABEL>Label</LABEL>
         ~~~~~~~~~~~~~~~~~~~~

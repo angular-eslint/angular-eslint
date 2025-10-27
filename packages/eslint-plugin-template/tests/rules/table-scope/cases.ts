@@ -44,7 +44,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       `,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if `scope` input is not on `th` element that is uppercase',
+    description:
+      'should fail if `scope` input is not on `th` element that is uppercase',
     annotatedSource: `
         <DIV [attr.scope]="scope"></DIV><P></P>
              ~~~~~~~~~~~~~~~~~~~~

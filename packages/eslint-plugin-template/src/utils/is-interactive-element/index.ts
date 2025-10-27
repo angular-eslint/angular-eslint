@@ -12,7 +12,10 @@ import {
 
 function checkIsInteractiveElement(node: TmplAstElement): boolean {
   function elementSchemaMatcher({ attributes, name }: ARIARoleRelationConcept) {
-    return node.name.toLowerCase() === name && attributesComparator(attributes ?? [], node);
+    return (
+      node.name.toLowerCase() === name &&
+      attributesComparator(attributes ?? [], node)
+    );
   }
   // Check in elementRoles for inherent interactive role associations for
   // this element.
@@ -45,7 +48,10 @@ function checkIsNonInteractiveRole(node: TmplAstElement): boolean {
  * it's intention is to be interacted with on the DOM.
  */
 export function isInherentlyInteractiveElement(node: TmplAstElement): boolean {
-  return getDomElements().has(node.name.toLowerCase()) && checkIsInteractiveElement(node);
+  return (
+    getDomElements().has(node.name.toLowerCase()) &&
+    checkIsInteractiveElement(node)
+  );
 }
 
 export function isNonInteractiveRole(node: TmplAstElement): boolean {

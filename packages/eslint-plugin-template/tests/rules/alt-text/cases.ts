@@ -60,7 +60,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail when an all-caps object does not have alt text or labels',
+    description:
+      'should fail when an all-caps object does not have alt text or labels',
     annotatedSource: `
         <OBJECT></OBJECT>
         ~~~~~~~~~~~~~~~~~

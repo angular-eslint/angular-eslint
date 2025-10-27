@@ -34,8 +34,13 @@ export default createESLintRule<Options, MessageIds>({
   create(context) {
     const parserServices = getTemplateParserServices(context);
     const domElements = [...getDomElements()];
-    const uppercaseDomElements = domElements.map((element) => element.toUpperCase());
-    const elementNamePattern = toPattern([...domElements, ...uppercaseDomElements]);
+    const uppercaseDomElements = domElements.map((element) =>
+      element.toUpperCase(),
+    );
+    const elementNamePattern = toPattern([
+      ...domElements,
+      ...uppercaseDomElements,
+    ]);
 
     return {
       [`Element[name=${elementNamePattern}] > TextAttribute[name='role']`](
