@@ -33,6 +33,10 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
              #############
         <img [attr.src]="value">
              @@@@@@@@@@@@@@@@@@
+        <img [attr.src]="'http://localhost'">
+             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        <img [src]="'http://' + value">
+             *************************
       </ng-template>
       `,
     messages: [
@@ -50,6 +54,14 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       },
       {
         char: '@',
+        messageId: missingAttribute,
+      },
+      {
+        char: '%',
+        messageId: missingAttribute,
+      },
+      {
+        char: '*',
         messageId: missingAttribute,
       },
     ],
