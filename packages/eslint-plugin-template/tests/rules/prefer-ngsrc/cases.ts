@@ -9,10 +9,15 @@ const missingAttribute: MessageIds = 'missingAttribute';
 const invalidDoubleSource: MessageIds = 'invalidDoubleSource';
 
 export const valid: readonly (string | ValidTestCase<Options>)[] = [
+  '<img alt="nothing">',
   '<img ngSrc="http://localhost">',
   '<img [ngSrc]="\'http://localhost\'">',
   '<img [ngSrc]="value">',
   '<img src="data:image/jpeg;base64">',
+  `<img [src]="'data:image/jpeg;base64'">`,
+  `<img [src]="'data:' + value">`,
+  `<img [attr.src]="'data:image/jpeg;base64'">`,
+  `<img [attr.src]="'data:' + value">`,
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
@@ -26,6 +31,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
              ^^^^^^^^^^^^^^^^^^^^^^^^^^
         <img [src]="value">
              #############
+        <img [attr.src]="value">
+             @@@@@@@@@@@@@@@@@@
       </ng-template>
       `,
     messages: [
@@ -39,6 +46,10 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       },
       {
         char: '#',
+        messageId: missingAttribute,
+      },
+      {
+        char: '@',
         messageId: missingAttribute,
       },
     ],
@@ -61,8 +72,6 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
                                   %%%%%%%%%%%%%
         <img [src]="otherValue" [ngSrc]="value">
              ¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶
-        <img src="data:image/png;base64" [ngSrc]="otherValue">
-             ¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
       </ng-template>
       `,
     messages: [
@@ -94,8 +103,38 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         char: '¶',
         messageId: invalidDoubleSource,
       },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail when an image is using both src with data URL and ngsrc',
+    annotatedSource: `
+      <ng-template>
+        <img src="data:image/png;base64" [ngSrc]="otherValue">
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        <img [attr.src]="'data:image/png;base64'" [ngSrc]="otherValue">
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        <img [src]="'data:image/png;base64'" [ngSrc]="otherValue">
+             ###############################
+        <img [src]="'data:' + value" [ngSrc]="otherValue">
+             ***********************
+      </ng-template>
+      `,
+    messages: [
       {
-        char: '¨',
+        char: '~',
+        messageId: invalidDoubleSource,
+      },
+      {
+        char: '^',
+        messageId: invalidDoubleSource,
+      },
+      {
+        char: '#',
+        messageId: invalidDoubleSource,
+      },
+      {
+        char: '*',
         messageId: invalidDoubleSource,
       },
     ],
