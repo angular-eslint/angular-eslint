@@ -1,4 +1,4 @@
-import type { Config } from '@jest/types';
+import { workspaceRoot } from '@nx/devkit';
 import { exec, execSync } from 'node:child_process';
 
 // @ts-expect-error - no declaration file
@@ -8,10 +8,9 @@ declare global {
   var e2eTeardown: () => void;
 }
 
-export default async function (globalConfig: Config.ConfigGlobals) {
+export default async function () {
   try {
-    const isVerbose: boolean =
-      process.env.NX_VERBOSE_LOGGING === 'true' || !!globalConfig.verbose;
+    const isVerbose: boolean = process.env.NX_VERBOSE_LOGGING === 'true';
 
     /**
      * For e2e-ci and e2e-local we populate the verdaccio storage up front, but for other workflows we need
@@ -57,6 +56,12 @@ export default async function (globalConfig: Config.ConfigGlobals) {
     process.env.NX_SKIP_PROVENANCE_CHECK = 'true';
 
     global.e2eTeardown = () => {
+      // Reset package.json files within packages (they will have had their versions set to 0.0.0-e2e)
+      execSync(`git checkout packages/*/package.json`, {
+        windowsHide: false,
+        cwd: workspaceRoot,
+      });
+      // Clean up npm config
       execSync(
         `npm config delete //${listenAddress}:${port}/:_authToken --ws=false`,
         {
@@ -83,6 +88,8 @@ export default async function (globalConfig: Config.ConfigGlobals) {
       // Always show full release logs on CI, they should only happen once via e2e-ci
       await runLocalRelease(publishVersion, process.env.CI || isVerbose);
     }
+
+    return global.e2eTeardown;
   } catch (err) {
     // Clean up registry if possible after setup related errors
     if (typeof global.e2eTeardown === 'function') {

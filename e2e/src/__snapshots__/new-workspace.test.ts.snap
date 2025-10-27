@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`new-workspace should pass linting after creating a new workspace from scratch using @angular-eslint 1`] = `
+exports[`new-workspace > should pass linting after creating a new workspace from scratch using @angular-eslint 1`] = `
 {
   "@angular/build": "^20.X.X",
   "@angular/cli": "^20.X.X",
@@ -20,15 +20,15 @@ exports[`new-workspace should pass linting after creating a new workspace from s
 }
 `;
 
-exports[`new-workspace should pass linting after creating a new workspace from scratch using @angular-eslint 2`] = `
+exports[`new-workspace > should pass linting after creating a new workspace from scratch using @angular-eslint 2`] = `
 "// @ts-check
-const eslint = require(\\"@eslint/js\\");
-const tseslint = require(\\"typescript-eslint\\");
-const angular = require(\\"angular-eslint\\");
+const eslint = require("@eslint/js");
+const tseslint = require("typescript-eslint");
+const angular = require("angular-eslint");
 
 module.exports = tseslint.config(
   {
-    files: [\\"**/*.ts\\"],
+    files: ["**/*.ts"],
     extends: [
       eslint.configs.recommended,
       ...tseslint.configs.recommended,
@@ -37,26 +37,26 @@ module.exports = tseslint.config(
     ],
     processor: angular.processInlineTemplates,
     rules: {
-      \\"@angular-eslint/directive-selector\\": [
-        \\"error\\",
+      "@angular-eslint/directive-selector": [
+        "error",
         {
-          type: \\"attribute\\",
-          prefix: \\"app\\",
-          style: \\"camelCase\\",
+          type: "attribute",
+          prefix: "app",
+          style: "camelCase",
         },
       ],
-      \\"@angular-eslint/component-selector\\": [
-        \\"error\\",
+      "@angular-eslint/component-selector": [
+        "error",
         {
-          type: \\"element\\",
-          prefix: \\"app\\",
-          style: \\"kebab-case\\",
+          type: "element",
+          prefix: "app",
+          style: "kebab-case",
         },
       ],
     },
   },
   {
-    files: [\\"**/*.html\\"],
+    files: ["**/*.html"],
     extends: [
       ...angular.configs.templateRecommended,
       ...angular.configs.templateAccessibility,
@@ -67,11 +67,11 @@ module.exports = tseslint.config(
 "
 `;
 
-exports[`new-workspace should pass linting after creating a new workspace from scratch using @angular-eslint 3`] = `
-Object {
+exports[`new-workspace > should pass linting after creating a new workspace from scratch using @angular-eslint 3`] = `
+{
   "builder": "@angular-eslint/builder:lint",
-  "options": Object {
-    "lintFilePatterns": Array [
+  "options": {
+    "lintFilePatterns": [
       "src/**/*.ts",
       "src/**/*.html",
     ],
@@ -79,48 +79,48 @@ Object {
 }
 `;
 
-exports[`new-workspace should pass linting after creating a new workspace from scratch using @angular-eslint 4`] = `
+exports[`new-workspace > should pass linting after creating a new workspace from scratch using @angular-eslint 4`] = `
 "// @ts-check
-const tseslint = require(\\"typescript-eslint\\");
-const rootConfig = require(\\"../../eslint.config.js\\");
+const tseslint = require("typescript-eslint");
+const rootConfig = require("../../eslint.config.js");
 
 module.exports = tseslint.config(
   ...rootConfig,
   {
-    files: [\\"**/*.ts\\"],
+    files: ["**/*.ts"],
     rules: {
-      \\"@angular-eslint/directive-selector\\": [
-        \\"error\\",
+      "@angular-eslint/directive-selector": [
+        "error",
         {
-          type: \\"attribute\\",
-          prefix: \\"app\\",
-          style: \\"camelCase\\",
+          type: "attribute",
+          prefix: "app",
+          style: "camelCase",
         },
       ],
-      \\"@angular-eslint/component-selector\\": [
-        \\"error\\",
+      "@angular-eslint/component-selector": [
+        "error",
         {
-          type: \\"element\\",
-          prefix: \\"app\\",
-          style: \\"kebab-case\\",
+          type: "element",
+          prefix: "app",
+          style: "kebab-case",
         },
       ],
     },
   },
   {
-    files: [\\"**/*.html\\"],
+    files: ["**/*.html"],
     rules: {},
   }
 );
 "
 `;
 
-exports[`new-workspace should pass linting after creating a new workspace from scratch using @angular-eslint 5`] = `
-Object {
+exports[`new-workspace > should pass linting after creating a new workspace from scratch using @angular-eslint 5`] = `
+{
   "builder": "@angular-eslint/builder:lint",
-  "options": Object {
+  "options": {
     "eslintConfig": "projects/another-app/eslint.config.js",
-    "lintFilePatterns": Array [
+    "lintFilePatterns": [
       "projects/another-app/**/*.ts",
       "projects/another-app/**/*.html",
     ],
@@ -128,48 +128,48 @@ Object {
 }
 `;
 
-exports[`new-workspace should pass linting after creating a new workspace from scratch using @angular-eslint 6`] = `
+exports[`new-workspace > should pass linting after creating a new workspace from scratch using @angular-eslint 6`] = `
 "// @ts-check
-const tseslint = require(\\"typescript-eslint\\");
-const rootConfig = require(\\"../../eslint.config.js\\");
+const tseslint = require("typescript-eslint");
+const rootConfig = require("../../eslint.config.js");
 
 module.exports = tseslint.config(
   ...rootConfig,
   {
-    files: [\\"**/*.ts\\"],
+    files: ["**/*.ts"],
     rules: {
-      \\"@angular-eslint/directive-selector\\": [
-        \\"error\\",
+      "@angular-eslint/directive-selector": [
+        "error",
         {
-          type: \\"attribute\\",
-          prefix: \\"lib\\",
-          style: \\"camelCase\\",
+          type: "attribute",
+          prefix: "lib",
+          style: "camelCase",
         },
       ],
-      \\"@angular-eslint/component-selector\\": [
-        \\"error\\",
+      "@angular-eslint/component-selector": [
+        "error",
         {
-          type: \\"element\\",
-          prefix: \\"lib\\",
-          style: \\"kebab-case\\",
+          type: "element",
+          prefix: "lib",
+          style: "kebab-case",
         },
       ],
     },
   },
   {
-    files: [\\"**/*.html\\"],
+    files: ["**/*.html"],
     rules: {},
   }
 );
 "
 `;
 
-exports[`new-workspace should pass linting after creating a new workspace from scratch using @angular-eslint 7`] = `
-Object {
+exports[`new-workspace > should pass linting after creating a new workspace from scratch using @angular-eslint 7`] = `
+{
   "builder": "@angular-eslint/builder:lint",
-  "options": Object {
+  "options": {
     "eslintConfig": "projects/another-lib/eslint.config.js",
-    "lintFilePatterns": Array [
+    "lintFilePatterns": [
       "projects/another-lib/**/*.ts",
       "projects/another-lib/**/*.html",
     ],
@@ -177,19 +177,19 @@ Object {
 }
 `;
 
-exports[`new-workspace should pass linting after creating a new workspace from scratch using @angular-eslint 8`] = `
+exports[`new-workspace > should pass linting after creating a new workspace from scratch using @angular-eslint 8`] = `
 "
-Linting \\"new-workspace\\"...
+Linting "new-workspace"...
 
 All files pass linting.
 
 
-Linting \\"another-app\\"...
+Linting "another-app"...
 
 All files pass linting.
 
 
-Linting \\"another-lib\\"...
+Linting "another-lib"...
 
 All files pass linting.
 "

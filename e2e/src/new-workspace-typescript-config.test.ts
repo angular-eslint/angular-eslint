@@ -1,5 +1,6 @@
 import path from 'node:path';
 import { setWorkspaceRoot } from 'nx/src/utils/workspace-root';
+import { beforeAll, describe, expect, it, vi } from 'vitest';
 import {
   FIXTURES_DIR,
   Fixture,
@@ -19,7 +20,7 @@ const fixtureDirectory = 'new-workspace-typescript-config';
 let fixture: Fixture;
 
 describe('new-workspace with TypeScript config', () => {
-  jest.setTimeout(LONG_TIMEOUT_MS);
+  vi.setConfig({ testTimeout: LONG_TIMEOUT_MS });
 
   beforeAll(async () => {
     resetFixtureDirectory(fixtureDirectory);
