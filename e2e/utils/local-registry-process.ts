@@ -1,9 +1,12 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { workspaceRoot } from '@nx/devkit';
 import execa from 'execa';
-import { E2E_VERSION } from './start-and-publish-to-local-registry';
+import { join } from 'node:path';
 
 // Used to ensure all the time-consuming setup steps for fixtures do not cause jest to time out
 export const LONG_TIMEOUT_MS = 600000; // 10 mins
+
+const publishedVersion = process.env.PUBLISHED_VERSION ?? '0.0.0-e2e';
 
 export async function runCommandOnLocalRegistry(
   command: string,
@@ -33,10 +36,26 @@ export async function runNpmInstall(): Promise<
 }
 
 export async function runNgAdd(): Promise<execa.ExecaChildProcess<string>> {
+  /**
+   * Force our e2e published version to be readily available on disk to
+   * ensure that the @angular/cli resolves it correctly during `ng add`.
+   * In practice, without this step it seems to be very inconsistent.
+   */
+  await runCommandOnLocalRegistry('npm', [
+    'view',
+    '@angular-eslint/schematics',
+    'version',
+  ]);
+  await runCommandOnLocalRegistry('npm', [
+    'install',
+    '-D',
+    `@angular-eslint/schematics@${publishedVersion}`,
+  ]);
+
   return await runCommandOnLocalRegistry('npx', [
     'ng',
     'add',
-    `@angular-eslint/schematics@${E2E_VERSION}`,
+    `@angular-eslint/schematics@${publishedVersion}`,
     `--skip-confirmation`,
   ]);
 }
@@ -53,11 +72,11 @@ export async function runNgNew(
   if (!createApplication) {
     ngNewArgs.push(`--create-application=false`);
   }
-  return await runCommandOnLocalRegistry('../../node_modules/.bin/ng', [
-    'new',
-    ...ngNewArgs,
-    workspaceName,
-  ]);
+  return await runCommandOnLocalRegistry(
+    // Resolve the ng executable from the angular-eslint repo, so we know what version we're using
+    join(workspaceRoot, 'node_modules/.bin/ng'),
+    ['new', ...ngNewArgs, workspaceName],
+  );
 }
 
 export async function runNgGenerate(

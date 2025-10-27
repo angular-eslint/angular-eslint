@@ -32,7 +32,7 @@ Use `pnpm nx run-many -t typecheck --parallel 2` to run TypeScript type checking
 
 If there are memory issues with jest tests, try passing `--runInBand` to the test command andor changing the number of parallel tests to 1.
 
-If you are updating e2e tests, you may need to update the snapshots. Run `pnpm update-e2e-snapshots` to update the snapshots and commit the resulting snapshot changes. NOTHING ELSE. There will be a diff on package.json files etc when doing this, but ONLY commit the snapshot changes.
+If you are updating e2e tests, you may need to update the snapshots. We use Nx's atomizer feature so that each e2e test file gets its own dynamic target based on the file, so for example if you need to update `src/inline-template-fixer.test.ts`, you should run `pnpm nx run e2e:e2e-ci--src/inline-template-fixer.test.ts -u` to update the snapshots. You should commit the resulting snapshot changes. NOTHING ELSE. There will be a diff on package.json files etc when doing this, but ONLY commit the snapshot changes.
 
 ## Project Structure
 

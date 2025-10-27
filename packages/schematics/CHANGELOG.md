@@ -1,3 +1,11 @@
+## 20.5.0 (2025-10-27)
+
+### 🩹 Fixes
+
+- update typescript-eslint packages to v8.46.1 ([#2701](https://github.com/angular-eslint/angular-eslint/pull/2701))
+- update dependency eslint to v9.38.0 ([#2699](https://github.com/angular-eslint/angular-eslint/pull/2699))
+- update dependency semver to v7.7.3 ([#2693](https://github.com/angular-eslint/angular-eslint/pull/2693))
+
 ## 20.4.0 (2025-10-12)
 
 ### 🩹 Fixes

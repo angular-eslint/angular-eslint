@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import type { TemplateParseError } from '../src/index';
 import { parseForESLint } from '../src/index';
 
@@ -13,38 +14,38 @@ describe('parseForESLint()', () => {
         { filePath: './foo.html' },
       ).ast,
     ).toMatchInlineSnapshot(`
-      Object {
-        "comments": Array [
-          Object {
-            "loc": Object {
-              "end": Object {
+      {
+        "comments": [
+          {
+            "loc": {
+              "end": {
                 "column": 39,
                 "line": 2,
               },
-              "start": Object {
+              "start": {
                 "column": 6,
                 "line": 2,
               },
             },
-            "range": Array [
+            "range": [
               7,
               40,
             ],
             "type": "Block",
             "value": "eslint-disable-next-line",
           },
-          Object {
-            "loc": Object {
-              "end": Object {
+          {
+            "loc": {
+              "end": {
                 "column": 33,
                 "line": 4,
               },
-              "start": Object {
+              "start": {
                 "column": 6,
                 "line": 4,
               },
             },
-            "range": Array [
+            "range": [
               74,
               101,
             ],
@@ -52,28 +53,28 @@ describe('parseForESLint()', () => {
             "value": "some other comment",
           },
         ],
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 4,
             "line": 5,
           },
-          "start": Object {
+          "start": {
             "column": 6,
             "line": 2,
           },
         },
-        "range": Array [
+        "range": [
           7,
           106,
         ],
-        "templateNodes": Array [
+        "templateNodes": [
           Text {
-            "loc": Object {
-              "end": Object {
+            "loc": {
+              "end": {
                 "column": 6,
                 "line": 2,
               },
-              "start": Object {
+              "start": {
                 "column": 6,
                 "line": 2,
               },
@@ -125,12 +126,12 @@ describe('parseForESLint()', () => {
             ",
           },
           Text {
-            "loc": Object {
-              "end": Object {
+            "loc": {
+              "end": {
                 "column": 6,
                 "line": 3,
               },
-              "start": Object {
+              "start": {
                 "column": 6,
                 "line": 3,
               },
@@ -182,15 +183,15 @@ describe('parseForESLint()', () => {
             ",
           },
           Element {
-            "attributes": Array [],
-            "children": Array [
+            "attributes": [],
+            "children": [
               Text {
-                "loc": Object {
-                  "end": Object {
+                "loc": {
+                  "end": {
                     "column": 20,
                     "line": 3,
                   },
-                  "start": Object {
+                  "start": {
                     "column": 11,
                     "line": 3,
                   },
@@ -241,7 +242,7 @@ describe('parseForESLint()', () => {
                 "value": "some node",
               },
             ],
-            "directives": Array [],
+            "directives": [],
             "endSourceSpan": ParseSourceSpan {
               "details": null,
               "end": ParseLocation {
@@ -285,22 +286,22 @@ describe('parseForESLint()', () => {
               },
             },
             "i18n": undefined,
-            "inputs": Array [],
+            "inputs": [],
             "isSelfClosing": false,
             "isVoid": false,
-            "loc": Object {
-              "end": Object {
+            "loc": {
+              "end": {
                 "column": 26,
                 "line": 3,
               },
-              "start": Object {
+              "start": {
                 "column": 6,
                 "line": 3,
               },
             },
             "name": "div",
-            "outputs": Array [],
-            "references": Array [],
+            "outputs": [],
+            "references": [],
             "sourceSpan": ParseSourceSpan {
               "details": null,
               "end": ParseLocation {
@@ -388,12 +389,12 @@ describe('parseForESLint()', () => {
             "type": "Element",
           },
           Text {
-            "loc": Object {
-              "end": Object {
+            "loc": {
+              "end": {
                 "column": 6,
                 "line": 4,
               },
-              "start": Object {
+              "start": {
                 "column": 6,
                 "line": 4,
               },
@@ -445,12 +446,12 @@ describe('parseForESLint()', () => {
             ",
           },
           Text {
-            "loc": Object {
-              "end": Object {
+            "loc": {
+              "end": {
                 "column": 4,
                 "line": 5,
               },
-              "start": Object {
+              "start": {
                 "column": 4,
                 "line": 5,
               },
@@ -502,7 +503,7 @@ describe('parseForESLint()', () => {
           ",
           },
         ],
-        "tokens": Array [],
+        "tokens": [],
         "type": "Program",
         "value": "
             <!-- eslint-disable-next-line -->
@@ -514,7 +515,9 @@ describe('parseForESLint()', () => {
   });
 
   describe('parse errors', () => {
-    it('should throw if the Angular compiler produced parse errors by default', () => {
+    it('should throw if the Angular compiler produced parse errors by default', ({
+      expect,
+    }) => {
       expect.assertions(2);
 
       let error: TemplateParseError;
@@ -532,16 +535,18 @@ describe('parseForESLint()', () => {
         );
         expect(JSON.stringify(error, null, 2)).toMatchInlineSnapshot(`
           "{
-            \\"fileName\\": \\"./invalid-nested-i18ns.html\\",
-            \\"index\\": 20,
-            \\"lineNumber\\": 1,
-            \\"column\\": 21
+            "fileName": "./invalid-nested-i18ns.html",
+            "index": 20,
+            "lineNumber": 1,
+            "column": 21
           }"
         `);
       }
     });
 
-    it('should not throw if the Angular compiler produced parse errors and `parserOptions.suppressParseErrors` is set to true', () => {
+    it('should not throw if the Angular compiler produced parse errors and `parserOptions.suppressParseErrors` is set to true', ({
+      expect,
+    }) => {
       expect.assertions(1);
 
       const { ast } = parseForESLint(
@@ -583,30 +588,30 @@ describe('parseForESLint()', () => {
           { filePath: './foo.html' },
         ).ast,
       ).toMatchInlineSnapshot(`
-        Object {
-          "comments": Array [],
-          "loc": Object {
-            "end": Object {
+        {
+          "comments": [],
+          "loc": {
+            "end": {
               "column": 11,
               "line": 19,
             },
-            "start": Object {
+            "start": {
               "column": 10,
               "line": 2,
             },
           },
-          "range": Array [
+          "range": [
             11,
             525,
           ],
-          "templateNodes": Array [
+          "templateNodes": [
             Text {
-              "loc": Object {
-                "end": Object {
+              "loc": {
+                "end": {
                   "column": 10,
                   "line": 2,
                 },
-                "start": Object {
+                "start": {
                   "column": 10,
                   "line": 2,
                 },
@@ -628,7 +633,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -656,7 +661,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -684,7 +689,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -703,14 +708,14 @@ describe('parseForESLint()', () => {
                   ",
             },
             DeferredBlock {
-              "children": Array [
+              "children": [
                 Text {
-                  "loc": Object {
-                    "end": Object {
+                  "loc": {
+                    "end": {
                       "column": 12,
                       "line": 3,
                     },
-                    "start": Object {
+                    "start": {
                       "column": 12,
                       "line": 3,
                     },
@@ -732,7 +737,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -760,7 +765,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -788,7 +793,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -807,15 +812,15 @@ describe('parseForESLint()', () => {
                     ",
                 },
                 Element {
-                  "attributes": Array [],
-                  "children": Array [
+                  "attributes": [],
+                  "children": [
                     Text {
-                      "loc": Object {
-                        "end": Object {
+                      "loc": {
+                        "end": {
                           "column": 22,
                           "line": 3,
                         },
-                        "start": Object {
+                        "start": {
                           "column": 17,
                           "line": 3,
                         },
@@ -837,7 +842,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -865,7 +870,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -893,7 +898,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -911,7 +916,7 @@ describe('parseForESLint()', () => {
                       "value": "Hello",
                     },
                   ],
-                  "directives": Array [],
+                  "directives": [],
                   "endSourceSpan": ParseSourceSpan {
                     "details": null,
                     "end": ParseLocation {
@@ -929,7 +934,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -957,7 +962,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -985,7 +990,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -1000,22 +1005,22 @@ describe('parseForESLint()', () => {
                     },
                   },
                   "i18n": undefined,
-                  "inputs": Array [],
+                  "inputs": [],
                   "isSelfClosing": false,
                   "isVoid": false,
-                  "loc": Object {
-                    "end": Object {
+                  "loc": {
+                    "end": {
                       "column": 28,
                       "line": 3,
                     },
-                    "start": Object {
+                    "start": {
                       "column": 12,
                       "line": 3,
                     },
                   },
                   "name": "div",
-                  "outputs": Array [],
-                  "references": Array [],
+                  "outputs": [],
+                  "references": [],
                   "sourceSpan": ParseSourceSpan {
                     "details": null,
                     "end": ParseLocation {
@@ -1033,7 +1038,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -1061,7 +1066,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -1089,7 +1094,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -1120,7 +1125,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -1148,7 +1153,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -1176,7 +1181,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -1193,12 +1198,12 @@ describe('parseForESLint()', () => {
                   "type": "Element",
                 },
                 Text {
-                  "loc": Object {
-                    "end": Object {
+                  "loc": {
+                    "end": {
                       "column": 10,
                       "line": 4,
                     },
-                    "start": Object {
+                    "start": {
                       "column": 10,
                       "line": 4,
                     },
@@ -1220,7 +1225,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -1248,7 +1253,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -1276,7 +1281,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -1295,9 +1300,9 @@ describe('parseForESLint()', () => {
                   ",
                 },
               ],
-              "definedHydrateTriggers": Array [],
-              "definedPrefetchTriggers": Array [],
-              "definedTriggers": Array [
+              "definedHydrateTriggers": [],
+              "definedPrefetchTriggers": [],
+              "definedTriggers": [
                 "when",
               ],
               "endSourceSpan": ParseSourceSpan {
@@ -1317,7 +1322,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -1345,7 +1350,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -1373,7 +1378,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -1388,15 +1393,15 @@ describe('parseForESLint()', () => {
                 },
               },
               "error": null,
-              "hydrateTriggers": Object {},
+              "hydrateTriggers": {},
               "i18n": undefined,
               "loading": null,
-              "loc": Object {
-                "end": Object {
+              "loc": {
+                "end": {
                   "column": 11,
                   "line": 4,
                 },
-                "start": Object {
+                "start": {
                   "column": 10,
                   "line": 2,
                 },
@@ -1418,7 +1423,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -1446,7 +1451,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -1474,7 +1479,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -1505,7 +1510,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -1533,7 +1538,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -1561,7 +1566,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -1576,7 +1581,7 @@ describe('parseForESLint()', () => {
                 },
               },
               "placeholder": null,
-              "prefetchTriggers": Object {
+              "prefetchTriggers": {
                 "type": "Object",
               },
               "sourceSpan": ParseSourceSpan {
@@ -1596,7 +1601,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -1624,7 +1629,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -1652,7 +1657,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -1683,7 +1688,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -1711,7 +1716,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -1739,7 +1744,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -1753,16 +1758,16 @@ describe('parseForESLint()', () => {
                   "offset": 11,
                 },
               },
-              "triggers": Object {
+              "triggers": {
                 "type": "Object",
                 "when": BoundDeferredTrigger {
                   "hydrateSpan": null,
-                  "loc": Object {
-                    "end": Object {
+                  "loc": {
+                    "end": {
                       "column": 28,
                       "line": 2,
                     },
-                    "start": Object {
+                    "start": {
                       "column": 18,
                       "line": 2,
                     },
@@ -1786,7 +1791,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -1814,7 +1819,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -1842,7 +1847,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -1859,12 +1864,12 @@ describe('parseForESLint()', () => {
                   "type": "BoundDeferredTrigger",
                   "value": ASTWithSource {
                     "ast": PropertyRead {
-                      "loc": Object {
-                        "end": Object {
+                      "loc": {
+                        "end": {
                           "column": undefined,
                           "line": NaN,
                         },
-                        "start": Object {
+                        "start": {
                           "column": undefined,
                           "line": NaN,
                         },
@@ -1875,12 +1880,12 @@ describe('parseForESLint()', () => {
                         "start": 24,
                       },
                       "receiver": ImplicitReceiver {
-                        "loc": Object {
-                          "end": Object {
+                        "loc": {
+                          "end": {
                             "column": undefined,
                             "line": NaN,
                           },
-                          "start": Object {
+                          "start": {
                             "column": undefined,
                             "line": NaN,
                           },
@@ -1905,13 +1910,13 @@ describe('parseForESLint()', () => {
                       },
                       "type": "PropertyRead",
                     },
-                    "errors": Array [],
-                    "loc": Object {
-                      "end": Object {
+                    "errors": [],
+                    "loc": {
+                      "end": {
                         "column": undefined,
                         "line": NaN,
                       },
-                      "start": Object {
+                      "start": {
                         "column": undefined,
                         "line": NaN,
                       },
@@ -1945,7 +1950,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -1973,7 +1978,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -2001,7 +2006,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -2020,14 +2025,14 @@ describe('parseForESLint()', () => {
               "type": "DeferredBlock",
             },
             DeferredBlock {
-              "children": Array [
+              "children": [
                 Text {
-                  "loc": Object {
-                    "end": Object {
+                  "loc": {
+                    "end": {
                       "column": 12,
                       "line": 6,
                     },
-                    "start": Object {
+                    "start": {
                       "column": 12,
                       "line": 6,
                     },
@@ -2049,7 +2054,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -2077,7 +2082,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -2105,7 +2110,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -2124,9 +2129,9 @@ describe('parseForESLint()', () => {
                     ",
                 },
                 Element {
-                  "attributes": Array [],
-                  "children": Array [],
-                  "directives": Array [],
+                  "attributes": [],
+                  "children": [],
+                  "directives": [],
                   "endSourceSpan": ParseSourceSpan {
                     "details": null,
                     "end": ParseLocation {
@@ -2144,7 +2149,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -2172,7 +2177,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -2200,7 +2205,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -2215,22 +2220,22 @@ describe('parseForESLint()', () => {
                     },
                   },
                   "i18n": undefined,
-                  "inputs": Array [],
+                  "inputs": [],
                   "isSelfClosing": true,
                   "isVoid": false,
-                  "loc": Object {
-                    "end": Object {
+                  "loc": {
+                    "end": {
                       "column": 28,
                       "line": 6,
                     },
-                    "start": Object {
+                    "start": {
                       "column": 12,
                       "line": 6,
                     },
                   },
                   "name": "calendar-cmp",
-                  "outputs": Array [],
-                  "references": Array [],
+                  "outputs": [],
+                  "references": [],
                   "sourceSpan": ParseSourceSpan {
                     "details": null,
                     "end": ParseLocation {
@@ -2248,7 +2253,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -2276,7 +2281,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -2304,7 +2309,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -2335,7 +2340,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -2363,7 +2368,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -2391,7 +2396,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -2408,12 +2413,12 @@ describe('parseForESLint()', () => {
                   "type": "Element",
                 },
                 Text {
-                  "loc": Object {
-                    "end": Object {
+                  "loc": {
+                    "end": {
                       "column": 10,
                       "line": 7,
                     },
-                    "start": Object {
+                    "start": {
                       "column": 10,
                       "line": 7,
                     },
@@ -2435,7 +2440,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -2463,7 +2468,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -2491,7 +2496,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -2510,9 +2515,9 @@ describe('parseForESLint()', () => {
                   ",
                 },
               ],
-              "definedHydrateTriggers": Array [],
-              "definedPrefetchTriggers": Array [],
-              "definedTriggers": Array [
+              "definedHydrateTriggers": [],
+              "definedPrefetchTriggers": [],
+              "definedTriggers": [
                 "immediate",
               ],
               "endSourceSpan": ParseSourceSpan {
@@ -2532,7 +2537,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -2560,7 +2565,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -2588,7 +2593,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -2603,15 +2608,15 @@ describe('parseForESLint()', () => {
                 },
               },
               "error": null,
-              "hydrateTriggers": Object {},
+              "hydrateTriggers": {},
               "i18n": undefined,
               "loading": null,
-              "loc": Object {
-                "end": Object {
+              "loc": {
+                "end": {
                   "column": 11,
                   "line": 9,
                 },
-                "start": Object {
+                "start": {
                   "column": 10,
                   "line": 5,
                 },
@@ -2633,7 +2638,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -2661,7 +2666,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -2689,7 +2694,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -2720,7 +2725,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -2748,7 +2753,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -2776,7 +2781,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -2791,14 +2796,14 @@ describe('parseForESLint()', () => {
                 },
               },
               "placeholder": DeferredBlockPlaceholder {
-                "children": Array [
+                "children": [
                   Text {
-                    "loc": Object {
-                      "end": Object {
+                    "loc": {
+                      "end": {
                         "column": 12,
                         "line": 8,
                       },
-                      "start": Object {
+                      "start": {
                         "column": 12,
                         "line": 8,
                       },
@@ -2820,7 +2825,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -2848,7 +2853,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -2876,7 +2881,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -2895,15 +2900,15 @@ describe('parseForESLint()', () => {
                     ",
                   },
                   Element {
-                    "attributes": Array [],
-                    "children": Array [
+                    "attributes": [],
+                    "children": [
                       Text {
-                        "loc": Object {
-                          "end": Object {
+                        "loc": {
+                          "end": {
                             "column": 34,
                             "line": 8,
                           },
-                          "start": Object {
+                          "start": {
                             "column": 15,
                             "line": 8,
                           },
@@ -2925,7 +2930,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -2953,7 +2958,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -2981,7 +2986,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -2999,7 +3004,7 @@ describe('parseForESLint()', () => {
                         "value": "Placeholder content",
                       },
                     ],
-                    "directives": Array [],
+                    "directives": [],
                     "endSourceSpan": ParseSourceSpan {
                       "details": null,
                       "end": ParseLocation {
@@ -3017,7 +3022,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -3045,7 +3050,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -3073,7 +3078,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -3088,22 +3093,22 @@ describe('parseForESLint()', () => {
                       },
                     },
                     "i18n": undefined,
-                    "inputs": Array [],
+                    "inputs": [],
                     "isSelfClosing": false,
                     "isVoid": false,
-                    "loc": Object {
-                      "end": Object {
+                    "loc": {
+                      "end": {
                         "column": 38,
                         "line": 8,
                       },
-                      "start": Object {
+                      "start": {
                         "column": 12,
                         "line": 8,
                       },
                     },
                     "name": "p",
-                    "outputs": Array [],
-                    "references": Array [],
+                    "outputs": [],
+                    "references": [],
                     "sourceSpan": ParseSourceSpan {
                       "details": null,
                       "end": ParseLocation {
@@ -3121,7 +3126,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -3149,7 +3154,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -3177,7 +3182,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -3208,7 +3213,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -3236,7 +3241,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -3264,7 +3269,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -3281,12 +3286,12 @@ describe('parseForESLint()', () => {
                     "type": "Element",
                   },
                   Text {
-                    "loc": Object {
-                      "end": Object {
+                    "loc": {
+                      "end": {
                         "column": 10,
                         "line": 9,
                       },
-                      "start": Object {
+                      "start": {
                         "column": 10,
                         "line": 9,
                       },
@@ -3308,7 +3313,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -3336,7 +3341,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -3364,7 +3369,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -3400,7 +3405,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -3428,7 +3433,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -3456,7 +3461,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -3471,12 +3476,12 @@ describe('parseForESLint()', () => {
                   },
                 },
                 "i18n": undefined,
-                "loc": Object {
-                  "end": Object {
+                "loc": {
+                  "end": {
                     "column": 11,
                     "line": 9,
                   },
-                  "start": Object {
+                  "start": {
                     "column": 12,
                     "line": 7,
                   },
@@ -3499,7 +3504,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -3527,7 +3532,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -3555,7 +3560,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -3586,7 +3591,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -3614,7 +3619,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -3642,7 +3647,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -3673,7 +3678,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -3701,7 +3706,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -3729,7 +3734,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -3745,7 +3750,7 @@ describe('parseForESLint()', () => {
                 },
                 "type": "DeferredBlockPlaceholder",
               },
-              "prefetchTriggers": Object {
+              "prefetchTriggers": {
                 "type": "Object",
               },
               "sourceSpan": ParseSourceSpan {
@@ -3765,7 +3770,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -3793,7 +3798,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -3821,7 +3826,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -3852,7 +3857,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -3880,7 +3885,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -3908,7 +3913,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -3922,7 +3927,7 @@ describe('parseForESLint()', () => {
                   "offset": 84,
                 },
               },
-              "triggers": Object {
+              "triggers": {
                 "immediate": ImmediateDeferredTrigger {
                   "hydrateSpan": null,
                   "nameSpan": ParseSourceSpan {
@@ -3942,7 +3947,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -3970,7 +3975,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -3998,7 +4003,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -4030,7 +4035,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -4058,7 +4063,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -4086,7 +4091,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -4117,7 +4122,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -4145,7 +4150,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -4173,7 +4178,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -4193,14 +4198,14 @@ describe('parseForESLint()', () => {
               "type": "DeferredBlock",
             },
             DeferredBlock {
-              "children": Array [
+              "children": [
                 Text {
-                  "loc": Object {
-                    "end": Object {
+                  "loc": {
+                    "end": {
                       "column": 12,
                       "line": 11,
                     },
-                    "start": Object {
+                    "start": {
                       "column": 12,
                       "line": 11,
                     },
@@ -4222,7 +4227,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -4250,7 +4255,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -4278,7 +4283,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -4297,9 +4302,9 @@ describe('parseForESLint()', () => {
                     ",
                 },
                 Element {
-                  "attributes": Array [],
-                  "children": Array [],
-                  "directives": Array [],
+                  "attributes": [],
+                  "children": [],
+                  "directives": [],
                   "endSourceSpan": ParseSourceSpan {
                     "details": null,
                     "end": ParseLocation {
@@ -4317,7 +4322,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -4345,7 +4350,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -4373,7 +4378,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -4388,22 +4393,22 @@ describe('parseForESLint()', () => {
                     },
                   },
                   "i18n": undefined,
-                  "inputs": Array [],
+                  "inputs": [],
                   "isSelfClosing": true,
                   "isVoid": false,
-                  "loc": Object {
-                    "end": Object {
+                  "loc": {
+                    "end": {
                       "column": 31,
                       "line": 11,
                     },
-                    "start": Object {
+                    "start": {
                       "column": 12,
                       "line": 11,
                     },
                   },
                   "name": "large-component",
-                  "outputs": Array [],
-                  "references": Array [],
+                  "outputs": [],
+                  "references": [],
                   "sourceSpan": ParseSourceSpan {
                     "details": null,
                     "end": ParseLocation {
@@ -4421,7 +4426,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -4449,7 +4454,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -4477,7 +4482,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -4508,7 +4513,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -4536,7 +4541,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -4564,7 +4569,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -4581,12 +4586,12 @@ describe('parseForESLint()', () => {
                   "type": "Element",
                 },
                 Text {
-                  "loc": Object {
-                    "end": Object {
+                  "loc": {
+                    "end": {
                       "column": 10,
                       "line": 12,
                     },
-                    "start": Object {
+                    "start": {
                       "column": 10,
                       "line": 12,
                     },
@@ -4608,7 +4613,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -4636,7 +4641,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -4664,7 +4669,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -4683,9 +4688,9 @@ describe('parseForESLint()', () => {
                   ",
                 },
               ],
-              "definedHydrateTriggers": Array [],
-              "definedPrefetchTriggers": Array [],
-              "definedTriggers": Array [],
+              "definedHydrateTriggers": [],
+              "definedPrefetchTriggers": [],
+              "definedTriggers": [],
               "endSourceSpan": ParseSourceSpan {
                 "details": null,
                 "end": ParseLocation {
@@ -4703,7 +4708,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -4731,7 +4736,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -4759,7 +4764,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -4774,18 +4779,18 @@ describe('parseForESLint()', () => {
                 },
               },
               "error": null,
-              "hydrateTriggers": Object {},
+              "hydrateTriggers": {},
               "i18n": undefined,
               "loading": DeferredBlockLoading {
                 "afterTime": 100,
-                "children": Array [
+                "children": [
                   Text {
-                    "loc": Object {
-                      "end": Object {
+                    "loc": {
+                      "end": {
                         "column": 12,
                         "line": 13,
                       },
-                      "start": Object {
+                      "start": {
                         "column": 12,
                         "line": 13,
                       },
@@ -4807,7 +4812,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -4835,7 +4840,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -4863,7 +4868,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -4882,7 +4887,7 @@ describe('parseForESLint()', () => {
                     ",
                   },
                   Element {
-                    "attributes": Array [
+                    "attributes": [
                       TextAttribute {
                         "i18n": undefined,
                         "keySpan": ParseSourceSpan {
@@ -4902,7 +4907,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -4930,7 +4935,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -4958,7 +4963,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -4972,12 +4977,12 @@ describe('parseForESLint()', () => {
                             "offset": 348,
                           },
                         },
-                        "loc": Object {
-                          "end": Object {
+                        "loc": {
+                          "end": {
                             "column": 33,
                             "line": 13,
                           },
-                          "start": Object {
+                          "start": {
                             "column": 17,
                             "line": 13,
                           },
@@ -5000,7 +5005,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -5028,7 +5033,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -5056,7 +5061,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -5089,7 +5094,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -5117,7 +5122,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -5145,7 +5150,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -5179,7 +5184,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -5207,7 +5212,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -5235,7 +5240,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -5249,12 +5254,12 @@ describe('parseForESLint()', () => {
                             "offset": 365,
                           },
                         },
-                        "loc": Object {
-                          "end": Object {
+                        "loc": {
+                          "end": {
                             "column": 51,
                             "line": 13,
                           },
-                          "start": Object {
+                          "start": {
                             "column": 34,
                             "line": 13,
                           },
@@ -5277,7 +5282,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -5305,7 +5310,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -5333,7 +5338,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -5366,7 +5371,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -5394,7 +5399,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -5422,7 +5427,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -5438,8 +5443,8 @@ describe('parseForESLint()', () => {
                         },
                       },
                     ],
-                    "children": Array [],
-                    "directives": Array [],
+                    "children": [],
+                    "directives": [],
                     "endSourceSpan": ParseSourceSpan {
                       "details": null,
                       "end": ParseLocation {
@@ -5457,7 +5462,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -5485,7 +5490,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -5513,7 +5518,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -5528,22 +5533,22 @@ describe('parseForESLint()', () => {
                       },
                     },
                     "i18n": undefined,
-                    "inputs": Array [],
+                    "inputs": [],
                     "isSelfClosing": true,
                     "isVoid": true,
-                    "loc": Object {
-                      "end": Object {
+                    "loc": {
+                      "end": {
                         "column": 54,
                         "line": 13,
                       },
-                      "start": Object {
+                      "start": {
                         "column": 12,
                         "line": 13,
                       },
                     },
                     "name": "img",
-                    "outputs": Array [],
-                    "references": Array [],
+                    "outputs": [],
+                    "references": [],
                     "sourceSpan": ParseSourceSpan {
                       "details": null,
                       "end": ParseLocation {
@@ -5561,7 +5566,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -5589,7 +5594,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -5617,7 +5622,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -5648,7 +5653,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -5676,7 +5681,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -5704,7 +5709,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -5721,12 +5726,12 @@ describe('parseForESLint()', () => {
                     "type": "Element",
                   },
                   Text {
-                    "loc": Object {
-                      "end": Object {
+                    "loc": {
+                      "end": {
                         "column": 10,
                         "line": 14,
                       },
-                      "start": Object {
+                      "start": {
                         "column": 10,
                         "line": 14,
                       },
@@ -5748,7 +5753,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -5776,7 +5781,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -5804,7 +5809,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -5840,7 +5845,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -5868,7 +5873,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -5896,7 +5901,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -5911,12 +5916,12 @@ describe('parseForESLint()', () => {
                   },
                 },
                 "i18n": undefined,
-                "loc": Object {
-                  "end": Object {
+                "loc": {
+                  "end": {
                     "column": 11,
                     "line": 14,
                   },
-                  "start": Object {
+                  "start": {
                     "column": 12,
                     "line": 12,
                   },
@@ -5939,7 +5944,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -5967,7 +5972,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -5995,7 +6000,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -6026,7 +6031,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -6054,7 +6059,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -6082,7 +6087,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -6113,7 +6118,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -6141,7 +6146,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -6169,7 +6174,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -6185,12 +6190,12 @@ describe('parseForESLint()', () => {
                 },
                 "type": "DeferredBlockLoading",
               },
-              "loc": Object {
-                "end": Object {
+              "loc": {
+                "end": {
                   "column": 11,
                   "line": 14,
                 },
-                "start": Object {
+                "start": {
                   "column": 10,
                   "line": 10,
                 },
@@ -6212,7 +6217,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -6240,7 +6245,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -6268,7 +6273,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -6299,7 +6304,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -6327,7 +6332,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -6355,7 +6360,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -6370,7 +6375,7 @@ describe('parseForESLint()', () => {
                 },
               },
               "placeholder": null,
-              "prefetchTriggers": Object {
+              "prefetchTriggers": {
                 "type": "Object",
               },
               "sourceSpan": ParseSourceSpan {
@@ -6390,7 +6395,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -6418,7 +6423,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -6446,7 +6451,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -6477,7 +6482,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -6505,7 +6510,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -6533,7 +6538,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -6547,20 +6552,20 @@ describe('parseForESLint()', () => {
                   "offset": 241,
                 },
               },
-              "triggers": Object {
+              "triggers": {
                 "type": "Object",
               },
               "type": "DeferredBlock",
             },
             DeferredBlock {
-              "children": Array [
+              "children": [
                 Text {
-                  "loc": Object {
-                    "end": Object {
+                  "loc": {
+                    "end": {
                       "column": 12,
                       "line": 16,
                     },
-                    "start": Object {
+                    "start": {
                       "column": 12,
                       "line": 16,
                     },
@@ -6582,7 +6587,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -6610,7 +6615,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -6638,7 +6643,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -6657,9 +6662,9 @@ describe('parseForESLint()', () => {
                     ",
                 },
                 Element {
-                  "attributes": Array [],
-                  "children": Array [],
-                  "directives": Array [],
+                  "attributes": [],
+                  "children": [],
+                  "directives": [],
                   "endSourceSpan": ParseSourceSpan {
                     "details": null,
                     "end": ParseLocation {
@@ -6677,7 +6682,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -6705,7 +6710,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -6733,7 +6738,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -6748,22 +6753,22 @@ describe('parseForESLint()', () => {
                     },
                   },
                   "i18n": undefined,
-                  "inputs": Array [],
+                  "inputs": [],
                   "isSelfClosing": true,
                   "isVoid": false,
-                  "loc": Object {
-                    "end": Object {
+                  "loc": {
+                    "end": {
                       "column": 28,
                       "line": 16,
                     },
-                    "start": Object {
+                    "start": {
                       "column": 12,
                       "line": 16,
                     },
                   },
                   "name": "calendar-cmp",
-                  "outputs": Array [],
-                  "references": Array [],
+                  "outputs": [],
+                  "references": [],
                   "sourceSpan": ParseSourceSpan {
                     "details": null,
                     "end": ParseLocation {
@@ -6781,7 +6786,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -6809,7 +6814,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -6837,7 +6842,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -6868,7 +6873,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -6896,7 +6901,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -6924,7 +6929,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -6941,12 +6946,12 @@ describe('parseForESLint()', () => {
                   "type": "Element",
                 },
                 Text {
-                  "loc": Object {
-                    "end": Object {
+                  "loc": {
+                    "end": {
                       "column": 10,
                       "line": 17,
                     },
-                    "start": Object {
+                    "start": {
                       "column": 10,
                       "line": 17,
                     },
@@ -6968,7 +6973,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -6996,7 +7001,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -7024,7 +7029,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -7043,9 +7048,9 @@ describe('parseForESLint()', () => {
                   ",
                 },
               ],
-              "definedHydrateTriggers": Array [],
-              "definedPrefetchTriggers": Array [],
-              "definedTriggers": Array [],
+              "definedHydrateTriggers": [],
+              "definedPrefetchTriggers": [],
+              "definedTriggers": [],
               "endSourceSpan": ParseSourceSpan {
                 "details": null,
                 "end": ParseLocation {
@@ -7063,7 +7068,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -7091,7 +7096,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -7119,7 +7124,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -7134,14 +7139,14 @@ describe('parseForESLint()', () => {
                 },
               },
               "error": DeferredBlockError {
-                "children": Array [
+                "children": [
                   Text {
-                    "loc": Object {
-                      "end": Object {
+                    "loc": {
+                      "end": {
                         "column": 12,
                         "line": 18,
                       },
-                      "start": Object {
+                      "start": {
                         "column": 12,
                         "line": 18,
                       },
@@ -7163,7 +7168,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -7191,7 +7196,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -7219,7 +7224,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -7238,15 +7243,15 @@ describe('parseForESLint()', () => {
                     ",
                   },
                   Element {
-                    "attributes": Array [],
-                    "children": Array [
+                    "attributes": [],
+                    "children": [
                       Text {
-                        "loc": Object {
-                          "end": Object {
+                        "loc": {
+                          "end": {
                             "column": 42,
                             "line": 18,
                           },
-                          "start": Object {
+                          "start": {
                             "column": 15,
                             "line": 18,
                           },
@@ -7268,7 +7273,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -7296,7 +7301,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -7324,7 +7329,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -7342,7 +7347,7 @@ describe('parseForESLint()', () => {
                         "value": "Failed to load the calendar",
                       },
                     ],
-                    "directives": Array [],
+                    "directives": [],
                     "endSourceSpan": ParseSourceSpan {
                       "details": null,
                       "end": ParseLocation {
@@ -7360,7 +7365,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -7388,7 +7393,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -7416,7 +7421,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -7431,22 +7436,22 @@ describe('parseForESLint()', () => {
                       },
                     },
                     "i18n": undefined,
-                    "inputs": Array [],
+                    "inputs": [],
                     "isSelfClosing": false,
                     "isVoid": false,
-                    "loc": Object {
-                      "end": Object {
+                    "loc": {
+                      "end": {
                         "column": 46,
                         "line": 18,
                       },
-                      "start": Object {
+                      "start": {
                         "column": 12,
                         "line": 18,
                       },
                     },
                     "name": "p",
-                    "outputs": Array [],
-                    "references": Array [],
+                    "outputs": [],
+                    "references": [],
                     "sourceSpan": ParseSourceSpan {
                       "details": null,
                       "end": ParseLocation {
@@ -7464,7 +7469,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -7492,7 +7497,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -7520,7 +7525,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -7551,7 +7556,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -7579,7 +7584,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -7607,7 +7612,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -7624,12 +7629,12 @@ describe('parseForESLint()', () => {
                     "type": "Element",
                   },
                   Text {
-                    "loc": Object {
-                      "end": Object {
+                    "loc": {
+                      "end": {
                         "column": 10,
                         "line": 19,
                       },
-                      "start": Object {
+                      "start": {
                         "column": 10,
                         "line": 19,
                       },
@@ -7651,7 +7656,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -7679,7 +7684,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -7707,7 +7712,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -7743,7 +7748,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -7771,7 +7776,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -7799,7 +7804,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -7814,12 +7819,12 @@ describe('parseForESLint()', () => {
                   },
                 },
                 "i18n": undefined,
-                "loc": Object {
-                  "end": Object {
+                "loc": {
+                  "end": {
                     "column": 11,
                     "line": 19,
                   },
-                  "start": Object {
+                  "start": {
                     "column": 12,
                     "line": 17,
                   },
@@ -7841,7 +7846,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -7869,7 +7874,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -7897,7 +7902,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -7928,7 +7933,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -7956,7 +7961,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -7984,7 +7989,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -8015,7 +8020,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -8043,7 +8048,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -8071,7 +8076,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -8087,15 +8092,15 @@ describe('parseForESLint()', () => {
                 },
                 "type": "DeferredBlockError",
               },
-              "hydrateTriggers": Object {},
+              "hydrateTriggers": {},
               "i18n": undefined,
               "loading": null,
-              "loc": Object {
-                "end": Object {
+              "loc": {
+                "end": {
                   "column": 11,
                   "line": 19,
                 },
-                "start": Object {
+                "start": {
                   "column": 10,
                   "line": 15,
                 },
@@ -8117,7 +8122,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -8145,7 +8150,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -8173,7 +8178,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -8204,7 +8209,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -8232,7 +8237,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -8260,7 +8265,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -8275,7 +8280,7 @@ describe('parseForESLint()', () => {
                 },
               },
               "placeholder": null,
-              "prefetchTriggers": Object {
+              "prefetchTriggers": {
                 "type": "Object",
               },
               "sourceSpan": ParseSourceSpan {
@@ -8295,7 +8300,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -8323,7 +8328,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -8351,7 +8356,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -8382,7 +8387,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -8410,7 +8415,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -8438,7 +8443,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -8452,13 +8457,13 @@ describe('parseForESLint()', () => {
                   "offset": 408,
                 },
               },
-              "triggers": Object {
+              "triggers": {
                 "type": "Object",
               },
               "type": "DeferredBlock",
             },
           ],
-          "tokens": Array [],
+          "tokens": [],
           "type": "Program",
           "value": "
                   @defer (when title) {
@@ -8472,7 +8477,7 @@ describe('parseForESLint()', () => {
                   @defer {
                     <large-component />
                   } @loading (after 100ms; minimum 1s) {
-                    <img alt=\\"loading...\\" src=\\"loading.gif\\" />
+                    <img alt="loading..." src="loading.gif" />
                   }
                   @defer {
                     <calendar-cmp />
@@ -8501,30 +8506,30 @@ describe('parseForESLint()', () => {
           { filePath: './foo.html' },
         ).ast,
       ).toMatchInlineSnapshot(`
-        Object {
-          "comments": Array [],
-          "loc": Object {
-            "end": Object {
+        {
+          "comments": [],
+          "loc": {
+            "end": {
               "column": 11,
               "line": 8,
             },
-            "start": Object {
+            "start": {
               "column": 10,
               "line": 2,
             },
           },
-          "range": Array [
+          "range": [
             11,
             200,
           ],
-          "templateNodes": Array [
+          "templateNodes": [
             Text {
-              "loc": Object {
-                "end": Object {
+              "loc": {
+                "end": {
                   "column": 10,
                   "line": 2,
                 },
-                "start": Object {
+                "start": {
                   "column": 10,
                   "line": 2,
                 },
@@ -8588,17 +8593,17 @@ describe('parseForESLint()', () => {
                   ",
             },
             IfBlock {
-              "branches": Array [
+              "branches": [
                 IfBlockBranch {
-                  "children": Array [
+                  "children": [
                     BoundText {
                       "i18n": undefined,
-                      "loc": Object {
-                        "end": Object {
+                      "loc": {
+                        "end": {
                           "column": 10,
                           "line": 4,
                         },
-                        "start": Object {
+                        "start": {
                           "column": 12,
                           "line": 3,
                         },
@@ -8660,14 +8665,14 @@ describe('parseForESLint()', () => {
                       "type": "BoundText",
                       "value": ASTWithSource {
                         "ast": Interpolation {
-                          "expressions": Array [
+                          "expressions": [
                             PropertyRead {
-                              "loc": Object {
-                                "end": Object {
+                              "loc": {
+                                "end": {
                                   "column": undefined,
                                   "line": NaN,
                                 },
-                                "start": Object {
+                                "start": {
                                   "column": undefined,
                                   "line": NaN,
                                 },
@@ -8678,12 +8683,12 @@ describe('parseForESLint()', () => {
                                 "start": 39,
                               },
                               "receiver": ImplicitReceiver {
-                                "loc": Object {
-                                  "end": Object {
+                                "loc": {
+                                  "end": {
                                     "column": undefined,
                                     "line": NaN,
                                   },
-                                  "start": Object {
+                                  "start": {
                                     "column": undefined,
                                     "line": NaN,
                                   },
@@ -8709,12 +8714,12 @@ describe('parseForESLint()', () => {
                               "type": "PropertyRead",
                             },
                             PropertyRead {
-                              "loc": Object {
-                                "end": Object {
+                              "loc": {
+                                "end": {
                                   "column": undefined,
                                   "line": NaN,
                                 },
-                                "start": Object {
+                                "start": {
                                   "column": undefined,
                                   "line": NaN,
                                 },
@@ -8725,12 +8730,12 @@ describe('parseForESLint()', () => {
                                 "start": 61,
                               },
                               "receiver": ImplicitReceiver {
-                                "loc": Object {
-                                  "end": Object {
+                                "loc": {
+                                  "end": {
                                     "column": undefined,
                                     "line": NaN,
                                   },
-                                  "start": Object {
+                                  "start": {
                                     "column": undefined,
                                     "line": NaN,
                                   },
@@ -8756,12 +8761,12 @@ describe('parseForESLint()', () => {
                               "type": "PropertyRead",
                             },
                           ],
-                          "loc": Object {
-                            "end": Object {
+                          "loc": {
+                            "end": {
                               "column": undefined,
                               "line": NaN,
                             },
-                            "start": Object {
+                            "start": {
                               "column": undefined,
                               "line": NaN,
                             },
@@ -8774,7 +8779,7 @@ describe('parseForESLint()', () => {
                             "end": 51,
                             "start": 0,
                           },
-                          "strings": Array [
+                          "strings": [
                             "
                     ",
                             " is greater than ",
@@ -8783,13 +8788,13 @@ describe('parseForESLint()', () => {
                           ],
                           "type": "Interpolation",
                         },
-                        "errors": Array [],
-                        "loc": Object {
-                          "end": Object {
+                        "errors": [],
+                        "loc": {
+                          "end": {
                             "column": undefined,
                             "line": NaN,
                           },
-                          "start": Object {
+                          "start": {
                             "column": undefined,
                             "line": NaN,
                           },
@@ -8867,12 +8872,12 @@ describe('parseForESLint()', () => {
                   "expression": ASTWithSource {
                     "ast": Binary {
                       "left": PropertyRead {
-                        "loc": Object {
-                          "end": Object {
+                        "loc": {
+                          "end": {
                             "column": undefined,
                             "line": NaN,
                           },
-                          "start": Object {
+                          "start": {
                             "column": undefined,
                             "line": NaN,
                           },
@@ -8883,12 +8888,12 @@ describe('parseForESLint()', () => {
                           "start": 16,
                         },
                         "receiver": ImplicitReceiver {
-                          "loc": Object {
-                            "end": Object {
+                          "loc": {
+                            "end": {
                               "column": undefined,
                               "line": NaN,
                             },
-                            "start": Object {
+                            "start": {
                               "column": undefined,
                               "line": NaN,
                             },
@@ -8913,24 +8918,24 @@ describe('parseForESLint()', () => {
                         },
                         "type": "PropertyRead",
                       },
-                      "loc": Object {
-                        "end": Object {
+                      "loc": {
+                        "end": {
                           "column": undefined,
                           "line": NaN,
                         },
-                        "start": Object {
+                        "start": {
                           "column": undefined,
                           "line": NaN,
                         },
                       },
                       "operation": ">",
                       "right": PropertyRead {
-                        "loc": Object {
-                          "end": Object {
+                        "loc": {
+                          "end": {
                             "column": undefined,
                             "line": NaN,
                           },
-                          "start": Object {
+                          "start": {
                             "column": undefined,
                             "line": NaN,
                           },
@@ -8941,12 +8946,12 @@ describe('parseForESLint()', () => {
                           "start": 20,
                         },
                         "receiver": ImplicitReceiver {
-                          "loc": Object {
-                            "end": Object {
+                          "loc": {
+                            "end": {
                               "column": undefined,
                               "line": NaN,
                             },
-                            "start": Object {
+                            "start": {
                               "column": undefined,
                               "line": NaN,
                             },
@@ -8981,13 +8986,13 @@ describe('parseForESLint()', () => {
                       },
                       "type": "Binary",
                     },
-                    "errors": Array [],
-                    "loc": Object {
-                      "end": Object {
+                    "errors": [],
+                    "loc": {
+                      "end": {
                         "column": undefined,
                         "line": NaN,
                       },
-                      "start": Object {
+                      "start": {
                         "column": undefined,
                         "line": NaN,
                       },
@@ -9006,12 +9011,12 @@ describe('parseForESLint()', () => {
                   },
                   "expressionAlias": null,
                   "i18n": undefined,
-                  "loc": Object {
-                    "end": Object {
+                  "loc": {
+                    "end": {
                       "column": 11,
                       "line": 4,
                     },
-                    "start": Object {
+                    "start": {
                       "column": 10,
                       "line": 2,
                     },
@@ -9181,15 +9186,15 @@ describe('parseForESLint()', () => {
                   "type": "IfBlockBranch",
                 },
                 IfBlockBranch {
-                  "children": Array [
+                  "children": [
                     BoundText {
                       "i18n": undefined,
-                      "loc": Object {
-                        "end": Object {
+                      "loc": {
+                        "end": {
                           "column": 10,
                           "line": 6,
                         },
-                        "start": Object {
+                        "start": {
                           "column": 12,
                           "line": 5,
                         },
@@ -9251,14 +9256,14 @@ describe('parseForESLint()', () => {
                       "type": "BoundText",
                       "value": ASTWithSource {
                         "ast": Interpolation {
-                          "expressions": Array [
+                          "expressions": [
                             PropertyRead {
-                              "loc": Object {
-                                "end": Object {
+                              "loc": {
+                                "end": {
                                   "column": undefined,
                                   "line": NaN,
                                 },
-                                "start": Object {
+                                "start": {
                                   "column": undefined,
                                   "line": NaN,
                                 },
@@ -9269,12 +9274,12 @@ describe('parseForESLint()', () => {
                                 "start": 110,
                               },
                               "receiver": ImplicitReceiver {
-                                "loc": Object {
-                                  "end": Object {
+                                "loc": {
+                                  "end": {
                                     "column": undefined,
                                     "line": NaN,
                                   },
-                                  "start": Object {
+                                  "start": {
                                     "column": undefined,
                                     "line": NaN,
                                   },
@@ -9300,12 +9305,12 @@ describe('parseForESLint()', () => {
                               "type": "PropertyRead",
                             },
                             PropertyRead {
-                              "loc": Object {
-                                "end": Object {
+                              "loc": {
+                                "end": {
                                   "column": undefined,
                                   "line": NaN,
                                 },
-                                "start": Object {
+                                "start": {
                                   "column": undefined,
                                   "line": NaN,
                                 },
@@ -9316,12 +9321,12 @@ describe('parseForESLint()', () => {
                                 "start": 129,
                               },
                               "receiver": ImplicitReceiver {
-                                "loc": Object {
-                                  "end": Object {
+                                "loc": {
+                                  "end": {
                                     "column": undefined,
                                     "line": NaN,
                                   },
-                                  "start": Object {
+                                  "start": {
                                     "column": undefined,
                                     "line": NaN,
                                   },
@@ -9347,12 +9352,12 @@ describe('parseForESLint()', () => {
                               "type": "PropertyRead",
                             },
                           ],
-                          "loc": Object {
-                            "end": Object {
+                          "loc": {
+                            "end": {
                               "column": undefined,
                               "line": NaN,
                             },
-                            "start": Object {
+                            "start": {
                               "column": undefined,
                               "line": NaN,
                             },
@@ -9365,7 +9370,7 @@ describe('parseForESLint()', () => {
                             "end": 48,
                             "start": 0,
                           },
-                          "strings": Array [
+                          "strings": [
                             "
                     ",
                             " is less than ",
@@ -9374,13 +9379,13 @@ describe('parseForESLint()', () => {
                           ],
                           "type": "Interpolation",
                         },
-                        "errors": Array [],
-                        "loc": Object {
-                          "end": Object {
+                        "errors": [],
+                        "loc": {
+                          "end": {
                             "column": undefined,
                             "line": NaN,
                           },
-                          "start": Object {
+                          "start": {
                             "column": undefined,
                             "line": NaN,
                           },
@@ -9458,12 +9463,12 @@ describe('parseForESLint()', () => {
                   "expression": ASTWithSource {
                     "ast": Binary {
                       "left": PropertyRead {
-                        "loc": Object {
-                          "end": Object {
+                        "loc": {
+                          "end": {
                             "column": undefined,
                             "line": NaN,
                           },
-                          "start": Object {
+                          "start": {
                             "column": undefined,
                             "line": NaN,
                           },
@@ -9474,12 +9479,12 @@ describe('parseForESLint()', () => {
                           "start": 87,
                         },
                         "receiver": ImplicitReceiver {
-                          "loc": Object {
-                            "end": Object {
+                          "loc": {
+                            "end": {
                               "column": undefined,
                               "line": NaN,
                             },
-                            "start": Object {
+                            "start": {
                               "column": undefined,
                               "line": NaN,
                             },
@@ -9504,24 +9509,24 @@ describe('parseForESLint()', () => {
                         },
                         "type": "PropertyRead",
                       },
-                      "loc": Object {
-                        "end": Object {
+                      "loc": {
+                        "end": {
                           "column": undefined,
                           "line": NaN,
                         },
-                        "start": Object {
+                        "start": {
                           "column": undefined,
                           "line": NaN,
                         },
                       },
                       "operation": ">",
                       "right": PropertyRead {
-                        "loc": Object {
-                          "end": Object {
+                        "loc": {
+                          "end": {
                             "column": undefined,
                             "line": NaN,
                           },
-                          "start": Object {
+                          "start": {
                             "column": undefined,
                             "line": NaN,
                           },
@@ -9532,12 +9537,12 @@ describe('parseForESLint()', () => {
                           "start": 91,
                         },
                         "receiver": ImplicitReceiver {
-                          "loc": Object {
-                            "end": Object {
+                          "loc": {
+                            "end": {
                               "column": undefined,
                               "line": NaN,
                             },
-                            "start": Object {
+                            "start": {
                               "column": undefined,
                               "line": NaN,
                             },
@@ -9572,13 +9577,13 @@ describe('parseForESLint()', () => {
                       },
                       "type": "Binary",
                     },
-                    "errors": Array [],
-                    "loc": Object {
-                      "end": Object {
+                    "errors": [],
+                    "loc": {
+                      "end": {
                         "column": undefined,
                         "line": NaN,
                       },
-                      "start": Object {
+                      "start": {
                         "column": undefined,
                         "line": NaN,
                       },
@@ -9597,12 +9602,12 @@ describe('parseForESLint()', () => {
                   },
                   "expressionAlias": null,
                   "i18n": undefined,
-                  "loc": Object {
-                    "end": Object {
+                  "loc": {
+                    "end": {
                       "column": 11,
                       "line": 6,
                     },
-                    "start": Object {
+                    "start": {
                       "column": 12,
                       "line": 4,
                     },
@@ -9772,15 +9777,15 @@ describe('parseForESLint()', () => {
                   "type": "IfBlockBranch",
                 },
                 IfBlockBranch {
-                  "children": Array [
+                  "children": [
                     BoundText {
                       "i18n": undefined,
-                      "loc": Object {
-                        "end": Object {
+                      "loc": {
+                        "end": {
                           "column": 10,
                           "line": 8,
                         },
-                        "start": Object {
+                        "start": {
                           "column": 12,
                           "line": 7,
                         },
@@ -9842,14 +9847,14 @@ describe('parseForESLint()', () => {
                       "type": "BoundText",
                       "value": ASTWithSource {
                         "ast": Interpolation {
-                          "expressions": Array [
+                          "expressions": [
                             PropertyRead {
-                              "loc": Object {
-                                "end": Object {
+                              "loc": {
+                                "end": {
                                   "column": undefined,
                                   "line": NaN,
                                 },
-                                "start": Object {
+                                "start": {
                                   "column": undefined,
                                   "line": NaN,
                                 },
@@ -9860,12 +9865,12 @@ describe('parseForESLint()', () => {
                                 "start": 167,
                               },
                               "receiver": ImplicitReceiver {
-                                "loc": Object {
-                                  "end": Object {
+                                "loc": {
+                                  "end": {
                                     "column": undefined,
                                     "line": NaN,
                                   },
-                                  "start": Object {
+                                  "start": {
                                     "column": undefined,
                                     "line": NaN,
                                   },
@@ -9891,12 +9896,12 @@ describe('parseForESLint()', () => {
                               "type": "PropertyRead",
                             },
                             PropertyRead {
-                              "loc": Object {
-                                "end": Object {
+                              "loc": {
+                                "end": {
                                   "column": undefined,
                                   "line": NaN,
                                 },
-                                "start": Object {
+                                "start": {
                                   "column": undefined,
                                   "line": NaN,
                                 },
@@ -9907,12 +9912,12 @@ describe('parseForESLint()', () => {
                                 "start": 185,
                               },
                               "receiver": ImplicitReceiver {
-                                "loc": Object {
-                                  "end": Object {
+                                "loc": {
+                                  "end": {
                                     "column": undefined,
                                     "line": NaN,
                                   },
-                                  "start": Object {
+                                  "start": {
                                     "column": undefined,
                                     "line": NaN,
                                   },
@@ -9938,12 +9943,12 @@ describe('parseForESLint()', () => {
                               "type": "PropertyRead",
                             },
                           ],
-                          "loc": Object {
-                            "end": Object {
+                          "loc": {
+                            "end": {
                               "column": undefined,
                               "line": NaN,
                             },
-                            "start": Object {
+                            "start": {
                               "column": undefined,
                               "line": NaN,
                             },
@@ -9956,7 +9961,7 @@ describe('parseForESLint()', () => {
                             "end": 47,
                             "start": 0,
                           },
-                          "strings": Array [
+                          "strings": [
                             "
                     ",
                             " is equal to ",
@@ -9965,13 +9970,13 @@ describe('parseForESLint()', () => {
                           ],
                           "type": "Interpolation",
                         },
-                        "errors": Array [],
-                        "loc": Object {
-                          "end": Object {
+                        "errors": [],
+                        "loc": {
+                          "end": {
                             "column": undefined,
                             "line": NaN,
                           },
-                          "start": Object {
+                          "start": {
                             "column": undefined,
                             "line": NaN,
                           },
@@ -10049,12 +10054,12 @@ describe('parseForESLint()', () => {
                   "expression": null,
                   "expressionAlias": null,
                   "i18n": undefined,
-                  "loc": Object {
-                    "end": Object {
+                  "loc": {
+                    "end": {
                       "column": 11,
                       "line": 8,
                     },
-                    "start": Object {
+                    "start": {
                       "column": 12,
                       "line": 6,
                     },
@@ -10278,12 +10283,12 @@ describe('parseForESLint()', () => {
                   "offset": 199,
                 },
               },
-              "loc": Object {
-                "end": Object {
+              "loc": {
+                "end": {
                   "column": 11,
                   "line": 8,
                 },
-                "start": Object {
+                "start": {
                   "column": 10,
                   "line": 2,
                 },
@@ -10453,7 +10458,7 @@ describe('parseForESLint()', () => {
               "type": "IfBlock",
             },
           ],
-          "tokens": Array [],
+          "tokens": [],
           "type": "Program",
           "value": "
                   @if (a > b) {
@@ -10481,30 +10486,30 @@ describe('parseForESLint()', () => {
           { filePath: './foo.html' },
         ).ast,
       ).toMatchInlineSnapshot(`
-        Object {
-          "comments": Array [],
-          "loc": Object {
-            "end": Object {
+        {
+          "comments": [],
+          "loc": {
+            "end": {
               "column": 6,
               "line": 5,
             },
-            "start": Object {
+            "start": {
               "column": 10,
               "line": 2,
             },
           },
-          "range": Array [
+          "range": [
             11,
             81,
           ],
-          "templateNodes": Array [
+          "templateNodes": [
             Text {
-              "loc": Object {
-                "end": Object {
+              "loc": {
+                "end": {
                   "column": 10,
                   "line": 2,
                 },
-                "start": Object {
+                "start": {
                   "column": 10,
                   "line": 2,
                 },
@@ -10556,12 +10561,12 @@ describe('parseForESLint()', () => {
                   ",
             },
             LetDeclaration {
-              "loc": Object {
-                "end": Object {
+              "loc": {
+                "end": {
                   "column": 20,
                   "line": 2,
                 },
-                "start": Object {
+                "start": {
                   "column": 10,
                   "line": 2,
                 },
@@ -10654,12 +10659,12 @@ describe('parseForESLint()', () => {
               "type": "LetDeclaration",
               "value": ASTWithSource {
                 "ast": LiteralPrimitive {
-                  "loc": Object {
-                    "end": Object {
+                  "loc": {
+                    "end": {
                       "column": undefined,
                       "line": NaN,
                     },
-                    "start": Object {
+                    "start": {
                       "column": undefined,
                       "line": NaN,
                     },
@@ -10675,13 +10680,13 @@ describe('parseForESLint()', () => {
                   "type": "LiteralPrimitive",
                   "value": 1,
                 },
-                "errors": Array [],
-                "loc": Object {
-                  "end": Object {
+                "errors": [],
+                "loc": {
+                  "end": {
                     "column": undefined,
                     "line": NaN,
                   },
-                  "start": Object {
+                  "start": {
                     "column": undefined,
                     "line": NaN,
                   },
@@ -10742,12 +10747,12 @@ describe('parseForESLint()', () => {
               },
             },
             Text {
-              "loc": Object {
-                "end": Object {
+              "loc": {
+                "end": {
                   "column": 10,
                   "line": 3,
                 },
-                "start": Object {
+                "start": {
                   "column": 10,
                   "line": 3,
                 },
@@ -10799,12 +10804,12 @@ describe('parseForESLint()', () => {
                   ",
             },
             LetDeclaration {
-              "loc": Object {
-                "end": Object {
+              "loc": {
+                "end": {
                   "column": 24,
                   "line": 3,
                 },
-                "start": Object {
+                "start": {
                   "column": 10,
                   "line": 3,
                 },
@@ -10898,12 +10903,12 @@ describe('parseForESLint()', () => {
               "value": ASTWithSource {
                 "ast": Binary {
                   "left": PropertyRead {
-                    "loc": Object {
-                      "end": Object {
+                    "loc": {
+                      "end": {
                         "column": undefined,
                         "line": NaN,
                       },
-                      "start": Object {
+                      "start": {
                         "column": undefined,
                         "line": NaN,
                       },
@@ -10914,12 +10919,12 @@ describe('parseForESLint()', () => {
                       "start": 42,
                     },
                     "receiver": ImplicitReceiver {
-                      "loc": Object {
-                        "end": Object {
+                      "loc": {
+                        "end": {
                           "column": undefined,
                           "line": NaN,
                         },
-                        "start": Object {
+                        "start": {
                           "column": undefined,
                           "line": NaN,
                         },
@@ -10944,24 +10949,24 @@ describe('parseForESLint()', () => {
                     },
                     "type": "PropertyRead",
                   },
-                  "loc": Object {
-                    "end": Object {
+                  "loc": {
+                    "end": {
                       "column": undefined,
                       "line": NaN,
                     },
-                    "start": Object {
+                    "start": {
                       "column": undefined,
                       "line": NaN,
                     },
                   },
                   "operation": "+",
                   "right": LiteralPrimitive {
-                    "loc": Object {
-                      "end": Object {
+                    "loc": {
+                      "end": {
                         "column": undefined,
                         "line": NaN,
                       },
-                      "start": Object {
+                      "start": {
                         "column": undefined,
                         "line": NaN,
                       },
@@ -10987,13 +10992,13 @@ describe('parseForESLint()', () => {
                   },
                   "type": "Binary",
                 },
-                "errors": Array [],
-                "loc": Object {
-                  "end": Object {
+                "errors": [],
+                "loc": {
+                  "end": {
                     "column": undefined,
                     "line": NaN,
                   },
-                  "start": Object {
+                  "start": {
                     "column": undefined,
                     "line": NaN,
                   },
@@ -11054,12 +11059,12 @@ describe('parseForESLint()', () => {
               },
             },
             Text {
-              "loc": Object {
-                "end": Object {
+              "loc": {
+                "end": {
                   "column": 10,
                   "line": 4,
                 },
-                "start": Object {
+                "start": {
                   "column": 10,
                   "line": 4,
                 },
@@ -11111,12 +11116,12 @@ describe('parseForESLint()', () => {
                   ",
             },
             LetDeclaration {
-              "loc": Object {
-                "end": Object {
+              "loc": {
+                "end": {
                   "column": 24,
                   "line": 4,
                 },
-                "start": Object {
+                "start": {
                   "column": 10,
                   "line": 4,
                 },
@@ -11209,28 +11214,28 @@ describe('parseForESLint()', () => {
               "type": "LetDeclaration",
               "value": ASTWithSource {
                 "ast": Call {
-                  "args": Array [],
+                  "args": [],
                   "argumentSpan": AbsoluteSourceSpan {
                     "end": 72,
                     "start": 72,
                   },
-                  "loc": Object {
-                    "end": Object {
+                  "loc": {
+                    "end": {
                       "column": undefined,
                       "line": NaN,
                     },
-                    "start": Object {
+                    "start": {
                       "column": undefined,
                       "line": NaN,
                     },
                   },
                   "receiver": PropertyRead {
-                    "loc": Object {
-                      "end": Object {
+                    "loc": {
+                      "end": {
                         "column": undefined,
                         "line": NaN,
                       },
-                      "start": Object {
+                      "start": {
                         "column": undefined,
                         "line": NaN,
                       },
@@ -11241,12 +11246,12 @@ describe('parseForESLint()', () => {
                       "start": 68,
                     },
                     "receiver": ImplicitReceiver {
-                      "loc": Object {
-                        "end": Object {
+                      "loc": {
+                        "end": {
                           "column": undefined,
                           "line": NaN,
                         },
-                        "start": Object {
+                        "start": {
                           "column": undefined,
                           "line": NaN,
                         },
@@ -11281,13 +11286,13 @@ describe('parseForESLint()', () => {
                   },
                   "type": "Call",
                 },
-                "errors": Array [],
-                "loc": Object {
-                  "end": Object {
+                "errors": [],
+                "loc": {
+                  "end": {
                     "column": undefined,
                     "line": NaN,
                   },
-                  "start": Object {
+                  "start": {
                     "column": undefined,
                     "line": NaN,
                   },
@@ -11348,12 +11353,12 @@ describe('parseForESLint()', () => {
               },
             },
             Text {
-              "loc": Object {
-                "end": Object {
+              "loc": {
+                "end": {
                   "column": 6,
                   "line": 5,
                 },
-                "start": Object {
+                "start": {
                   "column": 6,
                   "line": 5,
                 },
@@ -11405,7 +11410,7 @@ describe('parseForESLint()', () => {
               ",
             },
           ],
-          "tokens": Array [],
+          "tokens": [],
           "type": "Program",
           "value": "
                   @let a = 1;
@@ -11431,30 +11436,30 @@ describe('parseForESLint()', () => {
           { filePath: './foo.html' },
         ).ast,
       ).toMatchInlineSnapshot(`
-        Object {
-          "comments": Array [],
-          "loc": Object {
-            "end": Object {
+        {
+          "comments": [],
+          "loc": {
+            "end": {
               "column": 11,
               "line": 6,
             },
-            "start": Object {
+            "start": {
               "column": 10,
               "line": 2,
             },
           },
-          "range": Array [
+          "range": [
             11,
             142,
           ],
-          "templateNodes": Array [
+          "templateNodes": [
             Text {
-              "loc": Object {
-                "end": Object {
+              "loc": {
+                "end": {
                   "column": 10,
                   "line": 2,
                 },
-                "start": Object {
+                "start": {
                   "column": 10,
                   "line": 2,
                 },
@@ -11512,15 +11517,15 @@ describe('parseForESLint()', () => {
                   ",
             },
             ForLoopBlock {
-              "children": Array [
+              "children": [
                 BoundText {
                   "i18n": undefined,
-                  "loc": Object {
-                    "end": Object {
+                  "loc": {
+                    "end": {
                       "column": 10,
                       "line": 4,
                     },
-                    "start": Object {
+                    "start": {
                       "column": 12,
                       "line": 3,
                     },
@@ -11576,14 +11581,14 @@ describe('parseForESLint()', () => {
                   "type": "BoundText",
                   "value": ASTWithSource {
                     "ast": Interpolation {
-                      "expressions": Array [
+                      "expressions": [
                         PropertyRead {
-                          "loc": Object {
-                            "end": Object {
+                          "loc": {
+                            "end": {
                               "column": undefined,
                               "line": NaN,
                             },
-                            "start": Object {
+                            "start": {
                               "column": undefined,
                               "line": NaN,
                             },
@@ -11594,12 +11599,12 @@ describe('parseForESLint()', () => {
                             "start": 69,
                           },
                           "receiver": PropertyRead {
-                            "loc": Object {
-                              "end": Object {
+                            "loc": {
+                              "end": {
                                 "column": undefined,
                                 "line": NaN,
                               },
-                              "start": Object {
+                              "start": {
                                 "column": undefined,
                                 "line": NaN,
                               },
@@ -11610,12 +11615,12 @@ describe('parseForESLint()', () => {
                               "start": 64,
                             },
                             "receiver": ImplicitReceiver {
-                              "loc": Object {
-                                "end": Object {
+                              "loc": {
+                                "end": {
                                   "column": undefined,
                                   "line": NaN,
                                 },
-                                "start": Object {
+                                "start": {
                                   "column": undefined,
                                   "line": NaN,
                                 },
@@ -11651,12 +11656,12 @@ describe('parseForESLint()', () => {
                           "type": "PropertyRead",
                         },
                       ],
-                      "loc": Object {
-                        "end": Object {
+                      "loc": {
+                        "end": {
                           "column": undefined,
                           "line": NaN,
                         },
-                        "start": Object {
+                        "start": {
                           "column": undefined,
                           "line": NaN,
                         },
@@ -11669,7 +11674,7 @@ describe('parseForESLint()', () => {
                         "end": 39,
                         "start": 0,
                       },
-                      "strings": Array [
+                      "strings": [
                         "
                     ",
                         "
@@ -11677,13 +11682,13 @@ describe('parseForESLint()', () => {
                       ],
                       "type": "Interpolation",
                     },
-                    "errors": Array [],
-                    "loc": Object {
-                      "end": Object {
+                    "errors": [],
+                    "loc": {
+                      "end": {
                         "column": undefined,
                         "line": NaN,
                       },
-                      "start": Object {
+                      "start": {
                         "column": undefined,
                         "line": NaN,
                       },
@@ -11704,7 +11709,7 @@ describe('parseForESLint()', () => {
                   },
                 },
               ],
-              "contextVariables": Array [
+              "contextVariables": [
                 Variable {
                   "keySpan": ParseSourceSpan {
                     "details": null,
@@ -12313,14 +12318,14 @@ describe('parseForESLint()', () => {
                 },
               ],
               "empty": ForLoopBlockEmpty {
-                "children": Array [
+                "children": [
                   Text {
-                    "loc": Object {
-                      "end": Object {
+                    "loc": {
+                      "end": {
                         "column": 10,
                         "line": 6,
                       },
-                      "start": Object {
+                      "start": {
                         "column": 13,
                         "line": 5,
                       },
@@ -12428,12 +12433,12 @@ describe('parseForESLint()', () => {
                   },
                 },
                 "i18n": undefined,
-                "loc": Object {
-                  "end": Object {
+                "loc": {
+                  "end": {
                     "column": 11,
                     "line": 6,
                   },
-                  "start": Object {
+                  "start": {
                     "column": 12,
                     "line": 4,
                   },
@@ -12634,12 +12639,12 @@ describe('parseForESLint()', () => {
               },
               "expression": ASTWithSource {
                 "ast": PropertyRead {
-                  "loc": Object {
-                    "end": Object {
+                  "loc": {
+                    "end": {
                       "column": undefined,
                       "line": NaN,
                     },
-                    "start": Object {
+                    "start": {
                       "column": undefined,
                       "line": NaN,
                     },
@@ -12650,12 +12655,12 @@ describe('parseForESLint()', () => {
                     "start": 25,
                   },
                   "receiver": ImplicitReceiver {
-                    "loc": Object {
-                      "end": Object {
+                    "loc": {
+                      "end": {
                         "column": undefined,
                         "line": NaN,
                       },
-                      "start": Object {
+                      "start": {
                         "column": undefined,
                         "line": NaN,
                       },
@@ -12680,13 +12685,13 @@ describe('parseForESLint()', () => {
                   },
                   "type": "PropertyRead",
                 },
-                "errors": Array [],
-                "loc": Object {
-                  "end": Object {
+                "errors": [],
+                "loc": {
+                  "end": {
                     "column": undefined,
                     "line": NaN,
                   },
-                  "start": Object {
+                  "start": {
                     "column": undefined,
                     "line": NaN,
                   },
@@ -12805,12 +12810,12 @@ describe('parseForESLint()', () => {
                 "value": "$implicit",
                 "valueSpan": undefined,
               },
-              "loc": Object {
-                "end": Object {
+              "loc": {
+                "end": {
                   "column": 11,
                   "line": 6,
                 },
-                "start": Object {
+                "start": {
                   "column": 10,
                   "line": 2,
                 },
@@ -13009,12 +13014,12 @@ describe('parseForESLint()', () => {
               },
               "trackBy": ASTWithSource {
                 "ast": PropertyRead {
-                  "loc": Object {
-                    "end": Object {
+                  "loc": {
+                    "end": {
                       "column": undefined,
                       "line": NaN,
                     },
-                    "start": Object {
+                    "start": {
                       "column": undefined,
                       "line": NaN,
                     },
@@ -13025,12 +13030,12 @@ describe('parseForESLint()', () => {
                     "start": 43,
                   },
                   "receiver": PropertyRead {
-                    "loc": Object {
-                      "end": Object {
+                    "loc": {
+                      "end": {
                         "column": undefined,
                         "line": NaN,
                       },
-                      "start": Object {
+                      "start": {
                         "column": undefined,
                         "line": NaN,
                       },
@@ -13041,12 +13046,12 @@ describe('parseForESLint()', () => {
                       "start": 38,
                     },
                     "receiver": ImplicitReceiver {
-                      "loc": Object {
-                        "end": Object {
+                      "loc": {
+                        "end": {
                           "column": undefined,
                           "line": NaN,
                         },
-                        "start": Object {
+                        "start": {
                           "column": undefined,
                           "line": NaN,
                         },
@@ -13081,13 +13086,13 @@ describe('parseForESLint()', () => {
                   },
                   "type": "PropertyRead",
                 },
-                "errors": Array [],
-                "loc": Object {
-                  "end": Object {
+                "errors": [],
+                "loc": {
+                  "end": {
                     "column": undefined,
                     "line": NaN,
                   },
-                  "start": Object {
+                  "start": {
                     "column": undefined,
                     "line": NaN,
                   },
@@ -13155,7 +13160,7 @@ describe('parseForESLint()', () => {
               "type": "ForLoopBlock",
             },
           ],
-          "tokens": Array [],
+          "tokens": [],
           "type": "Program",
           "value": "
                   @for (item of items; track item.id) {
@@ -13189,30 +13194,30 @@ describe('parseForESLint()', () => {
           { filePath: './foo.html' },
         ).ast,
       ).toMatchInlineSnapshot(`
-        Object {
-          "comments": Array [],
-          "loc": Object {
-            "end": Object {
+        {
+          "comments": [],
+          "loc": {
+            "end": {
               "column": 6,
               "line": 13,
             },
-            "start": Object {
+            "start": {
               "column": 10,
               "line": 2,
             },
           },
-          "range": Array [
+          "range": [
             11,
             283,
           ],
-          "templateNodes": Array [
+          "templateNodes": [
             Text {
-              "loc": Object {
-                "end": Object {
+              "loc": {
+                "end": {
                   "column": 10,
                   "line": 2,
                 },
-                "start": Object {
+                "start": {
                   "column": 10,
                   "line": 2,
                 },
@@ -13288,16 +13293,16 @@ describe('parseForESLint()', () => {
                   ",
             },
             SwitchBlock {
-              "cases": Array [
+              "cases": [
                 SwitchBlockCase {
-                  "children": Array [
+                  "children": [
                     Text {
-                      "loc": Object {
-                        "end": Object {
+                      "loc": {
+                        "end": {
                           "column": 14,
                           "line": 4,
                         },
-                        "start": Object {
+                        "start": {
                           "column": 14,
                           "line": 4,
                         },
@@ -13373,15 +13378,15 @@ describe('parseForESLint()', () => {
                       ",
                     },
                     Element {
-                      "attributes": Array [],
-                      "children": Array [
+                      "attributes": [],
+                      "children": [
                         Text {
-                          "loc": Object {
-                            "end": Object {
+                          "loc": {
+                            "end": {
                               "column": 27,
                               "line": 4,
                             },
-                            "start": Object {
+                            "start": {
                               "column": 20,
                               "line": 4,
                             },
@@ -13456,7 +13461,7 @@ describe('parseForESLint()', () => {
                           "value": "Case A.",
                         },
                       ],
-                      "directives": Array [],
+                      "directives": [],
                       "endSourceSpan": ParseSourceSpan {
                         "details": null,
                         "end": ParseLocation {
@@ -13524,22 +13529,22 @@ describe('parseForESLint()', () => {
                         },
                       },
                       "i18n": undefined,
-                      "inputs": Array [],
+                      "inputs": [],
                       "isSelfClosing": false,
                       "isVoid": false,
-                      "loc": Object {
-                        "end": Object {
+                      "loc": {
+                        "end": {
                           "column": 34,
                           "line": 4,
                         },
-                        "start": Object {
+                        "start": {
                           "column": 14,
                           "line": 4,
                         },
                       },
                       "name": "span",
-                      "outputs": Array [],
-                      "references": Array [],
+                      "outputs": [],
+                      "references": [],
                       "sourceSpan": ParseSourceSpan {
                         "details": null,
                         "end": ParseLocation {
@@ -13675,12 +13680,12 @@ describe('parseForESLint()', () => {
                       "type": "Element",
                     },
                     Text {
-                      "loc": Object {
-                        "end": Object {
+                      "loc": {
+                        "end": {
                           "column": 12,
                           "line": 5,
                         },
-                        "start": Object {
+                        "start": {
                           "column": 12,
                           "line": 5,
                         },
@@ -13824,12 +13829,12 @@ describe('parseForESLint()', () => {
                   },
                   "expression": ASTWithSource {
                     "ast": PropertyRead {
-                      "loc": Object {
-                        "end": Object {
+                      "loc": {
+                        "end": {
                           "column": undefined,
                           "line": NaN,
                         },
-                        "start": Object {
+                        "start": {
                           "column": undefined,
                           "line": NaN,
                         },
@@ -13840,12 +13845,12 @@ describe('parseForESLint()', () => {
                         "start": 52,
                       },
                       "receiver": ImplicitReceiver {
-                        "loc": Object {
-                          "end": Object {
+                        "loc": {
+                          "end": {
                             "column": undefined,
                             "line": NaN,
                           },
-                          "start": Object {
+                          "start": {
                             "column": undefined,
                             "line": NaN,
                           },
@@ -13870,13 +13875,13 @@ describe('parseForESLint()', () => {
                       },
                       "type": "PropertyRead",
                     },
-                    "errors": Array [],
-                    "loc": Object {
-                      "end": Object {
+                    "errors": [],
+                    "loc": {
+                      "end": {
                         "column": undefined,
                         "line": NaN,
                       },
-                      "start": Object {
+                      "start": {
                         "column": undefined,
                         "line": NaN,
                       },
@@ -13894,12 +13899,12 @@ describe('parseForESLint()', () => {
                     "type": "ASTWithSource",
                   },
                   "i18n": undefined,
-                  "loc": Object {
-                    "end": Object {
+                  "loc": {
+                    "end": {
                       "column": 13,
                       "line": 5,
                     },
-                    "start": Object {
+                    "start": {
                       "column": 12,
                       "line": 3,
                     },
@@ -14105,14 +14110,14 @@ describe('parseForESLint()', () => {
                   "type": "SwitchBlockCase",
                 },
                 SwitchBlockCase {
-                  "children": Array [
+                  "children": [
                     Text {
-                      "loc": Object {
-                        "end": Object {
+                      "loc": {
+                        "end": {
                           "column": 14,
                           "line": 7,
                         },
-                        "start": Object {
+                        "start": {
                           "column": 14,
                           "line": 7,
                         },
@@ -14188,15 +14193,15 @@ describe('parseForESLint()', () => {
                       ",
                     },
                     Element {
-                      "attributes": Array [],
-                      "children": Array [
+                      "attributes": [],
+                      "children": [
                         Text {
-                          "loc": Object {
-                            "end": Object {
+                          "loc": {
+                            "end": {
                               "column": 27,
                               "line": 7,
                             },
-                            "start": Object {
+                            "start": {
                               "column": 20,
                               "line": 7,
                             },
@@ -14271,7 +14276,7 @@ describe('parseForESLint()', () => {
                           "value": "Case B.",
                         },
                       ],
-                      "directives": Array [],
+                      "directives": [],
                       "endSourceSpan": ParseSourceSpan {
                         "details": null,
                         "end": ParseLocation {
@@ -14339,22 +14344,22 @@ describe('parseForESLint()', () => {
                         },
                       },
                       "i18n": undefined,
-                      "inputs": Array [],
+                      "inputs": [],
                       "isSelfClosing": false,
                       "isVoid": false,
-                      "loc": Object {
-                        "end": Object {
+                      "loc": {
+                        "end": {
                           "column": 34,
                           "line": 7,
                         },
-                        "start": Object {
+                        "start": {
                           "column": 14,
                           "line": 7,
                         },
                       },
                       "name": "span",
-                      "outputs": Array [],
-                      "references": Array [],
+                      "outputs": [],
+                      "references": [],
                       "sourceSpan": ParseSourceSpan {
                         "details": null,
                         "end": ParseLocation {
@@ -14490,12 +14495,12 @@ describe('parseForESLint()', () => {
                       "type": "Element",
                     },
                     Text {
-                      "loc": Object {
-                        "end": Object {
+                      "loc": {
+                        "end": {
                           "column": 12,
                           "line": 8,
                         },
-                        "start": Object {
+                        "start": {
                           "column": 12,
                           "line": 8,
                         },
@@ -14639,12 +14644,12 @@ describe('parseForESLint()', () => {
                   },
                   "expression": ASTWithSource {
                     "ast": PropertyRead {
-                      "loc": Object {
-                        "end": Object {
+                      "loc": {
+                        "end": {
                           "column": undefined,
                           "line": NaN,
                         },
-                        "start": Object {
+                        "start": {
                           "column": undefined,
                           "line": NaN,
                         },
@@ -14655,12 +14660,12 @@ describe('parseForESLint()', () => {
                         "start": 129,
                       },
                       "receiver": ImplicitReceiver {
-                        "loc": Object {
-                          "end": Object {
+                        "loc": {
+                          "end": {
                             "column": undefined,
                             "line": NaN,
                           },
-                          "start": Object {
+                          "start": {
                             "column": undefined,
                             "line": NaN,
                           },
@@ -14685,13 +14690,13 @@ describe('parseForESLint()', () => {
                       },
                       "type": "PropertyRead",
                     },
-                    "errors": Array [],
-                    "loc": Object {
-                      "end": Object {
+                    "errors": [],
+                    "loc": {
+                      "end": {
                         "column": undefined,
                         "line": NaN,
                       },
-                      "start": Object {
+                      "start": {
                         "column": undefined,
                         "line": NaN,
                       },
@@ -14709,12 +14714,12 @@ describe('parseForESLint()', () => {
                     "type": "ASTWithSource",
                   },
                   "i18n": undefined,
-                  "loc": Object {
-                    "end": Object {
+                  "loc": {
+                    "end": {
                       "column": 13,
                       "line": 8,
                     },
-                    "start": Object {
+                    "start": {
                       "column": 12,
                       "line": 6,
                     },
@@ -14920,14 +14925,14 @@ describe('parseForESLint()', () => {
                   "type": "SwitchBlockCase",
                 },
                 SwitchBlockCase {
-                  "children": Array [
+                  "children": [
                     Text {
-                      "loc": Object {
-                        "end": Object {
+                      "loc": {
+                        "end": {
                           "column": 14,
                           "line": 10,
                         },
-                        "start": Object {
+                        "start": {
                           "column": 14,
                           "line": 10,
                         },
@@ -15003,15 +15008,15 @@ describe('parseForESLint()', () => {
                       ",
                     },
                     Element {
-                      "attributes": Array [],
-                      "children": Array [
+                      "attributes": [],
+                      "children": [
                         Text {
-                          "loc": Object {
-                            "end": Object {
+                          "loc": {
+                            "end": {
                               "column": 33,
                               "line": 10,
                             },
-                            "start": Object {
+                            "start": {
                               "column": 20,
                               "line": 10,
                             },
@@ -15086,7 +15091,7 @@ describe('parseForESLint()', () => {
                           "value": "Default case.",
                         },
                       ],
-                      "directives": Array [],
+                      "directives": [],
                       "endSourceSpan": ParseSourceSpan {
                         "details": null,
                         "end": ParseLocation {
@@ -15154,22 +15159,22 @@ describe('parseForESLint()', () => {
                         },
                       },
                       "i18n": undefined,
-                      "inputs": Array [],
+                      "inputs": [],
                       "isSelfClosing": false,
                       "isVoid": false,
-                      "loc": Object {
-                        "end": Object {
+                      "loc": {
+                        "end": {
                           "column": 40,
                           "line": 10,
                         },
-                        "start": Object {
+                        "start": {
                           "column": 14,
                           "line": 10,
                         },
                       },
                       "name": "span",
-                      "outputs": Array [],
-                      "references": Array [],
+                      "outputs": [],
+                      "references": [],
                       "sourceSpan": ParseSourceSpan {
                         "details": null,
                         "end": ParseLocation {
@@ -15305,12 +15310,12 @@ describe('parseForESLint()', () => {
                       "type": "Element",
                     },
                     Text {
-                      "loc": Object {
-                        "end": Object {
+                      "loc": {
+                        "end": {
                           "column": 12,
                           "line": 11,
                         },
-                        "start": Object {
+                        "start": {
                           "column": 12,
                           "line": 11,
                         },
@@ -15454,12 +15459,12 @@ describe('parseForESLint()', () => {
                   },
                   "expression": null,
                   "i18n": undefined,
-                  "loc": Object {
-                    "end": Object {
+                  "loc": {
+                    "end": {
                       "column": 13,
                       "line": 11,
                     },
-                    "start": Object {
+                    "start": {
                       "column": 12,
                       "line": 9,
                     },
@@ -15733,12 +15738,12 @@ describe('parseForESLint()', () => {
               },
               "expression": ASTWithSource {
                 "ast": PropertyRead {
-                  "loc": Object {
-                    "end": Object {
+                  "loc": {
+                    "end": {
                       "column": undefined,
                       "line": NaN,
                     },
-                    "start": Object {
+                    "start": {
                       "column": undefined,
                       "line": NaN,
                     },
@@ -15749,12 +15754,12 @@ describe('parseForESLint()', () => {
                     "start": 20,
                   },
                   "receiver": ImplicitReceiver {
-                    "loc": Object {
-                      "end": Object {
+                    "loc": {
+                      "end": {
                         "column": undefined,
                         "line": NaN,
                       },
-                      "start": Object {
+                      "start": {
                         "column": undefined,
                         "line": NaN,
                       },
@@ -15779,13 +15784,13 @@ describe('parseForESLint()', () => {
                   },
                   "type": "PropertyRead",
                 },
-                "errors": Array [],
-                "loc": Object {
-                  "end": Object {
+                "errors": [],
+                "loc": {
+                  "end": {
                     "column": undefined,
                     "line": NaN,
                   },
-                  "start": Object {
+                  "start": {
                     "column": undefined,
                     "line": NaN,
                   },
@@ -15802,12 +15807,12 @@ describe('parseForESLint()', () => {
                 },
                 "type": "ASTWithSource",
               },
-              "loc": Object {
-                "end": Object {
+              "loc": {
+                "end": {
                   "column": 11,
                   "line": 12,
                 },
-                "start": Object {
+                "start": {
                   "column": 10,
                   "line": 2,
                 },
@@ -16011,15 +16016,15 @@ describe('parseForESLint()', () => {
                 },
               },
               "type": "SwitchBlock",
-              "unknownBlocks": Array [],
+              "unknownBlocks": [],
             },
             Text {
-              "loc": Object {
-                "end": Object {
+              "loc": {
+                "end": {
                   "column": 6,
                   "line": 13,
                 },
-                "start": Object {
+                "start": {
                   "column": 6,
                   "line": 13,
                 },
@@ -16095,7 +16100,7 @@ describe('parseForESLint()', () => {
               ",
             },
           ],
-          "tokens": Array [],
+          "tokens": [],
           "type": "Program",
           "value": "
                   @switch (condition) {
@@ -16121,31 +16126,31 @@ describe('parseForESLint()', () => {
         parseForESLint(`{{ foo() }} {{ bar?.() }}`, { filePath: './foo.html' })
           .ast,
       ).toMatchInlineSnapshot(`
-        Object {
-          "comments": Array [],
-          "loc": Object {
-            "end": Object {
+        {
+          "comments": [],
+          "loc": {
+            "end": {
               "column": 25,
               "line": 1,
             },
-            "start": Object {
+            "start": {
               "column": 0,
               "line": 1,
             },
           },
-          "range": Array [
+          "range": [
             0,
             25,
           ],
-          "templateNodes": Array [
+          "templateNodes": [
             BoundText {
               "i18n": undefined,
-              "loc": Object {
-                "end": Object {
+              "loc": {
+                "end": {
                   "column": 25,
                   "line": 1,
                 },
-                "start": Object {
+                "start": {
                   "column": 0,
                   "line": 1,
                 },
@@ -16183,30 +16188,30 @@ describe('parseForESLint()', () => {
               "type": "BoundText",
               "value": ASTWithSource {
                 "ast": Interpolation {
-                  "expressions": Array [
+                  "expressions": [
                     Call {
-                      "args": Array [],
+                      "args": [],
                       "argumentSpan": AbsoluteSourceSpan {
                         "end": 7,
                         "start": 7,
                       },
-                      "loc": Object {
-                        "end": Object {
+                      "loc": {
+                        "end": {
                           "column": undefined,
                           "line": NaN,
                         },
-                        "start": Object {
+                        "start": {
                           "column": undefined,
                           "line": NaN,
                         },
                       },
                       "receiver": PropertyRead {
-                        "loc": Object {
-                          "end": Object {
+                        "loc": {
+                          "end": {
                             "column": undefined,
                             "line": NaN,
                           },
-                          "start": Object {
+                          "start": {
                             "column": undefined,
                             "line": NaN,
                           },
@@ -16217,12 +16222,12 @@ describe('parseForESLint()', () => {
                           "start": 3,
                         },
                         "receiver": ImplicitReceiver {
-                          "loc": Object {
-                            "end": Object {
+                          "loc": {
+                            "end": {
                               "column": undefined,
                               "line": NaN,
                             },
-                            "start": Object {
+                            "start": {
                               "column": undefined,
                               "line": NaN,
                             },
@@ -16258,28 +16263,28 @@ describe('parseForESLint()', () => {
                       "type": "Call",
                     },
                     SafeCall {
-                      "args": Array [],
+                      "args": [],
                       "argumentSpan": AbsoluteSourceSpan {
                         "end": 21,
                         "start": 21,
                       },
-                      "loc": Object {
-                        "end": Object {
+                      "loc": {
+                        "end": {
                           "column": undefined,
                           "line": NaN,
                         },
-                        "start": Object {
+                        "start": {
                           "column": undefined,
                           "line": NaN,
                         },
                       },
                       "receiver": PropertyRead {
-                        "loc": Object {
-                          "end": Object {
+                        "loc": {
+                          "end": {
                             "column": undefined,
                             "line": NaN,
                           },
-                          "start": Object {
+                          "start": {
                             "column": undefined,
                             "line": NaN,
                           },
@@ -16290,12 +16295,12 @@ describe('parseForESLint()', () => {
                           "start": 15,
                         },
                         "receiver": ImplicitReceiver {
-                          "loc": Object {
-                            "end": Object {
+                          "loc": {
+                            "end": {
                               "column": undefined,
                               "line": NaN,
                             },
-                            "start": Object {
+                            "start": {
                               "column": undefined,
                               "line": NaN,
                             },
@@ -16331,12 +16336,12 @@ describe('parseForESLint()', () => {
                       "type": "SafeCall",
                     },
                   ],
-                  "loc": Object {
-                    "end": Object {
+                  "loc": {
+                    "end": {
                       "column": undefined,
                       "line": NaN,
                     },
-                    "start": Object {
+                    "start": {
                       "column": undefined,
                       "line": NaN,
                     },
@@ -16349,20 +16354,20 @@ describe('parseForESLint()', () => {
                     "end": 25,
                     "start": 0,
                   },
-                  "strings": Array [
+                  "strings": [
                     "",
                     " ",
                     "",
                   ],
                   "type": "Interpolation",
                 },
-                "errors": Array [],
-                "loc": Object {
-                  "end": Object {
+                "errors": [],
+                "loc": {
+                  "end": {
                     "column": undefined,
                     "line": NaN,
                   },
-                  "start": Object {
+                  "start": {
                     "column": undefined,
                     "line": NaN,
                   },
@@ -16381,7 +16386,7 @@ describe('parseForESLint()', () => {
               },
             },
           ],
-          "tokens": Array [],
+          "tokens": [],
           "type": "Program",
           "value": "{{ foo() }} {{ bar?.() }}",
         }
@@ -16409,282 +16414,316 @@ describe('parseForESLint()', () => {
   });
 
   describe('binding pipe with ParenthesizedExpression', () => {
-    expect(
-      parseForESLint(
-        `
+    it('should support binding pipe with ParenthesizedExpression', ({
+      expect,
+    }) => {
+      expect(
+        parseForESLint(
+          `
           {{ nullable ?? !(obsVar | async) }}
         `,
+          {
+            filePath: './foo.html',
+          },
+        ).ast,
+      ).toMatchInlineSnapshot(`
         {
-          filePath: './foo.html',
-        },
-      ).ast,
-    ).toMatchInlineSnapshot(`
-      Object {
-        "comments": Array [],
-        "loc": Object {
-          "end": Object {
-            "column": 8,
-            "line": 3,
-          },
-          "start": Object {
-            "column": 10,
-            "line": 2,
-          },
-        },
-        "range": Array [
-          11,
-          55,
-        ],
-        "templateNodes": Array [
-          BoundText {
-            "i18n": undefined,
-            "loc": Object {
-              "end": Object {
-                "column": 8,
-                "line": 3,
-              },
-              "start": Object {
-                "column": 10,
-                "line": 2,
-              },
+          "comments": [],
+          "loc": {
+            "end": {
+              "column": 8,
+              "line": 3,
             },
-            "sourceSpan": ParseSourceSpan {
-              "details": null,
-              "end": ParseLocation {
-                "col": 8,
-                "file": ParseSourceFile {
-                  "content": "
-                {{ nullable ?? !(obsVar | async) }}
-              ",
-                  "url": "./foo.html",
-                },
-                "line": 2,
-                "offset": 55,
-              },
-              "fullStart": ParseLocation {
-                "col": 0,
-                "file": ParseSourceFile {
-                  "content": "
-                {{ nullable ?? !(obsVar | async) }}
-              ",
-                  "url": "./foo.html",
-                },
-                "line": 0,
-                "offset": 0,
-              },
-              "start": ParseLocation {
-                "col": 10,
-                "file": ParseSourceFile {
-                  "content": "
-                {{ nullable ?? !(obsVar | async) }}
-              ",
-                  "url": "./foo.html",
-                },
-                "line": 1,
-                "offset": 11,
-              },
+            "start": {
+              "column": 10,
+              "line": 2,
             },
-            "type": "BoundText",
-            "value": ASTWithSource {
-              "ast": Interpolation {
-                "expressions": Array [
-                  Binary {
-                    "left": PropertyRead {
-                      "loc": Object {
-                        "end": Object {
-                          "column": undefined,
-                          "line": NaN,
-                        },
-                        "start": Object {
-                          "column": undefined,
-                          "line": NaN,
-                        },
-                      },
-                      "name": "nullable",
-                      "nameSpan": AbsoluteSourceSpan {
-                        "end": 22,
-                        "start": 14,
-                      },
-                      "receiver": ImplicitReceiver {
-                        "loc": Object {
-                          "end": Object {
+          },
+          "range": [
+            11,
+            55,
+          ],
+          "templateNodes": [
+            BoundText {
+              "i18n": undefined,
+              "loc": {
+                "end": {
+                  "column": 8,
+                  "line": 3,
+                },
+                "start": {
+                  "column": 10,
+                  "line": 2,
+                },
+              },
+              "sourceSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 8,
+                  "file": ParseSourceFile {
+                    "content": "
+                  {{ nullable ?? !(obsVar | async) }}
+                ",
+                    "url": "./foo.html",
+                  },
+                  "line": 2,
+                  "offset": 55,
+                },
+                "fullStart": ParseLocation {
+                  "col": 0,
+                  "file": ParseSourceFile {
+                    "content": "
+                  {{ nullable ?? !(obsVar | async) }}
+                ",
+                    "url": "./foo.html",
+                  },
+                  "line": 0,
+                  "offset": 0,
+                },
+                "start": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  {{ nullable ?? !(obsVar | async) }}
+                ",
+                    "url": "./foo.html",
+                  },
+                  "line": 1,
+                  "offset": 11,
+                },
+              },
+              "type": "BoundText",
+              "value": ASTWithSource {
+                "ast": Interpolation {
+                  "expressions": [
+                    Binary {
+                      "left": PropertyRead {
+                        "loc": {
+                          "end": {
                             "column": undefined,
                             "line": NaN,
                           },
-                          "start": Object {
+                          "start": {
                             "column": undefined,
                             "line": NaN,
                           },
+                        },
+                        "name": "nullable",
+                        "nameSpan": AbsoluteSourceSpan {
+                          "end": 22,
+                          "start": 14,
+                        },
+                        "receiver": ImplicitReceiver {
+                          "loc": {
+                            "end": {
+                              "column": undefined,
+                              "line": NaN,
+                            },
+                            "start": {
+                              "column": undefined,
+                              "line": NaN,
+                            },
+                          },
+                          "sourceSpan": AbsoluteSourceSpan {
+                            "end": 14,
+                            "start": 14,
+                          },
+                          "span": ParseSpan {
+                            "end": 14,
+                            "start": 14,
+                          },
+                          "type": "ImplicitReceiver",
                         },
                         "sourceSpan": AbsoluteSourceSpan {
-                          "end": 14,
+                          "end": 22,
                           "start": 14,
                         },
                         "span": ParseSpan {
-                          "end": 14,
+                          "end": 22,
                           "start": 14,
                         },
-                        "type": "ImplicitReceiver",
+                        "type": "PropertyRead",
                       },
-                      "sourceSpan": AbsoluteSourceSpan {
-                        "end": 22,
-                        "start": 14,
+                      "loc": {
+                        "end": {
+                          "column": undefined,
+                          "line": NaN,
+                        },
+                        "start": {
+                          "column": undefined,
+                          "line": NaN,
+                        },
                       },
-                      "span": ParseSpan {
-                        "end": 22,
-                        "start": 14,
-                      },
-                      "type": "PropertyRead",
-                    },
-                    "loc": Object {
-                      "end": Object {
-                        "column": undefined,
-                        "line": NaN,
-                      },
-                      "start": Object {
-                        "column": undefined,
-                        "line": NaN,
-                      },
-                    },
-                    "operation": "??",
-                    "right": PrefixNot {
-                      "expression": ParenthesizedExpression {
-                        "expression": BindingPipe {
-                          "__originalType": 0,
-                          "args": Array [],
-                          "exp": PropertyRead {
-                            "loc": Object {
-                              "end": Object {
-                                "column": undefined,
-                                "line": NaN,
-                              },
-                              "start": Object {
-                                "column": undefined,
-                                "line": NaN,
-                              },
-                            },
-                            "name": "obsVar",
-                            "nameSpan": AbsoluteSourceSpan {
-                              "end": 34,
-                              "start": 28,
-                            },
-                            "receiver": ImplicitReceiver {
-                              "loc": Object {
-                                "end": Object {
+                      "operation": "??",
+                      "right": PrefixNot {
+                        "expression": ParenthesizedExpression {
+                          "expression": BindingPipe {
+                            "__originalType": 0,
+                            "args": [],
+                            "exp": PropertyRead {
+                              "loc": {
+                                "end": {
                                   "column": undefined,
                                   "line": NaN,
                                 },
-                                "start": Object {
+                                "start": {
                                   "column": undefined,
                                   "line": NaN,
                                 },
+                              },
+                              "name": "obsVar",
+                              "nameSpan": AbsoluteSourceSpan {
+                                "end": 34,
+                                "start": 28,
+                              },
+                              "receiver": ImplicitReceiver {
+                                "loc": {
+                                  "end": {
+                                    "column": undefined,
+                                    "line": NaN,
+                                  },
+                                  "start": {
+                                    "column": undefined,
+                                    "line": NaN,
+                                  },
+                                },
+                                "sourceSpan": AbsoluteSourceSpan {
+                                  "end": 28,
+                                  "start": 28,
+                                },
+                                "span": ParseSpan {
+                                  "end": 28,
+                                  "start": 28,
+                                },
+                                "type": "ImplicitReceiver",
                               },
                               "sourceSpan": AbsoluteSourceSpan {
-                                "end": 28,
+                                "end": 34,
                                 "start": 28,
                               },
                               "span": ParseSpan {
-                                "end": 28,
+                                "end": 34,
                                 "start": 28,
                               },
-                              "type": "ImplicitReceiver",
+                              "type": "PropertyRead",
+                            },
+                            "loc": {
+                              "end": {
+                                "column": undefined,
+                                "line": NaN,
+                              },
+                              "start": {
+                                "column": undefined,
+                                "line": NaN,
+                              },
+                            },
+                            "name": "async",
+                            "nameSpan": AbsoluteSourceSpan {
+                              "end": 42,
+                              "start": 37,
                             },
                             "sourceSpan": AbsoluteSourceSpan {
-                              "end": 34,
+                              "end": 42,
                               "start": 28,
                             },
                             "span": ParseSpan {
-                              "end": 34,
+                              "end": 42,
                               "start": 28,
                             },
-                            "type": "PropertyRead",
+                            "type": "BindingPipe",
                           },
-                          "loc": Object {
-                            "end": Object {
+                          "loc": {
+                            "end": {
                               "column": undefined,
                               "line": NaN,
                             },
-                            "start": Object {
+                            "start": {
                               "column": undefined,
                               "line": NaN,
                             },
-                          },
-                          "name": "async",
-                          "nameSpan": AbsoluteSourceSpan {
-                            "end": 42,
-                            "start": 37,
                           },
                           "sourceSpan": AbsoluteSourceSpan {
-                            "end": 42,
-                            "start": 28,
+                            "end": 43,
+                            "start": 27,
                           },
                           "span": ParseSpan {
-                            "end": 42,
-                            "start": 28,
+                            "end": 43,
+                            "start": 27,
                           },
-                          "type": "BindingPipe",
+                          "type": "ParenthesizedExpression",
                         },
-                        "loc": Object {
-                          "end": Object {
+                        "loc": {
+                          "end": {
                             "column": undefined,
                             "line": NaN,
                           },
-                          "start": Object {
+                          "start": {
                             "column": undefined,
                             "line": NaN,
                           },
                         },
                         "sourceSpan": AbsoluteSourceSpan {
                           "end": 43,
-                          "start": 27,
+                          "start": 26,
                         },
                         "span": ParseSpan {
                           "end": 43,
-                          "start": 27,
+                          "start": 26,
                         },
-                        "type": "ParenthesizedExpression",
-                      },
-                      "loc": Object {
-                        "end": Object {
-                          "column": undefined,
-                          "line": NaN,
-                        },
-                        "start": Object {
-                          "column": undefined,
-                          "line": NaN,
-                        },
+                        "type": "PrefixNot",
                       },
                       "sourceSpan": AbsoluteSourceSpan {
                         "end": 43,
-                        "start": 26,
+                        "start": 14,
                       },
                       "span": ParseSpan {
                         "end": 43,
-                        "start": 26,
+                        "start": 14,
                       },
-                      "type": "PrefixNot",
+                      "type": "Binary",
                     },
-                    "sourceSpan": AbsoluteSourceSpan {
-                      "end": 43,
-                      "start": 14,
+                  ],
+                  "loc": {
+                    "end": {
+                      "column": undefined,
+                      "line": NaN,
                     },
-                    "span": ParseSpan {
-                      "end": 43,
-                      "start": 14,
+                    "start": {
+                      "column": undefined,
+                      "line": NaN,
                     },
-                    "type": "Binary",
                   },
-                ],
-                "loc": Object {
-                  "end": Object {
+                  "sourceSpan": AbsoluteSourceSpan {
+                    "end": 55,
+                    "start": 0,
+                  },
+                  "span": ParseSpan {
+                    "end": 55,
+                    "start": 0,
+                  },
+                  "strings": [
+                    "
+                  ",
+                    "
+                ",
+                  ],
+                  "type": "Interpolation",
+                },
+                "errors": [],
+                "loc": {
+                  "end": {
                     "column": undefined,
                     "line": NaN,
                   },
-                  "start": Object {
+                  "start": {
                     "column": undefined,
                     "line": NaN,
                   },
                 },
+                "location": "./foo.html@1:10",
+                "source": "
+                  {{ nullable ?? !(obsVar | async) }}
+                ",
                 "sourceSpan": AbsoluteSourceSpan {
                   "end": 55,
                   "start": 0,
@@ -16693,47 +16732,17 @@ describe('parseForESLint()', () => {
                   "end": 55,
                   "start": 0,
                 },
-                "strings": Array [
-                  "
-                ",
-                  "
-              ",
-                ],
-                "type": "Interpolation",
+                "type": "ASTWithSource",
               },
-              "errors": Array [],
-              "loc": Object {
-                "end": Object {
-                  "column": undefined,
-                  "line": NaN,
-                },
-                "start": Object {
-                  "column": undefined,
-                  "line": NaN,
-                },
-              },
-              "location": "./foo.html@1:10",
-              "source": "
-                {{ nullable ?? !(obsVar | async) }}
-              ",
-              "sourceSpan": AbsoluteSourceSpan {
-                "end": 55,
-                "start": 0,
-              },
-              "span": ParseSpan {
-                "end": 55,
-                "start": 0,
-              },
-              "type": "ASTWithSource",
             },
-          },
-        ],
-        "tokens": Array [],
-        "type": "Program",
-        "value": "
-                {{ nullable ?? !(obsVar | async) }}
-              ",
-      }
-    `);
+          ],
+          "tokens": [],
+          "type": "Program",
+          "value": "
+                  {{ nullable ?? !(obsVar | async) }}
+                ",
+        }
+      `);
+    });
   });
 });

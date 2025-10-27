@@ -1,30 +1,30 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`parseForESLint() ng-content should support fallback content 1`] = `
-Object {
-  "comments": Array [],
-  "loc": Object {
-    "end": Object {
+exports[`parseForESLint() > ng-content > should support fallback content 1`] = `
+{
+  "comments": [],
+  "loc": {
+    "end": {
       "column": 8,
       "line": 7,
     },
-    "start": Object {
+    "start": {
       "column": 10,
       "line": 2,
     },
   },
-  "range": Array [
+  "range": [
     11,
     129,
   ],
-  "templateNodes": Array [
+  "templateNodes": [
     Text {
-      "loc": Object {
-        "end": Object {
+      "loc": {
+        "end": {
           "column": 10,
           "line": 2,
         },
-        "start": Object {
+        "start": {
           "column": 10,
           "line": 2,
         },
@@ -82,15 +82,15 @@ Object {
           ",
     },
     Content {
-      "attributes": Array [],
-      "children": Array [
+      "attributes": [],
+      "children": [
         Text {
-          "loc": Object {
-            "end": Object {
+          "loc": {
+            "end": {
               "column": 13,
               "line": 3,
             },
-            "start": Object {
+            "start": {
               "column": 13,
               "line": 3,
             },
@@ -148,16 +148,16 @@ Object {
              ",
         },
         IfBlock {
-          "branches": Array [
+          "branches": [
             IfBlockBranch {
-              "children": Array [
+              "children": [
                 Text {
-                  "loc": Object {
-                    "end": Object {
+                  "loc": {
+                    "end": {
                       "column": 15,
                       "line": 4,
                     },
-                    "start": Object {
+                    "start": {
                       "column": 15,
                       "line": 4,
                     },
@@ -215,15 +215,15 @@ Object {
                ",
                 },
                 Element {
-                  "attributes": Array [],
-                  "children": Array [
+                  "attributes": [],
+                  "children": [
                     Text {
-                      "loc": Object {
-                        "end": Object {
+                      "loc": {
+                        "end": {
                           "column": 26,
                           "line": 4,
                         },
-                        "start": Object {
+                        "start": {
                           "column": 20,
                           "line": 4,
                         },
@@ -280,7 +280,7 @@ Object {
                       "value": "Hello!",
                     },
                   ],
-                  "directives": Array [],
+                  "directives": [],
                   "endSourceSpan": ParseSourceSpan {
                     "details": null,
                     "end": ParseLocation {
@@ -330,22 +330,22 @@ Object {
                     },
                   },
                   "i18n": undefined,
-                  "inputs": Array [],
+                  "inputs": [],
                   "isSelfClosing": false,
                   "isVoid": false,
-                  "loc": Object {
-                    "end": Object {
+                  "loc": {
+                    "end": {
                       "column": 32,
                       "line": 4,
                     },
-                    "start": Object {
+                    "start": {
                       "column": 15,
                       "line": 4,
                     },
                   },
                   "name": "div",
-                  "outputs": Array [],
-                  "references": Array [],
+                  "outputs": [],
+                  "references": [],
                   "sourceSpan": ParseSourceSpan {
                     "details": null,
                     "end": ParseLocation {
@@ -445,12 +445,12 @@ Object {
                   "type": "Element",
                 },
                 Text {
-                  "loc": Object {
-                    "end": Object {
+                  "loc": {
+                    "end": {
                       "column": 13,
                       "line": 5,
                     },
-                    "start": Object {
+                    "start": {
                       "column": 13,
                       "line": 5,
                     },
@@ -558,12 +558,12 @@ Object {
               },
               "expression": ASTWithSource {
                 "ast": PropertyRead {
-                  "loc": Object {
-                    "end": Object {
+                  "loc": {
+                    "end": {
                       "column": undefined,
                       "line": NaN,
                     },
-                    "start": Object {
+                    "start": {
                       "column": undefined,
                       "line": NaN,
                     },
@@ -574,12 +574,12 @@ Object {
                     "start": 42,
                   },
                   "receiver": ImplicitReceiver {
-                    "loc": Object {
-                      "end": Object {
+                    "loc": {
+                      "end": {
                         "column": undefined,
                         "line": NaN,
                       },
-                      "start": Object {
+                      "start": {
                         "column": undefined,
                         "line": NaN,
                       },
@@ -604,13 +604,13 @@ Object {
                   },
                   "type": "PropertyRead",
                 },
-                "errors": Array [],
-                "loc": Object {
-                  "end": Object {
+                "errors": [],
+                "loc": {
+                  "end": {
                     "column": undefined,
                     "line": NaN,
                   },
-                  "start": Object {
+                  "start": {
                     "column": undefined,
                     "line": NaN,
                   },
@@ -629,12 +629,12 @@ Object {
               },
               "expressionAlias": null,
               "i18n": undefined,
-              "loc": Object {
-                "end": Object {
+              "loc": {
+                "end": {
                   "column": 14,
                   "line": 5,
                 },
-                "start": Object {
+                "start": {
                   "column": 13,
                   "line": 3,
                 },
@@ -834,12 +834,12 @@ Object {
               "offset": 95,
             },
           },
-          "loc": Object {
-            "end": Object {
+          "loc": {
+            "end": {
               "column": 14,
               "line": 5,
             },
-            "start": Object {
+            "start": {
               "column": 13,
               "line": 3,
             },
@@ -1041,12 +1041,12 @@ Object {
       },
       "i18n": undefined,
       "isSelfClosing": false,
-      "loc": Object {
-        "end": Object {
+      "loc": {
+        "end": {
           "column": 23,
           "line": 6,
         },
-        "start": Object {
+        "start": {
           "column": 10,
           "line": 2,
         },
@@ -1152,12 +1152,12 @@ Object {
       "type": "Content",
     },
     Text {
-      "loc": Object {
-        "end": Object {
+      "loc": {
+        "end": {
           "column": 8,
           "line": 7,
         },
-        "start": Object {
+        "start": {
           "column": 8,
           "line": 7,
         },
@@ -1215,7 +1215,7 @@ Object {
         ",
     },
   ],
-  "tokens": Array [],
+  "tokens": [],
   "type": "Program",
   "value": "
           <ng-content>

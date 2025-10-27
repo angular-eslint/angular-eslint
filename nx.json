@@ -40,22 +40,27 @@
     },
     {
       "plugin": "@nx/jest/plugin",
-      "exclude": ["e2e/**", "packages/builder/**"],
+      "exclude": [
+        "e2e/**",
+        "packages/builder/**",
+        "packages/template-parser/**"
+      ],
       "options": {}
     },
     {
-      "plugin": "@nx/vite/plugin",
-      "include": ["packages/builder/**"],
+      "plugin": "@nx/jest/plugin",
+      "include": ["e2e/**/*"],
       "options": {
-        "buildTargetName": "build",
+        "targetName": "e2e-local",
+        "ciTargetName": "e2e-ci"
+      }
+    },
+    {
+      "plugin": "@nx/vite/plugin",
+      "include": ["packages/builder/**", "packages/template-parser/**"],
+      "options": {
         "testTargetName": "test",
-        "serveTargetName": "serve",
-        "devTargetName": "dev",
-        "previewTargetName": "preview",
-        "serveStaticTargetName": "serve-static",
-        "typecheckTargetName": "typecheck",
-        "buildDepsTargetName": "build-deps",
-        "watchDepsTargetName": "watch-deps"
+        "typecheckTargetName": "typecheck"
       }
     }
   ],
@@ -121,14 +126,31 @@
       "cache": true
     },
     "e2e": {
-      "dependsOn": ["^build"],
-      "inputs": ["default", "{workspaceRoot}/e2e/utils/**/*"],
-      "cache": true
+      "cache": true,
+      "inputs": ["e2eInputs", "^production"]
     },
-    "e2e-suite": {
-      "dependsOn": ["^build"],
-      "inputs": ["default", "{workspaceRoot}/e2e/utils/**/*.ts"],
-      "cache": true
+    "e2e-local": {
+      "cache": true,
+      "inputs": ["e2eInputs", "^production"],
+      "dependsOn": ["e2e:populate-local-registry-storage", "e2e:local-registry"]
+    },
+    "e2e-ci": {
+      "inputs": ["e2eInputs", "^production"]
+    },
+    "e2e-ci--**/**": {
+      "inputs": ["e2eInputs", "^production"],
+      "dependsOn": [
+        "e2e:populate-local-registry-storage",
+        "e2e:local-registry"
+      ],
+      "options": {
+        "args": ["--forceExit"]
+      },
+      "configurations": {
+        "updateSnapshot": {
+          "args": ["--updateSnapshot", "--forceExit"]
+        }
+      }
     },
     "check-rule-docs": {
       "cache": true
@@ -144,6 +166,11 @@
       "options": {
         "env": {
           "NODE_OPTIONS": "--experimental-vm-modules"
+        }
+      },
+      "configurations": {
+        "ci": {
+          "args": ["--coverage"]
         }
       }
     }
@@ -173,6 +200,13 @@
       "!{projectRoot}/src/test-setup.[jt]s",
       "!{projectRoot}/eslint.config.js"
     ],
-    "projectSpecificFiles": []
+    "projectSpecificFiles": [],
+    "e2eInputs": [
+      "default",
+      "{workspaceRoot}/jest.preset.js",
+      {
+        "env": "CI"
+      }
+    ]
   }
 }
