@@ -11,7 +11,7 @@ overrides:
 
 patchedDependencies:
   '@nx/vite':
-    hash: 5d0042be3c401d1bb80be440dc15b61bfa948354517c27702e00326714e15b67
+    hash: c0c494408aa2b61628c68271d9b4c009320c866dbd009eb526c859e86a39612f
     path: tools/patches/@nx__vite.patch
   '@typescript-eslint/rule-tester':
     hash: 0395d56159bca55b94596b2ce1a79005dd964f4b648c29e0c04c6dfcb85e13cf
@@ -65,7 +65,7 @@ importers:
         version: 22.0.1(@babel/traverse@7.28.4)(@swc-node/register@1.11.1(@swc/core@1.13.5(@swc/helpers@0.5.17))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.13.5(@swc/helpers@0.5.17))(@types/node@22.18.11)(@zkochan/js-yaml@0.0.7)(babel-plugin-macros@3.1.0)(eslint@9.38.0(jiti@2.6.1))(nx@22.0.1(patch_hash=5c395e4218e247eff03f15c0dc21d1239e04f39e5a0add4ae05028cd3c3a3981)(@swc-node/register@1.11.1(@swc/core@1.13.5(@swc/helpers@0.5.17))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.13.5(@swc/helpers@0.5.17)))(ts-node@10.9.2(@swc/core@1.13.5(@swc/helpers@0.5.17))(@types/node@22.18.11)(typescript@5.9.3))(typescript@5.9.3)(verdaccio@6.2.0(encoding@0.1.13)(typanion@3.14.0))
       '@nx/vite':
         specifier: 22.0.1
-        version: 22.0.1(patch_hash=5d0042be3c401d1bb80be440dc15b61bfa948354517c27702e00326714e15b67)(@babel/traverse@7.28.4)(@swc-node/register@1.11.1(@swc/core@1.13.5(@swc/helpers@0.5.17))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.13.5(@swc/helpers@0.5.17))(nx@22.0.1(patch_hash=5c395e4218e247eff03f15c0dc21d1239e04f39e5a0add4ae05028cd3c3a3981)(@swc-node/register@1.11.1(@swc/core@1.13.5(@swc/helpers@0.5.17))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.13.5(@swc/helpers@0.5.17)))(typescript@5.9.3)(verdaccio@6.2.0(encoding@0.1.13)(typanion@3.14.0))(vite@7.1.12(@types/node@22.18.11)(jiti@2.6.1)(tsx@4.20.6)(yaml@2.8.1))(vitest@4.0.3)
+        version: 22.0.1(patch_hash=c0c494408aa2b61628c68271d9b4c009320c866dbd009eb526c859e86a39612f)(@babel/traverse@7.28.4)(@swc-node/register@1.11.1(@swc/core@1.13.5(@swc/helpers@0.5.17))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.13.5(@swc/helpers@0.5.17))(nx@22.0.1(patch_hash=5c395e4218e247eff03f15c0dc21d1239e04f39e5a0add4ae05028cd3c3a3981)(@swc-node/register@1.11.1(@swc/core@1.13.5(@swc/helpers@0.5.17))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.13.5(@swc/helpers@0.5.17)))(typescript@5.9.3)(verdaccio@6.2.0(encoding@0.1.13)(typanion@3.14.0))(vite@7.1.12(@types/node@22.18.11)(jiti@2.6.1)(tsx@4.20.6)(yaml@2.8.1))(vitest@4.0.3)
       '@nx/workspace':
         specifier: 22.0.1
         version: 22.0.1(@swc-node/register@1.11.1(@swc/core@1.13.5(@swc/helpers@0.5.17))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.13.5(@swc/helpers@0.5.17))
@@ -9061,7 +9061,7 @@ snapshots:
       - typescript
       - verdaccio
 
-  '@nx/vite@22.0.1(patch_hash=5d0042be3c401d1bb80be440dc15b61bfa948354517c27702e00326714e15b67)(@babel/traverse@7.28.4)(@swc-node/register@1.11.1(@swc/core@1.13.5(@swc/helpers@0.5.17))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.13.5(@swc/helpers@0.5.17))(nx@22.0.1(patch_hash=5c395e4218e247eff03f15c0dc21d1239e04f39e5a0add4ae05028cd3c3a3981)(@swc-node/register@1.11.1(@swc/core@1.13.5(@swc/helpers@0.5.17))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.13.5(@swc/helpers@0.5.17)))(typescript@5.9.3)(verdaccio@6.2.0(encoding@0.1.13)(typanion@3.14.0))(vite@7.1.12(@types/node@22.18.11)(jiti@2.6.1)(tsx@4.20.6)(yaml@2.8.1))(vitest@4.0.3)':
+  '@nx/vite@22.0.1(patch_hash=c0c494408aa2b61628c68271d9b4c009320c866dbd009eb526c859e86a39612f)(@babel/traverse@7.28.4)(@swc-node/register@1.11.1(@swc/core@1.13.5(@swc/helpers@0.5.17))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.13.5(@swc/helpers@0.5.17))(nx@22.0.1(patch_hash=5c395e4218e247eff03f15c0dc21d1239e04f39e5a0add4ae05028cd3c3a3981)(@swc-node/register@1.11.1(@swc/core@1.13.5(@swc/helpers@0.5.17))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.13.5(@swc/helpers@0.5.17)))(typescript@5.9.3)(verdaccio@6.2.0(encoding@0.1.13)(typanion@3.14.0))(vite@7.1.12(@types/node@22.18.11)(jiti@2.6.1)(tsx@4.20.6)(yaml@2.8.1))(vitest@4.0.3)':
     dependencies:
       '@nx/devkit': 22.0.1(nx@22.0.1(patch_hash=5c395e4218e247eff03f15c0dc21d1239e04f39e5a0add4ae05028cd3c3a3981)(@swc-node/register@1.11.1(@swc/core@1.13.5(@swc/helpers@0.5.17))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.13.5(@swc/helpers@0.5.17)))
       '@nx/js': 22.0.1(@babel/traverse@7.28.4)(@swc-node/register@1.11.1(@swc/core@1.13.5(@swc/helpers@0.5.17))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.13.5(@swc/helpers@0.5.17))(nx@22.0.1(patch_hash=5c395e4218e247eff03f15c0dc21d1239e04f39e5a0add4ae05028cd3c3a3981)(@swc-node/register@1.11.1(@swc/core@1.13.5(@swc/helpers@0.5.17))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.13.5(@swc/helpers@0.5.17)))(verdaccio@6.2.0(encoding@0.1.13)(typanion@3.14.0))
