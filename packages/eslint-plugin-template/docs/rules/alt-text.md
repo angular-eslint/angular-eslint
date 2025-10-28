@@ -113,33 +113,6 @@ The rule does not have any configuration options.
 #### ❌ Invalid Code
 
 ```html
-<OBJECT></OBJECT>
-~~~~~~~~~~~~~~~~~
-```
-
-<br>
-
----
-
-<br>
-
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/template/alt-text": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
-#### ❌ Invalid Code
-
-```html
 <area />
 ~~~~~~~~
 ```
@@ -750,10 +723,6 @@ The rule does not have any configuration options.
 ```html
 <area [attr.aria-label]="label" [prop]="p">
 ```
-
-<br>
-
----
 
 </details>
 

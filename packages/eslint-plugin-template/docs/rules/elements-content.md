@@ -92,33 +92,6 @@ interface Options {
 #### ❌ Invalid Code
 
 ```html
-<H1 class="size-1"></H1>
-~~~~~~~~~~~~~~~~~~~~~~~~
-```
-
-<br>
-
----
-
-<br>
-
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/template/elements-content": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
-#### ❌ Invalid Code
-
-```html
 <a href="#" [routerLink]="['route1']"></a>
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ```
@@ -216,7 +189,7 @@ interface Options {
 <h2><app-content></app-content></h2>
 <h3 [innerHtml]="dangerouslySetHTML"></h3>
 <h4 [innerText]="text"></h4>
-<a>Anchor Content!</a>,
+<a>Anchor Content!</a>
 <a><app-content></app-content></a>
 <a [innerHTML]="dangerouslySetHTML"></a>
 <a [innerText]="text"></a>
@@ -261,10 +234,6 @@ interface Options {
 <h1 ariaLabel="Important Content"></h1>
 <a [ariaLabel]="label"></a>
 ```
-
-<br>
-
----
 
 </details>
 

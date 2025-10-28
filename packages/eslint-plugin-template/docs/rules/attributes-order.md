@@ -1606,10 +1606,6 @@ interface Options {
 <div alpha="a" beta="{{ b }}" (gamma)="g()" [delta]="d"></div>
 ```
 
-<br>
-
----
-
 </details>
 
 <br>

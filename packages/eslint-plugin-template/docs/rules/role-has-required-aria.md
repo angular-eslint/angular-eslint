@@ -61,33 +61,6 @@ The rule does not have any configuration options.
      ~~~~~~~~~~~~~~~
 ```
 
-<br>
-
----
-
-<br>
-
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/template/role-has-required-aria": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
-#### ❌ Invalid Code
-
-```html
-<DIV role="combobox"></DIV>
-     ~~~~~~~~~~~~~~~
-```
-
 </details>
 
 <br>

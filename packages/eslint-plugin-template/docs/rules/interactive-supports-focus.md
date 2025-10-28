@@ -227,33 +227,6 @@ interface Options {
 #### ❌ Invalid Code
 
 ```html
-<SPAN (click)="onClick()">Submit</SPAN>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-```
-
-<br>
-
----
-
-<br>
-
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/template/interactive-supports-focus": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
-#### ❌ Invalid Code
-
-```html
 <div (click)="onClick()" [attr.aria-label]="clickableThing"></div>
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ```

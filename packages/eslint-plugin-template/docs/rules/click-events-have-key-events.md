@@ -173,33 +173,6 @@ interface Options {
 #### ❌ Invalid Code
 
 ```html
-<A (click)="onClick()"></A>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
-```
-
-<br>
-
----
-
-<br>
-
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/template/click-events-have-key-events": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
-#### ❌ Invalid Code
-
-```html
 <div (click)="onClick()" aria-hidden="false"></div>
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ```

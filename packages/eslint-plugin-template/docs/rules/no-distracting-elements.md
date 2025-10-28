@@ -83,33 +83,6 @@ The rule does not have any configuration options.
 #### ❌ Invalid Code
 
 ```html
-<MARQUEE></MARQUEE>{{ test }}
-~~~~~~~~~~~~~~~~~~~
-```
-
-<br>
-
----
-
-<br>
-
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/template/no-distracting-elements": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
-#### ❌ Invalid Code
-
-```html
 <div></div><blink></blink>
            ~~~~~~~~~~~~~~~
 ```

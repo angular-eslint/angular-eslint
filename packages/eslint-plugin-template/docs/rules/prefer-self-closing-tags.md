@@ -958,10 +958,6 @@ The rule does not have any configuration options.
 <my-component>  <!-- not empty -->  </my-component>
 ```
 
-<br>
-
----
-
 </details>
 
 <br>

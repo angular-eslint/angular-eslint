@@ -86,33 +86,6 @@ interface Options {
 
 <br>
 
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/template/label-has-associated-control": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
-#### ❌ Invalid Code
-
-```html
-<LABEL>Label</LABEL>
-~~~~~~~~~~~~~~~~~~~~
-```
-
-<br>
-
----
-
-<br>
-
 #### Custom Config
 
 ```json
@@ -136,37 +109,6 @@ interface Options {
 <label for="id">Label</label>
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 <input id="otherId" />
-```
-
-<br>
-
----
-
-<br>
-
-#### Custom Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/template/label-has-associated-control": [
-      "error",
-      {
-        "checkIds": true
-      }
-    ]
-  }
-}
-```
-
-<br>
-
-#### ❌ Invalid Code
-
-```html
-<LABEL for="id">Label</LABEL>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-<INPUT id="otherId" />
 ```
 
 <br>
@@ -417,10 +359,6 @@ interface Options {
 <input type="radio" id="id"/>
 <label for="id"></label>
 ```
-
-<br>
-
----
 
 </details>
 

@@ -84,33 +84,6 @@ The rule does not have any configuration options.
 #### ❌ Invalid Code
 
 ```html
-<DIV tabindex="5"></DIV>
-               ~
-```
-
-<br>
-
----
-
-<br>
-
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/template/no-positive-tabindex": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
-#### ❌ Invalid Code
-
-```html
 <div [attr.tabindex]="21"></div>
                       ~~
 ```

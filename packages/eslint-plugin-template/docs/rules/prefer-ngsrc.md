@@ -62,8 +62,6 @@ The rule does not have any configuration options.
        ~~~~~~~~~~~~~~~~~~~~~~~~~~
   <img [src]="value">
        ~~~~~~~~~~~~~
-  <IMG [src]="value">
-       ~~~~~~~~~~~~~
 </ng-template>
 ```
 
@@ -220,10 +218,6 @@ The rule does not have any configuration options.
 ```html
 <img src="data:image/jpeg;base64">
 ```
-
-<br>
-
----
 
 </details>
 
