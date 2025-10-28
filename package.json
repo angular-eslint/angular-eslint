@@ -75,7 +75,7 @@
     "@swc/helpers": "0.5.17",
     "@types/eslint-scope": "8.3.2",
     "@types/jest": "30.0.0",
-    "@types/node": "22.18.11",
+    "@types/node": "24.9.1",
     "@types/semver": "^7.5.8",
     "@types/yargs": "^17.0.33",
     "@typescript-eslint/rule-tester": "8.46.1",
