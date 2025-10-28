@@ -28,7 +28,7 @@ export default createESLintRule<Options, MessageIds>({
     const parserServices = getTemplateParserServices(context);
 
     return {
-      'Element[name=/^(p|a|P|A)$/]'(node: TmplAstElementWithAncestor) {
+      'Element[name=/^(p|a)$/i]'(node: TmplAstElementWithAncestor) {
         const hasInvalidNesting = hasAncestorOfSameType(node);
 
         if (hasInvalidNesting) {
