@@ -136,6 +136,9 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         ],
       },
     ],
+    settings: {
+      hideFromDocs: true,
+    },
   }),
   convertAnnotatedSourceToFailureCase({
     description: 'should fail if the ARIA attribute has an invalid value',

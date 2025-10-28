@@ -38,6 +38,9 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
            ~~~~~~~
       `,
     data: { tag: 'A' },
+    settings: {
+      hideFromDocs: true,
+    },
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,

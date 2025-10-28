@@ -55,5 +55,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         <DIV></DIV><P></P>
              
       `,
+    settings: {
+      hideFromDocs: true,
+    },
   }),
 ];

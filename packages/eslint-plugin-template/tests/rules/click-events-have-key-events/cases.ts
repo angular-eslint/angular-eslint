@@ -114,6 +114,9 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         <A (click)="onClick()"></A>
         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
       `,
+    settings: {
+      hideFromDocs: true,
+    },
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,

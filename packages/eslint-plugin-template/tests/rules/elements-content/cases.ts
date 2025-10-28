@@ -62,6 +62,9 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       `,
     messageId,
     data: { element: 'H1' },
+    settings: {
+      hideFromDocs: true,
+    },
   }),
   convertAnnotatedSourceToFailureCase({
     description: 'should fail with no content in anchor tag',

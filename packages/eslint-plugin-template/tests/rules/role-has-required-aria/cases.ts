@@ -66,5 +66,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       `,
       },
     ],
+    settings: {
+      hideFromDocs: true,
+    },
   }),
 ];

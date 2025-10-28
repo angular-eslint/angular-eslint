@@ -78,6 +78,9 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         data: { tabindex: '0' },
       },
     ],
+    settings: {
+      hideFromDocs: true,
+    },
   }),
   convertAnnotatedSourceToFailureCase({
     description: 'should fail if `tabindex` input is positive',

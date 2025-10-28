@@ -111,6 +111,9 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         <LABEL>Label</LABEL>
         ~~~~~~~~~~~~~~~~~~~~
       `,
+    settings: {
+      hideFromDocs: true,
+    },
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
@@ -133,6 +136,9 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         <INPUT id="otherId" />
       `,
     options: [{ checkIds: true }],
+    settings: {
+      hideFromDocs: true,
+    },
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,

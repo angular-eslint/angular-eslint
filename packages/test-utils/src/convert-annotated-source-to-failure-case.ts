@@ -43,6 +43,9 @@ type BaseErrorOptions<Options> = {
   readonly annotatedOutputs?: readonly string[];
   readonly filename?: string;
   readonly only?: boolean;
+  readonly settings?: {
+    hideFromDocs?: boolean;
+  };
 };
 
 type Message<TMessageIds extends string> = {

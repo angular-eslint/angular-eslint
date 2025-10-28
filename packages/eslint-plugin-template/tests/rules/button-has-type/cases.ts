@@ -52,6 +52,9 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       ~~~~~~~~~~~~~~~~~
     `,
     messageId: missingType,
+    settings: {
+      hideFromDocs: true,
+    },
   }),
   convertAnnotatedSourceToFailureCase({
     description: 'should fail if a button has attributes, but no type',

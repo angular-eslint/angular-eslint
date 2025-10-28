@@ -257,6 +257,9 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     `,
     messageId,
+    settings: {
+      hideFromDocs: true,
+    },
   }),
   convertAnnotatedSourceToFailureCase({
     description:

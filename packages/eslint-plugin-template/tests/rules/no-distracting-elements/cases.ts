@@ -40,6 +40,9 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         {{ test }}
         
       `,
+    settings: {
+      hideFromDocs: true,
+    },
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
