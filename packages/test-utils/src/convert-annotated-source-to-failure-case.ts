@@ -165,6 +165,7 @@ export function convertAnnotatedSourceToFailureCase<
     filename: errorOptions.filename,
     options: errorOptions.options ?? ([] as any),
     languageOptions: errorOptions.languageOptions,
+    settings: errorOptions.settings ?? {},
     errors,
     only: errorOptions.only ?? false,
     output: errorOptions.annotatedOutputs

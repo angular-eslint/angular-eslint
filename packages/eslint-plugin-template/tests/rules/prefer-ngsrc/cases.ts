@@ -32,8 +32,6 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
              ^^^^^^^^^^^^^^^^^^^^^^^^^^
         <img [src]="value">
              #############
-        <IMG [src]="value">
-             @@@@@@@@@@@@@
       </ng-template>
       `,
     messages: [
@@ -49,11 +47,26 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         char: '#',
         messageId: missingAttribute,
       },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail when an uppercase image tag is using src over ngsrc',
+    annotatedSource: `
+      <ng-template>
+        <IMG [src]="value">
+             @@@@@@@@@@@@@
+      </ng-template>
+      `,
+    messages: [
       {
         char: '@',
         messageId: missingAttribute,
       },
     ],
+    settings: {
+      hideFromDocs: true,
+    },
   }),
   convertAnnotatedSourceToFailureCase({
     description: 'should fail when an image is using both src and ngsrc',

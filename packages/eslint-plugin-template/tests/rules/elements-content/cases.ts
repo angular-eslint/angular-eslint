@@ -13,7 +13,7 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     <h2><app-content></app-content></h2>
     <h3 [innerHtml]="dangerouslySetHTML"></h3>
     <h4 [innerText]="text"></h4>
-    <a>Anchor Content!</a>,
+    <a>Anchor Content!</a>
     <a><app-content></app-content></a>
     <a [innerHTML]="dangerouslySetHTML"></a>
     <a [innerText]="text"></a>
