@@ -18,16 +18,16 @@ index df1bb425d2a68f3d8de030dd9058e1f4b850bc1d..f182f1937f2b142660d01803313be776
  /**
   * @deprecated The 'createDependencies' function is now a no-op. This functionality is included in 'createNodesV2'.
 diff --git a/src/plugins/plugin.d.ts.map b/src/plugins/plugin.d.ts.map
-index f5ae92f375810daae05eec3b9a6d424626c20e60..801644e0bbea5e3cdfc8e8fa8fa457090a6d2917 100644
+index f5ae92f375810daae05eec3b9a6d424626c20e60..6d887b49db4cd596af03a7428b07750ed184b313 100644
 --- a/src/plugins/plugin.d.ts.map
 +++ b/src/plugins/plugin.d.ts.map
 @@ -1 +1 @@
 -{"version":3,"file":"plugin.d.ts","sourceRoot":"","sources":["../../../../../packages/vite/src/plugins/plugin.ts"],"names":[],"mappings":"AAAA,OAAO,EACL,kBAAkB,EAGlB,aAAa,EAQd,MAAM,YAAY,CAAC;AAkBpB,MAAM,WAAW,iBAAiB;IAChC,eAAe,CAAC,EAAE,MAAM,CAAC;IACzB,cAAc,CAAC,EAAE,MAAM,CAAC;IACxB;;OAEG;IACH,eAAe,CAAC,EAAE,MAAM,CAAC;IACzB,aAAa,CAAC,EAAE,MAAM,CAAC;IACvB,iBAAiB,CAAC,EAAE,MAAM,CAAC;IAC3B,qBAAqB,CAAC,EAAE,MAAM,CAAC;IAC/B,mBAAmB,CAAC,EAAE,MAAM,CAAC;IAC7B,mBAAmB,CAAC,EAAE,MAAM,CAAC;IAC7B,mBAAmB,CAAC,EAAE,MAAM,CAAC;CAC9B;AAiBD;;GAEG;AACH,eAAO,MAAM,kBAAkB,EAAE,kBAEhC,CAAC;AAIF,eAAO,MAAM,WAAW,EAAE,aAAa,CAAC,iBAAiB,CAuGxD,CAAC;AAEF,eAAO,MAAM,aAAa,kCAAc,CAAC"}
 \ No newline at end of file
-+{"version":3,"file":"plugin.d.ts","sourceRoot":"","sources":["../../../../../packages/vite/src/plugins/plugin.ts"],"names":[],"mappings":"AAAA,OAAO,EACL,kBAAkB,EAGlB,aAAa,EASd,MAAM,YAAY,CAAC;AAkBpB,MAAM,WAAW,iBAAiB;IAChC,eAAe,CAAC,EAAE,MAAM,CAAC;IACzB,cAAc,CAAC,EAAE,MAAM,CAAC;IACxB;;OAEG;IACH,eAAe,CAAC,EAAE,MAAM,CAAC;IACzB,aAAa,CAAC,EAAE,MAAM,CAAC;IACvB,iBAAiB,CAAC,EAAE,MAAM,CAAC;IAC3B,qBAAqB,CAAC,EAAE,MAAM,CAAC;IAC/B,mBAAmB,CAAC,EAAE,MAAM,CAAC;IAC7B,mBAAmB,CAAC,EAAE,MAAM,CAAC;IAC7B,mBAAmB,CAAC,EAAE,MAAM,CAAC;IAE7B;;OAEG;IACH,YAAY,CAAC,EAAE,MAAM,CAAC;IACtB;;OAEG;IACH,WAAW,CAAC,EAAE,MAAM,CAAC;CACtB;AAiBD;;GAEG;AACH,eAAO,MAAM,kBAAkB,EAAE,kBAEhC,CAAC;AAIF,eAAO,MAAM,WAAW,EAAE,aAAa,CAAC,iBAAiB,CAuGxD,CAAC;AAEF,eAAO,MAAM,aAAa,kCAAc,CAAC"}
++{"version":3,"file":"plugin.d.ts","sourceRoot":"","sources":["../../../../../packages/vite/src/plugins/plugin.ts"],"names":[],"mappings":"AAAA,OAAO,EACL,kBAAkB,EAGlB,aAAa,EASd,MAAM,YAAY,CAAC;AAiBpB,MAAM,WAAW,iBAAiB;IAChC,eAAe,CAAC,EAAE,MAAM,CAAC;IACzB,cAAc,CAAC,EAAE,MAAM,CAAC;IACxB;;OAEG;IACH,eAAe,CAAC,EAAE,MAAM,CAAC;IACzB,aAAa,CAAC,EAAE,MAAM,CAAC;IACvB,iBAAiB,CAAC,EAAE,MAAM,CAAC;IAC3B,qBAAqB,CAAC,EAAE,MAAM,CAAC;IAC/B,mBAAmB,CAAC,EAAE,MAAM,CAAC;IAC7B,mBAAmB,CAAC,EAAE,MAAM,CAAC;IAC7B,mBAAmB,CAAC,EAAE,MAAM,CAAC;IAE7B;;OAEG;IACH,YAAY,CAAC,EAAE,MAAM,CAAC;IACtB;;OAEG;IACH,WAAW,CAAC,EAAE,MAAM,CAAC;CACtB;AAiBD;;GAEG;AACH,eAAO,MAAM,kBAAkB,EAAE,kBAEhC,CAAC;AAIF,eAAO,MAAM,WAAW,EAAE,aAAa,CAAC,iBAAiB,CAuGxD,CAAC;AAEF,eAAO,MAAM,aAAa,kCAAc,CAAC"}
 \ No newline at end of file
 diff --git a/src/plugins/plugin.js b/src/plugins/plugin.js
-index d377d809a71142f67b4660a2de102f5654e3e411..adaabf5f970ae151cfe872163f47a189b5050ac7 100644
+index d377d809a71142f67b4660a2de102f5654e3e411..32eee9b57dc19063cac619eb3730924a507e18fa 100644
 --- a/src/plugins/plugin.js
 +++ b/src/plugins/plugin.js
 @@ -2,20 +2,22 @@
@@ -44,12 +44,12 @@ index d377d809a71142f67b4660a2de102f5654e3e411..adaabf5f970ae151cfe872163f47a189
 -const executor_utils_1 = require("../utils/executor-utils");
 +const util_1 = require("@nx/js/src/plugins/typescript/util");
 +const ts_solution_setup_1 = require("@nx/js/src/utils/typescript/ts-solution-setup");
++const node_child_process_1 = require("node:child_process");
 +const node_fs_1 = require("node:fs");
 +const node_path_1 = require("node:path");
  const file_hasher_1 = require("nx/src/hasher/file-hasher");
 +const cache_directory_1 = require("nx/src/utils/cache-directory");
 +const plugins_1 = require("nx/src/utils/plugins");
-+const workspace_context_1 = require("nx/src/utils/workspace-context");
 +const executor_utils_1 = require("../utils/executor-utils");
  const picomatch = require("picomatch");
 -const ts_solution_setup_1 = require("@nx/js/src/utils/typescript/ts-solution-setup");
@@ -91,7 +91,7 @@ index d377d809a71142f67b4660a2de102f5654e3e411..adaabf5f970ae151cfe872163f47a189
          configFile: absoluteConfigFilePath,
          mode: 'development',
      }, 'build');
-+    let metadata;
++    let metadata = {};
      const { buildOutputs, testOutputs, hasTest, isBuildable, hasServeConfig } = getOutputs(viteBuildConfig, projectRoot, context.workspaceRoot);
      const namedInputs = (0, get_named_inputs_1.getNamedInputs)(projectRoot, context);
      const targets = {};
@@ -108,7 +108,7 @@ index d377d809a71142f67b4660a2de102f5654e3e411..adaabf5f970ae151cfe872163f47a189
 +                    [groupName]: targetGroup,
 +                },
 +            };
-+            const testPaths = await getTestPaths(viteBuildConfig, projectRoot, context);
++            const testPaths = await getTestPaths(projectRoot);
 +            for (const testPath of testPaths) {
 +                const relativePath = (0, devkit_1.normalizePath)((0, node_path_1.relative)((0, node_path_1.join)(context.workspaceRoot, projectRoot), testPath));
 +                if (relativePath.includes('../')) {
@@ -211,13 +211,7 @@ index d377d809a71142f67b4660a2de102f5654e3e411..adaabf5f970ae151cfe872163f47a189
              }
          }
      }
-@@ -367,14 +441,31 @@ function normalizeOptions(options) {
-     options.testTargetName ??= 'test';
-     options.serveStaticTargetName ??= 'serve-static';
-     options.typecheckTargetName ??= 'typecheck';
-+    options.ciTargetName ??= 'e2e-ci';
-+    options.ciGroupName;
-     return options;
+@@ -371,10 +445,55 @@ function normalizeOptions(options) {
  }
  function checkIfConfigFileShouldBeProject(projectRoot, context) {
      // Do not create a project if package.json and project.json isn't there.
@@ -229,18 +223,48 @@ index d377d809a71142f67b4660a2de102f5654e3e411..adaabf5f970ae151cfe872163f47a189
      }
      return true;
  }
-+async function getTestPaths(resolvedViteConfig, projectRoot, context) {
-+    const include = await getVitestOption(resolvedViteConfig, 'include');
-+    const exclude = await getVitestOption(resolvedViteConfig, 'include');
-+    return await (0, workspace_context_1.globWithWorkspaceContext)(context.workspaceRoot, 
-+    // Default patterns from https://vitest.dev/config/#include
-+    (include || ['**/*.{test,spec}.?(c|m)[jt]s?(x)']).map((pattern) => (0, node_path_1.join)(projectRoot, pattern)), 
-+    // Default patterns from https://vitest.dev/config/#exclude
-+    (exclude || ['**/node_modules/**', '**/.{git,svn,hg,idea}/**']).map((pattern) => (0, node_path_1.join)(projectRoot, pattern)));
-+}
-+async function getVitestOption(resolvedViteConfig, optionName) {
-+    if (resolvedViteConfig.test?.[optionName]) {
-+        return resolvedViteConfig.test[optionName];
++async function getTestPaths(projectRoot) {
++    const stdout = await exec('npx', ['vitest', 'list', '--filesOnly'], {
++        cwd: projectRoot,
++    });
++    if (typeof stdout !== 'string' || !stdout) {
++        return [];
 +    }
-+    return undefined;
++    const vitestListFiles = stdout.trim().split('\n');
++    return vitestListFiles.map((f) => (0, node_path_1.join)(projectRoot, f));
++}
++/**
++ * Execute a command and return stdout as a string
++ * @param {string} command - The command to run
++ * @param {string[]} args - Array of arguments
++ * @param {object} options - spawn options (cwd, env, etc.)
++ * @returns {Promise<string>} stdout as string
++ */
++async function exec(command, args = [], options = {}) {
++    return new Promise((resolve, reject) => {
++        const child = (0, node_child_process_1.spawn)(command, args, {
++            ...options,
++            stdio: ['ignore', 'pipe', 'pipe'],
++        });
++        let stdout = '';
++        let stderr = '';
++        child.stdout.on('data', (data) => {
++            stdout += data.toString();
++        });
++        child.stderr.on('data', (data) => {
++            stderr += data.toString();
++        });
++        child.on('error', (error) => {
++            reject(new Error(`Failed to spawn ${command}: ${error.message}`));
++        });
++        child.on('close', (code) => {
++            if (code === 0) {
++                resolve(stdout);
++            }
++            else {
++                const error = new Error(`Command failed with exit code ${code}`);
++                reject(error);
++            }
++        });
++    });
 +}
