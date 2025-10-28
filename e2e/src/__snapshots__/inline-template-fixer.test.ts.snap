@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`inline-template-fixer should generate the expected inline template fixer result 1`] = `
+exports[`inline-template-fixer > should generate the expected inline template fixer result 1`] = `
 "
 import { Component } from '@angular/core';
 
@@ -15,7 +15,7 @@ export class TestComponent {}
 "
 `;
 
-exports[`inline-template-fixer should generate the expected inline template fixer result 2`] = `
+exports[`inline-template-fixer > should generate the expected inline template fixer result 2`] = `
 {
   "@angular/build": "^20.X.X",
   "@angular/cli": "^20.X.X",

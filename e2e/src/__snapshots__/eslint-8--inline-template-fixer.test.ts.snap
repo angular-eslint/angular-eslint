@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`eslint-8--inline-template-fixer should generate the expected inline template fixer result 1`] = `
+exports[`eslint-8--inline-template-fixer > should generate the expected inline template fixer result 1`] = `
 "
 import { Component } from '@angular/core';
 
@@ -15,7 +15,7 @@ export class TestComponent {}
 "
 `;
 
-exports[`eslint-8--inline-template-fixer should generate the expected inline template fixer result 2`] = `
+exports[`eslint-8--inline-template-fixer > should generate the expected inline template fixer result 2`] = `
 {
   "@angular-eslint/builder": "0.0.0-e2e",
   "@angular-eslint/eslint-plugin": "0.0.0-e2e",

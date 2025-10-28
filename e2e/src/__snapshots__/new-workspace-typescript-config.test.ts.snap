@@ -1,15 +1,15 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`new-workspace with TypeScript config should pass linting with TypeScript config after the user installs jiti 1`] = `
+exports[`new-workspace with TypeScript config > should pass linting with TypeScript config after the user installs jiti 1`] = `
 "
-Linting \\"new-workspace-typescript-config\\"...
+Linting "new-workspace-typescript-config"...
 
 All files pass linting.
 "
 `;
 
-exports[`new-workspace with TypeScript config should show an error when linting using a TypeScript config before the user installs jiti 1`] = `
+exports[`new-workspace with TypeScript config > should show an error when linting using a TypeScript config before the user installs jiti 1`] = `
 "
-Linting \\"new-workspace-typescript-config\\"...
+Linting "new-workspace-typescript-config"...
 Error when running ESLint: The 'jiti' library is required for loading TypeScript configuration files. Make sure to install it."
 `;
