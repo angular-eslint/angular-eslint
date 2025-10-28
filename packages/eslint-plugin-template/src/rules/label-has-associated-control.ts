@@ -102,11 +102,12 @@ export default createESLintRule<Options, MessageIds>({
 
     return {
       [`Element`](node: TmplAstElement) {
-        if (allControlComponents.has(node.name)) {
+        const tagName = node.name.toLowerCase();
+        if (allControlComponents.has(tagName)) {
           inputItems.push(node);
         }
         const element = allLabelComponents.find(
-          ({ selector }) => selector === node.name,
+          ({ selector }) => selector === tagName,
         );
         if (element) {
           labelItems.push(node);
@@ -116,7 +117,7 @@ export default createESLintRule<Options, MessageIds>({
       onCodePathEnd() {
         for (const node of labelItems) {
           const element = allLabelComponents.find(
-            ({ selector }) => selector === node.name,
+            ({ selector }) => selector === node.name.toLowerCase(),
           );
 
           if (!element) continue;

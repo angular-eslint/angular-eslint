@@ -22,6 +22,12 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     <label [htmlFor]="id"></label>
     `,
   {
+    code: `<LABEL for="id"></LABEL>`,
+    settings: {
+      hideFromDocs: true,
+    },
+  },
+  {
     code: `
       <label [myCustomFor]="customId">Label</label>
       <my-custom-control [id]="customId"></my-custom-control>
@@ -100,13 +106,39 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     messageId,
     description:
-      'should fail if a label does a "for" attribute with a non matching id and ids are checked',
+      'should fail if an uppercase label does not have a "for" attribute',
+    annotatedSource: `
+        <LABEL>Label</LABEL>
+        ~~~~~~~~~~~~~~~~~~~~
+      `,
+    settings: {
+      hideFromDocs: true,
+    },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail if a label has the "for" attribute with a non matching id and ids are checked',
     annotatedSource: `
         <label for="id">Label</label>
         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         <input id="otherId" />
       `,
     options: [{ checkIds: true }],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail if an label has the "for" attribute with a non matching id',
+    annotatedSource: `
+        <LABEL for="id">Label</LABEL>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        <INPUT id="otherId" />
+      `,
+    options: [{ checkIds: true }],
+    settings: {
+      hideFromDocs: true,
+    },
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,

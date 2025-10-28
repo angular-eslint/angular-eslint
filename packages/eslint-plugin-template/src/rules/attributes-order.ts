@@ -343,7 +343,8 @@ function isImplicitTemplate(
 ): node is TmplAstTemplate & { tagName: null } {
   return (
     isTmplAstTemplate(node) &&
-    (node.tagName === null || !/^(:svg:)?ng-template$/.test(node.tagName))
+    (node.tagName === null ||
+      !/^(:svg:)?ng-template$/.test(node.tagName.toLowerCase()))
   );
 }
 

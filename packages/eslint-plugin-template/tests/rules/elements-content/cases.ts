@@ -24,6 +24,12 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     <h6 title="text"></h6>
   `,
   {
+    code: `<A>Anchor Content!</A>`,
+    settings: {
+      hideFromDocs: true,
+    },
+  },
+  {
     code: `
       <button appTooltipLabel="directive adds aria-label"></button>
       <button [appTooltipLabel]="label"></button>
@@ -47,6 +53,18 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       `,
     messageId,
     data: { element: 'h1' },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail with no content in an uppercase heading tag',
+    annotatedSource: `
+        <H1 class="size-1"></H1>
+        ~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId,
+    data: { element: 'H1' },
+    settings: {
+      hideFromDocs: true,
+    },
   }),
   convertAnnotatedSourceToFailureCase({
     description: 'should fail with no content in anchor tag',

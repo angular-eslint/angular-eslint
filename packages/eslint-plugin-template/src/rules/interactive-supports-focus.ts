@@ -50,7 +50,7 @@ export default createESLintRule<Options, MessageIds>({
   create(context, [{ allowList }]) {
     return {
       Element(node: TmplAstElement) {
-        const elementType = node.name;
+        const elementType = node.name.toLowerCase();
         if (!getDomElements().has(elementType)) {
           return;
         }

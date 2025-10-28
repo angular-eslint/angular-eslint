@@ -28,7 +28,7 @@ export default createESLintRule<Options, MessageIds>({
     const parserServices = getTemplateParserServices(context);
 
     return {
-      'Element[name=/^(p|a)$/]'(node: TmplAstElementWithAncestor) {
+      'Element[name=/^(p|a)$/i]'(node: TmplAstElementWithAncestor) {
         const hasInvalidNesting = hasAncestorOfSameType(node);
 
         if (hasInvalidNesting) {
@@ -53,7 +53,10 @@ function hasAncestorOfSameType(node: TmplAstElementWithAncestor) {
   let parent = node.parent;
 
   while (parent) {
-    if (parent instanceof TmplAstElement && parent.name === node.name) {
+    if (
+      parent instanceof TmplAstElement &&
+      parent.name.toLowerCase() === node.name.toLowerCase()
+    ) {
       return true;
     }
 

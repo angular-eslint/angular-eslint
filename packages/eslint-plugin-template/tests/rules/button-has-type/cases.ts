@@ -14,6 +14,12 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   `<button [attr.type]="'submit'"></button>`,
   `<button [attr.type]="'reset'"></button>`,
   `<button type="button"></button>`,
+  {
+    code: `<BUTTON type="button"></BUTTON>`,
+    settings: {
+      hideFromDocs: true,
+    },
+  },
   `<button type="submit"></button>`,
   `<button type="reset"></button>`,
   `<button class="primary" type="submit"></button>`,
@@ -38,6 +44,17 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       ~~~~~~~~~~~~~~~~~
     `,
     messageId: missingType,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail if an uppercase button has no attributes',
+    annotatedSource: `
+      <BUTTON></BUTTON>
+      ~~~~~~~~~~~~~~~~~
+    `,
+    messageId: missingType,
+    settings: {
+      hideFromDocs: true,
+    },
   }),
   convertAnnotatedSourceToFailureCase({
     description: 'should fail if a button has attributes, but no type',

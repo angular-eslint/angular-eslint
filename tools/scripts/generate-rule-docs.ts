@@ -383,34 +383,35 @@ function convertCodeExamplesToMarkdown(
   highligher: 'html' | 'ts',
   ruleName: string,
 ): string {
-  return (
-    codeExamples
-      // Remove any test cases that are marked with the `hideFromDocs` setting
-      .filter((extractedTestCase) => !extractedTestCase.settings?.hideFromDocs)
-      .map((extractedTestCase: ExtractedTestCase, i) => {
-        let formattedCode = removeLeadingAndTrailingEmptyLinesFromCodeExample(
-          removeLeadingIndentationFromCodeExample(extractedTestCase.code),
-        );
-        if (kind === 'invalid') {
-          formattedCode = standardizeSpecialUnderlineChar(formattedCode);
-        }
+  const visibleCodeExamples = codeExamples
+    // Remove any test cases that are marked with the `hideFromDocs` setting
+    .filter((extractedTestCase) => !extractedTestCase.settings?.hideFromDocs);
 
-        const exampleRuleConfig: unknown[] = ['error'];
-        // Not all unit tests have options configured
-        if (extractedTestCase.options) {
-          exampleRuleConfig.push(extractedTestCase.options[0]);
-        }
-        const formattedConfig = JSON.stringify(
-          {
-            rules: {
-              [ruleName]: exampleRuleConfig,
-            },
+  return visibleCodeExamples
+    .map((extractedTestCase: ExtractedTestCase, i) => {
+      let formattedCode = removeLeadingAndTrailingEmptyLinesFromCodeExample(
+        removeLeadingIndentationFromCodeExample(extractedTestCase.code),
+      );
+      if (kind === 'invalid') {
+        formattedCode = standardizeSpecialUnderlineChar(formattedCode);
+      }
+
+      const exampleRuleConfig: unknown[] = ['error'];
+      // Not all unit tests have options configured
+      if (extractedTestCase.options) {
+        exampleRuleConfig.push(extractedTestCase.options[0]);
+      }
+      const formattedConfig = JSON.stringify(
+        {
+          rules: {
+            [ruleName]: exampleRuleConfig,
           },
-          null,
-          2,
-        );
+        },
+        null,
+        2,
+      );
 
-        return `<br>
+      return `<br>
 
 #### ${extractedTestCase.options ? 'Custom' : 'Default'} Config
 
@@ -433,16 +434,15 @@ ${formattedCode}
 \`\`\`
 
 ${
-  i === codeExamples.length - 1
+  i === visibleCodeExamples.length - 1
     ? ''
     : `<br>
 
 ---`
 }
   `;
-      })
-      .join('\n')
-  );
+    })
+    .join('\n');
 }
 
 function removeLeadingAndTrailingEmptyLinesFromCodeExample(
