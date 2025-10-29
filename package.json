@@ -58,7 +58,7 @@
     "@commitlint/cli": "20.1.0",
     "@commitlint/config-conventional": "20.0.0",
     "@jest/types": "30.0.5",
-    "@mdn/browser-compat-data": "7.1.14",
+    "@mdn/browser-compat-data": "7.1.15",
     "@nx/devkit": "22.0.1",
     "@nx/esbuild": "22.0.1",
     "@nx/eslint": "22.0.1",
