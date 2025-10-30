@@ -11,6 +11,15 @@ export type Options = [];
 export type MessageIds = 'noUncalledSignals' | 'suggestCallSignal';
 export const RULE_NAME = 'no-uncalled-signals';
 
+const CONDITIONAL_SELECTOR = [
+  AST_NODE_TYPES.ConditionalExpression,
+  AST_NODE_TYPES.DoWhileStatement,
+  AST_NODE_TYPES.ForStatement,
+  AST_NODE_TYPES.IfStatement,
+  AST_NODE_TYPES.SwitchCase,
+  AST_NODE_TYPES.WhileStatement,
+].join(',');
+
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
   meta: {
@@ -32,40 +41,54 @@ export default createESLintRule<Options, MessageIds>({
     const services: ParserServicesWithTypeInformation =
       ESLintUtils.getParserServices(context);
 
-    return {
-      '*.test[type=Identifier],*.test Identifier,[type=LogicalExpression] Identifier'(
-        node: TSESTree.Identifier,
+    function checkForUncalledSignal(node: TSESTree.Node): void {
+      // Unwrap negated expressions so that
+      // we look at what was being negated.
+      if (
+        node.type === AST_NODE_TYPES.UnaryExpression &&
+        node.operator === '!'
       ) {
-        if (node.parent.type === AST_NODE_TYPES.CallExpression) {
-          return;
-        }
+        node = node.argument;
+      }
 
-        // Check if this identifier is the property or object in a MemberExpression that's being called.
-        // If the identifier is a signal and it's being called, then the signal's value is being read.
-        // If it's the object, then a method on the signal (most likely the `set` method) is being called.
-        if (
-          node.parent.type === AST_NODE_TYPES.MemberExpression &&
-          (node.parent.object === node || node.parent.property === node) &&
-          node.parent.parent?.type === AST_NODE_TYPES.CallExpression
-        ) {
-          return;
-        }
+      const type = services.getTypeAtLocation(node);
+      const identifierType = type.getSymbol()?.name;
 
-        const type = services.getTypeAtLocation(node);
-        const identifierType = type.getSymbol()?.name;
+      if (identifierType && KNOWN_SIGNAL_TYPES.has(identifierType)) {
+        context.report({
+          node,
+          messageId: 'noUncalledSignals',
+          suggest: [
+            {
+              messageId: 'suggestCallSignal',
+              fix: (fixer) => fixer.insertTextAfter(node, '()'),
+            },
+          ],
+        });
+      }
+    }
 
-        if (identifierType && KNOWN_SIGNAL_TYPES.has(identifierType)) {
-          context.report({
-            node,
-            messageId: 'noUncalledSignals',
-            suggest: [
-              {
-                messageId: 'suggestCallSignal',
-                fix: (fixer) => fixer.replaceText(node, `${node.name}()`),
-              },
-            ],
-          });
+    return {
+      [CONDITIONAL_SELECTOR](
+        node:
+          | TSESTree.ConditionalExpression
+          | TSESTree.DoWhileStatement
+          | TSESTree.ForStatement
+          | TSESTree.IfStatement
+          | TSESTree.SwitchCase
+          | TSESTree.WhileStatement,
+      ) {
+        if (node.test) {
+          checkForUncalledSignal(node.test);
         }
+      },
+      LogicalExpression(node: TSESTree.LogicalExpression) {
+        checkForUncalledSignal(node.left);
+        checkForUncalledSignal(node.right);
+      },
+      BinaryExpression(node: TSESTree.BinaryExpression) {
+        checkForUncalledSignal(node.left);
+        checkForUncalledSignal(node.right);
       },
     };
   },
