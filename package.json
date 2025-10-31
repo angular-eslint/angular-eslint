@@ -109,7 +109,7 @@
     "tsx": "4.20.6",
     "typescript": "5.9.3",
     "typescript-eslint": "8.46.1",
-    "verdaccio": "6.2.0",
+    "verdaccio": "6.2.1",
     "vite": "^7.1.12",
     "vitest": "^4.0.3",
     "yargs": "18.0.0"
