@@ -40,7 +40,7 @@ catalog:
   json-schema-to-typescript: 15.0.4
   json-schema-traverse: 1.0.0
   jsonc-eslint-parser: 2.4.1
-  lint-staged: 16.2.5
+  lint-staged: 16.2.6
   ncp: 2.0.0
   nx: 22.1.0-beta.3
   picocolors: 1.1.1
