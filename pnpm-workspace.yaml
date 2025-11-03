@@ -3,7 +3,7 @@ packages:
 
 catalog:
   '@angular/cli': 20.3.7
-  '@angular/compiler': 20.3.6
+  '@angular/compiler': 20.3.7
   '@commitlint/cli': 20.1.0
   '@commitlint/config-conventional': 20.0.0
   '@jest/types': 30.0.5
