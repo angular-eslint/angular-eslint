@@ -2,12 +2,12 @@ packages:
   - packages/*
 
 catalog:
-  '@angular/cli': 20.3.6
-  '@angular/compiler': 20.3.6
+  '@angular/cli': 20.3.7
+  '@angular/compiler': 20.3.7
   '@commitlint/cli': 20.1.0
   '@commitlint/config-conventional': 20.0.0
   '@jest/types': 30.0.5
-  '@mdn/browser-compat-data': 7.1.14
+  '@mdn/browser-compat-data': 7.1.16
   '@nx/devkit': 22.1.0-beta.3
   '@nx/esbuild': 22.1.0-beta.3
   '@nx/eslint': 22.1.0-beta.3
@@ -17,7 +17,7 @@ catalog:
   '@nx/plugin': 22.1.0-beta.3
   '@nx/vite': 22.1.0-beta.3
   '@nx/workspace': 22.1.0-beta.3
-  '@schematics/angular': 20.3.6
+  '@schematics/angular': 20.3.7
   '@swc-node/register': 1.11.1
   '@swc/cli': 0.7.8
   '@swc/core': 1.13.21
@@ -40,7 +40,7 @@ catalog:
   json-schema-to-typescript: 15.0.4
   json-schema-traverse: 1.0.0
   jsonc-eslint-parser: 2.4.1
-  lint-staged: 16.2.5
+  lint-staged: 16.2.6
   ncp: 2.0.0
   nx: 22.1.0-beta.3
   picocolors: 1.1.1
@@ -53,7 +53,7 @@ catalog:
   tslib: ^2.4.1
   tsx: 4.20.6
   typescript: 5.9.3
-  verdaccio: 6.2.0
+  verdaccio: 6.2.1
   vite: ^7.1.12
   vitest: ^4.0.3
   yargs: 18.0.0

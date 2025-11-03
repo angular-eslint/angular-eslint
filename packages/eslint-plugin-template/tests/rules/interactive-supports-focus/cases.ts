@@ -251,6 +251,18 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
+      'should fail when non-interactive uppercase element does not support focus',
+    annotatedSource: `
+      <SPAN (click)="onClick()">Submit</SPAN>
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    messageId,
+    settings: {
+      hideFromDocs: true,
+    },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
       'should fail when a non-interactive element with aria-label does not support focus',
     annotatedSource: `
       <div (click)="onClick()" [attr.aria-label]="clickableThing"></div>

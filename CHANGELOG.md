@@ -1,3 +1,16 @@
+## 20.5.1 (2025-11-03)
+
+### 🩹 Fixes
+
+- update dependency @angular/compiler to v20.3.7 ([#2731](https://github.com/angular-eslint/angular-eslint/pull/2731))
+- **eslint-plugin:** [no-uncalled-signals] fix false positives ([#2705](https://github.com/angular-eslint/angular-eslint/pull/2705))
+- **eslint-plugin-template:** support uppercase tags ([#2712](https://github.com/angular-eslint/angular-eslint/pull/2712))
+
+### ❤️ Thank You
+
+- Dave @reduckted
+- Evgeny Stepanovych @undsoft
+
 ## 20.5.0 (2025-10-27)
 
 ### 🚀 Features

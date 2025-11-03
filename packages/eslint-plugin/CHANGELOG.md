@@ -1,3 +1,13 @@
+## 20.5.1 (2025-11-03)
+
+### 🩹 Fixes
+
+- **eslint-plugin:** [no-uncalled-signals] fix false positives ([#2705](https://github.com/angular-eslint/angular-eslint/pull/2705))
+
+### ❤️ Thank You
+
+- Dave @reduckted
+
 ## 20.5.0 (2025-10-27)
 
 ### 🚀 Features

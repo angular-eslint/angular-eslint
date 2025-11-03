@@ -44,7 +44,7 @@ export default createESLintRule<Options, MessageIds>({
           processContentNode(node);
         } else {
           // Ignore native elements.
-          if ('name' in node && getDomElements().has(node.name)) {
+          if ('name' in node && getDomElements().has(node.name.toLowerCase())) {
             return;
           }
           processElementOrTemplateNode(node);
@@ -176,7 +176,7 @@ export default createESLintRule<Options, MessageIds>({
 function isContentNode(
   node: TmplAstElement | TmplAstTemplate | TmplAstContent,
 ): node is TmplAstContent {
-  return 'name' in node && node.name === 'ng-content';
+  return 'name' in node && node.name.toLowerCase() === 'ng-content';
 }
 
 function findStartOfNgContentInnerHTML(html: string): number {

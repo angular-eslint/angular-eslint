@@ -28,7 +28,7 @@ export default createESLintRule<Options, MessageIds>({
     const parserServices = getTemplateParserServices(context);
 
     return {
-      'Element[name=/^(img|area|object|input)$/]'(node: TmplAstElement) {
+      'Element[name=/^(img|area|object|input)$/i]'(node: TmplAstElement) {
         const isValid = isValidNode(node);
 
         if (!isValid) {
@@ -51,11 +51,12 @@ export default createESLintRule<Options, MessageIds>({
 });
 
 function isValidNode(node: TmplAstElement): boolean {
-  if (node.name === 'img') {
+  const tagName = node.name.toLowerCase();
+  if (tagName === 'img') {
     return isValidImgNode(node);
-  } else if (node.name === 'object') {
+  } else if (tagName === 'object') {
     return isValidObjectNode(node);
-  } else if (node.name === 'area') {
+  } else if (tagName === 'area') {
     return isValidAreaNode(node);
   } else {
     return isValidInputNode(node);

@@ -43,6 +43,9 @@ type BaseErrorOptions<Options> = {
   readonly annotatedOutputs?: readonly string[];
   readonly filename?: string;
   readonly only?: boolean;
+  readonly settings?: {
+    hideFromDocs?: boolean;
+  };
 };
 
 type Message<TMessageIds extends string> = {
@@ -162,6 +165,7 @@ export function convertAnnotatedSourceToFailureCase<
     filename: errorOptions.filename,
     options: errorOptions.options ?? ([] as any),
     languageOptions: errorOptions.languageOptions,
+    settings: errorOptions.settings ?? {},
     errors,
     only: errorOptions.only ?? false,
     output: errorOptions.annotatedOutputs
