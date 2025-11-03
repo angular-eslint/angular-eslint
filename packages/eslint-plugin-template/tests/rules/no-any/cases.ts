@@ -52,7 +52,7 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
-    description: 'it should fail with call expression in expression binding',
+    description: 'should fail with call expression in expression binding',
     annotatedSource: `
         {{ $any(framework).name }}
            ~~~~~~~~~~~~~~~
@@ -69,7 +69,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     ],
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'it should fail with call expression using "this"',
+    description: 'should fail with call expression using "this"',
     annotatedSource: `
         {{ this.$any(framework).name }}
            ~~~~~~~~~~~~~~~~~~~~
@@ -86,7 +86,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     ],
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'it should fail with call expression in property binding',
+    description: 'should fail with call expression in property binding',
     annotatedSource: `
         <a [href]="$any(getHref())">Click here</a>
                    ~~~~~~~~~~~~~~~
@@ -104,7 +104,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'it should fail with call expression and square bracket notation in property binding',
+      'should fail with call expression and square bracket notation in property binding',
     annotatedSource: `
         <div *ngIf="$any(attributeList)['NPSScore']">Content</div>
                     ~~~~~~~~~~~~~~~~~~~
@@ -122,7 +122,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'it should fail with call expression and square bracket notation in interpolation',
+      'should fail with call expression and square bracket notation in interpolation',
     annotatedSource: `
         <div>{{ $any(attributeList)['NPSScore'] }}</div>
                 ~~~~~~~~~~~~~~~~~~~
@@ -140,7 +140,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'it should fail with call expression, square bracket notation and this in interpolation',
+      'should fail with call expression, square bracket notation and this in interpolation',
     annotatedSource: `
         <div>{{ this.$any(attributeList)['NPSScore'] }}</div>
                 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -158,7 +158,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'it should fail with call expression and square bracket notation in interpolation with multiple nested reads',
+      'should fail with call expression and square bracket notation in interpolation with multiple nested reads',
     annotatedSource: `
         <div>{{ $any(attributeList)['NPSScore']['another'] }}</div>
                 ~~~~~~~~~~~~~~~~~~~
@@ -175,7 +175,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     ],
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'it should fail for multiple cases',
+    description: 'should fail for multiple cases',
     annotatedSource: `
         {{ $any(framework).name }}
            ~~~~~~~~~~~~~~~

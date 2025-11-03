@@ -1,6 +1,11 @@
 import path from 'node:path';
 import { setWorkspaceRoot } from 'nx/src/utils/workspace-root';
-import { FIXTURES_DIR, Fixture } from '../utils/fixtures';
+import { beforeAll, describe, expect, it, vi } from 'vitest';
+import {
+  FIXTURES_DIR,
+  Fixture,
+  resetFixtureDirectory,
+} from '../utils/fixtures';
 import {
   LONG_TIMEOUT_MS,
   runCommandOnLocalRegistry,
@@ -17,10 +22,12 @@ const fixtureDirectory = 'eslint-8--new-workspace';
 let fixture: Fixture;
 
 describe('eslint-8--new-workspace', () => {
-  jest.setTimeout(LONG_TIMEOUT_MS);
+  vi.setConfig({ testTimeout: LONG_TIMEOUT_MS });
 
   beforeAll(async () => {
+    resetFixtureDirectory(fixtureDirectory);
     process.chdir(FIXTURES_DIR);
+
     await runNgNew(fixtureDirectory);
 
     process.env.NX_DAEMON = 'false';

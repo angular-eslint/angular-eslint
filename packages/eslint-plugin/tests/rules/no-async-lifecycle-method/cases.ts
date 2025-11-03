@@ -77,7 +77,7 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     async function ngOnDestroy() {}
     async function ngOnInit() {}
   `,
-  // should not fail with non Angular class
+  // should not fail with non-Angular class
   `
   class Test {
     async ngOnInit() {}

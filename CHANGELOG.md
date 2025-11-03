@@ -1,3 +1,22 @@
+## 20.5.0 (2025-10-27)
+
+### 🚀 Features
+
+- **eslint-plugin:** add rule prefer-host-metadata-property ([#2615](https://github.com/angular-eslint/angular-eslint/pull/2615))
+- **eslint-plugin-template:** add prefer-built-in-pipes rule ([#2605](https://github.com/angular-eslint/angular-eslint/pull/2605))
+
+### 🩹 Fixes
+
+- update dependency semver to v7.7.3 ([#2693](https://github.com/angular-eslint/angular-eslint/pull/2693))
+- update dependency eslint to v9.38.0 ([#2699](https://github.com/angular-eslint/angular-eslint/pull/2699))
+- update dependency @angular/compiler to v20.3.6 ([#2696](https://github.com/angular-eslint/angular-eslint/pull/2696))
+- update typescript-eslint packages to v8.46.1 ([#2701](https://github.com/angular-eslint/angular-eslint/pull/2701))
+
+### ❤️ Thank You
+
+- Andreas Nicolaou @andreasnicolaou
+- jase @jase88
+
 ## 20.4.0 (2025-10-12)
 
 ### 🚀 Features

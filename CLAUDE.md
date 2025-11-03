@@ -32,7 +32,7 @@ Use `pnpm nx run-many -t typecheck --parallel 2` to run TypeScript type checking
 
 If there are memory issues with jest tests, try passing `--runInBand` to the test command andor changing the number of parallel tests to 1.
 
-If you are updating e2e tests, you may need to update the snapshots. Run `pnpm update-e2e-snapshots` to update the snapshots and commit the resulting snapshot changes. NOTHING ELSE. There will be a diff on package.json files etc when doing this, but ONLY commit the snapshot changes.
+If you are updating e2e tests, you may need to update the snapshots. We use Nx's atomizer feature so that each e2e test file gets its own dynamic target based on the file, so for example if you need to update `src/inline-template-fixer.test.ts`, you should run `pnpm nx run e2e:e2e-ci--src/inline-template-fixer.test.ts -u` to update the snapshots. You should commit the resulting snapshot changes. NOTHING ELSE. There will be a diff on package.json files etc when doing this, but ONLY commit the snapshot changes.
 
 ## Project Structure
 
@@ -154,3 +154,26 @@ pnpm update-rule-lists
 # Update rule configurations
 pnpm update-rule-configs
 ```
+
+<!-- nx configuration start-->
+<!-- Leave the start & end comments to automatically receive updates. -->
+
+# General Guidelines for working with Nx
+
+- When running tasks (for example build, lint, test, e2e, etc.), always prefer running the task through `nx` (i.e. `nx run`, `nx run-many`, `nx affected`) instead of using the underlying tooling directly
+- You have access to the Nx MCP server and its tools, use them to help the user
+- When answering questions about the repository, use the `nx_workspace` tool first to gain an understanding of the workspace architecture where applicable.
+- When working in individual projects, use the `nx_project_details` mcp tool to analyze and understand the specific project structure and dependencies
+- For questions around nx configuration, best practices or if you're unsure, use the `nx_docs` tool to get relevant, up-to-date docs. Always use this instead of assuming things about nx configuration
+- If the user needs help with an Nx configuration or project graph error, use the `nx_workspace` tool to get any errors
+
+# CI Error Guidelines
+
+If the user wants help with fixing an error in their CI pipeline, use the following flow:
+
+- Retrieve the list of current CI Pipeline Executions (CIPEs) using the `nx_cloud_cipe_details` tool
+- If there are any errors, use the `nx_cloud_fix_cipe_failure` tool to retrieve the logs for a specific task
+- Use the task logs to see what's wrong and help the user fix their problem. Use the appropriate tools if necessary
+- Make sure that the problem is fixed by running the task that you passed into the `nx_cloud_fix_cipe_failure` tool
+
+<!-- nx configuration end-->

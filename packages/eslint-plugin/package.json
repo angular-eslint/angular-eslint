@@ -1,6 +1,6 @@
 {
   "name": "@angular-eslint/eslint-plugin",
-  "version": "20.4.0",
+  "version": "20.5.0",
   "description": "ESLint plugin for Angular applications, following https://angular.dev/style-guide",
   "license": "MIT",
   "main": "dist/index.js",
@@ -20,7 +20,7 @@
   "dependencies": {
     "@angular-eslint/bundled-angular-compiler": "workspace:*",
     "@angular-eslint/utils": "workspace:*",
-    "ts-api-utils": "^2.1.0"
+    "ts-api-utils": "catalog:other-runtime-dependencies"
   },
   "devDependencies": {
     "@angular-eslint/test-utils": "workspace:*"

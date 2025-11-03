@@ -40,8 +40,29 @@
     },
     {
       "plugin": "@nx/jest/plugin",
-      "exclude": ["e2e/**"],
+      "exclude": [
+        "e2e/**",
+        "packages/builder/**",
+        "packages/template-parser/**"
+      ],
       "options": {}
+    },
+    {
+      "plugin": "@nx/vite/plugin",
+      "include": ["e2e/**/*"],
+      "options": {
+        "testTargetName": "e2e-local",
+        "ciTargetName": "e2e-ci"
+      }
+    },
+    {
+      "plugin": "@nx/vite/plugin",
+      "include": ["packages/builder/**", "packages/template-parser/**"],
+      "options": {
+        "testTargetName": "test",
+        "typecheckTargetName": "typecheck",
+        "ciTargetName": ""
+      }
     }
   ],
   "release": {
@@ -106,14 +127,28 @@
       "cache": true
     },
     "e2e": {
-      "dependsOn": ["^build"],
-      "inputs": ["default", "{workspaceRoot}/e2e/utils/**/*"],
-      "cache": true
+      "cache": true,
+      "inputs": ["e2eInputs", "^production"]
     },
-    "e2e-suite": {
-      "dependsOn": ["^build"],
-      "inputs": ["default", "{workspaceRoot}/e2e/utils/**/*.ts"],
-      "cache": true
+    "e2e-local": {
+      "cache": true,
+      "inputs": ["e2eInputs", "^production"],
+      "dependsOn": ["e2e:populate-local-registry-storage", "e2e:local-registry"]
+    },
+    "e2e-ci": {
+      "inputs": ["e2eInputs", "^production"]
+    },
+    "e2e-ci--**/**": {
+      "inputs": ["e2eInputs", "^production"],
+      "dependsOn": [
+        "e2e:populate-local-registry-storage",
+        "e2e:local-registry"
+      ],
+      "configurations": {
+        "updateSnapshot": {
+          "args": ["--update"]
+        }
+      }
     },
     "check-rule-docs": {
       "cache": true
@@ -129,6 +164,11 @@
       "options": {
         "env": {
           "NODE_OPTIONS": "--experimental-vm-modules"
+        }
+      },
+      "configurations": {
+        "ci": {
+          "args": ["--coverage"]
         }
       }
     }
@@ -155,9 +195,16 @@
       "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
       "!{projectRoot}/tsconfig.spec.json",
       "!{projectRoot}/jest.config.[jt]s",
+      "!{projectRoot}/vitest.config.mts",
       "!{projectRoot}/src/test-setup.[jt]s",
       "!{projectRoot}/eslint.config.js"
     ],
-    "projectSpecificFiles": []
+    "projectSpecificFiles": [],
+    "e2eInputs": [
+      "default",
+      {
+        "env": "CI"
+      }
+    ]
   }
 }

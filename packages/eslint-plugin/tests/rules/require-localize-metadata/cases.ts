@@ -142,7 +142,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     options: [{ requireDescription: true }],
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'it should fail if no $localize meaning is provided',
+    description: 'should fail if no $localize meaning is provided',
     annotatedSource: `
       const localizedText = $localize\`Hello i18n!\`;
                                      ~~~~~~~~~~~~~
@@ -161,7 +161,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     options: [{ requireDescription: true, requireMeaning: true }],
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'it should fail if the $localize meaning is empty',
+    description: 'should fail if the $localize meaning is empty',
     annotatedSource: `
       const localizedText = $localize\`:|An introduction header for this sample:Hello i18n!\`;
                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -170,7 +170,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     options: [{ requireMeaning: true }],
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'it should fail if no $localize metadata is provided',
+    description: 'should fail if no $localize metadata is provided',
     annotatedSource: `
       const localizedText = $localize\`:Hello i18n!\`;
                                      ~~~~~~~~~~~~~~
@@ -188,7 +188,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     options: [{ requireDescription: true, requireMeaning: true }],
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'it should fail if the $localize metadata is not provided',
+    description: 'should fail if the $localize metadata is not provided',
     annotatedSource: `
       const localizedText = $localize\`Hello i18n!\`;
                                      ~~~~~~~~~~~~~

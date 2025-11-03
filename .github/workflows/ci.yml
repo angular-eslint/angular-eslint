@@ -21,8 +21,8 @@ permissions:
   contents: read
 
 jobs:
-  primary:
-    name: Primary
+  main:
+    name: Main
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -33,7 +33,7 @@ jobs:
           run_install: false
 
       - name: Install Node.js per package.json
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
           # Use the volta.node property as the source of truth
           node-version-file: 'package.json'
@@ -43,7 +43,7 @@ jobs:
         run: echo "NX_CI_EXECUTION_ENV=Node $(node --version)" >> $GITHUB_ENV
 
       - name: Start Nx Cloud CI Run
-        run: pnpm dlx nx-cloud start-ci-run --distribute-on="6 custom-linux-medium-plus-js" --stop-agents-after="e2e-suite"
+        run: pnpm dlx nx-cloud start-ci-run --distribute-on=".nx/workflows/distribution-config.yaml" --auto-apply-fixes="*format*,*sync*" --stop-agents-after="e2e-ci"
 
       - name: Install dependencies (skipping postinstall)
         # We use --ignore-scripts to skip automatic postinstall and give us more control over distributing build tasks
@@ -56,17 +56,16 @@ jobs:
           pnpm nx-cloud record -- pnpm format-check
           pnpm nx-cloud record -- pnpm nx sync:check
 
-      - name: Run parallel distributed tasks for build, typecheck, check-rule-docs, check-rule-lists, check-rule-configs, lint targets
+      - name: Run parallel distributed tasks for build, typecheck, unit tests with coverage, check-rule-docs, check-rule-lists, check-rule-configs, lint targets, and atomized e2e tests
         # Note that the typecheck target *also* typechecks tests and tools,
         # whereas the build only checks src files
-        run: pnpm nx run-many -t build,typecheck,check-rule-docs,lint,check-rule-lists,check-rule-configs
+        run: pnpm nx run-many -t build typecheck test check-rule-docs lint check-rule-lists check-rule-configs e2e-ci --configuration ci
 
-      - name: Run unit tests with coverage reporting
-        run: pnpm nx run-many -t test --coverage
-
-      # Run distributed e2e test suites with independent local registries (max 1 per agent via parallel=1)
-      - name: Run e2e test suites
-        run: pnpm nx run-many -t e2e-suite --parallel 1
+      - name: Collect coverage data from Nx Cloud cache
+        # Re-run the test:ci target directly on the main job to pull down the coverage outputs
+        run: pnpm nx run-many -t test --configuration ci
+        env:
+          NX_CLOUD_DISTRIBUTED_EXECUTION: false
 
       - name: Publish code coverage report
         uses: codecov/codecov-action@v5
@@ -102,7 +101,7 @@ jobs:
           run_install: false
 
       - name: Install Node.js ${{ matrix.node }}
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node }}
           cache: 'pnpm'

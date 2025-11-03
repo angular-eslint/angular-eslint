@@ -90,7 +90,7 @@ export default createESLintRule<Options, MessageIds>({
 });
 
 /**
- *  Check that the any element for example `<img>` has a `style` attribute or `attr.style` binding.
+ *  Check that an element (for example `<img>`) has a `style` attribute or `attr.style` binding.
  */
 function isNodeHasStyleAttribute(node: TmplAstElement): boolean {
   return (
@@ -99,14 +99,14 @@ function isNodeHasStyleAttribute(node: TmplAstElement): boolean {
   );
 }
 /**
- *  Check that the any element for example `<img>` has a `ngStyle` attribute binding.
+ *  Check that an element (for example `<img>`) has a `ngStyle` attribute binding.
  */
 function isNodeHasNgStyleAttribute(node: TmplAstElement): boolean {
   return node.inputs.some(({ name }) => isNgStyle(name));
 }
 
 /**
- *  Check that the any element for example `<img>` has a `[style.background-color]` attribute binding.
+ *  Check that an element (for example `<img>`) has a `[style.background-color]` attribute binding.
  */
 function isNodeHasBindingToStyleAttribute(node: TmplAstElement): boolean {
   return node.inputs.some(({ keySpan }) => isStyleBound(keySpan));

@@ -7,6 +7,16 @@
       "dependsOn": ["^build", "^compile", "compile"],
       "outputs": ["{projectRoot}/dist"],
       "command": "ncp {projectRoot}/src/schema.json {projectRoot}/dist/schema.json"
+    },
+    "test": {
+      "options": {
+        "args": "run"
+      },
+      "configurations": {
+        "ci": {
+          "args": ["run", "--coverage"]
+        }
+      }
     }
   }
 }

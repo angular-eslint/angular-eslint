@@ -24,7 +24,7 @@ require('angular-eslint').tsPlugin !== require('@angular-eslint/eslint-plugin')
 
 This is bad because it means that 3rd party configs would be required to use
 `angular-eslint` or else they would break a user's config if the user either
-used `angular.configs.recommended` et al or
+used `angular.configs.recommended` et al. or
 ```
 {
   plugins: {
@@ -33,7 +33,7 @@ used `angular.configs.recommended` et al or
 }
 ```
 
-This might be something we could consider okay (eg 3rd party flat configs must
+This might be something we could consider okay (e.g. 3rd party flat configs must
 use our new package); however legacy configs consumed via `@eslint/eslintrc`
 would never be able to satisfy this constraint and thus users would be blocked
 from using them.

@@ -1,6 +1,6 @@
 {
   "name": "@angular-eslint/schematics",
-  "version": "20.4.0",
+  "version": "20.5.0",
   "description": "Angular Schematics for angular-eslint",
   "license": "MIT",
   "main": "dist/index.js",
@@ -36,17 +36,17 @@
     "save": "devDependencies"
   },
   "dependencies": {
-    "@angular-devkit/core": ">= 20.0.0 < 21.0.0",
-    "@angular-devkit/schematics": ">= 20.0.0 < 21.0.0",
+    "@angular-devkit/core": "catalog:other-runtime-dependencies",
+    "@angular-devkit/schematics": "catalog:other-runtime-dependencies",
     "@angular-eslint/eslint-plugin": "workspace:*",
     "@angular-eslint/eslint-plugin-template": "workspace:*",
-    "ignore": "7.0.5",
-    "semver": "7.7.2",
-    "strip-json-comments": "3.1.1"
+    "ignore": "catalog:other-runtime-dependencies",
+    "semver": "catalog:other-runtime-dependencies",
+    "strip-json-comments": "catalog:other-runtime-dependencies"
   },
   "devDependencies": {
-    "@typescript-eslint/utils": "8.46.0",
-    "eslint": "9.37.0"
+    "@typescript-eslint/utils": "catalog:typescript-eslint",
+    "eslint": "catalog:"
   },
   "gitHead": "e2006e5e9c99e5a943d1a999e0efa5247d29ec24"
 }

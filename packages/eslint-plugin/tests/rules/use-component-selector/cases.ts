@@ -36,7 +36,7 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
-    description: 'it should fail when selector is not given in @Component',
+    description: 'should fail when selector is not given in @Component',
     annotatedSource: `
         @Component()
         ~~~~~~~~~~~~
@@ -45,16 +45,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'it should fail when selector is not given in @Component',
-    annotatedSource: `
-        @Component()
-        ~~~~~~~~~~~~
-        class Test {}
-      `,
-    messageId,
-  }),
-  convertAnnotatedSourceToFailureCase({
-    description: 'it should fail when selector is empty in @Component',
+    description: 'should fail when selector is empty in @Component',
     annotatedSource: `
         @Component({
         ~~~~~~~~~~~~
@@ -66,7 +57,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'it should fail when selector equals 0 in @Component',
+    description: 'should fail when selector equals 0 in @Component',
     annotatedSource: `
         @Component({
         ~~~~~~~~~~~~
@@ -78,7 +69,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'it should fail when selector equals null in @Component',
+    description: 'should fail when selector equals null in @Component',
     annotatedSource: `
         @Component({
         ~~~~~~~~~~~~

@@ -1,6 +1,6 @@
 {
   "name": "angular-eslint",
-  "version": "20.4.0",
+  "version": "20.5.0",
   "description": "The tooling which enables ESLint to work with Angular projects",
   "license": "MIT",
   "main": "dist/index.js",
@@ -23,8 +23,8 @@
     "typescript-eslint": "^8.0.0"
   },
   "dependencies": {
-    "@angular-devkit/core": ">= 20.0.0 < 21.0.0",
-    "@angular-devkit/schematics": ">= 20.0.0 < 21.0.0",
+    "@angular-devkit/core": "catalog:other-runtime-dependencies",
+    "@angular-devkit/schematics": "catalog:other-runtime-dependencies",
     "@angular-eslint/builder": "workspace:*",
     "@angular-eslint/eslint-plugin": "workspace:*",
     "@angular-eslint/eslint-plugin-template": "workspace:*",

@@ -101,7 +101,7 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail when Pipe has no prefix ng',
+    description: 'should fail when Pipe has no "ng" prefix',
     annotatedSource: `
         @Pipe({
           name: 'foo-bar'

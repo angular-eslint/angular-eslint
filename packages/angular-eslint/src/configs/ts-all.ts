@@ -44,6 +44,7 @@ export default (
       '@angular-eslint/no-queries-metadata-property': 'error',
       '@angular-eslint/no-uncalled-signals': 'error',
       '@angular-eslint/pipe-prefix': 'error',
+      '@angular-eslint/prefer-host-metadata-property': 'error',
       '@angular-eslint/prefer-inject': 'error',
       '@angular-eslint/prefer-on-push-component-change-detection': 'error',
       '@angular-eslint/prefer-output-emitter-ref': 'error',

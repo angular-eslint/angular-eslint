@@ -1,3 +1,15 @@
+## 20.5.0 (2025-10-27)
+
+### 🚀 Features
+
+- **eslint-plugin:** add rule prefer-host-metadata-property ([#2615](https://github.com/angular-eslint/angular-eslint/pull/2615))
+- **eslint-plugin-template:** add prefer-built-in-pipes rule ([#2605](https://github.com/angular-eslint/angular-eslint/pull/2605))
+
+### ❤️ Thank You
+
+- Andreas Nicolaou @andreasnicolaou
+- jase @jase88
+
 ## 20.4.0 (2025-10-12)
 
 ### 🚀 Features

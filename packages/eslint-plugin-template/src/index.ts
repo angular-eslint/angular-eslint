@@ -43,6 +43,9 @@ import noAutofocus, {
 import noCallExpression, {
   RULE_NAME as noCallExpressionRuleName,
 } from './rules/no-call-expression';
+import preferBuiltInPipes, {
+  RULE_NAME as preferBuiltInPipesRuleName,
+} from './rules/prefer-built-in-pipes';
 import noDistractingElements, {
   RULE_NAME as noDistractingElementsRuleName,
 } from './rules/no-distracting-elements';
@@ -127,6 +130,7 @@ export = {
     [noAnyRuleName]: noAny,
     [noAutofocusRuleName]: noAutofocus,
     [noCallExpressionRuleName]: noCallExpression,
+    [preferBuiltInPipesRuleName]: preferBuiltInPipes,
     [noDistractingElementsRuleName]: noDistractingElements,
     [noDuplicateAttributesRuleName]: noDuplicateAttributes,
     [noEmptyControlFlowRuleName]: noEmptyControlFlow,

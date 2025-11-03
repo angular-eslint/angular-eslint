@@ -1,48 +1,22 @@
-# Guidelines for Codex
+<!-- nx configuration start-->
+<!-- Leave the start & end comments to automatically receive updates. -->
 
-This repository uses Nx as the task runner and monorepo manager for building and testing Angular ESLint packages.
+# General Guidelines for working with Nx
 
-NOTE: This repo uses Nx Cloud for the distributed task execution, AI integration, and remote caching benefits. It requires internet access, which is not available in the Codex environment, so **all nx commands must be executed with `NX_NO_CLOUD=true`**.
+- When running tasks (for example build, lint, test, e2e, etc.), always prefer running the task through `nx` (i.e. `nx run`, `nx run-many`, `nx affected`) instead of using the underlying tooling directly
+- You have access to the Nx MCP server and its tools, use them to help the user
+- When answering questions about the repository, use the `nx_workspace` tool first to gain an understanding of the workspace architecture where applicable.
+- When working in individual projects, use the `nx_project_details` mcp tool to analyze and understand the specific project structure and dependencies
+- For questions around nx configuration, best practices or if you're unsure, use the `nx_docs` tool to get relevant, up-to-date docs. Always use this instead of assuming things about nx configuration
+- If the user needs help with an Nx configuration or project graph error, use the `nx_workspace` tool to get any errors
 
-## Package Manager
+# CI Error Guidelines
 
-This project uses **pnpm** (version 10) as the package manager. Always use `pnpm` commands instead of `npm` or `yarn`.
+If the user wants help with fixing an error in their CI pipeline, use the following flow:
 
-## Required checks
+- Retrieve the list of current CI Pipeline Executions (CIPEs) using the `nx_cloud_cipe_details` tool
+- If there are any errors, use the `nx_cloud_fix_cipe_failure` tool to retrieve the logs for a specific task
+- Use the task logs to see what's wrong and help the user fix their problem. Use the appropriate tools if necessary
+- Make sure that the problem is fixed by running the task that you passed into the `nx_cloud_fix_cipe_failure` tool
 
-When modifying rule implementations or documentation, run the following commands and ensure they pass (noting the comments that explain what to do if any of these checks fail):
-
-```bash
-pnpm format-check # run pnpm nx format and commit the result if this check fails
-pnpm nx sync:check # run pnpm nx sync and commit the result if this check fails
-NX_NO_CLOUD=true pnpm nx run-many -t check-rule-docs # run NX_NO_CLOUD=true pnpm nx run-many -t update-rule-docs and commit the result if this check fails
-NX_NO_CLOUD=true pnpm nx run-many -t check-rule-lists # run NX_NO_CLOUD=true pnpm nx run-many -t update-rule-lists and commit the result if this check fails
-NX_NO_CLOUD=true pnpm nx run-many -t check-rule-configs # run NX_NO_CLOUD=true pnpm nx run-many -t update-rule-configs and commit the result if this check fails
-```
-
-When working on an individual rule, the preferred way to run tests is to target the specific spec file. For example, to run tests for the `prefer-standalone` rule within the `eslint-plugin` project, run:
-
-```bash
-NX_NO_CLOUD=true pnpm nx test eslint-plugin packages/eslint-plugin/tests/rules/prefer-standalone/spec.ts --runInBand
-```
-
-Once rule specific tests have passed, run commands for all projects:
-
-Use `pnpm nx run-many -t test --parallel 2` to run all tests across all packages.
-Use `pnpm nx run-many -t lint --parallel 2` to run all linting across all packages.
-Use `pnpm nx run-many -t typecheck --parallel 2` to run TypeScript type checking across all packages.
-
-If there are memory issues with jest tests, try passing `--runInBand` to the test command andor changing the number of parallel tests to 1.
-
-If you are updating e2e tests, you may need to update the snapshots. Run `pnpm update-e2e-snapshots` to update the snapshots and commit the resulting snapshot changes. NOTHING ELSE. There will be a diff on package.json files etc when doing this, but ONLY commit the snapshot changes.
-
-## Commit conventions
-
-Use [Conventional Commits](https://www.conventionalcommits.org/) for commit messages and PR titles.
-
-- When a change affects a single project, include its name as the scope: `feat(eslint-plugin-template): add new rule`.
-- When multiple projects are affected, omit the scope: `fix: correct lint configuration`.
-
-By convention, if only updating a single rule within a single project, for example the `alt-text` rule within the `eslint-plugin-template` project, the commit message should be `fix(eslint-plugin-template): [alt-text] description of the change`.
-
-For any changes that only update tests, use `test` or `chore` as the commit/PR type, do not use `fix` or `feat`.
+<!-- nx configuration end-->

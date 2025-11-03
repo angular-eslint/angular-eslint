@@ -1,3 +1,0 @@
-{
-  "*.{ts,js,json,md}": ["node node_modules/prettier/bin/prettier.cjs --write"]
-}

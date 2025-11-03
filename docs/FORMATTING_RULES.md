@@ -12,7 +12,7 @@ We are a tiny team with a massive userbase so we have to pick our battles. **We 
 
 We strongly recommend you check out https://prettier.io as it is incredibly powerful and popular across all common frontend languages such as JavaScript, TypeScript, CSS and HTML. There are even multiple ways you can combine prettier with ESLint in your projects:
 
-- https://github.com/prettier/eslint-config-prettier (personally recommended as it keeps linting and formatting as separate responsibilites)
+- https://github.com/prettier/eslint-config-prettier (personally recommended as it keeps linting and formatting as separate responsibilities)
 - https://github.com/prettier/eslint-plugin-prettier (runs prettier within ESLint so you get feedback on violations from prettier itself rather than more fragile ESLint formatting rules).
 
 ## But what if I really, really, really want to enforce code formatting conventions via lint rules?

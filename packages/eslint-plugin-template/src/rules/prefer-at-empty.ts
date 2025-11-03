@@ -94,7 +94,7 @@ export default createESLintRule<Options, MessageIds>({
                   if (forInfo.node.empty) {
                     // There is already an `@empty` block. The contents of the
                     // `@if` block and the contents of the `@empty` block would
-                    // both be shown in the collection is empty, so we need to
+                    // both be shown if the collection is empty, so we need to
                     // combine the two blocks. The `@if` block would be rendered
                     // first, so it needs to be inserted before the existing
                     // contents of the `@empty` block.
@@ -254,7 +254,7 @@ export default createESLintRule<Options, MessageIds>({
                 if (forBlock.empty?.endSourceSpan) {
                   // There is already an `@empty` block, but because the `@for`
                   // block was inside an `@else` block, the `@empty` block
-                  // would never have be rendered, so we can replace its contents.
+                  // will never be rendered, so we can replace its contents.
                   yield fixer.replaceTextRange(
                     [
                       forBlock.empty.startSourceSpan.end.offset,
