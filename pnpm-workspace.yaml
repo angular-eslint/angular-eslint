@@ -70,7 +70,7 @@ catalogs:
     eslint-scope: ^8.0.2
     ignore: 7.0.5
     semver: 7.7.3
-    strip-json-comments: 3.1.1
+    strip-json-comments: 5.0.3
     ts-api-utils: ^2.1.0
   typescript-eslint:
     '@typescript-eslint/rule-tester': 8.46.2
