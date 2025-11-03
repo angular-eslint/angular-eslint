@@ -204,16 +204,16 @@ catalogs:
       version: 2.1.0
   typescript-eslint:
     '@typescript-eslint/rule-tester':
-      specifier: ^8.0.0
+      specifier: 8.46.2
       version: 8.46.2
     '@typescript-eslint/types':
-      specifier: ^8.0.0
+      specifier: 8.46.2
       version: 8.46.2
     '@typescript-eslint/utils':
-      specifier: ^8.0.0
+      specifier: 8.46.2
       version: 8.46.2
     typescript-eslint:
-      specifier: ^8.0.0
+      specifier: 8.46.2
       version: 8.46.2
 
 patchedDependencies:
@@ -424,10 +424,10 @@ importers:
         specifier: workspace:*
         version: link:../template-parser
       '@typescript-eslint/types':
-        specifier: catalog:typescript-eslint
+        specifier: ^8.0.0
         version: 8.46.2
       '@typescript-eslint/utils':
-        specifier: catalog:typescript-eslint
+        specifier: ^8.0.0
         version: 8.46.2(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3)
       eslint:
         specifier: ^8.57.0 || ^9.0.0
