@@ -45,7 +45,7 @@ catalog:
   nx: 22.1.0-beta.3
   picocolors: 1.1.1
   pkg-pr-new: 0.0.60
-  prettier: 3.6.3
+  prettier: 3.6.2
   prettier-v2-for-jest-inline-snapshots: npm:prettier@^2
   tree-kill: 1.2.2
   ts-jest: 29.4.1
@@ -58,7 +58,7 @@ catalog:
   vitest: ^4.0.3
   yargs: 18.0.0
 
-catalogMode: strict
+catalogMode: prefer
 
 catalogs:
   other-runtime-dependencies:
