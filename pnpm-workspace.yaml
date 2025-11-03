@@ -8,15 +8,15 @@ catalog:
   '@commitlint/config-conventional': 20.0.0
   '@jest/types': 30.0.5
   '@mdn/browser-compat-data': 7.1.14
-  '@nx/devkit': 22.1.0-beta.3
-  '@nx/esbuild': 22.1.0-beta.3
-  '@nx/eslint': 22.1.0-beta.3
-  '@nx/eslint-plugin': 22.1.0-beta.3
-  '@nx/jest': 22.1.0-beta.3
-  '@nx/js': 22.1.0-beta.3
-  '@nx/plugin': 22.1.0-beta.3
-  '@nx/vite': 22.1.0-beta.3
-  '@nx/workspace': 22.1.0-beta.3
+  '@nx/devkit': 22.1.0-canary.20251024-7712d2a
+  '@nx/esbuild': 22.1.0-canary.20251024-7712d2a
+  '@nx/eslint': 22.1.0-canary.20251024-7712d2a
+  '@nx/eslint-plugin': 22.1.0-canary.20251024-7712d2a
+  '@nx/jest': 22.1.0-canary.20251024-7712d2a
+  '@nx/js': 22.1.0-canary.20251024-7712d2a
+  '@nx/plugin': 22.1.0-canary.20251024-7712d2a
+  '@nx/vite': 22.1.0-canary.20251024-7712d2a
+  '@nx/workspace': 22.1.0-canary.20251024-7712d2a
   '@schematics/angular': 20.3.6
   '@swc-node/register': 1.11.1
   '@swc/cli': 0.7.8
@@ -42,7 +42,7 @@ catalog:
   jsonc-eslint-parser: 2.4.1
   lint-staged: 16.2.5
   ncp: 2.0.0
-  nx: 22.1.0-beta.3
+  nx: 22.1.0-canary.20251024-7712d2a
   picocolors: 1.1.1
   pkg-pr-new: 0.0.60
   prettier: 3.6.3
