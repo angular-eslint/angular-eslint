@@ -23,15 +23,15 @@
     "typescript-eslint": "^8.0.0"
   },
   "dependencies": {
-    "@angular-devkit/core": ">= 20.0.0 < 21.0.0",
-    "@angular-devkit/schematics": ">= 20.0.0 < 21.0.0",
+    "@angular-devkit/core": "catalog:other-runtime-dependencies",
+    "@angular-devkit/schematics": "catalog:other-runtime-dependencies",
     "@angular-eslint/builder": "workspace:*",
     "@angular-eslint/eslint-plugin": "workspace:*",
     "@angular-eslint/eslint-plugin-template": "workspace:*",
     "@angular-eslint/schematics": "workspace:*",
     "@angular-eslint/template-parser": "workspace:*",
-    "@typescript-eslint/types": "^8.0.0",
-    "@typescript-eslint/utils": "^8.0.0"
+    "@typescript-eslint/types": "catalog:typescript-eslint",
+    "@typescript-eslint/utils": "catalog:typescript-eslint"
   },
   "ng-update": {
     "packageGroupName": "angular-eslint",

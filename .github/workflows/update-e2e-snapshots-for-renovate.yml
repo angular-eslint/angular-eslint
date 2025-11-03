@@ -69,7 +69,11 @@ jobs:
           # Checkout the PR branch using the github CLI
           gh pr checkout ${{ github.event.pull_request.number }}
 
+          # Run install and dedupe
           pnpm install --ignore-scripts
+          pnpm dedupe
+
+          # Build all packages
           pnpm build
 
           # Update the e2e test snapshots

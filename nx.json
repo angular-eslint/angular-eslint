@@ -1,7 +1,6 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "nxCloudId": "601e8ec60a30c421b31beed9",
-  "bust": 2,
   "plugins": [
     {
       "plugin": "@nx/eslint/plugin",
@@ -196,13 +195,13 @@
       "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
       "!{projectRoot}/tsconfig.spec.json",
       "!{projectRoot}/jest.config.[jt]s",
+      "!{projectRoot}/vitest.config.mts",
       "!{projectRoot}/src/test-setup.[jt]s",
       "!{projectRoot}/eslint.config.js"
     ],
     "projectSpecificFiles": [],
     "e2eInputs": [
       "default",
-      "{workspaceRoot}/jest.preset.js",
       {
         "env": "CI"
       }
