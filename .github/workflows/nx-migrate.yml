@@ -39,7 +39,7 @@ jobs:
       - name: Check if @nx/workspace was changed as part of the latest commit on the PR
         id: nrwl-workspace-package-check
         run: |
-          git diff HEAD~1 -G"@nx/workspace" --exit-code package.json && echo "@nx/workspace unchanged" || echo "::set-output name=was-changed::true"
+          git diff HEAD~1 -G"'?@nx/workspace'?:" --exit-code pnpm-workspace.yaml && echo "@nx/workspace unchanged" || echo "::set-output name=was-changed::true"
 
       - uses: pnpm/action-setup@v4
         if: ${{ steps.nrwl-workspace-package-check.outputs.was-changed == 'true' }}
@@ -66,11 +66,11 @@ jobs:
           # Checkout the PR branch using the github CLI
           gh pr checkout ${{ github.event.pull_request.number }}
 
-          # Get the version of Nx we are migrating to
-          NX_VERSION=$(node -e "console.log(require('./package.json').devDependencies['@nx/workspace'])")
+          # Get the version of Nx we are migrating to from the pnpm-workspace.yaml catalog
+          NX_VERSION=$(yq eval '.catalogs.default["@nx/workspace"] // .catalog["@nx/workspace"]' pnpm-workspace.yaml)
 
-          # Revert renovate's changes to package.json and pnpm-lock.yaml so that it is a clean migrate from the status quo
-          git checkout HEAD~1 -- package.json pnpm-lock.yaml
+          # Revert renovate's changes to pnpm-workspace.yaml and pnpm-lock.yaml so that it is a clean migrate from the status quo
+          git checkout HEAD~1 -- pnpm-workspace.yaml pnpm-lock.yaml
 
           # We need to expect lock file changes to be applicable
           pnpm install --ignore-scripts --frozen-lockfile=false
