@@ -1,3 +1,13 @@
+## 20.5.1 (2025-11-03)
+
+### 🩹 Fixes
+
+- **eslint-plugin-template:** support uppercase tags ([#2712](https://github.com/angular-eslint/angular-eslint/pull/2712))
+
+### ❤️ Thank You
+
+- Evgeny Stepanovych @undsoft
+
 ## 20.5.0 (2025-10-27)
 
 ### 🚀 Features
