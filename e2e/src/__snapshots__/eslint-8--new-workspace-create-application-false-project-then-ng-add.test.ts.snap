@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`eslint-8--new-workspace-create-application-false-project-then-ng-add should pass linting when adding a project before running ng-add 1`] = `
+exports[`eslint-8--new-workspace-create-application-false-project-then-ng-add > should pass linting when adding a project before running ng-add 1`] = `
 {
   "@angular-eslint/builder": "0.0.0-e2e",
   "@angular-eslint/eslint-plugin": "0.0.0-e2e",
@@ -24,103 +24,103 @@ exports[`eslint-8--new-workspace-create-application-false-project-then-ng-add sh
 }
 `;
 
-exports[`eslint-8--new-workspace-create-application-false-project-then-ng-add should pass linting when adding a project before running ng-add 2`] = `
+exports[`eslint-8--new-workspace-create-application-false-project-then-ng-add > should pass linting when adding a project before running ng-add 2`] = `
 "{
-  \\"root\\": true,
-  \\"ignorePatterns\\": [
-    \\"projects/**/*\\"
+  "root": true,
+  "ignorePatterns": [
+    "projects/**/*"
   ],
-  \\"overrides\\": [
+  "overrides": [
     {
-      \\"files\\": [
-        \\"*.ts\\"
+      "files": [
+        "*.ts"
       ],
-      \\"extends\\": [
-        \\"eslint:recommended\\",
-        \\"plugin:@typescript-eslint/recommended\\",
-        \\"plugin:@angular-eslint/recommended\\",
-        \\"plugin:@angular-eslint/template/process-inline-templates\\"
+      "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@angular-eslint/recommended",
+        "plugin:@angular-eslint/template/process-inline-templates"
       ],
-      \\"rules\\": {
-        \\"@angular-eslint/directive-selector\\": [
-          \\"error\\",
+      "rules": {
+        "@angular-eslint/directive-selector": [
+          "error",
           {
-            \\"type\\": \\"attribute\\",
-            \\"prefix\\": \\"app\\",
-            \\"style\\": \\"camelCase\\"
+            "type": "attribute",
+            "prefix": "app",
+            "style": "camelCase"
           }
         ],
-        \\"@angular-eslint/component-selector\\": [
-          \\"error\\",
+        "@angular-eslint/component-selector": [
+          "error",
           {
-            \\"type\\": \\"element\\",
-            \\"prefix\\": \\"app\\",
-            \\"style\\": \\"kebab-case\\"
+            "type": "element",
+            "prefix": "app",
+            "style": "kebab-case"
           }
         ]
       }
     },
     {
-      \\"files\\": [
-        \\"*.html\\"
+      "files": [
+        "*.html"
       ],
-      \\"extends\\": [
-        \\"plugin:@angular-eslint/template/recommended\\",
-        \\"plugin:@angular-eslint/template/accessibility\\"
+      "extends": [
+        "plugin:@angular-eslint/template/recommended",
+        "plugin:@angular-eslint/template/accessibility"
       ],
-      \\"rules\\": {}
+      "rules": {}
     }
   ]
 }
 "
 `;
 
-exports[`eslint-8--new-workspace-create-application-false-project-then-ng-add should pass linting when adding a project before running ng-add 3`] = `
+exports[`eslint-8--new-workspace-create-application-false-project-then-ng-add > should pass linting when adding a project before running ng-add 3`] = `
 "{
-  \\"extends\\": \\"../../.eslintrc.json\\",
-  \\"ignorePatterns\\": [
-    \\"!**/*\\"
+  "extends": "../../.eslintrc.json",
+  "ignorePatterns": [
+    "!**/*"
   ],
-  \\"overrides\\": [
+  "overrides": [
     {
-      \\"files\\": [
-        \\"*.ts\\"
+      "files": [
+        "*.ts"
       ],
-      \\"rules\\": {
-        \\"@angular-eslint/directive-selector\\": [
-          \\"error\\",
+      "rules": {
+        "@angular-eslint/directive-selector": [
+          "error",
           {
-            \\"type\\": \\"attribute\\",
-            \\"prefix\\": \\"app\\",
-            \\"style\\": \\"camelCase\\"
+            "type": "attribute",
+            "prefix": "app",
+            "style": "camelCase"
           }
         ],
-        \\"@angular-eslint/component-selector\\": [
-          \\"error\\",
+        "@angular-eslint/component-selector": [
+          "error",
           {
-            \\"type\\": \\"element\\",
-            \\"prefix\\": \\"app\\",
-            \\"style\\": \\"kebab-case\\"
+            "type": "element",
+            "prefix": "app",
+            "style": "kebab-case"
           }
         ]
       }
     },
     {
-      \\"files\\": [
-        \\"*.html\\"
+      "files": [
+        "*.html"
       ],
-      \\"rules\\": {}
+      "rules": {}
     }
   ]
 }
 "
 `;
 
-exports[`eslint-8--new-workspace-create-application-false-project-then-ng-add should pass linting when adding a project before running ng-add 4`] = `
-Object {
+exports[`eslint-8--new-workspace-create-application-false-project-then-ng-add > should pass linting when adding a project before running ng-add 4`] = `
+{
   "builder": "@angular-eslint/builder:lint",
-  "options": Object {
-    "lintFilePatterns": Array [
+  "options": {
+    "lintFilePatterns": [
       "projects/app-project/**/*.ts",
       "projects/app-project/**/*.html",
     ],
@@ -128,9 +128,9 @@ Object {
 }
 `;
 
-exports[`eslint-8--new-workspace-create-application-false-project-then-ng-add should pass linting when adding a project before running ng-add 5`] = `
+exports[`eslint-8--new-workspace-create-application-false-project-then-ng-add > should pass linting when adding a project before running ng-add 5`] = `
 "
-Linting \\"app-project\\"...
+Linting "app-project"...
 
 All files pass linting.
 "

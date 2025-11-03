@@ -43,8 +43,8 @@ jobs:
 
           for package in "${packages[@]}"
           do
-            # It's important we have the leading and trailing (escaped) " here so we know it is an exact match of the package name
-            git diff HEAD~1 -G"\"$package\"" --exit-code package.json && echo "$package unchanged" || echo "::set-output name=was-changed::true"
+            # Check for changes to the catalog definitions in pnpm-workspace.yaml
+            git diff HEAD~1 -G"'?$package'?:" --exit-code pnpm-workspace.yaml && echo "$package unchanged" || echo "::set-output name=was-changed::true"
           done
 
       - uses: pnpm/action-setup@v4
@@ -69,7 +69,11 @@ jobs:
           # Checkout the PR branch using the github CLI
           gh pr checkout ${{ github.event.pull_request.number }}
 
+          # Run install and dedupe
           pnpm install --ignore-scripts
+          pnpm dedupe
+
+          # Build all packages
           pnpm build
 
           # Update the e2e test snapshots
