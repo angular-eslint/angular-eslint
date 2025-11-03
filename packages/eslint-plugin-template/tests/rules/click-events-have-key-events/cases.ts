@@ -109,6 +109,18 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     messageId,
     description:
+      'should fail when click is not accompanied with key events on an uppercase interactive element without attributes that make them interactive',
+    annotatedSource: `
+        <A (click)="onClick()"></A>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    settings: {
+      hideFromDocs: true,
+    },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
       'should fail when click is not accompanied with key events and has aria-hidden attribute as false',
     annotatedSource: `
         <div (click)="onClick()" aria-hidden="false"></div>

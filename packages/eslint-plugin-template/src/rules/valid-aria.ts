@@ -41,7 +41,14 @@ export default createESLintRule<Options, MessageIds>({
   defaultOptions: [],
   create(context) {
     const parserServices = getTemplateParserServices(context);
-    const elementNamePattern = toPattern([...getDomElements()]);
+    const domElements = [...getDomElements()];
+    const uppercaseDomElements = domElements.map((element) =>
+      element.toUpperCase(),
+    );
+    const elementNamePattern = toPattern([
+      ...domElements,
+      ...uppercaseDomElements,
+    ]);
 
     return {
       [`Element[name=${elementNamePattern}] > :matches(BoundAttribute, TextAttribute)[name=/^aria-.+/]`](

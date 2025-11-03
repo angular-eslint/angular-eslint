@@ -12,6 +12,12 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '<img ngSrc="http://localhost">',
   '<img [ngSrc]="\'http://localhost\'">',
   '<img [ngSrc]="value">',
+  {
+    code: '<IMG [ngSrc]="value">',
+    settings: {
+      hideFromDocs: true,
+    },
+  },
   '<img src="data:image/jpeg;base64">',
 ];
 
@@ -42,6 +48,25 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         messageId: missingAttribute,
       },
     ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail when an uppercase image tag is using src over ngsrc',
+    annotatedSource: `
+      <ng-template>
+        <IMG [src]="value">
+             @@@@@@@@@@@@@
+      </ng-template>
+      `,
+    messages: [
+      {
+        char: '@',
+        messageId: missingAttribute,
+      },
+    ],
+    settings: {
+      hideFromDocs: true,
+    },
   }),
   convertAnnotatedSourceToFailureCase({
     description: 'should fail when an image is using both src and ngsrc',

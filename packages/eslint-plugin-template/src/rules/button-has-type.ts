@@ -63,7 +63,7 @@ export default createESLintRule<Options, MessageIds>({
     const parserServices = getTemplateParserServices(context);
 
     return {
-      [`Element[name=button]`](element: TmplAstElement) {
+      [`Element[name=/^(button)$/i]`](element: TmplAstElement) {
         if (!isTypeAttributePresentInElement(element)) {
           if (!isIgnored(ignoreWithDirectives, element)) {
             context.report({
