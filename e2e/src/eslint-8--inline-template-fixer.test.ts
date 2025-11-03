@@ -1,5 +1,6 @@
 import path from 'node:path';
 import { setWorkspaceRoot } from 'nx/src/utils/workspace-root';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   FIXTURES_DIR,
   Fixture,
@@ -19,7 +20,7 @@ const fixtureDirectory = 'eslint-8--inline-template-fixer';
 let fixture: Fixture;
 
 describe('eslint-8--inline-template-fixer', () => {
-  jest.setTimeout(LONG_TIMEOUT_MS);
+  vi.setConfig({ testTimeout: LONG_TIMEOUT_MS });
 
   beforeEach(async () => {
     resetFixtureDirectory(fixtureDirectory);

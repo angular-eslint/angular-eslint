@@ -10,7 +10,7 @@ on:
   pull_request:
     branches: [main]
     paths:
-      - 'package.json'
+      - 'pnpm-workspace.yaml'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
@@ -43,8 +43,8 @@ jobs:
 
           for package in "${packages[@]}"
           do
-            # It's important we have the leading and trailing (escaped) " here so we know it is an exact match of the package name
-            git diff HEAD~1 -G"\"$package\"" --exit-code package.json && echo "$package unchanged" || echo "::set-output name=was-changed::true"
+            # Check for changes to the catalog definitions in pnpm-workspace.yaml
+            git diff HEAD~1 -G"'?$package'?:" --exit-code pnpm-workspace.yaml && echo "$package unchanged" || echo "::set-output name=was-changed::true"
           done
 
       - uses: pnpm/action-setup@v4
@@ -71,7 +71,7 @@ jobs:
 
           pnpm install --ignore-scripts
 
-          # Reset any changes that happened before updating the event names (e.g. to the package.json and lock file) so that we don't commit them
+          # Reset any changes that happened before updating the event names (e.g. to the pnpm-workspace.yaml and lock file) so that we don't commit them
           git reset --hard
 
           # Regenerate the file containing the event names
