@@ -342,4 +342,57 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         }
       `,
   }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if lifecycle method is in a class with generic type parameters',
+    only: true,
+    annotatedSource: `
+        @Component()
+        class Test<T> {
+          ngOnInit() {
+          ~~~~~~~~
+          }
+        }
+      `,
+    messageId,
+    data: {
+      interfaceName: ASTUtils.AngularLifecycleInterfaces.OnInit,
+      methodName: ASTUtils.AngularLifecycleMethods.ngOnInit,
+    },
+    annotatedOutput: `import { OnInit } from '@angular/core';
+
+        @Component()
+        class Test<T> implements OnInit {
+          ngOnInit() {
+          
+          }
+        }
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if lifecycle method is in a class with multiple type parameters',
+    annotatedSource: `
+        @Injectable()
+        class Test<A, B extends C = D> {
+          ngOnInit() {
+          ~~~~~~~~
+          }
+        }
+      `,
+    messageId,
+    data: {
+      interfaceName: ASTUtils.AngularLifecycleInterfaces.OnInit,
+      methodName: ASTUtils.AngularLifecycleMethods.ngOnInit,
+    },
+    annotatedOutput: `import { OnInit } from '@angular/core';
+
+        @Injectable()
+        class Test<A, B extends C = D> implements OnInit {
+          ngOnInit() {
+          
+          }
+        }
+      `,
+  }),
 ];

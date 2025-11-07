@@ -239,6 +239,68 @@ class FoobarComponent extends FoobarBase {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/use-lifecycle-interface": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component()
+class Test<T> {
+  ngOnInit() {
+  ~~~~~~~~
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/use-lifecycle-interface": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Injectable()
+class Test<A, B extends C = D> {
+  ngOnInit() {
+  ~~~~~~~~
+  }
+}
+```
+
 </details>
 
 <br>

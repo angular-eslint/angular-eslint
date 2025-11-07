@@ -109,4 +109,44 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         }
       `,
   }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if a `Pipe` with generic type parameters has no interface implemented',
+    annotatedSource: `
+        @Pipe({ name: 'test' })
+        class Test<T> {
+              ~~~~
+          transform(value: T): T {}
+        }
+      `,
+    messageId,
+    annotatedOutput: `import { PipeTransform } from '@angular/core';
+
+        @Pipe({ name: 'test' })
+        class Test<T> implements PipeTransform {
+              ~~~~
+          transform(value: T): T {}
+        }
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if a `Pipe` with multiple generic type parameters has no interface implemented',
+    annotatedSource: `
+        @Pipe({ name: 'test' })
+        class Test<T, U extends SomeType> {
+              ~~~~
+          transform(value: T): U {}
+        }
+      `,
+    messageId,
+    annotatedOutput: `import { PipeTransform } from '@angular/core';
+
+        @Pipe({ name: 'test' })
+        class Test<T, U extends SomeType> implements PipeTransform {
+              ~~~~
+          transform(value: T): U {}
+        }
+      `,
+  }),
 ];
