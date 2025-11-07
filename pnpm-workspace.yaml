@@ -2,7 +2,7 @@ packages:
   - packages/*
 
 catalog:
-  '@angular/cli': 20.3.7
+  '@angular/cli': 20.3.8
   '@angular/compiler': 20.3.9
   '@commitlint/cli': 20.1.0
   '@commitlint/config-conventional': 20.0.0
@@ -17,7 +17,7 @@ catalog:
   '@nx/plugin': 22.1.0-beta.3
   '@nx/vite': 22.1.0-beta.3
   '@nx/workspace': 22.1.0-beta.3
-  '@schematics/angular': 20.3.7
+  '@schematics/angular': 20.3.8
   '@swc-node/register': 1.11.1
   '@swc/cli': 0.7.8
   '@swc/core': 1.13.21
