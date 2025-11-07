@@ -65,6 +65,7 @@ jobs:
         env:
           # We cannot use secrets.GITHUB_TOKEN for this because it is not permitted to kick off subsequent actions workflow runs, so we use a fine-grained PAT instead
           GITHUB_TOKEN: ${{ secrets.GH_FINE_GRAINED_PAT }}
+          SKIP_POSTINSTALL: 'true'
         run: |
           # Checkout the PR branch using the github CLI
           gh pr checkout ${{ github.event.pull_request.number }}
