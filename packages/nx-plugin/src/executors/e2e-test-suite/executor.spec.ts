@@ -2,9 +2,7 @@ import { describe, it, expect, vi } from 'vitest';
 import type { ExecutorContext } from 'nx/src/config/misc-interfaces';
 import type { E2ETestSuiteExecutorSchema } from './schema';
 
-vi.mock('nx/src/executors/run-commands/run-commands.impl', () => ({
-  default: vi.fn(),
-}));
+vi.mock('nx/src/executors/run-commands/run-commands.impl');
 
 // Must come after mocking
 import executor from './executor';
