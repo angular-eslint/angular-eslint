@@ -1,8 +1,11 @@
-import type {
+import type { TmplAstElement } from '@angular-eslint/bundled-angular-compiler';
+import {
+  TmplAstTextAttribute,
   TmplAstBoundAttribute,
-  TmplAstElement,
+  LiteralPrimitive,
+  Binary,
+  ASTWithSource,
 } from '@angular-eslint/bundled-angular-compiler';
-import { TmplAstTextAttribute } from '@angular-eslint/bundled-angular-compiler';
 import { getTemplateParserServices } from '@angular-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
@@ -31,8 +34,8 @@ export default createESLintRule<Options, MessageIds>({
 
     return {
       'Element[name=/^img$/i]'(element: TmplAstElement) {
-        const ngSrcAttribute = hasNgSrcAttribute(element);
-        const srcAttribute = hasNormalSrcAttribute(element);
+        const ngSrcAttribute = getNgSrcAttribute(element);
+        const srcAttribute = getNormalSrcAttribute(element);
 
         if (
           !srcAttribute ||
@@ -56,14 +59,14 @@ export default createESLintRule<Options, MessageIds>({
   },
 });
 
-function hasNgSrcAttribute({
+function getNgSrcAttribute({
   inputs,
   attributes,
 }: TmplAstElement): TmplAstTextAttribute | TmplAstBoundAttribute | undefined {
   return [...inputs, ...attributes].find(({ name }) => name === 'ngSrc');
 }
 
-function hasNormalSrcAttribute({
+function getNormalSrcAttribute({
   inputs,
   attributes,
 }: TmplAstElement): TmplAstTextAttribute | TmplAstBoundAttribute | undefined {
@@ -74,10 +77,35 @@ function hasNormalSrcAttribute({
 // https://github.com/angular/angular/blob/17.0.3/packages/common/src/directives/ng_optimized_image/ng_optimized_image.ts#L585
 function isSrcBase64Image(
   attribute: TmplAstTextAttribute | TmplAstBoundAttribute,
-) {
-  if (attribute instanceof TmplAstTextAttribute) {
-    return attribute.value.trim().startsWith('data:');
+): boolean {
+  const isPlainDataAttribute =
+    attribute instanceof TmplAstTextAttribute &&
+    attribute.value.trim().startsWith('data:');
+  if (isPlainDataAttribute) {
+    return true;
   }
 
-  return false;
+  const isBoundDataAttribute =
+    attribute.value instanceof ASTWithSource &&
+    isDataStringPrimitive(attribute.value.ast);
+
+  if (isBoundDataAttribute) {
+    return true;
+  }
+
+  const isBoundDataInExpression =
+    attribute.value instanceof ASTWithSource &&
+    attribute.value.ast instanceof Binary &&
+    attribute.value.ast.operation === '+' &&
+    isDataStringPrimitive(attribute.value.ast.left);
+
+  return isBoundDataInExpression;
+}
+
+function isDataStringPrimitive(primitive: unknown): boolean {
+  return (
+    primitive instanceof LiteralPrimitive &&
+    typeof primitive.value === 'string' &&
+    primitive.value.trim().startsWith('data:')
+  );
 }

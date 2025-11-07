@@ -62,6 +62,12 @@ The rule does not have any configuration options.
        ~~~~~~~~~~~~~~~~~~~~~~~~~~
   <img [src]="value">
        ~~~~~~~~~~~~~
+  <img [attr.src]="value">
+       ~~~~~~~~~~~~~~~~~~
+  <img [attr.src]="'http://localhost'">
+       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  <img [src]="'http://' + value">
+       ~~~~~~~~~~~~~~~~~~~~~~~~~
 </ng-template>
 ```
 
@@ -103,8 +109,41 @@ The rule does not have any configuration options.
                             ~~~~~~~~~~~~~
   <img [src]="otherValue" [ngSrc]="value">
        ~~~~~~~~~~~~~~~~~~
+</ng-template>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-ngsrc": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<ng-template>
   <img src="data:image/png;base64" [ngSrc]="otherValue">
        ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  <img [attr.src]="'data:image/png;base64'" [ngSrc]="otherValue">
+       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  <img [src]="'data:image/png;base64'" [ngSrc]="otherValue">
+       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  <img [src]="'data:' + value" [ngSrc]="otherValue">
+       ~~~~~~~~~~~~~~~~~~~~~~~
 </ng-template>
 ```
 
@@ -118,6 +157,32 @@ The rule does not have any configuration options.
 
 <details>
 <summary>✅ - Toggle examples of <strong>correct</strong> code for this rule</summary>
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-ngsrc": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<img alt="nothing">
+```
+
+<br>
+
+---
 
 <br>
 
@@ -217,6 +282,110 @@ The rule does not have any configuration options.
 
 ```html
 <img src="data:image/jpeg;base64">
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-ngsrc": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<img [src]="'data:image/jpeg;base64'">
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-ngsrc": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<img [src]="'data:' + value">
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-ngsrc": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<img [attr.src]="'data:image/jpeg;base64'">
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-ngsrc": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<img [attr.src]="'data:' + value">
 ```
 
 </details>

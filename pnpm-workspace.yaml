@@ -3,11 +3,11 @@ packages:
 
 catalog:
   '@angular/cli': 20.3.7
-  '@angular/compiler': 20.3.7
+  '@angular/compiler': 20.3.9
   '@commitlint/cli': 20.1.0
   '@commitlint/config-conventional': 20.0.0
   '@jest/types': 30.0.5
-  '@mdn/browser-compat-data': 7.1.16
+  '@mdn/browser-compat-data': 7.1.17
   '@nx/devkit': 22.1.0-beta.3
   '@nx/esbuild': 22.1.0-beta.3
   '@nx/eslint': 22.1.0-beta.3
@@ -25,7 +25,7 @@ catalog:
   '@types/aria-query': 5.0.4
   '@types/eslint-scope': 8.3.2
   '@types/jest': 30.0.0
-  '@types/node': 22.18.12
+  '@types/node': 22.18.13
   '@types/semver': ^7.5.8
   '@types/yargs': ^17.0.33
   '@vitest/coverage-v8': ^4.0.3
@@ -73,10 +73,10 @@ catalogs:
     strip-json-comments: 3.1.1
     ts-api-utils: ^2.1.0
   typescript-eslint:
-    '@typescript-eslint/rule-tester': 8.46.2
-    '@typescript-eslint/types': 8.46.2
-    '@typescript-eslint/utils': 8.46.2
-    typescript-eslint: 8.46.2
+    '@typescript-eslint/rule-tester': 8.46.3
+    '@typescript-eslint/types': 8.46.3
+    '@typescript-eslint/utils': 8.46.3
+    typescript-eslint: 8.46.3
 
 cleanupUnusedCatalogs: true
 

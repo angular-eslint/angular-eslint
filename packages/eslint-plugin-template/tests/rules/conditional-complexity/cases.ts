@@ -30,6 +30,10 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
       `,
     options: [{ maxComplexity: 9 }],
   },
+  // https://github.com/angular-eslint/angular-eslint/issues/2627
+  `<aside [@slideInLeftOnEnter]>Sidebar Stuff</aside>`,
+  `<div [@fadeIn]="isVisible">Content</div>`,
+  `<section [@animationName]="animationState">Animated Section</section>`,
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
