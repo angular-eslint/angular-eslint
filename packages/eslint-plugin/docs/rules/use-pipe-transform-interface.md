@@ -131,6 +131,66 @@ class Test implements AnInterface, AnotherInterface {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/use-pipe-transform-interface": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Pipe({ name: 'test' })
+class Test<T> {
+      ~~~~
+  transform(value: T): T {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/use-pipe-transform-interface": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Pipe({ name: 'test' })
+class Test<T, U extends SomeType> {
+      ~~~~
+  transform(value: T): U {}
+}
+```
+
 </details>
 
 <br>

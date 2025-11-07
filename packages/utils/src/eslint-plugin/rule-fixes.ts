@@ -98,25 +98,46 @@ export function getImportRemoveFix(
 }
 
 export function getImplementsSchemaFixer(
-  { id, superClass, implements: classImplements }: TSESTree.ClassDeclaration,
+  {
+    id,
+    superClass,
+    implements: classImplements,
+    typeParameters,
+  }: TSESTree.ClassDeclaration,
   interfaceName: string,
 ): {
   readonly implementsNodeReplace:
     | TSESTree.TSClassImplements
-    | TSESTree.Identifier;
+    | TSESTree.Identifier
+    | TSESTree.TSTypeParameterDeclaration;
   readonly implementsTextReplace: string;
 } {
-  const [implementsNodeReplace, implementsTextReplace] =
-    Array.isArray(classImplements) && classImplements.length > 0
-      ? [getLast(classImplements), `, ${interfaceName}`]
-      : [
-          (isNotNullOrUndefined(superClass)
-            ? superClass
-            : id) as TSESTree.Identifier,
-          ` implements ${interfaceName}`,
-        ];
+  if (Array.isArray(classImplements) && classImplements.length > 0) {
+    return {
+      implementsNodeReplace: getLast(classImplements),
+      implementsTextReplace: `, ${interfaceName}`,
+    };
+  }
 
-  return { implementsNodeReplace, implementsTextReplace } as const;
+  const implementsTextReplace = ` implements ${interfaceName}`;
+  if (isNotNullOrUndefined(superClass)) {
+    return {
+      implementsNodeReplace: superClass as TSESTree.Identifier,
+      implementsTextReplace,
+    };
+  }
+
+  if (isNotNullOrUndefined(typeParameters)) {
+    return {
+      implementsNodeReplace: typeParameters,
+      implementsTextReplace,
+    };
+  }
+
+  return {
+    implementsNodeReplace: id as TSESTree.Identifier,
+    implementsTextReplace,
+  };
 }
 
 export function getDecoratorPropertyAddFix(

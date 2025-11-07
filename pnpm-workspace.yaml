@@ -20,7 +20,7 @@ catalog:
   '@schematics/angular': 20.3.7
   '@swc-node/register': 1.11.1
   '@swc/cli': 0.7.8
-  '@swc/core': 1.13.21
+  '@swc/core': 1.15.0
   '@swc/helpers': 0.5.17
   '@types/aria-query': 5.0.4
   '@types/eslint-scope': 8.3.2
