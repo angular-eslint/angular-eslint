@@ -1,15 +1,16 @@
+import { describe, it, expect, vi } from 'vitest';
 import type { ExecutorContext } from 'nx/src/config/misc-interfaces';
 import type { E2ETestSuiteExecutorSchema } from './schema';
 
-const mockNxRunCommandsExecutor = jest.fn();
-
-jest.mock(
-  'nx/src/executors/run-commands/run-commands.impl',
-  () => mockNxRunCommandsExecutor,
-);
+vi.mock('nx/src/executors/run-commands/run-commands.impl', () => ({
+  default: vi.fn(),
+}));
 
 // Must come after mocking
 import executor from './executor';
+import runCommands from 'nx/src/executors/run-commands/run-commands.impl';
+
+const mockNxRunCommandsExecutor = vi.mocked(runCommands);
 
 const options: E2ETestSuiteExecutorSchema = {
   cwd: 'libs/proj',
