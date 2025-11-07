@@ -53,12 +53,16 @@ export default createESLintRule<Options, MessageIds>({
 
     return {
       BoundAttribute(node: TmplAstBoundAttribute & { value: ASTWithSource }) {
-        if (!node.value.source || node.value.ast instanceof Interpolation) {
+        if (
+          !node.value.source ||
+          !node.valueSpan ||
+          node.value.ast instanceof Interpolation
+        ) {
           return;
         }
 
         const possibleBinary = extractPossibleBinaryOrConditionalFrom(
-          getParser().parseBinding(node.value.source, node.valueSpan!, 0).ast,
+          getParser().parseBinding(node.value.source, node.valueSpan, 0).ast,
         );
         const totalComplexity = getTotalComplexity(possibleBinary);
 
