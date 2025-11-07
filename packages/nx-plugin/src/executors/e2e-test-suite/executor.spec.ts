@@ -8,8 +8,6 @@ vi.mock('nx/src/executors/run-commands/run-commands.impl');
 import executor from './executor';
 import runCommands from 'nx/src/executors/run-commands/run-commands.impl';
 
-const mockNxRunCommandsExecutor = vi.mocked(runCommands);
-
 const options: E2ETestSuiteExecutorSchema = {
   cwd: 'libs/proj',
   testFilePath: 'libs/proj/src/lib/proj.spec.ts',
@@ -35,7 +33,7 @@ const mockContext: ExecutorContext = {
 describe('E2ETestSuite Executor', () => {
   it('can should invoke the nx:run-commands executor with the commands needed to run jest', async () => {
     await executor(options, mockContext);
-    expect(mockNxRunCommandsExecutor).toHaveBeenNthCalledWith(
+    expect(vi.mocked(runCommands)).toHaveBeenNthCalledWith(
       1,
       {
         parallel: false,
@@ -53,7 +51,7 @@ describe('E2ETestSuite Executor', () => {
       },
       mockContext,
     );
-    expect(mockNxRunCommandsExecutor).toHaveBeenNthCalledWith(
+    expect(vi.mocked(runCommands)).toHaveBeenNthCalledWith(
       2,
       {
         parallel: false,
