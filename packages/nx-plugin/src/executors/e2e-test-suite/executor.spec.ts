@@ -1,15 +1,12 @@
+import { describe, it, expect, vi } from 'vitest';
 import type { ExecutorContext } from 'nx/src/config/misc-interfaces';
 import type { E2ETestSuiteExecutorSchema } from './schema';
 
-const mockNxRunCommandsExecutor = jest.fn();
-
-jest.mock(
-  'nx/src/executors/run-commands/run-commands.impl',
-  () => mockNxRunCommandsExecutor,
-);
+vi.mock('nx/src/executors/run-commands/run-commands.impl');
 
 // Must come after mocking
 import executor from './executor';
+import runCommands from 'nx/src/executors/run-commands/run-commands.impl';
 
 const options: E2ETestSuiteExecutorSchema = {
   cwd: 'libs/proj',
@@ -36,7 +33,7 @@ const mockContext: ExecutorContext = {
 describe('E2ETestSuite Executor', () => {
   it('can should invoke the nx:run-commands executor with the commands needed to run jest', async () => {
     await executor(options, mockContext);
-    expect(mockNxRunCommandsExecutor).toHaveBeenNthCalledWith(
+    expect(vi.mocked(runCommands)).toHaveBeenNthCalledWith(
       1,
       {
         parallel: false,
@@ -54,7 +51,7 @@ describe('E2ETestSuite Executor', () => {
       },
       mockContext,
     );
-    expect(mockNxRunCommandsExecutor).toHaveBeenNthCalledWith(
+    expect(vi.mocked(runCommands)).toHaveBeenNthCalledWith(
       2,
       {
         parallel: false,

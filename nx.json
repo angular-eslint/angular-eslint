@@ -43,6 +43,7 @@
       "exclude": [
         "e2e/**",
         "packages/builder/**",
+        "packages/nx-plugin/**",
         "packages/template-parser/**"
       ],
       "options": {}
@@ -57,7 +58,11 @@
     },
     {
       "plugin": "@nx/vite/plugin",
-      "include": ["packages/builder/**", "packages/template-parser/**"],
+      "include": [
+        "packages/builder/**",
+        "packages/nx-plugin/**",
+        "packages/template-parser/**"
+      ],
       "options": {
         "testTargetName": "test",
         "typecheckTargetName": "typecheck",

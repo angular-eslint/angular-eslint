@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`rule generator should successfully generate a new rule for package eslint-plugin 1`] = `
+exports[`rule generator > should successfully generate a new rule for package eslint-plugin 1`] = `
 "import { createESLintRule } from '../utils/create-eslint-rule';
 
 export type Options = [];
@@ -30,7 +30,7 @@ export default createESLintRule<Options, MessageIds>({
 "
 `;
 
-exports[`rule generator should successfully generate a new rule for package eslint-plugin 2`] = `
+exports[`rule generator > should successfully generate a new rule for package eslint-plugin 2`] = `
 "import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
 import type {
   InvalidTestCase,
@@ -50,7 +50,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
 "
 `;
 
-exports[`rule generator should successfully generate a new rule for package eslint-plugin 3`] = `
+exports[`rule generator > should successfully generate a new rule for package eslint-plugin 3`] = `
 "import { RuleTester } from '@angular-eslint/test-utils';
 import rule, { RULE_NAME } from '../../../src/rules/my-new-rule';
 import { invalid, valid } from './cases';
