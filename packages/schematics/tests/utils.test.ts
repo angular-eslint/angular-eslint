@@ -1,10 +1,11 @@
+import { Tree } from '@angular-devkit/schematics';
 import { UnitTestTree } from '@angular-devkit/schematics/testing';
+import { join } from 'node:path';
+import { beforeEach, describe, expect, it } from 'vitest';
 import {
   determineNewProjectESLintConfigContentAndExtension,
   resolveRootESLintConfigPath,
 } from '../src/utils';
-import { Tree } from '@angular-devkit/schematics';
-import { join } from 'node:path';
 
 describe('determineNewProjectESLintConfigContentAndExtension', () => {
   let tree: Tree;

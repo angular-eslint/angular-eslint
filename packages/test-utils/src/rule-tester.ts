@@ -4,7 +4,7 @@ import type {
 } from '@typescript-eslint/rule-tester';
 import { RuleTester as TSESLintRuleTester } from '@typescript-eslint/rule-tester';
 import type { TSESLint } from '@typescript-eslint/utils';
-import * as path from 'path';
+import * as path from 'node:path';
 
 const VALID_PARSERS = [
   '@angular-eslint/template-parser',

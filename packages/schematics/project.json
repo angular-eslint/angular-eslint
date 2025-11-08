@@ -3,6 +3,17 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "type": "library",
   "targets": {
+    "test": {
+      "dependsOn": ["build", "^build", "^compile"],
+      "options": {
+        "args": "run"
+      },
+      "configurations": {
+        "ci": {
+          "args": ["run", "--coverage"]
+        }
+      }
+    },
     "build": {
       "executor": "nx:run-commands",
       "outputs": ["{projectRoot}/dist"],

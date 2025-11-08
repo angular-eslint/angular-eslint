@@ -3,11 +3,12 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
-import * as path from 'path';
+import * as path from 'node:path';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 const migrationSchematicRunner = new SchematicTestRunner(
   '@angular-eslint/schematics',
-  path.join(__dirname, '../../../src/migrations.json'),
+  path.join(__dirname, '../../../dist/migrations.json'),
 );
 
 describe('update-12-0-0', () => {
@@ -112,8 +113,8 @@ describe('update-12-0-0', () => {
     );
     const packageJSON = JSON.parse(tree.readContent('/package.json'));
     expect(packageJSON).toMatchInlineSnapshot(`
-      Object {
-        "devDependencies": Object {
+      {
+        "devDependencies": {
           "@angular-eslint/builder": "^12.0.0",
           "@angular-eslint/eslint-plugin": "^12.0.0",
           "@angular-eslint/eslint-plugin-template": "^12.0.0",
@@ -135,15 +136,15 @@ describe('update-12-0-0', () => {
     );
     const rootESLint = JSON.parse(tree.readContent('.eslintrc.json'));
     expect(rootESLint).toMatchInlineSnapshot(`
-      Object {
-        "overrides": Array [
-          Object {
+      {
+        "overrides": [
+          {
             "extends": "plugin:@angular-eslint/recommended",
-            "files": Array [
+            "files": [
               "*.ts",
             ],
-            "rules": Object {
-              "@angular-eslint/template/accessibility-label-has-associated-control": Array [
+            "rules": {
+              "@angular-eslint/template/accessibility-label-has-associated-control": [
                 "error",
               ],
               "@angular-eslint/template/eqeqeq": "error",
@@ -151,7 +152,7 @@ describe('update-12-0-0', () => {
             },
           },
         ],
-        "rules": Object {
+        "rules": {
           "@angular-eslint/template/accessibility-label-has-associated-control": "error",
         },
       }
@@ -161,8 +162,8 @@ describe('update-12-0-0', () => {
       tree.readContent('projects/foo/.eslintrc.json'),
     );
     expect(fooESLint).toMatchInlineSnapshot(`
-      Object {
-        "extends": Array [
+      {
+        "extends": [
           "plugin:@angular-eslint/recommended",
         ],
       }
@@ -172,33 +173,33 @@ describe('update-12-0-0', () => {
       tree.readContent('projects/bar/.eslintrc.json'),
     );
     expect(barESLint).toMatchInlineSnapshot(`
-      Object {
-        "overrides": Array [
-          Object {
-            "extends": Array [
+      {
+        "overrides": [
+          {
+            "extends": [
               "plugin:@angular-eslint/something-other-than-recommended",
             ],
-            "files": Array [
+            "files": [
               "*.ts",
             ],
-            "rules": Object {
-              "@angular-eslint/template/accessibility-label-has-associated-control": Array [
+            "rules": {
+              "@angular-eslint/template/accessibility-label-has-associated-control": [
                 "error",
-                Object {
-                  "controlComponents": Array [
+                {
+                  "controlComponents": [
                     "p-inputMask",
                     "bs4-input",
                   ],
-                  "labelComponents": Array [
-                    Object {
-                      "inputs": Array [
+                  "labelComponents": [
+                    {
+                      "inputs": [
                         "assoc",
                         "elementId",
                       ],
                       "selector": "app-label",
                     },
-                    Object {
-                      "inputs": Array [
+                    {
+                      "inputs": [
                         "assoc",
                         "elementId",
                       ],
@@ -224,15 +225,15 @@ describe('update-12-0-0', () => {
     );
     const rootESLint = JSON.parse(tree.readContent('.eslintrc.json'));
     expect(rootESLint).toMatchInlineSnapshot(`
-      Object {
-        "overrides": Array [
-          Object {
+      {
+        "overrides": [
+          {
             "extends": "plugin:@angular-eslint/recommended",
-            "files": Array [
+            "files": [
               "*.ts",
             ],
-            "rules": Object {
-              "@angular-eslint/template/accessibility-label-has-associated-control": Array [
+            "rules": {
+              "@angular-eslint/template/accessibility-label-has-associated-control": [
                 "error",
               ],
               "@angular-eslint/template/eqeqeq": "error",
@@ -240,7 +241,7 @@ describe('update-12-0-0', () => {
             },
           },
         ],
-        "rules": Object {
+        "rules": {
           "@angular-eslint/template/accessibility-label-has-associated-control": "error",
         },
       }
@@ -250,8 +251,8 @@ describe('update-12-0-0', () => {
       tree.readContent('projects/foo/.eslintrc.json'),
     );
     expect(fooESLint).toMatchInlineSnapshot(`
-      Object {
-        "extends": Array [
+      {
+        "extends": [
           "plugin:@angular-eslint/recommended",
         ],
       }
@@ -261,33 +262,33 @@ describe('update-12-0-0', () => {
       tree.readContent('projects/bar/.eslintrc.json'),
     );
     expect(barESLint).toMatchInlineSnapshot(`
-      Object {
-        "overrides": Array [
-          Object {
-            "extends": Array [
+      {
+        "overrides": [
+          {
+            "extends": [
               "plugin:@angular-eslint/something-other-than-recommended",
             ],
-            "files": Array [
+            "files": [
               "*.ts",
             ],
-            "rules": Object {
-              "@angular-eslint/template/accessibility-label-has-associated-control": Array [
+            "rules": {
+              "@angular-eslint/template/accessibility-label-has-associated-control": [
                 "error",
-                Object {
-                  "controlComponents": Array [
+                {
+                  "controlComponents": [
                     "p-inputMask",
                     "bs4-input",
                   ],
-                  "labelComponents": Array [
-                    Object {
-                      "inputs": Array [
+                  "labelComponents": [
+                    {
+                      "inputs": [
                         "assoc",
                         "elementId",
                       ],
                       "selector": "app-label",
                     },
-                    Object {
-                      "inputs": Array [
+                    {
+                      "inputs": [
                         "assoc",
                         "elementId",
                       ],

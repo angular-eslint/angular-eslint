@@ -3,11 +3,12 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
-import * as path from 'path';
+import * as path from 'node:path';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 const migrationSchematicRunner = new SchematicTestRunner(
   '@angular-eslint/schematics',
-  path.join(__dirname, '../../../src/migrations.json'),
+  path.join(__dirname, '../../../dist/migrations.json'),
 );
 
 describe('update-17-3-0', () => {
@@ -51,8 +52,8 @@ describe('update-17-3-0', () => {
     );
     const packageJSON = JSON.parse(tree.readContent('/package.json'));
     expect(packageJSON).toMatchInlineSnapshot(`
-      Object {
-        "devDependencies": Object {
+      {
+        "devDependencies": {
           "@typescript-eslint/eslint-plugin": "^7.2.0",
           "@typescript-eslint/parser": "^7.2.0",
           "@typescript-eslint/utils": "^7.2.0",

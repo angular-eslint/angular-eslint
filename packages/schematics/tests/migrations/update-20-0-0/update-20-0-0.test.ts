@@ -3,12 +3,15 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
-import * as path from 'path';
+import * as path from 'node:path';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 const migrationSchematicRunner = new SchematicTestRunner(
   '@angular-eslint/schematics',
-  path.join(__dirname, '../../../src/migrations.json'),
+  path.join(__dirname, '../../../dist/migrations.json'),
 );
+
+console.log(migrationSchematicRunner);
 
 describe('update-20-0-0', () => {
   let appTree: UnitTestTree;
@@ -47,7 +50,7 @@ describe('update-20-0-0', () => {
     );
 
     const tree = await migrationSchematicRunner.runSchematic(
-      'update-18-2-0',
+      'update-20-0-0',
       {},
       appTree,
     );

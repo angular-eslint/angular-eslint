@@ -44,6 +44,7 @@
         "e2e/**",
         "packages/builder/**",
         "packages/nx-plugin/**",
+        "packages/schematics/**",
         "packages/template-parser/**"
       ],
       "options": {}
@@ -61,6 +62,7 @@
       "include": [
         "packages/builder/**",
         "packages/nx-plugin/**",
+        "packages/schematics/**",
         "packages/template-parser/**"
       ],
       "options": {
