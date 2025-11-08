@@ -1,14 +1,15 @@
+import { Tree } from '@angular-devkit/schematics';
 import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
-import * as path from 'path';
-import { Tree } from '@angular-devkit/schematics';
+import * as path from 'node:path';
+import { describe, expect, it } from 'vitest';
 
 describe('update-2-0-0', () => {
   const migrationSchematicRunner = new SchematicTestRunner(
     '@angular-eslint/schematics',
-    path.join(__dirname, '../../../src/migrations.json'),
+    path.join(__dirname, '../../../dist/migrations.json'),
   );
 
   const appTree = new UnitTestTree(Tree.empty());
@@ -77,8 +78,8 @@ describe('update-2-0-0', () => {
     );
     const packageJSON = JSON.parse(tree.readContent('/package.json'));
     expect(packageJSON).toMatchInlineSnapshot(`
-      Object {
-        "devDependencies": Object {
+      {
+        "devDependencies": {
           "@angular-eslint/builder": "^2.0.0",
           "@angular-eslint/eslint-plugin": "^2.0.0",
           "@angular-eslint/eslint-plugin-template": "^2.0.0",
@@ -99,8 +100,8 @@ describe('update-2-0-0', () => {
 
     const rootESLint = JSON.parse(tree.readContent('.eslintrc.json'));
     expect(rootESLint).toMatchInlineSnapshot(`
-      Object {
-        "rules": Object {},
+      {
+        "rules": {},
       }
     `);
 
@@ -108,8 +109,8 @@ describe('update-2-0-0', () => {
       tree.readContent('projects/foo/.eslintrc.json'),
     );
     expect(fooESLint).toMatchInlineSnapshot(`
-      Object {
-        "rules": Object {},
+      {
+        "rules": {},
       }
     `);
 
@@ -117,13 +118,13 @@ describe('update-2-0-0', () => {
       tree.readContent('projects/bar/.eslintrc.json'),
     );
     expect(barESLint).toMatchInlineSnapshot(`
-      Object {
-        "overrides": Array [
-          Object {
-            "files": Array [
+      {
+        "overrides": [
+          {
+            "files": [
               "*.ts",
             ],
-            "rules": Object {},
+            "rules": {},
           },
         ],
       }

@@ -1,27 +1,15 @@
-import * as angularDevkitSchematics from '@angular-devkit/schematics';
+import { Tree } from '@angular-devkit/schematics';
 import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
-import * as path from 'path';
+import * as path from 'node:path';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { readJsonInTree } from '../../src/utils';
-
-const { Tree } = angularDevkitSchematics;
-
-jest.mock(
-  '@angular-devkit/schematics',
-  () =>
-    ({
-      __esModule: true,
-      ...jest.requireActual('@angular-devkit/schematics'),
-      // For some reason TS (BUT only via ts-jest, not in VSCode) has an issue with this spread usage of requireActual(), so suppressing with any
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    }) as any,
-);
 
 const schematicRunner = new SchematicTestRunner(
   '@angular-eslint/schematics',
-  path.join(__dirname, '../../src/collection.json'),
+  path.join(__dirname, '../../dist/collection.json'),
 );
 
 describe('application', () => {
@@ -59,16 +47,16 @@ describe('application', () => {
 
       expect(readJsonInTree(tree, 'angular.json').projects.foo.architect.lint)
         .toMatchInlineSnapshot(`
-      Object {
-        "builder": "@angular-eslint/builder:lint",
-        "options": Object {
-          "lintFilePatterns": Array [
-            "projects/foo/**/*.ts",
-            "projects/foo/**/*.html",
-          ],
-        },
-      }
-    `);
+          {
+            "builder": "@angular-eslint/builder:lint",
+            "options": {
+              "lintFilePatterns": [
+                "projects/foo/**/*.ts",
+                "projects/foo/**/*.html",
+              ],
+            },
+          }
+        `);
     });
 
     it('should add the ESLint config for the project', async () => {
@@ -84,45 +72,45 @@ describe('application', () => {
       expect(tree.exists('projects/foo/tslint.json')).toBe(false);
       expect(tree.read('projects/foo/.eslintrc.json')?.toString())
         .toMatchInlineSnapshot(`
-      "{
-        \\"extends\\": \\"../../.eslintrc.json\\",
-        \\"ignorePatterns\\": [
-          \\"!**/*\\"
-        ],
-        \\"overrides\\": [
-          {
-            \\"files\\": [
-              \\"*.ts\\"
+          "{
+            "extends": "../../.eslintrc.json",
+            "ignorePatterns": [
+              "!**/*"
             ],
-            \\"rules\\": {
-              \\"@angular-eslint/directive-selector\\": [
-                \\"error\\",
-                {
-                  \\"type\\": \\"attribute\\",
-                  \\"prefix\\": \\"something-custom\\",
-                  \\"style\\": \\"camelCase\\"
+            "overrides": [
+              {
+                "files": [
+                  "*.ts"
+                ],
+                "rules": {
+                  "@angular-eslint/directive-selector": [
+                    "error",
+                    {
+                      "type": "attribute",
+                      "prefix": "something-custom",
+                      "style": "camelCase"
+                    }
+                  ],
+                  "@angular-eslint/component-selector": [
+                    "error",
+                    {
+                      "type": "element",
+                      "prefix": "something-custom",
+                      "style": "kebab-case"
+                    }
+                  ]
                 }
-              ],
-              \\"@angular-eslint/component-selector\\": [
-                \\"error\\",
-                {
-                  \\"type\\": \\"element\\",
-                  \\"prefix\\": \\"something-custom\\",
-                  \\"style\\": \\"kebab-case\\"
-                }
-              ]
-            }
-          },
-          {
-            \\"files\\": [
-              \\"*.html\\"
-            ],
-            \\"rules\\": {}
+              },
+              {
+                "files": [
+                  "*.html"
+                ],
+                "rules": {}
+              }
+            ]
           }
-        ]
-      }
-      "
-    `);
+          "
+        `);
     });
 
     it('should add the ESLint config for the project (--setParserOptionsProject=true)', async () => {
@@ -139,50 +127,50 @@ describe('application', () => {
       expect(tree.exists('projects/foo/tslint.json')).toBe(false);
       expect(tree.read('projects/foo/.eslintrc.json')?.toString())
         .toMatchInlineSnapshot(`
-      "{
-        \\"extends\\": \\"../../.eslintrc.json\\",
-        \\"ignorePatterns\\": [
-          \\"!**/*\\"
-        ],
-        \\"overrides\\": [
-          {
-            \\"files\\": [
-              \\"*.ts\\"
+          "{
+            "extends": "../../.eslintrc.json",
+            "ignorePatterns": [
+              "!**/*"
             ],
-            \\"parserOptions\\": {
-              \\"project\\": [
-                \\"projects/foo/tsconfig.(app|spec).json\\"
-              ]
-            },
-            \\"rules\\": {
-              \\"@angular-eslint/directive-selector\\": [
-                \\"error\\",
-                {
-                  \\"type\\": \\"attribute\\",
-                  \\"prefix\\": \\"something-custom\\",
-                  \\"style\\": \\"camelCase\\"
+            "overrides": [
+              {
+                "files": [
+                  "*.ts"
+                ],
+                "parserOptions": {
+                  "project": [
+                    "projects/foo/tsconfig.(app|spec).json"
+                  ]
+                },
+                "rules": {
+                  "@angular-eslint/directive-selector": [
+                    "error",
+                    {
+                      "type": "attribute",
+                      "prefix": "something-custom",
+                      "style": "camelCase"
+                    }
+                  ],
+                  "@angular-eslint/component-selector": [
+                    "error",
+                    {
+                      "type": "element",
+                      "prefix": "something-custom",
+                      "style": "kebab-case"
+                    }
+                  ]
                 }
-              ],
-              \\"@angular-eslint/component-selector\\": [
-                \\"error\\",
-                {
-                  \\"type\\": \\"element\\",
-                  \\"prefix\\": \\"something-custom\\",
-                  \\"style\\": \\"kebab-case\\"
-                }
-              ]
-            }
-          },
-          {
-            \\"files\\": [
-              \\"*.html\\"
-            ],
-            \\"rules\\": {}
+              },
+              {
+                "files": [
+                  "*.html"
+                ],
+                "rules": {}
+              }
+            ]
           }
-        ]
-      }
-      "
-    `);
+          "
+        `);
     });
 
     it('should add an appropriate ESLint config extends for a project with a scope in its name', async () => {
@@ -197,45 +185,45 @@ describe('application', () => {
       expect(tree.exists('projects/foo/bar/tslint.json')).toBe(false);
       expect(tree.read('projects/foo/bar/.eslintrc.json')?.toString())
         .toMatchInlineSnapshot(`
-      "{
-        \\"extends\\": \\"../../../.eslintrc.json\\",
-        \\"ignorePatterns\\": [
-          \\"!**/*\\"
-        ],
-        \\"overrides\\": [
-          {
-            \\"files\\": [
-              \\"*.ts\\"
+          "{
+            "extends": "../../../.eslintrc.json",
+            "ignorePatterns": [
+              "!**/*"
             ],
-            \\"rules\\": {
-              \\"@angular-eslint/directive-selector\\": [
-                \\"error\\",
-                {
-                  \\"type\\": \\"attribute\\",
-                  \\"prefix\\": \\"app\\",
-                  \\"style\\": \\"camelCase\\"
+            "overrides": [
+              {
+                "files": [
+                  "*.ts"
+                ],
+                "rules": {
+                  "@angular-eslint/directive-selector": [
+                    "error",
+                    {
+                      "type": "attribute",
+                      "prefix": "app",
+                      "style": "camelCase"
+                    }
+                  ],
+                  "@angular-eslint/component-selector": [
+                    "error",
+                    {
+                      "type": "element",
+                      "prefix": "app",
+                      "style": "kebab-case"
+                    }
+                  ]
                 }
-              ],
-              \\"@angular-eslint/component-selector\\": [
-                \\"error\\",
-                {
-                  \\"type\\": \\"element\\",
-                  \\"prefix\\": \\"app\\",
-                  \\"style\\": \\"kebab-case\\"
-                }
-              ]
-            }
-          },
-          {
-            \\"files\\": [
-              \\"*.html\\"
-            ],
-            \\"rules\\": {}
+              },
+              {
+                "files": [
+                  "*.html"
+                ],
+                "rules": {}
+              }
+            ]
           }
-        ]
-      }
-      "
-    `);
+          "
+        `);
     });
   });
 
@@ -265,17 +253,17 @@ describe('application', () => {
 
       expect(readJsonInTree(tree, 'angular.json').projects.foo.architect.lint)
         .toMatchInlineSnapshot(`
-      Object {
-        "builder": "@angular-eslint/builder:lint",
-        "options": Object {
-          "eslintConfig": "projects/foo/eslint.config.js",
-          "lintFilePatterns": Array [
-            "projects/foo/**/*.ts",
-            "projects/foo/**/*.html",
-          ],
-        },
-      }
-    `);
+          {
+            "builder": "@angular-eslint/builder:lint",
+            "options": {
+              "eslintConfig": "projects/foo/eslint.config.js",
+              "lintFilePatterns": [
+                "projects/foo/**/*.ts",
+                "projects/foo/**/*.html",
+              ],
+            },
+          }
+        `);
     });
 
     it('should add the ESLint config for the project', async () => {
@@ -291,39 +279,39 @@ describe('application', () => {
       expect(tree.exists('projects/foo/tslint.json')).toBe(false);
       expect(tree.read('projects/foo/eslint.config.js')?.toString())
         .toMatchInlineSnapshot(`
-        "// @ts-check
-        const tseslint = require(\\"typescript-eslint\\");
-        const rootConfig = require(\\"../../eslint.config.js\\");
+          "// @ts-check
+          const tseslint = require("typescript-eslint");
+          const rootConfig = require("../../eslint.config.js");
 
-        module.exports = tseslint.config(
-          ...rootConfig,
-          {
-            files: [\\"**/*.ts\\"],
-            rules: {
-              \\"@angular-eslint/directive-selector\\": [
-                \\"error\\",
-                {
-                  type: \\"attribute\\",
-                  prefix: \\"something-custom\\",
-                  style: \\"camelCase\\",
-                },
-              ],
-              \\"@angular-eslint/component-selector\\": [
-                \\"error\\",
-                {
-                  type: \\"element\\",
-                  prefix: \\"something-custom\\",
-                  style: \\"kebab-case\\",
-                },
-              ],
+          module.exports = tseslint.config(
+            ...rootConfig,
+            {
+              files: ["**/*.ts"],
+              rules: {
+                "@angular-eslint/directive-selector": [
+                  "error",
+                  {
+                    type: "attribute",
+                    prefix: "something-custom",
+                    style: "camelCase",
+                  },
+                ],
+                "@angular-eslint/component-selector": [
+                  "error",
+                  {
+                    type: "element",
+                    prefix: "something-custom",
+                    style: "kebab-case",
+                  },
+                ],
+              },
             },
-          },
-          {
-            files: [\\"**/*.html\\"],
-            rules: {},
-          }
-        );
-        "
+            {
+              files: ["**/*.html"],
+              rules: {},
+            }
+          );
+          "
         `);
     });
 
@@ -341,44 +329,44 @@ describe('application', () => {
       expect(tree.exists('projects/foo/tslint.json')).toBe(false);
       expect(tree.read('projects/foo/eslint.config.js')?.toString())
         .toMatchInlineSnapshot(`
-        "// @ts-check
-        const tseslint = require(\\"typescript-eslint\\");
-        const rootConfig = require(\\"../../eslint.config.js\\");
+          "// @ts-check
+          const tseslint = require("typescript-eslint");
+          const rootConfig = require("../../eslint.config.js");
 
-        module.exports = tseslint.config(
-          ...rootConfig,
-          {
-            files: [\\"**/*.ts\\"],
-            languageOptions: {
-              parserOptions: {
-                projectService: true,
+          module.exports = tseslint.config(
+            ...rootConfig,
+            {
+              files: ["**/*.ts"],
+              languageOptions: {
+                parserOptions: {
+                  projectService: true,
+                },
+              },
+              rules: {
+                "@angular-eslint/directive-selector": [
+                  "error",
+                  {
+                    type: "attribute",
+                    prefix: "something-custom",
+                    style: "camelCase",
+                  },
+                ],
+                "@angular-eslint/component-selector": [
+                  "error",
+                  {
+                    type: "element",
+                    prefix: "something-custom",
+                    style: "kebab-case",
+                  },
+                ],
               },
             },
-            rules: {
-              \\"@angular-eslint/directive-selector\\": [
-                \\"error\\",
-                {
-                  type: \\"attribute\\",
-                  prefix: \\"something-custom\\",
-                  style: \\"camelCase\\",
-                },
-              ],
-              \\"@angular-eslint/component-selector\\": [
-                \\"error\\",
-                {
-                  type: \\"element\\",
-                  prefix: \\"something-custom\\",
-                  style: \\"kebab-case\\",
-                },
-              ],
-            },
-          },
-          {
-            files: [\\"**/*.html\\"],
-            rules: {},
-          }
-        );
-        "
+            {
+              files: ["**/*.html"],
+              rules: {},
+            }
+          );
+          "
         `);
     });
 
@@ -394,40 +382,40 @@ describe('application', () => {
       expect(tree.exists('projects/foo/bar/tslint.json')).toBe(false);
       expect(tree.read('projects/foo/bar/eslint.config.js')?.toString())
         .toMatchInlineSnapshot(`
-      "// @ts-check
-      const tseslint = require(\\"typescript-eslint\\");
-      const rootConfig = require(\\"../../../eslint.config.js\\");
+          "// @ts-check
+          const tseslint = require("typescript-eslint");
+          const rootConfig = require("../../../eslint.config.js");
 
-      module.exports = tseslint.config(
-        ...rootConfig,
-        {
-          files: [\\"**/*.ts\\"],
-          rules: {
-            \\"@angular-eslint/directive-selector\\": [
-              \\"error\\",
-              {
-                type: \\"attribute\\",
-                prefix: \\"app\\",
-                style: \\"camelCase\\",
+          module.exports = tseslint.config(
+            ...rootConfig,
+            {
+              files: ["**/*.ts"],
+              rules: {
+                "@angular-eslint/directive-selector": [
+                  "error",
+                  {
+                    type: "attribute",
+                    prefix: "app",
+                    style: "camelCase",
+                  },
+                ],
+                "@angular-eslint/component-selector": [
+                  "error",
+                  {
+                    type: "element",
+                    prefix: "app",
+                    style: "kebab-case",
+                  },
+                ],
               },
-            ],
-            \\"@angular-eslint/component-selector\\": [
-              \\"error\\",
-              {
-                type: \\"element\\",
-                prefix: \\"app\\",
-                style: \\"kebab-case\\",
-              },
-            ],
-          },
-        },
-        {
-          files: [\\"**/*.html\\"],
-          rules: {},
-        }
-      );
-      "
-      `);
+            },
+            {
+              files: ["**/*.html"],
+              rules: {},
+            }
+          );
+          "
+        `);
     });
   });
 });

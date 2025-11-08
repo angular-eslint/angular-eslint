@@ -1,13 +1,14 @@
+import { Tree } from '@angular-devkit/schematics';
 import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
-import * as path from 'path';
-import { Tree } from '@angular-devkit/schematics';
+import * as path from 'node:path';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 const migrationSchematicRunner = new SchematicTestRunner(
   '@angular-eslint/schematics',
-  path.join(__dirname, '../../../src/migrations.json'),
+  path.join(__dirname, '../../../dist/migrations.json'),
 );
 
 describe('update-3-0-0', () => {
@@ -101,8 +102,8 @@ describe('update-3-0-0', () => {
     );
     const packageJSON = JSON.parse(tree.readContent('/package.json'));
     expect(packageJSON).toMatchInlineSnapshot(`
-      Object {
-        "devDependencies": Object {
+      {
+        "devDependencies": {
           "@angular-eslint/builder": "^3.0.0",
           "@angular-eslint/eslint-plugin": "^3.0.0",
           "@angular-eslint/eslint-plugin-template": "^3.0.0",
@@ -121,24 +122,24 @@ describe('update-3-0-0', () => {
 
     const rootESLint = JSON.parse(tree.readContent('.eslintrc.json'));
     expect(rootESLint).toMatchInlineSnapshot(`
-      Object {
-        "overrides": Array [
-          Object {
-            "extends": Array [
+      {
+        "overrides": [
+          {
+            "extends": [
               "plugin:@angular-eslint/recommended",
               "plugin:@angular-eslint/recommended--extra",
             ],
-            "files": Array [
+            "files": [
               "*.ts",
             ],
-            "rules": Object {
-              "@angular-eslint/component-max-inline-declarations": Array [
+            "rules": {
+              "@angular-eslint/component-max-inline-declarations": [
                 "error",
               ],
             },
           },
         ],
-        "rules": Object {
+        "rules": {
           "@angular-eslint/component-max-inline-declarations": "error",
         },
       }
@@ -148,8 +149,8 @@ describe('update-3-0-0', () => {
       tree.readContent('projects/foo/.eslintrc.json'),
     );
     expect(fooESLint).toMatchInlineSnapshot(`
-      Object {
-        "extends": Array [
+      {
+        "extends": [
           "plugin:@angular-eslint/recommended",
           "plugin:@angular-eslint/recommended--extra",
         ],
@@ -160,19 +161,19 @@ describe('update-3-0-0', () => {
       tree.readContent('projects/bar/.eslintrc.json'),
     );
     expect(barESLint).toMatchInlineSnapshot(`
-      Object {
-        "overrides": Array [
-          Object {
-            "extends": Array [
+      {
+        "overrides": [
+          {
+            "extends": [
               "plugin:@angular-eslint/something-other-than-recommended",
             ],
-            "files": Array [
+            "files": [
               "*.ts",
             ],
-            "rules": Object {
-              "@angular-eslint/component-max-inline-declarations": Array [
+            "rules": {
+              "@angular-eslint/component-max-inline-declarations": [
                 "error",
-                Object {
+                {
                   "template": 5,
                 },
               ],
@@ -192,24 +193,24 @@ describe('update-3-0-0', () => {
 
     const rootESLint = JSON.parse(tree.readContent('.eslintrc.json'));
     expect(rootESLint).toMatchInlineSnapshot(`
-      Object {
-        "overrides": Array [
-          Object {
-            "extends": Array [
+      {
+        "overrides": [
+          {
+            "extends": [
               "plugin:@angular-eslint/recommended",
               "plugin:@angular-eslint/recommended--extra",
             ],
-            "files": Array [
+            "files": [
               "*.ts",
             ],
-            "rules": Object {
-              "@angular-eslint/component-max-inline-declarations": Array [
+            "rules": {
+              "@angular-eslint/component-max-inline-declarations": [
                 "error",
               ],
             },
           },
         ],
-        "rules": Object {
+        "rules": {
           "@angular-eslint/component-max-inline-declarations": "error",
         },
       }
@@ -219,8 +220,8 @@ describe('update-3-0-0', () => {
       tree.readContent('projects/foo/.eslintrc.json'),
     );
     expect(fooESLint).toMatchInlineSnapshot(`
-      Object {
-        "extends": Array [
+      {
+        "extends": [
           "plugin:@angular-eslint/recommended",
           "plugin:@angular-eslint/recommended--extra",
         ],
@@ -231,19 +232,19 @@ describe('update-3-0-0', () => {
       tree.readContent('projects/bar/.eslintrc.json'),
     );
     expect(barESLint).toMatchInlineSnapshot(`
-      Object {
-        "overrides": Array [
-          Object {
-            "extends": Array [
+      {
+        "overrides": [
+          {
+            "extends": [
               "plugin:@angular-eslint/something-other-than-recommended",
             ],
-            "files": Array [
+            "files": [
               "*.ts",
             ],
-            "rules": Object {
-              "@angular-eslint/component-max-inline-declarations": Array [
+            "rules": {
+              "@angular-eslint/component-max-inline-declarations": [
                 "error",
-                Object {
+                {
                   "template": 5,
                 },
               ],

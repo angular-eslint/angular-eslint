@@ -3,7 +3,8 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
-import * as path from 'path';
+import * as path from 'node:path';
+import { beforeEach, describe, expect, it } from 'vitest';
 import {
   FIXED_ESLINT_V8_VERSION,
   FIXED_TYPESCRIPT_ESLINT_V7_VERSION,
@@ -17,7 +18,7 @@ const typescriptESLintVersion =
 
 const schematicRunner = new SchematicTestRunner(
   '@angular-eslint/schematics',
-  path.join(__dirname, '../../src/collection.json'),
+  path.join(__dirname, '../../dist/collection.json'),
 );
 
 describe('ng-add', () => {
@@ -133,10 +134,10 @@ describe('ng-add', () => {
         );
         const angularJson = JSON.parse(tree.readContent('/angular.json'));
         expect(angularJson.cli.schematicCollections).toMatchInlineSnapshot(`
-        Array [
-          "@angular-eslint/schematics",
-        ]
-      `);
+          [
+            "@angular-eslint/schematics",
+          ]
+        `);
       });
 
       it('should create the root .eslintrc.json file', async () => {
@@ -147,54 +148,54 @@ describe('ng-add', () => {
         );
         const eslintJson = JSON.parse(tree.readContent('/.eslintrc.json'));
         expect(eslintJson).toMatchInlineSnapshot(`
-        Object {
-          "ignorePatterns": Array [
-            "projects/**/*",
-          ],
-          "overrides": Array [
-            Object {
-              "extends": Array [
-                "eslint:recommended",
-                "plugin:@typescript-eslint/recommended",
-                "plugin:@angular-eslint/recommended",
-                "plugin:@angular-eslint/template/process-inline-templates",
-              ],
-              "files": Array [
-                "*.ts",
-              ],
-              "rules": Object {
-                "@angular-eslint/component-selector": Array [
-                  "error",
-                  Object {
-                    "prefix": "app",
-                    "style": "kebab-case",
-                    "type": "element",
-                  },
+          {
+            "ignorePatterns": [
+              "projects/**/*",
+            ],
+            "overrides": [
+              {
+                "extends": [
+                  "eslint:recommended",
+                  "plugin:@typescript-eslint/recommended",
+                  "plugin:@angular-eslint/recommended",
+                  "plugin:@angular-eslint/template/process-inline-templates",
                 ],
-                "@angular-eslint/directive-selector": Array [
-                  "error",
-                  Object {
-                    "prefix": "app",
-                    "style": "camelCase",
-                    "type": "attribute",
-                  },
+                "files": [
+                  "*.ts",
                 ],
+                "rules": {
+                  "@angular-eslint/component-selector": [
+                    "error",
+                    {
+                      "prefix": "app",
+                      "style": "kebab-case",
+                      "type": "element",
+                    },
+                  ],
+                  "@angular-eslint/directive-selector": [
+                    "error",
+                    {
+                      "prefix": "app",
+                      "style": "camelCase",
+                      "type": "attribute",
+                    },
+                  ],
+                },
               },
-            },
-            Object {
-              "extends": Array [
-                "plugin:@angular-eslint/template/recommended",
-                "plugin:@angular-eslint/template/accessibility",
-              ],
-              "files": Array [
-                "*.html",
-              ],
-              "rules": Object {},
-            },
-          ],
-          "root": true,
-        }
-      `);
+              {
+                "extends": [
+                  "plugin:@angular-eslint/template/recommended",
+                  "plugin:@angular-eslint/template/accessibility",
+                ],
+                "files": [
+                  "*.html",
+                ],
+                "rules": {},
+              },
+            ],
+            "root": true,
+          }
+        `);
       });
     });
 
@@ -275,10 +276,10 @@ describe('ng-add', () => {
         );
         const angularJson = JSON.parse(tree.readContent('/angular.json'));
         expect(angularJson.cli.schematicCollections).toMatchInlineSnapshot(`
-        Array [
-          "@angular-eslint/schematics",
-        ]
-      `);
+          [
+            "@angular-eslint/schematics",
+          ]
+        `);
       });
 
       it('should create the root .eslintrc.json file', async () => {
@@ -289,37 +290,37 @@ describe('ng-add', () => {
         );
         const eslintJson = JSON.parse(tree.readContent('/.eslintrc.json'));
         expect(eslintJson).toMatchInlineSnapshot(`
-        Object {
-          "ignorePatterns": Array [
-            "projects/**/*",
-          ],
-          "overrides": Array [
-            Object {
-              "extends": Array [
-                "eslint:recommended",
-                "plugin:@typescript-eslint/recommended",
-                "plugin:@angular-eslint/recommended",
-                "plugin:@angular-eslint/template/process-inline-templates",
-              ],
-              "files": Array [
-                "*.ts",
-              ],
-              "rules": Object {},
-            },
-            Object {
-              "extends": Array [
-                "plugin:@angular-eslint/template/recommended",
-                "plugin:@angular-eslint/template/accessibility",
-              ],
-              "files": Array [
-                "*.html",
-              ],
-              "rules": Object {},
-            },
-          ],
-          "root": true,
-        }
-      `);
+          {
+            "ignorePatterns": [
+              "projects/**/*",
+            ],
+            "overrides": [
+              {
+                "extends": [
+                  "eslint:recommended",
+                  "plugin:@typescript-eslint/recommended",
+                  "plugin:@angular-eslint/recommended",
+                  "plugin:@angular-eslint/template/process-inline-templates",
+                ],
+                "files": [
+                  "*.ts",
+                ],
+                "rules": {},
+              },
+              {
+                "extends": [
+                  "plugin:@angular-eslint/template/recommended",
+                  "plugin:@angular-eslint/template/accessibility",
+                ],
+                "files": [
+                  "*.html",
+                ],
+                "rules": {},
+              },
+            ],
+            "root": true,
+          }
+        `);
       });
     });
 
@@ -418,10 +419,10 @@ describe('ng-add', () => {
         );
         const angularJson = JSON.parse(tree.readContent('/angular.json'));
         expect(angularJson.cli.schematicCollections).toMatchInlineSnapshot(`
-        Array [
-          "@angular-eslint/schematics",
-        ]
-      `);
+          [
+            "@angular-eslint/schematics",
+          ]
+        `);
       });
 
       it('should create the root .eslintrc.json file', async () => {
@@ -432,54 +433,54 @@ describe('ng-add', () => {
         );
         const eslintJson = JSON.parse(tree.readContent('/.eslintrc.json'));
         expect(eslintJson).toMatchInlineSnapshot(`
-        Object {
-          "ignorePatterns": Array [
-            "projects/**/*",
-          ],
-          "overrides": Array [
-            Object {
-              "extends": Array [
-                "eslint:recommended",
-                "plugin:@typescript-eslint/recommended",
-                "plugin:@angular-eslint/recommended",
-                "plugin:@angular-eslint/template/process-inline-templates",
-              ],
-              "files": Array [
-                "*.ts",
-              ],
-              "rules": Object {
-                "@angular-eslint/component-selector": Array [
-                  "error",
-                  Object {
-                    "prefix": "app",
-                    "style": "kebab-case",
-                    "type": "element",
-                  },
+          {
+            "ignorePatterns": [
+              "projects/**/*",
+            ],
+            "overrides": [
+              {
+                "extends": [
+                  "eslint:recommended",
+                  "plugin:@typescript-eslint/recommended",
+                  "plugin:@angular-eslint/recommended",
+                  "plugin:@angular-eslint/template/process-inline-templates",
                 ],
-                "@angular-eslint/directive-selector": Array [
-                  "error",
-                  Object {
-                    "prefix": "app",
-                    "style": "camelCase",
-                    "type": "attribute",
-                  },
+                "files": [
+                  "*.ts",
                 ],
+                "rules": {
+                  "@angular-eslint/component-selector": [
+                    "error",
+                    {
+                      "prefix": "app",
+                      "style": "kebab-case",
+                      "type": "element",
+                    },
+                  ],
+                  "@angular-eslint/directive-selector": [
+                    "error",
+                    {
+                      "prefix": "app",
+                      "style": "camelCase",
+                      "type": "attribute",
+                    },
+                  ],
+                },
               },
-            },
-            Object {
-              "extends": Array [
-                "plugin:@angular-eslint/template/recommended",
-                "plugin:@angular-eslint/template/accessibility",
-              ],
-              "files": Array [
-                "*.html",
-              ],
-              "rules": Object {},
-            },
-          ],
-          "root": true,
-        }
-      `);
+              {
+                "extends": [
+                  "plugin:@angular-eslint/template/recommended",
+                  "plugin:@angular-eslint/template/accessibility",
+                ],
+                "files": [
+                  "*.html",
+                ],
+                "rules": {},
+              },
+            ],
+            "root": true,
+          }
+        `);
       });
     });
   });
@@ -585,7 +586,7 @@ describe('ng-add', () => {
         );
         const angularJson = JSON.parse(tree.readContent('/angular.json'));
         expect(angularJson.cli.schematicCollections).toMatchInlineSnapshot(`
-          Array [
+          [
             "angular-eslint",
           ]
         `);
@@ -599,50 +600,50 @@ describe('ng-add', () => {
         );
         const eslintConfig = tree.readContent('/eslint.config.js');
         expect(eslintConfig).toMatchInlineSnapshot(`
-        "// @ts-check
-        const eslint = require(\\"@eslint/js\\");
-        const tseslint = require(\\"typescript-eslint\\");
-        const angular = require(\\"angular-eslint\\");
+          "// @ts-check
+          const eslint = require("@eslint/js");
+          const tseslint = require("typescript-eslint");
+          const angular = require("angular-eslint");
 
-        module.exports = tseslint.config(
-          {
-            files: [\\"**/*.ts\\"],
-            extends: [
-              eslint.configs.recommended,
-              ...tseslint.configs.recommended,
-              ...tseslint.configs.stylistic,
-              ...angular.configs.tsRecommended,
-            ],
-            processor: angular.processInlineTemplates,
-            rules: {
-              \\"@angular-eslint/directive-selector\\": [
-                \\"error\\",
-                {
-                  type: \\"attribute\\",
-                  prefix: \\"app\\",
-                  style: \\"camelCase\\",
-                },
+          module.exports = tseslint.config(
+            {
+              files: ["**/*.ts"],
+              extends: [
+                eslint.configs.recommended,
+                ...tseslint.configs.recommended,
+                ...tseslint.configs.stylistic,
+                ...angular.configs.tsRecommended,
               ],
-              \\"@angular-eslint/component-selector\\": [
-                \\"error\\",
-                {
-                  type: \\"element\\",
-                  prefix: \\"app\\",
-                  style: \\"kebab-case\\",
-                },
-              ],
+              processor: angular.processInlineTemplates,
+              rules: {
+                "@angular-eslint/directive-selector": [
+                  "error",
+                  {
+                    type: "attribute",
+                    prefix: "app",
+                    style: "camelCase",
+                  },
+                ],
+                "@angular-eslint/component-selector": [
+                  "error",
+                  {
+                    type: "element",
+                    prefix: "app",
+                    style: "kebab-case",
+                  },
+                ],
+              },
             },
-          },
-          {
-            files: [\\"**/*.html\\"],
-            extends: [
-              ...angular.configs.templateRecommended,
-              ...angular.configs.templateAccessibility,
-            ],
-            rules: {},
-          }
-        );
-        "
+            {
+              files: ["**/*.html"],
+              extends: [
+                ...angular.configs.templateRecommended,
+                ...angular.configs.templateAccessibility,
+              ],
+              rules: {},
+            }
+          );
+          "
         `);
       });
     });
@@ -721,7 +722,7 @@ describe('ng-add', () => {
         );
         const angularJson = JSON.parse(tree.readContent('/angular.json'));
         expect(angularJson.cli.schematicCollections).toMatchInlineSnapshot(`
-          Array [
+          [
             "angular-eslint",
           ]
         `);
@@ -736,13 +737,13 @@ describe('ng-add', () => {
         const eslintConfig = tree.readContent('/eslint.config.js');
         expect(eslintConfig).toMatchInlineSnapshot(`
           "// @ts-check
-          const eslint = require(\\"@eslint/js\\");
-          const tseslint = require(\\"typescript-eslint\\");
-          const angular = require(\\"angular-eslint\\");
+          const eslint = require("@eslint/js");
+          const tseslint = require("typescript-eslint");
+          const angular = require("angular-eslint");
 
           module.exports = tseslint.config(
             {
-              files: [\\"**/*.ts\\"],
+              files: ["**/*.ts"],
               extends: [
                 eslint.configs.recommended,
                 ...tseslint.configs.recommended,
@@ -753,7 +754,7 @@ describe('ng-add', () => {
               rules: {},
             },
             {
-              files: [\\"**/*.html\\"],
+              files: ["**/*.html"],
               extends: [
                 ...angular.configs.templateRecommended,
                 ...angular.configs.templateAccessibility,
@@ -858,7 +859,7 @@ describe('ng-add', () => {
         );
         const angularJson = JSON.parse(tree.readContent('/angular.json'));
         expect(angularJson.cli.schematicCollections).toMatchInlineSnapshot(`
-          Array [
+          [
             "angular-eslint",
           ]
         `);
@@ -873,13 +874,13 @@ describe('ng-add', () => {
         const eslintConfig = tree.readContent('/eslint.config.js');
         expect(eslintConfig).toMatchInlineSnapshot(`
           "// @ts-check
-          const eslint = require(\\"@eslint/js\\");
-          const tseslint = require(\\"typescript-eslint\\");
-          const angular = require(\\"angular-eslint\\");
+          const eslint = require("@eslint/js");
+          const tseslint = require("typescript-eslint");
+          const angular = require("angular-eslint");
 
           module.exports = tseslint.config(
             {
-              files: [\\"**/*.ts\\"],
+              files: ["**/*.ts"],
               extends: [
                 eslint.configs.recommended,
                 ...tseslint.configs.recommended,
@@ -888,26 +889,26 @@ describe('ng-add', () => {
               ],
               processor: angular.processInlineTemplates,
               rules: {
-                \\"@angular-eslint/directive-selector\\": [
-                  \\"error\\",
+                "@angular-eslint/directive-selector": [
+                  "error",
                   {
-                    type: \\"attribute\\",
-                    prefix: \\"app\\",
-                    style: \\"camelCase\\",
+                    type: "attribute",
+                    prefix: "app",
+                    style: "camelCase",
                   },
                 ],
-                \\"@angular-eslint/component-selector\\": [
-                  \\"error\\",
+                "@angular-eslint/component-selector": [
+                  "error",
                   {
-                    type: \\"element\\",
-                    prefix: \\"app\\",
-                    style: \\"kebab-case\\",
+                    type: "element",
+                    prefix: "app",
+                    style: "kebab-case",
                   },
                 ],
               },
             },
             {
-              files: [\\"**/*.html\\"],
+              files: ["**/*.html"],
               extends: [
                 ...angular.configs.templateRecommended,
                 ...angular.configs.templateAccessibility,
@@ -916,7 +917,7 @@ describe('ng-add', () => {
             }
           );
           "
-          `);
+        `);
       });
     });
   });

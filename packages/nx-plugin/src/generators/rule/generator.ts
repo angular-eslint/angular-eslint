@@ -1,6 +1,6 @@
 import { formatFiles, generateFiles, logger } from '@nx/devkit';
 import { type Tree } from '@nx/devkit';
-import * as path from 'path';
+import * as path from 'node:path';
 import { type RuleGeneratorSchema } from './schema';
 
 export async function ruleGenerator(tree: Tree, options: RuleGeneratorSchema) {
