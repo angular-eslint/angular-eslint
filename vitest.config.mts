@@ -6,7 +6,12 @@ export default defineConfig({
       reporter: ['text', 'html', 'clover', 'json', 'lcov'],
     },
     projects: [
-      'packages/*',
+      {
+        extends: true,
+        test: {
+          include: ['packages/*'],
+        },
+      },
       {
         // vitest types are wrong, false is allowed at runtime to not extend from the root config
         extends: false as any,
