@@ -6,13 +6,11 @@ catalog:
   '@angular/compiler': 20.3.9
   '@commitlint/cli': 20.1.0
   '@commitlint/config-conventional': 20.0.0
-  '@jest/types': 30.0.5
   '@mdn/browser-compat-data': 7.1.18
   '@nx/devkit': 22.1.0-beta.3
   '@nx/esbuild': 22.1.0-beta.3
   '@nx/eslint': 22.1.0-beta.3
   '@nx/eslint-plugin': 22.1.0-beta.3
-  '@nx/jest': 22.1.0-beta.3
   '@nx/js': 22.1.0-beta.3
   '@nx/plugin': 22.1.0-beta.3
   '@nx/vite': 22.1.0-beta.3
@@ -24,7 +22,6 @@ catalog:
   '@swc/helpers': 0.5.17
   '@types/aria-query': 5.0.4
   '@types/eslint-scope': 8.3.2
-  '@types/jest': 30.0.0
   '@types/node': 22.18.13
   '@types/semver': ^7.5.8
   '@types/yargs': ^17.0.33
@@ -35,8 +32,6 @@ catalog:
   eslint-config-prettier: 10.1.5
   execa: 5.1.1
   husky: 9.1.7
-  jest: 30.0.5
-  jest-util: 30.0.5
   json-schema-to-typescript: 15.0.4
   json-schema-traverse: 1.0.0
   jsonc-eslint-parser: 2.4.1
@@ -46,9 +41,7 @@ catalog:
   picocolors: 1.1.1
   pkg-pr-new: 0.0.60
   prettier: 3.6.2
-  prettier-v2-for-jest-inline-snapshots: npm:prettier@^2
   tree-kill: 1.2.2
-  ts-jest: 29.4.1
   ts-node: 10.9.2
   tslib: ^2.4.1
   tsx: 4.20.6

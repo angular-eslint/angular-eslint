@@ -24,6 +24,7 @@ import {
   Unary,
 } from '@angular-eslint/bundled-angular-compiler';
 import { parseForESLint } from '@angular-eslint/template-parser';
+import { describe, expect, it } from 'vitest';
 import { areEquivalentASTs } from '../../src/utils/are-equivalent-asts';
 
 describe('areEquivalentASTs', () => {

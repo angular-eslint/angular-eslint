@@ -39,18 +39,6 @@
       }
     },
     {
-      "plugin": "@nx/jest/plugin",
-      "exclude": [
-        "e2e/**",
-        "packages/builder/**",
-        "packages/eslint-plugin/**",
-        "packages/nx-plugin/**",
-        "packages/schematics/**",
-        "packages/template-parser/**"
-      ],
-      "options": {}
-    },
-    {
       "plugin": "@nx/vite/plugin",
       "include": ["e2e/**/*"],
       "options": {
@@ -63,6 +51,7 @@
       "include": [
         "packages/builder/**",
         "packages/eslint-plugin/**",
+        "packages/eslint-plugin-template/**",
         "packages/nx-plugin/**",
         "packages/schematics/**",
         "packages/template-parser/**"
@@ -171,13 +160,11 @@
     "test": {
       "dependsOn": ["^build", "^compile"],
       "options": {
-        "env": {
-          "NODE_OPTIONS": "--experimental-vm-modules"
-        }
+        "args": "run"
       },
       "configurations": {
         "ci": {
-          "args": ["--coverage"]
+          "args": ["run", "--coverage"]
         }
       }
     }
@@ -203,7 +190,6 @@
       "default",
       "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
       "!{projectRoot}/tsconfig.spec.json",
-      "!{projectRoot}/jest.config.[jt]s",
       "!{projectRoot}/vitest.config.mts",
       "!{projectRoot}/src/test-setup.[jt]s",
       "!{projectRoot}/eslint.config.js"

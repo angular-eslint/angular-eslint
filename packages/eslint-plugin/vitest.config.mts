@@ -8,7 +8,6 @@ export default defineConfig({
     include: ['tests/**/*.spec.ts', 'tests/**/spec.ts'],
     testTimeout: 30000,
     coverage: {
-      reporter: ['text', 'html', 'clover', 'json', 'lcov'],
       reportsDirectory: join(
         workspaceRoot,
         'coverage/packages',
