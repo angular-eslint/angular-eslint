@@ -1,3 +1,13 @@
+## 20.5.2 (2025-11-08)
+
+### 🩹 Fixes
+
+- **template-parser:** ensure loc object is applied correctly ([#2754](https://github.com/angular-eslint/angular-eslint/pull/2754))
+
+### ❤️ Thank You
+
+- James Henry @JamesHenry
+
 ## 20.5.1 (2025-11-03)
 
 This was a version bump only for template-parser to align it with other projects, there were no code changes.

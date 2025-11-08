@@ -1,3 +1,15 @@
+## 20.5.2 (2025-11-08)
+
+### 🩹 Fixes
+
+- **eslint-plugin-template:** [prefer-ngsrc] support data URLs in more scenarios ([#2719](https://github.com/angular-eslint/angular-eslint/pull/2719))
+- **eslint-plugin-template:** [conditional-complexity] handle animation directives without values ([#2747](https://github.com/angular-eslint/angular-eslint/pull/2747))
+
+### ❤️ Thank You
+
+- Evgeny Stepanovych @undsoft
+- James Henry @JamesHenry
+
 ## 20.5.1 (2025-11-03)
 
 ### 🩹 Fixes

@@ -1,3 +1,15 @@
+## 20.5.2 (2025-11-08)
+
+### 🩹 Fixes
+
+- **eslint-plugin:** update style guide links ([#2689](https://github.com/angular-eslint/angular-eslint/pull/2689))
+- **eslint-plugin-template:** [use-lifecycle-interface] fix fixer when class contains generics ([#2749](https://github.com/angular-eslint/angular-eslint/pull/2749))
+
+### ❤️ Thank You
+
+- Aristeidis Bampakos @bampakoa
+- Evgeny Stepanovych @undsoft
+
 ## 20.5.1 (2025-11-03)
 
 ### 🩹 Fixes
