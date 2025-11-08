@@ -1866,12 +1866,12 @@ describe('parseForESLint()', () => {
                     "ast": PropertyRead {
                       "loc": {
                         "end": {
-                          "column": undefined,
-                          "line": NaN,
+                          "column": 28,
+                          "line": 2,
                         },
                         "start": {
-                          "column": undefined,
-                          "line": NaN,
+                          "column": 23,
+                          "line": 2,
                         },
                       },
                       "name": "title",
@@ -1882,12 +1882,12 @@ describe('parseForESLint()', () => {
                       "receiver": ImplicitReceiver {
                         "loc": {
                           "end": {
-                            "column": undefined,
-                            "line": NaN,
+                            "column": 23,
+                            "line": 2,
                           },
                           "start": {
-                            "column": undefined,
-                            "line": NaN,
+                            "column": 23,
+                            "line": 2,
                           },
                         },
                         "sourceSpan": AbsoluteSourceSpan {
@@ -1913,12 +1913,12 @@ describe('parseForESLint()', () => {
                     "errors": [],
                     "loc": {
                       "end": {
-                        "column": undefined,
-                        "line": NaN,
+                        "column": 28,
+                        "line": 2,
                       },
                       "start": {
-                        "column": undefined,
-                        "line": NaN,
+                        "column": 23,
+                        "line": 2,
                       },
                     },
                     "location": "./foo.html@1:18",
@@ -8669,12 +8669,12 @@ describe('parseForESLint()', () => {
                             PropertyRead {
                               "loc": {
                                 "end": {
-                                  "column": undefined,
-                                  "line": NaN,
+                                  "column": 15,
+                                  "line": 3,
                                 },
                                 "start": {
-                                  "column": undefined,
-                                  "line": NaN,
+                                  "column": 14,
+                                  "line": 3,
                                 },
                               },
                               "name": "a",
@@ -8685,12 +8685,12 @@ describe('parseForESLint()', () => {
                               "receiver": ImplicitReceiver {
                                 "loc": {
                                   "end": {
-                                    "column": undefined,
-                                    "line": NaN,
+                                    "column": 14,
+                                    "line": 3,
                                   },
                                   "start": {
-                                    "column": undefined,
-                                    "line": NaN,
+                                    "column": 14,
+                                    "line": 3,
                                   },
                                 },
                                 "sourceSpan": AbsoluteSourceSpan {
@@ -8716,12 +8716,12 @@ describe('parseForESLint()', () => {
                             PropertyRead {
                               "loc": {
                                 "end": {
-                                  "column": undefined,
-                                  "line": NaN,
+                                  "column": 37,
+                                  "line": 3,
                                 },
                                 "start": {
-                                  "column": undefined,
-                                  "line": NaN,
+                                  "column": 36,
+                                  "line": 3,
                                 },
                               },
                               "name": "b",
@@ -8732,12 +8732,12 @@ describe('parseForESLint()', () => {
                               "receiver": ImplicitReceiver {
                                 "loc": {
                                   "end": {
-                                    "column": undefined,
-                                    "line": NaN,
+                                    "column": 36,
+                                    "line": 3,
                                   },
                                   "start": {
-                                    "column": undefined,
-                                    "line": NaN,
+                                    "column": 36,
+                                    "line": 3,
                                   },
                                 },
                                 "sourceSpan": AbsoluteSourceSpan {
@@ -8763,12 +8763,12 @@ describe('parseForESLint()', () => {
                           ],
                           "loc": {
                             "end": {
-                              "column": undefined,
-                              "line": NaN,
+                              "column": 10,
+                              "line": 4,
                             },
                             "start": {
-                              "column": undefined,
-                              "line": NaN,
+                              "column": 23,
+                              "line": 2,
                             },
                           },
                           "sourceSpan": AbsoluteSourceSpan {
@@ -8791,12 +8791,12 @@ describe('parseForESLint()', () => {
                         "errors": [],
                         "loc": {
                           "end": {
-                            "column": undefined,
-                            "line": NaN,
+                            "column": 10,
+                            "line": 4,
                           },
                           "start": {
-                            "column": undefined,
-                            "line": NaN,
+                            "column": 23,
+                            "line": 2,
                           },
                         },
                         "location": "./foo.html@2:12",
@@ -8874,12 +8874,12 @@ describe('parseForESLint()', () => {
                       "left": PropertyRead {
                         "loc": {
                           "end": {
-                            "column": undefined,
-                            "line": NaN,
+                            "column": 16,
+                            "line": 2,
                           },
                           "start": {
-                            "column": undefined,
-                            "line": NaN,
+                            "column": 15,
+                            "line": 2,
                           },
                         },
                         "name": "a",
@@ -8890,12 +8890,12 @@ describe('parseForESLint()', () => {
                         "receiver": ImplicitReceiver {
                           "loc": {
                             "end": {
-                              "column": undefined,
-                              "line": NaN,
+                              "column": 15,
+                              "line": 2,
                             },
                             "start": {
-                              "column": undefined,
-                              "line": NaN,
+                              "column": 15,
+                              "line": 2,
                             },
                           },
                           "sourceSpan": AbsoluteSourceSpan {
@@ -8920,24 +8920,24 @@ describe('parseForESLint()', () => {
                       },
                       "loc": {
                         "end": {
-                          "column": undefined,
-                          "line": NaN,
+                          "column": 20,
+                          "line": 2,
                         },
                         "start": {
-                          "column": undefined,
-                          "line": NaN,
+                          "column": 15,
+                          "line": 2,
                         },
                       },
                       "operation": ">",
                       "right": PropertyRead {
                         "loc": {
                           "end": {
-                            "column": undefined,
-                            "line": NaN,
+                            "column": 20,
+                            "line": 2,
                           },
                           "start": {
-                            "column": undefined,
-                            "line": NaN,
+                            "column": 19,
+                            "line": 2,
                           },
                         },
                         "name": "b",
@@ -8948,12 +8948,12 @@ describe('parseForESLint()', () => {
                         "receiver": ImplicitReceiver {
                           "loc": {
                             "end": {
-                              "column": undefined,
-                              "line": NaN,
+                              "column": 19,
+                              "line": 2,
                             },
                             "start": {
-                              "column": undefined,
-                              "line": NaN,
+                              "column": 18,
+                              "line": 2,
                             },
                           },
                           "sourceSpan": AbsoluteSourceSpan {
@@ -8989,12 +8989,12 @@ describe('parseForESLint()', () => {
                     "errors": [],
                     "loc": {
                       "end": {
-                        "column": undefined,
-                        "line": NaN,
+                        "column": 20,
+                        "line": 2,
                       },
                       "start": {
-                        "column": undefined,
-                        "line": NaN,
+                        "column": 15,
+                        "line": 2,
                       },
                     },
                     "location": "./foo.html@1:15",
@@ -9260,12 +9260,12 @@ describe('parseForESLint()', () => {
                             PropertyRead {
                               "loc": {
                                 "end": {
-                                  "column": undefined,
-                                  "line": NaN,
+                                  "column": 15,
+                                  "line": 5,
                                 },
                                 "start": {
-                                  "column": undefined,
-                                  "line": NaN,
+                                  "column": 14,
+                                  "line": 5,
                                 },
                               },
                               "name": "a",
@@ -9276,12 +9276,12 @@ describe('parseForESLint()', () => {
                               "receiver": ImplicitReceiver {
                                 "loc": {
                                   "end": {
-                                    "column": undefined,
-                                    "line": NaN,
+                                    "column": 14,
+                                    "line": 5,
                                   },
                                   "start": {
-                                    "column": undefined,
-                                    "line": NaN,
+                                    "column": 14,
+                                    "line": 5,
                                   },
                                 },
                                 "sourceSpan": AbsoluteSourceSpan {
@@ -9307,12 +9307,12 @@ describe('parseForESLint()', () => {
                             PropertyRead {
                               "loc": {
                                 "end": {
-                                  "column": undefined,
-                                  "line": NaN,
+                                  "column": 34,
+                                  "line": 5,
                                 },
                                 "start": {
-                                  "column": undefined,
-                                  "line": NaN,
+                                  "column": 33,
+                                  "line": 5,
                                 },
                               },
                               "name": "b",
@@ -9323,12 +9323,12 @@ describe('parseForESLint()', () => {
                               "receiver": ImplicitReceiver {
                                 "loc": {
                                   "end": {
-                                    "column": undefined,
-                                    "line": NaN,
+                                    "column": 33,
+                                    "line": 5,
                                   },
                                   "start": {
-                                    "column": undefined,
-                                    "line": NaN,
+                                    "column": 33,
+                                    "line": 5,
                                   },
                                 },
                                 "sourceSpan": AbsoluteSourceSpan {
@@ -9354,12 +9354,12 @@ describe('parseForESLint()', () => {
                           ],
                           "loc": {
                             "end": {
-                              "column": undefined,
-                              "line": NaN,
+                              "column": 10,
+                              "line": 6,
                             },
                             "start": {
-                              "column": undefined,
-                              "line": NaN,
+                              "column": 30,
+                              "line": 4,
                             },
                           },
                           "sourceSpan": AbsoluteSourceSpan {
@@ -9382,12 +9382,12 @@ describe('parseForESLint()', () => {
                         "errors": [],
                         "loc": {
                           "end": {
-                            "column": undefined,
-                            "line": NaN,
+                            "column": 10,
+                            "line": 6,
                           },
                           "start": {
-                            "column": undefined,
-                            "line": NaN,
+                            "column": 30,
+                            "line": 4,
                           },
                         },
                         "location": "./foo.html@4:12",
@@ -9465,12 +9465,12 @@ describe('parseForESLint()', () => {
                       "left": PropertyRead {
                         "loc": {
                           "end": {
-                            "column": undefined,
-                            "line": NaN,
+                            "column": 23,
+                            "line": 4,
                           },
                           "start": {
-                            "column": undefined,
-                            "line": NaN,
+                            "column": 22,
+                            "line": 4,
                           },
                         },
                         "name": "b",
@@ -9481,12 +9481,12 @@ describe('parseForESLint()', () => {
                         "receiver": ImplicitReceiver {
                           "loc": {
                             "end": {
-                              "column": undefined,
-                              "line": NaN,
+                              "column": 22,
+                              "line": 4,
                             },
                             "start": {
-                              "column": undefined,
-                              "line": NaN,
+                              "column": 22,
+                              "line": 4,
                             },
                           },
                           "sourceSpan": AbsoluteSourceSpan {
@@ -9511,24 +9511,24 @@ describe('parseForESLint()', () => {
                       },
                       "loc": {
                         "end": {
-                          "column": undefined,
-                          "line": NaN,
+                          "column": 27,
+                          "line": 4,
                         },
                         "start": {
-                          "column": undefined,
-                          "line": NaN,
+                          "column": 22,
+                          "line": 4,
                         },
                       },
                       "operation": ">",
                       "right": PropertyRead {
                         "loc": {
                           "end": {
-                            "column": undefined,
-                            "line": NaN,
+                            "column": 27,
+                            "line": 4,
                           },
                           "start": {
-                            "column": undefined,
-                            "line": NaN,
+                            "column": 26,
+                            "line": 4,
                           },
                         },
                         "name": "a",
@@ -9539,12 +9539,12 @@ describe('parseForESLint()', () => {
                         "receiver": ImplicitReceiver {
                           "loc": {
                             "end": {
-                              "column": undefined,
-                              "line": NaN,
+                              "column": 26,
+                              "line": 4,
                             },
                             "start": {
-                              "column": undefined,
-                              "line": NaN,
+                              "column": 25,
+                              "line": 4,
                             },
                           },
                           "sourceSpan": AbsoluteSourceSpan {
@@ -9580,12 +9580,12 @@ describe('parseForESLint()', () => {
                     "errors": [],
                     "loc": {
                       "end": {
-                        "column": undefined,
-                        "line": NaN,
+                        "column": 27,
+                        "line": 4,
                       },
                       "start": {
-                        "column": undefined,
-                        "line": NaN,
+                        "column": 22,
+                        "line": 4,
                       },
                     },
                     "location": "./foo.html@3:22",
@@ -9851,12 +9851,12 @@ describe('parseForESLint()', () => {
                             PropertyRead {
                               "loc": {
                                 "end": {
-                                  "column": undefined,
-                                  "line": NaN,
+                                  "column": 15,
+                                  "line": 7,
                                 },
                                 "start": {
-                                  "column": undefined,
-                                  "line": NaN,
+                                  "column": 14,
+                                  "line": 7,
                                 },
                               },
                               "name": "a",
@@ -9867,12 +9867,12 @@ describe('parseForESLint()', () => {
                               "receiver": ImplicitReceiver {
                                 "loc": {
                                   "end": {
-                                    "column": undefined,
-                                    "line": NaN,
+                                    "column": 14,
+                                    "line": 7,
                                   },
                                   "start": {
-                                    "column": undefined,
-                                    "line": NaN,
+                                    "column": 14,
+                                    "line": 7,
                                   },
                                 },
                                 "sourceSpan": AbsoluteSourceSpan {
@@ -9898,12 +9898,12 @@ describe('parseForESLint()', () => {
                             PropertyRead {
                               "loc": {
                                 "end": {
-                                  "column": undefined,
-                                  "line": NaN,
+                                  "column": 33,
+                                  "line": 7,
                                 },
                                 "start": {
-                                  "column": undefined,
-                                  "line": NaN,
+                                  "column": 32,
+                                  "line": 7,
                                 },
                               },
                               "name": "b",
@@ -9914,12 +9914,12 @@ describe('parseForESLint()', () => {
                               "receiver": ImplicitReceiver {
                                 "loc": {
                                   "end": {
-                                    "column": undefined,
-                                    "line": NaN,
+                                    "column": 32,
+                                    "line": 7,
                                   },
                                   "start": {
-                                    "column": undefined,
-                                    "line": NaN,
+                                    "column": 32,
+                                    "line": 7,
                                   },
                                 },
                                 "sourceSpan": AbsoluteSourceSpan {
@@ -9945,12 +9945,12 @@ describe('parseForESLint()', () => {
                           ],
                           "loc": {
                             "end": {
-                              "column": undefined,
-                              "line": NaN,
+                              "column": 10,
+                              "line": 8,
                             },
                             "start": {
-                              "column": undefined,
-                              "line": NaN,
+                              "column": 19,
+                              "line": 6,
                             },
                           },
                           "sourceSpan": AbsoluteSourceSpan {
@@ -9973,12 +9973,12 @@ describe('parseForESLint()', () => {
                         "errors": [],
                         "loc": {
                           "end": {
-                            "column": undefined,
-                            "line": NaN,
+                            "column": 10,
+                            "line": 8,
                           },
                           "start": {
-                            "column": undefined,
-                            "line": NaN,
+                            "column": 19,
+                            "line": 6,
                           },
                         },
                         "location": "./foo.html@6:12",
@@ -10661,12 +10661,12 @@ describe('parseForESLint()', () => {
                 "ast": LiteralPrimitive {
                   "loc": {
                     "end": {
-                      "column": undefined,
-                      "line": NaN,
+                      "column": 20,
+                      "line": 2,
                     },
                     "start": {
-                      "column": undefined,
-                      "line": NaN,
+                      "column": 19,
+                      "line": 2,
                     },
                   },
                   "sourceSpan": AbsoluteSourceSpan {
@@ -10683,12 +10683,12 @@ describe('parseForESLint()', () => {
                 "errors": [],
                 "loc": {
                   "end": {
-                    "column": undefined,
-                    "line": NaN,
+                    "column": 20,
+                    "line": 2,
                   },
                   "start": {
-                    "column": undefined,
-                    "line": NaN,
+                    "column": 19,
+                    "line": 2,
                   },
                 },
                 "location": "./foo.html@1:19",
@@ -10905,12 +10905,12 @@ describe('parseForESLint()', () => {
                   "left": PropertyRead {
                     "loc": {
                       "end": {
-                        "column": undefined,
-                        "line": NaN,
+                        "column": 20,
+                        "line": 3,
                       },
                       "start": {
-                        "column": undefined,
-                        "line": NaN,
+                        "column": 19,
+                        "line": 3,
                       },
                     },
                     "name": "a",
@@ -10921,12 +10921,12 @@ describe('parseForESLint()', () => {
                     "receiver": ImplicitReceiver {
                       "loc": {
                         "end": {
-                          "column": undefined,
-                          "line": NaN,
+                          "column": 19,
+                          "line": 3,
                         },
                         "start": {
-                          "column": undefined,
-                          "line": NaN,
+                          "column": 19,
+                          "line": 3,
                         },
                       },
                       "sourceSpan": AbsoluteSourceSpan {
@@ -10951,24 +10951,24 @@ describe('parseForESLint()', () => {
                   },
                   "loc": {
                     "end": {
-                      "column": undefined,
-                      "line": NaN,
+                      "column": 24,
+                      "line": 3,
                     },
                     "start": {
-                      "column": undefined,
-                      "line": NaN,
+                      "column": 19,
+                      "line": 3,
                     },
                   },
                   "operation": "+",
                   "right": LiteralPrimitive {
                     "loc": {
                       "end": {
-                        "column": undefined,
-                        "line": NaN,
+                        "column": 24,
+                        "line": 3,
                       },
                       "start": {
-                        "column": undefined,
-                        "line": NaN,
+                        "column": 23,
+                        "line": 3,
                       },
                     },
                     "sourceSpan": AbsoluteSourceSpan {
@@ -10995,12 +10995,12 @@ describe('parseForESLint()', () => {
                 "errors": [],
                 "loc": {
                   "end": {
-                    "column": undefined,
-                    "line": NaN,
+                    "column": 24,
+                    "line": 3,
                   },
                   "start": {
-                    "column": undefined,
-                    "line": NaN,
+                    "column": 19,
+                    "line": 3,
                   },
                 },
                 "location": "./foo.html@2:19",
@@ -11221,23 +11221,23 @@ describe('parseForESLint()', () => {
                   },
                   "loc": {
                     "end": {
-                      "column": undefined,
-                      "line": NaN,
+                      "column": 24,
+                      "line": 4,
                     },
                     "start": {
-                      "column": undefined,
-                      "line": NaN,
+                      "column": 19,
+                      "line": 4,
                     },
                   },
                   "receiver": PropertyRead {
                     "loc": {
                       "end": {
-                        "column": undefined,
-                        "line": NaN,
+                        "column": 22,
+                        "line": 4,
                       },
                       "start": {
-                        "column": undefined,
-                        "line": NaN,
+                        "column": 19,
+                        "line": 4,
                       },
                     },
                     "name": "foo",
@@ -11248,12 +11248,12 @@ describe('parseForESLint()', () => {
                     "receiver": ImplicitReceiver {
                       "loc": {
                         "end": {
-                          "column": undefined,
-                          "line": NaN,
+                          "column": 19,
+                          "line": 4,
                         },
                         "start": {
-                          "column": undefined,
-                          "line": NaN,
+                          "column": 19,
+                          "line": 4,
                         },
                       },
                       "sourceSpan": AbsoluteSourceSpan {
@@ -11289,12 +11289,12 @@ describe('parseForESLint()', () => {
                 "errors": [],
                 "loc": {
                   "end": {
-                    "column": undefined,
-                    "line": NaN,
+                    "column": 24,
+                    "line": 4,
                   },
                   "start": {
-                    "column": undefined,
-                    "line": NaN,
+                    "column": 19,
+                    "line": 4,
                   },
                 },
                 "location": "./foo.html@3:19",
@@ -11585,12 +11585,12 @@ describe('parseForESLint()', () => {
                         PropertyRead {
                           "loc": {
                             "end": {
-                              "column": undefined,
-                              "line": NaN,
+                              "column": 24,
+                              "line": 3,
                             },
                             "start": {
-                              "column": undefined,
-                              "line": NaN,
+                              "column": 15,
+                              "line": 3,
                             },
                           },
                           "name": "name",
@@ -11601,12 +11601,12 @@ describe('parseForESLint()', () => {
                           "receiver": PropertyRead {
                             "loc": {
                               "end": {
-                                "column": undefined,
-                                "line": NaN,
+                                "column": 19,
+                                "line": 3,
                               },
                               "start": {
-                                "column": undefined,
-                                "line": NaN,
+                                "column": 15,
+                                "line": 3,
                               },
                             },
                             "name": "item",
@@ -11617,12 +11617,12 @@ describe('parseForESLint()', () => {
                             "receiver": ImplicitReceiver {
                               "loc": {
                                 "end": {
-                                  "column": undefined,
-                                  "line": NaN,
+                                  "column": 15,
+                                  "line": 3,
                                 },
                                 "start": {
-                                  "column": undefined,
-                                  "line": NaN,
+                                  "column": 15,
+                                  "line": 3,
                                 },
                               },
                               "sourceSpan": AbsoluteSourceSpan {
@@ -11658,12 +11658,12 @@ describe('parseForESLint()', () => {
                       ],
                       "loc": {
                         "end": {
-                          "column": undefined,
-                          "line": NaN,
+                          "column": 10,
+                          "line": 4,
                         },
                         "start": {
-                          "column": undefined,
-                          "line": NaN,
+                          "column": 47,
+                          "line": 2,
                         },
                       },
                       "sourceSpan": AbsoluteSourceSpan {
@@ -11685,12 +11685,12 @@ describe('parseForESLint()', () => {
                     "errors": [],
                     "loc": {
                       "end": {
-                        "column": undefined,
-                        "line": NaN,
+                        "column": 10,
+                        "line": 4,
                       },
                       "start": {
-                        "column": undefined,
-                        "line": NaN,
+                        "column": 47,
+                        "line": 2,
                       },
                     },
                     "location": "./foo.html@2:12",
@@ -12641,12 +12641,12 @@ describe('parseForESLint()', () => {
                 "ast": PropertyRead {
                   "loc": {
                     "end": {
-                      "column": undefined,
-                      "line": NaN,
+                      "column": 29,
+                      "line": 2,
                     },
                     "start": {
-                      "column": undefined,
-                      "line": NaN,
+                      "column": 24,
+                      "line": 2,
                     },
                   },
                   "name": "items",
@@ -12657,12 +12657,12 @@ describe('parseForESLint()', () => {
                   "receiver": ImplicitReceiver {
                     "loc": {
                       "end": {
-                        "column": undefined,
-                        "line": NaN,
+                        "column": 24,
+                        "line": 2,
                       },
                       "start": {
-                        "column": undefined,
-                        "line": NaN,
+                        "column": 24,
+                        "line": 2,
                       },
                     },
                     "sourceSpan": AbsoluteSourceSpan {
@@ -12688,12 +12688,12 @@ describe('parseForESLint()', () => {
                 "errors": [],
                 "loc": {
                   "end": {
-                    "column": undefined,
-                    "line": NaN,
+                    "column": 29,
+                    "line": 2,
                   },
                   "start": {
-                    "column": undefined,
-                    "line": NaN,
+                    "column": 24,
+                    "line": 2,
                   },
                 },
                 "location": "./foo.html@1:16",
@@ -13016,12 +13016,12 @@ describe('parseForESLint()', () => {
                 "ast": PropertyRead {
                   "loc": {
                     "end": {
-                      "column": undefined,
-                      "line": NaN,
+                      "column": 44,
+                      "line": 2,
                     },
                     "start": {
-                      "column": undefined,
-                      "line": NaN,
+                      "column": 37,
+                      "line": 2,
                     },
                   },
                   "name": "id",
@@ -13032,12 +13032,12 @@ describe('parseForESLint()', () => {
                   "receiver": PropertyRead {
                     "loc": {
                       "end": {
-                        "column": undefined,
-                        "line": NaN,
+                        "column": 41,
+                        "line": 2,
                       },
                       "start": {
-                        "column": undefined,
-                        "line": NaN,
+                        "column": 37,
+                        "line": 2,
                       },
                     },
                     "name": "item",
@@ -13048,12 +13048,12 @@ describe('parseForESLint()', () => {
                     "receiver": ImplicitReceiver {
                       "loc": {
                         "end": {
-                          "column": undefined,
-                          "line": NaN,
+                          "column": 37,
+                          "line": 2,
                         },
                         "start": {
-                          "column": undefined,
-                          "line": NaN,
+                          "column": 37,
+                          "line": 2,
                         },
                       },
                       "sourceSpan": AbsoluteSourceSpan {
@@ -13089,12 +13089,12 @@ describe('parseForESLint()', () => {
                 "errors": [],
                 "loc": {
                   "end": {
-                    "column": undefined,
-                    "line": NaN,
+                    "column": 44,
+                    "line": 2,
                   },
                   "start": {
-                    "column": undefined,
-                    "line": NaN,
+                    "column": 37,
+                    "line": 2,
                   },
                 },
                 "location": "./foo.html@1:31",
@@ -13831,12 +13831,12 @@ describe('parseForESLint()', () => {
                     "ast": PropertyRead {
                       "loc": {
                         "end": {
-                          "column": undefined,
-                          "line": NaN,
+                          "column": 24,
+                          "line": 3,
                         },
                         "start": {
-                          "column": undefined,
-                          "line": NaN,
+                          "column": 19,
+                          "line": 3,
                         },
                       },
                       "name": "caseA",
@@ -13847,12 +13847,12 @@ describe('parseForESLint()', () => {
                       "receiver": ImplicitReceiver {
                         "loc": {
                           "end": {
-                            "column": undefined,
-                            "line": NaN,
+                            "column": 19,
+                            "line": 3,
                           },
                           "start": {
-                            "column": undefined,
-                            "line": NaN,
+                            "column": 19,
+                            "line": 3,
                           },
                         },
                         "sourceSpan": AbsoluteSourceSpan {
@@ -13878,12 +13878,12 @@ describe('parseForESLint()', () => {
                     "errors": [],
                     "loc": {
                       "end": {
-                        "column": undefined,
-                        "line": NaN,
+                        "column": 24,
+                        "line": 3,
                       },
                       "start": {
-                        "column": undefined,
-                        "line": NaN,
+                        "column": 19,
+                        "line": 3,
                       },
                     },
                     "location": "./foo.html@2:19",
@@ -14646,12 +14646,12 @@ describe('parseForESLint()', () => {
                     "ast": PropertyRead {
                       "loc": {
                         "end": {
-                          "column": undefined,
-                          "line": NaN,
+                          "column": 24,
+                          "line": 6,
                         },
                         "start": {
-                          "column": undefined,
-                          "line": NaN,
+                          "column": 19,
+                          "line": 6,
                         },
                       },
                       "name": "caseB",
@@ -14662,12 +14662,12 @@ describe('parseForESLint()', () => {
                       "receiver": ImplicitReceiver {
                         "loc": {
                           "end": {
-                            "column": undefined,
-                            "line": NaN,
+                            "column": 19,
+                            "line": 6,
                           },
                           "start": {
-                            "column": undefined,
-                            "line": NaN,
+                            "column": 19,
+                            "line": 6,
                           },
                         },
                         "sourceSpan": AbsoluteSourceSpan {
@@ -14693,12 +14693,12 @@ describe('parseForESLint()', () => {
                     "errors": [],
                     "loc": {
                       "end": {
-                        "column": undefined,
-                        "line": NaN,
+                        "column": 24,
+                        "line": 6,
                       },
                       "start": {
-                        "column": undefined,
-                        "line": NaN,
+                        "column": 19,
+                        "line": 6,
                       },
                     },
                     "location": "./foo.html@5:19",
@@ -15740,12 +15740,12 @@ describe('parseForESLint()', () => {
                 "ast": PropertyRead {
                   "loc": {
                     "end": {
-                      "column": undefined,
-                      "line": NaN,
+                      "column": 28,
+                      "line": 2,
                     },
                     "start": {
-                      "column": undefined,
-                      "line": NaN,
+                      "column": 19,
+                      "line": 2,
                     },
                   },
                   "name": "condition",
@@ -15756,12 +15756,12 @@ describe('parseForESLint()', () => {
                   "receiver": ImplicitReceiver {
                     "loc": {
                       "end": {
-                        "column": undefined,
-                        "line": NaN,
+                        "column": 19,
+                        "line": 2,
                       },
                       "start": {
-                        "column": undefined,
-                        "line": NaN,
+                        "column": 19,
+                        "line": 2,
                       },
                     },
                     "sourceSpan": AbsoluteSourceSpan {
@@ -15787,12 +15787,12 @@ describe('parseForESLint()', () => {
                 "errors": [],
                 "loc": {
                   "end": {
-                    "column": undefined,
-                    "line": NaN,
+                    "column": 28,
+                    "line": 2,
                   },
                   "start": {
-                    "column": undefined,
-                    "line": NaN,
+                    "column": 19,
+                    "line": 2,
                   },
                 },
                 "location": "./foo.html@1:19",
@@ -16197,23 +16197,23 @@ describe('parseForESLint()', () => {
                       },
                       "loc": {
                         "end": {
-                          "column": undefined,
-                          "line": NaN,
+                          "column": 8,
+                          "line": 1,
                         },
                         "start": {
-                          "column": undefined,
-                          "line": NaN,
+                          "column": 3,
+                          "line": 1,
                         },
                       },
                       "receiver": PropertyRead {
                         "loc": {
                           "end": {
-                            "column": undefined,
-                            "line": NaN,
+                            "column": 6,
+                            "line": 1,
                           },
                           "start": {
-                            "column": undefined,
-                            "line": NaN,
+                            "column": 3,
+                            "line": 1,
                           },
                         },
                         "name": "foo",
@@ -16224,12 +16224,12 @@ describe('parseForESLint()', () => {
                         "receiver": ImplicitReceiver {
                           "loc": {
                             "end": {
-                              "column": undefined,
-                              "line": NaN,
+                              "column": 3,
+                              "line": 1,
                             },
                             "start": {
-                              "column": undefined,
-                              "line": NaN,
+                              "column": 3,
+                              "line": 1,
                             },
                           },
                           "sourceSpan": AbsoluteSourceSpan {
@@ -16270,23 +16270,23 @@ describe('parseForESLint()', () => {
                       },
                       "loc": {
                         "end": {
-                          "column": undefined,
-                          "line": NaN,
+                          "column": 22,
+                          "line": 1,
                         },
                         "start": {
-                          "column": undefined,
-                          "line": NaN,
+                          "column": 15,
+                          "line": 1,
                         },
                       },
                       "receiver": PropertyRead {
                         "loc": {
                           "end": {
-                            "column": undefined,
-                            "line": NaN,
+                            "column": 18,
+                            "line": 1,
                           },
                           "start": {
-                            "column": undefined,
-                            "line": NaN,
+                            "column": 15,
+                            "line": 1,
                           },
                         },
                         "name": "bar",
@@ -16297,12 +16297,12 @@ describe('parseForESLint()', () => {
                         "receiver": ImplicitReceiver {
                           "loc": {
                             "end": {
-                              "column": undefined,
-                              "line": NaN,
+                              "column": 15,
+                              "line": 1,
                             },
                             "start": {
-                              "column": undefined,
-                              "line": NaN,
+                              "column": 15,
+                              "line": 1,
                             },
                           },
                           "sourceSpan": AbsoluteSourceSpan {
@@ -16338,12 +16338,12 @@ describe('parseForESLint()', () => {
                   ],
                   "loc": {
                     "end": {
-                      "column": undefined,
-                      "line": NaN,
+                      "column": 25,
+                      "line": 1,
                     },
                     "start": {
-                      "column": undefined,
-                      "line": NaN,
+                      "column": 0,
+                      "line": 1,
                     },
                   },
                   "sourceSpan": AbsoluteSourceSpan {
@@ -16364,12 +16364,12 @@ describe('parseForESLint()', () => {
                 "errors": [],
                 "loc": {
                   "end": {
-                    "column": undefined,
-                    "line": NaN,
+                    "column": 25,
+                    "line": 1,
                   },
                   "start": {
-                    "column": undefined,
-                    "line": NaN,
+                    "column": 0,
+                    "line": 1,
                   },
                 },
                 "location": "./foo.html@0:0",
@@ -16500,12 +16500,12 @@ describe('parseForESLint()', () => {
                       "left": PropertyRead {
                         "loc": {
                           "end": {
-                            "column": undefined,
-                            "line": NaN,
+                            "column": 21,
+                            "line": 2,
                           },
                           "start": {
-                            "column": undefined,
-                            "line": NaN,
+                            "column": 13,
+                            "line": 2,
                           },
                         },
                         "name": "nullable",
@@ -16516,12 +16516,12 @@ describe('parseForESLint()', () => {
                         "receiver": ImplicitReceiver {
                           "loc": {
                             "end": {
-                              "column": undefined,
-                              "line": NaN,
+                              "column": 13,
+                              "line": 2,
                             },
                             "start": {
-                              "column": undefined,
-                              "line": NaN,
+                              "column": 13,
+                              "line": 2,
                             },
                           },
                           "sourceSpan": AbsoluteSourceSpan {
@@ -16546,12 +16546,12 @@ describe('parseForESLint()', () => {
                       },
                       "loc": {
                         "end": {
-                          "column": undefined,
-                          "line": NaN,
+                          "column": 42,
+                          "line": 2,
                         },
                         "start": {
-                          "column": undefined,
-                          "line": NaN,
+                          "column": 13,
+                          "line": 2,
                         },
                       },
                       "operation": "??",
@@ -16563,12 +16563,12 @@ describe('parseForESLint()', () => {
                             "exp": PropertyRead {
                               "loc": {
                                 "end": {
-                                  "column": undefined,
-                                  "line": NaN,
+                                  "column": 33,
+                                  "line": 2,
                                 },
                                 "start": {
-                                  "column": undefined,
-                                  "line": NaN,
+                                  "column": 27,
+                                  "line": 2,
                                 },
                               },
                               "name": "obsVar",
@@ -16579,12 +16579,12 @@ describe('parseForESLint()', () => {
                               "receiver": ImplicitReceiver {
                                 "loc": {
                                   "end": {
-                                    "column": undefined,
-                                    "line": NaN,
+                                    "column": 27,
+                                    "line": 2,
                                   },
                                   "start": {
-                                    "column": undefined,
-                                    "line": NaN,
+                                    "column": 27,
+                                    "line": 2,
                                   },
                                 },
                                 "sourceSpan": AbsoluteSourceSpan {
@@ -16609,12 +16609,12 @@ describe('parseForESLint()', () => {
                             },
                             "loc": {
                               "end": {
-                                "column": undefined,
-                                "line": NaN,
+                                "column": 41,
+                                "line": 2,
                               },
                               "start": {
-                                "column": undefined,
-                                "line": NaN,
+                                "column": 27,
+                                "line": 2,
                               },
                             },
                             "name": "async",
@@ -16634,12 +16634,12 @@ describe('parseForESLint()', () => {
                           },
                           "loc": {
                             "end": {
-                              "column": undefined,
-                              "line": NaN,
+                              "column": 42,
+                              "line": 2,
                             },
                             "start": {
-                              "column": undefined,
-                              "line": NaN,
+                              "column": 26,
+                              "line": 2,
                             },
                           },
                           "sourceSpan": AbsoluteSourceSpan {
@@ -16654,12 +16654,12 @@ describe('parseForESLint()', () => {
                         },
                         "loc": {
                           "end": {
-                            "column": undefined,
-                            "line": NaN,
+                            "column": 42,
+                            "line": 2,
                           },
                           "start": {
-                            "column": undefined,
-                            "line": NaN,
+                            "column": 25,
+                            "line": 2,
                           },
                         },
                         "sourceSpan": AbsoluteSourceSpan {
@@ -16685,12 +16685,12 @@ describe('parseForESLint()', () => {
                   ],
                   "loc": {
                     "end": {
-                      "column": undefined,
-                      "line": NaN,
+                      "column": 8,
+                      "line": 3,
                     },
                     "start": {
-                      "column": undefined,
-                      "line": NaN,
+                      "column": 0,
+                      "line": 1,
                     },
                   },
                   "sourceSpan": AbsoluteSourceSpan {
@@ -16712,12 +16712,12 @@ describe('parseForESLint()', () => {
                 "errors": [],
                 "loc": {
                   "end": {
-                    "column": undefined,
-                    "line": NaN,
+                    "column": 8,
+                    "line": 3,
                   },
                   "start": {
-                    "column": undefined,
-                    "line": NaN,
+                    "column": 0,
+                    "line": 1,
                   },
                 },
                 "location": "./foo.html@1:10",

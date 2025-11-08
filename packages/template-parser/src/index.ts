@@ -104,17 +104,100 @@ function isNode(node: unknown): node is Node {
 }
 
 /**
+ * Get line offsets for a source code string (cached for performance)
+ */
+let lineOffsetsCache: Map<string, number[]> | null = null;
+function getLineOffsets(sourceCode: string): number[] {
+  if (!lineOffsetsCache) {
+    lineOffsetsCache = new Map();
+  }
+  let offsets = lineOffsetsCache.get(sourceCode);
+  if (!offsets) {
+    offsets = [0];
+    for (let i = 0; i < sourceCode.length; i++) {
+      if (sourceCode[i] === '\n') {
+        offsets.push(i + 1);
+      }
+    }
+    lineOffsetsCache.set(sourceCode, offsets);
+  }
+  return offsets;
+}
+
+/**
+ * Convert absolute offsets to line/column positions
+ */
+function convertAbsoluteSourceSpanToLoc(
+  sourceCode: string,
+  span: { start: number; end: number },
+): TSESTree.SourceLocation {
+  const lineOffsets = getLineOffsets(sourceCode);
+
+  // Binary search for start line
+  let startLine = 0;
+  let left = 0;
+  let right = lineOffsets.length - 1;
+  while (left <= right) {
+    const mid = Math.floor((left + right) / 2);
+    if (lineOffsets[mid] <= span.start) {
+      startLine = mid;
+      left = mid + 1;
+    } else {
+      right = mid - 1;
+    }
+  }
+  const startColumn = span.start - lineOffsets[startLine];
+
+  // Binary search for end line
+  let endLine = startLine; // Start from startLine as optimization
+  left = startLine;
+  right = lineOffsets.length - 1;
+  while (left <= right) {
+    const mid = Math.floor((left + right) / 2);
+    if (lineOffsets[mid] <= span.end) {
+      endLine = mid;
+      left = mid + 1;
+    } else {
+      right = mid - 1;
+    }
+  }
+  const endColumn = span.end - lineOffsets[endLine];
+
+  return {
+    start: { line: startLine + 1, column: startColumn },
+    end: { line: endLine + 1, column: endColumn },
+  };
+}
+
+/**
  * ESLint requires all Nodes to have `type` and `loc` properties before it can
  * work with the custom AST.
  */
-function preprocessNode(node: Node) {
+function preprocessNode(node: Node, sourceCode?: string) {
   let i = 0;
   let j = 0;
 
   const keys = KEYS[node.type] || getFallbackKeys(node);
 
-  if (!node.loc && node.sourceSpan) {
-    node.loc = convertNodeSourceSpanToLoc(node.sourceSpan);
+  if (!node.loc) {
+    if (
+      node.sourceSpan &&
+      node.sourceSpan.start &&
+      typeof node.sourceSpan.start.line === 'number'
+    ) {
+      // Regular ParseSourceSpan
+      node.loc = convertNodeSourceSpanToLoc(node.sourceSpan);
+    } else if (
+      node.sourceSpan &&
+      typeof node.sourceSpan.start === 'number' &&
+      sourceCode
+    ) {
+      // AbsoluteSourceSpan
+      node.loc = convertAbsoluteSourceSpanToLoc(
+        sourceCode,
+        node.sourceSpan as { start: number; end: number },
+      );
+    }
   }
 
   for (i = 0; i < keys.length; ++i) {
@@ -133,7 +216,7 @@ function preprocessNode(node: Node) {
 
     if (isArr) {
       for (j = 0; j < child.length; ++j) {
-        const c = child[j] as any;
+        const c = child[j] as Node;
         if (c.type !== undefined) {
           // Angular sometimes uses a prop called type already
           c.__originalType = c.type;
@@ -145,11 +228,11 @@ function preprocessNode(node: Node) {
           c.type = c.constructor.name;
         }
         if (isNode(c)) {
-          preprocessNode(c);
+          preprocessNode(c, sourceCode);
         }
       }
     } else if (isNode(child)) {
-      preprocessNode(child);
+      preprocessNode(child, sourceCode);
     }
   }
 }
@@ -285,7 +368,7 @@ function parseForESLint(
   const scopeManager = new ScopeManager({});
   new Scope(scopeManager, 'module', null, ast, false);
 
-  preprocessNode(ast);
+  preprocessNode(ast, code);
 
   const startSourceSpan = getStartSourceSpanFromAST(ast);
   const endSourceSpan = getEndSourceSpanFromAST(ast);
