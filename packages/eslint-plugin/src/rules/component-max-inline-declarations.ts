@@ -11,7 +11,6 @@ export type Options = [
 ];
 export type MessageIds = 'componentMaxInlineDeclarations';
 export const RULE_NAME = 'component-max-inline-declarations';
-const STYLE_GUIDE_LINK = 'https://angular.dev/style-guide#style-05-04';
 const NEW_LINE_REGEXP = /\r\n|\r|\n/;
 const DEFAULT_TEMPLATE_LIMIT = 3;
 const DEFAULT_STYLES_LIMIT = 3;
@@ -34,7 +33,7 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description: `Enforces a maximum number of lines in inline template, styles and animations. See more at ${STYLE_GUIDE_LINK}`,
+      description: `Enforces a maximum number of lines in inline template, styles and animations.`,
     },
     schema: [
       {
@@ -48,7 +47,7 @@ export default createESLintRule<Options, MessageIds>({
       },
     ],
     messages: {
-      componentMaxInlineDeclarations: `\`{{propertyType}}\` has too many lines ({{lineCount}}). Maximum allowed is {{max}} (${STYLE_GUIDE_LINK})`,
+      componentMaxInlineDeclarations: `\`{{propertyType}}\` has too many lines ({{lineCount}}). Maximum allowed is {{max}}`,
     },
   },
   defaultOptions: [

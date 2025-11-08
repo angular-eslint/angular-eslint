@@ -15,7 +15,7 @@
 
 # `@angular-eslint/no-inputs-metadata-property`
 
-Disallows usage of the `inputs` metadata property. See more at https://angular.dev/style-guide#style-05-12
+Disallows usage of the `inputs` metadata property
 
 - Type: suggestion
 

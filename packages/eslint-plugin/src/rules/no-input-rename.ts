@@ -16,7 +16,8 @@ export type MessageIds =
   | 'suggestRemoveAliasName'
   | 'suggestReplaceOriginalNameWithAliasName';
 export const RULE_NAME = 'no-input-rename';
-const STYLE_GUIDE_LINK = 'https://angular.dev/style-guide#style-05-13';
+const STYLE_GUIDE_LINK =
+  'https://angular.dev/guide/components/inputs#choosing-input-names';
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,

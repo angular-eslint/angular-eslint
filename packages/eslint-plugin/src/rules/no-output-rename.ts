@@ -14,7 +14,8 @@ export type MessageIds =
   | 'suggestRemoveAliasName'
   | 'suggestReplaceOriginalNameWithAliasName';
 export const RULE_NAME = 'no-output-rename';
-const STYLE_GUIDE_LINK = 'https://angular.dev/style-guide#style-05-13';
+const STYLE_GUIDE_LINK =
+  'https://angular.dev/guide/components/outputs#choosing-event-names';
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,

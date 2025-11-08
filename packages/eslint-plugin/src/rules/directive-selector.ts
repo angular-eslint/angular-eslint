@@ -11,16 +11,15 @@ export type Options = SelectorUtils.Options;
 export type MessageIds = 'prefixFailure' | 'styleFailure' | 'typeFailure';
 export const RULE_NAME = 'directive-selector';
 
-const STYLE_GUIDE_PREFIX_LINK = 'https://angular.dev/style-guide#style-02-08';
-const STYLE_GUIDE_STYLE_TYPE_LINK =
-  'https://angular.dev/style-guide#style-02-06';
+const STYLE_GUIDE_LINK =
+  'https://angular.dev/style-guide#choosing-directive-selectors';
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
   meta: {
     type: 'suggestion',
     docs: {
-      description: `Directive selectors should follow given naming rules. See more at ${STYLE_GUIDE_STYLE_TYPE_LINK} and ${STYLE_GUIDE_PREFIX_LINK}.`,
+      description: `Directive selectors should follow given naming rules. See more at ${STYLE_GUIDE_LINK}.`,
     },
     schema: [
       {
@@ -56,9 +55,9 @@ export default createESLintRule<Options, MessageIds>({
       },
     ],
     messages: {
-      prefixFailure: `The selector should start with one of these prefixes: {{prefix}} (${STYLE_GUIDE_PREFIX_LINK})`,
-      styleFailure: `The selector should be {{style}} (${STYLE_GUIDE_STYLE_TYPE_LINK})`,
-      typeFailure: `The selector should be used as an {{type}} (${STYLE_GUIDE_STYLE_TYPE_LINK})`,
+      prefixFailure: `The selector should start with one of these prefixes: {{prefix}} (${STYLE_GUIDE_LINK})`,
+      styleFailure: `The selector should be {{style}} (${STYLE_GUIDE_LINK})`,
+      typeFailure: `The selector should be used as an {{type}} (${STYLE_GUIDE_LINK})`,
     },
   },
   defaultOptions: [

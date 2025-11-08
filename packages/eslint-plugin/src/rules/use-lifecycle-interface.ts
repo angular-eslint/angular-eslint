@@ -10,7 +10,8 @@ import { createESLintRule } from '../utils/create-eslint-rule';
 export type Options = [];
 export type MessageIds = 'useLifecycleInterface';
 export const RULE_NAME = 'use-lifecycle-interface';
-const STYLE_GUIDE_LINK = 'https://angular.dev/style-guide#style-09-01';
+const STYLE_GUIDE_LINK =
+  'https://angular.dev/style-guide#use-lifecycle-hook-interfaces';
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
