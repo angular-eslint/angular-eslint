@@ -42,4 +42,18 @@ module.exports = [
       parser: require('jsonc-eslint-parser'),
     },
   },
+  {
+    files: ['**/cases.ts'],
+    rules: {
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector:
+            "Property[key.name='only'][value.value=true], Property[key.name='skip'][value.value=true]",
+          message:
+            'Do not commit test cases with `only: true` or `skip: true`. These should only be used for local development.',
+        },
+      ],
+    },
+  },
 ];

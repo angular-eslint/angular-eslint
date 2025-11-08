@@ -43,6 +43,7 @@ type BaseErrorOptions<Options> = {
   readonly annotatedOutputs?: readonly string[];
   readonly filename?: string;
   readonly only?: boolean;
+  readonly skip?: boolean;
   readonly settings?: {
     hideFromDocs?: boolean;
   };
@@ -167,6 +168,7 @@ export function convertAnnotatedSourceToFailureCase<
     languageOptions: errorOptions.languageOptions,
     settings: errorOptions.settings ?? {},
     errors,
+    skip: errorOptions.skip ?? false,
     only: errorOptions.only ?? false,
     output: errorOptions.annotatedOutputs
       ? errorOptions.annotatedOutputs.map((s) => parseInvalidSource(s).source)
