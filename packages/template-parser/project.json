@@ -12,6 +12,13 @@
           "args": ["run", "--coverage"]
         }
       }
+    },
+    "bench": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx vitest bench --run",
+        "cwd": "{projectRoot}"
+      }
     }
   }
 }

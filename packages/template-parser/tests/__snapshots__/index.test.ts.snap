@@ -560,12 +560,12 @@ exports[`parseForESLint() > ng-content > should support fallback content 1`] = `
                 "ast": PropertyRead {
                   "loc": {
                     "end": {
-                      "column": undefined,
-                      "line": NaN,
+                      "column": 21,
+                      "line": 3,
                     },
                     "start": {
-                      "column": undefined,
-                      "line": NaN,
+                      "column": 18,
+                      "line": 3,
                     },
                   },
                   "name": "foo",
@@ -576,12 +576,12 @@ exports[`parseForESLint() > ng-content > should support fallback content 1`] = `
                   "receiver": ImplicitReceiver {
                     "loc": {
                       "end": {
-                        "column": undefined,
-                        "line": NaN,
+                        "column": 18,
+                        "line": 3,
                       },
                       "start": {
-                        "column": undefined,
-                        "line": NaN,
+                        "column": 18,
+                        "line": 3,
                       },
                     },
                     "sourceSpan": AbsoluteSourceSpan {
@@ -607,12 +607,12 @@ exports[`parseForESLint() > ng-content > should support fallback content 1`] = `
                 "errors": [],
                 "loc": {
                   "end": {
-                    "column": undefined,
-                    "line": NaN,
+                    "column": 21,
+                    "line": 3,
                   },
                   "start": {
-                    "column": undefined,
-                    "line": NaN,
+                    "column": 18,
+                    "line": 3,
                   },
                 },
                 "location": "./foo.html@2:18",
