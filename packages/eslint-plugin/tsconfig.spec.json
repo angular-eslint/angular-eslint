@@ -2,7 +2,7 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "../../dist/out-tsc/eslint-plugin",
-    "types": ["jest", "node"],
+    "types": ["vitest", "node"],
     "resolveJsonModule": true,
     "sourceMap": true
   },

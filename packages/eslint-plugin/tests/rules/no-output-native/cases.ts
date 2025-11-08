@@ -258,7 +258,6 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    only: true,
     description:
       'should fail if output function property is aliased as "`change`" in `@Component`',
     annotatedSource: `
@@ -308,11 +307,11 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'should fail if output directive getter is aliased as "devicechange" in `@Directive`',
+      'should fail if output directive getter is aliased as "devicemotion" in `@Directive`',
     annotatedSource: `
         @Directive()
         class Test {
-          @Output(\`devicechange\`) get getter() {}
+          @Output(\`devicemotion\`) get getter() {}
                   ~~~~~~~~~~~~~~
         }
       `,

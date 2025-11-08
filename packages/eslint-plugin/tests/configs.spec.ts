@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import eslintPlugin from '../src';
 
 const ESLINT_PLUGIN_PREFIX = '@angular-eslint/';

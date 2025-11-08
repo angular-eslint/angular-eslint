@@ -43,6 +43,7 @@
       "exclude": [
         "e2e/**",
         "packages/builder/**",
+        "packages/eslint-plugin/**",
         "packages/nx-plugin/**",
         "packages/schematics/**",
         "packages/template-parser/**"
@@ -61,6 +62,7 @@
       "plugin": "@nx/vite/plugin",
       "include": [
         "packages/builder/**",
+        "packages/eslint-plugin/**",
         "packages/nx-plugin/**",
         "packages/schematics/**",
         "packages/template-parser/**"

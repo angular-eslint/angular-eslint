@@ -449,7 +449,7 @@ class Test {
 ```ts
 @Directive()
 class Test {
-  @Output(`devicechange`) get getter() {}
+  @Output(`devicemotion`) get getter() {}
           ~~~~~~~~~~~~~~
 }
 ```

@@ -345,7 +345,6 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     description:
       'should fail if lifecycle method is in a class with generic type parameters',
-    only: true,
     annotatedSource: `
         @Component()
         class Test<T> {
