@@ -1,3 +1,13 @@
+## 20.6.0 (2025-11-09)
+
+### 🚀 Features
+
+- **eslint-plugin:** support multiple configs for component-selector and directive-selector ([#2762](https://github.com/angular-eslint/angular-eslint/pull/2762))
+
+### ❤️ Thank You
+
+- James Henry @JamesHenry
+
 ## 20.5.2 (2025-11-08)
 
 ### 🩹 Fixes

@@ -1,3 +1,13 @@
+## 20.6.0 (2025-11-09)
+
+### 🩹 Fixes
+
+- **angular-eslint:** support eslint defineConfig types in addition to typescript-eslint config ([#2760](https://github.com/angular-eslint/angular-eslint/pull/2760))
+
+### ❤️ Thank You
+
+- James Henry @JamesHenry
+
 ## 20.5.2 (2025-11-08)
 
 This was a version bump only for angular-eslint to align it with other projects, there were no code changes.
