@@ -25,7 +25,7 @@ Prefer to declare `@Output`, `OutputEmitterRef` and `OutputRef` as `readonly` si
 
 ## Rationale
 
-EventEmitters marked as @Output() should never be reassigned to a new EventEmitter instance. The output is meant to be a stable reference that parent components can bind to; reassigning it would break those bindings. Marking outputs as 'readonly' makes this constraint explicit in the code and leverages TypeScript's type system to prevent accidental reassignment. The correct pattern is '@Output() readonly userClick = new EventEmitter<User>()', not '@Output() userClick: EventEmitter<User>' where the emitter could be reassigned later.
+Output properties should never be reassigned after initialization because they are meant to be stable references that parent components can bind to. Reassigning an output would break those bindings. For @Output() with EventEmitter, marking the property as 'readonly' makes this constraint explicit and leverages TypeScript's type system to prevent accidental reassignment. The correct pattern is '@Output() readonly userClick = new EventEmitter<User>()', not '@Output() userClick: EventEmitter<User>' where the emitter could be reassigned later. Note that the modern output() function (introduced in Angular v17.3) returns an OutputEmitterRef which is inherently immutable, so this rule is less relevant for signal-based outputs but remains important for traditional EventEmitter-based outputs.
 
 <br>
 
