@@ -1046,4 +1046,55 @@ describe('Linter Builder', () => {
       true, // useFlatConfig
     );
   });
+
+  it('should use projectRoot to resolve eslint config path in error message when parserOptions.project error occurs', async () => {
+    mockReports = [
+      {
+        errorCount: 0,
+        warningCount: 0,
+        results: [],
+        messages: [],
+        usedDeprecatedRules: [],
+      },
+    ];
+
+    // Mock lintFiles to throw the specific TypeScript parser error
+    const mockESLintInstance = {
+      lintFiles: vi
+        .fn()
+        .mockRejectedValue(
+          new Error(
+            'You must therefore provide a value for the "parserOptions.project" property for @typescript-eslint/parser',
+          ),
+        ),
+      loadFormatter: mockLoadFormatter,
+      isPathIgnored: vi.fn().mockReturnValue(false),
+    };
+
+    mockResolveAndInstantiateESLint.mockResolvedValueOnce({
+      ESLint: MockESLint,
+      eslint: mockESLintInstance,
+    });
+
+    // Mock existsSync to return true for eslint.config.js in the project root
+    vi.mocked(fs.existsSync).mockImplementation((path) => {
+      const pathStr = String(path);
+      if (pathStr.includes('packages/test-project/eslint.config.js')) {
+        return true;
+      }
+      return false;
+    });
+
+    const result = await runBuilder(
+      createValidRunBuilderOptions({
+        eslintConfig: null,
+        lintFilePatterns: ['includedFile1'],
+      }),
+    );
+
+    expect(result.success).toBe(false);
+    expect(console.error).toHaveBeenCalledWith(
+      expect.stringContaining('packages/test-project/eslint.config.js'),
+    );
+  });
 });
