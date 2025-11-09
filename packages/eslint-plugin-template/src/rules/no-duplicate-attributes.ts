@@ -179,3 +179,8 @@ function findDuplicates<
     );
   });
 }
+
+export const RULE_DOCS_EXTENSION = {
+  rationale:
+    'Duplicate input properties or output event listeners on the same element create ambiguous behavior and are almost always a mistake. When the same input or output appears multiple times, Angular uses the last occurrence, silently ignoring earlier ones. This can lead to confusing bugs where it appears that a binding is set but it has no effect. Duplicate attributes can occur during refactoring or when combining multiple sources of bindings. The rule can be configured to allow certain patterns like two-way data binding (which creates both an input and output with related names) and Angular style precedence (where multiple style bindings are intentionally combined). Catching duplicates early prevents hard-to-debug issues where bindings mysteriously do not work.',
+};

@@ -209,3 +209,8 @@ function getClosingTagPrefix(openingTagLastChar: string): string {
   const hasOwnWhitespace = openingTagLastChar.trim() === '';
   return hasOwnWhitespace ? '' : ' ';
 }
+
+export const RULE_DOCS_EXTENSION = {
+  rationale:
+    'Self-closing tags like <app-component /> are more concise and eliminate visual clutter when elements have no content. This pattern is familiar from HTML void elements (like <img /> and <br />) and from JSX/React. Using self-closing syntax makes it immediately obvious that an element is empty, whereas <app-component></app-component> requires scanning to the closing tag to confirm there is no content. The shorter syntax also reduces the chance of accidentally nesting content where none was intended. Angular v15.1+ supports self-closing tags for components and structural elements. The rule automatically skips native HTML elements (div, span, etc.) and index.html files since browser support varies. For Angular components and directives, self-closing tags improve template readability.',
+};

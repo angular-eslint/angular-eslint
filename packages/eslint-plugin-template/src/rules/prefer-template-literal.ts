@@ -333,3 +333,8 @@ function getRightSideFixesForParenthesized(
     fixer.replaceTextRange([innerEnd, parenthesizedEnd], `}${quote}`), // Replace closing paren with }quote
   ];
 }
+
+export const RULE_DOCS_EXTENSION = {
+  rationale:
+    'Template literals (backticks with ${} syntax) are more modern, readable, and maintainable than string concatenation with the + operator. String concatenation like "Hello " + name + "!" is harder to read and error-prone (easy to forget spaces or quotes) compared to the template literal `Hello ${name}!`. Template literals make string composition clearer, especially with multiple expressions. This is a widely accepted JavaScript/TypeScript best practice that should be followed in Angular templates for consistency. Angular templates have supported template literal syntax since early versions. Using template literals throughout your codebase creates a consistent style and makes complex string building much more readable.',
+};

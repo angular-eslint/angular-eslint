@@ -645,3 +645,8 @@ function getHtmlAttributeNameAndOrderType(
     isI18nForAttribute,
   };
 }
+
+export const RULE_DOCS_EXTENSION = {
+  rationale:
+    'Consistent ordering of template attributes makes templates easier to read and scan visually. When attributes are always ordered the same way across a codebase (for example: structural directives first, then template references, then inputs, then outputs), developers can quickly locate specific attributes without having to scan randomly-ordered attribute lists. This is especially valuable for elements with many attributes. The rule supports both semantic ordering (grouping by attribute type) and alphabetical sorting within groups, allowing teams to choose the organizational pattern that works best for them.',
+};

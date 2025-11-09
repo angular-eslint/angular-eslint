@@ -126,3 +126,8 @@ function isNgStyle(name: string): name is 'ngStyle' {
 function isStyleBound(keySpan: ParseSourceSpan): boolean {
   return keySpan?.details ? keySpan.details.includes('style.') : false;
 }
+
+export const RULE_DOCS_EXTENSION = {
+  rationale:
+    'Inline styles in templates (style attribute, ngStyle directive, or [style.property] bindings) make it difficult to maintain consistent styling across an application and can violate Content Security Policy (CSP) restrictions. Styles should be defined in component stylesheets or CSS classes where they can be managed centrally, reused, cached by browsers, and easily modified. Inline styles also mix presentation concerns with template structure, making templates harder to read. Using CSS classes with [class] or [ngClass] bindings provides the same dynamic styling capabilities while keeping styles organized and maintainable. This rule can be configured to allow ngStyle or style bindings if needed for specific use cases.',
+};

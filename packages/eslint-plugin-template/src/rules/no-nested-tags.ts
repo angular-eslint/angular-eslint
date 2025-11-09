@@ -65,3 +65,8 @@ function hasAncestorOfSameType(node: TmplAstElementWithAncestor) {
 
   return false;
 }
+
+export const RULE_DOCS_EXTENSION = {
+  rationale:
+    'Nesting <p> tags inside other <p> tags, or <a> tags inside other <a> tags, is invalid HTML and causes serious issues with Angular hydration. All browsers automatically close the outer tag when they encounter the inner tag, transforming "<p>1<p>2</p>3</p>" into "<p>1</p><p>2</p>3" in the DOM. This creates a mismatch between the server-rendered HTML and what Angular expects during hydration, breaking incremental hydration and potentially causing runtime errors. The browser\'s automatic correction of invalid HTML happens before Angular processes the template, so Angular cannot fix or work around it. Always use different elements (like <p> and <span>, or nested <div> tags) or restructure your template to avoid nesting these specific tags.',
+};

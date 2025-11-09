@@ -256,3 +256,8 @@ interface IfNodeInfo {
   readonly rhs: AST | undefined;
   readonly operator: string;
 }
+
+export const RULE_DOCS_EXTENSION = {
+  rationale:
+    'When two consecutive @if blocks test opposite conditions (like @if (isLoggedIn) and @if (!isLoggedIn)), the second should be replaced with @else for clarity and maintainability. Using @else makes it immediately obvious that exactly one of the two branches will execute, whereas two separate @if statements require readers to mentally verify that the conditions are opposites. The @else pattern is more concise, eliminates duplication, and prevents bugs that could occur if the conditions drift out of sync during maintenance. This rule automatically detects opposite conditions including negation (!), comparison operators (<, >, ==, !=, etc.), and special cases like array.length === 0 versus array.length > 0.',
+};

@@ -21,6 +21,12 @@ Ensures ngSrc is used instead of src for img elements
 
 <br>
 
+## Rationale
+
+The ngSrc directive (part of Angular's Image directive introduced in v15) provides significant performance and user experience benefits over the standard src attribute for images. Using ngSrc enables automatic lazy loading, responsive images with srcset generation, optimized loading priority hints, prevention of layout shift by enforcing width and height attributes, and automatic image optimization when using an image loader. These features dramatically improve Largest Contentful Paint (LCP) and other Core Web Vitals metrics. The directive also provides warnings for common mistakes like missing width/height. The rule allows data: URIs with src since those are inline base64 images that don't benefit from ngSrc optimizations. For best performance and user experience, all external images should use ngSrc.
+
+<br>
+
 ## Rule Options
 
 The rule does not have any configuration options.

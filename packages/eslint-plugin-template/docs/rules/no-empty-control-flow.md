@@ -21,6 +21,12 @@ Ensures that control flow blocks are not empty. Empty control flow blocks usuall
 
 <br>
 
+## Rationale
+
+Empty control flow blocks (@if, @else, @for, @switch, @case, @empty) usually indicate incomplete refactoring or code that was commented out or deleted but left the block structure behind. These empty blocks add no functionality but create visual noise and confusion when reading templates. Developers may wonder whether the empty block is intentional or a bug. Removing empty blocks keeps templates clean and makes it clear that there is no conditional logic or looping in that location. This rule helps maintain template quality and catches likely mistakes during development.
+
+<br>
+
 ## Rule Options
 
 The rule does not have any configuration options.

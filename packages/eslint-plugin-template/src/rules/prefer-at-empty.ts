@@ -629,3 +629,8 @@ interface IfNodeInfo {
 }
 
 type NodeInfo = ForNodeInfo | IfNodeInfo;
+
+export const RULE_DOCS_EXTENSION = {
+  rationale:
+    'The @for loop has a built-in @empty block for displaying content when the collection is empty. Using this feature is clearer and more concise than separate @if blocks that check collection.length === 0 or collection.length > 0. When @if and @for blocks check the same collection, combining them with @empty eliminates duplication, reduces nesting, and makes the template intent immediately obvious. For example, @for (item of items) {...} @empty {No items} is more readable than @if (items.length > 0) { @for (item of items) {...} } @else {No items}. The @empty pattern is the idiomatic Angular way to handle empty collections and should be preferred wherever applicable.',
+};

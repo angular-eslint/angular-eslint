@@ -170,3 +170,8 @@ function isNilValue(
     isLiteralPrimitive(ast) && (ast.value === null || ast.value === undefined)
   );
 }
+
+export const RULE_DOCS_EXTENSION = {
+  rationale:
+    'The == and != operators perform type coercion before comparison, which can lead to unexpected and confusing results. For example, "0" == 0 is true, [] == false is true, and null == undefined is true. These implicit conversions make code harder to understand and can hide bugs. The strict equality operators === and !== compare both value and type without coercion, making comparisons predictable and explicit. This is a widely accepted JavaScript/TypeScript best practice that Angular templates should follow for consistency with TypeScript code. The rule can optionally allow == and != when comparing to null or undefined, as this is a common pattern for checking if a value exists.',
+};
