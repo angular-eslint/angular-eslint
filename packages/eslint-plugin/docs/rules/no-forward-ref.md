@@ -21,6 +21,12 @@ Disallows usage of `forwardRef` references for DI
 
 <br>
 
+## Rationale
+
+The flow of DI is disrupted by using `forwardRef` and might make code more difficult to understand.
+
+<br>
+
 ## Rule Options
 
 The rule does not have any configuration options.

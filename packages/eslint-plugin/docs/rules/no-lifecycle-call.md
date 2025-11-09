@@ -21,6 +21,12 @@ Disallows explicit calls to lifecycle methods
 
 <br>
 
+## Rationale
+
+Explicit calls to lifecycle methods could be confusing. Invoking them is an Angular responsibility.
+
+<br>
+
 ## Rule Options
 
 The rule does not have any configuration options.

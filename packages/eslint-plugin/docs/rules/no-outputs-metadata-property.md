@@ -21,6 +21,12 @@ Disallows usage of the `outputs` metadata property
 
 <br>
 
+## Rationale
+
+Using the @Output decorator is preferred as it improves readability, enables renaming in a single location, and keeps declarations concise.
+
+<br>
+
 ## Rule Options
 
 The rule does not have any configuration options.

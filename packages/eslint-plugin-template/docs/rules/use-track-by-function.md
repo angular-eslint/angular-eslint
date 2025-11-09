@@ -21,6 +21,12 @@ Ensures trackBy function is used
 
 <br>
 
+## Rationale
+
+The use of 'trackBy' is considered a good practice.
+
+<br>
+
 ## Rule Options
 
 The rule accepts an options object with the following properties:

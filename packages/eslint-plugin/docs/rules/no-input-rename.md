@@ -24,6 +24,12 @@ Ensures that input bindings are not aliased
 
 <br>
 
+## Rationale
+
+Two names for the same property (one private, one public) is inherently confusing.
+
+<br>
+
 ## Rule Options
 
 The rule accepts an options object with the following properties:

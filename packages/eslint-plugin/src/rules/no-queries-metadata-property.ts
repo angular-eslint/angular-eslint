@@ -42,3 +42,8 @@ export default createESLintRule<Options, MessageIds>({
     };
   },
 });
+
+export const RULE_DOCS_EXTENSION = {
+  rationale:
+    'Using decorators like @ContentChild or @ViewChild allows property renaming in one location.',
+};

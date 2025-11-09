@@ -98,3 +98,7 @@ function nodeToReport(node: TSESTree.Node) {
     ? node.value.property
     : node.value;
 }
+
+export const RULE_DOCS_EXTENSION = {
+  rationale: `Using the OnPush change detection strategy improves performance by only running change detection when component inputs change, events originate from the component, or when manually triggered.`,
+};

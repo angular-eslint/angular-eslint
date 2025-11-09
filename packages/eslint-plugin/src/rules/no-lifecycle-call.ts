@@ -68,3 +68,7 @@ function isSuperCallAllowed(node: TSESTree.MemberExpression): boolean {
 
   return Boolean(methodDefinition && hasSameName(node, methodDefinition));
 }
+
+export const RULE_DOCS_EXTENSION = {
+  rationale: `Explicit calls to lifecycle methods could be confusing. Invoking them is an Angular responsibility.`,
+};

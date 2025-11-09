@@ -82,3 +82,8 @@ export default createESLintRule<Options, MessageIds>({
     };
   },
 });
+
+export const RULE_DOCS_EXTENSION = {
+  rationale:
+    'Cyclomatic complexity over some threshold indicates that the logic should be moved outside the template.',
+};

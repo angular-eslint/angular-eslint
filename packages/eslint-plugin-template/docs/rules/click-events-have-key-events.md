@@ -21,6 +21,12 @@
 
 <br>
 
+## Rationale
+
+Keyboard is important for users with physical disabilities who cannot use a mouse.
+
+<br>
+
 ## Rule Options
 
 The rule accepts an options object with the following properties:

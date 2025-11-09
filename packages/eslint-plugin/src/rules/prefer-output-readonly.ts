@@ -57,3 +57,8 @@ export default createESLintRule<Options, MessageIds>({
     }
   },
 });
+
+export const RULE_DOCS_EXTENSION = {
+  rationale:
+    "@Output properties shouldn't be reassigned, so declaring them readonly is preferred.",
+};

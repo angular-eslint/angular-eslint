@@ -21,6 +21,12 @@ Ensures that input bindings, including aliases, are not named or prefixed by the
 
 <br>
 
+## Rationale
+
+HTML attributes are not prefixed. It's considered best not to prefix Inputs. Example: 'enabled' is preferred over 'isEnabled'.
+
+<br>
+
 ## Rule Options
 
 The rule accepts an options object with the following properties:

@@ -23,6 +23,12 @@
 
 <br>
 
+## Rationale
+
+Elements should not use invalid ARIA attributes.
+
+<br>
+
 ## Rule Options
 
 The rule does not have any configuration options.

@@ -91,3 +91,7 @@ function validateDecorator(
     data: { classDecoratorName },
   });
 }
+
+export const RULE_DOCS_EXTENSION = {
+  rationale: `Some decorators should only be used in certain class types. For example, the decorator @Input() should not be used in a class decorated with @Injectable().`,
+};

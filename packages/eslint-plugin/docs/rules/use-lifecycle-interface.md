@@ -22,6 +22,12 @@ Ensures that classes implement lifecycle interfaces corresponding to the declare
 
 <br>
 
+## Rationale
+
+Interfaces prescribe typed method signatures. Use those signatures to flag spelling and syntax mistakes.
+
+<br>
+
 ## Rule Options
 
 The rule does not have any configuration options.

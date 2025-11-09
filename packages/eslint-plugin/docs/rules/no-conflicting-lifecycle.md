@@ -21,6 +21,12 @@ Ensures that directives do not implement conflicting lifecycle interfaces.
 
 <br>
 
+## Rationale
+
+Directives should not implement both DoCheck and OnChanges together, as ngOnChanges continues being called by the default change detector.
+
+<br>
+
 ## Rule Options
 
 The rule does not have any configuration options.

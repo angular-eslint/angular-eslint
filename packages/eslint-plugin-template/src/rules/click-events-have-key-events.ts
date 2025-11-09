@@ -119,3 +119,8 @@ function isIgnored(
 
   return false;
 }
+
+export const RULE_DOCS_EXTENSION = {
+  rationale:
+    'Keyboard is important for users with physical disabilities who cannot use a mouse.',
+};

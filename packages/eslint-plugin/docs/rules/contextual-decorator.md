@@ -21,6 +21,12 @@ Ensures that classes use contextual decorators in their body
 
 <br>
 
+## Rationale
+
+Some decorators should only be used in certain class types. For example, the decorator @Input() should not be used in a class decorated with @Injectable().
+
+<br>
+
 ## Rule Options
 
 The rule does not have any configuration options.

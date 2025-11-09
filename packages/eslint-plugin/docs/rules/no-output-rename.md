@@ -24,6 +24,12 @@ Ensures that output bindings are not aliased
 
 <br>
 
+## Rationale
+
+Two names for the same property (one private, one public) is inherently confusing.
+
+<br>
+
 ## Rule Options
 
 The rule does not have any configuration options.

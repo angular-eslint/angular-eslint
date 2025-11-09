@@ -22,6 +22,12 @@
 
 <br>
 
+## Rationale
+
+Autofocus attribute reduces usability and accessibility for users.
+
+<br>
+
 ## Rule Options
 
 The rule does not have any configuration options.

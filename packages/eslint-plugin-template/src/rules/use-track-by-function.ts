@@ -94,3 +94,7 @@ function isNgForTrackByFactory(alias: readonly string[]) {
   return (attribute: TmplAstBoundAttribute | TmplAstTextAttribute) =>
     names.includes(attribute.name);
 }
+
+export const RULE_DOCS_EXTENSION = {
+  rationale: "The use of 'trackBy' is considered a good practice.",
+};

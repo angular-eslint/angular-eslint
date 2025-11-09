@@ -105,3 +105,8 @@ export default createESLintRule<Options, MessageIds>({
     };
   },
 });
+
+export const RULE_DOCS_EXTENSION = {
+  rationale:
+    "The use of '$any' nullifies the compile-time benefits of the Angular's type system.",
+};

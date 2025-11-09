@@ -182,3 +182,8 @@ function hasControlComponentWithId(
 function filterUndefined<T>(value: T | undefined | null): value is T {
   return value !== undefined && value !== null;
 }
+
+export const RULE_DOCS_EXTENSION = {
+  rationale:
+    'Proper label-control associations improve form accessibility and screen reader support.',
+};

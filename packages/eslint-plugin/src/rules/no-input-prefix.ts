@@ -156,3 +156,8 @@ function isDisallowedPrefix(
   const prefixPattern = new RegExp(`^${prefix}(([^a-z])|(?=$))`);
   return prefixPattern.test(propertyName) || prefixPattern.test(aliasName);
 }
+
+export const RULE_DOCS_EXTENSION = {
+  rationale:
+    "HTML attributes are not prefixed. It's considered best not to prefix Inputs. Example: 'enabled' is preferred over 'isEnabled'.",
+};

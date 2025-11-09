@@ -21,6 +21,12 @@
 
 <br>
 
+## Rationale
+
+Heading, anchor and button elements should have content to be accessible by screen readers.
+
+<br>
+
 ## Rule Options
 
 The rule accepts an options object with the following properties:

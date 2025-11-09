@@ -161,3 +161,8 @@ function hasEncapsulationShadowDomProperty(node: TSESTree.Decorator) {
     encapsulationValue.property.name === VIEW_ENCAPSULATION_SHADOW_DOM
   );
 }
+
+export const RULE_DOCS_EXTENSION = {
+  rationale:
+    'Consistent naming conventions for components make it easy to quickly identify components, promote code sharing across applications, improve readability in DOM and alignment with Custom Elements spec, and make components easy to recognize in markup.',
+};

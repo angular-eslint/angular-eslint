@@ -597,3 +597,8 @@ function isTagAllowed(allowedTags: ReadonlySet<string>, node: unknown) {
 function getI18nCustomId(i18n: I18nMeta): string | undefined {
   return (i18n as Message)?.customId;
 }
+
+export const RULE_DOCS_EXTENSION = {
+  rationale:
+    'Proper i18n implementation improves code maintainability for internationalization.',
+};

@@ -87,3 +87,7 @@ export default createESLintRule<Options, MessageIds>({
     };
   },
 });
+
+export const RULE_DOCS_EXTENSION = {
+  rationale: `Interfaces prescribe typed method signatures. Use those signatures to flag spelling and syntax mistakes.`,
+};

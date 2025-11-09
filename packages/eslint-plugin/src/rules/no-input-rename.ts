@@ -295,3 +295,8 @@ function isAliasNameAllowed(
     );
   });
 }
+
+export const RULE_DOCS_EXTENSION = {
+  rationale:
+    'Two names for the same property (one private, one public) is inherently confusing.',
+};

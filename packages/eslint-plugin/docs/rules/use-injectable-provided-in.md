@@ -23,6 +23,12 @@ Using the `providedIn` property makes `Injectables` tree-shakable
 
 <br>
 
+## Rationale
+
+Using the 'providedIn' property makes classes decorated with @Injectable tree-shakable.
+
+<br>
+
 ## Rule Options
 
 The rule accepts an options object with the following properties:

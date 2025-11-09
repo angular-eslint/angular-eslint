@@ -21,6 +21,12 @@ Classes decorated with @Component must have suffix "Component" (or custom) in th
 
 <br>
 
+## Rationale
+
+Consistent conventions make it easy to quickly identify and reference assets of different types.
+
+<br>
+
 ## Rule Options
 
 The rule accepts an options object with the following properties:

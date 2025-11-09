@@ -21,6 +21,12 @@
 
 <br>
 
+## Rationale
+
+Alternate text lets screen readers provide more information to end users.
+
+<br>
+
 ## Rule Options
 
 The rule does not have any configuration options.

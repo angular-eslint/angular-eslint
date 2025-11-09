@@ -23,6 +23,12 @@ Prefer to declare `@Output`, `OutputEmitterRef` and `OutputRef` as `readonly` si
 
 <br>
 
+## Rationale
+
+@Output properties shouldn't be reassigned, so declaring them readonly is preferred.
+
+<br>
+
 ## Rule Options
 
 The rule does not have any configuration options.

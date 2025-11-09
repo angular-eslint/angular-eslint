@@ -40,3 +40,7 @@ export default createESLintRule<Options, MessageIds>({
     };
   },
 });
+
+export const RULE_DOCS_EXTENSION = {
+  rationale: 'Omitting the component selector makes debugging difficult.',
+};

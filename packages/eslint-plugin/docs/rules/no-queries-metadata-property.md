@@ -21,6 +21,12 @@ Disallows usage of the `queries` metadata property.
 
 <br>
 
+## Rationale
+
+Using decorators like @ContentChild or @ViewChild allows property renaming in one location.
+
+<br>
+
 ## Rule Options
 
 The rule does not have any configuration options.

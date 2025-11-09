@@ -96,3 +96,7 @@ export default createESLintRule<Options, MessageIds>({
     };
   },
 });
+
+export const RULE_DOCS_EXTENSION = {
+  rationale: `Directives should not implement both DoCheck and OnChanges together, as ngOnChanges continues being called by the default change detector.`,
+};

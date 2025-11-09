@@ -34,3 +34,8 @@ export default createESLintRule<Options, MessageIds>({
     };
   },
 });
+
+export const RULE_DOCS_EXTENSION = {
+  rationale:
+    'The flow of DI is disrupted by using `forwardRef` and might make code more difficult to understand.',
+};

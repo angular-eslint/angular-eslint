@@ -21,6 +21,12 @@ Checks cyclomatic complexity against a specified limit. It is a quantitative mea
 
 <br>
 
+## Rationale
+
+Cyclomatic complexity over some threshold indicates that the logic should be moved outside the template.
+
+<br>
+
 ## Rule Options
 
 The rule accepts an options object with the following properties:

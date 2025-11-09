@@ -21,6 +21,12 @@ Disallows calling expressions in templates, except for output handlers
 
 <br>
 
+## Rationale
+
+Calling expressions in templates causes them to run on every change detection cycle and may cause performance issues.
+
+<br>
+
 ## Rule Options
 
 The rule accepts an options object with the following properties:

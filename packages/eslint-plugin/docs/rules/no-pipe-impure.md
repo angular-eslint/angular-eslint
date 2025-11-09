@@ -23,6 +23,12 @@ Disallows the declaration of impure pipes
 
 <br>
 
+## Rationale
+
+Impure pipes should be avoided because they are invoked on each change-detection cycle.
+
+<br>
+
 ## Rule Options
 
 The rule does not have any configuration options.

@@ -22,6 +22,12 @@
 
 <br>
 
+## Rationale
+
+Elements that can be visually distracting can cause accessibility issues with visually impaired users.
+
+<br>
+
 ## Rule Options
 
 The rule does not have any configuration options.

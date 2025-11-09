@@ -63,3 +63,8 @@ export default createESLintRule<Options, MessageIds>({
     };
   },
 });
+
+export const RULE_DOCS_EXTENSION = {
+  rationale:
+    'Positive values for tabindex attribute should be avoided because they mess up with the order of focus.',
+};

@@ -23,6 +23,12 @@ The use of "$any" nullifies the compile-time benefits of Angular's type system
 
 <br>
 
+## Rationale
+
+The use of '$any' nullifies the compile-time benefits of the Angular's type system.
+
+<br>
+
 ## Rule Options
 
 The rule does not have any configuration options.

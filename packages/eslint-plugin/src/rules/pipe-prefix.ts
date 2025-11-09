@@ -99,3 +99,8 @@ export default createESLintRule<Options, MessageIds>({
     };
   },
 });
+
+export const RULE_DOCS_EXTENSION = {
+  rationale:
+    'Consistent conventions make it easy to quickly identify and reference assets of different types.',
+};

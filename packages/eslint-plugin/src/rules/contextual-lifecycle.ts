@@ -69,3 +69,7 @@ export default createESLintRule<Options, MessageIds>({
     };
   },
 });
+
+export const RULE_DOCS_EXTENSION = {
+  rationale: `Some lifecycle methods can only be used in certain class types. For example, ngOnInit() method should not be used in an @Injectable class.`,
+};

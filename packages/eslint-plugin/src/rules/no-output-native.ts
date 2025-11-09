@@ -57,3 +57,7 @@ export default createESLintRule<Options, MessageIds>({
     };
   },
 });
+
+export const RULE_DOCS_EXTENSION = {
+  rationale: `Listeners subscribed to an output with such a name will also be invoked when the native event is raised.`,
+};

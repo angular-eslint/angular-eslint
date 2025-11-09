@@ -21,6 +21,12 @@ Enforces a maximum number of lines in inline template, styles and animations.
 
 <br>
 
+## Rationale
+
+Large, inline templates and styles obscure the component's purpose and implementation, reducing readability and maintainability.
+
+<br>
+
 ## Rule Options
 
 The rule accepts an options object with the following properties:

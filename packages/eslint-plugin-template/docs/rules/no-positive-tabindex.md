@@ -23,6 +23,12 @@ Ensures that the `tabindex` attribute is not positive
 
 <br>
 
+## Rationale
+
+Positive values for tabindex attribute should be avoided because they mess up with the order of focus.
+
+<br>
+
 ## Rule Options
 
 The rule does not have any configuration options.

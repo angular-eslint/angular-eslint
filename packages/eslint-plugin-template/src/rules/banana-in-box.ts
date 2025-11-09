@@ -53,3 +53,7 @@ export default createESLintRule<Options, MessageIds>({
     };
   },
 });
+
+export const RULE_DOCS_EXTENSION = {
+  rationale: "The parentheses '()' should have been inside the brackets '[]'.",
+};

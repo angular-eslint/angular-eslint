@@ -137,3 +137,7 @@ export default createESLintRule<Options, MessageIds>({
     };
   },
 });
+
+export const RULE_DOCS_EXTENSION = {
+  rationale: `Large, inline templates and styles obscure the component's purpose and implementation, reducing readability and maintainability.`,
+};

@@ -23,6 +23,12 @@ Ensures component's `changeDetection` is set to `ChangeDetectionStrategy.OnPush`
 
 <br>
 
+## Rationale
+
+Using the OnPush change detection strategy improves performance by only running change detection when component inputs change, events originate from the component, or when manually triggered.
+
+<br>
+
 ## Rule Options
 
 The rule does not have any configuration options.

@@ -66,3 +66,8 @@ function isUrlInvalid(
     !RELATIVE_URL_PREFIX_MATCHER.test(node.value)
   );
 }
+
+export const RULE_DOCS_EXTENSION = {
+  rationale:
+    'A component relative URL requires no change when you move the component files, as long as the files stay together.',
+};

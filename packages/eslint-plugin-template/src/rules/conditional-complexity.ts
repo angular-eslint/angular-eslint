@@ -167,3 +167,8 @@ function getTotalComplexity(ast: AST): number {
 
   return total;
 }
+
+export const RULE_DOCS_EXTENSION = {
+  rationale:
+    'An important complexity complicates the tests and the maintenance.',
+};

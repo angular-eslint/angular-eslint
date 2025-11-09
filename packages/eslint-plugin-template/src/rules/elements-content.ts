@@ -79,3 +79,8 @@ export default createESLintRule<Options, MessageIds>({
     };
   },
 });
+
+export const RULE_DOCS_EXTENSION = {
+  rationale:
+    'Heading, anchor and button elements should have content to be accessible by screen readers.',
+};

@@ -21,6 +21,12 @@ The conditional complexity should not exceed a rational limit
 
 <br>
 
+## Rationale
+
+An important complexity complicates the tests and the maintenance.
+
+<br>
+
 ## Rule Options
 
 The rule accepts an options object with the following properties:

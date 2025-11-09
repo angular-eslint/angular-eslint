@@ -22,6 +22,12 @@
 
 <br>
 
+## Rationale
+
+Correct scope attribute usage improves screen reader table navigation efficiency.
+
+<br>
+
 ## Rule Options
 
 The rule does not have any configuration options.

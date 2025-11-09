@@ -43,3 +43,8 @@ export default createESLintRule<Options, MessageIds>({
     };
   },
 });
+
+export const RULE_DOCS_EXTENSION = {
+  rationale:
+    'Elements that can be visually distracting can cause accessibility issues with visually impaired users.',
+};

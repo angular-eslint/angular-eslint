@@ -21,6 +21,12 @@ Ensures that lifecycle methods are used in a correct context
 
 <br>
 
+## Rationale
+
+Some lifecycle methods can only be used in certain class types. For example, ngOnInit() method should not be used in an @Injectable class.
+
+<br>
+
 ## Rule Options
 
 The rule does not have any configuration options.

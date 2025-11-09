@@ -21,6 +21,12 @@
 
 <br>
 
+## Rationale
+
+Proper label-control associations improve form accessibility and screen reader support.
+
+<br>
+
 ## Rule Options
 
 The rule accepts an options object with the following properties:

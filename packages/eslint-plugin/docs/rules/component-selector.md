@@ -21,6 +21,12 @@ Component selectors should follow given naming rules. See more at https://angula
 
 <br>
 
+## Rationale
+
+Consistent naming conventions for components make it easy to quickly identify components, promote code sharing across applications, improve readability in DOM and alignment with Custom Elements spec, and make components easy to recognize in markup.
+
+<br>
+
 ## Rule Options
 
 The rule accepts an options object with the following properties:

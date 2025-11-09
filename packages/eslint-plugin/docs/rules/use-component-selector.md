@@ -21,6 +21,12 @@ Component selector must be declared
 
 <br>
 
+## Rationale
+
+Omitting the component selector makes debugging difficult.
+
+<br>
+
 ## Rule Options
 
 The rule does not have any configuration options.

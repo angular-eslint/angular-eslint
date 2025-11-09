@@ -67,3 +67,7 @@ export default createESLintRule<Options, MessageIds>({
     };
   },
 });
+
+export const RULE_DOCS_EXTENSION = {
+  rationale: `Using the 'providedIn' property makes classes decorated with @Injectable tree-shakable.`,
+};

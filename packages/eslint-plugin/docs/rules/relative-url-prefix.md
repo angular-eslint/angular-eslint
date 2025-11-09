@@ -21,6 +21,12 @@ The ./ and ../ prefix is standard syntax for relative URLs; don't depend on Angu
 
 <br>
 
+## Rationale
+
+A component relative URL requires no change when you move the component files, as long as the files stay together.
+
+<br>
+
 ## Rule Options
 
 The rule does not have any configuration options.

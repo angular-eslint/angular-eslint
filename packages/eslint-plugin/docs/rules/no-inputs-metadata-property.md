@@ -21,6 +21,12 @@ Disallows usage of the `inputs` metadata property
 
 <br>
 
+## Rationale
+
+Using the @Input decorator is preferred as it makes the property more identifiable, enables renaming in a single location, and keeps metadata declarations shorter and more readable.
+
+<br>
+
 ## Rule Options
 
 The rule does not have any configuration options.

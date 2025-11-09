@@ -21,6 +21,12 @@ Directive selectors should follow given naming rules. See more at https://angula
 
 <br>
 
+## Rationale
+
+Consistent naming conventions for directives make it easy to quickly identify directives, promote code sharing across applications, and improve DOM readability.
+
+<br>
+
 ## Rule Options
 
 The rule accepts an options object with the following properties:

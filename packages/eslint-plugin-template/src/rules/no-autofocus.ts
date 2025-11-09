@@ -50,3 +50,8 @@ export default createESLintRule<Options, MessageIds>({
     };
   },
 });
+
+export const RULE_DOCS_EXTENSION = {
+  rationale:
+    'Autofocus attribute reduces usability and accessibility for users.',
+};

@@ -22,6 +22,12 @@ Ensures that the two-way data binding syntax is correct
 
 <br>
 
+## Rationale
+
+The parentheses '()' should have been inside the brackets '[]'.
+
+<br>
+
 ## Rule Options
 
 The rule does not have any configuration options.

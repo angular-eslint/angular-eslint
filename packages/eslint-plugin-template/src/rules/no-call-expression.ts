@@ -104,3 +104,8 @@ function isCallNameInAllowList(
     allowList.indexOf(ast.name) > -1
   );
 }
+
+export const RULE_DOCS_EXTENSION = {
+  rationale:
+    'Calling expressions in templates causes them to run on every change detection cycle and may cause performance issues.',
+};

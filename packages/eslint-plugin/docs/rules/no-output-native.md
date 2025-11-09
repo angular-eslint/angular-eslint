@@ -21,6 +21,12 @@ Ensures that output bindings, including aliases, are not named as standard DOM e
 
 <br>
 
+## Rationale
+
+Listeners subscribed to an output with such a name will also be invoked when the native event is raised.
+
+<br>
+
 ## Rule Options
 
 The rule does not have any configuration options.

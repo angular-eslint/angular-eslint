@@ -188,3 +188,7 @@ function isValidAriaPropertyValue(
     }
   }
 }
+
+export const RULE_DOCS_EXTENSION = {
+  rationale: 'Elements should not use invalid ARIA attributes.',
+};

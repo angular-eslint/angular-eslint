@@ -111,3 +111,8 @@ export default createESLintRule<Options, MessageIds>({
     };
   },
 });
+
+export const RULE_DOCS_EXTENSION = {
+  rationale:
+    'Consistent naming conventions for directives make it easy to quickly identify directives, promote code sharing across applications, and improve DOM readability.',
+};

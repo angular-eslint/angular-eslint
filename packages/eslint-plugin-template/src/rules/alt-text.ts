@@ -165,3 +165,8 @@ function isAriaLabel(name: string): name is 'aria-label' | 'aria-labelledby' {
 function isAlt(name: string): name is 'alt' {
   return name === 'alt';
 }
+
+export const RULE_DOCS_EXTENSION = {
+  rationale:
+    'Alternate text lets screen readers provide more information to end users.',
+};

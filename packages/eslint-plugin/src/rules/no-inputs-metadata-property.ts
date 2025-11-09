@@ -61,3 +61,8 @@ export default createESLintRule<Options, MessageIds>({
     };
   },
 });
+
+export const RULE_DOCS_EXTENSION = {
+  rationale:
+    'Using the @Input decorator is preferred as it makes the property more identifiable, enables renaming in a single location, and keeps metadata declarations shorter and more readable.',
+};
