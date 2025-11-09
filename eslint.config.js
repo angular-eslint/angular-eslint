@@ -60,7 +60,7 @@ module.exports = [
     },
   },
   {
-    files: ['**/*.ts'],
+    files: ['**/src/rules/*.ts'],
     plugins: {
       'valid-rule': validRulePlugin,
     },
