@@ -1,0 +1,16 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`output-file-interpolation > should interpolate placeholders when running ng lint without project name (all projects) 1`] = `
+{
+  "app-one": [],
+  "app-two": [],
+  "lib-one": [],
+  "output-file-interpolation": [],
+}
+`;
+
+exports[`output-file-interpolation > should support dynamic override of outputFile with placeholder interpolation 1`] = `[]`;
+
+exports[`output-file-interpolation > should write lint reports to interpolated paths for projects with outputFile configuration with known placeholders 1`] = `[]`;
+
+exports[`output-file-interpolation > should write lint reports to interpolated paths for projects with outputFile configuration with known placeholders 2`] = `[]`;
