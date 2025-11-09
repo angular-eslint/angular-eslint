@@ -23,7 +23,7 @@ Ensures that directives do not implement conflicting lifecycle interfaces.
 
 ## Rationale
 
-The DoCheck and OnChanges lifecycle hooks serve overlapping purposes for detecting changes, but using them together creates confusing and potentially buggy behavior. When both are implemented, ngOnChanges() runs first when input properties change, then ngDoCheck() runs on every change detection cycle. This can lead to duplicated logic, performance issues from running change detection twice, and confusion about which hook should handle which logic. Angular's documentation recommends using one or the other, not both: use OnChanges for simple input tracking, or DoCheck when you need more granular control over change detection.
+This rule was created with the intent to prevent potential issues when both DoCheck and OnChanges lifecycle hooks are implemented together, as they both deal with change detection and could create confusing or duplicated logic. However, the rule has proven to be overly broad in practice. It triggers whenever a component or directive implements both hooks, regardless of whether they actually conflict or track the same data. In reality, there are legitimate use cases where both hooks can coexist without issues—for instance, using OnChanges to respond to specific input changes while using DoCheck for custom change detection logic on different data. Because the rule cannot accurately determine whether the hooks are actually conflicting (i.e., checking the same variables), it produces false positives and has been removed from the recommended configuration. While the rule was well-intentioned, it should not be relied upon in practice.
 
 <br>
 
