@@ -86,7 +86,7 @@ describe('output-file-interpolation', () => {
   });
 
   it('should support dynamic override of outputFile with placeholder interpolation', async () => {
-    expect.assertions(5);
+    expect.assertions(2);
 
     // Run lint for app-two with dynamic outputFile override
     try {
@@ -105,6 +105,8 @@ describe('output-file-interpolation', () => {
   });
 
   it('should interpolate placeholders when running ng lint without project name (all projects)', async () => {
+    expect.assertions(5);
+
     // Clean up any previous reports
     if (fixture.directoryExists('all-projects-reports')) {
       fixture.deleteFileOrDirectory('all-projects-reports');
