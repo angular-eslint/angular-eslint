@@ -32,20 +32,67 @@ Consistent directive selector naming conventions help identify which directives 
 The rule accepts an options object with the following properties:
 
 ```ts
-interface Options {
-  /**
-   * Default: `""`
-   */
-  type?: string | ("element" | "attribute")[];
-  /**
-   * Default: `""`
-   */
-  prefix?: string | unknown[];
-  /**
-   * Default: `""`
-   */
-  style?: "camelCase" | "kebab-case";
-}
+type Options =
+  | {
+      /**
+       * Default: `""`
+       */
+      type?: string | ("element" | "attribute")[];
+      /**
+       * Default: `""`
+       */
+      prefix?: string | unknown[];
+      /**
+       * Default: `""`
+       */
+      style?: "camelCase" | "kebab-case";
+    }
+  | [
+      {
+        /**
+         * Default: `""`
+         */
+        type: "element" | "attribute";
+        /**
+         * Default: `""`
+         */
+        prefix?: string | unknown[];
+        /**
+         * Default: `""`
+         */
+        style?: "camelCase" | "kebab-case";
+      }
+    ]
+  | [
+      {
+        /**
+         * Default: `""`
+         */
+        type: "element" | "attribute";
+        /**
+         * Default: `""`
+         */
+        prefix?: string | unknown[];
+        /**
+         * Default: `""`
+         */
+        style?: "camelCase" | "kebab-case";
+      },
+      {
+        /**
+         * Default: `""`
+         */
+        type: "element" | "attribute";
+        /**
+         * Default: `""`
+         */
+        prefix?: string | unknown[];
+        /**
+         * Default: `""`
+         */
+        style?: "camelCase" | "kebab-case";
+      }
+    ];
 
 ```
 
@@ -344,6 +391,248 @@ class Test {}
 ```ts
 @Directive({
   selector: '[appFooBar]'
+            ~~~~~~~~~~~~~
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-selector": [
+      "error",
+      [
+        {
+          "type": "element",
+          "prefix": "app",
+          "style": "kebab-case"
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Directive({
+  selector: 'appFooBar'
+            ~~~~~~~~~~~
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-selector": [
+      "error",
+      [
+        {
+          "type": "attribute",
+          "prefix": "app",
+          "style": "camelCase"
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Directive({
+  selector: '[app-foo-bar]'
+            ~~~~~~~~~~~~~~~
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-selector": [
+      "error",
+      [
+        {
+          "type": "element",
+          "prefix": "app",
+          "style": "kebab-case"
+        },
+        {
+          "type": "attribute",
+          "prefix": "app",
+          "style": "camelCase"
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Directive({
+  selector: 'appFooBar'
+            ~~~~~~~~~~~
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-selector": [
+      "error",
+      [
+        {
+          "type": "element",
+          "prefix": "app",
+          "style": "kebab-case"
+        },
+        {
+          "type": "attribute",
+          "prefix": "app",
+          "style": "camelCase"
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Directive({
+  selector: '[app-foo-bar]'
+            ~~~~~~~~~~~~~~~
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-selector": [
+      "error",
+      [
+        {
+          "type": "element",
+          "prefix": "app",
+          "style": "kebab-case"
+        },
+        {
+          "type": "attribute",
+          "prefix": "app",
+          "style": "camelCase"
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Directive({
+  selector: 'lib-foo-bar'
+            ~~~~~~~~~~~~~
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-selector": [
+      "error",
+      [
+        {
+          "type": "element",
+          "prefix": "app",
+          "style": "kebab-case"
+        },
+        {
+          "type": "attribute",
+          "prefix": "app",
+          "style": "camelCase"
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Directive({
+  selector: '[libFooBar]'
             ~~~~~~~~~~~~~
 })
 class Test {}
@@ -868,6 +1157,289 @@ class Test {}
 ```ts
 @Directive({
   selector: 'button[app-foo-bar]'
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-selector": [
+      "error",
+      [
+        {
+          "type": "element",
+          "prefix": "app",
+          "style": "kebab-case"
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: 'app-foo-bar'
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-selector": [
+      "error",
+      [
+        {
+          "type": "attribute",
+          "prefix": "app",
+          "style": "camelCase"
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: '[appFooBar]'
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-selector": [
+      "error",
+      [
+        {
+          "type": "element",
+          "prefix": "app",
+          "style": "kebab-case"
+        },
+        {
+          "type": "attribute",
+          "prefix": "app",
+          "style": "camelCase"
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: 'app-foo-bar'
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-selector": [
+      "error",
+      [
+        {
+          "type": "element",
+          "prefix": "app",
+          "style": "kebab-case"
+        },
+        {
+          "type": "attribute",
+          "prefix": "app",
+          "style": "camelCase"
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: '[appFooBar]'
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-selector": [
+      "error",
+      [
+        {
+          "type": "element",
+          "prefix": [
+            "app",
+            "lib"
+          ],
+          "style": "kebab-case"
+        },
+        {
+          "type": "attribute",
+          "prefix": "app",
+          "style": "camelCase"
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: 'lib-foo-bar'
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-selector": [
+      "error",
+      [
+        {
+          "type": "element",
+          "prefix": "app",
+          "style": "kebab-case"
+        },
+        {
+          "type": "attribute",
+          "prefix": [
+            "app",
+            "lib"
+          ],
+          "style": "camelCase"
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: '[libFooBar]'
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-selector": [
+      "error",
+      [
+        {
+          "type": "attribute",
+          "prefix": "app",
+          "style": "camelCase"
+        },
+        {
+          "type": "element",
+          "prefix": "app",
+          "style": "kebab-case"
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: '[appFooBar]'
 })
 class Test {}
 ```

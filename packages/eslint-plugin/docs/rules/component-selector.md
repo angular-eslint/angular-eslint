@@ -32,20 +32,67 @@ Consistent component selector naming conventions provide several benefits: they 
 The rule accepts an options object with the following properties:
 
 ```ts
-interface Options {
-  /**
-   * Default: `""`
-   */
-  type?: string | ("element" | "attribute")[];
-  /**
-   * Default: `""`
-   */
-  prefix?: string | unknown[];
-  /**
-   * Default: `""`
-   */
-  style?: "camelCase" | "kebab-case";
-}
+type Options =
+  | {
+      /**
+       * Default: `""`
+       */
+      type?: string | ("element" | "attribute")[];
+      /**
+       * Default: `""`
+       */
+      prefix?: string | unknown[];
+      /**
+       * Default: `""`
+       */
+      style?: "camelCase" | "kebab-case";
+    }
+  | [
+      {
+        /**
+         * Default: `""`
+         */
+        type: "element" | "attribute";
+        /**
+         * Default: `""`
+         */
+        prefix?: string | unknown[];
+        /**
+         * Default: `""`
+         */
+        style?: "camelCase" | "kebab-case";
+      }
+    ]
+  | [
+      {
+        /**
+         * Default: `""`
+         */
+        type: "element" | "attribute";
+        /**
+         * Default: `""`
+         */
+        prefix?: string | unknown[];
+        /**
+         * Default: `""`
+         */
+        style?: "camelCase" | "kebab-case";
+      },
+      {
+        /**
+         * Default: `""`
+         */
+        type: "element" | "attribute";
+        /**
+         * Default: `""`
+         */
+        prefix?: string | unknown[];
+        /**
+         * Default: `""`
+         */
+        style?: "camelCase" | "kebab-case";
+      }
+    ];
 
 ```
 
@@ -567,6 +614,248 @@ class Test {}
 @Component({
   selector: 'sgggg-bar'
             ~~~~~~~~~~~
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/component-selector": [
+      "error",
+      [
+        {
+          "type": "element",
+          "prefix": "app",
+          "style": "kebab-case"
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({
+  selector: 'appFooBar'
+            ~~~~~~~~~~~
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/component-selector": [
+      "error",
+      [
+        {
+          "type": "attribute",
+          "prefix": "app",
+          "style": "camelCase"
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({
+  selector: '[app-foo-bar]'
+            ~~~~~~~~~~~~~~~
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/component-selector": [
+      "error",
+      [
+        {
+          "type": "element",
+          "prefix": "app",
+          "style": "kebab-case"
+        },
+        {
+          "type": "attribute",
+          "prefix": "app",
+          "style": "camelCase"
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({
+  selector: 'appFooBar'
+            ~~~~~~~~~~~
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/component-selector": [
+      "error",
+      [
+        {
+          "type": "element",
+          "prefix": "app",
+          "style": "kebab-case"
+        },
+        {
+          "type": "attribute",
+          "prefix": "app",
+          "style": "camelCase"
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({
+  selector: '[app-foo-bar]'
+            ~~~~~~~~~~~~~~~
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/component-selector": [
+      "error",
+      [
+        {
+          "type": "element",
+          "prefix": "app",
+          "style": "kebab-case"
+        },
+        {
+          "type": "attribute",
+          "prefix": "app",
+          "style": "camelCase"
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({
+  selector: 'lib-foo-bar'
+            ~~~~~~~~~~~~~
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/component-selector": [
+      "error",
+      [
+        {
+          "type": "element",
+          "prefix": "app",
+          "style": "kebab-case"
+        },
+        {
+          "type": "attribute",
+          "prefix": "app",
+          "style": "camelCase"
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({
+  selector: '[libFooBar]'
+            ~~~~~~~~~~~~~
 })
 class Test {}
 ```
@@ -1245,6 +1534,289 @@ class Test {}
 ```ts
 @Component({
   selector: 'singleword'
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/component-selector": [
+      "error",
+      [
+        {
+          "type": "element",
+          "prefix": "app",
+          "style": "kebab-case"
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  selector: 'app-foo-bar'
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/component-selector": [
+      "error",
+      [
+        {
+          "type": "attribute",
+          "prefix": "app",
+          "style": "camelCase"
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  selector: '[appFooBar]'
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/component-selector": [
+      "error",
+      [
+        {
+          "type": "element",
+          "prefix": "app",
+          "style": "kebab-case"
+        },
+        {
+          "type": "attribute",
+          "prefix": "app",
+          "style": "camelCase"
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  selector: 'app-foo-bar'
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/component-selector": [
+      "error",
+      [
+        {
+          "type": "element",
+          "prefix": "app",
+          "style": "kebab-case"
+        },
+        {
+          "type": "attribute",
+          "prefix": "app",
+          "style": "camelCase"
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  selector: '[appFooBar]'
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/component-selector": [
+      "error",
+      [
+        {
+          "type": "element",
+          "prefix": [
+            "app",
+            "lib"
+          ],
+          "style": "kebab-case"
+        },
+        {
+          "type": "attribute",
+          "prefix": "app",
+          "style": "camelCase"
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  selector: 'lib-foo-bar'
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/component-selector": [
+      "error",
+      [
+        {
+          "type": "element",
+          "prefix": "app",
+          "style": "kebab-case"
+        },
+        {
+          "type": "attribute",
+          "prefix": [
+            "app",
+            "lib"
+          ],
+          "style": "camelCase"
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  selector: '[libFooBar]'
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/component-selector": [
+      "error",
+      [
+        {
+          "type": "attribute",
+          "prefix": "app",
+          "style": "camelCase"
+        },
+        {
+          "type": "element",
+          "prefix": "app",
+          "style": "kebab-case"
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  selector: '[appFooBar]'
 })
 class Test {}
 ```
