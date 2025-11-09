@@ -21,6 +21,12 @@ Angular Lifecycle methods should not be async. Angular does not wait for async l
 
 <br>
 
+## Rationale
+
+Angular does not wait for async lifecycle methods to complete before continuing with the component lifecycle. If you make ngOnInit() async, Angular will call it and immediately move on without waiting for any await statements inside to resolve. This creates a misleading code pattern where it appears Angular will wait for asynchronous operations to complete, but it won't. For example, if ngOnInit() fetches data asynchronously, the component will continue rendering with potentially incomplete data. Instead of making lifecycle methods async, call async functions from within them and handle the promises appropriately, or use Angular patterns like resolvers, signals with async pipes, or reactive approaches with RxJS.
+
+<br>
+
 ## Rule Options
 
 The rule does not have any configuration options.

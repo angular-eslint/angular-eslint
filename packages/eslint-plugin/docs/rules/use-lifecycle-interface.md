@@ -22,6 +22,12 @@ Ensures that classes implement lifecycle interfaces corresponding to the declare
 
 <br>
 
+## Rationale
+
+Implementing lifecycle interfaces (like OnInit, OnDestroy, AfterViewInit) provides TypeScript compile-time checking to ensure you've spelled the lifecycle method names correctly and used the right method signatures. For example, if you typo 'ngOnInit' as 'ngOninit', TypeScript will catch this error if your class implements OnInit. The interfaces also serve as self-documentation, making it immediately clear which lifecycle hooks a component uses. While Angular will still call correctly-named lifecycle methods even without the interface, using the interface leverages TypeScript's type safety to catch errors earlier in development.
+
+<br>
+
 ## Rule Options
 
 The rule does not have any configuration options.

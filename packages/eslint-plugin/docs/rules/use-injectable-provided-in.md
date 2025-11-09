@@ -23,6 +23,12 @@ Using the `providedIn` property makes `Injectables` tree-shakable
 
 <br>
 
+## Rationale
+
+Using 'providedIn' in the @Injectable() decorator (like '@Injectable({ providedIn: "root" })') enables tree-shaking, which means Angular can remove the service from your production bundle if it's never actually used. Without 'providedIn', services must be registered in a module's providers array, and Angular must include them in the bundle even if they're unused. This can significantly increase bundle size. Additionally, 'providedIn' makes services easier to use (no need to add them to module providers) and makes circular dependencies less likely. The 'providedIn' syntax is the modern, recommended way to provide services.
+
+<br>
+
 ## Rule Options
 
 The rule accepts an options object with the following properties:

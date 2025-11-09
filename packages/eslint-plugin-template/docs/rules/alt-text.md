@@ -21,6 +21,12 @@
 
 <br>
 
+## Rationale
+
+Images, area elements, and input buttons must have alternative text for accessibility. Screen readers used by blind and visually impaired users rely on alt text to describe images. Without alt text, these users miss important content and context. Decorative images should have an empty alt attribute (alt="") to signal they can be safely ignored by screen readers. Meaningful images require descriptive alt text that conveys the image's content and purpose. This is a WCAG Level A requirement, meaning it's a basic accessibility standard.
+
+<br>
+
 ## Rule Options
 
 The rule does not have any configuration options.

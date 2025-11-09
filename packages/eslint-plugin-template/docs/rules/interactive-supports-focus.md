@@ -21,6 +21,12 @@
 
 <br>
 
+## Rationale
+
+Interactive elements with click handlers or other event listeners must be keyboard-accessible to users who cannot use a mouse. Elements that trigger actions must be focusable (either naturally like buttons and links, or via tabindex) so keyboard users can navigate to them and activate them with Enter or Space. Without this, keyboard-only users, screen reader users, and users with motor disabilities cannot interact with the application. Native interactive elements (button, a, input, select, textarea) are automatically focusable and keyboard-accessible. For custom interactive elements, you must add tabindex="0" to make them focusable and add appropriate keyboard event handlers. This is a WCAG Level A requirement for keyboard accessibility.
+
+<br>
+
 ## Rule Options
 
 The rule accepts an options object with the following properties:

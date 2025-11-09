@@ -22,6 +22,12 @@ Ensures that `Pipes` implement `PipeTransform` interface
 
 <br>
 
+## Rationale
+
+Implementing the PipeTransform interface provides TypeScript compile-time checking to ensure your pipe has the correct transform() method signature. Without the interface, typos in the method name or incorrect parameters won't be caught until runtime. The interface also serves as self-documentation and enables better IDE support like autocomplete and inline documentation. While Angular requires pipes to have a transform() method, using the PipeTransform interface leverages TypeScript's type system to catch implementation errors during development rather than at runtime.
+
+<br>
+
 ## Rule Options
 
 The rule does not have any configuration options.

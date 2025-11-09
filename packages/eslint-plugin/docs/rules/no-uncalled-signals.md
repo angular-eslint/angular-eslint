@@ -23,6 +23,12 @@ Warns user about unintentionally doing logic on the signal, rather than the sign
 
 <br>
 
+## Rationale
+
+Angular signals are functions that must be called to retrieve their value. A common mistake, especially for developers new to signals, is to use the signal itself in conditional or logical expressions without calling it first. For example, 'if (mySignal)' checks if the signal function exists (which is always true), not whether the signal's value is truthy. You need 'if (mySignal())' to check the value. This bug is easy to make because signals look like regular properties but behave like functions. The mistake leads to logic errors where conditions always evaluate incorrectly. This rule catches these mistakes by detecting when signals are used in conditionals, comparisons, or logical operations without being called.
+
+<br>
+
 ## Rule Options
 
 The rule does not have any configuration options.

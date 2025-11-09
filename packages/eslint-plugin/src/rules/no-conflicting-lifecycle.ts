@@ -96,3 +96,8 @@ export default createESLintRule<Options, MessageIds>({
     };
   },
 });
+
+export const RULE_DOCS_EXTENSION = {
+  rationale:
+    'This rule was created with the intent to prevent potential issues when both DoCheck and OnChanges lifecycle hooks are implemented together, as they both deal with change detection and could create confusing or duplicated logic. However, the rule has proven to be overly broad in practice. It triggers whenever a component or directive implements both hooks, regardless of whether they actually conflict or track the same data. In reality, there are legitimate use cases where both hooks can coexist without issues—for instance, using OnChanges to respond to specific input changes while using DoCheck for custom change detection logic on different data. Because the rule cannot accurately determine whether the hooks are actually conflicting (i.e., checking the same variables), it produces false positives and has been removed from the recommended configuration. While the rule was well-intentioned, it should not be relied upon in practice.',
+};

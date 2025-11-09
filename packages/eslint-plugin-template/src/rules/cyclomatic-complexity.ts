@@ -82,3 +82,8 @@ export default createESLintRule<Options, MessageIds>({
     };
   },
 });
+
+export const RULE_DOCS_EXTENSION = {
+  rationale:
+    'Cyclomatic complexity measures the number of independent paths through code by counting control flow statements (if, for, while, etc.). High complexity in templates indicates too much logic in the template, making it hard to read, test, and maintain. Templates with high complexity often contain nested *ngIf/*ngFor combinations, complex ternary expressions, or multiple structural directives. This logic should be moved to the component class or into separate components. Component classes can be unit tested, but template logic is harder to test and reason about. Breaking complex templates into smaller, focused components also improves reusability and follows the single responsibility principle.',
+};

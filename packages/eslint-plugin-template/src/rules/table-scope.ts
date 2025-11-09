@@ -58,3 +58,8 @@ export default createESLintRule<Options, MessageIds>({
     };
   },
 });
+
+export const RULE_DOCS_EXTENSION = {
+  rationale:
+    'The scope attribute on table headers (<th>) tells screen readers whether a header applies to a column or row, enabling more efficient table navigation. When screen reader users navigate table cells, the screen reader announces the associated headers. Without proper scope attributes, users must manually explore the table structure to understand what each cell represents. Use scope="col" for column headers and scope="row" for row headers. For simple tables, screen readers can often infer the scope, but explicit scope attributes ensure reliable accessibility across all screen readers.',
+};

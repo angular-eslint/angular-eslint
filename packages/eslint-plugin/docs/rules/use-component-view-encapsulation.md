@@ -23,6 +23,12 @@ Disallows using `ViewEncapsulation.None`
 
 <br>
 
+## Rationale
+
+Setting encapsulation to ViewEncapsulation.None disables Angular's view encapsulation, making the component's styles global and affecting the entire application. This breaks component isolation and can cause unexpected styling conflicts throughout your app. When multiple components use ViewEncapsulation.None, their styles can interfere with each other in unpredictable ways, making it extremely difficult to reason about styling. A style intended for one component might accidentally affect completely unrelated components. This defeats one of Angular's key benefits: component style isolation. ViewEncapsulation.None is occasionally necessary for specific edge cases (like styling dynamically inserted content), but it should be avoided in normal component development. Use the default Emulated encapsulation, or ShadowDom for native Shadow DOM, to keep component styles properly isolated.
+
+<br>
+
 ## Rule Options
 
 The rule does not have any configuration options.

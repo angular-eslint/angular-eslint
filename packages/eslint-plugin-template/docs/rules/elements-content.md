@@ -21,6 +21,12 @@
 
 <br>
 
+## Rationale
+
+Interactive elements like buttons, anchors (links), and headings must have accessible text content for screen readers. For example, '<button><mat-icon>delete</mat-icon></button>' is not accessible because screen readers will just announce 'button' without explaining what it does. Solutions include adding visible text, using aria-label, or including visually-hidden text with CSS. This ensures all users, including those using screen readers, know the purpose of each interactive element. This is a fundamental WCAG requirement for web accessibility.
+
+<br>
+
 ## Rule Options
 
 The rule accepts an options object with the following properties:

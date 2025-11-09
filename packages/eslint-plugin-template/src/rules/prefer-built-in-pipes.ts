@@ -119,3 +119,8 @@ function isDisallowedMethod(
 function getMethodName(ast: AST & { name?: string }): string {
   return isASTWithName(ast) ? ast.name : 'unknown';
 }
+
+export const RULE_DOCS_EXTENSION = {
+  rationale:
+    'Angular provides built-in pipes for common string transformations (lowercase, uppercase, titlecase) that are more efficient than calling JavaScript methods directly in templates. Pipes are pure by default, meaning Angular only recalculates them when inputs change, whereas method calls in templates run on every change detection cycle. For example, {{ name.toLowerCase() }} runs toLowerCase() repeatedly during change detection, while {{ name | lowercase }} only transforms the string when name changes. Using pipes also makes templates more declarative and idiomatic. The rule can be configured to allow method calls in event handlers like (click) where purity is not a concern. By default, the rule flags toLowerCase, toUpperCase, toLocaleLowerCase, and toLocaleUpperCase, but can be extended to other methods.',
+};
