@@ -6,6 +6,7 @@ catalog:
   '@angular/compiler': 20.3.9
   '@commitlint/cli': 20.1.0
   '@commitlint/config-conventional': 20.0.0
+  '@eslint/core': ^0.17.0
   '@mdn/browser-compat-data': 7.1.18
   '@nx/devkit': 22.1.0-beta.3
   '@nx/esbuild': 22.1.0-beta.3

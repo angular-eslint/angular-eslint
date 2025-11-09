@@ -57,6 +57,7 @@
     "@angular/compiler": "catalog:",
     "@commitlint/cli": "catalog:",
     "@commitlint/config-conventional": "catalog:",
+    "@eslint/core": "catalog:",
     "@mdn/browser-compat-data": "catalog:",
     "@nx/devkit": "catalog:",
     "@nx/esbuild": "catalog:",
