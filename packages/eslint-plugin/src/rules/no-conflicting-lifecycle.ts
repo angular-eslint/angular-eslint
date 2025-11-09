@@ -98,5 +98,5 @@ export default createESLintRule<Options, MessageIds>({
 });
 
 export const RULE_DOCS_EXTENSION = {
-  rationale: `Directives should not implement both DoCheck and OnChanges together, as ngOnChanges continues being called by the default change detector.`,
+  rationale: `The DoCheck and OnChanges lifecycle hooks serve overlapping purposes for detecting changes, but using them together creates confusing and potentially buggy behavior. When both are implemented, ngOnChanges() runs first when input properties change, then ngDoCheck() runs on every change detection cycle. This can lead to duplicated logic, performance issues from running change detection twice, and confusion about which hook should handle which logic. Angular's documentation recommends using one or the other, not both: use OnChanges for simple input tracking, or DoCheck when you need more granular control over change detection.`,
 };

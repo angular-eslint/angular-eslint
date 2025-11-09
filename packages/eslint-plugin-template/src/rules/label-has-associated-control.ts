@@ -185,5 +185,5 @@ function filterUndefined<T>(value: T | undefined | null): value is T {
 
 export const RULE_DOCS_EXTENSION = {
   rationale:
-    'Proper label-control associations improve form accessibility and screen reader support.',
+    "Form labels must be associated with their form controls for accessibility and usability. This association can be achieved by: (1) wrapping the input inside the label, (2) using the 'for' attribute with a matching input 'id', or (3) for Angular Material, ensuring proper accessibility attributes are set. This association provides multiple benefits: screen readers can announce what each form field is for, clicking the label focuses the input (increasing the clickable area), and it creates a clear connection between labels and fields for all users. This is a WCAG Level A requirement.",
 };

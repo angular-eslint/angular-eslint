@@ -26,7 +26,7 @@ Ensures that input bindings are not aliased
 
 ## Rationale
 
-Two names for the same property (one private, one public) is inherently confusing.
+Renaming inputs creates a confusing situation where the property has one name inside the component class (private name) and a different name in templates (public name). For example, '@Input("userName") name: string' means you access 'this.name' in the component but bind with '[userName]' in templates. This makes the code harder to understand, complicates refactoring, and can cause bugs when developers forget which name to use in which context. Keep the internal and external names the same unless you have a strong reason for the mismatch.
 
 <br>
 

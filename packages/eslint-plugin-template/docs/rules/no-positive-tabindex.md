@@ -25,7 +25,7 @@ Ensures that the `tabindex` attribute is not positive
 
 ## Rationale
 
-Positive values for tabindex attribute should be avoided because they mess up with the order of focus.
+Using positive tabindex values (like tabindex="1" or tabindex="5") disrupts the natural tab order and creates a confusing navigation experience. The natural tab order follows the DOM structure, which users expect. Positive tabindex values create a complex focus order where lower numbers are focused first, then tabindex="0" elements, then remaining interactive elements. This makes the tab order unpredictable and hard to maintain. Users with motor disabilities who rely on keyboard navigation will struggle with illogical focus orders. Instead, use tabindex="0" to add elements to the natural tab order, tabindex="-1" to remove them, and structure your DOM in a logical order. This is a WCAG Level A requirement.
 
 <br>
 

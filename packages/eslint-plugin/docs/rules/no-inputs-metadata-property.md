@@ -23,7 +23,7 @@ Disallows usage of the `inputs` metadata property
 
 ## Rationale
 
-Using the @Input decorator is preferred as it makes the property more identifiable, enables renaming in a single location, and keeps metadata declarations shorter and more readable.
+Using the 'inputs' metadata property (@Component({ inputs: ['name'] })) is discouraged in favor of the @Input() decorator because: (1) @Input() makes it immediately clear which properties are part of the component's API when reading the class, (2) @Input() allows you to rename or configure the input in one place right next to the property, (3) @Input() works better with IDE features like Find References and Rename Refactoring, and (4) @Input() can be easily annotated with the required, transform, and alias options added in recent Angular versions. The metadata property obscures the component's interface and requires looking in two places (decorator metadata and class body) to understand the component's API.
 
 <br>
 

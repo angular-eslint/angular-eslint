@@ -600,5 +600,5 @@ function getI18nCustomId(i18n: I18nMeta): string | undefined {
 
 export const RULE_DOCS_EXTENSION = {
   rationale:
-    'Proper i18n implementation improves code maintainability for internationalization.',
+    "Internationalization (i18n) attributes and directives mark text content for translation, making your application accessible to users who speak different languages. Angular's i18n system extracts marked strings into translation files that can be translated and then compiled back into the application for each locale. Forgetting to mark user-facing text for translation means those strings will remain in the original language even in translated builds, creating a poor user experience. This rule can enforce that certain elements or text content must have i18n markers, ensuring your application is properly prepared for internationalization. Even if you don't currently support multiple languages, adding i18n markers early makes future translation easier.",
 };

@@ -107,5 +107,5 @@ function isCallNameInAllowList(
 
 export const RULE_DOCS_EXTENSION = {
   rationale:
-    'Calling expressions in templates causes them to run on every change detection cycle and may cause performance issues.',
+    'Calling functions or methods in Angular templates (like {{ formatDate(date) }} or *ngIf=\"isValid()\") causes those functions to execute on every change detection cycle. In a typical application, change detection runs very frequently—on every user interaction, HTTP request, or timer event. If a function is called in a template that renders a list of 100 items, it might execute 100 times per change detection cycle, potentially thousands of times per second. This can cause severe performance problems. Instead, use component properties, pipes (which cache results), or computed signals (in modern Angular). For example, instead of {{ formatDate(date) }}, use {{ date | date }} or create a computed signal or getter that calculates the value once per change detection cycle.',
 };

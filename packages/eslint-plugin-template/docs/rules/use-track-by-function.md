@@ -23,7 +23,7 @@ Ensures trackBy function is used
 
 ## Rationale
 
-The use of 'trackBy' is considered a good practice.
+When using \*ngFor to render lists, Angular needs to track which items are added, removed, or moved to efficiently update the DOM. Without a trackBy function, Angular tracks items by object identity, meaning any change to the array (like sorting, filtering, or fetching fresh data from an API) causes Angular to destroy and recreate all DOM elements, even for items that haven't changed. This is inefficient and causes problems like: (1) poor performance with large lists, (2) loss of component state (like form input values), and (3) loss of CSS animations or focus. A trackBy function tells Angular how to identify unique items (usually by an id property), allowing Angular to reuse DOM elements for unchanged items. Use trackBy for all lists, especially those that update frequently or contain components with state.
 
 <br>
 

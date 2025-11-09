@@ -45,5 +45,5 @@ export default createESLintRule<Options, MessageIds>({
 
 export const RULE_DOCS_EXTENSION = {
   rationale:
-    'Using decorators like @ContentChild or @ViewChild allows property renaming in one location.',
+    "Using the 'queries' metadata property (@Component({ queries: { child: new ViewChild('ref') } })) is discouraged in favor of decorator syntax (@ViewChild('ref')) because: (1) decorators make it immediately clear which properties are view/content queries when reading the class, (2) decorators allow configuration right next to the property declaration, (3) decorator syntax works better with IDE features and TypeScript type checking, and (4) the decorator approach is the standard modern Angular pattern. The metadata property approach is a legacy pattern that makes code harder to read and maintain.",
 };

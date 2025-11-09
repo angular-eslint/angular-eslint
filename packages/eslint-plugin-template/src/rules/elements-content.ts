@@ -82,5 +82,5 @@ export default createESLintRule<Options, MessageIds>({
 
 export const RULE_DOCS_EXTENSION = {
   rationale:
-    'Heading, anchor and button elements should have content to be accessible by screen readers.',
+    "Interactive elements like buttons, anchors (links), and headings must have accessible text content for screen readers. For example, '<button><mat-icon>delete</mat-icon></button>' is not accessible because screen readers will just announce 'button' without explaining what it does. Solutions include adding visible text, using aria-label, or including visually-hidden text with CSS. This ensures all users, including those using screen readers, know the purpose of each interactive element. This is a fundamental WCAG requirement for web accessibility.",
 };

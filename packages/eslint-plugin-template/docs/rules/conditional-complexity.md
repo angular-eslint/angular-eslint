@@ -23,7 +23,7 @@ The conditional complexity should not exceed a rational limit
 
 ## Rationale
 
-An important complexity complicates the tests and the maintenance.
+Complex conditional expressions in templates (like multiple '&&' or '||' operators, nested ternaries, or long chains of conditions) make templates hard to read, test, and maintain. Template logic should be minimal and easy to understand at a glance. Complex conditionals are better moved to the component class as computed properties or methods, where they can be properly tested, documented, and reasoned about. For example, instead of '*ngIf="user && user.role === 'admin' && user.isActive && !user.isLocked"', create a component property like 'get canAccessAdmin() { return this.user?.role === 'admin' && this.user?.isActive && !this.user?.isLocked; }' and use '*ngIf="canAccessAdmin"'. This makes templates more declarative and components easier to unit test.
 
 <br>
 

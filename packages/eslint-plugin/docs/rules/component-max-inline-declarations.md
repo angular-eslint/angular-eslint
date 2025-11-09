@@ -23,7 +23,7 @@ Enforces a maximum number of lines in inline template, styles and animations.
 
 ## Rationale
 
-Large, inline templates and styles obscure the component's purpose and implementation, reducing readability and maintainability.
+When templates or styles exceed a few lines, keeping them inline makes components harder to read and maintain. Inline templates and styles cannot be syntax-highlighted as effectively as separate files, complicate code reviews, and make it difficult to quickly understand a component's structure. Moving larger templates and styles to separate files improves readability, enables better IDE support, and follows the separation of concerns principle.
 
 <br>
 

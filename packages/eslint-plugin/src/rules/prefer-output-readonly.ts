@@ -60,5 +60,5 @@ export default createESLintRule<Options, MessageIds>({
 
 export const RULE_DOCS_EXTENSION = {
   rationale:
-    "@Output properties shouldn't be reassigned, so declaring them readonly is preferred.",
+    "EventEmitters marked as @Output() should never be reassigned to a new EventEmitter instance. The output is meant to be a stable reference that parent components can bind to; reassigning it would break those bindings. Marking outputs as 'readonly' makes this constraint explicit in the code and leverages TypeScript's type system to prevent accidental reassignment. The correct pattern is '@Output() readonly userClick = new EventEmitter<User>()', not '@Output() userClick: EventEmitter<User>' where the emitter could be reassigned later.",
 };

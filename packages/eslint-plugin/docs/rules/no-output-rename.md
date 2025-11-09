@@ -26,7 +26,7 @@ Ensures that output bindings are not aliased
 
 ## Rationale
 
-Two names for the same property (one private, one public) is inherently confusing.
+Renaming outputs creates a confusing situation where the EventEmitter has one name inside the component class (private name) and a different name in templates (public name). For example, '@Output("userDeleted") delete: EventEmitter' means you call 'this.delete.emit()' in the component but bind with '(userDeleted)' in templates. This makes the code harder to understand, complicates refactoring, and can cause bugs when developers forget which name to use in which context. Keep the internal and external names the same unless you have a strong reason for the mismatch.
 
 <br>
 

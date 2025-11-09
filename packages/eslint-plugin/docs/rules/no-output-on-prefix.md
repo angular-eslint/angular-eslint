@@ -23,7 +23,7 @@ Ensures that output bindings, including aliases, are not named "on", nor prefixe
 
 ## Rationale
 
-Angular allows for an alternative syntax on-\*. If the event itself was prefixed with on this would result in an on-onEvent binding expression.
+Angular's template syntax allows both '(eventName)' and 'on-eventName' for event bindings. If you prefix an output with 'on', this creates awkward template syntax like '(onUserClick)' or the even more redundant 'on-onUserClick'. This violates the principle of least surprise and makes templates harder to read. Instead, name outputs as simple actions or events (like 'userClick'), which Angular templates will bind as '(userClick)' or 'on-userClick'.
 
 <br>
 

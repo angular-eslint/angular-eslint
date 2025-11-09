@@ -93,5 +93,5 @@ function validateDecorator(
 }
 
 export const RULE_DOCS_EXTENSION = {
-  rationale: `Some decorators should only be used in certain class types. For example, the decorator @Input() should not be used in a class decorated with @Injectable().`,
+  rationale: `Angular decorators like @Input(), @Output(), @ViewChild(), and @HostBinding() are only meaningful in specific class types. For example, @Input() and @Output() only work in @Component or @Directive classes because they define the component/directive's API. Using these decorators in @Injectable() classes or @Pipe() classes will not work as expected, as Angular does not process these decorators in those contexts. This rule prevents bugs by ensuring decorators are only used where Angular will recognize and process them.`,
 };

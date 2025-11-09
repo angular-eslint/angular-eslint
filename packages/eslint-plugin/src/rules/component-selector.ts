@@ -164,5 +164,5 @@ function hasEncapsulationShadowDomProperty(node: TSESTree.Decorator) {
 
 export const RULE_DOCS_EXTENSION = {
   rationale:
-    'Consistent naming conventions for components make it easy to quickly identify components, promote code sharing across applications, improve readability in DOM and alignment with Custom Elements spec, and make components easy to recognize in markup.',
+    "Consistent component selector naming conventions provide several benefits: they make components easily identifiable in templates and browser DevTools, prevent naming collisions with native HTML elements and third-party components, enable teams to quickly identify which library or feature area a component belongs to, and align with the Web Components specification for custom elements. For example, prefixing selectors with 'app-' (like 'app-user-profile') clearly distinguishes your application components from third-party libraries.",
 };

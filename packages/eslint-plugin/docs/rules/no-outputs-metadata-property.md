@@ -23,7 +23,7 @@ Disallows usage of the `outputs` metadata property
 
 ## Rationale
 
-Using the @Output decorator is preferred as it improves readability, enables renaming in a single location, and keeps declarations concise.
+Using the 'outputs' metadata property (@Component({ outputs: ['change'] })) is discouraged in favor of the @Output() decorator because: (1) @Output() makes it immediately clear which properties are event emitters when reading the class, (2) @Output() allows you to rename or configure the output in one place right next to the property, (3) @Output() works better with IDE features like Find References and Rename Refactoring, and (4) the decorator syntax is more consistent with modern Angular development practices. The metadata property obscures the component's interface and requires looking in two places (decorator metadata and class body) to understand the component's public API.
 
 <br>
 

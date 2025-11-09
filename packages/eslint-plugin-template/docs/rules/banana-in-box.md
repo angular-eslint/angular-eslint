@@ -24,7 +24,7 @@ Ensures that the two-way data binding syntax is correct
 
 ## Rationale
 
-The parentheses '()' should have been inside the brackets '[]'.
+The Angular two-way binding syntax is [(ngModel)]="value", where the parentheses are INSIDE the brackets, resembling a banana in a box. A common typo is ([ngModel])="value" with the parentheses outside, which creates a one-way binding FROM the template TO the component (the opposite of what's intended). This will make the input update when the value changes but won't update the value when the user types. This syntax error is easy to make and can be hard to spot visually, but it breaks two-way data binding. The correct syntax is: [()] for two-way binding, [] for property binding (component to template), and () for event binding (template to component).
 
 <br>
 

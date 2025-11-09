@@ -23,7 +23,7 @@ Directive selectors should follow given naming rules. See more at https://angula
 
 ## Rationale
 
-Consistent naming conventions for directives make it easy to quickly identify directives, promote code sharing across applications, and improve DOM readability.
+Consistent directive selector naming conventions help identify which directives belong to your application versus third-party libraries, prevent naming collisions with native HTML attributes and other directives, and make code reviews and debugging easier. For example, using a camelCase attribute selector with a prefix like 'appHighlight' makes it immediately clear that this is a custom directive from your application.
 
 <br>
 

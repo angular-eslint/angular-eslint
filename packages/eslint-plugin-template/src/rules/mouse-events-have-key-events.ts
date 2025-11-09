@@ -63,5 +63,5 @@ export default createESLintRule<Options, MessageIds>({
 
 export const RULE_DOCS_EXTENSION = {
   rationale:
-    'Keyboard is important for users with physical disabilities who cannot use a mouse.',
+    'Users who rely on keyboards for navigation (due to physical disabilities, personal preference, or assistive technologies) need keyboard alternatives for mouse-based interactions. Any element with a click or mouse event handler should also respond to keyboard events (typically keyup or keydown for Enter or Space keys). If an element is not inherently keyboard-accessible (like a div or span), consider using a button element instead, which is keyboard-accessible by default. This ensures your application is usable by everyone, not just mouse users. This is a WCAG Level A requirement.',
 };

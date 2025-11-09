@@ -71,5 +71,5 @@ export default createESLintRule<Options, MessageIds>({
 });
 
 export const RULE_DOCS_EXTENSION = {
-  rationale: `Some lifecycle methods can only be used in certain class types. For example, ngOnInit() method should not be used in an @Injectable class.`,
+  rationale: `Angular lifecycle hooks are only invoked for specific class types. For example, ngOnInit(), ngOnChanges(), and ngOnDestroy() are only called for components and directives, not for services (@Injectable), pipes (@Pipe), or modules (@NgModule). Defining these lifecycle methods in the wrong class type gives a false impression that they will be called, leading to bugs where initialization or cleanup logic never executes. This rule ensures lifecycle methods are only used where Angular will actually invoke them.`,
 };
