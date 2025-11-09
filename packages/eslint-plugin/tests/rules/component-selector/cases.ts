@@ -240,6 +240,101 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
       `,
     options: [{ type: 'element', style: 'kebab-case', prefix: '' }],
   },
+  // Single config array - element only
+  {
+    code: `
+      @Component({
+        selector: 'app-foo-bar'
+      })
+      class Test {}
+      `,
+    options: [[{ type: 'element', prefix: 'app', style: 'kebab-case' }]],
+  },
+  // Single config array - attribute only
+  {
+    code: `
+      @Component({
+        selector: '[appFooBar]'
+      })
+      class Test {}
+      `,
+    options: [[{ type: 'attribute', prefix: 'app', style: 'camelCase' }]],
+  },
+  // Multiple configs - element with kebab-case
+  {
+    code: `
+      @Component({
+        selector: 'app-foo-bar'
+      })
+      class Test {}
+      `,
+    options: [
+      [
+        { type: 'element', prefix: 'app', style: 'kebab-case' },
+        { type: 'attribute', prefix: 'app', style: 'camelCase' },
+      ],
+    ],
+  },
+  // Multiple configs - attribute with camelCase
+  {
+    code: `
+      @Component({
+        selector: '[appFooBar]'
+      })
+      class Test {}
+      `,
+    options: [
+      [
+        { type: 'element', prefix: 'app', style: 'kebab-case' },
+        { type: 'attribute', prefix: 'app', style: 'camelCase' },
+      ],
+    ],
+  },
+  // Multiple configs - element with array of prefixes
+  {
+    code: `
+      @Component({
+        selector: 'lib-foo-bar'
+      })
+      class Test {}
+      `,
+    options: [
+      [
+        { type: 'element', prefix: ['app', 'lib'], style: 'kebab-case' },
+        { type: 'attribute', prefix: 'app', style: 'camelCase' },
+      ],
+    ],
+  },
+  // Multiple configs - attribute with array of prefixes
+  {
+    code: `
+      @Component({
+        selector: '[libFooBar]'
+      })
+      class Test {}
+      `,
+    options: [
+      [
+        { type: 'element', prefix: 'app', style: 'kebab-case' },
+        { type: 'attribute', prefix: ['app', 'lib'], style: 'camelCase' },
+      ],
+    ],
+  },
+  // Multiple configs - config order shouldn't matter
+  {
+    code: `
+      @Component({
+        selector: '[appFooBar]'
+      })
+      class Test {}
+      `,
+    options: [
+      [
+        { type: 'attribute', prefix: 'app', style: 'camelCase' },
+        { type: 'element', prefix: 'app', style: 'kebab-case' },
+      ],
+    ],
+  },
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
@@ -430,5 +525,109 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId: messageIdPrefixFailure,
     options: [{ type: 'element', prefix: 'sg', style: 'kebab-case' }],
     data: { prefix: '"sg"' },
+  }),
+  // Single config array - element with wrong style
+  convertAnnotatedSourceToFailureCase({
+    description: `should fail if an element selector doesn't match when using single config array`,
+    annotatedSource: `
+        @Component({
+          selector: 'appFooBar'
+                    ~~~~~~~~~~~
+        })
+        class Test {}
+      `,
+    messageId: messageIdStyleAndPrefixFailure,
+    options: [[{ type: 'element', prefix: 'app', style: 'kebab-case' }]],
+    data: { style: 'kebab-case', prefix: '"app"' },
+  }),
+  // Single config array - attribute with wrong style
+  convertAnnotatedSourceToFailureCase({
+    description: `should fail if an attribute selector doesn't match when using single config array`,
+    annotatedSource: `
+        @Component({
+          selector: '[app-foo-bar]'
+                    ~~~~~~~~~~~~~~~
+        })
+        class Test {}
+      `,
+    messageId: messageIdStyleFailure,
+    options: [[{ type: 'attribute', prefix: 'app', style: 'camelCase' }]],
+    data: { style: 'camelCase' },
+  }),
+  // Multiple configs - element with wrong style
+  convertAnnotatedSourceToFailureCase({
+    description: `should fail if an element selector doesn't match kebab-case when using multiple configs`,
+    annotatedSource: `
+        @Component({
+          selector: 'appFooBar'
+                    ~~~~~~~~~~~
+        })
+        class Test {}
+      `,
+    messageId: messageIdStyleAndPrefixFailure,
+    options: [
+      [
+        { type: 'element', prefix: 'app', style: 'kebab-case' },
+        { type: 'attribute', prefix: 'app', style: 'camelCase' },
+      ],
+    ],
+    data: { style: 'kebab-case', prefix: '"app"' },
+  }),
+  // Multiple configs - attribute with wrong style
+  convertAnnotatedSourceToFailureCase({
+    description: `should fail if an attribute selector doesn't match camelCase when using multiple configs`,
+    annotatedSource: `
+        @Component({
+          selector: '[app-foo-bar]'
+                    ~~~~~~~~~~~~~~~
+        })
+        class Test {}
+      `,
+    messageId: messageIdStyleFailure,
+    options: [
+      [
+        { type: 'element', prefix: 'app', style: 'kebab-case' },
+        { type: 'attribute', prefix: 'app', style: 'camelCase' },
+      ],
+    ],
+    data: { style: 'camelCase' },
+  }),
+  // Multiple configs - element with wrong prefix
+  convertAnnotatedSourceToFailureCase({
+    description: `should fail if an element selector has wrong prefix when using multiple configs`,
+    annotatedSource: `
+        @Component({
+          selector: 'lib-foo-bar'
+                    ~~~~~~~~~~~~~
+        })
+        class Test {}
+      `,
+    messageId: messageIdPrefixFailure,
+    options: [
+      [
+        { type: 'element', prefix: 'app', style: 'kebab-case' },
+        { type: 'attribute', prefix: 'app', style: 'camelCase' },
+      ],
+    ],
+    data: { prefix: '"app"' },
+  }),
+  // Multiple configs - attribute with wrong prefix
+  convertAnnotatedSourceToFailureCase({
+    description: `should fail if an attribute selector has wrong prefix when using multiple configs`,
+    annotatedSource: `
+        @Component({
+          selector: '[libFooBar]'
+                    ~~~~~~~~~~~~~
+        })
+        class Test {}
+      `,
+    messageId: messageIdPrefixFailure,
+    options: [
+      [
+        { type: 'element', prefix: 'app', style: 'kebab-case' },
+        { type: 'attribute', prefix: 'app', style: 'camelCase' },
+      ],
+    ],
+    data: { prefix: '"app"' },
   }),
 ];
