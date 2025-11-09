@@ -23,7 +23,7 @@
 
 ## Rationale
 
-Users who rely on keyboards for navigation (due to physical disabilities, personal preference, or assistive technologies) need keyboard alternatives for mouse-based interactions. Any element with a click or mouse event handler should also respond to keyboard events (typically keyup or keydown for Enter or Space keys). If an element is not inherently keyboard-accessible (like a div or span), consider using a button element instead, which is keyboard-accessible by default. This ensures your application is usable by everyone, not just mouse users. This is a WCAG Level A requirement.
+Elements with click handlers must also be operable via keyboard for users who cannot use a mouse. This includes users with motor disabilities, users of assistive technologies, and keyboard-only users. While native interactive elements like buttons and links are keyboard-accessible by default (activated by Enter or Space keys), non-interactive elements with click handlers (like divs or spans) are not. For such elements, you must add keyboard event handlers (keyup, keydown, or keypress) that perform the same action as the click handler. Alternatively, use a semantic button element which handles this automatically. This is a WCAG Level A requirement for keyboard accessibility.
 
 <br>
 
