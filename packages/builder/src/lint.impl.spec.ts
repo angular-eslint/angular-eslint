@@ -115,9 +115,13 @@ function createValidRunBuilderOptions(
 const registry = new json.schema.CoreSchemaRegistry();
 registry.addPostTransform(schema.transforms.addUndefinedDefaults);
 
+const mockGetProjectMetadata = vi.fn();
 const testArchitectHost = new TestingArchitectHost(
   testWorkspaceRoot,
   testWorkspaceRoot,
+  {
+    getProjectMetadata: mockGetProjectMetadata,
+  } as any,
 );
 const builderName = '@angular-eslint/builder:lint';
 
@@ -147,6 +151,12 @@ describe('Linter Builder', () => {
   beforeEach(() => {
     MockESLint.version = VALID_ESLINT_VERSION;
     mockReports = [{ results: [], messages: [], usedDeprecatedRules: [] }];
+    mockGetProjectMetadata.mockReturnValue({
+      root: 'packages/test-project',
+      sourceRoot: 'packages/test-project/src',
+      projectType: 'application',
+      name: 'test-project',
+    });
     console.warn = vi.fn();
     console.error = vi.fn();
     console.info = vi.fn();
@@ -218,7 +228,7 @@ describe('Linter Builder', () => {
         fix: true,
         quiet: false,
         cache: true,
-        cacheLocation: `cacheLocation1${sep}<???>`,
+        cacheLocation: `cacheLocation1${sep}test-project`,
         cacheStrategy: 'content',
         format: 'stylish',
         force: false,
@@ -259,7 +269,7 @@ describe('Linter Builder', () => {
         fix: true,
         quiet: false,
         cache: true,
-        cacheLocation: `cacheLocation1${sep}<???>`,
+        cacheLocation: `cacheLocation1${sep}test-project`,
         cacheStrategy: 'content',
         format: 'stylish',
         force: false,
@@ -300,7 +310,7 @@ describe('Linter Builder', () => {
         fix: true,
         quiet: false,
         cache: true,
-        cacheLocation: `cacheLocation1${sep}<???>`,
+        cacheLocation: `cacheLocation1${sep}test-project`,
         cacheStrategy: 'content',
         format: 'stylish',
         force: false,
@@ -341,7 +351,7 @@ describe('Linter Builder', () => {
         fix: true,
         quiet: false,
         cache: true,
-        cacheLocation: `cacheLocation1${sep}<???>`,
+        cacheLocation: `cacheLocation1${sep}test-project`,
         cacheStrategy: 'content',
         format: 'stylish',
         force: false,
@@ -801,6 +811,133 @@ describe('Linter Builder', () => {
     );
   });
 
+  it('should interpolate {projectName} placeholder in outputFile path', async () => {
+    mockReports = [
+      {
+        errorCount: 0,
+        warningCount: 0,
+        results: [],
+        messages: [],
+        usedDeprecatedRules: [],
+      },
+    ];
+    await runBuilder(
+      createValidRunBuilderOptions({
+        eslintConfig: './.eslintrc.json',
+        lintFilePatterns: ['includedFile1'],
+        format: 'json',
+        silent: true,
+        outputFile: 'reports/{projectName}.json',
+      }),
+    );
+    expect(fs.mkdirSync).toHaveBeenCalledWith(
+      join(testWorkspaceRoot, 'reports'),
+      {
+        recursive: true,
+      },
+    );
+    expect(fs.writeFileSync).toHaveBeenCalledWith(
+      join(testWorkspaceRoot, 'reports/test-project.json'),
+      mockFormatter.format(mockReports),
+    );
+  });
+
+  it('should interpolate {projectRoot} placeholder in outputFile path', async () => {
+    mockReports = [
+      {
+        errorCount: 0,
+        warningCount: 0,
+        results: [],
+        messages: [],
+        usedDeprecatedRules: [],
+      },
+    ];
+    await runBuilder(
+      createValidRunBuilderOptions({
+        eslintConfig: './.eslintrc.json',
+        lintFilePatterns: ['includedFile1'],
+        format: 'json',
+        silent: true,
+        outputFile: '{projectRoot}/lint-results.json',
+      }),
+    );
+    expect(fs.mkdirSync).toHaveBeenCalledWith(
+      join(testWorkspaceRoot, 'packages/test-project'),
+      {
+        recursive: true,
+      },
+    );
+    expect(fs.writeFileSync).toHaveBeenCalledWith(
+      join(testWorkspaceRoot, 'packages/test-project/lint-results.json'),
+      mockFormatter.format(mockReports),
+    );
+  });
+
+  it('should interpolate both {projectName} and {projectRoot} placeholders in outputFile path', async () => {
+    mockReports = [
+      {
+        errorCount: 0,
+        warningCount: 0,
+        results: [],
+        messages: [],
+        usedDeprecatedRules: [],
+      },
+    ];
+    await runBuilder(
+      createValidRunBuilderOptions({
+        eslintConfig: './.eslintrc.json',
+        lintFilePatterns: ['includedFile1'],
+        format: 'json',
+        silent: true,
+        outputFile: '{projectRoot}/reports/{projectName}/results.json',
+      }),
+    );
+    expect(fs.mkdirSync).toHaveBeenCalledWith(
+      join(testWorkspaceRoot, 'packages/test-project/reports/test-project'),
+      {
+        recursive: true,
+      },
+    );
+    expect(fs.writeFileSync).toHaveBeenCalledWith(
+      join(
+        testWorkspaceRoot,
+        'packages/test-project/reports/test-project/results.json',
+      ),
+      mockFormatter.format(mockReports),
+    );
+  });
+
+  it('should handle multiple occurrences of {projectName} placeholder', async () => {
+    mockReports = [
+      {
+        errorCount: 0,
+        warningCount: 0,
+        results: [],
+        messages: [],
+        usedDeprecatedRules: [],
+      },
+    ];
+    await runBuilder(
+      createValidRunBuilderOptions({
+        eslintConfig: './.eslintrc.json',
+        lintFilePatterns: ['includedFile1'],
+        format: 'json',
+        silent: true,
+        outputFile: '{projectName}/reports/{projectName}.json',
+      }),
+    );
+    expect(fs.mkdirSync).toHaveBeenCalledWith(
+      join(testWorkspaceRoot, 'test-project/reports'),
+      {
+        recursive: true,
+      },
+    );
+    expect(fs.writeFileSync).toHaveBeenCalledWith(
+      join(testWorkspaceRoot, 'test-project/reports/test-project.json'),
+      mockFormatter.format(mockReports),
+    );
+  });
+
   it('should pass stats option to resolveAndInstantiateESLint', async () => {
     vi.mocked(fs.existsSync).mockImplementation((path) => {
       const pathStr = String(path);
@@ -827,7 +964,7 @@ describe('Linter Builder', () => {
         fix: true,
         quiet: false,
         cache: true,
-        cacheLocation: `cacheLocation1${sep}<???>`,
+        cacheLocation: `cacheLocation1${sep}test-project`,
         cacheStrategy: 'content',
         format: 'stylish',
         force: false,

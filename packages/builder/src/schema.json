@@ -24,7 +24,7 @@
     },
     "outputFile": {
       "type": "string",
-      "description": "File to write report to instead of the console."
+      "description": "File to write report to instead of the console. Supports placeholders: {projectName} will be replaced with the project name, {projectRoot} will be replaced with the project root path."
     },
     "stats": {
       "type": "boolean",
