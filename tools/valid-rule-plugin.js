@@ -56,11 +56,21 @@ module.exports = {
                   p.type !== 'Property' ||
                   p.key?.type !== 'Identifier' ||
                   p.key?.name !== 'rationale' ||
-                  p.value?.type !== 'Literal' ||
-                  typeof p.value?.value !== 'string' ||
-                  //   Make sure the string is not empty
-                  (typeof p.value?.value === 'string' &&
-                    p.value?.value?.trim() === ''),
+                  // String literal
+                  ((p.value?.type !== 'Literal' ||
+                    typeof p.value?.value !== 'string' ||
+                    // Make sure the string is not empty
+                    (typeof p.value?.value === 'string' &&
+                      p.value?.value?.trim() === '')) &&
+                    // Template literal
+                    !(
+                      p.value?.type === 'TemplateLiteral' &&
+                      p.value?.quasis?.every(
+                        (q) =>
+                          // Make sure the template literal is not empty
+                          q.value?.raw?.trim() !== '',
+                      )
+                    )),
               )
             ) {
               context.report({
