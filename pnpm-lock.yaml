@@ -18,6 +18,9 @@ catalogs:
     '@commitlint/config-conventional':
       specifier: 20.0.0
       version: 20.0.0
+    '@eslint/core':
+      specifier: ^0.17.0
+      version: 0.17.0
     '@mdn/browser-compat-data':
       specifier: 7.1.18
       version: 7.1.18
@@ -216,6 +219,9 @@ importers:
       '@commitlint/config-conventional':
         specifier: 'catalog:'
         version: 20.0.0
+      '@eslint/core':
+        specifier: 'catalog:'
+        version: 0.17.0
       '@mdn/browser-compat-data':
         specifier: 'catalog:'
         version: 7.1.18
