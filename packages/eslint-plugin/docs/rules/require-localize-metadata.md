@@ -21,6 +21,12 @@ Ensures that $localize tagged messages contain helpful metadata to aid with tran
 
 <br>
 
+## Rationale
+
+When internationalizing Angular applications with @angular/localize, adding metadata (description, meaning, and custom IDs) to $localize tagged strings is essential for high-quality translations. The description helps translators understand the context and purpose of the text they're translating. For example, "Submit" could mean "submit a form" or "submit to authority" - context matters for accurate translation. The meaning field distinguishes identical text that needs different translations in different contexts. Custom IDs provide stable references that persist across code changes, preventing retranslation when only code structure changes. Without this metadata, translators work blind, leading to poor translations, wasted effort on retranslating unchanged strings, and difficulty managing large translation projects. This rule ensures your $localize strings include helpful metadata for translation workflows.
+
+<br>
+
 ## Rule Options
 
 The rule accepts an options object with the following properties:

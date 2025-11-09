@@ -21,6 +21,12 @@ Use `host` metadata property instead of `@HostBinding` and `HostListener`
 
 <br>
 
+## Rationale
+
+Using the host metadata property in the @Component or @Directive decorator instead of separate @HostBinding and @HostListener decorators consolidates all host-related bindings in one place, making it easier to see all DOM interactions at a glance. The host property approach is generally more concise and keeps component metadata organized. With decorators, host bindings and listeners are scattered throughout the class on individual properties and methods, requiring developers to hunt through the file to understand all host interactions. The centralized host property makes this information immediately visible in the decorator metadata. This is particularly helpful during code reviews and when onboarding new team members who need to understand how a component interacts with its host element.
+
+<br>
+
 ## Rule Options
 
 The rule does not have any configuration options.

@@ -227,3 +227,8 @@ export default createESLintRule<Options, MessageIds>({
     return listener;
   },
 });
+
+export const RULE_DOCS_EXTENSION = {
+  rationale:
+    "Angular signals represent the future of reactivity in Angular, offering fine-grained change detection, better performance, and improved developer experience. Signal-based APIs like input(), viewChild(), and contentChild() provide type-safe, reactive properties that integrate seamlessly with computed values and effects. Unlike decorator-based APIs (@Input(), @ViewChild(), etc.), signals enable more granular tracking of dependencies and updates, allowing Angular to optimize change detection. Signal properties should be marked readonly because signals themselves are stable references - you read their value by calling them, you don't reassign the signal. This prevents bugs where developers might accidentally reassign a signal instead of updating its value. Using signals throughout your components creates a consistent, reactive programming model that makes data flow explicit and easier to understand.",
+};

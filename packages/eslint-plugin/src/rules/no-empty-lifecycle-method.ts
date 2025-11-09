@@ -111,3 +111,8 @@ function getTotalInterfaceOccurrences(text: string, interfaceName: string) {
     .split(' ')
     .filter((item) => stripSpecialCharacters(item) === interfaceName).length;
 }
+
+export const RULE_DOCS_EXTENSION = {
+  rationale:
+    'Empty lifecycle methods add noise to the codebase without providing any value. When a developer sees ngOnInit(), ngOnDestroy(), or other lifecycle hooks, they expect to find important initialization, cleanup, or other lifecycle-related logic. Finding an empty method wastes time during code review and maintenance. Empty lifecycle methods often remain after code has been refactored or removed, serving as dead code that clutters the component. They also require unnecessary imports of lifecycle interfaces (like OnInit, OnDestroy). Removing empty lifecycle methods makes components cleaner, easier to understand, and reduces the file size.',
+};

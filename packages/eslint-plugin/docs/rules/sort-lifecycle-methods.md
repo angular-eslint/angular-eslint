@@ -21,6 +21,12 @@ Ensures that lifecycle methods are declared in order of execution
 
 <br>
 
+## Rationale
+
+Organizing lifecycle methods in the order they execute (ngOnChanges, ngOnInit, ngDoCheck, ngAfterContentInit, ngAfterContentChecked, ngAfterViewInit, ngAfterViewChecked, ngOnDestroy) makes the component lifecycle easier to understand and follow. When methods appear in execution order, developers can mentally trace the component's lifecycle from initialization through destruction just by reading down the file. This natural ordering helps both when writing new code (you know where to add lifecycle logic) and when debugging (you can follow the execution path visually). Randomly ordered lifecycle methods force developers to jump around the file and mentally reconstruct the execution sequence. Consistent ordering is a simple organizational principle that significantly improves code readability.
+
+<br>
+
 ## Rule Options
 
 The rule does not have any configuration options.
