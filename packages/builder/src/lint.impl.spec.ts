@@ -938,6 +938,69 @@ describe('Linter Builder', () => {
     );
   });
 
+  it('should handle {projectRoot} gracefully when getProjectMetadata fails', async () => {
+    mockReports = [
+      {
+        errorCount: 0,
+        warningCount: 0,
+        results: [],
+        messages: [],
+        usedDeprecatedRules: [],
+      },
+    ];
+    // Make getProjectMetadata throw an error to test the catch block
+    mockGetProjectMetadata.mockRejectedValueOnce(
+      new Error('Failed to get metadata'),
+    );
+    await runBuilder(
+      createValidRunBuilderOptions({
+        eslintConfig: './.eslintrc.json',
+        lintFilePatterns: ['includedFile1'],
+        format: 'json',
+        silent: true,
+        outputFile: '{projectRoot}/lint-results.json',
+      }),
+    );
+    // When projectRoot is empty, it should clean up to just 'lint-results.json'
+    expect(fs.writeFileSync).toHaveBeenCalledWith(
+      join(testWorkspaceRoot, 'lint-results.json'),
+      mockFormatter.format(mockReports),
+    );
+  });
+
+  it('should clean up double slashes in interpolated outputFile paths', async () => {
+    mockReports = [
+      {
+        errorCount: 0,
+        warningCount: 0,
+        results: [],
+        messages: [],
+        usedDeprecatedRules: [],
+      },
+    ];
+    // Set projectRoot to empty to trigger cleanup logic
+    mockGetProjectMetadata.mockReturnValueOnce({
+      root: '',
+      sourceRoot: '',
+      projectType: 'application',
+      name: 'test-project',
+    });
+    await runBuilder(
+      createValidRunBuilderOptions({
+        eslintConfig: './.eslintrc.json',
+        lintFilePatterns: ['includedFile1'],
+        format: 'json',
+        silent: true,
+        outputFile: '{projectRoot}/reports/{projectName}/lint.json',
+      }),
+    );
+    // Should clean up leading slash and double slashes: '/reports/test-project/lint.json' -> 'reports/test-project/lint.json'
+    expect(fs.writeFileSync).toHaveBeenCalledWith(
+      join(testWorkspaceRoot, 'reports/test-project/lint.json'),
+      mockFormatter.format(mockReports),
+    );
+  });
+
   it('should pass stats option to resolveAndInstantiateESLint', async () => {
     vi.mocked(fs.existsSync).mockImplementation((path) => {
       const pathStr = String(path);
