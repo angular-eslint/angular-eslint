@@ -98,9 +98,11 @@ describe('output-file-interpolation', () => {
     }
 
     // Verify report was written to the dynamically interpolated path and snapshot the contents
-    const appTwoReport = fixture.readJson(
-      'dynamic-reports/app-two/projects/app-two/lint.json',
-    );
+    const appTwoReportPath =
+      'dynamic-reports/app-two/projects/app-two/lint.json';
+    expect(fixture.fileExists(appTwoReportPath)).toBe(true);
+
+    const appTwoReport = fixture.readJson(appTwoReportPath);
     expect(appTwoReport).toMatchSnapshot();
   });
 
