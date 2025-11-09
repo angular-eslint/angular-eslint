@@ -1,4 +1,7 @@
+// @ts-check
+
 const nx = require('@nx/eslint-plugin');
+const validRulePlugin = require('./tools/valid-rule-plugin');
 
 module.exports = [
   ...nx.configs['flat/base'],
@@ -54,6 +57,15 @@ module.exports = [
             'Do not commit test cases with `only: true` or `skip: true`. These should only be used for local development.',
         },
       ],
+    },
+  },
+  {
+    files: ['**/*.ts'],
+    plugins: {
+      'valid-rule': validRulePlugin,
+    },
+    rules: {
+      'valid-rule/require-rule-docs-extension': 'error',
     },
   },
 ];
