@@ -44,6 +44,18 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     constructor(level: string) {}
   }
   `,
+  `
+  @Injectable()
+  class Logger {
+    constructor(public level: string) {}
+  }
+  `,
+  `
+  @Injectable()
+  class Foo {
+    constructor(foo: any, bar: unknown) {}
+  }
+  `,
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
@@ -93,6 +105,17 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       { char: '~', messageId },
       { char: '^', messageId },
     ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'primitive parameter with @Inject decorator',
+    annotatedSource: `
+      @Injectable()
+      class WithPrimitiveToken {
+        constructor(@Inject(LEVEL_TOKEN) public level: string) {}
+                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      }
+    `,
+    messageId,
   }),
   convertAnnotatedSourceToFailureCase({
     description: 'mixed with super call',

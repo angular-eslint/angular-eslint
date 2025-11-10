@@ -32,22 +32,11 @@ export default createESLintRule<Options, MessageIds>({
     ]);
 
     function shouldReportParameter(param: TSESTree.Parameter): boolean {
-      let actualParam = param;
-      let hasModifier = false;
-
-      if (param.type === AST_NODE_TYPES.TSParameterProperty) {
-        actualParam = param.parameter;
-        hasModifier = true;
-      }
-
-      const decorators = (
-        (param.type === AST_NODE_TYPES.TSParameterProperty
-          ? param.parameter
-          : param) as TSESTree.Parameter
-      ).decorators;
+      // Definitely DI – has Angular decorator
+      const decorators = param.decorators;
       if (
-        decorators?.some((d) => {
-          const name = ASTUtils.getDecoratorName(d);
+        decorators?.some((decorator) => {
+          const name = ASTUtils.getDecoratorName(decorator);
           return (
             name === 'Inject' ||
             name === 'Optional' ||
@@ -60,10 +49,11 @@ export default createESLintRule<Options, MessageIds>({
         return true;
       }
 
-      if (hasModifier) {
-        return true;
-      }
-
+      // Primitive type with no decorator – not DI
+      const actualParam =
+        param.type === AST_NODE_TYPES.TSParameterProperty
+          ? param.parameter
+          : param;
       const typeAnnotation = (
         actualParam as TSESTree.Identifier | TSESTree.AssignmentPattern
       ).typeAnnotation;
@@ -77,12 +67,11 @@ export default createESLintRule<Options, MessageIds>({
           case AST_NODE_TYPES.TSAnyKeyword:
           case AST_NODE_TYPES.TSUnknownKeyword:
             return false;
-          default:
-            return true;
         }
       }
 
-      return false;
+      // Everything else – likely DI
+      return true;
     }
 
     return {
