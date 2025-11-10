@@ -15,3 +15,6 @@ packages/schematics/src/workspace/schema.json
 /.nx/workspace-data
 
 pnpm-lock.yaml
+
+# Avoid pings about it being out of date purely because of formatting differences
+.mcp.json
