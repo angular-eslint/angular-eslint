@@ -21,6 +21,12 @@ Ensures that input bindings, including aliases, are not named or prefixed by the
 
 <br>
 
+## Rationale
+
+In HTML and Angular templates, attributes don't use prefixes like 'is' or 'has', so input properties shouldn't either. For example, prefer '@Input() disabled' over '@Input() isDisabled', so it's used in templates as '[disabled]="true"' rather than '[isDisabled]="true"'. This creates a more natural, HTML-like API for your components and follows Angular's style guide. The component class can still use prefixed names internally, but the input binding name (the public API) should follow HTML conventions.
+
+<br>
+
 ## Rule Options
 
 The rule accepts an options object with the following properties:

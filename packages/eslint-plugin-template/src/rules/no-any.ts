@@ -105,3 +105,8 @@ export default createESLintRule<Options, MessageIds>({
     };
   },
 });
+
+export const RULE_DOCS_EXTENSION = {
+  rationale:
+    "The $any() type cast function in Angular templates disables TypeScript's type checking for an expression, removing all the benefits of static typing. This means typos, incorrect property access, and invalid method calls won't be caught until runtime. While $any() can be a quick fix for type errors, it's better to properly type your component properties or fix the underlying type issue. Overusing $any() makes templates less safe and can hide real bugs. If you're using $any() frequently, it often indicates that your component's types need improvement. Use $any() sparingly and only when you have a specific reason why TypeScript's type checking isn't applicable.",
+};

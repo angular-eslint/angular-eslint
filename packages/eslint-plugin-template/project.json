@@ -14,6 +14,16 @@
       "outputs": ["{projectRoot}/dist"],
       "command": "ncp {projectRoot}/src/configs {projectRoot}/dist/configs"
     },
+    "test": {
+      "options": {
+        "args": "run"
+      },
+      "configurations": {
+        "ci": {
+          "args": ["run", "--coverage"]
+        }
+      }
+    },
     "check-rule-docs": {
       "dependsOn": ["update-rule-docs"],
       "command": "git diff --quiet --exit-code packages/eslint-plugin-template/docs || (echo \"\n-------\n\nCHECK RULE DOCS ERROR: You have uncommitted changes to the generated rule docs.\n\nYou should run `pnpm update-rule-docs` and commit the result.\n\n-------\n\" && exit 1)"

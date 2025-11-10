@@ -21,6 +21,12 @@ Ensures that lifecycle methods are used in a correct context
 
 <br>
 
+## Rationale
+
+Angular lifecycle hooks are only invoked for specific class types. For example, ngOnInit(), ngOnChanges(), and ngOnDestroy() are only called for components and directives, not for services (@Injectable), pipes (@Pipe), or modules (@NgModule). Defining these lifecycle methods in the wrong class type gives a false impression that they will be called, leading to bugs where initialization or cleanup logic never executes. This rule ensures lifecycle methods are only used where Angular will actually invoke them.
+
+<br>
+
 ## Rule Options
 
 The rule does not have any configuration options.

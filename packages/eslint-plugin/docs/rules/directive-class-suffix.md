@@ -21,6 +21,12 @@ Classes decorated with @Directive must have suffix "Directive" (or custom) in th
 
 <br>
 
+## Rationale
+
+Historically, appending 'Directive' to directive class names was recommended to distinguish directives from other classes. However, as of Angular v20, the Angular Team no longer recommends this convention, favoring simpler class names. This rule remains available for teams that have established this naming pattern and wish to maintain consistency in their existing codebase.
+
+<br>
+
 ## Rule Options
 
 The rule accepts an options object with the following properties:

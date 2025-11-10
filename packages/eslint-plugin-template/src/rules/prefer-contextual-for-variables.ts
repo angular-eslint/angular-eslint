@@ -701,3 +701,8 @@ interface Problem {
 }
 
 type SimplificationMessageIds = Exclude<MessageIds, 'preferContextualVariable'>;
+
+export const RULE_DOCS_EXTENSION = {
+  rationale:
+    'Angular\'s @for loop provides built-in contextual variables ($index, $count, $first, $last, $even, $odd) that are more efficient and clearer than manual calculations. Using these variables eliminates redundant logic like @for (item of items; let i = $index) { @if (i === 0) } when $first would suffice. The built-in variables are optimized by Angular and make template intent explicit. For example, $first immediately communicates "first item in the loop" whereas i === 0 requires mental translation. Similarly, using $even/$odd is clearer than i % 2 === 0 for alternating row styling. The rule can be configured to allow specific custom alias names if your team has established naming conventions, but by default encourages using Angular\'s standard contextual variables for consistency across the ecosystem.',
+};

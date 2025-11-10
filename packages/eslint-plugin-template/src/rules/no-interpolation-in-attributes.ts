@@ -99,3 +99,8 @@ export default createESLintRule<Options, MessageIds>({
     };
   },
 });
+
+export const RULE_DOCS_EXTENSION = {
+  rationale:
+    'Property binding syntax [attribute]="value" is more efficient and clearer than interpolation {{ value }} for setting attribute values in templates. Interpolation converts the expression to a string and then Angular parses it back, whereas property binding directly passes the value without string conversion. This makes property binding faster and avoids potential issues with type coercion. Property binding also makes it immediately obvious that the attribute value is dynamic rather than static. For substring interpolation (like alt="Image of {{ name }}"), the performance difference is minimal and interpolation may be more readable, so the rule can optionally allow these cases while still catching full interpolation patterns that should use property binding.',
+};

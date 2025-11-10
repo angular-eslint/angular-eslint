@@ -11,8 +11,6 @@ const migrationSchematicRunner = new SchematicTestRunner(
   path.join(__dirname, '../../../dist/migrations.json'),
 );
 
-console.log(migrationSchematicRunner);
-
 describe('update-20-0-0', () => {
   let appTree: UnitTestTree;
   beforeEach(() => {

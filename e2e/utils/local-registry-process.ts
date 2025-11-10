@@ -3,7 +3,7 @@ import { workspaceRoot } from '@nx/devkit';
 import execa from 'execa';
 import { join } from 'node:path';
 
-// Used to ensure all the time-consuming setup steps for fixtures do not cause jest to time out
+// Used to ensure all the time-consuming setup steps for fixtures do not cause the test to time out
 export const LONG_TIMEOUT_MS = 600000; // 10 mins
 
 const publishedVersion = process.env.PUBLISHED_VERSION ?? '0.0.0-e2e';

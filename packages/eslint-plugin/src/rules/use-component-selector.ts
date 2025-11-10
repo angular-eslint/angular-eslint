@@ -40,3 +40,8 @@ export default createESLintRule<Options, MessageIds>({
     };
   },
 });
+
+export const RULE_DOCS_EXTENSION = {
+  rationale:
+    "Every component should have a selector that defines how it's used in templates. Omitting the selector makes the component unusable in templates and can only be used with dynamic component loading or routing, which is rarely the intent. When debugging, components without selectors are harder to identify in the component tree and browser DevTools. If a component is truly only meant for dynamic loading (like a modal or route component), you can disable this rule for that component, but in most cases, every component should have a meaningful selector.",
+};

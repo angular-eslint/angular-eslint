@@ -1,6 +1,7 @@
 import tsPluginBase from '@angular-eslint/eslint-plugin';
 import templatePluginBase from '@angular-eslint/eslint-plugin-template';
 import * as templateParserBase from '@angular-eslint/template-parser';
+import type { Plugin as ESLintPlugin } from '@eslint/core';
 import type { TSESLint } from '@typescript-eslint/utils';
 import { parser } from 'typescript-eslint';
 
@@ -16,7 +17,9 @@ const templateParser: TSESLint.FlatConfig.Parser = {
 };
 
 /*
-we could build a plugin object here without the `configs` key - but if we do
+NOTE: Comment and approach taken from typescript-eslint:
+
+We could build a plugin object here without the `configs` key - but if we do
 that then we create a situation in which
 ```
 require('angular-eslint').tsPlugin !== require('@angular-eslint/eslint-plugin')
@@ -38,14 +41,18 @@ use our new package); however legacy configs consumed via `@eslint/eslintrc`
 would never be able to satisfy this constraint and thus users would be blocked
 from using them.
 */
-const tsPlugin: TSESLint.FlatConfig.Plugin = tsPluginBase as Omit<
-  typeof tsPluginBase,
-  'configs'
->;
-const templatePlugin: TSESLint.FlatConfig.Plugin = templatePluginBase as Omit<
-  typeof templatePluginBase,
-  'configs'
->;
+
+/**
+ * Make the plugins compatible with both ESLint's Plugin type and typescript-eslint's
+ * FlatConfig.Plugin type through type assertion.
+ *
+ * This is covered by a type compatibility test in tests/type-compatibility.test.ts
+ */
+type CompatiblePlugin = Omit<ESLintPlugin, 'configs'> & {
+  configs?: never;
+};
+const tsPlugin = tsPluginBase as unknown as CompatiblePlugin;
+const templatePlugin = templatePluginBase as unknown as CompatiblePlugin;
 
 const configs = {
   tsAll: tsAllConfig(tsPlugin, parser),

@@ -21,6 +21,12 @@ Enforce consistent prefix for pipes.
 
 <br>
 
+## Rationale
+
+Prefixing pipe names helps prevent naming collisions between pipes from different libraries or modules, and makes it clear which pipes belong to your application versus third-party libraries. For example, prefixing with 'app' creates pipe names like 'appCurrency' instead of just 'currency', avoiding conflicts with Angular's built-in pipes.
+
+<br>
+
 ## Rule Options
 
 The rule accepts an options object with the following properties:

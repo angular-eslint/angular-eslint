@@ -80,3 +80,8 @@ function isPrototype(node: TSESTree.Node): boolean {
   }
   return false;
 }
+
+export const RULE_DOCS_EXTENSION = {
+  rationale:
+    "Lifecycle methods in Angular must be defined on the class prototype (using method syntax) rather than as instance properties (using arrow functions or property assignments). Angular's change detection looks for lifecycle methods on the prototype chain, and defining them as instance properties can prevent Angular from finding and invoking them correctly. This is a subtle but critical issue that can cause lifecycle hooks to silently fail. For example, if ngOnInit is defined as a class property (ngOnInit = () => {}), Angular will not call it, leading to missing initialization logic. Using standard method definitions ensures lifecycle hooks are placed on the prototype where Angular expects them.",
+};

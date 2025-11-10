@@ -1,3 +1,17 @@
+## 20.6.0 (2025-11-09)
+
+### 🚀 Features
+
+- **builder:** support {projectName} and {projectRoot} placeholders in outputFile ([#2759](https://github.com/angular-eslint/angular-eslint/pull/2759))
+
+### ❤️ Thank You
+
+- James Henry @JamesHenry
+
+## 20.5.2 (2025-11-08)
+
+This was a version bump only for builder to align it with other projects, there were no code changes.
+
 ## 20.5.1 (2025-11-03)
 
 This was a version bump only for builder to align it with other projects, there were no code changes.

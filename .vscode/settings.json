@@ -1,3 +1,4 @@
 {
-    "nxConsole.generateAiAgentRules": true
+    "nxConsole.generateAiAgentRules": true,
+    "vitest.maximumConfigs": 10
 }

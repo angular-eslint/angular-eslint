@@ -24,6 +24,12 @@ Ensures that input bindings are not aliased
 
 <br>
 
+## Rationale
+
+Renaming inputs creates a confusing situation where the property has one name inside the component class (private name) and a different name in templates (public name). For example, with the @Input() decorator: '@Input("userName") name: string' means you access 'this.name' in the component but bind with '[userName]' in templates. Similarly, with the signal-based input() function: 'userName = input<string>({ alias: "name" })' means you access 'this.userName()' internally but bind with '[name]' in templates. This dual naming makes the code harder to understand, complicates refactoring, and can cause bugs when developers forget which name to use in which context. Keep the internal and external names the same unless you have a strong reason for the mismatch.
+
+<br>
+
 ## Rule Options
 
 The rule accepts an options object with the following properties:
