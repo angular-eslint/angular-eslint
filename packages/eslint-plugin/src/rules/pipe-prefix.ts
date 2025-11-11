@@ -6,13 +6,14 @@ import {
 } from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
+import { OPTION_STYLE_CAMEL_CASE } from '@angular-eslint/utils/src/eslint-plugin/ast-utils';
 
 export type Options = [
   {
     prefixes: string[];
   },
 ];
-export type MessageIds = 'pipePrefix';
+export type MessageIds = 'pipePrefix' | 'selectorAfterPrefixFailure';
 export const RULE_NAME = 'pipe-prefix';
 
 export default createESLintRule<Options, MessageIds>({
@@ -39,6 +40,7 @@ export default createESLintRule<Options, MessageIds>({
     ],
     messages: {
       pipePrefix: '@Pipes should be prefixed with {{prefixes}}',
+      selectorAfterPrefixFailure: '@Pipes have a selector after {{prefixes}}',
     },
   },
   defaultOptions: [
@@ -68,8 +70,12 @@ export default createESLintRule<Options, MessageIds>({
         const allowPrefixesExpression = prefixes.join('|');
         const prefixValidator = SelectorUtils.SelectorValidator.prefix(
           allowPrefixesExpression,
-          'camelCase',
+          OPTION_STYLE_CAMEL_CASE,
         );
+        const selectorAfterPrefixValidator =
+          SelectorUtils.SelectorValidator.selectorAfterPrefix(
+            allowPrefixesExpression,
+          );
 
         let nameValue;
 
@@ -90,6 +96,17 @@ export default createESLintRule<Options, MessageIds>({
           context.report({
             node: nameSelector,
             messageId: 'pipePrefix',
+            data: {
+              prefixes: toHumanReadableText(prefixes),
+            },
+          });
+          return;
+        }
+
+        if (!selectorAfterPrefixValidator.apply(this, [nameValue])) {
+          context.report({
+            node: nameSelector,
+            messageId: 'selectorAfterPrefixFailure',
             data: {
               prefixes: toHumanReadableText(prefixes),
             },

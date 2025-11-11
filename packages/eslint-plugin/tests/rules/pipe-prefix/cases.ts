@@ -5,7 +5,8 @@ import type {
 } from '@typescript-eslint/rule-tester';
 import type { MessageIds, Options } from '../../../src/rules/pipe-prefix';
 
-const messageId: MessageIds = 'pipePrefix';
+const messageIdPrefix: MessageIds = 'pipePrefix';
+const messageIdSelectorAfterPrefix: MessageIds = 'selectorAfterPrefixFailure';
 
 export const valid: readonly (string | ValidTestCase<Options>)[] = [
   {
@@ -109,7 +110,20 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         })
         class Test {}
       `,
-    messageId,
+    messageId: messageIdPrefix,
+    options: [{ prefixes: ['ng'] }],
+    data: { prefixes: '"ng"' },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail when Pipe has no selector after the prefix',
+    annotatedSource: `
+        @Pipe({
+          name: 'ng'
+                ~~~~
+        })
+        class Test {}
+      `,
+    messageId: messageIdSelectorAfterPrefix,
     options: [{ prefixes: ['ng'] }],
     data: { prefixes: '"ng"' },
   }),
@@ -123,7 +137,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         })
         class Test {}
       `,
-    messageId,
+    messageId: messageIdPrefix,
     options: [{ prefixes: ['ng', 'mg', 'sg'] }],
     data: { prefixes: '"ng", "mg" or "sg"' },
   }),
