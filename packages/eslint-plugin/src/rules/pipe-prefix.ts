@@ -39,7 +39,8 @@ export default createESLintRule<Options, MessageIds>({
     ],
     messages: {
       pipePrefix: '@Pipes should be prefixed with {{prefixes}}',
-      selectorAfterPrefixFailure: '@Pipes have a selector after {{prefixes}}',
+      selectorAfterPrefixFailure:
+        '@Pipes should have a selector after the {{prefixes}} prefix',
     },
   },
   defaultOptions: [
