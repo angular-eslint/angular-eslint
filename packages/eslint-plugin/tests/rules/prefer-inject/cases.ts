@@ -77,15 +77,80 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     ],
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'with injection decorators',
+    description: 'with @Inject decorator',
     annotatedSource: `
       @Injectable()
       class ConfigService {
         constructor(
           @Inject(CONFIG_TOKEN) private config: AppConfig,
           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-          @Optional() private logger?: LoggerService
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        ) {}
+      }
+    `,
+    messages: [{ char: '~', messageId }],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'with @Optional decorator',
+    annotatedSource: `
+      @Injectable()
+      class ConfigService {
+        constructor(
+          @Optional() private logger?: LoggerService,
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        ) {}
+      }
+    `,
+    messages: [{ char: '~', messageId }],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'with @Self decorator',
+    annotatedSource: `
+      @Injectable()
+      class ConfigService {
+        constructor(
+          @Self() private control: NgControl,
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        ) {}
+      }
+    `,
+    messages: [{ char: '~', messageId }],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'with @SkipSelf decorator',
+    annotatedSource: `
+      @Injectable()
+      class ConfigService {
+        constructor(
+          @SkipSelf() private skipSelfService: SkipSelfService,
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        ) {}
+      }
+    `,
+    messages: [{ char: '~', messageId }],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'with @Host decorator',
+    annotatedSource: `
+      @Injectable()
+      class ConfigService {
+        constructor(
+          @Host() private hostService: HostService,
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        ) {}
+      }
+    `,
+    messages: [{ char: '~', messageId }],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'with multiple injection decorators',
+    annotatedSource: `
+      @Injectable()
+      class ConfigService {
+        constructor(
+          @Inject(CONFIG_TOKEN) private config: AppConfig,
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+          @Optional() @Self() private logger?: LoggerService,
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         ) {}
       }
     `,
