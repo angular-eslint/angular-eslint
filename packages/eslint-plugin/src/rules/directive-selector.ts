@@ -8,7 +8,11 @@ import type { TSESTree } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
 export type Options = SelectorUtils.RuleOptions;
-export type MessageIds = 'prefixFailure' | 'styleFailure' | 'typeFailure';
+export type MessageIds =
+  | 'prefixFailure'
+  | 'styleFailure'
+  | 'typeFailure'
+  | 'selectorAfterPrefixFailure';
 export const RULE_NAME = 'directive-selector';
 
 export default createESLintRule<Options, MessageIds>({
@@ -92,6 +96,7 @@ export default createESLintRule<Options, MessageIds>({
         'The selector should start with one of these prefixes: {{prefix}}',
       styleFailure: 'The selector should be {{style}}',
       typeFailure: 'The selector should be used as an {{type}}',
+      selectorAfterPrefixFailure: `There should be a selector after the {{prefix}} prefix`,
     },
   },
   defaultOptions: [
@@ -111,7 +116,6 @@ export default createESLintRule<Options, MessageIds>({
           node,
           'selector',
         );
-
         if (!rawSelectors) {
           return;
         }
@@ -122,30 +126,10 @@ export default createESLintRule<Options, MessageIds>({
           return;
         }
 
-        // For multiple configs, determine the actual selector type
-        let applicableConfig: SelectorUtils.SelectorConfig | null = null;
-
-        if (configByType.size > 1) {
-          // Multiple configs - need to determine which one applies
-          const actualType = SelectorUtils.getActualSelectorType(rawSelectors);
-          if (!actualType) {
-            return;
-          }
-
-          const config = configByType.get(actualType);
-          if (!config) {
-            // No config defined for this selector type
-            return;
-          }
-          applicableConfig = config;
-        } else {
-          // Single config or single type extracted from array
-          const firstEntry = configByType.entries().next();
-          if (!firstEntry.done) {
-            applicableConfig = firstEntry.value[1];
-          }
-        }
-
+        const applicableConfig = SelectorUtils.getApplicableConfig(
+          rawSelectors,
+          configByType,
+        );
         if (!applicableConfig) {
           return;
         }
@@ -176,6 +160,12 @@ export default createESLintRule<Options, MessageIds>({
         // Directive-specific validation logic (simpler than component)
         if (!hasExpectedSelector.hasExpectedType) {
           SelectorUtils.reportTypeError(rawSelectors, type, context);
+        } else if (!hasExpectedSelector.hasSelectorAfterPrefix) {
+          SelectorUtils.reportSelectorAfterPrefixError(
+            rawSelectors,
+            prefix,
+            context,
+          );
         } else if (!hasExpectedSelector.hasExpectedStyle) {
           SelectorUtils.reportStyleError(rawSelectors, style, context);
         } else if (!hasExpectedSelector.hasExpectedPrefix) {

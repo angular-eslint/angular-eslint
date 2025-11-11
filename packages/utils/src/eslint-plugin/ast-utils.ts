@@ -67,8 +67,8 @@ export enum AngularLifecycleMethods {
   ngOnInit = 'ngOnInit',
 }
 
-export const OPTION_STYLE_CAMEL_CASE = 'camelCase';
-export const OPTION_STYLE_KEBAB_CASE = 'kebab-case';
+export const OPTION_STYLE_CAMEL_CASE = 'camelCase' as const;
+export const OPTION_STYLE_KEBAB_CASE = 'kebab-case' as const;
 export type SelectorStyle =
   | typeof OPTION_STYLE_CAMEL_CASE
   | typeof OPTION_STYLE_KEBAB_CASE;

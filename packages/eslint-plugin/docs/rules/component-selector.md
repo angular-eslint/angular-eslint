@@ -370,6 +370,41 @@ class Test {}
       "error",
       {
         "type": "element",
+        "style": "camelCase",
+        "prefix": "app"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({
+  selector: 'app'
+            ~~~~~
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/component-selector": [
+      "error",
+      {
+        "type": "element",
         "prefix": [
           "app",
           "ng"
@@ -539,8 +574,8 @@ class Test {}
 ```ts
 @Component({
   encapsulation: ViewEncapsulation.ShadowDom,
-  selector: 'app'
-            ~~~~~
+  selector: 'appselector'
+            ~~~~~~~~~~~~~
 })
 class Test {}
 ```
