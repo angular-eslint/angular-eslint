@@ -106,7 +106,7 @@ export default createESLintRule<Options, MessageIds>({
       styleAndPrefixFailure: `The selector should be {{style}} and start with one of these prefixes: {{prefix}} (${STYLE_GUIDE_LINK} and ${STYLE_GUIDE_LINK})`,
       typeFailure: `The selector should be used as an {{type}} (${STYLE_GUIDE_LINK})`,
       shadowDomEncapsulatedStyleFailure: `The selector of a ShadowDom-encapsulated component should be \`${ASTUtils.OPTION_STYLE_KEBAB_CASE}\` (${SHADOW_DOM_ENCAPSULATED_STYLE_LINK})`,
-      selectorAfterPrefixFailure: `There should be a selector name the {{prefix}} prefix`,
+      selectorAfterPrefixFailure: `There should be a selector after the {{prefix}} prefix`,
     },
   },
   defaultOptions: [
