@@ -1,4 +1,3 @@
-import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
 import type {
   InvalidTestCase,
   ValidTestCase,
@@ -7,6 +6,8 @@ import type { MessageIds, Options } from '../../../src/rules/prefer-ngsrc';
 
 const missingAttribute: MessageIds = 'missingAttribute';
 const invalidDoubleSource: MessageIds = 'invalidDoubleSource';
+const suggestReplaceWithNgSrc: MessageIds = 'suggestReplaceWithNgSrc';
+const suggestRemoveSrc: MessageIds = 'suggestRemoveSrc';
 
 export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '<img alt="nothing">',
@@ -27,153 +28,393 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
-  convertAnnotatedSourceToFailureCase({
-    description: 'should fail when an image is using src over ngsrc',
-    annotatedSource: `
-      <ng-template>
-        <img src="http://localhost">
-             ~~~~~~~~~~~~~~~~~~~~~~
-        <img [src]="'http://localhost'">
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^
-        <img [src]="value">
-             #############
-        <img [attr.src]="value">
-             @@@@@@@@@@@@@@@@@@
-        <img [attr.src]="'http://localhost'">
-             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        <img [src]="'http://' + value">
-             *************************
-      </ng-template>
-      `,
-    messages: [
+  {
+    code: '<img src="http://localhost">',
+    errors: [
       {
-        char: '~',
         messageId: missingAttribute,
-      },
-      {
-        char: '^',
-        messageId: missingAttribute,
-      },
-      {
-        char: '#',
-        messageId: missingAttribute,
-      },
-      {
-        char: '@',
-        messageId: missingAttribute,
-      },
-      {
-        char: '%',
-        messageId: missingAttribute,
-      },
-      {
-        char: '*',
-        messageId: missingAttribute,
+        suggestions: [
+          {
+            messageId: suggestReplaceWithNgSrc,
+            output: '<img ngSrc="http://localhost">',
+          },
+        ],
       },
     ],
-  }),
-  convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail when an uppercase image tag is using src over ngsrc',
-    annotatedSource: `
-      <ng-template>
-        <IMG [src]="value">
-             @@@@@@@@@@@@@
-      </ng-template>
-      `,
-    messages: [
+  },
+  {
+    code: '<img src="http://src.com">',
+    errors: [
       {
-        char: '@',
         messageId: missingAttribute,
+        suggestions: [
+          {
+            messageId: suggestReplaceWithNgSrc,
+            output: '<img ngSrc="http://src.com">',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    code: '<img [src]="\'http://localhost\'">',
+    errors: [
+      {
+        messageId: missingAttribute,
+        suggestions: [
+          {
+            messageId: suggestReplaceWithNgSrc,
+            output: '<img [ngSrc]="\'http://localhost\'">',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    code: '<img [src]="value">',
+    errors: [
+      {
+        messageId: missingAttribute,
+        suggestions: [
+          {
+            messageId: suggestReplaceWithNgSrc,
+            output: '<img [ngSrc]="value">',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    code: '<img [attr.src]="value">',
+    errors: [
+      {
+        messageId: missingAttribute,
+        suggestions: [
+          {
+            messageId: suggestReplaceWithNgSrc,
+            output: '<img [ngSrc]="value">',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    code: '<img [attr.src]="\'http://localhost\'">',
+    errors: [
+      {
+        messageId: missingAttribute,
+        suggestions: [
+          {
+            messageId: suggestReplaceWithNgSrc,
+            output: '<img [ngSrc]="\'http://localhost\'">',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    code: '<img [src]="\'http://\' + value">',
+    errors: [
+      {
+        messageId: missingAttribute,
+        suggestions: [
+          {
+            messageId: suggestReplaceWithNgSrc,
+            output: '<img [ngSrc]="\'http://\' + value">',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    code: '<IMG [src]="value">',
+    errors: [
+      {
+        messageId: missingAttribute,
+        suggestions: [
+          {
+            messageId: suggestReplaceWithNgSrc,
+            output: '<IMG [ngSrc]="value">',
+          },
+        ],
       },
     ],
     settings: {
       hideFromDocs: true,
     },
-  }),
-  convertAnnotatedSourceToFailureCase({
-    description: 'should fail when an image is using both src and ngsrc',
-    annotatedSource: `
-      <ng-template>
-        <img ngSrc="http://localhost" src="http://localhost">
-                                      ~~~~~~~~~~~~~~~~~~~~~~
-        <img ngSrc="http://localhost" [src]="'http://localhost'">
-                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^
-        <img ngSrc="http://localhost" [src]="value">
-                                      #############
-        <img [ngSrc]="otherValue" src="http://localhost">
-                                  **********************
-        <img [ngSrc]="otherValue" [src]="'http://localhost'">
-                                  @@@@@@@@@@@@@@@@@@@@@@@@@@
-        <img [ngSrc]="otherValue" [src]="value">
-                                  %%%%%%%%%%%%%
-        <img [src]="otherValue" [ngSrc]="value">
-             ¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶
-      </ng-template>
-      `,
-    messages: [
+  },
+  {
+    code: '<img ngSrc="http://localhost" src="http://localhost">',
+    errors: [
       {
-        char: '~',
         messageId: invalidDoubleSource,
-      },
-      {
-        char: '^',
-        messageId: invalidDoubleSource,
-      },
-      {
-        char: '#',
-        messageId: invalidDoubleSource,
-      },
-      {
-        char: '*',
-        messageId: invalidDoubleSource,
-      },
-      {
-        char: '@',
-        messageId: invalidDoubleSource,
-      },
-      {
-        char: '%',
-        messageId: invalidDoubleSource,
-      },
-      {
-        char: '¶',
-        messageId: invalidDoubleSource,
+        suggestions: [
+          {
+            messageId: suggestRemoveSrc,
+            output: '<img ngSrc="http://localhost">',
+          },
+        ],
       },
     ],
-  }),
-  convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail when an image is using both src with data URL and ngsrc',
-    annotatedSource: `
-      <ng-template>
-        <img src="data:image/png;base64" [ngSrc]="otherValue">
-             ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        <img [attr.src]="'data:image/png;base64'" [ngSrc]="otherValue">
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-        <img [src]="'data:image/png;base64'" [ngSrc]="otherValue">
-             ###############################
-        <img [src]="'data:' + value" [ngSrc]="otherValue">
-             ***********************
-      </ng-template>
-      `,
-    messages: [
+  },
+  {
+    code: '<img ngSrc="http://src.com" src="http://src.com">',
+    errors: [
       {
-        char: '~',
         messageId: invalidDoubleSource,
-      },
-      {
-        char: '^',
-        messageId: invalidDoubleSource,
-      },
-      {
-        char: '#',
-        messageId: invalidDoubleSource,
-      },
-      {
-        char: '*',
-        messageId: invalidDoubleSource,
+        suggestions: [
+          {
+            messageId: suggestRemoveSrc,
+            output: '<img ngSrc="http://src.com">',
+          },
+        ],
       },
     ],
-  }),
+  },
+  {
+    code: '<img ngSrc="http://localhost" [src]="\'http://localhost\'">',
+    errors: [
+      {
+        messageId: invalidDoubleSource,
+        suggestions: [
+          {
+            messageId: suggestRemoveSrc,
+            output: '<img ngSrc="http://localhost">',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    code: '<img ngSrc="http://localhost" [src]="value">',
+    errors: [
+      {
+        messageId: invalidDoubleSource,
+        suggestions: [
+          {
+            messageId: suggestRemoveSrc,
+            output: '<img ngSrc="http://localhost">',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    code: '<img [ngSrc]="otherValue" src="http://localhost">',
+    errors: [
+      {
+        messageId: invalidDoubleSource,
+        suggestions: [
+          {
+            messageId: suggestRemoveSrc,
+            output: '<img [ngSrc]="otherValue">',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    code: '<img [ngSrc]="otherValue" [src]="\'http://localhost\'">',
+    errors: [
+      {
+        messageId: invalidDoubleSource,
+        suggestions: [
+          {
+            messageId: suggestRemoveSrc,
+            output: '<img [ngSrc]="otherValue">',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    code: '<img [ngSrc]="otherValue" [src]="value">',
+    errors: [
+      {
+        messageId: invalidDoubleSource,
+        suggestions: [
+          {
+            messageId: suggestRemoveSrc,
+            output: '<img [ngSrc]="otherValue">',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    code: '<img [src]="otherValue" [ngSrc]="value">',
+    errors: [
+      {
+        messageId: invalidDoubleSource,
+        suggestions: [
+          {
+            messageId: suggestRemoveSrc,
+            output: '<img [ngSrc]="value">',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    code: '<img src="data:image/png;base64" [ngSrc]="otherValue">',
+    errors: [
+      {
+        messageId: invalidDoubleSource,
+        suggestions: [
+          {
+            messageId: suggestRemoveSrc,
+            output: '<img [ngSrc]="otherValue">',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    code: '<img [attr.src]="\'data:image/png;base64\'" [ngSrc]="otherValue">',
+    errors: [
+      {
+        messageId: invalidDoubleSource,
+        suggestions: [
+          {
+            messageId: suggestRemoveSrc,
+            output: '<img [ngSrc]="otherValue">',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    code: '<img [src]="\'data:image/png;base64\'" [ngSrc]="otherValue">',
+    errors: [
+      {
+        messageId: invalidDoubleSource,
+        suggestions: [
+          {
+            messageId: suggestRemoveSrc,
+            output: '<img [ngSrc]="otherValue">',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    code: '<img [src]="\'data:\' + value" [ngSrc]="otherValue">',
+    errors: [
+      {
+        messageId: invalidDoubleSource,
+        suggestions: [
+          {
+            messageId: suggestRemoveSrc,
+            output: '<img [ngSrc]="otherValue">',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    code: `<img
+      src="http://localhost">`,
+    errors: [
+      {
+        messageId: missingAttribute,
+        suggestions: [
+          {
+            messageId: suggestReplaceWithNgSrc,
+            output: `<img
+      ngSrc="http://localhost">`,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    code: `<img
+      [src]="value"
+      alt="test">`,
+    errors: [
+      {
+        messageId: missingAttribute,
+        suggestions: [
+          {
+            messageId: suggestReplaceWithNgSrc,
+            output: `<img
+      [ngSrc]="value"
+      alt="test">`,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    code: `<img
+      [attr.src]="value"
+      width="100">`,
+    errors: [
+      {
+        messageId: missingAttribute,
+        suggestions: [
+          {
+            messageId: suggestReplaceWithNgSrc,
+            output: `<img
+      [ngSrc]="value"
+      width="100">`,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    code: `<img
+      ngSrc="http://localhost"
+      src="http://localhost">`,
+    errors: [
+      {
+        messageId: invalidDoubleSource,
+        suggestions: [
+          {
+            messageId: suggestRemoveSrc,
+            output: `<img
+      ngSrc="http://localhost">`,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    code: `<img
+      [ngSrc]="otherValue"
+      [src]="value"
+      alt="test">`,
+    errors: [
+      {
+        messageId: invalidDoubleSource,
+        suggestions: [
+          {
+            messageId: suggestRemoveSrc,
+            output: `<img
+      [ngSrc]="otherValue"
+      alt="test">`,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    code: `<img alt="test"
+      [src]="value"
+    >`,
+    errors: [
+      {
+        messageId: missingAttribute,
+        suggestions: [
+          {
+            messageId: suggestReplaceWithNgSrc,
+            output: `<img alt="test"
+      [ngSrc]="value"
+    >`,
+          },
+        ],
+      },
+    ],
+  },
 ];

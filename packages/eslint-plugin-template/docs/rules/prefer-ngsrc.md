@@ -19,6 +19,8 @@ Ensures ngSrc is used instead of src for img elements
 
 - Type: suggestion
 
+- 💡 Provides suggestions on how to fix issues (https://eslint.org/docs/developer-guide/working-with-rules#providing-suggestions)
+
 <br>
 
 ## Rationale
@@ -61,20 +63,7 @@ The rule does not have any configuration options.
 #### ❌ Invalid Code
 
 ```html
-<ng-template>
-  <img src="http://localhost">
-       ~~~~~~~~~~~~~~~~~~~~~~
-  <img [src]="'http://localhost'">
-       ~~~~~~~~~~~~~~~~~~~~~~~~~~
-  <img [src]="value">
-       ~~~~~~~~~~~~~
-  <img [attr.src]="value">
-       ~~~~~~~~~~~~~~~~~~
-  <img [attr.src]="'http://localhost'">
-       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  <img [src]="'http://' + value">
-       ~~~~~~~~~~~~~~~~~~~~~~~~~
-</ng-template>
+<img src="http://localhost">
 ```
 
 <br>
@@ -100,22 +89,7 @@ The rule does not have any configuration options.
 #### ❌ Invalid Code
 
 ```html
-<ng-template>
-  <img ngSrc="http://localhost" src="http://localhost">
-                                ~~~~~~~~~~~~~~~~~~~~~~
-  <img ngSrc="http://localhost" [src]="'http://localhost'">
-                                ~~~~~~~~~~~~~~~~~~~~~~~~~~
-  <img ngSrc="http://localhost" [src]="value">
-                                ~~~~~~~~~~~~~
-  <img [ngSrc]="otherValue" src="http://localhost">
-                            ~~~~~~~~~~~~~~~~~~~~~~
-  <img [ngSrc]="otherValue" [src]="'http://localhost'">
-                            ~~~~~~~~~~~~~~~~~~~~~~~~~~
-  <img [ngSrc]="otherValue" [src]="value">
-                            ~~~~~~~~~~~~~
-  <img [src]="otherValue" [ngSrc]="value">
-       ~~~~~~~~~~~~~~~~~~
-</ng-template>
+<img src="http://src.com">
 ```
 
 <br>
@@ -141,16 +115,591 @@ The rule does not have any configuration options.
 #### ❌ Invalid Code
 
 ```html
-<ng-template>
-  <img src="data:image/png;base64" [ngSrc]="otherValue">
-       ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  <img [attr.src]="'data:image/png;base64'" [ngSrc]="otherValue">
-       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  <img [src]="'data:image/png;base64'" [ngSrc]="otherValue">
-       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  <img [src]="'data:' + value" [ngSrc]="otherValue">
-       ~~~~~~~~~~~~~~~~~~~~~~~
-</ng-template>
+<img [src]="'http://localhost'">
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-ngsrc": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<img [src]="value">
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-ngsrc": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<img [attr.src]="value">
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-ngsrc": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<img [attr.src]="'http://localhost'">
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-ngsrc": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<img [src]="'http://' + value">
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-ngsrc": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<img ngSrc="http://localhost" src="http://localhost">
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-ngsrc": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<img ngSrc="http://src.com" src="http://src.com">
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-ngsrc": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<img ngSrc="http://localhost" [src]="'http://localhost'">
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-ngsrc": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<img ngSrc="http://localhost" [src]="value">
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-ngsrc": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<img [ngSrc]="otherValue" src="http://localhost">
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-ngsrc": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<img [ngSrc]="otherValue" [src]="'http://localhost'">
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-ngsrc": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<img [ngSrc]="otherValue" [src]="value">
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-ngsrc": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<img [src]="otherValue" [ngSrc]="value">
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-ngsrc": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<img src="data:image/png;base64" [ngSrc]="otherValue">
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-ngsrc": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<img [attr.src]="'data:image/png;base64'" [ngSrc]="otherValue">
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-ngsrc": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<img [src]="'data:image/png;base64'" [ngSrc]="otherValue">
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-ngsrc": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<img [src]="'data:' + value" [ngSrc]="otherValue">
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-ngsrc": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<img
+      src="http://localhost">
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-ngsrc": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<img
+      [src]="value"
+      alt="test">
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-ngsrc": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<img
+      [attr.src]="value"
+      width="100">
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-ngsrc": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<img
+      ngSrc="http://localhost"
+      src="http://localhost">
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-ngsrc": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<img
+      [ngSrc]="otherValue"
+      [src]="value"
+      alt="test">
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-ngsrc": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<img alt="test"
+      [src]="value"
+    >
 ```
 
 </details>
