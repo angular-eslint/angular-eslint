@@ -96,7 +96,7 @@ export default createESLintRule<Options, MessageIds>({
         'The selector should start with one of these prefixes: {{prefix}}',
       styleFailure: 'The selector should be {{style}}',
       typeFailure: 'The selector should be used as an {{type}}',
-      selectorAfterPrefixFailure: `There should be a selector name after the {{prefix}} prefix`,
+      selectorAfterPrefixFailure: `There should be a selector name the {{prefix}} prefix`,
     },
   },
   defaultOptions: [

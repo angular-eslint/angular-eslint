@@ -6,7 +6,6 @@ import {
 } from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
-import { OPTION_STYLE_CAMEL_CASE } from '@angular-eslint/utils/src/eslint-plugin/ast-utils';
 
 export type Options = [
   {
@@ -70,7 +69,7 @@ export default createESLintRule<Options, MessageIds>({
         const allowPrefixesExpression = prefixes.join('|');
         const prefixValidator = SelectorUtils.SelectorValidator.prefix(
           allowPrefixesExpression,
-          OPTION_STYLE_CAMEL_CASE,
+          ASTUtils.OPTION_STYLE_CAMEL_CASE,
         );
         const selectorAfterPrefixValidator =
           SelectorUtils.SelectorValidator.selectorAfterPrefix(
