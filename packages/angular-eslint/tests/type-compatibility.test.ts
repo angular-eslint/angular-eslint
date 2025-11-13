@@ -37,7 +37,44 @@ defineConfig([
 ]);
 
 /**
- * Test 2: Verify compatibility with typescript-eslint's config function
+ * Test 2: Verify compatibility with ESLint's defineConfig via extends config
+ */
+defineConfig([
+  {
+    files: ['**/*.ts'],
+    plugins: {
+      '@angular-eslint': angular.tsPlugin,
+    },
+    extends: [angular.configs.tsRecommended],
+    rules: {
+      '@angular-eslint/component-class-suffix': 'error',
+    },
+  },
+  {
+    files: ['**/*.html'],
+    plugins: {
+      '@angular-eslint/template': angular.templatePlugin,
+    },
+    languageOptions: {
+      parser: angular.templateParser,
+    },
+    extends: [
+      angular.configs.templateRecommended,
+      angular.configs.templateAccessibility,
+    ],
+    rules: {
+      '@angular-eslint/template/banana-in-box': 'error',
+    },
+  },
+]);
+
+/**
+ * Test 3: Verify compatibility with ESLint's defineConfig with only configs
+ */
+defineConfig([angular.configs.tsRecommended]);
+
+/**
+ * Test 4: Verify compatibility with typescript-eslint's config function
  */
 config(
   {
