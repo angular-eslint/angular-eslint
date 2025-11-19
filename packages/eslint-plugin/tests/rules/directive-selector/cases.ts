@@ -11,6 +11,8 @@ import type {
 const messageIdPrefixFailure: MessageIds = 'prefixFailure';
 const messageIdStyleFailure: MessageIds = 'styleFailure';
 const messageIdTypeFailure: MessageIds = 'typeFailure';
+const messageIdSelectorAfterPrefixFailure: MessageIds =
+  'selectorAfterPrefixFailure';
 
 export const valid: readonly (string | ValidTestCase<Options>)[] = [
   {
@@ -347,7 +349,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { style: 'kebab-case' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: `should fail if a selector uses kebab-case style, but no dash`,
+    description: `should fail when there is no selector after the prefix in kebab-case`,
     annotatedSource: `
         @Directive({
           selector: 'app'
@@ -355,9 +357,22 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         })
         class Test {}
       `,
-    messageId: messageIdStyleFailure,
+    messageId: messageIdSelectorAfterPrefixFailure,
     options: [{ type: 'element', prefix: 'app', style: 'kebab-case' }],
-    data: { style: 'kebab-case' },
+    data: { prefix: '"app"' },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: `should fail if there is no selector after the prefix`,
+    annotatedSource: `
+        @Directive({
+          selector: 'app'
+                    ~~~~~
+        })
+        class Test {}
+      `,
+    messageId: messageIdSelectorAfterPrefixFailure,
+    options: [{ type: 'element', prefix: 'app', style: 'camelCase' }],
+    data: { prefix: '"app"' },
   }),
   convertAnnotatedSourceToFailureCase({
     description: `should fail if a selector is not used as an attribute`,

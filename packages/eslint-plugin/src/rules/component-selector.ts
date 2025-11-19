@@ -14,7 +14,8 @@ export type MessageIds =
   | 'styleFailure'
   | 'styleAndPrefixFailure'
   | 'typeFailure'
-  | 'shadowDomEncapsulatedStyleFailure';
+  | 'shadowDomEncapsulatedStyleFailure'
+  | 'selectorAfterPrefixFailure';
 export const RULE_NAME = 'component-selector';
 
 const VIEW_ENCAPSULATION_SHADOW_DOM = 'ShadowDom';
@@ -105,6 +106,7 @@ export default createESLintRule<Options, MessageIds>({
       styleAndPrefixFailure: `The selector should be {{style}} and start with one of these prefixes: {{prefix}} (${STYLE_GUIDE_LINK} and ${STYLE_GUIDE_LINK})`,
       typeFailure: `The selector should be used as an {{type}} (${STYLE_GUIDE_LINK})`,
       shadowDomEncapsulatedStyleFailure: `The selector of a ShadowDom-encapsulated component should be \`${ASTUtils.OPTION_STYLE_KEBAB_CASE}\` (${SHADOW_DOM_ENCAPSULATED_STYLE_LINK})`,
+      selectorAfterPrefixFailure: `There should be a selector after the {{prefix}} prefix`,
     },
   },
   defaultOptions: [
@@ -124,7 +126,6 @@ export default createESLintRule<Options, MessageIds>({
           node,
           'selector',
         );
-
         if (!rawSelectors) {
           return;
         }
@@ -135,30 +136,10 @@ export default createESLintRule<Options, MessageIds>({
           return;
         }
 
-        // For multiple configs, determine the actual selector type
-        let applicableConfig: SelectorUtils.SelectorConfig | null = null;
-
-        if (configByType.size > 1) {
-          // Multiple configs - need to determine which one applies
-          const actualType = SelectorUtils.getActualSelectorType(rawSelectors);
-          if (!actualType) {
-            return;
-          }
-
-          const config = configByType.get(actualType);
-          if (!config) {
-            // No config defined for this selector type
-            return;
-          }
-          applicableConfig = config;
-        } else {
-          // Single config or single type extracted from array
-          const firstEntry = configByType.entries().next();
-          if (!firstEntry.done) {
-            applicableConfig = firstEntry.value[1];
-          }
-        }
-
+        const applicableConfig = SelectorUtils.getApplicableConfig(
+          rawSelectors,
+          configByType,
+        );
         if (!applicableConfig) {
           return;
         }
@@ -196,6 +177,12 @@ export default createESLintRule<Options, MessageIds>({
         // Component-specific validation logic (includes styleAndPrefixFailure)
         if (!hasExpectedSelector.hasExpectedType) {
           SelectorUtils.reportTypeError(rawSelectors, type, context);
+        } else if (!hasExpectedSelector.hasSelectorAfterPrefix) {
+          SelectorUtils.reportSelectorAfterPrefixError(
+            rawSelectors,
+            prefix,
+            context,
+          );
         } else if (!hasExpectedSelector.hasExpectedStyle) {
           if (style === overrideStyle) {
             if (!hasExpectedSelector.hasExpectedPrefix) {
