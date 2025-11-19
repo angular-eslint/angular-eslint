@@ -98,6 +98,41 @@ class Test {}
       "error",
       {
         "prefixes": [
+          "ng"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Pipe({
+  name: 'ng'
+        ~~~~
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/pipe-prefix": [
+      "error",
+      {
+        "prefixes": [
           "ng",
           "mg",
           "sg"

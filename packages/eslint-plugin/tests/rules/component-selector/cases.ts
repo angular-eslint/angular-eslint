@@ -14,6 +14,8 @@ const messageIdStyleAndPrefixFailure: MessageIds = 'styleAndPrefixFailure';
 const messageIdTypeFailure: MessageIds = 'typeFailure';
 const messageIdShadowDomEncapsulatedStyleFailure: MessageIds =
   'shadowDomEncapsulatedStyleFailure';
+const messageIdSelectorAfterPrefixFailure: MessageIds =
+  'selectorAfterPrefixFailure';
 
 export const valid: readonly (string | ValidTestCase<Options>)[] = [
   {
@@ -419,7 +421,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { style: 'kebab-case', prefix: '"app"' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: `should fail if a selector uses kebab-case style, but no dash`,
+    description: `should fail when there is no selector after the prefix in kebab-case`,
     annotatedSource: `
       @Component({
         selector: 'app'
@@ -427,9 +429,22 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       })
       class Test {}
       `,
-    messageId: messageIdStyleFailure,
+    messageId: messageIdSelectorAfterPrefixFailure,
     options: [{ type: 'element', prefix: 'app', style: 'kebab-case' }],
-    data: { style: 'kebab-case' },
+    data: { prefix: '"app"' },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: `should fail when there is no selector after the prefix in camelCase`,
+    annotatedSource: `
+        @Component({
+          selector: 'app'
+                    ~~~~~
+        })
+        class Test {}
+      `,
+    messageId: messageIdSelectorAfterPrefixFailure,
+    options: [{ type: 'element', style: 'camelCase', prefix: 'app' }],
+    data: { prefix: '"app"' },
   }),
   convertAnnotatedSourceToFailureCase({
     description: `should fail if a selector is not used as an element`,
@@ -492,8 +507,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     annotatedSource: `
       @Component({
         encapsulation: ViewEncapsulation.ShadowDom,
-        selector: 'app'
-                  ~~~~~
+        selector: 'appselector'
+                  ~~~~~~~~~~~~~
       })
       class Test {}
       `,

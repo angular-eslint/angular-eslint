@@ -334,6 +334,41 @@ class Test {}
     "@angular-eslint/directive-selector": [
       "error",
       {
+        "type": "element",
+        "prefix": "app",
+        "style": "camelCase"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Directive({
+  selector: 'app'
+            ~~~~~
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-selector": [
+      "error",
+      {
         "type": "attribute",
         "prefix": [
           "app",

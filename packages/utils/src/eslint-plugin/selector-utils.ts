@@ -63,23 +63,40 @@ export const SelectorValidator = {
     return /^[a-z0-9-]+-[a-z0-9-]+$/.test(selector);
   },
 
+  prefixRegex(prefix: string): RegExp {
+    return new RegExp(`^\\[?(${prefix})`);
+  },
+
   prefix(prefix: string, selectorStyle: string): (selector: string) => boolean {
-    const regex = new RegExp(`^\\[?(${prefix})`);
+    const regex = this.prefixRegex(prefix);
 
     return (selector) => {
       if (!prefix) return true;
 
       if (!regex.test(selector)) return false;
 
-      const suffix = selector.replace(regex, '');
+      const selectorAfterPrefix = selector.replace(regex, '');
 
       if (selectorStyle === OPTION_STYLE_CAMEL_CASE) {
-        return !suffix || suffix[0] === suffix[0].toUpperCase();
+        return (
+          !selectorAfterPrefix ||
+          selectorAfterPrefix[0] === selectorAfterPrefix[0].toUpperCase()
+        );
       } else if (selectorStyle === OPTION_STYLE_KEBAB_CASE) {
-        return !suffix || suffix[0] === '-';
+        return !selectorAfterPrefix || selectorAfterPrefix[0] === '-';
       }
 
       throw Error('Invalid selector style!');
+    };
+  },
+
+  selectorAfterPrefix(prefix: string): (selector: string) => boolean {
+    const regex = this.prefixRegex(prefix);
+
+    return (selector) => {
+      const selectorAfterPrefix = selector.replace(regex, '');
+
+      return Boolean(selectorAfterPrefix);
     };
   },
 };
@@ -109,6 +126,20 @@ export const reportPrefixError = (
   context.report({
     node,
     messageId: 'prefixFailure',
+    data: {
+      prefix: toHumanReadableText(arrayify(prefix)),
+    },
+  });
+};
+
+export const reportSelectorAfterPrefixError = (
+  node: TSESTree.Node,
+  prefix: string | readonly string[],
+  context: Readonly<TSESLint.RuleContext<string, readonly unknown[]>>,
+): void => {
+  context.report({
+    node,
+    messageId: 'selectorAfterPrefixFailure',
     data: {
       prefix: toHumanReadableText(arrayify(prefix)),
     },
@@ -237,6 +268,7 @@ export const checkSelector = (
   readonly hasExpectedPrefix: boolean;
   readonly hasExpectedType: boolean;
   readonly hasExpectedStyle: boolean;
+  readonly hasSelectorAfterPrefix: boolean;
 } | null => {
   // Get valid list of selectors
   const types = arrayify<SelectorTypeOption>(
@@ -273,10 +305,17 @@ export const checkSelector = (
 
   const hasExpectedType = validSelectors.length > 0;
 
+  const hasSelectorAfterPrefix = validSelectors.some((selector) => {
+    return prefixOption.some((prefix) => {
+      return SelectorValidator.selectorAfterPrefix(prefix)(selector);
+    });
+  });
+
   return {
     hasExpectedPrefix,
     hasExpectedType,
     hasExpectedStyle,
+    hasSelectorAfterPrefix,
   };
 };
 
@@ -325,4 +364,38 @@ export const normalizeOptionsToConfigs = (
   }
 
   return configByType;
+};
+
+/**
+ * Get the applicable config for a given selector node
+ */
+export const getApplicableConfig = (
+  rawSelectors: TSESTree.Node,
+  configByType: Map<string, SelectorConfig>,
+): SelectorConfig | null => {
+  // For multiple configs, determine the actual selector type
+  let applicableConfig: SelectorConfig | null = null;
+
+  if (configByType.size > 1) {
+    // Multiple configs - need to determine which one applies
+    const actualType = getActualSelectorType(rawSelectors);
+    if (!actualType) {
+      return null;
+    }
+
+    const config = configByType.get(actualType);
+    if (!config) {
+      // No config defined for this selector type
+      return null;
+    }
+    applicableConfig = config;
+  } else {
+    // Single config or single type extracted from array
+    const firstEntry = configByType.entries().next();
+    if (!firstEntry.done) {
+      applicableConfig = firstEntry.value[1];
+    }
+  }
+
+  return applicableConfig;
 };
