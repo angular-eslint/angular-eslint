@@ -2,12 +2,12 @@ packages:
   - packages/*
 
 catalog:
-  '@angular/cli': 20.3.8
+  '@angular/cli': 20.3.9
   '@angular/compiler': 20.3.9
   '@commitlint/cli': 20.1.0
   '@commitlint/config-conventional': 20.0.0
   '@eslint/core': ^0.17.0
-  '@mdn/browser-compat-data': 7.1.18
+  '@mdn/browser-compat-data': 7.1.20
   '@nx/devkit': 22.1.0-beta.3
   '@nx/esbuild': 22.1.0-beta.3
   '@nx/eslint': 22.1.0-beta.3
@@ -16,20 +16,20 @@ catalog:
   '@nx/plugin': 22.1.0-beta.3
   '@nx/vite': 22.1.0-beta.3
   '@nx/workspace': 22.1.0-beta.3
-  '@schematics/angular': 20.3.8
+  '@schematics/angular': 20.3.9
   '@swc-node/register': 1.11.1
-  '@swc/cli': 0.7.8
-  '@swc/core': 1.14.0
+  '@swc/cli': 0.7.9
+  '@swc/core': 1.15.1
   '@swc/helpers': 0.5.17
   '@types/aria-query': 5.0.4
   '@types/eslint-scope': 8.3.2
-  '@types/node': 22.19.0
+  '@types/node': 22.19.1
   '@types/semver': ^7.5.8
   '@types/yargs': ^17.0.33
   '@vitest/coverage-v8': ^4.0.3
   cz-conventional-changelog: 3.3.0
-  esbuild: ^0.25.10
-  eslint: 9.39.0
+  esbuild: ^0.27.0
+  eslint: 9.39.1
   eslint-config-prettier: 10.1.5
   execa: 5.1.1
   husky: 9.1.7
@@ -61,7 +61,7 @@ catalogs:
     '@angular-devkit/schematics': '>= 20.0.0 < 21.0.0'
     aria-query: 5.3.2
     axobject-query: 4.1.0
-    eslint-scope: ^8.0.2
+    eslint-scope: ^9.0.0
     ignore: 7.0.5
     semver: 7.7.3
     strip-json-comments: 3.1.1
