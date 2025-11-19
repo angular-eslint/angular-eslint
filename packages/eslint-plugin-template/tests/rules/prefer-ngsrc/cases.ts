@@ -1,3 +1,4 @@
+import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
 import type {
   InvalidTestCase,
   ValidTestCase,
@@ -28,393 +29,480 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
-  {
-    code: '<img src="http://localhost">',
-    errors: [
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail when img has src attribute without ngSrc',
+    annotatedSource: `
+      <img src="http://localhost">
+           ~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    messageId: missingAttribute,
+    suggestions: [
       {
-        messageId: missingAttribute,
-        suggestions: [
-          {
-            messageId: suggestReplaceWithNgSrc,
-            output: '<img ngSrc="http://localhost">',
-          },
-        ],
+        messageId: suggestReplaceWithNgSrc,
+        output: `
+      <img ngSrc="http://localhost">
+           
+    `,
       },
     ],
-  },
-  {
-    code: '<img src="http://src.com">',
-    errors: [
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail when img has src attribute with src.com URL',
+    annotatedSource: `
+      <img src="http://src.com">
+           ~~~~~~~~~~~~~~~~~~~~
+    `,
+    messageId: missingAttribute,
+    suggestions: [
       {
-        messageId: missingAttribute,
-        suggestions: [
-          {
-            messageId: suggestReplaceWithNgSrc,
-            output: '<img ngSrc="http://src.com">',
-          },
-        ],
+        messageId: suggestReplaceWithNgSrc,
+        output: `
+      <img ngSrc="http://src.com">
+           
+    `,
       },
     ],
-  },
-  {
-    code: '<img [src]="\'http://localhost\'">',
-    errors: [
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail when img has bound [src] with string literal',
+    annotatedSource: `
+      <img [src]="'http://localhost'">
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    messageId: missingAttribute,
+    suggestions: [
       {
-        messageId: missingAttribute,
-        suggestions: [
-          {
-            messageId: suggestReplaceWithNgSrc,
-            output: '<img [ngSrc]="\'http://localhost\'">',
-          },
-        ],
+        messageId: suggestReplaceWithNgSrc,
+        output: `
+      <img [ngSrc]="'http://localhost'">
+           
+    `,
       },
     ],
-  },
-  {
-    code: '<img [src]="value">',
-    errors: [
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail when img has bound [src] with variable',
+    annotatedSource: `
+      <img [src]="value">
+           ~~~~~~~~~~~~~
+    `,
+    messageId: missingAttribute,
+    suggestions: [
       {
-        messageId: missingAttribute,
-        suggestions: [
-          {
-            messageId: suggestReplaceWithNgSrc,
-            output: '<img [ngSrc]="value">',
-          },
-        ],
+        messageId: suggestReplaceWithNgSrc,
+        output: `
+      <img [ngSrc]="value">
+           
+    `,
       },
     ],
-  },
-  {
-    code: '<img [attr.src]="value">',
-    errors: [
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail when img has [attr.src] with variable',
+    annotatedSource: `
+      <img [attr.src]="value">
+           ~~~~~~~~~~~~~~~~~~
+    `,
+    messageId: missingAttribute,
+    suggestions: [
       {
-        messageId: missingAttribute,
-        suggestions: [
-          {
-            messageId: suggestReplaceWithNgSrc,
-            output: '<img [ngSrc]="value">',
-          },
-        ],
+        messageId: suggestReplaceWithNgSrc,
+        output: `
+      <img [ngSrc]="value">
+           
+    `,
       },
     ],
-  },
-  {
-    code: '<img [attr.src]="\'http://localhost\'">',
-    errors: [
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail when img has [attr.src] with string literal',
+    annotatedSource: `
+      <img [attr.src]="'http://localhost'">
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    messageId: missingAttribute,
+    suggestions: [
       {
-        messageId: missingAttribute,
-        suggestions: [
-          {
-            messageId: suggestReplaceWithNgSrc,
-            output: '<img [ngSrc]="\'http://localhost\'">',
-          },
-        ],
+        messageId: suggestReplaceWithNgSrc,
+        output: `
+      <img [ngSrc]="'http://localhost'">
+           
+    `,
       },
     ],
-  },
-  {
-    code: '<img [src]="\'http://\' + value">',
-    errors: [
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail when img has bound [src] with concatenation',
+    annotatedSource: `
+      <img [src]="'http://' + value">
+           ~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    messageId: missingAttribute,
+    suggestions: [
       {
-        messageId: missingAttribute,
-        suggestions: [
-          {
-            messageId: suggestReplaceWithNgSrc,
-            output: '<img [ngSrc]="\'http://\' + value">',
-          },
-        ],
+        messageId: suggestReplaceWithNgSrc,
+        output: `
+      <img [ngSrc]="'http://' + value">
+           
+    `,
       },
     ],
-  },
-  {
-    code: '<IMG [src]="value">',
-    errors: [
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail when IMG (uppercase) has bound [src]',
+    annotatedSource: `
+      <IMG [src]="value">
+           ~~~~~~~~~~~~~
+    `,
+    messageId: missingAttribute,
+    suggestions: [
       {
-        messageId: missingAttribute,
-        suggestions: [
-          {
-            messageId: suggestReplaceWithNgSrc,
-            output: '<IMG [ngSrc]="value">',
-          },
-        ],
+        messageId: suggestReplaceWithNgSrc,
+        output: `
+      <IMG [ngSrc]="value">
+           
+    `,
       },
     ],
     settings: {
       hideFromDocs: true,
     },
-  },
-  {
-    code: '<img ngSrc="http://localhost" src="http://localhost">',
-    errors: [
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail when img has both ngSrc and src attributes',
+    annotatedSource: `
+      <img ngSrc="http://localhost" src="http://localhost">
+                                    ~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    messageId: invalidDoubleSource,
+    suggestions: [
       {
-        messageId: invalidDoubleSource,
-        suggestions: [
-          {
-            messageId: suggestRemoveSrc,
-            output: '<img ngSrc="http://localhost">',
-          },
-        ],
+        messageId: suggestRemoveSrc,
+        output: `
+      <img ngSrc="http://localhost">
+                                    
+    `,
       },
     ],
-  },
-  {
-    code: '<img ngSrc="http://src.com" src="http://src.com">',
-    errors: [
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail when img has both ngSrc and src with src.com URL',
+    annotatedSource: `
+      <img ngSrc="http://src.com" src="http://src.com">
+                                  ~~~~~~~~~~~~~~~~~~~~
+    `,
+    messageId: invalidDoubleSource,
+    suggestions: [
       {
-        messageId: invalidDoubleSource,
-        suggestions: [
-          {
-            messageId: suggestRemoveSrc,
-            output: '<img ngSrc="http://src.com">',
-          },
-        ],
+        messageId: suggestRemoveSrc,
+        output: `
+      <img ngSrc="http://src.com">
+                                  
+    `,
       },
     ],
-  },
-  {
-    code: '<img ngSrc="http://localhost" [src]="\'http://localhost\'">',
-    errors: [
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail when img has ngSrc and bound [src] with string',
+    annotatedSource: `
+      <img ngSrc="http://localhost" [src]="'http://localhost'">
+                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    messageId: invalidDoubleSource,
+    suggestions: [
       {
-        messageId: invalidDoubleSource,
-        suggestions: [
-          {
-            messageId: suggestRemoveSrc,
-            output: '<img ngSrc="http://localhost">',
-          },
-        ],
+        messageId: suggestRemoveSrc,
+        output: `
+      <img ngSrc="http://localhost">
+                                    
+    `,
       },
     ],
-  },
-  {
-    code: '<img ngSrc="http://localhost" [src]="value">',
-    errors: [
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail when img has ngSrc and bound [src] with variable',
+    annotatedSource: `
+      <img ngSrc="http://localhost" [src]="value">
+                                    ~~~~~~~~~~~~~
+    `,
+    messageId: invalidDoubleSource,
+    suggestions: [
       {
-        messageId: invalidDoubleSource,
-        suggestions: [
-          {
-            messageId: suggestRemoveSrc,
-            output: '<img ngSrc="http://localhost">',
-          },
-        ],
+        messageId: suggestRemoveSrc,
+        output: `
+      <img ngSrc="http://localhost">
+                                    
+    `,
       },
     ],
-  },
-  {
-    code: '<img [ngSrc]="otherValue" src="http://localhost">',
-    errors: [
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail when img has bound [ngSrc] and src attribute',
+    annotatedSource: `
+      <img [ngSrc]="otherValue" src="http://localhost">
+                                ~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    messageId: invalidDoubleSource,
+    suggestions: [
       {
-        messageId: invalidDoubleSource,
-        suggestions: [
-          {
-            messageId: suggestRemoveSrc,
-            output: '<img [ngSrc]="otherValue">',
-          },
-        ],
+        messageId: suggestRemoveSrc,
+        output: `
+      <img [ngSrc]="otherValue">
+                                
+    `,
       },
     ],
-  },
-  {
-    code: '<img [ngSrc]="otherValue" [src]="\'http://localhost\'">',
-    errors: [
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail when img has bound [ngSrc] and bound [src] with string',
+    annotatedSource: `
+      <img [ngSrc]="otherValue" [src]="'http://localhost'">
+                                ~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    messageId: invalidDoubleSource,
+    suggestions: [
       {
-        messageId: invalidDoubleSource,
-        suggestions: [
-          {
-            messageId: suggestRemoveSrc,
-            output: '<img [ngSrc]="otherValue">',
-          },
-        ],
+        messageId: suggestRemoveSrc,
+        output: `
+      <img [ngSrc]="otherValue">
+                                
+    `,
       },
     ],
-  },
-  {
-    code: '<img [ngSrc]="otherValue" [src]="value">',
-    errors: [
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail when img has bound [ngSrc] and bound [src] with variable',
+    annotatedSource: `
+      <img [ngSrc]="otherValue" [src]="value">
+                                ~~~~~~~~~~~~~
+    `,
+    messageId: invalidDoubleSource,
+    suggestions: [
       {
-        messageId: invalidDoubleSource,
-        suggestions: [
-          {
-            messageId: suggestRemoveSrc,
-            output: '<img [ngSrc]="otherValue">',
-          },
-        ],
+        messageId: suggestRemoveSrc,
+        output: `
+      <img [ngSrc]="otherValue">
+                                
+    `,
       },
     ],
-  },
-  {
-    code: '<img [src]="otherValue" [ngSrc]="value">',
-    errors: [
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail when img has [src] before [ngSrc]',
+    annotatedSource: `
+      <img [src]="otherValue" [ngSrc]="value">
+           ~~~~~~~~~~~~~~~~~~
+    `,
+    messageId: invalidDoubleSource,
+    suggestions: [
       {
-        messageId: invalidDoubleSource,
-        suggestions: [
-          {
-            messageId: suggestRemoveSrc,
-            output: '<img [ngSrc]="value">',
-          },
-        ],
+        messageId: suggestRemoveSrc,
+        output: `
+      <img [ngSrc]="value">
+           
+    `,
       },
     ],
-  },
-  {
-    code: '<img src="data:image/png;base64" [ngSrc]="otherValue">',
-    errors: [
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail when img has data string in src and [ngSrc]',
+    annotatedSource: `
+      <img src="data:image/png;base64" [ngSrc]="otherValue">
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    messageId: invalidDoubleSource,
+    suggestions: [
       {
-        messageId: invalidDoubleSource,
-        suggestions: [
-          {
-            messageId: suggestRemoveSrc,
-            output: '<img [ngSrc]="otherValue">',
-          },
-        ],
+        messageId: suggestRemoveSrc,
+        output: `
+      <img [ngSrc]="otherValue">
+           
+    `,
       },
     ],
-  },
-  {
-    code: '<img [attr.src]="\'data:image/png;base64\'" [ngSrc]="otherValue">',
-    errors: [
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail when img has [attr.src] data string and [ngSrc]',
+    annotatedSource: `
+      <img [attr.src]="'data:image/png;base64'" [ngSrc]="otherValue">
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    messageId: invalidDoubleSource,
+    suggestions: [
       {
-        messageId: invalidDoubleSource,
-        suggestions: [
-          {
-            messageId: suggestRemoveSrc,
-            output: '<img [ngSrc]="otherValue">',
-          },
-        ],
+        messageId: suggestRemoveSrc,
+        output: `
+      <img [ngSrc]="otherValue">
+           
+    `,
       },
     ],
-  },
-  {
-    code: '<img [src]="\'data:image/png;base64\'" [ngSrc]="otherValue">',
-    errors: [
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail when img has [src] data string and [ngSrc]',
+    annotatedSource: `
+      <img [src]="'data:image/png;base64'" [ngSrc]="otherValue">
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    messageId: invalidDoubleSource,
+    suggestions: [
       {
-        messageId: invalidDoubleSource,
-        suggestions: [
-          {
-            messageId: suggestRemoveSrc,
-            output: '<img [ngSrc]="otherValue">',
-          },
-        ],
+        messageId: suggestRemoveSrc,
+        output: `
+      <img [ngSrc]="otherValue">
+           
+    `,
       },
     ],
-  },
-  {
-    code: '<img [src]="\'data:\' + value" [ngSrc]="otherValue">',
-    errors: [
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail when img has bound [src] data concatenation and [ngSrc]',
+    annotatedSource: `
+      <img [src]="'data:' + value" [ngSrc]="otherValue">
+           ~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    messageId: invalidDoubleSource,
+    suggestions: [
       {
-        messageId: invalidDoubleSource,
-        suggestions: [
-          {
-            messageId: suggestRemoveSrc,
-            output: '<img [ngSrc]="otherValue">',
-          },
-        ],
+        messageId: suggestRemoveSrc,
+        output: `
+      <img [ngSrc]="otherValue">
+           
+    `,
       },
     ],
-  },
-  {
-    code: `<img
-      src="http://localhost">`,
-    errors: [
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should correctly replace src attribute when it is on a new line',
+    annotatedSource: `
+      <img
+        src="http://localhost">
+        ~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    messageId: missingAttribute,
+    suggestions: [
       {
-        messageId: missingAttribute,
-        suggestions: [
-          {
-            messageId: suggestReplaceWithNgSrc,
-            output: `<img
-      ngSrc="http://localhost">`,
-          },
-        ],
+        messageId: suggestReplaceWithNgSrc,
+        output: `
+      <img
+        ngSrc="http://localhost">
+        
+    `,
       },
     ],
-  },
-  {
-    code: `<img
-      [src]="value"
-      alt="test">`,
-    errors: [
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should correctly replace [src] when it is on new line with other attributes',
+    annotatedSource: `
+      <img
+        [src]="value"
+        ~~~~~~~~~~~~~
+        alt="test">
+    `,
+    messageId: missingAttribute,
+    suggestions: [
       {
-        messageId: missingAttribute,
-        suggestions: [
-          {
-            messageId: suggestReplaceWithNgSrc,
-            output: `<img
-      [ngSrc]="value"
-      alt="test">`,
-          },
-        ],
+        messageId: suggestReplaceWithNgSrc,
+        output: `
+      <img
+        [ngSrc]="value"
+        
+        alt="test">
+    `,
       },
     ],
-  },
-  {
-    code: `<img
-      [attr.src]="value"
-      width="100">`,
-    errors: [
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should correctly replace [attr.src] when it is on a new line with other attributes',
+    annotatedSource: `
+      <img
+        [attr.src]="value"
+        ~~~~~~~~~~~~~~~~~~
+        width="100">
+    `,
+    messageId: missingAttribute,
+    suggestions: [
       {
-        messageId: missingAttribute,
-        suggestions: [
-          {
-            messageId: suggestReplaceWithNgSrc,
-            output: `<img
-      [ngSrc]="value"
-      width="100">`,
-          },
-        ],
+        messageId: suggestReplaceWithNgSrc,
+        output: `
+      <img
+        [ngSrc]="value"
+        
+        width="100">
+    `,
       },
     ],
-  },
-  {
-    code: `<img
-      ngSrc="http://localhost"
-      src="http://localhost">`,
-    errors: [
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should correctly remove src when multiline img has both ngSrc and src',
+    annotatedSource: `
+      <img
+        ngSrc="http://localhost"
+        src="http://localhost">
+        ~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    messageId: invalidDoubleSource,
+    suggestions: [
       {
-        messageId: invalidDoubleSource,
-        suggestions: [
-          {
-            messageId: suggestRemoveSrc,
-            output: `<img
-      ngSrc="http://localhost">`,
-          },
-        ],
+        messageId: suggestRemoveSrc,
+        output: `
+      <img
+        ngSrc="http://localhost">
+        
+    `,
       },
     ],
-  },
-  {
-    code: `<img
-      [ngSrc]="otherValue"
-      [src]="value"
-      alt="test">`,
-    errors: [
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should correctly remove src when multiline img has both [ngSrc] and [src] with other attributes',
+    annotatedSource: `
+      <img
+        [ngSrc]="otherValue"
+        [src]="value"
+        ~~~~~~~~~~~~~
+        alt="test">
+    `,
+    messageId: invalidDoubleSource,
+    suggestions: [
       {
-        messageId: invalidDoubleSource,
-        suggestions: [
-          {
-            messageId: suggestRemoveSrc,
-            output: `<img
-      [ngSrc]="otherValue"
-      alt="test">`,
-          },
-        ],
+        messageId: suggestRemoveSrc,
+        output: `
+      <img
+        [ngSrc]="otherValue"
+        
+        alt="test">
+    `,
       },
     ],
-  },
-  {
-    code: `<img alt="test"
-      [src]="value"
-    >`,
-    errors: [
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should correctly replace [src] in img with dangling closing bracket',
+    annotatedSource: `
+      <img alt="test"
+        [src]="value"
+        ~~~~~~~~~~~~~
+      >
+    `,
+    messageId: missingAttribute,
+    suggestions: [
       {
-        messageId: missingAttribute,
-        suggestions: [
-          {
-            messageId: suggestReplaceWithNgSrc,
-            output: `<img alt="test"
-      [ngSrc]="value"
-    >`,
-          },
-        ],
+        messageId: suggestReplaceWithNgSrc,
+        output: `
+      <img alt="test"
+        [ngSrc]="value"
+        
+      >
+    `,
       },
     ],
-  },
+  }),
 ];
