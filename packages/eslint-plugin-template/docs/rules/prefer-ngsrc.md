@@ -64,6 +64,7 @@ The rule does not have any configuration options.
 
 ```html
 <img src="http://localhost">
+     ~~~~~~~~~~~~~~~~~~~~~~
 ```
 
 <br>
@@ -90,6 +91,7 @@ The rule does not have any configuration options.
 
 ```html
 <img src="http://src.com">
+     ~~~~~~~~~~~~~~~~~~~~
 ```
 
 <br>
@@ -116,6 +118,7 @@ The rule does not have any configuration options.
 
 ```html
 <img [src]="'http://localhost'">
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~
 ```
 
 <br>
@@ -142,6 +145,7 @@ The rule does not have any configuration options.
 
 ```html
 <img [src]="value">
+     ~~~~~~~~~~~~~
 ```
 
 <br>
@@ -168,6 +172,7 @@ The rule does not have any configuration options.
 
 ```html
 <img [attr.src]="value">
+     ~~~~~~~~~~~~~~~~~~
 ```
 
 <br>
@@ -194,6 +199,7 @@ The rule does not have any configuration options.
 
 ```html
 <img [attr.src]="'http://localhost'">
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ```
 
 <br>
@@ -220,6 +226,7 @@ The rule does not have any configuration options.
 
 ```html
 <img [src]="'http://' + value">
+     ~~~~~~~~~~~~~~~~~~~~~~~~~
 ```
 
 <br>
@@ -246,6 +253,7 @@ The rule does not have any configuration options.
 
 ```html
 <img ngSrc="http://localhost" src="http://localhost">
+                              ~~~~~~~~~~~~~~~~~~~~~~
 ```
 
 <br>
@@ -272,6 +280,7 @@ The rule does not have any configuration options.
 
 ```html
 <img ngSrc="http://src.com" src="http://src.com">
+                            ~~~~~~~~~~~~~~~~~~~~
 ```
 
 <br>
@@ -298,6 +307,7 @@ The rule does not have any configuration options.
 
 ```html
 <img ngSrc="http://localhost" [src]="'http://localhost'">
+                              ~~~~~~~~~~~~~~~~~~~~~~~~~~
 ```
 
 <br>
@@ -324,6 +334,7 @@ The rule does not have any configuration options.
 
 ```html
 <img ngSrc="http://localhost" [src]="value">
+                              ~~~~~~~~~~~~~
 ```
 
 <br>
@@ -350,6 +361,7 @@ The rule does not have any configuration options.
 
 ```html
 <img [ngSrc]="otherValue" src="http://localhost">
+                          ~~~~~~~~~~~~~~~~~~~~~~
 ```
 
 <br>
@@ -376,6 +388,7 @@ The rule does not have any configuration options.
 
 ```html
 <img [ngSrc]="otherValue" [src]="'http://localhost'">
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~
 ```
 
 <br>
@@ -402,6 +415,7 @@ The rule does not have any configuration options.
 
 ```html
 <img [ngSrc]="otherValue" [src]="value">
+                          ~~~~~~~~~~~~~
 ```
 
 <br>
@@ -428,6 +442,7 @@ The rule does not have any configuration options.
 
 ```html
 <img [src]="otherValue" [ngSrc]="value">
+     ~~~~~~~~~~~~~~~~~~
 ```
 
 <br>
@@ -454,6 +469,7 @@ The rule does not have any configuration options.
 
 ```html
 <img src="data:image/png;base64" [ngSrc]="otherValue">
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ```
 
 <br>
@@ -480,6 +496,7 @@ The rule does not have any configuration options.
 
 ```html
 <img [attr.src]="'data:image/png;base64'" [ngSrc]="otherValue">
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ```
 
 <br>
@@ -506,6 +523,7 @@ The rule does not have any configuration options.
 
 ```html
 <img [src]="'data:image/png;base64'" [ngSrc]="otherValue">
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ```
 
 <br>
@@ -532,6 +550,7 @@ The rule does not have any configuration options.
 
 ```html
 <img [src]="'data:' + value" [ngSrc]="otherValue">
+     ~~~~~~~~~~~~~~~~~~~~~~~
 ```
 
 <br>
@@ -558,7 +577,8 @@ The rule does not have any configuration options.
 
 ```html
 <img
-      src="http://localhost">
+  src="http://localhost">
+  ~~~~~~~~~~~~~~~~~~~~~~
 ```
 
 <br>
@@ -585,8 +605,9 @@ The rule does not have any configuration options.
 
 ```html
 <img
-      [src]="value"
-      alt="test">
+  [src]="value"
+  ~~~~~~~~~~~~~
+  alt="test">
 ```
 
 <br>
@@ -613,8 +634,9 @@ The rule does not have any configuration options.
 
 ```html
 <img
-      [attr.src]="value"
-      width="100">
+  [attr.src]="value"
+  ~~~~~~~~~~~~~~~~~~
+  width="100">
 ```
 
 <br>
@@ -641,8 +663,9 @@ The rule does not have any configuration options.
 
 ```html
 <img
-      ngSrc="http://localhost"
-      src="http://localhost">
+  ngSrc="http://localhost"
+  src="http://localhost">
+  ~~~~~~~~~~~~~~~~~~~~~~
 ```
 
 <br>
@@ -669,9 +692,10 @@ The rule does not have any configuration options.
 
 ```html
 <img
-      [ngSrc]="otherValue"
-      [src]="value"
-      alt="test">
+  [ngSrc]="otherValue"
+  [src]="value"
+  ~~~~~~~~~~~~~
+  alt="test">
 ```
 
 <br>
@@ -698,8 +722,9 @@ The rule does not have any configuration options.
 
 ```html
 <img alt="test"
-      [src]="value"
-    >
+  [src]="value"
+  ~~~~~~~~~~~~~
+>
 ```
 
 </details>
