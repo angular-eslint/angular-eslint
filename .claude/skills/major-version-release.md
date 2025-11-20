@@ -2,6 +2,8 @@
 
 This skill prepares the angular-eslint repository for a major version release by creating a new branch, updating dependencies, running validation checks, and creating a draft PR with milestone issues.
 
+**Note**: This is a preparatory skill that may not complete all steps successfully. Critical failures will stop execution to prevent incomplete releases.
+
 ## Steps
 
 ### 1. Check Working Tree Status
@@ -17,12 +19,12 @@ This skill prepares the angular-eslint repository for a major version release by
 - Extract the major version number and increment by 1 (e.g., 20 → 21)
 - Store as `NEXT_MAJOR_VERSION`
 
-### 2. Create Release Branch
+### 3. Create Release Branch
 
 - Ensure we're on the latest main branch: `git checkout main && git pull origin main`
 - Create new branch: `git checkout -b next-major-release/v${NEXT_MAJOR_VERSION}`
 
-### 3. Update Angular Dependencies
+### 4. Update Angular Dependencies
 
 Update dependencies in `pnpm-workspace.yaml`:
 
@@ -41,6 +43,7 @@ Update dependencies in `pnpm-workspace.yaml`:
 ### 5. Install Updated Dependencies
 
 - Run `pnpm install` to install updated dependencies
+- Commit dependency changes immediately after successful install with clean commit message (no Claude metadata)
 
 ### 6. Run Validation Commands
 
@@ -53,14 +56,23 @@ pnpm nx run-many -t check-rule-docs # If fails: run `pnpm nx run-many -t update-
 pnpm nx run-many -t check-rule-lists # If fails: run `pnpm nx run-many -t update-rule-lists` and commit result
 pnpm nx run-many -t check-rule-configs # If fails: run `pnpm nx run-many -t update-rule-configs` and commit result
 pnpm nx run-many -t test --parallel 2 # Run all tests
-pnpm nx run-many -t lint --parallel 2 # Run all linting
+pnpm nx run-many -t lint --parallel 2 # Run all linting (warnings acceptable)
 pnpm nx run-many -t typecheck --parallel 2 # Run all type checking
 ```
 
+**CRITICAL**: If any of the following commands fail, STOP the skill execution immediately:
+
+- Tests (`pnpm nx run-many -t test --parallel 2`)
+- Type checking (`pnpm nx run-many -t typecheck --parallel 2`)
+
+Only proceed if tests pass and type checking succeeds. Linting warnings are acceptable.
+
 ### 7. Update E2E Snapshots
 
-- Run `pnpm update-e2e-snapshots-ci` to update e2e snapshots for the new version
-- Commit only the snapshot changes (ignore any package.json diffs)
+- Attempt to run `npx nx run e2e:e2e-local --configuration updateSnapshot` to update e2e snapshots. NOTE: `npx` should be used here, not `pnpm`, so that the verdaccio local registry auth works correctly
+- **If the E2E commands fail, STOP the skill execution immediately** and feed back to the user. Do not revert files.
+- If snapshots are updated successfully, commit only the actual snapshot file changes
+- Reset any package.json changes with `git restore packages/*/package.json`
 
 ### 8. Fetch Milestone Issues
 
@@ -99,20 +111,45 @@ pnpm nx run-many -t typecheck --parallel 2 # Run all type checking
   - [ ] Complete milestone issues listed above
   ```
 
+## Commit Message Requirements
+
+**IMPORTANT**: All commits must be clean conventional commits without any Claude Code metadata:
+
+- ✅ Good: `feat!: update Angular dependencies to v21`
+- ❌ Bad: Any commit with "🤖 Generated with [Claude Code]" or "Co-Authored-By: Claude"
+
+## Failure Handling
+
+**STOP EXECUTION IMMEDIATELY if any of these conditions occur:**
+
+1. **Working tree is not clean** - abort with message: "Working tree is not clean. Please commit or stash changes before running major version release."
+2. **Tests fail** - abort with message: "Tests failed. Cannot proceed with major version release until all tests pass."
+3. **Type checking fails** - abort with message: "Type checking failed. Cannot proceed with major version release until type errors are resolved."
+4. **E2E snapshot updates fail** - abort with message: "E2E snapshot updates failed. Cannot proceed with major version release until snapshots are updated."
+
+**CONTINUE WITH WARNINGS for these conditions:**
+
+- Linting warnings (note in final report)
+- Format/sync check failures that can be auto-fixed
+- Individual nx-plugin typecheck failures (known issue with build artifacts)
+
 ## Output
 
 The skill should provide:
 
 - Branch name created
 - Summary of dependency updates made
-- Results of validation commands (pass/fail status)
-- Link to created draft PR
-- List of milestone issues that need to be addressed
+- Results of validation commands (pass/fail/warning status)
+- Any failures encountered and why execution was stopped (if applicable)
+- E2E snapshot update status
+- Link to created draft PR (if successful)
+- List of milestone issues that need to be addressed (if milestone exists)
 
 ## Error Handling
 
-- **If working tree is not clean, abort immediately with clear message**
-- If dependency updates fail, provide specific error details
-- If validation commands fail, indicate which ones and suggest next steps
+- **If critical validations fail, abort immediately with clear message**
+- If dependency updates fail, provide specific error details and abort
+- If format/sync checks fail, attempt to auto-fix and commit
 - If milestone doesn't exist, note that manual issue review will be needed
 - If PR creation fails, provide the formatted description for manual creation
+- If E2E updates fail, abort execution immediately
