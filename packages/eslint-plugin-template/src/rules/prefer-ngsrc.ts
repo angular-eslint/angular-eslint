@@ -10,7 +10,11 @@ import { getTemplateParserServices } from '@angular-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
 export type Options = [];
-export type MessageIds = 'missingAttribute' | 'invalidDoubleSource';
+export type MessageIds =
+  | 'missingAttribute'
+  | 'invalidDoubleSource'
+  | 'suggestReplaceWithNgSrc'
+  | 'suggestRemoveSrc';
 export const RULE_NAME = 'prefer-ngsrc';
 
 export default createESLintRule<Options, MessageIds>({
@@ -20,17 +24,102 @@ export default createESLintRule<Options, MessageIds>({
     docs: {
       description: 'Ensures ngSrc is used instead of src for img elements',
     },
+    hasSuggestions: true,
     schema: [],
     messages: {
       missingAttribute:
         'The attribute [ngSrc] should be used for img elements instead of [src].',
       invalidDoubleSource:
         'Only [ngSrc] should exist on an img element. Delete the [src] attribute.',
+      suggestReplaceWithNgSrc: 'Replace [src] with [ngSrc]',
+      suggestRemoveSrc: 'Remove the [src] attribute',
     },
   },
   defaultOptions: [],
   create(context) {
     const parserServices = getTemplateParserServices(context);
+    const sourceCode = context.sourceCode;
+
+    function reportMissingNgSrc(
+      srcAttribute: TmplAstTextAttribute | TmplAstBoundAttribute,
+    ) {
+      const loc = parserServices.convertNodeSourceSpanToLoc(
+        srcAttribute.sourceSpan,
+      );
+
+      context.report({
+        loc,
+        messageId: 'missingAttribute',
+        suggest: [
+          {
+            messageId: 'suggestReplaceWithNgSrc',
+            fix: (fixer) => {
+              const originalAttribute = sourceCode
+                .getText()
+                .slice(
+                  srcAttribute.sourceSpan.start.offset,
+                  srcAttribute.sourceSpan.end.offset,
+                );
+
+              let updatedAttribute: string;
+              if (originalAttribute.startsWith('[attr.src]')) {
+                updatedAttribute = originalAttribute.replace(
+                  /^\[attr\.src]/,
+                  '[ngSrc]',
+                );
+              } else if (originalAttribute.startsWith('[src]')) {
+                updatedAttribute = originalAttribute.replace(
+                  /^\[src]/,
+                  '[ngSrc]',
+                );
+              } else {
+                updatedAttribute = originalAttribute.replace(/^src/, 'ngSrc');
+              }
+
+              return fixer.replaceTextRange(
+                [
+                  srcAttribute.sourceSpan.start.offset,
+                  srcAttribute.sourceSpan.end.offset,
+                ],
+                updatedAttribute,
+              );
+            },
+          },
+        ],
+      });
+    }
+
+    function reportDoubleSrc(
+      srcAttribute: TmplAstTextAttribute | TmplAstBoundAttribute,
+    ) {
+      const loc = parserServices.convertNodeSourceSpanToLoc(
+        srcAttribute.sourceSpan,
+      );
+
+      context.report({
+        loc,
+        messageId: 'invalidDoubleSource',
+        suggest: [
+          {
+            messageId: 'suggestRemoveSrc',
+            fix: (fixer) => {
+              const fullText = sourceCode.getText();
+              let startOffset = srcAttribute.sourceSpan.start.offset;
+
+              // Move back to include preceding whitespace
+              while (startOffset > 0 && /\s/.test(fullText[startOffset - 1])) {
+                startOffset--;
+              }
+
+              return fixer.removeRange([
+                startOffset,
+                srcAttribute.sourceSpan.end.offset,
+              ]);
+            },
+          },
+        ],
+      });
+    }
 
     return {
       'Element[name=/^img$/i]'(element: TmplAstElement) {
@@ -44,16 +133,11 @@ export default createESLintRule<Options, MessageIds>({
           return;
         }
 
-        const loc = parserServices.convertNodeSourceSpanToLoc(
-          srcAttribute.sourceSpan,
-        );
-
-        context.report({
-          loc,
-          messageId: !ngSrcAttribute
-            ? 'missingAttribute'
-            : 'invalidDoubleSource',
-        });
+        if (!ngSrcAttribute) {
+          reportMissingNgSrc(srcAttribute);
+        } else {
+          reportDoubleSrc(srcAttribute);
+        }
       },
     };
   },
