@@ -319,6 +319,36 @@ class ConfigService {
 #### ❌ Invalid Code
 
 ```ts
+@Injectable()
+class WithPrimitiveToken {
+  constructor(@Inject(LEVEL_TOKEN) public level: string) {}
+              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-inject": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
 @Component({})
 class MyComponent extends BaseComponent {
   constructor(
@@ -510,6 +540,64 @@ class MyComponent extends BaseComponent {
 @Injectable()
 class Logger {
   constructor(level: string) {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-inject": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Injectable()
+class Logger {
+  constructor(public level: string) {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-inject": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Injectable()
+class Foo {
+  constructor(foo: any, bar: unknown) {}
 }
 ```
 
