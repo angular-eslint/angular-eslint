@@ -5,6 +5,9 @@
   "projectType": "library",
   "tags": [],
   "targets": {
+    "typecheck": {
+      "executor": "nx:noop"
+    },
     "build": {
       "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
