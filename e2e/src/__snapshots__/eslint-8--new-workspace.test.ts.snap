@@ -7,21 +7,16 @@ exports[`eslint-8--new-workspace > should pass linting after creating a new work
   "@angular-eslint/eslint-plugin-template": "0.0.0-e2e",
   "@angular-eslint/schematics": "0.0.0-e2e",
   "@angular-eslint/template-parser": "0.0.0-e2e",
-  "@angular/build": "^20.X.X",
-  "@angular/cli": "^20.X.X",
-  "@angular/compiler-cli": "^20.X.X",
-  "@types/jasmine": "~5.1.0",
+  "@angular/build": "^21.X.X",
+  "@angular/cli": "^21.X.X",
+  "@angular/compiler-cli": "^21.X.X",
   "@typescript-eslint/eslint-plugin": "7.11.0",
   "@typescript-eslint/parser": "7.11.0",
   "eslint": "8.57.1",
-  "jasmine-core": "~5.9.0",
-  "karma": "~6.4.0",
-  "karma-chrome-launcher": "~3.2.0",
-  "karma-coverage": "~2.2.0",
-  "karma-jasmine": "~5.1.0",
-  "karma-jasmine-html-reporter": "~2.1.0",
-  "ng-packagr": "^20.X.X",
-  "typescript": "~5.X.X"
+  "jsdom": "^27.1.0",
+  "ng-packagr": "^21.X.X",
+  "typescript": "~5.X.X",
+  "vitest": "^4.0.8"
 }
 `;
 

@@ -2,21 +2,16 @@
 
 exports[`new-workspace-type-module > should pass linting after creating a new workspace from scratch using @angular-eslint 1`] = `
 {
-  "@angular/build": "^20.X.X",
-  "@angular/cli": "^20.X.X",
-  "@angular/compiler-cli": "^20.X.X",
-  "@types/jasmine": "~5.1.0",
+  "@angular/build": "^21.X.X",
+  "@angular/cli": "^21.X.X",
+  "@angular/compiler-cli": "^21.X.X",
   "angular-eslint": "0.0.0-e2e",
   "eslint": "^9.39.1",
-  "jasmine-core": "~5.9.0",
-  "karma": "~6.4.0",
-  "karma-chrome-launcher": "~3.2.0",
-  "karma-coverage": "~2.2.0",
-  "karma-jasmine": "~5.1.0",
-  "karma-jasmine-html-reporter": "~2.1.0",
-  "ng-packagr": "^20.X.X",
+  "jsdom": "^27.1.0",
+  "ng-packagr": "^21.X.X",
   "typescript": "~5.X.X",
   "typescript-eslint": "8.46.4"
+  "vitest": "^4.0.8"
 }
 `;
 
