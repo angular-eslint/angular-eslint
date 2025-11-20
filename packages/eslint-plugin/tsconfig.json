@@ -7,15 +7,6 @@
   "include": ["**/*.ts", "**/*.json"],
   "references": [
     {
-      "path": "../utils"
-    },
-    {
-      "path": "../bundled-angular-compiler"
-    },
-    {
-      "path": "../test-utils"
-    },
-    {
       "path": "./tsconfig.lib.json"
     },
     {

@@ -6,12 +6,6 @@
   "include": ["src/**/*"],
   "references": [
     {
-      "path": "../eslint-plugin-template"
-    },
-    {
-      "path": "../eslint-plugin"
-    },
-    {
       "path": "./tsconfig.lib.json"
     },
     {

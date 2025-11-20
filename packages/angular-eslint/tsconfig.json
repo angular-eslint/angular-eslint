@@ -6,21 +6,6 @@
   "include": ["src/**/*"],
   "references": [
     {
-      "path": "../template-parser"
-    },
-    {
-      "path": "../schematics"
-    },
-    {
-      "path": "../eslint-plugin-template"
-    },
-    {
-      "path": "../eslint-plugin"
-    },
-    {
-      "path": "../builder"
-    },
-    {
       "path": "./tsconfig.lib.json"
     },
     {
