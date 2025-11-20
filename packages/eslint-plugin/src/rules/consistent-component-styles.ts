@@ -132,3 +132,8 @@ export default createESLintRule<Options, MessageIds>({
     }
   },
 });
+
+export const RULE_DOCS_EXTENSION = {
+  rationale:
+    "Consistency in how styles are declared makes codebases easier to navigate and maintain. When some components use styleUrl while others use styleUrls, or when styles are sometimes arrays and sometimes strings, it becomes harder for developers to predict what they'll find when opening a component. This rule enforces a consistent pattern across your codebase. Angular 17+ introduced the singular styleUrl property alongside the existing styleUrls array for common cases where components have only one stylesheet. Choosing one approach and sticking with it reduces cognitive load and makes the codebase feel more cohesive.",
+};

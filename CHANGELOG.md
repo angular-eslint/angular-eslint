@@ -1,3 +1,37 @@
+## 20.6.0 (2025-11-09)
+
+### 🚀 Features
+
+- **builder:** support {projectName} and {projectRoot} placeholders in outputFile ([#2759](https://github.com/angular-eslint/angular-eslint/pull/2759))
+- **eslint-plugin:** support multiple configs for component-selector and directive-selector ([#2762](https://github.com/angular-eslint/angular-eslint/pull/2762))
+
+### 🩹 Fixes
+
+- **angular-eslint:** support eslint defineConfig types in addition to typescript-eslint config ([#2760](https://github.com/angular-eslint/angular-eslint/pull/2760))
+
+### ❤️ Thank You
+
+- James Henry @JamesHenry
+
+## 20.5.2 (2025-11-08)
+
+### 🩹 Fixes
+
+- update dependency @angular/compiler to v20.3.9 ([#2746](https://github.com/angular-eslint/angular-eslint/pull/2746))
+- update typescript-eslint packages to v8.46.3 ([#2738](https://github.com/angular-eslint/angular-eslint/pull/2738))
+- update dependency eslint to v9.39.0 ([#2753](https://github.com/angular-eslint/angular-eslint/pull/2753))
+- **eslint-plugin:** update style guide links ([#2689](https://github.com/angular-eslint/angular-eslint/pull/2689))
+- **eslint-plugin-template:** [conditional-complexity] handle animation directives without values ([#2747](https://github.com/angular-eslint/angular-eslint/pull/2747))
+- **eslint-plugin-template:** [prefer-ngsrc] support data URLs in more scenarios ([#2719](https://github.com/angular-eslint/angular-eslint/pull/2719))
+- **eslint-plugin-template:** [use-lifecycle-interface] fix fixer when class contains generics ([#2749](https://github.com/angular-eslint/angular-eslint/pull/2749))
+- **template-parser:** ensure loc object is applied correctly ([#2754](https://github.com/angular-eslint/angular-eslint/pull/2754))
+
+### ❤️ Thank You
+
+- Aristeidis Bampakos @bampakoa
+- Evgeny Stepanovych @undsoft
+- James Henry @JamesHenry
+
 ## 20.5.1 (2025-11-03)
 
 ### 🩹 Fixes

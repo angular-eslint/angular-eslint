@@ -69,3 +69,8 @@ export default createESLintRule<Options, MessageIds>({
     };
   },
 });
+
+export const RULE_DOCS_EXTENSION = {
+  rationale:
+    'When binding a static string literal to a property, using attribute syntax (property="value") is more efficient and simpler than property binding syntax ([property]="\'value\'"). Property binding with a static string creates unnecessary overhead because Angular evaluates it as an expression during change detection, even though the value never changes. Attribute syntax makes it immediately clear that the value is static and will never be updated. For example, [alt]="\'Profile image\'" should be alt="Profile image". This rule helps identify performance opportunities and makes templates more readable by distinguishing truly dynamic bindings from static values. The rule excludes animation bindings (@xxx), style/class sub-properties (style.color), and structural directives (*ngIf) where property binding syntax is required.',
+};

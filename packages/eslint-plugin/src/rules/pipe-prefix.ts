@@ -12,7 +12,7 @@ export type Options = [
     prefixes: string[];
   },
 ];
-export type MessageIds = 'pipePrefix';
+export type MessageIds = 'pipePrefix' | 'selectorAfterPrefixFailure';
 export const RULE_NAME = 'pipe-prefix';
 
 export default createESLintRule<Options, MessageIds>({
@@ -39,6 +39,8 @@ export default createESLintRule<Options, MessageIds>({
     ],
     messages: {
       pipePrefix: '@Pipes should be prefixed with {{prefixes}}',
+      selectorAfterPrefixFailure:
+        '@Pipes should have a selector after the {{prefixes}} prefix',
     },
   },
   defaultOptions: [
@@ -68,8 +70,12 @@ export default createESLintRule<Options, MessageIds>({
         const allowPrefixesExpression = prefixes.join('|');
         const prefixValidator = SelectorUtils.SelectorValidator.prefix(
           allowPrefixesExpression,
-          'camelCase',
+          ASTUtils.OPTION_STYLE_CAMEL_CASE,
         );
+        const selectorAfterPrefixValidator =
+          SelectorUtils.SelectorValidator.selectorAfterPrefix(
+            allowPrefixesExpression,
+          );
 
         let nameValue;
 
@@ -94,8 +100,24 @@ export default createESLintRule<Options, MessageIds>({
               prefixes: toHumanReadableText(prefixes),
             },
           });
+          return;
+        }
+
+        if (!selectorAfterPrefixValidator.apply(this, [nameValue])) {
+          context.report({
+            node: nameSelector,
+            messageId: 'selectorAfterPrefixFailure',
+            data: {
+              prefixes: toHumanReadableText(prefixes),
+            },
+          });
         }
       },
     };
   },
 });
+
+export const RULE_DOCS_EXTENSION = {
+  rationale:
+    "Prefixing pipe names helps prevent naming collisions between pipes from different libraries or modules, and makes it clear which pipes belong to your application versus third-party libraries. For example, prefixing with 'app' creates pipe names like 'appCurrency' instead of just 'currency', avoiding conflicts with Angular's built-in pipes.",
+};

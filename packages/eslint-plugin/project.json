@@ -9,16 +9,6 @@
     ]
   },
   "targets": {
-    "test": {
-      "options": {
-        "args": "run"
-      },
-      "configurations": {
-        "ci": {
-          "args": ["run", "--coverage"]
-        }
-      }
-    },
     "build": {
       "dependsOn": ["^build", "^compile", "compile"],
       "outputs": ["{projectRoot}/dist"],

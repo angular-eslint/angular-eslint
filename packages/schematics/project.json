@@ -4,15 +4,7 @@
   "type": "library",
   "targets": {
     "test": {
-      "dependsOn": ["build", "^build", "^compile"],
-      "options": {
-        "args": "run"
-      },
-      "configurations": {
-        "ci": {
-          "args": ["run", "--coverage"]
-        }
-      }
+      "dependsOn": ["build", "^build", "^compile"]
     },
     "build": {
       "executor": "nx:run-commands",

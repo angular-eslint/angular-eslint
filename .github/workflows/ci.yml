@@ -43,7 +43,7 @@ jobs:
         run: echo "NX_CI_EXECUTION_ENV=Node $(node --version)" >> $GITHUB_ENV
 
       - name: Start Nx Cloud CI Run
-        run: pnpm dlx nx-cloud start-ci-run --distribute-on=".nx/workflows/distribution-config.yaml" --auto-apply-fixes="*format*,*sync*" --stop-agents-after="e2e-ci"
+        run: pnpm dlx nx-cloud start-ci-run --distribute-on=".nx/workflows/distribution-config.yaml" --auto-apply-fixes="*format*,*sync*,*check-rule-*" --stop-agents-after="e2e-ci"
 
       - name: Install dependencies (skipping postinstall)
         # We use --ignore-scripts to skip automatic postinstall and give us more control over distributing build tasks

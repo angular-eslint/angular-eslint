@@ -156,3 +156,8 @@ function isDisallowedPrefix(
   const prefixPattern = new RegExp(`^${prefix}(([^a-z])|(?=$))`);
   return prefixPattern.test(propertyName) || prefixPattern.test(aliasName);
 }
+
+export const RULE_DOCS_EXTENSION = {
+  rationale:
+    "In HTML and Angular templates, attributes don't use prefixes like 'is' or 'has', so input properties shouldn't either. For example, prefer '@Input() disabled' over '@Input() isDisabled', so it's used in templates as '[disabled]=\"true\"' rather than '[isDisabled]=\"true\"'. This creates a more natural, HTML-like API for your components and follows Angular's style guide. The component class can still use prefixed names internally, but the input binding name (the public API) should follow HTML conventions.",
+};

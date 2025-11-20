@@ -18,7 +18,21 @@ export default createBuilder(
       // root to be able to run the lint executor from any subfolder.
       process.chdir(systemRoot);
 
-      const projectName = context.target?.project ?? '<???>';
+      // Resolve all relevant project metadata from the context
+      let projectName = '<???>';
+      let projectMetadata: Record<string, any> | undefined;
+      let projectRoot = '';
+      try {
+        projectMetadata = await context.getProjectMetadata(
+          context.target?.project ?? '',
+        );
+        projectRoot = projectMetadata?.root ?? '';
+        projectName =
+          projectMetadata?.name ?? context.target?.project ?? '<???>';
+      } catch {
+        /* empty */
+      }
+
       const printInfo = options.format && !options.silent;
 
       if (printInfo) {
@@ -69,11 +83,10 @@ export default createBuilder(
           )
         ) {
           let eslintConfigPathForError = `for ${projectName}`;
-          const projectMetadata = await context.getProjectMetadata(projectName);
-          if (projectMetadata?.root) {
-            const { root } = projectMetadata;
+
+          if (projectRoot) {
             eslintConfigPathForError =
-              resolveESLintConfigPath(root as string) ?? '';
+              resolveESLintConfigPath(projectRoot) ?? '';
           }
 
           console.error(`
@@ -166,7 +179,27 @@ For full guidance on how to resolve this issue, please see https://github.com/an
       const formattedResults = await formatter.format(finalLintResults);
 
       if (options.outputFile) {
-        const pathToOutputFile = join(systemRoot, options.outputFile);
+        // Interpolate placeholders in outputFile path
+        let interpolatedOutputFile = options.outputFile;
+        if (interpolatedOutputFile.includes('{projectName}')) {
+          interpolatedOutputFile = interpolatedOutputFile.replace(
+            /{projectName}/g,
+            projectName,
+          );
+        }
+        if (interpolatedOutputFile.includes('{projectRoot}')) {
+          interpolatedOutputFile = interpolatedOutputFile.replace(
+            /{projectRoot}/g,
+            projectRoot,
+          );
+        }
+
+        // Clean up any resulting double slashes or leading slashes from empty replacements
+        interpolatedOutputFile = interpolatedOutputFile
+          .replace(/\/+/g, '/')
+          .replace(/^\//, '');
+
+        const pathToOutputFile = join(systemRoot, interpolatedOutputFile);
         mkdirSync(dirname(pathToOutputFile), { recursive: true });
         writeFileSync(pathToOutputFile, formattedResults);
       } else {

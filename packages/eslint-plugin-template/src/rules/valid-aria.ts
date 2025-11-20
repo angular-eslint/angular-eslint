@@ -188,3 +188,8 @@ function isValidAriaPropertyValue(
     }
   }
 }
+
+export const RULE_DOCS_EXTENSION = {
+  rationale:
+    "ARIA (Accessible Rich Internet Applications) attributes must be valid and used correctly for screen readers to interpret them. Using invalid or misspelled ARIA attributes (like 'aria-labeledby' instead of 'aria-labelledby', or using ARIA attributes that don't exist) causes screen readers to ignore them, breaking accessibility. Each HTML element only supports specific ARIA attributes based on its role. Invalid ARIA is worse than no ARIA because it gives developers false confidence that they've made something accessible when they haven't. Use a reference like the ARIA specification or MDN to verify attribute names and valid usage.",
+};

@@ -22,6 +22,12 @@
 
 <br>
 
+## Rationale
+
+Elements like <marquee> and <blink> create distracting motion that can cause problems for users with attention disorders, vestibular disorders, or seizure disorders. Moving text is harder to read for everyone, including users with dyslexia or cognitive disabilities. These elements are also deprecated in HTML5 and not well-supported across browsers. WCAG guidelines require that moving, blinking, or scrolling content can be paused, stopped, or hidden by users. Instead of these elements, use modern CSS animations with appropriate controls, or simply use static content that doesn't distract from the main page content.
+
+<br>
+
 ## Rule Options
 
 The rule does not have any configuration options.

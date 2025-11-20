@@ -1,3 +1,23 @@
+## 20.6.0 (2025-11-09)
+
+### 🚀 Features
+
+- **eslint-plugin:** support multiple configs for component-selector and directive-selector ([#2762](https://github.com/angular-eslint/angular-eslint/pull/2762))
+
+### ❤️ Thank You
+
+- James Henry @JamesHenry
+
+## 20.5.2 (2025-11-08)
+
+### 🩹 Fixes
+
+- **eslint-plugin-template:** [use-lifecycle-interface] fix fixer when class contains generics ([#2749](https://github.com/angular-eslint/angular-eslint/pull/2749))
+
+### ❤️ Thank You
+
+- Evgeny Stepanovych @undsoft
+
 ## 20.5.1 (2025-11-03)
 
 This was a version bump only for @angular-eslint/utils to align it with other projects, there were no code changes.

@@ -23,6 +23,12 @@ Ensures component's `changeDetection` is set to `ChangeDetectionStrategy.OnPush`
 
 <br>
 
+## Rationale
+
+By default, Angular's change detection checks every component on every change detection cycle, which can involve thousands of checks per second in a large application. OnPush change detection strategy is a performance optimization that tells Angular to only check a component when: (1) its input properties receive new references, (2) an event originates from the component or its children, or (3) change detection is manually triggered. This dramatically reduces the number of change detection runs, improving application performance. OnPush pairs well with immutable data patterns and Angular signals, and is considered a best practice for most components. However, you must be careful to use immutable data patterns (creating new object references when data changes) for OnPush to work correctly.
+
+<br>
+
 ## Rule Options
 
 The rule does not have any configuration options.

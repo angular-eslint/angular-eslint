@@ -21,25 +21,78 @@ Component selectors should follow given naming rules. See more at https://angula
 
 <br>
 
+## Rationale
+
+Consistent component selector naming conventions provide several benefits: they make components easily identifiable in templates and browser DevTools, prevent naming collisions with native HTML elements and third-party components, enable teams to quickly identify which library or feature area a component belongs to, and align with the Web Components specification for custom elements. For example, prefixing selectors with 'app-' (like 'app-user-profile') clearly distinguishes your application components from third-party libraries.
+
+<br>
+
 ## Rule Options
 
 The rule accepts an options object with the following properties:
 
 ```ts
-interface Options {
-  /**
-   * Default: `""`
-   */
-  type?: string | ("element" | "attribute")[];
-  /**
-   * Default: `""`
-   */
-  prefix?: string | unknown[];
-  /**
-   * Default: `""`
-   */
-  style?: "camelCase" | "kebab-case";
-}
+type Options =
+  | {
+      /**
+       * Default: `""`
+       */
+      type?: string | ("element" | "attribute")[];
+      /**
+       * Default: `""`
+       */
+      prefix?: string | unknown[];
+      /**
+       * Default: `""`
+       */
+      style?: "camelCase" | "kebab-case";
+    }
+  | [
+      {
+        /**
+         * Default: `""`
+         */
+        type: "element" | "attribute";
+        /**
+         * Default: `""`
+         */
+        prefix?: string | unknown[];
+        /**
+         * Default: `""`
+         */
+        style?: "camelCase" | "kebab-case";
+      }
+    ]
+  | [
+      {
+        /**
+         * Default: `""`
+         */
+        type: "element" | "attribute";
+        /**
+         * Default: `""`
+         */
+        prefix?: string | unknown[];
+        /**
+         * Default: `""`
+         */
+        style?: "camelCase" | "kebab-case";
+      },
+      {
+        /**
+         * Default: `""`
+         */
+        type: "element" | "attribute";
+        /**
+         * Default: `""`
+         */
+        prefix?: string | unknown[];
+        /**
+         * Default: `""`
+         */
+        style?: "camelCase" | "kebab-case";
+      }
+    ];
 
 ```
 
@@ -317,6 +370,41 @@ class Test {}
       "error",
       {
         "type": "element",
+        "style": "camelCase",
+        "prefix": "app"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({
+  selector: 'app'
+            ~~~~~
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/component-selector": [
+      "error",
+      {
+        "type": "element",
         "prefix": [
           "app",
           "ng"
@@ -486,8 +574,8 @@ class Test {}
 ```ts
 @Component({
   encapsulation: ViewEncapsulation.ShadowDom,
-  selector: 'app'
-            ~~~~~
+  selector: 'appselector'
+            ~~~~~~~~~~~~~
 })
 class Test {}
 ```
@@ -561,6 +649,248 @@ class Test {}
 @Component({
   selector: 'sgggg-bar'
             ~~~~~~~~~~~
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/component-selector": [
+      "error",
+      [
+        {
+          "type": "element",
+          "prefix": "app",
+          "style": "kebab-case"
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({
+  selector: 'appFooBar'
+            ~~~~~~~~~~~
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/component-selector": [
+      "error",
+      [
+        {
+          "type": "attribute",
+          "prefix": "app",
+          "style": "camelCase"
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({
+  selector: '[app-foo-bar]'
+            ~~~~~~~~~~~~~~~
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/component-selector": [
+      "error",
+      [
+        {
+          "type": "element",
+          "prefix": "app",
+          "style": "kebab-case"
+        },
+        {
+          "type": "attribute",
+          "prefix": "app",
+          "style": "camelCase"
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({
+  selector: 'appFooBar'
+            ~~~~~~~~~~~
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/component-selector": [
+      "error",
+      [
+        {
+          "type": "element",
+          "prefix": "app",
+          "style": "kebab-case"
+        },
+        {
+          "type": "attribute",
+          "prefix": "app",
+          "style": "camelCase"
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({
+  selector: '[app-foo-bar]'
+            ~~~~~~~~~~~~~~~
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/component-selector": [
+      "error",
+      [
+        {
+          "type": "element",
+          "prefix": "app",
+          "style": "kebab-case"
+        },
+        {
+          "type": "attribute",
+          "prefix": "app",
+          "style": "camelCase"
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({
+  selector: 'lib-foo-bar'
+            ~~~~~~~~~~~~~
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/component-selector": [
+      "error",
+      [
+        {
+          "type": "element",
+          "prefix": "app",
+          "style": "kebab-case"
+        },
+        {
+          "type": "attribute",
+          "prefix": "app",
+          "style": "camelCase"
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({
+  selector: '[libFooBar]'
+            ~~~~~~~~~~~~~
 })
 class Test {}
 ```
@@ -1239,6 +1569,289 @@ class Test {}
 ```ts
 @Component({
   selector: 'singleword'
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/component-selector": [
+      "error",
+      [
+        {
+          "type": "element",
+          "prefix": "app",
+          "style": "kebab-case"
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  selector: 'app-foo-bar'
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/component-selector": [
+      "error",
+      [
+        {
+          "type": "attribute",
+          "prefix": "app",
+          "style": "camelCase"
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  selector: '[appFooBar]'
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/component-selector": [
+      "error",
+      [
+        {
+          "type": "element",
+          "prefix": "app",
+          "style": "kebab-case"
+        },
+        {
+          "type": "attribute",
+          "prefix": "app",
+          "style": "camelCase"
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  selector: 'app-foo-bar'
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/component-selector": [
+      "error",
+      [
+        {
+          "type": "element",
+          "prefix": "app",
+          "style": "kebab-case"
+        },
+        {
+          "type": "attribute",
+          "prefix": "app",
+          "style": "camelCase"
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  selector: '[appFooBar]'
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/component-selector": [
+      "error",
+      [
+        {
+          "type": "element",
+          "prefix": [
+            "app",
+            "lib"
+          ],
+          "style": "kebab-case"
+        },
+        {
+          "type": "attribute",
+          "prefix": "app",
+          "style": "camelCase"
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  selector: 'lib-foo-bar'
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/component-selector": [
+      "error",
+      [
+        {
+          "type": "element",
+          "prefix": "app",
+          "style": "kebab-case"
+        },
+        {
+          "type": "attribute",
+          "prefix": [
+            "app",
+            "lib"
+          ],
+          "style": "camelCase"
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  selector: '[libFooBar]'
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/component-selector": [
+      "error",
+      [
+        {
+          "type": "attribute",
+          "prefix": "app",
+          "style": "camelCase"
+        },
+        {
+          "type": "element",
+          "prefix": "app",
+          "style": "kebab-case"
+        }
+      ]
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  selector: '[appFooBar]'
 })
 class Test {}
 ```

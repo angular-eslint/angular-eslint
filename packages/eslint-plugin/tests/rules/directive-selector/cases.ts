@@ -11,6 +11,8 @@ import type {
 const messageIdPrefixFailure: MessageIds = 'prefixFailure';
 const messageIdStyleFailure: MessageIds = 'styleFailure';
 const messageIdTypeFailure: MessageIds = 'typeFailure';
+const messageIdSelectorAfterPrefixFailure: MessageIds =
+  'selectorAfterPrefixFailure';
 
 export const valid: readonly (string | ValidTestCase<Options>)[] = [
   {
@@ -181,6 +183,101 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
       },
     ],
   },
+  // Single config array - element only
+  {
+    code: `
+      @Directive({
+        selector: 'app-foo-bar'
+      })
+      class Test {}
+      `,
+    options: [[{ type: 'element', prefix: 'app', style: 'kebab-case' }]],
+  },
+  // Single config array - attribute only
+  {
+    code: `
+      @Directive({
+        selector: '[appFooBar]'
+      })
+      class Test {}
+      `,
+    options: [[{ type: 'attribute', prefix: 'app', style: 'camelCase' }]],
+  },
+  // Multiple configs - element with kebab-case
+  {
+    code: `
+      @Directive({
+        selector: 'app-foo-bar'
+      })
+      class Test {}
+      `,
+    options: [
+      [
+        { type: 'element', prefix: 'app', style: 'kebab-case' },
+        { type: 'attribute', prefix: 'app', style: 'camelCase' },
+      ],
+    ],
+  },
+  // Multiple configs - attribute with camelCase
+  {
+    code: `
+      @Directive({
+        selector: '[appFooBar]'
+      })
+      class Test {}
+      `,
+    options: [
+      [
+        { type: 'element', prefix: 'app', style: 'kebab-case' },
+        { type: 'attribute', prefix: 'app', style: 'camelCase' },
+      ],
+    ],
+  },
+  // Multiple configs - element with array of prefixes
+  {
+    code: `
+      @Directive({
+        selector: 'lib-foo-bar'
+      })
+      class Test {}
+      `,
+    options: [
+      [
+        { type: 'element', prefix: ['app', 'lib'], style: 'kebab-case' },
+        { type: 'attribute', prefix: 'app', style: 'camelCase' },
+      ],
+    ],
+  },
+  // Multiple configs - attribute with array of prefixes
+  {
+    code: `
+      @Directive({
+        selector: '[libFooBar]'
+      })
+      class Test {}
+      `,
+    options: [
+      [
+        { type: 'element', prefix: 'app', style: 'kebab-case' },
+        { type: 'attribute', prefix: ['app', 'lib'], style: 'camelCase' },
+      ],
+    ],
+  },
+  // Multiple configs - config order shouldn't matter
+  {
+    code: `
+      @Directive({
+        selector: '[appFooBar]'
+      })
+      class Test {}
+      `,
+    options: [
+      [
+        { type: 'attribute', prefix: 'app', style: 'camelCase' },
+        { type: 'element', prefix: 'app', style: 'kebab-case' },
+      ],
+    ],
+  },
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
@@ -252,7 +349,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { style: 'kebab-case' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: `should fail if a selector uses kebab-case style, but no dash`,
+    description: `should fail when there is no selector after the prefix in kebab-case`,
     annotatedSource: `
         @Directive({
           selector: 'app'
@@ -260,9 +357,22 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         })
         class Test {}
       `,
-    messageId: messageIdStyleFailure,
+    messageId: messageIdSelectorAfterPrefixFailure,
     options: [{ type: 'element', prefix: 'app', style: 'kebab-case' }],
-    data: { style: 'kebab-case' },
+    data: { prefix: '"app"' },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: `should fail if there is no selector after the prefix`,
+    annotatedSource: `
+        @Directive({
+          selector: 'app'
+                    ~~~~~
+        })
+        class Test {}
+      `,
+    messageId: messageIdSelectorAfterPrefixFailure,
+    options: [{ type: 'element', prefix: 'app', style: 'camelCase' }],
+    data: { prefix: '"app"' },
   }),
   convertAnnotatedSourceToFailureCase({
     description: `should fail if a selector is not used as an attribute`,
@@ -291,5 +401,109 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId: messageIdTypeFailure,
     options: [{ type: 'element', prefix: ['app', 'ng'], style: 'camelCase' }],
     data: { type: 'element' },
+  }),
+  // Single config array - element with wrong style
+  convertAnnotatedSourceToFailureCase({
+    description: `should fail if an element selector doesn't match when using single config array`,
+    annotatedSource: `
+        @Directive({
+          selector: 'appFooBar'
+                    ~~~~~~~~~~~
+        })
+        class Test {}
+      `,
+    messageId: messageIdStyleFailure,
+    options: [[{ type: 'element', prefix: 'app', style: 'kebab-case' }]],
+    data: { style: 'kebab-case' },
+  }),
+  // Single config array - attribute with wrong style
+  convertAnnotatedSourceToFailureCase({
+    description: `should fail if an attribute selector doesn't match when using single config array`,
+    annotatedSource: `
+        @Directive({
+          selector: '[app-foo-bar]'
+                    ~~~~~~~~~~~~~~~
+        })
+        class Test {}
+      `,
+    messageId: messageIdStyleFailure,
+    options: [[{ type: 'attribute', prefix: 'app', style: 'camelCase' }]],
+    data: { style: 'camelCase' },
+  }),
+  // Multiple configs - element with wrong style
+  convertAnnotatedSourceToFailureCase({
+    description: `should fail if an element selector doesn't match kebab-case when using multiple configs`,
+    annotatedSource: `
+        @Directive({
+          selector: 'appFooBar'
+                    ~~~~~~~~~~~
+        })
+        class Test {}
+      `,
+    messageId: messageIdStyleFailure,
+    options: [
+      [
+        { type: 'element', prefix: 'app', style: 'kebab-case' },
+        { type: 'attribute', prefix: 'app', style: 'camelCase' },
+      ],
+    ],
+    data: { style: 'kebab-case' },
+  }),
+  // Multiple configs - attribute with wrong style
+  convertAnnotatedSourceToFailureCase({
+    description: `should fail if an attribute selector doesn't match camelCase when using multiple configs`,
+    annotatedSource: `
+        @Directive({
+          selector: '[app-foo-bar]'
+                    ~~~~~~~~~~~~~~~
+        })
+        class Test {}
+      `,
+    messageId: messageIdStyleFailure,
+    options: [
+      [
+        { type: 'element', prefix: 'app', style: 'kebab-case' },
+        { type: 'attribute', prefix: 'app', style: 'camelCase' },
+      ],
+    ],
+    data: { style: 'camelCase' },
+  }),
+  // Multiple configs - element with wrong prefix
+  convertAnnotatedSourceToFailureCase({
+    description: `should fail if an element selector has wrong prefix when using multiple configs`,
+    annotatedSource: `
+        @Directive({
+          selector: 'lib-foo-bar'
+                    ~~~~~~~~~~~~~
+        })
+        class Test {}
+      `,
+    messageId: messageIdPrefixFailure,
+    options: [
+      [
+        { type: 'element', prefix: 'app', style: 'kebab-case' },
+        { type: 'attribute', prefix: 'app', style: 'camelCase' },
+      ],
+    ],
+    data: { prefix: '"app"' },
+  }),
+  // Multiple configs - attribute with wrong prefix
+  convertAnnotatedSourceToFailureCase({
+    description: `should fail if an attribute selector has wrong prefix when using multiple configs`,
+    annotatedSource: `
+        @Directive({
+          selector: '[libFooBar]'
+                    ~~~~~~~~~~~~~
+        })
+        class Test {}
+      `,
+    messageId: messageIdPrefixFailure,
+    options: [
+      [
+        { type: 'element', prefix: 'app', style: 'kebab-case' },
+        { type: 'attribute', prefix: 'app', style: 'camelCase' },
+      ],
+    ],
+    data: { prefix: '"app"' },
   }),
 ];

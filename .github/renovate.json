@@ -7,14 +7,6 @@
   // Wait well over npm's three day window for any new package as a precaution against malicious publishes.
   // https://docs.npmjs.com/policies/unpublish/#packages-published-less-than-72-hours-ago
   "minimumReleaseAge": "7 days",
-  "ignoreDeps": [
-    // Let nx mange jest dev dependencies
-    "@jest/types",
-    "@types/jest",
-    "jest",
-    "jest-util",
-    "ts-jest"
-  ],
   "packageRules": [
     {
       "groupName": "typescript-eslint packages",

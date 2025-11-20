@@ -64,3 +64,8 @@ export default createESLintRule<Options, MessageIds>({
     };
   },
 });
+
+export const RULE_DOCS_EXTENSION = {
+  rationale:
+    "Historically, appending 'Component' to component class names was recommended to make component files easily identifiable. However, as of Angular v20, the Angular Team no longer recommends this convention, favoring simpler class names. This rule remains available for teams that have established this naming pattern and wish to maintain consistency in their existing codebase.",
+};

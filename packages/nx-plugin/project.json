@@ -5,6 +5,9 @@
   "projectType": "library",
   "tags": [],
   "targets": {
+    "typecheck": {
+      "executor": "nx:noop"
+    },
     "build": {
       "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
@@ -35,16 +38,6 @@
             "output": "."
           }
         ]
-      }
-    },
-    "test": {
-      "options": {
-        "args": "run"
-      },
-      "configurations": {
-        "ci": {
-          "args": ["run", "--coverage"]
-        }
       }
     }
   }

@@ -60,3 +60,8 @@ export default createESLintRule<Options, MessageIds>({
     );
   },
 });
+
+export const RULE_DOCS_EXTENSION = {
+  rationale:
+    'Elements that show or hide content on mouse hover (using mouseover and mouseout events) must also be accessible to keyboard users. When mouseover is used, there must be an equivalent focus event; when mouseout is used, there must be an equivalent blur event. This ensures that tooltips, dropdown menus, and other hover-triggered content can be accessed by users who navigate with keyboards instead of mice. For example, a tooltip that appears on mouseover should also appear when the element receives keyboard focus. This is essential for users with motor disabilities who cannot use a mouse, as well as screen reader users. This is a WCAG Level A requirement for keyboard accessibility.',
+};

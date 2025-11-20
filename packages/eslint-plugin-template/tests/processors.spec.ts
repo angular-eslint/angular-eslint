@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import processors, {
   isFileLikelyToContainComponentDeclarations,
 } from '../src/processors';

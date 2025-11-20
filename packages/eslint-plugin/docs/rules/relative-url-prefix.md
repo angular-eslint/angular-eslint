@@ -21,6 +21,12 @@ The ./ and ../ prefix is standard syntax for relative URLs; don't depend on Angu
 
 <br>
 
+## Rationale
+
+Using relative URLs (like './user-profile.component.html') instead of absolute URLs (like 'app/users/user-profile.component.html') for templateUrl and styleUrls makes components more portable and easier to refactor. When you move a component to a different directory, relative URLs don't need to be updated as long as the template and styles move with the component. This follows the principle of co-locating related files and makes refactoring safer. Relative URLs should typically start with './' for files in the same directory or '../' for files in parent directories.
+
+<br>
+
 ## Rule Options
 
 The rule does not have any configuration options.

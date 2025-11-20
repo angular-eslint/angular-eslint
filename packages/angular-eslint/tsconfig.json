@@ -22,6 +22,9 @@
     },
     {
       "path": "./tsconfig.lib.json"
+    },
+    {
+      "path": "./tsconfig.type-compat.json"
     }
   ]
 }

@@ -95,3 +95,8 @@ export default createESLintRule<Options, MessageIds>({
     };
   },
 });
+
+export const RULE_DOCS_EXTENSION = {
+  rationale:
+    "The inject() function is Angular's modern dependency injection API that offers several advantages over constructor-based injection. First, it enables dependency injection outside of constructors, allowing you to use DI in functions, factories, and even at the class field level. This makes code more flexible and composable. Second, inject() is more concise and reduces boilerplate - you don't need constructor parameter properties or manual field assignments. Third, inject() works naturally with modern TypeScript features and tree-shaking. Fourth, it's required for using many modern Angular features like functional guards, interceptors, and the new signal-based APIs. Angular provides an automated migration schematic (ng generate @angular/core:inject) to convert constructor injection to inject(), making adoption straightforward. This is the recommended approach for all new Angular code.",
+};
