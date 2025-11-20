@@ -9,7 +9,7 @@ exports[`new-workspace-create-application-false-project-then-ng-add > should pas
   "eslint": "^9.39.1",
   "jsdom": "^27.1.0",
   "typescript": "~5.X.X",
-  "typescript-eslint": "8.46.4"
+  "typescript-eslint": "8.46.4",
   "vitest": "^4.0.8"
 }
 `;
