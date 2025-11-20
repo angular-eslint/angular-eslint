@@ -17,19 +17,10 @@
     "populate-local-registry-storage": {
       "cache": true,
       "inputs": [
-        {
-          "input": "production",
-          "projects": ["tag:npm:public"]
-        },
+        "^production",
         "{workspaceRoot}/e2e/scripts/populate-storage.js"
       ],
-      "dependsOn": [
-        "local-registry",
-        {
-          "target": "build",
-          "projects": ["tag:npm:public"]
-        }
-      ],
+      "dependsOn": ["local-registry", "^build"],
       "command": "node ./e2e/scripts/run-populate-storage.mjs",
       "outputs": ["{workspaceRoot}/dist/local-registry/storage"]
     }
