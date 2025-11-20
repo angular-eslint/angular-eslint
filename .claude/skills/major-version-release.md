@@ -127,12 +127,6 @@ Only proceed if tests pass and type checking succeeds. Linting warnings are acce
 3. **Type checking fails** - abort with message: "Type checking failed. Cannot proceed with major version release until type errors are resolved."
 4. **E2E snapshot updates fail** - abort with message: "E2E snapshot updates failed. Cannot proceed with major version release until snapshots are updated."
 
-**CONTINUE WITH WARNINGS for these conditions:**
-
-- Linting warnings (note in final report)
-- Format/sync check failures that can be auto-fixed
-- Individual nx-plugin typecheck failures (known issue with build artifacts)
-
 ## Output
 
 The skill should provide:
