@@ -286,17 +286,18 @@ export function createStringifiedRootESLintConfig(
 ): string {
   return `// @ts-check
 ${isESM ? 'import eslint from "@eslint/js";' : 'const eslint = require("@eslint/js");'}
+${isESM ? 'import { defineConfig } from "eslint/config";' : 'const { defineConfig } = require("eslint/config");'}
 ${isESM ? 'import tseslint from "typescript-eslint";' : 'const tseslint = require("typescript-eslint");'}
 ${isESM ? 'import angular from "angular-eslint";' : 'const angular = require("angular-eslint");'}
 
-${isESM ? 'export default' : 'module.exports ='} tseslint.config(
+${isESM ? 'export default' : 'module.exports ='} defineConfig([
   {
     files: ["**/*.ts"],
     extends: [
       eslint.configs.recommended,
-      ...tseslint.configs.recommended,
-      ...tseslint.configs.stylistic,
-      ...angular.configs.tsRecommended,
+      tseslint.configs.recommended,
+      tseslint.configs.stylistic,
+      angular.configs.tsRecommended,
     ],
     processor: angular.processInlineTemplates,
     rules: ${
@@ -325,12 +326,12 @@ ${isESM ? 'export default' : 'module.exports ='} tseslint.config(
   {
     files: ["**/*.html"],
     extends: [
-      ...angular.configs.templateRecommended,
-      ...angular.configs.templateAccessibility,
+      angular.configs.templateRecommended,
+      angular.configs.templateAccessibility,
     ],
     rules: {},
   }
-);
+]);
 `;
 }
 
@@ -389,10 +390,10 @@ function createStringifiedProjectESLintConfig(
 ) {
   const relativeRootConfigPath = offsetFromRoot(projectRoot) + rootConfigPath;
   return `// @ts-check
-${isESM ? 'import tseslint from "typescript-eslint";' : 'const tseslint = require("typescript-eslint");'}
+${isESM ? 'import { defineConfig } from "eslint/config";' : 'const { defineConfig } = require("eslint/config");'}
 ${isESM ? `import rootConfig from "${relativeRootConfigPath}";` : `const rootConfig = require("${relativeRootConfigPath}");`}
 
-${isESM ? 'export default' : 'module.exports ='} tseslint.config(
+${isESM ? 'export default' : 'module.exports ='} defineConfig([
   ...rootConfig,
   {
     files: ["**/*.ts"],${
@@ -428,7 +429,7 @@ ${isESM ? 'export default' : 'module.exports ='} tseslint.config(
     files: ["**/*.html"],
     rules: {},
   }
-);
+]);
 `;
 }
 

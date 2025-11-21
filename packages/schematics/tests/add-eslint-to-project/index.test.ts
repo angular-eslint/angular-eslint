@@ -693,17 +693,18 @@ describe('add-eslint-to-project', () => {
         .toMatchInlineSnapshot(`
           "// @ts-check
           const eslint = require("@eslint/js");
+          const { defineConfig } = require("eslint/config");
           const tseslint = require("typescript-eslint");
           const angular = require("angular-eslint");
 
-          module.exports = tseslint.config(
+          module.exports = defineConfig([
             {
               files: ["**/*.ts"],
               extends: [
                 eslint.configs.recommended,
-                ...tseslint.configs.recommended,
-                ...tseslint.configs.stylistic,
-                ...angular.configs.tsRecommended,
+                tseslint.configs.recommended,
+                tseslint.configs.stylistic,
+                angular.configs.tsRecommended,
               ],
               processor: angular.processInlineTemplates,
               rules: {
@@ -728,12 +729,12 @@ describe('add-eslint-to-project', () => {
             {
               files: ["**/*.html"],
               extends: [
-                ...angular.configs.templateRecommended,
-                ...angular.configs.templateAccessibility,
+                angular.configs.templateRecommended,
+                angular.configs.templateAccessibility,
               ],
               rules: {},
             }
-          );
+          ]);
           "
         `);
     });
@@ -769,10 +770,10 @@ describe('add-eslint-to-project', () => {
       expect(appTree.read(`${projectConfig.root}/eslint.config.js`)?.toString())
         .toMatchInlineSnapshot(`
           "// @ts-check
-          const tseslint = require("typescript-eslint");
+          const { defineConfig } = require("eslint/config");
           const rootConfig = require("../../eslint.config.js");
 
-          module.exports = tseslint.config(
+          module.exports = defineConfig([
             ...rootConfig,
             {
               files: ["**/*.ts"],
@@ -799,7 +800,7 @@ describe('add-eslint-to-project', () => {
               files: ["**/*.html"],
               rules: {},
             }
-          );
+          ]);
           "
         `);
     });
@@ -835,10 +836,10 @@ describe('add-eslint-to-project', () => {
       expect(appTree.read(`${projectConfig.root}/eslint.config.js`)?.toString())
         .toMatchInlineSnapshot(`
           "// @ts-check
-          const tseslint = require("typescript-eslint");
+          const { defineConfig } = require("eslint/config");
           const rootConfig = require("../../eslint.config.js");
 
-          module.exports = tseslint.config(
+          module.exports = defineConfig([
             ...rootConfig,
             {
               files: ["**/*.ts"],
@@ -865,7 +866,7 @@ describe('add-eslint-to-project', () => {
               files: ["**/*.html"],
               rules: {},
             }
-          );
+          ]);
           "
         `);
     });
@@ -904,10 +905,10 @@ describe('add-eslint-to-project', () => {
           appTree.read(`${projectConfig.root}/eslint.config.js`)?.toString(),
         ).toMatchInlineSnapshot(`
           "// @ts-check
-          const tseslint = require("typescript-eslint");
+          const { defineConfig } = require("eslint/config");
           const rootConfig = require("../../eslint.config.js");
 
-          module.exports = tseslint.config(
+          module.exports = defineConfig([
             ...rootConfig,
             {
               files: ["**/*.ts"],
@@ -939,7 +940,7 @@ describe('add-eslint-to-project', () => {
               files: ["**/*.html"],
               rules: {},
             }
-          );
+          ]);
           "
         `);
       });
@@ -977,10 +978,10 @@ describe('add-eslint-to-project', () => {
           appTree.read(`${projectConfig.root}/eslint.config.js`)?.toString(),
         ).toMatchInlineSnapshot(`
           "// @ts-check
-          const tseslint = require("typescript-eslint");
+          const { defineConfig } = require("eslint/config");
           const rootConfig = require("../../eslint.config.js");
 
-          module.exports = tseslint.config(
+          module.exports = defineConfig([
             ...rootConfig,
             {
               files: ["**/*.ts"],
@@ -1012,7 +1013,7 @@ describe('add-eslint-to-project', () => {
               files: ["**/*.html"],
               rules: {},
             }
-          );
+          ]);
           "
         `);
       });
@@ -1109,17 +1110,18 @@ describe('add-eslint-to-project', () => {
           .toMatchInlineSnapshot(`
             "// @ts-check
             const eslint = require("@eslint/js");
+            const { defineConfig } = require("eslint/config");
             const tseslint = require("typescript-eslint");
             const angular = require("angular-eslint");
 
-            module.exports = tseslint.config(
+            module.exports = defineConfig([
               {
                 files: ["**/*.ts"],
                 extends: [
                   eslint.configs.recommended,
-                  ...tseslint.configs.recommended,
-                  ...tseslint.configs.stylistic,
-                  ...angular.configs.tsRecommended,
+                  tseslint.configs.recommended,
+                  tseslint.configs.stylistic,
+                  angular.configs.tsRecommended,
                 ],
                 processor: angular.processInlineTemplates,
                 rules: {
@@ -1144,12 +1146,12 @@ describe('add-eslint-to-project', () => {
               {
                 files: ["**/*.html"],
                 extends: [
-                  ...angular.configs.templateRecommended,
-                  ...angular.configs.templateAccessibility,
+                  angular.configs.templateRecommended,
+                  angular.configs.templateAccessibility,
                 ],
                 rules: {},
               }
-            );
+            ]);
             "
           `);
       });

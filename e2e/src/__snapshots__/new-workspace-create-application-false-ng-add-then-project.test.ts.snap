@@ -17,17 +17,18 @@ exports[`new-workspace-create-application-false-ng-add-then-project > should pas
 exports[`new-workspace-create-application-false-ng-add-then-project > should pass linting when running ng-add before creating any projects 2`] = `
 "// @ts-check
 const eslint = require("@eslint/js");
+const { defineConfig } = require("eslint/config");
 const tseslint = require("typescript-eslint");
 const angular = require("angular-eslint");
 
-module.exports = tseslint.config(
+module.exports = defineConfig([
   {
     files: ["**/*.ts"],
     extends: [
       eslint.configs.recommended,
-      ...tseslint.configs.recommended,
-      ...tseslint.configs.stylistic,
-      ...angular.configs.tsRecommended,
+      tseslint.configs.recommended,
+      tseslint.configs.stylistic,
+      angular.configs.tsRecommended,
     ],
     processor: angular.processInlineTemplates,
     rules: {},
@@ -35,21 +36,21 @@ module.exports = tseslint.config(
   {
     files: ["**/*.html"],
     extends: [
-      ...angular.configs.templateRecommended,
-      ...angular.configs.templateAccessibility,
+      angular.configs.templateRecommended,
+      angular.configs.templateAccessibility,
     ],
     rules: {},
   }
-);
+]);
 "
 `;
 
 exports[`new-workspace-create-application-false-ng-add-then-project > should pass linting when running ng-add before creating any projects 3`] = `
 "// @ts-check
-const tseslint = require("typescript-eslint");
+const { defineConfig } = require("eslint/config");
 const rootConfig = require("../../eslint.config.js");
 
-module.exports = tseslint.config(
+module.exports = defineConfig([
   ...rootConfig,
   {
     files: ["**/*.ts"],
@@ -76,7 +77,7 @@ module.exports = tseslint.config(
     files: ["**/*.html"],
     rules: {},
   }
-);
+]);
 "
 `;
 
