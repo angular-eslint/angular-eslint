@@ -62,3 +62,47 @@ config(
     },
   },
 );
+
+/**
+ * Test 3: Verify compatibility with defineConfig when using extends with configs
+ */
+defineConfig([
+  {
+    files: ['**/*.ts'],
+    extends: [angular.configs.tsRecommended],
+  },
+  {
+    files: ['**/*.html'],
+    extends: [angular.configs.templateRecommended],
+  },
+]);
+
+/**
+ * Test 4: Verify compatibility with typescript-eslint's config when using extends
+ */
+config(
+  {
+    files: ['**/*.ts'],
+    extends: [angular.configs.tsRecommended],
+  },
+  {
+    files: ['**/*.html'],
+    extends: [angular.configs.templateRecommended],
+  },
+);
+
+/**
+ * Test 5: Verify spreading configs works with defineConfig
+ */
+defineConfig([
+  ...angular.configs.tsRecommended,
+  ...angular.configs.templateRecommended,
+]);
+
+/**
+ * Test 6: Verify spreading configs works with typescript-eslint's config
+ */
+config(
+  ...angular.configs.tsRecommended,
+  ...angular.configs.templateRecommended,
+);
