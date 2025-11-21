@@ -12,6 +12,7 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description: 'Ensures that the built-in control flow is used.',
+      recommended: 'recommended',
     },
     schema: [],
     messages: {
