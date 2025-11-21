@@ -18,17 +18,18 @@ exports[`new-workspace > should pass linting after creating a new workspace from
 exports[`new-workspace > should pass linting after creating a new workspace from scratch using @angular-eslint 2`] = `
 "// @ts-check
 const eslint = require("@eslint/js");
+const { defineConfig } = require("eslint/config");
 const tseslint = require("typescript-eslint");
 const angular = require("angular-eslint");
 
-module.exports = tseslint.config(
+module.exports = defineConfig([
   {
     files: ["**/*.ts"],
     extends: [
       eslint.configs.recommended,
-      ...tseslint.configs.recommended,
-      ...tseslint.configs.stylistic,
-      ...angular.configs.tsRecommended,
+      tseslint.configs.recommended,
+      tseslint.configs.stylistic,
+      angular.configs.tsRecommended,
     ],
     processor: angular.processInlineTemplates,
     rules: {
@@ -53,12 +54,12 @@ module.exports = tseslint.config(
   {
     files: ["**/*.html"],
     extends: [
-      ...angular.configs.templateRecommended,
-      ...angular.configs.templateAccessibility,
+      angular.configs.templateRecommended,
+      angular.configs.templateAccessibility,
     ],
     rules: {},
   }
-);
+]);
 "
 `;
 
@@ -76,10 +77,10 @@ exports[`new-workspace > should pass linting after creating a new workspace from
 
 exports[`new-workspace > should pass linting after creating a new workspace from scratch using @angular-eslint 4`] = `
 "// @ts-check
-const tseslint = require("typescript-eslint");
+const { defineConfig } = require("eslint/config");
 const rootConfig = require("../../eslint.config.js");
 
-module.exports = tseslint.config(
+module.exports = defineConfig([
   ...rootConfig,
   {
     files: ["**/*.ts"],
@@ -106,7 +107,7 @@ module.exports = tseslint.config(
     files: ["**/*.html"],
     rules: {},
   }
-);
+]);
 "
 `;
 
@@ -125,10 +126,10 @@ exports[`new-workspace > should pass linting after creating a new workspace from
 
 exports[`new-workspace > should pass linting after creating a new workspace from scratch using @angular-eslint 6`] = `
 "// @ts-check
-const tseslint = require("typescript-eslint");
+const { defineConfig } = require("eslint/config");
 const rootConfig = require("../../eslint.config.js");
 
-module.exports = tseslint.config(
+module.exports = defineConfig([
   ...rootConfig,
   {
     files: ["**/*.ts"],
@@ -155,7 +156,7 @@ module.exports = tseslint.config(
     files: ["**/*.html"],
     rules: {},
   }
-);
+]);
 "
 `;
 

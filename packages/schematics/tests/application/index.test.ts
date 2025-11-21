@@ -280,10 +280,10 @@ describe('application', () => {
       expect(tree.read('projects/foo/eslint.config.js')?.toString())
         .toMatchInlineSnapshot(`
           "// @ts-check
-          const tseslint = require("typescript-eslint");
+          const { defineConfig } = require("eslint/config");
           const rootConfig = require("../../eslint.config.js");
 
-          module.exports = tseslint.config(
+          module.exports = defineConfig([
             ...rootConfig,
             {
               files: ["**/*.ts"],
@@ -310,7 +310,7 @@ describe('application', () => {
               files: ["**/*.html"],
               rules: {},
             }
-          );
+          ]);
           "
         `);
     });
@@ -330,10 +330,10 @@ describe('application', () => {
       expect(tree.read('projects/foo/eslint.config.js')?.toString())
         .toMatchInlineSnapshot(`
           "// @ts-check
-          const tseslint = require("typescript-eslint");
+          const { defineConfig } = require("eslint/config");
           const rootConfig = require("../../eslint.config.js");
 
-          module.exports = tseslint.config(
+          module.exports = defineConfig([
             ...rootConfig,
             {
               files: ["**/*.ts"],
@@ -365,7 +365,7 @@ describe('application', () => {
               files: ["**/*.html"],
               rules: {},
             }
-          );
+          ]);
           "
         `);
     });
@@ -383,10 +383,10 @@ describe('application', () => {
       expect(tree.read('projects/foo/bar/eslint.config.js')?.toString())
         .toMatchInlineSnapshot(`
           "// @ts-check
-          const tseslint = require("typescript-eslint");
+          const { defineConfig } = require("eslint/config");
           const rootConfig = require("../../../eslint.config.js");
 
-          module.exports = tseslint.config(
+          module.exports = defineConfig([
             ...rootConfig,
             {
               files: ["**/*.ts"],
@@ -413,7 +413,7 @@ describe('application', () => {
               files: ["**/*.html"],
               rules: {},
             }
-          );
+          ]);
           "
         `);
     });

@@ -2,8 +2,15 @@
 
 const { workspaceRoot } = require('@nx/devkit');
 const { execFileSync } = require('node:child_process');
+const { rmdirSync } = require('node:fs');
+const { join } = require('node:path');
 
 async function populateLocalRegistryStorage() {
+  const storageDir = join(workspaceRoot, 'dist', 'local-registry', 'storage');
+  // Clean up previous storage for our own packages, if we are running this it must be invalid at this point
+  rmdirSync(join(storageDir, '@angular-eslint'), { recursive: true });
+  rmdirSync(join(storageDir, 'angular-eslint'), { recursive: true });
+
   const listenAddress = 'localhost';
   const port = process.env.NX_LOCAL_REGISTRY_PORT ?? '4873';
   const registry = `http://${listenAddress}:${port}`;
