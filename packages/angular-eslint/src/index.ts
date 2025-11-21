@@ -3,6 +3,7 @@ import templatePluginBase from '@angular-eslint/eslint-plugin-template';
 import * as templateParserBase from '@angular-eslint/template-parser';
 import type { Plugin as ESLintPlugin } from '@eslint/core';
 import type { TSESLint } from '@typescript-eslint/utils';
+import type { Linter } from 'eslint';
 import { parser } from 'typescript-eslint';
 
 import templateAccessibilityConfig from './configs/template-accessibility';
@@ -54,18 +55,27 @@ type CompatiblePlugin = Omit<ESLintPlugin, 'configs'> & {
 const tsPlugin = tsPluginBase as unknown as CompatiblePlugin;
 const templatePlugin = templatePluginBase as unknown as CompatiblePlugin;
 
+/**
+ * Type that is compatible with both ESLint's defineConfig and typescript-eslint's config
+ * by using the intersection of both config array types
+ */
+type CompatibleConfigArray = TSESLint.FlatConfig.ConfigArray & Linter.Config[];
+
 const configs = {
-  tsAll: tsAllConfig(tsPlugin, parser),
-  tsRecommended: tsRecommendedConfig(tsPlugin, parser),
-  templateAll: templateAllConfig(templatePlugin, templateParser),
+  tsAll: tsAllConfig(tsPlugin, parser) as CompatibleConfigArray,
+  tsRecommended: tsRecommendedConfig(tsPlugin, parser) as CompatibleConfigArray,
+  templateAll: templateAllConfig(
+    templatePlugin,
+    templateParser,
+  ) as CompatibleConfigArray,
   templateRecommended: templateRecommendedConfig(
     templatePlugin,
     templateParser,
-  ),
+  ) as CompatibleConfigArray,
   templateAccessibility: templateAccessibilityConfig(
     templatePlugin,
     templateParser,
-  ),
+  ) as CompatibleConfigArray,
 };
 
 // Export more succinct alias for us in user flat config files
