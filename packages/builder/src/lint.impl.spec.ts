@@ -490,6 +490,140 @@ describe('Linter Builder', () => {
     expect(mockOutputFixes).toHaveBeenCalled();
   });
 
+  it('should pass all lint results to the formatter, including files with no errors or warnings', async () => {
+    mockReports = [
+      {
+        errorCount: 0,
+        warningCount: 0,
+        filePath: 'clean-file.ts',
+        results: [],
+        messages: [],
+        usedDeprecatedRules: [],
+      },
+      {
+        errorCount: 1,
+        warningCount: 0,
+        filePath: 'file-with-error.ts',
+        results: [],
+        messages: [
+          {
+            line: 1,
+            column: 1,
+            message: 'Error message',
+            severity: 2,
+            ruleId: 'some-rule',
+          },
+        ],
+        usedDeprecatedRules: [],
+      },
+      {
+        errorCount: 0,
+        warningCount: 1,
+        filePath: 'file-with-warning.ts',
+        results: [],
+        messages: [
+          {
+            line: 1,
+            column: 1,
+            message: 'Warning message',
+            severity: 1,
+            ruleId: 'some-rule',
+          },
+        ],
+        usedDeprecatedRules: [],
+      },
+    ];
+    await runBuilder(
+      createValidRunBuilderOptions({
+        eslintConfig: './.eslintrc',
+        lintFilePatterns: ['**/*.ts'],
+        format: 'json',
+      }),
+    );
+    // All three results should be passed to the formatter, including the clean file
+    expect(mockFormatter.format).toHaveBeenCalledWith(mockReports);
+  });
+
+  it('should pass all lint results to the formatter even in quiet mode, but filter messages', async () => {
+    mockReports = [
+      {
+        errorCount: 0,
+        warningCount: 1,
+        filePath: 'file-with-warning.ts',
+        results: [],
+        messages: [
+          {
+            line: 1,
+            column: 1,
+            message: 'Warning message',
+            severity: 1,
+            ruleId: 'some-rule',
+          },
+        ],
+        usedDeprecatedRules: [],
+      },
+      {
+        errorCount: 1,
+        warningCount: 1,
+        filePath: 'file-with-error-and-warning.ts',
+        results: [],
+        messages: [
+          {
+            line: 1,
+            column: 1,
+            message: 'Error message',
+            severity: 2,
+            ruleId: 'error-rule',
+          },
+          {
+            line: 2,
+            column: 1,
+            message: 'Warning message',
+            severity: 1,
+            ruleId: 'warning-rule',
+          },
+        ],
+        usedDeprecatedRules: [],
+      },
+    ];
+    await runBuilder(
+      createValidRunBuilderOptions({
+        eslintConfig: './.eslintrc',
+        lintFilePatterns: ['**/*.ts'],
+        format: 'json',
+        quiet: true,
+      }),
+    );
+    // Both files should be passed to the formatter, but warnings should be filtered out
+    expect(mockFormatter.format).toHaveBeenCalledWith([
+      {
+        errorCount: 0,
+        warningCount: 1,
+        filePath: 'file-with-warning.ts',
+        results: [],
+        messages: [], // Warning filtered out in quiet mode
+        usedDeprecatedRules: [],
+      },
+      {
+        errorCount: 1,
+        warningCount: 1,
+        filePath: 'file-with-error-and-warning.ts',
+        results: [],
+        messages: [
+          {
+            line: 1,
+            column: 1,
+            message: 'Error message',
+            severity: 2,
+            ruleId: 'error-rule',
+          },
+          // Warning filtered out in quiet mode
+        ],
+        usedDeprecatedRules: [],
+      },
+    ]);
+  });
+
   describe('bundled results', () => {
     it('should log if there are errors or warnings', async () => {
       mockReports = [
