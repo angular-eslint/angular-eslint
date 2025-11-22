@@ -22,10 +22,12 @@ export type SelectorTypeInternal =
   | typeof OPTION_TYPE_ATTRS
   | typeof OPTION_TYPE_ELEMENT;
 
+export type SelectorPrefixOption = undefined | string | readonly string[];
+
 // Shared type definitions for selector rules
 export type SelectorConfig = {
   readonly type: SelectorTypeOption;
-  readonly prefix: string | readonly string[];
+  readonly prefix: SelectorPrefixOption;
   readonly style: SelectorStyleOption;
 };
 
@@ -41,7 +43,7 @@ const SELECTOR_TYPE_MAPPER: Record<string, SelectorTypeInternal> = {
 export type Options = [
   {
     readonly type: SelectorTypeOption | readonly SelectorTypeOption[];
-    readonly prefix: string | readonly string[];
+    readonly prefix: SelectorPrefixOption;
     readonly style: SelectorTypeOption;
   },
 ];
@@ -60,7 +62,7 @@ export const SelectorValidator = {
   },
 
   kebabCase(selector: string): boolean {
-    return /^[a-z0-9-]+-[a-z0-9-]+$/.test(selector);
+    return /^[a-z0-9]+(-[a-z0-9]+)*$/.test(selector);
   },
 
   prefixRegex(prefix: string): RegExp {
@@ -120,28 +122,30 @@ const getValidSelectors = (
 
 export const reportPrefixError = (
   node: TSESTree.Node,
-  prefix: string | readonly string[],
+  prefix: SelectorPrefixOption,
   context: Readonly<TSESLint.RuleContext<string, readonly unknown[]>>,
 ): void => {
+  const prefixArray = prefix ? arrayify(prefix) : [];
   context.report({
     node,
     messageId: 'prefixFailure',
     data: {
-      prefix: toHumanReadableText(arrayify(prefix)),
+      prefix: toHumanReadableText(prefixArray),
     },
   });
 };
 
 export const reportSelectorAfterPrefixError = (
   node: TSESTree.Node,
-  prefix: string | readonly string[],
+  prefix: SelectorPrefixOption,
   context: Readonly<TSESLint.RuleContext<string, readonly unknown[]>>,
 ): void => {
+  const prefixArray = prefix ? arrayify(prefix) : [];
   context.report({
     node,
     messageId: 'selectorAfterPrefixFailure',
     data: {
-      prefix: toHumanReadableText(arrayify(prefix)),
+      prefix: toHumanReadableText(prefixArray),
     },
   });
 };
@@ -163,15 +167,16 @@ export const reportStyleError = (
 export const reportStyleAndPrefixError = (
   node: TSESTree.Node,
   style: SelectorStyleOption,
-  prefix: string | readonly string[],
+  prefix: SelectorPrefixOption,
   context: Readonly<TSESLint.RuleContext<string, readonly unknown[]>>,
 ): void => {
+  const prefixArray = prefix ? arrayify(prefix) : [];
   context.report({
     node,
     messageId: 'styleAndPrefixFailure',
     data: {
       style,
-      prefix: toHumanReadableText(arrayify(prefix)),
+      prefix: toHumanReadableText(prefixArray),
     },
   });
 };
@@ -233,7 +238,7 @@ export const getActualSelectorType = (
 
 export const checkValidOptions = (
   type: SelectorTypeOption | readonly SelectorTypeOption[],
-  prefix: string | readonly string[],
+  prefix: SelectorPrefixOption,
   style: SelectorStyleOption,
 ): boolean => {
   // Get options
@@ -249,7 +254,13 @@ export const checkValidOptions = (
         [OPTION_TYPE_ELEMENT, OPTION_TYPE_ATTRIBUTE].indexOf(argument) !== -1,
     );
 
-  const isPrefixOptionValid = prefix.length > 0;
+  // Prefix is optional - allow undefined, empty string, or empty array
+  // If provided, it should be non-empty
+  const isPrefixOptionValid =
+    prefix === undefined ||
+    prefix === '' ||
+    (Array.isArray(prefix) && prefix.length === 0) ||
+    prefix.length > 0;
 
   const isStyleOptionValid =
     [OPTION_STYLE_CAMEL_CASE, OPTION_STYLE_KEBAB_CASE].indexOf(styleOption) !==
@@ -261,7 +272,7 @@ export const checkValidOptions = (
 export const checkSelector = (
   node: TSESTree.Node,
   typeOption: SelectorTypeOption | readonly SelectorTypeOption[],
-  prefixOption: readonly string[],
+  prefixOption: SelectorPrefixOption,
   styleOption: SelectorStyle,
   parsedSelectors?: readonly CssSelector[] | null,
 ): {
@@ -293,23 +304,33 @@ export const checkSelector = (
 
   const validSelectors = getValidSelectors(listSelectors, types);
 
-  const hasExpectedPrefix = validSelectors.some((selector) =>
-    prefixOption.some((prefix) =>
-      SelectorValidator.prefix(prefix, styleOption)(selector),
-    ),
-  );
+  // If no prefix is required (empty or undefined), consider prefix check as passed
+  const prefixArray = prefixOption ? arrayify(prefixOption) : [];
+  const hasExpectedPrefix =
+    !prefixOption ||
+    prefixArray.length === 0 ||
+    validSelectors.some((selector) =>
+      prefixArray.some((prefix) =>
+        SelectorValidator.prefix(prefix, styleOption)(selector),
+      ),
+    );
 
+  // Style validation should ONLY check if the selector matches the style pattern
   const hasExpectedStyle = validSelectors.some((selector) =>
     styleValidator(selector),
   );
 
   const hasExpectedType = validSelectors.length > 0;
 
-  const hasSelectorAfterPrefix = validSelectors.some((selector) => {
-    return prefixOption.some((prefix) => {
-      return SelectorValidator.selectorAfterPrefix(prefix)(selector);
+  // Only check for selector after prefix if prefix is actually required
+  const hasSelectorAfterPrefix =
+    !prefixOption ||
+    prefixArray.length === 0 ||
+    validSelectors.some((selector) => {
+      return prefixArray.some((prefix) => {
+        return SelectorValidator.selectorAfterPrefix(prefix)(selector);
+      });
     });
-  });
 
   return {
     hasExpectedPrefix,

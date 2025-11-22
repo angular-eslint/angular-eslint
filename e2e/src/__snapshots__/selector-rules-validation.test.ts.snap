@@ -1,0 +1,82 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`selector-rules-validation > should fail with incomplete array configuration (missing required fields) 1`] = `
+"
+Linting "selector-rules-validation"...
+Error when running ESLint: Key "rules": Key "@angular-eslint/component-selector":
+	Value [{"type":"element","prefix":"app"},{"type":"attribute","style":"camelCase"}] should be object.
+	Value {"type":"element","prefix":"app"} should have required property 'style'.
+	Value [{"type":"element","prefix":"app"},{"type":"attribute","style":"camelCase"}] should match exactly one schema in oneOf.
+"
+`;
+
+exports[`selector-rules-validation > should fail with incomplete configuration for component-selector (only prefix) 1`] = `
+"
+Linting "selector-rules-validation"...
+Error when running ESLint: Key "rules": Key "@angular-eslint/component-selector":
+	Value {"prefix":"app"} should have required property 'type'.
+	Value {"prefix":"app"} should be array.
+	Value {"prefix":"app"} should match exactly one schema in oneOf.
+"
+`;
+
+exports[`selector-rules-validation > should fail with incomplete configuration for directive-selector (missing style) 1`] = `
+"
+Linting "selector-rules-validation"...
+Error when running ESLint: Key "rules": Key "@angular-eslint/directive-selector":
+	Value {"type":"attribute","prefix":"app"} should have required property 'style'.
+	Value {"type":"attribute","prefix":"app"} should be array.
+	Value {"type":"attribute","prefix":"app"} should match exactly one schema in oneOf.
+"
+`;
+
+exports[`selector-rules-validation > should fail with no configuration for component-selector 1`] = `
+"
+Linting "selector-rules-validation"...
+
+All files pass linting.
+"
+`;
+
+exports[`selector-rules-validation > should use default prefix "app" when no prefix is specified 1`] = `
+"
+Linting "selector-rules-validation"...
+
+/private/var/folders/_k/2xbpzs4s5s132lhrqf5qzbzw0000gn/T/angular-eslint-e2e-fixtures/selector-rules-validation/src/attribute-test.component.ts
+  4:13  error  The selector should be used as an element (https://angular.dev/style-guide#choosing-component-selectors)  @angular-eslint/component-selector
+
+/private/var/folders/_k/2xbpzs4s5s132lhrqf5qzbzw0000gn/T/angular-eslint-e2e-fixtures/selector-rules-validation/src/no-prefix.component.ts
+  4:13  error  The selector should start with one of these prefixes: "app" (https://angular.dev/style-guide#choosing-component-selectors)  @angular-eslint/component-selector
+
+/private/var/folders/_k/2xbpzs4s5s132lhrqf5qzbzw0000gn/T/angular-eslint-e2e-fixtures/selector-rules-validation/src/no-prefix.directive.ts
+  4:13  error  The selector should start with one of these prefixes: "app"  @angular-eslint/directive-selector
+
+✖ 3 problems (3 errors, 0 warnings)
+
+Lint errors found in the listed files.
+"
+`;
+
+exports[`selector-rules-validation > should work with array configuration for multiple selector types 1`] = `
+"
+Linting "selector-rules-validation"...
+
+All files pass linting.
+"
+`;
+
+exports[`selector-rules-validation > should work with complete valid configuration for component-selector 1`] = `
+"
+Linting "selector-rules-validation"...
+
+All files pass linting.
+"
+`;
+
+exports[`selector-rules-validation > should work with complete valid configuration for directive-selector 1`] = `
+"
+Linting "selector-rules-validation"...
+
+All files pass linting.
+"
+`;

@@ -242,6 +242,25 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
       `,
     options: [{ type: 'element', style: 'kebab-case', prefix: '' }],
   },
+  // No prefix required - empty array
+  {
+    code: `
+      @Component({
+        selector: 'foo-bar'
+      })
+      class Test {}
+      `,
+    options: [{ type: 'element', style: 'kebab-case', prefix: [] }],
+  },
+  {
+    code: `
+      @Component({
+        selector: 'any-name-without-prefix'
+      })
+      class Test {}
+      `,
+    options: [{ type: 'element', style: 'kebab-case', prefix: '' }],
+  },
   // Single config array - element only
   {
     code: `
@@ -516,7 +535,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     options: [{ type: 'element', prefix: ['app'], style: 'camelCase' }],
   }),
   convertAnnotatedSourceToFailureCase({
-    description: `should fail if a selector is not prefixed by a valid option with the correct case`,
+    description: `should fail if a selector is not prefixed by a valid option`,
     annotatedSource: `
       @Component({
         selector: 'root'
@@ -524,7 +543,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       })
       class Test {}
       `,
-    messageId: messageIdStyleAndPrefixFailure,
+    messageId: messageIdPrefixFailure,
     options: [{ type: 'element', prefix: ['app', 'toh'], style: 'kebab-case' }],
     data: { style: 'kebab-case', prefix: '"app" or "toh"' },
   }),

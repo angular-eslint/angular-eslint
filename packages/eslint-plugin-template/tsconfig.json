@@ -11,10 +11,10 @@
       "path": "../utils"
     },
     {
-      "path": "../test-utils"
+      "path": "../bundled-angular-compiler"
     },
     {
-      "path": "../bundled-angular-compiler"
+      "path": "../test-utils"
     },
     {
       "path": "../template-parser"

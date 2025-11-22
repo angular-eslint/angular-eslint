@@ -8,7 +8,9 @@ import type { TSESTree } from '@typescript-eslint/utils';
 import { ASTUtils as TSESLintASTUtils } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
-export type Options = SelectorUtils.RuleOptions;
+export type Options = readonly [
+  SelectorUtils.SingleConfigOption | SelectorUtils.MultipleConfigOption,
+];
 export type MessageIds =
   | 'prefixFailure'
   | 'styleFailure'
@@ -65,6 +67,7 @@ export default createESLintRule<Options, MessageIds>({
                 ],
               },
             },
+            required: ['type', 'style'],
             additionalProperties: false,
           },
           // Array of 1-2 config objects
@@ -92,7 +95,7 @@ export default createESLintRule<Options, MessageIds>({
                 },
               },
               additionalProperties: false,
-              required: ['type'],
+              required: ['type', 'style'],
             },
             minItems: 1,
             maxItems: 2,
@@ -111,12 +114,16 @@ export default createESLintRule<Options, MessageIds>({
   },
   defaultOptions: [
     {
-      type: '',
-      prefix: '',
-      style: '',
+      type: undefined as unknown as string,
+      prefix: 'app', // Match default Angular CLI prefix
+      style: undefined as unknown as string,
     },
   ],
   create(context, [options]) {
+    // Options are required by schema, so if undefined, ESLint will throw an error
+    if (!options) {
+      return {};
+    }
     // Normalize options to a consistent format using shared utility
     const configByType = SelectorUtils.normalizeOptionsToConfigs(options);
 
@@ -165,7 +172,7 @@ export default createESLintRule<Options, MessageIds>({
         const hasExpectedSelector = SelectorUtils.checkSelector(
           rawSelectors,
           type,
-          arrayify<string>(prefix),
+          prefix,
           overrideStyle as ASTUtils.SelectorStyle,
           parsedSelectors,
         );
@@ -174,24 +181,55 @@ export default createESLintRule<Options, MessageIds>({
           return;
         }
 
+        // Special check for ShadowDom-encapsulated components
+        // They must have a hyphen in the selector (e.g., 'app-selector' not 'appSelector')
+        const isShadowDom = style !== overrideStyle;
+        if (isShadowDom) {
+          // For ShadowDom components, check if any selector contains a hyphen
+          // We need to check the raw selector values from parsedSelectors
+          const hasHyphen = parsedSelectors.some((selector) => {
+            // Check if the element selector contains a hyphen
+            return selector.element && selector.element.includes('-');
+          });
+          if (!hasHyphen) {
+            context.report({
+              node: rawSelectors,
+              messageId: 'shadowDomEncapsulatedStyleFailure',
+            });
+            return;
+          }
+        }
+
         // Component-specific validation logic (includes styleAndPrefixFailure)
         if (!hasExpectedSelector.hasExpectedType) {
           SelectorUtils.reportTypeError(rawSelectors, type, context);
         } else if (!hasExpectedSelector.hasSelectorAfterPrefix) {
-          SelectorUtils.reportSelectorAfterPrefixError(
-            rawSelectors,
-            prefix,
-            context,
-          );
-        } else if (!hasExpectedSelector.hasExpectedStyle) {
-          if (style === overrideStyle) {
-            if (!hasExpectedSelector.hasExpectedPrefix) {
-              SelectorUtils.reportStyleAndPrefixError(
+          // Only report selector after prefix error if prefix is actually required
+          if (prefix !== undefined) {
+            const prefixArray = arrayify<string>(prefix);
+            if (prefixArray.length > 0) {
+              SelectorUtils.reportSelectorAfterPrefixError(
                 rawSelectors,
-                style,
                 prefix,
                 context,
               );
+            }
+          }
+        } else if (!hasExpectedSelector.hasExpectedStyle) {
+          if (style === overrideStyle) {
+            if (!hasExpectedSelector.hasExpectedPrefix) {
+              if (prefix !== undefined) {
+                // Only report style and prefix error if prefix is actually required
+                SelectorUtils.reportStyleAndPrefixError(
+                  rawSelectors,
+                  style,
+                  prefix,
+                  context,
+                );
+              } else {
+                // If no prefix required, just report style error
+                SelectorUtils.reportStyleError(rawSelectors, style, context);
+              }
             } else {
               SelectorUtils.reportStyleError(rawSelectors, style, context);
             }
@@ -202,7 +240,13 @@ export default createESLintRule<Options, MessageIds>({
             });
           }
         } else if (!hasExpectedSelector.hasExpectedPrefix) {
-          SelectorUtils.reportPrefixError(rawSelectors, prefix, context);
+          // Only report prefix error if prefix is actually required (not empty)
+          if (prefix !== undefined) {
+            const prefixArray = arrayify<string>(prefix);
+            if (prefixArray.length > 0) {
+              SelectorUtils.reportPrefixError(rawSelectors, prefix, context);
+            }
+          }
         }
       },
     };
