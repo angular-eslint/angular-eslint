@@ -12,9 +12,13 @@ import {
   runNgGenerate,
   runNgNew,
 } from '../utils/local-registry-process';
-import { normalizeVersionsOfPackagesWeDoNotControl } from '../utils/snapshot-serializers';
+import {
+  normalizeFixturesDir,
+  normalizeVersionsOfPackagesWeDoNotControl,
+} from '../utils/snapshot-serializers';
 
 expect.addSnapshotSerializer(normalizeVersionsOfPackagesWeDoNotControl);
+expect.addSnapshotSerializer(normalizeFixturesDir);
 
 const fixtureDirectory = 'output-file-interpolation';
 let fixture: Fixture;

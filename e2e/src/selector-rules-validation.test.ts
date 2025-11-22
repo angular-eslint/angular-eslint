@@ -12,9 +12,13 @@ import {
   runNgNew,
 } from '../utils/local-registry-process';
 import { runLint } from '../utils/run-lint';
-import { normalizeVersionsOfPackagesWeDoNotControl } from '../utils/snapshot-serializers';
+import {
+  normalizeFixturesDir,
+  normalizeVersionsOfPackagesWeDoNotControl,
+} from '../utils/snapshot-serializers';
 
 expect.addSnapshotSerializer(normalizeVersionsOfPackagesWeDoNotControl);
+expect.addSnapshotSerializer(normalizeFixturesDir);
 
 const fixtureDirectory = 'selector-rules-validation';
 let fixture: Fixture;

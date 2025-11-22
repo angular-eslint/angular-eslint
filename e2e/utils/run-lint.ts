@@ -1,14 +1,11 @@
 import execa from 'execa';
 import path from 'node:path';
 import { stripVTControlCharacters } from 'node:util';
-import { FIXTURES_DIR } from './fixtures';
+import { FIXTURES_DIR, normalizeFixturesDirForSnapshot } from './fixtures';
 
 function normalizeOutput(value: unknown): string {
   const ansiRemoved = stripVTControlCharacters(String(value));
-  return ansiRemoved.replace(
-    new RegExp(`^${FIXTURES_DIR.replace(/\\/g, '\\\\')}(.*?)$`, 'gm'),
-    (_, c1) => `__ROOT__/${c1.replace(/\\/g, '/')}`,
-  );
+  return normalizeFixturesDirForSnapshot(ansiRemoved);
 }
 
 export async function runLint(directory: string): Promise<string | undefined> {

@@ -42,13 +42,13 @@ exports[`selector-rules-validation > should use default prefix "app" when no pre
 "
 Linting "selector-rules-validation"...
 
-__ROOT__//selector-rules-validation/src/attribute-test.component.ts
+__ROOT__/selector-rules-validation/src/attribute-test.component.ts
   4:13  error  The selector should be used as an element (https://angular.dev/style-guide#choosing-component-selectors)  @angular-eslint/component-selector
 
-__ROOT__//selector-rules-validation/src/no-prefix.component.ts
+__ROOT__/selector-rules-validation/src/no-prefix.component.ts
   4:13  error  The selector should start with one of these prefixes: "app" (https://angular.dev/style-guide#choosing-component-selectors)  @angular-eslint/component-selector
 
-__ROOT__//selector-rules-validation/src/no-prefix.directive.ts
+__ROOT__/selector-rules-validation/src/no-prefix.directive.ts
   4:13  error  The selector should start with one of these prefixes: "app"  @angular-eslint/directive-selector
 
 ✖ 3 problems (3 errors, 0 warnings)
