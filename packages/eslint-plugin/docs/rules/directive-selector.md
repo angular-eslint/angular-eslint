@@ -1091,6 +1091,74 @@ class Test {}
     "@angular-eslint/directive-selector": [
       "error",
       {
+        "type": "attribute",
+        "style": "camelCase",
+        "prefix": []
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: '[fooBar]'
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-selector": [
+      "error",
+      {
+        "type": "attribute",
+        "style": "camelCase",
+        "prefix": ""
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: '[fooBar]'
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-selector": [
+      "error",
+      {
         "type": [
           "attribute"
         ],
