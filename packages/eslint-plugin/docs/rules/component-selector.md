@@ -1586,6 +1586,74 @@ class Test {}
   "rules": {
     "@angular-eslint/component-selector": [
       "error",
+      {
+        "type": "element",
+        "style": "kebab-case",
+        "prefix": []
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  selector: 'foo-bar'
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/component-selector": [
+      "error",
+      {
+        "type": "element",
+        "style": "kebab-case",
+        "prefix": ""
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  selector: 'any-name-without-prefix'
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/component-selector": [
+      "error",
       [
         {
           "type": "element",
