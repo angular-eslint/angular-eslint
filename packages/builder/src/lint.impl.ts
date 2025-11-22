@@ -138,30 +138,26 @@ For full guidance on how to resolve this issue, please see https://github.com/an
       const reportOnlyErrors = options.quiet;
       const maxWarnings = options.maxWarnings;
 
+      // Calculate totals for all results
+      for (const result of lintResults) {
+        totalErrors += result.errorCount;
+        totalWarnings += result.warningCount;
+      }
+
       /**
-       * Depending on user configuration we may not want to report on all the
-       * results, so we need to adjust them before formatting.
+       * Pass all lint results to the formatter, including files with no issues.
+       * This ensures formatters like "ratchet" that need complete file information work correctly.
+       * If quiet mode is enabled, we still filter messages but preserve all file results.
        */
-      const finalLintResults: ESLint.LintResult[] = lintResults
-        .map((result): ESLint.LintResult | null => {
-          totalErrors += result.errorCount;
-          totalWarnings += result.warningCount;
+      let finalLintResults: ESLint.LintResult[] = lintResults;
 
-          if (result.errorCount || (result.warningCount && !reportOnlyErrors)) {
-            if (reportOnlyErrors) {
-              // Collect only errors (Linter.Severity === 2)
-              result.messages = result.messages.filter(
-                ({ severity }) => severity === 2,
-              );
-            }
-
-            return result;
-          }
-
-          return null;
-        })
-        // Filter out the null values
-        .filter(Boolean) as ESLint.LintResult[];
+      if (reportOnlyErrors) {
+        // In quiet mode, filter messages but keep all file results
+        finalLintResults = lintResults.map((result) => ({
+          ...result,
+          messages: result.messages.filter(({ severity }) => severity === 2),
+        }));
+      }
 
       const hasWarningsToPrint: boolean =
         totalWarnings > 0 && !reportOnlyErrors;
