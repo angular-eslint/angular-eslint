@@ -1,5 +1,11 @@
 # 21.0.0 (2025-11-22)
 
+As always we recommend that you update your existing workspaces by using `ng update` as we provide some helpful schematics to help migrate your workspaces to the latest and greatest. Running the following will update Angular, the Angular CLI and angular-eslint together:
+
+```sh
+ng update @angular/core @angular/cli angular-eslint
+```
+
 ### 🚀 Features
 
 - ⚠️ update Angular dependencies to v21 ([6a6b671e](https://github.com/angular-eslint/angular-eslint/commit/6a6b671e))
@@ -15,9 +21,9 @@
 
 ### ⚠️ Breaking Changes
 
-- ⚠️ **eslint-plugin:** formally deprecate [no-conflicting-lifecycle] and remove from "all" config ([5d845924](https://github.com/angular-eslint/angular-eslint/commit/5d845924))
-- ⚠️ **eslint-plugin-template:** add textContent to default allowList ([f112c169](https://github.com/angular-eslint/angular-eslint/commit/f112c169))
-- ⚠️ **builder:** align formatter invocation with eslint CLI by always passing all files, even if quiet ([bceaa80e](https://github.com/angular-eslint/angular-eslint/commit/bceaa80e))
+- **eslint-plugin:** formally deprecate [no-conflicting-lifecycle] and remove from "all" config ([5d845924](https://github.com/angular-eslint/angular-eslint/commit/5d845924))
+- **eslint-plugin-template:** add textContent to default allowList ([f112c169](https://github.com/angular-eslint/angular-eslint/commit/f112c169))
+- **builder:** align formatter invocation with eslint CLI by always passing all files, even if quiet ([bceaa80e](https://github.com/angular-eslint/angular-eslint/commit/bceaa80e))
 - **eslint-plugin:** make component-selector and directive-selector configurations strict and clear ([938362cb](https://github.com/angular-eslint/angular-eslint/commit/938362cb))
   The selector validation logic has been updated to be more strict and
   predictable:
@@ -48,8 +54,8 @@
     3. Explicitly set prefix: [] or prefix: '' in your ESLint config to disable prefix checking
        These changes make the rules more predictable and align better with developer expectations
        while maintaining compatibility with Angular's compiler requirements for web components.
-- ⚠️ **eslint-plugin-template:** add prefer-control-flow to recommended config ([77cd24d3](https://github.com/angular-eslint/angular-eslint/commit/77cd24d3))
-- ⚠️ update Angular dependencies to v21 ([6a6b671e](https://github.com/angular-eslint/angular-eslint/commit/6a6b671e))
+- **eslint-plugin-template:** add prefer-control-flow to recommended config ([77cd24d3](https://github.com/angular-eslint/angular-eslint/commit/77cd24d3))
+- update Angular dependencies to v21 ([6a6b671e](https://github.com/angular-eslint/angular-eslint/commit/6a6b671e))
 
 ### ❤️ Thank You
 
