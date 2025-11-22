@@ -35,62 +35,62 @@ The rule accepts an options object with the following properties:
 type Options =
   | {
       /**
-       * Default: `""`
+       * Default: `undefined`
        */
-      type?: string | ("element" | "attribute")[];
+      type: string | ("element" | "attribute")[];
       /**
-       * Default: `""`
+       * Default: `"app"`
        */
       prefix?: string | unknown[];
       /**
-       * Default: `""`
+       * Default: `undefined`
        */
-      style?: "camelCase" | "kebab-case";
+      style: "camelCase" | "kebab-case";
     }
   | [
       {
         /**
-         * Default: `""`
+         * Default: `undefined`
          */
         type: "element" | "attribute";
         /**
-         * Default: `""`
+         * Default: `"app"`
          */
         prefix?: string | unknown[];
         /**
-         * Default: `""`
+         * Default: `undefined`
          */
-        style?: "camelCase" | "kebab-case";
+        style: "camelCase" | "kebab-case";
       }
     ]
   | [
       {
         /**
-         * Default: `""`
+         * Default: `undefined`
          */
         type: "element" | "attribute";
         /**
-         * Default: `""`
+         * Default: `"app"`
          */
         prefix?: string | unknown[];
         /**
-         * Default: `""`
+         * Default: `undefined`
          */
-        style?: "camelCase" | "kebab-case";
+        style: "camelCase" | "kebab-case";
       },
       {
         /**
-         * Default: `""`
+         * Default: `undefined`
          */
         type: "element" | "attribute";
         /**
-         * Default: `""`
+         * Default: `"app"`
          */
         prefix?: string | unknown[];
         /**
-         * Default: `""`
+         * Default: `undefined`
          */
-        style?: "camelCase" | "kebab-case";
+        style: "camelCase" | "kebab-case";
       }
     ];
 

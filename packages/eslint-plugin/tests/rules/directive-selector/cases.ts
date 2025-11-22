@@ -133,6 +133,26 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
       },
     ],
   },
+  // No prefix required - empty array
+  {
+    code: `
+      @Directive({
+        selector: '[fooBar]'
+      })
+      class Test {}
+      `,
+    options: [{ type: 'attribute', style: 'camelCase', prefix: [] }],
+  },
+  // No prefix required - empty string
+  {
+    code: `
+      @Directive({
+        selector: '[fooBar]'
+      })
+      class Test {}
+      `,
+    options: [{ type: 'attribute', style: 'camelCase', prefix: '' }],
+  },
   {
     code: `
       @Directive({

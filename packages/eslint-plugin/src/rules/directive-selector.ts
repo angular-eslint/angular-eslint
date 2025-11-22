@@ -7,7 +7,9 @@ import {
 import type { TSESTree } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
-export type Options = SelectorUtils.RuleOptions;
+export type Options = readonly [
+  SelectorUtils.SingleConfigOption | SelectorUtils.MultipleConfigOption,
+];
 export type MessageIds =
   | 'prefixFailure'
   | 'styleFailure'
@@ -56,6 +58,7 @@ export default createESLintRule<Options, MessageIds>({
                 ],
               },
             },
+            required: ['type', 'style'],
             additionalProperties: false,
           },
           // Array of 1-2 config objects
@@ -83,7 +86,7 @@ export default createESLintRule<Options, MessageIds>({
                 },
               },
               additionalProperties: false,
-              required: ['type'],
+              required: ['type', 'style'],
             },
             minItems: 1,
             maxItems: 2,
@@ -101,12 +104,16 @@ export default createESLintRule<Options, MessageIds>({
   },
   defaultOptions: [
     {
-      type: '',
-      prefix: '',
-      style: '',
+      type: undefined as unknown as string,
+      prefix: 'app', // Match default Angular CLI prefix
+      style: undefined as unknown as string,
     },
   ],
   create(context, [options]) {
+    // Options are required by schema, so if undefined, ESLint will throw an error
+    if (!options) {
+      return {};
+    }
     // Normalize options to a consistent format using shared utility
     const configByType = SelectorUtils.normalizeOptionsToConfigs(options);
 
@@ -148,7 +155,7 @@ export default createESLintRule<Options, MessageIds>({
         const hasExpectedSelector = SelectorUtils.checkSelector(
           rawSelectors,
           type,
-          arrayify<string>(prefix),
+          prefix,
           style as ASTUtils.SelectorStyle,
           parsedSelectors,
         );
@@ -161,15 +168,24 @@ export default createESLintRule<Options, MessageIds>({
         if (!hasExpectedSelector.hasExpectedType) {
           SelectorUtils.reportTypeError(rawSelectors, type, context);
         } else if (!hasExpectedSelector.hasSelectorAfterPrefix) {
-          SelectorUtils.reportSelectorAfterPrefixError(
-            rawSelectors,
-            prefix,
-            context,
-          );
+          // Only report selector after prefix error if prefix is actually required
+          if (prefix !== undefined) {
+            SelectorUtils.reportSelectorAfterPrefixError(
+              rawSelectors,
+              prefix,
+              context,
+            );
+          }
         } else if (!hasExpectedSelector.hasExpectedStyle) {
           SelectorUtils.reportStyleError(rawSelectors, style, context);
         } else if (!hasExpectedSelector.hasExpectedPrefix) {
-          SelectorUtils.reportPrefixError(rawSelectors, prefix, context);
+          // Only report prefix error if prefix is actually required (not empty)
+          if (prefix !== undefined) {
+            const prefixArray = arrayify<string>(prefix);
+            if (prefixArray.length > 0) {
+              SelectorUtils.reportPrefixError(rawSelectors, prefix, context);
+            }
+          }
         }
       },
     };
