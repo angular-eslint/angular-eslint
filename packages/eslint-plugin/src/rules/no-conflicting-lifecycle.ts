@@ -22,6 +22,7 @@ export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
   meta: {
     type: 'suggestion',
+    deprecated: true,
     docs: {
       description:
         'Ensures that directives do not implement conflicting lifecycle interfaces.',

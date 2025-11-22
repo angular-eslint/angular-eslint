@@ -189,7 +189,7 @@ async function tsPluginAll() {
       (config, entry) =>
         reducer('@angular-eslint/', config, entry, {
           errorLevel: 'error',
-          filterDeprecated: false,
+          filterDeprecated: true,
         }),
       {},
     ),
@@ -243,7 +243,7 @@ async function tsPluginRecommended() {
       .reduce<LinterConfigRules>(
         (config, entry) =>
           reducer('@angular-eslint/', config, entry, {
-            filterDeprecated: false,
+            filterDeprecated: true,
             filterRequiresTypeChecking: 'exclude',
           }),
         {},
@@ -303,7 +303,7 @@ async function templatePluginAll() {
     (config, entry) =>
       reducer('@angular-eslint/template/', config, entry, {
         errorLevel: 'error',
-        filterDeprecated: false,
+        filterDeprecated: true,
       }),
     {},
   );
@@ -355,7 +355,7 @@ async function templatePluginRecommended() {
     .reduce<LinterConfigRules>(
       (config, entry) =>
         reducer('@angular-eslint/template/', config, entry, {
-          filterDeprecated: false,
+          filterDeprecated: true,
           filterRequiresTypeChecking: 'exclude',
         }),
       {},
@@ -411,7 +411,7 @@ async function templatePluginAccessibility() {
     .reduce<LinterConfigRules>(
       (config, entry) =>
         reducer('@angular-eslint/template/', config, entry, {
-          filterDeprecated: false,
+          filterDeprecated: true,
           errorLevel: 'error',
           filterRequiresTypeChecking: 'exclude',
         }),

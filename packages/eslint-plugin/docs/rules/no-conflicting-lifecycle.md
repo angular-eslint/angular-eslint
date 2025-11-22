@@ -15,6 +15,10 @@
 
 # `@angular-eslint/no-conflicting-lifecycle`
 
+## ⚠️ THIS RULE IS DEPRECATED
+
+---
+
 Ensures that directives do not implement conflicting lifecycle interfaces.
 
 - Type: suggestion

@@ -26,7 +26,6 @@ export default (
       '@angular-eslint/directive-selector': 'error',
       '@angular-eslint/no-async-lifecycle-method': 'error',
       '@angular-eslint/no-attribute-decorator': 'error',
-      '@angular-eslint/no-conflicting-lifecycle': 'error',
       '@angular-eslint/no-developer-preview': 'error',
       '@angular-eslint/no-duplicates-in-metadata-arrays': 'error',
       '@angular-eslint/no-empty-lifecycle-method': 'error',
