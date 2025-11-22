@@ -52,7 +52,6 @@ Please see https://github.com/angular-eslint/angular-eslint for full usage instr
 | [`contextual-decorator`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/contextual-decorator.md) | Ensures that classes use contextual decorators in their body |  |  |  |
 | [`directive-class-suffix`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/directive-class-suffix.md) | Classes decorated with @Directive must have suffix "Directive" (or custom) in their name. Note: As of v20, this is no longer recommended by the Angular Team. |  |  |  |
 | [`directive-selector`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/directive-selector.md) | Directive selectors should follow given naming rules. See more at https://angular.dev/style-guide#choosing-directive-selectors. |  |  |  |
-| [`no-conflicting-lifecycle`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/no-conflicting-lifecycle.md) | Ensures that directives do not implement conflicting lifecycle interfaces. |  |  |  |
 | [`no-duplicates-in-metadata-arrays`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/no-duplicates-in-metadata-arrays.md) | Ensures that metadata arrays do not contain duplicate entries. |  |  |  |
 | [`no-empty-lifecycle-method`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/no-empty-lifecycle-method.md) | Disallows declaring empty lifecycle methods | :white_check_mark: |  | :bulb: |
 | [`no-forward-ref`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/no-forward-ref.md) | Disallows usage of `forwardRef` references for DI |  |  |  |
@@ -93,5 +92,13 @@ Please see https://github.com/angular-eslint/angular-eslint for full usage instr
 <!-- end layout rule list -->
 
 <!-- begin deprecated rule list -->
+
+### Deprecated
+
+<!-- prettier-ignore-start -->
+| Rule | Replaced by |
+| --- | --- |
+| [`no-conflicting-lifecycle`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/no-conflicting-lifecycle.md) |  |
+<!-- prettier-ignore-end -->
 
 <!-- end deprecated rule list -->

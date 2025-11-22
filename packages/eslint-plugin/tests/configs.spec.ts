@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import eslintPlugin from '../src';
 
 const ESLINT_PLUGIN_PREFIX = '@angular-eslint/';
@@ -17,6 +17,9 @@ function containsRule(config: Config, ruleName: string): boolean {
   );
 }
 
+// TODO: remove in v22
+const hiddenRules = ['no-conflicting-lifecycle'];
+
 describe('configs', () => {
   describe('recommended', () => {
     it('exists', () => {
@@ -27,9 +30,11 @@ describe('configs', () => {
   describe('all', () => {
     it('should contain all of the rules from the plugin', () => {
       expect(
-        Object.keys(eslintPlugin.rules).every((ruleName) =>
-          containsRule(eslintPlugin.configs.all, ruleName),
-        ),
+        Object.keys(eslintPlugin.rules)
+          .filter((ruleName) => !hiddenRules.includes(ruleName))
+          .every((ruleName) =>
+            containsRule(eslintPlugin.configs.all, ruleName),
+          ),
       ).toBe(true);
     });
 
