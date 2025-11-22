@@ -18,8 +18,10 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     <a [innerHTML]="dangerouslySetHTML"></a>
     <a [innerText]="text"></a>
     <a [outerHTML]="text"></a>
+    <a [textContent]="text"></a>
     <a aria-hidden></a>
     <button [attr.aria-hidden]="true"></button>
+    <button [textContent]="dynamicText"></button>
     <h5 [attr.aria-label]="text"></h5>
     <h6 title="text"></h6>
   `,
