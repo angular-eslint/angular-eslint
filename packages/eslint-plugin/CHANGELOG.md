@@ -1,3 +1,17 @@
+## 20.7.0 (2025-11-22)
+
+### 🩹 Fixes
+
+- **eslint-plugin:** [use-component-selector] detect variables ([#2797](https://github.com/angular-eslint/angular-eslint/pull/2797))
+- **eslint-plugin:** false negatives in pipe-prefix, component-selector and directive-selector when linting selectors that only contain a prefix ([#2769](https://github.com/angular-eslint/angular-eslint/pull/2769))
+- **eslint-plugin:** [prefer-inject] improve test coverage and documentation ([#2770](https://github.com/angular-eslint/angular-eslint/pull/2770))
+
+### ❤️ Thank You
+
+- Dmitry Zakharov @pumano
+- Evgeny Stepanovych @undsoft
+- James Henry @JamesHenry
+
 ## 20.6.0 (2025-11-09)
 
 ### 🚀 Features

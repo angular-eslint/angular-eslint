@@ -1,3 +1,13 @@
+## 20.7.0 (2025-11-22)
+
+### 🩹 Fixes
+
+- **eslint-plugin:** false negatives in pipe-prefix, component-selector and directive-selector when linting selectors that only contain a prefix ([#2769](https://github.com/angular-eslint/angular-eslint/pull/2769))
+
+### ❤️ Thank You
+
+- Evgeny Stepanovych @undsoft
+
 ## 20.6.0 (2025-11-09)
 
 ### 🚀 Features

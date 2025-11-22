@@ -1,3 +1,13 @@
+## 20.7.0 (2025-11-22)
+
+### 🚀 Features
+
+- **eslint-plugin-template:** [prefer-ngsrc] add suggestions ([#2772](https://github.com/angular-eslint/angular-eslint/pull/2772))
+
+### ❤️ Thank You
+
+- Evgeny Stepanovych @undsoft
+
 ## 20.6.0 (2025-11-09)
 
 This was a version bump only for eslint-plugin-template to align it with other projects, there were no code changes.

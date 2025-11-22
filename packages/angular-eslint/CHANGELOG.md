@@ -1,3 +1,13 @@
+## 20.7.0 (2025-11-22)
+
+### 🩹 Fixes
+
+- support eslint defineConfig types better ([#2793](https://github.com/angular-eslint/angular-eslint/pull/2793))
+
+### ❤️ Thank You
+
+- James Henry @JamesHenry
+
 ## 20.6.0 (2025-11-09)
 
 ### 🩹 Fixes
