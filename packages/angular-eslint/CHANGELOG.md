@@ -1,3 +1,19 @@
+# 21.0.0 (2025-11-22)
+
+### 🚀 Features
+
+- ⚠️ **eslint-plugin:** formally deprecate [no-conflicting-lifecycle] and remove from "all" config ([5d845924](https://github.com/angular-eslint/angular-eslint/commit/5d845924))
+- ⚠️ **eslint-plugin-template:** add prefer-control-flow to recommended config ([77cd24d3](https://github.com/angular-eslint/angular-eslint/commit/77cd24d3))
+
+### ⚠️ Breaking Changes
+
+- ⚠️ **eslint-plugin:** formally deprecate [no-conflicting-lifecycle] and remove from "all" config ([5d845924](https://github.com/angular-eslint/angular-eslint/commit/5d845924))
+- ⚠️ **eslint-plugin-template:** add prefer-control-flow to recommended config ([77cd24d3](https://github.com/angular-eslint/angular-eslint/commit/77cd24d3))
+
+### ❤️ Thank You
+
+- JamesHenry @JamesHenry
+
 ## 20.7.0 (2025-11-22)
 
 ### 🩹 Fixes

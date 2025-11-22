@@ -1,3 +1,7 @@
+# 21.0.0 (2025-11-22)
+
+This was a version bump only for template-parser to align it with other projects, there were no code changes.
+
 ## 20.7.0 (2025-11-22)
 
 This was a version bump only for template-parser to align it with other projects, there were no code changes.

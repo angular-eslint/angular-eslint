@@ -1,3 +1,17 @@
+# 21.0.0 (2025-11-22)
+
+### 🩹 Fixes
+
+- ⚠️ **builder:** align formatter invocation with eslint CLI by always passing all files, even if quiet ([bceaa80e](https://github.com/angular-eslint/angular-eslint/commit/bceaa80e))
+
+### ⚠️ Breaking Changes
+
+- ⚠️ **builder:** align formatter invocation with eslint CLI by always passing all files, even if quiet ([bceaa80e](https://github.com/angular-eslint/angular-eslint/commit/bceaa80e))
+
+### ❤️ Thank You
+
+- JamesHenry @JamesHenry
+
 ## 20.7.0 (2025-11-22)
 
 This was a version bump only for builder to align it with other projects, there were no code changes.

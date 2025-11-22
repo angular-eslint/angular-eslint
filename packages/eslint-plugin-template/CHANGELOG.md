@@ -1,3 +1,53 @@
+# 21.0.0 (2025-11-22)
+
+### 🚀 Features
+
+- ⚠️ **eslint-plugin-template:** add textContent to default allowList ([f112c169](https://github.com/angular-eslint/angular-eslint/commit/f112c169))
+- ⚠️ **eslint-plugin-template:** add prefer-control-flow to recommended config ([77cd24d3](https://github.com/angular-eslint/angular-eslint/commit/77cd24d3))
+
+### 🩹 Fixes
+
+- ⚠️ **eslint-plugin:** make component-selector and directive-selector configurations strict and clear ([938362cb](https://github.com/angular-eslint/angular-eslint/commit/938362cb))
+
+### ⚠️ Breaking Changes
+
+- ⚠️ **eslint-plugin-template:** add textContent to default allowList ([f112c169](https://github.com/angular-eslint/angular-eslint/commit/f112c169))
+- **eslint-plugin:** make component-selector and directive-selector configurations strict and clear ([938362cb](https://github.com/angular-eslint/angular-eslint/commit/938362cb))
+  The selector validation logic has been updated to be more strict and
+  predictable:
+  Default Prefix Change:
+  - Both component-selector and directive-selector now default to prefix: 'app' to match
+    Angular CLI defaults
+  - This means selectors without the 'app' prefix will now fail validation unless a
+    different prefix is explicitly configured
+    Style and Prefix Validation Changes:
+  - Single-word selectors (e.g., 'appselector') are now appropriately considered valid for
+    both camelCase and kebab-case styles
+  - Style validation is now completely independent from prefix validation
+  - When a prefix is defined and found in a selector, the rule now correctly validates
+    whether the prefix is properly separated according to the style:
+    - For kebab-case: prefix must be followed by a hyphen (e.g., 'app-selector' ✓,
+      'appselector' ✗)
+    - For camelCase: prefix must be followed by an uppercase letter (e.g., 'appSelector' ✓,
+      'appselector' ✗)
+      Changes to error reporting:
+  - Selectors that have valid style but improper prefix usage now report 'prefixFailure'
+    instead of 'styleAndPrefixFailure'
+  - Example: 'sgggg-bar' with prefix 'sg' and style 'kebab-case' now reports
+    'prefixFailure' (valid kebab-case, but prefix not properly separated)
+    Migration Guide:
+  - If you have components/directives without prefixes that were previously passing, either:
+    1. Add the 'app' prefix to your selectors
+    2. Configure a different prefix that matches your existing selectors
+    3. Explicitly set prefix: [] or prefix: '' in your ESLint config to disable prefix checking
+       These changes make the rules more predictable and align better with developer expectations
+       while maintaining compatibility with Angular's compiler requirements for web components.
+- ⚠️ **eslint-plugin-template:** add prefer-control-flow to recommended config ([77cd24d3](https://github.com/angular-eslint/angular-eslint/commit/77cd24d3))
+
+### ❤️ Thank You
+
+- JamesHenry @JamesHenry
+
 ## 20.7.0 (2025-11-22)
 
 ### 🚀 Features

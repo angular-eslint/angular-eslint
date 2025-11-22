@@ -1,3 +1,18 @@
+# 21.0.0 (2025-11-22)
+
+### 🚀 Features
+
+- **schematics:** generate new projects using eslint defineConfig ([5aa8171b](https://github.com/angular-eslint/angular-eslint/commit/5aa8171b))
+- ⚠️ update Angular dependencies to v21 ([6a6b671e](https://github.com/angular-eslint/angular-eslint/commit/6a6b671e))
+
+### ⚠️ Breaking Changes
+
+- ⚠️ update Angular dependencies to v21 ([6a6b671e](https://github.com/angular-eslint/angular-eslint/commit/6a6b671e))
+
+### ❤️ Thank You
+
+- JamesHenry @JamesHenry
+
 ## 20.7.0 (2025-11-22)
 
 This was a version bump only for schematics to align it with other projects, there were no code changes.
