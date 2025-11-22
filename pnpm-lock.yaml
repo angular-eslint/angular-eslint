@@ -19,8 +19,8 @@ catalogs:
       specifier: 20.0.0
       version: 20.0.0
     '@eslint/core':
-      specifier: ^0.17.0
-      version: 0.17.0
+      specifier: 1.0.0
+      version: 1.0.0
     '@mdn/browser-compat-data':
       specifier: 7.1.21
       version: 7.1.21
@@ -221,7 +221,7 @@ importers:
         version: 20.0.0
       '@eslint/core':
         specifier: 'catalog:'
-        version: 0.17.0
+        version: 1.0.0
       '@mdn/browser-compat-data':
         specifier: 'catalog:'
         version: 7.1.21
@@ -1709,6 +1709,10 @@ packages:
   '@eslint/core@0.17.0':
     resolution: {integrity: sha512-yL/sLrpmtDaFEiUj1osRP4TI2MDz1AddJL+jZ7KSqvBuliN4xqYY54IfdN8qD8Toa6g1iloph1fxQNkjOxrrpQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
+  '@eslint/core@1.0.0':
+    resolution: {integrity: sha512-PRfWP+8FOldvbApr6xL7mNCw4cJcSTq4GA7tYbgq15mRb0kWKO/wEB2jr+uwjFH3sZvEZneZyCUGTxsv4Sahyw==}
+    engines: {node: ^20.19.0 || ^22.13.0 || >=24}
 
   '@eslint/eslintrc@3.3.1':
     resolution: {integrity: sha512-gtF186CXhIl1p4pJNGZw8Yc6RlshoePRvE0X91oPGb3vZ8pM3qOS9W9NGPat9LziaBV7XrJWGylNQXkGcnM3IQ==}
@@ -8234,6 +8238,10 @@ snapshots:
       '@types/json-schema': 7.0.15
 
   '@eslint/core@0.17.0':
+    dependencies:
+      '@types/json-schema': 7.0.15
+
+  '@eslint/core@1.0.0':
     dependencies:
       '@types/json-schema': 7.0.15
 
