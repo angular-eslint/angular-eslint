@@ -34,7 +34,7 @@ The rule accepts an options object with the following properties:
 ```ts
 interface Options {
   /**
-   * Default: `["aria-label","innerHtml","innerHTML","innerText","outerHTML","title"]`
+   * Default: `["aria-label","innerHtml","innerHTML","innerText","outerHTML","textContent","title"]`
    */
   allowList?: string[];
 }
@@ -200,8 +200,10 @@ interface Options {
 <a [innerHTML]="dangerouslySetHTML"></a>
 <a [innerText]="text"></a>
 <a [outerHTML]="text"></a>
+<a [textContent]="text"></a>
 <a aria-hidden></a>
 <button [attr.aria-hidden]="true"></button>
+<button [textContent]="dynamicText"></button>
 <h5 [attr.aria-label]="text"></h5>
 <h6 title="text"></h6>
 ```

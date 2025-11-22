@@ -16,6 +16,7 @@ const DEFAULT_SAFELIST_ATTRIBUTES: readonly string[] = [
   'innerHTML',
   'innerText',
   'outerHTML',
+  'textContent',
   'title',
 ];
 const DEFAULT_OPTIONS: Options[0] = {
