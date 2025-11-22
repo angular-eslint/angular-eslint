@@ -17,6 +17,24 @@ export const FIXTURES_DIR = joinPathFragments(
   'angular-eslint-e2e-fixtures',
 );
 
+export function normalizeFixturesDirForSnapshot(str: string): string {
+  // Handle both /var and /private/var paths on macOS by trying both patterns
+  const escapedFixturesDir = FIXTURES_DIR.replace(/\\/g, '\\\\');
+  const patterns = [
+    `/private${escapedFixturesDir}`, // macOS /private prefix (more specific, try first)
+    escapedFixturesDir, // original path
+  ];
+
+  for (const pattern of patterns) {
+    const regex = new RegExp(`${pattern}(.*?)$`, 'gm');
+    if (regex.test(str)) {
+      return str.replace(regex, (_, c1) => `__ROOT__${c1.replace(/\\/g, '/')}`);
+    }
+  }
+
+  return str;
+}
+
 export async function resetFixtureDirectory(
   fixtureDirectory: string,
 ): Promise<void> {
