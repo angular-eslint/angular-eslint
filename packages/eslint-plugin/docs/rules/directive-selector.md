@@ -942,6 +942,41 @@ class Test {}
     "@angular-eslint/directive-selector": [
       "error",
       {
+        "type": "element",
+        "prefix": "app",
+        "style": "kebab-case"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+const selector = 'appFooBar';
+@Directive({
+  selector,
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/directive-selector": [
+      "error",
+      {
         "type": "attribute",
         "prefix": [
           "app",

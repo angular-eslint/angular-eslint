@@ -1178,6 +1178,41 @@ class Test {}
 #### ✅ Valid Code
 
 ```ts
+const selecto = 'appFooBar';
+@Component({
+  selector,
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/component-selector": [
+      "error",
+      {
+        "type": "element",
+        "prefix": "app",
+        "style": "kebab-case"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
 @Component({
   selector: 'app-foo-bar'
 })
