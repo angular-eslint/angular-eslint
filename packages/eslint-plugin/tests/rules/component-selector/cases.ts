@@ -92,6 +92,16 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   },
   {
     code: `
+      const selecto = 'appFooBar';
+      @Component({
+        selector,
+      })
+      class Test {}
+      `,
+    options: [{ type: 'element', prefix: 'app', style: 'kebab-case' }],
+  },
+  {
+    code: `
       @Component({
         selector: 'app-foo-bar'
       })

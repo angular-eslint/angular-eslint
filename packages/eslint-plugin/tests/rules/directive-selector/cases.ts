@@ -89,6 +89,16 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   },
   {
     code: `
+      const selector = 'appFooBar';
+      @Directive({
+        selector,
+      })
+      class Test {}
+      `,
+    options: [{ type: 'element', prefix: 'app', style: 'kebab-case' }],
+  },
+  {
+    code: `
       @Directive({
         selector: \`[app-foo-bar]\`
       })
