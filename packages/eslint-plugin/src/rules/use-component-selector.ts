@@ -1,5 +1,6 @@
 import { ASTUtils, Selectors } from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/utils';
+import { ASTUtils as TSESLintASTUtils } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
 export type Options = [];
@@ -27,7 +28,8 @@ export default createESLintRule<Options, MessageIds>({
         if (
           selector &&
           ((ASTUtils.isStringLiteral(selector) && selector.value.length) ||
-            ASTUtils.isTemplateLiteral(selector))
+            ASTUtils.isTemplateLiteral(selector) ||
+            TSESLintASTUtils.isIdentifier(selector))
         ) {
           return;
         }

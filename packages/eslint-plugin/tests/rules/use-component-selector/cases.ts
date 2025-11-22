@@ -32,6 +32,22 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     })
     class Test {}
 `,
+  // It should work when the selector is a variable
+  `
+  const selector = 'sg-bar-foo';
+  @Component({
+    selector,
+  })
+  class Test {}
+`,
+  // It should work when the selector is a variable with a different name
+  `
+  const selectorVar = 'sg-bar-foo';
+  @Component({
+    selector: selectorVar,
+  })
+  class Test {}
+`,
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
