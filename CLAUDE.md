@@ -30,7 +30,9 @@ Use `pnpm nx run-many -t test --parallel 2` to run all tests across all packages
 Use `pnpm nx run-many -t lint --parallel 2` to run all linting across all packages.
 Use `pnpm nx run-many -t typecheck --parallel 2` to run TypeScript type checking across all packages.
 
-If you are updating e2e tests, you may need to update the snapshots. We use Nx's atomizer feature so that each e2e test file gets its own dynamic target based on the file, so for example if you need to update `src/inline-template-fixer.test.ts`, you should run `pnpm nx run e2e:e2e-ci--src/inline-template-fixer.test.ts -u` to update the snapshots. You should commit the resulting snapshot changes. NOTHING ELSE. There will be a diff on package.json files etc when doing this, but ONLY commit the snapshot changes.
+If you are updating e2e tests, you may need to update the snapshots. We use Nx's atomizer feature so that each e2e test file gets its own dynamic target based on the file, so for example if you need to update `src/inline-template-fixer.test.ts`, you can try running `pnpm nx run e2e:e2e-ci--src/inline-template-fixer.test.ts -u` to update the snapshots. If that is unsuccessful e.g. for npm auth reasons, you can try running `npx nx run e2e:e2e-local --configuration updateSnapshot` to update all the e2e snapshots. NOTE: `npx` should be used here, not `pnpm`, so that the verdaccio local registry auth works correctly.
+
+You should commit the resulting snapshot changes. NOTHING ELSE. There will be a diff on package.json files etc when doing this, but ONLY commit the snapshot changes.
 
 ## Project Structure
 
