@@ -2765,6 +2765,36 @@ interface Options {
 #### ❌ Invalid Code
 
 ```html
+@for (example of examples; track example; let index = $index; let last = $last) {
+                                              ~~~~~~~~~~~~~~      ~~~~~~~~~~~~
+  {{ index }}
+  {{ last }}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-contextual-for-variables": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
 @for (a of outer; track a.id) {
   @if ($index === 0) {
        ~~~~~~~~~~~~

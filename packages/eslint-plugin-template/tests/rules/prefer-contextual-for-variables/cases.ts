@@ -624,6 +624,47 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         `,
     }),
   ),
+  // Issue #2676: Fix objects must not be overlapped in a report
+  // When multiple variables are defined with separate `let` statements (semicolon-separated),
+  // the fix ranges can overlap when both reference replacements and variable removals occur.
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
+    description: `should handle multiple separate let declarations with semicolons (issue #2676)`,
+    annotatedSource: `
+      @for (example of examples; track example; let index = $index; let last = $last) {
+                                                    ~~~~~~~~~~~~~~      ^^^^^^^^^^^^
+        {{ index }}
+        {{ last }}
+      }
+      `,
+    messages: [
+      {
+        char: '~',
+        messageId: preferContextualVariable,
+        data: { name: '$index' },
+      },
+      {
+        char: '^',
+        messageId: preferContextualVariable,
+        data: { name: '$last' },
+      },
+    ],
+    annotatedOutputs: [
+      `
+      @for (example of examples; track example; let last = $last) {
+                                                                        
+        {{ $index }}
+        {{ last }}
+      }
+      `,
+      `
+      @for (example of examples; track example) {
+                                                                        
+        {{ $index }}
+        {{ $last }}
+      }
+      `,
+    ],
+  }),
   convertAnnotatedSourceToFailureCase<MessageIds, Options>({
     description: `should simplify contextual variable usage in nested for loops`,
     annotatedSource: `

@@ -488,16 +488,23 @@ function getVariableRangeToRemove(
 ): TSESTree.Range {
   let start = problem.variable.sourceSpan.start.offset;
   let end = problem.variable.sourceSpan.end.offset;
-  if (variableCount === 1) {
-    // There's only one variable defined, so we
-    // want to remove the `let` keyword as well.
-    const letIndex = getStartOfPreviousToken('let', start, sourceCode);
+
+  // Check if this variable has its own `let` keyword (semicolon-separated)
+  // vs being part of a comma-separated list after a single `let`.
+  const letIndex = getStartOfPreviousToken('let', start, sourceCode);
+  const hasOwnLet =
+    letIndex !== undefined &&
+    hasOwnLetKeyword(letIndex, start, end, sourceCode);
+
+  if (variableCount === 1 || hasOwnLet) {
+    // Either there's only one variable, or this variable has its own
+    // `let` keyword (semicolon-separated), so remove the `let` as well.
     if (letIndex !== undefined) {
       // We also want to remove the preceding semicolon.
       start = getStartOfPreviousToken(';', letIndex, sourceCode) ?? letIndex;
     }
   } else if (problem.index === 0) {
-    // There are multiple variables, but we're removing
+    // There are multiple comma-separated variables, and we're removing
     // the first one. We need to keep the `let` keyword, but
     // remove the trailing comma and any whitespace after it.
     const commaIndex = getStartOfNextToken(',', end, sourceCode);
@@ -507,12 +514,47 @@ function getVariableRangeToRemove(
       end = getIndexOfNextNonWhitespace(commaIndex + 1, sourceCode);
     }
   } else {
-    // There is a variable before this one, so we
+    // There is a comma-separated variable before this one, so we
     // need to remove the preceding comma as well.
     start = getStartOfPreviousToken(',', start, sourceCode) ?? start;
   }
 
   return [start, end];
+}
+
+/**
+ * Checks if the `let` keyword at `letIndex` belongs solely to this variable
+ * (i.e., this is a semicolon-separated declaration where this variable
+ * has its own `let` keyword that isn't shared with other variables).
+ *
+ * A variable has its own `let` if:
+ * 1. It's the first variable after the `let` (no comma before it), AND
+ * 2. There are no comma-separated variables after it (next char after
+ *    the variable is `;` or `)`, not `,`)
+ */
+function hasOwnLetKeyword(
+  letIndex: number,
+  variableStart: number,
+  variableEnd: number,
+  sourceCode: SourceCode,
+): boolean {
+  const text = sourceCode.text;
+  // Check if there's a comma between `let` and the variable start.
+  // If there is, this variable is not the first after `let`.
+  const betweenLetAndVar = text.slice(letIndex + 3, variableStart);
+  if (betweenLetAndVar.includes(',')) {
+    return false;
+  }
+
+  // This variable is the first after `let`. Now check if there are more
+  // comma-separated variables after it. If so, this `let` is shared.
+  // Find the next non-whitespace character after the variable.
+  let nextIndex = variableEnd;
+  while (nextIndex < text.length && /\s/.test(text[nextIndex])) {
+    nextIndex++;
+  }
+  // If the next character is a comma, there are more variables sharing this `let`.
+  return text[nextIndex] !== ',';
 }
 
 function getStartOfPreviousToken(
