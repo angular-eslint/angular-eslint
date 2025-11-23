@@ -1,3 +1,14 @@
+## 21.0.1 (2025-11-23)
+
+### 🩹 Fixes
+
+- **eslint-plugin-template:** [prefer-contextual-for-variables] fix overlapping fixes for semicolon-separated let declarations ([#2802](https://github.com/angular-eslint/angular-eslint/pull/2802))
+- **eslint-plugin-template:** [prefer-template-literal] handle chained concatenations correctly ([#2801](https://github.com/angular-eslint/angular-eslint/pull/2801))
+
+### ❤️ Thank You
+
+- James Henry @JamesHenry
+
 # 21.0.0 (2025-11-22)
 
 ### 🚀 Features

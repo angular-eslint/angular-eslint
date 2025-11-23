@@ -1,3 +1,14 @@
+## 21.0.1 (2025-11-23)
+
+### 🩹 Fixes
+
+- **eslint-plugin-template:** [prefer-template-literal] handle chained concatenations correctly ([#2801](https://github.com/angular-eslint/angular-eslint/pull/2801))
+- **eslint-plugin-template:** [prefer-contextual-for-variables] fix overlapping fixes for semicolon-separated let declarations ([#2802](https://github.com/angular-eslint/angular-eslint/pull/2802))
+
+### ❤️ Thank You
+
+- James Henry @JamesHenry
+
 # 21.0.0 (2025-11-22)
 
 As always we recommend that you update your existing workspaces by using `ng update` as we provide some helpful schematics to help migrate your workspaces to the latest and greatest. Running the following will update Angular, the Angular CLI and angular-eslint together:
