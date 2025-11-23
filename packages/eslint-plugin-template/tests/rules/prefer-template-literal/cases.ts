@@ -1075,4 +1075,83 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         "></div>
       `,
   }),
+
+  // Issue #2500: Chained concatenations
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should handle chained string concatenation (three strings - issue #2500)',
+    annotatedSource: `
+        {{ 'a' + 'b' + 'c' }}
+           ~~~~~~~~~~~~~~~
+      `,
+    annotatedOutput: `
+        {{ 'abc' }}
+           
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should handle chained concatenation with expressions (issue #2500)',
+    annotatedSource: `
+        {{ x.type + '' + y }}
+           ~~~~~~~~~~~~~~~
+      `,
+    annotatedOutput: `
+        {{ \`\${x.type}\${y}\` }}
+           
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should handle chained concatenation with $any and expressions (issue #2500)',
+    annotatedSource: `
+        {{ x.type + '' + $any(x).label + '' + $any(x).to }}
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    annotatedOutput: `
+        {{ \`\${x.type}\${$any(x).label}\${$any(x).to}\` }}
+           
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description: 'should handle four-way string concatenation (issue #2500)',
+    annotatedSource: `
+        {{ 'a' + 'b' + 'c' + 'd' }}
+           ~~~~~~~~~~~~~~~~~~~~~
+      `,
+    annotatedOutput: `
+        {{ 'abcd' }}
+           
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should handle chained concatenation with mixed literals and expressions (issue #2500)',
+    annotatedSource: `
+        {{ 'prefix-' + value + '-middle-' + value2 + '-suffix' }}
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    annotatedOutput: `
+        {{ \`prefix-\${value}-middle-\${value2}-suffix\` }}
+           
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should handle chained concatenation with function calls (issue #2500)',
+    annotatedSource: `
+        {{ getValue() + '-' + getOther() + '-end' }}
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    annotatedOutput: `
+        {{ \`\${getValue()}-\${getOther()}-end\` }}
+           
+      `,
+  }),
 ];
