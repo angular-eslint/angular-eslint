@@ -63,10 +63,11 @@ export async function runNgAdd(): Promise<execa.ExecaChildProcess<string>> {
 export async function runNgNew(
   workspaceName: string,
   createApplication = true,
+  packageManager: 'npm' | 'yarn' | 'pnpm' = 'npm',
 ): Promise<execa.ExecaChildProcess<string>> {
   const ngNewArgs = [
     `--strict=true`,
-    `--package-manager=npm`,
+    `--package-manager=${packageManager}`,
     `--interactive=false`,
   ];
   if (!createApplication) {
@@ -77,6 +78,41 @@ export async function runNgNew(
     join(workspaceRoot, 'node_modules/.bin/ng'),
     ['new', ...ngNewArgs, workspaceName],
   );
+}
+
+export async function runYarnInstall(): Promise<
+  execa.ExecaChildProcess<string>
+> {
+  return await runCommandOnLocalRegistry('yarn', ['install']);
+}
+
+export async function runNgAddWithYarn(): Promise<
+  execa.ExecaChildProcess<string>
+> {
+  /**
+   * Force our e2e published version to be readily available on disk to
+   * ensure that the @angular/cli resolves it correctly during `ng add`.
+   * In practice, without this step it seems to be very inconsistent.
+   */
+  await runCommandOnLocalRegistry('yarn', [
+    'npm',
+    'info',
+    '@angular-eslint/schematics',
+    '--fields',
+    'version',
+  ]);
+  await runCommandOnLocalRegistry('yarn', [
+    'add',
+    '-D',
+    `@angular-eslint/schematics@${publishedVersion}`,
+  ]);
+
+  return await runCommandOnLocalRegistry('yarn', [
+    'ng',
+    'add',
+    `@angular-eslint/schematics@${publishedVersion}`,
+    `--skip-confirmation`,
+  ]);
 }
 
 export async function runNgGenerate(

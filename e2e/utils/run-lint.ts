@@ -40,3 +40,25 @@ export async function runLintFix(directory: string): Promise<void> {
 
   await subprocess;
 }
+
+export async function runLintWithYarn(
+  directory: string,
+): Promise<string | undefined> {
+  try {
+    const subprocess = execa('yarn', ['ng', 'lint'], {
+      cwd: path.join(FIXTURES_DIR, directory),
+    });
+
+    /* eslint-disable @typescript-eslint/no-non-null-assertion */
+    subprocess.stdout!.pipe(process.stdout);
+    subprocess.stderr!.pipe(process.stderr);
+    /* eslint-enable @typescript-eslint/no-non-null-assertion */
+
+    const { stdout } = await subprocess;
+
+    return normalizeOutput(stdout);
+  } catch (error: any) {
+    const output = error.stdout ? error.stdout + '\n' + error.stderr : error;
+    return normalizeOutput(output);
+  }
+}
