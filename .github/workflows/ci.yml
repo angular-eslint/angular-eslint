@@ -25,7 +25,7 @@ jobs:
     name: Main
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - uses: pnpm/action-setup@v4
         name: Install pnpm
@@ -93,7 +93,7 @@ jobs:
         # https://angular.dev/reference/versions
         node: ['^20.19.0', '^24.0.0']
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - uses: pnpm/action-setup@v4
         name: Install pnpm
