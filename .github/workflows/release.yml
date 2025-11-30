@@ -186,7 +186,7 @@ jobs:
       id-token: write # Required for trusted publishing
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           # We need the full history for version calculation
           fetch-depth: 0
@@ -240,7 +240,7 @@ jobs:
       id-token: write # Required for trusted publishing
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           # Need full history for changelog generation
           fetch-depth: 0

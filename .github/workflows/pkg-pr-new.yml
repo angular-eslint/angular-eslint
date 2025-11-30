@@ -36,7 +36,7 @@ jobs:
         run: echo "${{ github.event.pull_request.html_url }}"
 
       # Check out the PR branch HEAD as a shallow clone
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           persist-credentials: false
 
