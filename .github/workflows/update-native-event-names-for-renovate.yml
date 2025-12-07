@@ -36,16 +36,10 @@ jobs:
 
       - name: Check if @mdn/browser-compat-data was changed as part of the latest commit by renovate bot on the PR
         id: relevant-packages-check
-        run: |
-          declare -a packages=(
-            "@mdn/browser-compat-data"
-          )
-
-          for package in "${packages[@]}"
-          do
-            # Check for changes to the catalog definitions in pnpm-workspace.yaml
-            git diff HEAD~1 -G"'?$package'?:" --exit-code pnpm-workspace.yaml && echo "$package unchanged" || echo "::set-output name=was-changed::true"
-          done
+        uses: ./.github/actions/check-package-changes
+        with:
+          packages: |
+            @mdn/browser-compat-data:.catalog["@mdn/browser-compat-data"]
 
       - uses: pnpm/action-setup@v4
         if: ${{ steps.relevant-packages-check.outputs.was-changed == 'true' }}

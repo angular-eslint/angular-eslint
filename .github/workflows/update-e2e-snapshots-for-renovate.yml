@@ -35,17 +35,11 @@ jobs:
 
       - name: Check if any relevant package was changed as part of the latest commit by renovate bot on the PR
         id: relevant-packages-check
-        run: |
-          declare -a packages=(
-            "eslint"
-            "@typescript-eslint/rule-tester"
-          )
-
-          for package in "${packages[@]}"
-          do
-            # Check for changes to the catalog definitions in pnpm-workspace.yaml
-            git diff HEAD~1 -G"'?$package'?:" --exit-code pnpm-workspace.yaml && echo "$package unchanged" || echo "::set-output name=was-changed::true"
-          done
+        uses: ./.github/actions/check-package-changes
+        with:
+          packages: |
+            eslint:.catalog["eslint"]
+            @typescript-eslint/rule-tester:.catalogs.typescript-eslint["@typescript-eslint/rule-tester"]
 
       - uses: pnpm/action-setup@v4
         if: ${{ steps.relevant-packages-check.outputs.was-changed == 'true' }}
@@ -90,5 +84,10 @@ jobs:
 
           # Only add snapshot files (other files may have been altered by the update, but we don't want to commit them)
           git add e2e/src/**/*.snap
-          git commit -m "chore: update e2e test snapshots"
-          git push
+          # Only commit and push if there are snapshot changes
+          if git diff --cached --quiet; then
+            echo "No snapshot changes to commit"
+          else
+            git commit -m "chore: update e2e test snapshots"
+            git push
+          fi

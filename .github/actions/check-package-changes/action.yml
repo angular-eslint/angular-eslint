@@ -1,0 +1,51 @@
+name: 'Check Package Changes'
+description: 'Checks if specified packages were changed in pnpm-workspace.yaml between HEAD and HEAD~1'
+
+inputs:
+  packages:
+    description: |
+      Newline-separated list of packages to check. Each line should be in the format:
+      package-name:catalog-path
+
+      Examples:
+        eslint:.catalog["eslint"]
+        @nx/workspace:.catalog["@nx/workspace"]
+        @typescript-eslint/rule-tester:.catalogs.typescript-eslint["@typescript-eslint/rule-tester"]
+    required: true
+
+outputs:
+  was-changed:
+    description: 'Whether any of the specified packages were changed (true/false)'
+    value: ${{ steps.check.outputs.was-changed }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Check for package changes
+      id: check
+      shell: bash
+      run: |
+        changed=false
+
+        while IFS= read -r entry; do
+          # Skip empty lines
+          [ -z "$entry" ] && continue
+
+          package="${entry%%:*}"
+          yq_path="${entry#*:}"
+
+          # Extract version from current and previous commit using yq
+          CURRENT_VERSION=$(yq eval "$yq_path // \"\"" pnpm-workspace.yaml)
+          PREVIOUS_VERSION=$(git show HEAD~1:pnpm-workspace.yaml | yq eval "$yq_path // \"\"")
+
+          if [ "$CURRENT_VERSION" != "$PREVIOUS_VERSION" ]; then
+            echo "$package changed from $PREVIOUS_VERSION to $CURRENT_VERSION"
+            changed=true
+          else
+            echo "$package unchanged ($CURRENT_VERSION)"
+          fi
+        done <<< "${{ inputs.packages }}"
+
+        if [ "$changed" = true ]; then
+          echo "was-changed=true" >> "$GITHUB_OUTPUT"
+        fi

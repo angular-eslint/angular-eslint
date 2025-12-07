@@ -37,18 +37,20 @@ jobs:
           persist-credentials: false
 
       - name: Check if @nx/workspace was changed as part of the latest commit on the PR
-        id: nrwl-workspace-package-check
-        run: |
-          git diff HEAD~1 -G"'?@nx/workspace'?:" --exit-code pnpm-workspace.yaml && echo "@nx/workspace unchanged" || echo "was-changed=true" >> "$GITHUB_OUTPUT"
+        id: relevant-packages-check
+        uses: ./.github/actions/check-package-changes
+        with:
+          packages: |
+            @nx/workspace:.catalog["@nx/workspace"]
 
       - uses: pnpm/action-setup@v4
-        if: ${{ steps.nrwl-workspace-package-check.outputs.was-changed == 'true' }}
+        if: ${{ steps.relevant-packages-check.outputs.was-changed == 'true' }}
         name: Install pnpm
         with:
           run_install: false
 
       - name: Install Node.js per package.json
-        if: ${{ steps.nrwl-workspace-package-check.outputs.was-changed == 'true' }}
+        if: ${{ steps.relevant-packages-check.outputs.was-changed == 'true' }}
         uses: actions/setup-node@v6
         with:
           # Use the volta.node property as the source of truth
@@ -56,7 +58,7 @@ jobs:
           cache: 'pnpm'
 
       - name: Run nx migrate if @nx/workspace changed and commit the results
-        if: ${{ steps.nrwl-workspace-package-check.outputs.was-changed == 'true' }}
+        if: ${{ steps.relevant-packages-check.outputs.was-changed == 'true' }}
         env:
           # We cannot use secrets.GITHUB_TOKEN for this because it is not permitted to kick off subsequent actions workflow runs, so we use a fine-grained PAT instead
           GITHUB_TOKEN: ${{ secrets.GH_FINE_GRAINED_PAT }}
