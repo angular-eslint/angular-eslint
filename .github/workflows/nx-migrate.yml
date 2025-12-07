@@ -39,7 +39,7 @@ jobs:
       - name: Check if @nx/workspace was changed as part of the latest commit on the PR
         id: nrwl-workspace-package-check
         run: |
-          git diff HEAD~1 -G"'?@nx/workspace'?:" --exit-code pnpm-workspace.yaml && echo "@nx/workspace unchanged" || echo "::set-output name=was-changed::true"
+          git diff HEAD~1 -G"'?@nx/workspace'?:" --exit-code pnpm-workspace.yaml && echo "@nx/workspace unchanged" || echo "was-changed=true" >> "$GITHUB_OUTPUT"
 
       - uses: pnpm/action-setup@v4
         if: ${{ steps.nrwl-workspace-package-check.outputs.was-changed == 'true' }}
@@ -99,5 +99,10 @@ jobs:
           git remote set-url origin https://x-access-token:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git
 
           git add --all
-          git commit -m "chore: run nx migrate for nx v$NX_VERSION"
-          git push
+          # Only commit and push if there are changes (nx migrate may be a no-op)
+          if git diff --cached --quiet; then
+            echo "No changes to commit after nx migrate"
+          else
+            git commit -m "chore: run nx migrate for nx v$NX_VERSION"
+            git push
+          fi
