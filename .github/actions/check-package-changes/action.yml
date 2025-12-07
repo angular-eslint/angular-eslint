@@ -24,27 +24,49 @@ runs:
     - name: Check for package changes
       id: check
       shell: bash
+      env:
+        PACKAGES_INPUT: ${{ inputs.packages }}
       run: |
         changed=false
 
-        while IFS= read -r entry; do
+        # Debug: show yq version
+        echo "Using yq version: $(yq --version)"
+
+        # Debug: show input
+        echo "Packages to check:"
+        echo "$PACKAGES_INPUT"
+        echo "---"
+
+        # Process each line
+        while IFS= read -r entry || [ -n "$entry" ]; do
           # Skip empty lines
           [ -z "$entry" ] && continue
 
+          # Split on first colon only
           package="${entry%%:*}"
           yq_path="${entry#*:}"
 
-          # Extract version from current and previous commit using yq
-          CURRENT_VERSION=$(yq eval "$yq_path // \"\"" pnpm-workspace.yaml)
-          PREVIOUS_VERSION=$(git show HEAD~1:pnpm-workspace.yaml | yq eval "$yq_path // \"\"")
+          echo "Checking $package at path $yq_path"
+
+          # Extract version from current commit
+          CURRENT_VERSION=$(yq eval "$yq_path // \"\"" pnpm-workspace.yaml 2>&1) || {
+            echo "Warning: Failed to get current version for $package"
+            CURRENT_VERSION=""
+          }
+
+          # Extract version from previous commit
+          PREVIOUS_VERSION=$(git show HEAD~1:pnpm-workspace.yaml 2>/dev/null | yq eval "$yq_path // \"\"" 2>&1) || {
+            echo "Warning: Failed to get previous version for $package"
+            PREVIOUS_VERSION=""
+          }
 
           if [ "$CURRENT_VERSION" != "$PREVIOUS_VERSION" ]; then
-            echo "$package changed from $PREVIOUS_VERSION to $CURRENT_VERSION"
+            echo "✓ $package changed from '$PREVIOUS_VERSION' to '$CURRENT_VERSION'"
             changed=true
           else
-            echo "$package unchanged ($CURRENT_VERSION)"
+            echo "✗ $package unchanged ('$CURRENT_VERSION')"
           fi
-        done <<< "${{ inputs.packages }}"
+        done <<< "$PACKAGES_INPUT"
 
         if [ "$changed" = true ]; then
           echo "was-changed=true" >> "$GITHUB_OUTPUT"
