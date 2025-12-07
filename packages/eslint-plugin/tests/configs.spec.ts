@@ -13,7 +13,7 @@ function containsRule(config: Config, ruleName: string): boolean {
   const prefixedRuleName = `${ESLINT_PLUGIN_PREFIX}${ruleName}`;
   return Boolean(
     config.rules?.[prefixedRuleName] ||
-      config.overrides?.some(({ rules }) => rules?.[prefixedRuleName]),
+    config.overrides?.some(({ rules }) => rules?.[prefixedRuleName]),
   );
 }
 
