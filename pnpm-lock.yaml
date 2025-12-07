@@ -163,6 +163,9 @@ catalogs:
     '@angular-devkit/schematics':
       specifier: '>= 21.0.0 < 22.0.0'
       version: 21.0.0
+    '@angular/cli':
+      specifier: '>= 21.0.0 < 22.0.0'
+      version: 21.0.1
     aria-query:
       specifier: 5.3.2
       version: 5.3.2
@@ -387,6 +390,9 @@ importers:
       '@angular-eslint/template-parser':
         specifier: workspace:*
         version: link:../template-parser
+      '@angular/cli':
+        specifier: catalog:other-runtime-dependencies
+        version: 21.0.1(@types/node@22.19.1)
       '@typescript-eslint/types':
         specifier: ^8.0.0
         version: 8.47.0
@@ -411,6 +417,9 @@ importers:
       '@angular-devkit/core':
         specifier: catalog:other-runtime-dependencies
         version: 21.0.0
+      '@angular/cli':
+        specifier: catalog:other-runtime-dependencies
+        version: 21.0.1(@types/node@22.19.1)
       eslint:
         specifier: ^8.57.0 || ^9.0.0
         version: 9.38.0(jiti@2.6.1)
@@ -498,6 +507,9 @@ importers:
       '@angular-eslint/eslint-plugin-template':
         specifier: workspace:*
         version: link:../eslint-plugin-template
+      '@angular/cli':
+        specifier: catalog:other-runtime-dependencies
+        version: 21.0.1(@types/node@22.19.1)
       ignore:
         specifier: catalog:other-runtime-dependencies
         version: 7.0.5

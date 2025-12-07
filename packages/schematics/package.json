@@ -35,6 +35,9 @@
   "ng-add": {
     "save": "devDependencies"
   },
+  "peerDependencies": {
+    "@angular/cli": "catalog:other-runtime-dependencies"
+  },
   "dependencies": {
     "@angular-devkit/core": "catalog:other-runtime-dependencies",
     "@angular-devkit/schematics": "catalog:other-runtime-dependencies",
