@@ -1,3 +1,13 @@
+## 21.1.0 (2025-12-08)
+
+### 🚀 Features
+
+- **eslint-plugin:** add prefer-signal-model rule to encourage using model() for two-way bindings ([#2818](https://github.com/angular-eslint/angular-eslint/pull/2818))
+
+### ❤️ Thank You
+
+- Karan Mistry
+
 ## 21.0.1 (2025-11-23)
 
 This was a version bump only for eslint-plugin to align it with other projects, there were no code changes.

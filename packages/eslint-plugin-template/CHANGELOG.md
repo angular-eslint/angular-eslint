@@ -1,3 +1,7 @@
+## 21.1.0 (2025-12-08)
+
+This was a version bump only for eslint-plugin-template to align it with other projects, there were no code changes.
+
 ## 21.0.1 (2025-11-23)
 
 ### 🩹 Fixes

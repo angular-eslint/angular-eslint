@@ -1,3 +1,13 @@
+## 21.1.0 (2025-12-08)
+
+### 🩹 Fixes
+
+- reference @angular/cli peer in addition to direct dependencies ([#2820](https://github.com/angular-eslint/angular-eslint/pull/2820))
+
+### ❤️ Thank You
+
+- James Henry @JamesHenry
+
 ## 21.0.1 (2025-11-23)
 
 This was a version bump only for builder to align it with other projects, there were no code changes.
