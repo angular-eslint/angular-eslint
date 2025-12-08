@@ -9,7 +9,7 @@ let nativeEventNames: ReadonlySet<string> | null = null;
 /**
  * Check MDN events page for details https://developer.mozilla.org/en-US/docs/Web/Events
  *
- * Event names sourced from @mdn/browser-compat-data@7.1.21
+ * Event names sourced from @mdn/browser-compat-data@7.1.23
  */
 export function getNativeEventNames(): ReadonlySet<string> {
   return (
@@ -90,6 +90,7 @@ export function getNativeEventNames(): ReadonlySet<string> {
       'gotpointercapture',
       'hashchange',
       'input',
+      'interest',
       'invalid',
       'keydown',
       'keypress',
@@ -100,6 +101,7 @@ export function getNativeEventNames(): ReadonlySet<string> {
       'loadeddata',
       'loadedmetadata',
       'loadstart',
+      'loseinterest',
       'lostpointercapture',
       'message',
       'messageerror',
