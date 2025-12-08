@@ -91,6 +91,9 @@ import preferOutputEmitterRef, {
 import preferOutputReadonly, {
   RULE_NAME as preferOutputReadonlyRuleName,
 } from './rules/prefer-output-readonly';
+import preferSignalModel, {
+  RULE_NAME as preferSignalModelRuleName,
+} from './rules/prefer-signal-model';
 import preferInject, {
   RULE_NAME as preferInjectRuleName,
 } from './rules/prefer-inject';
@@ -180,6 +183,7 @@ export = {
     [preferInjectRuleName]: preferInject,
     [preferOutputEmitterRefRuleName]: preferOutputEmitterRef,
     [preferOutputReadonlyRuleName]: preferOutputReadonly,
+    [preferSignalModelRuleName]: preferSignalModel,
     [relativeUrlPrefixRuleName]: relativeUrlPrefix,
     [requireLifecycleOnPrototypeRuleName]: requireLifecycleOnPrototype,
     [requireLocalizeMetadataRuleName]: requireLocalizeMetadata,
