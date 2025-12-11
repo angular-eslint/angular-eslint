@@ -59,8 +59,6 @@ For general information about writing ESLint custom rules, see the [official ESL
 
 Let's create a custom rule that enforces a naming convention for Angular services.
 
-### Step 1: Create the Rule File
-
 **`src/rules/service-class-suffix.ts`**
 
 ```typescript
@@ -141,7 +139,7 @@ export const rule = ESLintUtils.RuleCreator.withoutDocs<Options, MessageIds>({
 
 ## Creating an HTML Template Rule
 
-Let's create a simple rule that enforces a data attribute on div elements.
+Let's create a custom rule that enforces a data attribute on div elements.
 
 **`src/rules/require-data-foo.ts`**
 
@@ -281,7 +279,11 @@ import type {
 import { rule, RULE_NAME } from '../../src/rules/require-data-foo';
 import type { MessageIds, Options } from '../../src/rules/require-data-foo';
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({
+  languageOptions: {
+    parser: require('@angular-eslint/template-parser'),
+  },
+});
 const messageId: MessageIds = 'requireDataFoo';
 
 const valid: readonly (string | ValidTestCase<Options>)[] = [
@@ -313,8 +315,8 @@ const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         messageId,
         line: 2,
         column: 7,
-        endLine: 2,
-        endColumn: 12,
+        endLine: 4,
+        endColumn: 13,
       },
     ],
   },
@@ -329,8 +331,8 @@ const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         messageId,
         line: 2,
         column: 7,
-        endLine: 2,
-        endColumn: 29,
+        endLine: 4,
+        endColumn: 13,
       },
     ],
   },
