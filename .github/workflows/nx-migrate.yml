@@ -74,8 +74,10 @@ jobs:
           # Revert renovate's changes to pnpm-workspace.yaml and pnpm-lock.yaml so that it is a clean migrate from the status quo
           git checkout HEAD~1 -- pnpm-workspace.yaml pnpm-lock.yaml
 
+          # Run install and dedupe
           # Intentionally allow lockfile modifications in this workflow
           pnpm install --ignore-scripts --no-frozen-lockfile
+          pnpm dedupe
 
           pnpm nx migrate $NX_VERSION
 
