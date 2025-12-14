@@ -63,7 +63,8 @@ jobs:
           # Checkout the PR branch using the github CLI
           gh pr checkout ${{ github.event.pull_request.number }}
 
-          pnpm install --ignore-scripts
+          # Intentionally allow lockfile modifications in this workflow
+          pnpm install --ignore-scripts --no-frozen-lockfile
 
           # Reset any changes that happened before updating the event names (e.g. to the pnpm-workspace.yaml and lock file) so that we don't commit them
           git reset --hard
