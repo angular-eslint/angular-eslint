@@ -69,6 +69,9 @@ jobs:
           pnpm install --ignore-scripts --no-frozen-lockfile
           pnpm dedupe
 
+          # Stage any lockfile changes at this point so that we don't capture changes related to the e2e publishing
+          git add pnpm-lock.yaml
+
           # Build all packages
           pnpm build
 
