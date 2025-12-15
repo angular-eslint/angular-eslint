@@ -79,6 +79,9 @@ import preferAtElse, {
 import preferAtEmpty, {
   RULE_NAME as preferAtEmptyRuleName,
 } from './rules/prefer-at-empty';
+import preferClassBinding, {
+  RULE_NAME as preferClassBindingRuleName,
+} from './rules/prefer-class-binding';
 import preferContextualForVariables, {
   RULE_NAME as preferContextualForVariablesRuleName,
 } from './rules/prefer-contextual-for-variables';
@@ -141,6 +144,7 @@ export = {
     [noPositiveTabindexRuleName]: noPositiveTabindex,
     [preferAtElseRuleName]: preferAtElse,
     [preferAtEmptyRuleName]: preferAtEmpty,
+    [preferClassBindingRuleName]: preferClassBinding,
     [preferContextualForVariablesRuleName]: preferContextualForVariables,
     [preferControlFlowRuleName]: preferControlFlow,
     [preferNgsrcRuleName]: preferNgsrc,
