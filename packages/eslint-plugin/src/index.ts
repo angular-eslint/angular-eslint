@@ -142,6 +142,9 @@ import noExperimental, {
 import noDeveloperPreview, {
   RULE_NAME as noDeveloperPreviewRuleName,
 } from './rules/no-developer-preview';
+import noImplicitTakeUntilDestroyed, {
+  RULE_NAME as noImplicitTakeUntilDestroyedRuleName,
+} from './rules/no-implicit-take-until-destroyed';
 
 export = {
   configs: {
@@ -160,30 +163,33 @@ export = {
     [noAsyncLifecycleMethodRuleName]: noAsyncLifecycleMethod,
     [noAttributeDecoratorRuleName]: noAttributeDecorator,
     [noConflictingLifecycleRuleName]: noConflictingLifecycle,
+    [noDeveloperPreviewRuleName]: noDeveloperPreview,
     [noDuplicatesInMetadataArraysRuleName]: noDuplicatesInMetadataArrays,
     [noEmptyLifecycleMethodRuleName]: noEmptyLifecycleMethod,
+    [noExperimentalRuleName]: noExperimental,
     [noForwardRefRuleName]: noForwardRef,
+    [noImplicitTakeUntilDestroyedRuleName]: noImplicitTakeUntilDestroyed,
     [noInputPrefixRuleName]: noInputPrefix,
     [noInputRenameRuleName]: noInputRename,
     [noInputsMetadataPropertyRuleName]: noInputsMetadataProperty,
     [noLifecycleCallRuleName]: noLifecycleCall,
-    [noUncalledSignalsRuleName]: noUncalledSignals,
     [noOutputNativeRuleName]: noOutputNative,
     [noOutputOnPrefixRuleName]: noOutputOnPrefix,
     [noOutputRenameRuleName]: noOutputRename,
     [noOutputsMetadataPropertyRuleName]: noOutputsMetadataProperty,
     [noPipeImpureRuleName]: noPipeImpure,
     [noQueriesMetadataPropertyRuleName]: noQueriesMetadataProperty,
+    [noUncalledSignalsRuleName]: noUncalledSignals,
     [pipePrefixRuleName]: pipePrefix,
     [preferHostMetadataPropertyRuleName]: preferHostMetadataProperty,
+    [preferInjectRuleName]: preferInject,
     [preferOnPushComponentChangeDetectionRuleName]:
       preferOnPushComponentChangeDetection,
-    [preferSignalsRuleName]: preferSignals,
-    [preferStandaloneRuleName]: preferStandalone,
-    [preferInjectRuleName]: preferInject,
     [preferOutputEmitterRefRuleName]: preferOutputEmitterRef,
     [preferOutputReadonlyRuleName]: preferOutputReadonly,
     [preferSignalModelRuleName]: preferSignalModel,
+    [preferSignalsRuleName]: preferSignals,
+    [preferStandaloneRuleName]: preferStandalone,
     [relativeUrlPrefixRuleName]: relativeUrlPrefix,
     [requireLifecycleOnPrototypeRuleName]: requireLifecycleOnPrototype,
     [requireLocalizeMetadataRuleName]: requireLocalizeMetadata,
@@ -195,7 +201,5 @@ export = {
     [useInjectableProvidedInRuleName]: useInjectableProvidedIn,
     [useLifecycleInterfaceRuleName]: useLifecycleInterface,
     [usePipeTransformInterfaceRuleName]: usePipeTransformInterface,
-    [noExperimentalRuleName]: noExperimental,
-    [noDeveloperPreviewRuleName]: noDeveloperPreview,
   },
 };
