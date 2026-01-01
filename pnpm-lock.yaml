@@ -106,8 +106,8 @@ catalogs:
       specifier: 1.0.0
       version: 1.0.0
     jsonc-eslint-parser:
-      specifier: 2.4.1
-      version: 2.4.1
+      specifier: 2.4.2
+      version: 2.4.2
     lint-staged:
       specifier: 16.2.7
       version: 16.2.7
@@ -317,7 +317,7 @@ importers:
         version: 1.0.0
       jsonc-eslint-parser:
         specifier: 'catalog:'
-        version: 2.4.1
+        version: 2.4.2
       lint-staged:
         specifier: 'catalog:'
         version: 16.2.7
@@ -4994,8 +4994,8 @@ packages:
     engines: {node: '>=6'}
     hasBin: true
 
-  jsonc-eslint-parser@2.4.1:
-    resolution: {integrity: sha512-uuPNLJkKN8NXAlZlQ6kmUF9qO+T6Kyd7oV4+/7yy8Jz6+MZNyhPq8EdLpdfnPVzUC8qSf1b4j1azKaGnFsjmsw==}
+  jsonc-eslint-parser@2.4.2:
+    resolution: {integrity: sha512-1e4qoRgnn448pRuMvKGsFFymUCquZV0mpGgOyIKNgD3JVDTsVJyRBGH/Fm0tBb8WsWGgmB1mDe6/yJMQM37DUA==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
 
   jsonc-parser@3.2.0:
@@ -8718,7 +8718,7 @@ snapshots:
       chalk: 4.1.2
       confusing-browser-globals: 1.0.11
       globals: 15.15.0
-      jsonc-eslint-parser: 2.4.1
+      jsonc-eslint-parser: 2.4.2
       semver: 7.7.3
       tslib: 2.8.1
     optionalDependencies:
@@ -12052,7 +12052,7 @@ snapshots:
 
   json5@2.2.3: {}
 
-  jsonc-eslint-parser@2.4.1:
+  jsonc-eslint-parser@2.4.2:
     dependencies:
       acorn: 8.15.0
       eslint-visitor-keys: 3.4.3
