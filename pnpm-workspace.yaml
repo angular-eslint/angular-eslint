@@ -65,10 +65,10 @@ catalogs:
     strip-json-comments: '3.1.1'
     ts-api-utils: '^2.1.0'
   typescript-eslint:
-    '@typescript-eslint/rule-tester': '8.48.1'
-    '@typescript-eslint/types': '8.48.1'
-    '@typescript-eslint/utils': '8.48.1'
-    typescript-eslint: '8.48.1'
+    '@typescript-eslint/rule-tester': '8.50.1'
+    '@typescript-eslint/types': '8.50.1'
+    '@typescript-eslint/utils': '8.50.1'
+    typescript-eslint: '8.50.1'
 cleanupUnusedCatalogs: true
 ignoredBuiltDependencies:
   - 'core-js'

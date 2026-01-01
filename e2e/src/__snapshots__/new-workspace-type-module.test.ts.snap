@@ -10,7 +10,7 @@ exports[`new-workspace-type-module > should pass linting after creating a new wo
   "jsdom": "^27.1.0",
   "ng-packagr": "^21.X.X",
   "typescript": "~5.X.X",
-  "typescript-eslint": "8.48.1",
+  "typescript-eslint": "8.50.1",
   "vitest": "^4.0.8"
 }
 `;
