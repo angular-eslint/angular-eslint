@@ -28,7 +28,7 @@ catalog:
   '@vitest/coverage-v8': '^4.0.3'
   cz-conventional-changelog: '3.3.0'
   esbuild: '^0.27.0'
-  eslint: '9.39.1'
+  eslint: '9.39.2'
   eslint-config-prettier: '10.1.5'
   execa: '5.1.1'
   husky: '9.1.7'
