@@ -66,6 +66,7 @@
     "@nx/js": "catalog:",
     "@nx/plugin": "catalog:",
     "@nx/vite": "catalog:",
+    "@nx/vitest": "22.3.3",
     "@nx/workspace": "catalog:",
     "@schematics/angular": "catalog:",
     "@swc-node/register": "catalog:",
