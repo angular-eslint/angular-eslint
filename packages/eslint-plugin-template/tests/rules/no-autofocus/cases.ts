@@ -14,6 +14,14 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '<button [appautofocus]="false">Click me!</button>',
   '<app-drag-drop autofocus></app-drag-drop>',
   '<app-textarea [autofocus]="false"></app-textarea>',
+  // Dialog elements - autofocus is recommended for accessibility
+  '<dialog autofocus></dialog>',
+  '<dialog><button autofocus>Close</button></dialog>',
+  '<dialog><form><input autofocus type="text"></form></dialog>',
+  '<dialog [attr.autofocus]="true"></dialog>',
+  '<dialog><button [attr.autofocus]="true">Close</button></dialog>',
+  // Nested elements within dialog
+  '<dialog><div><button autofocus>Action</button></div></dialog>',
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
