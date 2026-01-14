@@ -26,11 +26,23 @@ Ensures that static string values use property assignment instead of property bi
 
 When binding a static string literal to a property, using attribute syntax (property="value") is more efficient and simpler than property binding syntax ([property]="'value'"). Property binding with a static string creates unnecessary overhead because Angular evaluates it as an expression during change detection, even though the value never changes. Attribute syntax makes it immediately clear that the value is static and will never be updated. For example, [alt]="'Profile image'" should be alt="Profile image". This rule helps identify performance opportunities and makes templates more readable by distinguishing truly dynamic bindings from static values. The rule excludes animation bindings (@xxx), style/class sub-properties (style.color), and structural directives (\*ngIf) where property binding syntax is required.
 
+The rule automatically excludes certain property-only DOM APIs (innerHTML, innerText, outerHTML, textContent) because these properties behave differently than their attribute counterparts. For example, textContent as a property does not HTML-encode its value, while textContent as an attribute does. Converting [textContent]="'<I>'" to textContent="<I>" would change the behavior and potentially break functionality. You can also configure additional properties to ignore using the ignore option.
+
 <br>
 
 ## Rule Options
 
-The rule does not have any configuration options.
+The rule accepts an options object with the following properties:
+
+```ts
+interface Options {
+  /**
+   * An array of property names that should be ignored by this rule
+   */
+  ignore?: string[];
+}
+
+```
 
 <br>
 
@@ -463,6 +475,141 @@ The rule does not have any configuration options.
 
 ```html
 <my-component [@fade]="'foo'" />
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-static-string-properties": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<code [textContent]="'<I>'"></code>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-static-string-properties": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div [innerHTML]="'<strong>text</strong>'"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-static-string-properties": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<span [innerText]="'text'"></span>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-static-string-properties": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div [outerHTML]="'<p>text</p>'"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-static-string-properties": [
+      "error",
+      {
+        "ignore": [
+          "customProp"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<my-component [customProp]="'value'"/>
 ```
 
 </details>

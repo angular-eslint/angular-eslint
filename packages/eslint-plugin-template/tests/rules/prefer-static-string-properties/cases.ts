@@ -24,6 +24,16 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   `<my-component [attr.aria-label]="'foo'" />`,
   `<my-component [class.foo]="'foo'" />`,
   `<my-component [@fade]="'foo'" />`,
+  // Property-only DOM APIs should be allowed
+  `<code [textContent]="'<I>'"></code>`,
+  `<div [innerHTML]="'<strong>text</strong>'"></div>`,
+  `<span [innerText]="'text'"></span>`,
+  `<div [outerHTML]="'<p>text</p>'"></div>`,
+  // Custom ignore option
+  {
+    code: `<my-component [customProp]="'value'"/>`,
+    options: [{ ignore: ['customProp'] }],
+  },
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
