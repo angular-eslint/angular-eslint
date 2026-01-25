@@ -2,7 +2,7 @@ packages:
   - 'packages/*'
 catalog:
   '@angular/cli': '21.0.4'
-  '@angular/compiler': '21.0.6'
+  '@angular/compiler': '21.1.0'
   '@commitlint/cli': '20.3.0'
   '@commitlint/config-conventional': '20.3.0'
   '@eslint/core': '1.0.0'

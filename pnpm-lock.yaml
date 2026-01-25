@@ -10,8 +10,8 @@ catalogs:
       specifier: 21.0.4
       version: 21.0.4
     '@angular/compiler':
-      specifier: 21.0.6
-      version: 21.0.6
+      specifier: 21.1.0
+      version: 21.1.0
     '@commitlint/cli':
       specifier: 20.3.0
       version: 20.3.0
@@ -215,7 +215,7 @@ importers:
         version: 21.0.4(@types/node@22.19.3)
       '@angular/compiler':
         specifier: 'catalog:'
-        version: 21.0.6
+        version: 21.1.0
       '@commitlint/cli':
         specifier: 'catalog:'
         version: 20.3.0(@types/node@22.19.3)(typescript@5.9.3)
@@ -670,8 +670,8 @@ packages:
     engines: {node: ^20.19.0 || ^22.12.0 || >=24.0.0, npm: ^6.11.0 || ^7.5.6 || >=8.0.0, yarn: '>= 1.13.0'}
     hasBin: true
 
-  '@angular/compiler@21.0.6':
-    resolution: {integrity: sha512-rBMzG7WnQMouFfDST+daNSAOVYdtw560645PhlxyVeIeHMlCm0j1jjBgVPGTBNpVgKRdT/sqbi6W6JYkY9mERA==}
+  '@angular/compiler@21.1.0':
+    resolution: {integrity: sha512-UprCiJwEU1Ilw1dVk+yLgNiHlbH81obAuh92lRKozUQRgtSCpOfCQUM79q5r+VdmCPxDshr79U2Ke0fRaiJfAQ==}
     engines: {node: ^20.19.0 || ^22.12.0 || >=24.0.0}
 
   '@apidevtools/json-schema-ref-parser@11.9.3':
@@ -6280,6 +6280,7 @@ packages:
   tar@7.5.2:
     resolution: {integrity: sha512-7NyxrTE4Anh8km8iEy7o0QYPs+0JKBTj5ZaqHg6B39erLg0qYXN3BijtShwbsNSvQ+LN75+KV+C4QR/f6Gwnpg==}
     engines: {node: '>=18'}
+    deprecated: Old versions of tar are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exhorbitant rates) by contacting i@izs.me
 
   test-exclude@6.0.0:
     resolution: {integrity: sha512-cAGWPIyOHU6zlmg88jwm7VRyXnMN7iV68OGAbYDk/Mh/xC/pzVPlQtY6ngoIH/5/tciuhGfvESU8GrHrcxD56w==}
@@ -7014,7 +7015,7 @@ snapshots:
       - chokidar
       - supports-color
 
-  '@angular/compiler@21.0.6':
+  '@angular/compiler@21.1.0':
     dependencies:
       tslib: 2.8.1
 
