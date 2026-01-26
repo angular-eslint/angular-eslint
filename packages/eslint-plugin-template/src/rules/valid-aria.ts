@@ -161,7 +161,7 @@ function isTristate(value: unknown): boolean {
 
 function isValidAriaPropertyValue(
   { allowundefined, type, values }: ARIAPropertyDefinition,
-  attributeValue: boolean | number | string,
+  attributeValue: boolean | number | string | null | undefined,
 ): boolean {
   if (allowundefined && isNil(attributeValue)) return true;
 

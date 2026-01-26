@@ -87,6 +87,10 @@ function requiresNgClass(
 
   if (parsedAst instanceof LiteralMap) {
     for (const astKey of parsedAst.keys) {
+      // Skip spread keys as they don't have a key property
+      if (astKey.kind === 'spread') {
+        continue;
+      }
       const className = astKey.key;
       if (
         typeof className === 'string' &&

@@ -124,7 +124,19 @@ export function areEquivalentASTs(a: AST, b: AST): boolean {
       // the `quoted` property because a quoted key with the same value as
       // an unquoted key is the same key. Likewise, the `isShorthandInitialized`
       // property doesn't affect the name of the key.
-      a.keys.every((aKey, index) => aKey.key === b.keys[index].key) &&
+      a.keys.every((aKey, index) => {
+        const bKey = b.keys[index];
+        // Handle spread keys - they match if both are spread keys
+        if (aKey.kind === 'spread' && bKey.kind === 'spread') {
+          return true;
+        }
+        // If one is spread and the other isn't, they don't match
+        if (aKey.kind !== bKey.kind) {
+          return false;
+        }
+        // Both are property keys, compare the key values
+        return aKey.kind === 'property' && bKey.kind === 'property' && aKey.key === bKey.key;
+      }) &&
       areEquivalentASTArrays(a.values, b.values)
     );
   }
