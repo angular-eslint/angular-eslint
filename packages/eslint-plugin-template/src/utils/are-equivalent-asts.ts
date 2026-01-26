@@ -135,7 +135,11 @@ export function areEquivalentASTs(a: AST, b: AST): boolean {
           return false;
         }
         // Both are property keys, compare the key values
-        return aKey.kind === 'property' && bKey.kind === 'property' && aKey.key === bKey.key;
+        return (
+          aKey.kind === 'property' &&
+          bKey.kind === 'property' &&
+          aKey.key === bKey.key
+        );
       }) &&
       areEquivalentASTArrays(a.values, b.values)
     );
