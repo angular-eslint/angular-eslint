@@ -4,7 +4,6 @@ import type {
   TmplAstForLoopBlockEmpty,
   TmplAstIfBlockBranch,
   TmplAstSwitchBlock,
-  TmplAstSwitchBlockCase,
   ParseLocation,
 } from '@angular-eslint/bundled-angular-compiler';
 import { getTemplateParserServices } from '@angular-eslint/utils';
@@ -32,11 +31,8 @@ export default createESLintRule<Options, MessageIds>({
     const parserServices = getTemplateParserServices(context);
 
     return {
-      'ForLoopBlockEmpty,IfBlockBranch,SwitchBlockCase'(
-        node:
-          | TmplAstForLoopBlockEmpty
-          | TmplAstIfBlockBranch
-          | TmplAstSwitchBlockCase,
+      'ForLoopBlockEmpty,IfBlockBranch'(
+        node: TmplAstForLoopBlockEmpty | TmplAstIfBlockBranch,
       ) {
         if (
           node.children.length === 0 ||
@@ -63,8 +59,22 @@ export default createESLintRule<Options, MessageIds>({
         // A switch block is pointless without cases, so
         // if there are no cases, don't bother checking
         // if there's non-whitespace characters within it.
-        if (node.cases.length === 0) {
+        if (node.groups.length === 0) {
           report(node);
+          return;
+        }
+
+        // Check each group for empty content
+        for (const group of node.groups) {
+          if (
+            group.children.length === 0 ||
+            isEmpty(group.startSourceSpan.end, group.endSourceSpan?.start)
+          ) {
+            // Report on the first case in the group
+            if (group.cases.length > 0) {
+              reportCase(group.cases[0]);
+            }
+          }
         }
       },
     };
@@ -82,6 +92,13 @@ export default createESLintRule<Options, MessageIds>({
     }
 
     function report(node: TmplAstBlockNode): void {
+      context.report({
+        messageId: 'noEmptyControlFlow',
+        loc: parserServices.convertNodeSourceSpanToLoc(node.nameSpan),
+      });
+    }
+
+    function reportCase(node: TmplAstBlockNode): void {
       context.report({
         messageId: 'noEmptyControlFlow',
         loc: parserServices.convertNodeSourceSpanToLoc(node.nameSpan),

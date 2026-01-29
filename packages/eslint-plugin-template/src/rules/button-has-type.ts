@@ -22,7 +22,7 @@ const DEFAULT_OPTIONS: Options[number] = {
 export const INVALID_TYPE_DATA_KEY = 'type';
 
 interface InvalidButtonTypeInfo {
-  readonly value: string;
+  readonly value: string | number | boolean | null | undefined;
   readonly sourceSpan: ParseSourceSpan;
 }
 
@@ -148,6 +148,7 @@ function getInvalidButtonTypeIfPresent(
       name === TYPE_ATTRIBUTE_NAME &&
       value instanceof ASTWithSource &&
       value.ast instanceof LiteralPrimitive &&
+      typeof value.ast.value === 'string' &&
       !VALID_BUTTON_TYPES.includes(value.ast.value)
     ) {
       return {

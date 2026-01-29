@@ -18,17 +18,17 @@ import {
   SafeCall,
   SafeKeyedRead,
   SafePropertyRead,
+  ThisReceiver,
   TypeofExpression,
   Unary,
 } from '@angular-eslint/bundled-angular-compiler';
 
 export function areEquivalentASTs(a: AST, b: AST): boolean {
   // An `ImplicitReceiver` is equivalent to a `ThisReceiver` because
-  // `this.foo` and `foo` mean the same thing. A `ThisReceiver` extends
-  // `ImplicitReceiver` so before we check if the two ASTs are the same
-  // type, we can check if they are both some sort of `ImplicitReceiver`.
-  if (a instanceof ImplicitReceiver) {
-    return b instanceof ImplicitReceiver;
+  // `this.foo` and `foo` mean the same thing. In Angular v21.1.0+,
+  // `ThisReceiver` is a separate class, so we check for both types.
+  if (a instanceof ImplicitReceiver || a instanceof ThisReceiver) {
+    return b instanceof ImplicitReceiver || b instanceof ThisReceiver;
   }
 
   // Bail out if the two ASTs are not the same type.
@@ -124,7 +124,23 @@ export function areEquivalentASTs(a: AST, b: AST): boolean {
       // the `quoted` property because a quoted key with the same value as
       // an unquoted key is the same key. Likewise, the `isShorthandInitialized`
       // property doesn't affect the name of the key.
-      a.keys.every((aKey, index) => aKey.key === b.keys[index].key) &&
+      a.keys.every((aKey, index) => {
+        const bKey = b.keys[index];
+        // Handle spread keys - they match if both are spread keys
+        if (aKey.kind === 'spread' && bKey.kind === 'spread') {
+          return true;
+        }
+        // If one is spread and the other isn't, they don't match
+        if (aKey.kind !== bKey.kind) {
+          return false;
+        }
+        // Both are property keys, compare the key values
+        return (
+          aKey.kind === 'property' &&
+          bKey.kind === 'property' &&
+          aKey.key === bKey.key
+        );
+      }) &&
       areEquivalentASTArrays(a.values, b.values)
     );
   }
