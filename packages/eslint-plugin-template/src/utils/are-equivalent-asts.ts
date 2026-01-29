@@ -18,17 +18,17 @@ import {
   SafeCall,
   SafeKeyedRead,
   SafePropertyRead,
+  ThisReceiver,
   TypeofExpression,
   Unary,
 } from '@angular-eslint/bundled-angular-compiler';
 
 export function areEquivalentASTs(a: AST, b: AST): boolean {
   // An `ImplicitReceiver` is equivalent to a `ThisReceiver` because
-  // `this.foo` and `foo` mean the same thing. A `ThisReceiver` extends
-  // `ImplicitReceiver` so before we check if the two ASTs are the same
-  // type, we can check if they are both some sort of `ImplicitReceiver`.
-  if (a instanceof ImplicitReceiver) {
-    return b instanceof ImplicitReceiver;
+  // `this.foo` and `foo` mean the same thing. In Angular v21.1.0+,
+  // `ThisReceiver` is a separate class, so we check for both types.
+  if (a instanceof ImplicitReceiver || a instanceof ThisReceiver) {
+    return b instanceof ImplicitReceiver || b instanceof ThisReceiver;
   }
 
   // Bail out if the two ASTs are not the same type.

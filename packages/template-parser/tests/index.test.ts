@@ -13293,8 +13293,495 @@ describe('parseForESLint()', () => {
                   ",
             },
             SwitchBlock {
-              "cases": [
-                SwitchBlockCase {
+              "endSourceSpan": ParseSourceSpan {
+                "details": null,
+                "end": ParseLocation {
+                  "col": 11,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 11,
+                  "offset": 276,
+                },
+                "fullStart": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 11,
+                  "offset": 275,
+                },
+                "start": ParseLocation {
+                  "col": 10,
+                  "file": ParseSourceFile {
+                    "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                    "url": "./foo.html",
+                  },
+                  "line": 11,
+                  "offset": 275,
+                },
+              },
+              "expression": ASTWithSource {
+                "ast": PropertyRead {
+                  "loc": {
+                    "end": {
+                      "column": 28,
+                      "line": 2,
+                    },
+                    "start": {
+                      "column": 19,
+                      "line": 2,
+                    },
+                  },
+                  "name": "condition",
+                  "nameSpan": AbsoluteSourceSpan {
+                    "end": 29,
+                    "start": 20,
+                  },
+                  "receiver": ImplicitReceiver {
+                    "loc": {
+                      "end": {
+                        "column": 19,
+                        "line": 2,
+                      },
+                      "start": {
+                        "column": 19,
+                        "line": 2,
+                      },
+                    },
+                    "sourceSpan": AbsoluteSourceSpan {
+                      "end": 20,
+                      "start": 20,
+                    },
+                    "span": ParseSpan {
+                      "end": 0,
+                      "start": 0,
+                    },
+                    "type": "ImplicitReceiver",
+                  },
+                  "sourceSpan": AbsoluteSourceSpan {
+                    "end": 29,
+                    "start": 20,
+                  },
+                  "span": ParseSpan {
+                    "end": 9,
+                    "start": 0,
+                  },
+                  "type": "PropertyRead",
+                },
+                "errors": [],
+                "loc": {
+                  "end": {
+                    "column": 28,
+                    "line": 2,
+                  },
+                  "start": {
+                    "column": 19,
+                    "line": 2,
+                  },
+                },
+                "location": "./foo.html@1:19",
+                "source": "condition",
+                "sourceSpan": AbsoluteSourceSpan {
+                  "end": 29,
+                  "start": 20,
+                },
+                "span": ParseSpan {
+                  "end": 9,
+                  "start": 0,
+                },
+                "type": "ASTWithSource",
+              },
+              "groups": [
+                SwitchBlockCaseGroup {
+                  "cases": [
+                    SwitchBlockCase {
+                      "endSourceSpan": ParseSourceSpan {
+                        "details": null,
+                        "end": ParseLocation {
+                          "col": 13,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 4,
+                          "offset": 109,
+                        },
+                        "fullStart": ParseLocation {
+                          "col": 12,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 4,
+                          "offset": 108,
+                        },
+                        "start": ParseLocation {
+                          "col": 12,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 4,
+                          "offset": 108,
+                        },
+                      },
+                      "expression": ASTWithSource {
+                        "ast": PropertyRead {
+                          "loc": {
+                            "end": {
+                              "column": 24,
+                              "line": 3,
+                            },
+                            "start": {
+                              "column": 19,
+                              "line": 3,
+                            },
+                          },
+                          "name": "caseA",
+                          "nameSpan": AbsoluteSourceSpan {
+                            "end": 57,
+                            "start": 52,
+                          },
+                          "receiver": ImplicitReceiver {
+                            "loc": {
+                              "end": {
+                                "column": 19,
+                                "line": 3,
+                              },
+                              "start": {
+                                "column": 19,
+                                "line": 3,
+                              },
+                            },
+                            "sourceSpan": AbsoluteSourceSpan {
+                              "end": 52,
+                              "start": 52,
+                            },
+                            "span": ParseSpan {
+                              "end": 0,
+                              "start": 0,
+                            },
+                            "type": "ImplicitReceiver",
+                          },
+                          "sourceSpan": AbsoluteSourceSpan {
+                            "end": 57,
+                            "start": 52,
+                          },
+                          "span": ParseSpan {
+                            "end": 5,
+                            "start": 0,
+                          },
+                          "type": "PropertyRead",
+                        },
+                        "errors": [],
+                        "loc": {
+                          "end": {
+                            "column": 24,
+                            "line": 3,
+                          },
+                          "start": {
+                            "column": 19,
+                            "line": 3,
+                          },
+                        },
+                        "location": "./foo.html@2:19",
+                        "source": "caseA",
+                        "sourceSpan": AbsoluteSourceSpan {
+                          "end": 57,
+                          "start": 52,
+                        },
+                        "span": ParseSpan {
+                          "end": 5,
+                          "start": 0,
+                        },
+                        "type": "ASTWithSource",
+                      },
+                      "loc": {
+                        "end": {
+                          "column": 13,
+                          "line": 5,
+                        },
+                        "start": {
+                          "column": 12,
+                          "line": 3,
+                        },
+                      },
+                      "nameSpan": ParseSourceSpan {
+                        "details": null,
+                        "end": ParseLocation {
+                          "col": 18,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 2,
+                          "offset": 51,
+                        },
+                        "fullStart": ParseLocation {
+                          "col": 12,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 2,
+                          "offset": 45,
+                        },
+                        "start": ParseLocation {
+                          "col": 12,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 2,
+                          "offset": 45,
+                        },
+                      },
+                      "sourceSpan": ParseSourceSpan {
+                        "details": null,
+                        "end": ParseLocation {
+                          "col": 13,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 4,
+                          "offset": 109,
+                        },
+                        "fullStart": ParseLocation {
+                          "col": 12,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 2,
+                          "offset": 45,
+                        },
+                        "start": ParseLocation {
+                          "col": 12,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 2,
+                          "offset": 45,
+                        },
+                      },
+                      "startSourceSpan": ParseSourceSpan {
+                        "details": null,
+                        "end": ParseLocation {
+                          "col": 27,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 2,
+                          "offset": 60,
+                        },
+                        "fullStart": ParseLocation {
+                          "col": 12,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 2,
+                          "offset": 45,
+                        },
+                        "start": ParseLocation {
+                          "col": 12,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 2,
+                          "offset": 45,
+                        },
+                      },
+                      "type": "SwitchBlockCase",
+                    },
+                  ],
                   "children": [
                     Text {
                       "loc": {
@@ -13827,77 +14314,6 @@ describe('parseForESLint()', () => {
                       "offset": 108,
                     },
                   },
-                  "expression": ASTWithSource {
-                    "ast": PropertyRead {
-                      "loc": {
-                        "end": {
-                          "column": 24,
-                          "line": 3,
-                        },
-                        "start": {
-                          "column": 19,
-                          "line": 3,
-                        },
-                      },
-                      "name": "caseA",
-                      "nameSpan": AbsoluteSourceSpan {
-                        "end": 57,
-                        "start": 52,
-                      },
-                      "receiver": ImplicitReceiver {
-                        "loc": {
-                          "end": {
-                            "column": 19,
-                            "line": 3,
-                          },
-                          "start": {
-                            "column": 19,
-                            "line": 3,
-                          },
-                        },
-                        "sourceSpan": AbsoluteSourceSpan {
-                          "end": 52,
-                          "start": 52,
-                        },
-                        "span": ParseSpan {
-                          "end": 0,
-                          "start": 0,
-                        },
-                        "type": "ImplicitReceiver",
-                      },
-                      "sourceSpan": AbsoluteSourceSpan {
-                        "end": 57,
-                        "start": 52,
-                      },
-                      "span": ParseSpan {
-                        "end": 5,
-                        "start": 0,
-                      },
-                      "type": "PropertyRead",
-                    },
-                    "errors": [],
-                    "loc": {
-                      "end": {
-                        "column": 24,
-                        "line": 3,
-                      },
-                      "start": {
-                        "column": 19,
-                        "line": 3,
-                      },
-                    },
-                    "location": "./foo.html@2:19",
-                    "source": "caseA",
-                    "sourceSpan": AbsoluteSourceSpan {
-                      "end": 57,
-                      "start": 52,
-                    },
-                    "span": ParseSpan {
-                      "end": 5,
-                      "start": 0,
-                    },
-                    "type": "ASTWithSource",
-                  },
                   "i18n": undefined,
                   "loc": {
                     "end": {
@@ -14107,9 +14523,359 @@ describe('parseForESLint()', () => {
                       "offset": 45,
                     },
                   },
-                  "type": "SwitchBlockCase",
+                  "type": "SwitchBlockCaseGroup",
                 },
-                SwitchBlockCase {
+                SwitchBlockCaseGroup {
+                  "cases": [
+                    SwitchBlockCase {
+                      "endSourceSpan": ParseSourceSpan {
+                        "details": null,
+                        "end": ParseLocation {
+                          "col": 13,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 7,
+                          "offset": 186,
+                        },
+                        "fullStart": ParseLocation {
+                          "col": 12,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 7,
+                          "offset": 185,
+                        },
+                        "start": ParseLocation {
+                          "col": 12,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 7,
+                          "offset": 185,
+                        },
+                      },
+                      "expression": ASTWithSource {
+                        "ast": PropertyRead {
+                          "loc": {
+                            "end": {
+                              "column": 24,
+                              "line": 6,
+                            },
+                            "start": {
+                              "column": 19,
+                              "line": 6,
+                            },
+                          },
+                          "name": "caseB",
+                          "nameSpan": AbsoluteSourceSpan {
+                            "end": 134,
+                            "start": 129,
+                          },
+                          "receiver": ImplicitReceiver {
+                            "loc": {
+                              "end": {
+                                "column": 19,
+                                "line": 6,
+                              },
+                              "start": {
+                                "column": 19,
+                                "line": 6,
+                              },
+                            },
+                            "sourceSpan": AbsoluteSourceSpan {
+                              "end": 129,
+                              "start": 129,
+                            },
+                            "span": ParseSpan {
+                              "end": 0,
+                              "start": 0,
+                            },
+                            "type": "ImplicitReceiver",
+                          },
+                          "sourceSpan": AbsoluteSourceSpan {
+                            "end": 134,
+                            "start": 129,
+                          },
+                          "span": ParseSpan {
+                            "end": 5,
+                            "start": 0,
+                          },
+                          "type": "PropertyRead",
+                        },
+                        "errors": [],
+                        "loc": {
+                          "end": {
+                            "column": 24,
+                            "line": 6,
+                          },
+                          "start": {
+                            "column": 19,
+                            "line": 6,
+                          },
+                        },
+                        "location": "./foo.html@5:19",
+                        "source": "caseB",
+                        "sourceSpan": AbsoluteSourceSpan {
+                          "end": 134,
+                          "start": 129,
+                        },
+                        "span": ParseSpan {
+                          "end": 5,
+                          "start": 0,
+                        },
+                        "type": "ASTWithSource",
+                      },
+                      "loc": {
+                        "end": {
+                          "column": 13,
+                          "line": 8,
+                        },
+                        "start": {
+                          "column": 12,
+                          "line": 6,
+                        },
+                      },
+                      "nameSpan": ParseSourceSpan {
+                        "details": null,
+                        "end": ParseLocation {
+                          "col": 18,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 5,
+                          "offset": 128,
+                        },
+                        "fullStart": ParseLocation {
+                          "col": 12,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 5,
+                          "offset": 122,
+                        },
+                        "start": ParseLocation {
+                          "col": 12,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 5,
+                          "offset": 122,
+                        },
+                      },
+                      "sourceSpan": ParseSourceSpan {
+                        "details": null,
+                        "end": ParseLocation {
+                          "col": 13,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 7,
+                          "offset": 186,
+                        },
+                        "fullStart": ParseLocation {
+                          "col": 12,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 5,
+                          "offset": 122,
+                        },
+                        "start": ParseLocation {
+                          "col": 12,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 5,
+                          "offset": 122,
+                        },
+                      },
+                      "startSourceSpan": ParseSourceSpan {
+                        "details": null,
+                        "end": ParseLocation {
+                          "col": 27,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 5,
+                          "offset": 137,
+                        },
+                        "fullStart": ParseLocation {
+                          "col": 12,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 5,
+                          "offset": 122,
+                        },
+                        "start": ParseLocation {
+                          "col": 12,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 5,
+                          "offset": 122,
+                        },
+                      },
+                      "type": "SwitchBlockCase",
+                    },
+                  ],
                   "children": [
                     Text {
                       "loc": {
@@ -14642,77 +15408,6 @@ describe('parseForESLint()', () => {
                       "offset": 185,
                     },
                   },
-                  "expression": ASTWithSource {
-                    "ast": PropertyRead {
-                      "loc": {
-                        "end": {
-                          "column": 24,
-                          "line": 6,
-                        },
-                        "start": {
-                          "column": 19,
-                          "line": 6,
-                        },
-                      },
-                      "name": "caseB",
-                      "nameSpan": AbsoluteSourceSpan {
-                        "end": 134,
-                        "start": 129,
-                      },
-                      "receiver": ImplicitReceiver {
-                        "loc": {
-                          "end": {
-                            "column": 19,
-                            "line": 6,
-                          },
-                          "start": {
-                            "column": 19,
-                            "line": 6,
-                          },
-                        },
-                        "sourceSpan": AbsoluteSourceSpan {
-                          "end": 129,
-                          "start": 129,
-                        },
-                        "span": ParseSpan {
-                          "end": 0,
-                          "start": 0,
-                        },
-                        "type": "ImplicitReceiver",
-                      },
-                      "sourceSpan": AbsoluteSourceSpan {
-                        "end": 134,
-                        "start": 129,
-                      },
-                      "span": ParseSpan {
-                        "end": 5,
-                        "start": 0,
-                      },
-                      "type": "PropertyRead",
-                    },
-                    "errors": [],
-                    "loc": {
-                      "end": {
-                        "column": 24,
-                        "line": 6,
-                      },
-                      "start": {
-                        "column": 19,
-                        "line": 6,
-                      },
-                    },
-                    "location": "./foo.html@5:19",
-                    "source": "caseB",
-                    "sourceSpan": AbsoluteSourceSpan {
-                      "end": 134,
-                      "start": 129,
-                    },
-                    "span": ParseSpan {
-                      "end": 5,
-                      "start": 0,
-                    },
-                    "type": "ASTWithSource",
-                  },
                   "i18n": undefined,
                   "loc": {
                     "end": {
@@ -14922,9 +15617,289 @@ describe('parseForESLint()', () => {
                       "offset": 122,
                     },
                   },
-                  "type": "SwitchBlockCase",
+                  "type": "SwitchBlockCaseGroup",
                 },
-                SwitchBlockCase {
+                SwitchBlockCaseGroup {
+                  "cases": [
+                    SwitchBlockCase {
+                      "endSourceSpan": ParseSourceSpan {
+                        "details": null,
+                        "end": ParseLocation {
+                          "col": 13,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 10,
+                          "offset": 264,
+                        },
+                        "fullStart": ParseLocation {
+                          "col": 12,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 10,
+                          "offset": 263,
+                        },
+                        "start": ParseLocation {
+                          "col": 12,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 10,
+                          "offset": 263,
+                        },
+                      },
+                      "expression": null,
+                      "loc": {
+                        "end": {
+                          "column": 13,
+                          "line": 11,
+                        },
+                        "start": {
+                          "column": 12,
+                          "line": 9,
+                        },
+                      },
+                      "nameSpan": ParseSourceSpan {
+                        "details": null,
+                        "end": ParseLocation {
+                          "col": 21,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 8,
+                          "offset": 208,
+                        },
+                        "fullStart": ParseLocation {
+                          "col": 12,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 8,
+                          "offset": 199,
+                        },
+                        "start": ParseLocation {
+                          "col": 12,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 8,
+                          "offset": 199,
+                        },
+                      },
+                      "sourceSpan": ParseSourceSpan {
+                        "details": null,
+                        "end": ParseLocation {
+                          "col": 13,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 10,
+                          "offset": 264,
+                        },
+                        "fullStart": ParseLocation {
+                          "col": 12,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 8,
+                          "offset": 199,
+                        },
+                        "start": ParseLocation {
+                          "col": 12,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 8,
+                          "offset": 199,
+                        },
+                      },
+                      "startSourceSpan": ParseSourceSpan {
+                        "details": null,
+                        "end": ParseLocation {
+                          "col": 22,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 8,
+                          "offset": 209,
+                        },
+                        "fullStart": ParseLocation {
+                          "col": 12,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 8,
+                          "offset": 199,
+                        },
+                        "start": ParseLocation {
+                          "col": 12,
+                          "file": ParseSourceFile {
+                            "content": "
+                  @switch (condition) {
+                    @case (caseA) {
+                      <span>Case A.</span>
+                    }
+                    @case (caseB) {
+                      <span>Case B.</span>
+                    }
+                    @default {
+                      <span>Default case.</span>
+                    }
+                  }
+              ",
+                            "url": "./foo.html",
+                          },
+                          "line": 8,
+                          "offset": 199,
+                        },
+                      },
+                      "type": "SwitchBlockCase",
+                    },
+                  ],
                   "children": [
                     Text {
                       "loc": {
@@ -15457,7 +16432,6 @@ describe('parseForESLint()', () => {
                       "offset": 263,
                     },
                   },
-                  "expression": null,
                   "i18n": undefined,
                   "loc": {
                     "end": {
@@ -15667,146 +16641,9 @@ describe('parseForESLint()', () => {
                       "offset": 199,
                     },
                   },
-                  "type": "SwitchBlockCase",
+                  "type": "SwitchBlockCaseGroup",
                 },
               ],
-              "endSourceSpan": ParseSourceSpan {
-                "details": null,
-                "end": ParseLocation {
-                  "col": 11,
-                  "file": ParseSourceFile {
-                    "content": "
-                  @switch (condition) {
-                    @case (caseA) {
-                      <span>Case A.</span>
-                    }
-                    @case (caseB) {
-                      <span>Case B.</span>
-                    }
-                    @default {
-                      <span>Default case.</span>
-                    }
-                  }
-              ",
-                    "url": "./foo.html",
-                  },
-                  "line": 11,
-                  "offset": 276,
-                },
-                "fullStart": ParseLocation {
-                  "col": 10,
-                  "file": ParseSourceFile {
-                    "content": "
-                  @switch (condition) {
-                    @case (caseA) {
-                      <span>Case A.</span>
-                    }
-                    @case (caseB) {
-                      <span>Case B.</span>
-                    }
-                    @default {
-                      <span>Default case.</span>
-                    }
-                  }
-              ",
-                    "url": "./foo.html",
-                  },
-                  "line": 11,
-                  "offset": 275,
-                },
-                "start": ParseLocation {
-                  "col": 10,
-                  "file": ParseSourceFile {
-                    "content": "
-                  @switch (condition) {
-                    @case (caseA) {
-                      <span>Case A.</span>
-                    }
-                    @case (caseB) {
-                      <span>Case B.</span>
-                    }
-                    @default {
-                      <span>Default case.</span>
-                    }
-                  }
-              ",
-                    "url": "./foo.html",
-                  },
-                  "line": 11,
-                  "offset": 275,
-                },
-              },
-              "expression": ASTWithSource {
-                "ast": PropertyRead {
-                  "loc": {
-                    "end": {
-                      "column": 28,
-                      "line": 2,
-                    },
-                    "start": {
-                      "column": 19,
-                      "line": 2,
-                    },
-                  },
-                  "name": "condition",
-                  "nameSpan": AbsoluteSourceSpan {
-                    "end": 29,
-                    "start": 20,
-                  },
-                  "receiver": ImplicitReceiver {
-                    "loc": {
-                      "end": {
-                        "column": 19,
-                        "line": 2,
-                      },
-                      "start": {
-                        "column": 19,
-                        "line": 2,
-                      },
-                    },
-                    "sourceSpan": AbsoluteSourceSpan {
-                      "end": 20,
-                      "start": 20,
-                    },
-                    "span": ParseSpan {
-                      "end": 0,
-                      "start": 0,
-                    },
-                    "type": "ImplicitReceiver",
-                  },
-                  "sourceSpan": AbsoluteSourceSpan {
-                    "end": 29,
-                    "start": 20,
-                  },
-                  "span": ParseSpan {
-                    "end": 9,
-                    "start": 0,
-                  },
-                  "type": "PropertyRead",
-                },
-                "errors": [],
-                "loc": {
-                  "end": {
-                    "column": 28,
-                    "line": 2,
-                  },
-                  "start": {
-                    "column": 19,
-                    "line": 2,
-                  },
-                },
-                "location": "./foo.html@1:19",
-                "source": "condition",
-                "sourceSpan": AbsoluteSourceSpan {
-                  "end": 29,
-                  "start": 20,
-                },
-                "span": ParseSpan {
-                  "end": 9,
-                  "start": 0,
-                },
-                "type": "ASTWithSource",
-              },
               "loc": {
                 "end": {
                   "column": 11,
