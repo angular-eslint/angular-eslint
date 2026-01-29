@@ -2,7 +2,7 @@ packages:
   - 'packages/*'
 catalog:
   '@angular/cli': '21.0.4'
-  '@angular/compiler': '21.1.0'
+  '@angular/compiler': '21.1.1'
   '@commitlint/cli': '20.3.0'
   '@commitlint/config-conventional': '20.3.0'
   '@eslint/core': '1.0.1'
@@ -22,7 +22,7 @@ catalog:
   '@swc/helpers': '0.5.18'
   '@types/aria-query': '5.0.4'
   '@types/eslint-scope': '8.3.2'
-  '@types/node': '22.19.3'
+  '@types/node': '22.19.7'
   '@types/semver': '^7.5.8'
   '@types/yargs': '^17.0.33'
   '@vitest/coverage-v8': '^4.0.3'
