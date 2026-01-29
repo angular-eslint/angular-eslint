@@ -22,7 +22,7 @@ catalog:
   '@swc/helpers': '0.5.18'
   '@types/aria-query': '5.0.4'
   '@types/eslint-scope': '8.3.2'
-  '@types/node': '22.19.3'
+  '@types/node': '22.19.7'
   '@types/semver': '^7.5.8'
   '@types/yargs': '^17.0.33'
   '@vitest/coverage-v8': '^4.0.3'
