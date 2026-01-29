@@ -1,3 +1,28 @@
+## 21.2.0 (2026-01-29)
+
+### 🚀 Features
+
+- **eslint-plugin:** [no-implicit-takeuntil-destroyed] add rule ([#2803](https://github.com/angular-eslint/angular-eslint/pull/2803))
+- **eslint-plugin-template:** add prefer-class-binding rule to enforce class binding over ngClass ([#2827](https://github.com/angular-eslint/angular-eslint/pull/2827))
+- **eslint-plugin-template:** support ignore attributes for prefer-static-string-properties rule ([#2852](https://github.com/angular-eslint/angular-eslint/pull/2852))
+
+### 🩹 Fixes
+
+- update dependency @angular/compiler to v21.0.2 ([#2828](https://github.com/angular-eslint/angular-eslint/pull/2828))
+- update dependency @angular/compiler to v21.0.3 ([#2832](https://github.com/angular-eslint/angular-eslint/pull/2832))
+- update typescript-eslint packages to v8.48.1 ([#2813](https://github.com/angular-eslint/angular-eslint/pull/2813))
+- update dependency eslint to v9.39.2 ([#2845](https://github.com/angular-eslint/angular-eslint/pull/2845))
+- update dependency @angular/compiler to v21.0.6 ([#2844](https://github.com/angular-eslint/angular-eslint/pull/2844))
+- update typescript-eslint packages to v8.50.1 ([#2840](https://github.com/angular-eslint/angular-eslint/pull/2840))
+- update dependency @angular/compiler to v21.1.0 ([#2862](https://github.com/angular-eslint/angular-eslint/pull/2862))
+- update dependency @angular/compiler to v21.1.1 ([#2874](https://github.com/angular-eslint/angular-eslint/pull/2874))
+- **eslint-plugin-template:** allow autofocus on dialog elements for improved accessibility ([#2851](https://github.com/angular-eslint/angular-eslint/pull/2851))
+
+### ❤️ Thank You
+
+- Gabriel J. @rznn7
+- Karan Mistry @mistrykaran91
+
 ## 21.1.0 (2025-12-08)
 
 ### 🚀 Features

@@ -1,3 +1,19 @@
+## 21.2.0 (2026-01-29)
+
+### 🚀 Features
+
+- **eslint-plugin-template:** support ignore attributes for prefer-static-string-properties rule ([#2852](https://github.com/angular-eslint/angular-eslint/pull/2852))
+- **eslint-plugin-template:** add prefer-class-binding rule to enforce class binding over ngClass ([#2827](https://github.com/angular-eslint/angular-eslint/pull/2827))
+
+### 🩹 Fixes
+
+- update dependency @angular/compiler to v21.1.0 ([#2862](https://github.com/angular-eslint/angular-eslint/pull/2862))
+- **eslint-plugin-template:** allow autofocus on dialog elements for improved accessibility ([#2851](https://github.com/angular-eslint/angular-eslint/pull/2851))
+
+### ❤️ Thank You
+
+- Karan Mistry @mistrykaran91
+
 ## 21.1.0 (2025-12-08)
 
 This was a version bump only for eslint-plugin-template to align it with other projects, there were no code changes.

@@ -1,3 +1,9 @@
+## 21.2.0 (2026-01-29)
+
+### 🩹 Fixes
+
+- update dependency @angular/compiler to v21.1.0 ([#2862](https://github.com/angular-eslint/angular-eslint/pull/2862))
+
 ## 21.1.0 (2025-12-08)
 
 This was a version bump only for template-parser to align it with other projects, there were no code changes.
