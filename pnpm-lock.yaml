@@ -67,8 +67,8 @@ catalogs:
       specifier: 5.0.4
       version: 5.0.4
     '@types/eslint-scope':
-      specifier: 8.3.2
-      version: 8.3.2
+      specifier: 8.4.0
+      version: 8.4.0
     '@types/node':
       specifier: 22.19.7
       version: 22.19.7
@@ -269,7 +269,7 @@ importers:
         version: 0.5.18
       '@types/eslint-scope':
         specifier: 'catalog:'
-        version: 8.3.2
+        version: 8.4.0
       '@types/node':
         specifier: 'catalog:'
         version: 22.19.7
@@ -3055,8 +3055,8 @@ packages:
   '@types/deep-eql@4.0.2':
     resolution: {integrity: sha512-c9h9dVVMigMPc4bwTvC5dxqtqJZwQPePsWjPlpSOnojbor6pGqdk541lfA7AqFQr5pB1BRdq0juY9db81BwyFw==}
 
-  '@types/eslint-scope@8.3.2':
-    resolution: {integrity: sha512-ygPtnKRQjbXB6LKQ+m6SLyZDMgFeQFVNCkjUK/HivS58Ce6JBjxpVzHbE1+RS6pC5fP4FQg4qh8lvVSm2oxYZw==}
+  '@types/eslint-scope@8.4.0':
+    resolution: {integrity: sha512-RhVLLrJB96ufa3O58HBsOd4IVVaYN7gBIn7K9fxHQBB++AJYOWNQcevpHDIVVw6YD0Ycup/XodUlZ3ZntVrqhA==}
 
   '@types/eslint@9.6.1':
     resolution: {integrity: sha512-FXx2pKgId/WyYo2jXw63kk7/+TY7u7AziEJxJAnSFzHlqTAS3Ync6SvgYAN/k4/PQpnnVuzoMuVnByKK2qp0ag==}
@@ -10005,7 +10005,7 @@ snapshots:
 
   '@types/deep-eql@4.0.2': {}
 
-  '@types/eslint-scope@8.3.2':
+  '@types/eslint-scope@8.4.0':
     dependencies:
       '@types/eslint': 9.6.1
       '@types/esrecurse': 4.3.1
