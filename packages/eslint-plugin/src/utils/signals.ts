@@ -3,4 +3,5 @@ export const KNOWN_SIGNAL_TYPES: ReadonlySet<string> = new Set([
   'ModelSignal',
   'Signal',
   'WritableSignal',
+  'InputSignalWithTransform',
 ]);
