@@ -212,12 +212,14 @@ computed(function() {
 #### ❌ Invalid Code
 
 ```ts
-computed(() => {
-~~~~~~~~~~~~~~~~
-  y();
-  ~~~
-});
-~~
+class Test {
+  x = computed(() => {
+      ~~~~~~~~~~~~~~~~
+    y();
+    ~~~
+  });
+  ~~
+}
 ```
 
 <br>
