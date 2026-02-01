@@ -129,12 +129,14 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     description: `should fail when computed does not return anything (part of the class)`,
     annotatedSource: `
-      computed(() => {
-      ~~~~~~~~~~~~~~~~
-        y();
-        ~~~
-      });
-      ~~
+      class Test {
+        x = computed(() => {
+            ~~~~~~~~~~~~~~~~
+          y();
+          ~~~
+        });
+        ~~
+      }
     `,
     messageId,
   }),
