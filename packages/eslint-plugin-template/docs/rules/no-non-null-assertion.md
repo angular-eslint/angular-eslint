@@ -23,7 +23,7 @@ Disallows the non-null assertion operator (!) in templates
 
 ## Rationale
 
-Equivalent of @typescript-eslint/no-non-null-assertion rule for Angular templates. The non-null assertion operator (!) in Angular templates bypasses TypeScript's strict null checking, telling the compiler that a value will never be null or undefined. While this may seem convenient, it removes important type safety guarantees and can lead to runtime errors if the assumption is incorrect. If a value might be null or undefined, it's better to handle those cases explicitly using optional chaining (?.), null checks, or the nullish coalescing operator (??). This makes your code more robust and self-documenting.
+Equivalent of @typescript-eslint/no-non-null-assertion rule for Angular templates. TypeScript's `!` non-null assertion operator asserts to the type system that an expression is non-nullable, as in not `null` or `undefined`. Using assertions to tell the type system new information is often a sign that code is not fully type-safe. It's generally better to structure program logic so that TypeScript understands when values may be nullable.
 
 <br>
 
