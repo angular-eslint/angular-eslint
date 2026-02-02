@@ -16,7 +16,6 @@ export default (
   {
     name: 'angular-eslint/ts-recommended',
     rules: {
-      '@angular-eslint/computed-must-return': 'error',
       '@angular-eslint/contextual-lifecycle': 'error',
       '@angular-eslint/no-empty-lifecycle-method': 'error',
       '@angular-eslint/no-input-rename': 'error',
