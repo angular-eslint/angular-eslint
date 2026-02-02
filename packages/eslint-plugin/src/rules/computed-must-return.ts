@@ -10,7 +10,6 @@ export default createESLintRule<[], MessageIds>({
   meta: {
     type: 'problem',
     docs: {
-      recommended: 'recommended',
       description: `Ensures that computed() returns a value. Omitting the value is likely a mistake.`,
     },
     schema: [],
