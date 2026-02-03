@@ -99,9 +99,6 @@ export default createESLintRule<Options, MessageIds>({
 
         reportAnyCall(node);
       },
-      KeyedRead(node: KeyedRead) {
-        findAndReportAnyCalls(node);
-      },
     };
   },
 });
