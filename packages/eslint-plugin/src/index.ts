@@ -145,6 +145,9 @@ import noDeveloperPreview, {
 import noImplicitTakeUntilDestroyed, {
   RULE_NAME as noImplicitTakeUntilDestroyedRuleName,
 } from './rules/no-implicit-take-until-destroyed';
+import noInjectOutsideDiContext, {
+  RULE_NAME as noInjectOutsideDiContextRuleName,
+} from './rules/no-inject-outside-di-context';
 import computedMustReturn, {
   RULE_NAME as computedMustReturnRuleName,
 } from './rules/computed-must-return';
@@ -173,6 +176,7 @@ export = {
     [noExperimentalRuleName]: noExperimental,
     [noForwardRefRuleName]: noForwardRef,
     [noImplicitTakeUntilDestroyedRuleName]: noImplicitTakeUntilDestroyed,
+    [noInjectOutsideDiContextRuleName]: noInjectOutsideDiContext,
     [noInputPrefixRuleName]: noInputPrefix,
     [noInputRenameRuleName]: noInputRename,
     [noInputsMetadataPropertyRuleName]: noInputsMetadataProperty,
