@@ -486,6 +486,34 @@ if (a) { }
 #### ❌ Invalid Code
 
 ```ts
+let a: InputSignalWithTransform<boolean, boolean | string>;
+if (a) { }
+    ~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-uncalled-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
 let a: ModelSignal<boolean>;
 if (a) { }
     ~

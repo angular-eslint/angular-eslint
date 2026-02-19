@@ -1,3 +1,13 @@
+## 21.2.0 (2026-01-29)
+
+### 🚀 Features
+
+- **eslint-plugin:** [no-implicit-takeuntil-destroyed] add rule ([#2803](https://github.com/angular-eslint/angular-eslint/pull/2803))
+
+### ❤️ Thank You
+
+- Gabriel J. @rznn7
+
 ## 21.1.0 (2025-12-08)
 
 ### 🚀 Features

@@ -41,6 +41,10 @@ export function getAttributeValue(
   if (attributeOrInput.value.ast instanceof LiteralMap) {
     const { keys, values } = attributeOrInput.value.ast;
     return keys.reduce((current, next, index) => {
+      // Skip spread keys as they don't have a key property
+      if (next.kind === 'spread') {
+        return current;
+      }
       return current.set(next.key, values[index]);
     }, new Map<string, unknown>());
   }

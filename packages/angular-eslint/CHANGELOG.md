@@ -1,3 +1,15 @@
+## 21.2.0 (2026-01-29)
+
+### 🚀 Features
+
+- **eslint-plugin-template:** add prefer-class-binding rule to enforce class binding over ngClass ([#2827](https://github.com/angular-eslint/angular-eslint/pull/2827))
+- **eslint-plugin:** [no-implicit-takeuntil-destroyed] add rule ([#2803](https://github.com/angular-eslint/angular-eslint/pull/2803))
+
+### ❤️ Thank You
+
+- Gabriel J. @rznn7
+- Karan Mistry @mistrykaran91
+
 ## 21.1.0 (2025-12-08)
 
 ### 🚀 Features

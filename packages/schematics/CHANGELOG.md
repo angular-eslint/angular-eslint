@@ -1,3 +1,7 @@
+## 21.2.0 (2026-01-29)
+
+This was a version bump only for schematics to align it with other projects, there were no code changes.
+
 ## 21.1.0 (2025-12-08)
 
 ### 🩹 Fixes
