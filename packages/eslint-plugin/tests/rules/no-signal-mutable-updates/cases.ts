@@ -97,11 +97,23 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     }));
   `,
   // Store in a variable first (const reference, doesn't break reactivity if used properly)
+  // This is valid because we're not mutating currentItems, we're creating a new array
   `
     let items: WritableSignal<number[]>;
     const currentItems = items();
     const newItems = [...currentItems, 4];
     items.set(newItems);
+  `,
+  // Reading through an intermediate variable is fine
+  `
+    let items: Signal<number[]>;
+    const arr = items();
+    const first = arr[0];
+  `,
+  `
+    let items: Signal<number[]>;
+    const arr = items();
+    const length = arr.length;
   `,
 ].map(appendTypes);
 
@@ -362,6 +374,95 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       ~~~~~~~~~~~~
     `,
     messageId: 'noMutableSignalUpdate',
+  }),
+
+  // Indirect mutations - storing signal value in variable then mutating
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
+    description: 'indirect mutation via variable assignment (push)',
+    annotatedSource: `
+      let items: WritableSignal<number[]>;
+      const arr = items();
+      arr.push(4);
+      ~~~~~~~~
+    `,
+    messageId: 'useSetOrUpdate',
+  }),
+
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
+    description: 'indirect mutation via variable assignment (property)',
+    annotatedSource: `
+      let userData: WritableSignal<{ name: string }>;
+      const data = userData();
+      data.name = 'newName';
+      ~~~~~~~~~
+    `,
+    messageId: 'noMutableWritableSignalUpdate',
+  }),
+
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
+    description: 'indirect mutation on read-only Signal',
+    annotatedSource: `
+      let items: Signal<number[]>;
+      const arr = items();
+      arr.push(4);
+      ~~~~~~~~
+    `,
+    messageId: 'noMutableSignalUpdate',
+  }),
+
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
+    description: 'indirect mutation via array index assignment',
+    annotatedSource: `
+      let items: WritableSignal<number[]>;
+      const arr = items();
+      arr[0] = 999;
+      ~~~~~~
+    `,
+    messageId: 'noMutableWritableSignalUpdate',
+  }),
+
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
+    description: 'indirect mutation via update expression',
+    annotatedSource: `
+      let counter: WritableSignal<{ count: number }>;
+      const obj = counter();
+      obj.count++;
+      ~~~~~~~~~
+    `,
+    messageId: 'noMutableWritableSignalUpdate',
+  }),
+
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
+    description: 'indirect mutation via pop',
+    annotatedSource: `
+      let items: WritableSignal<number[]>;
+      const arr = items();
+      arr.pop();
+      ~~~~~~~
+    `,
+    messageId: 'useSetOrUpdate',
+  }),
+
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
+    description: 'indirect mutation via sort',
+    annotatedSource: `
+      let items: WritableSignal<number[]>;
+      const arr = items();
+      arr.sort();
+      ~~~~~~~~
+    `,
+    messageId: 'useSetOrUpdate',
+  }),
+
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
+    description: 'indirect mutation on ModelSignal',
+    annotatedSource: `
+      let items: ModelSignal<number[]>;
+      const arr = items();
+      arr.push(1);
+      ~~~~~~~~
+    `,
+    messageId: 'useSetOrUpdate',
   }),
 ].map((test) => ({
   ...test,
