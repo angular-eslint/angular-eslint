@@ -687,6 +687,238 @@ value().name = 'newName';
 ~~~~~~~~~~~~
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-signal-mutable-updates": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+let items: WritableSignal<number[]>;
+const arr = items();
+arr.push(4);
+~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-signal-mutable-updates": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+let userData: WritableSignal<{ name: string }>;
+const data = userData();
+data.name = 'newName';
+~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-signal-mutable-updates": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+let items: Signal<number[]>;
+const arr = items();
+arr.push(4);
+~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-signal-mutable-updates": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+let items: WritableSignal<number[]>;
+const arr = items();
+arr[0] = 999;
+~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-signal-mutable-updates": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+let counter: WritableSignal<{ count: number }>;
+const obj = counter();
+obj.count++;
+~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-signal-mutable-updates": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+let items: WritableSignal<number[]>;
+const arr = items();
+arr.pop();
+~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-signal-mutable-updates": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+let items: WritableSignal<number[]>;
+const arr = items();
+arr.sort();
+~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-signal-mutable-updates": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+let items: ModelSignal<number[]>;
+const arr = items();
+arr.push(1);
+~~~~~~~~
+```
+
 </details>
 
 <br>
@@ -1210,6 +1442,62 @@ let items: WritableSignal<number[]>;
 const currentItems = items();
 const newItems = [...currentItems, 4];
 items.set(newItems);
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-signal-mutable-updates": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+let items: Signal<number[]>;
+const arr = items();
+const first = arr[0];
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-signal-mutable-updates": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+let items: Signal<number[]>;
+const arr = items();
+const length = arr.length;
 ```
 
 </details>

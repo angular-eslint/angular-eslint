@@ -37,6 +37,13 @@ export default createESLintRule<Options, MessageIds>({
     const services: ParserServicesWithTypeInformation =
       ESLintUtils.getParserServices(context);
 
+    // Track variables that hold signal-derived values
+    // Map from variable name to the signal call node and signal type
+    const signalDerivedVariables = new Map<
+      string,
+      { signalCall: TSESTree.CallExpression; signalType: string }
+    >();
+
     function getSignalType(node: TSESTree.Node): string | undefined {
       const type = services.getTypeAtLocation(node);
       const typeName = type.getSymbol()?.name;
@@ -82,8 +89,62 @@ export default createESLintRule<Options, MessageIds>({
       return null;
     }
 
+    function getVariableName(node: TSESTree.Node): string | null {
+      if (node.type === AST_NODE_TYPES.Identifier) {
+        return node.name;
+      }
+      return null;
+    }
+
+    function isSignalDerivedVariable(node: TSESTree.Node): {
+      signalCall: TSESTree.CallExpression;
+      signalType: string;
+    } | null {
+      const varName = getVariableName(node);
+      if (!varName) return null;
+      return signalDerivedVariables.get(varName) || null;
+    }
+
     return {
+      VariableDeclarator(node: TSESTree.VariableDeclarator) {
+        // Track variables assigned from signal calls
+        // const arr = mySignal()
+        if (
+          node.init &&
+          isSignalCallExpression(node.init) &&
+          node.id.type === AST_NODE_TYPES.Identifier
+        ) {
+          const signalType = getSignalType(
+            (node.init as TSESTree.CallExpression).callee,
+          );
+          if (signalType) {
+            signalDerivedVariables.set(node.id.name, {
+              signalCall: node.init as TSESTree.CallExpression,
+              signalType,
+            });
+          }
+        }
+      },
+
       AssignmentExpression(node: TSESTree.AssignmentExpression) {
+        // Track variables assigned from signal calls in assignment expressions
+        // arr = mySignal()
+        if (
+          node.left.type === AST_NODE_TYPES.Identifier &&
+          isSignalCallExpression(node.right)
+        ) {
+          const signalType = getSignalType(
+            (node.right as TSESTree.CallExpression).callee,
+          );
+          if (signalType) {
+            signalDerivedVariables.set(node.left.name, {
+              signalCall: node.right as TSESTree.CallExpression,
+              signalType,
+            });
+          }
+          return;
+        }
+
         // Check for signal().property = value or signal().nested.property = value
         if (node.left.type === AST_NODE_TYPES.MemberExpression) {
           const signalCall = findSignalCallInChain(node.left);
@@ -100,6 +161,26 @@ export default createESLintRule<Options, MessageIds>({
                 messageId: 'noMutableWritableSignalUpdate',
               });
             } else if (signalType) {
+              context.report({
+                node: node.left,
+                messageId: 'noMutableSignalUpdate',
+              });
+            }
+            return;
+          }
+
+          // Check for indirect mutation: arr[0] = value where arr came from signal()
+          const signalDerived = isSignalDerivedVariable(node.left.object);
+          if (signalDerived) {
+            if (
+              signalDerived.signalType === 'WritableSignal' ||
+              signalDerived.signalType === 'ModelSignal'
+            ) {
+              context.report({
+                node: node.left,
+                messageId: 'noMutableWritableSignalUpdate',
+              });
+            } else {
               context.report({
                 node: node.left,
                 messageId: 'noMutableSignalUpdate',
@@ -126,6 +207,26 @@ export default createESLintRule<Options, MessageIds>({
                 messageId: 'noMutableWritableSignalUpdate',
               });
             } else if (signalType) {
+              context.report({
+                node: node.argument,
+                messageId: 'noMutableSignalUpdate',
+              });
+            }
+            return;
+          }
+
+          // Check for indirect mutation: arr[0]++ where arr came from signal()
+          const signalDerived = isSignalDerivedVariable(node.argument.object);
+          if (signalDerived) {
+            if (
+              signalDerived.signalType === 'WritableSignal' ||
+              signalDerived.signalType === 'ModelSignal'
+            ) {
+              context.report({
+                node: node.argument,
+                messageId: 'noMutableWritableSignalUpdate',
+              });
+            } else {
               context.report({
                 node: node.argument,
                 messageId: 'noMutableSignalUpdate',
@@ -177,6 +278,44 @@ export default createESLintRule<Options, MessageIds>({
                   messageId: 'noMutableSignalUpdate',
                 });
               }
+            }
+          }
+          return;
+        }
+
+        // Check for indirect mutation: arr.push() where arr came from signal()
+        const signalDerived = isSignalDerivedVariable(object);
+        if (
+          signalDerived &&
+          callee.property.type === AST_NODE_TYPES.Identifier
+        ) {
+          const methodName = callee.property.name;
+          const mutatingMethods = new Set([
+            'push',
+            'pop',
+            'shift',
+            'unshift',
+            'splice',
+            'sort',
+            'reverse',
+            'fill',
+            'copyWithin',
+          ]);
+
+          if (mutatingMethods.has(methodName)) {
+            if (
+              signalDerived.signalType === 'WritableSignal' ||
+              signalDerived.signalType === 'ModelSignal'
+            ) {
+              context.report({
+                node: callee,
+                messageId: 'useSetOrUpdate',
+              });
+            } else {
+              context.report({
+                node: callee,
+                messageId: 'noMutableSignalUpdate',
+              });
             }
           }
         }
