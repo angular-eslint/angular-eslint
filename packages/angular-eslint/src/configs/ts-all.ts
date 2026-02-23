@@ -33,6 +33,7 @@ export default (
       '@angular-eslint/no-experimental': 'error',
       '@angular-eslint/no-forward-ref': 'error',
       '@angular-eslint/no-implicit-take-until-destroyed': 'error',
+      '@angular-eslint/no-inject-outside-di-context': 'error',
       '@angular-eslint/no-input-prefix': 'error',
       '@angular-eslint/no-input-rename': 'error',
       '@angular-eslint/no-inputs-metadata-property': 'error',
