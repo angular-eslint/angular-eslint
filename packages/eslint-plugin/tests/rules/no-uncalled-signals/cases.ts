@@ -442,6 +442,25 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       },
     ],
   }),
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
+    description: 'InputSignalWithTransform',
+    annotatedSource: `
+        let a: InputSignalWithTransform<boolean, boolean | string>;
+        if (a) { }
+            ~
+      `,
+    messageId,
+    suggestions: [
+      {
+        messageId: 'suggestCallSignal',
+        output: `
+        let a: InputSignalWithTransform<boolean, boolean | string>;
+        if (a()) { }
+            
+      `,
+      },
+    ],
+  }),
 
   convertAnnotatedSourceToFailureCase<MessageIds, Options>({
     description: 'ModelSignal',
@@ -513,6 +532,7 @@ function appendTypes(code: string): string {
       'interface Signal<T> { (): T; }',
       'interface InputSignal<T> extends Signal<T> {}',
       'interface ModelSignal<T> extends Signal<T> {}',
+      'interface InputSignalWithTransform<T, TTransform> extends Signal<T> {}',
       'interface WritableSignal<T> extends Signal<T> { set(value: T): void; }',
       'declare function effect(fn: () => void): void;',
     ]
