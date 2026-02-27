@@ -37,6 +37,7 @@ export function readJsonInTree<T = any>(host: Tree, path: string): T {
   } catch (e) {
     throw new Error(
       `Cannot parse ${path}: ${e instanceof Error ? e.message : ''}`,
+      { cause: e },
     );
   }
 }
@@ -117,7 +118,7 @@ export function addESLintTargetToProject(
   return updateWorkspaceInTree((workspaceJson, _, tree) => {
     const existingProjectConfig = workspaceJson.projects[projectName];
 
-    let lintFilePatternsRoot = '';
+    let lintFilePatternsRoot: string;
 
     // Default Angular CLI project at the root of the workspace
     if (existingProjectConfig.root === '') {

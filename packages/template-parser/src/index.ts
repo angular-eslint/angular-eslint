@@ -80,7 +80,7 @@ const KEYS: VisitorKeys = {
 };
 
 function fallbackKeysFilter(this: Node, key: string) {
-  let value = null;
+  let value: any;
   return (
     key !== 'comments' &&
     key !== 'leadingComments' &&
@@ -178,8 +178,8 @@ function convertAbsoluteSourceSpanToLoc(
  * work with the custom AST.
  */
 function preprocessNode(node: Node, sourceCode?: string) {
-  let i = 0;
-  let j = 0;
+  let i: number;
+  let j: number;
 
   const keys = KEYS[node.type] || getFallbackKeys(node);
 
