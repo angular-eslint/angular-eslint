@@ -93,6 +93,9 @@ catalogs:
     eslint-config-prettier:
       specifier: 10.1.5
       version: 10.1.5
+    eslint-scope:
+      specifier: 9.1.1
+      version: 9.1.1
     execa:
       specifier: 5.1.1
       version: 5.1.1
@@ -163,18 +166,12 @@ catalogs:
     '@angular-devkit/schematics':
       specifier: '>= 21.0.0 < 22.0.0'
       version: 21.0.4
-    '@angular/cli':
-      specifier: '>= 21.0.0 < 22.0.0'
-      version: 21.0.4
     aria-query:
       specifier: 5.3.2
       version: 5.3.2
     axobject-query:
       specifier: 4.1.0
       version: 4.1.0
-    eslint-scope:
-      specifier: ^9.0.0
-      version: 9.0.0
     ignore:
       specifier: 7.0.5
       version: 7.0.5
@@ -537,7 +534,7 @@ importers:
         version: 9.39.2(jiti@2.6.1)
       eslint-scope:
         specifier: catalog:other-runtime-dependencies
-        version: 9.0.0
+        version: 9.1.1
       typescript:
         specifier: '*'
         version: 5.9.3
@@ -4383,8 +4380,8 @@ packages:
     resolution: {integrity: sha512-sNXOfKCn74rt8RICKMvJS7XKV/Xk9kA7DyJr8mJik3S7Cwgy3qlkkmyS2uQB3jiJg6VNdZd/pDBJu0nvG2NlTg==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  eslint-scope@9.0.0:
-    resolution: {integrity: sha512-+Yh0LeQKq+mW/tQArNj67tljR3L1HajDTQPuZOEwC00oBdoIDQrr89yBgjAlzAwRrY/5zDkM3v99iGHwz9y0dw==}
+  eslint-scope@9.1.1:
+    resolution: {integrity: sha512-GaUN0sWim5qc8KVErfPBWmc31LEsOkrUJbvJZV+xuL3u2phMUK4HIvXlWAakfC8W4nzlK+chPEAkYOYb5ZScIw==}
     engines: {node: ^20.19.0 || ^22.13.0 || >=24}
 
   eslint-visitor-keys@3.4.3:
@@ -7070,8 +7067,8 @@ packages:
     resolution: {integrity: sha512-+QU2zd6OTD8XWIJCbffaiQeH9U73qIqafo1x6V1snCWYGJf6cVE0cDR4D8xRzcEnfI21IFrUPzPGtcPf8AC+Rw==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
 
-  ws@8.18.3:
-    resolution: {integrity: sha512-PEIGCY5tSlUt50cqyMXfCzX+oOPqN0vuGqWzbcJ2xvnkzkq46oOpz7dQaTDBdfICb4N14+GARUDw2XV2N4tvzg==}
+  ws@8.19.0:
+    resolution: {integrity: sha512-blAT2mjOEIi0ZzruJfIhb3nps74PRWTCz1IjglWEEpQl5XS/UNama6u2/rjFkDDouqr4L67ry+1aGIALViWjDg==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       bufferutil: ^4.0.1
@@ -11569,8 +11566,10 @@ snapshots:
       esrecurse: 4.3.0
       estraverse: 5.3.0
 
-  eslint-scope@9.0.0:
+  eslint-scope@9.1.1:
     dependencies:
+      '@types/esrecurse': 4.3.1
+      '@types/estree': 1.0.8
       esrecurse: 4.3.0
       estraverse: 5.3.0
 
@@ -12755,7 +12754,7 @@ snapshots:
       whatwg-encoding: 2.0.0
       whatwg-mimetype: 3.0.0
       whatwg-url: 12.0.1
-      ws: 8.18.3
+      ws: 8.19.0
       xml-name-validator: 4.0.0
     transitivePeerDependencies:
       - bufferutil
@@ -14773,7 +14772,7 @@ snapshots:
       imurmurhash: 0.1.4
       signal-exit: 4.1.0
 
-  ws@8.18.3:
+  ws@8.19.0:
     optional: true
 
   xml-name-validator@4.0.0:
