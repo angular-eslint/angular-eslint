@@ -52,7 +52,7 @@ export default createESLintRule<Options, MessageIds>({
 
     return {
       Element(node: TmplAstElement) {
-        let isInvalid = false;
+        let isInvalid: boolean;
 
         if (!allowNgStyle && !allowBindToStyle) {
           isInvalid =
