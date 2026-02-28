@@ -297,7 +297,7 @@ export function postprocessComponentFile(
     ...messagesFromAllInlineTemplateHTML.flatMap(
       (messagesFromInlineTemplateHTML, i) => {
         const baseFilename = basename(filename);
-        const inlineTemplateTmpFilename = `inline-template-${baseFilename}-${++i}.component.html`;
+        const inlineTemplateTmpFilename = `inline-template-${baseFilename}-${i + 1}.component.html`;
         const rangeData = rangeMap.get(inlineTemplateTmpFilename);
         if (!rangeData) {
           return [];

@@ -5,7 +5,7 @@ import type {
 } from '@angular-eslint/bundled-angular-compiler';
 import { parseTemplate } from '@angular-eslint/bundled-angular-compiler';
 import type { TSESTree } from '@typescript-eslint/types';
-import { Scope, ScopeManager } from 'eslint-scope';
+import { analyze, ScopeManager } from 'eslint-scope';
 import {
   convertElementSourceSpanToLoc,
   convertNodeSourceSpanToLoc,
@@ -80,7 +80,7 @@ const KEYS: VisitorKeys = {
 };
 
 function fallbackKeysFilter(this: Node, key: string) {
-  let value = null;
+  let value: any;
   return (
     key !== 'comments' &&
     key !== 'leadingComments' &&
@@ -178,8 +178,8 @@ function convertAbsoluteSourceSpanToLoc(
  * work with the custom AST.
  */
 function preprocessNode(node: Node, sourceCode?: string) {
-  let i = 0;
-  let j = 0;
+  let i: number;
+  let j: number;
 
   const keys = KEYS[node.type] || getFallbackKeys(node);
 
@@ -369,8 +369,17 @@ function parseForESLint(
     value: code,
   };
 
-  const scopeManager = new ScopeManager({});
-  new Scope(scopeManager, 'module', null, ast, false);
+  const astAsProgram = Object.defineProperties(ast, {
+    body: {
+      value: [],
+      enumerable: false,
+    },
+    sourceType: {
+      value: 'module',
+      enumerable: false,
+    },
+  });
+  const scopeManager = analyze(astAsProgram as any);
 
   preprocessNode(ast, code);
 

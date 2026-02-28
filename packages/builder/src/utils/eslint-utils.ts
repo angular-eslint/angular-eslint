@@ -10,6 +10,14 @@ export const supportedFlatConfigNames = [
   'eslint.config.cts',
 ];
 
+type LegacyCompatibleESLintOptions = ESLint.Options & {
+  rulePaths?: string[];
+  resolvePluginsRelativeTo?: string;
+  ignorePath?: string;
+  useEslintrc?: boolean;
+  reportUnusedDisableDirectives?: boolean | 'error' | 'warn' | 'off';
+};
+
 async function resolveESLintClass(
   useFlatConfig = false,
 ): Promise<typeof ESLint> {
@@ -23,7 +31,10 @@ async function resolveESLintClass(
     if (!useFlatConfig) {
       return eslint.ESLint;
     }
-    const { FlatESLint } = await import('eslint/use-at-your-own-risk');
+    const { FlatESLint } =
+      (await import('eslint/use-at-your-own-risk')) as unknown as {
+        FlatESLint: typeof ESLint;
+      };
     return FlatESLint;
   } catch {
     throw new Error('Unable to find ESLint. Ensure ESLint is installed.');
@@ -130,17 +141,17 @@ export async function resolveAndInstantiateESLint(
     }
   } else {
     eslintOptions.overrideConfigFile = eslintConfigPath;
-    (eslintOptions as ESLint.LegacyOptions).rulePaths = options.rulesdir || [];
-    (eslintOptions as ESLint.LegacyOptions).resolvePluginsRelativeTo =
+    const legacyOptions = eslintOptions as LegacyCompatibleESLintOptions;
+    legacyOptions.rulePaths = options.rulesdir || [];
+    legacyOptions.resolvePluginsRelativeTo =
       options.resolvePluginsRelativeTo || undefined;
-    (eslintOptions as ESLint.LegacyOptions).ignorePath =
-      options.ignorePath || undefined;
+    legacyOptions.ignorePath = options.ignorePath || undefined;
     /**
      * If "noEslintrc" is set to `true` (and therefore here "useEslintrc" will be `false`), then ESLint will not
      * merge the provided config with others it finds automatically.
      */
-    (eslintOptions as ESLint.LegacyOptions).useEslintrc = !options.noEslintrc;
-    (eslintOptions as ESLint.LegacyOptions).reportUnusedDisableDirectives =
+    legacyOptions.useEslintrc = !options.noEslintrc;
+    legacyOptions.reportUnusedDisableDirectives =
       options.reportUnusedDisableDirectives || undefined;
   }
 

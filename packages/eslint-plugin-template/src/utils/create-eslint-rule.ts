@@ -10,16 +10,21 @@ export interface RuleDocs {
  */
 const patchedRuleCreator: typeof ESLintUtils.RuleCreator = (urlCreator) => {
   return function createRule({ name, meta, defaultOptions, create }) {
+    const resolvedDefaultOptions = (defaultOptions ?? []) as NonNullable<
+      typeof defaultOptions
+    >;
+
     return {
+      name,
       meta: Object.assign(Object.assign({}, meta), {
         docs: Object.assign(Object.assign({}, meta.docs), {
           url: urlCreator(name),
         }),
       }),
-      defaultOptions,
+      defaultOptions: resolvedDefaultOptions,
       create(context) {
         const optionsWithDefault = ESLintUtils.applyDefault(
-          defaultOptions,
+          resolvedDefaultOptions,
           context.options,
         );
         return create(context, optionsWithDefault);
