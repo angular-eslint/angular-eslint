@@ -1210,10 +1210,12 @@ describe('Linter Builder', () => {
       eslint: mockESLintInstance,
     });
 
+    const expectedPath = join('packages', 'test-project', 'eslint.config.js');
+
     // Mock existsSync to return true for eslint.config.js in the project root
     vi.mocked(fs.existsSync).mockImplementation((path) => {
       const pathStr = String(path);
-      if (pathStr.includes('packages/test-project/eslint.config.js')) {
+      if (pathStr.includes(expectedPath)) {
         return true;
       }
       return false;
@@ -1228,7 +1230,7 @@ describe('Linter Builder', () => {
 
     expect(result.success).toBe(false);
     expect(console.error).toHaveBeenCalledWith(
-      expect.stringContaining('packages/test-project/eslint.config.js'),
+      expect.stringContaining(expectedPath),
     );
   });
 });
