@@ -179,8 +179,8 @@ catalogs:
       specifier: 7.0.5
       version: 7.0.5
     semver:
-      specifier: 7.7.3
-      version: 7.7.3
+      specifier: 7.7.4
+      version: 7.7.4
     strip-json-comments:
       specifier: 3.1.1
       version: 3.1.1
@@ -515,7 +515,7 @@ importers:
         version: 7.0.5
       semver:
         specifier: catalog:other-runtime-dependencies
-        version: 7.7.3
+        version: 7.7.4
       strip-json-comments:
         specifier: catalog:other-runtime-dependencies
         version: 3.1.1
@@ -6311,6 +6311,11 @@ packages:
 
   semver@7.7.3:
     resolution: {integrity: sha512-SdsKMrI9TdgjdweUSR9MweHA4EJ8YxHn8DFaDisvhVlUOe4BF1tLD7GAj0lIqWVl+dPb/rExr0Btby5loQm20Q==}
+    engines: {node: '>=10'}
+    hasBin: true
+
+  semver@7.7.4:
+    resolution: {integrity: sha512-vFKC2IEtQnVhpT78h1Yp8wzwrf8CM+MzKMHGJZfBtzhZNycRFnXsHk6E5TxIkkMsgNS7mdX3AGB7x2QM2di4lA==}
     engines: {node: '>=10'}
     hasBin: true
 
@@ -13918,6 +13923,8 @@ snapshots:
   semver@7.7.2: {}
 
   semver@7.7.3: {}
+
+  semver@7.7.4: {}
 
   send@0.19.0:
     dependencies:
