@@ -520,6 +520,9 @@ importers:
         specifier: catalog:other-runtime-dependencies
         version: 3.1.1
     devDependencies:
+      '@eslint/js':
+        specifier: 'catalog:'
+        version: 10.0.1(eslint@10.0.2(jiti@2.6.1))
       '@typescript-eslint/utils':
         specifier: catalog:typescript-eslint
         version: 8.56.1(eslint@10.0.2(jiti@2.6.1))(typescript@5.9.3)
