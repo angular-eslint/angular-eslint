@@ -118,7 +118,7 @@ export function addESLintTargetToProject(
   return updateWorkspaceInTree((workspaceJson, _, tree) => {
     const existingProjectConfig = workspaceJson.projects[projectName];
 
-    let lintFilePatternsRoot: string;
+    let lintFilePatternsRoot = '';
 
     // Default Angular CLI project at the root of the workspace
     if (existingProjectConfig.root === '') {
