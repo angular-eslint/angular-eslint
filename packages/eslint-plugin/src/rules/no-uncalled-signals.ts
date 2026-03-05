@@ -60,9 +60,19 @@ export default createESLintRule<Options, MessageIds>({
       }
 
       const type = services.getTypeAtLocation(node);
-      const identifierType = type.getSymbol()?.name;
+      const symbol = type.getSymbol();
+      let isSignal = symbol && KNOWN_SIGNAL_TYPES.has(symbol.name);
 
-      if (identifierType && KNOWN_SIGNAL_TYPES.has(identifierType)) {
+      // If the type is not a known signal type, but it has an alias
+      // symbol, then check if that alias symbol is a known signal type.
+      // The `Signal` type will fall under this category, because it is
+      // defined as a type alias. Other signal types like `InputSignal`
+      // won't match here, because they are defined as interfaces.
+      if (!isSignal && type.aliasSymbol) {
+        isSignal = KNOWN_SIGNAL_TYPES.has(type.aliasSymbol.name);
+      }
+
+      if (isSignal) {
         context.report({
           node,
           messageId: 'noUncalledSignals',

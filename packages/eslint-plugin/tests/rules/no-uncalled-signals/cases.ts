@@ -564,22 +564,10 @@ function appendTypes(code: string): string {
     return code;
   }
 
-  /* istanbul ignore next */
-  const start = /\S/u.exec(code)?.index ?? 0;
-  const prefix = code.slice(0, start);
-
+  // Put the given code on the same line as the import so that the tests don't have
+  // to adjust the line numbers to account for the code that we insert at the start.
   return (
-    code +
-    '\n' +
-    [
-      'interface Signal<T> { (): T; }',
-      'interface InputSignal<T> extends Signal<T> {}',
-      'interface ModelSignal<T> extends Signal<T> {}',
-      'interface InputSignalWithTransform<T, TTransform> extends Signal<T> {}',
-      'interface WritableSignal<T> extends Signal<T> { set(value: T): void; }',
-      'declare function effect(fn: () => void): void;',
-    ]
-      .map((x) => prefix + x)
-      .join('\n')
+    'import { effect, InputSignal, InputSignalWithTransform, ModelSignal, signal, Signal, WritableSignal } from "@angular/core";' +
+    code
   );
 }
