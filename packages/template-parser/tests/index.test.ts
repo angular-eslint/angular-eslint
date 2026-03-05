@@ -13359,6 +13359,7 @@ describe('parseForESLint()', () => {
                   "offset": 275,
                 },
               },
+              "exhaustiveCheck": null,
               "expression": ASTWithSource {
                 "ast": PropertyRead {
                   "loc": {
