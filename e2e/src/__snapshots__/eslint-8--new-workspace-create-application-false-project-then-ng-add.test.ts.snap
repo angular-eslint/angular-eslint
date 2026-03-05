@@ -13,7 +13,7 @@ exports[`eslint-8--new-workspace-create-application-false-project-then-ng-add > 
   "@typescript-eslint/eslint-plugin": "7.11.0",
   "@typescript-eslint/parser": "7.11.0",
   "eslint": "8.57.1",
-  "jsdom": "^27.1.0",
+  "jsdom": "^28.0.0",
   "typescript": "~5.X.X",
   "vitest": "^4.0.8"
 }
