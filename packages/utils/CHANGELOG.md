@@ -1,3 +1,13 @@
+## 21.3.0 (2026-03-05)
+
+### 🚀 Features
+
+- add support for ESLint v10 ([#2903](https://github.com/angular-eslint/angular-eslint/pull/2903))
+
+### ❤️ Thank You
+
+- Jason Weinzierl
+
 ## 21.2.0 (2026-01-29)
 
 This was a version bump only for @angular-eslint/utils to align it with other projects, there were no code changes.

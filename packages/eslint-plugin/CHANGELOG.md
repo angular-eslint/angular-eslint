@@ -1,3 +1,23 @@
+## 21.3.0 (2026-03-05)
+
+### 🚀 Features
+
+- **eslint-plugin:** [no-uncalled-signals] detect Signal member access ([#2848](https://github.com/angular-eslint/angular-eslint/pull/2848))
+- add support for ESLint v10 ([#2903](https://github.com/angular-eslint/angular-eslint/pull/2903))
+- **eslint-plugin:** add computed-must-return rule ([#2882](https://github.com/angular-eslint/angular-eslint/pull/2882))
+
+### 🩹 Fixes
+
+- **eslint-plugin:** [no-uncalled-signals] detect `Signal` type correctly ([#2907](https://github.com/angular-eslint/angular-eslint/pull/2907))
+- **eslint-plugin:** [no-uncalled-signals] add check `InputSignalWithTransform` ([#2879](https://github.com/angular-eslint/angular-eslint/pull/2879))
+
+### ❤️ Thank You
+
+- Dave @reduckted
+- Evgeny Stepanovych @undsoft
+- Guillaume DROUARD
+- Jason Weinzierl
+
 ## 21.2.0 (2026-01-29)
 
 ### 🚀 Features
