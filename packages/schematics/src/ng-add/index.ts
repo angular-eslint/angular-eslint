@@ -47,8 +47,6 @@ function addAngularESLintPackages(
         // An explicit reference to the builder is needed for running `ng lint` in PnP
         json.devDependencies['@angular-eslint/builder'] = packageJSON.version;
         // The linting cannot complete without these explicitly in the root package.json in PnP
-        json.devDependencies['@eslint/js'] =
-          `^${packageJSON.devDependencies['eslint']}`;
         const typescriptESLintVersion =
           packageJSON.devDependencies['@typescript-eslint/utils'];
         json.devDependencies['@typescript-eslint/types'] =
@@ -58,9 +56,6 @@ function addAngularESLintPackages(
       } else {
         const isNpm = host.exists('package-lock.json');
         if (!isNpm) {
-          // Prevent TS IDE errors in the eslint config file for non-npm installations by explicitly including @eslint/js (even though linting seems to still work without it)
-          json.devDependencies['@eslint/js'] =
-            `^${packageJSON.devDependencies['eslint']}`;
           // Ensure @angular-eslint/builder is always resolvable in non-npm installations (https://github.com/angular-eslint/angular-eslint/issues/2241)
           json.devDependencies['@angular-eslint/builder'] = packageJSON.version;
         }
@@ -120,6 +115,8 @@ function applyDevDependenciesForFlatConfig(
   json: Record<'devDependencies', Record<string, string>>,
 ) {
   json.devDependencies['eslint'] = `^${packageJSON.devDependencies['eslint']}`;
+  json.devDependencies['@eslint/js'] =
+    `^${packageJSON.devDependencies['@eslint/js']}`;
 
   /**
    * angular-eslint packages

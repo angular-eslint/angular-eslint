@@ -20,6 +20,14 @@ const CONDITIONAL_SELECTOR = [
   AST_NODE_TYPES.WhileStatement,
 ].join(',');
 
+const FUNCTION_MEMBER_EXPRESSION_SELECTOR = `MemberExpression[property.type=Identifier]:matches(${[
+  'arguments',
+  'caller',
+  'length',
+  'name',
+  'toString',
+].map((member) => `[property.name=${member}]`)})`;
+
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
   meta: {
@@ -89,6 +97,9 @@ export default createESLintRule<Options, MessageIds>({
       BinaryExpression(node: TSESTree.BinaryExpression) {
         checkForUncalledSignal(node.left);
         checkForUncalledSignal(node.right);
+      },
+      [FUNCTION_MEMBER_EXPRESSION_SELECTOR](node: TSESTree.MemberExpression) {
+        checkForUncalledSignal(node.object);
       },
     };
   },
