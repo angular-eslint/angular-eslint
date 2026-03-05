@@ -710,6 +710,19 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     messageId,
     description:
+      'should fail concatenation (left: addition in parentheses, right: simple quote)',
+    annotatedSource: `
+        {{ (value + 1) + '-suffix' }}
+           ~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    annotatedOutput: `
+        {{ \`\${value + 1}-suffix\` }}
+           
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
       'should fail concatenation (left: pipe in parentheses, right: simple quote)',
     annotatedSource: `
         {{ ('value' | pipe) + '-suffix' }}
