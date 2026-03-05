@@ -76,9 +76,7 @@ export default createESLintRule<Options, MessageIds>({
                 node,
                 ASTUtils.isStringLiteral(node.value)
                   ? `styleUrls: [${node.value.raw}]`
-                  : `styleUrls: [${context
-                      .getSourceCode()
-                      .getText(node.value)}]`,
+                  : `styleUrls: [${context.sourceCode.getText(node.value)}]`,
               );
             },
           });

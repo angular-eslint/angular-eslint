@@ -100,6 +100,22 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     function getSignal(): Signal<boolean> {}
     if (getSignal()()) { }
   `,
+  ...[
+    { name: 'arguments' },
+    { name: 'caller' },
+    { name: 'length' },
+    { name: 'name' },
+    { name: 'toString', call: true },
+  ].map(
+    ({ name, call }) => `
+    let a: Signal<number[]>;
+    let b = a().${name}${call ? '()' : ''};
+  `,
+  ),
+  `
+    let a: Signal<number[]>;
+    let b = a.prototype; // Acceptable to access the prototype property of a Signal.
+  `,
   // Test cases for the reported bug - direct signal calls on member expressions
   `
     export class AppComponent {
@@ -500,6 +516,33 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       },
     ],
   }),
+  ...[
+    { name: 'arguments' },
+    { name: 'caller' },
+    { name: 'length' },
+    { name: 'name' },
+    { name: 'toString', call: true },
+  ].map(({ name, call }) =>
+    convertAnnotatedSourceToFailureCase<MessageIds, Options>({
+      description: `Signal.${name}`,
+      annotatedSource: `
+        let a: Signal<number[]>;
+        let b = a.${name}${call ? '()' : ''};
+                ~
+      `,
+      messageId,
+      suggestions: [
+        {
+          messageId: 'suggestCallSignal',
+          output: `
+        let a: Signal<number[]>;
+        let b = a().${name}${call ? '()' : ''};
+                
+      `,
+        },
+      ],
+    }),
+  ),
 ].map((test) => ({
   ...test,
   code: appendTypes(test.code),
