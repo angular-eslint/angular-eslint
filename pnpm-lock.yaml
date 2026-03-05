@@ -106,8 +106,8 @@ catalogs:
       specifier: 1.0.0
       version: 1.0.0
     jsonc-eslint-parser:
-      specifier: 2.4.2
-      version: 2.4.2
+      specifier: 3.1.0
+      version: 3.1.0
     lint-staged:
       specifier: 16.2.7
       version: 16.2.7
@@ -317,7 +317,7 @@ importers:
         version: 1.0.0
       jsonc-eslint-parser:
         specifier: 'catalog:'
-        version: 2.4.2
+        version: 3.1.0
       lint-staged:
         specifier: 'catalog:'
         version: 16.2.7
@@ -5058,6 +5058,10 @@ packages:
   jsonc-eslint-parser@2.4.2:
     resolution: {integrity: sha512-1e4qoRgnn448pRuMvKGsFFymUCquZV0mpGgOyIKNgD3JVDTsVJyRBGH/Fm0tBb8WsWGgmB1mDe6/yJMQM37DUA==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+
+  jsonc-eslint-parser@3.1.0:
+    resolution: {integrity: sha512-75EA7EWZExL/j+MDKQrRbdzcRI2HOkRlmUw8fZJc1ioqFEOvBsq7Rt+A6yCxOt9w/TYNpkt52gC6nm/g5tFIng==}
+    engines: {node: ^20.19.0 || ^22.13.0 || >=24}
 
   jsonc-parser@3.2.0:
     resolution: {integrity: sha512-gfFQZrcTc8CnKXp6Y4/CBT3fTc0OVuDofpre4aEeEpSBPV5X5v4+Vmx+8snU7RLPrNHPKSgLxGo9YuQzz20o+w==}
@@ -12118,7 +12122,13 @@ snapshots:
       acorn: 8.16.0
       eslint-visitor-keys: 3.4.3
       espree: 9.6.1
-      semver: 7.7.3
+      semver: 7.7.4
+
+  jsonc-eslint-parser@3.1.0:
+    dependencies:
+      acorn: 8.16.0
+      eslint-visitor-keys: 5.0.1
+      semver: 7.7.4
 
   jsonc-parser@3.2.0: {}
 
