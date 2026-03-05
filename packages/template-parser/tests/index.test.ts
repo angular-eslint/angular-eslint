@@ -13359,6 +13359,7 @@ describe('parseForESLint()', () => {
                   "offset": 275,
                 },
               },
+              "exhaustiveCheck": null,
               "expression": ASTWithSource {
                 "ast": PropertyRead {
                   "loc": {
@@ -17581,5 +17582,11 @@ describe('parseForESLint()', () => {
         }
       `);
     });
+  });
+
+  it('should allow acquiring scope from returned ast', () => {
+    const result = parseForESLint('<div></div>', { filePath: './foo.html' });
+
+    expect(result.scopeManager.acquire(result.ast as any)).not.toBeNull();
   });
 });

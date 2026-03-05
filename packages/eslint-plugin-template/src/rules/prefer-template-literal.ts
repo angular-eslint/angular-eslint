@@ -70,7 +70,11 @@ function chainContainsString(node: AST): boolean {
 function flattenBinaryConcat(node: AST): readonly ConcatPart[] {
   const unwrapped = unwrapParenthesizedExpression(node);
 
-  if (unwrapped instanceof Binary && unwrapped.operation === '+') {
+  if (
+    unwrapped instanceof Binary &&
+    unwrapped.operation === '+' &&
+    chainContainsString(unwrapped)
+  ) {
     // Recursively flatten both sides
     return [
       ...flattenBinaryConcat(unwrapped.left),
