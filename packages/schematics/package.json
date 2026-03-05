@@ -48,6 +48,7 @@
     "strip-json-comments": "catalog:other-runtime-dependencies"
   },
   "devDependencies": {
+    "@eslint/js": "catalog:",
     "@typescript-eslint/utils": "catalog:typescript-eslint",
     "eslint": "catalog:"
   },
