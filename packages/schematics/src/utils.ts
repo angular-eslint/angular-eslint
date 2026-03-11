@@ -37,6 +37,7 @@ export function readJsonInTree<T = any>(host: Tree, path: string): T {
   } catch (e) {
     throw new Error(
       `Cannot parse ${path}: ${e instanceof Error ? e.message : ''}`,
+      { cause: e },
     );
   }
 }
