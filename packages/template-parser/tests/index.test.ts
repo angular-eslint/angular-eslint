@@ -17,7 +17,7 @@ describe('parseForESLint()', () => {
       {
         "comments": [
           {
-            "lo": {
+            "loc": {
               "end": {
                 "column": 39,
                 "line": 2,
