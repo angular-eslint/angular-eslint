@@ -25,3 +25,25 @@ launch-templates:
         uses: 'nrwl/nx-cloud-workflows/v5/workflow-steps/install-node-modules/main.yaml'
         env:
           SKIP_POSTINSTALL: 'true'
+      - name: '[DEBUG] Check git hooks after install'
+        script: |
+          echo "=== .git/hooks/ contents ==="
+          ls -la .git/hooks/ || echo "No .git/hooks/ directory"
+          echo ""
+          echo "=== .git/hooks/commit-msg ==="
+          cat .git/hooks/commit-msg 2>/dev/null || echo "No commit-msg hook"
+          echo ""
+          echo "=== .git/hooks/prepare-commit-msg ==="
+          cat .git/hooks/prepare-commit-msg 2>/dev/null || echo "No prepare-commit-msg hook"
+          echo ""
+          echo "=== .husky/ contents ==="
+          ls -la .husky/ 2>/dev/null || echo "No .husky/ directory"
+          echo ""
+          echo "=== .husky/commit-msg ==="
+          cat .husky/commit-msg 2>/dev/null || echo "No .husky/commit-msg hook"
+          echo ""
+          echo "=== .husky/prepare-commit-msg ==="
+          cat .husky/prepare-commit-msg 2>/dev/null || echo "No .husky/prepare-commit-msg hook"
+          echo ""
+          echo "=== core.hooksPath git config ==="
+          git config core.hooksPath || echo "core.hooksPath not set"
