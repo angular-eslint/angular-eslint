@@ -149,7 +149,7 @@ describe('ng-add', () => {
         const eslintJson = JSON.parse(tree.readContent('/.eslintrc.json'));
         expect(eslintJson).toMatchInlineSnapshot(`
           {
-            "ignorePatterns": [
+            "ignorPatterns": [
               "projects/**/*",
             ],
             "overrides": [
