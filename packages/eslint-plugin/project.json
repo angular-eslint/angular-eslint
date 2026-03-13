@@ -11,7 +11,7 @@
   "targets": {
     "build": {
       "dependsOn": ["^build", "^compile", "compile"],
-      "outputs": ["{projectRoot}/dist/configs"],
+      "outputs": ["{projectRoot}/dist"],
       "command": "ncp {projectRoot}/src/configs {projectRoot}/dist/configs"
     },
     "check-rule-docs": {

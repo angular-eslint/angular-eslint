@@ -5,7 +5,7 @@
   "targets": {
     "build": {
       "dependsOn": ["^build", "^compile", "compile"],
-      "outputs": ["{projectRoot}/dist/schema.json"],
+      "outputs": ["{projectRoot}/dist"],
       "command": "ncp {projectRoot}/src/schema.json {projectRoot}/dist/schema.json"
     }
   }
