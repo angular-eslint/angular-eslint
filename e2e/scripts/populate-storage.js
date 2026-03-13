@@ -41,6 +41,19 @@ async function populateLocalRegistryStorage() {
     const publishVersion = process.env.PUBLISHED_VERSION ?? '0.0.0-e2e';
     const isVerbose = process.env.NX_VERBOSE_LOGGING === 'true';
 
+    console.log('Ensuring all build and compile outputs are available...');
+    const nx = require.resolve('nx');
+    execFileSync(
+      nx,
+      ['run-many', '-t', 'build', 'compile', '--skip-nx-cache'],
+      {
+        env: process.env,
+        stdio: 'inherit',
+        maxBuffer: 1024 * 1024 * 10,
+        cwd: workspaceRoot,
+      },
+    );
+
     console.log('Publishing packages to local registry to populate storage');
     await runLocalRelease(publishVersion, isVerbose);
   } catch (err) {
