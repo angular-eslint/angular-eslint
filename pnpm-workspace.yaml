@@ -34,7 +34,7 @@ catalog:
   husky: '9.1.7'
   json-schema-to-typescript: '15.0.4'
   json-schema-traverse: '1.0.0'
-  jsonc-eslint-parser: '2.4.2'
+  jsonc-eslint-parser: '3.1.0'
   lint-staged: '16.3.2'
   ncp: '2.0.0'
   nx: '22.5.4'
