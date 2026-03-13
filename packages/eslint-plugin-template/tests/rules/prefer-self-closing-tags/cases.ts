@@ -23,7 +23,7 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '<img />',
   '<img src="foo" *ngIf="condition" />',
   // These elements cannot be self-closing
-  '<slot></slot><math></math><rb></rb><svg></svg><template></template>',
+  '<slot></slot><math></math><rb></rb><svg></svg><template></template><selectedcontent></selectedcontent>',
   '<div></div>',
   {
     code: '<DIV></DIV>',
