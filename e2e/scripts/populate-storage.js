@@ -41,7 +41,22 @@ async function populateLocalRegistryStorage() {
     const publishVersion = process.env.PUBLISHED_VERSION ?? '0.0.0-e2e';
     const isVerbose = process.env.NX_VERBOSE_LOGGING === 'true';
 
-    console.log('Ensuring all build and compile outputs are available...');
+    // Clean all package dist directories to force fresh compilation.
+    // This is necessary because the typecheck target may have created
+    // tsbuildinfo files (with --emitDeclarationOnly) that cause tsc to
+    // skip JS compilation, resulting in packages published without dist/index.js.
+    const { readdirSync } = require('node:fs');
+    console.log(
+      'Cleaning package dist directories to ensure fresh compilation...',
+    );
+    for (const pkg of readdirSync(join(workspaceRoot, 'packages'))) {
+      rmSync(join(workspaceRoot, 'packages', pkg, 'dist'), {
+        recursive: true,
+        force: true,
+      });
+    }
+
+    console.log('Building all packages from scratch...');
     const nx = require.resolve('nx');
     execFileSync(
       nx,
