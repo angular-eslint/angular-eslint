@@ -97,6 +97,30 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     let b = a;
   `,
   `
+    let a: Signal<boolean>;
+    let b = !a();
+  `,
+  `
+    let a: Signal<number>;
+    let b = -a();
+  `,
+  `
+    class AppComponent {
+      prop = viewChild<AppComponent | undefined>();
+
+      test() {
+        delete this.prop;
+      }
+    }
+  `,
+  `
+    function test(): boolean {
+      let a: Signal<boolean>;
+
+      return !a();
+    }
+  `,
+  `
     function getSignal(): Signal<boolean> {}
     if (getSignal()()) { }
   `,
@@ -219,6 +243,50 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         let a: Signal<boolean>;
         for (let i = 0; a(); i++) { }
                         
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
+    description: 'return with unary operator',
+    annotatedSource: `
+        function test(): boolean {
+          let a: Signal<boolean>;
+
+          return !a;
+                  ~
+        }
+      `,
+    messageId,
+    suggestions: [
+      {
+        messageId: 'suggestCallSignal',
+        output: `
+        function test(): boolean {
+          let a: Signal<boolean>;
+
+          return !a();
+                  
+        }
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
+    description: 'assignment with unary operator',
+    annotatedSource: `
+        let a: Signal<boolean>;
+        const flag = !a;
+                      ~
+      `,
+    messageId,
+    suggestions: [
+      {
+        messageId: 'suggestCallSignal',
+        output: `
+        let a: Signal<boolean>;
+        const flag = !a();
+                      
       `,
       },
     ],
