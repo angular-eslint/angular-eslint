@@ -158,6 +158,11 @@
     "check-rule-configs": {
       "cache": true
     },
+    "typecheck": {
+      "dependsOn": ["^build", "^compile"],
+      "inputs": ["production", "^production"],
+      "cache": true
+    },
     "test": {
       "dependsOn": ["^build", "^compile"],
       "options": {
