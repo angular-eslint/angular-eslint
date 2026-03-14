@@ -14,6 +14,7 @@ exports[`eslint-8--new-workspace-create-application-false-ng-add-then-project > 
   "@typescript-eslint/parser": "7.11.0",
   "eslint": "8.57.1",
   "jsdom": "^28.0.0",
+  "prettier": "^3.8.1",
   "typescript": "~5.X.X",
   "vitest": "^4.0.8"
 }
@@ -22,14 +23,10 @@ exports[`eslint-8--new-workspace-create-application-false-ng-add-then-project > 
 exports[`eslint-8--new-workspace-create-application-false-ng-add-then-project > should pass linting when running ng-add before creating any projects 2`] = `
 "{
   "root": true,
-  "ignorePatterns": [
-    "projects/**/*"
-  ],
+  "ignorePatterns": ["projects/**/*"],
   "overrides": [
     {
-      "files": [
-        "*.ts"
-      ],
+      "files": ["*.ts"],
       "extends": [
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
@@ -39,9 +36,7 @@ exports[`eslint-8--new-workspace-create-application-false-ng-add-then-project > 
       "rules": {}
     },
     {
-      "files": [
-        "*.html"
-      ],
+      "files": ["*.html"],
       "extends": [
         "plugin:@angular-eslint/template/recommended",
         "plugin:@angular-eslint/template/accessibility"
@@ -56,14 +51,10 @@ exports[`eslint-8--new-workspace-create-application-false-ng-add-then-project > 
 exports[`eslint-8--new-workspace-create-application-false-ng-add-then-project > should pass linting when running ng-add before creating any projects 3`] = `
 "{
   "extends": "../../.eslintrc.json",
-  "ignorePatterns": [
-    "!**/*"
-  ],
+  "ignorePatterns": ["!**/*"],
   "overrides": [
     {
-      "files": [
-        "*.ts"
-      ],
+      "files": ["*.ts"],
       "rules": {
         "@angular-eslint/directive-selector": [
           "error",
@@ -84,9 +75,7 @@ exports[`eslint-8--new-workspace-create-application-false-ng-add-then-project > 
       }
     },
     {
-      "files": [
-        "*.html"
-      ],
+      "files": ["*.html"],
       "rules": {}
     }
   ]

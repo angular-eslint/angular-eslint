@@ -3,7 +3,7 @@
   "private": true,
   "description": "The tooling which enables ESLint to work with Angular projects",
   "volta": {
-    "node": "22.22.0"
+    "node": "22.22.1"
   },
   "packageManager": "pnpm@10.30.3",
   "contributors": [
