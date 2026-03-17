@@ -109,8 +109,8 @@ catalogs:
       specifier: 2.4.2
       version: 2.4.2
     lint-staged:
-      specifier: 16.3.2
-      version: 16.3.2
+      specifier: 16.3.3
+      version: 16.3.3
     ncp:
       specifier: 2.0.0
       version: 2.0.0
@@ -320,7 +320,7 @@ importers:
         version: 2.4.2
       lint-staged:
         specifier: 'catalog:'
-        version: 16.3.2
+        version: 16.3.3
       ncp:
         specifier: 'catalog:'
         version: 2.0.0
@@ -5083,8 +5083,8 @@ packages:
     resolution: {integrity: sha512-cNOjgCnLB+FnvWWtyRTzmB3POJ+cXxTA81LoW7u8JdmhfXzriropYwpjShnz1QLLWsQwY7nIxoDmcPTwphDK9w==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
 
-  lint-staged@16.3.2:
-    resolution: {integrity: sha512-xKqhC2AeXLwiAHXguxBjuChoTTWFC6Pees0SHPwOpwlvI3BH7ZADFPddAdN3pgo3aiKgPUx/bxE78JfUnxQnlg==}
+  lint-staged@16.3.3:
+    resolution: {integrity: sha512-RLq2koZ5fGWrx7tcqx2tSTMQj4lRkfNJaebO/li/uunhCJbtZqwTuwPHpgIimAHHi/2nZIiGrkCHDCOeR1onxA==}
     engines: {node: '>=20.17'}
     hasBin: true
 
@@ -12083,7 +12083,7 @@ snapshots:
 
   lines-and-columns@2.0.3: {}
 
-  lint-staged@16.3.2:
+  lint-staged@16.3.3:
     dependencies:
       commander: 14.0.3
       listr2: 9.0.5
