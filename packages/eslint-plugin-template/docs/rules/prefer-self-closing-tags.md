@@ -485,7 +485,7 @@ The rule does not have any configuration options.
 #### ✅ Valid Code
 
 ```html
-<slot></slot><math></math><rb></rb><svg></svg><template></template>
+<slot></slot><math></math><rb></rb><svg></svg><template></template><selectedcontent></selectedcontent>
 ```
 
 <br>

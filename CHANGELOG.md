@@ -1,3 +1,22 @@
+## 21.3.1 (2026-03-17)
+
+### 🩹 Fixes
+
+- update dependency @angular/compiler to v21.2.1 ([#2934](https://github.com/angular-eslint/angular-eslint/pull/2934))
+- narrow build target cache outputs to avoid clobbering compile artifacts ([#2940](https://github.com/angular-eslint/angular-eslint/pull/2940))
+- narrow build target cache outputs to avoid clobbering compile artifacts" ([#2943](https://github.com/angular-eslint/angular-eslint/pull/2943))
+- update dependency eslint to v10.0.3 ([#2949](https://github.com/angular-eslint/angular-eslint/pull/2949))
+- update dependency @angular/compiler to v21.2.2 ([#2954](https://github.com/angular-eslint/angular-eslint/pull/2954))
+- **eslint-plugin:** [no-uncalled-signals] properly handle statements with unary operators ([#2926](https://github.com/angular-eslint/angular-eslint/pull/2926))
+- **prefer-self-closing-tags:** add selectedcontent nonAriaElements ([#2939](https://github.com/angular-eslint/angular-eslint/pull/2939))
+
+### ❤️ Thank You
+
+- AI-JamesHenry @AI-JamesHenry
+- bjarketrux
+- Daniil Demenev @BEGEMOT9I
+- James Henry @JamesHenry
+
 ## 21.3.0 (2026-03-05)
 
 ### 🚀 Features
