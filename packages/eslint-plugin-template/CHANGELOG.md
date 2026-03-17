@@ -1,3 +1,17 @@
+## 21.3.1 (2026-03-17)
+
+### 🩹 Fixes
+
+- **prefer-self-closing-tags:** add selectedcontent nonAriaElements ([#2939](https://github.com/angular-eslint/angular-eslint/pull/2939))
+- narrow build target cache outputs to avoid clobbering compile artifacts" ([#2943](https://github.com/angular-eslint/angular-eslint/pull/2943))
+- narrow build target cache outputs to avoid clobbering compile artifacts ([#2940](https://github.com/angular-eslint/angular-eslint/pull/2940))
+
+### ❤️ Thank You
+
+- AI-JamesHenry @AI-JamesHenry
+- bjarketrux
+- James Henry @JamesHenry
+
 ## 21.3.0 (2026-03-05)
 
 ### 🚀 Features
