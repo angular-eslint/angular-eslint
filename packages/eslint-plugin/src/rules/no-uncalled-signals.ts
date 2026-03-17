@@ -50,15 +50,6 @@ export default createESLintRule<Options, MessageIds>({
       ESLintUtils.getParserServices(context);
 
     function checkForUncalledSignal(node: TSESTree.Node): void {
-      // Unwrap negated expressions so that
-      // we look at what was being negated.
-      if (
-        node.type === AST_NODE_TYPES.UnaryExpression &&
-        node.operator === '!'
-      ) {
-        node = node.argument;
-      }
-
       const type = services.getTypeAtLocation(node);
       const symbol = type.getSymbol();
       let isSignal = symbol && KNOWN_SIGNAL_TYPES.has(symbol.name);
@@ -98,6 +89,11 @@ export default createESLintRule<Options, MessageIds>({
       ) {
         if (node.test) {
           checkForUncalledSignal(node.test);
+        }
+      },
+      UnaryExpression(node: TSESTree.UnaryExpression) {
+        if (node.operator !== 'delete') {
+          checkForUncalledSignal(node.argument);
         }
       },
       LogicalExpression(node: TSESTree.LogicalExpression) {

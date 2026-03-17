@@ -147,6 +147,65 @@ for (let i = 0; a; i++) { }
 #### ❌ Invalid Code
 
 ```ts
+function test(): boolean {
+  let a: Signal<boolean>;
+
+  return !a;
+          ~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-uncalled-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+let a: Signal<boolean>;
+const flag = !a;
+              ~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-uncalled-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
 let a: Signal<boolean>;
 if (a) { }
     ~
@@ -1240,6 +1299,122 @@ const b = a() || true;
 ```ts
 let a: Signal<boolean>;
 let b = a;
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-uncalled-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+let a: Signal<boolean>;
+let b = !a();
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-uncalled-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+let a: Signal<number>;
+let b = -a();
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-uncalled-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+class AppComponent {
+  prop = viewChild<AppComponent | undefined>();
+
+  test() {
+    delete this.prop;
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-uncalled-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+function test(): boolean {
+  let a: Signal<boolean>;
+
+  return !a();
+}
 ```
 
 <br>
