@@ -4,6 +4,7 @@ const nonAriaElements = [
   'slot',
   'rb',
   'template',
+  'selectedcontent',
   // The Angular compiler has special handling for math and svg as namespaces. Their children have the namespace in the node name too.
   ':svg:svg',
   ':math:math',
