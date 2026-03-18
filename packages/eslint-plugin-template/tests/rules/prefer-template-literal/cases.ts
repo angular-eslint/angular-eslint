@@ -28,6 +28,11 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '<my-component class="prefix-{{value}}-suffix"></my-component>',
   '<my-component [class]="`prefix-${value}-suffix`"></my-component>',
   '<my-component *directive="`prefix-${value}-suffix` | pipe" />',
+  {
+    // https://github.com/angular-eslint/angular-eslint/issues/2906
+    filename: '/components/widget/inline-template-widget-1.component.html',
+    code: `<div [style.--row-height]="itemSize() + 'px'">Example</div>`,
+  },
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
@@ -1167,4 +1172,11 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
            
       `,
   }),
-];
+].map((test) => ({
+  // Give every test a default file name so that we confirm
+  // that the early-exit condition for inline templates
+  // is not occurring for non-inline templates.
+  ...test,
+  filename: test.filename ?? 'components/widget.component.html',
+  options: [],
+}));
