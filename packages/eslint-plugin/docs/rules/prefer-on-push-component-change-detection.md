@@ -151,6 +151,35 @@ class Test {}
 #### ❌ Invalid Code
 
 ```ts
+import { Component } from '@angular/core';
+@Component({ selector: 'app-test', })
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-on-push-component-change-detection": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
 @Component({ changeDetection: undefined })
                               ~~~~~~~~~
 class Test {}

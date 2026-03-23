@@ -168,8 +168,8 @@ export function getDecoratorPropertyAddFix(
     return fixer.insertTextAfterRange([initialRange + 1, endRange - 1], text);
   }
 
-  // `@Component({...})` => `@Component({changeDetection: ChangeDetectionStrategy.OnPush, ...})`
-  return fixer.insertTextBefore(properties[0], `${text},`);
+  // `@Component({...})` => `@Component({..., changeDetection: ChangeDetectionStrategy.OnPush})`
+  return fixer.insertTextAfter(getLast(properties), `, ${text}`);
 }
 
 export function getImplementsRemoveFix(
