@@ -4,6 +4,8 @@ import {
   ParserServicesWithTypeInformation,
   TSESTree,
 } from '@typescript-eslint/utils';
+import ts from 'typescript';
+import * as tsutils from 'ts-api-utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import { KNOWN_SIGNAL_TYPES } from '../utils/signals';
 
@@ -13,6 +15,26 @@ export type MessageIds =
   | 'noMutableWritableSignalUpdate'
   | 'useSetOrUpdate';
 export const RULE_NAME = 'no-signal-mutable-updates';
+
+const MUTATING_METHODS = new Set([
+  'push',
+  'pop',
+  'shift',
+  'unshift',
+  'splice',
+  'sort',
+  'reverse',
+  'fill',
+  'copyWithin',
+]);
+
+const KNOWN_MUTABLE_OBJECT_TYPES = new Set([
+  'Date',
+  'Map',
+  'Set',
+  'WeakMap',
+  'WeakSet',
+]);
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
@@ -36,23 +58,55 @@ export default createESLintRule<Options, MessageIds>({
   create(context) {
     const services: ParserServicesWithTypeInformation =
       ESLintUtils.getParserServices(context);
+    const checker = services.program.getTypeChecker();
+    const tsSourceFile = services.esTreeNodeToTSNodeMap.get(
+      context.sourceCode.ast,
+    );
 
     // Track variables that hold signal-derived values
-    // Map from variable name to the signal call node and signal type
+    // Map from variable name to the signal call node, signal type and value type
     const signalDerivedVariables = new Map<
       string,
-      { signalCall: TSESTree.CallExpression; signalType: string }
+      {
+        signalCall: TSESTree.CallExpression;
+        signalType: string;
+        valueType: ts.Type;
+      }
     >();
 
-    function getSignalType(node: TSESTree.Node): string | undefined {
-      const type = services.getTypeAtLocation(node);
-      const typeName = type.getSymbol()?.name;
-      return typeName && KNOWN_SIGNAL_TYPES.has(typeName)
-        ? typeName
-        : undefined;
+    function isWritableSignalType(signalType: string): boolean {
+      return signalType === 'WritableSignal' || signalType === 'ModelSignal';
     }
 
-    function isSignalCallExpression(node: TSESTree.Node): boolean {
+    function getSignalInfo(
+      node: TSESTree.Node,
+    ): { signalType: string; valueType: ts.Type } | undefined {
+      const type = services.getTypeAtLocation(node);
+      const typeName = type.getSymbol()?.name ?? type.aliasSymbol?.name;
+      if (!typeName || !KNOWN_SIGNAL_TYPES.has(typeName)) {
+        return undefined;
+      }
+
+      const [callSignature] = checker.getSignaturesOfType(
+        type,
+        ts.SignatureKind.Call,
+      );
+      const valueType = callSignature?.getReturnType();
+
+      if (!valueType) {
+        return undefined;
+      }
+
+      return { signalType: typeName, valueType };
+    }
+
+    function getSignalType(node: TSESTree.Node): string | undefined {
+      return getSignalInfo(node)?.signalType;
+    }
+
+    function isSignalCallExpression(
+      node: TSESTree.Node,
+    ): node is TSESTree.CallExpression {
       // Check if this is a signal call like mySignal()
       if (node.type !== AST_NODE_TYPES.CallExpression) {
         return false;
@@ -99,10 +153,209 @@ export default createESLintRule<Options, MessageIds>({
     function isSignalDerivedVariable(node: TSESTree.Node): {
       signalCall: TSESTree.CallExpression;
       signalType: string;
+      valueType: ts.Type;
     } | null {
       const varName = getVariableName(node);
       if (!varName) return null;
       return signalDerivedVariables.get(varName) || null;
+    }
+
+    function getSignalUsageInfo(node: TSESTree.Node): {
+      signalType: string;
+      valueType: ts.Type;
+    } | null {
+      if (isSignalCallExpression(node)) {
+        return getSignalInfo(node.callee) ?? null;
+      }
+
+      return isSignalDerivedVariable(node);
+    }
+
+    function isDeclarationFileSignature(signature: ts.Signature): boolean {
+      return (
+        signature.getDeclaration()?.getSourceFile().isDeclarationFile ?? true
+      );
+    }
+
+    function getExpectedArgumentType(
+      node: TSESTree.CallExpression,
+      argumentIndex: number,
+    ): ts.Type | null {
+      const tsNode = services.esTreeNodeToTSNodeMap.get(node);
+      const signature = checker.getResolvedSignature(tsNode);
+
+      if (!signature || isDeclarationFileSignature(signature)) {
+        return null;
+      }
+
+      const declaration = signature.getDeclaration();
+      const parameters = signature.getParameters();
+
+      if (!declaration || parameters.length === 0) {
+        return null;
+      }
+
+      const parameterIndex = Math.min(argumentIndex, parameters.length - 1);
+      const parameter = parameters[parameterIndex];
+      let parameterType = checker.getTypeOfSymbolAtLocation(
+        parameter,
+        declaration,
+      );
+
+      if (
+        parameter.valueDeclaration &&
+        ts.isParameter(parameter.valueDeclaration) &&
+        parameter.valueDeclaration.dotDotDotToken
+      ) {
+        const typeArguments = checker.getTypeArguments(
+          parameterType as ts.TypeReference,
+        );
+        parameterType = typeArguments[0] ?? parameterType;
+      }
+
+      return parameterType;
+    }
+
+    function isMutableType(
+      type: ts.Type,
+      seenTypes: Set<ts.Type> = new Set(),
+    ): boolean {
+      if (seenTypes.has(type)) {
+        return false;
+      }
+      seenTypes.add(type);
+
+      if (type.isUnionOrIntersection()) {
+        return type.types.some((part) => isMutableType(part, seenTypes));
+      }
+
+      if (type.flags & ts.TypeFlags.TypeParameter) {
+        const constraint = checker.getBaseConstraintOfType(type);
+        return constraint ? isMutableType(constraint, seenTypes) : false;
+      }
+
+      if (
+        type.flags &
+        (ts.TypeFlags.Any |
+          ts.TypeFlags.Unknown |
+          ts.TypeFlags.Never |
+          ts.TypeFlags.Void |
+          ts.TypeFlags.Undefined |
+          ts.TypeFlags.Null |
+          ts.TypeFlags.BooleanLike |
+          ts.TypeFlags.NumberLike |
+          ts.TypeFlags.StringLike |
+          ts.TypeFlags.BigIntLike |
+          ts.TypeFlags.EnumLike |
+          ts.TypeFlags.ESSymbolLike)
+      ) {
+        return false;
+      }
+
+      const typeSymbolName =
+        type.getSymbol()?.getName() ?? type.aliasSymbol?.name;
+      if (typeSymbolName && KNOWN_MUTABLE_OBJECT_TYPES.has(typeSymbolName)) {
+        return true;
+      }
+
+      if (checker.isTupleType(type)) {
+        const tupleType = type as ts.TupleTypeReference;
+        return (
+          !tupleType.target.readonly ||
+          checker
+            .getTypeArguments(tupleType)
+            .some((part) => isMutableType(part, seenTypes))
+        );
+      }
+
+      if (checker.isArrayType(type)) {
+        const typeArguments = checker.getTypeArguments(
+          type as ts.TypeReference,
+        );
+        return (
+          typeSymbolName !== 'ReadonlyArray' ||
+          typeArguments.some((part) => isMutableType(part, seenTypes))
+        );
+      }
+
+      if (
+        type.getCallSignatures().length > 0 &&
+        type.getProperties().length === 0 &&
+        checker.getIndexInfosOfType(type).length === 0
+      ) {
+        return false;
+      }
+
+      const apparentType = checker.getApparentType(type);
+
+      for (const indexInfo of checker.getIndexInfosOfType(apparentType)) {
+        if (!indexInfo.isReadonly || isMutableType(indexInfo.type, seenTypes)) {
+          return true;
+        }
+      }
+
+      for (const property of apparentType.getProperties()) {
+        if (property.flags & ts.SymbolFlags.Method) {
+          continue;
+        }
+
+        if (
+          !tsutils.isPropertyReadonlyInType(
+            apparentType,
+            property.getEscapedName(),
+            checker,
+          )
+        ) {
+          return true;
+        }
+
+        const propertyDeclaration =
+          property.valueDeclaration ??
+          property.declarations?.[0] ??
+          apparentType.symbol?.valueDeclaration ??
+          apparentType.symbol?.declarations?.[0] ??
+          tsSourceFile;
+
+        const propertyType = checker.getTypeOfSymbolAtLocation(
+          property,
+          propertyDeclaration,
+        );
+
+        if (isMutableType(propertyType, seenTypes)) {
+          return true;
+        }
+      }
+
+      return false;
+    }
+
+    function checkMutableSignalArgumentEscape(
+      node: TSESTree.CallExpression,
+    ): void {
+      node.arguments.forEach((argument, index) => {
+        if (argument.type === AST_NODE_TYPES.SpreadElement) {
+          return;
+        }
+
+        const signalUsage = getSignalUsageInfo(argument);
+        if (
+          !signalUsage ||
+          !isWritableSignalType(signalUsage.signalType) ||
+          !isMutableType(signalUsage.valueType)
+        ) {
+          return;
+        }
+
+        const expectedArgumentType = getExpectedArgumentType(node, index);
+        if (!expectedArgumentType || !isMutableType(expectedArgumentType)) {
+          return;
+        }
+
+        context.report({
+          node: argument,
+          messageId: 'useSetOrUpdate',
+        });
+      });
     }
 
     return {
@@ -114,13 +367,14 @@ export default createESLintRule<Options, MessageIds>({
           isSignalCallExpression(node.init) &&
           node.id.type === AST_NODE_TYPES.Identifier
         ) {
-          const signalType = getSignalType(
+          const signalInfo = getSignalInfo(
             (node.init as TSESTree.CallExpression).callee,
           );
-          if (signalType) {
+          if (signalInfo) {
             signalDerivedVariables.set(node.id.name, {
               signalCall: node.init as TSESTree.CallExpression,
-              signalType,
+              signalType: signalInfo.signalType,
+              valueType: signalInfo.valueType,
             });
           }
         }
@@ -133,13 +387,14 @@ export default createESLintRule<Options, MessageIds>({
           node.left.type === AST_NODE_TYPES.Identifier &&
           isSignalCallExpression(node.right)
         ) {
-          const signalType = getSignalType(
+          const signalInfo = getSignalInfo(
             (node.right as TSESTree.CallExpression).callee,
           );
-          if (signalType) {
+          if (signalInfo) {
             signalDerivedVariables.set(node.left.name, {
               signalCall: node.right as TSESTree.CallExpression,
-              signalType,
+              signalType: signalInfo.signalType,
+              valueType: signalInfo.valueType,
             });
           }
           return;
@@ -236,10 +491,14 @@ export default createESLintRule<Options, MessageIds>({
         }
       },
 
-      'CallExpression[callee.type="MemberExpression"]'(
-        node: TSESTree.CallExpression,
-      ) {
-        const callee = node.callee as TSESTree.MemberExpression;
+      CallExpression(node: TSESTree.CallExpression) {
+        checkMutableSignalArgumentEscape(node);
+
+        if (node.callee.type !== AST_NODE_TYPES.MemberExpression) {
+          return;
+        }
+
+        const callee = node.callee;
         const object = callee.object;
 
         // Check for mutating methods on signal values
@@ -247,27 +506,12 @@ export default createESLintRule<Options, MessageIds>({
         if (isSignalCallExpression(object)) {
           if (callee.property.type === AST_NODE_TYPES.Identifier) {
             const methodName = callee.property.name;
-            const mutatingMethods = new Set([
-              'push',
-              'pop',
-              'shift',
-              'unshift',
-              'splice',
-              'sort',
-              'reverse',
-              'fill',
-              'copyWithin',
-            ]);
-
-            if (mutatingMethods.has(methodName)) {
+            if (MUTATING_METHODS.has(methodName)) {
               const signalType = getSignalType(
                 (object as TSESTree.CallExpression).callee,
               );
 
-              if (
-                signalType === 'WritableSignal' ||
-                signalType === 'ModelSignal'
-              ) {
+              if (signalType && isWritableSignalType(signalType)) {
                 context.report({
                   node: callee,
                   messageId: 'useSetOrUpdate',
@@ -290,23 +534,8 @@ export default createESLintRule<Options, MessageIds>({
           callee.property.type === AST_NODE_TYPES.Identifier
         ) {
           const methodName = callee.property.name;
-          const mutatingMethods = new Set([
-            'push',
-            'pop',
-            'shift',
-            'unshift',
-            'splice',
-            'sort',
-            'reverse',
-            'fill',
-            'copyWithin',
-          ]);
-
-          if (mutatingMethods.has(methodName)) {
-            if (
-              signalDerived.signalType === 'WritableSignal' ||
-              signalDerived.signalType === 'ModelSignal'
-            ) {
+          if (MUTATING_METHODS.has(methodName)) {
+            if (isWritableSignalType(signalDerived.signalType)) {
               context.report({
                 node: callee,
                 messageId: 'useSetOrUpdate',
