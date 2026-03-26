@@ -913,6 +913,103 @@ arr.sort();
 #### ❌ Invalid Code
 
 ```ts
+let items: WritableSignal<number[]>;
+mutate(items());
+       ~~~~~~~
+
+function mutate(array: number[]) {
+  array.push(1);
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-signal-mutable-updates": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+let items: WritableSignal<number[]>;
+const arr = items();
+mutate(arr);
+       ~~~
+
+function mutate(array: number[]) {
+  array.push(1);
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-signal-mutable-updates": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+let value: ModelSignal<{ name: string }>;
+mutate(value());
+       ~~~~~~~
+
+function mutate(user: { name: string }) {
+  user.name = 'newName';
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-signal-mutable-updates": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
 let items: ModelSignal<number[]>;
 const arr = items();
 arr.push(1);
@@ -1275,6 +1372,282 @@ const filtered = items().filter(x => x > 0);
 ```ts
 let items: WritableSignal<number[]>;
 const sliced = items().slice(0, 2);
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-signal-mutable-updates": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+let items: WritableSignal<number[]>;
+read(items());
+
+function read(array: readonly number[]) {
+  return array.length;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-signal-mutable-updates": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+let items: WritableSignal<number[]>;
+const currentItems = items();
+read(currentItems);
+
+function read(array: readonly number[]) {
+  return array.length;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-signal-mutable-updates": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+let items: WritableSignal<number[]>;
+console.log(items());
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-signal-mutable-updates": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+let items: WritableSignal<number[]>;
+mutate([...items()]);
+
+function mutate(array: number[]) {
+  array.push(1);
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-signal-mutable-updates": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+let value: ModelSignal<{ name: string }>;
+mutate({ ...value() });
+
+function mutate(user: { name: string }) {
+  user.name = 'newName';
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-signal-mutable-updates": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+let items: WritableSignal<number[]>;
+identity(items());
+
+function identity<T>(value: T) {
+  return value;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-signal-mutable-updates": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+let items: ModelSignal<readonly number[]>;
+read(items());
+
+function read(array: readonly number[]) {
+  return array.length;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-signal-mutable-updates": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+let value: WritableSignal<Readonly<{ name: string }>>;
+read(value());
+
+function read(user: Readonly<{ name: string }>) {
+  return user.name;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-signal-mutable-updates": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+let items: WritableSignal<readonly number[]>;
+read(items());
+
+function read<T>(array: readonly T[]) {
+  return array.length;
+}
 ```
 
 <br>
