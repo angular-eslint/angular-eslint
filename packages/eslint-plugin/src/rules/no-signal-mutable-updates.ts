@@ -197,15 +197,18 @@ export default createESLintRule<Options, MessageIds>({
 
       const parameterIndex = Math.min(argumentIndex, parameters.length - 1);
       const parameter = parameters[parameterIndex];
-      let parameterType = checker.getTypeOfSymbolAtLocation(
-        parameter,
-        declaration,
-      );
+      const parameterDeclaration = parameter.valueDeclaration;
+      let parameterType =
+        parameterDeclaration &&
+        ts.isParameter(parameterDeclaration) &&
+        parameterDeclaration.type
+          ? checker.getTypeFromTypeNode(parameterDeclaration.type)
+          : checker.getTypeOfSymbolAtLocation(parameter, declaration);
 
       if (
-        parameter.valueDeclaration &&
-        ts.isParameter(parameter.valueDeclaration) &&
-        parameter.valueDeclaration.dotDotDotToken
+        parameterDeclaration &&
+        ts.isParameter(parameterDeclaration) &&
+        parameterDeclaration.dotDotDotToken
       ) {
         const typeArguments = checker.getTypeArguments(
           parameterType as ts.TypeReference,
