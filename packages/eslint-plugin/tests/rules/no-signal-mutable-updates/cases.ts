@@ -91,10 +91,50 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     console.log(items());
   `,
   `
+    let items: WritableSignal<number[]>;
+    mutate([...items()]);
+
+    function mutate(array: number[]) {
+      array.push(1);
+    }
+  `,
+  `
+    let value: ModelSignal<{ name: string }>;
+    mutate({ ...value() });
+
+    function mutate(user: { name: string }) {
+      user.name = 'newName';
+    }
+  `,
+  `
+    let items: WritableSignal<number[]>;
+    identity(items());
+
+    function identity<T>(value: T) {
+      return value;
+    }
+  `,
+  `
     let items: ModelSignal<readonly number[]>;
     read(items());
 
     function read(array: readonly number[]) {
+      return array.length;
+    }
+  `,
+  `
+    let value: WritableSignal<Readonly<{ name: string }>>;
+    read(value());
+
+    function read(user: Readonly<{ name: string }>) {
+      return user.name;
+    }
+  `,
+  `
+    let items: WritableSignal<readonly number[]>;
+    read(items());
+
+    function read<T>(array: readonly T[]) {
       return array.length;
     }
   `,
