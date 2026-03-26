@@ -69,6 +69,35 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     let items: WritableSignal<number[]>;
     const sliced = items().slice(0, 2);
   `,
+  `
+    let items: WritableSignal<number[]>;
+    read(items());
+
+    function read(array: readonly number[]) {
+      return array.length;
+    }
+  `,
+  `
+    let items: WritableSignal<number[]>;
+    const currentItems = items();
+    read(currentItems);
+
+    function read(array: readonly number[]) {
+      return array.length;
+    }
+  `,
+  `
+    let items: WritableSignal<number[]>;
+    console.log(items());
+  `,
+  `
+    let items: ModelSignal<readonly number[]>;
+    read(items());
+
+    function read(array: readonly number[]) {
+      return array.length;
+    }
+  `,
   // Proper ModelSignal usage
   `
     let value: ModelSignal<{ name: string }>;
@@ -450,6 +479,49 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       const arr = items();
       arr.sort();
       ~~~~~~~~
+    `,
+    messageId: 'useSetOrUpdate',
+  }),
+
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
+    description: 'passing WritableSignal array to mutable parameter',
+    annotatedSource: `
+      let items: WritableSignal<number[]>;
+      mutate(items());
+             ~~~~~~~
+
+      function mutate(array: number[]) {
+        array.push(1);
+      }
+    `,
+    messageId: 'useSetOrUpdate',
+  }),
+
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
+    description: 'passing signal-derived variable to mutable parameter',
+    annotatedSource: `
+      let items: WritableSignal<number[]>;
+      const arr = items();
+      mutate(arr);
+             ~~~
+
+      function mutate(array: number[]) {
+        array.push(1);
+      }
+    `,
+    messageId: 'useSetOrUpdate',
+  }),
+
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
+    description: 'passing ModelSignal object to mutable parameter',
+    annotatedSource: `
+      let value: ModelSignal<{ name: string }>;
+      mutate(value());
+             ~~~~~~~
+
+      function mutate(user: { name: string }) {
+        user.name = 'newName';
+      }
     `,
     messageId: 'useSetOrUpdate',
   }),
