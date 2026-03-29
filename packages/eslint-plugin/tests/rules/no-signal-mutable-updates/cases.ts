@@ -184,6 +184,27 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     const arr = items();
     const length = arr.length;
   `,
+  // Non-mutating operations inside update callback are fine
+  `
+    let items: WritableSignal<number[]>;
+    items.update((a) => [...a, 4]);
+  `,
+  `
+    let items: WritableSignal<number[]>;
+    items.update((a) => { return [...a, 4]; });
+  `,
+  `
+    let userData: WritableSignal<{ name: string }>;
+    userData.update((o) => ({ ...o, name: 'newName' }));
+  `,
+  `
+    let items: WritableSignal<number[]>;
+    items.update((a) => a.map(x => x * 2));
+  `,
+  `
+    let items: ModelSignal<number[]>;
+    items.update((a) => [...a, 4]);
+  `,
 ].map(appendTypes);
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
@@ -575,6 +596,74 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       ~~~~~~~~
     `,
     messageId: 'useSetOrUpdate',
+  }),
+
+  // Mutations inside .update() callback
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
+    description: 'calling push on WritableSignal array inside update callback',
+    annotatedSource: `
+      let arr: WritableSignal<number[]>;
+      arr.update((a) => {
+        a.push(4);
+        ~~~~~~
+        return a;
+      });
+    `,
+    messageId: 'useImmutableUpdate',
+  }),
+
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
+    description: 'calling sort on WritableSignal array inside update callback',
+    annotatedSource: `
+      let arr: WritableSignal<number[]>;
+      arr.update((a) => {
+        a.sort();
+        ~~~~~~
+        return a;
+      });
+    `,
+    messageId: 'useImmutableUpdate',
+  }),
+
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
+    description:
+      'mutating property on WritableSignal object inside update callback',
+    annotatedSource: `
+      let userData: WritableSignal<{ name: string }>;
+      userData.update((o) => {
+        o.name = 'newName';
+        ~~~~~~
+        return o;
+      });
+    `,
+    messageId: 'useImmutableUpdate',
+  }),
+
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
+    description: 'calling push on ModelSignal array inside update callback',
+    annotatedSource: `
+      let items: ModelSignal<number[]>;
+      items.update((a) => {
+        a.push(1);
+        ~~~~~~
+        return a;
+      });
+    `,
+    messageId: 'useImmutableUpdate',
+  }),
+
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
+    description:
+      'calling push on WritableSignal array inside update callback (function expression)',
+    annotatedSource: `
+      let arr: WritableSignal<number[]>;
+      arr.update(function(a) {
+        a.push(4);
+        ~~~~~~
+        return a;
+      });
+    `,
+    messageId: 'useImmutableUpdate',
   }),
 ].map((test) => ({
   ...test,

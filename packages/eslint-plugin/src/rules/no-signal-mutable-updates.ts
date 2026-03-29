@@ -13,7 +13,8 @@ export type Options = [];
 export type MessageIds =
   | 'noMutableSignalUpdate'
   | 'noMutableWritableSignalUpdate'
-  | 'useSetOrUpdate';
+  | 'useSetOrUpdate'
+  | 'useImmutableUpdate';
 export const RULE_NAME = 'no-signal-mutable-updates';
 
 const MUTATING_METHODS = new Set([
@@ -52,6 +53,8 @@ export default createESLintRule<Options, MessageIds>({
         'Cannot mutate a WritableSignal value directly. Use .set() or .update() methods to update the signal',
       useSetOrUpdate:
         'Use .set() or .update() methods to update WritableSignal values',
+      useImmutableUpdate:
+        'Do not mutate the signal value inside .update(). Return a new immutable value instead (e.g. use spread syntax: [...current, item] instead of current.push(item))',
     },
   },
   defaultOptions: [],
@@ -71,7 +74,15 @@ export default createESLintRule<Options, MessageIds>({
         signalCall: TSESTree.CallExpression;
         signalType: string;
         valueType: ts.Type;
+        isUpdateCallbackParam?: boolean;
       }
+    >();
+
+    // Track which arrow/function expression nodes are .update() callbacks,
+    // and what parameter name they introduce as a signal-derived variable
+    const updateCallbackParams = new WeakMap<
+      TSESTree.ArrowFunctionExpression | TSESTree.FunctionExpression,
+      string
     >();
 
     function isWritableSignalType(signalType: string): boolean {
@@ -154,6 +165,7 @@ export default createESLintRule<Options, MessageIds>({
       signalCall: TSESTree.CallExpression;
       signalType: string;
       valueType: ts.Type;
+      isUpdateCallbackParam?: boolean;
     } | null {
       const varName = getVariableName(node);
       if (!varName) return null;
@@ -430,7 +442,12 @@ export default createESLintRule<Options, MessageIds>({
           // Check for indirect mutation: arr[0] = value where arr came from signal()
           const signalDerived = isSignalDerivedVariable(node.left.object);
           if (signalDerived) {
-            if (
+            if (signalDerived.isUpdateCallbackParam) {
+              context.report({
+                node: node.left,
+                messageId: 'useImmutableUpdate',
+              });
+            } else if (
               signalDerived.signalType === 'WritableSignal' ||
               signalDerived.signalType === 'ModelSignal'
             ) {
@@ -476,7 +493,12 @@ export default createESLintRule<Options, MessageIds>({
           // Check for indirect mutation: arr[0]++ where arr came from signal()
           const signalDerived = isSignalDerivedVariable(node.argument.object);
           if (signalDerived) {
-            if (
+            if (signalDerived.isUpdateCallbackParam) {
+              context.report({
+                node: node.argument,
+                messageId: 'useImmutableUpdate',
+              });
+            } else if (
               signalDerived.signalType === 'WritableSignal' ||
               signalDerived.signalType === 'ModelSignal'
             ) {
@@ -494,7 +516,57 @@ export default createESLintRule<Options, MessageIds>({
         }
       },
 
+      'ArrowFunctionExpression:exit'(node: TSESTree.ArrowFunctionExpression) {
+        const paramName = updateCallbackParams.get(node);
+        if (paramName !== undefined) {
+          signalDerivedVariables.delete(paramName);
+        }
+      },
+
+      'FunctionExpression:exit'(node: TSESTree.FunctionExpression) {
+        const paramName = updateCallbackParams.get(node);
+        if (paramName !== undefined) {
+          signalDerivedVariables.delete(paramName);
+        }
+      },
+
       CallExpression(node: TSESTree.CallExpression) {
+        // Detect signal.update((param) => { ... }) and track the callback
+        // parameter as a signal-derived variable within the callback scope
+        if (
+          node.callee.type === AST_NODE_TYPES.MemberExpression &&
+          node.callee.property.type === AST_NODE_TYPES.Identifier &&
+          node.callee.property.name === 'update' &&
+          node.arguments.length >= 1
+        ) {
+          const updateCallee = node.callee as TSESTree.MemberExpression;
+          const signalInfo = getSignalInfo(updateCallee.object);
+          if (signalInfo && isWritableSignalType(signalInfo.signalType)) {
+            const callback = node.arguments[0];
+            if (
+              (callback.type === AST_NODE_TYPES.ArrowFunctionExpression ||
+                callback.type === AST_NODE_TYPES.FunctionExpression) &&
+              callback.params.length >= 1 &&
+              callback.params[0].type === AST_NODE_TYPES.Identifier
+            ) {
+              const paramName = (callback.params[0] as TSESTree.Identifier)
+                .name;
+              signalDerivedVariables.set(paramName, {
+                signalCall: node,
+                signalType: signalInfo.signalType,
+                valueType: signalInfo.valueType,
+                isUpdateCallbackParam: true,
+              });
+              updateCallbackParams.set(
+                callback as
+                  | TSESTree.ArrowFunctionExpression
+                  | TSESTree.FunctionExpression,
+                paramName,
+              );
+            }
+          }
+        }
+
         checkMutableSignalArgumentEscape(node);
 
         if (node.callee.type !== AST_NODE_TYPES.MemberExpression) {
@@ -538,7 +610,12 @@ export default createESLintRule<Options, MessageIds>({
         ) {
           const methodName = callee.property.name;
           if (MUTATING_METHODS.has(methodName)) {
-            if (isWritableSignalType(signalDerived.signalType)) {
+            if (signalDerived.isUpdateCallbackParam) {
+              context.report({
+                node: callee,
+                messageId: 'useImmutableUpdate',
+              });
+            } else if (isWritableSignalType(signalDerived.signalType)) {
               context.report({
                 node: callee,
                 messageId: 'useSetOrUpdate',
