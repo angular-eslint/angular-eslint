@@ -344,6 +344,89 @@ export default createESLintRule<Options, MessageIds>({
       return false;
     }
 
+    function isDirectParamReference(
+      node: TSESTree.Expression | TSESTree.SpreadElement | null | undefined,
+      paramName: string,
+    ): boolean {
+      if (!node) return false;
+      switch (node.type) {
+        case AST_NODE_TYPES.Identifier:
+          return node.name === paramName;
+        case AST_NODE_TYPES.TSAsExpression:
+        case AST_NODE_TYPES.TSTypeAssertion:
+        case AST_NODE_TYPES.TSNonNullExpression:
+          return isDirectParamReference(
+            (
+              node as
+                | TSESTree.TSAsExpression
+                | TSESTree.TSTypeAssertion
+                | TSESTree.TSNonNullExpression
+            ).expression,
+            paramName,
+          );
+        default:
+          return false;
+      }
+    }
+
+    function collectReturnStatements(
+      node: TSESTree.Node,
+      results: TSESTree.ReturnStatement[],
+    ): void {
+      if (
+        node.type === AST_NODE_TYPES.FunctionDeclaration ||
+        node.type === AST_NODE_TYPES.FunctionExpression ||
+        node.type === AST_NODE_TYPES.ArrowFunctionExpression
+      ) {
+        return;
+      }
+      if (node.type === AST_NODE_TYPES.ReturnStatement) {
+        results.push(node);
+        return;
+      }
+      for (const key of Object.keys(node)) {
+        if (
+          key === 'parent' ||
+          key === 'type' ||
+          key === 'loc' ||
+          key === 'range' ||
+          key === 'start' ||
+          key === 'end'
+        ) {
+          continue;
+        }
+        const child = (node as unknown as Record<string, unknown>)[key];
+        if (child && typeof child === 'object') {
+          if (Array.isArray(child)) {
+            for (const item of child) {
+              if (item && typeof item === 'object' && 'type' in item) {
+                collectReturnStatements(item as TSESTree.Node, results);
+              }
+            }
+          } else if ('type' in (child as Record<string, unknown>)) {
+            collectReturnStatements(child as TSESTree.Node, results);
+          }
+        }
+      }
+    }
+
+    function callbackReturnsParamDirectly(
+      callback: TSESTree.ArrowFunctionExpression | TSESTree.FunctionExpression,
+      paramName: string,
+    ): boolean {
+      if (callback.body.type !== AST_NODE_TYPES.BlockStatement) {
+        return isDirectParamReference(
+          callback.body as TSESTree.Expression,
+          paramName,
+        );
+      }
+      const returns: TSESTree.ReturnStatement[] = [];
+      collectReturnStatements(callback.body, returns);
+      return returns.some((ret) =>
+        isDirectParamReference(ret.argument, paramName),
+      );
+    }
+
     function checkMutableSignalArgumentEscape(
       node: TSESTree.CallExpression,
     ): void {
@@ -551,18 +634,18 @@ export default createESLintRule<Options, MessageIds>({
             ) {
               const paramName = (callback.params[0] as TSESTree.Identifier)
                 .name;
-              signalDerivedVariables.set(paramName, {
-                signalCall: node,
-                signalType: signalInfo.signalType,
-                valueType: signalInfo.valueType,
-                isUpdateCallbackParam: true,
-              });
-              updateCallbackParams.set(
-                callback as
-                  | TSESTree.ArrowFunctionExpression
-                  | TSESTree.FunctionExpression,
-                paramName,
-              );
+              const cb = callback as
+                | TSESTree.ArrowFunctionExpression
+                | TSESTree.FunctionExpression;
+              if (callbackReturnsParamDirectly(cb, paramName)) {
+                signalDerivedVariables.set(paramName, {
+                  signalCall: node,
+                  signalType: signalInfo.signalType,
+                  valueType: signalInfo.valueType,
+                  isUpdateCallbackParam: true,
+                });
+                updateCallbackParams.set(cb, paramName);
+              }
             }
           }
         }

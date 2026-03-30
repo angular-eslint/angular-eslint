@@ -2163,6 +2163,156 @@ let items: ModelSignal<number[]>;
 items.update((a) => [...a, 4]);
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-signal-mutable-updates": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+let arr: WritableSignal<number[]>;
+arr.update((a) => {
+  a.push(4);
+  return [...a];
+});
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-signal-mutable-updates": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+let arr: WritableSignal<number[]>;
+arr.update((a) => {
+  a.sort();
+  return [...a];
+});
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-signal-mutable-updates": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+let userData: WritableSignal<{ name: string }>;
+userData.update((o) => {
+  o.name = 'newName';
+  return { ...o };
+});
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-signal-mutable-updates": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+let arr: ModelSignal<number[]>;
+arr.update((a) => {
+  a.push(1);
+  return [...a];
+});
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-signal-mutable-updates": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+let arr: WritableSignal<number[]>;
+arr.update(function(a) {
+  a.push(4);
+  return [...a];
+});
+```
+
 </details>
 
 <br>
