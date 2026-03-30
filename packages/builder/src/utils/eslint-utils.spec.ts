@@ -39,6 +39,7 @@ describe('eslint-utils', () => {
       rulePaths: [],
       reportUnusedDisableDirectives: undefined,
       resolvePluginsRelativeTo: undefined,
+      applySuppressions: undefined,
     });
   });
 
@@ -62,6 +63,7 @@ describe('eslint-utils', () => {
       rulePaths: [],
       reportUnusedDisableDirectives: undefined,
       resolvePluginsRelativeTo: undefined,
+      applySuppressions: undefined,
     });
   });
 
@@ -86,6 +88,7 @@ describe('eslint-utils', () => {
         rulePaths: [],
         reportUnusedDisableDirectives: undefined,
         resolvePluginsRelativeTo: undefined,
+        applySuppressions: undefined,
       });
     });
   });
@@ -113,6 +116,7 @@ describe('eslint-utils', () => {
         rulePaths: extraRuleDirectories,
         reportUnusedDisableDirectives: undefined,
         resolvePluginsRelativeTo: undefined,
+        applySuppressions: undefined,
       });
     });
   });
@@ -139,6 +143,7 @@ describe('eslint-utils', () => {
         rulePaths: [],
         reportUnusedDisableDirectives: undefined,
         resolvePluginsRelativeTo: './some-path',
+        applySuppressions: undefined,
       });
     });
   });
@@ -165,6 +170,34 @@ describe('eslint-utils', () => {
         rulePaths: [],
         reportUnusedDisableDirectives: 'warn',
         resolvePluginsRelativeTo: undefined,
+        applySuppressions: undefined,
+      });
+    });
+  });
+
+  describe('applySuppressions', () => {
+    it('should create the ESLint instance with "applySuppressions" set to the given value for applySuppressions', async () => {
+      await resolveAndInstantiateESLint(undefined, {
+        fix: true,
+        cache: true,
+        cacheLocation: '/root/cache',
+        cacheStrategy: 'content',
+        applySuppressions: true,
+      } as any);
+
+      expect(MockESLint).toHaveBeenCalledWith({
+        overrideConfigFile: undefined,
+        fix: true,
+        cache: true,
+        cacheLocation: '/root/cache',
+        cacheStrategy: 'content',
+        ignorePath: undefined,
+        useEslintrc: true,
+        errorOnUnmatchedPattern: false,
+        rulePaths: [],
+        reportUnusedDisableDirectives: undefined,
+        resolvePluginsRelativeTo: undefined,
+        applySuppressions: true,
       });
     });
   });

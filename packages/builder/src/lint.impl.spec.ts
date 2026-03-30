@@ -216,6 +216,7 @@ describe('Linter Builder', () => {
         noConfigLookup: null,
         rulesdir: [],
         resolvePluginsRelativeTo: null,
+        applySuppressions: true,
       }),
     );
     expect(mockResolveAndInstantiateESLint).toHaveBeenCalledTimes(1);
@@ -244,6 +245,7 @@ describe('Linter Builder', () => {
         resolvePluginsRelativeTo: null,
         reportUnusedDisableDirectives: null,
         concurrency: null,
+        applySuppressions: true,
       },
       false,
     );
@@ -285,6 +287,7 @@ describe('Linter Builder', () => {
         resolvePluginsRelativeTo: null,
         reportUnusedDisableDirectives: null,
         concurrency: null,
+        applySuppressions: false,
       },
       true, // useFlatConfig
     );
@@ -326,6 +329,7 @@ describe('Linter Builder', () => {
         resolvePluginsRelativeTo: null,
         reportUnusedDisableDirectives: null,
         concurrency: null,
+        applySuppressions: false,
       },
       true, // useFlatConfig
     );
@@ -367,6 +371,7 @@ describe('Linter Builder', () => {
         resolvePluginsRelativeTo: null,
         reportUnusedDisableDirectives: null,
         concurrency: null,
+        applySuppressions: false,
       },
       true, // useFlatConfig
     );
@@ -1176,6 +1181,7 @@ describe('Linter Builder', () => {
         resolvePluginsRelativeTo: null,
         reportUnusedDisableDirectives: null,
         concurrency: null,
+        applySuppressions: false,
       },
       true, // useFlatConfig
     );
