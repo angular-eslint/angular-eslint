@@ -132,7 +132,7 @@
       "type": "boolean",
       "description": "The equivalent of the `--apply-suppressions` flag on the ESLint CLI.",
       "default": false
-     }
+    }
   },
   "additionalProperties": false,
   "required": ["lintFilePatterns"]

@@ -78,6 +78,7 @@ export async function resolveAndInstantiateESLint(
 
   const eslintOptions: ESLint.Options & {
     concurrency?: 'auto' | 'off' | number;
+    applySuppressions?: boolean;
   } = {
     fix: !!options.fix,
     cache: !!options.cache,
