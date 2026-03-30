@@ -205,6 +205,42 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     let items: ModelSignal<number[]>;
     items.update((a) => [...a, 4]);
   `,
+  // Mutating methods followed by an immutable return are fine
+  `
+    let arr: WritableSignal<number[]>;
+    arr.update((a) => {
+      a.push(4);
+      return [...a];
+    });
+  `,
+  `
+    let arr: WritableSignal<number[]>;
+    arr.update((a) => {
+      a.sort();
+      return [...a];
+    });
+  `,
+  `
+    let userData: WritableSignal<{ name: string }>;
+    userData.update((o) => {
+      o.name = 'newName';
+      return { ...o };
+    });
+  `,
+  `
+    let arr: ModelSignal<number[]>;
+    arr.update((a) => {
+      a.push(1);
+      return [...a];
+    });
+  `,
+  `
+    let arr: WritableSignal<number[]>;
+    arr.update(function(a) {
+      a.push(4);
+      return [...a];
+    });
+  `,
 ].map(appendTypes);
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
