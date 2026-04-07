@@ -72,6 +72,38 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
       `,
     options: [{ maxComplexity: 3 }],
   },
+  // variant: 'modified' - @switch counts as 1 regardless of cases
+  {
+    code: `
+        @if (cond) {
+          @for (item of items; track item.id) {
+            @switch (item) {
+              @case ('a') {}
+              @case ('b') {}
+              @case ('c') {}
+              @default {}
+            }
+          }
+        }
+      `,
+    options: [{ maxComplexity: 3, variant: 'modified' }],
+  },
+  // variant: 'modified' - legacy [ngSwitch] counts as 1 regardless of cases
+  {
+    code: `
+        <div *ngIf="a === '1'">
+          <div *ngFor="let person of persons; trackBy: trackByFn">
+            {{ person.name }}
+            <div [ngSwitch]="person.emotion">
+              <app-happy-hero    *ngSwitchCase="'happy'" [hero]="currentHero"></app-happy-hero>
+              <app-sad-hero      *ngSwitchCase="'sad'"   [hero]="currentHero"></app-sad-hero>
+              <app-unknown-hero  *ngSwitchDefault        [hero]="currentHero"></app-unknown-hero>
+            </div>
+          </div>
+        </div>
+      `,
+    options: [{ maxComplexity: 3, variant: 'modified' }],
+  },
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
@@ -171,4 +203,54 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       },
     ],
   },
+  // variant: 'modified' - @switch counts as 1 but still exceeds with other constructs
+  {
+    code: `
+        @if (cond1) {
+          @if (cond2) {
+            @for (item of items; track item.id) {
+              @switch (item) {
+                @case ('a') {}
+                @case ('b') {}
+                @case ('c') {}
+                @default {}
+              }
+            }
+          }
+        }
+      `,
+    options: [{ maxComplexity: 3, variant: 'modified' }],
+    errors: [
+      {
+        messageId,
+        data: { maxComplexity: 3, totalComplexity: 4 },
+      },
+    ],
+  },
+  // variant: 'modified' - legacy [ngSwitch] counts as 1 but still exceeds with other constructs
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'it should fail with modified variant when complexity exceeds limit using legacy ngSwitch',
+    annotatedSource: `
+        <div *ngIf="a === '1'">
+          <div *ngFor="let person of persons; trackBy: trackByFn">
+            <div *ngIf="a === '1'">{{ person.name }}</div>
+            <div [ngSwitch]="person.emotion">
+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              <app-happy-hero    *ngSwitchCase="'happy'"    [hero]="currentHero"></app-happy-hero>
+              <app-sad-hero      *ngSwitchCase="'sad'"      [hero]="currentHero"></app-sad-hero>
+              <app-unknown-hero  *ngSwitchDefault           [hero]="currentHero"></app-unknown-hero>
+            </div>
+          </div>
+        </div>
+      `,
+    messages: [
+      {
+        char: '~',
+        messageId,
+        data: { maxComplexity: 3, totalComplexity: 4 },
+      },
+    ],
+    options: [{ maxComplexity: 3, variant: 'modified' }],
+  }),
 ];
