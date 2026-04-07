@@ -21,6 +21,7 @@ Please see https://github.com/angular-eslint/angular-eslint for full usage instr
 <!-- prettier-ignore-start -->
 | Rule | Description | :white_check_mark: | :wrench: | :bulb: |
 | --- | --- | --- | --- | --- |
+| [`computed-must-return`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/computed-must-return.md) | Ensures that computed() returns a value. Omitting the value is likely a mistake. |  |  |  |
 | [`contextual-lifecycle`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/contextual-lifecycle.md) | Ensures that lifecycle methods are used in a correct context | :white_check_mark: |  |  |
 | [`no-async-lifecycle-method`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/no-async-lifecycle-method.md) | Angular Lifecycle methods should not be async. Angular does not wait for async lifecycle but the code incorrectly suggests it does. |  |  |  |
 | [`no-attribute-decorator`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/no-attribute-decorator.md) | The @Attribute decorator is used to obtain a single value for an attribute. This is a much less common use case than getting a stream of values (using @Input), so the @Attribute decorator is often mistakenly used when @Input is intended. This rule disallows the usage of @Attribute decorator entirely to prevent these mistakes. |  |  |  |

@@ -1,3 +1,21 @@
+## 21.3.1 (2026-03-17)
+
+This was a version bump only for angular-eslint to align it with other projects, there were no code changes.
+
+## 21.3.0 (2026-03-05)
+
+### 🚀 Features
+
+- add support for ESLint v10 ([#2903](https://github.com/angular-eslint/angular-eslint/pull/2903))
+- **eslint-plugin-template:** add `no-non-null-assertion` rule ([#2885](https://github.com/angular-eslint/angular-eslint/pull/2885))
+- **eslint-plugin:** add computed-must-return rule ([#2882](https://github.com/angular-eslint/angular-eslint/pull/2882))
+
+### ❤️ Thank You
+
+- Evgeny Stepanovych @undsoft
+- Guillaume DROUARD
+- Jason Weinzierl
+
 ## 21.2.0 (2026-01-29)
 
 ### 🚀 Features

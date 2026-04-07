@@ -20,7 +20,7 @@
         "^production",
         "{workspaceRoot}/e2e/scripts/populate-storage.js"
       ],
-      "dependsOn": ["local-registry", "^build"],
+      "dependsOn": ["local-registry", "^build", "^compile"],
       "command": "node ./e2e/scripts/run-populate-storage.mjs",
       "outputs": ["{workspaceRoot}/dist/local-registry/storage"]
     }

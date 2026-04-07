@@ -20,6 +20,14 @@ const CONDITIONAL_SELECTOR = [
   AST_NODE_TYPES.WhileStatement,
 ].join(',');
 
+const FUNCTION_MEMBER_EXPRESSION_SELECTOR = `MemberExpression[property.type=Identifier]:matches(${[
+  'arguments',
+  'caller',
+  'length',
+  'name',
+  'toString',
+].map((member) => `[property.name=${member}]`)})`;
+
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
   meta: {
@@ -42,19 +50,20 @@ export default createESLintRule<Options, MessageIds>({
       ESLintUtils.getParserServices(context);
 
     function checkForUncalledSignal(node: TSESTree.Node): void {
-      // Unwrap negated expressions so that
-      // we look at what was being negated.
-      if (
-        node.type === AST_NODE_TYPES.UnaryExpression &&
-        node.operator === '!'
-      ) {
-        node = node.argument;
+      const type = services.getTypeAtLocation(node);
+      const symbol = type.getSymbol();
+      let isSignal = symbol && KNOWN_SIGNAL_TYPES.has(symbol.name);
+
+      // If the type is not a known signal type, but it has an alias
+      // symbol, then check if that alias symbol is a known signal type.
+      // The `Signal` type will fall under this category, because it is
+      // defined as a type alias. Other signal types like `InputSignal`
+      // won't match here, because they are defined as interfaces.
+      if (!isSignal && type.aliasSymbol) {
+        isSignal = KNOWN_SIGNAL_TYPES.has(type.aliasSymbol.name);
       }
 
-      const type = services.getTypeAtLocation(node);
-      const identifierType = type.getSymbol()?.name;
-
-      if (identifierType && KNOWN_SIGNAL_TYPES.has(identifierType)) {
+      if (isSignal) {
         context.report({
           node,
           messageId: 'noUncalledSignals',
@@ -82,6 +91,11 @@ export default createESLintRule<Options, MessageIds>({
           checkForUncalledSignal(node.test);
         }
       },
+      UnaryExpression(node: TSESTree.UnaryExpression) {
+        if (node.operator !== 'delete') {
+          checkForUncalledSignal(node.argument);
+        }
+      },
       LogicalExpression(node: TSESTree.LogicalExpression) {
         checkForUncalledSignal(node.left);
         checkForUncalledSignal(node.right);
@@ -89,6 +103,9 @@ export default createESLintRule<Options, MessageIds>({
       BinaryExpression(node: TSESTree.BinaryExpression) {
         checkForUncalledSignal(node.left);
         checkForUncalledSignal(node.right);
+      },
+      [FUNCTION_MEMBER_EXPRESSION_SELECTOR](node: TSESTree.MemberExpression) {
+        checkForUncalledSignal(node.object);
       },
     };
   },

@@ -1,3 +1,33 @@
+## 21.3.1 (2026-03-17)
+
+### 🩹 Fixes
+
+- **prefer-self-closing-tags:** add selectedcontent nonAriaElements ([#2939](https://github.com/angular-eslint/angular-eslint/pull/2939))
+- narrow build target cache outputs to avoid clobbering compile artifacts" ([#2943](https://github.com/angular-eslint/angular-eslint/pull/2943))
+- narrow build target cache outputs to avoid clobbering compile artifacts ([#2940](https://github.com/angular-eslint/angular-eslint/pull/2940))
+
+### ❤️ Thank You
+
+- AI-JamesHenry @AI-JamesHenry
+- bjarketrux
+- James Henry @JamesHenry
+
+## 21.3.0 (2026-03-05)
+
+### 🚀 Features
+
+- add support for ESLint v10 ([#2903](https://github.com/angular-eslint/angular-eslint/pull/2903))
+- **eslint-plugin-template:** add `no-non-null-assertion` rule ([#2885](https://github.com/angular-eslint/angular-eslint/pull/2885))
+
+### 🩹 Fixes
+
+- **eslint-plugin-template:** [prefer-template-literal] preserve nested non string binary `+` operation ([#2902](https://github.com/angular-eslint/angular-eslint/pull/2902))
+
+### ❤️ Thank You
+
+- Guillaume DROUARD
+- Jason Weinzierl
+
 ## 21.2.0 (2026-01-29)
 
 ### 🚀 Features

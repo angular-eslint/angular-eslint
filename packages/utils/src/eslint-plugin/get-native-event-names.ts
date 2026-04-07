@@ -9,7 +9,7 @@ let nativeEventNames: ReadonlySet<string> | null = null;
 /**
  * Check MDN events page for details https://developer.mozilla.org/en-US/docs/Web/Events
  *
- * Event names sourced from @mdn/browser-compat-data@7.2.4
+ * Event names sourced from @mdn/browser-compat-data@7.3.6
  */
 export function getNativeEventNames(): ReadonlySet<string> {
   return (
@@ -101,6 +101,7 @@ export function getNativeEventNames(): ReadonlySet<string> {
       'loadeddata',
       'loadedmetadata',
       'loadstart',
+      'location',
       'loseinterest',
       'lostpointercapture',
       'message',
@@ -139,6 +140,8 @@ export function getNativeEventNames(): ReadonlySet<string> {
       'popstate',
       'prerenderingchange',
       'progress',
+      'promptaction',
+      'promptdismiss',
       'ratechange',
       'readystatechange',
       'rejectionhandled',
@@ -175,6 +178,7 @@ export function getNativeEventNames(): ReadonlySet<string> {
       'transitionstart',
       'unhandledrejection',
       'unload',
+      'validationstatuschange',
       'visibilitychange',
       'volumechange',
       'vrdisplayactivate',

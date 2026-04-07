@@ -147,6 +147,65 @@ for (let i = 0; a; i++) { }
 #### ❌ Invalid Code
 
 ```ts
+function test(): boolean {
+  let a: Signal<boolean>;
+
+  return !a;
+          ~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-uncalled-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+let a: Signal<boolean>;
+const flag = !a;
+              ~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-uncalled-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
 let a: Signal<boolean>;
 if (a) { }
     ~
@@ -486,6 +545,34 @@ if (a) { }
 #### ❌ Invalid Code
 
 ```ts
+let a: InputSignalWithTransform<boolean, boolean | string>;
+if (a) { }
+    ~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-uncalled-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
 let a: ModelSignal<boolean>;
 if (a) { }
     ~
@@ -517,6 +604,146 @@ if (a) { }
 let a: WritableSignal<boolean>;
 if (a) { }
     ~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-uncalled-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+let a: Signal<number[]>;
+let b = a.arguments;
+        ~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-uncalled-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+let a: Signal<number[]>;
+let b = a.caller;
+        ~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-uncalled-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+let a: Signal<number[]>;
+let b = a.length;
+        ~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-uncalled-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+let a: Signal<number[]>;
+let b = a.name;
+        ~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-uncalled-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+let a: Signal<number[]>;
+let b = a.toString();
+        ~
 ```
 
 </details>
@@ -1097,8 +1324,286 @@ let b = a;
 #### ✅ Valid Code
 
 ```ts
+let a: Signal<boolean>;
+let b = !a();
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-uncalled-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+let a: Signal<number>;
+let b = -a();
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-uncalled-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+class AppComponent {
+  prop = viewChild<AppComponent | undefined>();
+
+  test() {
+    delete this.prop;
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-uncalled-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+function test(): boolean {
+  let a: Signal<boolean>;
+
+  return !a();
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-uncalled-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
 function getSignal(): Signal<boolean> {}
 if (getSignal()()) { }
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-uncalled-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+let a: Signal<number[]>;
+let b = a().arguments;
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-uncalled-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+let a: Signal<number[]>;
+let b = a().caller;
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-uncalled-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+let a: Signal<number[]>;
+let b = a().length;
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-uncalled-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+let a: Signal<number[]>;
+let b = a().name;
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-uncalled-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+let a: Signal<number[]>;
+let b = a().toString();
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-uncalled-signals": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+let a: Signal<number[]>;
+let b = a.prototype; // Acceptable to access the prototype property of a Signal.
 ```
 
 <br>

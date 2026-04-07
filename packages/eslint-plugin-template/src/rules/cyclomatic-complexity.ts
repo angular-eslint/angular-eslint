@@ -17,7 +17,10 @@ export type Options = [
 export type MessageIds = 'cyclomaticComplexity';
 export const RULE_NAME = 'cyclomatic-complexity';
 
-const DEFAULT_MAX_COMPLEXITY = 5;
+const DEFAULT_OPTIONS = {
+  maxComplexity: 5,
+  variant: 'classic',
+} as const satisfies Options[number];
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
@@ -48,11 +51,19 @@ export default createESLintRule<Options, MessageIds>({
     },
   },
   defaultOptions: [
-    { maxComplexity: DEFAULT_MAX_COMPLEXITY, variant: 'classic' },
+    {
+      maxComplexity: DEFAULT_OPTIONS.maxComplexity,
+      variant: DEFAULT_OPTIONS.variant,
+    },
   ],
   create(
     context,
-    [{ maxComplexity = DEFAULT_MAX_COMPLEXITY, variant = 'classic' }],
+    [
+      {
+        maxComplexity = DEFAULT_OPTIONS.maxComplexity,
+        variant = DEFAULT_OPTIONS.variant,
+      },
+    ],
   ) {
     let totalComplexity = 0;
     const parserServices = getTemplateParserServices(context);

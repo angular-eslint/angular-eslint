@@ -3,9 +3,9 @@
   "private": true,
   "description": "The tooling which enables ESLint to work with Angular projects",
   "volta": {
-    "node": "22.22.0"
+    "node": "22.22.1"
   },
-  "packageManager": "pnpm@10.28.1",
+  "packageManager": "pnpm@10.32.1",
   "contributors": [
     "James Henry <angular-eslint@jameshenry.email>"
   ],
@@ -58,6 +58,7 @@
     "@commitlint/cli": "catalog:",
     "@commitlint/config-conventional": "catalog:",
     "@eslint/core": "catalog:",
+    "@eslint/js": "catalog:",
     "@mdn/browser-compat-data": "catalog:",
     "@nx/devkit": "catalog:",
     "@nx/esbuild": "catalog:",
@@ -72,7 +73,6 @@
     "@swc/cli": "catalog:",
     "@swc/core": "catalog:",
     "@swc/helpers": "catalog:",
-    "@types/eslint-scope": "catalog:",
     "@types/node": "catalog:",
     "@types/semver": "catalog:",
     "@types/yargs": "catalog:",

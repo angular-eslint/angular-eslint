@@ -97,8 +97,48 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     let b = a;
   `,
   `
+    let a: Signal<boolean>;
+    let b = !a();
+  `,
+  `
+    let a: Signal<number>;
+    let b = -a();
+  `,
+  `
+    class AppComponent {
+      prop = viewChild<AppComponent | undefined>();
+
+      test() {
+        delete this.prop;
+      }
+    }
+  `,
+  `
+    function test(): boolean {
+      let a: Signal<boolean>;
+
+      return !a();
+    }
+  `,
+  `
     function getSignal(): Signal<boolean> {}
     if (getSignal()()) { }
+  `,
+  ...[
+    { name: 'arguments' },
+    { name: 'caller' },
+    { name: 'length' },
+    { name: 'name' },
+    { name: 'toString', call: true },
+  ].map(
+    ({ name, call }) => `
+    let a: Signal<number[]>;
+    let b = a().${name}${call ? '()' : ''};
+  `,
+  ),
+  `
+    let a: Signal<number[]>;
+    let b = a.prototype; // Acceptable to access the prototype property of a Signal.
   `,
   // Test cases for the reported bug - direct signal calls on member expressions
   `
@@ -203,6 +243,50 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         let a: Signal<boolean>;
         for (let i = 0; a(); i++) { }
                         
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
+    description: 'return with unary operator',
+    annotatedSource: `
+        function test(): boolean {
+          let a: Signal<boolean>;
+
+          return !a;
+                  ~
+        }
+      `,
+    messageId,
+    suggestions: [
+      {
+        messageId: 'suggestCallSignal',
+        output: `
+        function test(): boolean {
+          let a: Signal<boolean>;
+
+          return !a();
+                  
+        }
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
+    description: 'assignment with unary operator',
+    annotatedSource: `
+        let a: Signal<boolean>;
+        const flag = !a;
+                      ~
+      `,
+    messageId,
+    suggestions: [
+      {
+        messageId: 'suggestCallSignal',
+        output: `
+        let a: Signal<boolean>;
+        const flag = !a();
+                      
       `,
       },
     ],
@@ -442,6 +526,25 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       },
     ],
   }),
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
+    description: 'InputSignalWithTransform',
+    annotatedSource: `
+        let a: InputSignalWithTransform<boolean, boolean | string>;
+        if (a) { }
+            ~
+      `,
+    messageId,
+    suggestions: [
+      {
+        messageId: 'suggestCallSignal',
+        output: `
+        let a: InputSignalWithTransform<boolean, boolean | string>;
+        if (a()) { }
+            
+      `,
+      },
+    ],
+  }),
 
   convertAnnotatedSourceToFailureCase<MessageIds, Options>({
     description: 'ModelSignal',
@@ -481,6 +584,33 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       },
     ],
   }),
+  ...[
+    { name: 'arguments' },
+    { name: 'caller' },
+    { name: 'length' },
+    { name: 'name' },
+    { name: 'toString', call: true },
+  ].map(({ name, call }) =>
+    convertAnnotatedSourceToFailureCase<MessageIds, Options>({
+      description: `Signal.${name}`,
+      annotatedSource: `
+        let a: Signal<number[]>;
+        let b = a.${name}${call ? '()' : ''};
+                ~
+      `,
+      messageId,
+      suggestions: [
+        {
+          messageId: 'suggestCallSignal',
+          output: `
+        let a: Signal<number[]>;
+        let b = a().${name}${call ? '()' : ''};
+                
+      `,
+        },
+      ],
+    }),
+  ),
 ].map((test) => ({
   ...test,
   code: appendTypes(test.code),
@@ -502,21 +632,10 @@ function appendTypes(code: string): string {
     return code;
   }
 
-  /* istanbul ignore next */
-  const start = /\S/u.exec(code)?.index ?? 0;
-  const prefix = code.slice(0, start);
-
+  // Put the given code on the same line as the import so that the tests don't have
+  // to adjust the line numbers to account for the code that we insert at the start.
   return (
-    code +
-    '\n' +
-    [
-      'interface Signal<T> { (): T; }',
-      'interface InputSignal<T> extends Signal<T> {}',
-      'interface ModelSignal<T> extends Signal<T> {}',
-      'interface WritableSignal<T> extends Signal<T> { set(value: T): void; }',
-      'declare function effect(fn: () => void): void;',
-    ]
-      .map((x) => prefix + x)
-      .join('\n')
+    'import { effect, InputSignal, InputSignalWithTransform, ModelSignal, signal, Signal, WritableSignal } from "@angular/core";' +
+    code
   );
 }

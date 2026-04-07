@@ -1,3 +1,37 @@
+## 21.3.1 (2026-03-17)
+
+### 🩹 Fixes
+
+- **eslint-plugin:** [no-uncalled-signals] properly handle statements with unary operators ([#2926](https://github.com/angular-eslint/angular-eslint/pull/2926))
+- narrow build target cache outputs to avoid clobbering compile artifacts" ([#2943](https://github.com/angular-eslint/angular-eslint/pull/2943))
+- narrow build target cache outputs to avoid clobbering compile artifacts ([#2940](https://github.com/angular-eslint/angular-eslint/pull/2940))
+
+### ❤️ Thank You
+
+- AI-JamesHenry @AI-JamesHenry
+- Daniil Demenev @BEGEMOT9I
+- James Henry @JamesHenry
+
+## 21.3.0 (2026-03-05)
+
+### 🚀 Features
+
+- **eslint-plugin:** [no-uncalled-signals] detect Signal member access ([#2848](https://github.com/angular-eslint/angular-eslint/pull/2848))
+- add support for ESLint v10 ([#2903](https://github.com/angular-eslint/angular-eslint/pull/2903))
+- **eslint-plugin:** add computed-must-return rule ([#2882](https://github.com/angular-eslint/angular-eslint/pull/2882))
+
+### 🩹 Fixes
+
+- **eslint-plugin:** [no-uncalled-signals] detect `Signal` type correctly ([#2907](https://github.com/angular-eslint/angular-eslint/pull/2907))
+- **eslint-plugin:** [no-uncalled-signals] add check `InputSignalWithTransform` ([#2879](https://github.com/angular-eslint/angular-eslint/pull/2879))
+
+### ❤️ Thank You
+
+- Dave @reduckted
+- Evgeny Stepanovych @undsoft
+- Guillaume DROUARD
+- Jason Weinzierl
+
 ## 21.2.0 (2026-01-29)
 
 ### 🚀 Features

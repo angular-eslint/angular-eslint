@@ -1445,6 +1445,33 @@ The rule does not have any configuration options.
 #### ❌ Invalid Code
 
 ```html
+{{ (value + 1) + '-suffix' }}
+   ~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-template-literal": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
 {{ ('value' | pipe) + '-suffix' }}
    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ```

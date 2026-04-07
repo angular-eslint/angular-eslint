@@ -1,3 +1,46 @@
+## 21.3.1 (2026-03-17)
+
+### 🩹 Fixes
+
+- update dependency @angular/compiler to v21.2.1 ([#2934](https://github.com/angular-eslint/angular-eslint/pull/2934))
+- narrow build target cache outputs to avoid clobbering compile artifacts ([#2940](https://github.com/angular-eslint/angular-eslint/pull/2940))
+- narrow build target cache outputs to avoid clobbering compile artifacts" ([#2943](https://github.com/angular-eslint/angular-eslint/pull/2943))
+- update dependency eslint to v10.0.3 ([#2949](https://github.com/angular-eslint/angular-eslint/pull/2949))
+- update dependency @angular/compiler to v21.2.2 ([#2954](https://github.com/angular-eslint/angular-eslint/pull/2954))
+- **eslint-plugin:** [no-uncalled-signals] properly handle statements with unary operators ([#2926](https://github.com/angular-eslint/angular-eslint/pull/2926))
+- **prefer-self-closing-tags:** add selectedcontent nonAriaElements ([#2939](https://github.com/angular-eslint/angular-eslint/pull/2939))
+
+### ❤️ Thank You
+
+- AI-JamesHenry @AI-JamesHenry
+- bjarketrux
+- Daniil Demenev @BEGEMOT9I
+- James Henry @JamesHenry
+
+## 21.3.0 (2026-03-05)
+
+### 🚀 Features
+
+- add support for ESLint v10 ([#2903](https://github.com/angular-eslint/angular-eslint/pull/2903))
+- **eslint-plugin:** add computed-must-return rule ([#2882](https://github.com/angular-eslint/angular-eslint/pull/2882))
+- **eslint-plugin:** [no-uncalled-signals] detect Signal member access ([#2848](https://github.com/angular-eslint/angular-eslint/pull/2848))
+- **eslint-plugin-template:** add `no-non-null-assertion` rule ([#2885](https://github.com/angular-eslint/angular-eslint/pull/2885))
+
+### 🩹 Fixes
+
+- update dependency @angular/compiler to v21.1.4 ([#2891](https://github.com/angular-eslint/angular-eslint/pull/2891))
+- update dependency @angular/compiler to v21.2.0 ([#2915](https://github.com/angular-eslint/angular-eslint/pull/2915))
+- **eslint-plugin:** [no-uncalled-signals] add check `InputSignalWithTransform` ([#2879](https://github.com/angular-eslint/angular-eslint/pull/2879))
+- **eslint-plugin:** [no-uncalled-signals] detect `Signal` type correctly ([#2907](https://github.com/angular-eslint/angular-eslint/pull/2907))
+- **eslint-plugin-template:** [prefer-template-literal] preserve nested non string binary `+` operation ([#2902](https://github.com/angular-eslint/angular-eslint/pull/2902))
+
+### ❤️ Thank You
+
+- Dave @reduckted
+- Evgeny Stepanovych @undsoft
+- Guillaume DROUARD
+- Jason Weinzierl
+
 ## 21.2.0 (2026-01-29)
 
 ### 🚀 Features

@@ -145,6 +145,9 @@ import noDeveloperPreview, {
 import noImplicitTakeUntilDestroyed, {
   RULE_NAME as noImplicitTakeUntilDestroyedRuleName,
 } from './rules/no-implicit-take-until-destroyed';
+import computedMustReturn, {
+  RULE_NAME as computedMustReturnRuleName,
+} from './rules/computed-must-return';
 
 export = {
   configs: {
@@ -155,6 +158,7 @@ export = {
     [componentClassSuffixRuleName]: componentClassSuffix,
     [componentMaxInlineDeclarationsRuleName]: componentMaxInlineDeclarations,
     [componentSelectorRuleName]: componentSelector,
+    [computedMustReturnRuleName]: computedMustReturn,
     [consistentComponentStylesRuleName]: consistentComponentStyles,
     [contextualDecoratorRuleName]: contextualDecorator,
     [contextualLifecycleRuleName]: contextualLifecycle,

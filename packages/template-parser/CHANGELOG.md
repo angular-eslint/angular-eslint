@@ -1,3 +1,23 @@
+## 21.3.1 (2026-03-17)
+
+This was a version bump only for template-parser to align it with other projects, there were no code changes.
+
+## 21.3.0 (2026-03-05)
+
+### 🚀 Features
+
+- add support for ESLint v10 ([#2903](https://github.com/angular-eslint/angular-eslint/pull/2903))
+- **eslint-plugin-template:** add `no-non-null-assertion` rule ([#2885](https://github.com/angular-eslint/angular-eslint/pull/2885))
+
+### 🩹 Fixes
+
+- update dependency @angular/compiler to v21.2.0 ([#2915](https://github.com/angular-eslint/angular-eslint/pull/2915))
+
+### ❤️ Thank You
+
+- Guillaume DROUARD
+- Jason Weinzierl
+
 ## 21.2.0 (2026-01-29)
 
 ### 🩹 Fixes
