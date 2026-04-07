@@ -128,6 +128,24 @@ export default createESLintRule<Options, MessageIds>({
   },
   defaultOptions: [],
   create(context) {
+    // When the template is defined inline in a component, the template will
+    // usually be defined as a template string, which means if template
+    // literals were to be used within the template, the backticks would
+    // need to be escaped. Escaping them causes errors when we parse the
+    // template. What this ultimately means is that template literals cannot
+    // be used in inline templates, so we'll just skip this entire template
+    // if it looks like it is an inline template.
+    //
+    // See https://github.com/angular-eslint/angular-eslint/issues/2906
+    //
+    // This pattern needs to match what is used in
+    // `packages/eslint-plugin-template/src/processors.ts`.
+    if (
+      /inline-template-[^/\\]+-\d+\.component\.html$/.test(context.filename)
+    ) {
+      return {};
+    }
+
     ensureTemplateParser(context);
     const { sourceCode } = context;
 
@@ -258,5 +276,5 @@ export default createESLintRule<Options, MessageIds>({
 
 export const RULE_DOCS_EXTENSION = {
   rationale:
-    'Template literals (backticks with ${} syntax) are more modern, readable, and maintainable than string concatenation with the + operator. String concatenation like "Hello " + name + "!" is harder to read and error-prone (easy to forget spaces or quotes) compared to the template literal `Hello ${name}!`. Template literals make string composition clearer, especially with multiple expressions. This is a widely accepted JavaScript/TypeScript best practice that should be followed in Angular templates for consistency. Angular templates have supported template literal syntax since v19.2. Using template literals throughout your codebase creates a consistent style and makes complex string building much more readable.',
+    'Template literals (backticks with ${} syntax) are more modern, readable, and maintainable than string concatenation with the + operator. String concatenation like "Hello " + name + "!" is harder to read and error-prone (easy to forget spaces or quotes) compared to the template literal `Hello ${name}!`. Template literals make string composition clearer, especially with multiple expressions. This is a widely accepted JavaScript/TypeScript best practice that should be followed in Angular templates for consistency. Angular templates have supported template literal syntax since v19.2. Using template literals throughout your codebase creates a consistent style and makes complex string building much more readable.\n\nℹ This rule is not checked in inline templates due to the common use of backticks to define the inline template.',
 };
