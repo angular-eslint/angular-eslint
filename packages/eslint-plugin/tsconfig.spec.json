@@ -13,7 +13,8 @@
     "**/*.spec.js",
     "**/*.spec.jsx",
     "**/*.d.ts",
-    "tests/rules/**/*.ts"
+    "tests/rules/**/*.ts",
+    "tests/test-utils/**/*.ts"
   ],
   "references": [
     {

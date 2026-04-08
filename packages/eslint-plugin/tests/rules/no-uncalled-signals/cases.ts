@@ -3,6 +3,7 @@ import type {
   InvalidTestCase,
   ValidTestCase,
 } from '@typescript-eslint/rule-tester';
+import { addSignalImports } from '../../test-utils/signal-helpers';
 import { MessageIds, Options } from '../../../src/rules/no-uncalled-signals';
 
 const messageId: MessageIds = 'noUncalledSignals';
@@ -187,7 +188,7 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
       true && ((x) => b.c.set(x))(true);
     }
   `,
-].map(appendTypes);
+].map(addSignalImports);
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase<MessageIds, Options>({
@@ -613,29 +614,13 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   ),
 ].map((test) => ({
   ...test,
-  code: appendTypes(test.code),
+  code: addSignalImports(test.code),
   errors: test.errors.map((error) => ({
     ...error,
     suggestions: error.suggestions?.map((suggestion) => ({
       ...suggestion,
-      output: appendTypes(suggestion.output),
+      output: addSignalImports(suggestion.output),
     })),
   })),
+  options: [],
 }));
-
-function appendTypes(code: string): string {
-  // Exclude the types from the generated docs because they
-  // are standard Angular types and only need to be defined
-  // so that the type symbols in the tests are correct.
-  /* istanbul ignore next */
-  if (process.env.GENERATING_RULE_DOCS === '1') {
-    return code;
-  }
-
-  // Put the given code on the same line as the import so that the tests don't have
-  // to adjust the line numbers to account for the code that we insert at the start.
-  return (
-    'import { effect, InputSignal, InputSignalWithTransform, ModelSignal, signal, Signal, WritableSignal } from "@angular/core";' +
-    code
-  );
-}

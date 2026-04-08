@@ -5,7 +5,7 @@ import {
   TSESTree,
 } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
-import { KNOWN_SIGNAL_TYPES } from '../utils/signals';
+import { isSignal } from '../utils/signals';
 
 export type Options = [];
 export type MessageIds = 'noUncalledSignals' | 'suggestCallSignal';
@@ -52,18 +52,8 @@ export default createESLintRule<Options, MessageIds>({
     function checkForUncalledSignal(node: TSESTree.Node): void {
       const type = services.getTypeAtLocation(node);
       const symbol = type.getSymbol();
-      let isSignal = symbol && KNOWN_SIGNAL_TYPES.has(symbol.name);
 
-      // If the type is not a known signal type, but it has an alias
-      // symbol, then check if that alias symbol is a known signal type.
-      // The `Signal` type will fall under this category, because it is
-      // defined as a type alias. Other signal types like `InputSignal`
-      // won't match here, because they are defined as interfaces.
-      if (!isSignal && type.aliasSymbol) {
-        isSignal = KNOWN_SIGNAL_TYPES.has(type.aliasSymbol.name);
-      }
-
-      if (isSignal) {
+      if (isSignal(type, symbol)) {
         context.report({
           node,
           messageId: 'noUncalledSignals',
