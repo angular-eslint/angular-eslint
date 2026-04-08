@@ -41,7 +41,7 @@ jobs:
             eslint:.catalog["eslint"]
             @typescript-eslint/rule-tester:.catalogs.typescript-eslint["@typescript-eslint/rule-tester"]
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v5
         if: ${{ steps.relevant-packages-check.outputs.was-changed == 'true' }}
         name: Install pnpm
         with:
