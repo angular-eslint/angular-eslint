@@ -68,7 +68,7 @@ jobs:
           NX_CLOUD_DISTRIBUTED_EXECUTION: false
 
       - name: Publish code coverage report
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v6
         with:
           files: coverage/packages/**/lcov.info
           flags: unittest
