@@ -47,6 +47,7 @@ const KEYS: VisitorKeys = {
   Element: ['children', 'inputs', 'outputs', 'attributes'],
   Interpolation: ['expressions'],
   KeyedRead: ['receiver', 'key'],
+  SafeKeyedRead: ['receiver', 'key'],
   NonNullAssert: ['expression'],
   PrefixNot: ['expression'],
   Program: ['templateNodes'],
