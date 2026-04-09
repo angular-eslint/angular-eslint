@@ -47,6 +47,7 @@ export default createBuilder(
         ? join(options.cacheLocation, projectName)
         : null;
 
+      options.applySuppressions = options.applySuppressions ?? false;
       /**
        * Until ESLint v9 is released and the new so called flat config is the default
        * we only want to support it if the user has explicitly opted into it by converting

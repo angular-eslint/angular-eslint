@@ -78,11 +78,13 @@ export async function resolveAndInstantiateESLint(
 
   const eslintOptions: ESLint.Options & {
     concurrency?: 'auto' | 'off' | number;
+    applySuppressions?: boolean;
   } = {
     fix: !!options.fix,
     cache: !!options.cache,
     cacheLocation: options.cacheLocation || undefined,
     cacheStrategy: options.cacheStrategy || undefined,
+    applySuppressions: options.applySuppressions || undefined,
     /**
      * Default is `true` and if not overridden the eslint.lintFiles() method will throw an error
      * when no target files are found.
