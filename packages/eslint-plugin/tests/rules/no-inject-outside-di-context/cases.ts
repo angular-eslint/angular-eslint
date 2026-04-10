@@ -91,6 +91,13 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     private service = inject(SomeService);
   }
   `,
+  // in field initializer with direct access
+  `
+  @Component()
+  class Test {
+    private data = inject(SomeService).data;
+  }
+  `,
   // in InjectionToken factory with a block
   `
   const MY_TOKEN = new InjectionToken('my-token', {

@@ -135,7 +135,11 @@ function isInInjectionContext(node: TSESTree.Node): boolean {
 
 function isInAngularClassInitialization(node: TSESTree.Node): boolean {
   // Start with field initializer, as it is the most common case, and it does not require traversal
-  if (ASTUtils.isPropertyDefinition(node) || isInConstructor(node)) {
+  if (
+    ASTUtils.isPropertyDefinition(node) ||
+    isInProperty(node) ||
+    isInConstructor(node)
+  ) {
     const classDeclaration = ASTUtils.getNearestNodeFrom(
       node,
       ASTUtils.isClassDeclaration,
@@ -147,6 +151,17 @@ function isInAngularClassInitialization(node: TSESTree.Node): boolean {
     ) {
       return true;
     }
+  }
+  return false;
+}
+
+function isInProperty(node: TSESTree.Node): boolean {
+  const propertyDefinition = getNearestNodeWithoutCallExpressionInBetweenFrom(
+    node,
+    ASTUtils.isPropertyDefinition,
+  );
+  if (propertyDefinition) {
+    return true;
   }
   return false;
 }
