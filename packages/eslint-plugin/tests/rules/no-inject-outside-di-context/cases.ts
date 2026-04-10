@@ -434,6 +434,15 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     inject(SomeService);
   }
   `,
+  // when asserted conditionnally
+  `
+  function customOperator(destroyRef?: DestroyRef) {
+    if (!destroyRef) {
+      assertInInjectionContext(customOperator);
+    }
+    destroyRef ??= inject(DestroyRef);
+  }
+  `,
   // before an await
   `
   const myGuard: CanActivateFn = async () => {

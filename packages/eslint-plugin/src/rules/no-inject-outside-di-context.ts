@@ -398,6 +398,23 @@ function isInjectionContextAsserted(node: TSESTree.Node): boolean {
     return true;
   }
 
+  const conditionalAssertCall = blockStatement?.body.find(
+    (body) =>
+      body.type === AST_NODE_TYPES.IfStatement &&
+      body.consequent.type === AST_NODE_TYPES.BlockStatement &&
+      body.consequent.body.find(
+        (consequentBody) =>
+          consequentBody.type === AST_NODE_TYPES.ExpressionStatement &&
+          consequentBody.expression.type === 'CallExpression' &&
+          consequentBody.expression.callee.type === AST_NODE_TYPES.Identifier &&
+          consequentBody.expression.callee.name === 'assertInInjectionContext',
+      ),
+  );
+
+  if (conditionalAssertCall !== undefined) {
+    return true;
+  }
+
   return false;
 }
 
