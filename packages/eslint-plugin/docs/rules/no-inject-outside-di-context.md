@@ -1064,6 +1064,35 @@ class MyPipe {
 #### ✅ Valid Code
 
 ```ts
+@Component()
+class Test {
+  private data = inject(SomeService).data;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-inject-outside-di-context": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
 const MY_TOKEN = new InjectionToken('my-token', {
   factory: () => {
     return inject(SomeService).data;
@@ -2210,6 +2239,37 @@ bootstrapApplication(App, {
 function customOperator() {
   assertInInjectionContext(customOperator);
   inject(SomeService);
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-inject-outside-di-context": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+function customOperator(destroyRef?: DestroyRef) {
+  if (!destroyRef) {
+    assertInInjectionContext(customOperator);
+  }
+  destroyRef ??= inject(DestroyRef);
 }
 ```
 
