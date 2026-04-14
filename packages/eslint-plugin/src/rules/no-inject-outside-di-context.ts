@@ -62,7 +62,11 @@ function getNearestNodeWithoutCallExpressionInBetweenFrom<
   predicate: (parent: TSESTree.Node) => parent is T,
 ): T | null {
   while (parent && parent.type !== AST_NODE_TYPES.Program) {
-    if (parent.type === AST_NODE_TYPES.CallExpression) {
+    if (
+      (parent.type === AST_NODE_TYPES.ArrowFunctionExpression ||
+        parent.type === AST_NODE_TYPES.FunctionExpression) &&
+      parent.parent.type === AST_NODE_TYPES.CallExpression
+    ) {
       return null;
     }
     if (predicate(parent)) {
@@ -109,23 +113,20 @@ export default createESLintRule<Options, MessageIds>({
 });
 
 function isInInjectionContext(node: TSESTree.Node): boolean {
-  const parent: TSESTree.Node | undefined = node.parent;
-
   if (
-    parent &&
     // Start with constructor and field initializer, as they are by far the most common case, to avoid useless checks
-    (isInAngularClassInitialization(parent) ||
-      // Special contexts (guard, resolver and interceptor) are the second most common case
-      // 1. modern function syntax, 2. legacy class syntax, 3. directly inline inside a route
-      isInFunctionTypeWithInjectionContext(parent) ||
-      isInMethodWithInjectionContext(parent) ||
-      isInRoute(parent) ||
-      // Factories
-      isInFactoryFunction(parent) ||
-      // Special functions like `runInInjectionContext` and some application providers
-      isInFunctionWithInjectionContext(parent) ||
-      // Custom injectable functions where context is asserted
-      isInjectionContextAsserted(parent))
+    isInAngularClassInitialization(node) ||
+    // Special contexts (guard, resolver and interceptor) are the second most common case
+    // 1. modern function syntax, 2. legacy class syntax, 3. directly inline inside a route
+    isInFunctionTypeWithInjectionContext(node) ||
+    isInMethodWithInjectionContext(node) ||
+    isInRoute(node) ||
+    // Factories
+    isInFactoryFunction(node) ||
+    // Special functions like `runInInjectionContext` and some application providers
+    isInFunctionWithInjectionContext(node) ||
+    // Custom injectable functions where context is asserted
+    isInjectionContextAsserted(node)
   ) {
     return true;
   }
@@ -178,9 +179,14 @@ function isInConstructor(node: TSESTree.Node): boolean {
 }
 
 function isInFunctionTypeWithInjectionContext(node: TSESTree.Node): boolean {
+  if (!node.parent) {
+    return false;
+  }
   // Check the variable type is an accepted type like `CanActivateFn`
+  // `inject()` can be stored in a variable itself, so start at the parent for the lookup,
+  // otherwise it would catch the first variable
   const variableDeclarator = getNearestNodeWithoutCallExpressionInBetweenFrom(
-    node,
+    node.parent,
     (node) => node.type === AST_NODE_TYPES.VariableDeclarator,
   );
 

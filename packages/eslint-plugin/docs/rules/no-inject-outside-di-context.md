@@ -921,6 +921,37 @@ class MyModule {
 ```ts
 @Component()
 class Test {
+  constructor() {
+    inject(SomeService).observable.pipe();
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-inject-outside-di-context": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component()
+class Test {
   private service = inject(SomeService);
 }
 ```

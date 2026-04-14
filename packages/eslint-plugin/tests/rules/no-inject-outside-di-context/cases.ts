@@ -56,6 +56,15 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     }
   }
   `,
+  // in constructor with direct call
+  `
+  @Component()
+  class Test {
+    constructor() {
+      inject(SomeService).observable.pipe();
+    }
+  }
+  `,
   // in Component field initializer
   `
   @Component()
