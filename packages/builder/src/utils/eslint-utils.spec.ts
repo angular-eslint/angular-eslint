@@ -5,7 +5,11 @@ const MockFlatESLint = vi.fn(class MockFlatESLint {});
 
 vi.mock('eslint', () => ({
   ESLint: MockESLint,
-  loadESLint: vi.fn().mockReturnValue(Promise.resolve(MockESLint)),
+  loadESLint: vi
+    .fn()
+    .mockImplementation(({ useFlatConfig }: { useFlatConfig: boolean }) =>
+      Promise.resolve(useFlatConfig ? MockFlatESLint : MockESLint),
+    ),
 }));
 
 vi.mock('eslint/use-at-your-own-risk', () => ({
@@ -255,12 +259,6 @@ describe('eslint-utils', () => {
 
   describe('stats option', () => {
     it('should create the ESLint instance with "stats" set to true when using flat config', async () => {
-      // Force eslint/use-at-your-own-risk to be used
-      vi.mock('eslint', () => ({
-        ESLint: MockESLint,
-        loadESLint: undefined,
-      }));
-
       await resolveAndInstantiateESLint(
         './eslint.config.js',
         {
