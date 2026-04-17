@@ -7,7 +7,7 @@ exports[`new-workspace > should pass linting after creating a new workspace from
   "@angular/compiler-cli": "^21.X.X",
   "@eslint/js": "^10.0.1",
   "angular-eslint": "0.0.0-e2e",
-  "eslint": "^10.1.0",
+  "eslint": "^10.2.0",
   "jsdom": "^28.0.0",
   "ng-packagr": "^21.X.X",
   "prettier": "^3.8.1",
