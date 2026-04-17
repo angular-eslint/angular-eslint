@@ -43,7 +43,7 @@ jobs:
           packages: |
             @nx/workspace:.catalog["@nx/workspace"]
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v5
         if: ${{ steps.relevant-packages-check.outputs.was-changed == 'true' }}
         name: Install pnpm
         with:

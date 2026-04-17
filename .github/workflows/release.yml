@@ -191,7 +191,7 @@ jobs:
           # We need the full history for version calculation
           fetch-depth: 0
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v5
         name: Install pnpm
         with:
           run_install: false
@@ -248,7 +248,7 @@ jobs:
           # Check out the repo with a specific fine-grained PAT to allow pushing back to the repo
           token: ${{ secrets.GH_FINE_GRAINED_PAT }}
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v5
         name: Install pnpm
         with:
           run_install: false

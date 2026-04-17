@@ -4,17 +4,23 @@ import {
   TmplAstTextAttribute,
   TmplAstIfBlock,
   TmplAstForLoopBlock,
+  TmplAstSwitchBlock,
   TmplAstSwitchBlockCase,
   ParseSourceSpan,
 } from '@angular-eslint/bundled-angular-compiler';
 import { getTemplateParserServices } from '@angular-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
-export type Options = [{ maxComplexity: number }];
+export type Options = [
+  { maxComplexity?: number; variant?: 'classic' | 'modified' },
+];
 export type MessageIds = 'cyclomaticComplexity';
 export const RULE_NAME = 'cyclomatic-complexity';
 
-const DEFAULT_MAX_COMPLEXITY = 5;
+const DEFAULT_OPTIONS = {
+  maxComplexity: 5,
+  variant: 'classic',
+} as const satisfies Options[number];
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
@@ -31,6 +37,10 @@ export default createESLintRule<Options, MessageIds>({
             type: 'number',
             minimum: 1,
           },
+          variant: {
+            type: 'string',
+            enum: ['classic', 'modified'],
+          },
         },
         additionalProperties: false,
       },
@@ -40,8 +50,21 @@ export default createESLintRule<Options, MessageIds>({
         'The cyclomatic complexity {{totalComplexity}} exceeds the defined limit {{maxComplexity}}',
     },
   },
-  defaultOptions: [{ maxComplexity: DEFAULT_MAX_COMPLEXITY }],
-  create(context, [{ maxComplexity }]) {
+  defaultOptions: [
+    {
+      maxComplexity: DEFAULT_OPTIONS.maxComplexity,
+      variant: DEFAULT_OPTIONS.variant,
+    },
+  ],
+  create(
+    context,
+    [
+      {
+        maxComplexity = DEFAULT_OPTIONS.maxComplexity,
+        variant = DEFAULT_OPTIONS.variant,
+      },
+    ],
+  ) {
     let totalComplexity = 0;
     const parserServices = getTemplateParserServices(context);
 
@@ -59,22 +82,50 @@ export default createESLintRule<Options, MessageIds>({
       });
     }
 
+    const isModified = variant === 'modified';
+
+    // Checks *ngIf, *ngFor, and *ngSwitchCase ('classic' variant) or *ngSwitch ('modified' variant)
+    function isLegacyStructuralDirective(node: Node): boolean {
+      const legacyStructuralDirectiveRegex = isModified
+        ? /^(ngForOf|ngIf|ngSwitch)$/
+        : /^(ngForOf|ngIf|ngSwitchCase)$/;
+
+      return (
+        node instanceof TmplAstBoundAttribute &&
+        legacyStructuralDirectiveRegex.test(node.name)
+      );
+    }
+
+    // Checks *ngSwitchDefault ('classic' variant)
+    function isLegacySwitchDefault(node: Node): boolean {
+      return (
+        !isModified &&
+        node instanceof TmplAstTextAttribute &&
+        node.name === 'ngSwitchDefault'
+      );
+    }
+
+    // Checks @if and @for
+    function isControlFlowBlock(node: Node): boolean {
+      return (
+        node instanceof TmplAstIfBlock || node instanceof TmplAstForLoopBlock
+      );
+    }
+
+    // Checks @switch ('modified' variant) or @switchCase ('classic' variant)
+    function isSwitchComplexity(node: Node): boolean {
+      return isModified
+        ? node instanceof TmplAstSwitchBlock
+        : node instanceof TmplAstSwitchBlockCase;
+    }
+
     return {
       '*': (node: Node) => {
         if (
-          node instanceof TmplAstBoundAttribute &&
-          /^(ngForOf|ngIf|ngSwitchCase)$/.test(node.name)
-        ) {
-          increment(node);
-        } else if (
-          node instanceof TmplAstTextAttribute &&
-          node.name === 'ngSwitchDefault'
-        ) {
-          increment(node);
-        } else if (
-          node instanceof TmplAstIfBlock ||
-          node instanceof TmplAstForLoopBlock ||
-          node instanceof TmplAstSwitchBlockCase
+          isLegacyStructuralDirective(node) ||
+          isLegacySwitchDefault(node) ||
+          isControlFlowBlock(node) ||
+          isSwitchComplexity(node)
         ) {
           increment(node);
         }
