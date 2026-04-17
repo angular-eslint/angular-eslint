@@ -10,8 +10,8 @@ catalogs:
       specifier: 21.2.7
       version: 21.2.7
     '@angular/compiler':
-      specifier: 21.2.6
-      version: 21.2.6
+      specifier: 21.2.8
+      version: 21.2.8
     '@commitlint/cli':
       specifier: 20.5.0
       version: 20.5.0
@@ -215,7 +215,7 @@ importers:
         version: 21.2.7(@types/node@22.19.17)
       '@angular/compiler':
         specifier: 'catalog:'
-        version: 21.2.6
+        version: 21.2.8
       '@commitlint/cli':
         specifier: 'catalog:'
         version: 20.5.0(@types/node@22.19.17)(conventional-commits-parser@6.3.0)(typescript@5.9.3)
@@ -697,8 +697,8 @@ packages:
     engines: {node: ^20.19.0 || ^22.12.0 || >=24.0.0, npm: ^6.11.0 || ^7.5.6 || >=8.0.0, yarn: '>= 1.13.0'}
     hasBin: true
 
-  '@angular/compiler@21.2.6':
-    resolution: {integrity: sha512-shGkb/aAIPbG8oSYkVJ0msGlRdDVcJBVaUVx2KenMltifQjfLn5N8DFMAzOR6haaA3XeugFExxKqmvySjrVq+A==}
+  '@angular/compiler@21.2.8':
+    resolution: {integrity: sha512-Il9KlT6qX8rWmun5jY6wMLx56bCQZpOVIFEyHM4ai2wmxvbqyxgRFKDs4iMRNn1h04Tgupl6cKSqP9lecIvH6w==}
     engines: {node: ^20.19.0 || ^22.12.0 || >=24.0.0}
 
   '@apidevtools/json-schema-ref-parser@11.9.3':
@@ -7137,7 +7137,7 @@ snapshots:
       - chokidar
       - supports-color
 
-  '@angular/compiler@21.2.6':
+  '@angular/compiler@21.2.8':
     dependencies:
       tslib: 2.8.1
 
