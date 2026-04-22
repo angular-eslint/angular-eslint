@@ -17,6 +17,7 @@ export default (
     name: 'angular-eslint/ts-recommended',
     rules: {
       '@angular-eslint/contextual-lifecycle': 'error',
+      '@angular-eslint/inject-at-top': 'error',
       '@angular-eslint/no-empty-lifecycle-method': 'error',
       '@angular-eslint/no-input-rename': 'error',
       '@angular-eslint/no-inputs-metadata-property': 'error',
