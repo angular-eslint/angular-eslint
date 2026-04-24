@@ -71,6 +71,7 @@ export type Options = [
     readonly checkText?: boolean;
     readonly ignoreAttributes?: readonly string[];
     readonly ignoreTags?: readonly string[];
+    readonly includeAttributes?: readonly string[];
     readonly requireDescription?: boolean;
     readonly requireMeaning?: boolean;
   },
@@ -177,6 +178,12 @@ export default createESLintRule<Options, MessageIds>({
               type: 'string',
             },
           },
+          includeAttributes: {
+            type: 'array',
+            items: {
+              type: 'string',
+            },
+          },
           requireDescription: {
             type: 'boolean',
             default: DEFAULT_OPTIONS.requireDescription,
@@ -215,6 +222,7 @@ export default createESLintRule<Options, MessageIds>({
         checkText,
         ignoreAttributes,
         ignoreTags,
+        includeAttributes,
         requireDescription,
         requireMeaning,
       },
@@ -229,6 +237,9 @@ export default createESLintRule<Options, MessageIds>({
       ...DEFAULT_ALLOWED_ATTRIBUTES,
       ...(ignoreAttributes ?? []),
     ]);
+    const includedAttributes: ReadonlySet<string> = new Set(
+      includeAttributes ?? [],
+    );
     const allowedTags: ReadonlySet<string> = new Set(ignoreTags);
     const collectedCustomIds = new Map<string, readonly ParseSourceSpan[]>();
 
@@ -345,8 +356,14 @@ export default createESLintRule<Options, MessageIds>({
 
       if (
         i18n ||
-        !checkAttributes ||
-        isAttributeAllowed(allowedAttributes, elementName, attributeName, value)
+        (!isAttributeIncluded(includedAttributes, elementName, attributeName) &&
+          (!checkAttributes ||
+            isAttributeAllowed(
+              allowedAttributes,
+              elementName,
+              attributeName,
+              value,
+            )))
       ) {
         return;
       }
@@ -430,7 +447,8 @@ export default createESLintRule<Options, MessageIds>({
       ...((checkAttributes ||
         checkId ||
         requireDescription ||
-        requireMeaning) && {
+        requireMeaning ||
+        includedAttributes.size > 0) && {
         [`Element > TextAttribute[value=${PL_PATTERN}]`](
           node: StronglyTypedTextAttribute,
         ) {
@@ -546,6 +564,17 @@ function isAttributeAllowed(
     isEmpty(attributeValue) ||
     isBooleanLike(attributeValue) ||
     isNumeric(attributeValue)
+  );
+}
+
+function isAttributeIncluded(
+  includedAttributes: ReadonlySet<string>,
+  elementName: string,
+  attributeName: string,
+) {
+  return (
+    includedAttributes.has(attributeName) ||
+    includedAttributes.has(`${elementName}[${attributeName}]`)
   );
 }
 

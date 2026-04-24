@@ -414,9 +414,69 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   `,
   `
     <ng-container i18n="@@foo">
-      Foo @if (bar) { Bar <a>Bam</a> } 
+      Foo @if (bar) { Bar <a>Bam</a> }
     </ng-container>
   `,
+  {
+    code: `
+      <div i18n-tooltip tooltip="Translated tooltip">Content</div>
+    `,
+    options: [
+      {
+        checkAttributes: false,
+        checkId: false,
+        includeAttributes: ['tooltip'],
+      },
+    ],
+  },
+  {
+    code: `
+      <dxi-column dataField="ID" caption="Head" i18n-caption></dxi-column>
+    `,
+    options: [
+      {
+        checkAttributes: false,
+        checkId: false,
+        includeAttributes: ['caption'],
+      },
+    ],
+  },
+  {
+    code: `
+      <my-component title="Not translatable" caption="Also not translatable"></my-component>
+    `,
+    options: [
+      {
+        checkAttributes: false,
+        checkId: false,
+        includeAttributes: ['tooltip'],
+      },
+    ],
+  },
+  {
+    code: `
+      <my-component name="Translatable" i18n-name></my-component>
+    `,
+    options: [
+      {
+        checkAttributes: false,
+        checkId: false,
+        includeAttributes: ['dxi-column[caption]', 'my-component[name]'],
+      },
+    ],
+  },
+  {
+    code: `
+      <dxi-column caption="Not checked"></dxi-column>
+    `,
+    options: [
+      {
+        checkAttributes: false,
+        checkId: false,
+        includeAttributes: ['dxi-column[name]'],
+      },
+    ],
+  },
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
@@ -1179,5 +1239,98 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId: i18nMarkupInContent,
     options: [{ allowMarkupInContent: false, checkId: false }],
     languageOptions: { parserOptions: { suppressParseErrors: true } },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if included attribute is missing i18n even when checkAttributes is false',
+    annotatedSource: `
+      <div tooltip="This requires translation"></div>
+           ~~~~~~~
+    `,
+    messageId: i18nAttribute,
+    data: { attributeName: 'tooltip' },
+    options: [
+      {
+        checkAttributes: false,
+        checkId: false,
+        includeAttributes: ['tooltip'],
+      },
+    ],
+    annotatedOutput: `
+      <div tooltip="This requires translation" i18n-tooltip></div>
+           ~~~~~~~
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if element-scoped included attribute is missing i18n',
+    annotatedSource: `
+      <dxi-column caption="Head"></dxi-column>
+                  ~~~~~~~
+    `,
+    messageId: i18nAttribute,
+    data: { attributeName: 'caption' },
+    options: [
+      {
+        checkAttributes: false,
+        checkId: false,
+        includeAttributes: ['dxi-column[caption]'],
+      },
+    ],
+    annotatedOutput: `
+      <dxi-column caption="Head" i18n-caption></dxi-column>
+                  ~~~~~~~
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail if included attribute overrides ignoreAttributes',
+    annotatedSource: `
+      <div tooltip="This requires translation"></div>
+           ~~~~~~~
+    `,
+    messageId: i18nAttribute,
+    data: { attributeName: 'tooltip' },
+    options: [
+      {
+        checkId: false,
+        ignoreAttributes: ['tooltip'],
+        includeAttributes: ['tooltip'],
+      },
+    ],
+    annotatedOutput: `
+      <div tooltip="This requires translation" i18n-tooltip></div>
+           ~~~~~~~
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail for multiple included attributes missing i18n when checkAttributes is false',
+    annotatedSource: `
+      <my-component title="Needs translation" caption="Also needs translation"></my-component>
+                    ~~~~~                     ^^^^^^^
+    `,
+    messages: [
+      {
+        char: '~',
+        messageId: i18nAttribute,
+        data: { attributeName: 'title' },
+      },
+      {
+        char: '^',
+        messageId: i18nAttribute,
+        data: { attributeName: 'caption' },
+      },
+    ],
+    options: [
+      {
+        checkAttributes: false,
+        checkId: false,
+        includeAttributes: ['title', 'caption'],
+      },
+    ],
+    annotatedOutput: `
+      <my-component title="Needs translation" i18n-title caption="Also needs translation" i18n-caption></my-component>
+
+    `,
   }),
 ];
