@@ -74,6 +74,28 @@ function isInInjectionContext(node: TSESTree.Node): boolean {
       }
     }
 
+    if (isNonConstructorMethod(current)) {
+      const classDeclaration = ASTUtils.getNearestNodeFrom(
+        current,
+        ASTUtils.isClassDeclaration,
+      );
+
+      if (classDeclaration) {
+        const decorator = ASTUtils.getAngularClassDecorator(classDeclaration);
+
+        if (
+          decorator &&
+          decorator !== 'NgModule' &&
+          isMethodCalledFromInjectionContext(
+            current as TSESTree.MethodDefinition,
+            classDeclaration,
+          )
+        ) {
+          return true;
+        }
+      }
+    }
+
     current = current.parent;
   }
 
@@ -84,6 +106,118 @@ function isConstructorMethod(node: TSESTree.Node) {
   return (
     node.type === AST_NODE_TYPES.MethodDefinition && node.kind === 'constructor'
   );
+}
+
+function isNonConstructorMethod(
+  node: TSESTree.Node,
+): node is TSESTree.MethodDefinition {
+  return (
+    node.type === AST_NODE_TYPES.MethodDefinition && node.kind !== 'constructor'
+  );
+}
+
+function getMethodName(node: TSESTree.MethodDefinition): string | null {
+  if (
+    node.key.type === AST_NODE_TYPES.Identifier ||
+    node.key.type === AST_NODE_TYPES.PrivateIdentifier
+  ) {
+    return node.key.name;
+  }
+  return null;
+}
+
+function isMethodCalledFromInjectionContext(
+  method: TSESTree.MethodDefinition,
+  classDeclaration: TSESTree.ClassDeclaration,
+): boolean {
+  const methodName = getMethodName(method);
+  if (!methodName) {
+    return false;
+  }
+
+  const isPrivateField = method.key.type === AST_NODE_TYPES.PrivateIdentifier;
+
+  for (const member of classDeclaration.body.body) {
+    if (
+      !isConstructorMethod(member) &&
+      !ASTUtils.isPropertyDefinition(member)
+    ) {
+      continue;
+    }
+
+    if (containsCallToMethod(member, methodName, isPrivateField)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function containsCallToMethod(
+  node: TSESTree.Node,
+  methodName: string,
+  isPrivateField: boolean,
+): boolean {
+  if (
+    node.type === AST_NODE_TYPES.CallExpression &&
+    node.callee.type === AST_NODE_TYPES.MemberExpression
+  ) {
+    const { object, property } = node.callee;
+
+    if (object.type === AST_NODE_TYPES.ThisExpression) {
+      if (
+        isPrivateField &&
+        property.type === AST_NODE_TYPES.PrivateIdentifier &&
+        property.name === methodName
+      ) {
+        return true;
+      }
+
+      if (
+        !isPrivateField &&
+        property.type === AST_NODE_TYPES.Identifier &&
+        property.name === methodName
+      ) {
+        return true;
+      }
+    }
+  }
+
+  for (const key of Object.keys(node) as (keyof typeof node)[]) {
+    if (key === 'parent') continue;
+
+    const child = node[key];
+    if (child && typeof child === 'object') {
+      if (Array.isArray(child)) {
+        for (const item of child) {
+          if (
+            item &&
+            typeof item === 'object' &&
+            'type' in item &&
+            containsCallToMethod(
+              item as TSESTree.Node,
+              methodName,
+              isPrivateField,
+            )
+          ) {
+            return true;
+          }
+        }
+      } else if ('type' in child) {
+        if (
+          containsCallToMethod(
+            child as TSESTree.Node,
+            methodName,
+            isPrivateField,
+          )
+        ) {
+          return true;
+        }
+      }
+    }
+  }
+
+  return false;
 }
 
 function isInFactoryFunction(node: TSESTree.Node): boolean {
