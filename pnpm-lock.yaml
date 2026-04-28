@@ -124,8 +124,8 @@ catalogs:
       specifier: 0.0.66
       version: 0.0.66
     prettier:
-      specifier: 3.8.2
-      version: 3.8.2
+      specifier: 3.8.3
+      version: 3.8.3
     tree-kill:
       specifier: 1.2.2
       version: 1.2.2
@@ -335,7 +335,7 @@ importers:
         version: 0.0.66
       prettier:
         specifier: 'catalog:'
-        version: 3.8.2
+        version: 3.8.3
       tree-kill:
         specifier: 'catalog:'
         version: 1.2.2
@@ -5907,8 +5907,8 @@ packages:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
     engines: {node: '>= 0.8.0'}
 
-  prettier@3.8.2:
-    resolution: {integrity: sha512-8c3mgTe0ASwWAJK+78dpviD+A8EqhndQPUBpNUIPt6+xWlIigCwfN01lWr9MAede4uqXGTEKeQWTvzb3vjia0Q==}
+  prettier@3.8.3:
+    resolution: {integrity: sha512-7igPTM53cGHMW8xWuVTydi2KO233VFiTNyF5hLJqpilHfmn8C8gPf+PS7dUT64YcXFbiMGZxS9pCSxL/Dxm/Jw==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -12276,7 +12276,7 @@ snapshots:
       js-yaml: 4.1.1
       lodash: 4.18.1
       minimist: 1.2.8
-      prettier: 3.8.2
+      prettier: 3.8.3
       tinyglobby: 0.2.16
 
   json-schema-traverse@0.4.1: {}
@@ -13158,7 +13158,7 @@ snapshots:
 
   prelude-ls@1.2.1: {}
 
-  prettier@3.8.2: {}
+  prettier@3.8.3: {}
 
   pretty-format@30.2.0:
     dependencies:
