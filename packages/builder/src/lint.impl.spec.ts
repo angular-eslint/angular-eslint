@@ -109,6 +109,7 @@ function createValidRunBuilderOptions(
     noConfigLookup: null,
     concurrency: null,
     applySuppressions: null,
+    suppressionsLocation: null,
     ...additionalOptions,
   };
 }
@@ -218,6 +219,7 @@ describe('Linter Builder', () => {
         rulesdir: [],
         resolvePluginsRelativeTo: null,
         applySuppressions: true,
+        suppressionsLocation: null,
       }),
     );
     expect(mockResolveAndInstantiateESLint).toHaveBeenCalledTimes(1);
@@ -247,6 +249,7 @@ describe('Linter Builder', () => {
         reportUnusedDisableDirectives: null,
         concurrency: null,
         applySuppressions: true,
+        suppressionsLocation: null,
       },
       false,
     );
@@ -289,6 +292,7 @@ describe('Linter Builder', () => {
         reportUnusedDisableDirectives: null,
         concurrency: null,
         applySuppressions: false,
+        suppressionsLocation: null,
       },
       true, // useFlatConfig
     );
@@ -331,6 +335,7 @@ describe('Linter Builder', () => {
         reportUnusedDisableDirectives: null,
         concurrency: null,
         applySuppressions: false,
+        suppressionsLocation: null,
       },
       true, // useFlatConfig
     );
@@ -373,6 +378,7 @@ describe('Linter Builder', () => {
         reportUnusedDisableDirectives: null,
         concurrency: null,
         applySuppressions: false,
+        suppressionsLocation: null,
       },
       true, // useFlatConfig
     );
@@ -1183,6 +1189,7 @@ describe('Linter Builder', () => {
         reportUnusedDisableDirectives: null,
         concurrency: null,
         applySuppressions: false,
+        suppressionsLocation: null,
       },
       true, // useFlatConfig
     );
@@ -1238,6 +1245,44 @@ describe('Linter Builder', () => {
     expect(result.success).toBe(false);
     expect(console.error).toHaveBeenCalledWith(
       expect.stringContaining(expectedPath),
+    );
+  });
+  it('should correctly create the path for the suppressions file', async () => {
+    await runBuilder(
+      createValidRunBuilderOptions({
+        applySuppressions: true,
+        suppressionsLocation: './suppressions.json',
+      }),
+    );
+    expect(mockResolveAndInstantiateESLint).toHaveBeenCalledWith(
+      undefined,
+      {
+        lintFilePatterns: [],
+        eslintConfig: null,
+        exclude: ['excludedFile1'],
+        fix: true,
+        quiet: false,
+        cache: true,
+        cacheLocation: `cacheLocation1${sep}test-project`,
+        cacheStrategy: 'content',
+        format: 'stylish',
+        force: false,
+        silent: false,
+        stats: false,
+        useEslintrc: null,
+        maxWarnings: -1,
+        outputFile: null,
+        ignorePath: null,
+        noEslintrc: false,
+        noConfigLookup: null,
+        rulesdir: [],
+        resolvePluginsRelativeTo: null,
+        reportUnusedDisableDirectives: null,
+        concurrency: null,
+        applySuppressions: true,
+        suppressionsLocation: join(testWorkspaceRoot, 'suppressions.json'),
+      },
+      false,
     );
   });
 });

@@ -23,6 +23,7 @@ export interface Schema extends JsonObject {
   noConfigLookup: boolean | null;
   concurrency: 'auto' | 'off' | number | null;
   applySuppressions: boolean | null;
+  suppressionsLocation: string | null;
 }
 
 type Formatter =
