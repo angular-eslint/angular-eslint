@@ -41,7 +41,7 @@ jobs:
           packages: |
             @mdn/browser-compat-data:.catalog["@mdn/browser-compat-data"]
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v5
         if: ${{ steps.relevant-packages-check.outputs.was-changed == 'true' }}
         name: Install pnpm
         with:
