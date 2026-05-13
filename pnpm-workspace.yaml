@@ -3,8 +3,8 @@ packages:
 catalog:
   '@angular/cli': '21.2.9'
   '@angular/compiler': '21.2.9'
-  '@commitlint/cli': '20.5.0'
-  '@commitlint/config-conventional': '20.5.0'
+  '@commitlint/cli': '20.5.3'
+  '@commitlint/config-conventional': '20.5.3'
   '@eslint/core': '1.2.1'
   '@eslint/js': '10.0.1'
   '@mdn/browser-compat-data': '7.3.14'
