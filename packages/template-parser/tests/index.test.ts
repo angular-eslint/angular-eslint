@@ -10563,7 +10563,7 @@ describe('parseForESLint()', () => {
             LetDeclaration {
               "loc": {
                 "end": {
-                  "column": 20,
+                  "column": 21,
                   "line": 2,
                 },
                 "start": {
@@ -10617,7 +10617,7 @@ describe('parseForESLint()', () => {
               "sourceSpan": ParseSourceSpan {
                 "details": null,
                 "end": ParseLocation {
-                  "col": 20,
+                  "col": 21,
                   "file": ParseSourceFile {
                     "content": "
                   @let a = 1;
@@ -10627,7 +10627,7 @@ describe('parseForESLint()', () => {
                     "url": "./foo.html",
                   },
                   "line": 1,
-                  "offset": 21,
+                  "offset": 22,
                 },
                 "fullStart": ParseLocation {
                   "col": 10,
@@ -10806,7 +10806,7 @@ describe('parseForESLint()', () => {
             LetDeclaration {
               "loc": {
                 "end": {
-                  "column": 24,
+                  "column": 25,
                   "line": 3,
                 },
                 "start": {
@@ -10860,7 +10860,7 @@ describe('parseForESLint()', () => {
               "sourceSpan": ParseSourceSpan {
                 "details": null,
                 "end": ParseLocation {
-                  "col": 24,
+                  "col": 25,
                   "file": ParseSourceFile {
                     "content": "
                   @let a = 1;
@@ -10870,7 +10870,7 @@ describe('parseForESLint()', () => {
                     "url": "./foo.html",
                   },
                   "line": 2,
-                  "offset": 47,
+                  "offset": 48,
                 },
                 "fullStart": ParseLocation {
                   "col": 10,
@@ -11118,7 +11118,7 @@ describe('parseForESLint()', () => {
             LetDeclaration {
               "loc": {
                 "end": {
-                  "column": 24,
+                  "column": 25,
                   "line": 4,
                 },
                 "start": {
@@ -11172,7 +11172,7 @@ describe('parseForESLint()', () => {
               "sourceSpan": ParseSourceSpan {
                 "details": null,
                 "end": ParseLocation {
-                  "col": 24,
+                  "col": 25,
                   "file": ParseSourceFile {
                     "content": "
                   @let a = 1;
@@ -11182,7 +11182,7 @@ describe('parseForESLint()', () => {
                     "url": "./foo.html",
                   },
                   "line": 3,
-                  "offset": 73,
+                  "offset": 74,
                 },
                 "fullStart": ParseLocation {
                   "col": 10,
