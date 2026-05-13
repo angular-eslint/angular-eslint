@@ -39,7 +39,7 @@ catalog:
   ncp: '2.0.0'
   nx: '22.6.5'
   picocolors: '1.1.1'
-  pkg-pr-new: '0.0.66'
+  pkg-pr-new: '0.0.70'
   prettier: '3.8.3'
   tree-kill: '1.2.2'
   ts-node: '10.9.2'
