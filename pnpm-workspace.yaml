@@ -25,7 +25,7 @@ catalog:
   '@types/node': '22.19.17'
   '@types/semver': '^7.5.8'
   '@types/yargs': '^17.0.33'
-  '@vitest/coverage-v8': '4.1.4'
+  '@vitest/coverage-v8': '4.1.5'
   cz-conventional-changelog: '3.3.0'
   esbuild: '^0.28.0'
   eslint: '10.2.0'
@@ -48,7 +48,7 @@ catalog:
   typescript: '5.9.3'
   verdaccio: '6.5.2'
   vite: '^8.0.0'
-  vitest: '4.1.4'
+  vitest: '4.1.5'
   yargs: '18.0.0'
 catalogMode: 'prefer'
 catalogs:
