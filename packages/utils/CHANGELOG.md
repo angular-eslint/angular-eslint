@@ -1,3 +1,13 @@
+## 21.4.0 (2026-05-13)
+
+### 🩹 Fixes
+
+- **eslint-plugin:** append fixes in prefer-on-push-change-detection, use-injectable-provided-in ([#2969](https://github.com/angular-eslint/angular-eslint/pull/2969))
+
+### ❤️ Thank You
+
+- Evgeny Stepanovych @undsoft
+
 ## 21.3.1 (2026-03-17)
 
 This was a version bump only for @angular-eslint/utils to align it with other projects, there were no code changes.

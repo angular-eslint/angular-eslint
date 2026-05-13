@@ -1,3 +1,37 @@
+## 21.4.0 (2026-05-13)
+
+### 🚀 Features
+
+- **builder:** add apply-suppressions option ([#2974](https://github.com/angular-eslint/angular-eslint/pull/2974))
+- **eslint-plugin-template:** [cyclomatic-complexity] add `variant` option ([#2976](https://github.com/angular-eslint/angular-eslint/pull/2976))
+
+### 🩹 Fixes
+
+- update typescript-eslint packages to v8.57.0 ([#2955](https://github.com/angular-eslint/angular-eslint/pull/2955))
+- update dependency @angular/compiler to v21.2.6 ([#2961](https://github.com/angular-eslint/angular-eslint/pull/2961))
+- update dependency eslint to v10.1.0 ([#2983](https://github.com/angular-eslint/angular-eslint/pull/2983))
+- update dependency @angular/compiler to v21.2.8 ([#2996](https://github.com/angular-eslint/angular-eslint/pull/2996))
+- update typescript-eslint packages to v8.58.1 ([#2984](https://github.com/angular-eslint/angular-eslint/pull/2984))
+- update dependency eslint to v10.2.0 ([#2999](https://github.com/angular-eslint/angular-eslint/pull/2999))
+- update dependency @angular/compiler to v21.2.9 ([#3010](https://github.com/angular-eslint/angular-eslint/pull/3010))
+- update typescript-eslint packages to v8.59.2 ([#3005](https://github.com/angular-eslint/angular-eslint/pull/3005))
+- update dependency @angular/compiler to v21.2.11 ([#3019](https://github.com/angular-eslint/angular-eslint/pull/3019))
+- update dependency eslint to v10.3.0 ([#3013](https://github.com/angular-eslint/angular-eslint/pull/3013))
+- **eslint-plugin:** append fixes in prefer-on-push-change-detection, use-injectable-provided-in ([#2969](https://github.com/angular-eslint/angular-eslint/pull/2969))
+- **eslint-plugin:** [prefer-template-literal] do not check inline templates ([#2959](https://github.com/angular-eslint/angular-eslint/pull/2959))
+- **eslint-plugin-template:** [no-non-null-assertion] report nested arrays ([#2991](https://github.com/angular-eslint/angular-eslint/pull/2991))
+- **eslint-plugin-template:** [eqeqeq] could not destructure null ([#2922](https://github.com/angular-eslint/angular-eslint/pull/2922))
+- **schematics:** sync application schema with upstream @schematics/angular ([#3027](https://github.com/angular-eslint/angular-eslint/pull/3027))
+
+### ❤️ Thank You
+
+- Dave @reduckted
+- Evgeny Stepanovych @undsoft
+- Finn Bayer
+- githubuser578 @githubuser578
+- Guillaume DROUARD
+- James Henry @JamesHenry
+
 ## 21.3.1 (2026-03-17)
 
 ### 🩹 Fixes

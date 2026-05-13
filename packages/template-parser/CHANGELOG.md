@@ -1,3 +1,14 @@
+## 21.4.0 (2026-05-13)
+
+### 🩹 Fixes
+
+- update dependency @angular/compiler to v21.2.11 ([#3019](https://github.com/angular-eslint/angular-eslint/pull/3019))
+- **eslint-plugin-template:** [no-non-null-assertion] report nested arrays ([#2991](https://github.com/angular-eslint/angular-eslint/pull/2991))
+
+### ❤️ Thank You
+
+- Guillaume DROUARD
+
 ## 21.3.1 (2026-03-17)
 
 This was a version bump only for template-parser to align it with other projects, there were no code changes.
