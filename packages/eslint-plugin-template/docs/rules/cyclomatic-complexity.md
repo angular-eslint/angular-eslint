@@ -37,6 +37,10 @@ interface Options {
    * Default: `5`
    */
   maxComplexity?: number;
+  /**
+   * Default: `"classic"`
+   */
+  variant?: "classic" | "modified";
 }
 
 ```
@@ -172,6 +176,87 @@ interface Options {
     }
   }
 }
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/cyclomatic-complexity": [
+      "error",
+      {
+        "maxComplexity": 3,
+        "variant": "modified"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@if (cond1) {
+  @if (cond2) {
+    @for (item of items; track item.id) {
+      @switch (item) {
+        @case ('a') {}
+        @case ('b') {}
+        @case ('c') {}
+        @default {}
+      }
+    }
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/cyclomatic-complexity": [
+      "error",
+      {
+        "maxComplexity": 3,
+        "variant": "modified"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div *ngIf="a === '1'">
+  <div *ngFor="let person of persons; trackBy: trackByFn">
+    <div *ngIf="a === '1'">{{ person.name }}</div>
+    <div [ngSwitch]="person.emotion">
+         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      <app-happy-hero    *ngSwitchCase="'happy'"    [hero]="currentHero"></app-happy-hero>
+      <app-sad-hero      *ngSwitchCase="'sad'"      [hero]="currentHero"></app-sad-hero>
+      <app-unknown-hero  *ngSwitchDefault           [hero]="currentHero"></app-unknown-hero>
+    </div>
+  </div>
+</div>
 ```
 
 </details>
@@ -378,6 +463,84 @@ interface Options {
   @case ('b') { <span>B</span> }
   @default { <span>Default</span> }
 }
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/cyclomatic-complexity": [
+      "error",
+      {
+        "maxComplexity": 3,
+        "variant": "modified"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+@if (cond) {
+  @for (item of items; track item.id) {
+    @switch (item) {
+      @case ('a') {}
+      @case ('b') {}
+      @case ('c') {}
+      @default {}
+    }
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/cyclomatic-complexity": [
+      "error",
+      {
+        "maxComplexity": 3,
+        "variant": "modified"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div *ngIf="a === '1'">
+  <div *ngFor="let person of persons; trackBy: trackByFn">
+    {{ person.name }}
+    <div [ngSwitch]="person.emotion">
+      <app-happy-hero    *ngSwitchCase="'happy'" [hero]="currentHero"></app-happy-hero>
+      <app-sad-hero      *ngSwitchCase="'sad'"   [hero]="currentHero"></app-sad-hero>
+      <app-unknown-hero  *ngSwitchDefault        [hero]="currentHero"></app-unknown-hero>
+    </div>
+  </div>
+</div>
 ```
 
 </details>

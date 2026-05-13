@@ -275,6 +275,15 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail with non-null assertion before nested array access',
+    annotatedSource: `
+        {{ items![0]?.[0] }}
+           ~~~~~~
+      `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
     description: 'should fail with non-null assertion after array access',
     annotatedSource: `
         {{ items[0]! }}

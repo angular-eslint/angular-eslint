@@ -709,6 +709,33 @@ The rule does not have any configuration options.
 #### ❌ Invalid Code
 
 ```html
+{{ items![0]?.[0] }}
+   ~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-non-null-assertion": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
 {{ items[0]! }}
    ~~~~~~~~~
 ```
