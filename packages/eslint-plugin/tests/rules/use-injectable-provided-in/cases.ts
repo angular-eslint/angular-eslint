@@ -116,7 +116,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       messageId: suggestInjector,
       output: `
       const providedIn = 'anotherProperty';
-      @Injectable({ providedIn: '${injector}',[providedIn]: [] })
+      @Injectable({ [providedIn]: [], providedIn: '${injector}' })
       
       class Test {}
     `,

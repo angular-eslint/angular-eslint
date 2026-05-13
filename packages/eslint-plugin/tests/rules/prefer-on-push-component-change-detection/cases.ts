@@ -122,7 +122,29 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         output: `
       import { Component, ChangeDetectionStrategy } from '@angular/core';
       const changeDetection = 'template';
-      @Component({ changeDetection: ChangeDetectionStrategy.OnPush,[changeDetection]: '' })
+      @Component({ [changeDetection]: '', changeDetection: ChangeDetectionStrategy.OnPush })
+      
+      class Test {}
+    `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if `@Component` has no `changeDetection` (trailing comma)',
+    annotatedSource: `
+      import { Component } from '@angular/core';
+      @Component({ selector: 'app-test', })
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      class Test {}
+    `,
+    messageId,
+    suggestions: [
+      {
+        messageId: suggestAddChangeDetectionOnPush,
+        output: `
+      import { Component, ChangeDetectionStrategy } from '@angular/core';
+      @Component({ selector: 'app-test', changeDetection: ChangeDetectionStrategy.OnPush, })
       
       class Test {}
     `,
