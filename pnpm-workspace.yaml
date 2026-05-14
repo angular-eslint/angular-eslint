@@ -75,5 +75,6 @@ allowBuilds:
   core-js: false
   esbuild: true
   nx: true
+  unrs-resolver: true
 patchedDependencies:
   '@typescript-eslint/rule-tester': 'tools/patches/@typescript-eslint__rule-tester.patch'
