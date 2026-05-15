@@ -241,6 +241,44 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
       return [...a];
     });
   `,
+  // Same variable name in unrelated scopes should NOT collide: the second
+  // function's local \`arr\` is a plain array, not a signal-derived value.
+  `
+    function a() {
+      let items: WritableSignal<number[]>;
+      const arr = items();
+      const length = arr.length;
+    }
+    function b() {
+      const arr = [1, 2, 3];
+      arr.push(4);
+    }
+  `,
+  // Reassignment to a non-signal value should clear tracking.
+  `
+    let items: WritableSignal<number[]>;
+    let arr = items();
+    arr = [];
+    arr.push(1);
+  `,
+  // Non-mutating Map/Set methods on signal values are fine.
+  `
+    let cache: WritableSignal<Map<string, number>>;
+    const value = cache().get('k');
+  `,
+  `
+    let tags: WritableSignal<Set<string>>;
+    const has = tags().has('x');
+  `,
+  // Known limitation: destructured \`.update()\` parameters are not tracked
+  // as signal-derived, so mutations through them are not detected.
+  `
+    let value: WritableSignal<{ items: number[] }>;
+    value.update(({ items }) => {
+      items.push(1);
+      return { items };
+    });
+  `,
 ].map(appendTypes);
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
@@ -700,6 +738,82 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       });
     `,
     messageId: 'useImmutableUpdate',
+  }),
+
+  // Nested chain mutation: arr[0].a = x where arr came from signal()
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
+    description: 'mutating nested element of signal-derived array',
+    annotatedSource: `
+      let userData: Signal<{ a: number }[]>;
+      const x = userData();
+      x[0].a = 42;
+      ~~~~~~
+    `,
+    messageId: 'noMutableSignalUpdate',
+  }),
+
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
+    description: 'mutating nested element of WritableSignal-derived array',
+    annotatedSource: `
+      let items: WritableSignal<{ value: number }[]>;
+      const arr = items();
+      arr[0].value++;
+      ~~~~~~~~~~~~
+    `,
+    messageId: 'noMutableWritableSignalUpdate',
+  }),
+
+  // Read-only Signal value passed to a parameter typed as mutable
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
+    description: 'passing read-only Signal value to mutable parameter',
+    annotatedSource: `
+      let userData: Signal<{ a: number }>;
+      mutate(userData());
+             ~~~~~~~~~~
+      function mutate(x: { a: number }) {}
+    `,
+    messageId: 'noMutableSignalUpdate',
+  }),
+
+  // Map/Set mutating method detection on signal values
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
+    description: 'calling set on WritableSignal Map value',
+    annotatedSource: `
+      let cache: WritableSignal<Map<string, number>>;
+      cache().set('k', 1);
+      ~~~~~~~~~~~
+    `,
+    messageId: 'useSetOrUpdate',
+  }),
+
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
+    description: 'calling clear on WritableSignal Map value',
+    annotatedSource: `
+      let cache: WritableSignal<Map<string, number>>;
+      cache().clear();
+      ~~~~~~~~~~~~~
+    `,
+    messageId: 'useSetOrUpdate',
+  }),
+
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
+    description: 'calling add on WritableSignal Set value',
+    annotatedSource: `
+      let tags: WritableSignal<Set<string>>;
+      tags().add('x');
+      ~~~~~~~~~~
+    `,
+    messageId: 'useSetOrUpdate',
+  }),
+
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
+    description: 'calling delete on read-only Signal Set value',
+    annotatedSource: `
+      let tags: Signal<Set<string>>;
+      tags().delete('x');
+      ~~~~~~~~~~~~~
+    `,
+    messageId: 'noMutableSignalUpdate',
   }),
 ].map((test) => ({
   ...test,

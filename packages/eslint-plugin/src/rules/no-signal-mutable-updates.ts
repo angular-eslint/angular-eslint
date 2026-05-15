@@ -2,6 +2,7 @@ import {
   AST_NODE_TYPES,
   ESLintUtils,
   ParserServicesWithTypeInformation,
+  TSESLint,
   TSESTree,
 } from '@typescript-eslint/utils';
 import ts from 'typescript';
@@ -17,7 +18,7 @@ export type MessageIds =
   | 'useImmutableUpdate';
 export const RULE_NAME = 'no-signal-mutable-updates';
 
-const MUTATING_METHODS = new Set([
+const ARRAY_MUTATING_METHODS = new Set([
   'push',
   'pop',
   'shift',
@@ -29,6 +30,9 @@ const MUTATING_METHODS = new Set([
   'copyWithin',
 ]);
 
+const MAP_MUTATING_METHODS = new Set(['set', 'delete', 'clear']);
+const SET_MUTATING_METHODS = new Set(['add', 'delete', 'clear']);
+
 const KNOWN_MUTABLE_OBJECT_TYPES = new Set([
   'Date',
   'Map',
@@ -36,6 +40,13 @@ const KNOWN_MUTABLE_OBJECT_TYPES = new Set([
   'WeakMap',
   'WeakSet',
 ]);
+
+type SignalDerivedInfo = {
+  signalCall: TSESTree.CallExpression;
+  signalType: string;
+  valueType: ts.Type;
+  isUpdateCallbackParam?: boolean;
+};
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
@@ -66,27 +77,33 @@ export default createESLintRule<Options, MessageIds>({
       context.sourceCode.ast,
     );
 
-    // Track variables that hold signal-derived values
-    // Map from variable name to the signal call node, signal type and value type
-    const signalDerivedVariables = new Map<
-      string,
-      {
-        signalCall: TSESTree.CallExpression;
-        signalType: string;
-        valueType: ts.Type;
-        isUpdateCallbackParam?: boolean;
-      }
-    >();
-
-    // Track which arrow/function expression nodes are .update() callbacks,
-    // and what parameter name they introduce as a signal-derived variable
-    const updateCallbackParams = new WeakMap<
-      TSESTree.ArrowFunctionExpression | TSESTree.FunctionExpression,
-      string
+    // Track variables that hold signal-derived values, keyed by the resolved
+    // scope-manager Variable identity rather than by name. This keeps separate
+    // bindings (e.g. two `arr`s in different functions) from clobbering each
+    // other and makes lookups robust against scoping.
+    const signalDerivedVariables = new WeakMap<
+      TSESLint.Scope.Variable,
+      SignalDerivedInfo
     >();
 
     function isWritableSignalType(signalType: string): boolean {
       return signalType === 'WritableSignal' || signalType === 'ModelSignal';
+    }
+
+    function getResolvedVariable(
+      idNode: TSESTree.Identifier,
+    ): TSESLint.Scope.Variable | null {
+      let scope: TSESLint.Scope.Scope | null =
+        context.sourceCode.getScope(idNode);
+      while (scope) {
+        for (const ref of scope.references) {
+          if (ref.identifier === idNode) {
+            return ref.resolved;
+          }
+        }
+        scope = scope.upper;
+      }
+      return null;
     }
 
     function getSignalInfo(
@@ -133,43 +150,15 @@ export default createESLintRule<Options, MessageIds>({
       return signalType !== undefined;
     }
 
-    function findSignalCallInChain(
-      node: TSESTree.MemberExpression,
-    ): TSESTree.CallExpression | null {
-      // Walk up the member expression chain to find a signal call
-      let current: TSESTree.Node = node.object;
-
-      while (current) {
-        if (isSignalCallExpression(current)) {
-          return current as TSESTree.CallExpression;
-        }
-
-        if (current.type === AST_NODE_TYPES.MemberExpression) {
-          current = current.object;
-        } else {
-          break;
-        }
+    function getSignalDerivedInfo(
+      node: TSESTree.Node,
+    ): SignalDerivedInfo | null {
+      if (node.type !== AST_NODE_TYPES.Identifier) {
+        return null;
       }
-
-      return null;
-    }
-
-    function getVariableName(node: TSESTree.Node): string | null {
-      if (node.type === AST_NODE_TYPES.Identifier) {
-        return node.name;
-      }
-      return null;
-    }
-
-    function isSignalDerivedVariable(node: TSESTree.Node): {
-      signalCall: TSESTree.CallExpression;
-      signalType: string;
-      valueType: ts.Type;
-      isUpdateCallbackParam?: boolean;
-    } | null {
-      const varName = getVariableName(node);
-      if (!varName) return null;
-      return signalDerivedVariables.get(varName) || null;
+      const variable = getResolvedVariable(node);
+      if (!variable) return null;
+      return signalDerivedVariables.get(variable) ?? null;
     }
 
     function getSignalUsageInfo(node: TSESTree.Node): {
@@ -180,7 +169,68 @@ export default createESLintRule<Options, MessageIds>({
         return getSignalInfo(node.callee) ?? null;
       }
 
-      return isSignalDerivedVariable(node);
+      return getSignalDerivedInfo(node);
+    }
+
+    // Walks the `.object` chain of a MemberExpression looking for the source
+    // of the value being mutated. Returns either a direct signal call found
+    // somewhere in the chain (e.g. `signal().a.b = x`) or signal-derived info
+    // for a leaf identifier (e.g. `arr[0].a = x` where `arr = signal()`).
+    function findSignalSourceInChain(
+      node: TSESTree.MemberExpression,
+    ):
+      | { kind: 'call'; signalType: string }
+      | { kind: 'derived'; info: SignalDerivedInfo }
+      | null {
+      let current: TSESTree.Node = node.object;
+      while (current) {
+        if (isSignalCallExpression(current)) {
+          const signalType = getSignalType(current.callee);
+          return signalType ? { kind: 'call', signalType } : null;
+        }
+        if (current.type === AST_NODE_TYPES.Identifier) {
+          const info = getSignalDerivedInfo(current);
+          return info ? { kind: 'derived', info } : null;
+        }
+        if (current.type === AST_NODE_TYPES.MemberExpression) {
+          current = current.object;
+          continue;
+        }
+        return null;
+      }
+      return null;
+    }
+
+    function reportChainMutation(
+      reportNode: TSESTree.Node,
+      source: NonNullable<ReturnType<typeof findSignalSourceInChain>>,
+    ): void {
+      if (source.kind === 'call') {
+        context.report({
+          node: reportNode,
+          messageId: isWritableSignalType(source.signalType)
+            ? 'noMutableWritableSignalUpdate'
+            : 'noMutableSignalUpdate',
+        });
+        return;
+      }
+      const { info } = source;
+      if (info.isUpdateCallbackParam) {
+        context.report({
+          node: reportNode,
+          messageId: 'useImmutableUpdate',
+        });
+      } else if (isWritableSignalType(info.signalType)) {
+        context.report({
+          node: reportNode,
+          messageId: 'noMutableWritableSignalUpdate',
+        });
+      } else {
+        context.report({
+          node: reportNode,
+          messageId: 'noMutableSignalUpdate',
+        });
+      }
     }
 
     function isDeclarationFileSignature(signature: ts.Signature): boolean {
@@ -410,6 +460,12 @@ export default createESLintRule<Options, MessageIds>({
       }
     }
 
+    // Heuristic: an `.update(param => ...)` callback that returns `param`
+    // directly (without spreading/copying) is presumed to be relying on
+    // in-place mutation. We flag mutations inside such callbacks. `some()`
+    // (not `every()`) is intentional: if at least one branch returns the
+    // raw param while another returns a fresh copy, the raw branch breaks
+    // reactivity, so the callback is still considered mutation-based.
     function callbackReturnsParamDirectly(
       callback: TSESTree.ArrowFunctionExpression | TSESTree.FunctionExpression,
       paramName: string,
@@ -427,6 +483,22 @@ export default createESLintRule<Options, MessageIds>({
       );
     }
 
+    function getMutatingMethodsForType(type: ts.Type): ReadonlySet<string> {
+      if (checker.isArrayType(type) || checker.isTupleType(type)) {
+        return ARRAY_MUTATING_METHODS;
+      }
+      const typeName = type.getSymbol()?.getName() ?? type.aliasSymbol?.name;
+      if (typeName === 'Map' || typeName === 'WeakMap') {
+        return MAP_MUTATING_METHODS;
+      }
+      if (typeName === 'Set' || typeName === 'WeakSet') {
+        return SET_MUTATING_METHODS;
+      }
+      // Fallback: be conservative and only flag well-known array-mutating
+      // names, which has been the rule's historical behaviour.
+      return ARRAY_MUTATING_METHODS;
+    }
+
     function checkMutableSignalArgumentEscape(
       node: TSESTree.CallExpression,
     ): void {
@@ -436,11 +508,7 @@ export default createESLintRule<Options, MessageIds>({
         }
 
         const signalUsage = getSignalUsageInfo(argument);
-        if (
-          !signalUsage ||
-          !isWritableSignalType(signalUsage.signalType) ||
-          !isMutableType(signalUsage.valueType)
-        ) {
+        if (!signalUsage || !isMutableType(signalUsage.valueType)) {
           return;
         }
 
@@ -451,9 +519,36 @@ export default createESLintRule<Options, MessageIds>({
 
         context.report({
           node: argument,
-          messageId: 'useSetOrUpdate',
+          messageId: isWritableSignalType(signalUsage.signalType)
+            ? 'useSetOrUpdate'
+            : 'noMutableSignalUpdate',
         });
       });
+    }
+
+    function trackVariableFromSignalCall(
+      idNode: TSESTree.Identifier,
+      signalCall: TSESTree.CallExpression,
+    ): void {
+      const variable = getResolvedVariable(idNode);
+      if (!variable) return;
+      const signalInfo = getSignalInfo(signalCall.callee);
+      if (signalInfo) {
+        signalDerivedVariables.set(variable, {
+          signalCall,
+          signalType: signalInfo.signalType,
+          valueType: signalInfo.valueType,
+        });
+      } else {
+        // Defensive: if the call doesn't resolve to a signal we shouldn't
+        // keep any stale tracking around for this variable.
+        signalDerivedVariables.delete(variable);
+      }
+    }
+
+    function clearVariableTracking(idNode: TSESTree.Identifier): void {
+      const variable = getResolvedVariable(idNode);
+      if (variable) signalDerivedVariables.delete(variable);
     }
 
     return {
@@ -462,167 +557,60 @@ export default createESLintRule<Options, MessageIds>({
         // const arr = mySignal()
         if (
           node.init &&
-          isSignalCallExpression(node.init) &&
-          node.id.type === AST_NODE_TYPES.Identifier
+          node.id.type === AST_NODE_TYPES.Identifier &&
+          isSignalCallExpression(node.init)
         ) {
-          const signalInfo = getSignalInfo(
-            (node.init as TSESTree.CallExpression).callee,
-          );
-          if (signalInfo) {
-            signalDerivedVariables.set(node.id.name, {
-              signalCall: node.init as TSESTree.CallExpression,
-              signalType: signalInfo.signalType,
-              valueType: signalInfo.valueType,
-            });
-          }
+          trackVariableFromSignalCall(node.id, node.init);
         }
       },
 
       AssignmentExpression(node: TSESTree.AssignmentExpression) {
-        // Track variables assigned from signal calls in assignment expressions
-        // arr = mySignal()
-        if (
-          node.left.type === AST_NODE_TYPES.Identifier &&
-          isSignalCallExpression(node.right)
-        ) {
-          const signalInfo = getSignalInfo(
-            (node.right as TSESTree.CallExpression).callee,
-          );
-          if (signalInfo) {
-            signalDerivedVariables.set(node.left.name, {
-              signalCall: node.right as TSESTree.CallExpression,
-              signalType: signalInfo.signalType,
-              valueType: signalInfo.valueType,
-            });
+        // Track or untrack variables based on assignment.
+        if (node.left.type === AST_NODE_TYPES.Identifier) {
+          if (node.operator === '=' && isSignalCallExpression(node.right)) {
+            // arr = mySignal()
+            trackVariableFromSignalCall(node.left, node.right);
+          } else {
+            // arr = something_else  /  arr += 1  -> the variable no longer
+            // holds the signal-derived value, so drop any stale tracking.
+            clearVariableTracking(node.left);
           }
           return;
         }
 
-        // Check for signal().property = value or signal().nested.property = value
+        // Check for signal().property = value, signal().nested.property = value,
+        // or indirect chained mutations like arr[0].name = value when arr was
+        // derived from a signal call.
         if (node.left.type === AST_NODE_TYPES.MemberExpression) {
-          const signalCall = findSignalCallInChain(node.left);
-
-          if (signalCall) {
-            const signalType = getSignalType(signalCall.callee);
-
-            if (
-              signalType === 'WritableSignal' ||
-              signalType === 'ModelSignal'
-            ) {
-              context.report({
-                node: node.left,
-                messageId: 'noMutableWritableSignalUpdate',
-              });
-            } else if (signalType) {
-              context.report({
-                node: node.left,
-                messageId: 'noMutableSignalUpdate',
-              });
-            }
-            return;
-          }
-
-          // Check for indirect mutation: arr[0] = value where arr came from signal()
-          const signalDerived = isSignalDerivedVariable(node.left.object);
-          if (signalDerived) {
-            if (signalDerived.isUpdateCallbackParam) {
-              context.report({
-                node: node.left,
-                messageId: 'useImmutableUpdate',
-              });
-            } else if (
-              signalDerived.signalType === 'WritableSignal' ||
-              signalDerived.signalType === 'ModelSignal'
-            ) {
-              context.report({
-                node: node.left,
-                messageId: 'noMutableWritableSignalUpdate',
-              });
-            } else {
-              context.report({
-                node: node.left,
-                messageId: 'noMutableSignalUpdate',
-              });
-            }
+          const source = findSignalSourceInChain(node.left);
+          if (source) {
+            reportChainMutation(node.left, source);
           }
         }
       },
 
       UpdateExpression(node: TSESTree.UpdateExpression) {
-        // Check for signal().property++ or ++signal().property
+        // Check for signal().property++ or arr[0].count++ etc.
         if (node.argument.type === AST_NODE_TYPES.MemberExpression) {
-          const signalCall = findSignalCallInChain(node.argument);
-
-          if (signalCall) {
-            const signalType = getSignalType(signalCall.callee);
-
-            if (
-              signalType === 'WritableSignal' ||
-              signalType === 'ModelSignal'
-            ) {
-              context.report({
-                node: node.argument,
-                messageId: 'noMutableWritableSignalUpdate',
-              });
-            } else if (signalType) {
-              context.report({
-                node: node.argument,
-                messageId: 'noMutableSignalUpdate',
-              });
-            }
-            return;
+          const source = findSignalSourceInChain(node.argument);
+          if (source) {
+            reportChainMutation(node.argument, source);
           }
-
-          // Check for indirect mutation: arr[0]++ where arr came from signal()
-          const signalDerived = isSignalDerivedVariable(node.argument.object);
-          if (signalDerived) {
-            if (signalDerived.isUpdateCallbackParam) {
-              context.report({
-                node: node.argument,
-                messageId: 'useImmutableUpdate',
-              });
-            } else if (
-              signalDerived.signalType === 'WritableSignal' ||
-              signalDerived.signalType === 'ModelSignal'
-            ) {
-              context.report({
-                node: node.argument,
-                messageId: 'noMutableWritableSignalUpdate',
-              });
-            } else {
-              context.report({
-                node: node.argument,
-                messageId: 'noMutableSignalUpdate',
-              });
-            }
-          }
-        }
-      },
-
-      'ArrowFunctionExpression:exit'(node: TSESTree.ArrowFunctionExpression) {
-        const paramName = updateCallbackParams.get(node);
-        if (paramName !== undefined) {
-          signalDerivedVariables.delete(paramName);
-        }
-      },
-
-      'FunctionExpression:exit'(node: TSESTree.FunctionExpression) {
-        const paramName = updateCallbackParams.get(node);
-        if (paramName !== undefined) {
-          signalDerivedVariables.delete(paramName);
         }
       },
 
       CallExpression(node: TSESTree.CallExpression) {
         // Detect signal.update((param) => { ... }) and track the callback
-        // parameter as a signal-derived variable within the callback scope
+        // parameter as a signal-derived variable within the callback scope.
+        // Using Variable identity (not name) means same-named params in
+        // unrelated callbacks don't conflict and require no explicit cleanup.
         if (
           node.callee.type === AST_NODE_TYPES.MemberExpression &&
           node.callee.property.type === AST_NODE_TYPES.Identifier &&
           node.callee.property.name === 'update' &&
           node.arguments.length >= 1
         ) {
-          const updateCallee = node.callee as TSESTree.MemberExpression;
+          const updateCallee = node.callee;
           const signalInfo = getSignalInfo(updateCallee.object);
           if (signalInfo && isWritableSignalType(signalInfo.signalType)) {
             const callback = node.arguments[0];
@@ -632,19 +620,22 @@ export default createESLintRule<Options, MessageIds>({
               callback.params.length >= 1 &&
               callback.params[0].type === AST_NODE_TYPES.Identifier
             ) {
-              const paramName = (callback.params[0] as TSESTree.Identifier)
-                .name;
-              const cb = callback as
-                | TSESTree.ArrowFunctionExpression
-                | TSESTree.FunctionExpression;
-              if (callbackReturnsParamDirectly(cb, paramName)) {
-                signalDerivedVariables.set(paramName, {
-                  signalCall: node,
-                  signalType: signalInfo.signalType,
-                  valueType: signalInfo.valueType,
-                  isUpdateCallbackParam: true,
-                });
-                updateCallbackParams.set(cb, paramName);
+              const paramIdentifier = callback.params[0] as TSESTree.Identifier;
+              if (
+                callbackReturnsParamDirectly(callback, paramIdentifier.name)
+              ) {
+                const callbackScope = context.sourceCode.getScope(callback);
+                const paramVariable = callbackScope.variables.find(
+                  (v) => v.name === paramIdentifier.name,
+                );
+                if (paramVariable) {
+                  signalDerivedVariables.set(paramVariable, {
+                    signalCall: node,
+                    signalType: signalInfo.signalType,
+                    valueType: signalInfo.valueType,
+                    isUpdateCallbackParam: true,
+                  });
+                }
               }
             }
           }
@@ -658,58 +649,59 @@ export default createESLintRule<Options, MessageIds>({
 
         const callee = node.callee;
         const object = callee.object;
+        if (callee.property.type !== AST_NODE_TYPES.Identifier) {
+          return;
+        }
+        const methodName = callee.property.name;
 
         // Check for mutating methods on signal values
-        // e.g., mySignal().push(), mySignal().pop(), etc.
+        // e.g., mySignal().push(), mySignal().myMap.set(...), etc.
         if (isSignalCallExpression(object)) {
-          if (callee.property.type === AST_NODE_TYPES.Identifier) {
-            const methodName = callee.property.name;
-            if (MUTATING_METHODS.has(methodName)) {
-              const signalType = getSignalType(
-                (object as TSESTree.CallExpression).callee,
-              );
-
-              if (signalType && isWritableSignalType(signalType)) {
-                context.report({
-                  node: callee,
-                  messageId: 'useSetOrUpdate',
-                });
-              } else if (signalType) {
-                context.report({
-                  node: callee,
-                  messageId: 'noMutableSignalUpdate',
-                });
-              }
-            }
+          const signalInfo = getSignalInfo(object.callee);
+          if (!signalInfo) return;
+          if (
+            !getMutatingMethodsForType(signalInfo.valueType).has(methodName)
+          ) {
+            return;
           }
+          context.report({
+            node: callee,
+            messageId: isWritableSignalType(signalInfo.signalType)
+              ? 'useSetOrUpdate'
+              : 'noMutableSignalUpdate',
+          });
           return;
         }
 
-        // Check for indirect mutation: arr.push() where arr came from signal()
-        const signalDerived = isSignalDerivedVariable(object);
-        if (
-          signalDerived &&
-          callee.property.type === AST_NODE_TYPES.Identifier
-        ) {
-          const methodName = callee.property.name;
-          if (MUTATING_METHODS.has(methodName)) {
-            if (signalDerived.isUpdateCallbackParam) {
-              context.report({
-                node: callee,
-                messageId: 'useImmutableUpdate',
-              });
-            } else if (isWritableSignalType(signalDerived.signalType)) {
-              context.report({
-                node: callee,
-                messageId: 'useSetOrUpdate',
-              });
-            } else {
-              context.report({
-                node: callee,
-                messageId: 'noMutableSignalUpdate',
-              });
-            }
-          }
+        // Check for indirect mutation on a signal-derived variable:
+        // arr.push() where arr came from signal(), or chained shapes like
+        // arr[0].push() where arr is the signal-derived array of arrays.
+        let derived: SignalDerivedInfo | null = null;
+        if (object.type === AST_NODE_TYPES.Identifier) {
+          derived = getSignalDerivedInfo(object);
+        } else if (object.type === AST_NODE_TYPES.MemberExpression) {
+          const source = findSignalSourceInChain(object);
+          if (source?.kind === 'derived') derived = source.info;
+        }
+        if (!derived) return;
+        if (!getMutatingMethodsForType(derived.valueType).has(methodName)) {
+          return;
+        }
+        if (derived.isUpdateCallbackParam) {
+          context.report({
+            node: callee,
+            messageId: 'useImmutableUpdate',
+          });
+        } else if (isWritableSignalType(derived.signalType)) {
+          context.report({
+            node: callee,
+            messageId: 'useSetOrUpdate',
+          });
+        } else {
+          context.report({
+            node: callee,
+            messageId: 'noMutableSignalUpdate',
+          });
         }
       },
     };
@@ -718,5 +710,5 @@ export default createESLintRule<Options, MessageIds>({
 
 export const RULE_DOCS_EXTENSION = {
   rationale:
-    'Angular signals are designed to be immutable references to reactive state. When you have a Signal (read-only), you should only read its value by calling it - never mutate the returned value. When you have a WritableSignal, you should update it only through the provided .set() and .update() methods, which properly notify the reactivity system of changes. Mutating signal values directly (like mySignal().property = value or mySignal().push(item)) breaks the reactivity system because Angular cannot detect these changes. This leads to bugs where the UI does not update when the underlying data changes. For WritableSignals, always use .set() to replace the entire value or .update() to compute a new value based on the current one. This ensures Angular tracks all changes and updates dependent computed signals and effects correctly.',
+    'Angular signals are designed to be immutable references to reactive state. When you have a read-only signal (`Signal`, `InputSignal`, `InputSignalWithTransform`), you should only read its value by calling it - never mutate the returned value. When you have a `WritableSignal` or `ModelSignal`, you should update it only through the provided `.set()` and `.update()` methods, which properly notify the reactivity system of changes. Mutating signal values directly (like `mySignal().property = value` or `mySignal().push(item)`) breaks the reactivity system because Angular cannot detect these changes. This leads to bugs where the UI does not update when the underlying data changes. For `WritableSignal`s, always use `.set()` to replace the entire value or `.update()` to compute a new value based on the current one. This ensures Angular tracks all changes and updates dependent computed signals and effects correctly.',
 };

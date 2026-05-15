@@ -23,7 +23,7 @@ Disallow mutable updates to signals. Signals should be read-only and WritableSig
 
 ## Rationale
 
-Angular signals are designed to be immutable references to reactive state. When you have a Signal (read-only), you should only read its value by calling it - never mutate the returned value. When you have a WritableSignal, you should update it only through the provided .set() and .update() methods, which properly notify the reactivity system of changes. Mutating signal values directly (like mySignal().property = value or mySignal().push(item)) breaks the reactivity system because Angular cannot detect these changes. This leads to bugs where the UI does not update when the underlying data changes. For WritableSignals, always use .set() to replace the entire value or .update() to compute a new value based on the current one. This ensures Angular tracks all changes and updates dependent computed signals and effects correctly.
+Angular signals are designed to be immutable references to reactive state. When you have a read-only signal (`Signal`, `InputSignal`, `InputSignalWithTransform`), you should only read its value by calling it - never mutate the returned value. When you have a `WritableSignal` or `ModelSignal`, you should update it only through the provided `.set()` and `.update()` methods, which properly notify the reactivity system of changes. Mutating signal values directly (like `mySignal().property = value` or `mySignal().push(item)`) breaks the reactivity system because Angular cannot detect these changes. This leads to bugs where the UI does not update when the underlying data changes. For `WritableSignal`s, always use `.set()` to replace the entire value or `.update()` to compute a new value based on the current one. This ensures Angular tracks all changes and updates dependent computed signals and effects correctly.
 
 <br>
 
@@ -1171,6 +1171,205 @@ arr.update(function(a) {
 });
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-signal-mutable-updates": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+let userData: Signal<{ a: number }[]>;
+const x = userData();
+x[0].a = 42;
+~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-signal-mutable-updates": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+let items: WritableSignal<{ value: number }[]>;
+const arr = items();
+arr[0].value++;
+~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-signal-mutable-updates": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+let userData: Signal<{ a: number }>;
+mutate(userData());
+       ~~~~~~~~~~
+function mutate(x: { a: number }) {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-signal-mutable-updates": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+let cache: WritableSignal<Map<string, number>>;
+cache().set('k', 1);
+~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-signal-mutable-updates": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+let cache: WritableSignal<Map<string, number>>;
+cache().clear();
+~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-signal-mutable-updates": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+let tags: WritableSignal<Set<string>>;
+tags().add('x');
+~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-signal-mutable-updates": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+let tags: Signal<Set<string>>;
+tags().delete('x');
+~~~~~~~~~~~~~
+```
+
 </details>
 
 <br>
@@ -2310,6 +2509,153 @@ let arr: WritableSignal<number[]>;
 arr.update(function(a) {
   a.push(4);
   return [...a];
+});
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-signal-mutable-updates": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+function a() {
+  let items: WritableSignal<number[]>;
+  const arr = items();
+  const length = arr.length;
+}
+function b() {
+  const arr = [1, 2, 3];
+  arr.push(4);
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-signal-mutable-updates": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+let items: WritableSignal<number[]>;
+let arr = items();
+arr = [];
+arr.push(1);
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-signal-mutable-updates": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+let cache: WritableSignal<Map<string, number>>;
+const value = cache().get('k');
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-signal-mutable-updates": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+let tags: WritableSignal<Set<string>>;
+const has = tags().has('x');
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-signal-mutable-updates": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+let value: WritableSignal<{ items: number[] }>;
+value.update(({ items }) => {
+  items.push(1);
+  return { items };
 });
 ```
 
