@@ -25,8 +25,8 @@ catalogs:
       specifier: 10.0.1
       version: 10.0.1
     '@mdn/browser-compat-data':
-      specifier: 7.3.14
-      version: 7.3.14
+      specifier: 7.3.15
+      version: 7.3.15
     '@nx/devkit':
       specifier: 22.7.1
       version: 22.7.1
@@ -228,7 +228,7 @@ importers:
         version: 10.0.1(eslint@10.3.0(jiti@2.6.1))
       '@mdn/browser-compat-data':
         specifier: 'catalog:'
-        version: 7.3.14
+        version: 7.3.15
       '@nx/devkit':
         specifier: 'catalog:'
         version: 22.7.1(nx@22.7.1(@swc-node/register@1.11.1(@emnapi/core@1.9.2)(@emnapi/runtime@1.9.2)(@swc/core@1.15.33(@swc/helpers@0.5.21))(@swc/types@0.1.26)(typescript@5.9.3))(@swc/core@1.15.33(@swc/helpers@0.5.21)))
@@ -2062,8 +2062,8 @@ packages:
       '@inquirer/prompts': '>= 3 < 8'
       listr2: 9.0.5
 
-  '@mdn/browser-compat-data@7.3.14':
-    resolution: {integrity: sha512-Mqll0z0todYcAOqr+2hnYZRFe7+CwyU14lj86vzAGDJVeqnp618ybGzwHTI7sxyhd/46FFtJAlZNUmL1YHSX+Q==}
+  '@mdn/browser-compat-data@7.3.15':
+    resolution: {integrity: sha512-8YoG52J2ZsR+T4p0JsAuoWeztBgJsAtGY+LeGEAHvyJBojJzJtLb8o1fRsIbc0v6EHKRLIrCU3VoAIK1olntag==}
 
   '@modelcontextprotocol/sdk@1.26.0':
     resolution: {integrity: sha512-Y5RmPncpiDtTXDbLKswIJzTqu2hyBKxTNsgKqKclDbhIgg1wgtf1fRuvxgTnRfcnxtvvgbIEcqUOzZrJ6iSReg==}
@@ -8673,7 +8673,7 @@ snapshots:
     transitivePeerDependencies:
       - '@types/node'
 
-  '@mdn/browser-compat-data@7.3.14': {}
+  '@mdn/browser-compat-data@7.3.15': {}
 
   '@modelcontextprotocol/sdk@1.26.0(zod@4.3.6)':
     dependencies:
