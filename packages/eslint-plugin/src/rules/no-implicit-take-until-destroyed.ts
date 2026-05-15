@@ -153,6 +153,15 @@ function isMethodCalledFromInjectionContext(
   return false;
 }
 
+function isASTNode(value: unknown): value is TSESTree.Node {
+  return (
+    value !== null &&
+    typeof value === 'object' &&
+    'type' in value &&
+    typeof (value as { type: unknown }).type === 'string'
+  );
+}
+
 function containsCallToMethod(
   node: TSESTree.Node,
   methodName: string,
@@ -191,26 +200,14 @@ function containsCallToMethod(
       if (Array.isArray(child)) {
         for (const item of child) {
           if (
-            item &&
-            typeof item === 'object' &&
-            'type' in item &&
-            containsCallToMethod(
-              item as TSESTree.Node,
-              methodName,
-              isPrivateField,
-            )
+            isASTNode(item) &&
+            containsCallToMethod(item, methodName, isPrivateField)
           ) {
             return true;
           }
         }
-      } else if ('type' in child) {
-        if (
-          containsCallToMethod(
-            child as TSESTree.Node,
-            methodName,
-            isPrivateField,
-          )
-        ) {
+      } else if (isASTNode(child)) {
+        if (containsCallToMethod(child, methodName, isPrivateField)) {
           return true;
         }
       }
