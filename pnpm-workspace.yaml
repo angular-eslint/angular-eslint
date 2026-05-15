@@ -70,9 +70,11 @@ catalogs:
     '@typescript-eslint/utils': '8.59.2'
     typescript-eslint: '8.59.2'
 cleanupUnusedCatalogs: true
-ignoredBuiltDependencies:
-  - 'core-js'
-onlyBuiltDependencies:
-  - '@swc/core'
-  - 'esbuild'
-  - 'nx'
+allowBuilds:
+  '@swc/core': true
+  core-js: false
+  esbuild: true
+  nx: true
+  unrs-resolver: true
+patchedDependencies:
+  '@typescript-eslint/rule-tester': 'tools/patches/@typescript-eslint__rule-tester.patch'
