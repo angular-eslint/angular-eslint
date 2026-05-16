@@ -179,8 +179,8 @@ catalogs:
       specifier: 7.0.5
       version: 7.0.5
     semver:
-      specifier: 7.7.4
-      version: 7.7.4
+      specifier: 7.8.0
+      version: 7.8.0
     strip-json-comments:
       specifier: 3.1.1
       version: 3.1.1
@@ -513,7 +513,7 @@ importers:
         version: 7.0.5
       semver:
         specifier: catalog:other-runtime-dependencies
-        version: 7.7.4
+        version: 7.8.0
       strip-json-comments:
         specifier: catalog:other-runtime-dependencies
         version: 3.1.1
