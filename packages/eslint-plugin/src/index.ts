@@ -148,6 +148,9 @@ import noImplicitTakeUntilDestroyed, {
 import computedMustReturn, {
   RULE_NAME as computedMustReturnRuleName,
 } from './rules/computed-must-return';
+import injectAtTop, {
+  RULE_NAME as injectAtTopRuleName,
+} from './rules/inject-at-top';
 
 export = {
   configs: {
@@ -164,6 +167,7 @@ export = {
     [contextualLifecycleRuleName]: contextualLifecycle,
     [directiveClassSuffixRuleName]: directiveClassSuffix,
     [directiveSelectorRuleName]: directiveSelector,
+    [injectAtTopRuleName]: injectAtTop,
     [noAsyncLifecycleMethodRuleName]: noAsyncLifecycleMethod,
     [noAttributeDecoratorRuleName]: noAttributeDecorator,
     [noConflictingLifecycleRuleName]: noConflictingLifecycle,
