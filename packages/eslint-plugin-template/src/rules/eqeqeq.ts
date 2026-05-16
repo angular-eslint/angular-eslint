@@ -113,12 +113,13 @@ const getFix = ({
   sourceCode: Readonly<TSESLint.SourceCode>;
   fixer: TSESLint.RuleFixer;
 }): TSESLint.RuleFix | null => {
-  const { source, ast } = getNearestNodeFrom(
-    node,
-    isASTWithSource,
-  ) as ASTWithSource & { ast: unknown };
+  const result = getNearestNodeFrom(node, isASTWithSource) as ASTWithSource & {
+    ast: unknown;
+  };
 
-  if (!source) return null;
+  if (!result?.source) return null;
+
+  const { source, ast } = result;
 
   let startOffset = 0;
   while (!isInterpolation(ast) && isLeadingTriviaChar(source[startOffset])) {

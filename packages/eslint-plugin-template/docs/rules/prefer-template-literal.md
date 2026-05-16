@@ -26,6 +26,8 @@ Ensure that template literals are used instead of concatenating strings or expre
 
 Template literals (backticks with ${} syntax) are more modern, readable, and maintainable than string concatenation with the + operator. String concatenation like "Hello " + name + "!" is harder to read and error-prone (easy to forget spaces or quotes) compared to the template literal `Hello ${name}!`. Template literals make string composition clearer, especially with multiple expressions. This is a widely accepted JavaScript/TypeScript best practice that should be followed in Angular templates for consistency. Angular templates have supported template literal syntax since v19.2. Using template literals throughout your codebase creates a consistent style and makes complex string building much more readable.
 
+ℹ This rule is not checked in inline templates due to the common use of backticks to define the inline template.
+
 <br>
 
 ## Rule Options
@@ -61,6 +63,8 @@ The rule does not have any configuration options.
 
 #### ❌ Invalid Code
 
+**Filename: components/widget.component.html**
+
 ```html
 {{
 'a'
@@ -94,6 +98,8 @@ The rule does not have any configuration options.
 
 #### ❌ Invalid Code
 
+**Filename: components/widget.component.html**
+
 ```html
 {{ 'pre"fix-' + '-suf\'fix' }}
    ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -120,6 +126,8 @@ The rule does not have any configuration options.
 <br>
 
 #### ❌ Invalid Code
+
+**Filename: components/widget.component.html**
 
 ```html
 {{ "pre'fix-" + "-suf\"fix" }}
@@ -148,6 +156,8 @@ The rule does not have any configuration options.
 
 #### ❌ Invalid Code
 
+**Filename: components/widget.component.html**
+
 ```html
 {{ `prefix-${value}-suffix` + `-prefix2-${value2}-suffix2` }}
    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -174,6 +184,8 @@ The rule does not have any configuration options.
 <br>
 
 #### ❌ Invalid Code
+
+**Filename: components/widget.component.html**
 
 ```html
 {{ `prefix-${a}-${b + '-special\'"\`-char'}-${d}-suffix` }}
@@ -202,6 +214,8 @@ The rule does not have any configuration options.
 
 #### ❌ Invalid Code
 
+**Filename: components/widget.component.html**
+
 ```html
 {{ `prefix-${a}-${b + `-inside-${c}`}-${d}-suffix` }}
                   ~~~~~~~~~~~~~~~~~~
@@ -228,6 +242,8 @@ The rule does not have any configuration options.
 <br>
 
 #### ❌ Invalid Code
+
+**Filename: components/widget.component.html**
 
 ```html
 {{ `prefix-${a}-${'b' + 'c'}-${d}-suffix` }}
@@ -256,6 +272,8 @@ The rule does not have any configuration options.
 
 #### ❌ Invalid Code
 
+**Filename: components/widget.component.html**
+
 ```html
 {{ 'pre"fix-' + "-suf'fix" }}
    ~~~~~~~~~~~~~~~~~~~~~~~
@@ -282,6 +300,8 @@ The rule does not have any configuration options.
 <br>
 
 #### ❌ Invalid Code
+
+**Filename: components/widget.component.html**
 
 ```html
 {{ 'pre`fix-' + `'pre\`fix"-${value}-"suf\`fix'` }}
@@ -310,6 +330,8 @@ The rule does not have any configuration options.
 
 #### ❌ Invalid Code
 
+**Filename: components/widget.component.html**
+
 ```html
 {{ "pre'fix-" + '-suf"fix' }}
    ~~~~~~~~~~~~~~~~~~~~~~~
@@ -336,6 +358,8 @@ The rule does not have any configuration options.
 <br>
 
 #### ❌ Invalid Code
+
+**Filename: components/widget.component.html**
 
 ```html
 {{ "pre`fix-" + `'pre\`fix"-${value}-"suf\`fix'` }}
@@ -364,6 +388,8 @@ The rule does not have any configuration options.
 
 #### ❌ Invalid Code
 
+**Filename: components/widget.component.html**
+
 ```html
 <my-component [class]="'prefix-' + myClass | pipe"></my-component>
                        ~~~~~~~~~~~~~~~~~~~
@@ -390,6 +416,8 @@ The rule does not have any configuration options.
 <br>
 
 #### ❌ Invalid Code
+
+**Filename: components/widget.component.html**
 
 ```html
 @if (value() + "-suffix" | pipe) {}
@@ -418,6 +446,8 @@ The rule does not have any configuration options.
 
 #### ❌ Invalid Code
 
+**Filename: components/widget.component.html**
+
 ```html
 @defer (when value() + '-suffix' | pipe) {}
              ~~~~~~~~~~~~~~~~~~~
@@ -444,6 +474,8 @@ The rule does not have any configuration options.
 <br>
 
 #### ❌ Invalid Code
+
+**Filename: components/widget.component.html**
 
 ```html
 @let letValue = value() + '-suffix';
@@ -472,6 +504,8 @@ The rule does not have any configuration options.
 
 #### ❌ Invalid Code
 
+**Filename: components/widget.component.html**
+
 ```html
 {{ 'prefix-' + 42 }}
    ~~~~~~~~~~~~~~
@@ -498,6 +532,8 @@ The rule does not have any configuration options.
 <br>
 
 #### ❌ Invalid Code
+
+**Filename: components/widget.component.html**
 
 ```html
 {{ 'prefix-' + null }}
@@ -526,6 +562,8 @@ The rule does not have any configuration options.
 
 #### ❌ Invalid Code
 
+**Filename: components/widget.component.html**
+
 ```html
 {{ 'prefix-' + undefined }}
    ~~~~~~~~~~~~~~~~~~~~~
@@ -552,6 +590,8 @@ The rule does not have any configuration options.
 <br>
 
 #### ❌ Invalid Code
+
+**Filename: components/widget.component.html**
 
 ```html
 {{ 'prefix-' + true }}
@@ -580,6 +620,8 @@ The rule does not have any configuration options.
 
 #### ❌ Invalid Code
 
+**Filename: components/widget.component.html**
+
 ```html
 {{ 'prefix-' + value }}
    ~~~~~~~~~~~~~~~~~
@@ -606,6 +648,8 @@ The rule does not have any configuration options.
 <br>
 
 #### ❌ Invalid Code
+
+**Filename: components/widget.component.html**
 
 ```html
 {{ 'prefix-' + value() }}
@@ -634,6 +678,8 @@ The rule does not have any configuration options.
 
 #### ❌ Invalid Code
 
+**Filename: components/widget.component.html**
+
 ```html
 {{ 'prefix-' + [42] }}
    ~~~~~~~~~~~~~~~~
@@ -660,6 +706,8 @@ The rule does not have any configuration options.
 <br>
 
 #### ❌ Invalid Code
+
+**Filename: components/widget.component.html**
 
 ```html
 {{ 'prefix-' + (condition ? 'true' : 'false') }}
@@ -688,6 +736,8 @@ The rule does not have any configuration options.
 
 #### ❌ Invalid Code
 
+**Filename: components/widget.component.html**
+
 ```html
 {{ 'prefix-' + ('value' | pipe) }}
    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -714,6 +764,8 @@ The rule does not have any configuration options.
 <br>
 
 #### ❌ Invalid Code
+
+**Filename: components/widget.component.html**
 
 ```html
 {{ "prefix-" + 42 }}
@@ -742,6 +794,8 @@ The rule does not have any configuration options.
 
 #### ❌ Invalid Code
 
+**Filename: components/widget.component.html**
+
 ```html
 {{ "prefix-" + null }}
    ~~~~~~~~~~~~~~~~
@@ -768,6 +822,8 @@ The rule does not have any configuration options.
 <br>
 
 #### ❌ Invalid Code
+
+**Filename: components/widget.component.html**
 
 ```html
 {{ "prefix-" + undefined }}
@@ -796,6 +852,8 @@ The rule does not have any configuration options.
 
 #### ❌ Invalid Code
 
+**Filename: components/widget.component.html**
+
 ```html
 {{ "prefix-" + true }}
    ~~~~~~~~~~~~~~~~
@@ -822,6 +880,8 @@ The rule does not have any configuration options.
 <br>
 
 #### ❌ Invalid Code
+
+**Filename: components/widget.component.html**
 
 ```html
 {{ "prefix-" + value }}
@@ -850,6 +910,8 @@ The rule does not have any configuration options.
 
 #### ❌ Invalid Code
 
+**Filename: components/widget.component.html**
+
 ```html
 {{ "prefix-" + value() }}
    ~~~~~~~~~~~~~~~~~~~
@@ -876,6 +938,8 @@ The rule does not have any configuration options.
 <br>
 
 #### ❌ Invalid Code
+
+**Filename: components/widget.component.html**
 
 ```html
 {{ "prefix-" + [42] }}
@@ -904,6 +968,8 @@ The rule does not have any configuration options.
 
 #### ❌ Invalid Code
 
+**Filename: components/widget.component.html**
+
 ```html
 {{ 'prefix-' + (condition ? 'true' : 'false') }}
    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -930,6 +996,8 @@ The rule does not have any configuration options.
 <br>
 
 #### ❌ Invalid Code
+
+**Filename: components/widget.component.html**
 
 ```html
 {{ 'prefix-' + ('value' | pipe) }}
@@ -958,6 +1026,8 @@ The rule does not have any configuration options.
 
 #### ❌ Invalid Code
 
+**Filename: components/widget.component.html**
+
 ```html
 {{ `prefix-${value}-suffix` + 42 }}
    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -984,6 +1054,8 @@ The rule does not have any configuration options.
 <br>
 
 #### ❌ Invalid Code
+
+**Filename: components/widget.component.html**
 
 ```html
 {{ `prefix-${value}-suffix` + null }}
@@ -1012,6 +1084,8 @@ The rule does not have any configuration options.
 
 #### ❌ Invalid Code
 
+**Filename: components/widget.component.html**
+
 ```html
 {{ `prefix-${value}-suffix` + undefined }}
    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1038,6 +1112,8 @@ The rule does not have any configuration options.
 <br>
 
 #### ❌ Invalid Code
+
+**Filename: components/widget.component.html**
 
 ```html
 {{ `prefix-${value}-suffix` + false }}
@@ -1066,6 +1142,8 @@ The rule does not have any configuration options.
 
 #### ❌ Invalid Code
 
+**Filename: components/widget.component.html**
+
 ```html
 {{ `prefix-${value}-suffix` + value2 }}
    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1092,6 +1170,8 @@ The rule does not have any configuration options.
 <br>
 
 #### ❌ Invalid Code
+
+**Filename: components/widget.component.html**
 
 ```html
 {{ `prefix-${value}-suffix` + value2() }}
@@ -1120,6 +1200,8 @@ The rule does not have any configuration options.
 
 #### ❌ Invalid Code
 
+**Filename: components/widget.component.html**
+
 ```html
 {{ `prefix-${value}-suffix` + [42] }}
    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1146,6 +1228,8 @@ The rule does not have any configuration options.
 <br>
 
 #### ❌ Invalid Code
+
+**Filename: components/widget.component.html**
 
 ```html
 {{ `prefix-${value}-suffix` + (condition ? 'true' : 'false') }}
@@ -1174,6 +1258,8 @@ The rule does not have any configuration options.
 
 #### ❌ Invalid Code
 
+**Filename: components/widget.component.html**
+
 ```html
 {{ `prefix-${value}-suffix` + ('value' | pipe) }}
    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1200,6 +1286,8 @@ The rule does not have any configuration options.
 <br>
 
 #### ❌ Invalid Code
+
+**Filename: components/widget.component.html**
 
 ```html
 {{ 42 + '-suffix' }}
@@ -1228,6 +1316,8 @@ The rule does not have any configuration options.
 
 #### ❌ Invalid Code
 
+**Filename: components/widget.component.html**
+
 ```html
 {{ null + '-suffix' }}
    ~~~~~~~~~~~~~~~~
@@ -1254,6 +1344,8 @@ The rule does not have any configuration options.
 <br>
 
 #### ❌ Invalid Code
+
+**Filename: components/widget.component.html**
 
 ```html
 {{ undefined + '-suffix' }}
@@ -1282,6 +1374,8 @@ The rule does not have any configuration options.
 
 #### ❌ Invalid Code
 
+**Filename: components/widget.component.html**
+
 ```html
 {{ true + '-suffix' }}
    ~~~~~~~~~~~~~~~~
@@ -1308,6 +1402,8 @@ The rule does not have any configuration options.
 <br>
 
 #### ❌ Invalid Code
+
+**Filename: components/widget.component.html**
 
 ```html
 {{ value + '-suffix' }}
@@ -1336,6 +1432,8 @@ The rule does not have any configuration options.
 
 #### ❌ Invalid Code
 
+**Filename: components/widget.component.html**
+
 ```html
 {{ value() + '-suffix' }}
    ~~~~~~~~~~~~~~~~~~~
@@ -1362,6 +1460,8 @@ The rule does not have any configuration options.
 <br>
 
 #### ❌ Invalid Code
+
+**Filename: components/widget.component.html**
 
 ```html
 {{ [42] + '-suffix' }}
@@ -1390,6 +1490,8 @@ The rule does not have any configuration options.
 
 #### ❌ Invalid Code
 
+**Filename: components/widget.component.html**
+
 ```html
 {{ `'pre\`fix"-${value}-"suf\`fix'` + '-suf`fix' }}
    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1416,6 +1518,8 @@ The rule does not have any configuration options.
 <br>
 
 #### ❌ Invalid Code
+
+**Filename: components/widget.component.html**
 
 ```html
 {{ (condition ? 'true' : 'false') + '-suffix' }}
@@ -1444,6 +1548,8 @@ The rule does not have any configuration options.
 
 #### ❌ Invalid Code
 
+**Filename: components/widget.component.html**
+
 ```html
 {{ (value + 1) + '-suffix' }}
    ~~~~~~~~~~~~~~~~~~~~~~~
@@ -1470,6 +1576,8 @@ The rule does not have any configuration options.
 <br>
 
 #### ❌ Invalid Code
+
+**Filename: components/widget.component.html**
 
 ```html
 {{ ('value' | pipe) + '-suffix' }}
@@ -1498,6 +1606,8 @@ The rule does not have any configuration options.
 
 #### ❌ Invalid Code
 
+**Filename: components/widget.component.html**
+
 ```html
 {{ 42 + "-suffix" }}
    ~~~~~~~~~~~~~~
@@ -1524,6 +1634,8 @@ The rule does not have any configuration options.
 <br>
 
 #### ❌ Invalid Code
+
+**Filename: components/widget.component.html**
 
 ```html
 {{ null + "-suffix" }}
@@ -1552,6 +1664,8 @@ The rule does not have any configuration options.
 
 #### ❌ Invalid Code
 
+**Filename: components/widget.component.html**
+
 ```html
 {{ undefined + "-suffix" }}
    ~~~~~~~~~~~~~~~~~~~~~
@@ -1578,6 +1692,8 @@ The rule does not have any configuration options.
 <br>
 
 #### ❌ Invalid Code
+
+**Filename: components/widget.component.html**
 
 ```html
 {{ true + "-suffix" }}
@@ -1606,6 +1722,8 @@ The rule does not have any configuration options.
 
 #### ❌ Invalid Code
 
+**Filename: components/widget.component.html**
+
 ```html
 {{ value + "-suffix" }}
    ~~~~~~~~~~~~~~~~~
@@ -1632,6 +1750,8 @@ The rule does not have any configuration options.
 <br>
 
 #### ❌ Invalid Code
+
+**Filename: components/widget.component.html**
 
 ```html
 {{ value() + "-suffix" }}
@@ -1660,6 +1780,8 @@ The rule does not have any configuration options.
 
 #### ❌ Invalid Code
 
+**Filename: components/widget.component.html**
+
 ```html
 {{ [42] + "-suffix" }}
    ~~~~~~~~~~~~~~~~
@@ -1686,6 +1808,8 @@ The rule does not have any configuration options.
 <br>
 
 #### ❌ Invalid Code
+
+**Filename: components/widget.component.html**
 
 ```html
 {{ `'pre\`fix"-${value}-"suf\`fix'` + "-suf`fix" }}
@@ -1714,6 +1838,8 @@ The rule does not have any configuration options.
 
 #### ❌ Invalid Code
 
+**Filename: components/widget.component.html**
+
 ```html
 {{ (condition ? 'true' : 'false') + "-suffix" }}
    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1740,6 +1866,8 @@ The rule does not have any configuration options.
 <br>
 
 #### ❌ Invalid Code
+
+**Filename: components/widget.component.html**
 
 ```html
 {{ ('value' | pipe) + "-suffix" }}
@@ -1768,6 +1896,8 @@ The rule does not have any configuration options.
 
 #### ❌ Invalid Code
 
+**Filename: components/widget.component.html**
+
 ```html
 {{ 42 + `prefix-${value}-suffix` }}
    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1794,6 +1924,8 @@ The rule does not have any configuration options.
 <br>
 
 #### ❌ Invalid Code
+
+**Filename: components/widget.component.html**
 
 ```html
 {{ null + `prefix-${value}-suffix` }}
@@ -1822,6 +1954,8 @@ The rule does not have any configuration options.
 
 #### ❌ Invalid Code
 
+**Filename: components/widget.component.html**
+
 ```html
 {{ undefined + `prefix-${value}-suffix` }}
    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1848,6 +1982,8 @@ The rule does not have any configuration options.
 <br>
 
 #### ❌ Invalid Code
+
+**Filename: components/widget.component.html**
 
 ```html
 {{ false + `prefix-${value}-suffix` }}
@@ -1876,6 +2012,8 @@ The rule does not have any configuration options.
 
 #### ❌ Invalid Code
 
+**Filename: components/widget.component.html**
+
 ```html
 {{ value2 + `prefix-${value}-suffix` }}
    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1902,6 +2040,8 @@ The rule does not have any configuration options.
 <br>
 
 #### ❌ Invalid Code
+
+**Filename: components/widget.component.html**
 
 ```html
 {{ value2() + `prefix-${value}-suffix` }}
@@ -1930,6 +2070,8 @@ The rule does not have any configuration options.
 
 #### ❌ Invalid Code
 
+**Filename: components/widget.component.html**
+
 ```html
 {{ [42] + `prefix-${value}-suffix` }}
    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1956,6 +2098,8 @@ The rule does not have any configuration options.
 <br>
 
 #### ❌ Invalid Code
+
+**Filename: components/widget.component.html**
 
 ```html
 {{ (condition ? 'true' : 'false') + `prefix-${value}-suffix` }}
@@ -1984,6 +2128,8 @@ The rule does not have any configuration options.
 
 #### ❌ Invalid Code
 
+**Filename: components/widget.component.html**
+
 ```html
 {{ ('value' | pipe) + `prefix-${value}-suffix` }}
    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -2010,6 +2156,8 @@ The rule does not have any configuration options.
 <br>
 
 #### ❌ Invalid Code
+
+**Filename: components/widget.component.html**
 
 ```html
 <ng-container
@@ -2047,6 +2195,8 @@ The rule does not have any configuration options.
 
 #### ❌ Invalid Code
 
+**Filename: components/widget.component.html**
+
 ```html
 <div [ngStyle]="{
     width: 10 + 'px'
@@ -2076,6 +2226,8 @@ The rule does not have any configuration options.
 
 #### ❌ Invalid Code
 
+**Filename: components/widget.component.html**
+
 ```html
 <div [ngStyle]="
      { width: 10 + 'px' }
@@ -2104,6 +2256,8 @@ The rule does not have any configuration options.
 <br>
 
 #### ❌ Invalid Code
+
+**Filename: components/widget.component.html**
 
 ```html
 <ng-container
@@ -2142,6 +2296,8 @@ The rule does not have any configuration options.
 
 #### ❌ Invalid Code
 
+**Filename: components/widget.component.html**
+
 ```html
 <div [class]="
      'a' + 'b'
@@ -2171,6 +2327,8 @@ The rule does not have any configuration options.
 
 #### ❌ Invalid Code
 
+**Filename: components/widget.component.html**
+
 ```html
 {{ 'a' + 'b' + 'c' }}
    ~~~~~~~~~~~~~~~
@@ -2197,6 +2355,8 @@ The rule does not have any configuration options.
 <br>
 
 #### ❌ Invalid Code
+
+**Filename: components/widget.component.html**
 
 ```html
 {{ x.type + '' + y }}
@@ -2225,6 +2385,8 @@ The rule does not have any configuration options.
 
 #### ❌ Invalid Code
 
+**Filename: components/widget.component.html**
+
 ```html
 {{ x.type + '' + $any(x).label + '' + $any(x).to }}
    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -2251,6 +2413,8 @@ The rule does not have any configuration options.
 <br>
 
 #### ❌ Invalid Code
+
+**Filename: components/widget.component.html**
 
 ```html
 {{ 'a' + 'b' + 'c' + 'd' }}
@@ -2279,6 +2443,8 @@ The rule does not have any configuration options.
 
 #### ❌ Invalid Code
 
+**Filename: components/widget.component.html**
+
 ```html
 {{ 'prefix-' + value + '-middle-' + value2 + '-suffix' }}
    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -2305,6 +2471,8 @@ The rule does not have any configuration options.
 <br>
 
 #### ❌ Invalid Code
+
+**Filename: components/widget.component.html**
 
 ```html
 {{ getValue() + '-' + getOther() + '-end' }}
@@ -2680,6 +2848,34 @@ The rule does not have any configuration options.
 
 ```html
 <my-component *directive="`prefix-${value}-suffix` | pipe" />
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-template-literal": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+**Filename: /components/widget/inline-template-widget-1.component.html**
+
+```html
+<div [style.--row-height]="itemSize() + 'px'">Example</div>
 ```
 
 </details>

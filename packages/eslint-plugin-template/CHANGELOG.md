@@ -1,3 +1,21 @@
+## 21.4.0 (2026-05-13)
+
+### 🚀 Features
+
+- **eslint-plugin-template:** [cyclomatic-complexity] add `variant` option ([#2976](https://github.com/angular-eslint/angular-eslint/pull/2976))
+
+### 🩹 Fixes
+
+- **eslint-plugin:** [prefer-template-literal] do not check inline templates ([#2959](https://github.com/angular-eslint/angular-eslint/pull/2959))
+- **eslint-plugin-template:** [eqeqeq] could not destructure null ([#2922](https://github.com/angular-eslint/angular-eslint/pull/2922))
+- **eslint-plugin-template:** [no-non-null-assertion] report nested arrays ([#2991](https://github.com/angular-eslint/angular-eslint/pull/2991))
+
+### ❤️ Thank You
+
+- Dave @reduckted
+- githubuser578 @githubuser578
+- Guillaume DROUARD
+
 ## 21.3.1 (2026-03-17)
 
 ### 🩹 Fixes

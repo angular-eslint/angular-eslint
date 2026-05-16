@@ -1,3 +1,13 @@
+## 21.4.0 (2026-05-13)
+
+### 🚀 Features
+
+- **builder:** add apply-suppressions option ([#2974](https://github.com/angular-eslint/angular-eslint/pull/2974))
+
+### ❤️ Thank You
+
+- Finn Bayer
+
 ## 21.3.1 (2026-03-17)
 
 ### 🩹 Fixes

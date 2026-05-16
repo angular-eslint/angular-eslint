@@ -1,3 +1,7 @@
+## 21.4.0 (2026-05-13)
+
+This was a version bump only for angular-eslint to align it with other projects, there were no code changes.
+
 ## 21.3.1 (2026-03-17)
 
 This was a version bump only for angular-eslint to align it with other projects, there were no code changes.

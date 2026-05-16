@@ -65,6 +65,16 @@ export async function resolveAndInstantiateESLint(
   if (options.stats && !useFlatConfig) {
     throw new Error('The --stats option requires ESLint Flat Config');
   }
+  if (options.applySuppressions && !useFlatConfig) {
+    throw new Error(
+      'The --apply-suppressions option requires ESLint Flat Config',
+    );
+  }
+  if (options.suppressionsLocation && !useFlatConfig) {
+    throw new Error(
+      'The --suppressions-location option requires ESLint Flat Config',
+    );
+  }
   if (
     useFlatConfig &&
     eslintConfigPath &&
@@ -78,6 +88,8 @@ export async function resolveAndInstantiateESLint(
 
   const eslintOptions: ESLint.Options & {
     concurrency?: 'auto' | 'off' | number;
+    applySuppressions?: boolean;
+    suppressionsLocation?: string;
   } = {
     fix: !!options.fix,
     cache: !!options.cache,
@@ -104,6 +116,12 @@ export async function resolveAndInstantiateESLint(
 
   if (useFlatConfig) {
     eslintOptions.stats = !!options.stats;
+    if (options.applySuppressions) {
+      eslintOptions.applySuppressions = true;
+    }
+    if (options.suppressionsLocation) {
+      eslintOptions.suppressionsLocation = options.suppressionsLocation;
+    }
     if (typeof options.useEslintrc !== 'undefined') {
       throw new Error(
         'For Flat Config, the `useEslintrc` option is not applicable. See https://eslint.org/docs/latest/use/configure/configuration-files-new',

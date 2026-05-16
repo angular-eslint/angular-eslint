@@ -22,6 +22,8 @@ export interface Schema extends JsonObject {
   useEslintrc: boolean | null;
   noConfigLookup: boolean | null;
   concurrency: 'auto' | 'off' | number | null;
+  applySuppressions: boolean | null;
+  suppressionsLocation: string | null;
 }
 
 type Formatter =

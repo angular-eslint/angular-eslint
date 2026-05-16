@@ -43,6 +43,8 @@ describe('eslint-utils', () => {
       rulePaths: [],
       reportUnusedDisableDirectives: undefined,
       resolvePluginsRelativeTo: undefined,
+      applySuppressions: undefined,
+      suppressionsLocation: undefined,
     });
   });
 
@@ -66,6 +68,8 @@ describe('eslint-utils', () => {
       rulePaths: [],
       reportUnusedDisableDirectives: undefined,
       resolvePluginsRelativeTo: undefined,
+      applySuppressions: undefined,
+      suppressionsLocation: undefined,
     });
   });
 
@@ -90,6 +94,8 @@ describe('eslint-utils', () => {
         rulePaths: [],
         reportUnusedDisableDirectives: undefined,
         resolvePluginsRelativeTo: undefined,
+        applySuppressions: undefined,
+        suppressionsLocation: undefined,
       });
     });
   });
@@ -117,6 +123,8 @@ describe('eslint-utils', () => {
         rulePaths: extraRuleDirectories,
         reportUnusedDisableDirectives: undefined,
         resolvePluginsRelativeTo: undefined,
+        applySuppressions: undefined,
+        suppressionsLocation: undefined,
       });
     });
   });
@@ -143,6 +151,8 @@ describe('eslint-utils', () => {
         rulePaths: [],
         reportUnusedDisableDirectives: undefined,
         resolvePluginsRelativeTo: './some-path',
+        applySuppressions: undefined,
+        suppressionsLocation: undefined,
       });
     });
   });
@@ -169,7 +179,77 @@ describe('eslint-utils', () => {
         rulePaths: [],
         reportUnusedDisableDirectives: 'warn',
         resolvePluginsRelativeTo: undefined,
+        applySuppressions: undefined,
+        suppressionsLocation: undefined,
       });
+    });
+  });
+
+  describe('applySuppressions option', () => {
+    it('should create the ESLint instance with "applySuppressions" set to true when using flat config', async () => {
+      await resolveAndInstantiateESLint(
+        './eslint.config.js',
+        {
+          applySuppressions: true,
+        } as any,
+        true,
+      );
+      expect(MockFlatESLint).toHaveBeenCalledWith({
+        cache: false,
+        cacheLocation: undefined,
+        cacheStrategy: undefined,
+        errorOnUnmatchedPattern: false,
+        fix: false,
+        overrideConfigFile: './eslint.config.js',
+        stats: false,
+        applySuppressions: true,
+        suppressionsLocation: undefined,
+      });
+    });
+
+    it('should throw when "applySuppressions" is used with eslintrc config', async () => {
+      await expect(
+        resolveAndInstantiateESLint(
+          './.eslintrc.json',
+          { applySuppressions: true } as any,
+          false,
+        ),
+      ).rejects.toThrow(
+        'The --apply-suppressions option requires ESLint Flat Config',
+      );
+    });
+  });
+  describe('suppressionsLocation option', () => {
+    it('should create the ESLint instance with suppressionsLocation set to the given value when using flat config', async () => {
+      await resolveAndInstantiateESLint(
+        './eslint.config.js',
+        {
+          suppressionsLocation: './suppressions.json',
+        } as any,
+        true,
+      );
+      expect(MockFlatESLint).toHaveBeenCalledWith({
+        cache: false,
+        cacheLocation: undefined,
+        cacheStrategy: undefined,
+        errorOnUnmatchedPattern: false,
+        fix: false,
+        overrideConfigFile: './eslint.config.js',
+        stats: false,
+        suppressionsLocation: './suppressions.json',
+      });
+    });
+
+    it('should throw when "suppressionsLocation" is used with eslintrc config', async () => {
+      await expect(
+        resolveAndInstantiateESLint(
+          './.eslintrc.json',
+          { suppressionsLocation: './suppressions.json' } as any,
+          false,
+        ),
+      ).rejects.toThrow(
+        'The --suppressions-location option requires ESLint Flat Config',
+      );
     });
   });
 

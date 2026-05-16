@@ -18,3 +18,4 @@ pnpm-lock.yaml
 
 # Avoid pings about it being out of date purely because of formatting differences
 .mcp.json
+.nx/self-healing

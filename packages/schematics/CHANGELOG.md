@@ -1,3 +1,13 @@
+## 21.4.0 (2026-05-13)
+
+### 🩹 Fixes
+
+- **schematics:** sync application schema with upstream @schematics/angular ([#3027](https://github.com/angular-eslint/angular-eslint/pull/3027))
+
+### ❤️ Thank You
+
+- James Henry @JamesHenry
+
 ## 21.3.1 (2026-03-17)
 
 This was a version bump only for schematics to align it with other projects, there were no code changes.

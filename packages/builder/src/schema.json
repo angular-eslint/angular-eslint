@@ -127,6 +127,14 @@
         { "type": "number" }
       ],
       "description": "The equivalent of the `--concurrency` flag on the ESLint CLI."
+    },
+    "applySuppressions": {
+      "type": "boolean",
+      "description": "The equivalent of the `--apply-suppressions` flag on the ESLint CLI."
+    },
+    "suppressionsLocation": {
+      "type": "string",
+      "description": "The equivalent of the `--suppressions-location` flag on the ESLint CLI."
     }
   },
   "additionalProperties": false,
