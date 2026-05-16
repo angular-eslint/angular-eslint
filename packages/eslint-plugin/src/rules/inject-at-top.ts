@@ -14,7 +14,6 @@ export default createESLintRule<Options, MessageIds>({
     docs: {
       description:
         'Requires inject() calls to be declared at the top of the class, before any other member',
-      recommended: 'recommended',
     },
     schema: [],
     messages: {
@@ -31,16 +30,42 @@ export default createESLintRule<Options, MessageIds>({
       'Pipe',
     ]);
 
-    function isInjectProperty(member: TSESTree.ClassElement): boolean {
-      if (member.type !== AST_NODE_TYPES.PropertyDefinition) {
+    function hasEagerInject(node: TSESTree.Node | null): boolean {
+      if (!node) {
         return false;
       }
-      const value = member.value;
-      return (
-        value?.type === AST_NODE_TYPES.CallExpression &&
-        value.callee.type === AST_NODE_TYPES.Identifier &&
-        value.callee.name === 'inject'
-      );
+
+      if (
+        node.type === AST_NODE_TYPES.CallExpression &&
+        node.callee.type === AST_NODE_TYPES.Identifier &&
+        node.callee.name === 'inject'
+      ) {
+        return true;
+      }
+
+      const isFn =
+        node.type === AST_NODE_TYPES.ArrowFunctionExpression ||
+        node.type === AST_NODE_TYPES.FunctionExpression;
+
+      const isIIFE =
+        isFn &&
+        node.parent?.type === AST_NODE_TYPES.CallExpression &&
+        node.parent.callee === node;
+
+      if (node.type === AST_NODE_TYPES.ClassExpression || (isFn && !isIIFE)) {
+        return false;
+      }
+
+      return Object.values(node)
+        .flat()
+        .some(
+          (child) =>
+            child &&
+            typeof child === 'object' &&
+            'type' in child &&
+            child !== node.parent &&
+            hasEagerInject(child as TSESTree.Node),
+        );
     }
 
     return {
@@ -54,10 +79,14 @@ export default createESLintRule<Options, MessageIds>({
             continue;
           }
 
-          if (isInjectProperty(member)) {
+          if (
+            member.type === AST_NODE_TYPES.PropertyDefinition &&
+            hasEagerInject(member.value)
+          ) {
             if (seenNonInject) {
               context.report({ node: member, messageId: 'injectAtTop' });
             }
+
             continue;
           }
 

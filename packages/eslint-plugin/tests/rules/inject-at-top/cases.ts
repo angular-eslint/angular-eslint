@@ -67,6 +67,152 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     private readonly myService = inject(MyService);
   }
   `,
+  // should ignore inject() buried inside an arrow callback stored as a field (lazy)
+  `
+  @Component({})
+  class MyComponent {
+    private readonly count = 0;
+    private readonly userServiceFactory = () => inject(UserService);
+  }
+  `,
+  // should ignore inject() buried inside a method body (lazy)
+  `
+  @Injectable()
+  class MyService {
+    private value = 0;
+    build() {
+      return inject(HttpClient);
+    }
+  }
+  `,
+  // should ignore inject() buried inside a function expression stored as a field (lazy)
+  `
+  @Directive({})
+  class MyDirective {
+    private flag = false;
+    private readonly userServiceFactory = function () { return inject(UserService); };
+  }
+  `,
+  // should pass when a ConditionalExpression containing inject() is the first member
+  `
+  @Component({})
+  class MyComponent {
+    private readonly strategy = cond ? inject(PrimaryStrategy) : inject(FallbackStrategy);
+    private count = 0;
+  }
+  `,
+  // should pass when a LogicalExpression containing inject() is the first member
+  `
+  @Component({})
+  class MyComponent {
+    private readonly logger = inject(LoggerService, { optional: true }) ?? noopLogger;
+    private count = 0;
+  }
+  `,
+  // should pass when a TSNonNullExpression containing inject() is the first member
+  `
+  @Component({})
+  class MyComponent {
+    private readonly config = inject(AppConfig, { optional: true })!;
+    private count = 0;
+  }
+  `,
+  // should pass when a TSAsExpression containing inject() is the first member
+  `
+  @Component({})
+  class MyComponent {
+    private readonly featureFlags = inject(FlagsService) as FeatureFlags;
+    private count = 0;
+  }
+  `,
+  // should pass when a wrapping CallExpression containing inject() is the first member
+  `
+  @Component({})
+  class MyComponent {
+    private readonly tracedHttp = withTracing(inject(HttpClient));
+    private count = 0;
+  }
+  `,
+  // should pass when a NewExpression containing inject() is the first member
+  `
+  @Component({})
+  class MyComponent {
+    private readonly apiClient = new ApiClient(inject(HttpClient));
+    private count = 0;
+  }
+  `,
+  // should pass when an ArrayExpression containing inject() is the first member
+  `
+  @Component({})
+  class MyComponent {
+    private readonly handlers = [inject(HandlerA), inject(HandlerB)];
+    private count = 0;
+  }
+  `,
+  // should pass when an ObjectExpression containing inject() is the first member
+  `
+  @Component({})
+  class MyComponent {
+    private readonly deps = { users: inject(UserService) };
+    private count = 0;
+  }
+  `,
+  // should pass when a SequenceExpression containing inject() is the first member
+  `
+  @Component({})
+  class MyComponent {
+    private readonly userService = (audit(), inject(UserService));
+    private count = 0;
+  }
+  `,
+  // should pass when a TemplateLiteral containing inject() is the first member
+  `
+  @Component({})
+  class MyComponent {
+    private readonly currentUserId = \`\${inject(UserService).id}\`;
+    private count = 0;
+  }
+  `,
+  // should pass when an IIFE containing inject() is the first member
+  `
+  @Component({})
+  class MyComponent {
+    private readonly client = (() => inject(ApiClient))();
+    private count = 0;
+  }
+  `,
+  // should ignore inject() wrapped behind a lazy arrow even when nested in another shape
+  `
+  @Component({})
+  class MyComponent {
+    private count = 0;
+    private readonly strategyFactory = () => (cond ? inject(PrimaryStrategy) : inject(FallbackStrategy));
+  }
+  `,
+  // should ignore inject() inside an arrow that is passed as a CallExpression argument (not callee)
+  `
+  @Component({})
+  class MyComponent {
+    private count = 0;
+    private readonly userServiceFactory = withFactory(() => inject(UserService));
+  }
+  `,
+  // should ignore inject() inside a function expression that is passed as a NewExpression argument
+  `
+  @Component({})
+  class MyComponent {
+    private count = 0;
+    private readonly apiClient = new ApiClient(function () { return inject(HttpClient); });
+  }
+  `,
+  // should ignore inject() inside an arrow body that itself contains nested wrappers
+  `
+  @Component({})
+  class MyComponent {
+    private count = 0;
+    private readonly handlersFactory = () => collectHandlers([inject(HandlerA), inject(HandlerB)]);
+  }
+  `,
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
@@ -163,5 +309,184 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       { char: '~', messageId },
       { char: '^', messageId },
     ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail when inject() is hidden inside a ConditionalExpression',
+    annotatedSource: `
+      @Component({})
+      class MyComponent {
+        private count = 0;
+        private readonly strategy = cond ? inject(PrimaryStrategy) : inject(FallbackStrategy);
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      }
+    `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail when inject() is hidden inside a LogicalExpression',
+    annotatedSource: `
+      @Component({})
+      class MyComponent {
+        private count = 0;
+        private readonly logger = inject(LoggerService, { optional: true }) ?? noopLogger;
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      }
+    `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail when inject() is hidden inside a TSNonNullExpression',
+    annotatedSource: `
+      @Component({})
+      class MyComponent {
+        private count = 0;
+        private readonly config = inject(AppConfig, { optional: true })!;
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      }
+    `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail when inject() is hidden inside a TSAsExpression',
+    annotatedSource: `
+      @Component({})
+      class MyComponent {
+        private count = 0;
+        private readonly featureFlags = inject(FlagsService) as FeatureFlags;
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      }
+    `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail when inject() is hidden inside a wrapping CallExpression',
+    annotatedSource: `
+      @Component({})
+      class MyComponent {
+        private count = 0;
+        private readonly tracedHttp = withTracing(inject(HttpClient));
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      }
+    `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail when inject() is hidden inside a NewExpression',
+    annotatedSource: `
+      @Component({})
+      class MyComponent {
+        private count = 0;
+        private readonly apiClient = new ApiClient(inject(HttpClient));
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      }
+    `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail when inject() is hidden inside an ArrayExpression',
+    annotatedSource: `
+      @Component({})
+      class MyComponent {
+        private count = 0;
+        private readonly handlers = [inject(HandlerA), inject(HandlerB)];
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      }
+    `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail when inject() is hidden inside an ObjectExpression',
+    annotatedSource: `
+      @Component({})
+      class MyComponent {
+        private count = 0;
+        private readonly deps = { users: inject(UserService) };
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      }
+    `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail when inject() is hidden inside a SequenceExpression',
+    annotatedSource: `
+      @Component({})
+      class MyComponent {
+        private count = 0;
+        private readonly userService = (audit(), inject(UserService));
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      }
+    `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail when inject() is hidden inside a TemplateLiteral',
+    annotatedSource: `
+      @Component({})
+      class MyComponent {
+        private count = 0;
+        private readonly currentUserId = \`\${inject(UserService).id}\`;
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      }
+    `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail when inject() is hidden inside an immediately-invoked function expression',
+    annotatedSource: `
+      @Component({})
+      class MyComponent {
+        private count = 0;
+        private readonly client = (() => inject(ApiClient))();
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      }
+    `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail when inject() is nested across multiple wrapping shapes',
+    annotatedSource: `
+      @Component({})
+      class MyComponent {
+        private count = 0;
+        private readonly services = collectServices([inject(UserService), { router: inject(Router) }]);
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      }
+    `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail when an IIFE uses a function expression that contains inject()',
+    annotatedSource: `
+      @Component({})
+      class MyComponent {
+        private count = 0;
+        private readonly legacyClient = (function () { return inject(ApiClient); })();
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      }
+    `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail when an IIFE wraps inject() inside another expression',
+    annotatedSource: `
+      @Component({})
+      class MyComponent {
+        private count = 0;
+        private readonly tracedClient = (() => withTracing(inject(ApiClient)))();
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      }
+    `,
+    messageId,
   }),
 ];
