@@ -115,6 +115,60 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   })
   class Test {}
 `,
+  // in private method called from Component constructor (injection context)
+  `
+    @Component()
+    class Test {
+      #myObservable = new Subject();
+
+      constructor() {
+        this.#someLogic();
+      }
+
+      #someLogic() {
+        this.#myObservable.pipe(takeUntilDestroyed()).subscribe();
+      }
+    }
+  `,
+  // in method called from Component constructor (injection context)
+  `
+    @Component()
+    class Test {
+      constructor() {
+        this.initSubscriptions();
+      }
+
+      private initSubscriptions() {
+        this.data$.pipe(takeUntilDestroyed()).subscribe();
+      }
+    }
+  `,
+  // in method called from Directive constructor (injection context)
+  `
+    @Directive()
+    class Test {
+      constructor() {
+        this.setup();
+      }
+
+      private setup() {
+        this.data$.pipe(takeUntilDestroyed()).subscribe();
+      }
+    }
+  `,
+  // in method called from Injectable constructor (injection context)
+  `
+    @Injectable()
+    class TestService {
+      constructor() {
+        this.init();
+      }
+
+      private init() {
+        this.data$.pipe(takeUntilDestroyed()).subscribe();
+      }
+    }
+  `,
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
@@ -231,6 +285,25 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       class AppModule {
         private data = this.http.get('/api').pipe(takeUntilDestroyed());
                                                   ~~~~~~~~~~~~~~~~~~~~
+      }
+    `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail in method not called from constructor',
+    annotatedSource: `
+      @Component()
+      class Test {
+        constructor() {}
+
+        ngOnInit() {
+          this.loadData();
+        }
+
+        loadData() {
+          this.data$.pipe(takeUntilDestroyed()).subscribe();
+                          ~~~~~~~~~~~~~~~~~~~~
+        }
       }
     `,
     messageId,
