@@ -323,6 +323,44 @@ class AppModule {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-implicit-take-until-destroyed": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component()
+class Test {
+  constructor() {}
+
+  ngOnInit() {
+    this.loadData();
+  }
+
+  loadData() {
+    this.data$.pipe(takeUntilDestroyed()).subscribe();
+                    ~~~~~~~~~~~~~~~~~~~~
+  }
+}
+```
+
 </details>
 
 <br>
@@ -696,6 +734,148 @@ class TestService {
   ]
 })
 class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-implicit-take-until-destroyed": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component()
+class Test {
+  #myObservable = new Subject();
+
+  constructor() {
+    this.#someLogic();
+  }
+
+  #someLogic() {
+    this.#myObservable.pipe(takeUntilDestroyed()).subscribe();
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-implicit-take-until-destroyed": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component()
+class Test {
+  constructor() {
+    this.initSubscriptions();
+  }
+
+  private initSubscriptions() {
+    this.data$.pipe(takeUntilDestroyed()).subscribe();
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-implicit-take-until-destroyed": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive()
+class Test {
+  constructor() {
+    this.setup();
+  }
+
+  private setup() {
+    this.data$.pipe(takeUntilDestroyed()).subscribe();
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-implicit-take-until-destroyed": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Injectable()
+class TestService {
+  constructor() {
+    this.init();
+  }
+
+  private init() {
+    this.data$.pipe(takeUntilDestroyed()).subscribe();
+  }
+}
 ```
 
 </details>
