@@ -34,6 +34,22 @@ export const valid = [
       readonly onChange = output();
     }
     `,
+  // Input with transform option should not be flagged because model() does not support transform
+  `
+    import { booleanAttribute } from '@angular/core';
+    class Test {
+      readonly enabled = input(false, { transform: booleanAttribute });
+      readonly enabledChange = output<boolean>();
+    }
+    `,
+  // Also valid when using a custom transform function
+  `
+    import { numberAttribute } from '@angular/core';
+    class Test {
+      readonly count = input(0, { transform: numberAttribute });
+      readonly countChange = output<number>();
+    }
+    `,
 ];
 
 export const invalid = [

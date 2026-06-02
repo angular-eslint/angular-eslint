@@ -35,6 +35,25 @@ export default createESLintRule<Options, MessageIds>({
       "PropertyDefinition > CallExpression[callee.name='input']"(
         node: TSESTree.CallExpression,
       ) {
+        // Skip inputs with a transform option because model() does not support transform.
+        // https://github.com/angular/angular/issues/55166#issuecomment-2032150999
+        const hasTransformOption = node.arguments.some(
+          (arg) =>
+            arg.type === 'ObjectExpression' &&
+            arg.properties.some(
+              (prop) =>
+                prop.type === 'Property' &&
+                ((prop.key.type === 'Identifier' &&
+                  prop.key.name === 'transform') ||
+                  (prop.key.type === 'Literal' &&
+                    prop.key.value === 'transform')),
+            ),
+        );
+
+        if (hasTransformOption) {
+          return;
+        }
+
         const propertyDef = node.parent as TSESTree.PropertyDefinition;
         const propertyName = ASTUtils.getPropertyDefinitionName(propertyDef);
 
