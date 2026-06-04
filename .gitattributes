@@ -3,3 +3,5 @@
 *.ts eol=lf
 *.tsx eol=lf
 *.yml eol=lf
+*.json eol=lf
+*.yaml eol=lf

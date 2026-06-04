@@ -5,7 +5,8 @@
     "outDir": "dist",
     "emitDeclarationOnly": false,
     "tsBuildInfoFile": "dist/tsconfig.lib.tsbuildinfo",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "types": ["node"]
   },
   "exclude": ["**/*.spec.ts"],
   "include": ["src/**/*.ts", "src/**/*.json"],
