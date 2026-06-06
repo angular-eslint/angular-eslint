@@ -27,6 +27,7 @@
     "sourceMap": false,
     "strict": true,
     "target": "es2022",
+    "types": ["node"],
     "verbatimModuleSyntax": false
   }
 }
