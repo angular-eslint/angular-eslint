@@ -56,10 +56,16 @@ function reducer(
   config: LinterConfigRules,
   entry: [
     string,
-    TSESLint.RuleModule<
-      string,
-      unknown[],
-      { recommended?: string; requiresTypeChecking?: boolean }
+    // `reducer` only reads `meta`; narrowing to it avoids the contravariant
+    // `create(context)` variance clash that TS 6 reports when assigning the
+    // plugins' specific `RuleModule<MessageIds, Options>` types to a wide one.
+    Pick<
+      TSESLint.RuleModule<
+        string,
+        readonly unknown[],
+        { recommended?: string; requiresTypeChecking?: boolean }
+      >,
+      'meta'
     >,
   ],
   settings: {

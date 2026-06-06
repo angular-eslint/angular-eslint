@@ -91,7 +91,7 @@ jobs:
       matrix:
         # Additionally supported node versions taken from:
         # https://angular.dev/reference/versions
-        node: ['^20.19.0', '^24.0.0']
+        node: ['^22.22.3', '^24.15.0']
     steps:
       - uses: actions/checkout@v6
 
