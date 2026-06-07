@@ -3,11 +3,11 @@
 ### 🚀 Features
 
 - **template-parser:** traverse v22 arrow function, spread and tagged-template expression nodes ([#3059](https://github.com/angular-eslint/angular-eslint/pull/3059))
-- ⚠️  drop support for eslint v8 and legacy eslintrc config format ([#3056](https://github.com/angular-eslint/angular-eslint/pull/3056))
+- ⚠️ drop support for eslint v8 and legacy eslintrc config format ([#3056](https://github.com/angular-eslint/angular-eslint/pull/3056))
 
-### ⚠️  Breaking Changes
+### ⚠️ Breaking Changes
 
-- drop support for eslint v8 and legacy eslintrc config format  ([#3056](https://github.com/angular-eslint/angular-eslint/pull/3056))
+- drop support for eslint v8 and legacy eslintrc config format ([#3056](https://github.com/angular-eslint/angular-eslint/pull/3056))
 
 ### ❤️ Thank You
 
