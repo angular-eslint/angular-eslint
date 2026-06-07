@@ -1,26 +1,32 @@
 # 22.0.0 (2026-06-07)
 
+As always we recommend that you update your existing workspaces by using `ng update` as we provide some helpful schematics to help migrate your workspaces to the latest and greatest. Running the following will update Angular, the Angular CLI and angular-eslint together:
+
+```sh
+ng update @angular/core @angular/cli angular-eslint
+```
+
 ### 🚀 Features
 
-- ⚠️  update to Angular 22 + TS 6, drop node 20 ([96592269](https://github.com/angular-eslint/angular-eslint/commit/96592269))
-- ⚠️  drop support for eslint v8 and legacy eslintrc config format ([#3056](https://github.com/angular-eslint/angular-eslint/pull/3056))
+- ⚠️ update to Angular 22 + TS 6, drop node 20 ([96592269](https://github.com/angular-eslint/angular-eslint/commit/96592269))
+- ⚠️ drop support for eslint v8 and legacy eslintrc config format ([#3056](https://github.com/angular-eslint/angular-eslint/pull/3056))
 - support the Angular v22 @Service decorator ([#3057](https://github.com/angular-eslint/angular-eslint/pull/3057))
 - **builder:** add suppressionsLocation option ([#3034](https://github.com/angular-eslint/angular-eslint/pull/3034))
-- ⚠️  **eslint-plugin:** [prefer-on-push-component-change-detection] flag only opting out of OnPush, make recommended ([#3058](https://github.com/angular-eslint/angular-eslint/pull/3058))
-- ⚠️  **eslint-plugin:** remove deprecated no-conflicting-lifecycle rule ([#3060](https://github.com/angular-eslint/angular-eslint/pull/3060))
+- ⚠️ **eslint-plugin:** [prefer-on-push-component-change-detection] flag only opting out of OnPush, make recommended ([#3058](https://github.com/angular-eslint/angular-eslint/pull/3058))
+- ⚠️ **eslint-plugin:** remove deprecated no-conflicting-lifecycle rule ([#3060](https://github.com/angular-eslint/angular-eslint/pull/3060))
 - **template-parser:** traverse v22 arrow function, spread and tagged-template expression nodes ([#3059](https://github.com/angular-eslint/angular-eslint/pull/3059))
 
 ### 🩹 Fixes
 
 - update dependency @angular/compiler to v21.2.12 ([#3030](https://github.com/angular-eslint/angular-eslint/pull/3030))
 
-### ⚠️  Breaking Changes
+### ⚠️ Breaking Changes
 
-- **eslint-plugin:** remove deprecated no-conflicting-lifecycle rule  ([#3060](https://github.com/angular-eslint/angular-eslint/pull/3060))
-- **eslint-plugin:** [prefer-on-push-component-change-detection] flag only opting out of OnPush, make recommended  ([#3058](https://github.com/angular-eslint/angular-eslint/pull/3058))
+- **eslint-plugin:** remove deprecated no-conflicting-lifecycle rule ([#3060](https://github.com/angular-eslint/angular-eslint/pull/3060))
+- **eslint-plugin:** [prefer-on-push-component-change-detection] flag only opting out of OnPush, make recommended ([#3058](https://github.com/angular-eslint/angular-eslint/pull/3058))
   prefer-on-push-component-change-detection no longer reports components that omit changeDetection (omission now means OnPush in v22); it now only reports components that opt out of OnPush via ChangeDetectionStrategy.Eager or the deprecated ChangeDetectionStrategy.Default. The rule is also now part of the recommended config, so projects extending it may see new reports — notably on components the Angular v22 migration set to Eager. The suggestion message id suggestAddChangeDetectionOnPush has been renamed to suggestChangeToOnPush.
-- drop support for eslint v8 and legacy eslintrc config format  ([#3056](https://github.com/angular-eslint/angular-eslint/pull/3056))
-- update to Angular 22 + TS 6, drop node 20  ([96592269](https://github.com/angular-eslint/angular-eslint/commit/96592269))
+- drop support for eslint v8 and legacy eslintrc config format ([#3056](https://github.com/angular-eslint/angular-eslint/pull/3056))
+- update to Angular 22 + TS 6, drop node 20 ([96592269](https://github.com/angular-eslint/angular-eslint/commit/96592269))
 
 ### ❤️ Thank You
 
