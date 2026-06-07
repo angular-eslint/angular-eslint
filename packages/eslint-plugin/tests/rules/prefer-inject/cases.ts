@@ -21,6 +21,13 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     private http = inject(HttpClient);
   }
   `,
+  // @Service using inject()
+  `
+  @Service()
+  class UserService {
+    private http = inject(HttpClient);
+  }
+  `,
   // Empty constructor
   `
   @Component({})
@@ -51,6 +58,17 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     description: 'basic constructor injection',
     annotatedSource: `
       @Injectable()
+      class UserService {
+        constructor(private http: HttpClient) {}
+                    ~~~~~~~~~~~~~~~~~~~~~~~~
+      }
+    `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: '@Service constructor injection',
+    annotatedSource: `
+      @Service()
       class UserService {
         constructor(private http: HttpClient) {}
                     ~~~~~~~~~~~~~~~~~~~~~~~~

@@ -39,6 +39,7 @@ export default createESLintRule<Options, MessageIds>({
       'Injectable',
       'NgModule',
       'Pipe',
+      'Service',
     ]);
 
     const angularLifecycleMethodsPattern = toPattern([

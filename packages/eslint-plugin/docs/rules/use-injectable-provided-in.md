@@ -547,6 +547,33 @@ class TestEffects {}
 class Test {}
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/use-injectable-provided-in": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Service()
+class Test {}
+```
+
 </details>
 
 <br>
