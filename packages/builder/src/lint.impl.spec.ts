@@ -15,7 +15,7 @@ import { workspaceRoot } from '@nx/devkit';
 import type { ESLint } from 'eslint';
 import * as fs from 'node:fs';
 import { tmpdir } from 'node:os';
-import { basename, join, sep } from 'node:path';
+import { join, sep } from 'node:path';
 import { setWorkspaceRoot } from 'nx/src/utils/workspace-root';
 import type { Schema } from './schema';
 
@@ -53,14 +53,11 @@ const mockFormatter = {
 const mockLoadFormatter = vi.fn().mockReturnValue(mockFormatter);
 const mockOutputFixes = vi.fn();
 
-const VALID_ESLINT_VERSION = '7.6';
-
 let mockReports: unknown[] = [
   { results: [], messages: [], usedDeprecatedRules: [] },
 ];
 
 class MockESLint {
-  static version = VALID_ESLINT_VERSION;
   static outputFixes = mockOutputFixes;
   loadFormatter = mockLoadFormatter;
   isPathIgnored = vi.fn().mockReturnValue(false);
@@ -98,14 +95,8 @@ function createValidRunBuilderOptions(
     quiet: false,
     maxWarnings: -1,
     silent: false,
-    ignorePath: null,
     outputFile: null,
     stats: false,
-    noEslintrc: false,
-    rulesdir: [],
-    resolvePluginsRelativeTo: null,
-    reportUnusedDisableDirectives: null,
-    useEslintrc: null,
     noConfigLookup: null,
     concurrency: null,
     applySuppressions: null,
@@ -151,7 +142,6 @@ describe('Linter Builder', () => {
   });
 
   beforeEach(() => {
-    MockESLint.version = VALID_ESLINT_VERSION;
     mockReports = [{ results: [], messages: [], usedDeprecatedRules: [] }];
     mockGetProjectMetadata.mockReturnValue({
       root: 'packages/test-project',
@@ -173,25 +163,7 @@ describe('Linter Builder', () => {
     setWorkspaceRoot(previousWorkspaceRoot);
   });
 
-  it('should fail if the eslint version is not supported', async () => {
-    MockESLint.version = '1.6';
-    const result = runBuilder(createValidRunBuilderOptions());
-    await expect(result).resolves.toMatchInlineSnapshot(`
-      {
-        "error": "Error when running ESLint: ESLint must be version 7.6 or higher.",
-        "info": {
-          "builderName": "@angular-eslint/builder:lint",
-          "description": "Testing only builder.",
-          "optionSchema": {
-            "type": "object",
-          },
-        },
-        "success": false,
-      }
-    `);
-  });
-
-  it('should not fail if the eslint version is supported', async () => {
+  it('should run successfully with valid options', async () => {
     const result = await runBuilder(createValidRunBuilderOptions());
     expect(result.error).toBeUndefined();
   });
@@ -200,7 +172,7 @@ describe('Linter Builder', () => {
     await runBuilder(
       createValidRunBuilderOptions({
         lintFilePatterns: [],
-        eslintConfig: './.eslintrc',
+        eslintConfig: './eslint.config.js',
         exclude: ['excludedFile1'],
         fix: true,
         quiet: false,
@@ -213,21 +185,17 @@ describe('Linter Builder', () => {
         stats: false,
         maxWarnings: -1,
         outputFile: null,
-        ignorePath: null,
-        noEslintrc: false,
         noConfigLookup: null,
-        rulesdir: [],
-        resolvePluginsRelativeTo: null,
         applySuppressions: true,
         suppressionsLocation: null,
       }),
     );
     expect(mockResolveAndInstantiateESLint).toHaveBeenCalledTimes(1);
     expect(mockResolveAndInstantiateESLint).toHaveBeenCalledWith(
-      join(testWorkspaceRoot, '.eslintrc'),
+      join(testWorkspaceRoot, 'eslint.config.js'),
       {
         lintFilePatterns: [],
-        eslintConfig: './.eslintrc',
+        eslintConfig: './eslint.config.js',
         exclude: ['excludedFile1'],
         fix: true,
         quiet: false,
@@ -238,150 +206,39 @@ describe('Linter Builder', () => {
         force: false,
         silent: false,
         stats: false,
-        useEslintrc: null,
         maxWarnings: -1,
         outputFile: null,
-        ignorePath: null,
-        noEslintrc: false,
         noConfigLookup: null,
-        rulesdir: [],
-        resolvePluginsRelativeTo: null,
-        reportUnusedDisableDirectives: null,
         concurrency: null,
         applySuppressions: true,
         suppressionsLocation: null,
       },
-      false,
     );
   });
 
-  it('should resolve and instantiate ESLint with useFlatConfig=true if the root config is eslint.config.js', async () => {
-    vi.mocked(fs.existsSync).mockImplementation((path) => {
-      const pathStr = String(path);
-      if (basename(pathStr) === 'eslint.config.js') {
-        return true;
-      }
-      return false;
-    });
-
+  it('should resolve and instantiate ESLint with the resolved config path and options', async () => {
     await runBuilder(createValidRunBuilderOptions({}));
     expect(mockResolveAndInstantiateESLint).toHaveBeenCalledTimes(1);
-    expect(mockResolveAndInstantiateESLint).toHaveBeenCalledWith(
-      undefined,
-      {
-        lintFilePatterns: [],
-        eslintConfig: null,
-        exclude: ['excludedFile1'],
-        fix: true,
-        quiet: false,
-        cache: true,
-        cacheLocation: `cacheLocation1${sep}test-project`,
-        cacheStrategy: 'content',
-        format: 'stylish',
-        force: false,
-        silent: false,
-        stats: false,
-        useEslintrc: null,
-        maxWarnings: -1,
-        outputFile: null,
-        ignorePath: null,
-        noEslintrc: false,
-        noConfigLookup: null,
-        rulesdir: [],
-        resolvePluginsRelativeTo: null,
-        reportUnusedDisableDirectives: null,
-        concurrency: null,
-        applySuppressions: false,
-        suppressionsLocation: null,
-      },
-      true, // useFlatConfig
-    );
-  });
-
-  it('should resolve and instantiate ESLint with useFlatConfig=true if the root config is eslint.config.mjs', async () => {
-    vi.mocked(fs.existsSync).mockImplementation((path) => {
-      const pathStr = String(path);
-      if (basename(pathStr) === 'eslint.config.js') {
-        return true;
-      }
-      return false;
+    expect(mockResolveAndInstantiateESLint).toHaveBeenCalledWith(undefined, {
+      lintFilePatterns: [],
+      eslintConfig: null,
+      exclude: ['excludedFile1'],
+      fix: true,
+      quiet: false,
+      cache: true,
+      cacheLocation: `cacheLocation1${sep}test-project`,
+      cacheStrategy: 'content',
+      format: 'stylish',
+      force: false,
+      silent: false,
+      stats: false,
+      maxWarnings: -1,
+      outputFile: null,
+      noConfigLookup: null,
+      concurrency: null,
+      applySuppressions: false,
+      suppressionsLocation: null,
     });
-
-    await runBuilder(createValidRunBuilderOptions({}));
-    expect(mockResolveAndInstantiateESLint).toHaveBeenCalledTimes(1);
-    expect(mockResolveAndInstantiateESLint).toHaveBeenCalledWith(
-      undefined,
-      {
-        lintFilePatterns: [],
-        eslintConfig: null,
-        exclude: ['excludedFile1'],
-        fix: true,
-        quiet: false,
-        cache: true,
-        cacheLocation: `cacheLocation1${sep}test-project`,
-        cacheStrategy: 'content',
-        format: 'stylish',
-        force: false,
-        silent: false,
-        stats: false,
-        useEslintrc: null,
-        maxWarnings: -1,
-        outputFile: null,
-        ignorePath: null,
-        noEslintrc: false,
-        noConfigLookup: null,
-        rulesdir: [],
-        resolvePluginsRelativeTo: null,
-        reportUnusedDisableDirectives: null,
-        concurrency: null,
-        applySuppressions: false,
-        suppressionsLocation: null,
-      },
-      true, // useFlatConfig
-    );
-  });
-
-  it('should resolve and instantiate ESLint with useFlatConfig=true if the root config is eslint.config.cjs', async () => {
-    vi.mocked(fs.existsSync).mockImplementation((path) => {
-      const pathStr = String(path);
-      if (basename(pathStr) === 'eslint.config.js') {
-        return true;
-      }
-      return false;
-    });
-
-    await runBuilder(createValidRunBuilderOptions({}));
-    expect(mockResolveAndInstantiateESLint).toHaveBeenCalledTimes(1);
-    expect(mockResolveAndInstantiateESLint).toHaveBeenCalledWith(
-      undefined,
-      {
-        lintFilePatterns: [],
-        eslintConfig: null,
-        exclude: ['excludedFile1'],
-        fix: true,
-        quiet: false,
-        cache: true,
-        cacheLocation: `cacheLocation1${sep}test-project`,
-        cacheStrategy: 'content',
-        format: 'stylish',
-        force: false,
-        silent: false,
-        stats: false,
-        useEslintrc: null,
-        maxWarnings: -1,
-        outputFile: null,
-        ignorePath: null,
-        noEslintrc: false,
-        noConfigLookup: null,
-        rulesdir: [],
-        resolvePluginsRelativeTo: null,
-        reportUnusedDisableDirectives: null,
-        concurrency: null,
-        applySuppressions: false,
-        suppressionsLocation: null,
-      },
-      true, // useFlatConfig
-    );
   });
 
   it('should fail if no reports generated', async () => {
@@ -399,7 +256,7 @@ describe('Linter Builder', () => {
   it('should create a new instance of the formatter with the selected user option', async () => {
     await runBuilder(
       createValidRunBuilderOptions({
-        eslintConfig: './.eslintrc',
+        eslintConfig: './eslint.config.js',
         lintFilePatterns: ['includedFile1'],
         format: 'json',
       }),
@@ -407,7 +264,7 @@ describe('Linter Builder', () => {
     expect(mockLoadFormatter).toHaveBeenCalledWith('json');
     await runBuilder(
       createValidRunBuilderOptions({
-        eslintConfig: './.eslintrc',
+        eslintConfig: './eslint.config.js',
         lintFilePatterns: ['includedFile1'],
         format: 'html',
       }),
@@ -450,7 +307,7 @@ describe('Linter Builder', () => {
     ];
     await runBuilder(
       createValidRunBuilderOptions({
-        eslintConfig: './.eslintrc',
+        eslintConfig: './eslint.config.js',
         lintFilePatterns: ['includedFile1', 'includedFile2'],
         format: 'checkstyle',
       }),
@@ -493,7 +350,7 @@ describe('Linter Builder', () => {
   it('should pass all the reports to the fix engine, even if --fix is false', async () => {
     await runBuilder(
       createValidRunBuilderOptions({
-        eslintConfig: './.eslintrc',
+        eslintConfig: './eslint.config.js',
         lintFilePatterns: ['includedFile1'],
         format: 'json',
         fix: false,
@@ -547,7 +404,7 @@ describe('Linter Builder', () => {
     ];
     await runBuilder(
       createValidRunBuilderOptions({
-        eslintConfig: './.eslintrc',
+        eslintConfig: './eslint.config.js',
         lintFilePatterns: ['**/*.ts'],
         format: 'json',
       }),
@@ -600,7 +457,7 @@ describe('Linter Builder', () => {
     ];
     await runBuilder(
       createValidRunBuilderOptions({
-        eslintConfig: './.eslintrc',
+        eslintConfig: './eslint.config.js',
         lintFilePatterns: ['**/*.ts'],
         format: 'json',
         quiet: true,
@@ -656,7 +513,7 @@ describe('Linter Builder', () => {
       ];
       await runBuilder(
         createValidRunBuilderOptions({
-          eslintConfig: './.eslintrc',
+          eslintConfig: './eslint.config.js',
           lintFilePatterns: ['includedFile1'],
           format: 'json',
           silent: false,
@@ -688,7 +545,7 @@ describe('Linter Builder', () => {
       ];
       await runBuilder(
         createValidRunBuilderOptions({
-          eslintConfig: './.eslintrc',
+          eslintConfig: './eslint.config.js',
           lintFilePatterns: ['includedFile1'],
           format: 'json',
           silent: false,
@@ -721,7 +578,7 @@ describe('Linter Builder', () => {
       ];
       await runBuilder(
         createValidRunBuilderOptions({
-          eslintConfig: './.eslintrc',
+          eslintConfig: './eslint.config.js',
           lintFilePatterns: ['includedFile1'],
           format: 'json',
           maxWarnings: 1,
@@ -762,7 +619,7 @@ describe('Linter Builder', () => {
       ];
       await runBuilder(
         createValidRunBuilderOptions({
-          eslintConfig: './.eslintrc',
+          eslintConfig: './eslint.config.js',
           lintFilePatterns: ['includedFile1'],
           format: 'json',
           quiet: true,
@@ -799,7 +656,7 @@ describe('Linter Builder', () => {
     ];
     const output = await runBuilder(
       createValidRunBuilderOptions({
-        eslintConfig: './.eslintrc',
+        eslintConfig: './eslint.config.js',
         lintFilePatterns: ['includedFile1'],
         format: 'json',
         silent: true,
@@ -827,7 +684,7 @@ describe('Linter Builder', () => {
     ];
     const output = await runBuilder(
       createValidRunBuilderOptions({
-        eslintConfig: './.eslintrc',
+        eslintConfig: './eslint.config.js',
         lintFilePatterns: ['includedFile1'],
         format: 'json',
         silent: true,
@@ -856,7 +713,7 @@ describe('Linter Builder', () => {
     ];
     const output = await runBuilder(
       createValidRunBuilderOptions({
-        eslintConfig: './.eslintrc',
+        eslintConfig: './eslint.config.js',
         lintFilePatterns: ['includedFile1'],
         format: 'json',
         silent: true,
@@ -885,7 +742,7 @@ describe('Linter Builder', () => {
     ];
     const output = await runBuilder(
       createValidRunBuilderOptions({
-        eslintConfig: './.eslintrc',
+        eslintConfig: './eslint.config.js',
         lintFilePatterns: ['includedFile1'],
         format: 'json',
         maxWarnings: 5,
@@ -906,7 +763,7 @@ describe('Linter Builder', () => {
     ];
     await runBuilder(
       createValidRunBuilderOptions({
-        eslintConfig: './.eslintrc',
+        eslintConfig: './eslint.config.js',
         lintFilePatterns: ['includedFile1'],
         format: 'json',
         quiet: true,
@@ -937,7 +794,7 @@ describe('Linter Builder', () => {
     ];
     await runBuilder(
       createValidRunBuilderOptions({
-        eslintConfig: './.eslintrc.json',
+        eslintConfig: './eslint.config.js',
         lintFilePatterns: ['includedFile1'],
         format: 'json',
         silent: true,
@@ -969,7 +826,7 @@ describe('Linter Builder', () => {
     ];
     await runBuilder(
       createValidRunBuilderOptions({
-        eslintConfig: './.eslintrc.json',
+        eslintConfig: './eslint.config.js',
         lintFilePatterns: ['includedFile1'],
         format: 'json',
         silent: true,
@@ -1000,7 +857,7 @@ describe('Linter Builder', () => {
     ];
     await runBuilder(
       createValidRunBuilderOptions({
-        eslintConfig: './.eslintrc.json',
+        eslintConfig: './eslint.config.js',
         lintFilePatterns: ['includedFile1'],
         format: 'json',
         silent: true,
@@ -1031,7 +888,7 @@ describe('Linter Builder', () => {
     ];
     await runBuilder(
       createValidRunBuilderOptions({
-        eslintConfig: './.eslintrc.json',
+        eslintConfig: './eslint.config.js',
         lintFilePatterns: ['includedFile1'],
         format: 'json',
         silent: true,
@@ -1065,7 +922,7 @@ describe('Linter Builder', () => {
     ];
     await runBuilder(
       createValidRunBuilderOptions({
-        eslintConfig: './.eslintrc.json',
+        eslintConfig: './eslint.config.js',
         lintFilePatterns: ['includedFile1'],
         format: 'json',
         silent: true,
@@ -1100,7 +957,7 @@ describe('Linter Builder', () => {
     );
     await runBuilder(
       createValidRunBuilderOptions({
-        eslintConfig: './.eslintrc.json',
+        eslintConfig: './eslint.config.js',
         lintFilePatterns: ['includedFile1'],
         format: 'json',
         silent: true,
@@ -1133,7 +990,7 @@ describe('Linter Builder', () => {
     });
     await runBuilder(
       createValidRunBuilderOptions({
-        eslintConfig: './.eslintrc.json',
+        eslintConfig: './eslint.config.js',
         lintFilePatterns: ['includedFile1'],
         format: 'json',
         silent: true,
@@ -1148,14 +1005,6 @@ describe('Linter Builder', () => {
   });
 
   it('should pass stats option to resolveAndInstantiateESLint', async () => {
-    vi.mocked(fs.existsSync).mockImplementation((path) => {
-      const pathStr = String(path);
-      if (basename(pathStr) === 'eslint.config.js') {
-        return true;
-      }
-      return false;
-    });
-
     await runBuilder(
       createValidRunBuilderOptions({
         stats: true,
@@ -1163,36 +1012,26 @@ describe('Linter Builder', () => {
     );
 
     expect(mockResolveAndInstantiateESLint).toHaveBeenCalledTimes(1);
-    expect(mockResolveAndInstantiateESLint).toHaveBeenCalledWith(
-      undefined,
-      {
-        stats: true, // stats pass through correctly
-        lintFilePatterns: [],
-        eslintConfig: null,
-        exclude: ['excludedFile1'],
-        fix: true,
-        quiet: false,
-        cache: true,
-        cacheLocation: `cacheLocation1${sep}test-project`,
-        cacheStrategy: 'content',
-        format: 'stylish',
-        force: false,
-        silent: false,
-        useEslintrc: null,
-        maxWarnings: -1,
-        outputFile: null,
-        ignorePath: null,
-        noEslintrc: false,
-        noConfigLookup: null,
-        rulesdir: [],
-        resolvePluginsRelativeTo: null,
-        reportUnusedDisableDirectives: null,
-        concurrency: null,
-        applySuppressions: false,
-        suppressionsLocation: null,
-      },
-      true, // useFlatConfig
-    );
+    expect(mockResolveAndInstantiateESLint).toHaveBeenCalledWith(undefined, {
+      stats: true, // stats pass through correctly
+      lintFilePatterns: [],
+      eslintConfig: null,
+      exclude: ['excludedFile1'],
+      fix: true,
+      quiet: false,
+      cache: true,
+      cacheLocation: `cacheLocation1${sep}test-project`,
+      cacheStrategy: 'content',
+      format: 'stylish',
+      force: false,
+      silent: false,
+      maxWarnings: -1,
+      outputFile: null,
+      noConfigLookup: null,
+      concurrency: null,
+      applySuppressions: false,
+      suppressionsLocation: null,
+    });
   });
 
   it('should use projectRoot to resolve eslint config path in error message when parserOptions.project error occurs', async () => {
@@ -1254,35 +1093,25 @@ describe('Linter Builder', () => {
         suppressionsLocation: './suppressions.json',
       }),
     );
-    expect(mockResolveAndInstantiateESLint).toHaveBeenCalledWith(
-      undefined,
-      {
-        lintFilePatterns: [],
-        eslintConfig: null,
-        exclude: ['excludedFile1'],
-        fix: true,
-        quiet: false,
-        cache: true,
-        cacheLocation: `cacheLocation1${sep}test-project`,
-        cacheStrategy: 'content',
-        format: 'stylish',
-        force: false,
-        silent: false,
-        stats: false,
-        useEslintrc: null,
-        maxWarnings: -1,
-        outputFile: null,
-        ignorePath: null,
-        noEslintrc: false,
-        noConfigLookup: null,
-        rulesdir: [],
-        resolvePluginsRelativeTo: null,
-        reportUnusedDisableDirectives: null,
-        concurrency: null,
-        applySuppressions: true,
-        suppressionsLocation: join(testWorkspaceRoot, 'suppressions.json'),
-      },
-      false,
-    );
+    expect(mockResolveAndInstantiateESLint).toHaveBeenCalledWith(undefined, {
+      lintFilePatterns: [],
+      eslintConfig: null,
+      exclude: ['excludedFile1'],
+      fix: true,
+      quiet: false,
+      cache: true,
+      cacheLocation: `cacheLocation1${sep}test-project`,
+      cacheStrategy: 'content',
+      format: 'stylish',
+      force: false,
+      silent: false,
+      stats: false,
+      maxWarnings: -1,
+      outputFile: null,
+      noConfigLookup: null,
+      concurrency: null,
+      applySuppressions: true,
+      suppressionsLocation: join(testWorkspaceRoot, 'suppressions.json'),
+    });
   });
 });

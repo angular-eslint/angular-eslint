@@ -14,8 +14,6 @@ You can profile rule execution times by enabling ESLint's stats output:
 ng lint --stats
 ```
 
-This option requires a flat ESLint configuration (`eslint.config.js/ts/mjs`). Using `--stats` with legacy `.eslintrc.*` files will cause an error.
-
 ## Bulk suppressions
 
 ESLint introduced bulk suppressions in v9.24. This allows you to enable new lint rules without having to fix every existing violation first. For details, see https://eslint.org/docs/latest/use/suppressions. In ESLint v10.1 a subset of the suppressions functionality was added to the Node.js API (https://eslint.org/blog/2026/03/eslint-v10.1.0-released/#api-support-for-bulk-suppressions).

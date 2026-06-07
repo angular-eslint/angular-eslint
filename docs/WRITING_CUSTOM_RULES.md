@@ -446,7 +446,7 @@ export default [
 - **AST**: Work with Angular template AST nodes (`TmplAstElement`, `TmplAstBoundText`, etc.) which come from the Angular compiler (wrapped by our template-parser)
 - **Parser Services**: Use `getTemplateParserServices(context)` for location mapping
 
-For more details on configuring ESLint with different parsers, see [CONFIGURING_FLAT_CONFIG.md](./CONFIGURING_FLAT_CONFIG.md).
+For more details on configuring ESLint with different parsers, see [CONFIGURING_ESLINT.md](./CONFIGURING_ESLINT.md).
 
 ## Best Practices
 

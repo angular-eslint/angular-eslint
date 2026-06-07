@@ -53,29 +53,10 @@ export default createBuilder(
         ? resolve(systemRoot, options.suppressionsLocation)
         : null;
 
-      /**
-       * Until ESLint v9 is released and the new so called flat config is the default
-       * we only want to support it if the user has explicitly opted into it by converting
-       * their root ESLint config to use a supported flat config file name.
-       */
-      const useFlatConfig = supportedFlatConfigNames.some((name) =>
-        existsSync(join(systemRoot, name)),
-      );
       const { eslint, ESLint } = await resolveAndInstantiateESLint(
         eslintConfigPath,
         options,
-        useFlatConfig,
       );
-
-      const version = ESLint?.version?.split('.');
-      if (
-        !version ||
-        version.length < 2 ||
-        Number(version[0]) < 7 ||
-        (Number(version[0]) === 7 && Number(version[1]) < 6)
-      ) {
-        throw new Error('ESLint must be version 7.6 or higher.');
-      }
 
       let lintResults: ESLint.LintResult[] = [];
 
@@ -96,11 +77,11 @@ export default createBuilder(
           }
 
           console.error(`
-Error: You have attempted to use a lint rule which requires the full TypeScript type-checker to be available, but you do not have \`parserOptions.project\` configured to point at your project tsconfig.json files in the relevant TypeScript file "overrides" block of your project ESLint config ${
+Error: You have attempted to use a lint rule which requires the full TypeScript type-checker to be available, but you have not configured type information for the TypeScript files in your project ESLint config ${
             eslintConfigPath || eslintConfigPathForError
           }
 
-For full guidance on how to resolve this issue, please see https://github.com/angular-eslint/angular-eslint/blob/main/docs/RULES_REQUIRING_TYPE_INFORMATION.md
+The simplest way to enable type information is to set \`languageOptions.parserOptions.projectService\` to \`true\` for your TypeScript files. For full guidance on how to resolve this issue, please see https://github.com/angular-eslint/angular-eslint/blob/main/docs/RULES_REQUIRING_TYPE_INFORMATION.md
 `);
 
           return {
@@ -125,7 +106,7 @@ For full guidance on how to resolve this issue, please see https://github.com/an
           throw new Error(
             `All files matching the following patterns are ignored:\n${ignoredPatterns.join(
               '\n',
-            )}\n\nPlease check your '.eslintignore' file.`,
+            )}\n\nPlease check the 'ignores' configuration in your ESLint flat config.`,
           );
         }
         throw new Error(
@@ -248,21 +229,11 @@ For full guidance on how to resolve this issue, please see https://github.com/an
 );
 
 function resolveESLintConfigPath(projectRoot: string): string | null {
-  const rcPath = join(projectRoot, '.eslintrc.json');
-  if (existsSync(rcPath)) {
-    return rcPath;
-  }
-  const jsPath = join(projectRoot, 'eslint.config.js');
-  if (existsSync(jsPath)) {
-    return jsPath;
-  }
-  const mjsPath = join(projectRoot, 'eslint.config.mjs');
-  if (existsSync(mjsPath)) {
-    return mjsPath;
-  }
-  const cjsPath = join(projectRoot, 'eslint.config.cjs');
-  if (existsSync(cjsPath)) {
-    return cjsPath;
+  for (const name of supportedFlatConfigNames) {
+    const candidate = join(projectRoot, name);
+    if (existsSync(candidate)) {
+      return candidate;
+    }
   }
   return null;
 }

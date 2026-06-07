@@ -398,7 +398,7 @@ importers:
         specifier: ^8.0.0
         version: 8.60.1(eslint@10.4.1(jiti@2.6.1))(typescript@6.0.3)
       eslint:
-        specifier: ^8.57.0 || ^9.0.0 || ^10.0.0
+        specifier: ^9.0.0 || ^10.0.0
         version: 10.4.1(jiti@2.6.1)
       typescript:
         specifier: '*'
@@ -419,7 +419,7 @@ importers:
         specifier: catalog:other-runtime-dependencies
         version: 22.0.0(@types/node@25.9.2)
       eslint:
-        specifier: ^8.57.0 || ^9.0.0 || ^10.0.0
+        specifier: ^9.0.0 || ^10.0.0
         version: 10.4.1(jiti@2.6.1)
       typescript:
         specifier: '*'
@@ -436,10 +436,10 @@ importers:
         specifier: workspace:*
         version: link:../utils
       '@typescript-eslint/utils':
-        specifier: ^7.11.0 || ^8.0.0
+        specifier: ^8.0.0
         version: 8.60.1(eslint@10.4.1(jiti@2.6.1))(typescript@6.0.3)
       eslint:
-        specifier: ^8.57.0 || ^9.0.0 || ^10.0.0
+        specifier: ^9.0.0 || ^10.0.0
         version: 10.4.1(jiti@2.6.1)
       ts-api-utils:
         specifier: catalog:other-runtime-dependencies
@@ -464,10 +464,10 @@ importers:
         specifier: workspace:*
         version: link:../utils
       '@typescript-eslint/types':
-        specifier: ^7.11.0 || ^8.0.0
+        specifier: ^8.0.0
         version: 8.60.1
       '@typescript-eslint/utils':
-        specifier: ^7.11.0 || ^8.0.0
+        specifier: ^8.0.0
         version: 8.60.1(eslint@10.4.1(jiti@2.6.1))(typescript@6.0.3)
       aria-query:
         specifier: catalog:other-runtime-dependencies
@@ -476,7 +476,7 @@ importers:
         specifier: catalog:other-runtime-dependencies
         version: 4.1.0
       eslint:
-        specifier: ^8.57.0 || ^9.0.0 || ^10.0.0
+        specifier: ^9.0.0 || ^10.0.0
         version: 10.4.1(jiti@2.6.1)
       typescript:
         specifier: '*'
@@ -534,7 +534,7 @@ importers:
         specifier: workspace:*
         version: link:../bundled-angular-compiler
       eslint:
-        specifier: ^8.57.0 || ^9.0.0 || ^10.0.0
+        specifier: ^9.0.0 || ^10.0.0
         version: 10.4.1(jiti@2.6.1)
       eslint-scope:
         specifier: catalog:other-runtime-dependencies
@@ -549,16 +549,16 @@ importers:
         specifier: workspace:*
         version: link:../template-parser
       '@typescript-eslint/parser':
-        specifier: ^7.11.0 || ^8.0.0
+        specifier: ^8.0.0
         version: 8.60.1(eslint@10.4.1(jiti@2.6.1))(typescript@6.0.3)
       '@typescript-eslint/rule-tester':
-        specifier: ^7.11.0 || ^8.0.0
+        specifier: ^8.0.0
         version: 8.60.1(patch_hash=52e268b2de596ebc0dfa308b088f6fdcdbbc9e857a834686d2af7d7ff2830003)(eslint@10.4.1(jiti@2.6.1))(typescript@6.0.3)
       '@typescript-eslint/utils':
-        specifier: ^7.11.0 || ^8.0.0
+        specifier: ^8.0.0
         version: 8.60.1(eslint@10.4.1(jiti@2.6.1))(typescript@6.0.3)
       eslint:
-        specifier: ^8.57.0 || ^9.0.0 || ^10.0.0
+        specifier: ^9.0.0 || ^10.0.0
         version: 10.4.1(jiti@2.6.1)
       typescript:
         specifier: '*'
@@ -570,10 +570,10 @@ importers:
         specifier: workspace:*
         version: link:../bundled-angular-compiler
       '@typescript-eslint/utils':
-        specifier: ^7.11.0 || ^8.0.0
+        specifier: ^8.0.0
         version: 8.60.1(eslint@10.4.1(jiti@2.6.1))(typescript@6.0.3)
       eslint:
-        specifier: ^8.57.0 || ^9.0.0 || ^10.0.0
+        specifier: ^9.0.0 || ^10.0.0
         version: 10.4.1(jiti@2.6.1)
       typescript:
         specifier: '*'

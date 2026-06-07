@@ -1,5 +1,7 @@
 # Migrating from TSLint: Current Status as of angular-eslint v16
 
+> **HISTORICAL DOCUMENT.** This guide predates the flat-config-only era of `angular-eslint`. The TSLint conversion tooling it describes was removed in v16, and the configuration examples below use the legacy "eslintrc" format which modern `angular-eslint` (ESLint v9+, flat config only) no longer supports. It is retained for historical reference only. For configuring a current workspace, see [CONFIGURING_ESLINT.md](./CONFIGURING_ESLINT.md).
+
 TSLint was deprecated by its creators all the way back in 2019: https://github.com/palantir/tslint/issues/4534
 
 The Angular CLI stopped supporting their TSLint builder implementation (to power `ng lint`) as of version 13, which is now 3 (or maybe more depending on when you are reading this) major versions ago, meaning it is at least 1.5 years ago.

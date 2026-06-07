@@ -160,9 +160,9 @@ describe('resolveRootESLintConfigPath', () => {
     tree = new UnitTestTree(Tree.empty());
   });
 
-  it('should return .eslintrc.json if it exists', () => {
+  it('should return null if only a legacy .eslintrc.json exists', () => {
     tree.create('.eslintrc.json', '{}');
-    expect(resolveRootESLintConfigPath(tree)).toBe('.eslintrc.json');
+    expect(resolveRootESLintConfigPath(tree)).toBe(null);
   });
 
   it('should return eslint.config.js if it exists and no .eslintrc.json', () => {
@@ -199,11 +199,11 @@ describe('resolveRootESLintConfigPath', () => {
     expect(resolveRootESLintConfigPath(tree)).toBe(null);
   });
 
-  it('should prioritize .eslintrc.json over flat config files', () => {
+  it('should prioritize flat config files over a legacy .eslintrc.json', () => {
     tree.create('.eslintrc.json', '{}');
     tree.create('eslint.config.js', '');
     tree.create('eslint.config.ts', '');
-    expect(resolveRootESLintConfigPath(tree)).toBe('.eslintrc.json');
+    expect(resolveRootESLintConfigPath(tree)).toBe('eslint.config.js');
   });
 
   it('should prioritize JS over TS flat config files', () => {

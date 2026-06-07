@@ -6,7 +6,7 @@ import { format, resolveConfig } from 'prettier';
   const setParserOptionsProjectConfig = {
     type: 'boolean',
     description:
-      'Whether or not to configure the ESLint `parserOptions.project` option. We do not do this by default for lint performance reasons.',
+      'Whether or not to enable rules that require type information by configuring the ESLint `parserOptions.projectService` option. We do not do this by default for lint performance reasons.',
     default: false,
   };
 
