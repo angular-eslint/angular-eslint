@@ -96,12 +96,4 @@ The premade flat configs that combine these rules are provided by the umbrella [
 
 <!-- begin deprecated rule list -->
 
-### Deprecated
-
-<!-- prettier-ignore-start -->
-| Rule | Replaced by |
-| --- | --- |
-| [`no-conflicting-lifecycle`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/no-conflicting-lifecycle.md) |  |
-<!-- prettier-ignore-end -->
-
 <!-- end deprecated rule list -->

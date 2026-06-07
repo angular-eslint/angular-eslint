@@ -28,9 +28,6 @@ import noAsyncLifecycleMethod, {
 import noAttributeDecorator, {
   RULE_NAME as noAttributeDecoratorRuleName,
 } from './rules/no-attribute-decorator';
-import noConflictingLifecycle, {
-  RULE_NAME as noConflictingLifecycleRuleName,
-} from './rules/no-conflicting-lifecycle';
 import noDuplicatesInMetadataArrays, {
   RULE_NAME as noDuplicatesInMetadataArraysRuleName,
 } from './rules/no-duplicates-in-metadata-arrays';
@@ -159,7 +156,6 @@ export = {
     [directiveSelectorRuleName]: directiveSelector,
     [noAsyncLifecycleMethodRuleName]: noAsyncLifecycleMethod,
     [noAttributeDecoratorRuleName]: noAttributeDecorator,
-    [noConflictingLifecycleRuleName]: noConflictingLifecycle,
     [noDeveloperPreviewRuleName]: noDeveloperPreview,
     [noDuplicatesInMetadataArraysRuleName]: noDuplicatesInMetadataArrays,
     [noEmptyLifecycleMethodRuleName]: noEmptyLifecycleMethod,
