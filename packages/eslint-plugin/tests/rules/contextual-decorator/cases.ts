@@ -818,6 +818,22 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
         }
       `,
   },
+  // `@Service()`.
+  {
+    // It should succeed if a parameter property is decorated with allowed decorators.
+    code: `
+        @Service()
+        class Test {
+          constructor(
+            @Optional() testBase: TestBase,
+            @Inject(LOCALE_ID) private readonly localeId: string,
+            @Self() public readonly test: Test,
+            @SkipSelf() protected readonly parentTest: ParentTest,
+            @Host() private readonly host: DynamicHost,
+          ) {}
+        }
+      `,
+  },
   {
     // It should succeed if @Component and @Injectable decorators are present on the same file and
     // the @Component contains a non-allowed decorator for @Injectable.
@@ -1411,6 +1427,33 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         data: { classDecoratorName: 'Pipe' },
       },
     ],
+  }),
+  // `@Service()`.
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail if a property is decorated with @Input() decorator in a @Service class',
+    annotatedSource: `
+        @Service()
+        class Test {
+          @Input() label: string;
+          ~~~~~~~~
+        }
+      `,
+    data: { classDecoratorName: 'Service' },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail if a property is decorated with @Output() decorator in a @Service class',
+    annotatedSource: `
+        @Service()
+        class Test {
+          @Output() emitter = new EventEmitter<void>();
+          ~~~~~~~~~
+        }
+      `,
+    data: { classDecoratorName: 'Service' },
   }),
   // Multiple decorators per file.
   convertAnnotatedSourceToFailureCase({

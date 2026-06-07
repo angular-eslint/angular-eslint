@@ -47,6 +47,15 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
       }
     }
   `,
+  // in Service constructor (injection context)
+  `
+    @Service()
+    class TestService {
+      constructor() {
+        this.data$.pipe(takeUntilDestroyed()).subscribe();
+      }
+    }
+  `,
   // in Component field initializer (injection context)
   `
     @Component()
@@ -65,6 +74,13 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   `
     @Pipe({ name: 'myPipe' })
     class MyPipe {
+      private data = this.http.get('/api').pipe(takeUntilDestroyed());
+    }
+  `,
+  // in Service field initializer (injection context)
+  `
+    @Service()
+    class TestService {
       private data = this.http.get('/api').pipe(takeUntilDestroyed());
     }
   `,

@@ -344,6 +344,32 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
+      'it should fail if a @Service class declares a lifecycle method without implementing its interface',
+    annotatedSource: `
+        @Service()
+        class Test {
+          ngOnDestroy() {
+          ~~~~~~~~~~~
+          }
+        }
+      `,
+    messageId,
+    data: {
+      interfaceName: ASTUtils.AngularLifecycleInterfaces.OnDestroy,
+      methodName: ASTUtils.AngularLifecycleMethods.ngOnDestroy,
+    },
+    annotatedOutput: `import { OnDestroy } from '@angular/core';
+
+        @Service()
+        class Test implements OnDestroy {
+          ngOnDestroy() {
+          
+          }
+        }
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
       'should fail if lifecycle method is in a class with generic type parameters',
     annotatedSource: `
         @Component()

@@ -349,6 +349,38 @@ class Test {
 #### ❌ Invalid Code
 
 ```ts
+@Service()
+class Test {
+  test(): void {
+    this.ngOnDestroy();
+    ~~~~~~~~~~~~~~~~~~
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-lifecycle-call": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
 @Component({ template: '' })
 class Test extends ParentComponent {
   test(): void {

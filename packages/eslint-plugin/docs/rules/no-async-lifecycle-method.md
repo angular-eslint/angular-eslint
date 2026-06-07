@@ -308,6 +308,36 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-async-lifecycle-method": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Service()
+class Test {
+  async ngOnDestroy() { }
+        ~~~~~~~~~~~
+}
+```
+
 </details>
 
 <br>

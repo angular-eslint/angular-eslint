@@ -13,6 +13,9 @@ export const PIPE_CLASS_DECORATOR =
 export const INJECTABLE_CLASS_DECORATOR =
   'ClassDeclaration > Decorator[expression.callee.name="Injectable"]';
 
+export const SERVICE_CLASS_DECORATOR =
+  'ClassDeclaration > Decorator[expression.callee.name="Service"]';
+
 export const MODULE_CLASS_DECORATOR =
   'ClassDeclaration > Decorator[expression.callee.name="NgModule"]';
 
