@@ -78,6 +78,16 @@ const KEYS: VisitorKeys = {
   Content: ['children'],
   LetDeclaration: ['value'],
   ParenthesizedExpression: ['expression'],
+  // Angular v22 expression syntax. Without these entries traversal falls back
+  // to `getFallbackKeys`, whose filter drops single-object children that do not
+  // yet have a `.type` string at preprocess time, silently dropping entire
+  // subtrees nested inside these positions.
+  // NOTE: `ArrowFunction.parameters` are name-only
+  // `ArrowFunctionIdentifierParameter` nodes with no nested expressions, so they
+  // intentionally do not need traversal.
+  ArrowFunction: ['body'],
+  SpreadElement: ['expression'],
+  TaggedTemplateLiteral: ['tag', 'template'],
 };
 
 function fallbackKeysFilter(this: Node, key: string) {

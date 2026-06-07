@@ -17584,6 +17584,159 @@ describe('parseForESLint()', () => {
     });
   });
 
+  describe('Angular v22 expression syntax', () => {
+    /**
+     * Recursively collect every node reachable from the parsed AST whose
+     * constructor name matches `ctorName`. A node is only considered "reached"
+     * by ESLint's traversal once `preprocessNode` has assigned it a string
+     * `type` and a `loc`; nodes that the visitor keys fail to traverse retain
+     * their original Angular class instance without those properties. We assert
+     * on both to prove the nested expression is actually visible to rules.
+     */
+    function findNodes(node: unknown, ctorName: string): any[] {
+      const results: any[] = [];
+      const seen = new Set<unknown>();
+      const walk = (current: unknown): void => {
+        if (current === null || typeof current !== 'object') {
+          return;
+        }
+        if (seen.has(current)) {
+          return;
+        }
+        seen.add(current);
+        if ((current as any).constructor?.name === ctorName) {
+          results.push(current);
+        }
+        if (Array.isArray(current)) {
+          current.forEach(walk);
+          return;
+        }
+        for (const key of Object.keys(current)) {
+          // Avoid walking back up / into span metadata which can contain
+          // unrelated objects with the same constructor names.
+          if (
+            key === 'parent' ||
+            key === 'sourceSpan' ||
+            key === 'span' ||
+            key === 'nameSpan' ||
+            key === 'argumentSpan'
+          ) {
+            continue;
+          }
+          walk((current as any)[key]);
+        }
+      };
+      walk(node);
+      return results;
+    }
+
+    function expectReached(node: any): void {
+      expect(typeof node.type).toBe('string');
+      expect(node.loc).toBeDefined();
+      expect(node.loc.start).toBeDefined();
+      expect(node.loc.end).toBeDefined();
+    }
+
+    it('should traverse into an arrow function body in an event handler', () => {
+      const { ast } = parseForESLint(
+        `<button (click)="items.filter(x => x.active())"></button>`,
+        { filePath: './foo.html' },
+      );
+
+      const arrowFns = findNodes(ast, 'ArrowFunction');
+      expect(arrowFns).toHaveLength(1);
+      expectReached(arrowFns[0]);
+
+      // The inner `x.active()` Call lives inside the arrow function body and is
+      // dropped entirely without the `ArrowFunction: ['body']` visitor key.
+      const calls = findNodes(ast, 'Call');
+      // outer `items.filter(...)` Call and inner `x.active()` Call
+      expect(calls).toHaveLength(2);
+      calls.forEach(expectReached);
+      expect(calls.some((call) => call.receiver?.name === 'active')).toBe(true);
+    });
+
+    it('should traverse into an arrow function body in an interpolation', () => {
+      const { ast } = parseForESLint(`{{ run(() => doThing()) }}`, {
+        filePath: './foo.html',
+      });
+
+      const arrowFns = findNodes(ast, 'ArrowFunction');
+      expect(arrowFns).toHaveLength(1);
+      expectReached(arrowFns[0]);
+
+      const calls = findNodes(ast, 'Call');
+      // outer `run(...)` and inner `doThing()`
+      expect(calls).toHaveLength(2);
+      calls.forEach(expectReached);
+      const innerCall = calls.find((call) => call.receiver?.name === 'doThing');
+      expect(innerCall).toBeDefined();
+      expectReached(innerCall.receiver);
+    });
+
+    it('should traverse into the expression of a spread in a call', () => {
+      const { ast } = parseForESLint(`{{ fn(...args) }}`, {
+        filePath: './foo.html',
+      });
+
+      const spreads = findNodes(ast, 'SpreadElement');
+      expect(spreads).toHaveLength(1);
+      expectReached(spreads[0]);
+
+      // The spread's `expression` (PropertyRead `args`) is a single-object
+      // child that is dropped without the `SpreadElement: ['expression']` key.
+      const spreadExpression = spreads[0].expression;
+      expect(spreadExpression.name).toBe('args');
+      expectReached(spreadExpression);
+    });
+
+    it('should traverse into the expression of a spread inside an array literal', () => {
+      const { ast } = parseForESLint(`{{ fn([...a, b()]) }}`, {
+        filePath: './foo.html',
+      });
+
+      const spreads = findNodes(ast, 'SpreadElement');
+      expect(spreads).toHaveLength(1);
+      expectReached(spreads[0]);
+
+      // The spread's inner `a` PropertyRead must be reachable.
+      const spreadExpression = spreads[0].expression;
+      expect(spreadExpression.name).toBe('a');
+      expectReached(spreadExpression);
+
+      // The sibling `b()` call in the array literal is also reachable.
+      const calls = findNodes(ast, 'Call');
+      const bCall = calls.find((call) => call.receiver?.name === 'b');
+      expect(bCall).toBeDefined();
+      expectReached(bCall);
+    });
+
+    it('should traverse into the tag and template of a tagged template literal', () => {
+      const { ast } = parseForESLint('{{ tag`hello ${name()}` }}', {
+        filePath: './foo.html',
+      });
+
+      const tagged = findNodes(ast, 'TaggedTemplateLiteral');
+      expect(tagged).toHaveLength(1);
+      expectReached(tagged[0]);
+
+      // `tag` (the PropertyRead) is dropped without `'tag'` in the visitor keys.
+      expect(tagged[0].tag.name).toBe('tag');
+      expectReached(tagged[0].tag);
+
+      // The `template` (TemplateLiteral) and the nested `name()` Call inside its
+      // interpolation are dropped without `'template'` in the visitor keys.
+      const templateLiterals = findNodes(ast, 'TemplateLiteral');
+      expect(templateLiterals).toHaveLength(1);
+      expectReached(templateLiterals[0]);
+
+      const calls = findNodes(ast, 'Call');
+      expect(calls).toHaveLength(1);
+      expectReached(calls[0]);
+      expect(calls[0].receiver?.name).toBe('name');
+    });
+  });
+
   it('should allow acquiring scope from returned ast', () => {
     const result = parseForESLint('<div></div>', { filePath: './foo.html' });
 
