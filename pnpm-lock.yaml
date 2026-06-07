@@ -179,8 +179,8 @@ catalogs:
       specifier: 7.0.5
       version: 7.0.5
     semver:
-      specifier: 7.8.0
-      version: 7.8.0
+      specifier: 7.8.1
+      version: 7.8.1
     strip-json-comments:
       specifier: 3.1.1
       version: 3.1.1
@@ -513,7 +513,7 @@ importers:
         version: 7.0.5
       semver:
         specifier: catalog:other-runtime-dependencies
-        version: 7.8.0
+        version: 7.8.1
       strip-json-comments:
         specifier: catalog:other-runtime-dependencies
         version: 3.1.1
@@ -5871,6 +5871,11 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
+  semver@7.8.1:
+    resolution: {integrity: sha512-rkVq3IXh+4FDGch+KwzX3aV9W3kO54GyEgpvBzSyctDA6Xtd7RJQV1xmXbeQp5v7+VzLOfVqiutSE6GICgPFvg==}
+    engines: {node: '>=10'}
+    hasBin: true
+
   semver@7.8.2:
     resolution: {integrity: sha512-c8jsqUZm3omBOI66G90z1Dyw5z622G8oLG+omfsHBJf3CWQTlOcwOjvOG6wtiNfW6anKm/eA39LMwMtMez2TiQ==}
     engines: {node: '>=10'}
@@ -8372,7 +8377,7 @@ snapshots:
       lru-cache: 11.5.1
       npm-pick-manifest: 11.0.3
       proc-log: 6.1.0
-      semver: 7.7.4
+      semver: 7.8.2
       which: 6.0.1
 
   '@npmcli/installed-package-contents@4.0.0':
@@ -8389,7 +8394,7 @@ snapshots:
       hosted-git-info: 9.0.3
       json-parse-even-better-errors: 5.0.0
       proc-log: 6.1.0
-      semver: 7.7.4
+      semver: 7.8.2
       spdx-expression-parse: 4.0.0
 
   '@npmcli/promise-spawn@9.0.1':
@@ -12186,7 +12191,7 @@ snapshots:
     dependencies:
       hosted-git-info: 9.0.3
       proc-log: 6.1.0
-      semver: 7.7.4
+      semver: 7.8.2
       validate-npm-package-name: 7.0.2
 
   npm-packlist@10.0.4:
@@ -12199,7 +12204,7 @@ snapshots:
       npm-install-checks: 8.0.0
       npm-normalize-package-bin: 5.0.0
       npm-package-arg: 13.0.2
-      semver: 7.7.4
+      semver: 7.8.2
 
   npm-registry-fetch@19.1.1:
     dependencies:
@@ -12879,6 +12884,8 @@ snapshots:
   semver@7.7.4: {}
 
   semver@7.8.0: {}
+
+  semver@7.8.1: {}
 
   semver@7.8.2: {}
 
