@@ -286,6 +286,8 @@ If you want to be able to use `eslint-disable` comments in your Angular template
 
 Make sure you are using valid HTML comments, i.e. `<!-- this syntax -->`, not the kind of comments you use in TypeScript code.
 
+Note that while Angular v22 lets you write TypeScript-style `/* */` and `//` comments _inside_ an element's opening tag (e.g. `<div /* ... */ [x]="y">`), those in-tag comments are **not** recognized as `eslint-disable` directives. The Angular compiler silently discards them and never exposes them to ESLint, so a disable directive must always be written as an HTML `<!-- -->` comment.
+
 <br>
 
 ## Migrating an Angular CLI project from Codelyzer and TSLint
