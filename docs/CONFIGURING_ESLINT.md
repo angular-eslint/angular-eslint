@@ -1,12 +1,11 @@
-# Configuring `angular-eslint` for use in ESLint's default flat config format
+# Configuring ESLint for your Angular project
 
-In version 9 of ESLint, they changed their default configuration format to the so called "flat config" style using exclusively a `eslint.config.js` file as the only way of configuring a project: https://eslint.org/blog/2024/04/eslint-v9.0.0-released/
+`angular-eslint` requires ESLint v9 or later and supports only flat config, so the following guidance applies to every `angular-eslint` workspace.
 
-**If you are still using ESLint v8, or continuing to use the eslintrc config format, do not use this guide, you should reference these docs instead: [CONFIGURING_ESLINTRC.md](./CONFIGURING_ESLINTRC.md).**
+It should be used in conjunction with the official ESLint configuration documentation, which can be found here: https://eslint.org/docs/latest/use/configure/
 
-If you are using ESLint v9 or later with flat config, then the following guidance is for you.
-
-It should be used in conjunction with the official ESLint documentation on eslintrc, which can be found here: https://eslint.org/docs/latest/use/configure/
+> **Note: the legacy "eslintrc" configuration format is no longer supported by `angular-eslint`.**
+> Flat config (`eslint.config.js`) has been the default since ESLint v9 and is the _only_ supported format in ESLint v10, which removed eslintrc support entirely. Accordingly, `angular-eslint` v22 supports only ESLint v9 and v10. ESLint v8 — the last release line in which eslintrc was the default — reached end of life on 2024-10-05, and ESLint v9 enters end of life on 2026-08-06. See ESLint's official [version support schedule](https://eslint.org/version-support/) for the full timeline.
 
 ---
 
@@ -23,7 +22,7 @@ The thing is: **ESLint understands neither of these things out of the box.**
 
 Fortunately, however, ESLint has clearly defined points of extensibility that we can leverage to make this all work.
 
-> For detailed information about ESLint plugins, parsers etc. please review the official ESLint eslintrc config documentation: https://eslint.org/docs/latest/use/configure/
+> For detailed information about ESLint plugins, parsers etc. please review the official ESLint configuration documentation: https://eslint.org/docs/latest/use/configure/
 
 **The key principle of our configuration required for Angular projects is that we need to run different blocks of configuration for different file types/extensions**. In other words, we don't want the same rules to apply on TypeScript files that we do on HTML/inline-templates.
 
@@ -175,7 +174,7 @@ By setting up our config in this way, we have complete control over what rules e
 
 Prettier is an awesome code formatter which can be used entirely independently of linting.
 
-Some folks, however, like to apply prettier by using it inside of ESLint, using `eslint-plugin-prettier`. If this applies to you then you will want to read this section on how to apply it correctly for HTML templates. Make sure you read and fully understand the information above on the importance of `"overrides"` before reading this section.
+Some folks, however, like to apply prettier by using it inside of ESLint, using `eslint-plugin-prettier`. If this applies to you then you will want to read this section on how to apply it correctly for HTML templates. Make sure you read and fully understand the information above on the importance of using separate, file-specific config objects before reading this section.
 
 If you choose to use `eslint-plugin-prettier`, **please ensure that you are using version 5.1.0 or later**, and apply the following configuration to ESLint and prettier:
 

@@ -10,9 +10,8 @@
   },
   "targets": {
     "build": {
-      "dependsOn": ["^build", "^compile", "compile"],
-      "outputs": ["{projectRoot}/dist/configs"],
-      "command": "ncp {projectRoot}/src/configs {projectRoot}/dist/configs"
+      "executor": "nx:noop",
+      "dependsOn": ["^build", "^compile", "compile"]
     },
     "check-rule-docs": {
       "dependsOn": ["update-rule-docs"],

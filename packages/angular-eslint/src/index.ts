@@ -36,11 +36,6 @@ used `angular.configs.recommended` et al. or
   },
 }
 ```
-
-This might be something we could consider okay (e.g. 3rd party flat configs must
-use our new package); however legacy configs consumed via `@eslint/eslintrc`
-would never be able to satisfy this constraint and thus users would be blocked
-from using them.
 */
 
 /**

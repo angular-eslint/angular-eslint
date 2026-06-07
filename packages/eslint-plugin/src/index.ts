@@ -1,6 +1,3 @@
-import all from './configs/all.json';
-import recommended from './configs/recommended.json';
-
 import componentClassSuffix, {
   RULE_NAME as componentClassSuffixRuleName,
 } from './rules/component-class-suffix';
@@ -150,10 +147,6 @@ import computedMustReturn, {
 } from './rules/computed-must-return';
 
 export = {
-  configs: {
-    all,
-    recommended,
-  },
   rules: {
     [componentClassSuffixRuleName]: componentClassSuffix,
     [componentMaxInlineDeclarationsRuleName]: componentMaxInlineDeclarations,
