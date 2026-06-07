@@ -172,11 +172,14 @@ describe('eslint-utils', () => {
       './.eslintrc.yml',
       './.eslintrc.yaml',
       './config/.eslintrc.json',
-    ])('should throw if the legacy eslintrc file %s is used', async (configPath) => {
-      await expect(
-        resolveAndInstantiateESLint(configPath, {} as any),
-      ).rejects.toThrow(/uses the legacy "eslintrc" format/);
-    });
+    ])(
+      'should throw if the legacy eslintrc file %s is used',
+      async (configPath) => {
+        await expect(
+          resolveAndInstantiateESLint(configPath, {} as any),
+        ).rejects.toThrow(/uses the legacy "eslintrc" format/);
+      },
+    );
 
     it('should produce a helpful error message for a legacy .eslintrc file', async () => {
       await expect(
