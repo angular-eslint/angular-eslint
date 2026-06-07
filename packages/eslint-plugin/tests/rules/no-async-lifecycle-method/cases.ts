@@ -185,4 +185,15 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     `,
     messageId,
   }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail if ngOnDestroy() is async in a @Service class',
+    annotatedSource: `
+      @Service()
+      class Test {
+        async ngOnDestroy() { }
+              ~~~~~~~~~~~
+      }
+    `,
+    messageId,
+  }),
 ];

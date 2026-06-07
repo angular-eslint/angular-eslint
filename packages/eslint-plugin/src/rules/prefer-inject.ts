@@ -29,6 +29,7 @@ export default createESLintRule<Options, MessageIds>({
       'Directive',
       'Injectable',
       'Pipe',
+      'Service',
     ]);
 
     function shouldReportParameter(param: TSESTree.Parameter): boolean {

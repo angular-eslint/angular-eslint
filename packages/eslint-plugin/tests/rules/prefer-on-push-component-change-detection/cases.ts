@@ -9,14 +9,31 @@ import type {
 } from '../../../src/rules/prefer-on-push-component-change-detection';
 
 const messageId: MessageIds = 'preferOnPushComponentChangeDetection';
-const suggestAddChangeDetectionOnPush: MessageIds =
-  'suggestAddChangeDetectionOnPush';
+const suggestRemoveChangeDetection: MessageIds = 'suggestRemoveChangeDetection';
 
 export const valid: readonly (string | ValidTestCase<Options>)[] = [
   `class Test {}`,
   `
   const options = {};
   @Component(options)
+  class Test {}
+  `,
+  // As of Angular v22 OnPush is the default, so omitting `changeDetection` is valid.
+  `
+  @Component()
+  class Test {}
+  `,
+  `
+  @Component({})
+  class Test {}
+  `,
+  `
+  @Component({ selector: 'app-test' })
+  class Test {}
+  `,
+  // `undefined` resolves to the default (OnPush), so it is not opting out.
+  `
+  @Component({ changeDetection: undefined })
   class Test {}
   `,
   `
@@ -64,66 +81,22 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if `@Component` has no arguments',
+    description:
+      'should fail if `changeDetection` is set to `ChangeDetectionStrategy.Eager`',
     annotatedSource: `
-      @Component()
-      ~~~~~~~~~~~~
+      import { ChangeDetectionStrategy } from '@angular/core';
+      @Component({ changeDetection: ChangeDetectionStrategy.Eager })
+                                                            ~~~~~
       class Test {}
     `,
     messageId,
     suggestions: [
       {
-        messageId: suggestAddChangeDetectionOnPush,
-        output: `import { ChangeDetectionStrategy } from '@angular/core';
-
-      @Component({changeDetection: ChangeDetectionStrategy.OnPush})
-      
-      class Test {}
-    `,
-      },
-    ],
-  }),
-  convertAnnotatedSourceToFailureCase({
-    description: "should fail if `@Component`'s argument has no properties",
-    annotatedSource: `
-      import type { ChangeDetectionStrategy } from '@angular/core';
-
-      @Component({})
-      ~~~~~~~~~~~~~~
-      class Test {}
-    `,
-    messageId,
-    suggestions: [
-      {
-        messageId: suggestAddChangeDetectionOnPush,
+        messageId: suggestRemoveChangeDetection,
         output: `
-      import type { ChangeDetectionStrategy } from '@angular/core';
-
-      @Component({changeDetection: ChangeDetectionStrategy.OnPush})
       
-      class Test {}
-    `,
-      },
-    ],
-  }),
-  convertAnnotatedSourceToFailureCase({
-    description: 'should fail if `@Component` has no `changeDetection`',
-    annotatedSource: `
-      import { Component } from '@angular/core';
-      const changeDetection = 'template';
-      @Component({ [changeDetection]: '' })
-      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      class Test {}
-    `,
-    messageId,
-    suggestions: [
-      {
-        messageId: suggestAddChangeDetectionOnPush,
-        output: `
-      import { Component, ChangeDetectionStrategy } from '@angular/core';
-      const changeDetection = 'template';
-      @Component({ [changeDetection]: '', changeDetection: ChangeDetectionStrategy.OnPush })
-      
+      @Component({  })
+                                                            
       class Test {}
     `,
       },
@@ -131,41 +104,21 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'should fail if `@Component` has no `changeDetection` (trailing comma)',
+      'should fail if `changeDetection` is set to the deprecated `ChangeDetectionStrategy.Default`',
     annotatedSource: `
-      import { Component } from '@angular/core';
-      @Component({ selector: 'app-test', })
-      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      import { ChangeDetectionStrategy } from '@angular/core';
+      @Component({ changeDetection: ChangeDetectionStrategy.Default })
+                                                            ~~~~~~~
       class Test {}
     `,
     messageId,
     suggestions: [
       {
-        messageId: suggestAddChangeDetectionOnPush,
+        messageId: suggestRemoveChangeDetection,
         output: `
-      import { Component, ChangeDetectionStrategy } from '@angular/core';
-      @Component({ selector: 'app-test', changeDetection: ChangeDetectionStrategy.OnPush, })
       
-      class Test {}
-    `,
-      },
-    ],
-  }),
-  convertAnnotatedSourceToFailureCase({
-    description: 'should fail if `changeDetection` is set to `undefined`',
-    annotatedSource: `
-      @Component({ changeDetection: undefined })
-                                    ~~~~~~~~~
-      class Test {}
-    `,
-    messageId,
-    suggestions: [
-      {
-        messageId: suggestAddChangeDetectionOnPush,
-        output: `import { ChangeDetectionStrategy } from '@angular/core';
-
-      @Component({ changeDetection: ChangeDetectionStrategy.OnPush })
-                                    
+      @Component({  })
+                                                            
       class Test {}
     `,
       },
@@ -173,21 +126,20 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      "should fail if `changeDetection` metadata property's key is `Literal` and its value is set to `ChangeDetectionStrategy.Default`",
+      "should fail if `changeDetection` metadata property's key is `Literal` and its value is set to `ChangeDetectionStrategy.Eager`",
     annotatedSource: `
-      import * as ng from '@angular/core';
-      @Component({ 'changeDetection': ChangeDetectionStrategy.Default })
-                                                              ~~~~~~~
+      import { ChangeDetectionStrategy } from '@angular/core';
+      @Component({ 'changeDetection': ChangeDetectionStrategy.Eager })
+                                                              ~~~~~
       class Test {}
     `,
     messageId,
     suggestions: [
       {
-        messageId: suggestAddChangeDetectionOnPush,
-        output: `import { ChangeDetectionStrategy } from '@angular/core';
-
-      import * as ng from '@angular/core';
-      @Component({ 'changeDetection': ChangeDetectionStrategy.OnPush })
+        messageId: suggestRemoveChangeDetection,
+        output: `
+      
+      @Component({  })
                                                               
       class Test {}
     `,
@@ -196,21 +148,20 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      "should fail if `changeDetection` metadata property's key is computed `Literal` and its value is set to `ChangeDetectionStrategy.Default`",
+      "should fail if `changeDetection` metadata property's key is computed `Literal` and its value is set to `ChangeDetectionStrategy.Eager`",
     annotatedSource: `
-      import type { OnInit } from '@angular/core';
-      @Component({ ['changeDetection']: ChangeDetectionStrategy.Default })
-                                                                ~~~~~~~
+      import { ChangeDetectionStrategy } from '@angular/core';
+      @Component({ ['changeDetection']: ChangeDetectionStrategy.Eager })
+                                                                ~~~~~
       class Test {}
     `,
     messageId,
     suggestions: [
       {
-        messageId: suggestAddChangeDetectionOnPush,
-        output: `import { ChangeDetectionStrategy } from '@angular/core';
-
-      import type { OnInit } from '@angular/core';
-      @Component({ ['changeDetection']: ChangeDetectionStrategy.OnPush })
+        messageId: suggestRemoveChangeDetection,
+        output: `
+      
+      @Component({  })
                                                                 
       class Test {}
     `,
@@ -219,21 +170,65 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      "should fail if `changeDetection` metadata property's key is computed `TemplateLiteral` and its value is set to `ChangeDetectionStrategy.Default`",
+      "should fail if `changeDetection` metadata property's key is computed `TemplateLiteral` and its value is set to `ChangeDetectionStrategy.Eager`",
     annotatedSource: `
-      import ng from '@angular/core';
-      @Component({ [\`changeDetection\`]: ChangeDetectionStrategy.Default })
-                                                                ~~~~~~~
+      import { ChangeDetectionStrategy } from '@angular/core';
+      @Component({ [\`changeDetection\`]: ChangeDetectionStrategy.Eager })
+                                                                ~~~~~
       class Test {}
     `,
     messageId,
     suggestions: [
       {
-        messageId: suggestAddChangeDetectionOnPush,
+        messageId: suggestRemoveChangeDetection,
         output: `
-      import ng, { ChangeDetectionStrategy } from '@angular/core';
-      @Component({ [\`changeDetection\`]: ChangeDetectionStrategy.OnPush })
+      
+      @Component({  })
                                                                 
+      class Test {}
+    `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail and remove the trailing comma when `changeDetection` is followed by another property',
+    annotatedSource: `
+      import { ChangeDetectionStrategy } from '@angular/core';
+      @Component({ changeDetection: ChangeDetectionStrategy.Eager, selector: 'app-test' })
+                                                            ~~~~~
+      class Test {}
+    `,
+    messageId,
+    suggestions: [
+      {
+        messageId: suggestRemoveChangeDetection,
+        output: `
+      
+      @Component({  selector: 'app-test' })
+                                                            
+      class Test {}
+    `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail when `changeDetection` is preceded by another property',
+    annotatedSource: `
+      import { ChangeDetectionStrategy } from '@angular/core';
+      @Component({ selector: 'app-test', changeDetection: ChangeDetectionStrategy.Eager })
+                                                                                  ~~~~~
+      class Test {}
+    `,
+    messageId,
+    suggestions: [
+      {
+        messageId: suggestRemoveChangeDetection,
+        output: `
+      
+      @Component({ selector: 'app-test',  })
+                                                                                  
       class Test {}
     `,
       },

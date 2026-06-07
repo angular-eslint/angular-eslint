@@ -1,6 +1,3 @@
-import all from './configs/all.json';
-import recommended from './configs/recommended.json';
-
 import componentClassSuffix, {
   RULE_NAME as componentClassSuffixRuleName,
 } from './rules/component-class-suffix';
@@ -31,9 +28,6 @@ import noAsyncLifecycleMethod, {
 import noAttributeDecorator, {
   RULE_NAME as noAttributeDecoratorRuleName,
 } from './rules/no-attribute-decorator';
-import noConflictingLifecycle, {
-  RULE_NAME as noConflictingLifecycleRuleName,
-} from './rules/no-conflicting-lifecycle';
 import noDuplicatesInMetadataArrays, {
   RULE_NAME as noDuplicatesInMetadataArraysRuleName,
 } from './rules/no-duplicates-in-metadata-arrays';
@@ -150,10 +144,6 @@ import computedMustReturn, {
 } from './rules/computed-must-return';
 
 export = {
-  configs: {
-    all,
-    recommended,
-  },
   rules: {
     [componentClassSuffixRuleName]: componentClassSuffix,
     [componentMaxInlineDeclarationsRuleName]: componentMaxInlineDeclarations,
@@ -166,7 +156,6 @@ export = {
     [directiveSelectorRuleName]: directiveSelector,
     [noAsyncLifecycleMethodRuleName]: noAsyncLifecycleMethod,
     [noAttributeDecoratorRuleName]: noAttributeDecorator,
-    [noConflictingLifecycleRuleName]: noConflictingLifecycle,
     [noDeveloperPreviewRuleName]: noDeveloperPreview,
     [noDuplicatesInMetadataArraysRuleName]: noDuplicatesInMetadataArrays,
     [noEmptyLifecycleMethodRuleName]: noEmptyLifecycleMethod,

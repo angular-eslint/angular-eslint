@@ -91,6 +91,36 @@ class UserService {
 #### ❌ Invalid Code
 
 ```ts
+@Service()
+class UserService {
+  constructor(private http: HttpClient) {}
+              ~~~~~~~~~~~~~~~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-inject": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
 @Component({})
 class MyComponent {
   constructor(
@@ -419,6 +449,35 @@ class PlainClass {
 
 ```ts
 @Injectable()
+class UserService {
+  private http = inject(HttpClient);
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-inject": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Service()
 class UserService {
   private http = inject(HttpClient);
 }

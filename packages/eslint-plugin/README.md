@@ -4,7 +4,7 @@ Please see https://github.com/angular-eslint/angular-eslint for full usage instr
 
 ## Premade configs
 
-- [Premade configs](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/src/configs)
+The premade flat configs that combine these rules are provided by the umbrella [`angular-eslint`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/angular-eslint/src/configs/README.md) package.
 
 ## Rules
 
@@ -71,7 +71,7 @@ Please see https://github.com/angular-eslint/angular-eslint for full usage instr
 | [`pipe-prefix`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/pipe-prefix.md) | Enforce consistent prefix for pipes. |  |  |  |
 | [`prefer-host-metadata-property`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/prefer-host-metadata-property.md) | Use `host` metadata property instead of `@HostBinding` and `HostListener` |  |  |  |
 | [`prefer-inject`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/prefer-inject.md) | Prefer using the inject() function over constructor parameter injection | :white_check_mark: |  |  |
-| [`prefer-on-push-component-change-detection`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/prefer-on-push-component-change-detection.md) | Ensures component's `changeDetection` is set to `ChangeDetectionStrategy.OnPush` |  |  | :bulb: |
+| [`prefer-on-push-component-change-detection`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/prefer-on-push-component-change-detection.md) | Ensures components do not opt out of the default `ChangeDetectionStrategy.OnPush` change detection strategy | :white_check_mark: |  | :bulb: |
 | [`prefer-output-emitter-ref`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/prefer-output-emitter-ref.md) | Use `OutputEmitterRef` instead of `@Output()` |  |  |  |
 | [`prefer-output-readonly`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/prefer-output-readonly.md) | Prefer to declare `@Output`, `OutputEmitterRef` and `OutputRef` as `readonly` since they are not supposed to be reassigned |  |  | :bulb: |
 | [`prefer-signal-model`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/prefer-signal-model.md) | Use `model` instead of `input` and `output` for two-way bindings |  | :wrench: |  |
@@ -95,13 +95,5 @@ Please see https://github.com/angular-eslint/angular-eslint for full usage instr
 <!-- end layout rule list -->
 
 <!-- begin deprecated rule list -->
-
-### Deprecated
-
-<!-- prettier-ignore-start -->
-| Rule | Replaced by |
-| --- | --- |
-| [`no-conflicting-lifecycle`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/no-conflicting-lifecycle.md) |  |
-<!-- prettier-ignore-end -->
 
 <!-- end deprecated rule list -->

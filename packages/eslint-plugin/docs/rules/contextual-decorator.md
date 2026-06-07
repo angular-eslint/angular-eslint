@@ -1017,6 +1017,66 @@ class Test {
 #### ❌ Invalid Code
 
 ```ts
+@Service()
+class Test {
+  @Input() label: string;
+  ~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Service()
+class Test {
+  @Output() emitter = new EventEmitter<void>();
+  ~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
 @Directive({
   selector: 'test'
 })
@@ -2879,6 +2939,41 @@ class Test {
   ) {}
 
   clickHandler(): void {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Service()
+class Test {
+  constructor(
+    @Optional() testBase: TestBase,
+    @Inject(LOCALE_ID) private readonly localeId: string,
+    @Self() public readonly test: Test,
+    @SkipSelf() protected readonly parentTest: ParentTest,
+    @Host() private readonly host: DynamicHost,
+  ) {}
 }
 ```
 

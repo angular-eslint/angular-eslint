@@ -110,11 +110,7 @@
       "cache": true
     },
     "lint": {
-      "inputs": [
-        "default",
-        "{workspaceRoot}/.eslintrc.json",
-        "{workspaceRoot}/eslint.config.js"
-      ],
+      "inputs": ["default", "{workspaceRoot}/eslint.config.js"],
       "cache": true
     },
     "e2e": {
@@ -207,5 +203,6 @@
         "env": "CI"
       }
     ]
-  }
+  },
+  "analytics": true
 }

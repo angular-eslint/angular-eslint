@@ -811,6 +811,66 @@ class Test {
 #### ❌ Invalid Code
 
 ```ts
+@Service()
+class Test {
+  ngOnInit() { console.log('ngOnInit'); }
+  ~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Service()
+class Test {
+  ngAfterViewInit() { console.log('ngAfterViewInit'); }
+  ~~~~~~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
 @Pipe()
 class Test implements DoCheck {
   constructor() {}
@@ -1380,6 +1440,35 @@ class Test {
 
 ```ts
 @Pipe()
+class Test {
+  ngOnDestroy() { console.log('OnDestroy'); }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/contextual-lifecycle": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Service()
 class Test {
   ngOnDestroy() { console.log('OnDestroy'); }
 }

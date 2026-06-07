@@ -23,7 +23,7 @@ Ensures that `takeUntilDestroyed()` is called with an explicit `DestroyRef` when
 
 ## Rationale
 
-The `takeUntilDestroyed()` operator can automatically infer the current component's or directive's `DestroyRef` only when called within an injection context — specifically in constructors or field initializers of classes decorated with `@Component`, `@Directive`, `@Injectable`, or `@Pipe`, or in factory functions (`useFactory` in providers or `factory` in InjectionTokens). When used in lifecycle methods like `ngOnInit()` or `ngAfterViewInit()`, in regular methods, in constructors of plain classes not managed by Angular's DI system, or in `@NgModule` classes (which don't support the `ngOnDestroy` lifecycle), the injection context is not available, and `takeUntilDestroyed()` will throw a runtime error: "NG0203: inject() must be called from an injection context." To fix this, inject `DestroyRef` using `inject(DestroyRef)` and pass it explicitly: `takeUntilDestroyed(this.destroyRef)`.
+The `takeUntilDestroyed()` operator can automatically infer the current component's or directive's `DestroyRef` only when called within an injection context — specifically in constructors or field initializers of classes decorated with `@Component`, `@Directive`, `@Injectable`, `@Pipe`, or `@Service`, or in factory functions (`useFactory` in providers or `factory` in InjectionTokens). When used in lifecycle methods like `ngOnInit()` or `ngAfterViewInit()`, in regular methods, in constructors of plain classes not managed by Angular's DI system, or in `@NgModule` classes (which don't support the `ngOnDestroy` lifecycle), the injection context is not available, and `takeUntilDestroyed()` will throw a runtime error: "NG0203: inject() must be called from an injection context." To fix this, inject `DestroyRef` using `inject(DestroyRef)` and pass it explicitly: `takeUntilDestroyed(this.destroyRef)`.
 
 <br>
 
@@ -515,6 +515,37 @@ class MyPipe {
 #### ✅ Valid Code
 
 ```ts
+@Service()
+class TestService {
+  constructor() {
+    this.data$.pipe(takeUntilDestroyed()).subscribe();
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-implicit-take-until-destroyed": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
 @Component()
 class Test {
   private data = this.http.get('/api').pipe(takeUntilDestroyed());
@@ -575,6 +606,35 @@ class TestService {
 ```ts
 @Pipe({ name: 'myPipe' })
 class MyPipe {
+  private data = this.http.get('/api').pipe(takeUntilDestroyed());
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-implicit-take-until-destroyed": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Service()
+class TestService {
   private data = this.http.get('/api').pipe(takeUntilDestroyed());
 }
 ```

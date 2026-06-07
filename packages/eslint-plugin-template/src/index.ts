@@ -1,7 +1,3 @@
-import accessibility from './configs/accessibility.json';
-import all from './configs/all.json';
-import processInlineTemplates from './configs/process-inline-templates.json';
-import recommended from './configs/recommended.json';
 import processors from './processors';
 import altText, { RULE_NAME as altTextRuleName } from './rules/alt-text';
 import attributesOrder, {
@@ -112,12 +108,6 @@ import useTrackByFunction, {
 import validAria, { RULE_NAME as validAriaRuleName } from './rules/valid-aria';
 
 export = {
-  configs: {
-    all,
-    recommended,
-    accessibility,
-    'process-inline-templates': processInlineTemplates,
-  },
   processors,
   rules: {
     [altTextRuleName]: altText,

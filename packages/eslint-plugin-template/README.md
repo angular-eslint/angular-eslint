@@ -4,7 +4,7 @@ Please see https://github.com/angular-eslint/angular-eslint for full usage instr
 
 ## Premade configs
 
-- [Premade configs](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/src/configs)
+The premade flat configs that combine these rules are provided by the umbrella [`angular-eslint`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/angular-eslint/src/configs/README.md) package.
 
 ## Rules
 

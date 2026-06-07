@@ -1,8 +1,8 @@
 import {
   ASTUtils,
-  isNotNullOrUndefined,
   RuleFixes,
   Selectors,
+  isNotNullOrUndefined,
 } from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
@@ -10,7 +10,7 @@ import { createESLintRule } from '../utils/create-eslint-rule';
 export type Options = [];
 export type MessageIds =
   | 'preferOnPushComponentChangeDetection'
-  | 'suggestAddChangeDetectionOnPush';
+  | 'suggestRemoveChangeDetection';
 export const RULE_NAME = 'prefer-on-push-component-change-detection';
 
 const METADATA_PROPERTY_NAME = 'changeDetection';
@@ -21,63 +21,60 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description: `Ensures component's \`${METADATA_PROPERTY_NAME}\` is set to \`${STRATEGY_ON_PUSH}\``,
+      description: `Ensures components do not opt out of the default \`${STRATEGY_ON_PUSH}\` change detection strategy`,
+      recommended: 'recommended',
     },
     hasSuggestions: true,
     schema: [],
     messages: {
-      preferOnPushComponentChangeDetection: `The component's \`${METADATA_PROPERTY_NAME}\` value should be set to \`${STRATEGY_ON_PUSH}\``,
-      suggestAddChangeDetectionOnPush: `Add \`${STRATEGY_ON_PUSH}\``,
+      preferOnPushComponentChangeDetection: `Components should not opt out of the default \`${STRATEGY_ON_PUSH}\` change detection strategy`,
+      suggestRemoveChangeDetection: `Remove \`${METADATA_PROPERTY_NAME}\` to use the default (\`${STRATEGY_ON_PUSH}\`)`,
     },
   },
   defaultOptions: [],
   create(context) {
+    const sourceCode = context.sourceCode;
     const changeDetectionMetadataProperty = Selectors.metadataProperty(
       METADATA_PROPERTY_NAME,
     );
-    const withoutChangeDetectionDecorator =
-      `${Selectors.COMPONENT_CLASS_DECORATOR}:matches([expression.arguments.length=0], [expression.arguments.0.type='ObjectExpression']:not(:has(${changeDetectionMetadataProperty})))` as const;
-    const nonChangeDetectionOnPushProperty =
-      `${Selectors.COMPONENT_CLASS_DECORATOR} > CallExpression > ObjectExpression > ${changeDetectionMetadataProperty}:matches([value.type='Identifier'][value.name='undefined'], [value.object.name='ChangeDetectionStrategy'][value.property.name!='OnPush'])` as const;
-    const selectors = [
-      withoutChangeDetectionDecorator,
-      nonChangeDetectionOnPushProperty,
-    ].join(',');
+    /**
+     * As of Angular v22 OnPush is the default change detection strategy, so a
+     * component only needs to be reported when it explicitly opts out of it by
+     * setting a non-OnPush `ChangeDetectionStrategy` member (e.g. `Eager`, or
+     * the deprecated `Default`). Omitting `changeDetection` entirely, or setting
+     * it to `ChangeDetectionStrategy.OnPush`, is the desired default and is not
+     * reported.
+     */
+    const onPushOptOutProperty =
+      `${Selectors.COMPONENT_CLASS_DECORATOR} > CallExpression > ObjectExpression > ${changeDetectionMetadataProperty}[value.object.name='ChangeDetectionStrategy'][value.property.name!='OnPush']` as const;
 
     return {
-      [selectors](node: TSESTree.Decorator | TSESTree.Property) {
+      [onPushOptOutProperty](node: TSESTree.Property) {
+        const { value } = node;
+
+        // The selector guarantees a `ChangeDetectionStrategy.<member>` value;
+        // this narrows the type for the fixer.
+        if (!ASTUtils.isMemberExpression(value)) {
+          return;
+        }
+
         context.report({
-          node: nodeToReport(node),
+          node: value.property,
           messageId: 'preferOnPushComponentChangeDetection',
           suggest: [
             {
-              messageId: 'suggestAddChangeDetectionOnPush',
+              messageId: 'suggestRemoveChangeDetection',
               fix: (fixer) => {
-                if (ASTUtils.isProperty(node)) {
-                  return [
-                    RuleFixes.getImportAddFix({
-                      fixer,
-                      importName: 'ChangeDetectionStrategy',
-                      moduleName: '@angular/core',
-                      node: node.parent.parent.parent!.parent!,
-                    }),
-                    ASTUtils.isMemberExpression(node.value)
-                      ? fixer.replaceText(node.value.property, 'OnPush')
-                      : fixer.replaceText(node.value, STRATEGY_ON_PUSH),
-                  ].filter(isNotNullOrUndefined);
-                }
+                const importDeclarations =
+                  ASTUtils.getImportDeclarations(node, '@angular/core') ?? [];
 
                 return [
-                  RuleFixes.getImportAddFix({
+                  RuleFixes.getNodeToCommaRemoveFix(sourceCode, node, fixer),
+                  RuleFixes.getImportRemoveFix(
+                    sourceCode,
+                    importDeclarations,
+                    'ChangeDetectionStrategy',
                     fixer,
-                    importName: 'ChangeDetectionStrategy',
-                    moduleName: '@angular/core',
-                    node: node.parent,
-                  }),
-                  RuleFixes.getDecoratorPropertyAddFix(
-                    node,
-                    fixer,
-                    `${METADATA_PROPERTY_NAME}: ${STRATEGY_ON_PUSH}`,
                   ),
                 ].filter(isNotNullOrUndefined);
               },
@@ -89,16 +86,6 @@ export default createESLintRule<Options, MessageIds>({
   },
 });
 
-function nodeToReport(node: TSESTree.Node) {
-  if (!ASTUtils.isProperty(node)) {
-    return node;
-  }
-
-  return ASTUtils.isMemberExpression(node.value)
-    ? node.value.property
-    : node.value;
-}
-
 export const RULE_DOCS_EXTENSION = {
-  rationale: `By default, Angular's change detection checks every component on every change detection cycle, which can involve thousands of checks per second in a large application. OnPush change detection strategy is a performance optimization that tells Angular to only check a component when: (1) its input properties receive new references, (2) an event originates from the component or its children, or (3) change detection is manually triggered. This dramatically reduces the number of change detection runs, improving application performance. OnPush pairs well with immutable data patterns and Angular signals, and is considered a best practice for most components. However, you must be careful to use immutable data patterns (creating new object references when data changes) for OnPush to work correctly.`,
+  rationale: `As of Angular v22, \`${STRATEGY_ON_PUSH}\` is the default change detection strategy: a component that does not specify \`${METADATA_PROPERTY_NAME}\` is checked using OnPush. This brings new code in line with zoneless being the default and with Angular's goal of performance by default, and means it is no longer necessary to set \`${STRATEGY_ON_PUSH}\` explicitly. The previous default, \`ChangeDetectionStrategy.Default\`, has been renamed to \`ChangeDetectionStrategy.Eager\`. When you run \`ng update\`, the v22 migration adds an explicit \`ChangeDetectionStrategy.Eager\` to existing components that relied on the old implicit default, so that they keep behaving as before.\n\nBecause omitting \`${METADATA_PROPERTY_NAME}\` (or setting it to \`${STRATEGY_ON_PUSH}\`) already gives you OnPush, this rule does not require you to declare it. Instead it reports components that explicitly opt out of OnPush by setting \`ChangeDetectionStrategy.Eager\` (or the deprecated \`ChangeDetectionStrategy.Default\`) — including the components the migration marked as \`Eager\` — so you can review them and adopt OnPush where it is safe to do so. The suggestion removes the \`${METADATA_PROPERTY_NAME}\` property entirely (along with the now-unused \`ChangeDetectionStrategy\` import), relying on the v22 default rather than setting \`${STRATEGY_ON_PUSH}\` explicitly. Note that switching a component from eager checking to OnPush can change its runtime behaviour, so apply the suggestion deliberately and make sure the component uses immutable data patterns (creating new object references when data changes).`,
 };

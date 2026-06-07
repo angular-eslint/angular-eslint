@@ -34,7 +34,6 @@
 - [Writing Custom ESLint Rules](#writing-custom-eslint-rules)
 - [Philosophy on lint rules which enforce code formatting concerns](#philosophy-on-lint-rules-which-enforce-code-formatting-concerns)
 - [Linting with the VSCode extension for ESLint](#linting-with-the-vscode-extension-for-eslint)
-- [Usage without Angular CLI Builder and eslintrc style configs](#usage-without-angular-cli-builder-and-eslintrc-style-configs)
 - [Notes on performance](#notes-on-performance)
 - [Using `eslint-disable` comments in Angular templates](#using-eslint-disable-comments-in-angular-templates)
 - [Migrating an Angular CLI project from Codelyzer and TSLint](#migrating-an-angular-cli-project-from-codelyzer-and-tslint)
@@ -105,7 +104,7 @@ Nx leans on some, _but not all_ of the packages from this project.
 Specifically:
 
 - It does not use the builder to execute ESLint
-- It does not use the schematics to generate files and config, and is responsible for configuring ESLint via `.eslintrc.json` or `eslint.config.js` files in a way that makes sense for Nx workspaces.
+- It does not use the schematics to generate files and config, and is responsible for configuring ESLint via `eslint.config.js` files in a way that makes sense for Nx workspaces.
 
 **We strongly recommend that you do not try and hand-craft setups with angular-eslint and Nx**. It is easy to get things wrong.
 
@@ -120,7 +119,7 @@ Issues specific to Nx's support of Angular + ESLint should be filed on the Nx re
 
 Please follow the links below for the packages you care about.
 
-- [`angular-eslint`](./packages/angular-eslint/README.md) - This is the core package that exposes most of the other packages below for the common use case of using `angular-eslint` with Angular CLI workspaces. It exposes all the tooling you need to work with ESLint v9 and `typescript-eslint` v8 with flat config in v18 of `angular-eslint` onwards. For versions of `angular-eslint` older than v18, or workspaces still using ESLint v8 and `typescript-eslint` v7 or the legacy eslintrc config format, you will use a combination of the packages below directly.
+- [`angular-eslint`](./packages/angular-eslint/README.md) - This is the core package that exposes most of the other packages below for the common use case of using `angular-eslint` with Angular CLI workspaces. It exposes all the tooling you need to work with ESLint and `typescript-eslint` using flat config. If you need finer-grained control you can use a combination of the packages below directly.
 
 - [`@angular-eslint/builder`](./packages/builder/README.md) - An Angular CLI Builder which is used to execute ESLint on your Angular projects using standard commands such as `ng lint`
 
@@ -160,7 +159,7 @@ The latest version under the `canary` tag **(latest commit to the `main` branch)
 
 **NOTE: If you are looking for instructions on how to migrate a project which uses TSLint, please see the bottom of the README.**
 
-If you want to add ESLint configuration (either a `eslint.config.js` file for flat config, or a `.eslintrc.json` file for eslintrc (`angular-eslint` will figure this out for you automatically) and an applicable `"lint"` target in your `angular.json`) to an existing Angular CLI project which does not yet have a linter set up, you can invoke the following schematic:
+If you want to add ESLint configuration (an `eslint.config.js` flat config file and an applicable `"lint"` target in your `angular.json`) to an existing Angular CLI project which does not yet have a linter set up, you can invoke the following schematic:
 
 ```sh
 ng g angular-eslint:add-eslint-to-project {{YOUR_PROJECT_NAME_GOES_HERE}}
@@ -216,10 +215,7 @@ ng g lib
 
 In version 9 of ESLint, they changed their default configuration format to the so called "flat config" style using exclusively a `eslint.config.js` file as the only way of configuring a project: https://eslint.org/blog/2024/04/eslint-v9.0.0-released/
 
-The legacy so called "eslintrc" style is now deprecated, but still fully supported, and so when it comes to configuring ESLint for your Angular projects you have two options and associated guides:
-
-- flat configs (the default in ESLint v9, strongly recommended for new projects): [./docs/CONFIGURING_FLAT_CONFIG.md](./docs/CONFIGURING_FLAT_CONFIG.md)
-- eslintrc style configs (the default in ESLint v8, deprecated in ESLint v9 but still valid for existing projects): [./docs/CONFIGURING_ESLINTRC.md](./docs/CONFIGURING_ESLINTRC.md)
+`angular-eslint` requires ESLint v9 or later and supports only flat config (the legacy "eslintrc" format is no longer supported). For full guidance on configuring ESLint for your Angular projects, see: [./docs/CONFIGURING_ESLINT.md](./docs/CONFIGURING_ESLINT.md)
 
 <br>
 
@@ -251,29 +247,9 @@ Please see here for our philosophy on using a linter to enforce code formatting 
 
 **We strongly recommend using v3 (or later) of the vscode-eslint extension.**. You can enable it by opening up the [extension profile page within VSCode](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint).
 
-The extension will now be smart enough to pick up from your configuration files what files you care about linting (from both flat configs and eslintrc (as long as you follow the guidance of using overrides outline in this repo)).
-
-The only configuration option you need to care about is if you are using ESLint v9 and still using eslintrc configuration files (because flat config is the default in ESLint v9). In this case you need to set in your `.vscode/settings.json`:
-
-```jsonc
-// ... more config
-"eslint.useFlatConfig": false,
-// ... more config
-```
+The extension will be smart enough to pick up from your `eslint.config.js` flat config what files you care about linting, including your Angular HTML templates.
 
 For full information about the extension see: https://github.com/microsoft/vscode-eslint
-
-<br>
-
-## Usage without Angular CLI Builder and eslintrc style configs
-
-**NOTE: This is only applicable when you are using eslintrc configs. For flat config, no custom `--ext` option is needed.**
-
-If you're using this without the Angular CLI Builder (and eslintrc configs), don't forget to include `.html` as one of the file extensions when running the eslint CLI, otherwise templates will not be linted, e.g.:
-
-```sh
-eslint --ext .ts,.html .
-```
 
 <br>
 
@@ -309,6 +285,8 @@ If you want to be able to use `eslint-disable` comments in your Angular template
 - `@angular-eslint` tooling packages version `2.1.0` or higher
 
 Make sure you are using valid HTML comments, i.e. `<!-- this syntax -->`, not the kind of comments you use in TypeScript code.
+
+Note that while Angular v22 lets you write TypeScript-style `/* */` and `//` comments _inside_ an element's opening tag (e.g. `<div /* ... */ [x]="y">`), those in-tag comments are **not** recognized as `eslint-disable` directives. The Angular compiler silently discards them and never exposes them to ESLint, so a disable directive must always be written as an HTML `<!-- -->` comment.
 
 <br>
 

@@ -64,6 +64,12 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     @CustomInjectable()
     class Test {}
   `,
+  // @Service is shorthand for @Injectable({ providedIn: 'root' }), so it must
+  // never be flagged for a missing `providedIn`.
+  `
+    @Service()
+    class Test {}
+  `,
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [

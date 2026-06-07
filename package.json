@@ -3,9 +3,9 @@
   "private": true,
   "description": "The tooling which enables ESLint to work with Angular projects",
   "volta": {
-    "node": "22.22.2"
+    "node": "26.3.0"
   },
-  "packageManager": "pnpm@11.1.1",
+  "packageManager": "pnpm@11.5.2",
   "contributors": [
     "James Henry <angular-eslint@jameshenry.email>"
   ],
@@ -112,7 +112,7 @@
         "dependsOn": [
           "update-rule-configs"
         ],
-        "command": "git diff --quiet --exit-code -- packages/angular-eslint/src/configs packages/eslint-plugin/src/configs packages/eslint-plugin-template/src/configs || (echo \"\n-------\n\nCHECK RULE CONFIGS ERROR: You have uncommitted changes to the generated rule configs.\n\nYou should run 'pnpm update-rule-configs' and commit the result.\n\n-------\n\" && exit 1)"
+        "command": "git diff --quiet --exit-code -- packages/angular-eslint/src/configs || (echo \"\n-------\n\nCHECK RULE CONFIGS ERROR: You have uncommitted changes to the generated rule configs.\n\nYou should run 'pnpm update-rule-configs' and commit the result.\n\n-------\n\" && exit 1)"
       },
       "update-rule-configs": {
         "dependsOn": [

@@ -124,6 +124,12 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
       ngOnDestroy() { console.log('OnDestroy'); }
     }
     `,
+  `
+    @Service()
+    class Test {
+      ngOnDestroy() { console.log('OnDestroy'); }
+    }
+    `,
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
@@ -465,6 +471,32 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       `,
     messageId,
     data: { classDecoratorName: 'Pipe', methodName: 'ngOnInit' },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'Class with @Service should fail if ngOnInit() method is present',
+    annotatedSource: `
+        @Service()
+        class Test {
+          ngOnInit() { console.log('ngOnInit'); }
+          ~~~~~~~~
+        }
+      `,
+    messageId,
+    data: { classDecoratorName: 'Service', methodName: 'ngOnInit' },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'Class with @Service should fail if ngAfterViewInit() method is present',
+    annotatedSource: `
+        @Service()
+        class Test {
+          ngAfterViewInit() { console.log('ngAfterViewInit'); }
+          ~~~~~~~~~~~~~~~
+        }
+      `,
+    messageId,
+    data: { classDecoratorName: 'Service', methodName: 'ngAfterViewInit' },
   }),
   convertAnnotatedSourceToFailureCase({
     description:

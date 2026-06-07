@@ -12,14 +12,8 @@ export interface Schema extends JsonObject {
   cacheLocation: string | null;
   cacheStrategy: 'content' | 'metadata' | null;
   eslintConfig: string | null;
-  ignorePath: string | null;
   outputFile: string | null;
   stats: boolean;
-  noEslintrc: boolean;
-  rulesdir: string[];
-  resolvePluginsRelativeTo: string | null;
-  reportUnusedDisableDirectives: Linter.RuleLevel | null;
-  useEslintrc: boolean | null;
   noConfigLookup: boolean | null;
   concurrency: 'auto' | 'off' | number | null;
   applySuppressions: boolean | null;
