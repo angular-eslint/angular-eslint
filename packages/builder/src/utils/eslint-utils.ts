@@ -1,7 +1,17 @@
 import type { ESLint } from 'eslint';
 import type { Schema } from '../schema';
 
-export const supportedFlatConfigNames = [
+/**
+ * The conventional flat config file names that ESLint resolves automatically.
+ *
+ * NOTE: this is NOT a restriction on what an explicitly provided config file may
+ * be named. ESLint's own `--config`/`overrideConfigFile` accepts a flat config
+ * file with any name, and so does this builder (see the legacy eslintrc denylist
+ * below). This list only mirrors the names ESLint discovers on its own when no
+ * explicit config is given, so we can reconstruct a likely config path for
+ * diagnostic messages.
+ */
+export const defaultFlatConfigNames = [
   'eslint.config.js',
   'eslint.config.mjs',
   'eslint.config.cjs',
@@ -9,6 +19,20 @@ export const supportedFlatConfigNames = [
   'eslint.config.mts',
   'eslint.config.cts',
 ];
+
+/**
+ * Legacy "eslintrc" config file names (e.g. `.eslintrc`, `.eslintrc.json`,
+ * `.eslintrc.js`, `.eslintrc.yml`). ESLint removed support for this format in
+ * v10 and angular-eslint no longer supports it.
+ *
+ * We detect these names explicitly so we can surface a helpful error message.
+ * Any other file name is passed straight through to ESLint - exactly like
+ * ESLint's own `--config`/`overrideConfigFile`, a flat config file can have
+ * any name, so we deliberately do NOT require the `eslint.config.*` naming
+ * convention for an explicitly provided config file.
+ */
+const legacyEslintrcConfigFilePattern =
+  /(^|[\\/])\.eslintrc(\.(c?js|ya?ml|json))?$/;
 
 async function resolveESLintClass(): Promise<typeof ESLint> {
   try {
@@ -41,10 +65,10 @@ export async function resolveAndInstantiateESLint(
 ) {
   if (
     eslintConfigPath &&
-    !supportedFlatConfigNames.some((name) => eslintConfigPath.endsWith(name))
+    legacyEslintrcConfigFilePattern.test(eslintConfigPath)
   ) {
     throw new Error(
-      `ESLint configuration files must be named ${supportedFlatConfigNames.join(' or ')}; legacy .eslintrc files are no longer supported. See https://eslint.org/docs/latest/use/configure/configuration-files`,
+      `The ESLint config file "${eslintConfigPath}" uses the legacy "eslintrc" format, which is no longer supported. Please use an ESLint flat config file (it can have any name, e.g. eslint.config.js). See https://eslint.org/docs/latest/use/configure/configuration-files`,
     );
   }
   const ESLint = await resolveESLintClass();

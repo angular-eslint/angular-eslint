@@ -8,7 +8,16 @@ import stripJsonComments from 'strip-json-comments';
 
 const DEFAULT_PREFIX = 'app';
 
-export const supportedFlatConfigNames = [
+/**
+ * The conventional flat config file names that ESLint resolves automatically
+ * and that these schematics scaffold by default.
+ *
+ * NOTE: this is NOT a restriction on what an ESLint flat config file may be
+ * named - a flat config can have any name. We only use these conventional names
+ * when detecting an existing root config or resolving its path during code
+ * generation.
+ */
+export const defaultFlatConfigNames = [
   'eslint.config.js',
   'eslint.config.mjs',
   'eslint.config.cjs',
@@ -335,7 +344,7 @@ export function createESLintConfigForProject(
       prefix,
     } = angularJSON.projects[projectName];
 
-    const alreadyHasRootFlatConfig = supportedFlatConfigNames.some((name) =>
+    const alreadyHasRootFlatConfig = defaultFlatConfigNames.some((name) =>
       tree.exists(name),
     );
 
@@ -457,7 +466,7 @@ export function updateSchematicDefaults(
 }
 
 export function resolveRootESLintConfigPath(tree: Tree): string | null {
-  for (const name of supportedFlatConfigNames) {
+  for (const name of defaultFlatConfigNames) {
     if (tree.exists(name)) {
       return name;
     }

@@ -72,10 +72,10 @@ const mockResolveAndInstantiateESLint = vi.fn().mockReturnValue(
 );
 
 vi.mock(import('./utils/eslint-utils.js'), async (importOriginal) => {
-  const { supportedFlatConfigNames } = await importOriginal();
+  const { defaultFlatConfigNames } = await importOriginal();
   return {
     resolveAndInstantiateESLint: mockResolveAndInstantiateESLint,
-    supportedFlatConfigNames,
+    defaultFlatConfigNames,
   };
 });
 

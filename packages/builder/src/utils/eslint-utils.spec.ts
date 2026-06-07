@@ -144,23 +144,45 @@ describe('eslint-utils', () => {
 
   describe('config file name validation', () => {
     it.each([
+      // The conventional flat config names
       './eslint.config.js',
       './eslint.config.mjs',
       './eslint.config.cjs',
       './eslint.config.ts',
       './eslint.config.mts',
       './eslint.config.cts',
+      // Arbitrary flat config names/paths are also valid - ESLint's own
+      // `--config` flag accepts any file name, so we must too.
+      './custom.js',
+      './config/lint-rules.mjs',
+      './my.eslint.config.ts',
+      '/absolute/path/to/linting.cjs',
+      './.eslintrc.config.js',
     ])('should not throw if %s is used', async (configPath) => {
       await expect(
         resolveAndInstantiateESLint(configPath, {} as any),
       ).resolves.not.toThrow();
     });
 
-    it('should throw if a legacy .eslintrc file is used', async () => {
+    it.each([
+      './.eslintrc',
+      './.eslintrc.js',
+      './.eslintrc.cjs',
+      './.eslintrc.json',
+      './.eslintrc.yml',
+      './.eslintrc.yaml',
+      './config/.eslintrc.json',
+    ])('should throw if the legacy eslintrc file %s is used', async (configPath) => {
+      await expect(
+        resolveAndInstantiateESLint(configPath, {} as any),
+      ).rejects.toThrow(/uses the legacy "eslintrc" format/);
+    });
+
+    it('should produce a helpful error message for a legacy .eslintrc file', async () => {
       await expect(
         resolveAndInstantiateESLint('./.eslintrc.json', {} as any),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `[Error: ESLint configuration files must be named eslint.config.js or eslint.config.mjs or eslint.config.cjs or eslint.config.ts or eslint.config.mts or eslint.config.cts; legacy .eslintrc files are no longer supported. See https://eslint.org/docs/latest/use/configure/configuration-files]`,
+        `[Error: The ESLint config file "./.eslintrc.json" uses the legacy "eslintrc" format, which is no longer supported. Please use an ESLint flat config file (it can have any name, e.g. eslint.config.js). See https://eslint.org/docs/latest/use/configure/configuration-files]`,
       );
     });
   });

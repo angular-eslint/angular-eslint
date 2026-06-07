@@ -4,8 +4,8 @@ import { existsSync, mkdirSync, writeFileSync } from 'fs';
 import { dirname, join, resolve } from 'path';
 import type { Schema } from './schema';
 import {
+  defaultFlatConfigNames,
   resolveAndInstantiateESLint,
-  supportedFlatConfigNames,
 } from './utils/eslint-utils';
 
 export default createBuilder(
@@ -229,7 +229,7 @@ The simplest way to enable type information is to set \`languageOptions.parserOp
 );
 
 function resolveESLintConfigPath(projectRoot: string): string | null {
-  for (const name of supportedFlatConfigNames) {
+  for (const name of defaultFlatConfigNames) {
     const candidate = join(projectRoot, name);
     if (existsSync(candidate)) {
       return candidate;
