@@ -2,9 +2,6 @@
 
 These flat configs exist for your convenience. They contain configuration intended to save you time and effort when configuring your project by disabling rules known to conflict with this repository, or cause issues in Angular codebases.
 
-> NOTE: These configs are only compatible with `eslint.config.js` files, not eslintrc.
-> You should access the configs exported from the [`@angular-eslint/eslint-plugin`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/src/configs) package for use in eslintrc files.
-
 ## `angular-eslint/ts-all` and `angular-eslint/template-all`
 
 Quite simply, these enable all the possible rules from `@angular-eslint/eslint-plugin` and `@angular-eslint/eslint-plugin-template` respectively. It is unlikely they will be applicable in real-world projects, but some folks find them useful to have as a reference.
