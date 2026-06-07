@@ -121,8 +121,8 @@ catalogs:
       specifier: 1.1.1
       version: 1.1.1
     pkg-pr-new:
-      specifier: 0.0.71
-      version: 0.0.71
+      specifier: 0.0.75
+      version: 0.0.75
     prettier:
       specifier: 3.8.3
       version: 3.8.3
@@ -330,7 +330,7 @@ importers:
         version: 1.1.1
       pkg-pr-new:
         specifier: 'catalog:'
-        version: 0.0.71
+        version: 0.0.75
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
@@ -5621,8 +5621,8 @@ packages:
     resolution: {integrity: sha512-wQ0b/W4Fr01qtpHlqSqspcj3EhBvimsdh0KlHhH8HRZnMsEa0ea2fTULOXOS9ccQr3om+GcGRk4e+isrZWV8qQ==}
     engines: {node: '>=16.20.0'}
 
-  pkg-pr-new@0.0.71:
-    resolution: {integrity: sha512-Ln7I7NaOXN6CjBLVrNqsWOo6mIaNW4chH4eCR2t4tnQSmYtyQiWCqlMG6bL2JYCT1MOiKEiDObnnzePGh0TNFQ==}
+  pkg-pr-new@0.0.75:
+    resolution: {integrity: sha512-u9mdErTewKSMsr+ceCt8VcNuNP0ro5AXiPXhUVApuEyqr2Zlvt+DdCFBcm+yGWN8mhOdZJ27meIDbnoZgfzpOw==}
     hasBin: true
 
   postcss@8.5.15:
@@ -12624,7 +12624,7 @@ snapshots:
 
   pkce-challenge@5.0.1: {}
 
-  pkg-pr-new@0.0.71: {}
+  pkg-pr-new@0.0.75: {}
 
   postcss@8.5.15:
     dependencies:
