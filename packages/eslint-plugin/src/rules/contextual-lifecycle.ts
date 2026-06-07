@@ -66,6 +66,9 @@ export default createESLintRule<Options, MessageIds>({
       [Selectors.PIPE_CLASS_DECORATOR](node: TSESTree.Decorator) {
         checkContext(node, ASTUtils.AngularClassDecorators.Pipe);
       },
+      [Selectors.SERVICE_CLASS_DECORATOR](node: TSESTree.Decorator) {
+        checkContext(node, ASTUtils.AngularClassDecorators.Service);
+      },
     };
   },
 });

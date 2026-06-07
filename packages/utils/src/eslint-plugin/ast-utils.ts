@@ -12,6 +12,7 @@ export enum AngularClassDecorators {
   Injectable = 'Injectable',
   NgModule = 'NgModule',
   Pipe = 'Pipe',
+  Service = 'Service',
 }
 
 enum AngularConstructorParameterDecorators {
@@ -150,6 +151,10 @@ export const ANGULAR_CLASS_DECORATOR_LIFECYCLE_METHOD_MAPPER: ReadonlyMap<
     AngularClassDecorators.Pipe,
     new Set<AngularLifecycleMethodKeys>([AngularLifecycleMethods.ngOnDestroy]),
   ],
+  [
+    AngularClassDecorators.Service,
+    new Set<AngularLifecycleMethodKeys>([AngularLifecycleMethods.ngOnDestroy]),
+  ],
 ]);
 
 export const ANGULAR_INNER_CLASS_DECORATORS: ReadonlySet<AngularInnerClassDecoratorKeys> =
@@ -186,6 +191,16 @@ export const ANGULAR_CLASS_DECORATOR_MAPPER: ReadonlyMap<
   ],
   [
     AngularClassDecorators.Pipe,
+    new Set([
+      AngularInnerClassDecorators.Host,
+      AngularInnerClassDecorators.Inject,
+      AngularInnerClassDecorators.Optional,
+      AngularInnerClassDecorators.Self,
+      AngularInnerClassDecorators.SkipSelf,
+    ]),
+  ],
+  [
+    AngularClassDecorators.Service,
     new Set([
       AngularInnerClassDecorators.Host,
       AngularInnerClassDecorators.Inject,

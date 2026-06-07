@@ -162,6 +162,20 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
+      'should fail if ngOnDestroy() method is called in a @Service class',
+    annotatedSource: `
+        @Service()
+        class Test {
+          test(): void {
+            this.ngOnDestroy();
+            ~~~~~~~~~~~~~~~~~~
+          }
+        }
+      `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
       'should fail if super.<lifecycle method>() is called in an incorrect context',
     annotatedSource: `
         @Component({ template: '' })

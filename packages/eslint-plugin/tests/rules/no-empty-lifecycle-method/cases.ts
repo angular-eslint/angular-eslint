@@ -353,4 +353,28 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       },
     ],
   }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if `ngOnDestroy()` method is empty in a @Service class',
+    annotatedSource: `
+      @Service()
+      class Test {
+        ngOnDestroy() {}
+        ~~~~~~~~~~~~~~~~
+      }
+    `,
+    messageId,
+    suggestions: [
+      {
+        messageId: suggestRemoveLifecycleMethod,
+        output: `
+      @Service()
+      class Test {
+        
+        
+      }
+    `,
+      },
+    ],
+  }),
 ];

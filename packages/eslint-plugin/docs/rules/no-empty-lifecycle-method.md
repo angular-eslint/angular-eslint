@@ -363,6 +363,36 @@ class Test extends BaseComponent<unknown> implements OnInit {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-empty-lifecycle-method": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Service()
+class Test {
+  ngOnDestroy() {}
+  ~~~~~~~~~~~~~~~~
+}
+```
+
 </details>
 
 <br>

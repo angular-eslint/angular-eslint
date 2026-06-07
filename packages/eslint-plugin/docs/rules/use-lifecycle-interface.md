@@ -268,6 +268,37 @@ class FoobarComponent extends FoobarBase {
 #### ❌ Invalid Code
 
 ```ts
+@Service()
+class Test {
+  ngOnDestroy() {
+  ~~~~~~~~~~~
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/use-lifecycle-interface": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
 @Component()
 class Test<T> {
   ngOnInit() {
