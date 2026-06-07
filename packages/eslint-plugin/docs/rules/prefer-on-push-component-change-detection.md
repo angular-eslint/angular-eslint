@@ -27,7 +27,7 @@ Ensures components do not opt out of the default `ChangeDetectionStrategy.OnPush
 
 As of Angular v22, `ChangeDetectionStrategy.OnPush` is the default change detection strategy: a component that does not specify `changeDetection` is checked using OnPush. This brings new code in line with zoneless being the default and with Angular's goal of performance by default, and means it is no longer necessary to set `ChangeDetectionStrategy.OnPush` explicitly. The previous default, `ChangeDetectionStrategy.Default`, has been renamed to `ChangeDetectionStrategy.Eager`. When you run `ng update`, the v22 migration adds an explicit `ChangeDetectionStrategy.Eager` to existing components that relied on the old implicit default, so that they keep behaving as before.
 
-Because omitting `changeDetection` (or setting it to `ChangeDetectionStrategy.OnPush`) already gives you OnPush, this rule does not require you to declare it. Instead it reports components that explicitly opt out of OnPush by setting `ChangeDetectionStrategy.Eager` (or the deprecated `ChangeDetectionStrategy.Default`) — including the components the migration marked as `Eager` — so you can review them and adopt OnPush where it is safe to do so. Note that switching a component from eager checking to OnPush can change its runtime behaviour, so apply the suggestion deliberately and make sure the component uses immutable data patterns (creating new object references when data changes).
+Because omitting `changeDetection` (or setting it to `ChangeDetectionStrategy.OnPush`) already gives you OnPush, this rule does not require you to declare it. Instead it reports components that explicitly opt out of OnPush by setting `ChangeDetectionStrategy.Eager` (or the deprecated `ChangeDetectionStrategy.Default`) — including the components the migration marked as `Eager` — so you can review them and adopt OnPush where it is safe to do so. The suggestion removes the `changeDetection` property entirely (along with the now-unused `ChangeDetectionStrategy` import), relying on the v22 default rather than setting `ChangeDetectionStrategy.OnPush` explicitly. Note that switching a component from eager checking to OnPush can change its runtime behaviour, so apply the suggestion deliberately and make sure the component uses immutable data patterns (creating new object references when data changes).
 
 <br>
 
@@ -184,6 +184,64 @@ class Test {}
 import { ChangeDetectionStrategy } from '@angular/core';
 @Component({ [`changeDetection`]: ChangeDetectionStrategy.Eager })
                                                           ~~~~~
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-on-push-component-change-detection": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+import { ChangeDetectionStrategy } from '@angular/core';
+@Component({ changeDetection: ChangeDetectionStrategy.Eager, selector: 'app-test' })
+                                                      ~~~~~
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-on-push-component-change-detection": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+import { ChangeDetectionStrategy } from '@angular/core';
+@Component({ selector: 'app-test', changeDetection: ChangeDetectionStrategy.Eager })
+                                                                            ~~~~~
 class Test {}
 ```
 

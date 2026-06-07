@@ -9,7 +9,7 @@ import type {
 } from '../../../src/rules/prefer-on-push-component-change-detection';
 
 const messageId: MessageIds = 'preferOnPushComponentChangeDetection';
-const suggestChangeToOnPush: MessageIds = 'suggestChangeToOnPush';
+const suggestRemoveChangeDetection: MessageIds = 'suggestRemoveChangeDetection';
 
 export const valid: readonly (string | ValidTestCase<Options>)[] = [
   `class Test {}`,
@@ -92,10 +92,10 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
     suggestions: [
       {
-        messageId: suggestChangeToOnPush,
+        messageId: suggestRemoveChangeDetection,
         output: `
-      import { ChangeDetectionStrategy } from '@angular/core';
-      @Component({ changeDetection: ChangeDetectionStrategy.OnPush })
+      
+      @Component({  })
                                                             
       class Test {}
     `,
@@ -114,10 +114,10 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
     suggestions: [
       {
-        messageId: suggestChangeToOnPush,
+        messageId: suggestRemoveChangeDetection,
         output: `
-      import { ChangeDetectionStrategy } from '@angular/core';
-      @Component({ changeDetection: ChangeDetectionStrategy.OnPush })
+      
+      @Component({  })
                                                             
       class Test {}
     `,
@@ -136,10 +136,10 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
     suggestions: [
       {
-        messageId: suggestChangeToOnPush,
+        messageId: suggestRemoveChangeDetection,
         output: `
-      import { ChangeDetectionStrategy } from '@angular/core';
-      @Component({ 'changeDetection': ChangeDetectionStrategy.OnPush })
+      
+      @Component({  })
                                                               
       class Test {}
     `,
@@ -158,10 +158,10 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
     suggestions: [
       {
-        messageId: suggestChangeToOnPush,
+        messageId: suggestRemoveChangeDetection,
         output: `
-      import { ChangeDetectionStrategy } from '@angular/core';
-      @Component({ ['changeDetection']: ChangeDetectionStrategy.OnPush })
+      
+      @Component({  })
                                                                 
       class Test {}
     `,
@@ -180,11 +180,55 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
     suggestions: [
       {
-        messageId: suggestChangeToOnPush,
+        messageId: suggestRemoveChangeDetection,
         output: `
-      import { ChangeDetectionStrategy } from '@angular/core';
-      @Component({ [\`changeDetection\`]: ChangeDetectionStrategy.OnPush })
+      
+      @Component({  })
                                                                 
+      class Test {}
+    `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail and remove the trailing comma when `changeDetection` is followed by another property',
+    annotatedSource: `
+      import { ChangeDetectionStrategy } from '@angular/core';
+      @Component({ changeDetection: ChangeDetectionStrategy.Eager, selector: 'app-test' })
+                                                            ~~~~~
+      class Test {}
+    `,
+    messageId,
+    suggestions: [
+      {
+        messageId: suggestRemoveChangeDetection,
+        output: `
+      
+      @Component({  selector: 'app-test' })
+                                                            
+      class Test {}
+    `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail when `changeDetection` is preceded by another property',
+    annotatedSource: `
+      import { ChangeDetectionStrategy } from '@angular/core';
+      @Component({ selector: 'app-test', changeDetection: ChangeDetectionStrategy.Eager })
+                                                                                  ~~~~~
+      class Test {}
+    `,
+    messageId,
+    suggestions: [
+      {
+        messageId: suggestRemoveChangeDetection,
+        output: `
+      
+      @Component({ selector: 'app-test',  })
+                                                                                  
       class Test {}
     `,
       },
