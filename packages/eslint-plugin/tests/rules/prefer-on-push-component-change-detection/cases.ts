@@ -93,8 +93,12 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     suggestions: [
       {
         messageId: suggestChangeToOnPush,
-        output:
-          "\n      import { ChangeDetectionStrategy } from '@angular/core';\n      @Component({ changeDetection: ChangeDetectionStrategy.OnPush })\n                                                            \n      class Test {}\n    ",
+        output: `
+      import { ChangeDetectionStrategy } from '@angular/core';
+      @Component({ changeDetection: ChangeDetectionStrategy.OnPush })
+                                                            
+      class Test {}
+    `,
       },
     ],
   }),
@@ -111,8 +115,12 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     suggestions: [
       {
         messageId: suggestChangeToOnPush,
-        output:
-          "\n      import { ChangeDetectionStrategy } from '@angular/core';\n      @Component({ changeDetection: ChangeDetectionStrategy.OnPush })\n                                                            \n      class Test {}\n    ",
+        output: `
+      import { ChangeDetectionStrategy } from '@angular/core';
+      @Component({ changeDetection: ChangeDetectionStrategy.OnPush })
+                                                            
+      class Test {}
+    `,
       },
     ],
   }),
@@ -129,8 +137,12 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     suggestions: [
       {
         messageId: suggestChangeToOnPush,
-        output:
-          "\n      import { ChangeDetectionStrategy } from '@angular/core';\n      @Component({ 'changeDetection': ChangeDetectionStrategy.OnPush })\n                                                              \n      class Test {}\n    ",
+        output: `
+      import { ChangeDetectionStrategy } from '@angular/core';
+      @Component({ 'changeDetection': ChangeDetectionStrategy.OnPush })
+                                                              
+      class Test {}
+    `,
       },
     ],
   }),
@@ -147,8 +159,12 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     suggestions: [
       {
         messageId: suggestChangeToOnPush,
-        output:
-          "\n      import { ChangeDetectionStrategy } from '@angular/core';\n      @Component({ ['changeDetection']: ChangeDetectionStrategy.OnPush })\n                                                                \n      class Test {}\n    ",
+        output: `
+      import { ChangeDetectionStrategy } from '@angular/core';
+      @Component({ ['changeDetection']: ChangeDetectionStrategy.OnPush })
+                                                                
+      class Test {}
+    `,
       },
     ],
   }),
@@ -165,8 +181,12 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     suggestions: [
       {
         messageId: suggestChangeToOnPush,
-        output:
-          "\n      import { ChangeDetectionStrategy } from '@angular/core';\n      @Component({ [`changeDetection`]: ChangeDetectionStrategy.OnPush })\n                                                                \n      class Test {}\n    ",
+        output: `
+      import { ChangeDetectionStrategy } from '@angular/core';
+      @Component({ [\`changeDetection\`]: ChangeDetectionStrategy.OnPush })
+                                                                
+      class Test {}
+    `,
       },
     ],
   }),
