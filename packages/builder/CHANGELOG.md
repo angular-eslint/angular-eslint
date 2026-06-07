@@ -1,3 +1,19 @@
+# 22.0.0 (2026-06-07)
+
+### 🚀 Features
+
+- ⚠️  drop support for eslint v8 and legacy eslintrc config format ([#3056](https://github.com/angular-eslint/angular-eslint/pull/3056))
+- **builder:** add suppressionsLocation option ([#3034](https://github.com/angular-eslint/angular-eslint/pull/3034))
+
+### ⚠️  Breaking Changes
+
+- drop support for eslint v8 and legacy eslintrc config format  ([#3056](https://github.com/angular-eslint/angular-eslint/pull/3056))
+
+### ❤️ Thank You
+
+- Finn Bayer
+- James Henry @JamesHenry
+
 ## 21.4.0 (2026-05-13)
 
 ### 🚀 Features

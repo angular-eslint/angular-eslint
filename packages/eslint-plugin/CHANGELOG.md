@@ -1,3 +1,23 @@
+# 22.0.0 (2026-06-07)
+
+### 🚀 Features
+
+- ⚠️  **eslint-plugin:** remove deprecated no-conflicting-lifecycle rule ([#3060](https://github.com/angular-eslint/angular-eslint/pull/3060))
+- ⚠️  **eslint-plugin:** [prefer-on-push-component-change-detection] flag only opting out of OnPush, make recommended ([#3058](https://github.com/angular-eslint/angular-eslint/pull/3058))
+- support the Angular v22 @Service decorator ([#3057](https://github.com/angular-eslint/angular-eslint/pull/3057))
+- ⚠️  drop support for eslint v8 and legacy eslintrc config format ([#3056](https://github.com/angular-eslint/angular-eslint/pull/3056))
+
+### ⚠️  Breaking Changes
+
+- **eslint-plugin:** remove deprecated no-conflicting-lifecycle rule  ([#3060](https://github.com/angular-eslint/angular-eslint/pull/3060))
+- **eslint-plugin:** [prefer-on-push-component-change-detection] flag only opting out of OnPush, make recommended  ([#3058](https://github.com/angular-eslint/angular-eslint/pull/3058))
+  prefer-on-push-component-change-detection no longer reports components that omit changeDetection (omission now means OnPush in v22); it now only reports components that opt out of OnPush via ChangeDetectionStrategy.Eager or the deprecated ChangeDetectionStrategy.Default. The rule is also now part of the recommended config, so projects extending it may see new reports — notably on components the Angular v22 migration set to Eager. The suggestion message id suggestAddChangeDetectionOnPush has been renamed to suggestChangeToOnPush.
+- drop support for eslint v8 and legacy eslintrc config format  ([#3056](https://github.com/angular-eslint/angular-eslint/pull/3056))
+
+### ❤️ Thank You
+
+- James Henry @JamesHenry
+
 ## 21.4.0 (2026-05-13)
 
 ### 🩹 Fixes

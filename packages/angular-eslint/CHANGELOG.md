@@ -1,3 +1,20 @@
+# 22.0.0 (2026-06-07)
+
+### 🚀 Features
+
+- ⚠️  **eslint-plugin:** [prefer-on-push-component-change-detection] flag only opting out of OnPush, make recommended ([#3058](https://github.com/angular-eslint/angular-eslint/pull/3058))
+- ⚠️  drop support for eslint v8 and legacy eslintrc config format ([#3056](https://github.com/angular-eslint/angular-eslint/pull/3056))
+
+### ⚠️  Breaking Changes
+
+- **eslint-plugin:** [prefer-on-push-component-change-detection] flag only opting out of OnPush, make recommended  ([#3058](https://github.com/angular-eslint/angular-eslint/pull/3058))
+  prefer-on-push-component-change-detection no longer reports components that omit changeDetection (omission now means OnPush in v22); it now only reports components that opt out of OnPush via ChangeDetectionStrategy.Eager or the deprecated ChangeDetectionStrategy.Default. The rule is also now part of the recommended config, so projects extending it may see new reports — notably on components the Angular v22 migration set to Eager. The suggestion message id suggestAddChangeDetectionOnPush has been renamed to suggestChangeToOnPush.
+- drop support for eslint v8 and legacy eslintrc config format  ([#3056](https://github.com/angular-eslint/angular-eslint/pull/3056))
+
+### ❤️ Thank You
+
+- James Henry @JamesHenry
+
 ## 21.4.0 (2026-05-13)
 
 This was a version bump only for angular-eslint to align it with other projects, there were no code changes.
