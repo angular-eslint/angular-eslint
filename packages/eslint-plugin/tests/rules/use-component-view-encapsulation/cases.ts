@@ -105,8 +105,6 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         messageId: suggestRemoveViewEncapsulationNone,
         output: `
       @Component({
-        
-                                         
         selector: 'app-foo-bar',
       })
       class Test {}
@@ -138,7 +136,6 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
 
       @Component({
         selector: 'app-foo-bar',
-        
                                            
       })
       class Test {}
@@ -170,7 +167,6 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
 
       @Component({
         selector: 'app-foo-bar',
-        
                                              
       })
       class Test {}
@@ -202,7 +198,6 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
 
       @Component({
         selector: 'app-foo-bar',
-        
                                              
       })
       class Test {}
