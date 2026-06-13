@@ -28,6 +28,7 @@ export default createESLintRule<Options, MessageIds>({
       'Directive',
       'Injectable',
       'Pipe',
+      'Service',
     ]);
 
     function hasEagerInject(node: TSESTree.Node | null): boolean {

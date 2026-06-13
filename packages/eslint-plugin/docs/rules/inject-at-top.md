@@ -673,6 +673,40 @@ class MyComponent {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/inject-at-top": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Service()
+class UserService {
+  private get baseUrl() {
+    return this.http.baseUrl;
+  }
+
+  private readonly http = inject(HttpClient);
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+}
+```
+
 </details>
 
 <br>
@@ -868,6 +902,39 @@ class MyDirective {
 class MyPipe {
   static readonly DEFAULT = 'default';
   private readonly myService = inject(MyService);
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/inject-at-top": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Service()
+class UserService {
+  private readonly http = inject(HttpClient);
+
+  private get baseUrl() {
+    return this.http.baseUrl;
+  }
 }
 ```
 

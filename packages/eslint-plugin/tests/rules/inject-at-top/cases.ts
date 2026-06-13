@@ -67,6 +67,17 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     private readonly myService = inject(MyService);
   }
   `,
+  // should pass when inject() is the first member of an @Service class
+  `
+  @Service()
+  class UserService {
+    private readonly http = inject(HttpClient);
+
+    private get baseUrl() {
+      return this.http.baseUrl;
+    }
+  }
+  `,
   // should ignore inject() buried inside an arrow callback stored as a field (lazy)
   `
   @Component({})
@@ -485,6 +496,22 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         private count = 0;
         private readonly tracedClient = (() => withTracing(inject(ApiClient)))();
         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      }
+    `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail when inject() is declared below a member in an @Service class',
+    annotatedSource: `
+      @Service()
+      class UserService {
+        private get baseUrl() {
+          return this.http.baseUrl;
+        }
+
+        private readonly http = inject(HttpClient);
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       }
     `,
     messageId,
