@@ -4,12 +4,28 @@ import {
   RuleFixes,
 } from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/utils';
+import { ESLintUtils } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
 type Options = [];
 
 export type MessageIds = 'preferSignalModel';
 export const RULE_NAME = 'prefer-signal-model';
+
+/**
+ * An `input()` or `output()` class member: the property declaration itself and
+ * the explicit value type (`<T>`) of the call, if one was written.
+ */
+interface SignalDeclaration {
+  readonly property: TSESTree.PropertyDefinition;
+  readonly typeArgument: TSESTree.TypeNode | undefined;
+}
+
+/** An `input`/`output` pair that can be merged into a single `model()`. */
+interface TwoWayBinding {
+  readonly input: SignalDeclaration;
+  readonly output: SignalDeclaration;
+}
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
@@ -28,55 +44,87 @@ export default createESLintRule<Options, MessageIds>({
   },
   defaultOptions: [],
   create(context) {
-    const inputs = new Map<string, TSESTree.PropertyDefinition>();
-    const outputs = new Map<string, TSESTree.PropertyDefinition>();
+    const { sourceCode } = context;
+    const inputs = new Map<string, SignalDeclaration>();
+    const outputs = new Map<string, SignalDeclaration>();
+    const services = ESLintUtils.getParserServices(context, true);
+    const typeServices = services.program ? services : null;
+
+    function collect(map: Map<string, SignalDeclaration>) {
+      return (node: TSESTree.CallExpression) => {
+        const property = node.parent as TSESTree.PropertyDefinition;
+        map.set(ASTUtils.getPropertyDefinitionName(property), {
+          property,
+          typeArgument: node.typeArguments?.params[0],
+        });
+      };
+    }
+
+    /**
+     * Whether the `input`/`output` types match, so the pair can become a single
+     * `model()`. Compared semantically when type info is available, by text
+     * otherwise; an inferred type on either side is assumed compatible.
+     */
+    function areTypesCompatible(
+      input: SignalDeclaration,
+      output: SignalDeclaration,
+    ) {
+      if (!input.typeArgument || !output.typeArgument) {
+        return true;
+      }
+
+      if (typeServices) {
+        return (
+          typeServices.getTypeAtLocation(input.typeArgument) ===
+          typeServices.getTypeAtLocation(output.typeArgument)
+        );
+      }
+
+      return (
+        sourceCode.getText(input.typeArgument) ===
+        sourceCode.getText(output.typeArgument)
+      );
+    }
 
     return {
-      "PropertyDefinition > CallExpression[callee.name='input']"(
-        node: TSESTree.CallExpression,
-      ) {
-        const propertyDef = node.parent as TSESTree.PropertyDefinition;
-        const propertyName = ASTUtils.getPropertyDefinitionName(propertyDef);
+      "PropertyDefinition > CallExpression[callee.name='input']":
+        collect(inputs),
 
-        inputs.set(propertyName, propertyDef);
-      },
-
-      "PropertyDefinition > CallExpression[callee.name='output']"(
-        node: TSESTree.CallExpression,
-      ) {
-        const propertyDef = node.parent as TSESTree.PropertyDefinition;
-        const propertyName = ASTUtils.getPropertyDefinitionName(propertyDef);
-        outputs.set(propertyName, propertyDef);
-      },
+      "PropertyDefinition > CallExpression[callee.name='output']":
+        collect(outputs),
 
       'ClassDeclaration:exit'() {
-        for (const [inputName, inputProperty] of inputs) {
-          const outputName = `${inputName}Change`;
-          const outputProperty = outputs.get(outputName);
+        const twoWayBindings = [...inputs]
+          .map(([name, input]) => ({
+            input,
+            output: outputs.get(`${name}Change`),
+          }))
+          .filter(
+            (binding): binding is TwoWayBinding =>
+              binding.output !== undefined &&
+              areTypesCompatible(binding.input, binding.output),
+          );
 
-          if (outputProperty) {
-            // Report on the input property
-            context.report({
-              node: inputProperty,
-              messageId: 'preferSignalModel',
-              fix: (fixer) => {
-                const sourceCode = context.sourceCode;
-                const inputText = sourceCode.getText(inputProperty);
-                const fixedInputText = inputText.replace(/\binput\b/, 'model');
+        for (const { input, output } of twoWayBindings) {
+          context.report({
+            node: input.property,
+            messageId: 'preferSignalModel',
+            fix: (fixer) => {
+              const inputText = sourceCode.getText(input.property);
+              const fixedInputText = inputText.replace(/\binput\b/, 'model');
 
-                return [
-                  RuleFixes.getImportAddFix({
-                    fixer,
-                    importName: 'model',
-                    moduleName: '@angular/core',
-                    node: inputProperty,
-                  }),
-                  fixer.replaceText(inputProperty, fixedInputText),
-                  fixer.remove(outputProperty),
-                ].filter(isNotNullOrUndefined);
-              },
-            });
-          }
+              return [
+                RuleFixes.getImportAddFix({
+                  fixer,
+                  importName: 'model',
+                  moduleName: '@angular/core',
+                  node: input.property,
+                }),
+                fixer.replaceText(input.property, fixedInputText),
+                fixer.remove(output.property),
+              ].filter(isNotNullOrUndefined);
+            },
+          });
         }
 
         // Clear the maps for the next class
