@@ -13,12 +13,14 @@ export type MessageIds = 'preferSignalModel';
 export const RULE_NAME = 'prefer-signal-model';
 
 /**
- * An `input()` or `output()` class member: the property declaration itself and
- * the explicit value type (`<T>`) of the call, if one was written.
+ * An `input()` or `output()` class member. The value type comes from the
+ * explicit type argument (`<T>`) when written, otherwise it can be inferred
+ * from an `input`'s initial value.
  */
 interface SignalDeclaration {
   readonly property: TSESTree.PropertyDefinition;
   readonly typeArgument: TSESTree.TypeNode | undefined;
+  readonly initialValue: TSESTree.CallExpressionArgument | undefined;
 }
 
 /** An `input`/`output` pair that can be merged into a single `model()`. */
@@ -65,40 +67,69 @@ export default createESLintRule<Options, MessageIds>({
     const outputs = new Map<string, SignalDeclaration>();
     const services = ESLintUtils.getParserServices(context, true);
     const typeServices = services.program ? services : null;
+    const checker = typeServices?.program.getTypeChecker();
 
-    function collect(map: Map<string, SignalDeclaration>) {
+    // Only `input(initialValue)` carries its value as the first argument;
+    // `input.required()` and `output()` take an options object there, so their
+    // type can only come from an explicit type argument.
+    function collect(
+      map: Map<string, SignalDeclaration>,
+      capturesValue: boolean,
+    ) {
       return (node: TSESTree.CallExpression) => {
         const property = node.parent as TSESTree.PropertyDefinition;
         map.set(ASTUtils.getPropertyDefinitionName(property), {
           property,
           typeArgument: node.typeArguments?.params[0],
+          initialValue: capturesValue ? node.arguments[0] : undefined,
         });
       };
     }
 
+    /** The signal's value type, or `undefined` when it cannot be determined. */
+    function getValueType({ typeArgument, initialValue }: SignalDeclaration) {
+      if (!typeServices || !checker) {
+        return undefined;
+      }
+
+      if (typeArgument) {
+        return typeServices.getTypeAtLocation(typeArgument);
+      }
+
+      if (initialValue) {
+        return checker.getBaseTypeOfLiteralType(
+          typeServices.getTypeAtLocation(initialValue),
+        );
+      }
+
+      return undefined;
+    }
+
     /**
-     * Whether the `input`/`output` types match, so the pair can become a single
-     * `model()`. Compared semantically when type info is available, by text
-     * otherwise; an inferred type on either side is assumed compatible.
+     * Whether the `input`/`output` value types match, so the pair can become a
+     * single `model()`. Uses the type checker when available (inferring an
+     * input's type from its initial value), otherwise compares the written type
+     * text. Undeterminable types are assumed compatible.
      */
     function areTypesCompatible(
       input: SignalDeclaration,
       output: SignalDeclaration,
     ) {
-      if (!input.typeArgument || !output.typeArgument) {
-        return true;
-      }
-
       if (typeServices) {
+        const inputType = getValueType(input);
+        const outputType = getValueType(output);
         return (
-          typeServices.getTypeAtLocation(input.typeArgument) ===
-          typeServices.getTypeAtLocation(output.typeArgument)
+          inputType === undefined ||
+          outputType === undefined ||
+          inputType === outputType
         );
       }
 
       return (
+        !input.typeArgument ||
+        !output.typeArgument ||
         sourceCode.getText(input.typeArgument) ===
-        sourceCode.getText(output.typeArgument)
+          sourceCode.getText(output.typeArgument)
       );
     }
 
@@ -112,11 +143,23 @@ export default createESLintRule<Options, MessageIds>({
           return;
         }
 
-        collect(inputs)(node);
+        collect(inputs, true)(node);
       },
 
-      "PropertyDefinition > CallExpression[callee.name='output']":
-        collect(outputs),
+      "PropertyDefinition > CallExpression[callee.object.name='input'][callee.property.name='required']"(
+        node: TSESTree.CallExpression,
+      ) {
+        if (hasTransformOption(node.arguments[0])) {
+          return;
+        }
+
+        collect(inputs, false)(node);
+      },
+
+      "PropertyDefinition > CallExpression[callee.name='output']": collect(
+        outputs,
+        false,
+      ),
 
       'ClassDeclaration:exit'() {
         const twoWayBindings = [...inputs]
