@@ -64,6 +64,20 @@ export const valid = [
       readonly valueChange = output<string>();
     }
     `,
+  // The input type is inferred from its initial value and does not match
+  `
+    class Test {
+      readonly value = input('');
+      readonly valueChange = output<number>();
+    }
+    `,
+  // A required input whose type does not match the output
+  `
+    class Test {
+      readonly value = input.required<string>();
+      readonly valueChange = output<number>();
+    }
+    `,
 ];
 
 export const invalid = [
@@ -279,5 +293,24 @@ export const invalid = [
       `      }`,
       `      `,
     ].join('\n'),
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should migrate a required input to `model.required`',
+    annotatedSource: `
+      class Test {
+        readonly value = input.required<string>();
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        readonly valueChange = output<string>();
+      }
+      `,
+    messageId: messageIdPreferSignalModel,
+    annotatedOutput: `import { model } from '@angular/core';
+
+      class Test {
+        readonly value = model.required<string>();
+        
+        
+      }
+      `,
   }),
 ];

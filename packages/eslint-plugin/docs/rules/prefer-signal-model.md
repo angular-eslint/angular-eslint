@@ -255,6 +255,36 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-signal-model": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+class Test {
+  readonly value = input.required<string>();
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  readonly valueChange = output<string>();
+}
+```
+
 </details>
 
 <br>
@@ -458,6 +488,64 @@ class Test {
 class Test {
   readonly value = input<string | null>();
   readonly valueChange = output<string>();
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-signal-model": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+class Test {
+  readonly value = input('');
+  readonly valueChange = output<number>();
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-signal-model": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+class Test {
+  readonly value = input.required<string>();
+  readonly valueChange = output<number>();
 }
 ```
 
