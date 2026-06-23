@@ -50,6 +50,20 @@ export const valid = [
       readonly countChange = output<number>();
     }
     `,
+  // Different input/output types cannot be merged into a single model()
+  `
+    class Test {
+      readonly value = input<string>();
+      readonly valueChange = output<number>();
+    }
+    `,
+  // A wider input union than the output type cannot be merged either
+  `
+    class Test {
+      readonly value = input<string | null>();
+      readonly valueChange = output<string>();
+    }
+    `,
 ];
 
 export const invalid = [
@@ -151,6 +165,26 @@ export const invalid = [
 
       class Test {
         readonly count = model<number>();
+        
+        
+      }
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail when input and output types are semantically equal but written differently',
+    annotatedSource: `
+      class Test {
+        readonly value = input<string | null>();
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        readonly valueChange = output<null | string>();
+      }
+      `,
+    messageId: messageIdPreferSignalModel,
+    annotatedOutput: `import { model } from '@angular/core';
+
+      class Test {
+        readonly value = model<string | null>();
         
         
       }
