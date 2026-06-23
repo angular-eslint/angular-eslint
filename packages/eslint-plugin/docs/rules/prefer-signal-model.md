@@ -187,6 +187,36 @@ class Test {
 
 ```ts
 class Test {
+  readonly value = input<string | null>();
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  readonly valueChange = output<null | string>();
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-signal-model": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+class Test {
   readonly enabledChange = output();
   readonly enabled = input();
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -222,68 +252,6 @@ class Test {
   readonly enabled = input();
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
   readonly enabledChange = output();
-}
-```
-
-<br>
-
----
-
-<br>
-
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/prefer-signal-model": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
-#### ❌ Invalid Code
-
-```ts
-class Test {
-  readonly enabled = input(false, { transform: booleanAttribute });
-  readonly enabledChange = output<boolean>();
-  readonly count = input(0);
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~
-  readonly countChange = output<number>();
-}
-```
-
-<br>
-
----
-
-<br>
-
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/prefer-signal-model": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
-#### ❌ Invalid Code
-
-```ts
-class Test {
-  readonly style = input({ transform: 'scale(2)' });
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  readonly styleChange = output<object>();
 }
 ```
 
@@ -458,10 +426,9 @@ class Test {
 #### ✅ Valid Code
 
 ```ts
-import { booleanAttribute } from '@angular/core';
 class Test {
-  readonly enabled = input(false, { transform: booleanAttribute });
-  readonly enabledChange = output<boolean>();
+  readonly value = input<string>();
+  readonly valueChange = output<number>();
 }
 ```
 
@@ -488,10 +455,9 @@ class Test {
 #### ✅ Valid Code
 
 ```ts
-import { numberAttribute } from '@angular/core';
 class Test {
-  readonly count = input(0, { transform: numberAttribute });
-  readonly countChange = output<number>();
+  readonly value = input<string | null>();
+  readonly valueChange = output<string>();
 }
 ```
 
