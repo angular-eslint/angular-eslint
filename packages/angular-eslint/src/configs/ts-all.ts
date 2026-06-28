@@ -38,6 +38,7 @@ export default (
       '@angular-eslint/no-input-rename': 'error',
       '@angular-eslint/no-inputs-metadata-property': 'error',
       '@angular-eslint/no-lifecycle-call': 'error',
+      '@angular-eslint/no-non-reactive-computed': 'error',
       '@angular-eslint/no-output-native': 'error',
       '@angular-eslint/no-output-on-prefix': 'error',
       '@angular-eslint/no-output-rename': 'error',
