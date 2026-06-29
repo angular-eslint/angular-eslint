@@ -96,6 +96,9 @@ import preferStaticStringProperties, {
 import preferTemplateLiteral, {
   RULE_NAME as preferTemplateLiteralRuleName,
 } from './rules/prefer-template-literal';
+import requireSwitchDefault, {
+  RULE_NAME as requireSwitchDefaultRuleName,
+} from './rules/require-switch-default';
 import roleHasRequiredAria, {
   RULE_NAME as roleHasRequiredAriaRuleName,
 } from './rules/role-has-required-aria';
@@ -145,6 +148,7 @@ export = {
     [preferSelfClosingTagsRuleName]: preferSelfClosingTags,
     [preferStaticStringPropertiesRuleName]: preferStaticStringProperties,
     [preferTemplateLiteralRuleName]: preferTemplateLiteral,
+    [requireSwitchDefaultRuleName]: requireSwitchDefault,
     [roleHasRequiredAriaRuleName]: roleHasRequiredAria,
     [tableScopeRuleName]: tableScope,
     [useTrackByFunctionRuleName]: useTrackByFunction,
