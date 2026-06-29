@@ -19,7 +19,7 @@ catalog:
   '@schematics/angular': '22.0.0'
   '@swc-node/register': '1.11.1'
   '@swc/cli': '0.8.1'
-  '@swc/core': '1.15.40'
+  '@swc/core': '1.15.43'
   '@swc/helpers': '0.5.23'
   '@types/aria-query': '5.0.4'
   '@types/node': '25.9.2'
