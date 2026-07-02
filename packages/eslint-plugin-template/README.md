@@ -24,6 +24,7 @@ The premade flat configs that combine these rules are provided by the umbrella [
 | --- | --- | --- | --- | --- | --- |
 | [`no-duplicate-attributes`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/no-duplicate-attributes.md) | Ensures that there are no duplicate input properties or output event listeners |  |  | :bulb: |  |
 | [`no-nested-tags`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/no-nested-tags.md) | Denies nesting of `<p>` and `<a>` tags. |  |  |  |  |
+| [`no-outerhtml`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/no-outerhtml.md) | Disallows using `outerHTML` on elements, which breaks change detection and detaches the element from the Angular view |  |  |  |  |
 <!-- prettier-ignore-end -->
 
 <!-- end problems rule list -->
