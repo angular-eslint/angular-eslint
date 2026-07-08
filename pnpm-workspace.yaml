@@ -1,7 +1,7 @@
 packages:
   - 'packages/*'
 catalog:
-  '@angular/cli': '22.0.0'
+  '@angular/cli': '22.0.5'
   '@angular/compiler': '22.0.0'
   '@commitlint/cli': '21.0.2'
   '@commitlint/config-conventional': '21.0.2'
@@ -16,7 +16,7 @@ catalog:
   '@nx/plugin': '22.7.5'
   '@nx/vite': '22.7.5'
   '@nx/workspace': '22.7.5'
-  '@schematics/angular': '22.0.0'
+  '@schematics/angular': '22.0.5'
   '@swc-node/register': '1.11.1'
   '@swc/cli': '0.8.1'
   '@swc/core': '1.15.40'
