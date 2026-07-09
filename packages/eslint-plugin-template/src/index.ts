@@ -66,6 +66,9 @@ import noNestedTags, {
 import noNonNullAssertion, {
   RULE_NAME as noNonNullAssertionRuleName,
 } from './rules/no-non-null-assertion';
+import noOuterHtml, {
+  RULE_NAME as noOuterHtmlRuleName,
+} from './rules/no-outerhtml';
 import noPositiveTabindex, {
   RULE_NAME as noPositiveTabindexRuleName,
 } from './rules/no-positive-tabindex';
@@ -138,6 +141,7 @@ export = {
     [noNegatedAsyncRuleName]: noNegatedAsync,
     [noNestedTagsRuleName]: noNestedTags,
     [noNonNullAssertionRuleName]: noNonNullAssertion,
+    [noOuterHtmlRuleName]: noOuterHtml,
     [noPositiveTabindexRuleName]: noPositiveTabindex,
     [preferAtElseRuleName]: preferAtElse,
     [preferAtEmptyRuleName]: preferAtEmpty,
