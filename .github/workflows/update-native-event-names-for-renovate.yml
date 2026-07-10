@@ -1,6 +1,17 @@
 # This workflow is used to augment the capabilities of the renovate
 # GitHub app by updating the native event names that are sourced from
 # the `@mdn/browser-compat-data` package whenever that dependency is updated.
+#
+# SECURITY: The work is intentionally split across two jobs so that the GH_FINE_GRAINED_PAT is
+# never present in the environment of any process which executes third-party code (pnpm install,
+# the update script etc) and is therefore not exposed to package supply chain attacks:
+#
+#   1. maybe_update_native_event_names runs the untrusted toolchain with no secrets available
+#      (beyond the default read-only GITHUB_TOKEN, which is itself scoped to a single trusted
+#      step) and produces a patch file artifact of the changes.
+#   2. push_updated_native_event_names is the only job bound to the GitHub environment which holds
+#      the GH_FINE_GRAINED_PAT secret, and it must never run any third-party code - it only
+#      applies the patch and pushes using git itself.
 
 name: Renovate Update Native Event Names
 
@@ -26,6 +37,12 @@ jobs:
     if: contains('["renovate[bot]"]', github.actor) == true
     name: Update if required
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      # Required for `gh pr checkout` to be able to look up the PR via the API using the default GITHUB_TOKEN
+      pull-requests: read
+    outputs:
+      has-changes: ${{ steps.update-event-names.outputs.has-changes }}
     steps:
       - uses: actions/checkout@v6
         with:
@@ -54,15 +71,20 @@ jobs:
           # Use the volta.node property as the source of truth
           node-version-file: 'package.json'
 
-      - name: Update native event names if @mdn/browser-compat-data was changed and commit the changes
+      - name: Checkout the PR branch
         if: ${{ steps.relevant-packages-check.outputs.was-changed == 'true' }}
         env:
-          # We cannot use secrets.GITHUB_TOKEN for this because it is not permitted to kick off subsequent actions workflow runs, so we use a fine-grained PAT instead
-          GITHUB_TOKEN: ${{ secrets.GH_FINE_GRAINED_PAT }}
-        run: |
-          # Checkout the PR branch using the github CLI
-          gh pr checkout ${{ github.event.pull_request.number }}
+          # The default read-only GITHUB_TOKEN is all `gh pr checkout` needs, and it is scoped to
+          # this step only so that it is not visible to the untrusted steps below
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh pr checkout ${{ github.event.pull_request.number }}
 
+      - name: Update native event names if @mdn/browser-compat-data was changed and generate a patch of the changes
+        if: ${{ steps.relevant-packages-check.outputs.was-changed == 'true' }}
+        id: update-event-names
+        # SECURITY: No secrets must ever be added to this step - it executes a large amount of
+        # third-party code and is therefore exposed to package supply chain attacks
+        run: |
           # Intentionally allow lockfile modifications in this workflow
           pnpm install --ignore-scripts --no-frozen-lockfile
 
@@ -72,17 +94,69 @@ jobs:
           # Regenerate the file containing the event names
           pnpm update-native-event-names
 
+          # Add everything that changed after generating the event names
+          git add --all
+
+          # Only produce a patch if there are changes to push (see the push_updated_native_event_names job)
+          if git diff --cached --quiet; then
+            echo "No native event name changes detected"
+            echo "has-changes=false" >> "$GITHUB_OUTPUT"
+          else
+            git diff --cached --binary > "$RUNNER_TEMP/native-event-name-changes.patch"
+            echo "has-changes=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Upload the patch of the changes for the push job to apply
+        if: ${{ steps.update-event-names.outputs.has-changes == 'true' }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: native-event-name-changes
+          path: ${{ runner.temp }}/native-event-name-changes.patch
+          retention-days: 1
+          if-no-files-found: error
+
+  push_updated_native_event_names:
+    name: Push updated native event names
+    needs: maybe_update_native_event_names
+    if: ${{ needs.maybe_update_native_event_names.outputs.has-changes == 'true' }}
+    runs-on: ubuntu-latest
+    # SECURITY: The GH_FINE_GRAINED_PAT secret is only available via this GitHub environment, it
+    # must not exist as a plain repository-level secret. Only jobs which reference the environment
+    # can read it, and this job must never execute any third-party code (no pnpm install, no
+    # scripts) so that the PAT cannot be exfiltrated by a package supply chain attack.
+    environment: automated-dependency-updates
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          # To ensure we can push from a different user (and therefore cause actions to rerun)
+          persist-credentials: false
+
+      - name: Download the patch produced by the update job
+        uses: actions/download-artifact@v8
+        with:
+          name: native-event-name-changes
+          path: ${{ runner.temp }}
+
+      - name: Apply the patch and push the changes to the PR
+        env:
+          # We cannot use secrets.GITHUB_TOKEN for this because it is not permitted to kick off subsequent actions workflow runs, so we use a fine-grained PAT instead
+          GITHUB_TOKEN: ${{ secrets.GH_FINE_GRAINED_PAT }}
+        run: |
+          # If the PR branch has been updated since the patch was generated this may fail to apply,
+          # in which case the workflow will simply run again for the newer commit
+          git apply "$RUNNER_TEMP/native-event-name-changes.patch"
+
+          # Add everything that changed after generating the event names
+          git add --all
+
           # Commit all event name changes to the PR (see note on not being able to use secrets.GITHUB_TOKEN for this)
           git config --global user.email "james@henry.sc"
           git config --global user.name "JamesHenry"
           git remote set-url origin https://x-access-token:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git
 
-          # Check if there are any changes to commit after regenerating the event names
-          if git diff --quiet; then
-            echo "No native event name changes detected"
-          else
-            # Add everything that changed after generating the event names
-            git add --all
-            git commit -m "chore: update native event names"
-            git push
-          fi
+          # SECURITY: --no-verify ensures that no git hooks can run as part of committing and
+          # pushing. None should ever be registered in this job because nothing is installed, but
+          # this is cheap defence in depth against a malicious hook being registered somehow.
+          git commit --no-verify -m "chore: update native event names"
+          git push --no-verify origin HEAD
