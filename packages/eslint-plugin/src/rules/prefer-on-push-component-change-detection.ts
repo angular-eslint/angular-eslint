@@ -9,8 +9,7 @@ import { createESLintRule } from '../utils/create-eslint-rule';
 
 export type Options = [];
 export type MessageIds =
-  | 'preferOnPushComponentChangeDetection'
-  | 'suggestRemoveChangeDetection';
+  'preferOnPushComponentChangeDetection' | 'suggestRemoveChangeDetection';
 export const RULE_NAME = 'prefer-on-push-component-change-detection';
 
 const METADATA_PROPERTY_NAME = 'changeDetection';

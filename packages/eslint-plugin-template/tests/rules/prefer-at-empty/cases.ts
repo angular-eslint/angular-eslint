@@ -102,26 +102,25 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     '0 === items.length',
     '0 == items.length',
     '!items.length',
-  ].map(
-    (condition): InvalidTestCase<MessageIds, Options> =>
-      convertAnnotatedSourceToFailureCase({
-        description: `fails when '@for' block is followed by '@if (${condition})'`,
-        annotatedSource: `
+  ].map((condition): InvalidTestCase<MessageIds, Options> =>
+    convertAnnotatedSourceToFailureCase({
+      description: `fails when '@for' block is followed by '@if (${condition})'`,
+      annotatedSource: `
           @for (item of items; track $index) {}
           @if (${condition}) {
           ~~~~
             No items
           }
         `,
-        messageId,
-        annotatedOutput: `
+      messageId,
+      annotatedOutput: `
           @for (item of items; track $index) {}
           @empty {
           
             No items
           }
         `,
-      }),
+    }),
   ),
   ...[
     'items.length === 0',
@@ -129,26 +128,25 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     '0 === items.length',
     '0 == items.length',
     '!items.length',
-  ].map(
-    (condition): InvalidTestCase<MessageIds, Options> =>
-      convertAnnotatedSourceToFailureCase({
-        description: `fails when '@for' block is followed by '@if (${condition})'`,
-        annotatedSource: `
+  ].map((condition): InvalidTestCase<MessageIds, Options> =>
+    convertAnnotatedSourceToFailureCase({
+      description: `fails when '@for' block is followed by '@if (${condition})'`,
+      annotatedSource: `
           @if (${condition}) {
           ~~~~
             No items
           }
           @for (item of items; track $index) {}
         `,
-        messageId,
-        annotatedOutput: `
+      messageId,
+      annotatedOutput: `
           
           @for (item of items; track $index) {} @empty {
           
             No items
           }
         `,
-      }),
+    }),
   ),
   ...[
     'items.length > 0',
@@ -158,11 +156,10 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     '0 !== items.length',
     '0 != items.length',
     'items.length',
-  ].map(
-    (condition): InvalidTestCase<MessageIds, Options> =>
-      convertAnnotatedSourceToFailureCase({
-        description: `fails when '@for' block is in '@if (${condition})' block`,
-        annotatedSource: `
+  ].map((condition): InvalidTestCase<MessageIds, Options> =>
+    convertAnnotatedSourceToFailureCase({
+      description: `fails when '@for' block is in '@if (${condition})' block`,
+      annotatedSource: `
           @if (${condition}) {
           ~~~~
             @for (item of items; track $index) {}
@@ -170,8 +167,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
             No items
           }
         `,
-        messageId,
-        annotatedOutput: `
+      messageId,
+      annotatedOutput: `
           
           
             @for (item of items; track $index) {}
@@ -179,7 +176,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
             No items
           }
         `,
-      }),
+    }),
   ),
   ...[
     'items.length === 0',
@@ -187,11 +184,10 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     '0 === items.length',
     '0 == items.length',
     '!items.length',
-  ].map(
-    (condition): InvalidTestCase<MessageIds, Options> =>
-      convertAnnotatedSourceToFailureCase({
-        description: `fails when '@for' block is in '@else' block of '@if (${condition})'`,
-        annotatedSource: `
+  ].map((condition): InvalidTestCase<MessageIds, Options> =>
+    convertAnnotatedSourceToFailureCase({
+      description: `fails when '@for' block is in '@else' block of '@if (${condition})'`,
+      annotatedSource: `
           @if (${condition}) {
           ~~~~
             No items
@@ -199,8 +195,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
             @for (item of items; track $index) {}
           }
         `,
-        messageId,
-        annotatedOutput: `
+      messageId,
+      annotatedOutput: `
           
             @for (item of items; track $index) {} @empty {
           
@@ -208,7 +204,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
           
           }
         `,
-      }),
+    }),
   ),
   convertAnnotatedSourceToFailureCase({
     description: `fails when '@for' block is in '@if (items.length > 0)' and is followed by '@if (items.length === 0)'`,
