@@ -66,6 +66,9 @@ import noNestedTags, {
 import noNonNullAssertion, {
   RULE_NAME as noNonNullAssertionRuleName,
 } from './rules/no-non-null-assertion';
+import noOuterHtml, {
+  RULE_NAME as noOuterHtmlRuleName,
+} from './rules/no-outerhtml';
 import noPositiveTabindex, {
   RULE_NAME as noPositiveTabindexRuleName,
 } from './rules/no-positive-tabindex';
@@ -96,6 +99,9 @@ import preferStaticStringProperties, {
 import preferTemplateLiteral, {
   RULE_NAME as preferTemplateLiteralRuleName,
 } from './rules/prefer-template-literal';
+import requireSwitchDefault, {
+  RULE_NAME as requireSwitchDefaultRuleName,
+} from './rules/require-switch-default';
 import roleHasRequiredAria, {
   RULE_NAME as roleHasRequiredAriaRuleName,
 } from './rules/role-has-required-aria';
@@ -135,6 +141,7 @@ export = {
     [noNegatedAsyncRuleName]: noNegatedAsync,
     [noNestedTagsRuleName]: noNestedTags,
     [noNonNullAssertionRuleName]: noNonNullAssertion,
+    [noOuterHtmlRuleName]: noOuterHtml,
     [noPositiveTabindexRuleName]: noPositiveTabindex,
     [preferAtElseRuleName]: preferAtElse,
     [preferAtEmptyRuleName]: preferAtEmpty,
@@ -145,6 +152,7 @@ export = {
     [preferSelfClosingTagsRuleName]: preferSelfClosingTags,
     [preferStaticStringPropertiesRuleName]: preferStaticStringProperties,
     [preferTemplateLiteralRuleName]: preferTemplateLiteral,
+    [requireSwitchDefaultRuleName]: requireSwitchDefault,
     [roleHasRequiredAriaRuleName]: roleHasRequiredAria,
     [tableScopeRuleName]: tableScope,
     [useTrackByFunctionRuleName]: useTrackByFunction,
