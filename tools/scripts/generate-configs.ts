@@ -10,8 +10,7 @@ import eslintPlugin from '../../packages/eslint-plugin/src';
 
 interface LinterConfigRules {
   [name: string]:
-    | TSESLint.Linter.RuleLevel
-    | TSESLint.Linter.RuleLevelAndOptions;
+    TSESLint.Linter.RuleLevel | TSESLint.Linter.RuleLevelAndOptions;
 }
 
 const eslintPluginMaxRuleNameLength = Object.keys(eslintPlugin.rules).reduce(
@@ -95,12 +94,12 @@ function reducer(
   const ruleName = `${ruleNamePrefix}${key}`;
   const recommendation = value.meta.docs?.recommended ? 'error' : undefined;
   const usedSetting:
-    | TSESLint.Linter.RuleLevel
-    | TSESLint.Linter.RuleLevelAndOptions = settings.errorLevel
-    ? settings.errorLevel
-    : !recommendation
-      ? DEFAULT_RULE_SETTING
-      : recommendation;
+    TSESLint.Linter.RuleLevel | TSESLint.Linter.RuleLevelAndOptions =
+    settings.errorLevel
+      ? settings.errorLevel
+      : !recommendation
+        ? DEFAULT_RULE_SETTING
+        : recommendation;
 
   console.log(
     `${pc.dim(ruleNamePrefix)}${key.padEnd(MAX_RULE_NAME_LENGTH)}`,
