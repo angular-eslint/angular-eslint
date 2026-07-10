@@ -70,11 +70,6 @@ catalogs:
     '@typescript-eslint/utils': '8.60.1'
     typescript-eslint: '8.60.1'
 cleanupUnusedCatalogs: true
-# TODO: Remove this
-# pnpm 11 enforces a default minimumReleaseAge of 1440 minutes (1 day). This
-# version of @types/node was published <24h before our CI install, so it trips
-# the supply-chain gate. Scoped exception (exact version) so it self-expires on
-# the next bump and forces re-evaluation.
 minimumReleaseAgeExclude:
   - '@types/node@25.9.2'
 allowBuilds:
