@@ -24,6 +24,7 @@ The premade flat configs that combine these rules are provided by the umbrella [
 | --- | --- | --- | --- | --- | --- |
 | [`no-duplicate-attributes`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/no-duplicate-attributes.md) | Ensures that there are no duplicate input properties or output event listeners |  |  | :bulb: |  |
 | [`no-nested-tags`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/no-nested-tags.md) | Denies nesting of `<p>` and `<a>` tags. |  |  |  |  |
+| [`no-outerhtml`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/no-outerhtml.md) | Disallows using `outerHTML` on elements, which breaks change detection and detaches the element from the Angular view |  |  |  |  |
 <!-- prettier-ignore-end -->
 
 <!-- end problems rule list -->
@@ -72,6 +73,7 @@ The premade flat configs that combine these rules are provided by the umbrella [
 | [`prefer-control-flow`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/prefer-control-flow.md) | Ensures that the built-in control flow is used. | :white_check_mark: |  |  |  |
 | [`prefer-ngsrc`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/prefer-ngsrc.md) | Ensures ngSrc is used instead of src for img elements |  |  | :bulb: |  |
 | [`prefer-template-literal`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/prefer-template-literal.md) | Ensure that template literals are used instead of concatenating strings or expressions. |  | :wrench: |  |  |
+| [`require-switch-default`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/require-switch-default.md) | Requires a `@default` block on every `@switch` to ensure all cases are handled. This is the template equivalent of the `@typescript-eslint/switch-exhaustiveness-check` rule. |  |  |  |  |
 | [`role-has-required-aria`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/role-has-required-aria.md) | [Accessibility] Ensures elements with ARIA roles have all required properties for that role. |  |  | :bulb: | :accessibility: |
 | [`table-scope`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/table-scope.md) | [Accessibility] Ensures that the `scope` attribute is only used on the `<th>` element |  | :wrench: |  | :accessibility: |
 | [`use-track-by-function`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/use-track-by-function.md) | Ensures trackBy function is used |  |  |  |  |

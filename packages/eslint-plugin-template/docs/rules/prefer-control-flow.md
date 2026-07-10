@@ -23,7 +23,7 @@ Ensures that the built-in control flow is used.
 
 ## Rationale
 
-Angular v17 introduced built-in control flow (@if, @for, @switch) as a replacement for the structural directives (*ngIf, *ngFor, \*ngSwitch). The new syntax is more readable, performant, and type-safe. Built-in control flow has better syntax highlighting in editors, clearer nesting behavior, built-in features like @empty for loops and @else for conditionals, and improved tree-shaking. The new syntax also enables better compile-time optimizations and runtime performance. While the old structural directives remain supported for backward compatibility, new code should use the modern built-in control flow. Teams migrating to v17+ are encouraged to adopt this syntax for consistency and to benefit from ongoing performance improvements.
+Angular v17 introduced built-in control flow (@if, @for, @switch) as a replacement for the structural directives (*ngIf, *ngFor, *ngSwitch). The new syntax is more readable, performant, and type-safe. Built-in control flow has better syntax highlighting in editors, clearer nesting behavior, built-in features like @empty for loops and @else for conditionals, and improved tree-shaking. The new syntax also enables better compile-time optimizations and runtime performance. While the old structural directives remain supported for backward compatibility, new code should use the modern built-in control flow. Teams migrating to v17+ are encouraged to adopt this syntax for consistency and to benefit from ongoing performance improvements.
 
 <br>
 

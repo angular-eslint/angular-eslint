@@ -1618,7 +1618,7 @@ npx ng update @angular/cli @angular/core @angular-eslint/schematics
 
 ### Bug Fixes
 
-- **eslint-plugin:** handle literal `outputs` properly for [*-output-*] rules ([#595](https://github.com/angular-eslint/angular-eslint/issues/595)) ([8621a62](https://github.com/angular-eslint/angular-eslint/commit/8621a62a5360caac33fd87001e2928d7995a5a01))
+- **eslint-plugin:** handle literal `outputs` properly for [_-output-_] rules ([#595](https://github.com/angular-eslint/angular-eslint/issues/595)) ([8621a62](https://github.com/angular-eslint/angular-eslint/commit/8621a62a5360caac33fd87001e2928d7995a5a01))
 - **template-parser:** correct typings for cjs ([#597](https://github.com/angular-eslint/angular-eslint/issues/597)) ([bb60224](https://github.com/angular-eslint/angular-eslint/commit/bb6022410139801dfee062b845c3a2d3f7b8a019))
 
 # [12.3.0](https://github.com/angular-eslint/angular-eslint/compare/v12.2.2...v12.3.0) (2021-07-13)
