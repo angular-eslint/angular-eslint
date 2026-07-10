@@ -25,7 +25,7 @@ Ensures that async pipe results, as well as values used with the async pipe, are
 
 ## Rationale
 
-Angular's async pipes emit null initially, prior to the observable emitting any values, or the promise resolving. This can cause negations, like \*ngIf="!(myConditional | async)" to thrash the layout and cause expensive side-effects like firing off XHR requests for a component which should not be shown.
+Angular's async pipes emit null initially, prior to the observable emitting any values, or the promise resolving. This can cause negations, like *ngIf="!(myConditional | async)" to thrash the layout and cause expensive side-effects like firing off XHR requests for a component which should not be shown.
 
 <br>
 
