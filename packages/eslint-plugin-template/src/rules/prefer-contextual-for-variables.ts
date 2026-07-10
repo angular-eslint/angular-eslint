@@ -719,8 +719,7 @@ interface ForLoopInfo {
   readonly variables: readonly TmplAstVariable[];
   readonly references: Map<string, TSESTree.Range[]> | undefined;
   simplifications?:
-    | Partial<Record<SimplificationMessageIds, Simplification[]>>
-    | undefined;
+    Partial<Record<SimplificationMessageIds, Simplification[]>> | undefined;
 }
 
 interface Simplifications {
