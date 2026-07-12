@@ -166,9 +166,7 @@ export default createESLintRule<Options, MessageIds>({
 
 function findDuplicates<
   TAttributeType extends
-    | TmplAstBoundEvent
-    | TmplAstBoundAttribute
-    | TmplAstTextAttribute,
+    TmplAstBoundEvent | TmplAstBoundAttribute | TmplAstTextAttribute,
 >(elements: readonly TAttributeType[]): readonly TAttributeType[] {
   return elements.filter((element) => {
     return elements.some(

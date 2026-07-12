@@ -10,8 +10,7 @@ import { createESLintRule } from '../utils/create-eslint-rule';
 
 export type Options = [];
 export type MessageIds =
-  | 'noEmptyLifecycleMethod'
-  | 'suggestRemoveLifecycleMethod';
+  'noEmptyLifecycleMethod' | 'suggestRemoveLifecycleMethod';
 export const RULE_NAME = 'no-empty-lifecycle-method';
 
 export default createESLintRule<Options, MessageIds>({

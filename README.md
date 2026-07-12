@@ -286,7 +286,19 @@ If you want to be able to use `eslint-disable` comments in your Angular template
 
 Make sure you are using valid HTML comments, i.e. `<!-- this syntax -->`, not the kind of comments you use in TypeScript code.
 
-Note that while Angular v22 lets you write TypeScript-style `/* */` and `//` comments _inside_ an element's opening tag (e.g. `<div /* ... */ [x]="y">`), those in-tag comments are **not** recognized as `eslint-disable` directives. The Angular compiler silently discards them and never exposes them to ESLint, so a disable directive must always be written as an HTML `<!-- -->` comment.
+### In-element comments (Angular v22+)
+
+Angular v22 additionally lets you write TypeScript-style `/* */` and `//` comments _inside_ an element's opening tag. When using `@angular-eslint` tooling packages that bundle `@angular/compiler` version `22.0.5` or higher, these in-element comments are surfaced to ESLint as well, so you can also use them for inline directives such as `eslint-disable-next-line`:
+
+```html
+<input
+  // eslint-disable-next-line @angular-eslint/template/banana-in-box
+  ([foo])="bar">
+
+<input ([foo])="bar" /* eslint-disable-line @angular-eslint/template/banana-in-box */>
+```
+
+Standard ESLint directive semantics apply: `//` comments are treated as line comments and `/* */` comments as block comments, so for example `eslint-disable` and `eslint-enable` directives must be written in `/* */` (or `<!-- -->`) block comments.
 
 <br>
 

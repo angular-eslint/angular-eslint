@@ -27,12 +27,10 @@ const VARIABLE_NAMES: readonly string[] = [
 export const valid: readonly (string | ValidTestCase<Options>)[] = [
   `@for (item of items; track item.id) {}`,
   `@for (item of items; track $index) {}`,
-  ...VARIABLE_NAMES.map(
-    (variable): ValidTestCase<Options> => ({
-      options: [{ allowedAliases: { [variable]: ['alpha', 'beta', 'gamma'] } }],
-      code: `@for (item of items; track item.id; let beta = ${variable}) {}`,
-    }),
-  ),
+  ...VARIABLE_NAMES.map((variable): ValidTestCase<Options> => ({
+    options: [{ allowedAliases: { [variable]: ['alpha', 'beta', 'gamma'] } }],
+    code: `@for (item of items; track item.id; let beta = ${variable}) {}`,
+  })),
   ...VARIABLE_NAMES.map(
     (variable) => `
     @for (a of outer; track a.id; let outerVar = ${variable}) {

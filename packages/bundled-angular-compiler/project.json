@@ -11,7 +11,7 @@
         "cwd": "packages/bundled-angular-compiler",
         "parallel": false,
         "commands": [
-          "npx esbuild ./src/index.ts --bundle --outfile=./dist/index.js --platform=node --keep-names"
+          "pnpm exec esbuild ./src/index.ts --bundle --outfile=./dist/index.js --platform=node --keep-names"
         ]
       }
     },
