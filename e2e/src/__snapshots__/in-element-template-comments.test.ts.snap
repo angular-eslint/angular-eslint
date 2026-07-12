@@ -1,0 +1,18 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`in-element-template-comments > should respect eslint-disable directives in in-element comments in external and inline templates 1`] = `
+"
+Linting "in-element-template-comments"...
+
+__ROOT__/in-element-template-comments/src/external.component.html
+  5:8  error  Invalid binding syntax. Use [(expr)] instead  @angular-eslint/template/banana-in-box
+
+__ROOT__/in-element-template-comments/src/inline.component.ts
+  11:12  error  Invalid binding syntax. Use [(expr)] instead  @angular-eslint/template/banana-in-box
+
+✖ 2 problems (2 errors, 0 warnings)
+  2 errors and 0 warnings potentially fixable with the \`--fix\` option.
+
+Lint errors found in the listed files.
+"
+`;
