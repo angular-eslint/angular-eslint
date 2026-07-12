@@ -16,9 +16,7 @@ import { toPattern } from '../utils/to-pattern';
 
 export type Options = [];
 export type MessageIds =
-  | 'validAria'
-  | 'validAriaValue'
-  | 'suggestRemoveInvalidAria';
+  'validAria' | 'validAriaValue' | 'suggestRemoveInvalidAria';
 export const RULE_NAME = 'valid-aria';
 
 export default createESLintRule<Options, MessageIds>({

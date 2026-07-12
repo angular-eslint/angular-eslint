@@ -122,7 +122,6 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       @Pipe({
         name: 'test',
         
-        
       })
       class Test {}
     `,
@@ -148,7 +147,6 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       @Pipe({
         name: 'test',
         
-        
       })
       class Test {}
     `,
@@ -173,7 +171,6 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         output: `
       @Pipe({
         name: 'test',
-        
         
       })
       class Test {}

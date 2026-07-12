@@ -15,12 +15,9 @@ export const OPTION_TYPE_ELEMENT = 'element';
 
 export type SelectorStyleOption = SelectorStyle | string;
 export type SelectorTypeOption =
-  | typeof OPTION_TYPE_ATTRIBUTE
-  | typeof OPTION_TYPE_ELEMENT
-  | string;
+  typeof OPTION_TYPE_ATTRIBUTE | typeof OPTION_TYPE_ELEMENT | string;
 export type SelectorTypeInternal =
-  | typeof OPTION_TYPE_ATTRS
-  | typeof OPTION_TYPE_ELEMENT;
+  typeof OPTION_TYPE_ATTRS | typeof OPTION_TYPE_ELEMENT;
 
 export type SelectorPrefixOption = undefined | string | readonly string[];
 
