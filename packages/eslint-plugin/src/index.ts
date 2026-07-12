@@ -145,6 +145,9 @@ import noImplicitTakeUntilDestroyed, {
 import computedMustReturn, {
   RULE_NAME as computedMustReturnRuleName,
 } from './rules/computed-must-return';
+import noNonReactiveComputed, {
+  RULE_NAME as noNonReactiveComputedRuleName,
+} from './rules/no-non-reactive-computed';
 
 export = {
   rules: {
@@ -169,6 +172,7 @@ export = {
     [noInputRenameRuleName]: noInputRename,
     [noInputsMetadataPropertyRuleName]: noInputsMetadataProperty,
     [noLifecycleCallRuleName]: noLifecycleCall,
+    [noNonReactiveComputedRuleName]: noNonReactiveComputed,
     [noOutputNativeRuleName]: noOutputNative,
     [noOutputOnPrefixRuleName]: noOutputOnPrefix,
     [noOutputRenameRuleName]: noOutputRename,
