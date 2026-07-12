@@ -1,3 +1,17 @@
+## 22.1.0 (2026-07-12)
+
+### 🚀 Features
+
+- **eslint-plugin:** [inject-at-top] add rule requiring inject() at the top of the class ([#3009](https://github.com/angular-eslint/angular-eslint/pull/3009))
+- **eslint-plugin:** add `prefer-service-decorator` rule ([#3073](https://github.com/angular-eslint/angular-eslint/pull/3073))
+- **eslint-plugin-template:** add `no-outerhtml` rule ([#3092](https://github.com/angular-eslint/angular-eslint/pull/3092))
+- **eslint-plugin-template:** add `require-switch-default` rule ([#3091](https://github.com/angular-eslint/angular-eslint/pull/3091))
+
+### ❤️ Thank You
+
+- Adi-Marian Mutu
+- Guillaume DROUARD
+
 # 22.0.0 (2026-06-07)
 
 ### 🚀 Features

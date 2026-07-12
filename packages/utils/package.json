@@ -1,6 +1,6 @@
 {
   "name": "@angular-eslint/utils",
-  "version": "22.0.0",
+  "version": "22.1.0",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -35,7 +35,7 @@
         "outputs": [
           "{projectRoot}/src/eslint-plugin/get-native-event-names"
         ],
-        "command": "npx tsx ./tools/scripts/update-native-event-names.ts"
+        "command": "pnpm exec tsx ./tools/scripts/update-native-event-names.ts"
       }
     }
   },

@@ -1,3 +1,26 @@
+## 22.1.0 (2026-07-12)
+
+### 🚀 Features
+
+- support eslint inline directive comments within element opening tags ([#3097](https://github.com/angular-eslint/angular-eslint/pull/3097))
+- **eslint-plugin:** add `prefer-service-decorator` rule ([#3073](https://github.com/angular-eslint/angular-eslint/pull/3073))
+- **eslint-plugin:** [inject-at-top] add rule requiring inject() at the top of the class ([#3009](https://github.com/angular-eslint/angular-eslint/pull/3009))
+- **eslint-plugin-template:** add `require-switch-default` rule ([#3091](https://github.com/angular-eslint/angular-eslint/pull/3091))
+- **eslint-plugin-template:** add `no-outerhtml` rule ([#3092](https://github.com/angular-eslint/angular-eslint/pull/3092))
+
+### 🩹 Fixes
+
+- update eslint monorepo to v10.4.1 ([#3065](https://github.com/angular-eslint/angular-eslint/pull/3065))
+- update typescript-eslint packages to v8.62.1 ([#3082](https://github.com/angular-eslint/angular-eslint/pull/3082))
+- update dependency eslint to v10.6.0 ([#3102](https://github.com/angular-eslint/angular-eslint/pull/3102))
+- **eslint-plugin:** [no-implicit-take-until-destroyed] avoid false positive for methods called from constructor ([#3011](https://github.com/angular-eslint/angular-eslint/pull/3011))
+
+### ❤️ Thank You
+
+- Adi-Marian Mutu
+- Guillaume DROUARD
+- Pierluigi Lenoci
+
 # 22.0.0 (2026-06-07)
 
 As always we recommend that you update your existing workspaces by using `ng update` as we provide some helpful schematics to help migrate your workspaces to the latest and greatest. Running the following will update Angular, the Angular CLI and angular-eslint together:

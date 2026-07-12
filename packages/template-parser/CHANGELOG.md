@@ -1,3 +1,9 @@
+## 22.1.0 (2026-07-12)
+
+### 🚀 Features
+
+- support eslint inline directive comments within element opening tags ([#3097](https://github.com/angular-eslint/angular-eslint/pull/3097))
+
 # 22.0.0 (2026-06-07)
 
 ### 🚀 Features

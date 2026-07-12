@@ -1,3 +1,13 @@
+## 22.1.0 (2026-07-12)
+
+### 🚀 Features
+
+- **eslint-plugin:** add `prefer-service-decorator` rule ([#3073](https://github.com/angular-eslint/angular-eslint/pull/3073))
+
+### ❤️ Thank You
+
+- Guillaume DROUARD
+
 # 22.0.0 (2026-06-07)
 
 ### 🚀 Features

@@ -97,6 +97,53 @@ export function getImportRemoveFix(
   ]);
 }
 
+/**
+ * Migrates a named import from `fromName` to `toName` for the given module:
+ * renames the specifier in place when possible, otherwise adds `toName` and
+ * removes `fromName` once it is no longer used.
+ */
+export function getImportReplaceFix({
+  fixer,
+  fromName,
+  moduleName,
+  node,
+  sourceCode,
+  toName,
+}: {
+  fixer: TSESLint.RuleFixer;
+  fromName: string;
+  moduleName: string;
+  node: TSESTree.Node;
+  sourceCode: Readonly<TSESLint.SourceCode>;
+  toName: string;
+}): (TSESLint.RuleFix | undefined)[] {
+  const importDeclarations = getImportDeclarations(node, moduleName);
+  const toAlreadyImported = Boolean(
+    importDeclarations &&
+    getImportDeclarationSpecifier(importDeclarations, toName),
+  );
+  const fromSpecifier = importDeclarations
+    ? getImportDeclarationSpecifier(importDeclarations, fromName)
+    : undefined;
+  const fromUsedOnce =
+    ASTUtils.findVariable(sourceCode.getScope(node), fromName)?.references
+      .length === 1;
+
+  if (fromUsedOnce && !toAlreadyImported && fromSpecifier) {
+    return [fixer.replaceText(fromSpecifier.importSpecifier, toName)];
+  }
+
+  const addFix = toAlreadyImported
+    ? undefined
+    : getImportAddFix({ fixer, importName: toName, moduleName, node });
+  const removeFix =
+    fromUsedOnce && importDeclarations
+      ? getImportRemoveFix(sourceCode, importDeclarations, fromName, fixer)
+      : undefined;
+
+  return [addFix, removeFix];
+}
+
 export function getImplementsSchemaFixer(
   {
     id,
@@ -213,14 +260,45 @@ export function getImplementsRemoveFix(
     : fixer.removeRange([tokenBeforeInterface.range[0], identifier.range[1]]);
 }
 
+function isClosingDelimiterToken(token: TSESTree.Token): boolean {
+  return (
+    ASTUtils.isClosingBraceToken(token) ||
+    ASTUtils.isClosingBracketToken(token) ||
+    ASTUtils.isClosingParenToken(token)
+  );
+}
+
+/**
+ * Removes an element of a comma-separated list (object property, array element,
+ * call argument) along with its own trailing comma and surrounding whitespace.
+ * The preceding comma is kept so an existing trailing-comma style is preserved.
+ */
 export function getNodeToCommaRemoveFix(
   sourceCode: Readonly<TSESLint.SourceCode>,
   node: TSESTree.Node,
   fixer: TSESLint.RuleFixer,
 ): TSESLint.RuleFix {
   const tokenAfterNode = sourceCode.getTokenAfter(node);
+  const commaAfterNode =
+    tokenAfterNode && ASTUtils.isCommaToken(tokenAfterNode)
+      ? tokenAfterNode
+      : undefined;
 
-  return tokenAfterNode && ASTUtils.isCommaToken(tokenAfterNode)
-    ? fixer.removeRange([node.range[0], tokenAfterNode.range[1]])
-    : fixer.remove(node);
+  // When another element follows, remove up to it so it keeps its indentation.
+  if (commaAfterNode) {
+    const tokenAfterComma = sourceCode.getTokenAfter(commaAfterNode);
+    if (tokenAfterComma && !isClosingDelimiterToken(tokenAfterComma)) {
+      return fixer.removeRange([node.range[0], tokenAfterComma.range[0]]);
+    }
+  }
+
+  // Last element: also remove the whitespace before it, but keep the preceding
+  // comma.
+  const tokenBeforeNode = sourceCode.getTokenBefore(node);
+  const start =
+    tokenBeforeNode && ASTUtils.isCommaToken(tokenBeforeNode)
+      ? tokenBeforeNode.range[1]
+      : node.range[0];
+
+  return fixer.removeRange([start, commaAfterNode?.range[1] ?? node.range[1]]);
 }
