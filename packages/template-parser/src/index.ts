@@ -294,11 +294,21 @@ function getEndSourceSpanFromAST(ast: AST): ParseSourceSpan | null {
   return endSourceSpan;
 }
 
-function convertNgAstCommentsToTokens(comments: Comment[]) {
+function convertNgAstCommentsToTokens(comments: Comment[], code: string) {
   const commentTokens = comments.map((comment) => {
+    // As of Angular v22, the compiler collects TypeScript-style comments
+    // written inside an element's opening tag alongside classic HTML
+    // `<!-- -->` comments. `//` comments must be surfaced as Line comments so
+    // that ESLint applies its inline directive semantics (e.g.
+    // `eslint-disable-next-line`) correctly, whereas block-style and HTML
+    // comments are Block comments. The compiler does not expose a
+    // discriminator on the Comment node, so we inspect the raw source text at
+    // the start of the comment's span.
+    const type = code.startsWith('//', comment.sourceSpan.start.offset)
+      ? 'Line'
+      : 'Block';
     return {
-      // In an HTML context, effectively all our comments are Block comments
-      type: 'Block',
+      type,
       value: comment.value,
       loc: convertNodeSourceSpanToLoc(comment.sourceSpan),
       range: [comment.sourceSpan.start.offset, comment.sourceSpan.end.offset],
@@ -369,7 +379,7 @@ function parseForESLint(
 
   const ast: AST = {
     type: 'Program',
-    comments: convertNgAstCommentsToTokens(ngAstCommentNodes),
+    comments: convertNgAstCommentsToTokens(ngAstCommentNodes, code),
     tokens: [],
     range: [0, 0],
     loc: {
