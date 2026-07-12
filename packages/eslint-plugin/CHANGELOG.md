@@ -1,3 +1,20 @@
+## 22.1.0 (2026-07-12)
+
+### 🚀 Features
+
+- **eslint-plugin:** [inject-at-top] add rule requiring inject() at the top of the class ([#3009](https://github.com/angular-eslint/angular-eslint/pull/3009))
+- **eslint-plugin:** add `prefer-service-decorator` rule ([#3073](https://github.com/angular-eslint/angular-eslint/pull/3073))
+
+### 🩹 Fixes
+
+- **eslint-plugin:** [no-implicit-take-until-destroyed] avoid false positive for methods called from constructor ([#3011](https://github.com/angular-eslint/angular-eslint/pull/3011))
+
+### ❤️ Thank You
+
+- Adi-Marian Mutu
+- Guillaume DROUARD
+- Pierluigi Lenoci
+
 # 22.0.0 (2026-06-07)
 
 ### 🚀 Features
