@@ -11,9 +11,7 @@
   ],
   "license": "MIT",
   "repository": "angular-eslint/angular-eslint",
-  "bugs": {
-    "url": "https://github.com/angular-eslint/angular-eslint/issues"
-  },
+  "bugs": "https://github.com/angular-eslint/angular-eslint/issues",
   "scripts": {
     "build": "nx run-many -t build",
     "test": "nx run-many -t test",
@@ -67,6 +65,7 @@
     "@nx/js": "catalog:",
     "@nx/plugin": "catalog:",
     "@nx/vite": "catalog:",
+    "@nx/vitest": "catalog:",
     "@nx/workspace": "catalog:",
     "@schematics/angular": "catalog:",
     "@swc-node/register": "catalog:",

@@ -13,18 +13,18 @@
         "cwd": "packages/schematics",
         "parallel": false,
         "commands": [
-          "npx ncp ../../node_modules/@schematics/angular/application/schema.json src/application/schema.json",
-          "npx ncp ../../node_modules/@schematics/angular/library/schema.json src/library/schema.json",
-          "npx tsx ../../tools/scripts/enhance-angular-schemas.ts",
-          "npx tsc -b tsconfig.lib.json --pretty --verbose",
-          "npx ncp src/collection.json dist/collection.json",
-          "npx ncp src/migrations.json dist/migrations.json",
-          "npx ncp src/ng-add/schema.json dist/ng-add/schema.json",
-          "npx ncp src/convert-tslint-to-eslint/schema.json dist/convert-tslint-to-eslint/schema.json",
-          "npx ncp src/application/schema.json dist/application/schema.json",
-          "npx ncp src/library/schema.json dist/library/schema.json",
-          "npx ncp src/workspace/schema.json dist/workspace/schema.json",
-          "npx ncp src/add-eslint-to-project/schema.json dist/add-eslint-to-project/schema.json"
+          "pnpm exec ncp ../../node_modules/@schematics/angular/application/schema.json src/application/schema.json",
+          "pnpm exec ncp ../../node_modules/@schematics/angular/library/schema.json src/library/schema.json",
+          "pnpm exec tsx ../../tools/scripts/enhance-angular-schemas.ts",
+          "pnpm exec tsc -b tsconfig.lib.json --pretty --verbose",
+          "pnpm exec ncp src/collection.json dist/collection.json",
+          "pnpm exec ncp src/migrations.json dist/migrations.json",
+          "pnpm exec ncp src/ng-add/schema.json dist/ng-add/schema.json",
+          "pnpm exec ncp src/convert-tslint-to-eslint/schema.json dist/convert-tslint-to-eslint/schema.json",
+          "pnpm exec ncp src/application/schema.json dist/application/schema.json",
+          "pnpm exec ncp src/library/schema.json dist/library/schema.json",
+          "pnpm exec ncp src/workspace/schema.json dist/workspace/schema.json",
+          "pnpm exec ncp src/add-eslint-to-project/schema.json dist/add-eslint-to-project/schema.json"
         ]
       }
     }

@@ -10,6 +10,7 @@
     "url": "https://github.com/angular-eslint/angular-eslint.git",
     "directory": "packages/bundled-angular-compiler"
   },
+  "bugs": "https://github.com/angular-eslint/angular-eslint/issues",
   "files": [
     "dist",
     "!**/*.tsbuildinfo",
