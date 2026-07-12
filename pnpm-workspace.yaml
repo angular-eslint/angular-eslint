@@ -7,7 +7,7 @@ catalog:
   '@commitlint/config-conventional': '21.2.0'
   '@eslint/core': '1.2.1'
   '@eslint/js': '10.0.1'
-  '@mdn/browser-compat-data': '8.0.1'
+  '@mdn/browser-compat-data': '8.0.5'
   '@nx/devkit': '23.0.2'
   '@nx/esbuild': '23.0.2'
   '@nx/eslint': '23.0.2'
