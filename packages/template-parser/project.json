@@ -6,7 +6,7 @@
     "bench": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "npx vitest bench --run",
+        "command": "pnpm exec vitest bench --run",
         "cwd": "{projectRoot}"
       }
     }
