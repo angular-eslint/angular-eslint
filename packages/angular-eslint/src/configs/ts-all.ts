@@ -25,6 +25,7 @@ export default (
       '@angular-eslint/contextual-lifecycle': 'error',
       '@angular-eslint/directive-class-suffix': 'error',
       '@angular-eslint/directive-selector': 'error',
+      '@angular-eslint/inject-at-top': 'error',
       '@angular-eslint/no-async-lifecycle-method': 'error',
       '@angular-eslint/no-attribute-decorator': 'error',
       '@angular-eslint/no-developer-preview': 'error',
