@@ -324,4 +324,26 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     `,
     messageId,
   }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail in method called both from constructor and from not constructor',
+    annotatedSource: `
+      @Component()
+      class Test {
+        constructor() {
+          this.loadData();
+        }
+
+        ngOnInit() {
+          this.loadData();
+        }
+
+        loadData() {
+          this.data$.pipe(takeUntilDestroyed()).subscribe();
+                          ~~~~~~~~~~~~~~~~~~~~
+        }
+      }
+    `,
+    messageId,
+  }),
 ];
