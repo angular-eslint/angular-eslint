@@ -37,18 +37,17 @@ export default createESLintRule<Options, MessageIds>({
       ) {
         // Skip inputs with a transform option because model() does not support transform.
         // https://github.com/angular/angular/issues/55166#issuecomment-2032150999
-        const hasTransformOption = node.arguments.some(
-          (arg) =>
-            arg.type === 'ObjectExpression' &&
-            arg.properties.some(
-              (prop) =>
-                prop.type === 'Property' &&
-                ((prop.key.type === 'Identifier' &&
-                  prop.key.name === 'transform') ||
-                  (prop.key.type === 'Literal' &&
-                    prop.key.value === 'transform')),
-            ),
-        );
+        const options = node.arguments[1];
+        const hasTransformOption =
+          options?.type === 'ObjectExpression' &&
+          options.properties.some(
+            (prop) =>
+              prop.type === 'Property' &&
+              ((prop.key.type === 'Identifier' &&
+                prop.key.name === 'transform') ||
+                (prop.key.type === 'Literal' &&
+                  prop.key.value === 'transform')),
+          );
 
         if (hasTransformOption) {
           return;
