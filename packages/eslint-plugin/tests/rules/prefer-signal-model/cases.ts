@@ -34,6 +34,22 @@ export const valid = [
       readonly onChange = output();
     }
     `,
+  // Input with transform option should not be flagged because model() does not support transform
+  `
+    import { booleanAttribute } from '@angular/core';
+    class Test {
+      readonly enabled = input(false, { transform: booleanAttribute });
+      readonly enabledChange = output<boolean>();
+    }
+    `,
+  // Also valid when using a custom transform function
+  `
+    import { numberAttribute } from '@angular/core';
+    class Test {
+      readonly count = input(0, { transform: numberAttribute });
+      readonly countChange = output<number>();
+    }
+    `,
 ];
 
 export const invalid = [
@@ -181,5 +197,53 @@ export const invalid = [
         
       }
       `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should still fail for convertible inputs when another input has transform options',
+    annotatedSource: `
+      class Test {
+        readonly enabled = input(false, { transform: booleanAttribute });
+        readonly enabledChange = output<boolean>();
+        readonly count = input(0);
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~
+        readonly countChange = output<number>();
+      }
+      `,
+    messageId: messageIdPreferSignalModel,
+    annotatedOutput: [
+      `import { model } from '@angular/core';`,
+      '',
+      `      class Test {`,
+      `        readonly enabled = input(false, { transform: booleanAttribute });`,
+      `        readonly enabledChange = output<boolean>();`,
+      `        readonly count = model(0);`,
+      `        `,
+      `        `,
+      `      }`,
+      `      `,
+    ].join('\n'),
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail when an object initial value has a transform property',
+    annotatedSource: `
+      class Test {
+        readonly style = input({ transform: 'scale(2)' });
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        readonly styleChange = output<object>();
+      }
+      `,
+    messageId: messageIdPreferSignalModel,
+    annotatedOutput: [
+      `import { model } from '@angular/core';`,
+      '',
+      `      class Test {`,
+      `        readonly style = model({ transform: 'scale(2)' });`,
+      `        `,
+      `        `,
+      `      }`,
+      `      `,
+    ].join('\n'),
   }),
 ];

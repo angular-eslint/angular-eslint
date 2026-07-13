@@ -225,6 +225,68 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-signal-model": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+class Test {
+  readonly enabled = input(false, { transform: booleanAttribute });
+  readonly enabledChange = output<boolean>();
+  readonly count = input(0);
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+  readonly countChange = output<number>();
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-signal-model": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+class Test {
+  readonly style = input({ transform: 'scale(2)' });
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  readonly styleChange = output<object>();
+}
+```
+
 </details>
 
 <br>
@@ -370,6 +432,66 @@ class Test {
 class Test {
   readonly enabled = input();
   readonly onChange = output();
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-signal-model": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+import { booleanAttribute } from '@angular/core';
+class Test {
+  readonly enabled = input(false, { transform: booleanAttribute });
+  readonly enabledChange = output<boolean>();
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-signal-model": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+import { numberAttribute } from '@angular/core';
+class Test {
+  readonly count = input(0, { transform: numberAttribute });
+  readonly countChange = output<number>();
 }
 ```
 
