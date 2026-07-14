@@ -29,7 +29,19 @@ Direct DOM querying via `document.getElementById()`, `document.querySelector()`,
 
 ## Rule Options
 
-The rule does not have any configuration options.
+The rule accepts an options object with the following properties:
+
+```ts
+interface Options {
+  /**
+   * Also check @Injectable(), @Pipe() & @Service() in addition to @Component() & @Directive().
+   *
+   * Default: `false`
+   */
+  checkServices?: boolean;
+}
+
+```
 
 <br>
 
@@ -328,6 +340,111 @@ class FooComponent {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-queries": [
+      "error",
+      {
+        "checkServices": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Injectable({ providedIn: 'root' })
+class FooService {
+  findElement() {
+    return document.getElementById('foo');
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-queries": [
+      "error",
+      {
+        "checkServices": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Pipe({ name: 'foo' })
+class FooPipe {
+  transform() {
+    return document.querySelector('.foo');
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-queries": [
+      "error",
+      {
+        "checkServices": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Service()
+class FooService {
+  transform() {
+    return document.querySelector('.foo');
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  }
+}
+```
+
 </details>
 
 <br>
@@ -486,6 +603,133 @@ class FooComponent {
   foo() {
     const el = this.el.nativeElement.querySelector('.child');
     return el;
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-queries": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Injectable({ providedIn: 'root' })
+class FooService {
+  findElement() {
+    return document.getElementById('foo');
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-queries": [
+      "error",
+      {
+        "checkServices": false
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Injectable({ providedIn: 'root' })
+class FooService {
+  findElement() {
+    return document.getElementById('foo');
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-queries": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Pipe({ name: 'foo' })
+class FooPipe {
+  transform() {
+    return document.querySelector('.foo');
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-queries": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Service()
+class FooService {
+  transform() {
+    return document.querySelector('.foo');
   }
 }
 ```

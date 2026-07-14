@@ -2,9 +2,18 @@ import { Selectors, toPattern } from '@angular-eslint/utils';
 import { AST_NODE_TYPES, type TSESTree } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
-export type Options = [];
+export type Options = [
+  {
+    checkServices?: boolean;
+  },
+];
+
 export type MessageIds = 'preferQueries';
 export const RULE_NAME = 'prefer-queries';
+
+const DEFAULT_OPTIONS: Options[number] = {
+  checkServices: false,
+};
 
 const DOCUMENT_QUERY_METHODS = new Set([
   'getElementById',
@@ -15,7 +24,8 @@ const DOCUMENT_QUERY_METHODS = new Set([
   'querySelectorAll',
 ]);
 
-const angularDecoratorsPattern = toPattern(['Component', 'Directive']);
+const componentDecorators = ['Component', 'Directive'];
+const serviceDecorators = ['Injectable', 'Pipe', 'Service'];
 
 function isDocumentQueryCall(node: TSESTree.CallExpression): boolean {
   if (node.callee.type !== AST_NODE_TYPES.MemberExpression) {
@@ -54,16 +64,34 @@ export default createESLintRule<Options, MessageIds>({
       description:
         'Disallows direct DOM querying via `document` methods inside Angular components and directives and suggests using Angular queries such as `viewChild`, `viewChildren`, `contentChild`, or `contentChildren` instead.',
     },
-    schema: [],
+    schema: [
+      {
+        type: 'object',
+        properties: {
+          checkServices: {
+            type: 'boolean',
+            default: DEFAULT_OPTIONS.checkServices,
+            description:
+              'Also check @Injectable(), @Pipe() & @Service() in addition to @Component() & @Directive().',
+          },
+        },
+        additionalProperties: false,
+      },
+    ],
     messages: {
       preferQueries:
         'Avoid querying the DOM directly via `document.{{ method }}()`. Use Angular queries such as `viewChild()`, `viewChildren()`, `contentChild()`, or `contentChildren()` instead.',
     },
   },
-  defaultOptions: [],
-  create(context) {
+  defaultOptions: [{ ...DEFAULT_OPTIONS }],
+  create(context, [{ checkServices }]) {
+    const decorators = checkServices
+      ? componentDecorators.concat(serviceDecorators)
+      : componentDecorators;
+    const decoratorsPattern = toPattern(decorators);
+
     return {
-      [`${Selectors.decoratorDefinition(angularDecoratorsPattern)} CallExpression`](
+      [`${Selectors.decoratorDefinition(decoratorsPattern)} CallExpression`](
         node: TSESTree.CallExpression,
       ): void {
         if (!isDocumentQueryCall(node)) {

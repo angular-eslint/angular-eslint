@@ -53,10 +53,49 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
       }
     }
   `,
+  // document queries inside Injectable are allowed when checkServices is not enabled (default)
+  `
+    @Injectable({ providedIn: 'root' })
+    class FooService {
+      findElement() {
+        return document.getElementById('foo');
+      }
+    }
+  `,
+  // document queries inside Injectable are allowed when checkServices is explicitly false
+  {
+    code: `
+      @Injectable({ providedIn: 'root' })
+      class FooService {
+        findElement() {
+          return document.getElementById('foo');
+        }
+      }
+    `,
+    options: [{ checkServices: false }],
+  },
+  // document queries inside Pipe are allowed when checkServices is not enabled (default)
+  `
+    @Pipe({ name: 'foo' })
+    class FooPipe {
+      transform() {
+        return document.querySelector('.foo');
+      }
+    }
+  `,
+  // document queries inside Service are allowed when checkServices is not enabled (default)
+  `
+    @Service()
+    class FooService {
+      transform() {
+        return document.querySelector('.foo');
+      }
+    }
+  `,
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
-  convertAnnotatedSourceToFailureCase({
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
     description:
       'should fail when using document.getElementById inside a Component',
     annotatedSource: `
@@ -71,7 +110,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
     data: { method: 'getElementById' },
   }),
-  convertAnnotatedSourceToFailureCase({
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
     description:
       'should fail when using document.querySelector inside a Component',
     annotatedSource: `
@@ -86,7 +125,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
     data: { method: 'querySelector' },
   }),
-  convertAnnotatedSourceToFailureCase({
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
     description:
       'should fail when using document.querySelectorAll inside a Component',
     annotatedSource: `
@@ -101,7 +140,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
     data: { method: 'querySelectorAll' },
   }),
-  convertAnnotatedSourceToFailureCase({
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
     description:
       'should fail when using document.getElementsByClassName inside a Component',
     annotatedSource: `
@@ -116,7 +155,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
     data: { method: 'getElementsByClassName' },
   }),
-  convertAnnotatedSourceToFailureCase({
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
     description:
       'should fail when using document.getElementsByName inside a Component',
     annotatedSource: `
@@ -131,7 +170,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
     data: { method: 'getElementsByName' },
   }),
-  convertAnnotatedSourceToFailureCase({
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
     description:
       'should fail when using document.getElementsByTagName inside a Component',
     annotatedSource: `
@@ -146,7 +185,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
     data: { method: 'getElementsByTagName' },
   }),
-  convertAnnotatedSourceToFailureCase({
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
     description:
       'should fail when using document.getElementById inside a Directive',
     annotatedSource: `
@@ -161,7 +200,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
     data: { method: 'getElementById' },
   }),
-  convertAnnotatedSourceToFailureCase({
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
     description:
       'should fail when using window.document.getElementById inside a Component',
     annotatedSource: `
@@ -176,7 +215,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
     data: { method: 'getElementById' },
   }),
-  convertAnnotatedSourceToFailureCase({
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
     description: 'should fail for multiple document queries in the same class',
     annotatedSource: `
       @Component({ selector: 'app-foo', template: '' })
@@ -193,5 +232,53 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       { char: '~', messageId, data: { method: 'getElementById' } },
       { char: '^', messageId, data: { method: 'querySelector' } },
     ],
+  }),
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
+    description:
+      'should fail when using document.getElementById inside an Injectable with checkServices: true',
+    annotatedSource: `
+      @Injectable({ providedIn: 'root' })
+      class FooService {
+        findElement() {
+          return document.getElementById('foo');
+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        }
+      }
+    `,
+    options: [{ checkServices: true }],
+    messageId,
+    data: { method: 'getElementById' },
+  }),
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
+    description:
+      'should fail when using document.querySelector inside a Pipe with checkServices: true',
+    annotatedSource: `
+      @Pipe({ name: 'foo' })
+      class FooPipe {
+        transform() {
+          return document.querySelector('.foo');
+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        }
+      }
+    `,
+    options: [{ checkServices: true }],
+    messageId,
+    data: { method: 'querySelector' },
+  }),
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
+    description:
+      'should fail when using document.querySelector inside a Service with checkServices: true',
+    annotatedSource: `
+      @Service()
+      class FooService {
+        transform() {
+          return document.querySelector('.foo');
+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        }
+      }
+    `,
+    options: [{ checkServices: true }],
+    messageId,
+    data: { method: 'querySelector' },
   }),
 ];
