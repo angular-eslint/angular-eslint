@@ -23,7 +23,7 @@ Disallows the use of inline styles in HTML templates
 
 ## Rationale
 
-Inline styles in templates (style attribute, ngStyle directive, [style] object/map bindings, or [style.property] bindings) make it difficult to maintain consistent styling across an application and can violate Content Security Policy (CSP) restrictions. Styles should be defined in component stylesheets or CSS classes where they can be managed centrally, reused, cached by browsers, and easily modified. Inline styles also mix presentation concerns with template structure, making templates harder to read. Using CSS classes with [class] or [ngClass] bindings provides the same dynamic styling capabilities while keeping styles organized and maintainable. This rule can be configured to allow ngStyle, [style] object/map bindings, or style property bindings if needed for specific use cases.
+Inline styles in templates (style attribute, ngStyle directive, [style] bindings, or [style.property] bindings) make it difficult to maintain consistent styling across an application and can violate Content Security Policy (CSP) restrictions. Styles should be defined in component stylesheets or CSS classes where they can be managed centrally, reused, cached by browsers, and easily modified. Inline styles also mix presentation concerns with template structure, making templates harder to read. Using CSS classes with [class] or [ngClass] bindings provides the same dynamic styling capabilities while keeping styles organized and maintainable. This rule can be configured to allow ngStyle, [style] bindings, or style property bindings if needed for specific use cases.
 
 <br>
 
@@ -44,7 +44,7 @@ interface Options {
   /**
    * Default: `false`
    */
-  allowStyleObjectBinding?: boolean;
+  allowStyleBinding?: boolean;
 }
 
 ```
@@ -354,7 +354,7 @@ interface Options {
     "@angular-eslint/template/no-inline-styles": [
       "error",
       {
-        "allowStyleObjectBinding": true
+        "allowStyleBinding": true
       }
     ]
   }
@@ -870,7 +870,7 @@ interface Options {
     "@angular-eslint/template/no-inline-styles": [
       "error",
       {
-        "allowStyleObjectBinding": true
+        "allowStyleBinding": true
       }
     ]
   }
@@ -899,7 +899,7 @@ interface Options {
     "@angular-eslint/template/no-inline-styles": [
       "error",
       {
-        "allowStyleObjectBinding": true
+        "allowStyleBinding": true
       }
     ]
   }
@@ -912,6 +912,35 @@ interface Options {
 
 ```html
 <input [style]="styleObject">
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-inline-styles": [
+      "error",
+      {
+        "allowStyleBinding": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<input [style]="'border: 1px solid black;'">
 ```
 
 <br>
@@ -960,7 +989,7 @@ interface Options {
       {
         "allowNgStyle": true,
         "allowBindToStyle": true,
-        "allowStyleObjectBinding": true
+        "allowStyleBinding": true
       }
     ]
   }

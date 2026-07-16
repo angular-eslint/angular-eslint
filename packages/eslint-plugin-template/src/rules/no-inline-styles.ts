@@ -9,13 +9,13 @@ export type Options = [
   {
     readonly allowNgStyle?: boolean;
     readonly allowBindToStyle?: boolean;
-    readonly allowStyleObjectBinding?: boolean;
+    readonly allowStyleBinding?: boolean;
   },
 ];
 const DEFAULT_OPTIONS: Options[number] = {
   allowNgStyle: false,
   allowBindToStyle: false,
-  allowStyleObjectBinding: false,
+  allowStyleBinding: false,
 };
 export type MessageIds = 'noInlineStyles';
 export const RULE_NAME = 'no-inline-styles';
@@ -39,9 +39,9 @@ export default createESLintRule<Options, MessageIds>({
             type: 'boolean',
             default: DEFAULT_OPTIONS.allowBindToStyle,
           },
-          allowStyleObjectBinding: {
+          allowStyleBinding: {
             type: 'boolean',
-            default: DEFAULT_OPTIONS.allowStyleObjectBinding,
+            default: DEFAULT_OPTIONS.allowStyleBinding,
           },
         },
         additionalProperties: false,
@@ -55,7 +55,7 @@ export default createESLintRule<Options, MessageIds>({
   defaultOptions: [DEFAULT_OPTIONS],
   create(
     context,
-    [{ allowNgStyle, allowBindToStyle, allowStyleObjectBinding }],
+    [{ allowNgStyle, allowBindToStyle, allowStyleBinding }],
   ) {
     const parserServices = getTemplateParserServices(context);
 
@@ -65,13 +65,13 @@ export default createESLintRule<Options, MessageIds>({
           !allowNgStyle && isNodeHasNgStyleAttribute(node);
         const hasDisallowedBindToStyle =
           !allowBindToStyle && isNodeHasBindingToStyleAttribute(node);
-        const hasDisallowedStyleObjectBinding =
-          !allowStyleObjectBinding && isNodeHasStyleObjectBinding(node);
+        const hasDisallowedStyleBinding =
+          !allowStyleBinding && isNodeHasStyleBinding(node);
         const isInvalid =
           isNodeHasStyleAttribute(node) ||
           hasDisallowedNgStyle ||
           hasDisallowedBindToStyle ||
-          hasDisallowedStyleObjectBinding;
+          hasDisallowedStyleBinding;
 
         if (isInvalid) {
           const loc = parserServices.convertElementSourceSpanToLoc(
@@ -116,9 +116,9 @@ function isNodeHasBindingToStyleAttribute(node: TmplAstElement): boolean {
 }
 
 /**
- *  Check that an element (for example `<img>`) has a `[style]` object/map binding.
+ *  Check that an element (for example `<img>`) has a `[style]` binding.
  */
-function isNodeHasStyleObjectBinding(node: TmplAstElement): boolean {
+function isNodeHasStyleBinding(node: TmplAstElement): boolean {
   return node.inputs.some(
     ({ name, keySpan }) => isStyle(name) && !isAttributeStyleBinding(keySpan),
   );
@@ -145,5 +145,5 @@ function isAttributeStyleBinding(keySpan: ParseSourceSpan): boolean {
 
 export const RULE_DOCS_EXTENSION = {
   rationale:
-    'Inline styles in templates (style attribute, ngStyle directive, [style] object/map bindings, or [style.property] bindings) make it difficult to maintain consistent styling across an application and can violate Content Security Policy (CSP) restrictions. Styles should be defined in component stylesheets or CSS classes where they can be managed centrally, reused, cached by browsers, and easily modified. Inline styles also mix presentation concerns with template structure, making templates harder to read. Using CSS classes with [class] or [ngClass] bindings provides the same dynamic styling capabilities while keeping styles organized and maintainable. This rule can be configured to allow ngStyle, [style] object/map bindings, or style property bindings if needed for specific use cases.',
+    'Inline styles in templates (style attribute, ngStyle directive, [style] bindings, or [style.property] bindings) make it difficult to maintain consistent styling across an application and can violate Content Security Policy (CSP) restrictions. Styles should be defined in component stylesheets or CSS classes where they can be managed centrally, reused, cached by browsers, and easily modified. Inline styles also mix presentation concerns with template structure, making templates harder to read. Using CSS classes with [class] or [ngClass] bindings provides the same dynamic styling capabilities while keeping styles organized and maintainable. This rule can be configured to allow ngStyle, [style] bindings, or style property bindings if needed for specific use cases.',
 };
