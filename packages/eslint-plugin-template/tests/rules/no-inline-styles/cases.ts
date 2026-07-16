@@ -32,8 +32,30 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     options: [{ allowBindToStyle: true }],
   },
   {
+    code: `<input [style]="{ 'background-color': '#fff' }">`,
+    options: [{ allowStyleBinding: true }],
+  },
+  {
+    code: `<input [style]="styleObject">`,
+    options: [{ allowStyleBinding: true }],
+  },
+  {
+    code: `<input [style]="'border: 1px solid black;'">`,
+    options: [{ allowStyleBinding: true }],
+  },
+  {
     code: `<input [ngStyle]="{ 'background-color': 'red' }" [style.background-color]="'#fff'">`,
     options: [{ allowNgStyle: true, allowBindToStyle: true }],
+  },
+  {
+    code: `<input [ngStyle]="{ 'background-color': 'red' }" [style]="styleObject" [style.background-color]="'#fff'">`,
+    options: [
+      {
+        allowNgStyle: true,
+        allowBindToStyle: true,
+        allowStyleBinding: true,
+      },
+    ],
   },
 ];
 
@@ -118,7 +140,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail when input element with ngStyle attribute exist',
+    description:
+      'should fail when input element with style binding attribute exist',
     annotatedSource: `
         <input [style]="'border: 1px solid black;'">
         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -128,7 +151,30 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail when input element with ngStyle attribute exist',
+    description:
+      'should fail when input element with style binding attribute exist and allowBindToStyle set to true',
+    annotatedSource: `
+        <input [style]="{ 'background-color': '#fff' }">
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    data: { element: 'input' },
+    options: [{ allowBindToStyle: true }],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail when input element with attr.style binding exist and allowStyleBinding set to true',
+    annotatedSource: `
+        <input [attr.style]="'padding: 10px;'">
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    data: { element: 'input' },
+    options: [{ allowStyleBinding: true }],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail when input element with style binding attribute exist',
     annotatedSource: `
         <input [ngStyle]="{ 'padding': '10px' }" [style]="'border: 1px solid black;'">
         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

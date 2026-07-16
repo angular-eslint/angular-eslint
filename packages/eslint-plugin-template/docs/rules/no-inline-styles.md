@@ -23,7 +23,7 @@ Disallows the use of inline styles in HTML templates
 
 ## Rationale
 
-Inline styles in templates (style attribute, ngStyle directive, or [style.property] bindings) make it difficult to maintain consistent styling across an application and can violate Content Security Policy (CSP) restrictions. Styles should be defined in component stylesheets or CSS classes where they can be managed centrally, reused, cached by browsers, and easily modified. Inline styles also mix presentation concerns with template structure, making templates harder to read. Using CSS classes with [class] or [ngClass] bindings provides the same dynamic styling capabilities while keeping styles organized and maintainable. This rule can be configured to allow ngStyle or style bindings if needed for specific use cases.
+Inline styles in templates (style attribute, ngStyle directive, [style] bindings, or [style.property] bindings) make it difficult to maintain consistent styling across an application and can violate Content Security Policy (CSP) restrictions. Styles should be defined in component stylesheets or CSS classes where they can be managed centrally, reused, cached by browsers, and easily modified. Inline styles also mix presentation concerns with template structure, making templates harder to read. Using CSS classes with [class] or [ngClass] bindings provides the same dynamic styling capabilities while keeping styles organized and maintainable. This rule can be configured to allow ngStyle, [style] bindings, or style property bindings if needed for specific use cases.
 
 <br>
 
@@ -41,6 +41,10 @@ interface Options {
    * Default: `false`
    */
   allowBindToStyle?: boolean;
+  /**
+   * Default: `false`
+   */
+  allowStyleBinding?: boolean;
 }
 
 ```
@@ -304,6 +308,66 @@ interface Options {
 ```html
 <input [style]="'border: 1px solid black;'">
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-inline-styles": [
+      "error",
+      {
+        "allowBindToStyle": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<input [style]="{ 'background-color': '#fff' }">
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-inline-styles": [
+      "error",
+      {
+        "allowStyleBinding": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<input [attr.style]="'padding: 10px;'">
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ```
 
 <br>
@@ -806,6 +870,93 @@ interface Options {
     "@angular-eslint/template/no-inline-styles": [
       "error",
       {
+        "allowStyleBinding": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<input [style]="{ 'background-color': '#fff' }">
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-inline-styles": [
+      "error",
+      {
+        "allowStyleBinding": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<input [style]="styleObject">
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-inline-styles": [
+      "error",
+      {
+        "allowStyleBinding": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<input [style]="'border: 1px solid black;'">
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-inline-styles": [
+      "error",
+      {
         "allowNgStyle": true,
         "allowBindToStyle": true
       }
@@ -820,6 +971,37 @@ interface Options {
 
 ```html
 <input [ngStyle]="{ 'background-color': 'red' }" [style.background-color]="'#fff'">
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-inline-styles": [
+      "error",
+      {
+        "allowNgStyle": true,
+        "allowBindToStyle": true,
+        "allowStyleBinding": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<input [ngStyle]="{ 'background-color': 'red' }" [style]="styleObject" [style.background-color]="'#fff'">
 ```
 
 </details>

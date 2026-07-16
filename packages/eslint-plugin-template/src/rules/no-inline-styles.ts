@@ -9,11 +9,13 @@ export type Options = [
   {
     readonly allowNgStyle?: boolean;
     readonly allowBindToStyle?: boolean;
+    readonly allowStyleBinding?: boolean;
   },
 ];
 const DEFAULT_OPTIONS: Options[number] = {
   allowNgStyle: false,
   allowBindToStyle: false,
+  allowStyleBinding: false,
 };
 export type MessageIds = 'noInlineStyles';
 export const RULE_NAME = 'no-inline-styles';
@@ -37,6 +39,10 @@ export default createESLintRule<Options, MessageIds>({
             type: 'boolean',
             default: DEFAULT_OPTIONS.allowBindToStyle,
           },
+          allowStyleBinding: {
+            type: 'boolean',
+            default: DEFAULT_OPTIONS.allowStyleBinding,
+          },
         },
         additionalProperties: false,
       },
@@ -47,28 +53,25 @@ export default createESLintRule<Options, MessageIds>({
     },
   },
   defaultOptions: [DEFAULT_OPTIONS],
-  create(context, [{ allowNgStyle, allowBindToStyle }]) {
+  create(
+    context,
+    [{ allowNgStyle, allowBindToStyle, allowStyleBinding }],
+  ) {
     const parserServices = getTemplateParserServices(context);
 
     return {
       Element(node: TmplAstElement) {
-        let isInvalid = false;
-
-        if (!allowNgStyle && !allowBindToStyle) {
-          isInvalid =
-            isNodeHasStyleAttribute(node) ||
-            isNodeHasNgStyleAttribute(node) ||
-            isNodeHasBindingToStyleAttribute(node);
-        } else {
-          const ngStyle = allowNgStyle
-            ? false
-            : isNodeHasNgStyleAttribute(node);
-          const bindToStyle = allowBindToStyle
-            ? false
-            : isNodeHasBindingToStyleAttribute(node);
-
-          isInvalid = isNodeHasStyleAttribute(node) || ngStyle || bindToStyle;
-        }
+        const hasDisallowedNgStyle =
+          !allowNgStyle && isNodeHasNgStyleAttribute(node);
+        const hasDisallowedBindToStyle =
+          !allowBindToStyle && isNodeHasBindingToStyleAttribute(node);
+        const hasDisallowedStyleBinding =
+          !allowStyleBinding && isNodeHasStyleBinding(node);
+        const isInvalid =
+          isNodeHasStyleAttribute(node) ||
+          hasDisallowedNgStyle ||
+          hasDisallowedBindToStyle ||
+          hasDisallowedStyleBinding;
 
         if (isInvalid) {
           const loc = parserServices.convertElementSourceSpanToLoc(
@@ -95,7 +98,7 @@ export default createESLintRule<Options, MessageIds>({
 function isNodeHasStyleAttribute(node: TmplAstElement): boolean {
   return (
     node.attributes.some(({ name }) => isStyle(name)) ||
-    node.inputs.some(({ name }) => isStyle(name))
+    node.inputs.some(({ keySpan }) => isAttributeStyleBinding(keySpan))
   );
 }
 /**
@@ -113,6 +116,15 @@ function isNodeHasBindingToStyleAttribute(node: TmplAstElement): boolean {
 }
 
 /**
+ *  Check that an element (for example `<img>`) has a `[style]` binding.
+ */
+function isNodeHasStyleBinding(node: TmplAstElement): boolean {
+  return node.inputs.some(
+    ({ name, keySpan }) => isStyle(name) && !isAttributeStyleBinding(keySpan),
+  );
+}
+
+/**
  *  Check element is style
  */
 function isStyle(name: string): name is 'style' {
@@ -127,7 +139,11 @@ function isStyleBound(keySpan: ParseSourceSpan): boolean {
   return keySpan?.details ? keySpan.details.includes('style.') : false;
 }
 
+function isAttributeStyleBinding(keySpan: ParseSourceSpan): boolean {
+  return keySpan?.details ? keySpan.details.includes('attr.style') : false;
+}
+
 export const RULE_DOCS_EXTENSION = {
   rationale:
-    'Inline styles in templates (style attribute, ngStyle directive, or [style.property] bindings) make it difficult to maintain consistent styling across an application and can violate Content Security Policy (CSP) restrictions. Styles should be defined in component stylesheets or CSS classes where they can be managed centrally, reused, cached by browsers, and easily modified. Inline styles also mix presentation concerns with template structure, making templates harder to read. Using CSS classes with [class] or [ngClass] bindings provides the same dynamic styling capabilities while keeping styles organized and maintainable. This rule can be configured to allow ngStyle or style bindings if needed for specific use cases.',
+    'Inline styles in templates (style attribute, ngStyle directive, [style] bindings, or [style.property] bindings) make it difficult to maintain consistent styling across an application and can violate Content Security Policy (CSP) restrictions. Styles should be defined in component stylesheets or CSS classes where they can be managed centrally, reused, cached by browsers, and easily modified. Inline styles also mix presentation concerns with template structure, making templates harder to read. Using CSS classes with [class] or [ngClass] bindings provides the same dynamic styling capabilities while keeping styles organized and maintainable. This rule can be configured to allow ngStyle, [style] bindings, or style property bindings if needed for specific use cases.',
 };
