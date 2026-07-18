@@ -33,6 +33,9 @@ export default createESLintRule<Options, MessageIds>({
       // https://angular.dev/api/core/Component
       `${Selectors.COMPONENT_CLASS_DECORATOR} Property[key.name=${toPattern([
         'imports',
+        'providers',
+        'viewProviders',
+        'styleUrls',
       ])}] > ArrayExpression`,
       // https://angular.dev/api/core/Directive
       `${Selectors.DIRECTIVE_CLASS_DECORATOR} Property[key.name=${toPattern([
@@ -55,16 +58,23 @@ export default createESLintRule<Options, MessageIds>({
 
 function getDuplicateItems(
   elements: (TSESTree.Expression | TSESTree.SpreadElement | null)[],
-): TSESTree.Identifier[] {
-  const items = elements.filter(TSESLintASTUtils.isIdentifier);
-  const uniqueItemNames = new Set();
-  const duplicateItems: TSESTree.Identifier[] = [];
+): (TSESTree.Identifier | TSESTree.StringLiteral)[] {
+  const items = elements.filter(
+    (element): element is TSESTree.Identifier | TSESTree.StringLiteral =>
+      TSESLintASTUtils.isIdentifier(element) ||
+      (element?.type === 'Literal' && typeof element.value === 'string'),
+  );
+  const uniqueItemKeys = new Set<string>();
+  const duplicateItems = new Array<
+    TSESTree.Identifier | TSESTree.StringLiteral
+  >();
 
   items.forEach((item) => {
-    if (uniqueItemNames.has(item.name)) {
+    const key = item.type === 'Identifier' ? item.name : item.value;
+    if (uniqueItemKeys.has(key)) {
       duplicateItems.push(item);
     } else {
-      uniqueItemNames.add(item.name);
+      uniqueItemKeys.add(key);
     }
   });
 
