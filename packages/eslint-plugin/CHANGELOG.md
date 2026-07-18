@@ -1,3 +1,20 @@
+## 22.1.0 (2026-07-12)
+
+### 🚀 Features
+
+- **eslint-plugin:** [inject-at-top] add rule requiring inject() at the top of the class ([#3009](https://github.com/angular-eslint/angular-eslint/pull/3009))
+- **eslint-plugin:** add `prefer-service-decorator` rule ([#3073](https://github.com/angular-eslint/angular-eslint/pull/3073))
+
+### 🩹 Fixes
+
+- **eslint-plugin:** [no-implicit-take-until-destroyed] avoid false positive for methods called from constructor ([#3011](https://github.com/angular-eslint/angular-eslint/pull/3011))
+
+### ❤️ Thank You
+
+- Adi-Marian Mutu
+- Guillaume DROUARD
+- Pierluigi Lenoci
+
 # 22.0.0 (2026-06-07)
 
 ### 🚀 Features
@@ -933,7 +950,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Bug Fixes
 
-- **eslint-plugin:** handle literal `outputs` properly for [*-output-*] rules ([#595](https://github.com/angular-eslint/angular-eslint/issues/595)) ([8621a62](https://github.com/angular-eslint/angular-eslint/commit/8621a62a5360caac33fd87001e2928d7995a5a01))
+- **eslint-plugin:** handle literal `outputs` properly for [_-output-_] rules ([#595](https://github.com/angular-eslint/angular-eslint/issues/595)) ([8621a62](https://github.com/angular-eslint/angular-eslint/commit/8621a62a5360caac33fd87001e2928d7995a5a01))
 
 # [12.3.0](https://github.com/angular-eslint/angular-eslint/compare/v12.2.2...v12.3.0) (2021-07-13)
 

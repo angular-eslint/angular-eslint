@@ -5,10 +5,7 @@ import { createESLintRule } from '../utils/create-eslint-rule';
 type Mode = 'array' | 'string';
 export type Options = [mode: Mode];
 export type MessageIds =
-  | 'useStylesArray'
-  | 'useStylesString'
-  | 'useStyleUrl'
-  | 'useStyleUrls';
+  'useStylesArray' | 'useStylesString' | 'useStyleUrl' | 'useStyleUrls';
 export const RULE_NAME = 'consistent-component-styles';
 
 export default createESLintRule<Options, MessageIds>({

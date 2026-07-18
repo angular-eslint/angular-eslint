@@ -9,7 +9,7 @@ let nativeEventNames: ReadonlySet<string> | null = null;
 /**
  * Check MDN events page for details https://developer.mozilla.org/en-US/docs/Web/Events
  *
- * Event names sourced from @mdn/browser-compat-data@8.0.1
+ * Event names sourced from @mdn/browser-compat-data@8.0.5
  */
 export function getNativeEventNames(): ReadonlySet<string> {
   return (
@@ -34,7 +34,6 @@ export function getNativeEventNames(): ReadonlySet<string> {
       'beforexrselect',
       'beginEvent',
       'blur',
-      'bounce',
       'cancel',
       'canplay',
       'canplaythrough',
@@ -74,7 +73,6 @@ export function getNativeEventNames(): ReadonlySet<string> {
       'endEvent',
       'enterpictureinpicture',
       'error',
-      'finish',
       'focus',
       'focusin',
       'focusout',
@@ -162,7 +160,6 @@ export function getNativeEventNames(): ReadonlySet<string> {
       'selectstart',
       'slotchange',
       'stalled',
-      'start',
       'storage',
       'submit',
       'suspend',

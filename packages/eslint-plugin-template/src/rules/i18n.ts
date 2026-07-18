@@ -99,9 +99,7 @@ type StronglyTypedBoundText = TmplAstBoundText & {
   value: ASTWithSource & { ast: Interpolation };
 };
 type StronglyTypedBoundTextOrIcuOrText = (
-  | StronglyTypedBoundText
-  | TmplAstText
-  | TmplAstIcu
+  StronglyTypedBoundText | TmplAstText | TmplAstIcu
 ) & {
   parent?: AST & { children: readonly AST[] };
 };

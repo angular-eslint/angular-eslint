@@ -36,8 +36,7 @@ export default createESLintRule<Options, MessageIds>({
             items: { type: 'string' },
             uniqueItems: true,
             default: DEFAULT_OPTIONS.ignoreWithDirectives as
-              | string[]
-              | undefined,
+              string[] | undefined,
           },
         },
         additionalProperties: false,

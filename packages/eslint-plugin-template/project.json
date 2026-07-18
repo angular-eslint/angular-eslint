@@ -29,7 +29,7 @@
     },
     "update-rule-docs": {
       "outputs": ["{projectRoot}/docs"],
-      "command": "npx tsx ./tools/scripts/generate-rule-docs.ts eslint-plugin-template"
+      "command": "pnpm exec tsx ./tools/scripts/generate-rule-docs.ts eslint-plugin-template"
     },
     "check-rule-lists": {
       "dependsOn": ["update-rule-lists"],
@@ -37,7 +37,7 @@
     },
     "update-rule-lists": {
       "outputs": ["{projectRoot}/README.md"],
-      "command": "npx tsx ./tools/scripts/generate-rule-lists.ts eslint-plugin-template"
+      "command": "pnpm exec tsx ./tools/scripts/generate-rule-lists.ts eslint-plugin-template"
     }
   }
 }

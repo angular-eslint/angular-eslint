@@ -1,3 +1,15 @@
+## 22.1.0 (2026-07-12)
+
+### 🚀 Features
+
+- support eslint inline directive comments within element opening tags ([#3097](https://github.com/angular-eslint/angular-eslint/pull/3097))
+- **eslint-plugin-template:** add `no-outerhtml` rule ([#3092](https://github.com/angular-eslint/angular-eslint/pull/3092))
+- **eslint-plugin-template:** add `require-switch-default` rule ([#3091](https://github.com/angular-eslint/angular-eslint/pull/3091))
+
+### ❤️ Thank You
+
+- Guillaume DROUARD
+
 # 22.0.0 (2026-06-07)
 
 ### 🚀 Features

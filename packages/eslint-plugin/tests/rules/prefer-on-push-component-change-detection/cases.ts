@@ -205,7 +205,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         messageId: suggestRemoveChangeDetection,
         output: `
       
-      @Component({  selector: 'app-test' })
+      @Component({ selector: 'app-test' })
                                                             
       class Test {}
     `,
@@ -227,7 +227,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         messageId: suggestRemoveChangeDetection,
         output: `
       
-      @Component({ selector: 'app-test',  })
+      @Component({ selector: 'app-test', })
                                                                                   
       class Test {}
     `,
