@@ -28,6 +28,7 @@
     "strict": true,
     "target": "es2022",
     "types": ["node"],
-    "verbatimModuleSyntax": false
+    "verbatimModuleSyntax": false,
+    "noUncheckedSideEffectImports": false
   }
 }
