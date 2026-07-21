@@ -3,7 +3,9 @@
   "compilerOptions": {
     "outDir": "../../dist/out-tsc/eslint-plugin-template",
     "resolveJsonModule": true,
-    "isolatedModules": false
+    "isolatedModules": false,
+    "ignoreDeprecations": "6.0",
+    "rootDir": "."
   },
   "include": ["**/*.ts", "**/*.json"],
   "references": [
