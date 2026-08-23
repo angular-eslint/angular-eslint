@@ -75,9 +75,6 @@ catalogs:
     '@types/node':
       specifier: 25.9.5
       version: 25.9.5
-    '@types/semver':
-      specifier: ^7.5.8
-      version: 7.7.1
     '@types/yargs':
       specifier: ^17.0.33
       version: 17.0.35
@@ -164,9 +161,6 @@ catalogs:
       specifier: '>= 22.0.0 < 23.0.0'
       version: 22.1.4
     '@angular-devkit/schematics':
-      specifier: '>= 22.0.0 < 23.0.0'
-      version: 22.1.4
-    '@angular/cli':
       specifier: '>= 22.0.0 < 23.0.0'
       version: 22.1.4
     aria-query:
@@ -279,7 +273,7 @@ importers:
         version: 25.9.5
       '@types/semver':
         specifier: 'catalog:'
-        version: 7.7.1
+        version: 7.8.0
       '@types/yargs':
         specifier: 'catalog:'
         version: 17.0.35
@@ -2590,8 +2584,8 @@ packages:
   '@types/responselike@1.0.0':
     resolution: {integrity: sha512-85Y2BjiufFzaMIlvJDvTTB8Fxl2xfLo4HgmHzVBz08w4wDePCTjYw66PdrolO0kzli3yam/YCgRufyo1DdQVTA==}
 
-  '@types/semver@7.7.1':
-    resolution: {integrity: sha512-FmgJfu+MOcQ370SD0ev7EI8TlCAfKYU+B4m5T3yXc1CiRN94g/SZPtsCkk506aUDtlMnFZvasDwHHUcZUEaYuA==}
+  '@types/semver@7.8.0':
+    resolution: {integrity: sha512-1mAINjtQCXXeLkJ9ehXkwOcBpqtLxiVtKhpUf83DdRNdQKV0iXZpaHYqRr7nj+wvxuJzoAmAwXI+sCNMv1CzLQ==}
 
   '@types/stack-utils@2.0.3':
     resolution: {integrity: sha512-9aEbYZ3TbYMznPdcdr3SmIrLXwC/AKZXQeCf9Pgao5CKb8CyHuEX5jzWPTkvregvhRJHcpRO6BFoGW9ycaOkYw==}
@@ -8753,7 +8747,7 @@ snapshots:
     dependencies:
       '@types/node': 26.1.1
 
-  '@types/semver@7.7.1': {}
+  '@types/semver@7.8.0': {}
 
   '@types/stack-utils@2.0.3': {}
 
