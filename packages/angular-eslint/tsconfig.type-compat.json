@@ -4,8 +4,7 @@
     "outDir": "../../dist/out-tsc/angular-eslint-type-compat",
     "types": ["node"],
     "sourceMap": true,
-    "skipLibCheck": false,
-    "rootDir": "."
+    "skipLibCheck": false
   },
   "include": ["tests/type-compatibility.test.ts"],
   "references": [

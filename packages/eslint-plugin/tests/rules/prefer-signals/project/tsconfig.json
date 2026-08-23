@@ -1,10 +1,6 @@
 {
   "compilerOptions": {
-    "strict": true,
-    "noUncheckedSideEffectImports": false,
-    "types": ["*"],
-    "esModuleInterop": false,
-    "ignoreDeprecations": "6.0"
+    "strict": true
   },
   "include": ["file.ts"]
 }

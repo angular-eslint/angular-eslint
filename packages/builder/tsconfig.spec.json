@@ -3,8 +3,7 @@
   "compilerOptions": {
     "outDir": "../../dist/out-tsc/builder",
     "types": ["node"],
-    "sourceMap": true,
-    "rootDir": "."
+    "sourceMap": true
   },
   "include": [
     "**/*.spec.ts",

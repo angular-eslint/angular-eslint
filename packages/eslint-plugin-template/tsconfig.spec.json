@@ -4,8 +4,7 @@
     "outDir": "../../dist/out-tsc/eslint-plugin-template",
     "types": ["vitest", "node"],
     "resolveJsonModule": true,
-    "sourceMap": true,
-    "rootDir": "."
+    "sourceMap": true
   },
   "include": [
     "**/*.spec.ts",

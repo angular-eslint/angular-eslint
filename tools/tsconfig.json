@@ -2,9 +2,7 @@
   "extends": "../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "../dist/out-tsc/tools",
-    "resolveJsonModule": true,
-    "ignoreDeprecations": "6.0",
-    "rootDir": "."
+    "resolveJsonModule": true
   },
   "references": [
     {
