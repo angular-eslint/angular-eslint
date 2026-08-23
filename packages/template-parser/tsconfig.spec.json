@@ -3,7 +3,8 @@
   "compilerOptions": {
     "outDir": "../../dist/out-tsc/schematics",
     "types": ["node"],
-    "sourceMap": true
+    "sourceMap": true,
+    "rootDir": "."
   },
   "include": [
     "**/*.test.ts",

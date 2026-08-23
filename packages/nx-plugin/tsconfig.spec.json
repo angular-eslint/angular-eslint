@@ -3,7 +3,8 @@
   "compilerOptions": {
     "outDir": "../../dist/out-tsc/nx-plugin",
     "types": ["vitest", "node"],
-    "sourceMap": true
+    "sourceMap": true,
+    "rootDir": "."
   },
   "include": [
     "**/*.spec.ts",
