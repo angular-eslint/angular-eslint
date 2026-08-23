@@ -25,8 +25,8 @@ catalogs:
       specifier: 10.0.1
       version: 10.0.1
     '@mdn/browser-compat-data':
-      specifier: 8.0.5
-      version: 8.0.5
+      specifier: 8.0.11
+      version: 8.0.11
     '@nx/devkit':
       specifier: 23.1.1
       version: 23.1.1
@@ -75,6 +75,9 @@ catalogs:
     '@types/node':
       specifier: 25.9.5
       version: 25.9.5
+    '@types/semver':
+      specifier: ^7.5.8
+      version: 7.8.0
     '@types/yargs':
       specifier: ^17.0.33
       version: 17.0.35
@@ -163,6 +166,9 @@ catalogs:
     '@angular-devkit/schematics':
       specifier: '>= 22.0.0 < 23.0.0'
       version: 22.1.4
+    '@angular/cli':
+      specifier: '>= 22.0.0 < 23.0.0'
+      version: 22.1.4
     aria-query:
       specifier: 5.3.2
       version: 5.3.2
@@ -225,7 +231,7 @@ importers:
         version: 10.0.1(eslint@10.6.0(jiti@2.6.1))
       '@mdn/browser-compat-data':
         specifier: 'catalog:'
-        version: 8.0.5
+        version: 8.0.11
       '@nx/devkit':
         specifier: 'catalog:'
         version: 23.1.1(nx@23.1.1(@swc-node/register@1.11.1(@swc/core@1.15.43(@swc/helpers@0.5.23))(@swc/types@0.1.27)(typescript@6.0.3))(@swc/core@1.15.43(@swc/helpers@0.5.23)))
@@ -1834,8 +1840,8 @@ packages:
       '@inquirer/prompts': '>= 3 < 9'
       listr2: 10.2.1
 
-  '@mdn/browser-compat-data@8.0.5':
-    resolution: {integrity: sha512-gzTjryoDygkG3aK/xFAwut7QPBhmTy6RDUep5HqyqxEQlvNWmcoVTkmMeb0LQFhZnISu0nmPK767eKSjrjSXUQ==}
+  '@mdn/browser-compat-data@8.0.11':
+    resolution: {integrity: sha512-KZMEJ9A2Q9lLCSplxRtTe4hDiydwzfv7Uk8SRguozAKqH8BYctKpJnUDzM6sTELSPo/6lcwFpCMcvVqEh59LUA==}
 
   '@modelcontextprotocol/sdk@1.30.0':
     resolution: {integrity: sha512-xKd8OIzlqNzcqcNumGAa6g+PW2kjD5vrpcKOnfldAUPP3j7lnqMPwlTXQm8gF+UwH72z0lqaRbjr9hqGz0eITA==}
@@ -7999,7 +8005,7 @@ snapshots:
     transitivePeerDependencies:
       - '@types/node'
 
-  '@mdn/browser-compat-data@8.0.5': {}
+  '@mdn/browser-compat-data@8.0.11': {}
 
   '@modelcontextprotocol/sdk@1.30.0(zod@4.4.3)':
     dependencies:
