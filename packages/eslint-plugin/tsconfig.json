@@ -2,9 +2,7 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "../../dist/out-tsc/eslint-plugin",
-    "resolveJsonModule": true,
-    "ignoreDeprecations": "6.0",
-    "rootDir": "."
+    "resolveJsonModule": true
   },
   "include": ["**/*.ts", "**/*.json"],
   "references": [

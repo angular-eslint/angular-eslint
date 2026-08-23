@@ -2,8 +2,7 @@
   "extends": "../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "../dist/out-tsc/e2e",
-    "types": ["node"],
-    "rootDir": "."
+    "types": ["node"]
   },
   "include": [
     "vitest.config.mts",

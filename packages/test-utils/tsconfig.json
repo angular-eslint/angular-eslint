@@ -1,9 +1,7 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "../../dist/out-tsc/test-utils",
-    "ignoreDeprecations": "6.0",
-    "rootDir": "."
+    "outDir": "../../dist/out-tsc/test-utils"
   },
   "include": ["src/**/*"],
   "references": [
