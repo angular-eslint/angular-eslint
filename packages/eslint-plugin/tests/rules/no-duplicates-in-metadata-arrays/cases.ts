@@ -22,7 +22,10 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   `,
   `
     @Component({
-      imports: [ImportA, ImportB, ImportC]
+      imports: [ImportA, ImportB, ImportC],
+      providers: [ProviderA, ProviderB, ProviderC],
+      viewProviders: [ViewProviderA, ViewProviderB, ViewProviderC],
+      styleUrls: ['a.css', 'b.css', 'c.css']
     })
     class Test {}
   `,
@@ -121,6 +124,66 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       @Component({
         imports: [ImportA, ImportB, ImportA, ImportB]
                                     ~~~~~~~  ^^^^^^^
+      })
+      class Test {}
+    `,
+    messages: [
+      {
+        char: '~',
+        messageId,
+      },
+      {
+        char: '^',
+        messageId,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'Fails when there are duplicate providers in Component',
+    annotatedSource: `
+      @Component({
+        providers: [ProviderA, ProviderB, ProviderA, ProviderB]
+                                          ~~~~~~~~~  ^^^^^^^^^
+      })
+      class Test {}
+    `,
+    messages: [
+      {
+        char: '~',
+        messageId,
+      },
+      {
+        char: '^',
+        messageId,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'Fails when there are duplicate viewProviders in Component',
+    annotatedSource: `
+      @Component({
+        viewProviders: [ViewProviderA, ViewProviderB, ViewProviderA, ViewProviderB]
+                                                      ~~~~~~~~~~~~~  ^^^^^^^^^^^^^
+      })
+      class Test {}
+    `,
+    messages: [
+      {
+        char: '~',
+        messageId,
+      },
+      {
+        char: '^',
+        messageId,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'Fails when there are duplicate styleUrls in Component',
+    annotatedSource: `
+      @Component({
+        styleUrls: ['a.css', 'b.css', 'a.css', 'b.css']
+                                      ~~~~~~~  ^^^^^^^
       })
       class Test {}
     `,
