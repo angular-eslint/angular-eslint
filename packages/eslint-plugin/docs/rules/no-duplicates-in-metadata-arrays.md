@@ -211,6 +211,96 @@ class Test {}
 #### ❌ Invalid Code
 
 ```ts
+@Component({
+  providers: [ProviderA, ProviderB, ProviderA, ProviderB]
+                                    ~~~~~~~~~  ~~~~~~~~~
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-duplicates-in-metadata-arrays": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({
+  viewProviders: [ViewProviderA, ViewProviderB, ViewProviderA, ViewProviderB]
+                                                ~~~~~~~~~~~~~  ~~~~~~~~~~~~~
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-duplicates-in-metadata-arrays": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({
+  styleUrls: ['a.css', 'b.css', 'a.css', 'b.css']
+                                ~~~~~~~  ~~~~~~~
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-duplicates-in-metadata-arrays": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
 @Directive({
   providers: [ProviderA, ProviderB, ProviderA, ProviderB]
                                     ~~~~~~~~~  ~~~~~~~~~
@@ -319,7 +409,10 @@ class Test {}
 
 ```ts
 @Component({
-  imports: [ImportA, ImportB, ImportC]
+  imports: [ImportA, ImportB, ImportC],
+  providers: [ProviderA, ProviderB, ProviderC],
+  viewProviders: [ViewProviderA, ViewProviderB, ViewProviderC],
+  styleUrls: ['a.css', 'b.css', 'c.css']
 })
 class Test {}
 ```
