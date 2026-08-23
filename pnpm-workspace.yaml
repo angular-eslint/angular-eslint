@@ -47,7 +47,7 @@ catalog:
   tslib: '^2.4.1'
   tsx: '4.23.12'
   typescript: '6.0.3'
-  verdaccio: '6.7.4'
+  verdaccio: '6.9.2'
   vite: '^8.0.0'
   vitest: '4.1.10'
   yargs: '18.0.0'
