@@ -179,8 +179,8 @@ catalogs:
       specifier: 9.1.2
       version: 9.1.2
     ignore:
-      specifier: 7.0.5
-      version: 7.0.5
+      specifier: 7.0.6
+      version: 7.0.6
     semver:
       specifier: 7.8.5
       version: 7.8.5
@@ -516,7 +516,7 @@ importers:
         version: 22.1.4(@types/node@26.1.1)
       ignore:
         specifier: catalog:other-runtime-dependencies
-        version: 7.0.5
+        version: 7.0.6
       semver:
         specifier: catalog:other-runtime-dependencies
         version: 7.8.5
@@ -4353,6 +4353,10 @@ packages:
 
   ignore@7.0.5:
     resolution: {integrity: sha512-Hs59xBNfUIunMFgWAbGX5cq6893IbWg4KnrjbYwX3tx0ztorVgTDA6B2sxf8ejHJ4wz8BqGUMYlnzNBer5NvGg==}
+    engines: {node: '>= 4'}
+
+  ignore@7.0.6:
+    resolution: {integrity: sha512-BAg6QkE8W+TuQLrrw0Ugr7HegXduRuuj8/ti2kSOc+jz1dmx8/WNcjr6XGnq5YpDWxFwwaavqD0+jIUOKelTsw==}
     engines: {node: '>= 4'}
 
   import-fresh@3.3.1:
@@ -10873,6 +10877,8 @@ snapshots:
   ignore@5.3.2: {}
 
   ignore@7.0.5: {}
+
+  ignore@7.0.6: {}
 
   import-fresh@3.3.1:
     dependencies:
