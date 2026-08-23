@@ -110,6 +110,37 @@ The rule does not have any configuration options.
        ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/valid-aria": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div aria-relevant="additions notAToken">Text</div>
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<div aria-dropeffect="copy notAToken">Text</div>
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<div aria-relevant="   ">Text</div>
+     ~~~~~~~~~~~~~~~~~~~
+```
+
 </details>
 
 <br>
@@ -375,6 +406,110 @@ The rule does not have any configuration options.
 
 ```html
 <div aria-relevant="additions">additions</div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/valid-aria": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div aria-relevant="additions removals">additions removals</div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/valid-aria": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div aria-relevant="additions text">the ARIA default value</div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/valid-aria": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div aria-relevant="  additions   text  ">surrounding and repeated whitespace</div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/valid-aria": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div aria-dropeffect="copy move">copy move</div>
 ```
 
 <br>

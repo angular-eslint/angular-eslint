@@ -177,12 +177,17 @@ function isValidAriaPropertyValue(
       return isNumeric(attributeValue);
     case 'string':
       return isString(attributeValue);
-    case 'token':
-    case 'tokenlist': {
+    case 'token': {
       const parsedAttributeValue = isBooleanLike(attributeValue)
         ? JSON.parse(attributeValue as unknown as string)
         : attributeValue;
       return Boolean(values?.includes(parsedAttributeValue));
+    }
+    case 'tokenlist': {
+      // A token list is whitespace-separated, so each token is looked up on its own.
+      if (!isString(attributeValue)) return false;
+      const tokens = attributeValue.trim().split(/\s+/);
+      return tokens.every((token) => Boolean(values?.includes(token)));
     }
   }
 }
