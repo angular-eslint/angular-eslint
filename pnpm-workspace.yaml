@@ -50,7 +50,7 @@ catalog:
   verdaccio: '6.9.2'
   vite: '^8.0.0'
   vitest: '4.1.10'
-  yargs: '18.0.0'
+  yargs: '18.1.0'
 catalogMode: 'prefer'
 catalogs:
   other-runtime-dependencies:
