@@ -73,4 +73,53 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
                     
     `,
   }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should escape a double quote held by the literal',
+    annotatedSource: `
+      <my-component [name]="'say &quot;hi&quot;'"/>
+                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    messageId,
+    annotatedOutput: `
+      <my-component name="say &quot;hi&quot;"/>
+                    
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should escape a single quote held by the literal',
+    annotatedSource: `
+      <my-component [name]='"it&apos;s"'/>
+                    ~~~~~~~~~~~~~~~~~~~~
+    `,
+    messageId,
+    annotatedOutput: `
+      <my-component name='it&#39;s'/>
+                    
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should escape an ampersand so the literal is not re-read as an entity',
+    annotatedSource: `
+      <my-component [name]="'a &amp;quot; b'"/>
+                    ~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    messageId,
+    annotatedOutput: `
+      <my-component name="a &amp;quot; b"/>
+                    
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should keep the fixed template parsable when markup is bound',
+    annotatedSource: `
+      <code [highlightAuto]="'<ng-template #ref=&quot;poly&quot;>x</ng-template>'"></code>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    messageId,
+    annotatedOutput: `
+      <code highlightAuto="<ng-template #ref=&quot;poly&quot;>x</ng-template>"></code>
+            
+    `,
+  }),
 ];
