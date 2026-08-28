@@ -70,6 +70,11 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     @Service()
     class Test {}
   `,
+  // https://github.com/angular-eslint/angular-eslint/issues/3120
+  `
+    @Injectable({ providedIn: null })
+    class Test {}
+  `,
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
@@ -124,24 +129,6 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       const providedIn = 'anotherProperty';
       @Injectable({ [providedIn]: [], providedIn: '${injector}' })
       
-      class Test {}
-    `,
-      data: { injector },
-    })),
-  }),
-  convertAnnotatedSourceToFailureCase({
-    description: 'should fail if `providedIn` is set to `null`',
-    annotatedSource: `
-      @Injectable({ providedIn: null })
-                                ~~~~
-      class Test {}
-    `,
-    messageId,
-    suggestions: (['any', 'platform', 'root'] as const).map((injector) => ({
-      messageId: suggestInjector,
-      output: `
-      @Injectable({ providedIn: '${injector}' })
-                                
       class Test {}
     `,
       data: { injector },

@@ -38,10 +38,10 @@ export default createESLintRule<Options, MessageIds>({
       METADATA_PROPERTY_NAME,
     );
     const withoutProvidedInDecorator = `${injectableClassDecorator}:matches([expression.arguments.length=0], [expression.arguments.0.type='ObjectExpression']:not(:has(${providedInMetadataProperty})))`;
-    const nullableProvidedInProperty = `${injectableClassDecorator} ${providedInMetadataProperty}:matches([value.type='Identifier'][value.name='undefined'], [value.type='Literal'][value.raw='null'])`;
+    const undefinedProvidedInProperty = `${injectableClassDecorator} ${providedInMetadataProperty}:matches([value.type='Identifier'][value.name='undefined'], [value.type='Literal'][value.raw='undefined'])`;
     const selectors = [
       withoutProvidedInDecorator,
-      nullableProvidedInProperty,
+      undefinedProvidedInProperty,
     ].join(',');
 
     return {
@@ -69,5 +69,5 @@ export default createESLintRule<Options, MessageIds>({
 });
 
 export const RULE_DOCS_EXTENSION = {
-  rationale: `Using 'providedIn' in the @Injectable() decorator (like '@Injectable({ providedIn: "root" })') enables tree-shaking, which means Angular can remove the service from your production bundle if it's never actually used. Without 'providedIn', services must be registered in a module's providers array, and Angular must include them in the bundle even if they're unused. This can significantly increase bundle size. Additionally, 'providedIn' makes services easier to use (no need to add them to module providers) and makes circular dependencies less likely. The 'providedIn' syntax is the modern, recommended way to provide services.`,
+  rationale: `Using 'providedIn' in the @Injectable() decorator (like '@Injectable({ providedIn: "root" })') enables tree-shaking, which means Angular can remove the service from your production bundle if it's never actually used. Without 'providedIn', services must be registered in a module's providers array, and Angular must include them in the bundle even if they're unused. This can significantly increase bundle size. Additionally, 'providedIn' makes services easier to use (no need to add them to module providers) and makes circular dependencies less likely. The 'providedIn' syntax is the modern, recommended way to provide services. Setting 'providedIn' to 'null' is an intentional choice to scope the service to a specific injector and is therefore allowed by this rule.`,
 };

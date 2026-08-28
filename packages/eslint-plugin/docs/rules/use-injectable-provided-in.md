@@ -25,7 +25,7 @@ Using the `providedIn` property makes `Injectables` tree-shakable
 
 ## Rationale
 
-Using 'providedIn' in the @Injectable() decorator (like '@Injectable({ providedIn: "root" })') enables tree-shaking, which means Angular can remove the service from your production bundle if it's never actually used. Without 'providedIn', services must be registered in a module's providers array, and Angular must include them in the bundle even if they're unused. This can significantly increase bundle size. Additionally, 'providedIn' makes services easier to use (no need to add them to module providers) and makes circular dependencies less likely. The 'providedIn' syntax is the modern, recommended way to provide services.
+Using 'providedIn' in the @Injectable() decorator (like '@Injectable({ providedIn: "root" })') enables tree-shaking, which means Angular can remove the service from your production bundle if it's never actually used. Without 'providedIn', services must be registered in a module's providers array, and Angular must include them in the bundle even if they're unused. This can significantly increase bundle size. Additionally, 'providedIn' makes services easier to use (no need to add them to module providers) and makes circular dependencies less likely. The 'providedIn' syntax is the modern, recommended way to provide services. Setting 'providedIn' to 'null' is an intentional choice to scope the service to a specific injector and is therefore allowed by this rule.
 
 <br>
 
@@ -129,34 +129,6 @@ class Test {}
 const providedIn = 'anotherProperty';
 @Injectable({ [providedIn]: [] })
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-class Test {}
-```
-
-<br>
-
----
-
-<br>
-
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/use-injectable-provided-in": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
-#### ❌ Invalid Code
-
-```ts
-@Injectable({ providedIn: null })
-                          ~~~~
 class Test {}
 ```
 
@@ -571,6 +543,33 @@ class Test {}
 
 ```ts
 @Service()
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/use-injectable-provided-in": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Injectable({ providedIn: null })
 class Test {}
 ```
 
