@@ -460,4 +460,85 @@ describe('ng-add', () => {
       });
     });
   });
+
+  describe('Angular major compatibility feedback', () => {
+    let workspaceTree: UnitTestTree;
+
+    beforeEach(() => {
+      workspaceTree = new UnitTestTree(Tree.empty());
+      workspaceTree.create(
+        'angular.json',
+        JSON.stringify({
+          version: 1,
+          newProjectRoot: 'projects',
+          projects: {},
+        }),
+      );
+    });
+
+    it('should warn when the workspace Angular major does not match', async () => {
+      workspaceTree.create(
+        'package.json',
+        JSON.stringify({
+          dependencies: { '@angular/core': '^21.2.0' },
+          devDependencies: { '@angular/cli': '21.2.0' },
+        }),
+      );
+      const messages: string[] = [];
+      const subscription = schematicRunner.logger.subscribe((entry) => {
+        messages.push(`${entry.level}: ${entry.message}`);
+      });
+      await schematicRunner.runSchematic('ng-add', {}, workspaceTree);
+      subscription.unsubscribe();
+      expect(
+        messages.some(
+          (message) =>
+            message.startsWith('warn:') &&
+            message.includes(
+              'angular-eslint v22 is intended for Angular v22',
+            ) &&
+            message.includes('@angular/core@^21.2.0 (v21)'),
+        ),
+      ).toBe(true);
+    });
+
+    it('should confirm when the workspace Angular major matches', async () => {
+      workspaceTree.create(
+        'package.json',
+        JSON.stringify({
+          dependencies: { '@angular/core': '^22.1.0' },
+          devDependencies: {},
+        }),
+      );
+      const messages: string[] = [];
+      const subscription = schematicRunner.logger.subscribe((entry) => {
+        messages.push(`${entry.level}: ${entry.message}`);
+      });
+      await schematicRunner.runSchematic('ng-add', {}, workspaceTree);
+      subscription.unsubscribe();
+      expect(
+        messages.some((message) =>
+          message.includes(
+            "angular-eslint v22 matches this workspace's Angular v22.",
+          ),
+        ),
+      ).toBe(true);
+    });
+
+    it('should stay quiet when Angular is not declared', async () => {
+      workspaceTree.create(
+        'package.json',
+        JSON.stringify({ devDependencies: {} }),
+      );
+      const messages: string[] = [];
+      const subscription = schematicRunner.logger.subscribe((entry) => {
+        messages.push(entry.message);
+      });
+      await schematicRunner.runSchematic('ng-add', {}, workspaceTree);
+      subscription.unsubscribe();
+      expect(
+        messages.some((message) => message.includes('angular-eslint v22')),
+      ).toBe(false);
+    });
+  });
 });

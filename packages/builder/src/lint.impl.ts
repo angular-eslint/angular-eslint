@@ -1,12 +1,20 @@
 import { createBuilder, type BuilderOutput } from '@angular-devkit/architect';
 import type { ESLint } from 'eslint';
 import { existsSync, mkdirSync, writeFileSync } from 'fs';
+import { createRequire } from 'node:module';
 import { dirname, join, resolve } from 'path';
 import type { Schema } from './schema';
+import { parseMajorVersion } from './utils/angular-version-compat';
 import {
   defaultFlatConfigNames,
   resolveAndInstantiateESLint,
 } from './utils/eslint-utils';
+import { reportAngularVersionCompatibility } from './utils/report-angular-version-compat';
+
+const requireFromModule = createRequire(__filename);
+const { version: builderVersion } = requireFromModule('../package.json') as {
+  version: string;
+};
 
 export default createBuilder(
   async (options: Schema, context): Promise<BuilderOutput> => {
@@ -37,6 +45,17 @@ export default createBuilder(
 
       if (printInfo) {
         console.info(`\nLinting ${JSON.stringify(projectName)}...`);
+      }
+
+      const expectedMajor = parseMajorVersion(builderVersion);
+      if (expectedMajor !== null) {
+        reportAngularVersionCompatibility(
+          systemRoot,
+          expectedMajor,
+          (message) => {
+            context.logger.warn(message);
+          },
+        );
       }
 
       const eslintConfigPath = options.eslintConfig
