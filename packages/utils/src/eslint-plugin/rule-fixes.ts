@@ -286,7 +286,9 @@ export function getNodeToCommaRemoveFix(
 
   // When another element follows, remove up to it so it keeps its indentation.
   if (commaAfterNode) {
-    const tokenAfterComma = sourceCode.getTokenAfter(commaAfterNode);
+    const tokenAfterComma = sourceCode.getTokenAfter(commaAfterNode, {
+      includeComments: true,
+    });
     if (tokenAfterComma && !isClosingDelimiterToken(tokenAfterComma)) {
       return fixer.removeRange([node.range[0], tokenAfterComma.range[0]]);
     }
@@ -294,7 +296,9 @@ export function getNodeToCommaRemoveFix(
 
   // Last element: also remove the whitespace before it, but keep the preceding
   // comma.
-  const tokenBeforeNode = sourceCode.getTokenBefore(node);
+  const tokenBeforeNode = sourceCode.getTokenBefore(node, {
+    includeComments: true,
+  });
   const start =
     tokenBeforeNode && ASTUtils.isCommaToken(tokenBeforeNode)
       ? tokenBeforeNode.range[1]
