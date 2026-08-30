@@ -19,12 +19,22 @@ describe('parseMajorVersion', () => {
     expect(parseMajorVersion(specifier)).toBe(expected);
   });
 
-  it.each(['', '*', 'latest', 'workspace:*', 'file:../pkg', undefined])(
-    'returns null for %s',
-    (specifier) => {
-      expect(parseMajorVersion(specifier)).toBeNull();
-    },
-  );
+  it.each([
+    '',
+    '*',
+    'latest',
+    'workspace:*',
+    'file:../pkg',
+    '0.0.0-e2e',
+    '0.0.0',
+    undefined,
+  ])('returns null for %s', (specifier) => {
+    expect(parseMajorVersion(specifier)).toBeNull();
+  });
+
+  it('still parses a real major from a prerelease like 22.0.0-e2e', () => {
+    expect(parseMajorVersion('22.0.0-e2e')).toBe(22);
+  });
 });
 
 describe('findAngularVersionMismatches', () => {

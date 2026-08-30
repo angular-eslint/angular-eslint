@@ -44,7 +44,13 @@ export function parseMajorVersion(
   if (!match) {
     return null;
   }
-  return Number(match[1]);
+  const major = Number(match[1]);
+  // 0.x (including the e2e publish version `0.0.0-e2e`) is not an
+  // Angular-aligned major; treat it as undetectable rather than v0.
+  if (major === 0) {
+    return null;
+  }
+  return major;
 }
 
 export function findDeclaredDependency(

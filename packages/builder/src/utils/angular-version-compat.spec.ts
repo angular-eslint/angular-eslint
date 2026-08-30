@@ -13,6 +13,12 @@ describe('parseMajorVersion', () => {
   it('parses caret ranges and exact versions', () => {
     expect(parseMajorVersion('^22.1.0')).toBe(22);
     expect(parseMajorVersion('21.2.0')).toBe(21);
+    expect(parseMajorVersion('22.0.0-e2e')).toBe(22);
+  });
+
+  it('treats 0.x placeholders such as 0.0.0-e2e as undetectable', () => {
+    expect(parseMajorVersion('0.0.0-e2e')).toBeNull();
+    expect(parseMajorVersion('0.0.0')).toBeNull();
   });
 });
 
