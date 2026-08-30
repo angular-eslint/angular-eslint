@@ -13,6 +13,8 @@ Therefore, as an example (because these versions may or may not exist yet when y
 
 > NOTE: the exact minor and patch versions of each library represented here by `x`'s do not need to match each other, just the first (major) number
 
+`ng add angular-eslint` and `ng lint` will warn when they can see that the workspace's `@angular/core` or `@angular/cli` major does not match the installed `angular-eslint` major. This is informational: installation and linting still proceed.
+
 ## Prior to v12
 
 In order to support the above major version alignment to make things MUCH simpler from now on, in `@angular-eslint` we jumped from major version `4` to `12` (i.e. major versions 5-11 do not exist). This makes the version alignment prior to v12 a little harder to follow by comparison, but the following section outlines what you should be using together if you cannot move to Angular v12 yet for whatever reason.

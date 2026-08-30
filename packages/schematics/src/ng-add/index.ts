@@ -3,6 +3,14 @@ import { chain, schematic } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import type { Schema } from './schema';
 import {
+  findAngularVersionMismatches,
+  formatAngularVersionMatchMessage,
+  formatAngularVersionMismatchMessage,
+  hasDetectableAngularVersion,
+  parseMajorVersion,
+  type PackageJsonLike,
+} from '../angular-version-compat';
+import {
   createStringifiedRootESLintConfig,
   getTargetsConfigFromProject,
   readJsonInTree,
@@ -184,12 +192,37 @@ Please see https://github.com/angular-eslint/angular-eslint for more information
  *
  * @param options Configuration options passed to the schematic.
  */
+function reportAngularVersionCompatibility(
+  workspacePackageJson: PackageJsonLike,
+  context: SchematicContext,
+): void {
+  const expectedMajor = parseMajorVersion(packageJSON.version);
+  if (expectedMajor == null) {
+    return;
+  }
+  const mismatches = findAngularVersionMismatches(
+    workspacePackageJson,
+    expectedMajor,
+  );
+  if (mismatches.length > 0) {
+    context.logger.warn(
+      formatAngularVersionMismatchMessage(expectedMajor, mismatches),
+    );
+    return;
+  }
+  if (hasDetectableAngularVersion(workspacePackageJson)) {
+    context.logger.info(formatAngularVersionMatchMessage(expectedMajor));
+  }
+}
+
 export default function (options: Schema): Rule {
   return (host: Tree, context: SchematicContext) => {
     const workspacePackageJSON = (host.read('package.json') as Buffer).toString(
       'utf-8',
     );
     const json = JSON.parse(workspacePackageJSON);
+
+    reportAngularVersionCompatibility(json, context);
 
     return chain([
       addAngularESLintPackages(json, options),

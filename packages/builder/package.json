@@ -24,7 +24,6 @@
     "@angular-devkit/core": "catalog:other-runtime-dependencies"
   },
   "peerDependencies": {
-    "@angular/cli": "catalog:other-runtime-dependencies",
     "eslint": "^9.0.0 || ^10.0.0",
     "typescript": "*"
   },
