@@ -1,3 +1,13 @@
+## 22.2.0 (2026-08-30)
+
+### 🩹 Fixes
+
+- remove unused @angular/cli peer and report Angular major mismatches at runtime ([#3154](https://github.com/angular-eslint/angular-eslint/pull/3154))
+
+### ❤️ Thank You
+
+- AI-JamesHenry @AI-JamesHenry
+
 ## 22.1.0 (2026-07-12)
 
 This was a version bump only for builder to align it with other projects, there were no code changes.

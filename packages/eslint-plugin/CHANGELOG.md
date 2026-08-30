@@ -1,3 +1,18 @@
+## 22.2.0 (2026-08-30)
+
+### 🚀 Features
+
+- **eslint-plugin:** add allowExplicitOnPush option, auto-remove explicit OnPush when false ([#3153](https://github.com/angular-eslint/angular-eslint/pull/3153))
+
+### 🩹 Fixes
+
+- **eslint-plugin:** [no-duplicates-in-metadata-arrays] cover `@Component` `providers`, `viewProviders` and `styleUrls` ([#3121](https://github.com/angular-eslint/angular-eslint/pull/3121))
+
+### ❤️ Thank You
+
+- Evgeny Stepanovych @undsoft
+- Guillaume DROUARD
+
 ## 22.1.0 (2026-07-12)
 
 ### 🚀 Features

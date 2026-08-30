@@ -1,3 +1,7 @@
+## 22.2.0 (2026-08-30)
+
+This was a version bump only for @angular-eslint/test-utils to align it with other projects, there were no code changes.
+
 ## 22.1.0 (2026-07-12)
 
 This was a version bump only for @angular-eslint/test-utils to align it with other projects, there were no code changes.
