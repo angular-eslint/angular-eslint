@@ -25,6 +25,8 @@ describe('parseMajorVersion', () => {
     'latest',
     'workspace:*',
     'file:../pkg',
+    'catalog:other',
+    'not-a-version',
     '0.0.0-e2e',
     '0.0.0',
     undefined,
@@ -88,6 +90,33 @@ describe('findAngularVersionMismatches', () => {
       ),
     ).toEqual([]);
   });
+
+  it('uses an installed major when the specifier is not declared', () => {
+    expect(
+      findAngularVersionMismatches({}, 22, { '@angular/cli': 21 }),
+    ).toEqual([
+      {
+        packageName: '@angular/cli',
+        specifier: 'v21',
+        foundMajor: 21,
+      },
+    ]);
+  });
+
+  it('reads Angular packages from peerDependencies', () => {
+    expect(
+      findAngularVersionMismatches(
+        { peerDependencies: { '@angular/core': '^21.2.0' } },
+        22,
+      ),
+    ).toEqual([
+      {
+        packageName: '@angular/core',
+        specifier: '^21.2.0',
+        foundMajor: 21,
+      },
+    ]);
+  });
 });
 
 describe('messages', () => {
@@ -119,5 +148,6 @@ describe('messages', () => {
         dependencies: { '@angular/core': '^22.0.0' },
       }),
     ).toBe(true);
+    expect(hasDetectableAngularVersion({}, { '@angular/core': 22 })).toBe(true);
   });
 });

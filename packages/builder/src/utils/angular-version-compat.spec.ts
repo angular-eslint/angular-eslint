@@ -4,21 +4,38 @@ import { join } from 'node:path';
 import { describe, expect, it, vi } from 'vitest';
 import {
   findAngularVersionMismatches,
+  formatAngularVersionMatchMessage,
   formatAngularVersionMismatchMessage,
+  hasDetectableAngularVersion,
   parseMajorVersion,
 } from './angular-version-compat';
 import { reportAngularVersionCompatibility } from './report-angular-version-compat';
 
 describe('parseMajorVersion', () => {
-  it('parses caret ranges and exact versions', () => {
-    expect(parseMajorVersion('^22.1.0')).toBe(22);
-    expect(parseMajorVersion('21.2.0')).toBe(21);
-    expect(parseMajorVersion('22.0.0-e2e')).toBe(22);
+  it.each([
+    ['22.1.0', 22],
+    ['^22.1.4', 22],
+    ['~21.2.0', 21],
+    ['>= 22.0.0 < 23.0.0', 22],
+    ['v21.0.0', 21],
+    ['22.0.0-e2e', 22],
+  ])('parses %s as %s', (specifier, expected) => {
+    expect(parseMajorVersion(specifier)).toBe(expected);
   });
 
-  it('treats 0.x placeholders such as 0.0.0-e2e as undetectable', () => {
-    expect(parseMajorVersion('0.0.0-e2e')).toBeNull();
-    expect(parseMajorVersion('0.0.0')).toBeNull();
+  it.each([
+    '',
+    '*',
+    'latest',
+    'workspace:*',
+    'catalog:other',
+    'file:../pkg',
+    'not-a-version',
+    '0.0.0-e2e',
+    '0.0.0',
+    undefined,
+  ])('returns null for %s', (specifier) => {
+    expect(parseMajorVersion(specifier)).toBeNull();
   });
 });
 
@@ -40,6 +57,46 @@ describe('findAngularVersionMismatches', () => {
         foundMajor: 21,
       },
     ]);
+  });
+
+  it('reads Angular packages from peerDependencies', () => {
+    expect(
+      findAngularVersionMismatches(
+        { peerDependencies: { '@angular/core': '^21.2.0' } },
+        22,
+      ),
+    ).toEqual([
+      {
+        packageName: '@angular/core',
+        specifier: '^21.2.0',
+        foundMajor: 21,
+      },
+    ]);
+  });
+
+  it('uses an installed major when the specifier is not declared', () => {
+    expect(
+      findAngularVersionMismatches({}, 22, { '@angular/cli': 21 }),
+    ).toEqual([
+      {
+        packageName: '@angular/cli',
+        specifier: 'v21',
+        foundMajor: 21,
+      },
+    ]);
+  });
+});
+
+describe('messages', () => {
+  it('formats a match confirmation', () => {
+    expect(formatAngularVersionMatchMessage(22)).toBe(
+      "angular-eslint v22 matches this workspace's Angular v22.",
+    );
+  });
+
+  it('detects Angular from an installed major even without a declaration', () => {
+    expect(hasDetectableAngularVersion({})).toBe(false);
+    expect(hasDetectableAngularVersion({}, { '@angular/core': 22 })).toBe(true);
   });
 });
 
