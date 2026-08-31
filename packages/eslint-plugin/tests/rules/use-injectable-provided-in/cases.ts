@@ -70,6 +70,14 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     @Service()
     class Test {}
   `,
+  // https://github.com/angular-eslint/angular-eslint/issues/3120
+  {
+    code: `
+      @Injectable({ providedIn: null })
+      class Test {}
+    `,
+    options: [{ allowProvidedInNull: true }],
+  },
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
