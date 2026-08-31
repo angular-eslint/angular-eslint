@@ -3,11 +3,22 @@ import {
   isNotNullOrUndefined,
   RuleFixes,
 } from '@angular-eslint/utils';
-import type { TSESTree } from '@typescript-eslint/utils';
-import { ESLintUtils } from '@typescript-eslint/utils';
+import type {
+  ParserServicesWithTypeInformation,
+  TSESTree,
+} from '@typescript-eslint/utils';
+import { AST_NODE_TYPES, ESLintUtils } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
-type Options = [];
+type Options = [
+  {
+    useTypeChecking: boolean;
+  },
+];
+
+const DEFAULT_OPTIONS: Options[number] = {
+  useTypeChecking: false,
+};
 
 export type MessageIds = 'preferSignalModel';
 export const RULE_NAME = 'prefer-signal-model';
@@ -19,6 +30,8 @@ export const RULE_NAME = 'prefer-signal-model';
  */
 interface SignalDeclaration {
   readonly property: TSESTree.PropertyDefinition;
+  /** The `input`/`output` identifier, which the fix rewrites to `model`. */
+  readonly callee: TSESTree.Identifier;
   readonly typeArgument: TSESTree.TypeNode | undefined;
   readonly initialValue: TSESTree.CallExpressionArgument | undefined;
 }
@@ -54,20 +67,33 @@ export default createESLintRule<Options, MessageIds>({
         'Use `model` instead of `input` and `output` for two-way bindings',
     },
     fixable: 'code',
-    schema: [],
+    schema: [
+      {
+        type: 'object',
+        properties: {
+          useTypeChecking: {
+            type: 'boolean',
+            default: DEFAULT_OPTIONS.useTypeChecking,
+          },
+        },
+        additionalProperties: false,
+      },
+    ],
     messages: {
       preferSignalModel:
         'Use `model` for two-way bindings instead of `input()` and `output()`',
     },
   },
-  defaultOptions: [],
-  create(context) {
+  defaultOptions: [{ ...DEFAULT_OPTIONS }],
+  create(context, [{ useTypeChecking = DEFAULT_OPTIONS.useTypeChecking }]) {
     const { sourceCode } = context;
     const inputs = new Map<string, SignalDeclaration>();
     const outputs = new Map<string, SignalDeclaration>();
-    const services = ESLintUtils.getParserServices(context, true);
-    const typeServices = services.program ? services : null;
-    const checker = typeServices?.program.getTypeChecker();
+    let services: ParserServicesWithTypeInformation | undefined;
+
+    function getTypeServices() {
+      return (services ??= ESLintUtils.getParserServices(context));
+    }
 
     // Only `input(initialValue)` carries its value as the first argument;
     // `input.required()` and `output()` take an options object there, so their
@@ -80,6 +106,9 @@ export default createESLintRule<Options, MessageIds>({
         const property = node.parent as TSESTree.PropertyDefinition;
         map.set(ASTUtils.getPropertyDefinitionName(property), {
           property,
+          callee: (node.callee.type === AST_NODE_TYPES.MemberExpression
+            ? node.callee.object
+            : node.callee) as TSESTree.Identifier,
           typeArgument: node.typeArguments?.params[0],
           initialValue: capturesValue ? node.arguments[0] : undefined,
         });
@@ -88,18 +117,18 @@ export default createESLintRule<Options, MessageIds>({
 
     /** The signal's value type, or `undefined` when it cannot be determined. */
     function getValueType({ typeArgument, initialValue }: SignalDeclaration) {
-      if (!typeServices || !checker) {
-        return undefined;
-      }
+      const typeServices = getTypeServices();
 
       if (typeArgument) {
         return typeServices.getTypeAtLocation(typeArgument);
       }
 
       if (initialValue) {
-        return checker.getBaseTypeOfLiteralType(
-          typeServices.getTypeAtLocation(initialValue),
-        );
+        return typeServices.program
+          .getTypeChecker()
+          .getBaseTypeOfLiteralType(
+            typeServices.getTypeAtLocation(initialValue),
+          );
       }
 
       return undefined;
@@ -107,29 +136,39 @@ export default createESLintRule<Options, MessageIds>({
 
     /**
      * Whether the `input`/`output` value types match, so the pair can become a
-     * single `model()`. Uses the type checker when available (inferring an
-     * input's type from its initial value), otherwise compares the written type
-     * text. Undeterminable types are assumed compatible.
+     * single `model()`. With `useTypeChecking` the types are compared
+     * semantically (inferring an input's type from its initial value),
+     * otherwise the written type text is compared. Types that cannot be
+     * determined are assumed compatible.
      */
     function areTypesCompatible(
       input: SignalDeclaration,
       output: SignalDeclaration,
     ) {
-      if (typeServices) {
-        const inputType = getValueType(input);
-        const outputType = getValueType(output);
+      if (!useTypeChecking) {
         return (
-          inputType === undefined ||
-          outputType === undefined ||
-          inputType === outputType
+          !input.typeArgument ||
+          !output.typeArgument ||
+          sourceCode.getText(input.typeArgument) ===
+            sourceCode.getText(output.typeArgument)
         );
       }
 
+      const inputType = getValueType(input);
+      const outputType = getValueType(output);
+
+      if (!inputType || !outputType) {
+        return true;
+      }
+
+      // `isTypeIdenticalTo` is internal API, so identity is expressed as mutual
+      // assignability. Comparing the `ts.Type` objects themselves would not
+      // work: types written at two locations are distinct objects even when
+      // structurally identical.
+      const checker = getTypeServices().program.getTypeChecker();
       return (
-        !input.typeArgument ||
-        !output.typeArgument ||
-        sourceCode.getText(input.typeArgument) ===
-          sourceCode.getText(output.typeArgument)
+        checker.isTypeAssignableTo(inputType, outputType) &&
+        checker.isTypeAssignableTo(outputType, inputType)
       );
     }
 
@@ -177,21 +216,17 @@ export default createESLintRule<Options, MessageIds>({
           context.report({
             node: input.property,
             messageId: 'preferSignalModel',
-            fix: (fixer) => {
-              const inputText = sourceCode.getText(input.property);
-              const fixedInputText = inputText.replace(/\binput\b/, 'model');
-
-              return [
+            fix: (fixer) =>
+              [
                 RuleFixes.getImportAddFix({
                   fixer,
                   importName: 'model',
                   moduleName: '@angular/core',
                   node: input.property,
                 }),
-                fixer.replaceText(input.property, fixedInputText),
+                fixer.replaceText(input.callee, 'model'),
                 fixer.remove(output.property),
-              ].filter(isNotNullOrUndefined);
-            },
+              ].filter(isNotNullOrUndefined),
           });
         }
 
@@ -205,5 +240,5 @@ export default createESLintRule<Options, MessageIds>({
 
 export const RULE_DOCS_EXTENSION = {
   rationale:
-    "The model() function is Angular's modern API for two-way bindings, combining both input and output into a single signal. When you have an input property paired with an output property that follows the naming pattern of `propertyChange` (e.g., `enabled` input with `enabledChange` output), this is the traditional pattern for two-way binding. The model() function provides a cleaner, more concise way to express this pattern with better type safety and integration with Angular's signal ecosystem. It eliminates the boilerplate of managing separate input and output properties while maintaining the same two-way binding functionality.",
+    "The model() function is Angular's modern API for two-way bindings, combining both input and output into a single signal. When you have an input property paired with an output property that follows the naming pattern of `propertyChange` (e.g., `enabled` input with `enabledChange` output), this is the traditional pattern for two-way binding. The model() function provides a cleaner, more concise way to express this pattern with better type safety and integration with Angular's signal ecosystem. It eliminates the boilerplate of managing separate input and output properties while maintaining the same two-way binding functionality.\n\nBecause `model()` exposes a single type for both directions, only pairs whose `input` and `output` types match are reported. By default the written type arguments are compared as text, and a pair is assumed compatible when either side has no type argument. Enabling the `useTypeChecking` option compares the types semantically instead, and infers an `input`'s type from its initial value, so `input('')` paired with `output<number>()` is left alone.",
 };

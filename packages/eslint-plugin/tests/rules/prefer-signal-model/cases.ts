@@ -64,13 +64,6 @@ export const valid = [
       readonly valueChange = output<string>();
     }
     `,
-  // The input type is inferred from its initial value and does not match
-  `
-    class Test {
-      readonly value = input('');
-      readonly valueChange = output<number>();
-    }
-    `,
   // A required input whose type does not match the output
   `
     class Test {
@@ -78,6 +71,35 @@ export const valid = [
       readonly valueChange = output<number>();
     }
     `,
+  // The same mismatches are found when the types are compared semantically
+  {
+    code: `
+    class Test {
+      readonly value = input<string>();
+      readonly valueChange = output<number>();
+    }
+    `,
+    options: [{ useTypeChecking: true }],
+  },
+  {
+    code: `
+    class Test {
+      readonly value = input<string | null>();
+      readonly valueChange = output<string>();
+    }
+    `,
+    options: [{ useTypeChecking: true }],
+  },
+  // The input type is inferred from its initial value and does not match
+  {
+    code: `
+    class Test {
+      readonly value = input('');
+      readonly valueChange = output<number>();
+    }
+    `,
+    options: [{ useTypeChecking: true }],
+  },
 ];
 
 export const invalid = [
@@ -195,6 +217,7 @@ export const invalid = [
       }
       `,
     messageId: messageIdPreferSignalModel,
+    options: [{ useTypeChecking: true }],
     annotatedOutput: `import { model } from '@angular/core';
 
       class Test {
@@ -308,6 +331,68 @@ export const invalid = [
 
       class Test {
         readonly value = model.required<string>();
+        
+        
+      }
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail when input and output types are structurally identical',
+    annotatedSource: `
+      class Test {
+        readonly value = input<{ id: string }>();
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        readonly valueChange = output<{ id: string }>();
+      }
+      `,
+    messageId: messageIdPreferSignalModel,
+    options: [{ useTypeChecking: true }],
+    annotatedOutput: `import { model } from '@angular/core';
+
+      class Test {
+        readonly value = model<{ id: string }>();
+        
+        
+      }
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail when the input type inferred from its initial value matches the output',
+    annotatedSource: `
+      class Test {
+        readonly value = input('');
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        readonly valueChange = output<string>();
+      }
+      `,
+    messageId: messageIdPreferSignalModel,
+    options: [{ useTypeChecking: true }],
+    annotatedOutput: `import { model } from '@angular/core';
+
+      class Test {
+        readonly value = model('');
+        
+        
+      }
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should replace the `input` call rather than a property named `input`',
+    annotatedSource: `
+      class Test {
+        readonly input = input<string>();
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        readonly inputChange = output<string>();
+      }
+      `,
+    messageId: messageIdPreferSignalModel,
+    annotatedOutput: `import { model } from '@angular/core';
+
+      class Test {
+        readonly input = model<string>();
         
         
       }
