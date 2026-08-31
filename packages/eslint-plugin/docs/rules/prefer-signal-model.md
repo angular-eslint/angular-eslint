@@ -26,11 +26,23 @@ Use `model` instead of `input` and `output` for two-way bindings
 
 The model() function is Angular's modern API for two-way bindings, combining both input and output into a single signal. When you have an input property paired with an output property that follows the naming pattern of `propertyChange` (e.g., `enabled` input with `enabledChange` output), this is the traditional pattern for two-way binding. The model() function provides a cleaner, more concise way to express this pattern with better type safety and integration with Angular's signal ecosystem. It eliminates the boilerplate of managing separate input and output properties while maintaining the same two-way binding functionality.
 
+Because `model()` exposes a single type for both directions, only pairs whose `input` and `output` types match are reported. By default the written type arguments are compared as text, and a pair is assumed compatible when either side has no type argument. Enabling the `useTypeChecking` option compares the types semantically instead, and infers an `input`'s type from its initial value, so `input('')` paired with `output<number>()` is left alone.
+
 <br>
 
 ## Rule Options
 
-The rule does not have any configuration options.
+The rule accepts an options object with the following properties:
+
+```ts
+interface Options {
+  /**
+   * Default: `false`
+   */
+  useTypeChecking?: boolean;
+}
+
+```
 
 <br>
 
@@ -169,13 +181,16 @@ class Test {
 
 <br>
 
-#### Default Config
+#### Custom Config
 
 ```json
 {
   "rules": {
     "@angular-eslint/prefer-signal-model": [
-      "error"
+      "error",
+      {
+        "useTypeChecking": true
+      }
     ]
   }
 }
@@ -282,6 +297,135 @@ class Test {
   readonly value = input.required<string>();
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   readonly valueChange = output<string>();
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-signal-model": [
+      "error",
+      {
+        "useTypeChecking": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+class Test {
+  readonly value = input<{ id: string }>();
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  readonly valueChange = output<{ id: string }>();
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-signal-model": [
+      "error",
+      {
+        "useTypeChecking": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+class Test {
+  readonly value = input('');
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  readonly valueChange = output<string>();
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-signal-model": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+class Test {
+  readonly input = input<string>();
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  readonly inputChange = output<string>();
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-signal-model": [
+      "error",
+      {
+        "useTypeChecking": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+class Test {
+  readonly enabled = input();
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  readonly enabledChange = output();
 }
 ```
 
@@ -515,7 +659,7 @@ class Test {
 
 ```ts
 class Test {
-  readonly value = input('');
+  readonly value = input.required<string>();
   readonly valueChange = output<number>();
 }
 ```
@@ -526,13 +670,16 @@ class Test {
 
 <br>
 
-#### Default Config
+#### Custom Config
 
 ```json
 {
   "rules": {
     "@angular-eslint/prefer-signal-model": [
-      "error"
+      "error",
+      {
+        "useTypeChecking": true
+      }
     ]
   }
 }
@@ -544,7 +691,71 @@ class Test {
 
 ```ts
 class Test {
-  readonly value = input.required<string>();
+  readonly value = input<string>();
+  readonly valueChange = output<number>();
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-signal-model": [
+      "error",
+      {
+        "useTypeChecking": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+class Test {
+  readonly value = input<string | null>();
+  readonly valueChange = output<string>();
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-signal-model": [
+      "error",
+      {
+        "useTypeChecking": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+class Test {
+  readonly value = input('');
   readonly valueChange = output<number>();
 }
 ```

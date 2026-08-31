@@ -398,4 +398,25 @@ export const invalid = [
       }
       `,
   }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail when neither the input nor the output type can be determined',
+    annotatedSource: `
+      class Test {
+        readonly enabled = input();
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        readonly enabledChange = output();
+      }
+      `,
+    messageId: messageIdPreferSignalModel,
+    options: [{ useTypeChecking: true }],
+    annotatedOutput: `import { model } from '@angular/core';
+
+      class Test {
+        readonly enabled = model();
+        
+        
+      }
+      `,
+  }),
 ];
