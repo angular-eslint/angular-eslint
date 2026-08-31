@@ -23,20 +23,13 @@ const DEFAULT_OPTIONS: Options[number] = {
 export type MessageIds = 'preferSignalModel';
 export const RULE_NAME = 'prefer-signal-model';
 
-/**
- * An `input()` or `output()` class member. The value type comes from the
- * explicit type argument (`<T>`) when written, otherwise it can be inferred
- * from an `input`'s initial value.
- */
 interface SignalDeclaration {
   readonly property: TSESTree.PropertyDefinition;
-  /** The `input`/`output` identifier, which the fix rewrites to `model`. */
   readonly callee: TSESTree.Identifier;
   readonly typeArgument: TSESTree.TypeNode | undefined;
   readonly initialValue: TSESTree.CallExpressionArgument | undefined;
 }
 
-/** An `input`/`output` pair that can be merged into a single `model()`. */
 interface TwoWayBinding {
   readonly input: SignalDeclaration;
   readonly output: SignalDeclaration;
@@ -95,12 +88,11 @@ export default createESLintRule<Options, MessageIds>({
       return (services ??= ESLintUtils.getParserServices(context));
     }
 
-    // Only `input(initialValue)` carries its value as the first argument;
-    // `input.required()` and `output()` take an options object there, so their
-    // type can only come from an explicit type argument.
+    // `input.required()` and `output()` take an options object as their first
+    // argument, never an initial value.
     function collect(
       map: Map<string, SignalDeclaration>,
-      capturesValue: boolean,
+      capturesInitialValue: boolean,
     ) {
       return (node: TSESTree.CallExpression) => {
         const property = node.parent as TSESTree.PropertyDefinition;
@@ -110,12 +102,11 @@ export default createESLintRule<Options, MessageIds>({
             ? node.callee.object
             : node.callee) as TSESTree.Identifier,
           typeArgument: node.typeArguments?.params[0],
-          initialValue: capturesValue ? node.arguments[0] : undefined,
+          initialValue: capturesInitialValue ? node.arguments[0] : undefined,
         });
       };
     }
 
-    /** The signal's value type, or `undefined` when it cannot be determined. */
     function getValueType({ typeArgument, initialValue }: SignalDeclaration) {
       const typeServices = getTypeServices();
 
@@ -134,13 +125,9 @@ export default createESLintRule<Options, MessageIds>({
       return undefined;
     }
 
-    /**
-     * Whether the `input`/`output` value types match, so the pair can become a
-     * single `model()`. With `useTypeChecking` the types are compared
-     * semantically (inferring an input's type from its initial value),
-     * otherwise the written type text is compared. Types that cannot be
-     * determined are assumed compatible.
-     */
+    // `model()` exposes a single type for both directions, so a pair can only
+    // be merged when both sides agree. An undeterminable type is assumed
+    // compatible.
     function areTypesCompatible(
       input: SignalDeclaration,
       output: SignalDeclaration,
@@ -161,10 +148,9 @@ export default createESLintRule<Options, MessageIds>({
         return true;
       }
 
-      // `isTypeIdenticalTo` is internal API, so identity is expressed as mutual
-      // assignability. Comparing the `ts.Type` objects themselves would not
-      // work: types written at two locations are distinct objects even when
-      // structurally identical.
+      // Mutual assignability stands in for `isTypeIdenticalTo`, which is
+      // internal API. Comparing the `ts.Type` objects would not work: the same
+      // type written at two locations yields two distinct objects.
       const checker = getTypeServices().program.getTypeChecker();
       return (
         checker.isTypeAssignableTo(inputType, outputType) &&
