@@ -88,21 +88,27 @@ export default createESLintRule<Options, MessageIds>({
       return (services ??= ESLintUtils.getParserServices(context));
     }
 
-    // `input.required()` and `output()` take an options object as their first
-    // argument, never an initial value.
-    function collect(
-      map: Map<string, SignalDeclaration>,
-      capturesInitialValue: boolean,
+    function createSignalCollector(
+      signals: Map<string, SignalDeclaration>,
+      { hasInitialValueArgument }: { hasInitialValueArgument: boolean },
     ) {
       return (node: TSESTree.CallExpression) => {
+        const options = node.arguments[hasInitialValueArgument ? 1 : 0];
+
+        // `model()` has no transform support.
+        // https://github.com/angular/angular/issues/55166#issuecomment-2032150999
+        if (hasTransformOption(options)) {
+          return;
+        }
+
         const property = node.parent as TSESTree.PropertyDefinition;
-        map.set(ASTUtils.getPropertyDefinitionName(property), {
+        signals.set(ASTUtils.getPropertyDefinitionName(property), {
           property,
           callee: (node.callee.type === AST_NODE_TYPES.MemberExpression
             ? node.callee.object
             : node.callee) as TSESTree.Identifier,
           typeArgument: node.typeArguments?.params[0],
-          initialValue: capturesInitialValue ? node.arguments[0] : undefined,
+          initialValue: hasInitialValueArgument ? node.arguments[0] : undefined,
         });
       };
     }
@@ -125,10 +131,7 @@ export default createESLintRule<Options, MessageIds>({
       return undefined;
     }
 
-    // `model()` exposes a single type for both directions, so a pair can only
-    // be merged when both sides agree. An undeterminable type is assumed
-    // compatible.
-    function areTypesCompatible(
+    function haveMergeableTypes(
       input: SignalDeclaration,
       output: SignalDeclaration,
     ) {
@@ -148,9 +151,8 @@ export default createESLintRule<Options, MessageIds>({
         return true;
       }
 
-      // Mutual assignability stands in for `isTypeIdenticalTo`, which is
-      // internal API. Comparing the `ts.Type` objects would not work: the same
-      // type written at two locations yields two distinct objects.
+      // Mutual assignability stands in for the internal `isTypeIdenticalTo`;
+      // the same type written twice yields two distinct `ts.Type` objects.
       const checker = getTypeServices().program.getTypeChecker();
       return (
         checker.isTypeAssignableTo(inputType, outputType) &&
@@ -159,32 +161,14 @@ export default createESLintRule<Options, MessageIds>({
     }
 
     return {
-      "PropertyDefinition > CallExpression[callee.name='input']"(
-        node: TSESTree.CallExpression,
-      ) {
-        // Skip inputs with a transform option because model() does not support transform.
-        // https://github.com/angular/angular/issues/55166#issuecomment-2032150999
-        if (hasTransformOption(node.arguments[1])) {
-          return;
-        }
+      "PropertyDefinition > CallExpression[callee.name='input']":
+        createSignalCollector(inputs, { hasInitialValueArgument: true }),
 
-        collect(inputs, true)(node);
-      },
+      "PropertyDefinition > CallExpression[callee.object.name='input'][callee.property.name='required']":
+        createSignalCollector(inputs, { hasInitialValueArgument: false }),
 
-      "PropertyDefinition > CallExpression[callee.object.name='input'][callee.property.name='required']"(
-        node: TSESTree.CallExpression,
-      ) {
-        if (hasTransformOption(node.arguments[0])) {
-          return;
-        }
-
-        collect(inputs, false)(node);
-      },
-
-      "PropertyDefinition > CallExpression[callee.name='output']": collect(
-        outputs,
-        false,
-      ),
+      "PropertyDefinition > CallExpression[callee.name='output']":
+        createSignalCollector(outputs, { hasInitialValueArgument: false }),
 
       'ClassDeclaration:exit'() {
         const twoWayBindings = [...inputs]
@@ -195,7 +179,7 @@ export default createESLintRule<Options, MessageIds>({
           .filter(
             (binding): binding is TwoWayBinding =>
               binding.output !== undefined &&
-              areTypesCompatible(binding.input, binding.output),
+              haveMergeableTypes(binding.input, binding.output),
           );
 
         for (const { input, output } of twoWayBindings) {
@@ -216,7 +200,6 @@ export default createESLintRule<Options, MessageIds>({
           });
         }
 
-        // Clear the maps for the next class
         inputs.clear();
         outputs.clear();
       },
