@@ -361,6 +361,124 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-implicit-take-until-destroyed": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component()
+class Test {
+  constructor() {
+    this.loadData();
+  }
+
+  ngOnInit() {
+    this.loadData();
+  }
+
+  loadData() {
+    this.data$.pipe(takeUntilDestroyed()).subscribe();
+                    ~~~~~~~~~~~~~~~~~~~~
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-implicit-take-until-destroyed": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component()
+class Test {
+  private data = this.loadData();
+
+  ngOnInit() {
+    this.loadData();
+  }
+
+  private loadData() {
+    return this.data$.pipe(takeUntilDestroyed());
+                           ~~~~~~~~~~~~~~~~~~~~
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-implicit-take-until-destroyed": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Injectable()
+class TestService {
+  constructor() {
+    this.#subscribe();
+  }
+
+  refresh() {
+    this.#subscribe();
+  }
+
+  #subscribe() {
+    this.data$.pipe(takeUntilDestroyed()).subscribe();
+                    ~~~~~~~~~~~~~~~~~~~~
+  }
+}
+```
+
 </details>
 
 <br>
@@ -933,6 +1051,81 @@ class TestService {
   }
 
   private init() {
+    this.data$.pipe(takeUntilDestroyed()).subscribe();
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-implicit-take-until-destroyed": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component()
+class Test {
+  private data = this.init();
+
+  constructor() {
+    this.init();
+  }
+
+  private init() {
+    return this.data$.pipe(takeUntilDestroyed());
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-implicit-take-until-destroyed": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component()
+class Test {
+  constructor() {
+    this.init(0);
+  }
+
+  private init(attempt: number) {
+    if (attempt < 3) {
+      this.init(attempt + 1);
+    }
     this.data$.pipe(takeUntilDestroyed()).subscribe();
   }
 }

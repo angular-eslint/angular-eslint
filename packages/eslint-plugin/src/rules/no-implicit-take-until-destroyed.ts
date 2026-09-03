@@ -137,20 +137,29 @@ function isMethodCalledFromInjectionContext(
 
   const isPrivateField = method.key.type === AST_NODE_TYPES.PrivateIdentifier;
 
+  let isCalledFromInjectionContext = false;
+
   for (const member of classDeclaration.body.body) {
-    if (
-      !isConstructorMethod(member) &&
-      !ASTUtils.isPropertyDefinition(member)
-    ) {
+    // Ignore recursive calls from the method to itself
+    if (member === method) {
       continue;
     }
 
-    if (containsCallToMethod(member, methodName, isPrivateField)) {
-      return true;
+    if (!containsCallToMethod(member, methodName, isPrivateField)) {
+      continue;
+    }
+
+    if (isConstructorMethod(member) || ASTUtils.isPropertyDefinition(member)) {
+      isCalledFromInjectionContext = true;
+    } else {
+      // The method is also called from somewhere that is not an injection
+      // context (e.g. a lifecycle hook or a regular method), so we cannot
+      // assume that `takeUntilDestroyed()` will always run within one.
+      return false;
     }
   }
 
-  return false;
+  return isCalledFromInjectionContext;
 }
 
 function isASTNode(value: unknown): value is TSESTree.Node {

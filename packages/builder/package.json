@@ -1,6 +1,6 @@
 {
   "name": "@angular-eslint/builder",
-  "version": "22.1.0",
+  "version": "22.2.0",
   "description": "Angular CLI builder for ESLint",
   "license": "MIT",
   "main": "dist/index.js",
@@ -24,7 +24,6 @@
     "@angular-devkit/core": "catalog:other-runtime-dependencies"
   },
   "peerDependencies": {
-    "@angular/cli": "catalog:other-runtime-dependencies",
     "eslint": "^9.0.0 || ^10.0.0",
     "typescript": "*"
   },

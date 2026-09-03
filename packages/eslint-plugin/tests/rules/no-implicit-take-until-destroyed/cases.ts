@@ -185,6 +185,37 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
       }
     }
   `,
+  // in method called from both constructor and field initializer (both injection contexts)
+  `
+    @Component()
+    class Test {
+      private data = this.init();
+
+      constructor() {
+        this.init();
+      }
+
+      private init() {
+        return this.data$.pipe(takeUntilDestroyed());
+      }
+    }
+  `,
+  // in method called from constructor which also calls itself recursively (self-call is ignored)
+  `
+    @Component()
+    class Test {
+      constructor() {
+        this.init(0);
+      }
+
+      private init(attempt: number) {
+        if (attempt < 3) {
+          this.init(attempt + 1);
+        }
+        this.data$.pipe(takeUntilDestroyed()).subscribe();
+      }
+    }
+  `,
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
@@ -317,6 +348,70 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         }
 
         loadData() {
+          this.data$.pipe(takeUntilDestroyed()).subscribe();
+                          ~~~~~~~~~~~~~~~~~~~~
+        }
+      }
+    `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail in method called both from constructor and from not constructor',
+    annotatedSource: `
+      @Component()
+      class Test {
+        constructor() {
+          this.loadData();
+        }
+
+        ngOnInit() {
+          this.loadData();
+        }
+
+        loadData() {
+          this.data$.pipe(takeUntilDestroyed()).subscribe();
+                          ~~~~~~~~~~~~~~~~~~~~
+        }
+      }
+    `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail in method called both from field initializer and from lifecycle hook',
+    annotatedSource: `
+      @Component()
+      class Test {
+        private data = this.loadData();
+
+        ngOnInit() {
+          this.loadData();
+        }
+
+        private loadData() {
+          return this.data$.pipe(takeUntilDestroyed());
+                                 ~~~~~~~~~~~~~~~~~~~~
+        }
+      }
+    `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail in private method called both from constructor and from regular method',
+    annotatedSource: `
+      @Injectable()
+      class TestService {
+        constructor() {
+          this.#subscribe();
+        }
+
+        refresh() {
+          this.#subscribe();
+        }
+
+        #subscribe() {
           this.data$.pipe(takeUntilDestroyed()).subscribe();
                           ~~~~~~~~~~~~~~~~~~~~
         }

@@ -168,6 +168,51 @@ describe('Linter Builder', () => {
     expect(result.error).toBeUndefined();
   });
 
+  it('should warn when the workspace Angular major does not match', async () => {
+    const actualFs = await vi.importActual<typeof import('node:fs')>('node:fs');
+    const pkgPath = join(testWorkspaceRoot, 'package.json');
+    actualFs.writeFileSync(
+      pkgPath,
+      JSON.stringify({
+        dependencies: { '@angular/core': '^21.2.0' },
+      }),
+    );
+    mockReports = [
+      {
+        errorCount: 0,
+        warningCount: 0,
+        results: [],
+        messages: [],
+        usedDeprecatedRules: [],
+      },
+    ];
+    const logger = new logging.Logger('compat');
+    const warnings: string[] = [];
+    logger.subscribe((entry) => {
+      if (entry.level === 'warn') {
+        warnings.push(entry.message);
+      }
+    });
+    const run = await architect.scheduleBuilder(
+      builderName,
+      createValidRunBuilderOptions({
+        lintFilePatterns: ['includedFile1'],
+        format: 'stylish',
+        silent: false,
+      }),
+      { logger },
+    );
+    await run.result;
+    actualFs.writeFileSync(pkgPath, '{}');
+    expect(
+      warnings.some(
+        (message) =>
+          message.includes('angular-eslint v22 is intended for Angular v22') &&
+          message.includes('@angular/core@^21.2.0 (v21)'),
+      ),
+    ).toBe(true);
+  });
+
   it('should resolve and instantiate ESLint with the options that were passed to the builder', async () => {
     await runBuilder(
       createValidRunBuilderOptions({

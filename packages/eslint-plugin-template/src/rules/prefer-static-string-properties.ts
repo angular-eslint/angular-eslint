@@ -89,7 +89,10 @@ export default createESLintRule<Options, MessageIds>({
           // to quote the value, and we should keep using single
           // quotes when we convert it to a property assignment.
           const quote = value.source?.trimStart().at(0) === '"' ? "'" : '"';
-          const literal = value.ast.value;
+          // `&` is escaped first, or it would escape the entities added after it.
+          const literal = value.ast.value
+            .replaceAll('&', '&amp;')
+            .replaceAll(quote, quote === '"' ? '&quot;' : '&#39;');
 
           context.report({
             loc: parserServices.convertNodeSourceSpanToLoc(sourceSpan),

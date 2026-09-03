@@ -7,6 +7,11 @@
   // Wait well over npm's three day window for any new package as a precaution against malicious publishes.
   // https://docs.npmjs.com/policies/unpublish/#packages-published-less-than-72-hours-ago
   "minimumReleaseAge": "7 days",
+  // Run `pnpm dedupe` after every lockfile update. Without this, transitive ranges
+  // (e.g. @nx/eslint-plugin -> @typescript-eslint/utils@^8) can resolve to a newer
+  // version than the one pinned in our catalog, leaving two copies of the same
+  // package in the lockfile and breaking the build with incompatible types.
+  "postUpdateOptions": ["pnpmDedupe"],
   "packageRules": [
     {
       "groupName": "typescript-eslint packages",

@@ -1,3 +1,14 @@
+## 22.2.0 (2026-08-30)
+
+### 🩹 Fixes
+
+- **eslint-plugin-template:** [prefer-static-string-properties] escape the fixed attribute value ([#3135](https://github.com/angular-eslint/angular-eslint/pull/3135))
+- **eslint-plugin-template:** [valid-aria] validate each token of a token list ([#3128](https://github.com/angular-eslint/angular-eslint/pull/3128))
+
+### ❤️ Thank You
+
+- Oussama Laribi @oussamaLaribi
+
 ## 22.1.0 (2026-07-12)
 
 ### 🚀 Features

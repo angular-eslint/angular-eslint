@@ -20,6 +20,10 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '<input [attr.aria-rowcount]="2">',
   '<table aria-rowcount="-1"></table>',
   '<div aria-relevant="additions">additions</div>',
+  '<div aria-relevant="additions removals">additions removals</div>',
+  '<div aria-relevant="additions text">the ARIA default value</div>',
+  '<div aria-relevant="  additions   text  ">surrounding and repeated whitespace</div>',
+  '<div aria-dropeffect="copy move">copy move</div>',
   '<div aria-checked="false">checked</div>',
   '<div role="slider" [attr.aria-valuemin]="1"></div>',
   '<div role="slider" aria-valuemin="1"></div>',
@@ -193,6 +197,35 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         char: '@',
         messageId: accessibilityValidAriaValue,
         data: { attribute: 'aria-placeholder' },
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if a token list contains an unknown token, or holds no token at all',
+    annotatedSource: `
+        <div aria-relevant="additions notAToken">Text</div>
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        <div aria-dropeffect="copy notAToken">Text</div>
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        <div aria-relevant="   ">Text</div>
+             ###################
+      `,
+    messages: [
+      {
+        char: '~',
+        messageId: accessibilityValidAriaValue,
+        data: { attribute: 'aria-relevant' },
+      },
+      {
+        char: '^',
+        messageId: accessibilityValidAriaValue,
+        data: { attribute: 'aria-dropeffect' },
+      },
+      {
+        char: '#',
+        messageId: accessibilityValidAriaValue,
+        data: { attribute: 'aria-relevant' },
       },
     ],
   }),

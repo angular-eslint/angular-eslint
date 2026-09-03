@@ -1,3 +1,28 @@
+## 22.2.0 (2026-08-30)
+
+### 🚀 Features
+
+- **eslint-plugin:** add allowExplicitOnPush option, auto-remove explicit OnPush when false ([#3153](https://github.com/angular-eslint/angular-eslint/pull/3153))
+
+### 🩹 Fixes
+
+- update dependency @angular/compiler to v22.1.2 ([#3117](https://github.com/angular-eslint/angular-eslint/pull/3117))
+- update typescript-eslint packages to v8.67.0 ([#3110](https://github.com/angular-eslint/angular-eslint/pull/3110))
+- update dependency eslint to v10.8.1 ([#3142](https://github.com/angular-eslint/angular-eslint/pull/3142))
+- update dependency @angular/compiler to v22.1.3 ([#3148](https://github.com/angular-eslint/angular-eslint/pull/3148))
+- update dependency eslint to v10.9.0 ([#3151](https://github.com/angular-eslint/angular-eslint/pull/3151))
+- remove unused @angular/cli peer and report Angular major mismatches at runtime ([#3154](https://github.com/angular-eslint/angular-eslint/pull/3154))
+- **eslint-plugin:** [no-duplicates-in-metadata-arrays] cover `@Component` `providers`, `viewProviders` and `styleUrls` ([#3121](https://github.com/angular-eslint/angular-eslint/pull/3121))
+- **eslint-plugin-template:** [valid-aria] validate each token of a token list ([#3128](https://github.com/angular-eslint/angular-eslint/pull/3128))
+- **eslint-plugin-template:** [prefer-static-string-properties] escape the fixed attribute value ([#3135](https://github.com/angular-eslint/angular-eslint/pull/3135))
+
+### ❤️ Thank You
+
+- AI-JamesHenry @AI-JamesHenry
+- Evgeny Stepanovych @undsoft
+- Guillaume DROUARD
+- Oussama Laribi @oussamaLaribi
+
 ## 22.1.0 (2026-07-12)
 
 ### 🚀 Features

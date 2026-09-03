@@ -1,6 +1,6 @@
 {
   "name": "@angular-eslint/schematics",
-  "version": "22.1.0",
+  "version": "22.2.0",
   "description": "Angular Schematics for angular-eslint",
   "license": "MIT",
   "main": "dist/index.js",
@@ -35,9 +35,6 @@
   },
   "ng-add": {
     "save": "devDependencies"
-  },
-  "peerDependencies": {
-    "@angular/cli": "catalog:other-runtime-dependencies"
   },
   "dependencies": {
     "@angular-devkit/core": "catalog:other-runtime-dependencies",
