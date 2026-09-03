@@ -8,6 +8,7 @@ import type {
   TSESTree,
 } from '@typescript-eslint/utils';
 import { AST_NODE_TYPES, ESLintUtils } from '@typescript-eslint/utils';
+import ts from 'typescript';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
 type Options = [
@@ -39,13 +40,13 @@ function hasTransformOption(
   options: TSESTree.CallExpressionArgument | undefined,
 ) {
   return (
-    options?.type === 'ObjectExpression' &&
+    options?.type === AST_NODE_TYPES.ObjectExpression &&
     options.properties.some(
       (property) =>
-        property.type === 'Property' &&
-        ((property.key.type === 'Identifier' &&
+        property.type === AST_NODE_TYPES.Property &&
+        ((property.key.type === AST_NODE_TYPES.Identifier &&
           property.key.name === 'transform') ||
-          (property.key.type === 'Literal' &&
+          (property.key.type === AST_NODE_TYPES.Literal &&
             property.key.value === 'transform')),
     )
   );
@@ -131,17 +132,24 @@ export default createESLintRule<Options, MessageIds>({
       return undefined;
     }
 
+    function haveEquallyWrittenTypes(
+      input: SignalDeclaration,
+      output: SignalDeclaration,
+    ) {
+      return (
+        !input.typeArgument ||
+        !output.typeArgument ||
+        sourceCode.getText(input.typeArgument) ===
+          sourceCode.getText(output.typeArgument)
+      );
+    }
+
     function haveMergeableTypes(
       input: SignalDeclaration,
       output: SignalDeclaration,
     ) {
       if (!useTypeChecking) {
-        return (
-          !input.typeArgument ||
-          !output.typeArgument ||
-          sourceCode.getText(input.typeArgument) ===
-            sourceCode.getText(output.typeArgument)
-        );
+        return haveEquallyWrittenTypes(input, output);
       }
 
       const inputType = getValueType(input);
@@ -149,6 +157,12 @@ export default createESLintRule<Options, MessageIds>({
 
       if (!inputType || !outputType) {
         return true;
+      }
+
+      // A type argument that does not resolve becomes the error type, which is
+      // assignable in both directions, so only the written text is trustworthy.
+      if ((inputType.flags | outputType.flags) & ts.TypeFlags.Any) {
+        return haveEquallyWrittenTypes(input, output);
       }
 
       // Mutual assignability stands in for the internal `isTypeIdenticalTo`;
@@ -209,5 +223,5 @@ export default createESLintRule<Options, MessageIds>({
 
 export const RULE_DOCS_EXTENSION = {
   rationale:
-    "The model() function is Angular's modern API for two-way bindings, combining both input and output into a single signal. When you have an input property paired with an output property that follows the naming pattern of `propertyChange` (e.g., `enabled` input with `enabledChange` output), this is the traditional pattern for two-way binding. The model() function provides a cleaner, more concise way to express this pattern with better type safety and integration with Angular's signal ecosystem. It eliminates the boilerplate of managing separate input and output properties while maintaining the same two-way binding functionality.\n\nBecause `model()` exposes a single type for both directions, only pairs whose `input` and `output` types match are reported. By default the written type arguments are compared as text, and a pair is assumed compatible when either side has no type argument. Enabling the `useTypeChecking` option compares the types semantically instead, and infers an `input`'s type from its initial value, so `input('')` paired with `output<number>()` is left alone.",
+    "The model() function is Angular's modern API for two-way bindings, combining both input and output into a single signal. When you have an input property paired with an output property that follows the naming pattern of `propertyChange` (e.g., `enabled` input with `enabledChange` output), this is the traditional pattern for two-way binding. The model() function provides a cleaner, more concise way to express this pattern with better type safety and integration with Angular's signal ecosystem. It eliminates the boilerplate of managing separate input and output properties while maintaining the same two-way binding functionality.\n\nBecause `model()` exposes a single type for both directions, only pairs whose `input` and `output` types match are reported. By default the written type arguments are compared as text, and a pair is assumed compatible when either side has no type argument. Enabling the `useTypeChecking` option compares the types semantically instead, and infers an `input`'s type from its initial value, so `input('')` paired with `output<number>()` is left alone. A type argument that does not resolve falls back to the text comparison.",
 };
