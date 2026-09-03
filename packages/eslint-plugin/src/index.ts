@@ -85,6 +85,9 @@ import preferOutputEmitterRef, {
 import preferOutputReadonly, {
   RULE_NAME as preferOutputReadonlyRuleName,
 } from './rules/prefer-output-readonly';
+import preferQueries, {
+  RULE_NAME as preferQueriesRuleName,
+} from './rules/prefer-queries';
 import preferServiceDecorator, {
   RULE_NAME as preferServiceDecoratorRuleName,
 } from './rules/prefer-service-decorator';
@@ -187,6 +190,7 @@ export = {
       preferOnPushComponentChangeDetection,
     [preferOutputEmitterRefRuleName]: preferOutputEmitterRef,
     [preferOutputReadonlyRuleName]: preferOutputReadonly,
+    [preferQueriesRuleName]: preferQueries,
     [preferServiceDecoratorRuleName]: preferServiceDecorator,
     [preferSignalModelRuleName]: preferSignalModel,
     [preferSignalsRuleName]: preferSignals,
