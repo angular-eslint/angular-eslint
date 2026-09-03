@@ -50,6 +50,14 @@ export const valid = [
       readonly countChange = output<number>();
     }
     `,
+  // A transform written as a string key, among spread options, is detected too
+  `
+    import { booleanAttribute } from '@angular/core';
+    class Test {
+      readonly enabled = input(false, { ...base, 'transform': booleanAttribute });
+      readonly enabledChange = output<boolean>();
+    }
+    `,
   // Different input/output types cannot be merged into a single model()
   `
     class Test {
@@ -86,6 +94,16 @@ export const valid = [
     class Test {
       readonly value = input<string | null>();
       readonly valueChange = output<string>();
+    }
+    `,
+    options: [{ useTypeChecking: true }],
+  },
+  // Types that do not resolve fall back to comparing the written text
+  {
+    code: `
+    class Test {
+      readonly value = input<Foo>();
+      readonly valueChange = output<Bar>();
     }
     `,
     options: [{ useTypeChecking: true }],
@@ -414,6 +432,27 @@ export const invalid = [
 
       class Test {
         readonly enabled = model();
+        
+        
+      }
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail when the same unresolved type is written on both sides',
+    annotatedSource: `
+      class Test {
+        readonly value = input<Foo>();
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        readonly valueChange = output<Foo>();
+      }
+      `,
+    messageId: messageIdPreferSignalModel,
+    options: [{ useTypeChecking: true }],
+    annotatedOutput: `import { model } from '@angular/core';
+
+      class Test {
+        readonly value = model<Foo>();
         
         
       }
