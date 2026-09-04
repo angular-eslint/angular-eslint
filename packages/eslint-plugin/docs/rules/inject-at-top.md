@@ -23,13 +23,25 @@ Requires inject() calls to be declared at the top of the class, before any other
 
 ## Rationale
 
-Class fields are initialized in the order they are declared, so a field that calls inject() only creates its value when the initializer runs. Anything declared above that line which tries to read the injected service will see undefined, and the error message (usually something like 'Cannot read properties of undefined') points at the consumer, not at the field that was initialized out of order. TypeScript catches the obvious shape of this bug when a later-declared field is referenced directly from an earlier initializer, but it does not trace through a getter body or a method call, so the moment the read of this.someService happens behind that indirection the compiler lets it through and the failure only shows up at runtime. The scenario is deceptively easy to introduce: a getter that reads an injected service is defined below the inject() call, someone later adds a small convenience field above the getter that references it, and the class breaks at construction time even though nothing about the change looks suspicious. Keeping every inject() call at the very top of the class removes the ordering concern entirely, because every dependency is guaranteed to exist before any other field, getter, method, or constructor statement runs.
+Class fields are initialized in the order they are declared, so a field that calls inject() only creates its value when the initializer runs. Anything declared above that line which tries to read the injected service will see undefined, and the error message (usually something like 'Cannot read properties of undefined') points at the consumer, not at the field that was initialized out of order. TypeScript catches the obvious shape of this bug when a later-declared field is referenced directly from an earlier initializer, but it does not trace through a getter body or a method call, so the moment the read of this.someService happens behind that indirection the compiler lets it through and the failure only shows up at runtime. The scenario is deceptively easy to introduce: a getter that reads an injected service is defined below the inject() call, someone later adds a small convenience field above the getter that references it, and the class breaks at construction time even though nothing about the change looks suspicious. Keeping every inject() call at the very top of the class removes the ordering concern entirely, because every dependency is guaranteed to exist before any other field, getter, method, or constructor statement runs. Codebases often wrap inject() in their own helpers, for example an injectTranslations() function that injects a translation service and derives a scoped accessor from it; such a helper has exactly the same ordering constraint, so it can be declared through the additionalInjectFunctions option to be treated like inject() itself.
 
 <br>
 
 ## Rule Options
 
-The rule does not have any configuration options.
+The rule accepts an options object with the following properties:
+
+```ts
+interface Options {
+  /**
+   * A list of additional functions which perform injection, such as your own `injectTranslations()` helper. Each entry is a regular expression which must match the whole function name, so plain names such as `injectTranslations` work as well as patterns such as `inject[A-Z].*`.
+   *
+   * Default: `[]`
+   */
+  additionalInjectFunctions?: string[];
+}
+
+```
 
 <br>
 
@@ -704,6 +716,115 @@ class UserService {
 
   private readonly http = inject(HttpClient);
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/inject-at-top": [
+      "error",
+      {
+        "additionalInjectFunctions": [
+          "injectTranslations"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({})
+class MyComponent {
+  private count = 0;
+  private readonly t = injectTranslations();
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/inject-at-top": [
+      "error",
+      {
+        "additionalInjectFunctions": [
+          "inject[A-Z].*"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Injectable()
+class MyService {
+  private readonly http = inject(HttpClient);
+  private count = 0;
+  private readonly flags = injectFeatureFlags();
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/inject-at-top": [
+      "error",
+      {
+        "additionalInjectFunctions": [
+          "injectTranslations"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({})
+class MyComponent {
+  private count = 0;
+  private readonly t = withScope(injectTranslations());
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }
 ```
 
@@ -1477,6 +1598,179 @@ class MyComponent {
 class MyComponent {
   private count = 0;
   private readonly handlersFactory = () => collectHandlers([inject(HandlerA), inject(HandlerB)]);
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/inject-at-top": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({})
+class MyComponent {
+  private count = 0;
+  private readonly t = injectTranslations();
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/inject-at-top": [
+      "error",
+      {
+        "additionalInjectFunctions": [
+          "injectTranslations"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({})
+class MyComponent {
+  private readonly t = injectTranslations();
+  private count = 0;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/inject-at-top": [
+      "error",
+      {
+        "additionalInjectFunctions": [
+          "inject[A-Z].*"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Injectable()
+class MyService {
+  private readonly http = inject(HttpClient);
+  private readonly t = injectTranslations();
+  private readonly flags = injectFeatureFlags();
+
+  doThing() {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/inject-at-top": [
+      "error",
+      {
+        "additionalInjectFunctions": [
+          "injectTranslations"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({})
+class MyComponent {
+  private count = 0;
+  private readonly t = injectTranslationsLater();
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/inject-at-top": [
+      "error",
+      {
+        "additionalInjectFunctions": [
+          "injectTranslations"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({})
+class MyComponent {
+  private count = 0;
+  private readonly translationsFactory = () => injectTranslations();
 }
 ```
 

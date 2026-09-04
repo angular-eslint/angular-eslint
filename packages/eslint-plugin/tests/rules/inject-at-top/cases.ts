@@ -224,6 +224,61 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     private readonly handlersFactory = () => collectHandlers([inject(HandlerA), inject(HandlerB)]);
   }
   `,
+  // should ignore a custom inject function which is not listed in additionalInjectFunctions
+  `
+  @Component({})
+  class MyComponent {
+    private count = 0;
+    private readonly t = injectTranslations();
+  }
+  `,
+  // should pass when a listed custom inject function is at the top
+  {
+    code: `
+    @Component({})
+    class MyComponent {
+      private readonly t = injectTranslations();
+      private count = 0;
+    }
+    `,
+    options: [{ additionalInjectFunctions: ['injectTranslations'] }],
+  },
+  // should pass when custom inject functions matched by a regex are grouped at the top
+  {
+    code: `
+    @Injectable()
+    class MyService {
+      private readonly http = inject(HttpClient);
+      private readonly t = injectTranslations();
+      private readonly flags = injectFeatureFlags();
+
+      doThing() {}
+    }
+    `,
+    options: [{ additionalInjectFunctions: ['inject[A-Z].*'] }],
+  },
+  // should not treat a function whose name merely starts with a listed name as an inject function
+  {
+    code: `
+    @Component({})
+    class MyComponent {
+      private count = 0;
+      private readonly t = injectTranslationsLater();
+    }
+    `,
+    options: [{ additionalInjectFunctions: ['injectTranslations'] }],
+  },
+  // should ignore a listed custom inject function inside a factory
+  {
+    code: `
+    @Component({})
+    class MyComponent {
+      private count = 0;
+      private readonly translationsFactory = () => injectTranslations();
+    }
+    `,
+    options: [{ additionalInjectFunctions: ['injectTranslations'] }],
+  },
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
@@ -244,6 +299,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       }
     `,
     messageId,
+    data: { functionName: 'inject' },
   }),
   convertAnnotatedSourceToFailureCase({
     description:
@@ -257,6 +313,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       }
     `,
     messageId,
+    data: { functionName: 'inject' },
   }),
   convertAnnotatedSourceToFailureCase({
     description: 'should fail when inject() is declared below a method',
@@ -270,6 +327,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       }
     `,
     messageId,
+    data: { functionName: 'inject' },
   }),
   convertAnnotatedSourceToFailureCase({
     description: 'should fail when inject() is declared below the constructor',
@@ -283,6 +341,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       }
     `,
     messageId,
+    data: { functionName: 'inject' },
   }),
   convertAnnotatedSourceToFailureCase({
     description:
@@ -297,6 +356,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       }
     `,
     messageId,
+    data: { functionName: 'inject' },
   }),
   convertAnnotatedSourceToFailureCase({
     description:
@@ -317,8 +377,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       }
     `,
     messages: [
-      { char: '~', messageId },
-      { char: '^', messageId },
+      { char: '~', messageId, data: { functionName: 'inject' } },
+      { char: '^', messageId, data: { functionName: 'inject' } },
     ],
   }),
   convertAnnotatedSourceToFailureCase({
@@ -333,6 +393,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       }
     `,
     messageId,
+    data: { functionName: 'inject' },
   }),
   convertAnnotatedSourceToFailureCase({
     description:
@@ -346,6 +407,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       }
     `,
     messageId,
+    data: { functionName: 'inject' },
   }),
   convertAnnotatedSourceToFailureCase({
     description:
@@ -359,6 +421,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       }
     `,
     messageId,
+    data: { functionName: 'inject' },
   }),
   convertAnnotatedSourceToFailureCase({
     description: 'should fail when inject() is hidden inside a TSAsExpression',
@@ -371,6 +434,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       }
     `,
     messageId,
+    data: { functionName: 'inject' },
   }),
   convertAnnotatedSourceToFailureCase({
     description:
@@ -384,6 +448,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       }
     `,
     messageId,
+    data: { functionName: 'inject' },
   }),
   convertAnnotatedSourceToFailureCase({
     description: 'should fail when inject() is hidden inside a NewExpression',
@@ -396,6 +461,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       }
     `,
     messageId,
+    data: { functionName: 'inject' },
   }),
   convertAnnotatedSourceToFailureCase({
     description:
@@ -409,6 +475,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       }
     `,
     messageId,
+    data: { functionName: 'inject' },
   }),
   convertAnnotatedSourceToFailureCase({
     description:
@@ -422,6 +489,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       }
     `,
     messageId,
+    data: { functionName: 'inject' },
   }),
   convertAnnotatedSourceToFailureCase({
     description:
@@ -435,6 +503,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       }
     `,
     messageId,
+    data: { functionName: 'inject' },
   }),
   convertAnnotatedSourceToFailureCase({
     description: 'should fail when inject() is hidden inside a TemplateLiteral',
@@ -447,6 +516,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       }
     `,
     messageId,
+    data: { functionName: 'inject' },
   }),
   convertAnnotatedSourceToFailureCase({
     description:
@@ -460,6 +530,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       }
     `,
     messageId,
+    data: { functionName: 'inject' },
   }),
   convertAnnotatedSourceToFailureCase({
     description:
@@ -473,6 +544,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       }
     `,
     messageId,
+    data: { functionName: 'inject' },
   }),
   convertAnnotatedSourceToFailureCase({
     description:
@@ -486,6 +558,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       }
     `,
     messageId,
+    data: { functionName: 'inject' },
   }),
   convertAnnotatedSourceToFailureCase({
     description:
@@ -499,6 +572,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       }
     `,
     messageId,
+    data: { functionName: 'inject' },
   }),
   convertAnnotatedSourceToFailureCase({
     description:
@@ -515,5 +589,52 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       }
     `,
     messageId,
+    data: { functionName: 'inject' },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail when a listed custom inject function is declared below another member',
+    annotatedSource: `
+      @Component({})
+      class MyComponent {
+        private count = 0;
+        private readonly t = injectTranslations();
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      }
+    `,
+    messageId,
+    options: [{ additionalInjectFunctions: ['injectTranslations'] }],
+    data: { functionName: 'injectTranslations' },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail when a custom inject function matched by a regex is declared below another member',
+    annotatedSource: `
+      @Injectable()
+      class MyService {
+        private readonly http = inject(HttpClient);
+        private count = 0;
+        private readonly flags = injectFeatureFlags();
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      }
+    `,
+    messageId,
+    options: [{ additionalInjectFunctions: ['inject[A-Z].*'] }],
+    data: { functionName: 'injectFeatureFlags' },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail when a listed custom inject function is wrapped in another expression',
+    annotatedSource: `
+      @Component({})
+      class MyComponent {
+        private count = 0;
+        private readonly t = withScope(injectTranslations());
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      }
+    `,
+    messageId,
+    options: [{ additionalInjectFunctions: ['injectTranslations'] }],
+    data: { functionName: 'injectTranslations' },
   }),
 ];
