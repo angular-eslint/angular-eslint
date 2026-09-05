@@ -199,8 +199,8 @@ export default createESLintRule<Options, MessageIds>({
       i18nMarkupInContent:
         'Avoid HTML markup in an element with an i18n attribute.',
     },
+    defaultOptions: [DEFAULT_OPTIONS],
   },
-  defaultOptions: [DEFAULT_OPTIONS],
   create(
     context,
     [

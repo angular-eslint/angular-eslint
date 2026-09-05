@@ -45,8 +45,8 @@ export default createESLintRule<Options, MessageIds>({
       conditionalComplexity:
         'The conditional complexity {{totalComplexity}} exceeds the defined limit {{maxComplexity}}',
     },
+    defaultOptions: [{ maxComplexity: DEFAULT_MAX_COMPLEXITY }],
   },
-  defaultOptions: [{ maxComplexity: DEFAULT_MAX_COMPLEXITY }],
   create(context, [{ maxComplexity }]) {
     ensureTemplateParser(context);
     const sourceCode = context.sourceCode;

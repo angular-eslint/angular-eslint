@@ -34,8 +34,8 @@ export default createESLintRule<Options, MessageIds>({
       suggestUndefinedComparison: 'Compare with `undefined`',
       suggestUsingNonNegatedValue: 'Use non-negated value',
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     ensureTemplateParser(context);
     const sourceCode = context.sourceCode;

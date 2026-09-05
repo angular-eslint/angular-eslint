@@ -49,13 +49,13 @@ export default createESLintRule<Options, MessageIds>({
       cyclomaticComplexity:
         'The cyclomatic complexity {{totalComplexity}} exceeds the defined limit {{maxComplexity}}',
     },
+    defaultOptions: [
+      {
+        maxComplexity: DEFAULT_OPTIONS.maxComplexity,
+        variant: DEFAULT_OPTIONS.variant,
+      },
+    ],
   },
-  defaultOptions: [
-    {
-      maxComplexity: DEFAULT_OPTIONS.maxComplexity,
-      variant: DEFAULT_OPTIONS.variant,
-    },
-  ],
   create(
     context,
     [

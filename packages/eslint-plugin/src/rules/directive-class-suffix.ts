@@ -36,8 +36,8 @@ export default createESLintRule<Options, MessageIds>({
     messages: {
       directiveClassSuffix: `Directive class names should end with one of these suffixes: {{suffixes}}`,
     },
+    defaultOptions: [{ suffixes: DEFAULT_SUFFIXES }],
   },
-  defaultOptions: [{ suffixes: DEFAULT_SUFFIXES }],
   create(context, [{ suffixes }]) {
     return {
       [Selectors.DIRECTIVE_CLASS_DECORATOR](node: TSESTree.Decorator) {

@@ -22,8 +22,8 @@ export default createESLintRule<Options, MessageIds>({
     messages: {
       noExperimental: '`{{name}}` is experimental',
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     const services = getParserServices(context);
     const checker = services.program.getTypeChecker();

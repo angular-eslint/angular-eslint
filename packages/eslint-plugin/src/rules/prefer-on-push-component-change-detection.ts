@@ -46,8 +46,8 @@ export default createESLintRule<Options, MessageIds>({
       suggestRemoveChangeDetection: `Remove \`${METADATA_PROPERTY_NAME}\` to use the default (\`${STRATEGY_ON_PUSH}\`)`,
       redundantOnPushComponentChangeDetection: `\`${METADATA_PROPERTY_NAME}: ${STRATEGY_ON_PUSH}\` is redundant because \`${STRATEGY_ON_PUSH}\` is the default change detection strategy`,
     },
+    defaultOptions: [DEFAULT_OPTIONS],
   },
-  defaultOptions: [DEFAULT_OPTIONS],
   create(context, [{ allowExplicitOnPush }]) {
     const sourceCode = context.sourceCode;
     const changeDetectionMetadataProperty = Selectors.metadataProperty(

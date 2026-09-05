@@ -34,8 +34,8 @@ export default createESLintRule<Options, MessageIds>({
       suggestReplaceWithNgSrc: 'Replace [src] with [ngSrc]',
       suggestRemoveSrc: 'Remove the [src] attribute',
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     const parserServices = getTemplateParserServices(context);
     const sourceCode = context.sourceCode;

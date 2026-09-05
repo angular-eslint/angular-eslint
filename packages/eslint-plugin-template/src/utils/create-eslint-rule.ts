@@ -9,9 +9,9 @@ export interface RuleDocs {
  * to use as part of documentation generation.
  */
 const patchedRuleCreator: typeof ESLintUtils.RuleCreator = (urlCreator) => {
-  return function createRule({ name, meta, defaultOptions, create }) {
-    const resolvedDefaultOptions = (defaultOptions ?? []) as NonNullable<
-      typeof defaultOptions
+  return function createRule({ name, meta, create }) {
+    const resolvedDefaultOptions = (meta.defaultOptions ?? []) as Readonly<
+      NonNullable<typeof meta.defaultOptions>
     >;
 
     return {

@@ -26,8 +26,8 @@ export default createESLintRule<Options, MessageIds>({
       preferClassBinding:
         'Consider using [class] bindings instead of [ngClass] where applicable.',
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     const parserServices = getTemplateParserServices(context);
 

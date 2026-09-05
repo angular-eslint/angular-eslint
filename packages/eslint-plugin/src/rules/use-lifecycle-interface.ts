@@ -25,8 +25,8 @@ export default createESLintRule<Options, MessageIds>({
       useLifecycleInterface: `Lifecycle interface '{{interfaceName}}' should be implemented for method '{{methodName}}'. (${STYLE_GUIDE_LINK})`,
     },
     fixable: 'code',
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     const angularLifecycleMethodsPattern = toPattern([
       ...ASTUtils.ANGULAR_LIFECYCLE_METHODS,

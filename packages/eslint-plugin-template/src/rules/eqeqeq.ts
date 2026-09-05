@@ -46,8 +46,8 @@ export default createESLintRule<Options, MessageIds>({
       suggestStrictEquality:
         'Replace `{{actualOperation}}` with `{{expectedOperation}}`',
     },
+    defaultOptions: [DEFAULT_OPTIONS],
   },
-  defaultOptions: [DEFAULT_OPTIONS],
   create(context, [{ allowNullOrUndefined }]) {
     ensureTemplateParser(context);
     const sourceCode = context.sourceCode;

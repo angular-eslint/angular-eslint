@@ -31,8 +31,8 @@ export default createESLintRule<Options, MessageIds>({
       preferServiceDecorator:
         "Use the `@Service()` decorator instead of `@Injectable({ providedIn: 'root' })`",
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     return {
       [Selectors.INJECTABLE_CLASS_DECORATOR](node: TSESTree.Decorator) {

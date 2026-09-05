@@ -19,8 +19,8 @@ export default createESLintRule<Options, MessageIds>({
     messages: {
       noQueriesMetadataProperty: `Use @${ASTUtils.AngularInnerClassDecorators.Output} rather than the \`${METADATA_PROPERTY_NAME}\` metadata property`,
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     return {
       [Selectors.COMPONENT_OR_DIRECTIVE_CLASS_DECORATOR](

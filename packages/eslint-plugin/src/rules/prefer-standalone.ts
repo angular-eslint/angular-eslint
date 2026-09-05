@@ -24,8 +24,8 @@ export default createESLintRule<Options, MessageIds>({
       preferStandalone: `Components, Directives and Pipes should not opt out of standalone. Following this guide is highly recommended: ${RECOMMENDED_GUIDE_URL}`,
       removeStandaloneFalse: `Quickly remove 'standalone: false'. NOTE - Following this guide is highly recommended: ${RECOMMENDED_GUIDE_URL}`,
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     const standaloneRuleFactory =
       (type: DecoratorTypes) => (node: TSESTree.Decorator) => {

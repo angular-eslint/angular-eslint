@@ -43,8 +43,8 @@ export default createESLintRule<Options, MessageIds>({
     messages: {
       preferAtElse: 'Prefer using `@else` instead of a second `@if` clause.',
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     const parserServices = getTemplateParserServices(context);
     const previousNodeStack: (IfNodeInfo | undefined)[] = [undefined];

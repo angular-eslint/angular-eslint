@@ -24,8 +24,8 @@ export default createESLintRule<Options, MessageIds>({
       noOuterHtml:
         'Do not use `outerHTML`. Binding to `[outerHTML]` throws on update because setting `outerHTML` replaces the host element itself, so Angular loses its reference to the node ("This element has no parent node"); a static `outerHTML` attribute is not a real DOM attribute and has no effect. Use `[innerHTML]` (being mindful of sanitization) or restructure the template instead.',
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     const parserServices = getTemplateParserServices(context);
     const elementNamePattern = toPattern([...getDomElements()]);

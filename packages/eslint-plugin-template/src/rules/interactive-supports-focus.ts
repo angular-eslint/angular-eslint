@@ -45,8 +45,8 @@ export default createESLintRule<Options, MessageIds>({
       interactiveSupportsFocus:
         'Elements with interaction handlers must be focusable.',
     },
+    defaultOptions: [{ allowList: DEFAULT_ALLOW_LIST }],
   },
-  defaultOptions: [{ allowList: DEFAULT_ALLOW_LIST }],
   create(context, [{ allowList }]) {
     return {
       Element(node: TmplAstElement) {

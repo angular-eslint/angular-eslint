@@ -18,8 +18,8 @@ export default createESLintRule<Options, MessageIds>({
     messages: {
       lifecycleMethodsNotSorted: `Lifecycle Methods are not declared in order of execution`,
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     const isBefore = (
       method1: TSESTree.MethodDefinition,

@@ -40,8 +40,8 @@ export default createESLintRule<Options, MessageIds>({
         'Use property binding [attribute]="value" instead of interpolation {{ value }} for an attribute.',
     },
     fixable: 'code',
+    defaultOptions: [{ allowSubstringInterpolation: false }],
   },
-  defaultOptions: [{ allowSubstringInterpolation: false }],
   create(context, [{ allowSubstringInterpolation }]) {
     const sourceCode = context.sourceCode;
 

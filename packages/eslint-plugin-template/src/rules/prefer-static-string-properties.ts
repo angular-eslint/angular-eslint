@@ -53,8 +53,8 @@ export default createESLintRule<Options, MessageIds>({
       preferStaticStringProperties:
         'Using a property is more efficient than binding a static string.',
     },
+    defaultOptions: [{}],
   },
-  defaultOptions: [{}],
   create(context, [{ ignore = [] }]) {
     const parserServices = getTemplateParserServices(context);
     const ignoredProperties = new Set([...PROPERTY_ONLY_DOM_APIS, ...ignore]);

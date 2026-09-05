@@ -17,8 +17,8 @@ export default createESLintRule<Options, MessageIds>({
     messages: {
       noAsyncLifecycleMethod: 'Angular Lifecycle method should not be async',
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     const angularDecoratorsPattern = toPattern([
       'Component',

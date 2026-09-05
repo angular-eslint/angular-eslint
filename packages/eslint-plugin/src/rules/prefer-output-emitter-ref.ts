@@ -18,8 +18,8 @@ export default createESLintRule<Options, MessageIds>({
       preferOutputEmitterRef:
         'Use `OutputEmitterRef` via `output()` for Component and Directive outputs rather than the legacy `@Output()` decorator',
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     return {
       [Selectors.OUTPUT_DECORATOR]: (node) => {

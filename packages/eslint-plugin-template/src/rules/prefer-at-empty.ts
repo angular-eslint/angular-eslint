@@ -32,8 +32,8 @@ export default createESLintRule<Options, MessageIds>({
     messages: {
       preferAtEmpty: 'Prefer using `@for (...) {...} @empty {...}`.',
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     const parserServices = getTemplateParserServices(context);
     const previousNodeStack: (NodeInfo | undefined)[] = [undefined];

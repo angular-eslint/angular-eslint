@@ -101,14 +101,14 @@ export default createESLintRule<Options, MessageIds>({
       typeFailure: 'The selector should be used as an {{type}}',
       selectorAfterPrefixFailure: `There should be a selector after the {{prefix}} prefix`,
     },
+    defaultOptions: [
+      {
+        type: undefined as unknown as string,
+        prefix: 'app', // Match default Angular CLI prefix
+        style: undefined as unknown as string,
+      },
+    ],
   },
-  defaultOptions: [
-    {
-      type: undefined as unknown as string,
-      prefix: 'app', // Match default Angular CLI prefix
-      style: undefined as unknown as string,
-    },
-  ],
   create(context, [options]) {
     // Options are required by schema, so if undefined, ESLint will throw an error
     if (!options) {

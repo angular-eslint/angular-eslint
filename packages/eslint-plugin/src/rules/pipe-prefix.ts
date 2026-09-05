@@ -42,12 +42,12 @@ export default createESLintRule<Options, MessageIds>({
       selectorAfterPrefixFailure:
         '@Pipes should have a selector after the {{prefixes}} prefix',
     },
+    defaultOptions: [
+      {
+        prefixes: [],
+      },
+    ],
   },
-  defaultOptions: [
-    {
-      prefixes: [],
-    },
-  ],
   create(context, [{ prefixes }]) {
     function checkValidOption(prefixes: unknown) {
       return Array.isArray(prefixes) && prefixes.length > 0;

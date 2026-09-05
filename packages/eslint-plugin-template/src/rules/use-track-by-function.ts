@@ -36,8 +36,8 @@ export default createESLintRule<Options, MessageIds>({
     messages: {
       useTrackByFunction: 'Missing trackBy function in ngFor directive',
     },
+    defaultOptions: [{ alias: DEFAULT_ALIAS }],
   },
-  defaultOptions: [{ alias: DEFAULT_ALIAS }],
   create(context, [{ alias }]) {
     const isNgForTrackBy = isNgForTrackByFactory(alias);
     const parserServices = getTemplateParserServices(context);

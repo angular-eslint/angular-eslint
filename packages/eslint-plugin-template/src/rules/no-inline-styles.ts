@@ -45,8 +45,8 @@ export default createESLintRule<Options, MessageIds>({
       noInlineStyles:
         '<{{element}}/> element should not have inline styles via style attribute. Please use classes instead.',
     },
+    defaultOptions: [DEFAULT_OPTIONS],
   },
-  defaultOptions: [DEFAULT_OPTIONS],
   create(context, [{ allowNgStyle, allowBindToStyle }]) {
     const parserServices = getTemplateParserServices(context);
 

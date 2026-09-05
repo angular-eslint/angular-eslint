@@ -35,8 +35,8 @@ export default createESLintRule<Options, MessageIds>({
         'The `{{attribute}}` has an invalid value. Check the valid values at https://raw.githack.com/w3c/aria/stable/#roles',
       suggestRemoveInvalidAria: 'Remove attribute `{{attribute}}`',
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     const parserServices = getTemplateParserServices(context);
     const domElements = [...getDomElements()];

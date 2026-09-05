@@ -41,10 +41,10 @@ export default createESLintRule<Options, MessageIds>({
     messages: {
       noCallExpression: 'Avoid calling expressions in templates',
     },
+    defaultOptions: [
+      { allowList: [], allowPrefix: undefined, allowSuffix: undefined },
+    ],
   },
-  defaultOptions: [
-    { allowList: [], allowPrefix: undefined, allowSuffix: undefined },
-  ],
   create(context, [{ allowList, allowPrefix, allowSuffix }]) {
     ensureTemplateParser(context);
     const sourceCode = context.sourceCode;

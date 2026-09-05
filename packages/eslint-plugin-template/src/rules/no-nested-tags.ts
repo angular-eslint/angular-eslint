@@ -22,8 +22,8 @@ export default createESLintRule<Options, MessageIds>({
       noNestedTags:
         '<{{tag}}> elements must not be nested! This breaks angular incremental hydration as all browsers will convert "<{{tag}}>1<{{tag}}>2</{{tag}}>3</{{tag}}>" into "<{{tag}}>1</{{tag}}><{{tag}}>2</{{tag}}>3", creating a DOM mismatch between SSR and Angular',
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     const parserServices = getTemplateParserServices(context);
 

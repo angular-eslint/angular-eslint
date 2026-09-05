@@ -22,8 +22,8 @@ export default createESLintRule<Options, MessageIds>({
     messages: {
       noImplicitTakeUntilDestroyed: `\`takeUntilDestroyed()\` must be called with an explicit \`DestroyRef\` parameter when used outside of an injection context. See more at ${DEPENDENCY_INJECTION_CONTEXT} and ${RXJS_INTEROP_LINK}`,
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     return {
       CallExpression(node: TSESTree.CallExpression) {

@@ -25,8 +25,8 @@ export default createESLintRule<Options, MessageIds>({
       noPositiveTabindex: 'The `tabindex` attribute should not be positive',
       suggestNonNegativeTabindex: 'Use `tabindex="{{tabindex}}"`',
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     const parserServices = getTemplateParserServices(context);
     const domElements = [...getDomElements()];

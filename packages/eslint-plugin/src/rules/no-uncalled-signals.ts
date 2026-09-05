@@ -43,8 +43,8 @@ export default createESLintRule<Options, MessageIds>({
         'Doing logic operations on signals will give unexpected results, you probably want to invoke the signal to get its value',
       suggestCallSignal: 'Call this signal to get its value.',
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     const services: ParserServicesWithTypeInformation =
       ESLintUtils.getParserServices(context);

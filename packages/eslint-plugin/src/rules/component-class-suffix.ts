@@ -38,12 +38,12 @@ export default createESLintRule<Options, MessageIds>({
     messages: {
       componentClassSuffix: `Component class names should end with one of these suffixes: {{suffixes}}`,
     },
+    defaultOptions: [
+      {
+        suffixes: ['Component'],
+      },
+    ],
   },
-  defaultOptions: [
-    {
-      suffixes: ['Component'],
-    },
-  ],
   create(context, [{ suffixes }]) {
     return {
       [Selectors.COMPONENT_CLASS_DECORATOR](node: TSESTree.Decorator) {

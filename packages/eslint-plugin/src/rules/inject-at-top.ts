@@ -20,8 +20,8 @@ export default createESLintRule<Options, MessageIds>({
       injectAtTop:
         'Move this inject() to the top of the class. Class fields are initialized in the order they are written, so anything declared above this line cannot safely use the service yet.',
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     const angularDecoratorsPattern = toPattern([
       'Component',

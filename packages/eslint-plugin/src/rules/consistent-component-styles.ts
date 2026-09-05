@@ -32,8 +32,8 @@ export default createESLintRule<Options, MessageIds>({
       useStylesString:
         'Use a `string` instead of a `string[]` for the `styles` property',
     },
+    defaultOptions: ['string'],
   },
-  defaultOptions: ['string'],
   create(context, [mode]) {
     const { COMPONENT_CLASS_DECORATOR, metadataProperty } = Selectors;
     const LITERAL_OR_TEMPLATE_LITERAL = ':matches(Literal, TemplateLiteral)';

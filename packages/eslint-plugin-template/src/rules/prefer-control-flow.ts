@@ -19,8 +19,8 @@ export default createESLintRule<Options, MessageIds>({
       preferControlFlow:
         'Use built-in control flow instead of directive {{name}}.',
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     const parserServices = getTemplateParserServices(context);
 

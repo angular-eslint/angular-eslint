@@ -114,8 +114,8 @@ export default createESLintRule<Options, MessageIds>({
       incorrectOrder:
         'Keys in @{{decorator}} decorator should be ordered: {{expectedOrder}}',
     },
+    defaultOptions: [DEFAULT_ORDER],
   },
-  defaultOptions: [DEFAULT_ORDER],
   create(
     context: Readonly<TSESLint.RuleContext<MessageIds, Options>>,
     [orderConfig]: Readonly<Options>,

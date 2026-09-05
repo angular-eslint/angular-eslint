@@ -61,8 +61,8 @@ export default createESLintRule<Options, MessageIds>({
       noDuplicateAttributes: 'Duplicate attribute `{{attributeName}}`',
       suggestRemoveAttribute: 'Remove attribute `{{attributeName}}`',
     },
+    defaultOptions: [DEFAULT_OPTIONS],
   },
-  defaultOptions: [DEFAULT_OPTIONS],
   create(
     context,
     [{ allowTwoWayDataBinding, allowStylePrecedenceDuplicates, ignore }],

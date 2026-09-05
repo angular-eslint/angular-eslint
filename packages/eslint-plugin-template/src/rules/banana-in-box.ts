@@ -22,8 +22,8 @@ export default createESLintRule<Options, MessageIds>({
     messages: {
       bananaInBox: 'Invalid binding syntax. Use [(expr)] instead',
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     const parserServices = getTemplateParserServices(context);
     const sourceCode = context.sourceCode;

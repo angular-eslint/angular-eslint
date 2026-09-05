@@ -117,8 +117,8 @@ export default createESLintRule<Options, MessageIds>({
     messages: {
       attributesOrder: `The element's attributes/bindings did not match the expected order: expected {{expected}} instead of {{actual}}`,
     },
+    defaultOptions: [DEFAULT_OPTIONS],
   },
-  defaultOptions: [DEFAULT_OPTIONS],
   create(context, [{ alphabetical, order }]) {
     const parserServices = getTemplateParserServices(context);
 

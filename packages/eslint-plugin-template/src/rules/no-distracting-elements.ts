@@ -20,8 +20,8 @@ export default createESLintRule<Options, MessageIds>({
       noDistractingElements:
         'Do not use <{{element}}> elements as they can create visual accessibility issues and are deprecated',
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     const parserServices = getTemplateParserServices(context);
 
