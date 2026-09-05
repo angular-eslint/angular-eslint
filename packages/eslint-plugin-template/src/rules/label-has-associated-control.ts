@@ -79,8 +79,8 @@ export default createESLintRule<Options, MessageIds>({
       labelHasAssociatedControl:
         'A label component must be associated with a form element',
     },
+    defaultOptions: [DEFAULT_OPTIONS],
   },
-  defaultOptions: [DEFAULT_OPTIONS],
   create(context, [{ checkIds, controlComponents, labelComponents }]) {
     const parserServices = getTemplateParserServices(context);
     const allControlComponents: ReadonlySet<string> = new Set([

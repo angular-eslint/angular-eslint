@@ -19,8 +19,8 @@ export default createESLintRule<Options, MessageIds>({
     messages: {
       noDuplicatesInMetadataArrays: 'Entry is duplicated in metadata array',
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     const selectors = [
       // https://angular.dev/api/core/NgModule

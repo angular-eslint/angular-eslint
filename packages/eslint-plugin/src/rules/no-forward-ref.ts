@@ -19,8 +19,8 @@ export default createESLintRule<Options, MessageIds>({
     messages: {
       noForwardRef: `Avoid using \`${FORWARD_REF}\``,
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     return {
       [`CallExpression[callee.type="Identifier"][callee.name="${FORWARD_REF}"]`](

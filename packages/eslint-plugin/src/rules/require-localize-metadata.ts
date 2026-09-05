@@ -59,8 +59,8 @@ export default createESLintRule<Options, MessageIds>({
       requireLocalizeMeaning: `$localize tagged messages should contain a meaning. See more at ${STYLE_GUIDE_LINK_METADATA_FOR_TRANSLATION}`,
       requireLocalizeCustomId: `$localize tagged messages should contain a custom id{{patternMessage}}. See more at ${STYLE_GUIDE_LINK_METADATA_FOR_TRANSLATION}`,
     },
+    defaultOptions: [DEFAULT_OPTIONS],
   },
-  defaultOptions: [DEFAULT_OPTIONS],
   create(context, [{ requireDescription, requireMeaning, requireCustomId }]) {
     return {
       TaggedTemplateExpression(

@@ -26,8 +26,8 @@ export default createESLintRule<Options, MessageIds>({
       noAutofocus:
         'The `autofocus` attribute should not be used, as it reduces usability and accessibility for users',
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     const parserServices = getTemplateParserServices(context);
     const elementNamePattern = toPattern([...getDomElements()]);

@@ -46,8 +46,8 @@ export default createESLintRule<Options, MessageIds>({
       clickEventsHaveKeyEvents:
         'click must be accompanied by either keyup, keydown or keypress event for accessibility.',
     },
+    defaultOptions: [DEFAULT_OPTIONS],
   },
-  defaultOptions: [DEFAULT_OPTIONS],
   create(context, [{ ignoreWithDirectives }]) {
     return {
       Element(node: TmplAstElement) {

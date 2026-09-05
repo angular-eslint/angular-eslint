@@ -29,8 +29,8 @@ export default createESLintRule<Options, MessageIds>({
         'The {{element}} with role="{{role}}" does not have required ARIA properties: {{missingProps}}',
       suggestRemoveRole: 'Remove role `{{role}}`',
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     const parserServices = getTemplateParserServices(context);
     const domElements = [...getDomElements()];

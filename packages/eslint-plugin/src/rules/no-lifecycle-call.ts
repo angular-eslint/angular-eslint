@@ -18,8 +18,8 @@ export default createESLintRule<Options, MessageIds>({
     messages: {
       noLifecycleCall: 'Avoid explicit calls to lifecycle methods',
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     const angularLifeCycleMethodsPattern = toPattern([
       ...ASTUtils.ANGULAR_LIFECYCLE_METHODS,

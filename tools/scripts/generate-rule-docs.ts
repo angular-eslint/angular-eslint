@@ -41,8 +41,18 @@ const testDirs = readdirSync(testDirsDir);
   for (const [ruleName, ruleData] of Object.entries(allRuleData)) {
     const {
       ruleConfig: {
-        meta: { deprecated, replacedBy, type, fixable, schema, hasSuggestions },
-        defaultOptions,
+        meta: {
+          deprecated,
+          replacedBy,
+          type,
+          fixable,
+          schema,
+          hasSuggestions,
+          defaultOptions: metaDefaultOptions,
+        },
+        // component-selector/directive-selector have to rely on the deprecated
+        // top-level defaultOptions instead of meta.defaultOptions
+        defaultOptions: topLevelDefaultOptions,
       },
       docsExtension,
       ruleFilePath,
@@ -51,6 +61,7 @@ const testDirs = readdirSync(testDirsDir);
 
     const docs = ruleData.ruleConfig.meta.docs!;
     const { description } = docs;
+    const defaultOptionsForDocs = metaDefaultOptions ?? topLevelDefaultOptions;
 
     let schemaAsInterface = '';
     if (Array.isArray(schema) && schema[0]) {
@@ -71,8 +82,8 @@ const testDirs = readdirSync(testDirsDir);
           if (typeof schemaNode.default !== 'undefined') {
             defaultValue = schemaNode.default;
             hasDefaultValue = true;
-          } else if (defaultOptions?.length) {
-            for (const defaultOption of defaultOptions) {
+          } else if (defaultOptionsForDocs?.length) {
+            for (const defaultOption of defaultOptionsForDocs) {
               if (
                 typeof defaultOption === 'object' &&
                 (keyIndex as string) in defaultOption
@@ -241,6 +252,7 @@ interface RuleData {
   ruleFilePath: string;
   testCasesFilePath: string;
   ruleConfig: TSESLint.RuleModule<string, []> & {
+    meta: { defaultOptions?: Record<string, unknown>[] };
     defaultOptions?: Record<string, unknown>[];
   };
   // Rules can optionally export extended documentation content (outside of ESLint's concept of "docs")

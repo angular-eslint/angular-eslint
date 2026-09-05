@@ -20,8 +20,8 @@ export default createESLintRule<Options, MessageIds>({
     messages: {
       noOutputOnPrefix: `Output bindings, including aliases, should not be named "on", nor prefixed with it (${STYLE_GUIDE_LINK})`,
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     const outputOnPattern = /^on(([^a-z])|(?=$))/;
     const selectors = [

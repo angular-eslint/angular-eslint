@@ -49,14 +49,14 @@ export default createESLintRule<Options, MessageIds>({
     messages: {
       componentMaxInlineDeclarations: `\`{{propertyType}}\` has too many lines ({{lineCount}}). Maximum allowed is {{max}}`,
     },
+    defaultOptions: [
+      {
+        template: DEFAULT_TEMPLATE_LIMIT,
+        styles: DEFAULT_STYLES_LIMIT,
+        animations: DEFAULT_ANIMATIONS_LIMIT,
+      },
+    ],
   },
-  defaultOptions: [
-    {
-      template: DEFAULT_TEMPLATE_LIMIT,
-      styles: DEFAULT_STYLES_LIMIT,
-      animations: DEFAULT_ANIMATIONS_LIMIT,
-    },
-  ],
   create(
     context,
     [

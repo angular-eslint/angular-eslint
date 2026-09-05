@@ -26,8 +26,8 @@ export default createESLintRule<Options, MessageIds>({
       preferSelfClosingTags:
         'Use self-closing tags for elements with a closing tag but no content.',
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     const parserServices = getTemplateParserServices(context);
 

@@ -31,8 +31,8 @@ export default createESLintRule<Options, MessageIds>({
     messages: {
       mouseEventsHaveKeyEvents: `\`{{mouseEvent}}\` must be accompanied by \`{{keyEvent}}\` for accessibility (${STYLE_GUIDE_LINK})`,
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     const parserServices = getTemplateParserServices(context);
     const domElementsPattern = toPattern([...getDomElements()]);

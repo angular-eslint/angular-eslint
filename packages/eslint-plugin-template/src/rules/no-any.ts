@@ -27,8 +27,8 @@ export default createESLintRule<Options, MessageIds>({
       noAny: `Avoid using "${ANY_TYPE_CAST_FUNCTION_NAME}" in templates`,
       suggestRemoveAny: `Remove ${ANY_TYPE_CAST_FUNCTION_NAME}`,
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     ensureTemplateParser(context);
     const sourceCode = context.sourceCode;

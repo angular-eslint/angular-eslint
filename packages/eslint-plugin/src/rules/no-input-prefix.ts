@@ -36,8 +36,8 @@ export default createESLintRule<Options, MessageIds>({
       noInputPrefix:
         'Input bindings, including aliases, should not be named, nor prefixed by {{prefixes}}',
     },
+    defaultOptions: [{ prefixes: [] }],
   },
-  defaultOptions: [{ prefixes: [] }],
   create(context, [{ prefixes }]) {
     return {
       [Selectors.INPUT_PROPERTY_OR_SETTER](

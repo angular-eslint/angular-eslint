@@ -20,8 +20,8 @@ export default createESLintRule<Options, MessageIds>({
     messages: {
       noInputsMetadataProperty: `Use \`@Input\` rather than the \`${METADATA_PROPERTY_NAME}\` metadata property`,
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     return {
       [`${

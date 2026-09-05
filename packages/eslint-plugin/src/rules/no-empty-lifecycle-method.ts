@@ -27,8 +27,8 @@ export default createESLintRule<Options, MessageIds>({
       noEmptyLifecycleMethod: 'Lifecycle methods should not be empty',
       suggestRemoveLifecycleMethod: 'Remove lifecycle method',
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     const sourceCode = context.sourceCode;
 

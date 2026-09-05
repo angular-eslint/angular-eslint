@@ -19,8 +19,8 @@ export default createESLintRule<Options, MessageIds>({
       requireSwitchDefault:
         'Switch should have a default block. Add `@default { ... }`, or `@default never` to enforce a compile-time exhaustive switch.',
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     const parserServices = getTemplateParserServices(context);
 

@@ -20,8 +20,8 @@ export default createESLintRule<Options, MessageIds>({
         'Impure pipes should be avoided because they are invoked on each change-detection cycle',
       suggestRemovePipeImpure: 'Remove `pure` property',
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     const sourceCode = context.sourceCode;
 

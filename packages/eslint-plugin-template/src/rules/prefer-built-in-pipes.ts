@@ -58,13 +58,13 @@ export default createESLintRule<Options, MessageIds>({
       preferBuiltInPipes:
         'Avoid using method "{{ methodName }}" in templates. Prefer the Angular built-in pipes instead (e.g. lowercase, uppercase, titlecase).',
     },
+    defaultOptions: [
+      {
+        disallowList: [...DEFAULT_DISALLOW_LIST],
+        allowInOutputHandlers: true,
+      },
+    ],
   },
-  defaultOptions: [
-    {
-      disallowList: [...DEFAULT_DISALLOW_LIST],
-      allowInOutputHandlers: true,
-    },
-  ],
   create(context, [{ disallowList, allowInOutputHandlers }]) {
     ensureTemplateParser(context);
     const sourceCode = context.sourceCode;

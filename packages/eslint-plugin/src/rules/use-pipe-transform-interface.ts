@@ -20,8 +20,8 @@ export default createESLintRule<Options, MessageIds>({
     messages: {
       usePipeTransformInterface: `Pipes should implement \`${PIPE_TRANSFORM}\` interface`,
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     return {
       [`ClassDeclaration:not(:has(TSClassImplements:matches([expression.name='${PIPE_TRANSFORM}'], [expression.property.name='${PIPE_TRANSFORM}']))) > Decorator[expression.callee.name='Pipe']`]({

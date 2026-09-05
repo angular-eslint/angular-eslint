@@ -25,8 +25,8 @@ export default createESLintRule<Options, MessageIds>({
     messages: {
       noEmptyControlFlow: 'Unexpected empty control flow block.',
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     const parserServices = getTemplateParserServices(context);
 

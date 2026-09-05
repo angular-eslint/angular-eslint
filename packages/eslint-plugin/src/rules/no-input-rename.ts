@@ -51,8 +51,8 @@ export default createESLintRule<Options, MessageIds>({
       suggestReplaceOriginalNameWithAliasName:
         'Remove alias name and use it as the original name',
     },
+    defaultOptions: [{ allowedNames: [] }],
   },
-  defaultOptions: [{ allowedNames: [] }],
   create(context, [{ allowedNames = [] }]) {
     let selectors: ReadonlySet<string> = new Set();
     const ariaAttributeKeys = getAriaAttributeKeys();

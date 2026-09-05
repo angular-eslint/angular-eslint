@@ -16,8 +16,8 @@ export default createESLintRule<[], MessageIds>({
     messages: {
       computedMissingReturn: 'computed() is missing a return value',
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     const functionStack: {
       node: TSESTree.FunctionExpression | TSESTree.ArrowFunctionExpression;

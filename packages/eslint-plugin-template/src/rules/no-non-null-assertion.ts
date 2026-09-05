@@ -18,8 +18,8 @@ export default createESLintRule<Options, MessageIds>({
       noNonNullAssertion:
         'Avoid using the non-null assertion operator (!) in templates. This bypasses type safety and can lead to runtime errors.',
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     ensureTemplateParser(context);
     const { sourceCode } = context;

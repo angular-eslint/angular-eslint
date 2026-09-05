@@ -47,8 +47,8 @@ export default createESLintRule<Options, MessageIds>({
     messages: {
       elementsContent: '<{{element}}> should have content',
     },
+    defaultOptions: [DEFAULT_OPTIONS],
   },
-  defaultOptions: [DEFAULT_OPTIONS],
   create(context, [{ allowList }]) {
     const parserServices = getTemplateParserServices(context);
 

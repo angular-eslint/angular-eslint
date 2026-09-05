@@ -19,8 +19,8 @@ export default createESLintRule<Options, MessageIds>({
     messages: {
       relativeUrlPrefix: `The ./ and ../ prefix is standard syntax for relative URLs.`,
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     return {
       [`${Selectors.COMPONENT_CLASS_DECORATOR} Property[key.name='templateUrl']`]({

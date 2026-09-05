@@ -32,8 +32,8 @@ export default createESLintRule<Options, MessageIds>({
     messages: {
       defineOnPrototype: `The {{ method }} lifecycle method should be defined on the object's prototype. See more at ${ISSUE_LINK}`,
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     return {
       [propertyDefinitionSelector](

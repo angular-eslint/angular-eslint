@@ -34,8 +34,8 @@ export default createESLintRule<Options, MessageIds>({
       suggestReplaceOriginalNameWithAliasName:
         'Remove alias name and use it as the original name',
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     let selectors: ReadonlySet<string> = new Set();
 

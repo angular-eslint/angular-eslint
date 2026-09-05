@@ -90,8 +90,8 @@ export default createESLintRule<Options, MessageIds>({
       preferReadonlySignalProperties:
         'Properties declared using signals should be marked as `readonly` since they should not be reassigned',
     },
+    defaultOptions: [{ ...DEFAULT_OPTIONS }],
   },
-  defaultOptions: [{ ...DEFAULT_OPTIONS }],
   create(
     context,
     [

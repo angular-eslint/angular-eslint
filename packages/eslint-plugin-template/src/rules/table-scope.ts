@@ -24,8 +24,8 @@ export default createESLintRule<Options, MessageIds>({
     messages: {
       tableScope: 'The `scope` attribute should only be on the `<th>` element',
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     const parserServices = getTemplateParserServices(context);
     const domElements = [...getDomElements()].filter(

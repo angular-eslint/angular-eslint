@@ -19,8 +19,8 @@ export default createESLintRule<Options, MessageIds>({
       contextualDecorator:
         'Decorator out of context for "@{{classDecoratorName}}()"',
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     return {
       'MethodDefinition[kind=/^(get|set|method)$/], PropertyDefinition, TSParameterProperty'(

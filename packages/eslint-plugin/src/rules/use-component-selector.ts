@@ -18,8 +18,8 @@ export default createESLintRule<Options, MessageIds>({
     messages: {
       useComponentSelector: 'The selector of the component is mandatory',
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     return {
       [Selectors.COMPONENT_CLASS_DECORATOR](node: TSESTree.Decorator) {

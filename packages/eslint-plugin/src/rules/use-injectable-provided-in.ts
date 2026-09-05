@@ -42,8 +42,8 @@ export default createESLintRule<Options, MessageIds>({
       useInjectableProvidedIn: `The \`${METADATA_PROPERTY_NAME}\` property is mandatory for \`Injectables\``,
       suggestInjector: `Use \`${METADATA_PROPERTY_NAME}: '{{injector}}'\``,
     },
+    defaultOptions: [DEFAULT_OPTIONS],
   },
-  defaultOptions: [DEFAULT_OPTIONS],
   create(context, [{ ignoreClassNamePattern, allowProvidedInNull }]) {
     const injectableClassDecorator = `ClassDeclaration:not([id.name=${ignoreClassNamePattern}]):not(:has(TSClassImplements:matches([expression.property.name='HttpInterceptor'], [expression.name='HttpInterceptor']))) > Decorator[expression.callee.name="Injectable"]`;
     const providedInMetadataProperty = Selectors.metadataProperty(

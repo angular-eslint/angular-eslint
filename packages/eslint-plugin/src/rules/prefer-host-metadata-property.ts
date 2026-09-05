@@ -23,8 +23,8 @@ export default createESLintRule<Options, MessageIds>({
       preferHostMetadataPropertyForListener:
         'Prefer using the `host` metadata property in the `@Component` decorator for host listeners instead of the `@HostListener` decorator.',
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     return {
       [Selectors.HOST_BINDING_DECORATOR]: (node) => {

@@ -56,8 +56,8 @@ export default createESLintRule<Options, MessageIds>({
       missingType: 'Type for <button> is missing',
       invalidType: `"{{${INVALID_TYPE_DATA_KEY}}}" can not be used as a type for <button>`,
     },
+    defaultOptions: [{}],
   },
-  defaultOptions: [{}],
   create(context, [{ ignoreWithDirectives }]) {
     const parserServices = getTemplateParserServices(context);
 

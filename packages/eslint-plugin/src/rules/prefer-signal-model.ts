@@ -25,8 +25,8 @@ export default createESLintRule<Options, MessageIds>({
       preferSignalModel:
         'Use `model` for two-way bindings instead of `input()` and `output()`',
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     const inputs = new Map<string, TSESTree.PropertyDefinition>();
     const outputs = new Map<string, TSESTree.PropertyDefinition>();

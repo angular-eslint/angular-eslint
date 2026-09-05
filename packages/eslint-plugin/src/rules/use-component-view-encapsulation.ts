@@ -26,8 +26,8 @@ export default createESLintRule<Options, MessageIds>({
       useComponentViewEncapsulation: `Using \`${VIEW_ENCAPSULATION_NONE}\` makes your styles global, which may have an unintended effect`,
       suggestRemoveViewEncapsulationNone: `Remove \`${VIEW_ENCAPSULATION_NONE}\``,
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     const sourceCode = context.sourceCode;
 

@@ -113,8 +113,8 @@ export default createESLintRule<Options, MessageIds>({
       preferEven: "Use '$even' instead of '{{ expression }}'.",
       preferOdd: "Use '$odd' instead of '{{ expression }}'.",
     },
+    defaultOptions: [DEFAULT_OPTIONS],
   },
-  defaultOptions: [DEFAULT_OPTIONS],
   create(context, [{ allowedAliases }]) {
     const parserServices = getTemplateParserServices(context);
     const forLoops: ForLoopInfo[] = [];

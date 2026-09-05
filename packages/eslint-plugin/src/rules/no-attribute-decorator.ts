@@ -17,8 +17,8 @@ export default createESLintRule<Options, MessageIds>({
       noAttributeDecorator:
         '@Attribute can only obtain a single value and is rarely what is required. Use @Input instead to retrieve a stream of values.',
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     return {
       'ClassDeclaration MethodDefinition[key.name="constructor"] Decorator[expression.callee.name="Attribute"]'(

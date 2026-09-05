@@ -19,8 +19,8 @@ export default createESLintRule<Options, MessageIds>({
     messages: {
       contextualLifecycle: `Angular will not invoke the \`{{methodName}}\` lifecycle method within \`@{{classDecoratorName}}()\` classes`,
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     function checkContext(
       { parent }: TSESTree.Decorator,

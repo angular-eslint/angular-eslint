@@ -124,8 +124,8 @@ export default createESLintRule<Options, MessageIds>({
       preferTemplateLiteral:
         'Prefer using template literal instead of concatenating strings or expressions',
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     // When the template is defined inline in a component, the template will
     // usually be defined as a template string, which means if template

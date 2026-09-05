@@ -24,8 +24,8 @@ export default createESLintRule<Options, MessageIds>({
       noOutputNative:
         'Output bindings, including aliases, should not be named as standard DOM events',
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     const nativeEventNames = getNativeEventNames();
     const selectors = [

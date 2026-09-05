@@ -22,8 +22,8 @@ export default createESLintRule<Options, MessageIds>({
     messages: {
       altText: '<{{element}}/> element must have a text alternative.',
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     const parserServices = getTemplateParserServices(context);
 

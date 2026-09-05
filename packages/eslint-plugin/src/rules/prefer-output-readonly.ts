@@ -21,8 +21,8 @@ export default createESLintRule<Options, MessageIds>({
         'Prefer to declare `{{type}}` as `readonly` since they are not supposed to be reassigned',
       suggestAddReadonlyModifier: 'Add `readonly` modifier',
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     return {
       [`PropertyDefinition:not([readonly=true]) > ${Selectors.OUTPUT_DECORATOR}`]({

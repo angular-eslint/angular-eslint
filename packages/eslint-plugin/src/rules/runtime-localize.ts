@@ -18,8 +18,8 @@ export default createESLintRule<Options, MessageIds>({
     messages: {
       runtimeLocalize: `$localize could be called before translations are loaded`,
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     return {
       TaggedTemplateExpression(

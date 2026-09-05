@@ -21,8 +21,8 @@ export default createESLintRule<Options, MessageIds>({
       preferInject:
         "Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject",
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     const angularDecoratorsPattern = toPattern([
       'Component',
