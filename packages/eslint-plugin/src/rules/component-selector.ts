@@ -111,14 +111,14 @@ export default createESLintRule<Options, MessageIds>({
       shadowDomEncapsulatedStyleFailure: `The selector of a ShadowDom-encapsulated component should be \`${ASTUtils.OPTION_STYLE_KEBAB_CASE}\` (${SHADOW_DOM_ENCAPSULATED_STYLE_LINK})`,
       selectorAfterPrefixFailure: `There should be a selector after the {{prefix}} prefix`,
     },
-    defaultOptions: [
-      {
-        type: undefined as unknown as string,
-        prefix: 'app', // Match default Angular CLI prefix
-        style: undefined as unknown as string,
-      },
-    ],
   },
+  defaultOptions: [
+    {
+      type: undefined as unknown as string,
+      prefix: 'app', // Match default Angular CLI prefix
+      style: undefined as unknown as string,
+    },
+  ],
   create(context, [options]) {
     // Options are required by schema, so if undefined, ESLint will throw an error
     if (!options) {
