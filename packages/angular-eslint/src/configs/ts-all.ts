@@ -55,6 +55,7 @@ export default (
       '@angular-eslint/prefer-signal-model': 'error',
       '@angular-eslint/prefer-signals': 'error',
       '@angular-eslint/prefer-standalone': 'error',
+      '@angular-eslint/reactive-context-must-read-signal': 'error',
       '@angular-eslint/relative-url-prefix': 'error',
       '@angular-eslint/require-lifecycle-on-prototype': 'error',
       '@angular-eslint/require-localize-metadata': 'error',

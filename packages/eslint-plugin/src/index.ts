@@ -148,6 +148,9 @@ import computedMustReturn, {
 import injectAtTop, {
   RULE_NAME as injectAtTopRuleName,
 } from './rules/inject-at-top';
+import reactiveContextMustReadSignal, {
+  RULE_NAME as reactiveContextMustReadSignalRuleName,
+} from './rules/reactive-context-must-read-signal';
 
 export = {
   rules: {
@@ -191,6 +194,7 @@ export = {
     [preferSignalModelRuleName]: preferSignalModel,
     [preferSignalsRuleName]: preferSignals,
     [preferStandaloneRuleName]: preferStandalone,
+    [reactiveContextMustReadSignalRuleName]: reactiveContextMustReadSignal,
     [relativeUrlPrefixRuleName]: relativeUrlPrefix,
     [requireLifecycleOnPrototypeRuleName]: requireLifecycleOnPrototype,
     [requireLocalizeMetadataRuleName]: requireLocalizeMetadata,
