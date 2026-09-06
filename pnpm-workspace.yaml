@@ -45,7 +45,7 @@ catalog:
   tree-kill: '1.2.2'
   ts-node: '10.9.2'
   tslib: '^2.4.1'
-  tsx: '4.23.12'
+  tsx: '4.23.13'
   typescript: '6.0.3'
   verdaccio: '6.10.1'
   vite: '^8.0.0'
