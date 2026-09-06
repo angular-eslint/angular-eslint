@@ -595,6 +595,37 @@ const c = computed(() => a() + 1);
 #### ✅ Valid Code
 
 ```ts
+interface WritableSignal<T> {
+  (): T;
+  set(value: T): void;
+}
+declare const a: WritableSignal<number>;
+const c = computed(() => a() + 1);
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
 let a: InputSignal<number>;
 const c = computed(() => a());
 ```
@@ -826,6 +857,35 @@ class Test {
 #### ✅ Valid Code
 
 ```ts
+class Test {
+  values = [1, 2, 3];
+  c = computed(() => Math.max(...this.values));
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
 class Box {
   value = 1;
 }
@@ -859,6 +919,7 @@ declare function html(
   strings: TemplateStringsArray,
   ...values: unknown[]
 ): string;
+const outside = html`ignored`;
 const c = computed(() => html`static`);
 ```
 
@@ -1225,6 +1286,32 @@ const r = resource({ params: () => 1, loader: () => null });
 ```ts
 declare const Test: { computed: (fn: () => unknown) => unknown };
 Test.computed(() => 1);
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+const c = computed();
 ```
 
 <br>

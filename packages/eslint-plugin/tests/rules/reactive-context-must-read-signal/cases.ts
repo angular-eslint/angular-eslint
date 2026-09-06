@@ -22,6 +22,16 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     let a: Signal<number>;
     const c = computed(() => a() + 1);
   `,
+    // computed() that reads a signal whose type is an interface rather than
+    // the 'Signal' type alias, which is how signals appear in real code.
+    `
+    interface WritableSignal<T> {
+      (): T;
+      set(value: T): void;
+    }
+    declare const a: WritableSignal<number>;
+    const c = computed(() => a() + 1);
+  `,
     // computed() that reads an InputSignal.
     `
     let a: InputSignal<number>;
@@ -78,6 +88,14 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
       c = computed(() => this.items.map(this.transform));
     }
   `,
+    // Conservative: a spread argument could expand to a function that reads a
+    // signal, so a standard library call that receives one stays unknown.
+    `
+    class Test {
+      values = [1, 2, 3];
+      c = computed(() => Math.max(...this.values));
+    }
+  `,
     // Conservative: constructing a user-defined class runs arbitrary code.
     `
     class Box {
@@ -91,6 +109,7 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
       strings: TemplateStringsArray,
       ...values: unknown[]
     ): string;
+    const outside = html\`ignored\`;
     const c = computed(() => html\`static\`);
   `,
     // Conservative: a getter can read a signal without looking like a call.
@@ -173,6 +192,10 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     `
     declare const Test: { computed: (fn: () => unknown) => unknown };
     Test.computed(() => 1);
+  `,
+    // Incomplete code: there is no tracked function to analyse.
+    `
+    const c = computed();
   `,
     // 'computed' referenced without being called.
     `
