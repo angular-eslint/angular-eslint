@@ -202,6 +202,40 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     `,
   }),
   convertAnnotatedSourceToFailureCase({
+    description: `reports but does not fix when merging into @else would create multiple projectable roots`,
+    annotatedSource: `
+      <my-component>
+        @if (a) {
+          <button>1</button>
+        } @else {
+          <button>2</button>
+        }
+        @if (!a) {
+        ~~~~
+          <button>3</button>
+        }
+      </my-component>
+    `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: `reports but does not fix when merging @else into @if would create multiple projectable roots`,
+    annotatedSource: `
+      <my-component>
+        @if (a) {
+          <button>1</button>
+        }
+        @if (!a) {
+        ~~~~
+          <button>2</button>
+        } @else {
+          <button>3</button>
+        }
+      </my-component>
+    `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
     description: `fails for second @if when separated from the first @if by whitespace`,
     annotatedSource: `
       @if (a) {}
