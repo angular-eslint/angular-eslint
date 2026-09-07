@@ -9,11 +9,9 @@ export type Options = [];
 export type MessageIds = 'noNestedTags';
 export const RULE_NAME = 'no-nested-tags';
 
-type NodeWithParent = {
-  parent?: NodeWithParent;
+type TmplAstElementWithAncestor = TmplAstElement & {
+  parent?: TmplAstElementWithAncestor;
 };
-
-type TmplAstElementWithAncestor = TmplAstElement & NodeWithParent;
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
@@ -55,7 +53,7 @@ export default createESLintRule<Options, MessageIds>({
 });
 
 function hasAncestorOfSameType(node: TmplAstElementWithAncestor) {
-  let parent: NodeWithParent | undefined = node.parent;
+  let parent = node.parent;
 
   while (parent) {
     // Explicit <ng-template> is not rendered in-place, so tags inside it
@@ -78,7 +76,7 @@ function hasAncestorOfSameType(node: TmplAstElementWithAncestor) {
   return false;
 }
 
-function isExplicitNgTemplate(node: NodeWithParent): node is TmplAstTemplate {
+function isExplicitNgTemplate(node: unknown): boolean {
   return (
     node instanceof TmplAstTemplate &&
     typeof node.tagName === 'string' &&
