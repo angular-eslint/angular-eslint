@@ -2,13 +2,21 @@ import { ASTUtils, CommentUtils, Selectors } from '@angular-eslint/utils';
 import { TSESLint, TSESTree } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
+type OrderConfig = {
+  readonly Component?: string[];
+  readonly Directive?: string[];
+  readonly Injectable?: string[];
+  readonly NgModule?: string[];
+  readonly Pipe?: string[];
+};
+
 export type Options = [
-  {
-    [key: string]: string[];
+  OrderConfig & {
+    readonly allowUnconfiguredProperties?: boolean;
   },
 ];
 
-export type MessageIds = 'incorrectOrder';
+export type MessageIds = 'incorrectOrder' | 'unconfiguredProperty';
 
 const DEFAULT_ORDER = {
   // https://angular.dev/api/core/Component
@@ -52,6 +60,15 @@ const DEFAULT_ORDER = {
     'queries',
     'jit',
   ],
+  // https://angular.dev/api/core/Injectable
+  Injectable: [
+    'providedIn',
+    'useClass',
+    'useExisting',
+    'useFactory',
+    'useValue',
+    'deps',
+  ],
   // https://angular.dev/api/core/NgModule
   NgModule: [
     'id', // rarely used but good to have first if set
@@ -67,6 +84,11 @@ const DEFAULT_ORDER = {
   Pipe: ['name', 'standalone', 'pure'],
 };
 
+const DEFAULT_OPTIONS: Options[0] = {
+  ...DEFAULT_ORDER,
+  allowUnconfiguredProperties: true,
+};
+
 export const RULE_NAME = 'sort-keys-in-type-decorator';
 
 export default createESLintRule<Options, MessageIds>({
@@ -75,7 +97,7 @@ export default createESLintRule<Options, MessageIds>({
     type: 'suggestion',
     docs: {
       description:
-        'Ensures that keys in type decorators (Component, Directive, NgModule, Pipe) are sorted in a consistent order',
+        'Ensures that keys in type decorators (Component, Directive, Injectable, NgModule, Pipe) are sorted in a consistent order',
     },
     fixable: 'code',
     schema: [
@@ -94,6 +116,12 @@ export default createESLintRule<Options, MessageIds>({
               type: 'string',
             },
           },
+          Injectable: {
+            type: 'array',
+            items: {
+              type: 'string',
+            },
+          },
           NgModule: {
             type: 'array',
             items: {
@@ -106,6 +134,10 @@ export default createESLintRule<Options, MessageIds>({
               type: 'string',
             },
           },
+          allowUnconfiguredProperties: {
+            type: 'boolean',
+            default: DEFAULT_OPTIONS.allowUnconfiguredProperties,
+          },
         },
         additionalProperties: false,
       },
@@ -113,8 +145,10 @@ export default createESLintRule<Options, MessageIds>({
     messages: {
       incorrectOrder:
         'Keys in @{{decorator}} decorator should be ordered: {{expectedOrder}}',
+      unconfiguredProperty:
+        'Property "{{property}}" is not in the configured key order for @{{decorator}}.',
     },
-    defaultOptions: [DEFAULT_ORDER],
+    defaultOptions: [DEFAULT_OPTIONS],
   },
   create(
     context: Readonly<TSESLint.RuleContext<MessageIds, Options>>,
@@ -124,7 +158,7 @@ export default createESLintRule<Options, MessageIds>({
       node: TSESTree.Decorator,
       decoratorName: string,
     ): void {
-      const expectedOrder = orderConfig[decoratorName];
+      const expectedOrder = orderConfig[decoratorName as keyof OrderConfig];
       if (!expectedOrder) {
         return;
       }
@@ -135,6 +169,26 @@ export default createESLintRule<Options, MessageIds>({
       }
 
       const properties = ASTUtils.getDecoratorProperties(node);
+      const allowUnconfiguredProperties =
+        orderConfig.allowUnconfiguredProperties ?? true;
+
+      if (!allowUnconfiguredProperties) {
+        for (const property of properties) {
+          const propertyName = (property.key as TSESTree.Identifier).name;
+
+          if (!expectedOrder.includes(propertyName)) {
+            context.report({
+              node: property,
+              messageId: 'unconfiguredProperty',
+              data: {
+                decorator: decoratorName,
+                property: propertyName,
+              },
+            });
+          }
+        }
+      }
+
       if (properties.length <= 1) {
         return;
       }
@@ -147,6 +201,7 @@ export default createESLintRule<Options, MessageIds>({
       );
 
       if (
+        allowUnconfiguredProperties &&
         firstConfiguredIndex !== -1 &&
         lastNonConfiguredIndex !== -1 &&
         lastNonConfiguredIndex < firstConfiguredIndex
@@ -300,5 +355,5 @@ function reportAndFix(
 
 export const RULE_DOCS_EXTENSION = {
   rationale:
-    'Maintaining a consistent order for properties in Angular decorators (@Component, @Directive, @NgModule, @Pipe) makes code more predictable and easier to scan. When all components in a codebase follow the same property order, developers can quickly locate specific metadata without searching. For example, if selector always comes first and providers always comes before changeDetection, you develop muscle memory for where to look. This is especially helpful in large components with many properties. The recommended default order groups related properties logically: identification (selector, name) first, then dependencies (imports, providers), then templates/styles, then configuration options. Consistent ordering also makes code reviews easier, reduces merge conflicts when multiple developers edit decorators, and creates a professional, well-organized codebase.',
+    'Maintaining a consistent order for properties in Angular decorators (@Component, @Directive, @Injectable, @NgModule, @Pipe) makes code more predictable and easier to scan. When all components in a codebase follow the same property order, developers can quickly locate specific metadata without searching. For example, if selector always comes first and providers always comes before changeDetection, you develop muscle memory for where to look. This is especially helpful in large components with many properties. The recommended default order groups related properties logically: identification (selector, name) first, then dependencies (imports, providers), then templates/styles, then configuration options. Consistent ordering also makes code reviews easier, reduces merge conflicts when multiple developers edit decorators, and creates a professional, well-organized codebase. When `allowUnconfiguredProperties` is `false`, decorators omitted from the user configuration are still checked against their built-in default key order.',
 };

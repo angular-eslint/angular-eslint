@@ -280,6 +280,157 @@ export class TestPipe {}
       },
     ],
   },
+  {
+    code: `
+      @Component({
+        selector: 'app-root',
+        custom: true
+      })
+      class Test {}
+    `,
+    options: [
+      {
+        Component: ['selector'],
+        allowUnconfiguredProperties: true,
+      },
+    ],
+  },
+  {
+    code: `
+      @Component({
+        selector: 'app-root',
+        template: '<div></div>'
+      })
+      class Test {}
+    `,
+    options: [
+      {
+        Component: ['selector', 'template'],
+        allowUnconfiguredProperties: false,
+      },
+    ],
+  },
+  {
+    code: `
+      @Component({
+        moduleId: 'test-module',
+        standalone: true,
+        selector: 'app-root',
+        imports: [CommonModule],
+        template: '<div></div>',
+        styleUrl: './app.component.css',
+        encapsulation: ViewEncapsulation.None,
+        changeDetection: ChangeDetectionStrategy.OnPush,
+        providers: [TestService],
+        host: {'[class.test]': 'true'}
+      })
+      class TestComponent {}
+
+      @Directive({
+        standalone: true,
+        selector: '[appTest]',
+        inputs: ['value'],
+        outputs: ['change'],
+        providers: [TestService],
+        host: {'[class.test]': 'true'}
+      })
+      class TestDirective {}
+
+      @Injectable({
+        providedIn: 'root'
+      })
+      class TestService {}
+
+      @NgModule({
+        id: 'test-module',
+        imports: [CommonModule],
+        declarations: [TestComponent],
+        providers: [TestService],
+        exports: [TestComponent],
+        bootstrap: [AppComponent],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      })
+      class TestModule {}
+
+      @Pipe({
+        standalone: true,
+        name: 'testPipe',
+        pure: true
+      })
+      class TestPipe {}
+    `,
+    options: [
+      {
+        Component: [
+          'moduleId',
+          'standalone',
+          'signal',
+          'selector',
+          'imports',
+          'template',
+          'templateUrl',
+          'styleUrl',
+          'styleUrls',
+          'styles',
+          'encapsulation',
+          'changeDetection',
+          'providers',
+          'viewProviders',
+          'animations',
+          'entryComponents',
+          'preserveWhitespaces',
+          'interpolation',
+          'hostDirectives',
+          'host',
+        ],
+        Directive: [
+          'standalone',
+          'selector',
+          'inputs',
+          'outputs',
+          'providers',
+          'exportAs',
+          'queries',
+          'hostDirectives',
+          'host',
+          'jit',
+        ],
+        Injectable: ['providedIn'],
+        NgModule: [
+          'id',
+          'jit',
+          'imports',
+          'declarations',
+          'providers',
+          'exports',
+          'entryComponents',
+          'bootstrap',
+          'schemas',
+        ],
+        Pipe: ['standalone', 'name', 'pure'],
+        allowUnconfiguredProperties: false,
+      },
+    ],
+  },
+  {
+    code: `
+      @Component({
+        selector: 'app-root'
+      })
+      class TestComponent {}
+
+      @Injectable({
+        useFactory: createService
+      })
+      class TestService {}
+    `,
+    options: [
+      {
+        Component: ['selector'],
+        allowUnconfiguredProperties: false,
+      },
+    ],
+  },
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
@@ -716,4 +867,92 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       }
     `,
   }),
+  {
+    code: `
+      @Component({
+        custom: true
+      })
+      class Test {}
+    `,
+    options: [
+      {
+        Component: ['selector'],
+        allowUnconfiguredProperties: false,
+      },
+    ],
+    errors: [
+      {
+        messageId: 'unconfiguredProperty',
+        data: {
+          decorator: 'Component',
+          property: 'custom',
+        },
+      },
+    ],
+  },
+  {
+    code: `
+      @Component({
+        template: '<div></div>',
+        custom: true,
+        selector: 'app-root'
+      })
+      class Test {}
+    `,
+    options: [
+      {
+        Component: ['selector', 'template'],
+        allowUnconfiguredProperties: false,
+      },
+    ],
+    errors: [
+      {
+        messageId: 'incorrectOrder',
+        data: {
+          decorator: 'Component',
+          expectedOrder: 'selector, template',
+        },
+      },
+      {
+        messageId: 'unconfiguredProperty',
+        data: {
+          decorator: 'Component',
+          property: 'custom',
+        },
+      },
+    ],
+    output: `
+      @Component({
+        selector: 'app-root',
+        template: '<div></div>',
+        custom: true
+      })
+      class Test {}
+    `,
+  },
+  {
+    code: `
+      @Injectable({
+        useFactory: createService,
+        providedIn: 'root'
+      })
+      class TestService {}
+    `,
+    errors: [
+      {
+        messageId: 'incorrectOrder',
+        data: {
+          decorator: 'Injectable',
+          expectedOrder: 'providedIn, useFactory',
+        },
+      },
+    ],
+    output: `
+      @Injectable({
+        providedIn: 'root',
+        useFactory: createService
+      })
+      class TestService {}
+    `,
+  },
 ];
