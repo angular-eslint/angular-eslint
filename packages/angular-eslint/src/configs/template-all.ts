@@ -51,6 +51,7 @@ export default (
       '@angular-eslint/template/prefer-ngsrc': 'error',
       '@angular-eslint/template/prefer-self-closing-tags': 'error',
       '@angular-eslint/template/prefer-static-string-properties': 'error',
+      '@angular-eslint/template/prefer-style-binding': 'error',
       '@angular-eslint/template/prefer-template-literal': 'error',
       '@angular-eslint/template/require-switch-default': 'error',
       '@angular-eslint/template/role-has-required-aria': 'error',
