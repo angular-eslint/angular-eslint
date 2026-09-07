@@ -18,18 +18,31 @@
 Suggests using [style] bindings over ngStyle where applicable
 
 - Type: suggestion
+- 🔧 Supports autofix (`--fix`)
 
 <br>
 
 ## Rationale
 
-For simple cases, [style] and [style.property] bindings offer a more straightforward syntax with better performance than ngStyle, and the Angular style guide recommends them over the NgStyle directive. However, ngStyle should still be used when you need mutations on objects, as style bindings compare the bound object by reference and only apply updates when a new object instance is provided. Note that ngStyle also accepts unit suffixes on object keys (for example `{ "max-width.px": width }`), which [style] object bindings do not support; express these as [style.max-width.px] bindings instead. See https://angular.dev/style-guide#prefer-class-and-style-over-ngclass-and-ngstyle and https://angular.dev/guide/templates/binding#css-class-and-style-property-bindings for more information. This rule helps identify potential simplification opportunities but should be applied judiciously based on your specific needs.
+For simple cases, [style] and [style.property] bindings offer a more straightforward syntax with better performance than ngStyle, and the Angular style guide recommends them over the NgStyle directive. However, ngStyle should still be used when you need mutations on objects, as style bindings compare the bound object by reference and only apply updates when a new object instance is provided. Note that ngStyle also accepts unit suffixes on object keys (for example `{ "max-width.px": width }`), which [style] object bindings do not support; express these as [style.max-width.px] bindings instead. See https://angular.dev/style-guide#prefer-class-and-style-over-ngclass-and-ngstyle and https://angular.dev/guide/templates/binding#css-class-and-style-property-bindings for more information. This rule helps identify potential simplification opportunities but should be applied judiciously based on your specific needs. The opt-in `bindUnits` option additionally flags `[style.property]` bindings that embed the CSS unit in the bound value, such as `[style.width]="'30px'"` or a template literal interpolating a single expression before the unit, which Angular can express as `[style.property.unit]` bindings instead, avoiding the string concatenation on every change detection cycle.
 
 <br>
 
 ## Rule Options
 
-The rule does not have any configuration options.
+The rule accepts an options object with the following properties:
+
+```ts
+interface Options {
+  /**
+   * Whether to also report `[style.property]` bindings whose bound value embeds the CSS unit, such as `[style.width]="'30px'"` or a template literal interpolating a single expression before the unit, which are better expressed with the unit in the binding name (e.g. `[style.width.px]="30"`).
+   *
+   * Default: `false`
+   */
+  bindUnits?: boolean;
+}
+
+```
 
 <br>
 
@@ -306,6 +319,186 @@ The rule does not have any configuration options.
 ```html
 <div bind-ngStyle="styles"></div>
      ~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-style-binding": [
+      "error",
+      {
+        "bindUnits": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [style.width]="'30px'"></div>
+     ~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-style-binding": [
+      "error",
+      {
+        "bindUnits": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [style.margin-top]="'-12.5%'"></div>
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-style-binding": [
+      "error",
+      {
+        "bindUnits": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [style.height]="`${height()}em`"></div>
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-style-binding": [
+      "error",
+      {
+        "bindUnits": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div bind-style.width="'30px'"></div>
+     ~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-style-binding": [
+      "error",
+      {
+        "bindUnits": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [style.width]="`${sizes['md']}px`"></div>
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-style-binding": [
+      "error",
+      {
+        "bindUnits": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [ngStyle]="styles" [style.width]="'30px'"></div>
+     ~~~~~~~~~~~~~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~
 ```
 
 </details>
@@ -677,6 +870,348 @@ The rule does not have any configuration options.
 
 ```html
 <div [myNgStyle]="styles"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-style-binding": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div [style.width]="'30px'"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-style-binding": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div [style.width]="`${width}px`"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-style-binding": [
+      "error",
+      {
+        "bindUnits": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<section [style.height.px]="sectionHeightInPixels()"></section>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-style-binding": [
+      "error",
+      {
+        "bindUnits": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div [style.width]="'auto'"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-style-binding": [
+      "error",
+      {
+        "bindUnits": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div [style.width]="'30foo'"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-style-binding": [
+      "error",
+      {
+        "bindUnits": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div [style.margin]="'0 10px'"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-style-binding": [
+      "error",
+      {
+        "bindUnits": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div [style.padding]="`${top}px ${left}px`"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-style-binding": [
+      "error",
+      {
+        "bindUnits": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div [style.width]="`calc(${width}px)`"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-style-binding": [
+      "error",
+      {
+        "bindUnits": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div [style.width]="width + 'px'"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-style-binding": [
+      "error",
+      {
+        "bindUnits": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div [style]="'width: 30px'"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-style-binding": [
+      "error",
+      {
+        "bindUnits": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div [class.w-30px]="'30px'"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-style-binding": [
+      "error",
+      {
+        "bindUnits": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div [title]="'30px'"></div>
 ```
 
 </details>
