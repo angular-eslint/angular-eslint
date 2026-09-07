@@ -235,6 +235,37 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     `,
     messageId,
   }),
+  // The first opposite `@if` can still become `@else`. A later `--fix` pass
+  // must not then fold the remaining same-condition `@if` into that branch,
+  // which is the content-projection break reported in issue #3076.
+  convertAnnotatedSourceToFailureCase({
+    description: `does not keep merging projectable roots across autofix passes`,
+    annotatedSource: `
+      @if (a) {
+        <button>1</button>
+      }
+      @if (!a) {
+      ~~~~
+        <button>2</button>
+      }
+      @if (!a) {
+        <button>3</button>
+      }
+    `,
+    messageId,
+    annotatedOutput: `
+      @if (a) {
+        <button>1</button>
+      }
+      @else {
+      
+        <button>2</button>
+      }
+      @if (!a) {
+        <button>3</button>
+      }
+    `,
+  }),
   convertAnnotatedSourceToFailureCase({
     description: `fails for second @if when separated from the first @if by whitespace`,
     annotatedSource: `
