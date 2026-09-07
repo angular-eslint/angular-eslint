@@ -18,6 +18,22 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   },
   '<p></p>',
   '<p></p><p></p>',
+  // Explicit <ng-template> is not rendered in the parent DOM, so nested
+  // <p>/<a> tags inside it are not actually nested for hydration purposes.
+  `
+    <p>
+      Text
+      <ng-template #content>
+        <p>Text</p>
+      </ng-template>
+    </p>
+  `,
+  {
+    code: '<a><ng-template><a></a></ng-template></a>',
+    settings: {
+      hideFromDocs: true,
+    },
+  },
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
@@ -48,6 +64,24 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     annotatedSource: `
         <p>@if(true) {<p></p>}</p>
                       ~~~~~~~
+      `,
+    data: { tag: 'p' },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description: 'should fail on nested tag with a structural directive',
+    annotatedSource: `
+        <a><a *ngFor="let item of items"></a></a>
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    data: { tag: 'a' },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description: 'should fail on nested p tag inside ng-container',
+    annotatedSource: `
+        <p><ng-container><p></p></ng-container></p>
+                         ~~~~~~~
       `,
     data: { tag: 'p' },
   }),

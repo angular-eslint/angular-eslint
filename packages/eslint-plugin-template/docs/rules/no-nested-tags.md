@@ -23,7 +23,7 @@ Denies nesting of `<p>` and `<a>` tags.
 
 ## Rationale
 
-Nesting `<p>` tags inside other `<p>` tags, or `<a>` tags inside other `<a>` tags, is invalid HTML and causes serious issues with Angular hydration. All browsers automatically close the outer tag when they encounter the inner tag, transforming `<p>1<p>2</p>3</p>` into `<p>1</p><p>2</p>3` in the DOM. This creates a mismatch between the server-rendered HTML and what Angular expects during hydration, breaking incremental hydration and potentially causing runtime errors. The browser's automatic correction of invalid HTML happens before Angular processes the template, so Angular cannot fix or work around it. Always use different elements (like `<p>` and `<span>`, or nested `<div>` tags) or restructure your template to avoid nesting these specific tags.
+Nesting `<p>` tags inside other `<p>` tags, or `<a>` tags inside other `<a>` tags, is invalid HTML and causes serious issues with Angular hydration. All browsers automatically close the outer tag when they encounter the inner tag, transforming `<p>1<p>2</p>3</p>` into `<p>1</p><p>2</p>3` in the DOM. This creates a mismatch between the server-rendered HTML and what Angular expects during hydration, breaking incremental hydration and potentially causing runtime errors. The browser's automatic correction of invalid HTML happens before Angular processes the template, so Angular cannot fix or work around it. Always use different elements (like `<p>` and `<span>`, or nested `<div>` tags) or restructure your template to avoid nesting these specific tags. Explicit `<ng-template>` elements are an exception because they are not rendered in-place; tags inside them are not nested in the parent element's DOM.
 
 <br>
 
@@ -90,6 +90,60 @@ The rule does not have any configuration options.
 ```html
 <p>@if(true) {<p></p>}</p>
               ~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-nested-tags": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<a><a *ngFor="let item of items"></a></a>
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-nested-tags": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<p><ng-container><p></p></ng-container></p>
+                 ~~~~~~~
 ```
 
 <br>
@@ -230,6 +284,37 @@ The rule does not have any configuration options.
 
 ```html
 <p></p><p></p>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-nested-tags": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<p>
+  Text
+  <ng-template #content>
+    <p>Text</p>
+  </ng-template>
+</p>
 ```
 
 </details>
