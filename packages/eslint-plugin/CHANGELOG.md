@@ -1,3 +1,13 @@
+## 22.5.0 (2026-09-07)
+
+### 🚀 Features
+
+- **eslint-plugin:** [sort-keys-in-type-decorator] disallow unconfigured properties ([#3193](https://github.com/angular-eslint/angular-eslint/pull/3193))
+
+### ❤️ Thank You
+
+- Максим Иванов
+
 ## 22.4.0 (2026-09-07)
 
 This was a version bump only for eslint-plugin to align it with other projects, there were no code changes.

@@ -1,3 +1,13 @@
+## 22.5.0 (2026-09-07)
+
+### 🚀 Features
+
+- **schematics:** add --tseslint-preset for strict and type-checked configs ([#3195](https://github.com/angular-eslint/angular-eslint/pull/3195))
+
+### ❤️ Thank You
+
+- AI-JamesHenry @AI-JamesHenry
+
 ## 22.4.0 (2026-09-07)
 
 ### 🩹 Fixes
