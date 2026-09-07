@@ -6,7 +6,14 @@ import {
 export type Quote = "'" | '"' | '`';
 
 export function isLiteralPrimitive(node: AST): node is LiteralPrimitive {
-  return node instanceof LiteralPrimitive;
+  // The template parser stamps `type` from `constructor.name`. `instanceof`
+  // fails when more than one copy of `@angular-eslint/bundled-angular-compiler`
+  // is installed (version mismatches, Yarn `hoistingLimits`, etc.).
+  return (
+    !!node &&
+    ((node as { type?: string }).type === 'LiteralPrimitive' ||
+      node instanceof LiteralPrimitive)
+  );
 }
 
 export function isStringLiteralPrimitive(
