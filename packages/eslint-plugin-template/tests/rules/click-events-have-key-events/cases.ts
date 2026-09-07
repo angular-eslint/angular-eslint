@@ -71,6 +71,11 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     options: [{ ignoreWithDirectives: ['myDirective'] }],
   },
   {
+    // It should work when ignoreWithDirectives contains a regex that matches a directive.
+    code: `<div tuiOption (click)="onClick()"></div>`,
+    options: [{ ignoreWithDirectives: ['/^tui/'] }],
+  },
+  {
     // It should work when requireKeyCode is set and the key event specifies a key.
     code: `
         <div (click)="onClick()" (keydown.enter)="onKeydown()"></div>
@@ -211,6 +216,16 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     `,
     options: [{ ignoreWithDirectives: ['testDirective', 'otherDirective'] }],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail if an element has no key events, and ignoreWithDirectives option specifies a regex, but no directive matches it',
+    annotatedSource: `
+      <div myDirective (click)="onClick()"></div>
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    options: [{ ignoreWithDirectives: ['/^tui/'] }],
   }),
   convertAnnotatedSourceToFailureCase({
     messageId: keyCodeMessageId,

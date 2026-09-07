@@ -4,6 +4,7 @@ import type {
 } from '@angular-eslint/bundled-angular-compiler';
 import { getTemplateParserServices } from '@angular-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
+import { createIgnoredDirectiveMatcher } from '../utils/has-ignored-directive';
 import { getDomElements } from '../utils/get-dom-elements';
 import { isHiddenFromScreenReader } from '../utils/is-hidden-from-screen-reader';
 import { isInherentlyInteractiveElement } from '../utils/is-interactive-element';
@@ -47,6 +48,8 @@ export default createESLintRule<Options, MessageIds>({
             type: 'array',
             items: { type: 'string' },
             uniqueItems: true,
+            description:
+              'Directive names that, when present on the element, cause it to be ignored. Entries wrapped in slashes, e.g. `/^tui/`, are treated as regular expressions.',
             default: DEFAULT_OPTIONS.ignoreWithDirectives as
               string[] | undefined,
           },
@@ -82,6 +85,8 @@ export default createESLintRule<Options, MessageIds>({
     const normalizedAllowedKeyCodes = (allowedKeyCodes ?? []).map((keyCode) =>
       keyCode.toLowerCase(),
     );
+    const hasIgnoredDirective =
+      createIgnoredDirectiveMatcher(ignoreWithDirectives);
 
     return {
       Element(node: TmplAstElement) {
@@ -90,7 +95,7 @@ export default createESLintRule<Options, MessageIds>({
         }
 
         if (
-          isIgnored(ignoreWithDirectives, node) ||
+          hasIgnoredDirective(node) ||
           isPresentationRole(node) ||
           isHiddenFromScreenReader(node) ||
           isInherentlyInteractiveElement(node)
@@ -177,26 +182,6 @@ function getKeyCode({ name }: TmplAstBoundEvent): string | undefined {
   }
   const keyCode = segments[segments.length - 1].toLowerCase();
   return keyCode.length > 0 ? keyCode : undefined;
-}
-
-function isIgnored(
-  ignoreWithDirectives: string[] | undefined,
-  { inputs, attributes }: TmplAstElement,
-) {
-  if (ignoreWithDirectives && ignoreWithDirectives.length > 0) {
-    for (const input of inputs) {
-      if (ignoreWithDirectives.includes(input.name)) {
-        return true;
-      }
-    }
-    for (const attribute of attributes) {
-      if (ignoreWithDirectives.includes(attribute.name)) {
-        return true;
-      }
-    }
-  }
-
-  return false;
 }
 
 export const RULE_DOCS_EXTENSION = {

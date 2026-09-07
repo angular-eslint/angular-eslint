@@ -34,6 +34,8 @@ The rule accepts an options object with the following properties:
 ```ts
 interface Options {
   /**
+   * Directive names that, when present on the element, cause it to be ignored. Entries wrapped in slashes, e.g. `/^tui/`, are treated as regular expressions.
+   *
    * Default: `[]`
    */
   ignoreWithDirectives?: string[];
@@ -374,6 +376,38 @@ interface Options {
         "ignoreWithDirectives": [
           "testDirective",
           "otherDirective"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div myDirective (click)="onClick()"></div>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/click-events-have-key-events": [
+      "error",
+      {
+        "ignoreWithDirectives": [
+          "/^tui/"
         ]
       }
     ]
@@ -756,6 +790,37 @@ interface Options {
 
 ```html
 <div [myDirective] (click)="onClick()"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/click-events-have-key-events": [
+      "error",
+      {
+        "ignoreWithDirectives": [
+          "/^tui/"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div tuiOption (click)="onClick()"></div>
 ```
 
 <br>
