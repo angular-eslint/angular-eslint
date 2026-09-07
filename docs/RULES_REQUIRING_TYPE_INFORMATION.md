@@ -160,6 +160,8 @@ ng add angular-eslint --tseslint-preset=strictTypeChecked
 
 Allowed values are `recommended` (default), `strict`, `recommendedTypeChecked`, and `strictTypeChecked`. Type-checked presets also enable the Project Service in the generated root config, which is required for those rules to run.
 
+`strictTypeChecked` currently reports findings in Angular CLI's generated `src/main.ts` (the bootstrap `.catch(...)` callback). That is expected from the preset; adjust `main.ts` or override the rules if you want a clean baseline.
+
 The same option is accepted by `add-eslint-to-project`, `application`, and `library`, and is applied when those schematics create the root ESLint config.
 
 ## Generating new projects with typed linting configured automatically

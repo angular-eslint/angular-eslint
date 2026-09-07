@@ -25,7 +25,7 @@ Allowed values:
 - `recommendedTypeChecked` — `tseslint.configs.recommendedTypeChecked` + `tseslint.configs.stylisticTypeChecked`, and enables `parserOptions.projectService`
 - `strictTypeChecked` — `tseslint.configs.strictTypeChecked` + `tseslint.configs.stylisticTypeChecked`, and enables `parserOptions.projectService`
 
-Type-checked presets make linting more powerful but slower. See [RULES_REQUIRING_TYPE_INFORMATION.md](../../docs/RULES_REQUIRING_TYPE_INFORMATION.md).
+Type-checked presets make linting more powerful but slower. See [RULES_REQUIRING_TYPE_INFORMATION.md](../../docs/RULES_REQUIRING_TYPE_INFORMATION.md). `strictTypeChecked` currently flags Angular CLI's generated `src/main.ts` bootstrap `.catch(...)` callback; that is expected from the preset.
 
 ```
 ng add @angular-eslint/schematics --tseslint-preset=strictTypeChecked
