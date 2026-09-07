@@ -726,6 +726,113 @@ The rule does not have any configuration options.
 #### ❌ Invalid Code
 
 ```html
+<my-component>
+  @if (a) {
+    <button>1</button>
+  } @else {
+    <button>2</button>
+  }
+  @if (!a) {
+  ~~~~
+    <button>3</button>
+  }
+</my-component>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-at-else": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<my-component>
+  @if (a) {
+    <button>1</button>
+  }
+  @if (!a) {
+  ~~~~
+    <button>2</button>
+  } @else {
+    <button>3</button>
+  }
+</my-component>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-at-else": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@if (a) {
+  <button>1</button>
+}
+@if (!a) {
+~~~~
+  <button>2</button>
+}
+@if (!a) {
+  <button>3</button>
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-at-else": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
 @if (a) {}
 
 @if (!a) {}

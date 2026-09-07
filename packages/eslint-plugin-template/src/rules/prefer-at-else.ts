@@ -4,7 +4,11 @@ import {
   Binary,
   Node,
   PrefixNot,
+  TmplAstElement,
   TmplAstIfBlock,
+  TmplAstNode,
+  TmplAstTemplate,
+  TmplAstText,
 } from '@angular-eslint/bundled-angular-compiler';
 import { getTemplateParserServices } from '@angular-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
@@ -49,6 +53,28 @@ export default createESLintRule<Options, MessageIds>({
     const parserServices = getTemplateParserServices(context);
     const previousNodeStack: (IfNodeInfo | undefined)[] = [undefined];
 
+    function wouldPreventContentProjection(nodes: TmplAstNode[]): boolean {
+      let rootNodeCount = 0;
+      let hasProjectableNode = false;
+
+      for (const node of nodes) {
+        if (
+          node instanceof TmplAstText &&
+          context.sourceCode.text
+            .slice(node.sourceSpan.start.offset, node.sourceSpan.end.offset)
+            .trim() === ''
+        ) {
+          continue;
+        }
+
+        rootNodeCount++;
+        hasProjectableNode ||=
+          node instanceof TmplAstElement || node instanceof TmplAstTemplate;
+      }
+
+      return rootNodeCount > 1 && hasProjectableNode;
+    }
+
     function getFix(
       previous: IfNodeInfo,
       current: IfNodeInfo,
@@ -62,6 +88,25 @@ export default createESLintRule<Options, MessageIds>({
       // we won't fix it because the alias won't exist
       // in the `@else` block of the previous `@if` block.
       if (currentIf.expressionAlias) {
+        return null;
+      }
+
+      // Angular's content projection through control flow only works reliably
+      // when a branch has a single root node. If fixing this violation would
+      // merge multiple roots into an existing branch, keep reporting the
+      // violation but do not offer an unsafe automatic fix.
+      if (
+        (previousElse &&
+          wouldPreventContentProjection([
+            ...previousElse.children,
+            ...currentIf.children,
+          ])) ||
+        (currentElse &&
+          wouldPreventContentProjection([
+            ...previousIf.children,
+            ...currentElse.children,
+          ]))
+      ) {
         return null;
       }
 
