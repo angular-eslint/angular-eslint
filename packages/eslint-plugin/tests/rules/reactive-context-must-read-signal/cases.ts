@@ -88,6 +88,25 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
       c = computed(() => this.items.map(this.transform));
     }
   `,
+    // Conservative: a standard library call that is handed an 'any' value might
+    // be given a function that reads a signal.
+    `
+    declare const transform: any;
+    class Test {
+      items = [1, 2, 3];
+      c = computed(() => this.items.map(transform));
+    }
+  `,
+    // Conservative: a union that includes a function value we cannot look
+    // inside might read a signal.
+    `
+    class Test {
+      items = [1, 2, 3];
+      transform: ((value: number) => number) | ((value: number) => string) =
+        (value) => value;
+      c = computed(() => this.items.map(this.transform));
+    }
+  `,
     // Conservative: a spread argument could expand to a function that reads a
     // signal, so a standard library call that receives one stays unknown.
     `
@@ -120,6 +139,33 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
         return this.count() * 2;
       }
       c = computed(() => this.double);
+    }
+  `,
+    // Conservative: destructuring invokes a getter just like a member
+    // expression does.
+    `
+    class Test {
+      count = signal(0);
+      get double(): number {
+        return this.count() * 2;
+      }
+      c = computed(() => {
+        const { double } = this;
+        return double;
+      });
+    }
+  `,
+    // Conservative: a rest element copies every property, including getters.
+    `
+    class Test {
+      count = signal(0);
+      get double(): number {
+        return this.count() * 2;
+      }
+      c = computed(() => {
+        const { count, ...rest } = this;
+        return rest;
+      });
     }
   `,
     // computed() that reads the result of a nested computed.
@@ -240,6 +286,24 @@ const invalidBase: readonly InvalidTestCase<MessageIds, Options>[] = [
           name = 'x';
           c = computed(() => this.name);
               ~~~~~~~~~~~~~~~~~~~~~~~~~
+        }
+      `,
+    messageId,
+    data: { primitive: 'computed' },
+  }),
+  convertAnnotatedSourceToFailureCase<MessageIds, Options>({
+    description: 'computed() destructures only a plain property',
+    annotatedSource: `
+        class Test {
+          name = 'x';
+          c = computed(() => {
+              ~~~~~~~~~~~~~~~~
+            const { name } = this;
+            ~~~~~~~~~~~~~~~~~~~~~~
+            return name;
+            ~~~~~~~~~~~~
+          });
+          ~~
         }
       `,
     messageId,

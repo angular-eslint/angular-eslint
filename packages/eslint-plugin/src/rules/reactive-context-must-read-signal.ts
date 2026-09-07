@@ -178,7 +178,32 @@ export default createESLintRule<Options, MessageIds>({
         // We cannot tell what a spread expands to, so assume the worst.
         return true;
       }
-      return services.getTypeAtLocation(node).getCallSignatures().length > 0;
+      const type = services.getTypeAtLocation(node);
+      if (
+        tsutils.isTypeFlagSet(type, ts.TypeFlags.Any | ts.TypeFlags.Unknown)
+      ) {
+        // We know nothing about the value, so it could well be a function
+        // that reads a signal.
+        return true;
+      }
+      return tsutils
+        .unionConstituents(type)
+        .some((constituent) => constituent.getCallSignatures().length > 0);
+    }
+
+    /**
+     * Returns true if the property with the given name is a getter on any
+     * constituent of the type. A getter runs arbitrary code, so it can read a
+     * signal even though reading the property does not look like a call.
+     */
+    function isGetter(type: ts.Type, name: string): boolean {
+      return tsutils.unionConstituents(type).some((constituent) => {
+        const property = constituent.getProperty(name);
+        return (
+          property !== undefined &&
+          tsutils.isSymbolFlagSet(property, ts.SymbolFlags.GetAccessor)
+        );
+      });
     }
 
     /**
@@ -304,6 +329,29 @@ export default createESLintRule<Options, MessageIds>({
         }
       },
 
+      ObjectPattern(node: TSESTree.ObjectPattern) {
+        const analysis = currentAnalysis();
+        if (!analysis) {
+          return;
+        }
+        // Destructuring invokes getters just like a member expression does,
+        // e.g. `const { double } = this`.
+        const type = services.getTypeAtLocation(node);
+        for (const property of node.properties) {
+          if (
+            property.type !== AST_NODE_TYPES.Property ||
+            property.computed ||
+            property.key.type !== AST_NODE_TYPES.Identifier
+          ) {
+            // A rest element copies every property and a computed or literal
+            // key can name any property, so assume a getter could be involved.
+            analysis.hasUnknown = true;
+          } else if (isGetter(type, property.key.name)) {
+            analysis.hasUnknown = true;
+          }
+        }
+      },
+
       NewExpression(node: TSESTree.NewExpression) {
         const analysis = currentAnalysis();
         if (analysis) {
@@ -380,5 +428,5 @@ export default createESLintRule<Options, MessageIds>({
 
 export const RULE_DOCS_EXTENSION = {
   rationale:
-    'Reactive contexts like `computed()`, `linkedSignal()`, `effect()` and `afterRenderEffect()` re-run whenever a signal they read changes. If the relevant function never reads a signal, the context runs once and can never react to anything, so it adds overhead without providing reactivity. This is usually a mistake: either the developer forgot to call a signal (e.g. wrote `firstName` instead of `firstName()`), or the value is actually static and should be a plain constant, a `signal()`, or an `afterNextRender()` in the case of `afterRenderEffect()`. To avoid false positives, the rule only reports when everything the tracked function does is known not to read a signal. Calls into the TypeScript standard library (arrays, strings, `Math`, `JSON`, `console`, DOM APIs, etc.) are known to be safe; anything else keeps the rule silent, including a helper function, a service method, a getter, an unresolved symbol, and any Angular API such as `untracked()`. For `resource()`/`rxResource()` only the `params` function defines the dependencies, and these are opt-in via the `checkResources` option.',
+    'Reactive contexts like `computed()`, `linkedSignal()`, `effect()` and `afterRenderEffect()` re-run whenever a signal they read changes. If the relevant function never reads a signal, the context runs once and can never react to anything, so it adds overhead without providing reactivity. This is usually a mistake: either the developer forgot to call a signal (e.g. wrote `firstName` instead of `firstName()`), or the value is actually static and should be a plain constant, a `signal()`, or an `afterNextRender()` in the case of `afterRenderEffect()`. To avoid false positives, the rule only reports when everything the tracked function does is known not to read a signal. Calls into the TypeScript standard library (arrays, strings, `Math`, `JSON`, `console`, DOM APIs, etc.) are known to be safe; anything else keeps the rule silent, including a helper function, a service method, a getter, an unresolved symbol, and any Angular API such as `untracked()`. One known limitation: a standard library call that reaches user code through a protocol method, such as `toJSON()` in `JSON.stringify()` or `toString()` in a template literal, is still treated as safe, so a signal read inside such a method is not detected. For `resource()`/`rxResource()` only the `params` function defines the dependencies, and these are opt-in via the `checkResources` option.',
 };
