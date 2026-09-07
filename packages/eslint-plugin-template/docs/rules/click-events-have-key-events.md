@@ -37,6 +37,18 @@ interface Options {
    * Default: `[]`
    */
   ignoreWithDirectives?: string[];
+  /**
+   * Require key events to specify a key via a pseudo-event, e.g. `(keydown.enter)`. A bare `(keydown)` will not satisfy the rule.
+   *
+   * Default: `false`
+   */
+  requireKeyCode?: boolean;
+  /**
+   * Only key events whose key (the last segment of the pseudo-event, e.g. `enter` in `(keydown.shift.enter)`) is in this list satisfy the rule. Implies `requireKeyCode`.
+   *
+   * Default: `[]`
+   */
+  allowedKeyCodes?: string[];
 }
 
 ```
@@ -378,6 +390,132 @@ interface Options {
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/click-events-have-key-events": [
+      "error",
+      {
+        "requireKeyCode": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div (click)="onClick()" (keydown)="onKeydown()"></div>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/click-events-have-key-events": [
+      "error",
+      {
+        "requireKeyCode": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div (click)="onClick()"></div>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/click-events-have-key-events": [
+      "error",
+      {
+        "allowedKeyCodes": [
+          "Enter",
+          "ArrowLeft",
+          "ArrowRight"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div (click)="onClick()" (keydown.space)="onKeydown()"></div>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/click-events-have-key-events": [
+      "error",
+      {
+        "allowedKeyCodes": [
+          "Enter"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div (click)="onClick()" (keydown)="onKeydown()"></div>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
 </details>
 
 <br>
@@ -618,6 +756,72 @@ interface Options {
 
 ```html
 <div [myDirective] (click)="onClick()"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/click-events-have-key-events": [
+      "error",
+      {
+        "requireKeyCode": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div (click)="onClick()" (keydown.enter)="onKeydown()"></div>
+<div (click)="onClick()" (keyup.shift.space)="onKeyup()"></div>
+<div (click)="onClick()" (keydown)="onKeydown()" (keydown.enter)="onKeydown()"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/click-events-have-key-events": [
+      "error",
+      {
+        "allowedKeyCodes": [
+          "Enter",
+          "ArrowLeft"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div (click)="onClick()" (keydown.enter)="onKeydown()"></div>
+<div (click)="onClick()" (keyup.Enter)="onKeyup()"></div>
+<div (click)="onClick()" (keydown.shift.arrowleft)="onKeydown()"></div>
+<div (click)="onClick()" (keydown.space)="onKeydown()" (keydown.enter)="onKeydown()"></div>
 ```
 
 </details>

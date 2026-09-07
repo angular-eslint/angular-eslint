@@ -9,6 +9,8 @@ import type {
 } from '../../../src/rules/click-events-have-key-events';
 
 const messageId: MessageIds = 'clickEventsHaveKeyEvents';
+const keyCodeMessageId: MessageIds = 'clickEventsHaveKeyCode';
+const allowedKeyCodeMessageId: MessageIds = 'clickEventsHaveAllowedKeyCode';
 
 export const valid: readonly (string | ValidTestCase<Options>)[] = [
   {
@@ -67,6 +69,25 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   {
     code: `<div [myDirective] (click)="onClick()"></div>`,
     options: [{ ignoreWithDirectives: ['myDirective'] }],
+  },
+  {
+    // It should work when requireKeyCode is set and the key event specifies a key.
+    code: `
+        <div (click)="onClick()" (keydown.enter)="onKeydown()"></div>
+        <div (click)="onClick()" (keyup.shift.space)="onKeyup()"></div>
+        <div (click)="onClick()" (keydown)="onKeydown()" (keydown.enter)="onKeydown()"></div>
+      `,
+    options: [{ requireKeyCode: true }],
+  },
+  {
+    // It should work when allowedKeyCodes is set and the key event uses an allowed key.
+    code: `
+        <div (click)="onClick()" (keydown.enter)="onKeydown()"></div>
+        <div (click)="onClick()" (keyup.Enter)="onKeyup()"></div>
+        <div (click)="onClick()" (keydown.shift.arrowleft)="onKeydown()"></div>
+        <div (click)="onClick()" (keydown.space)="onKeydown()" (keydown.enter)="onKeydown()"></div>
+      `,
+    options: [{ allowedKeyCodes: ['Enter', 'ArrowLeft'] }],
   },
 ];
 
@@ -190,5 +211,47 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     `,
     options: [{ ignoreWithDirectives: ['testDirective', 'otherDirective'] }],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId: keyCodeMessageId,
+    description:
+      'should fail when requireKeyCode is set and the key event does not specify a key',
+    annotatedSource: `
+      <div (click)="onClick()" (keydown)="onKeydown()"></div>
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    options: [{ requireKeyCode: true }],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail with the default message when requireKeyCode is set and there is no key event at all',
+    annotatedSource: `
+      <div (click)="onClick()"></div>
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    options: [{ requireKeyCode: true }],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId: allowedKeyCodeMessageId,
+    description:
+      'should fail when allowedKeyCodes is set and the key event uses a key that is not allowed',
+    annotatedSource: `
+      <div (click)="onClick()" (keydown.space)="onKeydown()"></div>
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    options: [{ allowedKeyCodes: ['Enter', 'ArrowLeft', 'ArrowRight'] }],
+    data: { allowedKeyCodes: 'enter, arrowleft, arrowright' },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId: allowedKeyCodeMessageId,
+    description:
+      'should fail when allowedKeyCodes is set and the key event does not specify a key',
+    annotatedSource: `
+      <div (click)="onClick()" (keydown)="onKeydown()"></div>
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    options: [{ allowedKeyCodes: ['Enter'] }],
+    data: { allowedKeyCodes: 'enter' },
   }),
 ];

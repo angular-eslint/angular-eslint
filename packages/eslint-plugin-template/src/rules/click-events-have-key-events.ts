@@ -1,4 +1,7 @@
-import type { TmplAstElement } from '@angular-eslint/bundled-angular-compiler';
+import type {
+  TmplAstBoundEvent,
+  TmplAstElement,
+} from '@angular-eslint/bundled-angular-compiler';
 import { getTemplateParserServices } from '@angular-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import { getDomElements } from '../utils/get-dom-elements';
@@ -11,13 +14,22 @@ import { ARIARole } from 'aria-query';
 export type Options = [
   {
     readonly ignoreWithDirectives?: string[];
+    readonly requireKeyCode?: boolean;
+    readonly allowedKeyCodes?: string[];
   },
 ];
-export type MessageIds = 'clickEventsHaveKeyEvents';
+export type MessageIds =
+  | 'clickEventsHaveKeyEvents'
+  | 'clickEventsHaveKeyCode'
+  | 'clickEventsHaveAllowedKeyCode';
 export const RULE_NAME = 'click-events-have-key-events';
 const DEFAULT_OPTIONS: Options[number] = {
   ignoreWithDirectives: [],
+  requireKeyCode: false,
+  allowedKeyCodes: [],
 };
+
+const KEY_EVENTS = ['keyup', 'keydown', 'keypress'];
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
@@ -38,6 +50,20 @@ export default createESLintRule<Options, MessageIds>({
             default: DEFAULT_OPTIONS.ignoreWithDirectives as
               string[] | undefined,
           },
+          requireKeyCode: {
+            type: 'boolean',
+            description:
+              'Require key events to specify a key via a pseudo-event, e.g. `(keydown.enter)`. A bare `(keydown)` will not satisfy the rule.',
+            default: DEFAULT_OPTIONS.requireKeyCode,
+          },
+          allowedKeyCodes: {
+            type: 'array',
+            items: { type: 'string' },
+            uniqueItems: true,
+            description:
+              'Only key events whose key (the last segment of the pseudo-event, e.g. `enter` in `(keydown.shift.enter)`) is in this list satisfy the rule. Implies `requireKeyCode`.',
+            default: DEFAULT_OPTIONS.allowedKeyCodes as string[] | undefined,
+          },
         },
         additionalProperties: false,
       },
@@ -45,10 +71,18 @@ export default createESLintRule<Options, MessageIds>({
     messages: {
       clickEventsHaveKeyEvents:
         'click must be accompanied by either keyup, keydown or keypress event for accessibility.',
+      clickEventsHaveKeyCode:
+        'click must be accompanied by a keyup, keydown or keypress event that specifies a key (e.g. `(keydown.enter)`) for accessibility.',
+      clickEventsHaveAllowedKeyCode:
+        'click must be accompanied by a keyup, keydown or keypress event for one of the allowed keys ({{allowedKeyCodes}}) for accessibility.',
     },
     defaultOptions: [DEFAULT_OPTIONS],
   },
-  create(context, [{ ignoreWithDirectives }]) {
+  create(context, [{ ignoreWithDirectives, requireKeyCode, allowedKeyCodes }]) {
+    const normalizedAllowedKeyCodes = (allowedKeyCodes ?? []).map((keyCode) =>
+      keyCode.toLowerCase(),
+    );
+
     return {
       Element(node: TmplAstElement) {
         if (!getDomElements().has(node.name.toLowerCase())) {
@@ -72,32 +106,78 @@ export default createESLintRule<Options, MessageIds>({
         }
 
         let hasClick = false,
-          hasKeyEvent = false;
+          hasKeyEvent = false,
+          hasSatisfyingKeyEvent = false;
 
         for (const output of node.outputs) {
           hasClick = hasClick || output.name === 'click';
-          hasKeyEvent =
-            hasKeyEvent ||
-            output.name.startsWith('keyup') ||
-            output.name.startsWith('keydown') ||
-            output.name.startsWith('keypress');
+
+          if (!isKeyEvent(output)) {
+            continue;
+          }
+          hasKeyEvent = true;
+
+          const keyCode = getKeyCode(output);
+          if (normalizedAllowedKeyCodes.length > 0) {
+            hasSatisfyingKeyEvent =
+              hasSatisfyingKeyEvent ||
+              (keyCode !== undefined &&
+                normalizedAllowedKeyCodes.includes(keyCode));
+          } else if (requireKeyCode) {
+            hasSatisfyingKeyEvent =
+              hasSatisfyingKeyEvent || keyCode !== undefined;
+          } else {
+            hasSatisfyingKeyEvent = true;
+          }
         }
 
-        if (!hasClick || hasKeyEvent) {
+        if (!hasClick || hasSatisfyingKeyEvent) {
           return;
         }
 
         const parserServices = getTemplateParserServices(context);
         const loc = parserServices.convertNodeSourceSpanToLoc(node.sourceSpan);
 
-        context.report({
-          loc,
-          messageId: 'clickEventsHaveKeyEvents',
-        });
+        if (!hasKeyEvent) {
+          context.report({
+            loc,
+            messageId: 'clickEventsHaveKeyEvents',
+          });
+        } else if (normalizedAllowedKeyCodes.length > 0) {
+          context.report({
+            loc,
+            messageId: 'clickEventsHaveAllowedKeyCode',
+            data: { allowedKeyCodes: normalizedAllowedKeyCodes.join(', ') },
+          });
+        } else {
+          context.report({
+            loc,
+            messageId: 'clickEventsHaveKeyCode',
+          });
+        }
       },
     };
   },
 });
+
+function isKeyEvent({ name }: TmplAstBoundEvent): boolean {
+  return KEY_EVENTS.some(
+    (keyEvent) => name === keyEvent || name.startsWith(`${keyEvent}.`),
+  );
+}
+
+/**
+ * Returns the key targeted by a key pseudo-event, e.g. `enter` for
+ * `(keydown.shift.enter)`, or `undefined` for a bare `(keydown)`.
+ */
+function getKeyCode({ name }: TmplAstBoundEvent): string | undefined {
+  const segments = name.split('.');
+  if (segments.length < 2) {
+    return undefined;
+  }
+  const keyCode = segments[segments.length - 1].toLowerCase();
+  return keyCode.length > 0 ? keyCode : undefined;
+}
 
 function isIgnored(
   ignoreWithDirectives: string[] | undefined,
