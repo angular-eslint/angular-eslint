@@ -1,3 +1,28 @@
+## 22.4.0 (2026-09-07)
+
+### 🚀 Features
+
+- **eslint-plugin-template:** [no-inline-styles] add "dynamic" option value for style bindings ([#3190](https://github.com/angular-eslint/angular-eslint/pull/3190))
+- **eslint-plugin-template:** add prefer-style-binding rule ([#3188](https://github.com/angular-eslint/angular-eslint/pull/3188))
+- **eslint-plugin-template:** [no-inline-styles] allow [style] bindings via allowBindToStyle ([#3112](https://github.com/angular-eslint/angular-eslint/pull/3112))
+- **eslint-plugin-template:** support regex entries in ignoreWithDirectives option ([#3180](https://github.com/angular-eslint/angular-eslint/pull/3180))
+- **eslint-plugin-template:** [click-events-have-key-events] add requireKeyCode and allowedKeyCodes options ([#3178](https://github.com/angular-eslint/angular-eslint/pull/3178))
+
+### 🩹 Fixes
+
+- **eslint-plugin-template:** [prefer-at-else] avoid unsafe content projection fixes ([#3189](https://github.com/angular-eslint/angular-eslint/pull/3189))
+- **eslint-plugin-template:** [no-nested-tags] treat ng-template as a nesting boundary ([#3187](https://github.com/angular-eslint/angular-eslint/pull/3187))
+- **eslint-plugin-template:** [prefer-self-closing-tags] ignore all index.html files ([#3184](https://github.com/angular-eslint/angular-eslint/pull/3184))
+- **eslint-plugin-template:** [eqeqeq] honor allowNullOrUndefined across compiler copies ([#3182](https://github.com/angular-eslint/angular-eslint/pull/3182))
+- **eslint-plugin-template:** [prefer-self-closing-tags] ignore children of svg and math elements ([#3181](https://github.com/angular-eslint/angular-eslint/pull/3181))
+
+### ❤️ Thank You
+
+- AI-JamesHenry @AI-JamesHenry
+- James Henry @JamesHenry
+- Zonaib Bokhari @xonaib
+- Максим Иванов
+
 ## 22.3.0 (2026-09-07)
 
 This was a version bump only for eslint-plugin-template to align it with other projects, there were no code changes.

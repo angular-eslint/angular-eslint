@@ -1,3 +1,13 @@
+## 22.4.0 (2026-09-07)
+
+### 🩹 Fixes
+
+- **schematics:** error in ng-add on Angular major mismatch and say what to rerun ([#3192](https://github.com/angular-eslint/angular-eslint/pull/3192))
+
+### ❤️ Thank You
+
+- James Henry @JamesHenry
+
 ## 22.3.0 (2026-09-07)
 
 This was a version bump only for schematics to align it with other projects, there were no code changes.

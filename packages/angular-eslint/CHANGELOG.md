@@ -1,3 +1,13 @@
+## 22.4.0 (2026-09-07)
+
+### 🚀 Features
+
+- **eslint-plugin-template:** add prefer-style-binding rule ([#3188](https://github.com/angular-eslint/angular-eslint/pull/3188))
+
+### ❤️ Thank You
+
+- James Henry @JamesHenry
+
 ## 22.3.0 (2026-09-07)
 
 ### 🚀 Features
