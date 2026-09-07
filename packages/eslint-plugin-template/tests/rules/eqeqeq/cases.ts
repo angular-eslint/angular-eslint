@@ -18,6 +18,29 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
       `,
     options: [{ allowNullOrUndefined: true }],
   },
+  {
+    // https://github.com/angular-eslint/angular-eslint/issues/3070
+    code: `
+        @let value = someSignal();
+        @if (value != null) {
+          <span>{{ value }}</span>
+        }
+      `,
+    options: [{ allowNullOrUndefined: true }],
+  },
+  {
+    code: `
+        {{ value == undefined }}
+      `,
+    options: [{ allowNullOrUndefined: true }],
+  },
+  {
+    // https://github.com/angular-eslint/angular-eslint/issues/1542
+    code: `
+        <ng-container *ngIf="title != null">title is not null</ng-container>
+      `,
+    options: [{ allowNullOrUndefined: true }],
+  },
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [

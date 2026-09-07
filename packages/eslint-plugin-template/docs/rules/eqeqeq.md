@@ -525,6 +525,96 @@ interface Options {
 <div *appShow="(d == null && e === null && (f | lowercase) == undefined) || g === undefined">
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/eqeqeq": [
+      "error",
+      {
+        "allowNullOrUndefined": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+@let value = someSignal();
+@if (value != null) {
+  <span>{{ value }}</span>
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/eqeqeq": [
+      "error",
+      {
+        "allowNullOrUndefined": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+{{ value == undefined }}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/eqeqeq": [
+      "error",
+      {
+        "allowNullOrUndefined": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<ng-container *ngIf="title != null">title is not null</ng-container>
+```
+
 </details>
 
 <br>
