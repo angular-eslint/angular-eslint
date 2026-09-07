@@ -96,6 +96,9 @@ import preferSelfClosingTags, {
 import preferStaticStringProperties, {
   RULE_NAME as preferStaticStringPropertiesRuleName,
 } from './rules/prefer-static-string-properties';
+import preferStyleBinding, {
+  RULE_NAME as preferStyleBindingRuleName,
+} from './rules/prefer-style-binding';
 import preferTemplateLiteral, {
   RULE_NAME as preferTemplateLiteralRuleName,
 } from './rules/prefer-template-literal';
@@ -151,6 +154,7 @@ export = {
     [preferNgsrcRuleName]: preferNgsrc,
     [preferSelfClosingTagsRuleName]: preferSelfClosingTags,
     [preferStaticStringPropertiesRuleName]: preferStaticStringProperties,
+    [preferStyleBindingRuleName]: preferStyleBinding,
     [preferTemplateLiteralRuleName]: preferTemplateLiteral,
     [requireSwitchDefaultRuleName]: requireSwitchDefault,
     [roleHasRequiredAriaRuleName]: roleHasRequiredAria,
