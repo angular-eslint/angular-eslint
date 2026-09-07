@@ -1,3 +1,13 @@
+## 22.3.0 (2026-09-07)
+
+### 🚀 Features
+
+- **eslint-plugin:** [reactive-context-must-read-signal] add new rule ([#3090](https://github.com/angular-eslint/angular-eslint/pull/3090))
+
+### ❤️ Thank You
+
+- Anas B.
+
 ## 22.2.0 (2026-08-30)
 
 ### 🩹 Fixes

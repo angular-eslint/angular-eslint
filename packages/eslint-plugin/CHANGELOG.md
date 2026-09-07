@@ -1,3 +1,27 @@
+## 22.3.0 (2026-09-07)
+
+### 🚀 Features
+
+- **eslint-plugin:** [reactive-context-must-read-signal] add new rule ([#3090](https://github.com/angular-eslint/angular-eslint/pull/3090))
+- **eslint-plugin:** [inject-at-top] add additionalInjectFunctions option ([#3169](https://github.com/angular-eslint/angular-eslint/pull/3169))
+- **eslint-plugin:** [use-injectable-provided-in] add allowProvidedInNull option ([#3152](https://github.com/angular-eslint/angular-eslint/pull/3152))
+
+### 🩹 Fixes
+
+- **eslint-plugin:** [reactive-context-must-read-signal] improve getter and function detection ([#3175](https://github.com/angular-eslint/angular-eslint/pull/3175))
+- **eslint-plugin:** [prefer-signal-model] don't report when input and output types differ ([#3089](https://github.com/angular-eslint/angular-eslint/pull/3089))
+- **eslint-plugin:** [prefer-signal-model] skip inputs with transform option ([#3050](https://github.com/angular-eslint/angular-eslint/pull/3050))
+- **eslint-plugin:** [no-implicit-take-until-destroyed] report methods also called outside DI context ([#3164](https://github.com/angular-eslint/angular-eslint/pull/3164))
+
+### ❤️ Thank You
+
+- Anas B.
+- Guillaume DROUARD
+- James Henry @JamesHenry
+- Omar Jimenez @omy13
+- xonaib @xonaib
+- Zonaib Bokhari @xonaib
+
 ## 22.2.0 (2026-08-30)
 
 ### 🚀 Features

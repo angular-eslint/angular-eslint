@@ -1,3 +1,7 @@
+## 22.3.0 (2026-09-07)
+
+This was a version bump only for @angular-eslint/utils to align it with other projects, there were no code changes.
+
 ## 22.2.0 (2026-08-30)
 
 ### 🚀 Features

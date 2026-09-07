@@ -1,3 +1,30 @@
+## 22.3.0 (2026-09-07)
+
+### 🚀 Features
+
+- **eslint-plugin:** [use-injectable-provided-in] add allowProvidedInNull option ([#3152](https://github.com/angular-eslint/angular-eslint/pull/3152))
+- **eslint-plugin:** [inject-at-top] add additionalInjectFunctions option ([#3169](https://github.com/angular-eslint/angular-eslint/pull/3169))
+- **eslint-plugin:** [reactive-context-must-read-signal] add new rule ([#3090](https://github.com/angular-eslint/angular-eslint/pull/3090))
+
+### 🩹 Fixes
+
+- update dependency @angular/compiler to v22.1.4 ([#3163](https://github.com/angular-eslint/angular-eslint/pull/3163))
+- update dependency eslint to v10.9.1 ([#3157](https://github.com/angular-eslint/angular-eslint/pull/3157))
+- update typescript-eslint packages to v8.68.0 ([#3158](https://github.com/angular-eslint/angular-eslint/pull/3158))
+- **eslint-plugin:** [no-implicit-take-until-destroyed] report methods also called outside DI context ([#3164](https://github.com/angular-eslint/angular-eslint/pull/3164))
+- **eslint-plugin:** [prefer-signal-model] skip inputs with transform option ([#3050](https://github.com/angular-eslint/angular-eslint/pull/3050))
+- **eslint-plugin:** [prefer-signal-model] don't report when input and output types differ ([#3089](https://github.com/angular-eslint/angular-eslint/pull/3089))
+- **eslint-plugin:** [reactive-context-must-read-signal] improve getter and function detection ([#3175](https://github.com/angular-eslint/angular-eslint/pull/3175))
+
+### ❤️ Thank You
+
+- Anas B.
+- Guillaume DROUARD
+- James Henry @JamesHenry
+- Omar Jimenez @omy13
+- xonaib @xonaib
+- Zonaib Bokhari @xonaib
+
 ## 22.2.0 (2026-08-30)
 
 ### 🚀 Features
