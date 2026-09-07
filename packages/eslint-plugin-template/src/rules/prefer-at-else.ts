@@ -6,6 +6,7 @@ import {
   PrefixNot,
   TmplAstElement,
   TmplAstIfBlock,
+  TmplAstNode,
   TmplAstTemplate,
   TmplAstText,
 } from '@angular-eslint/bundled-angular-compiler';
@@ -52,7 +53,7 @@ export default createESLintRule<Options, MessageIds>({
     const parserServices = getTemplateParserServices(context);
     const previousNodeStack: (IfNodeInfo | undefined)[] = [undefined];
 
-    function wouldPreventContentProjection(nodes: Node[]): boolean {
+    function wouldPreventContentProjection(nodes: TmplAstNode[]): boolean {
       let rootNodeCount = 0;
       let hasProjectableNode = false;
 
