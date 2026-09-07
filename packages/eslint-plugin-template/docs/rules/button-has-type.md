@@ -34,6 +34,8 @@ The rule accepts an options object with the following properties:
 ```ts
 interface Options {
   /**
+   * Directive names that, when present on the element, cause it to be ignored. Entries wrapped in slashes, e.g. `/^tui/`, are treated as regular expressions.
+   *
    * Default: `[]`
    */
   ignoreWithDirectives?: string[];
@@ -187,6 +189,70 @@ interface Options {
 ```html
 <button myDirective></button>
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/button-has-type": [
+      "error",
+      {
+        "ignoreWithDirectives": [
+          "/^tui/"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<button myButton></button>
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/button-has-type": [
+      "error",
+      {
+        "ignoreWithDirectives": [
+          "tui"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<button tuiButton></button>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ```
 
 <br>
@@ -548,6 +614,38 @@ interface Options {
 
 ```html
 <button [myButton]></button>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/button-has-type": [
+      "error",
+      {
+        "ignoreWithDirectives": [
+          "/^tui/"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<button tuiButton></button>
+<button [tuiOption]="option"></button>
 ```
 
 </details>

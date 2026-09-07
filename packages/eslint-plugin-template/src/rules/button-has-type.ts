@@ -8,6 +8,7 @@ import {
 } from '@angular-eslint/bundled-angular-compiler';
 import { getTemplateParserServices } from '@angular-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
+import { createIgnoredDirectiveMatcher } from '../utils/has-ignored-directive';
 
 export type Options = [
   {
@@ -45,6 +46,8 @@ export default createESLintRule<Options, MessageIds>({
             type: 'array',
             items: { type: 'string' },
             uniqueItems: true,
+            description:
+              'Directive names that, when present on the element, cause it to be ignored. Entries wrapped in slashes, e.g. `/^tui/`, are treated as regular expressions.',
             default: DEFAULT_OPTIONS.ignoreWithDirectives as
               string[] | undefined,
           },
@@ -60,11 +63,13 @@ export default createESLintRule<Options, MessageIds>({
   },
   create(context, [{ ignoreWithDirectives }]) {
     const parserServices = getTemplateParserServices(context);
+    const hasIgnoredDirective =
+      createIgnoredDirectiveMatcher(ignoreWithDirectives);
 
     return {
       [`Element[name=/^(button)$/i]`](element: TmplAstElement) {
         if (!isTypeAttributePresentInElement(element)) {
-          if (!isIgnored(ignoreWithDirectives, element)) {
+          if (!hasIgnoredDirective(element)) {
             context.report({
               loc: parserServices.convertNodeSourceSpanToLoc(
                 element.sourceSpan,
@@ -103,26 +108,6 @@ function isTypeAttributePresentInElement({
   return [...inputs, ...attributes].some(
     ({ name }) => name === TYPE_ATTRIBUTE_NAME,
   );
-}
-
-function isIgnored(
-  ignoreWithDirectives: string[] | undefined,
-  { inputs, attributes }: TmplAstElement,
-) {
-  if (ignoreWithDirectives && ignoreWithDirectives.length > 0) {
-    for (const input of inputs) {
-      if (ignoreWithDirectives.includes(input.name)) {
-        return true;
-      }
-    }
-    for (const attribute of attributes) {
-      if (ignoreWithDirectives.includes(attribute.name)) {
-        return true;
-      }
-    }
-  }
-
-  return false;
 }
 
 function getInvalidButtonTypeIfPresent(

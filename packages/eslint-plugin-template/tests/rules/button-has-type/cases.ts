@@ -34,6 +34,14 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     code: `<button [myButton]></button>`,
     options: [{ ignoreWithDirectives: ['myButton'] }],
   },
+  {
+    // It should work when ignoreWithDirectives contains a regex that matches a directive.
+    code: `
+      <button tuiButton></button>
+      <button [tuiOption]="option"></button>
+    `,
+    options: [{ ignoreWithDirectives: ['/^tui/'] }],
+  },
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
@@ -94,6 +102,26 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     `,
     options: [{ ignoreWithDirectives: ['myButton', 'uiButton'] }],
+    messageId: missingType,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if a button has no type attribute, and ignoreWithDirectives option specifies a regex, but no directive matches it',
+    annotatedSource: `
+      <button myButton></button>
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    options: [{ ignoreWithDirectives: ['/^tui/'] }],
+    messageId: missingType,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should treat entries that are not wrapped in slashes as exact names rather than patterns',
+    annotatedSource: `
+      <button tuiButton></button>
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    options: [{ ignoreWithDirectives: ['tui'] }],
     messageId: missingType,
   }),
   convertAnnotatedSourceToFailureCase({
