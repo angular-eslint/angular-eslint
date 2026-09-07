@@ -31,9 +31,11 @@ export default createESLintRule<Options, MessageIds>({
   create(context) {
     const parserServices = getTemplateParserServices(context);
 
-    // angular 18 doesn't support self closing tags in index.html
-    if (/src[\\/]index\.html$/.test(context.physicalFilename)) {
-      // If it is, return an empty object to skip this rule
+    // An index.html file is served to the browser as-is rather than being
+    // compiled as an Angular template, and browsers do not support
+    // self-closing tags for custom elements, so skip the rule for any
+    // file with that name regardless of where it lives.
+    if (/(^|[\\/])index\.html$/.test(context.physicalFilename)) {
       return {};
     }
     return {

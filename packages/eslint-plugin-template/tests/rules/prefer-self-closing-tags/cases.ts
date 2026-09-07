@@ -67,6 +67,17 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   `<ng-content select="[slot='foo>bar']" />`,
   `<ng-content select="[slot='foo>bar']">Fallback</ng-content>`,
   { code: '<app-root></app-root>', filename: 'src/index.html' },
+  {
+    code: '<acme-root></acme-root>',
+    filename: 'sub_projects/acme/index.html',
+  },
+  {
+    code: '<app-root></app-root>',
+    filename: 'C:\\projects\\acme\\index.html',
+    settings: {
+      hideFromDocs: true,
+    },
+  },
   '<ng-container>&nbsp;</ng-container>',
   '<my-component>  <!-- not empty -->  </my-component>',
 ];

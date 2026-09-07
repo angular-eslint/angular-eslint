@@ -990,6 +990,34 @@ The rule does not have any configuration options.
 
 #### ✅ Valid Code
 
+**Filename: sub_projects/acme/index.html**
+
+```html
+<acme-root></acme-root>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-self-closing-tags": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
 ```html
 <ng-container>&nbsp;</ng-container>
 ```
