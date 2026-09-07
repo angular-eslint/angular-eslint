@@ -18,9 +18,12 @@ import {
   createStringifiedRootESLintConfig,
   getTargetsConfigFromProject,
   readJsonInTree,
+  resolveTseslintPreset,
+  shouldEnableProjectService,
   sortObjectByKeys,
   updateJsonInTree,
   updateSchematicCollections,
+  warnIfTypeCheckedPreset,
 } from '../utils';
 
 const packageJSON = require('../../package.json');
@@ -119,8 +122,13 @@ function applyDevDependenciesForFlatConfig(
   delete json.devDependencies['@typescript-eslint/utils'];
 }
 
-function applyESLintConfigIfSingleProjectWithNoExistingTSLint() {
+function applyESLintConfigIfSingleProjectWithNoExistingTSLint(options: Schema) {
   return (host: Tree, context: SchematicContext) => {
+    const tseslintPreset = resolveTseslintPreset(options.tseslintPreset);
+    const setParserOptionsProject = shouldEnableProjectService(
+      options.setParserOptionsProject ?? false,
+      tseslintPreset,
+    );
     const angularJson = readJsonInTree(host, 'angular.json');
     if (!angularJson || !angularJson.projects) {
       return;
@@ -136,16 +144,20 @@ function applyESLintConfigIfSingleProjectWithNoExistingTSLint() {
      */
     const projectNames = Object.keys(angularJson.projects);
     if (projectNames.length === 0) {
+      warnIfTypeCheckedPreset(context, tseslintPreset);
       return chain([
-        (host) => {
+        (tree) => {
           // If the root package.json uses type: module, generate ESM content
-          const packageJson = readJsonInTree(host, 'package.json');
+          const packageJson = readJsonInTree(tree, 'package.json');
           const isESM = packageJson.type === 'module';
-          host.create(
+          tree.create(
             'eslint.config.js',
-            createStringifiedRootESLintConfig(null, isESM),
+            createStringifiedRootESLintConfig(null, isESM, {
+              tseslintPreset,
+              setParserOptionsProject,
+            }),
           );
-          return host;
+          return tree;
         },
         updateJsonInTree('angular.json', (json) =>
           updateSchematicCollections(json, 'angular-eslint'),
@@ -183,7 +195,10 @@ Please see https://github.com/angular-eslint/angular-eslint for more information
     );
 
     return chain([
-      schematic('add-eslint-to-project', {}),
+      schematic('add-eslint-to-project', {
+        tseslintPreset,
+        setParserOptionsProject,
+      }),
       updateJsonInTree('angular.json', (json) =>
         updateSchematicCollections(json, 'angular-eslint'),
       ),
@@ -239,7 +254,7 @@ export default function (options: Schema): Rule {
 
     return chain([
       addAngularESLintPackages(json, options),
-      applyESLintConfigIfSingleProjectWithNoExistingTSLint(),
+      applyESLintConfigIfSingleProjectWithNoExistingTSLint(options),
     ])(host, context);
   };
 }
