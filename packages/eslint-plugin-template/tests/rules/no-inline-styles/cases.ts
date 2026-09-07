@@ -23,6 +23,7 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '<input type="image" alt="This is descriptive!">',
   '<input type="image" aria-label="foo">',
   '<input type="image" aria-labelledby="id1">',
+  '<div [attr.stylesheet]="x">',
   {
     code: `<input [ngStyle]="{ 'background-color': '#fff' }">`,
     options: [{ allowNgStyle: true }],
@@ -32,8 +33,37 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     options: [{ allowBindToStyle: true }],
   },
   {
+    code: `<input [style]="{ 'background-color': '#fff' }">`,
+    options: [{ allowBindToStyle: true }],
+  },
+  {
+    code: `<input [style]="styleObject">`,
+    options: [{ allowBindToStyle: true }],
+  },
+  {
+    code: `<input [style.width.px]="w">`,
+    options: [{ allowBindToStyle: true }],
+  },
+  {
+    code: `<input style="{{ x }}">`,
+    options: [{ allowBindToStyle: true }],
+  },
+  {
+    code: `<input bind-style="x">`,
+    options: [{ allowBindToStyle: true }],
+  },
+  {
     code: `<input [ngStyle]="{ 'background-color': 'red' }" [style.background-color]="'#fff'">`,
     options: [{ allowNgStyle: true, allowBindToStyle: true }],
+  },
+  {
+    code: `<input [ngStyle]="{ 'background-color': 'red' }" [style]="styleObject" [style.background-color]="'#fff'">`,
+    options: [
+      {
+        allowNgStyle: true,
+        allowBindToStyle: true,
+      },
+    ],
   },
 ];
 
@@ -80,7 +110,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail when input element with style attribute exist',
+    description: 'should fail when input element with attr.style binding exist',
     annotatedSource: `
         <input [attr.style]="'padding: 10px;'">
         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -89,7 +119,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail when input element with binding to style exist',
+    description:
+      'should fail when input element with style property binding exist',
     annotatedSource: `
         <input [style.background-color]="'#fff'">
         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -99,7 +130,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     messageId,
     description:
-      'should fail when input element with binding to style exist and allowNgStyle set to true',
+      'should fail when input element with style bindings exist and allowNgStyle set to true',
     annotatedSource: `
         <input [style]="'border: 1px solid black;'" [ngStyle]="{ 'padding': '10px' }" [style.background-color]="'#fff'">
         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -109,7 +140,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail when input element with ngStyle attribute exist',
+    description: 'should fail when input element with ngStyle binding exist',
     annotatedSource: `
         <input [ngStyle]="'background-color: #fff'">
         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -118,7 +149,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail when input element with ngStyle attribute exist',
+    description:
+      'should fail when input element with style binding exists with only allowNgStyle set to true',
     annotatedSource: `
         <input [style]="'border: 1px solid black;'">
         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -128,7 +160,19 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail when input element with ngStyle attribute exist',
+    description:
+      'should fail when input element with attr.style binding exists even with allowBindToStyle set to true',
+    annotatedSource: `
+        <input [attr.style]="'padding: 10px;'">
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    data: { element: 'input' },
+    options: [{ allowBindToStyle: true }],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail when input element has ngStyle and style bindings without allowBindToStyle',
     annotatedSource: `
         <input [ngStyle]="{ 'padding': '10px' }" [style]="'border: 1px solid black;'">
         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
