@@ -154,6 +154,22 @@ describe('add-eslint-to-project', () => {
         `);
     });
 
+    it('should apply tseslintPreset=strictTypeChecked to the root project config', async () => {
+      await schematicRunner.runSchematic(
+        'add-eslint-to-project',
+        {
+          project: rootProjectName,
+          tseslintPreset: 'strictTypeChecked',
+        },
+        appTree,
+      );
+
+      const eslintConfig = appTree.read('eslint.config.js')?.toString() ?? '';
+      expect(eslintConfig).toContain('tseslint.configs.strictTypeChecked');
+      expect(eslintConfig).toContain('tseslint.configs.stylisticTypeChecked');
+      expect(eslintConfig).toContain('projectService: true');
+    });
+
     it('should add ESLint to the legacy Angular CLI projects which are generated with e2e after the workspace already exists', async () => {
       const options = {
         project: legacyProjectName,
@@ -431,6 +447,31 @@ describe('add-eslint-to-project', () => {
           ]);
           "
         `);
+      });
+    });
+
+    describe('--tseslintPreset=strictTypeChecked', () => {
+      it('should put type-checked presets in the created root config for an additional project', async () => {
+        await schematicRunner.runSchematic(
+          'add-eslint-to-project',
+          {
+            project: otherProjectName,
+            tseslintPreset: 'strictTypeChecked',
+          },
+          appTree,
+        );
+
+        expect(appTree.read('eslint.config.js')?.toString()).toContain(
+          'tseslint.configs.strictTypeChecked',
+        );
+        expect(appTree.read('eslint.config.js')?.toString()).toContain(
+          'projectService: true',
+        );
+        expect(
+          appTree
+            .read(`projects/${otherProjectName}/eslint.config.js`)
+            ?.toString(),
+        ).toContain('projectService: true');
       });
     });
 

@@ -150,6 +150,18 @@ module.exports = tseslint.config(
 
 And that's it! Now any rules requiring type information will run correctly when we run `ng lint my-library`.
 
+## Scaffolding typed linting from `ng add`
+
+If you want typed linting (or typescript-eslint's `strict` rules) from the start, pass `--tseslint-preset` when adding `angular-eslint`. This is opt-in because type-checked linting is slower than the default recommended setup.
+
+```sh
+ng add angular-eslint --tseslint-preset=strictTypeChecked
+```
+
+Allowed values are `recommended` (default), `strict`, `recommendedTypeChecked`, and `strictTypeChecked`. Type-checked presets also enable the Project Service in the generated root config, which is required for those rules to run.
+
+The same option is accepted by `add-eslint-to-project`, `application`, and `library`, and is applied when those schematics create the root ESLint config.
+
 ## Generating new projects with typed linting configured automatically
 
 If your workspace is already leveraging rules requiring type information and you want any newly generated projects to be set up for typed linting automatically, you can add the `--set-parser-options-project` flag when generating the new application or library. This causes the generated `eslint.config.js` to include the Project Service:

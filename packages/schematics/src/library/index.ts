@@ -9,10 +9,13 @@ import type { Schema as AngularSchema } from '@schematics/angular/library/schema
 import {
   addESLintTargetToProject,
   createESLintConfigForProject,
+  resolveTseslintPreset,
+  type TseslintPreset,
 } from '../utils';
 
 interface Schema extends AngularSchema {
   setParserOptionsProject?: boolean;
+  tseslintPreset?: TseslintPreset;
 }
 
 function eslintRelatedChanges(options: Schema) {
@@ -21,6 +24,7 @@ function eslintRelatedChanges(options: Schema) {
     createESLintConfigForProject(
       options.name,
       options.setParserOptionsProject ?? false,
+      resolveTseslintPreset(options.tseslintPreset),
     ),
     // Update the lint builder and config in angular.json
     addESLintTargetToProject(options.name, 'lint'),
@@ -31,7 +35,8 @@ export default function (options: Schema): Rule {
   return (host: Tree, context: SchematicContext) => {
     // Remove angular-eslint specific options before passing to the Angular schematic
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { setParserOptionsProject, ...angularOptions } = options;
+    const { setParserOptionsProject, tseslintPreset, ...angularOptions } =
+      options;
 
     return chain([
       externalSchematic('@schematics/angular', 'library', angularOptions),

@@ -156,6 +156,28 @@ describe('library', () => {
         `);
     });
 
+    it('should add the ESLint config for the project (--tseslintPreset=strictTypeChecked)', async () => {
+      const tree = await schematicRunner.runSchematic(
+        'library',
+        {
+          name: 'bar',
+          prefix: 'something-else-custom',
+          tseslintPreset: 'strictTypeChecked',
+        },
+        appTree,
+      );
+
+      expect(tree.read('eslint.config.js')?.toString()).toContain(
+        'tseslint.configs.strictTypeChecked',
+      );
+      expect(tree.read('eslint.config.js')?.toString()).toContain(
+        'projectService: true',
+      );
+      expect(tree.read('projects/bar/eslint.config.js')?.toString()).toContain(
+        'projectService: true',
+      );
+    });
+
     it('should add an appropriate ESLint config extends for a project with a scope in its name', async () => {
       const tree = await schematicRunner.runSchematic(
         'library',
