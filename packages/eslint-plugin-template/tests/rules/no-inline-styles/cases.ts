@@ -65,6 +65,88 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
       },
     ],
   },
+  // allowBindToStyle: 'dynamic' allows bindings whose value is not a constant
+  {
+    code: `<div [style.color]="textColor"></div>`,
+    options: [{ allowBindToStyle: 'dynamic' }],
+  },
+  {
+    code: `<div [style.width.px]="column.width"></div>`,
+    options: [{ allowBindToStyle: 'dynamic' }],
+  },
+  {
+    code: `<div [style]="styleObject"></div>`,
+    options: [{ allowBindToStyle: 'dynamic' }],
+  },
+  {
+    code: `<div [style]="{ color: textColor, 'background-color': backgroundColor }"></div>`,
+    options: [{ allowBindToStyle: 'dynamic' }],
+  },
+  {
+    code: `<div [style]="{ color: 'red', 'background-color': backgroundColor }"></div>`,
+    options: [{ allowBindToStyle: 'dynamic' }],
+  },
+  {
+    code: `<div [style.width.px]="getWidth()"></div>`,
+    options: [{ allowBindToStyle: 'dynamic' }],
+  },
+  {
+    code: `<div [style.color]="color$ | async"></div>`,
+    options: [{ allowBindToStyle: 'dynamic' }],
+  },
+  {
+    code: `<div [style.color]="isActive ? 'green' : 'gray'"></div>`,
+    options: [{ allowBindToStyle: 'dynamic' }],
+  },
+  {
+    code: `<div [style.width]="width + 'px'"></div>`,
+    options: [{ allowBindToStyle: 'dynamic' }],
+  },
+  {
+    code: '<div [style.width]="`${width}px`"></div>',
+    options: [{ allowBindToStyle: 'dynamic' }],
+  },
+  {
+    code: `<div [style.opacity]="-offset"></div>`,
+    options: [{ allowBindToStyle: 'dynamic' }],
+  },
+  {
+    code: `<div [style.top.px]="positions[index]"></div>`,
+    options: [{ allowBindToStyle: 'dynamic' }],
+  },
+  {
+    code: `<div [style.color]="config?.color"></div>`,
+    options: [{ allowBindToStyle: 'dynamic' }],
+  },
+  {
+    code: `<div style="color: {{ textColor }}"></div>`,
+    options: [{ allowBindToStyle: 'dynamic' }],
+  },
+  {
+    code: `<div bind-style="styleObject"></div>`,
+    options: [{ allowBindToStyle: 'dynamic' }],
+  },
+  {
+    code: `<div [style]="{ ...baseStyles }"></div>`,
+    options: [{ allowBindToStyle: 'dynamic' }],
+  },
+  // allowNgStyle: 'dynamic' allows ngStyle bindings whose value is not a constant
+  {
+    code: `<div [ngStyle]="{ color: textColor }"></div>`,
+    options: [{ allowNgStyle: 'dynamic' }],
+  },
+  {
+    code: `<div [ngStyle]="styleObject"></div>`,
+    options: [{ allowNgStyle: 'dynamic' }],
+  },
+  {
+    code: `<div [ngStyle]="{ 'font-size.px': fontSize }" [style.color]="textColor"></div>`,
+    options: [{ allowNgStyle: 'dynamic', allowBindToStyle: 'dynamic' }],
+  },
+  {
+    code: `<div [ngStyle]="{ color: textColor }" [style.color]="'red'"></div>`,
+    options: [{ allowNgStyle: 'dynamic', allowBindToStyle: true }],
+  },
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
@@ -179,5 +261,146 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       `,
     data: { element: 'input' },
     options: [{ allowNgStyle: true, allowBindToStyle: false }],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail when style property binding value is a string literal and allowBindToStyle is "dynamic"',
+    annotatedSource: `
+        <div [style.color]="'red'"></div>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    data: { element: 'div' },
+    options: [{ allowBindToStyle: 'dynamic' }],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail when style property binding value is a number literal and allowBindToStyle is "dynamic"',
+    annotatedSource: `
+        <div [style.width.px]="100"></div>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    data: { element: 'div' },
+    options: [{ allowBindToStyle: 'dynamic' }],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail when style binding value is a string literal and allowBindToStyle is "dynamic"',
+    annotatedSource: `
+        <div [style]="'color: red'"></div>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    data: { element: 'div' },
+    options: [{ allowBindToStyle: 'dynamic' }],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail when style binding value is a literal map of literals and allowBindToStyle is "dynamic"',
+    annotatedSource: `
+        <div [style]="{ color: 'red', 'background-color': '#fff' }"></div>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    data: { element: 'div' },
+    options: [{ allowBindToStyle: 'dynamic' }],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail when style property binding value only combines literals and allowBindToStyle is "dynamic"',
+    annotatedSource: `
+        <div [style.width]="10 + 'px'"></div>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    data: { element: 'div' },
+    options: [{ allowBindToStyle: 'dynamic' }],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail when style property binding value is a conditional of literals and allowBindToStyle is "dynamic"',
+    annotatedSource: `
+        <div [style.color]="true ? 'red' : 'blue'"></div>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    data: { element: 'div' },
+    options: [{ allowBindToStyle: 'dynamic' }],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail when style property binding value is a template literal without expressions and allowBindToStyle is "dynamic"',
+    annotatedSource:
+      '\n        <div [style.width]="`100px`"></div>\n        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n      ',
+    data: { element: 'div' },
+    options: [{ allowBindToStyle: 'dynamic' }],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail when style interpolation only contains literals and allowBindToStyle is "dynamic"',
+    annotatedSource: `
+        <div style="color: {{ 'red' }}"></div>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    data: { element: 'div' },
+    options: [{ allowBindToStyle: 'dynamic' }],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail when attr.style binding exists even with allowBindToStyle set to "dynamic"',
+    annotatedSource: `
+        <div [attr.style]="styles"></div>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    data: { element: 'div' },
+    options: [{ allowBindToStyle: 'dynamic' }],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail when ngStyle binding value is a literal map of literals and allowNgStyle is "dynamic"',
+    annotatedSource: `
+        <div [ngStyle]="{ color: 'red' }"></div>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    data: { element: 'div' },
+    options: [{ allowNgStyle: 'dynamic' }],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail when ngStyle binding value is a string literal and allowNgStyle is "dynamic"',
+    annotatedSource: `
+        <div [ngStyle]="'color: red'"></div>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    data: { element: 'div' },
+    options: [{ allowNgStyle: 'dynamic' }],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail when a dynamic style binding is allowed but ngStyle is not dynamic',
+    annotatedSource: `
+        <div [ngStyle]="{ color: 'red' }" [style.width.px]="column.width"></div>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    data: { element: 'div' },
+    options: [{ allowNgStyle: 'dynamic', allowBindToStyle: 'dynamic' }],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail when style property binding value is constant and allowBindToStyle is "dynamic" even if allowNgStyle is true',
+    annotatedSource: `
+        <div [ngStyle]="{ color: 'red' }" [style.color]="'blue'"></div>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    data: { element: 'div' },
+    options: [{ allowNgStyle: true, allowBindToStyle: 'dynamic' }],
   }),
 ];

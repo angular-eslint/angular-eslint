@@ -23,7 +23,7 @@ Disallows the use of inline styles in HTML templates
 
 ## Rationale
 
-Inline styles in templates (style attribute, ngStyle directive, [style] bindings, or [style.property] bindings) make it difficult to maintain consistent styling across an application and can violate Content Security Policy (CSP) restrictions. Styles should be defined in component stylesheets or CSS classes where they can be managed centrally, reused, cached by browsers, and easily modified. Inline styles also mix presentation concerns with template structure, making templates harder to read. Using CSS classes with [class] or [ngClass] bindings provides the same dynamic styling capabilities while keeping styles organized and maintainable. This rule can be configured to allow ngStyle or style bindings if needed for specific use cases.
+Inline styles in templates (style attribute, ngStyle directive, [style] bindings, or [style.property] bindings) make it difficult to maintain consistent styling across an application and can violate Content Security Policy (CSP) restrictions. Styles should be defined in component stylesheets or CSS classes where they can be managed centrally, reused, cached by browsers, and easily modified. Inline styles also mix presentation concerns with template structure, making templates harder to read. Using CSS classes with [class] or [ngClass] bindings provides the same dynamic styling capabilities while keeping styles organized and maintainable. This rule can be configured to allow ngStyle or style bindings if needed for specific use cases. Setting an option to "dynamic" allows a binding only when its value cannot be known ahead of time (for example `[style.width.px]="column.width"`), while still reporting bindings whose value is a constant (for example `[style.color]="'red'"`), since those could be expressed as a class instead.
 
 <br>
 
@@ -34,13 +34,17 @@ The rule accepts an options object with the following properties:
 ```ts
 interface Options {
   /**
+   * Whether `[ngStyle]` bindings are allowed. `true` allows them unconditionally. `"dynamic"` allows them only when the bound value is not a constant (e.g. `{ color: textColor }` is allowed, but `{ color: 'red' }` is reported because it could be a class).
+   *
    * Default: `false`
    */
-  allowNgStyle?: boolean;
+  allowNgStyle?: boolean | "dynamic";
   /**
+   * Whether `[style]`, `[style.property]` and `style="{{ }}"` bindings are allowed. `true` allows them unconditionally. `"dynamic"` allows them only when the bound value is not a constant (e.g. `[style.width.px]="column.width"` is allowed, but `[style.color]="'red'"` is reported because it could be a class).
+   *
    * Default: `false`
    */
-  allowBindToStyle?: boolean;
+  allowBindToStyle?: boolean | "dynamic";
 }
 
 ```
@@ -365,6 +369,398 @@ interface Options {
 ```html
 <input [ngStyle]="{ 'padding': '10px' }" [style]="'border: 1px solid black;'">
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-inline-styles": [
+      "error",
+      {
+        "allowBindToStyle": "dynamic"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [style.color]="'red'"></div>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-inline-styles": [
+      "error",
+      {
+        "allowBindToStyle": "dynamic"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [style.width.px]="100"></div>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-inline-styles": [
+      "error",
+      {
+        "allowBindToStyle": "dynamic"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [style]="'color: red'"></div>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-inline-styles": [
+      "error",
+      {
+        "allowBindToStyle": "dynamic"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [style]="{ color: 'red', 'background-color': '#fff' }"></div>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-inline-styles": [
+      "error",
+      {
+        "allowBindToStyle": "dynamic"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [style.width]="10 + 'px'"></div>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-inline-styles": [
+      "error",
+      {
+        "allowBindToStyle": "dynamic"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [style.color]="true ? 'red' : 'blue'"></div>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-inline-styles": [
+      "error",
+      {
+        "allowBindToStyle": "dynamic"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [style.width]="`100px`"></div>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-inline-styles": [
+      "error",
+      {
+        "allowBindToStyle": "dynamic"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div style="color: {{ 'red' }}"></div>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-inline-styles": [
+      "error",
+      {
+        "allowBindToStyle": "dynamic"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [attr.style]="styles"></div>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-inline-styles": [
+      "error",
+      {
+        "allowNgStyle": "dynamic"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [ngStyle]="{ color: 'red' }"></div>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-inline-styles": [
+      "error",
+      {
+        "allowNgStyle": "dynamic"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [ngStyle]="'color: red'"></div>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-inline-styles": [
+      "error",
+      {
+        "allowNgStyle": "dynamic",
+        "allowBindToStyle": "dynamic"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [ngStyle]="{ color: 'red' }" [style.width.px]="column.width"></div>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-inline-styles": [
+      "error",
+      {
+        "allowNgStyle": true,
+        "allowBindToStyle": "dynamic"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [ngStyle]="{ color: 'red' }" [style.color]="'blue'"></div>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ```
 
 </details>
@@ -1051,6 +1447,588 @@ interface Options {
 
 ```html
 <input [ngStyle]="{ 'background-color': 'red' }" [style]="styleObject" [style.background-color]="'#fff'">
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-inline-styles": [
+      "error",
+      {
+        "allowBindToStyle": "dynamic"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div [style.color]="textColor"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-inline-styles": [
+      "error",
+      {
+        "allowBindToStyle": "dynamic"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div [style.width.px]="column.width"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-inline-styles": [
+      "error",
+      {
+        "allowBindToStyle": "dynamic"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div [style]="styleObject"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-inline-styles": [
+      "error",
+      {
+        "allowBindToStyle": "dynamic"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div [style]="{ color: textColor, 'background-color': backgroundColor }"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-inline-styles": [
+      "error",
+      {
+        "allowBindToStyle": "dynamic"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div [style]="{ color: 'red', 'background-color': backgroundColor }"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-inline-styles": [
+      "error",
+      {
+        "allowBindToStyle": "dynamic"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div [style.width.px]="getWidth()"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-inline-styles": [
+      "error",
+      {
+        "allowBindToStyle": "dynamic"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div [style.color]="color$ | async"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-inline-styles": [
+      "error",
+      {
+        "allowBindToStyle": "dynamic"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div [style.color]="isActive ? 'green' : 'gray'"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-inline-styles": [
+      "error",
+      {
+        "allowBindToStyle": "dynamic"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div [style.width]="width + 'px'"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-inline-styles": [
+      "error",
+      {
+        "allowBindToStyle": "dynamic"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div [style.width]="`${width}px`"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-inline-styles": [
+      "error",
+      {
+        "allowBindToStyle": "dynamic"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div [style.opacity]="-offset"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-inline-styles": [
+      "error",
+      {
+        "allowBindToStyle": "dynamic"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div [style.top.px]="positions[index]"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-inline-styles": [
+      "error",
+      {
+        "allowBindToStyle": "dynamic"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div [style.color]="config?.color"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-inline-styles": [
+      "error",
+      {
+        "allowBindToStyle": "dynamic"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div style="color: {{ textColor }}"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-inline-styles": [
+      "error",
+      {
+        "allowBindToStyle": "dynamic"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div bind-style="styleObject"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-inline-styles": [
+      "error",
+      {
+        "allowBindToStyle": "dynamic"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div [style]="{ ...baseStyles }"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-inline-styles": [
+      "error",
+      {
+        "allowNgStyle": "dynamic"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div [ngStyle]="{ color: textColor }"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-inline-styles": [
+      "error",
+      {
+        "allowNgStyle": "dynamic"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div [ngStyle]="styleObject"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-inline-styles": [
+      "error",
+      {
+        "allowNgStyle": "dynamic",
+        "allowBindToStyle": "dynamic"
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div [ngStyle]="{ 'font-size.px': fontSize }" [style.color]="textColor"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-inline-styles": [
+      "error",
+      {
+        "allowNgStyle": "dynamic",
+        "allowBindToStyle": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div [ngStyle]="{ color: textColor }" [style.color]="'red'"></div>
 ```
 
 </details>
