@@ -24,6 +24,15 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '<img src="foo" *ngIf="condition" />',
   // These elements cannot be self-closing
   '<slot></slot><math></math><rb></rb><svg></svg><template></template><selectedcontent></selectedcontent>',
+  // Children of svg and math are foreign (native) elements, which the Angular compiler namespaces
+  `
+    <svg>
+      <title></title>
+      <use href="#icon"></use>
+      <path d=""></path>
+    </svg>
+  `,
+  '<math><mi></mi></math>',
   '<div></div>',
   {
     code: '<DIV></DIV>',

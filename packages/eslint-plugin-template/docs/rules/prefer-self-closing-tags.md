@@ -511,6 +511,62 @@ The rule does not have any configuration options.
 #### ✅ Valid Code
 
 ```html
+<svg>
+  <title></title>
+  <use href="#icon"></use>
+  <path d=""></path>
+</svg>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-self-closing-tags": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<math><mi></mi></math>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-self-closing-tags": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
 <div></div>
 ```
 

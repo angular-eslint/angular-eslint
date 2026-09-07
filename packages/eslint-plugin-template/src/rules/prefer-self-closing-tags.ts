@@ -44,7 +44,7 @@ export default createESLintRule<Options, MessageIds>({
           processContentNode(node);
         } else {
           // Ignore native elements.
-          if ('name' in node && getDomElements().has(node.name.toLowerCase())) {
+          if ('name' in node && isNativeElement(node.name)) {
             return;
           }
           processElementOrTemplateNode(node);
@@ -172,6 +172,19 @@ export default createESLintRule<Options, MessageIds>({
     }
   },
 });
+
+function isNativeElement(name: string): boolean {
+  const lowerCaseName = name.toLowerCase();
+  // The Angular compiler namespaces the children of `<svg>` and `<math>`
+  // (e.g. `:svg:use` and `:math:mi`). These are foreign elements that are
+  // native to the browser, and self-closing some of them (such as `<title />`)
+  // produces a template that Angular cannot parse.
+  return (
+    lowerCaseName.startsWith(':svg:') ||
+    lowerCaseName.startsWith(':math:') ||
+    getDomElements().has(lowerCaseName)
+  );
+}
 
 function isContentNode(
   node: TmplAstElement | TmplAstTemplate | TmplAstContent,
