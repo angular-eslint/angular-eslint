@@ -58,6 +58,8 @@ ng add angular-eslint
 
 ...and that's it!
 
+> NOTE: `ng add angular-eslint` installs the latest version, which is aligned with the latest Angular major. If your workspace is on an older Angular major, pin the matching major instead, e.g. `ng add angular-eslint@21` for an Angular v21 workspace. See [ANGULAR_VERSION_SUPPORT.md](./docs/ANGULAR_VERSION_SUPPORT.md) for details.
+
 As well as installing all relevant dependencies, the `ng add` command will automatically detect that you have a workspace with a single project in it, which does not have a linter configured yet. It can therefore go ahead and wire everything up for you!
 
 You will also see that it added the following in your angular.json:

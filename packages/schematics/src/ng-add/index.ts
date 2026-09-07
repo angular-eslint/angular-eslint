@@ -1,11 +1,15 @@
 import type { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
-import { chain, schematic } from '@angular-devkit/schematics';
+import {
+  chain,
+  schematic,
+  SchematicsException,
+} from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import type { Schema } from './schema';
 import {
   findAngularVersionMismatches,
   formatAngularVersionMatchMessage,
-  formatAngularVersionMismatchMessage,
+  formatAngularVersionMismatchError,
   hasDetectableAngularVersion,
   parseMajorVersion,
   type PackageJsonLike,
@@ -188,11 +192,16 @@ Please see https://github.com/angular-eslint/angular-eslint for more information
 }
 
 /**
- * Entry point for the ng-add schematic.
+ * `ng add` always resolves to the `latest` angular-eslint unless the user
+ * pins a major (the Angular CLI only consults `peerDependencies` when picking
+ * a version, and we intentionally do not declare a peer on `@angular/cli`, see
+ * docs/ANGULAR_VERSION_SUPPORT.md). So when the workspace is on a different
+ * Angular major we fail fast, before touching any files, and tell the user
+ * exactly which command to rerun.
  *
- * @param options Configuration options passed to the schematic.
+ * `ng lint` and `ng update` migrations only warn on the same mismatch.
  */
-function reportAngularVersionCompatibility(
+function assertAngularVersionCompatibility(
   workspacePackageJson: PackageJsonLike,
   context: SchematicContext,
 ): void {
@@ -205,16 +214,20 @@ function reportAngularVersionCompatibility(
     expectedMajor,
   );
   if (mismatches.length > 0) {
-    context.logger.warn(
-      formatAngularVersionMismatchMessage(expectedMajor, mismatches),
+    throw new SchematicsException(
+      formatAngularVersionMismatchError(expectedMajor, mismatches),
     );
-    return;
   }
   if (hasDetectableAngularVersion(workspacePackageJson)) {
     context.logger.info(formatAngularVersionMatchMessage(expectedMajor));
   }
 }
 
+/**
+ * Entry point for the ng-add schematic.
+ *
+ * @param options Configuration options passed to the schematic.
+ */
 export default function (options: Schema): Rule {
   return (host: Tree, context: SchematicContext) => {
     const workspacePackageJSON = (host.read('package.json') as Buffer).toString(
@@ -222,7 +235,7 @@ export default function (options: Schema): Rule {
     );
     const json = JSON.parse(workspacePackageJSON);
 
-    reportAngularVersionCompatibility(json, context);
+    assertAngularVersionCompatibility(json, context);
 
     return chain([
       addAngularESLintPackages(json, options),

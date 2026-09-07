@@ -13,7 +13,13 @@ Therefore, as an example (because these versions may or may not exist yet when y
 
 > NOTE: the exact minor and patch versions of each library represented here by `x`'s do not need to match each other, just the first (major) number
 
-`ng add angular-eslint` and `ng lint` will warn when they can see that the workspace's `@angular/core` or `@angular/cli` major does not match the installed `angular-eslint` major. This is informational: installation and linting still proceed.
+`ng add angular-eslint` (with no version) always installs the `latest` version of `angular-eslint`, because the Angular CLI only uses `peerDependencies` to pick a compatible version and `angular-eslint` intentionally does not declare a peer dependency on `@angular/cli` (that would pull the whole CLI into workspaces that only want ESLint). So if your workspace is on an older Angular major, pin the matching major when adding:
+
+```sh
+ng add angular-eslint@21 # for an Angular v21 workspace
+```
+
+If you forget, the `ng add` schematic will fail before it changes any files, and its error message tells you the exact `ng add angular-eslint@<major>` command to rerun. `ng lint` only warns on the same mismatch and linting still proceeds.
 
 ## Prior to v12
 
