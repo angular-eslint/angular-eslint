@@ -102,7 +102,10 @@ export function hasDetectableAngularVersion(
   });
 }
 
-export function formatAngularVersionMismatchMessage(
+const ANGULAR_VERSION_SUPPORT_DOCS_URL =
+  'https://github.com/angular-eslint/angular-eslint/blob/main/docs/ANGULAR_VERSION_SUPPORT.md';
+
+function formatAngularVersionMismatchDetails(
   expectedMajor: number,
   mismatches: AngularVersionMismatch[],
 ): string {
@@ -116,8 +119,17 @@ export function formatAngularVersionMismatchMessage(
 angular-eslint v${expectedMajor} is intended for Angular v${expectedMajor}.
 This workspace is using a different Angular major:
 ${details}
+`.trim();
+}
 
-See https://github.com/angular-eslint/angular-eslint/blob/main/docs/ANGULAR_VERSION_SUPPORT.md
+export function formatAngularVersionMismatchMessage(
+  expectedMajor: number,
+  mismatches: AngularVersionMismatch[],
+): string {
+  return `
+${formatAngularVersionMismatchDetails(expectedMajor, mismatches)}
+
+See ${ANGULAR_VERSION_SUPPORT_DOCS_URL}
 `.trim();
 }
 
@@ -125,4 +137,44 @@ export function formatAngularVersionMatchMessage(
   expectedMajor: number,
 ): string {
   return `angular-eslint v${expectedMajor} matches this workspace's Angular v${expectedMajor}.`;
+}
+
+/**
+ * The Angular major that the user should install angular-eslint for, based on
+ * the mismatches found. `@angular/core` is the source of truth for the
+ * workspace's Angular version, so prefer it over `@angular/cli`.
+ */
+export function getRecommendedAngularMajor(
+  mismatches: AngularVersionMismatch[],
+): number | null {
+  const core = mismatches.find(
+    (mismatch) => mismatch.packageName === '@angular/core',
+  );
+  return core?.foundMajor ?? mismatches[0]?.foundMajor ?? null;
+}
+
+/**
+ * Error shown by `ng add` when the workspace Angular major does not match the
+ * angular-eslint major being added. Unlike the warning used by `ng lint`, this
+ * stops the schematic and tells the user exactly what to rerun.
+ */
+export function formatAngularVersionMismatchError(
+  expectedMajor: number,
+  mismatches: AngularVersionMismatch[],
+): string {
+  const major =
+    getRecommendedAngularMajor(mismatches) ?? '<your Angular major>';
+  return `
+${formatAngularVersionMismatchDetails(expectedMajor, mismatches)}
+
+\`ng add\` installs the latest angular-eslint by default, which does not match this workspace.
+Rerun the command with the Angular major of this workspace:
+
+  ng add angular-eslint@${major}
+
+If you added @angular-eslint/schematics directly, rerun \`ng add @angular-eslint/schematics@${major}\` instead.
+The mismatched package that \`ng add\` just installed will be replaced when you rerun it.
+
+See ${ANGULAR_VERSION_SUPPORT_DOCS_URL}
+`.trim();
 }

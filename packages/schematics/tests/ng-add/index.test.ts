@@ -476,7 +476,7 @@ describe('ng-add', () => {
       );
     });
 
-    it('should warn when the workspace Angular major does not match', async () => {
+    it('should error and tell the user what to rerun when the workspace Angular major does not match', async () => {
       workspaceTree.create(
         'package.json',
         JSON.stringify({
@@ -484,22 +484,37 @@ describe('ng-add', () => {
           devDependencies: { '@angular/cli': '21.2.0' },
         }),
       );
-      const messages: string[] = [];
-      const subscription = schematicRunner.logger.subscribe((entry) => {
-        messages.push(`${entry.level}: ${entry.message}`);
+      let error: unknown;
+      try {
+        await schematicRunner.runSchematic('ng-add', {}, workspaceTree);
+      } catch (e) {
+        error = e;
+      }
+      expect(error).toBeInstanceOf(Error);
+      const message = (error as Error).message;
+      expect(message).toContain(
+        'angular-eslint v22 is intended for Angular v22',
+      );
+      expect(message).toContain('@angular/core@^21.2.0 (v21)');
+      expect(message).toContain('@angular/cli@21.2.0 (v21)');
+      expect(message).toContain('ng add angular-eslint@21');
+      expect(message).toContain('ng add @angular-eslint/schematics@21');
+      expect(message).toContain('ANGULAR_VERSION_SUPPORT.md');
+    });
+
+    it('should not modify the workspace when the Angular major does not match', async () => {
+      const originalPackageJson = JSON.stringify({
+        dependencies: { '@angular/core': '^21.2.0' },
+        devDependencies: { '@angular/cli': '21.2.0' },
       });
-      await schematicRunner.runSchematic('ng-add', {}, workspaceTree);
-      subscription.unsubscribe();
-      expect(
-        messages.some(
-          (message) =>
-            message.startsWith('warn:') &&
-            message.includes(
-              'angular-eslint v22 is intended for Angular v22',
-            ) &&
-            message.includes('@angular/core@^21.2.0 (v21)'),
-        ),
-      ).toBe(true);
+      workspaceTree.create('package.json', originalPackageJson);
+      await expect(
+        schematicRunner.runSchematic('ng-add', {}, workspaceTree),
+      ).rejects.toThrow('ng add angular-eslint@21');
+      expect(workspaceTree.readContent('package.json')).toBe(
+        originalPackageJson,
+      );
+      expect(workspaceTree.exists('eslint.config.js')).toBe(false);
     });
 
     it('should confirm when the workspace Angular major matches', async () => {

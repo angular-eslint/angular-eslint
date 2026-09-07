@@ -2,7 +2,9 @@ import { describe, expect, it } from 'vitest';
 import {
   findAngularVersionMismatches,
   formatAngularVersionMatchMessage,
+  formatAngularVersionMismatchError,
   formatAngularVersionMismatchMessage,
+  getRecommendedAngularMajor,
   hasDetectableAngularVersion,
   parseMajorVersion,
 } from '../src/angular-version-compat';
@@ -135,6 +137,29 @@ describe('messages', () => {
     expect(message).toContain('ANGULAR_VERSION_SUPPORT.md');
   });
 
+  it('formats a mismatch error that says exactly what to rerun', () => {
+    const message = formatAngularVersionMismatchError(22, [
+      {
+        packageName: '@angular/core',
+        specifier: '^21.2.0',
+        foundMajor: 21,
+      },
+      {
+        packageName: '@angular/cli',
+        specifier: '21.2.0',
+        foundMajor: 21,
+      },
+    ]);
+    expect(message).toContain(
+      'angular-eslint v22 is intended for Angular v22.',
+    );
+    expect(message).toContain('@angular/core@^21.2.0 (v21)');
+    expect(message).toContain('@angular/cli@21.2.0 (v21)');
+    expect(message).toContain('  ng add angular-eslint@21');
+    expect(message).toContain('ng add @angular-eslint/schematics@21');
+    expect(message).toContain('ANGULAR_VERSION_SUPPORT.md');
+  });
+
   it('formats a match confirmation', () => {
     expect(formatAngularVersionMatchMessage(22)).toBe(
       "angular-eslint v22 matches this workspace's Angular v22.",
@@ -149,5 +174,28 @@ describe('messages', () => {
       }),
     ).toBe(true);
     expect(hasDetectableAngularVersion({}, { '@angular/core': 22 })).toBe(true);
+  });
+});
+
+describe('getRecommendedAngularMajor', () => {
+  it('returns null when there are no mismatches', () => {
+    expect(getRecommendedAngularMajor([])).toBeNull();
+  });
+
+  it('prefers the @angular/core major over @angular/cli', () => {
+    expect(
+      getRecommendedAngularMajor([
+        { packageName: '@angular/cli', specifier: '20.0.0', foundMajor: 20 },
+        { packageName: '@angular/core', specifier: '^21.0.0', foundMajor: 21 },
+      ]),
+    ).toBe(21);
+  });
+
+  it('falls back to the first mismatch when @angular/core is not mismatched', () => {
+    expect(
+      getRecommendedAngularMajor([
+        { packageName: '@angular/cli', specifier: '20.0.0', foundMajor: 20 },
+      ]),
+    ).toBe(20);
   });
 });
