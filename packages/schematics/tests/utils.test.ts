@@ -12,8 +12,11 @@ import {
   determineNewProjectESLintConfigContentAndExtension,
   determineTargetProjectName,
   getTargetsConfigFromProject,
+  isTypeCheckedTseslintPreset,
   readJsonInTree,
   resolveRootESLintConfigPath,
+  resolveTseslintPreset,
+  shouldEnableProjectService,
   sortObjectByKeys,
   updateJsonInTree,
   updateSchematicCollections,
@@ -421,14 +424,49 @@ describe('updateSchematicDefaults', () => {
   });
 });
 
+describe('tseslintPreset helpers', () => {
+  it('should resolve known presets and fall back to recommended', () => {
+    expect(resolveTseslintPreset('recommended')).toBe('recommended');
+    expect(resolveTseslintPreset('strict')).toBe('strict');
+    expect(resolveTseslintPreset('recommendedTypeChecked')).toBe(
+      'recommendedTypeChecked',
+    );
+    expect(resolveTseslintPreset('strictTypeChecked')).toBe(
+      'strictTypeChecked',
+    );
+    expect(resolveTseslintPreset(undefined)).toBe('recommended');
+    expect(resolveTseslintPreset('nope')).toBe('recommended');
+  });
+
+  it('should identify type-checked presets', () => {
+    expect(isTypeCheckedTseslintPreset('recommended')).toBe(false);
+    expect(isTypeCheckedTseslintPreset('strict')).toBe(false);
+    expect(isTypeCheckedTseslintPreset('recommendedTypeChecked')).toBe(true);
+    expect(isTypeCheckedTseslintPreset('strictTypeChecked')).toBe(true);
+  });
+
+  it('should enable the Project Service for the explicit flag or type-checked presets', () => {
+    expect(shouldEnableProjectService(false, 'recommended')).toBe(false);
+    expect(shouldEnableProjectService(true, 'recommended')).toBe(true);
+    expect(shouldEnableProjectService(false, 'strict')).toBe(false);
+    expect(shouldEnableProjectService(false, 'recommendedTypeChecked')).toBe(
+      true,
+    );
+    expect(shouldEnableProjectService(false, 'strictTypeChecked')).toBe(true);
+  });
+});
+
 describe('createStringifiedRootESLintConfig', () => {
   it('should generate a CommonJS config with selector rules when a prefix is given', () => {
     const content = createStringifiedRootESLintConfig('app', false);
     expect(content).toContain('const eslint = require("@eslint/js");');
     expect(content).toContain('module.exports = defineConfig([');
     expect(content).toContain('angular.configs.tsRecommended');
+    expect(content).toContain('tseslint.configs.recommended');
+    expect(content).toContain('tseslint.configs.stylistic');
     expect(content).toContain('@angular-eslint/directive-selector');
     expect(content).toContain('prefix: "app"');
+    expect(content).not.toContain('projectService');
   });
 
   it('should generate an ESM config when isESM is true', () => {
@@ -442,6 +480,84 @@ describe('createStringifiedRootESLintConfig', () => {
     const content = createStringifiedRootESLintConfig(null, false);
     expect(content).not.toContain('@angular-eslint/directive-selector');
     expect(content).not.toContain('@angular-eslint/component-selector');
+  });
+
+  it('should extend the strict typescript-eslint configs when tseslintPreset is strict', () => {
+    const content = createStringifiedRootESLintConfig('app', false, {
+      tseslintPreset: 'strict',
+    });
+    expect(content).toContain('tseslint.configs.strict');
+    expect(content).toContain('tseslint.configs.stylistic');
+    expect(content).not.toContain('tseslint.configs.recommended');
+    expect(content).not.toContain('TypeChecked');
+    expect(content).not.toContain('projectService');
+  });
+
+  it('should extend recommendedTypeChecked configs and enable the Project Service', () => {
+    const content = createStringifiedRootESLintConfig('app', false, {
+      tseslintPreset: 'recommendedTypeChecked',
+    });
+    expect(content).toContain('tseslint.configs.recommendedTypeChecked');
+    expect(content).toContain('tseslint.configs.stylisticTypeChecked');
+    expect(content).toContain('projectService: true');
+    expect(content).toContain(
+      'Enable typed linting via the typescript-eslint Project Service',
+    );
+    expect(content).not.toContain('tseslint.configs.recommended,');
+  });
+
+  it('should extend strictTypeChecked configs and enable the Project Service', () => {
+    const content = createStringifiedRootESLintConfig(null, false, {
+      tseslintPreset: 'strictTypeChecked',
+    });
+    expect(content).toMatchInlineSnapshot(`
+      "// @ts-check
+      const eslint = require("@eslint/js");
+      const { defineConfig } = require("eslint/config");
+      const tseslint = require("typescript-eslint");
+      const angular = require("angular-eslint");
+
+      module.exports = defineConfig([
+        {
+          files: ["**/*.ts"],
+          // Enable typed linting via the typescript-eslint Project Service.
+          // This is slower than untyped linting; see https://typescript-eslint.io/getting-started/typed-linting
+          languageOptions: {
+            parserOptions: {
+              projectService: true,
+            },
+          },
+          extends: [
+            eslint.configs.recommended,
+            tseslint.configs.strictTypeChecked,
+            tseslint.configs.stylisticTypeChecked,
+            angular.configs.tsRecommended,
+          ],
+          processor: angular.processInlineTemplates,
+          rules: {},
+        },
+        {
+          files: ["**/*.html"],
+          extends: [
+            angular.configs.templateRecommended,
+            angular.configs.templateAccessibility,
+          ],
+          rules: {},
+        }
+      ]);
+      "
+    `);
+  });
+
+  it('should include the Project Service for the recommended preset when setParserOptionsProject is true', () => {
+    const content = createStringifiedRootESLintConfig('app', false, {
+      setParserOptionsProject: true,
+    });
+    expect(content).toContain('tseslint.configs.recommended');
+    expect(content).toContain('projectService: true');
+    expect(content).not.toContain(
+      'Enable typed linting via the typescript-eslint Project Service',
+    );
   });
 });
 
@@ -602,6 +718,78 @@ describe('createESLintConfigForProject', () => {
     );
 
     expect(result.exists('libs/lib/eslint.config.js')).toBe(true);
+    expect(result.readContent('libs/lib/eslint.config.js')).toContain(
+      'projectService: true',
+    );
+  });
+
+  it('should include the Project Service in the root config for a root project when setParserOptionsProject is true', async () => {
+    const tree = new UnitTestTree(Tree.empty());
+    tree.create('package.json', JSON.stringify({}));
+    tree.create(
+      'angular.json',
+      JSON.stringify({
+        version: 1,
+        projects: {
+          root: { root: '', projectType: 'application', prefix: 'app' },
+        },
+      }),
+    );
+
+    const result = await runRule(
+      createESLintConfigForProject('root', true),
+      tree,
+    );
+
+    const content = result.readContent('eslint.config.js');
+    expect(content).toContain('projectService: true');
+    expect(content).toContain('tseslint.configs.recommended');
+  });
+
+  it('should put type-checked presets and the Project Service in the root config', async () => {
+    const tree = new UnitTestTree(Tree.empty());
+    tree.create('package.json', JSON.stringify({}));
+    tree.create(
+      'angular.json',
+      JSON.stringify({
+        version: 1,
+        projects: {
+          root: { root: '', projectType: 'application', prefix: 'app' },
+        },
+      }),
+    );
+
+    const result = await runRule(
+      createESLintConfigForProject('root', false, 'strictTypeChecked'),
+      tree,
+    );
+
+    const content = result.readContent('eslint.config.js');
+    expect(content).toContain('tseslint.configs.strictTypeChecked');
+    expect(content).toContain('tseslint.configs.stylisticTypeChecked');
+    expect(content).toContain('projectService: true');
+  });
+
+  it('should enable the Project Service on an additional project for a type-checked preset', async () => {
+    const tree = new UnitTestTree(Tree.empty());
+    tree.create('package.json', JSON.stringify({}));
+    tree.create('eslint.config.js', 'module.exports = [];');
+    tree.create(
+      'angular.json',
+      JSON.stringify({
+        version: 1,
+        projects: {
+          lib: { root: 'libs/lib', projectType: 'library', prefix: 'lib' },
+        },
+      }),
+    );
+
+    const result = await runRule(
+      createESLintConfigForProject('lib', false, 'recommendedTypeChecked'),
+      tree,
+    );
+
+    expect(result.readContent('eslint.config.js')).toBe('module.exports = [];');
     expect(result.readContent('libs/lib/eslint.config.js')).toContain(
       'projectService: true',
     );
