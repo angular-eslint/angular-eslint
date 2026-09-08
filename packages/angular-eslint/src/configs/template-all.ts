@@ -48,6 +48,7 @@ export default (
       '@angular-eslint/template/prefer-class-binding': 'error',
       '@angular-eslint/template/prefer-contextual-for-variables': 'error',
       '@angular-eslint/template/prefer-control-flow': 'error',
+      '@angular-eslint/template/prefer-let-for-async-pipe': 'error',
       '@angular-eslint/template/prefer-ngsrc': 'error',
       '@angular-eslint/template/prefer-self-closing-tags': 'error',
       '@angular-eslint/template/prefer-static-string-properties': 'error',
