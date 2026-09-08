@@ -90,6 +90,9 @@ import preferContextualForVariables, {
 import preferControlFlow, {
   RULE_NAME as preferControlFlowRuleName,
 } from './rules/prefer-control-flow';
+import preferLetForAsyncPipe, {
+  RULE_NAME as preferLetForAsyncPipeRuleName,
+} from './rules/prefer-let-for-async-pipe';
 import preferSelfClosingTags, {
   RULE_NAME as preferSelfClosingTagsRuleName,
 } from './rules/prefer-self-closing-tags';
@@ -151,6 +154,7 @@ export = {
     [preferClassBindingRuleName]: preferClassBinding,
     [preferContextualForVariablesRuleName]: preferContextualForVariables,
     [preferControlFlowRuleName]: preferControlFlow,
+    [preferLetForAsyncPipeRuleName]: preferLetForAsyncPipe,
     [preferNgsrcRuleName]: preferNgsrc,
     [preferSelfClosingTagsRuleName]: preferSelfClosingTags,
     [preferStaticStringPropertiesRuleName]: preferStaticStringProperties,
