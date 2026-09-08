@@ -1,6 +1,7 @@
 import {
   AST,
   LiteralPrimitive,
+  TemplateLiteral,
 } from '@angular-eslint/bundled-angular-compiler';
 
 export type Quote = "'" | '"' | '`';
@@ -20,6 +21,15 @@ export function isStringLiteralPrimitive(
   node: AST,
 ): node is Omit<LiteralPrimitive, 'value'> & { value: string } {
   return isLiteralPrimitive(node) && typeof node.value === 'string';
+}
+
+export function isTemplateLiteral(node: AST): node is TemplateLiteral {
+  // See the note in `isLiteralPrimitive` about `instanceof`.
+  return (
+    !!node &&
+    ((node as { type?: string }).type === 'TemplateLiteral' ||
+      node instanceof TemplateLiteral)
+  );
 }
 
 export function getLiteralPrimitiveStringValue(
