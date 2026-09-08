@@ -183,6 +183,65 @@ describe('ng-add', () => {
           "
         `);
       });
+
+      it('should create a type-checked root ESLint config when tseslintPreset is strictTypeChecked', async () => {
+        const tree = await schematicRunner.runSchematic(
+          'ng-add',
+          { tseslintPreset: 'strictTypeChecked' },
+          workspaceTree,
+        );
+        const eslintConfig = tree.readContent('/eslint.config.js');
+        expect(eslintConfig).toContain('tseslint.configs.strictTypeChecked');
+        expect(eslintConfig).toContain('tseslint.configs.stylisticTypeChecked');
+        expect(eslintConfig).toContain('projectService: true');
+        expect(eslintConfig).toContain(
+          'Enable typed linting via the typescript-eslint Project Service',
+        );
+      });
+
+      it('should create a strict root ESLint config without the Project Service', async () => {
+        const tree = await schematicRunner.runSchematic(
+          'ng-add',
+          { tseslintPreset: 'strict' },
+          workspaceTree,
+        );
+        const eslintConfig = tree.readContent('/eslint.config.js');
+        expect(eslintConfig).toContain('tseslint.configs.strict');
+        expect(eslintConfig).toContain('tseslint.configs.stylistic');
+        expect(eslintConfig).not.toContain('projectService');
+        expect(eslintConfig).not.toContain('TypeChecked');
+      });
+
+      it('should enable the Project Service on the root config when setParserOptionsProject is true', async () => {
+        const tree = await schematicRunner.runSchematic(
+          'ng-add',
+          { setParserOptionsProject: true },
+          workspaceTree,
+        );
+        const eslintConfig = tree.readContent('/eslint.config.js');
+        expect(eslintConfig).toContain('tseslint.configs.recommended');
+        expect(eslintConfig).toContain('projectService: true');
+      });
+
+      it('should warn when a type-checked preset is selected', async () => {
+        const messages: string[] = [];
+        const subscription = schematicRunner.logger.subscribe((entry) => {
+          messages.push(`${entry.level}: ${entry.message}`);
+        });
+        await schematicRunner.runSchematic(
+          'ng-add',
+          { tseslintPreset: 'recommendedTypeChecked' },
+          workspaceTree,
+        );
+        subscription.unsubscribe();
+        expect(
+          messages.some((message) =>
+            message.includes(
+              'Typed linting is enabled because tseslintPreset="recommendedTypeChecked"',
+            ),
+          ),
+        ).toBe(true);
+      });
     });
 
     describe('workspace created with `--create-application=false` - no existings projects', () => {
@@ -302,6 +361,20 @@ describe('ng-add', () => {
           ]);
           "
         `);
+      });
+
+      it('should apply tseslintPreset to the root config when there are no projects', async () => {
+        const tree = await schematicRunner.runSchematic(
+          'ng-add',
+          { tseslintPreset: 'strictTypeChecked' },
+          workspaceTree,
+        );
+        const eslintConfig = tree.readContent('/eslint.config.js');
+        expect(eslintConfig).toContain('tseslint.configs.strictTypeChecked');
+        expect(eslintConfig).toContain('projectService: true');
+        expect(eslintConfig).not.toContain(
+          '@angular-eslint/directive-selector',
+        );
       });
     });
 

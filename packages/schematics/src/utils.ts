@@ -224,10 +224,108 @@ export function visitNotIgnoredFiles(
 
 type ProjectType = 'application' | 'library';
 
+/**
+ * typescript-eslint shared config presets that the schematics can scaffold.
+ *
+ * Type-checked variants also enable `parserOptions.projectService` in the
+ * generated root config, which is required for those rules to run.
+ */
+export const TS_ESLINT_PRESETS = [
+  'recommended',
+  'strict',
+  'recommendedTypeChecked',
+  'strictTypeChecked',
+] as const;
+
+export type TseslintPreset = (typeof TS_ESLINT_PRESETS)[number];
+
+export const DEFAULT_TS_ESLINT_PRESET: TseslintPreset = 'recommended';
+
+export interface CreateRootESLintConfigOptions {
+  tseslintPreset?: TseslintPreset;
+  setParserOptionsProject?: boolean;
+}
+
+export function isTypeCheckedTseslintPreset(preset: TseslintPreset): boolean {
+  return preset === 'recommendedTypeChecked' || preset === 'strictTypeChecked';
+}
+
+export function resolveTseslintPreset(
+  value: string | undefined,
+): TseslintPreset {
+  if (value && (TS_ESLINT_PRESETS as readonly string[]).includes(value)) {
+    return value as TseslintPreset;
+  }
+  return DEFAULT_TS_ESLINT_PRESET;
+}
+
+export function shouldEnableProjectService(
+  setParserOptionsProject: boolean,
+  tseslintPreset: TseslintPreset = DEFAULT_TS_ESLINT_PRESET,
+): boolean {
+  return setParserOptionsProject || isTypeCheckedTseslintPreset(tseslintPreset);
+}
+
+export function warnIfTypeCheckedPreset(
+  context: SchematicContext,
+  tseslintPreset: TseslintPreset,
+): void {
+  if (!isTypeCheckedTseslintPreset(tseslintPreset)) {
+    return;
+  }
+  context.logger.warn(
+    `Typed linting is enabled because tseslintPreset="${tseslintPreset}". This makes ESLint more powerful but slower than the default recommended preset. See https://github.com/angular-eslint/angular-eslint/blob/main/docs/RULES_REQUIRING_TYPE_INFORMATION.md`,
+  );
+}
+
+function getTsEslintExtendsSnippet(preset: TseslintPreset): string {
+  switch (preset) {
+    case 'strict':
+      return `tseslint.configs.strict,
+      tseslint.configs.stylistic,`;
+    case 'recommendedTypeChecked':
+      return `tseslint.configs.recommendedTypeChecked,
+      tseslint.configs.stylisticTypeChecked,`;
+    case 'strictTypeChecked':
+      return `tseslint.configs.strictTypeChecked,
+      tseslint.configs.stylisticTypeChecked,`;
+    case 'recommended':
+    default:
+      return `tseslint.configs.recommended,
+      tseslint.configs.stylistic,`;
+  }
+}
+
+function getProjectServiceBlock(
+  enabled: boolean,
+  includeTypeCheckedComment: boolean,
+): string {
+  if (!enabled) {
+    return '';
+  }
+  const comment = includeTypeCheckedComment
+    ? `
+    // Enable typed linting via the typescript-eslint Project Service.
+    // This is slower than untyped linting; see https://typescript-eslint.io/getting-started/typed-linting`
+    : '';
+  return `${comment}
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
+      },
+    },`;
+}
+
 export function createStringifiedRootESLintConfig(
   prefix: string | null,
   isESM: boolean,
+  options: CreateRootESLintConfigOptions = {},
 ): string {
+  const tseslintPreset = resolveTseslintPreset(options.tseslintPreset);
+  const includeProjectService = shouldEnableProjectService(
+    options.setParserOptionsProject ?? false,
+    tseslintPreset,
+  );
   return `// @ts-check
 ${isESM ? 'import eslint from "@eslint/js";' : 'const eslint = require("@eslint/js");'}
 ${isESM ? 'import { defineConfig } from "eslint/config";' : 'const { defineConfig } = require("eslint/config");'}
@@ -236,11 +334,13 @@ ${isESM ? 'import angular from "angular-eslint";' : 'const angular = require("an
 
 ${isESM ? 'export default' : 'module.exports ='} defineConfig([
   {
-    files: ["**/*.ts"],
+    files: ["**/*.ts"],${getProjectServiceBlock(
+      includeProjectService,
+      isTypeCheckedTseslintPreset(tseslintPreset),
+    )}
     extends: [
       eslint.configs.recommended,
-      tseslint.configs.recommended,
-      tseslint.configs.stylistic,
+      ${getTsEslintExtendsSnippet(tseslintPreset)}
       angular.configs.tsRecommended,
     ],
     processor: angular.processInlineTemplates,
@@ -335,8 +435,16 @@ ${isESM ? 'export default' : 'module.exports ='} defineConfig([
 export function createESLintConfigForProject(
   projectName: string,
   setParserOptionsProject: boolean,
+  tseslintPreset: TseslintPreset = DEFAULT_TS_ESLINT_PRESET,
 ): Rule {
-  return (tree: Tree) => {
+  return (tree: Tree, context: SchematicContext) => {
+    const resolvedPreset = resolveTseslintPreset(tseslintPreset);
+    const enableProjectService = shouldEnableProjectService(
+      setParserOptionsProject,
+      resolvedPreset,
+    );
+    warnIfTypeCheckedPreset(context, resolvedPreset);
+
     const angularJSON = readJsonInTree(tree, 'angular.json');
     const {
       root: projectRoot,
@@ -348,36 +456,46 @@ export function createESLintConfigForProject(
       tree.exists(name),
     );
 
+    const rootConfigOptions: CreateRootESLintConfigOptions = {
+      tseslintPreset: resolvedPreset,
+      setParserOptionsProject: enableProjectService,
+    };
+
     /**
      * If the root is an empty string it must be the initial project created at the
      * root by the Angular CLI's workspace schematic
      */
     if (projectRoot === '') {
-      return createRootESLintConfigFile(prefix || DEFAULT_PREFIX);
+      return createRootESLintConfigFile(
+        prefix || DEFAULT_PREFIX,
+        rootConfigOptions,
+      );
     }
 
     const rules = [];
 
     // If, for whatever reason, the root eslint.config.* doesn't exist yet, create it
     if (!alreadyHasRootFlatConfig) {
-      rules.push(createRootESLintConfigFile(prefix || DEFAULT_PREFIX));
+      rules.push(
+        createRootESLintConfigFile(prefix || DEFAULT_PREFIX, rootConfigOptions),
+      );
     }
 
     const rootConfigPath =
       resolveRootESLintConfigPath(tree) ?? 'eslint.config.js';
-    rules.push((tree: Tree) => {
+    rules.push((host: Tree) => {
       const { isESM, ext } = determineNewProjectESLintConfigContentAndExtension(
-        tree,
+        host,
         rootConfigPath,
         projectRoot,
       );
-      return tree.create(
+      return host.create(
         join(normalize(projectRoot), `eslint.config.${ext}`),
         createStringifiedProjectESLintConfig(
           projectRoot,
           projectType || 'library',
           prefix || DEFAULT_PREFIX,
-          setParserOptionsProject,
+          enableProjectService,
           isESM,
           rootConfigPath,
         ),
@@ -388,14 +506,17 @@ export function createESLintConfigForProject(
   };
 }
 
-function createRootESLintConfigFile(prefix: string): Rule {
+function createRootESLintConfigFile(
+  prefix: string | null,
+  options: CreateRootESLintConfigOptions = {},
+): Rule {
   return (tree) => {
     // If the root package.json uses type: module, generate ESM content
     const packageJson = readJsonInTree(tree, 'package.json');
     const isESM = packageJson.type === 'module';
     return tree.create(
       'eslint.config.js',
-      createStringifiedRootESLintConfig(prefix, isESM),
+      createStringifiedRootESLintConfig(prefix, isESM, options),
     );
   };
 }

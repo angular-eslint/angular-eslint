@@ -6,8 +6,26 @@ import { format, resolveConfig } from 'prettier';
   const setParserOptionsProjectConfig = {
     type: 'boolean',
     description:
-      'Whether or not to enable rules that require type information by configuring the ESLint `parserOptions.projectService` option. We do not do this by default for lint performance reasons.',
+      'Whether or not to enable rules that require type information by configuring the ESLint `parserOptions.projectService` option. We do not do this by default for lint performance reasons. Implied when tseslintPreset is a type-checked preset.',
     default: false,
+  };
+
+  const tseslintPresetConfig = {
+    type: 'string',
+    enum: [
+      'recommended',
+      'strict',
+      'recommendedTypeChecked',
+      'strictTypeChecked',
+    ],
+    default: 'recommended',
+    description:
+      'Which typescript-eslint shared config preset to extend in the generated ESLint config. Type-checked presets also enable parserOptions.projectService (required for those rules, but slower). See https://typescript-eslint.io/users/configs/',
+  };
+
+  const angularEslintSchemaProperties = {
+    setParserOptionsProject: setParserOptionsProjectConfig,
+    tseslintPreset: tseslintPresetConfig,
   };
 
   const applicationSchemaJsonPath = join(
@@ -15,18 +33,20 @@ import { format, resolveConfig } from 'prettier';
     '../../packages/schematics/src/application/schema.json',
   );
 
-  await enhanceSchemaWithProperties(applicationSchemaJsonPath, {
-    setParserOptionsProject: setParserOptionsProjectConfig,
-  });
+  await enhanceSchemaWithProperties(
+    applicationSchemaJsonPath,
+    angularEslintSchemaProperties,
+  );
 
   const librarySchemaJsonPath = join(
     __dirname,
     '../../packages/schematics/src/library/schema.json',
   );
 
-  await enhanceSchemaWithProperties(librarySchemaJsonPath, {
-    setParserOptionsProject: setParserOptionsProjectConfig,
-  });
+  await enhanceSchemaWithProperties(
+    librarySchemaJsonPath,
+    angularEslintSchemaProperties,
+  );
 })();
 
 async function enhanceSchemaWithProperties(

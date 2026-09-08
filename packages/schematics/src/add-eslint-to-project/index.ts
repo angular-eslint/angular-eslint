@@ -4,11 +4,14 @@ import {
   addESLintTargetToProject,
   createESLintConfigForProject,
   determineTargetProjectName,
+  resolveTseslintPreset,
+  type TseslintPreset,
 } from '../utils';
 
 interface Schema {
   project?: string;
   setParserOptionsProject?: boolean;
+  tseslintPreset?: TseslintPreset;
 }
 
 export default function addESLintToProject(schema: Schema): Rule {
@@ -29,6 +32,7 @@ E.g. npx ng g @angular-eslint/schematics:add-eslint-to-project {{YOUR_PROJECT_NA
       createESLintConfigForProject(
         projectName,
         schema.setParserOptionsProject ?? false,
+        resolveTseslintPreset(schema.tseslintPreset),
       ),
       // Set the lint builder and config in angular.json
       addESLintTargetToProject(projectName, 'lint'),

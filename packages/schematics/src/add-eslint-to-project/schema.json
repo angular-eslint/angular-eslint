@@ -14,8 +14,19 @@
     },
     "setParserOptionsProject": {
       "type": "boolean",
-      "description": "Whether or not to enable rules that require type information by configuring the ESLint `parserOptions.projectService` option. We do not do this by default for lint performance reasons.",
+      "description": "Whether or not to enable rules that require type information by configuring the ESLint `parserOptions.projectService` option. We do not do this by default for lint performance reasons. Implied when tseslintPreset is a type-checked preset.",
       "default": false
+    },
+    "tseslintPreset": {
+      "type": "string",
+      "enum": [
+        "recommended",
+        "strict",
+        "recommendedTypeChecked",
+        "strictTypeChecked"
+      ],
+      "default": "recommended",
+      "description": "Which typescript-eslint shared config preset to extend in the generated ESLint config. Type-checked presets also enable parserOptions.projectService (required for those rules, but slower). See https://typescript-eslint.io/users/configs/"
     }
   },
   "required": []

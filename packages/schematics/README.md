@@ -13,3 +13,30 @@ Skips installing npm packages when running `ng add @angular-eslint/schematics`. 
 ```
 ng add @angular-eslint/schematics --skip-install
 ```
+
+### `--tseslint-preset`
+
+Chooses which typescript-eslint shared config the generated `eslint.config.js` extends. Defaults to `recommended`.
+
+Allowed values:
+
+- `recommended` — `tseslint.configs.recommended` + `tseslint.configs.stylistic` (default)
+- `strict` — `tseslint.configs.strict` + `tseslint.configs.stylistic`
+- `recommendedTypeChecked` — `tseslint.configs.recommendedTypeChecked` + `tseslint.configs.stylisticTypeChecked`, and enables `parserOptions.projectService`
+- `strictTypeChecked` — `tseslint.configs.strictTypeChecked` + `tseslint.configs.stylisticTypeChecked`, and enables `parserOptions.projectService`
+
+Type-checked presets make linting more powerful but slower. See [RULES_REQUIRING_TYPE_INFORMATION.md](../../docs/RULES_REQUIRING_TYPE_INFORMATION.md). `strictTypeChecked` currently flags Angular CLI's generated `src/main.ts` bootstrap `.catch(...)` callback; that is expected from the preset.
+
+```
+ng add @angular-eslint/schematics --tseslint-preset=strictTypeChecked
+```
+
+The same option is accepted by `add-eslint-to-project`, `application`, and `library`. It is applied when the root ESLint config is created.
+
+### `--set-parser-options-project`
+
+Enables `parserOptions.projectService` in the generated ESLint config so that rules requiring type information can run, without changing the typescript-eslint preset. Type-checked `tseslintPreset` values imply this option.
+
+```
+ng add @angular-eslint/schematics --set-parser-options-project
+```

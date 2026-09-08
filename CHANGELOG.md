@@ -1,3 +1,19 @@
+## 22.5.0 (2026-09-07)
+
+### 🚀 Features
+
+- **eslint-plugin:** [sort-keys-in-type-decorator] disallow unconfigured properties ([#3193](https://github.com/angular-eslint/angular-eslint/pull/3193))
+- **schematics:** add --tseslint-preset for strict and type-checked configs ([#3195](https://github.com/angular-eslint/angular-eslint/pull/3195))
+
+### 🩹 Fixes
+
+- update typescript-eslint packages to v8.69.0 ([#3194](https://github.com/angular-eslint/angular-eslint/pull/3194))
+
+### ❤️ Thank You
+
+- AI-JamesHenry @AI-JamesHenry
+- Максим Иванов
+
 ## 22.4.0 (2026-09-07)
 
 ### 🚀 Features

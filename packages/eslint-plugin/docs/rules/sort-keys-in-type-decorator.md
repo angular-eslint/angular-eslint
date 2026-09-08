@@ -15,7 +15,7 @@
 
 # `@angular-eslint/sort-keys-in-type-decorator`
 
-Ensures that keys in type decorators (Component, Directive, NgModule, Pipe) are sorted in a consistent order
+Ensures that keys in type decorators (Component, Directive, Injectable, NgModule, Pipe) are sorted in a consistent order
 
 - Type: suggestion
 - 🔧 Supports autofix (`--fix`)
@@ -24,7 +24,7 @@ Ensures that keys in type decorators (Component, Directive, NgModule, Pipe) are 
 
 ## Rationale
 
-Maintaining a consistent order for properties in Angular decorators (@Component, @Directive, @NgModule, @Pipe) makes code more predictable and easier to scan. When all components in a codebase follow the same property order, developers can quickly locate specific metadata without searching. For example, if selector always comes first and providers always comes before changeDetection, you develop muscle memory for where to look. This is especially helpful in large components with many properties. The recommended default order groups related properties logically: identification (selector, name) first, then dependencies (imports, providers), then templates/styles, then configuration options. Consistent ordering also makes code reviews easier, reduces merge conflicts when multiple developers edit decorators, and creates a professional, well-organized codebase.
+Maintaining a consistent order for properties in Angular decorators (@Component, @Directive, @Injectable, @NgModule, @Pipe) makes code more predictable and easier to scan. When all components in a codebase follow the same property order, developers can quickly locate specific metadata without searching. For example, if selector always comes first and providers always comes before changeDetection, you develop muscle memory for where to look. This is especially helpful in large components with many properties. The recommended default order groups related properties logically: identification (selector, name) first, then dependencies (imports, providers), then templates/styles, then configuration options. Consistent ordering also makes code reviews easier, reduces merge conflicts when multiple developers edit decorators, and creates a professional, well-organized codebase. When `allowUnconfiguredProperties` is `false`, decorators omitted from the user configuration are still checked against their built-in default key order.
 
 <br>
 
@@ -43,6 +43,10 @@ interface Options {
    */
   Directive?: string[];
   /**
+   * Default: `["providedIn","useClass","useExisting","useFactory","useValue","deps"]`
+   */
+  Injectable?: string[];
+  /**
    * Default: `["id","imports","declarations","providers","exports","bootstrap","schemas","jit"]`
    */
   NgModule?: string[];
@@ -50,6 +54,10 @@ interface Options {
    * Default: `["name","standalone","pure"]`
    */
   Pipe?: string[];
+  /**
+   * Default: `true`
+   */
+  allowUnconfiguredProperties?: boolean;
 }
 
 ```
@@ -528,6 +536,109 @@ class Test {}
 })
 class Test {
 }
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/sort-keys-in-type-decorator": [
+      "error",
+      {
+        "Component": [
+          "selector"
+        ],
+        "allowUnconfiguredProperties": false
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({
+  custom: true
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/sort-keys-in-type-decorator": [
+      "error",
+      {
+        "Component": [
+          "selector",
+          "template"
+        ],
+        "allowUnconfiguredProperties": false
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({
+  template: '<div></div>',
+  custom: true,
+  selector: 'app-root'
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/sort-keys-in-type-decorator": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Injectable({
+  useFactory: createService,
+  providedIn: 'root'
+})
+class TestService {}
 ```
 
 </details>
@@ -1118,6 +1229,246 @@ class Test {}
   exports: [AppComponent]
 })
 class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/sort-keys-in-type-decorator": [
+      "error",
+      {
+        "Component": [
+          "selector"
+        ],
+        "allowUnconfiguredProperties": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  selector: 'app-root',
+  custom: true
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/sort-keys-in-type-decorator": [
+      "error",
+      {
+        "Component": [
+          "selector",
+          "template"
+        ],
+        "allowUnconfiguredProperties": false
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  selector: 'app-root',
+  template: '<div></div>'
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/sort-keys-in-type-decorator": [
+      "error",
+      {
+        "Component": [
+          "moduleId",
+          "standalone",
+          "signal",
+          "selector",
+          "imports",
+          "template",
+          "templateUrl",
+          "styleUrl",
+          "styleUrls",
+          "styles",
+          "encapsulation",
+          "changeDetection",
+          "providers",
+          "viewProviders",
+          "animations",
+          "entryComponents",
+          "preserveWhitespaces",
+          "interpolation",
+          "hostDirectives",
+          "host"
+        ],
+        "Directive": [
+          "standalone",
+          "selector",
+          "inputs",
+          "outputs",
+          "providers",
+          "exportAs",
+          "queries",
+          "hostDirectives",
+          "host",
+          "jit"
+        ],
+        "Injectable": [
+          "providedIn"
+        ],
+        "NgModule": [
+          "id",
+          "jit",
+          "imports",
+          "declarations",
+          "providers",
+          "exports",
+          "entryComponents",
+          "bootstrap",
+          "schemas"
+        ],
+        "Pipe": [
+          "standalone",
+          "name",
+          "pure"
+        ],
+        "allowUnconfiguredProperties": false
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  moduleId: 'test-module',
+  standalone: true,
+  selector: 'app-root',
+  imports: [CommonModule],
+  template: '<div></div>',
+  styleUrl: './app.component.css',
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [TestService],
+  host: {'[class.test]': 'true'}
+})
+class TestComponent {}
+
+@Directive({
+  standalone: true,
+  selector: '[appTest]',
+  inputs: ['value'],
+  outputs: ['change'],
+  providers: [TestService],
+  host: {'[class.test]': 'true'}
+})
+class TestDirective {}
+
+@Injectable({
+  providedIn: 'root'
+})
+class TestService {}
+
+@NgModule({
+  id: 'test-module',
+  imports: [CommonModule],
+  declarations: [TestComponent],
+  providers: [TestService],
+  exports: [TestComponent],
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+})
+class TestModule {}
+
+@Pipe({
+  standalone: true,
+  name: 'testPipe',
+  pure: true
+})
+class TestPipe {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/sort-keys-in-type-decorator": [
+      "error",
+      {
+        "Component": [
+          "selector"
+        ],
+        "allowUnconfiguredProperties": false
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  selector: 'app-root'
+})
+class TestComponent {}
+
+@Injectable({
+  useFactory: createService
+})
+class TestService {}
 ```
 
 </details>

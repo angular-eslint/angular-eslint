@@ -35,7 +35,9 @@ export async function runNpmInstall(): Promise<
   return await runCommandOnLocalRegistry('npm', ['install']);
 }
 
-export async function runNgAdd(): Promise<execa.ExecaChildProcess<string>> {
+export async function runNgAdd(
+  extraArgs: string[] = [],
+): Promise<execa.ExecaChildProcess<string>> {
   /**
    * Force our e2e published version to be readily available on disk to
    * ensure that the @angular/cli resolves it correctly during `ng add`.
@@ -57,6 +59,7 @@ export async function runNgAdd(): Promise<execa.ExecaChildProcess<string>> {
     'add',
     `@angular-eslint/schematics@${publishedVersion}`,
     `--skip-confirmation`,
+    ...extraArgs,
   ]);
 }
 
