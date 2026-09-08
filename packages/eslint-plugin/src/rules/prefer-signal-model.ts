@@ -32,8 +32,29 @@ interface SignalDeclaration {
 }
 
 interface TwoWayBinding {
+  readonly name: string;
   readonly input: SignalDeclaration;
   readonly output: SignalDeclaration;
+}
+
+/**
+ * Returns the `this.someOutput.emit` callee when the reference is the object of
+ * such a call, so the fix can turn it into `this.someInput.set`.
+ */
+function getEmitCallee(
+  reference: TSESTree.MemberExpression,
+): TSESTree.MemberExpression | undefined {
+  const { parent } = reference;
+
+  return parent?.type === AST_NODE_TYPES.MemberExpression &&
+    parent.object === reference &&
+    !parent.computed &&
+    parent.property.type === AST_NODE_TYPES.Identifier &&
+    parent.property.name === 'emit' &&
+    parent.parent?.type === AST_NODE_TYPES.CallExpression &&
+    parent.parent.callee === parent
+    ? parent
+    : undefined;
 }
 
 function hasTransformOption(
@@ -83,6 +104,7 @@ export default createESLintRule<Options, MessageIds>({
     const { sourceCode } = context;
     const inputs = new Map<string, SignalDeclaration>();
     const outputs = new Map<string, SignalDeclaration>();
+    const thisReferences = new Map<string, TSESTree.MemberExpression[]>();
     let services: ParserServicesWithTypeInformation | undefined;
 
     function getTypeServices() {
@@ -184,9 +206,23 @@ export default createESLintRule<Options, MessageIds>({
       "PropertyDefinition > CallExpression[callee.name='output']":
         createSignalCollector(outputs, { hasInitialValueArgument: false }),
 
+      'MemberExpression[object.type="ThisExpression"][computed=false][property.type="Identifier"]'(
+        node: TSESTree.MemberExpression,
+      ) {
+        const { name } = node.property as TSESTree.Identifier;
+        const references = thisReferences.get(name);
+
+        if (references) {
+          references.push(node);
+        } else {
+          thisReferences.set(name, [node]);
+        }
+      },
+
       'ClassDeclaration:exit'() {
         const twoWayBindings = [...inputs]
           .map(([name, input]) => ({
+            name,
             input,
             output: outputs.get(`${name}Change`),
           }))
@@ -196,26 +232,40 @@ export default createESLintRule<Options, MessageIds>({
               haveMergeableTypes(binding.input, binding.output),
           );
 
-        for (const { input, output } of twoWayBindings) {
+        for (const { name, input, output } of twoWayBindings) {
+          // Removing the output breaks whatever used it, so the fix has to
+          // rewrite every use. `this.someOutput.emit(value)` becomes
+          // `this.someInput.set(value)`; anything else is left to the author.
+          const emitCallees = (thisReferences.get(`${name}Change`) ?? []).map(
+            getEmitCallee,
+          );
+          const isRewritable = emitCallees.every(isNotNullOrUndefined);
+
           context.report({
             node: input.property,
             messageId: 'preferSignalModel',
-            fix: (fixer) =>
-              [
-                RuleFixes.getImportAddFix({
-                  fixer,
-                  importName: 'model',
-                  moduleName: '@angular/core',
-                  node: input.property,
-                }),
-                fixer.replaceText(input.callee, 'model'),
-                fixer.remove(output.property),
-              ].filter(isNotNullOrUndefined),
+            fix: isRewritable
+              ? (fixer) =>
+                  [
+                    RuleFixes.getImportAddFix({
+                      fixer,
+                      importName: 'model',
+                      moduleName: '@angular/core',
+                      node: input.property,
+                    }),
+                    fixer.replaceText(input.callee, 'model'),
+                    fixer.remove(output.property),
+                    ...emitCallees.map((callee) =>
+                      fixer.replaceText(callee, `this.${name}.set`),
+                    ),
+                  ].filter(isNotNullOrUndefined)
+              : undefined,
           });
         }
 
         inputs.clear();
         outputs.clear();
+        thisReferences.clear();
       },
     };
   },
