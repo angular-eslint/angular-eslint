@@ -76,6 +76,11 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     code: `<div [title]="'30px'"></div>`,
     options: bindUnits,
   },
+  {
+    // Already a unit binding, on an element carrying a structural directive
+    code: `<div *ngIf="visible" [style.width.px]="width"></div>`,
+    options: bindUnits,
+  },
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
@@ -255,5 +260,69 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         <div [ngStyle]="styles" [style.width.px]="30"></div>
                                 
       `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail on an element carrying a structural directive, and report only once',
+    annotatedSource: `
+        <div *ngIf="visible" [style.width]="'30px'"></div>
+                             ~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId: unitMessageId,
+    options: bindUnits,
+    data: { property: 'width', unit: 'px' },
+    annotatedOutput: `
+        <div *ngIf="visible" [style.width.px]="30"></div>
+                             ~~~~~~~~~~~~~~~~~~~~~~
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should report [ngStyle] only once on an element carrying a structural directive',
+    annotatedSource: `
+        <div *ngIf="visible" [ngStyle]="styles"></div>
+                             ~~~~~~~~~~~~~~~~~~
+      `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should use the authored property name for CSS custom properties',
+    annotatedSource: `
+        <div [style.--gap]="'8px'"></div>
+             ~~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId: unitMessageId,
+    options: bindUnits,
+    data: { property: '--gap', unit: 'px' },
+    annotatedOutput: `
+        <div [style.--gap.px]="8"></div>
+             ~~~~~~~~~~~~~~~~~~~~~
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should unwrap a parenthesized value',
+    annotatedSource: `
+        <div [style.width]="('30px')"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId: unitMessageId,
+    options: bindUnits,
+    data: { property: 'width', unit: 'px' },
+    annotatedOutput: `
+        <div [style.width.px]="30"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should report without fixing when the value contains an HTML entity, because expression spans index the decoded value',
+    annotatedSource: `
+        <div [style.width]="\`\${sizes[&quot;md&quot;]}px\`"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId: unitMessageId,
+    options: bindUnits,
+    data: { property: 'width', unit: 'px' },
   }),
 ];

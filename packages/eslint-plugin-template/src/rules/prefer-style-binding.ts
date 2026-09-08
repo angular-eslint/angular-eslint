@@ -1,13 +1,16 @@
-import type { TmplAstBoundAttribute } from '@angular-eslint/bundled-angular-compiler';
-import {
+import type {
+  AST,
   ASTWithSource,
-  BindingType,
-  LiteralPrimitive,
-  TemplateLiteral,
+  TmplAstBoundAttribute,
 } from '@angular-eslint/bundled-angular-compiler';
 import { getTemplateParserServices } from '@angular-eslint/utils';
 import type { RuleFix, RuleFixer } from '@typescript-eslint/utils/ts-eslint';
 import { createESLintRule } from '../utils/create-eslint-rule';
+import {
+  isStringLiteralPrimitive,
+  isTemplateLiteral,
+} from '../utils/literal-primitive';
+import { unwrapParenthesizedExpression } from '../utils/unwrap-parenthesized-expression';
 
 export type Options = [
   {
@@ -81,13 +84,15 @@ const NUMBER_WITH_UNIT = new RegExp(
 );
 const UNIT_ONLY = new RegExp('^(?:' + CSS_UNITS_PATTERN + ')$');
 
-type BoundAttributeWithOriginalType = TmplAstBoundAttribute & {
-  readonly __originalType?: BindingType;
-};
+const STYLE_KEY_PREFIX = 'style.';
 
 interface UnitBinding {
   readonly unit: string;
-  readonly value: string;
+  /**
+   * The expression to bind, or `null` when it cannot be recovered verbatim from
+   * the template, in which case the report carries no fix.
+   */
+  readonly value: string | null;
 }
 
 export default createESLintRule<Options, MessageIds>({
@@ -123,22 +128,46 @@ export default createESLintRule<Options, MessageIds>({
   },
   create(context, [{ bindUnits }]) {
     const parserServices = getTemplateParserServices(context);
+    // When an element carries a structural directive, Angular hoists its inputs
+    // onto the wrapping `Template` node using the same node instances, so every
+    // binding is visited twice and would otherwise be reported twice.
+    const alreadyReported = new Set<string>();
+    const isFirstReportFor = (
+      messageId: MessageIds,
+      { sourceSpan }: TmplAstBoundAttribute,
+    ): boolean => {
+      const key = `${messageId}:${sourceSpan.start.offset}`;
+      if (alreadyReported.has(key)) {
+        return false;
+      }
+      alreadyReported.add(key);
+      return true;
+    };
 
     return {
       'BoundAttribute[name="ngStyle"]'(node: TmplAstBoundAttribute) {
+        if (!isFirstReportFor('preferStyleBinding', node)) {
+          return;
+        }
+
         const loc = parserServices.convertNodeSourceSpanToLoc(node.sourceSpan);
         context.report({
           messageId: 'preferStyleBinding',
           loc,
         });
       },
-      BoundAttribute(node: BoundAttributeWithOriginalType) {
-        if (!bindUnits || !isUnitlessStyleBinding(node)) {
+      BoundAttribute(node: TmplAstBoundAttribute) {
+        if (!bindUnits) {
+          return;
+        }
+
+        const property = getStyleProperty(node);
+        if (!property) {
           return;
         }
 
         const unitBinding = getUnitBinding(node, context.sourceCode.text);
-        if (!unitBinding) {
+        if (!unitBinding || !isFirstReportFor('preferStyleUnitBinding', node)) {
           return;
         }
 
@@ -146,7 +175,7 @@ export default createESLintRule<Options, MessageIds>({
           messageId: 'preferStyleUnitBinding',
           loc: parserServices.convertNodeSourceSpanToLoc(node.sourceSpan),
           data: {
-            property: node.name,
+            property,
             unit: unitBinding.unit,
           },
           fix: (fixer) => createUnitBindingFix(fixer, node, unitBinding),
@@ -156,29 +185,38 @@ export default createESLintRule<Options, MessageIds>({
   },
 });
 
-function isUnitlessStyleBinding(node: BoundAttributeWithOriginalType): boolean {
-  const { __originalType: originalType, type } = node;
-  return (originalType ?? type) === BindingType.Style && !node.unit;
+/**
+ * The property of a `[style.property]` binding that does not already carry a
+ * unit, or `null` for any other binding.
+ *
+ * `keySpan.details` is used rather than `node.name` because Angular rewrites
+ * custom properties internally (`--gap` becomes `--%NS%gap`), and rather than
+ * `__originalType` because that is overwritten when Angular hoists the inputs
+ * of an element carrying a structural directive.
+ */
+function getStyleProperty(node: TmplAstBoundAttribute): string | null {
+  const details = node.keySpan?.details;
+  if (node.unit || !details?.startsWith(STYLE_KEY_PREFIX)) {
+    return null;
+  }
+  return details.slice(STYLE_KEY_PREFIX.length) || null;
 }
 
 function getUnitBinding(
   node: TmplAstBoundAttribute,
   templateText: string,
 ): UnitBinding | null {
-  const value =
-    node.value instanceof ASTWithSource ? node.value.ast : node.value;
+  const withSource = asASTWithSource(node.value);
+  const value = unwrapParenthesizedExpression(withSource?.ast ?? node.value);
 
-  if (value instanceof LiteralPrimitive) {
-    if (typeof value.value !== 'string') {
-      return null;
-    }
+  if (isStringLiteralPrimitive(value)) {
     const groups = NUMBER_WITH_UNIT.exec(value.value)?.groups;
     return groups?.['unit'] && groups['value']
       ? { unit: groups['unit'], value: groups['value'] }
       : null;
   }
 
-  if (value instanceof TemplateLiteral) {
+  if (isTemplateLiteral(value)) {
     const { elements, expressions } = value;
     // Only `` `${expression}unit` `` can be expressed as a unit binding.
     if (
@@ -189,14 +227,38 @@ function getUnitBinding(
     ) {
       return null;
     }
+
     const { sourceSpan } = expressions[0];
     return {
       unit: elements[1].text,
-      value: templateText.slice(sourceSpan.start, sourceSpan.end),
+      value: hasVerbatimSource(node, withSource, templateText)
+        ? templateText.slice(sourceSpan.start, sourceSpan.end)
+        : null,
     };
   }
 
   return null;
+}
+
+/**
+ * Angular parses attribute values after decoding HTML entities, so expression
+ * source spans index the decoded value. Slicing the raw template with them only
+ * yields the expression when no entity was decoded.
+ */
+function hasVerbatimSource(
+  { valueSpan }: TmplAstBoundAttribute,
+  withSource: ASTWithSource | null,
+  templateText: string,
+): boolean {
+  return (
+    !!valueSpan &&
+    templateText.slice(valueSpan.start.offset, valueSpan.end.offset) ===
+      withSource?.source
+  );
+}
+
+function asASTWithSource(value: AST): ASTWithSource | null {
+  return 'ast' in value && 'source' in value ? (value as ASTWithSource) : null;
 }
 
 function createUnitBindingFix(
@@ -205,7 +267,7 @@ function createUnitBindingFix(
   { unit, value }: UnitBinding,
 ): RuleFix[] | null {
   const { keySpan, valueSpan } = node;
-  if (!valueSpan) {
+  if (!valueSpan || value === null) {
     return null;
   }
 
