@@ -78,7 +78,6 @@ const CSS_UNITS = [
   'dvmax',
 ] as const;
 const CSS_UNITS_PATTERN = CSS_UNITS.join('|');
-/** A static CSS value made of a number immediately followed by a unit, e.g. `30px`. */
 const NUMBER_WITH_UNIT = new RegExp(
   '^(?<value>-?\\d+(?:\\.\\d+)?)(?<unit>' + CSS_UNITS_PATTERN + ')$',
 );
@@ -88,10 +87,7 @@ const STYLE_KEY_PREFIX = 'style.';
 
 interface UnitBinding {
   readonly unit: string;
-  /**
-   * The expression to bind, or `null` when it cannot be recovered verbatim from
-   * the template, in which case the report carries no fix.
-   */
+  /** `null` when the expression cannot be recovered verbatim, so no fix is offered. */
   readonly value: string | null;
 }
 
@@ -128,9 +124,9 @@ export default createESLintRule<Options, MessageIds>({
   },
   create(context, [{ bindUnits }]) {
     const parserServices = getTemplateParserServices(context);
-    // When an element carries a structural directive, Angular hoists its inputs
-    // onto the wrapping `Template` node using the same node instances, so every
-    // binding is visited twice and would otherwise be reported twice.
+    // Angular hoists the inputs of an element carrying a structural directive
+    // onto the wrapping `Template` node, reusing the same node instances, so
+    // every binding on such an element is visited twice.
     const alreadyReported = new Set<string>();
     const isFirstReportFor = (
       messageId: MessageIds,
@@ -186,13 +182,9 @@ export default createESLintRule<Options, MessageIds>({
 });
 
 /**
- * The property of a `[style.property]` binding that does not already carry a
- * unit, or `null` for any other binding.
- *
- * `keySpan.details` is used rather than `node.name` because Angular rewrites
- * custom properties internally (`--gap` becomes `--%NS%gap`), and rather than
- * `__originalType` because that is overwritten when Angular hoists the inputs
- * of an element carrying a structural directive.
+ * `keySpan.details` is preferred over `node.name`, which Angular rewrites for
+ * custom properties (`--gap` becomes `--%NS%gap`), and over `__originalType`,
+ * which the hoisting described above overwrites.
  */
 function getStyleProperty(node: TmplAstBoundAttribute): string | null {
   const details = node.keySpan?.details;
@@ -242,8 +234,7 @@ function getUnitBinding(
 
 /**
  * Angular parses attribute values after decoding HTML entities, so expression
- * source spans index the decoded value. Slicing the raw template with them only
- * yields the expression when no entity was decoded.
+ * source spans index the decoded value, not the raw template.
  */
 function hasVerbatimSource(
   { valueSpan }: TmplAstBoundAttribute,

@@ -36,17 +36,14 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     options: bindUnits,
   },
   {
-    // Not a numeric value, so no unit can be extracted
     code: `<div [style.width]="'auto'"></div>`,
     options: bindUnits,
   },
   {
-    // `foo` is not a CSS unit
     code: `<div [style.width]="'30foo'"></div>`,
     options: bindUnits,
   },
   {
-    // Multi-part values cannot be expressed as a single unit binding
     code: `<div [style.margin]="'0 10px'"></div>`,
     options: bindUnits,
   },
@@ -64,7 +61,6 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     options: bindUnits,
   },
   {
-    // [style] and [class] bindings are out of scope of the unit check
     code: `<div [style]="'width: 30px'"></div>`,
     options: bindUnits,
   },
@@ -77,7 +73,6 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     options: bindUnits,
   },
   {
-    // Already a unit binding, on an element carrying a structural directive
     code: `<div *ngIf="visible" [style.width.px]="width"></div>`,
     options: bindUnits,
   },
