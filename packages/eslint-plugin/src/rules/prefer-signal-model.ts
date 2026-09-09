@@ -37,10 +37,6 @@ interface TwoWayBinding {
   readonly output: SignalDeclaration;
 }
 
-/**
- * Returns the `this.someOutput.emit` callee when the reference is the object of
- * such a call, so the fix can turn it into `this.someInput.set`.
- */
 function getEmitCallee(
   reference: TSESTree.MemberExpression,
 ): TSESTree.MemberExpression | undefined {
@@ -233,9 +229,6 @@ export default createESLintRule<Options, MessageIds>({
           );
 
         for (const { name, input, output } of twoWayBindings) {
-          // Removing the output breaks whatever used it, so the fix has to
-          // rewrite every use. `this.someOutput.emit(value)` becomes
-          // `this.someInput.set(value)`; anything else is left to the author.
           const emitCallees = (thisReferences.get(`${name}Change`) ?? []).map(
             getEmitCallee,
           );
