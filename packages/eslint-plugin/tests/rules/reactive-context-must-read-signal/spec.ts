@@ -15,6 +15,27 @@ const ruleTester = new RuleTester({
 });
 
 ruleTester.run(RULE_NAME, rule, {
-  valid,
+  valid: [
+    ...valid,
+    // Regression for #3198: inherited Object.prototype names are not primitives.
+    `
+    const callback = ({
+      valueOf,
+      toString,
+      constructor,
+      hasOwnProperty,
+    }: {
+      valueOf: () => unknown;
+      toString: () => unknown;
+      constructor: () => unknown;
+      hasOwnProperty: () => unknown;
+    }) => {
+      valueOf();
+      toString();
+      constructor();
+      hasOwnProperty();
+    };
+  `,
+  ],
   invalid,
 });
