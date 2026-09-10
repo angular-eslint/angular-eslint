@@ -9,7 +9,7 @@ let nativeEventNames: ReadonlySet<string> | null = null;
 /**
  * Check MDN events page for details https://developer.mozilla.org/en-US/docs/Web/Events
  *
- * Event names sourced from @mdn/browser-compat-data@8.0.13
+ * Event names sourced from @mdn/browser-compat-data@8.1.0
  */
 export function getNativeEventNames(): ReadonlySet<string> {
   return (
@@ -88,6 +88,7 @@ export function getNativeEventNames(): ReadonlySet<string> {
       'gotpointercapture',
       'hashchange',
       'input',
+      'installresult',
       'interest',
       'invalid',
       'keydown',
@@ -161,6 +162,7 @@ export function getNativeEventNames(): ReadonlySet<string> {
       'slotchange',
       'stalled',
       'storage',
+      'stream',
       'submit',
       'suspend',
       'timeupdate',
@@ -169,6 +171,7 @@ export function getNativeEventNames(): ReadonlySet<string> {
       'touchend',
       'touchmove',
       'touchstart',
+      'track',
       'transitioncancel',
       'transitionend',
       'transitionrun',
