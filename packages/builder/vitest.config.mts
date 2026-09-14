@@ -9,7 +9,7 @@ export default defineConfig({
       reportsDirectory: join(
         workspaceRoot,
         'coverage/packages',
-        basename(__dirname),
+        basename(import.meta.dirname),
       ),
     },
   },
