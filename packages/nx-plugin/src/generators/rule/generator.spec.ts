@@ -9,7 +9,8 @@ describe('rule generator', () => {
   let tree: Tree;
 
   beforeEach(() => {
-    tree = createTreeWithEmptyWorkspace();
+    // nx 23.2 defaults the test tree to oxfmt; this repo formats with prettier.
+    tree = createTreeWithEmptyWorkspace({ formatter: 'prettier' });
   });
 
   it('should successfully generate a new rule for package eslint-plugin', async () => {
