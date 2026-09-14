@@ -247,6 +247,25 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     `
     const x = computed;
   `,
+    // Regression for #3198: inherited Object.prototype names are not primitives.
+    `
+    const callback = ({
+      valueOf,
+      toString,
+      constructor,
+      hasOwnProperty,
+    }: {
+      valueOf: () => unknown;
+      toString: () => unknown;
+      constructor: () => unknown;
+      hasOwnProperty: () => unknown;
+    }) => {
+      valueOf();
+      toString();
+      constructor();
+      hasOwnProperty();
+    };
+  `,
   ].map(appendTypes),
 
   // resource() with checkResources: the 'params' reads a signal.

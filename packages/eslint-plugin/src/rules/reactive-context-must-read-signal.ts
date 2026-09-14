@@ -381,13 +381,13 @@ export default createESLintRule<Options, MessageIds>({
         }
 
         // Register this call if it is one of the reactive contexts.
-        if (node.callee.type !== AST_NODE_TYPES.Identifier) {
+        if (
+          node.callee.type !== AST_NODE_TYPES.Identifier ||
+          !Object.hasOwn(primitives, node.callee.name)
+        ) {
           return;
         }
         const config = primitives[node.callee.name];
-        if (!config) {
-          return;
-        }
 
         const newAnalysis: CallAnalysis = {
           call: node,
