@@ -524,6 +524,74 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-signal-model": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+class Test {
+  readonly enabled = input<boolean>();
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  readonly enabledChange = output<boolean>();
+
+  toggle(): void {
+    this.enabledChange.emit(true);
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-signal-model": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+class Test {
+  readonly enabled = input<boolean>();
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  readonly enabledChange = output<boolean>();
+
+  forward(): unknown {
+    return this.enabledChange;
+  }
+}
+```
+
 </details>
 
 <br>
