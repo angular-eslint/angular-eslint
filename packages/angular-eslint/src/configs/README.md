@@ -68,6 +68,15 @@ module.exports = tseslint.config(
 );
 ```
 
+## `angular.processInlineStyles`
+
+Use `angular.processInlineStyles` when CSS or SCSS linting should also cover
+static styles in `@Component` metadata and `style` attributes in Angular
+templates. The processor emits virtual `.scss` and `.css` files for the
+standalone CSS/SCSS configuration in your ESLint setup; it does not configure
+CSS/SCSS parsers or rules itself. It also includes inline template extraction,
+so use it instead of `angular.processInlineTemplates` for TypeScript files.
+
 ## `angular-eslint/template-accessibility`
 
 These are all the rules within `@angular-eslint/eslint-plugin-template` which deal with things impacting the accessibility of your Angular apps.

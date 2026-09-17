@@ -76,6 +76,8 @@ const configs = {
 // Export more succinct alias for us in user flat config files
 const processInlineTemplates =
   templatePlugin.processors?.['extract-inline-html'];
+const processInlineStyles =
+  templatePlugin.processors?.['extract-inline-styles'];
 
 /*
 // eslint-disable-next-line import/no-default-export --
@@ -88,6 +90,7 @@ export default {
   templateParser,
   templatePlugin,
   processInlineTemplates,
+  processInlineStyles,
 };
 export {
   configs,
@@ -95,4 +98,5 @@ export {
   templatePlugin,
   tsPlugin,
   processInlineTemplates,
+  processInlineStyles,
 };
