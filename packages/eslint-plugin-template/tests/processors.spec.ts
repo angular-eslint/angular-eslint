@@ -1,3 +1,4 @@
+import { ESLint, type Linter } from 'eslint';
 import { describe, expect, it } from 'vitest';
 import processors, {
   isFileLikelyToContainComponentDeclarations,
@@ -693,5 +694,249 @@ describe('extract-inline-html', () => {
         ).toEqual([expectedMessage]);
       });
     });
+  });
+});
+
+describe('extract-inline-styles', () => {
+  const processor = processors['extract-inline-styles'];
+
+  it.each([
+    [
+      false,
+      `import { Component } from '@angular/core'; @Component({ template: '<div style="margin:0"></div>' }) class Example {}`,
+    ],
+    [
+      true,
+      `import { Component } from '@angular/core'; @Component({ template: '<div style="margin:0"></div>' }) class Example {}`,
+    ],
+    [
+      true,
+      'import { Component } from "@angular/core"; @Component({ styles: "a{}", template: `<div style="margin:0">${label}</div>` }) class Example {}',
+    ],
+  ])(
+    'reports inline attributes once with HTML processing enabled: %s (%s)',
+    async (processHtml, input) => {
+      const parser: Linter.Parser = {
+        parse: () => ({
+          type: 'Program',
+          body: [],
+          sourceType: 'module',
+          range: [0, 0],
+          loc: { start: { line: 1, column: 0 }, end: { line: 1, column: 0 } },
+          tokens: [],
+          comments: [],
+        }),
+      };
+      const eslint = new ESLint({
+        overrideConfigFile: true,
+        overrideConfig: [
+          {
+            files: processHtml ? ['**/*.ts', '**/*.html'] : ['**/*.ts'],
+            processor: processor as Linter.Processor,
+            languageOptions: { parser },
+          },
+          { files: ['**/*.html'], languageOptions: { parser } },
+          {
+            files: ['**/*.css'],
+            languageOptions: { parser },
+            plugins: {
+              test: {
+                rules: {
+                  style: {
+                    meta: { schema: [] },
+                    create(context) {
+                      return {
+                        Program() {
+                          context.report({
+                            loc: { line: 1, column: 2 },
+                            message: 'Style diagnostic',
+                          });
+                        },
+                      };
+                    },
+                  },
+                },
+              },
+            },
+            rules: { 'test/style': 'error' },
+          },
+        ],
+      });
+      const [result] = await eslint.lintText(input, {
+        filePath: 'example.component.ts',
+      });
+
+      expect(result.messages).toEqual([
+        expect.objectContaining({
+          ruleId: 'test/style',
+          message: 'Style diagnostic',
+          line: 1,
+          column: input.indexOf('margin') + 1,
+        }),
+      ]);
+    },
+  );
+
+  it('rejects whitespace fixes and suggestions in unquoted style attributes', () => {
+    const input = '<div style=margin:0></div>';
+    processor.preprocess(input, 'example.html');
+    const fix = { range: [2, 10], text: 'margin: 0' };
+    const message = {
+      ruleId: 'test',
+      severity: 2,
+      message: 'format',
+      line: 1,
+      column: 3,
+      endLine: 1,
+      endColumn: 11,
+      nodeType: 'Declaration',
+      messageId: 'format',
+      fix,
+      suggestions: [{ desc: 'Format declaration', fix }],
+    };
+
+    expect(processor.postprocess([[], [message]], 'example.html')).toEqual([
+      expect.objectContaining({ fix: undefined, suggestions: [] }),
+    ]);
+  });
+
+  it.each([
+    ['<div style="margin:0"></div>', 'margin: 0'],
+    ["<div style='margin:0'></div>", 'margin: 0'],
+    ['<div style=margin:0></div>', 'margin:1'],
+  ])('preserves safe style fixes for %s', (input, replacement) => {
+    processor.preprocess(input, 'safe.html');
+    const start = input.indexOf('margin');
+    expect(
+      processor.postprocess(
+        [
+          [],
+          [
+            {
+              ruleId: 'test',
+              severity: 2,
+              message: 'format',
+              line: 1,
+              column: 3,
+              endLine: 1,
+              endColumn: 11,
+              nodeType: 'Declaration',
+              messageId: 'format',
+              fix: { range: [2, 10], text: replacement },
+            },
+          ],
+        ],
+        'safe.html',
+      ),
+    ).toEqual([
+      expect.objectContaining({
+        fix: { range: [start, start + 'margin:0'.length], text: replacement },
+      }),
+    ]);
+  });
+
+  it('extracts component styles, inline template attributes, and preserves template extraction', () => {
+    const input = `
+      import { Component } from '@angular/core';
+
+      @Component({
+        styles: ['a { margin-left: 0; }', 'a { padding-right: 0; }'],
+        template: \
+          \`<div style="width: 1px; margin-left: 0;"></div>\`,
+      })
+      export class ExampleComponent {}
+    `;
+
+    expect(processor.preprocess(input, 'example.component.ts')).toEqual([
+      input,
+      {
+        filename: 'inline-template-example.component.ts-1.component.html',
+        text: '<div style="width: 1px; margin-left: 0;"></div>',
+      },
+      { filename: 'inline-style-0.scss', text: 'a { margin-left: 0; }' },
+      { filename: 'inline-style-1.scss', text: 'a { padding-right: 0; }' },
+      {
+        filename: 'inline-style-2.css',
+        text: 'a{width: 1px; margin-left: 0;}',
+      },
+    ]);
+  });
+
+  it('extracts style attributes from external templates', () => {
+    const input = '<div style="margin-left: 0;"></div>';
+
+    expect(processor.preprocess(input, 'example.component.html')).toEqual([
+      input,
+      { filename: 'attribute-style-0.css', text: 'a{margin-left: 0;}' },
+    ]);
+  });
+
+  it.each([
+    `import { Component as NgComponent } from '@angular/core';\n@NgComponent({ styles: 'a { margin-left: 0; }' }) class Example {}`,
+    `import * as ng from '@angular/core';\n@ng.Component({ styles: 'a { margin-left: 0; }' }) class Example {}`,
+  ])('recognizes Angular Component import aliases', (input) => {
+    expect(processor.preprocess(input, 'example.component.ts')).toEqual([
+      input,
+      { filename: 'inline-style-0.scss', text: 'a { margin-left: 0; }' },
+    ]);
+  });
+
+  it('skips dynamic styles and non-Angular objects', () => {
+    const dynamic = `
+      import { Component } from '@angular/core';
+      const sharedStyles = 'a { margin-left: 0; }';
+      @Component({ styles: [sharedStyles, \`a { color: \${color}; }\`] })
+      class Example {}
+    `;
+    const object = `const object = { styles: 'a { margin-left: 0; }' };`;
+
+    expect(processor.preprocess(dynamic, 'example.component.ts')).toEqual([
+      dynamic,
+    ]);
+    expect(processor.preprocess(object, 'example.component.ts')).toEqual([
+      object,
+    ]);
+  });
+
+  it('maps style diagnostics and fixes to the original source', () => {
+    const input = `
+      import { Component } from '@angular/core';
+      @Component({ styles: 'a { margin-left: 0; }' })
+      class Example {}
+    `;
+    processor.preprocess(input, 'example.component.ts');
+    const start = input.indexOf('margin-left');
+
+    expect(
+      processor.postprocess(
+        [
+          [],
+          [
+            {
+              ruleId: 'test',
+              severity: 2,
+              message: 'test',
+              line: 1,
+              column: 5,
+              endLine: 1,
+              endColumn: 16,
+              nodeType: 'Declaration',
+              messageId: 'test',
+              fix: { range: [4, 15], text: 'margin-inline-start' },
+            },
+          ],
+        ],
+        'example.component.ts',
+      ),
+    ).toEqual([
+      expect.objectContaining({
+        line: 3,
+        column: start - input.lastIndexOf('\n', start - 1),
+        fix: {
+          range: [start, start + 'margin-left'.length],
+          text: 'margin-inline-start',
+        },
+      }),
+    ]);
   });
 });

@@ -1,4 +1,10 @@
-import { basename } from 'path';
+import { basename, dirname } from 'path';
+import type { Attribute } from '@angular-eslint/bundled-angular-compiler';
+import {
+  HtmlParser,
+  RecursiveVisitor,
+  visitAll,
+} from '@angular-eslint/bundled-angular-compiler';
 import ts from 'typescript';
 
 const rangeMap = new Map();
@@ -340,6 +346,450 @@ export function postprocessComponentFile(
   return res;
 }
 
+type TextEdit = {
+  range: [number, number];
+  text: string;
+};
+
+type StyleSuggestion = {
+  fix?: TextEdit;
+  [key: string]: unknown;
+};
+
+type StyleMessage = {
+  line?: number;
+  column?: number;
+  endLine?: number;
+  endColumn?: number;
+  fix?: TextEdit;
+  suggestions?: StyleSuggestion[];
+  [key: string]: unknown;
+};
+
+type MappedStyle = {
+  text: string;
+  offsets: number[];
+  sourceFile: ts.SourceFile;
+  virtualSource: ts.SourceFile;
+  extension?: 'css' | 'scss';
+  unquotedAttribute?: boolean;
+};
+
+type TemplateSource = Omit<MappedStyle, 'extension'>;
+
+function getComponentImportNames(sourceFile: ts.SourceFile) {
+  const componentImports = new Set<string>();
+  const namespaceImports = new Set<string>();
+
+  for (const statement of sourceFile.statements) {
+    if (
+      !ts.isImportDeclaration(statement) ||
+      !ts.isStringLiteral(statement.moduleSpecifier) ||
+      statement.moduleSpecifier.text !== '@angular/core'
+    ) {
+      continue;
+    }
+
+    const importClause = statement.importClause;
+    if (!importClause || importClause.isTypeOnly) {
+      continue;
+    }
+
+    const namedBindings = importClause.namedBindings;
+    if (namedBindings && ts.isNamespaceImport(namedBindings)) {
+      namespaceImports.add(namedBindings.name.text);
+    }
+    if (namedBindings && ts.isNamedImports(namedBindings)) {
+      for (const element of namedBindings.elements) {
+        if (
+          !element.isTypeOnly &&
+          (element.propertyName ?? element.name).text === 'Component'
+        ) {
+          componentImports.add(element.name.text);
+        }
+      }
+    }
+  }
+
+  return { componentImports, namespaceImports };
+}
+
+function isComponentDecorator(
+  decorator: ts.Decorator,
+  componentImports: Set<string>,
+  namespaceImports: Set<string>,
+): decorator is ts.Decorator & {
+  expression: ts.CallExpression;
+} {
+  if (!ts.isCallExpression(decorator.expression)) {
+    return false;
+  }
+
+  const target = decorator.expression.expression;
+  if (ts.isIdentifier(target)) {
+    return componentImports.has(target.text);
+  }
+
+  return (
+    ts.isPropertyAccessExpression(target) &&
+    ts.isIdentifier(target.expression) &&
+    namespaceImports.has(target.expression.text) &&
+    target.name.text === 'Component'
+  );
+}
+
+function mapLiteral(
+  literal: ts.StringLiteral | ts.NoSubstitutionTemplateLiteral,
+  sourceFile: ts.SourceFile,
+): MappedStyle | undefined {
+  const start = literal.getStart(sourceFile);
+  const quote = sourceFile.text[start];
+  const raw = sourceFile.text.slice(start + 1, literal.end - 1);
+  const offsets = [start + 1];
+  const scanner = ts.createScanner(ts.ScriptTarget.Latest, false);
+  let text = '';
+
+  for (let index = 0; index < raw.length;) {
+    const escape =
+      raw[index] === '\\'
+        ? /^\\(?:u\{[\da-fA-F]+\}|u[\da-fA-F]{4}|x[\da-fA-F]{2}|\r\n|[\s\S])/.exec(
+            raw.slice(index),
+          )?.[0]
+        : undefined;
+    const chunk =
+      escape ?? (raw.startsWith('\r\n', index) ? '\r\n' : raw[index]);
+    let decoded = chunk;
+
+    if (escape) {
+      scanner.setText(quote + chunk + quote);
+      scanner.scan();
+      decoded = scanner.getTokenValue();
+    } else if (quote === '`' && chunk.startsWith('\r')) {
+      decoded = '\n';
+    }
+
+    index += chunk.length;
+    text += decoded;
+    for (let count = 0; count < decoded.length; count++) {
+      offsets.push(start + 1 + index);
+    }
+    if (!decoded.length) {
+      offsets[offsets.length - 1] = start + 1 + index;
+    }
+  }
+
+  if (text !== literal.text) {
+    return undefined;
+  }
+
+  return {
+    text,
+    offsets,
+    sourceFile,
+    virtualSource: ts.createSourceFile(
+      'inline-style.scss',
+      text,
+      ts.ScriptTarget.Latest,
+    ),
+  };
+}
+
+function extractTemplateStyles(
+  template: TemplateSource,
+  attributeNames = ['style'],
+): MappedStyle[] {
+  const styles: MappedStyle[] = [];
+  const parsed = new HtmlParser().parse(template.text, 'template.html', {
+    tokenizeBlocks: true,
+  });
+
+  class StyleVisitor extends RecursiveVisitor {
+    override visitAttribute(attribute: Attribute) {
+      if (!attributeNames.includes(attribute.name) || !attribute.valueSpan) {
+        return;
+      }
+
+      const offsets = [attribute.valueSpan.start.offset];
+      let value = '';
+      const valueTokens = attribute.valueTokens ?? [];
+      for (const token of valueTokens) {
+        const interpolated = token.parts.length === 3;
+        const decoded = interpolated ? '0' : token.parts[0];
+        const start = token.sourceSpan.start.offset;
+        const end = token.sourceSpan.end.offset;
+        const raw = template.text.slice(start, end);
+        let rawIndex = 0;
+
+        for (let index = 0; index < decoded.length; index++) {
+          rawIndex +=
+            raw.startsWith('\r\n', rawIndex) && decoded[index] === '\n' ? 2 : 1;
+          offsets.push(token.parts.length > 1 ? end : start + rawIndex);
+        }
+        value += decoded;
+      }
+
+      if (
+        !valueTokens.some((token) => token.parts.length === 3) &&
+        value !== attribute.value
+      ) {
+        return;
+      }
+
+      const start = offsets[0];
+      const end = offsets[offsets.length - 1];
+      const text = `a{${value}}`;
+      styles.push({
+        text,
+        offsets: [start, start, ...offsets, end].map(
+          (offset) => template.offsets[offset],
+        ),
+        sourceFile: template.sourceFile,
+        virtualSource: ts.createSourceFile(
+          'attribute.css',
+          text,
+          ts.ScriptTarget.Latest,
+        ),
+        extension: 'css',
+        unquotedAttribute: !['"', "'"].includes(template.text[start - 1]),
+      });
+    }
+  }
+
+  visitAll(new StyleVisitor(), parsed.rootNodes);
+  return styles;
+}
+
+function extractComponentStyles(sourceFile: ts.SourceFile): MappedStyle[] {
+  const { componentImports, namespaceImports } =
+    getComponentImportNames(sourceFile);
+  const styles: MappedStyle[] = [];
+
+  for (const classDeclaration of getClassDeclarationFromSourceFile(
+    sourceFile,
+  )) {
+    for (const decorator of ts.getDecorators(classDeclaration) ?? []) {
+      if (
+        !isComponentDecorator(decorator, componentImports, namespaceImports)
+      ) {
+        continue;
+      }
+
+      const metadata = decorator.expression.arguments[0];
+      if (!metadata || !ts.isObjectLiteralExpression(metadata)) {
+        continue;
+      }
+
+      for (const property of metadata.properties) {
+        if (!ts.isPropertyAssignment(property)) {
+          continue;
+        }
+
+        const propertyName = property.name.getText(sourceFile);
+        if (propertyName !== 'styles' && propertyName !== 'template') {
+          continue;
+        }
+
+        const values = ts.isArrayLiteralExpression(property.initializer)
+          ? property.initializer.elements
+          : [property.initializer];
+        for (const value of values) {
+          if (
+            !ts.isStringLiteral(value) &&
+            !ts.isNoSubstitutionTemplateLiteral(value)
+          ) {
+            continue;
+          }
+
+          const mapped = mapLiteral(value, sourceFile);
+          if (!mapped) {
+            continue;
+          }
+
+          if (propertyName === 'template') {
+            styles.push(...extractTemplateStyles(mapped));
+          } else {
+            styles.push(mapped);
+          }
+        }
+      }
+    }
+  }
+
+  return styles;
+}
+
+function mapStyleMessage(message: StyleMessage, style: MappedStyle) {
+  function location(line: number, column: number) {
+    const offset = style.virtualSource.getPositionOfLineAndCharacter(
+      line - 1,
+      column - 1,
+    );
+    const sourceOffset = style.offsets[offset];
+    if (sourceOffset === undefined) {
+      return undefined;
+    }
+    const position =
+      style.sourceFile.getLineAndCharacterOfPosition(sourceOffset);
+    return { line: position.line + 1, column: position.character + 1 };
+  }
+
+  function fix(edit: TextEdit) {
+    const [startOffset, endOffset] = edit.range;
+    const start = style.offsets[startOffset];
+    const end = style.offsets[endOffset];
+    if (start === undefined || end === undefined) {
+      return undefined;
+    }
+    if (
+      style.sourceFile.text.slice(start, end) !==
+      style.text.slice(startOffset, endOffset)
+    ) {
+      return undefined;
+    }
+    if (/[\\`'"\r\n]/.test(edit.text) || edit.text.includes('${')) {
+      return undefined;
+    }
+    if (style.unquotedAttribute && /[\s=<>]/.test(edit.text)) {
+      return undefined;
+    }
+    return { ...edit, range: [start, end] as [number, number] };
+  }
+
+  const mapped: StyleMessage = { ...message };
+  if (message.line !== undefined && message.column !== undefined) {
+    const start = location(message.line, message.column);
+    if (start) {
+      Object.assign(mapped, start);
+    }
+  }
+  if (message.endLine !== undefined && message.endColumn !== undefined) {
+    const end = location(message.endLine, message.endColumn);
+    if (end) {
+      mapped.endLine = end.line;
+      mapped.endColumn = end.column;
+    }
+  }
+  if (message.fix) {
+    mapped.fix = fix(message.fix);
+  }
+  if (message.suggestions) {
+    mapped.suggestions = message.suggestions.flatMap((suggestion) => {
+      const edit = suggestion.fix ? fix(suggestion.fix) : undefined;
+      return edit ? [{ ...suggestion, fix: edit }] : [];
+    });
+  }
+  return mapped;
+}
+
+type PendingStyles = {
+  templateCount: number;
+  styles: MappedStyle[];
+};
+
+const pendingStyles = new Map<string, PendingStyles>();
+
+function preprocessInlineStyles(
+  text: string,
+  filename: string,
+): PreprocessResult {
+  pendingStyles.delete(filename);
+
+  if (filename.endsWith('.html')) {
+    const parentStyles = pendingStyles.get(dirname(filename));
+    const templateFilename = basename(filename).replace(/^\d+_/, '');
+    const templateRange = rangeMap.get(templateFilename)?.range;
+    if (
+      templateRange &&
+      parentStyles?.styles.some(
+        (style) =>
+          style.extension === 'css' &&
+          style.offsets[0] >= templateRange[0] &&
+          style.offsets[style.offsets.length - 1] <= templateRange[1],
+      )
+    ) {
+      return [text];
+    }
+    const sourceFile = ts.createSourceFile(
+      filename,
+      text,
+      ts.ScriptTarget.Latest,
+    );
+    const styles = extractTemplateStyles({
+      text,
+      sourceFile,
+      offsets: Array.from({ length: text.length + 1 }, (_, index) => index),
+      virtualSource: sourceFile,
+    });
+    if (!styles.length) {
+      return [text];
+    }
+    pendingStyles.set(filename, { templateCount: 1, styles });
+    return [
+      text,
+      ...styles.map((style, index) => ({
+        text: style.text,
+        filename: `attribute-style-${index}.css`,
+      })),
+    ];
+  }
+
+  if (!filename.endsWith('.ts')) {
+    return [text];
+  }
+
+  const templates = preprocessComponentFile(text, filename);
+  let styles: MappedStyle[];
+  try {
+    const sourceFile = ts.createSourceFile(
+      filename,
+      text,
+      ts.ScriptTarget.Latest,
+      true,
+      ts.ScriptKind.TS,
+    );
+    styles = extractComponentStyles(sourceFile);
+  } catch {
+    return templates;
+  }
+
+  if (!styles.length) {
+    return templates;
+  }
+
+  pendingStyles.set(filename, { templateCount: templates.length, styles });
+  return [
+    ...templates,
+    ...styles.map((style, index) => ({
+      text: style.text,
+      filename: `inline-style-${index}.${style.extension ?? 'scss'}`,
+    })),
+  ];
+}
+
+function postprocessInlineStyles(
+  multiDimensionalMessages: Parameters<typeof postprocessComponentFile>[0],
+  filename: string,
+): readonly unknown[] {
+  const pending = pendingStyles.get(filename);
+  pendingStyles.delete(filename);
+  if (!pending) {
+    return postprocessComponentFile(multiDimensionalMessages, filename);
+  }
+
+  const results = postprocessComponentFile(
+    multiDimensionalMessages.slice(0, pending.templateCount),
+    filename,
+  );
+  return [
+    ...results,
+    ...pending.styles.flatMap((style, index) =>
+      (multiDimensionalMessages[pending.templateCount + index] ?? []).map(
+        (message) => mapStyleMessage(message as StyleMessage, style),
+      ),
+    ),
+  ];
+}
+
 export default {
   'extract-inline-html': {
     meta: {
@@ -347,6 +797,14 @@ export default {
     },
     preprocess: preprocessComponentFile,
     postprocess: postprocessComponentFile,
+    supportsAutofix: true,
+  },
+  'extract-inline-styles': {
+    meta: {
+      name: 'extract-inline-styles',
+    },
+    preprocess: preprocessInlineStyles,
+    postprocess: postprocessInlineStyles,
     supportsAutofix: true,
   },
 };
