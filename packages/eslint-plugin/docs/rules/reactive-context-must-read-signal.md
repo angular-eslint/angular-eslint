@@ -1513,6 +1513,47 @@ const x = computed;
 
 <br>
 
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+const callback = ({
+  valueOf,
+  toString,
+  constructor,
+  hasOwnProperty,
+}: {
+  valueOf: () => unknown;
+  toString: () => unknown;
+  constructor: () => unknown;
+  hasOwnProperty: () => unknown;
+}) => {
+  valueOf();
+  toString();
+  constructor();
+  hasOwnProperty();
+};
+```
+
+<br>
+
+---
+
+<br>
+
 #### Custom Config
 
 ```json
