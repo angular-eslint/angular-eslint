@@ -1,6 +1,12 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
-import type { MessageIds, Options } from '../../../src/rules/prefer-output-readonly';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type {
+  MessageIds,
+  Options,
+} from '../../../src/rules/prefer-output-readonly';
 
 const messageId: MessageIds = 'preferOutputReadonly';
 const suggestAddReadonlyModifier: MessageIds = 'suggestAddReadonlyModifier';

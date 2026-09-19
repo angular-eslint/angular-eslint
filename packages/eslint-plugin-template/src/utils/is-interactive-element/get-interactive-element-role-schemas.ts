@@ -1,4 +1,7 @@
-import type { ARIARoleDefinitionKey, ARIARoleRelationConcept } from 'aria-query';
+import type {
+  ARIARoleDefinitionKey,
+  ARIARoleRelationConcept,
+} from 'aria-query';
 import { elementRoles, roles } from 'aria-query';
 
 let interactiveElementRoleSchemas: ARIARoleRelationConcept[] | null = null;
@@ -34,14 +37,15 @@ export function getInteractiveElementRoleSchemas(): ARIARoleRelationConcept[] {
         ),
     );
 
-    interactiveElementRoleSchemas = elementRoleEntries.reduce<ARIARoleRelationConcept[]>(
-      (accumulator, [elementSchema, roleSet]) => {
-        return accumulator.concat(
-          [...roleSet].every((role) => interactiveRoles.has(role)) ? elementSchema : [],
-        );
-      },
-      [],
-    );
+    interactiveElementRoleSchemas = elementRoleEntries.reduce<
+      ARIARoleRelationConcept[]
+    >((accumulator, [elementSchema, roleSet]) => {
+      return accumulator.concat(
+        [...roleSet].every((role) => interactiveRoles.has(role))
+          ? elementSchema
+          : [],
+      );
+    }, []);
   }
 
   return interactiveElementRoleSchemas;

@@ -6,10 +6,16 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { afterEach, describe, expect, it } from 'vitest';
 
-import { FormatSourceError, formatSource } from '../../../../tools/scripts/format-source';
+import {
+  FormatSourceError,
+  formatSource,
+} from '../../../../tools/scripts/format-source';
 
 const require = createRequire(import.meta.url);
-const workspaceRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../../..');
+const workspaceRoot = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  '../../../..',
+);
 const oxfmtPackageJsonPath = require.resolve('oxfmt/package.json');
 const oxfmtBin = path.join(path.dirname(oxfmtPackageJsonPath), 'bin/oxfmt');
 
@@ -154,21 +160,41 @@ describe('workspace formatting', () => {
   });
 
   it('propagates formatter failures from formatSource', () => {
-    expect(() => formatSource('const {{{', 'broken.ts')).toThrow(FormatSourceError);
+    expect(() => formatSource('const {{{', 'broken.ts')).toThrow(
+      FormatSourceError,
+    );
+  });
+
+  it('formats ignored schematic schemas when using a non-ignored stdin filepath', () => {
+    const ignoredPath = 'packages/schematics/src/application/schema.json';
+    const raw = '{"a":1}\n';
+    const formatted = formatSource(raw, ignoredPath, {
+      stdinFilePath: 'tools/scripts/.schema-generation-format.json',
+    });
+    expect(formatted).toBe('{ "a": 1 }\n');
+    expect(formatSource(raw, ignoredPath)).toBe(raw);
   });
 
   it('does not write partial output when generation formatting fails', () => {
     const root = createDisposableWorkspace();
     const outputPath = path.join(root, 'would-write.ts');
 
-    expect(() => formatSource('export const value = {{{', outputPath)).toThrow(FormatSourceError);
+    expect(() => formatSource('export const value = {{{', outputPath)).toThrow(
+      FormatSourceError,
+    );
 
     expect(() => readFileSync(outputPath, 'utf-8')).toThrow();
   });
 
   it('preserves fenced examples in generated rule docs overrides', () => {
-    const docsDir = path.join(workspaceRoot, 'packages/eslint-plugin/docs/rules');
-    const sampleDoc = readFileSync(path.join(docsDir, 'component-class-suffix.md'), 'utf-8');
+    const docsDir = path.join(
+      workspaceRoot,
+      'packages/eslint-plugin/docs/rules',
+    );
+    const sampleDoc = readFileSync(
+      path.join(docsDir, 'component-class-suffix.md'),
+      'utf-8',
+    );
 
     expect(sampleDoc).toMatch(/```/);
     expect(sampleDoc).toMatch(/~~+/);

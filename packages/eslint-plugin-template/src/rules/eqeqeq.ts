@@ -8,7 +8,10 @@ import { ensureTemplateParser } from '@angular-eslint/utils';
 import type { TSESLint } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import { getNearestNodeFrom } from '../utils/get-nearest-node-from';
-import { isLiteralPrimitive, isStringLiteralPrimitive } from '../utils/literal-primitive';
+import {
+  isLiteralPrimitive,
+  isStringLiteralPrimitive,
+} from '../utils/literal-primitive';
 
 export type Options = [{ readonly allowNullOrUndefined?: boolean }];
 export type MessageIds = 'eqeqeq' | 'suggestStrictEquality';
@@ -38,8 +41,10 @@ export default createESLintRule<Options, MessageIds>({
       },
     ],
     messages: {
-      eqeqeq: 'Expected `{{expectedOperation}}` but received `{{actualOperation}}`',
-      suggestStrictEquality: 'Replace `{{actualOperation}}` with `{{expectedOperation}}`',
+      eqeqeq:
+        'Expected `{{expectedOperation}}` but received `{{actualOperation}}`',
+      suggestStrictEquality:
+        'Replace `{{actualOperation}}` with `{{expectedOperation}}`',
     },
     defaultOptions: [DEFAULT_OPTIONS],
   },
@@ -79,7 +84,8 @@ export default createESLintRule<Options, MessageIds>({
                 suggest: [
                   {
                     messageId: 'suggestStrictEquality',
-                    fix: (fixer) => getFix({ node, right, end, sourceCode, fixer }),
+                    fix: (fixer) =>
+                      getFix({ node, right, end, sourceCode, fixer }),
                     data,
                   },
                 ],
@@ -127,7 +133,10 @@ const getFix = ({
     eqOffset++;
   }
 
-  return fixer.insertTextAfterRange([endRange - eqOffset, endRange - eqOffset], '=');
+  return fixer.insertTextAfterRange(
+    [endRange - eqOffset, endRange - eqOffset],
+    '=',
+  );
 };
 
 function isLeadingTriviaChar(char: string) {
@@ -143,15 +152,24 @@ function isInterpolation(node: unknown): node is Interpolation {
 }
 
 function isNumeric(value: unknown): value is number | string {
-  return !Number.isNaN(Number.parseFloat(String(value))) && Number.isFinite(Number(value));
+  return (
+    !Number.isNaN(Number.parseFloat(String(value))) &&
+    Number.isFinite(Number(value))
+  );
 }
 
-function isStringNonNumericValue(ast: AST): ast is LiteralPrimitive & { value: string } {
+function isStringNonNumericValue(
+  ast: AST,
+): ast is LiteralPrimitive & { value: string } {
   return isStringLiteralPrimitive(ast) && !isNumeric(ast.value);
 }
 
-function isNilValue(ast: AST): ast is LiteralPrimitive & { value: null | undefined } {
-  return isLiteralPrimitive(ast) && (ast.value === null || ast.value === undefined);
+function isNilValue(
+  ast: AST,
+): ast is LiteralPrimitive & { value: null | undefined } {
+  return (
+    isLiteralPrimitive(ast) && (ast.value === null || ast.value === undefined)
+  );
 }
 
 export const RULE_DOCS_EXTENSION = {

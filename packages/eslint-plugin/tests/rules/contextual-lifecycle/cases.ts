@@ -1,6 +1,12 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
-import type { MessageIds, Options } from '../../../src/rules/contextual-lifecycle';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type {
+  MessageIds,
+  Options,
+} from '../../../src/rules/contextual-lifecycle';
 
 const messageId: MessageIds = 'contextualLifecycle';
 
@@ -128,7 +134,8 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
-    description: 'Class with @Component should fail if ngDoBootstrap() method is present',
+    description:
+      'Class with @Component should fail if ngDoBootstrap() method is present',
     annotatedSource: `
         @Component()
         class Test {
@@ -140,7 +147,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { classDecoratorName: 'Component', methodName: 'ngDoBootstrap' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'Class with @Directive should fail if ngDoBootstrap() method is present',
+    description:
+      'Class with @Directive should fail if ngDoBootstrap() method is present',
     annotatedSource: `
         @Directive()
         class Test {
@@ -152,7 +160,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { classDecoratorName: 'Directive', methodName: 'ngDoBootstrap' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'Class with @Injectable should fail if ngAfterContentChecked() method is present',
+    description:
+      'Class with @Injectable should fail if ngAfterContentChecked() method is present',
     annotatedSource: `
         @Injectable()
         class Test {
@@ -167,7 +176,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'Class with @Injectable should fail if ngAfterContentInit() method is present',
+    description:
+      'Class with @Injectable should fail if ngAfterContentInit() method is present',
     annotatedSource: `
         @Injectable()
         class Test {
@@ -182,7 +192,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'Class with @Injectable should fail if ngAfterViewInit() method is present',
+    description:
+      'Class with @Injectable should fail if ngAfterViewInit() method is present',
     annotatedSource: `
         @Injectable()
         class Test {
@@ -194,7 +205,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { classDecoratorName: 'Injectable', methodName: 'ngAfterViewInit' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'Class with @Injectable should fail if ngDoBootstrap() method is present',
+    description:
+      'Class with @Injectable should fail if ngDoBootstrap() method is present',
     annotatedSource: `
         @Injectable()
         class Test {
@@ -206,7 +218,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { classDecoratorName: 'Injectable', methodName: 'ngDoBootstrap' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'Class with @Injectable should fail if ngDoCheck() method is present',
+    description:
+      'Class with @Injectable should fail if ngDoCheck() method is present',
     annotatedSource: `
         @Injectable()
         class Test {
@@ -218,7 +231,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { classDecoratorName: 'Injectable', methodName: 'ngDoCheck' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'Class with @Injectable should fail if ngOnChanges() method is present',
+    description:
+      'Class with @Injectable should fail if ngOnChanges() method is present',
     annotatedSource: `
         @Injectable()
         class Test {
@@ -230,7 +244,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { classDecoratorName: 'Injectable', methodName: 'ngOnChanges' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'Class with @Injectable should fail if ngOnInit() method is present',
+    description:
+      'Class with @Injectable should fail if ngOnInit() method is present',
     annotatedSource: `
         @Injectable()
         class Test {
@@ -242,7 +257,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { classDecoratorName: 'Injectable', methodName: 'ngOnInit' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'Class with @NgModule should fail if ngAfterContentChecked() method is present',
+    description:
+      'Class with @NgModule should fail if ngAfterContentChecked() method is present',
     annotatedSource: `
         @NgModule()
         class Test {
@@ -257,7 +273,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'Class with @NgModule should fail if ngAfterContentInit() method is present',
+    description:
+      'Class with @NgModule should fail if ngAfterContentInit() method is present',
     annotatedSource: `
         @NgModule()
         class Test {
@@ -272,7 +289,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'Class with @NgModule should fail if ngAfterViewChecked() method is present',
+    description:
+      'Class with @NgModule should fail if ngAfterViewChecked() method is present',
     annotatedSource: `
         @NgModule()
         class Test {
@@ -287,7 +305,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'Class with @NgModule should fail if ngAfterViewInit() method is present',
+    description:
+      'Class with @NgModule should fail if ngAfterViewInit() method is present',
     annotatedSource: `
         @NgModule()
         class Test {
@@ -299,7 +318,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { classDecoratorName: 'NgModule', methodName: 'ngAfterViewInit' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'Class with @NgModule should fail if ngDoCheck() method is present',
+    description:
+      'Class with @NgModule should fail if ngDoCheck() method is present',
     annotatedSource: `
         @NgModule()
         class Test {
@@ -311,7 +331,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { classDecoratorName: 'NgModule', methodName: 'ngDoCheck' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'Class with @NgModule should fail if ngOnChanges() method is present',
+    description:
+      'Class with @NgModule should fail if ngOnChanges() method is present',
     annotatedSource: `
         @NgModule()
         class Test {
@@ -323,7 +344,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { classDecoratorName: 'NgModule', methodName: 'ngOnChanges' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'Class with @NgModule should fail if ngOnInit() method is present',
+    description:
+      'Class with @NgModule should fail if ngOnInit() method is present',
     annotatedSource: `
         @NgModule()
         class Test {
@@ -335,7 +357,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { classDecoratorName: 'NgModule', methodName: 'ngOnInit' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'Class with @NgModule should fail if ngOnDestroy() method is present',
+    description:
+      'Class with @NgModule should fail if ngOnDestroy() method is present',
     annotatedSource: `
         @NgModule()
         class Test {
@@ -347,7 +370,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { classDecoratorName: 'NgModule', methodName: 'ngOnDestroy' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'Class with @Pipe should fail if ngAfterContentChecked() method is present',
+    description:
+      'Class with @Pipe should fail if ngAfterContentChecked() method is present',
     annotatedSource: `
         @Pipe()
         class Test {
@@ -359,7 +383,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { classDecoratorName: 'Pipe', methodName: 'ngAfterContentChecked' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'Class with @Pipe should fail if ngAfterContentInit() method is present',
+    description:
+      'Class with @Pipe should fail if ngAfterContentInit() method is present',
     annotatedSource: `
         @Pipe()
         class Test {
@@ -371,7 +396,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { classDecoratorName: 'Pipe', methodName: 'ngAfterContentInit' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'Class with @Pipe should fail if ngAfterViewChecked() method is present',
+    description:
+      'Class with @Pipe should fail if ngAfterViewChecked() method is present',
     annotatedSource: `
         @Pipe()
         class Test {
@@ -383,7 +409,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { classDecoratorName: 'Pipe', methodName: 'ngAfterViewChecked' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'Class with @Pipe should fail if ngAfterViewInit() method is present',
+    description:
+      'Class with @Pipe should fail if ngAfterViewInit() method is present',
     annotatedSource: `
         @Pipe()
         class Test {
@@ -395,7 +422,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { classDecoratorName: 'Pipe', methodName: 'ngAfterViewInit' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'Class with @Pipe should fail if ngDoBootstrap() method is present',
+    description:
+      'Class with @Pipe should fail if ngDoBootstrap() method is present',
     annotatedSource: `
         @Pipe()
         class Test {
@@ -407,7 +435,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { classDecoratorName: 'Pipe', methodName: 'ngDoBootstrap' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'Class with @Pipe should fail if ngDoCheck() method is present',
+    description:
+      'Class with @Pipe should fail if ngDoCheck() method is present',
     annotatedSource: `
         @Pipe()
         class Test {
@@ -419,7 +448,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { classDecoratorName: 'Pipe', methodName: 'ngDoCheck' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'Class with @Pipe should fail if ngOnChanges() method is present',
+    description:
+      'Class with @Pipe should fail if ngOnChanges() method is present',
     annotatedSource: `
         @Pipe()
         class Test {
@@ -443,7 +473,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { classDecoratorName: 'Pipe', methodName: 'ngOnInit' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'Class with @Service should fail if ngOnInit() method is present',
+    description:
+      'Class with @Service should fail if ngOnInit() method is present',
     annotatedSource: `
         @Service()
         class Test {
@@ -455,7 +486,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { classDecoratorName: 'Service', methodName: 'ngOnInit' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'Class with @Service should fail if ngAfterViewInit() method is present',
+    description:
+      'Class with @Service should fail if ngAfterViewInit() method is present',
     annotatedSource: `
         @Service()
         class Test {

@@ -1,5 +1,8 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
 import type { MessageIds, Options } from '../../../src/rules/alt-text';
 
 const messageId: MessageIds = 'altText';
@@ -77,7 +80,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail when an all-caps object does not have alt text or labels',
+    description:
+      'should fail when an all-caps object does not have alt text or labels',
     annotatedSource: `
         <OBJECT></OBJECT>
         ~~~~~~~~~~~~~~~~~

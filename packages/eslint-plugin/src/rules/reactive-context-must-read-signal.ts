@@ -17,7 +17,9 @@ export type Options = [
 export type MessageIds = 'mustReadSignal';
 export const RULE_NAME = 'reactive-context-must-read-signal';
 
-type ReactiveFunction = TSESTree.FunctionExpression | TSESTree.ArrowFunctionExpression;
+type ReactiveFunction =
+  | TSESTree.FunctionExpression
+  | TSESTree.ArrowFunctionExpression;
 
 interface PrimitiveConfig {
   /** Positional argument indices that hold a tracked reactive function. */
@@ -104,7 +106,8 @@ export default createESLintRule<Options, MessageIds>({
   },
   defaultOptions: [{ checkResources: false }],
   create(context, [{ checkResources = false }]) {
-    const services: ParserServicesWithTypeInformation = ESLintUtils.getParserServices(context);
+    const services: ParserServicesWithTypeInformation =
+      ESLintUtils.getParserServices(context);
     const checker = services.program.getTypeChecker();
 
     const primitives: Readonly<Record<string, PrimitiveConfig>> = checkResources
@@ -112,7 +115,10 @@ export default createESLintRule<Options, MessageIds>({
       : DEFAULT_PRIMITIVES;
 
     const analyses = new Map<TSESTree.CallExpression, CallAnalysis>();
-    const trackedFnToCall = new Map<ReactiveFunction, TSESTree.CallExpression>();
+    const trackedFnToCall = new Map<
+      ReactiveFunction,
+      TSESTree.CallExpression
+    >();
     const frameStack: {
       fn: ReactiveFunction;
       call: TSESTree.CallExpression;
@@ -151,7 +157,9 @@ export default createESLintRule<Options, MessageIds>({
       return (
         !!declarations?.length &&
         declarations.every((declaration) =>
-          services.program.isSourceFileDefaultLibrary(declaration.getSourceFile()),
+          services.program.isSourceFileDefaultLibrary(
+            declaration.getSourceFile(),
+          ),
         )
       );
     }
@@ -172,7 +180,9 @@ export default createESLintRule<Options, MessageIds>({
         return true;
       }
       const type = services.getTypeAtLocation(node);
-      if (tsutils.isTypeFlagSet(type, ts.TypeFlags.Any | ts.TypeFlags.Unknown)) {
+      if (
+        tsutils.isTypeFlagSet(type, ts.TypeFlags.Any | ts.TypeFlags.Unknown)
+      ) {
         // We know nothing about the value, so it could well be a function
         // that reads a signal.
         return true;
@@ -191,7 +201,8 @@ export default createESLintRule<Options, MessageIds>({
       return tsutils.unionConstituents(type).some((constituent) => {
         const property = constituent.getProperty(name);
         return (
-          property !== undefined && tsutils.isSymbolFlagSet(property, ts.SymbolFlags.GetAccessor)
+          property !== undefined &&
+          tsutils.isSymbolFlagSet(property, ts.SymbolFlags.GetAccessor)
         );
       });
     }
@@ -211,7 +222,11 @@ export default createESLintRule<Options, MessageIds>({
       if (symbol && tsutils.isSymbolFlagSet(symbol, ts.SymbolFlags.Alias)) {
         symbol = checker.getAliasedSymbol(symbol);
       }
-      if (!symbol || !isDeclaredInDefaultLib(symbol) || args.some(isOpaqueFunctionValue)) {
+      if (
+        !symbol ||
+        !isDeclaredInDefaultLib(symbol) ||
+        args.some(isOpaqueFunctionValue)
+      ) {
         analysis.hasUnknown = true;
       }
     }
@@ -268,7 +283,10 @@ export default createESLintRule<Options, MessageIds>({
         if (arg === undefined) {
           continue;
         }
-        if (config.optionKeys.length > 0 && arg.type === AST_NODE_TYPES.ObjectExpression) {
+        if (
+          config.optionKeys.length > 0 &&
+          arg.type === AST_NODE_TYPES.ObjectExpression
+        ) {
           registerTrackedOptions(arg, call, config, analysis);
         } else {
           registerTrackedFunction(arg, call, analysis);
@@ -304,7 +322,10 @@ export default createESLintRule<Options, MessageIds>({
         // A getter runs arbitrary code, so `this.name` can read a signal even
         // though it does not look like a call.
         const symbol = services.getSymbolAtLocation(node);
-        if (symbol && tsutils.isSymbolFlagSet(symbol, ts.SymbolFlags.GetAccessor)) {
+        if (
+          symbol &&
+          tsutils.isSymbolFlagSet(symbol, ts.SymbolFlags.GetAccessor)
+        ) {
           analysis.hasUnknown = true;
         }
       },
@@ -390,7 +411,11 @@ export default createESLintRule<Options, MessageIds>({
         // Only report when we are certain there is no reactivity: there is a
         // tracked function, no signal was read, and there was nothing that
         // might have read a signal on our behalf.
-        if (analysis.hasTrackedFn && !analysis.hasReactiveRead && !analysis.hasUnknown) {
+        if (
+          analysis.hasTrackedFn &&
+          !analysis.hasReactiveRead &&
+          !analysis.hasUnknown
+        ) {
           context.report({
             node: analysis.call,
             messageId: 'mustReadSignal',

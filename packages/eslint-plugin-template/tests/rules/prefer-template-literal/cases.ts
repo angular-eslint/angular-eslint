@@ -1,5 +1,11 @@
-import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
-import type { MessageIds, Options } from '../../../src/rules/prefer-template-literal';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type {
+  MessageIds,
+  Options,
+} from '../../../src/rules/prefer-template-literal';
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
 
 const messageId: MessageIds = 'preferTemplateLiteral';
@@ -55,7 +61,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
 
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail concatenation (left: simple quote, right: simple quote)',
+    description:
+      'should fail concatenation (left: simple quote, right: simple quote)',
     annotatedSource: `
         {{ 'pre"fix-' + '-suf\\'fix' }}
            ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -68,7 +75,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
 
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail concatenation (left: double quote, right: double quote)',
+    description:
+      'should fail concatenation (left: double quote, right: double quote)',
     annotatedSource: `
         {{ "pre'fix-" + "-suf\\"fix" }}
            ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -124,7 +132,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
 
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail concatenation inside template literal (simple quote)',
+    description:
+      'should fail concatenation inside template literal (simple quote)',
     annotatedSource: `
         {{ \`prefix-\${a}-\${'b' + 'c'}-\${d}-suffix\` }}
                           ~~~~~~~~~
@@ -137,7 +146,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
 
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail concatenation (left: simple quote, right: double quote)',
+    description:
+      'should fail concatenation (left: simple quote, right: double quote)',
     annotatedSource: `
         {{ 'pre"fix-' + "-suf'fix" }}
            ~~~~~~~~~~~~~~~~~~~~~~~
@@ -150,7 +160,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
 
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail concatenation (left: simple quote, right: template)',
+    description:
+      'should fail concatenation (left: simple quote, right: template)',
     annotatedSource: `
         {{ 'pre\`fix-' + \`'pre\\\`fix"-\${value}-"suf\\\`fix'\` }}
            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -163,7 +174,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
 
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail concatenation (left: double quote, right: simple quote)',
+    description:
+      'should fail concatenation (left: double quote, right: simple quote)',
     annotatedSource: `
         {{ "pre'fix-" + '-suf"fix' }}
            ~~~~~~~~~~~~~~~~~~~~~~~
@@ -176,7 +188,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
 
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail concatenation (left: double quote, right: template)',
+    description:
+      'should fail concatenation (left: double quote, right: template)',
     annotatedSource: `
         {{ "pre\`fix-" + \`'pre\\\`fix"-\${value}-"suf\\\`fix'\` }}
            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -242,7 +255,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   // Left : simple quote
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail concatenation (left: simple quote, right: number)',
+    description:
+      'should fail concatenation (left: simple quote, right: number)',
     annotatedSource: `
         {{ 'prefix-' + 42 }}
            ~~~~~~~~~~~~~~
@@ -266,7 +280,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail concatenation (left: simple quote, right: undefined)',
+    description:
+      'should fail concatenation (left: simple quote, right: undefined)',
     annotatedSource: `
         {{ 'prefix-' + undefined }}
            ~~~~~~~~~~~~~~~~~~~~~
@@ -278,7 +293,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail concatenation (left: simple quote, right: boolean)',
+    description:
+      'should fail concatenation (left: simple quote, right: boolean)',
     annotatedSource: `
         {{ 'prefix-' + true }}
            ~~~~~~~~~~~~~~~~
@@ -290,7 +306,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail concatenation (left: simple quote, right: property read)',
+    description:
+      'should fail concatenation (left: simple quote, right: property read)',
     annotatedSource: `
         {{ 'prefix-' + value }}
            ~~~~~~~~~~~~~~~~~
@@ -326,7 +343,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail concatenation (left: simple quote, right: ternary in parentheses)',
+    description:
+      'should fail concatenation (left: simple quote, right: ternary in parentheses)',
     annotatedSource: `
         {{ 'prefix-' + (condition ? 'true' : 'false') }}
            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -338,7 +356,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail concatenation (left: simple quote, right: pipe in parentheses)',
+    description:
+      'should fail concatenation (left: simple quote, right: pipe in parentheses)',
     annotatedSource: `
         {{ 'prefix-' + ('value' | pipe) }}
            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -352,7 +371,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   // Left : double quote
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail concatenation (left: double quote, right: number)',
+    description:
+      'should fail concatenation (left: double quote, right: number)',
     annotatedSource: `
         {{ "prefix-" + 42 }}
            ~~~~~~~~~~~~~~
@@ -376,7 +396,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail concatenation (left: double quote, right: undefined)',
+    description:
+      'should fail concatenation (left: double quote, right: undefined)',
     annotatedSource: `
         {{ "prefix-" + undefined }}
            ~~~~~~~~~~~~~~~~~~~~~
@@ -388,7 +409,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail concatenation (left: double quote, right: boolean)',
+    description:
+      'should fail concatenation (left: double quote, right: boolean)',
     annotatedSource: `
         {{ "prefix-" + true }}
            ~~~~~~~~~~~~~~~~
@@ -400,7 +422,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail concatenation (left: double quote, right: property read)',
+    description:
+      'should fail concatenation (left: double quote, right: property read)',
     annotatedSource: `
         {{ "prefix-" + value }}
            ~~~~~~~~~~~~~~~~~
@@ -436,7 +459,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail concatenation (left: double quote, right: ternary in parentheses)',
+    description:
+      'should fail concatenation (left: double quote, right: ternary in parentheses)',
     annotatedSource: `
         {{ 'prefix-' + (condition ? 'true' : 'false') }}
            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -448,7 +472,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail concatenation (left: double quote, right: pipe in parentheses)',
+    description:
+      'should fail concatenation (left: double quote, right: pipe in parentheses)',
     annotatedSource: `
         {{ 'prefix-' + ('value' | pipe) }}
            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -510,7 +535,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail concatenation (left: template, right: property read)',
+    description:
+      'should fail concatenation (left: template, right: property read)',
     annotatedSource: `
         {{ \`prefix-\${value}-suffix\` + value2 }}
            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -546,7 +572,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail concatenation (left: template, right: ternary in parentheses)',
+    description:
+      'should fail concatenation (left: template, right: ternary in parentheses)',
     annotatedSource: `
         {{ \`prefix-\${value}-suffix\` + (condition ? 'true' : 'false') }}
            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -558,7 +585,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail concatenation (left: template, right: pipe in parentheses)',
+    description:
+      'should fail concatenation (left: template, right: pipe in parentheses)',
     annotatedSource: `
         {{ \`prefix-\${value}-suffix\` + ('value' | pipe) }}
            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -572,7 +600,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   // Right : simple quote
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail concatenation (left: number, right: simple quote)',
+    description:
+      'should fail concatenation (left: number, right: simple quote)',
     annotatedSource: `
         {{ 42 + '-suffix' }}
            ~~~~~~~~~~~~~~
@@ -596,7 +625,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail concatenation (left: undefined, right: simple quote)',
+    description:
+      'should fail concatenation (left: undefined, right: simple quote)',
     annotatedSource: `
         {{ undefined + '-suffix' }}
            ~~~~~~~~~~~~~~~~~~~~~
@@ -608,7 +638,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail concatenation (left: boolean, right: simple quote)',
+    description:
+      'should fail concatenation (left: boolean, right: simple quote)',
     annotatedSource: `
         {{ true + '-suffix' }}
            ~~~~~~~~~~~~~~~~
@@ -620,7 +651,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail concatenation (left: property read, right: simple quote)',
+    description:
+      'should fail concatenation (left: property read, right: simple quote)',
     annotatedSource: `
         {{ value + '-suffix' }}
            ~~~~~~~~~~~~~~~~~
@@ -656,7 +688,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail concatenation (left: template, right: simple quote)',
+    description:
+      'should fail concatenation (left: template, right: simple quote)',
     annotatedSource: `
         {{ \`'pre\\\`fix"-\${value}-"suf\\\`fix'\` + '-suf\`fix' }}
            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -668,7 +701,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail concatenation (left: ternary in parentheses, right: simple quote)',
+    description:
+      'should fail concatenation (left: ternary in parentheses, right: simple quote)',
     annotatedSource: `
         {{ (condition ? 'true' : 'false') + '-suffix' }}
            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -680,7 +714,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail concatenation (left: addition in parentheses, right: simple quote)',
+    description:
+      'should fail concatenation (left: addition in parentheses, right: simple quote)',
     annotatedSource: `
         {{ (value + 1) + '-suffix' }}
            ~~~~~~~~~~~~~~~~~~~~~~~
@@ -692,7 +727,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail concatenation (left: pipe in parentheses, right: simple quote)',
+    description:
+      'should fail concatenation (left: pipe in parentheses, right: simple quote)',
     annotatedSource: `
         {{ ('value' | pipe) + '-suffix' }}
            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -706,7 +742,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   // Right : double quote
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail concatenation (left: number, right: double quote)',
+    description:
+      'should fail concatenation (left: number, right: double quote)',
     annotatedSource: `
         {{ 42 + "-suffix" }}
            ~~~~~~~~~~~~~~
@@ -730,7 +767,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail concatenation (left: undefined, right: double quote)',
+    description:
+      'should fail concatenation (left: undefined, right: double quote)',
     annotatedSource: `
         {{ undefined + "-suffix" }}
            ~~~~~~~~~~~~~~~~~~~~~
@@ -742,7 +780,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail concatenation (left: boolean, right: double quote)',
+    description:
+      'should fail concatenation (left: boolean, right: double quote)',
     annotatedSource: `
         {{ true + "-suffix" }}
            ~~~~~~~~~~~~~~~~
@@ -754,7 +793,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail concatenation (left: property read, right: double quote)',
+    description:
+      'should fail concatenation (left: property read, right: double quote)',
     annotatedSource: `
         {{ value + "-suffix" }}
            ~~~~~~~~~~~~~~~~~
@@ -790,7 +830,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail concatenation (left: template, right: double quote)',
+    description:
+      'should fail concatenation (left: template, right: double quote)',
     annotatedSource: `
         {{ \`'pre\\\`fix"-\${value}-"suf\\\`fix'\` + "-suf\`fix" }}
            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -802,7 +843,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail concatenation (left: ternary in parentheses, right: double quote)',
+    description:
+      'should fail concatenation (left: ternary in parentheses, right: double quote)',
     annotatedSource: `
         {{ (condition ? 'true' : 'false') + "-suffix" }}
            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -814,7 +856,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail concatenation (left: pipe in parentheses, right: double quote)',
+    description:
+      'should fail concatenation (left: pipe in parentheses, right: double quote)',
     annotatedSource: `
         {{ ('value' | pipe) + "-suffix" }}
            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -876,7 +919,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail concatenation (left: property read, right: template)',
+    description:
+      'should fail concatenation (left: property read, right: template)',
     annotatedSource: `
         {{ value2 + \`prefix-\${value}-suffix\` }}
            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -912,7 +956,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail concatenation (left: ternary in parentheses, right: template)',
+    description:
+      'should fail concatenation (left: ternary in parentheses, right: template)',
     annotatedSource: `
         {{ (condition ? 'true' : 'false') + \`prefix-\${value}-suffix\` }}
            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -924,7 +969,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail concatenation (left: pipe in parentheses, right: template)',
+    description:
+      'should fail concatenation (left: pipe in parentheses, right: template)',
     annotatedSource: `
         {{ ('value' | pipe) + \`prefix-\${value}-suffix\` }}
            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -966,7 +1012,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail object literal binding concatenation without first line break',
+    description:
+      'should fail object literal binding concatenation without first line break',
     annotatedSource: `
         <div [ngStyle]="{
             width: 10 + 'px'
@@ -982,7 +1029,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail object literal binding concatenation with first line break',
+    description:
+      'should fail object literal binding concatenation with first line break',
     annotatedSource: `
         <div [ngStyle]="
              { width: 10 + 'px' }
@@ -1030,7 +1078,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail input binding concatenation with first line break',
+    description:
+      'should fail input binding concatenation with first line break',
     annotatedSource: `
         <div [class]="
              'a' + 'b'
@@ -1048,7 +1097,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   // Issue #2500: Chained concatenations
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should handle chained string concatenation (three strings - issue #2500)',
+    description:
+      'should handle chained string concatenation (three strings - issue #2500)',
     annotatedSource: `
         {{ 'a' + 'b' + 'c' }}
            ~~~~~~~~~~~~~~~
@@ -1060,7 +1110,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should handle chained concatenation with expressions (issue #2500)',
+    description:
+      'should handle chained concatenation with expressions (issue #2500)',
     annotatedSource: `
         {{ x.type + '' + y }}
            ~~~~~~~~~~~~~~~
@@ -1072,7 +1123,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should handle chained concatenation with $any and expressions (issue #2500)',
+    description:
+      'should handle chained concatenation with $any and expressions (issue #2500)',
     annotatedSource: `
         {{ x.type + '' + $any(x).label + '' + $any(x).to }}
            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1109,7 +1161,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should handle chained concatenation with function calls (issue #2500)',
+    description:
+      'should handle chained concatenation with function calls (issue #2500)',
     annotatedSource: `
         {{ getValue() + '-' + getOther() + '-end' }}
            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

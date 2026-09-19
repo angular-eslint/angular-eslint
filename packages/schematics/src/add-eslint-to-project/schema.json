@@ -19,7 +19,12 @@
     },
     "tseslintPreset": {
       "type": "string",
-      "enum": ["recommended", "strict", "recommendedTypeChecked", "strictTypeChecked"],
+      "enum": [
+        "recommended",
+        "strict",
+        "recommendedTypeChecked",
+        "strictTypeChecked"
+      ],
       "default": "recommended",
       "description": "Which typescript-eslint shared config preset to extend in the generated ESLint config. Type-checked presets also enable parserOptions.projectService (required for those rules, but slower). See https://typescript-eslint.io/users/configs/"
     }

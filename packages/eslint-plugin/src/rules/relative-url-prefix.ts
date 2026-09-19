@@ -52,14 +52,19 @@ export default createESLintRule<Options, MessageIds>({
   },
 });
 
-function isUrlInvalid(node: TSESTree.Property['value'] | TSESTree.SpreadElement | null) {
+function isUrlInvalid(
+  node: TSESTree.Property['value'] | TSESTree.SpreadElement | null,
+) {
   if (!node) {
     return false;
   }
   if (ASTUtils.isTemplateLiteral(node)) {
     return !RELATIVE_URL_PREFIX_MATCHER.test(node.quasis[0].value.raw);
   }
-  return !ASTUtils.isStringLiteral(node) || !RELATIVE_URL_PREFIX_MATCHER.test(node.value);
+  return (
+    !ASTUtils.isStringLiteral(node) ||
+    !RELATIVE_URL_PREFIX_MATCHER.test(node.value)
+  );
 }
 
 export const RULE_DOCS_EXTENSION = {

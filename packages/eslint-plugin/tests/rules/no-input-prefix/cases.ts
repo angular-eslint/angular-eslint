@@ -1,5 +1,8 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
 import type { MessageIds, Options } from '../../../src/rules/no-input-prefix';
 
 const messageId: MessageIds = 'noInputPrefix';
@@ -155,7 +158,8 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if `inputs` metadata property is named "on" in `@Component`',
+    description:
+      'should fail if `inputs` metadata property is named "on" in `@Component`',
     annotatedSource: `
       @Component({
         inputs: ['on']
@@ -224,7 +228,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { prefixes: '"on"' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if input property is named with "\'on\'" prefix in `@Directive`',
+    description:
+      'should fail if input property is named with "\'on\'" prefix in `@Directive`',
     annotatedSource: `
         @Directive() 
         class Test {
@@ -237,7 +242,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { prefixes: '"on"' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if input property is aliased as "`on`" in `@Component`',
+    description:
+      'should fail if input property is aliased as "`on`" in `@Component`',
     annotatedSource: `
         @Component()
         class Test {
@@ -265,7 +271,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { prefixes: '"on"' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if input property is aliased with "on" prefix in `@Directive`',
+    description:
+      'should fail if input property is aliased with "on" prefix in `@Directive`',
     annotatedSource: `
         @Directive()
         class Test {
@@ -293,7 +300,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { prefixes: '"on"' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if input setter is named with "on" prefix in `@Component`',
+    description:
+      'should fail if input setter is named with "on" prefix in `@Component`',
     annotatedSource: `
         @Component()
         class Test {
@@ -306,7 +314,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { prefixes: '"on"' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if input setter is aliased with "on" prefix in `@Directive`',
+    description:
+      'should fail if input setter is aliased with "on" prefix in `@Directive`',
     annotatedSource: `
         @Directive()
         class Test {

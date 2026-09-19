@@ -30,6 +30,9 @@ export function getOriginalAttributeName(
   return details.replace('attr.', '');
 }
 
-function isTwoWayDataBinding({ keySpan: { details }, name }: TmplAstBoundEvent): boolean {
+function isTwoWayDataBinding({
+  keySpan: { details },
+  name,
+}: TmplAstBoundEvent): boolean {
   return name === `${details}Change`;
 }

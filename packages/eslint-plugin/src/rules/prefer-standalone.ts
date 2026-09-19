@@ -7,7 +7,8 @@ type DecoratorTypes = 'component' | 'directive' | 'pipe';
 export type MessageIds = 'preferStandalone' | 'removeStandaloneFalse';
 export const RULE_NAME = 'prefer-standalone';
 
-const RECOMMENDED_GUIDE_URL = 'https://angular.dev/reference/migrations/standalone';
+const RECOMMENDED_GUIDE_URL =
+  'https://angular.dev/reference/migrations/standalone';
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
@@ -26,39 +27,48 @@ export default createESLintRule<Options, MessageIds>({
     defaultOptions: [],
   },
   create(context) {
-    const standaloneRuleFactory = (type: DecoratorTypes) => (node: TSESTree.Decorator) => {
-      const standalone = ASTUtils.getDecoratorPropertyValue(node, 'standalone');
+    const standaloneRuleFactory =
+      (type: DecoratorTypes) => (node: TSESTree.Decorator) => {
+        const standalone = ASTUtils.getDecoratorPropertyValue(
+          node,
+          'standalone',
+        );
 
-      // Leave the standalone property alone if it was set to true or not present
-      if (!standalone || (ASTUtils.isLiteral(standalone) && standalone.value === true)) {
-        return;
-      }
+        // Leave the standalone property alone if it was set to true or not present
+        if (
+          !standalone ||
+          (ASTUtils.isLiteral(standalone) && standalone.value === true)
+        ) {
+          return;
+        }
 
-      if (!ASTUtils.getDecoratorArgument(node)) {
-        return;
-      }
-      context.report({
-        node: standalone.parent,
-        messageId: 'preferStandalone',
-        data: { type },
-        suggest: [
-          {
-            messageId: 'removeStandaloneFalse',
-            fix: (fixer) => {
-              // Remove the standalone property altogether if it was set to false
-              const tokenAfter = context.sourceCode.getTokenAfter(standalone.parent);
-              // Remove the trailing comma, if present
-              const removeStart = standalone.parent.range[0];
-              let removeEnd = standalone.parent.range[1];
-              if (tokenAfter && tokenAfter.value === ',') {
-                removeEnd = tokenAfter.range[1];
-              }
-              return fixer.removeRange([removeStart, removeEnd]);
+        if (!ASTUtils.getDecoratorArgument(node)) {
+          return;
+        }
+        context.report({
+          node: standalone.parent,
+          messageId: 'preferStandalone',
+          data: { type },
+          suggest: [
+            {
+              messageId: 'removeStandaloneFalse',
+              fix: (fixer) => {
+                // Remove the standalone property altogether if it was set to false
+                const tokenAfter = context.sourceCode.getTokenAfter(
+                  standalone.parent,
+                );
+                // Remove the trailing comma, if present
+                const removeStart = standalone.parent.range[0];
+                let removeEnd = standalone.parent.range[1];
+                if (tokenAfter && tokenAfter.value === ',') {
+                  removeEnd = tokenAfter.range[1];
+                }
+                return fixer.removeRange([removeStart, removeEnd]);
+              },
             },
-          },
-        ],
-      });
-    };
+          ],
+        });
+      };
 
     return {
       [Selectors.COMPONENT_CLASS_DECORATOR]: standaloneRuleFactory('component'),

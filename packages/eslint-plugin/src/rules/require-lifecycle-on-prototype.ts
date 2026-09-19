@@ -10,7 +10,9 @@ const ISSUE_LINK = 'https://github.com/angular/angular/issues/38241';
 export type MessageIds = 'defineOnPrototype';
 export const RULE_NAME = 'require-lifecycle-on-prototype';
 
-const angularLifecycleMethodsPattern = toPattern([...ASTUtils.ANGULAR_LIFECYCLE_METHODS]);
+const angularLifecycleMethodsPattern = toPattern([
+  ...ASTUtils.ANGULAR_LIFECYCLE_METHODS,
+]);
 const propertyDefinitionSelector = `PropertyDefinition > ${createAngularLifecycleMethodsPattern('key')}`;
 const assignmentSelector = `AssignmentExpression[operator="="] > MemberExpression.left > ${createAngularLifecycleMethodsPattern('property')}`;
 
@@ -34,12 +36,15 @@ export default createESLintRule<Options, MessageIds>({
   },
   create(context) {
     return {
-      [propertyDefinitionSelector](node: TSESTree.Literal | TSESTree.Identifier) {
+      [propertyDefinitionSelector](
+        node: TSESTree.Literal | TSESTree.Identifier,
+      ) {
         context.report({
           node,
           messageId: 'defineOnPrototype',
           data: {
-            method: node.type === AST_NODE_TYPES.Literal ? node.value : node.name,
+            method:
+              node.type === AST_NODE_TYPES.Literal ? node.value : node.name,
           },
         });
       },
@@ -50,7 +55,8 @@ export default createESLintRule<Options, MessageIds>({
             node,
             messageId: 'defineOnPrototype',
             data: {
-              method: node.type === AST_NODE_TYPES.Literal ? node.value : node.name,
+              method:
+                node.type === AST_NODE_TYPES.Literal ? node.value : node.name,
             },
           });
         }

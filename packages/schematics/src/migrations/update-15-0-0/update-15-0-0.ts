@@ -27,14 +27,22 @@ export default function migration(): Rule {
       },
     ]),
     updateJsonInTree('angular.json', (json) => {
-      return updateSchematicDefaults(json, '@angular-eslint/schematics:application', {
-        setParserOptionsProject: true,
-      });
+      return updateSchematicDefaults(
+        json,
+        '@angular-eslint/schematics:application',
+        {
+          setParserOptionsProject: true,
+        },
+      );
     }),
     updateJsonInTree('angular.json', (json) => {
-      return updateSchematicDefaults(json, '@angular-eslint/schematics:library', {
-        setParserOptionsProject: true,
-      });
+      return updateSchematicDefaults(
+        json,
+        '@angular-eslint/schematics:library',
+        {
+          setParserOptionsProject: true,
+        },
+      );
     }),
   ]);
 }

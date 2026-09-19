@@ -98,7 +98,11 @@ type StronglyTypedTextAttribute = Omit<TmplAstTextAttribute, 'i18n'> & {
 type StronglyTypedBoundText = TmplAstBoundText & {
   value: ASTWithSource & { ast: Interpolation };
 };
-type StronglyTypedBoundTextOrIcuOrText = (StronglyTypedBoundText | TmplAstText | TmplAstIcu) & {
+type StronglyTypedBoundTextOrIcuOrText = (
+  | StronglyTypedBoundText
+  | TmplAstText
+  | TmplAstIcu
+) & {
   parent?: AST & { children: readonly AST[] };
 };
 export const RULE_NAME = 'i18n';
@@ -194,7 +198,8 @@ export default createESLintRule<Options, MessageIds>({
       suggestAddI18nAttribute: 'Add the `i18n` attribute',
       i18nMissingDescription: `Missing i18n description on element. See more at ${STYLE_GUIDE_LINK_METADATA_FOR_TRANSLATION}`,
       i18nMissingMeaning: `Missing i18n meaning on element. See more at ${STYLE_GUIDE_LINK_METADATA_FOR_TRANSLATION}`,
-      i18nMarkupInContent: 'Avoid HTML markup in an element with an i18n attribute.',
+      i18nMarkupInContent:
+        'Avoid HTML markup in an element with an i18n attribute.',
     },
     defaultOptions: [DEFAULT_OPTIONS],
   },
@@ -230,18 +235,24 @@ export default createESLintRule<Options, MessageIds>({
     function getNextElementOrTemplateParent(
       node: StronglyTypedBoundTextOrIcuOrText,
     ): (AST & { children: readonly AST[] }) | undefined;
-    function getNextElementOrTemplateParent(node: StronglyTypedI18n<TmplAstNode>): AST | undefined;
+    function getNextElementOrTemplateParent(
+      node: StronglyTypedI18n<TmplAstNode>,
+    ): AST | undefined;
     function getNextElementOrTemplateParent(
       node: StronglyTypedI18n<TmplAstNode> | StronglyTypedBoundTextOrIcuOrText,
     ): AST | undefined {
       const parent = node.parent;
       if (parent && !isElement(parent) && !isNgTemplate(parent)) {
-        return getNextElementOrTemplateParent(parent as unknown as StronglyTypedI18n<TmplAstNode>);
+        return getNextElementOrTemplateParent(
+          parent as unknown as StronglyTypedI18n<TmplAstNode>,
+        );
       }
       return parent;
     }
 
-    function handleElementOrTemplate(node: StronglyTypedElement | StronglyTypedTemplate) {
+    function handleElementOrTemplate(
+      node: StronglyTypedElement | StronglyTypedTemplate,
+    ) {
       const { i18n, sourceSpan } = node;
       const parent = getNextElementOrTemplateParent(node);
 
@@ -303,7 +314,9 @@ export default createESLintRule<Options, MessageIds>({
         return;
       }
 
-      const keyOrSourceSpanLoc = parserServices.convertNodeSourceSpanToLoc(keySpan ?? sourceSpan);
+      const keyOrSourceSpanLoc = parserServices.convertNodeSourceSpanToLoc(
+        keySpan ?? sourceSpan,
+      );
 
       if (i18n) {
         const { customId, description } = i18n;
@@ -345,17 +358,23 @@ export default createESLintRule<Options, MessageIds>({
         fix: (fixer) => {
           const { end } = parserServices.convertNodeSourceSpanToLoc(sourceSpan);
           const endIndex = sourceCode.getIndexFromLoc(end);
-          return fixer.insertTextAfterRange([endIndex, endIndex], ` i18n-${attributeName}`);
+          return fixer.insertTextAfterRange(
+            [endIndex, endIndex],
+            ` i18n-${attributeName}`,
+          );
         },
       });
     }
 
-    function handleBoundTextOrIcuOrText(node: StronglyTypedBoundTextOrIcuOrText) {
+    function handleBoundTextOrIcuOrText(
+      node: StronglyTypedBoundTextOrIcuOrText,
+    ) {
       const { sourceSpan } = node;
       const parent = getNextElementOrTemplateParent(node);
 
       if (
-        (isBoundText(node) && isBoundTextAllowed(allowedBoundTextPattern, node)) ||
+        (isBoundText(node) &&
+          isBoundTextAllowed(allowedBoundTextPattern, node)) ||
         ((isElement(parent) || isNgTemplate(parent)) &&
           (parent.i18n || isTagAllowed(allowedTags, parent)))
       ) {
@@ -368,7 +387,9 @@ export default createESLintRule<Options, MessageIds>({
       context.report({
         messageId: 'i18nAttributeOnIcuOrText',
         loc,
-        ...(parent?.children?.filter((child) => isElement(child) || isNgTemplate(child)).length
+        ...(parent?.children?.filter(
+          (child) => isElement(child) || isNgTemplate(child),
+        ).length
           ? { suggest: [{ messageId: 'suggestAddI18nAttribute', fix }] }
           : { fix }),
       });
@@ -396,20 +417,30 @@ export default createESLintRule<Options, MessageIds>({
     }
 
     return {
-      ...((!allowMarkupInContent || checkId || requireDescription || requireMeaning) && {
+      ...((!allowMarkupInContent ||
+        checkId ||
+        requireDescription ||
+        requireMeaning) && {
         [`:matches(Element, Template[tagName="ng-template"])${
           allowMarkupInContent ? '[i18n]' : ''
         }`](node: StronglyTypedElement | StronglyTypedTemplate) {
           handleElementOrTemplate(node);
         },
       }),
-      ...((checkAttributes || checkId || requireDescription || requireMeaning) && {
-        [`Element > TextAttribute[value=${PL_PATTERN}]`](node: StronglyTypedTextAttribute) {
+      ...((checkAttributes ||
+        checkId ||
+        requireDescription ||
+        requireMeaning) && {
+        [`Element > TextAttribute[value=${PL_PATTERN}]`](
+          node: StronglyTypedTextAttribute,
+        ) {
           handleTextAttribute(node);
         },
       }),
       ...(checkText && {
-        [`BoundText, Icu, Text[value=${PL_PATTERN}]`](node: StronglyTypedBoundTextOrIcuOrText) {
+        [`BoundText, Icu, Text[value=${PL_PATTERN}]`](
+          node: StronglyTypedBoundTextOrIcuOrText,
+        ) {
           handleBoundTextOrIcuOrText(node);
         },
       }),
@@ -439,7 +470,10 @@ function getFixForIcuOrTextWithoutParent(
   const startIndex = sourceCode.getIndexFromLoc(start);
   const endIndex = sourceCode.getIndexFromLoc(end);
   return [
-    fixer.insertTextBeforeRange([startIndex, startIndex], '<ng-container i18n>'),
+    fixer.insertTextBeforeRange(
+      [startIndex, startIndex],
+      '<ng-container i18n>',
+    ),
     fixer.insertTextAfterRange([endIndex, endIndex], '</ng-container>'),
   ];
 }
@@ -465,7 +499,9 @@ function getFixForIcuOrText(
     return [];
   }
 
-  const parentLoc = parserServices.convertNodeSourceSpanToLoc(parent.sourceSpan);
+  const parentLoc = parserServices.convertNodeSourceSpanToLoc(
+    parent.sourceSpan,
+  );
   return getFixForIcuOrTextWithParent(sourceCode, fixer, parentLoc, tagName);
 }
 

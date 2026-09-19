@@ -1,11 +1,18 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
-import type { MessageIds, Options } from '../../../src/rules/directive-selector';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type {
+  MessageIds,
+  Options,
+} from '../../../src/rules/directive-selector';
 
 const messageIdPrefixFailure: MessageIds = 'prefixFailure';
 const messageIdStyleFailure: MessageIds = 'styleFailure';
 const messageIdTypeFailure: MessageIds = 'typeFailure';
-const messageIdSelectorAfterPrefixFailure: MessageIds = 'selectorAfterPrefixFailure';
+const messageIdSelectorAfterPrefixFailure: MessageIds =
+  'selectorAfterPrefixFailure';
 
 export const valid: readonly (string | ValidTestCase<Options>)[] = [
   {
@@ -28,7 +35,9 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
       })
       class Test {}
       `,
-    options: [{ type: 'attribute', prefix: ['app', 'ng'], style: 'kebab-case' }],
+    options: [
+      { type: 'attribute', prefix: ['app', 'ng'], style: 'kebab-case' },
+    ],
   },
   {
     code: `
@@ -37,14 +46,18 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
       })
       class Test {}
       `,
-    options: [{ type: 'element', prefix: ['app', 'cd', 'ng'], style: 'kebab-case' }],
+    options: [
+      { type: 'element', prefix: ['app', 'cd', 'ng'], style: 'kebab-case' },
+    ],
   },
   {
     code: `
       @Directive({ selector: 'app-bar' }) class TestOne {}
       @Directive({ selector: 'ngg-bar' }) class TestTwo {}
       `,
-    options: [{ type: 'element', prefix: ['app', 'cd', 'ngg'], style: 'kebab-case' }],
+    options: [
+      { type: 'element', prefix: ['app', 'cd', 'ngg'], style: 'kebab-case' },
+    ],
   },
   {
     code: `
@@ -91,7 +104,9 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
       })
       class Test {}
       `,
-    options: [{ type: 'attribute', prefix: ['app', 'ng'], style: 'kebab-case' }],
+    options: [
+      { type: 'attribute', prefix: ['app', 'ng'], style: 'kebab-case' },
+    ],
   },
   {
     code: `
@@ -100,7 +115,9 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
       })
       class Test {}
       `,
-    options: [{ type: 'attribute', prefix: ['app', 'baz'], style: 'kebab-case' }],
+    options: [
+      { type: 'attribute', prefix: ['app', 'baz'], style: 'kebab-case' },
+    ],
   },
   {
     code: `
@@ -330,7 +347,9 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         class Test {}
       `,
     messageId: messageIdPrefixFailure,
-    options: [{ type: 'element', prefix: ['foo', 'cd', 'ng'], style: 'kebab-case' }],
+    options: [
+      { type: 'element', prefix: ['foo', 'cd', 'ng'], style: 'kebab-case' },
+    ],
     data: { prefix: '"foo", "cd" or "ng"' },
   }),
   convertAnnotatedSourceToFailureCase({
@@ -395,7 +414,9 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         class Test {}
       `,
     messageId: messageIdTypeFailure,
-    options: [{ type: 'attribute', prefix: ['app', 'ng'], style: 'kebab-case' }],
+    options: [
+      { type: 'attribute', prefix: ['app', 'ng'], style: 'kebab-case' },
+    ],
     data: { type: 'attribute' },
   }),
   convertAnnotatedSourceToFailureCase({

@@ -1,5 +1,8 @@
 import { Tree, type Rule } from '@angular-devkit/schematics';
-import { SchematicTestRunner, UnitTestTree } from '@angular-devkit/schematics/testing';
+import {
+  SchematicTestRunner,
+  UnitTestTree,
+} from '@angular-devkit/schematics/testing';
 import { join } from 'node:path';
 import { beforeEach, describe, expect, it } from 'vitest';
 import {
@@ -278,12 +281,16 @@ describe('readJsonInTree', () => {
   });
 
   it('should throw a helpful error if the file does not exist', () => {
-    expect(() => readJsonInTree(tree, 'missing.json')).toThrow('Cannot find missing.json');
+    expect(() => readJsonInTree(tree, 'missing.json')).toThrow(
+      'Cannot find missing.json',
+    );
   });
 
   it('should throw a helpful error if the file cannot be parsed', () => {
     tree.create('bad.json', '{ not valid json ');
-    expect(() => readJsonInTree(tree, 'bad.json')).toThrow(/Cannot parse bad\.json/);
+    expect(() => readJsonInTree(tree, 'bad.json')).toThrow(
+      /Cannot parse bad\.json/,
+    );
   });
 });
 
@@ -349,7 +356,10 @@ describe('determineTargetProjectName', () => {
   });
 
   it('should return the only project when there is exactly one', () => {
-    tree.create('angular.json', JSON.stringify({ projects: { 'only-one': {} } }));
+    tree.create(
+      'angular.json',
+      JSON.stringify({ projects: { 'only-one': {} } }),
+    );
     expect(determineTargetProjectName(tree)).toBe('only-one');
   });
 
@@ -375,7 +385,10 @@ describe('updateSchematicCollections', () => {
       },
       'angular-eslint',
     );
-    expect(result.cli.schematicCollections).toEqual(['angular-eslint', 'existing']);
+    expect(result.cli.schematicCollections).toEqual([
+      'angular-eslint',
+      'existing',
+    ]);
     expect(result.cli.defaultCollection).toBeUndefined();
   });
 });
@@ -391,16 +404,22 @@ describe('updateSchematicDefaults', () => {
       '@angular-eslint/schematics:application',
       { setParserOptionsProject: true },
     );
-    expect(result.schematics['@angular-eslint/schematics:application']).toEqual({
-      existing: true,
-      setParserOptionsProject: true,
-    });
+    expect(result.schematics['@angular-eslint/schematics:application']).toEqual(
+      {
+        existing: true,
+        setParserOptionsProject: true,
+      },
+    );
   });
 
   it('should create the schematics config when none exists', () => {
-    const result = updateSchematicDefaults({}, '@angular-eslint/schematics:library', {
-      setParserOptionsProject: false,
-    });
+    const result = updateSchematicDefaults(
+      {},
+      '@angular-eslint/schematics:library',
+      {
+        setParserOptionsProject: false,
+      },
+    );
     expect(result.schematics['@angular-eslint/schematics:library']).toEqual({
       setParserOptionsProject: false,
     });
@@ -411,8 +430,12 @@ describe('tseslintPreset helpers', () => {
   it('should resolve known presets and fall back to recommended', () => {
     expect(resolveTseslintPreset('recommended')).toBe('recommended');
     expect(resolveTseslintPreset('strict')).toBe('strict');
-    expect(resolveTseslintPreset('recommendedTypeChecked')).toBe('recommendedTypeChecked');
-    expect(resolveTseslintPreset('strictTypeChecked')).toBe('strictTypeChecked');
+    expect(resolveTseslintPreset('recommendedTypeChecked')).toBe(
+      'recommendedTypeChecked',
+    );
+    expect(resolveTseslintPreset('strictTypeChecked')).toBe(
+      'strictTypeChecked',
+    );
     expect(resolveTseslintPreset(undefined)).toBe('recommended');
     expect(resolveTseslintPreset('nope')).toBe('recommended');
   });
@@ -428,7 +451,9 @@ describe('tseslintPreset helpers', () => {
     expect(shouldEnableProjectService(false, 'recommended')).toBe(false);
     expect(shouldEnableProjectService(true, 'recommended')).toBe(true);
     expect(shouldEnableProjectService(false, 'strict')).toBe(false);
-    expect(shouldEnableProjectService(false, 'recommendedTypeChecked')).toBe(true);
+    expect(shouldEnableProjectService(false, 'recommendedTypeChecked')).toBe(
+      true,
+    );
     expect(shouldEnableProjectService(false, 'strictTypeChecked')).toBe(true);
   });
 });
@@ -477,7 +502,9 @@ describe('createStringifiedRootESLintConfig', () => {
     expect(content).toContain('tseslint.configs.recommendedTypeChecked');
     expect(content).toContain('tseslint.configs.stylisticTypeChecked');
     expect(content).toContain('projectService: true');
-    expect(content).toContain('Enable typed linting via the typescript-eslint Project Service');
+    expect(content).toContain(
+      'Enable typed linting via the typescript-eslint Project Service',
+    );
     expect(content).not.toContain('tseslint.configs.recommended,');
   });
 
@@ -530,7 +557,9 @@ describe('createStringifiedRootESLintConfig', () => {
     });
     expect(content).toContain('tseslint.configs.recommended');
     expect(content).toContain('projectService: true');
-    expect(content).not.toContain('Enable typed linting via the typescript-eslint Project Service');
+    expect(content).not.toContain(
+      'Enable typed linting via the typescript-eslint Project Service',
+    );
   });
 });
 
@@ -552,11 +581,18 @@ describe('addESLintTargetToProject', () => {
       }),
     );
 
-    const result = await runRule(addESLintTargetToProject('root', 'lint'), tree);
-    const lintTarget = readJsonInTree(result, 'angular.json').projects.root.architect.lint;
+    const result = await runRule(
+      addESLintTargetToProject('root', 'lint'),
+      tree,
+    );
+    const lintTarget = readJsonInTree(result, 'angular.json').projects.root
+      .architect.lint;
 
     expect(lintTarget.builder).toBe('@angular-eslint/builder:lint');
-    expect(lintTarget.options.lintFilePatterns).toEqual(['src/**/*.ts', 'src/**/*.html']);
+    expect(lintTarget.options.lintFilePatterns).toEqual([
+      'src/**/*.ts',
+      'src/**/*.html',
+    ]);
     expect(lintTarget.options.eslintConfig).toBeUndefined();
   });
 
@@ -580,8 +616,12 @@ describe('addESLintTargetToProject', () => {
       }),
     );
 
-    const result = await runRule(addESLintTargetToProject('myapp', 'lint'), tree);
-    const lintTarget = readJsonInTree(result, 'angular.json').projects.myapp.architect.lint;
+    const result = await runRule(
+      addESLintTargetToProject('myapp', 'lint'),
+      tree,
+    );
+    const lintTarget = readJsonInTree(result, 'angular.json').projects.myapp
+      .architect.lint;
 
     expect(lintTarget.options.lintFilePatterns).toEqual([
       'apps/myapp/**/*.ts',
@@ -602,7 +642,9 @@ describe('addESLintTargetToProject', () => {
       }),
     );
 
-    await expect(runRule(addESLintTargetToProject('lib', 'lint'), tree)).rejects.toThrow(
+    await expect(
+      runRule(addESLintTargetToProject('lib', 'lint'), tree),
+    ).rejects.toThrow(
       'Root ESLint config must be a JavaScript/TypeScript file',
     );
   });
@@ -622,7 +664,10 @@ describe('createESLintConfigForProject', () => {
       }),
     );
 
-    const result = await runRule(createESLintConfigForProject('root', false), tree);
+    const result = await runRule(
+      createESLintConfigForProject('root', false),
+      tree,
+    );
 
     expect(result.exists('eslint.config.js')).toBe(true);
     const content = result.readContent('eslint.config.js');
@@ -643,7 +688,10 @@ describe('createESLintConfigForProject', () => {
       }),
     );
 
-    const result = await runRule(createESLintConfigForProject('lib', false), tree);
+    const result = await runRule(
+      createESLintConfigForProject('lib', false),
+      tree,
+    );
 
     expect(result.exists('eslint.config.js')).toBe(true);
     expect(result.exists('libs/lib/eslint.config.js')).toBe(true);
@@ -666,10 +714,15 @@ describe('createESLintConfigForProject', () => {
       }),
     );
 
-    const result = await runRule(createESLintConfigForProject('lib', true), tree);
+    const result = await runRule(
+      createESLintConfigForProject('lib', true),
+      tree,
+    );
 
     expect(result.exists('libs/lib/eslint.config.js')).toBe(true);
-    expect(result.readContent('libs/lib/eslint.config.js')).toContain('projectService: true');
+    expect(result.readContent('libs/lib/eslint.config.js')).toContain(
+      'projectService: true',
+    );
   });
 
   it('should include the Project Service in the root config for a root project when setParserOptionsProject is true', async () => {
@@ -685,7 +738,10 @@ describe('createESLintConfigForProject', () => {
       }),
     );
 
-    const result = await runRule(createESLintConfigForProject('root', true), tree);
+    const result = await runRule(
+      createESLintConfigForProject('root', true),
+      tree,
+    );
 
     const content = result.readContent('eslint.config.js');
     expect(content).toContain('projectService: true');
@@ -736,7 +792,9 @@ describe('createESLintConfigForProject', () => {
     );
 
     expect(result.readContent('eslint.config.js')).toBe('module.exports = [];');
-    expect(result.readContent('libs/lib/eslint.config.js')).toContain('projectService: true');
+    expect(result.readContent('libs/lib/eslint.config.js')).toContain(
+      'projectService: true',
+    );
   });
 
   it('should use the default prefix for a root project without a configured prefix', async () => {
@@ -750,7 +808,10 @@ describe('createESLintConfigForProject', () => {
       }),
     );
 
-    const result = await runRule(createESLintConfigForProject('root', false), tree);
+    const result = await runRule(
+      createESLintConfigForProject('root', false),
+      tree,
+    );
 
     expect(result.readContent('eslint.config.js')).toContain('prefix: "app"');
   });
@@ -766,10 +827,15 @@ describe('createESLintConfigForProject', () => {
       }),
     );
 
-    const result = await runRule(createESLintConfigForProject('lib', false), tree);
+    const result = await runRule(
+      createESLintConfigForProject('lib', false),
+      tree,
+    );
 
     expect(result.exists('eslint.config.js')).toBe(true);
-    expect(result.readContent('libs/lib/eslint.config.js')).toContain('prefix: "app"');
+    expect(result.readContent('libs/lib/eslint.config.js')).toContain(
+      'prefix: "app"',
+    );
   });
 
   it('should generate an ESM project config when the workspace is ESM', async () => {
@@ -786,7 +852,10 @@ describe('createESLintConfigForProject', () => {
       }),
     );
 
-    const result = await runRule(createESLintConfigForProject('lib', false), tree);
+    const result = await runRule(
+      createESLintConfigForProject('lib', false),
+      tree,
+    );
 
     const projectConfig = result.readContent('libs/lib/eslint.config.js');
     expect(projectConfig).toContain('import rootConfig from');

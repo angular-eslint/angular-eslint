@@ -12,7 +12,8 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description: 'Prefer using the inject() function over constructor parameter injection',
+      description:
+        'Prefer using the inject() function over constructor parameter injection',
       recommended: 'recommended',
     },
     schema: [],
@@ -64,8 +65,9 @@ export default createESLintRule<Options, MessageIds>({
         return true;
       }
 
-      const typeAnnotation = (actualParam as TSESTree.Identifier | TSESTree.AssignmentPattern)
-        .typeAnnotation;
+      const typeAnnotation = (
+        actualParam as TSESTree.Identifier | TSESTree.AssignmentPattern
+      ).typeAnnotation;
       if (typeAnnotation) {
         switch (typeAnnotation.typeAnnotation.type) {
           case AST_NODE_TYPES.TSStringKeyword:

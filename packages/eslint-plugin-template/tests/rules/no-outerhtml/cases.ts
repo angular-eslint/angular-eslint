@@ -1,5 +1,8 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
 import type { MessageIds, Options } from '../../../src/rules/no-outerhtml';
 
 const messageId: MessageIds = 'noOuterHtml';
@@ -41,7 +44,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail for `[outerHTML]` on a nested element inside control flow',
+    description:
+      'should fail for `[outerHTML]` on a nested element inside control flow',
     annotatedSource: `
       @if (condition) {
         <span [outerHTML]="html"></span>

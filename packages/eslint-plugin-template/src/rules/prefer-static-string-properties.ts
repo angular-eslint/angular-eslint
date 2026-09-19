@@ -41,7 +41,8 @@ export default createESLintRule<Options, MessageIds>({
             items: {
               type: 'string',
             },
-            description: 'An array of property names that should be ignored by this rule',
+            description:
+              'An array of property names that should be ignored by this rule',
             uniqueItems: true,
           },
         },
@@ -59,11 +60,18 @@ export default createESLintRule<Options, MessageIds>({
     const ignoredProperties = new Set([...PROPERTY_ONLY_DOM_APIS, ...ignore]);
 
     return {
-      ['BoundAttribute.inputs']({ name, sourceSpan, keySpan, value }: TmplAstBoundAttribute) {
+      ['BoundAttribute.inputs']({
+        name,
+        sourceSpan,
+        keySpan,
+        value,
+      }: TmplAstBoundAttribute) {
         // Exclude @xxx (Animation) and xx.color
         // When attribute start with "*", keySpan details is null so *ngSwitchCase is excluded
         const isBindingProperty =
-          keySpan?.details && !keySpan.details.includes('@') && !keySpan.details.includes('.');
+          keySpan?.details &&
+          !keySpan.details.includes('@') &&
+          !keySpan.details.includes('.');
 
         // Skip if this property is in the ignore list or is a property-only DOM API
         if (ignoredProperties.has(name)) {

@@ -45,7 +45,10 @@ export function isFileLikelyToContainComponentDeclarations(
 
 type PreprocessResult = (string | { text: string; filename: string })[];
 
-export function preprocessComponentFile(text: string, filename: string): PreprocessResult {
+export function preprocessComponentFile(
+  text: string,
+  filename: string,
+): PreprocessResult {
   // This effectively instructs ESLint that there were no code blocks to extract for the current file
   const noopResult = [text];
 
@@ -121,7 +124,9 @@ export function preprocessComponentFile(text: string, filename: string): Preproc
         (id) => id && id.name && id.name.getText() === 'template',
       );
       if (
-        metadata.properties.find((id) => id && id.name && id.name.getText() === 'templateUrl') ||
+        metadata.properties.find(
+          (id) => id && id.name && id.name.getText() === 'templateUrl',
+        ) ||
         !templateProperty
       ) {
         continue;
@@ -186,12 +191,17 @@ export function preprocessComponentFile(text: string, filename: string): Preproc
     return result;
   } catch (err) {
     console.log(err);
-    console.error('preprocess: ERROR could not parse @Component() metadata', filename);
+    console.error(
+      'preprocess: ERROR could not parse @Component() metadata',
+      filename,
+    );
     return noopResult;
   }
 }
 
-function getClassDeclarationFromSourceFile(sourceFile: ts.SourceFile): ts.ClassDeclaration[] {
+function getClassDeclarationFromSourceFile(
+  sourceFile: ts.SourceFile,
+): ts.ClassDeclaration[] {
   const classDeclarations: ts.ClassDeclaration[] = [];
 
   visit(sourceFile);
@@ -212,12 +222,18 @@ function getClassDeclarationFromSourceFile(sourceFile: ts.SourceFile): ts.ClassD
     // Keywords, tokens and trivia all come before `FirstNode`. They won't
     // contain child nodes anyway, but we can skip them to save some time.
     // Likewise, we can skip nodes that are part of JSDoc comments.
-    if (node.kind < ts.SyntaxKind.FirstNode || node.kind > ts.SyntaxKind.FirstJSDocNode) {
+    if (
+      node.kind < ts.SyntaxKind.FirstNode ||
+      node.kind > ts.SyntaxKind.FirstJSDocNode
+    ) {
       return;
     }
 
     // Type nodes can be skipped.
-    if (node.kind >= ts.SyntaxKind.TypePredicate && node.kind <= ts.SyntaxKind.ImportType) {
+    if (
+      node.kind >= ts.SyntaxKind.TypePredicate &&
+      node.kind <= ts.SyntaxKind.ImportType
+    ) {
       return;
     }
 
@@ -278,46 +294,48 @@ export function postprocessComponentFile(
    */
   const res = [
     ...messagesFromComponentSource,
-    ...messagesFromAllInlineTemplateHTML.flatMap((messagesFromInlineTemplateHTML, i) => {
-      const baseFilename = basename(filename);
-      const inlineTemplateTmpFilename = `inline-template-${baseFilename}-${i + 1}.component.html`;
-      const rangeData = rangeMap.get(inlineTemplateTmpFilename);
-      if (!rangeData) {
-        return [];
-      }
-
-      return messagesFromInlineTemplateHTML.map((message) => {
-        // The first line of the inline template starts at the column after
-        // the opening quote in the TypeScript file, so we need to adjust
-        // the message's column by that amount when the message starts on
-        // the first line. The character we recorded was the quote's column,
-        // so add one to get the column where the actual string starts.
-        if (message.line === 1) {
-          message.column += rangeData.lineAndCharacter.start.character + 1;
+    ...messagesFromAllInlineTemplateHTML.flatMap(
+      (messagesFromInlineTemplateHTML, i) => {
+        const baseFilename = basename(filename);
+        const inlineTemplateTmpFilename = `inline-template-${baseFilename}-${i + 1}.component.html`;
+        const rangeData = rangeMap.get(inlineTemplateTmpFilename);
+        if (!rangeData) {
+          return [];
         }
 
-        // The same thing applies to the end column
-        // if it also ends on the first line.
-        if (message.endLine === 1) {
-          message.endColumn += rangeData.lineAndCharacter.start.character + 1;
-        }
+        return messagesFromInlineTemplateHTML.map((message) => {
+          // The first line of the inline template starts at the column after
+          // the opening quote in the TypeScript file, so we need to adjust
+          // the message's column by that amount when the message starts on
+          // the first line. The character we recorded was the quote's column,
+          // so add one to get the column where the actual string starts.
+          if (message.line === 1) {
+            message.column += rangeData.lineAndCharacter.start.character + 1;
+          }
 
-        message.line += rangeData.lineAndCharacter.start.line;
-        message.endLine += rangeData.lineAndCharacter.start.line;
+          // The same thing applies to the end column
+          // if it also ends on the first line.
+          if (message.endLine === 1) {
+            message.endColumn += rangeData.lineAndCharacter.start.character + 1;
+          }
 
-        if (message.fix) {
-          // The range defines the range of the value that initializes
-          // the `template` property, which includes the opening and
-          // closing quotes. Add one to move past the opening quote.
-          const startOffset = rangeData.range[0] + 1;
-          message.fix.range = [
-            startOffset + message.fix.range[0],
-            startOffset + message.fix.range[1],
-          ];
-        }
-        return message;
-      });
-    }),
+          message.line += rangeData.lineAndCharacter.start.line;
+          message.endLine += rangeData.lineAndCharacter.start.line;
+
+          if (message.fix) {
+            // The range defines the range of the value that initializes
+            // the `template` property, which includes the opening and
+            // closing quotes. Add one to move past the opening quote.
+            const startOffset = rangeData.range[0] + 1;
+            message.fix.range = [
+              startOffset + message.fix.range[0],
+              startOffset + message.fix.range[1],
+            ];
+          }
+          return message;
+        });
+      },
+    ),
   ];
   return res;
 }

@@ -1,6 +1,12 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
-import type { MessageIds, Options } from '../../../src/rules/use-injectable-provided-in';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type {
+  MessageIds,
+  Options,
+} from '../../../src/rules/use-injectable-provided-in';
 
 const messageId: MessageIds = 'useInjectableProvidedIn';
 const suggestInjector: MessageIds = 'suggestInjector';

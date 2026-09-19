@@ -1,5 +1,8 @@
 import { Selectors } from '@angular-eslint/utils';
-import type { ParserServicesWithTypeInformation, TSESTree } from '@typescript-eslint/utils';
+import type {
+  ParserServicesWithTypeInformation,
+  TSESTree,
+} from '@typescript-eslint/utils';
 import { AST_NODE_TYPES, ESLintUtils } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import { KNOWN_SIGNAL_TYPES } from '../utils/signals';
@@ -105,13 +108,18 @@ export default createESLintRule<Options, MessageIds>({
     const listener: ESLintUtils.RuleListener = {};
 
     if (preferReadonlySignalProperties) {
-      listener[`PropertyDefinition:not([readonly=true])`] = (node: TSESTree.PropertyDefinition) => {
+      listener[`PropertyDefinition:not([readonly=true])`] = (
+        node: TSESTree.PropertyDefinition,
+      ) => {
         let shouldBeReadonly = false;
 
         if (node.typeAnnotation) {
           // Use the type annotation to determine
           // whether the property is a signal.
-          if (node.typeAnnotation.typeAnnotation.type === AST_NODE_TYPES.TSTypeReference) {
+          if (
+            node.typeAnnotation.typeAnnotation.type ===
+            AST_NODE_TYPES.TSTypeReference
+          ) {
             const type = node.typeAnnotation.typeAnnotation;
             if (
               type.typeArguments &&
@@ -165,9 +173,12 @@ export default createESLintRule<Options, MessageIds>({
 
           if (!shouldBeReadonly && useTypeChecking && node.value) {
             services ??= ESLintUtils.getParserServices(context);
-            const name = services.getTypeAtLocation(node.value).getSymbol()?.name;
+            const name = services
+              .getTypeAtLocation(node.value)
+              .getSymbol()?.name;
 
-            shouldBeReadonly = name !== undefined && KNOWN_SIGNAL_TYPES.has(name);
+            shouldBeReadonly =
+              name !== undefined && KNOWN_SIGNAL_TYPES.has(name);
           }
         }
 
@@ -203,7 +214,9 @@ export default createESLintRule<Options, MessageIds>({
             node,
             messageId: 'preferQuerySignals',
             data: {
-              function: decoratorName.slice(0, 1).toLowerCase() + decoratorName.slice(1),
+              function:
+                decoratorName.slice(0, 1).toLowerCase() +
+                decoratorName.slice(1),
               decorator: decoratorName,
             },
           });

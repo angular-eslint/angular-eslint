@@ -17,7 +17,8 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description: '[Accessibility] Ensures that the `autofocus` attribute is not used',
+      description:
+        '[Accessibility] Ensures that the `autofocus` attribute is not used',
     },
     fixable: 'code',
     schema: [],
@@ -48,7 +49,10 @@ export default createESLintRule<Options, MessageIds>({
           loc,
           messageId: 'noAutofocus',
           fix: (fixer) =>
-            fixer.removeRange([node.sourceSpan.start.offset - 1, node.sourceSpan.end.offset]),
+            fixer.removeRange([
+              node.sourceSpan.start.offset - 1,
+              node.sourceSpan.end.offset,
+            ]),
         });
       },
     };

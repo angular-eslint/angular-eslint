@@ -1,11 +1,20 @@
 import path from 'node:path';
 import { setWorkspaceRoot } from 'nx/src/utils/workspace-root';
 import { beforeAll, describe, expect, it, vi } from 'vitest';
-import { FIXTURES_DIR, Fixture, resetFixtureDirectory } from '../utils/fixtures';
-import { LONG_TIMEOUT_MS, runNgAdd, runNgNew } from '../utils/local-registry-process';
+import {
+  FIXTURES_DIR,
+  Fixture,
+  resetFixtureDirectory,
+} from '../utils/fixtures';
+import {
+  LONG_TIMEOUT_MS,
+  runNgAdd,
+  runNgNew,
+} from '../utils/local-registry-process';
 import { runLint } from '../utils/run-lint';
 
-const fixtureDirectory = 'new-workspace-tseslint-preset-recommended-type-checked';
+const fixtureDirectory =
+  'new-workspace-tseslint-preset-recommended-type-checked';
 let fixture: Fixture;
 
 describe('new-workspace with --tseslint-preset=recommendedTypeChecked', () => {

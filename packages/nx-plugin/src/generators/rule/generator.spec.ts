@@ -13,7 +13,10 @@ describe('rule generator', () => {
 
   beforeEach(() => {
     tree = createTreeWithEmptyWorkspace({ formatter: 'oxfmt' });
-    tree.write('.oxfmtrc.json', readFileSync(join(workspaceRoot, '.oxfmtrc.json'), 'utf-8'));
+    tree.write(
+      '.oxfmtrc.json',
+      readFileSync(join(workspaceRoot, '.oxfmtrc.json'), 'utf-8'),
+    );
   });
 
   it('should successfully generate a new rule for package eslint-plugin', async () => {
@@ -32,23 +35,31 @@ describe('rule generator', () => {
     tree.write(packageIndexPath, mockIndex);
     await ruleGenerator(tree, options);
 
-    const packageIndexContents = tree.read(packageIndexPath)?.toString() as string;
+    const packageIndexContents = tree
+      .read(packageIndexPath)
+      ?.toString() as string;
 
     expect(
       packageIndexContents.includes(
         `import myNewRule, { RULE_NAME as myNewRuleRuleName } from './rules/my-new-rule';`,
       ),
     ).toBeTruthy();
-    expect(packageIndexContents.includes(`[myNewRuleRuleName]: myNewRule`)).toBeTruthy();
+    expect(
+      packageIndexContents.includes(`[myNewRuleRuleName]: myNewRule`),
+    ).toBeTruthy();
 
     expect(
       tree.read(`packages/eslint-plugin/src/rules/my-new-rule.ts`)?.toString(),
     ).toMatchSnapshot();
     expect(
-      tree.read(`packages/eslint-plugin/tests/rules/my-new-rule/cases.ts`)?.toString(),
+      tree
+        .read(`packages/eslint-plugin/tests/rules/my-new-rule/cases.ts`)
+        ?.toString(),
     ).toMatchSnapshot();
     expect(
-      tree.read(`packages/eslint-plugin/tests/rules/my-new-rule/spec.ts`)?.toString(),
+      tree
+        .read(`packages/eslint-plugin/tests/rules/my-new-rule/spec.ts`)
+        ?.toString(),
     ).toMatchSnapshot();
   });
 
@@ -68,21 +79,31 @@ describe('rule generator', () => {
     tree.write(packageIndexPath, mockIndex);
     await ruleGenerator(tree, options);
 
-    expect(tree.exists(`packages/eslint-plugin-template/src/rules/my-new-rule.ts`)).toBeTruthy();
     expect(
-      tree.exists(`packages/eslint-plugin-template/tests/rules/my-new-rule/cases.ts`),
+      tree.exists(`packages/eslint-plugin-template/src/rules/my-new-rule.ts`),
     ).toBeTruthy();
     expect(
-      tree.exists(`packages/eslint-plugin-template/tests/rules/my-new-rule/spec.ts`),
+      tree.exists(
+        `packages/eslint-plugin-template/tests/rules/my-new-rule/cases.ts`,
+      ),
+    ).toBeTruthy();
+    expect(
+      tree.exists(
+        `packages/eslint-plugin-template/tests/rules/my-new-rule/spec.ts`,
+      ),
     ).toBeTruthy();
 
-    const packageIndexContents = tree.read(packageIndexPath)?.toString() as string;
+    const packageIndexContents = tree
+      .read(packageIndexPath)
+      ?.toString() as string;
 
     expect(
       packageIndexContents.includes(
         `import myNewRule, { RULE_NAME as myNewRuleRuleName } from './rules/my-new-rule';`,
       ),
     ).toBeTruthy();
-    expect(packageIndexContents.includes(`[myNewRuleRuleName]: myNewRule`)).toBeTruthy();
+    expect(
+      packageIndexContents.includes(`[myNewRuleRuleName]: myNewRule`),
+    ).toBeTruthy();
   });
 });

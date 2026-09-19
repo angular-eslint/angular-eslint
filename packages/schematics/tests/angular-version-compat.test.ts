@@ -43,7 +43,9 @@ describe('parseMajorVersion', () => {
 
 describe('findAngularVersionMismatches', () => {
   it('returns nothing when no Angular packages are declared', () => {
-    expect(findAngularVersionMismatches({ devDependencies: {} }, 22)).toEqual([]);
+    expect(findAngularVersionMismatches({ devDependencies: {} }, 22)).toEqual(
+      [],
+    );
   });
 
   it('returns nothing when declared majors match', () => {
@@ -83,14 +85,20 @@ describe('findAngularVersionMismatches', () => {
 
   it('prefers an installed major over the declared range', () => {
     expect(
-      findAngularVersionMismatches({ dependencies: { '@angular/core': '^21.2.0' } }, 22, {
-        '@angular/core': 22,
-      }),
+      findAngularVersionMismatches(
+        { dependencies: { '@angular/core': '^21.2.0' } },
+        22,
+        {
+          '@angular/core': 22,
+        },
+      ),
     ).toEqual([]);
   });
 
   it('uses an installed major when the specifier is not declared', () => {
-    expect(findAngularVersionMismatches({}, 22, { '@angular/cli': 21 })).toEqual([
+    expect(
+      findAngularVersionMismatches({}, 22, { '@angular/cli': 21 }),
+    ).toEqual([
       {
         packageName: '@angular/cli',
         specifier: 'v21',
@@ -101,7 +109,10 @@ describe('findAngularVersionMismatches', () => {
 
   it('reads Angular packages from peerDependencies', () => {
     expect(
-      findAngularVersionMismatches({ peerDependencies: { '@angular/core': '^21.2.0' } }, 22),
+      findAngularVersionMismatches(
+        { peerDependencies: { '@angular/core': '^21.2.0' } },
+        22,
+      ),
     ).toEqual([
       {
         packageName: '@angular/core',
@@ -121,7 +132,9 @@ describe('messages', () => {
         foundMajor: 21,
       },
     ]);
-    expect(message).toContain('angular-eslint v22 is intended for Angular v22.');
+    expect(message).toContain(
+      'angular-eslint v22 is intended for Angular v22.',
+    );
     expect(message).toContain('@angular/core@^21.2.0 (v21)');
     expect(message).toContain('ANGULAR_VERSION_SUPPORT.md');
   });
@@ -139,7 +152,9 @@ describe('messages', () => {
         foundMajor: 21,
       },
     ]);
-    expect(message).toContain('angular-eslint v22 is intended for Angular v22.');
+    expect(message).toContain(
+      'angular-eslint v22 is intended for Angular v22.',
+    );
     expect(message).toContain('@angular/core@^21.2.0 (v21)');
     expect(message).toContain('@angular/cli@21.2.0 (v21)');
     expect(message).toContain('  ng add angular-eslint@21');

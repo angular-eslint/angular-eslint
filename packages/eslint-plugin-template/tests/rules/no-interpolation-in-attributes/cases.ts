@@ -1,6 +1,12 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
-import type { MessageIds, Options } from '../../../src/rules/no-interpolation-in-attributes';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type {
+  MessageIds,
+  Options,
+} from '../../../src/rules/no-interpolation-in-attributes';
 
 const messageId: MessageIds = 'noInterpolationInAttributes';
 
@@ -18,7 +24,8 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail and autofix if interpolation is used as attribute value',
+    description:
+      'should fail and autofix if interpolation is used as attribute value',
     annotatedSource: `
         <input type="text" name="{{ foo }}">
                                  ~~~~~~~~~
@@ -30,7 +37,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       `,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail and not autofix if interpolation is used as part of attribute value',
+    description:
+      'should fail and not autofix if interpolation is used as part of attribute value',
     annotatedSource: `
         <input type="text" name="{{ foo }}bar">
                                  ~~~~~~~~~~~~

@@ -1,4 +1,7 @@
-import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
 import type { TSESLint } from '@typescript-eslint/utils';
 import { compile } from 'json-schema-to-typescript';
 import traverse from 'json-schema-traverse';
@@ -81,7 +84,10 @@ const testDirs = readdirSync(testDirsDir);
             hasDefaultValue = true;
           } else if (defaultOptionsForDocs?.length) {
             for (const defaultOption of defaultOptionsForDocs) {
-              if (typeof defaultOption === 'object' && (keyIndex as string) in defaultOption) {
+              if (
+                typeof defaultOption === 'object' &&
+                (keyIndex as string) in defaultOption
+              ) {
                 defaultValue = defaultOption[keyIndex as string];
                 hasDefaultValue = true;
               }
@@ -262,7 +268,9 @@ async function generateAllRuleData(): Promise<AllRuleData> {
   // For rule sources we just import/execute the rule source file
   for (const ruleFile of ruleFiles) {
     const ruleFilePath = join(rulesDir, ruleFile.replace('.ts', ''));
-    const { default: ruleConfig, RULE_NAME, RULE_DOCS_EXTENSION } = require(ruleFilePath);
+    const { default: ruleConfig, RULE_NAME, RULE_DOCS_EXTENSION } = require(
+      ruleFilePath,
+    );
     ruleData[RULE_NAME] = {
       ruleConfig,
       ruleFilePath: ruleFilePath + '.ts',
@@ -292,7 +300,10 @@ async function generateAllRuleData(): Promise<AllRuleData> {
             : {
                 code: test.code,
                 settings: test.settings,
-                options: test.options && test.options.length > 0 ? [...test.options] : undefined,
+                options:
+                  test.options && test.options.length > 0
+                    ? [...test.options]
+                    : undefined,
                 filename: test.filename,
               },
         )
@@ -302,7 +313,10 @@ async function generateAllRuleData(): Promise<AllRuleData> {
         .map((test) => ({
           code: test.code,
           settings: test.settings,
-          options: test.options && test.options.length > 0 ? [...test.options] : undefined,
+          options:
+            test.options && test.options.length > 0
+              ? [...test.options]
+              : undefined,
           filename: test.filename,
         }))
         .filter((test) => test.code);
@@ -336,11 +350,16 @@ function standardizeSpecialUnderlineChar(str: string): string {
     .split('\n')
     .map((line) => {
       // Is line with exclusively special characters and whitespace (but not just whitespace)?
-      if (!line.match(whitespaceOnlyRegExp) && line.match(specialCharsOrWhitespaceRegExp)) {
+      if (
+        !line.match(whitespaceOnlyRegExp) &&
+        line.match(specialCharsOrWhitespaceRegExp)
+      ) {
         return line
           .split('')
           .map((char) =>
-            SPECIAL_UNDERLINE_CHARS.includes(char as (typeof SPECIAL_UNDERLINE_CHARS)[number])
+            SPECIAL_UNDERLINE_CHARS.includes(
+              char as (typeof SPECIAL_UNDERLINE_CHARS)[number],
+            )
               ? '~'
               : char,
           )
@@ -420,7 +439,9 @@ ${
     .join('\n');
 }
 
-function removeLeadingAndTrailingEmptyLinesFromCodeExample(code: string): string {
+function removeLeadingAndTrailingEmptyLinesFromCodeExample(
+  code: string,
+): string {
   const lines = code.split('\n');
 
   let currentLineIndex = 0;
@@ -502,7 +523,9 @@ function convertNumericalLiteralToCode(numLiteral: ts.NumericLiteral): number {
   return Number(numLiteral.text);
 }
 
-function convertBooleanLiteralToCode(booleanLiteral: ts.BooleanLiteral): boolean {
+function convertBooleanLiteralToCode(
+  booleanLiteral: ts.BooleanLiteral,
+): boolean {
   const stringified = booleanLiteral.getText();
   if (stringified === 'false') {
     return false;
@@ -510,10 +533,14 @@ function convertBooleanLiteralToCode(booleanLiteral: ts.BooleanLiteral): boolean
   if (stringified === 'true') {
     return true;
   }
-  throw new Error(`Could not convert booleanLiteral node to code: ${booleanLiteral}`);
+  throw new Error(
+    `Could not convert booleanLiteral node to code: ${booleanLiteral}`,
+  );
 }
 
-function convertArrayLiteralExpressionToCode(arrExpr: ts.ArrayLiteralExpression): unknown[] {
+function convertArrayLiteralExpressionToCode(
+  arrExpr: ts.ArrayLiteralExpression,
+): unknown[] {
   const arr: unknown[] = [];
   arrExpr.elements.forEach((el) => {
     if (ts.isObjectLiteralExpression(el)) {
@@ -557,7 +584,9 @@ function convertObjectLiteralExpressionToCode(
         prop.initializer.kind === ts.SyntaxKind.TrueKeyword ||
         prop.initializer.kind === ts.SyntaxKind.FalseKeyword
       ) {
-        val = convertBooleanLiteralToCode(prop.initializer as ts.BooleanLiteral);
+        val = convertBooleanLiteralToCode(
+          prop.initializer as ts.BooleanLiteral,
+        );
       }
 
       if (key && typeof val !== 'undefined') {

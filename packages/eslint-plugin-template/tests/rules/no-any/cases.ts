@@ -1,5 +1,8 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
 import type { MessageIds, Options } from '../../../src/rules/no-any';
 
 const messageId: MessageIds = 'noAny';
@@ -100,7 +103,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     ],
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail with call expression and square bracket notation in property binding',
+    description:
+      'should fail with call expression and square bracket notation in property binding',
     annotatedSource: `
         <div *ngIf="$any(attributeList)['NPSScore']">Content</div>
                     ~~~~~~~~~~~~~~~~~~~
@@ -117,7 +121,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     ],
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail with call expression and square bracket notation in interpolation',
+    description:
+      'should fail with call expression and square bracket notation in interpolation',
     annotatedSource: `
         <div>{{ $any(attributeList)['NPSScore'] }}</div>
                 ~~~~~~~~~~~~~~~~~~~

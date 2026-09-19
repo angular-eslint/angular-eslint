@@ -34,8 +34,13 @@ export default createESLintRule<Options, MessageIds>({
   create(context) {
     const parserServices = getTemplateParserServices(context);
     const domElements = [...getDomElements()];
-    const uppercaseDomElements = domElements.map((element) => element.toUpperCase());
-    const elementNamePattern = toPattern([...domElements, ...uppercaseDomElements]);
+    const uppercaseDomElements = domElements.map((element) =>
+      element.toUpperCase(),
+    );
+    const elementNamePattern = toPattern([
+      ...domElements,
+      ...uppercaseDomElements,
+    ]);
 
     return {
       [`Element[name=${elementNamePattern}] > TextAttribute[name='role']`](
@@ -55,7 +60,9 @@ export default createESLintRule<Options, MessageIds>({
         if (isSemanticRoleElement(element, role, props)) return;
 
         const missingProps = requiredProps
-          .filter((requiredProp) => !props.find((prop) => prop.name === requiredProp))
+          .filter(
+            (requiredProp) => !props.find((prop) => prop.name === requiredProp),
+          )
           .join(', ');
 
         if (missingProps) {
@@ -78,7 +85,10 @@ export default createESLintRule<Options, MessageIds>({
                   missingProps,
                 },
                 fix: (fixer) =>
-                  fixer.removeRange([sourceSpan?.start.offset - 1, sourceSpan?.end.offset]),
+                  fixer.removeRange([
+                    sourceSpan?.start.offset - 1,
+                    sourceSpan?.end.offset,
+                  ]),
               },
             ],
           });

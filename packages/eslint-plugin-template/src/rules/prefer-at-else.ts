@@ -68,13 +68,17 @@ export default createESLintRule<Options, MessageIds>({
         }
 
         rootNodeCount++;
-        hasProjectableNode ||= node instanceof TmplAstElement || node instanceof TmplAstTemplate;
+        hasProjectableNode ||=
+          node instanceof TmplAstElement || node instanceof TmplAstTemplate;
       }
 
       return rootNodeCount > 1 && hasProjectableNode;
     }
 
-    function getFix(previous: IfNodeInfo, current: IfNodeInfo): ReportFixFunction | null {
+    function getFix(
+      previous: IfNodeInfo,
+      current: IfNodeInfo,
+    ): ReportFixFunction | null {
       const previousIf = previous.node.branches[0];
       const currentIf = current.node.branches[0];
       const currentElse = current.node.branches.at(1);
@@ -93,9 +97,15 @@ export default createESLintRule<Options, MessageIds>({
       // violation but do not offer an unsafe automatic fix.
       if (
         (previousElse &&
-          wouldPreventContentProjection([...previousElse.children, ...currentIf.children])) ||
+          wouldPreventContentProjection([
+            ...previousElse.children,
+            ...currentIf.children,
+          ])) ||
         (currentElse &&
-          wouldPreventContentProjection([...previousIf.children, ...currentElse.children]))
+          wouldPreventContentProjection([
+            ...previousIf.children,
+            ...currentElse.children,
+          ]))
       ) {
         return null;
       }
@@ -105,7 +115,10 @@ export default createESLintRule<Options, MessageIds>({
           // The previous `@if` block has no `@else` block,
           // so we can turn the current `@if` block into one.
           yield fixer.replaceTextRange(
-            [currentIf.sourceSpan.start.offset, currentIf.startSourceSpan.end.offset],
+            [
+              currentIf.sourceSpan.start.offset,
+              currentIf.startSourceSpan.end.offset,
+            ],
             '@else {',
           );
         } else {
@@ -164,7 +177,9 @@ export default createESLintRule<Options, MessageIds>({
           const previous = previousNodeStack.at(-1);
           if (previous && canCombine(previous, current)) {
             context.report({
-              loc: parserServices.convertNodeSourceSpanToLoc(current.node.nameSpan),
+              loc: parserServices.convertNodeSourceSpanToLoc(
+                current.node.nameSpan,
+              ),
               messageId: 'preferAtElse',
               fix: getFix(previous, current),
             });
@@ -226,7 +241,11 @@ function canCombine(previous: IfNodeInfo, current: IfNodeInfo): boolean {
       if (previous.rhs === undefined && current.rhs === undefined) {
         return true;
       }
-      if (previous.rhs && current.rhs && areEquivalentASTs(previous.rhs, current.rhs)) {
+      if (
+        previous.rhs &&
+        current.rhs &&
+        areEquivalentASTs(previous.rhs, current.rhs)
+      ) {
         return true;
       }
     }

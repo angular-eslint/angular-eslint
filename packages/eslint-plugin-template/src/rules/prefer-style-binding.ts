@@ -12,7 +12,8 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description: 'Suggests using [style] bindings over ngStyle where applicable',
+      description:
+        'Suggests using [style] bindings over ngStyle where applicable',
     },
     schema: [],
     messages: {

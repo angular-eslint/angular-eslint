@@ -1,5 +1,8 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
 import type { MessageIds, Options } from '../../../src/rules/no-output-rename';
 
 const messageId: MessageIds = 'noOutputRename';
@@ -200,7 +203,8 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if `outputs` metadata property is aliased in `@Component`',
+    description:
+      'should fail if `outputs` metadata property is aliased in `@Component`',
     annotatedSource: `
         @Component({
           outputs: ['a: b']
@@ -293,7 +297,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       `,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if output decorator property is aliased with backticks',
+    description:
+      'should fail if output decorator property is aliased with backticks',
     annotatedSource: `
         @Component()
         class Test {
@@ -319,7 +324,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     })),
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if output function property is aliased with backticks',
+    description:
+      'should fail if output function property is aliased with backticks',
     annotatedSource: `
         @Component()
         class Test {

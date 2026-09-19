@@ -70,7 +70,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail when [ngClass] is used with object (single-word keys)',
+    description:
+      'should fail when [ngClass] is used with object (single-word keys)',
     annotatedSource: `
         <div [ngClass]="{ active: true, disabled: false }"></div>
              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

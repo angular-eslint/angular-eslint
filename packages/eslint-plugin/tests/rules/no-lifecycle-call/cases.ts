@@ -1,5 +1,8 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
 import type { MessageIds, Options } from '../../../src/rules/no-lifecycle-call';
 
 const messageId: MessageIds = 'noLifecycleCall';
@@ -158,7 +161,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if ngOnDestroy() method is called in a @Service class',
+    description:
+      'should fail if ngOnDestroy() method is called in a @Service class',
     annotatedSource: `
         @Service()
         class Test {
@@ -171,7 +175,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if super.<lifecycle method>() is called in an incorrect context',
+    description:
+      'should fail if super.<lifecycle method>() is called in an incorrect context',
     annotatedSource: `
         @Component({ template: '' })
         class Test extends ParentComponent {

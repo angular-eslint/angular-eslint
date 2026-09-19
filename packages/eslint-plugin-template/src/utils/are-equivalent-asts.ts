@@ -48,19 +48,31 @@ export function areEquivalentASTs(a: AST, b: AST): boolean {
   }
 
   if (a instanceof Call && b instanceof Call) {
-    return areEquivalentASTArrays(a.args, b.args) && areEquivalentASTs(a.receiver, b.receiver);
+    return (
+      areEquivalentASTArrays(a.args, b.args) &&
+      areEquivalentASTs(a.receiver, b.receiver)
+    );
   }
 
   if (a instanceof SafeCall && b instanceof SafeCall) {
-    return areEquivalentASTArrays(a.args, b.args) && areEquivalentASTs(a.receiver, b.receiver);
+    return (
+      areEquivalentASTArrays(a.args, b.args) &&
+      areEquivalentASTs(a.receiver, b.receiver)
+    );
   }
 
   if (a instanceof KeyedRead && b instanceof KeyedRead) {
-    return areEquivalentASTs(a.key, b.key) && areEquivalentASTs(a.receiver, b.receiver);
+    return (
+      areEquivalentASTs(a.key, b.key) &&
+      areEquivalentASTs(a.receiver, b.receiver)
+    );
   }
 
   if (a instanceof SafeKeyedRead && b instanceof SafeKeyedRead) {
-    return areEquivalentASTs(a.key, b.key) && areEquivalentASTs(a.receiver, b.receiver);
+    return (
+      areEquivalentASTs(a.key, b.key) &&
+      areEquivalentASTs(a.receiver, b.receiver)
+    );
   }
 
   if (a instanceof NonNullAssert && b instanceof NonNullAssert) {
@@ -123,7 +135,11 @@ export function areEquivalentASTs(a: AST, b: AST): boolean {
           return false;
         }
         // Both are property keys, compare the key values
-        return aKey.kind === 'property' && bKey.kind === 'property' && aKey.key === bKey.key;
+        return (
+          aKey.kind === 'property' &&
+          bKey.kind === 'property' &&
+          aKey.key === bKey.key
+        );
       }) &&
       areEquivalentASTArrays(a.values, b.values)
     );
@@ -133,7 +149,9 @@ export function areEquivalentASTs(a: AST, b: AST): boolean {
 
   if (a instanceof BindingPipe && b instanceof BindingPipe) {
     return (
-      a.name === b.name && areEquivalentASTs(a.exp, b.exp) && areEquivalentASTArrays(a.args, b.args)
+      a.name === b.name &&
+      areEquivalentASTs(a.exp, b.exp) &&
+      areEquivalentASTArrays(a.args, b.args)
     );
   }
 
@@ -164,6 +182,7 @@ export function areEquivalentASTs(a: AST, b: AST): boolean {
 
 function areEquivalentASTArrays(a: AST[], b: AST[]): boolean {
   return (
-    a.length === b.length && a.every((aElement, index) => areEquivalentASTs(aElement, b[index]))
+    a.length === b.length &&
+    a.every((aElement, index) => areEquivalentASTs(aElement, b[index]))
   );
 }

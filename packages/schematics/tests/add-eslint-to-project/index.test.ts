@@ -1,5 +1,8 @@
 import { Tree } from '@angular-devkit/schematics';
-import { SchematicTestRunner, UnitTestTree } from '@angular-devkit/schematics/testing';
+import {
+  SchematicTestRunner,
+  UnitTestTree,
+} from '@angular-devkit/schematics/testing';
 import * as path from 'node:path';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { readJsonInTree } from '../../src/utils';
@@ -80,10 +83,16 @@ describe('add-eslint-to-project', () => {
         project: rootProjectName,
       };
 
-      await schematicRunner.runSchematic('add-eslint-to-project', options, appTree);
+      await schematicRunner.runSchematic(
+        'add-eslint-to-project',
+        options,
+        appTree,
+      );
 
-      expect(readJsonInTree(appTree, 'angular.json').projects[rootProjectName].architect.lint)
-        .toMatchInlineSnapshot(`
+      expect(
+        readJsonInTree(appTree, 'angular.json').projects[rootProjectName]
+          .architect.lint,
+      ).toMatchInlineSnapshot(`
         {
           "builder": "@angular-eslint/builder:lint",
           "options": {
@@ -95,7 +104,8 @@ describe('add-eslint-to-project', () => {
         }
       `);
 
-      expect(appTree.read('eslint.config.js')?.toString()).toMatchInlineSnapshot(`
+      expect(appTree.read('eslint.config.js')?.toString())
+        .toMatchInlineSnapshot(`
           "// @ts-check
           const eslint = require("@eslint/js");
           const { defineConfig } = require("eslint/config");
@@ -165,9 +175,15 @@ describe('add-eslint-to-project', () => {
         project: legacyProjectName,
       };
 
-      await schematicRunner.runSchematic('add-eslint-to-project', options, appTree);
+      await schematicRunner.runSchematic(
+        'add-eslint-to-project',
+        options,
+        appTree,
+      );
 
-      const projectConfig = readJsonInTree(appTree, 'angular.json').projects[legacyProjectName];
+      const projectConfig = readJsonInTree(appTree, 'angular.json').projects[
+        legacyProjectName
+      ];
 
       expect(projectConfig.architect.lint).toMatchInlineSnapshot(`
         {
@@ -225,9 +241,15 @@ describe('add-eslint-to-project', () => {
         project: otherProjectName,
       };
 
-      await schematicRunner.runSchematic('add-eslint-to-project', options, appTree);
+      await schematicRunner.runSchematic(
+        'add-eslint-to-project',
+        options,
+        appTree,
+      );
 
-      const projectConfig = readJsonInTree(appTree, 'angular.json').projects[otherProjectName];
+      const projectConfig = readJsonInTree(appTree, 'angular.json').projects[
+        otherProjectName
+      ];
 
       expect(projectConfig.architect.lint).toMatchInlineSnapshot(`
         {
@@ -287,9 +309,15 @@ describe('add-eslint-to-project', () => {
           setParserOptionsProject: true,
         };
 
-        await schematicRunner.runSchematic('add-eslint-to-project', options, appTree);
+        await schematicRunner.runSchematic(
+          'add-eslint-to-project',
+          options,
+          appTree,
+        );
 
-        const projectConfig = readJsonInTree(appTree, 'angular.json').projects[legacyProjectName];
+        const projectConfig = readJsonInTree(appTree, 'angular.json').projects[
+          legacyProjectName
+        ];
 
         expect(projectConfig.architect.lint).toMatchInlineSnapshot(`
           {
@@ -304,8 +332,9 @@ describe('add-eslint-to-project', () => {
           }
         `);
 
-        expect(appTree.read(`${projectConfig.root}/eslint.config.js`)?.toString())
-          .toMatchInlineSnapshot(`
+        expect(
+          appTree.read(`${projectConfig.root}/eslint.config.js`)?.toString(),
+        ).toMatchInlineSnapshot(`
           "// @ts-check
           const { defineConfig } = require("eslint/config");
           const rootConfig = require("../../eslint.config.js");
@@ -353,9 +382,15 @@ describe('add-eslint-to-project', () => {
           setParserOptionsProject: true,
         };
 
-        await schematicRunner.runSchematic('add-eslint-to-project', options, appTree);
+        await schematicRunner.runSchematic(
+          'add-eslint-to-project',
+          options,
+          appTree,
+        );
 
-        const projectConfig = readJsonInTree(appTree, 'angular.json').projects[otherProjectName];
+        const projectConfig = readJsonInTree(appTree, 'angular.json').projects[
+          otherProjectName
+        ];
 
         expect(projectConfig.architect.lint).toMatchInlineSnapshot(`
           {
@@ -370,8 +405,9 @@ describe('add-eslint-to-project', () => {
           }
         `);
 
-        expect(appTree.read(`${projectConfig.root}/eslint.config.js`)?.toString())
-          .toMatchInlineSnapshot(`
+        expect(
+          appTree.read(`${projectConfig.root}/eslint.config.js`)?.toString(),
+        ).toMatchInlineSnapshot(`
           "// @ts-check
           const { defineConfig } = require("eslint/config");
           const rootConfig = require("../../eslint.config.js");
@@ -428,10 +464,14 @@ describe('add-eslint-to-project', () => {
         expect(appTree.read('eslint.config.js')?.toString()).toContain(
           'tseslint.configs.strictTypeChecked',
         );
-        expect(appTree.read('eslint.config.js')?.toString()).toContain('projectService: true');
-        expect(appTree.read(`projects/${otherProjectName}/eslint.config.js`)?.toString()).toContain(
+        expect(appTree.read('eslint.config.js')?.toString()).toContain(
           'projectService: true',
         );
+        expect(
+          appTree
+            .read(`projects/${otherProjectName}/eslint.config.js`)
+            ?.toString(),
+        ).toContain('projectService: true');
       });
     });
 
@@ -501,10 +541,16 @@ describe('add-eslint-to-project', () => {
           project: rootProjectName,
         };
 
-        await schematicRunner.runSchematic('add-eslint-to-project', options, tree2);
+        await schematicRunner.runSchematic(
+          'add-eslint-to-project',
+          options,
+          tree2,
+        );
 
-        expect(readJsonInTree(tree2, 'angular.json').projects[rootProjectName].architect.lint)
-          .toMatchInlineSnapshot(`
+        expect(
+          readJsonInTree(tree2, 'angular.json').projects[rootProjectName]
+            .architect.lint,
+        ).toMatchInlineSnapshot(`
           {
             "builder": "@angular-eslint/builder:lint",
             "options": {
@@ -516,7 +562,8 @@ describe('add-eslint-to-project', () => {
           }
         `);
 
-        expect(tree2.read(`eslint.config.js`)?.toString()).toMatchInlineSnapshot(`
+        expect(tree2.read(`eslint.config.js`)?.toString())
+          .toMatchInlineSnapshot(`
             "// @ts-check
             const eslint = require("@eslint/js");
             const { defineConfig } = require("eslint/config");

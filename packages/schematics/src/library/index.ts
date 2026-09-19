@@ -35,7 +35,8 @@ export default function (options: Schema): Rule {
   return (host: Tree, context: SchematicContext) => {
     // Remove angular-eslint specific options before passing to the Angular schematic
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { setParserOptionsProject, tseslintPreset, ...angularOptions } = options;
+    const { setParserOptionsProject, tseslintPreset, ...angularOptions } =
+      options;
 
     return chain([
       externalSchematic('@schematics/angular', 'library', angularOptions),

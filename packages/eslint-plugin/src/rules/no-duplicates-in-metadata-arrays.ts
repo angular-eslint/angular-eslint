@@ -12,7 +12,8 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description: 'Ensures that metadata arrays do not contain duplicate entries.',
+      description:
+        'Ensures that metadata arrays do not contain duplicate entries.',
     },
     schema: [],
     messages: {
@@ -64,7 +65,9 @@ function getDuplicateItems(
       (element?.type === 'Literal' && typeof element.value === 'string'),
   );
   const uniqueItemKeys = new Set<string>();
-  const duplicateItems = new Array<TSESTree.Identifier | TSESTree.StringLiteral>();
+  const duplicateItems = new Array<
+    TSESTree.Identifier | TSESTree.StringLiteral
+  >();
 
   items.forEach((item) => {
     const key = item.type === 'Identifier' ? item.name : item.value;

@@ -53,7 +53,10 @@ export default createESLintRule<Options, MessageIds>({
       'Service',
     ]);
 
-    const injectFunctionsPattern = toPattern(['inject', ...additionalInjectFunctions]);
+    const injectFunctionsPattern = toPattern([
+      'inject',
+      ...additionalInjectFunctions,
+    ]);
 
     function findEagerInjectName(node: TSESTree.Node | null): string | null {
       if (!node) {
@@ -73,14 +76,21 @@ export default createESLintRule<Options, MessageIds>({
         node.type === AST_NODE_TYPES.FunctionExpression;
 
       const isIIFE =
-        isFn && node.parent?.type === AST_NODE_TYPES.CallExpression && node.parent.callee === node;
+        isFn &&
+        node.parent?.type === AST_NODE_TYPES.CallExpression &&
+        node.parent.callee === node;
 
       if (node.type === AST_NODE_TYPES.ClassExpression || (isFn && !isIIFE)) {
         return null;
       }
 
       for (const child of Object.values(node).flat()) {
-        if (child && typeof child === 'object' && 'type' in child && child !== node.parent) {
+        if (
+          child &&
+          typeof child === 'object' &&
+          'type' in child &&
+          child !== node.parent
+        ) {
           const name = findEagerInjectName(child as TSESTree.Node);
 
           if (name) {

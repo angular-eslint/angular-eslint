@@ -1,9 +1,16 @@
-import { ASTUtils, RuleFixes, isNotNullOrUndefined, Selectors } from '@angular-eslint/utils';
+import {
+  ASTUtils,
+  RuleFixes,
+  isNotNullOrUndefined,
+  Selectors,
+} from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
 export type Options = [];
-export type MessageIds = 'useComponentViewEncapsulation' | 'suggestRemoveViewEncapsulationNone';
+export type MessageIds =
+  | 'useComponentViewEncapsulation'
+  | 'suggestRemoveViewEncapsulationNone';
 export const RULE_NAME = 'use-component-view-encapsulation';
 const VIEW_ENCAPSULATION_NONE = 'ViewEncapsulation.None';
 
@@ -44,7 +51,11 @@ export default createESLintRule<Options, MessageIds>({
                   ASTUtils.getImportDeclarations(node, '@angular/core') ?? [];
 
                 return [
-                  RuleFixes.getNodeToCommaRemoveFix(sourceCode, node.parent.parent, fixer),
+                  RuleFixes.getNodeToCommaRemoveFix(
+                    sourceCode,
+                    node.parent.parent,
+                    fixer,
+                  ),
                   RuleFixes.getImportRemoveFix(
                     sourceCode,
                     importDeclarations,

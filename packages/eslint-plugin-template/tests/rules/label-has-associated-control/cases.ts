@@ -1,6 +1,12 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
-import type { MessageIds, Options } from '../../../src/rules/label-has-associated-control';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type {
+  MessageIds,
+  Options,
+} from '../../../src/rules/label-has-associated-control';
 
 const messageId: MessageIds = 'labelHasAssociatedControl';
 
@@ -29,7 +35,9 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     options: [
       {
         controlComponents: ['my-custom-control'],
-        labelComponents: [{ inputs: ['for', 'htmlFor', 'myCustomFor'], selector: 'label' }],
+        labelComponents: [
+          { inputs: ['for', 'htmlFor', 'myCustomFor'], selector: 'label' },
+        ],
       },
     ],
   },
@@ -97,7 +105,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail if an uppercase label does not have a "for" attribute',
+    description:
+      'should fail if an uppercase label does not have a "for" attribute',
     annotatedSource: `
         <LABEL>Label</LABEL>
         ~~~~~~~~~~~~~~~~~~~~
@@ -119,7 +128,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail if an label has the "for" attribute with a non matching id',
+    description:
+      'should fail if an label has the "for" attribute with a non matching id',
     annotatedSource: `
         <LABEL for="id">Label</LABEL>
         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -132,7 +142,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail if a label component does not have a label attribute',
+    description:
+      'should fail if a label component does not have a label attribute',
     annotatedSource: `
         <app-label anotherAttribute="id"></app-label>
         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

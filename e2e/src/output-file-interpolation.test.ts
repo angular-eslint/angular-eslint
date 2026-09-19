@@ -1,7 +1,11 @@
 import path from 'node:path';
 import { setWorkspaceRoot } from 'nx/src/utils/workspace-root';
 import { beforeAll, describe, expect, it, vi } from 'vitest';
-import { FIXTURES_DIR, Fixture, resetFixtureDirectory } from '../utils/fixtures';
+import {
+  FIXTURES_DIR,
+  Fixture,
+  resetFixtureDirectory,
+} from '../utils/fixtures';
 import {
   LONG_TIMEOUT_MS,
   runNgAdd,
@@ -79,7 +83,9 @@ describe('output-file-interpolation', () => {
     }
 
     // Verify report was written to the interpolated path using projectRoot and snapshot the contents
-    const libOneReport = fixture.readJson('projects/lib-one/reports/lib-one-results.json');
+    const libOneReport = fixture.readJson(
+      'projects/lib-one/reports/lib-one-results.json',
+    );
     expect(libOneReport).toMatchSnapshot();
   });
 
@@ -96,7 +102,8 @@ describe('output-file-interpolation', () => {
     }
 
     // Verify report was written to the dynamically interpolated path and snapshot the contents
-    const appTwoReportPath = 'dynamic-reports/app-two/projects/app-two/lint.json';
+    const appTwoReportPath =
+      'dynamic-reports/app-two/projects/app-two/lint.json';
     expect(fixture.fileExists(appTwoReportPath)).toBe(true);
 
     const appTwoReport = fixture.readJson(appTwoReportPath);
@@ -122,19 +129,23 @@ describe('output-file-interpolation', () => {
 
     // Verify each project has its own report file with interpolated paths
     // The default project name should get its own file
-    const defaultProjectReport = 'all-projects-reports/output-file-interpolation-.json';
+    const defaultProjectReport =
+      'all-projects-reports/output-file-interpolation-.json';
     expect(fixture.fileExists(defaultProjectReport)).toBe(true);
 
     // app-one should have its own file
-    const appOneReportPath = 'all-projects-reports/app-one-projects/app-one.json';
+    const appOneReportPath =
+      'all-projects-reports/app-one-projects/app-one.json';
     expect(fixture.fileExists(appOneReportPath)).toBe(true);
 
     // app-two should have its own file
-    const appTwoReportPath = 'all-projects-reports/app-two-projects/app-two.json';
+    const appTwoReportPath =
+      'all-projects-reports/app-two-projects/app-two.json';
     expect(fixture.fileExists(appTwoReportPath)).toBe(true);
 
     // lib-one should have its own file
-    const libOneReportPath = 'all-projects-reports/lib-one-projects/lib-one.json';
+    const libOneReportPath =
+      'all-projects-reports/lib-one-projects/lib-one.json';
     expect(fixture.fileExists(libOneReportPath)).toBe(true);
 
     // Snapshot all reports to ensure they contain the correct lint results

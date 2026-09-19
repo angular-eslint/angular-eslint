@@ -1,6 +1,12 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
-import type { MessageIds, Options } from '../../../src/rules/no-attribute-decorator';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type {
+  MessageIds,
+  Options,
+} from '../../../src/rules/no-attribute-decorator';
 
 const messageId: MessageIds = 'noAttributeDecorator';
 
@@ -27,7 +33,8 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if a parameter property is decorated with `@Attribute`',
+    description:
+      'should fail if a parameter property is decorated with `@Attribute`',
     annotatedSource: `
         class Test {
           constructor(@Attribute() foo: string) {}
@@ -37,7 +44,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if multiple parameter properties are decorated with `@Attribute`',
+    description:
+      'should fail if multiple parameter properties are decorated with `@Attribute`',
     annotatedSource: `
         class Test {
           constructor(

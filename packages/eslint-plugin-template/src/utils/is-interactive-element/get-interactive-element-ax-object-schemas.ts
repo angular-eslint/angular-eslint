@@ -19,24 +19,25 @@ export function getInteractiveElementAXObjectSchemas(): AXObjectSchema[] {
     // This set will contain all possible roles in ARIA, which are
     // type of `structure` or `window` (since we filter out `widget` type).
     const interactiveAXObjects = new Set<string>(
-      Array.from<string>(AXObjects.keys()).filter((name) => AXObjects.get(name).type === 'widget'),
+      Array.from<string>(AXObjects.keys()).filter(
+        (name) => AXObjects.get(name).type === 'widget',
+      ),
     );
 
     // This will contain all schemas that are related to ARIA roles
     // listed in the above set `interactiveAXObjects`.
-    interactiveElementAXObjectSchemas = [...elementAXObjects.entries()].reduce<AXObjectSchema[]>(
-      (accumulator, [elementSchema, AXObjectSet]) => {
-        return accumulator.concat(
-          [...AXObjectSet].every((role) => interactiveAXObjects.has(role))
-            ? // summary element should not have required attributes
-              elementSchema.name === 'summary'
-              ? { ...elementSchema, attributes: [] }
-              : elementSchema
-            : [],
-        );
-      },
-      [],
-    );
+    interactiveElementAXObjectSchemas = [...elementAXObjects.entries()].reduce<
+      AXObjectSchema[]
+    >((accumulator, [elementSchema, AXObjectSet]) => {
+      return accumulator.concat(
+        [...AXObjectSet].every((role) => interactiveAXObjects.has(role))
+          ? // summary element should not have required attributes
+            elementSchema.name === 'summary'
+            ? { ...elementSchema, attributes: [] }
+            : elementSchema
+          : [],
+      );
+    }, []);
   }
 
   return interactiveElementAXObjectSchemas;

@@ -10,7 +10,9 @@ import {
 
 function readWorkspacePackageJson(workspaceRoot: string): PackageJsonLike {
   try {
-    return JSON.parse(readFileSync(join(workspaceRoot, 'package.json'), 'utf8')) as PackageJsonLike;
+    return JSON.parse(
+      readFileSync(join(workspaceRoot, 'package.json'), 'utf8'),
+    ) as PackageJsonLike;
   } catch {
     return {};
   }
@@ -21,7 +23,10 @@ function readWorkspacePackageJson(workspaceRoot: string): PackageJsonLike {
  * into parent node_modules, which would lie in monorepo tests and nested
  * workspaces).
  */
-function readInstalledMajor(workspaceRoot: string, packageName: string): number | null {
+function readInstalledMajor(
+  workspaceRoot: string,
+  packageName: string,
+): number | null {
   try {
     const pkgJsonPath = join(
       workspaceRoot,

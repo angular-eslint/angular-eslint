@@ -1,5 +1,7 @@
 import { RuleTester } from '@angular-eslint/test-utils';
-import rule, { RULE_NAME } from '../../../src/rules/no-duplicates-in-metadata-arrays';
+import rule, {
+  RULE_NAME,
+} from '../../../src/rules/no-duplicates-in-metadata-arrays';
 import { invalid, valid } from './cases';
 
 const ruleTester = new RuleTester();

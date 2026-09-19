@@ -11,7 +11,8 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'problem',
     docs: {
-      description: 'Ensures that lifecycle methods are used in a correct context',
+      description:
+        'Ensures that lifecycle methods are used in a correct context',
       recommended: 'recommended',
     },
     schema: [],

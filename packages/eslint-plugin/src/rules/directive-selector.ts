@@ -1,4 +1,9 @@
-import { arrayify, ASTUtils, Selectors, SelectorUtils } from '@angular-eslint/utils';
+import {
+  arrayify,
+  ASTUtils,
+  Selectors,
+  SelectorUtils,
+} from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
@@ -47,7 +52,10 @@ export default createESLintRule<Options, MessageIds>({
               },
               style: {
                 type: 'string',
-                enum: [ASTUtils.OPTION_STYLE_CAMEL_CASE, ASTUtils.OPTION_STYLE_KEBAB_CASE],
+                enum: [
+                  ASTUtils.OPTION_STYLE_CAMEL_CASE,
+                  ASTUtils.OPTION_STYLE_KEBAB_CASE,
+                ],
               },
             },
             required: ['type', 'style'],
@@ -61,14 +69,20 @@ export default createESLintRule<Options, MessageIds>({
               properties: {
                 type: {
                   type: 'string',
-                  enum: [SelectorUtils.OPTION_TYPE_ELEMENT, SelectorUtils.OPTION_TYPE_ATTRIBUTE],
+                  enum: [
+                    SelectorUtils.OPTION_TYPE_ELEMENT,
+                    SelectorUtils.OPTION_TYPE_ATTRIBUTE,
+                  ],
                 },
                 prefix: {
                   oneOf: [{ type: 'string' }, { type: 'array' }],
                 },
                 style: {
                   type: 'string',
-                  enum: [ASTUtils.OPTION_STYLE_CAMEL_CASE, ASTUtils.OPTION_STYLE_KEBAB_CASE],
+                  enum: [
+                    ASTUtils.OPTION_STYLE_CAMEL_CASE,
+                    ASTUtils.OPTION_STYLE_KEBAB_CASE,
+                  ],
                 },
               },
               additionalProperties: false,
@@ -81,7 +95,8 @@ export default createESLintRule<Options, MessageIds>({
       },
     ],
     messages: {
-      prefixFailure: 'The selector should start with one of these prefixes: {{prefix}}',
+      prefixFailure:
+        'The selector should start with one of these prefixes: {{prefix}}',
       styleFailure: 'The selector should be {{style}}',
       typeFailure: 'The selector should be used as an {{type}}',
       selectorAfterPrefixFailure: `There should be a selector after the {{prefix}} prefix`,
@@ -104,7 +119,10 @@ export default createESLintRule<Options, MessageIds>({
 
     return {
       [Selectors.DIRECTIVE_CLASS_DECORATOR](node: TSESTree.Decorator) {
-        const rawSelectors = ASTUtils.getDecoratorPropertyValue(node, 'selector');
+        const rawSelectors = ASTUtils.getDecoratorPropertyValue(
+          node,
+          'selector',
+        );
         if (!rawSelectors) {
           return;
         }
@@ -115,14 +133,21 @@ export default createESLintRule<Options, MessageIds>({
           return;
         }
 
-        const applicableConfig = SelectorUtils.getApplicableConfig(rawSelectors, configByType);
+        const applicableConfig = SelectorUtils.getApplicableConfig(
+          rawSelectors,
+          configByType,
+        );
         if (!applicableConfig) {
           return;
         }
 
         const { type, prefix, style } = applicableConfig;
 
-        const isValidOptions = SelectorUtils.checkValidOptions(type, prefix, style);
+        const isValidOptions = SelectorUtils.checkValidOptions(
+          type,
+          prefix,
+          style,
+        );
         if (!isValidOptions) {
           return;
         }
@@ -145,7 +170,11 @@ export default createESLintRule<Options, MessageIds>({
         } else if (!hasExpectedSelector.hasSelectorAfterPrefix) {
           // Only report selector after prefix error if prefix is actually required
           if (prefix !== undefined) {
-            SelectorUtils.reportSelectorAfterPrefixError(rawSelectors, prefix, context);
+            SelectorUtils.reportSelectorAfterPrefixError(
+              rawSelectors,
+              prefix,
+              context,
+            );
           }
         } else if (!hasExpectedSelector.hasExpectedStyle) {
           SelectorUtils.reportStyleError(rawSelectors, style, context);

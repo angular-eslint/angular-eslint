@@ -122,7 +122,8 @@ export const valid = [
 
 export const invalid = [
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail when input and output form a two-way binding pattern',
+    description:
+      'should fail when input and output form a two-way binding pattern',
     annotatedSource: `
       class Test {
         readonly enabled = input();
@@ -141,7 +142,8 @@ export const invalid = [
       `,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail for all patterns when there are multiple two-way binding patterns',
+    description:
+      'should fail for all patterns when there are multiple two-way binding patterns',
     annotatedSource: `
       class Test {
         readonly enabled = input();
@@ -263,7 +265,8 @@ export const invalid = [
       `,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should not add duplicate import when model is already imported',
+    description:
+      'should not add duplicate import when model is already imported',
     annotatedSource: `
       import { model, input, output } from '@angular/core';
 
@@ -311,7 +314,8 @@ export const invalid = [
     ].join('\n'),
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail when an object initial value has a transform property',
+    description:
+      'should fail when an object initial value has a transform property',
     annotatedSource: `
       class Test {
         readonly style = input({ transform: 'scale(2)' });
@@ -351,7 +355,8 @@ export const invalid = [
       `,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail when input and output types are structurally identical',
+    description:
+      'should fail when input and output types are structurally identical',
     annotatedSource: `
       class Test {
         readonly value = input<{ id: string }>();
@@ -392,7 +397,8 @@ export const invalid = [
       `,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should replace the `input` call rather than a property named `input`',
+    description:
+      'should replace the `input` call rather than a property named `input`',
     annotatedSource: `
       class Test {
         readonly input = input<string>();
@@ -411,7 +417,8 @@ export const invalid = [
       `,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail when neither the input nor the output type can be determined',
+    description:
+      'should fail when neither the input nor the output type can be determined',
     annotatedSource: `
       class Test {
         readonly enabled = input();
@@ -431,7 +438,8 @@ export const invalid = [
       `,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail when the same unresolved type is written on both sides',
+    description:
+      'should fail when the same unresolved type is written on both sides',
     annotatedSource: `
       class Test {
         readonly value = input<Foo>();

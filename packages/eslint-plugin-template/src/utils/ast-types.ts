@@ -1,4 +1,8 @@
-import { AST, LiteralPrimitive, PropertyRead } from '@angular-eslint/bundled-angular-compiler';
+import {
+  AST,
+  LiteralPrimitive,
+  PropertyRead,
+} from '@angular-eslint/bundled-angular-compiler';
 
 export function isLengthRead(node: AST): node is PropertyRead {
   return node instanceof PropertyRead && node.name === 'length';

@@ -1,5 +1,8 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
 import type { MessageIds, Options } from '../../../src/rules/i18n';
 
 const i18nAttribute: MessageIds = 'i18nAttribute';
@@ -222,7 +225,9 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     code: `
       <h1 i18n="site header|An introduction header for this sample">Hello i18n!</h1>
     `,
-    options: [{ checkId: false, requireDescription: true, requireMeaning: true }],
+    options: [
+      { checkId: false, requireDescription: true, requireMeaning: true },
+    ],
   },
   `
     <ng-template i18n="@@foo"><p *ngIf="condition">Text</p></ng-template>
@@ -429,7 +434,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     `,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if `i18n` attribute is missing on element containing bound text',
+    description:
+      'should fail if `i18n` attribute is missing on element containing bound text',
     annotatedSource: `
       <div>
         <span>test{{data_from_backend}}</span>
@@ -458,7 +464,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     `,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if `i18n` attribute is missing on element containing ICU',
+    description:
+      'should fail if `i18n` attribute is missing on element containing ICU',
     annotatedSource: `
       { value, plural, =0 {<div>No elements</div>} =1 {111} }
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -471,7 +478,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     `,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if `i18n` attribute is missing on element containing text',
+    description:
+      'should fail if `i18n` attribute is missing on element containing text',
     annotatedSource: `
       <div>
         <ng-container>Some text&nbsp;t&#64; tr1nslate</ng-container>
@@ -488,7 +496,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     `,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if `i18n-*` attribute is missing with nested elements',
+    description:
+      'should fail if `i18n-*` attribute is missing with nested elements',
     annotatedSource: `
       <p>Lorem ipsum <em i18n="@@dolor">dolor</em> sit amet.</p>
          ~~~~~~~~~~~~                              ^^^^^^^^^
@@ -595,7 +604,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     options: [{ ignoreTags: [] }],
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if i18n custom ID is duplicate in attribute and element',
+    description:
+      'should fail if i18n custom ID is duplicate in attribute and element',
     annotatedSource: `
       <div i18n-tooltip="@@custom-id" tooltip="This requires translation">
                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -617,7 +627,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     ],
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if i18n custom ID appears multiple times in attributes and elements',
+    description:
+      'should fail if i18n custom ID appears multiple times in attributes and elements',
     annotatedSource: `
       <div i18n-tooltip="@@custom-id" tooltip="This requires translation">
                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -729,7 +740,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     options: [{ checkId: false, requireDescription: true }],
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if i18n description is missing, despite an ID being provided',
+    description:
+      'should fail if i18n description is missing, despite an ID being provided',
     annotatedSource: `
       <h1 i18n="@@custom-id">Hello</h1>
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -749,7 +761,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     options: [{ checkId: false, requireDescription: true }],
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if i18n-<attr> description is missing, despite an ID being provided',
+    description:
+      'should fail if i18n-<attr> description is missing, despite an ID being provided',
     annotatedSource: `
       <h1 i18n="Title of the sample@@custom-id" i18n-title="@@title-id" title="Translated title">
                                                                         ~~~~~
@@ -779,13 +792,16 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     options: [{ checkId: false, requireMeaning: true }],
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if i18n meaning is missing, despite a description being provided',
+    description:
+      'should fail if i18n meaning is missing, despite a description being provided',
     annotatedSource: `
       <h1 i18n="An introduction header for this sample">Hello</h1>
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     `,
     messageId: i18nMissingMeaning,
-    options: [{ checkId: false, requireDescription: true, requireMeaning: true }],
+    options: [
+      { checkId: false, requireDescription: true, requireMeaning: true },
+    ],
   }),
   convertAnnotatedSourceToFailureCase({
     description:
@@ -798,16 +814,20 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     options: [{ requireDescription: true, requireMeaning: true }],
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if i18n meaning is empty, despite a description being provided',
+    description:
+      'should fail if i18n meaning is empty, despite a description being provided',
     annotatedSource: `
       <h1 i18n="|An introduction header for this sample">Hello</h1>
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     `,
     messageId: i18nMissingMeaning,
-    options: [{ checkId: false, requireDescription: true, requireMeaning: true }],
+    options: [
+      { checkId: false, requireDescription: true, requireMeaning: true },
+    ],
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if `i18n` attribute is missing on `Template` containing `Text`',
+    description:
+      'should fail if `i18n` attribute is missing on `Template` containing `Text`',
     annotatedSource: `
       <ng-template>No people or teams matched your search</ng-template>
                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -819,7 +839,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     `,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if `i18n` attribute is missing on `Template` containing `ICU`',
+    description:
+      'should fail if `i18n` attribute is missing on `Template` containing `ICU`',
     annotatedSource: `
       { value, plural, =0 {<ng-template>No elements</ng-template>} =1 {111} }
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -832,7 +853,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     `,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if `i18n` attribute is missing on `Template` containing text',
+    description:
+      'should fail if `i18n` attribute is missing on `Template` containing text',
     annotatedSource: `
       <div>
         <ng-template>Some text&nbsp;t&#64; tr1nslate</ng-template>
@@ -849,7 +871,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     `,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if `i18n-*` attribute is missing with nested `Template`',
+    description:
+      'should fail if `i18n-*` attribute is missing with nested `Template`',
     annotatedSource: `
       <ng-template>Lorem ipsum <ng-template i18n="@@dolor">dolor</ng-template> sit amet.</ng-template>
                    ~~~~~~~~~~~~                                                ^^^^^^^^^
@@ -904,7 +927,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId: i18nCustomIdOnElement,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if the same i18n custom ID is present in `Element` and `Template`',
+    description:
+      'should fail if the same i18n custom ID is present in `Element` and `Template`',
     annotatedSource: `
       <h3 i18n="@@myId">Hello</h3>
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1114,7 +1138,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     `,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if `i18n` attribute is on element containing markup',
+    description:
+      'should fail if `i18n` attribute is on element containing markup',
     annotatedSource: `
       <div i18n>
         Text to translate
@@ -1126,7 +1151,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     options: [{ allowMarkupInContent: false, checkId: false }],
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if `i18n` attribute is on `Template` containing markup',
+    description:
+      'should fail if `i18n` attribute is on `Template` containing markup',
     annotatedSource: `
       <ng-template i18n>
         Text to translate

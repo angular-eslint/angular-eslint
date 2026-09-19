@@ -1,8 +1,16 @@
 import path from 'node:path';
 import { setWorkspaceRoot } from 'nx/src/utils/workspace-root';
 import { beforeAll, describe, expect, it, vi } from 'vitest';
-import { FIXTURES_DIR, Fixture, resetFixtureDirectory } from '../utils/fixtures';
-import { LONG_TIMEOUT_MS, runNgAdd, runNgNew } from '../utils/local-registry-process';
+import {
+  FIXTURES_DIR,
+  Fixture,
+  resetFixtureDirectory,
+} from '../utils/fixtures';
+import {
+  LONG_TIMEOUT_MS,
+  runNgAdd,
+  runNgNew,
+} from '../utils/local-registry-process';
 import { runLint } from '../utils/run-lint';
 
 const fixtureDirectory = 'new-workspace-tseslint-preset-strict-type-checked';
@@ -45,8 +53,12 @@ describe('new-workspace with --tseslint-preset=strictTypeChecked', () => {
     // Assert those known findings rather than a clean lint so we still notice
     // if additional violations appear.
     expect(lintOutput).toContain('src/main.ts');
-    expect(lintOutput).toContain('@typescript-eslint/use-unknown-in-catch-callback-variable');
-    expect(lintOutput).toContain('@typescript-eslint/no-confusing-void-expression');
+    expect(lintOutput).toContain(
+      '@typescript-eslint/use-unknown-in-catch-callback-variable',
+    );
+    expect(lintOutput).toContain(
+      '@typescript-eslint/no-confusing-void-expression',
+    );
     expect(lintOutput).toContain('2 problems (2 errors, 0 warnings)');
     expect(lintOutput).not.toContain('All files pass linting');
   });

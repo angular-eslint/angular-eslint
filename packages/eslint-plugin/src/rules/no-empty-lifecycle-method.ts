@@ -9,7 +9,9 @@ import type { TSESTree } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
 export type Options = [];
-export type MessageIds = 'noEmptyLifecycleMethod' | 'suggestRemoveLifecycleMethod';
+export type MessageIds =
+  | 'noEmptyLifecycleMethod'
+  | 'suggestRemoveLifecycleMethod';
 export const RULE_NAME = 'no-empty-lifecycle-method';
 
 export default createESLintRule<Options, MessageIds>({
@@ -40,7 +42,9 @@ export default createESLintRule<Options, MessageIds>({
       'Service',
     ]);
 
-    const angularLifecycleMethodsPattern = toPattern([...ASTUtils.ANGULAR_LIFECYCLE_METHODS]);
+    const angularLifecycleMethodsPattern = toPattern([
+      ...ASTUtils.ANGULAR_LIFECYCLE_METHODS,
+    ]);
 
     return {
       [`${Selectors.decoratorDefinition(
@@ -61,9 +65,15 @@ export default createESLintRule<Options, MessageIds>({
               fix: (fixer) => {
                 const importDeclarations =
                   ASTUtils.getImportDeclarations(node, '@angular/core') ?? [];
-                const interfaceName = ASTUtils.getRawText(node).replace(/^ng+/, '');
+                const interfaceName = ASTUtils.getRawText(node).replace(
+                  /^ng+/,
+                  '',
+                );
                 const text = sourceCode.getText();
-                const totalInterfaceOccurrences = getTotalInterfaceOccurrences(text, interfaceName);
+                const totalInterfaceOccurrences = getTotalInterfaceOccurrences(
+                  text,
+                  interfaceName,
+                );
                 const totalInterfaceOccurrencesSafeForRemoval = 2;
 
                 return [
@@ -74,7 +84,8 @@ export default createESLintRule<Options, MessageIds>({
                     interfaceName,
                     fixer,
                   ),
-                  totalInterfaceOccurrences <= totalInterfaceOccurrencesSafeForRemoval
+                  totalInterfaceOccurrences <=
+                  totalInterfaceOccurrencesSafeForRemoval
                     ? RuleFixes.getImportRemoveFix(
                         sourceCode,
                         importDeclarations,
@@ -97,7 +108,9 @@ function stripSpecialCharacters(text: string) {
 }
 
 function getTotalInterfaceOccurrences(text: string, interfaceName: string) {
-  return text.split(' ').filter((item) => stripSpecialCharacters(item) === interfaceName).length;
+  return text
+    .split(' ')
+    .filter((item) => stripSpecialCharacters(item) === interfaceName).length;
 }
 
 export const RULE_DOCS_EXTENSION = {

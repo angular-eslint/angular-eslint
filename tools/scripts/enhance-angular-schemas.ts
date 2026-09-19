@@ -12,7 +12,12 @@ import { formatSource } from './format-source';
 
   const tseslintPresetConfig = {
     type: 'string',
-    enum: ['recommended', 'strict', 'recommendedTypeChecked', 'strictTypeChecked'],
+    enum: [
+      'recommended',
+      'strict',
+      'recommendedTypeChecked',
+      'strictTypeChecked',
+    ],
     default: 'recommended',
     description:
       'Which typescript-eslint shared config preset to extend in the generated ESLint config. Type-checked presets also enable parserOptions.projectService (required for those rules, but slower). See https://typescript-eslint.io/users/configs/',
@@ -28,14 +33,20 @@ import { formatSource } from './format-source';
     '../../packages/schematics/src/application/schema.json',
   );
 
-  await enhanceSchemaWithProperties(applicationSchemaJsonPath, angularEslintSchemaProperties);
+  await enhanceSchemaWithProperties(
+    applicationSchemaJsonPath,
+    angularEslintSchemaProperties,
+  );
 
   const librarySchemaJsonPath = join(
     __dirname,
     '../../packages/schematics/src/library/schema.json',
   );
 
-  await enhanceSchemaWithProperties(librarySchemaJsonPath, angularEslintSchemaProperties);
+  await enhanceSchemaWithProperties(
+    librarySchemaJsonPath,
+    angularEslintSchemaProperties,
+  );
 })();
 
 async function enhanceSchemaWithProperties(
@@ -56,7 +67,15 @@ async function enhanceSchemaWithProperties(
     2,
   );
 
-  writeFileSync(schemaJsonPath, formatSource(updatedSchemaJson, schemaJsonPath));
+  writeFileSync(
+    schemaJsonPath,
+    formatSource(updatedSchemaJson, schemaJsonPath, {
+      // Schematic schemas stay in ignorePatterns for `format:check`, but generation must still format them.
+      stdinFilePath: 'tools/scripts/.schema-generation-format.json',
+    }),
+  );
 
-  console.log(`\n✨ Enhanced ${schemaJsonPath} with angular-eslint specific options`);
+  console.log(
+    `\n✨ Enhanced ${schemaJsonPath} with angular-eslint specific options`,
+  );
 }

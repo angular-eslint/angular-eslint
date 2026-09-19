@@ -62,48 +62,62 @@ type DataFn = (ruleItem: RuleItem, plugin: Plugin) => string;
 const columns: Column[] = [
   {
     header: 'Rule',
-    dataFn: (ruleItem: RuleItem, plugin: Plugin) => createRuleLink(ruleItem, plugin),
+    dataFn: (ruleItem: RuleItem, plugin: Plugin) =>
+      createRuleLink(ruleItem, plugin),
   },
   {
     header: 'Description',
-    dataFn: ([, rule]: RuleItem) => rule.meta.docs?.description.replace(/\s{2,}/, ' ') || '',
+    dataFn: ([, rule]: RuleItem) =>
+      rule.meta.docs?.description.replace(/\s{2,}/, ' ') || '',
   },
   {
     header: emojiWithDesc('recommended'),
-    dataFn: ([, rule]: RuleItem) => returnEmojiIfTrue('recommended', !!rule.meta.docs?.recommended),
+    dataFn: ([, rule]: RuleItem) =>
+      returnEmojiIfTrue('recommended', !!rule.meta.docs?.recommended),
   },
   {
     header: emojiWithDesc('fixable'),
-    dataFn: ([, rule]: RuleItem) => returnEmojiIfTrue('fixable', !!rule.meta.fixable),
+    dataFn: ([, rule]: RuleItem) =>
+      returnEmojiIfTrue('fixable', !!rule.meta.fixable),
   },
   {
     header: emojiWithDesc('hasSuggestions'),
-    dataFn: ([, rule]: RuleItem) => returnEmojiIfTrue('hasSuggestions', !!rule.meta.hasSuggestions),
+    dataFn: ([, rule]: RuleItem) =>
+      returnEmojiIfTrue('hasSuggestions', !!rule.meta.hasSuggestions),
   },
 ];
 
 const accessibilityColumn: Column = {
   header: emojiWithDesc('accessibility'),
   dataFn: ([, rule]: RuleItem) =>
-    returnEmojiIfTrue('accessibility', !!rule.meta.docs?.description.startsWith('[Accessibility]')),
+    returnEmojiIfTrue(
+      'accessibility',
+      !!rule.meta.docs?.description.startsWith('[Accessibility]'),
+    ),
 };
 
 const columnsDeprecated: Column[] = [
   {
     header: 'Rule',
-    dataFn: (ruleItem: RuleItem, plugin: Plugin) => createRuleLink(ruleItem, plugin),
+    dataFn: (ruleItem: RuleItem, plugin: Plugin) =>
+      createRuleLink(ruleItem, plugin),
   },
   {
     header: 'Replaced by',
     dataFn: ([name, rule]: RuleItem, plugin: Plugin) =>
       (rule.meta.replacedBy || [])
-        .map((replacer) => createRuleLink([name, rule], plugin).replaceAll(name, replacer))
+        .map((replacer) =>
+          createRuleLink([name, rule], plugin).replaceAll(name, replacer),
+        )
         .join(', '),
   },
 ];
 
-const buildRow = (ruleItem: RuleItem, plugin: Plugin, columnsSet: Column[]): string =>
-  columnsSet.map((col) => col.dataFn(ruleItem, plugin)).join(' | ');
+const buildRow = (
+  ruleItem: RuleItem,
+  plugin: Plugin,
+  columnsSet: Column[],
+): string => columnsSet.map((col) => col.dataFn(ruleItem, plugin)).join(' | ');
 
 const buildRulesTable = (rules: RulesList = [], plugin: Plugin): string => {
   const columnSet = rules[0][1].meta.deprecated
@@ -114,11 +128,17 @@ const buildRulesTable = (rules: RulesList = [], plugin: Plugin): string => {
   return [
     `| ${columnSet.map((col) => col.header).join(' | ')} |`,
     `| ${columnSet.map(() => '---').join(' | ')} |`,
-    ...rules.map((item: RuleItem) => `| ${buildRow(item, plugin, columnSet)} |`),
+    ...rules.map(
+      (item: RuleItem) => `| ${buildRow(item, plugin, columnSet)} |`,
+    ),
   ].join('\n');
 };
 
-const buildRulesSection = (categoryName: string, rules: RulesList = [], plugin: Plugin): string =>
+const buildRulesSection = (
+  categoryName: string,
+  rules: RulesList = [],
+  plugin: Plugin,
+): string =>
   [
     '',
     `### ${categoryName}`,
@@ -148,7 +168,9 @@ const updateRulesList = (
     throw new Error(`cannot find start or end of ${listName} list`);
   }
 
-  const content: string = rules.length ? buildRulesSection(listName, rules, plugin) : '';
+  const content: string = rules.length
+    ? buildRulesSection(listName, rules, plugin)
+    : '';
 
   return [
     markdown.substring(0, listStartIndex - 1),
@@ -159,8 +181,10 @@ const updateRulesList = (
   ].join('\n');
 };
 
-const getRulesByType = (rules: RuleItem[], type: 'suggestion' | 'problem' | 'layout'): RuleItem[] =>
-  rules.filter(([, rule]) => rule.meta.type === type);
+const getRulesByType = (
+  rules: RuleItem[],
+  type: 'suggestion' | 'problem' | 'layout',
+): RuleItem[] => rules.filter(([, rule]) => rule.meta.type === type);
 
 const updateFile = async (plugin: Plugin): Promise<void> => {
   const filePath = resolve(__dirname, plugin.filePath);
@@ -168,7 +192,9 @@ const updateFile = async (plugin: Plugin): Promise<void> => {
   let readme = oldReadme;
 
   const deprecated = plugin.rules.filter(([, rule]) => rule.meta.deprecated);
-  const notDeprecated = plugin.rules.filter(([, rule]) => !rule.meta.deprecated);
+  const notDeprecated = plugin.rules.filter(
+    ([, rule]) => !rule.meta.deprecated,
+  );
 
   readme = updateRulesList(
     'Possible problems',
@@ -191,7 +217,13 @@ const updateFile = async (plugin: Plugin): Promise<void> => {
     readme,
     plugin,
   );
-  readme = updateRulesList('Deprecated', 'deprecated', deprecated, readme, plugin);
+  readme = updateRulesList(
+    'Deprecated',
+    'deprecated',
+    deprecated,
+    readme,
+    plugin,
+  );
 
   readme = formatSource(readme, filePath);
 
@@ -202,7 +234,9 @@ const updateFile = async (plugin: Plugin): Promise<void> => {
       await writeFile(filePath, readme);
       console.log(`\n✨ Updated rule list for ${plugin.name}!`);
     } catch (err) {
-      console.error(`❌ Error while writing updated readme file for ${plugin.name}`);
+      console.error(
+        `❌ Error while writing updated readme file for ${plugin.name}`,
+      );
       console.error(err);
     }
   }

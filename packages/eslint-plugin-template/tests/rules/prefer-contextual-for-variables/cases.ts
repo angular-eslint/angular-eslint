@@ -1,6 +1,12 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
-import type { MessageIds, Options } from '../../../src/rules/prefer-contextual-for-variables';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type {
+  MessageIds,
+  Options,
+} from '../../../src/rules/prefer-contextual-for-variables';
 
 const preferContextualVariable: MessageIds = 'preferContextualVariable';
 const preferCount: MessageIds = 'preferCount';
@@ -9,7 +15,14 @@ const preferLast: MessageIds = 'preferLast';
 const preferEven: MessageIds = 'preferEven';
 const preferOdd: MessageIds = 'preferOdd';
 
-const VARIABLE_NAMES: readonly string[] = ['$index', '$count', '$first', '$last', '$even', '$odd'];
+const VARIABLE_NAMES: readonly string[] = [
+  '$index',
+  '$count',
+  '$first',
+  '$last',
+  '$even',
+  '$odd',
+];
 
 export const valid: readonly (string | ValidTestCase<Options>)[] = [
   `@for (item of items; track item.id) {}`,
@@ -352,10 +365,11 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         `,
     }),
   ),
-  ...['$index === 0', '$index == 0', '0 === $index', '0 == $index'].map((expression) =>
-    convertAnnotatedSourceToFailureCase<MessageIds, Options>({
-      description: `should replace '${expression}' with '$first'`,
-      annotatedSource: `
+  ...['$index === 0', '$index == 0', '0 === $index', '0 == $index'].map(
+    (expression) =>
+      convertAnnotatedSourceToFailureCase<MessageIds, Options>({
+        description: `should replace '${expression}' with '$first'`,
+        annotatedSource: `
           @for (item of items; track item.id) {
             @if (${expression}) {
                  ${`~`.repeat(expression.length)}
@@ -363,9 +377,9 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
             }
           }
           `,
-      messageId: preferFirst,
-      data: { expression },
-      annotatedOutput: `
+        messageId: preferFirst,
+        data: { expression },
+        annotatedOutput: `
           @for (item of items; track item.id) {
             @if ($first) {
                  
@@ -373,13 +387,19 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
             }
           }
           `,
-    }),
+      }),
   ),
-  ...['$index > 0', '$index !== 0', '$index != 0', '0 < $index', '0 !== $index', '0 != $index'].map(
-    (expression) =>
-      convertAnnotatedSourceToFailureCase<MessageIds, Options>({
-        description: `should replace '${expression}' with '!$first'`,
-        annotatedSource: `
+  ...[
+    '$index > 0',
+    '$index !== 0',
+    '$index != 0',
+    '0 < $index',
+    '0 !== $index',
+    '0 != $index',
+  ].map((expression) =>
+    convertAnnotatedSourceToFailureCase<MessageIds, Options>({
+      description: `should replace '${expression}' with '!$first'`,
+      annotatedSource: `
         @for (item of items; track item.id) {
           @if (${expression}) {
                ${`~`.repeat(expression.length)}
@@ -387,9 +407,9 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
           }
         }
         `,
-        messageId: preferFirst,
-        data: { expression },
-        annotatedOutput: `
+      messageId: preferFirst,
+      data: { expression },
+      annotatedOutput: `
         @for (item of items; track item.id) {
           @if (!$first) {
                
@@ -397,7 +417,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
           }
         }
         `,
-      }),
+    }),
   ),
   ...[
     '$index + 1 === $count',

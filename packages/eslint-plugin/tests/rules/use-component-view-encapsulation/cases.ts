@@ -1,9 +1,16 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
-import type { MessageIds, Options } from '../../../src/rules/use-component-view-encapsulation';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type {
+  MessageIds,
+  Options,
+} from '../../../src/rules/use-component-view-encapsulation';
 
 const messageId: MessageIds = 'useComponentViewEncapsulation';
-const suggestRemoveViewEncapsulationNone: MessageIds = 'suggestRemoveViewEncapsulationNone';
+const suggestRemoveViewEncapsulationNone: MessageIds =
+  'suggestRemoveViewEncapsulationNone';
 
 export const valid: readonly (string | ValidTestCase<Options>)[] = [
   `

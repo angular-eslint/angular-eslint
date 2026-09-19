@@ -1,8 +1,13 @@
-import type { ParseSourceSpan, TmplAstElement } from '@angular-eslint/bundled-angular-compiler';
+import type {
+  ParseSourceSpan,
+  TmplAstElement,
+} from '@angular-eslint/bundled-angular-compiler';
 import type { TSESLint, TSESTree } from '@typescript-eslint/utils';
 
 export interface TemplateParserServices {
-  convertNodeSourceSpanToLoc: (sourceSpan: ParseSourceSpan) => TSESTree.SourceLocation;
+  convertNodeSourceSpanToLoc: (
+    sourceSpan: ParseSourceSpan,
+  ) => TSESTree.SourceLocation;
   convertElementSourceSpanToLoc: (
     context: Readonly<TSESLint.RuleContext<string, readonly unknown[]>>,
     node: TmplAstElement,
@@ -23,7 +28,8 @@ export function getTemplateParserServices(
 export function ensureTemplateParser(
   context: Readonly<TSESLint.RuleContext<string, readonly unknown[]>>,
 ): void {
-  const parserServices = context.sourceCode.parserServices as unknown as TemplateParserServices;
+  const parserServices = context.sourceCode
+    .parserServices as unknown as TemplateParserServices;
 
   if (
     !parserServices?.convertNodeSourceSpanToLoc ||

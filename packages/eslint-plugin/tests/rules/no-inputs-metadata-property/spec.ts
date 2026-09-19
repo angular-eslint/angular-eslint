@@ -1,5 +1,7 @@
 import { RuleTester } from '@angular-eslint/test-utils';
-import rule, { RULE_NAME } from '../../../src/rules/no-inputs-metadata-property';
+import rule, {
+  RULE_NAME,
+} from '../../../src/rules/no-inputs-metadata-property';
 
 import { invalid, valid } from './cases';
 

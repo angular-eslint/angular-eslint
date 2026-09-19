@@ -23,8 +23,13 @@ export default createESLintRule<Options, MessageIds>({
   },
   create(context) {
     return {
-      [Selectors.COMPONENT_OR_DIRECTIVE_CLASS_DECORATOR](node: TSESTree.Decorator) {
-        const propertyExpression = ASTUtils.getDecoratorPropertyValue(node, METADATA_PROPERTY_NAME);
+      [Selectors.COMPONENT_OR_DIRECTIVE_CLASS_DECORATOR](
+        node: TSESTree.Decorator,
+      ) {
+        const propertyExpression = ASTUtils.getDecoratorPropertyValue(
+          node,
+          METADATA_PROPERTY_NAME,
+        );
         if (!propertyExpression) {
           return;
         }

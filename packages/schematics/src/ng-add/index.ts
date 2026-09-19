@@ -1,5 +1,9 @@
 import type { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
-import { chain, schematic, SchematicsException } from '@angular-devkit/schematics';
+import {
+  chain,
+  schematic,
+  SchematicsException,
+} from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import type { Schema } from './schema';
 import {
@@ -27,7 +31,9 @@ const packageJSON = require('../../package.json');
 function addAngularESLintPackages(json: Record<string, any>, options: Schema) {
   return (host: Tree, context: SchematicContext) => {
     if (!host.exists('package.json')) {
-      throw new Error('Could not find a `package.json` file at the root of your workspace');
+      throw new Error(
+        'Could not find a `package.json` file at the root of your workspace',
+      );
     }
 
     if (host.exists('tsconfig.base.json')) {
@@ -47,9 +53,12 @@ function addAngularESLintPackages(json: Record<string, any>, options: Schema) {
       // An explicit reference to the builder is needed for running `ng lint` in PnP
       json.devDependencies['@angular-eslint/builder'] = packageJSON.version;
       // The linting cannot complete without these explicitly in the root package.json in PnP
-      const typescriptESLintVersion = packageJSON.devDependencies['@typescript-eslint/utils'];
-      json.devDependencies['@typescript-eslint/types'] = typescriptESLintVersion;
-      json.devDependencies['@typescript-eslint/utils'] = typescriptESLintVersion;
+      const typescriptESLintVersion =
+        packageJSON.devDependencies['@typescript-eslint/utils'];
+      json.devDependencies['@typescript-eslint/types'] =
+        typescriptESLintVersion;
+      json.devDependencies['@typescript-eslint/utils'] =
+        typescriptESLintVersion;
     } else {
       const isNpm = host.exists('package-lock.json');
       if (!isNpm) {
@@ -85,7 +94,8 @@ function applyDevDependenciesForFlatConfig(
   json: Record<'devDependencies', Record<string, string>>,
 ) {
   json.devDependencies['eslint'] = `^${packageJSON.devDependencies['eslint']}`;
-  json.devDependencies['@eslint/js'] = `^${packageJSON.devDependencies['@eslint/js']}`;
+  json.devDependencies['@eslint/js'] =
+    `^${packageJSON.devDependencies['@eslint/js']}`;
 
   /**
    * angular-eslint packages
@@ -102,7 +112,8 @@ function applyDevDependenciesForFlatConfig(
   /**
    * typescript-eslint
    */
-  const typescriptESLintVersion = packageJSON.devDependencies['@typescript-eslint/utils'];
+  const typescriptESLintVersion =
+    packageJSON.devDependencies['@typescript-eslint/utils'];
   json.devDependencies['typescript-eslint'] = typescriptESLintVersion;
 
   // Clean up individual packages from devDependencies
@@ -213,9 +224,14 @@ function assertAngularVersionCompatibility(
   if (expectedMajor == null) {
     return;
   }
-  const mismatches = findAngularVersionMismatches(workspacePackageJson, expectedMajor);
+  const mismatches = findAngularVersionMismatches(
+    workspacePackageJson,
+    expectedMajor,
+  );
   if (mismatches.length > 0) {
-    throw new SchematicsException(formatAngularVersionMismatchError(expectedMajor, mismatches));
+    throw new SchematicsException(
+      formatAngularVersionMismatchError(expectedMajor, mismatches),
+    );
   }
   if (hasDetectableAngularVersion(workspacePackageJson)) {
     context.logger.info(formatAngularVersionMatchMessage(expectedMajor));
@@ -229,7 +245,9 @@ function assertAngularVersionCompatibility(
  */
 export default function (options: Schema): Rule {
   return (host: Tree, context: SchematicContext) => {
-    const workspacePackageJSON = (host.read('package.json') as Buffer).toString('utf-8');
+    const workspacePackageJSON = (host.read('package.json') as Buffer).toString(
+      'utf-8',
+    );
     const json = JSON.parse(workspacePackageJSON);
 
     assertAngularVersionCompatibility(json, context);

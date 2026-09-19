@@ -1,4 +1,7 @@
-import type { Node, TmplAstElement } from '@angular-eslint/bundled-angular-compiler';
+import type {
+  Node,
+  TmplAstElement,
+} from '@angular-eslint/bundled-angular-compiler';
 import { getTemplateParserServices } from '@angular-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import { getAttributeValue } from '../utils/get-attribute-value';
@@ -29,7 +32,10 @@ export default createESLintRule<Options, MessageIds>({
         const isValid = isValidNode(node);
 
         if (!isValid) {
-          const loc = parserServices.convertElementSourceSpanToLoc(context, node);
+          const loc = parserServices.convertElementSourceSpanToLoc(
+            context,
+            node,
+          );
 
           context.report({
             loc,
@@ -62,7 +68,8 @@ function isValidNode(node: TmplAstElement): boolean {
  */
 function isValidImgNode(node: TmplAstElement): boolean {
   return (
-    node.attributes.some(({ name }) => isAlt(name)) || node.inputs.some(({ name }) => isAlt(name))
+    node.attributes.some(({ name }) => isAlt(name)) ||
+    node.inputs.some(({ name }) => isAlt(name))
   );
 }
 
@@ -76,7 +83,8 @@ function isValidObjectNode(node: TmplAstElement): boolean {
 
   for (const attribute of node.attributes) {
     hasTitleAttribute = hasTitleAttribute || attribute.name === 'title';
-    hasAriaLabelAttribute = hasAriaLabelAttribute || isAriaLabel(attribute.name);
+    hasAriaLabelAttribute =
+      hasAriaLabelAttribute || isAriaLabel(attribute.name);
   }
 
   // Note that we return "early" before looping through `element.inputs`.
@@ -99,7 +107,8 @@ function isValidObjectNode(node: TmplAstElement): boolean {
   }
 
   return (
-    node.children.length > 0 && !!(node.children[0] as unknown as Node & { value?: unknown }).value
+    node.children.length > 0 &&
+    !!(node.children[0] as unknown as Node & { value?: unknown }).value
   );
 }
 
@@ -113,7 +122,8 @@ function isValidAreaNode(node: TmplAstElement): boolean {
 
   for (const attribute of node.attributes) {
     hasAltAttribute = hasAltAttribute || isAlt(attribute.name);
-    hasAriaLabelAttribute = hasAriaLabelAttribute || isAriaLabel(attribute.name);
+    hasAriaLabelAttribute =
+      hasAriaLabelAttribute || isAriaLabel(attribute.name);
   }
 
   // Note that we return "early" before looping through `element.inputs`.

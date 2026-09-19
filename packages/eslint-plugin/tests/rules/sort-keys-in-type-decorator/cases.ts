@@ -1,6 +1,12 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
-import type { MessageIds, Options } from '../../../src/rules/sort-keys-in-type-decorator';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type {
+  MessageIds,
+  Options,
+} from '../../../src/rules/sort-keys-in-type-decorator';
 
 export const valid: readonly (string | ValidTestCase<Options>)[] = [
   // All known Component properties in default order
@@ -198,7 +204,13 @@ export class TestPipe {}
     `,
     options: [
       {
-        NgModule: ['declarations', 'imports', 'exports', 'providers', 'bootstrap'],
+        NgModule: [
+          'declarations',
+          'imports',
+          'exports',
+          'providers',
+          'bootstrap',
+        ],
       },
     ],
   },
@@ -258,7 +270,13 @@ export class TestPipe {}
     `,
     options: [
       {
-        NgModule: ['declarations', 'imports', 'exports', 'providers', 'bootstrap'],
+        NgModule: [
+          'declarations',
+          'imports',
+          'exports',
+          'providers',
+          'bootstrap',
+        ],
       },
     ],
   },
@@ -529,7 +547,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     `,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail when Pipe decorator keys are not sorted according to specified order',
+    description:
+      'should fail when Pipe decorator keys are not sorted according to specified order',
     annotatedSource: `
       @Pipe({
         standalone: true,
@@ -599,7 +618,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     `,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail when partial NgModule properties are not in correct order',
+    description:
+      'should fail when partial NgModule properties are not in correct order',
     annotatedSource: `
       @NgModule({
         exports: [AppComponent],
@@ -616,7 +636,13 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     },
     options: [
       {
-        NgModule: ['declarations', 'imports', 'exports', 'providers', 'bootstrap'],
+        NgModule: [
+          'declarations',
+          'imports',
+          'exports',
+          'providers',
+          'bootstrap',
+        ],
       },
     ],
     annotatedOutput: `
@@ -798,7 +824,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     `,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should preserve unconfigured properties like providers when sorting',
+    description:
+      'should preserve unconfigured properties like providers when sorting',
     annotatedSource: `
       @Component({
         styleUrl: './app.component.css',

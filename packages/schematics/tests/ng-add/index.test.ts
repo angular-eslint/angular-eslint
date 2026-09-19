@@ -1,12 +1,16 @@
 import { Tree } from '@angular-devkit/schematics';
-import { SchematicTestRunner, UnitTestTree } from '@angular-devkit/schematics/testing';
+import {
+  SchematicTestRunner,
+  UnitTestTree,
+} from '@angular-devkit/schematics/testing';
 import * as path from 'node:path';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 const packageJSON = require('../../package.json');
 
 const eslintVersion = packageJSON.devDependencies['eslint'];
-const typescriptESLintVersion = packageJSON.devDependencies['@typescript-eslint/utils'];
+const typescriptESLintVersion =
+  packageJSON.devDependencies['@typescript-eslint/utils'];
 
 const schematicRunner = new SchematicTestRunner(
   '@angular-eslint/schematics',
@@ -19,7 +23,10 @@ describe('ng-add', () => {
 
     beforeEach(() => {
       workspaceTree = new UnitTestTree(Tree.empty());
-      workspaceTree.create('package.json', JSON.stringify({ devDependencies: {} }));
+      workspaceTree.create(
+        'package.json',
+        JSON.stringify({ devDependencies: {} }),
+      );
       workspaceTree.create('package-lock.json', JSON.stringify({}));
     });
 
@@ -55,8 +62,14 @@ describe('ng-add', () => {
       });
 
       it('should add relevant eslint, @angular-eslint and @typescript-eslint packages', async () => {
-        const tree = await schematicRunner.runSchematic('ng-add', {}, workspaceTree);
-        const projectPackageJSON = JSON.parse(tree.readContent('/package.json'));
+        const tree = await schematicRunner.runSchematic(
+          'ng-add',
+          {},
+          workspaceTree,
+        );
+        const projectPackageJSON = JSON.parse(
+          tree.readContent('/package.json'),
+        );
         const devDeps = projectPackageJSON.devDependencies;
         const deps = projectPackageJSON.dependencies || {};
         const scripts = projectPackageJSON.scripts;
@@ -71,7 +84,9 @@ describe('ng-add', () => {
         // It should not explicitly add the @angular-eslint/ dependency packages
         expect(devDeps['@angular-eslint/builder']).toBeUndefined();
         expect(devDeps['@angular-eslint/eslint-plugin']).toBeUndefined();
-        expect(devDeps['@angular-eslint/eslint-plugin-template']).toBeUndefined();
+        expect(
+          devDeps['@angular-eslint/eslint-plugin-template'],
+        ).toBeUndefined();
         expect(devDeps['@angular-eslint/template-parser']).toBeUndefined();
         /**
          * Check that ng-add implementation successfully removes @angular-eslint/schematics
@@ -90,13 +105,21 @@ describe('ng-add', () => {
       });
 
       it('should remove the old defaultCollection property in angular.json', async () => {
-        const tree = await schematicRunner.runSchematic('ng-add', {}, workspaceTree);
+        const tree = await schematicRunner.runSchematic(
+          'ng-add',
+          {},
+          workspaceTree,
+        );
         const angularJson = JSON.parse(tree.readContent('/angular.json'));
         expect(angularJson.cli.defaultCollection).not.toBeDefined();
       });
 
       it('should set the schematicCollections in angular.json', async () => {
-        const tree = await schematicRunner.runSchematic('ng-add', {}, workspaceTree);
+        const tree = await schematicRunner.runSchematic(
+          'ng-add',
+          {},
+          workspaceTree,
+        );
         const angularJson = JSON.parse(tree.readContent('/angular.json'));
         expect(angularJson.cli.schematicCollections).toMatchInlineSnapshot(`
           [
@@ -106,7 +129,11 @@ describe('ng-add', () => {
       });
 
       it('should create the root eslint.config.js file', async () => {
-        const tree = await schematicRunner.runSchematic('ng-add', {}, workspaceTree);
+        const tree = await schematicRunner.runSchematic(
+          'ng-add',
+          {},
+          workspaceTree,
+        );
         const eslintConfig = tree.readContent('/eslint.config.js');
         expect(eslintConfig).toMatchInlineSnapshot(`
           "// @ts-check
@@ -231,8 +258,14 @@ describe('ng-add', () => {
       });
 
       it('should add relevant eslint, @angular-eslint and @typescript-eslint packages', async () => {
-        const tree = await schematicRunner.runSchematic('ng-add', {}, workspaceTree);
-        const projectPackageJSON = JSON.parse(tree.readContent('/package.json'));
+        const tree = await schematicRunner.runSchematic(
+          'ng-add',
+          {},
+          workspaceTree,
+        );
+        const projectPackageJSON = JSON.parse(
+          tree.readContent('/package.json'),
+        );
         const devDeps = projectPackageJSON.devDependencies;
         const deps = projectPackageJSON.dependencies || {};
         const scripts = projectPackageJSON.scripts;
@@ -247,7 +280,9 @@ describe('ng-add', () => {
         // It should not explicitly add the @angular-eslint/ dependency packages
         expect(devDeps['@angular-eslint/builder']).toBeUndefined();
         expect(devDeps['@angular-eslint/eslint-plugin']).toBeUndefined();
-        expect(devDeps['@angular-eslint/eslint-plugin-template']).toBeUndefined();
+        expect(
+          devDeps['@angular-eslint/eslint-plugin-template'],
+        ).toBeUndefined();
         expect(devDeps['@angular-eslint/template-parser']).toBeUndefined();
         /**
          * Check that ng-add implementation successfully removes @angular-eslint/schematics
@@ -266,13 +301,21 @@ describe('ng-add', () => {
       });
 
       it('should remove the old defaultCollection property in angular.json', async () => {
-        const tree = await schematicRunner.runSchematic('ng-add', {}, workspaceTree);
+        const tree = await schematicRunner.runSchematic(
+          'ng-add',
+          {},
+          workspaceTree,
+        );
         const angularJson = JSON.parse(tree.readContent('/angular.json'));
         expect(angularJson.cli.defaultCollection).not.toBeDefined();
       });
 
       it('should set the schematicCollections in angular.json', async () => {
-        const tree = await schematicRunner.runSchematic('ng-add', {}, workspaceTree);
+        const tree = await schematicRunner.runSchematic(
+          'ng-add',
+          {},
+          workspaceTree,
+        );
         const angularJson = JSON.parse(tree.readContent('/angular.json'));
         expect(angularJson.cli.schematicCollections).toMatchInlineSnapshot(`
           [
@@ -282,7 +325,11 @@ describe('ng-add', () => {
       });
 
       it('should create the root eslint.config.js file', async () => {
-        const tree = await schematicRunner.runSchematic('ng-add', {}, workspaceTree);
+        const tree = await schematicRunner.runSchematic(
+          'ng-add',
+          {},
+          workspaceTree,
+        );
         const eslintConfig = tree.readContent('/eslint.config.js');
         expect(eslintConfig).toMatchInlineSnapshot(`
           "// @ts-check
@@ -325,7 +372,9 @@ describe('ng-add', () => {
         const eslintConfig = tree.readContent('/eslint.config.js');
         expect(eslintConfig).toContain('tseslint.configs.strictTypeChecked');
         expect(eslintConfig).toContain('projectService: true');
-        expect(eslintConfig).not.toContain('@angular-eslint/directive-selector');
+        expect(eslintConfig).not.toContain(
+          '@angular-eslint/directive-selector',
+        );
       });
     });
 
@@ -361,8 +410,14 @@ describe('ng-add', () => {
       });
 
       it('should add relevant eslint, @angular-eslint and @typescript-eslint packages', async () => {
-        const tree = await schematicRunner.runSchematic('ng-add', {}, workspaceTree);
-        const projectPackageJSON = JSON.parse(tree.readContent('/package.json'));
+        const tree = await schematicRunner.runSchematic(
+          'ng-add',
+          {},
+          workspaceTree,
+        );
+        const projectPackageJSON = JSON.parse(
+          tree.readContent('/package.json'),
+        );
         const devDeps = projectPackageJSON.devDependencies;
         const deps = projectPackageJSON.dependencies || {};
         const scripts = projectPackageJSON.scripts;
@@ -377,7 +432,9 @@ describe('ng-add', () => {
         // It should not explicitly add the @angular-eslint/ dependency packages
         expect(devDeps['@angular-eslint/builder']).toBeUndefined();
         expect(devDeps['@angular-eslint/eslint-plugin']).toBeUndefined();
-        expect(devDeps['@angular-eslint/eslint-plugin-template']).toBeUndefined();
+        expect(
+          devDeps['@angular-eslint/eslint-plugin-template'],
+        ).toBeUndefined();
         expect(devDeps['@angular-eslint/template-parser']).toBeUndefined();
         /**
          * Check that ng-add implementation successfully removes @angular-eslint/schematics
@@ -396,13 +453,21 @@ describe('ng-add', () => {
       });
 
       it('should remove the old defaultCollection property in angular.json', async () => {
-        const tree = await schematicRunner.runSchematic('ng-add', {}, workspaceTree);
+        const tree = await schematicRunner.runSchematic(
+          'ng-add',
+          {},
+          workspaceTree,
+        );
         const angularJson = JSON.parse(tree.readContent('/angular.json'));
         expect(angularJson.cli.defaultCollection).not.toBeDefined();
       });
 
       it('should set the schematicCollections in angular.json', async () => {
-        const tree = await schematicRunner.runSchematic('ng-add', {}, workspaceTree);
+        const tree = await schematicRunner.runSchematic(
+          'ng-add',
+          {},
+          workspaceTree,
+        );
         const angularJson = JSON.parse(tree.readContent('/angular.json'));
         expect(angularJson.cli.schematicCollections).toMatchInlineSnapshot(`
           [
@@ -412,7 +477,11 @@ describe('ng-add', () => {
       });
 
       it('should create the root eslint.config.js file', async () => {
-        const tree = await schematicRunner.runSchematic('ng-add', {}, workspaceTree);
+        const tree = await schematicRunner.runSchematic(
+          'ng-add',
+          {},
+          workspaceTree,
+        );
         const eslintConfig = tree.readContent('/eslint.config.js');
         expect(eslintConfig).toMatchInlineSnapshot(`
           "// @ts-check
@@ -496,7 +565,9 @@ describe('ng-add', () => {
       }
       expect(error).toBeInstanceOf(Error);
       const message = (error as Error).message;
-      expect(message).toContain('angular-eslint v22 is intended for Angular v22');
+      expect(message).toContain(
+        'angular-eslint v22 is intended for Angular v22',
+      );
       expect(message).toContain('@angular/core@^21.2.0 (v21)');
       expect(message).toContain('@angular/cli@21.2.0 (v21)');
       expect(message).toContain('ng add angular-eslint@21');
@@ -510,10 +581,12 @@ describe('ng-add', () => {
         devDependencies: { '@angular/cli': '21.2.0' },
       });
       workspaceTree.create('package.json', originalPackageJson);
-      await expect(schematicRunner.runSchematic('ng-add', {}, workspaceTree)).rejects.toThrow(
-        'ng add angular-eslint@21',
+      await expect(
+        schematicRunner.runSchematic('ng-add', {}, workspaceTree),
+      ).rejects.toThrow('ng add angular-eslint@21');
+      expect(workspaceTree.readContent('package.json')).toBe(
+        originalPackageJson,
       );
-      expect(workspaceTree.readContent('package.json')).toBe(originalPackageJson);
       expect(workspaceTree.exists('eslint.config.js')).toBe(false);
     });
 
@@ -533,20 +606,27 @@ describe('ng-add', () => {
       subscription.unsubscribe();
       expect(
         messages.some((message) =>
-          message.includes("angular-eslint v22 matches this workspace's Angular v22."),
+          message.includes(
+            "angular-eslint v22 matches this workspace's Angular v22.",
+          ),
         ),
       ).toBe(true);
     });
 
     it('should stay quiet when Angular is not declared', async () => {
-      workspaceTree.create('package.json', JSON.stringify({ devDependencies: {} }));
+      workspaceTree.create(
+        'package.json',
+        JSON.stringify({ devDependencies: {} }),
+      );
       const messages: string[] = [];
       const subscription = schematicRunner.logger.subscribe((entry) => {
         messages.push(entry.message);
       });
       await schematicRunner.runSchematic('ng-add', {}, workspaceTree);
       subscription.unsubscribe();
-      expect(messages.some((message) => message.includes('angular-eslint v22'))).toBe(false);
+      expect(
+        messages.some((message) => message.includes('angular-eslint v22')),
+      ).toBe(false);
     });
   });
 });

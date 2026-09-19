@@ -1,6 +1,12 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
-import { MessageIds, Options } from '../../../src/rules/no-implicit-take-until-destroyed';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import {
+  MessageIds,
+  Options,
+} from '../../../src/rules/no-implicit-take-until-destroyed';
 
 const messageId: MessageIds = 'noImplicitTakeUntilDestroyed';
 
@@ -292,7 +298,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail in constructor class not stantiated by the DI system',
+    description:
+      'should fail in constructor class not stantiated by the DI system',
     annotatedSource: `
     class Test {
       constructor() {
@@ -304,7 +311,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail in NgModule constructor (NgModule does not support DestroyRef)',
+    description:
+      'should fail in NgModule constructor (NgModule does not support DestroyRef)',
     annotatedSource: `
       @NgModule()
       class AppModule {
@@ -317,7 +325,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail in NgModule field initializer (NgModule does not support DestroyRef)',
+    description:
+      'should fail in NgModule field initializer (NgModule does not support DestroyRef)',
     annotatedSource: `
       @NgModule()
       class AppModule {
@@ -347,7 +356,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail in method called both from constructor and from not constructor',
+    description:
+      'should fail in method called both from constructor and from not constructor',
     annotatedSource: `
       @Component()
       class Test {
@@ -368,7 +378,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail in method called both from field initializer and from lifecycle hook',
+    description:
+      'should fail in method called both from field initializer and from lifecycle hook',
     annotatedSource: `
       @Component()
       class Test {

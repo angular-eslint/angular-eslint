@@ -96,7 +96,10 @@
       "default": false
     },
     "concurrency": {
-      "oneOf": [{ "type": "string", "enum": ["auto", "off"] }, { "type": "number" }],
+      "oneOf": [
+        { "type": "string", "enum": ["auto", "off"] },
+        { "type": "number" }
+      ],
       "description": "The equivalent of the `--concurrency` flag on the ESLint CLI."
     },
     "applySuppressions": {

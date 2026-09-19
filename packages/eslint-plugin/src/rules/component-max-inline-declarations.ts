@@ -113,7 +113,8 @@ export default createESLintRule<Options, MessageIds>({
       [`${Selectors.COMPONENT_CLASS_DECORATOR} Property[key.name='animations']`]({
         value,
       }: TSESTree.Property) {
-        if (!ASTUtils.isArrayExpression(value) || value.elements.length === 0) return;
+        if (!ASTUtils.isArrayExpression(value) || value.elements.length === 0)
+          return;
 
         const animationsBracketsSize = 2;
         const lineCount = Math.max(

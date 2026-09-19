@@ -1,7 +1,11 @@
 import path from 'node:path';
 import { setWorkspaceRoot } from 'nx/src/utils/workspace-root';
 import { beforeAll, describe, expect, it, vi } from 'vitest';
-import { FIXTURES_DIR, Fixture, resetFixtureDirectory } from '../utils/fixtures';
+import {
+  FIXTURES_DIR,
+  Fixture,
+  resetFixtureDirectory,
+} from '../utils/fixtures';
 import {
   LONG_TIMEOUT_MS,
   runNgAdd,
@@ -57,8 +61,12 @@ describe('new-workspace', () => {
 
     // Additional project ("another-app")
     expect(fixture.fileExists('projects/another-app/tslint.json')).toBe(false);
-    expect(fixture.readFile('projects/another-app/eslint.config.js')).toMatchSnapshot();
-    expect(fixture.fileExists('projects/another-app/.eslintrc.json')).toBe(false);
+    expect(
+      fixture.readFile('projects/another-app/eslint.config.js'),
+    ).toMatchSnapshot();
+    expect(fixture.fileExists('projects/another-app/.eslintrc.json')).toBe(
+      false,
+    );
 
     // It should contain the eslintConfig option set to the project level eslint.config.js file
     expect(
@@ -67,8 +75,12 @@ describe('new-workspace', () => {
 
     // Additional library project ("another-lib")
     expect(fixture.fileExists('projects/another-lib/tslint.json')).toBe(false);
-    expect(fixture.readFile('projects/another-lib/eslint.config.js')).toMatchSnapshot();
-    expect(fixture.fileExists('projects/another-lib/.eslintrc.json')).toBe(false);
+    expect(
+      fixture.readFile('projects/another-lib/eslint.config.js'),
+    ).toMatchSnapshot();
+    expect(fixture.fileExists('projects/another-lib/.eslintrc.json')).toBe(
+      false,
+    );
 
     // It should contain the eslintConfig option set to the project level eslint.config.js file
     expect(

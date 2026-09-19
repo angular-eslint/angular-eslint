@@ -1,4 +1,8 @@
-import { ASTUtils, Selectors, toHumanReadableText } from '@angular-eslint/utils';
+import {
+  ASTUtils,
+  Selectors,
+  toHumanReadableText,
+} from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
@@ -46,7 +50,10 @@ export default createESLintRule<Options, MessageIds>({
         const classParent = node.parent as TSESTree.ClassDeclaration;
         const className = ASTUtils.getClassName(classParent);
 
-        if (!className || !suffixes.some((suffix) => className.endsWith(suffix))) {
+        if (
+          !className ||
+          !suffixes.some((suffix) => className.endsWith(suffix))
+        ) {
           context.report({
             node: classParent.id ? classParent.id : classParent,
             messageId: 'componentClassSuffix',

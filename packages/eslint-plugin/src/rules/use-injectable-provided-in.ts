@@ -46,7 +46,9 @@ export default createESLintRule<Options, MessageIds>({
   },
   create(context, [{ ignoreClassNamePattern, allowProvidedInNull }]) {
     const injectableClassDecorator = `ClassDeclaration:not([id.name=${ignoreClassNamePattern}]):not(:has(TSClassImplements:matches([expression.property.name='HttpInterceptor'], [expression.name='HttpInterceptor']))) > Decorator[expression.callee.name="Injectable"]`;
-    const providedInMetadataProperty = Selectors.metadataProperty(METADATA_PROPERTY_NAME);
+    const providedInMetadataProperty = Selectors.metadataProperty(
+      METADATA_PROPERTY_NAME,
+    );
     const withoutProvidedInDecorator = `${injectableClassDecorator}:matches([expression.arguments.length=0], [expression.arguments.0.type='ObjectExpression']:not(:has(${providedInMetadataProperty})))`;
     const undefinedProvidedInProperty = `${injectableClassDecorator} ${providedInMetadataProperty}[value.type='Identifier'][value.name='undefined']`;
     const nullProvidedInProperty = `${injectableClassDecorator} ${providedInMetadataProperty}[value.type='Literal'][value.raw='null']`;

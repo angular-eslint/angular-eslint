@@ -1,5 +1,10 @@
 import type { TmplAstBoundAttribute } from '@angular-eslint/bundled-angular-compiler';
-import { ASTWithSource, Lexer, LiteralMap, Parser } from '@angular-eslint/bundled-angular-compiler';
+import {
+  ASTWithSource,
+  Lexer,
+  LiteralMap,
+  Parser,
+} from '@angular-eslint/bundled-angular-compiler';
 import { getTemplateParserServices } from '@angular-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
@@ -13,11 +18,13 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description: 'Suggests using [class] bindings over ngClass where applicable',
+      description:
+        'Suggests using [class] bindings over ngClass where applicable',
     },
     schema: [],
     messages: {
-      preferClassBinding: 'Consider using [class] bindings instead of [ngClass] where applicable.',
+      preferClassBinding:
+        'Consider using [class] bindings instead of [ngClass] where applicable.',
     },
     defaultOptions: [],
   },
@@ -25,7 +32,9 @@ export default createESLintRule<Options, MessageIds>({
     const parserServices = getTemplateParserServices(context);
 
     return {
-      'BoundAttribute[name="ngClass"]'(node: TmplAstBoundAttribute & { value?: ASTWithSource }) {
+      'BoundAttribute[name="ngClass"]'(
+        node: TmplAstBoundAttribute & { value?: ASTWithSource },
+      ) {
         // Skip if ngClass is necessary (e.g., uses space-separated class names)
         if (requiresNgClass(node)) {
           return;
@@ -61,14 +70,20 @@ function hasSpaceSeparatedClasses(str: string): boolean {
  * Checks if the ngClass binding uses features that class bindings don't support:
  * - Object keys with space-separated class names
  */
-function requiresNgClass(node: TmplAstBoundAttribute & { value?: ASTWithSource }): boolean {
+function requiresNgClass(
+  node: TmplAstBoundAttribute & { value?: ASTWithSource },
+): boolean {
   // Check if we have a value with source code
   if (!node.value?.source || !node.valueSpan) {
     return false;
   }
 
   // Parse the binding to get the AST
-  const parsedAst = getParser().parseBinding(node.value.source, node.valueSpan, 0).ast;
+  const parsedAst = getParser().parseBinding(
+    node.value.source,
+    node.valueSpan,
+    0,
+  ).ast;
 
   if (parsedAst instanceof LiteralMap) {
     for (const astKey of parsedAst.keys) {
@@ -77,7 +92,10 @@ function requiresNgClass(node: TmplAstBoundAttribute & { value?: ASTWithSource }
         continue;
       }
       const className = astKey.key;
-      if (typeof className === 'string' && hasSpaceSeparatedClasses(className)) {
+      if (
+        typeof className === 'string' &&
+        hasSpaceSeparatedClasses(className)
+      ) {
         return true;
       }
     }

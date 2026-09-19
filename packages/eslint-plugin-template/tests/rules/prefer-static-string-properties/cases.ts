@@ -1,6 +1,12 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
-import type { MessageIds, Options } from '../../../src/rules/prefer-static-string-properties';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type {
+  MessageIds,
+  Options,
+} from '../../../src/rules/prefer-static-string-properties';
 
 const messageId: MessageIds = 'preferStaticStringProperties';
 
@@ -92,7 +98,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     `,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should escape an ampersand so the literal is not re-read as an entity',
+    description:
+      'should escape an ampersand so the literal is not re-read as an entity',
     annotatedSource: `
       <my-component [name]="'a &amp;quot; b'"/>
                     ~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -1,5 +1,7 @@
 import { RuleTester } from '@angular-eslint/test-utils';
-import rule, { RULE_NAME } from '../../../src/rules/component-max-inline-declarations';
+import rule, {
+  RULE_NAME,
+} from '../../../src/rules/component-max-inline-declarations';
 
 import { invalid, valid } from './cases';
 

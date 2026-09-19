@@ -1,5 +1,8 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
 import type {
   MessageIds,
   Options,
@@ -84,7 +87,8 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if `changeDetection` is set to `ChangeDetectionStrategy.Eager`',
+    description:
+      'should fail if `changeDetection` is set to `ChangeDetectionStrategy.Eager`',
     annotatedSource: `
       import { ChangeDetectionStrategy } from '@angular/core';
       @Component({ changeDetection: ChangeDetectionStrategy.Eager })
@@ -215,7 +219,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     ],
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail when `changeDetection` is preceded by another property',
+    description:
+      'should fail when `changeDetection` is preceded by another property',
     annotatedSource: `
       import { ChangeDetectionStrategy } from '@angular/core';
       @Component({ selector: 'app-test', changeDetection: ChangeDetectionStrategy.Eager })
@@ -365,7 +370,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     `,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should not delete an adjacent comment when autofixing redundant OnPush',
+    description:
+      'should not delete an adjacent comment when autofixing redundant OnPush',
     annotatedSource: `
       import { ChangeDetectionStrategy } from '@angular/core';
       @Component({

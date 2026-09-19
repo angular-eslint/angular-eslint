@@ -1,6 +1,12 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
-import { MessageIds, Options } from '../../../src/rules/reactive-context-must-read-signal';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import {
+  MessageIds,
+  Options,
+} from '../../../src/rules/reactive-context-must-read-signal';
 
 const messageId: MessageIds = 'mustReadSignal';
 
@@ -323,7 +329,8 @@ const invalidBase: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { primitive: 'computed' },
   }),
   convertAnnotatedSourceToFailureCase<MessageIds, Options>({
-    description: 'computed() calls a standard library method on a non-reactive value',
+    description:
+      'computed() calls a standard library method on a non-reactive value',
     annotatedSource: `
         class Test {
           name = 'x';
@@ -335,7 +342,8 @@ const invalidBase: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { primitive: 'computed' },
   }),
   convertAnnotatedSourceToFailureCase<MessageIds, Options>({
-    description: 'computed() calls a standard library method with an inline callback',
+    description:
+      'computed() calls a standard library method with an inline callback',
     annotatedSource: `
         class Test {
           items = [1, 2, 3];
@@ -397,7 +405,8 @@ const invalidBase: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { primitive: 'linkedSignal' },
   }),
   convertAnnotatedSourceToFailureCase<MessageIds, Options>({
-    description: 'linkedSignal() options form where neither function is reactive',
+    description:
+      'linkedSignal() options form where neither function is reactive',
     annotatedSource: `
         const c = linkedSignal({ source: () => 1, computation: (s) => s + 1 });
                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -454,7 +463,8 @@ const invalidBase: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   {
     ...convertAnnotatedSourceToFailureCase<MessageIds, Options>({
-      description: 'resource() with static params when checkResources is enabled',
+      description:
+        'resource() with static params when checkResources is enabled',
       annotatedSource: `
         const r = resource({ params: () => 1, loader: () => null });
                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -466,10 +476,11 @@ const invalidBase: readonly InvalidTestCase<MessageIds, Options>[] = [
   },
 ];
 
-export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = invalidBase.map((test) => ({
-  ...test,
-  code: appendTypes(test.code),
-}));
+export const invalid: readonly InvalidTestCase<MessageIds, Options>[] =
+  invalidBase.map((test) => ({
+    ...test,
+    code: appendTypes(test.code),
+  }));
 
 function appendTypes(code: string): string {
   // Exclude the types from the generated docs because they

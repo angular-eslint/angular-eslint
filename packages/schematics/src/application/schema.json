@@ -34,11 +34,7 @@
     },
     "viewEncapsulation": {
       "description": "Sets the view encapsulation mode for the application's components. This determines how component styles are scoped and applied.",
-      "enum": [
-        "Emulated",
-        "None",
-        "ShadowDom"
-      ],
+      "enum": ["Emulated", "None", "ShadowDom"],
       "type": "string"
     },
     "routing": {
@@ -58,13 +54,7 @@
       "description": "The type of stylesheet files to be created for components in the application.",
       "type": "string",
       "default": "css",
-      "enum": [
-        "css",
-        "scss",
-        "sass",
-        "less",
-        "tailwind"
-      ],
+      "enum": ["css", "scss", "sass", "less", "tailwind"],
       "x-prompt": {
         "message": "Which stylesheet system would you like to use?",
         "type": "list",
@@ -102,10 +92,7 @@
     "testRunner": {
       "description": "The unit testing runner to use.",
       "type": "string",
-      "enum": [
-        "vitest",
-        "karma"
-      ],
+      "enum": ["vitest", "karma"],
       "default": "vitest"
     },
     "skipPackageJson": {
@@ -148,10 +135,7 @@
     },
     "fileNameStyleGuide": {
       "type": "string",
-      "enum": [
-        "2016",
-        "2025"
-      ],
+      "enum": ["2016", "2025"],
       "default": "2025",
       "description": "The file naming convention to use for generated files. The '2025' style guide (default) uses a concise format (e.g., `app.ts` for the root component), while the '2016' style guide includes the type in the file name (e.g., `app.component.ts`). For more information, see the Angular Style Guide (https://angular.dev/style-guide)."
     },
@@ -172,7 +156,5 @@
       "description": "Which typescript-eslint shared config preset to extend in the generated ESLint config. Type-checked presets also enable parserOptions.projectService (required for those rules, but slower). See https://typescript-eslint.io/users/configs/"
     }
   },
-  "required": [
-    "name"
-  ]
+  "required": ["name"]
 }

@@ -26,21 +26,28 @@ export default createESLintRule<Options, MessageIds>({
     return {
       [`${
         Selectors.COMPONENT_OR_DIRECTIVE_CLASS_DECORATOR
-      } ${Selectors.metadataProperty(METADATA_PROPERTY_NAME)}`](node: TSESTree.Property) {
+      } ${Selectors.metadataProperty(METADATA_PROPERTY_NAME)}`](
+        node: TSESTree.Property,
+      ) {
         /**
          * Angular v15 introduced the directive composition API: https://angular.dev/guide/directives/directive-composition-api
          * Using host directive inputs using this API is not a bad practice and should not be reported
          */
         const ancestorMayBeHostDirectiveAPI = node.parent?.parent?.parent;
 
-        if (ancestorMayBeHostDirectiveAPI && ASTUtils.isProperty(ancestorMayBeHostDirectiveAPI)) {
+        if (
+          ancestorMayBeHostDirectiveAPI &&
+          ASTUtils.isProperty(ancestorMayBeHostDirectiveAPI)
+        ) {
           const hostDirectiveAPIPropertyName = 'hostDirectives';
 
           if (
             (ASTUtils.isLiteral(ancestorMayBeHostDirectiveAPI.key) &&
-              ancestorMayBeHostDirectiveAPI.key.value === hostDirectiveAPIPropertyName) ||
+              ancestorMayBeHostDirectiveAPI.key.value ===
+                hostDirectiveAPIPropertyName) ||
             (TSESLintASTUtils.isIdentifier(ancestorMayBeHostDirectiveAPI.key) &&
-              ancestorMayBeHostDirectiveAPI.key.name === hostDirectiveAPIPropertyName)
+              ancestorMayBeHostDirectiveAPI.key.name ===
+                hostDirectiveAPIPropertyName)
           ) {
             return;
           }

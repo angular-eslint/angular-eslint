@@ -15,7 +15,10 @@ import { getDomElements } from '../utils/get-dom-elements';
 import { toPattern } from '../utils/to-pattern';
 
 export type Options = [];
-export type MessageIds = 'validAria' | 'validAriaValue' | 'suggestRemoveInvalidAria';
+export type MessageIds =
+  | 'validAria'
+  | 'validAriaValue'
+  | 'suggestRemoveInvalidAria';
 export const RULE_NAME = 'valid-aria';
 
 export default createESLintRule<Options, MessageIds>({
@@ -39,8 +42,13 @@ export default createESLintRule<Options, MessageIds>({
   create(context) {
     const parserServices = getTemplateParserServices(context);
     const domElements = [...getDomElements()];
-    const uppercaseDomElements = domElements.map((element) => element.toUpperCase());
-    const elementNamePattern = toPattern([...domElements, ...uppercaseDomElements]);
+    const uppercaseDomElements = domElements.map((element) =>
+      element.toUpperCase(),
+    );
+    const elementNamePattern = toPattern([
+      ...domElements,
+      ...uppercaseDomElements,
+    ]);
 
     return {
       [`Element[name=${elementNamePattern}] > :matches(BoundAttribute, TextAttribute)[name=/^aria-.+/]`](
@@ -60,7 +68,10 @@ export default createESLintRule<Options, MessageIds>({
                 messageId: 'suggestRemoveInvalidAria',
                 data: { attribute },
                 fix: (fixer) =>
-                  fixer.removeRange([sourceSpan.start.offset - 1, sourceSpan.end.offset]),
+                  fixer.removeRange([
+                    sourceSpan.start.offset - 1,
+                    sourceSpan.end.offset,
+                  ]),
               },
             ],
           });
@@ -94,7 +105,9 @@ function isLiteralCollection(ast: unknown): ast is LiteralArray | LiteralMap {
   return ast instanceof LiteralArray || ast instanceof LiteralMap;
 }
 
-function isPrimitive(ast: unknown): ast is LiteralPrimitive | TmplAstTextAttribute {
+function isPrimitive(
+  ast: unknown,
+): ast is LiteralPrimitive | TmplAstTextAttribute {
   return ast instanceof LiteralPrimitive || ast instanceof TmplAstTextAttribute;
 }
 
@@ -105,7 +118,8 @@ function canIgnoreNode(ast: unknown): boolean {
 function extractASTFrom(
   attribute: TmplAstBoundAttribute | TmplAstTextAttribute,
 ): AST | TmplAstBoundAttribute | TmplAstTextAttribute {
-  return attribute instanceof TmplAstBoundAttribute && attribute.value instanceof ASTWithSource
+  return attribute instanceof TmplAstBoundAttribute &&
+    attribute.value instanceof ASTWithSource
     ? attribute.value.ast
     : attribute;
 }
@@ -123,7 +137,10 @@ function isInteger(value: unknown): boolean {
 }
 
 function isNumeric(value: unknown): boolean {
-  return !Number.isNaN(Number.parseFloat(value as string)) && Number.isFinite(Number(value));
+  return (
+    !Number.isNaN(Number.parseFloat(value as string)) &&
+    Number.isFinite(Number(value))
+  );
 }
 
 function isNil(value: unknown): value is null | undefined {

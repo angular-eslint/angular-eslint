@@ -1,6 +1,12 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
-import type { MessageIds, Options } from '../../../src/rules/conditional-complexity';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type {
+  MessageIds,
+  Options,
+} from '../../../src/rules/conditional-complexity';
 
 const messageId: MessageIds = 'conditionalComplexity';
 
@@ -33,7 +39,8 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail if the conditional complexity exceeds the maximum default',
+    description:
+      'should fail if the conditional complexity exceeds the maximum default',
     annotatedSource: `
         <div *ngIf="a === '3' || (b === '3' && c.d !== '1' && e.f !== '6' && q !== g)">
                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -44,7 +51,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail if the conditional complexity exceeds the maximum defined',
+    description:
+      'should fail if the conditional complexity exceeds the maximum defined',
     annotatedSource: `
         <ng-container *ngIf="control && control.invalid && (control.touched || (showOnDirty && control.dirty))">
                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

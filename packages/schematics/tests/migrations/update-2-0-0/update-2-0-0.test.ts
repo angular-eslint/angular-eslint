@@ -1,5 +1,8 @@
 import { Tree } from '@angular-devkit/schematics';
-import { SchematicTestRunner, UnitTestTree } from '@angular-devkit/schematics/testing';
+import {
+  SchematicTestRunner,
+  UnitTestTree,
+} from '@angular-devkit/schematics/testing';
 import * as path from 'node:path';
 import { describe, expect, it } from 'vitest';
 
@@ -68,7 +71,11 @@ describe('update-2-0-0', () => {
   );
 
   it('should update relevant @angular-eslint and @typescript-eslint packages', async () => {
-    const tree = await migrationSchematicRunner.runSchematic('update-2-0-0', {}, appTree);
+    const tree = await migrationSchematicRunner.runSchematic(
+      'update-2-0-0',
+      {},
+      appTree,
+    );
     const packageJSON = JSON.parse(tree.readContent('/package.json'));
     expect(packageJSON).toMatchInlineSnapshot(`
       {
@@ -85,7 +92,11 @@ describe('update-2-0-0', () => {
   });
 
   it('should remove any explicit usage of the @angular-eslint/use-pipe-decorator rule', async () => {
-    const tree = await migrationSchematicRunner.runSchematic('update-2-0-0', {}, appTree);
+    const tree = await migrationSchematicRunner.runSchematic(
+      'update-2-0-0',
+      {},
+      appTree,
+    );
 
     const rootESLint = JSON.parse(tree.readContent('.eslintrc.json'));
     expect(rootESLint).toMatchInlineSnapshot(`
@@ -94,14 +105,18 @@ describe('update-2-0-0', () => {
       }
     `);
 
-    const fooESLint = JSON.parse(tree.readContent('projects/foo/.eslintrc.json'));
+    const fooESLint = JSON.parse(
+      tree.readContent('projects/foo/.eslintrc.json'),
+    );
     expect(fooESLint).toMatchInlineSnapshot(`
       {
         "rules": {},
       }
     `);
 
-    const barESLint = JSON.parse(tree.readContent('projects/bar/.eslintrc.json'));
+    const barESLint = JSON.parse(
+      tree.readContent('projects/bar/.eslintrc.json'),
+    );
     expect(barESLint).toMatchInlineSnapshot(`
       {
         "overrides": [

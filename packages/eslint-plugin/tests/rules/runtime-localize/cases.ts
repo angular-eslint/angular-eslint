@@ -1,5 +1,8 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
 import type { MessageIds, Options } from '../../../src/rules/runtime-localize';
 
 const messageId: MessageIds = 'runtimeLocalize';
@@ -54,7 +57,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail when $localize is nested within a file-level variable initializer',
+    description:
+      'should fail when $localize is nested within a file-level variable initializer',
     annotatedSource: `
         let foo = {
           x: [{
@@ -66,7 +70,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail when $localize is passed to a function at the file-level',
+    description:
+      'should fail when $localize is passed to a function at the file-level',
     annotatedSource: `
         (x => { return x; })($localize\`foo\`);
                              ~~~~~~~~~
@@ -74,7 +79,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail when $localize initializes a static class property',
+    description:
+      'should fail when $localize initializes a static class property',
     annotatedSource: `
         class Test {
           static foo = $localize\`foo\`;
@@ -84,7 +90,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail when $localize is nested within a static class property initializer',
+    description:
+      'should fail when $localize is nested within a static class property initializer',
     annotatedSource: `
         class Test {
           static foo = {

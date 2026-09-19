@@ -1,6 +1,13 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
-import { type MessageIds, type Options, OrderType } from '../../../src/rules/attributes-order';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import {
+  type MessageIds,
+  type Options,
+  OrderType,
+} from '../../../src/rules/attributes-order';
 
 const messageId: MessageIds = 'attributesOrder';
 
@@ -181,7 +188,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should fail if structural directive is in the wrong place with custom order',
+    description:
+      'should fail if structural directive is in the wrong place with custom order',
     annotatedSource: `
       <input *ngIf="flag" class="className">
              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -229,8 +237,10 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       },
     ],
     data: {
-      expected: '`#inputRef`, `*ngIf`, `class`, `id`, `[binding]`, `(output)`, `[(ngModel)]`',
-      actual: '`*ngIf`, `[(ngModel)]`, `#inputRef`, `id`, `class`, `[binding]`, `(output)`',
+      expected:
+        '`#inputRef`, `*ngIf`, `class`, `id`, `[binding]`, `(output)`, `[(ngModel)]`',
+      actual:
+        '`*ngIf`, `[(ngModel)]`, `#inputRef`, `id`, `class`, `[binding]`, `(output)`',
     },
     annotatedOutput: `
       <input #inputRef *ngIf="flag" class="className" id="input" [binding]="true" (output)="handleOutput($event)" [(ngModel)]="model">
@@ -258,8 +268,10 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         ~~~~~~~~~~~~~~~~
     `,
     data: {
-      expected: '`*ngIf`, `#inputRef`, `id`, `class`, `[binding]`, `[(ngModel)]`, `(output)`',
-      actual: '`[(ngModel)]`, `*ngIf`, `#inputRef`, `id`, `class`, `(output)`, `[binding]`',
+      expected:
+        '`*ngIf`, `#inputRef`, `id`, `class`, `[binding]`, `[(ngModel)]`, `(output)`',
+      actual:
+        '`[(ngModel)]`, `*ngIf`, `#inputRef`, `id`, `class`, `(output)`, `[binding]`',
     },
     annotatedOutput: `
       <input
@@ -379,7 +391,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should work with ng-template with multiple variable assignments',
+    description:
+      'should work with ng-template with multiple variable assignments',
     annotatedSource: `
       <ng-template let-value="something" let-anotherValue="else" #Template></ng-template>
                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -434,7 +447,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should work with structural directive and single let spread over lines',
+    description:
+      'should work with structural directive and single let spread over lines',
     annotatedSource: `
       <td mat-cell *matCellDef="
           ~~~~~~~~~~~~~~~~~~~~~~
@@ -459,7 +473,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should work with structural directive with as and trailing whitespace',
+    description:
+      'should work with structural directive with as and trailing whitespace',
     annotatedSource: `
       <div class="abc" *ngIf="sth.property as property "></div>
            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -505,7 +520,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should work with valueless structural directive with no value in middle',
+    description:
+      'should work with valueless structural directive with no value in middle',
     annotatedSource: `
       <div title="abc" *structuralDirective abbr="abc"></div>
            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -522,7 +538,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should work with valueless structural directive with no value at end',
+    description:
+      'should work with valueless structural directive with no value at end',
     annotatedSource: `
       <div class="abc" *structuralDirective></div>
            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -556,7 +573,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should order i18n attribute for element alphabetically with other attributes',
+    description:
+      'should order i18n attribute for element alphabetically with other attributes',
     annotatedSource: `
       <div i18n="i" beta="b" alpha="a" pi="p">x</div>
            ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -573,15 +591,18 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should order i18n attributes along with all other types of attributes',
+    description:
+      'should order i18n attributes along with all other types of attributes',
     annotatedSource: `
       <div #alpha *ngIf="true" (epsilon)="e" beta="b" [gamma]="'g'" i18n-beta="b18" [(delta)]="d" pi="p"></div>
            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     `,
     options: [{ alphabetical: true }] as Options,
     data: {
-      expected: '`*ngIf`, `#alpha`, `beta`, `i18n-beta`, `pi`, `[gamma]`, `[(delta)]`, `(epsilon)`',
-      actual: '`#alpha`, `*ngIf`, `(epsilon)`, `beta`, `[gamma]`, `i18n-beta`, `[(delta)]`, `pi`',
+      expected:
+        '`*ngIf`, `#alpha`, `beta`, `i18n-beta`, `pi`, `[gamma]`, `[(delta)]`, `(epsilon)`',
+      actual:
+        '`#alpha`, `*ngIf`, `(epsilon)`, `beta`, `[gamma]`, `i18n-beta`, `[(delta)]`, `pi`',
     },
     annotatedOutput: `
       <div *ngIf="true" #alpha beta="b" i18n-beta="b18" pi="p" [gamma]="'g'" [(delta)]="d" (epsilon)="e"></div>
@@ -590,7 +611,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should order i18n attribute for input after the corresponding input',
+    description:
+      'should order i18n attribute for input after the corresponding input',
     annotatedSource: `
       <div [beta]="'b'" alpha="a" [gamma]="g" i18n-alpha="a18" i18n-beta="b18"></div>
            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -624,7 +646,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description: 'should treat attribute with dynamic value as an attribute binding',
+    description:
+      'should treat attribute with dynamic value as an attribute binding',
     annotatedSource: `
       <div alpha="a" (gamma)="g()" beta="{{ b }}" [delta]="d"></div>
                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~

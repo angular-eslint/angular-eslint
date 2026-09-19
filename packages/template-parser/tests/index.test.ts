@@ -515,14 +515,19 @@ describe('parseForESLint()', () => {
   });
 
   describe('parse errors', () => {
-    it('should throw if the Angular compiler produced parse errors by default', ({ expect }) => {
+    it('should throw if the Angular compiler produced parse errors by default', ({
+      expect,
+    }) => {
       expect.assertions(2);
 
       let error: TemplateParseError;
       try {
-        parseForESLint('<p i18n>Lorem ipsum <em i18n="@@dolor">dolor</em> sit amet.</p>', {
-          filePath: './invalid-nested-i18ns.html',
-        });
+        parseForESLint(
+          '<p i18n>Lorem ipsum <em i18n="@@dolor">dolor</em> sit amet.</p>',
+          {
+            filePath: './invalid-nested-i18ns.html',
+          },
+        );
       } catch (err: any) {
         error = err;
         expect(error).toMatchInlineSnapshot(
@@ -547,7 +552,8 @@ describe('parseForESLint()', () => {
       const { ast } = parseForESLint(
         '<p>consumed resources are at {{ ${percent} | formatPercentLocale }}</p>',
         {
-          filePath: './inline-template-source-using-template-literal-interpolation.html',
+          filePath:
+            './inline-template-source-using-template-literal-interpolation.html',
           suppressParseErrors: true,
         },
       );
@@ -16954,8 +16960,10 @@ describe('parseForESLint()', () => {
 
   describe('call expressions', () => {
     it('should support normal and safe calls', () => {
-      expect(parseForESLint(`{{ foo() }} {{ bar?.() }}`, { filePath: './foo.html' }).ast)
-        .toMatchInlineSnapshot(`
+      expect(
+        parseForESLint(`{{ foo() }} {{ bar?.() }}`, { filePath: './foo.html' })
+          .ast,
+      ).toMatchInlineSnapshot(`
         {
           "comments": [],
           "loc": {
@@ -17244,7 +17252,9 @@ describe('parseForESLint()', () => {
   });
 
   describe('binding pipe with ParenthesizedExpression', () => {
-    it('should support binding pipe with ParenthesizedExpression', ({ expect }) => {
+    it('should support binding pipe with ParenthesizedExpression', ({
+      expect,
+    }) => {
       expect(
         parseForESLint(
           `

@@ -24,14 +24,18 @@ export default createESLintRule<[], MessageIds>({
       hasReturn: boolean;
     }[] = [];
 
-    function enterFunction(node: TSESTree.FunctionExpression | TSESTree.ArrowFunctionExpression) {
+    function enterFunction(
+      node: TSESTree.FunctionExpression | TSESTree.ArrowFunctionExpression,
+    ) {
       functionStack.push({
         node,
         hasReturn: false,
       });
     }
 
-    function exitFunction(node: TSESTree.FunctionExpression | TSESTree.ArrowFunctionExpression) {
+    function exitFunction(
+      node: TSESTree.FunctionExpression | TSESTree.ArrowFunctionExpression,
+    ) {
       const funcInfo = functionStack.pop();
 
       if (
@@ -41,7 +45,10 @@ export default createESLintRule<[], MessageIds>({
         node.parent.arguments[0] === node
       ) {
         // Arrow function without a body
-        if (node.type === AST_NODE_TYPES.ArrowFunctionExpression && node.expression) {
+        if (
+          node.type === AST_NODE_TYPES.ArrowFunctionExpression &&
+          node.expression
+        ) {
           return;
         }
 

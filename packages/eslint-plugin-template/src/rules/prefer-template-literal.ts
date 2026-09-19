@@ -1,8 +1,16 @@
-import { AST, Binary, TemplateLiteral } from '@angular-eslint/bundled-angular-compiler';
+import {
+  AST,
+  Binary,
+  TemplateLiteral,
+} from '@angular-eslint/bundled-angular-compiler';
 import { ensureTemplateParser } from '@angular-eslint/utils';
 import { RuleFix } from '@typescript-eslint/utils/ts-eslint';
 import { createESLintRule } from '../utils/create-eslint-rule';
-import { isLiteralPrimitive, isStringLiteralPrimitive, Quote } from '../utils/literal-primitive';
+import {
+  isLiteralPrimitive,
+  isStringLiteralPrimitive,
+  Quote,
+} from '../utils/literal-primitive';
 import { unwrapParenthesizedExpression } from '../utils/unwrap-parenthesized-expression';
 
 const messageId = 'preferTemplateLiteral';
@@ -15,7 +23,9 @@ export const RULE_NAME = 'prefer-template-literal';
  * Part of a concatenation chain - either a literal value that can be inlined,
  * or an expression that needs ${} interpolation.
  */
-type ConcatPart = { type: 'literal'; value: string } | { type: 'expression'; node: AST };
+type ConcatPart =
+  | { type: 'literal'; value: string }
+  | { type: 'expression'; node: AST };
 
 /**
  * Check if this node is part of a larger Binary + chain.
@@ -36,12 +46,18 @@ function isPartOfLargerBinaryChain(node: Binary): boolean {
 function chainContainsString(node: AST): boolean {
   const unwrapped = unwrapParenthesizedExpression(node);
 
-  if (isStringLiteralPrimitive(unwrapped) || unwrapped instanceof TemplateLiteral) {
+  if (
+    isStringLiteralPrimitive(unwrapped) ||
+    unwrapped instanceof TemplateLiteral
+  ) {
     return true;
   }
 
   if (unwrapped instanceof Binary && unwrapped.operation === '+') {
-    return chainContainsString(unwrapped.left) || chainContainsString(unwrapped.right);
+    return (
+      chainContainsString(unwrapped.left) ||
+      chainContainsString(unwrapped.right)
+    );
   }
 
   return false;
@@ -60,7 +76,10 @@ function flattenBinaryConcat(node: AST): readonly ConcatPart[] {
     chainContainsString(unwrapped)
   ) {
     // Recursively flatten both sides
-    return [...flattenBinaryConcat(unwrapped.left), ...flattenBinaryConcat(unwrapped.right)];
+    return [
+      ...flattenBinaryConcat(unwrapped.left),
+      ...flattenBinaryConcat(unwrapped.right),
+    ];
   }
 
   if (unwrapped instanceof TemplateLiteral) {
@@ -81,7 +100,10 @@ function flattenBinaryConcat(node: AST): readonly ConcatPart[] {
 
   if (isLiteralPrimitive(unwrapped)) {
     // Convert the literal to a string
-    const value = typeof unwrapped.value === 'string' ? unwrapped.value : String(unwrapped.value);
+    const value =
+      typeof unwrapped.value === 'string'
+        ? unwrapped.value
+        : String(unwrapped.value);
     return [{ type: 'literal', value }];
   }
 
@@ -118,7 +140,9 @@ export default createESLintRule<Options, MessageIds>({
     //
     // This pattern needs to match what is used in
     // `packages/eslint-plugin-template/src/processors.ts`.
-    if (/inline-template-[^/\\]+-\d+\.component\.html$/.test(context.filename)) {
+    if (
+      /inline-template-[^/\\]+-\d+\.component\.html$/.test(context.filename)
+    ) {
       return {};
     }
 
@@ -144,7 +168,8 @@ export default createESLintRule<Options, MessageIds>({
           sourceSpan: { start, end },
         } = node;
 
-        const parentIsTemplateLiteral = 'parent' in node && node.parent instanceof TemplateLiteral;
+        const parentIsTemplateLiteral =
+          'parent' in node && node.parent instanceof TemplateLiteral;
 
         // Flatten the entire concatenation chain
         const parts = flattenBinaryConcat(node);
@@ -189,12 +214,13 @@ export default createESLintRule<Options, MessageIds>({
 
             // If the parent is a template literal, remove the `${` sign
             if (parentIsTemplateLiteral) {
-              const templateInterpolationStartIndex = sourceCode.text.lastIndexOf(
-                '${',
-                node.sourceSpan.start,
-              );
+              const templateInterpolationStartIndex =
+                sourceCode.text.lastIndexOf('${', node.sourceSpan.start);
               fixes.push(
-                fixer.removeRange([templateInterpolationStartIndex, node.sourceSpan.start]),
+                fixer.removeRange([
+                  templateInterpolationStartIndex,
+                  node.sourceSpan.start,
+                ]),
               );
             }
 
@@ -205,7 +231,10 @@ export default createESLintRule<Options, MessageIds>({
             for (const part of parts) {
               if (part.type === 'literal') {
                 // Escape the quote character in the value
-                replacement += part.value.replaceAll(effectiveQuote, `\\${effectiveQuote}`);
+                replacement += part.value.replaceAll(
+                  effectiveQuote,
+                  `\\${effectiveQuote}`,
+                );
               } else {
                 // Expression - wrap in ${}
                 const exprText = sourceCode.text.slice(
@@ -230,7 +259,10 @@ export default createESLintRule<Options, MessageIds>({
                 node.sourceSpan.end,
               );
               fixes.push(
-                fixer.removeRange([node.sourceSpan.end, templateInterpolationEndIndex + 1]),
+                fixer.removeRange([
+                  node.sourceSpan.end,
+                  templateInterpolationEndIndex + 1,
+                ]),
               );
             }
 

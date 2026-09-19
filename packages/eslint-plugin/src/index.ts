@@ -34,29 +34,45 @@ import noDuplicatesInMetadataArrays, {
 import noEmptyLifecycleMethod, {
   RULE_NAME as noEmptyLifecycleMethodRuleName,
 } from './rules/no-empty-lifecycle-method';
-import noForwardRef, { RULE_NAME as noForwardRefRuleName } from './rules/no-forward-ref';
-import noInputPrefix, { RULE_NAME as noInputPrefixRuleName } from './rules/no-input-prefix';
-import noInputRename, { RULE_NAME as noInputRenameRuleName } from './rules/no-input-rename';
+import noForwardRef, {
+  RULE_NAME as noForwardRefRuleName,
+} from './rules/no-forward-ref';
+import noInputPrefix, {
+  RULE_NAME as noInputPrefixRuleName,
+} from './rules/no-input-prefix';
+import noInputRename, {
+  RULE_NAME as noInputRenameRuleName,
+} from './rules/no-input-rename';
 import noInputsMetadataProperty, {
   RULE_NAME as noInputsMetadataPropertyRuleName,
 } from './rules/no-inputs-metadata-property';
-import noLifecycleCall, { RULE_NAME as noLifecycleCallRuleName } from './rules/no-lifecycle-call';
-import noOutputNative, { RULE_NAME as noOutputNativeRuleName } from './rules/no-output-native';
+import noLifecycleCall, {
+  RULE_NAME as noLifecycleCallRuleName,
+} from './rules/no-lifecycle-call';
+import noOutputNative, {
+  RULE_NAME as noOutputNativeRuleName,
+} from './rules/no-output-native';
 import noOutputOnPrefix, {
   RULE_NAME as noOutputOnPrefixRuleName,
 } from './rules/no-output-on-prefix';
-import noOutputRename, { RULE_NAME as noOutputRenameRuleName } from './rules/no-output-rename';
+import noOutputRename, {
+  RULE_NAME as noOutputRenameRuleName,
+} from './rules/no-output-rename';
 import noOutputsMetadataProperty, {
   RULE_NAME as noOutputsMetadataPropertyRuleName,
 } from './rules/no-outputs-metadata-property';
-import noPipeImpure, { RULE_NAME as noPipeImpureRuleName } from './rules/no-pipe-impure';
+import noPipeImpure, {
+  RULE_NAME as noPipeImpureRuleName,
+} from './rules/no-pipe-impure';
 import noQueriesMetadataProperty, {
   RULE_NAME as noQueriesMetadataPropertyRuleName,
 } from './rules/no-queries-metadata-property';
 import noUncalledSignals, {
   RULE_NAME as noUncalledSignalsRuleName,
 } from './rules/no-uncalled-signals';
-import pipePrefix, { RULE_NAME as pipePrefixRuleName } from './rules/pipe-prefix';
+import pipePrefix, {
+  RULE_NAME as pipePrefixRuleName,
+} from './rules/pipe-prefix';
 import preferHostMetadataProperty, {
   RULE_NAME as preferHostMetadataPropertyRuleName,
 } from './rules/prefer-host-metadata-property';
@@ -75,9 +91,15 @@ import preferServiceDecorator, {
 import preferSignalModel, {
   RULE_NAME as preferSignalModelRuleName,
 } from './rules/prefer-signal-model';
-import preferInject, { RULE_NAME as preferInjectRuleName } from './rules/prefer-inject';
-import preferSignals, { RULE_NAME as preferSignalsRuleName } from './rules/prefer-signals';
-import preferStandalone, { RULE_NAME as preferStandaloneRuleName } from './rules/prefer-standalone';
+import preferInject, {
+  RULE_NAME as preferInjectRuleName,
+} from './rules/prefer-inject';
+import preferSignals, {
+  RULE_NAME as preferSignalsRuleName,
+} from './rules/prefer-signals';
+import preferStandalone, {
+  RULE_NAME as preferStandaloneRuleName,
+} from './rules/prefer-standalone';
 import relativeUrlPrefix, {
   RULE_NAME as relativeUrlPrefixRuleName,
 } from './rules/relative-url-prefix';
@@ -87,7 +109,9 @@ import requireLifecycleOnPrototype, {
 import requireLocalizeMetadata, {
   RULE_NAME as requireLocalizeMetadataRuleName,
 } from './rules/require-localize-metadata';
-import runtimeLocalize, { RULE_NAME as runtimeLocalizeRuleName } from './rules/runtime-localize';
+import runtimeLocalize, {
+  RULE_NAME as runtimeLocalizeRuleName,
+} from './rules/runtime-localize';
 import sortKeysInTypeDecorator, {
   RULE_NAME as sortKeysInTypeDecoratorRuleName,
 } from './rules/sort-keys-in-type-decorator';
@@ -109,7 +133,9 @@ import useLifecycleInterface, {
 import usePipeTransformInterface, {
   RULE_NAME as usePipeTransformInterfaceRuleName,
 } from './rules/use-pipe-transform-interface';
-import noExperimental, { RULE_NAME as noExperimentalRuleName } from './rules/no-experimental';
+import noExperimental, {
+  RULE_NAME as noExperimentalRuleName,
+} from './rules/no-experimental';
 import noDeveloperPreview, {
   RULE_NAME as noDeveloperPreviewRuleName,
 } from './rules/no-developer-preview';
@@ -119,7 +145,9 @@ import noImplicitTakeUntilDestroyed, {
 import computedMustReturn, {
   RULE_NAME as computedMustReturnRuleName,
 } from './rules/computed-must-return';
-import injectAtTop, { RULE_NAME as injectAtTopRuleName } from './rules/inject-at-top';
+import injectAtTop, {
+  RULE_NAME as injectAtTopRuleName,
+} from './rules/inject-at-top';
 import reactiveContextMustReadSignal, {
   RULE_NAME as reactiveContextMustReadSignalRuleName,
 } from './rules/reactive-context-must-read-signal';
@@ -158,7 +186,8 @@ export = {
     [pipePrefixRuleName]: pipePrefix,
     [preferHostMetadataPropertyRuleName]: preferHostMetadataProperty,
     [preferInjectRuleName]: preferInject,
-    [preferOnPushComponentChangeDetectionRuleName]: preferOnPushComponentChangeDetection,
+    [preferOnPushComponentChangeDetectionRuleName]:
+      preferOnPushComponentChangeDetection,
     [preferOutputEmitterRefRuleName]: preferOutputEmitterRef,
     [preferOutputReadonlyRuleName]: preferOutputReadonly,
     [preferServiceDecoratorRuleName]: preferServiceDecorator,

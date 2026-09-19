@@ -1,5 +1,8 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
 import type { MessageIds, Options } from '../../../src/rules/inject-at-top';
 
 const messageId: MessageIds = 'injectAtTop';
@@ -299,7 +302,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { functionName: 'inject' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail when inject() is declared below a regular property',
+    description:
+      'should fail when inject() is declared below a regular property',
     annotatedSource: `
       @Injectable()
       class MyService {
@@ -355,7 +359,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { functionName: 'inject' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should report every inject() that appears below another class member',
+    description:
+      'should report every inject() that appears below another class member',
     annotatedSource: `
       @Component({})
       class MyComponent {
@@ -377,7 +382,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     ],
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail when inject() is hidden inside a ConditionalExpression',
+    description:
+      'should fail when inject() is hidden inside a ConditionalExpression',
     annotatedSource: `
       @Component({})
       class MyComponent {
@@ -390,7 +396,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { functionName: 'inject' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail when inject() is hidden inside a LogicalExpression',
+    description:
+      'should fail when inject() is hidden inside a LogicalExpression',
     annotatedSource: `
       @Component({})
       class MyComponent {
@@ -403,7 +410,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { functionName: 'inject' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail when inject() is hidden inside a TSNonNullExpression',
+    description:
+      'should fail when inject() is hidden inside a TSNonNullExpression',
     annotatedSource: `
       @Component({})
       class MyComponent {
@@ -429,7 +437,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { functionName: 'inject' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail when inject() is hidden inside a wrapping CallExpression',
+    description:
+      'should fail when inject() is hidden inside a wrapping CallExpression',
     annotatedSource: `
       @Component({})
       class MyComponent {
@@ -455,7 +464,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { functionName: 'inject' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail when inject() is hidden inside an ArrayExpression',
+    description:
+      'should fail when inject() is hidden inside an ArrayExpression',
     annotatedSource: `
       @Component({})
       class MyComponent {
@@ -468,7 +478,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { functionName: 'inject' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail when inject() is hidden inside an ObjectExpression',
+    description:
+      'should fail when inject() is hidden inside an ObjectExpression',
     annotatedSource: `
       @Component({})
       class MyComponent {
@@ -481,7 +492,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { functionName: 'inject' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail when inject() is hidden inside a SequenceExpression',
+    description:
+      'should fail when inject() is hidden inside a SequenceExpression',
     annotatedSource: `
       @Component({})
       class MyComponent {
@@ -521,7 +533,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { functionName: 'inject' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail when inject() is nested across multiple wrapping shapes',
+    description:
+      'should fail when inject() is nested across multiple wrapping shapes',
     annotatedSource: `
       @Component({})
       class MyComponent {
@@ -534,7 +547,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { functionName: 'inject' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail when an IIFE uses a function expression that contains inject()',
+    description:
+      'should fail when an IIFE uses a function expression that contains inject()',
     annotatedSource: `
       @Component({})
       class MyComponent {
@@ -547,7 +561,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { functionName: 'inject' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail when an IIFE wraps inject() inside another expression',
+    description:
+      'should fail when an IIFE wraps inject() inside another expression',
     annotatedSource: `
       @Component({})
       class MyComponent {
@@ -560,7 +575,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { functionName: 'inject' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail when inject() is declared below a member in an @Service class',
+    description:
+      'should fail when inject() is declared below a member in an @Service class',
     annotatedSource: `
       @Service()
       class UserService {

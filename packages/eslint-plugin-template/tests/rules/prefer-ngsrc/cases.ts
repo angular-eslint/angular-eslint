@@ -1,5 +1,8 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
 import type { MessageIds, Options } from '../../../src/rules/prefer-ngsrc';
 
 const missingAttribute: MessageIds = 'missingAttribute';
@@ -251,7 +254,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     ],
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail when img has bound [ngSrc] and bound [src] with string',
+    description:
+      'should fail when img has bound [ngSrc] and bound [src] with string',
     annotatedSource: `
       <img [ngSrc]="otherValue" [src]="'http://localhost'">
                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -268,7 +272,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     ],
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail when img has bound [ngSrc] and bound [src] with variable',
+    description:
+      'should fail when img has bound [ngSrc] and bound [src] with variable',
     annotatedSource: `
       <img [ngSrc]="otherValue" [src]="value">
                                 ~~~~~~~~~~~~~
@@ -353,7 +358,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     ],
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail when img has bound [src] data concatenation and [ngSrc]',
+    description:
+      'should fail when img has bound [src] data concatenation and [ngSrc]',
     annotatedSource: `
       <img [src]="'data:' + value" [ngSrc]="otherValue">
            ~~~~~~~~~~~~~~~~~~~~~~~
@@ -370,7 +376,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     ],
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should correctly replace src attribute when it is on a new line',
+    description:
+      'should correctly replace src attribute when it is on a new line',
     annotatedSource: `
       <img
         src="http://localhost">
@@ -389,7 +396,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     ],
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should correctly replace [src] when it is on new line with other attributes',
+    description:
+      'should correctly replace [src] when it is on new line with other attributes',
     annotatedSource: `
       <img
         [src]="value"
@@ -432,7 +440,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     ],
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should correctly remove src when multiline img has both ngSrc and src',
+    description:
+      'should correctly remove src when multiline img has both ngSrc and src',
     annotatedSource: `
       <img
         ngSrc="http://localhost"
@@ -475,7 +484,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     ],
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should correctly replace [src] in img with dangling closing bracket',
+    description:
+      'should correctly replace [src] in img with dangling closing bracket',
     annotatedSource: `
       <img alt="test"
         [src]="value"

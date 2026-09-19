@@ -37,9 +37,12 @@ export default async function () {
     }
 
     process.env.npm_config_registry = registry;
-    execSync(`npm config set //${listenAddress}:${port}/:_authToken "${authToken}" --ws=false`, {
-      windowsHide: false,
-    });
+    execSync(
+      `npm config set //${listenAddress}:${port}/:_authToken "${authToken}" --ws=false`,
+      {
+        windowsHide: false,
+      },
+    );
 
     // bun
     process.env.BUN_CONFIG_REGISTRY = registry;
@@ -59,9 +62,12 @@ export default async function () {
         cwd: workspaceRoot,
       });
       // Clean up npm config
-      execSync(`npm config delete //${listenAddress}:${port}/:_authToken --ws=false`, {
-        windowsHide: false,
-      });
+      execSync(
+        `npm config delete //${listenAddress}:${port}/:_authToken --ws=false`,
+        {
+          windowsHide: false,
+        },
+      );
     };
 
     /**

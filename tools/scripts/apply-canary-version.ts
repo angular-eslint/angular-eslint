@@ -8,7 +8,9 @@ const preid = 'alpha';
 
 let distTag = 'canary';
 if (overrideMajorVersion) {
-  console.log(`Overriding canary major version base to v${overrideMajorVersion}`);
+  console.log(
+    `Overriding canary major version base to v${overrideMajorVersion}`,
+  );
   distTag = `prerelease-v${overrideMajorVersion}`;
 }
 
@@ -20,7 +22,11 @@ if (overrideMajorVersion) {
   let currentCanaryVersion = null;
   try {
     currentCanaryVersion = execa
-      .sync('npm', ['view', `@angular-eslint/eslint-plugin@${distTag}`, 'version'])
+      .sync('npm', [
+        'view',
+        `@angular-eslint/eslint-plugin@${distTag}`,
+        'version',
+      ])
       .stdout.trim();
   } catch {
     // (ignored - currentCanaryVersion can be null)
@@ -49,13 +55,23 @@ if (overrideMajorVersion) {
         '\nLatest version is greater than or equal to the current canary version, starting new prerelease base...',
       );
       // Determine next minor version above the currentLatestVersion
-      nextCanaryVersion = semver.inc(currentLatestVersion, 'prerelease', undefined, preid);
+      nextCanaryVersion = semver.inc(
+        currentLatestVersion,
+        'prerelease',
+        undefined,
+        preid,
+      );
     } else {
       console.log(
         '\nLatest version is less than the current canary version, incrementing the existing prerelease base...',
       );
       // Determine next prerelease version above the currentCanaryVersion
-      nextCanaryVersion = semver.inc(currentCanaryVersion, 'prerelease', undefined, preid);
+      nextCanaryVersion = semver.inc(
+        currentCanaryVersion,
+        'prerelease',
+        undefined,
+        preid,
+      );
     }
   }
 

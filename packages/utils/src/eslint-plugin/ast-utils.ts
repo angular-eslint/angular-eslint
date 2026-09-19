@@ -1,5 +1,9 @@
 import type { TSESTree } from '@typescript-eslint/utils';
-import { ASTUtils, AST_NODE_TYPES, AST_TOKEN_TYPES } from '@typescript-eslint/utils';
+import {
+  ASTUtils,
+  AST_NODE_TYPES,
+  AST_TOKEN_TYPES,
+} from '@typescript-eslint/utils';
 import { getLast, isNotNullOrUndefined, objectKeys } from '../utils';
 
 export enum AngularClassDecorators {
@@ -66,19 +70,26 @@ export enum AngularLifecycleMethods {
 
 export const OPTION_STYLE_CAMEL_CASE = 'camelCase' as const;
 export const OPTION_STYLE_KEBAB_CASE = 'kebab-case' as const;
-export type SelectorStyle = typeof OPTION_STYLE_CAMEL_CASE | typeof OPTION_STYLE_KEBAB_CASE;
+export type SelectorStyle =
+  | typeof OPTION_STYLE_CAMEL_CASE
+  | typeof OPTION_STYLE_KEBAB_CASE;
 
 export type AngularClassDecoratorKeys = keyof typeof AngularClassDecorators;
 export type AngularInnerClassDecoratorKeys = Exclude<
   keyof typeof AngularInnerClassDecorators,
   number
 >;
-export type AngularLifecycleInterfaceKeys = keyof typeof AngularLifecycleInterfaces;
+export type AngularLifecycleInterfaceKeys =
+  keyof typeof AngularLifecycleInterfaces;
 export type AngularLifecycleMethodKeys = keyof typeof AngularLifecycleMethods;
 
 export const angularClassDecoratorKeys = objectKeys(AngularClassDecorators);
-export const angularInnerClassDecoratorKeys = objectKeys(AngularInnerClassDecorators);
-export const angularLifecycleInterfaceKeys = objectKeys(AngularLifecycleInterfaces);
+export const angularInnerClassDecoratorKeys = objectKeys(
+  AngularInnerClassDecorators,
+);
+export const angularLifecycleInterfaceKeys = objectKeys(
+  AngularLifecycleInterfaces,
+);
 export const angularLifecycleMethodKeys = objectKeys(AngularLifecycleMethods);
 
 /**
@@ -132,7 +143,9 @@ export const ANGULAR_CLASS_DECORATOR_LIFECYCLE_METHOD_MAPPER: ReadonlyMap<
   ],
   [
     AngularClassDecorators.NgModule,
-    new Set<AngularLifecycleMethodKeys>([AngularLifecycleMethods.ngDoBootstrap]),
+    new Set<AngularLifecycleMethodKeys>([
+      AngularLifecycleMethods.ngDoBootstrap,
+    ]),
   ],
   [
     AngularClassDecorators.Pipe,
@@ -144,13 +157,11 @@ export const ANGULAR_CLASS_DECORATOR_LIFECYCLE_METHOD_MAPPER: ReadonlyMap<
   ],
 ]);
 
-export const ANGULAR_INNER_CLASS_DECORATORS: ReadonlySet<AngularInnerClassDecoratorKeys> = new Set(
-  angularInnerClassDecoratorKeys,
-);
+export const ANGULAR_INNER_CLASS_DECORATORS: ReadonlySet<AngularInnerClassDecoratorKeys> =
+  new Set(angularInnerClassDecoratorKeys);
 
-export const ANGULAR_CLASS_DECORATORS: ReadonlySet<AngularClassDecoratorKeys> = new Set(
-  angularClassDecoratorKeys,
-);
+export const ANGULAR_CLASS_DECORATORS: ReadonlySet<AngularClassDecoratorKeys> =
+  new Set(angularClassDecoratorKeys);
 
 export const ANGULAR_CLASS_DECORATOR_MAPPER: ReadonlyMap<
   AngularClassDecoratorKeys,
@@ -256,7 +267,8 @@ export function getImportDeclarationSpecifier(
           isImportSpecifier(importClause) &&
           ((ASTUtils.isIdentifier(importClause.imported) &&
             importClause.imported.name === importName) ||
-            (isStringLiteral(importClause.imported) && importClause.imported.value === importName))
+            (isStringLiteral(importClause.imported) &&
+              importClause.imported.value === importName))
         );
       },
     );
@@ -290,8 +302,9 @@ export function getInterfaceName(
     : undefined;
 }
 
-export const getPipeDecorator = (node: TSESTree.ClassDeclaration): TSESTree.Decorator | undefined =>
-  getDecorator(node, 'Pipe');
+export const getPipeDecorator = (
+  node: TSESTree.ClassDeclaration,
+): TSESTree.Decorator | undefined => getDecorator(node, 'Pipe');
 
 export function getInterfaces(
   node: TSESTree.ClassDeclaration,
@@ -301,7 +314,9 @@ export function getInterfaces(
     .filter(isIdentifierOrMemberExpression);
 }
 
-export function getDeclaredInterfaceNames(node: TSESTree.ClassDeclaration): readonly string[] {
+export function getDeclaredInterfaceNames(
+  node: TSESTree.ClassDeclaration,
+): readonly string[] {
   return getInterfaces(node).map(getInterfaceName).filter(isNotNullOrUndefined);
 }
 
@@ -353,7 +368,9 @@ export const getDecorator = (
     | TSESTree.MethodDefinition,
   decoratorName: string,
 ): TSESTree.Decorator | undefined => {
-  return node.decorators?.find((decorator) => getDecoratorName(decorator) === decoratorName);
+  return node.decorators?.find(
+    (decorator) => getDecoratorName(decorator) === decoratorName,
+  );
 };
 
 export const getAngularClassDecorator = ({
@@ -375,31 +392,36 @@ export const getDecoratorArgument = ({
   return isObjectExpression(arg) && arg.properties ? arg : undefined;
 };
 
-export const getDecoratorName = ({ expression }: TSESTree.Decorator): string | undefined => {
+export const getDecoratorName = ({
+  expression,
+}: TSESTree.Decorator): string | undefined => {
   if (ASTUtils.isIdentifier(expression)) return expression.name;
 
-  return isCallExpression(expression) && ASTUtils.isIdentifier(expression.callee)
+  return isCallExpression(expression) &&
+    ASTUtils.isIdentifier(expression.callee)
     ? expression.callee.name
     : undefined;
 };
 
-export const ANGULAR_LIFECYCLE_INTERFACES: ReadonlySet<AngularLifecycleInterfaceKeys> = new Set(
-  angularLifecycleInterfaceKeys,
-);
+export const ANGULAR_LIFECYCLE_INTERFACES: ReadonlySet<AngularLifecycleInterfaceKeys> =
+  new Set(angularLifecycleInterfaceKeys);
 
-export const ANGULAR_LIFECYCLE_METHODS: ReadonlySet<AngularLifecycleMethodKeys> = new Set(
-  angularLifecycleMethodKeys,
-);
+export const ANGULAR_LIFECYCLE_METHODS: ReadonlySet<AngularLifecycleMethodKeys> =
+  new Set(angularLifecycleMethodKeys);
 
 export const isAngularLifecycleInterface = (
   value: string,
 ): value is AngularLifecycleInterfaceKeys =>
   ANGULAR_LIFECYCLE_INTERFACES.has(value as AngularLifecycleInterfaceKeys);
 
-export const isAngularLifecycleMethod = (value: string): value is AngularLifecycleMethodKeys =>
+export const isAngularLifecycleMethod = (
+  value: string,
+): value is AngularLifecycleMethodKeys =>
   ANGULAR_LIFECYCLE_METHODS.has(value as AngularLifecycleMethodKeys);
 
-export const isAngularClassDecorator = (value: string): value is AngularClassDecoratorKeys =>
+export const isAngularClassDecorator = (
+  value: string,
+): value is AngularClassDecoratorKeys =>
   ANGULAR_CLASS_DECORATORS.has(value as AngularClassDecoratorKeys);
 
 export const isAngularInnerClassDecorator = (
@@ -418,7 +440,10 @@ export const isAngularInnerClassDecorator = (
  *  ['c'] // Literal
  * }
  */
-export function getPropertyDefinitionName({ computed, key }: TSESTree.PropertyDefinition): string {
+export function getPropertyDefinitionName({
+  computed,
+  key,
+}: TSESTree.PropertyDefinition): string {
   if (ASTUtils.isIdentifier(key) && !computed) {
     return key.name;
   }
@@ -427,10 +452,14 @@ export function getPropertyDefinitionName({ computed, key }: TSESTree.PropertyDe
     return key.raw;
   }
 
-  throw new Error(`Unexpected "PropertyDefinition.key.type" provided: ${key.type}`);
+  throw new Error(
+    `Unexpected "PropertyDefinition.key.type" provided: ${key.type}`,
+  );
 }
 
-export const getDecoratorProperties = (decorator: TSESTree.Decorator): TSESTree.Property[] => {
+export const getDecoratorProperties = (
+  decorator: TSESTree.Decorator,
+): TSESTree.Property[] => {
   return getDecoratorArgument(decorator)?.properties.filter(isProperty) ?? [];
 };
 
@@ -456,7 +485,10 @@ export const getDeclaredMethods = ({
   return body.filter(isMethodDefinition);
 };
 
-export const getMethodName = ({ computed, key }: TSESTree.MethodDefinition): string | undefined => {
+export const getMethodName = ({
+  computed,
+  key,
+}: TSESTree.MethodDefinition): string | undefined => {
   if (isStringLiteral(key)) {
     return key.value;
   }
@@ -466,9 +498,13 @@ export const getMethodName = ({ computed, key }: TSESTree.MethodDefinition): str
 
 export const getLifecycleInterfaceByMethodName = (
   methodName: AngularLifecycleMethodKeys,
-): AngularLifecycleInterfaceKeys => methodName.slice(2) as AngularLifecycleInterfaceKeys;
+): AngularLifecycleInterfaceKeys =>
+  methodName.slice(2) as AngularLifecycleInterfaceKeys;
 
-export function isImportedFrom(identifier: TSESTree.Identifier, moduleName: string): boolean {
+export function isImportedFrom(
+  identifier: TSESTree.Identifier,
+  moduleName: string,
+): boolean {
   const importDeclarations = getImportDeclarations(identifier, moduleName);
 
   return Boolean(
@@ -491,7 +527,11 @@ export function getRawText(node: TSESTree.Node): string {
     return node.name;
   }
 
-  if (isPropertyDefinition(node) || isMethodDefinition(node) || isProperty(node)) {
+  if (
+    isPropertyDefinition(node) ||
+    isMethodDefinition(node) ||
+    isProperty(node)
+  ) {
     return getRawText(node.key);
   }
 
@@ -520,11 +560,15 @@ export function getReplacementText(
 // SECTION START:
 // Equivalents of utils exported by TypeScript itself for its own AST
 
-export function isCallExpression(node: TSESTree.Node): node is TSESTree.CallExpression {
+export function isCallExpression(
+  node: TSESTree.Node,
+): node is TSESTree.CallExpression {
   return node.type === AST_NODE_TYPES.CallExpression;
 }
 
-export function isMemberExpression(node: TSESTree.Node): node is TSESTree.MemberExpression {
+export function isMemberExpression(
+  node: TSESTree.Node,
+): node is TSESTree.MemberExpression {
   return node.type === AST_NODE_TYPES.MemberExpression;
 }
 
@@ -534,11 +578,15 @@ export function isIdentifierOrMemberExpression(
   return ASTUtils.isIdentifier(node) || isMemberExpression(node);
 }
 
-export function isClassDeclaration(node: TSESTree.Node): node is TSESTree.ClassDeclaration {
+export function isClassDeclaration(
+  node: TSESTree.Node,
+): node is TSESTree.ClassDeclaration {
   return node.type === AST_NODE_TYPES.ClassDeclaration;
 }
 
-export function isPropertyDefinition(node: TSESTree.Node): node is TSESTree.PropertyDefinition {
+export function isPropertyDefinition(
+  node: TSESTree.Node,
+): node is TSESTree.PropertyDefinition {
   return node.type === AST_NODE_TYPES.PropertyDefinition;
 }
 
@@ -560,11 +608,15 @@ export function isImportNamespaceSpecifier(
   return node.type === AST_NODE_TYPES.ImportNamespaceSpecifier;
 }
 
-export function isObjectExpression(node: TSESTree.Node): node is TSESTree.ObjectExpression {
+export function isObjectExpression(
+  node: TSESTree.Node,
+): node is TSESTree.ObjectExpression {
   return node.type === AST_NODE_TYPES.ObjectExpression;
 }
 
-export function isArrayExpression(node: TSESTree.Node): node is TSESTree.ArrayExpression {
+export function isArrayExpression(
+  node: TSESTree.Node,
+): node is TSESTree.ArrayExpression {
   return node.type === AST_NODE_TYPES.ArrayExpression;
 }
 
@@ -580,19 +632,27 @@ export function isLiteral(node: TSESTree.Node): node is TSESTree.Literal {
   return node.type === AST_NODE_TYPES.Literal;
 }
 
-export function isTemplateElement(node: TSESTree.Node): node is TSESTree.TemplateElement {
+export function isTemplateElement(
+  node: TSESTree.Node,
+): node is TSESTree.TemplateElement {
   return node.type === AST_NODE_TYPES.TemplateElement;
 }
 
-export function isTemplateLiteral(node: TSESTree.Node): node is TSESTree.TemplateLiteral {
+export function isTemplateLiteral(
+  node: TSESTree.Node,
+): node is TSESTree.TemplateLiteral {
   return node.type === AST_NODE_TYPES.TemplateLiteral;
 }
 
-export function isImportDeclaration(node: TSESTree.Node): node is TSESTree.ImportDeclaration {
+export function isImportDeclaration(
+  node: TSESTree.Node,
+): node is TSESTree.ImportDeclaration {
   return node.type === AST_NODE_TYPES.ImportDeclaration;
 }
 
-export function isImportSpecifier(node: TSESTree.Node): node is TSESTree.ImportSpecifier {
+export function isImportSpecifier(
+  node: TSESTree.Node,
+): node is TSESTree.ImportSpecifier {
   return node.type === AST_NODE_TYPES.ImportSpecifier;
 }
 
@@ -601,11 +661,15 @@ export function isImportSpecifier(node: TSESTree.Node): node is TSESTree.ImportS
  * but it is a common thing to need to do, so this utility are here to
  * avoid repeated `typeof` checks on the node's value.
  */
-export function isStringLiteral(node: TSESTree.Node): node is TSESTree.StringLiteral {
+export function isStringLiteral(
+  node: TSESTree.Node,
+): node is TSESTree.StringLiteral {
   return isLiteral(node) && typeof node.value === 'string';
 }
 
-export function isMethodDefinition(node: TSESTree.Node): node is TSESTree.MethodDefinition {
+export function isMethodDefinition(
+  node: TSESTree.Node,
+): node is TSESTree.MethodDefinition {
   return node.type === AST_NODE_TYPES.MethodDefinition;
 }
 

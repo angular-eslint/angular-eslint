@@ -14,7 +14,8 @@ export type MessageIds =
   | 'suggestRemoveAliasName'
   | 'suggestReplaceOriginalNameWithAliasName';
 export const RULE_NAME = 'no-output-rename';
-const STYLE_GUIDE_LINK = 'https://angular.dev/guide/components/outputs#choosing-event-names';
+const STYLE_GUIDE_LINK =
+  'https://angular.dev/guide/components/outputs#choosing-event-names';
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
@@ -30,7 +31,8 @@ export default createESLintRule<Options, MessageIds>({
     messages: {
       noOutputRename: `Output bindings should not be aliased (${STYLE_GUIDE_LINK})`,
       suggestRemoveAliasName: 'Remove alias name',
-      suggestReplaceOriginalNameWithAliasName: 'Remove alias name and use it as the original name',
+      suggestReplaceOriginalNameWithAliasName:
+        'Remove alias name and use it as the original name',
     },
     defaultOptions: [],
   },
@@ -41,9 +43,13 @@ export default createESLintRule<Options, MessageIds>({
       [Selectors.COMPONENT_OR_DIRECTIVE_SELECTOR_LITERAL](
         node: TSESTree.Literal | TSESTree.TemplateElement,
       ) {
-        selectors = new Set(withoutBracketsAndWhitespaces(ASTUtils.getRawText(node)).split(','));
+        selectors = new Set(
+          withoutBracketsAndWhitespaces(ASTUtils.getRawText(node)).split(','),
+        );
       },
-      [Selectors.OUTPUT_ALIAS](node: TSESTree.Literal | TSESTree.TemplateElement) {
+      [Selectors.OUTPUT_ALIAS](
+        node: TSESTree.Literal | TSESTree.TemplateElement,
+      ) {
         const propertyOrMethodDefinition = ASTUtils.getNearestNodeFrom(
           node,
           ASTUtils.isPropertyOrMethodDefinition,
@@ -57,13 +63,17 @@ export default createESLintRule<Options, MessageIds>({
         }
 
         const aliasName = ASTUtils.getRawText(node);
-        const propertyName = ASTUtils.getRawText(propertyOrMethodDefinition.key);
+        const propertyName = ASTUtils.getRawText(
+          propertyOrMethodDefinition.key,
+        );
 
         // The alias is either a string in the `@Output()` decorator function,
         // or a string on an `alias` property that is in an object expression
         // that is in the `output()` function. If it's the latter, then we want
         // to remove that whole property rather than just the string literal.
-        const stringToRemove: TSESTree.Node = ASTUtils.isTemplateElement(node) ? node.parent : node;
+        const stringToRemove: TSESTree.Node = ASTUtils.isTemplateElement(node)
+          ? node.parent
+          : node;
         let rangeToRemove: Readonly<TSESTree.Range> = stringToRemove.range;
 
         if (ASTUtils.isProperty(stringToRemove.parent)) {
@@ -80,7 +90,8 @@ export default createESLintRule<Options, MessageIds>({
               // There are other properties in the object, so we
               // can only remove the property. How we remove it
               // will depend on where the property is in the object.
-              const propertyIndex = objectExpression.properties.indexOf(property);
+              const propertyIndex =
+                objectExpression.properties.indexOf(property);
               if (propertyIndex < objectExpression.properties.length - 1) {
                 // The property is not the last one, so we can
                 // remove everything up to the next property
@@ -134,8 +145,12 @@ export default createESLintRule<Options, MessageIds>({
       [Selectors.OUTPUTS_METADATA_PROPERTY_LITERAL](
         node: TSESTree.Literal | TSESTree.TemplateElement,
       ) {
-        const ancestorMaybeHostDirectiveAPI = node.parent?.parent?.parent?.parent?.parent;
-        if (ancestorMaybeHostDirectiveAPI && ASTUtils.isProperty(ancestorMaybeHostDirectiveAPI)) {
+        const ancestorMaybeHostDirectiveAPI =
+          node.parent?.parent?.parent?.parent?.parent;
+        if (
+          ancestorMaybeHostDirectiveAPI &&
+          ASTUtils.isProperty(ancestorMaybeHostDirectiveAPI)
+        ) {
           /**
            * Angular v15 introduced the directive composition API: https://angular.dev/guide/directives/directive-composition-api
            * Renaming host directive outputs using this API is not a bad practice and should not be reported
@@ -143,9 +158,11 @@ export default createESLintRule<Options, MessageIds>({
           const hostDirectiveAPIPropertyName = 'hostDirectives';
           if (
             (ASTUtils.isLiteral(ancestorMaybeHostDirectiveAPI.key) &&
-              ancestorMaybeHostDirectiveAPI.key.value === hostDirectiveAPIPropertyName) ||
+              ancestorMaybeHostDirectiveAPI.key.value ===
+                hostDirectiveAPIPropertyName) ||
             (TSESLintASTUtils.isIdentifier(ancestorMaybeHostDirectiveAPI.key) &&
-              ancestorMaybeHostDirectiveAPI.key.name === hostDirectiveAPIPropertyName)
+              ancestorMaybeHostDirectiveAPI.key.name ===
+                hostDirectiveAPIPropertyName)
           ) {
             return;
           }
@@ -162,7 +179,10 @@ export default createESLintRule<Options, MessageIds>({
             node,
             messageId: 'noOutputRename',
             fix: (fixer) =>
-              fixer.replaceText(node, ASTUtils.getReplacementText(node, propertyName)),
+              fixer.replaceText(
+                node,
+                ASTUtils.getReplacementText(node, propertyName),
+              ),
           });
         } else if (!isAliasNameAllowed(selectors, propertyName, aliasName)) {
           context.report({
@@ -175,7 +195,11 @@ export default createESLintRule<Options, MessageIds>({
               ] as const
             ).map(([messageId, name]) => ({
               messageId,
-              fix: (fixer) => fixer.replaceText(node, ASTUtils.getReplacementText(node, name)),
+              fix: (fixer) =>
+                fixer.replaceText(
+                  node,
+                  ASTUtils.getReplacementText(node, name),
+                ),
             })),
           });
         }
@@ -197,7 +221,10 @@ function isAliasNameAllowed(
   aliasName: string,
 ): boolean {
   return [...selectors].some((selector) => {
-    return selector === aliasName || composedName(selector, propertyName) === aliasName;
+    return (
+      selector === aliasName ||
+      composedName(selector, propertyName) === aliasName
+    );
   });
 }
 

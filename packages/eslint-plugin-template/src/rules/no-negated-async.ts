@@ -27,7 +27,8 @@ export default createESLintRule<Options, MessageIds>({
     messages: {
       noNegatedAsync:
         'Async pipe results should not be negated. Use `(observable | async) === false`, `(observable | async) === null`, or `(observable | async) === undefined` to check its value instead',
-      noNegatedValueForAsync: 'Values used with the async pipe should not be negated.',
+      noNegatedValueForAsync:
+        'Values used with the async pipe should not be negated.',
       suggestFalseComparison: 'Compare with `false`',
       suggestNullComparison: 'Compare with `null`',
       suggestUndefinedComparison: 'Compare with `undefined`',
@@ -72,7 +73,8 @@ export default createESLintRule<Options, MessageIds>({
             suggest: [
               {
                 messageId: 'suggestUsingNonNegatedValue',
-                fix: (fixer) => fixer.removeRange([sourceSpanStart, sourceSpanStart + 1]),
+                fix: (fixer) =>
+                  fixer.removeRange([sourceSpanStart, sourceSpanStart + 1]),
               },
             ],
           });

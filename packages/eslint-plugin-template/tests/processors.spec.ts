@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import processors, { isFileLikelyToContainComponentDeclarations } from '../src/processors';
+import processors, {
+  isFileLikelyToContainComponentDeclarations,
+} from '../src/processors';
 
 describe('extract-inline-html', () => {
   describe('isFileLikelyToContainComponents()', () => {
@@ -48,9 +50,9 @@ describe('extract-inline-html', () => {
 
     testCases.forEach((tc, i) => {
       it(`should return true if the given file contents and name are likely to contain Component declarations, CASE: ${i}`, () => {
-        expect(isFileLikelyToContainComponentDeclarations(tc.text, tc.filename)).toEqual(
-          tc.expected,
-        );
+        expect(
+          isFileLikelyToContainComponentDeclarations(tc.text, tc.filename),
+        ).toEqual(tc.expected);
       });
     });
   });
@@ -82,7 +84,10 @@ describe('extract-inline-html', () => {
       testCases.forEach((tc, i) => {
         it(`should not transform malformed components, CASE: ${i}`, () => {
           expect(
-            processors['extract-inline-html'].preprocess(tc.input, 'test.component.ts'),
+            processors['extract-inline-html'].preprocess(
+              tc.input,
+              'test.component.ts',
+            ),
           ).toEqual([tc.input]);
         });
       });
@@ -103,7 +108,10 @@ describe('extract-inline-html', () => {
       testCases.forEach((tc, i) => {
         it(`should not transform components with separate template files, CASE: ${i}`, () => {
           expect(
-            processors['extract-inline-html'].preprocess(tc.input, 'test.component.ts'),
+            processors['extract-inline-html'].preprocess(
+              tc.input,
+              'test.component.ts',
+            ),
           ).toEqual([tc.input]);
         });
       });
@@ -120,7 +128,12 @@ describe('extract-inline-html', () => {
           export class ComponentA {}
         `;
 
-        expect(processors['extract-inline-html'].preprocess(input, 'test.component.ts')).toEqual([
+        expect(
+          processors['extract-inline-html'].preprocess(
+            input,
+            'test.component.ts',
+          ),
+        ).toEqual([
           input,
           {
             filename: 'inline-template-test.component.ts-1.component.html',
@@ -136,7 +149,12 @@ describe('extract-inline-html', () => {
           })
           export class ExampleComponent {}
           `;
-        expect(processors['extract-inline-html'].preprocess(input, 'test.component.ts')).toEqual([
+        expect(
+          processors['extract-inline-html'].preprocess(
+            input,
+            'test.component.ts',
+          ),
+        ).toEqual([
           input,
           {
             filename: `inline-template-test.component.ts-1.component.html`,
@@ -233,7 +251,9 @@ describe('extract-inline-html', () => {
 
       testCases.forEach((tc, i) => {
         it(`should extract the inline HTML of components with inline templates, CASE: ${i}`, () => {
-          expect(processors['extract-inline-html'].preprocess(tc.input, tc.filename)).toEqual([
+          expect(
+            processors['extract-inline-html'].preprocess(tc.input, tc.filename),
+          ).toEqual([
             tc.input,
             {
               filename: `inline-template-${tc.filename}-1.component.html`,
@@ -272,7 +292,10 @@ describe('extract-inline-html', () => {
       testCases.forEach((tc, i) => {
         it(`should extract the inline HTML of components with inline templates, CASE: ${i}`, () => {
           expect(
-            processors['extract-inline-html'].preprocess(tc.input, 'test.component.ts'),
+            processors['extract-inline-html'].preprocess(
+              tc.input,
+              'test.component.ts',
+            ),
           ).toEqual([
             tc.input,
             {
@@ -312,7 +335,10 @@ describe('extract-inline-html', () => {
       testCases.forEach((tc, i) => {
         it(`should extract the inline HTML of components with inline templates, CASE: ${i}`, () => {
           expect(
-            processors['extract-inline-html'].preprocess(tc.input, 'test.component.ts'),
+            processors['extract-inline-html'].preprocess(
+              tc.input,
+              'test.component.ts',
+            ),
           ).toEqual([
             tc.input,
             {
@@ -373,7 +399,10 @@ describe('extract-inline-html', () => {
       testCases.forEach((tc, i) => {
         it(`should extract the inline HTML of components with inline templates, CASE: ${i}`, () => {
           expect(
-            processors['extract-inline-html'].preprocess(tc.input, 'test.component.ts'),
+            processors['extract-inline-html'].preprocess(
+              tc.input,
+              'test.component.ts',
+            ),
           ).toEqual([
             tc.input,
             {
@@ -405,15 +434,20 @@ describe('extract-inline-html', () => {
           export class ComponentB {}
         `;
         expect(
-          processors['extract-inline-html'].preprocess(input, 'multiple-in-one.component.ts'),
+          processors['extract-inline-html'].preprocess(
+            input,
+            'multiple-in-one.component.ts',
+          ),
         ).toEqual([
           input,
           {
-            filename: 'inline-template-multiple-in-one.component.ts-1.component.html',
+            filename:
+              'inline-template-multiple-in-one.component.ts-1.component.html',
             text: '<h1>Hello, A!</h1>',
           },
           {
-            filename: 'inline-template-multiple-in-one.component.ts-2.component.html',
+            filename:
+              'inline-template-multiple-in-one.component.ts-2.component.html',
             text: '<h1>Hello, B!</h1>',
           },
         ]);
@@ -471,19 +505,25 @@ describe('extract-inline-html', () => {
           }
         `;
         expect(
-          processors['extract-inline-html'].preprocess(input, 'multiple-in-blocks.spec.ts'),
+          processors['extract-inline-html'].preprocess(
+            input,
+            'multiple-in-blocks.spec.ts',
+          ),
         ).toEqual([
           input,
           {
-            filename: 'inline-template-multiple-in-blocks.spec.ts-1.component.html',
+            filename:
+              'inline-template-multiple-in-blocks.spec.ts-1.component.html',
             text: '<h1>Arrow</h1>',
           },
           {
-            filename: 'inline-template-multiple-in-blocks.spec.ts-2.component.html',
+            filename:
+              'inline-template-multiple-in-blocks.spec.ts-2.component.html',
             text: '<h1>Function</h1>',
           },
           {
-            filename: 'inline-template-multiple-in-blocks.spec.ts-3.component.html',
+            filename:
+              'inline-template-multiple-in-blocks.spec.ts-3.component.html',
             text: '<h1>Parenthesized</h1>',
           },
         ]);
@@ -536,7 +576,10 @@ describe('extract-inline-html', () => {
             value = '';
           }
         `;
-        processors['extract-inline-html'].preprocess(fileContent, 'test.component.ts');
+        processors['extract-inline-html'].preprocess(
+          fileContent,
+          'test.component.ts',
+        );
         const mockError = {
           ruleId: 'banana-in-box',
           severity: 2,
@@ -559,7 +602,10 @@ describe('extract-inline-html', () => {
         };
 
         expect(
-          processors['extract-inline-html'].postprocess([[], [mockError]], 'test.component.ts'),
+          processors['extract-inline-html'].postprocess(
+            [[], [mockError]],
+            'test.component.ts',
+          ),
         ).toEqual([expectedMessage]);
       });
 
@@ -574,7 +620,10 @@ describe('extract-inline-html', () => {
             value = '';
           }
         `;
-        processors['extract-inline-html'].preprocess(fileContent, 'test.component.ts');
+        processors['extract-inline-html'].preprocess(
+          fileContent,
+          'test.component.ts',
+        );
         const mockError = {
           ruleId: 'banana-in-box',
           severity: 2,
@@ -595,7 +644,10 @@ describe('extract-inline-html', () => {
         };
 
         expect(
-          processors['extract-inline-html'].postprocess([[], [mockError]], 'test.component.ts'),
+          processors['extract-inline-html'].postprocess(
+            [[], [mockError]],
+            'test.component.ts',
+          ),
         ).toEqual([expectedMessage]);
       });
 
@@ -609,7 +661,10 @@ describe('extract-inline-html', () => {
             value = '';
           }
         `;
-        processors['extract-inline-html'].preprocess(fileContent, 'test.component.ts');
+        processors['extract-inline-html'].preprocess(
+          fileContent,
+          'test.component.ts',
+        );
         const mockError = {
           ruleId: 'test',
           severity: 2,
@@ -631,7 +686,10 @@ describe('extract-inline-html', () => {
         };
 
         expect(
-          processors['extract-inline-html'].postprocess([[], [mockError]], 'test.component.ts'),
+          processors['extract-inline-html'].postprocess(
+            [[], [mockError]],
+            'test.component.ts',
+          ),
         ).toEqual([expectedMessage]);
       });
     });

@@ -32,7 +32,10 @@ export function getImportAddFix({
     return fixer.insertTextAfterRange([0, 0], fullImport);
   }
 
-  const importDeclarationSpecifier = getImportDeclarationSpecifier(importDeclarations, importName);
+  const importDeclarationSpecifier = getImportDeclarationSpecifier(
+    importDeclarations,
+    importName,
+  );
 
   if (importDeclarationSpecifier) {
     return undefined;
@@ -64,9 +67,12 @@ export function getImportRemoveFix(
 
   if (!importDeclaration || !importSpecifier) return undefined;
 
-  const isFirstImportSpecifier = importDeclaration.specifiers[0] === importSpecifier;
-  const isLastImportSpecifier = getLast(importDeclaration.specifiers) === importSpecifier;
-  const isSingleImportSpecifier = isFirstImportSpecifier && isLastImportSpecifier;
+  const isFirstImportSpecifier =
+    importDeclaration.specifiers[0] === importSpecifier;
+  const isLastImportSpecifier =
+    getLast(importDeclaration.specifiers) === importSpecifier;
+  const isSingleImportSpecifier =
+    isFirstImportSpecifier && isLastImportSpecifier;
 
   if (isSingleImportSpecifier) {
     return fixer.remove(importDeclaration);
@@ -75,14 +81,20 @@ export function getImportRemoveFix(
   const tokenAfterImportSpecifier = sourceCode.getTokenAfter(importSpecifier);
 
   if (isFirstImportSpecifier && tokenAfterImportSpecifier) {
-    return fixer.removeRange([importSpecifier.range[0], tokenAfterImportSpecifier.range[1]]);
+    return fixer.removeRange([
+      importSpecifier.range[0],
+      tokenAfterImportSpecifier.range[1],
+    ]);
   }
 
   const tokenBeforeImportSpecifier = sourceCode.getTokenBefore(importSpecifier);
 
   if (!tokenBeforeImportSpecifier) return undefined;
 
-  return fixer.removeRange([tokenBeforeImportSpecifier.range[0], importSpecifier.range[1]]);
+  return fixer.removeRange([
+    tokenBeforeImportSpecifier.range[0],
+    importSpecifier.range[1],
+  ]);
 }
 
 /**
@@ -107,13 +119,15 @@ export function getImportReplaceFix({
 }): (TSESLint.RuleFix | undefined)[] {
   const importDeclarations = getImportDeclarations(node, moduleName);
   const toAlreadyImported = Boolean(
-    importDeclarations && getImportDeclarationSpecifier(importDeclarations, toName),
+    importDeclarations &&
+    getImportDeclarationSpecifier(importDeclarations, toName),
   );
   const fromSpecifier = importDeclarations
     ? getImportDeclarationSpecifier(importDeclarations, fromName)
     : undefined;
   const fromUsedOnce =
-    ASTUtils.findVariable(sourceCode.getScope(node), fromName)?.references.length === 1;
+    ASTUtils.findVariable(sourceCode.getScope(node), fromName)?.references
+      .length === 1;
 
   if (fromUsedOnce && !toAlreadyImported && fromSpecifier) {
     return [fixer.replaceText(fromSpecifier.importSpecifier, toName)];
@@ -131,7 +145,12 @@ export function getImportReplaceFix({
 }
 
 export function getImplementsSchemaFixer(
-  { id, superClass, implements: classImplements, typeParameters }: TSESTree.ClassDeclaration,
+  {
+    id,
+    superClass,
+    implements: classImplements,
+    typeParameters,
+  }: TSESTree.ClassDeclaration,
   interfaceName: string,
 ): {
   readonly implementsNodeReplace:
@@ -182,7 +201,10 @@ export function getDecoratorPropertyAddFix(
   if (!firstArgument || !isObjectExpression(firstArgument)) {
     // `@Component()` => `@Component({changeDetection: ChangeDetectionStrategy.OnPush})`
     const [initialRange, endRange] = expression.range;
-    return fixer.insertTextAfterRange([initialRange + 1, endRange - 1], `{${text}}`);
+    return fixer.insertTextAfterRange(
+      [initialRange + 1, endRange - 1],
+      `{${text}}`,
+    );
   }
 
   const { properties } = firstArgument;
@@ -219,7 +241,10 @@ export function getImplementsRemoveFix(
   if (hasSingleInterfaceImplemented) {
     return !tokenBeforeInterface || !isImplementsToken(tokenBeforeInterface)
       ? undefined
-      : fixer.removeRange([tokenBeforeInterface.range[0], classImplements[0].range[1]]);
+      : fixer.removeRange([
+          tokenBeforeInterface.range[0],
+          classImplements[0].range[1],
+        ]);
   }
 
   if (isFirstInterface) {
@@ -255,7 +280,9 @@ export function getNodeToCommaRemoveFix(
 ): TSESLint.RuleFix {
   const tokenAfterNode = sourceCode.getTokenAfter(node);
   const commaAfterNode =
-    tokenAfterNode && ASTUtils.isCommaToken(tokenAfterNode) ? tokenAfterNode : undefined;
+    tokenAfterNode && ASTUtils.isCommaToken(tokenAfterNode)
+      ? tokenAfterNode
+      : undefined;
 
   // When another element follows, remove up to it so it keeps its indentation.
   if (commaAfterNode) {

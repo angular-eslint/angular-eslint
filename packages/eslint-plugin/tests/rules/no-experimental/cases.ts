@@ -1,5 +1,8 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
 import type { MessageIds, Options } from '../../../src/rules/no-experimental';
 
 const messageId: MessageIds = 'noExperimental';
@@ -146,7 +149,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if a deep experimental object attribute is assigned',
+    description:
+      'should fail if a deep experimental object attribute is assigned',
     annotatedSource: `
         const test = {
           /** @experimental */
@@ -246,7 +250,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if an experimental class attribute is destructured',
+    description:
+      'should fail if an experimental class attribute is destructured',
     annotatedSource: `
         class Test {
           good?: string;
@@ -332,7 +337,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if an experimental function with assignment pattern is used',
+    description:
+      'should fail if an experimental function with assignment pattern is used',
     annotatedSource: `
         /** @experimental */
         function test(param = '') {}
@@ -345,7 +351,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if an experimental function is called with subsequent calls',
+    description:
+      'should fail if an experimental function is called with subsequent calls',
     annotatedSource: `
         /** @experimental */
         function test(param = ''): any {}
@@ -410,7 +417,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if an experimental constant is used in a function call',
+    description:
+      'should fail if an experimental constant is used in a function call',
     annotatedSource: `
         /** @experimental */
         const test = 'test';
@@ -436,7 +444,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if an experimental constant is used in object spread',
+    description:
+      'should fail if an experimental constant is used in object spread',
     annotatedSource: `
         /** @experimental */
         const test = {};
@@ -449,7 +458,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if an experimental constant is used in array spread',
+    description:
+      'should fail if an experimental constant is used in array spread',
     annotatedSource: `
         /** @experimental */
         const test = [];
@@ -492,7 +502,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if an experimental constant is used in a block statement',
+    description:
+      'should fail if an experimental constant is used in a block statement',
     annotatedSource: `
         /** @experimental */
         let i = 0;
@@ -507,7 +518,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if an experimental const is used in an assignment pattern',
+    description:
+      'should fail if an experimental const is used in an assignment pattern',
     annotatedSource: `
       /** @experimental */
       const x = 1;
@@ -551,7 +563,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if an experimental constant is used in a template expression',
+    description:
+      'should fail if an experimental constant is used in a template expression',
     annotatedSource: `
         /** @experimental */
         const test = 'test';
@@ -596,7 +609,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if an experimental tagged template expression is used',
+    description:
+      'should fail if an experimental tagged template expression is used',
     annotatedSource: `
         /** @experimental */
         function $localize2(value: TemplateStringsArray) {
@@ -624,7 +638,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if an experimental imported aliased function is called',
+    description:
+      'should fail if an experimental imported aliased function is called',
     annotatedSource: `
       import { experimentalFunction as alias } from './experimental';
   
@@ -663,7 +678,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if an experimental imported const is used in an object',
+    description:
+      'should fail if an experimental imported const is used in an object',
     annotatedSource: `
       import { experimentalConst } from './experimental';
 
@@ -676,7 +692,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     },
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if an experimental object property is used in a destructuring',
+    description:
+      'should fail if an experimental object property is used in a destructuring',
     annotatedSource: `
       import { SomeInterface } from './experimental';
 

@@ -20,7 +20,8 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description: 'Ensures that property-binding is used instead of interpolation in attributes.',
+      description:
+        'Ensures that property-binding is used instead of interpolation in attributes.',
     },
     schema: [
       {
@@ -46,7 +47,9 @@ export default createESLintRule<Options, MessageIds>({
 
     return {
       ['BoundAttribute Interpolation'](interpolation: Interpolation) {
-        const isFullInterpolation = !interpolation.strings.some((str) => str !== '');
+        const isFullInterpolation = !interpolation.strings.some(
+          (str) => str !== '',
+        );
 
         if (allowSubstringInterpolation && !isFullInterpolation) {
           return;
@@ -72,16 +75,23 @@ export default createESLintRule<Options, MessageIds>({
             ? (fixer) => {
                 const attrStart = boundAttribute.keySpan.start.offset;
                 const attrEnd = boundAttribute.keySpan.end.offset;
-                const attributeName = sourceCode.text.slice(attrStart, attrEnd).trim();
+                const attributeName = sourceCode.text
+                  .slice(attrStart, attrEnd)
+                  .trim();
 
                 const exprStart = boundAttribute.valueSpan.start.offset + 2; // +2 to remove '{{'
                 const exprEnd = boundAttribute.valueSpan.end.offset - 2; // -2 to remove '}}'
-                const expression = sourceCode.text.slice(exprStart, exprEnd).trim();
+                const expression = sourceCode.text
+                  .slice(exprStart, exprEnd)
+                  .trim();
 
                 const rangeStart = boundAttribute.sourceSpan.start.offset;
                 const rangeEnd = boundAttribute.sourceSpan.end.offset;
                 const replacement = `[${attributeName}]="${expression}"`;
-                return fixer.replaceTextRange([rangeStart, rangeEnd], replacement);
+                return fixer.replaceTextRange(
+                  [rangeStart, rangeEnd],
+                  replacement,
+                );
               }
             : null,
         });

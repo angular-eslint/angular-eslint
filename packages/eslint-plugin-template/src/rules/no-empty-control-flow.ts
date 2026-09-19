@@ -31,7 +31,9 @@ export default createESLintRule<Options, MessageIds>({
     const parserServices = getTemplateParserServices(context);
 
     return {
-      'ForLoopBlockEmpty,IfBlockBranch'(node: TmplAstForLoopBlockEmpty | TmplAstIfBlockBranch) {
+      'ForLoopBlockEmpty,IfBlockBranch'(
+        node: TmplAstForLoopBlockEmpty | TmplAstIfBlockBranch,
+      ) {
         if (
           node.children.length === 0 ||
           isEmpty(node.startSourceSpan.end, node.endSourceSpan?.start)
@@ -77,10 +79,15 @@ export default createESLintRule<Options, MessageIds>({
       },
     };
 
-    function isEmpty(contentStart: ParseLocation, contentEnd: ParseLocation | undefined): boolean {
+    function isEmpty(
+      contentStart: ParseLocation,
+      contentEnd: ParseLocation | undefined,
+    ): boolean {
       return (
         !!contentEnd &&
-        context.sourceCode.text.slice(contentStart.offset, contentEnd.offset).trim() === ''
+        context.sourceCode.text
+          .slice(contentStart.offset, contentEnd.offset)
+          .trim() === ''
       );
     }
 

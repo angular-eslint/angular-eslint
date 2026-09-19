@@ -37,11 +37,16 @@ export function readJsonInTree<T = any>(host: Tree, path: string): T {
   if (!host.exists(path)) {
     throw new Error(`Cannot find ${path}`);
   }
-  const contents = stripJsonComments((host.read(path) as Buffer).toString('utf-8'));
+  const contents = stripJsonComments(
+    (host.read(path) as Buffer).toString('utf-8'),
+  );
   try {
     return JSON.parse(contents);
   } catch (e) {
-    throw new Error(`Cannot parse ${path}: ${e instanceof Error ? e.message : ''}`, { cause: e });
+    throw new Error(
+      `Cannot parse ${path}: ${e instanceof Error ? e.message : ''}`,
+      { cause: e },
+    );
   }
 }
 
@@ -61,7 +66,10 @@ export function updateJsonInTree<T = any, O = T>(
       host.create(path, serializeJson(callback({} as T, context)));
       return host;
     }
-    host.overwrite(path, serializeJson(callback(readJsonInTree(host, path), context)));
+    host.overwrite(
+      path,
+      serializeJson(callback(readJsonInTree(host, path), context)),
+    );
     return host;
   };
 }
@@ -103,12 +111,18 @@ function updateWorkspaceInTree<T = any, O = T>(
 ): Rule {
   return (host: Tree, context: SchematicContext): Tree => {
     const path = 'angular.json';
-    host.overwrite(path, serializeJson(callback(readJsonInTree(host, path), context, host)));
+    host.overwrite(
+      path,
+      serializeJson(callback(readJsonInTree(host, path), context, host)),
+    );
     return host;
   };
 }
 
-export function addESLintTargetToProject(projectName: string, targetName: 'eslint' | 'lint'): Rule {
+export function addESLintTargetToProject(
+  projectName: string,
+  targetName: 'eslint' | 'lint',
+): Rule {
   return updateWorkspaceInTree((workspaceJson, _, tree) => {
     const existingProjectConfig = workspaceJson.projects[projectName];
 
@@ -130,14 +144,20 @@ export function addESLintTargetToProject(projectName: string, targetName: 'eslin
     } = {
       builder: '@angular-eslint/builder:lint',
       options: {
-        lintFilePatterns: [`${lintFilePatternsRoot}/**/*.ts`, `${lintFilePatternsRoot}/**/*.html`],
+        lintFilePatterns: [
+          `${lintFilePatternsRoot}/**/*.ts`,
+          `${lintFilePatternsRoot}/**/*.html`,
+        ],
       },
     };
 
     let eslintConfig;
     if (existingProjectConfig.root !== '') {
       const rootConfigPath = resolveRootESLintConfigPath(tree);
-      if (!rootConfigPath || (!rootConfigPath.endsWith('js') && !rootConfigPath.endsWith('ts'))) {
+      if (
+        !rootConfigPath ||
+        (!rootConfigPath.endsWith('js') && !rootConfigPath.endsWith('ts'))
+      ) {
         throw new Error(
           'Root ESLint config must be a JavaScript/TypeScript file (.js,.mjs,.cjs,.ts,.mts,.cts)',
         );
@@ -147,7 +167,10 @@ export function addESLintTargetToProject(projectName: string, targetName: 'eslin
         rootConfigPath,
         existingProjectConfig.root,
       );
-      const flatConfigPath = join(existingProjectConfig.root, `eslint.config.${ext}`);
+      const flatConfigPath = join(
+        existingProjectConfig.root,
+        `eslint.config.${ext}`,
+      );
       if (tree.exists(flatConfigPath)) {
         eslintConfig = flatConfigPath;
       }
@@ -227,7 +250,9 @@ export function isTypeCheckedTseslintPreset(preset: TseslintPreset): boolean {
   return preset === 'recommendedTypeChecked' || preset === 'strictTypeChecked';
 }
 
-export function resolveTseslintPreset(value: string | undefined): TseslintPreset {
+export function resolveTseslintPreset(
+  value: string | undefined,
+): TseslintPreset {
   if (value && (TS_ESLINT_PRESETS as readonly string[]).includes(value)) {
     return value as TseslintPreset;
   }
@@ -271,7 +296,10 @@ function getTsEslintExtendsSnippet(preset: TseslintPreset): string {
   }
 }
 
-function getProjectServiceBlock(enabled: boolean, includeTypeCheckedComment: boolean): string {
+function getProjectServiceBlock(
+  enabled: boolean,
+  includeTypeCheckedComment: boolean,
+): string {
   if (!enabled) {
     return '';
   }
@@ -418,9 +446,15 @@ export function createESLintConfigForProject(
     warnIfTypeCheckedPreset(context, resolvedPreset);
 
     const angularJSON = readJsonInTree(tree, 'angular.json');
-    const { root: projectRoot, projectType, prefix } = angularJSON.projects[projectName];
+    const {
+      root: projectRoot,
+      projectType,
+      prefix,
+    } = angularJSON.projects[projectName];
 
-    const alreadyHasRootFlatConfig = defaultFlatConfigNames.some((name) => tree.exists(name));
+    const alreadyHasRootFlatConfig = defaultFlatConfigNames.some((name) =>
+      tree.exists(name),
+    );
 
     const rootConfigOptions: CreateRootESLintConfigOptions = {
       tseslintPreset: resolvedPreset,
@@ -432,17 +466,23 @@ export function createESLintConfigForProject(
      * root by the Angular CLI's workspace schematic
      */
     if (projectRoot === '') {
-      return createRootESLintConfigFile(prefix || DEFAULT_PREFIX, rootConfigOptions);
+      return createRootESLintConfigFile(
+        prefix || DEFAULT_PREFIX,
+        rootConfigOptions,
+      );
     }
 
     const rules = [];
 
     // If, for whatever reason, the root eslint.config.* doesn't exist yet, create it
     if (!alreadyHasRootFlatConfig) {
-      rules.push(createRootESLintConfigFile(prefix || DEFAULT_PREFIX, rootConfigOptions));
+      rules.push(
+        createRootESLintConfigFile(prefix || DEFAULT_PREFIX, rootConfigOptions),
+      );
     }
 
-    const rootConfigPath = resolveRootESLintConfigPath(tree) ?? 'eslint.config.js';
+    const rootConfigPath =
+      resolveRootESLintConfigPath(tree) ?? 'eslint.config.js';
     rules.push((host: Tree) => {
       const { isESM, ext } = determineNewProjectESLintConfigContentAndExtension(
         host,
@@ -481,7 +521,9 @@ function createRootESLintConfigFile(
   };
 }
 
-export function sortObjectByKeys(obj: Record<string, unknown>): Record<string, unknown> {
+export function sortObjectByKeys(
+  obj: Record<string, unknown>,
+): Record<string, unknown> {
   return Object.keys(obj)
     .sort()
     .reduce((result, key) => {
@@ -496,7 +538,10 @@ export function sortObjectByKeys(obj: Record<string, unknown>): Record<string, u
  * To make certain schematic usage conversion more ergonomic, if the user does not specify a project
  * and only has a single project in their angular.json we will just go ahead and use that one.
  */
-export function determineTargetProjectName(tree: Tree, maybeProject?: string): string | null {
+export function determineTargetProjectName(
+  tree: Tree,
+  maybeProject?: string,
+): string | null {
   if (maybeProject) {
     return maybeProject;
   }
@@ -517,7 +562,8 @@ export function updateSchematicCollections(
   collectionName: '@angular-eslint/schematics' | 'angular-eslint',
 ) {
   angularJson.cli = angularJson.cli || {};
-  angularJson.cli.schematicCollections = angularJson.cli.schematicCollections || [];
+  angularJson.cli.schematicCollections =
+    angularJson.cli.schematicCollections || [];
   // The first matching schematic will be used, so we unshift rather than push
   angularJson.cli.schematicCollections.unshift(collectionName);
   // Delete old defaultCollection property if applicable
@@ -531,7 +577,8 @@ export function updateSchematicDefaults(
   defaultValues: Record<string, unknown>,
 ) {
   angularJson.schematics = angularJson.schematics || {};
-  angularJson.schematics[schematicFullName] = angularJson.schematics[schematicFullName] || {};
+  angularJson.schematics[schematicFullName] =
+    angularJson.schematics[schematicFullName] || {};
   angularJson.schematics[schematicFullName] = {
     ...angularJson.schematics[schematicFullName],
     ...defaultValues,
@@ -563,7 +610,8 @@ export function determineNewProjectESLintConfigContentAndExtension(
      */
     const isRootESM = rootConfigPath.endsWith('.cjs')
       ? false
-      : rootConfigPath.endsWith('.mjs') || readJsonInTree(tree, 'package.json').type === 'module';
+      : rootConfigPath.endsWith('.mjs') ||
+        readJsonInTree(tree, 'package.json').type === 'module';
     const projectPackageJsonPath = join(normalize(projectRoot), 'package.json');
     let isESM = isRootESM;
     let ext = 'js';

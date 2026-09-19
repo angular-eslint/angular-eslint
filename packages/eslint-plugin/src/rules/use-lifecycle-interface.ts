@@ -1,11 +1,17 @@
-import { ASTUtils, toPattern, RuleFixes, isNotNullOrUndefined } from '@angular-eslint/utils';
+import {
+  ASTUtils,
+  toPattern,
+  RuleFixes,
+  isNotNullOrUndefined,
+} from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
 export type Options = [];
 export type MessageIds = 'useLifecycleInterface';
 export const RULE_NAME = 'use-lifecycle-interface';
-const STYLE_GUIDE_LINK = 'https://angular.dev/style-guide#use-lifecycle-hook-interfaces';
+const STYLE_GUIDE_LINK =
+  'https://angular.dev/style-guide#use-lifecycle-hook-interfaces';
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
@@ -22,7 +28,9 @@ export default createESLintRule<Options, MessageIds>({
     defaultOptions: [],
   },
   create(context) {
-    const angularLifecycleMethodsPattern = toPattern([...ASTUtils.ANGULAR_LIFECYCLE_METHODS]);
+    const angularLifecycleMethodsPattern = toPattern([
+      ...ASTUtils.ANGULAR_LIFECYCLE_METHODS,
+    ]);
 
     return {
       [`MethodDefinition[key.name=${angularLifecycleMethodsPattern}]`](
@@ -42,9 +50,12 @@ export default createESLintRule<Options, MessageIds>({
           return;
         }
 
-        const declaredLifecycleInterfaces = ASTUtils.getDeclaredAngularLifecycleInterfaces(parent);
-        const methodName = (key as TSESTree.Identifier).name as ASTUtils.AngularLifecycleMethodKeys;
-        const interfaceName = ASTUtils.getLifecycleInterfaceByMethodName(methodName);
+        const declaredLifecycleInterfaces =
+          ASTUtils.getDeclaredAngularLifecycleInterfaces(parent);
+        const methodName = (key as TSESTree.Identifier)
+          .name as ASTUtils.AngularLifecycleMethodKeys;
+        const interfaceName =
+          ASTUtils.getLifecycleInterfaceByMethodName(methodName);
         const isMethodImplemented = declaredLifecycleInterfaces.includes(
           ASTUtils.AngularLifecycleInterfaces[interfaceName],
         );
@@ -65,7 +76,10 @@ export default createESLintRule<Options, MessageIds>({
                 moduleName: '@angular/core',
                 node: parent,
               }),
-              fixer.insertTextAfter(implementsNodeReplace, implementsTextReplace),
+              fixer.insertTextAfter(
+                implementsNodeReplace,
+                implementsTextReplace,
+              ),
             ].filter(isNotNullOrUndefined);
           },
         });

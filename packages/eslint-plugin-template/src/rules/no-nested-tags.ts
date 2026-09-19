@@ -1,4 +1,7 @@
-import { TmplAstElement, TmplAstTemplate } from '@angular-eslint/bundled-angular-compiler';
+import {
+  TmplAstElement,
+  TmplAstTemplate,
+} from '@angular-eslint/bundled-angular-compiler';
 import { getTemplateParserServices } from '@angular-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
@@ -32,7 +35,10 @@ export default createESLintRule<Options, MessageIds>({
         const hasInvalidNesting = hasAncestorOfSameType(node);
 
         if (hasInvalidNesting) {
-          const loc = parserServices.convertElementSourceSpanToLoc(context, node);
+          const loc = parserServices.convertElementSourceSpanToLoc(
+            context,
+            node,
+          );
           context.report({
             loc,
             messageId: 'noNestedTags',
@@ -57,7 +63,10 @@ function hasAncestorOfSameType(node: TmplAstElementWithAncestor) {
       return false;
     }
 
-    if (parent instanceof TmplAstElement && parent.name.toLowerCase() === node.name.toLowerCase()) {
+    if (
+      parent instanceof TmplAstElement &&
+      parent.name.toLowerCase() === node.name.toLowerCase()
+    ) {
       return true;
     }
 

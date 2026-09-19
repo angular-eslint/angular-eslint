@@ -8,7 +8,9 @@ const updatedAngularESLintVersion = '^12.0.0';
 const updatedTypeScriptESLintVersion = '4.28.2';
 const updatedESLintVersion = '7.26.0';
 
-function migrateToAccessibilityLabelHasAssociatedControlSchema(rule: Linter.RuleEntry | undefined) {
+function migrateToAccessibilityLabelHasAssociatedControlSchema(
+  rule: Linter.RuleEntry | undefined,
+) {
   if (!Array.isArray(rule) || rule.length !== 2) return;
   const [, currentSchema] = rule;
   rule[1] = {
@@ -19,7 +21,10 @@ function migrateToAccessibilityLabelHasAssociatedControlSchema(rule: Linter.Rule
   };
 }
 
-function migrateFromAccessibilityLabelFor({ overrides, rules }: Linter.LegacyConfig) {
+function migrateFromAccessibilityLabelFor({
+  overrides,
+  rules,
+}: Linter.LegacyConfig) {
   migrateToAccessibilityLabelHasAssociatedControlSchema(
     rules?.['@angular-eslint/template/accessibility-label-for'],
   );
@@ -36,7 +41,8 @@ function migrateToAccessibilityLabelHasAssociatedControlName(
   rules: Partial<Linter.RulesRecord> | undefined,
 ) {
   if (!rules) return;
-  const accessibilityLabelForRule = rules['@angular-eslint/template/accessibility-label-for'];
+  const accessibilityLabelForRule =
+    rules['@angular-eslint/template/accessibility-label-for'];
   delete rules['@angular-eslint/template/accessibility-label-for'];
   rules['@angular-eslint/template/accessibility-label-has-associated-control'] =
     accessibilityLabelForRule;

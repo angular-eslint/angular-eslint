@@ -4,7 +4,11 @@ import { createESLintRule } from '../utils/create-eslint-rule';
 
 type Mode = 'array' | 'string';
 export type Options = [mode: Mode];
-export type MessageIds = 'useStylesArray' | 'useStylesString' | 'useStyleUrl' | 'useStyleUrls';
+export type MessageIds =
+  | 'useStylesArray'
+  | 'useStylesString'
+  | 'useStyleUrl'
+  | 'useStyleUrls';
 export const RULE_NAME = 'consistent-component-styles';
 
 export default createESLintRule<Options, MessageIds>({
@@ -23,10 +27,13 @@ export default createESLintRule<Options, MessageIds>({
       },
     ],
     messages: {
-      useStyleUrl: 'Use `styleUrl` instead of `styleUrls` for a single stylesheet',
+      useStyleUrl:
+        'Use `styleUrl` instead of `styleUrls` for a single stylesheet',
       useStyleUrls: 'Use `styleUrls` instead of `styleUrl`',
-      useStylesArray: 'Use a `string[]` instead of a `string` for the `styles` property',
-      useStylesString: 'Use a `string` instead of a `string[]` for the `styles` property',
+      useStylesArray:
+        'Use a `string[]` instead of a `string` for the `styles` property',
+      useStylesString:
+        'Use a `string` instead of a `string[]` for the `styles` property',
     },
     defaultOptions: ['string'],
   },
@@ -43,7 +50,9 @@ export default createESLintRule<Options, MessageIds>({
       )}:has(:matches(Literal, TemplateElement))`;
 
       return {
-        [stylesStringExpression](node: TSESTree.Literal | TSESTree.TemplateLiteral) {
+        [stylesStringExpression](
+          node: TSESTree.Literal | TSESTree.TemplateLiteral,
+        ) {
           context.report({
             node,
             messageId: 'useStylesArray',
@@ -93,7 +102,9 @@ export default createESLintRule<Options, MessageIds>({
             fix: (fixer) => {
               return fixer.replaceText(
                 node,
-                ASTUtils.isStringLiteral(el) ? el.raw : context.sourceCode.getText(el),
+                ASTUtils.isStringLiteral(el)
+                  ? el.raw
+                  : context.sourceCode.getText(el),
               );
             },
           });

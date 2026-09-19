@@ -46,7 +46,9 @@ async function populateLocalRegistryStorage() {
     // tsbuildinfo files (with --emitDeclarationOnly) that cause tsc to
     // skip JS compilation, resulting in packages published without dist/index.js.
     const { readdirSync } = require('node:fs');
-    console.log('Cleaning package dist directories to ensure fresh compilation...');
+    console.log(
+      'Cleaning package dist directories to ensure fresh compilation...',
+    );
     for (const pkg of readdirSync(join(workspaceRoot, 'packages'))) {
       rmSync(join(workspaceRoot, 'packages', pkg, 'dist'), {
         recursive: true,
@@ -56,12 +58,16 @@ async function populateLocalRegistryStorage() {
 
     console.log('Building all packages from scratch...');
     const nx = require.resolve('nx');
-    execFileSync(nx, ['run-many', '-t', 'build', 'compile', '--skip-nx-cache'], {
-      env: process.env,
-      stdio: 'inherit',
-      maxBuffer: 1024 * 1024 * 10,
-      cwd: workspaceRoot,
-    });
+    execFileSync(
+      nx,
+      ['run-many', '-t', 'build', 'compile', '--skip-nx-cache'],
+      {
+        env: process.env,
+        stdio: 'inherit',
+        maxBuffer: 1024 * 1024 * 10,
+        cwd: workspaceRoot,
+      },
+    );
 
     console.log('Publishing packages to local registry to populate storage');
     await runLocalRelease(publishVersion, isVerbose);
@@ -94,7 +100,13 @@ function runLocalRelease(publishVersion, isVerbose) {
     ]);
 
     // startLocalRegistry automatically configures the registry to point at the local registry
-    execNx(['release', 'publish', '--tag', 'latest', `--verbose=${!!isVerbose}`]);
+    execNx([
+      'release',
+      'publish',
+      '--tag',
+      'latest',
+      `--verbose=${!!isVerbose}`,
+    ]);
 
     res(undefined);
   });

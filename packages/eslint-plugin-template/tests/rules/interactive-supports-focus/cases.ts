@@ -1,6 +1,12 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
-import type { MessageIds, Options } from '../../../src/rules/interactive-supports-focus';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type {
+  MessageIds,
+  Options,
+} from '../../../src/rules/interactive-supports-focus';
 
 const messageId: MessageIds = 'interactiveSupportsFocus';
 
@@ -235,7 +241,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
 
   // no role, non interactive element
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail when a non-interactive element does not support focus',
+    description:
+      'should fail when a non-interactive element does not support focus',
     annotatedSource: `
       <span (click)="onClick()">Submit</span>
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -243,7 +250,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail when non-interactive uppercase element does not support focus',
+    description:
+      'should fail when non-interactive uppercase element does not support focus',
     annotatedSource: `
       <SPAN (click)="onClick()">Submit</SPAN>
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -299,7 +307,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
 
   // non-interactive element with keyup, keydown, keypress interaction handlers
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail when a non-interactive element with key event does not support focus',
+    description:
+      'should fail when a non-interactive element with key event does not support focus',
     annotatedSource: `
       <div (keyup)="onKeyUp()" (keydown)="onKeyDown()" (keypress)="onKeyPress()">Cannot be focused</div>
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

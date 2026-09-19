@@ -59,7 +59,10 @@ type CompatibleConfigArray = TSESLint.FlatConfig.ConfigArray & Linter.Config[];
 const configs = {
   tsAll: tsAllConfig(tsPlugin, parser) as CompatibleConfigArray,
   tsRecommended: tsRecommendedConfig(tsPlugin, parser) as CompatibleConfigArray,
-  templateAll: templateAllConfig(templatePlugin, templateParser) as CompatibleConfigArray,
+  templateAll: templateAllConfig(
+    templatePlugin,
+    templateParser,
+  ) as CompatibleConfigArray,
   templateRecommended: templateRecommendedConfig(
     templatePlugin,
     templateParser,
@@ -71,7 +74,8 @@ const configs = {
 };
 
 // Export more succinct alias for us in user flat config files
-const processInlineTemplates = templatePlugin.processors?.['extract-inline-html'];
+const processInlineTemplates =
+  templatePlugin.processors?.['extract-inline-html'];
 
 /*
 // eslint-disable-next-line import/no-default-export --
@@ -85,4 +89,10 @@ export default {
   templatePlugin,
   processInlineTemplates,
 };
-export { configs, templateParser, templatePlugin, tsPlugin, processInlineTemplates };
+export {
+  configs,
+  templateParser,
+  templatePlugin,
+  tsPlugin,
+  processInlineTemplates,
+};

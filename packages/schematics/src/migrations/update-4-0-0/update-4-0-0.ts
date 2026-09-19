@@ -20,7 +20,11 @@ function updateRelevantDependencies(host: Tree, context: SchematicContext) {
     /**
      * @angular-eslint
      */
-    updateIfExists(json.devDependencies, '@angular-eslint/builder', updatedAngularESLintVersion);
+    updateIfExists(
+      json.devDependencies,
+      '@angular-eslint/builder',
+      updatedAngularESLintVersion,
+    );
     updateIfExists(
       json.devDependencies,
       '@angular-eslint/eslint-plugin',

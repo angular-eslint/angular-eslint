@@ -55,7 +55,12 @@ function getEventNamesFromBrowserCompatData(): string[] {
   process.stdout.write(pc.cyan(`Finding native event names...\n`));
 
   for (const name of Object.keys(bcd.api).sort((a, b) => a.localeCompare(b))) {
-    if (name === 'Document' || name === 'Node' || name === 'Window' || name.endsWith('Element')) {
+    if (
+      name === 'Document' ||
+      name === 'Node' ||
+      name === 'Window' ||
+      name.endsWith('Element')
+    ) {
       let hasEvents = false;
       const data = bcd.api[name];
       for (const key of Object.keys(data)) {

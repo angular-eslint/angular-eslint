@@ -1,6 +1,12 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
-import type { MessageIds, Options } from '../../../src/rules/no-inputs-metadata-property';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type {
+  MessageIds,
+  Options,
+} from '../../../src/rules/no-inputs-metadata-property';
 
 const messageId: MessageIds = 'noInputsMetadataProperty';
 
@@ -85,7 +91,8 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if `inputs` metadata property is used in `@Component`',
+    description:
+      'should fail if `inputs` metadata property is used in `@Component`',
     annotatedSource: `
       @Component({
         inputs: [
@@ -100,7 +107,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail if `inputs` metadata property is used in `@Directive`',
+    description:
+      'should fail if `inputs` metadata property is used in `@Directive`',
     annotatedSource: `
       @Directive({
         inputs: [

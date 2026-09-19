@@ -27,7 +27,8 @@ export default createESLintRule<Options, MessageIds>({
     hasSuggestions: true,
     schema: [],
     messages: {
-      missingAttribute: 'The attribute [ngSrc] should be used for img elements instead of [src].',
+      missingAttribute:
+        'The attribute [ngSrc] should be used for img elements instead of [src].',
       invalidDoubleSource:
         'Only [ngSrc] should exist on an img element. Delete the [src] attribute.',
       suggestReplaceWithNgSrc: 'Replace [src] with [ngSrc]',
@@ -39,8 +40,12 @@ export default createESLintRule<Options, MessageIds>({
     const parserServices = getTemplateParserServices(context);
     const sourceCode = context.sourceCode;
 
-    function reportMissingNgSrc(srcAttribute: TmplAstTextAttribute | TmplAstBoundAttribute) {
-      const loc = parserServices.convertNodeSourceSpanToLoc(srcAttribute.sourceSpan);
+    function reportMissingNgSrc(
+      srcAttribute: TmplAstTextAttribute | TmplAstBoundAttribute,
+    ) {
+      const loc = parserServices.convertNodeSourceSpanToLoc(
+        srcAttribute.sourceSpan,
+      );
 
       context.report({
         loc,
@@ -51,19 +56,31 @@ export default createESLintRule<Options, MessageIds>({
             fix: (fixer) => {
               const originalAttribute = sourceCode
                 .getText()
-                .slice(srcAttribute.sourceSpan.start.offset, srcAttribute.sourceSpan.end.offset);
+                .slice(
+                  srcAttribute.sourceSpan.start.offset,
+                  srcAttribute.sourceSpan.end.offset,
+                );
 
               let updatedAttribute: string;
               if (originalAttribute.startsWith('[attr.src]')) {
-                updatedAttribute = originalAttribute.replace(/^\[attr\.src]/, '[ngSrc]');
+                updatedAttribute = originalAttribute.replace(
+                  /^\[attr\.src]/,
+                  '[ngSrc]',
+                );
               } else if (originalAttribute.startsWith('[src]')) {
-                updatedAttribute = originalAttribute.replace(/^\[src]/, '[ngSrc]');
+                updatedAttribute = originalAttribute.replace(
+                  /^\[src]/,
+                  '[ngSrc]',
+                );
               } else {
                 updatedAttribute = originalAttribute.replace(/^src/, 'ngSrc');
               }
 
               return fixer.replaceTextRange(
-                [srcAttribute.sourceSpan.start.offset, srcAttribute.sourceSpan.end.offset],
+                [
+                  srcAttribute.sourceSpan.start.offset,
+                  srcAttribute.sourceSpan.end.offset,
+                ],
                 updatedAttribute,
               );
             },
@@ -72,8 +89,12 @@ export default createESLintRule<Options, MessageIds>({
       });
     }
 
-    function reportDoubleSrc(srcAttribute: TmplAstTextAttribute | TmplAstBoundAttribute) {
-      const loc = parserServices.convertNodeSourceSpanToLoc(srcAttribute.sourceSpan);
+    function reportDoubleSrc(
+      srcAttribute: TmplAstTextAttribute | TmplAstBoundAttribute,
+    ) {
+      const loc = parserServices.convertNodeSourceSpanToLoc(
+        srcAttribute.sourceSpan,
+      );
 
       context.report({
         loc,
@@ -90,7 +111,10 @@ export default createESLintRule<Options, MessageIds>({
                 startOffset--;
               }
 
-              return fixer.removeRange([startOffset, srcAttribute.sourceSpan.end.offset]);
+              return fixer.removeRange([
+                startOffset,
+                srcAttribute.sourceSpan.end.offset,
+              ]);
             },
           },
         ],
@@ -102,7 +126,10 @@ export default createESLintRule<Options, MessageIds>({
         const ngSrcAttribute = getNgSrcAttribute(element);
         const srcAttribute = getNormalSrcAttribute(element);
 
-        if (!srcAttribute || (!ngSrcAttribute && isSrcBase64Image(srcAttribute))) {
+        if (
+          !srcAttribute ||
+          (!ngSrcAttribute && isSrcBase64Image(srcAttribute))
+        ) {
           return;
         }
 
@@ -132,15 +159,19 @@ function getNormalSrcAttribute({
 
 // Adheres to angular's assertion that ngSrc value is not a data URL.
 // https://github.com/angular/angular/blob/17.0.3/packages/common/src/directives/ng_optimized_image/ng_optimized_image.ts#L585
-function isSrcBase64Image(attribute: TmplAstTextAttribute | TmplAstBoundAttribute): boolean {
+function isSrcBase64Image(
+  attribute: TmplAstTextAttribute | TmplAstBoundAttribute,
+): boolean {
   const isPlainDataAttribute =
-    attribute instanceof TmplAstTextAttribute && attribute.value.trim().startsWith('data:');
+    attribute instanceof TmplAstTextAttribute &&
+    attribute.value.trim().startsWith('data:');
   if (isPlainDataAttribute) {
     return true;
   }
 
   const isBoundDataAttribute =
-    attribute.value instanceof ASTWithSource && isDataStringPrimitive(attribute.value.ast);
+    attribute.value instanceof ASTWithSource &&
+    isDataStringPrimitive(attribute.value.ast);
 
   if (isBoundDataAttribute) {
     return true;

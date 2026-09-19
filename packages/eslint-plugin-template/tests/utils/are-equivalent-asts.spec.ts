@@ -101,7 +101,10 @@ describe('areEquivalentASTs', () => {
     });
 
     function compare(a: string, b: string): boolean {
-      return areEquivalentASTs(parseOutputHandler(a, Chain), parseOutputHandler(b, Chain));
+      return areEquivalentASTs(
+        parseOutputHandler(a, Chain),
+        parseOutputHandler(b, Chain),
+      );
     }
   });
 
@@ -149,17 +152,23 @@ describe('areEquivalentASTs', () => {
       });
 
       it('this is equivalent to implicit', () => {
-        expect(areEquivalentASTs(getThisReceiver(), getImplicitReceiver())).toBe(true);
+        expect(
+          areEquivalentASTs(getThisReceiver(), getImplicitReceiver()),
+        ).toBe(true);
       });
     });
 
     describe('not equivalent', () => {
       it('this receiver and different node type', () => {
-        expect(areEquivalentASTs(getThisReceiver(), parse('foo', PropertyRead))).toBe(false);
+        expect(
+          areEquivalentASTs(getThisReceiver(), parse('foo', PropertyRead)),
+        ).toBe(false);
       });
 
       it('this receiver and different node type', () => {
-        expect(areEquivalentASTs(getImplicitReceiver(), parse('foo', PropertyRead))).toBe(false);
+        expect(
+          areEquivalentASTs(getImplicitReceiver(), parse('foo', PropertyRead)),
+        ).toBe(false);
       });
     });
 
@@ -272,7 +281,10 @@ describe('areEquivalentASTs', () => {
     });
 
     function compare(a: string, b: string): boolean {
-      return areEquivalentASTs(parseOutputHandler(a, Binary), parseOutputHandler(b, Binary));
+      return areEquivalentASTs(
+        parseOutputHandler(a, Binary),
+        parseOutputHandler(b, Binary),
+      );
     }
   });
 
@@ -335,11 +347,15 @@ describe('areEquivalentASTs', () => {
       });
 
       it('different keys', () => {
-        expect(compare('{ a: 1, b: 2, c: 3 }', '{ a: 1, d: 2, c: 3 }')).toBe(false);
+        expect(compare('{ a: 1, b: 2, c: 3 }', '{ a: 1, d: 2, c: 3 }')).toBe(
+          false,
+        );
       });
 
       it('different values', () => {
-        expect(compare('{ a: 1, b: 2, c: 3 }', '{ a: 1, b: 4, c: 3 }')).toBe(false);
+        expect(compare('{ a: 1, b: 2, c: 3 }', '{ a: 1, b: 4, c: 3 }')).toBe(
+          false,
+        );
       });
     });
 
@@ -415,7 +431,9 @@ describe('areEquivalentASTs', () => {
       });
 
       it('different argument values', () => {
-        expect(compare('a | foo : 1 : 2 : 3', 'a | foo : 1 : 4 : 3')).toBe(false);
+        expect(compare('a | foo : 1 : 2 : 3', 'a | foo : 1 : 4 : 3')).toBe(
+          false,
+        );
       });
     });
 
@@ -555,7 +573,10 @@ describe('areEquivalentASTs', () => {
     });
 
     function compare(a: string, b: string): boolean {
-      return areEquivalentASTs(parseOutputHandler(a, Binary), parseOutputHandler(b, Binary));
+      return areEquivalentASTs(
+        parseOutputHandler(a, Binary),
+        parseOutputHandler(b, Binary),
+      );
     }
   });
 

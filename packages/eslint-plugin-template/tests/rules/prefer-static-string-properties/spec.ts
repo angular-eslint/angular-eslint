@@ -1,5 +1,7 @@
 import { RuleTester } from '@angular-eslint/test-utils';
-import rule, { RULE_NAME } from '../../../src/rules/prefer-static-string-properties';
+import rule, {
+  RULE_NAME,
+} from '../../../src/rules/prefer-static-string-properties';
 import { invalid, valid } from './cases';
 
 const ruleTester = new RuleTester({

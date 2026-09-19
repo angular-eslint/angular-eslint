@@ -10,6 +10,7 @@ export function isContentEditable(node: TmplAstElement): boolean {
   const contentEditableValue = getAttributeValue(node, 'contenteditable');
   return (
     !!contentEditableAttr &&
-    (contentEditableValue === '' || String(contentEditableValue).toLowerCase() === 'true')
+    (contentEditableValue === '' ||
+      String(contentEditableValue).toLowerCase() === 'true')
   );
 }

@@ -1,15 +1,23 @@
-import type { RunTests, RuleTesterConfig } from '@typescript-eslint/rule-tester';
+import type {
+  RunTests,
+  RuleTesterConfig,
+} from '@typescript-eslint/rule-tester';
 import { RuleTester as TSESLintRuleTester } from '@typescript-eslint/rule-tester';
 import type { TSESLint } from '@typescript-eslint/utils';
 import * as path from 'node:path';
 
-const VALID_PARSERS = ['@angular-eslint/template-parser', '@typescript-eslint/parser'] as const;
+const VALID_PARSERS = [
+  '@angular-eslint/template-parser',
+  '@typescript-eslint/parser',
+] as const;
 
 function getFixturesRootDir() {
   return path.join(process.cwd(), 'tests/fixtures/');
 }
 
-function isValidParser(parser: Readonly<TSESLint.Parser.LooseParserModule>): boolean {
+function isValidParser(
+  parser: Readonly<TSESLint.Parser.LooseParserModule>,
+): boolean {
   try {
     if (parser === require('@angular-eslint/template-parser')) {
       return true;
@@ -38,7 +46,8 @@ export class RuleTester extends TSESLintRuleTester {
       options?.languageOptions?.parserOptions?.projectService
     ) {
       this.filename = path.join(
-        options?.languageOptions?.parserOptions?.tsconfigRootDir ?? getFixturesRootDir(),
+        options?.languageOptions?.parserOptions?.tsconfigRootDir ??
+          getFixturesRootDir(),
         'file.ts',
       );
     }
@@ -66,7 +75,10 @@ export class RuleTester extends TSESLintRuleTester {
           : { ...test, filename: test.filename ?? this.filename };
       }),
       invalid: invalid.map((test) => {
-        if (test.languageOptions?.parser && !isValidParser(test.languageOptions.parser)) {
+        if (
+          test.languageOptions?.parser &&
+          !isValidParser(test.languageOptions.parser)
+        ) {
           throw Error(errorMessage);
         }
         return {

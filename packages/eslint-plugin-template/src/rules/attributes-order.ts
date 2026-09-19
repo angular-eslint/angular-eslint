@@ -43,8 +43,13 @@ interface HasTemplateParent {
 }
 
 type ExtendedTmplAstBoundAttribute = TmplAstBoundAttribute &
-  HasOrderType<OrderType.InputBinding | OrderType.TwoWayBinding | OrderType.StructuralDirective>;
-type ExtendedTmplAstBoundEvent = TmplAstBoundEvent & HasOrderType<OrderType.OutputBinding>;
+  HasOrderType<
+    | OrderType.InputBinding
+    | OrderType.TwoWayBinding
+    | OrderType.StructuralDirective
+  >;
+type ExtendedTmplAstBoundEvent = TmplAstBoundEvent &
+  HasOrderType<OrderType.OutputBinding>;
 type ExtendedTmplAstTextAttribute = TmplAstTextAttribute &
   HasOrderType<OrderType.AttributeBinding | OrderType.StructuralDirective>;
 type ExtendedTmplAstReference = TmplAstReference &
@@ -130,7 +135,11 @@ export default createESLintRule<Options, MessageIds>({
         if (isImplicitTemplate(node)) {
           return;
         }
-        const allAttributes = getAllAttributes(node, context.filename, context.sourceCode);
+        const allAttributes = getAllAttributes(
+          node,
+          context.filename,
+          context.sourceCode,
+        );
 
         if (allAttributes.length < 2) {
           return;
@@ -138,7 +147,9 @@ export default createESLintRule<Options, MessageIds>({
 
         const sortedAttributes = [...allAttributes].sort(byLocation);
 
-        const expectedAttributes = [...allAttributes].sort(byOrder(order, alphabetical));
+        const expectedAttributes = [...allAttributes].sort(
+          byOrder(order, alphabetical),
+        );
 
         let errorRange: [number, number] | undefined;
 
@@ -206,7 +217,8 @@ function byLocation(one: SortableAttribute, other: SortableAttribute) {
 
 function byOrder(order: readonly OrderType[], alphabetical: boolean) {
   return function (one: SortableAttribute, other: SortableAttribute) {
-    const orderComparison = getOrderIndex(one, order) - getOrderIndex(other, order);
+    const orderComparison =
+      getOrderIndex(one, order) - getOrderIndex(other, order);
 
     if (alphabetical && orderComparison === 0) {
       const oneName = one.keySpan?.details ?? one.name;
@@ -270,10 +282,11 @@ function getAllAttributes(
     attributeBindings.push(toAttributeBindingOrderType(attribute));
   }
 
-  const { extractedBananaBoxes, extractedInputs, extractedOutputs } = normalizeInputsOutputs(
-    extendedInputs,
-    outputs.map(toOutputBindingOrderType),
-  );
+  const { extractedBananaBoxes, extractedInputs, extractedOutputs } =
+    normalizeInputsOutputs(
+      extendedInputs,
+      outputs.map(toOutputBindingOrderType),
+    );
   return [
     ...extractTemplateAttrs(node),
     ...attributeBindings,
@@ -325,10 +338,13 @@ function toTemplateReferenceVariableOrderType(reference: TmplAstReference) {
   } as ExtendedTmplAstReference;
 }
 
-function isImplicitTemplate(node: TmplAstNode): node is TmplAstTemplate & { tagName: null } {
+function isImplicitTemplate(
+  node: TmplAstNode,
+): node is TmplAstTemplate & { tagName: null } {
   return (
     isTmplAstTemplate(node) &&
-    (node.tagName === null || !/^(:svg:)?ng-template$/.test(node.tagName.toLowerCase()))
+    (node.tagName === null ||
+      !/^(:svg:)?ng-template$/.test(node.tagName.toLowerCase()))
   );
 }
 
@@ -341,7 +357,10 @@ function extractTemplateAttrs(
         return {
           ...toAttributeBindingOrderType(x),
           // `let-` is excluded from the keySpan and name - add it back in
-          keySpan: new ParseSourceSpan(x.keySpan.start.moveBy(-4), x.keySpan.end),
+          keySpan: new ParseSourceSpan(
+            x.keySpan.start.moveBy(-4),
+            x.keySpan.end,
+          ),
           name: 'let-' + x.name,
         } as ExtendedTmplAstTextAttribute;
       }),
@@ -390,14 +409,18 @@ function normalizeInputsOutputs(
   outputs: readonly TmplAstBoundEvent[],
 ) {
   const extractedInputs: readonly ExtendedTmplAstBoundAttribute[] = inputs
-    .filter((input) => !outputs.some((output) => isOnSameLocation(input, output)))
+    .filter(
+      (input) => !outputs.some((output) => isOnSameLocation(input, output)),
+    )
     .map(toInputBindingOrderType);
   const { extractedBananaBoxes, extractedOutputs } = outputs.reduce<{
     extractedOutputs: readonly ExtendedTmplAstBoundEvent[];
     extractedBananaBoxes: readonly ExtendedTmplAstBoundAttribute[];
   }>(
     ({ extractedBananaBoxes, extractedOutputs }, output) => {
-      const boundInput = inputs.find((input) => isOnSameLocation(input, output));
+      const boundInput = inputs.find((input) =>
+        isOnSameLocation(input, output),
+      );
 
       return {
         extractedBananaBoxes: extractedBananaBoxes.concat(
@@ -418,7 +441,10 @@ function isTmplAstTemplate(node: TmplAstNode): node is TmplAstTemplate {
   return node instanceof TmplAstTemplate;
 }
 
-function isOnSameLocation(input: TmplAstBoundAttribute, output: TmplAstBoundEvent) {
+function isOnSameLocation(
+  input: TmplAstBoundAttribute,
+  output: TmplAstBoundEvent,
+) {
   return (
     input.sourceSpan.start === output.sourceSpan.start &&
     input.sourceSpan.end === output.sourceSpan.end
@@ -479,7 +505,11 @@ function adjustLocation(
   kind: 'location',
   attr: SortableAttribute,
 ): TSESTree.SourceLocation;
-function adjustLocation(offset: number, kind: 'start' | 'end', attr: SortableAttribute): number;
+function adjustLocation(
+  offset: number,
+  kind: 'start' | 'end',
+  attr: SortableAttribute,
+): number;
 function adjustLocation(
   locOrOffset: TSESTree.SourceLocation | number,
   kind: 'location' | 'start' | 'end',
@@ -488,7 +518,10 @@ function adjustLocation(
   // Spans for structural directives created from the
   // template parser will exclude the leading "*", so
   // we need to move the start back to include it.
-  if (!attr.fromHtmlParser && attr.orderType === OrderType.StructuralDirective) {
+  if (
+    !attr.fromHtmlParser &&
+    attr.orderType === OrderType.StructuralDirective
+  ) {
     if (typeof locOrOffset === 'number') {
       if (kind === 'start') {
         return locOrOffset - 1;
@@ -503,7 +536,9 @@ function adjustLocation(
         },
         end: {
           line: locOrOffset.end.line,
-          column: locOrOffset.end.column + (isValuelessStructuralDirective(attr) ? 0 : 1),
+          column:
+            locOrOffset.end.column +
+            (isValuelessStructuralDirective(attr) ? 0 : 1),
         },
       };
     }

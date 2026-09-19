@@ -1,6 +1,12 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
-import type { MessageIds, Options } from '../../../src/rules/prefer-service-decorator';
+import type {
+  InvalidTestCase,
+  ValidTestCase,
+} from '@typescript-eslint/rule-tester';
+import type {
+  MessageIds,
+  Options,
+} from '../../../src/rules/prefer-service-decorator';
 
 const messageId: MessageIds = 'preferServiceDecorator';
 
@@ -120,7 +126,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     `,
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should rename `useFactory` to `factory` and drop `providedIn` when it comes last',
+    description:
+      'should rename `useFactory` to `factory` and drop `providedIn` when it comes last',
     annotatedSource: `
       import { Injectable } from '@angular/core';
 
