@@ -37,8 +37,7 @@ export default createESLintRule<Options, MessageIds>({
           suggest: [
             {
               messageId: 'suggestRemovePipeImpure',
-              fix: (fixer) =>
-                RuleFixes.getNodeToCommaRemoveFix(sourceCode, node, fixer),
+              fix: (fixer) => RuleFixes.getNodeToCommaRemoveFix(sourceCode, node, fixer),
             },
           ],
         });

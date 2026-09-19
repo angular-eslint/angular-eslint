@@ -14,9 +14,7 @@ export function getLast<T extends readonly unknown[]>(items: T): T[number] {
   return items.slice(-1)[0];
 }
 
-export const objectKeys = Object.keys as <T>(
-  o: T,
-) => readonly Extract<keyof T, string>[];
+export const objectKeys = Object.keys as <T>(o: T) => readonly Extract<keyof T, string>[];
 
 /**
  * Enforces the invariant that the input is an array.
@@ -30,14 +28,11 @@ export function arrayify<T>(value: T | readonly T[]): readonly T[] {
 
 // Needed because in the current Typescript version (TS 3.3.3333), Boolean() cannot be used to perform a null check.
 // For more, see: https://github.com/Microsoft/TypeScript/issues/16655
-export const isNotNullOrUndefined = <T>(
-  input: null | undefined | T,
-): input is T => input !== null && input !== undefined;
+export const isNotNullOrUndefined = <T>(input: null | undefined | T): input is T =>
+  input !== null && input !== undefined;
 
 export const kebabToCamelCase = (value: string): string =>
-  value.replace(/-[a-zA-Z]/g, ({ 1: letterAfterDash }) =>
-    letterAfterDash.toUpperCase(),
-  );
+  value.replace(/-[a-zA-Z]/g, ({ 1: letterAfterDash }) => letterAfterDash.toUpperCase());
 
 /**
  * Convert an array to human-readable text.
@@ -55,8 +50,7 @@ export const toHumanReadableText = (items: readonly string[]): string => {
     .join(', ')} or "${[...items].pop()}"`;
 };
 
-export const toPattern = (value: readonly unknown[]): RegExp =>
-  RegExp(`^(${value.join('|')})$`);
+export const toPattern = (value: readonly unknown[]): RegExp => RegExp(`^(${value.join('|')})$`);
 
 export function capitalize<T extends string>(text: T): Capitalize<T> {
   return `${text[0].toUpperCase()}${text.slice(1)}` as Capitalize<T>;

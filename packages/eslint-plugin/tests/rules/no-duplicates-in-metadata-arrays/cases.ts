@@ -1,12 +1,6 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type {
-  InvalidTestCase,
-  ValidTestCase,
-} from '@typescript-eslint/rule-tester';
-import type {
-  MessageIds,
-  Options,
-} from '../../../src/rules/no-duplicates-in-metadata-arrays';
+import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
+import type { MessageIds, Options } from '../../../src/rules/no-duplicates-in-metadata-arrays';
 
 const messageId: MessageIds = 'noDuplicatesInMetadataArrays';
 

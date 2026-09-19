@@ -1,12 +1,6 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type {
-  InvalidTestCase,
-  ValidTestCase,
-} from '@typescript-eslint/rule-tester';
-import type {
-  MessageIds,
-  Options,
-} from '../../../src/rules/no-queries-metadata-property';
+import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
+import type { MessageIds, Options } from '../../../src/rules/no-queries-metadata-property';
 
 const messageId: MessageIds = 'noQueriesMetadataProperty';
 
@@ -28,8 +22,7 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
-    description:
-      'it should fail if "queries" metadata property is used in @Component',
+    description: 'it should fail if "queries" metadata property is used in @Component',
     annotatedSource: `
         @Component({
           queries: {
@@ -47,8 +40,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'it should fail if "queries" metadata property is used in @Directive',
+    description: 'it should fail if "queries" metadata property is used in @Directive',
     annotatedSource: `
         @Directive({
           queries: {

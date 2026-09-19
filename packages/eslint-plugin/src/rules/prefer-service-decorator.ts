@@ -1,14 +1,6 @@
-import {
-  ASTUtils,
-  isNotNullOrUndefined,
-  RuleFixes,
-  Selectors,
-} from '@angular-eslint/utils';
+import { ASTUtils, isNotNullOrUndefined, RuleFixes, Selectors } from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/utils';
-import {
-  ASTUtils as TSESLintASTUtils,
-  AST_NODE_TYPES,
-} from '@typescript-eslint/utils';
+import { ASTUtils as TSESLintASTUtils, AST_NODE_TYPES } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
 export type Options = [];
@@ -22,8 +14,7 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description:
-        "Prefer the `@Service()` decorator over `@Injectable({ providedIn: 'root' })`",
+      description: "Prefer the `@Service()` decorator over `@Injectable({ providedIn: 'root' })`",
     },
     fixable: 'code',
     schema: [],
@@ -38,10 +29,7 @@ export default createESLintRule<Options, MessageIds>({
       [Selectors.INJECTABLE_CLASS_DECORATOR](node: TSESTree.Decorator) {
         const { expression } = node;
 
-        if (
-          !ASTUtils.isCallExpression(expression) ||
-          expression.arguments.length !== 1
-        ) {
+        if (!ASTUtils.isCallExpression(expression) || expression.arguments.length !== 1) {
           return;
         }
 
@@ -85,10 +73,7 @@ export default createESLintRule<Options, MessageIds>({
               // `providedIn: 'root'` (which `@Service()` implies).
               case 'rewrite-factory': {
                 fixes.push(
-                  fixer.replaceText(
-                    migration.useFactoryProperty.key,
-                    'factory',
-                  ),
+                  fixer.replaceText(migration.useFactoryProperty.key, 'factory'),
                   RuleFixes.getNodeToCommaRemoveFix(
                     context.sourceCode,
                     migration.providedInProperty,
@@ -129,12 +114,9 @@ type MetadataMigration =
  * (`useClass`, `useExisting`, `useValue`, `deps`, ...) has no equivalent, so we
  * bail out and leave such `@Injectable`s untouched for now.
  */
-function getMetadataMigration(
-  argument: TSESTree.ObjectExpression,
-): MetadataMigration | undefined {
+function getMetadataMigration(argument: TSESTree.ObjectExpression): MetadataMigration | undefined {
   const properties = argument.properties.filter(
-    (property): property is TSESTree.Property =>
-      property.type === AST_NODE_TYPES.Property,
+    (property): property is TSESTree.Property => property.type === AST_NODE_TYPES.Property,
   );
 
   const providedInProperty = properties.find(
@@ -149,11 +131,9 @@ function getMetadataMigration(
   // `useFactory`.
   if (
     !providedInProperty ||
-    TSESLintASTUtils.getStaticValue(providedInProperty.value)?.value !==
-      'root' ||
+    TSESLintASTUtils.getStaticValue(providedInProperty.value)?.value !== 'root' ||
     properties.length !==
-      [providedInProperty, useFactoryProperty].filter(isNotNullOrUndefined)
-        .length
+      [providedInProperty, useFactoryProperty].filter(isNotNullOrUndefined).length
   ) {
     return undefined;
   }

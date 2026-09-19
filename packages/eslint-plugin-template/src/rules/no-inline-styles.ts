@@ -72,8 +72,7 @@ export default createESLintRule<Options, MessageIds>({
     return {
       Element(node: TmplAstElement) {
         const hasDisallowedInput = node.inputs.some((input) => {
-          const { __originalType: originalType, type } =
-            input as InputWithOriginalType;
+          const { __originalType: originalType, type } = input as InputWithOriginalType;
 
           switch (originalType ?? type) {
             case BindingType.Attribute:
@@ -93,14 +92,10 @@ export default createESLintRule<Options, MessageIds>({
           }
         });
         const isInvalid =
-          node.attributes.some(({ name }) => name === 'style') ||
-          hasDisallowedInput;
+          node.attributes.some(({ name }) => name === 'style') || hasDisallowedInput;
 
         if (isInvalid) {
-          const loc = parserServices.convertElementSourceSpanToLoc(
-            context,
-            node,
-          );
+          const loc = parserServices.convertElementSourceSpanToLoc(context, node);
 
           context.report({
             loc,

@@ -31,8 +31,7 @@ export const defaultFlatConfigNames = [
  * any name, so we deliberately do NOT require the `eslint.config.*` naming
  * convention for an explicitly provided config file.
  */
-const legacyEslintrcConfigFilePattern =
-  /(^|[\\/])\.eslintrc(\.(c?js|ya?ml|json))?$/;
+const legacyEslintrcConfigFilePattern = /(^|[\\/])\.eslintrc(\.(c?js|ya?ml|json))?$/;
 
 async function resolveESLintClass(): Promise<typeof ESLint> {
   try {
@@ -47,26 +46,17 @@ function validateConcurrency(concurrency: string | number) {
   if (concurrency === 'auto' || concurrency === 'off') {
     return;
   }
-  if (
-    typeof concurrency === 'number' &&
-    Number.isInteger(concurrency) &&
-    concurrency > 0
-  ) {
+  if (typeof concurrency === 'number' && Number.isInteger(concurrency) && concurrency > 0) {
     return;
   }
-  throw new Error(
-    'The --concurrency option must be auto, off or a positive integer',
-  );
+  throw new Error('The --concurrency option must be auto, off or a positive integer');
 }
 
 export async function resolveAndInstantiateESLint(
   eslintConfigPath: string | undefined,
   options: Schema,
 ) {
-  if (
-    eslintConfigPath &&
-    legacyEslintrcConfigFilePattern.test(eslintConfigPath)
-  ) {
+  if (eslintConfigPath && legacyEslintrcConfigFilePattern.test(eslintConfigPath)) {
     throw new Error(
       `The ESLint config file "${eslintConfigPath}" uses the legacy "eslintrc" format, which is no longer supported. Please use an ESLint flat config file (it can have any name, e.g. eslint.config.js). See https://eslint.org/docs/latest/use/configure/configuration-files`,
     );

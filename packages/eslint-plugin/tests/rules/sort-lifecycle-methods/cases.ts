@@ -1,12 +1,6 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type {
-  InvalidTestCase,
-  ValidTestCase,
-} from '@typescript-eslint/rule-tester';
-import type {
-  MessageIds,
-  Options,
-} from '../../../src/rules/sort-lifecycle-methods';
+import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
+import type { MessageIds, Options } from '../../../src/rules/sort-lifecycle-methods';
 
 const messageId: MessageIds = 'lifecycleMethodsNotSorted';
 
@@ -115,8 +109,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'ngOnChanges() is declared after ngOnInit() with only two lifecycle methods',
+    description: 'ngOnChanges() is declared after ngOnInit() with only two lifecycle methods',
     annotatedSource: `
       @Component()
       class Test {

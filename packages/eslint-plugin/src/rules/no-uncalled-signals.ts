@@ -46,8 +46,7 @@ export default createESLintRule<Options, MessageIds>({
     defaultOptions: [],
   },
   create(context) {
-    const services: ParserServicesWithTypeInformation =
-      ESLintUtils.getParserServices(context);
+    const services: ParserServicesWithTypeInformation = ESLintUtils.getParserServices(context);
 
     function checkForUncalledSignal(node: TSESTree.Node): void {
       const type = services.getTypeAtLocation(node);

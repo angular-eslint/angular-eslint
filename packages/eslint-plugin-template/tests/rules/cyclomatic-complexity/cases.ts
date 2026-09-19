@@ -1,12 +1,6 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type {
-  InvalidTestCase,
-  ValidTestCase,
-} from '@typescript-eslint/rule-tester';
-import type {
-  MessageIds,
-  Options,
-} from '../../../src/rules/cyclomatic-complexity';
+import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
+import type { MessageIds, Options } from '../../../src/rules/cyclomatic-complexity';
 
 const messageId: MessageIds = 'cyclomaticComplexity';
 
@@ -108,8 +102,7 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
-    description:
-      'it should fail if the cyclomatic complexity is higher than the maximum defined',
+    description: 'it should fail if the cyclomatic complexity is higher than the maximum defined',
     annotatedSource: `
         <div *ngIf="a === '1'">
           <div *ngFor="let person of persons; trackBy: trackByFn">

@@ -1,8 +1,5 @@
 import { Tree } from '@angular-devkit/schematics';
-import {
-  SchematicTestRunner,
-  UnitTestTree,
-} from '@angular-devkit/schematics/testing';
+import { SchematicTestRunner, UnitTestTree } from '@angular-devkit/schematics/testing';
 import * as path from 'node:path';
 import { beforeEach, describe, expect, it } from 'vitest';
 
@@ -53,8 +50,7 @@ describe('update-12-0-0', () => {
       JSON.stringify({
         rules: {
           '@angular-eslint/template/accessibility-label-for': 'error',
-          '@angular-eslint/template/accessibility-label-has-associated-control':
-            'error',
+          '@angular-eslint/template/accessibility-label-has-associated-control': 'error',
         },
         // Overrides extends
         overrides: [
@@ -85,9 +81,7 @@ describe('update-12-0-0', () => {
           // Array form of extends
           {
             files: ['*.ts'],
-            extends: [
-              'plugin:@angular-eslint/something-other-than-recommended',
-            ],
+            extends: ['plugin:@angular-eslint/something-other-than-recommended'],
             rules: {
               '@angular-eslint/template/accessibility-label-for': [
                 'error',
@@ -106,11 +100,7 @@ describe('update-12-0-0', () => {
   });
 
   it('should update relevant @angular-eslint, @typescript-eslint and eslint dependencies', async () => {
-    const tree = await migrationSchematicRunner.runSchematic(
-      'update-12-0-0',
-      {},
-      appTree,
-    );
+    const tree = await migrationSchematicRunner.runSchematic('update-12-0-0', {}, appTree);
     const packageJSON = JSON.parse(tree.readContent('/package.json'));
     expect(packageJSON).toMatchInlineSnapshot(`
       {
@@ -129,11 +119,7 @@ describe('update-12-0-0', () => {
   });
 
   it('should migrate from accessibility-label-for to accessibility-label-has-associated-control', async () => {
-    const tree = await migrationSchematicRunner.runSchematic(
-      'update-12-0-0',
-      {},
-      appTree,
-    );
+    const tree = await migrationSchematicRunner.runSchematic('update-12-0-0', {}, appTree);
     const rootESLint = JSON.parse(tree.readContent('.eslintrc.json'));
     expect(rootESLint).toMatchInlineSnapshot(`
       {
@@ -158,9 +144,7 @@ describe('update-12-0-0', () => {
       }
     `);
 
-    const fooESLint = JSON.parse(
-      tree.readContent('projects/foo/.eslintrc.json'),
-    );
+    const fooESLint = JSON.parse(tree.readContent('projects/foo/.eslintrc.json'));
     expect(fooESLint).toMatchInlineSnapshot(`
       {
         "extends": [
@@ -169,9 +153,7 @@ describe('update-12-0-0', () => {
       }
     `);
 
-    const barESLint = JSON.parse(
-      tree.readContent('projects/bar/.eslintrc.json'),
-    );
+    const barESLint = JSON.parse(tree.readContent('projects/bar/.eslintrc.json'));
     expect(barESLint).toMatchInlineSnapshot(`
       {
         "overrides": [
@@ -218,11 +200,7 @@ describe('update-12-0-0', () => {
   });
 
   it('should add eqeqeq', async () => {
-    const tree = await migrationSchematicRunner.runSchematic(
-      'update-12-0-0',
-      {},
-      appTree,
-    );
+    const tree = await migrationSchematicRunner.runSchematic('update-12-0-0', {}, appTree);
     const rootESLint = JSON.parse(tree.readContent('.eslintrc.json'));
     expect(rootESLint).toMatchInlineSnapshot(`
       {
@@ -247,9 +225,7 @@ describe('update-12-0-0', () => {
       }
     `);
 
-    const fooESLint = JSON.parse(
-      tree.readContent('projects/foo/.eslintrc.json'),
-    );
+    const fooESLint = JSON.parse(tree.readContent('projects/foo/.eslintrc.json'));
     expect(fooESLint).toMatchInlineSnapshot(`
       {
         "extends": [
@@ -258,9 +234,7 @@ describe('update-12-0-0', () => {
       }
     `);
 
-    const barESLint = JSON.parse(
-      tree.readContent('projects/bar/.eslintrc.json'),
-    );
+    const barESLint = JSON.parse(tree.readContent('projects/bar/.eslintrc.json'));
     expect(barESLint).toMatchInlineSnapshot(`
       {
         "overrides": [

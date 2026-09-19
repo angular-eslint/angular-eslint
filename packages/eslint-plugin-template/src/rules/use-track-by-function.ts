@@ -62,9 +62,7 @@ export default createESLintRule<Options, MessageIds>({
         if (templateAttrs.some(isNgForTrackBy)) {
           return;
         }
-        const { start } = parserServices.convertNodeSourceSpanToLoc(
-          templateAttrs[0].sourceSpan,
-        );
+        const { start } = parserServices.convertNodeSourceSpanToLoc(templateAttrs[0].sourceSpan);
         const { end } = parserServices.convertNodeSourceSpanToLoc(
           templateAttrs[templateAttrs.length - 1].sourceSpan,
         );

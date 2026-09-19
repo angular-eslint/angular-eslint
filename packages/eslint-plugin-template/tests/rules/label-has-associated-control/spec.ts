@@ -1,7 +1,5 @@
 import { RuleTester } from '@angular-eslint/test-utils';
-import rule, {
-  RULE_NAME,
-} from '../../../src/rules/label-has-associated-control';
+import rule, { RULE_NAME } from '../../../src/rules/label-has-associated-control';
 
 import { invalid, valid } from './cases';
 

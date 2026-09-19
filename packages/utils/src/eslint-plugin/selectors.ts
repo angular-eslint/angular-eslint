@@ -7,8 +7,7 @@ export const COMPONENT_CLASS_DECORATOR =
 export const DIRECTIVE_CLASS_DECORATOR =
   'ClassDeclaration > Decorator[expression.callee.name="Directive"]';
 
-export const PIPE_CLASS_DECORATOR =
-  'ClassDeclaration > Decorator[expression.callee.name="Pipe"]';
+export const PIPE_CLASS_DECORATOR = 'ClassDeclaration > Decorator[expression.callee.name="Pipe"]';
 
 export const INJECTABLE_CLASS_DECORATOR =
   'ClassDeclaration > Decorator[expression.callee.name="Injectable"]';
@@ -23,10 +22,8 @@ export const INPUT_DECORATOR = 'Decorator[expression.callee.name="Input"]';
 
 export const OUTPUT_DECORATOR = 'Decorator[expression.callee.name="Output"]';
 
-export const HOST_BINDING_DECORATOR =
-  'Decorator[expression.callee.name="HostBinding"]';
-export const HOST_LISTENER_DECORATOR =
-  'Decorator[expression.callee.name="HostListener"]';
+export const HOST_BINDING_DECORATOR = 'Decorator[expression.callee.name="HostBinding"]';
+export const HOST_LISTENER_DECORATOR = 'Decorator[expression.callee.name="HostListener"]';
 
 export const LITERAL_OR_TEMPLATE_ELEMENT = ':matches(Literal, TemplateElement)';
 

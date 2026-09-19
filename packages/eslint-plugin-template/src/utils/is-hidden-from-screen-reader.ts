@@ -30,10 +30,7 @@ export function isHiddenFromScreenReader(node: TmplAstElement): boolean {
   }
 
   const typeAttributeValue = getAttributeValue(node, 'type');
-  return (
-    typeof typeAttributeValue === 'string' &&
-    typeAttributeValue.toUpperCase() === 'HIDDEN'
-  );
+  return typeof typeAttributeValue === 'string' && typeAttributeValue.toUpperCase() === 'HIDDEN';
 }
 
 /**
@@ -67,9 +64,7 @@ function hasHiddenStaticStyles(node: TmplAstElement): boolean {
  * <div [visibility.hidden]="true"></div>
  * ```
  */
-function hasHiddenDynamicStylesWithLiteralValues(
-  node: TmplAstElement,
-): boolean {
+function hasHiddenDynamicStylesWithLiteralValues(node: TmplAstElement): boolean {
   return (
     getAttributeValue(node, 'style.display') === 'none' ||
     String(getAttributeValue(node, 'style.display.none')) === 'true' ||
@@ -110,8 +105,6 @@ function isHtmlTruthy(node: TmplAstElement, attributeName: string) {
   return attributeValue === '' || String(attributeValue) === 'true';
 }
 
-function isElementHiddenFromScreenReader(
-  node: unknown,
-): node is TmplAstElement {
+function isElementHiddenFromScreenReader(node: unknown): node is TmplAstElement {
   return node instanceof TmplAstElement && isHiddenFromScreenReader(node);
 }

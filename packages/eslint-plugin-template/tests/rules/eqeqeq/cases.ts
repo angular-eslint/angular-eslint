@@ -1,8 +1,5 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type {
-  InvalidTestCase,
-  ValidTestCase,
-} from '@typescript-eslint/rule-tester';
+import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
 import type { MessageIds, Options } from '../../../src/rules/eqeqeq';
 
 const messageId: MessageIds = 'eqeqeq';
@@ -45,8 +42,7 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
-    description:
-      'it should fail if the operation is not strict within interpolation',
+    description: 'it should fail if the operation is not strict within interpolation',
     annotatedSource: `
         {{ 'null' == test }}
            ~~~~~~~~~~~~~~
@@ -79,8 +75,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       `,
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'it should fail if the operation is not strict within attribute directive',
+    description: 'it should fail if the operation is not strict within attribute directive',
     annotatedSource: `
         <div [attr.disabled]="test != 'undefined' && null == '3'"></div>
                               ~~~~~~~~~~~~~~~~~~~
@@ -132,8 +127,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       `,
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'it should fail if the operation is not strict within structural directive',
+    description: 'it should fail if the operation is not strict within structural directive',
     annotatedSource: `
         <div *ngIf="test == true || test1 !== undefined"></div>
                     ~~~~~~~~~~~~
@@ -158,8 +152,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     ],
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'it should fail if the operation is not strict within conditional',
+    description: 'it should fail if the operation is not strict within conditional',
     annotatedSource: `
         {{ one != '02' ? c > d : 'hey!' }}
            ~~~~~~~~~~~
@@ -184,8 +177,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     ],
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'it should fail if the operation is not strict within conditional (condition)',
+    description: 'it should fail if the operation is not strict within conditional (condition)',
     annotatedSource: `
         {{ a === b && 1 == b ? c > d : 'hey!' }}
                       ~~~~~~
@@ -210,8 +202,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     ],
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'it should fail if the operation is not strict within conditional (trueExp)',
+    description: 'it should fail if the operation is not strict within conditional (trueExp)',
     annotatedSource: `
         {{ c > d ? a != b : 'hey!' }}
                    ~~~~~~
@@ -262,8 +253,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     ],
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'it should fail if the operation is not strict within conditional (falseExp)',
+    description: 'it should fail if the operation is not strict within conditional (falseExp)',
     annotatedSource: `
         {{ c > d ? 'hey!' : a == false }}
                             ~~~~~~~~~~
@@ -288,8 +278,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     ],
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'it should fail if the operation is not strict within recursive conditional',
+    description: 'it should fail if the operation is not strict within recursive conditional',
     annotatedSource: `
         {{ undefined == test1 && a === b ? (c > d ? d != '0' : v === 4) : 'hey!' }}
                                                     ~~~~~~~~
@@ -315,8 +304,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     ],
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'it should fail if the operation is not strict compared to literal undefined',
+    description: 'it should fail if the operation is not strict compared to literal undefined',
     annotatedSource: `
         {{ undefined != test1 }}
            ~~~~~~~~~~~~~~~~~~

@@ -38,9 +38,7 @@ export default createESLintRule<Options, MessageIds>({
     const parserServices = getTemplateParserServices(context);
     const previousNodeStack: (NodeInfo | undefined)[] = [undefined];
 
-    function getOnlyForBlock(
-      node: TmplAstIfBlockBranch,
-    ): TmplAstForLoopBlock | undefined {
+    function getOnlyForBlock(node: TmplAstIfBlockBranch): TmplAstForLoopBlock | undefined {
       let forBlock: TmplAstForLoopBlock | undefined;
 
       // Find the only `@for` block in the children,
@@ -70,10 +68,7 @@ export default createESLintRule<Options, MessageIds>({
       return forBlock;
     }
 
-    function checkFor(
-      forInfo: ForNodeInfo,
-      previous: NodeInfo | undefined,
-    ): void {
+    function checkFor(forInfo: ForNodeInfo, previous: NodeInfo | undefined): void {
       // If the `@for` block is immediately preceded by an "if empty"
       // block for the same collection, then that `@if` block can
       // be moved into the `@empty` block.
@@ -82,9 +77,7 @@ export default createESLintRule<Options, MessageIds>({
           const branch = previous.node.branches[0];
           const branchEnd = branch.endSourceSpan;
           context.report({
-            loc: parserServices.convertNodeSourceSpanToLoc(
-              previous.node.nameSpan,
-            ),
+            loc: parserServices.convertNodeSourceSpanToLoc(previous.node.nameSpan),
             messageId: 'preferAtEmpty',
             fix: branchEnd
               ? function* (fixer) {
@@ -128,10 +121,7 @@ export default createESLintRule<Options, MessageIds>({
       }
     }
 
-    function checkIfEmpty(
-      ifInfo: IfNodeInfo,
-      previous: NodeInfo | undefined,
-    ): void {
+    function checkIfEmpty(ifInfo: IfNodeInfo, previous: NodeInfo | undefined): void {
       if (!previous) {
         return;
       }
@@ -145,9 +135,7 @@ export default createESLintRule<Options, MessageIds>({
             // The `@if` block can be moved into the `@for` block,
             // so report the problem on the `@if` block.
             context.report({
-              loc: parserServices.convertNodeSourceSpanToLoc(
-                ifInfo.node.nameSpan,
-              ),
+              loc: parserServices.convertNodeSourceSpanToLoc(ifInfo.node.nameSpan),
               messageId: 'preferAtEmpty',
               fix: function* (fixer) {
                 if (previous.node.empty?.endSourceSpan) {
@@ -158,18 +146,13 @@ export default createESLintRule<Options, MessageIds>({
                   // the existing contents of the `@empty` block. This can
                   // easily be achieved by removing the closing brace of the
                   // `@empty` block and removing the `@if` statement.
-                  yield fixer.removeRange(
-                    toRange(previous.node.empty.endSourceSpan),
-                  );
+                  yield fixer.removeRange(toRange(previous.node.empty.endSourceSpan));
                   yield fixer.removeRange(toRange(ifInfo.node.startSourceSpan));
                 } else {
                   // There is not already an `@empty` block, so
                   // we can create one by replacing the entire
                   // `@if (...) {` segment with `@empty {`.
-                  yield fixer.replaceTextRange(
-                    toRange(ifInfo.node.startSourceSpan),
-                    '@empty {',
-                  );
+                  yield fixer.replaceTextRange(toRange(ifInfo.node.startSourceSpan), '@empty {');
                 }
               },
             });
@@ -179,19 +162,14 @@ export default createESLintRule<Options, MessageIds>({
         case 'if-not-empty':
           if (areEquivalentASTs(ifInfo.collection, previous.collection)) {
             const forBlock = getOnlyForBlock(previous.node.branches[0]);
-            if (
-              forBlock &&
-              areEquivalentASTs(ifInfo.collection, forBlock.expression.ast)
-            ) {
+            if (forBlock && areEquivalentASTs(ifInfo.collection, forBlock.expression.ast)) {
               const previousIfBlockEnd = previous.node.endSourceSpan;
 
               // The previous `@if` block can be removed and the current `@if`
               // block moved into the `@for` block's `@empty` block, so report
               // the problem on the previous `@if` block.
               context.report({
-                loc: parserServices.convertNodeSourceSpanToLoc(
-                  previous.node.nameSpan,
-                ),
+                loc: parserServices.convertNodeSourceSpanToLoc(previous.node.nameSpan),
                 messageId: 'preferAtEmpty',
                 fix: previousIfBlockEnd
                   ? (fixer) => [
@@ -225,10 +203,7 @@ export default createESLintRule<Options, MessageIds>({
     function checkIfEmptyElse(info: IfNodeInfo): void {
       // Look for an `@for` block in the `@else` branch.
       const forBlock = getOnlyForBlock(info.node.branches[1]);
-      if (
-        forBlock &&
-        areEquivalentASTs(info.collection, forBlock.expression.ast)
-      ) {
+      if (forBlock && areEquivalentASTs(info.collection, forBlock.expression.ast)) {
         const ifBranchEnd = info.node.branches[0].endSourceSpan;
 
         // The contents of the `@if` block can be moved into an
@@ -285,24 +260,16 @@ export default createESLintRule<Options, MessageIds>({
       }
     }
 
-    function checkIfNotEmpty(
-      ifNotInfo: IfNodeInfo,
-      previous: NodeInfo | undefined,
-    ): void {
+    function checkIfNotEmpty(ifNotInfo: IfNodeInfo, previous: NodeInfo | undefined): void {
       if (previous?.kind === 'if-empty') {
         if (areEquivalentASTs(ifNotInfo.collection, previous.collection)) {
           const forBlock = getOnlyForBlock(ifNotInfo.node.branches[0]);
-          if (
-            forBlock &&
-            areEquivalentASTs(ifNotInfo.collection, forBlock.expression.ast)
-          ) {
+          if (forBlock && areEquivalentASTs(ifNotInfo.collection, forBlock.expression.ast)) {
             // The `@if` block can be removed and the contents of
             // the `@else` block moved into an `@empty` block,
             // so report the problem on the `@if` block.
             context.report({
-              loc: parserServices.convertNodeSourceSpanToLoc(
-                ifNotInfo.node.nameSpan,
-              ),
+              loc: parserServices.convertNodeSourceSpanToLoc(ifNotInfo.node.nameSpan),
               messageId: 'preferAtEmpty',
               fix: (fixer) => [
                 // Remove the entire previous `@if` block.
@@ -331,10 +298,7 @@ export default createESLintRule<Options, MessageIds>({
 
     function checkIfNotEmptyElse(info: IfNodeInfo): void {
       const forBlock = getOnlyForBlock(info.node.branches[0]);
-      if (
-        forBlock &&
-        areEquivalentASTs(info.collection, forBlock.expression.ast)
-      ) {
+      if (forBlock && areEquivalentASTs(info.collection, forBlock.expression.ast)) {
         const ifBranchEnd = info.node.branches[0].endSourceSpan;
         const ifEnd = info.node.endSourceSpan;
 
@@ -367,10 +331,7 @@ export default createESLintRule<Options, MessageIds>({
                     // a closing brace after the original `@if` block
                     // to close the `@empty` block.
                     yield fixer.replaceTextRange(
-                      [
-                        ifBranchEnd.end.offset - 1,
-                        elseBranch.nameSpan.end.offset,
-                      ],
+                      [ifBranchEnd.end.offset - 1, elseBranch.nameSpan.end.offset],
                       '@empty { @if ',
                     );
                     yield fixer.insertTextAfterRange(toRange(ifEnd), '}');
@@ -548,11 +509,7 @@ function getNotEmptyTestCollection(node: AST): AST | undefined {
 
   if (node instanceof Binary) {
     if (isLengthRead(node.left)) {
-      if (
-        node.operation === '!==' ||
-        node.operation === '>' ||
-        node.operation === '!='
-      ) {
+      if (node.operation === '!==' || node.operation === '>' || node.operation === '!=') {
         if (isZero(node.right)) {
           // @if (collection.length !== 0)
           // @if (collection.length > 0)
@@ -561,11 +518,7 @@ function getNotEmptyTestCollection(node: AST): AST | undefined {
         }
       }
     } else if (isZero(node.left)) {
-      if (
-        node.operation === '!==' ||
-        node.operation === '<' ||
-        node.operation === '!='
-      ) {
+      if (node.operation === '!==' || node.operation === '<' || node.operation === '!=') {
         if (isLengthRead(node.right)) {
           // @if (0 !== collection.length)
           // @if (0 < collection.length)
@@ -620,8 +573,7 @@ interface ForNodeInfo {
 
 interface IfNodeInfo {
   readonly node: TmplAstIfBlock;
-  readonly kind:
-    'if-empty' | 'if-empty-else' | 'if-not-empty' | 'if-not-empty-else';
+  readonly kind: 'if-empty' | 'if-empty-else' | 'if-not-empty' | 'if-not-empty-else';
   readonly collection: AST;
 }
 

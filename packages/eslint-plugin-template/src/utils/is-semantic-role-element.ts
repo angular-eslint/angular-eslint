@@ -33,8 +33,7 @@ export function isSemanticRoleElement(
         // match every axElement html attributes to given elementAttributes
         elementAttributes.find(
           (elemAttr) =>
-            htmlElemAttr.name === elemAttr.name &&
-            htmlElemAttr.value === elemAttr.value,
+            htmlElemAttr.name === elemAttr.name && htmlElemAttr.value === elemAttr.value,
         ),
       ) &&
       // aria- properties are covered by the element's semantic role
@@ -42,9 +41,7 @@ export function isSemanticRoleElement(
         // AXObjectRoles: AXObjects are mapped to their related ARIA concepts
         axRoles
           ?.get(roleName)
-          ?.find(
-            (semanticRole: { name: string }) => semanticRole.name === role,
-          ),
+          ?.find((semanticRole: { name: string }) => semanticRole.name === role),
       ),
   );
 }

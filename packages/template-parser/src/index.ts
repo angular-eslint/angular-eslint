@@ -55,14 +55,7 @@ const KEYS: VisitorKeys = {
   SafePropertyRead: ['receiver'],
   Template: ['templateAttrs', 'children', 'inputs'],
   BindingPipe: ['exp', 'args'],
-  DeferredBlock: [
-    'children',
-    'placeholder',
-    'loading',
-    'error',
-    'triggers',
-    'prefetchTriggers',
-  ],
+  DeferredBlock: ['children', 'placeholder', 'loading', 'error', 'triggers', 'prefetchTriggers'],
   DeferredBlockLoading: ['children'],
   DeferredBlockError: ['children'],
   DeferredBlockPlaceholder: ['children'],
@@ -202,11 +195,7 @@ function preprocessNode(node: Node, sourceCode?: string) {
     ) {
       // Regular ParseSourceSpan
       node.loc = convertNodeSourceSpanToLoc(node.sourceSpan);
-    } else if (
-      node.sourceSpan &&
-      typeof node.sourceSpan.start === 'number' &&
-      sourceCode
-    ) {
+    } else if (node.sourceSpan && typeof node.sourceSpan.start === 'number' && sourceCode) {
       // AbsoluteSourceSpan
       node.loc = convertAbsoluteSourceSpanToLoc(
         sourceCode,
@@ -262,10 +251,7 @@ function getStartSourceSpanFromAST(ast: AST): ParseSourceSpan | null {
       return;
     }
 
-    if (
-      nodeSourceSpan &&
-      nodeSourceSpan.start.offset < startSourceSpan.start.offset
-    ) {
+    if (nodeSourceSpan && nodeSourceSpan.start.offset < startSourceSpan.start.offset) {
       startSourceSpan = nodeSourceSpan;
       return;
     }
@@ -283,10 +269,7 @@ function getEndSourceSpanFromAST(ast: AST): ParseSourceSpan | null {
       return;
     }
 
-    if (
-      nodeSourceSpan &&
-      nodeSourceSpan.end.offset > endSourceSpan.end.offset
-    ) {
+    if (nodeSourceSpan && nodeSourceSpan.end.offset > endSourceSpan.end.offset) {
       endSourceSpan = nodeSourceSpan;
       return;
     }
@@ -304,9 +287,7 @@ function convertNgAstCommentsToTokens(comments: Comment[], code: string) {
     // comments are Block comments. The compiler does not expose a
     // discriminator on the Comment node, so we inspect the raw source text at
     // the start of the comment's span.
-    const type = code.startsWith('//', comment.sourceSpan.start.offset)
-      ? 'Line'
-      : 'Block';
+    const type = code.startsWith('//', comment.sourceSpan.start.offset) ? 'Line' : 'Block';
     return {
       type,
       value: comment.value,
@@ -338,9 +319,7 @@ export class TemplateParseError extends Error {
   }
 }
 
-export function createTemplateParseError(
-  parseError: ParseError,
-): TemplateParseError {
+export function createTemplateParseError(parseError: ParseError): TemplateParseError {
   const message = parseError.msg;
   const fileName = parseError.span.start.file.url;
   const index = parseError.span.start.offset;

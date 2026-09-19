@@ -8,12 +8,7 @@ export async function ruleGenerator(tree: Tree, options: RuleGeneratorSchema) {
   const ruleNameCamelCase = ruleName.replace(/-./g, (c) => c[1].toUpperCase());
   const baseTarget = `packages/${packageName}`;
 
-  generateFiles(
-    tree,
-    path.join(__dirname, 'files/src'),
-    `${baseTarget}/src`,
-    options,
-  );
+  generateFiles(tree, path.join(__dirname, 'files/src'), `${baseTarget}/src`, options);
   generateFiles(
     tree,
     path.join(__dirname, 'files/tests'),
@@ -22,9 +17,7 @@ export async function ruleGenerator(tree: Tree, options: RuleGeneratorSchema) {
   );
 
   // Update package's index.ts to export the new rule
-  const packageIndexContents = tree
-    .read(`${baseTarget}/src/index.ts`)
-    ?.toString() as string;
+  const packageIndexContents = tree.read(`${baseTarget}/src/index.ts`)?.toString() as string;
   const importString = `import ${ruleNameCamelCase}, { RULE_NAME as ${ruleNameCamelCase}RuleName } from './rules/${ruleName}';`;
   let newPackageIndexContents = packageIndexContents.replace(
     '\nexport = {',

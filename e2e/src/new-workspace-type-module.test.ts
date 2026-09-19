@@ -1,11 +1,7 @@
 import path from 'node:path';
 import { setWorkspaceRoot } from 'nx/src/utils/workspace-root';
 import { beforeAll, describe, expect, it, vi } from 'vitest';
-import {
-  FIXTURES_DIR,
-  Fixture,
-  resetFixtureDirectory,
-} from '../utils/fixtures';
+import { FIXTURES_DIR, Fixture, resetFixtureDirectory } from '../utils/fixtures';
 import {
   LONG_TIMEOUT_MS,
   runNgAdd,
@@ -62,8 +58,7 @@ describe('new-workspace-type-module', () => {
     expect(fixture.fileExists('.eslintrc.json')).toBe(false);
 
     expect(
-      fixture.readJson('angular.json').projects['new-workspace-type-module']
-        .architect.lint,
+      fixture.readJson('angular.json').projects['new-workspace-type-module'].architect.lint,
     ).toMatchSnapshot();
 
     // Additional project ("another-app")
@@ -73,12 +68,8 @@ describe('new-workspace-type-module', () => {
      * The project config should contain ESM, because the root config contains ESM, and it should use a plain .js
      * extension because there is no project package.json to influence the extension.
      */
-    expect(
-      fixture.readFile('projects/another-app/eslint.config.js'),
-    ).toMatchSnapshot();
-    expect(fixture.fileExists('projects/another-app/.eslintrc.json')).toBe(
-      false,
-    );
+    expect(fixture.readFile('projects/another-app/eslint.config.js')).toMatchSnapshot();
+    expect(fixture.fileExists('projects/another-app/.eslintrc.json')).toBe(false);
 
     // It should contain the eslintConfig option set to the project level eslint.config.js file
     expect(
@@ -92,12 +83,8 @@ describe('new-workspace-type-module', () => {
      * The project config should contain ESM, because the root config contains ESM, but because in this case it has its
      * own project package.json which does not have type: module set, it should use a .mjs extension.
      */
-    expect(
-      fixture.readFile('projects/another-lib/eslint.config.mjs'),
-    ).toMatchSnapshot();
-    expect(fixture.fileExists('projects/another-lib/.eslintrc.json')).toBe(
-      false,
-    );
+    expect(fixture.readFile('projects/another-lib/eslint.config.mjs')).toMatchSnapshot();
+    expect(fixture.fileExists('projects/another-lib/.eslintrc.json')).toBe(false);
 
     // It should contain the eslintConfig option set to the project level eslint.config.mjs file
     expect(

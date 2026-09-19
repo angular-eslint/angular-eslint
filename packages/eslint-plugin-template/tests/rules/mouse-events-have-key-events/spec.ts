@@ -1,7 +1,5 @@
 import { RuleTester } from '@angular-eslint/test-utils';
-import rule, {
-  RULE_NAME,
-} from '../../../src/rules/mouse-events-have-key-events';
+import rule, { RULE_NAME } from '../../../src/rules/mouse-events-have-key-events';
 
 import { invalid, valid } from './cases';
 

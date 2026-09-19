@@ -8,22 +8,21 @@ export function attributesComparator(
 ): boolean {
   const attributesInputs = [...node.attributes, ...node.inputs];
 
-  return ariaRoleRelationConceptAttributes.every(
-    (ariaRoleRelationConceptAttribute) =>
-      attributesInputs.some(({ name }) => {
-        if (node.name === 'a' && name === 'routerLink') {
-          return true;
-        }
+  return ariaRoleRelationConceptAttributes.every((ariaRoleRelationConceptAttribute) =>
+    attributesInputs.some(({ name }) => {
+      if (node.name === 'a' && name === 'routerLink') {
+        return true;
+      }
 
-        if (ariaRoleRelationConceptAttribute.name !== name) {
-          return false;
-        }
+      if (ariaRoleRelationConceptAttribute.name !== name) {
+        return false;
+      }
 
-        return (
-          !ariaRoleRelationConceptAttribute.value ||
-          ariaRoleRelationConceptAttribute.value ===
-            getAttributeValue(node, ariaRoleRelationConceptAttribute.name)
-        );
-      }),
+      return (
+        !ariaRoleRelationConceptAttribute.value ||
+        ariaRoleRelationConceptAttribute.value ===
+          getAttributeValue(node, ariaRoleRelationConceptAttribute.name)
+      );
+    }),
   );
 }

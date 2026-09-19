@@ -8,17 +8,8 @@
 
 import { join } from 'node:path';
 
-process.env.NX_PROJECT_GRAPH_CACHE_DIRECTORY = join(
-  __dirname,
-  '..',
-  '.nx-cache',
-);
+process.env.NX_PROJECT_GRAPH_CACHE_DIRECTORY = join(__dirname, '..', '.nx-cache');
 
-export {
-  convertNxGenerator,
-  offsetFromRoot,
-  readJson,
-  writeJson,
-} from '@nx/devkit';
+export { convertNxGenerator, offsetFromRoot, readJson, writeJson } from '@nx/devkit';
 export type { ProjectConfiguration, Tree } from '@nx/devkit';
 export { wrapAngularDevkitSchematic } from '@nx/devkit/ngcli-adapter';

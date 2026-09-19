@@ -1,8 +1,5 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type {
-  InvalidTestCase,
-  ValidTestCase,
-} from '@typescript-eslint/rule-tester';
+import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
 import type { MessageIds, Options } from '../../../src/rules/no-inline-styles';
 
 const messageId: MessageIds = 'noInlineStyles';
@@ -201,8 +198,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description:
-      'should fail when input element with style property binding exist',
+    description: 'should fail when input element with style property binding exist',
     annotatedSource: `
         <input [style.background-color]="'#fff'">
         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -383,8 +379,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description:
-      'should fail when a dynamic style binding is allowed but ngStyle is not dynamic',
+    description: 'should fail when a dynamic style binding is allowed but ngStyle is not dynamic',
     annotatedSource: `
         <div [ngStyle]="{ color: 'red' }" [style.width.px]="column.width"></div>
         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

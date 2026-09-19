@@ -39,9 +39,7 @@ export default createESLintRule<Options, MessageIds>({
       return {};
     }
     return {
-      'Element, Template, Content'(
-        node: TmplAstElement | TmplAstTemplate | TmplAstContent,
-      ) {
+      'Element, Template, Content'(node: TmplAstElement | TmplAstTemplate | TmplAstContent) {
         if (isContentNode(node)) {
           processContentNode(node);
         } else {
@@ -54,9 +52,7 @@ export default createESLintRule<Options, MessageIds>({
       },
     };
 
-    function processElementOrTemplateNode(
-      node: TmplAstElement | TmplAstTemplate,
-    ) {
+    function processElementOrTemplateNode(node: TmplAstElement | TmplAstTemplate) {
       const { children, startSourceSpan, endSourceSpan } = node;
 
       if (
@@ -135,10 +131,7 @@ export default createESLintRule<Options, MessageIds>({
         // If the start of the inner HTML is also where the close tag starts,
         // then there is no inner HTML and we can avoid slicing the string.
         if (startOfInnerHTML < source.length - ngContentCloseTag.length) {
-          if (
-            source.slice(startOfInnerHTML, -ngContentCloseTag.length).trim()
-              .length > 0
-          ) {
+          if (source.slice(startOfInnerHTML, -ngContentCloseTag.length).trim().length > 0) {
             return;
           }
         }
@@ -163,10 +156,7 @@ export default createESLintRule<Options, MessageIds>({
           messageId: 'preferSelfClosingTags',
           fix: (fixer) =>
             fixer.replaceTextRange(
-              [
-                sourceSpan.start.offset + startOfInnerHTML - 1,
-                sourceSpan.end.offset,
-              ],
+              [sourceSpan.start.offset + startOfInnerHTML - 1, sourceSpan.end.offset],
               closingTagPrefix + '/>',
             ),
         });

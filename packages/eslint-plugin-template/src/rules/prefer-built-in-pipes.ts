@@ -1,8 +1,4 @@
-import {
-  PropertyRead,
-  type AST,
-  type Call,
-} from '@angular-eslint/bundled-angular-compiler';
+import { PropertyRead, type AST, type Call } from '@angular-eslint/bundled-angular-compiler';
 import { ensureTemplateParser } from '@angular-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import { getNearestNodeFrom } from '../utils/get-nearest-node-from';
@@ -47,8 +43,7 @@ export default createESLintRule<Options, MessageIds>({
           },
           allowInOutputHandlers: {
             type: 'boolean',
-            description:
-              'Whether to allow these method calls inside output event handlers',
+            description: 'Whether to allow these method calls inside output event handlers',
           },
         },
         type: 'object',
@@ -77,9 +72,7 @@ export default createESLintRule<Options, MessageIds>({
         }
 
         if (allowInOutputHandlers) {
-          const isChildOfBoundEvent = Boolean(
-            getNearestNodeFrom(node, isBoundEvent),
-          );
+          const isChildOfBoundEvent = Boolean(getNearestNodeFrom(node, isBoundEvent));
           if (isChildOfBoundEvent) {
             return;
           }
@@ -109,11 +102,7 @@ function isDisallowedMethod(
   ast: AST & { name?: string },
   disallowList: readonly string[],
 ): boolean {
-  return (
-    isASTWithName(ast) &&
-    ast instanceof PropertyRead &&
-    disallowList.includes(ast.name)
-  );
+  return isASTWithName(ast) && ast instanceof PropertyRead && disallowList.includes(ast.name);
 }
 
 function getMethodName(ast: AST & { name?: string }): string {

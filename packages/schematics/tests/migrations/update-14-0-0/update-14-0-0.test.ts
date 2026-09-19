@@ -1,8 +1,5 @@
 import { Tree } from '@angular-devkit/schematics';
-import {
-  SchematicTestRunner,
-  UnitTestTree,
-} from '@angular-devkit/schematics/testing';
+import { SchematicTestRunner, UnitTestTree } from '@angular-devkit/schematics/testing';
 import * as path from 'node:path';
 import { beforeEach, describe, expect, it } from 'vitest';
 
@@ -33,11 +30,7 @@ describe('update-14-0-0', () => {
    * configured in the package.json
    */
   it('should update relevant @typescript-eslint and eslint dependencies, including migrating from @typescript-eslint/experimental-utils to @typescript-eslint/utils', async () => {
-    const tree = await migrationSchematicRunner.runSchematic(
-      'update-14-0-0',
-      {},
-      appTree,
-    );
+    const tree = await migrationSchematicRunner.runSchematic('update-14-0-0', {}, appTree);
     const packageJSON = JSON.parse(tree.readContent('/package.json'));
     expect(packageJSON).toMatchInlineSnapshot(`
       {
@@ -77,8 +70,7 @@ describe('update-14-0-0', () => {
       {},
       treeWithValueToMigrate,
     );
-    expect(JSON.parse(migratedTree.readContent('/angular.json')))
-      .toMatchInlineSnapshot(`
+    expect(JSON.parse(migratedTree.readContent('/angular.json'))).toMatchInlineSnapshot(`
         {
           "cli": {
             "schematicCollections": [
@@ -93,8 +85,7 @@ describe('update-14-0-0', () => {
       {},
       treeWithValueToIgnore,
     );
-    expect(JSON.parse(ignoredTree.readContent('/angular.json')))
-      .toMatchInlineSnapshot(`
+    expect(JSON.parse(ignoredTree.readContent('/angular.json'))).toMatchInlineSnapshot(`
         {
           "cli": {
             "defaultCollection": "@schematics/angular",

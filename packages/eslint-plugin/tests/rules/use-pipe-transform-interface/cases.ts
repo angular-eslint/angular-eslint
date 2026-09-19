@@ -1,12 +1,6 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type {
-  InvalidTestCase,
-  ValidTestCase,
-} from '@typescript-eslint/rule-tester';
-import type {
-  MessageIds,
-  Options,
-} from '../../../src/rules/use-pipe-transform-interface';
+import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
+import type { MessageIds, Options } from '../../../src/rules/use-pipe-transform-interface';
 
 const messageId: MessageIds = 'usePipeTransformInterface';
 
@@ -56,8 +50,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       `,
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail if a `Pipe` implements an interface, but not the `PipeTransform`',
+    description: 'should fail if a `Pipe` implements an interface, but not the `PipeTransform`',
     annotatedSource: `
         import { HttpClient } from '@angular/common/http';
         import type { PipeTransform } from '@angular/core';
@@ -87,8 +80,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       `,
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail if a `Pipe` implements interfaces, but not the `PipeTransform`',
+    description: 'should fail if a `Pipe` implements interfaces, but not the `PipeTransform`',
     annotatedSource: `
         import type { OnInit } from '@angular/core';
 

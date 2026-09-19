@@ -1,12 +1,6 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type {
-  InvalidTestCase,
-  ValidTestCase,
-} from '@typescript-eslint/rule-tester';
-import type {
-  MessageIds,
-  Options,
-} from '../../../src/rules/component-max-inline-declarations';
+import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
+import type { MessageIds, Options } from '../../../src/rules/component-max-inline-declarations';
 
 const messageId: MessageIds = 'componentMaxInlineDeclarations';
 
@@ -60,8 +54,7 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail if the number of the template lines exceeds the default lines limit',
+    description: 'should fail if the number of the template lines exceeds the default lines limit',
     annotatedSource: `
       @Component({
         template: \`
@@ -79,8 +72,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { lineCount: 4, max: 3, propertyType: 'template' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail if the number of lines exceeds a custom lines limit (template)',
+    description: 'should fail if the number of lines exceeds a custom lines limit (template)',
     annotatedSource: `
       @Component({
         template: '<div>first line</div>'
@@ -93,8 +85,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { lineCount: 1, max: 0, propertyType: 'template' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail if the number of the styles lines exceeds the default lines limit',
+    description: 'should fail if the number of the styles lines exceeds the default lines limit',
     annotatedSource: `
       @Component({
         styles: [
@@ -158,8 +149,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { lineCount: 6, max: 3, propertyType: 'styles' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail if the number of the styles lines exceeds a custom lines limit',
+    description: 'should fail if the number of the styles lines exceeds a custom lines limit',
     annotatedSource: `
       @Component({
         styles: ['div { display: none; }']
@@ -236,8 +226,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { lineCount: 18, max: 15, propertyType: 'animations' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail if the number of the animations lines exceeds a custom lines limit',
+    description: 'should fail if the number of the animations lines exceeds a custom lines limit',
     annotatedSource: `
       @Component({
         animations: [{

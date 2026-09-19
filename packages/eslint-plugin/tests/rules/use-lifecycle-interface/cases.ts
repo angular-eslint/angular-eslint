@@ -1,13 +1,7 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
 import { ASTUtils } from '@angular-eslint/utils';
-import type {
-  InvalidTestCase,
-  ValidTestCase,
-} from '@typescript-eslint/rule-tester';
-import type {
-  MessageIds,
-  Options,
-} from '../../../src/rules/use-lifecycle-interface';
+import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
+import type { MessageIds, Options } from '../../../src/rules/use-lifecycle-interface';
 
 const messageId: MessageIds = 'useLifecycleInterface';
 
@@ -369,8 +363,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       `,
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail if lifecycle method is in a class with generic type parameters',
+    description: 'should fail if lifecycle method is in a class with generic type parameters',
     annotatedSource: `
         @Component()
         class Test<T> {
@@ -395,8 +388,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       `,
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail if lifecycle method is in a class with multiple type parameters',
+    description: 'should fail if lifecycle method is in a class with multiple type parameters',
     annotatedSource: `
         @Injectable()
         class Test<A, B extends C = D> {

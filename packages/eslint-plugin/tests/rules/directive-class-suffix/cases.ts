@@ -1,12 +1,6 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type {
-  InvalidTestCase,
-  ValidTestCase,
-} from '@typescript-eslint/rule-tester';
-import type {
-  MessageIds,
-  Options,
-} from '../../../src/rules/directive-class-suffix';
+import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
+import type { MessageIds, Options } from '../../../src/rules/directive-class-suffix';
 
 const messageId: MessageIds = 'directiveClassSuffix';
 
@@ -79,8 +73,7 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
-    description:
-      'it should fail if directive class name does not end with the default suffix',
+    description: 'it should fail if directive class name does not end with the default suffix',
     annotatedSource: `
         @Directive({
           selector: 'sg-foo-bar'
@@ -105,8 +98,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { suffixes: '"Directive" or "Validator"' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'it should fail if directive class name does not end with the custom suffix',
+    description: 'it should fail if directive class name does not end with the custom suffix',
     annotatedSource: `
         @Directive({
           selector: 'sgBarFoo'

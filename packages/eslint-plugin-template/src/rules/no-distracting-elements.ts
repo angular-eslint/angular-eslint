@@ -11,8 +11,7 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description:
-        '[Accessibility] Enforces that no distracting elements are used',
+      description: '[Accessibility] Enforces that no distracting elements are used',
     },
     fixable: 'code',
     schema: [],
@@ -26,18 +25,14 @@ export default createESLintRule<Options, MessageIds>({
     const parserServices = getTemplateParserServices(context);
 
     return {
-      'Element[name=/^(blink|marquee)$/i]'({
-        name: element,
-        sourceSpan,
-      }: TmplAstElement) {
+      'Element[name=/^(blink|marquee)$/i]'({ name: element, sourceSpan }: TmplAstElement) {
         const loc = parserServices.convertNodeSourceSpanToLoc(sourceSpan);
 
         context.report({
           loc,
           messageId: 'noDistractingElements',
           data: { element },
-          fix: (fixer) =>
-            fixer.removeRange([sourceSpan.start.offset, sourceSpan.end.offset]),
+          fix: (fixer) => fixer.removeRange([sourceSpan.start.offset, sourceSpan.end.offset]),
         });
       },
     };

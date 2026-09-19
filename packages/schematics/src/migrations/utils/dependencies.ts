@@ -3,9 +3,7 @@ import { chain } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import { updateJsonInTree } from '../../utils';
 
-export function updateDependencies(
-  depsToUpdate: { packageName: string; version: string }[],
-): Rule {
+export function updateDependencies(depsToUpdate: { packageName: string; version: string }[]): Rule {
   return chain([
     updateJsonInTree('package.json', (json) => {
       for (const { packageName, version } of depsToUpdate) {

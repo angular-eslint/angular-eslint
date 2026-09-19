@@ -1,6 +1,6 @@
 import { writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { format, resolveConfig } from 'prettier';
+import { formatSource } from './format-source';
 
 (async function main() {
   const setParserOptionsProjectConfig = {
@@ -12,12 +12,7 @@ import { format, resolveConfig } from 'prettier';
 
   const tseslintPresetConfig = {
     type: 'string',
-    enum: [
-      'recommended',
-      'strict',
-      'recommendedTypeChecked',
-      'strictTypeChecked',
-    ],
+    enum: ['recommended', 'strict', 'recommendedTypeChecked', 'strictTypeChecked'],
     default: 'recommended',
     description:
       'Which typescript-eslint shared config preset to extend in the generated ESLint config. Type-checked presets also enable parserOptions.projectService (required for those rules, but slower). See https://typescript-eslint.io/users/configs/',
@@ -33,20 +28,14 @@ import { format, resolveConfig } from 'prettier';
     '../../packages/schematics/src/application/schema.json',
   );
 
-  await enhanceSchemaWithProperties(
-    applicationSchemaJsonPath,
-    angularEslintSchemaProperties,
-  );
+  await enhanceSchemaWithProperties(applicationSchemaJsonPath, angularEslintSchemaProperties);
 
   const librarySchemaJsonPath = join(
     __dirname,
     '../../packages/schematics/src/library/schema.json',
   );
 
-  await enhanceSchemaWithProperties(
-    librarySchemaJsonPath,
-    angularEslintSchemaProperties,
-  );
+  await enhanceSchemaWithProperties(librarySchemaJsonPath, angularEslintSchemaProperties);
 })();
 
 async function enhanceSchemaWithProperties(
@@ -67,15 +56,7 @@ async function enhanceSchemaWithProperties(
     2,
   );
 
-  writeFileSync(
-    schemaJsonPath,
-    await format(updatedSchemaJson, {
-      ...(await resolveConfig(schemaJsonPath)),
-      parser: 'json',
-    }),
-  );
+  writeFileSync(schemaJsonPath, formatSource(updatedSchemaJson, schemaJsonPath));
 
-  console.log(
-    `\n✨ Enhanced ${schemaJsonPath} with angular-eslint specific options`,
-  );
+  console.log(`\n✨ Enhanced ${schemaJsonPath} with angular-eslint specific options`);
 }

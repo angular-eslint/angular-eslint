@@ -1,12 +1,6 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type {
-  InvalidTestCase,
-  ValidTestCase,
-} from '@typescript-eslint/rule-tester';
-import type {
-  MessageIds,
-  Options,
-} from '../../../src/rules/click-events-have-key-events';
+import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
+import type { MessageIds, Options } from '../../../src/rules/click-events-have-key-events';
 
 const messageId: MessageIds = 'clickEventsHaveKeyEvents';
 const keyCodeMessageId: MessageIds = 'clickEventsHaveKeyCode';
@@ -191,8 +185,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description:
-      'should fail when aria-hidden is set dynamically via a property binding',
+    description: 'should fail when aria-hidden is set dynamically via a property binding',
     annotatedSource: `
       <div (click)="onClick()" [attr.aria-hidden]="ariaHidden"></div>
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -200,8 +193,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description:
-      'should fail when hidden is set dynamically via a property binding',
+    description: 'should fail when hidden is set dynamically via a property binding',
     annotatedSource: `
       <div (click)="onClick()" [attr.hidden]="hidden"></div>
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -229,8 +221,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId: keyCodeMessageId,
-    description:
-      'should fail when requireKeyCode is set and the key event does not specify a key',
+    description: 'should fail when requireKeyCode is set and the key event does not specify a key',
     annotatedSource: `
       <div (click)="onClick()" (keydown)="onKeydown()"></div>
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -260,8 +251,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId: allowedKeyCodeMessageId,
-    description:
-      'should fail when allowedKeyCodes is set and the key event does not specify a key',
+    description: 'should fail when allowedKeyCodes is set and the key event does not specify a key',
     annotatedSource: `
       <div (click)="onClick()" (keydown)="onKeydown()"></div>
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

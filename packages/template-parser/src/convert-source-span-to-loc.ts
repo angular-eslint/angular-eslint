@@ -10,9 +10,7 @@ import {
 } from '@angular-eslint/bundled-angular-compiler';
 import type { TSESLint, TSESTree } from '@typescript-eslint/utils';
 
-export function convertNodeSourceSpanToLoc(
-  sourceSpan: ParseSourceSpan,
-): TSESTree.SourceLocation {
+export function convertNodeSourceSpanToLoc(sourceSpan: ParseSourceSpan): TSESTree.SourceLocation {
   return {
     start: {
       line: sourceSpan.start.line + 1,
@@ -32,9 +30,7 @@ export function convertElementSourceSpanToLoc(
   if (node.type !== 'Element') {
     // We explicitly throw an exception since this function should not be used
     // with non-element nodes, e.g. `TextAttribute` or `MethodDefinition`, etc.
-    throw new Error(
-      'convertElementSourceSpanToLoc is intended to be used only with elements.',
-    );
+    throw new Error('convertElementSourceSpanToLoc is intended to be used only with elements.');
   }
 
   // Void elements are "self-closed" elements, e.g. `<img />` or `<area />`.
@@ -43,8 +39,7 @@ export function convertElementSourceSpanToLoc(
   if (getHtmlTagDefinition(node.name).isVoid) {
     // Fallback to the original `node` if the
     // `tryToFindTheVoidNodeThatMatchesTheSourceSpan` returns nothing.
-    node = (tryToFindTheVoidNodeThatMatchesTheSourceSpan(context, node) ||
-      node) as typeof node;
+    node = (tryToFindTheVoidNodeThatMatchesTheSourceSpan(context, node) || node) as typeof node;
   }
 
   return convertNodeSourceSpanToLoc(node.sourceSpan);
@@ -57,18 +52,12 @@ function tryToFindTheVoidNodeThatMatchesTheSourceSpan(
   // Previously, `codelyzer` used `TemplateParser` to parse a template into an AST tree.
   // The `TemplateParser` used `HtmlParser`, because `HtmlParser` still sets the end span
   // for void elements.
-  const { rootNodes } = getHtmlParser().parse(
-    context.sourceCode.getText(),
-    context.filename,
-  );
+  const { rootNodes } = getHtmlParser().parse(context.sourceCode.getText(), context.filename);
 
   return lookupTheVoidNode(rootNodes, node.sourceSpan);
 }
 
-function lookupTheVoidNode(
-  rootNodes: Node[],
-  sourceSpan: ParseSourceSpan,
-): Node | null {
+function lookupTheVoidNode(rootNodes: Node[], sourceSpan: ParseSourceSpan): Node | null {
   for (const node of rootNodes) {
     if (
       // We can't compare by `node.sourceSpan == sourceSpan` since references
@@ -83,10 +72,7 @@ function lookupTheVoidNode(
     // `HtmlParser` will return a list of root nodes, these nodes
     // can be either text or elements. Elements might have child elements.
     if (node instanceof Element) {
-      const voidNodeBeingLookedUp = lookupTheVoidNode(
-        node.children,
-        sourceSpan,
-      );
+      const voidNodeBeingLookedUp = lookupTheVoidNode(node.children, sourceSpan);
 
       if (voidNodeBeingLookedUp !== null) {
         return voidNodeBeingLookedUp;

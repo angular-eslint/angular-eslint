@@ -22,11 +22,7 @@ function updateRelevantDependencies(host: Tree, context: SchematicContext) {
     /**
      * @angular-eslint
      */
-    updateIfExists(
-      json.devDependencies,
-      '@angular-eslint/builder',
-      updatedAngularESLintVersion,
-    );
+    updateIfExists(json.devDependencies, '@angular-eslint/builder', updatedAngularESLintVersion);
     updateIfExists(
       json.devDependencies,
       '@angular-eslint/eslint-plugin',
@@ -63,10 +59,7 @@ function updateRelevantDependencies(host: Tree, context: SchematicContext) {
   })(host, context);
 }
 
-function removeRuleFromESLintConfig(
-  ruleName: string,
-  config: Linter.LegacyConfig,
-) {
+function removeRuleFromESLintConfig(ruleName: string, config: Linter.LegacyConfig) {
   if (config.rules && config.rules[ruleName]) {
     delete config.rules[ruleName];
   }

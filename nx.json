@@ -129,10 +129,7 @@
     "e2e-local": {
       "cache": true,
       "inputs": ["e2eInputs", "^production"],
-      "dependsOn": [
-        "e2e:populate-local-registry-storage",
-        "e2e:local-registry"
-      ],
+      "dependsOn": ["e2e:populate-local-registry-storage", "e2e:local-registry"],
       "configurations": {
         "updateSnapshot": {
           "args": ["run", "--update"]
@@ -144,10 +141,7 @@
     },
     "e2e-ci--**/**": {
       "inputs": ["e2eInputs", "^production"],
-      "dependsOn": [
-        "e2e:populate-local-registry-storage",
-        "e2e:local-registry"
-      ],
+      "dependsOn": ["e2e:populate-local-registry-storage", "e2e:local-registry"],
       "configurations": {
         "updateSnapshot": {
           "args": ["--update"]

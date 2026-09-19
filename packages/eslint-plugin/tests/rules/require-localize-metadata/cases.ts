@@ -1,15 +1,8 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type {
-  InvalidTestCase,
-  ValidTestCase,
-} from '@typescript-eslint/rule-tester';
-import type {
-  MessageIds,
-  Options,
-} from '../../../src/rules/require-localize-metadata';
+import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
+import type { MessageIds, Options } from '../../../src/rules/require-localize-metadata';
 
-const messageIdRequireLocalizeDescription: MessageIds =
-  'requireLocalizeDescription';
+const messageIdRequireLocalizeDescription: MessageIds = 'requireLocalizeDescription';
 const messageIdRequireLocalizeMeaning: MessageIds = 'requireLocalizeMeaning';
 const messageIdRequireLocalizeCustomId: MessageIds = 'requireLocalizeCustomId';
 export const valid: readonly (string | ValidTestCase<Options>)[] = [
@@ -200,8 +193,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     options: [{ requireCustomId: true }],
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'it should fail if the $localize custom_id has wrong delimiter',
+    description: 'it should fail if the $localize custom_id has wrong delimiter',
     annotatedSource: `
       const localizedText = $localize\`:@some.custom.id:Hello i18n!\`;
                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -213,8 +205,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     options: [{ requireCustomId: true }],
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      "it should fail if the $localize metadata doesn't contain custom_id",
+    description: "it should fail if the $localize metadata doesn't contain custom_id",
     annotatedSource: `
       const localizedText = $localize\`:meaning|description:Hello i18n!\`;
                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -226,8 +217,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     options: [{ requireCustomId: true }],
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      "it should fail if the $localize custom_id doesn't match the pattern",
+    description: "it should fail if the $localize custom_id doesn't match the pattern",
     annotatedSource: `
       const localizedText = $localize\`:@@some.custom.id:Hello i18n!\`;
                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

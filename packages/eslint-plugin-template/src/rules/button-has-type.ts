@@ -1,11 +1,5 @@
-import type {
-  ParseSourceSpan,
-  TmplAstElement,
-} from '@angular-eslint/bundled-angular-compiler';
-import {
-  ASTWithSource,
-  LiteralPrimitive,
-} from '@angular-eslint/bundled-angular-compiler';
+import type { ParseSourceSpan, TmplAstElement } from '@angular-eslint/bundled-angular-compiler';
+import { ASTWithSource, LiteralPrimitive } from '@angular-eslint/bundled-angular-compiler';
 import { getTemplateParserServices } from '@angular-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import { createIgnoredDirectiveMatcher } from '../utils/has-ignored-directive';
@@ -48,8 +42,7 @@ export default createESLintRule<Options, MessageIds>({
             uniqueItems: true,
             description:
               'Directive names that, when present on the element, cause it to be ignored. Entries wrapped in slashes, e.g. `/^tui/`, are treated as regular expressions.',
-            default: DEFAULT_OPTIONS.ignoreWithDirectives as
-              string[] | undefined,
+            default: DEFAULT_OPTIONS.ignoreWithDirectives as string[] | undefined,
           },
         },
         additionalProperties: false,
@@ -63,17 +56,14 @@ export default createESLintRule<Options, MessageIds>({
   },
   create(context, [{ ignoreWithDirectives }]) {
     const parserServices = getTemplateParserServices(context);
-    const hasIgnoredDirective =
-      createIgnoredDirectiveMatcher(ignoreWithDirectives);
+    const hasIgnoredDirective = createIgnoredDirectiveMatcher(ignoreWithDirectives);
 
     return {
       [`Element[name=/^(button)$/i]`](element: TmplAstElement) {
         if (!isTypeAttributePresentInElement(element)) {
           if (!hasIgnoredDirective(element)) {
             context.report({
-              loc: parserServices.convertNodeSourceSpanToLoc(
-                element.sourceSpan,
-              ),
+              loc: parserServices.convertNodeSourceSpanToLoc(element.sourceSpan),
               messageId: 'missingType',
             });
           }
@@ -82,9 +72,7 @@ export default createESLintRule<Options, MessageIds>({
         const invalidTypeInfo = getInvalidButtonTypeIfPresent(element);
         if (invalidTypeInfo != null) {
           context.report({
-            loc: parserServices.convertNodeSourceSpanToLoc(
-              invalidTypeInfo.sourceSpan,
-            ),
+            loc: parserServices.convertNodeSourceSpanToLoc(invalidTypeInfo.sourceSpan),
             messageId: 'invalidType',
             data: {
               [INVALID_TYPE_DATA_KEY]: invalidTypeInfo.value,
@@ -101,21 +89,13 @@ export const RULE_DOCS_EXTENSION = {
     'Buttons default to `type="submit"` when no type is specified. If placed inside a form, the button triggers a form submission on click. Enforcing the type attribute clarifies the code\'s intent and prevents unintended form submissions.',
 };
 
-function isTypeAttributePresentInElement({
-  inputs,
-  attributes,
-}: TmplAstElement): boolean {
-  return [...inputs, ...attributes].some(
-    ({ name }) => name === TYPE_ATTRIBUTE_NAME,
-  );
+function isTypeAttributePresentInElement({ inputs, attributes }: TmplAstElement): boolean {
+  return [...inputs, ...attributes].some(({ name }) => name === TYPE_ATTRIBUTE_NAME);
 }
 
-function getInvalidButtonTypeIfPresent(
-  element: TmplAstElement,
-): InvalidButtonTypeInfo | null {
+function getInvalidButtonTypeIfPresent(element: TmplAstElement): InvalidButtonTypeInfo | null {
   const invalidTextAttribute = element.attributes.find(
-    ({ name, value }) =>
-      name === TYPE_ATTRIBUTE_NAME && !VALID_BUTTON_TYPES.includes(value),
+    ({ name, value }) => name === TYPE_ATTRIBUTE_NAME && !VALID_BUTTON_TYPES.includes(value),
   );
 
   if (invalidTextAttribute) {

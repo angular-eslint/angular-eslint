@@ -63,9 +63,7 @@ export default createESLintRule<Options, MessageIds>({
   },
   create(context, [{ requireDescription, requireMeaning, requireCustomId }]) {
     return {
-      TaggedTemplateExpression(
-        taggedTemplateExpression: TSESTree.TaggedTemplateExpression,
-      ) {
+      TaggedTemplateExpression(taggedTemplateExpression: TSESTree.TaggedTemplateExpression) {
         if (
           (requireDescription || requireMeaning || requireCustomId) &&
           ASTUtils.isIdentifier(taggedTemplateExpression.tag)
@@ -142,10 +140,7 @@ function parseMetadata(rawText: string): {
   }
   const text = rawText.slice(1, endOfTheBlock);
   const [meaningAndDesc, customId] = text.split(ID_SEPARATOR, 2);
-  let [meaning, description]: (string | undefined)[] = meaningAndDesc.split(
-    MEANING_SEPARATOR,
-    2,
-  );
+  let [meaning, description]: (string | undefined)[] = meaningAndDesc.split(MEANING_SEPARATOR, 2);
   if (description === undefined) {
     description = meaning;
     meaning = undefined;

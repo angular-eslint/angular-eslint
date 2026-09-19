@@ -1,7 +1,5 @@
 import { RuleTester } from '@angular-eslint/test-utils';
-import rule, {
-  RULE_NAME,
-} from '../../../src/rules/use-pipe-transform-interface';
+import rule, { RULE_NAME } from '../../../src/rules/use-pipe-transform-interface';
 
 import { invalid, valid } from './cases';
 

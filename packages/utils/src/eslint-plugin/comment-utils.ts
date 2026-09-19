@@ -33,8 +33,7 @@ export function extractPropertyComments(
     const name = (prop.key as TSESTree.Identifier).name;
     const propRange = prop.range;
     const leadingComments: string[] = [];
-    const prevPropEnd =
-      i > 0 ? properties[i - 1].range[1] : objectExpression.range[0] + 1;
+    const prevPropEnd = i > 0 ? properties[i - 1].range[1] : objectExpression.range[0] + 1;
 
     for (const comment of allComments) {
       const rangeKey = makeRangeKey(comment.range[0], comment.range[1]);
@@ -56,10 +55,7 @@ export function extractPropertyComments(
       const commentsOnLine = commentLineMap.get(propEndLine) || [];
       for (const comment of commentsOnLine) {
         const rangeKey = makeRangeKey(comment.range[0], comment.range[1]);
-        if (
-          comment.range[0] > propRange[1] &&
-          !processedCommentRanges.has(rangeKey)
-        ) {
+        if (comment.range[0] > propRange[1] && !processedCommentRanges.has(rangeKey)) {
           const spaceBefore = sourceCode
             .getText()
             .substring(propRange[1], comment.range[0])

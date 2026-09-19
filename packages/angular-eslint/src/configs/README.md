@@ -56,10 +56,7 @@ module.exports = tseslint.config(
   },
   {
     files: ['**/*.html'],
-    extends: [
-      ...angular.configs.templateRecommended,
-      ...angular.configs.templateAccessibility,
-    ],
+    extends: [...angular.configs.templateRecommended, ...angular.configs.templateAccessibility],
     rules: {
       // our project thinks using negated async pipes is ok
       '@angular-eslint/template/no-negated-async': 'off',

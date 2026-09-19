@@ -1,8 +1,5 @@
 import { Tree } from '@angular-devkit/schematics';
-import {
-  SchematicTestRunner,
-  UnitTestTree,
-} from '@angular-devkit/schematics/testing';
+import { SchematicTestRunner, UnitTestTree } from '@angular-devkit/schematics/testing';
 import * as path from 'node:path';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { readJsonInTree } from '../../src/utils';
@@ -31,11 +28,7 @@ describe('application', () => {
     });
 
     it('should change the lint target to use the @angular-eslint builder', async () => {
-      const tree = await schematicRunner.runSchematic(
-        'application',
-        { name: 'foo' },
-        appTree,
-      );
+      const tree = await schematicRunner.runSchematic('application', { name: 'foo' }, appTree);
 
       expect(readJsonInTree(tree, 'angular.json').projects.foo.architect.lint)
         .toMatchInlineSnapshot(`
@@ -63,8 +56,7 @@ describe('application', () => {
       );
 
       expect(tree.exists('projects/foo/tslint.json')).toBe(false);
-      expect(tree.read('projects/foo/eslint.config.js')?.toString())
-        .toMatchInlineSnapshot(`
+      expect(tree.read('projects/foo/eslint.config.js')?.toString()).toMatchInlineSnapshot(`
           "// @ts-check
           const { defineConfig } = require("eslint/config");
           const rootConfig = require("../../eslint.config.js");
@@ -113,8 +105,7 @@ describe('application', () => {
       );
 
       expect(tree.exists('projects/foo/tslint.json')).toBe(false);
-      expect(tree.read('projects/foo/eslint.config.js')?.toString())
-        .toMatchInlineSnapshot(`
+      expect(tree.read('projects/foo/eslint.config.js')?.toString()).toMatchInlineSnapshot(`
           "// @ts-check
           const { defineConfig } = require("eslint/config");
           const rootConfig = require("../../eslint.config.js");
@@ -170,9 +161,7 @@ describe('application', () => {
       expect(tree.read('eslint.config.js')?.toString()).toContain(
         'tseslint.configs.strictTypeChecked',
       );
-      expect(tree.read('eslint.config.js')?.toString()).toContain(
-        'projectService: true',
-      );
+      expect(tree.read('eslint.config.js')?.toString()).toContain('projectService: true');
       expect(tree.read('projects/foo/eslint.config.js')?.toString()).toContain(
         'projectService: true',
       );
@@ -188,8 +177,7 @@ describe('application', () => {
       );
 
       expect(tree.exists('projects/foo/bar/tslint.json')).toBe(false);
-      expect(tree.read('projects/foo/bar/eslint.config.js')?.toString())
-        .toMatchInlineSnapshot(`
+      expect(tree.read('projects/foo/bar/eslint.config.js')?.toString()).toMatchInlineSnapshot(`
           "// @ts-check
           const { defineConfig } = require("eslint/config");
           const rootConfig = require("../../../eslint.config.js");

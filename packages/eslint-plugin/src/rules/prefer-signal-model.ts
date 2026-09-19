@@ -1,12 +1,5 @@
-import {
-  ASTUtils,
-  isNotNullOrUndefined,
-  RuleFixes,
-} from '@angular-eslint/utils';
-import type {
-  ParserServicesWithTypeInformation,
-  TSESTree,
-} from '@typescript-eslint/utils';
+import { ASTUtils, isNotNullOrUndefined, RuleFixes } from '@angular-eslint/utils';
+import type { ParserServicesWithTypeInformation, TSESTree } from '@typescript-eslint/utils';
 import { AST_NODE_TYPES, ESLintUtils } from '@typescript-eslint/utils';
 import ts from 'typescript';
 import { createESLintRule } from '../utils/create-eslint-rule';
@@ -36,18 +29,14 @@ interface TwoWayBinding {
   readonly output: SignalDeclaration;
 }
 
-function hasTransformOption(
-  options: TSESTree.CallExpressionArgument | undefined,
-) {
+function hasTransformOption(options: TSESTree.CallExpressionArgument | undefined) {
   return (
     options?.type === AST_NODE_TYPES.ObjectExpression &&
     options.properties.some(
       (property) =>
         property.type === AST_NODE_TYPES.Property &&
-        ((property.key.type === AST_NODE_TYPES.Identifier &&
-          property.key.name === 'transform') ||
-          (property.key.type === AST_NODE_TYPES.Literal &&
-            property.key.value === 'transform')),
+        ((property.key.type === AST_NODE_TYPES.Identifier && property.key.name === 'transform') ||
+          (property.key.type === AST_NODE_TYPES.Literal && property.key.value === 'transform')),
     )
   );
 }
@@ -57,8 +46,7 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description:
-        'Use `model` instead of `input` and `output` for two-way bindings',
+      description: 'Use `model` instead of `input` and `output` for two-way bindings',
     },
     fixable: 'code',
     schema: [
@@ -74,8 +62,7 @@ export default createESLintRule<Options, MessageIds>({
       },
     ],
     messages: {
-      preferSignalModel:
-        'Use `model` for two-way bindings instead of `input()` and `output()`',
+      preferSignalModel: 'Use `model` for two-way bindings instead of `input()` and `output()`',
     },
     defaultOptions: [{ ...DEFAULT_OPTIONS }],
   },
@@ -124,30 +111,21 @@ export default createESLintRule<Options, MessageIds>({
       if (initialValue) {
         return typeServices.program
           .getTypeChecker()
-          .getBaseTypeOfLiteralType(
-            typeServices.getTypeAtLocation(initialValue),
-          );
+          .getBaseTypeOfLiteralType(typeServices.getTypeAtLocation(initialValue));
       }
 
       return undefined;
     }
 
-    function haveEquallyWrittenTypes(
-      input: SignalDeclaration,
-      output: SignalDeclaration,
-    ) {
+    function haveEquallyWrittenTypes(input: SignalDeclaration, output: SignalDeclaration) {
       return (
         !input.typeArgument ||
         !output.typeArgument ||
-        sourceCode.getText(input.typeArgument) ===
-          sourceCode.getText(output.typeArgument)
+        sourceCode.getText(input.typeArgument) === sourceCode.getText(output.typeArgument)
       );
     }
 
-    function haveMergeableTypes(
-      input: SignalDeclaration,
-      output: SignalDeclaration,
-    ) {
+    function haveMergeableTypes(input: SignalDeclaration, output: SignalDeclaration) {
       if (!useTypeChecking) {
         return haveEquallyWrittenTypes(input, output);
       }
@@ -175,14 +153,16 @@ export default createESLintRule<Options, MessageIds>({
     }
 
     return {
-      "PropertyDefinition > CallExpression[callee.name='input']":
-        createSignalCollector(inputs, { hasInitialValueArgument: true }),
+      "PropertyDefinition > CallExpression[callee.name='input']": createSignalCollector(inputs, {
+        hasInitialValueArgument: true,
+      }),
 
       "PropertyDefinition > CallExpression[callee.object.name='input'][callee.property.name='required']":
         createSignalCollector(inputs, { hasInitialValueArgument: false }),
 
-      "PropertyDefinition > CallExpression[callee.name='output']":
-        createSignalCollector(outputs, { hasInitialValueArgument: false }),
+      "PropertyDefinition > CallExpression[callee.name='output']": createSignalCollector(outputs, {
+        hasInitialValueArgument: false,
+      }),
 
       'ClassDeclaration:exit'() {
         const twoWayBindings = [...inputs]
@@ -192,8 +172,7 @@ export default createESLintRule<Options, MessageIds>({
           }))
           .filter(
             (binding): binding is TwoWayBinding =>
-              binding.output !== undefined &&
-              haveMergeableTypes(binding.input, binding.output),
+              binding.output !== undefined && haveMergeableTypes(binding.input, binding.output),
           );
 
         for (const { input, output } of twoWayBindings) {

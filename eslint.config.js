@@ -8,11 +8,7 @@ module.exports = [
   ...nx.configs['flat/typescript'],
   ...nx.configs['flat/javascript'],
   {
-    ignores: [
-      '**/dist',
-      '**/vite.config.*.timestamp*',
-      '**/vitest.config.*.timestamp*',
-    ],
+    ignores: ['**/dist', '**/vite.config.*.timestamp*', '**/vitest.config.*.timestamp*'],
   },
   {
     files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
@@ -68,6 +64,12 @@ module.exports = [
     },
     rules: {
       'valid-rule/require-rule-docs-extension': 'error',
+    },
+  },
+  {
+    files: ['packages/nx-plugin/src/formatting/**/*.spec.ts'],
+    rules: {
+      '@nx/enforce-module-boundaries': 'off',
     },
   },
 ];

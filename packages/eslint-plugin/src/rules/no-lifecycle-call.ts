@@ -21,19 +21,12 @@ export default createESLintRule<Options, MessageIds>({
     defaultOptions: [],
   },
   create(context) {
-    const angularLifeCycleMethodsPattern = toPattern([
-      ...ASTUtils.ANGULAR_LIFECYCLE_METHODS,
-    ]);
+    const angularLifeCycleMethodsPattern = toPattern([...ASTUtils.ANGULAR_LIFECYCLE_METHODS]);
 
     return {
       [`ClassDeclaration CallExpression > MemberExpression[property.name=${angularLifeCycleMethodsPattern}]`]:
-        (
-          node: TSESTree.MemberExpression & { parent: TSESTree.CallExpression },
-        ) => {
-          const classDeclaration = ASTUtils.getNearestNodeFrom(
-            node,
-            ASTUtils.isClassDeclaration,
-          );
+        (node: TSESTree.MemberExpression & { parent: TSESTree.CallExpression }) => {
+          const classDeclaration = ASTUtils.getNearestNodeFrom(node, ASTUtils.isClassDeclaration);
 
           if (
             !classDeclaration ||
@@ -61,10 +54,7 @@ function hasSameName(
 }
 
 function isSuperCallAllowed(node: TSESTree.MemberExpression): boolean {
-  const methodDefinition = ASTUtils.getNearestNodeFrom(
-    node,
-    ASTUtils.isMethodDefinition,
-  );
+  const methodDefinition = ASTUtils.getNearestNodeFrom(node, ASTUtils.isMethodDefinition);
 
   return Boolean(methodDefinition && hasSameName(node, methodDefinition));
 }

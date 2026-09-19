@@ -32,10 +32,7 @@ export default createESLintRule<Options, MessageIds>({
           messageId: 'usePipeTransformInterface',
           fix: (fixer) => {
             const { implementsNodeReplace, implementsTextReplace } =
-              RuleFixes.getImplementsSchemaFixer(
-                classDeclaration,
-                PIPE_TRANSFORM,
-              );
+              RuleFixes.getImplementsSchemaFixer(classDeclaration, PIPE_TRANSFORM);
 
             return [
               RuleFixes.getImportAddFix({
@@ -45,10 +42,7 @@ export default createESLintRule<Options, MessageIds>({
                 moduleName: '@angular/core',
                 node: classDeclaration,
               }),
-              fixer.insertTextAfter(
-                implementsNodeReplace,
-                implementsTextReplace,
-              ),
+              fixer.insertTextAfter(implementsNodeReplace, implementsTextReplace),
             ].filter(isNotNullOrUndefined);
           },
         });

@@ -1,12 +1,6 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type {
-  InvalidTestCase,
-  ValidTestCase,
-} from '@typescript-eslint/rule-tester';
-import type {
-  MessageIds,
-  Options,
-} from '../../../src/rules/no-developer-preview';
+import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
+import type { MessageIds, Options } from '../../../src/rules/no-developer-preview';
 
 const messageId: MessageIds = 'noDeveloperPreview';
 
@@ -105,8 +99,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     },
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail if a developer preview interface is used in generic',
+    description: 'should fail if a developer preview interface is used in generic',
     annotatedSource: `
         /** @developerPreview */
         interface Test {};
@@ -119,8 +112,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     },
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail if a developer preview interface function is called',
+    description: 'should fail if a developer preview interface function is called',
     annotatedSource: `
         interface Test {
           good?: () => void;
@@ -137,8 +129,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     },
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail if a developer preview interface attribute is used',
+    description: 'should fail if a developer preview interface attribute is used',
     annotatedSource: `
         interface Test {
           good?: string;
@@ -155,8 +146,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     },
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail if a developer preview class attribute is destructured',
+    description: 'should fail if a developer preview class attribute is destructured',
     annotatedSource: `
         class Test {
           good?: string;
@@ -172,8 +162,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     },
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail if a deep developer preview interface attribute is used',
+    description: 'should fail if a deep developer preview interface attribute is used',
     annotatedSource: `
         interface Test {
           a: {
@@ -220,8 +209,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     },
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail if a developer preview class attribute is assigned',
+    description: 'should fail if a developer preview class attribute is assigned',
     annotatedSource: `
         class Test {
           good?: string;
@@ -344,8 +332,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     },
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail if a developer preview function with assignment pattern is used',
+    description: 'should fail if a developer preview function with assignment pattern is used',
     annotatedSource: `
         /** @developerPreview */
         function test(param = '') {}
@@ -384,8 +371,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     },
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail if a developer preview constant is used in a loop',
+    description: 'should fail if a developer preview constant is used in a loop',
     annotatedSource: `
         /** @developerPreview */
         const test = [];
@@ -398,8 +384,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     },
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail if a developer preview constant is used in a ternary',
+    description: 'should fail if a developer preview constant is used in a ternary',
     annotatedSource: `
         /** @developerPreview */
         const test = true;
@@ -425,8 +410,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     },
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail if a developer preview constant is used in a function call',
+    description: 'should fail if a developer preview constant is used in a function call',
     annotatedSource: `
         /** @developerPreview */
         const test = 'test';
@@ -439,8 +423,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     },
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail if a developer preview deep object property is used',
+    description: 'should fail if a developer preview deep object property is used',
     annotatedSource: `
         /** @developerPreview */
         const test = { a: { b: {} } };
@@ -453,8 +436,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     },
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail if a developer preview constant is used in object spread',
+    description: 'should fail if a developer preview constant is used in object spread',
     annotatedSource: `
         /** @developerPreview */
         const test = {};
@@ -467,8 +449,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     },
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail if a developer preview constant is used in array spread',
+    description: 'should fail if a developer preview constant is used in array spread',
     annotatedSource: `
         /** @developerPreview */
         const test = [];
@@ -498,8 +479,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     },
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail if a developer preview const is used in an assignment pattern',
+    description: 'should fail if a developer preview const is used in an assignment pattern',
     annotatedSource: `
       /** @developerPreview */
       const x = 1;
@@ -529,8 +509,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     },
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail if a developer preview constant is used in a template expression',
+    description: 'should fail if a developer preview constant is used in a template expression',
     annotatedSource: `
         /** @developerPreview */
         const test = 'test';
@@ -575,8 +554,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     },
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail if a developer preview tagged template expression is used',
+    description: 'should fail if a developer preview tagged template expression is used',
     annotatedSource: `
         /** @developerPreview */
         function $localize2(value: TemplateStringsArray) {
@@ -591,8 +569,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     },
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail if a developer preview imported function is called',
+    description: 'should fail if a developer preview imported function is called',
     annotatedSource: `
       import { developerPreviewFunction } from './dev-preview';
   
@@ -605,8 +582,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     },
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail if a developer preview imported aliased function is called',
+    description: 'should fail if a developer preview imported aliased function is called',
     annotatedSource: `
       import { developerPreviewFunction as alias } from './dev-preview';
   
@@ -645,8 +621,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     },
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail if a developer preview imported const is used in an object',
+    description: 'should fail if a developer preview imported const is used in an object',
     annotatedSource: `
       import { developerPreviewConst } from './dev-preview';
 
@@ -659,8 +634,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     },
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail if a developer preview object property is used in a destructuring',
+    description: 'should fail if a developer preview object property is used in a destructuring',
     annotatedSource: `
       import { SomeInterface } from './dev-preview';
 

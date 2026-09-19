@@ -5,8 +5,7 @@ import { createESLintRule } from '../utils/create-eslint-rule';
 export type Options = [];
 export type MessageIds = 'noOutputOnPrefix';
 export const RULE_NAME = 'no-output-on-prefix';
-const STYLE_GUIDE_LINK =
-  'https://angular.dev/guide/components/outputs#choosing-event-names';
+const STYLE_GUIDE_LINK = 'https://angular.dev/guide/components/outputs#choosing-event-names';
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
@@ -31,17 +30,10 @@ export default createESLintRule<Options, MessageIds>({
     ].join(',');
 
     return {
-      [selectors](
-        node: TSESTree.Identifier | TSESTree.Literal | TSESTree.TemplateElement,
-      ) {
-        const [propertyName, aliasName] = ASTUtils.getRawText(node)
-          .replace(/\s/g, '')
-          .split(':');
+      [selectors](node: TSESTree.Identifier | TSESTree.Literal | TSESTree.TemplateElement) {
+        const [propertyName, aliasName] = ASTUtils.getRawText(node).replace(/\s/g, '').split(':');
 
-        if (
-          !outputOnPattern.test(propertyName) &&
-          !outputOnPattern.test(aliasName)
-        ) {
+        if (!outputOnPattern.test(propertyName) && !outputOnPattern.test(aliasName)) {
           return;
         }
 

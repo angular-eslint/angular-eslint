@@ -46,10 +46,7 @@ describe('findAngularVersionMismatches', () => {
 
   it('flags a declared Angular 21 workspace', () => {
     expect(
-      findAngularVersionMismatches(
-        { dependencies: { '@angular/core': '~21.2.0' } },
-        22,
-      ),
+      findAngularVersionMismatches({ dependencies: { '@angular/core': '~21.2.0' } }, 22),
     ).toEqual([
       {
         packageName: '@angular/core',
@@ -61,10 +58,7 @@ describe('findAngularVersionMismatches', () => {
 
   it('reads Angular packages from peerDependencies', () => {
     expect(
-      findAngularVersionMismatches(
-        { peerDependencies: { '@angular/core': '^21.2.0' } },
-        22,
-      ),
+      findAngularVersionMismatches({ peerDependencies: { '@angular/core': '^21.2.0' } }, 22),
     ).toEqual([
       {
         packageName: '@angular/core',
@@ -75,9 +69,7 @@ describe('findAngularVersionMismatches', () => {
   });
 
   it('uses an installed major when the specifier is not declared', () => {
-    expect(
-      findAngularVersionMismatches({}, 22, { '@angular/cli': 21 }),
-    ).toEqual([
+    expect(findAngularVersionMismatches({}, 22, { '@angular/cli': 21 })).toEqual([
       {
         packageName: '@angular/cli',
         specifier: 'v21',

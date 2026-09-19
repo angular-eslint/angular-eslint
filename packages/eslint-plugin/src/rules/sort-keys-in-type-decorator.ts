@@ -61,14 +61,7 @@ const DEFAULT_ORDER = {
     'jit',
   ],
   // https://angular.dev/api/core/Injectable
-  Injectable: [
-    'providedIn',
-    'useClass',
-    'useExisting',
-    'useFactory',
-    'useValue',
-    'deps',
-  ],
+  Injectable: ['providedIn', 'useClass', 'useExisting', 'useFactory', 'useValue', 'deps'],
   // https://angular.dev/api/core/NgModule
   NgModule: [
     'id', // rarely used but good to have first if set
@@ -143,8 +136,7 @@ export default createESLintRule<Options, MessageIds>({
       },
     ],
     messages: {
-      incorrectOrder:
-        'Keys in @{{decorator}} decorator should be ordered: {{expectedOrder}}',
+      incorrectOrder: 'Keys in @{{decorator}} decorator should be ordered: {{expectedOrder}}',
       unconfiguredProperty:
         'Property "{{property}}" is not in the configured key order for @{{decorator}}.',
     },
@@ -154,10 +146,7 @@ export default createESLintRule<Options, MessageIds>({
     context: Readonly<TSESLint.RuleContext<MessageIds, Options>>,
     [orderConfig]: Readonly<Options>,
   ) {
-    function checkContext(
-      node: TSESTree.Decorator,
-      decoratorName: string,
-    ): void {
+    function checkContext(node: TSESTree.Decorator, decoratorName: string): void {
       const expectedOrder = orderConfig[decoratorName as keyof OrderConfig];
       if (!expectedOrder) {
         return;
@@ -169,8 +158,7 @@ export default createESLintRule<Options, MessageIds>({
       }
 
       const properties = ASTUtils.getDecoratorProperties(node);
-      const allowUnconfiguredProperties =
-        orderConfig.allowUnconfiguredProperties ?? true;
+      const allowUnconfiguredProperties = orderConfig.allowUnconfiguredProperties ?? true;
 
       if (!allowUnconfiguredProperties) {
         for (const property of properties) {
@@ -230,8 +218,7 @@ export default createESLintRule<Options, MessageIds>({
 
         if (
           actualConfiguredOrder.length &&
-          JSON.stringify(actualConfiguredOrder) !==
-            JSON.stringify(expectedConfiguredOrder)
+          JSON.stringify(actualConfiguredOrder) !== JSON.stringify(expectedConfiguredOrder)
         ) {
           const firstOutOfOrderIndex = actualConfiguredOrder.findIndex(
             (key, index) => key !== expectedConfiguredOrder[index],
@@ -276,13 +263,9 @@ function createInvalidSortRuleForDecorator(
   properties: TSESTree.Property[],
   node: TSESTree.Property,
 ): void {
-  const presentProps = properties.map(
-    (prop) => (prop.key as TSESTree.Identifier).name,
-  );
+  const presentProps = properties.map((prop) => (prop.key as TSESTree.Identifier).name);
 
-  const relevantExpectedOrder = expectedOrder.filter((propName) =>
-    presentProps.includes(propName),
-  );
+  const relevantExpectedOrder = expectedOrder.filter((propName) => presentProps.includes(propName));
 
   const data = {
     decorator: decoratorName,
@@ -316,20 +299,11 @@ function reportAndFix(
     messageId,
     data,
     fix(fixer) {
-      const indentation = CommentUtils.getObjectIndentation(
-        sourceCode,
-        objectExpression,
-      );
+      const indentation = CommentUtils.getObjectIndentation(sourceCode, objectExpression);
 
-      const propNames = properties.map(
-        (p) => (p.key as TSESTree.Identifier).name,
-      );
-      const configuredProps = expectedOrder.filter((name) =>
-        propNames.includes(name),
-      );
-      const unconfiguredProps = propNames.filter(
-        (name) => !expectedOrder.includes(name),
-      );
+      const propNames = properties.map((p) => (p.key as TSESTree.Identifier).name);
+      const configuredProps = expectedOrder.filter((name) => propNames.includes(name));
+      const unconfiguredProps = propNames.filter((name) => !expectedOrder.includes(name));
       const filteredOrder = [...configuredProps, ...unconfiguredProps];
 
       const propInfoMap = CommentUtils.extractPropertyComments(
@@ -345,10 +319,7 @@ function reportAndFix(
         indentation,
       );
 
-      return fixer.replaceText(
-        objectExpression,
-        `{\n${sortedText}\n${indentation.slice(0, -2)}}`,
-      );
+      return fixer.replaceText(objectExpression, `{\n${sortedText}\n${indentation.slice(0, -2)}}`);
     },
   });
 }

@@ -1,12 +1,6 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type {
-  InvalidTestCase,
-  ValidTestCase,
-} from '@typescript-eslint/rule-tester';
-import type {
-  MessageIds,
-  Options,
-} from '../../../src/rules/contextual-decorator';
+import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
+import type { MessageIds, Options } from '../../../src/rules/contextual-decorator';
 
 const messageId: MessageIds = 'contextualDecorator';
 
@@ -861,8 +855,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   // `@Injectable()`.
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description:
-      'should fail if getter accessor is decorated with @Input() decorator',
+    description: 'should fail if getter accessor is decorated with @Input() decorator',
     annotatedSource: `
         @Injectable({
           providedIn: 'root'
@@ -883,8 +876,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description:
-      'should fail if setter accessor is decorated with @Input() decorator',
+    description: 'should fail if setter accessor is decorated with @Input() decorator',
     annotatedSource: `
         @Injectable({
           providedIn: 'root'
@@ -905,8 +897,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description:
-      'should fail if setter accessor is decorated with @ViewChild() decorator',
+    description: 'should fail if setter accessor is decorated with @ViewChild() decorator',
     annotatedSource: `
         @Injectable({
           providedIn: 'root'
@@ -924,8 +915,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   // Methods.
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description:
-      'should fail if a method is decorated with @HostListener() decorator',
+    description: 'should fail if a method is decorated with @HostListener() decorator',
     annotatedSource: `
         @Injectable({
           providedIn: 'root'
@@ -943,8 +933,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   // Parameter properties.
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description:
-      'should fail if a parameter property is decorated with @Attribute() decorator',
+    description: 'should fail if a parameter property is decorated with @Attribute() decorator',
     annotatedSource: `
         @Injectable({
           providedIn: 'root'
@@ -961,8 +950,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   // Properties.
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description:
-      'should fail if a property is decorated with @ContentChild() decorator',
+    description: 'should fail if a property is decorated with @ContentChild() decorator',
     annotatedSource: `
         @Injectable({
           providedIn: 'root'
@@ -976,8 +964,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description:
-      'should fail if a property is decorated with @ContentChildren() decorator',
+    description: 'should fail if a property is decorated with @ContentChildren() decorator',
     annotatedSource: `
         @Injectable({
           providedIn: 'root'
@@ -991,8 +978,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description:
-      'should fail if a property is decorated with @HostBinding() decorator',
+    description: 'should fail if a property is decorated with @HostBinding() decorator',
     annotatedSource: `
         @Injectable({
           providedIn: 'root'
@@ -1006,8 +992,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description:
-      'should fail if a property is decorated with @Input() decorator',
+    description: 'should fail if a property is decorated with @Input() decorator',
     annotatedSource: `
         @NgModule({
           providers: []
@@ -1021,8 +1006,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description:
-      'should fail if a property is decorated with @Output() decorator',
+    description: 'should fail if a property is decorated with @Output() decorator',
     annotatedSource: `
         @NgModule({
           providers: []
@@ -1036,8 +1020,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description:
-      'should fail if a property is decorated with @ViewChild() decorator',
+    description: 'should fail if a property is decorated with @ViewChild() decorator',
     annotatedSource: `
         @NgModule({
           providers: []
@@ -1051,8 +1034,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description:
-      'should fail if a property is decorated with @ViewChildren() decorator',
+    description: 'should fail if a property is decorated with @ViewChildren() decorator',
     annotatedSource: `
         @NgModule({
           providers: []
@@ -1066,8 +1048,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   // Multiple declarations.
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail if declarations are decorated with non allowed decorator',
+    description: 'should fail if declarations are decorated with non allowed decorator',
     annotatedSource: `
         @NgModule({
           providers: []
@@ -1148,8 +1129,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   // `@Pipe()`.
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description:
-      'should fail if getter accessor is decorated with @Input() decorator',
+    description: 'should fail if getter accessor is decorated with @Input() decorator',
     annotatedSource: `
         @Pipe({
           name: 'test'
@@ -1170,8 +1150,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description:
-      'should fail if setter accessor is decorated with @Input() decorator',
+    description: 'should fail if setter accessor is decorated with @Input() decorator',
     annotatedSource: `
         @Pipe({
           name: 'test'
@@ -1192,8 +1171,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description:
-      'should fail if setter accessor is decorated with @ViewChild() decorator',
+    description: 'should fail if setter accessor is decorated with @ViewChild() decorator',
     annotatedSource: `
         @Pipe({
           name: 'test'
@@ -1210,8 +1188,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description:
-      'should fail if a method is decorated with @HostListener() decorator',
+    description: 'should fail if a method is decorated with @HostListener() decorator',
     annotatedSource: `
         @Pipe({
           name: 'test'
@@ -1228,8 +1205,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description:
-      'should fail if a parameter property is decorated with @Attribute() decorator',
+    description: 'should fail if a parameter property is decorated with @Attribute() decorator',
     annotatedSource: `
         @Pipe({
           name: 'test'
@@ -1245,8 +1221,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description:
-      'should fail if a property is decorated with @ContentChild() decorator',
+    description: 'should fail if a property is decorated with @ContentChild() decorator',
     annotatedSource: `
         @Pipe({
           name: 'test'
@@ -1260,8 +1235,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description:
-      'should fail if a property is decorated with @ContentChildren() decorator',
+    description: 'should fail if a property is decorated with @ContentChildren() decorator',
     annotatedSource: `
         @Pipe({
           name: 'test'
@@ -1275,8 +1249,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description:
-      'should fail if a property is decorated with @HostBinding() decorator',
+    description: 'should fail if a property is decorated with @HostBinding() decorator',
     annotatedSource: `
         @Pipe({
           name: 'test'
@@ -1290,8 +1263,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description:
-      'should fail if a property is decorated with @Input() decorator',
+    description: 'should fail if a property is decorated with @Input() decorator',
     annotatedSource: `
         @Pipe({
           name: 'test'
@@ -1305,8 +1277,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description:
-      'should fail if a property is decorated with @Output() decorator',
+    description: 'should fail if a property is decorated with @Output() decorator',
     annotatedSource: `
         @Pipe({
           name: 'test'
@@ -1320,8 +1291,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description:
-      'should fail if a property is decorated with @ViewChild() decorator',
+    description: 'should fail if a property is decorated with @ViewChild() decorator',
     annotatedSource: `
         @Pipe({
           name: 'test'
@@ -1335,8 +1305,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     messageId,
-    description:
-      'should fail if a property is decorated with @ViewChildren() decorator',
+    description: 'should fail if a property is decorated with @ViewChildren() decorator',
     annotatedSource: `
         @Pipe({
           name: 'test'
@@ -1349,8 +1318,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { classDecoratorName: 'Pipe' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail if declarations are decorated with non allowed decorator',
+    description: 'should fail if declarations are decorated with non allowed decorator',
     annotatedSource: `
         @Pipe({
           name: 'test'

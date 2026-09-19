@@ -26,8 +26,7 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description:
-        'The conditional complexity should not exceed a rational limit',
+      description: 'The conditional complexity should not exceed a rational limit',
     },
     schema: [
       {
@@ -53,11 +52,7 @@ export default createESLintRule<Options, MessageIds>({
 
     return {
       BoundAttribute(node: TmplAstBoundAttribute & { value: ASTWithSource }) {
-        if (
-          !node.value.source ||
-          !node.valueSpan ||
-          node.value.ast instanceof Interpolation
-        ) {
+        if (!node.value.source || !node.valueSpan || node.value.ast instanceof Interpolation) {
           return;
         }
 
@@ -121,37 +116,28 @@ function getParser(): Parser {
 }
 
 function getTotalComplexity(ast: AST): number {
-  const possibleBinaryOrConditional =
-    extractPossibleBinaryOrConditionalFrom(ast);
+  const possibleBinaryOrConditional = extractPossibleBinaryOrConditionalFrom(ast);
 
-  if (!(
-    possibleBinaryOrConditional instanceof Binary ||
-    possibleBinaryOrConditional instanceof Conditional
-  )) {
+  if (
+    !(
+      possibleBinaryOrConditional instanceof Binary ||
+      possibleBinaryOrConditional instanceof Conditional
+    )
+  ) {
     return 0;
   }
 
   let total = 1;
 
   if (possibleBinaryOrConditional instanceof Binary) {
-    const leftUnwrapped = unwrapParenthesizedExpression(
-      possibleBinaryOrConditional.left,
-    );
-    const rightUnwrapped = unwrapParenthesizedExpression(
-      possibleBinaryOrConditional.right,
-    );
+    const leftUnwrapped = unwrapParenthesizedExpression(possibleBinaryOrConditional.left);
+    const rightUnwrapped = unwrapParenthesizedExpression(possibleBinaryOrConditional.right);
 
-    if (
-      leftUnwrapped instanceof Binary ||
-      leftUnwrapped instanceof Conditional
-    ) {
+    if (leftUnwrapped instanceof Binary || leftUnwrapped instanceof Conditional) {
       total += getTotalComplexity(possibleBinaryOrConditional.left);
     }
 
-    if (
-      rightUnwrapped instanceof Binary ||
-      rightUnwrapped instanceof Conditional
-    ) {
+    if (rightUnwrapped instanceof Binary || rightUnwrapped instanceof Conditional) {
       total += getTotalComplexity(possibleBinaryOrConditional.right);
     }
   }

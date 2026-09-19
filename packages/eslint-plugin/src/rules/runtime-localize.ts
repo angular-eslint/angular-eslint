@@ -11,8 +11,7 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description:
-        'Ensures that $localize tagged messages can use runtime-loaded translations.',
+      description: 'Ensures that $localize tagged messages can use runtime-loaded translations.',
     },
     schema: [],
     messages: {
@@ -22,22 +21,17 @@ export default createESLintRule<Options, MessageIds>({
   },
   create(context) {
     return {
-      TaggedTemplateExpression(
-        taggedTemplateExpression: TSESTree.TaggedTemplateExpression,
-      ) {
+      TaggedTemplateExpression(taggedTemplateExpression: TSESTree.TaggedTemplateExpression) {
         if (
           ASTUtils.isIdentifier(taggedTemplateExpression.tag) &&
           taggedTemplateExpression.tag.name === '$localize'
         ) {
-          for (const ancestor of context.sourceCode.getAncestors(
-            taggedTemplateExpression,
-          )) {
+          for (const ancestor of context.sourceCode.getAncestors(taggedTemplateExpression)) {
             if (
               ancestor.type === AST_NODE_TYPES.FunctionDeclaration ||
               ancestor.type === AST_NODE_TYPES.FunctionExpression ||
               ancestor.type === AST_NODE_TYPES.ArrowFunctionExpression ||
-              (ancestor.type === AST_NODE_TYPES.PropertyDefinition &&
-                !ancestor.static)
+              (ancestor.type === AST_NODE_TYPES.PropertyDefinition && !ancestor.static)
             ) {
               return;
             }

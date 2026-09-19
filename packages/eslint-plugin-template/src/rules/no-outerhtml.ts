@@ -39,9 +39,7 @@ export default createESLintRule<Options, MessageIds>({
         }
 
         context.report({
-          loc: parserServices.convertNodeSourceSpanToLoc(
-            node.keySpan ?? node.sourceSpan,
-          ),
+          loc: parserServices.convertNodeSourceSpanToLoc(node.keySpan ?? node.sourceSpan),
           messageId: 'noOuterHtml',
         });
       },

@@ -1,12 +1,6 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type {
-  InvalidTestCase,
-  ValidTestCase,
-} from '@typescript-eslint/rule-tester';
-import type {
-  MessageIds,
-  Options,
-} from '../../../src/rules/no-empty-lifecycle-method';
+import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
+import type { MessageIds, Options } from '../../../src/rules/no-empty-lifecycle-method';
 
 const messageId: MessageIds = 'noEmptyLifecycleMethod';
 const suggestRemoveLifecycleMethod: MessageIds = 'suggestRemoveLifecycleMethod';
@@ -354,8 +348,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     ],
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail if `ngOnDestroy()` method is empty in a @Service class',
+    description: 'should fail if `ngOnDestroy()` method is empty in a @Service class',
     annotatedSource: `
       @Service()
       class Test {

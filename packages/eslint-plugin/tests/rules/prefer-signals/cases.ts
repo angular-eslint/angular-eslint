@@ -1,8 +1,7 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
 import type { MessageIds } from '../../../src/rules/prefer-signals';
 
-const messageIdPreferReadonlySignalProperties: MessageIds =
-  'preferReadonlySignalProperties';
+const messageIdPreferReadonlySignalProperties: MessageIds = 'preferReadonlySignalProperties';
 const messageIdPreferInputSignals: MessageIds = 'preferInputSignals';
 const messageIdPreferQuerySignals: MessageIds = 'preferQuerySignals';
 
@@ -580,8 +579,7 @@ export const invalid = [
       `,
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail when a Signal calculated with type-checking is not readonly',
+    description: 'should fail when a Signal calculated with type-checking is not readonly',
     annotatedSource: `
       class Test {
         testSignal = createSignal();

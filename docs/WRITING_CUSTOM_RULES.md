@@ -99,8 +99,7 @@ export const rule = ESLintUtils.RuleCreator.withoutDocs<Options, MessageIds>({
       },
     ],
     messages: {
-      serviceSuffix:
-        'Service class should end with one of these suffixes: {{suffixes}}',
+      serviceSuffix: 'Service class should end with one of these suffixes: {{suffixes}}',
     },
   },
   defaultOptions: [
@@ -118,9 +117,7 @@ export const rule = ESLintUtils.RuleCreator.withoutDocs<Options, MessageIds>({
         }
 
         const className = classDeclaration.id.name;
-        const hasValidSuffix = suffixes.some((suffix) =>
-          className.endsWith(suffix),
-        );
+        const hasValidSuffix = suffixes.some((suffix) => className.endsWith(suffix));
 
         if (!hasValidSuffix) {
           context.report({
@@ -175,9 +172,7 @@ export const rule = ESLintUtils.RuleCreator.withoutDocs<Options, MessageIds>({
         );
 
         if (!hasDataFoo) {
-          const loc = parserServices.convertNodeSourceSpanToLoc(
-            node.sourceSpan,
-          );
+          const loc = parserServices.convertNodeSourceSpanToLoc(node.sourceSpan);
 
           context.report({
             loc,
@@ -198,10 +193,7 @@ export const rule = ESLintUtils.RuleCreator.withoutDocs<Options, MessageIds>({
 
 ```typescript
 import { RuleTester } from '@angular-eslint/test-utils';
-import type {
-  InvalidTestCase,
-  ValidTestCase,
-} from '@typescript-eslint/rule-tester';
+import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
 import { rule, RULE_NAME } from '../../src/rules/service-class-suffix';
 import type { MessageIds, Options } from '../../src/rules/service-class-suffix';
 
@@ -272,10 +264,7 @@ ruleTester.run(RULE_NAME, rule, {
 
 ```typescript
 import { RuleTester } from '@angular-eslint/test-utils';
-import type {
-  InvalidTestCase,
-  ValidTestCase,
-} from '@typescript-eslint/rule-tester';
+import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
 import { rule, RULE_NAME } from '../../src/rules/require-data-foo';
 import type { MessageIds, Options } from '../../src/rules/require-data-foo';
 

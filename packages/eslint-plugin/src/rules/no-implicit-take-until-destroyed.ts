@@ -6,10 +6,8 @@ export type Options = [];
 export type MessageIds = 'noImplicitTakeUntilDestroyed';
 export const RULE_NAME = 'no-implicit-take-until-destroyed';
 
-const RXJS_INTEROP_LINK =
-  'https://angular.dev/ecosystem/rxjs-interop/take-until-destroyed';
-const DEPENDENCY_INJECTION_CONTEXT =
-  'https://angular.dev/guide/di/dependency-injection-context';
+const RXJS_INTEROP_LINK = 'https://angular.dev/ecosystem/rxjs-interop/take-until-destroyed';
+const DEPENDENCY_INJECTION_CONTEXT = 'https://angular.dev/guide/di/dependency-injection-context';
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
@@ -53,14 +51,8 @@ function isInInjectionContext(node: TSESTree.Node): boolean {
       return true;
     }
 
-    if (
-      ASTUtils.isPropertyDefinition(current) ||
-      isConstructorMethod(current)
-    ) {
-      const classDeclaration = ASTUtils.getNearestNodeFrom(
-        current,
-        ASTUtils.isClassDeclaration,
-      );
+    if (ASTUtils.isPropertyDefinition(current) || isConstructorMethod(current)) {
+      const classDeclaration = ASTUtils.getNearestNodeFrom(current, ASTUtils.isClassDeclaration);
 
       if (!classDeclaration) {
         current = current.parent;
@@ -75,10 +67,7 @@ function isInInjectionContext(node: TSESTree.Node): boolean {
     }
 
     if (isNonConstructorMethod(current)) {
-      const classDeclaration = ASTUtils.getNearestNodeFrom(
-        current,
-        ASTUtils.isClassDeclaration,
-      );
+      const classDeclaration = ASTUtils.getNearestNodeFrom(current, ASTUtils.isClassDeclaration);
 
       if (classDeclaration) {
         const decorator = ASTUtils.getAngularClassDecorator(classDeclaration);
@@ -86,10 +75,7 @@ function isInInjectionContext(node: TSESTree.Node): boolean {
         if (
           decorator &&
           decorator !== 'NgModule' &&
-          isMethodCalledFromInjectionContext(
-            current as TSESTree.MethodDefinition,
-            classDeclaration,
-          )
+          isMethodCalledFromInjectionContext(current as TSESTree.MethodDefinition, classDeclaration)
         ) {
           return true;
         }
@@ -103,17 +89,11 @@ function isInInjectionContext(node: TSESTree.Node): boolean {
 }
 
 function isConstructorMethod(node: TSESTree.Node) {
-  return (
-    node.type === AST_NODE_TYPES.MethodDefinition && node.kind === 'constructor'
-  );
+  return node.type === AST_NODE_TYPES.MethodDefinition && node.kind === 'constructor';
 }
 
-function isNonConstructorMethod(
-  node: TSESTree.Node,
-): node is TSESTree.MethodDefinition {
-  return (
-    node.type === AST_NODE_TYPES.MethodDefinition && node.kind !== 'constructor'
-  );
+function isNonConstructorMethod(node: TSESTree.Node): node is TSESTree.MethodDefinition {
+  return node.type === AST_NODE_TYPES.MethodDefinition && node.kind !== 'constructor';
 }
 
 function getMethodName(node: TSESTree.MethodDefinition): string | null {
@@ -208,10 +188,7 @@ function containsCallToMethod(
     if (child && typeof child === 'object') {
       if (Array.isArray(child)) {
         for (const item of child) {
-          if (
-            isASTNode(item) &&
-            containsCallToMethod(item, methodName, isPrivateField)
-          ) {
+          if (isASTNode(item) && containsCallToMethod(item, methodName, isPrivateField)) {
             return true;
           }
         }
@@ -242,10 +219,7 @@ function isInFactoryFunction(node: TSESTree.Node): boolean {
 
   const key = parent.key;
 
-  if (
-    key.type === AST_NODE_TYPES.Identifier &&
-    ['factory', 'useFactory'].includes(key.name)
-  ) {
+  if (key.type === AST_NODE_TYPES.Identifier && ['factory', 'useFactory'].includes(key.name)) {
     return true;
   }
 

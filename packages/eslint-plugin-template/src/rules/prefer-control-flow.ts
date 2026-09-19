@@ -16,8 +16,7 @@ export default createESLintRule<Options, MessageIds>({
     },
     schema: [],
     messages: {
-      preferControlFlow:
-        'Use built-in control flow instead of directive {{name}}.',
+      preferControlFlow: 'Use built-in control flow instead of directive {{name}}.',
     },
     defaultOptions: [],
   },

@@ -29,9 +29,7 @@ export default createESLintRule<Options, MessageIds>({
       'Service',
     ]);
 
-    const angularLifecycleMethodsPattern = toPattern([
-      ...ASTUtils.ANGULAR_LIFECYCLE_METHODS,
-    ]);
+    const angularLifecycleMethodsPattern = toPattern([...ASTUtils.ANGULAR_LIFECYCLE_METHODS]);
 
     return {
       [`${Selectors.decoratorDefinition(

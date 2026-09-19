@@ -1,12 +1,6 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type {
-  InvalidTestCase,
-  ValidTestCase,
-} from '@typescript-eslint/rule-tester';
-import type {
-  MessageIds,
-  Options,
-} from '../../../src/rules/prefer-self-closing-tags';
+import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
+import type { MessageIds, Options } from '../../../src/rules/prefer-self-closing-tags';
 
 const messageId: MessageIds = 'preferSelfClosingTags';
 
@@ -96,8 +90,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     `,
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail if an element with attributes has a closing tag but no content',
+    description: 'should fail if an element with attributes has a closing tag but no content',
     annotatedSource: `
       <my-component *ngIf="condition" type="text" [name]="foo"></my-component>
                                                                ~~~~~~~~~~~~~~~
@@ -109,8 +102,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'it should fail if a multiline element has a closing tag but no content',
+    description: 'it should fail if a multiline element has a closing tag but no content',
     annotatedSource: `
       <my-component
         type="text"
@@ -129,8 +121,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail if the opening and closing tag are on the same new line',
+    description: 'should fail if the opening and closing tag are on the same new line',
     annotatedSource: `
       <my-component
         type="text"
@@ -215,8 +206,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail on ng-content elements with no content and > in the selector',
+    description: 'should fail on ng-content elements with no content and > in the selector',
     annotatedSource: `
       <ng-content select="foo>bar">
       </ng-content>

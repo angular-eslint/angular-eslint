@@ -1,13 +1,4 @@
-import {
-  describe,
-  it,
-  expect,
-  beforeAll,
-  beforeEach,
-  afterEach,
-  afterAll,
-  vi,
-} from 'vitest';
+import { describe, it, expect, beforeAll, beforeEach, afterEach, afterAll, vi } from 'vitest';
 import { Architect } from '@angular-devkit/architect';
 import { TestingArchitectHost } from '@angular-devkit/architect/testing';
 import { json, logging, schema } from '@angular-devkit/core';
@@ -43,19 +34,13 @@ const mockFormatter = {
   format: vi
     .fn()
     .mockImplementation((results: ESLint.LintResult[]): string =>
-      results
-        .map(({ messages }) =>
-          messages.map(({ message }) => message).join('\n'),
-        )
-        .join('\n'),
+      results.map(({ messages }) => messages.map(({ message }) => message).join('\n')).join('\n'),
     ),
 };
 const mockLoadFormatter = vi.fn().mockReturnValue(mockFormatter);
 const mockOutputFixes = vi.fn();
 
-let mockReports: unknown[] = [
-  { results: [], messages: [], usedDeprecatedRules: [] },
-];
+let mockReports: unknown[] = [{ results: [], messages: [], usedDeprecatedRules: [] }];
 
 class MockESLint {
   static outputFixes = mockOutputFixes;
@@ -79,9 +64,7 @@ vi.mock(import('./utils/eslint-utils.js'), async (importOriginal) => {
   };
 });
 
-function createValidRunBuilderOptions(
-  additionalOptions: Partial<Schema> = {},
-): Schema {
+function createValidRunBuilderOptions(additionalOptions: Partial<Schema> = {}): Schema {
   return {
     lintFilePatterns: [],
     eslintConfig: null,
@@ -109,13 +92,9 @@ const registry = new json.schema.CoreSchemaRegistry();
 registry.addPostTransform(schema.transforms.addUndefinedDefaults);
 
 const mockGetProjectMetadata = vi.fn();
-const testArchitectHost = new TestingArchitectHost(
-  testWorkspaceRoot,
-  testWorkspaceRoot,
-  {
-    getProjectMetadata: mockGetProjectMetadata,
-  } as any,
-);
+const testArchitectHost = new TestingArchitectHost(testWorkspaceRoot, testWorkspaceRoot, {
+  getProjectMetadata: mockGetProjectMetadata,
+} as any);
 const builderName = '@angular-eslint/builder:lint';
 
 // Builder implementation will be loaded in beforeAll
@@ -564,12 +543,8 @@ describe('Linter Builder', () => {
           silent: false,
         }),
       );
-      expect(console.error).toHaveBeenCalledWith(
-        'Lint errors found in the listed files.\n',
-      );
-      expect(console.warn).toHaveBeenCalledWith(
-        'Lint warnings found in the listed files.\n',
-      );
+      expect(console.error).toHaveBeenCalledWith('Lint errors found in the listed files.\n');
+      expect(console.warn).toHaveBeenCalledWith('Lint warnings found in the listed files.\n');
     });
     it('should log if there are no warnings or errors', async () => {
       mockReports = [
@@ -596,12 +571,8 @@ describe('Linter Builder', () => {
           silent: false,
         }),
       );
-      expect(console.error).not.toHaveBeenCalledWith(
-        'Lint errors found in the listed files.\n',
-      );
-      expect(console.warn).not.toHaveBeenCalledWith(
-        'Lint warnings found in the listed files.\n',
-      );
+      expect(console.error).not.toHaveBeenCalledWith('Lint errors found in the listed files.\n');
+      expect(console.warn).not.toHaveBeenCalledWith('Lint warnings found in the listed files.\n');
       expect(console.info).toHaveBeenCalledWith('All files pass linting.\n');
     });
     it('should not log if the silent flag was passed', async () => {
@@ -630,12 +601,8 @@ describe('Linter Builder', () => {
           silent: true,
         }),
       );
-      expect(console.error).not.toHaveBeenCalledWith(
-        'Lint errors found in the listed files.\n',
-      );
-      expect(console.warn).not.toHaveBeenCalledWith(
-        'Lint warnings found in the listed files.\n',
-      );
+      expect(console.error).not.toHaveBeenCalledWith('Lint errors found in the listed files.\n');
+      expect(console.warn).not.toHaveBeenCalledWith('Lint warnings found in the listed files.\n');
     });
     it('should not log warnings if the quiet flag was passed', async () => {
       mockReports = [
@@ -672,12 +639,8 @@ describe('Linter Builder', () => {
         }),
       );
       expect(console.info).not.toHaveBeenCalledWith('Mock warning message\n');
-      expect(console.error).not.toHaveBeenCalledWith(
-        'Lint errors found in the listed files.\n',
-      );
-      expect(console.warn).not.toHaveBeenCalledWith(
-        'Lint warnings found in the listed files.\n',
-      );
+      expect(console.error).not.toHaveBeenCalledWith('Lint errors found in the listed files.\n');
+      expect(console.warn).not.toHaveBeenCalledWith('Lint warnings found in the listed files.\n');
       expect(console.info).toHaveBeenCalledWith('All files pass linting.\n');
     });
   });
@@ -847,12 +810,9 @@ describe('Linter Builder', () => {
         outputFile: 'a/b/c/outputFile1',
       }),
     );
-    expect(fs.mkdirSync).toHaveBeenCalledWith(
-      join(testWorkspaceRoot, 'a/b/c'),
-      {
-        recursive: true,
-      },
-    );
+    expect(fs.mkdirSync).toHaveBeenCalledWith(join(testWorkspaceRoot, 'a/b/c'), {
+      recursive: true,
+    });
     expect(fs.writeFileSync).toHaveBeenCalledWith(
       join(testWorkspaceRoot, 'a/b/c/outputFile1'),
       mockFormatter.format(mockReports),
@@ -878,12 +838,9 @@ describe('Linter Builder', () => {
         outputFile: 'reports/{projectName}.json',
       }),
     );
-    expect(fs.mkdirSync).toHaveBeenCalledWith(
-      join(testWorkspaceRoot, 'reports'),
-      {
-        recursive: true,
-      },
-    );
+    expect(fs.mkdirSync).toHaveBeenCalledWith(join(testWorkspaceRoot, 'reports'), {
+      recursive: true,
+    });
     expect(fs.writeFileSync).toHaveBeenCalledWith(
       join(testWorkspaceRoot, 'reports/test-project.json'),
       mockFormatter.format(mockReports),
@@ -909,12 +866,9 @@ describe('Linter Builder', () => {
         outputFile: '{projectRoot}/lint-results.json',
       }),
     );
-    expect(fs.mkdirSync).toHaveBeenCalledWith(
-      join(testWorkspaceRoot, 'packages/test-project'),
-      {
-        recursive: true,
-      },
-    );
+    expect(fs.mkdirSync).toHaveBeenCalledWith(join(testWorkspaceRoot, 'packages/test-project'), {
+      recursive: true,
+    });
     expect(fs.writeFileSync).toHaveBeenCalledWith(
       join(testWorkspaceRoot, 'packages/test-project/lint-results.json'),
       mockFormatter.format(mockReports),
@@ -947,10 +901,7 @@ describe('Linter Builder', () => {
       },
     );
     expect(fs.writeFileSync).toHaveBeenCalledWith(
-      join(
-        testWorkspaceRoot,
-        'packages/test-project/reports/test-project/results.json',
-      ),
+      join(testWorkspaceRoot, 'packages/test-project/reports/test-project/results.json'),
       mockFormatter.format(mockReports),
     );
   });
@@ -974,12 +925,9 @@ describe('Linter Builder', () => {
         outputFile: '{projectName}/reports/{projectName}.json',
       }),
     );
-    expect(fs.mkdirSync).toHaveBeenCalledWith(
-      join(testWorkspaceRoot, 'test-project/reports'),
-      {
-        recursive: true,
-      },
-    );
+    expect(fs.mkdirSync).toHaveBeenCalledWith(join(testWorkspaceRoot, 'test-project/reports'), {
+      recursive: true,
+    });
     expect(fs.writeFileSync).toHaveBeenCalledWith(
       join(testWorkspaceRoot, 'test-project/reports/test-project.json'),
       mockFormatter.format(mockReports),
@@ -997,9 +945,7 @@ describe('Linter Builder', () => {
       },
     ];
     // Make getProjectMetadata throw an error to test the catch block
-    mockGetProjectMetadata.mockRejectedValueOnce(
-      new Error('Failed to get metadata'),
-    );
+    mockGetProjectMetadata.mockRejectedValueOnce(new Error('Failed to get metadata'));
     await runBuilder(
       createValidRunBuilderOptions({
         eslintConfig: './eslint.config.js',
@@ -1127,9 +1073,7 @@ describe('Linter Builder', () => {
     );
 
     expect(result.success).toBe(false);
-    expect(console.error).toHaveBeenCalledWith(
-      expect.stringContaining(expectedPath),
-    );
+    expect(console.error).toHaveBeenCalledWith(expect.stringContaining(expectedPath));
   });
   it('should correctly create the path for the suppressions file', async () => {
     await runBuilder(

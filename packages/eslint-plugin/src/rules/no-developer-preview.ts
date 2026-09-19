@@ -1,11 +1,6 @@
 import { createESLintRule } from '../utils/create-eslint-rule';
 import { getParserServices } from '@typescript-eslint/utils/eslint-utils';
-import {
-  getSymbols,
-  hasJsDocTag,
-  isDeclaration,
-  isInsideExportOrImport,
-} from '../utils/jsdoc';
+import { getSymbols, hasJsDocTag, isDeclaration, isInsideExportOrImport } from '../utils/jsdoc';
 
 export type Options = [];
 export type MessageIds = 'noDeveloperPreview';

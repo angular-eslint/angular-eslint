@@ -1,8 +1,4 @@
-import {
-  ASTUtils,
-  getNativeEventNames,
-  Selectors,
-} from '@angular-eslint/utils';
+import { ASTUtils, getNativeEventNames, Selectors } from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
@@ -35,17 +31,10 @@ export default createESLintRule<Options, MessageIds>({
     ].join(',');
 
     return {
-      [selectors](
-        node: TSESTree.Identifier | TSESTree.Literal | TSESTree.TemplateElement,
-      ) {
-        const [propertyName, aliasName] = ASTUtils.getRawText(node)
-          .replace(/\s/g, '')
-          .split(':');
+      [selectors](node: TSESTree.Identifier | TSESTree.Literal | TSESTree.TemplateElement) {
+        const [propertyName, aliasName] = ASTUtils.getRawText(node).replace(/\s/g, '').split(':');
 
-        if (
-          !nativeEventNames.has(propertyName) &&
-          !nativeEventNames.has(aliasName)
-        ) {
+        if (!nativeEventNames.has(propertyName) && !nativeEventNames.has(aliasName)) {
           return;
         }
 

@@ -30,13 +30,8 @@ export default createESLintRule<Options, MessageIds>({
   create(context) {
     const parserServices = getTemplateParserServices(context);
     const domElements = [...getDomElements()];
-    const uppercaseDomElements = domElements.map((element) =>
-      element.toUpperCase(),
-    );
-    const elementNamePattern = toPattern([
-      ...domElements,
-      ...uppercaseDomElements,
-    ]);
+    const uppercaseDomElements = domElements.map((element) => element.toUpperCase());
+    const elementNamePattern = toPattern([...domElements, ...uppercaseDomElements]);
 
     return {
       [`Element[name=${elementNamePattern}] > BoundAttribute[name="tabindex"][value.ast.value>0], TextAttribute[name="tabindex"][value>0]`]({
@@ -52,10 +47,7 @@ export default createESLintRule<Options, MessageIds>({
           suggest: ['-1', '0'].map((tabindex) => ({
             messageId: 'suggestNonNegativeTabindex',
             fix: (fixer) =>
-              fixer.replaceTextRange(
-                [valueSpan.start.offset, valueSpan.end.offset],
-                tabindex,
-              ),
+              fixer.replaceTextRange([valueSpan.start.offset, valueSpan.end.offset], tabindex),
             data: { tabindex },
           })),
         });

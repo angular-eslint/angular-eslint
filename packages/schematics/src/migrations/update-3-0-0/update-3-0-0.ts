@@ -21,11 +21,7 @@ function updateRelevantDependencies(host: Tree, context: SchematicContext) {
     /**
      * @angular-eslint
      */
-    updateIfExists(
-      json.devDependencies,
-      '@angular-eslint/builder',
-      updatedAngularESLintVersion,
-    );
+    updateIfExists(json.devDependencies, '@angular-eslint/builder', updatedAngularESLintVersion);
     updateIfExists(
       json.devDependencies,
       '@angular-eslint/eslint-plugin',
@@ -48,9 +44,7 @@ function updateRelevantDependencies(host: Tree, context: SchematicContext) {
   })(host, context);
 }
 
-function addRecommendedExtraExtendsWhereApplicable(
-  config: Linter.LegacyConfig,
-) {
+function addRecommendedExtraExtendsWhereApplicable(config: Linter.LegacyConfig) {
   // Convert extends to array if applicable
   if (
     typeof config.extends === 'string' &&
@@ -101,18 +95,12 @@ function removeNegativeValuesFromComponentMaxInlineDeclarations(
 ) {
   if (!Array.isArray(rule) || rule.length !== 2) return;
   const [, currentSchema] = rule;
-  rule[1] = Object.entries(currentSchema).reduce(
-    (accumulator, [key, value]) => {
-      return Number(value) < 0 ? accumulator : { ...accumulator, [key]: value };
-    },
-    {},
-  );
+  rule[1] = Object.entries(currentSchema).reduce((accumulator, [key, value]) => {
+    return Number(value) < 0 ? accumulator : { ...accumulator, [key]: value };
+  }, {});
 }
 
-function updateComponentMaxInlineDeclarationsSchema({
-  overrides,
-  rules,
-}: Linter.LegacyConfig) {
+function updateComponentMaxInlineDeclarationsSchema({ overrides, rules }: Linter.LegacyConfig) {
   removeNegativeValuesFromComponentMaxInlineDeclarations(
     rules?.['@angular-eslint/component-max-inline-declarations'],
   );

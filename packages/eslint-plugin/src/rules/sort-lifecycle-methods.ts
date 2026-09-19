@@ -11,8 +11,7 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'problem',
     docs: {
-      description:
-        'Ensures that lifecycle methods are declared in order of execution',
+      description: 'Ensures that lifecycle methods are declared in order of execution',
     },
     schema: [],
     messages: {
@@ -21,10 +20,7 @@ export default createESLintRule<Options, MessageIds>({
     defaultOptions: [],
   },
   create(context) {
-    const isBefore = (
-      method1: TSESTree.MethodDefinition,
-      method2: TSESTree.MethodDefinition,
-    ) => {
+    const isBefore = (method1: TSESTree.MethodDefinition, method2: TSESTree.MethodDefinition) => {
       const methodIndex1 = ASTUtils.angularLifecycleMethodsOrdered.indexOf(
         ASTUtils.getMethodName(method1) as ASTUtils.AngularLifecycleMethods,
       );
@@ -42,16 +38,11 @@ export default createESLintRule<Options, MessageIds>({
         );
         const declaredLifeCycleMethods = declaredMethods.filter(
           (method: TSESTree.MethodDefinition) =>
-            ASTUtils.isAngularLifecycleMethod(
-              ASTUtils.getMethodName(method) ?? '',
-            ),
+            ASTUtils.isAngularLifecycleMethod(ASTUtils.getMethodName(method) ?? ''),
         );
 
         for (let i = 1; i < declaredLifeCycleMethods.length; ++i) {
-          const before = isBefore(
-            declaredLifeCycleMethods[i],
-            declaredLifeCycleMethods[i - 1],
-          );
+          const before = isBefore(declaredLifeCycleMethods[i], declaredLifeCycleMethods[i - 1]);
 
           if (before) {
             context.report({

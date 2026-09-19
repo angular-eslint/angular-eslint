@@ -1,8 +1,5 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type {
-  InvalidTestCase,
-  ValidTestCase,
-} from '@typescript-eslint/rule-tester';
+import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
 import type { MessageIds, Options } from '../../../src/rules/prefer-at-else';
 
 const messageId: MessageIds = 'preferAtElse';
@@ -84,41 +81,36 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     ['0 < a.length', '0 === a.length'],
     ['a.length > 0', '0 === a.length'],
     ['a.length > 0', 'a.length == 0'],
-  ].flatMap(
-    ([firstCondition, secondCondition]): InvalidTestCase<
-      MessageIds,
-      Options
-    >[] => [
-      convertAnnotatedSourceToFailureCase({
-        description: `fails for '${firstCondition}' and '${secondCondition}'`,
-        annotatedSource: `
+  ].flatMap(([firstCondition, secondCondition]): InvalidTestCase<MessageIds, Options>[] => [
+    convertAnnotatedSourceToFailureCase({
+      description: `fails for '${firstCondition}' and '${secondCondition}'`,
+      annotatedSource: `
           @if (${firstCondition}) {}
           @if (${secondCondition}) {}
           ~~~~
         `,
-        messageId,
-        annotatedOutput: `
+      messageId,
+      annotatedOutput: `
           @if (${firstCondition}) {}
           @else {}
           
         `,
-      }),
-      convertAnnotatedSourceToFailureCase({
-        description: `fails for '${secondCondition}' and '${firstCondition}'`,
-        annotatedSource: `
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description: `fails for '${secondCondition}' and '${firstCondition}'`,
+      annotatedSource: `
           @if (${secondCondition}) {}
           @if (${firstCondition}) {}
           ~~~~
         `,
-        messageId,
-        annotatedOutput: `
+      messageId,
+      annotatedOutput: `
           @if (${secondCondition}) {}
           @else {}
           
         `,
-      }),
-    ],
-  ),
+    }),
+  ]),
   convertAnnotatedSourceToFailureCase({
     description: `fails for second @if that can be merged into existing @else`,
     annotatedSource: `

@@ -19,19 +19,16 @@ export function createIgnoredDirectiveMatcher(
     return () => false;
   }
 
-  const matchers: readonly DirectiveMatcher[] = ignoreWithDirectives.map(
-    (entry) => {
-      const regexLiteral = REGEX_LITERAL_PATTERN.exec(entry);
-      if (regexLiteral) {
-        const pattern = new RegExp(regexLiteral[1], regexLiteral[2]);
-        return (name) => pattern.test(name);
-      }
-      return (name) => name === entry;
-    },
-  );
+  const matchers: readonly DirectiveMatcher[] = ignoreWithDirectives.map((entry) => {
+    const regexLiteral = REGEX_LITERAL_PATTERN.exec(entry);
+    if (regexLiteral) {
+      const pattern = new RegExp(regexLiteral[1], regexLiteral[2]);
+      return (name) => pattern.test(name);
+    }
+    return (name) => name === entry;
+  });
 
-  const isIgnoredName: DirectiveMatcher = (name) =>
-    matchers.some((matcher) => matcher(name));
+  const isIgnoredName: DirectiveMatcher = (name) => matchers.some((matcher) => matcher(name));
 
   return ({ inputs, attributes }) =>
     inputs.some(({ name }) => isIgnoredName(name)) ||

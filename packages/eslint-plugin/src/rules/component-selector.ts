@@ -1,9 +1,4 @@
-import {
-  arrayify,
-  ASTUtils,
-  Selectors,
-  SelectorUtils,
-} from '@angular-eslint/utils';
+import { arrayify, ASTUtils, Selectors, SelectorUtils } from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/utils';
 import { ASTUtils as TSESLintASTUtils } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
@@ -22,8 +17,7 @@ export const RULE_NAME = 'component-selector';
 
 const VIEW_ENCAPSULATION_SHADOW_DOM = 'ShadowDom';
 const VIEW_ENCAPSULATION = 'ViewEncapsulation';
-const STYLE_GUIDE_LINK =
-  'https://angular.dev/style-guide#choosing-component-selectors';
+const STYLE_GUIDE_LINK = 'https://angular.dev/style-guide#choosing-component-selectors';
 const SHADOW_DOM_ENCAPSULATED_STYLE_LINK =
   'https://github.com/angular-eslint/angular-eslint/issues/534';
 
@@ -61,10 +55,7 @@ export default createESLintRule<Options, MessageIds>({
               },
               style: {
                 type: 'string',
-                enum: [
-                  ASTUtils.OPTION_STYLE_CAMEL_CASE,
-                  ASTUtils.OPTION_STYLE_KEBAB_CASE,
-                ],
+                enum: [ASTUtils.OPTION_STYLE_CAMEL_CASE, ASTUtils.OPTION_STYLE_KEBAB_CASE],
               },
             },
             required: ['type', 'style'],
@@ -78,20 +69,14 @@ export default createESLintRule<Options, MessageIds>({
               properties: {
                 type: {
                   type: 'string',
-                  enum: [
-                    SelectorUtils.OPTION_TYPE_ELEMENT,
-                    SelectorUtils.OPTION_TYPE_ATTRIBUTE,
-                  ],
+                  enum: [SelectorUtils.OPTION_TYPE_ELEMENT, SelectorUtils.OPTION_TYPE_ATTRIBUTE],
                 },
                 prefix: {
                   oneOf: [{ type: 'string' }, { type: 'array' }],
                 },
                 style: {
                   type: 'string',
-                  enum: [
-                    ASTUtils.OPTION_STYLE_CAMEL_CASE,
-                    ASTUtils.OPTION_STYLE_KEBAB_CASE,
-                  ],
+                  enum: [ASTUtils.OPTION_STYLE_CAMEL_CASE, ASTUtils.OPTION_STYLE_KEBAB_CASE],
                 },
               },
               additionalProperties: false,
@@ -129,10 +114,7 @@ export default createESLintRule<Options, MessageIds>({
 
     return {
       [Selectors.COMPONENT_CLASS_DECORATOR](node: TSESTree.Decorator) {
-        const rawSelectors = ASTUtils.getDecoratorPropertyValue(
-          node,
-          'selector',
-        );
+        const rawSelectors = ASTUtils.getDecoratorPropertyValue(node, 'selector');
         if (!rawSelectors) {
           return;
         }
@@ -143,29 +125,21 @@ export default createESLintRule<Options, MessageIds>({
           return;
         }
 
-        const applicableConfig = SelectorUtils.getApplicableConfig(
-          rawSelectors,
-          configByType,
-        );
+        const applicableConfig = SelectorUtils.getApplicableConfig(rawSelectors, configByType);
         if (!applicableConfig) {
           return;
         }
 
         const { type, prefix, style } = applicableConfig;
 
-        const isValidOptions = SelectorUtils.checkValidOptions(
-          type,
-          prefix,
-          style,
-        );
+        const isValidOptions = SelectorUtils.checkValidOptions(type, prefix, style);
         if (!isValidOptions) {
           return;
         }
 
         // Override `style` for ShadowDom-encapsulated components. See https://github.com/angular-eslint/angular-eslint/issues/534.
         const overrideStyle =
-          style !== ASTUtils.OPTION_STYLE_KEBAB_CASE &&
-          hasEncapsulationShadowDomProperty(node)
+          style !== ASTUtils.OPTION_STYLE_KEBAB_CASE && hasEncapsulationShadowDomProperty(node)
             ? ASTUtils.OPTION_STYLE_KEBAB_CASE
             : style;
 
@@ -208,11 +182,7 @@ export default createESLintRule<Options, MessageIds>({
           if (prefix !== undefined) {
             const prefixArray = arrayify<string>(prefix);
             if (prefixArray.length > 0) {
-              SelectorUtils.reportSelectorAfterPrefixError(
-                rawSelectors,
-                prefix,
-                context,
-              );
+              SelectorUtils.reportSelectorAfterPrefixError(rawSelectors, prefix, context);
             }
           }
         } else if (!hasExpectedSelector.hasExpectedStyle) {
@@ -220,12 +190,7 @@ export default createESLintRule<Options, MessageIds>({
             if (!hasExpectedSelector.hasExpectedPrefix) {
               if (prefix !== undefined) {
                 // Only report style and prefix error if prefix is actually required
-                SelectorUtils.reportStyleAndPrefixError(
-                  rawSelectors,
-                  style,
-                  prefix,
-                  context,
-                );
+                SelectorUtils.reportStyleAndPrefixError(rawSelectors, style, prefix, context);
               } else {
                 // If no prefix required, just report style error
                 SelectorUtils.reportStyleError(rawSelectors, style, context);
@@ -254,10 +219,7 @@ export default createESLintRule<Options, MessageIds>({
 });
 
 function hasEncapsulationShadowDomProperty(node: TSESTree.Decorator) {
-  const encapsulationValue = ASTUtils.getDecoratorPropertyValue(
-    node,
-    'encapsulation',
-  );
+  const encapsulationValue = ASTUtils.getDecoratorPropertyValue(node, 'encapsulation');
   return (
     encapsulationValue &&
     ASTUtils.isMemberExpression(encapsulationValue) &&

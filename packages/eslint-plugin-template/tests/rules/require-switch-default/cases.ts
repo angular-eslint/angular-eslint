@@ -1,12 +1,6 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type {
-  InvalidTestCase,
-  ValidTestCase,
-} from '@typescript-eslint/rule-tester';
-import type {
-  MessageIds,
-  Options,
-} from '../../../src/rules/require-switch-default';
+import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
+import type { MessageIds, Options } from '../../../src/rules/require-switch-default';
 
 const messageId: MessageIds = 'requireSwitchDefault';
 
@@ -68,8 +62,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail when a `@switch` has multiple cases but no `@default`',
+    description: 'should fail when a `@switch` has multiple cases but no `@default`',
     annotatedSource: `
       @switch (value) {
       ~~~~~~~~

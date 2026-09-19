@@ -1,8 +1,5 @@
 import { Tree } from '@angular-devkit/schematics';
-import {
-  SchematicTestRunner,
-  UnitTestTree,
-} from '@angular-devkit/schematics/testing';
+import { SchematicTestRunner, UnitTestTree } from '@angular-devkit/schematics/testing';
 import * as path from 'node:path';
 import { beforeEach, describe, expect, it } from 'vitest';
 
@@ -45,11 +42,7 @@ describe('update-4-0-0', () => {
   });
 
   it('should update relevant @angular-eslint dependencies', async () => {
-    const tree = await migrationSchematicRunner.runSchematic(
-      'update-4-0-0',
-      {},
-      appTree,
-    );
+    const tree = await migrationSchematicRunner.runSchematic('update-4-0-0', {}, appTree);
     const packageJSON = JSON.parse(tree.readContent('/package.json'));
     expect(packageJSON).toMatchInlineSnapshot(`
       {

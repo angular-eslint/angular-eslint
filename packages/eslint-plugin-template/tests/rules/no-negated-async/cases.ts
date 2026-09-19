@@ -1,8 +1,5 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type {
-  InvalidTestCase,
-  ValidTestCase,
-} from '@typescript-eslint/rule-tester';
+import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
 import type { MessageIds, Options } from '../../../src/rules/no-negated-async';
 
 const messageId: MessageIds = 'noNegatedAsync';
@@ -64,8 +61,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     ],
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail if async pipe is the last pipe in the negated chain',
+    description: 'should fail if async pipe is the last pipe in the negated chain',
     annotatedSource: `
         {{ !(foo | somethingElse | async) }}
            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -1,8 +1,5 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type {
-  InvalidTestCase,
-  ValidTestCase,
-} from '@typescript-eslint/rule-tester';
+import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
 import type { MessageIds, Options } from '../../../src/rules/pipe-prefix';
 
 const messageIdPrefix: MessageIds = 'pipePrefix';
@@ -128,8 +125,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { prefixes: '"ng"' },
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail when Pipe has no prefix applying multiple prefixes',
+    description: 'should fail when Pipe has no prefix applying multiple prefixes',
     annotatedSource: `
         @Pipe({
           name: 'foo-bar'

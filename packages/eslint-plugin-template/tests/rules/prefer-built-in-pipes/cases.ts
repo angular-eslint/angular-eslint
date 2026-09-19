@@ -1,12 +1,6 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type {
-  InvalidTestCase,
-  ValidTestCase,
-} from '@typescript-eslint/rule-tester';
-import type {
-  MessageIds,
-  Options,
-} from '../../../src/rules/prefer-built-in-pipes';
+import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
+import type { MessageIds, Options } from '../../../src/rules/prefer-built-in-pipes';
 
 const messageId: MessageIds = 'preferBuiltInPipes';
 
@@ -55,9 +49,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         {{ text.toLocaleLowerCase() }}
            ~~~~~~~~~~~~~~~~~~~~~~
       `,
-    messages: [
-      { char: '~', messageId, data: { methodName: 'toLocaleLowerCase' } },
-    ],
+    messages: [{ char: '~', messageId, data: { methodName: 'toLocaleLowerCase' } }],
   }),
   convertAnnotatedSourceToFailureCase({
     description: 'should fail when toLocaleUpperCase() is used in template',
@@ -65,9 +57,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         {{ text.toLocaleUpperCase() }}
            ~~~~~~~~~~~~~~~~~~~~~~
       `,
-    messages: [
-      { char: '~', messageId, data: { methodName: 'toLocaleUpperCase' } },
-    ],
+    messages: [{ char: '~', messageId, data: { methodName: 'toLocaleUpperCase' } }],
   }),
   convertAnnotatedSourceToFailureCase({
     description: 'should fail when transformation is used in property binding',
@@ -78,8 +68,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messages: [{ char: '~', messageId, data: { methodName: 'toLowerCase' } }],
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail when transformation is used in attribute interpolation',
+    description: 'should fail when transformation is used in attribute interpolation',
     annotatedSource: `
         <div title="{{ name.toUpperCase() }}">Content</div>
                        ~~~~~~~~~~~~~~~~
@@ -87,8 +76,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messages: [{ char: '~', messageId, data: { methodName: 'toUpperCase' } }],
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail in output handlers when allowInOutputHandlers is false',
+    description: 'should fail in output handlers when allowInOutputHandlers is false',
     annotatedSource: `
         <button (click)="handleClick(name.toLowerCase())">Click</button>
                                      ~~~~~~~~~~~~~~~~

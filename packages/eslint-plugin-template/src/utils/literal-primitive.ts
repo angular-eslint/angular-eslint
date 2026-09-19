@@ -1,7 +1,4 @@
-import {
-  AST,
-  LiteralPrimitive,
-} from '@angular-eslint/bundled-angular-compiler';
+import { AST, LiteralPrimitive } from '@angular-eslint/bundled-angular-compiler';
 
 export type Quote = "'" | '"' | '`';
 
@@ -11,8 +8,7 @@ export function isLiteralPrimitive(node: AST): node is LiteralPrimitive {
   // is installed (version mismatches, Yarn `hoistingLimits`, etc.).
   return (
     !!node &&
-    ((node as { type?: string }).type === 'LiteralPrimitive' ||
-      node instanceof LiteralPrimitive)
+    ((node as { type?: string }).type === 'LiteralPrimitive' || node instanceof LiteralPrimitive)
   );
 }
 
@@ -22,10 +18,7 @@ export function isStringLiteralPrimitive(
   return isLiteralPrimitive(node) && typeof node.value === 'string';
 }
 
-export function getLiteralPrimitiveStringValue(
-  node: LiteralPrimitive,
-  quote: Quote,
-): string {
+export function getLiteralPrimitiveStringValue(node: LiteralPrimitive, quote: Quote): string {
   return typeof node.value === 'string'
     ? `${node.value.replaceAll(quote, `\\${quote}`)}`
     : String(node.value);

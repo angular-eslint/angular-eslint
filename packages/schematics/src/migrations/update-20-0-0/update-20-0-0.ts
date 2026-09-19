@@ -11,15 +11,9 @@ export default function migration(): Rule {
       const packageJson = JSON.parse(host.read('package.json')!.toString());
       if (
         packageJson.devDependencies['typescript-eslint'] ||
-        packageJson.devDependencies['@typescript-eslint/parser'].startsWith(
-          '8.',
-        ) ||
-        packageJson.devDependencies['@typescript-eslint/parser'].startsWith(
-          '^8.',
-        ) ||
-        packageJson.devDependencies['@typescript-eslint/parser'].startsWith(
-          '~8.',
-        )
+        packageJson.devDependencies['@typescript-eslint/parser'].startsWith('8.') ||
+        packageJson.devDependencies['@typescript-eslint/parser'].startsWith('^8.') ||
+        packageJson.devDependencies['@typescript-eslint/parser'].startsWith('~8.')
       ) {
         return updateDependencies([
           {

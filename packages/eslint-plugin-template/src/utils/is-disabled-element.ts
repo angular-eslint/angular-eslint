@@ -13,8 +13,7 @@ export function isDisabledElement(node: TmplAstElement): boolean {
     return true;
   }
 
-  const isAriaDisabled =
-    String(getAttributeValue(node, 'aria-disabled')).toLowerCase() === 'true';
+  const isAriaDisabled = String(getAttributeValue(node, 'aria-disabled')).toLowerCase() === 'true';
   if (isAriaDisabled) {
     return true;
   }

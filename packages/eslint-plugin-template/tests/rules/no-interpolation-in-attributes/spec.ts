@@ -1,7 +1,5 @@
 import { RuleTester } from '@angular-eslint/test-utils';
-import rule, {
-  RULE_NAME,
-} from '../../../src/rules/no-interpolation-in-attributes';
+import rule, { RULE_NAME } from '../../../src/rules/no-interpolation-in-attributes';
 import { invalid, valid } from './cases';
 
 const ruleTester = new RuleTester({

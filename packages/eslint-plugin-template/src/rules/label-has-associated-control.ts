@@ -1,7 +1,4 @@
-import type {
-  AST,
-  TmplAstElement,
-} from '@angular-eslint/bundled-angular-compiler';
+import type { AST, TmplAstElement } from '@angular-eslint/bundled-angular-compiler';
 import { getTemplateParserServices } from '@angular-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import { isChildNodeOf } from '../utils/is-child-node-of';
@@ -19,14 +16,7 @@ export type Options = [
 ];
 export type MessageIds = 'labelHasAssociatedControl';
 export const RULE_NAME = 'label-has-associated-control';
-const DEFAULT_CONTROL_COMPONENTS = [
-  'input',
-  'meter',
-  'output',
-  'progress',
-  'select',
-  'textarea',
-];
+const DEFAULT_CONTROL_COMPONENTS = ['input', 'meter', 'output', 'progress', 'select', 'textarea'];
 const DEFAULT_LABEL_COMPONENTS: readonly LabelComponent[] = [
   { inputs: ['for', 'htmlFor'], selector: 'label' },
 ];
@@ -76,8 +66,7 @@ export default createESLintRule<Options, MessageIds>({
       },
     ],
     messages: {
-      labelHasAssociatedControl:
-        'A label component must be associated with a form element',
+      labelHasAssociatedControl: 'A label component must be associated with a form element',
     },
     defaultOptions: [DEFAULT_OPTIONS],
   },
@@ -88,9 +77,7 @@ export default createESLintRule<Options, MessageIds>({
       ...(controlComponents ?? []),
     ]);
 
-    const labelMap = new Map(
-      DEFAULT_LABEL_COMPONENTS.map((comp) => [comp.selector, comp]),
-    );
+    const labelMap = new Map(DEFAULT_LABEL_COMPONENTS.map((comp) => [comp.selector, comp]));
     // Add custom components, overriding defaults with same selector
     if (labelComponents) {
       labelComponents.forEach((comp) => labelMap.set(comp.selector, comp));
@@ -106,9 +93,7 @@ export default createESLintRule<Options, MessageIds>({
         if (allControlComponents.has(tagName)) {
           inputItems.push(node);
         }
-        const element = allLabelComponents.find(
-          ({ selector }) => selector === tagName,
-        );
+        const element = allLabelComponents.find(({ selector }) => selector === tagName);
         if (element) {
           labelItems.push(node);
         }
@@ -122,10 +107,7 @@ export default createESLintRule<Options, MessageIds>({
 
           if (!element) continue;
           const attributesInputs: ReadonlyMap<string, string | AST> = new Map(
-            [...node.attributes, ...node.inputs].map(({ name, value }) => [
-              name,
-              value,
-            ]),
+            [...node.attributes, ...node.inputs].map(({ name, value }) => [name, value]),
           );
           const inputValues = (
             element.inputs?.map((input) => attributesInputs.get(input)) ?? []
@@ -138,9 +120,7 @@ export default createESLintRule<Options, MessageIds>({
           if (hasFor || hasControlComponentIn(allControlComponents, node)) {
             continue;
           }
-          const loc = parserServices.convertNodeSourceSpanToLoc(
-            node.sourceSpan,
-          );
+          const loc = parserServices.convertNodeSourceSpanToLoc(node.sourceSpan);
 
           context.report({
             loc,
@@ -160,16 +140,11 @@ function hasControlComponentIn(
   element: TmplAstElement,
 ): boolean {
   return Boolean(
-    [...controlComponents].some((controlComponent) =>
-      isChildNodeOf(element, controlComponent),
-    ),
+    [...controlComponents].some((controlComponent) => isChildNodeOf(element, controlComponent)),
   );
 }
 
-function hasControlComponentWithId(
-  controlComponents: TmplAstElement[],
-  id: string | AST,
-) {
+function hasControlComponentWithId(controlComponents: TmplAstElement[], id: string | AST) {
   return Boolean(
     [...controlComponents].some((node) => {
       return !![...node.attributes, ...node.inputs].find(

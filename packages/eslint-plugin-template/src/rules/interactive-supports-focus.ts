@@ -42,8 +42,7 @@ export default createESLintRule<Options, MessageIds>({
       },
     ],
     messages: {
-      interactiveSupportsFocus:
-        'Elements with interaction handlers must be focusable.',
+      interactiveSupportsFocus: 'Elements with interaction handlers must be focusable.',
     },
     defaultOptions: [{ allowList: DEFAULT_ALLOW_LIST }],
   },
@@ -89,9 +88,7 @@ export default createESLintRule<Options, MessageIds>({
           !isContentEditable(node)
         ) {
           const parserServices = getTemplateParserServices(context);
-          const loc = parserServices.convertNodeSourceSpanToLoc(
-            node.sourceSpan,
-          );
+          const loc = parserServices.convertNodeSourceSpanToLoc(node.sourceSpan);
           const messageId: MessageIds = 'interactiveSupportsFocus';
           context.report({
             loc,
@@ -107,9 +104,7 @@ function isElementInAllowList(
   elementType: string,
   allowList?: readonly string[],
 ): boolean | undefined {
-  return (
-    allowList && allowList.length > 0 && allowList.indexOf(elementType) > -1
-  );
+  return allowList && allowList.length > 0 && allowList.indexOf(elementType) > -1;
 }
 
 export const RULE_DOCS_EXTENSION = {

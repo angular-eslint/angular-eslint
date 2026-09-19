@@ -13,8 +13,7 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description:
-        'Use `host` metadata property instead of `@HostBinding` and `HostListener`',
+      description: 'Use `host` metadata property instead of `@HostBinding` and `HostListener`',
     },
     schema: [],
     messages: {

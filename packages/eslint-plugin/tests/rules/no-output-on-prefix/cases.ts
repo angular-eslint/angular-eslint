@@ -1,12 +1,6 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type {
-  InvalidTestCase,
-  ValidTestCase,
-} from '@typescript-eslint/rule-tester';
-import type {
-  MessageIds,
-  Options,
-} from '../../../src/rules/no-output-on-prefix';
+import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
+import type { MessageIds, Options } from '../../../src/rules/no-output-on-prefix';
 
 const messageId: MessageIds = 'noOutputOnPrefix';
 
@@ -147,8 +141,7 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail if `outputs` metadata property is named "on" in `@Component`',
+    description: 'should fail if `outputs` metadata property is named "on" in `@Component`',
     annotatedSource: `
         @Component({
           outputs: ['on']
@@ -196,8 +189,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail if output decorator property is named "on" in `@Component`',
+    description: 'should fail if output decorator property is named "on" in `@Component`',
     annotatedSource: `
         @Component()
         class Test {
@@ -208,8 +200,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail if output function property is named "on" in `@Component`',
+    description: 'should fail if output function property is named "on" in `@Component`',
     annotatedSource: `
         @Component()
         class Test {
@@ -244,8 +235,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail if output decorator property is aliased as "`on`" in `@Component`',
+    description: 'should fail if output decorator property is aliased as "`on`" in `@Component`',
     annotatedSource: `
         @Component()
         class Test {
@@ -256,8 +246,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail if output function property is aliased as "`on`" in `@Component`',
+    description: 'should fail if output function property is aliased as "`on`" in `@Component`',
     annotatedSource: `
         @Component()
         class Test {
@@ -292,8 +281,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail if output decorator getter is named with "on" prefix in `@Component`',
+    description: 'should fail if output decorator getter is named with "on" prefix in `@Component`',
     annotatedSource: `
         @Component()
         class Test {

@@ -248,11 +248,7 @@ If you would like to recreate the `ng-cli-compat` and `ng-cli-compat--formatting
     "es6": true,
     "node": true
   },
-  "plugins": [
-    "eslint-plugin-import",
-    "eslint-plugin-jsdoc",
-    "eslint-plugin-prefer-arrow"
-  ],
+  "plugins": ["eslint-plugin-import", "eslint-plugin-jsdoc", "eslint-plugin-prefer-arrow"],
   "rules": {
     "@typescript-eslint/interface-name-prefix": "off",
     "@typescript-eslint/explicit-member-accessibility": "off",
@@ -475,11 +471,7 @@ If you would like to recreate the `ng-cli-compat` and `ng-cli-compat--formatting
       }
     ],
     "quotes": "off",
-    "@typescript-eslint/quotes": [
-      "error",
-      "single",
-      { "allowTemplateLiterals": true }
-    ],
+    "@typescript-eslint/quotes": ["error", "single", { "allowTemplateLiterals": true }],
     "@typescript-eslint/semi": ["error", "always"],
     "@typescript-eslint/type-annotation-spacing": "error"
   }

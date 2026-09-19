@@ -1,7 +1,4 @@
-import type {
-  ParserServicesWithTypeInformation,
-  TSESTree,
-} from '@typescript-eslint/utils';
+import type { ParserServicesWithTypeInformation, TSESTree } from '@typescript-eslint/utils';
 import { AST_NODE_TYPES } from '@typescript-eslint/utils';
 import ts from 'typescript';
 import * as tsutils from 'ts-api-utils';
@@ -33,13 +30,9 @@ export function getSymbols(
   if (callLikeNode) {
     return [getCallLikeNodeSymbol(callLikeNode, services, checker)];
   } else if (node.parent.type === AST_NODE_TYPES.Property) {
-    const property = services
-      .getTypeAtLocation(node.parent.parent)
-      .getProperty(node.name);
+    const property = services.getTypeAtLocation(node.parent.parent).getProperty(node.name);
     const propertySymbol = services.getSymbolAtLocation(node);
-    const valueSymbol = checker.getShorthandAssignmentValueSymbol(
-      propertySymbol?.valueDeclaration,
-    );
+    const valueSymbol = checker.getShorthandAssignmentValueSymbol(propertySymbol?.valueDeclaration);
     return [
       ...getSymbolsInAliasesChain(propertySymbol, checker),
       property,
@@ -51,9 +44,7 @@ export function getSymbols(
   return getSymbolsInAliasesChain(services.getSymbolAtLocation(node), checker);
 }
 
-export function isNodeCalleeOfParent(
-  node: TSESTree.Node,
-): node is CallLikeNode {
+export function isNodeCalleeOfParent(node: TSESTree.Node): node is CallLikeNode {
   switch (node.parent?.type) {
     case AST_NODE_TYPES.NewExpression:
     case AST_NODE_TYPES.CallExpression:
@@ -67,13 +58,8 @@ export function isNodeCalleeOfParent(
   }
 }
 
-export function hasJsDocTag(
-  symbols: (ts.Symbol | undefined)[],
-  tagName: string,
-): boolean {
-  return symbols.some((symbol) =>
-    symbol?.getJsDocTags().some((tag) => tag.name === tagName),
-  );
+export function hasJsDocTag(symbols: (ts.Symbol | undefined)[], tagName: string): boolean {
+  return symbols.some((symbol) => symbol?.getJsDocTags().some((tag) => tag.name === tagName));
 }
 
 export function getCallLikeNodeSymbol(
@@ -82,8 +68,7 @@ export function getCallLikeNodeSymbol(
   checker: ts.TypeChecker,
 ): ts.Symbol | undefined {
   const symbol = services.getSymbolAtLocation(node);
-  return symbol !== undefined &&
-    tsutils.isSymbolFlagSet(symbol, ts.SymbolFlags.Alias)
+  return symbol !== undefined && tsutils.isSymbolFlagSet(symbol, ts.SymbolFlags.Alias)
     ? checker.getAliasedSymbol(symbol)
     : symbol;
 }

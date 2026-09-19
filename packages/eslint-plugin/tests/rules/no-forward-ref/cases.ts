@@ -1,8 +1,5 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type {
-  InvalidTestCase,
-  ValidTestCase,
-} from '@typescript-eslint/rule-tester';
+import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
 import type { MessageIds, Options } from '../../../src/rules/no-forward-ref';
 
 const messageId: MessageIds = 'noForwardRef';
@@ -58,8 +55,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail if forwardRef is called in a variable declaration',
+    description: 'should fail if forwardRef is called in a variable declaration',
     annotatedSource: `
         const TAGS_VALUE_ACCESSOR: StaticProvider = {
           multi: true,

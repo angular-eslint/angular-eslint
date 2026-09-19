@@ -28,16 +28,9 @@ export default createESLintRule<Options, MessageIds>({
   },
   create(context) {
     const parserServices = getTemplateParserServices(context);
-    const domElements = [...getDomElements()].filter(
-      (domElement) => domElement !== 'th',
-    );
-    const uppercaseDomElements = domElements.map((element) =>
-      element.toUpperCase(),
-    );
-    const domElementsPattern = toPattern([
-      ...domElements,
-      ...uppercaseDomElements,
-    ]);
+    const domElements = [...getDomElements()].filter((domElement) => domElement !== 'th');
+    const uppercaseDomElements = domElements.map((element) => element.toUpperCase());
+    const domElementsPattern = toPattern([...domElements, ...uppercaseDomElements]);
 
     return {
       [`Element[name=${domElementsPattern}] > :matches(BoundAttribute, TextAttribute)[name='scope']`]({
@@ -48,11 +41,7 @@ export default createESLintRule<Options, MessageIds>({
         context.report({
           loc,
           messageId: 'tableScope',
-          fix: (fixer) =>
-            fixer.removeRange([
-              sourceSpan.start.offset - 1,
-              sourceSpan.end.offset,
-            ]),
+          fix: (fixer) => fixer.removeRange([sourceSpan.start.offset - 1, sourceSpan.end.offset]),
         });
       },
     };

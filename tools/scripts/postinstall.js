@@ -26,21 +26,13 @@ async function pnpm(...args) {
       shell: true,
     });
 
-    p.stdout
-      .setEncoding('utf8')
-      .on('data', (data) => process.stdout.write(data));
+    p.stdout.setEncoding('utf8').on('data', (data) => process.stdout.write(data));
 
-    p.stderr
-      .setEncoding('utf8')
-      .on('data', (data) => process.stderr.write(data));
+    p.stderr.setEncoding('utf8').on('data', (data) => process.stderr.write(data));
 
     p.on('exit', (code) => {
       if (code !== 0) {
-        reject(
-          new Error(
-            `Command "pnpm ${args.join(' ')}" exited with code ${code}`,
-          ),
-        );
+        reject(new Error(`Command "pnpm ${args.join(' ')}" exited with code ${code}`));
       } else {
         resolve();
       }

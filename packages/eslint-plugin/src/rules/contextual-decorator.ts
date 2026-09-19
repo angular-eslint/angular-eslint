@@ -11,13 +11,11 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description:
-        'Ensures that classes use contextual decorators in their body',
+      description: 'Ensures that classes use contextual decorators in their body',
     },
     schema: [],
     messages: {
-      contextualDecorator:
-        'Decorator out of context for "@{{classDecoratorName}}()"',
+      contextualDecorator: 'Decorator out of context for "@{{classDecoratorName}}()"',
     },
     defaultOptions: [],
   },
@@ -37,26 +35,19 @@ export default createESLintRule<Options, MessageIds>({
 
 function validateNode(
   context: Readonly<TSESLint.RuleContext<string, readonly unknown[]>>,
-  node:
-    | TSESTree.MethodDefinition
-    | TSESTree.PropertyDefinition
-    | TSESTree.TSParameterProperty,
+  node: TSESTree.MethodDefinition | TSESTree.PropertyDefinition | TSESTree.TSParameterProperty,
 ): void {
   if (!node.decorators?.length) {
     return;
   }
 
-  const classDeclaration = ASTUtils.getNearestNodeFrom(
-    node,
-    ASTUtils.isClassDeclaration,
-  );
+  const classDeclaration = ASTUtils.getNearestNodeFrom(node, ASTUtils.isClassDeclaration);
 
   if (!classDeclaration) {
     return;
   }
 
-  const classDecoratorName =
-    ASTUtils.getAngularClassDecorator(classDeclaration);
+  const classDecoratorName = ASTUtils.getAngularClassDecorator(classDeclaration);
 
   if (!classDecoratorName) {
     return;
@@ -78,8 +69,7 @@ function validateDecorator(
     return;
   }
 
-  const allowedDecorators =
-    ASTUtils.ANGULAR_CLASS_DECORATOR_MAPPER.get(classDecoratorName);
+  const allowedDecorators = ASTUtils.ANGULAR_CLASS_DECORATOR_MAPPER.get(classDecoratorName);
 
   if (allowedDecorators?.has(decoratorName)) {
     return;

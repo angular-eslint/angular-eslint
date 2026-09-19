@@ -8,11 +8,7 @@ import { isLiteralPrimitive } from '../../src/utils/literal-primitive';
 
 describe('isLiteralPrimitive', () => {
   it('matches real compiler LiteralPrimitive instances', () => {
-    const node = new LiteralPrimitive(
-      new ParseSpan(0, 4),
-      new AbsoluteSourceSpan(0, 4),
-      null,
-    );
+    const node = new LiteralPrimitive(new ParseSpan(0, 4), new AbsoluteSourceSpan(0, 4), null);
 
     expect(node instanceof LiteralPrimitive).toBe(true);
     expect(isLiteralPrimitive(node)).toBe(true);
@@ -29,9 +25,7 @@ describe('isLiteralPrimitive', () => {
   });
 
   it('does not match other AST node types', () => {
-    expect(
-      isLiteralPrimitive({ type: 'PropertyRead', value: null } as never),
-    ).toBe(false);
+    expect(isLiteralPrimitive({ type: 'PropertyRead', value: null } as never)).toBe(false);
     expect(isLiteralPrimitive({ type: 'Binary' } as never)).toBe(false);
   });
 });

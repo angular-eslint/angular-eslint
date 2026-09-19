@@ -1,9 +1,4 @@
-import {
-  ASTUtils,
-  Selectors,
-  SelectorUtils,
-  toHumanReadableText,
-} from '@angular-eslint/utils';
+import { ASTUtils, Selectors, SelectorUtils, toHumanReadableText } from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
@@ -39,8 +34,7 @@ export default createESLintRule<Options, MessageIds>({
     ],
     messages: {
       pipePrefix: '@Pipes should be prefixed with {{prefixes}}',
-      selectorAfterPrefixFailure:
-        '@Pipes should have a selector after the {{prefixes}} prefix',
+      selectorAfterPrefixFailure: '@Pipes should have a selector after the {{prefixes}} prefix',
     },
     defaultOptions: [
       {
@@ -73,18 +67,13 @@ export default createESLintRule<Options, MessageIds>({
           ASTUtils.OPTION_STYLE_CAMEL_CASE,
         );
         const selectorAfterPrefixValidator =
-          SelectorUtils.SelectorValidator.selectorAfterPrefix(
-            allowPrefixesExpression,
-          );
+          SelectorUtils.SelectorValidator.selectorAfterPrefix(allowPrefixesExpression);
 
         let nameValue;
 
         if (ASTUtils.isStringLiteral(nameSelector)) {
           nameValue = nameSelector.value;
-        } else if (
-          ASTUtils.isTemplateLiteral(nameSelector) &&
-          nameSelector.quasis[0]
-        ) {
+        } else if (ASTUtils.isTemplateLiteral(nameSelector) && nameSelector.quasis[0]) {
           nameValue = nameSelector.quasis[0].value.raw as string;
         }
 

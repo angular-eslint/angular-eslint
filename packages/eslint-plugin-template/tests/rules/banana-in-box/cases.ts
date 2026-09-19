@@ -1,8 +1,5 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type {
-  InvalidTestCase,
-  ValidTestCase,
-} from '@typescript-eslint/rule-tester';
+import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
 import type { MessageIds, Options } from '../../../src/rules/banana-in-box';
 
 const messageId: MessageIds = 'bananaInBox';
@@ -19,8 +16,7 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
-    description:
-      'it should fail if the parens and square brackets are reversed',
+    description: 'it should fail if the parens and square brackets are reversed',
     annotatedSource: `
         <input type="text" name="foo" ([ngModel])="foo">
                                       ~~~~~~~~~~~~~~~~~

@@ -1,21 +1,11 @@
 import { joinPathFragments, parseJson, writeJsonFile } from '@nx/devkit';
 import { execSync } from 'node:child_process';
-import {
-  existsSync,
-  mkdirSync,
-  readFileSync,
-  rmSync,
-  statSync,
-  writeFileSync,
-} from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 
 const TMP_DIR = tmpdir();
 
-export const FIXTURES_DIR = joinPathFragments(
-  TMP_DIR,
-  'angular-eslint-e2e-fixtures',
-);
+export const FIXTURES_DIR = joinPathFragments(TMP_DIR, 'angular-eslint-e2e-fixtures');
 
 export function normalizeFixturesDirForSnapshot(str: string): string {
   // Handle both /var and /private/var paths on macOS by trying both patterns
@@ -35,13 +25,8 @@ export function normalizeFixturesDirForSnapshot(str: string): string {
   return str;
 }
 
-export async function resetFixtureDirectory(
-  fixtureDirectory: string,
-): Promise<void> {
-  const fullFixtureDirectory = joinPathFragments(
-    FIXTURES_DIR,
-    fixtureDirectory,
-  );
+export async function resetFixtureDirectory(fixtureDirectory: string): Promise<void> {
+  const fullFixtureDirectory = joinPathFragments(FIXTURES_DIR, fixtureDirectory);
   // Remove any existing e2e fixture on disk and recreate the location
   if (existsSync(fullFixtureDirectory)) {
     console.log(`Removing existing fixture directory: ${fullFixtureDirectory}`);

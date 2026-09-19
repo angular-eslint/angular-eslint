@@ -105,8 +105,7 @@ export default createESLintRule<Options, MessageIds>({
       },
     ],
     messages: {
-      preferContextualVariable:
-        "Use the '{{name}}' contextual variable instead of aliasing it.",
+      preferContextualVariable: "Use the '{{name}}' contextual variable instead of aliasing it.",
       preferCount: "Use '$count' instead of '{{ expression }}'.",
       preferFirst: "Use '$first' instead of '{{ expression }}'.",
       preferLast: "Use '$last' instead of '{{ expression }}'.",
@@ -141,11 +140,7 @@ export default createESLintRule<Options, MessageIds>({
               simplification.range[1],
             ),
           },
-          fix: (fixer) =>
-            fixer.replaceTextRange(
-              simplification.range,
-              simplification.replacement,
-            ),
+          fix: (fixer) => fixer.replaceTextRange(simplification.range, simplification.replacement),
         });
       }
     }
@@ -191,9 +186,7 @@ export default createESLintRule<Options, MessageIds>({
               problems.push({
                 index,
                 variable,
-                loc: parserServices.convertNodeSourceSpanToLoc(
-                  variable.sourceSpan,
-                ),
+                loc: parserServices.convertNodeSourceSpanToLoc(variable.sourceSpan),
               });
             }
           }
@@ -205,24 +198,15 @@ export default createESLintRule<Options, MessageIds>({
               data: { name: problem.variable.value },
               fix: function* (fixer) {
                 yield fixer.removeRange(
-                  getVariableRangeToRemove(
-                    problem,
-                    context.sourceCode,
-                    forLoop.variables.length,
-                  ),
+                  getVariableRangeToRemove(problem, context.sourceCode, forLoop.variables.length),
                 );
 
                 // Replace any references to the alias
                 // with the contextual variable name.
-                const references = forLoop.references?.get(
-                  problem.variable.name,
-                );
+                const references = forLoop.references?.get(problem.variable.name);
                 if (references) {
                   for (const reference of references) {
-                    yield fixer.replaceTextRange(
-                      reference,
-                      problem.variable.value,
-                    );
+                    yield fixer.replaceTextRange(reference, problem.variable.value);
                   }
                 }
               },
@@ -253,17 +237,12 @@ export default createESLintRule<Options, MessageIds>({
 
         // Record any references to aliased variables so
         // that we can replace them if we remove the alias.
-        forLoop.references
-          ?.get(node.name)
-          ?.push([node.sourceSpan.start, node.sourceSpan.end]);
+        forLoop.references?.get(node.name)?.push([node.sourceSpan.start, node.sourceSpan.end]);
 
         // If the `length` property is being read from the same
         // value that was used as the source of the for loop, then
         // we can simplify that to just use the `$count` variable.
-        if (
-          node.name === 'length' &&
-          areEquivalentASTs(node.receiver, forLoop.source)
-        ) {
+        if (node.name === 'length' && areEquivalentASTs(node.receiver, forLoop.source)) {
           recordSimplification(node, forLoop, 'preferCount', '$count');
         }
       },
@@ -278,10 +257,7 @@ export default createESLintRule<Options, MessageIds>({
             if (EQUALITY_OPERATORS.includes(node.operation)) {
               // `$index === 0` can be simplified to `$first`.
               recordSimplification(node, forLoop, 'preferFirst', '$first');
-            } else if (
-              INEQUALITY_OPERATORS.includes(node.operation) ||
-              node.operation === '>'
-            ) {
+            } else if (INEQUALITY_OPERATORS.includes(node.operation) || node.operation === '>') {
               // `$index !== 0` or `$index > 0` can be simplified to `!$first`.
               recordSimplification(node, forLoop, 'preferFirst', '!$first');
             }
@@ -289,10 +265,7 @@ export default createESLintRule<Options, MessageIds>({
             if (EQUALITY_OPERATORS.includes(node.operation)) {
               // `$index === ($count - 1)` can be simplified to `$last`.
               recordSimplification(node, forLoop, 'preferLast', '$last');
-            } else if (
-              INEQUALITY_OPERATORS.includes(node.operation) ||
-              node.operation === '<'
-            ) {
+            } else if (INEQUALITY_OPERATORS.includes(node.operation) || node.operation === '<') {
               // `$index !== ($count - 1)` or `$index < ($count - 1)`
               // can be simplified to `!$last`.
               recordSimplification(node, forLoop, 'preferLast', '!$last');
@@ -303,10 +276,7 @@ export default createESLintRule<Options, MessageIds>({
             if (EQUALITY_OPERATORS.includes(node.operation)) {
               // `0 === $index` can be simplified to `$first`.
               recordSimplification(node, forLoop, 'preferFirst', '$first');
-            } else if (
-              INEQUALITY_OPERATORS.includes(node.operation) ||
-              node.operation === '<'
-            ) {
+            } else if (INEQUALITY_OPERATORS.includes(node.operation) || node.operation === '<') {
               // `0 !== $index` or `0 < $index` can be simplified to `!$first`.
               recordSimplification(node, forLoop, 'preferFirst', '!$first');
             }
@@ -314,10 +284,7 @@ export default createESLintRule<Options, MessageIds>({
             if (EQUALITY_OPERATORS.includes(node.operation)) {
               // `0 == ($index % 2)` can be simplified to `$even`.
               recordSimplification(node, forLoop, 'preferEven', '$even');
-            } else if (
-              INEQUALITY_OPERATORS.includes(node.operation) ||
-              node.operation === '<'
-            ) {
+            } else if (INEQUALITY_OPERATORS.includes(node.operation) || node.operation === '<') {
               // `0 !== ($index % 2)` or `0 < ($index % 2)`
               // can be simplified to `$odd`.
               recordSimplification(node, forLoop, 'preferOdd', '$odd');
@@ -328,10 +295,7 @@ export default createESLintRule<Options, MessageIds>({
             if (EQUALITY_OPERATORS.includes(node.operation)) {
               // `1 === ($index % 2)` can be simplified to `$odd`.
               recordSimplification(node, forLoop, 'preferOdd', '$odd');
-            } else if (
-              INEQUALITY_OPERATORS.includes(node.operation) ||
-              node.operation === '>'
-            ) {
+            } else if (INEQUALITY_OPERATORS.includes(node.operation) || node.operation === '>') {
               // `1 !== ($index % 2)` or `1 > ($index % 2)`
               // can be simplified to `$even`.
               recordSimplification(node, forLoop, 'preferEven', '$even');
@@ -342,10 +306,7 @@ export default createESLintRule<Options, MessageIds>({
             if (EQUALITY_OPERATORS.includes(node.operation)) {
               // `$count === ($index + 1)` can be simplified to `$last`.
               recordSimplification(node, forLoop, 'preferLast', '$last');
-            } else if (
-              INEQUALITY_OPERATORS.includes(node.operation) ||
-              node.operation === '>'
-            ) {
+            } else if (INEQUALITY_OPERATORS.includes(node.operation) || node.operation === '>') {
               // `$count !== ($index + 1)` or `$count > ($index + 1)`
               // can be simplified to `!$last`.
               recordSimplification(node, forLoop, 'preferLast', '!$last');
@@ -356,10 +317,7 @@ export default createESLintRule<Options, MessageIds>({
             if (EQUALITY_OPERATORS.includes(node.operation)) {
               // `($index + 1) === $count` can be simplified to `$last`.
               recordSimplification(node, forLoop, 'preferLast', '$last');
-            } else if (
-              INEQUALITY_OPERATORS.includes(node.operation) ||
-              node.operation === '<'
-            ) {
+            } else if (INEQUALITY_OPERATORS.includes(node.operation) || node.operation === '<') {
               // `($index + 1) !== $count` or `($index + 1) < $count`
               // can be simplified to `!$last`.
               recordSimplification(node, forLoop, 'preferLast', '!$last');
@@ -370,10 +328,7 @@ export default createESLintRule<Options, MessageIds>({
             if (EQUALITY_OPERATORS.includes(node.operation)) {
               // `($count - 1) === $index` can be simplified to `$last`.
               recordSimplification(node, forLoop, 'preferLast', '$last');
-            } else if (
-              INEQUALITY_OPERATORS.includes(node.operation) ||
-              node.operation === '>'
-            ) {
+            } else if (INEQUALITY_OPERATORS.includes(node.operation) || node.operation === '>') {
               // `($count - 1) !== $index` or `($count - 1) > $index`
               // can be simplified to `!$last`.
               recordSimplification(node, forLoop, 'preferLast', '!$last');
@@ -384,10 +339,7 @@ export default createESLintRule<Options, MessageIds>({
             if (EQUALITY_OPERATORS.includes(node.operation)) {
               // `($index % 2) === 0` can be simplified to `$even`.
               recordSimplification(node, forLoop, 'preferEven', '$even');
-            } else if (
-              INEQUALITY_OPERATORS.includes(node.operation) ||
-              node.operation === '>'
-            ) {
+            } else if (INEQUALITY_OPERATORS.includes(node.operation) || node.operation === '>') {
               // `($index % 2) !== 0` or `($index % 2) > 0`
               // can be simplified to `$odd`.
               recordSimplification(node, forLoop, 'preferOdd', '$odd');
@@ -396,10 +348,7 @@ export default createESLintRule<Options, MessageIds>({
             if (EQUALITY_OPERATORS.includes(node.operation)) {
               // `($index % 2) === 1` can be simplified to `$odd`.
               recordSimplification(node, forLoop, 'preferOdd', '$odd');
-            } else if (
-              INEQUALITY_OPERATORS.includes(node.operation) ||
-              node.operation === '<'
-            ) {
+            } else if (INEQUALITY_OPERATORS.includes(node.operation) || node.operation === '<') {
               // `($index % 2) !== 1` or `($index % 2) < 1`
               // can be simplified to `$even`.
               recordSimplification(node, forLoop, 'preferEven', '$even');
@@ -413,10 +362,7 @@ export default createESLintRule<Options, MessageIds>({
           }
         }
 
-        if (
-          isIndexModTwo(node.right) &&
-          LOGICAL_OPERATORS.includes(node.operation)
-        ) {
+        if (isIndexModTwo(node.right) && LOGICAL_OPERATORS.includes(node.operation)) {
           // As we did with the left-hand side above, when `$index % 2`
           // is used as a truthy value on the right-hand side
           // of a logical binary expression, we can simplify it.
@@ -492,9 +438,7 @@ function getVariableRangeToRemove(
   // Check if this variable has its own `let` keyword (semicolon-separated)
   // vs being part of a comma-separated list after a single `let`.
   const letIndex = getStartOfPreviousToken('let', start, sourceCode);
-  const hasOwnLet =
-    letIndex !== undefined &&
-    hasOwnLetKeyword(letIndex, start, end, sourceCode);
+  const hasOwnLet = letIndex !== undefined && hasOwnLetKeyword(letIndex, start, end, sourceCode);
 
   if (variableCount === 1 || hasOwnLet) {
     // Either there's only one variable, or this variable has its own
@@ -585,10 +529,7 @@ function getStartOfNextToken(
   return undefined;
 }
 
-function getIndexOfNextNonWhitespace(
-  startIndex: number,
-  sourceCode: SourceCode,
-): number {
+function getIndexOfNextNonWhitespace(startIndex: number, sourceCode: SourceCode): number {
   const text = sourceCode.text;
   let index = startIndex;
   while (index < text.length) {
@@ -718,8 +659,7 @@ interface ForLoopInfo {
   readonly source: AST;
   readonly variables: readonly TmplAstVariable[];
   readonly references: Map<string, TSESTree.Range[]> | undefined;
-  simplifications?:
-    Partial<Record<SimplificationMessageIds, Simplification[]>> | undefined;
+  simplifications?: Partial<Record<SimplificationMessageIds, Simplification[]>> | undefined;
 }
 
 interface Simplifications {

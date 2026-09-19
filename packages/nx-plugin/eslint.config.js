@@ -23,4 +23,10 @@ module.exports = [
       '@nx/nx-plugin-checks': 'error',
     },
   },
+  {
+    files: ['src/formatting/**/*.spec.ts'],
+    rules: {
+      '@nx/enforce-module-boundaries': 'off',
+    },
+  },
 ];

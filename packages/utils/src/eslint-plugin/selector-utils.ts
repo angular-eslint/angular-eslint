@@ -14,10 +14,8 @@ export const OPTION_TYPE_ATTRS = 'attrs';
 export const OPTION_TYPE_ELEMENT = 'element';
 
 export type SelectorStyleOption = SelectorStyle | string;
-export type SelectorTypeOption =
-  typeof OPTION_TYPE_ATTRIBUTE | typeof OPTION_TYPE_ELEMENT | string;
-export type SelectorTypeInternal =
-  typeof OPTION_TYPE_ATTRS | typeof OPTION_TYPE_ELEMENT;
+export type SelectorTypeOption = typeof OPTION_TYPE_ATTRIBUTE | typeof OPTION_TYPE_ELEMENT | string;
+export type SelectorTypeInternal = typeof OPTION_TYPE_ATTRS | typeof OPTION_TYPE_ELEMENT;
 
 export type SelectorPrefixOption = undefined | string | readonly string[];
 
@@ -78,8 +76,7 @@ export const SelectorValidator = {
 
       if (selectorStyle === OPTION_STYLE_CAMEL_CASE) {
         return (
-          !selectorAfterPrefix ||
-          selectorAfterPrefix[0] === selectorAfterPrefix[0].toUpperCase()
+          !selectorAfterPrefix || selectorAfterPrefix[0] === selectorAfterPrefix[0].toUpperCase()
         );
       } else if (selectorStyle === OPTION_STYLE_KEBAB_CASE) {
         return !selectorAfterPrefix || selectorAfterPrefix[0] === '-';
@@ -105,13 +102,10 @@ const getValidSelectors = (
   types: readonly SelectorTypeInternal[],
 ): readonly string[] => {
   return selectors.reduce<readonly string[]>((previousValue, currentValue) => {
-    const validSelectors = types.reduce<readonly string[]>(
-      (accumulator, type) => {
-        const value = currentValue[type];
-        return value ? accumulator.concat(value) : accumulator;
-      },
-      [],
-    );
+    const validSelectors = types.reduce<readonly string[]>((accumulator, type) => {
+      const value = currentValue[type];
+      return value ? accumulator.concat(value) : accumulator;
+    }, []);
 
     return previousValue.concat(validSelectors);
   }, []);
@@ -192,9 +186,7 @@ export const reportTypeError = (
   });
 };
 
-export const parseSelectorNode = (
-  node: TSESTree.Node,
-): readonly CssSelector[] | null => {
+export const parseSelectorNode = (node: TSESTree.Node): readonly CssSelector[] | null => {
   if (isLiteral(node)) {
     return CssSelector.parse(node.raw);
   } else if (isTemplateLiteral(node) && node.quasis[0]) {
@@ -203,9 +195,7 @@ export const parseSelectorNode = (
   return null;
 };
 
-export const getActualSelectorType = (
-  node: TSESTree.Node,
-): SelectorTypeOption | null => {
+export const getActualSelectorType = (node: TSESTree.Node): SelectorTypeOption | null => {
   const listSelectors = parseSelectorNode(node);
 
   if (!listSelectors || listSelectors.length === 0) {
@@ -247,8 +237,7 @@ export const checkValidOptions = (
   const isTypeOptionValid =
     typeOption.length > 0 &&
     typeOption.every(
-      (argument) =>
-        [OPTION_TYPE_ELEMENT, OPTION_TYPE_ATTRIBUTE].indexOf(argument) !== -1,
+      (argument) => [OPTION_TYPE_ELEMENT, OPTION_TYPE_ATTRIBUTE].indexOf(argument) !== -1,
     );
 
   // Prefix is optional - allow undefined, empty string, or empty array
@@ -260,8 +249,7 @@ export const checkValidOptions = (
     prefix.length > 0;
 
   const isStyleOptionValid =
-    [OPTION_STYLE_CAMEL_CASE, OPTION_STYLE_KEBAB_CASE].indexOf(styleOption) !==
-    -1;
+    [OPTION_STYLE_CAMEL_CASE, OPTION_STYLE_KEBAB_CASE].indexOf(styleOption) !== -1;
 
   return isTypeOptionValid && isPrefixOptionValid && isStyleOptionValid;
 };
@@ -282,8 +270,7 @@ export const checkSelector = (
   const types = arrayify<SelectorTypeOption>(
     typeOption || [OPTION_TYPE_ATTRS, OPTION_TYPE_ELEMENT],
   ).reduce<readonly SelectorTypeInternal[]>(
-    (previousValue, currentValue) =>
-      previousValue.concat(SELECTOR_TYPE_MAPPER[currentValue]),
+    (previousValue, currentValue) => previousValue.concat(SELECTOR_TYPE_MAPPER[currentValue]),
     [],
   );
 
@@ -307,15 +294,11 @@ export const checkSelector = (
     !prefixOption ||
     prefixArray.length === 0 ||
     validSelectors.some((selector) =>
-      prefixArray.some((prefix) =>
-        SelectorValidator.prefix(prefix, styleOption)(selector),
-      ),
+      prefixArray.some((prefix) => SelectorValidator.prefix(prefix, styleOption)(selector)),
     );
 
   // Style validation should ONLY check if the selector matches the style pattern
-  const hasExpectedStyle = validSelectors.some((selector) =>
-    styleValidator(selector),
-  );
+  const hasExpectedStyle = validSelectors.some((selector) => styleValidator(selector));
 
   const hasExpectedType = validSelectors.length > 0;
 

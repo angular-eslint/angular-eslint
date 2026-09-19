@@ -1,8 +1,5 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type {
-  InvalidTestCase,
-  ValidTestCase,
-} from '@typescript-eslint/rule-tester';
+import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
 import type { MessageIds, Options } from '../../../src/rules/no-input-rename';
 
 const messageId: MessageIds = 'noInputRename';
@@ -370,8 +367,7 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail if `inputs` metadata property is aliased in `@Component`',
+    description: 'should fail if `inputs` metadata property is aliased in `@Component`',
     annotatedSource: `
       @Component({
         inputs: ['a: b']
@@ -397,8 +393,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     })),
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail if `inputs` metadata property is literal and aliased in `@Directive`',
+    description: 'should fail if `inputs` metadata property is literal and aliased in `@Directive`',
     annotatedSource: `
       @Directive({
         outputs: ['abort'],
@@ -465,8 +460,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     `,
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail if input decorator property is aliased with backticks',
+    description: 'should fail if input decorator property is aliased with backticks',
     annotatedSource: `
       @Component()
       class Test {
@@ -492,8 +486,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     })),
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail if input function property is aliased with backticks',
+    description: 'should fail if input function property is aliased with backticks',
     annotatedSource: `
       @Component()
       class Test {
@@ -519,8 +512,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     })),
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail if required input function property is aliased with backticks',
+    description: 'should fail if required input function property is aliased with backticks',
     annotatedSource: `
       @Component()
       class Test {
@@ -601,8 +593,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   // Angular 16+ alias metadata property: https://github.com/angular-eslint/angular-eslint/issues/1355
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail if input decorator property is aliased (using metadata)',
+    description: 'should fail if input decorator property is aliased (using metadata)',
     annotatedSource: `
       @Directive()
       class Test {

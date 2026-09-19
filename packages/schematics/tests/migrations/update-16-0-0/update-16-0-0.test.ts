@@ -1,8 +1,5 @@
 import { Tree } from '@angular-devkit/schematics';
-import {
-  SchematicTestRunner,
-  UnitTestTree,
-} from '@angular-devkit/schematics/testing';
+import { SchematicTestRunner, UnitTestTree } from '@angular-devkit/schematics/testing';
 import * as path from 'node:path';
 import { beforeEach, describe, expect, it } from 'vitest';
 
@@ -49,8 +46,7 @@ describe('update-16-0-0', () => {
       JSON.stringify({
         rules: {
           '@angular-eslint/template/accessibility-alt-text': 'error',
-          '@angular-eslint/template/accessibility-label-has-associated-control':
-            'error',
+          '@angular-eslint/template/accessibility-label-has-associated-control': 'error',
         },
         // Overrides extends
         overrides: [
@@ -81,27 +77,24 @@ describe('update-16-0-0', () => {
           // Array form of extends
           {
             files: ['*.ts'],
-            extends: [
-              'plugin:@angular-eslint/something-other-than-recommended',
-            ],
+            extends: ['plugin:@angular-eslint/something-other-than-recommended'],
             rules: {
-              '@angular-eslint/template/accessibility-label-has-associated-control':
-                [
-                  'error',
-                  {
-                    controlComponents: ['p-inputMask', 'bs4-input'],
-                    labelComponents: [
-                      {
-                        inputs: ['assoc', 'elementId'],
-                        selector: 'app-label',
-                      },
-                      {
-                        inputs: ['assoc', 'elementId'],
-                        selector: 'ngx-label',
-                      },
-                    ],
-                  },
-                ],
+              '@angular-eslint/template/accessibility-label-has-associated-control': [
+                'error',
+                {
+                  controlComponents: ['p-inputMask', 'bs4-input'],
+                  labelComponents: [
+                    {
+                      inputs: ['assoc', 'elementId'],
+                      selector: 'app-label',
+                    },
+                    {
+                      inputs: ['assoc', 'elementId'],
+                      selector: 'ngx-label',
+                    },
+                  ],
+                },
+              ],
               '@angular-eslint/template/no-negated-async': 'error',
             },
           },
@@ -111,11 +104,7 @@ describe('update-16-0-0', () => {
   });
 
   it('should update relevant @typescript-eslint and eslint dependencies', async () => {
-    const tree = await migrationSchematicRunner.runSchematic(
-      'update-16-0-0',
-      {},
-      appTree,
-    );
+    const tree = await migrationSchematicRunner.runSchematic('update-16-0-0', {}, appTree);
     const packageJSON = JSON.parse(tree.readContent('/package.json'));
     expect(packageJSON).toMatchInlineSnapshot(`
       {
@@ -130,11 +119,7 @@ describe('update-16-0-0', () => {
   });
 
   it('should migrate templates rules with legacy accessibility- prefix to have no prefix', async () => {
-    const tree = await migrationSchematicRunner.runSchematic(
-      'update-16-0-0',
-      {},
-      appTree,
-    );
+    const tree = await migrationSchematicRunner.runSchematic('update-16-0-0', {}, appTree);
     const rootESLint = JSON.parse(tree.readContent('.eslintrc.json'));
     expect(rootESLint).toMatchInlineSnapshot(`
       {
@@ -159,9 +144,7 @@ describe('update-16-0-0', () => {
       }
     `);
 
-    const fooESLint = JSON.parse(
-      tree.readContent('projects/foo/.eslintrc.json'),
-    );
+    const fooESLint = JSON.parse(tree.readContent('projects/foo/.eslintrc.json'));
     expect(fooESLint).toMatchInlineSnapshot(`
       {
         "extends": [
@@ -170,9 +153,7 @@ describe('update-16-0-0', () => {
       }
     `);
 
-    const barESLint = JSON.parse(
-      tree.readContent('projects/bar/.eslintrc.json'),
-    );
+    const barESLint = JSON.parse(tree.readContent('projects/bar/.eslintrc.json'));
     expect(barESLint).toMatchInlineSnapshot(`
       {
         "overrides": [

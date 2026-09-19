@@ -19,9 +19,7 @@ describe('Angular v22 in-element comments', () => {
     expect(ast.comments).toHaveLength(1);
     expect(ast.comments[0].type).toBe('Block');
     expect(ast.comments[0].value).toBe(' a ');
-    expect(code.slice(ast.comments[0].range[0], ast.comments[0].range[1])).toBe(
-      '/* a */',
-    );
+    expect(code.slice(ast.comments[0].range[0], ast.comments[0].range[1])).toBe('/* a */');
   });
 
   it('should surface a multiline in-tag block comment as a Block comment token', () => {
@@ -47,9 +45,7 @@ describe('Angular v22 in-element comments', () => {
     expect(ast.comments).toHaveLength(1);
     expect(ast.comments[0].type).toBe('Line');
     expect(ast.comments[0].value).toBe(' line');
-    expect(code.slice(ast.comments[0].range[0], ast.comments[0].range[1])).toBe(
-      '// line',
-    );
+    expect(code.slice(ast.comments[0].range[0], ast.comments[0].range[1])).toBe('// line');
   });
 
   it('should surface both a classic HTML comment and an in-tag comment, sorted by range', () => {
@@ -59,18 +55,14 @@ describe('Angular v22 in-element comments', () => {
     expect(ast.comments).toHaveLength(2);
 
     expect(ast.comments[0].type).toBe('Block');
-    expect(ast.comments[0].value).toBe(
-      'eslint-disable-next-line @angular-eslint/template/foo',
-    );
+    expect(ast.comments[0].value).toBe('eslint-disable-next-line @angular-eslint/template/foo');
     expect(code.slice(ast.comments[0].range[0], ast.comments[0].range[1])).toBe(
       '<!-- eslint-disable-next-line @angular-eslint/template/foo -->',
     );
 
     expect(ast.comments[1].type).toBe('Block');
     expect(ast.comments[1].value).toBe(' inner ');
-    expect(code.slice(ast.comments[1].range[0], ast.comments[1].range[1])).toBe(
-      '/* inner */',
-    );
+    expect(code.slice(ast.comments[1].range[0], ast.comments[1].range[1])).toBe('/* inner */');
     expect(ast.comments[0].range[0]).toBeLessThan(ast.comments[1].range[0]);
   });
 });

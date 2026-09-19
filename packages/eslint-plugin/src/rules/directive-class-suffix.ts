@@ -1,8 +1,4 @@
-import {
-  ASTUtils,
-  Selectors,
-  toHumanReadableText,
-} from '@angular-eslint/utils';
+import { ASTUtils, Selectors, toHumanReadableText } from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
@@ -41,28 +37,19 @@ export default createESLintRule<Options, MessageIds>({
   create(context, [{ suffixes }]) {
     return {
       [Selectors.DIRECTIVE_CLASS_DECORATOR](node: TSESTree.Decorator) {
-        const selectorPropertyValue = ASTUtils.getDecoratorPropertyValue(
-          node,
-          'selector',
-        );
+        const selectorPropertyValue = ASTUtils.getDecoratorPropertyValue(node, 'selector');
 
         if (!selectorPropertyValue) return;
 
         const classParent = node.parent as TSESTree.ClassDeclaration;
         const className = ASTUtils.getClassName(classParent);
-        const declaredInterfaceNames =
-          ASTUtils.getDeclaredInterfaceNames(classParent);
-        const hasValidatorInterface = declaredInterfaceNames.some(
-          (interfaceName) => interfaceName.endsWith(VALIDATOR_SUFFIX),
+        const declaredInterfaceNames = ASTUtils.getDeclaredInterfaceNames(classParent);
+        const hasValidatorInterface = declaredInterfaceNames.some((interfaceName) =>
+          interfaceName.endsWith(VALIDATOR_SUFFIX),
         );
-        const allSuffixes = suffixes.concat(
-          hasValidatorInterface ? VALIDATOR_SUFFIX : [],
-        );
+        const allSuffixes = suffixes.concat(hasValidatorInterface ? VALIDATOR_SUFFIX : []);
 
-        if (
-          !className ||
-          !allSuffixes.some((suffix) => className.endsWith(suffix))
-        ) {
+        if (!className || !allSuffixes.some((suffix) => className.endsWith(suffix))) {
           context.report({
             node: classParent.id ?? classParent,
             messageId: 'directiveClassSuffix',

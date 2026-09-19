@@ -1,12 +1,6 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type {
-  InvalidTestCase,
-  ValidTestCase,
-} from '@typescript-eslint/rule-tester';
-import type {
-  MessageIds,
-  Options,
-} from '../../../src/rules/no-non-null-assertion';
+import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
+import type { MessageIds, Options } from '../../../src/rules/no-non-null-assertion';
 
 const messageId: MessageIds = 'noNonNullAssertion';
 
@@ -113,8 +107,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail with non-null assertion in nested pipe with parentheses',
+    description: 'should fail with non-null assertion in nested pipe with parentheses',
     annotatedSource: `
         {{ user.name | uppercase : (prefix! | lowercase) }}
                                     ~~~~~~~
@@ -202,8 +195,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail with non-null assertion on nested property in @if',
+    description: 'should fail with non-null assertion on nested property in @if',
     annotatedSource: `
         @if (user!.isActive) { <div>Active</div> }
              ~~~~~
@@ -275,8 +267,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail with non-null assertion before nested array access',
+    description: 'should fail with non-null assertion before nested array access',
     annotatedSource: `
         {{ items![0]?.[0] }}
            ~~~~~~
@@ -292,8 +283,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail with non-null assertion in binary expression (left)',
+    description: 'should fail with non-null assertion in binary expression (left)',
     annotatedSource: `
         {{ value! + 10 }}
            ~~~~~~
@@ -301,8 +291,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail with non-null assertion in binary expression (right)',
+    description: 'should fail with non-null assertion in binary expression (right)',
     annotatedSource: `
         {{ 10 + value! }}
                 ~~~~~~
@@ -366,8 +355,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail with non-null assertion in less or equal than comparison',
+    description: 'should fail with non-null assertion in less or equal than comparison',
     annotatedSource: `
         {{ a + b?.c! - d <= 42 }}
                ~~~~~
@@ -375,8 +363,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail with non-null assertion in greater than comparison',
+    description: 'should fail with non-null assertion in greater than comparison',
     annotatedSource: `
         {{ a + b?.c! - d > 42 }}
                ~~~~~
@@ -384,8 +371,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail with non-null assertion in greater or equal than comparison',
+    description: 'should fail with non-null assertion in greater or equal than comparison',
     annotatedSource: `
         {{ a + b?.c! - d >= 42 }}
                ~~~~~
@@ -425,8 +411,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail with non-null assertion after array access with safe property',
+    description: 'should fail with non-null assertion after array access with safe property',
     annotatedSource: `
         {{ x[y]![z] }}
            ~~~~~
@@ -434,8 +419,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail with non-null assertion after nested array access with safe property',
+    description: 'should fail with non-null assertion after nested array access with safe property',
     annotatedSource: `
         {{ x[y][z]! }}
            ~~~~~~~~
@@ -451,8 +435,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail with non-null assertion on method call with safe navigation',
+    description: 'should fail with non-null assertion on method call with safe navigation',
     annotatedSource: `
         {{ x.y?.z!() }}
            ~~~~~~~

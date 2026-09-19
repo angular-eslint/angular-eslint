@@ -1,12 +1,6 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type {
-  InvalidTestCase,
-  ValidTestCase,
-} from '@typescript-eslint/rule-tester';
-import type {
-  MessageIds,
-  Options,
-} from '../../../src/rules/no-positive-tabindex';
+import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
+import type { MessageIds, Options } from '../../../src/rules/no-positive-tabindex';
 
 const messageId: MessageIds = 'noPositiveTabindex';
 const suggestNonNegativeTabindex: MessageIds = 'suggestNonNegativeTabindex';
@@ -53,8 +47,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     ],
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail if `tabindex` attribute is positive on a uppercase element',
+    description: 'should fail if `tabindex` attribute is positive on a uppercase element',
     annotatedSource: `
         <DIV tabindex="5"></DIV>
                        ~

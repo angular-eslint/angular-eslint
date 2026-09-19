@@ -1,12 +1,6 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type {
-  InvalidTestCase,
-  ValidTestCase,
-} from '@typescript-eslint/rule-tester';
-import type {
-  MessageIds,
-  Options,
-} from '../../../src/rules/no-duplicate-attributes';
+import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
+import type { MessageIds, Options } from '../../../src/rules/no-duplicate-attributes';
 
 const messageId: MessageIds = 'noDuplicateAttributes';
 const suggestRemoveAttribute: MessageIds = 'suggestRemoveAttribute';
@@ -78,8 +72,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     ],
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail with an input and a text attribute with the same name',
+    description: 'should fail with an input and a text attribute with the same name',
     annotatedSource: `
         <input [name]="foo" name="bar">
                ~~~~~~~~~~~~ ^^^^^^^^^^
@@ -235,8 +228,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     ],
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail with duplicate attributes but allow non duplicates',
+    description: 'should fail with duplicate attributes but allow non duplicates',
     annotatedSource: `
         <input [name]="foo" [other]="bam" [name]="bar">
                ~~~~~~~~~~~~               ^^^^^^^^^^^^

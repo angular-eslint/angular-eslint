@@ -12,7 +12,5 @@ const nonAriaElements = [
 
 let domElements: ReadonlySet<string> | null = null;
 export function getDomElements(): ReadonlySet<string> {
-  return (
-    domElements ?? (domElements = new Set([...dom.keys(), ...nonAriaElements]))
-  );
+  return domElements ?? (domElements = new Set([...dom.keys(), ...nonAriaElements]));
 }

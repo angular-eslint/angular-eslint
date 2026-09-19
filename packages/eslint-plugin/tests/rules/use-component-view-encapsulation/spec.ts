@@ -1,7 +1,5 @@
 import { RuleTester } from '@angular-eslint/test-utils';
-import rule, {
-  RULE_NAME,
-} from '../../../src/rules/use-component-view-encapsulation';
+import rule, { RULE_NAME } from '../../../src/rules/use-component-view-encapsulation';
 
 import { invalid, valid } from './cases';
 

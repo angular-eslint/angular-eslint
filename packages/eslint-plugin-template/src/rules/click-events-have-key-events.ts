@@ -1,7 +1,4 @@
-import type {
-  TmplAstBoundEvent,
-  TmplAstElement,
-} from '@angular-eslint/bundled-angular-compiler';
+import type { TmplAstBoundEvent, TmplAstElement } from '@angular-eslint/bundled-angular-compiler';
 import { getTemplateParserServices } from '@angular-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import { createIgnoredDirectiveMatcher } from '../utils/has-ignored-directive';
@@ -50,8 +47,7 @@ export default createESLintRule<Options, MessageIds>({
             uniqueItems: true,
             description:
               'Directive names that, when present on the element, cause it to be ignored. Entries wrapped in slashes, e.g. `/^tui/`, are treated as regular expressions.',
-            default: DEFAULT_OPTIONS.ignoreWithDirectives as
-              string[] | undefined,
+            default: DEFAULT_OPTIONS.ignoreWithDirectives as string[] | undefined,
           },
           requireKeyCode: {
             type: 'boolean',
@@ -85,8 +81,7 @@ export default createESLintRule<Options, MessageIds>({
     const normalizedAllowedKeyCodes = (allowedKeyCodes ?? []).map((keyCode) =>
       keyCode.toLowerCase(),
     );
-    const hasIgnoredDirective =
-      createIgnoredDirectiveMatcher(ignoreWithDirectives);
+    const hasIgnoredDirective = createIgnoredDirectiveMatcher(ignoreWithDirectives);
 
     return {
       Element(node: TmplAstElement) {
@@ -126,11 +121,9 @@ export default createESLintRule<Options, MessageIds>({
           if (normalizedAllowedKeyCodes.length > 0) {
             hasSatisfyingKeyEvent =
               hasSatisfyingKeyEvent ||
-              (keyCode !== undefined &&
-                normalizedAllowedKeyCodes.includes(keyCode));
+              (keyCode !== undefined && normalizedAllowedKeyCodes.includes(keyCode));
           } else if (requireKeyCode) {
-            hasSatisfyingKeyEvent =
-              hasSatisfyingKeyEvent || keyCode !== undefined;
+            hasSatisfyingKeyEvent = hasSatisfyingKeyEvent || keyCode !== undefined;
           } else {
             hasSatisfyingKeyEvent = true;
           }
@@ -166,9 +159,7 @@ export default createESLintRule<Options, MessageIds>({
 });
 
 function isKeyEvent({ name }: TmplAstBoundEvent): boolean {
-  return KEY_EVENTS.some(
-    (keyEvent) => name === keyEvent || name.startsWith(`${keyEvent}.`),
-  );
+  return KEY_EVENTS.some((keyEvent) => name === keyEvent || name.startsWith(`${keyEvent}.`));
 }
 
 /**

@@ -6,9 +6,7 @@ function escapeRegExp(str: string) {
 }
 
 function normalizeVersionOfPackage(str: string, pkg: string) {
-  const regex = new RegExp(
-    `("${escapeRegExp(pkg)}": "[~|^]\\d+\\.)(\\d+\\.\\d+)"`,
-  );
+  const regex = new RegExp(`("${escapeRegExp(pkg)}": "[~|^]\\d+\\.)(\\d+\\.\\d+)"`);
   return str.replace(regex, '$1X.X"');
 }
 

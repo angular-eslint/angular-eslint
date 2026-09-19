@@ -1,12 +1,6 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
-import type {
-  InvalidTestCase,
-  ValidTestCase,
-} from '@typescript-eslint/rule-tester';
-import type {
-  MessageIds,
-  Options,
-} from '../../../src/rules/use-track-by-function';
+import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
+import type { MessageIds, Options } from '../../../src/rules/use-track-by-function';
 
 const messageId: MessageIds = 'useTrackByFunction';
 
@@ -99,8 +93,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail when trackBy function (`ngForTrackByProperty` alias) is not present',
+    description: 'should fail when trackBy function (`ngForTrackByProperty` alias) is not present',
     options: [{ alias: ['ngForTrackByProperty'] }],
     annotatedSource: `
         <ul>
@@ -123,8 +116,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail when [ngForTrackByProperty] is missing in ng-template',
+    description: 'should fail when [ngForTrackByProperty] is missing in ng-template',
     options: [{ alias: ['ngForTrackByProperty'] }],
     annotatedSource: `
         <ng-template ngFor let-item [ngForOf]="[1, 2, 3]" let-i="index">
@@ -151,8 +143,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
   }),
   convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail when trackBy function is missing in multiple *ngFor',
+    description: 'should fail when trackBy function is missing in multiple *ngFor',
     annotatedSource: `
         <div *ngFor="let item of [1, 2, 3];">
              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

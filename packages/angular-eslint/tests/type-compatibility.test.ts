@@ -94,15 +94,9 @@ config(
 /**
  * Test 5: Verify spreading configs works with defineConfig
  */
-defineConfig([
-  ...angular.configs.tsRecommended,
-  ...angular.configs.templateRecommended,
-]);
+defineConfig([...angular.configs.tsRecommended, ...angular.configs.templateRecommended]);
 
 /**
  * Test 6: Verify spreading configs works with typescript-eslint's config
  */
-config(
-  ...angular.configs.tsRecommended,
-  ...angular.configs.templateRecommended,
-);
+config(...angular.configs.tsRecommended, ...angular.configs.templateRecommended);

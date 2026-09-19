@@ -20,8 +20,7 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'suggestion',
     docs: {
-      description:
-        'Disallows calling expressions in templates, except for output handlers',
+      description: 'Disallows calling expressions in templates, except for output handlers',
     },
     schema: [
       {
@@ -41,9 +40,7 @@ export default createESLintRule<Options, MessageIds>({
     messages: {
       noCallExpression: 'Avoid calling expressions in templates',
     },
-    defaultOptions: [
-      { allowList: [], allowPrefix: undefined, allowSuffix: undefined },
-    ],
+    defaultOptions: [{ allowList: [], allowPrefix: undefined, allowSuffix: undefined }],
   },
   create(context, [{ allowList, allowPrefix, allowSuffix }]) {
     ensureTemplateParser(context);
@@ -51,14 +48,9 @@ export default createESLintRule<Options, MessageIds>({
 
     return {
       'Call[receiver.name!="$any"]'(node: Call) {
-        const isChildOfBoundEvent = Boolean(
-          getNearestNodeFrom(node, isBoundEvent),
-        );
+        const isChildOfBoundEvent = Boolean(getNearestNodeFrom(node, isBoundEvent));
 
-        if (
-          isChildOfBoundEvent ||
-          isCallNameInAllowList(node.receiver, allowList)
-        ) {
+        if (isChildOfBoundEvent || isCallNameInAllowList(node.receiver, allowList)) {
           return;
         }
 
@@ -98,10 +90,7 @@ function isCallNameInAllowList(
   allowList?: readonly string[],
 ): boolean | undefined {
   return (
-    allowList &&
-    allowList.length > 0 &&
-    isASTWithName(ast) &&
-    allowList.indexOf(ast.name) > -1
+    allowList && allowList.length > 0 && isASTWithName(ast) && allowList.indexOf(ast.name) > -1
   );
 }
 

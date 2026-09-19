@@ -19,9 +19,7 @@ export async function runCommandOnLocalRegistry(
       ------------------
     `);
   }
-  console.log(
-    `\n[e2e debug output] Running command: ${command} ${args.join(' ')}\n`,
-  );
+  console.log(`\n[e2e debug output] Running command: ${command} ${args.join(' ')}\n`);
 
   const subprocess = execa(command, args);
   subprocess.stdout!.pipe(process.stdout);
@@ -29,25 +27,17 @@ export async function runCommandOnLocalRegistry(
   return await subprocess;
 }
 
-export async function runNpmInstall(): Promise<
-  execa.ExecaChildProcess<string>
-> {
+export async function runNpmInstall(): Promise<execa.ExecaChildProcess<string>> {
   return await runCommandOnLocalRegistry('npm', ['install']);
 }
 
-export async function runNgAdd(
-  extraArgs: string[] = [],
-): Promise<execa.ExecaChildProcess<string>> {
+export async function runNgAdd(extraArgs: string[] = []): Promise<execa.ExecaChildProcess<string>> {
   /**
    * Force our e2e published version to be readily available on disk to
    * ensure that the @angular/cli resolves it correctly during `ng add`.
    * In practice, without this step it seems to be very inconsistent.
    */
-  await runCommandOnLocalRegistry('npm', [
-    'view',
-    '@angular-eslint/schematics',
-    'version',
-  ]);
+  await runCommandOnLocalRegistry('npm', ['view', '@angular-eslint/schematics', 'version']);
   await runCommandOnLocalRegistry('npm', [
     'install',
     '-D',
@@ -67,11 +57,7 @@ export async function runNgNew(
   workspaceName: string,
   createApplication = true,
 ): Promise<execa.ExecaChildProcess<string>> {
-  const ngNewArgs = [
-    `--strict=true`,
-    `--package-manager=npm`,
-    `--interactive=false`,
-  ];
+  const ngNewArgs = [`--strict=true`, `--package-manager=npm`, `--interactive=false`];
   if (!createApplication) {
     ngNewArgs.push(`--create-application=false`);
   }
@@ -82,8 +68,6 @@ export async function runNgNew(
   );
 }
 
-export async function runNgGenerate(
-  args: string[],
-): Promise<execa.ExecaChildProcess<string>> {
+export async function runNgGenerate(args: string[]): Promise<execa.ExecaChildProcess<string>> {
   return await runCommandOnLocalRegistry('npx', ['ng', 'generate', ...args]);
 }

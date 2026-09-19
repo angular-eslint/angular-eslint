@@ -1,9 +1,4 @@
-import {
-  ASTUtils,
-  RuleFixes,
-  Selectors,
-  isNotNullOrUndefined,
-} from '@angular-eslint/utils';
+import { ASTUtils, RuleFixes, Selectors, isNotNullOrUndefined } from '@angular-eslint/utils';
 import type { TSESLint, TSESTree } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
@@ -50,9 +45,7 @@ export default createESLintRule<Options, MessageIds>({
   },
   create(context, [{ allowExplicitOnPush }]) {
     const sourceCode = context.sourceCode;
-    const changeDetectionMetadataProperty = Selectors.metadataProperty(
-      METADATA_PROPERTY_NAME,
-    );
+    const changeDetectionMetadataProperty = Selectors.metadataProperty(METADATA_PROPERTY_NAME);
     const changeDetectionStrategyProperty =
       `${Selectors.COMPONENT_CLASS_DECORATOR} > CallExpression > ObjectExpression > ${changeDetectionMetadataProperty}[value.object.name='ChangeDetectionStrategy']` as const;
     const onPushOptOutProperty =
@@ -64,8 +57,7 @@ export default createESLintRule<Options, MessageIds>({
       node: TSESTree.Property,
       fixer: TSESLint.RuleFixer,
     ): TSESLint.RuleFix[] {
-      const importDeclarations =
-        ASTUtils.getImportDeclarations(node, '@angular/core') ?? [];
+      const importDeclarations = ASTUtils.getImportDeclarations(node, '@angular/core') ?? [];
 
       return [
         RuleFixes.getNodeToCommaRemoveFix(sourceCode, node, fixer),

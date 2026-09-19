@@ -28,8 +28,7 @@ export default createESLintRule<Options, MessageIds>({
   meta: {
     type: 'problem',
     docs: {
-      description:
-        'Ensures that there are no duplicate input properties or output event listeners',
+      description: 'Ensures that there are no duplicate input properties or output event listeners',
     },
     hasSuggestions: true,
     schema: [
@@ -63,10 +62,7 @@ export default createESLintRule<Options, MessageIds>({
     },
     defaultOptions: [DEFAULT_OPTIONS],
   },
-  create(
-    context,
-    [{ allowTwoWayDataBinding, allowStylePrecedenceDuplicates, ignore }],
-  ) {
+  create(context, [{ allowTwoWayDataBinding, allowStylePrecedenceDuplicates, ignore }]) {
     const parserServices = getTemplateParserServices(context);
 
     return {
@@ -75,27 +71,18 @@ export default createESLintRule<Options, MessageIds>({
         // Angular merges both attributes which means their combined use can be seen as valid
         const angularStylePrecedenceDuplicatesAllowed = ['class', 'style'];
 
-        let duplicateInputsAndAttributes = findDuplicates([
-          ...inputs,
-          ...attributes,
-        ]);
+        let duplicateInputsAndAttributes = findDuplicates([...inputs, ...attributes]);
 
         if (allowStylePrecedenceDuplicates) {
           const inputsIgnored = inputs.filter((input) =>
-            angularStylePrecedenceDuplicatesAllowed.includes(
-              getOriginalAttributeName(input),
-            ),
+            angularStylePrecedenceDuplicatesAllowed.includes(getOriginalAttributeName(input)),
           );
 
           if (inputsIgnored?.length > 0) {
             const attributesIgnored = attributes.filter((attr) =>
-              angularStylePrecedenceDuplicatesAllowed.includes(
-                getOriginalAttributeName(attr),
-              ),
+              angularStylePrecedenceDuplicatesAllowed.includes(getOriginalAttributeName(attr)),
             );
-            const inputsNotIgnored = inputs.filter(
-              (input) => !inputsIgnored.includes(input),
-            );
+            const inputsNotIgnored = inputs.filter((input) => !inputsIgnored.includes(input));
             const attributesNotIgnored = attributes.filter(
               (attr) => !attributesIgnored.includes(attr),
             );
@@ -107,10 +94,7 @@ export default createESLintRule<Options, MessageIds>({
               ...findDuplicates(inputsNotIgnored),
               ...findDuplicates(attributesNotIgnored),
             ];
-            duplicateInputsAndAttributes = [
-              ...ignoreDuplicated,
-              ...notIgnoredDuplicates,
-            ];
+            duplicateInputsAndAttributes = [...ignoreDuplicated, ...notIgnoredDuplicates];
           }
         }
 
@@ -124,23 +108,17 @@ export default createESLintRule<Options, MessageIds>({
             })
           : outputs;
         const duplicateOutputs = findDuplicates(filteredOutputs);
-        const allDuplicates = [
-          ...duplicateInputsAndAttributes,
-          ...duplicateOutputs,
-        ] as const;
+        const allDuplicates = [...duplicateInputsAndAttributes, ...duplicateOutputs] as const;
 
         const filteredDuplicates =
           ignore && ignore.length > 0
             ? allDuplicates.filter(
-                (duplicate) =>
-                  !ignore.includes(getOriginalAttributeName(duplicate)),
+                (duplicate) => !ignore.includes(getOriginalAttributeName(duplicate)),
               )
             : allDuplicates;
 
         filteredDuplicates.forEach((duplicate) => {
-          const loc = parserServices.convertNodeSourceSpanToLoc(
-            duplicate.sourceSpan,
-          );
+          const loc = parserServices.convertNodeSourceSpanToLoc(duplicate.sourceSpan);
           const data = {
             attributeName: getOriginalAttributeName(duplicate),
           } as const;
@@ -152,8 +130,7 @@ export default createESLintRule<Options, MessageIds>({
             suggest: [
               {
                 messageId: 'suggestRemoveAttribute',
-                fix: (fixer) =>
-                  fixer.removeRange([loc.start.column, loc.end.column + 1]),
+                fix: (fixer) => fixer.removeRange([loc.start.column, loc.end.column + 1]),
                 data,
               },
             ],
@@ -165,15 +142,13 @@ export default createESLintRule<Options, MessageIds>({
 });
 
 function findDuplicates<
-  TAttributeType extends
-    TmplAstBoundEvent | TmplAstBoundAttribute | TmplAstTextAttribute,
+  TAttributeType extends TmplAstBoundEvent | TmplAstBoundAttribute | TmplAstTextAttribute,
 >(elements: readonly TAttributeType[]): readonly TAttributeType[] {
   return elements.filter((element) => {
     return elements.some(
       (otherElement) =>
         otherElement !== element &&
-        getOriginalAttributeName(otherElement) ===
-          getOriginalAttributeName(element),
+        getOriginalAttributeName(otherElement) === getOriginalAttributeName(element),
     );
   });
 }

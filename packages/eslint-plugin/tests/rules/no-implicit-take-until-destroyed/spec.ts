@@ -1,7 +1,5 @@
 import { RuleTester } from '@angular-eslint/test-utils';
-import rule, {
-  RULE_NAME,
-} from '../../../src/rules/no-implicit-take-until-destroyed';
+import rule, { RULE_NAME } from '../../../src/rules/no-implicit-take-until-destroyed';
 import { invalid, valid } from './cases';
 
 const ruleTester = new RuleTester();

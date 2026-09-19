@@ -3,10 +3,7 @@
  * package-manager peer on `@angular/cli`.
  */
 
-export const ANGULAR_PACKAGES_TO_CHECK = [
-  '@angular/core',
-  '@angular/cli',
-] as const;
+export const ANGULAR_PACKAGES_TO_CHECK = ['@angular/core', '@angular/cli'] as const;
 
 export interface PackageJsonLike {
   dependencies?: Record<string, string>;
@@ -25,9 +22,7 @@ export interface AngularVersionMismatch {
  * Best-effort major from a semver version or range (`^22.1.0`, `~21.2.0`,
  * `>= 22.0.0 < 23.0.0`, `22.1.0`).
  */
-export function parseMajorVersion(
-  specifier: string | undefined | null,
-): number | null {
+export function parseMajorVersion(specifier: string | undefined | null): number | null {
   if (!specifier) {
     return null;
   }
@@ -53,15 +48,8 @@ export function parseMajorVersion(
   return major;
 }
 
-export function findDeclaredDependency(
-  pkg: PackageJsonLike,
-  name: string,
-): string | undefined {
-  return (
-    pkg.dependencies?.[name] ??
-    pkg.devDependencies?.[name] ??
-    pkg.peerDependencies?.[name]
-  );
+export function findDeclaredDependency(pkg: PackageJsonLike, name: string): string | undefined {
+  return pkg.dependencies?.[name] ?? pkg.devDependencies?.[name] ?? pkg.peerDependencies?.[name];
 }
 
 export function findAngularVersionMismatches(
@@ -95,10 +83,7 @@ export function hasDetectableAngularVersion(
     if (installed != null) {
       return true;
     }
-    return (
-      parseMajorVersion(findDeclaredDependency(workspacePackageJson, name)) !==
-      null
-    );
+    return parseMajorVersion(findDeclaredDependency(workspacePackageJson, name)) !== null;
   });
 }
 
@@ -111,8 +96,7 @@ function formatAngularVersionMismatchDetails(
 ): string {
   const details = mismatches
     .map(
-      (mismatch) =>
-        `  - ${mismatch.packageName}@${mismatch.specifier} (v${mismatch.foundMajor})`,
+      (mismatch) => `  - ${mismatch.packageName}@${mismatch.specifier} (v${mismatch.foundMajor})`,
     )
     .join('\n');
   return `
@@ -133,9 +117,7 @@ See ${ANGULAR_VERSION_SUPPORT_DOCS_URL}
 `.trim();
 }
 
-export function formatAngularVersionMatchMessage(
-  expectedMajor: number,
-): string {
+export function formatAngularVersionMatchMessage(expectedMajor: number): string {
   return `angular-eslint v${expectedMajor} matches this workspace's Angular v${expectedMajor}.`;
 }
 
@@ -144,12 +126,8 @@ export function formatAngularVersionMatchMessage(
  * the mismatches found. `@angular/core` is the source of truth for the
  * workspace's Angular version, so prefer it over `@angular/cli`.
  */
-export function getRecommendedAngularMajor(
-  mismatches: AngularVersionMismatch[],
-): number | null {
-  const core = mismatches.find(
-    (mismatch) => mismatch.packageName === '@angular/core',
-  );
+export function getRecommendedAngularMajor(mismatches: AngularVersionMismatch[]): number | null {
+  const core = mismatches.find((mismatch) => mismatch.packageName === '@angular/core');
   return core?.foundMajor ?? mismatches[0]?.foundMajor ?? null;
 }
 
@@ -162,8 +140,7 @@ export function formatAngularVersionMismatchError(
   expectedMajor: number,
   mismatches: AngularVersionMismatch[],
 ): string {
-  const major =
-    getRecommendedAngularMajor(mismatches) ?? '<your Angular major>';
+  const major = getRecommendedAngularMajor(mismatches) ?? '<your Angular major>';
   return `
 ${formatAngularVersionMismatchDetails(expectedMajor, mismatches)}
 
