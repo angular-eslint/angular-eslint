@@ -176,13 +176,17 @@ export default createESLintRule<Options, MessageIds>({
 
     return {
       "PropertyDefinition > CallExpression[callee.name='input']":
-        createSignalCollector(inputs, { hasInitialValueArgument: true }),
+        createSignalCollector(inputs, {
+          hasInitialValueArgument: true,
+        }),
 
       "PropertyDefinition > CallExpression[callee.object.name='input'][callee.property.name='required']":
         createSignalCollector(inputs, { hasInitialValueArgument: false }),
 
       "PropertyDefinition > CallExpression[callee.name='output']":
-        createSignalCollector(outputs, { hasInitialValueArgument: false }),
+        createSignalCollector(outputs, {
+          hasInitialValueArgument: false,
+        }),
 
       'ClassDeclaration:exit'() {
         const twoWayBindings = [...inputs]

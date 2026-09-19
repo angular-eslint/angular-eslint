@@ -1,4 +1,7 @@
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { describe, it, expect, beforeEach } from 'vitest';
+import { workspaceRoot } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { type Tree } from '@nx/devkit';
 
@@ -9,8 +12,11 @@ describe('rule generator', () => {
   let tree: Tree;
 
   beforeEach(() => {
-    // nx 23.2 defaults the test tree to oxfmt; this repo formats with prettier.
-    tree = createTreeWithEmptyWorkspace({ formatter: 'prettier' });
+    tree = createTreeWithEmptyWorkspace({ formatter: 'oxfmt' });
+    tree.write(
+      '.oxfmtrc.json',
+      readFileSync(join(workspaceRoot, '.oxfmtrc.json'), 'utf-8'),
+    );
   });
 
   it('should successfully generate a new rule for package eslint-plugin', async () => {

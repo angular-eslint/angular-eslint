@@ -70,4 +70,10 @@ module.exports = [
       'valid-rule/require-rule-docs-extension': 'error',
     },
   },
+  {
+    files: ['packages/nx-plugin/src/formatting/**/*.spec.ts'],
+    rules: {
+      '@nx/enforce-module-boundaries': 'off',
+    },
+  },
 ];

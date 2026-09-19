@@ -103,9 +103,9 @@ export default createESLintRule<Options, MessageIds>({
     }
 
     return {
-      [`${Selectors.decoratorDefinition(
-        angularDecoratorsPattern,
-      )} > ClassBody`](node: TSESTree.ClassBody) {
+      [`${Selectors.decoratorDefinition(angularDecoratorsPattern)} > ClassBody`](
+        node: TSESTree.ClassBody,
+      ) {
         let seenNonInject = false;
 
         for (const member of node.body) {

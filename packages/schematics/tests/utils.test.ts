@@ -416,7 +416,9 @@ describe('updateSchematicDefaults', () => {
     const result = updateSchematicDefaults(
       {},
       '@angular-eslint/schematics:library',
-      { setParserOptionsProject: false },
+      {
+        setParserOptionsProject: false,
+      },
     );
     expect(result.schematics['@angular-eslint/schematics:library']).toEqual({
       setParserOptionsProject: false,

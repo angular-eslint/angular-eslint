@@ -9,7 +9,8 @@ import { createESLintRule } from '../utils/create-eslint-rule';
 
 export type Options = [];
 export type MessageIds =
-  'useComponentViewEncapsulation' | 'suggestRemoveViewEncapsulationNone';
+  | 'useComponentViewEncapsulation'
+  | 'suggestRemoveViewEncapsulationNone';
 export const RULE_NAME = 'use-component-view-encapsulation';
 const VIEW_ENCAPSULATION_NONE = 'ViewEncapsulation.None';
 

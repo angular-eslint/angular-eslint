@@ -124,10 +124,12 @@ function getTotalComplexity(ast: AST): number {
   const possibleBinaryOrConditional =
     extractPossibleBinaryOrConditionalFrom(ast);
 
-  if (!(
-    possibleBinaryOrConditional instanceof Binary ||
-    possibleBinaryOrConditional instanceof Conditional
-  )) {
+  if (
+    !(
+      possibleBinaryOrConditional instanceof Binary ||
+      possibleBinaryOrConditional instanceof Conditional
+    )
+  ) {
     return 0;
   }
 

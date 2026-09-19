@@ -621,7 +621,10 @@ interface ForNodeInfo {
 interface IfNodeInfo {
   readonly node: TmplAstIfBlock;
   readonly kind:
-    'if-empty' | 'if-empty-else' | 'if-not-empty' | 'if-not-empty-else';
+    | 'if-empty'
+    | 'if-empty-else'
+    | 'if-not-empty'
+    | 'if-not-empty-else';
   readonly collection: AST;
 }
 
