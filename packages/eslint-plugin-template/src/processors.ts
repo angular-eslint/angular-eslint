@@ -54,6 +54,11 @@ type PreprocessResult = (string | { text: string; filename: string })[];
 export function preprocessComponentFile(
   text: string,
   filename: string,
+  /**
+   * Allows callers which have already parsed the file (e.g. the
+   * extract-inline-styles processor) to avoid a second full parse.
+   */
+  parsedSourceFile?: ts.SourceFile,
 ): PreprocessResult {
   // This effectively instructs ESLint that there were no code blocks to extract for the current file
   const noopResult = [text];
@@ -63,12 +68,14 @@ export function preprocessComponentFile(
   }
 
   try {
-    const sourceFile = ts.createSourceFile(
-      filename,
-      text,
-      ts.ScriptTarget.Latest,
-      /* setParentNodes */ true,
-    );
+    const sourceFile =
+      parsedSourceFile ??
+      ts.createSourceFile(
+        filename,
+        text,
+        ts.ScriptTarget.Latest,
+        /* setParentNodes */ true,
+      );
 
     const classDeclarations = getClassDeclarationFromSourceFile(sourceFile);
     if (!classDeclarations || !classDeclarations.length) {
@@ -620,10 +627,18 @@ function extractComponentStyles(sourceFile: ts.SourceFile): MappedStyle[] {
 
 function mapStyleMessage(message: StyleMessage, style: MappedStyle) {
   function location(line: number, column: number) {
-    const offset = style.virtualSource.getPositionOfLineAndCharacter(
-      line - 1,
-      column - 1,
-    );
+    let offset: number;
+    try {
+      offset = style.virtualSource.getPositionOfLineAndCharacter(
+        line - 1,
+        column - 1,
+      );
+    } catch {
+      // The CSS linter reported a location outside of the virtual file
+      // (e.g. a parse error at end of input). Leave the location unmapped
+      // rather than aborting linting of the whole file.
+      return undefined;
+    }
     const sourceOffset = style.offsets[offset];
     if (sourceOffset === undefined) {
       return undefined;
@@ -695,6 +710,10 @@ function preprocessInlineStyles(
   pendingStyles.delete(filename);
 
   if (filename.endsWith('.html')) {
+    // Cheap check before paying for a full HTML parse
+    if (!/\bstyle\s*=/i.test(text)) {
+      return [text];
+    }
     const parentStyles = pendingStyles.get(dirname(filename));
     const templateFilename = basename(filename).replace(/^\d+_/, '');
     const templateRange = rangeMap.get(templateFilename)?.range;
@@ -733,20 +752,23 @@ function preprocessInlineStyles(
     ];
   }
 
-  if (!filename.endsWith('.ts')) {
+  if (
+    !filename.endsWith('.ts') ||
+    !isFileLikelyToContainComponentDeclarations(text, filename)
+  ) {
     return [text];
   }
 
-  const templates = preprocessComponentFile(text, filename);
+  // Parse once and share the SourceFile between template and style extraction
+  const sourceFile = ts.createSourceFile(
+    filename,
+    text,
+    ts.ScriptTarget.Latest,
+    /* setParentNodes */ true,
+  );
+  const templates = preprocessComponentFile(text, filename, sourceFile);
   let styles: MappedStyle[];
   try {
-    const sourceFile = ts.createSourceFile(
-      filename,
-      text,
-      ts.ScriptTarget.Latest,
-      true,
-      ts.ScriptKind.TS,
-    );
     styles = extractComponentStyles(sourceFile);
   } catch {
     return templates;
