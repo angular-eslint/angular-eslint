@@ -1,5 +1,6 @@
 import {
   AST,
+  Interpolation,
   LiteralPrimitive,
   TemplateLiteral,
 } from '@angular-eslint/bundled-angular-compiler';
@@ -29,6 +30,15 @@ export function isTemplateLiteral(node: AST): node is TemplateLiteral {
     !!node &&
     ((node as { type?: string }).type === 'TemplateLiteral' ||
       node instanceof TemplateLiteral)
+  );
+}
+
+export function isInterpolation(node: AST): node is Interpolation {
+  // See the note in `isLiteralPrimitive` about `instanceof`.
+  return (
+    !!node &&
+    ((node as { type?: string }).type === 'Interpolation' ||
+      node instanceof Interpolation)
   );
 }
 

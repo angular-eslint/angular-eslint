@@ -7,6 +7,7 @@ import { getTemplateParserServices } from '@angular-eslint/utils';
 import type { RuleFix, RuleFixer } from '@typescript-eslint/utils/ts-eslint';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import {
+  isInterpolation,
   isStringLiteralPrimitive,
   isTemplateLiteral,
 } from '../utils/literal-primitive';
@@ -78,10 +79,13 @@ const CSS_UNITS = [
   'dvmax',
 ] as const;
 const CSS_UNITS_PATTERN = CSS_UNITS.join('|');
+const CSS_NUMBER_PATTERN = '[+-]?(?:\\d+(?:\\.\\d+)?|\\.\\d+)';
+// CSS units are case-insensitive, hence the `i` flag on both patterns.
 const NUMBER_WITH_UNIT = new RegExp(
-  '^(?<value>-?\\d+(?:\\.\\d+)?)(?<unit>' + CSS_UNITS_PATTERN + ')$',
+  '^(?<value>' + CSS_NUMBER_PATTERN + ')(?<unit>' + CSS_UNITS_PATTERN + ')$',
+  'i',
 );
-const UNIT_ONLY = new RegExp('^(?:' + CSS_UNITS_PATTERN + ')$');
+const UNIT_ONLY = new RegExp('^(?:' + CSS_UNITS_PATTERN + ')$', 'i');
 
 const STYLE_KEY_PREFIX = 'style.';
 
@@ -107,7 +111,7 @@ export default createESLintRule<Options, MessageIds>({
           bindUnits: {
             type: 'boolean',
             description:
-              'Whether to also report `[style.property]` bindings whose bound value embeds the CSS unit, such as `[style.width]="\'30px\'"` or a template literal interpolating a single expression before the unit, which are better expressed with the unit in the binding name (e.g. `[style.width.px]="30"`).',
+              'Whether to also report `[style.property]` bindings whose bound value embeds the CSS unit, such as `[style.width]="\'30px\'"`, or a template literal or interpolation ending in the unit after a single expression, which are better expressed with the unit in the binding name (e.g. `[style.width.px]="30"`).',
             default: DEFAULT_OPTIONS.bindUnits,
           },
         },
@@ -152,31 +156,35 @@ export default createESLintRule<Options, MessageIds>({
           loc,
         });
       },
-      BoundAttribute(node: TmplAstBoundAttribute) {
-        if (!bindUnits) {
-          return;
-        }
+      ...(bindUnits
+        ? {
+            BoundAttribute(node: TmplAstBoundAttribute) {
+              if (!isFirstReportFor('preferStyleUnitBinding', node)) {
+                return;
+              }
 
-        const property = getStyleProperty(node);
-        if (!property) {
-          return;
-        }
+              const property = getStyleProperty(node);
+              if (!property) {
+                return;
+              }
 
-        const unitBinding = getUnitBinding(node, context.sourceCode.text);
-        if (!unitBinding || !isFirstReportFor('preferStyleUnitBinding', node)) {
-          return;
-        }
+              const unitBinding = getUnitBinding(node, context.sourceCode.text);
+              if (!unitBinding) {
+                return;
+              }
 
-        context.report({
-          messageId: 'preferStyleUnitBinding',
-          loc: parserServices.convertNodeSourceSpanToLoc(node.sourceSpan),
-          data: {
-            property,
-            unit: unitBinding.unit,
-          },
-          fix: (fixer) => createUnitBindingFix(fixer, node, unitBinding),
-        });
-      },
+              context.report({
+                messageId: 'preferStyleUnitBinding',
+                loc: parserServices.convertNodeSourceSpanToLoc(node.sourceSpan),
+                data: {
+                  property,
+                  unit: unitBinding.unit,
+                },
+                fix: (fixer) => createUnitBindingFix(fixer, node, unitBinding),
+              });
+            },
+          }
+        : {}),
     };
   },
 });
@@ -204,28 +212,40 @@ function getUnitBinding(
   if (isStringLiteralPrimitive(value)) {
     const groups = NUMBER_WITH_UNIT.exec(value.value)?.groups;
     return groups?.['unit'] && groups['value']
-      ? { unit: groups['unit'], value: groups['value'] }
+      ? { unit: groups['unit'].toLowerCase(), value: groups['value'] }
       : null;
   }
 
+  const verbatim = getVerbatimValue(node, withSource, templateText);
+
   if (isTemplateLiteral(value)) {
-    const { elements, expressions } = value;
-    // Only `` `${expression}unit` `` can be expressed as a unit binding.
-    if (
-      expressions.length !== 1 ||
-      elements.length !== 2 ||
-      elements[0].text !== '' ||
-      !UNIT_ONLY.test(elements[1].text)
-    ) {
+    const unit = getTrailingUnit(
+      value.elements.map(({ text }) => text),
+      value.expressions.length,
+    );
+    if (!unit) {
       return null;
     }
 
-    const { sourceSpan } = expressions[0];
+    const { sourceSpan } = value.expressions[0];
     return {
-      unit: elements[1].text,
-      value: hasVerbatimSource(node, withSource, templateText)
-        ? templateText.slice(sourceSpan.start, sourceSpan.end)
-        : null,
+      unit: unit.toLowerCase(),
+      value:
+        verbatim === null
+          ? null
+          : templateText.slice(sourceSpan.start, sourceSpan.end),
+    };
+  }
+
+  if (isInterpolation(value)) {
+    const unit = getTrailingUnit(value.strings, value.expressions.length);
+    if (!unit) {
+      return null;
+    }
+
+    return {
+      unit: unit.toLowerCase(),
+      value: verbatim === null ? null : verbatim.slice(0, -unit.length),
     };
   }
 
@@ -233,19 +253,40 @@ function getUnitBinding(
 }
 
 /**
- * Angular parses attribute values after decoding HTML entities, so expression
- * source spans index the decoded value, not the raw template.
+ * The CSS unit closing a string built from a single expression, such as the
+ * `px` of `` `${width}px` `` or of `{{ width }}px`.
  */
-function hasVerbatimSource(
+function getTrailingUnit(
+  strings: readonly string[],
+  expressionCount: number,
+): string | null {
+  return expressionCount === 1 &&
+    strings.length === 2 &&
+    strings[0] === '' &&
+    UNIT_ONLY.test(strings[1])
+    ? strings[1]
+    : null;
+}
+
+/**
+ * Angular parses attribute values after decoding HTML entities, so expression
+ * source spans index the decoded value, not the raw template. They also count
+ * from `fullStart`, which includes the whitespace `start` skips.
+ */
+function getVerbatimValue(
   { valueSpan }: TmplAstBoundAttribute,
   withSource: ASTWithSource | null,
   templateText: string,
-): boolean {
-  return (
-    !!valueSpan &&
-    templateText.slice(valueSpan.start.offset, valueSpan.end.offset) ===
-      withSource?.source
+): string | null {
+  if (!valueSpan) {
+    return null;
+  }
+
+  const raw = templateText.slice(
+    valueSpan.fullStart.offset,
+    valueSpan.end.offset,
   );
+  return raw === withSource?.source ? raw : null;
 }
 
 function asASTWithSource(value: AST): ASTWithSource | null {
@@ -268,7 +309,7 @@ function createUnitBindingFix(
       `.${unit}`,
     ),
     fixer.replaceTextRange(
-      [valueSpan.start.offset, valueSpan.end.offset],
+      [valueSpan.fullStart.offset, valueSpan.end.offset],
       value,
     ),
   ];
@@ -276,5 +317,5 @@ function createUnitBindingFix(
 
 export const RULE_DOCS_EXTENSION = {
   rationale:
-    'For simple cases, [style] and [style.property] bindings offer a more straightforward syntax with better performance than ngStyle, and the Angular style guide recommends them over the NgStyle directive. However, ngStyle should still be used when you need mutations on objects, as style bindings compare the bound object by reference and only apply updates when a new object instance is provided. Note that ngStyle also accepts unit suffixes on object keys (for example `{ "max-width.px": width }`), which [style] object bindings do not support; express these as [style.max-width.px] bindings instead. See https://angular.dev/style-guide#prefer-class-and-style-over-ngclass-and-ngstyle and https://angular.dev/guide/templates/binding#css-class-and-style-property-bindings for more information. This rule helps identify potential simplification opportunities but should be applied judiciously based on your specific needs. The opt-in `bindUnits` option additionally flags `[style.property]` bindings that embed the CSS unit in the bound value, such as `[style.width]="\'30px\'"` or a template literal interpolating a single expression before the unit, which Angular can express as `[style.property.unit]` bindings instead, avoiding the string concatenation on every change detection cycle.',
+    'For simple cases, [style] and [style.property] bindings offer a more straightforward syntax with better performance than ngStyle, and the Angular style guide recommends them over the NgStyle directive. However, ngStyle should still be used when you need mutations on objects, as style bindings compare the bound object by reference and only apply updates when a new object instance is provided. Note that ngStyle also accepts unit suffixes on object keys (for example `{ "max-width.px": width }`), which [style] object bindings do not support; express these as [style.max-width.px] bindings instead. See https://angular.dev/style-guide#prefer-class-and-style-over-ngclass-and-ngstyle and https://angular.dev/guide/templates/binding#css-class-and-style-property-bindings for more information. This rule helps identify potential simplification opportunities but should be applied judiciously based on your specific needs. The opt-in `bindUnits` option additionally flags `[style.property]` bindings that embed the CSS unit in the bound value, such as `[style.width]="\'30px\'"`, or a template literal or interpolation ending in the unit after a single expression, which Angular can express as `[style.property.unit]` bindings instead, avoiding the string concatenation on every change detection cycle.',
 };

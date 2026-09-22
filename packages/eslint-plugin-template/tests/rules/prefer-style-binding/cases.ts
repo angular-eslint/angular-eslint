@@ -76,6 +76,19 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     code: `<div *ngIf="visible" [style.width.px]="width"></div>`,
     options: bindUnits,
   },
+  {
+    code: `<div style.width="30px"></div>`,
+    options: bindUnits,
+  },
+  {
+    code: `<div style.padding="{{top}}px {{left}}px"></div>`,
+    options: bindUnits,
+  },
+  {
+    // Text before the interpolation cannot be dropped
+    code: `<div style.width="calc({{width}}px)"></div>`,
+    options: bindUnits,
+  },
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
@@ -319,5 +332,123 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId: unitMessageId,
     options: bindUnits,
     data: { property: 'width', unit: 'px' },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fix a static value surrounded by whitespace without keeping it',
+    annotatedSource: `
+        <div [style.width]="  '30px'  "></div>
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId: unitMessageId,
+    options: bindUnits,
+    data: { property: 'width', unit: 'px' },
+    annotatedOutput: `
+        <div [style.width.px]="30"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fix a template literal surrounded by whitespace without keeping it',
+    annotatedSource: `
+        <div [style.width]="  \`\${width}px\`  "></div>
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId: unitMessageId,
+    options: bindUnits,
+    data: { property: 'width', unit: 'px' },
+    annotatedOutput: `
+        <div [style.width.px]="width"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail when an interpolation is followed by the unit, keeping the interpolation',
+    annotatedSource: `
+        <div style.width="{{width}}px"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId: unitMessageId,
+    options: bindUnits,
+    data: { property: 'width', unit: 'px' },
+    annotatedOutput: `
+        <div style.width.px="{{width}}"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should preserve the spacing inside an interpolation when fixing it',
+    annotatedSource: `
+        <div style.height="{{ height() }}em"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId: unitMessageId,
+    options: bindUnits,
+    data: { property: 'height', unit: 'em' },
+    annotatedOutput: `
+        <div style.height.em="{{ height() }}"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should match a unit case-insensitively and bind it in lower case',
+    annotatedSource: `
+        <div [style.width]="'30PX'"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId: unitMessageId,
+    options: bindUnits,
+    data: { property: 'width', unit: 'px' },
+    annotatedOutput: `
+        <div [style.width.px]="30"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should match a unit case-insensitively in a template literal too',
+    annotatedSource: `
+        <div [style.width]="\`\${width}PX\`"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId: unitMessageId,
+    options: bindUnits,
+    data: { property: 'width', unit: 'px' },
+    annotatedOutput: `
+        <div [style.width.px]="width"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should match a number with no integer part',
+    annotatedSource: `
+        <div [style.width]="'.5em'"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId: unitMessageId,
+    options: bindUnits,
+    data: { property: 'width', unit: 'em' },
+    annotatedOutput: `
+        <div [style.width.em]=".5"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should match a number with an explicit plus sign',
+    annotatedSource: `
+        <div [style.width]="'+30px'"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId: unitMessageId,
+    options: bindUnits,
+    data: { property: 'width', unit: 'px' },
+    annotatedOutput: `
+        <div [style.width.px]="+30"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~~
+      `,
   }),
 ];
