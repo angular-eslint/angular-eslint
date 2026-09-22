@@ -80,7 +80,6 @@ const CSS_UNITS = [
 ] as const;
 const CSS_UNITS_PATTERN = CSS_UNITS.join('|');
 const CSS_NUMBER_PATTERN = '[+-]?(?:\\d+(?:\\.\\d+)?|\\.\\d+)';
-// CSS units are case-insensitive, hence the `i` flag on both patterns.
 const NUMBER_WITH_UNIT = new RegExp(
   '^(?<value>' + CSS_NUMBER_PATTERN + ')(?<unit>' + CSS_UNITS_PATTERN + ')$',
   'i',
@@ -91,7 +90,6 @@ const STYLE_KEY_PREFIX = 'style.';
 
 interface UnitBinding {
   readonly unit: string;
-  /** `null` when the expression cannot be recovered verbatim, so no fix is offered. */
   readonly value: string | null;
 }
 
@@ -128,9 +126,6 @@ export default createESLintRule<Options, MessageIds>({
   },
   create(context, [{ bindUnits }]) {
     const parserServices = getTemplateParserServices(context);
-    // Angular hoists the inputs of an element carrying a structural directive
-    // onto the wrapping `Template` node, reusing the same node instances, so
-    // every binding on such an element is visited twice.
     const alreadyReported = new Set<string>();
     const isFirstReportFor = (
       messageId: MessageIds,
@@ -189,11 +184,6 @@ export default createESLintRule<Options, MessageIds>({
   },
 });
 
-/**
- * `keySpan.details` is preferred over `node.name`, which Angular rewrites for
- * custom properties (`--gap` becomes `--%NS%gap`), and over `__originalType`,
- * which the hoisting described above overwrites.
- */
 function getStyleProperty(node: TmplAstBoundAttribute): string | null {
   const details = node.keySpan?.details;
   if (node.unit || !details?.startsWith(STYLE_KEY_PREFIX)) {
@@ -252,10 +242,6 @@ function getUnitBinding(
   return null;
 }
 
-/**
- * The CSS unit closing a string built from a single expression, such as the
- * `px` of `` `${width}px` `` or of `{{ width }}px`.
- */
 function getTrailingUnit(
   strings: readonly string[],
   expressionCount: number,
@@ -268,11 +254,6 @@ function getTrailingUnit(
     : null;
 }
 
-/**
- * Angular parses attribute values after decoding HTML entities, so expression
- * source spans index the decoded value, not the raw template. They also count
- * from `fullStart`, which includes the whitespace `start` skips.
- */
 function getVerbatimValue(
   { valueSpan }: TmplAstBoundAttribute,
   withSource: ASTWithSource | null,

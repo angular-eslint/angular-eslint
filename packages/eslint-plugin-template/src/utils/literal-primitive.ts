@@ -25,7 +25,6 @@ export function isStringLiteralPrimitive(
 }
 
 export function isTemplateLiteral(node: AST): node is TemplateLiteral {
-  // See the note in `isLiteralPrimitive` about `instanceof`.
   return (
     !!node &&
     ((node as { type?: string }).type === 'TemplateLiteral' ||
@@ -34,7 +33,6 @@ export function isTemplateLiteral(node: AST): node is TemplateLiteral {
 }
 
 export function isInterpolation(node: AST): node is Interpolation {
-  // See the note in `isLiteralPrimitive` about `instanceof`.
   return (
     !!node &&
     ((node as { type?: string }).type === 'Interpolation' ||

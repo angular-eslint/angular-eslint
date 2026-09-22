@@ -28,7 +28,6 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '<div [ngClass]="{ active: isActive }"></div>',
   '<div [class.active]="isActive"></div>',
   '<div [myNgStyle]="styles"></div>',
-  // Unit bindings are only checked when `bindUnits` is enabled
   `<div [style.width]="'30px'"></div>`,
   '<div [style.width]="`${width}px`"></div>',
   {
@@ -52,7 +51,6 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     options: bindUnits,
   },
   {
-    // Text before the interpolation cannot be dropped
     code: '<div [style.width]="`calc(${width}px)`"></div>',
     options: bindUnits,
   },
@@ -85,7 +83,6 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     options: bindUnits,
   },
   {
-    // Text before the interpolation cannot be dropped
     code: `<div style.width="calc({{width}}px)"></div>`,
     options: bindUnits,
   },
