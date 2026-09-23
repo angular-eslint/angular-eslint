@@ -76,8 +76,9 @@ The processor emits virtual style files for the standalone CSS configuration in
 your ESLint setup; it does not configure CSS parsers or rules itself. It also
 includes inline template extraction, so use it instead of
 `angular.processInlineTemplates` for TypeScript files. Use the same processor
-for standalone Angular HTML files when their `style` attributes should be
-linted.
+for Angular HTML files to lint external template attributes and static attributes
+in nested inline templates containing TypeScript substitutions. Without the
+HTML processor, attributes in those inline templates are skipped.
 
 Only static values are linted: `styles` entries must be string literals (or
 template literals without `${}` substitutions), and `style` attributes must not

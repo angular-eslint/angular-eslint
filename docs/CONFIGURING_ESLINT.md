@@ -192,6 +192,8 @@ Autofixes and suggestions from CSS rules are applied when the replacement text c
 
 Edits that would form `${` across a replacement boundary in a TypeScript template literal are also dropped. When an inline template must be processed through its nested HTML block (for example, because it contains TypeScript substitutions), static attributes can still produce diagnostics, but CSS autofixes and suggestions are suppressed because their enclosing TypeScript context cannot be mapped safely.
 
+Apply `angular.processInlineStyles` to your `**/*.html` block as well to lint static attributes in these nested inline templates. Without HTML processing, attributes in an inline template containing TypeScript substitutions are skipped, even if an individual attribute is static. The HTML processor also covers external template files.
+
 ### Choosing the style language
 
 Angular's `inlineStyleLanguage` build option (set in `angular.json`) determines the language of component `styles`, and it defaults to `css`. The processor matches that default and emits component `styles` as `.css` files, so they are picked up by a normal `files: ['**/*.css']` config block.
@@ -229,7 +231,7 @@ module.exports = tseslint.config(
       ...angular.configs.templateRecommended,
       ...angular.configs.templateAccessibility,
     ],
-    // Optional: also lint the `style` attributes of your external template files
+    // Covers external templates and static attributes in nested inline templates
     processor: angular.processInlineStyles,
   },
   {

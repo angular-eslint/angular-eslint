@@ -852,23 +852,51 @@ describe('extract-inline-styles', () => {
     },
   );
 
-  it('skips TypeScript-substituted attributes while retaining static neighbors', async () => {
-    const input =
-      'import { Component } from "@angular/core"; @Component({ template: `<div style="margin:${width}px"></div><div style="margin:0"></div>` }) class Example {}';
-    const [result] = await createStyleLinter(processor, processor).lintText(
-      input,
-      {
-        filePath: 'dynamic.component.ts',
-      },
-    );
+  it.each(['margin:\n0', "margin:0;--marker:'x'", 'padding:0'])(
+    'suppresses nested edits with mixed processors for %j',
+    async (replacement) => {
+      const input = `import { Component } from '@angular/core'; @Component({ template: '<div style="margin:0"></div>' }) class Example {}`;
+      const eslint = createStyleLinter(
+        processors['extract-inline-html'],
+        processor,
+        replacement,
+        true,
+      );
+      const [result] = await eslint.lintText(input, {
+        filePath: 'mixed.component.ts',
+      });
 
-    expect(result.messages).toEqual([
-      expect.objectContaining({
+      expect(result.output ?? input).toBe(input);
+      expect(result.messages).toHaveLength(1);
+      expect(result.messages[0]).toMatchObject({
         ruleId: 'test/style',
-        column: input.indexOf('margin:0') + 1,
-      }),
-    ]);
-  });
+        column: input.indexOf('margin') + 1,
+      });
+      expect(result.messages[0].fix).toBeUndefined();
+      expect(result.messages[0].suggestions ?? []).toEqual([]);
+    },
+  );
+
+  it.each(['extract-inline-html', 'extract-inline-styles'] as const)(
+    'skips TypeScript-substituted attributes with %s while retaining static neighbors',
+    async (processorName) => {
+      const input =
+        'import { Component } from "@angular/core"; @Component({ template: `<div style="margin:${width}px"></div><div style="margin:0"></div>` }) class Example {}';
+      const [result] = await createStyleLinter(
+        processors[processorName],
+        processor,
+      ).lintText(input, {
+        filePath: 'dynamic.component.ts',
+      });
+
+      expect(result.messages).toEqual([
+        expect.objectContaining({
+          ruleId: 'test/style',
+          column: input.indexOf('margin:0') + 1,
+        }),
+      ]);
+    },
+  );
 
   it.each([
     ['a{content:"$ {color}"}', ' ', 1, ''],

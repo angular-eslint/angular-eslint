@@ -175,6 +175,7 @@ export function preprocessComponentFile(
       const end = templateProperty.initializer.getEnd();
 
       rangeMap.set(inlineTemplateTmpFilename, {
+        sourceFilename: filename,
         range: [start, end],
         lineAndCharacter: {
           start: sourceFile.getLineAndCharacterOfPosition(start),
@@ -751,7 +752,9 @@ function preprocessInlineStyles(
     // (lib/services/processor-service.js); the "reports inline attributes once" test guards this.
     const parentStyles = pendingStyles.get(dirname(filename));
     const templateFilename = baseFilename.replace(/^\d+_/, '');
-    const templateRange = rangeMap.get(templateFilename)?.range;
+    const templateData = rangeMap.get(templateFilename);
+    const nestedTemplate = templateData?.sourceFilename === dirname(filename);
+    const templateRange = nestedTemplate ? templateData.range : undefined;
     if (
       templateRange &&
       parentStyles?.styles.some(
@@ -774,7 +777,7 @@ function preprocessInlineStyles(
       offsets: Array.from({ length: text.length + 1 }, (_, index) => index),
       virtualSource: sourceFile,
       unsafeFixText: [],
-      nestedTemplate: !!templateRange && !!parentStyles,
+      nestedTemplate,
     });
     if (!styles.length) {
       return [text];
