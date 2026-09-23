@@ -77,6 +77,17 @@ const configs = {
 const processInlineTemplates =
   templatePlugin.processors?.['extract-inline-html'];
 
+type Processor = NonNullable<CompatiblePlugin['processors']>[string];
+type InlineStylesProcessorOptions = Parameters<
+  (typeof templatePluginBase.processors)['extract-inline-styles']['withOptions']
+>[0];
+type InlineStylesProcessor = Processor & {
+  withOptions(options?: InlineStylesProcessorOptions): InlineStylesProcessor;
+};
+const processInlineStyles = templatePluginBase.processors[
+  'extract-inline-styles'
+] as unknown as InlineStylesProcessor;
+
 /*
 // eslint-disable-next-line import/no-default-export --
 we do both a default and named exports to allow people to use this package from
@@ -88,6 +99,7 @@ export default {
   templateParser,
   templatePlugin,
   processInlineTemplates,
+  processInlineStyles,
 };
 export {
   configs,
@@ -95,4 +107,5 @@ export {
   templatePlugin,
   tsPlugin,
   processInlineTemplates,
+  processInlineStyles,
 };

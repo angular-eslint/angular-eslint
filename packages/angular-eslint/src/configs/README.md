@@ -68,6 +68,114 @@ module.exports = tseslint.config(
 );
 ```
 
+## `angular.processInlineStyles`
+
+Use `angular.processInlineStyles` when CSS linting should also cover static
+styles in `@Component` metadata and `style` attributes in Angular templates.
+The processor emits virtual style files for the standalone CSS configuration in
+your ESLint setup; it does not configure CSS parsers or rules itself. It also
+includes inline template extraction, so use it instead of
+`angular.processInlineTemplates` for TypeScript files. Use the same processor
+for Angular HTML files to lint external template attributes and static attributes
+in nested inline templates containing TypeScript substitutions. Without the
+HTML processor, attributes in those inline templates are skipped.
+
+Only static values are linted: `styles` entries must be string literals (or
+template literals without `${}` substitutions), and `style` attributes must not
+contain `{{ }}` interpolations or TypeScript `${}` substitutions. `[style]` and `[style.x]` bindings are never
+linted. See [Configuring ESLint for Inline Styles](https://github.com/angular-eslint/angular-eslint/blob/main/docs/CONFIGURING_ESLINT.md#configuring-eslint-for-inline-styles)
+for details, including which autofixes can be applied.
+
+Component `styles` are emitted as `.css` by default, matching the default of
+Angular's `inlineStyleLanguage` option. `style` attributes are always emitted as
+`.css`. For example:
+
+**eslint.config.js**
+
+```js
+// @ts-check
+const eslint = require('@eslint/js');
+const tseslint = require('typescript-eslint');
+const angular = require('angular-eslint');
+const css = require('@eslint/css');
+
+module.exports = tseslint.config(
+  {
+    files: ['**/*.ts'],
+    extends: [
+      eslint.configs.recommended,
+      ...tseslint.configs.recommended,
+      ...angular.configs.tsRecommended,
+    ],
+    processor: angular.processInlineStyles,
+  },
+  {
+    files: ['**/*.html'],
+    extends: [
+      ...angular.configs.templateRecommended,
+      ...angular.configs.templateAccessibility,
+    ],
+    processor: angular.processInlineStyles,
+  },
+  {
+    files: ['**/*.css'],
+    plugins: { css },
+    language: 'css/css',
+    rules: {
+      'css/prefer-logical-properties': 'error',
+    },
+  },
+);
+```
+
+If your project sets `inlineStyleLanguage` to `scss` (or `sass`/`less`), pass
+the same value with `withOptions()` so component `styles` are emitted with that
+extension, and lint them with a matching configuration:
+
+```js
+// @ts-check
+const tseslint = require('typescript-eslint');
+const angular = require('angular-eslint');
+const css = require('@eslint/css');
+const { scss } = require('@humanwhocodes/scsstree');
+
+const processor = angular.processInlineStyles.withOptions({
+  inlineStyleLanguage: 'scss',
+});
+
+module.exports = tseslint.config(
+  {
+    files: ['**/*.ts'],
+    extends: [...angular.configs.tsRecommended],
+    processor,
+  },
+  {
+    files: ['**/*.html'],
+    extends: [...angular.configs.templateRecommended],
+    processor,
+  },
+  {
+    // `style` attributes
+    files: ['**/*.css'],
+    plugins: { css },
+    language: 'css/css',
+    rules: {
+      'css/prefer-logical-properties': 'error',
+    },
+  },
+  {
+    // component `styles`
+    files: ['**/*.scss'],
+    plugins: { css },
+    language: 'css/css',
+    languageOptions: { customSyntax: scss },
+    rules: {
+      'css/prefer-logical-properties': 'error',
+    },
+  },
+);
+```
+
 ## `angular-eslint/template-accessibility`
 
 These are all the rules within `@angular-eslint/eslint-plugin-template` which deal with things impacting the accessibility of your Angular apps.
