@@ -76,8 +76,17 @@ const configs = {
 // Export more succinct alias for us in user flat config files
 const processInlineTemplates =
   templatePlugin.processors?.['extract-inline-html'];
-const processInlineStyles =
-  templatePlugin.processors?.['extract-inline-styles'];
+
+type Processor = NonNullable<CompatiblePlugin['processors']>[string];
+type InlineStylesProcessorOptions = Parameters<
+  (typeof templatePluginBase.processors)['extract-inline-styles']['withOptions']
+>[0];
+type InlineStylesProcessor = Processor & {
+  withOptions(options?: InlineStylesProcessorOptions): InlineStylesProcessor;
+};
+const processInlineStyles = templatePluginBase.processors[
+  'extract-inline-styles'
+] as unknown as InlineStylesProcessor;
 
 /*
 // eslint-disable-next-line import/no-default-export --

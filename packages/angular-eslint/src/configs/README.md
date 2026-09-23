@@ -70,16 +70,24 @@ module.exports = tseslint.config(
 
 ## `angular.processInlineStyles`
 
-Use `angular.processInlineStyles` when CSS or SCSS linting should also cover
-static styles in `@Component` metadata and `style` attributes in Angular
-templates. The processor emits virtual `.scss` and `.css` files for the
-standalone CSS/SCSS configuration in your ESLint setup; it does not configure
-CSS/SCSS parsers or rules itself. It also includes inline template extraction,
-so use it instead of `angular.processInlineTemplates` for TypeScript files. Use
-the same processor for standalone Angular HTML files when their `style`
-attributes should be linted.
+Use `angular.processInlineStyles` when CSS linting should also cover static
+styles in `@Component` metadata and `style` attributes in Angular templates.
+The processor emits virtual style files for the standalone CSS configuration in
+your ESLint setup; it does not configure CSS parsers or rules itself. It also
+includes inline template extraction, so use it instead of
+`angular.processInlineTemplates` for TypeScript files. Use the same processor
+for standalone Angular HTML files when their `style` attributes should be
+linted.
 
-For example:
+Only static values are linted: `styles` entries must be string literals (or
+template literals without `${}` substitutions), and `style` attributes must not
+contain `{{ }}` interpolations or TypeScript `${}` substitutions. `[style]` and `[style.x]` bindings are never
+linted. See [Configuring ESLint for Inline Styles](https://github.com/angular-eslint/angular-eslint/blob/main/docs/CONFIGURING_ESLINT.md#configuring-eslint-for-inline-styles)
+for details, including which autofixes can be applied.
+
+Component `styles` are emitted as `.css` by default, matching the default of
+Angular's `inlineStyleLanguage` option. `style` attributes are always emitted as
+`.css`. For example:
 
 **eslint.config.js**
 
@@ -89,7 +97,6 @@ const eslint = require('@eslint/js');
 const tseslint = require('typescript-eslint');
 const angular = require('angular-eslint');
 const css = require('@eslint/css');
-const { scss } = require('@humanwhocodes/scsstree');
 
 module.exports = tseslint.config(
   {
@@ -110,7 +117,54 @@ module.exports = tseslint.config(
     processor: angular.processInlineStyles,
   },
   {
-    files: ['**/*.{css,scss}'],
+    files: ['**/*.css'],
+    plugins: { css },
+    language: 'css/css',
+    rules: {
+      'css/prefer-logical-properties': 'error',
+    },
+  },
+);
+```
+
+If your project sets `inlineStyleLanguage` to `scss` (or `sass`/`less`), pass
+the same value with `withOptions()` so component `styles` are emitted with that
+extension, and lint them with a matching configuration:
+
+```js
+// @ts-check
+const tseslint = require('typescript-eslint');
+const angular = require('angular-eslint');
+const css = require('@eslint/css');
+const { scss } = require('@humanwhocodes/scsstree');
+
+const processor = angular.processInlineStyles.withOptions({
+  inlineStyleLanguage: 'scss',
+});
+
+module.exports = tseslint.config(
+  {
+    files: ['**/*.ts'],
+    extends: [...angular.configs.tsRecommended],
+    processor,
+  },
+  {
+    files: ['**/*.html'],
+    extends: [...angular.configs.templateRecommended],
+    processor,
+  },
+  {
+    // `style` attributes
+    files: ['**/*.css'],
+    plugins: { css },
+    language: 'css/css',
+    rules: {
+      'css/prefer-logical-properties': 'error',
+    },
+  },
+  {
+    // component `styles`
+    files: ['**/*.scss'],
     plugins: { css },
     language: 'css/css',
     languageOptions: { customSyntax: scss },

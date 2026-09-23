@@ -54,6 +54,8 @@ type PreprocessResult = (string | { text: string; filename: string })[];
 export function preprocessComponentFile(
   text: string,
   filename: string,
+  /** Lets callers that already parsed the file avoid a second full parse */
+  parsedSourceFile?: ts.SourceFile,
 ): PreprocessResult {
   // This effectively instructs ESLint that there were no code blocks to extract for the current file
   const noopResult = [text];
@@ -63,12 +65,14 @@ export function preprocessComponentFile(
   }
 
   try {
-    const sourceFile = ts.createSourceFile(
-      filename,
-      text,
-      ts.ScriptTarget.Latest,
-      /* setParentNodes */ true,
-    );
+    const sourceFile =
+      parsedSourceFile ??
+      ts.createSourceFile(
+        filename,
+        text,
+        ts.ScriptTarget.Latest,
+        /* setParentNodes */ true,
+      );
 
     const classDeclarations = getClassDeclarationFromSourceFile(sourceFile);
     if (!classDeclarations || !classDeclarations.length) {
@@ -367,15 +371,23 @@ type StyleMessage = {
 };
 
 type MappedStyle = {
+  kind: 'component' | 'attribute';
   text: string;
   offsets: number[];
   sourceFile: ts.SourceFile;
   virtualSource: ts.SourceFile;
-  extension?: 'css' | 'scss';
-  unquotedAttribute?: boolean;
+  nestedTemplate?: boolean;
+  /** Fix text matching any of these cannot be inserted into the original source verbatim */
+  unsafeFixText: RegExp[];
 };
 
-type TemplateSource = Omit<MappedStyle, 'extension'>;
+type TemplateSource = Omit<MappedStyle, 'kind'>;
+
+const unsafeLiteralFixText: Record<string, RegExp> = {
+  "'": /[\\'\r\n]/,
+  '"': /[\\"\r\n]/,
+  '`': /[\\`]|\$\{/,
+};
 
 function getComponentImportNames(sourceFile: ts.SourceFile) {
   const componentImports = new Set<string>();
@@ -483,21 +495,20 @@ function mapLiteral(
   }
 
   return {
+    kind: 'component',
     text,
     offsets,
     sourceFile,
     virtualSource: ts.createSourceFile(
-      'inline-style.scss',
+      'inline-style.css',
       text,
       ts.ScriptTarget.Latest,
     ),
+    unsafeFixText: [unsafeLiteralFixText[quote]],
   };
 }
 
-function extractTemplateStyles(
-  template: TemplateSource,
-  attributeNames = ['style'],
-): MappedStyle[] {
+function extractTemplateStyles(template: TemplateSource): MappedStyle[] {
   const styles: MappedStyle[] = [];
   const parsed = new HtmlParser().parse(template.text, 'template.html', {
     tokenizeBlocks: true,
@@ -505,16 +516,23 @@ function extractTemplateStyles(
 
   class StyleVisitor extends RecursiveVisitor {
     override visitAttribute(attribute: Attribute) {
-      if (!attributeNames.includes(attribute.name) || !attribute.valueSpan) {
+      if (attribute.name !== 'style' || !attribute.valueSpan) {
+        return;
+      }
+
+      const valueTokens = attribute.valueTokens ?? [];
+      if (template.nestedTemplate && attribute.value.includes('${')) {
+        return;
+      }
+      // Interpolation tokens are [start, expression, end]; like [style] bindings they are not static CSS
+      if (valueTokens.some((token) => token.parts.length === 3)) {
         return;
       }
 
       const offsets = [attribute.valueSpan.start.offset];
       let value = '';
-      const valueTokens = attribute.valueTokens ?? [];
       for (const token of valueTokens) {
-        const interpolated = token.parts.length === 3;
-        const decoded = interpolated ? '0' : token.parts[0];
+        const decoded = token.parts[0];
         const start = token.sourceSpan.start.offset;
         const end = token.sourceSpan.end.offset;
         const raw = template.text.slice(start, end);
@@ -528,17 +546,17 @@ function extractTemplateStyles(
         value += decoded;
       }
 
-      if (
-        !valueTokens.some((token) => token.parts.length === 3) &&
-        value !== attribute.value
-      ) {
+      if (value !== attribute.value) {
         return;
       }
 
       const start = offsets[0];
       const end = offsets[offsets.length - 1];
+      const quote = template.text[start - 1];
       const text = `a{${value}}`;
       styles.push({
+        kind: 'attribute',
+        nestedTemplate: template.nestedTemplate,
         text,
         offsets: [start, start, ...offsets, end].map(
           (offset) => template.offsets[offset],
@@ -549,8 +567,12 @@ function extractTemplateStyles(
           text,
           ts.ScriptTarget.Latest,
         ),
-        extension: 'css',
-        unquotedAttribute: !['"', "'"].includes(template.text[start - 1]),
+        unsafeFixText: [
+          ...template.unsafeFixText,
+          quote === '"' || quote === "'"
+            ? new RegExp(`[${quote}&]`)
+            : /[\s=<>"'`&]/,
+        ],
       });
     }
   }
@@ -619,21 +641,28 @@ function extractComponentStyles(sourceFile: ts.SourceFile): MappedStyle[] {
 }
 
 function mapStyleMessage(message: StyleMessage, style: MappedStyle) {
-  function location(line: number, column: number) {
-    const offset = style.virtualSource.getPositionOfLineAndCharacter(
-      line - 1,
-      column - 1,
-    );
-    const sourceOffset = style.offsets[offset];
-    if (sourceOffset === undefined) {
-      return undefined;
+  function location(line: number, column: number, fallbackOffset: number) {
+    let offset: number | undefined;
+    try {
+      offset = style.virtualSource.getPositionOfLineAndCharacter(
+        line - 1,
+        column - 1,
+      );
+    } catch {
+      // The CSS linter reported a location outside of the virtual file
     }
+    const sourceOffset =
+      (offset === undefined ? undefined : style.offsets[offset]) ??
+      fallbackOffset;
     const position =
       style.sourceFile.getLineAndCharacterOfPosition(sourceOffset);
     return { line: position.line + 1, column: position.character + 1 };
   }
 
   function fix(edit: TextEdit) {
+    if (style.nestedTemplate) {
+      return undefined;
+    }
     const [startOffset, endOffset] = edit.range;
     const start = style.offsets[startOffset];
     const end = style.offsets[endOffset];
@@ -646,10 +675,17 @@ function mapStyleMessage(message: StyleMessage, style: MappedStyle) {
     ) {
       return undefined;
     }
-    if (/[\\`'"\r\n]/.test(edit.text) || edit.text.includes('${')) {
+    if (style.unsafeFixText.some((pattern) => pattern.test(edit.text))) {
       return undefined;
     }
-    if (style.unquotedAttribute && /[\s=<>]/.test(edit.text)) {
+    const boundaryText =
+      style.sourceFile.text.slice(Math.max(0, start - 1), start) +
+      edit.text +
+      style.sourceFile.text.slice(end, end + 1);
+    if (
+      boundaryText.includes('${') &&
+      style.unsafeFixText.some((pattern) => pattern.test('${'))
+    ) {
       return undefined;
     }
     return { ...edit, range: [start, end] as [number, number] };
@@ -657,17 +693,19 @@ function mapStyleMessage(message: StyleMessage, style: MappedStyle) {
 
   const mapped: StyleMessage = { ...message };
   if (message.line !== undefined && message.column !== undefined) {
-    const start = location(message.line, message.column);
-    if (start) {
-      Object.assign(mapped, start);
-    }
+    Object.assign(
+      mapped,
+      location(message.line, message.column, style.offsets[0]),
+    );
   }
   if (message.endLine !== undefined && message.endColumn !== undefined) {
-    const end = location(message.endLine, message.endColumn);
-    if (end) {
-      mapped.endLine = end.line;
-      mapped.endColumn = end.column;
-    }
+    const end = location(
+      message.endLine,
+      message.endColumn,
+      style.offsets[style.offsets.length - 1],
+    );
+    mapped.endLine = end.line;
+    mapped.endColumn = end.column;
   }
   if (message.fix) {
     mapped.fix = fix(message.fix);
@@ -688,21 +726,37 @@ type PendingStyles = {
 
 const pendingStyles = new Map<string, PendingStyles>();
 
+const inlineStyleLanguages = ['css', 'scss', 'sass', 'less'] as const;
+
+export type InlineStyleLanguage = (typeof inlineStyleLanguages)[number];
+
+export interface InlineStylesProcessorOptions {
+  /** Language of `styles` in component metadata, matching Angular's `inlineStyleLanguage` option. Defaults to `css`. */
+  inlineStyleLanguage?: InlineStyleLanguage;
+}
+
 function preprocessInlineStyles(
   text: string,
   filename: string,
+  inlineStyleLanguage: InlineStyleLanguage,
 ): PreprocessResult {
   pendingStyles.delete(filename);
+  const baseFilename = basename(filename);
 
   if (filename.endsWith('.html')) {
+    if (!/\bstyle\s*=/i.test(text)) {
+      return [text];
+    }
+    // Relies on ESLint naming nested code blocks `<parent file>/<index>_<block filename>`
+    // (lib/services/processor-service.js); the "reports inline attributes once" test guards this.
     const parentStyles = pendingStyles.get(dirname(filename));
-    const templateFilename = basename(filename).replace(/^\d+_/, '');
+    const templateFilename = baseFilename.replace(/^\d+_/, '');
     const templateRange = rangeMap.get(templateFilename)?.range;
     if (
       templateRange &&
       parentStyles?.styles.some(
         (style) =>
-          style.extension === 'css' &&
+          style.kind === 'attribute' &&
           style.offsets[0] >= templateRange[0] &&
           style.offsets[style.offsets.length - 1] <= templateRange[1],
       )
@@ -719,6 +773,8 @@ function preprocessInlineStyles(
       sourceFile,
       offsets: Array.from({ length: text.length + 1 }, (_, index) => index),
       virtualSource: sourceFile,
+      unsafeFixText: [],
+      nestedTemplate: !!templateRange && !!parentStyles,
     });
     if (!styles.length) {
       return [text];
@@ -728,31 +784,29 @@ function preprocessInlineStyles(
       text,
       ...styles.map((style, index) => ({
         text: style.text,
-        filename: `attribute-style-${index}.css`,
+        filename: `attribute-style-${baseFilename}-${index + 1}.css`,
       })),
     ];
   }
 
-  if (!filename.endsWith('.ts')) {
+  if (
+    !filename.endsWith('.ts') ||
+    !isFileLikelyToContainComponentDeclarations(text, filename)
+  ) {
     return [text];
   }
 
-  const templates = preprocessComponentFile(text, filename);
+  const sourceFile = ts.createSourceFile(
+    filename,
+    text,
+    ts.ScriptTarget.Latest,
+    /* setParentNodes */ true,
+  );
+  const templates = preprocessComponentFile(text, filename, sourceFile);
   let styles: MappedStyle[];
   try {
-    const sourceFile = ts.createSourceFile(
-      filename,
-      text,
-      ts.ScriptTarget.Latest,
-      true,
-      ts.ScriptKind.TS,
-    );
     styles = extractComponentStyles(sourceFile);
   } catch {
-    return templates;
-  }
-
-  if (!styles.length) {
     return templates;
   }
 
@@ -761,7 +815,10 @@ function preprocessInlineStyles(
     ...templates,
     ...styles.map((style, index) => ({
       text: style.text,
-      filename: `inline-style-${index}.${style.extension ?? 'scss'}`,
+      filename:
+        style.kind === 'attribute'
+          ? `attribute-style-${baseFilename}-${index + 1}.css`
+          : `inline-style-${baseFilename}-${index + 1}.${inlineStyleLanguage}`,
     })),
   ];
 }
@@ -790,6 +847,39 @@ function postprocessInlineStyles(
   ];
 }
 
+export interface InlineStylesProcessor {
+  meta: { name: string };
+  preprocess: (text: string, filename: string) => PreprocessResult;
+  postprocess: typeof postprocessInlineStyles;
+  supportsAutofix: true;
+  withOptions: (
+    options?: InlineStylesProcessorOptions,
+  ) => InlineStylesProcessor;
+}
+
+function createInlineStylesProcessor({
+  inlineStyleLanguage = 'css',
+}: InlineStylesProcessorOptions = {}): InlineStylesProcessor {
+  if (!inlineStyleLanguages.includes(inlineStyleLanguage)) {
+    throw new Error(
+      `extract-inline-styles: unsupported inlineStyleLanguage "${inlineStyleLanguage}", expected one of: ${inlineStyleLanguages.join(', ')}`,
+    );
+  }
+  return {
+    meta: {
+      name:
+        inlineStyleLanguage === 'css'
+          ? 'extract-inline-styles'
+          : `extract-inline-styles-${inlineStyleLanguage}`,
+    },
+    preprocess: (text, filename) =>
+      preprocessInlineStyles(text, filename, inlineStyleLanguage),
+    postprocess: postprocessInlineStyles,
+    supportsAutofix: true,
+    withOptions: createInlineStylesProcessor,
+  };
+}
+
 export default {
   'extract-inline-html': {
     meta: {
@@ -799,12 +889,5 @@ export default {
     postprocess: postprocessComponentFile,
     supportsAutofix: true,
   },
-  'extract-inline-styles': {
-    meta: {
-      name: 'extract-inline-styles',
-    },
-    preprocess: preprocessInlineStyles,
-    postprocess: postprocessInlineStyles,
-    supportsAutofix: true,
-  },
+  'extract-inline-styles': createInlineStylesProcessor(),
 };

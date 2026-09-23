@@ -170,6 +170,83 @@ module.exports = tseslint.config(
 
 By setting up our config in this way, we have complete control over what rules etc apply to what file types and our separate concerns remain clearer and easier to maintain. The schematics provided by angular-eslint will already configure your project in this way.
 
+## Configuring ESLint for Inline Styles
+
+angular-eslint can also extract the **inline styles** of your components so that they can be linted by a CSS language plugin for ESLint, such as [`@eslint/css`](https://github.com/eslint/css). angular-eslint does not provide any CSS rules or parsers itself, you configure those in your own `**/*.css` config block just like you would for standalone stylesheets.
+
+### How it works
+
+The `angular.processInlineStyles` processor:
+
+1. Does everything `angular.processInlineTemplates` does, so **use it instead of `angular.processInlineTemplates`** in your TypeScript config block (do not use both)
+2. Extracts each static entry of `styles` in your `@Component()` metadata as a virtual style file
+3. Extracts each static `style="..."` attribute in inline and external templates as a virtual `.css` file
+4. Reports any linting issues with proper line and column mapping back to your original TypeScript or HTML file
+
+Only **static** styles are linted:
+
+- `styles` entries must be string literals, or template literals without `${}` substitutions. Identifiers and other expressions are skipped.
+- `style` attributes containing `{{ }}` interpolations are skipped, just like `[style]` and `[style.x]` bindings, because they are expressions rather than CSS. Attributes containing TypeScript `${}` substitutions in an inline template are also skipped.
+
+Autofixes and suggestions from CSS rules are applied when the replacement text can be inserted verbatim into the original source. A fix is dropped when its text contains a character that would need escaping where it lands, for example a backslash, a newline or the enclosing quote in a `'...'` or `"..."` string, a backtick or `${` in a template literal, the attribute's own quote or `&` in a `style` attribute, or whitespace in an unquoted `style` attribute.
+
+Edits that would form `${` across a replacement boundary in a TypeScript template literal are also dropped. When an inline template must be processed through its nested HTML block (for example, because it contains TypeScript substitutions), static attributes can still produce diagnostics, but CSS autofixes and suggestions are suppressed because their enclosing TypeScript context cannot be mapped safely.
+
+### Choosing the style language
+
+Angular's `inlineStyleLanguage` build option (set in `angular.json`) determines the language of component `styles`, and it defaults to `css`. The processor matches that default and emits component `styles` as `.css` files, so they are picked up by a normal `files: ['**/*.css']` config block.
+
+If your project uses a different `inlineStyleLanguage`, pass the same value to `angular.processInlineStyles.withOptions()`. Supported values are `css`, `scss`, `sass` and `less`. `style` attributes are always CSS and are always emitted as `.css`, regardless of this option.
+
+### Configuration example
+
+**Workspace root level eslint.config.js**
+
+```js
+// @ts-check
+const eslint = require('@eslint/js');
+const tseslint = require('typescript-eslint');
+const angular = require('angular-eslint');
+// Provides the CSS language and rules used to lint the extracted styles
+const css = require('@eslint/css');
+
+module.exports = tseslint.config(
+  {
+    files: ['**/*.ts'],
+    extends: [
+      eslint.configs.recommended,
+      ...tseslint.configs.recommended,
+      ...angular.configs.tsRecommended,
+    ],
+    // IMPORTANT: Use this INSTEAD of angular.processInlineTemplates, it extracts both inline templates and inline styles.
+    // For a project with `"inlineStyleLanguage": "scss"`, use:
+    // angular.processInlineStyles.withOptions({ inlineStyleLanguage: 'scss' })
+    processor: angular.processInlineStyles,
+  },
+  {
+    files: ['**/*.html'],
+    extends: [
+      ...angular.configs.templateRecommended,
+      ...angular.configs.templateAccessibility,
+    ],
+    // Optional: also lint the `style` attributes of your external template files
+    processor: angular.processInlineStyles,
+  },
+  {
+    // Applies to your stylesheets AND the extracted inline styles
+    files: ['**/*.css'],
+    plugins: { css },
+    language: 'css/css',
+    rules: {
+      'css/no-empty-blocks': 'error',
+      'css/no-invalid-properties': 'error',
+    },
+  },
+);
+```
+
+When using `inlineStyleLanguage: 'scss'`, add a `files: ['**/*.scss']` config block that can parse SCSS, for example using `@eslint/css` with the `customSyntax` from [`@humanwhocodes/scsstree`](https://github.com/humanwhocodes/scsstree).
+
 ## Notes for `eslint-plugin-prettier` users
 
 Prettier is an awesome code formatter which can be used entirely independently of linting.
