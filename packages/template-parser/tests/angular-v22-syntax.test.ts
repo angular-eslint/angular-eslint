@@ -57,7 +57,9 @@ describe('Angular v22 expression syntax', () => {
   it('should traverse into an arrow function body in an event handler', () => {
     const { ast } = parseForESLint(
       `<button (click)="items.filter(x => x.active())"></button>`,
-      { filePath: './foo.html' },
+      {
+        filePath: './foo.html',
+      },
     );
 
     const arrowFns = findNodes(ast, 'ArrowFunction');

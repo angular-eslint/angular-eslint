@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
-import { format, resolveConfig } from 'prettier';
+import { formatSource } from './format-source';
 
 // Import directly from source to ensure the latest rules are included
 import eslintPluginTemplate from '../../packages/eslint-plugin-template/src';
@@ -225,10 +225,7 @@ const updateFile = async (plugin: Plugin): Promise<void> => {
     plugin,
   );
 
-  readme = await format(readme, {
-    ...(await resolveConfig(filePath)),
-    parser: 'markdown',
-  });
+  readme = formatSource(readme, filePath);
 
   if (readme === oldReadme) {
     console.log(`\n✅ Rule list of ${plugin.name} is already up-to-date.`);

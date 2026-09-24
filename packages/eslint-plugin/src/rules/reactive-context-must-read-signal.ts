@@ -18,7 +18,8 @@ export type MessageIds = 'mustReadSignal';
 export const RULE_NAME = 'reactive-context-must-read-signal';
 
 type ReactiveFunction =
-  TSESTree.FunctionExpression | TSESTree.ArrowFunctionExpression;
+  | TSESTree.FunctionExpression
+  | TSESTree.ArrowFunctionExpression;
 
 interface PrimitiveConfig {
   /** Positional argument indices that hold a tracked reactive function. */

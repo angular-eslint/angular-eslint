@@ -88,7 +88,9 @@ describe('findAngularVersionMismatches', () => {
       findAngularVersionMismatches(
         { dependencies: { '@angular/core': '^21.2.0' } },
         22,
-        { '@angular/core': 22 },
+        {
+          '@angular/core': 22,
+        },
       ),
     ).toEqual([]);
   });

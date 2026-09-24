@@ -7,7 +7,7 @@ import { compile } from 'json-schema-to-typescript';
 import traverse from 'json-schema-traverse';
 import { mkdirSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { join, relative } from 'node:path';
-import { format, resolveConfig } from 'prettier';
+import { formatSource } from './format-source';
 import ts from 'typescript';
 
 // Import directly from source for this utility script
@@ -228,21 +228,7 @@ ${convertCodeExamplesToMarkdown(
 `;
 
     const outputFilePath = join(docsOutputDir, `${ruleName}.md`);
-    writeFileSync(
-      outputFilePath,
-      await format(md, {
-        /**
-         * NOTE: In the .prettierrc we set:
-         * "embeddedLanguageFormatting": "off"
-         *
-         * ...for these docs files as it's important we don't let prettier format the
-         * code samples, because otherwise it will move the ~~~ (error highlights) to
-         * the wrong locations.
-         */
-        ...(await resolveConfig(outputFilePath)),
-        parser: 'markdown',
-      }),
-    );
+    writeFileSync(outputFilePath, formatSource(md, outputFilePath));
   }
 
   console.log(`\n✨ Updated docs for all rules in "${plugin}"`);
@@ -435,11 +421,7 @@ ${formattedConfig}
 
 #### ${kind === 'invalid' ? '❌ Invalid' : '✅ Valid'} Code
 
-${
-  extractedTestCase.filename
-    ? `**Filename: ${extractedTestCase.filename}**`
-    : ''
-}
+${extractedTestCase.filename ? `**Filename: ${extractedTestCase.filename}**` : ''}
 
 \`\`\`${highligher}
 ${formattedCode}

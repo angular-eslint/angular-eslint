@@ -24,7 +24,8 @@ export const RULE_NAME = 'prefer-template-literal';
  * or an expression that needs ${} interpolation.
  */
 type ConcatPart =
-  { type: 'literal'; value: string } | { type: 'expression'; node: AST };
+  | { type: 'literal'; value: string }
+  | { type: 'expression'; node: AST };
 
 /**
  * Check if this node is part of a larger Binary + chain.

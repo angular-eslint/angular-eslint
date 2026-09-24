@@ -1,6 +1,6 @@
 import { writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { format, resolveConfig } from 'prettier';
+import { formatSource } from './format-source';
 
 (async function main() {
   const setParserOptionsProjectConfig = {
@@ -69,9 +69,9 @@ async function enhanceSchemaWithProperties(
 
   writeFileSync(
     schemaJsonPath,
-    await format(updatedSchemaJson, {
-      ...(await resolveConfig(schemaJsonPath)),
-      parser: 'json',
+    formatSource(updatedSchemaJson, schemaJsonPath, {
+      // Schematic schemas stay in ignorePatterns for `format:check`, but generation must still format them.
+      stdinFilePath: 'tools/scripts/.schema-generation-format.json',
     }),
   );
 

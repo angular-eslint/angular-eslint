@@ -1,0 +1,40 @@
+{
+  "singleQuote": true,
+  "trailingComma": "all",
+  "printWidth": 80,
+  "sortImports": false,
+  "sortPackageJson": false,
+  "ignorePatterns": [
+    "**/dist",
+    "**/coverage",
+    "**/.vscode",
+    "**/.nyc_output",
+    "**/.github",
+    "**/node_modules",
+    "tmp",
+    "packages/schematics/src/application/schema.json",
+    "packages/schematics/src/workspace/schema.json",
+    "/.nx/cache",
+    "/.nx/workspace-data",
+    "pnpm-lock.yaml",
+    ".mcp.json",
+    ".nx/self-healing",
+    "**/*.yml",
+    "**/*.yaml",
+    "**/*.snap",
+    "**/*.template",
+    "**/*.patch",
+    "**/*.mts",
+    "**/*.mjs",
+    "**/LICENSE",
+    ".husky/**"
+  ],
+  "overrides": [
+    {
+      "files": ["packages/**/docs/rules/*.md"],
+      "options": {
+        "embeddedLanguageFormatting": "off"
+      }
+    }
+  ]
+}

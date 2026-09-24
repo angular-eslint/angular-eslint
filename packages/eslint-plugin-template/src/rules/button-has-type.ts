@@ -49,7 +49,8 @@ export default createESLintRule<Options, MessageIds>({
             description:
               'Directive names that, when present on the element, cause it to be ignored. Entries wrapped in slashes, e.g. `/^tui/`, are treated as regular expressions.',
             default: DEFAULT_OPTIONS.ignoreWithDirectives as
-              string[] | undefined,
+              | string[]
+              | undefined,
           },
         },
         additionalProperties: false,

@@ -42,11 +42,13 @@ export default createESLintRule<Options, MessageIds>({
         return false;
       }
 
-      if (!(
-        // this.$any() is also valid usage of the native Angular $any()
-        node.receiver.receiver instanceof ThisReceiver ||
-        node.receiver.receiver instanceof ImplicitReceiver
-      )) {
+      if (
+        !(
+          // this.$any() is also valid usage of the native Angular $any()
+          node.receiver.receiver instanceof ThisReceiver ||
+          node.receiver.receiver instanceof ImplicitReceiver
+        )
+      ) {
         return false;
       }
 

@@ -2,7 +2,7 @@ import type { TSESLint } from '@typescript-eslint/utils';
 import fs, { readdirSync } from 'node:fs';
 import path from 'node:path';
 import pc from 'picocolors';
-import { format, resolveConfig } from 'prettier';
+import { formatSource } from './format-source';
 
 // Import directly from source to ensure the latest rules are included
 import eslintPluginTemplate from '../../packages/eslint-plugin-template/src';
@@ -10,7 +10,8 @@ import eslintPlugin from '../../packages/eslint-plugin/src';
 
 interface LinterConfigRules {
   [name: string]:
-    TSESLint.Linter.RuleLevel | TSESLint.Linter.RuleLevelAndOptions;
+    | TSESLint.Linter.RuleLevel
+    | TSESLint.Linter.RuleLevelAndOptions;
 }
 
 const eslintPluginMaxRuleNameLength = Object.keys(eslintPlugin.rules).reduce(
@@ -94,12 +95,12 @@ function reducer(
   const ruleName = `${ruleNamePrefix}${key}`;
   const recommendation = value.meta.docs?.recommended ? 'error' : undefined;
   const usedSetting:
-    TSESLint.Linter.RuleLevel | TSESLint.Linter.RuleLevelAndOptions =
-    settings.errorLevel
-      ? settings.errorLevel
-      : !recommendation
-        ? DEFAULT_RULE_SETTING
-        : recommendation;
+    | TSESLint.Linter.RuleLevel
+    | TSESLint.Linter.RuleLevelAndOptions = settings.errorLevel
+    ? settings.errorLevel
+    : !recommendation
+      ? DEFAULT_RULE_SETTING
+      : recommendation;
 
   console.log(
     `${pc.dim(ruleNamePrefix)}${key.padEnd(MAX_RULE_NAME_LENGTH)}`,
@@ -118,10 +119,7 @@ async function writeTsBasedConfig(
   config: string,
   filePath: string,
 ): Promise<void> {
-  const configStr = await format(config, {
-    ...(await resolveConfig(__dirname)),
-    parser: 'typescript',
-  });
+  const configStr = formatSource(config, filePath);
   fs.writeFileSync(filePath, configStr);
 }
 
