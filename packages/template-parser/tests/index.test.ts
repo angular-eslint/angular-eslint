@@ -1393,7 +1393,9 @@ describe('parseForESLint()', () => {
                 },
               },
               "error": null,
-              "hydrateTriggers": {},
+              "hydrateTriggers": {
+                "type": "Object",
+              },
               "i18n": undefined,
               "loading": null,
               "loc": {
@@ -2608,7 +2610,9 @@ describe('parseForESLint()', () => {
                 },
               },
               "error": null,
-              "hydrateTriggers": {},
+              "hydrateTriggers": {
+                "type": "Object",
+              },
               "i18n": undefined,
               "loading": null,
               "loc": {
@@ -4779,7 +4783,9 @@ describe('parseForESLint()', () => {
                 },
               },
               "error": null,
-              "hydrateTriggers": {},
+              "hydrateTriggers": {
+                "type": "Object",
+              },
               "i18n": undefined,
               "loading": DeferredBlockLoading {
                 "afterTime": 100,
@@ -8092,7 +8098,9 @@ describe('parseForESLint()', () => {
                 },
                 "type": "DeferredBlockError",
               },
-              "hydrateTriggers": {},
+              "hydrateTriggers": {
+                "type": "Object",
+              },
               "i18n": undefined,
               "loading": null,
               "loc": {

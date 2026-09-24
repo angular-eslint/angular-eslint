@@ -395,6 +395,35 @@ interface Options {
 #### ❌ Invalid Code
 
 ```html
+@defer (on idle; hydrate when foo()) {
+                              ~~~~~
+  <div></div>
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-call-expression": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
 {{ foo(bar(), baz()) }}
    ~~~~~~~~~~~~~~~~~
 ```
