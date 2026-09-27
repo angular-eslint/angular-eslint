@@ -18,6 +18,7 @@
 Ensures Components, Directives and Pipes do not opt out of standalone.
 
 - Type: suggestion
+- 🔧 Supports autofix (`--fix`)
 
 - 💡 Provides suggestions on how to fix issues (https://eslint.org/docs/developer-guide/working-with-rules#providing-suggestions)
 
@@ -25,13 +26,25 @@ Ensures Components, Directives and Pipes do not opt out of standalone.
 
 ## Rationale
 
-Standalone components, directives, and pipes are the recommended way to build Angular applications. Setting standalone: false opts out of the standalone API, tying your code to the older NgModule-based architecture. Standalone components simplify Angular applications by eliminating the need for NgModules in most cases, reducing boilerplate and making dependencies more explicit. Each standalone component declares its own dependencies directly, making it self-contained and easier to understand, test, and reuse. Standalone components also enable better tree-shaking and lazy loading. Angular provides comprehensive migration guides to help transition existing applications, such as https://angular.dev/reference/migrations/standalone. New projects should use standalone components from the start, and existing projects should avoid adding new non-standalone components as they will make future migrations harder.
+Standalone components, directives, and pipes are the recommended way to build Angular applications. Setting standalone: false opts out of the standalone API, tying your code to the older NgModule-based architecture. Standalone components simplify Angular applications by eliminating the need for NgModules in most cases, reducing boilerplate and making dependencies more explicit. Each standalone component declares its own dependencies directly, making it self-contained and easier to understand, test, and reuse. Standalone components also enable better tree-shaking and lazy loading. Angular provides comprehensive migration guides to help transition existing applications, such as https://angular.dev/reference/migrations/standalone. New projects should use standalone components from the start, and existing projects should avoid adding new non-standalone components as they will make future migrations harder. As of Angular v19, `standalone: true` is the default for components, directives, and pipes, so declaring `standalone: true` explicitly is redundant; set `allowExplicitStandalone` to `false` to have the rule flag and autofix redundant `standalone: true` declarations too.
 
 <br>
 
 ## Rule Options
 
-The rule does not have any configuration options.
+The rule accepts an options object with the following properties:
+
+```ts
+interface Options {
+  /**
+   * Whether to allow a Component, Directive or Pipe to set `standalone: true` explicitly even though it is now the default.
+   *
+   * Default: `true`
+   */
+  allowExplicitStandalone?: boolean;
+}
+
+```
 
 <br>
 
@@ -217,6 +230,227 @@ class Test {}
 class Test {}
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-standalone": [
+      "error",
+      {
+        "allowExplicitStandalone": false
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({ standalone: false })
+             ~~~~~~~~~~~~~~~~~
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-standalone": [
+      "error",
+      {
+        "allowExplicitStandalone": false
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({ standalone: true })
+             ~~~~~~~~~~~~~~~~
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-standalone": [
+      "error",
+      {
+        "allowExplicitStandalone": false
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({ standalone: true, selector: 'app-test' })
+             ~~~~~~~~~~~~~~~~
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-standalone": [
+      "error",
+      {
+        "allowExplicitStandalone": false
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({ selector: 'app-test', standalone: true })
+                                   ~~~~~~~~~~~~~~~~
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-standalone": [
+      "error",
+      {
+        "allowExplicitStandalone": false
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({
+  standalone: true,
+  ~~~~~~~~~~~~~~~~
+  // keep this comment
+  selector: 'app-test',
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-standalone": [
+      "error",
+      {
+        "allowExplicitStandalone": false
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Directive({ standalone: true, selector: '[appTest]' })
+             ~~~~~~~~~~~~~~~~
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-standalone": [
+      "error",
+      {
+        "allowExplicitStandalone": false
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Pipe({ standalone: true, name: 'testPipe' })
+        ~~~~~~~~~~~~~~~~
+class Test {}
+```
+
 </details>
 
 <br>
@@ -276,6 +510,70 @@ class Test {}
 ```ts
 @Component({
   standalone: true,
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-standalone": [
+      "error",
+      {
+        "allowExplicitStandalone": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  standalone: true,
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-standalone": [
+      "error",
+      {
+        "allowExplicitStandalone": false
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({
+  selector: 'test-selector',
 })
 class Test {}
 ```
@@ -454,6 +752,38 @@ class Test {}
 ```ts
 @Directive({
   standalone: true,
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-standalone": [
+      "error",
+      {
+        "allowExplicitStandalone": false
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Directive({
+  selector: 'test-selector',
 })
 class Test {}
 ```
@@ -657,6 +987,38 @@ class Test {}
 ```ts
 @Pipe({
   standalone: true,
+})
+class Test {}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/prefer-standalone": [
+      "error",
+      {
+        "allowExplicitStandalone": false
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Pipe({
+  name: 'test-pipe',
 })
 class Test {}
 ```

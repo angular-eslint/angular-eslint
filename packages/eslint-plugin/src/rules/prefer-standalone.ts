@@ -1,12 +1,14 @@
-import { ASTUtils, Selectors } from '@angular-eslint/utils';
+import { ASTUtils, RuleFixes, Selectors } from '@angular-eslint/utils';
 import type { TSESTree } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
-export type Options = [];
+export type Options = [{ readonly allowExplicitStandalone?: boolean }];
 type DecoratorTypes = 'component' | 'directive' | 'pipe';
-export type MessageIds = 'preferStandalone' | 'removeStandaloneFalse';
+export type MessageIds =
+  'preferStandalone' | 'removeStandaloneFalse' | 'redundantStandalone';
 export const RULE_NAME = 'prefer-standalone';
 
+const DEFAULT_OPTIONS: Options[0] = { allowExplicitStandalone: true };
 const RECOMMENDED_GUIDE_URL =
   'https://angular.dev/reference/migrations/standalone';
 
@@ -18,15 +20,31 @@ export default createESLintRule<Options, MessageIds>({
       description: `Ensures Components, Directives and Pipes do not opt out of standalone.`,
       recommended: 'recommended',
     },
+    fixable: 'code',
     hasSuggestions: true,
-    schema: [],
+    schema: [
+      {
+        type: 'object',
+        properties: {
+          allowExplicitStandalone: {
+            type: 'boolean',
+            default: DEFAULT_OPTIONS.allowExplicitStandalone,
+            description:
+              'Whether to allow a Component, Directive or Pipe to set `standalone: true` explicitly even though it is now the default.',
+          },
+        },
+        additionalProperties: false,
+      },
+    ],
     messages: {
       preferStandalone: `Components, Directives and Pipes should not opt out of standalone. Following this guide is highly recommended: ${RECOMMENDED_GUIDE_URL}`,
       removeStandaloneFalse: `Quickly remove 'standalone: false'. NOTE - Following this guide is highly recommended: ${RECOMMENDED_GUIDE_URL}`,
+      redundantStandalone:
+        '`standalone: true` is redundant because `standalone: true` is the default',
     },
-    defaultOptions: [],
+    defaultOptions: [DEFAULT_OPTIONS],
   },
-  create(context) {
+  create(context, [{ allowExplicitStandalone }]) {
     const standaloneRuleFactory =
       (type: DecoratorTypes) => (node: TSESTree.Decorator) => {
         const standalone = ASTUtils.getDecoratorPropertyValue(
@@ -34,17 +52,32 @@ export default createESLintRule<Options, MessageIds>({
           'standalone',
         );
 
-        // Leave the standalone property alone if it was set to true or not present
-        if (
-          !standalone ||
-          (ASTUtils.isLiteral(standalone) && standalone.value === true)
-        ) {
+        if (!standalone) {
           return;
         }
 
         if (!ASTUtils.getDecoratorArgument(node)) {
           return;
         }
+
+        if (ASTUtils.isLiteral(standalone) && standalone.value === true) {
+          if (allowExplicitStandalone) {
+            return;
+          }
+
+          context.report({
+            node: standalone.parent,
+            messageId: 'redundantStandalone',
+            fix: (fixer) =>
+              RuleFixes.getNodeToCommaRemoveFix(
+                context.sourceCode,
+                standalone.parent,
+                fixer,
+              ),
+          });
+          return;
+        }
+
         context.report({
           node: standalone.parent,
           messageId: 'preferStandalone',
@@ -80,5 +113,5 @@ export default createESLintRule<Options, MessageIds>({
 
 export const RULE_DOCS_EXTENSION = {
   rationale:
-    'Standalone components, directives, and pipes are the recommended way to build Angular applications. Setting standalone: false opts out of the standalone API, tying your code to the older NgModule-based architecture. Standalone components simplify Angular applications by eliminating the need for NgModules in most cases, reducing boilerplate and making dependencies more explicit. Each standalone component declares its own dependencies directly, making it self-contained and easier to understand, test, and reuse. Standalone components also enable better tree-shaking and lazy loading. Angular provides comprehensive migration guides to help transition existing applications, such as https://angular.dev/reference/migrations/standalone. New projects should use standalone components from the start, and existing projects should avoid adding new non-standalone components as they will make future migrations harder.',
+    'Standalone components, directives, and pipes are the recommended way to build Angular applications. Setting standalone: false opts out of the standalone API, tying your code to the older NgModule-based architecture. Standalone components simplify Angular applications by eliminating the need for NgModules in most cases, reducing boilerplate and making dependencies more explicit. Each standalone component declares its own dependencies directly, making it self-contained and easier to understand, test, and reuse. Standalone components also enable better tree-shaking and lazy loading. Angular provides comprehensive migration guides to help transition existing applications, such as https://angular.dev/reference/migrations/standalone. New projects should use standalone components from the start, and existing projects should avoid adding new non-standalone components as they will make future migrations harder. As of Angular v19, `standalone: true` is the default for components, directives, and pipes, so declaring `standalone: true` explicitly is redundant; set `allowExplicitStandalone` to `false` to have the rule flag and autofix redundant `standalone: true` declarations too.',
 };
