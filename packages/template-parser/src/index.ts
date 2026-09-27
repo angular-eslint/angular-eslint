@@ -62,6 +62,7 @@ const KEYS: VisitorKeys = {
     'error',
     'triggers',
     'prefetchTriggers',
+    'hydrateTriggers',
   ],
   DeferredBlockLoading: ['children'],
   DeferredBlockError: ['children'],
