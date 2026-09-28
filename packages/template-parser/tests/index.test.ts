@@ -17626,5 +17626,4 @@ describe('parseForESLint()', () => {
       linkDirective,
     ]);
   });
-
 });

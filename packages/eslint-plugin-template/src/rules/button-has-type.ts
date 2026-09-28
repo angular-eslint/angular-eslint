@@ -69,15 +69,13 @@ export default createESLintRule<Options, MessageIds>({
     return {
       [`Element[name=/^(button)$/i]`](element: TmplAstElement) {
         const hasValidTypeFromDirective =
-          parserServices
-            .getDirectivesForElement?.(element)
-            .some(({ host }) => {
-              const type = host?.[TYPE_ATTRIBUTE_NAME];
+          parserServices.getDirectivesForElement?.(element).some(({ host }) => {
+            const type = host?.[TYPE_ATTRIBUTE_NAME];
 
-              return (
-                typeof type === 'string' && VALID_BUTTON_TYPES.includes(type)
-              );
-            }) ?? false;
+            return (
+              typeof type === 'string' && VALID_BUTTON_TYPES.includes(type)
+            );
+          }) ?? false;
 
         if (!isTypeAttributePresentInElement(element)) {
           if (!hasValidTypeFromDirective && !hasIgnoredDirective(element)) {
