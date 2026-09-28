@@ -2,8 +2,14 @@ import type {
   Comment,
   ParseError,
   ParseSourceSpan,
+  TmplAstElement,
 } from '@angular-eslint/bundled-angular-compiler';
-import { parseTemplate } from '@angular-eslint/bundled-angular-compiler';
+import {
+  createCssSelectorFromNode,
+  CssSelector,
+  parseTemplate,
+  SelectorMatcher,
+} from '@angular-eslint/bundled-angular-compiler';
 import type { TSESTree } from '@typescript-eslint/types';
 import { analyze, ScopeManager } from 'eslint-scope';
 import {
@@ -33,6 +39,12 @@ interface AST extends Node, Omit<Token, 'parent'> {
   tokens: Token[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   templateNodes: any[];
+}
+
+export interface TemplateDirectiveMetadata {
+  readonly name: string;
+  readonly selector: string;
+  readonly host?: Readonly<Record<string, string>>;
 }
 
 const KEYS: VisitorKeys = {
@@ -350,7 +362,28 @@ export function createTemplateParseError(
   return new TemplateParseError(message, fileName, index, lineNumber, column);
 }
 
+function createGetDirectivesForElement(
+  directives: readonly TemplateDirectiveMetadata[],
+): (element: TmplAstElement) => readonly TemplateDirectiveMetadata[] {
+  const matcher = new SelectorMatcher<readonly TemplateDirectiveMetadata[]>();
+
+  for (const directive of directives) {
+    matcher.addSelectables(CssSelector.parse(directive.selector), [directive]);
+  }
+
+  return (element) => {
+    const matched = new Set<TemplateDirectiveMetadata>();
+
+    matcher.match(createCssSelectorFromNode(element), (_, directives) => {
+      directives.forEach((directive) => matched.add(directive));
+    });
+
+    return [...matched];
+  };
+}
+
 export interface ParserOptions {
+  directiveMetadata?: readonly TemplateDirectiveMetadata[];
   filePath: string;
   suppressParseErrors?: boolean;
 }
@@ -365,8 +398,14 @@ function parseForESLint(
   services: {
     convertElementSourceSpanToLoc: typeof convertElementSourceSpanToLoc;
     convertNodeSourceSpanToLoc: typeof convertNodeSourceSpanToLoc;
+    getDirectivesForElement: (
+      element: TmplAstElement,
+    ) => readonly TemplateDirectiveMetadata[];
   };
 } {
+  const getDirectivesForElement = createGetDirectivesForElement(
+    options.directiveMetadata ?? [],
+  );
   const angularCompilerResult = parseTemplate(code, options.filePath, {
     preserveWhitespaces: true,
     preserveLineEndings: true,
@@ -427,6 +466,7 @@ function parseForESLint(
     services: {
       convertNodeSourceSpanToLoc,
       convertElementSourceSpanToLoc,
+      getDirectivesForElement,
     },
   };
 }

@@ -4,6 +4,12 @@ import type {
 } from '@angular-eslint/bundled-angular-compiler';
 import type { TSESLint, TSESTree } from '@typescript-eslint/utils';
 
+export interface TemplateDirectiveMetadata {
+  readonly name: string;
+  readonly selector: string;
+  readonly host?: Readonly<Record<string, string>>;
+}
+
 export interface TemplateParserServices {
   convertNodeSourceSpanToLoc: (
     sourceSpan: ParseSourceSpan,
@@ -12,6 +18,9 @@ export interface TemplateParserServices {
     context: Readonly<TSESLint.RuleContext<string, readonly unknown[]>>,
     node: TmplAstElement,
   ) => TSESTree.SourceLocation;
+  getDirectivesForElement?: (
+    element: TmplAstElement,
+  ) => readonly TemplateDirectiveMetadata[];
 }
 
 export function getTemplateParserServices(

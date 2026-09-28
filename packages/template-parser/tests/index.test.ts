@@ -17597,4 +17597,34 @@ describe('parseForESLint()', () => {
 
     expect(result.scopeManager.acquire(result.ast as any)).not.toBeNull();
   });
+
+  it('should expose selector-matched directive metadata', () => {
+    const buttonDirective = {
+      name: 'MyButton',
+      selector: 'button[myButton]',
+      host: { type: 'button' },
+    } as const;
+    const linkDirective = {
+      name: 'MyLink',
+      selector: 'button[myLink]',
+    } as const;
+    const result = parseForESLint(
+      '<button myButton></button><button myLink></button>',
+      {
+        directiveMetadata: [buttonDirective, linkDirective],
+        filePath: './foo.html',
+      },
+    );
+    const elements = result.ast.templateNodes.filter(
+      (node) => node.type === 'Element',
+    );
+
+    expect(result.services.getDirectivesForElement(elements[0])).toEqual([
+      buttonDirective,
+    ]);
+    expect(result.services.getDirectivesForElement(elements[1])).toEqual([
+      linkDirective,
+    ]);
+  });
+
 });
