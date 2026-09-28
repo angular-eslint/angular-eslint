@@ -55,6 +55,9 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
         ],
       },
     },
+    settings: {
+      hideFromDocs: true,
+    },
   },
 ];
 
@@ -169,5 +172,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       },
     },
     messageId: missingType,
+    settings: {
+      hideFromDocs: true,
+    },
   }),
 ];
