@@ -41,7 +41,7 @@ type Options =
       /**
        * Default: `"app"`
        */
-      prefix?: string | unknown[];
+      prefix?: string | string[];
       /**
        * Default: `undefined`
        */
@@ -56,7 +56,7 @@ type Options =
         /**
          * Default: `"app"`
          */
-        prefix?: string | unknown[];
+        prefix?: string | string[];
         /**
          * Default: `undefined`
          */
@@ -72,7 +72,7 @@ type Options =
         /**
          * Default: `"app"`
          */
-        prefix?: string | unknown[];
+        prefix?: string | string[];
         /**
          * Default: `undefined`
          */
@@ -86,7 +86,7 @@ type Options =
         /**
          * Default: `"app"`
          */
-        prefix?: string | unknown[];
+        prefix?: string | string[];
         /**
          * Default: `undefined`
          */
