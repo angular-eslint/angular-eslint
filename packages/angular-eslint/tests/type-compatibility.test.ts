@@ -106,3 +106,25 @@ config(
   ...angular.configs.tsRecommended,
   ...angular.configs.templateRecommended,
 );
+
+/**
+ * Test 7: Verify the inline styles processor (and its configured variants) work with both config functions
+ */
+defineConfig([
+  { files: ['**/*.ts'], processor: angular.processInlineStyles },
+  {
+    files: ['**/*.html'],
+    processor: angular.processInlineStyles.withOptions({
+      inlineStyleLanguage: 'scss',
+    }),
+  },
+]);
+config(
+  { files: ['**/*.ts'], processor: angular.processInlineStyles },
+  {
+    files: ['**/*.html'],
+    processor: angular.processInlineStyles.withOptions({
+      inlineStyleLanguage: 'scss',
+    }),
+  },
+);
