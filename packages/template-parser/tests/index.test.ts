@@ -1301,6 +1301,7 @@ describe('parseForESLint()', () => {
                 },
               ],
               "definedHydrateTriggers": [],
+              "definedName": null,
               "definedPrefetchTriggers": [],
               "definedTriggers": [
                 "when",
@@ -2518,6 +2519,7 @@ describe('parseForESLint()', () => {
                 },
               ],
               "definedHydrateTriggers": [],
+              "definedName": null,
               "definedPrefetchTriggers": [],
               "definedTriggers": [
                 "immediate",
@@ -4693,6 +4695,7 @@ describe('parseForESLint()', () => {
                 },
               ],
               "definedHydrateTriggers": [],
+              "definedName": null,
               "definedPrefetchTriggers": [],
               "definedTriggers": [],
               "endSourceSpan": ParseSourceSpan {
@@ -7055,6 +7058,7 @@ describe('parseForESLint()', () => {
                 },
               ],
               "definedHydrateTriggers": [],
+              "definedName": null,
               "definedPrefetchTriggers": [],
               "definedTriggers": [],
               "endSourceSpan": ParseSourceSpan {
