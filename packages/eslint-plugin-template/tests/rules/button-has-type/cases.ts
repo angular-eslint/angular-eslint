@@ -42,6 +42,23 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     `,
     options: [{ ignoreWithDirectives: ['/^tui/'] }],
   },
+  {
+    code: `<button myButton></button>`,
+    languageOptions: {
+      parserOptions: {
+        directiveMetadata: [
+          {
+            name: 'MyButton',
+            selector: 'button[myButton]',
+            host: { type: 'button' },
+          },
+        ],
+      },
+    },
+    settings: {
+      hideFromDocs: true,
+    },
+  },
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
@@ -135,6 +152,28 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId: invalidType,
     data: {
       [INVALID_TYPE_DATA_KEY]: 'whatever',
+    },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail when a matched directive does not provide a valid static host type',
+    annotatedSource: `
+      <button myLink></button>
+      ~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    languageOptions: {
+      parserOptions: {
+        directiveMetadata: [
+          {
+            name: 'MyLink',
+            selector: 'button[myLink]',
+          },
+        ],
+      },
+    },
+    messageId: missingType,
+    settings: {
+      hideFromDocs: true,
     },
   }),
 ];
