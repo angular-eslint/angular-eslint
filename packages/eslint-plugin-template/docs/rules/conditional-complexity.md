@@ -259,6 +259,170 @@ interface Options {
 </ng-container>
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/conditional-complexity": [
+      "error",
+      {
+        "maxComplexity": 2
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@if (a && b && c && d; as result) {
+     ~~~~~~~~~~~~~~~~
+  {{ result }}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/conditional-complexity": [
+      "error",
+      {
+        "maxComplexity": 2
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@if ((a && b && c && d) | async; as result) {
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~
+  {{ result }}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/conditional-complexity": [
+      "error",
+      {
+        "maxComplexity": 2
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@if (a) {
+  First
+} @else if (b && c && d && e) {
+            ~~~~~~~~~~~~~~~~
+  Second
+} @else {
+  Third
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/conditional-complexity": [
+      "error",
+      {
+        "maxComplexity": 2
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@switch (a && b && c && d) {
+         ~~~~~~~~~~~~~~~~
+  @case (true) {
+    Content
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/conditional-complexity": [
+      "error",
+      {
+        "maxComplexity": 2
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@let isReady = a && b && c && d;
+               ~~~~~~~~~~~~~~~~
+```
+
 </details>
 
 <br>
@@ -431,6 +595,171 @@ interface Options {
 
 ```html
 <section [@animationName]="animationState">Animated Section</section>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/conditional-complexity": [
+      "error",
+      {
+        "maxComplexity": 2
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+@if (a && b && c) {
+  First
+} @else if (d) {
+  Second
+} @else {
+  Third
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/conditional-complexity": [
+      "error",
+      {
+        "maxComplexity": 2
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+@if (a) {
+  First
+} @else if (b && c && d) {
+  Second
+} @else {
+  Third
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/conditional-complexity": [
+      "error",
+      {
+        "maxComplexity": 2
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+@switch (a && b && c) {
+  @case (true) {
+    Content
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/conditional-complexity": [
+      "error",
+      {
+        "maxComplexity": 2
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+@let isReady = a && b && c;
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/conditional-complexity": [
+      "error",
+      {
+        "maxComplexity": 1
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+@if (a) {
+  First
+} @else {
+  Second
+}
 ```
 
 </details>

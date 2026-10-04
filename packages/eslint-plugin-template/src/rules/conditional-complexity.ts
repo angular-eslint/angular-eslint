@@ -1,9 +1,12 @@
 import type {
   AST,
-  ASTWithSource,
   TmplAstBoundAttribute,
+  TmplAstIfBlockBranch,
+  TmplAstLetDeclaration,
+  TmplAstSwitchBlock,
 } from '@angular-eslint/bundled-angular-compiler';
 import {
+  ASTWithSource,
   Binary,
   BindingPipe,
   Conditional,
@@ -50,6 +53,31 @@ export default createESLintRule<Options, MessageIds>({
   create(context, [{ maxComplexity }]) {
     ensureTemplateParser(context);
     const sourceCode = context.sourceCode;
+
+    function checkControlFlowExpression(expression: AST): void {
+      const ast =
+        expression instanceof ASTWithSource ? expression.ast : expression;
+      const totalComplexity = getTotalComplexity(
+        extractPossibleBinaryOrConditionalFrom(ast),
+      );
+
+      if (totalComplexity <= maxComplexity) {
+        return;
+      }
+
+      const {
+        sourceSpan: { start, end },
+      } = ast;
+
+      context.report({
+        loc: {
+          start: sourceCode.getLocFromIndex(start),
+          end: sourceCode.getLocFromIndex(end),
+        },
+        messageId: 'conditionalComplexity',
+        data: { maxComplexity, totalComplexity },
+      });
+    }
 
     return {
       BoundAttribute(node: TmplAstBoundAttribute & { value: ASTWithSource }) {
@@ -104,6 +132,19 @@ export default createESLintRule<Options, MessageIds>({
             data: { maxComplexity, totalComplexity },
           });
         }
+      },
+      IfBlockBranch({ expression }: TmplAstIfBlockBranch) {
+        if (!expression) {
+          return;
+        }
+
+        checkControlFlowExpression(expression);
+      },
+      SwitchBlock({ expression }: TmplAstSwitchBlock) {
+        checkControlFlowExpression(expression);
+      },
+      LetDeclaration({ value }: TmplAstLetDeclaration) {
+        checkControlFlowExpression(value);
       },
     };
   },
