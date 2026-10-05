@@ -26,7 +26,7 @@ exports[`inline-template-fixer > should generate the expected inline template fi
   "jsdom": "^30.0.0",
   "prettier": "^3.8.1",
   "typescript": "~6.X.X",
-  "typescript-eslint": "8.70.1",
+  "typescript-eslint": "8.71.0",
   "vitest": "^5.0.0"
 }
 `;
