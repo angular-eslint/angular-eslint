@@ -10,6 +10,7 @@ export {
 
 export { getAriaAttributeKeys } from './eslint-plugin/get-aria-attribute-keys';
 export { getNativeEventNames } from './eslint-plugin/get-native-event-names';
+export { ATTR_PREFIX, getOriginalBindingType } from './aria-bindings';
 
 export * as ASTUtils from './eslint-plugin/ast-utils';
 export * as CommentUtils from './eslint-plugin/comment-utils';
