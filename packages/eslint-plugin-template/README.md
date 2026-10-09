@@ -23,6 +23,7 @@ The premade flat configs that combine these rules are provided by the umbrella [
 | Rule | Description | :white_check_mark: | :wrench: | :bulb: | :accessibility: |
 | --- | --- | --- | --- | --- | --- |
 | [`no-duplicate-attributes`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/no-duplicate-attributes.md) | Ensures that there are no duplicate input properties or output event listeners |  |  | :bulb: |  |
+| [`no-multi-token-class-key`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/no-multi-token-class-key.md) | Disallows object keys containing whitespace in `[class]` bindings, which Angular silently ignores |  |  | :bulb: |  |
 | [`no-nested-tags`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/no-nested-tags.md) | Denies nesting of `<p>` and `<a>` tags. |  |  |  |  |
 | [`no-outerhtml`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/no-outerhtml.md) | Disallows using `outerHTML` on elements, which breaks change detection and detaches the element from the Angular view |  |  |  |  |
 <!-- prettier-ignore-end -->
