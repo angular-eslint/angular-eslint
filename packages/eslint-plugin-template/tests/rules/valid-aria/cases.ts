@@ -8,6 +8,9 @@ import type { MessageIds, Options } from '../../../src/rules/valid-aria';
 const accessibilityValidAria: MessageIds = 'validAria';
 const accessibilityValidAriaValue: MessageIds = 'validAriaValue';
 const suggestRemoveInvalidAria: MessageIds = 'suggestRemoveInvalidAria';
+const invalidAttrBindingName: MessageIds = 'invalidAttrBindingName';
+const suggestRenameAria: MessageIds = 'suggestRenameAria';
+const invalidStaticAttrPrefix: MessageIds = 'invalidStaticAttrPrefix';
 
 export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '<input aria-labelledby="Text">',
@@ -43,6 +46,9 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '<app-test aria-expanded="notABoolean"></app-test>',
   '<div aria-checked="mixed">checked</div>',
   '<div aria-pressed="mixed">checked</div>',
+  '<div [ariaLabel]="x"></div>',
+  '<app-foo [ariaLabel]="x"></app-foo>',
+  '<div attr.aria-label="{{x}}"></div>',
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
@@ -228,5 +234,167 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         data: { attribute: 'aria-relevant' },
       },
     ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if a camelCase ARIA name follows the `attr.` prefix',
+    annotatedSource: `
+        <div [attr.ariaLabel]="label"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId: invalidAttrBindingName,
+    data: { attribute: 'ariaLabel', suggested: 'aria-label' },
+    suggestions: [
+      {
+        messageId: suggestRenameAria,
+        data: { suggested: 'attr.aria-label' },
+        output: `
+        <div [attr.aria-label]="label"></div>
+             
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if a camelCase ARIA name follows the `attr.` prefix on a custom element',
+    annotatedSource: `
+        <app-foo [attr.ariaLabel]="x"></app-foo>
+                 ~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId: invalidAttrBindingName,
+    data: { attribute: 'ariaLabel', suggested: 'aria-label' },
+    suggestions: [
+      {
+        messageId: suggestRenameAria,
+        data: { suggested: 'attr.aria-label' },
+        output: `
+        <app-foo [attr.aria-label]="x"></app-foo>
+                 
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should suggest the lowercase hyphenated name for multi-word camelCase ARIA names after `attr.`',
+    annotatedSource: `
+        <div [attr.ariaDescribedBy]="x"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId: invalidAttrBindingName,
+    data: { attribute: 'ariaDescribedBy', suggested: 'aria-describedby' },
+    suggestions: [
+      {
+        messageId: suggestRenameAria,
+        data: { suggested: 'attr.aria-describedby' },
+        output: `
+        <div [attr.aria-describedby]="x"></div>
+             
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if a static attribute uses the `attr.` prefix with an ARIA name',
+    annotatedSource: `
+        <div attr.aria-label="Close"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId: invalidStaticAttrPrefix,
+    data: { attribute: 'attr.aria-label', suggested: 'aria-label' },
+    suggestions: [
+      {
+        messageId: suggestRenameAria,
+        data: { suggested: 'aria-label' },
+        output: `
+        <div aria-label="Close"></div>
+             
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail without a suggestion if a static `attr.` attribute has an unknown ARIA name',
+    annotatedSource: `
+        <div attr.aria-labelby="x"></div>
+             ~~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId: invalidStaticAttrPrefix,
+    data: { attribute: 'attr.aria-labelby', suggested: 'aria-labelby' },
+    suggestions: [],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if a bound `attr.` attribute has an unknown ARIA name',
+    annotatedSource: `
+        <div [attr.aria-labelby]="x"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId: accessibilityValidAria,
+    data: { attribute: 'aria-labelby' },
+    suggestions: [
+      {
+        messageId: suggestRemoveInvalidAria,
+        data: { attribute: 'aria-labelby' },
+        output: `
+        <div></div>
+             
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should report a static `attr.` ARIA attribute once on a structural directive host',
+    annotatedSource: `
+        <div *ngIf="c" attr.aria-label="x"></div>
+                       ~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId: invalidStaticAttrPrefix,
+    data: { attribute: 'attr.aria-label', suggested: 'aria-label' },
+    suggestions: [
+      {
+        messageId: suggestRenameAria,
+        data: { suggested: 'aria-label' },
+        output: `
+        <div *ngIf="c" aria-label="x"></div>
+                       
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should lowercase the ARIA name of an uppercase bound `attr.` attribute before checking it',
+    annotatedSource: `
+        <div [attr.ARIA-labelx]="x"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId: accessibilityValidAria,
+    data: { attribute: 'ARIA-labelx' },
+    suggestions: [
+      {
+        messageId: suggestRemoveInvalidAria,
+        data: { attribute: 'ARIA-labelx' },
+        output: `
+        <div></div>
+             
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should lowercase the ARIA name of an uppercase static `attr.` attribute before checking it',
+    annotatedSource: `
+        <div attr.ARIA-labelx="x"></div>
+             ~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId: invalidStaticAttrPrefix,
+    data: { attribute: 'attr.ARIA-labelx', suggested: 'aria-labelx' },
+    suggestions: [],
   }),
 ];
