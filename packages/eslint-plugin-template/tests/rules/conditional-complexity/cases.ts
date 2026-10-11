@@ -34,6 +34,56 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   `<aside [@slideInLeftOnEnter]>Sidebar Stuff</aside>`,
   `<div [@fadeIn]="isVisible">Content</div>`,
   `<section [@animationName]="animationState">Animated Section</section>`,
+  {
+    code: `
+        @if (a && b && c) {
+          First
+        } @else if (d) {
+          Second
+        } @else {
+          Third
+        }
+      `,
+    options: [{ maxComplexity: 2 }],
+  },
+  {
+    code: `
+        @if (a) {
+          First
+        } @else if (b && c && d) {
+          Second
+        } @else {
+          Third
+        }
+      `,
+    options: [{ maxComplexity: 2 }],
+  },
+  {
+    code: `
+        @switch (a && b && c) {
+          @case (true) {
+            Content
+          }
+        }
+      `,
+    options: [{ maxComplexity: 2 }],
+  },
+  {
+    code: `
+        @let isReady = a && b && c;
+      `,
+    options: [{ maxComplexity: 2 }],
+  },
+  {
+    code: `
+        @if (a) {
+          First
+        } @else {
+          Second
+        }
+      `,
+    options: [{ maxComplexity: 1 }],
+  },
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
@@ -123,5 +173,74 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       `,
     options: [{ maxComplexity: 3 }],
     data: { maxComplexity: 3, totalComplexity: 4 },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail if the conditional complexity exceeds the maximum defined in an @if block',
+    annotatedSource: `
+        @if (a && b && c && d; as result) {
+             ~~~~~~~~~~~~~~~~
+          {{ result }}
+        }
+      `,
+    options: [{ maxComplexity: 2 }],
+    data: { maxComplexity: 2, totalComplexity: 3 },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail if the conditional complexity exceeds the maximum defined in a piped @if condition',
+    annotatedSource: `
+        @if ((a && b && c && d) | async; as result) {
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~
+          {{ result }}
+        }
+      `,
+    options: [{ maxComplexity: 2 }],
+    data: { maxComplexity: 2, totalComplexity: 3 },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail if the conditional complexity exceeds the maximum defined in an @else if block',
+    annotatedSource: `
+        @if (a) {
+          First
+        } @else if (b && c && d && e) {
+                    ~~~~~~~~~~~~~~~~
+          Second
+        } @else {
+          Third
+        }
+      `,
+    options: [{ maxComplexity: 2 }],
+    data: { maxComplexity: 2, totalComplexity: 3 },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail if the conditional complexity exceeds the maximum defined in an @switch block',
+    annotatedSource: `
+        @switch (a && b && c && d) {
+                 ~~~~~~~~~~~~~~~~
+          @case (true) {
+            Content
+          }
+        }
+      `,
+    options: [{ maxComplexity: 2 }],
+    data: { maxComplexity: 2, totalComplexity: 3 },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail if the conditional complexity exceeds the maximum defined in an @let declaration',
+    annotatedSource: `
+        @let isReady = a && b && c && d;
+                       ~~~~~~~~~~~~~~~~
+      `,
+    options: [{ maxComplexity: 2 }],
+    data: { maxComplexity: 2, totalComplexity: 3 },
   }),
 ];
