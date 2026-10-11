@@ -1301,6 +1301,7 @@ describe('parseForESLint()', () => {
                 },
               ],
               "definedHydrateTriggers": [],
+              "definedName": null,
               "definedPrefetchTriggers": [],
               "definedTriggers": [
                 "when",
@@ -1393,7 +1394,9 @@ describe('parseForESLint()', () => {
                 },
               },
               "error": null,
-              "hydrateTriggers": {},
+              "hydrateTriggers": {
+                "type": "Object",
+              },
               "i18n": undefined,
               "loading": null,
               "loc": {
@@ -2516,6 +2519,7 @@ describe('parseForESLint()', () => {
                 },
               ],
               "definedHydrateTriggers": [],
+              "definedName": null,
               "definedPrefetchTriggers": [],
               "definedTriggers": [
                 "immediate",
@@ -2608,7 +2612,9 @@ describe('parseForESLint()', () => {
                 },
               },
               "error": null,
-              "hydrateTriggers": {},
+              "hydrateTriggers": {
+                "type": "Object",
+              },
               "i18n": undefined,
               "loading": null,
               "loc": {
@@ -4689,6 +4695,7 @@ describe('parseForESLint()', () => {
                 },
               ],
               "definedHydrateTriggers": [],
+              "definedName": null,
               "definedPrefetchTriggers": [],
               "definedTriggers": [],
               "endSourceSpan": ParseSourceSpan {
@@ -4779,7 +4786,9 @@ describe('parseForESLint()', () => {
                 },
               },
               "error": null,
-              "hydrateTriggers": {},
+              "hydrateTriggers": {
+                "type": "Object",
+              },
               "i18n": undefined,
               "loading": DeferredBlockLoading {
                 "afterTime": 100,
@@ -7049,6 +7058,7 @@ describe('parseForESLint()', () => {
                 },
               ],
               "definedHydrateTriggers": [],
+              "definedName": null,
               "definedPrefetchTriggers": [],
               "definedTriggers": [],
               "endSourceSpan": ParseSourceSpan {
@@ -8092,7 +8102,9 @@ describe('parseForESLint()', () => {
                 },
                 "type": "DeferredBlockError",
               },
-              "hydrateTriggers": {},
+              "hydrateTriggers": {
+                "type": "Object",
+              },
               "i18n": undefined,
               "loading": null,
               "loc": {

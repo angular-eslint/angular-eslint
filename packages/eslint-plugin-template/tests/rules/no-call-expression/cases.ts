@@ -228,6 +228,15 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       { char: '*', messageId },
     ],
   }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail for calls in @defer hydrate triggers',
+    annotatedSource: `
+    @defer (on idle; hydrate when foo()) {
+                                  ~~~~~
+      <div></div>
+    }`,
+    messageId,
+  }),
 
   convertAnnotatedSourceToFailureCase({
     description: 'should fail for calls in arguments',

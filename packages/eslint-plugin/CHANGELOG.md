@@ -1,3 +1,22 @@
+## 22.6.0 (2026-10-11)
+
+### 🚀 Features
+
+- **eslint-plugin:** [prefer-standalone] add allowExplicitStandalone option ([#3237](https://github.com/angular-eslint/angular-eslint/pull/3237))
+
+### 🩹 Fixes
+
+- **eslint-plugin:** [prefer-signal-model] rewrite the emit calls of the removed output ([#3200](https://github.com/angular-eslint/angular-eslint/pull/3200))
+- **eslint-plugin:** ensure `prefix` rule option schema is fully typed ([#3246](https://github.com/angular-eslint/angular-eslint/pull/3246))
+- **eslint-plugin:** [reactive-context-must-read-signal] ignore inherited primitive names ([#3201](https://github.com/angular-eslint/angular-eslint/pull/3201))
+
+### ❤️ Thank You
+
+- Andrew Kazakov @andreww2012
+- Guillaume DROUARD
+- Michael Doyle @MichaelDoyle
+- Максим Иванов
+
 ## 22.5.0 (2026-09-07)
 
 ### 🚀 Features
