@@ -7,7 +7,13 @@ export type Options = [];
 export type MessageIds = 'preferLetForAsyncPipe';
 export const RULE_NAME = 'prefer-let-for-async-pipe';
 
-const VIEW_SELECTOR = [
+type TemplateNodeWithParent = {
+  type: string;
+  parent?: TemplateNodeWithParent;
+  children?: readonly TemplateNodeWithParent[];
+};
+
+const VIEW_NODE_TYPES = new Set([
   'Template',
   'IfBlockBranch',
   'ForLoopBlock',
@@ -17,7 +23,7 @@ const VIEW_SELECTOR = [
   'DeferredBlockLoading',
   'DeferredBlockError',
   'DeferredBlockPlaceholder',
-].join(',');
+]);
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
@@ -37,43 +43,64 @@ export default createESLintRule<Options, MessageIds>({
   create(context) {
     ensureTemplateParser(context);
     const sourceCode = context.sourceCode;
-    const asyncPipesByView: BindingPipe[][] = [[]];
+    const asyncPipesByView = new Map<
+      TemplateNodeWithParent | null,
+      BindingPipe[]
+    >();
 
-    function checkAsyncPipe(bindingPipe: BindingPipe): void {
-      const currentView = asyncPipesByView.at(-1);
+    function getOwningView(pipe: BindingPipe): TemplateNodeWithParent | null {
+      let child = pipe as unknown as TemplateNodeWithParent;
+      let parent = child.parent;
 
-      if (!currentView) {
-        return;
+      while (parent) {
+        // Header expressions (e.g. @if conditions, @for iterables and
+        // structural directive bindings) run in the enclosing view.
+        // Only nodes reached through children belong to the new view.
+        if (
+          VIEW_NODE_TYPES.has(parent.type) &&
+          parent.children?.includes(child)
+        ) {
+          return parent;
+        }
+
+        child = parent;
+        parent = parent.parent;
       }
 
-      if (
-        !currentView.some((previous) =>
-          areEquivalentASTs(previous, bindingPipe),
-        )
-      ) {
-        currentView.push(bindingPipe);
-        return;
-      }
-
-      const { start, end } = bindingPipe.sourceSpan;
-
-      context.report({
-        loc: {
-          start: sourceCode.getLocFromIndex(start),
-          end: sourceCode.getLocFromIndex(end),
-        },
-        messageId: 'preferLetForAsyncPipe',
-      });
+      return null;
     }
 
     return {
-      [VIEW_SELECTOR]() {
-        asyncPipesByView.push([]);
+      'BindingPipe[name="async"]'(pipe: BindingPipe) {
+        const view = getOwningView(pipe);
+        const pipes = asyncPipesByView.get(view) ?? [];
+        pipes.push(pipe);
+        asyncPipesByView.set(view, pipes);
       },
-      [`${VIEW_SELECTOR}:exit`]() {
-        asyncPipesByView.pop();
+      'Program:exit'() {
+        for (const pipes of asyncPipesByView.values()) {
+          const seen: BindingPipe[] = [];
+
+          // Angular's visitor order is not always the template source order.
+          for (const pipe of pipes.sort(
+            (a, b) => a.sourceSpan.start - b.sourceSpan.start,
+          )) {
+            if (!seen.some((previous) => areEquivalentASTs(previous, pipe))) {
+              seen.push(pipe);
+              continue;
+            }
+
+            const { start, end } = pipe.sourceSpan;
+            context.report({
+              loc: {
+                start: sourceCode.getLocFromIndex(start),
+                end: sourceCode.getLocFromIndex(end),
+              },
+              messageId: 'preferLetForAsyncPipe',
+            });
+          }
+        }
       },
-      'BindingPipe[name="async"]': checkAsyncPipe,
     };
   },
 });
