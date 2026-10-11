@@ -1,3 +1,14 @@
+## 22.6.0 (2026-10-11)
+
+### 🩹 Fixes
+
+- update dependency @angular/compiler to v22.2.0 ([#3247](https://github.com/angular-eslint/angular-eslint/pull/3247))
+- **template-parser:** traverse @defer hydrate triggers ([#3231](https://github.com/angular-eslint/angular-eslint/pull/3231))
+
+### ❤️ Thank You
+
+- Daniel Pinto @Cayan
+
 ## 22.5.0 (2026-09-07)
 
 This was a version bump only for template-parser to align it with other projects, there were no code changes.
