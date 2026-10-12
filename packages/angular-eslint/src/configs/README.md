@@ -48,7 +48,7 @@ module.exports = tseslint.config(
       ...tseslint.configs.stylistic,
       ...angular.configs.tsRecommended,
     ],
-    processor: angular.processInlineTemplates,
+    processor: angular.createProcessor(),
     rules: {
       // our project thinks using renaming inputs is ok
       '@angular-eslint/no-input-rename': 'off',
@@ -68,27 +68,36 @@ module.exports = tseslint.config(
 );
 ```
 
-## `angular.processInlineStyles`
+## `angular.createProcessor`
 
-Use `angular.processInlineStyles` when CSS linting should also cover static
-styles in `@Component` metadata and `style` attributes in Angular templates.
-The processor emits virtual style files for the standalone CSS configuration in
-your ESLint setup; it does not configure CSS parsers or rules itself. It also
-includes inline template extraction, so use it instead of
-`angular.processInlineTemplates` for TypeScript files. Use the same processor
-for Angular HTML files to lint external template attributes and static attributes
-in nested inline templates containing TypeScript substitutions. Without the
-HTML processor, attributes in those inline templates are skipped.
+`angular.createProcessor()` extracts inline templates by default. Set
+`inlineStyles: { inlineStyleLanguage: 'css' }` to also lint static component
+`styles` and `style` attributes. Copy the language from `angular.json`: supported
+values are `css`, `scss`, `sass`, and `less`. The factory emits virtual files for
+your style configurations; it does not configure style parsers or rules itself.
+
+Use the same factory configuration for TypeScript and HTML blocks. Inline-template
+attributes are extracted by the TS block only; the HTML processor covers external
+template attributes. `inlineTemplates` defaults to `true` and has no effect on
+external HTML files, which are linted directly. `inlineStyles` defaults to `false`.
+Set `inlineTemplates: false` for styles-only extraction.
 
 Only static values are linted: `styles` entries must be string literals (or
 template literals without `${}` substitutions), and `style` attributes must not
-contain `{{ }}` interpolations or TypeScript `${}` substitutions. `[style]` and `[style.x]` bindings are never
-linted. See [Configuring ESLint for Inline Styles](https://github.com/angular-eslint/angular-eslint/blob/main/docs/CONFIGURING_ESLINT.md#configuring-eslint-for-inline-styles)
+contain `{{ }}` interpolations. Inline templates containing `${}` substitutions
+are not style-linted, including static attributes within them. `[style]` and
+`[style.x]` bindings are never linted. `style` attributes are linted as the
+declarations of a CSS rule; problems reported on the wrapper rule itself are
+ignored. Parse errors are retained. See [Configuring ESLint for Inline Styles](https://github.com/angular-eslint/angular-eslint/blob/main/docs/CONFIGURING_ESLINT.md#configuring-eslint-for-inline-styles)
 for details, including which autofixes can be applied.
 
-Component `styles` are emitted as `.css` by default, matching the default of
-Angular's `inlineStyleLanguage` option. `style` attributes are always emitted as
-`.css`. For example:
+Enabling styles requires an explicit language, with no `true` shorthand. Angular's
+default is `css`, but the factory does not infer it: SCSS inline styles are common,
+and CSS fallback would cause `$variables`/`@include` parse errors with no suitable
+place for disable comments. `inlineStyles: {}` throws
+`inlineStyles requires inlineStyleLanguage (copy it from angular.json; Angular's default is 'css')`.
+Disabling both features also throws. Component `styles` use the chosen extension;
+`style` attributes are always `.css`. For example:
 
 **eslint.config.js**
 
@@ -97,7 +106,11 @@ Angular's `inlineStyleLanguage` option. `style` attributes are always emitted as
 const eslint = require('@eslint/js');
 const tseslint = require('typescript-eslint');
 const angular = require('angular-eslint');
-const css = require('@eslint/css');
+const css = require('@eslint/css').default;
+
+const processor = angular.createProcessor({
+  inlineStyles: { inlineStyleLanguage: 'css' },
+});
 
 module.exports = tseslint.config(
   {
@@ -107,7 +120,7 @@ module.exports = tseslint.config(
       ...tseslint.configs.recommended,
       ...angular.configs.tsRecommended,
     ],
-    processor: angular.processInlineStyles,
+    processor,
   },
   {
     files: ['**/*.html'],
@@ -115,7 +128,7 @@ module.exports = tseslint.config(
       ...angular.configs.templateRecommended,
       ...angular.configs.templateAccessibility,
     ],
-    processor: angular.processInlineStyles,
+    processor,
   },
   {
     files: ['**/*.css'],
@@ -129,18 +142,18 @@ module.exports = tseslint.config(
 ```
 
 If your project sets `inlineStyleLanguage` to `scss` (or `sass`/`less`), pass
-the same value with `withOptions()` so component `styles` are emitted with that
+the same value to `createProcessor()` so component `styles` are emitted with that
 extension, and lint them with a matching configuration:
 
 ```js
 // @ts-check
 const tseslint = require('typescript-eslint');
 const angular = require('angular-eslint');
-const css = require('@eslint/css');
+const css = require('@eslint/css').default;
 const { scss } = require('@humanwhocodes/scsstree');
 
-const processor = angular.processInlineStyles.withOptions({
-  inlineStyleLanguage: 'scss',
+const processor = angular.createProcessor({
+  inlineStyles: { inlineStyleLanguage: 'scss' },
 });
 
 module.exports = tseslint.config(
@@ -175,6 +188,10 @@ module.exports = tseslint.config(
   },
 );
 ```
+
+`angular.processInlineTemplates` is deprecated but remains identical to
+`angular.createProcessor()`, including its behavior and legacy cache name.
+`'@angular-eslint/template/extract-inline-html'` string references remain supported.
 
 ## `angular-eslint/template-accessibility`
 

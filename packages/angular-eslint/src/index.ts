@@ -73,20 +73,19 @@ const configs = {
   ) as CompatibleConfigArray,
 };
 
-// Export more succinct alias for us in user flat config files
+/** @deprecated Use `createProcessor()` instead. */
 const processInlineTemplates =
   templatePlugin.processors?.['extract-inline-html'];
 
 type Processor = NonNullable<CompatiblePlugin['processors']>[string];
-type InlineStylesProcessorOptions = Parameters<
-  (typeof templatePluginBase.processors)['extract-inline-styles']['withOptions']
->[0];
-type InlineStylesProcessor = Processor & {
-  withOptions(options?: InlineStylesProcessorOptions): InlineStylesProcessor;
-};
-const processInlineStyles = templatePluginBase.processors[
-  'extract-inline-styles'
-] as unknown as InlineStylesProcessor;
+type ProcessorOptions = NonNullable<
+  Parameters<typeof templatePluginBase.createProcessor>[0]
+>;
+const createProcessor = templatePluginBase.createProcessor as unknown as (
+  options?: ProcessorOptions,
+) => Processor;
+
+export type { ProcessorOptions };
 
 /*
 // eslint-disable-next-line import/no-default-export --
@@ -99,7 +98,7 @@ export default {
   templateParser,
   templatePlugin,
   processInlineTemplates,
-  processInlineStyles,
+  createProcessor,
 };
 export {
   configs,
@@ -107,5 +106,5 @@ export {
   templatePlugin,
   tsPlugin,
   processInlineTemplates,
-  processInlineStyles,
+  createProcessor,
 };

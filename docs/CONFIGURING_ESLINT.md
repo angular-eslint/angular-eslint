@@ -36,7 +36,7 @@ One of the features of angular-eslint is its ability to lint **inline templates*
 
 When you use inline templates in your Angular components (using the `template` property instead of `templateUrl`), angular-eslint can automatically extract these templates and treat them as if they were separate HTML files. This means all your Angular template rules will work seamlessly on both external template files AND inline templates.
 
-The magic happens through the `angular.processInlineTemplates` processor, which:
+The magic happens through the `angular.createProcessor()` processor, which:
 
 1. Scans your TypeScript component files for inline templates
 2. Extracts the template content
@@ -47,7 +47,7 @@ For more details on how ESLint processors work behind the scenes, see the [ESLin
 
 ### Configuration example
 
-The key is to add the `processor: angular.processInlineTemplates` to your TypeScript configuration block:
+The key is to add `processor: angular.createProcessor()` to your TypeScript configuration block:
 
 **Workspace root level eslint.config.js**
 
@@ -81,7 +81,7 @@ module.exports = tseslint.config(
     // IMPORTANT: Set the custom processor to enable inline template linting
     // This allows your inline Component templates to be extracted and linted with the same
     // rules as your external .html template files
-    processor: angular.processInlineTemplates,
+    processor: angular.createProcessor(),
     // Override specific rules for TypeScript files (these will take priority over the extended configs above)
     rules: {
       '@angular-eslint/directive-selector': [
@@ -176,9 +176,20 @@ angular-eslint can also extract the **inline styles** of your components so that
 
 ### How it works
 
-The `angular.processInlineStyles` processor:
+The `angular.createProcessor(options)` factory returns one processor with control
+over inline templates and styles. By default, `inlineTemplates` is `true` and
+`inlineStyles` is `false`, so `angular.createProcessor()` only extracts inline
+templates. To enable styles, pass an explicit language:
 
-1. Does everything `angular.processInlineTemplates` does, so **use it instead of `angular.processInlineTemplates`** in your TypeScript config block (do not use both)
+```js
+const processor = angular.createProcessor({
+  inlineStyles: { inlineStyleLanguage: 'scss' },
+});
+```
+
+With styles enabled, the processor:
+
+1. Extracts inline templates when `inlineTemplates` is `true`
 2. Extracts each static entry of `styles` in your `@Component()` metadata as a virtual style file
 3. Extracts each static `style="..."` attribute in inline and external templates as a virtual `.css` file
 4. Reports any linting issues with proper line and column mapping back to your original TypeScript or HTML file
@@ -186,19 +197,46 @@ The `angular.processInlineStyles` processor:
 Only **static** styles are linted:
 
 - `styles` entries must be string literals, or template literals without `${}` substitutions. Identifiers and other expressions are skipped.
-- `style` attributes containing `{{ }}` interpolations are skipped, just like `[style]` and `[style.x]` bindings, because they are expressions rather than CSS. Attributes containing TypeScript `${}` substitutions in an inline template are also skipped.
+- `style` attributes containing `{{ }}` interpolations are skipped, just like `[style]` and `[style.x]` bindings, because they are expressions rather than CSS.
+- Inline templates containing TypeScript `${}` substitutions are not style-linted at all, including otherwise-static `style` attributes within them. Inline-template extraction for template rules remains unchanged.
+
+`style` attributes are linted as the declarations of a CSS rule; problems reported
+on the wrapper rule itself are ignored. Parse errors are always retained.
 
 Autofixes and suggestions from CSS rules are applied when the replacement text can be inserted verbatim into the original source. A fix is dropped when its text contains a character that would need escaping where it lands, for example a backslash, a newline or the enclosing quote in a `'...'` or `"..."` string, a backtick or `${` in a template literal, the attribute's own quote or `&` in a `style` attribute, or whitespace in an unquoted `style` attribute.
 
-Edits that would form `${` across a replacement boundary in a TypeScript template literal are also dropped. When an inline template must be processed through its nested HTML block (for example, because it contains TypeScript substitutions), static attributes can still produce diagnostics, but CSS autofixes and suggestions are suppressed because their enclosing TypeScript context cannot be mapped safely.
+Edits that would form `${` across a replacement boundary in a TypeScript template literal are also dropped.
 
-Apply `angular.processInlineStyles` to your `**/*.html` block as well to lint static attributes in these nested inline templates. Without HTML processing, attributes in an inline template containing TypeScript substitutions are skipped, even if an individual attribute is static. The HTML processor also covers external template files.
+Use the same `angular.createProcessor(...)` configuration on both the `**/*.ts`
+and `**/*.html` blocks. Inline-template attributes are handled by the TS block;
+the HTML block extracts attributes from external templates. `inlineTemplates`
+has no effect on `**/*.html` blocks: external HTML files are always linted
+directly. Set `inlineTemplates: false` to disable inline-template extraction
+while continuing to lint component styles and static inline-template attributes.
+
+`angular.processInlineTemplates` is a deprecated alias for
+`angular.createProcessor()`. It remains the exact same `extract-inline-html`
+processor object, with unchanged behavior and cache name. The legacy string
+reference `'@angular-eslint/template/extract-inline-html'` also remains supported.
 
 ### Choosing the style language
 
-Angular's `inlineStyleLanguage` build option (set in `angular.json`) determines the language of component `styles`, and it defaults to `css`. The processor matches that default and emits component `styles` as `.css` files, so they are picked up by a normal `files: ['**/*.css']` config block.
+Copy `inlineStyleLanguage` from your project's build options in `angular.json`.
+Angular's default is `css`, but the processor requires you to choose a language
+explicitly when enabling styles. Supported values are `css`, `scss`, `sass`, and
+`less`. Component `styles` are emitted with the corresponding extension and need
+an ESLint configuration that parses that language.
 
-If your project uses a different `inlineStyleLanguage`, pass the same value to `angular.processInlineStyles.withOptions()`. Supported values are `css`, `scss`, `sass` and `less`. `style` attributes are always CSS and are always emitted as `.css`, regardless of this option.
+SCSS inline styles are common. Silently choosing CSS would produce parse errors
+for `$variables` and `@include` in projects already linting `.css` files, with no
+suitable place in the inline style to put a disable comment. There is no
+`inlineStyles: true` shorthand and no language guessing. `style` attributes are
+always CSS and are emitted as `.css`, regardless of the component language.
+
+`inlineStyles: {}` throws:
+`inlineStyles requires inlineStyleLanguage (copy it from angular.json; Angular's default is 'css')`.
+`{ inlineTemplates: false, inlineStyles: false }` also throws because both
+features would be disabled.
 
 ### Configuration example
 
@@ -210,7 +248,11 @@ const eslint = require('@eslint/js');
 const tseslint = require('typescript-eslint');
 const angular = require('angular-eslint');
 // Provides the CSS language and rules used to lint the extracted styles
-const css = require('@eslint/css');
+const css = require('@eslint/css').default;
+
+const processor = angular.createProcessor({
+  inlineStyles: { inlineStyleLanguage: 'css' },
+});
 
 module.exports = tseslint.config(
   {
@@ -220,10 +262,7 @@ module.exports = tseslint.config(
       ...tseslint.configs.recommended,
       ...angular.configs.tsRecommended,
     ],
-    // IMPORTANT: Use this INSTEAD of angular.processInlineTemplates, it extracts both inline templates and inline styles.
-    // For a project with `"inlineStyleLanguage": "scss"`, use:
-    // angular.processInlineStyles.withOptions({ inlineStyleLanguage: 'scss' })
-    processor: angular.processInlineStyles,
+    processor,
   },
   {
     files: ['**/*.html'],
@@ -231,8 +270,7 @@ module.exports = tseslint.config(
       ...angular.configs.templateRecommended,
       ...angular.configs.templateAccessibility,
     ],
-    // Covers external templates and static attributes in nested inline templates
-    processor: angular.processInlineStyles,
+    processor,
   },
   {
     // Applies to your stylesheets AND the extracted inline styles

@@ -37,7 +37,7 @@ describe('inline-styles-processor', () => {
 
     await runNgAdd();
 
-    fixture.runCommand('npm install -D @eslint/css');
+    fixture.runCommand('npm install -D --save-exact @eslint/css@2.0.0');
 
     fixture.deleteFileOrDirectory('eslint.config.js');
     fixture.writeFile(
@@ -49,6 +49,10 @@ import tseslint from 'typescript-eslint';
 import angular from 'angular-eslint';
 import css from '@eslint/css';
 
+const processor = angular.createProcessor({
+  inlineStyles: { inlineStyleLanguage: 'css' },
+});
+
 export default defineConfig([
   {
     files: ['**/*.ts'],
@@ -57,12 +61,12 @@ export default defineConfig([
       tseslint.configs.recommended,
       angular.configs.tsRecommended,
     ],
-    processor: angular.processInlineStyles,
+    processor,
   },
   {
     files: ['**/*.html'],
     extends: [angular.configs.templateRecommended],
-    processor: angular.processInlineStyles,
+    processor,
   },
   {
     files: ['**/*.css'],
@@ -73,6 +77,10 @@ export default defineConfig([
       'css/no-invalid-properties': 'error',
       'css/prefer-logical-properties': 'error',
     },
+  },
+  {
+    files: ['**/attribute-style-*.css'],
+    rules: { 'css/use-layers': 'error' },
   },
 ]);
 `,
@@ -90,7 +98,7 @@ export default defineConfig([
     <div style="margin-left: 0; color: blue"></div>
     <div style="color: {{ color }}"></div>
     <div style="{{ dynamicStyles }}"></div>
-    <div [style.color]="color"></div>
+    <div [style.color]="color"></div><span style=""></span>
   \`,
   styles: [
     'a { margin-left: 0; }',
@@ -110,6 +118,8 @@ export class StylesDemo {
       'src/app/styles-demo-external.html',
       `<p style="margin-right: 0"></p>
 <p style="width: {{ width }}px"></p>
+      <p style=""></p>
+      <p style="colr: red"></p>
 `,
     );
 
@@ -123,6 +133,7 @@ export class StylesDemo {
     ]);
     expect(messagesFor(result, 'src/app/styles-demo-external.html')).toEqual([
       "1:11 error Expected logical property 'margin-inline-end' instead of 'margin-right' css/prefer-logical-properties",
+      "4:17 error Unknown property 'colr' found css/no-invalid-properties",
     ]);
   });
 });
