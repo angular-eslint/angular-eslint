@@ -1,3 +1,7 @@
+## 22.6.0 (2026-10-11)
+
+This was a version bump only for builder to align it with other projects, there were no code changes.
+
 ## 22.5.0 (2026-09-07)
 
 This was a version bump only for builder to align it with other projects, there were no code changes.

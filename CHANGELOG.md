@@ -1,3 +1,36 @@
+## 22.6.0 (2026-10-11)
+
+### 🚀 Features
+
+- **eslint-plugin:** [prefer-standalone] add allowExplicitStandalone option ([#3237](https://github.com/angular-eslint/angular-eslint/pull/3237))
+
+### 🩹 Fixes
+
+- update dependency @angular/compiler to v22.1.5 ([#3205](https://github.com/angular-eslint/angular-eslint/pull/3205))
+- update dependency @angular/compiler to v22.1.6 ([#3217](https://github.com/angular-eslint/angular-eslint/pull/3217))
+- update dependency eslint to v10.10.0 ([#3209](https://github.com/angular-eslint/angular-eslint/pull/3209))
+- update typescript-eslint packages to v8.70.0 ([#3212](https://github.com/angular-eslint/angular-eslint/pull/3212))
+- update dependency @angular/compiler to v22.1.7 ([#3230](https://github.com/angular-eslint/angular-eslint/pull/3230))
+- update dependency eslint to v10.11.0 ([#3233](https://github.com/angular-eslint/angular-eslint/pull/3233))
+- update typescript-eslint packages to v8.70.1 ([#3244](https://github.com/angular-eslint/angular-eslint/pull/3244))
+- update dependency @angular/compiler to v22.2.0 ([#3247](https://github.com/angular-eslint/angular-eslint/pull/3247))
+- update typescript-eslint packages to v8.71.0 ([#3258](https://github.com/angular-eslint/angular-eslint/pull/3258))
+- update dependency @angular/compiler to v22.2.1 ([#3264](https://github.com/angular-eslint/angular-eslint/pull/3264))
+- update dependency eslint to v10.12.0 ([#3274](https://github.com/angular-eslint/angular-eslint/pull/3274))
+- **eslint-plugin:** [reactive-context-must-read-signal] ignore inherited primitive names ([#3201](https://github.com/angular-eslint/angular-eslint/pull/3201))
+- **eslint-plugin:** ensure `prefix` rule option schema is fully typed ([#3246](https://github.com/angular-eslint/angular-eslint/pull/3246))
+- **eslint-plugin:** [prefer-signal-model] rewrite the emit calls of the removed output ([#3200](https://github.com/angular-eslint/angular-eslint/pull/3200))
+- **eslint-plugin-template:** [conditional-complexity] check control flow ([#3260](https://github.com/angular-eslint/angular-eslint/pull/3260))
+- **template-parser:** traverse @defer hydrate triggers ([#3231](https://github.com/angular-eslint/angular-eslint/pull/3231))
+
+### ❤️ Thank You
+
+- Andrew Kazakov @andreww2012
+- Daniel Pinto @Cayan
+- Guillaume DROUARD
+- Michael Doyle @MichaelDoyle
+- Максим Иванов
+
 ## 22.5.0 (2026-09-07)
 
 ### 🚀 Features

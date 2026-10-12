@@ -480,4 +480,27 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       }
     `,
   }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      "fails when '@for' uses a callable collection followed by an empty length check",
+    annotatedSource: `
+      @for (evt of eventQueue(); track evt) {
+        {{ evt }}
+      }
+      @if (eventQueue().length === 0) {
+      ~~~~
+        Awaiting app bootstrap...
+      }
+    `,
+    messageId,
+    annotatedOutput: `
+      @for (evt of eventQueue(); track evt) {
+        {{ evt }}
+      }
+      @empty {
+      
+        Awaiting app bootstrap...
+      }
+    `,
+  }),
 ];

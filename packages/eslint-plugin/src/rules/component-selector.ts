@@ -57,7 +57,10 @@ export default createESLintRule<Options, MessageIds>({
                 ],
               },
               prefix: {
-                oneOf: [{ type: 'string' }, { type: 'array' }],
+                oneOf: [
+                  { type: 'string' },
+                  { type: 'array', items: { type: 'string' } },
+                ],
               },
               style: {
                 type: 'string',
@@ -84,7 +87,10 @@ export default createESLintRule<Options, MessageIds>({
                   ],
                 },
                 prefix: {
-                  oneOf: [{ type: 'string' }, { type: 'array' }],
+                  oneOf: [
+                    { type: 'string' },
+                    { type: 'array', items: { type: 'string' } },
+                  ],
                 },
                 style: {
                   type: 'string',
