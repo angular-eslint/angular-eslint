@@ -106,3 +106,40 @@ config(
   ...angular.configs.tsRecommended,
   ...angular.configs.templateRecommended,
 );
+
+/**
+ * Test 7: Verify processor options and the deprecated alias work with both config functions
+ */
+defineConfig([
+  { files: ['**/*.ts'], processor: angular.createProcessor() },
+  { files: ['**/*.ts'], processor: angular.processInlineTemplates },
+  {
+    files: ['**/*.html'],
+    processor: angular.createProcessor({
+      inlineStyles: { inlineStyleLanguage: 'scss' },
+    }),
+  },
+]);
+config(
+  { files: ['**/*.ts'], processor: angular.createProcessor() },
+  { files: ['**/*.ts'], processor: angular.processInlineTemplates },
+  {
+    files: ['**/*.html'],
+    processor: angular.createProcessor({
+      inlineTemplates: false,
+      inlineStyles: { inlineStyleLanguage: 'scss' },
+    }),
+  },
+);
+
+angular.createProcessor({ inlineTemplates: true, inlineStyles: false });
+for (const inlineStyleLanguage of ['css', 'scss', 'sass', 'less'] as const) {
+  angular.createProcessor({ inlineStyles: { inlineStyleLanguage } });
+}
+
+// @ts-expect-error Enabling styles requires a language.
+angular.createProcessor({ inlineStyles: {} });
+// @ts-expect-error There is no boolean enabling shorthand.
+angular.createProcessor({ inlineStyles: true });
+// @ts-expect-error Unsupported style language.
+angular.createProcessor({ inlineStyles: { inlineStyleLanguage: 'stylus' } });
