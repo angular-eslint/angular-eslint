@@ -10,7 +10,6 @@ const accessibilityValidAriaValue: MessageIds = 'validAriaValue';
 const suggestRemoveInvalidAria: MessageIds = 'suggestRemoveInvalidAria';
 const invalidAttrBindingName: MessageIds = 'invalidAttrBindingName';
 const suggestRenameAria: MessageIds = 'suggestRenameAria';
-const invalidStaticAttrPrefix: MessageIds = 'invalidStaticAttrPrefix';
 
 export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '<input aria-labelledby="Text">',
@@ -49,6 +48,9 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '<div [ariaLabel]="x"></div>',
   '<app-foo [ariaLabel]="x"></app-foo>',
   '<div attr.aria-label="{{x}}"></div>',
+  '<div attr.aria-label="Close"></div>',
+  '<div aria-Label="Close"></div>',
+  '<div [attr.aria-Label]="label"></div>',
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
@@ -297,34 +299,23 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'should fail if a static attribute uses the `attr.` prefix with an ARIA name',
+      'should fail without a rename suggestion if a camelCase name after `attr.` does not hyphenate to a known ARIA attribute',
     annotatedSource: `
-        <div attr.aria-label="Close"></div>
-             ~~~~~~~~~~~~~~~~~~~~~~~
+        <div [attr.ariaLabelby]="x"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~
       `,
-    messageId: invalidStaticAttrPrefix,
-    data: { attribute: 'attr.aria-label', suggested: 'aria-label' },
+    messageId: accessibilityValidAria,
+    data: { attribute: 'ariaLabelby' },
     suggestions: [
       {
-        messageId: suggestRenameAria,
-        data: { suggested: 'aria-label' },
+        messageId: suggestRemoveInvalidAria,
+        data: { attribute: 'ariaLabelby' },
         output: `
-        <div aria-label="Close"></div>
+        <div></div>
              
       `,
       },
     ],
-  }),
-  convertAnnotatedSourceToFailureCase({
-    description:
-      'should fail without a suggestion if a static `attr.` attribute has an unknown ARIA name',
-    annotatedSource: `
-        <div attr.aria-labelby="x"></div>
-             ~~~~~~~~~~~~~~~~~~~~~
-      `,
-    messageId: invalidStaticAttrPrefix,
-    data: { attribute: 'attr.aria-labelby', suggested: 'aria-labelby' },
-    suggestions: [],
   }),
   convertAnnotatedSourceToFailureCase({
     description:
@@ -342,26 +333,6 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         output: `
         <div></div>
              
-      `,
-      },
-    ],
-  }),
-  convertAnnotatedSourceToFailureCase({
-    description:
-      'should report a static `attr.` ARIA attribute once on a structural directive host',
-    annotatedSource: `
-        <div *ngIf="c" attr.aria-label="x"></div>
-                       ~~~~~~~~~~~~~~~~~~~
-      `,
-    messageId: invalidStaticAttrPrefix,
-    data: { attribute: 'attr.aria-label', suggested: 'aria-label' },
-    suggestions: [
-      {
-        messageId: suggestRenameAria,
-        data: { suggested: 'aria-label' },
-        output: `
-        <div *ngIf="c" aria-label="x"></div>
-                       
       `,
       },
     ],
@@ -388,13 +359,12 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'should lowercase the ARIA name of an uppercase static `attr.` attribute before checking it',
+      'should check the value of a mixed-case ARIA attribute against its lowercase name',
     annotatedSource: `
-        <div attr.ARIA-labelx="x"></div>
-             ~~~~~~~~~~~~~~~~~~~~
+        <div aria-Hidden="notABoolean"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~~~~
       `,
-    messageId: invalidStaticAttrPrefix,
-    data: { attribute: 'attr.ARIA-labelx', suggested: 'aria-labelx' },
-    suggestions: [],
+    messageId: accessibilityValidAriaValue,
+    data: { attribute: 'aria-Hidden' },
   }),
 ];
