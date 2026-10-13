@@ -18,6 +18,13 @@ describe('splitMultiTokenKey', () => {
     );
   });
 
+  it('keeps a non-breaking space inside a token', () => {
+    const nbsp = String.fromCharCode(0xa0);
+    expect(splitMultiTokenKey(`a${nbsp}b c`, "'", 'x')).toBe(
+      `'a${nbsp}b': x, 'c': x`,
+    );
+  });
+
   it('preserves the original double-quote character', () => {
     expect(splitMultiTokenKey('a b', '"', 'c')).toBe('"a": c, "b": c');
   });

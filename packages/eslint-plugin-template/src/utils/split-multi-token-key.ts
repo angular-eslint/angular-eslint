@@ -1,6 +1,7 @@
 /**
  * Builds the replacement text for a multi-token class map entry: one entry per
- * whitespace-separated token, each paired with the original condition text.
+ * token separated by ASCII whitespace (as in a `class` attribute), each paired
+ * with the original condition text.
  */
 export function splitMultiTokenKey(
   key: string,
@@ -13,8 +14,8 @@ export function splitMultiTokenKey(
   const escape = (token: string) =>
     token.replace(/\\/g, '\\\\').split(quoteChar).join(`\\${quoteChar}`);
   return key
-    .trim()
-    .split(/\s+/)
+    .split(/[\t\n\f\r ]+/)
+    .filter(Boolean)
     .map(
       (token) => `${quoteChar}${escape(token)}${quoteChar}: ${conditionText}`,
     )

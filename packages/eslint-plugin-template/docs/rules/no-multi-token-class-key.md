@@ -15,7 +15,7 @@
 
 # `@angular-eslint/template/no-multi-token-class-key`
 
-Disallows object keys containing whitespace in `[class]` bindings, which Angular silently ignores
+Disallows whitespace in object keys of `[class]` bindings, which makes Angular silently drop the key or the browser throw
 
 - Type: problem
 
@@ -25,7 +25,7 @@ Disallows object keys containing whitespace in `[class]` bindings, which Angular
 
 ## Rationale
 
-Angular reads each key of an object bound to `[class]` as a single class name. When a key contains a space (for example `{ 'text-x dark:text-y': cond }`), Angular's styling runtime discards the key without any build error or runtime warning, even in development mode, so the element gets neither class. A tab or newline inside a key is worse: it reaches `classList.add`, which throws at runtime. This usually happens when a variant is appended to an existing key, or when migrating from `[ngClass]`, which does split keys on whitespace and is therefore not affected. This rule complements `prefer-class-binding`, which declines to suggest `[class]` for such keys but never inspects existing `[class]` bindings. Maps built in the component class and bound by reference (`[class]="classMap"`) cannot be checked.
+Angular reads each key of an object bound to `[class]` (or `bind-class`) as a single class name and handles whitespace inside a key in one of two ways. A key that contains a space (for example `{ 'text-x dark:text-y': cond }`) is discarded by Angular's styling runtime without any build error or runtime warning, even in development mode, so the element gets none of its classes. A key that contains a tab or newline but no space is not filtered out: it reaches `classList.add`, which throws an `InvalidCharacterError` at runtime. This usually happens when a variant is appended to an existing key, or when migrating from `[ngClass]`, which does split keys on whitespace and is therefore not affected. Keys made only of spaces are dropped without losing any class, so they are not reported. This rule complements `prefer-class-binding`, which declines to suggest `[class]` for such keys but never inspects existing `[class]` bindings. Maps built in the component class and bound by reference (`[class]="classMap"`) cannot be checked.
 
 <br>
 
@@ -254,6 +254,168 @@ The rule does not have any configuration options.
 ```html
 <div [class]="{ 'a b': x } || fallback"></div>
                 ~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-multi-token-class-key": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [class]="isOpen() && { 'a b': x }"></div>
+                            ~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-multi-token-class-key": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div bind-class="{ 'a b': x }"></div>
+                   ~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-multi-token-class-key": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [class]="{ 'a\tb': x }"></div>
+                ~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-multi-token-class-key": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [class]="{ 'a\nb': x }"></div>
+                ~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-multi-token-class-key": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [class]="{ '\t': x }"></div>
+                ~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-multi-token-class-key": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [class]="{ 'a\tb c': x }"></div>
+                ~~~~~~~~
 ```
 
 <br>
@@ -573,6 +735,32 @@ The rule does not have any configuration options.
 #### ✅ Valid Code
 
 ```html
+<div bind-attr.class="{ 'a b': true }"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-multi-token-class-key": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
 <div [class.active]="{ 'a b': true }"></div>
 ```
 
@@ -626,6 +814,58 @@ The rule does not have any configuration options.
 
 ```html
 <div [class]="{ '   ': cond }"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-multi-token-class-key": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div [class]="{ ' \t ': cond }"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-multi-token-class-key": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div [class]="{ 'a\u00A0b': cond }"></div>
 ```
 
 <br>

@@ -14,7 +14,7 @@ import { splitMultiTokenKey } from '../utils/split-multi-token-key';
 
 type Options = [];
 
-export type MessageIds = 'multiTokenKey' | 'splitKey';
+export type MessageIds = 'spaceInKey' | 'tabOrNewlineInKey' | 'splitKey';
 export const RULE_NAME = 'no-multi-token-class-key';
 
 export default createESLintRule<Options, MessageIds>({
@@ -23,13 +23,15 @@ export default createESLintRule<Options, MessageIds>({
     type: 'problem',
     docs: {
       description:
-        'Disallows object keys containing whitespace in `[class]` bindings, which Angular silently ignores',
+        'Disallows whitespace in object keys of `[class]` bindings, which makes Angular silently drop the key or the browser throw',
     },
     hasSuggestions: true,
     schema: [],
     messages: {
-      multiTokenKey:
-        'Object keys in a `[class]` binding are single class names. A key containing whitespace matches no class and is silently ignored by Angular.',
+      spaceInKey:
+        'Object keys in a `[class]` binding are single class names. Angular silently drops a key that contains a space, so none of its classes are applied.',
+      tabOrNewlineInKey:
+        'Object keys in a `[class]` binding are single class names. A key that contains a tab or newline is passed to `classList.add`, which throws an `InvalidCharacterError` at runtime.',
       splitKey: 'Split into one key per class, each with the same condition.',
     },
     defaultOptions: [],
@@ -40,7 +42,8 @@ export default createESLintRule<Options, MessageIds>({
 
     return {
       'BoundAttribute[name="class"]'(node: TmplAstBoundAttribute) {
-        // `[attr.class]` also has the name `class`; only the key span tells them apart.
+        // `[class]` and `bind-class` have the key span `class`, whereas
+        // `[attr.class]` and `bind-attr.class` share the name `class` too.
         if (
           node.keySpan?.toString() !== 'class' ||
           !(node.value instanceof ASTWithSource)
@@ -50,7 +53,12 @@ export default createESLintRule<Options, MessageIds>({
 
         for (const map of collectClassMaps(node.value.ast)) {
           map.keys.forEach((key, index) => {
-            if (key.kind !== 'property' || !isMultiTokenKey(key.key)) {
+            if (key.kind !== 'property') {
+              return;
+            }
+
+            const messageId = getMessageId(key.key);
+            if (!messageId) {
               return;
             }
 
@@ -62,24 +70,27 @@ export default createESLintRule<Options, MessageIds>({
                 start: sourceCode.getLocFromIndex(start),
                 end: sourceCode.getLocFromIndex(end),
               },
-              messageId: 'multiTokenKey',
-              suggest: [
-                {
-                  messageId: 'splitKey',
-                  fix: (fixer) =>
-                    fixer.replaceTextRange(
-                      [start, value.sourceSpan.end],
-                      splitMultiTokenKey(
-                        key.key,
-                        key.quoted ? sourceText[start] : null,
-                        sourceText.slice(
-                          value.sourceSpan.start,
-                          value.sourceSpan.end,
+              messageId,
+              // A key made only of whitespace holds no class to split into.
+              suggest: hasClassToken(key.key)
+                ? [
+                    {
+                      messageId: 'splitKey',
+                      fix: (fixer) =>
+                        fixer.replaceTextRange(
+                          [start, value.sourceSpan.end],
+                          splitMultiTokenKey(
+                            key.key,
+                            key.quoted ? sourceText[start] : null,
+                            sourceText.slice(
+                              value.sourceSpan.start,
+                              value.sourceSpan.end,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                },
-              ],
+                    },
+                  ]
+                : [],
             });
           });
         }
@@ -90,17 +101,29 @@ export default createESLintRule<Options, MessageIds>({
 
 export const RULE_DOCS_EXTENSION = {
   rationale:
-    "Angular reads each key of an object bound to `[class]` as a single class name. When a key contains a space (for example `{ 'text-x dark:text-y': cond }`), Angular's styling runtime discards the key without any build error or runtime warning, even in development mode, so the element gets neither class. A tab or newline inside a key is worse: it reaches `classList.add`, which throws at runtime. This usually happens when a variant is appended to an existing key, or when migrating from `[ngClass]`, which does split keys on whitespace and is therefore not affected. This rule complements `prefer-class-binding`, which declines to suggest `[class]` for such keys but never inspects existing `[class]` bindings. Maps built in the component class and bound by reference (`[class]=\"classMap\"`) cannot be checked.",
+    "Angular reads each key of an object bound to `[class]` (or `bind-class`) as a single class name and handles whitespace inside a key in one of two ways. A key that contains a space (for example `{ 'text-x dark:text-y': cond }`) is discarded by Angular's styling runtime without any build error or runtime warning, even in development mode, so the element gets none of its classes. A key that contains a tab or newline but no space is not filtered out: it reaches `classList.add`, which throws an `InvalidCharacterError` at runtime. This usually happens when a variant is appended to an existing key, or when migrating from `[ngClass]`, which does split keys on whitespace and is therefore not affected. Keys made only of spaces are dropped without losing any class, so they are not reported. This rule complements `prefer-class-binding`, which declines to suggest `[class]` for such keys but never inspects existing `[class]` bindings. Maps built in the component class and bound by reference (`[class]=\"classMap\"`) cannot be checked.",
 };
 
-function isMultiTokenKey(key: string): boolean {
-  return /\s/.test(key) && /\S/.test(key);
+/**
+ * Angular drops a class map key that contains a space, but passes any other
+ * key to `classList.add`, which throws on the remaining ASCII whitespace.
+ * Other whitespace, such as a non-breaking space, is part of the class name.
+ */
+function getMessageId(key: string): MessageIds | null {
+  if (key.includes(' ')) {
+    return hasClassToken(key) ? 'spaceInKey' : null;
+  }
+  return /[\t\n\f\r]/.test(key) ? 'tabOrNewlineInKey' : null;
+}
+
+function hasClassToken(key: string): boolean {
+  return /[^\t\n\f\r ]/.test(key);
 }
 
 /**
  * Returns the object literals that Angular would apply as the class map:
  * the expression itself, either branch of a ternary, or either side of
- * `??` / `||`, looking through parentheses. Maps in value positions
+ * `&&` / `||` / `??`, looking through parentheses. Maps in value positions
  * (function arguments, object values) are not class maps.
  */
 function collectClassMaps(ast: AST): LiteralMap[] {
@@ -121,7 +144,7 @@ function collectClassMaps(ast: AST): LiteralMap[] {
 
   if (
     ast instanceof Binary &&
-    (ast.operation === '??' || ast.operation === '||')
+    (ast.operation === '&&' || ast.operation === '||' || ast.operation === '??')
   ) {
     return [...collectClassMaps(ast.left), ...collectClassMaps(ast.right)];
   }

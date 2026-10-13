@@ -3,7 +3,8 @@ import type { InvalidTestCase } from '@typescript-eslint/rule-tester';
 import type { MessageIds } from '../../../src/rules/no-multi-token-class-key';
 
 type Options = [];
-const messageId: MessageIds = 'multiTokenKey';
+const messageId: MessageIds = 'spaceInKey';
+const tabOrNewlineMessageId: MessageIds = 'tabOrNewlineInKey';
 const suggestionMessageId: MessageIds = 'splitKey';
 
 export const valid: readonly string[] = [
@@ -22,10 +23,14 @@ export const valid: readonly string[] = [
   // [ngClass] splits keys on whitespace
   `<div [ngClass]="{ 'btn btn-primary': isPrimary }"></div>`,
   `<div [attr.class]="{ 'a b': true }"></div>`,
+  `<div bind-attr.class="{ 'a b': true }"></div>`,
   `<div [class.active]="{ 'a b': true }"></div>`,
-  // Empty and whitespace-only keys hold no class to split into
+  // Angular drops empty keys and keys with a space, and these hold no class to lose
   `<div [class]="{ '': cond }"></div>`,
   `<div [class]="{ '   ': cond }"></div>`,
+  `<div [class]="{ ' \\t ': cond }"></div>`,
+  // A non-breaking space is part of the class name, not a separator
+  `<div [class]="{ 'a\\u00A0b': cond }"></div>`,
   // Spread entries are not keys
   `<div [class]="{ ...base, active: isActive }"></div>`,
 ];
@@ -199,6 +204,103 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         messageId: suggestionMessageId,
         output: `
         <div [class]="{ 'a': x, 'b': x } || fallback"></div>
+                        
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail on either side of &&',
+    annotatedSource: `
+        <div [class]="isOpen() && { 'a b': x }"></div>
+                                    ~~~~~
+      `,
+    messageId,
+    suggestions: [
+      {
+        messageId: suggestionMessageId,
+        output: `
+        <div [class]="isOpen() && { 'a': x, 'b': x }"></div>
+                                    
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail in a bind-class binding',
+    annotatedSource: `
+        <div bind-class="{ 'a b': x }"></div>
+                           ~~~~~
+      `,
+    messageId,
+    suggestions: [
+      {
+        messageId: suggestionMessageId,
+        output: `
+        <div bind-class="{ 'a': x, 'b': x }"></div>
+                           
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail with the runtime error message when a key holds a tab but no space',
+    annotatedSource: `
+        <div [class]="{ 'a\\tb': x }"></div>
+                        ~~~~~~
+      `,
+    messageId: tabOrNewlineMessageId,
+    suggestions: [
+      {
+        messageId: suggestionMessageId,
+        output: `
+        <div [class]="{ 'a': x, 'b': x }"></div>
+                        
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail with the runtime error message when a key holds a newline but no space',
+    annotatedSource: `
+        <div [class]="{ 'a\\nb': x }"></div>
+                        ~~~~~~
+      `,
+    messageId: tabOrNewlineMessageId,
+    suggestions: [
+      {
+        messageId: suggestionMessageId,
+        output: `
+        <div [class]="{ 'a': x, 'b': x }"></div>
+                        
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail without a suggestion when a key holds only tabs',
+    annotatedSource: `
+        <div [class]="{ '\\t': x }"></div>
+                        ~~~~
+      `,
+    messageId: tabOrNewlineMessageId,
+    suggestions: [],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail with the dropped key message when a key holds both a space and a tab',
+    annotatedSource: `
+        <div [class]="{ 'a\\tb c': x }"></div>
+                        ~~~~~~~~
+      `,
+    messageId,
+    suggestions: [
+      {
+        messageId: suggestionMessageId,
+        output: `
+        <div [class]="{ 'a': x, 'b': x, 'c': x }"></div>
                         
       `,
       },
