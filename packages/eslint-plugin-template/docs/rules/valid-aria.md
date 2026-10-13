@@ -245,35 +245,8 @@ The rule does not have any configuration options.
 #### ❌ Invalid Code
 
 ```html
-<div attr.aria-label="Close"></div>
-     ~~~~~~~~~~~~~~~~~~~~~~~
-```
-
-<br>
-
----
-
-<br>
-
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/template/valid-aria": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
-#### ❌ Invalid Code
-
-```html
-<div attr.aria-labelby="x"></div>
-     ~~~~~~~~~~~~~~~~~~~~~
+<div [attr.ariaLabelby]="x"></div>
+     ~~~~~~~~~~~~~~~~~~~~~~
 ```
 
 <br>
@@ -326,33 +299,6 @@ The rule does not have any configuration options.
 #### ❌ Invalid Code
 
 ```html
-<div *ngIf="c" attr.aria-label="x"></div>
-               ~~~~~~~~~~~~~~~~~~~
-```
-
-<br>
-
----
-
-<br>
-
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/template/valid-aria": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
-#### ❌ Invalid Code
-
-```html
 <div [attr.ARIA-labelx]="x"></div>
      ~~~~~~~~~~~~~~~~~~~~~~
 ```
@@ -380,8 +326,8 @@ The rule does not have any configuration options.
 #### ❌ Invalid Code
 
 ```html
-<div attr.ARIA-labelx="x"></div>
-     ~~~~~~~~~~~~~~~~~~~~
+<div aria-Hidden="notABoolean"></div>
+     ~~~~~~~~~~~~~~~~~~~~~~~~~
 ```
 
 </details>
@@ -1073,6 +1019,84 @@ The rule does not have any configuration options.
 
 ```html
 <div attr.aria-label="{{x}}"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/valid-aria": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div attr.aria-label="Close"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/valid-aria": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div aria-Label="Close"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/valid-aria": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div [attr.aria-Label]="label"></div>
 ```
 
 </details>
