@@ -282,8 +282,8 @@ catalogs:
       specifier: 1.1.1
       version: 1.1.1
     pkg-pr-new:
-      specifier: 0.0.88
-      version: 0.0.88
+      specifier: 0.0.90
+      version: 0.0.90
     prettier:
       specifier: 3.9.9
       version: 3.9.9
@@ -491,7 +491,7 @@ importers:
         version: 1.1.1
       pkg-pr-new:
         specifier: 'catalog:'
-        version: 0.0.88
+        version: 0.0.90
       prettier:
         specifier: 'catalog:'
         version: 3.9.9
@@ -5604,8 +5604,8 @@ packages:
   piscina@4.9.2:
     resolution: {integrity: sha512-Fq0FERJWFEUpB4eSY59wSNwXD4RYqR+nR/WiEVcZW8IWfVBxJJafcgTEZDQo8k3w0sUarJ8RyVbbUF4GQ2LGbQ==}
 
-  pkg-pr-new@0.0.88:
-    resolution: {integrity: sha512-Xc6PMJ2gher0WZP+rtjefFk26hIb7V1PTLL30bmy1Z2vsRmSvqiss7Ag1XUdyplTGYzIlFNJp4L3vMNmK44N6g==}
+  pkg-pr-new@0.0.90:
+    resolution: {integrity: sha512-koirj8hzOS1t86OHIunQL/ezeimuCegmtcoNJTGqaFbjWSUbM5U+uKfFqu5Q2kxC/odCAZknaf2tFmfLsbchiw==}
     hasBin: true
 
   postcss@8.5.29:
@@ -12180,7 +12180,7 @@ snapshots:
     optionalDependencies:
       '@napi-rs/nice': 1.1.1
 
-  pkg-pr-new@0.0.88: {}
+  pkg-pr-new@0.0.90: {}
 
   postcss@8.5.29:
     dependencies:
