@@ -609,6 +609,61 @@ describe('extract-inline-html', () => {
         ).toEqual([expectedMessage]);
       });
 
+      it('should adjust the fix ranges of suggestions from the inline templates', () => {
+        const fileContent = `
+          @Component({
+            template: '<div>{{ a == b }}</div>',
+          })
+          export class Component {
+            a = 1;
+            b = 2;
+          }
+        `;
+        processors['extract-inline-html'].preprocess(
+          fileContent,
+          'test.component.ts',
+        );
+        const mockError = {
+          ruleId: 'eqeqeq',
+          severity: 2,
+          message: 'Expected `===` but received `==`',
+          line: 1,
+          column: 9,
+          nodeType: 'Binary',
+          messageId: 'eqeqeq',
+          endLine: 1,
+          endColumn: 15,
+          suggestions: [
+            {
+              messageId: 'suggestStrictEquality',
+              desc: 'Replace `==` with `===`',
+              fix: { range: [11, 11], text: '=' },
+            },
+          ],
+        };
+        const expectedMessage = {
+          ...mockError,
+          line: 3,
+          column: 32,
+          endLine: 3,
+          endColumn: 38,
+          suggestions: [
+            {
+              messageId: 'suggestStrictEquality',
+              desc: 'Replace `==` with `===`',
+              fix: { range: [58, 58], text: '=' },
+            },
+          ],
+        };
+
+        expect(
+          processors['extract-inline-html'].postprocess(
+            [[], [mockError]],
+            'test.component.ts',
+          ),
+        ).toEqual([expectedMessage]);
+      });
+
       it('should not adjust the columns for locations after the first line', () => {
         const fileContent = `
           @Component({
