@@ -458,4 +458,47 @@ export const invalid = [
       }
       `,
   }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should rewrite the emit calls of the removed output',
+    annotatedSource: `
+      class Test {
+        readonly enabled = input<boolean>();
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        readonly enabledChange = output<boolean>();
+
+        toggle(): void {
+          this.enabledChange.emit(true);
+        }
+      }
+      `,
+    messageId: messageIdPreferSignalModel,
+    annotatedOutput: `import { model } from '@angular/core';
+
+      class Test {
+        readonly enabled = model<boolean>();
+        
+        
+
+        toggle(): void {
+          this.enabled.set(true);
+        }
+      }
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should not fix when the output is used for anything but an emit call',
+    annotatedSource: `
+      class Test {
+        readonly enabled = input<boolean>();
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        readonly enabledChange = output<boolean>();
+
+        forward(): unknown {
+          return this.enabledChange;
+        }
+      }
+      `,
+    messageId: messageIdPreferSignalModel,
+  }),
 ];
