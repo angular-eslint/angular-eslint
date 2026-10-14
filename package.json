@@ -3,9 +3,9 @@
   "private": true,
   "description": "The tooling which enables ESLint to work with Angular projects",
   "volta": {
-    "node": "26.8.2"
+    "node": "26.10.0"
   },
-  "packageManager": "pnpm@11.27.0",
+  "packageManager": "pnpm@12.10.0",
   "contributors": [
     "James Henry <angular-eslint@jameshenry.email>"
   ],

@@ -1102,6 +1102,38 @@ The rule does not have any configuration options.
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-at-empty": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@for (evt of eventQueue(); track evt) {
+  {{ evt }}
+}
+@if (eventQueue().length === 0) {
+~~~~
+  Awaiting app bootstrap...
+}
+```
+
 </details>
 
 <br>

@@ -1,3 +1,14 @@
+## 22.6.0 (2026-10-11)
+
+### 🩹 Fixes
+
+- **eslint-plugin-template:** [conditional-complexity] check control flow ([#3260](https://github.com/angular-eslint/angular-eslint/pull/3260))
+- **template-parser:** traverse @defer hydrate triggers ([#3231](https://github.com/angular-eslint/angular-eslint/pull/3231))
+
+### ❤️ Thank You
+
+- Daniel Pinto @Cayan
+
 ## 22.5.0 (2026-09-07)
 
 This was a version bump only for eslint-plugin-template to align it with other projects, there were no code changes.
