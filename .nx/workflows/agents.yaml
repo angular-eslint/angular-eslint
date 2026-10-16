@@ -3,6 +3,12 @@ launch-templates:
     resourceClass: 'docker_linux_amd64/medium+'
     image: 'ubuntu22.04-node20.19-v2'
     init-steps:
+      - name: Keep agent alive
+        script: |
+          for i in $(seq 1 11); do
+            echo "keepalive $(date -u +%H:%M:%S) $i/11"
+            sleep 300
+          done
       - name: checkout repo
         uses: 'nrwl/nx-cloud-workflows/v5/workflow-steps/checkout/main.yaml'
         env:
