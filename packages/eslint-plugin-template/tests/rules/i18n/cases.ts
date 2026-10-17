@@ -605,6 +605,30 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
+      'should fail if i18n custom ID is duplicate after a unique custom ID',
+    annotatedSource: `
+      <h1 i18n="@@uniqueId">Title</h1>
+      <h3 i18n="@@myId">Hello</h3>
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      <p i18n="@@myId">Good bye</p>
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `,
+    messages: [
+      {
+        char: '~',
+        messageId: i18nDuplicateCustomId,
+        data: { customId: 'myId' },
+      },
+      {
+        char: '^',
+        messageId: i18nDuplicateCustomId,
+        data: { customId: 'myId' },
+      },
+    ],
+    options: [{ ignoreTags: [] }],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
       'should fail if i18n custom ID is duplicate in attribute and element',
     annotatedSource: `
       <div i18n-tooltip="@@custom-id" tooltip="This requires translation">
