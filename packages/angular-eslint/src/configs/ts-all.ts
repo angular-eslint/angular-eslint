@@ -33,6 +33,7 @@ export default (
       '@angular-eslint/no-empty-lifecycle-method': 'error',
       '@angular-eslint/no-experimental': 'error',
       '@angular-eslint/no-forward-ref': 'error',
+      '@angular-eslint/no-global-document': 'error',
       '@angular-eslint/no-implicit-take-until-destroyed': 'error',
       '@angular-eslint/no-input-prefix': 'error',
       '@angular-eslint/no-input-rename': 'error',

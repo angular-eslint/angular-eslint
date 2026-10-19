@@ -37,6 +37,9 @@ import noEmptyLifecycleMethod, {
 import noForwardRef, {
   RULE_NAME as noForwardRefRuleName,
 } from './rules/no-forward-ref';
+import noGlobalDocument, {
+  RULE_NAME as noGlobalDocumentRuleName,
+} from './rules/no-global-document';
 import noInputPrefix, {
   RULE_NAME as noInputPrefixRuleName,
 } from './rules/no-input-prefix';
@@ -171,6 +174,7 @@ export = {
     [noEmptyLifecycleMethodRuleName]: noEmptyLifecycleMethod,
     [noExperimentalRuleName]: noExperimental,
     [noForwardRefRuleName]: noForwardRef,
+    [noGlobalDocumentRuleName]: noGlobalDocument,
     [noImplicitTakeUntilDestroyedRuleName]: noImplicitTakeUntilDestroyed,
     [noInputPrefixRuleName]: noInputPrefix,
     [noInputRenameRuleName]: noInputRename,
