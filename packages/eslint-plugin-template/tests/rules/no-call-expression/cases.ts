@@ -283,4 +283,30 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     options: [{ allowList: ['ok'] }],
     messages: [{ char: '~', messageId }],
   }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail once for a call in an input of an element with a structural directive',
+    annotatedSource: `
+        <a *ngIf="show" [href]="getHref()">info</a>
+                                ~~~~~~~~~
+      `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail once for a call in an input of an ng-template with a structural directive',
+    annotatedSource: `
+        <ng-template *ngIf="show" [ngTemplateOutlet]="getTemplate()"></ng-template>
+                                                      ~~~~~~~~~~~~~
+      `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail for a call in an input of an ng-template',
+    annotatedSource: `
+        <ng-template [ngIf]="show" [ngIfElse]="getTemplate()"></ng-template>
+                                               ~~~~~~~~~~~~~
+      `,
+    messageId,
+  }),
 ];
