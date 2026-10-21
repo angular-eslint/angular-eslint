@@ -52,6 +52,10 @@ export default createESLintRule<Options, MessageIds>({
   create(context) {
     const parserServices = getTemplateParserServices(context);
     const previousNodeStack: (IfNodeInfo | undefined)[] = [undefined];
+    // `@if` blocks that a fix in this pass turns into an else branch.
+    // Merging one of them into the next `@if` as well would edit a separate
+    // range, so ESLint would apply both fixes and write two else branches.
+    const ifBlocksTurnedIntoElse = new Set<TmplAstIfBlock>();
 
     function wouldPreventContentProjection(nodes: TmplAstNode[]): boolean {
       let rootNodeCount = 0;
@@ -176,12 +180,18 @@ export default createESLintRule<Options, MessageIds>({
         if (current) {
           const previous = previousNodeStack.at(-1);
           if (previous && canCombine(previous, current)) {
+            const fix = ifBlocksTurnedIntoElse.has(previous.node)
+              ? null
+              : getFix(previous, current);
+            if (fix) {
+              ifBlocksTurnedIntoElse.add(current.node);
+            }
             context.report({
               loc: parserServices.convertNodeSourceSpanToLoc(
                 current.node.nameSpan,
               ),
               messageId: 'preferAtElse',
-              fix: getFix(previous, current),
+              fix,
             });
           }
         }
