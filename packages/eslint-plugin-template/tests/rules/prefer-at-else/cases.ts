@@ -340,4 +340,93 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     `,
     messageId,
   }),
+  convertAnnotatedSourceToFailureCase({
+    description: `does not turn a chain of alternating @if blocks into two @else blocks`,
+    annotatedSource: `
+      @if (a) {1}
+      @if (!a) {2}
+      ~~~~
+      @if (a) {3}
+      ^^^^
+    `,
+    messages: [
+      { char: '~', messageId },
+      { char: '^', messageId },
+    ],
+    annotatedOutput: `
+      @if (a) {1}
+      @else {2}
+          
+      @if (a) {3}
+      
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: `fixes every other pair in a chain of four alternating @if blocks`,
+    annotatedSource: `
+      @if (a) {1}
+      @if (!a) {2}
+      ~~~~
+      @if (a) {3}
+      ^^^^
+      @if (!a) {4}
+      ####
+    `,
+    messages: [
+      { char: '~', messageId },
+      { char: '^', messageId },
+      { char: '#', messageId },
+    ],
+    annotatedOutput: `
+      @if (a) {1}
+      @else {2}
+          
+      @if (a) {3}
+          
+      @else {4}
+      
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: `fixes the next @if in a chain when the previous pair has no fix`,
+    annotatedSource: `
+      @if (a) {1}
+      @if (!a; as alias) {2}
+      ~~~~
+      @if (a) {3}
+      ^^^^
+    `,
+    messages: [
+      { char: '~', messageId },
+      { char: '^', messageId },
+    ],
+    annotatedOutput: `
+      @if (a) {1}
+      @if (!a; as alias) {2}
+          
+      @else {3}
+      
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: `does not turn a chain after an @if with @else into two @else blocks`,
+    annotatedSource: `
+      @if (a) {1} @else {x}
+      @if (!a) {2}
+      ~~~~
+      @if (a) {3}
+      ^^^^
+    `,
+    messages: [
+      { char: '~', messageId },
+      { char: '^', messageId },
+    ],
+    annotatedOutput: `
+      @if (a) {1} @else {x2}
+      
+          
+      @if (a) {3}
+      
+    `,
+  }),
 ];
