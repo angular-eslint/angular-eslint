@@ -11,6 +11,27 @@ import {
 
 const messageId: MessageIds = 'attributesOrder';
 
+const neoCustomGroupsOptions: Options = [
+  {
+    alphabetical: true,
+    customGroups: [
+      {
+        groupName: 'neoAttr',
+        attributeNamePattern: '^neo',
+      },
+    ],
+    order: [
+      OrderType.StructuralDirective,
+      OrderType.TemplateReferenceVariable,
+      'neoAttr',
+      OrderType.AttributeBinding,
+      OrderType.InputBinding,
+      OrderType.TwoWayBinding,
+      OrderType.OutputBinding,
+    ],
+  },
+];
+
 export const valid: readonly (string | ValidTestCase<Options>)[] = [
   `<input class="card" [value]="foo" (valueChange)="handleValueChange($event)">`,
   `<input *ngIf="flag" #inputRef id="input" class="className" [binding]="true" [(ngModel)]="model" (output)="handleOutput($event)">`,
@@ -84,6 +105,10 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
         ],
       },
     ],
+  },
+  {
+    code: `<button *ngIf="flag" neoAlignment="a" neoButton [neoSize]="s" neoThing="t" class="c" type="button" [color]="x" (click)="h()"></button>`,
+    options: neoCustomGroupsOptions,
   },
 ];
 
@@ -672,6 +697,26 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     annotatedOutput: `
       <div alpha="a" beta="{{ b }}" (gamma)="g()" [delta]="d"></div>
                      
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should order custom group attributes before other attribute bindings',
+    annotatedSource: `
+      <button *ngIf="flag" class="c" neoAlignment="a" neoButton type="button" [color]="x" [neoSize]="s" (click)="h()"></button>
+                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    options: neoCustomGroupsOptions,
+    data: {
+      expected:
+        '`neoAlignment`, `neoButton`, `[neoSize]`, `class`, `type`, `[color]`',
+      actual:
+        '`class`, `neoAlignment`, `neoButton`, `type`, `[color]`, `[neoSize]`',
+    },
+    annotatedOutput: `
+      <button *ngIf="flag" neoAlignment="a" neoButton [neoSize]="s" class="c" type="button" [color]="x" (click)="h()"></button>
+                           
     `,
   }),
 ];

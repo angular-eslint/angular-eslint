@@ -16,6 +16,11 @@ import {
 } from '@angular-eslint/bundled-angular-compiler';
 import { getTemplateParserServices } from '@angular-eslint/utils';
 import type { TSESTree, TSESLint } from '@typescript-eslint/utils';
+import {
+  compileCustomGroups,
+  type CustomGroupOption,
+  resolveSortKey,
+} from '../utils/attributes-order-custom-groups';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
 export enum OrderType {
@@ -30,7 +35,8 @@ export enum OrderType {
 export type Options = [
   {
     readonly alphabetical: boolean;
-    readonly order: readonly OrderType[];
+    readonly order: readonly string[];
+    readonly customGroups?: readonly CustomGroupOption[];
   },
 ];
 
@@ -81,6 +87,7 @@ const DEFAULT_ORDER = [
 const DEFAULT_OPTIONS: Options[number] = {
   alphabetical: false,
   order: [...DEFAULT_ORDER],
+  customGroups: [],
 };
 
 export default createESLintRule<Options, MessageIds>({
@@ -104,11 +111,27 @@ export default createESLintRule<Options, MessageIds>({
             type: 'array',
             items: {
               type: 'string',
-              enum: DEFAULT_OPTIONS.order as string[],
             },
             default: DEFAULT_OPTIONS.order as string[],
             minItems: DEFAULT_OPTIONS.order.length,
             uniqueItems: true,
+          },
+          customGroups: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                groupName: {
+                  type: 'string',
+                },
+                attributeNamePattern: {
+                  type: 'string',
+                },
+              },
+              required: ['groupName', 'attributeNamePattern'],
+              additionalProperties: false,
+            },
+            default: [],
           },
         },
         additionalProperties: false,
@@ -119,7 +142,15 @@ export default createESLintRule<Options, MessageIds>({
     },
     defaultOptions: [DEFAULT_OPTIONS],
   },
-  create(context, [{ alphabetical, order }]) {
+  create(context, [options]) {
+    const { alphabetical, order, customGroups } = {
+      ...DEFAULT_OPTIONS,
+      ...options,
+    };
+    const compiledCustomGroups = compileCustomGroups(
+      customGroups ?? [],
+      order,
+    );
     const parserServices = getTemplateParserServices(context);
 
     function getLocation(attr: SortableAttribute): TSESTree.SourceLocation {
@@ -148,7 +179,7 @@ export default createESLintRule<Options, MessageIds>({
         const sortedAttributes = [...allAttributes].sort(byLocation);
 
         const expectedAttributes = [...allAttributes].sort(
-          byOrder(order, alphabetical),
+          byOrder(order, alphabetical, compiledCustomGroups),
         );
 
         let errorRange: [number, number] | undefined;
@@ -215,10 +246,15 @@ function byLocation(one: SortableAttribute, other: SortableAttribute) {
     : one.sourceSpan.start.line - other.sourceSpan.start.line;
 }
 
-function byOrder(order: readonly OrderType[], alphabetical: boolean) {
+function byOrder(
+  order: readonly string[],
+  alphabetical: boolean,
+  compiledCustomGroups: ReturnType<typeof compileCustomGroups>,
+) {
   return function (one: SortableAttribute, other: SortableAttribute) {
     const orderComparison =
-      getOrderIndex(one, order) - getOrderIndex(other, order);
+      getOrderIndex(one, order, compiledCustomGroups) -
+      getOrderIndex(other, order, compiledCustomGroups);
 
     if (alphabetical && orderComparison === 0) {
       const oneName = one.keySpan?.details ?? one.name;
@@ -237,8 +273,15 @@ function byOrder(order: readonly OrderType[], alphabetical: boolean) {
   };
 }
 
-function getOrderIndex(attr: SortableAttribute, order: readonly OrderType[]) {
-  return order.indexOf(attr.orderType);
+function getOrderIndex(
+  attr: SortableAttribute,
+  order: readonly string[],
+  compiledCustomGroups: ReturnType<typeof compileCustomGroups>,
+) {
+  const sortKey = resolveSortKey(attr, compiledCustomGroups);
+  const index = order.indexOf(sortKey);
+
+  return index === -1 ? order.length : index;
 }
 
 function getAllAttributes(
@@ -648,5 +691,5 @@ function getHtmlAttributeNameAndOrderType(
 
 export const RULE_DOCS_EXTENSION = {
   rationale:
-    'Consistent ordering of template attributes makes templates easier to read and scan visually. When attributes are always ordered the same way across a codebase (for example: structural directives first, then template references, then inputs, then outputs), developers can quickly locate specific attributes without having to scan randomly-ordered attribute lists. This is especially valuable for elements with many attributes. The rule supports both semantic ordering (grouping by attribute type) and alphabetical sorting within groups, allowing teams to choose the organizational pattern that works best for them.',
+    'Consistent ordering of template attributes makes templates easier to read and scan visually. When attributes are always ordered the same way across a codebase (for example: structural directives first, then template references, then inputs, then outputs), developers can quickly locate specific attributes without having to scan randomly-ordered attribute lists. This is especially valuable for elements with many attributes. The rule supports both semantic ordering (grouping by attribute type) and alphabetical sorting within groups, allowing teams to choose the organizational pattern that works best for them. The optional `customGroups` setting lets design-system or library prefixes (matched by regular expression on the attribute or binding name) appear in dedicated slots within `order`; the first matching custom group wins for any binding type.',
 };
