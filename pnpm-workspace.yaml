@@ -41,7 +41,7 @@ catalog:
   nx: '23.3.0'
   picocolors: '1.1.1'
   pkg-pr-new: '0.0.91'
-  prettier: '3.9.9'
+  prettier: '3.9.10'
   tree-kill: '1.2.2'
   ts-node: '10.9.2'
   tslib: '^2.4.1'
