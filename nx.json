@@ -166,6 +166,7 @@
     "typecheck": {
       "dependsOn": ["^build", "^compile"],
       "inputs": ["production", "^production"],
+      "outputs": [],
       "cache": true
     },
     "test": {
