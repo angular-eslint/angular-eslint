@@ -15,6 +15,7 @@
     "**/*.d.ts",
     "tests/rules/**/*.ts"
   ],
+  "exclude": ["node_modules", "dist"],
   "references": [
     {
       "path": "./tsconfig.lib.json"
