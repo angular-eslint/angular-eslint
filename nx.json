@@ -164,8 +164,9 @@
       "cache": true
     },
     "typecheck": {
-      "dependsOn": ["^build", "^compile", "^typecheck"],
+      "dependsOn": ["^build", "^compile"],
       "inputs": ["production", "^production"],
+      "outputs": [],
       "cache": true
     },
     "test": {
