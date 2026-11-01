@@ -953,6 +953,128 @@ The rule does not have any configuration options.
 ~~~~
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-at-else": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@if (a) {1}
+@if (!a) {2}
+~~~~
+@if (a) {3}
+~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-at-else": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@if (a) {1}
+@if (!a) {2}
+~~~~
+@if (a) {3}
+~~~~
+@if (!a) {4}
+~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-at-else": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@if (a) {1}
+@if (!a; as alias) {2}
+~~~~
+@if (a) {3}
+~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-at-else": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@if (a) {1} @else {x}
+@if (!a) {2}
+~~~~
+@if (a) {3}
+~~~~
+```
+
 </details>
 
 <br>
