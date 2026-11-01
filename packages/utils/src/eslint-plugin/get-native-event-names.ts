@@ -9,7 +9,7 @@ let nativeEventNames: ReadonlySet<string> | null = null;
 /**
  * Check MDN events page for details https://developer.mozilla.org/en-US/docs/Web/Events
  *
- * Event names sourced from @mdn/browser-compat-data@8.1.4
+ * Event names sourced from @mdn/browser-compat-data@8.1.7
  */
 export function getNativeEventNames(): ReadonlySet<string> {
   return (
@@ -67,6 +67,7 @@ export function getNativeEventNames(): ReadonlySet<string> {
       'dragstart',
       'drop',
       'durationchange',
+      'elementgeometryupdate',
       'emptied',
       'encrypted',
       'ended',
@@ -121,6 +122,7 @@ export function getNativeEventNames(): ReadonlySet<string> {
       'pagereveal',
       'pageshow',
       'pageswap',
+      'paint',
       'paste',
       'pause',
       'play',
