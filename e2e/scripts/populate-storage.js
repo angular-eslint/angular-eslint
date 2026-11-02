@@ -1,7 +1,7 @@
 // @ts-check
 
 const { workspaceRoot } = require('@nx/devkit');
-const { execFileSync } = require('node:child_process');
+const { execFileSync, execSync } = require('node:child_process');
 const { rmSync } = require('node:fs');
 const { join } = require('node:path');
 
@@ -27,6 +27,16 @@ async function populateLocalRegistryStorage() {
   }
 
   process.env.npm_config_registry = registry;
+  // Verdaccio 7 validates Bearer tokens; Nx's verdaccio executor sets an invalid
+  // placeholder token that breaks npm when packages allow anonymous access.
+  execSync(
+    `npm config delete //${listenAddress}:${port}/:_authToken --ws=false`,
+    {
+      windowsHide: false,
+    },
+  );
+
+  process.env.NX_SKIP_PROVENANCE_CHECK = 'true';
 
   // bun
   process.env.BUN_CONFIG_REGISTRY = registry;
