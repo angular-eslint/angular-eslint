@@ -37,8 +37,10 @@ export default async function () {
     }
 
     process.env.npm_config_registry = registry;
+    // Verdaccio 7 validates Bearer tokens; Nx's verdaccio executor sets an invalid
+    // placeholder token that breaks npm when packages allow anonymous access.
     execSync(
-      `npm config set //${listenAddress}:${port}/:_authToken "${authToken}" --ws=false`,
+      `npm config delete //${listenAddress}:${port}/:_authToken --ws=false`,
       {
         windowsHide: false,
       },
