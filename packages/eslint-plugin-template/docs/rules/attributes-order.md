@@ -24,7 +24,7 @@ Ensures that HTML attributes and Angular bindings are sorted based on an expecte
 
 ## Rationale
 
-Consistent ordering of template attributes makes templates easier to read and scan visually. When attributes are always ordered the same way across a codebase (for example: structural directives first, then template references, then inputs, then outputs), developers can quickly locate specific attributes without having to scan randomly-ordered attribute lists. This is especially valuable for elements with many attributes. The rule supports both semantic ordering (grouping by attribute type) and alphabetical sorting within groups, allowing teams to choose the organizational pattern that works best for them.
+Consistent ordering of template attributes makes templates easier to read and scan visually. When attributes are always ordered the same way across a codebase (for example: structural directives first, then template references, then inputs, then outputs), developers can quickly locate specific attributes without having to scan randomly-ordered attribute lists. This is especially valuable for elements with many attributes. The rule supports both semantic ordering (grouping by attribute type) and alphabetical sorting within groups, allowing teams to choose the organizational pattern that works best for them. The optional `customGroups` setting lets design-system or library prefixes (matched by regular expression on the attribute or binding name) appear in dedicated slots within `order`; the first matching custom group wins for any binding type.
 
 <br>
 
@@ -43,64 +43,14 @@ interface Options {
    *
    * @minItems 6
    */
-  order?: [
-    (
-      | "STRUCTURAL_DIRECTIVE"
-      | "TEMPLATE_REFERENCE"
-      | "ATTRIBUTE_BINDING"
-      | "INPUT_BINDING"
-      | "TWO_WAY_BINDING"
-      | "OUTPUT_BINDING"
-    ),
-    (
-      | "STRUCTURAL_DIRECTIVE"
-      | "TEMPLATE_REFERENCE"
-      | "ATTRIBUTE_BINDING"
-      | "INPUT_BINDING"
-      | "TWO_WAY_BINDING"
-      | "OUTPUT_BINDING"
-    ),
-    (
-      | "STRUCTURAL_DIRECTIVE"
-      | "TEMPLATE_REFERENCE"
-      | "ATTRIBUTE_BINDING"
-      | "INPUT_BINDING"
-      | "TWO_WAY_BINDING"
-      | "OUTPUT_BINDING"
-    ),
-    (
-      | "STRUCTURAL_DIRECTIVE"
-      | "TEMPLATE_REFERENCE"
-      | "ATTRIBUTE_BINDING"
-      | "INPUT_BINDING"
-      | "TWO_WAY_BINDING"
-      | "OUTPUT_BINDING"
-    ),
-    (
-      | "STRUCTURAL_DIRECTIVE"
-      | "TEMPLATE_REFERENCE"
-      | "ATTRIBUTE_BINDING"
-      | "INPUT_BINDING"
-      | "TWO_WAY_BINDING"
-      | "OUTPUT_BINDING"
-    ),
-    (
-      | "STRUCTURAL_DIRECTIVE"
-      | "TEMPLATE_REFERENCE"
-      | "ATTRIBUTE_BINDING"
-      | "INPUT_BINDING"
-      | "TWO_WAY_BINDING"
-      | "OUTPUT_BINDING"
-    ),
-    ...(
-      | "STRUCTURAL_DIRECTIVE"
-      | "TEMPLATE_REFERENCE"
-      | "ATTRIBUTE_BINDING"
-      | "INPUT_BINDING"
-      | "TWO_WAY_BINDING"
-      | "OUTPUT_BINDING"
-    )[]
-  ];
+  order?: [string, string, string, string, string, string, ...string[]];
+  /**
+   * Default: `[]`
+   */
+  customGroups?: {
+    groupName: string;
+    attributeNamePattern: string;
+  }[];
 }
 
 ```
@@ -1000,6 +950,51 @@ interface Options {
                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/attributes-order": [
+      "error",
+      {
+        "alphabetical": true,
+        "customGroups": [
+          {
+            "groupName": "neoAttr",
+            "attributeNamePattern": "^neo"
+          }
+        ],
+        "order": [
+          "STRUCTURAL_DIRECTIVE",
+          "TEMPLATE_REFERENCE",
+          "neoAttr",
+          "ATTRIBUTE_BINDING",
+          "INPUT_BINDING",
+          "TWO_WAY_BINDING",
+          "OUTPUT_BINDING"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<button *ngIf="flag" class="c" neoAlignment="a" neoButton type="button" [color]="x" [neoSize]="s" (click)="h()"></button>
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
 </details>
 
 <br>
@@ -1610,6 +1605,50 @@ interface Options {
 
 ```html
 <div alpha="a" beta="{{ b }}" (gamma)="g()" [delta]="d"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/attributes-order": [
+      "error",
+      {
+        "alphabetical": true,
+        "customGroups": [
+          {
+            "groupName": "neoAttr",
+            "attributeNamePattern": "^neo"
+          }
+        ],
+        "order": [
+          "STRUCTURAL_DIRECTIVE",
+          "TEMPLATE_REFERENCE",
+          "neoAttr",
+          "ATTRIBUTE_BINDING",
+          "INPUT_BINDING",
+          "TWO_WAY_BINDING",
+          "OUTPUT_BINDING"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<button *ngIf="flag" neoAlignment="a" neoButton [neoSize]="s" neoThing="t" class="c" type="button" [color]="x" (click)="h()"></button>
 ```
 
 </details>
