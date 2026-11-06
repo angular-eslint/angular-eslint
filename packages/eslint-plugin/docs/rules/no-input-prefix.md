@@ -576,6 +576,286 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-prefix": [
+      "error",
+      {
+        "prefixes": [
+          "is"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component()
+class Test {
+  isDisabled = input(false);
+  ~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-prefix": [
+      "error",
+      {
+        "prefixes": [
+          "is"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component()
+class Test {
+  isRequired = input.required<boolean>();
+  ~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-prefix": [
+      "error",
+      {
+        "prefixes": [
+          "is"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component()
+class Test {
+  readonly isOpen = model(false);
+           ~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-prefix": [
+      "error",
+      {
+        "prefixes": [
+          "is"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component()
+class Test {
+  'isChecked' = model.required<boolean>();
+  ~~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-prefix": [
+      "error",
+      {
+        "prefixes": [
+          "is"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component()
+class Test {
+  disabled = input(false, { alias: 'isDisabled' });
+                                   ~~~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-prefix": [
+      "error",
+      {
+        "prefixes": [
+          "is"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component()
+class Test {
+  disabled = input.required<boolean>({ alias: `isDisabled` });
+                                              ~~~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-prefix": [
+      "error",
+      {
+        "prefixes": [
+          "is"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component()
+class Test {
+  open = model(false, { alias: 'isOpen' });
+                               ~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-prefix": [
+      "error",
+      {
+        "prefixes": [
+          "is"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component()
+class Test {
+  checked = model.required<boolean>({ alias: 'isChecked' });
+                                             ~~~~~~~~~~~
+}
+```
+
 </details>
 
 <br>
@@ -1143,6 +1423,123 @@ class Test {}
 })
 class Test {
   @Input() set 'setter'() {}
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-prefix": [
+      "error",
+      {
+        "prefixes": [
+          "is"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component()
+class Test {
+  disabled = input(false);
+  required = input.required<boolean>();
+  open = model(false);
+  checked = model.required<boolean>();
+  label = input<'isLabel'>('isLabel');
+  isLoading = signal(false);
+  isEmpty = computed(() => this.items().length === 0);
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-prefix": [
+      "error",
+      {
+        "prefixes": [
+          "is"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component()
+class Test {
+  isInputLike = inputFoo(false);
+  isModelLike = remodel(false);
+  isOther = input.foo(false);
+  isOtherModel = model.foo(false);
+  isPlural = inputs.required(false);
+  ['isComputed'] = input(false);
+  aliasLike = inputFoo(false, { alias: 'isAliasLike' });
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-prefix": [
+      "error",
+      {
+        "prefixes": [
+          "is"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component()
+class Test {
+  disabled = input(false, { alias: 'disabled' });
+  required = input.required<boolean>({ alias: 'required' });
+  open = model(false, { alias: 'open' });
+  checked = model.required<boolean>({ alias: 'checked' });
 }
 ```
 

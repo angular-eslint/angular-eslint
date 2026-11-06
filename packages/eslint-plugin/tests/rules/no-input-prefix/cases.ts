@@ -154,6 +154,48 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
       @Input() set 'setter'() {}
     }
   `,
+  {
+    code: `
+      @Component()
+      class Test {
+        disabled = input(false);
+        required = input.required<boolean>();
+        open = model(false);
+        checked = model.required<boolean>();
+        label = input<'isLabel'>('isLabel');
+        isLoading = signal(false);
+        isEmpty = computed(() => this.items().length === 0);
+      }
+    `,
+    options: [{ prefixes: ['is'] }],
+  },
+  {
+    code: `
+      @Component()
+      class Test {
+        isInputLike = inputFoo(false);
+        isModelLike = remodel(false);
+        isOther = input.foo(false);
+        isOtherModel = model.foo(false);
+        isPlural = inputs.required(false);
+        ['isComputed'] = input(false);
+        aliasLike = inputFoo(false, { alias: 'isAliasLike' });
+      }
+    `,
+    options: [{ prefixes: ['is'] }],
+  },
+  {
+    code: `
+      @Component()
+      class Test {
+        disabled = input(false, { alias: 'disabled' });
+        required = input.required<boolean>({ alias: 'required' });
+        open = model(false, { alias: 'open' });
+        checked = model.required<boolean>({ alias: 'checked' });
+      }
+    `,
+    options: [{ prefixes: ['is'] }],
+  },
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
@@ -370,5 +412,113 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId,
     options: [{ prefixes: ['on'] }],
     data: { prefixes: '"on"' },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail if signal input is named with "is" prefix',
+    annotatedSource: `
+        @Component()
+        class Test {
+          isDisabled = input(false);
+          ~~~~~~~~~~
+        }
+      `,
+    messageId,
+    options: [{ prefixes: ['is'] }],
+    data: { prefixes: '"is"' },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if required signal input is named with "is" prefix',
+    annotatedSource: `
+        @Component()
+        class Test {
+          isRequired = input.required<boolean>();
+          ~~~~~~~~~~
+        }
+      `,
+    messageId,
+    options: [{ prefixes: ['is'] }],
+    data: { prefixes: '"is"' },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail if model input is named with "is" prefix',
+    annotatedSource: `
+        @Component()
+        class Test {
+          readonly isOpen = model(false);
+                   ~~~~~~
+        }
+      `,
+    messageId,
+    options: [{ prefixes: ['is'] }],
+    data: { prefixes: '"is"' },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if required model input is named with "is" prefix',
+    annotatedSource: `
+        @Component()
+        class Test {
+          'isChecked' = model.required<boolean>();
+          ~~~~~~~~~~~
+        }
+      `,
+    messageId,
+    options: [{ prefixes: ['is'] }],
+    data: { prefixes: '"is"' },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail if signal input is aliased with "is" prefix',
+    annotatedSource: `
+        @Component()
+        class Test {
+          disabled = input(false, { alias: 'isDisabled' });
+                                           ~~~~~~~~~~~~
+        }
+      `,
+    messageId,
+    options: [{ prefixes: ['is'] }],
+    data: { prefixes: '"is"' },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if required signal input is aliased with "is" prefix',
+    annotatedSource: `
+        @Component()
+        class Test {
+          disabled = input.required<boolean>({ alias: \`isDisabled\` });
+                                                      ~~~~~~~~~~~~
+        }
+      `,
+    messageId,
+    options: [{ prefixes: ['is'] }],
+    data: { prefixes: '"is"' },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail if model input is aliased with "is" prefix',
+    annotatedSource: `
+        @Component()
+        class Test {
+          open = model(false, { alias: 'isOpen' });
+                                       ~~~~~~~~
+        }
+      `,
+    messageId,
+    options: [{ prefixes: ['is'] }],
+    data: { prefixes: '"is"' },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if required model input is aliased with "is" prefix',
+    annotatedSource: `
+        @Component()
+        class Test {
+          checked = model.required<boolean>({ alias: 'isChecked' });
+                                                     ~~~~~~~~~~~
+        }
+      `,
+    messageId,
+    options: [{ prefixes: ['is'] }],
+    data: { prefixes: '"is"' },
   }),
 ];
