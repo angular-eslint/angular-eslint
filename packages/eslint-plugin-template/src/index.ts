@@ -57,6 +57,9 @@ import noInlineStyles, {
 import noInterpolationInAttributes, {
   RULE_NAME as noInterpolationInAttributesRuleName,
 } from './rules/no-interpolation-in-attributes';
+import noMultiTokenClassKey, {
+  RULE_NAME as noMultiTokenClassKeyRuleName,
+} from './rules/no-multi-token-class-key';
 import noNegatedAsync, {
   RULE_NAME as noNegatedAsyncRuleName,
 } from './rules/no-negated-async';
@@ -141,6 +144,7 @@ export = {
     [noEmptyControlFlowRuleName]: noEmptyControlFlow,
     [noInlineStylesRuleName]: noInlineStyles,
     [noInterpolationInAttributesRuleName]: noInterpolationInAttributes,
+    [noMultiTokenClassKeyRuleName]: noMultiTokenClassKey,
     [noNegatedAsyncRuleName]: noNegatedAsync,
     [noNestedTagsRuleName]: noNestedTags,
     [noNonNullAssertionRuleName]: noNonNullAssertion,

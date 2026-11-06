@@ -37,6 +37,7 @@ export default (
       '@angular-eslint/template/no-empty-control-flow': 'error',
       '@angular-eslint/template/no-inline-styles': 'error',
       '@angular-eslint/template/no-interpolation-in-attributes': 'error',
+      '@angular-eslint/template/no-multi-token-class-key': 'error',
       '@angular-eslint/template/no-negated-async': 'error',
       '@angular-eslint/template/no-nested-tags': 'error',
       '@angular-eslint/template/no-non-null-assertion': 'error',
