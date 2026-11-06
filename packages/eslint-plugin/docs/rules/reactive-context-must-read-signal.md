@@ -23,7 +23,7 @@ Ensures that reactive contexts such as computed(), linkedSignal() and effect() r
 
 ## Rationale
 
-Reactive contexts like `computed()`, `linkedSignal()`, `effect()` and `afterRenderEffect()` re-run whenever a signal they read changes. If the relevant function never reads a signal, the context runs once and can never react to anything, so it adds overhead without providing reactivity. This is usually a mistake: either the developer forgot to call a signal (e.g. wrote `firstName` instead of `firstName()`), or the value is actually static and should be a plain constant, a `signal()`, or an `afterNextRender()` in the case of `afterRenderEffect()`. To avoid false positives, the rule only reports when everything the tracked function does is known not to read a signal. Calls into the TypeScript standard library (arrays, strings, `Math`, `JSON`, `console`, DOM APIs, etc.) are known to be safe; anything else keeps the rule silent, including a helper function, a service method, a getter, an unresolved symbol, and any Angular API such as `untracked()`. One known limitation: a standard library call that reaches user code through a protocol method, such as `toJSON()` in `JSON.stringify()` or `toString()` in a template literal, is still treated as safe, so a signal read inside such a method is not detected. For `resource()`/`rxResource()` only the `params` function defines the dependencies, and these are opt-in via the `checkResources` option.
+Reactive contexts like `computed()`, `linkedSignal()`, `effect()` and `afterRenderEffect()` re-run whenever a signal they read changes. If the relevant function never reads a signal, the context runs once and can never react to anything, so it adds overhead without providing reactivity. This is usually a mistake: either the developer forgot to call a signal (e.g. wrote `firstName` instead of `firstName()`), or the value is actually static and should be a plain constant, a `signal()`, or an `afterNextRender()` in the case of `afterRenderEffect()`. To avoid false positives, the rule only reports when everything the tracked function does is known not to read a signal. Calls into the TypeScript standard library (arrays, strings, `Math`, `JSON`, `console`, DOM APIs, etc.) are known to be safe, except `call()` and `apply()`, which run the function they are called on. Anything else keeps the rule silent, including a helper function, a service method, a getter, an unresolved symbol, and any Angular API such as `untracked()`. One known limitation: a standard library call that reaches user code through a protocol method, such as `toJSON()` in `JSON.stringify()` or `toString()` in a template literal, is still treated as safe, so a signal read inside such a method is not detected. For `resource()`/`rxResource()` only the `params` function defines the dependencies, and these are opt-in via the `checkResources` option.
 
 <br>
 
@@ -958,6 +958,95 @@ class Test {
   values = [1, 2, 3];
   c = computed(() => Math.max(...this.values));
 }
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+function helper(): number {
+  return 1;
+}
+const c = computed(() => helper.call(undefined));
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+function helper(): number {
+  return 1;
+}
+const c = computed(() => helper.apply(undefined, []));
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+interface WritableSignal<T> {
+  (): T;
+  set(value: T): void;
+}
+declare const a: WritableSignal<number>;
+const c = computed(() => a.call(undefined));
 ```
 
 <br>
