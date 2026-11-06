@@ -29,7 +29,19 @@ Angular's [experimental APIs](https://angular.dev/reference/releases#experimenta
 
 ## Rule Options
 
-The rule does not have any configuration options.
+The rule accepts an options object with the following properties:
+
+```ts
+interface Options {
+  /**
+   * npm package names whose experimental APIs should not be reported
+   *
+   * Default: `[]`
+   */
+  ignorePackages?: string[];
+}
+
+```
 
 <br>
 
@@ -1314,6 +1326,95 @@ const { experimentalItem } = obj;
         ~~~~~~~~~~~~~~~~
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-experimental": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+import { userEvent } from 'vitest';
+
+userEvent();
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-experimental": [
+      "error",
+      {
+        "ignorePackages": [
+          "other-package"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+import { userEvent } from 'vitest';
+
+userEvent();
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-experimental": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+import { experimentalValue } from '@angular/experimental-lib';
+
+console.log(experimentalValue);
+```
+
 </details>
 
 <br>
@@ -1743,6 +1844,72 @@ const { regularItem } = obj;
 ```ts
 import { something } from './non-existing';
 const myVar = something;
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-experimental": [
+      "error",
+      {
+        "ignorePackages": [
+          "vitest"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+import { userEvent } from 'vitest';
+
+userEvent();
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-experimental": [
+      "error",
+      {
+        "ignorePackages": [
+          "@angular/experimental-lib"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+import { experimentalValue } from '@angular/experimental-lib';
+
+console.log(experimentalValue);
 ```
 
 </details>
