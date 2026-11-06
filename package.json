@@ -69,7 +69,6 @@
     "@nx/workspace": "catalog:",
     "@schematics/angular": "catalog:",
     "@swc-node/register": "catalog:",
-    "@swc/cli": "catalog:",
     "@swc/core": "catalog:",
     "@swc/helpers": "catalog:",
     "@types/node": "catalog:",
