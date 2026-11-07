@@ -403,4 +403,14 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { element: 'div' },
     options: [{ allowNgStyle: true, allowBindToStyle: 'dynamic' }],
   }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail when element with a structural directive has attr.style binding',
+    annotatedSource: `
+        <input *ngIf="show" [attr.style]="'padding: 10px;'">
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    data: { element: 'input' },
+  }),
 ];

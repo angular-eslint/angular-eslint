@@ -516,6 +516,87 @@ interface Options {
    ~~~~~~~
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-call-expression": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<a *ngIf="show" [href]="getHref()">info</a>
+                        ~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-call-expression": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<ng-template *ngIf="show" [ngTemplateOutlet]="getTemplate()"></ng-template>
+                                              ~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-call-expression": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<ng-template [ngIf]="show" [ngIfElse]="getTemplate()"></ng-template>
+                                       ~~~~~~~~~~~~~
+```
+
 </details>
 
 <br>
