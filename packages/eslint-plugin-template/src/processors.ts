@@ -269,6 +269,12 @@ export function postprocessComponentFile(
       range: number[];
       text: string;
     };
+    suggestions?: {
+      fix: {
+        range: number[];
+        text: string;
+      };
+    }[];
   }[][],
   filename: string,
 ): readonly unknown[] {
@@ -322,16 +328,26 @@ export function postprocessComponentFile(
           message.line += rangeData.lineAndCharacter.start.line;
           message.endLine += rangeData.lineAndCharacter.start.line;
 
-          if (message.fix) {
-            // The range defines the range of the value that initializes
-            // the `template` property, which includes the opening and
-            // closing quotes. Add one to move past the opening quote.
-            const startOffset = rangeData.range[0] + 1;
-            message.fix.range = [
-              startOffset + message.fix.range[0],
-              startOffset + message.fix.range[1],
+          // The range defines the range of the value that initializes
+          // the `template` property, which includes the opening and
+          // closing quotes. Add one to move past the opening quote.
+          const startOffset = rangeData.range[0] + 1;
+          const adjustFixRange = (fix: { range: number[] }) => {
+            fix.range = [
+              startOffset + fix.range[0],
+              startOffset + fix.range[1],
             ];
+          };
+
+          if (message.fix) {
+            adjustFixRange(message.fix);
           }
+
+          // Suggestions carry their own fixes, which are also
+          // relative to the inline template and need the same adjustment.
+          message.suggestions?.forEach((suggestion) =>
+            adjustFixRange(suggestion.fix),
+          );
           return message;
         });
       },
