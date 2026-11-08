@@ -53,7 +53,7 @@ const KEYS: VisitorKeys = {
   Program: ['templateNodes'],
   PropertyRead: ['receiver'],
   SafePropertyRead: ['receiver'],
-  Template: ['templateAttrs', 'children', 'inputs'],
+  Template: ['templateAttrs', 'children', 'ownInputs'],
   BindingPipe: ['exp', 'args'],
   DeferredBlock: [
     'children',
@@ -194,6 +194,13 @@ function preprocessNode(node: Node, sourceCode?: string) {
   let j = 0;
 
   const keys = KEYS[node.type] || getFallbackKeys(node);
+
+  if (node.type === 'Template') {
+    // The inputs of a structural directive template are hoisted from the wrapped element, which visits them
+    Object.defineProperty(node, 'ownInputs', {
+      value: node.templateAttrs.length > 0 ? [] : node.inputs,
+    });
+  }
 
   if (!node.loc) {
     if (
