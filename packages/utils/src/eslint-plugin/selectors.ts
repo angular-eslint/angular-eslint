@@ -78,7 +78,15 @@ export const INPUT_ALIAS = [
   `PropertyDefinition > CallExpression:has(MemberExpression[object.name='input'][property.name='required']) > ${ALIAS_PROPERTY_VALUE}`,
 ].join(',');
 
-export const INPUT_PROPERTY_OR_SETTER = `:matches(PropertyDefinition, MethodDefinition[kind='set'])[computed=false]:has(${INPUT_DECORATOR}) > :matches(Identifier, Literal)`;
+const signalInputOrModelCallee = (callee: string): string =>
+  `:matches([${callee}.name=/^(input|model)$/], [${callee}.object.name=/^(input|model)$/][${callee}.property.name='required'])`;
+
+export const INPUT_PROPERTY_OR_SETTER = [
+  `:matches(PropertyDefinition, MethodDefinition[kind='set'])[computed=false]:has(${INPUT_DECORATOR}) > :matches(Identifier, Literal)`,
+  `PropertyDefinition[computed=false][value.type='CallExpression']${signalInputOrModelCallee('value.callee')} > :matches(Identifier, Literal)`,
+].join(',');
+
+export const SIGNAL_INPUT_OR_MODEL_ALIAS = `PropertyDefinition > CallExpression${signalInputOrModelCallee('callee')} > ${ALIAS_PROPERTY_VALUE}`;
 
 export const OUTPUTS_METADATA_PROPERTY_LITERAL = `${COMPONENT_OR_DIRECTIVE_CLASS_DECORATOR} ${metadataProperty(
   'outputs',
