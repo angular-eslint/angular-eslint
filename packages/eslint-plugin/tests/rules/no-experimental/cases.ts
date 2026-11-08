@@ -85,6 +85,22 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   import { something } from './non-existing';
   const myVar = something;
   `,
+  {
+    code: `
+      import { userEvent } from 'vitest';
+
+      userEvent();
+    `,
+    options: [{ ignorePackages: ['vitest'] }],
+  },
+  {
+    code: `
+      import { experimentalValue } from '@angular/experimental-lib';
+
+      console.log(experimentalValue);
+    `,
+    options: [{ ignorePackages: ['@angular/experimental-lib'] }],
+  },
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
@@ -706,4 +722,50 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       name: 'experimentalItem',
     },
   }),
+  {
+    code: `
+      import { userEvent } from 'vitest';
+
+      userEvent();
+    `,
+    errors: [
+      {
+        messageId,
+        data: {
+          name: 'userEvent',
+        },
+      },
+    ],
+  },
+  {
+    code: `
+      import { userEvent } from 'vitest';
+
+      userEvent();
+    `,
+    options: [{ ignorePackages: ['other-package'] }],
+    errors: [
+      {
+        messageId,
+        data: {
+          name: 'userEvent',
+        },
+      },
+    ],
+  },
+  {
+    code: `
+      import { experimentalValue } from '@angular/experimental-lib';
+
+      console.log(experimentalValue);
+    `,
+    errors: [
+      {
+        messageId,
+        data: {
+          name: 'experimentalValue',
+        },
+      },
+    ],
+  },
 ];
