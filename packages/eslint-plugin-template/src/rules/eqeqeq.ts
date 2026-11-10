@@ -117,13 +117,15 @@ const getFix = ({
     ast: unknown;
   };
 
-  if (!result?.source) return null;
-
-  const { source, ast } = result;
-
   let startOffset = 0;
-  while (!isInterpolation(ast) && isLeadingTriviaChar(source[startOffset])) {
-    startOffset++;
+  if (result) {
+    const { source, ast } = result;
+
+    if (!source) return null;
+
+    while (!isInterpolation(ast) && isLeadingTriviaChar(source[startOffset])) {
+      startOffset++;
+    }
   }
 
   const endRange = end - startOffset - getSpanLength(right) - 1;

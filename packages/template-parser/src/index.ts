@@ -67,6 +67,8 @@ const KEYS: VisitorKeys = {
   DeferredBlockLoading: ['children'],
   DeferredBlockError: ['children'],
   DeferredBlockPlaceholder: ['children'],
+  BoundaryBlock: ['children', 'errorBlocks'],
+  BoundaryErrorBlock: ['children', 'contextVariables', 'expression'],
   Object: ['when'],
   BoundDeferredTrigger: ['value'],
   IfBlock: ['branches'],
