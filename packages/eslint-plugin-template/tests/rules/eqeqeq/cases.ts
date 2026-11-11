@@ -340,4 +340,63 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       },
     ],
   }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'it should fail if the operation is not strict within a @boundary @error when expression',
+    annotatedSource: `
+        @boundary {
+          <div></div>
+        } @error (when $error.code == 'TIMEOUT') {
+                       ~~~~~~~~~~~~~~~~~~~~~~~~
+          <div></div>
+        }
+      `,
+    messageId,
+    data: {
+      actualOperation: '==',
+      expectedOperation: '===',
+    },
+    annotatedOutput: `
+        @boundary {
+          <div></div>
+        } @error (when $error.code === 'TIMEOUT') {
+                       ~~~~~~~~~~~~~~~~~~~~~~~~~
+          <div></div>
+        }
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'it should fail if the operation is not strict within a @boundary @error when expression compared to a number',
+    annotatedSource: `
+        @boundary {
+          <div></div>
+        } @error (when  $error.status  !=  404) {
+                        ~~~~~~~~~~~~~~~~~~~~~~
+          <div></div>
+        }
+      `,
+    messageId,
+    data: {
+      actualOperation: '!=',
+      expectedOperation: '!==',
+    },
+    suggestions: [
+      {
+        messageId: suggestStrictEquality,
+        output: `
+        @boundary {
+          <div></div>
+        } @error (when  $error.status  !==  404) {
+                        
+          <div></div>
+        }
+      `,
+        data: {
+          actualOperation: '!=',
+          expectedOperation: '!==',
+        },
+      },
+    ],
+  }),
 ];

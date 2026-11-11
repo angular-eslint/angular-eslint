@@ -237,6 +237,38 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     }`,
     messageId,
   }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail for calls in @boundary @error when expressions',
+    annotatedSource: `
+    @boundary {
+      <div></div>
+    } @error (when isNetworkError($error)) {
+                   ~~~~~~~~~~~~~~~~~~~~~~
+      <div></div>
+    }`,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail for calls in @boundary and @error bodies',
+    annotatedSource: `
+    @boundary {
+      {{ load() }}
+         ~~~~~~
+    } @error (let err = $error; when isNetworkError(err)) {
+                                     ^^^^^^^^^^^^^^^^^^^
+      {{ retry() }}
+         #######
+    } @error {
+      {{ report($error) }}
+         %%%%%%%%%%%%%%
+    }`,
+    messages: [
+      { char: '~', messageId },
+      { char: '^', messageId },
+      { char: '#', messageId },
+      { char: '%', messageId },
+    ],
+  }),
 
   convertAnnotatedSourceToFailureCase({
     description: 'should fail for calls in arguments',
