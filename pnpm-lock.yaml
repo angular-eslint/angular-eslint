@@ -292,7 +292,7 @@ catalogs:
       version: 10.9.2
     tslib:
       specifier: ^2.4.1
-      version: 2.8.1
+      version: 2.9.1
     tsx:
       specifier: 4.23.15
       version: 4.23.15
@@ -497,7 +497,7 @@ importers:
         version: 10.9.2(@swc/core@1.16.20(@swc/helpers@0.5.23))(@types/node@26.6.6)(typescript@6.0.3)
       tslib:
         specifier: 'catalog:'
-        version: 2.8.1
+        version: 2.9.1
       tsx:
         specifier: 'catalog:'
         version: 4.23.15
@@ -6101,6 +6101,9 @@ packages:
   tslib@2.8.1:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
 
+  tslib@2.9.1:
+    resolution: {integrity: sha512-a4Ux9VKuIMHsOS7ENbEq6hK2ZGYIT27Rtl0E4eD9KqwxhKiQeMZE/9xb3IdYwWaSOyIBQLExhQgXDTYoiCxnWA==}
+
   tsx@4.23.15:
     resolution: {integrity: sha512-Yiex1Ovn8z2xPpOWckIiysV1SSyRMY9BkLF++q0yKiDxCqRhosKfMg3janKkiLBwZ5c/YryloKwGZcrEmtwxKw==}
     engines: {node: '>=18.0.0'}
@@ -6520,7 +6523,7 @@ snapshots:
 
   '@angular/compiler@22.2.4':
     dependencies:
-      tslib: 2.8.1
+      tslib: 2.9.1
 
   '@apidevtools/json-schema-ref-parser@11.9.3':
     dependencies:
@@ -7492,30 +7495,30 @@ snapshots:
   '@emnapi/core@1.10.0':
     dependencies:
       '@emnapi/wasi-threads': 1.2.1
-      tslib: 2.8.1
+      tslib: 2.9.1
     optional: true
 
   '@emnapi/core@1.4.5':
     dependencies:
       '@emnapi/wasi-threads': 1.0.4
-      tslib: 2.8.1
+      tslib: 2.9.1
 
   '@emnapi/runtime@1.10.0':
     dependencies:
-      tslib: 2.8.1
+      tslib: 2.9.1
     optional: true
 
   '@emnapi/runtime@1.4.5':
     dependencies:
-      tslib: 2.8.1
+      tslib: 2.9.1
 
   '@emnapi/wasi-threads@1.0.4':
     dependencies:
-      tslib: 2.8.1
+      tslib: 2.9.1
 
   '@emnapi/wasi-threads@1.2.1':
     dependencies:
-      tslib: 2.8.1
+      tslib: 2.9.1
     optional: true
 
   '@esbuild/aix-ppc64@0.28.2':
@@ -8128,7 +8131,7 @@ snapshots:
       minimatch: 10.2.5
       nx: 24.0.2(@swc-node/register@1.12.1(@swc/core@1.16.20(@swc/helpers@0.5.23))(@swc/types@0.1.28)(supports-color@7.2.0)(typescript@6.0.3))(@swc/core@1.16.20(@swc/helpers@0.5.23))
       semver: 7.8.5
-      tslib: 2.8.1
+      tslib: 2.9.1
       yargs-parser: 21.1.1
 
   '@nx/esbuild@24.0.2(@babel/traverse@7.29.7(supports-color@7.2.0))(@swc-node/register@1.12.1(@swc/core@1.16.20(@swc/helpers@0.5.23))(@swc/types@0.1.28)(supports-color@7.2.0)(typescript@6.0.3))(@swc/cli@0.8.2(@swc/core@1.16.20(@swc/helpers@0.5.23))(supports-color@7.2.0))(@swc/core@1.16.20(@swc/helpers@0.5.23))(esbuild@0.28.2)(nx@24.0.2(@swc-node/register@1.12.1(@swc/core@1.16.20(@swc/helpers@0.5.23))(@swc/types@0.1.28)(supports-color@7.2.0)(typescript@6.0.3))(@swc/core@1.16.20(@swc/helpers@0.5.23)))(supports-color@7.2.0)(verdaccio@6.11.1(supports-color@7.2.0)(typanion@3.14.0))':
@@ -8138,7 +8141,7 @@ snapshots:
       picocolors: 1.1.1
       tinyglobby: 0.2.17
       tsconfig-paths: 4.2.0
-      tslib: 2.8.1
+      tslib: 2.9.1
     optionalDependencies:
       esbuild: 0.28.2
     transitivePeerDependencies:
@@ -8162,7 +8165,7 @@ snapshots:
       jsonc-eslint-parser: 2.4.2
       picocolors: 1.1.1
       semver: 7.8.5
-      tslib: 2.8.1
+      tslib: 2.9.1
     optionalDependencies:
       '@typescript-eslint/parser': 8.72.0(eslint@10.13.0(jiti@2.6.1)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3)
       eslint-config-prettier: 10.1.5(eslint@10.13.0(jiti@2.6.1)(supports-color@7.2.0))
@@ -8183,7 +8186,7 @@ snapshots:
       '@nx/js': 24.0.2(@babel/traverse@7.29.7(supports-color@7.2.0))(@swc-node/register@1.12.1(@swc/core@1.16.20(@swc/helpers@0.5.23))(@swc/types@0.1.28)(supports-color@7.2.0)(typescript@6.0.3))(@swc/cli@0.8.2(@swc/core@1.16.20(@swc/helpers@0.5.23))(supports-color@7.2.0))(@swc/core@1.16.20(@swc/helpers@0.5.23))(nx@24.0.2(@swc-node/register@1.12.1(@swc/core@1.16.20(@swc/helpers@0.5.23))(@swc/types@0.1.28)(supports-color@7.2.0)(typescript@6.0.3))(@swc/core@1.16.20(@swc/helpers@0.5.23)))(supports-color@7.2.0)(verdaccio@6.11.1(supports-color@7.2.0)(typanion@3.14.0))
       eslint: 10.13.0(jiti@2.6.1)(supports-color@7.2.0)
       semver: 7.8.5
-      tslib: 2.8.1
+      tslib: 2.9.1
       typescript: 6.0.3
     optionalDependencies:
       '@nx/jest': 24.0.2(@babel/traverse@7.29.7(supports-color@7.2.0))(@swc-node/register@1.12.1(@swc/core@1.16.20(@swc/helpers@0.5.23))(@swc/types@0.1.28)(supports-color@7.2.0)(typescript@6.0.3))(@swc/cli@0.8.2(@swc/core@1.16.20(@swc/helpers@0.5.23))(supports-color@7.2.0))(@swc/core@1.16.20(@swc/helpers@0.5.23))(@types/node@26.6.6)(babel-plugin-macros@3.1.0)(nx@24.0.2(@swc-node/register@1.12.1(@swc/core@1.16.20(@swc/helpers@0.5.23))(@swc/types@0.1.28)(supports-color@7.2.0)(typescript@6.0.3))(@swc/core@1.16.20(@swc/helpers@0.5.23)))(supports-color@7.2.0)(ts-node@10.9.2(@swc/core@1.16.20(@swc/helpers@0.5.23))(@types/node@26.6.6)(typescript@6.0.3))(typescript@6.0.3)(verdaccio@6.11.1(supports-color@7.2.0)(typanion@3.14.0))
@@ -8210,7 +8213,7 @@ snapshots:
       picomatch: 4.0.4
       resolve.exports: 2.0.3
       semver: 7.8.5
-      tslib: 2.8.1
+      tslib: 2.9.1
       yargs-parser: 21.1.1
     transitivePeerDependencies:
       - '@babel/traverse'
@@ -8256,7 +8259,7 @@ snapshots:
       semver: 7.8.5
       source-map-support: 0.5.19
       tinyglobby: 0.2.17
-      tslib: 2.8.1
+      tslib: 2.9.1
     optionalDependencies:
       '@swc/cli': 0.8.2(@swc/core@1.16.20(@swc/helpers@0.5.23))(supports-color@7.2.0)
       verdaccio: 6.11.1(supports-color@7.2.0)(typanion@3.14.0)
@@ -8303,7 +8306,7 @@ snapshots:
       '@nx/eslint': 24.0.2(ac7ff30de5a4548196e7c69303200c73)
       '@nx/jest': 24.0.2(@babel/traverse@7.29.7(supports-color@7.2.0))(@swc-node/register@1.12.1(@swc/core@1.16.20(@swc/helpers@0.5.23))(@swc/types@0.1.28)(supports-color@7.2.0)(typescript@6.0.3))(@swc/cli@0.8.2(@swc/core@1.16.20(@swc/helpers@0.5.23))(supports-color@7.2.0))(@swc/core@1.16.20(@swc/helpers@0.5.23))(@types/node@26.6.6)(babel-plugin-macros@3.1.0)(nx@24.0.2(@swc-node/register@1.12.1(@swc/core@1.16.20(@swc/helpers@0.5.23))(@swc/types@0.1.28)(supports-color@7.2.0)(typescript@6.0.3))(@swc/core@1.16.20(@swc/helpers@0.5.23)))(supports-color@7.2.0)(ts-node@10.9.2(@swc/core@1.16.20(@swc/helpers@0.5.23))(@types/node@26.6.6)(typescript@6.0.3))(typescript@6.0.3)(verdaccio@6.11.1(supports-color@7.2.0)(typanion@3.14.0))
       '@nx/js': 24.0.2(@babel/traverse@7.29.7(supports-color@7.2.0))(@swc-node/register@1.12.1(@swc/core@1.16.20(@swc/helpers@0.5.23))(@swc/types@0.1.28)(supports-color@7.2.0)(typescript@6.0.3))(@swc/cli@0.8.2(@swc/core@1.16.20(@swc/helpers@0.5.23))(supports-color@7.2.0))(@swc/core@1.16.20(@swc/helpers@0.5.23))(nx@24.0.2(@swc-node/register@1.12.1(@swc/core@1.16.20(@swc/helpers@0.5.23))(@swc/types@0.1.28)(supports-color@7.2.0)(typescript@6.0.3))(@swc/core@1.16.20(@swc/helpers@0.5.23)))(supports-color@7.2.0)(verdaccio@6.11.1(supports-color@7.2.0)(typanion@3.14.0))
-      tslib: 2.8.1
+      tslib: 2.9.1
     optionalDependencies:
       '@nx/vitest': 24.0.2(@babel/traverse@7.29.7(supports-color@7.2.0))(@nx/eslint@24.0.2(ac7ff30de5a4548196e7c69303200c73))(@swc-node/register@1.12.1(@swc/core@1.16.20(@swc/helpers@0.5.23))(@swc/types@0.1.28)(supports-color@7.2.0)(typescript@6.0.3))(@swc/cli@0.8.2(@swc/core@1.16.20(@swc/helpers@0.5.23))(supports-color@7.2.0))(@swc/core@1.16.20(@swc/helpers@0.5.23))(nx@24.0.2(@swc-node/register@1.12.1(@swc/core@1.16.20(@swc/helpers@0.5.23))(@swc/types@0.1.28)(supports-color@7.2.0)(typescript@6.0.3))(@swc/core@1.16.20(@swc/helpers@0.5.23)))(supports-color@7.2.0)(typescript@6.0.3)(verdaccio@6.11.1(supports-color@7.2.0)(typanion@3.14.0))(vite@8.3.5(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.6.1)(tsx@4.23.15)(yaml@2.9.1))(vitest@5.0.5)
     transitivePeerDependencies:
@@ -8333,7 +8336,7 @@ snapshots:
       ajv: 8.20.0
       picomatch: 4.0.4
       semver: 7.8.5
-      tslib: 2.8.1
+      tslib: 2.9.1
       vite: 8.3.5(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.6.1)(tsx@4.23.15)(yaml@2.9.1)
     transitivePeerDependencies:
       - '@babel/traverse'
@@ -8353,7 +8356,7 @@ snapshots:
       '@nx/js': 24.0.2(@babel/traverse@7.29.7(supports-color@7.2.0))(@swc-node/register@1.12.1(@swc/core@1.16.20(@swc/helpers@0.5.23))(@swc/types@0.1.28)(supports-color@7.2.0)(typescript@6.0.3))(@swc/cli@0.8.2(@swc/core@1.16.20(@swc/helpers@0.5.23))(supports-color@7.2.0))(@swc/core@1.16.20(@swc/helpers@0.5.23))(nx@24.0.2(@swc-node/register@1.12.1(@swc/core@1.16.20(@swc/helpers@0.5.23))(@swc/types@0.1.28)(supports-color@7.2.0)(typescript@6.0.3))(@swc/core@1.16.20(@swc/helpers@0.5.23)))(supports-color@7.2.0)(verdaccio@6.11.1(supports-color@7.2.0)(typanion@3.14.0))
       '@phenomnomnominal/tsquery': 6.2.0(typescript@6.0.3)
       semver: 7.8.5
-      tslib: 2.8.1
+      tslib: 2.9.1
     optionalDependencies:
       '@nx/eslint': 24.0.2(ac7ff30de5a4548196e7c69303200c73)
       vite: 8.3.5(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.6.1)(tsx@4.23.15)(yaml@2.9.1)
@@ -8376,7 +8379,7 @@ snapshots:
       nx: 24.0.2(@swc-node/register@1.12.1(@swc/core@1.16.20(@swc/helpers@0.5.23))(@swc/types@0.1.28)(supports-color@7.2.0)(typescript@6.0.3))(@swc/core@1.16.20(@swc/helpers@0.5.23))
       picomatch: 4.0.4
       semver: 7.8.5
-      tslib: 2.8.1
+      tslib: 2.9.1
       yargs-parser: 21.1.1
     transitivePeerDependencies:
       - '@swc-node/register'
@@ -8616,7 +8619,7 @@ snapshots:
       fast-json-stable-stringify: 2.1.0
       oxc-resolver: 11.20.0
       pirates: 4.0.7
-      tslib: 2.8.1
+      tslib: 2.9.1
       typescript: 6.0.3
     transitivePeerDependencies:
       - '@swc/types'
@@ -8625,7 +8628,7 @@ snapshots:
   '@swc-node/sourcemap-support@0.6.1':
     dependencies:
       source-map-support: 0.5.21
-      tslib: 2.8.1
+      tslib: 2.9.1
 
   '@swc/cli@0.8.2(@swc/core@1.16.20(@swc/helpers@0.5.23))(supports-color@7.2.0)':
     dependencies:
@@ -8705,7 +8708,7 @@ snapshots:
 
   '@swc/helpers@0.5.23':
     dependencies:
-      tslib: 2.8.1
+      tslib: 2.9.1
 
   '@swc/types@0.1.28':
     dependencies:
@@ -8732,12 +8735,12 @@ snapshots:
 
   '@tybys/wasm-util@0.10.3':
     dependencies:
-      tslib: 2.8.1
+      tslib: 2.9.1
     optional: true
 
   '@tybys/wasm-util@0.9.0':
     dependencies:
-      tslib: 2.8.1
+      tslib: 2.9.1
 
   '@types/aria-query@5.0.4': {}
 
@@ -12197,7 +12200,7 @@ snapshots:
 
   rxjs@7.8.2:
     dependencies:
-      tslib: 2.8.1
+      tslib: 2.9.1
 
   safe-buffer@5.1.2: {}
 
@@ -12635,6 +12638,8 @@ snapshots:
       strip-bom: 3.0.0
 
   tslib@2.8.1: {}
+
+  tslib@2.9.1: {}
 
   tsx@4.23.15:
     dependencies:
