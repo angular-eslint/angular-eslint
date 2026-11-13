@@ -1,6 +1,7 @@
 import type { AST } from '@angular-eslint/bundled-angular-compiler';
 import {
   ASTWithSource,
+  BindingType,
   LiteralArray,
   LiteralMap,
   LiteralPrimitive,
@@ -16,8 +17,16 @@ import { toPattern } from '../utils/to-pattern';
 
 export type Options = [];
 export type MessageIds =
-  'validAria' | 'validAriaValue' | 'suggestRemoveInvalidAria';
+  | 'validAria'
+  | 'validAriaValue'
+  | 'suggestRemoveInvalidAria'
+  | 'invalidAttrBindingName'
+  | 'suggestRenameAria';
 export const RULE_NAME = 'valid-aria';
+
+type BoundAttributeWithOriginalType = TmplAstBoundAttribute & {
+  readonly __originalType?: BindingType;
+};
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
@@ -34,6 +43,9 @@ export default createESLintRule<Options, MessageIds>({
       validAriaValue:
         'The `{{attribute}}` has an invalid value. Check the valid values at https://raw.githack.com/w3c/aria/stable/#roles',
       suggestRemoveInvalidAria: 'Remove attribute `{{attribute}}`',
+      invalidAttrBindingName:
+        '`attr.{{attribute}}` sets a literal attribute named `{{attribute}}`; use the hyphenated `attr.{{suggested}}` instead',
+      suggestRenameAria: 'Rename to `{{suggested}}`',
     },
     defaultOptions: [],
   },
@@ -48,32 +60,79 @@ export default createESLintRule<Options, MessageIds>({
       ...uppercaseDomElements,
     ]);
 
+    function reportInvalidAria(
+      node: TmplAstBoundAttribute | TmplAstTextAttribute,
+    ): void {
+      const { name: attribute, sourceSpan } = node;
+
+      context.report({
+        loc: parserServices.convertNodeSourceSpanToLoc(sourceSpan),
+        messageId: 'validAria',
+        data: { attribute },
+        suggest: [
+          {
+            messageId: 'suggestRemoveInvalidAria',
+            data: { attribute },
+            fix: (fixer) =>
+              fixer.removeRange([
+                sourceSpan.start.offset - 1,
+                sourceSpan.end.offset,
+              ]),
+          },
+        ],
+      });
+    }
+
     return {
-      [`Element[name=${elementNamePattern}] > :matches(BoundAttribute, TextAttribute)[name=/^aria-.+/]`](
+      'Element > BoundAttribute[name=/^aria[A-Z]/]'(
+        node: TmplAstBoundAttribute,
+      ) {
+        if (!isAttributeBinding(node)) {
+          return;
+        }
+
+        const { name: attribute, sourceSpan, keySpan } = node;
+        const suggested = `aria-${attribute.slice('aria'.length).toLowerCase()}`;
+
+        // Only suggest a rename when the hyphenated name is a real ARIA attribute.
+        if (!aria.get(suggested as ARIAProperty)) {
+          reportInvalidAria(node);
+          return;
+        }
+
+        context.report({
+          loc: parserServices.convertNodeSourceSpanToLoc(sourceSpan),
+          messageId: 'invalidAttrBindingName',
+          data: { attribute, suggested },
+          suggest: [
+            {
+              messageId: 'suggestRenameAria',
+              data: { suggested: `attr.${suggested}` },
+              fix: (fixer) =>
+                fixer.replaceTextRange(
+                  [keySpan.end.offset - attribute.length, keySpan.end.offset],
+                  suggested,
+                ),
+            },
+          ],
+        });
+      },
+      [`Element[name=${elementNamePattern}] > :matches(BoundAttribute, TextAttribute)[name=/^[aA][rR][iI][aA]-.+/]`](
         node: TmplAstBoundAttribute | TmplAstTextAttribute,
       ) {
         const { name: attribute, sourceSpan } = node;
-        const ariaPropertyDefinition = aria.get(attribute as ARIAProperty);
+        // Only `attr.` bindings are matched case-insensitively.
+        if (!attribute.startsWith('aria-') && !isAttributeBinding(node)) {
+          return;
+        }
+
+        const ariaPropertyDefinition = aria.get(
+          attribute.toLowerCase() as ARIAProperty,
+        );
         const loc = parserServices.convertNodeSourceSpanToLoc(sourceSpan);
 
         if (!ariaPropertyDefinition) {
-          context.report({
-            loc,
-            messageId: 'validAria',
-            data: { attribute },
-            suggest: [
-              {
-                messageId: 'suggestRemoveInvalidAria',
-                data: { attribute },
-                fix: (fixer) =>
-                  fixer.removeRange([
-                    sourceSpan.start.offset - 1,
-                    sourceSpan.end.offset,
-                  ]),
-              },
-            ],
-          });
-
+          reportInvalidAria(node);
           return;
         }
 
@@ -98,6 +157,16 @@ export default createESLintRule<Options, MessageIds>({
     };
   },
 });
+
+function isAttributeBinding(
+  node: TmplAstBoundAttribute | TmplAstTextAttribute,
+): boolean {
+  return (
+    node instanceof TmplAstBoundAttribute &&
+    (node as BoundAttributeWithOriginalType).__originalType ===
+      BindingType.Attribute
+  );
+}
 
 function isLiteralCollection(ast: unknown): ast is LiteralArray | LiteralMap {
   return ast instanceof LiteralArray || ast instanceof LiteralMap;
