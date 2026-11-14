@@ -199,6 +199,33 @@ interface Options {
                                        ~~~~~~~
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-interpolation-in-attributes": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<a href="{{ base }}{{ path }}"></a>
+         ~~~~~~~~~~~~~~~~~~~~
+```
+
 </details>
 
 <br>

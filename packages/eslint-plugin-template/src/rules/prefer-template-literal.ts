@@ -110,6 +110,13 @@ function flattenBinaryConcat(node: AST): readonly ConcatPart[] {
   return [{ type: 'expression', node: unwrapped }];
 }
 
+function escapeLiteral(value: string, quote: Quote): string {
+  const escaped = value
+    .replaceAll('\\', '\\\\')
+    .replaceAll(quote, `\\${quote}`);
+  return quote === '`' ? escaped.replaceAll('${', '\\${') : escaped;
+}
+
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
   meta: {
@@ -226,15 +233,14 @@ export default createESLintRule<Options, MessageIds>({
             // Build the replacement string from all parts
             const effectiveQuote = quote === '' ? '`' : quote;
             let replacement = '';
+            let pendingLiteral = '';
 
             for (const part of parts) {
               if (part.type === 'literal') {
-                // Escape the quote character in the value
-                replacement += part.value.replaceAll(
-                  effectiveQuote,
-                  `\\${effectiveQuote}`,
-                );
+                pendingLiteral += part.value;
               } else {
+                replacement += escapeLiteral(pendingLiteral, effectiveQuote);
+                pendingLiteral = '';
                 // Expression - wrap in ${}
                 const exprText = sourceCode.text.slice(
                   part.node.sourceSpan.start,
@@ -243,6 +249,7 @@ export default createESLintRule<Options, MessageIds>({
                 replacement += `\${${exprText}}`;
               }
             }
+            replacement += escapeLiteral(pendingLiteral, effectiveQuote);
 
             // Add quotes if not inside a template literal
             if (!parentIsTemplateLiteral) {

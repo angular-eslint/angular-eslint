@@ -1172,6 +1172,57 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
            
       `,
   }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should escape backslashes in literals when converting to a template literal',
+    annotatedSource: `
+        {{ '\\\\' + name }}
+           ~~~~~~~~~~~
+      `,
+    annotatedOutput: `
+        {{ \`\\\\\${name}\` }}
+           
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should escape backslashes in Windows-style paths when converting to a template literal',
+    annotatedSource: `
+        {{ 'C:\\\\new\\\\' + name }}
+           ~~~~~~~~~~~~~~~~~~
+      `,
+    annotatedOutput: `
+        {{ \`C:\\\\new\\\\\${name}\` }}
+           
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description: 'should escape backslashes when all parts are string literals',
+    annotatedSource: `
+        {{ 'a\\\\' + 'b' }}
+           ~~~~~~~~~~~
+      `,
+    annotatedOutput: `
+        {{ 'a\\\\b' }}
+           
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should escape "${" formed by adjacent literals when converting to a template literal',
+    annotatedSource: `
+        {{ 'cost: $' + '{' + n + '}' }}
+           ~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    annotatedOutput: `
+        {{ \`cost: \\\${\${n}}\` }}
+           
+      `,
+  }),
 ].map((test) => ({
   // Give every test a default file name so that we confirm
   // that the early-exit condition for inline templates
