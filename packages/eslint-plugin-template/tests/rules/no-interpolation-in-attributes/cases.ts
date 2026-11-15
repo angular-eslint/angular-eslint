@@ -82,4 +82,13 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
                                               
       `,
   }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail and not autofix if the attribute value is made of adjacent interpolations',
+    annotatedSource: `
+        <a href="{{ base }}{{ path }}"></a>
+                 ~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId,
+  }),
 ];
