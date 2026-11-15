@@ -13,6 +13,7 @@
     "**/*.test.jsx",
     "**/*.d.ts"
   ],
+  "exclude": ["node_modules", "dist"],
   "references": [
     {
       "path": "./tsconfig.lib.json"

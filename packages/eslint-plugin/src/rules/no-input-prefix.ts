@@ -122,6 +122,26 @@ export default createESLintRule<Options, MessageIds>({
           });
         }
       },
+      [Selectors.SIGNAL_INPUT_OR_MODEL_ALIAS](
+        node: TSESTree.Literal | TSESTree.TemplateElement,
+      ) {
+        const aliasName = ASTUtils.getRawText(node);
+        const hasDisallowedPrefix = prefixes.some((prefix) =>
+          isDisallowedPrefix(prefix, aliasName),
+        );
+
+        if (!hasDisallowedPrefix) {
+          return;
+        }
+
+        context.report({
+          node,
+          messageId: 'noInputPrefix',
+          data: {
+            prefixes: toHumanReadableText(prefixes),
+          },
+        });
+      },
       [Selectors.INPUTS_METADATA_PROPERTY_LITERAL](
         node: TSESTree.Identifier | TSESTree.Literal | TSESTree.TemplateElement,
       ) {
