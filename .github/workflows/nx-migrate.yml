@@ -36,7 +36,7 @@ permissions:
 jobs:
   maybe_nx_migrate:
     # Only run if it was the renovate bot that triggered the workflow (otherwise we'll create a loop)
-    if: contains('["renovate[bot]"]', github.actor) == true
+    if: github.actor == 'renovate[bot]'
     name: Run nx migrate if required
     runs-on: ubuntu-latest
     permissions:
