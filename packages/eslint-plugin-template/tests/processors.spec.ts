@@ -993,6 +993,47 @@ describe('createProcessor', () => {
     ]);
   });
 
+  it('adjusts the fix ranges of suggestions from inline templates', () => {
+    const fileContent = `
+      @Component({
+        template: '<div>{{ a == b }}</div>',
+      })
+      export class Component {}
+    `;
+    processor.preprocess(fileContent, 'suggestion-template.component.ts');
+    const suggestion = {
+      messageId: 'suggestStrictEquality',
+      desc: 'Replace `==` with `===`',
+      fix: { range: [11, 11], text: '=' },
+    };
+    const mockError = {
+      ruleId: 'eqeqeq',
+      severity: 2,
+      message: 'Expected `===` but received `==`',
+      line: 1,
+      column: 9,
+      nodeType: 'Binary',
+      messageId: 'eqeqeq',
+      endLine: 1,
+      endColumn: 15,
+      suggestions: [suggestion],
+    };
+    const start = fileContent.indexOf('<div>') + 11;
+
+    expect(
+      processor.postprocess(
+        [[], [mockError]],
+        'suggestion-template.component.ts',
+      ),
+    ).toEqual([
+      expect.objectContaining({
+        suggestions: [
+          { ...suggestion, fix: { range: [start, start], text: '=' } },
+        ],
+      }),
+    ]);
+  });
+
   it('skips entire TypeScript-substituted templates, including static attribute neighbors', async () => {
     const input =
       'import { Component } from "@angular/core"; @Component({ template: `<div style="margin:${width}px"></div><div style="margin:0"></div>` }) class Example {}';
