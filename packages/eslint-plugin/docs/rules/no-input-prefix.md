@@ -856,6 +856,251 @@ class Test {
 }
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-prefix": [
+      "error",
+      {
+        "prefixes": [
+          "is"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component()
+class Test {
+  profile = input({ alias: 'isPrimary' }, { alias: 'isProfile' });
+                                                   ~~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-prefix": [
+      "error",
+      {
+        "prefixes": [
+          "is"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component()
+class Test {
+  selection = model({ alias: 'x' }, { alias: 'isSelection' });
+                                             ~~~~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-prefix": [
+      "error",
+      {
+        "prefixes": [
+          "is"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component()
+class Test {
+  value = input.required({ alias: 'isValue', transform: booleanAttribute });
+                                  ~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-prefix": [
+      "error",
+      {
+        "prefixes": [
+          "is"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component()
+class Test {
+  disabled = input(false, { 'alias': 'isDisabled' });
+                                     ~~~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-prefix": [
+      "error",
+      {
+        "prefixes": [
+          "is"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component()
+class Test {
+  required = input.required<boolean>({ "alias": 'isRequired' });
+                                                ~~~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-prefix": [
+      "error",
+      {
+        "prefixes": [
+          "is"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component()
+class Test {
+  open = model(false, { 'alias': 'isOpen' });
+                                 ~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-prefix": [
+      "error",
+      {
+        "prefixes": [
+          "is"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component()
+class Test {
+  checked = model.required<boolean>({ 'alias': 'isChecked' });
+                                               ~~~~~~~~~~~
+}
+```
+
 </details>
 
 <br>
@@ -1540,6 +1785,43 @@ class Test {
   required = input.required<boolean>({ alias: 'required' });
   open = model(false, { alias: 'open' });
   checked = model.required<boolean>({ alias: 'checked' });
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-input-prefix": [
+      "error",
+      {
+        "prefixes": [
+          "is"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component()
+class Test {
+  readonly profile = input({ alias: 'isPrimary' });
+  readonly settings = input({ 'alias': 'isPrimary' });
+  readonly selection = model({ alias: 'isPrimary' }, { alias: 'selection' });
+  readonly options = model({ 'alias': 'isPrimary' });
 }
 ```
 

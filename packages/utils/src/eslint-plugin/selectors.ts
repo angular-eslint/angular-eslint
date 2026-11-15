@@ -86,7 +86,23 @@ export const INPUT_PROPERTY_OR_SETTER = [
   `PropertyDefinition[computed=false][value.type='CallExpression']${signalInputOrModelCallee('value.callee')} > :matches(Identifier, Literal)`,
 ].join(',');
 
-export const SIGNAL_INPUT_OR_MODEL_ALIAS = `PropertyDefinition > CallExpression${signalInputOrModelCallee('callee')} > ${ALIAS_PROPERTY_VALUE}`;
+// input(initialValue, options) and model(initialValue, options) take their
+// options as the second argument, while input.required(options) and
+// model.required(options) take them as the first. Only the options argument
+// is inspected, so an object passed as the initial value is not mistaken for
+// options. The alias key may be an identifier or a string literal.
+const SIGNAL_INPUT_OR_MODEL_OPTIONS = [
+  `PropertyDefinition > CallExpression[callee.type='Identifier'][callee.name=/^(input|model)$/] > ObjectExpression:nth-child(2)`,
+  `PropertyDefinition > CallExpression[callee.type='MemberExpression'][callee.object.name=/^(input|model)$/][callee.property.name='required'] > ObjectExpression:first-child`,
+];
+
+const SIGNAL_ALIAS_PROPERTY = `Property:matches([key.name='alias'][computed=false], [key.value='alias'])`;
+
+export const SIGNAL_INPUT_OR_MODEL_ALIAS =
+  SIGNAL_INPUT_OR_MODEL_OPTIONS.flatMap((options) => [
+    `${options} > ${SIGNAL_ALIAS_PROPERTY} > Literal.value`,
+    `${options} > ${SIGNAL_ALIAS_PROPERTY} > TemplateLiteral.value > TemplateElement`,
+  ]).join(',');
 
 export const OUTPUTS_METADATA_PROPERTY_LITERAL = `${COMPONENT_OR_DIRECTIVE_CLASS_DECORATOR} ${metadataProperty(
   'outputs',

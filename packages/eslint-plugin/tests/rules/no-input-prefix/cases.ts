@@ -196,6 +196,18 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     `,
     options: [{ prefixes: ['is'] }],
   },
+  {
+    code: `
+      @Component()
+      class Test {
+        readonly profile = input({ alias: 'isPrimary' });
+        readonly settings = input({ 'alias': 'isPrimary' });
+        readonly selection = model({ alias: 'isPrimary' }, { alias: 'selection' });
+        readonly options = model({ 'alias': 'isPrimary' });
+      }
+    `,
+    options: [{ prefixes: ['is'] }],
+  },
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
@@ -515,6 +527,104 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         class Test {
           checked = model.required<boolean>({ alias: 'isChecked' });
                                                      ~~~~~~~~~~~
+        }
+      `,
+    messageId,
+    options: [{ prefixes: ['is'] }],
+    data: { prefixes: '"is"' },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if signal input with an object default value is aliased with "is" prefix',
+    annotatedSource: `
+        @Component()
+        class Test {
+          profile = input({ alias: 'isPrimary' }, { alias: 'isProfile' });
+                                                           ~~~~~~~~~~~
+        }
+      `,
+    messageId,
+    options: [{ prefixes: ['is'] }],
+    data: { prefixes: '"is"' },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if model input with an object default value is aliased with "is" prefix',
+    annotatedSource: `
+        @Component()
+        class Test {
+          selection = model({ alias: 'x' }, { alias: 'isSelection' });
+                                                     ~~~~~~~~~~~~~
+        }
+      `,
+    messageId,
+    options: [{ prefixes: ['is'] }],
+    data: { prefixes: '"is"' },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if required signal input options passed as the first argument are aliased with "is" prefix',
+    annotatedSource: `
+        @Component()
+        class Test {
+          value = input.required({ alias: 'isValue', transform: booleanAttribute });
+                                          ~~~~~~~~~
+        }
+      `,
+    messageId,
+    options: [{ prefixes: ['is'] }],
+    data: { prefixes: '"is"' },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if signal input is aliased with "is" prefix using a quoted alias key',
+    annotatedSource: `
+        @Component()
+        class Test {
+          disabled = input(false, { 'alias': 'isDisabled' });
+                                             ~~~~~~~~~~~~
+        }
+      `,
+    messageId,
+    options: [{ prefixes: ['is'] }],
+    data: { prefixes: '"is"' },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if required signal input is aliased with "is" prefix using a quoted alias key',
+    annotatedSource: `
+        @Component()
+        class Test {
+          required = input.required<boolean>({ "alias": 'isRequired' });
+                                                        ~~~~~~~~~~~~
+        }
+      `,
+    messageId,
+    options: [{ prefixes: ['is'] }],
+    data: { prefixes: '"is"' },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if model input is aliased with "is" prefix using a quoted alias key',
+    annotatedSource: `
+        @Component()
+        class Test {
+          open = model(false, { 'alias': 'isOpen' });
+                                         ~~~~~~~~
+        }
+      `,
+    messageId,
+    options: [{ prefixes: ['is'] }],
+    data: { prefixes: '"is"' },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if required model input is aliased with "is" prefix using a quoted alias key',
+    annotatedSource: `
+        @Component()
+        class Test {
+          checked = model.required<boolean>({ 'alias': 'isChecked' });
+                                                       ~~~~~~~~~~~
         }
       `,
     messageId,
