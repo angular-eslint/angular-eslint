@@ -207,11 +207,19 @@ jobs:
       - name: Use npm 11.5.2
         run: npm install -g npm@11.5.2
 
-      - name: Install dependencies and build packages
+      - name: Install dependencies (skipping lifecycle scripts)
+        # SECURITY: This job can publish to npm (and the stable job also holds a PAT), so we use
+        # --ignore-scripts to ensure that no dependency install scripts can run here
+        run: pnpm install --frozen-lockfile --prefer-offline --ignore-scripts
+
+      - name: Build packages
         env:
           NX_CLOUD_DISTRIBUTED_EXECUTION: false
-        run: |
-          pnpm install --frozen-lockfile --prefer-offline
+        run: pnpm build
+
+      - name: Check for a clean workspace after build
+        # The published packages must match the committed source
+        run: pnpm check-clean-workspace-after-install
 
       - name: Calculate and apply canary version
         run: pnpm tsx ./tools/scripts/apply-canary-version.ts
@@ -264,11 +272,19 @@ jobs:
       - name: Use npm 11.5.2
         run: npm install -g npm@11.5.2
 
-      - name: Install dependencies and build packages
+      - name: Install dependencies (skipping lifecycle scripts)
+        # SECURITY: This job can publish to npm (and the stable job also holds a PAT), so we use
+        # --ignore-scripts to ensure that no dependency install scripts can run here
+        run: pnpm install --frozen-lockfile --prefer-offline --ignore-scripts
+
+      - name: Build packages
         env:
           NX_CLOUD_DISTRIBUTED_EXECUTION: false
-        run: |
-          pnpm install --frozen-lockfile --prefer-offline
+        run: pnpm build
+
+      - name: Check for a clean workspace after build
+        # The published packages must match the committed source
+        run: pnpm check-clean-workspace-after-install
 
       - name: Configure git user for automated commits
         run: |
