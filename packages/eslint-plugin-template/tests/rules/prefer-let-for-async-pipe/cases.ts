@@ -103,6 +103,121 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     `,
     settings: { hideFromDocs: true },
   },
+  {
+    code: `
+      @let user$ = selectedUser$;
+      {{ user$ | async }} {{ this.user$ | async }}
+    `,
+    settings: { hideFromDocs: true },
+  },
+  {
+    code: `
+      @let user$ = selectedUser$;
+      @if (condition) {
+        {{ user$ | async }} {{ this.user$ | async }}
+      }
+    `,
+    settings: { hideFromDocs: true },
+  },
+  {
+    code: `
+      @for (user$ of streams; track $index) {
+        {{ user$ | async }} {{ this.user$ | async }}
+      }
+    `,
+    settings: { hideFromDocs: true },
+  },
+  {
+    code: `
+      @for (stream of streams; track $index; let user$ = $index) {
+        @if (condition) {
+          {{ user$ | async }} {{ this.user$ | async }}
+        }
+      }
+    `,
+    settings: { hideFromDocs: true },
+  },
+  {
+    code: `
+      <ng-template let-user$>
+        {{ user$ | async }} {{ this.user$ | async }}
+      </ng-template>
+    `,
+    settings: { hideFromDocs: true },
+  },
+  {
+    code: `
+      <ng-template let-user$>
+        @if (condition) {
+          {{ user$ | async }} {{ this.user$ | async }}
+        }
+      </ng-template>
+    `,
+    settings: { hideFromDocs: true },
+  },
+  {
+    code: `
+      <div *ngFor="let user$ of streams">
+        {{ user$ | async }} {{ this.user$ | async }}
+      </div>
+    `,
+    settings: { hideFromDocs: true },
+  },
+  {
+    code: `
+      @if (selectedUser$; as user$) {
+        {{ user$ | async }} {{ this.user$ | async }}
+      }
+    `,
+    settings: { hideFromDocs: true },
+  },
+  {
+    code: `
+      <user-card #card />
+      {{ card.user$ | async }} {{ this.card.user$ | async }}
+    `,
+    settings: { hideFromDocs: true },
+  },
+  {
+    code: `
+      <section *ngIf="visible" [title]="user$ | async"></section>
+    `,
+    settings: { hideFromDocs: true },
+  },
+  {
+    code: `
+      <section *ngIf="visible" [title]="user$ | async"></section>
+      <section *ngIf="visible" [title]="user$ | async"></section>
+    `,
+    settings: { hideFromDocs: true },
+  },
+  {
+    code: `
+      <section *ngIf="user$ | async" [title]="user$ | async"></section>
+    `,
+    settings: { hideFromDocs: true },
+  },
+  {
+    code: `
+      @boundary {
+        {{ user$ | async }}
+      } @error {
+        {{ user$ | async }}
+      }
+      {{ user$ | async }}
+    `,
+    settings: { hideFromDocs: true },
+  },
+  {
+    code: `
+      @boundary {
+        <p>Loaded</p>
+      } @error (let user$ = $error) {
+        {{ user$ | async }} {{ this.user$ | async }}
+      }
+    `,
+    settings: { hideFromDocs: true },
+  },
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
@@ -294,6 +409,59 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     annotatedSource: `
       <div [title]="user$ | async" [attr.aria-label]="user$ | async"></div>
                                                       ~~~~~~~~~~~~~
+    `,
+    messages: [{ char: '~', messageId }],
+    settings: { hideFromDocs: true },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'detects implicit and explicit this receivers when a local in another view has the same name',
+    annotatedSource: `
+      @if (condition) {
+        @let user$ = selectedUser$;
+      }
+      {{ user$ | async }}
+      {{ this.user$ | async }}
+         ~~~~~~~~~~~~~~~~~~
+    `,
+    messages: [{ char: '~', messageId }],
+    settings: { hideFromDocs: true },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'detects repeated reads of the same template local',
+    annotatedSource: `
+      @let user$ = selectedUser$;
+      {{ user$ | async }}
+      {{ this.user$ | async }}
+      {{ user$ | async }}
+         ~~~~~~~~~~~~~
+      {{ this.user$ | async }}
+         ^^^^^^^^^^^^^^^^^^
+    `,
+    messages: [
+      { char: '~', messageId },
+      { char: '^', messageId },
+    ],
+    settings: { hideFromDocs: true },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'detects duplicate inputs on an element with a structural directive once',
+    annotatedSource: `
+      <section *ngIf="visible" [title]="user$ | async" [attr.aria-label]="user$ | async"></section>
+                                                                          ~~~~~~~~~~~~~
+    `,
+    messages: [{ char: '~', messageId }],
+    settings: { hideFromDocs: true },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'detects duplicate pipes within a boundary error view',
+    annotatedSource: `
+      @boundary { <p>Loaded</p> } @error {
+        {{ user$ | async }}
+        {{ user$ | async }}
+           ~~~~~~~~~~~~~
+      }
     `,
     messages: [{ char: '~', messageId }],
     settings: { hideFromDocs: true },
