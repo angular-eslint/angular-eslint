@@ -33,6 +33,15 @@ export const valid: readonly string[] = [
   `<div [class]="{ 'a\\u00A0b': cond }"></div>`,
   // Spread entries are not keys
   `<div [class]="{ ...base, active: isActive }"></div>`,
+  `<div [class]="{ ...{ active: isActive } }"></div>`,
+  `<div [class]="{ active: isActive }!"></div>`,
+  // HTML entities in a valid class map
+  `<div [class]="{ active: isOpen() &amp;&amp; !disabled }"></div>`,
+  `<div [class]="{ &quot;active&quot;: cond }"></div>`,
+  // An escaped interpolation start in a template literal key is plain text
+  `<div [class]="{ \`a\\\${b}\`: cond }"></div>`,
+  // Repeated single-token keys are not multi-token keys
+  `<div [class]="{ 'a': x, 'a': y }"></div>`,
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
@@ -319,6 +328,136 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         output: `
         <div [class]="{ 'content-[\\'x\\']': x, 'block': x }"></div>
                         
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should report the whole value without a suggestion when an HTML entity shifts the condition',
+    annotatedSource: `
+        <div [class]="{ 'a b': isOpen() &amp;&amp; !disabled }"></div>
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId,
+    suggestions: [],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should report the whole value without a suggestion when the key is quoted with an HTML entity',
+    annotatedSource: `
+        <div [class]="{ &quot;a b&quot;: cond }"></div>
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId,
+    suggestions: [],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should report the whole value without a suggestion when an HTML entity precedes the key',
+    annotatedSource: `
+        <div [class]="{ 'x': a &amp;&amp; b, 'c d': e }"></div>
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId,
+    suggestions: [],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should not suggest a split that duplicates a later key of the same map',
+    annotatedSource: `
+        <div [class]="{ 'text-white bold': a, 'text-white': highContrast() }"></div>
+                        ~~~~~~~~~~~~~~~~~
+      `,
+    messageId,
+    suggestions: [],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should not suggest a split that duplicates an earlier key of the same map',
+    annotatedSource: `
+        <div [class]="{ 'text-white': highContrast(), 'text-white bold': a }"></div>
+                                                      ~~~~~~~~~~~~~~~~~
+      `,
+    messageId,
+    suggestions: [],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should not suggest a split that duplicates a key of the map it is spread into',
+    annotatedSource: `
+        <div [class]="{ 'a': y, ...{ 'a b': x } }"></div>
+                                     ~~~~~
+      `,
+    messageId,
+    suggestions: [],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should still suggest a split when the same class is a key of the other ternary branch',
+    annotatedSource: `
+        <div [class]="cond ? { 'a b': x } : { 'a': y }"></div>
+                               ~~~~~
+      `,
+    messageId,
+    suggestions: [
+      {
+        messageId: suggestionMessageId,
+        output: `
+        <div [class]="cond ? { 'a': x, 'b': x } : { 'a': y }"></div>
+                               
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should keep an escaped interpolation start escaped when splitting a template literal key',
+    annotatedSource: `
+        <div [class]="{ \`a \\\${b} c\`: x }"></div>
+                        ~~~~~~~~~~~
+      `,
+    messageId,
+    suggestions: [
+      {
+        messageId: suggestionMessageId,
+        output: `
+        <div [class]="{ \`a\`: x, \`\\\${b}\`: x, \`c\`: x }"></div>
+                        
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail on a class map with a non-null assertion',
+    annotatedSource: `
+        <div [class]="{ 'a b': x }!"></div>
+                        ~~~~~
+      `,
+    messageId,
+    suggestions: [
+      {
+        messageId: suggestionMessageId,
+        output: `
+        <div [class]="{ 'a': x, 'b': x }!"></div>
+                        
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail on a class map spread inline into the class map',
+    annotatedSource: `
+        <div [class]="{ active: y, ...({ 'a b': x }) }"></div>
+                                         ~~~~~
+      `,
+    messageId,
+    suggestions: [
+      {
+        messageId: suggestionMessageId,
+        output: `
+        <div [class]="{ active: y, ...({ 'a': x, 'b': x }) }"></div>
+                                         
       `,
       },
     ],
