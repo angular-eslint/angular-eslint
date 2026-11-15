@@ -70,13 +70,12 @@ catalogs:
     '@typescript-eslint/utils': '8.72.0'
     typescript-eslint: '8.72.0'
 cleanupUnusedCatalogs: true
-# TODO: Remove this
-# pnpm 11 enforces a default minimumReleaseAge of 1440 minutes (1 day). This
-# version of @types/node was published <24h before our CI install, so it trips
-# the supply-chain gate. Scoped exception (exact version) so it self-expires on
-# the next bump and forces re-evaluation.
-minimumReleaseAgeExclude:
-  - '@types/node@25.9.2'
+# Only resolve package versions that have been published for at least 7 days
+# (10080 minutes), as a precaution against malicious publishes. This matches
+# the minimumReleaseAge in .github/renovate.json, so that transitive versions
+# resolved into the lockfile get the same protection as the updates Renovate
+# proposes. Keep the two in sync, including any exceptions.
+minimumReleaseAge: 10080
 allowBuilds:
   '@swc/core': true
   core-js: false
