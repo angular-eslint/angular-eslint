@@ -115,6 +115,31 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
       c = computed(() => Math.max(...this.values));
     }
   `,
+    // Conservative: 'call()' is a standard library method, but it runs the
+    // function it is called on, which might read a signal.
+    `
+    function helper(): number {
+      return 1;
+    }
+    const c = computed(() => helper.call(undefined));
+  `,
+    // Conservative: 'apply()' runs the function it is called on, too.
+    `
+    function helper(): number {
+      return 1;
+    }
+    const c = computed(() => helper.apply(undefined, []));
+  `,
+    // Conservative: a signal called through 'call()' is treated as unknown,
+    // not as a signal read.
+    `
+    interface WritableSignal<T> {
+      (): T;
+      set(value: T): void;
+    }
+    declare const a: WritableSignal<number>;
+    const c = computed(() => a.call(undefined));
+  `,
     // Conservative: constructing a user-defined class runs arbitrary code.
     `
     class Box {
