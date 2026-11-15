@@ -89,16 +89,21 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     code: `
       import { userEvent } from 'vitest/browser';
 
-      // \`ignorePackages\` lists the npm package that declares the experimental API
+      // Vitest's browser APIs are declared in \`@vitest/browser\` and only
+      // re-exported by \`vitest/browser\`, so \`@vitest/browser\` is the package to list
       await userEvent.pointer({ keys: '[MouseLeft]' });
     `,
-    options: [{ ignorePackages: ['vitest'] }],
+    options: [{ ignorePackages: ['@vitest/browser'] }],
   },
-  `
-    import { userEvent } from 'vitest/browser';
+  {
+    code: `
+      import { userEvent } from 'vitest/browser';
 
-    await userEvent.fill(document.body, 'not experimental');
-  `,
+      // \`userEvent\` is declared in \`@vitest/browser\`, and \`fill\` is not experimental
+      await userEvent.fill(document.body, 'not experimental');
+    `,
+    options: [{ ignorePackages: ['@vitest/browser'] }],
+  },
   {
     code: `
       import { experimentalValue } from '@angular/experimental-lib';
@@ -757,16 +762,31 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'should fail if an experimental method of a package API is used and no packages are ignored',
+      'should fail if an experimental package API and its experimental method are used and no packages are ignored',
     annotatedSource: `
       import { userEvent } from 'vitest/browser';
 
       await userEvent.pointer({ keys: '[MouseLeft]' });
-                      ~~~~~~~
+            ~~~~~~~~~ ^^^^^^^
+`,
+    messages: [
+      { char: '~', messageId, data: { name: 'userEvent' } },
+      { char: '^', messageId, data: { name: 'pointer' } },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail only for the experimental package API when its non-experimental method is used',
+    annotatedSource: `
+      import { userEvent } from 'vitest/browser';
+
+      // \`userEvent\` is experimental, but \`fill\` is not
+      await userEvent.fill(document.body, 'not experimental');
+            ~~~~~~~~~
 `,
     messageId,
     data: {
-      name: 'pointer',
+      name: 'userEvent',
     },
   }),
   convertAnnotatedSourceToFailureCase({
@@ -776,13 +796,30 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       import { userEvent } from 'vitest/browser';
 
       await userEvent.pointer({ keys: '[MouseLeft]' });
-                      ~~~~~~~
+            ~~~~~~~~~ ^^^^^^^
 `,
     options: [{ ignorePackages: ['other-package'] }],
-    messageId,
-    data: {
-      name: 'pointer',
-    },
+    messages: [
+      { char: '~', messageId, data: { name: 'userEvent' } },
+      { char: '^', messageId, data: { name: 'pointer' } },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if only the package re-exporting the experimental API is in ignorePackages',
+    annotatedSource: `
+      import { userEvent } from 'vitest/browser';
+
+      // Vitest's browser APIs are declared in \`@vitest/browser\`, so listing
+      // \`vitest\` does not ignore them
+      await userEvent.pointer({ keys: '[MouseLeft]' });
+            ~~~~~~~~~ ^^^^^^^
+`,
+    options: [{ ignorePackages: ['vitest'] }],
+    messages: [
+      { char: '~', messageId, data: { name: 'userEvent' } },
+      { char: '^', messageId, data: { name: 'pointer' } },
+    ],
   }),
   convertAnnotatedSourceToFailureCase({
     description:

@@ -108,7 +108,7 @@ export default createESLintRule<Options, MessageIds>({
               type: 'string',
             },
             description:
-              'npm package names whose experimental APIs should not be reported. Each entry must be the name of the package that declares the experimental API, wherever it is installed (including nested `node_modules` and pnpm layouts). An API that one package re-exports from another is only ignored when the declaring package is listed.',
+              'npm package names whose experimental APIs should not be reported. Each entry must be the name of the package that declares the experimental API, wherever it is installed (including nested `node_modules` and pnpm layouts). An API that one package re-exports from another is only ignored when the declaring package is listed, for example `@vitest/browser` (not `vitest`) for Vitest browser APIs imported from `vitest/browser`. Type-only packages such as `@types/foo` must be listed by their own name.',
             uniqueItems: true,
           },
         },

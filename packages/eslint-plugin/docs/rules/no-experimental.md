@@ -34,7 +34,7 @@ The rule accepts an options object with the following properties:
 ```ts
 interface Options {
   /**
-   * npm package names whose experimental APIs should not be reported. Each entry must be the name of the package that declares the experimental API, wherever it is installed (including nested `node_modules` and pnpm layouts). An API that one package re-exports from another is only ignored when the declaring package is listed.
+   * npm package names whose experimental APIs should not be reported. Each entry must be the name of the package that declares the experimental API, wherever it is installed (including nested `node_modules` and pnpm layouts). An API that one package re-exports from another is only ignored when the declaring package is listed, for example `@vitest/browser` (not `vitest`) for Vitest browser APIs imported from `vitest/browser`. Type-only packages such as `@types/foo` must be listed by their own name.
    *
    * Default: `[]`
    */
@@ -1352,7 +1352,37 @@ const { experimentalItem } = obj;
 import { userEvent } from 'vitest/browser';
 
 await userEvent.pointer({ keys: '[MouseLeft]' });
-                ~~~~~~~
+      ~~~~~~~~~ ~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-experimental": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+import { userEvent } from 'vitest/browser';
+
+// `userEvent` is experimental, but `fill` is not
+await userEvent.fill(document.body, 'not experimental');
+      ~~~~~~~~~
 ```
 
 <br>
@@ -1386,7 +1416,43 @@ await userEvent.pointer({ keys: '[MouseLeft]' });
 import { userEvent } from 'vitest/browser';
 
 await userEvent.pointer({ keys: '[MouseLeft]' });
-                ~~~~~~~
+      ~~~~~~~~~ ~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-experimental": [
+      "error",
+      {
+        "ignorePackages": [
+          "vitest"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+import { userEvent } from 'vitest/browser';
+
+// Vitest's browser APIs are declared in `@vitest/browser`, so listing
+// `vitest` does not ignore them
+await userEvent.pointer({ keys: '[MouseLeft]' });
+      ~~~~~~~~~ ~~~~~~~
 ```
 
 <br>
@@ -2039,7 +2105,7 @@ const myVar = something;
       "error",
       {
         "ignorePackages": [
-          "vitest"
+          "@vitest/browser"
         ]
       }
     ]
@@ -2054,7 +2120,8 @@ const myVar = something;
 ```ts
 import { userEvent } from 'vitest/browser';
 
-// `ignorePackages` lists the npm package that declares the experimental API
+// Vitest's browser APIs are declared in `@vitest/browser` and only
+// re-exported by `vitest/browser`, so `@vitest/browser` is the package to list
 await userEvent.pointer({ keys: '[MouseLeft]' });
 ```
 
@@ -2064,13 +2131,18 @@ await userEvent.pointer({ keys: '[MouseLeft]' });
 
 <br>
 
-#### Default Config
+#### Custom Config
 
 ```json
 {
   "rules": {
     "@angular-eslint/no-experimental": [
-      "error"
+      "error",
+      {
+        "ignorePackages": [
+          "@vitest/browser"
+        ]
+      }
     ]
   }
 }
@@ -2083,6 +2155,7 @@ await userEvent.pointer({ keys: '[MouseLeft]' });
 ```ts
 import { userEvent } from 'vitest/browser';
 
+// `userEvent` is declared in `@vitest/browser`, and `fill` is not experimental
 await userEvent.fill(document.body, 'not experimental');
 ```
 
