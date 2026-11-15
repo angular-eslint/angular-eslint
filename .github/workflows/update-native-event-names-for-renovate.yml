@@ -34,7 +34,7 @@ permissions:
 jobs:
   maybe_update_native_event_names:
     # Only run if it was the renovate bot that triggered the workflow (otherwise we'll create a loop)
-    if: contains('["renovate[bot]"]', github.actor) == true
+    if: github.actor == 'renovate[bot]'
     name: Update if required
     runs-on: ubuntu-latest
     permissions:
