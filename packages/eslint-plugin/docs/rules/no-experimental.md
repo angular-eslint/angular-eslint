@@ -34,7 +34,7 @@ The rule accepts an options object with the following properties:
 ```ts
 interface Options {
   /**
-   * npm package names whose experimental APIs should not be reported
+   * npm package names whose experimental APIs should not be reported. Each entry must be the name of the package that declares the experimental API, wherever it is installed (including nested `node_modules` and pnpm layouts). An API that one package re-exports from another is only ignored when the declaring package is listed.
    *
    * Default: `[]`
    */
@@ -1349,9 +1349,10 @@ const { experimentalItem } = obj;
 #### ❌ Invalid Code
 
 ```ts
-import { userEvent } from 'vitest';
+import { userEvent } from 'vitest/browser';
 
-userEvent();
+await userEvent.pointer({ keys: '[MouseLeft]' });
+                ~~~~~~~
 ```
 
 <br>
@@ -1382,9 +1383,10 @@ userEvent();
 #### ❌ Invalid Code
 
 ```ts
-import { userEvent } from 'vitest';
+import { userEvent } from 'vitest/browser';
 
-userEvent();
+await userEvent.pointer({ keys: '[MouseLeft]' });
+                ~~~~~~~
 ```
 
 <br>
@@ -1413,6 +1415,182 @@ userEvent();
 import { experimentalValue } from '@angular/experimental-lib';
 
 console.log(experimentalValue);
+            ~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-experimental": [
+      "error",
+      {
+        "ignorePackages": [
+          "@angular"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+import { experimentalValue } from '@angular/experimental-lib';
+
+console.log(experimentalValue);
+            ~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-experimental": [
+      "error",
+      {
+        "ignorePackages": [
+          "@angular/experimental-lib"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+import { experimentalValue } from '@angular/experimental-lib';
+import { experimentalFunction } from './experimental';
+
+console.log(experimentalValue);
+experimentalFunction();
+~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-experimental": [
+      "error",
+      {
+        "ignorePackages": [
+          "allowed"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+import { client } from 'allowed';
+
+// `blocked` is installed at node_modules/allowed/node_modules/blocked
+client.experimentalMethod();
+       ~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-experimental": [
+      "error",
+      {
+        "ignorePackages": [
+          "allowed"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+import { blockedExperimental } from 'allowed';
+
+// `allowed` re-exports this API from `blocked`, which is not ignored
+blockedExperimental();
+~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-experimental": [
+      "error",
+      {
+        "ignorePackages": [
+          ".pnpm",
+          "blocked@1.2.0"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+import { pnpmExperimental } from './node_modules/.pnpm/blocked@1.2.0/node_modules/blocked';
+
+pnpmExperimental();
+~~~~~~~~~~~~~~~~
 ```
 
 </details>
@@ -1874,9 +2052,38 @@ const myVar = something;
 #### ✅ Valid Code
 
 ```ts
-import { userEvent } from 'vitest';
+import { userEvent } from 'vitest/browser';
 
-userEvent();
+// `ignorePackages` lists the npm package that declares the experimental API
+await userEvent.pointer({ keys: '[MouseLeft]' });
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-experimental": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+import { userEvent } from 'vitest/browser';
+
+await userEvent.fill(document.body, 'not experimental');
 ```
 
 <br>
@@ -1910,6 +2117,110 @@ userEvent();
 import { experimentalValue } from '@angular/experimental-lib';
 
 console.log(experimentalValue);
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-experimental": [
+      "error",
+      {
+        "ignorePackages": [
+          "allowed",
+          "blocked"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+import { client } from 'allowed';
+
+// `blocked` is installed at node_modules/allowed/node_modules/blocked
+client.experimentalMethod();
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-experimental": [
+      "error",
+      {
+        "ignorePackages": [
+          "allowed",
+          "blocked"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+import { blockedExperimental } from 'allowed';
+
+// `allowed` re-exports this API from `blocked`, so `blocked` must be listed
+blockedExperimental();
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-experimental": [
+      "error",
+      {
+        "ignorePackages": [
+          "blocked"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+import { pnpmExperimental } from './node_modules/.pnpm/blocked@1.2.0/node_modules/blocked';
+
+// pnpm resolves `blocked` to node_modules/.pnpm/blocked@1.2.0/node_modules/blocked
+pnpmExperimental();
 ```
 
 </details>

@@ -16,15 +16,45 @@ export type Options = [
 export type MessageIds = 'noExperimental';
 export const RULE_NAME = 'no-experimental';
 
+const NODE_MODULES_SEGMENT = '/node_modules/';
+
+/**
+ * Returns the name of the npm package that owns the given file, based on the
+ * segment(s) after the last `node_modules` directory in its path, or
+ * `undefined` if the file is not inside `node_modules`.
+ *
+ * Using the last `node_modules` directory means that nested installs
+ * (`node_modules/a/node_modules/b/...`) and pnpm's layout
+ * (`node_modules/.pnpm/b@1.0.0/node_modules/b/...`) both resolve to `b`.
+ */
+function getOwningPackageName(fileName: string): string | undefined {
+  const normalizedFileName = `/${fileName.replace(/\\/g, '/')}`;
+  const index = normalizedFileName.lastIndexOf(NODE_MODULES_SEGMENT);
+  if (index === -1) {
+    return undefined;
+  }
+
+  const [first, second] = normalizedFileName
+    .slice(index + NODE_MODULES_SEGMENT.length)
+    .split('/');
+  if (!first) {
+    return undefined;
+  }
+
+  if (first.startsWith('@')) {
+    return second ? `${first}/${second}` : undefined;
+  }
+
+  return first;
+}
+
 function isFileFromIgnoredPackage(
   fileName: string,
   ignorePackages: readonly string[],
 ): boolean {
-  const normalizedFileName = fileName.replace(/\\/g, '/');
+  const packageName = getOwningPackageName(fileName);
 
-  return ignorePackages.some((packageName) =>
-    normalizedFileName.includes(`node_modules/${packageName}/`),
-  );
+  return packageName !== undefined && ignorePackages.includes(packageName);
 }
 
 function shouldIgnoreDueToPackages(
@@ -35,9 +65,8 @@ function shouldIgnoreDueToPackages(
     return false;
   }
 
-  const experimentalSymbols = symbols.filter(
-    (symbol) =>
-      symbol?.getJsDocTags().some((tag) => tag.name === 'experimental'),
+  const experimentalSymbols = symbols.filter((symbol) =>
+    symbol?.getJsDocTags().some((tag) => tag.name === 'experimental'),
   );
 
   return (
@@ -79,7 +108,7 @@ export default createESLintRule<Options, MessageIds>({
               type: 'string',
             },
             description:
-              'npm package names whose experimental APIs should not be reported',
+              'npm package names whose experimental APIs should not be reported. Each entry must be the name of the package that declares the experimental API, wherever it is installed (including nested `node_modules` and pnpm layouts). An API that one package re-exports from another is only ignored when the declaring package is listed.',
             uniqueItems: true,
           },
         },

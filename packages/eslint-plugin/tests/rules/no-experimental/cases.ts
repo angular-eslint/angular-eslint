@@ -87,12 +87,18 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   `,
   {
     code: `
-      import { userEvent } from 'vitest';
+      import { userEvent } from 'vitest/browser';
 
-      userEvent();
+      // \`ignorePackages\` lists the npm package that declares the experimental API
+      await userEvent.pointer({ keys: '[MouseLeft]' });
     `,
     options: [{ ignorePackages: ['vitest'] }],
   },
+  `
+    import { userEvent } from 'vitest/browser';
+
+    await userEvent.fill(document.body, 'not experimental');
+  `,
   {
     code: `
       import { experimentalValue } from '@angular/experimental-lib';
@@ -100,6 +106,33 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
       console.log(experimentalValue);
     `,
     options: [{ ignorePackages: ['@angular/experimental-lib'] }],
+  },
+  {
+    code: `
+      import { client } from 'allowed';
+
+      // \`blocked\` is installed at node_modules/allowed/node_modules/blocked
+      client.experimentalMethod();
+    `,
+    options: [{ ignorePackages: ['allowed', 'blocked'] }],
+  },
+  {
+    code: `
+      import { blockedExperimental } from 'allowed';
+
+      // \`allowed\` re-exports this API from \`blocked\`, so \`blocked\` must be listed
+      blockedExperimental();
+    `,
+    options: [{ ignorePackages: ['allowed', 'blocked'] }],
+  },
+  {
+    code: `
+      import { pnpmExperimental } from './node_modules/.pnpm/blocked@1.2.0/node_modules/blocked';
+
+      // pnpm resolves \`blocked\` to node_modules/.pnpm/blocked@1.2.0/node_modules/blocked
+      pnpmExperimental();
+    `,
+    options: [{ ignorePackages: ['blocked'] }],
   },
 ];
 
@@ -722,50 +755,126 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       name: 'experimentalItem',
     },
   }),
-  {
-    code: `
-      import { userEvent } from 'vitest';
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if an experimental method of a package API is used and no packages are ignored',
+    annotatedSource: `
+      import { userEvent } from 'vitest/browser';
 
-      userEvent();
-    `,
-    errors: [
-      {
-        messageId,
-        data: {
-          name: 'userEvent',
-        },
-      },
-    ],
-  },
-  {
-    code: `
-      import { userEvent } from 'vitest';
+      await userEvent.pointer({ keys: '[MouseLeft]' });
+                      ~~~~~~~
+`,
+    messageId,
+    data: {
+      name: 'pointer',
+    },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if the package declaring the experimental API is not in ignorePackages',
+    annotatedSource: `
+      import { userEvent } from 'vitest/browser';
 
-      userEvent();
-    `,
+      await userEvent.pointer({ keys: '[MouseLeft]' });
+                      ~~~~~~~
+`,
     options: [{ ignorePackages: ['other-package'] }],
-    errors: [
-      {
-        messageId,
-        data: {
-          name: 'userEvent',
-        },
-      },
-    ],
-  },
-  {
-    code: `
+    messageId,
+    data: {
+      name: 'pointer',
+    },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if an experimental API from a scoped package is used and no packages are ignored',
+    annotatedSource: `
       import { experimentalValue } from '@angular/experimental-lib';
 
       console.log(experimentalValue);
-    `,
-    errors: [
-      {
-        messageId,
-        data: {
-          name: 'experimentalValue',
-        },
-      },
-    ],
-  },
+                  ~~~~~~~~~~~~~~~~~
+`,
+    messageId,
+    data: {
+      name: 'experimentalValue',
+    },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if only the scope of a scoped package is in ignorePackages',
+    annotatedSource: `
+      import { experimentalValue } from '@angular/experimental-lib';
+
+      console.log(experimentalValue);
+                  ~~~~~~~~~~~~~~~~~
+`,
+    options: [{ ignorePackages: ['@angular'] }],
+    messageId,
+    data: {
+      name: 'experimentalValue',
+    },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail for local experimental APIs in a file that also uses an ignored package',
+    annotatedSource: `
+      import { experimentalValue } from '@angular/experimental-lib';
+      import { experimentalFunction } from './experimental';
+
+      console.log(experimentalValue);
+      experimentalFunction();
+      ~~~~~~~~~~~~~~~~~~~~
+`,
+    options: [{ ignorePackages: ['@angular/experimental-lib'] }],
+    messageId,
+    data: {
+      name: 'experimentalFunction',
+    },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if an experimental API is declared in a package nested inside an ignored package',
+    annotatedSource: `
+      import { client } from 'allowed';
+
+      // \`blocked\` is installed at node_modules/allowed/node_modules/blocked
+      client.experimentalMethod();
+             ~~~~~~~~~~~~~~~~~~
+`,
+    options: [{ ignorePackages: ['allowed'] }],
+    messageId,
+    data: {
+      name: 'experimentalMethod',
+    },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if an ignored package re-exports an experimental API declared in another package',
+    annotatedSource: `
+      import { blockedExperimental } from 'allowed';
+
+      // \`allowed\` re-exports this API from \`blocked\`, which is not ignored
+      blockedExperimental();
+      ~~~~~~~~~~~~~~~~~~~
+`,
+    options: [{ ignorePackages: ['allowed'] }],
+    messageId,
+    data: {
+      name: 'blockedExperimental',
+    },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail if a pnpm-installed package declaring the experimental API is not ignored',
+    annotatedSource: `
+      import { pnpmExperimental } from './node_modules/.pnpm/blocked@1.2.0/node_modules/blocked';
+
+      pnpmExperimental();
+      ~~~~~~~~~~~~~~~~
+`,
+    options: [{ ignorePackages: ['.pnpm', 'blocked@1.2.0'] }],
+    messageId,
+    data: {
+      name: 'pnpmExperimental',
+    },
+  }),
 ];
