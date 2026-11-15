@@ -300,6 +300,52 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     `,
     settings: { hideFromDocs: true },
   },
+  {
+    // A parenthesized `this` still reads the component member, not the
+    // template local.
+    code: `
+      @let user$ = other$;
+      {{ (this).user$ | async }}
+      {{ user$ | async }}
+    `,
+    settings: { hideFromDocs: true },
+  },
+  {
+    code: `
+      {{ get$({ id: 1 }) | async }}
+      {{ get$({ id: 2 }) | async }}
+      {{ get$({ key: 1 }) | async }}
+      {{ get$({ ...a }) | async }}
+      {{ get$({ ...b }) | async }}
+    `,
+    settings: { hideFromDocs: true },
+  },
+  {
+    // Parentheses around an optional chain stop it from short-circuiting.
+    code: `
+      {{ (user?.profile!).stream$ | async }}
+      {{ user?.profile!.stream$ | async }}
+    `,
+    settings: { hideFromDocs: true },
+  },
+  {
+    code: `
+      {{ get$(/users/) | async }}
+      {{ get$(/posts/) | async }}
+    `,
+    settings: { hideFromDocs: true },
+  },
+  {
+    code: `
+      {{ $error?.user$ | async }}
+      @boundary {
+        <p>Loaded</p>
+      } @error (when $error?.user$ | async) {
+        <p>Failed</p>
+      }
+    `,
+    settings: { hideFromDocs: true },
+  },
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
@@ -668,6 +714,48 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
              ~~~~~~~~~~~~~
         }
       </user-card>
+    `,
+    messages: [{ char: '~', messageId }],
+    settings: { hideFromDocs: true },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'detects a parenthesized explicit this read when a template local shadows the name',
+    annotatedSource: `
+      @let user$ = other$;
+      {{ this.user$ | async }}
+      {{ (this).user$ | async }}
+         ~~~~~~~~~~~~~~~~~~~~
+    `,
+    messages: [{ char: '~', messageId }],
+    settings: { hideFromDocs: true },
+  }),
+  ...[
+    'streams[id]',
+    'user!.stream$',
+    'get$(!a)',
+    'get$(-a)',
+    'get$(a + b)',
+    'get$([a, b])',
+    'get$(typeof a)',
+  ].map((expression): InvalidTestCase<MessageIds, Options> =>
+    convertAnnotatedSourceToFailureCase({
+      description: `detects duplicate \`${expression}\` expressions`,
+      annotatedSource: `
+        {{ ${expression} | async }}
+        {{ ${expression} | async }}
+           ${'~'.repeat(expression.length + ' | async'.length)}
+      `,
+      messages: [{ char: '~', messageId }],
+      settings: { hideFromDocs: true },
+    }),
+  ),
+  convertAnnotatedSourceToFailureCase({
+    description: 'detects object literal arguments',
+    annotatedSource: `
+      {{ get$({ id: 1, ...rest }) | async }}
+      {{ get$({ 'id': 1, ...rest }) | async }}
+         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     `,
     messages: [{ char: '~', messageId }],
     settings: { hideFromDocs: true },

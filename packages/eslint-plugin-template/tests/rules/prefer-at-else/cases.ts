@@ -70,6 +70,22 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     @else if (b) {}
     @if (!a) {}
   `,
+  {
+    // Parentheses are not ignored, because `flag` and `this.flag` differ.
+    code: `
+      @let flag = false;
+      @if ((flag)) { Local }
+      @if (!this.flag) { Component }
+    `,
+    settings: { hideFromDocs: true },
+  },
+  {
+    code: `
+      @if ((a)) {}
+      @if (!(a)) {}
+    `,
+    settings: { hideFromDocs: true },
+  },
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
@@ -84,9 +100,6 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     ['0 < a.length', '0 === a.length'],
     ['a.length > 0', '0 === a.length'],
     ['a.length > 0', 'a.length == 0'],
-    ['a', '!(a)'],
-    ['(a.b)', '!a.b'],
-    ['a === `id-${b}`', 'a !== `id-${b}`'],
   ].flatMap(
     ([firstCondition, secondCondition]): InvalidTestCase<
       MessageIds,

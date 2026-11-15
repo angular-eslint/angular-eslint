@@ -247,7 +247,12 @@ export default createESLintRule<Options, MessageIds>({
         function getOptions(scope: View): AreEquivalentASTsOptions {
           let options = optionsByScope.get(scope);
           if (!options) {
-            options = { templateLocals: getTemplateLocalsInScope(scope) };
+            options = {
+              templateLocals: getTemplateLocalsInScope(scope),
+              // This rule only reports, so it can safely treat expressions
+              // that differ only in their form as equivalent.
+              matchParenthesesAndTemplateLiterals: true,
+            };
             optionsByScope.set(scope, options);
           }
           return options;
@@ -268,7 +273,8 @@ export default createESLintRule<Options, MessageIds>({
             // view does, so it can be compared with the view's other pipes.
             const scope =
               errorBlock &&
-              readsAnyName(pipe, localsDeclaredByView.get(errorBlock))
+              // An `@error` block always declares `$error` and `$reset`.
+              readsAnyName(pipe, localsDeclaredByView.get(errorBlock)!)
                 ? errorBlock
                 : view;
             let seenByKey = seenByScopeAndKey.get(scope);
@@ -277,13 +283,13 @@ export default createESLintRule<Options, MessageIds>({
               seenByScopeAndKey.set(scope, seenByKey);
             }
 
-            const key = getEquivalenceKey(pipe);
+            const options = getOptions(scope);
+            const key = getEquivalenceKey(pipe, options);
             const seen = seenByKey.get(key);
             if (!seen) {
               seenByKey.set(key, [pipe]);
               continue;
             }
-            const options = getOptions(scope);
             if (
               !seen.some((previous) =>
                 areEquivalentASTs(previous, pipe, options),
@@ -312,13 +318,7 @@ export default createESLintRule<Options, MessageIds>({
  * Checks whether an expression implicitly reads (without `this.`) any of the
  * given names.
  */
-function readsAnyName(
-  ast: BindingPipe,
-  names: ReadonlySet<string> | undefined,
-): boolean {
-  if (!names?.size) {
-    return false;
-  }
+function readsAnyName(ast: BindingPipe, names: ReadonlySet<string>): boolean {
   const visitor = new ImplicitReadVisitor(names);
   ast.visit(visitor);
   return visitor.found;

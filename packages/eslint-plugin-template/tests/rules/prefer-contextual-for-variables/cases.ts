@@ -148,6 +148,11 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   @for (item of items; track item.id) {
     {{ $index % 2 / foo }}
   }`,
+  {
+    // Parentheses are not ignored, because the body's `items` is the item.
+    code: `@for (items of (items); track items) { {{ items.length }} }`,
+    settings: { hideFromDocs: true },
+  },
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [

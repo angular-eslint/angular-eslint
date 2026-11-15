@@ -36,6 +36,20 @@ export interface AreEquivalentASTsOptions {
    * so it is not equivalent to an explicit `this.name` read of the component.
    */
   readonly templateLocals?: ReadonlySet<string>;
+
+  /**
+   * Also treats these expressions as equivalent:
+   *
+   * - an expression and the same expression wrapped in parentheses (except
+   *   parentheses around an optional chain, which change its meaning), and
+   * - template literals and tagged template literals with the same text and
+   *   equivalent expressions.
+   *
+   * This is off by default because callers that autofix code may rely on the
+   * exact form of an expression, for example to know whether a read refers
+   * to a particular binding.
+   */
+  readonly matchParenthesesAndTemplateLiterals?: boolean;
 }
 
 export function areEquivalentASTs(
@@ -43,8 +57,8 @@ export function areEquivalentASTs(
   b: AST,
   options: AreEquivalentASTsOptions = {},
 ): boolean {
-  a = unwrapTransparentParentheses(a);
-  b = unwrapTransparentParentheses(b);
+  a = normalize(a, options);
+  b = normalize(b, options);
 
   // An `ImplicitReceiver` is equivalent to a `ThisReceiver` because
   // `this.foo` and `foo` mean the same thing. In Angular v21.1.0+,
@@ -204,27 +218,29 @@ export function areEquivalentASTs(
     return areEquivalentASTs(a.expression, b.expression, options);
   }
 
-  // Parentheses that `unwrapTransparentParentheses` keeps (around optional
-  // chains) are only equivalent to other parentheses around the same thing.
-  if (
-    a instanceof ParenthesizedExpression &&
-    b instanceof ParenthesizedExpression
-  ) {
-    return areEquivalentASTs(a.expression, b.expression, options);
-  }
+  if (options.matchParenthesesAndTemplateLiterals) {
+    // Parentheses that `unwrapTransparentParentheses` keeps (around optional
+    // chains) are only equivalent to other parentheses around the same thing.
+    if (
+      a instanceof ParenthesizedExpression &&
+      b instanceof ParenthesizedExpression
+    ) {
+      return areEquivalentASTs(a.expression, b.expression, options);
+    }
 
-  if (a instanceof TemplateLiteral && b instanceof TemplateLiteral) {
-    return areEquivalentTemplateLiterals(a, b, options);
-  }
+    if (a instanceof TemplateLiteral && b instanceof TemplateLiteral) {
+      return areEquivalentTemplateLiterals(a, b, options);
+    }
 
-  if (
-    a instanceof TaggedTemplateLiteral &&
-    b instanceof TaggedTemplateLiteral
-  ) {
-    return (
-      areEquivalentASTs(a.tag, b.tag, options) &&
-      areEquivalentTemplateLiterals(a.template, b.template, options)
-    );
+    if (
+      a instanceof TaggedTemplateLiteral &&
+      b instanceof TaggedTemplateLiteral
+    ) {
+      return (
+        areEquivalentASTs(a.tag, b.tag, options) &&
+        areEquivalentTemplateLiterals(a.template, b.template, options)
+      );
+    }
   }
 
   return false;
@@ -242,6 +258,15 @@ function areEquivalentTemplateLiterals(
     ) &&
     areEquivalentASTArrays(a.expressions, b.expressions, options)
   );
+}
+
+/**
+ * Removes transparent parentheses when the options allow it.
+ */
+function normalize(ast: AST, options: AreEquivalentASTsOptions): AST {
+  return options.matchParenthesesAndTemplateLiterals
+    ? unwrapTransparentParentheses(ast)
+    : ast;
 }
 
 /**
@@ -312,47 +337,53 @@ function isTemplateLocalComparedWithThis(
   b: PropertyRead | SafePropertyRead,
   options: AreEquivalentASTsOptions,
 ): boolean {
+  // Normalise the receivers in the same way that comparing them does, so
+  // that `(this).name` counts as an explicit read just like `this.name`.
   return (
     options.templateLocals?.has(a.name) === true &&
-    a.receiver instanceof ThisReceiver !== b.receiver instanceof ThisReceiver
+    normalize(a.receiver, options) instanceof ThisReceiver !==
+      normalize(b.receiver, options) instanceof ThisReceiver
   );
 }
 
 /**
  * Gets a cheap key for an AST that is always the same for two ASTs that
- * `areEquivalentASTs` considers equivalent. Two ASTs with the same key may
- * still not be equivalent, so the key is only useful for bucketing candidates
- * before running the full `areEquivalentASTs` check.
+ * `areEquivalentASTs` considers equivalent with the same options. Two ASTs
+ * with the same key may still not be equivalent, so the key is only useful
+ * for bucketing candidates before running the full `areEquivalentASTs` check.
  *
  * The key must never be more specific than `areEquivalentASTs`: it may only
  * include information that `areEquivalentASTs` requires to be equal. In
  * particular, implicit and explicit `this` receivers share a key (even
  * though a template local can make `x` and `this.x` different), and
- * parentheses are unwrapped in the same way. Unhandled types fall back to
- * the constructor name, which is always safe because `areEquivalentASTs`
- * only equates ASTs of the same type.
+ * parentheses are unwrapped when, and only when, `areEquivalentASTs` unwraps
+ * them. Unhandled types fall back to the constructor name, which is always
+ * safe because `areEquivalentASTs` only equates ASTs of the same type.
  */
-export function getEquivalenceKey(ast: AST): string {
-  ast = unwrapTransparentParentheses(ast);
+export function getEquivalenceKey(
+  ast: AST,
+  options: AreEquivalentASTsOptions = {},
+): string {
+  const key = (child: AST): string => getEquivalenceKey(child, options);
+  const keys = (children: readonly AST[]): string =>
+    children.map(key).join(',');
 
-  if (ast instanceof ASTWithSource) {
-    return getEquivalenceKey(ast.ast);
-  }
+  ast = normalize(ast, options);
 
   if (ast instanceof ImplicitReceiver || ast instanceof ThisReceiver) {
     return 'this';
   }
 
   if (ast instanceof PropertyRead || ast instanceof SafePropertyRead) {
-    return `${getEquivalenceKey(ast.receiver)}.${ast.name}`;
+    return `${key(ast.receiver)}.${ast.name}`;
   }
 
   if (ast instanceof Call || ast instanceof SafeCall) {
-    return `${getEquivalenceKey(ast.receiver)}(${getEquivalenceKeys(ast.args)})`;
+    return `${key(ast.receiver)}(${keys(ast.args)})`;
   }
 
   if (ast instanceof KeyedRead || ast instanceof SafeKeyedRead) {
-    return `${getEquivalenceKey(ast.receiver)}[${getEquivalenceKey(ast.key)}]`;
+    return `${key(ast.receiver)}[${key(ast.key)}]`;
   }
 
   if (ast instanceof LiteralPrimitive) {
@@ -360,58 +391,67 @@ export function getEquivalenceKey(ast: AST): string {
   }
 
   if (ast instanceof NonNullAssert) {
-    return `${getEquivalenceKey(ast.expression)}!`;
+    return `${key(ast.expression)}!`;
   }
 
   if (ast instanceof PrefixNot) {
-    return `!${getEquivalenceKey(ast.expression)}`;
+    return `!${key(ast.expression)}`;
   }
 
   // `Unary` extends `Binary`, so it must be checked first.
   if (ast instanceof Unary) {
-    return `${ast.operator}u(${getEquivalenceKey(ast.expr)})`;
+    return `${ast.operator}u(${key(ast.expr)})`;
   }
 
   if (ast instanceof Binary) {
-    return `(${getEquivalenceKey(ast.left)}${ast.operation}${getEquivalenceKey(ast.right)})`;
+    return `(${key(ast.left)}${ast.operation}${key(ast.right)})`;
   }
 
   if (ast instanceof Conditional) {
-    return `(${getEquivalenceKey(ast.condition)}?${getEquivalenceKey(ast.trueExp)}:${getEquivalenceKey(ast.falseExp)})`;
+    return `(${key(ast.condition)}?${key(ast.trueExp)}:${key(ast.falseExp)})`;
   }
 
   if (ast instanceof LiteralArray) {
-    return `[${getEquivalenceKeys(ast.expressions)}]`;
+    return `[${keys(ast.expressions)}]`;
+  }
+
+  if (ast instanceof LiteralMap) {
+    // Like `areEquivalentASTs`, ignore whether a property key is quoted.
+    const mapKeys = ast.keys.map((mapKey) =>
+      mapKey.kind === 'spread' ? '...' : JSON.stringify(mapKey.key),
+    );
+    return `{${mapKeys.join(',')}:${keys(ast.values)}}`;
   }
 
   if (ast instanceof BindingPipe) {
-    return `${getEquivalenceKey(ast.exp)}|${ast.name}(${getEquivalenceKeys(ast.args)})`;
+    return `${key(ast.exp)}|${ast.name}(${keys(ast.args)})`;
   }
 
   if (ast instanceof TypeofExpression) {
-    return `typeof(${getEquivalenceKey(ast.expression)})`;
+    return `typeof(${key(ast.expression)})`;
   }
 
-  if (ast instanceof ParenthesizedExpression) {
-    return `(${getEquivalenceKey(ast.expression)})`;
-  }
+  if (options.matchParenthesesAndTemplateLiterals) {
+    if (ast instanceof ParenthesizedExpression) {
+      return `(${key(ast.expression)})`;
+    }
 
-  if (ast instanceof TemplateLiteral) {
-    return getTemplateLiteralKey(ast);
-  }
+    if (ast instanceof TemplateLiteral) {
+      return getTemplateLiteralKey(ast, keys);
+    }
 
-  if (ast instanceof TaggedTemplateLiteral) {
-    return `${getEquivalenceKey(ast.tag)}${getTemplateLiteralKey(ast.template)}`;
+    if (ast instanceof TaggedTemplateLiteral) {
+      return `${key(ast.tag)}${getTemplateLiteralKey(ast.template, keys)}`;
+    }
   }
 
   return ast.constructor.name;
 }
 
-function getEquivalenceKeys(asts: readonly AST[]): string {
-  return asts.map(getEquivalenceKey).join(',');
-}
-
-function getTemplateLiteralKey(ast: TemplateLiteral): string {
+function getTemplateLiteralKey(
+  ast: TemplateLiteral,
+  keys: (asts: readonly AST[]) => string,
+): string {
   const texts = ast.elements.map((element) => element.text).join('|');
-  return `\`${texts}(${getEquivalenceKeys(ast.expressions)})\``;
+  return `\`${texts}(${keys(ast.expressions)})\``;
 }
