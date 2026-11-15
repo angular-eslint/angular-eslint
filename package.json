@@ -3,9 +3,9 @@
   "private": true,
   "description": "The tooling which enables ESLint to work with Angular projects",
   "volta": {
-    "node": "26.12.0"
+    "node": "26.13.0"
   },
-  "packageManager": "pnpm@12.14.0",
+  "packageManager": "pnpm@12.18.0",
   "contributors": [
     "James Henry <angular-eslint@jameshenry.email>"
   ],
@@ -69,7 +69,6 @@
     "@nx/workspace": "catalog:",
     "@schematics/angular": "catalog:",
     "@swc-node/register": "catalog:",
-    "@swc/cli": "catalog:",
     "@swc/core": "catalog:",
     "@swc/helpers": "catalog:",
     "@types/node": "catalog:",

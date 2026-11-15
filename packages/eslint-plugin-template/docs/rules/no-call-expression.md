@@ -424,6 +424,73 @@ interface Options {
 #### ❌ Invalid Code
 
 ```html
+@boundary {
+  <div></div>
+} @error (when isNetworkError($error)) {
+               ~~~~~~~~~~~~~~~~~~~~~~
+  <div></div>
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-call-expression": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@boundary {
+  {{ load() }}
+     ~~~~~~
+} @error (let err = $error; when isNetworkError(err)) {
+                                 ~~~~~~~~~~~~~~~~~~~
+  {{ retry() }}
+     ~~~~~~~
+} @error {
+  {{ report($error) }}
+     ~~~~~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-call-expression": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
 {{ foo(bar(), baz()) }}
    ~~~~~~~~~~~~~~~~~
 ```
@@ -514,6 +581,87 @@ interface Options {
 ```html
 {{ notOk().ok() }}
    ~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-call-expression": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<a *ngIf="show" [href]="getHref()">info</a>
+                        ~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-call-expression": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<ng-template *ngIf="show" [ngTemplateOutlet]="getTemplate()"></ng-template>
+                                              ~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-call-expression": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<ng-template [ngIf]="show" [ngIfElse]="getTemplate()"></ng-template>
+                                       ~~~~~~~~~~~~~
 ```
 
 </details>
