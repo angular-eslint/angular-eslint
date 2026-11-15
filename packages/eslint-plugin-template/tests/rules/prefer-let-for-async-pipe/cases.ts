@@ -221,6 +221,25 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '{{ getStream$(0) | async }} {{ getStream$(1) | async }}',
   {
     code: `
+      <user-card>
+        @content(header) { {{ user$ | async }} }
+      </user-card>
+      {{ user$ | async }}
+    `,
+    settings: { hideFromDocs: true },
+  },
+  {
+    code: `
+      <user-list>
+        @content(row; let user$) {
+          {{ user$ | async }} {{ this.user$ | async }}
+        }
+      </user-list>
+    `,
+    settings: { hideFromDocs: true },
+  },
+  {
+    code: `
       {{ user$ | async }}
       <ng-content>{{ user$ | async }}</ng-content>
     `,
@@ -635,6 +654,20 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       {{ stream\`users/\${id}\` | async }}
       {{ stream\`users/\${id}\` | async }}
          ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    messages: [{ char: '~', messageId }],
+    settings: { hideFromDocs: true },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'detects duplicate pipes within a content block',
+    annotatedSource: `
+      <user-card>
+        @content(header) {
+          {{ user$ | async }}
+          {{ user$ | async }}
+             ~~~~~~~~~~~~~
+        }
+      </user-card>
     `,
     messages: [{ char: '~', messageId }],
     settings: { hideFromDocs: true },

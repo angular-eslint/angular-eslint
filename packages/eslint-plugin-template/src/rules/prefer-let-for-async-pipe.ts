@@ -50,6 +50,8 @@ const VIEW_NODE_TYPES = new Set([
   'BoundaryErrorBlock',
   // `<ng-content>` fallback content is rendered in its own view.
   'Content',
+  // So is each `@content` block passed to a component.
+  'ContentBlock',
 ]);
 
 export default createESLintRule<Options, MessageIds>({
@@ -227,6 +229,12 @@ export default createESLintRule<Options, MessageIds>({
         declareLocals(node as unknown as TemplateNodeWithParent, [
           node.expressionAlias,
         ]);
+      },
+      ContentBlock(node: { variables: readonly NamedNode[] }) {
+        declareLocals(
+          node as unknown as TemplateNodeWithParent,
+          node.variables,
+        );
       },
       BoundaryErrorBlock(node: { contextVariables: readonly NamedNode[] }) {
         declareLocals(
