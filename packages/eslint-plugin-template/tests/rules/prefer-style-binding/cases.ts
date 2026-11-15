@@ -10,6 +10,7 @@ import type {
 
 const messageId: MessageIds = 'preferStyleBinding';
 const unitMessageId: MessageIds = 'preferStyleUnitBinding';
+const suggestMessageId: MessageIds = 'suggestStyleUnitBinding';
 const bindUnits: Options = [{ bindUnits: true }];
 
 export const valid: readonly (string | ValidTestCase<Options>)[] = [
@@ -202,7 +203,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'should fail when bindUnits is enabled and a template literal interpolates a single expression before the unit',
+      'should only suggest the unit binding when a template literal interpolates a dynamic expression before the unit, as null or undefined would then remove the style',
     annotatedSource: `
         <div [style.height]="\`\${height()}em\`"></div>
              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -210,10 +211,16 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId: unitMessageId,
     options: bindUnits,
     data: { property: 'height', unit: 'em' },
-    annotatedOutput: `
+    suggestions: [
+      {
+        messageId: suggestMessageId,
+        data: { property: 'height', unit: 'em' },
+        output: `
         <div [style.height.em]="height()"></div>
-             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+             
       `,
+      },
+    ],
   }),
   convertAnnotatedSourceToFailureCase({
     description:
@@ -240,10 +247,16 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId: unitMessageId,
     options: bindUnits,
     data: { property: 'width', unit: 'px' },
-    annotatedOutput: `
+    suggestions: [
+      {
+        messageId: suggestMessageId,
+        data: { property: 'width', unit: 'px' },
+        output: `
         <div [style.width.px]="sizes['md']"></div>
-             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+             
       `,
+      },
+    ],
   }),
   convertAnnotatedSourceToFailureCase({
     description:
@@ -289,6 +302,30 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
                              ~~~~~~~~~~~~~~~~~~
       `,
     messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should report [ngStyle] only once on an element carrying an *ngFor structural directive',
+    annotatedSource: `
+        <li *ngFor="let item of items" [ngStyle]="item.styles"></li>
+                                       ~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should report a unit-embedding style binding only once on an element carrying an *ngFor structural directive',
+    annotatedSource: `
+        <li *ngFor="let item of items" [style.width]="'30px'"></li>
+                                       ~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId: unitMessageId,
+    options: bindUnits,
+    data: { property: 'width', unit: 'px' },
+    annotatedOutput: `
+        <li *ngFor="let item of items" [style.width.px]="30"></li>
+                                       ~~~~~~~~~~~~~~~~~~~~~~
+      `,
   }),
   convertAnnotatedSourceToFailureCase({
     description:
@@ -347,7 +384,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'should fix a template literal surrounded by whitespace without keeping it',
+      'should suggest fixing a template literal surrounded by whitespace without keeping it',
     annotatedSource: `
         <div [style.width]="  \`\${width}px\`  "></div>
              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -355,14 +392,20 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId: unitMessageId,
     options: bindUnits,
     data: { property: 'width', unit: 'px' },
-    annotatedOutput: `
+    suggestions: [
+      {
+        messageId: suggestMessageId,
+        data: { property: 'width', unit: 'px' },
+        output: `
         <div [style.width.px]="width"></div>
-             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+             
       `,
+      },
+    ],
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'should fail when an interpolation is followed by the unit, keeping the interpolation',
+      'should only suggest the unit binding when an interpolation is followed by the unit, keeping the interpolation',
     annotatedSource: `
         <div style.width="{{width}}px"></div>
              ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -370,14 +413,20 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId: unitMessageId,
     options: bindUnits,
     data: { property: 'width', unit: 'px' },
-    annotatedOutput: `
+    suggestions: [
+      {
+        messageId: suggestMessageId,
+        data: { property: 'width', unit: 'px' },
+        output: `
         <div style.width.px="{{width}}"></div>
-             ~~~~~~~~~~~~~~~~~~~~~~~~~
+             
       `,
+      },
+    ],
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'should preserve the spacing inside an interpolation when fixing it',
+      'should preserve the spacing inside an interpolation when suggesting a fix',
     annotatedSource: `
         <div style.height="{{ height() }}em"></div>
              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -385,10 +434,16 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId: unitMessageId,
     options: bindUnits,
     data: { property: 'height', unit: 'em' },
-    annotatedOutput: `
+    suggestions: [
+      {
+        messageId: suggestMessageId,
+        data: { property: 'height', unit: 'em' },
+        output: `
         <div style.height.em="{{ height() }}"></div>
-             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+             
       `,
+      },
+    ],
   }),
   convertAnnotatedSourceToFailureCase({
     description:
@@ -415,10 +470,16 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messageId: unitMessageId,
     options: bindUnits,
     data: { property: 'width', unit: 'px' },
-    annotatedOutput: `
+    suggestions: [
+      {
+        messageId: suggestMessageId,
+        data: { property: 'width', unit: 'px' },
+        output: `
         <div [style.width.px]="width"></div>
-             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+             
       `,
+      },
+    ],
   }),
   convertAnnotatedSourceToFailureCase({
     description: 'should match a number with no integer part',
@@ -447,5 +508,309 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         <div [style.width.px]="+30"></div>
              ~~~~~~~~~~~~~~~~~~~~~~~
       `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should only suggest the unit binding for a dynamic CSS custom property value, so a var() fallback is not silently enabled when the value is null or undefined',
+    annotatedSource: `
+        <div [style.--task-gap]="\`\${gap()}px\`"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId: unitMessageId,
+    options: bindUnits,
+    data: { property: '--task-gap', unit: 'px' },
+    suggestions: [
+      {
+        messageId: suggestMessageId,
+        data: { property: '--task-gap', unit: 'px' },
+        output: `
+        <div [style.--task-gap.px]="gap()"></div>
+             
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should autofix a template literal whose interpolated value is a number literal',
+    annotatedSource: `
+        <div [style.width]="\`\${16}px\`"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId: unitMessageId,
+    options: bindUnits,
+    data: { property: 'width', unit: 'px' },
+    annotatedOutput: `
+        <div [style.width.px]="16"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should autofix a template literal whose interpolated value is a string literal',
+    annotatedSource: `
+        <div [style.width]="\`\${'16'}px\`"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId: unitMessageId,
+    options: bindUnits,
+    data: { property: 'width', unit: 'px' },
+    annotatedOutput: `
+        <div [style.width.px]="'16'"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should autofix an interpolation whose value is a number literal',
+    annotatedSource: `
+        <div style.width="{{16}}px"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId: unitMessageId,
+    options: bindUnits,
+    data: { property: 'width', unit: 'px' },
+    annotatedOutput: `
+        <div style.width.px="{{16}}"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should only suggest the unit binding when a template literal interpolates a null literal',
+    annotatedSource: `
+        <div [style.width]="\`\${null}px\`"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId: unitMessageId,
+    options: bindUnits,
+    data: { property: 'width', unit: 'px' },
+    suggestions: [
+      {
+        messageId: suggestMessageId,
+        data: { property: 'width', unit: 'px' },
+        output: `
+        <div [style.width.px]="null"></div>
+             
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should autofix a static value with the rem unit',
+    annotatedSource: `
+        <div [style.font-size]="'1.5rem'"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId: unitMessageId,
+    options: bindUnits,
+    data: { property: 'font-size', unit: 'rem' },
+    annotatedOutput: `
+        <div [style.font-size.rem]="1.5"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should autofix a static value with the vh unit',
+    annotatedSource: `
+        <div [style.height]="'100vh'"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId: unitMessageId,
+    options: bindUnits,
+    data: { property: 'height', unit: 'vh' },
+    annotatedOutput: `
+        <div [style.height.vh]="100"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should autofix a static value with the vw unit',
+    annotatedSource: `
+        <div [style.width]="'50vw'"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId: unitMessageId,
+    options: bindUnits,
+    data: { property: 'width', unit: 'vw' },
+    annotatedOutput: `
+        <div [style.width.vw]="50"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should autofix a static value with the dvh unit',
+    annotatedSource: `
+        <div [style.height]="'100dvh'"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId: unitMessageId,
+    options: bindUnits,
+    data: { property: 'height', unit: 'dvh' },
+    annotatedOutput: `
+        <div [style.height.dvh]="100"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should autofix a static value with the ms unit',
+    annotatedSource: `
+        <div [style.transition-duration]="'200ms'"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId: unitMessageId,
+    options: bindUnits,
+    data: { property: 'transition-duration', unit: 'ms' },
+    annotatedOutput: `
+        <div [style.transition-duration.ms]="200"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should autofix a static value with the s unit',
+    annotatedSource: `
+        <div [style.animation-duration]="'2s'"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId: unitMessageId,
+    options: bindUnits,
+    data: { property: 'animation-duration', unit: 's' },
+    annotatedOutput: `
+        <div [style.animation-duration.s]="2"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should autofix a static value with the deg unit',
+    annotatedSource: `
+        <div [style.rotate]="'45deg'"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId: unitMessageId,
+    options: bindUnits,
+    data: { property: 'rotate', unit: 'deg' },
+    annotatedOutput: `
+        <div [style.rotate.deg]="45"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should autofix a static value with the fr unit',
+    annotatedSource: `
+        <div [style.grid-auto-rows]="'1fr'"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId: unitMessageId,
+    options: bindUnits,
+    data: { property: 'grid-auto-rows', unit: 'fr' },
+    annotatedOutput: `
+        <div [style.grid-auto-rows.fr]="1"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should only suggest the unit binding for a dynamic value with the rem unit',
+    annotatedSource: `
+        <div [style.font-size]="\`\${size()}rem\`"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId: unitMessageId,
+    options: bindUnits,
+    data: { property: 'font-size', unit: 'rem' },
+    suggestions: [
+      {
+        messageId: suggestMessageId,
+        data: { property: 'font-size', unit: 'rem' },
+        output: `
+        <div [style.font-size.rem]="size()"></div>
+             
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should only suggest the unit binding for a dynamic value with the vh unit',
+    annotatedSource: `
+        <div [style.min-height]="\`\${height()}vh\`"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId: unitMessageId,
+    options: bindUnits,
+    data: { property: 'min-height', unit: 'vh' },
+    suggestions: [
+      {
+        messageId: suggestMessageId,
+        data: { property: 'min-height', unit: 'vh' },
+        output: `
+        <div [style.min-height.vh]="height()"></div>
+             
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should only suggest the unit binding for a dynamic value with the ms unit',
+    annotatedSource: `
+        <div [style.transition-duration]="\`\${duration()}ms\`"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId: unitMessageId,
+    options: bindUnits,
+    data: { property: 'transition-duration', unit: 'ms' },
+    suggestions: [
+      {
+        messageId: suggestMessageId,
+        data: { property: 'transition-duration', unit: 'ms' },
+        output: `
+        <div [style.transition-duration.ms]="duration()"></div>
+             
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should only suggest the unit binding for a dynamic value with the s unit',
+    annotatedSource: `
+        <div [style.animation-delay]="\`\${delay}s\`"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId: unitMessageId,
+    options: bindUnits,
+    data: { property: 'animation-delay', unit: 's' },
+    suggestions: [
+      {
+        messageId: suggestMessageId,
+        data: { property: 'animation-delay', unit: 's' },
+        output: `
+        <div [style.animation-delay.s]="delay"></div>
+             
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should only suggest the unit binding for a dynamic value with the deg unit',
+    annotatedSource: `
+        <div [style.rotate]="\`\${angle()}deg\`"></div>
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId: unitMessageId,
+    options: bindUnits,
+    data: { property: 'rotate', unit: 'deg' },
+    suggestions: [
+      {
+        messageId: suggestMessageId,
+        data: { property: 'rotate', unit: 'deg' },
+        output: `
+        <div [style.rotate.deg]="angle()"></div>
+             
+      `,
+      },
+    ],
   }),
 ];

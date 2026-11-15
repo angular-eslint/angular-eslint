@@ -8,6 +8,7 @@ import type { RuleFix, RuleFixer } from '@typescript-eslint/utils/ts-eslint';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import {
   isInterpolation,
+  isLiteralPrimitive,
   isStringLiteralPrimitive,
   isTemplateLiteral,
 } from '../utils/literal-primitive';
@@ -22,7 +23,8 @@ const DEFAULT_OPTIONS: Options[number] = {
   bindUnits: false,
 };
 
-export type MessageIds = 'preferStyleBinding' | 'preferStyleUnitBinding';
+export type MessageIds =
+  'preferStyleBinding' | 'preferStyleUnitBinding' | 'suggestStyleUnitBinding';
 export const RULE_NAME = 'prefer-style-binding';
 
 const CSS_UNITS = [
@@ -91,6 +93,11 @@ const STYLE_KEY_PREFIX = 'style.';
 interface UnitBinding {
   readonly unit: string;
   readonly value: string | null;
+  /**
+   * Whether the value can never be null or undefined, so that moving the unit
+   * into the binding name cannot change the runtime behavior.
+   */
+  readonly isLiteral: boolean;
 }
 
 export default createESLintRule<Options, MessageIds>({
@@ -102,6 +109,7 @@ export default createESLintRule<Options, MessageIds>({
         'Suggests using [style] bindings over ngStyle where applicable',
     },
     fixable: 'code',
+    hasSuggestions: true,
     schema: [
       {
         type: 'object',
@@ -109,7 +117,7 @@ export default createESLintRule<Options, MessageIds>({
           bindUnits: {
             type: 'boolean',
             description:
-              'Whether to also report `[style.property]` bindings whose bound value embeds the CSS unit, such as `[style.width]="\'30px\'"`, or a template literal or interpolation ending in the unit after a single expression, which are better expressed with the unit in the binding name (e.g. `[style.width.px]="30"`).',
+              'Whether to also report `[style.property]` bindings whose bound value embeds the CSS unit, such as `[style.width]="\'30px\'"`, or a template literal or interpolation ending in the unit after a single expression, which are better expressed with the unit in the binding name (e.g. `[style.width.px]="30"`). Literal values are autofixed; dynamic values are only offered as a suggestion, because a unit binding removes the style when the value is null or undefined.',
             default: DEFAULT_OPTIONS.bindUnits,
           },
         },
@@ -121,30 +129,16 @@ export default createESLintRule<Options, MessageIds>({
         'Consider using [style] or [style.property] bindings instead of [ngStyle] where applicable.',
       preferStyleUnitBinding:
         'Consider using [style.{{property}}.{{unit}}] instead of embedding the unit in the bound value.',
+      suggestStyleUnitBinding:
+        'Use [style.{{property}}.{{unit}}]. Note that a null or undefined value then removes the style, letting CSS fallbacks or other style bindings apply, instead of setting an invalid value such as "null{{unit}}".',
     },
     defaultOptions: [DEFAULT_OPTIONS],
   },
   create(context, [{ bindUnits }]) {
     const parserServices = getTemplateParserServices(context);
-    const alreadyReported = new Set<string>();
-    const isFirstReportFor = (
-      messageId: MessageIds,
-      { sourceSpan }: TmplAstBoundAttribute,
-    ): boolean => {
-      const key = `${messageId}:${sourceSpan.start.offset}`;
-      if (alreadyReported.has(key)) {
-        return false;
-      }
-      alreadyReported.add(key);
-      return true;
-    };
 
     return {
       'BoundAttribute[name="ngStyle"]'(node: TmplAstBoundAttribute) {
-        if (!isFirstReportFor('preferStyleBinding', node)) {
-          return;
-        }
-
         const loc = parserServices.convertNodeSourceSpanToLoc(node.sourceSpan);
         context.report({
           messageId: 'preferStyleBinding',
@@ -154,10 +148,6 @@ export default createESLintRule<Options, MessageIds>({
       ...(bindUnits
         ? {
             BoundAttribute(node: TmplAstBoundAttribute) {
-              if (!isFirstReportFor('preferStyleUnitBinding', node)) {
-                return;
-              }
-
               const property = getStyleProperty(node);
               if (!property) {
                 return;
@@ -168,14 +158,22 @@ export default createESLintRule<Options, MessageIds>({
                 return;
               }
 
+              const data = { property, unit: unitBinding.unit };
+              const fix = (fixer: RuleFixer) =>
+                createUnitBindingFix(fixer, node, unitBinding);
               context.report({
                 messageId: 'preferStyleUnitBinding',
                 loc: parserServices.convertNodeSourceSpanToLoc(node.sourceSpan),
-                data: {
-                  property,
-                  unit: unitBinding.unit,
-                },
-                fix: (fixer) => createUnitBindingFix(fixer, node, unitBinding),
+                data,
+                ...(unitBinding.value === null
+                  ? {}
+                  : unitBinding.isLiteral
+                    ? { fix }
+                    : {
+                        suggest: [
+                          { messageId: 'suggestStyleUnitBinding', data, fix },
+                        ],
+                      }),
               });
             },
           }
@@ -202,7 +200,11 @@ function getUnitBinding(
   if (isStringLiteralPrimitive(value)) {
     const groups = NUMBER_WITH_UNIT.exec(value.value)?.groups;
     return groups?.['unit'] && groups['value']
-      ? { unit: groups['unit'].toLowerCase(), value: groups['value'] }
+      ? {
+          unit: groups['unit'].toLowerCase(),
+          value: groups['value'],
+          isLiteral: true,
+        }
       : null;
   }
 
@@ -217,13 +219,15 @@ function getUnitBinding(
       return null;
     }
 
-    const { sourceSpan } = value.expressions[0];
+    const [expression] = value.expressions;
+    const { sourceSpan } = expression;
     return {
       unit: unit.toLowerCase(),
       value:
         verbatim === null
           ? null
           : templateText.slice(sourceSpan.start, sourceSpan.end),
+      isLiteral: isNonNullishLiteral(expression),
     };
   }
 
@@ -236,10 +240,20 @@ function getUnitBinding(
     return {
       unit: unit.toLowerCase(),
       value: verbatim === null ? null : verbatim.slice(0, -unit.length),
+      isLiteral: isNonNullishLiteral(value.expressions[0]),
     };
   }
 
   return null;
+}
+
+function isNonNullishLiteral(expression: AST): boolean {
+  const value = unwrapParenthesizedExpression(expression);
+  return (
+    isLiteralPrimitive(value) &&
+    (typeof value.value === 'number' ||
+      (typeof value.value === 'string' && value.value !== ''))
+  );
 }
 
 function getTrailingUnit(
@@ -298,5 +312,5 @@ function createUnitBindingFix(
 
 export const RULE_DOCS_EXTENSION = {
   rationale:
-    'For simple cases, [style] and [style.property] bindings offer a more straightforward syntax with better performance than ngStyle, and the Angular style guide recommends them over the NgStyle directive. However, ngStyle should still be used when you need mutations on objects, as style bindings compare the bound object by reference and only apply updates when a new object instance is provided. Note that ngStyle also accepts unit suffixes on object keys (for example `{ "max-width.px": width }`), which [style] object bindings do not support; express these as [style.max-width.px] bindings instead. See https://angular.dev/style-guide#prefer-class-and-style-over-ngclass-and-ngstyle and https://angular.dev/guide/templates/binding#css-class-and-style-property-bindings for more information. This rule helps identify potential simplification opportunities but should be applied judiciously based on your specific needs. The opt-in `bindUnits` option additionally flags `[style.property]` bindings that embed the CSS unit in the bound value, such as `[style.width]="\'30px\'"`, or a template literal or interpolation ending in the unit after a single expression, which Angular can express as `[style.property.unit]` bindings instead, avoiding the string concatenation on every change detection cycle.',
+    'For simple cases, [style] and [style.property] bindings offer a more straightforward syntax with better performance than ngStyle, and the Angular style guide recommends them over the NgStyle directive. However, ngStyle should still be used when you need mutations on objects, as style bindings compare the bound object by reference and only apply updates when a new object instance is provided. Note that ngStyle also accepts unit suffixes on object keys (for example `{ "max-width.px": width }`), which [style] object bindings do not support; express these as [style.max-width.px] bindings instead. See https://angular.dev/style-guide#prefer-class-and-style-over-ngclass-and-ngstyle and https://angular.dev/guide/templates/binding#css-class-and-style-property-bindings for more information. This rule helps identify potential simplification opportunities but should be applied judiciously based on your specific needs. The opt-in `bindUnits` option additionally flags `[style.property]` bindings that embed the CSS unit in the bound value, such as `[style.width]="\'30px\'"`, or a template literal or interpolation ending in the unit after a single expression, which Angular can express as `[style.property.unit]` bindings instead, keeping the unit in the template rather than in the bound value. Literal values are autofixed. Dynamic values are only offered as a suggestion, because the two forms differ when the value is null or undefined: the unit binding removes the style, letting CSS fallbacks such as `var(--gap, 16px)` or other style bindings apply, while the original binding sets an invalid value such as `nullpx`.',
 };

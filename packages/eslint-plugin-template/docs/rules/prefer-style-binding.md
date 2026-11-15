@@ -20,11 +20,13 @@ Suggests using [style] bindings over ngStyle where applicable
 - Type: suggestion
 - 🔧 Supports autofix (`--fix`)
 
+- 💡 Provides suggestions on how to fix issues (https://eslint.org/docs/developer-guide/working-with-rules#providing-suggestions)
+
 <br>
 
 ## Rationale
 
-For simple cases, [style] and [style.property] bindings offer a more straightforward syntax with better performance than ngStyle, and the Angular style guide recommends them over the NgStyle directive. However, ngStyle should still be used when you need mutations on objects, as style bindings compare the bound object by reference and only apply updates when a new object instance is provided. Note that ngStyle also accepts unit suffixes on object keys (for example `{ "max-width.px": width }`), which [style] object bindings do not support; express these as [style.max-width.px] bindings instead. See https://angular.dev/style-guide#prefer-class-and-style-over-ngclass-and-ngstyle and https://angular.dev/guide/templates/binding#css-class-and-style-property-bindings for more information. This rule helps identify potential simplification opportunities but should be applied judiciously based on your specific needs. The opt-in `bindUnits` option additionally flags `[style.property]` bindings that embed the CSS unit in the bound value, such as `[style.width]="'30px'"`, or a template literal or interpolation ending in the unit after a single expression, which Angular can express as `[style.property.unit]` bindings instead, avoiding the string concatenation on every change detection cycle.
+For simple cases, [style] and [style.property] bindings offer a more straightforward syntax with better performance than ngStyle, and the Angular style guide recommends them over the NgStyle directive. However, ngStyle should still be used when you need mutations on objects, as style bindings compare the bound object by reference and only apply updates when a new object instance is provided. Note that ngStyle also accepts unit suffixes on object keys (for example `{ "max-width.px": width }`), which [style] object bindings do not support; express these as [style.max-width.px] bindings instead. See https://angular.dev/style-guide#prefer-class-and-style-over-ngclass-and-ngstyle and https://angular.dev/guide/templates/binding#css-class-and-style-property-bindings for more information. This rule helps identify potential simplification opportunities but should be applied judiciously based on your specific needs. The opt-in `bindUnits` option additionally flags `[style.property]` bindings that embed the CSS unit in the bound value, such as `[style.width]="'30px'"`, or a template literal or interpolation ending in the unit after a single expression, which Angular can express as `[style.property.unit]` bindings instead, keeping the unit in the template rather than in the bound value. Literal values are autofixed. Dynamic values are only offered as a suggestion, because the two forms differ when the value is null or undefined: the unit binding removes the style, letting CSS fallbacks such as `var(--gap, 16px)` or other style bindings apply, while the original binding sets an invalid value such as `nullpx`.
 
 <br>
 
@@ -35,7 +37,7 @@ The rule accepts an options object with the following properties:
 ```ts
 interface Options {
   /**
-   * Whether to also report `[style.property]` bindings whose bound value embeds the CSS unit, such as `[style.width]="'30px'"`, or a template literal or interpolation ending in the unit after a single expression, which are better expressed with the unit in the binding name (e.g. `[style.width.px]="30"`).
+   * Whether to also report `[style.property]` bindings whose bound value embeds the CSS unit, such as `[style.width]="'30px'"`, or a template literal or interpolation ending in the unit after a single expression, which are better expressed with the unit in the binding name (e.g. `[style.width.px]="30"`). Literal values are autofixed; dynamic values are only offered as a suggestion, because a unit binding removes the style when the value is null or undefined.
    *
    * Default: `false`
    */
@@ -564,6 +566,63 @@ interface Options {
 
 <br>
 
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-style-binding": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<li *ngFor="let item of items" [ngStyle]="item.styles"></li>
+                               ~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-style-binding": [
+      "error",
+      {
+        "bindUnits": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<li *ngFor="let item of items" [style.width]="'30px'"></li>
+                               ~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
 #### Custom Config
 
 ```json
@@ -886,6 +945,546 @@ interface Options {
 ```html
 <div [style.width]="'+30px'"></div>
      ~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-style-binding": [
+      "error",
+      {
+        "bindUnits": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [style.--task-gap]="`${gap()}px`"></div>
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-style-binding": [
+      "error",
+      {
+        "bindUnits": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [style.width]="`${16}px`"></div>
+     ~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-style-binding": [
+      "error",
+      {
+        "bindUnits": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [style.width]="`${'16'}px`"></div>
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-style-binding": [
+      "error",
+      {
+        "bindUnits": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div style.width="{{16}}px"></div>
+     ~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-style-binding": [
+      "error",
+      {
+        "bindUnits": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [style.width]="`${null}px`"></div>
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-style-binding": [
+      "error",
+      {
+        "bindUnits": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [style.font-size]="'1.5rem'"></div>
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-style-binding": [
+      "error",
+      {
+        "bindUnits": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [style.height]="'100vh'"></div>
+     ~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-style-binding": [
+      "error",
+      {
+        "bindUnits": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [style.width]="'50vw'"></div>
+     ~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-style-binding": [
+      "error",
+      {
+        "bindUnits": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [style.height]="'100dvh'"></div>
+     ~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-style-binding": [
+      "error",
+      {
+        "bindUnits": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [style.transition-duration]="'200ms'"></div>
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-style-binding": [
+      "error",
+      {
+        "bindUnits": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [style.animation-duration]="'2s'"></div>
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-style-binding": [
+      "error",
+      {
+        "bindUnits": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [style.rotate]="'45deg'"></div>
+     ~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-style-binding": [
+      "error",
+      {
+        "bindUnits": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [style.grid-auto-rows]="'1fr'"></div>
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-style-binding": [
+      "error",
+      {
+        "bindUnits": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [style.font-size]="`${size()}rem`"></div>
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-style-binding": [
+      "error",
+      {
+        "bindUnits": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [style.min-height]="`${height()}vh`"></div>
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-style-binding": [
+      "error",
+      {
+        "bindUnits": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [style.transition-duration]="`${duration()}ms`"></div>
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-style-binding": [
+      "error",
+      {
+        "bindUnits": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [style.animation-delay]="`${delay}s`"></div>
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-style-binding": [
+      "error",
+      {
+        "bindUnits": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [style.rotate]="`${angle()}deg`"></div>
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ```
 
 </details>
