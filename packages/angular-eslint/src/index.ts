@@ -73,9 +73,19 @@ const configs = {
   ) as CompatibleConfigArray,
 };
 
-// Export more succinct alias for us in user flat config files
+/** @deprecated Use `createProcessor()` instead. */
 const processInlineTemplates =
   templatePlugin.processors?.['extract-inline-html'];
+
+type Processor = NonNullable<CompatiblePlugin['processors']>[string];
+type ProcessorOptions = NonNullable<
+  Parameters<typeof templatePluginBase.createProcessor>[0]
+>;
+const createProcessor = templatePluginBase.createProcessor as unknown as (
+  options?: ProcessorOptions,
+) => Processor;
+
+export type { ProcessorOptions };
 
 /*
 // eslint-disable-next-line import/no-default-export --
@@ -88,6 +98,7 @@ export default {
   templateParser,
   templatePlugin,
   processInlineTemplates,
+  createProcessor,
 };
 export {
   configs,
@@ -95,4 +106,5 @@ export {
   templatePlugin,
   tsPlugin,
   processInlineTemplates,
+  createProcessor,
 };

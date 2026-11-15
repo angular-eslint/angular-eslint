@@ -1,4 +1,4 @@
-import processors from './processors';
+import processors, { createProcessor } from './processors';
 import altText, { RULE_NAME as altTextRuleName } from './rules/alt-text';
 import attributesOrder, {
   RULE_NAME as attributesOrderRuleName,
@@ -117,6 +117,7 @@ import useTrackByFunction, {
 import validAria, { RULE_NAME as validAriaRuleName } from './rules/valid-aria';
 
 export = {
+  createProcessor,
   processors,
   rules: {
     [altTextRuleName]: altText,

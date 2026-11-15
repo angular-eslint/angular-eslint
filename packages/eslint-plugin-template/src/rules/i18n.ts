@@ -397,7 +397,7 @@ export default createESLintRule<Options, MessageIds>({
       if (checkDuplicateId) {
         for (const [customId, sourceSpans] of collectedCustomIds) {
           if (sourceSpans.length <= 1) {
-            break;
+            continue;
           }
 
           for (const sourceSpan of sourceSpans) {

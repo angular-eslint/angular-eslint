@@ -71,29 +71,30 @@ export default createESLintRule<Options, MessageIds>({
             end: sourceCode.getLocFromIndex(end),
           },
           messageId: 'noInterpolationInAttributes',
-          fix: isFullInterpolation
-            ? (fixer) => {
-                const attrStart = boundAttribute.keySpan.start.offset;
-                const attrEnd = boundAttribute.keySpan.end.offset;
-                const attributeName = sourceCode.text
-                  .slice(attrStart, attrEnd)
-                  .trim();
+          fix:
+            isFullInterpolation && interpolation.expressions.length === 1
+              ? (fixer) => {
+                  const attrStart = boundAttribute.keySpan.start.offset;
+                  const attrEnd = boundAttribute.keySpan.end.offset;
+                  const attributeName = sourceCode.text
+                    .slice(attrStart, attrEnd)
+                    .trim();
 
-                const exprStart = boundAttribute.valueSpan.start.offset + 2; // +2 to remove '{{'
-                const exprEnd = boundAttribute.valueSpan.end.offset - 2; // -2 to remove '}}'
-                const expression = sourceCode.text
-                  .slice(exprStart, exprEnd)
-                  .trim();
+                  const exprStart = boundAttribute.valueSpan.start.offset + 2; // +2 to remove '{{'
+                  const exprEnd = boundAttribute.valueSpan.end.offset - 2; // -2 to remove '}}'
+                  const expression = sourceCode.text
+                    .slice(exprStart, exprEnd)
+                    .trim();
 
-                const rangeStart = boundAttribute.sourceSpan.start.offset;
-                const rangeEnd = boundAttribute.sourceSpan.end.offset;
-                const replacement = `[${attributeName}]="${expression}"`;
-                return fixer.replaceTextRange(
-                  [rangeStart, rangeEnd],
-                  replacement,
-                );
-              }
-            : null,
+                  const rangeStart = boundAttribute.sourceSpan.start.offset;
+                  const rangeEnd = boundAttribute.sourceSpan.end.offset;
+                  const replacement = `[${attributeName}]="${expression}"`;
+                  return fixer.replaceTextRange(
+                    [rangeStart, rangeEnd],
+                    replacement,
+                  );
+                }
+              : null,
         });
       },
     };
