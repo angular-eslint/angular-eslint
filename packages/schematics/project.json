@@ -6,6 +6,23 @@
     "test": {
       "dependsOn": ["build", "^build", "^compile"]
     },
+    "check-angular-schemas": {
+      "dependsOn": ["update-angular-schemas"],
+      "command": "git diff --quiet --exit-code packages/schematics/src/application/schema.json packages/schematics/src/library/schema.json || (echo \"\n-------\n\nCHECK ANGULAR SCHEMAS ERROR: You have uncommitted changes to the application and library schemas copied from @schematics/angular.\n\nYou should run 'pnpm update-angular-schemas' and commit the result.\n\n-------\n\" && exit 1)"
+    },
+    "update-angular-schemas": {
+      "executor": "nx:run-commands",
+      "cache": false,
+      "options": {
+        "cwd": "packages/schematics",
+        "parallel": false,
+        "commands": [
+          "pnpm exec ncp ../../node_modules/@schematics/angular/application/schema.json src/application/schema.json",
+          "pnpm exec ncp ../../node_modules/@schematics/angular/library/schema.json src/library/schema.json",
+          "pnpm exec tsx ../../tools/scripts/enhance-angular-schemas.ts"
+        ]
+      }
+    },
     "build": {
       "executor": "nx:run-commands",
       "outputs": ["{projectRoot}/dist"],
@@ -13,9 +30,6 @@
         "cwd": "packages/schematics",
         "parallel": false,
         "commands": [
-          "pnpm exec ncp ../../node_modules/@schematics/angular/application/schema.json src/application/schema.json",
-          "pnpm exec ncp ../../node_modules/@schematics/angular/library/schema.json src/library/schema.json",
-          "pnpm exec tsx ../../tools/scripts/enhance-angular-schemas.ts",
           "pnpm exec tsc -b tsconfig.lib.json --pretty --verbose",
           "pnpm exec ncp src/collection.json dist/collection.json",
           "pnpm exec ncp src/migrations.json dist/migrations.json",

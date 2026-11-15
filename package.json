@@ -33,6 +33,8 @@
     "update-rule-lists": "nx run-many -t update-rule-lists",
     "update-rule-configs": "nx run-many -t update-rule-configs",
     "update-native-event-names": "nx run utils:update-native-event-names",
+    "check-angular-schemas": "nx run schematics:check-angular-schemas",
+    "update-angular-schemas": "nx run schematics:update-angular-schemas",
     "prepare": "husky"
   },
   "config": {
