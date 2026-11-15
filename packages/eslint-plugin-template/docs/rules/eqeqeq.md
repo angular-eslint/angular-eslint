@@ -411,6 +411,68 @@ interface Options {
    ~~~~~~~~~~~~~~~~~~
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/eqeqeq": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@boundary {
+  <div></div>
+} @error (when $error.code == 'TIMEOUT') {
+               ~~~~~~~~~~~~~~~~~~~~~~~~
+  <div></div>
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/eqeqeq": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@boundary {
+  <div></div>
+} @error (when  $error.status  !=  404) {
+                ~~~~~~~~~~~~~~~~~~~~~~
+  <div></div>
+}
+```
+
 </details>
 
 <br>
