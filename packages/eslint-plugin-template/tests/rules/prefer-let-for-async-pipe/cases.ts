@@ -218,6 +218,21 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     `,
     settings: { hideFromDocs: true },
   },
+  '{{ getStream$(0) | async }} {{ getStream$(1) | async }}',
+  {
+    code: `
+      {{ (user?.profile).stream$ | async }}
+      {{ user?.profile.stream$ | async }}
+    `,
+    settings: { hideFromDocs: true },
+  },
+  {
+    code: `
+      {{ get$(\`users/\${id}\`) | async }}
+      {{ get$(\`posts/\${id}\`) | async }}
+    `,
+    settings: { hideFromDocs: true },
+  },
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
@@ -462,6 +477,62 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         {{ user$ | async }}
            ~~~~~~~~~~~~~
       }
+    `,
+    messages: [{ char: '~', messageId }],
+    settings: { hideFromDocs: true },
+  }),
+
+  convertAnnotatedSourceToFailureCase({
+    description: 'detects parenthesized expressions',
+    annotatedSource: `
+      {{ (user$) | async }}
+      {{ (user$) | async }}
+         ~~~~~~~~~~~~~~~
+      {{ user$ | async }}
+         ^^^^^^^^^^^^^
+    `,
+    messages: [
+      { char: '~', messageId },
+      { char: '^', messageId },
+    ],
+    settings: { hideFromDocs: true },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'detects parenthesized conditional expressions',
+    annotatedSource: `
+      {{ (enabled ? first$ : second$) | async }}
+      {{ (enabled ? first$ : second$) | async }}
+         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    messages: [{ char: '~', messageId }],
+    settings: { hideFromDocs: true },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'detects parenthesized optional chains',
+    annotatedSource: `
+      {{ (user?.profile).stream$ | async }}
+      {{ ((user?.profile)).stream$ | async }}
+         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    messages: [{ char: '~', messageId }],
+    settings: { hideFromDocs: true },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'detects template literal arguments',
+    annotatedSource: `
+      {{ get$(\`users/\${id}\`) | async }}
+      {{ get$(\`users/\${id}\`) | async }}
+         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    messages: [{ char: '~', messageId }],
+    settings: { hideFromDocs: true },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'detects tagged template literals',
+    annotatedSource: `
+      {{ stream\`users/\${id}\` | async }}
+      {{ stream\`users/\${id}\` | async }}
+         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
     `,
     messages: [{ char: '~', messageId }],
     settings: { hideFromDocs: true },

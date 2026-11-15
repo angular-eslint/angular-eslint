@@ -356,6 +356,32 @@ The rule does not have any configuration options.
 <ng-template>{{ user$ | async }}</ng-template>
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-let-for-async-pipe": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+{{ getStream$(0) | async }} {{ getStream$(1) | async }}
+```
+
 </details>
 
 <br>

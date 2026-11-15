@@ -84,6 +84,9 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     ['0 < a.length', '0 === a.length'],
     ['a.length > 0', '0 === a.length'],
     ['a.length > 0', 'a.length == 0'],
+    ['a', '!(a)'],
+    ['(a.b)', '!a.b'],
+    ['a === `id-${b}`', 'a !== `id-${b}`'],
   ].flatMap(
     ([firstCondition, secondCondition]): InvalidTestCase<
       MessageIds,

@@ -13,11 +13,14 @@ import {
   LiteralMap,
   LiteralPrimitive,
   NonNullAssert,
+  ParenthesizedExpression,
   PrefixNot,
   PropertyRead,
   SafeCall,
   SafeKeyedRead,
   SafePropertyRead,
+  TaggedTemplateLiteral,
+  TemplateLiteral,
   ThisReceiver,
   TypeofExpression,
   Unary,
@@ -40,6 +43,9 @@ export function areEquivalentASTs(
   b: AST,
   options: AreEquivalentASTsOptions = {},
 ): boolean {
+  a = unwrapTransparentParentheses(a);
+  b = unwrapTransparentParentheses(b);
+
   // An `ImplicitReceiver` is equivalent to a `ThisReceiver` because
   // `this.foo` and `foo` mean the same thing. In Angular v21.1.0+,
   // `ThisReceiver` is a separate class, so we check for both types.
@@ -198,7 +204,91 @@ export function areEquivalentASTs(
     return areEquivalentASTs(a.expression, b.expression, options);
   }
 
+  // Parentheses that `unwrapTransparentParentheses` keeps (around optional
+  // chains) are only equivalent to other parentheses around the same thing.
+  if (
+    a instanceof ParenthesizedExpression &&
+    b instanceof ParenthesizedExpression
+  ) {
+    return areEquivalentASTs(a.expression, b.expression, options);
+  }
+
+  if (a instanceof TemplateLiteral && b instanceof TemplateLiteral) {
+    return areEquivalentTemplateLiterals(a, b, options);
+  }
+
+  if (
+    a instanceof TaggedTemplateLiteral &&
+    b instanceof TaggedTemplateLiteral
+  ) {
+    return (
+      areEquivalentASTs(a.tag, b.tag, options) &&
+      areEquivalentTemplateLiterals(a.template, b.template, options)
+    );
+  }
+
   return false;
+}
+
+function areEquivalentTemplateLiterals(
+  a: TemplateLiteral,
+  b: TemplateLiteral,
+  options: AreEquivalentASTsOptions,
+): boolean {
+  return (
+    a.elements.length === b.elements.length &&
+    a.elements.every(
+      (aElement, index) => aElement.text === b.elements[index].text,
+    ) &&
+    areEquivalentASTArrays(a.expressions, b.expressions, options)
+  );
+}
+
+/**
+ * Removes parentheses that cannot change the meaning of the expression they
+ * wrap. The parsed AST already encodes operator precedence, so `(a)` and `a`
+ * evaluate the same way, with one exception: parentheses end an optional
+ * chain, so `(a?.b).c` still reads `c` when `a` is nullish, whereas `a?.b.c`
+ * short-circuits. To stay conservative, parentheses around an optional chain
+ * are kept, so they only match other parentheses around the same chain.
+ */
+function unwrapTransparentParentheses(ast: AST): AST {
+  let innermostParentheses: ParenthesizedExpression | undefined;
+  while (ast instanceof ParenthesizedExpression) {
+    innermostParentheses = ast;
+    ast = ast.expression;
+  }
+  return innermostParentheses && isOptionalChain(ast)
+    ? innermostParentheses
+    : ast;
+}
+
+/**
+ * Checks whether an expression is an optional chain, i.e. a chain of reads
+ * and calls that contains a safe (`?.`) access that parentheses would stop
+ * from short-circuiting the rest of the chain.
+ */
+function isOptionalChain(ast: AST): boolean {
+  while (true) {
+    if (
+      ast instanceof SafePropertyRead ||
+      ast instanceof SafeKeyedRead ||
+      ast instanceof SafeCall
+    ) {
+      return true;
+    }
+    if (
+      ast instanceof PropertyRead ||
+      ast instanceof KeyedRead ||
+      ast instanceof Call
+    ) {
+      ast = ast.receiver;
+    } else if (ast instanceof NonNullAssert) {
+      ast = ast.expression;
+    } else {
+      return false;
+    }
+  }
 }
 
 function areEquivalentASTArrays(
@@ -234,12 +324,17 @@ function isTemplateLocalComparedWithThis(
  * still not be equivalent, so the key is only useful for bucketing candidates
  * before running the full `areEquivalentASTs` check.
  *
- * The key must never be more specific than `areEquivalentASTs`. Unhandled
- * types fall back to the constructor name, which is always safe because
- * `areEquivalentASTs` only equates ASTs of the same type (apart from implicit
- * and explicit `this` receivers, which share a key below).
+ * The key must never be more specific than `areEquivalentASTs`: it may only
+ * include information that `areEquivalentASTs` requires to be equal. In
+ * particular, implicit and explicit `this` receivers share a key (even
+ * though a template local can make `x` and `this.x` different), and
+ * parentheses are unwrapped in the same way. Unhandled types fall back to
+ * the constructor name, which is always safe because `areEquivalentASTs`
+ * only equates ASTs of the same type.
  */
 export function getEquivalenceKey(ast: AST): string {
+  ast = unwrapTransparentParentheses(ast);
+
   if (ast instanceof ASTWithSource) {
     return getEquivalenceKey(ast.ast);
   }
@@ -253,7 +348,7 @@ export function getEquivalenceKey(ast: AST): string {
   }
 
   if (ast instanceof Call || ast instanceof SafeCall) {
-    return `${getEquivalenceKey(ast.receiver)}(${ast.args.length})`;
+    return `${getEquivalenceKey(ast.receiver)}(${getEquivalenceKeys(ast.args)})`;
   }
 
   if (ast instanceof KeyedRead || ast instanceof SafeKeyedRead) {
@@ -268,9 +363,55 @@ export function getEquivalenceKey(ast: AST): string {
     return `${getEquivalenceKey(ast.expression)}!`;
   }
 
+  if (ast instanceof PrefixNot) {
+    return `!${getEquivalenceKey(ast.expression)}`;
+  }
+
+  // `Unary` extends `Binary`, so it must be checked first.
+  if (ast instanceof Unary) {
+    return `${ast.operator}u(${getEquivalenceKey(ast.expr)})`;
+  }
+
+  if (ast instanceof Binary) {
+    return `(${getEquivalenceKey(ast.left)}${ast.operation}${getEquivalenceKey(ast.right)})`;
+  }
+
+  if (ast instanceof Conditional) {
+    return `(${getEquivalenceKey(ast.condition)}?${getEquivalenceKey(ast.trueExp)}:${getEquivalenceKey(ast.falseExp)})`;
+  }
+
+  if (ast instanceof LiteralArray) {
+    return `[${getEquivalenceKeys(ast.expressions)}]`;
+  }
+
   if (ast instanceof BindingPipe) {
-    return `${getEquivalenceKey(ast.exp)}|${ast.name}:${ast.args.length}`;
+    return `${getEquivalenceKey(ast.exp)}|${ast.name}(${getEquivalenceKeys(ast.args)})`;
+  }
+
+  if (ast instanceof TypeofExpression) {
+    return `typeof(${getEquivalenceKey(ast.expression)})`;
+  }
+
+  if (ast instanceof ParenthesizedExpression) {
+    return `(${getEquivalenceKey(ast.expression)})`;
+  }
+
+  if (ast instanceof TemplateLiteral) {
+    return getTemplateLiteralKey(ast);
+  }
+
+  if (ast instanceof TaggedTemplateLiteral) {
+    return `${getEquivalenceKey(ast.tag)}${getTemplateLiteralKey(ast.template)}`;
   }
 
   return ast.constructor.name;
+}
+
+function getEquivalenceKeys(asts: readonly AST[]): string {
+  return asts.map(getEquivalenceKey).join(',');
+}
+
+function getTemplateLiteralKey(ast: TemplateLiteral): string {
+  const texts = ast.elements.map((element) => element.text).join('|');
+  return `\`${texts}(${getEquivalenceKeys(ast.expressions)})\``;
 }
