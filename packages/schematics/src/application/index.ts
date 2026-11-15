@@ -2,8 +2,8 @@ import type { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { chain, externalSchematic } from '@angular-devkit/schematics';
 /**
  * We are able to use the full, unaltered Schema directly from @schematics/angular
- * The applicable json file is copied from node_modules as a prebuiid step to ensure
- * they stay in sync.
+ * The applicable json file is copied from node_modules by the update-angular-schemas
+ * target, and the check-angular-schemas target ensures they stay in sync.
  */
 import type { Schema as AngularSchema } from '@schematics/angular/application/schema';
 import {
