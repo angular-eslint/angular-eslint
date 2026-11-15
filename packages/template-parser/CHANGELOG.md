@@ -1,3 +1,15 @@
+## 22.7.0 (2026-11-15)
+
+### 🩹 Fixes
+
+- lint @error (when ...) expressions in @boundary blocks ([#3334](https://github.com/angular-eslint/angular-eslint/pull/3334))
+- **template-parser:** visit inputs of structural directive templates once ([#3296](https://github.com/angular-eslint/angular-eslint/pull/3296))
+
+### ❤️ Thank You
+
+- Daniel Pinto @Cayan
+- Przemysław Kurc
+
 ## 22.6.0 (2026-10-11)
 
 ### 🩹 Fixes

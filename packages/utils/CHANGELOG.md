@@ -1,3 +1,13 @@
+## 22.7.0 (2026-11-15)
+
+### 🩹 Fixes
+
+- **eslint-plugin:** [no-input-prefix] check signal and model inputs ([#3331](https://github.com/angular-eslint/angular-eslint/pull/3331))
+
+### ❤️ Thank You
+
+- Daniel Pinto @Cayan
+
 ## 22.6.0 (2026-10-11)
 
 This was a version bump only for @angular-eslint/utils to align it with other projects, there were no code changes.

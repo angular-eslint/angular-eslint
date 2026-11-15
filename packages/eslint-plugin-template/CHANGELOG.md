@@ -1,3 +1,36 @@
+## 22.7.0 (2026-11-15)
+
+### 🚀 Features
+
+- **eslint-plugin-template:** add prefer-let-for-async-pipe rule ([#3199](https://github.com/angular-eslint/angular-eslint/pull/3199))
+- **eslint-plugin-template:** [prefer-style-binding] add bindUnits option ([#3197](https://github.com/angular-eslint/angular-eslint/pull/3197))
+- **eslint-plugin-template:** [valid-aria] report camelCase ARIA names in attr. bindings ([#3270](https://github.com/angular-eslint/angular-eslint/pull/3270))
+- add support for extracting inline styles in Angular components ([#3221](https://github.com/angular-eslint/angular-eslint/pull/3221))
+
+### 🩹 Fixes
+
+- **eslint-plugin-template:** [prefer-style-binding] correct bindUnits suggestion wording ([#3341](https://github.com/angular-eslint/angular-eslint/pull/3341))
+- lint @error (when ...) expressions in @boundary blocks ([#3334](https://github.com/angular-eslint/angular-eslint/pull/3334))
+- **eslint-plugin-template:** [prefer-template-literal] [no-interpolation-in-attributes] fix broken autofixes ([#3336](https://github.com/angular-eslint/angular-eslint/pull/3336))
+- **eslint-plugin-template:** map suggestion ranges for inline templates ([#3281](https://github.com/angular-eslint/angular-eslint/pull/3281))
+- **template-parser:** visit inputs of structural directive templates once ([#3296](https://github.com/angular-eslint/angular-eslint/pull/3296))
+- **eslint-plugin-template:** escape distracting element names in docs ([#3299](https://github.com/angular-eslint/angular-eslint/pull/3299))
+- **eslint-plugin-template:** [i18n] find duplicate IDs after a unique ID ([#3293](https://github.com/angular-eslint/angular-eslint/pull/3293))
+- **eslint-plugin-template:** [prefer-at-else] avoid double @else blocks ([#3298](https://github.com/angular-eslint/angular-eslint/pull/3298))
+
+### ❤️ Thank You
+
+- AI-JamesHenry @AI-JamesHenry
+- Alexander Chernyshov @ChernyshovA
+- Anubhav Lal @anubhavlal07
+- Daniel Pinto @Cayan
+- Guillaume DROUARD
+- Nate Radebaugh
+- Przemysław Kurc
+- Surkov Sergei @SynTronic
+- Wu Shuwen
+- Максим Иванов
+
 ## 22.6.0 (2026-10-11)
 
 ### 🩹 Fixes

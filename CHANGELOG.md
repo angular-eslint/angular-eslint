@@ -1,3 +1,51 @@
+## 22.7.0 (2026-11-15)
+
+### 🚀 Features
+
+- add support for extracting inline styles in Angular components ([#3221](https://github.com/angular-eslint/angular-eslint/pull/3221))
+- **eslint-plugin:** [no-experimental] add ignorePackages option ([#3305](https://github.com/angular-eslint/angular-eslint/pull/3305))
+- **eslint-plugin-template:** [valid-aria] report camelCase ARIA names in attr. bindings ([#3270](https://github.com/angular-eslint/angular-eslint/pull/3270))
+- **eslint-plugin-template:** [prefer-style-binding] add bindUnits option ([#3197](https://github.com/angular-eslint/angular-eslint/pull/3197))
+- **eslint-plugin-template:** add prefer-let-for-async-pipe rule ([#3199](https://github.com/angular-eslint/angular-eslint/pull/3199))
+
+### 🩹 Fixes
+
+- update typescript-eslint packages to v8.71.1 ([#3276](https://github.com/angular-eslint/angular-eslint/pull/3276))
+- update dependency @angular/compiler to v22.2.3 ([#3290](https://github.com/angular-eslint/angular-eslint/pull/3290))
+- update dependency eslint to v10.13.0 ([#3303](https://github.com/angular-eslint/angular-eslint/pull/3303))
+- update typescript-eslint packages to v8.72.0 ([#3304](https://github.com/angular-eslint/angular-eslint/pull/3304))
+- update dependency @angular/compiler to v22.2.4 ([#3324](https://github.com/angular-eslint/angular-eslint/pull/3324))
+- update dependency @angular/compiler to v22.2.5 ([#3338](https://github.com/angular-eslint/angular-eslint/pull/3338))
+- lint @error (when ...) expressions in @boundary blocks ([#3334](https://github.com/angular-eslint/angular-eslint/pull/3334))
+- update typescript-eslint packages to v8.72.1 ([#3318](https://github.com/angular-eslint/angular-eslint/pull/3318))
+- update dependency eslint to v10.14.0 ([#3327](https://github.com/angular-eslint/angular-eslint/pull/3327))
+- **eslint-plugin:** [reactive-context-must-read-signal] treat call() and apply() as unknown ([#3320](https://github.com/angular-eslint/angular-eslint/pull/3320))
+- **eslint-plugin:** [no-input-prefix] check signal and model inputs ([#3331](https://github.com/angular-eslint/angular-eslint/pull/3331))
+- **eslint-plugin-template:** [prefer-at-else] avoid double @else blocks ([#3298](https://github.com/angular-eslint/angular-eslint/pull/3298))
+- **eslint-plugin-template:** [i18n] find duplicate IDs after a unique ID ([#3293](https://github.com/angular-eslint/angular-eslint/pull/3293))
+- **eslint-plugin-template:** escape distracting element names in docs ([#3299](https://github.com/angular-eslint/angular-eslint/pull/3299))
+- **eslint-plugin-template:** map suggestion ranges for inline templates ([#3281](https://github.com/angular-eslint/angular-eslint/pull/3281))
+- **eslint-plugin-template:** [prefer-template-literal] [no-interpolation-in-attributes] fix broken autofixes ([#3336](https://github.com/angular-eslint/angular-eslint/pull/3336))
+- **eslint-plugin-template:** [prefer-style-binding] correct bindUnits suggestion wording ([#3341](https://github.com/angular-eslint/angular-eslint/pull/3341))
+- **schematics:** sync Angular schemas with upstream and check them in CI ([#3342](https://github.com/angular-eslint/angular-eslint/pull/3342))
+- **template-parser:** visit inputs of structural directive templates once ([#3296](https://github.com/angular-eslint/angular-eslint/pull/3296))
+
+### ❤️ Thank You
+
+- AI-JamesHenry @AI-JamesHenry
+- Alexander Chernyshov @ChernyshovA
+- Anubhav Lal @anubhavlal07
+- Daniel Pinto @Cayan
+- Guillaume DROUARD
+- Ivan Krivonos
+- JamesHenry @JamesHenry
+- mbaracz @mbaracz
+- Nate Radebaugh
+- Przemysław Kurc
+- Surkov Sergei @SynTronic
+- Wu Shuwen
+- Максим Иванов
+
 ## 22.6.0 (2026-10-11)
 
 ### 🚀 Features

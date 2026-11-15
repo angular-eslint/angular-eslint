@@ -1,3 +1,13 @@
+## 22.7.0 (2026-11-15)
+
+### 🩹 Fixes
+
+- **schematics:** sync Angular schemas with upstream and check them in CI ([#3342](https://github.com/angular-eslint/angular-eslint/pull/3342))
+
+### ❤️ Thank You
+
+- AI-JamesHenry @AI-JamesHenry
+
 ## 22.6.0 (2026-10-11)
 
 This was a version bump only for schematics to align it with other projects, there were no code changes.

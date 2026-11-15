@@ -1,3 +1,16 @@
+## 22.7.0 (2026-11-15)
+
+### 🚀 Features
+
+- **eslint-plugin-template:** add prefer-let-for-async-pipe rule ([#3199](https://github.com/angular-eslint/angular-eslint/pull/3199))
+- add support for extracting inline styles in Angular components ([#3221](https://github.com/angular-eslint/angular-eslint/pull/3221))
+
+### ❤️ Thank You
+
+- AI-JamesHenry @AI-JamesHenry
+- Nate Radebaugh
+- Максим Иванов
+
 ## 22.6.0 (2026-10-11)
 
 This was a version bump only for angular-eslint to align it with other projects, there were no code changes.

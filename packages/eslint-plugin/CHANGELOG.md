@@ -1,3 +1,20 @@
+## 22.7.0 (2026-11-15)
+
+### 🚀 Features
+
+- **eslint-plugin:** [no-experimental] add ignorePackages option ([#3305](https://github.com/angular-eslint/angular-eslint/pull/3305))
+
+### 🩹 Fixes
+
+- **eslint-plugin:** [no-input-prefix] check signal and model inputs ([#3331](https://github.com/angular-eslint/angular-eslint/pull/3331))
+- **eslint-plugin:** [reactive-context-must-read-signal] treat call() and apply() as unknown ([#3320](https://github.com/angular-eslint/angular-eslint/pull/3320))
+
+### ❤️ Thank You
+
+- Daniel Pinto @Cayan
+- Ivan Krivonos
+- mbaracz @mbaracz
+
 ## 22.6.0 (2026-10-11)
 
 ### 🚀 Features
