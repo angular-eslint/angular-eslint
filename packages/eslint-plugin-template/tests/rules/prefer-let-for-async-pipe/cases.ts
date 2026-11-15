@@ -221,6 +221,54 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '{{ getStream$(0) | async }} {{ getStream$(1) | async }}',
   {
     code: `
+      {{ user$ | async }}
+      <ng-content>{{ user$ | async }}</ng-content>
+    `,
+    settings: { hideFromDocs: true },
+  },
+  {
+    code: `
+      <ng-content>
+        @let user$ = selectedUser$;
+        {{ user$ | async }} {{ this.user$ | async }}
+      </ng-content>
+    `,
+    settings: { hideFromDocs: true },
+  },
+  {
+    code: `
+      {{ $error.user$ | async }}
+      @boundary {
+        <p>Loaded</p>
+      } @error (when $error.user$ | async) {
+        <p>Failed</p>
+      }
+    `,
+    settings: { hideFromDocs: true },
+  },
+  {
+    code: `
+      @boundary {
+        <p>Loaded</p>
+      } @error (when user$.retryable$ | async; let user$ = $error) {
+        <p>Failed</p>
+      }
+      {{ user$.retryable$ | async }}
+    `,
+    settings: { hideFromDocs: true },
+  },
+  {
+    code: `
+      @boundary {
+        <p>Loaded</p>
+      } @error (when $error.retryable$ | async) {
+        {{ $error.retryable$ | async }}
+      }
+    `,
+    settings: { hideFromDocs: true },
+  },
+  {
+    code: `
       {{ (user?.profile).stream$ | async }}
       {{ user?.profile.stream$ | async }}
     `,
@@ -481,7 +529,61 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     messages: [{ char: '~', messageId }],
     settings: { hideFromDocs: true },
   }),
-
+  convertAnnotatedSourceToFailureCase({
+    description: 'detects duplicate pipes within ng-content fallback content',
+    annotatedSource: `
+      <ng-content>
+        {{ user$ | async }}
+        {{ user$ | async }}
+           ~~~~~~~~~~~~~
+      </ng-content>
+    `,
+    messages: [{ char: '~', messageId }],
+    settings: { hideFromDocs: true },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'does not let locals declared in ng-content fallback content leak into the enclosing view',
+    annotatedSource: `
+      <ng-content>@let user$ = selectedUser$;</ng-content>
+      {{ user$ | async }}
+      {{ this.user$ | async }}
+         ~~~~~~~~~~~~~~~~~~
+    `,
+    messages: [{ char: '~', messageId }],
+    settings: { hideFromDocs: true },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'detects an error block condition in the enclosing view',
+    annotatedSource: `
+      {{ retryable$ | async }}
+      @boundary { <p>Loaded</p> } @error (when retryable$ | async) { <p>Failed</p> }
+                                               ~~~~~~~~~~~~~~~~~~
+    `,
+    messages: [{ char: '~', messageId }],
+    settings: { hideFromDocs: true },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'detects an explicit this read in an error block condition in the enclosing view',
+    annotatedSource: `
+      {{ $error.user$ | async }}
+      @boundary { <p>Loaded</p> } @error (when this.$error.user$ | async) { <p>Failed</p> }
+                                               ~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    messages: [{ char: '~', messageId }],
+    settings: { hideFromDocs: true },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'detects duplicate pipes that read error context within one error block condition',
+    annotatedSource: `
+      @boundary { <p>Loaded</p> } @error (when ($error.a$ | async) || ($error.a$ | async)) { <p>Failed</p> }
+                                                                       ~~~~~~~~~~~~~~~~~
+    `,
+    messages: [{ char: '~', messageId }],
+    settings: { hideFromDocs: true },
+  }),
   convertAnnotatedSourceToFailureCase({
     description: 'detects parenthesized expressions',
     annotatedSource: `
