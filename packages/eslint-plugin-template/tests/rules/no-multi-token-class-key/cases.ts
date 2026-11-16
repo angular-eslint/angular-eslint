@@ -42,6 +42,16 @@ export const valid: readonly string[] = [
   `<div [class]="{ \`a\\\${b}\`: cond }"></div>`,
   // Repeated single-token keys are not multi-token keys
   `<div [class]="{ 'a': x, 'a': y }"></div>`,
+  // A map on the left of && is never the result: it is truthy, so the right side is
+  `<div [class]="(flag ? { 'unused key': true } : null) && 'active'"></div>`,
+  `<div [class]="{ 'a b': true } && classes()"></div>`,
+  `<div [class]="{ ...({ 'a b': x } && extra) }"></div>`,
+  // Valid keys spread from a ternary or &&
+  `<div [class]="{ ...(flag ? { a: x } : {}), b: y, ...(wide && { c: z }) }"></div>`,
+  // A pipe in the condition of a valid key
+  `<div [class]="{ active: active$ | async }"></div>`,
+  // An ampersand that starts no character reference is part of the class name
+  `<div [class]="{ '[&>*]:p-2': cond }"></div>`,
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
@@ -219,7 +229,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     ],
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should fail on either side of &&',
+    description: 'should fail on the right side of &&',
     annotatedSource: `
         <div [class]="isOpen() && { 'a b': x }"></div>
                                     ~~~~~
@@ -458,6 +468,313 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         output: `
         <div [class]="{ active: y, ...({ 'a': x, 'b': x }) }"></div>
                                          
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail on the right side of ||',
+    annotatedSource: `
+        <div [class]="fallback || { 'a b': x }"></div>
+                                    ~~~~~
+      `,
+    messageId,
+    suggestions: [
+      {
+        messageId: suggestionMessageId,
+        output: `
+        <div [class]="fallback || { 'a': x, 'b': x }"></div>
+                                    
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should not suggest a split that writes the attribute quote into the template',
+    annotatedSource: `
+        <div [class]="{ 'a\\u0022b c': cond }"></div>
+                        ~~~~~~~~~~~~
+      `,
+    messageId,
+    suggestions: [],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should not suggest a split that writes the single attribute quote into the template',
+    annotatedSource: `
+        <div [class]='{ "a\\u0027b c": cond }'></div>
+                        ~~~~~~~~~~~~
+      `,
+    messageId,
+    suggestions: [],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should re-escape a quote that is not the attribute quote when splitting the key',
+    annotatedSource: `
+        <div [class]='{ "a\\u0022b c": cond }'></div>
+                        ~~~~~~~~~~~~
+      `,
+    messageId,
+    suggestions: [
+      {
+        messageId: suggestionMessageId,
+        output: `
+        <div [class]='{ "a\\"b": cond, "c": cond }'></div>
+                        
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should not suggest a split that writes an HTML character reference into the template',
+    annotatedSource: `
+        <div [class]="{ 'a\\u0026copy; b': cond }"></div>
+                        ~~~~~~~~~~~~~~~~
+      `,
+    messageId,
+    suggestions: [],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should not suggest a split that writes a null character into the template',
+    annotatedSource: `
+        <div [class]="{ 'a\\u0000b c': cond }"></div>
+                        ~~~~~~~~~~~~
+      `,
+    messageId,
+    suggestions: [],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should not suggest a split that writes an interpolation start into the template',
+    annotatedSource: `
+        <div [class]="{ 'a\\u007B\\u007Bb c': cond }"></div>
+                        ~~~~~~~~~~~~~~~~~~
+      `,
+    messageId,
+    suggestions: [],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should not suggest a split when the attribute value holds an interpolation start',
+    annotatedSource: `
+        <div [class]="{ 'a b': x === '{{' }"></div>
+                        ~~~~~
+      `,
+    messageId,
+    suggestions: [],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should keep an ampersand that starts no character reference when splitting the key',
+    annotatedSource: `
+        <div [class]="{ '[&>*]:p-2 flex': cond }"></div>
+                        ~~~~~~~~~~~~~~~~
+      `,
+    messageId,
+    suggestions: [
+      {
+        messageId: suggestionMessageId,
+        output: `
+        <div [class]="{ '[&>*]:p-2': cond, 'flex': cond }"></div>
+                        
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should not suggest a split that duplicates a key of a ternary spread into the map',
+    annotatedSource: `
+        <div [class]="{ ...(flag ? { a: true } : {}), 'a b': false }"></div>
+                                                      ~~~~~
+      `,
+    messageId,
+    suggestions: [],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should not suggest a split that duplicates a key of an && operand spread into the map',
+    annotatedSource: `
+        <div [class]="{ ...(flag && { a: true }), 'a b': false }"></div>
+                                                  ~~~~~
+      `,
+    messageId,
+    suggestions: [],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should not suggest a split when a spread into the map holds unknown keys',
+    annotatedSource: `
+        <div [class]="{ ...base, 'a b': false }"></div>
+                                 ~~~~~
+      `,
+    messageId,
+    suggestions: [],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should not suggest a split when either side of || spread into the map holds unknown keys',
+    annotatedSource: `
+        <div [class]="{ ...(flag || base), 'a b': false }"></div>
+                                           ~~~~~
+      `,
+    messageId,
+    suggestions: [],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should not suggest a split when a spread string adds keys to the map',
+    annotatedSource: `
+        <div [class]="{ ...'ab', 'a b': false }"></div>
+                                 ~~~~~
+      `,
+    messageId,
+    suggestions: [],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should still suggest a split when the spreads into the map hold no matching key',
+    annotatedSource: `
+        <div [class]="{ ...(flag ? { c: y } : null), ...(base && { d: z }), 'a b': x }"></div>
+                                                                            ~~~~~
+      `,
+    messageId,
+    suggestions: [
+      {
+        messageId: suggestionMessageId,
+        output: `
+        <div [class]="{ ...(flag ? { c: y } : null), ...(base && { d: z }), 'a': x, 'b': x }"></div>
+                                                                            
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail on a class map in a ternary spread into the map',
+    annotatedSource: `
+        <div [class]="{ ...(flag ? { 'a b': x } : {}) }"></div>
+                                     ~~~~~
+      `,
+    messageId,
+    suggestions: [
+      {
+        messageId: suggestionMessageId,
+        output: `
+        <div [class]="{ ...(flag ? { 'a': x, 'b': x } : {}) }"></div>
+                                     
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail on a class map on the right of && spread into the map',
+    annotatedSource: `
+        <div [class]="{ ...(flag && { 'a b': x }) }"></div>
+                                      ~~~~~
+      `,
+    messageId,
+    suggestions: [
+      {
+        messageId: suggestionMessageId,
+        output: `
+        <div [class]="{ ...(flag && { 'a': x, 'b': x }) }"></div>
+                                      
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail on a class map with a non-null assertion in a ternary spread into the map',
+    annotatedSource: `
+        <div [class]="{ ...(flag ? null : { 'a b': x }!) }"></div>
+                                            ~~~~~
+      `,
+    messageId,
+    suggestions: [
+      {
+        messageId: suggestionMessageId,
+        output: `
+        <div [class]="{ ...(flag ? null : { 'a': x, 'b': x }!) }"></div>
+                                            
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should not suggest a split that duplicates a key of the other branch of a ternary spread into the map',
+    annotatedSource: `
+        <div [class]="{ ...(flag ? { 'a b': x } : { a: y }) }"></div>
+                                     ~~~~~
+      `,
+    messageId,
+    suggestions: [],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should write a repeated class once when splitting the key',
+    annotatedSource: `
+        <div [class]="{ 'a a': next() }"></div>
+                        ~~~~~
+      `,
+    messageId,
+    suggestions: [
+      {
+        messageId: suggestionMessageId,
+        output: `
+        <div [class]="{ 'a': next() }"></div>
+                        
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should write each repeated class once when splitting a longer key',
+    annotatedSource: `
+        <div [class]="{ 'a b c a': isActive() }"></div>
+                        ~~~~~~~~~
+      `,
+    messageId,
+    suggestions: [
+      {
+        messageId: suggestionMessageId,
+        output: `
+        <div [class]="{ 'a': isActive(), 'b': isActive(), 'c': isActive() }"></div>
+                        
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should not suggest a split that runs a pipe in the condition once per class',
+    annotatedSource: `
+        <div [class]="{ 'a b': (state$ | async)?.active }"></div>
+                        ~~~~~
+      `,
+    messageId,
+    suggestions: [],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should suggest a split with a pipe in the condition when the key holds one distinct class',
+    annotatedSource: `
+        <div [class]="{ 'a a': active$ | async }"></div>
+                        ~~~~~
+      `,
+    messageId,
+    suggestions: [
+      {
+        messageId: suggestionMessageId,
+        output: `
+        <div [class]="{ 'a': active$ | async }"></div>
+                        
       `,
       },
     ],
