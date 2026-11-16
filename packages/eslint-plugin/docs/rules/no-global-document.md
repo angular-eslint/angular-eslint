@@ -23,7 +23,7 @@ Disallows usage of the global `document` inside Angular classes. The global is n
 
 ## Rationale
 
-The global `document` object is only available in browser environments. Angular applications can run on the server during server-side rendering (SSR) and during hydration, where `document` does not exist and any access to it will throw a runtime error. Angular provides the `DOCUMENT` injection token as the correct abstraction: `private readonly document = inject(DOCUMENT)`. The token resolves to the real `document` in the browser and to a server-safe implementation when running under Angular Universal or the built-in SSR support. Using `inject(DOCUMENT)` also makes components and services easier to test because the token can be overridden in tests without patching global state. The same concern applies to `window.document` and `globalThis.document`, both of which bypass the token and access the global directly. For more information see the [Angular SSR guide](https://angular.dev/guide/ssr).
+The global `document` object only exists in the browser. When an Angular application is rendered on the server (SSR or prerendering), components, directives, services and pipes are instantiated in Node.js, where there is no global `document`, so any access to it throws a `ReferenceError` and breaks the render. Angular provides the `DOCUMENT` injection token as the platform-safe abstraction: `private readonly document = inject(DOCUMENT)`. It resolves to the real `document` in the browser and to the server-side document that Angular renders into on the server. Working around the missing global, for example with a `typeof document` check, makes the server and the browser render different output, which can cause hydration mismatches. Injecting the token also keeps the dependency explicit and lets tests provide their own document instead of patching global state. For elements in a component's own template, prefer Angular's queries such as `viewChild()` and `contentChild()` over looking them up through the document, which keeps the component encapsulated. The rule reports every use of the global `document` inside an Angular class, including `window.document`, `globalThis.document` and destructuring such as `const { document } = window`. `typeof document` checks in code are reported too: inject the token instead, and use `isPlatformBrowser()` or `afterNextRender()` for code that must only run in the browser. Local variables, parameters and class members named `document`, such as `this.document`, are not reported. For more information see the [Angular SSR guide](https://angular.dev/guide/ssr).
 
 <br>
 
@@ -107,8 +107,8 @@ class FooComponent {
 ```ts
 @Component({ selector: 'app-foo', template: '' })
 class FooComponent {
-  getElement() {
-    return document.body.querySelector('.foo');
+  getBodyColor() {
+    return document.body.style.color;
            ~~~~~~~~
   }
 }
@@ -171,9 +171,9 @@ class FooComponent {
 ```ts
 @Component({ selector: 'app-foo', template: '' })
 class FooComponent {
-  ngAfterViewInit() {
-    const el = document.getElementById('my-id');
-               ~~~~~~~~
+  getTitle() {
+    return window.document.title;
+           ~~~~~~~~~~~~~~~
   }
 }
 ```
@@ -203,9 +203,9 @@ class FooComponent {
 ```ts
 @Component({ selector: 'app-foo', template: '' })
 class FooComponent {
-  ngAfterViewInit() {
-    const el = window.document.getElementById('my-id');
-               ~~~~~~~~~~~~~~~
+  getTitle() {
+    return globalThis.document.title;
+           ~~~~~~~~~~~~~~~~~~~
   }
 }
 ```
@@ -235,40 +235,8 @@ class FooComponent {
 ```ts
 @Component({ selector: 'app-foo', template: '' })
 class FooComponent {
-  ngAfterViewInit() {
-    const el = globalThis.document.getElementById('my-id');
-               ~~~~~~~~~~~~~~~~~~~
-  }
-}
-```
-
-<br>
-
----
-
-<br>
-
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/no-global-document": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
-#### ❌ Invalid Code
-
-```ts
-@Component({ selector: 'app-foo', template: '' })
-class FooComponent {
-  getElement() {
-    return document?.querySelector('.foo');
+  getTitle() {
+    return document?.title;
            ~~~~~~~~
   }
 }
@@ -300,8 +268,8 @@ class FooComponent {
 @Directive({ selector: '[appFoo]' })
 class FooDirective {
   ngAfterViewInit() {
-    const el = document.getElementById('my-id');
-               ~~~~~~~~
+    const title = document.title;
+                  ~~~~~~~~
   }
 }
 ```
@@ -334,8 +302,8 @@ class FooComponent {
   ngOnInit() {
     const title = document.title;
                   ~~~~~~~~
-    const el = document.getElementById('foo');
-               ~~~~~~~~
+    const body = document.body;
+                 ~~~~~~~~
   }
 }
 ```
@@ -442,16 +410,13 @@ class FooService {
 
 <br>
 
-#### Custom Config
+#### Default Config
 
 ```json
 {
   "rules": {
     "@angular-eslint/no-global-document": [
-      "error",
-      {
-        "checkServices": true
-      }
+      "error"
     ]
   }
 }
@@ -462,10 +427,40 @@ class FooService {
 #### ❌ Invalid Code
 
 ```ts
-@Injectable({ providedIn: 'root' })
-class FooService {
-  findElement() {
-    return document.getElementById('foo');
+@Component({ selector: 'app-foo', template: '' })
+class FooComponent {
+  private title = document.title;
+                  ~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-global-document": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({ selector: 'app-foo', template: '' })
+class FooComponent {
+  ngAfterViewInit() {
+    return document.body.querySelector('x');
            ~~~~~~~~
   }
 }
@@ -496,9 +491,545 @@ class FooService {
 ```ts
 @Component({ selector: 'app-foo', template: '' })
 class FooComponent {
-  private title = document.title;
-                  ~~~~~~~~
+  ngOnInit() {
+    const fn = () => {};
+    document.addEventListener('click', fn);
+    ~~~~~~~~
+  }
 }
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-global-document": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({ selector: 'app-foo', template: '' })
+class FooComponent {
+  ngOnInit() {
+    return window.document.getElementById('x');
+           ~~~~~~~~~~~~~~~
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-global-document": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({ selector: 'app-foo', template: '' })
+class FooComponent {
+  ngOnInit() {
+    return globalThis.document.getElementById('x');
+           ~~~~~~~~~~~~~~~~~~~
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-global-document": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({ selector: 'app-foo', template: '' })
+class FooComponent {
+  ngOnInit() {
+    return document?.querySelector('x');
+           ~~~~~~~~
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-global-document": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({ selector: 'app-foo', template: '' })
+class FooComponent {
+  getTitle() {
+    return window?.document.title;
+           ~~~~~~~~~~~~~~~~
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-global-document": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({ selector: 'app-foo', template: '' })
+class FooComponent {
+  getTitles() {
+    return [window['document'].title, globalThis[`document`].title];
+            ~~~~~~~~~~~~~~~~~~        ~~~~~~~~~~~~~~~~~~~~~~
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-global-document": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({ selector: 'app-foo', template: '' })
+class FooComponent {
+  getTitles() {
+    const { document } = window;
+            ~~~~~~~~
+    const { document: doc } = globalThis;
+            ~~~~~~~~~~~~~
+    return document.title + doc.title;
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-global-document": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({ selector: 'app-foo', template: '' })
+class FooComponent {
+  getTitle() {
+    let document: Document;
+    ({ document } = window);
+       ~~~~~~~~
+    return document.title;
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-global-document": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({ selector: 'app-foo', template: '' })
+class FooComponent {
+  isBrowser() {
+    return typeof document !== 'undefined';
+                  ~~~~~~~~
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-global-document": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({ selector: 'app-foo', template: '' })
+class FooComponent {
+  getContext() {
+    return { document };
+             ~~~~~~~~
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-global-document": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+type document = { title: string };
+interface Props { document: document }
+
+@Component({ selector: 'app-foo', template: '' })
+class FooComponent {
+  getTitle() {
+    return document.title;
+           ~~~~~~~~
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-global-document": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({ selector: 'app-foo', template: '' })
+class FooComponent {
+  ngOnInit() {
+    setTimeout(() => {
+      document.title = 'loaded';
+      ~~~~~~~~
+    });
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-global-document": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({ selector: 'app-foo', template: '' })
+class FooComponent {
+  method() {
+    class InnerHelper {
+      getTitle() {
+        return document.title;
+      }
+    }
+    return [new InnerHelper(), document.body];
+                               ~~~~~~~~
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-global-document": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+import { Component as NgComponent } from '@angular/core';
+
+@NgComponent({ selector: 'app-foo', template: '' })
+class FooComponent {
+  getTitle() {
+    return document.title;
+           ~~~~~~~~
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-global-document": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+import * as core from '@angular/core';
+
+@core.Directive({ selector: '[appFoo]' })
+class FooDirective {
+  getTitle() {
+    return document.title;
+           ~~~~~~~~
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-global-document": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+import * as core from '@angular/core';
+
+@core.Injectable({ providedIn: 'root' })
+class FooService {
+  getTitle() {
+    return document.title;
+           ~~~~~~~~
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-global-document": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+const FooComponent = @Component({ selector: 'app-foo', template: '' })
+class {
+  getTitle() {
+    return document.title;
+           ~~~~~~~~
+  }
+};
 ```
 
 </details>
@@ -626,39 +1157,6 @@ class FooComponent {
 
   getTitle() {
     return this.document.title;
-  }
-}
-```
-
-<br>
-
----
-
-<br>
-
-#### Default Config
-
-```json
-{
-  "rules": {
-    "@angular-eslint/no-global-document": [
-      "error"
-    ]
-  }
-}
-```
-
-<br>
-
-#### ✅ Valid Code
-
-```ts
-@Component({ selector: 'app-foo', template: '' })
-class FooComponent {
-  private readonly document = inject(DOCUMENT);
-
-  method() {
-    return this.document.body.querySelector('.foo');
   }
 }
 ```
@@ -955,6 +1453,488 @@ class FooComponent {
 
   getContent() {
     return this.iframe()?.nativeElement.contentWindow.document;
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-global-document": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+import { Component, DOCUMENT, inject } from '@angular/core';
+
+@Component({ selector: 'app-foo', template: '' })
+class FooComponent {
+  private readonly document = inject(DOCUMENT);
+
+  getTitle() {
+    return this.document.title;
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-global-document": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+import { DOCUMENT } from '@angular/common';
+import { Component, inject } from '@angular/core';
+
+@Component({ selector: 'app-foo', template: '' })
+class FooComponent {
+  private readonly document = inject(DOCUMENT);
+
+  ngOnInit() {
+    this.document.body.classList.add('foo');
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-global-document": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+import { DOCUMENT } from '@angular/common';
+import { Component, Inject } from '@angular/core';
+
+@Component({ selector: 'app-foo', template: '' })
+class FooComponent {
+  constructor(@Inject(DOCUMENT) private readonly document: Document) {}
+
+  ngOnInit() {
+    this.document.addEventListener('click', () => {});
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-global-document": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({ selector: 'app-foo', template: '' })
+class FooComponent {
+  document = inject(DOCUMENT);
+
+  getDocument() {
+    return this.document;
+  }
+
+  ['document']() {
+    return this['document'];
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-global-document": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({ selector: 'app-foo', template: '' })
+class FooComponent {
+  private readonly options: { document: Document } = {
+    document: inject(DOCUMENT),
+  };
+
+  configure(options: { document?: Document }) {
+    return { ...options, document: this.options.document };
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-global-document": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({ selector: 'app-foo', template: '' })
+class FooComponent {
+  private readonly document: typeof document = inject(DOCUMENT);
+  private body?: typeof document.body;
+
+  method(): typeof globalThis.document {
+    return this.document;
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-global-document": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({ selector: 'app-foo', template: '' })
+class FooComponent {
+  getTitle(window: Window) {
+    return window.document.title;
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-global-document": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+import { Component } from '@angular/core';
+import { window } from './window-adapter';
+
+@Component({ selector: 'app-foo', template: '' })
+class FooComponent {
+  getTitle() {
+    const { document } = window;
+    return window.document.title + window['document'].title + document.title;
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-global-document": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({ selector: 'app-foo', template: '' })
+class FooComponent {
+  getTitle() {
+    const globalThis = { document: inject(DOCUMENT) };
+    return globalThis.document.title;
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-global-document": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({ selector: 'app-foo', template: '' })
+class FooComponent {
+  method() {
+    const { location } = window;
+    return [location, globalThis.navigator, window['documentElement']];
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-global-document": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+@Component({ selector: 'app-foo', template: '' })
+class FooComponent {
+  private readonly helper = class {
+    getTitle() {
+      return window.document.title + document.title;
+    }
+  };
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-global-document": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+import { Component } from '@angular/core';
+import { Component as Widget } from './my-widgets';
+
+@Widget()
+class FooWidget {
+  getTitle() {
+    return document.title;
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-global-document": [
+      "error",
+      {
+        "checkServices": false
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+import { Injectable as Component } from '@angular/core';
+
+@Component({ providedIn: 'root' })
+class FooService {
+  getTitle() {
+    return document.title;
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-global-document": [
+      "error",
+      {
+        "checkServices": false
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+import * as core from '@angular/core';
+
+@core.Injectable({ providedIn: 'root' })
+class FooService {
+  getTitle() {
+    return document.title;
   }
 }
 ```
