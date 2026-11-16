@@ -1,6 +1,8 @@
 /**
  * Builds the replacement text for a multi-token class map entry: one entry per
- * class token, each paired with the original condition text.
+ * class token, each paired with the original condition text. The tokens are
+ * written verbatim, so callers must only pass tokens that need no escaping
+ * between the given quotes.
  */
 export function splitMultiTokenKey(
   tokens: readonly string[],
@@ -8,19 +10,7 @@ export function splitMultiTokenKey(
   conditionText: string,
 ): string {
   const quoteChar = quote ?? "'";
-  // Tokens come from the parsed (unescaped) key, so they must be re-escaped
-  // before being written back between quotes. In a template literal, `${`
-  // must also stay escaped, or it would start an interpolation.
-  const escape = (token: string) => {
-    const escaped = token
-      .replace(/\\/g, '\\\\')
-      .split(quoteChar)
-      .join(`\\${quoteChar}`);
-    return quoteChar === '`' ? escaped.replace(/\$\{/g, '\\${') : escaped;
-  };
   return tokens
-    .map(
-      (token) => `${quoteChar}${escape(token)}${quoteChar}: ${conditionText}`,
-    )
+    .map((token) => `${quoteChar}${token}${quoteChar}: ${conditionText}`)
     .join(', ');
 }

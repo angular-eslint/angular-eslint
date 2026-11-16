@@ -23,28 +23,8 @@ describe('splitMultiTokenKey', () => {
     expect(splitMultiTokenKey(['a', 'b'], null, 'c')).toBe("'a': c, 'b': c");
   });
 
-  it('re-escapes the quote character inside a token', () => {
-    expect(splitMultiTokenKey(["content-['x']", 'block'], "'", 'c')).toBe(
-      "'content-[\\'x\\']': c, 'block': c",
-    );
-  });
-
-  it('re-escapes backslashes inside a token', () => {
-    expect(splitMultiTokenKey(['a\\b', 'c'], "'", 'c')).toBe(
-      "'a\\\\b': c, 'c': c",
-    );
-  });
-
-  it('re-escapes backticks and interpolation starts in a template literal', () => {
-    expect(splitMultiTokenKey(['a`b', '${c}'], '`', 'x')).toBe(
-      '`a\\`b`: x, `\\${c}`: x',
-    );
-  });
-
-  it('leaves a dollar sign that starts no interpolation alone', () => {
-    expect(splitMultiTokenKey(['$a', '${b}'], "'", 'x')).toBe(
-      "'$a': x, '${b}': x",
-    );
+  it('keeps the template literal quote', () => {
+    expect(splitMultiTokenKey(['a', 'b'], '`', 'x')).toBe('`a`: x, `b`: x');
   });
 
   it('copies the condition text verbatim', () => {
