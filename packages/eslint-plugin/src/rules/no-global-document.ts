@@ -185,6 +185,25 @@ export default createESLintRule<Options, MessageIds>({
     }
 
     /**
+     * Whether a definition creates a binding at runtime. Type-only and
+     * ambient (`declare`) definitions don't.
+     */
+    function isRuntimeValueDefinition(def: TSESLint.Scope.Definition): boolean {
+      if (!def.isVariableDefinition) {
+        return false;
+      }
+      const node = def.node as TSESTree.Node;
+      if (node.type === AST_NODE_TYPES.TSDeclareFunction) {
+        return false;
+      }
+      if ('declare' in node && node.declare) {
+        return false;
+      }
+      const parent = def.parent as TSESTree.Node | null | undefined;
+      return !(parent && 'declare' in parent && parent.declare);
+    }
+
+    /**
      * Returns the value references to the real global variable `name`, that
      * is, references that are not shadowed by any declaration in the file.
      */
@@ -193,13 +212,21 @@ export default createESLintRule<Options, MessageIds>({
       name: string,
     ): TSESLint.Scope.Reference[] {
       const references = new Set<TSESLint.Scope.Reference>();
-      const variable = globalScope.set.get(name);
-      // A variable with value definitions was declared by the user (e.g. a
-      // top-level `var` in a script), so it is not the browser global. Type-only
-      // definitions (`type document = {}`, `interface document {}`) do not
-      // replace the global value.
-      if (variable && !variable.defs.some((def) => def.isVariableDefinition)) {
-        for (const reference of variable.references) references.add(reference);
+      // A top-level variable with runtime definitions was declared by the user
+      // (e.g. a `var` in a script), so it is not the browser global. Type-only
+      // definitions (`type document = {}`, `interface document {}`) and
+      // ambient ones (`declare var document: Document`) emit no runtime
+      // binding, so reads still reach the global value.
+      const moduleScope = globalScope.childScopes.find(
+        (scope) => scope.type === 'module',
+      );
+      for (const scope of [globalScope, moduleScope]) {
+        const variable = scope?.set.get(name);
+        if (variable && !variable.defs.some(isRuntimeValueDefinition)) {
+          for (const reference of variable.references) {
+            references.add(reference);
+          }
+        }
       }
       for (const reference of globalScope.through) {
         if (reference.identifier.name === name) references.add(reference);

@@ -905,6 +905,41 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
+      'should fail in a script when document is only declared as an ambient variable',
+    annotatedSource: `
+      declare var document: Document;
+
+      @Component({ selector: 'app-foo', template: '' })
+      class FooComponent {
+        title = document.title;
+                ~~~~~~~~
+      }
+    `,
+    messageId,
+    languageOptions: {
+      parserOptions: { sourceType: 'script' },
+    },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail in a module when document and window are only declared as ambient variables',
+    annotatedSource: `
+      declare var document: Document;
+      declare const window: Window;
+
+      @Component({ selector: 'app-foo', template: '' })
+      class FooComponent {
+        titles = [document.title, window.document.title];
+                  ~~~~~~~~        ^^^^^^^^^^^^^^^
+      }
+    `,
+    messages: [
+      { char: '~', messageId },
+      { char: '^', messageId },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
       'should fail in a script when interfaces share the names of configured globals window and globalThis',
     annotatedSource: `
       interface window {}

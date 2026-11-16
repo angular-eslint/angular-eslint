@@ -1201,6 +1201,71 @@ class FooComponent {
 #### ❌ Invalid Code
 
 ```ts
+declare var document: Document;
+
+@Component({ selector: 'app-foo', template: '' })
+class FooComponent {
+  title = document.title;
+          ~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-global-document": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+declare var document: Document;
+declare const window: Window;
+
+@Component({ selector: 'app-foo', template: '' })
+class FooComponent {
+  titles = [document.title, window.document.title];
+            ~~~~~~~~        ~~~~~~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-global-document": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
 interface window {}
 interface globalThis {}
 
