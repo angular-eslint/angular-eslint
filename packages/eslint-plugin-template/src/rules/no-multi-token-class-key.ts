@@ -12,6 +12,8 @@ import {
   NonNullAssert,
   ParenthesizedExpression,
   RecursiveAstVisitor,
+  TmplAstElement,
+  TmplAstTemplate,
 } from '@angular-eslint/bundled-angular-compiler';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import { splitMultiTokenKey } from '../utils/split-multi-token-key';
@@ -43,18 +45,26 @@ export default createESLintRule<Options, MessageIds>({
   create(context) {
     const sourceCode = context.sourceCode;
     const sourceText = sourceCode.getText();
+    // The inputs of an element with a structural directive are also the
+    // inputs of its implicit `<ng-template>`, so the same node is visited twice.
+    const checked = new Set<TmplAstBoundAttribute>();
 
     return {
-      'BoundAttribute[name="class"]'(node: TmplAstBoundAttribute) {
+      'BoundAttribute[name="class"]'(
+        node: TmplAstBoundAttribute & { parent?: unknown },
+      ) {
         // `[class]` and `bind-class` have the key span `class`, whereas
         // `[attr.class]` and `bind-attr.class` share the name `class` too.
         if (
+          checked.has(node) ||
+          !appliesStyling(node) ||
           node.keySpan?.toString() !== 'class' ||
           !(node.value instanceof ASTWithSource) ||
           !node.valueSpan
         ) {
           return;
         }
+        checked.add(node);
 
         // Expression offsets index the decoded attribute value. When the
         // source holds HTML entities (such as `&amp;&amp;`), they no longer
@@ -67,7 +77,9 @@ export default createESLintRule<Options, MessageIds>({
           valueSource;
         const attributeQuote = sourceText[valueSpan.fullStart.offset - 1];
 
-        for (const { entries, keysKnown } of collectClassMaps(node.value.ast)) {
+        for (const { entries, keysKnown, keyCounts } of collectClassMaps(
+          node.value.ast,
+        )) {
           for (const entry of entries) {
             const { map, index } = entry;
             const key = map.keys[index];
@@ -85,11 +97,6 @@ export default createESLintRule<Options, MessageIds>({
               : [valueSpan.start.offset, valueSpan.end.offset];
             const value = map.values[index];
             const tokens = [...new Set(getClassTokens(key.key))];
-            const replacement = splitMultiTokenKey(
-              tokens,
-              key.quoted ? sourceText[start] : null,
-              sourceText.slice(value.sourceSpan.start, value.sourceSpan.end),
-            );
 
             context.report({
               loc: {
@@ -99,22 +106,37 @@ export default createESLintRule<Options, MessageIds>({
               messageId,
               // A key made only of whitespace holds no class to split into.
               // A token that may also be another key of the same class map
-              // would change which condition decides that class. A pipe in
-              // the condition would run once per class after the split.
+              // would change which condition decides that class, and so
+              // would splitting a key that the map repeats, since a later
+              // entry may override it. A pipe in the condition would run
+              // once per class after the split.
               suggest:
                 offsetsMatchSource &&
                 tokens.length > 0 &&
                 keysKnown &&
-                !collidesWithOtherKey(tokens, entries, entry) &&
+                keyCounts.get(key.key) === 1 &&
+                !tokens.some((token) => keyCounts.has(token)) &&
                 !(tokens.length > 1 && containsPipe(value)) &&
-                isSafeInAttribute(replacement, valueSource, attributeQuote)
+                isSafeToWrite(
+                  sourceText.slice(start, end),
+                  tokens,
+                  valueSource,
+                  attributeQuote,
+                )
                   ? [
                       {
                         messageId: 'splitKey',
                         fix: (fixer) =>
                           fixer.replaceTextRange(
                             [start, value.sourceSpan.end],
-                            replacement,
+                            splitMultiTokenKey(
+                              tokens,
+                              key.quoted ? sourceText[start] : null,
+                              sourceText.slice(
+                                value.sourceSpan.start,
+                                value.sourceSpan.end,
+                              ),
+                            ),
                           ),
                       },
                     ]
@@ -129,7 +151,7 @@ export default createESLintRule<Options, MessageIds>({
 
 export const RULE_DOCS_EXTENSION = {
   rationale:
-    "Angular reads each key of an object bound to `[class]` (or `bind-class`) as a single class name and handles whitespace inside a key in one of two ways. A key that contains a space (for example `{ 'text-x dark:text-y': cond }`) is discarded by Angular's styling runtime without any build error or runtime warning, even in development mode, so the element gets none of its classes. A key that contains a tab or newline but no space is not filtered out: it reaches `classList.add`, which throws an `InvalidCharacterError` at runtime. This usually happens when a variant is appended to an existing key, or when migrating from `[ngClass]`, which does split keys on whitespace and is therefore not affected. Keys made only of spaces are dropped without losing any class, so they are not reported. This rule complements `prefer-class-binding`, which declines to suggest `[class]` for such keys but never inspects existing `[class]` bindings. Maps built in the component class and bound by reference (`[class]=\"classMap\"`) cannot be checked. The suggested fix splits the key into one key per distinct class, each with a copy of the condition. It is not offered when another key of the same map, including keys spread into it, may name one of those classes, when a spread adds keys that cannot be read from the template, when the condition contains a pipe, which would then run once per class, or when a class name could not be written back into the attribute without changing how the HTML is parsed.",
+    "Angular reads each key of an object bound to `[class]` (or `bind-class`) as a single class name and handles whitespace inside a key in one of two ways. A key that contains a space (for example `{ 'text-x dark:text-y': cond }`) is discarded by Angular's styling runtime without any build error or runtime warning, even in development mode, so the element gets none of its classes. A key that contains a tab or newline but no space is not filtered out: it reaches `classList.add`, which throws an `InvalidCharacterError` at runtime. This usually happens when a variant is appended to an existing key, or when migrating from `[ngClass]`, which does split keys on whitespace and is therefore not affected. Keys made only of spaces are dropped without losing any class, so they are not reported. This rule complements `prefer-class-binding`, which declines to suggest `[class]` for such keys but never inspects existing `[class]` bindings. Maps built in the component class and bound by reference (`[class]=\"classMap\"`) cannot be checked. Bindings on `<ng-template>` and `<ng-container>` are not reported, since Angular applies no classes there, but a component that declares its own `class` input cannot be recognized from the template and is still reported. The suggested fix splits the key into one key per distinct class, each with a copy of the condition, so the condition is then evaluated once per class and should be checked for side effects before applying it. The suggestion is not offered when another key of the same map, including keys spread into it, may name one of those classes, when the map repeats the key itself, when a spread adds keys that cannot be read from the template, when the condition contains a pipe, which would then run once per class, when the key contains an escape sequence, or when a class name holds a character that could change how the template is parsed, such as a quote, a backtick, `$`, `<`, or `&` followed by a letter, digit or `#`.",
 };
 
 /**
@@ -149,27 +171,49 @@ function getClassTokens(key: string): string[] {
 }
 
 /**
- * Whether the split entries can replace the original entry inside the
- * attribute value without changing how the HTML around them is parsed. The
- * tokens are decoded from the key, so an escape such as `\u0022` or
- * `\u0026` comes back as a raw character. The rest of the replacement is
- * copied from source text that parsed as plain characters, as long as no
- * `{{` puts part of the value in interpolation mode.
+ * Whether the split entries can be written in place of the original entry
+ * without escaping anything. Escapes in the key are not reproduced, and each
+ * class name is written back verbatim, so it is limited to characters that
+ * mean nothing special to the expression lexer (quotes, backslashes), to a
+ * template literal (backticks, `${`), or to the HTML around the attribute
+ * value (character references, `{{` interpolation, tags). The rest of the
+ * replacement is copied from source text that parsed as plain characters, as
+ * long as no `{{` puts part of the value in interpolation mode.
  */
-function isSafeInAttribute(
-  replacement: string,
+function isSafeToWrite(
+  keySource: string,
+  tokens: readonly string[],
   valueSource: string,
   attributeQuote: string | undefined,
 ): boolean {
   return (
     (attributeQuote === '"' || attributeQuote === "'") &&
-    !replacement.includes(attributeQuote) &&
-    // Character references, which the HTML parser decodes (or rejects)
-    !/&(?:#|[A-Za-z]*;)/.test(replacement) &&
+    !keySource.includes('\\') &&
     !valueSource.includes('{{') &&
-    !replacement.includes('{{') &&
-    // The expression lexer reads U+0000 as the end of its input
-    !replacement.includes('\0')
+    tokens.every((token) => !/["'`$<\0]|&[A-Za-z0-9#]|\{\{|\}\}/.test(token))
+  );
+}
+
+/**
+ * Angular applies `[class]` to elements only. On `<ng-template>` and
+ * `<ng-container>`, which render no element of their own, it is ignored.
+ * The inputs of an element with a structural directive are shared with its
+ * implicit template, so the parent may be either of them.
+ */
+function appliesStyling(
+  node: TmplAstBoundAttribute & { parent?: unknown },
+): boolean {
+  const { parent } = node;
+  const element =
+    parent instanceof TmplAstTemplate
+      ? parent.children.find(
+          (child) =>
+            child instanceof TmplAstElement && child.inputs.includes(node),
+        )
+      : parent;
+  return (
+    element instanceof TmplAstElement &&
+    element.name.replace(/^:[^:]*:/, '') !== 'ng-container'
   );
 }
 
@@ -203,19 +247,8 @@ interface ClassMapEntry {
 interface ClassMap {
   readonly entries: readonly ClassMapEntry[];
   readonly keysKnown: boolean;
-}
-
-function collidesWithOtherKey(
-  tokens: readonly string[],
-  entries: readonly ClassMapEntry[],
-  entry: ClassMapEntry,
-): boolean {
-  return entries.some((other) => {
-    const key = other.map.keys[other.index];
-    return (
-      other !== entry && key.kind === 'property' && tokens.includes(key.key)
-    );
-  });
+  /** How many entries of the map hold each property key */
+  readonly keyCounts: ReadonlyMap<string, number>;
 }
 
 /**
@@ -246,7 +279,15 @@ function collectEntries(root: LiteralMap): ClassMap {
     });
   }
 
-  return { entries, keysKnown };
+  const keyCounts = new Map<string, number>();
+  for (const { map, index } of entries) {
+    const key = map.keys[index];
+    if (key.kind === 'property') {
+      keyCounts.set(key.key, (keyCounts.get(key.key) ?? 0) + 1);
+    }
+  }
+
+  return { entries, keysKnown, keyCounts };
 }
 
 /**

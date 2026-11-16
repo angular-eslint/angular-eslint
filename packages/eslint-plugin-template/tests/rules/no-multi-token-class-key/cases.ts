@@ -52,6 +52,11 @@ export const valid: readonly string[] = [
   `<div [class]="{ active: active$ | async }"></div>`,
   // An ampersand that starts no character reference is part of the class name
   `<div [class]="{ '[&>*]:p-2': cond }"></div>`,
+  // Angular applies no classes on nodes that render no element
+  `<ng-template [class]="{ 'a b': cond }"></ng-template>`,
+  `<ng-container [class]="{ 'a b': cond }"></ng-container>`,
+  `<ng-container *ngIf="show" [class]="{ 'a b': cond }"></ng-container>`,
+  `<ng-template [ngIf]="show" [class]="{ 'a\tb': cond }"><div></div></ng-template>`,
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
@@ -266,8 +271,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     description:
       'should fail with the runtime error message when a key holds a tab but no space',
     annotatedSource: `
-        <div [class]="{ 'a\\tb': x }"></div>
-                        ~~~~~~
+        <div [class]="{ 'a	b': x }"></div>
+                        ~~~~~
       `,
     messageId: tabOrNewlineMessageId,
     suggestions: [
@@ -282,21 +287,13 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'should fail with the runtime error message when a key holds a newline but no space',
+      'should fail without a suggestion when a key holds an escaped newline but no space',
     annotatedSource: `
         <div [class]="{ 'a\\nb': x }"></div>
                         ~~~~~~
       `,
     messageId: tabOrNewlineMessageId,
-    suggestions: [
-      {
-        messageId: suggestionMessageId,
-        output: `
-        <div [class]="{ 'a': x, 'b': x }"></div>
-                        
-      `,
-      },
-    ],
+    suggestions: [],
   }),
   convertAnnotatedSourceToFailureCase({
     description: 'should fail without a suggestion when a key holds only tabs',
@@ -311,8 +308,8 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     description:
       'should fail with the dropped key message when a key holds both a space and a tab',
     annotatedSource: `
-        <div [class]="{ 'a\\tb c': x }"></div>
-                        ~~~~~~~~
+        <div [class]="{ 'a	b c': x }"></div>
+                        ~~~~~~~
       `,
     messageId,
     suggestions: [
@@ -326,21 +323,13 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     ],
   }),
   convertAnnotatedSourceToFailureCase({
-    description: 'should re-escape quotes inside the key when splitting it',
+    description: 'should not suggest a split when the key holds escaped quotes',
     annotatedSource: `
         <div [class]="{ 'content-[\\'x\\'] block': x }"></div>
                         ~~~~~~~~~~~~~~~~~~~~~~~
       `,
     messageId,
-    suggestions: [
-      {
-        messageId: suggestionMessageId,
-        output: `
-        <div [class]="{ 'content-[\\'x\\']': x, 'block': x }"></div>
-                        
-      `,
-      },
-    ],
+    suggestions: [],
   }),
   convertAnnotatedSourceToFailureCase({
     description:
@@ -422,21 +411,13 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'should keep an escaped interpolation start escaped when splitting a template literal key',
+      'should not suggest a split when a template literal key holds an escaped interpolation start',
     annotatedSource: `
         <div [class]="{ \`a \\\${b} c\`: x }"></div>
                         ~~~~~~~~~~~
       `,
     messageId,
-    suggestions: [
-      {
-        messageId: suggestionMessageId,
-        output: `
-        <div [class]="{ \`a\`: x, \`\\\${b}\`: x, \`c\`: x }"></div>
-                        
-      `,
-      },
-    ],
+    suggestions: [],
   }),
   convertAnnotatedSourceToFailureCase({
     description: 'should fail on a class map with a non-null assertion',
@@ -511,21 +492,13 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'should re-escape a quote that is not the attribute quote when splitting the key',
+      'should not suggest a split that writes a quote, even one that is not the attribute quote',
     annotatedSource: `
         <div [class]='{ "a\\u0022b c": cond }'></div>
                         ~~~~~~~~~~~~
       `,
     messageId,
-    suggestions: [
-      {
-        messageId: suggestionMessageId,
-        output: `
-        <div [class]='{ "a\\"b": cond, "c": cond }'></div>
-                        
-      `,
-      },
-    ],
+    suggestions: [],
   }),
   convertAnnotatedSourceToFailureCase({
     description:
@@ -775,6 +748,158 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         output: `
         <div [class]="{ 'a': active$ | async }"></div>
                         
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should not suggest a split when the key holds an escape that decodes to a plain character',
+    annotatedSource: `
+        <div [class]="{ 'a\\u0062 c': cond }"></div>
+                        ~~~~~~~~~~~
+      `,
+    messageId,
+    suggestions: [],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should not suggest a split that writes a named character reference with digits into the template',
+    annotatedSource: `
+        <div [class]="{ 'a\\u0026frac12; b': cond }"></div>
+                        ~~~~~~~~~~~~~~~~~~
+      `,
+    messageId,
+    suggestions: [],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should not suggest a split when a class name holds a backtick',
+    annotatedSource: `
+        <div [class]="{ 'a\`b c': cond }"></div>
+                        ~~~~~~~
+      `,
+    messageId,
+    suggestions: [],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should not suggest a split when a class name holds a dollar sign',
+    annotatedSource: `
+        <div [class]="{ 'a\${b} c': cond }"></div>
+                        ~~~~~~~~~
+      `,
+    messageId,
+    suggestions: [],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should not suggest a split when a class name holds an opening angle bracket',
+    annotatedSource: `
+        <div [class]="{ 'a<b c': cond }"></div>
+                        ~~~~~~~
+      `,
+    messageId,
+    suggestions: [],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should not suggest a split when a class name holds an ampersand followed by a letter',
+    annotatedSource: `
+        <div [class]="{ 'a&b c': cond }"></div>
+                        ~~~~~~~
+      `,
+    messageId,
+    suggestions: [],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should keep Tailwind-style class names when splitting the key',
+    annotatedSource: `
+        <div [class]="{ 'md:flex w-1/2 !mt-0 hover:bg-[#fff] [&>*]:p-2 a&-b': cond }"></div>
+                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId,
+    suggestions: [
+      {
+        messageId: suggestionMessageId,
+        output: `
+        <div [class]="{ 'md:flex': cond, 'w-1/2': cond, '!mt-0': cond, 'hover:bg-[#fff]': cond, '[&>*]:p-2': cond, 'a&-b': cond }"></div>
+                        
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should keep template literal quotes when splitting the key',
+    annotatedSource: `
+        <div [class]="{ \`a b\`: cond }"></div>
+                        ~~~~~
+      `,
+    messageId,
+    suggestions: [
+      {
+        messageId: suggestionMessageId,
+        output: `
+        <div [class]="{ \`a\`: cond, \`b\`: cond }"></div>
+                        
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should not suggest splitting a key that a later entry of the map overrides',
+    annotatedSource: `
+        <div [class]="{ ...{ 'a b': true }, 'a b': false }"></div>
+                             ~~~~~          ^^^^^
+      `,
+    messages: [
+      { char: '~', messageId, suggestions: [] },
+      { char: '^', messageId, suggestions: [] },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should not suggest splitting a key that the map repeats',
+    annotatedSource: `
+        <div [class]="{ 'a b': x, 'a b': y }"></div>
+                        ~~~~~     ^^^^^
+      `,
+    messages: [
+      { char: '~', messageId, suggestions: [] },
+      { char: '^', messageId, suggestions: [] },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should report once on an element with a structural directive',
+    annotatedSource: `
+        <div *ngIf="show" [class]="{ 'a b': cond }"></div>
+                                     ~~~~~
+      `,
+    messageId,
+    suggestions: [
+      {
+        messageId: suggestionMessageId,
+        output: `
+        <div *ngIf="show" [class]="{ 'a': cond, 'b': cond }"></div>
+                                     
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail on an element inside an ng-template',
+    annotatedSource: `
+        <ng-template><span [class]="{ 'a b': cond }"></span></ng-template>
+                                      ~~~~~
+      `,
+    messageId,
+    suggestions: [
+      {
+        messageId: suggestionMessageId,
+        output: `
+        <ng-template><span [class]="{ 'a': cond, 'b': cond }"></span></ng-template>
+                                      
       `,
       },
     ],

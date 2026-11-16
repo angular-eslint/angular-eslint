@@ -25,7 +25,7 @@ Disallows whitespace in object keys of `[class]` bindings, which makes Angular s
 
 ## Rationale
 
-Angular reads each key of an object bound to `[class]` (or `bind-class`) as a single class name and handles whitespace inside a key in one of two ways. A key that contains a space (for example `{ 'text-x dark:text-y': cond }`) is discarded by Angular's styling runtime without any build error or runtime warning, even in development mode, so the element gets none of its classes. A key that contains a tab or newline but no space is not filtered out: it reaches `classList.add`, which throws an `InvalidCharacterError` at runtime. This usually happens when a variant is appended to an existing key, or when migrating from `[ngClass]`, which does split keys on whitespace and is therefore not affected. Keys made only of spaces are dropped without losing any class, so they are not reported. This rule complements `prefer-class-binding`, which declines to suggest `[class]` for such keys but never inspects existing `[class]` bindings. Maps built in the component class and bound by reference (`[class]="classMap"`) cannot be checked. The suggested fix splits the key into one key per distinct class, each with a copy of the condition. It is not offered when another key of the same map, including keys spread into it, may name one of those classes, when a spread adds keys that cannot be read from the template, when the condition contains a pipe, which would then run once per class, or when a class name could not be written back into the attribute without changing how the HTML is parsed.
+Angular reads each key of an object bound to `[class]` (or `bind-class`) as a single class name and handles whitespace inside a key in one of two ways. A key that contains a space (for example `{ 'text-x dark:text-y': cond }`) is discarded by Angular's styling runtime without any build error or runtime warning, even in development mode, so the element gets none of its classes. A key that contains a tab or newline but no space is not filtered out: it reaches `classList.add`, which throws an `InvalidCharacterError` at runtime. This usually happens when a variant is appended to an existing key, or when migrating from `[ngClass]`, which does split keys on whitespace and is therefore not affected. Keys made only of spaces are dropped without losing any class, so they are not reported. This rule complements `prefer-class-binding`, which declines to suggest `[class]` for such keys but never inspects existing `[class]` bindings. Maps built in the component class and bound by reference (`[class]="classMap"`) cannot be checked. Bindings on `<ng-template>` and `<ng-container>` are not reported, since Angular applies no classes there, but a component that declares its own `class` input cannot be recognized from the template and is still reported. The suggested fix splits the key into one key per distinct class, each with a copy of the condition, so the condition is then evaluated once per class and should be checked for side effects before applying it. The suggestion is not offered when another key of the same map, including keys spread into it, may name one of those classes, when the map repeats the key itself, when a spread adds keys that cannot be read from the template, when the condition contains a pipe, which would then run once per class, when the key contains an escape sequence, or when a class name holds a character that could change how the template is parsed, such as a quote, a backtick, `$`, `<`, or `&` followed by a letter, digit or `#`.
 
 <br>
 
@@ -333,8 +333,8 @@ The rule does not have any configuration options.
 #### ❌ Invalid Code
 
 ```html
-<div [class]="{ 'a\tb': x }"></div>
-                ~~~~~~
+<div [class]="{ 'a	b': x }"></div>
+                ~~~~~
 ```
 
 <br>
@@ -414,8 +414,8 @@ The rule does not have any configuration options.
 #### ❌ Invalid Code
 
 ```html
-<div [class]="{ 'a\tb c': x }"></div>
-                ~~~~~~~~
+<div [class]="{ 'a	b c': x }"></div>
+                ~~~~~~~
 ```
 
 <br>
@@ -1336,6 +1336,330 @@ The rule does not have any configuration options.
                 ~~~~~
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-multi-token-class-key": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [class]="{ 'a\u0062 c': cond }"></div>
+                ~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-multi-token-class-key": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [class]="{ 'a\u0026frac12; b': cond }"></div>
+                ~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-multi-token-class-key": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [class]="{ 'a`b c': cond }"></div>
+                ~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-multi-token-class-key": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [class]="{ 'a${b} c': cond }"></div>
+                ~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-multi-token-class-key": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [class]="{ 'a<b c': cond }"></div>
+                ~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-multi-token-class-key": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [class]="{ 'a&b c': cond }"></div>
+                ~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-multi-token-class-key": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [class]="{ 'md:flex w-1/2 !mt-0 hover:bg-[#fff] [&>*]:p-2 a&-b': cond }"></div>
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-multi-token-class-key": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [class]="{ `a b`: cond }"></div>
+                ~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-multi-token-class-key": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [class]="{ ...{ 'a b': true }, 'a b': false }"></div>
+                     ~~~~~          ~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-multi-token-class-key": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [class]="{ 'a b': x, 'a b': y }"></div>
+                ~~~~~     ~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-multi-token-class-key": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div *ngIf="show" [class]="{ 'a b': cond }"></div>
+                             ~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-multi-token-class-key": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<ng-template><span [class]="{ 'a b': cond }"></span></ng-template>
+                              ~~~~~
+```
+
 </details>
 
 <br>
@@ -2095,6 +2419,110 @@ The rule does not have any configuration options.
 
 ```html
 <div [class]="{ '[&>*]:p-2': cond }"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-multi-token-class-key": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<ng-template [class]="{ 'a b': cond }"></ng-template>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-multi-token-class-key": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<ng-container [class]="{ 'a b': cond }"></ng-container>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-multi-token-class-key": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<ng-container *ngIf="show" [class]="{ 'a b': cond }"></ng-container>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-multi-token-class-key": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<ng-template [ngIf]="show" [class]="{ 'a	b': cond }"><div></div></ng-template>
 ```
 
 </details>
