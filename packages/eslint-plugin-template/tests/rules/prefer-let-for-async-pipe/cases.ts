@@ -218,6 +218,134 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     `,
     settings: { hideFromDocs: true },
   },
+  '{{ getStream$(0) | async }} {{ getStream$(1) | async }}',
+  {
+    code: `
+      <user-card>
+        @content(header) { {{ user$ | async }} }
+      </user-card>
+      {{ user$ | async }}
+    `,
+    settings: { hideFromDocs: true },
+  },
+  {
+    code: `
+      <user-list>
+        @content(row; let user$) {
+          {{ user$ | async }} {{ this.user$ | async }}
+        }
+      </user-list>
+    `,
+    settings: { hideFromDocs: true },
+  },
+  {
+    code: `
+      {{ user$ | async }}
+      <ng-content>{{ user$ | async }}</ng-content>
+    `,
+    settings: { hideFromDocs: true },
+  },
+  {
+    code: `
+      <ng-content>
+        @let user$ = selectedUser$;
+        {{ user$ | async }} {{ this.user$ | async }}
+      </ng-content>
+    `,
+    settings: { hideFromDocs: true },
+  },
+  {
+    code: `
+      {{ $error.user$ | async }}
+      @boundary {
+        <p>Loaded</p>
+      } @error (when $error.user$ | async) {
+        <p>Failed</p>
+      }
+    `,
+    settings: { hideFromDocs: true },
+  },
+  {
+    code: `
+      @boundary {
+        <p>Loaded</p>
+      } @error (when user$.retryable$ | async; let user$ = $error) {
+        <p>Failed</p>
+      }
+      {{ user$.retryable$ | async }}
+    `,
+    settings: { hideFromDocs: true },
+  },
+  {
+    code: `
+      @boundary {
+        <p>Loaded</p>
+      } @error (when $error.retryable$ | async) {
+        {{ $error.retryable$ | async }}
+      }
+    `,
+    settings: { hideFromDocs: true },
+  },
+  {
+    code: `
+      {{ (user?.profile).stream$ | async }}
+      {{ user?.profile.stream$ | async }}
+    `,
+    settings: { hideFromDocs: true },
+  },
+  {
+    code: `
+      {{ get$(\`users/\${id}\`) | async }}
+      {{ get$(\`posts/\${id}\`) | async }}
+    `,
+    settings: { hideFromDocs: true },
+  },
+  {
+    // A parenthesized `this` still reads the component member, not the
+    // template local.
+    code: `
+      @let user$ = other$;
+      {{ (this).user$ | async }}
+      {{ user$ | async }}
+    `,
+    settings: { hideFromDocs: true },
+  },
+  {
+    code: `
+      {{ get$({ id: 1 }) | async }}
+      {{ get$({ id: 2 }) | async }}
+      {{ get$({ key: 1 }) | async }}
+      {{ get$({ ...a }) | async }}
+      {{ get$({ ...b }) | async }}
+    `,
+    settings: { hideFromDocs: true },
+  },
+  {
+    // Parentheses around an optional chain stop it from short-circuiting.
+    code: `
+      {{ (user?.profile!).stream$ | async }}
+      {{ user?.profile!.stream$ | async }}
+    `,
+    settings: { hideFromDocs: true },
+  },
+  {
+    code: `
+      {{ get$(/users/) | async }}
+      {{ get$(/posts/) | async }}
+    `,
+    settings: { hideFromDocs: true },
+  },
+  {
+    code: `
+      {{ $error?.user$ | async }}
+      @boundary {
+        <p>Loaded</p>
+      } @error (when $error?.user$ | async) {
+        <p>Failed</p>
+      }
+    `,
+    settings: { hideFromDocs: true },
+  },
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
@@ -462,6 +590,172 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
         {{ user$ | async }}
            ~~~~~~~~~~~~~
       }
+    `,
+    messages: [{ char: '~', messageId }],
+    settings: { hideFromDocs: true },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'detects duplicate pipes within ng-content fallback content',
+    annotatedSource: `
+      <ng-content>
+        {{ user$ | async }}
+        {{ user$ | async }}
+           ~~~~~~~~~~~~~
+      </ng-content>
+    `,
+    messages: [{ char: '~', messageId }],
+    settings: { hideFromDocs: true },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'does not let locals declared in ng-content fallback content leak into the enclosing view',
+    annotatedSource: `
+      <ng-content>@let user$ = selectedUser$;</ng-content>
+      {{ user$ | async }}
+      {{ this.user$ | async }}
+         ~~~~~~~~~~~~~~~~~~
+    `,
+    messages: [{ char: '~', messageId }],
+    settings: { hideFromDocs: true },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'detects an error block condition in the enclosing view',
+    annotatedSource: `
+      {{ retryable$ | async }}
+      @boundary { <p>Loaded</p> } @error (when retryable$ | async) { <p>Failed</p> }
+                                               ~~~~~~~~~~~~~~~~~~
+    `,
+    messages: [{ char: '~', messageId }],
+    settings: { hideFromDocs: true },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'detects an explicit this read in an error block condition in the enclosing view',
+    annotatedSource: `
+      {{ $error.user$ | async }}
+      @boundary { <p>Loaded</p> } @error (when this.$error.user$ | async) { <p>Failed</p> }
+                                               ~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    messages: [{ char: '~', messageId }],
+    settings: { hideFromDocs: true },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'detects duplicate pipes that read error context within one error block condition',
+    annotatedSource: `
+      @boundary { <p>Loaded</p> } @error (when ($error.a$ | async) || ($error.a$ | async)) { <p>Failed</p> }
+                                                                       ~~~~~~~~~~~~~~~~~
+    `,
+    messages: [{ char: '~', messageId }],
+    settings: { hideFromDocs: true },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'detects parenthesized expressions',
+    annotatedSource: `
+      {{ (user$) | async }}
+      {{ (user$) | async }}
+         ~~~~~~~~~~~~~~~
+      {{ user$ | async }}
+         ^^^^^^^^^^^^^
+    `,
+    messages: [
+      { char: '~', messageId },
+      { char: '^', messageId },
+    ],
+    settings: { hideFromDocs: true },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'detects parenthesized conditional expressions',
+    annotatedSource: `
+      {{ (enabled ? first$ : second$) | async }}
+      {{ (enabled ? first$ : second$) | async }}
+         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    messages: [{ char: '~', messageId }],
+    settings: { hideFromDocs: true },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'detects parenthesized optional chains',
+    annotatedSource: `
+      {{ (user?.profile).stream$ | async }}
+      {{ ((user?.profile)).stream$ | async }}
+         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    messages: [{ char: '~', messageId }],
+    settings: { hideFromDocs: true },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'detects template literal arguments',
+    annotatedSource: `
+      {{ get$(\`users/\${id}\`) | async }}
+      {{ get$(\`users/\${id}\`) | async }}
+         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    messages: [{ char: '~', messageId }],
+    settings: { hideFromDocs: true },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'detects tagged template literals',
+    annotatedSource: `
+      {{ stream\`users/\${id}\` | async }}
+      {{ stream\`users/\${id}\` | async }}
+         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    messages: [{ char: '~', messageId }],
+    settings: { hideFromDocs: true },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'detects duplicate pipes within a content block',
+    annotatedSource: `
+      <user-card>
+        @content(header) {
+          {{ user$ | async }}
+          {{ user$ | async }}
+             ~~~~~~~~~~~~~
+        }
+      </user-card>
+    `,
+    messages: [{ char: '~', messageId }],
+    settings: { hideFromDocs: true },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'detects a parenthesized explicit this read when a template local shadows the name',
+    annotatedSource: `
+      @let user$ = other$;
+      {{ this.user$ | async }}
+      {{ (this).user$ | async }}
+         ~~~~~~~~~~~~~~~~~~~~
+    `,
+    messages: [{ char: '~', messageId }],
+    settings: { hideFromDocs: true },
+  }),
+  ...[
+    'streams[id]',
+    'user!.stream$',
+    'get$(!a)',
+    'get$(-a)',
+    'get$(a + b)',
+    'get$([a, b])',
+    'get$(typeof a)',
+  ].map((expression): InvalidTestCase<MessageIds, Options> =>
+    convertAnnotatedSourceToFailureCase({
+      description: `detects duplicate \`${expression}\` expressions`,
+      annotatedSource: `
+        {{ ${expression} | async }}
+        {{ ${expression} | async }}
+           ${'~'.repeat(expression.length + ' | async'.length)}
+      `,
+      messages: [{ char: '~', messageId }],
+      settings: { hideFromDocs: true },
+    }),
+  ),
+  convertAnnotatedSourceToFailureCase({
+    description: 'detects object literal arguments',
+    annotatedSource: `
+      {{ get$({ id: 1, ...rest }) | async }}
+      {{ get$({ 'id': 1, ...rest }) | async }}
+         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     `,
     messages: [{ char: '~', messageId }],
     settings: { hideFromDocs: true },

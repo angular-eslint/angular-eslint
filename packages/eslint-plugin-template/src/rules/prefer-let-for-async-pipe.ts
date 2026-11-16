@@ -1,7 +1,15 @@
-import type { BindingPipe } from '@angular-eslint/bundled-angular-compiler';
+import {
+  type BindingPipe,
+  ImplicitReceiver,
+  PropertyRead,
+  RecursiveAstVisitor,
+  SafePropertyRead,
+  ThisReceiver,
+} from '@angular-eslint/bundled-angular-compiler';
 import { ensureTemplateParser } from '@angular-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import {
+  type AreEquivalentASTsOptions,
   areEquivalentASTs,
   getEquivalenceKey,
 } from '../utils/are-equivalent-asts';
@@ -20,6 +28,14 @@ type TemplateNodeWithParent = {
 
 type View = TemplateNodeWithParent | null;
 
+type AsyncPipe = {
+  readonly pipe: BindingPipe;
+  /**
+   * The `@error` block whose `when` expression contains the pipe, if any.
+   */
+  readonly errorBlock: TemplateNodeWithParent | null;
+};
+
 const VIEW_NODE_TYPES = new Set([
   'Template',
   'IfBlockBranch',
@@ -32,6 +48,10 @@ const VIEW_NODE_TYPES = new Set([
   'DeferredBlockPlaceholder',
   'BoundaryBlock',
   'BoundaryErrorBlock',
+  // `<ng-content>` fallback content is rendered in its own view.
+  'Content',
+  // So is each `@content` block passed to a component.
+  'ContentBlock',
 ]);
 
 export default createESLintRule<Options, MessageIds>({
@@ -52,7 +72,7 @@ export default createESLintRule<Options, MessageIds>({
   create(context) {
     ensureTemplateParser(context);
     const sourceCode = context.sourceCode;
-    const asyncPipesByView = new Map<View, BindingPipe[]>();
+    const asyncPipesByView = new Map<View, AsyncPipe[]>();
     // Names of the template locals declared directly in each view.
     const localsDeclaredByView = new Map<View, Set<string>>();
     const childrenByView = new WeakMap<
@@ -81,6 +101,32 @@ export default createESLintRule<Options, MessageIds>({
         // structural directive bindings) run in the enclosing view.
         // Only nodes reached through children belong to the new view.
         if (VIEW_NODE_TYPES.has(parent.type) && isChildOfView(parent, child)) {
+          return parent;
+        }
+
+        child = parent;
+        parent = parent.parent;
+      }
+
+      return null;
+    }
+
+    // An `@error (when ...)` expression runs in the view that contains the
+    // `@boundary` block, but Angular resolves its names in the `@error`
+    // block's scope, so it can read `$error`, `$reset` and their aliases.
+    function getErrorBlockOfWhenExpression(
+      node: TemplateNodeWithParent,
+    ): TemplateNodeWithParent | null {
+      let child = node;
+      let parent = child.parent;
+
+      while (parent) {
+        if (VIEW_NODE_TYPES.has(parent.type) && isChildOfView(parent, child)) {
+          return null;
+        }
+        // An `@error` block's only expression outside its children is the
+        // `when` expression.
+        if (parent.type === 'BoundaryErrorBlock') {
           return parent;
         }
 
@@ -143,9 +189,10 @@ export default createESLintRule<Options, MessageIds>({
 
     return {
       'BindingPipe[name="async"]'(pipe: BindingPipe) {
-        const view = getOwningView(pipe as unknown as TemplateNodeWithParent);
+        const node = pipe as unknown as TemplateNodeWithParent;
+        const view = getOwningView(node);
         const pipes = asyncPipesByView.get(view) ?? [];
-        pipes.push(pipe);
+        pipes.push({ pipe, errorBlock: getErrorBlockOfWhenExpression(node) });
         asyncPipesByView.set(view, pipes);
       },
       LetDeclaration(node: NamedNode) {
@@ -183,6 +230,12 @@ export default createESLintRule<Options, MessageIds>({
           node.expressionAlias,
         ]);
       },
+      ContentBlock(node: { variables: readonly NamedNode[] }) {
+        declareLocals(
+          node as unknown as TemplateNodeWithParent,
+          node.variables,
+        );
+      },
       BoundaryErrorBlock(node: { contextVariables: readonly NamedNode[] }) {
         declareLocals(
           node as unknown as TemplateNodeWithParent,
@@ -190,17 +243,48 @@ export default createESLintRule<Options, MessageIds>({
         );
       },
       'Program:exit'() {
+        const optionsByScope = new Map<View, AreEquivalentASTsOptions>();
+        function getOptions(scope: View): AreEquivalentASTsOptions {
+          let options = optionsByScope.get(scope);
+          if (!options) {
+            options = {
+              templateLocals: getTemplateLocalsInScope(scope),
+              // This rule only reports, so it can safely treat expressions
+              // that differ only in their form as equivalent.
+              matchParenthesesAndTemplateLiterals: true,
+            };
+            optionsByScope.set(scope, options);
+          }
+          return options;
+        }
+
         for (const [view, pipes] of asyncPipesByView) {
-          const options = { templateLocals: getTemplateLocalsInScope(view) };
-          // Only pipes with the same key can be equivalent, so bucket them
-          // to avoid comparing every pair of pipes in the view.
-          const seenByKey = new Map<string, BindingPipe[]>();
+          // Pipes can only be equivalent when they resolve names in the same
+          // scope and have the same key, so bucket them by both to avoid
+          // comparing every pair of pipes in the view.
+          const seenByScopeAndKey = new Map<View, Map<string, BindingPipe[]>>();
 
           // Angular's visitor order is not always the template source order.
-          for (const pipe of pipes.sort(
-            (a, b) => a.sourceSpan.start - b.sourceSpan.start,
+          for (const { pipe, errorBlock } of pipes.sort(
+            (a, b) => a.pipe.sourceSpan.start - b.pipe.sourceSpan.start,
           )) {
-            const key = getEquivalenceKey(pipe);
+            // An `@error (when ...)` pipe that reads none of the `@error`
+            // block's own locals resolves every name as the rest of the
+            // view does, so it can be compared with the view's other pipes.
+            const scope =
+              errorBlock &&
+              // An `@error` block always declares `$error` and `$reset`.
+              readsAnyName(pipe, localsDeclaredByView.get(errorBlock)!)
+                ? errorBlock
+                : view;
+            let seenByKey = seenByScopeAndKey.get(scope);
+            if (!seenByKey) {
+              seenByKey = new Map();
+              seenByScopeAndKey.set(scope, seenByKey);
+            }
+
+            const options = getOptions(scope);
+            const key = getEquivalenceKey(pipe, options);
             const seen = seenByKey.get(key);
             if (!seen) {
               seenByKey.set(key, [pipe]);
@@ -229,6 +313,47 @@ export default createESLintRule<Options, MessageIds>({
     };
   },
 });
+
+/**
+ * Checks whether an expression implicitly reads (without `this.`) any of the
+ * given names.
+ */
+function readsAnyName(ast: BindingPipe, names: ReadonlySet<string>): boolean {
+  const visitor = new ImplicitReadVisitor(names);
+  ast.visit(visitor);
+  return visitor.found;
+}
+
+class ImplicitReadVisitor extends RecursiveAstVisitor {
+  found = false;
+
+  constructor(private readonly names: ReadonlySet<string>) {
+    super();
+  }
+
+  override visitPropertyRead(ast: PropertyRead, context: unknown): void {
+    this.check(ast);
+    super.visitPropertyRead(ast, context);
+  }
+
+  override visitSafePropertyRead(
+    ast: SafePropertyRead,
+    context: unknown,
+  ): void {
+    this.check(ast);
+    super.visitSafePropertyRead(ast, context);
+  }
+
+  private check(ast: PropertyRead | SafePropertyRead): void {
+    if (
+      ast.receiver instanceof ImplicitReceiver &&
+      !(ast.receiver instanceof ThisReceiver) &&
+      this.names.has(ast.name)
+    ) {
+      this.found = true;
+    }
+  }
+}
 
 export const RULE_DOCS_EXTENSION = {
   rationale:

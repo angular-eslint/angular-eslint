@@ -93,6 +93,14 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
       Empty
     }
   `,
+  {
+    // Parentheses are not ignored, so the alias declaration is not dropped.
+    code: `
+      @for (item of items; track item) {}
+      @if (!(items).length; as isEmpty) { {{ isEmpty }} }
+    `,
+    settings: { hideFromDocs: true },
+  },
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
