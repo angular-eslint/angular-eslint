@@ -76,8 +76,9 @@ export default createESLintRule<Options, MessageIds>({
           sourceText.slice(valueSpan.fullStart.offset, valueSpan.end.offset) ===
           valueSource;
         const attributeQuote = sourceText[valueSpan.fullStart.offset - 1];
+        const valueHasInterpolation = valueSource.includes('{{');
 
-        for (const { entries, keysKnown, keyCounts } of collectClassMaps(
+        for (const { entries, keysKnown, entriesByKey } of collectClassMaps(
           node.value.ast,
         )) {
           for (const entry of entries) {
@@ -114,13 +115,20 @@ export default createESLintRule<Options, MessageIds>({
                 offsetsMatchSource &&
                 tokens.length > 0 &&
                 keysKnown &&
-                keyCounts.get(key.key) === 1 &&
-                !tokens.some((token) => keyCounts.has(token)) &&
+                ![key.key, ...tokens].some((other) =>
+                  entriesByKey
+                    .get(other)
+                    ?.some(
+                      (candidate) =>
+                        candidate !== entry &&
+                        !areExclusive(candidate.branches, entry.branches),
+                    ),
+                ) &&
                 !(tokens.length > 1 && containsPipe(value)) &&
                 isSafeToWrite(
                   sourceText.slice(start, end),
                   tokens,
-                  valueSource,
+                  valueHasInterpolation,
                   attributeQuote,
                 )
                   ? [
@@ -151,7 +159,7 @@ export default createESLintRule<Options, MessageIds>({
 
 export const RULE_DOCS_EXTENSION = {
   rationale:
-    "Angular reads each key of an object bound to `[class]` (or `bind-class`) as a single class name and handles whitespace inside a key in one of two ways. A key that contains a space (for example `{ 'text-x dark:text-y': cond }`) is discarded by Angular's styling runtime without any build error or runtime warning, even in development mode, so the element gets none of its classes. A key that contains a tab or newline but no space is not filtered out: it reaches `classList.add`, which throws an `InvalidCharacterError` at runtime. This usually happens when a variant is appended to an existing key, or when migrating from `[ngClass]`, which does split keys on whitespace and is therefore not affected. Keys made only of spaces are dropped without losing any class, so they are not reported. This rule complements `prefer-class-binding`, which declines to suggest `[class]` for such keys but never inspects existing `[class]` bindings. Maps built in the component class and bound by reference (`[class]=\"classMap\"`) cannot be checked. Bindings on `<ng-template>` and `<ng-container>` are not reported, since Angular applies no classes there, but a component that declares its own `class` input cannot be recognized from the template and is still reported. The suggested fix splits the key into one key per distinct class, each with a copy of the condition, so the condition is then evaluated once per class and should be checked for side effects before applying it. The suggestion is not offered when another key of the same map, including keys spread into it, may name one of those classes, when the map repeats the key itself, when a spread adds keys that cannot be read from the template, when the condition contains a pipe, which would then run once per class, when the key contains an escape sequence, or when a class name holds a character that could change how the template is parsed, such as a quote, a backtick, `$`, `<`, or `&` followed by a letter, digit or `#`.",
+    "Angular reads each key of an object bound to `[class]` (or `bind-class`) as a single class name and handles whitespace inside a key in one of two ways. A key that contains a space (for example `{ 'text-x dark:text-y': cond }`) is discarded by Angular's styling runtime without any build error or runtime warning, even in development mode, so the element gets none of its classes. A key that contains a tab or newline but no space is not filtered out: it reaches `classList.add`, which throws an `InvalidCharacterError` at runtime. This usually happens when a variant is appended to an existing key, or when migrating from `[ngClass]`, which does split keys on whitespace and is therefore not affected. Keys made only of spaces are dropped without losing any class, so they are not reported. This rule complements `prefer-class-binding`, which declines to suggest `[class]` for such keys but never inspects existing `[class]` bindings. Maps built in the component class and bound by reference (`[class]=\"classMap\"`) cannot be checked. Bindings on `<ng-template>` and `<ng-container>` are not reported, since Angular applies no classes there, but a component that declares its own `class` input cannot be recognized from the template and is still reported. The suggested fix splits the key into one key per distinct class, each with a copy of the condition, so the condition is then evaluated once per class and should be checked for side effects before applying it. The suggestion is not offered when another key of the same map, including keys spread into it, may name one of those classes, when the map repeats the key itself, when a spread adds keys that cannot be read from the template, when the condition contains a pipe, which would then run once per class, when the key contains an escape sequence, or when a class name holds a character that could change how the template is parsed, such as a quote, a backtick, `$`, `<`, or `&` followed by a letter, digit or `#`, or when a class is named `__proto__`, which an object literal treats as its prototype rather than a key. Keys in different branches of a ternary (or of `||` / `??`) spread into the map are never applied together, so they don't block each other's suggestion.",
 };
 
 /**
@@ -183,14 +191,20 @@ function getClassTokens(key: string): string[] {
 function isSafeToWrite(
   keySource: string,
   tokens: readonly string[],
-  valueSource: string,
+  valueHasInterpolation: boolean,
   attributeQuote: string | undefined,
 ): boolean {
   return (
     (attributeQuote === '"' || attributeQuote === "'") &&
     !keySource.includes('\\') &&
-    !valueSource.includes('{{') &&
-    tokens.every((token) => !/["'`$<\0]|&[A-Za-z0-9#]|\{\{|\}\}/.test(token))
+    !valueHasInterpolation &&
+    tokens.every(
+      (token) =>
+        // An unquoted or quoted `__proto__` key sets the prototype of the
+        // object literal instead of adding a class
+        token !== '__proto__' &&
+        !/["'`$<\0]|&[A-Za-z0-9#]|\{\{|\}\}/.test(token),
+    )
   );
 }
 
@@ -232,12 +246,40 @@ function containsPipe(ast: AST): boolean {
 }
 
 /**
+ * A choice made while evaluating the class map expression: which branch of a
+ * ternary, or which side of `||` / `??`, produced a spread object literal.
+ */
+interface Branch {
+  readonly node: AST;
+  readonly side: 0 | 1;
+}
+
+/**
+ * Two object literals reached through different branches of the same choice
+ * are never spread into the map together, so their keys cannot override each
+ * other.
+ */
+function areExclusive(a: readonly Branch[], b: readonly Branch[]): boolean {
+  return a.some((x) => b.some((y) => x.node === y.node && x.side !== y.side));
+}
+
+/**
+ * An object literal that may be the class map or be spread into it, with
+ * the branches taken to reach it.
+ */
+interface PossibleMap {
+  readonly map: LiteralMap;
+  readonly branches: readonly Branch[];
+}
+
+/**
  * An entry of a class map, addressed by its map and index so that the key
  * and its value stay paired.
  */
 interface ClassMapEntry {
   readonly map: LiteralMap;
   readonly index: number;
+  readonly branches: readonly Branch[];
 }
 
 /**
@@ -247,8 +289,8 @@ interface ClassMapEntry {
 interface ClassMap {
   readonly entries: readonly ClassMapEntry[];
   readonly keysKnown: boolean;
-  /** How many entries of the map hold each property key */
-  readonly keyCounts: ReadonlyMap<string, number>;
+  /** The entries of the map that hold each property key */
+  readonly entriesByKey: ReadonlyMap<string, readonly ClassMapEntry[]>;
 }
 
 /**
@@ -256,38 +298,44 @@ interface ClassMap {
  * the entries of object literals that may be spread into each of them.
  */
 function collectClassMaps(ast: AST): ClassMap[] {
-  const roots: LiteralMap[] = [];
-  collectPossibleMaps(ast, roots);
-  return roots.map(collectEntries);
+  const roots: PossibleMap[] = [];
+  collectPossibleMaps(ast, roots, []);
+  // Each root is a separate class map, so its own branches don't matter
+  return roots.map(({ map }) => collectEntries(map));
 }
 
 function collectEntries(root: LiteralMap): ClassMap {
   const entries: ClassMapEntry[] = [];
-  const pending: LiteralMap[] = [root];
+  const pending: PossibleMap[] = [{ map: root, branches: [] }];
   let keysKnown = true;
 
   while (pending.length > 0) {
-    const map = pending.pop()!;
+    const { map, branches } = pending.pop()!;
     map.keys.forEach((key, index) => {
-      entries.push({ map, index });
+      entries.push({ map, index, branches });
       if (
         key.kind === 'spread' &&
-        !collectPossibleMaps(map.values[index], pending)
+        !collectPossibleMaps(map.values[index], pending, branches)
       ) {
         keysKnown = false;
       }
     });
   }
 
-  const keyCounts = new Map<string, number>();
-  for (const { map, index } of entries) {
-    const key = map.keys[index];
+  const entriesByKey = new Map<string, ClassMapEntry[]>();
+  for (const entry of entries) {
+    const key = entry.map.keys[entry.index];
     if (key.kind === 'property') {
-      keyCounts.set(key.key, (keyCounts.get(key.key) ?? 0) + 1);
+      const sameKey = entriesByKey.get(key.key);
+      if (sameKey) {
+        sameKey.push(entry);
+      } else {
+        entriesByKey.set(key.key, [entry]);
+      }
     }
   }
 
-  return { entries, keysKnown, keyCounts };
+  return { entries, keysKnown, entriesByKey };
 }
 
 /**
@@ -299,25 +347,41 @@ function collectEntries(root: LiteralMap): ClassMap {
  * object values) are not collected. Returns whether every value that `ast`
  * may evaluate to is either a collected map or a primitive without keys.
  */
-function collectPossibleMaps(ast: AST, maps: LiteralMap[]): boolean {
+function collectPossibleMaps(
+  ast: AST,
+  maps: PossibleMap[],
+  branches: readonly Branch[],
+): boolean {
   const current = unwrap(ast);
 
   if (current instanceof LiteralMap) {
-    maps.push(current);
+    maps.push({ map: current, branches });
     return true;
   }
   if (current instanceof Conditional) {
-    const trueKnown = collectPossibleMaps(current.trueExp, maps);
-    const falseKnown = collectPossibleMaps(current.falseExp, maps);
+    const trueKnown = collectPossibleMaps(current.trueExp, maps, [
+      ...branches,
+      { node: current, side: 0 },
+    ]);
+    const falseKnown = collectPossibleMaps(current.falseExp, maps, [
+      ...branches,
+      { node: current, side: 1 },
+    ]);
     return trueKnown && falseKnown;
   }
   if (current instanceof Binary) {
     if (current.operation === '&&') {
-      return collectPossibleMaps(current.right, maps);
+      return collectPossibleMaps(current.right, maps, branches);
     }
     if (current.operation === '||' || current.operation === '??') {
-      const leftKnown = collectPossibleMaps(current.left, maps);
-      const rightKnown = collectPossibleMaps(current.right, maps);
+      const leftKnown = collectPossibleMaps(current.left, maps, [
+        ...branches,
+        { node: current, side: 0 },
+      ]);
+      const rightKnown = collectPossibleMaps(current.right, maps, [
+        ...branches,
+        { node: current, side: 1 },
+      ]);
       return leftKnown && rightKnown;
     }
   }

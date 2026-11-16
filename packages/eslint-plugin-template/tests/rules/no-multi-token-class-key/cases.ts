@@ -681,10 +681,75 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'should not suggest a split that duplicates a key of the other branch of a ternary spread into the map',
+      'should still suggest a split when the same class is a key of the other branch of a ternary spread into the map',
     annotatedSource: `
         <div [class]="{ ...(flag ? { 'a b': x } : { a: y }) }"></div>
                                      ~~~~~
+      `,
+    messageId,
+    suggestions: [
+      {
+        messageId: suggestionMessageId,
+        output: `
+        <div [class]="{ ...(flag ? { 'a': x, 'b': x } : { a: y }) }"></div>
+                                     
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should suggest splitting the same key in both branches of a ternary spread into the map',
+    annotatedSource: `
+        <div [class]="{ ...(flag ? { 'a b': x } : { 'a b': y }) }"></div>
+                                     ~~~~~          ^^^^^
+      `,
+    messages: [
+      {
+        char: '~',
+        messageId,
+        suggestions: [
+          {
+            messageId: suggestionMessageId,
+            output: `
+        <div [class]="{ ...(flag ? { 'a': x, 'b': x } : { 'a b': y }) }"></div>
+                                                    
+      `,
+          },
+        ],
+      },
+      {
+        char: '^',
+        messageId,
+        suggestions: [
+          {
+            messageId: suggestionMessageId,
+            output: `
+        <div [class]="{ ...(flag ? { 'a b': x } : { 'a': y, 'b': y }) }"></div>
+                                                    
+      `,
+          },
+        ],
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should not suggest a split when a ternary spread into the map repeats the key outside the ternary',
+    annotatedSource: `
+        <div [class]="{ ...(flag ? { 'a b': x } : {}), 'a b': y }"></div>
+                                     ~~~~~             ^^^^^
+      `,
+    messages: [
+      { char: '~', messageId, suggestions: [] },
+      { char: '^', messageId, suggestions: [] },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should not suggest a split that would write a __proto__ key',
+    annotatedSource: `
+        <div [class]="{ '__proto__ c': cond }"></div>
+                        ~~~~~~~~~~~~~
       `,
     messageId,
     suggestions: [],
