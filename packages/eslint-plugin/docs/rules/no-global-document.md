@@ -23,7 +23,7 @@ Disallows usage of the global `document` inside Angular classes. The global is n
 
 ## Rationale
 
-The global `document` object only exists in the browser. When an Angular application is rendered on the server (SSR or prerendering), components, directives, services and pipes are instantiated in Node.js, where there is no global `document`, so any access to it throws a `ReferenceError` and breaks the render. Angular provides the `DOCUMENT` injection token as the platform-safe abstraction: `private readonly document = inject(DOCUMENT)`. It resolves to the real `document` in the browser and to the server-side document that Angular renders into on the server. Working around the missing global, for example with a `typeof document` check, makes the server and the browser render different output, which can cause hydration mismatches. Injecting the token also keeps the dependency explicit and lets tests provide their own document instead of patching global state. For elements in a component's own template, prefer Angular's queries such as `viewChild()` and `contentChild()` over looking them up through the document, which keeps the component encapsulated. The rule reports every use of the global `document` inside an Angular class, including `window.document`, `globalThis.document` and destructuring such as `const { document } = window`. `typeof document` checks in code are reported too: inject the token instead, and use `isPlatformBrowser()` or `afterNextRender()` for code that must only run in the browser. Local variables, parameters and class members named `document`, such as `this.document`, are not reported. For more information see the [Angular SSR guide](https://angular.dev/guide/ssr).
+The global `document` object only exists in the browser. When an Angular application is rendered on the server (SSR or prerendering), components, directives, services and pipes are instantiated in Node.js, where there is no global `document`, so any access to it throws a `ReferenceError` and breaks the render. Angular provides the `DOCUMENT` injection token as the platform-safe abstraction: `private readonly document = inject(DOCUMENT)`. It resolves to the real `document` in the browser and to the server-side document that Angular renders into on the server. Injecting the token also keeps the dependency explicit and lets tests provide their own document instead of patching global state. Injecting `DOCUMENT` only keeps the code from throwing on the server: it does not make direct DOM manipulation hydration-safe. Prefer describing DOM changes in templates, and run browser-only work in `afterNextRender()`, which never runs on the server. For elements in a component's own template, prefer Angular's queries such as `viewChild()` and `contentChild()` over looking them up through the document, which keeps the component encapsulated. The rule reports every use of the global `document` inside an Angular class, including `window.document`, `globalThis.document`, TypeScript wrappers such as `(window as any).document`, and destructuring such as `const { document } = window`. A `typeof document` guard is reported too: inject the token instead, because using such a guard to decide what to render can produce different DOM on the server and in the browser, which breaks hydration. Local variables, parameters and class members named `document`, such as `this.document`, are not reported. For more information see [Accessing Document via DI](https://angular.dev/guide/ssr#accessing-document-via-di) in the Angular SSR guide and the [hydration constraints](https://angular.dev/guide/hydration#constraints).
 
 <br>
 
@@ -1032,6 +1032,222 @@ class {
 };
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-global-document": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({ selector: 'app-foo', template: '' })
+class FooComponent {
+  getTitles() {
+    return [
+      (window as any).document,
+      ~~~~~~~~~~~~~~~~~~~~~~~~
+      window!.document,
+      ~~~~~~~~~~~~~~~~
+      (<Window>window).document,
+      ~~~~~~~~~~~~~~~~~~~~~~~~~
+      (globalThis satisfies Window).document,
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      (window as Window)?.document,
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ];
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-global-document": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({ selector: 'app-foo', template: '' })
+class FooComponent {
+  getTitle() {
+    const { document } = window as any;
+            ~~~~~~~~
+    return document.title;
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-global-document": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+@Component({ selector: 'app-foo', template: '' })
+class FooComponent {
+  read({ document: doc } = window) {
+         ~~~~~~~~~~~~~
+    return doc.title;
+  }
+
+  readGlobal({ document } = globalThis) {
+               ~~~~~~~~
+    return document.title;
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-global-document": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+type document = { title: string };
+
+@Component({ selector: 'app-foo', template: '' })
+class FooComponent {
+  getTitle() {
+    return document.title;
+           ~~~~~~~~
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-global-document": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+interface window {}
+interface globalThis {}
+
+@Component({ selector: 'app-foo', template: '' })
+class FooComponent {
+  getTitles() {
+    return [window.document, globalThis.document];
+            ~~~~~~~~~~~~~~~  ~~~~~~~~~~~~~~~~~~~
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-global-document": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+import { Directive } from 'other-package';
+
+@Component({ selector: 'app-foo', template: '' })
+@Directive()
+class FooComponent {
+  getTitle() {
+    return document.title;
+           ~~~~~~~~
+  }
+}
+```
+
 </details>
 
 <br>
@@ -1933,6 +2149,143 @@ import * as core from '@angular/core';
 
 @core.Injectable({ providedIn: 'root' })
 class FooService {
+  getTitle() {
+    return document.title;
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-global-document": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+import { Component } from 'other-package';
+
+@Component({ selector: 'app-foo' })
+class FooWidget {
+  getTitle() {
+    return document.title;
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-global-document": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+function Component(options: object) {
+  return (target: unknown) => target;
+}
+
+@Component({ selector: 'app-foo' })
+class FooWidget {
+  getTitle() {
+    return document.title;
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-global-document": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+import { Component } from '@angular/core';
+
+function createWidget(Component: (options: object) => ClassDecorator) {
+  @Component({ selector: 'app-foo' })
+  class FooWidget {
+    getTitle() {
+      return document.title;
+    }
+  }
+  return FooWidget;
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/no-global-document": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+var document = { title: 'local' };
+
+@Component({ selector: 'app-foo', template: '' })
+class FooComponent {
   getTitle() {
     return document.title;
   }

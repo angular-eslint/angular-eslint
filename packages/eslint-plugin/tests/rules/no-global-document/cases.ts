@@ -317,6 +317,61 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     `,
     options: [{ checkServices: false }],
   },
+  // should not treat a Component decorator imported from another package as Angular
+  `
+    import { Component } from 'other-package';
+
+    @Component({ selector: 'app-foo' })
+    class FooWidget {
+      getTitle() {
+        return document.title;
+      }
+    }
+  `,
+  // should not treat a locally declared Component function as Angular
+  `
+    function Component(options: object) {
+      return (target: unknown) => target;
+    }
+
+    @Component({ selector: 'app-foo' })
+    class FooWidget {
+      getTitle() {
+        return document.title;
+      }
+    }
+  `,
+  // should not treat a parameter that shadows the Angular import as Angular
+  `
+    import { Component } from '@angular/core';
+
+    function createWidget(Component: (options: object) => ClassDecorator) {
+      @Component({ selector: 'app-foo' })
+      class FooWidget {
+        getTitle() {
+          return document.title;
+        }
+      }
+      return FooWidget;
+    }
+  `,
+  // should allow a script-level var named 'document' even when document is a configured global
+  {
+    code: `
+      var document = { title: 'local' };
+
+      @Component({ selector: 'app-foo', template: '' })
+      class FooComponent {
+        getTitle() {
+          return document.title;
+        }
+      }
+    `,
+    languageOptions: {
+      parserOptions: { sourceType: 'script' },
+      globals: { document: 'readonly' },
+    },
+  },
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
@@ -758,6 +813,134 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
                  ~~~~~~~~
         }
       };
+    `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail when TypeScript wrappers surround window or globalThis',
+    annotatedSource: `
+      @Component({ selector: 'app-foo', template: '' })
+      class FooComponent {
+        getTitles() {
+          return [
+            (window as any).document,
+            ~~~~~~~~~~~~~~~~~~~~~~~~
+            window!.document,
+            ^^^^^^^^^^^^^^^^
+            (<Window>window).document,
+            #########################
+            (globalThis satisfies Window).document,
+            %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+            (window as Window)?.document,
+            ¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶
+          ];
+        }
+      }
+    `,
+    messages: [
+      { char: '~', messageId },
+      { char: '^', messageId },
+      { char: '#', messageId },
+      { char: '%', messageId },
+      { char: '¶', messageId },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail when destructuring document from a type-asserted window',
+    annotatedSource: `
+      @Component({ selector: 'app-foo', template: '' })
+      class FooComponent {
+        getTitle() {
+          const { document } = window as any;
+                  ~~~~~~~~
+          return document.title;
+        }
+      }
+    `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail when window or globalThis is the default value of a destructured parameter',
+    annotatedSource: `
+      @Component({ selector: 'app-foo', template: '' })
+      class FooComponent {
+        read({ document: doc } = window) {
+               ~~~~~~~~~~~~~
+          return doc.title;
+        }
+
+        readGlobal({ document } = globalThis) {
+                     ^^^^^^^^
+          return document.title;
+        }
+      }
+    `,
+    messages: [
+      { char: '~', messageId },
+      { char: '^', messageId },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail in a script when a type-only declaration shares the name of a configured global document',
+    annotatedSource: `
+      type document = { title: string };
+
+      @Component({ selector: 'app-foo', template: '' })
+      class FooComponent {
+        getTitle() {
+          return document.title;
+                 ~~~~~~~~
+        }
+      }
+    `,
+    messageId,
+    languageOptions: {
+      parserOptions: { sourceType: 'script' },
+      globals: { document: 'readonly' },
+    },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail in a script when interfaces share the names of configured globals window and globalThis',
+    annotatedSource: `
+      interface window {}
+      interface globalThis {}
+
+      @Component({ selector: 'app-foo', template: '' })
+      class FooComponent {
+        getTitles() {
+          return [window.document, globalThis.document];
+                  ~~~~~~~~~~~~~~~  ^^^^^^^^^^^^^^^^^^^
+        }
+      }
+    `,
+    messages: [
+      { char: '~', messageId },
+      { char: '^', messageId },
+    ],
+    languageOptions: {
+      parserOptions: { sourceType: 'script' },
+      globals: { window: 'readonly', globalThis: 'readonly' },
+    },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail for a Component decorator used as an unresolved global name',
+    annotatedSource: `
+      import { Directive } from 'other-package';
+
+      @Component({ selector: 'app-foo', template: '' })
+      @Directive()
+      class FooComponent {
+        getTitle() {
+          return document.title;
+                 ~~~~~~~~
+        }
+      }
     `,
     messageId,
   }),

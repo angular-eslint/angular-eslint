@@ -74,17 +74,19 @@ export default createESLintRule<Options, MessageIds>({
       );
     }
 
-    function getImportDefinition(
+    function findVariable(
       identifier: TSESTree.Identifier,
+    ): TSESLint.Scope.Variable | null {
+      return ASTUtils.findVariable(sourceCode.getScope(identifier), identifier);
+    }
+
+    function getImportDefinition(
+      variable: TSESLint.Scope.Variable | null,
     ):
       | TSESTree.ImportSpecifier
       | TSESTree.ImportNamespaceSpecifier
       | TSESTree.ImportDefaultSpecifier
       | undefined {
-      const variable = ASTUtils.findVariable(
-        sourceCode.getScope(identifier),
-        identifier,
-      );
       const definition = variable?.defs.find(
         (def) => def.type === 'ImportBinding',
       );
@@ -107,8 +109,11 @@ export default createESLintRule<Options, MessageIds>({
      * (`import { Component as C }`) and namespace imports from `@angular/core`
      * (`import * as core from '@angular/core'; @core.Component`).
      *
-     * A plain identifier that is not imported from `@angular/core` is matched
-     * by name, consistent with the other rules in this plugin.
+     * A plain identifier that does not resolve to any declaration in the file
+     * (e.g. a configured global) is matched by name, consistent with the
+     * other rules in this plugin. An identifier that resolves to anything
+     * other than an import from `@angular/core`, such as an import from
+     * another package, a local function or a parameter, is not Angular.
      */
     function getAngularDecoratorName(
       decorator: TSESTree.Decorator,
@@ -119,15 +124,18 @@ export default createESLintRule<Options, MessageIds>({
           : decorator.expression;
 
       if (callee.type === AST_NODE_TYPES.Identifier) {
-        const importDefinition = getImportDefinition(callee);
+        const variable = findVariable(callee);
+        if (!variable || variable.defs.length === 0) {
+          return AngularASTUtils.getDecoratorName(decorator);
+        }
+        const importDefinition = getImportDefinition(variable);
         if (importDefinition?.type === AST_NODE_TYPES.ImportSpecifier) {
           const { imported } = importDefinition;
           return imported.type === AST_NODE_TYPES.Identifier
             ? imported.name
             : imported.value;
         }
-        if (importDefinition) return undefined;
-        return AngularASTUtils.getDecoratorName(decorator);
+        return undefined;
       }
 
       if (
@@ -135,7 +143,7 @@ export default createESLintRule<Options, MessageIds>({
         !callee.computed &&
         callee.object.type === AST_NODE_TYPES.Identifier &&
         callee.property.type === AST_NODE_TYPES.Identifier &&
-        getImportDefinition(callee.object)?.type ===
+        getImportDefinition(findVariable(callee.object))?.type ===
           AST_NODE_TYPES.ImportNamespaceSpecifier
       ) {
         return callee.property.name;
@@ -184,17 +192,19 @@ export default createESLintRule<Options, MessageIds>({
       globalScope: TSESLint.Scope.Scope,
       name: string,
     ): TSESLint.Scope.Reference[] {
-      const references: TSESLint.Scope.Reference[] = [];
+      const references = new Set<TSESLint.Scope.Reference>();
       const variable = globalScope.set.get(name);
-      // A variable with definitions was declared by the user (e.g. a top-level
-      // `var` in a script), so it is not the browser global.
-      if (variable && variable.defs.length === 0) {
-        references.push(...variable.references);
+      // A variable with value definitions was declared by the user (e.g. a
+      // top-level `var` in a script), so it is not the browser global. Type-only
+      // definitions (`type document = {}`, `interface document {}`) do not
+      // replace the global value.
+      if (variable && !variable.defs.some((def) => def.isVariableDefinition)) {
+        for (const reference of variable.references) references.add(reference);
       }
       for (const reference of globalScope.through) {
-        if (reference.identifier.name === name) references.push(reference);
+        if (reference.identifier.name === name) references.add(reference);
       }
-      return references.filter(
+      return [...references].filter(
         (reference) =>
           reference.isValueReference &&
           !isInTypeQuery(reference.identifier as TSESTree.Node),
@@ -255,19 +265,44 @@ function isDocumentKey(key: TSESTree.Node, computed: boolean): boolean {
 }
 
 /**
+ * Skips TypeScript-only wrappers that do not change the runtime value, such as
+ * `window as any`, `window!`, `<Window>window` and `window satisfies Window`.
+ * Parentheses are not part of the AST, so they are skipped implicitly.
+ */
+function skipTypeWrappers(node: TSESTree.Node): TSESTree.Node {
+  let current = node;
+  while (
+    (current.parent?.type === AST_NODE_TYPES.TSAsExpression ||
+      current.parent?.type === AST_NODE_TYPES.TSNonNullExpression ||
+      current.parent?.type === AST_NODE_TYPES.TSTypeAssertion ||
+      current.parent?.type === AST_NODE_TYPES.TSSatisfiesExpression) &&
+    current.parent.expression === current
+  ) {
+    current = current.parent;
+  }
+  return current;
+}
+
+/**
  * Given a reference to the global `window` or `globalThis`, returns the node
  * that reads `document` from it, if any:
  * - `window.document`, `window?.document`, `window['document']`
  * - `const { document } = window`, `({ document } = window)`
+ * - `function f({ document } = window) {}`
+ *
+ * TypeScript wrappers around the global, such as `(window as any).document`,
+ * are looked through.
  */
 function getDocumentAccess(
   identifier: TSESTree.Identifier,
 ): TSESTree.Node | undefined {
-  const { parent } = identifier;
+  const receiver = skipTypeWrappers(identifier);
+  const { parent } = receiver;
+  if (!parent) return undefined;
 
   if (
     parent.type === AST_NODE_TYPES.MemberExpression &&
-    parent.object === identifier &&
+    parent.object === receiver &&
     isDocumentKey(parent.property, parent.computed)
   ) {
     return parent;
@@ -276,12 +311,13 @@ function getDocumentAccess(
   let pattern: TSESTree.Node | undefined;
   if (
     parent.type === AST_NODE_TYPES.VariableDeclarator &&
-    parent.init === identifier
+    parent.init === receiver
   ) {
     pattern = parent.id;
   } else if (
-    parent.type === AST_NODE_TYPES.AssignmentExpression &&
-    parent.right === identifier
+    (parent.type === AST_NODE_TYPES.AssignmentExpression ||
+      parent.type === AST_NODE_TYPES.AssignmentPattern) &&
+    parent.right === receiver
   ) {
     pattern = parent.left;
   }
@@ -299,5 +335,5 @@ function getDocumentAccess(
 
 export const RULE_DOCS_EXTENSION = {
   rationale:
-    "The global `document` object only exists in the browser. When an Angular application is rendered on the server (SSR or prerendering), components, directives, services and pipes are instantiated in Node.js, where there is no global `document`, so any access to it throws a `ReferenceError` and breaks the render. Angular provides the `DOCUMENT` injection token as the platform-safe abstraction: `private readonly document = inject(DOCUMENT)`. It resolves to the real `document` in the browser and to the server-side document that Angular renders into on the server. Working around the missing global, for example with a `typeof document` check, makes the server and the browser render different output, which can cause hydration mismatches. Injecting the token also keeps the dependency explicit and lets tests provide their own document instead of patching global state. For elements in a component's own template, prefer Angular's queries such as `viewChild()` and `contentChild()` over looking them up through the document, which keeps the component encapsulated. The rule reports every use of the global `document` inside an Angular class, including `window.document`, `globalThis.document` and destructuring such as `const { document } = window`. `typeof document` checks in code are reported too: inject the token instead, and use `isPlatformBrowser()` or `afterNextRender()` for code that must only run in the browser. Local variables, parameters and class members named `document`, such as `this.document`, are not reported. For more information see the [Angular SSR guide](https://angular.dev/guide/ssr).",
+    "The global `document` object only exists in the browser. When an Angular application is rendered on the server (SSR or prerendering), components, directives, services and pipes are instantiated in Node.js, where there is no global `document`, so any access to it throws a `ReferenceError` and breaks the render. Angular provides the `DOCUMENT` injection token as the platform-safe abstraction: `private readonly document = inject(DOCUMENT)`. It resolves to the real `document` in the browser and to the server-side document that Angular renders into on the server. Injecting the token also keeps the dependency explicit and lets tests provide their own document instead of patching global state. Injecting `DOCUMENT` only keeps the code from throwing on the server: it does not make direct DOM manipulation hydration-safe. Prefer describing DOM changes in templates, and run browser-only work in `afterNextRender()`, which never runs on the server. For elements in a component's own template, prefer Angular's queries such as `viewChild()` and `contentChild()` over looking them up through the document, which keeps the component encapsulated. The rule reports every use of the global `document` inside an Angular class, including `window.document`, `globalThis.document`, TypeScript wrappers such as `(window as any).document`, and destructuring such as `const { document } = window`. A `typeof document` guard is reported too: inject the token instead, because using such a guard to decide what to render can produce different DOM on the server and in the browser, which breaks hydration. Local variables, parameters and class members named `document`, such as `this.document`, are not reported. For more information see [Accessing Document via DI](https://angular.dev/guide/ssr#accessing-document-via-di) in the Angular SSR guide and the [hydration constraints](https://angular.dev/guide/hydration#constraints).",
 };
