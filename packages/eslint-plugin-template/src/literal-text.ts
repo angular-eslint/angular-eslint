@@ -54,6 +54,230 @@ export function createTextSource(text: string) {
   };
 }
 
+export interface LiteralText {
+  /** The opening (and closing) quote character */
+  quote: string;
+  /** The source file offset of the first character after the opening quote */
+  start: number;
+  /** The source file offset of the closing quote */
+  end: number;
+  /** The value of the literal, with escape sequences decoded */
+  text: string;
+  /**
+   * Every escape sequence (and, in template literals, every normalised line
+   * break) in source order, as flat `[textStart, textEnd, sourceStart, sourceEnd]`
+   * quadruples. Everything between them decodes to itself, so this is all that
+   * is needed to map between offsets in `text` and in the source file.
+   */
+  segments: number[];
+}
+
+const escapeSequence =
+  /\\(?:u\{[\da-fA-F]+\}|u[\da-fA-F]{4}|x[\da-fA-F]{2}|\r\n|[\s\S])/y;
+
+/**
+ * Decodes a string literal or a template literal without substitutions,
+ * recording where its escape sequences are in the source file.
+ * Returns undefined if the decoded value does not match TypeScript's.
+ */
+export function decodeLiteralText(
+  literal: ts.StringLiteral | ts.NoSubstitutionTemplateLiteral,
+  sourceFile: ts.SourceFile,
+): LiteralText | undefined {
+  const source = sourceFile.text;
+  const start = literal.getStart(sourceFile) + 1;
+  const end = literal.end - 1;
+  const quote = source[start - 1];
+  const special = quote === '`' ? /[\\\r]/g : /\\/g;
+  const scanner = ts.createScanner(ts.ScriptTarget.Latest, false);
+  const segments: number[] = [];
+  let text = '';
+
+  for (let index = start; index < end;) {
+    special.lastIndex = index;
+    const next = Math.min(special.exec(source)?.index ?? end, end);
+    text += source.slice(index, next);
+    index = next;
+    if (index === end) {
+      break;
+    }
+
+    let chunk: string | undefined;
+    let decoded: string;
+    if (source[index] === '\\') {
+      escapeSequence.lastIndex = index;
+      chunk = escapeSequence.exec(source)?.[0];
+      if (!chunk || index + chunk.length > end) {
+        return undefined;
+      }
+      scanner.setText(quote + chunk + quote);
+      scanner.scan();
+      decoded = scanner.getTokenValue();
+    } else {
+      // Template literals normalise CRLF and CR line breaks to LF
+      chunk = source.startsWith('\r\n', index) ? '\r\n' : '\r';
+      decoded = '\n';
+    }
+
+    segments.push(
+      text.length,
+      text.length + decoded.length,
+      index,
+      index + chunk.length,
+    );
+    text += decoded;
+    index += chunk.length;
+  }
+
+  if (text !== literal.text) {
+    return undefined;
+  }
+
+  return { quote, start, end, text, segments };
+}
+
+/**
+ * Index of the last segment whose value at `field` (0: textStart,
+ * 2: sourceStart) is at most `offset`, or -1 if there is none
+ */
+function findSegment(segments: number[], field: number, offset: number) {
+  let low = 0;
+  let high = segments.length / 4;
+  while (low < high) {
+    const middle = (low + high) >>> 1;
+    if (segments[middle * 4 + field] <= offset) {
+      low = middle + 1;
+    } else {
+      high = middle;
+    }
+  }
+  return low - 1;
+}
+
+/**
+ * Maps an offset into the decoded text to the source file offset where the
+ * character at that offset starts (after any line continuations before it).
+ * `boundary` is false if the offset falls inside the value of an escape
+ * sequence, such as between the two UTF-16 code units of `\u{1F600}`, in which
+ * case the returned offset is the end of the escape sequence.
+ */
+export function sourceOffsetAt(
+  literal: LiteralText,
+  textOffset: number,
+): { offset: number; boundary: boolean } {
+  const { segments } = literal;
+  const index = findSegment(segments, 0, textOffset);
+  if (index < 0) {
+    return { offset: literal.start + textOffset, boundary: true };
+  }
+  const [textStart, textEnd, sourceStart, sourceEnd] = segments.slice(
+    index * 4,
+    index * 4 + 4,
+  );
+  if (textOffset >= textEnd) {
+    return { offset: sourceEnd + textOffset - textEnd, boundary: true };
+  }
+  return textOffset === textStart
+    ? { offset: sourceStart, boundary: true }
+    : { offset: sourceEnd, boundary: false };
+}
+
+/**
+ * Maps a source file offset inside the literal to the offset in the decoded
+ * text, first moving it to the start (or with `forwards`, the end) of any
+ * escape sequence it is inside, so that the literal can be cut there.
+ */
+function alignedOffsetAt(
+  literal: LiteralText,
+  sourceOffset: number,
+  forwards: boolean,
+): { source: number; text: number } {
+  const { segments } = literal;
+  const index = findSegment(segments, 2, sourceOffset);
+  if (index < 0) {
+    return { source: sourceOffset, text: sourceOffset - literal.start };
+  }
+  const [textStart, textEnd, sourceStart, sourceEnd] = segments.slice(
+    index * 4,
+    index * 4 + 4,
+  );
+  if (sourceOffset >= sourceEnd) {
+    return { source: sourceOffset, text: textEnd + sourceOffset - sourceEnd };
+  }
+  return forwards && sourceOffset !== sourceStart
+    ? { source: sourceEnd, text: textEnd }
+    : { source: sourceStart, text: textStart };
+}
+
+/**
+ * Escape sequences only ever extend forwards, and the replacement text is
+ * always fully escaped, so the only places an edit can change how the rest of
+ * the literal is read are where it meets the text before and after it: the
+ * escape sequence just before it could absorb what follows (e.g. a digit after
+ * `\0`). Re-reading this many source characters either side of the edit, which
+ * is more than the longest such interaction, is enough to catch that.
+ */
+const editContext = 16;
+
+/**
+ * Maps an edit to the decoded text of a single- or double-quoted string
+ * literal onto the source file, escaping the replacement text. Returns
+ * undefined unless the edited literal is guaranteed to decode to exactly the
+ * edited text, e.g. if the edit would split an escape sequence or change how
+ * one next to it is read.
+ */
+export function mapStringLiteralEdit(
+  literal: LiteralText,
+  source: string,
+  edit: { range: readonly number[]; text: string },
+): { range: [number, number]; text: string } | undefined {
+  const [start, end] = edit.range;
+  if (!(start >= 0 && start <= end && end <= literal.text.length)) {
+    return undefined;
+  }
+  const sourceStart = sourceOffsetAt(literal, start);
+  const sourceEnd = sourceOffsetAt(literal, end);
+  if (!sourceStart.boundary || !sourceEnd.boundary) {
+    return undefined;
+  }
+
+  const text = escapeStringLiteralText(edit.text, literal.quote);
+  const range: [number, number] = [sourceStart.offset, sourceEnd.offset];
+
+  // Without escape sequences, every character in the literal is read on its own
+  if (!literal.segments.length) {
+    return { range, text };
+  }
+
+  const before = alignedOffsetAt(
+    literal,
+    Math.max(literal.start, sourceStart.offset - editContext),
+    false,
+  );
+  const after = alignedOffsetAt(
+    literal,
+    Math.min(literal.end, sourceEnd.offset + editContext),
+    true,
+  );
+
+  const editedSource =
+    source.slice(before.source, sourceStart.offset) +
+    text +
+    source.slice(sourceEnd.offset, after.source);
+  const editedText =
+    literal.text.slice(before.text, start) +
+    edit.text +
+    literal.text.slice(end, after.text);
+  if (
+    scanStringLiteral(literal.quote + editedSource + literal.quote) !==
+    editedText
+  ) {
+    return undefined;
+  }
+
+  return { range, text };
+}
+
 export interface DecodedLiteral {
   /** The opening (and closing) quote character */
   quote: string;
@@ -67,55 +291,22 @@ export interface DecodedLiteral {
 }
 
 /**
- * Decodes a string literal or a template literal without substitutions,
- * recording where each decoded character came from in the source file.
- * Returns undefined if the decoded value does not match TypeScript's.
+ * Like `decodeLiteralText()`, but with the source file offset of every
+ * character, for callers that need random access to it.
  */
 export function decodeLiteral(
   literal: ts.StringLiteral | ts.NoSubstitutionTemplateLiteral,
   sourceFile: ts.SourceFile,
 ): DecodedLiteral | undefined {
-  const start = literal.getStart(sourceFile);
-  const quote = sourceFile.text[start];
-  const raw = sourceFile.text.slice(start + 1, literal.end - 1);
-  const offsets = [start + 1];
-  const scanner = ts.createScanner(ts.ScriptTarget.Latest, false);
-  let text = '';
-
-  for (let index = 0; index < raw.length;) {
-    const escape =
-      raw[index] === '\\'
-        ? /^\\(?:u\{[\da-fA-F]+\}|u[\da-fA-F]{4}|x[\da-fA-F]{2}|\r\n|[\s\S])/.exec(
-            raw.slice(index),
-          )?.[0]
-        : undefined;
-    const chunk =
-      escape ?? (raw.startsWith('\r\n', index) ? '\r\n' : raw[index]);
-    let decoded = chunk;
-
-    if (escape) {
-      scanner.setText(quote + chunk + quote);
-      scanner.scan();
-      decoded = scanner.getTokenValue();
-    } else if (quote === '`' && chunk.startsWith('\r')) {
-      decoded = '\n';
-    }
-
-    index += chunk.length;
-    text += decoded;
-    for (let count = 0; count < decoded.length; count++) {
-      offsets.push(start + 1 + index);
-    }
-    if (!decoded.length) {
-      offsets[offsets.length - 1] = start + 1 + index;
-    }
-  }
-
-  if (text !== literal.text) {
+  const decoded = decodeLiteralText(literal, sourceFile);
+  if (!decoded) {
     return undefined;
   }
-
-  return { quote, text, offsets };
+  const offsets: number[] = [];
+  for (let offset = 0; offset <= decoded.text.length; offset++) {
+    offsets.push(sourceOffsetAt(decoded, offset).offset);
+  }
+  return { quote: decoded.quote, text: decoded.text, offsets };
 }
 
 /**

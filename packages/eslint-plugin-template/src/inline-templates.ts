@@ -2,43 +2,39 @@ import { basename } from 'path';
 import ts from 'typescript';
 import {
   createTextSource,
-  decodeLiteral,
-  escapeStringLiteralText,
-  scanStringLiteral,
+  decodeLiteralText,
+  mapStringLiteralEdit,
+  sourceOffsetAt,
+  type LiteralText,
   type TextSource,
 } from './literal-text';
 
-/**
- * A template written as a single- or double-quoted string literal. Its decoded
- * value is what gets linted, so offsets in the linted text have to be mapped
- * through the escape sequences back to the TypeScript source.
- */
-interface StringLiteralTemplate {
-  quote: string;
-  /** The decoded value of the literal, which is the linted template */
-  text: string;
-  /** The source text between the quotes */
-  raw: string;
-  /** Source file offset for every offset into `text`, see `decodeLiteral()` */
-  offsets: number[];
-  /** The linted template, for converting reported positions to offsets */
-  virtualSource: TextSource;
-  /** The whole TypeScript file, for converting offsets to reported positions */
-  source: TextSource;
-}
-
-interface RangeData {
-  sourceFilename: string;
+interface InlineTemplate {
+  /** The `template` property's initializer, including its quotes */
   range: [number, number];
-  lineAndCharacter: {
-    start: ts.LineAndCharacter;
-    end: ts.LineAndCharacter;
-  };
-  /** Set for string literal templates; template literals are linted raw */
-  stringLiteral?: StringLiteralTemplate;
+  /** Where the initializer starts, including any byte order mark */
+  start: ts.LineAndCharacter;
+  /**
+   * Set for single- and double-quoted strings, whose decoded value is what
+   * gets linted, so offsets in the linted text have to be mapped through the
+   * escape sequences back to the TypeScript source. Template literals are
+   * linted using their raw text.
+   */
+  stringLiteral?: LiteralText;
 }
 
-const rangeMap = new Map<string, RangeData>();
+interface ComponentFile {
+  /** The text of the TypeScript file, including any byte order mark */
+  text: string;
+  templates: InlineTemplate[];
+}
+
+/**
+ * The inline templates found by the latest `preprocess()` of each file, which
+ * `postprocess()` needs to map messages back onto the file. Entries are
+ * removed once used so that the text of every file linted is not kept alive.
+ */
+const componentFiles = new Map<string, ComponentFile>();
 
 /**
  * Because ultimately a user is in control of how and when this processor gets invoked,
@@ -90,6 +86,7 @@ export function preprocessComponentFile(
 ): PreprocessResult {
   // This effectively instructs ESLint that there were no code blocks to extract for the current file
   const noopResult = [text];
+  componentFiles.delete(filename);
 
   if (!isFileLikelyToContainComponentDeclarations(text, filename)) {
     return noopResult;
@@ -106,9 +103,8 @@ export function preprocessComponentFile(
       );
 
     const result: PreprocessResult = [text];
+    const templates: InlineTemplate[] = [];
 
-    let source: TextSource | undefined;
-    let id = 0;
     for (const metadata of getComponentMetadata(sourceFile)) {
       /**
        * Ignore Components which have external template files, they will be linted directly,
@@ -131,7 +127,7 @@ export function preprocessComponentFile(
       }
 
       let templateText: string | undefined;
-      let stringLiteral: StringLiteralTemplate | undefined;
+      let stringLiteral: LiteralText | undefined;
 
       const templatePropertyInitializer = templateProperty.initializer;
       if (ts.isNoSubstitutionTemplateLiteral(templatePropertyInitializer)) {
@@ -145,21 +141,15 @@ export function preprocessComponentFile(
       }
 
       if (ts.isStringLiteral(templatePropertyInitializer)) {
-        const decoded = decodeLiteral(templatePropertyInitializer, sourceFile);
+        stringLiteral = decodeLiteralText(
+          templatePropertyInitializer,
+          sourceFile,
+        );
         // Without a reliable mapping, reports and fixes would land in the wrong place
-        if (!decoded) {
+        if (!stringLiteral) {
           continue;
         }
-        templateText = decoded.text;
-        stringLiteral = {
-          ...decoded,
-          raw: text.slice(
-            decoded.offsets[0],
-            templatePropertyInitializer.getEnd() - 1,
-          ),
-          virtualSource: createTextSource(decoded.text),
-          source: (source ??= createTextSource(text)),
-        };
+        templateText = stringLiteral.text;
       }
 
       // The template initializer is somehow not a string literal or a string template
@@ -168,18 +158,14 @@ export function preprocessComponentFile(
       }
 
       const baseFilename = basename(filename);
-      const inlineTemplateTmpFilename = `inline-template-${baseFilename}-${++id}.component.html`;
+      const inlineTemplateTmpFilename = `inline-template-${baseFilename}-${templates.length + 1}.component.html`;
 
       const start = templateProperty.initializer.getStart();
       const end = templateProperty.initializer.getEnd();
 
-      rangeMap.set(inlineTemplateTmpFilename, {
-        sourceFilename: filename,
+      templates.push({
         range: [start, end],
-        lineAndCharacter: {
-          start: sourceFile.getLineAndCharacterOfPosition(start),
-          end: sourceFile.getLineAndCharacterOfPosition(end),
-        },
+        start: sourceFile.getLineAndCharacterOfPosition(start),
         stringLiteral,
       });
 
@@ -199,6 +185,9 @@ export function preprocessComponentFile(
       });
     }
 
+    if (templates.length) {
+      componentFiles.set(filename, { text, templates });
+    }
     return result;
   } catch (err) {
     console.log(err);
@@ -314,14 +303,26 @@ export function postprocessComponentFile(
   multiDimensionalMessages: InlineTemplateMessage[][],
   filename: string,
 ): readonly unknown[] {
+  const file = componentFiles.get(filename);
+  componentFiles.delete(filename);
+
   const messagesFromComponentSource = multiDimensionalMessages[0];
   /**
    * If the Component did not have one or more inline templates defined within it
    * there will only be one item in the multiDimensionalMessages
    */
-  if (multiDimensionalMessages.length === 1) {
+  if (multiDimensionalMessages.length === 1 || !file) {
     return messagesFromComponentSource;
   }
+
+  /**
+   * ESLint reports locations and applies fixes in the file without its byte
+   * order mark, but the processor was given the text with it, so every offset
+   * recorded during preprocessing is one too far
+   */
+  const bom = file.text.charCodeAt(0) === 0xfeff ? 1 : 0;
+  let source: TextSource | undefined;
+  const getSource = () => (source ??= createTextSource(file.text.slice(bom)));
 
   /**
    * There could be multiple inline templates found within the current file,
@@ -334,27 +335,35 @@ export function postprocessComponentFile(
    * Adjust message location data to apply it back to the
    * original file
    */
-  const res = [
+  return [
     ...messagesFromComponentSource,
     ...messagesFromAllInlineTemplateHTML.flatMap(
       (messagesFromInlineTemplateHTML, i) => {
-        const baseFilename = basename(filename);
-        const inlineTemplateTmpFilename = `inline-template-${baseFilename}-${i + 1}.component.html`;
-        const rangeData = rangeMap.get(inlineTemplateTmpFilename);
-        if (!rangeData) {
+        const template = file.templates[i];
+        if (!template || !messagesFromInlineTemplateHTML.length) {
           return [];
         }
 
-        const { stringLiteral } = rangeData;
+        const { stringLiteral } = template;
+        if (!stringLiteral) {
+          return messagesFromInlineTemplateHTML.map((message) =>
+            mapTemplateLiteralMessage(message, template, bom),
+          );
+        }
+
+        const context: StringLiteralTemplate = {
+          literal: stringLiteral,
+          text: file.text,
+          bom,
+          locate: createTemplateLocator(stringLiteral.text),
+          source: getSource(),
+        };
         return messagesFromInlineTemplateHTML.map((message) =>
-          stringLiteral
-            ? mapStringLiteralTemplateMessage(message, stringLiteral)
-            : mapTemplateLiteralMessage(message, rangeData),
+          mapStringLiteralTemplateMessage(message, context),
         );
       },
     ),
   ];
-  return res;
 }
 
 /**
@@ -363,32 +372,35 @@ export function postprocessComponentFile(
  */
 function mapTemplateLiteralMessage(
   message: InlineTemplateMessage,
-  rangeData: RangeData,
+  template: InlineTemplate,
+  bom: number,
 ): InlineTemplateMessage {
   // The first line of the inline template starts at the column after
   // the opening quote in the TypeScript file, so we need to adjust
   // the message's column by that amount when the message starts on
   // the first line. The character we recorded was the quote's column,
   // so add one to get the column where the actual string starts.
+  const firstLineColumn =
+    template.start.character + 1 - (template.start.line === 0 ? bom : 0);
   if (message.line === 1) {
-    message.column += rangeData.lineAndCharacter.start.character + 1;
+    message.column += firstLineColumn;
   }
 
   // The same thing applies to the end column
   // if it also ends on the first line.
   if (message.endLine === 1 && message.endColumn !== undefined) {
-    message.endColumn += rangeData.lineAndCharacter.start.character + 1;
+    message.endColumn += firstLineColumn;
   }
 
-  message.line += rangeData.lineAndCharacter.start.line;
+  message.line += template.start.line;
   if (message.endLine !== undefined) {
-    message.endLine += rangeData.lineAndCharacter.start.line;
+    message.endLine += template.start.line;
   }
 
   // The range defines the range of the value that initializes
   // the `template` property, which includes the opening and
   // closing quotes. Add one to move past the opening quote.
-  const startOffset = rangeData.range[0] + 1;
+  const startOffset = template.range[0] + 1 - bom;
   const adjustFixRange = (fix: { range: number[] }) => {
     fix.range = [startOffset + fix.range[0], startOffset + fix.range[1]];
   };
@@ -403,6 +415,116 @@ function mapTemplateLiteralMessage(
   return message;
 }
 
+type TemplateLocator = (
+  line: number,
+  column: number,
+  endLine: number | undefined,
+  endColumn: number | undefined,
+) => { start?: number; end?: number };
+
+/**
+ * Converts a reported location in a decoded template back to offsets.
+ *
+ * ESLint and Angular agree on where lines start unless the template contains
+ * a carriage return that is not followed by a line feed, or a U+2028 or U+2029
+ * separator: ESLint treats all of these as line breaks, whereas Angular, whose
+ * spans most template rules report directly, only breaks lines at line feeds,
+ * and its lexer does not count carriage returns towards the column. A
+ * location is read the ESLint way if both its start and end are valid
+ * positions that way, and otherwise the Angular way.
+ */
+function createTemplateLocator(text: string): TemplateLocator {
+  const eslint = createTextSource(text);
+  if (!/\r(?!\n)|[\u2028\u2029]/.test(text)) {
+    return (line, column, endLine, endColumn) => ({
+      start: eslint.offsetAt(line, column),
+      end:
+        endLine === undefined || endColumn === undefined
+          ? undefined
+          : eslint.offsetAt(endLine, endColumn),
+    });
+  }
+
+  const lineStarts = [0];
+  const carriageReturns: number[] = [];
+  for (let index = 0; index < text.length; index++) {
+    if (text[index] === '\n') {
+      lineStarts.push(index + 1);
+    } else if (text[index] === '\r') {
+      carriageReturns.push(index);
+    }
+  }
+
+  /** The index of the first carriage return for which `predicate` holds */
+  const firstCarriageReturn = (predicate: (index: number) => boolean) => {
+    let low = 0;
+    let high = carriageReturns.length;
+    while (low < high) {
+      const middle = (low + high) >>> 1;
+      if (predicate(middle)) {
+        high = middle;
+      } else {
+        low = middle + 1;
+      }
+    }
+    return low;
+  };
+
+  const angularOffsetAt = (line: number, column: number, isStart: boolean) => {
+    const lineStart = lineStarts[line - 1];
+    if (lineStart === undefined || column < 1 || !Number.isInteger(column)) {
+      return undefined;
+    }
+    const lineEnd =
+      line < lineStarts.length ? lineStarts[line] - 1 : text.length;
+    // The offset after `column - 1` counted characters is `lineStart +
+    // column - 1` plus the number of carriage returns on the line before it.
+    // Carriage returns are in ascending order, so `carriageReturns[index] -
+    // index` never decreases and the first one after it can be binary searched
+    const first = firstCarriageReturn(
+      (index) => carriageReturns[index] >= lineStart,
+    );
+    let index = firstCarriageReturn(
+      (index) =>
+        index >= first &&
+        carriageReturns[index] - index >= lineStart + column - 1 - first,
+    );
+    let offset = lineStart + column - 1 + index - first;
+    // Starts are after any carriage returns there, ends before them
+    while (isStart && carriageReturns[index] === offset) {
+      index++;
+      offset++;
+    }
+    return offset <= lineEnd ? offset : undefined;
+  };
+
+  return (line, column, endLine, endColumn) => {
+    const hasEnd = endLine !== undefined && endColumn !== undefined;
+    const start = eslint.offsetAt(line, column);
+    const end = hasEnd ? eslint.offsetAt(endLine, endColumn) : undefined;
+    if (
+      start !== undefined &&
+      (!hasEnd || (end !== undefined && start <= end))
+    ) {
+      return { start, end };
+    }
+    return {
+      start: angularOffsetAt(line, column, true),
+      end: hasEnd ? angularOffsetAt(endLine, endColumn, false) : undefined,
+    };
+  };
+}
+
+interface StringLiteralTemplate {
+  literal: LiteralText;
+  /** The text of the TypeScript file, including any byte order mark */
+  text: string;
+  bom: number;
+  locate: TemplateLocator;
+  /** The TypeScript file without any byte order mark */
+  source: TextSource;
+}
+
 /**
  * String literals are linted using their decoded value, so positions are
  * mapped through the escape sequences, and replacement text is escaped again.
@@ -413,38 +535,45 @@ function mapStringLiteralTemplateMessage(
   message: InlineTemplateMessage,
   template: StringLiteralTemplate,
 ): InlineTemplateMessage {
-  const toSourceLocation = (
-    line: number,
-    column: number,
-    fallbackOffset: number,
-  ) => {
-    const offset = template.virtualSource.offsetAt(line, column);
-    return template.source.locationAt(
-      (offset === undefined ? undefined : template.offsets[offset]) ??
-        fallbackOffset,
+  const { literal, bom } = template;
+  const toLocation = (offset: number | undefined, fallbackOffset: number) =>
+    template.source.locationAt(
+      (offset === undefined
+        ? fallbackOffset
+        : sourceOffsetAt(literal, offset).offset) - bom,
+    );
+
+  const hasEnd =
+    message.endLine !== undefined && message.endColumn !== undefined;
+  const { start, end } = template.locate(
+    message.line,
+    message.column,
+    message.endLine,
+    message.endColumn,
+  );
+
+  const startLocation = toLocation(start, literal.start);
+  message.line = startLocation.line;
+  message.column = startLocation.column;
+
+  if (hasEnd) {
+    const endLocation = toLocation(end, literal.end);
+    message.endLine = endLocation.line;
+    message.endColumn = endLocation.column;
+  }
+
+  const mapEdit = (edit: TextEdit): TextEdit | undefined => {
+    const mapped = mapStringLiteralEdit(literal, template.text, edit);
+    return (
+      mapped && {
+        range: [mapped.range[0] - bom, mapped.range[1] - bom],
+        text: mapped.text,
+      }
     );
   };
 
-  const start = toSourceLocation(
-    message.line,
-    message.column,
-    template.offsets[0],
-  );
-  message.line = start.line;
-  message.column = start.column;
-
-  if (message.endLine !== undefined && message.endColumn !== undefined) {
-    const end = toSourceLocation(
-      message.endLine,
-      message.endColumn,
-      template.offsets[template.offsets.length - 1],
-    );
-    message.endLine = end.line;
-    message.endColumn = end.column;
-  }
-
   if (message.fix) {
-    const fix = mapStringLiteralEdit(message.fix, template);
+    const fix = mapEdit(message.fix);
     if (fix) {
       message.fix = fix;
     } else {
@@ -454,7 +583,7 @@ function mapStringLiteralTemplateMessage(
 
   if (message.suggestions) {
     message.suggestions = message.suggestions.flatMap((suggestion) => {
-      const fix = mapStringLiteralEdit(suggestion.fix, template);
+      const fix = mapEdit(suggestion.fix);
       return fix ? [{ ...suggestion, fix }] : [];
     });
     if (!message.suggestions.length) {
@@ -463,36 +592,4 @@ function mapStringLiteralTemplateMessage(
   }
 
   return message;
-}
-
-function mapStringLiteralEdit(
-  edit: TextEdit,
-  template: StringLiteralTemplate,
-): TextEdit | undefined {
-  const [start, end] = edit.range;
-  const sourceStart = template.offsets[start];
-  const sourceEnd = template.offsets[end];
-  if (sourceStart === undefined || sourceEnd === undefined || start > end) {
-    return undefined;
-  }
-
-  const text = escapeStringLiteralText(edit.text, template.quote);
-  const rawStart = template.offsets[0];
-  const editedRaw =
-    template.raw.slice(0, sourceStart - rawStart) +
-    text +
-    template.raw.slice(sourceEnd - rawStart);
-  const intendedText =
-    template.text.slice(0, start) + edit.text + template.text.slice(end);
-
-  // Catches edits that would split an escape sequence or change how an
-  // escape sequence next to the edit is read, e.g. `\0` followed by a digit
-  if (
-    scanStringLiteral(template.quote + editedRaw + template.quote) !==
-    intendedText
-  ) {
-    return undefined;
-  }
-
-  return { range: [sourceStart, sourceEnd], text };
 }

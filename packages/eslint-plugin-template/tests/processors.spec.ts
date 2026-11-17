@@ -8,6 +8,13 @@ import processors, {
   type ProcessorOptions,
   isFileLikelyToContainComponentDeclarations,
 } from '../src/processors';
+import {
+  decodeLiteralText,
+  escapeStringLiteralText,
+  mapStringLiteralEdit,
+  scanStringLiteral,
+  sourceOffsetAt,
+} from '../src/literal-text';
 import attributesOrder from '../src/rules/attributes-order';
 import bananaInBox from '../src/rules/banana-in-box';
 import eqeqeq from '../src/rules/eqeqeq';
@@ -1759,12 +1766,14 @@ describe('extract-inline-html with escape sequences in inline templates', () => 
   };
   type RuleName = keyof typeof rules;
 
-  function createTemplateLinter(rule: RuleName, fix = false) {
+  function createTemplateLinter(rule: RuleName | RuleName[], fix = false) {
     const htmlConfig: Linter.Config = {
       files: ['**/*.html'],
       languageOptions: { parser: templateParser },
       plugins: { template: { rules } as unknown as ESLint.Plugin },
-      rules: { [`template/${rule}`]: 'error' },
+      rules: Object.fromEntries(
+        [rule].flat().map((name) => [`template/${name}`, 'error']),
+      ),
     };
     return new ESLint({
       fix,
@@ -1841,7 +1850,10 @@ describe('extract-inline-html with escape sequences in inline templates', () => 
    * Lints the decoded template directly as an HTML file, which is what the
    * fix inside the TypeScript file has to be equivalent to
    */
-  async function lintDecodedTemplate(rule: RuleName, template: string) {
+  async function lintDecodedTemplate(
+    rule: RuleName | RuleName[],
+    template: string,
+  ) {
     const [linted] = await createTemplateLinter(rule).lintText(template, {
       filePath: 'example.component.html',
     });
@@ -1954,6 +1966,32 @@ c</p>"`,
         '`\n  <p>a</p>\n  <app-x title="b" />\n`',
         '</app-x>',
       ],
+      // Angular only breaks lines at \n, unlike ESLint, and its lexer does not
+      // count \r towards the column
+      ...[
+        ['a carriage return', '\\r'],
+        ['a CRLF', '\\r\\n'],
+        ['a line separator', '\\u2028'],
+        ['a paragraph separator', '\\u2029'],
+        ['carriage returns', '\\r\\r'],
+      ].flatMap(
+        ([name, escape]): [string, RuleName, string, string, string][] => [
+          [
+            `single quotes, ${name} escape before the fix`,
+            'prefer-self-closing-tags',
+            `'<p>${escape}X</p><app-x></app-x>'`,
+            `'<p>${escape}X</p><app-x />'`,
+            '</app-x>',
+          ],
+          [
+            `single quotes, ${name} escape before the fix on a later line`,
+            'prefer-self-closing-tags',
+            `'<p>${escape}X</p>\\n<i>${escape}</i><app-x></app-x>'`,
+            `'<p>${escape}X</p>\\n<i>${escape}</i><app-x />'`,
+            '</app-x>',
+          ],
+        ],
+      ),
     ])(
       '%s (%s)',
       async (_description, rule, template, fixedTemplate, expectedText) => {
@@ -2011,6 +2049,17 @@ c</p>"`,
 </p>'`,
         'a == b',
       ],
+      // ESLint breaks lines at these, and so do rules reporting locations
+      // computed by ESLint
+      ...['\\r', '\\u2028', '\\u2029'].map(
+        (escape): [string, RuleName, string, string, string] => [
+          `single quotes, a ${escape} escape on the same line`,
+          'eqeqeq',
+          `'<p>${escape}{{ a == b }}</p>'`,
+          `'<p>${escape}{{ a === b }}</p>'`,
+          'a == b',
+        ],
+      ),
     ])(
       '%s (%s)',
       async (_description, rule, template, suggestedTemplate, expectedText) => {
@@ -2083,6 +2132,154 @@ c</p>"`,
       );
       expect(mapped).not.toHaveProperty('fix');
     });
+
+    it.each<[string, string, [number, number], string, string | undefined]>([
+      // \0 followed by a digit would be a legacy octal escape
+      [
+        'joins \\0 with a following digit',
+        String.raw`'<p>\0x1</p>'`,
+        [4, 5],
+        '',
+        undefined,
+      ],
+      [
+        'keeps \\0 apart from a following digit',
+        String.raw`'<p>\0x1</p>'`,
+        [4, 5],
+        'y',
+        'y',
+      ],
+      [
+        'inserts a digit after a character after \\0',
+        String.raw`'<p>\0x</p>'`,
+        [5, 5],
+        '1',
+        '1',
+      ],
+      [
+        'inserts a backslash before an escape sequence',
+        String.raw`'<p>\x41</p>'`,
+        [3, 3],
+        '\\',
+        '\\\\',
+      ],
+      [
+        'replaces an escape sequence',
+        String.raw`'<p>\x41\0</p>'`,
+        [3, 4],
+        '9',
+        '9',
+      ],
+      [
+        'replaces an escape sequence before \\0 with a digit',
+        String.raw`'<p>\0\x41</p>'`,
+        [4, 5],
+        '9',
+        undefined,
+      ],
+      ['deletes up to a line continuation', "'<p>a\\\nb</p>'", [3, 4], '', ''],
+    ])(
+      'checks the edit where it meets the literal: %s',
+      (_description, template, range, text, expectedText) => {
+        const input = component(template);
+        processor.preprocess(input, 'example.component.ts');
+        const [mapped] = processor.postprocess(
+          [[], [message({ line: 1, column: 1 }, { range, text })]],
+          'example.component.ts',
+        ) as { fix?: { range: [number, number]; text: string } }[];
+
+        if (expectedText === undefined) {
+          expect(mapped).not.toHaveProperty('fix');
+          return;
+        }
+        expect(mapped.fix?.text).toBe(expectedText);
+        const [start, end] = mapped.fix?.range ?? [];
+        const decodedValue = templateValue(input);
+        expect(
+          templateValue(
+            input.slice(0, start) + expectedText + input.slice(end),
+          ),
+        ).toBe(
+          decodedValue.slice(0, range[0]) + text + decodedValue.slice(range[1]),
+        );
+      },
+    );
+
+    it.each(["'", '"'])(
+      'only maps edits that decode to the intended text, for every edit to a %s literal',
+      (quote) => {
+        // Padding keeps the escape sequences further apart than the context
+        // that is re-read around each edit
+        const padding = 'p'.repeat(20);
+        const body = [
+          String.raw`a\0b1`,
+          String.raw`\x41\u{1F600}`,
+          String.raw`\\\n${'\\' + quote}c\
+d\u0030`,
+        ].join(padding);
+        const literalSource = `${quote}${body}${quote}`;
+        const sourceFile = ts.createSourceFile(
+          'example.ts',
+          `x = ${literalSource};`,
+          ts.ScriptTarget.Latest,
+          true,
+        );
+        let literal: ts.StringLiteral | undefined;
+        sourceFile.forEachChild(function visit(node) {
+          if (ts.isStringLiteral(node)) {
+            literal = node;
+          }
+          node.forEachChild(visit);
+        });
+        const decoded = decodeLiteralText(
+          literal as ts.StringLiteral,
+          sourceFile,
+        );
+        expect(decoded?.segments.length).toBeGreaterThan(0);
+        if (!decoded) {
+          return;
+        }
+
+        let mappedCount = 0;
+        for (let start = 0; start <= decoded.text.length; start++) {
+          for (let end = start; end <= decoded.text.length; end++) {
+            for (const text of ['', '1', 'x', '\\', quote, '\n', '9a']) {
+              const intended =
+                decoded.text.slice(0, start) + text + decoded.text.slice(end);
+              const mapped = mapStringLiteralEdit(decoded, sourceFile.text, {
+                range: [start, end],
+                text,
+              });
+              // Applying the edit to the whole literal is what has to decode correctly
+              const whole = (range: [number, number], replacement: string) =>
+                scanStringLiteral(
+                  sourceFile.text.slice(literal?.getStart(), range[0]) +
+                    replacement +
+                    sourceFile.text.slice(range[1], literal?.end),
+                );
+              if (mapped) {
+                mappedCount++;
+                expect(whole(mapped.range, mapped.text)).toBe(intended);
+              } else {
+                // Only edits that would split an escape sequence, or change
+                // how one is read, are dropped
+                const from = sourceOffsetAt(decoded, start);
+                const to = sourceOffsetAt(decoded, end);
+                if (from.boundary && to.boundary) {
+                  expect(
+                    whole(
+                      [from.offset, to.offset],
+                      escapeStringLiteralText(text, quote),
+                    ),
+                  ).not.toBe(intended);
+                }
+              }
+            }
+          }
+        }
+        expect(mappedCount).toBeGreaterThan(0);
+      },
+    );
 
     it('drops edits that would change how a neighbouring escape sequence is read', () => {
       // Inserting a digit after \0 would turn it into a legacy octal escape
@@ -2161,5 +2358,123 @@ c</p>"`,
         column: start - input.lastIndexOf('\n', start) + 3,
       });
     });
+  });
+
+  describe('template data', () => {
+    const templateMessage = () => ({
+      ruleId: 'test',
+      severity: 2,
+      message: 'test',
+      nodeType: 'Element',
+      messageId: 'test',
+      line: 1,
+      column: 1,
+      endLine: 1,
+      endColumn: 2,
+    });
+
+    it('is released once the file has been postprocessed', () => {
+      const input = component(String.raw`'<p>\'</p>'`);
+      processor.preprocess(input, 'example.component.ts');
+      expect(
+        processor.postprocess(
+          [[], [templateMessage()]],
+          'example.component.ts',
+        ),
+      ).toEqual([expect.objectContaining({ line: 5 })]);
+      // Nothing is left to map template messages with until the next preprocess()
+      expect(
+        processor.postprocess(
+          [[], [templateMessage()]],
+          'example.component.ts',
+        ),
+      ).toEqual([]);
+    });
+
+    it('is kept apart for files with the same name in different directories', () => {
+      processor.preprocess(component(`'<p></p>'`), 'a/example.component.ts');
+      processor.preprocess(
+        '\n\n' + component(`'<p></p>'`),
+        'b/example.component.ts',
+      );
+      expect(
+        processor.postprocess(
+          [[], [templateMessage()]],
+          'a/example.component.ts',
+        ),
+      ).toEqual([expect.objectContaining({ line: 5 })]);
+      expect(
+        processor.postprocess(
+          [[], [templateMessage()]],
+          'b/example.component.ts',
+        ),
+      ).toEqual([expect.objectContaining({ line: 7 })]);
+    });
+
+    it('is recreated each time the same file is linted', async () => {
+      // The attributes-order fix overlaps the banana-in-box one, so fixing
+      // takes more than one pass, each preprocessing the file again
+      const rules: RuleName[] = ['attributes-order', 'banana-in-box'];
+      const input = component(
+        String.raw`'<p>it\'s</p><input [value]="v" ([ngModel])="m" id="x" />'`,
+      );
+
+      const linter = createTemplateLinter(rules);
+      const [first] = await linter.lintText(input, {
+        filePath: 'example.component.ts',
+      });
+      const [second] = await linter.lintText(input, {
+        filePath: 'example.component.ts',
+      });
+      expect(first.messages).toHaveLength(2);
+      expect(second.messages).toEqual(first.messages);
+
+      const [fixed] = await createTemplateLinter(rules, true).lintText(input, {
+        filePath: 'example.component.ts',
+      });
+      expect(fixed.messages).toEqual([]);
+      const decoded = await lintDecodedTemplate(rules, templateValue(input));
+      expect(templateValue(fixed.output ?? '')).toBe(decoded.output);
+    });
+  });
+
+  describe('files with a byte order mark', () => {
+    it.each([
+      ['single quotes', String.raw`'<p>\'</p><app-x></app-x>'`],
+      ['backticks', '`<p></p><app-x></app-x>`'],
+    ])('maps locations and fixes (%s)', async (_description, template) => {
+      const input = `\uFEFF${component(template)}`;
+      const [linted] = await createTemplateLinter(
+        'prefer-self-closing-tags',
+      ).lintText(input, { filePath: 'example.component.ts' });
+      expect(linted.messages).toHaveLength(1);
+      // ESLint reports locations in the file without its byte order mark
+      expect(reportedText(input.slice(1), linted.messages[0])).toBe('</app-x>');
+
+      const [fixed] = await createTemplateLinter(
+        'prefer-self-closing-tags',
+        true,
+      ).lintText(input, { filePath: 'example.component.ts' });
+      expect(fixed.output).toBe(
+        `\uFEFF${component(template.replace('></app-x>', ' />'))}`,
+      );
+    });
+
+    it.each([
+      ['single quotes', String.raw`'<p>\'</p><app-x></app-x>'`],
+      ['backticks', '`<p></p><app-x></app-x>`'],
+    ])(
+      'maps locations on the first line (%s)',
+      async (_description, template) => {
+        const input = `\uFEFF@Component({ template: ${template} }) export class A {}`;
+        const [linted] = await createTemplateLinter(
+          'prefer-self-closing-tags',
+        ).lintText(input, { filePath: 'example.component.ts' });
+        expect(linted.messages).toHaveLength(1);
+        expect(reportedText(input.slice(1), linted.messages[0])).toBe(
+          '</app-x>',
+        );
+      },
+    );
   });
 });
