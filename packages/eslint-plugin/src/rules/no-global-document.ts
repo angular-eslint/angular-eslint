@@ -165,8 +165,9 @@ export default createESLintRule<Options, MessageIds>({
     }
 
     /**
-     * Only the nearest enclosing class counts, so a plain class declared
-     * inside a method of an Angular class is not treated as Angular.
+     * Any enclosing Angular class counts, so code in a plain class declared
+     * inside an Angular class (for example a helper class in a method) is
+     * checked too: it runs on the server just like the method around it.
      */
     function isInsideAngularClass(node: TSESTree.Node): boolean {
       for (
@@ -175,10 +176,11 @@ export default createESLintRule<Options, MessageIds>({
         current = current.parent
       ) {
         if (
-          current.type === AST_NODE_TYPES.ClassDeclaration ||
-          current.type === AST_NODE_TYPES.ClassExpression
+          (current.type === AST_NODE_TYPES.ClassDeclaration ||
+            current.type === AST_NODE_TYPES.ClassExpression) &&
+          isAngularClass(current)
         ) {
-          return isAngularClass(current);
+          return true;
         }
       }
       return false;
@@ -362,5 +364,5 @@ function getDocumentAccess(
 
 export const RULE_DOCS_EXTENSION = {
   rationale:
-    "The global `document` object only exists in the browser. When an Angular application is rendered on the server (SSR or prerendering), components, directives, services and pipes are instantiated in Node.js, where there is no global `document`, so any access to it throws a `ReferenceError` and breaks the render. Angular provides the `DOCUMENT` injection token as the platform-safe abstraction: `private readonly document = inject(DOCUMENT)`. It resolves to the real `document` in the browser and to the server-side document that Angular renders into on the server. Injecting the token also keeps the dependency explicit and lets tests provide their own document instead of patching global state. Injecting `DOCUMENT` only keeps the code from throwing on the server: it does not make direct DOM manipulation hydration-safe. Prefer describing DOM changes in templates, and run browser-only work in `afterNextRender()`, which never runs on the server. For elements in a component's own template, prefer Angular's queries such as `viewChild()` and `contentChild()` over looking them up through the document, which keeps the component encapsulated. The rule reports every use of the global `document` inside an Angular class, including `window.document`, `globalThis.document`, TypeScript wrappers such as `(window as any).document`, and destructuring such as `const { document } = window`. A `typeof document` guard is reported too: inject the token instead, because using such a guard to decide what to render can produce different DOM on the server and in the browser, which breaks hydration. Local variables, parameters and class members named `document`, such as `this.document`, are not reported. For more information see [Accessing Document via DI](https://angular.dev/guide/ssr#accessing-document-via-di) in the Angular SSR guide and the [hydration constraints](https://angular.dev/guide/hydration#constraints).",
+    "The global `document` object only exists in the browser. When an Angular application is rendered on the server (SSR or prerendering), components, directives, services and pipes are instantiated in Node.js, where there is no global `document`, so any access to it throws a `ReferenceError` and breaks the render. Angular provides the `DOCUMENT` injection token as the platform-safe abstraction: `private readonly document = inject(DOCUMENT)`. It resolves to the real `document` in the browser and to the server-side document that Angular renders into on the server. Injecting the token also keeps the dependency explicit and lets tests provide their own document instead of patching global state. Injecting `DOCUMENT` only keeps the code from throwing on the server: it does not make direct DOM manipulation hydration-safe. Prefer describing DOM changes in templates, and run browser-only work in `afterNextRender()`, which never runs on the server. For elements in a component's own template, prefer Angular's queries such as `viewChild()` and `contentChild()` over looking them up through the document, which keeps the component encapsulated. The rule reports every use of the global `document` inside an Angular class, including `window.document`, `globalThis.document`, TypeScript wrappers such as `(window as any).document`, and destructuring such as `const { document } = window`. A `typeof document` guard is reported too: inject the token instead, because using such a guard to decide what to render can produce different DOM on the server and in the browser, which breaks hydration. This includes plain classes and functions declared inside an Angular class, since they run on the server too. Local variables, parameters and class members named `document`, such as `this.document`, are not reported. Code outside Angular classes, such as `main.ts`, tests and browser-only scripts, is not checked; to ban the global everywhere, use ESLint's built-in [`no-restricted-globals`](https://eslint.org/docs/latest/rules/no-restricted-globals) rule instead. For more information see [Accessing Document via DI](https://angular.dev/guide/ssr#accessing-document-via-di) in the Angular SSR guide and the [hydration constraints](https://angular.dev/guide/hydration#constraints).",
 };

@@ -74,20 +74,6 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
       }
     }
   `,
-  // should not report document on a nested plain class inside an Angular class
-  `
-    @Component({ selector: 'app-foo', template: '' })
-    class FooComponent {
-      method() {
-        class InnerHelper {
-          getTitle() {
-            return document.title;
-          }
-        }
-        return InnerHelper;
-      }
-    }
-  `,
   // should allow window.document in a non-Angular class
   `
     class NotAngular {
@@ -264,17 +250,6 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
         const { location } = window;
         return [location, globalThis.navigator, window['documentElement']];
       }
-    }
-  `,
-  // should not report a nested plain class expression inside an Angular class
-  `
-    @Component({ selector: 'app-foo', template: '' })
-    class FooComponent {
-      private readonly helper = class {
-        getTitle() {
-          return window.document.title + document.title;
-        }
-      };
     }
   `,
   // should not treat a non-Angular decorator aliased to an Angular name as Angular
@@ -738,7 +713,7 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'should fail in the Angular class but not in a nested plain class',
+      'should fail in a plain class declared inside a method of an Angular class',
     annotatedSource: `
       @Component({ selector: 'app-foo', template: '' })
       class FooComponent {
@@ -746,14 +721,37 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
           class InnerHelper {
             getTitle() {
               return document.title;
+                     ~~~~~~~~
             }
           }
           return [new InnerHelper(), document.body];
-                                     ~~~~~~~~
+                                     ^^^^^^^^
         }
       }
     `,
-    messageId,
+    messages: [
+      { char: '~', messageId },
+      { char: '^', messageId },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail in a plain class expression assigned to a field of an Angular class',
+    annotatedSource: `
+      @Component({ selector: 'app-foo', template: '' })
+      class FooComponent {
+        private readonly helper = class {
+          getTitle() {
+            return window.document.title + document.title;
+                   ~~~~~~~~~~~~~~~         ^^^^^^^^
+          }
+        };
+      }
+    `,
+    messages: [
+      { char: '~', messageId },
+      { char: '^', messageId },
+    ],
   }),
   convertAnnotatedSourceToFailureCase({
     description:
