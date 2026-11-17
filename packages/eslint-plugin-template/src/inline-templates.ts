@@ -420,6 +420,8 @@ type TemplateLocator = (
   column: number,
   endLine: number | undefined,
   endColumn: number | undefined,
+  /** Ranges of the message's fix and suggestions in the decoded template */
+  editRanges: readonly (readonly number[])[],
 ) => { start?: number; end?: number };
 
 /**
@@ -429,9 +431,12 @@ type TemplateLocator = (
  * a carriage return that is not followed by a line feed, or a U+2028 or U+2029
  * separator: ESLint treats all of these as line breaks, whereas Angular, whose
  * spans most template rules report directly, only breaks lines at line feeds,
- * and its lexer does not count carriage returns towards the column. A
- * location is read the ESLint way if both its start and end are valid
- * positions that way, and otherwise the Angular way.
+ * and its lexer does not count carriage returns towards the column. When
+ * only one reading gives a valid range, that one is used. When both do and
+ * they differ, the reading that overlaps the message's fix or suggestions is
+ * used; if that doesn't decide it, no offsets are returned, so the message
+ * falls back to the start of the template rather than highlighting unrelated
+ * text.
  */
 function createTemplateLocator(text: string): TemplateLocator {
   const eslint = createTextSource(text);
@@ -498,20 +503,44 @@ function createTemplateLocator(text: string): TemplateLocator {
     return offset <= lineEnd ? offset : undefined;
   };
 
-  return (line, column, endLine, endColumn) => {
+  return (line, column, endLine, endColumn, editRanges) => {
     const hasEnd = endLine !== undefined && endColumn !== undefined;
-    const start = eslint.offsetAt(line, column);
-    const end = hasEnd ? eslint.offsetAt(endLine, endColumn) : undefined;
-    if (
-      start !== undefined &&
-      (!hasEnd || (end !== undefined && start <= end))
-    ) {
-      return { start, end };
-    }
-    return {
+    const isValid = (range: { start?: number; end?: number }) =>
+      range.start !== undefined &&
+      (!hasEnd || (range.end !== undefined && range.start <= range.end));
+
+    const eslintRange = {
+      start: eslint.offsetAt(line, column),
+      end: hasEnd ? eslint.offsetAt(endLine, endColumn) : undefined,
+    };
+    const angularRange = {
       start: angularOffsetAt(line, column, true),
       end: hasEnd ? angularOffsetAt(endLine, endColumn, false) : undefined,
     };
+    const eslintValid = isValid(eslintRange);
+    const angularValid = isValid(angularRange);
+
+    if (!eslintValid || !angularValid) {
+      return eslintValid ? eslintRange : angularRange;
+    }
+    if (
+      eslintRange.start === angularRange.start &&
+      eslintRange.end === angularRange.end
+    ) {
+      return eslintRange;
+    }
+
+    const overlapsEdit = ({ start, end }: { start?: number; end?: number }) =>
+      editRanges.some(
+        ([editStart, editEnd]) =>
+          start! <= editEnd && (end ?? start!) >= editStart,
+      );
+    const eslintOverlaps = overlapsEdit(eslintRange);
+    const angularOverlaps = overlapsEdit(angularRange);
+    if (eslintOverlaps !== angularOverlaps) {
+      return eslintOverlaps ? eslintRange : angularRange;
+    }
+    return {};
   };
 }
 
@@ -550,6 +579,10 @@ function mapStringLiteralTemplateMessage(
     message.column,
     message.endLine,
     message.endColumn,
+    [
+      ...(message.fix ? [message.fix.range] : []),
+      ...(message.suggestions ?? []).map(({ fix }) => fix.range),
+    ],
   );
 
   const startLocation = toLocation(start, literal.start);

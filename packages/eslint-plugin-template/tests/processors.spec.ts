@@ -1990,6 +1990,15 @@ c</p>"`,
             `'<p>${escape}X</p>\\n<i>${escape}</i><app-x />'`,
             '</app-x>',
           ],
+          // Both readings of the location are valid but point to different
+          // text, so the fix decides which one is right
+          [
+            `single quotes, ${name} escape before a long line and a line feed`,
+            'prefer-self-closing-tags',
+            `'<p>${escape}abcdefghijklmnopqrstuvwxyz</p>\\n<app-x></app-x>'`,
+            `'<p>${escape}abcdefghijklmnopqrstuvwxyz</p>\\n<app-x />'`,
+            '</app-x>',
+          ],
         ],
       ),
     ])(
