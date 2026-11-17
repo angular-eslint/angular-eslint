@@ -14,6 +14,11 @@ import {
   postprocessComponentFile,
   type PreprocessResult,
 } from './inline-templates';
+import {
+  createTextSource,
+  decodeLiteral,
+  type TextSource,
+} from './literal-text';
 
 type TextEdit = {
   range: [number, number];
@@ -39,61 +44,13 @@ type MappedStyle = {
   kind: 'component' | 'attribute';
   text: string;
   offsets: number[];
-  source: ReturnType<typeof createTextSource>;
-  virtualSource: ReturnType<typeof createTextSource>;
+  source: TextSource;
+  virtualSource: TextSource;
   /** Fix text matching any of these cannot be inserted into the original source verbatim */
   unsafeFixText: RegExp[];
 };
 
 type TemplateSource = Omit<MappedStyle, 'kind' | 'virtualSource'>;
-
-function createTextSource(text: string) {
-  const lineStarts = [0];
-  for (let index = 0; index < text.length; index++) {
-    const character = text.charCodeAt(index);
-    if (character === 13 && text.charCodeAt(index + 1) === 10) {
-      index++;
-    }
-    if (
-      character === 10 ||
-      character === 13 ||
-      character === 0x2028 ||
-      character === 0x2029
-    ) {
-      lineStarts.push(index + 1);
-    }
-  }
-  return {
-    text,
-    offsetAt(line: number, column: number): number | undefined {
-      const start = lineStarts[line - 1];
-      if (start === undefined || column < 1 || !Number.isInteger(column)) {
-        return undefined;
-      }
-      const offset = start + column - 1;
-      const nextStart = lineStarts[line];
-      if (
-        nextStart !== undefined ? offset >= nextStart : offset > text.length
-      ) {
-        return undefined;
-      }
-      return offset;
-    },
-    locationAt(offset: number) {
-      let start = 0;
-      let end = lineStarts.length;
-      while (start + 1 < end) {
-        const middle = Math.floor((start + end) / 2);
-        if (lineStarts[middle] > offset) {
-          end = middle;
-        } else {
-          start = middle;
-        }
-      }
-      return { line: start + 1, column: offset - lineStarts[start] + 1 };
-    },
-  };
-}
 
 const unsafeLiteralFixText: Record<string, RegExp> = {
   "'": /[\\'\r\n]/,
@@ -104,55 +61,20 @@ const unsafeLiteralFixText: Record<string, RegExp> = {
 function mapLiteral(
   literal: ts.StringLiteral | ts.NoSubstitutionTemplateLiteral,
   sourceFile: ts.SourceFile,
-  source: ReturnType<typeof createTextSource>,
+  source: TextSource,
 ): MappedStyle | undefined {
-  const start = literal.getStart(sourceFile);
-  const quote = sourceFile.text[start];
-  const raw = sourceFile.text.slice(start + 1, literal.end - 1);
-  const offsets = [start + 1];
-  const scanner = ts.createScanner(ts.ScriptTarget.Latest, false);
-  let text = '';
-
-  for (let index = 0; index < raw.length;) {
-    const escape =
-      raw[index] === '\\'
-        ? /^\\(?:u\{[\da-fA-F]+\}|u[\da-fA-F]{4}|x[\da-fA-F]{2}|\r\n|[\s\S])/.exec(
-            raw.slice(index),
-          )?.[0]
-        : undefined;
-    const chunk =
-      escape ?? (raw.startsWith('\r\n', index) ? '\r\n' : raw[index]);
-    let decoded = chunk;
-
-    if (escape) {
-      scanner.setText(quote + chunk + quote);
-      scanner.scan();
-      decoded = scanner.getTokenValue();
-    } else if (quote === '`' && chunk.startsWith('\r')) {
-      decoded = '\n';
-    }
-
-    index += chunk.length;
-    text += decoded;
-    for (let count = 0; count < decoded.length; count++) {
-      offsets.push(start + 1 + index);
-    }
-    if (!decoded.length) {
-      offsets[offsets.length - 1] = start + 1 + index;
-    }
-  }
-
-  if (text !== literal.text) {
+  const decoded = decodeLiteral(literal, sourceFile);
+  if (!decoded) {
     return undefined;
   }
 
   return {
     kind: 'component',
-    text,
-    offsets,
+    text: decoded.text,
+    offsets: decoded.offsets,
     source,
-    virtualSource: createTextSource(text),
-    unsafeFixText: [unsafeLiteralFixText[quote]],
+    virtualSource: createTextSource(decoded.text),
+    unsafeFixText: [unsafeLiteralFixText[decoded.quote]],
   };
 }
 
