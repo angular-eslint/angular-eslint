@@ -1,3 +1,4 @@
+import * as templateParser from '@angular-eslint/template-parser';
 import { ESLint, type Linter } from 'eslint';
 import { HtmlParser } from '@angular-eslint/bundled-angular-compiler';
 import ts from 'typescript';
@@ -7,6 +8,11 @@ import processors, {
   type ProcessorOptions,
   isFileLikelyToContainComponentDeclarations,
 } from '../src/processors';
+import attributesOrder from '../src/rules/attributes-order';
+import bananaInBox from '../src/rules/banana-in-box';
+import eqeqeq from '../src/rules/eqeqeq';
+import noMultiTokenClassKey from '../src/rules/no-multi-token-class-key';
+import preferSelfClosingTags from '../src/rules/prefer-self-closing-tags';
 
 // typescript's exports are non-configurable getters, so wrap createSourceFile to observe parsing
 vi.mock('typescript', async (importOriginal) => {
@@ -1727,4 +1733,433 @@ describe('createProcessor', () => {
       );
     },
   );
+});
+
+describe('extract-inline-html with escape sequences in inline templates', () => {
+  const processor = processors['extract-inline-html'];
+
+  const tsParser: Linter.Parser = {
+    parse: () => ({
+      type: 'Program',
+      body: [],
+      sourceType: 'module',
+      range: [0, 0],
+      loc: { start: { line: 1, column: 0 }, end: { line: 1, column: 0 } },
+      tokens: [],
+      comments: [],
+    }),
+  };
+
+  const rules = {
+    'attributes-order': attributesOrder,
+    'banana-in-box': bananaInBox,
+    eqeqeq,
+    'no-multi-token-class-key': noMultiTokenClassKey,
+    'prefer-self-closing-tags': preferSelfClosingTags,
+  };
+  type RuleName = keyof typeof rules;
+
+  function createTemplateLinter(rule: RuleName, fix = false) {
+    const htmlConfig: Linter.Config = {
+      files: ['**/*.html'],
+      languageOptions: { parser: templateParser },
+      plugins: { template: { rules } as unknown as ESLint.Plugin },
+      rules: { [`template/${rule}`]: 'error' },
+    };
+    return new ESLint({
+      fix,
+      overrideConfigFile: true,
+      overrideConfig: [
+        {
+          files: ['**/*.ts'],
+          processor: processor as Linter.Processor,
+          languageOptions: { parser: tsParser },
+        },
+        htmlConfig,
+      ],
+    });
+  }
+
+  function component(template: string) {
+    return `import { Component } from '@angular/core';\n\n@Component({\n  selector: 'app-example',\n  template: ${template},\n})\nexport class ExampleComponent {}\n`;
+  }
+
+  /** Converts an ESLint line and column to an offset, honouring CRLF */
+  function offsetOf(text: string, line: number, column: number) {
+    let offset = 0;
+    for (let current = 1; current < line; current++) {
+      offset = text.indexOf('\n', offset) + 1;
+    }
+    return offset + column - 1;
+  }
+
+  function reportedText(text: string, message: Linter.LintMessage) {
+    return text.slice(
+      offsetOf(text, message.line, message.column),
+      offsetOf(text, message.endLine ?? 0, message.endColumn ?? 0),
+    );
+  }
+
+  /**
+   * Asserts that the file still parses, and returns the value of the template
+   * (empty if it is a template literal with substitutions, which has none)
+   */
+  function templateValue(text: string) {
+    const sourceFile = ts.createSourceFile(
+      'example.component.ts',
+      text,
+      ts.ScriptTarget.Latest,
+      true,
+    );
+    expect(
+      (sourceFile as unknown as { parseDiagnostics: unknown[] })
+        .parseDiagnostics,
+    ).toEqual([]);
+    let value: string | undefined;
+    const visit = (node: ts.Node) => {
+      if (
+        ts.isPropertyAssignment(node) &&
+        node.name.getText(sourceFile) === 'template' &&
+        ts.isStringLiteralLike(node.initializer)
+      ) {
+        value = node.initializer.text;
+      }
+      ts.forEachChild(node, visit);
+    };
+    visit(sourceFile);
+    return value ?? '';
+  }
+
+  function applySuggestion(text: string, message: Linter.LintMessage) {
+    const fixes = message.suggestions?.map((suggestion) => suggestion.fix);
+    expect(fixes).toHaveLength(1);
+    const [{ range, text: replacement }] = fixes ?? [];
+    return text.slice(0, range[0]) + replacement + text.slice(range[1]);
+  }
+
+  /**
+   * Lints the decoded template directly as an HTML file, which is what the
+   * fix inside the TypeScript file has to be equivalent to
+   */
+  async function lintDecodedTemplate(rule: RuleName, template: string) {
+    const [linted] = await createTemplateLinter(rule).lintText(template, {
+      filePath: 'example.component.html',
+    });
+    const [fixed] = await createTemplateLinter(rule, true).lintText(template, {
+      filePath: 'example.component.html',
+    });
+    return { messages: linted.messages, output: fixed.output ?? template };
+  }
+
+  describe('fixes', () => {
+    it.each<[string, RuleName, string, string, string]>([
+      [
+        'single quotes, escapes before the fix',
+        'banana-in-box',
+        String.raw`'<p title="it\'s \\ \x41\u0042\u{43}">\"a\"\nb\
+c</p><div ([ngModel])="v"></div>'`,
+        String.raw`'<p title="it\'s \\ \x41\u0042\u{43}">\"a\"\nb\
+c</p><div [(ngModel)]="v"></div>'`,
+        '([ngModel])="v"',
+      ],
+      [
+        'single quotes, escapes after the fix',
+        'banana-in-box',
+        String.raw`'<div ([ngModel])="v"></div><p title="it\'s \\ \x41\u0042\u{43}">\"a\"\nb\
+c</p>'`,
+        String.raw`'<div [(ngModel)]="v"></div><p title="it\'s \\ \x41\u0042\u{43}">\"a\"\nb\
+c</p>'`,
+        '([ngModel])="v"',
+      ],
+      [
+        'single quotes, escapes inside the fix',
+        'attributes-order',
+        String.raw`'<p>it\'s</p><input [value]="v" id="it\'s \\ \x41\u0042\u{43}" type="text" /><p>\'</p>'`,
+        String.raw`'<p>it\'s</p><input id="it\'s \\ ABC" type="text" [value]="v" /><p>\'</p>'`,
+        String.raw`[value]="v" id="it\'s \\ \x41\u0042\u{43}" type="text"`,
+      ],
+      [
+        'double quotes, escapes before the fix',
+        'banana-in-box',
+        String.raw`"<p title=\"it's \\ \x41\u0042\u{43}\">'a'\nb\
+c</p><div ([ngModel])=\"v\"></div>"`,
+        String.raw`"<p title=\"it's \\ \x41\u0042\u{43}\">'a'\nb\
+c</p><div [(ngModel)]=\"v\"></div>"`,
+        String.raw`([ngModel])=\"v\"`,
+      ],
+      [
+        'double quotes, escapes after the fix',
+        'banana-in-box',
+        String.raw`"<div ([ngModel])=\"v\"></div><p title=\"it's \\ \x41\u0042\u{43}\">'a'\nb\
+c</p>"`,
+        String.raw`"<div [(ngModel)]=\"v\"></div><p title=\"it's \\ \x41\u0042\u{43}\">'a'\nb\
+c</p>"`,
+        String.raw`([ngModel])=\"v\"`,
+      ],
+      [
+        'double quotes, escapes inside the fix',
+        'attributes-order',
+        String.raw`"<input [value]=\"v\" id='say \"hi\" \\ \x41\u0042\u{43}' type=\"text\" />"`,
+        String.raw`"<input id='say \"hi\" \\ ABC' type=\"text\" [value]=\"v\" />"`,
+        String.raw`[value]=\"v\" id='say \"hi\" \\ \x41\u0042\u{43}' type=\"text\"`,
+      ],
+      [
+        'single quotes, a CRLF line continuation before the fix',
+        'banana-in-box',
+        `'<p>a\\\r\nb</p><div ([ngModel])="v"></div>'`,
+        `'<p>a\\\r\nb</p><div [(ngModel)]="v"></div>'`,
+        '([ngModel])="v"',
+      ],
+      [
+        'single quotes, newline escapes and line continuations before a fix on a later line',
+        'prefer-self-closing-tags',
+        String.raw`'<p>\n  it\'s\n</p>\
+<app-x title="\u0041\\"></app-x>'`,
+        String.raw`'<p>\n  it\'s\n</p>\
+<app-x title="\u0041\\" />'`,
+        '</app-x>',
+      ],
+      [
+        'backticks, escapes before the fix',
+        'banana-in-box',
+        '`<p title="\\` \\${x} \\\\ \\x41\\u0042\\u{43}">\\na\\\nb</p><div ([ngModel])="v"></div>`',
+        '`<p title="\\` \\${x} \\\\ \\x41\\u0042\\u{43}">\\na\\\nb</p><div [(ngModel)]="v"></div>`',
+        '([ngModel])="v"',
+      ],
+      [
+        'backticks, escapes after the fix',
+        'banana-in-box',
+        '`<div ([ngModel])="v"></div><p title="\\` \\${x} \\\\ \\x41\\u0042\\u{43}">\\na\\\nb</p>`',
+        '`<div [(ngModel)]="v"></div><p title="\\` \\${x} \\\\ \\x41\\u0042\\u{43}">\\na\\\nb</p>`',
+        '([ngModel])="v"',
+      ],
+      [
+        'backticks, escapes inside the fix',
+        'attributes-order',
+        '`<input [value]="v" id="\\` \\${x} \\\\ \\x41\\u0042\\u{43}\\n" type="text" />`',
+        '`<input id="\\` \\${x} \\\\ \\x41\\u0042\\u{43}\\n" type="text" [value]="v" />`',
+        '[value]="v" id="\\` \\${x} \\\\ \\x41\\u0042\\u{43}\\n" type="text"',
+      ],
+      [
+        'backticks with a substitution inside the fix',
+        'attributes-order',
+        '`<input [value]="v" id="${1}" type="text" />`',
+        '`<input id="${1}" type="text" [value]="v" />`',
+        '[value]="v" id="${1}" type="text"',
+      ],
+      [
+        'backticks without escapes, on a later line',
+        'prefer-self-closing-tags',
+        '`\n  <p>a</p>\n  <app-x title="b"></app-x>\n`',
+        '`\n  <p>a</p>\n  <app-x title="b" />\n`',
+        '</app-x>',
+      ],
+    ])(
+      '%s (%s)',
+      async (_description, rule, template, fixedTemplate, expectedText) => {
+        const input = component(template);
+        const [linted] = await createTemplateLinter(rule).lintText(input, {
+          filePath: 'example.component.ts',
+        });
+        expect(linted.messages).toHaveLength(1);
+        expect(reportedText(input, linted.messages[0])).toBe(expectedText);
+
+        const [fixed] = await createTemplateLinter(rule, true).lintText(input, {
+          filePath: 'example.component.ts',
+        });
+        expect(fixed.output).toBe(component(fixedTemplate));
+        const fixedValue = templateValue(fixed.output ?? '');
+
+        // The fixed literal decodes to what fixing the template directly gives
+        if (!template.startsWith('`')) {
+          const decoded = await lintDecodedTemplate(rule, templateValue(input));
+          expect(fixedValue).toBe(decoded.output);
+        }
+      },
+    );
+  });
+
+  describe('suggestions', () => {
+    it.each<[string, RuleName, string, string, string]>([
+      [
+        'single quotes',
+        'no-multi-token-class-key',
+        String.raw`'<p>it\'s\n\x41</p><div [class]="{ \'a b\': x }"></div><p>\\</p>'`,
+        String.raw`'<p>it\'s\n\x41</p><div [class]="{ \'a\': x, \'b\': x }"></div><p>\\</p>'`,
+        String.raw`\'a b\'`,
+      ],
+      [
+        'double quotes',
+        'no-multi-token-class-key',
+        String.raw`"<p>\"\u0041\"\</p><div [class]=\"{ 'a b': x }\"></div>"`,
+        String.raw`"<p>\"\u0041\"\</p><div [class]=\"{ 'a': x, 'b': x }\"></div>"`,
+        `'a b'`,
+      ],
+      [
+        'backticks',
+        'no-multi-token-class-key',
+        '`<p title="\\${x}">\\`\\\\</p><div [class]="{ \'a b\': x }"></div>`',
+        '`<p title="\\${x}">\\`\\\\</p><div [class]="{ \'a\': x, \'b\': x }"></div>`',
+        `'a b'`,
+      ],
+      [
+        'single quotes, a multi-line template',
+        'eqeqeq',
+        String.raw`'<p title="\u0041\\">\n  {{ a == b }}\
+</p>'`,
+        String.raw`'<p title="\u0041\\">\n  {{ a === b }}\
+</p>'`,
+        'a == b',
+      ],
+    ])(
+      '%s (%s)',
+      async (_description, rule, template, suggestedTemplate, expectedText) => {
+        const input = component(template);
+        const [linted] = await createTemplateLinter(rule).lintText(input, {
+          filePath: 'example.component.ts',
+        });
+        expect(linted.messages).toHaveLength(1);
+        expect(reportedText(input, linted.messages[0])).toBe(expectedText);
+
+        const suggested = applySuggestion(input, linted.messages[0]);
+        expect(suggested).toBe(component(suggestedTemplate));
+        const suggestedValue = templateValue(suggested);
+
+        if (!template.startsWith('`')) {
+          const decodedTemplate = templateValue(input);
+          const decoded = await lintDecodedTemplate(rule, decodedTemplate);
+          expect(suggestedValue).toBe(
+            applySuggestion(decodedTemplate, decoded.messages[0]),
+          );
+        }
+      },
+    );
+  });
+
+  describe('edits that cannot be expressed in the literal', () => {
+    function message(
+      location: { line: number; column: number },
+      fix: { range: [number, number]; text: string },
+    ) {
+      return {
+        ruleId: 'test',
+        severity: 2,
+        message: 'test',
+        nodeType: 'Element',
+        messageId: 'test',
+        ...location,
+        endLine: location.line,
+        endColumn: location.column + 1,
+        fix,
+        suggestions: [
+          { desc: 'unsafe', fix },
+          { desc: 'safe', fix: { range: [0, 0], text: 'x' } },
+        ],
+      };
+    }
+
+    it('drops edits that would split an escape sequence', () => {
+      // \u{1F600} decodes to two UTF-16 code units
+      const input = component(String.raw`'<p>\u{1F600}</p>'`);
+      const [, template] = processor.preprocess(
+        input,
+        'example.component.ts',
+      ) as [string, { text: string }];
+      expect(template.text).toBe('<p>\u{1F600}</p>');
+
+      const [mapped] = processor.postprocess(
+        [[], [message({ line: 1, column: 4 }, { range: [4, 5], text: '' })]],
+        'example.component.ts',
+      );
+      const start = input.indexOf('<p>');
+      expect(mapped).toEqual(
+        expect.objectContaining({
+          line: 5,
+          column: start - input.lastIndexOf('\n', start) + 3,
+          suggestions: [
+            { desc: 'safe', fix: { range: [start, start], text: 'x' } },
+          ],
+        }),
+      );
+      expect(mapped).not.toHaveProperty('fix');
+    });
+
+    it('drops edits that would change how a neighbouring escape sequence is read', () => {
+      // Inserting a digit after \0 would turn it into a legacy octal escape
+      const input = component(String.raw`'<p>\0</p>'`);
+      processor.preprocess(input, 'example.component.ts');
+
+      const [mapped] = processor.postprocess(
+        [[], [message({ line: 1, column: 5 }, { range: [4, 4], text: '1' })]],
+        'example.component.ts',
+      );
+      expect(mapped).not.toHaveProperty('fix');
+      expect(mapped).toEqual(
+        expect.objectContaining({
+          suggestions: [expect.objectContaining({ desc: 'safe' })],
+        }),
+      );
+    });
+
+    it.each([
+      ["'", String.raw`a\\b\'c"d\ne\rf\u2028g\u2029h`],
+      ['"', String.raw`a\\b'c\"d\ne\rf\u2028g\u2029h`],
+    ])(
+      'escapes the replacement text for a %s literal',
+      (quote, expectedText) => {
+        const input = component(`${quote}<p></p>${quote}`);
+        processor.preprocess(input, 'example.component.ts');
+
+        const [mapped] = processor.postprocess(
+          [
+            [],
+            [
+              message(
+                { line: 1, column: 4 },
+                { range: [3, 3], text: 'a\\b\'c"d\ne\rf\u2028g\u2029h' },
+              ),
+            ],
+          ],
+          'example.component.ts',
+        );
+        const start = input.indexOf('<p>') + 3;
+        expect(mapped).toEqual(
+          expect.objectContaining({
+            fix: { range: [start, start], text: expectedText },
+          }),
+        );
+      },
+    );
+
+    it('maps messages without an end location', () => {
+      const input = component(String.raw`'\n\n<p>\'</p>'`);
+      processor.preprocess(input, 'example.component.ts');
+      const start = input.indexOf('<p>');
+
+      const [mapped] = processor.postprocess(
+        [
+          [],
+          [
+            {
+              ruleId: null,
+              fatal: true,
+              severity: 2,
+              message: 'Parsing error',
+              line: 3,
+              column: 4,
+            } as unknown as ReturnType<typeof message>,
+          ],
+        ],
+        'example.component.ts',
+      );
+      expect(mapped).toEqual({
+        ruleId: null,
+        fatal: true,
+        severity: 2,
+        message: 'Parsing error',
+        line: 5,
+        column: start - input.lastIndexOf('\n', start) + 3,
+      });
+    });
+  });
 });

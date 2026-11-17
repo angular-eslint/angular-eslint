@@ -1,7 +1,44 @@
 import { basename } from 'path';
 import ts from 'typescript';
+import {
+  createTextSource,
+  decodeLiteral,
+  escapeStringLiteralText,
+  scanStringLiteral,
+  type TextSource,
+} from './literal-text';
 
-const rangeMap = new Map();
+/**
+ * A template written as a single- or double-quoted string literal. Its decoded
+ * value is what gets linted, so offsets in the linted text have to be mapped
+ * through the escape sequences back to the TypeScript source.
+ */
+interface StringLiteralTemplate {
+  quote: string;
+  /** The decoded value of the literal, which is the linted template */
+  text: string;
+  /** The source text between the quotes */
+  raw: string;
+  /** Source file offset for every offset into `text`, see `decodeLiteral()` */
+  offsets: number[];
+  /** The linted template, for converting reported positions to offsets */
+  virtualSource: TextSource;
+  /** The whole TypeScript file, for converting offsets to reported positions */
+  source: TextSource;
+}
+
+interface RangeData {
+  sourceFilename: string;
+  range: [number, number];
+  lineAndCharacter: {
+    start: ts.LineAndCharacter;
+    end: ts.LineAndCharacter;
+  };
+  /** Set for string literal templates; template literals are linted raw */
+  stringLiteral?: StringLiteralTemplate;
+}
+
+const rangeMap = new Map<string, RangeData>();
 
 /**
  * Because ultimately a user is in control of how and when this processor gets invoked,
@@ -70,6 +107,7 @@ export function preprocessComponentFile(
 
     const result: PreprocessResult = [text];
 
+    let source: TextSource | undefined;
     let id = 0;
     for (const metadata of getComponentMetadata(sourceFile)) {
       /**
@@ -93,6 +131,7 @@ export function preprocessComponentFile(
       }
 
       let templateText: string | undefined;
+      let stringLiteral: StringLiteralTemplate | undefined;
 
       const templatePropertyInitializer = templateProperty.initializer;
       if (ts.isNoSubstitutionTemplateLiteral(templatePropertyInitializer)) {
@@ -106,7 +145,21 @@ export function preprocessComponentFile(
       }
 
       if (ts.isStringLiteral(templatePropertyInitializer)) {
-        templateText = templatePropertyInitializer.text;
+        const decoded = decodeLiteral(templatePropertyInitializer, sourceFile);
+        // Without a reliable mapping, reports and fixes would land in the wrong place
+        if (!decoded) {
+          continue;
+        }
+        templateText = decoded.text;
+        stringLiteral = {
+          ...decoded,
+          raw: text.slice(
+            decoded.offsets[0],
+            templatePropertyInitializer.getEnd() - 1,
+          ),
+          virtualSource: createTextSource(decoded.text),
+          source: (source ??= createTextSource(text)),
+        };
       }
 
       // The template initializer is somehow not a string literal or a string template
@@ -127,6 +180,7 @@ export function preprocessComponentFile(
           start: sourceFile.getLineAndCharacterOfPosition(start),
           end: sourceFile.getLineAndCharacterOfPosition(end),
         },
+        stringLiteral,
       });
 
       /**
@@ -232,28 +286,32 @@ function getClassDeclarationFromSourceFile(
   }
 }
 
+interface TextEdit {
+  range: number[];
+  text: string;
+}
+
+interface InlineTemplateMessage {
+  ruleId: string;
+  severity: number;
+  message: string;
+  line: number;
+  column: number;
+  nodeType: string;
+  messageId: string;
+  // Absent on some messages, such as fatal parsing errors
+  endLine?: number;
+  endColumn?: number;
+  fix?: TextEdit;
+  suggestions?: {
+    fix: TextEdit;
+    [key: string]: unknown;
+  }[];
+  [key: string]: unknown;
+}
+
 export function postprocessComponentFile(
-  multiDimensionalMessages: {
-    ruleId: string;
-    severity: number;
-    message: string;
-    line: number;
-    column: number;
-    nodeType: string;
-    messageId: string;
-    endLine: number;
-    endColumn: number;
-    fix?: {
-      range: number[];
-      text: string;
-    };
-    suggestions?: {
-      fix: {
-        range: number[];
-        text: string;
-      };
-    }[];
-  }[][],
+  multiDimensionalMessages: InlineTemplateMessage[][],
   filename: string,
 ): readonly unknown[] {
   const messagesFromComponentSource = multiDimensionalMessages[0];
@@ -287,49 +345,154 @@ export function postprocessComponentFile(
           return [];
         }
 
-        return messagesFromInlineTemplateHTML.map((message) => {
-          // The first line of the inline template starts at the column after
-          // the opening quote in the TypeScript file, so we need to adjust
-          // the message's column by that amount when the message starts on
-          // the first line. The character we recorded was the quote's column,
-          // so add one to get the column where the actual string starts.
-          if (message.line === 1) {
-            message.column += rangeData.lineAndCharacter.start.character + 1;
-          }
-
-          // The same thing applies to the end column
-          // if it also ends on the first line.
-          if (message.endLine === 1) {
-            message.endColumn += rangeData.lineAndCharacter.start.character + 1;
-          }
-
-          message.line += rangeData.lineAndCharacter.start.line;
-          message.endLine += rangeData.lineAndCharacter.start.line;
-
-          // The range defines the range of the value that initializes
-          // the `template` property, which includes the opening and
-          // closing quotes. Add one to move past the opening quote.
-          const startOffset = rangeData.range[0] + 1;
-          const adjustFixRange = (fix: { range: number[] }) => {
-            fix.range = [
-              startOffset + fix.range[0],
-              startOffset + fix.range[1],
-            ];
-          };
-
-          if (message.fix) {
-            adjustFixRange(message.fix);
-          }
-
-          // Suggestions carry their own fixes, which are also
-          // relative to the inline template and need the same adjustment.
-          message.suggestions?.forEach((suggestion) =>
-            adjustFixRange(suggestion.fix),
-          );
-          return message;
-        });
+        const { stringLiteral } = rangeData;
+        return messagesFromInlineTemplateHTML.map((message) =>
+          stringLiteral
+            ? mapStringLiteralTemplateMessage(message, stringLiteral)
+            : mapTemplateLiteralMessage(message, rangeData),
+        );
       },
     ),
   ];
   return res;
+}
+
+/**
+ * Template literals are linted using their raw text, so offsets in the linted
+ * template line up with the source and only need to be shifted.
+ */
+function mapTemplateLiteralMessage(
+  message: InlineTemplateMessage,
+  rangeData: RangeData,
+): InlineTemplateMessage {
+  // The first line of the inline template starts at the column after
+  // the opening quote in the TypeScript file, so we need to adjust
+  // the message's column by that amount when the message starts on
+  // the first line. The character we recorded was the quote's column,
+  // so add one to get the column where the actual string starts.
+  if (message.line === 1) {
+    message.column += rangeData.lineAndCharacter.start.character + 1;
+  }
+
+  // The same thing applies to the end column
+  // if it also ends on the first line.
+  if (message.endLine === 1 && message.endColumn !== undefined) {
+    message.endColumn += rangeData.lineAndCharacter.start.character + 1;
+  }
+
+  message.line += rangeData.lineAndCharacter.start.line;
+  if (message.endLine !== undefined) {
+    message.endLine += rangeData.lineAndCharacter.start.line;
+  }
+
+  // The range defines the range of the value that initializes
+  // the `template` property, which includes the opening and
+  // closing quotes. Add one to move past the opening quote.
+  const startOffset = rangeData.range[0] + 1;
+  const adjustFixRange = (fix: { range: number[] }) => {
+    fix.range = [startOffset + fix.range[0], startOffset + fix.range[1]];
+  };
+
+  if (message.fix) {
+    adjustFixRange(message.fix);
+  }
+
+  // Suggestions carry their own fixes, which are also
+  // relative to the inline template and need the same adjustment.
+  message.suggestions?.forEach((suggestion) => adjustFixRange(suggestion.fix));
+  return message;
+}
+
+/**
+ * String literals are linted using their decoded value, so positions are
+ * mapped through the escape sequences, and replacement text is escaped again.
+ * Fixes and suggestions that cannot be expressed in the literal such that it
+ * decodes to exactly what the rule intended are dropped.
+ */
+function mapStringLiteralTemplateMessage(
+  message: InlineTemplateMessage,
+  template: StringLiteralTemplate,
+): InlineTemplateMessage {
+  const toSourceLocation = (
+    line: number,
+    column: number,
+    fallbackOffset: number,
+  ) => {
+    const offset = template.virtualSource.offsetAt(line, column);
+    return template.source.locationAt(
+      (offset === undefined ? undefined : template.offsets[offset]) ??
+        fallbackOffset,
+    );
+  };
+
+  const start = toSourceLocation(
+    message.line,
+    message.column,
+    template.offsets[0],
+  );
+  message.line = start.line;
+  message.column = start.column;
+
+  if (message.endLine !== undefined && message.endColumn !== undefined) {
+    const end = toSourceLocation(
+      message.endLine,
+      message.endColumn,
+      template.offsets[template.offsets.length - 1],
+    );
+    message.endLine = end.line;
+    message.endColumn = end.column;
+  }
+
+  if (message.fix) {
+    const fix = mapStringLiteralEdit(message.fix, template);
+    if (fix) {
+      message.fix = fix;
+    } else {
+      delete message.fix;
+    }
+  }
+
+  if (message.suggestions) {
+    message.suggestions = message.suggestions.flatMap((suggestion) => {
+      const fix = mapStringLiteralEdit(suggestion.fix, template);
+      return fix ? [{ ...suggestion, fix }] : [];
+    });
+    if (!message.suggestions.length) {
+      delete message.suggestions;
+    }
+  }
+
+  return message;
+}
+
+function mapStringLiteralEdit(
+  edit: TextEdit,
+  template: StringLiteralTemplate,
+): TextEdit | undefined {
+  const [start, end] = edit.range;
+  const sourceStart = template.offsets[start];
+  const sourceEnd = template.offsets[end];
+  if (sourceStart === undefined || sourceEnd === undefined || start > end) {
+    return undefined;
+  }
+
+  const text = escapeStringLiteralText(edit.text, template.quote);
+  const rawStart = template.offsets[0];
+  const editedRaw =
+    template.raw.slice(0, sourceStart - rawStart) +
+    text +
+    template.raw.slice(sourceEnd - rawStart);
+  const intendedText =
+    template.text.slice(0, start) + edit.text + template.text.slice(end);
+
+  // Catches edits that would split an escape sequence or change how an
+  // escape sequence next to the edit is read, e.g. `\0` followed by a digit
+  if (
+    scanStringLiteral(template.quote + editedRaw + template.quote) !==
+    intendedText
+  ) {
+    return undefined;
+  }
+
+  return { range: [sourceStart, sourceEnd], text };
 }
