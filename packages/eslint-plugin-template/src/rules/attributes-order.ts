@@ -16,11 +16,6 @@ import {
 } from '@angular-eslint/bundled-angular-compiler';
 import { getTemplateParserServices } from '@angular-eslint/utils';
 import type { TSESTree, TSESLint } from '@typescript-eslint/utils';
-import {
-  compileCustomGroups,
-  type CustomGroupOption,
-  resolveSortKey,
-} from '../utils/attributes-order-custom-groups';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
 export enum OrderType {
@@ -32,11 +27,19 @@ export enum OrderType {
   TwoWayBinding = 'TWO_WAY_BINDING',
 }
 
+export interface CustomGroup {
+  readonly groupName: string;
+  readonly attributeNamePattern: string;
+}
+
 export type Options = [
   {
     readonly alphabetical: boolean;
+    /**
+     * The built-in `OrderType` values, plus the `groupName` of each custom group.
+     */
     readonly order: readonly string[];
-    readonly customGroups?: readonly CustomGroupOption[];
+    readonly customGroups?: readonly CustomGroup[];
   },
 ];
 
@@ -90,6 +93,10 @@ const DEFAULT_OPTIONS: Options[number] = {
   customGroups: [],
 };
 
+const BUILT_IN_ORDER_TYPES: readonly string[] = Object.values(OrderType);
+
+const I18N_MARKER_PREFIX = /^i18n-/;
+
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
   meta: {
@@ -109,8 +116,11 @@ export default createESLintRule<Options, MessageIds>({
           },
           order: {
             type: 'array',
+            description:
+              'The expected order of groups. It must contain every built-in group exactly once, plus the `groupName` of every entry in `customGroups`.',
             items: {
               type: 'string',
+              minLength: 1,
             },
             default: DEFAULT_OPTIONS.order as string[],
             minItems: DEFAULT_OPTIONS.order.length,
@@ -118,14 +128,23 @@ export default createESLintRule<Options, MessageIds>({
           },
           customGroups: {
             type: 'array',
+            description:
+              'Extra groups that can be placed anywhere in `order`. An attribute or binding whose name matches `attributeNamePattern` moves out of its built-in group into the custom group, whatever its binding type. The pattern is tested against the name that the rule reports, without its binding syntax: `^neo` matches `neoSize`, `[neoSize]`, `(neoSizeChange)`, `*neoIf` and `#neoRef`, but not `[attr.neo-label]` or `let-neoItem`. An `i18n-*` marker is matched using the name of the attribute it annotates, so it always stays in the same group as that attribute. When several custom groups match, the first one in this list wins. Within a custom group, attributes are sorted alphabetically if `alphabetical` is `true`, and otherwise keep their source order.',
             items: {
               type: 'object',
               properties: {
                 groupName: {
                   type: 'string',
+                  description:
+                    'The name to use for this group in `order`. It must not be a built-in group name.',
+                  minLength: 1,
+                  not: { type: 'string', enum: [...BUILT_IN_ORDER_TYPES] },
                 },
                 attributeNamePattern: {
                   type: 'string',
+                  description:
+                    'A regular expression, without flags, tested against the attribute or binding name. It is not anchored, so use `^` to match a prefix.',
+                  minLength: 1,
                 },
               },
               required: ['groupName', 'attributeNamePattern'],
@@ -142,15 +161,8 @@ export default createESLintRule<Options, MessageIds>({
     },
     defaultOptions: [DEFAULT_OPTIONS],
   },
-  create(context, [options]) {
-    const { alphabetical, order, customGroups } = {
-      ...DEFAULT_OPTIONS,
-      ...options,
-    };
-    const compiledCustomGroups = compileCustomGroups(
-      customGroups ?? [],
-      order,
-    );
+  create(context, [{ alphabetical, order, customGroups = [] }]) {
+    const getRank = createRankResolver(order, customGroups);
     const parserServices = getTemplateParserServices(context);
 
     function getLocation(attr: SortableAttribute): TSESTree.SourceLocation {
@@ -177,10 +189,21 @@ export default createESLintRule<Options, MessageIds>({
         }
 
         const sortedAttributes = [...allAttributes].sort(byLocation);
-
-        const expectedAttributes = [...allAttributes].sort(
-          byOrder(order, alphabetical, compiledCustomGroups),
+        const sourceIndexes = new Map(
+          sortedAttributes.map((attr, index) => [attr, index]),
         );
+
+        const expectedAttributes = allAttributes
+          .map((attr, index) =>
+            toRankedAttribute(
+              attr,
+              index,
+              sourceIndexes.get(attr) ?? index,
+              getRank,
+            ),
+          )
+          .sort(alphabetical ? byRankThenName : byRankThenPosition)
+          .map(({ attr }) => attr);
 
         let errorRange: [number, number] | undefined;
 
@@ -246,42 +269,149 @@ function byLocation(one: SortableAttribute, other: SortableAttribute) {
     : one.sourceSpan.start.line - other.sourceSpan.start.line;
 }
 
-function byOrder(
+interface Rank {
+  /** The index of the attribute's group in `order`. */
+  readonly groupIndex: number;
+  readonly isCustomGroup: boolean;
+}
+
+interface RankedAttribute extends Rank {
+  readonly attr: SortableAttribute;
+  /** The attribute's name with any `i18n-` marker prefix removed. */
+  readonly normalizedName: string;
+  readonly isI18nMarker: boolean;
+  /**
+   * The tie-breaker used when `alphabetical` is `false`. Custom groups keep
+   * source order. Built-in groups keep the order in which the attributes
+   * were collected, which is what the rule has always done.
+   */
+  readonly position: number;
+}
+
+/**
+ * Validates `order` against `customGroups`, compiles each pattern once,
+ * and returns a function that resolves the rank of an attribute name.
+ *
+ * The parts of the options that the JSON Schema can't express (pattern
+ * syntax, unique group names, every built-in group being in `order`, and
+ * the link between `order` and `customGroups`) are checked here when the
+ * rule is created.
+ */
+function createRankResolver(
   order: readonly string[],
-  alphabetical: boolean,
-  compiledCustomGroups: ReturnType<typeof compileCustomGroups>,
-) {
-  return function (one: SortableAttribute, other: SortableAttribute) {
-    const orderComparison =
-      getOrderIndex(one, order, compiledCustomGroups) -
-      getOrderIndex(other, order, compiledCustomGroups);
+  customGroups: readonly CustomGroup[],
+): (attr: SortableAttribute, lookupName: string) => Rank {
+  const groupIndexes = new Map(order.map((entry, index) => [entry, index]));
+  const compiledGroups: { groupIndex: number; pattern: RegExp }[] = [];
+  const customGroupNames = new Set<string>();
 
-    if (alphabetical && orderComparison === 0) {
-      const oneName = one.keySpan?.details ?? one.name;
-      const oneNormalised = oneName.replace(/^i18n-/, '');
-      const otherName = other.keySpan?.details ?? other.name;
-      const otherNormalised = otherName.replace(/^i18n-/, '');
-
-      if (oneNormalised === otherNormalised) {
-        return /^i18n-/.test(oneName) ? 1 : -1;
-      }
-
-      return oneNormalised > otherNormalised ? 1 : -1;
+  for (const { groupName, attributeNamePattern } of customGroups) {
+    if (customGroupNames.has(groupName)) {
+      throw new Error(
+        `${RULE_NAME}: the custom group name "${groupName}" is used more than once in \`customGroups\`.`,
+      );
     }
+    customGroupNames.add(groupName);
+    const groupIndex = groupIndexes.get(groupName);
+    if (groupIndex === undefined) {
+      throw new Error(
+        `${RULE_NAME}: the custom group "${groupName}" must be listed in \`order\`.`,
+      );
+    }
+    let pattern: RegExp;
+    try {
+      pattern = new RegExp(attributeNamePattern);
+    } catch (error) {
+      throw new Error(
+        `${RULE_NAME}: the \`attributeNamePattern\` of the custom group "${groupName}" is not a valid regular expression: ${(error as Error).message}`,
+        { cause: error },
+      );
+    }
+    compiledGroups.push({ groupIndex, pattern });
+  }
 
-    return orderComparison;
+  for (const orderType of BUILT_IN_ORDER_TYPES) {
+    if (!groupIndexes.has(orderType)) {
+      throw new Error(
+        `${RULE_NAME}: \`order\` must include the built-in group "${orderType}".`,
+      );
+    }
+  }
+
+  for (const entry of order) {
+    if (!BUILT_IN_ORDER_TYPES.includes(entry) && !customGroupNames.has(entry)) {
+      throw new Error(
+        `${RULE_NAME}: "${entry}" in \`order\` is neither a built-in group nor a \`groupName\` from \`customGroups\`.`,
+      );
+    }
+  }
+
+  const builtInRanks = new Map(
+    BUILT_IN_ORDER_TYPES.map((orderType) => [
+      orderType,
+      {
+        groupIndex: groupIndexes.get(orderType) as number,
+        isCustomGroup: false,
+      },
+    ]),
+  );
+
+  if (compiledGroups.length === 0) {
+    return (attr) => builtInRanks.get(attr.orderType) as Rank;
+  }
+
+  // Names repeat a lot across a template (`class`, `id`, `(click)` and so
+  // on), so test each distinct name against the patterns only once.
+  const customRanks = new Map<string, Rank | null>();
+
+  return (attr, lookupName) => {
+    let rank = customRanks.get(lookupName);
+    if (rank === undefined) {
+      const group = compiledGroups.find(({ pattern }) =>
+        pattern.test(lookupName),
+      );
+      rank = group
+        ? { groupIndex: group.groupIndex, isCustomGroup: true }
+        : null;
+      customRanks.set(lookupName, rank);
+    }
+    return rank ?? (builtInRanks.get(attr.orderType) as Rank);
   };
 }
 
-function getOrderIndex(
+function toRankedAttribute(
   attr: SortableAttribute,
-  order: readonly string[],
-  compiledCustomGroups: ReturnType<typeof compileCustomGroups>,
-) {
-  const sortKey = resolveSortKey(attr, compiledCustomGroups);
-  const index = order.indexOf(sortKey);
+  index: number,
+  sourceIndex: number,
+  getRank: (attr: SortableAttribute, lookupName: string) => Rank,
+): RankedAttribute {
+  const name = attr.keySpan?.details ?? attr.name;
+  const normalizedName = name.replace(I18N_MARKER_PREFIX, '');
+  // An `i18n-*` marker is looked up by the name of the attribute it
+  // annotates, so the two always end up in the same custom group.
+  const rank = getRank(attr, normalizedName);
+  return {
+    attr,
+    ...rank,
+    normalizedName,
+    isI18nMarker: normalizedName !== name,
+    position: rank.isCustomGroup ? sourceIndex : index,
+  };
+}
 
-  return index === -1 ? order.length : index;
+function byRankThenPosition(one: RankedAttribute, other: RankedAttribute) {
+  return one.groupIndex - other.groupIndex || one.position - other.position;
+}
+
+function byRankThenName(one: RankedAttribute, other: RankedAttribute) {
+  const orderComparison = one.groupIndex - other.groupIndex;
+  if (orderComparison !== 0) {
+    return orderComparison;
+  }
+  if (one.normalizedName === other.normalizedName) {
+    return one.isI18nMarker ? 1 : -1;
+  }
+  return one.normalizedName > other.normalizedName ? 1 : -1;
 }
 
 function getAllAttributes(
@@ -691,5 +821,5 @@ function getHtmlAttributeNameAndOrderType(
 
 export const RULE_DOCS_EXTENSION = {
   rationale:
-    'Consistent ordering of template attributes makes templates easier to read and scan visually. When attributes are always ordered the same way across a codebase (for example: structural directives first, then template references, then inputs, then outputs), developers can quickly locate specific attributes without having to scan randomly-ordered attribute lists. This is especially valuable for elements with many attributes. The rule supports both semantic ordering (grouping by attribute type) and alphabetical sorting within groups, allowing teams to choose the organizational pattern that works best for them. The optional `customGroups` setting lets design-system or library prefixes (matched by regular expression on the attribute or binding name) appear in dedicated slots within `order`; the first matching custom group wins for any binding type.',
+    'Consistent ordering of template attributes makes templates easier to read and scan visually. When attributes are always ordered the same way across a codebase (for example: structural directives first, then template references, then inputs, then outputs), developers can quickly locate specific attributes without having to scan randomly-ordered attribute lists. This is especially valuable for elements with many attributes. The rule supports both semantic ordering (grouping by attribute type) and alphabetical sorting within groups, allowing teams to choose the organizational pattern that works best for them. The `customGroups` option adds named groups, matched by a regular expression on the attribute or binding name, that can be placed anywhere in `order`. This keeps related attributes together, such as the inputs and attributes of a design system or component library.',
 };

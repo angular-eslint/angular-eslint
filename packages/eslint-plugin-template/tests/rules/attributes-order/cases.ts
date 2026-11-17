@@ -32,6 +32,54 @@ const neoCustomGroupsOptions: Options = [
   },
 ];
 
+const neoSourceOrderOptions: Options = [
+  { ...neoCustomGroupsOptions[0], alphabetical: false },
+];
+
+/**
+ * A realistic setup for an app built with Angular Material: Material
+ * directives and inputs come right after template references, and
+ * `matTooltip*` bindings get a `tooltip` group of their own after them.
+ * The more specific `tooltip` group is listed first in `customGroups`, because
+ * the first matching custom group wins.
+ */
+function materialCustomGroupsOptions(alphabetical: boolean): Options {
+  return [
+    {
+      alphabetical,
+      customGroups: [
+        { groupName: 'tooltip', attributeNamePattern: '^matTooltip' },
+        { groupName: 'material', attributeNamePattern: '^mat' },
+      ],
+      order: [
+        OrderType.StructuralDirective,
+        OrderType.TemplateReferenceVariable,
+        'material',
+        'tooltip',
+        OrderType.AttributeBinding,
+        OrderType.InputBinding,
+        OrderType.TwoWayBinding,
+        OrderType.OutputBinding,
+      ],
+    },
+  ];
+}
+
+/**
+ * The same groups as `materialCustomGroupsOptions`, but with the broader
+ * `material` group listed first in `customGroups`, so it also claims
+ * `matTooltip` and the `tooltip` group is never used.
+ */
+const materialFirstCustomGroupsOptions: Options = [
+  {
+    ...materialCustomGroupsOptions(false)[0],
+    customGroups: [
+      { groupName: 'material', attributeNamePattern: '^mat' },
+      { groupName: 'tooltip', attributeNamePattern: '^matTooltip' },
+    ],
+  },
+];
+
 export const valid: readonly (string | ValidTestCase<Options>)[] = [
   `<input class="card" [value]="foo" (valueChange)="handleValueChange($event)">`,
   `<input *ngIf="flag" #inputRef id="input" class="className" [binding]="true" [(ngModel)]="model" (output)="handleOutput($event)">`,
@@ -109,6 +157,46 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   {
     code: `<button *ngIf="flag" neoAlignment="a" neoButton [neoSize]="s" neoThing="t" class="c" type="button" [color]="x" (click)="h()"></button>`,
     options: neoCustomGroupsOptions,
+  },
+  {
+    // With `alphabetical: false`, a custom group keeps its source order,
+    // even when it mixes attributes and bindings.
+    code: `<button neoButton [neoSize]="size" neoAlignment="start" type="button" (click)="save()"></button>`,
+    options: neoSourceOrderOptions,
+  },
+  {
+    code: `
+      <button
+        #saveButton
+        matButton="filled"
+        [matBadge]="unsavedCount"
+        matTooltip="Save changes"
+        i18n-matTooltip
+        [matTooltipDisabled]="saving"
+        type="submit"
+        [disabled]="saving"
+        (click)="save()"
+      >
+        Save
+      </button>
+    `,
+    options: materialCustomGroupsOptions(false),
+  },
+  {
+    // An `i18n-*` marker stays with the attribute it annotates.
+    code: `<button matButton matTooltip="Save changes" i18n-matTooltip type="button"></button>`,
+    options: materialCustomGroupsOptions(false),
+  },
+  {
+    // The same applies to a marker for an interpolated attribute.
+    code: `<button matTooltip="Delete {{ name }}" i18n-matTooltip type="button"></button>`,
+    options: materialCustomGroupsOptions(true),
+  },
+  {
+    // The first matching custom group wins, so `matTooltip` is in the
+    // `material` group here and keeps its source order within it.
+    code: `<button matTooltip="Save changes" matButton type="button"></button>`,
+    options: materialFirstCustomGroupsOptions,
   },
 ];
 
@@ -717,6 +805,78 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     annotatedOutput: `
       <button *ngIf="flag" neoAlignment="a" neoButton [neoSize]="s" class="c" type="button" [color]="x" (click)="h()"></button>
                            
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should keep the source order within a custom group when alphabetical is false',
+    annotatedSource: `
+      <button class="primary" neoButton [neoSize]="size" neoAlignment="start"></button>
+              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    options: neoSourceOrderOptions,
+    data: {
+      expected: '`neoButton`, `[neoSize]`, `neoAlignment`, `class`',
+      actual: '`class`, `neoButton`, `[neoSize]`, `neoAlignment`',
+    },
+    annotatedOutput: `
+      <button neoButton [neoSize]="size" neoAlignment="start" class="primary"></button>
+              
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should move an i18n marker together with the attribute it annotates into a custom group',
+    annotatedSource: `
+      <button type="button" matTooltip="Save changes" i18n-matTooltip></button>
+              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    options: materialCustomGroupsOptions(false),
+    data: {
+      expected: '`matTooltip`, `i18n-matTooltip`, `type`',
+      actual: '`type`, `matTooltip`, `i18n-matTooltip`',
+    },
+    annotatedOutput: `
+      <button matTooltip="Save changes" i18n-matTooltip type="button"></button>
+              
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should keep an i18n marker right after the attribute it annotates in an alphabetical custom group',
+    annotatedSource: `
+      <button matTooltip="Save changes" type="button" i18n-matTooltip></button>
+                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    options: materialCustomGroupsOptions(true),
+    data: {
+      expected: '`i18n-matTooltip`, `type`',
+      actual: '`type`, `i18n-matTooltip`',
+    },
+    annotatedOutput: `
+      <button matTooltip="Save changes" i18n-matTooltip type="button"></button>
+                                        
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should put an attribute in the first custom group that matches it',
+    annotatedSource: `
+      <button matTooltip="Save changes" matButton type="button"></button>
+              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    options: materialCustomGroupsOptions(false),
+    data: {
+      expected: '`matButton`, `matTooltip`',
+      actual: '`matTooltip`, `matButton`',
+    },
+    annotatedOutput: `
+      <button matButton matTooltip="Save changes" type="button"></button>
+              
     `,
   }),
 ];
