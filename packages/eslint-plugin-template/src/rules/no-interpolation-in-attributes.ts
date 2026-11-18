@@ -61,37 +61,66 @@ export default createESLintRule<Options, MessageIds>({
           return;
         }
 
-        const {
-          sourceSpan: { start, end },
-        } = interpolation;
+        // The interpolation's own source span is computed from the attribute
+        // value after HTML entities have been decoded, so its offsets drift
+        // whenever the raw value contains entities. The attribute's value span
+        // always matches the raw source text. Its `start` skips leading
+        // whitespace, so report from `fullStart` to keep the location (and
+        // `eslint-disable-next-line` comments) on the line the value starts.
+        // An attribute with an interpolation always has a value span.
+        const { valueSpan } = boundAttribute;
+        const reportStart: number = valueSpan.fullStart.offset;
+        const valueStart: number = valueSpan.start.offset;
+        const valueEnd: number = valueSpan.end.offset;
 
         context.report({
           loc: {
-            start: sourceCode.getLocFromIndex(start),
-            end: sourceCode.getLocFromIndex(end),
+            start: sourceCode.getLocFromIndex(reportStart),
+            end: sourceCode.getLocFromIndex(valueEnd),
           },
           messageId: 'noInterpolationInAttributes',
           fix:
-            isFullInterpolation && interpolation.expressions.length === 1
+            isFullInterpolation &&
+            interpolation.expressions.length === 1 &&
+            // A fix would drop the attribute's i18n metadata.
+            !boundAttribute.i18n
               ? (fixer) => {
-                  const attrStart = boundAttribute.keySpan.start.offset;
-                  const attrEnd = boundAttribute.keySpan.end.offset;
+                  const rawValue = sourceCode.text.slice(valueStart, valueEnd);
+                  // The delimiters can be written as entities (for example
+                  // `&#123;&#123;`), in which case the raw text cannot be
+                  // safely sliced into an expression.
+                  if (!rawValue.startsWith('{{') || !rawValue.endsWith('}}')) {
+                    return null;
+                  }
+
+                  // Angular decodes HTML entities in interpolations and in
+                  // property bindings differently (for example with a bare `&`
+                  // before an entity), so moving an expression that contains
+                  // `&` from one to the other can change its meaning.
+                  if (rawValue.includes('&')) {
+                    return null;
+                  }
+
+                  const expression = rawValue.slice(2, -2).trim();
+                  // The raw value can't contain its own quote character, an
+                  // unquoted value can't contain quotes at all, and values
+                  // with entities were skipped above, so the expression never
+                  // contains both quote characters.
+                  const quote = expression.includes('"') ? "'" : '"';
+
                   const attributeName = sourceCode.text
-                    .slice(attrStart, attrEnd)
+                    .slice(
+                      boundAttribute.keySpan.start.offset,
+                      boundAttribute.keySpan.end.offset,
+                    )
                     .trim();
 
-                  const exprStart = boundAttribute.valueSpan.start.offset + 2; // +2 to remove '{{'
-                  const exprEnd = boundAttribute.valueSpan.end.offset - 2; // -2 to remove '}}'
-                  const expression = sourceCode.text
-                    .slice(exprStart, exprEnd)
-                    .trim();
-
-                  const rangeStart = boundAttribute.sourceSpan.start.offset;
-                  const rangeEnd = boundAttribute.sourceSpan.end.offset;
-                  const replacement = `[${attributeName}]="${expression}"`;
                   return fixer.replaceTextRange(
-                    [rangeStart, rangeEnd],
-                    replacement,
+                    [
+                      boundAttribute.sourceSpan.start.offset,
+                      boundAttribute.sourceSpan.end.offset,
+                    ],
+                    `[${attributeName}]=${quote}${expression}${quote}`,
                   );
                 }
               : null,
