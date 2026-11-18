@@ -67,14 +67,11 @@ export default createESLintRule<Options, MessageIds>({
         // always matches the raw source text. Its `start` skips leading
         // whitespace, so report from `fullStart` to keep the location (and
         // `eslint-disable-next-line` comments) on the line the value starts.
-        const reportStart: number =
-          boundAttribute.valueSpan?.fullStart.offset ??
-          interpolation.sourceSpan.start;
-        const valueStart: number =
-          boundAttribute.valueSpan?.start.offset ??
-          interpolation.sourceSpan.start;
-        const valueEnd: number =
-          boundAttribute.valueSpan?.end.offset ?? interpolation.sourceSpan.end;
+        // An attribute with an interpolation always has a value span.
+        const { valueSpan } = boundAttribute;
+        const reportStart: number = valueSpan.fullStart.offset;
+        const valueStart: number = valueSpan.start.offset;
+        const valueEnd: number = valueSpan.end.offset;
 
         context.report({
           loc: {
