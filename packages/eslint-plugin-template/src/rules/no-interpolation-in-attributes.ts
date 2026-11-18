@@ -64,7 +64,12 @@ export default createESLintRule<Options, MessageIds>({
         // The interpolation's own source span is computed from the attribute
         // value after HTML entities have been decoded, so its offsets drift
         // whenever the raw value contains entities. The attribute's value span
-        // always matches the raw source text.
+        // always matches the raw source text. Its `start` skips leading
+        // whitespace, so report from `fullStart` to keep the location (and
+        // `eslint-disable-next-line` comments) on the line the value starts.
+        const reportStart: number =
+          boundAttribute.valueSpan?.fullStart.offset ??
+          interpolation.sourceSpan.start;
         const valueStart: number =
           boundAttribute.valueSpan?.start.offset ??
           interpolation.sourceSpan.start;
@@ -73,12 +78,15 @@ export default createESLintRule<Options, MessageIds>({
 
         context.report({
           loc: {
-            start: sourceCode.getLocFromIndex(valueStart),
+            start: sourceCode.getLocFromIndex(reportStart),
             end: sourceCode.getLocFromIndex(valueEnd),
           },
           messageId: 'noInterpolationInAttributes',
           fix:
-            isFullInterpolation && interpolation.expressions.length === 1
+            isFullInterpolation &&
+            interpolation.expressions.length === 1 &&
+            // A fix would drop the attribute's i18n metadata.
+            !boundAttribute.i18n
               ? (fixer) => {
                   const rawValue = sourceCode.text.slice(valueStart, valueEnd);
                   // The delimiters can be written as entities (for example
@@ -88,9 +96,14 @@ export default createESLintRule<Options, MessageIds>({
                     return null;
                   }
 
-                  // Keep the expression's raw text, including any entities:
-                  // Angular decodes entities in property binding values in the
-                  // same way as in interpolated attribute values.
+                  // Angular decodes HTML entities in interpolations and in
+                  // property bindings differently (for example with a bare `&`
+                  // before an entity), so moving an expression that contains
+                  // `&` from one to the other can change its meaning.
+                  if (rawValue.includes('&')) {
+                    return null;
+                  }
+
                   const expression = rawValue.slice(2, -2).trim();
                   const quote = getQuote(expression);
                   if (!quote) {

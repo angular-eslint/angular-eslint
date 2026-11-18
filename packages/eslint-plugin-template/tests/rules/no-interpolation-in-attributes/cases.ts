@@ -132,30 +132,36 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'should fail and autofix keeping HTML entities if the expression contains them',
+      'should fail on the whole attribute value and not autofix if the expression contains HTML entities',
     annotatedSource: `
         <div title="{{ a &amp;&amp; b }}"></div>
                     ~~~~~~~~~~~~~~~~~~~~
       `,
     messageId,
-    annotatedOutput: `
-        <div [title]="a &amp;&amp; b"></div>
-                    
-      `,
   }),
   convertAnnotatedSourceToFailureCase({
     description:
-      'should fail and autofix keeping &quot; entities in a single-quoted attribute value',
+      'should fail and not autofix if a bare & comes before an entity in the expression',
     annotatedSource: `
-        <div title='{{ &quot;x&quot; + a }}'></div>
-                    ~~~~~~~~~~~~~~~~~~~~~~~
+        <div title="{{ 'a & b &amp;' }}"></div>
+                    ~~~~~~~~~~~~~~~~~~~
       `,
     messageId,
-    annotatedOutput: `
-        <div [title]="&quot;x&quot; + a"></div>
-                    
-      `,
   }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail and not autofix an attribute with i18n metadata',
+    annotatedSource: `
+        <div i18n-title="@@id" title="{{ name }}"></div>
+                                      ~~~~~~~~~~
+      `,
+    messageId,
+  }),
+  {
+    // The value starts with a newline. The report starts on the attribute's
+    // line, so an eslint-disable-next-line comment above it still applies.
+    code: '<img alt="\n{{ name }}">',
+    errors: [{ messageId, line: 1, column: 11, endLine: 2, endColumn: 11 }],
+  },
   convertAnnotatedSourceToFailureCase({
     description:
       'should fail on the whole attribute value and not autofix if the value contains HTML entities after the interpolation',

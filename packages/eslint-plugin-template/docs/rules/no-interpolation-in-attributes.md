@@ -357,8 +357,62 @@ interface Options {
 #### ❌ Invalid Code
 
 ```html
-<div title='{{ &quot;x&quot; + a }}'></div>
-            ~~~~~~~~~~~~~~~~~~~~~~~
+<div title="{{ 'a & b &amp;' }}"></div>
+            ~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-interpolation-in-attributes": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div i18n-title="@@id" title="{{ name }}"></div>
+                              ~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-interpolation-in-attributes": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<img alt="
+{{ name }}">
 ```
 
 <br>
