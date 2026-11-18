@@ -989,6 +989,75 @@ describe('createProcessor', () => {
     expect(result.messages).toEqual([]);
   });
 
+  describe('files with a byte order mark', () => {
+    it.each([
+      [
+        'component styles (quotes)',
+        'example.component.ts',
+        `import { Component } from '@angular/core'; @Component({ styles: 'a{margin:0}' }) class Example {}`,
+      ],
+      [
+        'component styles (backticks)',
+        'example.component.ts',
+        'import { Component } from "@angular/core"; @Component({ styles: [`a{margin:0}`] }) class Example {}',
+      ],
+      [
+        'inline template style attribute',
+        'example.component.ts',
+        `import { Component } from '@angular/core'; @Component({ template: '<div style="margin:0"></div>' }) class Example {}`,
+      ],
+      [
+        'external template style attribute',
+        'example.component.html',
+        '<div style="margin:0"></div>',
+      ],
+    ])(
+      'maps locations and fixes (%s)',
+      async (_description, filePath, text) => {
+        const input = `\uFEFF${text}`;
+        const [linted] = await createStyleLinter(
+          processor,
+          processor,
+          'padding:0',
+        ).lintText(input, { filePath });
+        // ESLint reports locations in the file without its byte order mark
+        const start = text.indexOf('margin');
+        expect(linted.messages).toEqual([
+          expect.objectContaining({
+            ruleId: 'test/style',
+            line: 1,
+            column: start + 1,
+            suggestions: [
+              expect.objectContaining({
+                fix: { range: [start, start + 8], text: 'padding:0' },
+              }),
+            ],
+          }),
+        ]);
+
+        const [fixed] = await createStyleLinter(
+          processor,
+          processor,
+          'padding:0',
+          true,
+        ).lintText(input, { filePath });
+        expect(fixed.output).toBe(`\uFEFF${text.replace('margin', 'padding')}`);
+        expect(fixed.messages).toEqual([]);
+      },
+    );
+
+    it('maps locations on later lines', async () => {
+      const text = `import { Component } from '@angular/core';\n@Component({\n  styles: 'a{margin:0}',\n})\nclass Example {}\n`;
+      const [linted] = await createStyleLinter(processor, processor).lintText(
+        `\uFEFF${text}`,
+        { filePath: 'example.component.ts' },
+      );
+      expect(linted.messages).toEqual([
+        expect.objectContaining({ line: 3, column: 14 }),
+      ]);
+    });
+  });
+
   it('preserves inline attribute suggestions when both TS and HTML use the processor', async () => {
     const input =
       'import { Component } from "@angular/core"; @Component({ template: `<div style="margin:0"></div>` }) class Example {}';
