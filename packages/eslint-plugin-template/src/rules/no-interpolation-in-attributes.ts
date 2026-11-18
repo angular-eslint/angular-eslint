@@ -105,10 +105,11 @@ export default createESLintRule<Options, MessageIds>({
                   }
 
                   const expression = rawValue.slice(2, -2).trim();
-                  const quote = getQuote(expression);
-                  if (!quote) {
-                    return null;
-                  }
+                  // The raw value can't contain its own quote character, an
+                  // unquoted value can't contain quotes at all, and values
+                  // with entities were skipped above, so the expression never
+                  // contains both quote characters.
+                  const quote = expression.includes('"') ? "'" : '"';
 
                   const attributeName = sourceCode.text
                     .slice(
@@ -131,22 +132,6 @@ export default createESLintRule<Options, MessageIds>({
     };
   },
 });
-
-/**
- * Returns the quote character to wrap the property binding's value in, or
- * `null` if no quote character can wrap it without escaping. Double quotes
- * are preferred, and single quotes are used when the expression contains a
- * double quote (for example when the original value was single-quoted).
- */
-function getQuote(expression: string): '"' | "'" | null {
-  if (!expression.includes('"')) {
-    return '"';
-  }
-  if (!expression.includes("'")) {
-    return "'";
-  }
-  return null;
-}
 
 export const RULE_DOCS_EXTENSION = {
   rationale:
