@@ -110,8 +110,11 @@ function flattenBinaryConcat(node: AST): readonly ConcatPart[] {
 }
 
 function escapeLiteral(value: string, quote: Quote): string {
+  // A raw carriage return would be normalized to a line feed by Angular's
+  // HTML parser, so keep it as an escape sequence.
   const escaped = value
     .replaceAll('\\', '\\\\')
+    .replaceAll('\r', '\\r')
     .replaceAll(quote, `\\${quote}`);
   return quote === '`' ? escaped.replaceAll('${', '\\${') : escaped;
 }
@@ -257,8 +260,10 @@ export default createESLintRule<Options, MessageIds>({
             // The merged text must not form a `${` with the text on either
             // side, which would turn literal text into an interpolation
             if (
-              replacement.startsWith('{') &&
-              sourceCode.text[interpolationStart - 1] === '$'
+              sourceCode.text[interpolationStart - 1] === '$' &&
+              (replacement.startsWith('{') ||
+                (replacement === '' &&
+                  sourceCode.text[interpolationEnd] === '{'))
             ) {
               replacement = `\\${replacement}`;
             }

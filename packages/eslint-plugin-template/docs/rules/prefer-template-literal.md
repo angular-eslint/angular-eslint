@@ -2740,6 +2740,64 @@ The rule does not have any configuration options.
    ~~~~~~~~~~~~
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-template-literal": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+**Filename: components/widget.component.html**
+
+```html
+{{ `a$${'' + ''}{b}` }}
+        ~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-template-literal": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+**Filename: components/widget.component.html**
+
+```html
+{{ `${'\r' + x}` }}
+      ~~~~~~~~
+```
+
 </details>
 
 <br>

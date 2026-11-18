@@ -1288,6 +1288,31 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
            
       `,
   }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should not form "${" in the parent template literal when the replacement is empty',
+    annotatedSource: `
+        {{ \`a$\${'' + ''}{b}\` }}
+                ~~~~~~~
+      `,
+    annotatedOutput: `
+        {{ \`a$\\{b}\` }}
+                
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description: 'should keep a carriage return as an escape sequence',
+    annotatedSource: `
+        {{ \`\${'\\r' + x}\` }}
+              ~~~~~~~~
+      `,
+    annotatedOutput: `
+        {{ \`\\r\${x}\` }}
+              
+      `,
+  }),
 ].map((test) => ({
   // Give every test a default file name so that we confirm
   // that the early-exit condition for inline templates
