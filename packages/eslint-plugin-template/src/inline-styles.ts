@@ -58,10 +58,20 @@ const unsafeLiteralFixText: Record<string, RegExp> = {
   '`': /[\\`]|\$\{/,
 };
 
+/**
+ * ESLint reports locations and applies fixes in the file without its byte
+ * order mark, but the processor is given the text with it, so offsets in that
+ * text are one too far when it starts with one
+ */
+function byteOrderMarkLength(text: string): number {
+  return text.charCodeAt(0) === 0xfeff ? 1 : 0;
+}
+
 function mapLiteral(
   literal: ts.StringLiteral | ts.NoSubstitutionTemplateLiteral,
   sourceFile: ts.SourceFile,
   source: TextSource,
+  bom: number,
 ): MappedStyle | undefined {
   const decoded = decodeLiteral(literal, sourceFile);
   if (!decoded) {
@@ -71,7 +81,7 @@ function mapLiteral(
   return {
     kind: 'component',
     text: decoded.text,
-    offsets: decoded.offsets,
+    offsets: decoded.offsets.map((offset) => offset - bom),
     source,
     virtualSource: createTextSource(decoded.text),
     unsafeFixText: [unsafeLiteralFixText[decoded.quote]],
@@ -145,7 +155,9 @@ function extractTemplateStyles(template: TemplateSource): MappedStyle[] {
 
 function extractComponentStyles(sourceFile: ts.SourceFile): MappedStyle[] {
   const styles: MappedStyle[] = [];
-  const source = createTextSource(sourceFile.text);
+  // Offsets are mapped onto the file as ESLint sees it, without any byte order mark
+  const bom = byteOrderMarkLength(sourceFile.text);
+  const source = createTextSource(sourceFile.text.slice(bom));
 
   for (const metadata of getComponentMetadata(sourceFile)) {
     for (const property of metadata.properties) {
@@ -169,7 +181,7 @@ function extractComponentStyles(sourceFile: ts.SourceFile): MappedStyle[] {
           continue;
         }
 
-        const mapped = mapLiteral(value, sourceFile, source);
+        const mapped = mapLiteral(value, sourceFile, source, bom);
         if (!mapped) {
           continue;
         }
@@ -279,12 +291,17 @@ function preprocessInlineStyles(
     ) {
       return [text];
     }
+    // Extract from the file as ESLint sees it, without any byte order mark
+    const content = text.slice(byteOrderMarkLength(text));
     let styles: MappedStyle[];
     try {
       styles = extractTemplateStyles({
-        text,
-        source: createTextSource(text),
-        offsets: Array.from({ length: text.length + 1 }, (_, index) => index),
+        text: content,
+        source: createTextSource(content),
+        offsets: Array.from(
+          { length: content.length + 1 },
+          (_, index) => index,
+        ),
         unsafeFixText: [],
       });
     } catch {
