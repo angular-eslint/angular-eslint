@@ -635,4 +635,293 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       },
     ],
   }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should only remove the duplicate attribute when the template starts on the same line as the element',
+    annotatedSource: `<div title="one" title="two"></div>
+     ~~~~~~~~~~~ ^^^^^^^^^^^`,
+    messages: [
+      {
+        char: '~',
+        messageId,
+        data: { attributeName: 'title' },
+        suggestions: [
+          {
+            messageId: suggestRemoveAttribute,
+            output: `<div title="two"></div>
+                 `,
+            data: { attributeName: 'title' },
+          },
+        ],
+      },
+      {
+        char: '^',
+        messageId,
+        data: { attributeName: 'title' },
+        suggestions: [
+          {
+            messageId: suggestRemoveAttribute,
+            output: `<div title="one"></div>
+                 `,
+            data: { attributeName: 'title' },
+          },
+        ],
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should remove the duplicate attribute and its preceding whitespace on a multi-line element',
+    annotatedSource: `
+        <div
+          title="one"
+          ~~~~~~~~~~~
+          title="two"
+          ^^^^^^^^^^^
+        ></div>
+      `,
+    messages: [
+      {
+        char: '~',
+        messageId,
+        data: { attributeName: 'title' },
+        suggestions: [
+          {
+            messageId: suggestRemoveAttribute,
+            output: `
+        <div
+                     
+          title="two"
+          
+        ></div>
+      `,
+            data: { attributeName: 'title' },
+          },
+        ],
+      },
+      {
+        char: '^',
+        messageId,
+        data: { attributeName: 'title' },
+        suggestions: [
+          {
+            messageId: suggestRemoveAttribute,
+            output: `
+        <div
+          title="one"
+          
+        ></div>
+      `,
+            data: { attributeName: 'title' },
+          },
+        ],
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should remove the duplicate input on a later line of a multi-line element',
+    annotatedSource: `
+        <input
+          type="text" [value]="a" [value]="b"
+                      ~~~~~~~~~~~ ^^^^^^^^^^^
+        />
+      `,
+    messages: [
+      {
+        char: '~',
+        messageId,
+        data: { attributeName: 'value' },
+        suggestions: [
+          {
+            messageId: suggestRemoveAttribute,
+            output: `
+        <input
+          type="text" [value]="b"
+                                  
+        />
+      `,
+            data: { attributeName: 'value' },
+          },
+        ],
+      },
+      {
+        char: '^',
+        messageId,
+        data: { attributeName: 'value' },
+        suggestions: [
+          {
+            messageId: suggestRemoveAttribute,
+            output: `
+        <input
+          type="text" [value]="a"
+                                  
+        />
+      `,
+            data: { attributeName: 'value' },
+          },
+        ],
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should remove the duplicate output on a later line of a multi-line element',
+    annotatedSource: `
+        <button
+          type="button" (click)="a()" (click)="b()"
+                        ~~~~~~~~~~~~~ ^^^^^^^^^^^^^
+        ></button>
+      `,
+    messages: [
+      {
+        char: '~',
+        messageId,
+        data: { attributeName: 'click' },
+        suggestions: [
+          {
+            messageId: suggestRemoveAttribute,
+            output: `
+        <button
+          type="button" (click)="b()"
+                                      
+        ></button>
+      `,
+            data: { attributeName: 'click' },
+          },
+        ],
+      },
+      {
+        char: '^',
+        messageId,
+        data: { attributeName: 'click' },
+        suggestions: [
+          {
+            messageId: suggestRemoveAttribute,
+            output: `
+        <button
+          type="button" (click)="a()"
+                                      
+        ></button>
+      `,
+            data: { attributeName: 'click' },
+          },
+        ],
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should remove the duplicate two-way binding on a later line of a multi-line element',
+    annotatedSource: `
+        <input
+          type="text" [(ngModel)]="a" [(ngModel)]="b"
+                      ~~~~~~~~~~~~~~~ ^^^^^^^^^^^^^^^
+        />
+      `,
+    messages: [
+      {
+        char: '~',
+        messageId,
+        data: { attributeName: 'ngModel' },
+        suggestions: [
+          {
+            messageId: suggestRemoveAttribute,
+            output: `
+        <input
+          type="text" [(ngModel)]="b"
+                                      
+        />
+      `,
+            data: { attributeName: 'ngModel' },
+          },
+        ],
+      },
+      {
+        char: '^',
+        messageId,
+        data: { attributeName: 'ngModel' },
+        suggestions: [
+          {
+            messageId: suggestRemoveAttribute,
+            output: `
+        <input
+          type="text" [(ngModel)]="a"
+                                      
+        />
+      `,
+            data: { attributeName: 'ngModel' },
+          },
+        ],
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should keep a separator when the next attribute has no whitespace before it',
+    annotatedSource: `<div title="one"title="two"></div>
+     ~~~~~~~~~~~^^^^^^^^^^^`,
+    messages: [
+      {
+        char: '~',
+        messageId,
+        data: { attributeName: 'title' },
+        suggestions: [
+          {
+            messageId: suggestRemoveAttribute,
+            output: `<div title="two"></div>
+                `,
+            data: { attributeName: 'title' },
+          },
+        ],
+      },
+      {
+        char: '^',
+        messageId,
+        data: { attributeName: 'title' },
+        suggestions: [
+          {
+            messageId: suggestRemoveAttribute,
+            output: `<div title="one"></div>
+                `,
+            data: { attributeName: 'title' },
+          },
+        ],
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should not remove non-HTML whitespace that belongs to an unquoted value',
+    annotatedSource: `<div id=keep\u2003 title="one" title="two"></div>
+              ~~~~~~~~~~~ ^^^^^^^^^^^`,
+    messages: [
+      {
+        char: '~',
+        messageId,
+        data: { attributeName: 'title' },
+        suggestions: [
+          {
+            messageId: suggestRemoveAttribute,
+            output: `<div id=keep\u2003 title="two"></div>
+                          `,
+            data: { attributeName: 'title' },
+          },
+        ],
+      },
+      {
+        char: '^',
+        messageId,
+        data: { attributeName: 'title' },
+        suggestions: [
+          {
+            messageId: suggestRemoveAttribute,
+            output: `<div id=keep\u2003 title="one"></div>
+                          `,
+            data: { attributeName: 'title' },
+          },
+        ],
+      },
+    ],
+  }),
 ];

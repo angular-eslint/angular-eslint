@@ -456,6 +456,205 @@ interface Options {
        ~~~~~~~~~~~~~~~~~~~                           ~~~~~~~~~~~~~~~~~~
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-duplicate-attributes": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div title="one" title="two"></div>
+     ~~~~~~~~~~~ ~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-duplicate-attributes": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div
+  title="one"
+  ~~~~~~~~~~~
+  title="two"
+  ~~~~~~~~~~~
+></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-duplicate-attributes": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<input
+  type="text" [value]="a" [value]="b"
+              ~~~~~~~~~~~ ~~~~~~~~~~~
+/>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-duplicate-attributes": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<button
+  type="button" (click)="a()" (click)="b()"
+                ~~~~~~~~~~~~~ ~~~~~~~~~~~~~
+></button>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-duplicate-attributes": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<input
+  type="text" [(ngModel)]="a" [(ngModel)]="b"
+              ~~~~~~~~~~~~~~~ ~~~~~~~~~~~~~~~
+/>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-duplicate-attributes": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div title="one"title="two"></div>
+     ~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-duplicate-attributes": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div id=keep  title="one" title="two"></div>
+              ~~~~~~~~~~~ ~~~~~~~~~~~
+```
+
 </details>
 
 <br>
