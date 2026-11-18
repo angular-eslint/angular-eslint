@@ -91,4 +91,96 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       `,
     messageId,
   }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail and autofix with double quotes if the attribute value uses single quotes',
+    annotatedSource: `
+        <img src='{{ url }}'>
+                  ~~~~~~~~~
+      `,
+    messageId,
+    annotatedOutput: `
+        <img [src]="url">
+                  
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail and autofix with single quotes if the expression contains double quotes',
+    annotatedSource: `
+        <img src='{{ "a" + b }}'>
+                  ~~~~~~~~~~~~~
+      `,
+    messageId,
+    annotatedOutput: `
+        <img [src]='"a" + b'>
+                  
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail and autofix with double quotes if the attribute value is unquoted',
+    annotatedSource: `
+        <img src={{url}}>
+                 ~~~~~~~
+      `,
+    messageId,
+    annotatedOutput: `
+        <img [src]="url">
+                 
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail and autofix keeping HTML entities if the expression contains them',
+    annotatedSource: `
+        <div title="{{ a &amp;&amp; b }}"></div>
+                    ~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId,
+    annotatedOutput: `
+        <div [title]="a &amp;&amp; b"></div>
+                    
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail and autofix keeping &quot; entities in a single-quoted attribute value',
+    annotatedSource: `
+        <div title='{{ &quot;x&quot; + a }}'></div>
+                    ~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId,
+    annotatedOutput: `
+        <div [title]="&quot;x&quot; + a"></div>
+                    
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail on the whole attribute value and not autofix if the value contains HTML entities after the interpolation',
+    annotatedSource: `
+        <div title="{{ a }}&amp;b"></div>
+                    ~~~~~~~~~~~~~
+      `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail and not autofix if the opening interpolation delimiter is written as HTML entities',
+    annotatedSource: `
+        <div title="&#123;&#123; a }}"></div>
+                    ~~~~~~~~~~~~~~~~~
+      `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail and not autofix if the closing interpolation delimiter is written as HTML entities',
+    annotatedSource: `
+        <div title="{{ a &#125;&#125;"></div>
+                    ~~~~~~~~~~~~~~~~~
+      `,
+    messageId,
+  }),
 ];

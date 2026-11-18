@@ -61,37 +61,55 @@ export default createESLintRule<Options, MessageIds>({
           return;
         }
 
-        const {
-          sourceSpan: { start, end },
-        } = interpolation;
+        // The interpolation's own source span is computed from the attribute
+        // value after HTML entities have been decoded, so its offsets drift
+        // whenever the raw value contains entities. The attribute's value span
+        // always matches the raw source text.
+        const valueStart: number =
+          boundAttribute.valueSpan?.start.offset ??
+          interpolation.sourceSpan.start;
+        const valueEnd: number =
+          boundAttribute.valueSpan?.end.offset ?? interpolation.sourceSpan.end;
 
         context.report({
           loc: {
-            start: sourceCode.getLocFromIndex(start),
-            end: sourceCode.getLocFromIndex(end),
+            start: sourceCode.getLocFromIndex(valueStart),
+            end: sourceCode.getLocFromIndex(valueEnd),
           },
           messageId: 'noInterpolationInAttributes',
           fix:
             isFullInterpolation && interpolation.expressions.length === 1
               ? (fixer) => {
-                  const attrStart = boundAttribute.keySpan.start.offset;
-                  const attrEnd = boundAttribute.keySpan.end.offset;
+                  const rawValue = sourceCode.text.slice(valueStart, valueEnd);
+                  // The delimiters can be written as entities (for example
+                  // `&#123;&#123;`), in which case the raw text cannot be
+                  // safely sliced into an expression.
+                  if (!rawValue.startsWith('{{') || !rawValue.endsWith('}}')) {
+                    return null;
+                  }
+
+                  // Keep the expression's raw text, including any entities:
+                  // Angular decodes entities in property binding values in the
+                  // same way as in interpolated attribute values.
+                  const expression = rawValue.slice(2, -2).trim();
+                  const quote = getQuote(expression);
+                  if (!quote) {
+                    return null;
+                  }
+
                   const attributeName = sourceCode.text
-                    .slice(attrStart, attrEnd)
+                    .slice(
+                      boundAttribute.keySpan.start.offset,
+                      boundAttribute.keySpan.end.offset,
+                    )
                     .trim();
 
-                  const exprStart = boundAttribute.valueSpan.start.offset + 2; // +2 to remove '{{'
-                  const exprEnd = boundAttribute.valueSpan.end.offset - 2; // -2 to remove '}}'
-                  const expression = sourceCode.text
-                    .slice(exprStart, exprEnd)
-                    .trim();
-
-                  const rangeStart = boundAttribute.sourceSpan.start.offset;
-                  const rangeEnd = boundAttribute.sourceSpan.end.offset;
-                  const replacement = `[${attributeName}]="${expression}"`;
                   return fixer.replaceTextRange(
-                    [rangeStart, rangeEnd],
-                    replacement,
+                    [
+                      boundAttribute.sourceSpan.start.offset,
+                      boundAttribute.sourceSpan.end.offset,
+                    ],
+                    `[${attributeName}]=${quote}${expression}${quote}`,
                   );
                 }
               : null,
@@ -100,6 +118,22 @@ export default createESLintRule<Options, MessageIds>({
     };
   },
 });
+
+/**
+ * Returns the quote character to wrap the property binding's value in, or
+ * `null` if no quote character can wrap it without escaping. Double quotes
+ * are preferred, and single quotes are used when the expression contains a
+ * double quote (for example when the original value was single-quoted).
+ */
+function getQuote(expression: string): '"' | "'" | null {
+  if (!expression.includes('"')) {
+    return '"';
+  }
+  if (!expression.includes("'")) {
+    return "'";
+  }
+  return null;
+}
 
 export const RULE_DOCS_EXTENSION = {
   rationale:
