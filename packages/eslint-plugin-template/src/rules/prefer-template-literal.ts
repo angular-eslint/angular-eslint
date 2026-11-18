@@ -4,7 +4,6 @@ import {
   TemplateLiteral,
 } from '@angular-eslint/bundled-angular-compiler';
 import { ensureTemplateParser } from '@angular-eslint/utils';
-import { RuleFix } from '@typescript-eslint/utils/ts-eslint';
 import { createESLintRule } from '../utils/create-eslint-rule';
 import {
   isLiteralPrimitive,
@@ -111,8 +110,11 @@ function flattenBinaryConcat(node: AST): readonly ConcatPart[] {
 }
 
 function escapeLiteral(value: string, quote: Quote): string {
+  // A raw carriage return would be normalized to a line feed by Angular's
+  // HTML parser, so keep it as an escape sequence.
   const escaped = value
     .replaceAll('\\', '\\\\')
+    .replaceAll('\r', '\\r')
     .replaceAll(quote, `\\${quote}`);
   return quote === '`' ? escaped.replaceAll('${', '\\${') : escaped;
 }
@@ -216,19 +218,6 @@ export default createESLintRule<Options, MessageIds>({
           messageId,
           fix: (fixer) => {
             const quote = getQuote();
-            const fixes = Array<RuleFix>();
-
-            // If the parent is a template literal, remove the `${` sign
-            if (parentIsTemplateLiteral) {
-              const templateInterpolationStartIndex =
-                sourceCode.text.lastIndexOf('${', node.sourceSpan.start);
-              fixes.push(
-                fixer.removeRange([
-                  templateInterpolationStartIndex,
-                  node.sourceSpan.start,
-                ]),
-              );
-            }
 
             // Build the replacement string from all parts
             const effectiveQuote = quote === '' ? '`' : quote;
@@ -251,28 +240,45 @@ export default createESLintRule<Options, MessageIds>({
             }
             replacement += escapeLiteral(pendingLiteral, effectiveQuote);
 
-            // Add quotes if not inside a template literal
             if (!parentIsTemplateLiteral) {
-              replacement = `${quote}${replacement}${quote}`;
-            }
-
-            fixes.push(fixer.replaceTextRange([start, end], replacement));
-
-            // If the parent is a template literal, remove the `}` sign
-            if (parentIsTemplateLiteral) {
-              const templateInterpolationEndIndex = sourceCode.text.indexOf(
-                '}',
-                node.sourceSpan.end,
-              );
-              fixes.push(
-                fixer.removeRange([
-                  node.sourceSpan.end,
-                  templateInterpolationEndIndex + 1,
-                ]),
+              return fixer.replaceTextRange(
+                [start, end],
+                `${quote}${replacement}${quote}`,
               );
             }
 
-            return fixes;
+            // The parent is a template literal, so remove the `${` and `}`
+            // around this expression and merge the replacement into the
+            // parent's text
+            const interpolationStart = sourceCode.text.lastIndexOf(
+              '${',
+              node.sourceSpan.start,
+            );
+            const interpolationEnd =
+              sourceCode.text.indexOf('}', node.sourceSpan.end) + 1;
+
+            // The merged text must not form a `${` with the text on either
+            // side, which would turn literal text into an interpolation
+            if (
+              sourceCode.text[interpolationStart - 1] === '$' &&
+              (replacement.startsWith('{') ||
+                (replacement === '' &&
+                  sourceCode.text[interpolationEnd] === '{'))
+            ) {
+              replacement = `\\${replacement}`;
+            }
+            if (
+              replacement.endsWith('$') &&
+              sourceCode.text[interpolationEnd] === '{'
+            ) {
+              replacement = `${replacement.slice(0, -1)}\\$`;
+            }
+
+            return [
+              fixer.removeRange([interpolationStart, node.sourceSpan.start]),
+              fixer.replaceTextRange([start, end], replacement),
+              fixer.removeRange([node.sourceSpan.end, interpolationEnd]),
+            ];
           },
         });
       },
