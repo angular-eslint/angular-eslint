@@ -84,6 +84,18 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
       `,
     options: [{ maxComplexity: 1 }],
   },
+  {
+    code: `
+        @boundary {
+          <app-widget />
+        } @error (when a && b && c) {
+          First fallback
+        } @error {
+          Second fallback
+        }
+      `,
+    options: [{ maxComplexity: 2 }],
+  },
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
@@ -239,6 +251,40 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     annotatedSource: `
         @let isReady = a && b && c && d;
                        ~~~~~~~~~~~~~~~~
+      `,
+    options: [{ maxComplexity: 2 }],
+    data: { maxComplexity: 2, totalComplexity: 3 },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail if the conditional complexity exceeds the maximum defined in an @error (when ...) block',
+    annotatedSource: `
+        @boundary {
+          <app-widget />
+        } @error (when a && b && c && d) {
+                       ~~~~~~~~~~~~~~~~
+          First fallback
+        } @error {
+          Second fallback
+        }
+      `,
+    options: [{ maxComplexity: 2 }],
+    data: { maxComplexity: 2, totalComplexity: 3 },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail if the conditional complexity exceeds the maximum defined in a piped @error (when ...) block with context variables',
+    annotatedSource: `
+        @boundary {
+          <app-widget />
+        } @error (when isRetryable($error) && a) {
+          First fallback
+        } @error (when (a && b && c && d) | async; let e = $error) {
+                       ~~~~~~~~~~~~~~~~~~~~~~~~~~
+          {{ e }}
+        }
       `,
     options: [{ maxComplexity: 2 }],
     data: { maxComplexity: 2, totalComplexity: 3 },

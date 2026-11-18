@@ -423,6 +423,78 @@ interface Options {
                ~~~~~~~~~~~~~~~~
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/conditional-complexity": [
+      "error",
+      {
+        "maxComplexity": 2
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@boundary {
+  <app-widget />
+} @error (when a && b && c && d) {
+               ~~~~~~~~~~~~~~~~
+  First fallback
+} @error {
+  Second fallback
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/conditional-complexity": [
+      "error",
+      {
+        "maxComplexity": 2
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+@boundary {
+  <app-widget />
+} @error (when isRetryable($error) && a) {
+  First fallback
+} @error (when (a && b && c && d) | async; let e = $error) {
+               ~~~~~~~~~~~~~~~~~~~~~~~~~~
+  {{ e }}
+}
+```
+
 </details>
 
 <br>
@@ -759,6 +831,41 @@ interface Options {
   First
 } @else {
   Second
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/conditional-complexity": [
+      "error",
+      {
+        "maxComplexity": 2
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+@boundary {
+  <app-widget />
+} @error (when a && b && c) {
+  First fallback
+} @error {
+  Second fallback
 }
 ```
 
