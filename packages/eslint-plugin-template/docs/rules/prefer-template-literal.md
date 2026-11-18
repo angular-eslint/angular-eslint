@@ -2595,6 +2595,151 @@ The rule does not have any configuration options.
    ~~~~~~~~~~~~~~~~~~~~~~~~~
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-template-literal": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+**Filename: components/widget.component.html**
+
+```html
+{{ `a$${'{b}' + x}` }}
+        ~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-template-literal": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+**Filename: components/widget.component.html**
+
+```html
+{{ `${x + '$'}{b}` }}
+      ~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-template-literal": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+**Filename: components/widget.component.html**
+
+```html
+{{ `$${'{' + 'b}'}` }}
+       ~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-template-literal": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+**Filename: components/widget.component.html**
+
+```html
+{{ `a$${'{' + x}` }}
+        ~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/prefer-template-literal": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+**Filename: components/widget.component.html**
+
+```html
+{{ `a$\{b}` + x }}
+   ~~~~~~~~~~~~
+```
+
 </details>
 
 <br>

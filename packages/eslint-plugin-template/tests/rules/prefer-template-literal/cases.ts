@@ -1223,6 +1223,71 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
            
       `,
   }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should escape "{" that would form "${" with a "$" before it in the parent template literal',
+    annotatedSource: `
+        {{ \`a$\${'{b}' + x}\` }}
+                ~~~~~~~~~
+      `,
+    annotatedOutput: `
+        {{ \`a$\\{b}\${x}\` }}
+                
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should escape "$" that would form "${" with a "{" after it in the parent template literal',
+    annotatedSource: `
+        {{ \`\${x + '$'}{b}\` }}
+              ~~~~~~~
+      `,
+    annotatedOutput: `
+        {{ \`\${x}\\\${b}\` }}
+              
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should escape "{" that would form "${" in the parent template literal when all parts are literals',
+    annotatedSource: `
+        {{ \`$\${'{' + 'b}'}\` }}
+               ~~~~~~~~~~
+      `,
+    annotatedOutput: `
+        {{ \`$\\{b}\` }}
+               
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should escape "{" that would form "${" with a "$" before it and an expression after it in the parent template literal',
+    annotatedSource: `
+        {{ \`a$\${'{' + x}\` }}
+                ~~~~~~~
+      `,
+    annotatedOutput: `
+        {{ \`a$\\{\${x}\` }}
+                
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should keep an escaped "{" in a template literal as literal text',
+    annotatedSource: `
+        {{ \`a$\\{b}\` + x }}
+           ~~~~~~~~~~~~
+      `,
+    annotatedOutput: `
+        {{ \`a\\\${b}\${x}\` }}
+           
+      `,
+  }),
 ].map((test) => ({
   // Give every test a default file name so that we confirm
   // that the early-exit condition for inline templates
