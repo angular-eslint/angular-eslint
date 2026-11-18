@@ -153,7 +153,12 @@ export default createESLintRule<Options, MessageIds>({
               {
                 messageId: 'suggestRemoveAttribute',
                 fix: (fixer) =>
-                  fixer.removeRange([loc.start.column, loc.end.column + 1]),
+                  fixer.removeRange(
+                    getAttributeRemovalRange(
+                      duplicate,
+                      context.sourceCode.text,
+                    ),
+                  ),
                 data,
               },
             ],
@@ -176,6 +181,23 @@ function findDuplicates<
           getOriginalAttributeName(element),
     );
   });
+}
+
+/**
+ * Returns the range covering the attribute and all whitespace directly before
+ * it, so that removing it leaves no gap or trailing whitespace behind.
+ */
+function getAttributeRemovalRange(
+  {
+    sourceSpan,
+  }: TmplAstBoundEvent | TmplAstBoundAttribute | TmplAstTextAttribute,
+  text: string,
+): [number, number] {
+  let start = sourceSpan.start.offset;
+  while (start > 0 && /\s/.test(text[start - 1])) {
+    start--;
+  }
+  return [start, sourceSpan.end.offset];
 }
 
 export const RULE_DOCS_EXTENSION = {
