@@ -432,8 +432,17 @@ function getAllAttributes(
   // AST drops them. Angular only attaches i18n metadata to the inputs
   // and attributes that it translates, so an `i18n-*` marker for a
   // bound input such as `[title]` has to be found in the source text.
-  if (node.i18n || node.startSourceSpan.toString().includes('i18n-')) {
+  // The substring check is only a cheap filter (it also matches values
+  // and bindings such as `(i18n-save)`), so only use the HTML parser's
+  // attributes if they include a real marker.
+  if (node.i18n) {
     return getAttributesFromHtmlParser(node, filename);
+  }
+  if (node.startSourceSpan.toString().includes('i18n-')) {
+    const htmlAttributes = getAttributesFromHtmlParser(node, filename);
+    if (htmlAttributes.some(({ isI18nForAttribute }) => isI18nForAttribute)) {
+      return htmlAttributes;
+    }
   }
   const { attributes, inputs, outputs, references } = node;
   const extendedInputs: ExtendedTmplAstBoundAttribute[] = [];
@@ -765,18 +774,26 @@ function getAttributesFromHtmlParser(
   // interpolated `title="{{ x }}"`, even though Angular parses both as
   // inputs. A marker whose attribute isn't on the element stays an
   // `AttributeBinding`.
+  const annotatableOrderTypes = new Map<string, OrderType>();
+  for (const { name, orderType, isI18nForAttribute } of attributes) {
+    if (
+      !isI18nForAttribute &&
+      (orderType === OrderType.AttributeBinding ||
+        orderType === OrderType.InputBinding ||
+        orderType === OrderType.TwoWayBinding) &&
+      !annotatableOrderTypes.has(name)
+    ) {
+      annotatableOrderTypes.set(name, orderType);
+    }
+  }
   return attributes.map((attr) => {
     if (!attr.isI18nForAttribute) {
       return attr;
     }
-    const annotatedName = attr.name.replace(I18N_MARKER_PREFIX, '');
-    const annotated = attributes.find(
-      (other) =>
-        other.name === annotatedName &&
-        (other.orderType === OrderType.AttributeBinding ||
-          other.orderType === OrderType.InputBinding),
+    const orderType = annotatableOrderTypes.get(
+      attr.name.replace(I18N_MARKER_PREFIX, ''),
     );
-    return annotated ? { ...attr, orderType: annotated.orderType } : attr;
+    return orderType ? { ...attr, orderType } : attr;
   });
 }
 

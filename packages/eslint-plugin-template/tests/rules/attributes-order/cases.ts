@@ -212,9 +212,30 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
   // An `i18n-*` marker is in the same group as the attribute it annotates.
   '<button title="Hi {{ name }}" i18n-title type="button"></button>',
   '<button type="button" [title]="label" i18n-title></button>',
+  // An `i18n-*` marker stays in the group of the two-way binding it annotates.
+  '<div [id]="id" [(title)]="label" i18n-title></div>',
+  // `i18n-` in a binding name is not a marker, so `on-click` stays an output.
+  '<div (i18n-save)="go()" on-click="go()"></div>',
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should not treat i18n- in an attribute value as an i18n marker',
+    annotatedSource: `
+      <div on-click="go()" id="a" title="i18n-"></div>
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    data: {
+      expected: '`id`, `title`, `(click)`',
+      actual: '`(click)`, `id`, `title`',
+    },
+    annotatedOutput: `
+      <div id="a" title="i18n-" on-click="go()"></div>
+           
+    `,
+  }),
   convertAnnotatedSourceToFailureCase({
     messageId,
     description: 'should work for simple attributes',
