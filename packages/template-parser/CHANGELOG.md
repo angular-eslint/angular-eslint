@@ -1,3 +1,13 @@
+## 22.8.0 (2026-11-18)
+
+### 🩹 Fixes
+
+- **template-parser:** scope the line offsets cache to a single parse ([#3355](https://github.com/angular-eslint/angular-eslint/pull/3355))
+
+### ❤️ Thank You
+
+- AI-JamesHenry @AI-JamesHenry
+
 ## 22.7.0 (2026-11-15)
 
 ### 🩹 Fixes
