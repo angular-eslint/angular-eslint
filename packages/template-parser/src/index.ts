@@ -122,31 +122,38 @@ function isNode(node: unknown): node is Node {
 }
 
 /**
- * Get line offsets for a source code string (cached for performance)
+ * Per-parse state for converting absolute offsets to line/column positions.
+ * It lives only as long as a single parseForESLint() call, so the line offsets
+ * are computed at most once per template without retaining every template
+ * text ever linted in a module-level cache.
  */
-let lineOffsetsCache: Map<string, number[]> | null = null;
-function getLineOffsets(sourceCode: string): number[] {
-  if (!lineOffsetsCache) {
-    lineOffsetsCache = new Map();
-  }
-  let offsets = lineOffsetsCache.get(sourceCode);
-  if (!offsets) {
-    offsets = [0];
-    for (let i = 0; i < sourceCode.length; i++) {
-      if (sourceCode[i] === '\n') {
+interface SourceCodeContext {
+  readonly text: string;
+  lineOffsets?: number[];
+}
+
+/**
+ * Get line offsets for the source code, computed lazily once per parse
+ */
+function getLineOffsets(sourceCode: SourceCodeContext): number[] {
+  if (!sourceCode.lineOffsets) {
+    const { text } = sourceCode;
+    const offsets = [0];
+    for (let i = 0; i < text.length; i++) {
+      if (text[i] === '\n') {
         offsets.push(i + 1);
       }
     }
-    lineOffsetsCache.set(sourceCode, offsets);
+    sourceCode.lineOffsets = offsets;
   }
-  return offsets;
+  return sourceCode.lineOffsets;
 }
 
 /**
  * Convert absolute offsets to line/column positions
  */
 function convertAbsoluteSourceSpanToLoc(
-  sourceCode: string,
+  sourceCode: SourceCodeContext,
   span: { start: number; end: number },
 ): TSESTree.SourceLocation {
   const lineOffsets = getLineOffsets(sourceCode);
@@ -191,7 +198,7 @@ function convertAbsoluteSourceSpanToLoc(
  * ESLint requires all Nodes to have `type` and `loc` properties before it can
  * work with the custom AST.
  */
-function preprocessNode(node: Node, sourceCode?: string) {
+function preprocessNode(node: Node, sourceCode?: SourceCodeContext) {
   let i = 0;
   let j = 0;
 
@@ -412,7 +419,7 @@ function parseForESLint(
   });
   const scopeManager = analyze(astAsProgram as any);
 
-  preprocessNode(ast, code);
+  preprocessNode(ast, { text: code });
 
   const startSourceSpan = getStartSourceSpanFromAST(ast);
   const endSourceSpan = getEndSourceSpanFromAST(ast);
