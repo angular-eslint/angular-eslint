@@ -386,7 +386,12 @@ function toRankedAttribute(
   getRank: (attr: SortableAttribute, lookupName: string) => Rank,
 ): RankedAttribute {
   const name = attr.keySpan?.details ?? attr.name;
-  const normalizedName = name.replace(I18N_MARKER_PREFIX, '');
+  // Only plain `i18n-*` attributes are translation markers. A binding such
+  // as `(i18n-save)` keeps its full name.
+  const isI18nMarker = attr.isI18nForAttribute === true;
+  const normalizedName = isI18nMarker
+    ? name.replace(I18N_MARKER_PREFIX, '')
+    : name;
   // An `i18n-*` marker is looked up by the name of the attribute it
   // annotates, so the two always end up in the same custom group.
   const rank = getRank(attr, normalizedName);
@@ -394,7 +399,7 @@ function toRankedAttribute(
     attr,
     ...rank,
     normalizedName,
-    isI18nMarker: normalizedName !== name,
+    isI18nMarker,
     position: rank.isCustomGroup ? sourceIndex : index,
   };
 }
@@ -408,10 +413,27 @@ function byRankThenName(one: RankedAttribute, other: RankedAttribute) {
   if (orderComparison !== 0) {
     return orderComparison;
   }
-  if (one.normalizedName === other.normalizedName) {
-    return one.isI18nMarker ? 1 : -1;
+  if (one.normalizedName !== other.normalizedName) {
+    return one.normalizedName > other.normalizedName ? 1 : -1;
   }
-  return one.normalizedName > other.normalizedName ? 1 : -1;
+  // Attributes with the same name can come from different binding types
+  // once a custom group pulls them together, e.g. `#neoValue` and
+  // `neoValue`. Put the kinds an `i18n-*` marker can annotate last and the
+  // marker after them, so the marker stays next to its attribute, and fall
+  // back to position so that the order is stable.
+  return (
+    sameNameRank(one) - sameNameRank(other) || one.position - other.position
+  );
+}
+
+function sameNameRank({ attr, isI18nMarker }: RankedAttribute): number {
+  if (isI18nMarker) {
+    return 2;
+  }
+  return attr.orderType === OrderType.AttributeBinding ||
+    attr.orderType === OrderType.InputBinding
+    ? 1
+    : 0;
 }
 
 function getAllAttributes(

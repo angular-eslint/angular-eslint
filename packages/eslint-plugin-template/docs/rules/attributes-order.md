@@ -1064,6 +1064,96 @@ interface Options {
     "@angular-eslint/template/attributes-order": [
       "error",
       {
+        "alphabetical": true,
+        "customGroups": [
+          {
+            "groupName": "neoAttr",
+            "attributeNamePattern": "^neo"
+          }
+        ],
+        "order": [
+          "STRUCTURAL_DIRECTIVE",
+          "TEMPLATE_REFERENCE",
+          "neoAttr",
+          "ATTRIBUTE_BINDING",
+          "INPUT_BINDING",
+          "TWO_WAY_BINDING",
+          "OUTPUT_BINDING"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<button neoValue="Save" i18n-neoValue #neoValue></button>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/attributes-order": [
+      "error",
+      {
+        "alphabetical": false,
+        "customGroups": [
+          {
+            "groupName": "i18nSave",
+            "attributeNamePattern": "^i18n-save$"
+          }
+        ],
+        "order": [
+          "i18nSave",
+          "STRUCTURAL_DIRECTIVE",
+          "TEMPLATE_REFERENCE",
+          "ATTRIBUTE_BINDING",
+          "INPUT_BINDING",
+          "TWO_WAY_BINDING",
+          "OUTPUT_BINDING"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<button type="button" (i18n-save)="save()"></button>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/attributes-order": [
+      "error",
+      {
         "alphabetical": false,
         "customGroups": [
           {
@@ -1959,6 +2049,50 @@ interface Options {
 >
   Save
 </button>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/attributes-order": [
+      "error",
+      {
+        "alphabetical": true,
+        "customGroups": [
+          {
+            "groupName": "neoAttr",
+            "attributeNamePattern": "^neo"
+          }
+        ],
+        "order": [
+          "STRUCTURAL_DIRECTIVE",
+          "TEMPLATE_REFERENCE",
+          "neoAttr",
+          "ATTRIBUTE_BINDING",
+          "INPUT_BINDING",
+          "TWO_WAY_BINDING",
+          "OUTPUT_BINDING"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<button #neoValue neoValue="Save" i18n-neoValue></button>
 ```
 
 <br>

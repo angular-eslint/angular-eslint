@@ -183,6 +183,12 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     options: materialCustomGroupsOptions(false),
   },
   {
+    // Same-named attributes of different binding types in one custom group
+    // have a stable order, and the i18n marker stays next to its attribute.
+    code: `<button #neoValue neoValue="Save" i18n-neoValue></button>`,
+    options: neoCustomGroupsOptions,
+  },
+  {
     // An `i18n-*` marker stays with the attribute it annotates.
     code: `<button matButton matTooltip="Save changes" i18n-matTooltip type="button"></button>`,
     options: materialCustomGroupsOptions(false),
@@ -822,6 +828,58 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     },
     annotatedOutput: `
       <button neoButton [neoSize]="size" neoAlignment="start" class="primary"></button>
+              
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should keep an i18n marker next to its attribute when a custom group holds same-named bindings',
+    annotatedSource: `
+      <button neoValue="Save" i18n-neoValue #neoValue></button>
+              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    options: neoCustomGroupsOptions,
+    data: {
+      expected: '`#neoValue`, `neoValue`, `i18n-neoValue`',
+      actual: '`neoValue`, `i18n-neoValue`, `#neoValue`',
+    },
+    annotatedOutput: `
+      <button #neoValue neoValue="Save" i18n-neoValue></button>
+              
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should match a binding whose name starts with i18n- by its full name',
+    annotatedSource: `
+      <button type="button" (i18n-save)="save()"></button>
+              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    options: [
+      {
+        alphabetical: false,
+        customGroups: [
+          { groupName: 'i18nSave', attributeNamePattern: '^i18n-save$' },
+        ],
+        order: [
+          'i18nSave',
+          OrderType.StructuralDirective,
+          OrderType.TemplateReferenceVariable,
+          OrderType.AttributeBinding,
+          OrderType.InputBinding,
+          OrderType.TwoWayBinding,
+          OrderType.OutputBinding,
+        ],
+      },
+    ],
+    data: {
+      expected: '`(i18n-save)`, `type`',
+      actual: '`type`, `(i18n-save)`',
+    },
+    annotatedOutput: `
+      <button (i18n-save)="save()" type="button"></button>
               
     `,
   }),
