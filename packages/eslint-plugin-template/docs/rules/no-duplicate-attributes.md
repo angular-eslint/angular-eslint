@@ -601,6 +601,60 @@ interface Options {
 />
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-duplicate-attributes": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div title="one"title="two"></div>
+     ~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-duplicate-attributes": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div id=keep  title="one" title="two"></div>
+              ~~~~~~~~~~~ ~~~~~~~~~~~
+```
+
 </details>
 
 <br>

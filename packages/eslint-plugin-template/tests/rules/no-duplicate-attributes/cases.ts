@@ -856,4 +856,72 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       },
     ],
   }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should keep a separator when the next attribute has no whitespace before it',
+    annotatedSource: `<div title="one"title="two"></div>
+     ~~~~~~~~~~~^^^^^^^^^^^`,
+    messages: [
+      {
+        char: '~',
+        messageId,
+        data: { attributeName: 'title' },
+        suggestions: [
+          {
+            messageId: suggestRemoveAttribute,
+            output: `<div title="two"></div>
+                `,
+            data: { attributeName: 'title' },
+          },
+        ],
+      },
+      {
+        char: '^',
+        messageId,
+        data: { attributeName: 'title' },
+        suggestions: [
+          {
+            messageId: suggestRemoveAttribute,
+            output: `<div title="one"></div>
+                `,
+            data: { attributeName: 'title' },
+          },
+        ],
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should not remove non-HTML whitespace that belongs to an unquoted value',
+    annotatedSource: `<div id=keep\u2003 title="one" title="two"></div>
+              ~~~~~~~~~~~ ^^^^^^^^^^^`,
+    messages: [
+      {
+        char: '~',
+        messageId,
+        data: { attributeName: 'title' },
+        suggestions: [
+          {
+            messageId: suggestRemoveAttribute,
+            output: `<div id=keep\u2003 title="two"></div>
+                          `,
+            data: { attributeName: 'title' },
+          },
+        ],
+      },
+      {
+        char: '^',
+        messageId,
+        data: { attributeName: 'title' },
+        suggestions: [
+          {
+            messageId: suggestRemoveAttribute,
+            output: `<div id=keep\u2003 title="one"></div>
+                          `,
+            data: { attributeName: 'title' },
+          },
+        ],
+      },
+    ],
+  }),
 ];

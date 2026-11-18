@@ -183,9 +183,14 @@ function findDuplicates<
   });
 }
 
+const HTML_WHITESPACE = /[ \t\n\r\f]/;
+
 /**
  * Returns the range covering the attribute and all whitespace directly before
- * it, so that removing it leaves no gap or trailing whitespace behind.
+ * it, so that removing it leaves no gap or trailing whitespace behind. Only
+ * HTML whitespace is removed, since other characters such as U+2003 can be
+ * part of an unquoted attribute value. If another attribute follows with no
+ * whitespace in between, the preceding whitespace is kept to separate it.
  */
 function getAttributeRemovalRange(
   {
@@ -193,11 +198,21 @@ function getAttributeRemovalRange(
   }: TmplAstBoundEvent | TmplAstBoundAttribute | TmplAstTextAttribute,
   text: string,
 ): [number, number] {
+  const end = sourceSpan.end.offset;
   let start = sourceSpan.start.offset;
-  while (start > 0 && /\s/.test(text[start - 1])) {
+  const next = text.charAt(end);
+  if (
+    next !== '' &&
+    next !== '>' &&
+    next !== '/' &&
+    !HTML_WHITESPACE.test(next)
+  ) {
+    return [start, end];
+  }
+  while (start > 0 && HTML_WHITESPACE.test(text[start - 1])) {
     start--;
   }
-  return [start, sourceSpan.end.offset];
+  return [start, end];
 }
 
 export const RULE_DOCS_EXTENSION = {
