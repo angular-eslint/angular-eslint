@@ -78,6 +78,33 @@ interface Options {
 
 <br>
 
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/attributes-order": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div on-click="go()" id="a" title="i18n-"></div>
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
 #### Custom Config
 
 ```json
@@ -1290,6 +1317,132 @@ interface Options {
         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/attributes-order": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [delta]="d" beta="b" alpha="{{ a }}"></div>
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/attributes-order": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<button type="button" [disabled]="busy" title="Hi {{ name }}" i18n-title></button>
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/attributes-order": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<button [title]="label" i18n-title type="button"></button>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/attributes-order": [
+      "error",
+      {
+        "alphabetical": false,
+        "customGroups": [
+          {
+            "groupName": "title",
+            "attributeNamePattern": "^title$"
+          }
+        ],
+        "order": [
+          "title",
+          "STRUCTURAL_DIRECTIVE",
+          "TEMPLATE_REFERENCE",
+          "ATTRIBUTE_BINDING",
+          "INPUT_BINDING",
+          "TWO_WAY_BINDING",
+          "OUTPUT_BINDING"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<button type="button" [title]="label" i18n-title></button>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
 </details>
 
 <br>
@@ -2240,6 +2393,162 @@ interface Options {
 
 ```html
 <button matTooltip="Save changes" matButton type="button"></button>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/attributes-order": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div beta="b" alpha="{{ a }}"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/attributes-order": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<ng-template foo="f" let-value><div></div></ng-template>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/attributes-order": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<button title="Hi {{ name }}" i18n-title type="button"></button>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/attributes-order": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<button type="button" [title]="label" i18n-title></button>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/attributes-order": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div [id]="id" [(title)]="label" i18n-title></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/attributes-order": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<div (i18n-save)="go()" on-click="go()"></div>
 ```
 
 </details>

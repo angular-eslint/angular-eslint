@@ -204,9 +204,38 @@ export const valid: readonly (string | ValidTestCase<Options>)[] = [
     code: `<button matTooltip="Save changes" matButton type="button"></button>`,
     options: materialFirstCustomGroupsOptions,
   },
+  // An interpolated attribute is in the same group as static attributes,
+  // and keeps its source order within that group.
+  '<div beta="b" alpha="{{ a }}"></div>',
+  // So does a `let-*` template variable.
+  '<ng-template foo="f" let-value><div></div></ng-template>',
+  // An `i18n-*` marker is in the same group as the attribute it annotates.
+  '<button title="Hi {{ name }}" i18n-title type="button"></button>',
+  '<button type="button" [title]="label" i18n-title></button>',
+  // An `i18n-*` marker stays in the group of the two-way binding it annotates.
+  '<div [id]="id" [(title)]="label" i18n-title></div>',
+  // `i18n-` in a binding name is not a marker, so `on-click` stays an output.
+  '<div (i18n-save)="go()" on-click="go()"></div>',
 ];
 
 export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should not treat i18n- in an attribute value as an i18n marker',
+    annotatedSource: `
+      <div on-click="go()" id="a" title="i18n-"></div>
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    data: {
+      expected: '`id`, `title`, `(click)`',
+      actual: '`(click)`, `id`, `title`',
+    },
+    annotatedOutput: `
+      <div id="a" title="i18n-" on-click="go()"></div>
+           
+    `,
+  }),
   convertAnnotatedSourceToFailureCase({
     messageId,
     description: 'should work for simple attributes',
@@ -934,6 +963,89 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     },
     annotatedOutput: `
       <button matButton matTooltip="Save changes" type="button"></button>
+              
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should keep the source order of static and interpolated attributes',
+    annotatedSource: `
+      <div [delta]="d" beta="b" alpha="{{ a }}"></div>
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    data: {
+      expected: '`beta`, `alpha`, `[delta]`',
+      actual: '`[delta]`, `beta`, `alpha`',
+    },
+    annotatedOutput: `
+      <div beta="b" alpha="{{ a }}" [delta]="d"></div>
+           
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should keep an i18n marker next to its interpolated attribute when reordering',
+    annotatedSource: `
+      <button type="button" [disabled]="busy" title="Hi {{ name }}" i18n-title></button>
+                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    data: {
+      expected: '`title`, `i18n-title`, `[disabled]`',
+      actual: '`[disabled]`, `title`, `i18n-title`',
+    },
+    annotatedOutput: `
+      <button type="button" title="Hi {{ name }}" i18n-title [disabled]="busy"></button>
+                            
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should keep an i18n marker next to its input binding when reordering',
+    annotatedSource: `
+      <button [title]="label" i18n-title type="button"></button>
+              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    data: {
+      expected: '`type`, `[title]`, `i18n-title`',
+      actual: '`[title]`, `i18n-title`, `type`',
+    },
+    annotatedOutput: `
+      <button type="button" [title]="label" i18n-title></button>
+              
+    `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should move an i18n marker for an input binding together with it into a custom group',
+    annotatedSource: `
+      <button type="button" [title]="label" i18n-title></button>
+              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    `,
+    options: [
+      {
+        alphabetical: false,
+        customGroups: [{ groupName: 'title', attributeNamePattern: '^title$' }],
+        order: [
+          'title',
+          OrderType.StructuralDirective,
+          OrderType.TemplateReferenceVariable,
+          OrderType.AttributeBinding,
+          OrderType.InputBinding,
+          OrderType.TwoWayBinding,
+          OrderType.OutputBinding,
+        ],
+      },
+    ],
+    data: {
+      expected: '`[title]`, `i18n-title`, `type`',
+      actual: '`type`, `[title]`, `i18n-title`',
+    },
+    annotatedOutput: `
+      <button [title]="label" i18n-title type="button"></button>
               
     `,
   }),
