@@ -188,20 +188,10 @@ export default createESLintRule<Options, MessageIds>({
           return;
         }
 
-        const sortedAttributes = [...allAttributes].sort(byLocation);
-        const sourceIndexes = new Map(
-          sortedAttributes.map((attr, index) => [attr, index]),
-        );
+        const sortedAttributes = allAttributes.sort(byLocation);
 
-        const expectedAttributes = allAttributes
-          .map((attr, index) =>
-            toRankedAttribute(
-              attr,
-              index,
-              sourceIndexes.get(attr) ?? index,
-              getRank,
-            ),
-          )
+        const expectedAttributes = sortedAttributes
+          .map((attr, index) => toRankedAttribute(attr, index, getRank))
           .sort(alphabetical ? byRankThenName : byRankThenPosition)
           .map(({ attr }) => attr);
 
@@ -280,11 +270,7 @@ interface RankedAttribute extends Rank {
   /** The attribute's name with any `i18n-` marker prefix removed. */
   readonly normalizedName: string;
   readonly isI18nMarker: boolean;
-  /**
-   * The tie-breaker used when `alphabetical` is `false`. Custom groups keep
-   * source order. Built-in groups keep the order in which the attributes
-   * were collected, which is what the rule has always done.
-   */
+  /** The attribute's index in source order, used as the tie-breaker. */
   readonly position: number;
 }
 
@@ -381,8 +367,7 @@ function createRankResolver(
 
 function toRankedAttribute(
   attr: SortableAttribute,
-  index: number,
-  sourceIndex: number,
+  position: number,
   getRank: (attr: SortableAttribute, lookupName: string) => Rank,
 ): RankedAttribute {
   const name = attr.keySpan?.details ?? attr.name;
@@ -400,7 +385,7 @@ function toRankedAttribute(
     ...rank,
     normalizedName,
     isI18nMarker,
-    position: rank.isCustomGroup ? sourceIndex : index,
+    position,
   };
 }
 
@@ -443,20 +428,18 @@ function getAllAttributes(
 ): SortableAttribute[] {
   // If there are any i18n attributes (either associated with the
   // element itself, or with any attribute or input), then we need
-  // to use the HTML parser to get the attributes because the i18n
-  // metadata does not contain the spans of the i18n attributes.
-  if (node.i18n) {
-    return getAttributesFromHtmlParser(node, filename, node.inputs);
+  // to use the HTML parser to get the attributes because the template
+  // AST drops them. Angular only attaches i18n metadata to the inputs
+  // and attributes that it translates, so an `i18n-*` marker for a
+  // bound input such as `[title]` has to be found in the source text.
+  if (node.i18n || node.startSourceSpan.toString().includes('i18n-')) {
+    return getAttributesFromHtmlParser(node, filename);
   }
   const { attributes, inputs, outputs, references } = node;
   const extendedInputs: ExtendedTmplAstBoundAttribute[] = [];
   const attributeBindings: ExtendedTmplAstTextAttribute[] = [];
 
   for (const input of inputs) {
-    if (input.i18n) {
-      return getAttributesFromHtmlParser(node, filename, node.inputs);
-    }
-
     // Some attributes are parsed as inputs by the Angular template parser,
     // but they don't have square brackets. We don't want those attributes
     // to be classified as inputs because they look like regular attributes.
@@ -471,9 +454,6 @@ function getAllAttributes(
   }
 
   for (const attribute of attributes) {
-    if (attribute.i18n) {
-      return getAttributesFromHtmlParser(node, filename, node.inputs);
-    }
     attributeBindings.push(toAttributeBindingOrderType(attribute));
   }
 
@@ -744,7 +724,6 @@ function adjustLocation(
 function getAttributesFromHtmlParser(
   node: ExtendedTmplAstElement | TmplAstTemplate,
   filename: string,
-  inputs: TmplAstBoundAttribute[],
 ): SortableAttribute[] {
   // The template AST does not include the spans for i18n attributes.
   // To get their spans, we can re-parse just the element as HTML.
@@ -758,32 +737,51 @@ function getAttributesFromHtmlParser(
   const parser = new HtmlParser();
   const tree = parser.parse(html, filename, { preserveLineEndings: true });
   const element = tree.rootNodes.find((n) => n instanceof Element);
-  if (element) {
-    return element.attrs.map((attribute) => ({
-      ...getHtmlAttributeNameAndOrderType(attribute, inputs),
-      fromHtmlParser: true,
-      // The HTML element was at the start of the string which means the
-      // offset of each element will be relative to the start of the element.
-      // To get the offset of the attribute in the template, we need to
-      // move each span forward by the offset of the span in the template.
-      sourceSpan: new ParseSourceSpan(
-        node.startSourceSpan.start.moveBy(attribute.sourceSpan.start.offset),
-        node.startSourceSpan.start.moveBy(attribute.sourceSpan.end.offset),
-      ),
-      keySpan: attribute.keySpan
-        ? new ParseSourceSpan(
-            node.startSourceSpan.start.moveBy(attribute.keySpan.start.offset),
-            node.startSourceSpan.start.moveBy(attribute.keySpan.end.offset),
-          )
-        : undefined,
-    }));
+  if (!element) {
+    return [];
   }
-  return [];
+  const attributes: SortableAttribute[] = element.attrs.map((attribute) => ({
+    ...getHtmlAttributeNameAndOrderType(attribute),
+    fromHtmlParser: true,
+    // The HTML element was at the start of the string which means the
+    // offset of each element will be relative to the start of the element.
+    // To get the offset of the attribute in the template, we need to
+    // move each span forward by the offset of the span in the template.
+    sourceSpan: new ParseSourceSpan(
+      node.startSourceSpan.start.moveBy(attribute.sourceSpan.start.offset),
+      node.startSourceSpan.start.moveBy(attribute.sourceSpan.end.offset),
+    ),
+    keySpan: attribute.keySpan
+      ? new ParseSourceSpan(
+          node.startSourceSpan.start.moveBy(attribute.keySpan.start.offset),
+          node.startSourceSpan.start.moveBy(attribute.keySpan.end.offset),
+        )
+      : undefined,
+  }));
+
+  // Put each `i18n-*` marker in the same group as the attribute or input
+  // that it annotates, so that the two stay next to each other. This is
+  // `InputBinding` for `[title]`, but `AttributeBinding` for an
+  // interpolated `title="{{ x }}"`, even though Angular parses both as
+  // inputs. A marker whose attribute isn't on the element stays an
+  // `AttributeBinding`.
+  return attributes.map((attr) => {
+    if (!attr.isI18nForAttribute) {
+      return attr;
+    }
+    const annotatedName = attr.name.replace(I18N_MARKER_PREFIX, '');
+    const annotated = attributes.find(
+      (other) =>
+        other.name === annotatedName &&
+        (other.orderType === OrderType.AttributeBinding ||
+          other.orderType === OrderType.InputBinding),
+    );
+    return annotated ? { ...attr, orderType: annotated.orderType } : attr;
+  });
 }
 
 function getHtmlAttributeNameAndOrderType(
   attr: Attribute,
-  inputs: TmplAstBoundAttribute[],
 ): Pick<SortableAttribute, 'name' | 'orderType' | 'isI18nForAttribute'> {
   if (attr.name.startsWith('#')) {
     return {
@@ -820,24 +818,10 @@ function getHtmlAttributeNameAndOrderType(
     };
   }
 
-  const isI18nForAttribute = attr.name.startsWith('i18n-');
-  let orderType = OrderType.AttributeBinding;
-
-  // If the attribute is an i18n attribute, and it is associated with
-  // an input binding, then treat it as an input binding for ordering,
-  // even though it is a regular attribute. This will keep the i18n
-  // attribute immediately after its corresponding input binding.
-  if (inputs.length > 0 && isI18nForAttribute) {
-    const correspondingName = attr.name.slice(5);
-    if (inputs.some((input) => input.name === correspondingName)) {
-      orderType = OrderType.InputBinding;
-    }
-  }
-
   return {
     name: attr.name,
-    orderType,
-    isI18nForAttribute,
+    orderType: OrderType.AttributeBinding,
+    isI18nForAttribute: I18N_MARKER_PREFIX.test(attr.name),
   };
 }
 
