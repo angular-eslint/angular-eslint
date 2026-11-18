@@ -24,7 +24,7 @@ Ensures that HTML attributes and Angular bindings are sorted based on an expecte
 
 ## Rationale
 
-Consistent ordering of template attributes makes templates easier to read and scan visually. When attributes are always ordered the same way across a codebase (for example: structural directives first, then template references, then inputs, then outputs), developers can quickly locate specific attributes without having to scan randomly-ordered attribute lists. This is especially valuable for elements with many attributes. The rule supports both semantic ordering (grouping by attribute type) and alphabetical sorting within groups, allowing teams to choose the organizational pattern that works best for them.
+Consistent ordering of template attributes makes templates easier to read and scan visually. When attributes are always ordered the same way across a codebase (for example: structural directives first, then template references, then inputs, then outputs), developers can quickly locate specific attributes without having to scan randomly-ordered attribute lists. This is especially valuable for elements with many attributes. The rule supports both semantic ordering (grouping by attribute type) and alphabetical sorting within groups, allowing teams to choose the organizational pattern that works best for them. The `customGroups` option adds named groups, matched by a regular expression on the attribute or binding name, that can be placed anywhere in `order`. This keeps related attributes together, such as the inputs and attributes of a design system or component library.
 
 <br>
 
@@ -39,68 +39,28 @@ interface Options {
    */
   alphabetical?: boolean;
   /**
+   * The expected order of groups. It must contain every built-in group exactly once, plus the `groupName` of every entry in `customGroups`.
+   *
    * Default: `["STRUCTURAL_DIRECTIVE","TEMPLATE_REFERENCE","ATTRIBUTE_BINDING","INPUT_BINDING","TWO_WAY_BINDING","OUTPUT_BINDING"]`
    *
    * @minItems 6
    */
-  order?: [
-    (
-      | "STRUCTURAL_DIRECTIVE"
-      | "TEMPLATE_REFERENCE"
-      | "ATTRIBUTE_BINDING"
-      | "INPUT_BINDING"
-      | "TWO_WAY_BINDING"
-      | "OUTPUT_BINDING"
-    ),
-    (
-      | "STRUCTURAL_DIRECTIVE"
-      | "TEMPLATE_REFERENCE"
-      | "ATTRIBUTE_BINDING"
-      | "INPUT_BINDING"
-      | "TWO_WAY_BINDING"
-      | "OUTPUT_BINDING"
-    ),
-    (
-      | "STRUCTURAL_DIRECTIVE"
-      | "TEMPLATE_REFERENCE"
-      | "ATTRIBUTE_BINDING"
-      | "INPUT_BINDING"
-      | "TWO_WAY_BINDING"
-      | "OUTPUT_BINDING"
-    ),
-    (
-      | "STRUCTURAL_DIRECTIVE"
-      | "TEMPLATE_REFERENCE"
-      | "ATTRIBUTE_BINDING"
-      | "INPUT_BINDING"
-      | "TWO_WAY_BINDING"
-      | "OUTPUT_BINDING"
-    ),
-    (
-      | "STRUCTURAL_DIRECTIVE"
-      | "TEMPLATE_REFERENCE"
-      | "ATTRIBUTE_BINDING"
-      | "INPUT_BINDING"
-      | "TWO_WAY_BINDING"
-      | "OUTPUT_BINDING"
-    ),
-    (
-      | "STRUCTURAL_DIRECTIVE"
-      | "TEMPLATE_REFERENCE"
-      | "ATTRIBUTE_BINDING"
-      | "INPUT_BINDING"
-      | "TWO_WAY_BINDING"
-      | "OUTPUT_BINDING"
-    ),
-    ...(
-      | "STRUCTURAL_DIRECTIVE"
-      | "TEMPLATE_REFERENCE"
-      | "ATTRIBUTE_BINDING"
-      | "INPUT_BINDING"
-      | "TWO_WAY_BINDING"
-      | "OUTPUT_BINDING"
-    )[]
-  ];
+  order?: [string, string, string, string, string, string, ...string[]];
+  /**
+   * Extra groups that can be placed anywhere in `order`. An attribute or binding whose name matches `attributeNamePattern` moves out of its built-in group into the custom group, whatever its binding type. The pattern is tested against the name that the rule reports, without its binding syntax: `^neo` matches `neoSize`, `[neoSize]`, `(neoSizeChange)`, `*neoIf` and `#neoRef`, but not `[attr.neo-label]` or `let-neoItem`. An `i18n-*` marker is matched using the name of the attribute it annotates, so it always stays in the same group as that attribute. When several custom groups match, the first one in this list wins. Within a custom group, attributes are sorted alphabetically if `alphabetical` is `true`, and otherwise keep their source order.
+   *
+   * Default: `[]`
+   */
+  customGroups?: {
+    /**
+     * The name to use for this group in `order`. It must not be a built-in group name.
+     */
+    groupName: string;
+    /**
+     * A regular expression, without flags, tested against the attribute or binding name. It is not anchored, so use `^` to match a prefix.
+     */
+    attributeNamePattern: string;
+  }[];
 }
 
 ```
@@ -1000,6 +960,336 @@ interface Options {
                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ```
 
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/attributes-order": [
+      "error",
+      {
+        "alphabetical": true,
+        "customGroups": [
+          {
+            "groupName": "neoAttr",
+            "attributeNamePattern": "^neo"
+          }
+        ],
+        "order": [
+          "STRUCTURAL_DIRECTIVE",
+          "TEMPLATE_REFERENCE",
+          "neoAttr",
+          "ATTRIBUTE_BINDING",
+          "INPUT_BINDING",
+          "TWO_WAY_BINDING",
+          "OUTPUT_BINDING"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<button *ngIf="flag" class="c" neoAlignment="a" neoButton type="button" [color]="x" [neoSize]="s" (click)="h()"></button>
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/attributes-order": [
+      "error",
+      {
+        "alphabetical": false,
+        "customGroups": [
+          {
+            "groupName": "neoAttr",
+            "attributeNamePattern": "^neo"
+          }
+        ],
+        "order": [
+          "STRUCTURAL_DIRECTIVE",
+          "TEMPLATE_REFERENCE",
+          "neoAttr",
+          "ATTRIBUTE_BINDING",
+          "INPUT_BINDING",
+          "TWO_WAY_BINDING",
+          "OUTPUT_BINDING"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<button class="primary" neoButton [neoSize]="size" neoAlignment="start"></button>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/attributes-order": [
+      "error",
+      {
+        "alphabetical": true,
+        "customGroups": [
+          {
+            "groupName": "neoAttr",
+            "attributeNamePattern": "^neo"
+          }
+        ],
+        "order": [
+          "STRUCTURAL_DIRECTIVE",
+          "TEMPLATE_REFERENCE",
+          "neoAttr",
+          "ATTRIBUTE_BINDING",
+          "INPUT_BINDING",
+          "TWO_WAY_BINDING",
+          "OUTPUT_BINDING"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<button neoValue="Save" i18n-neoValue #neoValue></button>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/attributes-order": [
+      "error",
+      {
+        "alphabetical": false,
+        "customGroups": [
+          {
+            "groupName": "i18nSave",
+            "attributeNamePattern": "^i18n-save$"
+          }
+        ],
+        "order": [
+          "i18nSave",
+          "STRUCTURAL_DIRECTIVE",
+          "TEMPLATE_REFERENCE",
+          "ATTRIBUTE_BINDING",
+          "INPUT_BINDING",
+          "TWO_WAY_BINDING",
+          "OUTPUT_BINDING"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<button type="button" (i18n-save)="save()"></button>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/attributes-order": [
+      "error",
+      {
+        "alphabetical": false,
+        "customGroups": [
+          {
+            "groupName": "tooltip",
+            "attributeNamePattern": "^matTooltip"
+          },
+          {
+            "groupName": "material",
+            "attributeNamePattern": "^mat"
+          }
+        ],
+        "order": [
+          "STRUCTURAL_DIRECTIVE",
+          "TEMPLATE_REFERENCE",
+          "material",
+          "tooltip",
+          "ATTRIBUTE_BINDING",
+          "INPUT_BINDING",
+          "TWO_WAY_BINDING",
+          "OUTPUT_BINDING"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<button type="button" matTooltip="Save changes" i18n-matTooltip></button>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/attributes-order": [
+      "error",
+      {
+        "alphabetical": true,
+        "customGroups": [
+          {
+            "groupName": "tooltip",
+            "attributeNamePattern": "^matTooltip"
+          },
+          {
+            "groupName": "material",
+            "attributeNamePattern": "^mat"
+          }
+        ],
+        "order": [
+          "STRUCTURAL_DIRECTIVE",
+          "TEMPLATE_REFERENCE",
+          "material",
+          "tooltip",
+          "ATTRIBUTE_BINDING",
+          "INPUT_BINDING",
+          "TWO_WAY_BINDING",
+          "OUTPUT_BINDING"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<button matTooltip="Save changes" type="button" i18n-matTooltip></button>
+                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/attributes-order": [
+      "error",
+      {
+        "alphabetical": false,
+        "customGroups": [
+          {
+            "groupName": "tooltip",
+            "attributeNamePattern": "^matTooltip"
+          },
+          {
+            "groupName": "material",
+            "attributeNamePattern": "^mat"
+          }
+        ],
+        "order": [
+          "STRUCTURAL_DIRECTIVE",
+          "TEMPLATE_REFERENCE",
+          "material",
+          "tooltip",
+          "ATTRIBUTE_BINDING",
+          "INPUT_BINDING",
+          "TWO_WAY_BINDING",
+          "OUTPUT_BINDING"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<button matTooltip="Save changes" matButton type="button"></button>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
 </details>
 
 <br>
@@ -1610,6 +1900,346 @@ interface Options {
 
 ```html
 <div alpha="a" beta="{{ b }}" (gamma)="g()" [delta]="d"></div>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/attributes-order": [
+      "error",
+      {
+        "alphabetical": true,
+        "customGroups": [
+          {
+            "groupName": "neoAttr",
+            "attributeNamePattern": "^neo"
+          }
+        ],
+        "order": [
+          "STRUCTURAL_DIRECTIVE",
+          "TEMPLATE_REFERENCE",
+          "neoAttr",
+          "ATTRIBUTE_BINDING",
+          "INPUT_BINDING",
+          "TWO_WAY_BINDING",
+          "OUTPUT_BINDING"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<button *ngIf="flag" neoAlignment="a" neoButton [neoSize]="s" neoThing="t" class="c" type="button" [color]="x" (click)="h()"></button>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/attributes-order": [
+      "error",
+      {
+        "alphabetical": false,
+        "customGroups": [
+          {
+            "groupName": "neoAttr",
+            "attributeNamePattern": "^neo"
+          }
+        ],
+        "order": [
+          "STRUCTURAL_DIRECTIVE",
+          "TEMPLATE_REFERENCE",
+          "neoAttr",
+          "ATTRIBUTE_BINDING",
+          "INPUT_BINDING",
+          "TWO_WAY_BINDING",
+          "OUTPUT_BINDING"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<button neoButton [neoSize]="size" neoAlignment="start" type="button" (click)="save()"></button>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/attributes-order": [
+      "error",
+      {
+        "alphabetical": false,
+        "customGroups": [
+          {
+            "groupName": "tooltip",
+            "attributeNamePattern": "^matTooltip"
+          },
+          {
+            "groupName": "material",
+            "attributeNamePattern": "^mat"
+          }
+        ],
+        "order": [
+          "STRUCTURAL_DIRECTIVE",
+          "TEMPLATE_REFERENCE",
+          "material",
+          "tooltip",
+          "ATTRIBUTE_BINDING",
+          "INPUT_BINDING",
+          "TWO_WAY_BINDING",
+          "OUTPUT_BINDING"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<button
+  #saveButton
+  matButton="filled"
+  [matBadge]="unsavedCount"
+  matTooltip="Save changes"
+  i18n-matTooltip
+  [matTooltipDisabled]="saving"
+  type="submit"
+  [disabled]="saving"
+  (click)="save()"
+>
+  Save
+</button>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/attributes-order": [
+      "error",
+      {
+        "alphabetical": true,
+        "customGroups": [
+          {
+            "groupName": "neoAttr",
+            "attributeNamePattern": "^neo"
+          }
+        ],
+        "order": [
+          "STRUCTURAL_DIRECTIVE",
+          "TEMPLATE_REFERENCE",
+          "neoAttr",
+          "ATTRIBUTE_BINDING",
+          "INPUT_BINDING",
+          "TWO_WAY_BINDING",
+          "OUTPUT_BINDING"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<button #neoValue neoValue="Save" i18n-neoValue></button>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/attributes-order": [
+      "error",
+      {
+        "alphabetical": false,
+        "customGroups": [
+          {
+            "groupName": "tooltip",
+            "attributeNamePattern": "^matTooltip"
+          },
+          {
+            "groupName": "material",
+            "attributeNamePattern": "^mat"
+          }
+        ],
+        "order": [
+          "STRUCTURAL_DIRECTIVE",
+          "TEMPLATE_REFERENCE",
+          "material",
+          "tooltip",
+          "ATTRIBUTE_BINDING",
+          "INPUT_BINDING",
+          "TWO_WAY_BINDING",
+          "OUTPUT_BINDING"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<button matButton matTooltip="Save changes" i18n-matTooltip type="button"></button>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/attributes-order": [
+      "error",
+      {
+        "alphabetical": true,
+        "customGroups": [
+          {
+            "groupName": "tooltip",
+            "attributeNamePattern": "^matTooltip"
+          },
+          {
+            "groupName": "material",
+            "attributeNamePattern": "^mat"
+          }
+        ],
+        "order": [
+          "STRUCTURAL_DIRECTIVE",
+          "TEMPLATE_REFERENCE",
+          "material",
+          "tooltip",
+          "ATTRIBUTE_BINDING",
+          "INPUT_BINDING",
+          "TWO_WAY_BINDING",
+          "OUTPUT_BINDING"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<button matTooltip="Delete {{ name }}" i18n-matTooltip type="button"></button>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/attributes-order": [
+      "error",
+      {
+        "alphabetical": false,
+        "customGroups": [
+          {
+            "groupName": "material",
+            "attributeNamePattern": "^mat"
+          },
+          {
+            "groupName": "tooltip",
+            "attributeNamePattern": "^matTooltip"
+          }
+        ],
+        "order": [
+          "STRUCTURAL_DIRECTIVE",
+          "TEMPLATE_REFERENCE",
+          "material",
+          "tooltip",
+          "ATTRIBUTE_BINDING",
+          "INPUT_BINDING",
+          "TWO_WAY_BINDING",
+          "OUTPUT_BINDING"
+        ]
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<button matTooltip="Save changes" matButton type="button"></button>
 ```
 
 </details>
