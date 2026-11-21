@@ -1,6 +1,7 @@
 import type {
   AST,
   TmplAstBoundAttribute,
+  TmplAstBoundaryErrorBlock,
   TmplAstIfBlockBranch,
   TmplAstLetDeclaration,
   TmplAstSwitchBlock,
@@ -134,6 +135,13 @@ export default createESLintRule<Options, MessageIds>({
         }
       },
       IfBlockBranch({ expression }: TmplAstIfBlockBranch) {
+        if (!expression) {
+          return;
+        }
+
+        checkControlFlowExpression(expression);
+      },
+      BoundaryErrorBlock({ expression }: TmplAstBoundaryErrorBlock) {
         if (!expression) {
           return;
         }

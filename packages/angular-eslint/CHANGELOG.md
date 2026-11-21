@@ -1,3 +1,15 @@
+## 22.8.0 (2026-11-18)
+
+### 🚀 Features
+
+- **eslint-plugin:** add `no-global-document` rule ([#3297](https://github.com/angular-eslint/angular-eslint/pull/3297))
+- **eslint-plugin-template:** add no-multi-token-class-key rule ([#3268](https://github.com/angular-eslint/angular-eslint/pull/3268))
+
+### ❤️ Thank You
+
+- Steffen Schroeder
+- Surkov Sergei @SynTronic
+
 ## 22.7.0 (2026-11-15)
 
 ### 🚀 Features

@@ -91,4 +91,102 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       `,
     messageId,
   }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail and autofix with double quotes if the attribute value uses single quotes',
+    annotatedSource: `
+        <img src='{{ url }}'>
+                  ~~~~~~~~~
+      `,
+    messageId,
+    annotatedOutput: `
+        <img [src]="url">
+                  
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail and autofix with single quotes if the expression contains double quotes',
+    annotatedSource: `
+        <img src='{{ "a" + b }}'>
+                  ~~~~~~~~~~~~~
+      `,
+    messageId,
+    annotatedOutput: `
+        <img [src]='"a" + b'>
+                  
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail and autofix with double quotes if the attribute value is unquoted',
+    annotatedSource: `
+        <img src={{url}}>
+                 ~~~~~~~
+      `,
+    messageId,
+    annotatedOutput: `
+        <img [src]="url">
+                 
+      `,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail on the whole attribute value and not autofix if the expression contains HTML entities',
+    annotatedSource: `
+        <div title="{{ a &amp;&amp; b }}"></div>
+                    ~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail and not autofix if a bare & comes before an entity in the expression',
+    annotatedSource: `
+        <div title="{{ 'a & b &amp;' }}"></div>
+                    ~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail and not autofix an attribute with i18n metadata',
+    annotatedSource: `
+        <div i18n-title="@@id" title="{{ name }}"></div>
+                                      ~~~~~~~~~~
+      `,
+    messageId,
+  }),
+  {
+    // The value starts with a newline. The report starts on the attribute's
+    // line, so an eslint-disable-next-line comment above it still applies.
+    code: '<img alt="\n{{ name }}">',
+    errors: [{ messageId, line: 1, column: 11, endLine: 2, endColumn: 11 }],
+  },
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail on the whole attribute value and not autofix if the value contains HTML entities after the interpolation',
+    annotatedSource: `
+        <div title="{{ a }}&amp;b"></div>
+                    ~~~~~~~~~~~~~
+      `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail and not autofix if the opening interpolation delimiter is written as HTML entities',
+    annotatedSource: `
+        <div title="&#123;&#123; a }}"></div>
+                    ~~~~~~~~~~~~~~~~~
+      `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail and not autofix if the closing interpolation delimiter is written as HTML entities',
+    annotatedSource: `
+        <div title="{{ a &#125;&#125;"></div>
+                    ~~~~~~~~~~~~~~~~~
+      `,
+    messageId,
+  }),
 ];

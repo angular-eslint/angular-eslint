@@ -27,10 +27,19 @@ export enum OrderType {
   TwoWayBinding = 'TWO_WAY_BINDING',
 }
 
+export interface CustomGroup {
+  readonly groupName: string;
+  readonly attributeNamePattern: string;
+}
+
 export type Options = [
   {
     readonly alphabetical: boolean;
-    readonly order: readonly OrderType[];
+    /**
+     * The built-in `OrderType` values, plus the `groupName` of each custom group.
+     */
+    readonly order: readonly string[];
+    readonly customGroups?: readonly CustomGroup[];
   },
 ];
 
@@ -81,7 +90,12 @@ const DEFAULT_ORDER = [
 const DEFAULT_OPTIONS: Options[number] = {
   alphabetical: false,
   order: [...DEFAULT_ORDER],
+  customGroups: [],
 };
+
+const BUILT_IN_ORDER_TYPES: readonly string[] = Object.values(OrderType);
+
+const I18N_MARKER_PREFIX = /^i18n-/;
 
 export default createESLintRule<Options, MessageIds>({
   name: RULE_NAME,
@@ -102,13 +116,41 @@ export default createESLintRule<Options, MessageIds>({
           },
           order: {
             type: 'array',
+            description:
+              'The expected order of groups. It must contain every built-in group exactly once, plus the `groupName` of every entry in `customGroups`.',
             items: {
               type: 'string',
-              enum: DEFAULT_OPTIONS.order as string[],
+              minLength: 1,
             },
             default: DEFAULT_OPTIONS.order as string[],
             minItems: DEFAULT_OPTIONS.order.length,
             uniqueItems: true,
+          },
+          customGroups: {
+            type: 'array',
+            description:
+              'Extra groups that can be placed anywhere in `order`. An attribute or binding whose name matches `attributeNamePattern` moves out of its built-in group into the custom group, whatever its binding type. The pattern is tested against the name that the rule reports, without its binding syntax: `^neo` matches `neoSize`, `[neoSize]`, `(neoSizeChange)`, `*neoIf` and `#neoRef`, but not `[attr.neo-label]` or `let-neoItem`. An `i18n-*` marker is matched using the name of the attribute it annotates, so it always stays in the same group as that attribute. When several custom groups match, the first one in this list wins. Within a custom group, attributes are sorted alphabetically if `alphabetical` is `true`, and otherwise keep their source order.',
+            items: {
+              type: 'object',
+              properties: {
+                groupName: {
+                  type: 'string',
+                  description:
+                    'The name to use for this group in `order`. It must not be a built-in group name.',
+                  minLength: 1,
+                  not: { type: 'string', enum: [...BUILT_IN_ORDER_TYPES] },
+                },
+                attributeNamePattern: {
+                  type: 'string',
+                  description:
+                    'A regular expression, without flags, tested against the attribute or binding name. It is not anchored, so use `^` to match a prefix.',
+                  minLength: 1,
+                },
+              },
+              required: ['groupName', 'attributeNamePattern'],
+              additionalProperties: false,
+            },
+            default: [],
           },
         },
         additionalProperties: false,
@@ -119,7 +161,8 @@ export default createESLintRule<Options, MessageIds>({
     },
     defaultOptions: [DEFAULT_OPTIONS],
   },
-  create(context, [{ alphabetical, order }]) {
+  create(context, [{ alphabetical, order, customGroups = [] }]) {
+    const getRank = createRankResolver(order, customGroups);
     const parserServices = getTemplateParserServices(context);
 
     function getLocation(attr: SortableAttribute): TSESTree.SourceLocation {
@@ -145,11 +188,12 @@ export default createESLintRule<Options, MessageIds>({
           return;
         }
 
-        const sortedAttributes = [...allAttributes].sort(byLocation);
+        const sortedAttributes = allAttributes.sort(byLocation);
 
-        const expectedAttributes = [...allAttributes].sort(
-          byOrder(order, alphabetical),
-        );
+        const expectedAttributes = sortedAttributes
+          .map((attr, index) => toRankedAttribute(attr, index, getRank))
+          .sort(alphabetical ? byRankThenName : byRankThenPosition)
+          .map(({ attr }) => attr);
 
         let errorRange: [number, number] | undefined;
 
@@ -215,30 +259,166 @@ function byLocation(one: SortableAttribute, other: SortableAttribute) {
     : one.sourceSpan.start.line - other.sourceSpan.start.line;
 }
 
-function byOrder(order: readonly OrderType[], alphabetical: boolean) {
-  return function (one: SortableAttribute, other: SortableAttribute) {
-    const orderComparison =
-      getOrderIndex(one, order) - getOrderIndex(other, order);
+interface Rank {
+  /** The index of the attribute's group in `order`. */
+  readonly groupIndex: number;
+  readonly isCustomGroup: boolean;
+}
 
-    if (alphabetical && orderComparison === 0) {
-      const oneName = one.keySpan?.details ?? one.name;
-      const oneNormalised = oneName.replace(/^i18n-/, '');
-      const otherName = other.keySpan?.details ?? other.name;
-      const otherNormalised = otherName.replace(/^i18n-/, '');
+interface RankedAttribute extends Rank {
+  readonly attr: SortableAttribute;
+  /** The attribute's name with any `i18n-` marker prefix removed. */
+  readonly normalizedName: string;
+  readonly isI18nMarker: boolean;
+  /** The attribute's index in source order, used as the tie-breaker. */
+  readonly position: number;
+}
 
-      if (oneNormalised === otherNormalised) {
-        return /^i18n-/.test(oneName) ? 1 : -1;
-      }
+/**
+ * Validates `order` against `customGroups`, compiles each pattern once,
+ * and returns a function that resolves the rank of an attribute name.
+ *
+ * The parts of the options that the JSON Schema can't express (pattern
+ * syntax, unique group names, every built-in group being in `order`, and
+ * the link between `order` and `customGroups`) are checked here when the
+ * rule is created.
+ */
+function createRankResolver(
+  order: readonly string[],
+  customGroups: readonly CustomGroup[],
+): (attr: SortableAttribute, lookupName: string) => Rank {
+  const groupIndexes = new Map(order.map((entry, index) => [entry, index]));
+  const compiledGroups: { groupIndex: number; pattern: RegExp }[] = [];
+  const customGroupNames = new Set<string>();
 
-      return oneNormalised > otherNormalised ? 1 : -1;
+  for (const { groupName, attributeNamePattern } of customGroups) {
+    if (customGroupNames.has(groupName)) {
+      throw new Error(
+        `${RULE_NAME}: the custom group name "${groupName}" is used more than once in \`customGroups\`.`,
+      );
     }
+    customGroupNames.add(groupName);
+    const groupIndex = groupIndexes.get(groupName);
+    if (groupIndex === undefined) {
+      throw new Error(
+        `${RULE_NAME}: the custom group "${groupName}" must be listed in \`order\`.`,
+      );
+    }
+    let pattern: RegExp;
+    try {
+      pattern = new RegExp(attributeNamePattern);
+    } catch (error) {
+      throw new Error(
+        `${RULE_NAME}: the \`attributeNamePattern\` of the custom group "${groupName}" is not a valid regular expression: ${(error as Error).message}`,
+        { cause: error },
+      );
+    }
+    compiledGroups.push({ groupIndex, pattern });
+  }
 
-    return orderComparison;
+  for (const orderType of BUILT_IN_ORDER_TYPES) {
+    if (!groupIndexes.has(orderType)) {
+      throw new Error(
+        `${RULE_NAME}: \`order\` must include the built-in group "${orderType}".`,
+      );
+    }
+  }
+
+  for (const entry of order) {
+    if (!BUILT_IN_ORDER_TYPES.includes(entry) && !customGroupNames.has(entry)) {
+      throw new Error(
+        `${RULE_NAME}: "${entry}" in \`order\` is neither a built-in group nor a \`groupName\` from \`customGroups\`.`,
+      );
+    }
+  }
+
+  const builtInRanks = new Map(
+    BUILT_IN_ORDER_TYPES.map((orderType) => [
+      orderType,
+      {
+        groupIndex: groupIndexes.get(orderType) as number,
+        isCustomGroup: false,
+      },
+    ]),
+  );
+
+  if (compiledGroups.length === 0) {
+    return (attr) => builtInRanks.get(attr.orderType) as Rank;
+  }
+
+  // Names repeat a lot across a template (`class`, `id`, `(click)` and so
+  // on), so test each distinct name against the patterns only once.
+  const customRanks = new Map<string, Rank | null>();
+
+  return (attr, lookupName) => {
+    let rank = customRanks.get(lookupName);
+    if (rank === undefined) {
+      const group = compiledGroups.find(({ pattern }) =>
+        pattern.test(lookupName),
+      );
+      rank = group
+        ? { groupIndex: group.groupIndex, isCustomGroup: true }
+        : null;
+      customRanks.set(lookupName, rank);
+    }
+    return rank ?? (builtInRanks.get(attr.orderType) as Rank);
   };
 }
 
-function getOrderIndex(attr: SortableAttribute, order: readonly OrderType[]) {
-  return order.indexOf(attr.orderType);
+function toRankedAttribute(
+  attr: SortableAttribute,
+  position: number,
+  getRank: (attr: SortableAttribute, lookupName: string) => Rank,
+): RankedAttribute {
+  const name = attr.keySpan?.details ?? attr.name;
+  // Only plain `i18n-*` attributes are translation markers. A binding such
+  // as `(i18n-save)` keeps its full name.
+  const isI18nMarker = attr.isI18nForAttribute === true;
+  const normalizedName = isI18nMarker
+    ? name.replace(I18N_MARKER_PREFIX, '')
+    : name;
+  // An `i18n-*` marker is looked up by the name of the attribute it
+  // annotates, so the two always end up in the same custom group.
+  const rank = getRank(attr, normalizedName);
+  return {
+    attr,
+    ...rank,
+    normalizedName,
+    isI18nMarker,
+    position,
+  };
+}
+
+function byRankThenPosition(one: RankedAttribute, other: RankedAttribute) {
+  return one.groupIndex - other.groupIndex || one.position - other.position;
+}
+
+function byRankThenName(one: RankedAttribute, other: RankedAttribute) {
+  const orderComparison = one.groupIndex - other.groupIndex;
+  if (orderComparison !== 0) {
+    return orderComparison;
+  }
+  if (one.normalizedName !== other.normalizedName) {
+    return one.normalizedName > other.normalizedName ? 1 : -1;
+  }
+  // Attributes with the same name can come from different binding types
+  // once a custom group pulls them together, e.g. `#neoValue` and
+  // `neoValue`. Put the kinds an `i18n-*` marker can annotate last and the
+  // marker after them, so the marker stays next to its attribute, and fall
+  // back to position so that the order is stable.
+  return (
+    sameNameRank(one) - sameNameRank(other) || one.position - other.position
+  );
+}
+
+function sameNameRank({ attr, isI18nMarker }: RankedAttribute): number {
+  if (isI18nMarker) {
+    return 2;
+  }
+  return attr.orderType === OrderType.AttributeBinding ||
+    attr.orderType === OrderType.InputBinding
+    ? 1
+    : 0;
 }
 
 function getAllAttributes(
@@ -248,20 +428,27 @@ function getAllAttributes(
 ): SortableAttribute[] {
   // If there are any i18n attributes (either associated with the
   // element itself, or with any attribute or input), then we need
-  // to use the HTML parser to get the attributes because the i18n
-  // metadata does not contain the spans of the i18n attributes.
+  // to use the HTML parser to get the attributes because the template
+  // AST drops them. Angular only attaches i18n metadata to the inputs
+  // and attributes that it translates, so an `i18n-*` marker for a
+  // bound input such as `[title]` has to be found in the source text.
+  // The substring check is only a cheap filter (it also matches values
+  // and bindings such as `(i18n-save)`), so only use the HTML parser's
+  // attributes if they include a real marker.
   if (node.i18n) {
-    return getAttributesFromHtmlParser(node, filename, node.inputs);
+    return getAttributesFromHtmlParser(node, filename);
+  }
+  if (node.startSourceSpan.toString().includes('i18n-')) {
+    const htmlAttributes = getAttributesFromHtmlParser(node, filename);
+    if (htmlAttributes.some(({ isI18nForAttribute }) => isI18nForAttribute)) {
+      return htmlAttributes;
+    }
   }
   const { attributes, inputs, outputs, references } = node;
   const extendedInputs: ExtendedTmplAstBoundAttribute[] = [];
   const attributeBindings: ExtendedTmplAstTextAttribute[] = [];
 
   for (const input of inputs) {
-    if (input.i18n) {
-      return getAttributesFromHtmlParser(node, filename, node.inputs);
-    }
-
     // Some attributes are parsed as inputs by the Angular template parser,
     // but they don't have square brackets. We don't want those attributes
     // to be classified as inputs because they look like regular attributes.
@@ -276,9 +463,6 @@ function getAllAttributes(
   }
 
   for (const attribute of attributes) {
-    if (attribute.i18n) {
-      return getAttributesFromHtmlParser(node, filename, node.inputs);
-    }
     attributeBindings.push(toAttributeBindingOrderType(attribute));
   }
 
@@ -549,7 +733,6 @@ function adjustLocation(
 function getAttributesFromHtmlParser(
   node: ExtendedTmplAstElement | TmplAstTemplate,
   filename: string,
-  inputs: TmplAstBoundAttribute[],
 ): SortableAttribute[] {
   // The template AST does not include the spans for i18n attributes.
   // To get their spans, we can re-parse just the element as HTML.
@@ -563,32 +746,59 @@ function getAttributesFromHtmlParser(
   const parser = new HtmlParser();
   const tree = parser.parse(html, filename, { preserveLineEndings: true });
   const element = tree.rootNodes.find((n) => n instanceof Element);
-  if (element) {
-    return element.attrs.map((attribute) => ({
-      ...getHtmlAttributeNameAndOrderType(attribute, inputs),
-      fromHtmlParser: true,
-      // The HTML element was at the start of the string which means the
-      // offset of each element will be relative to the start of the element.
-      // To get the offset of the attribute in the template, we need to
-      // move each span forward by the offset of the span in the template.
-      sourceSpan: new ParseSourceSpan(
-        node.startSourceSpan.start.moveBy(attribute.sourceSpan.start.offset),
-        node.startSourceSpan.start.moveBy(attribute.sourceSpan.end.offset),
-      ),
-      keySpan: attribute.keySpan
-        ? new ParseSourceSpan(
-            node.startSourceSpan.start.moveBy(attribute.keySpan.start.offset),
-            node.startSourceSpan.start.moveBy(attribute.keySpan.end.offset),
-          )
-        : undefined,
-    }));
+  if (!element) {
+    return [];
   }
-  return [];
+  const attributes: SortableAttribute[] = element.attrs.map((attribute) => ({
+    ...getHtmlAttributeNameAndOrderType(attribute),
+    fromHtmlParser: true,
+    // The HTML element was at the start of the string which means the
+    // offset of each element will be relative to the start of the element.
+    // To get the offset of the attribute in the template, we need to
+    // move each span forward by the offset of the span in the template.
+    sourceSpan: new ParseSourceSpan(
+      node.startSourceSpan.start.moveBy(attribute.sourceSpan.start.offset),
+      node.startSourceSpan.start.moveBy(attribute.sourceSpan.end.offset),
+    ),
+    keySpan: attribute.keySpan
+      ? new ParseSourceSpan(
+          node.startSourceSpan.start.moveBy(attribute.keySpan.start.offset),
+          node.startSourceSpan.start.moveBy(attribute.keySpan.end.offset),
+        )
+      : undefined,
+  }));
+
+  // Put each `i18n-*` marker in the same group as the attribute or input
+  // that it annotates, so that the two stay next to each other. This is
+  // `InputBinding` for `[title]`, but `AttributeBinding` for an
+  // interpolated `title="{{ x }}"`, even though Angular parses both as
+  // inputs. A marker whose attribute isn't on the element stays an
+  // `AttributeBinding`.
+  const annotatableOrderTypes = new Map<string, OrderType>();
+  for (const { name, orderType, isI18nForAttribute } of attributes) {
+    if (
+      !isI18nForAttribute &&
+      (orderType === OrderType.AttributeBinding ||
+        orderType === OrderType.InputBinding ||
+        orderType === OrderType.TwoWayBinding) &&
+      !annotatableOrderTypes.has(name)
+    ) {
+      annotatableOrderTypes.set(name, orderType);
+    }
+  }
+  return attributes.map((attr) => {
+    if (!attr.isI18nForAttribute) {
+      return attr;
+    }
+    const orderType = annotatableOrderTypes.get(
+      attr.name.replace(I18N_MARKER_PREFIX, ''),
+    );
+    return orderType ? { ...attr, orderType } : attr;
+  });
 }
 
 function getHtmlAttributeNameAndOrderType(
   attr: Attribute,
-  inputs: TmplAstBoundAttribute[],
 ): Pick<SortableAttribute, 'name' | 'orderType' | 'isI18nForAttribute'> {
   if (attr.name.startsWith('#')) {
     return {
@@ -625,28 +835,14 @@ function getHtmlAttributeNameAndOrderType(
     };
   }
 
-  const isI18nForAttribute = attr.name.startsWith('i18n-');
-  let orderType = OrderType.AttributeBinding;
-
-  // If the attribute is an i18n attribute, and it is associated with
-  // an input binding, then treat it as an input binding for ordering,
-  // even though it is a regular attribute. This will keep the i18n
-  // attribute immediately after its corresponding input binding.
-  if (inputs.length > 0 && isI18nForAttribute) {
-    const correspondingName = attr.name.slice(5);
-    if (inputs.some((input) => input.name === correspondingName)) {
-      orderType = OrderType.InputBinding;
-    }
-  }
-
   return {
     name: attr.name,
-    orderType,
-    isI18nForAttribute,
+    orderType: OrderType.AttributeBinding,
+    isI18nForAttribute: I18N_MARKER_PREFIX.test(attr.name),
   };
 }
 
 export const RULE_DOCS_EXTENSION = {
   rationale:
-    'Consistent ordering of template attributes makes templates easier to read and scan visually. When attributes are always ordered the same way across a codebase (for example: structural directives first, then template references, then inputs, then outputs), developers can quickly locate specific attributes without having to scan randomly-ordered attribute lists. This is especially valuable for elements with many attributes. The rule supports both semantic ordering (grouping by attribute type) and alphabetical sorting within groups, allowing teams to choose the organizational pattern that works best for them.',
+    'Consistent ordering of template attributes makes templates easier to read and scan visually. When attributes are always ordered the same way across a codebase (for example: structural directives first, then template references, then inputs, then outputs), developers can quickly locate specific attributes without having to scan randomly-ordered attribute lists. This is especially valuable for elements with many attributes. The rule supports both semantic ordering (grouping by attribute type) and alphabetical sorting within groups, allowing teams to choose the organizational pattern that works best for them. The `customGroups` option adds named groups, matched by a regular expression on the attribute or binding name, that can be placed anywhere in `order`. This keeps related attributes together, such as the inputs and attributes of a design system or component library.',
 };

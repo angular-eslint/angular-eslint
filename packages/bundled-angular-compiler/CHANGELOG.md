@@ -1,3 +1,7 @@
+## 22.8.0 (2026-11-18)
+
+This was a version bump only for bundled-angular-compiler to align it with other projects, there were no code changes.
+
 ## 22.7.0 (2026-11-15)
 
 This was a version bump only for bundled-angular-compiler to align it with other projects, there were no code changes.

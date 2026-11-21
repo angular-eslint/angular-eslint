@@ -1,3 +1,33 @@
+## 22.8.0 (2026-11-18)
+
+### 🚀 Features
+
+- **eslint-plugin:** add `no-global-document` rule ([#3297](https://github.com/angular-eslint/angular-eslint/pull/3297))
+- **eslint-plugin-template:** add no-multi-token-class-key rule ([#3268](https://github.com/angular-eslint/angular-eslint/pull/3268))
+- **eslint-plugin-template:** add customGroups to attributes-order ([#3306](https://github.com/angular-eslint/angular-eslint/pull/3306))
+
+### 🩹 Fixes
+
+- update typescript-eslint packages to v8.72.2 ([#3348](https://github.com/angular-eslint/angular-eslint/pull/3348))
+- **eslint-plugin-template:** [prefer-let-for-async-pipe] scope ng-content and @error, match parentheses and template literals ([#3344](https://github.com/angular-eslint/angular-eslint/pull/3344))
+- **eslint-plugin-template:** [no-multi-token-class-key] make split suggestions conservative ([#3345](https://github.com/angular-eslint/angular-eslint/pull/3345))
+- **eslint-plugin-template:** map inline template fixes for escaped template strings ([#3352](https://github.com/angular-eslint/angular-eslint/pull/3352))
+- **eslint-plugin-template:** [conditional-complexity] check @error (when ...) conditions ([#3356](https://github.com/angular-eslint/angular-eslint/pull/3356))
+- **eslint-plugin-template:** map inline style fixes correctly in files with a BOM ([#3357](https://github.com/angular-eslint/angular-eslint/pull/3357))
+- **eslint-plugin-template:** [no-interpolation-in-attributes] fix quotes, entities and i18n ([#3358](https://github.com/angular-eslint/angular-eslint/pull/3358))
+- **eslint-plugin-template:** [no-duplicate-attributes] use source offsets for removal suggestion ([#3360](https://github.com/angular-eslint/angular-eslint/pull/3360))
+- **eslint-plugin-template:** [prefer-template-literal] keep literal text in merged template literals ([#3361](https://github.com/angular-eslint/angular-eslint/pull/3361))
+- **eslint-plugin-template:** [attributes-order] keep source order and i18n markers together ([#3359](https://github.com/angular-eslint/angular-eslint/pull/3359))
+- **template-parser:** scope the line offsets cache to a single parse ([#3355](https://github.com/angular-eslint/angular-eslint/pull/3355))
+
+### ❤️ Thank You
+
+- AI-JamesHenry @AI-JamesHenry
+- Ivan Krivonos
+- JamesHenry @JamesHenry
+- Steffen Schroeder
+- Surkov Sergei @SynTronic
+
 ## 22.7.0 (2026-11-15)
 
 ### 🚀 Features

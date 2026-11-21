@@ -17596,6 +17596,29 @@ describe('parseForESLint()', () => {
     });
   });
 
+  it('should compute expression locations from the template being parsed', () => {
+    function getInterpolatedPropertyReadLoc(code: string) {
+      const { ast } = parseForESLint(code, { filePath: './foo.html' });
+      // BoundText -> ASTWithSource -> Interpolation -> PropertyRead
+      return ast.templateNodes[0].value.ast.expressions[0].loc;
+    }
+
+    // Parse different templates one after another so that a stale or shared
+    // line offsets cache would produce the wrong line/column for the second
+    expect(getInterpolatedPropertyReadLoc('{{ foo }}')).toEqual({
+      start: { line: 1, column: 3 },
+      end: { line: 1, column: 6 },
+    });
+    expect(getInterpolatedPropertyReadLoc('{{\n\n    foo }}')).toEqual({
+      start: { line: 3, column: 4 },
+      end: { line: 3, column: 7 },
+    });
+    expect(getInterpolatedPropertyReadLoc('{{ foo }}')).toEqual({
+      start: { line: 1, column: 3 },
+      end: { line: 1, column: 6 },
+    });
+  });
+
   it('should allow acquiring scope from returned ast', () => {
     const result = parseForESLint('<div></div>', { filePath: './foo.html' });
 
