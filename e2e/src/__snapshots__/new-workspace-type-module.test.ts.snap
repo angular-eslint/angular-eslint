@@ -11,7 +11,7 @@ exports[`new-workspace-type-module > should pass linting after creating a new wo
   "jsdom": "^30.0.0",
   "prettier": "^3.8.1",
   "typescript": "~6.X.X",
-  "typescript-eslint": "8.72.2",
+  "typescript-eslint": "8.73.0",
   "vitest": "^5.0.0"
 }
 `;
