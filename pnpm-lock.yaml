@@ -340,8 +340,8 @@ catalogs:
       specifier: 9.1.2
       version: 9.1.2
     ignore:
-      specifier: 7.0.14
-      version: 7.0.14
+      specifier: 7.0.16
+      version: 7.0.16
     semver:
       specifier: 7.8.6
       version: 7.8.6
@@ -665,7 +665,7 @@ importers:
         version: link:../eslint-plugin-template
       ignore:
         specifier: catalog:other-runtime-dependencies
-        version: 7.0.14
+        version: 7.0.16
       semver:
         specifier: catalog:other-runtime-dependencies
         version: 7.8.6
@@ -4583,8 +4583,8 @@ packages:
     resolution: {integrity: sha512-/8UvqAPU9DGTI9k4mxtf49U37Isfwr8Uts96+SBHIkFxPJnHS0Ew4f00sM4Scd8V8EjM0jUNtVDdv1kPdt35lg==}
     engines: {node: '>= 4'}
 
-  ignore@7.0.14:
-    resolution: {integrity: sha512-wCBiZ77u1tuWde6G/nfOtLaCTYcFDU5yCzARzK10y+rLhzYoL7a7yEemcopcc2Mzow7gZOIjnV2ym1NYmdiJOQ==}
+  ignore@7.0.16:
+    resolution: {integrity: sha512-52N+Y4HRMOJmbLmr+DqO4iSRyyB7N52gm7PWCT6h0p978+oKbqHCB7gIJIwZvBUsjlSdWbrBFqUSmIFNZMpn0A==}
     engines: {node: '>= 4'}
 
   import-fresh@3.3.1:
@@ -8263,7 +8263,7 @@ snapshots:
       chalk: 4.1.2
       columnify: 1.6.0
       detect-port: 2.1.0
-      ignore: 7.0.14
+      ignore: 7.0.16
       js-tokens: 4.0.0
       jsonc-parser: 3.3.1
       npm-run-path: 4.0.1
@@ -8830,7 +8830,7 @@ snapshots:
       '@typescript-eslint/utils': 8.72.2(eslint@10.15.0(jiti@2.6.1)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3)
       '@typescript-eslint/visitor-keys': 8.72.2
       eslint: 10.15.0(jiti@2.6.1)(supports-color@7.2.0)
-      ignore: 7.0.14
+      ignore: 7.0.16
       natural-compare: 1.4.0
       ts-api-utils: 2.5.0(typescript@6.0.3)
       typescript: 6.0.3
@@ -8846,7 +8846,7 @@ snapshots:
       '@typescript-eslint/utils': 8.72.2(eslint@10.15.0(jiti@2.6.1)(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3)
       '@typescript-eslint/visitor-keys': 8.72.2
       eslint: 10.15.0(jiti@2.6.1)(supports-color@8.1.1)
-      ignore: 7.0.14
+      ignore: 7.0.16
       natural-compare: 1.4.0
       ts-api-utils: 2.5.0(typescript@6.0.3)
       typescript: 6.0.3
@@ -10856,7 +10856,7 @@ snapshots:
 
   ignore@7.0.12: {}
 
-  ignore@7.0.14: {}
+  ignore@7.0.16: {}
 
   import-fresh@3.3.1:
     dependencies:
