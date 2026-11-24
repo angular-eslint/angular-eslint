@@ -1,0 +1,119 @@
+# yaml-language-server: $schema=https://cloud.nx.app/nx-cloud/static/schemas/workflow.schema.json
+name: CI
+
+on:
+  pull-requests:
+    event: PR
+    branches: [main, 'next-major-release/**']
+  main-pushes:
+    event: PUSH
+    branches: [main]
+
+launch-templates:
+  custom-linux-medium-js:
+    resource-class: 'docker_linux_amd64/medium'
+    image: 'ubuntu22.04-node20.19-v2'
+    init-steps: &init-steps
+      - name: checkout repo
+        uses: 'nrwl/nx-cloud-workflows/v5/workflow-steps/checkout/main.yaml'
+        env:
+          GIT_FETCH_TAGS: 'true'
+      - name: Set git data for e2e test repos
+        script: |
+          git config --global user.email "john.doe@example.com"
+          git config --global user.name "John Doe"
+      # Uses NODE_VERSION if the launch template sets it, otherwise the volta.node property in package.json
+      - name: Install Node
+        uses: 'nrwl/nx-cloud-workflows/v4/workflow-steps/install-node/main.yaml'
+      - name: Print node version
+        script: node --version
+      - name: node_modules cache
+        uses: 'nrwl/nx-cloud-workflows/v5/workflow-steps/cache/main.yaml'
+        inputs:
+          key: 'pnpm-lock.yaml'
+          paths: 'node_modules'
+          baseBranch: 'main'
+      - name: pnpm install
+        uses: 'nrwl/nx-cloud-workflows/v5/workflow-steps/install-node-modules/main.yaml'
+        env:
+          SKIP_POSTINSTALL: 'true'
+
+  # Additionally supported node versions taken from:
+  # https://angular.dev/reference/versions
+  custom-linux-medium-js-node-22:
+    resource-class: 'docker_linux_amd64/medium'
+    image: 'ubuntu22.04-node20.19-v2'
+    env:
+      NODE_VERSION: '22'
+    init-steps: *init-steps
+
+  custom-linux-medium-js-node-24:
+    resource-class: 'docker_linux_amd64/medium'
+    image: 'ubuntu22.04-node20.19-v2'
+    env:
+      NODE_VERSION: '24'
+    init-steps: *init-steps
+
+jobs:
+  main:
+    name: Main
+    runs-on: custom-linux-medium-js
+    workers:
+      workers: 6 custom-linux-medium-js
+      # The main job doesn't take any distributed tasks, only the 6 workers do
+      main-job-worker: false
+      # The e2e tests share ports and the local registry, so never run two of them on one worker at once
+      scheduling-constraints:
+        - targets: ['e2e-ci**']
+          cannot-run-with: [{ targets: ['e2e-ci**'] }]
+      stop-after:
+        - e2e-ci
+    steps:
+      - name: Check clean workspace after install
+        run: pnpm check-clean-workspace-after-install
+
+      - name: Formatting and config file checks
+        run: |
+          pnpm nx-cloud record -- pnpm format-check
+          pnpm nx-cloud record -- pnpm nx sync:check
+
+      - name: Check Angular schemas are in sync with @schematics/angular
+        # This must run before (and not alongside) the distributed tasks below, because it rewrites
+        # the schema files which the schematics build copies into dist
+        run: pnpm check-angular-schemas --no-dte
+
+      - name: Run parallel distributed tasks for build, typecheck, unit tests with coverage, check-rule-docs, check-rule-lists, check-rule-configs, lint targets, and atomized e2e tests
+        # Note that the typecheck target *also* typechecks tests and tools,
+        # whereas the build only checks src files
+        run: pnpm nx run-many -t build typecheck test check-rule-docs lint check-rule-lists check-rule-configs e2e-ci --configuration ci
+
+      - name: Collect coverage data from Nx Cloud cache
+        # Re-run the test:ci target directly on the main job to pull down the coverage outputs
+        run: pnpm nx run-many -t test --configuration ci --no-dte
+
+      - name: Publish code coverage report
+        continue-on-error: true
+        run: pnpm exec tsx tools/scripts/upload-coverage.ts
+        env:
+          # Not available on pull requests from forks, which use tokenless uploads instead
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # The build and unit tests only take 1-2 minutes on each additional node version, so it is not worth starting extra workers to distribute them
+  node_22:
+    name: Build and unit tests on Node 22
+    runs-on: custom-linux-medium-js-node-22
+    workers: false
+    steps:
+      # One command, so that builds which the tests do not need can run alongside them
+      - name: Run build and test targets
+        run: pnpm nx run-many -t build test
+
+  node_24:
+    name: Build and unit tests on Node 24
+    runs-on: custom-linux-medium-js-node-24
+    workers: false
+    steps:
+      # One command, so that builds which the tests do not need can run alongside them
+      - name: Run build and test targets
+        run: pnpm nx run-many -t build test
