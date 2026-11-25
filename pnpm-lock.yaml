@@ -177,8 +177,8 @@ catalogs:
       specifier: 22.2.7
       version: 22.2.7
     '@angular/compiler':
-      specifier: 22.2.6
-      version: 22.2.6
+      specifier: 22.2.7
+      version: 22.2.7
     '@commitlint/cli':
       specifier: 21.2.4
       version: 21.2.4
@@ -377,7 +377,7 @@ importers:
         version: 22.2.7(@types/node@26.6.6)
       '@angular/compiler':
         specifier: 'catalog:'
-        version: 22.2.6
+        version: 22.2.7
       '@commitlint/cli':
         specifier: 'catalog:'
         version: 21.2.4(conventional-commits-parser@7.0.1)(typescript@6.0.3)
@@ -759,8 +759,8 @@ packages:
     engines: {node: ^22.22.3 || ^24.15.0 || >=26.0.0, npm: ^6.11.0 || ^7.5.6 || >=8.0.0, yarn: '>= 1.13.0'}
     hasBin: true
 
-  '@angular/compiler@22.2.6':
-    resolution: {integrity: sha512-9QNqLAG+bqsTRDZZbggX50sS9NyWx3ACfgeLKUAaHPzebQXtIsAYIT6H8HNpR27GHJ2qJHi9yEm84hAJsKZCuQ==}
+  '@angular/compiler@22.2.7':
+    resolution: {integrity: sha512-LXXRfhLWmBAnMkRzGVuQTek43Xh19d2dvn2uCC+P7v95MnZbdFjf527uj7WJxYWkti3MQI7VjEjbHX5c0PUSdA==}
     engines: {node: ^22.22.3 || ^24.15.0 || >=26.0.0}
 
   '@apidevtools/json-schema-ref-parser@11.9.3':
@@ -6536,7 +6536,7 @@ snapshots:
       - '@types/node'
       - chokidar
 
-  '@angular/compiler@22.2.6':
+  '@angular/compiler@22.2.7':
     dependencies:
       tslib: 2.9.1
 
