@@ -184,7 +184,6 @@
   "namedInputs": {
     "default": ["{projectRoot}/**/*", "sharedGlobals", "projectSpecificFiles"],
     "sharedGlobals": [
-      "{workspaceRoot}/.github/workflows/ci.yml",
       {
         "runtime": "node -e 'console.log(`${process.platform}-${process.arch}`)'"
       },
