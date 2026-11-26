@@ -280,7 +280,6 @@ exports[`parseForESLint() > ng-content > should support fallback content 1`] = `
                       "value": "Hello!",
                     },
                   ],
-                  "directives": [],
                   "endSourceSpan": ParseSourceSpan {
                     "details": null,
                     "end": ParseLocation {
