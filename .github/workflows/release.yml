@@ -1,10 +1,8 @@
 name: Release
 
 on:
-  # Triggered by completed CI runs (we check for successful status in the validate job) on main branch for canary releases
-  workflow_run:
-    workflows: ['CI']
-    types: [completed]
+  # Triggered by pushes to the main branch for canary releases (we wait for Nx Cloud CI to succeed in the validate job)
+  push:
     branches: [main]
 
   # Manual trigger for out of band releases and next major version prereleases
@@ -38,11 +36,6 @@ on:
         type: boolean
         default: false
 
-# Ensure only one release workflow runs at a time
-concurrency:
-  group: release
-  cancel-in-progress: false
-
 # Minimal permissions by default
 permissions:
   contents: read
@@ -54,6 +47,9 @@ jobs:
     runs-on: ubuntu-latest
     # Only run on the official repository to avoid wasted compute and unnecessary errors on forks (also an initial albeit weak first layer of protection against unauthorized releases)
     if: github.repository == 'angular-eslint/angular-eslint'
+    timeout-minutes: 60
+    permissions:
+      statuses: read # Required to wait for Nx Cloud CI
     outputs:
       should_release: ${{ steps.validate.outputs.should_release }}
       release_type: ${{ steps.validate.outputs.release_type }}
@@ -64,6 +60,28 @@ jobs:
       first_release: ${{ steps.validate.outputs.first_release }}
       override_major_version: ${{ steps.validate.outputs.override_major_version }}
     steps:
+      - name: Wait for Nx Cloud CI to complete
+        id: ci
+        if: github.event_name == 'push'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          while true; do
+            # SECURITY: Anyone with write access can create a commit status, so only trust the Nx Cloud GitHub App.
+            # The statuses are in reverse chronological order.
+            STATE=$(gh api "repos/$GITHUB_REPOSITORY/commits/$GITHUB_SHA/statuses?per_page=100" \
+              --jq '[.[] | select(.context == "Nx Cloud: CI" and .creator.login == "nx-cloud[bot]")][0].state // "pending"') || STATE="pending"
+            if [[ "$STATE" != "pending" ]]; then
+              break
+            fi
+            echo "Waiting for Nx Cloud CI to complete..."
+            sleep 20
+          done
+          echo "Nx Cloud CI completed: $STATE"
+          echo "state=$STATE" >> $GITHUB_OUTPUT
+          # Lets the validate step skip the canary job for superseded commits, instead of only skipping its publish step after building
+          echo "main_sha=$(git ls-remote "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY" refs/heads/main | cut -f1)" >> $GITHUB_OUTPUT
+
       - name: Validate inputs and determine release type
         id: validate
         env:
@@ -80,15 +98,15 @@ jobs:
           if [[ "${{ github.event_name }}" == "schedule" ]]; then
             RELEASE_TYPE="stable"
             SHOULD_RELEASE="true"
-          elif [[ "${{ github.event_name }}" == "workflow_run" ]]; then
-            # Only release canary if the CI workflow succeeded
-            if [[ "${{ github.event.workflow_run.conclusion }}" == "success" ]]; then
-              RELEASE_TYPE="canary"
-              SHOULD_RELEASE="true"
+          elif [[ "${{ github.event_name }}" == "push" ]]; then
+            RELEASE_TYPE="canary"
+            # Only release canary if Nx Cloud CI succeeded and the commit is still the latest on main
+            if [[ "${{ steps.ci.outputs.state }}" != "success" ]]; then
+              echo "Nx Cloud CI did not succeed, skipping canary release"
+            elif [[ "${{ steps.ci.outputs.main_sha }}" != "$GITHUB_SHA" ]]; then
+              echo "$GITHUB_SHA is no longer the latest commit on main, skipping canary release"
             else
-              echo "CI workflow did not succeed, skipping canary release"
-              RELEASE_TYPE="canary"
-              SHOULD_RELEASE="false"
+              SHOULD_RELEASE="true"
             fi
           elif [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
             RELEASE_TYPE="$INPUT_RELEASE_TYPE"
@@ -136,7 +154,7 @@ jobs:
           if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
             echo "dry_run=${INPUT_DRY_RUN:-true}" >> $GITHUB_OUTPUT
           else
-            # Automated releases (schedule, workflow_run) are never dry runs
+            # Automated releases (schedule, push) are never dry runs
             echo "dry_run=false" >> $GITHUB_OUTPUT
           fi
 
@@ -180,7 +198,12 @@ jobs:
     needs: [validate]
     # Only run on the official repository to avoid wasted compute and unnecessary errors on forks (also an initial albeit weak first layer of protection against unauthorized releases)
     # Also ensure validation passed and we're releasing a canary version
-    if: github.repository == 'angular-eslint/angular-eslint' && needs.validate.outputs.should_release == 'true' && needs.validate.outputs.is_canary == 'true'
+    # Re-running only this job reuses the outputs of the validate job, and github.actor remains the original actor, so manual releases must also check who triggered this attempt
+    if: github.repository == 'angular-eslint/angular-eslint' && needs.validate.outputs.should_release == 'true' && needs.validate.outputs.is_canary == 'true' && (github.event_name != 'workflow_dispatch' || github.triggering_actor == 'JamesHenry')
+    # Ensure only one release job runs at a time
+    concurrency:
+      group: release
+      cancel-in-progress: false
     permissions:
       contents: read # No need to write to the repository for canary releases
       id-token: write # Required for trusted publishing
@@ -227,7 +250,20 @@ jobs:
           # Use the validated override major version from the validate job, if set
           OVERRIDE_MAJOR_VERSION: ${{ needs.validate.outputs.override_major_version }}
 
+      - name: Check that the commit has not been superseded
+        id: head
+        if: github.event_name == 'push'
+        # A newer commit can be pushed while this job runs, and re-running only this job reuses the outputs of the validate job, so check again right before publishing so the canary tag never moves backwards
+        run: |
+          git fetch --quiet origin main
+          SHA=$(git rev-parse FETCH_HEAD)
+          if [[ "$SHA" != "$GITHUB_SHA" ]]; then
+            echo "::notice::$GITHUB_SHA is no longer the latest commit on main, skipping canary release"
+          fi
+          echo "sha=$SHA" >> $GITHUB_OUTPUT
+
       - name: Publish canary packages
+        if: github.event_name != 'push' || steps.head.outputs.sha == github.sha
         run: pnpm nx release publish --tag canary --verbose --dry-run=${{ needs.validate.outputs.dry_run }} --first-release=${{ needs.validate.outputs.first_release }}
         env:
           # Enable npm provenance
@@ -242,7 +278,12 @@ jobs:
     needs: [validate]
     # Only run on the official repository to avoid wasted compute and unnecessary errors on forks (also an initial albeit weak first layer of protection against unauthorized releases)
     # Also ensure validation passed and we're releasing a stable version
-    if: github.repository == 'angular-eslint/angular-eslint' && needs.validate.outputs.should_release == 'true' && needs.validate.outputs.is_stable == 'true'
+    # Re-running only this job reuses the outputs of the validate job, and github.actor remains the original actor, so manual releases must also check who triggered this attempt
+    if: github.repository == 'angular-eslint/angular-eslint' && needs.validate.outputs.should_release == 'true' && needs.validate.outputs.is_stable == 'true' && (github.event_name != 'workflow_dispatch' || github.triggering_actor == 'JamesHenry')
+    # Ensure only one release job runs at a time
+    concurrency:
+      group: release
+      cancel-in-progress: false
     permissions:
       contents: read
       id-token: write # Required for trusted publishing
