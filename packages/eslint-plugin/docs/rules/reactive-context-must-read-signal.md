@@ -23,7 +23,7 @@ Ensures that reactive contexts such as computed(), linkedSignal() and effect() r
 
 ## Rationale
 
-Reactive contexts like `computed()`, `linkedSignal()`, `effect()` and `afterRenderEffect()` re-run whenever a signal they read changes. If the relevant function never reads a signal, the context runs once and can never react to anything, so it adds overhead without providing reactivity. This is usually a mistake: either the developer forgot to call a signal (e.g. wrote `firstName` instead of `firstName()`), or the value is actually static and should be a plain constant, a `signal()`, or an `afterNextRender()` in the case of `afterRenderEffect()`. To avoid false positives, the rule only reports when everything the tracked function does is known not to read a signal. Calls into the TypeScript standard library (arrays, strings, `Math`, `JSON`, `console`, DOM APIs, etc.) are known to be safe, except `call()` and `apply()`, which run the function they are called on. Anything else keeps the rule silent, including a helper function, a service method, a getter, an unresolved symbol, and any Angular API such as `untracked()`. One known limitation: a standard library call that reaches user code through a protocol method, such as `toJSON()` in `JSON.stringify()` or `toString()` in a template literal, is still treated as safe, so a signal read inside such a method is not detected. For `resource()`/`rxResource()` only the `params` function defines the dependencies, and these are opt-in via the `checkResources` option.
+Reactive contexts like `computed()`, `linkedSignal()`, `effect()` and `afterRenderEffect()` re-run whenever a signal they read changes. If the relevant function never reads a signal, the context runs once and can never react to anything, so it adds overhead without providing reactivity. This is usually a mistake: either the developer forgot to call a signal (e.g. wrote `firstName` instead of `firstName()`), or the value is actually static and should be a plain constant, a `signal()`, or an `afterNextRender()` in the case of `afterRenderEffect()`. To avoid false positives, the rule only reports when everything the tracked function does is known not to read a signal. Calls into the TypeScript standard library (arrays, strings, `Math`, `JSON`, `console`, DOM APIs, etc.) are known to be safe, except `call()` and `apply()`, which run the function they are called on. Anything else keeps the rule silent, including a helper function, a service method, a getter, an unresolved symbol, and any Angular API such as `untracked()`. With the `followLocalCalls` option, the rule also looks inside functions declared in the same file (a declaration or an unannotated `const`) and inside `private` and `#private` methods and getters used on `this`, so `computed(() => this.label())` is reported when `label()` does not read a signal either. It stays silent when it cannot be sure which code runs (a function from another file, an overridable public or protected member, a decorated member), when the function is a type guard, and when an object argument or result does not have exactly the declared type, which could hide a getter that reads a signal. One known limitation: a standard library call that reaches user code through a protocol method, such as `toJSON()` in `JSON.stringify()` or `toString()` in a template literal, is still treated as safe, so a signal read inside such a method is not detected. Likewise, with `followLocalCalls`, a `private` method or getter that is replaced at runtime, such as by a class decorator or `Object.defineProperty()`, is checked as it is declared. For `resource()`/`rxResource()` only the `params` function defines the dependencies, and these are opt-in via the `checkResources` option.
 
 <br>
 
@@ -39,6 +39,12 @@ interface Options {
    * Default: `false`
    */
   checkResources?: boolean;
+  /**
+   * Look inside functions declared in the same file, and inside `private`/`#private` methods and getters, that a reactive context calls, instead of assuming that they might read a signal.
+   *
+   * Default: `false`
+   */
+  followLocalCalls?: boolean;
 }
 
 ```
@@ -545,6 +551,1109 @@ afterRenderEffect({
 ```ts
 const r = resource({ params: () => 1, loader: () => null });
           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+function helper(): number {
+  return 1;
+}
+const c = computed(() => helper());
+          ~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+export function helper(): number {
+  return 1;
+}
+const c = computed(() => helper());
+          ~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+function compute(): number {
+  return 1;
+}
+const c = computed(compute);
+          ~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+class Test {
+  name = 'x';
+  private label(): string {
+    return this.name.toUpperCase();
+  }
+  c = computed(() => this.label());
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+class Test {
+  saved = false;
+  private async save(): Promise<void> {
+    this.saved = true;
+  }
+  e = effect(() => void this.save());
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+class Test {
+  title = 'x';
+  private buildVm() {
+    return { title: this.title, length: this.title.length };
+  }
+  vm = computed(() => this.buildVm());
+       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  length = computed(() => this.buildVm().length);
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+class Test {
+  name = 'x';
+  #label(): string {
+    return this.name.trim();
+  }
+  c = computed(() => this.#label());
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+class Test {
+  name = 'x';
+  private get label(): string {
+    return this.name.toUpperCase();
+  }
+  c = computed(() => this.label);
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+class Test {
+  name = 'x';
+  get #label(): string {
+    return this.name;
+  }
+  c = computed(() => this.#label);
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+class Test {
+  private format(value: string): string;
+  private format(value: number): string;
+  private format(value: string | number): string {
+    return String(value);
+  }
+  c = computed(() => this.format(1));
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+class Test {
+  name = 'x';
+  private get label(): string {
+    return this.name;
+  }
+  private set label(value: string) {
+    this.name = value;
+  }
+  rename(): void {
+    this.label = 'y';
+  }
+  c = computed(() => this.label);
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+class Test {
+  private static format(value: number): string {
+    return value.toFixed(2);
+  }
+  c = computed(() => Test.format(1));
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+enum Mode {
+  On,
+  Off,
+}
+function describe(
+  flag: boolean,
+  size: bigint,
+  mode: Mode,
+  key: symbol,
+  label: string | null,
+  count?: number,
+): string {
+  return [flag, size, mode, key.description, label, count].join();
+}
+const c = computed(() => describe(true, 1n, Mode.On, Symbol.iterator, null));
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+const format = (value: number) => value.toFixed(2);
+const c = computed(() => format(1));
+          ~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+class Test {
+  items = [1, 2, 3];
+  private double(value: number): number {
+    return value * 2;
+  }
+  c = computed(() => this.items.map(this.double));
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+function format(value: string): string;
+function format(value: number): string;
+function format(value: string | number): string {
+  return String(value);
+}
+const c = computed(() => format(1));
+          ~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+function f1(): number { return f2(); }
+function f2(): number { return f3(); }
+function f3(): number { return f4(); }
+function f4(): number { return f5(); }
+function f5(): number { return f6(); }
+function f6(): number { return 1; }
+const c = computed(() => f1());
+          ~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+class Test {
+  c = computed(() => this.label());
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  name = 'x';
+  private label(): string {
+    return this.name;
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+interface Vm {
+  readonly title: string;
+}
+function defaults(): Vm {
+  return { title: 'x' };
+}
+class Test {
+  title = 'x';
+  private buildVm(): Vm {
+    return { title: this.title };
+  }
+  private get vm(): Vm {
+    return { title: this.title };
+  }
+  a = computed(() => this.buildVm());
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  b = computed(() => { return this.buildVm(); });
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  c = computed(() => this.vm);
+      ~~~~~~~~~~~~~~~~~~~~~~~
+  d = computed(defaults);
+      ~~~~~~~~~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+interface Vm {
+  readonly title: string;
+}
+class Test {
+  title = 'x';
+  private setup(): Vm {
+    return { title: this.title };
+  }
+  private init(): void {
+    this.setup();
+  }
+  a = effect(() => { this.setup(); });
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  b = effect(() => this.init());
+      ~~~~~~~~~~~~~~~~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+interface User {
+  readonly first: string;
+  readonly last: string;
+}
+const GUEST: User = { first: 'Guest', last: '' };
+function fullName(user: User = GUEST): string {
+  return user.first + ' ' + user.last;
+}
+class Test {
+  user: User = { first: 'Ada', last: 'Lovelace' };
+  a = computed(() => fullName(this.user));
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  b = computed(() => fullName());
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+class Test {
+  names = ['a', 'b'];
+  sizes = [1, 2, 3];
+  private tags(): string[] {
+    const tags = this.names.map((name) => {
+      return { text: name.toUpperCase() };
+    });
+    return tags.map((tag) => tag.text);
+  }
+  private total(sizes: readonly number[]): number {
+    return sizes.reduce((sum, size) => sum + size, 0);
+  }
+  private bounds(): [number, number] | undefined {
+    return this.sizes.length ? [this.sizes[0], this.sizes.length] : undefined;
+  }
+  private later(): Promise<number> {
+    return Promise.resolve(this.sizes.length);
+  }
+  private log(size: number): void {
+    console.log(size);
+  }
+  a = computed(() => this.tags().join(', '));
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  b = computed(() => this.total(this.sizes));
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  c = computed(() => this.bounds()?.[0]);
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  d = effect(() => { void this.later().then(this.log); });
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+class Test {
+  names = ['a', ''];
+  private log(name: string): void {
+    if (!name) {
+      return;
+    }
+    console.log(name);
+  }
+  e = effect(() => this.names.forEach((name) => this.log(name)));
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+interface User {
+  readonly name: string;
+}
+class Test {
+  users: User[] = [{ name: 'Ada' }];
+  index = 0;
+  private selected() {
+    if (this.index < 0) {
+      return null;
+    }
+    return this.users[this.index];
+  }
+  private preferred() {
+    if (this.index > 0) {
+      return this.users[this.index];
+    }
+    return this.users[0];
+  }
+  a = computed(() => this.selected()?.name);
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  b = computed(() => this.preferred().name);
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+interface Option {
+  readonly id: number;
+  readonly name: string;
+}
+class Test {
+  options: Option[] = [];
+  fallback: Option = { id: 0, name: 'None' };
+  private selected(): Option | undefined {
+    return this.options.find((option) => option.id === 1);
+  }
+  private get first(): Option {
+    return this.fallback;
+  }
+  a = computed(() => this.selected()?.name);
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  b = computed(() => this.first.name);
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+function double(value: number): number {
+  return value + value;
+}
+class Test {
+  private tick(): void {
+    console.log('tick');
+  }
+  private build(): number {
+    return 1;
+  }
+  a = effect(() => { setTimeout(this.tick, 0); });
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  b = computed(() => [1, 2].map(double));
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  c = computed(this.build);
+      ~~~~~~~~~~~~~~~~~~~~
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+function format(value: string): string;
+function format(value: number): string;
+function format(value: string | number): string {
+  return String(value);
+}
+const c = computed(() => format(1).length);
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```ts
+interface User {
+  readonly name: string;
+}
+const shout = function (text: string): string {
+  return text.toUpperCase();
+};
+class Test {
+  saved: User | undefined;
+  private get user(): User | undefined {
+    return this.saved;
+  }
+  c = computed(() => (this.user ? shout(this.user.name) : ''));
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+}
 ```
 
 </details>
@@ -1665,6 +2774,2785 @@ const callback = ({
 ```ts
 let a: Signal<number>;
 const r = resource({ params: () => a(), loader: () => null });
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+class Test {
+  count: Signal<number> = signal(0);
+  private double(): number {
+    return this.count() * 2;
+  }
+  c = computed(() => this.double());
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+class Test {
+  count: Signal<number> = signal(0);
+  private get double(): number {
+    return this.count() * 2;
+  }
+  c = computed(() => this.double);
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+let a: Signal<number>;
+function compute(): number {
+  return a() * 2;
+}
+const c = computed(compute);
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+class Test {
+  count: Signal<number> = signal(0);
+  private label(value: number = this.count() * 2): string {
+    return String(value);
+  }
+  c = computed(() => this.label());
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+class Test {
+  count: Signal<number> = signal(0);
+  items = [1, 2, 3];
+  private scaled(): number[] {
+    return this.items.map((item) => item * this.count());
+  }
+  c = computed(() => this.scaled());
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+class Test {
+  count: Signal<number> = signal(0);
+  private a(depth: number): number {
+    return depth > 0 ? this.b(depth - 1) : this.count() * 2;
+  }
+  private b(depth: number): number {
+    return this.a(depth);
+  }
+  first = computed(() => this.a(1));
+  // 'b' is checked while 'a' is still being followed.
+  second = computed(() => this.b(1));
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+function factorial(n: number): number {
+  return n <= 1 ? 1 : n * factorial(n - 1);
+}
+const c = computed(() => factorial(5));
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+class Test {
+  name = 'x';
+  label(): string {
+    return this.name;
+  }
+  c = computed(() => this.label());
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+class Test {
+  name = 'x';
+  protected title(): string {
+    return this.name;
+  }
+  c = computed(() => this.title());
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+class Test {
+  name = 'x';
+  get initial(): string {
+    return this.name[0];
+  }
+  c = computed(() => this.initial);
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+class Service {
+  getValue(): number {
+    return 1;
+  }
+}
+class Test {
+  private readonly service = new Service();
+  private value(): number {
+    return this.service.getValue();
+  }
+  private peek(): number {
+    return untracked(() => 1);
+  }
+  a = computed(() => this.value());
+  b = computed(() => this.peek());
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+interface Item {
+  readonly total: number;
+}
+class Line implements Item {
+  qty: Signal<number> = signal(1);
+  get total(): number {
+    return this.qty() * 2;
+  }
+}
+const line = new Line();
+function show(item: Item): string {
+  return String(item.total);
+}
+const c = computed(() => show(line));
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+interface Item {
+  readonly total: number;
+}
+class Line implements Item {
+  qty: Signal<number> = signal(1);
+  get total(): number {
+    return this.qty() * 2;
+  }
+}
+const line = new Line();
+function current(): Item {
+  return line;
+}
+const c = computed(() => current().total);
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+interface Item {
+  readonly total: number;
+}
+class Line implements Item {
+  qty: Signal<number> = signal(1);
+  get total(): number {
+    return this.qty() * 2;
+  }
+}
+const line = new Line();
+function pick(index: 0): Item;
+function pick(index: number) {
+  return line;
+}
+const c = computed(() => pick(0).total);
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+interface Item {
+  readonly total: number;
+}
+class Line implements Item {
+  qty: Signal<number> = signal(1);
+  get total(): number {
+    return this.qty() * 2;
+  }
+}
+const line = new Line();
+const lookUp: () => Item = () => line;
+const c = computed(() => lookUp().total);
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+interface Item {
+  readonly total: number;
+}
+class Line implements Item {
+  qty: Signal<number> = signal(1);
+  get total(): number {
+    return this.qty() * 2;
+  }
+}
+const line = new Line();
+class Test {
+  private current(): Item {
+    return line;
+  }
+  c = linkedSignal({
+    source: () => this.current(),
+    computation: (item: Item) => item.total,
+  });
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+interface Item {
+  readonly total: number;
+}
+class Line implements Item {
+  qty: Signal<number> = signal(1);
+  get total(): number {
+    return this.qty() * 2;
+  }
+}
+const line = new Line();
+class Test {
+  ids = [1, 2];
+  private current(): Item {
+    return line;
+  }
+  c = computed(() => this.ids.map(() => { return this.current(); })[0].total);
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+interface Item {
+  readonly total: number;
+}
+class Line implements Item {
+  qty: Signal<number> = signal(1);
+  get total(): number {
+    return this.qty() * 2;
+  }
+}
+const line = new Line();
+class Test {
+  private current(): Item {
+    return line;
+  }
+  private relay() {
+    return this.current();
+  }
+  c = computed(() => this.relay().total);
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+interface Item {
+  readonly total: number;
+}
+class Line implements Item {
+  qty: Signal<number> = signal(1);
+  get total(): number {
+    return this.qty() * 2;
+  }
+}
+const line = new Line();
+class Test {
+  ids = [1, 2];
+  private byId(id: number): Item {
+    return line;
+  }
+  c = computed(() => this.ids.map(this.byId)[0].total);
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+interface Item {
+  readonly total: number;
+}
+class Line implements Item {
+  qty: Signal<number> = signal(1);
+  get total(): number {
+    return this.qty() * 2;
+  }
+}
+const line = new Line();
+class Test {
+  ids = [1, 2];
+  private current(): Item {
+    return line;
+  }
+  c = computed(() => (this.ids.length ? this.current() : line).total);
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+interface Item {
+  readonly total: number;
+}
+class Line implements Item {
+  qty: Signal<number> = signal(1);
+  get total(): number {
+    return this.qty() * 2;
+  }
+}
+const line = new Line();
+class Test {
+  private current(): Item {
+    return line;
+  }
+  c = computed(() => { const item = this.current(); return item.total; });
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+interface Item {
+  readonly total: number;
+}
+class Line implements Item {
+  qty: Signal<number> = signal(1);
+  get total(): number {
+    return this.qty() * 2;
+  }
+}
+const line = new Line();
+class Test {
+  private current(): Item {
+    return line;
+  }
+  c = linkedSignal({ source: this.current, computation: (item: Item) => item.total });
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+interface Item {
+  readonly total: number;
+}
+class Line implements Item {
+  qty: Signal<number> = signal(1);
+  get total(): number {
+    return this.qty() * 2;
+  }
+}
+const line = new Line();
+const anything: any = line;
+const mystery: unknown = line;
+function readAny(value: any): number {
+  return value.total;
+}
+function readUnknown(value: unknown): number {
+  return (value as Item).total;
+}
+const a = computed(() => readAny(anything));
+const b = computed(() => readUnknown(mystery));
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+interface Item {
+  readonly total: number;
+}
+class Line implements Item {
+  qty: Signal<number> = signal(1);
+  get total(): number {
+    return this.qty() * 2;
+  }
+}
+const line = new Line();
+const pair: [Line, Line] = [line, line];
+function second(first: Line, item: Item): number {
+  return item.total;
+}
+const c = computed(() => second(...pair));
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+interface Item {
+  readonly total: number;
+}
+class Line implements Item {
+  qty: Signal<number> = signal(1);
+  get total(): number {
+    return this.qty() * 2;
+  }
+}
+const line = new Line();
+function fromArguments(item: Line): number {
+  return arguments[0].total;
+}
+const c = computed(() => fromArguments(line));
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+interface Item {
+  readonly total: number;
+}
+class Line implements Item {
+  qty: Signal<number> = signal(1);
+  get total(): number {
+    return this.qty() * 2;
+  }
+}
+const line = new Line();
+function overloaded(item: Line): number;
+function overloaded(item: Item): number {
+  return item.total;
+}
+const c = computed(() => overloaded(line));
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+interface Item {
+  readonly total: number;
+}
+class Line implements Item {
+  qty: Signal<number> = signal(1);
+  get total(): number {
+    return this.qty() * 2;
+  }
+}
+const line = new Line();
+function both(count: number, item: Item): number {
+  return count + item.total;
+}
+const c = computed(() => both(1, line));
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+interface Item {
+  readonly total: number;
+}
+class Line implements Item {
+  qty: Signal<number> = signal(1);
+  get total(): number {
+    return this.qty() * 2;
+  }
+}
+const line = new Line();
+declare const maybe: Line | undefined;
+const tuple: [number, Line] = [1, line];
+function readUnknown(value: unknown): number {
+  return (value as Item).total;
+}
+const a = computed(() => readUnknown(maybe));
+const b = computed(() => readUnknown(tuple));
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+interface Item {
+  readonly total: number;
+}
+class Line implements Item {
+  qty: Signal<number> = signal(1);
+  get total(): number {
+    return this.qty() * 2;
+  }
+  private own(this: Item): number {
+    return this.total;
+  }
+  c = computed(() => this.own());
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+interface Item {
+  readonly total: number;
+}
+class Line implements Item {
+  qty: Signal<number> = signal(1);
+  get total(): number {
+    return this.qty() * 2;
+  }
+}
+class Box<T extends Item> {
+  constructor(readonly value: T) {}
+  private show(): number {
+    return this.value.total;
+  }
+  static watch(box: Box<Line>, boxes: Box<Line>[]) {
+    return [computed(() => box.show()), computed(() => boxes[0].show())];
+  }
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+interface Item {
+  readonly total: number;
+}
+class Line implements Item {
+  qty: Signal<number> = signal(1);
+  get total(): number {
+    return this.qty() * 2;
+  }
+}
+const line = new Line();
+function withDefault(item: Item = line): number {
+  return item.total;
+}
+const c = computed(() => withDefault());
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+interface Item {
+  readonly total: number;
+}
+class Line implements Item {
+  qty: Signal<number> = signal(1);
+  get total(): number {
+    return this.qty() * 2;
+  }
+}
+interface Options {
+  readonly item?: Item;
+}
+const line = new Line();
+const options: Options = {};
+function destructured({ item = line }: Options = options): number {
+  return item.total;
+}
+const c = computed(() => destructured());
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+interface Item {
+  readonly total: number;
+}
+class Line implements Item {
+  qty: Signal<number> = signal(1);
+  get total(): number {
+    return this.qty() * 2;
+  }
+}
+const line = new Line();
+function Make() {
+  return line;
+}
+const c = computed(() => new Make().total);
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+function shout(strings: TemplateStringsArray): string {
+  return strings.join('').toUpperCase();
+}
+const c = computed(() => shout`static`);
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+interface Item {
+  readonly total: number;
+}
+class Line implements Item {
+  qty: Signal<number> = signal(1);
+  get total(): number {
+    return this.qty() * 2;
+  }
+}
+const line = new Line();
+const current = (): Item => line;
+class Test {
+  c = computed(() => current().total);
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+interface Item {
+  readonly total: number;
+}
+class Line implements Item {
+  qty: Signal<number> = signal(1);
+  get total(): number {
+    return this.qty() * 2;
+  }
+}
+const line = new Line();
+function* lines(): Generator<Item, void> {
+  yield line;
+}
+class Test {
+  c = effect(() => { for (const item of lines()) { console.log(item.total); } });
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+interface Item {
+  readonly total: number;
+}
+class Line implements Item {
+  qty: Signal<number> = signal(1);
+  get total(): number {
+    return this.qty() * 2;
+  }
+}
+const line = new Line();
+class Test {
+  lines = [line];
+  private get first() {
+    return this.lines[0];
+  }
+  private set first(value: Item) {
+    this.lines = [];
+  }
+  c = computed(() => this.first.total);
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+interface Item {
+  readonly total: number;
+}
+class Line implements Item {
+  qty: Signal<number> = signal(1);
+  get total(): number {
+    return this.qty() * 2;
+  }
+}
+const line = new Line();
+class Test {
+  lines = [line];
+  fallback: Item = { total: 0 };
+  private pick() {
+    if (this.lines.length) {
+      return this.lines[0];
+    }
+    return this.fallback;
+  }
+  c = computed(() => this.pick().total);
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+interface Item {
+  readonly total: number;
+}
+class Line implements Item {
+  qty: Signal<number> = signal(1);
+  get total(): number {
+    return this.qty() * 2;
+  }
+}
+class Plain {
+  total = 1;
+}
+const line = new Line();
+class Test {
+  lines = [line];
+  private either(): Line | Plain {
+    return this.lines[0];
+  }
+  c = computed(() => this.either().total);
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+interface Item {
+  readonly total: number;
+}
+class Line implements Item {
+  qty: Signal<number> = signal(1);
+  get total(): number {
+    return this.qty() * 2;
+  }
+}
+const line = new Line();
+class Test {
+  lines = [line];
+  private at(index: 0): Item;
+  private at(index: number): Line {
+    return this.lines[index];
+  }
+  c = computed(() => this.at(0).total);
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+type Json = string | Json[];
+const data: Json = ['a', ['b']];
+function first(json: Json): Json {
+  return Array.isArray(json) ? json[0] : json;
+}
+const c = computed(() => first(data).length);
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+class Line {
+  qty: Signal<number> = signal(1);
+  get name(): string {
+    return String(this.qty());
+  }
+  trim(): string {
+    return this.name;
+  }
+}
+class Test {
+  name = 'x';
+  line = new Line();
+  ids = [1, 2];
+  private label(id: number): string {
+    return this.name + id;
+  }
+  c = computed(() => this.ids.map(this.label, this.line));
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+class Line {
+  qty: Signal<number> = signal(1);
+  get name(): string {
+    return String(this.qty());
+  }
+  trim(): string {
+    return this.name;
+  }
+}
+class Test {
+  line = new Line();
+  rows: any[] = [this.line];
+  private clean(value: string): string {
+    return value.trim();
+  }
+  c = computed(() => this.rows.map(this.clean));
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+class Line {
+  qty: Signal<number> = signal(1);
+  get name(): string {
+    return String(this.qty());
+  }
+  trim(): string {
+    return this.name;
+  }
+}
+class Test {
+  line = new Line();
+  private clean(value: string): string {
+    return value.trim();
+  }
+  c = effect(() => { setTimeout(this.clean, 0, this.line); });
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+class Test {
+  names = ['a'];
+  private clean(value: string): string {
+    return value.trim();
+  }
+  c = computed(() => (this.names?.map)(this.clean));
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+class Test {
+  handler: () => number = () => 1;
+  private get run() {
+    return this.handler;
+  }
+  c = computed(() => this.run());
+  d = computed(this.run);
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+class Test {
+  count: Signal<number> = signal(0);
+  n = 0;
+  private get counter(): number {
+    return this.n;
+  }
+  private set counter(value: number) {
+    this.n = value + this.count();
+  }
+  c = effect(() => { this.counter = 1; });
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+class Test {
+  count: Signal<number> = signal(0);
+  n = 0;
+  private get counter(): number {
+    return this.n;
+  }
+  private set counter(value: number) {
+    this.n = value + this.count();
+  }
+  c = effect(() => { this.counter++; });
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+class Test {
+  count: Signal<number> = signal(0);
+  n = 0;
+  private get counter(): number {
+    return this.n;
+  }
+  private set counter(value: number) {
+    this.n = value + this.count();
+  }
+  c = effect(() => { ({ value: this.counter } = { value: 1 }); });
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+class Test {
+  count: Signal<number> = signal(0);
+  n = 0;
+  private get counter(): number {
+    return this.n;
+  }
+  private set counter(value: number) {
+    this.n = value + this.count();
+  }
+  c = effect(() => { (this.counter as number) = 1; });
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+class Test {
+  name = 'x';
+  private label(): string {
+    return this.name;
+  }
+  c = computed(() => this['label']());
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+declare const memoize: any;
+class Test {
+  name = 'x';
+  @memoize
+  private label(): string {
+    return this.name;
+  }
+  c = computed(() => this.label());
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+declare const memoize: any;
+class Test {
+  name = 'x';
+  @memoize
+  private set title(value: string) {
+    this.name = value;
+  }
+  private get title(): string {
+    return this.name;
+  }
+  c = computed(() => this.title);
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+declare const memoize: any;
+class Test {
+  name = 'x';
+  private get note(): string {
+    return this.name;
+  }
+  @memoize
+  private set note(value: string) {
+    this.name = value;
+  }
+  c = computed(() => this.note);
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+class Test {
+  count: Signal<number> = signal(0);
+  constructor() {
+    this.label = () => String(this.count());
+  }
+  private label(): string {
+    return 'x';
+  }
+  c = computed(() => this.label());
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+class Test {
+  count: Signal<number> = signal(0);
+  constructor() {
+    this['title'] = () => String(this.count());
+  }
+  private title(): string {
+    return 'y';
+  }
+  c = computed(() => this.title());
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+const KEY = 'note';
+class Test {
+  count: Signal<number> = signal(0);
+  constructor() {
+    this[KEY] = () => String(this.count());
+  }
+  private note(): string {
+    return 'z';
+  }
+  c = computed(() => this.note());
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+declare function helper(): number;
+const c = computed(() => helper());
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+let a: Signal<number>;
+function helper(): number {
+  return 1;
+}
+function helper(): number {
+  return a();
+}
+const c = computed(() => helper());
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+let format = (value: number) => value.toFixed(2);
+var round = (value: number) => value.toFixed(0);
+const a = computed(() => format(1));
+const b = computed(() => round(1));
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+let a: Signal<number>;
+class Test {
+  private label(): string {
+    return 'x';
+  }
+  c = computed(() => this.label());
+}
+function patch(test: Test, name: string): void {
+  test[name] = () => String(a());
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+interface Item {
+  readonly total: number;
+}
+class Line implements Item {
+  qty: Signal<number> = signal(1);
+  get total(): number {
+    return this.qty() * 2;
+  }
+}
+const line = new Line();
+function fromGetter(): number {
+  return line.total;
+}
+const c = computed(() => fromGetter());
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+interface Item {
+  readonly total: number;
+}
+class Line implements Item {
+  qty: Signal<number> = signal(1);
+  get total(): number {
+    return this.qty() * 2;
+  }
+}
+function fromNew(): number {
+  return new Line().qty.length;
+}
+const c = computed(() => fromNew());
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+declare function tag(strings: TemplateStringsArray): number;
+function fromTag(): number {
+  return tag`x`;
+}
+const c = computed(() => fromTag());
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+interface Item {
+  readonly total: number;
+}
+class Line implements Item {
+  qty: Signal<number> = signal(1);
+  get total(): number {
+    return this.qty() * 2;
+  }
+}
+const line = new Line();
+function fromPattern(): number {
+  const { total } = line;
+  return total;
+}
+const c = computed(() => fromPattern());
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+interface Item {
+  readonly total: number;
+}
+class Line implements Item {
+  qty: Signal<number> = signal(1);
+  get total(): number {
+    return this.qty() * 2;
+  }
+}
+const line = new Line();
+const items: Item[] = [line];
+function pattern(count: number, [first]: Item[]): number {
+  return count + first.total;
+}
+const c = computed(() => pattern(1, items));
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+interface Item {
+  readonly total: number;
+}
+class Line implements Item {
+  qty: Signal<number> = signal(1);
+  get total(): number {
+    return this.qty() * 2;
+  }
+}
+const line = new Line();
+const item: Item = { total: 1 };
+function oneOf(flag: boolean): Item {
+  if (flag) {
+    return item;
+  }
+  return line;
+}
+const c = computed(() => oneOf(true).total);
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+class Test {
+  private format = (value: number) => value.toFixed(2);
+  c = computed(() => this.format(1));
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Custom Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/reactive-context-must-read-signal": [
+      "error",
+      {
+        "followLocalCalls": true
+      }
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```ts
+import { format } from './helpers';
+import * as helpers from './helpers';
+const a = computed(() => format(1));
+const b = computed(() => helpers.format(1));
 ```
 
 </details>
