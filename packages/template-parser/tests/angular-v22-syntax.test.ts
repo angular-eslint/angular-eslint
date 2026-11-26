@@ -402,7 +402,6 @@ describe('Angular v22 expression syntax', () => {
                 },
               },
             ],
-            "directives": [],
             "endSourceSpan": ParseSourceSpan {
               "details": null,
               "end": ParseLocation {
@@ -698,7 +697,6 @@ describe('Angular v22 expression syntax', () => {
       ",
               },
             ],
-            "directives": [],
             "endSourceSpan": ParseSourceSpan {
               "details": null,
               "end": ParseLocation {
@@ -1730,7 +1728,6 @@ describe('Angular v22 expression syntax', () => {
         ",
                   },
                 ],
-                "directives": [],
                 "endSourceSpan": ParseSourceSpan {
                   "details": null,
                   "end": ParseLocation {
@@ -2463,7 +2460,6 @@ describe('Angular v22 expression syntax', () => {
               Element {
                 "attributes": [],
                 "children": [],
-                "directives": [],
                 "endSourceSpan": ParseSourceSpan {
                   "details": null,
                   "end": ParseLocation {
@@ -3585,7 +3581,6 @@ describe('Angular v22 expression syntax', () => {
                     },
                   },
                 ],
-                "directives": [],
                 "endSourceSpan": ParseSourceSpan {
                   "details": null,
                   "end": ParseLocation {
@@ -3897,7 +3892,6 @@ describe('Angular v22 expression syntax', () => {
       ",
               },
             ],
-            "directives": [],
             "endSourceSpan": ParseSourceSpan {
               "details": null,
               "end": ParseLocation {
