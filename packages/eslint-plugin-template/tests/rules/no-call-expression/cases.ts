@@ -13,6 +13,7 @@ const messageId: MessageIds = 'noCallExpression';
 export const valid: readonly (string | ValidTestCase<Options>)[] = [
   '{{ info }}',
   '<button type="button" (click)="handleClick()">Click Here</button>',
+  '<ng-template (activate)="onActivate()"></ng-template>',
   '{{ $any(info) }}',
   '<input (change)="obj?.changeHandler()">',
   '<form [formGroup]="form" (ngSubmit)="form.valid || save()"></form>',
@@ -267,6 +268,39 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       { char: '^', messageId },
       { char: '#', messageId },
       { char: '%', messageId },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail for calls in typeof expressions',
+    annotatedSource: `
+    {{ typeof getValue() }}
+              ~~~~~~~~~~
+    @if (typeof getType() === 'string') {
+                ^^^^^^^^^
+      <div></div>
+    }`,
+    messages: [
+      { char: '~', messageId },
+      { char: '^', messageId },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail for calls in void expressions',
+    annotatedSource: `
+    <div [title]="void getTitle()"></div>
+                       ~~~~~~~~~~
+    `,
+    messageId,
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description: 'should fail for calls in unary expressions',
+    annotatedSource: `
+    {{ -getOffset() }} {{ +getCount() }}
+        ~~~~~~~~~~~        ^^^^^^^^^^
+    `,
+    messages: [
+      { char: '~', messageId },
+      { char: '^', messageId },
     ],
   }),
 

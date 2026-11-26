@@ -246,4 +246,58 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
       },
     ],
   }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail with call expression in an output of an ng-template',
+    annotatedSource: `
+        <ng-template (activate)="value = $any(event)"></ng-template>
+                                         ~~~~~~~~~~~
+      `,
+    messageId,
+    suggestions: [
+      {
+        messageId: suggestRemoveAny,
+        output: `
+        <ng-template (activate)="value = event"></ng-template>
+                                         
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail once with call expression in an output of an ng-template with a structural directive',
+    annotatedSource: `
+        <ng-template *ngIf="show" (activate)="value = $any(event)"></ng-template>
+                                                      ~~~~~~~~~~~
+      `,
+    messageId,
+    suggestions: [
+      {
+        messageId: suggestRemoveAny,
+        output: `
+        <ng-template *ngIf="show" (activate)="value = event"></ng-template>
+                                                      
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
+      'should fail once with call expression in an output of an element with a structural directive',
+    annotatedSource: `
+        <button *ngIf="show" (click)="value = $any(event)"></button>
+                                              ~~~~~~~~~~~
+      `,
+    messageId,
+    suggestions: [
+      {
+        messageId: suggestRemoveAny,
+        output: `
+        <button *ngIf="show" (click)="value = event"></button>
+                                              
+      `,
+      },
+    ],
+  }),
 ];

@@ -50,10 +50,13 @@ const KEYS: VisitorKeys = {
   SafeKeyedRead: ['receiver', 'key'],
   NonNullAssert: ['expression'],
   PrefixNot: ['expression'],
+  TypeofExpression: ['expression'],
+  VoidExpression: ['expression'],
+  Unary: ['expr'],
   Program: ['templateNodes'],
   PropertyRead: ['receiver'],
   SafePropertyRead: ['receiver'],
-  Template: ['templateAttrs', 'children', 'ownInputs'],
+  Template: ['templateAttrs', 'children', 'ownInputs', 'ownOutputs'],
   BindingPipe: ['exp', 'args'],
   DeferredBlock: [
     'children',
@@ -195,6 +198,22 @@ function convertAbsoluteSourceSpanToLoc(
 }
 
 /**
+ * Define the inputs and outputs a template visits itself, leaving out the ones
+ * hoisted from the element it wraps.
+ */
+function defineTemplateOwnBindings(node: Node) {
+  if (node.type === 'Template') {
+    // The inputs and outputs of a structural directive template are hoisted from the wrapped element, which visits them
+    Object.defineProperty(node, 'ownInputs', {
+      value: node.templateAttrs.length > 0 ? [] : node.inputs,
+    });
+    Object.defineProperty(node, 'ownOutputs', {
+      value: node.templateAttrs.length > 0 ? [] : node.outputs,
+    });
+  }
+}
+
+/**
  * ESLint requires all Nodes to have `type` and `loc` properties before it can
  * work with the custom AST.
  */
@@ -204,12 +223,7 @@ function preprocessNode(node: Node, sourceCode?: SourceCodeContext) {
 
   const keys = KEYS[node.type] || getFallbackKeys(node);
 
-  if (node.type === 'Template') {
-    // The inputs of a structural directive template are hoisted from the wrapped element, which visits them
-    Object.defineProperty(node, 'ownInputs', {
-      value: node.templateAttrs.length > 0 ? [] : node.inputs,
-    });
-  }
+  defineTemplateOwnBindings(node);
 
   if (!node.loc) {
     if (
