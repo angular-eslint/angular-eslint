@@ -491,6 +491,91 @@ interface Options {
 #### ❌ Invalid Code
 
 ```html
+{{ typeof getValue() }}
+          ~~~~~~~~~~
+@if (typeof getType() === 'string') {
+            ~~~~~~~~~
+  <div></div>
+}
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-call-expression": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+<div [title]="void getTitle()"></div>
+                   ~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-call-expression": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
+{{ -getOffset() }} {{ +getCount() }}
+    ~~~~~~~~~~~        ~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-call-expression": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
 {{ foo(bar(), baz()) }}
    ~~~~~~~~~~~~~~~~~
 ```
@@ -721,6 +806,32 @@ interface Options {
 
 ```html
 <button type="button" (click)="handleClick()">Click Here</button>
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/no-call-expression": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ✅ Valid Code
+
+```html
+<ng-template (activate)="onActivate()"></ng-template>
 ```
 
 <br>
